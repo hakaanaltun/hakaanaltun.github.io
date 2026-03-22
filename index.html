@@ -77,19 +77,21 @@
     </script>
 
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400;1,500&display=swap');
+
         /* ---- Reset & Base ---- */
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --bg: #F5F0E8;
-            --bg-warm: #EDE7DB;
-            --text: #2C2825;
-            --text-light: #6B6560;
-            --accent: #8C7A6B;
-            --accent-hover: #6B5D51;
-            --border: #D8D0C4;
-            --cream: #FAF7F2;
-            --shadow: rgba(44, 40, 37, 0.06);
+            --bg: #FAF8F4;
+            --bg-warm: #F5F1EB;
+            --text: #3D3835;
+            --text-light: #8A8279;
+            --accent: #9C8B7A;
+            --accent-hover: #7A6D60;
+            --border: #E8E2D9;
+            --cream: #FDFCFA;
+            --shadow: rgba(60, 56, 53, 0.04);
         }
 
         html {
@@ -98,10 +100,10 @@
         }
 
         body {
-            font-family: Georgia, 'Times New Roman', serif;
+            font-family: 'Lora', Georgia, serif;
             background-color: var(--bg);
             color: var(--text);
-            line-height: 1.75;
+            line-height: 1.8;
             font-size: 17px;
         }
 
@@ -122,9 +124,9 @@
 
         /* ---- Layout ---- */
         .container {
-            max-width: 640px;
+            max-width: 680px;
             margin: 0 auto;
-            padding: 0 24px;
+            padding: 0 28px;
         }
 
         /* ---- Header / Nav ---- */
@@ -167,15 +169,15 @@
 
         /* ---- Hero ---- */
         .hero {
-            padding: 80px 0 60px;
+            padding: 56px 0 44px;
         }
 
         .hero h1 {
-            font-size: 42px;
-            font-weight: normal;
-            line-height: 1.25;
-            margin-bottom: 24px;
-            letter-spacing: -0.01em;
+            font-size: 36px;
+            font-weight: 400;
+            line-height: 1.35;
+            margin-bottom: 20px;
+            letter-spacing: -0.005em;
         }
 
         .hero .subtitle {
@@ -188,7 +190,7 @@
 
         /* ---- Sections ---- */
         section {
-            padding: 60px 0;
+            padding: 44px 0;
             border-top: 1px solid var(--border);
         }
 
@@ -197,7 +199,7 @@
             letter-spacing: 0.12em;
             text-transform: uppercase;
             color: var(--accent);
-            margin-bottom: 32px;
+            margin-bottom: 24px;
             display: block;
         }
 
@@ -367,9 +369,9 @@
 
         /* ---- Responsive ---- */
         @media (max-width: 600px) {
-            .hero h1 { font-size: 32px; }
-            .hero { padding: 60px 0 40px; }
-            section { padding: 40px 0; }
+            .hero h1 { font-size: 28px; }
+            .hero { padding: 40px 0 32px; }
+            section { padding: 36px 0; }
 
             .book-layout {
                 grid-template-columns: 140px 1fr;
