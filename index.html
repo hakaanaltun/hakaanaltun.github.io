@@ -330,12 +330,16 @@
 
         @media (max-width: 768px) {
             .nav-photo {
-                display: block;
-                width: 46px;
-                height: 46px;
+                display: none;
             }
             .hero-intro .profile-photo {
-                display: none;
+                display: block;
+                width: 56px;
+                height: 56px;
+                min-width: 56px;
+                min-height: 56px;
+                align-self: flex-start;
+                margin-top: 2px;
             }
         }
 
@@ -726,18 +730,11 @@
             section { padding: 36px 0; }
 
             .hero-intro {
-                gap: 14px;
-            }
-
-            .profile-photo {
-                width: 160px;
-                height: 160px;
-                min-width: 160px;
-                min-height: 160px;
+                gap: 12px;
             }
 
             .hero .subtitle {
-                font-size: 18px;
+                font-size: 16px;
                 line-height: 1.7;
             }
 
