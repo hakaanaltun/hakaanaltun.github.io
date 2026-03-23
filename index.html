@@ -172,6 +172,17 @@
             padding: 56px 0 44px;
         }
 
+        .hero-bio {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 8px;
+        }
+
+        .hero-bio .profile-photo {
+            flex-shrink: 0;
+        }
+
         .hero h1 {
             font-size: 28px;
             font-weight: 400;
@@ -335,6 +346,7 @@
             height: 120px;
             border-radius: 50%;
             object-fit: cover;
+            object-position: center 20%;
             border: 2px solid var(--border);
         }
 
@@ -508,7 +520,10 @@
 
         <!-- Hero -->
         <div class="hero fade-in">
-            <p class="subtitle">Writer and lecturer in Istanbul. Exploring philosophy, perception, and the corridors between what we say, what we see, what we perceive, and what we choose to forget.</p>
+            <div class="hero-bio">
+                <img src="profile.jpg" alt="Hakan Altun" class="profile-photo">
+                <p class="subtitle">Writer and lecturer in Istanbul. Exploring philosophy, perception, and the corridors between what we say, what we see, what we perceive, and what we choose to forget.</p>
+            </div>
             <h1>"Someone hear me!" I shouted into the void. Yet the one I was shouting to was me, and the one not listening was also me. This was the bitterest form of loneliness: playing hide-and-seek with your own ghost.</h1>
         </div>
 
@@ -645,12 +660,9 @@
         <!-- About -->
         <section id="about">
             <span class="section-label">About</span>
-            <div class="about-layout">
-                <img src="profile.jpg" alt="Hakan Altun" class="profile-photo">
-                <div class="about-text">
-                    <p>I teach at Yeditepe University in Istanbul and write philosophical personal essays in English for an international audience. My work circles around perception, forgiveness, beauty, and the quiet architectures of self-deception — the corridors we build without noticing the walls.</p>
-                    <p>I was born into a city that insists on being looked at. Most of what I write is an attempt to look back.</p>
-                </div>
+            <div class="about-text">
+                <p>I teach at Yeditepe University in Istanbul and write philosophical personal essays in English for an international audience. My work circles around perception, forgiveness, beauty, and the quiet architectures of self-deception — the corridors we build without noticing the walls.</p>
+                <p>I was born into a city that insists on being looked at. Most of what I write is an attempt to look back.</p>
             </div>
         </section>
 
