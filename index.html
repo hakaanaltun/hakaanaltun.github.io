@@ -173,11 +173,12 @@
         }
 
         .hero h1 {
-            font-size: 36px;
+            font-size: 28px;
             font-weight: 400;
-            line-height: 1.35;
-            margin-bottom: 20px;
+            line-height: 1.45;
+            margin-bottom: 24px;
             letter-spacing: -0.005em;
+            font-style: italic;
         }
 
         .hero .subtitle {
@@ -355,6 +356,66 @@
             transform: translateX(3px);
         }
 
+        /* ---- Epigraph ---- */
+        .epigraph {
+            margin-top: 48px;
+            padding: 24px 0;
+            border-top: 1px solid var(--border);
+            max-width: 480px;
+        }
+
+        .epigraph p {
+            font-size: 16px;
+            font-style: italic;
+            color: var(--text-light);
+            line-height: 1.8;
+        }
+
+        .epigraph .source {
+            margin-top: 12px;
+            font-size: 13px;
+            font-style: normal;
+            color: var(--accent);
+            letter-spacing: 0.03em;
+        }
+
+        .book-epigraph {
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        .book-epigraph p {
+            font-size: 15px;
+            font-style: italic;
+            color: var(--text-light);
+            line-height: 1.8;
+        }
+
+        /* ---- Moris ---- */
+        .moris-video {
+            max-width: 300px;
+            margin: 0 auto;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 16px var(--shadow);
+        }
+
+        .moris-video iframe {
+            width: 100%;
+            aspect-ratio: 9/16;
+            border: none;
+            display: block;
+        }
+
+        .moris-caption {
+            margin-top: 16px;
+            text-align: center;
+            font-size: 15px;
+            color: var(--text-light);
+            font-style: italic;
+        }
+
         /* ---- Footer ---- */
         footer {
             padding: 40px 0;
@@ -425,7 +486,7 @@
 
         <!-- Hero -->
         <div class="hero fade-in">
-            <h1>I write about the architectures we build inside ourselves.</h1>
+            <h1>"Someone hear me!" I shouted into the void. Yet the one I was shouting to was me, and the one not listening was also me. This was the bitterest form of loneliness: playing hide-and-seek with your own ghost.</h1>
             <p class="subtitle">Writer and lecturer in Istanbul. Exploring philosophy, perception, and the corridors between what we say, what we see, what we perceive, and what we choose to forget.</p>
         </div>
 
@@ -443,6 +504,9 @@
                         <a href="https://www.amazon.com/Forgetting-Color-Nothingness-Hakan-Altun-ebook/dp/B0GPXTV6CP" target="_blank" rel="noopener">Kindle</a>
                         <a href="https://www.amazon.com/dp/B0GSLJXY6P" target="_blank" rel="noopener">Paperback</a>
                         <a href="https://www.goodreads.com/book/show/248970413-forgetting-the-color-of-nothingness" target="_blank" rel="noopener">Goodreads</a>
+                    </div>
+                    <div class="book-epigraph">
+                        <p>That force you call gravity was actually the effort of separated pieces remembering they were once One.</p>
                     </div>
                 </div>
             </div>
@@ -511,7 +575,7 @@
                 </li>
                 <li>
                     <a href="https://medium.com/illumination/empathy-paradox-ff48ecc15088" target="_blank" rel="noopener">
-                        <span class="essay-title">Empathy Paradox</span>
+                        <span class="essay-title">The Empathy Paradox</span>
                     </a>
                 </li>
                 <li>
@@ -545,6 +609,15 @@
                     </a>
                 </li>
             </ul>
+        </section>
+
+        <!-- Moris -->
+        <section id="moris">
+            <span class="section-label">Moris</span>
+            <div class="moris-video">
+                <iframe src="https://www.youtube.com/embed/CUPASty5LtE" allowfullscreen></iframe>
+            </div>
+            <p class="moris-caption">The one who made it to the cover.</p>
         </section>
 
         <!-- About -->
