@@ -127,85 +127,131 @@
         }
 
         /* ============================================
-           EFEKT 1: KORİDOR KENARLARI
-           Scroll ile daralan/genişleyen dikey çizgiler
+           EFEKT 1: KENAR DOKUSU
+           Tipografik fragmanlar + geometrik çizgiler
            ============================================ */
-        .corridor-walls {
+        .margin-texture {
             position: fixed;
             top: 0;
-            left: 0;
-            width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: 10;
+            z-index: 0;
+            overflow: hidden;
         }
 
-        .corridor-wall {
-            position: absolute;
-            top: 0;
-            height: 100%;
-            width: 2px;
-            transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1),
-                        opacity 0.8s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-
-        .corridor-wall--left {
+        .margin-texture--left {
             left: 0;
-            background: linear-gradient(
-                to bottom,
-                transparent 0%,
-                var(--corridor-line) 15%,
-                var(--corridor-line-active) 50%,
-                var(--corridor-line) 85%,
-                transparent 100%
-            );
-            transform-origin: left center;
+            width: calc((100vw - 680px) / 2 - 8px);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            padding-right: 24px;
+            padding-top: 120px;
         }
 
-        .corridor-wall--right {
+        .margin-texture--right {
             right: 0;
-            background: linear-gradient(
-                to bottom,
-                transparent 0%,
-                var(--corridor-line) 15%,
-                var(--corridor-line-active) 50%,
-                var(--corridor-line) 85%,
-                transparent 100%
-            );
-            transform-origin: right center;
+            width: calc((100vw - 680px) / 2 - 8px);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding-left: 24px;
+            padding-top: 200px;
         }
 
-        /* Inner accent lines */
-        .corridor-wall-inner {
-            position: absolute;
+        /* Tipografik fragmanlar */
+        .margin-word {
+            font-family: 'Lora', Georgia, serif;
+            font-style: italic;
+            color: var(--accent);
+            opacity: 0;
+            transition: opacity 1.2s ease, transform 1.2s cubic-bezier(0.23, 1, 0.32, 1);
+            transform: translateY(8px);
+            white-space: nowrap;
+            display: block;
+            line-height: 1;
+        }
+
+        .margin-word.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .margin-word--lg {
+            font-size: 14px;
+            letter-spacing: 0.15em;
+            opacity: 0;
+        }
+        .margin-word--lg.visible { opacity: 0.10; }
+
+        .margin-word--sm {
+            font-size: 11px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            opacity: 0;
+        }
+        .margin-word--sm.visible { opacity: 0.07; }
+
+        .margin-word--xs {
+            font-size: 9px;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            opacity: 0;
+        }
+        .margin-word--xs.visible { opacity: 0.06; }
+
+        /* Geometrik çizgiler */
+        .margin-line {
+            display: block;
+            opacity: 0;
+            transition: opacity 1s ease 0.3s;
+        }
+        .margin-line.visible { opacity: 1; }
+
+        .margin-line svg {
+            display: block;
+        }
+
+        .margin-line svg line,
+        .margin-line svg circle {
+            stroke: var(--accent);
+            fill: none;
+        }
+
+        /* Spacer */
+        .margin-spacer {
+            flex-shrink: 0;
+        }
+
+        /* Koridor dikey çizgisi — ince accent */
+        .corridor-vline {
+            position: fixed;
             top: 0;
             height: 100%;
             width: 1px;
-            opacity: 0.5;
-            transition: transform 0.9s cubic-bezier(0.23, 1, 0.32, 1),
-                        opacity 0.9s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-
-        .corridor-wall-inner--left {
-            left: 12px;
+            pointer-events: none;
+            z-index: 0;
             background: linear-gradient(
                 to bottom,
                 transparent 0%,
                 var(--corridor-line) 20%,
+                var(--corridor-line-active) 50%,
                 var(--corridor-line) 80%,
                 transparent 100%
             );
         }
 
-        .corridor-wall-inner--right {
-            right: 12px;
-            background: linear-gradient(
-                to bottom,
-                transparent 0%,
-                var(--corridor-line) 20%,
-                var(--corridor-line) 80%,
-                transparent 100%
-            );
+        .corridor-vline--left {
+            left: calc((100vw - 680px) / 2 - 12px);
+        }
+
+        .corridor-vline--right {
+            right: calc((100vw - 680px) / 2 - 12px);
+        }
+
+        @media (max-width: 900px) {
+            .margin-texture { display: none; }
+            .corridor-vline { display: none; }
         }
 
         /* ============================================
@@ -655,8 +701,9 @@
             .nav-links { gap: 12px; font-size: 13px; }
             .site-name { font-size: 14px; }
 
-            /* Hide corridor walls on very small screens */
-            .corridor-walls { display: none; }
+            /* Hide margin textures on small screens */
+            .margin-texture { display: none; }
+            .corridor-vline { display: none; }
 
             section.depth-1,
             section.depth-2,
@@ -700,7 +747,8 @@
                 animation-iteration-count: 1 !important;
                 transition-duration: 0.01ms !important;
             }
-            .corridor-walls { display: none; }
+            .margin-texture { display: none; }
+            .corridor-vline { display: none; }
             .scroll-reveal { opacity: 1; transform: none; }
             .perspective-line { opacity: 1; transform: none; }
         }
@@ -709,12 +757,92 @@
 
 <body>
 
-    <!-- EFEKT 1: Koridor Duvarları -->
-    <div class="corridor-walls" aria-hidden="true">
-        <div class="corridor-wall corridor-wall--left"></div>
-        <div class="corridor-wall corridor-wall--right"></div>
-        <div class="corridor-wall-inner corridor-wall-inner--left"></div>
-        <div class="corridor-wall-inner corridor-wall-inner--right"></div>
+    <!-- Koridor kenar çizgileri -->
+    <div class="corridor-vline corridor-vline--left" aria-hidden="true"></div>
+    <div class="corridor-vline corridor-vline--right" aria-hidden="true"></div>
+
+    <!-- EFEKT 1: Kenar Dokusu — Sol -->
+    <div class="margin-texture margin-texture--left" aria-hidden="true">
+        <span class="margin-word margin-word--sm margin-item" style="margin-bottom:48px">perceiving</span>
+
+        <span class="margin-line margin-item" style="margin-bottom:36px">
+            <svg width="60" height="20" viewBox="0 0 60 20">
+                <line x1="60" y1="10" x2="10" y2="10" stroke-width="0.5" opacity="0.12"/>
+                <circle cx="6" cy="10" r="2" stroke-width="0.5" opacity="0.10"/>
+            </svg>
+        </span>
+
+        <span class="margin-word margin-word--lg margin-item" style="margin-bottom:80px">corridors</span>
+
+        <span class="margin-word margin-word--xs margin-item" style="margin-bottom:60px">what remains</span>
+
+        <span class="margin-line margin-item" style="margin-bottom:44px">
+            <svg width="40" height="30" viewBox="0 0 40 30">
+                <line x1="38" y1="2" x2="38" y2="28" stroke-width="0.5" opacity="0.10"/>
+                <line x1="28" y1="2" x2="28" y2="28" stroke-width="0.5" opacity="0.06"/>
+            </svg>
+        </span>
+
+        <span class="margin-word margin-word--sm margin-item" style="margin-bottom:90px">forgetting</span>
+
+        <span class="margin-line margin-item" style="margin-bottom:50px">
+            <svg width="50" height="2" viewBox="0 0 50 2">
+                <line x1="50" y1="1" x2="0" y2="1" stroke-width="0.5" opacity="0.10"/>
+            </svg>
+        </span>
+
+        <span class="margin-word margin-word--xs margin-item" style="margin-bottom:70px">beauty</span>
+
+        <span class="margin-word margin-word--lg margin-item" style="margin-bottom:60px">silence</span>
+
+        <span class="margin-line margin-item">
+            <svg width="30" height="30" viewBox="0 0 30 30">
+                <line x1="28" y1="2" x2="2" y2="28" stroke-width="0.5" opacity="0.08"/>
+                <line x1="28" y1="28" x2="2" y2="2" stroke-width="0.5" opacity="0.05"/>
+            </svg>
+        </span>
+    </div>
+
+    <!-- EFEKT 1: Kenar Dokusu — Sağ -->
+    <div class="margin-texture margin-texture--right" aria-hidden="true">
+        <span class="margin-line margin-item" style="margin-bottom:56px">
+            <svg width="50" height="2" viewBox="0 0 50 2">
+                <line x1="0" y1="1" x2="50" y2="1" stroke-width="0.5" opacity="0.10"/>
+            </svg>
+        </span>
+
+        <span class="margin-word margin-word--xs margin-item" style="margin-bottom:72px">longing</span>
+
+        <span class="margin-word margin-word--sm margin-item" style="margin-bottom:50px">the walls</span>
+
+        <span class="margin-line margin-item" style="margin-bottom:80px">
+            <svg width="20" height="40" viewBox="0 0 20 40">
+                <line x1="2" y1="0" x2="2" y2="40" stroke-width="0.5" opacity="0.10"/>
+                <line x1="12" y1="5" x2="12" y2="35" stroke-width="0.5" opacity="0.06"/>
+            </svg>
+        </span>
+
+        <span class="margin-word margin-word--lg margin-item" style="margin-bottom:64px">forgiveness</span>
+
+        <span class="margin-word margin-word--xs margin-item" style="margin-bottom:90px">looking back</span>
+
+        <span class="margin-line margin-item" style="margin-bottom:40px">
+            <svg width="60" height="20" viewBox="0 0 60 20">
+                <line x1="0" y1="10" x2="50" y2="10" stroke-width="0.5" opacity="0.12"/>
+                <circle cx="54" cy="10" r="2" stroke-width="0.5" opacity="0.10"/>
+            </svg>
+        </span>
+
+        <span class="margin-word margin-word--sm margin-item" style="margin-bottom:70px">nothingness</span>
+
+        <span class="margin-word margin-word--xs margin-item" style="margin-bottom:60px">lying</span>
+
+        <span class="margin-line margin-item">
+            <svg width="30" height="30" viewBox="0 0 30 30">
+                <circle cx="15" cy="15" r="12" stroke-width="0.5" opacity="0.06"/>
+                <circle cx="15" cy="15" r="3" stroke-width="0.5" opacity="0.09"/>
+            </svg>
+        </span>
     </div>
 
     <div class="container">
@@ -926,44 +1054,28 @@
         'use strict';
 
         // ============================================
-        // EFEKT 1: KORİDOR DUVARLARI — Scroll ile hareket
+        // EFEKT 1: KENAR DOKUSU — Scroll ile kelimeler beliriyor
         // ============================================
-        const wallLeft = document.querySelector('.corridor-wall--left');
-        const wallRight = document.querySelector('.corridor-wall--right');
-        const innerLeft = document.querySelector('.corridor-wall-inner--left');
-        const innerRight = document.querySelector('.corridor-wall-inner--right');
+        const marginItems = document.querySelectorAll('.margin-item');
 
-        function updateCorridorWalls() {
+        // Her öğeye staggered delay ekliyoruz
+        marginItems.forEach((item, i) => {
+            item.style.transitionDelay = (i * 0.15) + 's';
+        });
+
+        // Scroll bazlı: viewport'taki scroll yüzdesine göre öğeler ortaya çıkıyor
+        function updateMarginTexture() {
             const scrollY = window.scrollY;
             const docHeight = document.documentElement.scrollHeight - window.innerHeight;
             const progress = docHeight > 0 ? scrollY / docHeight : 0;
 
-            // Walls narrow toward the middle of the page, then widen again
-            // Creates a "walking through corridor" feeling
-            // progress 0 → wide, 0.5 → narrowest, 1 → wide again
-            const narrowing = Math.sin(progress * Math.PI); // peaks at 0.5
-            const baseOffset = 20;  // px from edge at rest
-            const maxOffset = 60;   // px inward at narrowest
-
-            const offset = baseOffset + (narrowing * maxOffset);
-            const innerOffset = offset + 14;
-
-            if (wallLeft) {
-                wallLeft.style.transform = `translateX(${offset}px)`;
-                wallLeft.style.opacity = 0.4 + (narrowing * 0.5);
-            }
-            if (wallRight) {
-                wallRight.style.transform = `translateX(-${offset}px)`;
-                wallRight.style.opacity = 0.4 + (narrowing * 0.5);
-            }
-            if (innerLeft) {
-                innerLeft.style.transform = `translateX(${innerOffset}px)`;
-                innerLeft.style.opacity = 0.15 + (narrowing * 0.35);
-            }
-            if (innerRight) {
-                innerRight.style.transform = `translateX(-${innerOffset}px)`;
-                innerRight.style.opacity = 0.15 + (narrowing * 0.35);
-            }
+            // Her öğe belirli bir scroll eşiğinde beliriyor
+            marginItems.forEach((item, i) => {
+                const threshold = i / (marginItems.length + 2);
+                if (progress >= threshold) {
+                    item.classList.add('visible');
+                }
+            });
         }
 
         // ============================================
@@ -1003,13 +1115,13 @@
         }
 
         // ============================================
-        // RAF loop for corridor walls
+        // RAF loop
         // ============================================
         let ticking = false;
         function onScroll() {
             if (!ticking) {
                 requestAnimationFrame(() => {
-                    updateCorridorWalls();
+                    updateMarginTexture();
                     ticking = false;
                 });
                 ticking = true;
@@ -1017,7 +1129,7 @@
         }
 
         window.addEventListener('scroll', onScroll, { passive: true });
-        updateCorridorWalls(); // Initial position
+        updateMarginTexture(); // Initial
     })();
     </script>
 </body>
