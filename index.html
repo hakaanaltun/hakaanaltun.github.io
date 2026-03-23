@@ -323,6 +323,21 @@
         }
 
         /* ---- About ---- */
+        .about-layout {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 28px;
+            align-items: start;
+        }
+
+        .profile-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--border);
+        }
+
         .about-text {
             font-size: 17px;
             color: var(--text);
@@ -450,6 +465,11 @@
             }
             .book-cover {
                 max-width: 180px;
+            }
+            .about-layout {
+                grid-template-columns: 1fr;
+                justify-items: center;
+                text-align: center;
             }
         }
 
@@ -625,9 +645,12 @@
         <!-- About -->
         <section id="about">
             <span class="section-label">About</span>
-            <div class="about-text">
-                <p>I teach at Yeditepe University in Istanbul and write philosophical personal essays in English for an international audience. My work circles around perception, forgiveness, beauty, and the quiet architectures of self-deception — the corridors we build without noticing the walls.</p>
-                <p>I was born into a city that insists on being looked at. Most of what I write is an attempt to look back.</p>
+            <div class="about-layout">
+                <img src="profile.jpg" alt="Hakan Altun" class="profile-photo">
+                <div class="about-text">
+                    <p>I teach at Yeditepe University in Istanbul and write philosophical personal essays in English for an international audience. My work circles around perception, forgiveness, beauty, and the quiet architectures of self-deception — the corridors we build without noticing the walls.</p>
+                    <p>I was born into a city that insists on being looked at. Most of what I write is an attempt to look back.</p>
+                </div>
             </div>
         </section>
 
