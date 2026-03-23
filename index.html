@@ -1106,190 +1106,138 @@
         'use strict';
 
         // ============================================
-        // EFEKT 1: KENAR DOKUSU — Scroll ile kelimeler beliriyor
+        // KENAR DOKUSU — Scroll ile kelimeler beliriyor
         // ============================================
-        const marginItems = document.querySelectorAll('.margin-item');
+        var marginItems = document.querySelectorAll('.margin-item');
+        for (var i = 0; i < marginItems.length; i++) {
+            marginItems[i].style.transitionDelay = (i * 0.15) + 's';
+        }
 
-        // Her öğeye staggered delay ekliyoruz
-        marginItems.forEach((item, i) => {
-            item.style.transitionDelay = (i * 0.15) + 's';
-        });
-
-        // Scroll bazlı: viewport'taki scroll yüzdesine göre öğeler ortaya çıkıyor
         function updateMarginTexture() {
-            const scrollY = window.scrollY;
-            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const progress = docHeight > 0 ? scrollY / docHeight : 0;
-
-            // Her öğe belirli bir scroll eşiğinde beliriyor
-            marginItems.forEach((item, i) => {
-                const threshold = i / (marginItems.length + 2);
+            var scrollY = window.pageYOffset || document.documentElement.scrollTop;
+            var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            var progress = docHeight > 0 ? scrollY / docHeight : 0;
+            for (var i = 0; i < marginItems.length; i++) {
+                var threshold = i / (marginItems.length + 2);
                 if (progress >= threshold) {
-                    item.classList.add('visible');
+                    marginItems[i].classList.add('visible');
                 }
-            });
+            }
         }
 
         // ============================================
-        // EFEKT 2: SCROLL REVEAL — Section'lar beliriyor
+        // TYPEWRITER — Hero quote kelimeleri
         // ============================================
-        const revealElements = document.querySelectorAll('.scroll-reveal');
-        const revealObserver = new IntersectionObserver(
-            (entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('revealed');
-                    }
-                });
-            },
-            { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
-        );
+        var heroQuote = document.getElementById('hero-quote');
+        var wordSpans = [];
+        var typewriterStarted = false;
 
-        revealElements.forEach(el => revealObserver.observe(el));
-
-        // ============================================
-        // EFEKT: SECTION GEÇİŞ ÇİZGİSİ ANİMASYONU
-        // ============================================
-        const sections = document.querySelectorAll('section');
-        const lineObserver = new IntersectionObserver(
-            (entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('line-drawn');
-                    }
-                });
-            },
-            { threshold: 0.05, rootMargin: '0px 0px -20px 0px' }
-        );
-
-        sections.forEach(sec => lineObserver.observe(sec));
-
-        // ============================================
-        // EFEKT: TYPEWRITER — Hero quote kelimeleri beliriyor
-        // ============================================
-        const heroQuote = document.getElementById('hero-quote');
         if (heroQuote) {
-            const text = heroQuote.textContent;
-            const words = text.split(/(\s+)/); // boşlukları da koru
+            var text = heroQuote.textContent;
+            var words = text.split(/(\s+)/);
             heroQuote.innerHTML = '';
 
-            words.forEach(word => {
-                if (word.trim() === '') {
-                    // Boşluk — olduğu gibi ekle
-                    heroQuote.appendChild(document.createTextNode(word));
+            for (var i = 0; i < words.length; i++) {
+                if (words[i].trim() === '') {
+                    heroQuote.appendChild(document.createTextNode(words[i]));
                 } else {
-                    const span = document.createElement('span');
+                    var span = document.createElement('span');
                     span.className = 'hero-quote-word';
-                    span.textContent = word;
+                    span.textContent = words[i];
                     heroQuote.appendChild(span);
                 }
-            });
+            }
+            wordSpans = heroQuote.querySelectorAll('.hero-quote-word');
+        }
 
-            const wordSpans = heroQuote.querySelectorAll('.hero-quote-word');
-
-            const quoteObserver = new IntersectionObserver(
-                (entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            wordSpans.forEach((span, i) => {
-                                setTimeout(() => {
-                                    span.classList.add('word-visible');
-                                }, i * 60); // 60ms per word
-                            });
-                            quoteObserver.unobserve(entry.target);
-                        }
-                    });
-                },
-                { threshold: 0.3 }
-            );
-
-            quoteObserver.observe(heroQuote);
+        function startTypewriter() {
+            if (typewriterStarted || wordSpans.length === 0) return;
+            typewriterStarted = true;
+            for (var i = 0; i < wordSpans.length; i++) {
+                (function(index) {
+                    setTimeout(function() {
+                        wordSpans[index].classList.add('word-visible');
+                    }, 400 + index * 60);
+                })(i);
+            }
         }
 
         // ============================================
-        // EFEKT 3: PERSPEKTİF ÇİZGİSİ — Hero'da beliriyor
+        // VIEWPORT CHECK — element görünür mü?
         // ============================================
-        const perspectiveLine = document.querySelector('.perspective-line');
-        const perspectiveObserver = new IntersectionObserver(
-            (entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
-                });
-            },
-            { threshold: 0.5 }
-        );
-
-        if (perspectiveLine) {
-            perspectiveObserver.observe(perspectiveLine);
+        function isInView(el) {
+            var rect = el.getBoundingClientRect();
+            return rect.top < window.innerHeight + 100;
         }
 
         // ============================================
-        // RAF loop
+        // TETİKLE — viewport'taki her şeyi aktif et
         // ============================================
-        let ticking = false;
+        function triggerAll() {
+            // Scroll reveal
+            var reveals = document.querySelectorAll('.scroll-reveal');
+            for (var i = 0; i < reveals.length; i++) {
+                if (isInView(reveals[i])) {
+                    reveals[i].classList.add('revealed');
+                }
+            }
+
+            // Section çizgileri
+            var secs = document.querySelectorAll('section');
+            for (var i = 0; i < secs.length; i++) {
+                if (isInView(secs[i])) {
+                    secs[i].classList.add('line-drawn');
+                }
+            }
+
+            // Typewriter
+            if (heroQuote && isInView(heroQuote)) {
+                startTypewriter();
+            }
+
+            // Perspektif çizgisi
+            var pLine = document.querySelector('.perspective-line');
+            if (pLine && isInView(pLine)) {
+                pLine.classList.add('visible');
+            }
+
+            // Margin texture
+            updateMarginTexture();
+        }
+
+        // ============================================
+        // SCROLL — aşağı inildikçe yeni elementleri tetikle
+        // ============================================
+        var scrollTicking = false;
         function onScroll() {
-            if (!ticking) {
-                requestAnimationFrame(() => {
-                    updateMarginTexture();
-                    ticking = false;
+            if (!scrollTicking) {
+                requestAnimationFrame(function() {
+                    triggerAll();
+                    scrollTicking = false;
                 });
-                ticking = true;
+                scrollTicking = true;
             }
         }
 
         window.addEventListener('scroll', onScroll, { passive: true });
-        updateMarginTexture(); // Initial
 
         // ============================================
-        // FALLBACK: Sayfa yüklendiğinde zaten viewport'ta
-        // olan elementleri manuel tetikle (tablet/büyük ekran)
+        // SAYFA YÜKLEME — üçlü garanti
         // ============================================
-        function triggerVisibleElements() {
-            const viewH = window.innerHeight;
 
-            // Scroll reveal
-            revealElements.forEach(el => {
-                const rect = el.getBoundingClientRect();
-                if (rect.top < viewH * 0.88) {
-                    el.classList.add('revealed');
-                }
-            });
+        // 1. Hemen çalıştır (DOM hazır)
+        triggerAll();
 
-            // Section çizgileri
-            sections.forEach(sec => {
-                const rect = sec.getBoundingClientRect();
-                if (rect.top < viewH * 0.95) {
-                    sec.classList.add('line-drawn');
-                }
-            });
+        // 2. Kısa gecikmeyle (render sonrası)
+        setTimeout(triggerAll, 100);
+        setTimeout(triggerAll, 300);
+        setTimeout(triggerAll, 600);
 
-            // Typewriter — zaten viewport'taysa başlat
-            if (heroQuote) {
-                const rect = heroQuote.getBoundingClientRect();
-                if (rect.top < viewH * 0.8) {
-                    const spans = heroQuote.querySelectorAll('.hero-quote-word');
-                    spans.forEach((span, i) => {
-                        setTimeout(() => {
-                            span.classList.add('word-visible');
-                        }, 300 + i * 60); // 300ms ilk gecikme
-                    });
-                }
-            }
-
-            // Perspektif çizgisi
-            if (perspectiveLine) {
-                const rect = perspectiveLine.getBoundingClientRect();
-                if (rect.top < viewH * 0.9) {
-                    perspectiveLine.classList.add('visible');
-                }
-            }
-        }
-
-        // Sayfa yüklendikten hemen sonra ve kısa bir gecikmeyle
-        requestAnimationFrame(triggerVisibleElements);
-        setTimeout(triggerVisibleElements, 200);
+        // 3. window.onload (tüm kaynaklar yüklendikten sonra)
+        window.addEventListener('load', function() {
+            triggerAll();
+            setTimeout(triggerAll, 200);
+        });
 
     })();
     </script>
