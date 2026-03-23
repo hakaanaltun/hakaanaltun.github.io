@@ -1241,6 +1241,56 @@
 
         window.addEventListener('scroll', onScroll, { passive: true });
         updateMarginTexture(); // Initial
+
+        // ============================================
+        // FALLBACK: Sayfa yüklendiğinde zaten viewport'ta
+        // olan elementleri manuel tetikle (tablet/büyük ekran)
+        // ============================================
+        function triggerVisibleElements() {
+            const viewH = window.innerHeight;
+
+            // Scroll reveal
+            revealElements.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                if (rect.top < viewH * 0.88) {
+                    el.classList.add('revealed');
+                }
+            });
+
+            // Section çizgileri
+            sections.forEach(sec => {
+                const rect = sec.getBoundingClientRect();
+                if (rect.top < viewH * 0.95) {
+                    sec.classList.add('line-drawn');
+                }
+            });
+
+            // Typewriter — zaten viewport'taysa başlat
+            if (heroQuote) {
+                const rect = heroQuote.getBoundingClientRect();
+                if (rect.top < viewH * 0.8) {
+                    const spans = heroQuote.querySelectorAll('.hero-quote-word');
+                    spans.forEach((span, i) => {
+                        setTimeout(() => {
+                            span.classList.add('word-visible');
+                        }, 300 + i * 60); // 300ms ilk gecikme
+                    });
+                }
+            }
+
+            // Perspektif çizgisi
+            if (perspectiveLine) {
+                const rect = perspectiveLine.getBoundingClientRect();
+                if (rect.top < viewH * 0.9) {
+                    perspectiveLine.classList.add('visible');
+                }
+            }
+        }
+
+        // Sayfa yüklendikten hemen sonra ve kısa bir gecikmeyle
+        requestAnimationFrame(triggerVisibleElements);
+        setTimeout(triggerVisibleElements, 200);
+
     })();
     </script>
 </body>
