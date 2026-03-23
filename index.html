@@ -397,28 +397,67 @@
             position: relative;
         }
 
+        /* Section geçiş çizgisi animasyonu */
+        section::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: linear-gradient(
+                to right,
+                transparent,
+                var(--accent) 20%,
+                var(--accent) 80%,
+                transparent
+            );
+            opacity: 0.4;
+            transition: width 1s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        section.line-drawn::before {
+            width: 100%;
+        }
+
+        /* Hero quote — typewriter efekti */
+        .hero-quote-word {
+            display: inline;
+            opacity: 0;
+            transform: translateY(4px);
+            transition: opacity 0.35s ease, transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .hero-quote-word.word-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         /* Alternating depth: sections progressively deepen then lighten */
         section.depth-0 { background-color: transparent; }
         section.depth-1 {
-            background-color: rgba(237, 232, 224, 0.15);
+            background-color: rgba(222, 214, 202, 0.35);
             margin-left: -28px;
             margin-right: -28px;
             padding-left: 28px;
             padding-right: 28px;
+            border-top-color: rgba(200, 190, 175, 0.4);
         }
         section.depth-2 {
-            background-color: rgba(237, 232, 224, 0.3);
+            background-color: rgba(215, 205, 190, 0.5);
             margin-left: -28px;
             margin-right: -28px;
             padding-left: 28px;
             padding-right: 28px;
+            border-top-color: rgba(200, 190, 175, 0.5);
         }
         section.depth-3 {
-            background-color: rgba(237, 232, 224, 0.18);
+            background-color: rgba(222, 214, 202, 0.38);
             margin-left: -28px;
             margin-right: -28px;
             padding-left: 28px;
             padding-right: 28px;
+            border-top-color: rgba(200, 190, 175, 0.4);
         }
         section.depth-4 { background-color: transparent; }
 
@@ -527,9 +566,21 @@
         .essay-list li {
             padding: 16px 0;
             border-bottom: 1px solid var(--border);
+            transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1),
+                        background-color 0.3s ease;
+            padding-left: 0;
+            margin-left: -8px;
+            margin-right: -8px;
+            padding-left: 8px;
+            padding-right: 8px;
+            border-radius: 2px;
         }
         .essay-list li:first-child {
             padding-top: 0;
+        }
+        .essay-list li:hover {
+            transform: translateX(6px);
+            background-color: rgba(222, 214, 202, 0.25);
         }
 
         .essay-list a {
@@ -751,6 +802,8 @@
             .corridor-vline { display: none; }
             .scroll-reveal { opacity: 1; transform: none; }
             .perspective-line { opacity: 1; transform: none; }
+            .hero-quote-word { opacity: 1; transform: none; }
+            section::before { width: 100%; }
         }
     </style>
 </head>
@@ -868,7 +921,7 @@
                 <img src="profile.jpg" alt="Hakan Altun" class="profile-photo">
                 <p class="subtitle">Writer and lecturer in Istanbul. Exploring philosophy, perception, and the corridors between what we say, what we see, what we perceive, and what we choose to forget.</p>
             </div>
-            <h1>"Someone hear me!" I shouted into the void. Yet the one I was shouting to was me, and the one not listening was also me. This was the bitterest form of loneliness: playing hide-and-seek with your own ghost.</h1>
+            <h1 id="hero-quote">"Someone hear me!" I shouted into the void. Yet the one I was shouting to was me, and the one not listening was also me. This was the bitterest form of loneliness: playing hide-and-seek with your own ghost.</h1>
 
             <!-- EFEKT 3: Perspektif Çizgisi -->
             <svg class="perspective-line" viewBox="0 0 320 48" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
@@ -1096,6 +1149,65 @@
         );
 
         revealElements.forEach(el => revealObserver.observe(el));
+
+        // ============================================
+        // EFEKT: SECTION GEÇİŞ ÇİZGİSİ ANİMASYONU
+        // ============================================
+        const sections = document.querySelectorAll('section');
+        const lineObserver = new IntersectionObserver(
+            (entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('line-drawn');
+                    }
+                });
+            },
+            { threshold: 0.05, rootMargin: '0px 0px -20px 0px' }
+        );
+
+        sections.forEach(sec => lineObserver.observe(sec));
+
+        // ============================================
+        // EFEKT: TYPEWRITER — Hero quote kelimeleri beliriyor
+        // ============================================
+        const heroQuote = document.getElementById('hero-quote');
+        if (heroQuote) {
+            const text = heroQuote.textContent;
+            const words = text.split(/(\s+)/); // boşlukları da koru
+            heroQuote.innerHTML = '';
+
+            words.forEach(word => {
+                if (word.trim() === '') {
+                    // Boşluk — olduğu gibi ekle
+                    heroQuote.appendChild(document.createTextNode(word));
+                } else {
+                    const span = document.createElement('span');
+                    span.className = 'hero-quote-word';
+                    span.textContent = word;
+                    heroQuote.appendChild(span);
+                }
+            });
+
+            const wordSpans = heroQuote.querySelectorAll('.hero-quote-word');
+
+            const quoteObserver = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            wordSpans.forEach((span, i) => {
+                                setTimeout(() => {
+                                    span.classList.add('word-visible');
+                                }, i * 60); // 60ms per word
+                            });
+                            quoteObserver.unobserve(entry.target);
+                        }
+                    });
+                },
+                { threshold: 0.3 }
+            );
+
+            quoteObserver.observe(heroQuote);
+        }
 
         // ============================================
         // EFEKT 3: PERSPEKTİF ÇİZGİSİ — Hero'da beliriyor
