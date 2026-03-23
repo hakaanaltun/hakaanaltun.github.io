@@ -149,6 +149,17 @@
             color: var(--text);
             border: none;
             font-weight: normal;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-photo {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: center 20%;
         }
 
         .nav-links {
@@ -461,10 +472,27 @@
         }
 
         /* ---- Responsive ---- */
-        @media (max-width: 600px) {
-            .hero h1 { font-size: 28px; }
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 20px; }
             .hero { padding: 40px 0 32px; }
             section { padding: 36px 0; }
+
+            .hero-bio {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .profile-photo {
+                width: 120px;
+                height: 120px;
+                min-width: 120px;
+                min-height: 120px;
+            }
+
+            .hero .subtitle {
+                font-size: 17px;
+            }
 
             .book-layout {
                 grid-template-columns: 140px 1fr;
@@ -512,7 +540,7 @@
         <!-- Header -->
         <header>
             <nav>
-                <a href="#" class="site-name">Hakan Altun</a>
+                <a href="#" class="site-name"><img src="profile.jpg" alt="Hakan Altun" class="nav-photo">Hakan Altun</a>
                 <div class="nav-links">
                     <a href="#book">Book</a>
                     <a href="#essays">Essays</a>
@@ -524,10 +552,7 @@
 
         <!-- Hero -->
         <div class="hero fade-in">
-            <div class="hero-bio">
-                <img src="profile.jpg" alt="Hakan Altun" class="profile-photo">
-                <p class="subtitle">Writer and lecturer in Istanbul. Exploring philosophy, perception, and the corridors between what we say, what we see, what we perceive, and what we choose to forget.</p>
-            </div>
+            <p class="subtitle">Writer and lecturer in Istanbul. Exploring philosophy, perception, and the corridors between what we say, what we see, what we perceive, and what we choose to forget.</p>
             <h1>"Someone hear me!" I shouted into the void. Yet the one I was shouting to was me, and the one not listening was also me. This was the bitterest form of loneliness: playing hide-and-seek with your own ghost.</h1>
         </div>
 
