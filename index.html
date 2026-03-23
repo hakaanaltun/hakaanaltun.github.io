@@ -162,6 +162,12 @@
             object-position: center 20%;
         }
 
+        @media (max-width: 768px) {
+            .nav-photo {
+                display: none;
+            }
+        }
+
         .nav-links {
             display: flex;
             gap: 24px;
@@ -183,15 +189,8 @@
             padding: 56px 0 44px;
         }
 
-        .hero-bio {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            margin-bottom: 8px;
-        }
-
-        .hero-bio .profile-photo {
-            flex-shrink: 0;
+        .hero-photo {
+            margin-bottom: 24px;
         }
 
         .hero h1 {
@@ -540,7 +539,7 @@
         <!-- Header -->
         <header>
             <nav>
-                <a href="#" class="site-name"><img src="profile.jpg" alt="Hakan Altun" class="nav-photo">Hakan Altun</a>
+                <a href="#" class="site-name">Hakan Altun</a>
                 <div class="nav-links">
                     <a href="#book">Book</a>
                     <a href="#essays">Essays</a>
@@ -552,6 +551,9 @@
 
         <!-- Hero -->
         <div class="hero fade-in">
+            <div class="hero-photo">
+                <img src="profile.jpg" alt="Hakan Altun" class="profile-photo">
+            </div>
             <p class="subtitle">Writer and lecturer in Istanbul. Exploring philosophy, perception, and the corridors between what we say, what we see, what we perceive, and what we choose to forget.</p>
             <h1>"Someone hear me!" I shouted into the void. Yet the one I was shouting to was me, and the one not listening was also me. This was the bitterest form of loneliness: playing hide-and-seek with your own ghost.</h1>
         </div>
