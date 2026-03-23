@@ -155,15 +155,19 @@
         }
 
         .nav-photo {
-            width: 32px;
-            height: 32px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             object-fit: cover;
             object-position: center 20%;
+            display: none;
         }
 
         @media (max-width: 768px) {
             .nav-photo {
+                display: block;
+            }
+            .hero-intro .profile-photo {
                 display: none;
             }
         }
@@ -491,8 +495,8 @@
             }
 
             .hero .subtitle {
-                font-size: 15px;
-                line-height: 1.6;
+                font-size: 18px;
+                line-height: 1.7;
             }
 
             .book-layout {
@@ -542,7 +546,7 @@
         <!-- Header -->
         <header>
             <nav>
-                <a href="#" class="site-name">Hakan Altun</a>
+                <a href="#" class="site-name"><img src="profile.jpg" alt="Hakan Altun" class="nav-photo">Hakan Altun</a>
                 <div class="nav-links">
                     <a href="#book">Book</a>
                     <a href="#essays">Essays</a>
