@@ -61,8 +61,8 @@
         .site-name{font-size:17px;letter-spacing:.08em;text-transform:uppercase;color:var(--text);border:none;font-weight:normal;display:flex;align-items:center;gap:10px}
         .nav-photo{width:36px;height:36px;border-radius:50%;object-fit:cover;object-position:center 20%;display:none}
         @media(max-width:768px){.nav-photo{display:none}.hero-intro .profile-photo{display:block;width:110px;height:110px;min-width:110px;min-height:110px;align-self:flex-start;margin-top:2px}}
-        .nav-links{display:flex;gap:24px;font-size:15px}
-        .nav-links a{color:var(--text-light);border:none;letter-spacing:.03em;transition:color .2s ease}.nav-links a:hover{color:var(--text)}
+        .nav-links{display:flex;gap:8px;font-size:15px}
+        .nav-links a{color:var(--text-light);border:1px solid var(--border);letter-spacing:.03em;transition:color .2s ease,border-color .2s ease,background-color .2s ease;padding:5px 14px;border-radius:4px}.nav-links a:hover{color:var(--text);border-color:var(--accent);background-color:rgba(232,226,217,.25)}
         .hero{padding:56px 0 44px}.hero-intro{display:flex;align-items:center;gap:24px;margin-bottom:8px}
         .hero h1{font-size:24px;font-weight:400;line-height:1.45;margin-top:24px;padding-top:24px;border-top:1px solid var(--border);letter-spacing:-.005em;font-style:italic}
         .hero .subtitle{font-size:19px;color:var(--text-light);line-height:1.7;max-width:520px;font-style:italic}
@@ -117,7 +117,8 @@
             .hero h1{font-size:20px}.hero{padding:40px 0 32px}section{padding:36px 0}
             .hero-intro{gap:12px}.hero .subtitle{font-size:16px;line-height:1.7}
             .book-layout{grid-template-columns:140px 1fr;gap:24px}
-            .nav-links{gap:12px;font-size:13px}.site-name{font-size:14px}
+            .nav-links{gap:6px;font-size:13px}
+            .nav-links a{padding:4px 10px}.site-name{font-size:14px}
             .essay-thumb{width:52px;height:52px;min-width:52px}.essay-card-subtitle{font-size:13px}
             .margin-texture{display:none}.corridor-vline{display:none}
             section.depth-1,section.depth-2,section.depth-3{margin-left:-20px;margin-right:-20px;padding-left:20px;padding-right:20px}
@@ -192,9 +193,9 @@
             <span class="section-label">The On Series</span>
             <p style="color:var(--text-light);margin-bottom:24px;font-style:italic">Seven essays on what we build inside ourselves — and why.</p>
             <ul class="essay-list">
-                <li><a href="https://medium.com/@hakanaltunn/on-lying-643b191c22cf" target="_blank" rel="noopener" class="essay-card"><img src="https://miro.medium.com/v2/resize:fit:128/1*IqjZ2v3VkF7FE6Ax3briCA.png" alt="Not being caught carries its own sentence." class="essay-thumb" loading="lazy"><div class="essay-card-text"><span class="essay-title">On Lying</span><span class="essay-card-subtitle">1 of 7</span></div></a></li>
-                <li><a href="https://medium.com/@hakanaltunn/on-perceiving-1cd658fb2337" target="_blank" rel="noopener" class="essay-card"><img src="https://miro.medium.com/v2/resize:fit:128/1*yOa_B48M5L0j4xm7w8wnKQ.png" alt="Misperception is a corridor whose architect burned the blueprint and moved in." class="essay-thumb" loading="lazy"><div class="essay-card-text"><span class="essay-title">On Perceiving</span><span class="essay-card-subtitle">2 of 7</span></div></a></li>
-                <li><a href="https://medium.com/@hakanaltunn/on-looking-ca55a089d546" target="_blank" rel="noopener" class="essay-card"><img src="https://miro.medium.com/v2/resize:fit:128/1*g2FLjY3V9utA09Yp_CaQYQ.png" alt="A room full of directors and no audience." class="essay-thumb" loading="lazy"><div class="essay-card-text"><span class="essay-title">On Looking</span><span class="essay-card-subtitle">3 of 7</span></div></a></li>
+                <li><a href="https://medium.com/@hakanaltunn/on-lying-643b191c22cf" target="_blank" rel="noopener" class="essay-card"><img src="https://miro.medium.com/v2/resize:fit:128/1*IqjZ2v3VkF7FE6Ax3briCA.png" alt="Not being caught carries its own sentence." class="essay-thumb" loading="lazy"><div class="essay-card-text"><span class="essay-title">On Lying</span><span class="essay-card-subtitle">1 of 7 · Not being caught carries its own sentence.</span></div></a></li>
+                <li><a href="https://medium.com/@hakanaltunn/on-perceiving-1cd658fb2337" target="_blank" rel="noopener" class="essay-card"><img src="https://miro.medium.com/v2/resize:fit:128/1*yOa_B48M5L0j4xm7w8wnKQ.png" alt="Misperception is a corridor whose architect burned the blueprint and moved in." class="essay-thumb" loading="lazy"><div class="essay-card-text"><span class="essay-title">On Perceiving</span><span class="essay-card-subtitle">2 of 7 · Misperception is a corridor whose architect burned the blueprint and moved in.</span></div></a></li>
+                <li><a href="https://medium.com/@hakanaltunn/on-looking-ca55a089d546" target="_blank" rel="noopener" class="essay-card"><img src="https://miro.medium.com/v2/resize:fit:128/1*g2FLjY3V9utA09Yp_CaQYQ.png" alt="A room full of directors and no audience." class="essay-thumb" loading="lazy"><div class="essay-card-text"><span class="essay-title">On Looking</span><span class="essay-card-subtitle">3 of 7 · A room full of directors and no audience.</span></div></a></li>
                 <li><a href="https://medium.com/@hakanaltunn" target="_blank" rel="noopener"><span class="essay-title">On Forgiveness</span><span class="essay-number">4 of 7</span></a></li>
                 <li><a href="https://medium.com/@hakanaltunn" target="_blank" rel="noopener"><span class="essay-title">On Beauty</span><span class="essay-number">5 of 7</span></a></li>
                 <li><a href="https://medium.com/@hakanaltunn" target="_blank" rel="noopener"><span class="essay-title">On Longing</span><span class="essay-number">6 of 7</span></a></li>
