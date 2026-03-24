@@ -13,25 +13,6 @@
     <meta property="og:description" content="Writer and lecturer based in Istanbul. Author of Forgetting the Color of Nothingness.">
     <meta property="og:type" content="website">
     <meta property="og:locale" content="en_US">
-    <meta property="og:image" content="https://hakaanaltun.github.io/og-image.png">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:url" content="https://hakaanaltun.github.io/">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Hakan Altun — On Life & Everything">
-    <meta name="twitter:description" content="Writer and lecturer based in Istanbul. Author of Forgetting the Color of Nothingness.">
-    <meta name="twitter:image" content="https://hakaanaltun.github.io/og-image.png">
-
-    <!-- PWA -->
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#7A6D60">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="On Life & Everything">
-    <link rel="apple-touch-icon" href="icon-192.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
     
     <!-- Schema.org JSON-LD -->
     <script type="application/ld+json">
@@ -104,7 +85,6 @@
         :root {
             --bg: #FAF8F4;
             --bg-warm: #F5F1EB;
-            --bg-deep: #EDE8E0;
             --text: #3D3835;
             --text-light: #8A8279;
             --accent: #9C8B7A;
@@ -112,8 +92,6 @@
             --border: #E8E2D9;
             --cream: #FDFCFA;
             --shadow: rgba(60, 56, 53, 0.04);
-            --corridor-line: rgba(156, 139, 122, 0.12);
-            --corridor-line-active: rgba(156, 139, 122, 0.28);
         }
 
         html {
@@ -127,7 +105,6 @@
             color: var(--text);
             line-height: 1.8;
             font-size: 17px;
-            overflow-x: hidden;
         }
 
         ::selection {
@@ -145,172 +122,11 @@
             border-color: var(--accent-hover);
         }
 
-        /* ============================================
-           EFEKT 1: KENAR DOKUSU
-           Tipografik fragmanlar + geometrik çizgiler
-           ============================================ */
-        .margin-texture {
-            position: fixed;
-            top: 0;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-            overflow: hidden;
-        }
-
-        .margin-texture--left {
-            left: 0;
-            width: calc((100vw - 680px) / 2 - 8px);
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            padding-right: 24px;
-            padding-top: 120px;
-        }
-
-        .margin-texture--right {
-            right: 0;
-            width: calc((100vw - 680px) / 2 - 8px);
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            padding-left: 24px;
-            padding-top: 200px;
-        }
-
-        /* Tipografik fragmanlar */
-        .margin-word {
-            font-family: 'Lora', Georgia, serif;
-            font-style: italic;
-            color: var(--accent);
-            opacity: 0;
-            transition: opacity 1.2s ease, transform 1.2s cubic-bezier(0.23, 1, 0.32, 1);
-            transform: translateY(8px);
-            white-space: nowrap;
-            display: block;
-            line-height: 1;
-        }
-
-        .margin-word.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .margin-word--lg {
-            font-size: 22px;
-            letter-spacing: 0.12em;
-            opacity: 0;
-        }
-        .margin-word--lg.visible { opacity: 0.22; }
-
-        .margin-word--sm {
-            font-size: 15px;
-            letter-spacing: 0.18em;
-            text-transform: uppercase;
-            opacity: 0;
-        }
-        .margin-word--sm.visible { opacity: 0.18; }
-
-        .margin-word--xs {
-            font-size: 12px;
-            letter-spacing: 0.25em;
-            text-transform: uppercase;
-            opacity: 0;
-        }
-        .margin-word--xs.visible { opacity: 0.15; }
-
-        /* Geometrik çizgiler */
-        .margin-line {
-            display: block;
-            opacity: 0;
-            transition: opacity 1s ease 0.3s;
-        }
-        .margin-line.visible { opacity: 1; }
-
-        .margin-line svg {
-            display: block;
-        }
-
-        .margin-line svg line,
-        .margin-line svg circle {
-            stroke: var(--accent);
-            fill: none;
-        }
-
-        /* Spacer */
-        .margin-spacer {
-            flex-shrink: 0;
-        }
-
-        /* Koridor dikey çizgisi — ince accent */
-        .corridor-vline {
-            position: fixed;
-            top: 0;
-            height: 100%;
-            width: 1px;
-            pointer-events: none;
-            z-index: 0;
-            background: linear-gradient(
-                to bottom,
-                transparent 0%,
-                rgba(156, 139, 122, 0.25) 20%,
-                rgba(156, 139, 122, 0.4) 50%,
-                rgba(156, 139, 122, 0.25) 80%,
-                transparent 100%
-            );
-        }
-
-        .corridor-vline--left {
-            left: calc((100vw - 680px) / 2 - 12px);
-        }
-
-        .corridor-vline--right {
-            right: calc((100vw - 680px) / 2 - 12px);
-        }
-
-        @media (max-width: 900px) {
-            .margin-texture { display: none; }
-            .corridor-vline { display: none; }
-        }
-
-        /* ============================================
-           EFEKT 3: PERSPEKTİF ÇİZGİSİ (Hero)
-           Hero quote altında SVG vanishing point
-           ============================================ */
-        .perspective-line {
-            display: block;
-            margin: 32px auto 0;
-            max-width: 320px;
-            width: 100%;
-            height: 48px;
-            opacity: 0;
-            transform: scaleX(0.3);
-            transition: opacity 1.2s ease, transform 1.4s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-
-        .perspective-line.visible {
-            opacity: 1;
-            transform: scaleX(1);
-        }
-
-        .perspective-line line {
-            stroke: var(--accent);
-            stroke-width: 0.8;
-            opacity: 0.35;
-        }
-
-        .perspective-line circle {
-            fill: var(--accent);
-            opacity: 0.25;
-        }
-
         /* ---- Layout ---- */
         .container {
             max-width: 680px;
             margin: 0 auto;
             padding: 0 28px;
-            position: relative;
-            z-index: 1;
         }
 
         /* ---- Header / Nav ---- */
@@ -349,16 +165,12 @@
 
         @media (max-width: 768px) {
             .nav-photo {
-                display: none;
+                display: block;
+                width: 46px;
+                height: 46px;
             }
             .hero-intro .profile-photo {
-                display: block;
-                width: 110px;
-                height: 110px;
-                min-width: 110px;
-                min-height: 110px;
-                align-self: flex-start;
-                margin-top: 2px;
+                display: none;
             }
         }
 
@@ -409,94 +221,11 @@
             font-style: italic;
         }
 
-        /* ============================================
-           EFEKT 2: IŞIK-KARANLIK GEÇİŞİ
-           Section'lar arası ton değişimi
-           ============================================ */
+        /* ---- Sections ---- */
         section {
             padding: 44px 0;
             border-top: 1px solid var(--border);
-            transition: background-color 0.6s ease, box-shadow 0.6s ease;
-            position: relative;
         }
-
-        /* Section geçiş çizgisi animasyonu */
-        section::before {
-            content: '';
-            position: absolute;
-            top: -1px;
-            left: 0;
-            width: 0;
-            height: 1px;
-            background: linear-gradient(
-                to right,
-                transparent,
-                var(--accent) 20%,
-                var(--accent) 80%,
-                transparent
-            );
-            opacity: 0.4;
-            transition: width 1s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-
-        section.line-drawn::before {
-            width: 100%;
-        }
-
-        /* Hero quote — typewriter efekti */
-        .hero-quote-word {
-            display: inline;
-            opacity: 0;
-            transform: translateY(4px);
-            transition: opacity 0.35s ease, transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-
-        .hero-quote-word.word-visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Alternating depth: sections progressively deepen then lighten */
-        section.depth-0 { background-color: transparent; }
-        section.depth-1 {
-            background-color: rgba(232, 226, 217, 0.18);
-            margin-left: -28px;
-            margin-right: -28px;
-            padding-left: 28px;
-            padding-right: 28px;
-        }
-        section.depth-2 {
-            background-color: rgba(232, 226, 217, 0.28);
-            margin-left: -28px;
-            margin-right: -28px;
-            padding-left: 28px;
-            padding-right: 28px;
-        }
-        section.depth-3 {
-            background-color: rgba(232, 226, 217, 0.20);
-            margin-left: -28px;
-            margin-right: -28px;
-            padding-left: 28px;
-            padding-right: 28px;
-        }
-        section.depth-4 { background-color: transparent; }
-
-        /* Scroll-triggered text reveal */
-        .scroll-reveal {
-            opacity: 0;
-            transform: translateY(16px);
-            transition: opacity 0.7s cubic-bezier(0.23, 1, 0.32, 1),
-                        transform 0.7s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-
-        .scroll-reveal.revealed {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .scroll-reveal:nth-child(2) { transition-delay: 0.08s; }
-        .scroll-reveal:nth-child(3) { transition-delay: 0.16s; }
-        .scroll-reveal:nth-child(4) { transition-delay: 0.24s; }
 
         .section-label {
             font-size: 14px;
@@ -586,21 +315,9 @@
         .essay-list li {
             padding: 16px 0;
             border-bottom: 1px solid var(--border);
-            transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1),
-                        background-color 0.3s ease;
-            padding-left: 0;
-            margin-left: -8px;
-            margin-right: -8px;
-            padding-left: 8px;
-            padding-right: 8px;
-            border-radius: 2px;
         }
         .essay-list li:first-child {
             padding-top: 0;
-        }
-        .essay-list li:hover {
-            transform: translateX(6px);
-            background-color: rgba(222, 214, 202, 0.25);
         }
 
         .essay-list a {
@@ -608,6 +325,41 @@
             display: flex;
             justify-content: space-between;
             align-items: baseline;
+        }
+
+        /* Essay cards with thumbnails */
+        .essay-card {
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .essay-thumb {
+            width: 64px;
+            height: 64px;
+            min-width: 64px;
+            border-radius: 6px;
+            object-fit: cover;
+            opacity: 0.85;
+            transition: opacity 0.2s ease;
+        }
+
+        .essay-card:hover .essay-thumb {
+            opacity: 1;
+        }
+
+        .essay-card-text {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .essay-card-subtitle {
+            font-size: 14px;
+            color: var(--text-light);
+            font-style: normal;
+            line-height: 1.5;
         }
 
         .essay-title {
@@ -618,6 +370,10 @@
         }
 
         .essay-list a:hover .essay-title {
+            color: var(--accent-hover);
+        }
+
+        .essay-card:hover .essay-title {
             color: var(--accent-hover);
         }
 
@@ -636,13 +392,11 @@
         }
 
         /* ---- About ---- */
-        .about-text {
-            font-size: 18px;
-            color: var(--text);
-        }
-
-        .about-text p {
-            max-width: 560px;
+        .about-layout {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 28px;
+            align-items: start;
         }
 
         .profile-photo {
@@ -655,6 +409,15 @@
             object-position: center 20%;
             border: 2px solid var(--border);
             background: var(--bg-warm);
+        }
+
+        .about-text {
+            font-size: 18px;
+            color: var(--text);
+        }
+
+        .about-text p {
+            max-width: 560px;
         }
 
         /* ---- Links / Connect ---- */
@@ -706,6 +469,19 @@
             letter-spacing: 0.03em;
         }
 
+        .book-epigraph {
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        .book-epigraph p {
+            font-size: 15px;
+            font-style: italic;
+            color: var(--text-light);
+            line-height: 1.8;
+        }
+
         /* ---- Moris ---- */
         .moris-video {
             max-width: 300px;
@@ -749,11 +525,18 @@
             section { padding: 36px 0; }
 
             .hero-intro {
-                gap: 12px;
+                gap: 14px;
+            }
+
+            .profile-photo {
+                width: 160px;
+                height: 160px;
+                min-width: 160px;
+                min-height: 160px;
             }
 
             .hero .subtitle {
-                font-size: 16px;
+                font-size: 18px;
                 line-height: 1.7;
             }
 
@@ -765,17 +548,14 @@
             .nav-links { gap: 12px; font-size: 13px; }
             .site-name { font-size: 14px; }
 
-            /* Hide margin textures on small screens */
-            .margin-texture { display: none; }
-            .corridor-vline { display: none; }
+            .essay-thumb {
+                width: 52px;
+                height: 52px;
+                min-width: 52px;
+            }
 
-            section.depth-1,
-            section.depth-2,
-            section.depth-3 {
-                margin-left: -20px;
-                margin-right: -20px;
-                padding-left: 20px;
-                padding-right: 20px;
+            .essay-card-subtitle {
+                font-size: 13px;
             }
         }
 
@@ -786,9 +566,14 @@
             .book-cover {
                 max-width: 180px;
             }
+            .about-layout {
+                grid-template-columns: 1fr;
+                justify-items: center;
+                text-align: center;
+            }
         }
 
-        /* ---- Fade-in (Hero) ---- */
+        /* ---- Fade-in ---- */
         .fade-in {
             opacity: 0;
             transform: translateY(12px);
@@ -803,116 +588,10 @@
                 transform: translateY(0);
             }
         }
-
-        /* ---- Reduced motion ---- */
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
-            .margin-texture { display: none; }
-            .corridor-vline { display: none; }
-            .scroll-reveal { opacity: 1; transform: none; }
-            .perspective-line { opacity: 1; transform: none; }
-            .hero-quote-word { opacity: 1; transform: none; }
-            section::before { width: 100%; }
-        }
     </style>
 </head>
 
 <body>
-
-    <!-- Koridor kenar çizgileri -->
-    <div class="corridor-vline corridor-vline--left" aria-hidden="true"></div>
-    <div class="corridor-vline corridor-vline--right" aria-hidden="true"></div>
-
-    <!-- EFEKT 1: Kenar Dokusu — Sol -->
-    <div class="margin-texture margin-texture--left" aria-hidden="true">
-        <span class="margin-word margin-word--sm margin-item" style="margin-bottom:48px">perceiving</span>
-
-        <span class="margin-line margin-item" style="margin-bottom:36px">
-            <svg width="80" height="20" viewBox="0 0 80 20">
-                <line x1="80" y1="10" x2="10" y2="10" stroke-width="0.8" opacity="0.25"/>
-                <circle cx="6" cy="10" r="2.5" stroke-width="0.8" opacity="0.22"/>
-            </svg>
-        </span>
-
-        <span class="margin-word margin-word--lg margin-item" style="margin-bottom:80px">corridors</span>
-
-        <span class="margin-word margin-word--xs margin-item" style="margin-bottom:60px">what remains</span>
-
-        <span class="margin-line margin-item" style="margin-bottom:44px">
-            <svg width="40" height="40" viewBox="0 0 40 40">
-                <line x1="38" y1="2" x2="38" y2="38" stroke-width="0.8" opacity="0.22"/>
-                <line x1="28" y1="2" x2="28" y2="38" stroke-width="0.8" opacity="0.14"/>
-                <line x1="18" y1="8" x2="18" y2="32" stroke-width="0.5" opacity="0.09"/>
-            </svg>
-        </span>
-
-        <span class="margin-word margin-word--sm margin-item" style="margin-bottom:90px">forgetting</span>
-
-        <span class="margin-line margin-item" style="margin-bottom:50px">
-            <svg width="70" height="2" viewBox="0 0 70 2">
-                <line x1="70" y1="1" x2="0" y2="1" stroke-width="0.8" opacity="0.22"/>
-            </svg>
-        </span>
-
-        <span class="margin-word margin-word--xs margin-item" style="margin-bottom:70px">beauty</span>
-
-        <span class="margin-word margin-word--lg margin-item" style="margin-bottom:60px">silence</span>
-
-        <span class="margin-line margin-item">
-            <svg width="36" height="36" viewBox="0 0 36 36">
-                <line x1="34" y1="2" x2="2" y2="34" stroke-width="0.8" opacity="0.18"/>
-                <line x1="34" y1="34" x2="2" y2="2" stroke-width="0.8" opacity="0.12"/>
-            </svg>
-        </span>
-    </div>
-
-    <!-- EFEKT 1: Kenar Dokusu — Sağ -->
-    <div class="margin-texture margin-texture--right" aria-hidden="true">
-        <span class="margin-line margin-item" style="margin-bottom:56px">
-            <svg width="70" height="2" viewBox="0 0 70 2">
-                <line x1="0" y1="1" x2="70" y2="1" stroke-width="0.8" opacity="0.22"/>
-            </svg>
-        </span>
-
-        <span class="margin-word margin-word--xs margin-item" style="margin-bottom:72px">longing</span>
-
-        <span class="margin-word margin-word--sm margin-item" style="margin-bottom:50px">the walls</span>
-
-        <span class="margin-line margin-item" style="margin-bottom:80px">
-            <svg width="24" height="50" viewBox="0 0 24 50">
-                <line x1="2" y1="0" x2="2" y2="50" stroke-width="0.8" opacity="0.22"/>
-                <line x1="12" y1="5" x2="12" y2="45" stroke-width="0.8" opacity="0.14"/>
-                <line x1="22" y1="10" x2="22" y2="40" stroke-width="0.5" opacity="0.09"/>
-            </svg>
-        </span>
-
-        <span class="margin-word margin-word--lg margin-item" style="margin-bottom:64px">forgiveness</span>
-
-        <span class="margin-word margin-word--xs margin-item" style="margin-bottom:90px">looking back</span>
-
-        <span class="margin-line margin-item" style="margin-bottom:40px">
-            <svg width="80" height="20" viewBox="0 0 80 20">
-                <line x1="0" y1="10" x2="66" y2="10" stroke-width="0.8" opacity="0.25"/>
-                <circle cx="72" cy="10" r="2.5" stroke-width="0.8" opacity="0.22"/>
-            </svg>
-        </span>
-
-        <span class="margin-word margin-word--sm margin-item" style="margin-bottom:70px">nothingness</span>
-
-        <span class="margin-word margin-word--xs margin-item" style="margin-bottom:60px">lying</span>
-
-        <span class="margin-line margin-item">
-            <svg width="40" height="40" viewBox="0 0 40 40">
-                <circle cx="20" cy="20" r="16" stroke-width="0.8" opacity="0.14"/>
-                <circle cx="20" cy="20" r="4" stroke-width="0.8" opacity="0.20"/>
-            </svg>
-        </span>
-    </div>
-
     <div class="container">
 
         <!-- Header -->
@@ -934,180 +613,185 @@
                 <img src="profile.jpg" alt="Hakan Altun" class="profile-photo">
                 <p class="subtitle">Writer and lecturer in Istanbul. Exploring philosophy, perception, and the corridors between what we say, what we see, what we perceive, and what we choose to forget.</p>
             </div>
-            <h1 id="hero-quote">"Someone hear me!" I shouted into the void. Yet the one I was shouting to was me, and the one not listening was also me. This was the bitterest form of loneliness: playing hide-and-seek with your own ghost.</h1>
-
-            <!-- EFEKT 3: Perspektif Çizgisi -->
-            <svg class="perspective-line" viewBox="0 0 320 48" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
-                <!-- Sol duvar -->
-                <line x1="0" y1="48" x2="160" y2="6" />
-                <!-- Sağ duvar -->
-                <line x1="320" y1="48" x2="160" y2="6" />
-                <!-- Zemin çizgisi -->
-                <line x1="40" y1="48" x2="280" y2="48" opacity="0.15" />
-                <!-- Ufuk noktası -->
-                <circle cx="160" cy="6" r="2" />
-                <!-- İç çizgiler — derinlik hissi -->
-                <line x1="30" y1="48" x2="160" y2="10" opacity="0.15" />
-                <line x1="290" y1="48" x2="160" y2="10" opacity="0.15" />
-            </svg>
+            <h1>"Someone hear me!" I shouted into the void. Yet the one I was shouting to was me, and the one not listening was also me. This was the bitterest form of loneliness: playing hide-and-seek with your own ghost.</h1>
         </div>
 
         <!-- Book -->
-        <section id="book" class="depth-1">
-            <div class="scroll-reveal">
-                <span class="section-label">Book</span>
-                <div class="book-layout">
-                    <div class="book-cover">
-                        <img src="cover.png" alt="Forgetting the Color of Nothingness by Hakan Altun — a cat silhouetted against a luminous cosmic sphere woven with geometric patterns and DNA helices, set among stars and rocky terrain.">
-                    </div>
-                    <div class="book-info">
-                        <h2>Forgetting the Color of Nothingness</h2>
-                        <p>A speculative philosophical work structured as a loop — from the Big Bang through a domestic Istanbul scene to a post-singularity future. A book about what remains when everything that can be forgotten has been.</p>
-                        <div class="book-links">
-                            <a href="https://www.amazon.com/Forgetting-Color-Nothingness-Hakan-Altun-ebook/dp/B0GPXTV6CP" target="_blank" rel="noopener">Kindle</a>
-                            <a href="https://www.amazon.com/dp/B0GSLJXY6P" target="_blank" rel="noopener">Paperback</a>
-                            <a href="https://www.goodreads.com/book/show/248970413-forgetting-the-color-of-nothingness" target="_blank" rel="noopener">Goodreads</a>
-                        </div>
+        <section id="book">
+            <span class="section-label">Book</span>
+            <div class="book-layout">
+                <div class="book-cover">
+                    <img src="cover.png" alt="Forgetting the Color of Nothingness by Hakan Altun — a cat silhouetted against a luminous cosmic sphere woven with geometric patterns and DNA helices, set among stars and rocky terrain.">
+                </div>
+                <div class="book-info">
+                    <h2>Forgetting the Color of Nothingness</h2>
+                    <p>A speculative philosophical work structured as a loop — from the Big Bang through a domestic Istanbul scene to a post-singularity future. A book about what remains when everything that can be forgotten has been.</p>
+                    <div class="book-links">
+                        <a href="https://www.amazon.com/Forgetting-Color-Nothingness-Hakan-Altun-ebook/dp/B0GPXTV6CP" target="_blank" rel="noopener">Kindle</a>
+                        <a href="https://www.amazon.com/dp/B0GSLJXY6P" target="_blank" rel="noopener">Paperback</a>
+                        <a href="https://www.goodreads.com/book/show/248970413-forgetting-the-color-of-nothingness" target="_blank" rel="noopener">Goodreads</a>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Essays: The On Series -->
-        <section id="essays" class="depth-2">
-            <div class="scroll-reveal">
-                <span class="section-label">The On Series</span>
-                <p style="color: var(--text-light); margin-bottom: 24px; font-style: italic;">Seven essays on what we build inside ourselves — and why.</p>
-                <ul class="essay-list">
-                    <li>
-                        <a href="https://medium.com/@hakanaltunn/on-lying-643b191c22cf" target="_blank" rel="noopener">
-                            <span class="essay-title">On Lying</span>
-                            <span class="essay-number">1 of 7</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://medium.com/@hakanaltunn/on-perceiving-1cd658fb2337" target="_blank" rel="noopener">
-                            <span class="essay-title">On Perceiving</span>
-                            <span class="essay-number">2 of 7</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://medium.com/@hakanaltunn/on-looking-ca55a089d546" target="_blank" rel="noopener">
-                            <span class="essay-title">On Looking</span>
-                            <span class="essay-number">3 of 7</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://medium.com/@hakanaltunn" target="_blank" rel="noopener">
-                            <span class="essay-title">On Forgiveness</span>
-                            <span class="essay-number">4 of 7</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://medium.com/@hakanaltunn" target="_blank" rel="noopener">
-                            <span class="essay-title">On Beauty</span>
-                            <span class="essay-number">5 of 7</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://medium.com/@hakanaltunn" target="_blank" rel="noopener">
-                            <span class="essay-title">On Longing</span>
-                            <span class="essay-number">6 of 7</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://medium.com/@hakanaltunn" target="_blank" rel="noopener">
-                            <span class="essay-title">On Silence</span>
-                            <span class="essay-number">7 of 7</span>
-                        </a>
-                    </li>
-                </ul>
-                <p class="series-note">Unified by a corridor metaphor and a movement from the external to the solitary.</p>
-            </div>
+        <!-- Essays -->
+        <section id="essays">
+            <span class="section-label">The On Series</span>
+            <p style="color: var(--text-light); margin-bottom: 24px; font-style: italic;">Seven essays on what we build inside ourselves — and why.</p>
+            <ul class="essay-list">
+                <li>
+                    <a href="https://medium.com/@hakanaltunn/on-lying-643b191c22cf" target="_blank" rel="noopener">
+                        <span class="essay-title">On Lying</span>
+                        <span class="essay-number">1 of 7</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://medium.com/@hakanaltunn/on-perceiving-1cd658fb2337" target="_blank" rel="noopener">
+                        <span class="essay-title">On Perceiving</span>
+                        <span class="essay-number">2 of 7</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://medium.com/@hakanaltunn/on-looking-ca55a089d546" target="_blank" rel="noopener">
+                        <span class="essay-title">On Looking</span>
+                        <span class="essay-number">3 of 7</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://medium.com/@hakanaltunn" target="_blank" rel="noopener">
+                        <span class="essay-title">On Forgiveness</span>
+                        <span class="essay-number">4 of 7</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://medium.com/@hakanaltunn" target="_blank" rel="noopener">
+                        <span class="essay-title">On Beauty</span>
+                        <span class="essay-number">5 of 7</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://medium.com/@hakanaltunn" target="_blank" rel="noopener">
+                        <span class="essay-title">On Longing</span>
+                        <span class="essay-number">6 of 7</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://medium.com/@hakanaltunn" target="_blank" rel="noopener">
+                        <span class="essay-title">On Silence</span>
+                        <span class="essay-number">7 of 7</span>
+                    </a>
+                </li>
+            </ul>
+            <p class="series-note">Unified by a corridor metaphor and a movement from the external to the solitary.</p>
         </section>
 
         <!-- Standalone Essays -->
-        <section class="depth-3">
-            <div class="scroll-reveal">
-                <span class="section-label">Essays</span>
-                <p style="color: var(--text-light); margin-bottom: 24px; font-style: italic;">Standalone pieces on psychology, language, and the things we carry without knowing.</p>
-                <ul class="essay-list">
-                    <li>
-                        <a href="https://medium.com/illumination/the-best-ideas-come-when-you-let-go-7873c834a008" target="_blank" rel="noopener">
+        <section>
+            <span class="section-label">Essays</span>
+            <p style="color: var(--text-light); margin-bottom: 24px; font-style: italic;">Standalone pieces on psychology, language, and the things we carry without knowing.</p>
+            <ul class="essay-list">
+                <li>
+                    <a href="https://medium.com/illumination/the-best-ideas-come-when-you-let-go-7873c834a008" target="_blank" rel="noopener" class="essay-card">
+                        <img src="https://miro.medium.com/v2/resize:fit:128/1*UjDYBeUBBvmImB5JFvYC0A.jpeg" alt="İdealtepe coast at sunrise, Istanbul — Photo by the author" class="essay-thumb" loading="lazy">
+                        <div class="essay-card-text">
                             <span class="essay-title">The Best Ideas Come When You Let Go</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://medium.com/illumination/empathy-paradox-ff48ecc15088" target="_blank" rel="noopener">
+                            <span class="essay-card-subtitle">Default Mode Network and the art of not thinking</span>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://medium.com/illumination/empathy-paradox-ff48ecc15088" target="_blank" rel="noopener" class="essay-card">
+                        <img src="https://miro.medium.com/v2/resize:fit:128/1*pN4_9fIbWOr7dNg27qdGqA.png" alt="Two coffees gone cold at a table by the window" class="essay-thumb" loading="lazy">
+                        <div class="essay-card-text">
                             <span class="essay-title">The Empathy Paradox</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://medium.com/illumination/it-is-either-from-love-or-fear-0292c59451cb" target="_blank" rel="noopener">
+                            <span class="essay-card-subtitle">Outside every story but our own</span>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://medium.com/illumination/it-is-either-from-love-or-fear-0292c59451cb" target="_blank" rel="noopener" class="essay-card">
+                        <img src="https://miro.medium.com/v2/resize:fit:128/1*1e3whgMVRxzw13ve5wK1MA.png" alt="It starts as a shield. It ends as a weapon." class="essay-thumb" loading="lazy">
+                        <div class="essay-card-text">
                             <span class="essay-title">It Is Either from Love or Fear</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://medium.com/illumination/why-do-unfinished-things-haunt-us-4ba03107b53d" target="_blank" rel="noopener">
+                            <span class="essay-card-subtitle">Fear wears love's face — and speaks its language</span>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://medium.com/illumination/why-do-unfinished-things-haunt-us-4ba03107b53d" target="_blank" rel="noopener" class="essay-card">
+                        <img src="https://miro.medium.com/v2/resize:fit:128/1*jfEURVCn1DDTIIiU7S_fFg.png" alt="Unfinished things stay on the table; the mind keeps chasing them." class="essay-thumb" loading="lazy">
+                        <div class="essay-card-text">
                             <span class="essay-title">Why Do Unfinished Things Haunt Us?</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://medium.com/illumination/jungs-shadow-plays-112e0641e35a" target="_blank" rel="noopener">
+                            <span class="essay-card-subtitle">The Zeigarnik–Lacan trap we all fall into</span>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://medium.com/illumination/jungs-shadow-plays-112e0641e35a" target="_blank" rel="noopener" class="essay-card">
+                        <img src="https://miro.medium.com/v2/resize:fit:128/1*xGR4JAqJxcwp-NNSDaadyw.png" alt="Could the brilliance we envy in others actually be the pure potential we hide within ourselves?" class="essay-thumb" loading="lazy">
+                        <div class="essay-card-text">
                             <span class="essay-title">Jung's Golden Shadow</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://medium.com/@hakanaltunn/our-defense-mechanisms-protectors-or-dungeon-masters-9ca513a16e9d" target="_blank" rel="noopener">
+                            <span class="essay-card-subtitle">Why we envy the things we forbid ourselves the most</span>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://medium.com/@hakanaltunn/our-defense-mechanisms-protectors-or-dungeon-masters-9ca513a16e9d" target="_blank" rel="noopener" class="essay-card">
+                        <img src="https://miro.medium.com/v2/resize:fit:128/1*vJenz3RNAUcWpK9zgnv9iA.png" alt="At the door of our own dungeon, key in hand: protectors or jailers?" class="essay-thumb" loading="lazy">
+                        <div class="essay-card-text">
                             <span class="essay-title">Our Defense Mechanisms: Protectors or Dungeon Masters?</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://medium.com/@hakanaltunn/will-ai-be-enough-for-us-or-is-the-real-question-something-else-e2d93a6f5210" target="_blank" rel="noopener">
+                            <span class="essay-card-subtitle">Have we handed over the keys to our own prisons?</span>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://medium.com/@hakanaltunn/will-ai-be-enough-for-us-or-is-the-real-question-something-else-e2d93a6f5210" target="_blank" rel="noopener" class="essay-card">
+                        <img src="https://miro.medium.com/v2/resize:fit:128/1*xktOKOEkb01NorbJNzs4yA.png" alt="Can an algorithm ever replace the warmth of a human hand?" class="essay-thumb" loading="lazy">
+                        <div class="essay-card-text">
                             <span class="essay-title">Will AI Be Enough for Us, or Is the Real Question Something Else?</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://medium.com/@hakanaltunn/why-do-we-say-hello-988f3c6ce3f2" target="_blank" rel="noopener">
+                            <span class="essay-card-subtitle">A reflection on AI's promise and the warmth it can't replicate</span>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://medium.com/@hakanaltunn/why-do-we-say-hello-988f3c6ce3f2" target="_blank" rel="noopener" class="essay-card">
+                        <img src="https://miro.medium.com/v2/resize:fit:128/1*_TffjC5cdVkKJoadRfi3tQ.png" alt="A polite greeting on the surface can be the precursor to a deep underlying psychological game." class="essay-thumb" loading="lazy">
+                        <div class="essay-card-text">
                             <span class="essay-title">Why Do We Say Hello?</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
+                            <span class="essay-card-subtitle">Transactional Analysis and the hidden games in our relationships</span>
+                        </div>
+                    </a>
+                </li>
+            </ul>
         </section>
 
         <!-- Moris -->
-        <section id="moris" class="depth-1">
-            <div class="scroll-reveal">
-                <span class="section-label">Moris</span>
-                <div class="moris-video">
-                    <iframe src="https://www.youtube.com/embed/CUPASty5LtE" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
-                </div>
-                <p class="moris-caption">The one who made it to the cover.</p>
+        <section id="moris">
+            <span class="section-label">Moris</span>
+            <div class="moris-video">
+                <iframe src="https://www.youtube.com/embed/CUPASty5LtE" allowfullscreen></iframe>
             </div>
+            <p class="moris-caption">The one who made it to the cover.</p>
         </section>
 
         <!-- About -->
-        <section id="about" class="depth-0">
-            <div class="scroll-reveal">
-                <span class="section-label">About</span>
-                <div class="about-text">
-                    <p>I teach at Yeditepe University in Istanbul and write philosophical personal essays in English for an international audience. My work circles around perception, forgiveness, beauty, and the quiet architectures of self-deception — the corridors we build without noticing the walls.</p>
-                    <p>I was born into a city that insists on being looked at. Most of what I write is an attempt to look back.</p>
-                </div>
+        <section id="about">
+            <span class="section-label">About</span>
+            <div class="about-text">
+                <p>I teach at Yeditepe University in Istanbul and write philosophical personal essays in English for an international audience. My work circles around perception, forgiveness, beauty, and the quiet architectures of self-deception — the corridors we build without noticing the walls.</p>
+                <p>I was born into a city that insists on being looked at. Most of what I write is an attempt to look back.</p>
             </div>
         </section>
 
         <!-- Connect -->
-        <section id="connect" class="depth-0">
-            <div class="scroll-reveal">
-                <span class="section-label">Find me</span>
-                <ul class="link-list">
-                    <li><a href="https://medium.com/@hakanaltunn" target="_blank" rel="noopener">Medium <span class="link-arrow">→</span></a></li>
-                    <li><a href="https://www.goodreads.com/author/show/69006405.Hakan_Altun" target="_blank" rel="noopener">Goodreads <span class="link-arrow">→</span></a></li>
-                    <li><a href="https://www.amazon.com/stores/author/B0GPY444LW" target="_blank" rel="noopener">Amazon Author Page <span class="link-arrow">→</span></a></li>
-                </ul>
-            </div>
+        <section id="connect">
+            <span class="section-label">Find me</span>
+            <ul class="link-list">
+                <li><a href="https://medium.com/@hakanaltunn" target="_blank" rel="noopener">Medium <span class="link-arrow">→</span></a></li>
+                <li><a href="https://www.goodreads.com/author/show/69006405.Hakan_Altun" target="_blank" rel="noopener">Goodreads <span class="link-arrow">→</span></a></li>
+                <li><a href="https://www.amazon.com/stores/author/B0GPY444LW" target="_blank" rel="noopener">Amazon Author Page <span class="link-arrow">→</span></a></li>
+            </ul>
         </section>
 
         <!-- Footer -->
@@ -1116,155 +800,5 @@
         </footer>
 
     </div>
-
-    <script>
-    (function() {
-        'use strict';
-
-        // ============================================
-        // KENAR DOKUSU — Scroll ile kelimeler beliriyor
-        // ============================================
-        var marginItems = document.querySelectorAll('.margin-item');
-        for (var i = 0; i < marginItems.length; i++) {
-            marginItems[i].style.transitionDelay = (i * 0.15) + 's';
-        }
-
-        function updateMarginTexture() {
-            var scrollY = window.pageYOffset || document.documentElement.scrollTop;
-            var docHeight = document.documentElement.scrollHeight - window.innerHeight;
-            var progress = docHeight > 0 ? scrollY / docHeight : 0;
-            for (var i = 0; i < marginItems.length; i++) {
-                var threshold = i / (marginItems.length + 2);
-                if (progress >= threshold) {
-                    marginItems[i].classList.add('visible');
-                }
-            }
-        }
-
-        // ============================================
-        // TYPEWRITER — Hero quote kelimeleri
-        // ============================================
-        var heroQuote = document.getElementById('hero-quote');
-        var wordSpans = [];
-        var typewriterStarted = false;
-
-        if (heroQuote) {
-            var text = heroQuote.textContent;
-            var words = text.split(/(\s+)/);
-            heroQuote.innerHTML = '';
-
-            for (var i = 0; i < words.length; i++) {
-                if (words[i].trim() === '') {
-                    heroQuote.appendChild(document.createTextNode(words[i]));
-                } else {
-                    var span = document.createElement('span');
-                    span.className = 'hero-quote-word';
-                    span.textContent = words[i];
-                    heroQuote.appendChild(span);
-                }
-            }
-            wordSpans = heroQuote.querySelectorAll('.hero-quote-word');
-        }
-
-        function startTypewriter() {
-            if (typewriterStarted || wordSpans.length === 0) return;
-            typewriterStarted = true;
-            for (var i = 0; i < wordSpans.length; i++) {
-                (function(index) {
-                    setTimeout(function() {
-                        wordSpans[index].classList.add('word-visible');
-                    }, 400 + index * 60);
-                })(i);
-            }
-        }
-
-        // ============================================
-        // VIEWPORT CHECK — element görünür mü?
-        // ============================================
-        function isInView(el) {
-            var rect = el.getBoundingClientRect();
-            return rect.top < window.innerHeight + 100;
-        }
-
-        // ============================================
-        // TETİKLE — viewport'taki her şeyi aktif et
-        // ============================================
-        function triggerAll() {
-            // Scroll reveal
-            var reveals = document.querySelectorAll('.scroll-reveal');
-            for (var i = 0; i < reveals.length; i++) {
-                if (isInView(reveals[i])) {
-                    reveals[i].classList.add('revealed');
-                }
-            }
-
-            // Section çizgileri
-            var secs = document.querySelectorAll('section');
-            for (var i = 0; i < secs.length; i++) {
-                if (isInView(secs[i])) {
-                    secs[i].classList.add('line-drawn');
-                }
-            }
-
-            // Typewriter
-            if (heroQuote && isInView(heroQuote)) {
-                startTypewriter();
-            }
-
-            // Perspektif çizgisi
-            var pLine = document.querySelector('.perspective-line');
-            if (pLine && isInView(pLine)) {
-                pLine.classList.add('visible');
-            }
-
-            // Margin texture
-            updateMarginTexture();
-        }
-
-        // ============================================
-        // SCROLL — aşağı inildikçe yeni elementleri tetikle
-        // ============================================
-        var scrollTicking = false;
-        function onScroll() {
-            if (!scrollTicking) {
-                requestAnimationFrame(function() {
-                    triggerAll();
-                    scrollTicking = false;
-                });
-                scrollTicking = true;
-            }
-        }
-
-        window.addEventListener('scroll', onScroll, { passive: true });
-
-        // ============================================
-        // SAYFA YÜKLEME — üçlü garanti
-        // ============================================
-
-        // 1. Hemen çalıştır (DOM hazır)
-        triggerAll();
-
-        // 2. Kısa gecikmeyle (render sonrası)
-        setTimeout(triggerAll, 100);
-        setTimeout(triggerAll, 300);
-        setTimeout(triggerAll, 600);
-
-        // 3. window.onload (tüm kaynaklar yüklendikten sonra)
-        window.addEventListener('load', function() {
-            triggerAll();
-            setTimeout(triggerAll, 200);
-        });
-
-    })();
-    </script>
-
-    <script>
-    // PWA Service Worker Registration
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function() {
-            navigator.serviceWorker.register('sw.js');
-        });
-    }
-    </script>
 </body>
 </html>
