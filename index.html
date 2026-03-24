@@ -13,6 +13,16 @@
     <meta property="og:description" content="Writer and lecturer based in Istanbul. Author of Forgetting the Color of Nothingness.">
     <meta property="og:type" content="website">
     <meta property="og:locale" content="en_US">
+
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#7A6D60">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="On Life & Everything">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
     
     <!-- Schema.org JSON-LD -->
     <script type="application/ld+json">
@@ -1237,6 +1247,15 @@
         });
 
     })();
+    </script>
+
+    <script>
+    // PWA Service Worker Registration
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+            navigator.serviceWorker.register('sw.js');
+        });
+    }
     </script>
 </body>
 </html>
