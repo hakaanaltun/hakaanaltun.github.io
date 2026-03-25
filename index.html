@@ -34,14 +34,13 @@
         @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400;1,500&display=swap');
         *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
         
-        /* GÜNCELLENDİ: Daha yumuşak, kahve/krem tonlarına dönük palet */
+        /* GÜNCELLENDİ: Sadece merkez krem, kenarlar tam beyaz */
         :root{
-            --bg-edge: #DCD0C3; /* En kenardaki hafif aydınlık */
-            --bg-mid: #CDBBA7;  /* Sütlü kahve duvarlar */
-            --bg-center: #E4DCD0; /* Zarif, koyu krem merkez */
+            --bg-edge: #FFFFFF;   /* En kenarlar boşluk/beyaz */
+            --bg-center: #E4DCD0; /* Beğendiğin zarif, koyu krem merkez */
             --bg: var(--bg-center); 
-            --bg-warm: #EAE3D9; /* Kitap arkası gibi alanlar için daha açık krem */
-            --text: #5C534A; /* Eskisine göre çok daha yumuşak, kahveye çalan koyu gri */
+            --bg-warm: #EAE3D9; 
+            --text: #5C534A; /* Beğendiğin yumuşak yazı rengi */
             --text-light: #948A80;
             --accent: #A39688;
             --accent-hover: #867B6E;
@@ -52,7 +51,7 @@
         
         html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
         
-        /* GÜNCELLENDİ: Koridor degrade (gradient) geçişi */
+        /* GÜNCELLENDİ: Koridor çizgilerinden itibaren beyazlaşan degrade */
         body{
             font-family:'Lora',Georgia,serif;
             color:var(--text);
@@ -62,10 +61,10 @@
             background-color:var(--bg-center);
             background-image:linear-gradient(to right, 
                 var(--bg-edge) 0%, 
-                var(--bg-mid) 18%, 
-                var(--bg-center) 35%, 
-                var(--bg-center) 65%, 
-                var(--bg-mid) 82%, 
+                var(--bg-edge) calc(50% - 650px), 
+                var(--bg-center) calc(50% - 340px), 
+                var(--bg-center) calc(50% + 340px), 
+                var(--bg-edge) calc(50% + 650px), 
                 var(--bg-edge) 100%
             );
         }
@@ -78,7 +77,6 @@
         .margin-texture--right{right:0;width:calc((100vw - 680px)/2 - 8px);display:flex;flex-direction:column;align-items:flex-start;padding-left:24px;padding-top:200px}
         .margin-word{font-family:'Lora',Georgia,serif;font-style:italic;color:var(--accent);opacity:0;transition:opacity 1.2s ease,transform 1.2s cubic-bezier(.23,1,.32,1);transform:translateY(8px);white-space:nowrap;display:block;line-height:1}
         
-        /* GÜNCELLENDİ: Kenar yazıları belli belirsiz yapıldı */
         .margin-word.visible{opacity:1;transform:translateY(0)}
         .margin-word--lg{font-size:22px;letter-spacing:.12em}.margin-word--lg.visible{opacity:.20}
         .margin-word--sm{font-size:15px;letter-spacing:.18em;text-transform:uppercase}.margin-word--sm.visible{opacity:.15}
@@ -87,14 +85,12 @@
         .margin-line{display:block;opacity:0;transition:opacity 1s ease .3s}.margin-line.visible{opacity:1}
         .margin-line svg{display:block}.margin-line svg line,.margin-line svg circle{stroke:var(--accent);fill:none}
         
-        /* GÜNCELLENDİ: Geometrik şekiller ve çizgiler silikleştirildi */
         .margin-line svg line, .margin-line svg circle,
         .mobile-margin-line svg line, .mobile-margin-line svg circle {
             stroke-width: 0.8px !important;
             opacity: 0.15 !important;
         }
         
-        /* Koridor dikey çizgileri daha zarif hale getirildi */
         .corridor-vline{position:fixed;top:0;height:100%;width:1px;pointer-events:none;z-index:0;background:linear-gradient(to bottom,transparent 0%,rgba(163,150,136,.15) 20%,rgba(163,150,136,.30) 50%,rgba(163,150,136,.15) 80%,transparent 100%)}
         .corridor-vline--left{left:calc((100vw - 680px)/2 - 12px)}.corridor-vline--right{right:calc((100vw - 680px)/2 - 12px)}
         
@@ -192,14 +188,12 @@
             section.depth-1,section.depth-2,section.depth-3{margin-left:-64px;margin-right:-64px;padding-left:64px;padding-right:64px}
         }
         @media(max-width:768px){
-            /* Mobil için degrade biraz daha daraltıldı */
+            /* Mobil için merkezden kenara beyazlayan degrade */
             body{
                 background-image:linear-gradient(to right, 
                     var(--bg-edge) 0%, 
-                    var(--bg-mid) 10%, 
-                    var(--bg-center) 25%, 
-                    var(--bg-center) 75%, 
-                    var(--bg-mid) 90%, 
+                    var(--bg-center) 15%, 
+                    var(--bg-center) 85%, 
                     var(--bg-edge) 100%
                 );
             }
