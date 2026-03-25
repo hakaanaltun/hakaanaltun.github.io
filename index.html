@@ -119,17 +119,17 @@
         .mobile-margin-texture{display:none}
         
         @media(max-width:1050px){
-            .mobile-corridor{display:block;position:fixed;top:0;height:100%;width:1px;pointer-events:none;z-index:0;opacity:0;transition:opacity 1.5s ease}
+            .mobile-corridor{display:block;position:fixed;top:0;height:100%;width:2px;pointer-events:none;z-index:0;opacity:0;transition:opacity 1.5s ease}
             .mobile-corridor.visible{opacity:1}
-            .mobile-corridor--left{left:6px;background:linear-gradient(to bottom,transparent 0%,rgba(156,139,122,.18) 15%,rgba(156,139,122,.28) 50%,rgba(156,139,122,.18) 85%,transparent 100%)}
-            .mobile-corridor--right{right:6px;background:linear-gradient(to bottom,transparent 0%,rgba(156,139,122,.18) 15%,rgba(156,139,122,.28) 50%,rgba(156,139,122,.18) 85%,transparent 100%)}
+            .mobile-corridor--left{left:8px;background:linear-gradient(to bottom,transparent 0%,rgba(156,139,122,.25) 15%,rgba(156,139,122,.4) 50%,rgba(156,139,122,.25) 85%,transparent 100%)}
+            .mobile-corridor--right{right:8px;background:linear-gradient(to bottom,transparent 0%,rgba(156,139,122,.25) 15%,rgba(156,139,122,.4) 50%,rgba(156,139,122,.25) 85%,transparent 100%)}
             .mobile-margin-texture{display:flex;position:fixed;top:0;height:100%;pointer-events:none;z-index:0;flex-direction:column;padding-top:100px;overflow:hidden}
             .mobile-margin-texture--left{left:0;width:44px;align-items:center}
             .mobile-margin-texture--right{right:0;width:44px;align-items:center}
             .mobile-margin-word{font-family:'Lora',Georgia,serif;font-style:italic;color:var(--accent);writing-mode:vertical-rl;text-orientation:mixed;white-space:nowrap;display:block;line-height:1;opacity:0;transition:opacity 1.2s ease,transform 1.2s cubic-bezier(.23,1,.32,1);transform:translateY(6px)}
-            .mobile-margin-word.visible{transform:translateY(0)}
-            .mobile-margin-word--lg{font-size:15px;letter-spacing:.15em}.mobile-margin-word--lg.visible{opacity:.20}
-            .mobile-margin-word--sm{font-size:11px;letter-spacing:.2em;text-transform:uppercase}.mobile-margin-word--sm.visible{opacity:.16}
+            .mobile-margin-word.visible{transform:translateY(0);opacity:.20}
+            .mobile-margin-word--lg{font-size:15px;letter-spacing:.15em}.mobile-margin-word--lg.visible{opacity:.28}
+            .mobile-margin-word--sm{font-size:11px;letter-spacing:.2em;text-transform:uppercase}.mobile-margin-word--sm.visible{opacity:.24}
             .mobile-margin-line{display:block;opacity:0;transition:opacity 1s ease .3s}.mobile-margin-line.visible{opacity:1}
             .mobile-margin-line svg line{stroke:var(--accent);fill:none}
             .container{padding:0 52px}
@@ -220,7 +220,7 @@
         <div class="hero fade-in">
             <div class="hero-intro">
                 <img src="profile.jpg" alt="Hakan Altun" class="profile-photo">
-                <p class="subtitle">Lecturer and writer in Istanbul. Exploring philosophy, perception, and the corridors between what we say, what we see, what we perceive, and what we choose to forget.</p>
+                <p class="subtitle">Lecturer based in Istanbul. Exploring philosophy, perception, and the corridors between what we say, what we see, what we perceive, and what we choose to forget.</p>
             </div>
             <h1 id="hero-quote">"Someone hear me!" I shouted into the void. Yet the one I was shouting to was me, and the one not listening was also me. This was the bitterest form of loneliness: playing hide-and-seek with your own ghost.</h1>
             <svg class="perspective-line" viewBox="0 0 320 48" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><line x1="0" y1="48" x2="160" y2="6"/><line x1="320" y1="48" x2="160" y2="6"/><line x1="40" y1="48" x2="280" y2="48" opacity="0.15"/><circle cx="160" cy="6" r="2"/><line x1="30" y1="48" x2="160" y2="10" opacity="0.15"/><line x1="290" y1="48" x2="160" y2="10" opacity="0.15"/></svg>
@@ -318,11 +318,9 @@
             if(hq&&iv(hq))stw();
             var p=document.querySelector('.perspective-line');if(p&&iv(p))p.classList.add('visible');
             updateMT();
-            // Mobil koridor çizgileri — scroll başlayınca belir
+            // Mobil koridor çizgileri — hemen belir
             var mc=document.querySelectorAll('.mobile-corridor');
-            if(mc.length&&(window.pageYOffset||document.documentElement.scrollTop)>50){
-                for(var i=0;i<mc.length;i++)mc[i].classList.add('visible');
-            }
+            for(var i=0;i<mc.length;i++)mc[i].classList.add('visible');
         }
         var tk=false;
         window.addEventListener('scroll',function(){if(!tk){requestAnimationFrame(function(){ta();tk=false;});tk=true;}},{passive:true});
