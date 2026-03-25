@@ -124,14 +124,16 @@
             .mobile-corridor--left{left:6px;background:linear-gradient(to bottom,transparent 0%,rgba(156,139,122,.18) 15%,rgba(156,139,122,.28) 50%,rgba(156,139,122,.18) 85%,transparent 100%)}
             .mobile-corridor--right{right:6px;background:linear-gradient(to bottom,transparent 0%,rgba(156,139,122,.18) 15%,rgba(156,139,122,.28) 50%,rgba(156,139,122,.18) 85%,transparent 100%)}
             .mobile-margin-texture{display:flex;position:fixed;top:0;height:100%;pointer-events:none;z-index:0;flex-direction:column;padding-top:100px;overflow:hidden}
-            .mobile-margin-texture--left{left:0;width:32px;align-items:center}
-            .mobile-margin-texture--right{right:0;width:32px;align-items:center}
+            .mobile-margin-texture--left{left:0;width:44px;align-items:center}
+            .mobile-margin-texture--right{right:0;width:44px;align-items:center}
             .mobile-margin-word{font-family:'Lora',Georgia,serif;font-style:italic;color:var(--accent);writing-mode:vertical-rl;text-orientation:mixed;white-space:nowrap;display:block;line-height:1;opacity:0;transition:opacity 1.2s ease,transform 1.2s cubic-bezier(.23,1,.32,1);transform:translateY(6px)}
             .mobile-margin-word.visible{transform:translateY(0)}
-            .mobile-margin-word--lg{font-size:13px;letter-spacing:.15em}.mobile-margin-word--lg.visible{opacity:.20}
-            .mobile-margin-word--sm{font-size:10px;letter-spacing:.2em;text-transform:uppercase}.mobile-margin-word--sm.visible{opacity:.16}
+            .mobile-margin-word--lg{font-size:15px;letter-spacing:.15em}.mobile-margin-word--lg.visible{opacity:.20}
+            .mobile-margin-word--sm{font-size:11px;letter-spacing:.2em;text-transform:uppercase}.mobile-margin-word--sm.visible{opacity:.16}
             .mobile-margin-line{display:block;opacity:0;transition:opacity 1s ease .3s}.mobile-margin-line.visible{opacity:1}
             .mobile-margin-line svg line{stroke:var(--accent);fill:none}
+            .container{padding:0 52px}
+            section.depth-1,section.depth-2,section.depth-3{margin-left:-52px;margin-right:-52px;padding-left:52px;padding-right:52px}
         }
         @media(max-width:768px){
             .hero h1{font-size:20px}.hero{padding:40px 0 32px}section{padding:36px 0}
@@ -142,6 +144,10 @@
             .essay-thumb{width:52px;height:52px;min-width:52px}.essay-card-subtitle{font-size:13px}
             .margin-texture{display:none}.corridor-vline{display:none}
             .container{padding:0 40px}
+            .mobile-margin-texture--left{width:32px}
+            .mobile-margin-texture--right{width:32px}
+            .mobile-margin-word--lg{font-size:13px}
+            .mobile-margin-word--sm{font-size:10px}
             section.depth-1,section.depth-2,section.depth-3{margin-left:-40px;margin-right:-40px;padding-left:40px;padding-right:40px}
         }
         @media(max-width:420px){.book-layout{grid-template-columns:1fr}.book-cover{max-width:180px}}
