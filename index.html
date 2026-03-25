@@ -114,13 +114,23 @@
         .moris-caption{margin-top:16px;text-align:center;font-size:15px;color:var(--text-light);font-style:italic}
         footer{padding:40px 0;border-top:1px solid var(--border);text-align:center}
         footer p{font-size:13px;color:var(--text-light)}
-        /* Mobil koridor çizgileri */
+        /* Mobil koridor — kenar dokusu */
         .mobile-corridor{display:none}
+        .mobile-margin-texture{display:none}
         @media(max-width:900px){
             .mobile-corridor{display:block;position:fixed;top:0;height:100%;width:1px;pointer-events:none;z-index:0;opacity:0;transition:opacity 1.5s ease}
             .mobile-corridor.visible{opacity:1}
-            .mobile-corridor--left{left:4px;background:linear-gradient(to bottom,transparent 0%,rgba(156,139,122,.15) 15%,rgba(156,139,122,.22) 50%,rgba(156,139,122,.15) 85%,transparent 100%)}
-            .mobile-corridor--right{right:4px;background:linear-gradient(to bottom,transparent 0%,rgba(156,139,122,.15) 15%,rgba(156,139,122,.22) 50%,rgba(156,139,122,.15) 85%,transparent 100%)}
+            .mobile-corridor--left{left:6px;background:linear-gradient(to bottom,transparent 0%,rgba(156,139,122,.18) 15%,rgba(156,139,122,.28) 50%,rgba(156,139,122,.18) 85%,transparent 100%)}
+            .mobile-corridor--right{right:6px;background:linear-gradient(to bottom,transparent 0%,rgba(156,139,122,.18) 15%,rgba(156,139,122,.28) 50%,rgba(156,139,122,.18) 85%,transparent 100%)}
+            .mobile-margin-texture{display:flex;position:fixed;top:0;height:100%;pointer-events:none;z-index:0;flex-direction:column;padding-top:100px;overflow:hidden}
+            .mobile-margin-texture--left{left:0;width:32px;align-items:center}
+            .mobile-margin-texture--right{right:0;width:32px;align-items:center}
+            .mobile-margin-word{font-family:'Lora',Georgia,serif;font-style:italic;color:var(--accent);writing-mode:vertical-rl;text-orientation:mixed;white-space:nowrap;display:block;line-height:1;opacity:0;transition:opacity 1.2s ease,transform 1.2s cubic-bezier(.23,1,.32,1);transform:translateY(6px)}
+            .mobile-margin-word.visible{transform:translateY(0)}
+            .mobile-margin-word--lg{font-size:13px;letter-spacing:.15em}.mobile-margin-word--lg.visible{opacity:.20}
+            .mobile-margin-word--sm{font-size:10px;letter-spacing:.2em;text-transform:uppercase}.mobile-margin-word--sm.visible{opacity:.16}
+            .mobile-margin-line{display:block;opacity:0;transition:opacity 1s ease .3s}.mobile-margin-line.visible{opacity:1}
+            .mobile-margin-line svg line{stroke:var(--accent);fill:none}
         }
         @media(max-width:768px){
             .hero h1{font-size:20px}.hero{padding:40px 0 32px}section{padding:36px 0}
@@ -130,7 +140,8 @@
             .nav-links a{padding:4px 10px}.site-name{font-size:14px}
             .essay-thumb{width:52px;height:52px;min-width:52px}.essay-card-subtitle{font-size:13px}
             .margin-texture{display:none}.corridor-vline{display:none}
-            section.depth-1,section.depth-2,section.depth-3{margin-left:-20px;margin-right:-20px;padding-left:20px;padding-right:20px}
+            .container{padding:0 40px}
+            section.depth-1,section.depth-2,section.depth-3{margin-left:-40px;margin-right:-40px;padding-left:40px;padding-right:40px}
         }
         @media(max-width:420px){.book-layout{grid-template-columns:1fr}.book-cover{max-width:180px}}
         .fade-in{opacity:0;transform:translateY(12px);animation:fadeUp .6s ease forwards}
@@ -138,7 +149,7 @@
         @keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
         @media(prefers-reduced-motion:reduce){
             *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
-            .margin-texture{display:none}.corridor-vline{display:none}.mobile-corridor{display:none}.scroll-reveal{opacity:1;transform:none}
+            .margin-texture{display:none}.corridor-vline{display:none}.mobile-corridor{display:none}.mobile-margin-texture{display:none}.scroll-reveal{opacity:1;transform:none}
             .perspective-line{opacity:1;transform:none}.hero-quote-word{opacity:1;transform:none}section::before{width:100%}
         }
     </style>
@@ -148,6 +159,28 @@
     <div class="corridor-vline corridor-vline--right" aria-hidden="true"></div>
     <div class="mobile-corridor mobile-corridor--left" aria-hidden="true"></div>
     <div class="mobile-corridor mobile-corridor--right" aria-hidden="true"></div>
+
+    <!-- Mobil kenar dokusu — Sol -->
+    <div class="mobile-margin-texture mobile-margin-texture--left" aria-hidden="true">
+        <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item" style="margin-bottom:60px">perceiving</span>
+        <span class="mobile-margin-line mobile-margin-item" style="margin-bottom:50px"><svg width="2" height="40" viewBox="0 0 2 40"><line x1="1" y1="0" x2="1" y2="40" stroke-width="0.8" opacity="0.22"/></svg></span>
+        <span class="mobile-margin-word mobile-margin-word--lg mobile-margin-item" style="margin-bottom:80px">corridors</span>
+        <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item" style="margin-bottom:70px">forgetting</span>
+        <span class="mobile-margin-line mobile-margin-item" style="margin-bottom:60px"><svg width="2" height="30" viewBox="0 0 2 30"><line x1="1" y1="0" x2="1" y2="30" stroke-width="0.8" opacity="0.18"/></svg></span>
+        <span class="mobile-margin-word mobile-margin-word--lg mobile-margin-item" style="margin-bottom:90px">silence</span>
+        <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item" style="margin-bottom:50px">beauty</span>
+    </div>
+
+    <!-- Mobil kenar dokusu — Sağ -->
+    <div class="mobile-margin-texture mobile-margin-texture--right" aria-hidden="true">
+        <span class="mobile-margin-line mobile-margin-item" style="margin-bottom:70px"><svg width="2" height="35" viewBox="0 0 2 35"><line x1="1" y1="0" x2="1" y2="35" stroke-width="0.8" opacity="0.22"/></svg></span>
+        <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item" style="margin-bottom:60px">longing</span>
+        <span class="mobile-margin-word mobile-margin-word--lg mobile-margin-item" style="margin-bottom:80px">forgiveness</span>
+        <span class="mobile-margin-line mobile-margin-item" style="margin-bottom:50px"><svg width="2" height="45" viewBox="0 0 2 45"><line x1="1" y1="0" x2="1" y2="45" stroke-width="0.8" opacity="0.18"/></svg></span>
+        <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item" style="margin-bottom:70px">the walls</span>
+        <span class="mobile-margin-word mobile-margin-word--lg mobile-margin-item" style="margin-bottom:90px">nothingness</span>
+        <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item" style="margin-bottom:60px">lying</span>
+    </div>
     <div class="margin-texture margin-texture--left" aria-hidden="true">
         <span class="margin-word margin-word--sm margin-item" style="margin-bottom:48px">perceiving</span>
         <span class="margin-line margin-item" style="margin-bottom:36px"><svg width="80" height="20" viewBox="0 0 80 20"><line x1="80" y1="10" x2="10" y2="10" stroke-width="0.8" opacity="0.25"/><circle cx="6" cy="10" r="2.5" stroke-width="0.8" opacity="0.22"/></svg></span>
@@ -254,10 +287,13 @@
     (function(){
         'use strict';
         var mi=document.querySelectorAll('.margin-item');
+        var mmi=document.querySelectorAll('.mobile-margin-item');
         for(var i=0;i<mi.length;i++)mi[i].style.transitionDelay=(i*.15)+'s';
+        for(var i=0;i<mmi.length;i++)mmi[i].style.transitionDelay=(i*.2)+'s';
         function updateMT(){
             var s=window.pageYOffset||document.documentElement.scrollTop,d=document.documentElement.scrollHeight-window.innerHeight,p=d>0?s/d:0;
             for(var i=0;i<mi.length;i++){if(p>=i/(mi.length+2))mi[i].classList.add('visible');}
+            for(var i=0;i<mmi.length;i++){if(p>=i/(mmi.length+2))mmi[i].classList.add('visible');}
         }
         var hq=document.getElementById('hero-quote'),ws=[],ts=false;
         if(hq){var t=hq.textContent,w=t.split(/(\s+)/);hq.innerHTML='';
