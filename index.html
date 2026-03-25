@@ -35,7 +35,18 @@
         *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
         :root{--bg:#FAF8F4;--bg-warm:#F5F1EB;--bg-deep:#EDE8E0;--text:#3D3835;--text-light:#8A8279;--accent:#9C8B7A;--accent-hover:#7A6D60;--border:#E8E2D9;--cream:#FDFCFA;--shadow:rgba(60,56,53,0.04);--corridor-line:rgba(156,139,122,0.12);--corridor-line-active:rgba(156,139,122,0.28)}
         html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
-        body{font-family:'Lora',Georgia,serif;background-color:var(--bg);color:var(--text);line-height:1.8;font-size:17px;overflow-x:hidden}
+        
+        /* GÜNCELLENDİ: Ortası aydınlık, kenarları loş koridor efekti */
+        body{
+            font-family:'Lora',Georgia,serif;
+            color:var(--text);
+            line-height:1.8;
+            font-size:17px;
+            overflow-x:hidden;
+            background-color:var(--bg-deep);
+            background-image:linear-gradient(to right, var(--bg-deep) 0%, var(--bg-warm) calc(50% - 420px), var(--bg) calc(50% - 340px), var(--bg) calc(50% + 340px), var(--bg-warm) calc(50% + 420px), var(--bg-deep) 100%);
+        }
+        
         ::selection{background:var(--accent);color:var(--cream)}
         a{color:var(--accent-hover);text-decoration:none;border-bottom:1px solid var(--border);transition:border-color .2s ease}
         a:hover{border-color:var(--accent-hover)}
@@ -44,27 +55,23 @@
         .margin-texture--right{right:0;width:calc((100vw - 680px)/2 - 8px);display:flex;flex-direction:column;align-items:flex-start;padding-left:24px;padding-top:200px}
         .margin-word{font-family:'Lora',Georgia,serif;font-style:italic;color:var(--accent);opacity:0;transition:opacity 1.2s ease,transform 1.2s cubic-bezier(.23,1,.32,1);transform:translateY(8px);white-space:nowrap;display:block;line-height:1}
         .margin-word.visible{opacity:1;transform:translateY(0)}
-        /* Masaüstü Yazı Koyulukları Artırıldı */
         .margin-word--lg{font-size:22px;letter-spacing:.12em}.margin-word--lg.visible{opacity:.55}
         .margin-word--sm{font-size:15px;letter-spacing:.18em;text-transform:uppercase}.margin-word--sm.visible{opacity:.45}
         .margin-word--xs{font-size:12px;letter-spacing:.25em;text-transform:uppercase}.margin-word--xs.visible{opacity:.35}
         .margin-line{display:block;opacity:0;transition:opacity 1s ease .3s}.margin-line.visible{opacity:1}
         .margin-line svg{display:block}.margin-line svg line,.margin-line svg circle{stroke:var(--accent);fill:none}
         
-        /* Şekiller ve Çizgiler İçin Global Koyulaştırma */
         .margin-line svg line, .margin-line svg circle,
         .mobile-margin-line svg line, .mobile-margin-line svg circle {
             stroke-width: 1.5px !important;
             opacity: 0.55 !important;
         }
         
-        /* Masaüstü Koridor Çizgisi Koyulaştırıldı ve Kalınlaştırıldı */
         .corridor-vline{position:fixed;top:0;height:100%;width:2px;pointer-events:none;z-index:0;background:linear-gradient(to bottom,transparent 0%,rgba(156,139,122,.45) 20%,rgba(156,139,122,.75) 50%,rgba(156,139,122,.45) 80%,transparent 100%)}
         .corridor-vline--left{left:calc((100vw - 680px)/2 - 12px)}.corridor-vline--right{right:calc((100vw - 680px)/2 - 12px)}
         
         @media(max-width:1366px){.margin-texture{display:none}.corridor-vline{display:none}}
         
-        /* Hero Perspektif Çizgisi Koyulaştırıldı */
         .perspective-line{display:block;margin:32px auto 0;max-width:320px;width:100%;height:48px;opacity:0;transform:scaleX(.3);transition:opacity 1.2s ease,transform 1.4s cubic-bezier(.23,1,.32,1)}
         .perspective-line.visible{opacity:1;transform:scaleX(1)}
         .perspective-line line{stroke:var(--accent);stroke-width:1.2;opacity:0.55 !important}
@@ -82,7 +89,6 @@
         .hero h1{font-size:24px;font-weight:400;line-height:1.45;margin-top:24px;padding-top:24px;border-top:1px solid var(--border);letter-spacing:-.005em;font-style:italic}
         .hero .subtitle{font-size:19px;color:var(--text-light);line-height:1.7;max-width:520px;font-style:italic}
         
-        /* Yatay Bölüm Çizgileri Koyulaştırıldı */
         section{padding:44px 0;border-top:1px solid var(--border);transition:background-color .6s ease;position:relative}
         section::before{content:'';position:absolute;top:-1px;left:0;width:0;height:1px;background:linear-gradient(to right,transparent,var(--accent) 20%,var(--accent) 80%,transparent);opacity:.7;transition:width 1s cubic-bezier(.23,1,.32,1)}
         section.line-drawn::before{width:100%}
@@ -132,24 +138,21 @@
         .moris-caption{margin-top:16px;text-align:center;font-size:15px;color:var(--text-light);font-style:italic}
         footer{padding:40px 0;border-top:1px solid var(--border);text-align:center}
         footer p{font-size:13px;color:var(--text-light)}
-        /* Mobil koridor — kenar dokusu */
+        
         .mobile-corridor{display:none}
         .mobile-margin-texture{display:none}
         
         @media(max-width:1366px){
             .mobile-corridor{display:block;position:fixed;top:0;height:100%;width:2px;pointer-events:none;z-index:0;opacity:0;transition:opacity 1.5s ease}
             .mobile-corridor.visible{opacity:1}
-            /* Mobil/Tablet Koridorları İçeri Çekildi ve Koyulaştırıldı */
             .mobile-corridor--left{left:16px;background:linear-gradient(to bottom,transparent 0%,rgba(156,139,122,.45) 15%,rgba(156,139,122,.75) 50%,rgba(156,139,122,.45) 85%,transparent 100%)}
             .mobile-corridor--right{right:16px;background:linear-gradient(to bottom,transparent 0%,rgba(156,139,122,.45) 15%,rgba(156,139,122,.75) 50%,rgba(156,139,122,.45) 85%,transparent 100%)}
             
-            /* Overflow görünür yapıldı, kenarlardan pay verildi */
             .mobile-margin-texture{display:flex;position:fixed;top:0;height:100%;pointer-events:none;z-index:0;flex-direction:column;padding-top:100px;overflow:visible}
             .mobile-margin-texture--left{left:8px;width:44px;align-items:center}
             .mobile-margin-texture--right{right:8px;width:44px;align-items:center}
             
             .mobile-margin-word{font-family:'Lora',Georgia,serif;font-style:italic;color:var(--accent);writing-mode:vertical-rl;text-orientation:mixed;white-space:nowrap;display:block;line-height:1;opacity:0;transition:opacity 1.2s ease,transform 1.2s cubic-bezier(.23,1,.32,1);transform:translateY(6px)}
-            /* Mobil Yazı Koyulukları Artırıldı */
             .mobile-margin-word.visible{transform:translateY(0);opacity:.40}
             .mobile-margin-word--lg{font-size:15px;letter-spacing:.15em}.mobile-margin-word--lg.visible{opacity:.55}
             .mobile-margin-word--sm{font-size:11px;letter-spacing:.2em;text-transform:uppercase}.mobile-margin-word--sm.visible{opacity:.45}
@@ -157,11 +160,13 @@
             .mobile-margin-line{display:block;opacity:0;transition:opacity 1s ease .3s}.mobile-margin-line.visible{opacity:1}
             .mobile-margin-line svg line{stroke:var(--accent);fill:none}
             
-            /* Tabletlerde metinler çakışmasın diye iç boşluk artırıldı */
             .container{padding:0 64px}
             section.depth-1,section.depth-2,section.depth-3{margin-left:-64px;margin-right:-64px;padding-left:64px;padding-right:64px}
         }
         @media(max-width:768px){
+            /* GÜNCELLENDİ: Mobilde kenardaki karanlık alan daraltıldı */
+            body{background-image:linear-gradient(to right, var(--bg-deep) 0%, var(--bg) 6vw, var(--bg) 94vw, var(--bg-deep) 100%);}
+            
             .hero h1{font-size:20px}.hero{padding:40px 0 32px}section{padding:36px 0}
             .hero-intro{gap:12px}.hero .subtitle{font-size:16px;line-height:1.7}
             .book-layout{grid-template-columns:140px 1fr;gap:24px}
@@ -170,7 +175,6 @@
             .essay-thumb{width:52px;height:52px;min-width:52px}.essay-card-subtitle{font-size:13px}
             .margin-texture{display:none}.corridor-vline{display:none}
             
-            /* Telefonlarda boşluklar tekrar daraltıldı */
             .container{padding:0 48px}
             .mobile-corridor--left{left:8px}
             .mobile-corridor--right{right:8px}
@@ -216,6 +220,7 @@
         <span class="mobile-margin-word mobile-margin-word--lg mobile-margin-item" style="margin-bottom:90px">nothingness</span>
         <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item" style="margin-bottom:60px">lying</span>
     </div>
+    
     <div class="margin-texture margin-texture--left" aria-hidden="true">
         <span class="margin-word margin-word--sm margin-item" style="margin-bottom:48px">perceiving</span>
         <span class="margin-line margin-item" style="margin-bottom:36px"><svg width="80" height="20" viewBox="0 0 80 20"><line x1="80" y1="10" x2="10" y2="10"/><circle cx="6" cy="10" r="2.5"/></svg></span>
@@ -228,6 +233,7 @@
         <span class="margin-word margin-word--lg margin-item" style="margin-bottom:60px">silence</span>
         <span class="margin-line margin-item"><svg width="36" height="36" viewBox="0 0 36 36"><line x1="34" y1="2" x2="2" y2="34"/><line x1="34" y1="34" x2="2" y2="2"/></svg></span>
     </div>
+    
     <div class="margin-texture margin-texture--right" aria-hidden="true">
         <span class="margin-line margin-item" style="margin-bottom:56px"><svg width="70" height="2" viewBox="0 0 70 2"><line x1="0" y1="1" x2="70" y2="1"/></svg></span>
         <span class="margin-word margin-word--xs margin-item" style="margin-bottom:72px">longing</span>
@@ -240,6 +246,7 @@
         <span class="margin-word margin-word--xs margin-item" style="margin-bottom:60px">lying</span>
         <span class="margin-line margin-item"><svg width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="16"/><circle cx="20" cy="20" r="4"/></svg></span>
     </div>
+    
     <div class="container">
         <header><nav>
             <a href="#" class="site-name"><img src="profile.jpg" alt="Hakan Altun" class="nav-photo">Hakan Altun</a>
