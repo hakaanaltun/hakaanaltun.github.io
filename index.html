@@ -51,7 +51,7 @@
         .margin-line svg{display:block}.margin-line svg line,.margin-line svg circle{stroke:var(--accent);fill:none}
         .corridor-vline{position:fixed;top:0;height:100%;width:1px;pointer-events:none;z-index:0;background:linear-gradient(to bottom,transparent 0%,rgba(156,139,122,.25) 20%,rgba(156,139,122,.4) 50%,rgba(156,139,122,.25) 80%,transparent 100%)}
         .corridor-vline--left{left:calc((100vw - 680px)/2 - 12px)}.corridor-vline--right{right:calc((100vw - 680px)/2 - 12px)}
-        @media(max-width:900px){.margin-texture{display:none}.corridor-vline{display:none}}
+        @media(max-width:1050px){.margin-texture{display:none}.corridor-vline{display:none}}
         .perspective-line{display:block;margin:32px auto 0;max-width:320px;width:100%;height:48px;opacity:0;transform:scaleX(.3);transition:opacity 1.2s ease,transform 1.4s cubic-bezier(.23,1,.32,1)}
         .perspective-line.visible{opacity:1;transform:scaleX(1)}
         .perspective-line line{stroke:var(--accent);stroke-width:.8;opacity:.35}.perspective-line circle{fill:var(--accent);opacity:.25}
@@ -117,7 +117,8 @@
         /* Mobil koridor — kenar dokusu */
         .mobile-corridor{display:none}
         .mobile-margin-texture{display:none}
-        @media(max-width:900px){
+        
+        @media(max-width:1050px){
             .mobile-corridor{display:block;position:fixed;top:0;height:100%;width:1px;pointer-events:none;z-index:0;opacity:0;transition:opacity 1.5s ease}
             .mobile-corridor.visible{opacity:1}
             .mobile-corridor--left{left:6px;background:linear-gradient(to bottom,transparent 0%,rgba(156,139,122,.18) 15%,rgba(156,139,122,.28) 50%,rgba(156,139,122,.18) 85%,transparent 100%)}
