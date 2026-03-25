@@ -20,7 +20,7 @@
     <meta name="twitter:description" content="Lecturer and writer based in İstanbul. Author of Forgetting the Color of Nothingness.">
     <meta name="twitter:image" content="https://hakaanaltun.github.io/og-image.png">
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#E4DCD0">
+    <meta name="theme-color" content="#EAE2D6">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="On Life & Everything">
@@ -34,37 +34,34 @@
         @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400;1,500&display=swap');
         *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
         
-        /* GÜNCELLENDİ: Sadece merkez krem, kenarlar tam beyaz */
         :root{
-            --bg-edge: #FFFFFF;   /* En kenarlar boşluk/beyaz */
-            --bg-center: #E4DCD0; /* Beğendiğin zarif, koyu krem merkez */
+            --bg-edge: #FFFFFF;   /* En kenarlar tam beyaz */
+            --bg-center: #EAE2D6; /* Merkezdeki ferah, zarif krem/sütlü kahve tonu */
             --bg: var(--bg-center); 
-            --bg-warm: #EAE3D9; 
-            --text: #5C534A; /* Beğendiğin yumuşak yazı rengi */
+            --bg-warm: #F0EAE1; 
+            --text: #5C534A; 
             --text-light: #948A80;
-            --accent: #A39688;
-            --accent-hover: #867B6E;
-            --border: #D8CFC4;
-            --cream: #FDFBFA;
+            --accent: #9C8B7A;
+            --accent-hover: #7A6D60;
+            --border: #DED6CA;
+            --cream: #FFFFFF;
             --shadow: rgba(60,56,53,0.03);
         }
         
         html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
         
-        /* GÜNCELLENDİ: Koridor çizgilerinden itibaren beyazlaşan degrade */
         body{
             font-family:'Lora',Georgia,serif;
             color:var(--text);
             line-height:1.8;
             font-size:17px;
             overflow-x:hidden;
-            background-color:var(--bg-center);
+            background-color:var(--bg-edge);
+            /* Merkez en koyu krem, oradan sağa ve sola bembeyaz açılan degrade */
             background-image:linear-gradient(to right, 
                 var(--bg-edge) 0%, 
-                var(--bg-edge) calc(50% - 650px), 
                 var(--bg-center) calc(50% - 340px), 
                 var(--bg-center) calc(50% + 340px), 
-                var(--bg-edge) calc(50% + 650px), 
                 var(--bg-edge) 100%
             );
         }
@@ -77,29 +74,32 @@
         .margin-texture--right{right:0;width:calc((100vw - 680px)/2 - 8px);display:flex;flex-direction:column;align-items:flex-start;padding-left:24px;padding-top:200px}
         .margin-word{font-family:'Lora',Georgia,serif;font-style:italic;color:var(--accent);opacity:0;transition:opacity 1.2s ease,transform 1.2s cubic-bezier(.23,1,.32,1);transform:translateY(8px);white-space:nowrap;display:block;line-height:1}
         
+        /* Kenar yazıları beyaz zeminde belli belirsiz görünecek şekilde ayarlandı */
         .margin-word.visible{opacity:1;transform:translateY(0)}
-        .margin-word--lg{font-size:22px;letter-spacing:.12em}.margin-word--lg.visible{opacity:.20}
-        .margin-word--sm{font-size:15px;letter-spacing:.18em;text-transform:uppercase}.margin-word--sm.visible{opacity:.15}
-        .margin-word--xs{font-size:12px;letter-spacing:.25em;text-transform:uppercase}.margin-word--xs.visible{opacity:.10}
+        .margin-word--lg{font-size:22px;letter-spacing:.12em}.margin-word--lg.visible{opacity:.25}
+        .margin-word--sm{font-size:15px;letter-spacing:.18em;text-transform:uppercase}.margin-word--sm.visible{opacity:.20}
+        .margin-word--xs{font-size:12px;letter-spacing:.25em;text-transform:uppercase}.margin-word--xs.visible{opacity:.15}
         
         .margin-line{display:block;opacity:0;transition:opacity 1s ease .3s}.margin-line.visible{opacity:1}
         .margin-line svg{display:block}.margin-line svg line,.margin-line svg circle{stroke:var(--accent);fill:none}
         
+        /* Şekiller de beyaz zemine karışacak şekilde flulaştırıldı */
         .margin-line svg line, .margin-line svg circle,
         .mobile-margin-line svg line, .mobile-margin-line svg circle {
             stroke-width: 0.8px !important;
-            opacity: 0.15 !important;
+            opacity: 0.18 !important;
         }
         
-        .corridor-vline{position:fixed;top:0;height:100%;width:1px;pointer-events:none;z-index:0;background:linear-gradient(to bottom,transparent 0%,rgba(163,150,136,.15) 20%,rgba(163,150,136,.30) 50%,rgba(163,150,136,.15) 80%,transparent 100%)}
+        /* Koridor sınır çizgileri */
+        .corridor-vline{position:fixed;top:0;height:100%;width:1px;pointer-events:none;z-index:0;background:linear-gradient(to bottom,transparent 0%,rgba(156,139,122,.15) 20%,rgba(156,139,122,.35) 50%,rgba(156,139,122,.15) 80%,transparent 100%)}
         .corridor-vline--left{left:calc((100vw - 680px)/2 - 12px)}.corridor-vline--right{right:calc((100vw - 680px)/2 - 12px)}
         
         @media(max-width:1366px){.margin-texture{display:none}.corridor-vline{display:none}}
         
         .perspective-line{display:block;margin:32px auto 0;max-width:320px;width:100%;height:48px;opacity:0;transform:scaleX(.3);transition:opacity 1.2s ease,transform 1.4s cubic-bezier(.23,1,.32,1)}
         .perspective-line.visible{opacity:1;transform:scaleX(1)}
-        .perspective-line line{stroke:var(--accent);stroke-width:0.8;opacity:0.20 !important}
-        .perspective-line circle{fill:var(--accent);opacity:0.20 !important}
+        .perspective-line line{stroke:var(--accent);stroke-width:0.8;opacity:0.25 !important}
+        .perspective-line circle{fill:var(--accent);opacity:0.25 !important}
         
         .container{max-width:680px;margin:0 auto;padding:0 28px;position:relative;z-index:1}
         header{padding:40px 0 0}
@@ -108,7 +108,7 @@
         .nav-photo{width:36px;height:36px;border-radius:50%;object-fit:cover;object-position:center 20%;display:none}
         @media(max-width:768px){.nav-photo{display:none}.hero-intro .profile-photo{display:block;width:110px;height:110px;min-width:110px;min-height:110px;align-self:flex-start;margin-top:2px}}
         .nav-links{display:flex;gap:8px;font-size:15px}
-        .nav-links a{color:var(--text-light);border:1px solid var(--border);letter-spacing:.03em;transition:color .2s ease,border-color .2s ease,background-color .2s ease;padding:5px 14px;border-radius:4px}.nav-links a:hover{color:var(--text);border-color:var(--accent);background-color:rgba(216,207,196,.25)}
+        .nav-links a{color:var(--text-light);border:1px solid var(--border);letter-spacing:.03em;transition:color .2s ease,border-color .2s ease,background-color .2s ease;padding:5px 14px;border-radius:4px}.nav-links a:hover{color:var(--text);border-color:var(--accent);background-color:rgba(234,226,214,.40)}
         .hero{padding:56px 0 44px}.hero-intro{display:flex;align-items:center;gap:24px;margin-bottom:8px}
         .hero h1{font-size:24px;font-weight:400;line-height:1.45;margin-top:24px;padding-top:24px;border-top:1px solid var(--border);letter-spacing:-.005em;font-style:italic}
         .hero .subtitle{font-size:19px;color:var(--text-light);line-height:1.7;max-width:520px;font-style:italic}
@@ -120,9 +120,9 @@
         .hero-quote-word{display:inline;opacity:0;transform:translateY(4px);transition:opacity .35s ease,transform .4s cubic-bezier(.23,1,.32,1)}
         .hero-quote-word.word-visible{opacity:1;transform:translateY(0)}
         section.depth-0{background-color:transparent}
-        section.depth-1{background-color:rgba(216,207,196,.15);margin-left:-28px;margin-right:-28px;padding-left:28px;padding-right:28px}
-        section.depth-2{background-color:rgba(216,207,196,.25);margin-left:-28px;margin-right:-28px;padding-left:28px;padding-right:28px}
-        section.depth-3{background-color:rgba(216,207,196,.18);margin-left:-28px;margin-right:-28px;padding-left:28px;padding-right:28px}
+        section.depth-1{background-color:rgba(234,226,214,.30);margin-left:-28px;margin-right:-28px;padding-left:28px;padding-right:28px}
+        section.depth-2{background-color:rgba(234,226,214,.50);margin-left:-28px;margin-right:-28px;padding-left:28px;padding-right:28px}
+        section.depth-3{background-color:rgba(234,226,214,.40);margin-left:-28px;margin-right:-28px;padding-left:28px;padding-right:28px}
         .scroll-reveal{opacity:0;transform:translateY(16px);transition:opacity .7s cubic-bezier(.23,1,.32,1),transform .7s cubic-bezier(.23,1,.32,1)}
         .scroll-reveal.revealed{opacity:1;transform:translateY(0)}
         .scroll-reveal:nth-child(2){transition-delay:.08s}.scroll-reveal:nth-child(3){transition-delay:.16s}
@@ -139,7 +139,7 @@
         .essay-list{list-style:none}
         .essay-list li{padding:16px 0;border-bottom:1px solid var(--border);transition:transform .3s cubic-bezier(.23,1,.32,1),background-color .3s ease;margin-left:-8px;margin-right:-8px;padding-left:8px;padding-right:8px;border-radius:2px}
         .essay-list li:first-child{padding-top:0}
-        .essay-list li:hover{transform:translateX(6px);background-color:rgba(216,207,196,.20)}
+        .essay-list li:hover{transform:translateX(6px);background-color:rgba(234,226,214,.40)}
         .essay-list a{border:none;display:flex;justify-content:space-between;align-items:baseline}
         .essay-card{border:none;display:flex;align-items:center;gap:16px;width:100%}
         .essay-thumb{width:64px;height:64px;min-width:64px;border-radius:6px;object-fit:cover;opacity:.85;transition:opacity .2s ease}
@@ -169,17 +169,17 @@
         @media(max-width:1366px){
             .mobile-corridor{display:block;position:fixed;top:0;height:100%;width:1px;pointer-events:none;z-index:0;opacity:0;transition:opacity 1.5s ease}
             .mobile-corridor.visible{opacity:1}
-            .mobile-corridor--left{left:16px;background:linear-gradient(to bottom,transparent 0%,rgba(163,150,136,.15) 15%,rgba(163,150,136,.30) 50%,rgba(163,150,136,.15) 85%,transparent 100%)}
-            .mobile-corridor--right{right:16px;background:linear-gradient(to bottom,transparent 0%,rgba(163,150,136,.15) 15%,rgba(163,150,136,.30) 50%,rgba(163,150,136,.15) 85%,transparent 100%)}
+            .mobile-corridor--left{left:16px;background:linear-gradient(to bottom,transparent 0%,rgba(156,139,122,.15) 15%,rgba(156,139,122,.35) 50%,rgba(156,139,122,.15) 85%,transparent 100%)}
+            .mobile-corridor--right{right:16px;background:linear-gradient(to bottom,transparent 0%,rgba(156,139,122,.15) 15%,rgba(156,139,122,.35) 50%,rgba(156,139,122,.15) 85%,transparent 100%)}
             
             .mobile-margin-texture{display:flex;position:fixed;top:0;height:100%;pointer-events:none;z-index:0;flex-direction:column;padding-top:100px;overflow:visible}
             .mobile-margin-texture--left{left:8px;width:44px;align-items:center}
             .mobile-margin-texture--right{right:8px;width:44px;align-items:center}
             
             .mobile-margin-word{font-family:'Lora',Georgia,serif;font-style:italic;color:var(--accent);writing-mode:vertical-rl;text-orientation:mixed;white-space:nowrap;display:block;line-height:1;opacity:0;transition:opacity 1.2s ease,transform 1.2s cubic-bezier(.23,1,.32,1);transform:translateY(6px)}
-            .mobile-margin-word.visible{transform:translateY(0);opacity:.15}
-            .mobile-margin-word--lg{font-size:15px;letter-spacing:.15em}.mobile-margin-word--lg.visible{opacity:.20}
-            .mobile-margin-word--sm{font-size:11px;letter-spacing:.2em;text-transform:uppercase}.mobile-margin-word--sm.visible{opacity:.12}
+            .mobile-margin-word.visible{transform:translateY(0);opacity:.20}
+            .mobile-margin-word--lg{font-size:15px;letter-spacing:.15em}.mobile-margin-word--lg.visible{opacity:.25}
+            .mobile-margin-word--sm{font-size:11px;letter-spacing:.2em;text-transform:uppercase}.mobile-margin-word--sm.visible{opacity:.18}
             
             .mobile-margin-line{display:block;opacity:0;transition:opacity 1s ease .3s}.mobile-margin-line.visible{opacity:1}
             .mobile-margin-line svg line{stroke:var(--accent);fill:none}
@@ -188,7 +188,7 @@
             section.depth-1,section.depth-2,section.depth-3{margin-left:-64px;margin-right:-64px;padding-left:64px;padding-right:64px}
         }
         @media(max-width:768px){
-            /* Mobil için merkezden kenara beyazlayan degrade */
+            /* Mobil için merkez koyu, kenarlar beyaz degrade */
             body{
                 background-image:linear-gradient(to right, 
                     var(--bg-edge) 0%, 
