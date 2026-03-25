@@ -34,7 +34,6 @@
         @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400;1,500&display=swap');
         *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
         
-        /* GÜNCELLENDİ: Ana metin rengi (--text) eskisine göre belirgin ölçüde açıldı, ferahlatıldı */
         :root{--bg:#FAF8F4;--bg-warm:#F5F1EB;--bg-deep:#EDE8E0;--text:#59514A;--text-light:#8E857C;--accent:#9C8B7A;--accent-hover:#7A6D60;--border:#E8E2D9;--cream:#FDFCFA;--shadow:rgba(60,56,53,0.04);--corridor-line:rgba(156,139,122,0.12);--corridor-line-active:rgba(156,139,122,0.28)}
         
         html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
@@ -47,7 +46,6 @@
         .margin-texture--right{right:0;width:calc((100vw - 680px)/2 - 8px);display:flex;flex-direction:column;align-items:flex-start;padding-left:24px;padding-top:200px}
         .margin-word{font-family:'Lora',Georgia,serif;font-style:italic;color:var(--accent);opacity:0;transition:opacity 1.2s ease,transform 1.2s cubic-bezier(.23,1,.32,1);transform:translateY(8px);white-space:nowrap;display:block;line-height:1}
         
-        /* Şeffaflık (Koyuluk) oranları mobil cihazlarla tamamen eşit */
         .margin-word.visible{opacity:1;transform:translateY(0)}
         .margin-word--lg{font-size:22px;letter-spacing:.12em}.margin-word--lg.visible{opacity:.28}
         .margin-word--sm{font-size:15px;letter-spacing:.18em;text-transform:uppercase}.margin-word--sm.visible{opacity:.24}
@@ -115,8 +113,11 @@
         .link-list a{font-size:16px;display:inline-flex;align-items:baseline;gap:8px}
         .link-arrow{font-size:13px;color:var(--text-light);transition:transform .2s ease;display:inline-block}
         .link-list a:hover .link-arrow{transform:translateX(3px)}
-        .moris-video{max-width:300px;margin:0 auto;border-radius:8px;overflow:hidden;box-shadow:0 2px 16px var(--shadow)}
-        .moris-video iframe{width:100%;aspect-ratio:9/16;border:none;display:block}
+        
+        /* GÜNCELLENDİ: YouTube videosunun mobilde tıklanabilir olması için z-index ve position eklendi */
+        .moris-video{max-width:300px;margin:0 auto;border-radius:8px;overflow:hidden;box-shadow:0 2px 16px var(--shadow);position:relative;z-index:50;-webkit-transform:translateZ(0)}
+        .moris-video iframe{width:100%;aspect-ratio:9/16;border:none;display:block;position:relative;z-index:50}
+        
         .moris-caption{margin-top:16px;text-align:center;font-size:15px;color:var(--text-light);font-style:italic}
         footer{padding:40px 0;border-top:1px solid var(--border);text-align:center}
         footer p{font-size:13px;color:var(--text-light)}
@@ -133,9 +134,11 @@
             .mobile-margin-texture--left{left:0;width:44px;align-items:center}
             .mobile-margin-texture--right{right:0;width:44px;align-items:center}
             .mobile-margin-word{font-family:'Lora',Georgia,serif;font-style:italic;color:var(--accent);writing-mode:vertical-rl;text-orientation:mixed;white-space:nowrap;display:block;line-height:1;opacity:0;transition:opacity 1.2s ease,transform 1.2s cubic-bezier(.23,1,.32,1);transform:translateY(6px)}
+            
             .mobile-margin-word.visible{transform:translateY(0);opacity:.20}
             .mobile-margin-word--lg{font-size:15px;letter-spacing:.15em}.mobile-margin-word--lg.visible{opacity:.28}
             .mobile-margin-word--sm{font-size:11px;letter-spacing:.2em;text-transform:uppercase}.mobile-margin-word--sm.visible{opacity:.24}
+            
             .mobile-margin-line{display:block;opacity:0;transition:opacity 1s ease .3s}.mobile-margin-line.visible{opacity:1}
             .mobile-margin-line svg line{stroke:var(--accent);fill:none}
             .container{padding:0 52px}
