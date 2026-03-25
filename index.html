@@ -34,9 +34,9 @@
         @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400;1,500&display=swap');
         *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
         :root{
-            --bg: #F4F1EA; /* Bej/Beyaz karışımı koridor ve nav arka planı */
-            --bg-box-dark: #E4DCD3; /* Koyu kutu (Bio ve alternatifler) */
-            --bg-box-light: #FCFAF6; /* Açık krem kutu */
+            --bg: #FDFCFB; /* Kenarlar ve yukarısı: Neredeyse beyaz, uçuk krem */
+            --bg-box-dark: #F2EDE4; /* Birinci ton: Yumuşak bej (Bio ve çift bölümler) */
+            --bg-box-light: #FAF8F4; /* İkinci ton: Birinci tonun açığı */
             
             --bg-warm: #F5F1EB;
             --bg-deep: #EDE8E0;
@@ -80,7 +80,6 @@
         .nav-links{display:flex;gap:8px;font-size:15px}
         .nav-links a{color:var(--text-light);border:1px solid var(--border);letter-spacing:.03em;transition:color .2s ease,border-color .2s ease,background-color .2s ease;padding:5px 14px;border-radius:4px}.nav-links a:hover{color:var(--text);border-color:var(--accent);background-color:rgba(232,226,217,.25)}
         
-        /* Hero ve Kutu Düzeni (Güncellendi) */
         .hero {
             padding: 56px 28px 44px 28px;
             margin-left: -28px;
@@ -102,13 +101,8 @@
         section::before{content:'';position:absolute;top:-1px;left:0;width:0;height:1px;background:linear-gradient(to right,transparent,var(--accent) 20%,var(--accent) 80%,transparent);opacity:.4;transition:width 1s cubic-bezier(.23,1,.32,1)}
         section.line-drawn::before{width:100%}
         
-        /* Sıralı Renk Değişimi */
-        section:nth-of-type(odd) {
-            background-color: var(--bg-box-light);
-        }
-        section:nth-of-type(even) {
-            background-color: var(--bg-box-dark);
-        }
+        section:nth-of-type(odd) { background-color: var(--bg-box-light); }
+        section:nth-of-type(even) { background-color: var(--bg-box-dark); }
 
         .hero-quote-word{display:inline;opacity:0;transform:translateY(4px);transition:opacity .35s ease,transform .4s cubic-bezier(.23,1,.32,1)}
         .hero-quote-word.word-visible{opacity:1;transform:translateY(0)}
@@ -153,7 +147,6 @@
         footer{padding:40px 0;border-top:1px solid var(--border);text-align:center}
         footer p{font-size:13px;color:var(--text-light)}
         
-        /* Mobil koridor — kenar dokusu */
         .mobile-corridor{display:none}
         .mobile-margin-texture{display:none}
         
@@ -369,7 +362,6 @@
             if(hq&&iv(hq))stw();
             var p=document.querySelector('.perspective-line');if(p&&iv(p))p.classList.add('visible');
             updateMT();
-            // Mobil koridor çizgileri — hemen belir
             var mc=document.querySelectorAll('.mobile-corridor');
             for(var i=0;i<mc.length;i++)mc[i].classList.add('visible');
         }
