@@ -58,48 +58,45 @@
         header{padding:40px 0 0}
         nav{display:flex;flex-direction:column;gap:10px;padding-bottom:20px;border-bottom:1px solid var(--border)}
         
-        /* İSİM RENGİ DAHA YUMUŞAK YAPILDI */
+        /* İSİM GÜNCELLENDİ (Renk soft biodaki renkle eşit: var(--text-light)) */
         .site-name{font-size:24px;letter-spacing:.02em;text-transform:uppercase;color:var(--text-light);border:none;font-weight:500;display:block}
         
-        .site-logo-row{display:flex;align-items:center;gap:12px;border:none}
+        .site-logo-row{display:flex;align-items:center;gap:10px;border:none}
         
-        /* LOGO YUVARLAK VE SANDVİÇ DÜZENİ */
+        /* LOGO DIŞ ÇEMBERİ VE İÇERİĞİ (Sandviç Sıkıştırması) */
         .site-logo{
-            width:46px;
-            height:46px;
-            border-radius:50%; /* Tam yuvarlak */
+            width:40px;
+            height:40px;
+            border-radius:9px; /* Eski şekle (yuvarlak kare) döndü */
             border:1px solid var(--border);
             background:var(--cream);
             display:flex;
             flex-direction:column;
             align-items:center;
-            justify-content:center;
+            justify-content:center; /* Merkezde sıkıştırmak için */
             flex-shrink:0;
             padding:0;
             position:relative;
-            box-shadow: 0 2px 8px var(--shadow); /* Görseldeki gibi hafif derinlik */
+            gap:0.5px; /* Metinler arası minimal boşluk */
         }
         
-        /* Çizgiler artık daha kısa ve metne daha yakın */
+        /* Çizgiler artık flex akışında ve sandviç gibi sıkıştırıyor */
         .site-logo .line-on-top, .site-logo .line-le-bottom {
             display:block;
             height:1px;
             background-color:var(--text-light); /* Çizgi rengi yumuşatıldı */
-            width:26px; /* Yuvarlağın kenarlarına çarpmaması için daraltıldı */
+            width:100%;
             border:none;
         }
         
-        /* Sandviç Sıkıştırması (Eşit ve dengeli boşluklar) */
-        .site-logo .line-on-top {
-            margin-bottom: 3.5px;
-        }
+        /* Metinler sıkıştırıldı ama ferah bırakıldı */
         .site-logo .logo-on{
             font-family:'Lora',Georgia,serif;
             font-style:italic;
-            font-size:11px;
+            font-size:10px;
             color:var(--text-light);
             line-height:1;
-            margin: 0 0 1px 0; /* Everything ile arasını açtık */
+            margin: 3px 0 0.5px 0; /* Üst çizgi ile sıkıştırma */
         }
         .site-logo .logo-le{
             font-family:'Lora',Georgia,serif;
@@ -109,7 +106,7 @@
             line-height:1.1;
             text-align:center;
             letter-spacing:.02em;
-            margin: 0 0 3.5px 0; /* Alt çizgi ile mesafesi */
+            margin: 0 0 3px 0; /* Alt çizgi ile sıkıştırma */
         }
         
         .site-tagline{font-size:15px;letter-spacing:.04em;font-style:italic;display:flex;align-items:baseline;gap:4px;border:none}
@@ -146,7 +143,7 @@
         .essay-list{list-style:none}
         .essay-list li{padding:16px 0;border-bottom:1px solid var(--border);transition:transform .3s cubic-bezier(.23,1,.32,1),background-color .3s ease;margin-left:-8px;margin-right:-8px;padding-left:8px;padding-right:8px;border-radius:2px}
         .essay-list li:first-child{padding-top:0}
-        .essay-list li:hover{transform:translateX(6px);background-color:rgba(222,214,202,.25)}
+        .essay-list li:hover{transform:translateX(66px);background-color:rgba(222,214,202,.25)}
         .essay-list a{border:none;display:flex;justify-content:space-between;align-items:baseline}
         .essay-card{border:none;display:flex;align-items:center;gap:16px;width:100%}
         .essay-thumb{width:64px;height:64px;min-width:64px;border-radius:6px;object-fit:cover;opacity:.85;transition:opacity .2s ease}
@@ -184,7 +181,7 @@
             .mobile-margin-texture{display:flex;position:fixed;top:0;height:100%;pointer-events:none;z-index:0;flex-direction:column;padding-top:100px;overflow:hidden}
             .mobile-margin-texture--left{left:0;width:44px;align-items:center}
             .mobile-margin-texture--right{right:0;width:44px;align-items:center}
-            .mobile-margin-word{font-family:'Lora',Georgia,serif;font-style:italic;color:var(--accent-cool);writing-mode:vertical-rl;text-orientation:mixed;white-space:nowrap;display:block;line-height:1;opacity:0;transition:opacity 1.2s ease,transform 1.2s cubic-bezier(.23,1,.32,1);transform:translateY(6px)}
+            .mobile-margin-word{font-family:'Lora',Georgia,serif;font-style:italic;color:var(--accent-cool);writing-mode:vertical-rl;text-orientation:mixed;white-space:nowrap;display:block;line-height:1;opacity:0;transition:opacity 1.2s ease,transform 1.2s cubic-bezier(.23,1,.32,1);transform:translateY(66px)}
             .mobile-margin-word.visible{transform:translateY(0);opacity:.24}
             .mobile-margin-word--lg{font-size:15px;letter-spacing:.15em}.mobile-margin-word--lg.visible{opacity:.35}
             .mobile-margin-word--sm{font-size:11px;letter-spacing:.2em;text-transform:uppercase}.mobile-margin-word--sm.visible{opacity:.30}
@@ -204,12 +201,10 @@
             .nav-links a{padding:4px 10px}
             .site-tagline{font-size:12px}.tagline-on{font-size:13px}.tagline-green{font-size:12px}
             
-            /* Mobil logo boyutları ve oranları */
-            .site-logo{width:38px;height:38px;}
-            .site-logo .line-on-top, .site-logo .line-le-bottom { width: 22px; }
-            .site-logo .line-on-top { margin-bottom: 2.5px; }
-            .site-logo .logo-on{font-size:9.5px; margin: 0 0 1px 0;}
-            .site-logo .logo-le{font-size:3px; margin: 0 0 2.5px 0;}
+            /* Mobil logo ve sandviç düzeni */
+            .site-logo{width:34px;height:34px;border-radius:7px;}
+            .site-logo .logo-on{font-size:8.5px; margin: 2px 0 0.5px 0;}
+            .site-logo .logo-le{font-size:3px; margin: 0 0 2px 0;}
             
             .hero-intro .profile-photo{display:block;width:110px;height:110px;min-width:110px;min-height:110px;align-self:flex-start;margin-top:2px}
             .essay-thumb{width:52px;height:52px;min-width:52px}.essay-card-subtitle{font-size:13px}
