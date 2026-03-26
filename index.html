@@ -25,7 +25,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="On Life & Everything">
     
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='9' fill='%23FDFCFA' stroke='%23E8E2D9' stroke-width='1'/%3E%3Cline x1='0' y1='7' x2='40' y2='7' stroke='%238A8279' stroke-width='1.5'/%3E%3Ctext x='20' y='21' font-family='Lora, Georgia, serif' font-style='italic' font-size='12' fill='%238A8279' text-anchor='middle'%3EOn%3C/text%3E%3Ctext x='20' y='27' font-family='Lora, Georgia, serif' font-style='italic' font-size='5' fill='%236B8F8A' text-anchor='middle'%3ELife %26%3C/text%3E%3Ctext x='20' y='32' font-family='Lora, Georgia, serif' font-style='italic' font-size='5' fill='%236B8F8A' text-anchor='middle'%3EEverything%3C/text%3E%3Cline x1='0' y1='34' x2='40' y2='34' stroke='%238A8279' stroke-width='1.5'/%3E%3C/svg%3E">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Hakan Altun","jobTitle":"Lecturer and Writer","affiliation":{"@type":"Organization","name":"Yeditepe University"},"url":"https://hakaanaltun.github.io","sameAs":["https://medium.com/@hakanaltunn","https://www.goodreads.com/author/show/69006405.Hakan_Altun","https://www.amazon.com/stores/author/B0GPY444LW"],"knowsAbout":["Philosophy","Psychology","Creative Writing"],"description":"Lecturer and writer based in İstanbul, exploring the architectures we build inside ourselves."}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Forgetting the Color of Nothingness","author":{"@type":"Person","name":"Hakan Altun"},"url":"https://www.amazon.com/Forgetting-Color-Nothingness-Hakan-Altun-ebook/dp/B0GPXTV6CP","workExample":[{"@type":"Book","isbn":"","bookFormat":"https://schema.org/EBook","potentialAction":{"@type":"ReadAction","target":{"@type":"EntryPoint","urlTemplate":"https://www.amazon.com/Forgetting-Color-Nothingness-Hakan-Altun-ebook/dp/B0GPXTV6CP"}}},{"@type":"Book","bookFormat":"https://schema.org/Paperback","potentialAction":{"@type":"ReadAction","target":{"@type":"EntryPoint","urlTemplate":"https://www.amazon.com/dp/B0GSLJXY6P"}}}],"genre":"Philosophy","inLanguage":"en","description":"A speculative philosophical work structured as a loop from the Big Bang through a domestic İstanbul scene to a post-singularity future."}</script>
@@ -58,17 +58,17 @@
         header{padding:40px 0 0}
         nav{display:flex;flex-direction:column;gap:10px;padding-bottom:20px;border-bottom:1px solid var(--border)}
         
-        /* İSİM GÜNCELLENDİ (Rengi açıldı: var(--accent-hover) kullanıldı) */
+        /* İSİM GÜNCELLENDİ */
         .site-name{font-size:24px;letter-spacing:.02em;text-transform:uppercase;color:var(--accent-hover);border:none;font-weight:500;display:block}
         
         .site-logo-row{display:flex;align-items:center;gap:10px;border:none}
         
-        /* LOGO VE İÇİNDEKİ YAZILAR */
-        .site-logo{width:40px;height:40px;border-radius:9px;border:1px solid var(--border);background:var(--cream);display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;padding:0;position:relative;overflow:hidden;}
+        /* LOGO VE İÇİNDEKİ YAZILAR (overflow: hidden kaldırıldı!) */
+        .site-logo{width:40px;height:40px;border-radius:9px;border:1px solid var(--border);background:var(--cream);display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;padding:0;position:relative;}
         .site-logo .logo-on{font-family:'Lora',Georgia,serif;font-style:italic;font-size:12px;color:var(--text-light);line-height:1;margin:0 0 1px 0}
         .site-logo .logo-le{font-family:'Lora',Georgia,serif;font-style:italic;font-size:5px;color:var(--accent-cool);line-height:1.1;text-align:center;letter-spacing:.02em;}
         
-        /* ÇİZGİLER (1.5px yapılarak kesin olarak eşitlendi) */
+        /* ÇİZGİLER */
         .site-logo .line-on-top, .site-logo .line-le-bottom {
             display:block;
             height:1.5px;
