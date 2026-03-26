@@ -58,24 +58,26 @@
         header{padding:40px 0 0}
         nav{display:flex;flex-direction:column;gap:10px;padding-bottom:20px;border-bottom:1px solid var(--border)}
         
-        /* İSİM GÜNCELLENDİ (Renk bio ile aynı: var(--text)) */
-        .site-name{font-size:24px;letter-spacing:.02em;text-transform:uppercase;color:var(--text);border:none;font-weight:500;display:block}
+        /* İSİM GÜNCELLENDİ (Renk daha açık/soft olan bio rengi: var(--text-light)) */
+        .site-name{font-size:24px;letter-spacing:.02em;text-transform:uppercase;color:var(--text-light);border:none;font-weight:500;display:block}
         
         .site-logo-row{display:flex;align-items:center;gap:10px;border:none}
         
         /* LOGO VE İÇİNDEKİ YAZILAR */
-        .site-logo{width:40px;height:40px;border-radius:9px;border:1px solid var(--border);background:var(--cream);display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;padding:0;position:relative;}
-        .site-logo .logo-on{font-family:'Lora',Georgia,serif;font-style:italic;font-size:12px;color:var(--text-light);line-height:1;margin:0 0 1px 0}
-        .site-logo .logo-le{font-family:'Lora',Georgia,serif;font-style:italic;font-size:5px;color:var(--accent-cool);line-height:1.1;text-align:center;letter-spacing:.02em;}
+        .site-logo{width:40px;height:40px;border-radius:9px;border:1px solid var(--border);background:var(--cream);display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;padding:0;position:relative;gap:1px;}
         
-        /* ÇİZGİLER (1px'e inceltildi, renk bio rengi, ortalama yapıldı) */
+        /* Metinler küçültüldü ve aralarındaki boşluk azaltıldı */
+        .site-logo .logo-on{font-family:'Lora',Georgia,serif;font-style:italic;font-size:10px;color:var(--text-light);line-height:1;margin:0;}
+        .site-logo .logo-le{font-family:'Lora',Georgia,serif;font-style:italic;font-size:3.5px;color:var(--accent-cool);line-height:1.1;text-align:center;letter-spacing:.02em;margin:0;}
+        
+        /* ÇİZGİLER (1px ince, renk var(--text-light), daraltıldı ve ortalandı) */
         .site-logo .line-on-top, .site-logo .line-le-bottom {
             display:block;
             height:1px;
-            background-color:var(--text);
+            background-color:var(--text-light);
             position:absolute;
-            left:0;
-            width:100%;
+            width:60%; /* Daraltıldı */
+            left:20%; /* Ortalandı */
             border:none;
         }
         .site-logo .line-on-top { top: 5px; }
@@ -127,8 +129,8 @@
         .essay-title{font-size:19px;font-style:italic;color:var(--text);transition:color .2s ease}
         .essay-list a:hover .essay-title,.essay-card:hover .essay-title{color:var(--accent-hover)}
         
-        /* ESSAY NUMARALARI GÜNCELLENDİ (Renk bio ile aynı: var(--text)) */
-        .essay-number{font-size:13px;color:var(--text);flex-shrink:0;margin-left:16px}
+        /* ESSAY NUMARALARI GÜNCELLENDİ (Renk: var(--text-light)) */
+        .essay-number{font-size:13px;color:var(--text-light);flex-shrink:0;margin-left:16px}
         
         .series-note{margin-top:20px;font-size:15px;color:var(--text-light);font-style:italic}
         .about-text{font-size:18px;color:var(--text)}.about-text p{max-width:560px}
@@ -174,11 +176,17 @@
             .nav-links{gap:6px;font-size:13px}
             .nav-links a{padding:4px 10px}
             .site-tagline{font-size:12px}.tagline-on{font-size:13px}.tagline-green{font-size:12px}
-            .site-logo{width:34px;height:34px;border-radius:7px}
-            .site-logo .logo-on{font-size:10px}
-            .site-logo .logo-le{font-size:4px}
             
-            /* Mobil boyut için çizgilerin eşit mesafede kalması adına ayarlandı */
+            /* Mobil logo ve metin boyutları, çizgiler daraltıldı */
+            .site-logo{width:34px;height:34px;border-radius:7px;gap:0.5px;}
+            .site-logo .logo-on{font-size:8.5px}
+            .site-logo .logo-le{font-size:3px}
+            
+            /* Mobil daraltma ve konum */
+            .site-logo .line-on-top, .site-logo .line-le-bottom {
+                width: 60%; 
+                left: 20%;
+            }
             .site-logo .line-on-top { top: 4px; }
             .site-logo .line-le-bottom { bottom: 4px; }
             
