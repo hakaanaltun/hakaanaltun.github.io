@@ -24,11 +24,13 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="On Life & Everything">
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='38' height='38' x='1' y='1' rx='9' fill='%23FDFCFA' stroke='%23E8E2D9' stroke-width='1'/%3E%3Cline x1='12' y1='6' x2='28' y2='6' stroke='%238A8279' stroke-width='1'/%3E%3Ctext x='20' y='19' font-family='Lora, Georgia, serif' font-style='italic' font-size='14' fill='%238A8279' text-anchor='middle'%3EOn%3C/text%3E%3Ctext x='20' y='27' font-family='Lora, Georgia, serif' font-style='italic' font-size='5.5' fill='%236B8F8A' text-anchor='middle'%3ELife %26%3C/text%3E%3Ctext x='20' y='33' font-family='Lora, Georgia, serif' font-style='italic' font-size='5.5' fill='%236B8F8A' text-anchor='middle'%3EEverything%3C/text%3E%3Cline x1='10' y1='36' x2='30' y2='36' stroke='%238A8279' stroke-width='1'/%3E%3C/svg%3E">
     <link rel="apple-touch-icon" href="icon-192.png">
     <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
     <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
+    
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Hakan Altun","jobTitle":"Lecturer and Writer","affiliation":{"@type":"Organization","name":"Yeditepe University"},"url":"https://hakaanaltun.github.io","sameAs":["https://medium.com/@hakanaltunn","https://www.goodreads.com/author/show/69006405.Hakan_Altun","https://www.amazon.com/stores/author/B0GPY444LW"],"knowsAbout":["Philosophy","Psychology","Creative Writing"],"description":"Lecturer and writer based in İstanbul, exploring the architectures we build inside ourselves."}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Forgetting the Color of Nothingness","author":{"@type":"Person","name":"Hakan Altun"},"url":"https://www.amazon.com/Forgetting-Color-Nothingness-Hakan-Altun-ebook/dp/B0GPXTV6CP","workExample":[{"@type":"Book","isbn":"","bookFormat":"https://schema.org/EBook","potentialAction":{"@type":"ReadAction","target":{"@type":"EntryPoint","urlTemplate":"https://www.amazon.com/Forgetting-Color-Nothingness-Hakan-Altun-ebook/dp/B0GPXTV6CP"}}},{"@type":"Book","bookFormat":"https://schema.org/Paperback","potentialAction":{"@type":"ReadAction","target":{"@type":"EntryPoint","urlTemplate":"https://www.amazon.com/dp/B0GSLJXY6P"}}}],"genre":"Philosophy","inLanguage":"en","description":"A speculative philosophical work structured as a loop from the Big Bang through a domestic İstanbul scene to a post-singularity future."}</script>
     <style>
@@ -59,34 +61,39 @@
         .container{max-width:680px;margin:0 auto;padding:0 28px;position:relative;z-index:1}
         header{padding:40px 0 0}
         nav{display:flex;flex-direction:column;gap:10px;padding-bottom:20px;border-bottom:1px solid var(--border)}
-        .site-name{font-size:17px;letter-spacing:.08em;text-transform:uppercase;color:var(--text);border:none;font-weight:normal;display:block}
+        
+        /* İSİM BOYUTU GÜNCELLENDİ (Eski: 17px, Yeni: 24px) */
+        .site-name{font-size:24px;letter-spacing:.08em;text-transform:uppercase;color:var(--text);border:none;font-weight:normal;display:block}
+        
         .site-logo-row{display:flex;align-items:center;gap:10px;border:none}
-        /* Site logosu — Tarife göre yeniden tasarlandı. Kutu border-radius korunurken iç renkler ve çizgiler eklendi. Çizgiler JS ile metin genişliğine ayarlanacak */
+        
+        /* LOGO VE İÇİNDEKİ YAZILAR/ÇİZGİLER GÜNCELLENDİ */
         .site-logo{width:40px;height:40px;border-radius:9px;border:1px solid var(--border);background:var(--cream);display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;padding:2px 4px;gap:0;position:relative}
-        .site-logo .logo-on{font-family:'Lora',Georgia,serif;font-style:italic;font-size:14px;color:var(--bg);/* Krem */line-height:1;margin:1px 0}
-        .site-logo .logo-le{font-family:'Lora',Georgia,serif;font-size:6px;color:var(--accent-cool);/* Petrol yeşili */line-height:1.1;text-align:center;letter-spacing:.02em;margin-top:2px}
-        /* Yeni çizgiler — JS ile genişlikleri ayarlanacak */
+        .site-logo .logo-on{font-family:'Lora',Georgia,serif;font-style:italic;font-size:14px;color:var(--text-light);line-height:1;margin:1px 0}
+        .site-logo .logo-le{font-family:'Lora',Georgia,serif;font-style:italic;font-size:6px;color:var(--accent-cool);line-height:1.1;text-align:center;letter-spacing:.02em;margin-top:2px}
+        
+        /* ÇİZGİLER (Artık ikisi de dışarıdaki "On" rengi olan var(--text-light) renginde) */
         .site-logo .line-on-top, .site-logo .line-le-bottom {
             display:block;
             height:1px;
-            background-color:var(--bg);/* Krem */
+            background-color:var(--text-light);
             position:absolute;
             left:50%;
             transform:translateX(-50%);
             border:none;
         }
-        .site-logo .line-on-top {
-            top: 5px; /* Kutunun tavanından biraz aşağıda */
-        }
-        .site-logo .line-le-bottom {
-            bottom: 5px; /* Kutunun tabanından biraz yukarıda */
-        }
+        .site-logo .line-on-top { top: 5px; }
+        .site-logo .line-le-bottom { bottom: 5px; }
+        
         .site-tagline{font-size:15px;letter-spacing:.04em;font-style:italic;display:flex;align-items:baseline;gap:4px;border:none}
         .tagline-on{color:var(--text-light);font-size:16px}.tagline-green{color:var(--accent-cool);font-size:15px}
         .nav-links{display:flex;gap:8px;font-size:15px}
         .nav-links a{color:var(--text-light);border:1px solid var(--border);letter-spacing:.03em;transition:color .2s ease,border-color .2s ease,background-color .2s ease;padding:5px 14px;border-radius:4px}.nav-links a:hover{color:var(--text);border-color:var(--accent);background-color:rgba(232,226,217,.25)}
         .hero{padding:56px 0 44px}.hero-intro{display:flex;align-items:center;gap:24px;margin-bottom:8px}
-        .hero h1{font-size:24px;font-weight:400;line-height:1.45;margin-top:24px;padding-top:24px;border-top:1px solid var(--border);letter-spacing:-.005em;font-style:italic}
+        
+        /* ALINTI BOYUTU GÜNCELLENDİ (Eski: 24px, Yeni: 17px) */
+        .hero h1{font-size:17px;font-weight:400;line-height:1.45;margin-top:24px;padding-top:24px;border-top:1px solid var(--border);letter-spacing:-.005em;font-style:italic}
+        
         .hero .subtitle{font-size:19px;color:var(--text-light);line-height:1.7;max-width:520px;font-style:italic}
         section{padding:44px 0;border-top:1px solid var(--border);transition:background-color .6s ease;position:relative}
         section::before{content:'';position:absolute;top:-1px;left:0;width:0;height:1px;background:linear-gradient(to right,transparent,var(--accent) 20%,var(--accent) 80%,transparent);opacity:.4;transition:width 1s cubic-bezier(.23,1,.32,1)}
@@ -159,14 +166,17 @@
             section.depth-1,section.depth-2,section.depth-3{margin-left:-52px;margin-right:-52px;padding-left:52px;padding-right:52px}
         }
         @media(max-width:768px){
-            .hero h1{font-size:20px}.hero{padding:40px 0 32px}section{padding:36px 0}
+            /* MOBİL İÇİN HİYERARŞİ YER DEĞİŞİMİ */
+            .site-name{font-size:20px} /* Eski: 14px */
+            .hero h1{font-size:14px} /* Eski: 20px */
+            
+            .hero{padding:40px 0 32px}section{padding:36px 0}
             .hero-intro{gap:12px}.hero .subtitle{font-size:16px;line-height:1.7}
             .book-layout{grid-template-columns:140px 1fr;gap:24px}
             .nav-links{gap:6px;font-size:13px}
-            .nav-links a{padding:4px 10px}.site-name{font-size:14px}
+            .nav-links a{padding:4px 10px}
             .site-tagline{font-size:12px}.tagline-on{font-size:13px}.tagline-green{font-size:12px}
             .site-logo{width:34px;height:34px;border-radius:7px}.site-logo .logo-on{font-size:12px}.site-logo .logo-le{font-size:5px}
-            /* Mobil logo çizgileri — JS ile ayarlanacak */
             .site-logo .line-on-top { top: 4px; }
             .site-logo .line-le-bottom { bottom: 4px; }
             .hero-intro .profile-photo{display:block;width:110px;height:110px;min-width:110px;min-height:110px;align-self:flex-start;margin-top:2px}
@@ -246,7 +256,7 @@
                 <span class="site-logo">
                     <span class="line-on-top"></span>
                     <span class="logo-on">On</span>
-                    <span class="logo-le">Life & Everything</span>
+                    <span class="logo-le">Life &<br>Everything</span>
                     <span class="line-le-bottom"></span>
                 </span>
                 <span class="site-tagline"><span class="tagline-on">On </span><span class="tagline-green">Life & Everything</span></span>
@@ -354,10 +364,8 @@
             if(hq&&iv(hq))stw();
             var p=document.querySelector('.perspective-line');if(p&&iv(p))p.classList.add('visible');
             updateMT();
-            // Mobil koridor çizgileri — hemen belir
             var mc=document.querySelectorAll('.mobile-corridor');
             for(var i=0;i<mc.length;i++)mc[i].classList.add('visible');
-            // Logo çizgilerini metin genişliğine göre ayarla
             var logoOn = document.querySelector('.site-logo .logo-on');
             var logoLe = document.querySelector('.site-logo .logo-le');
             var lineTop = document.querySelector('.site-logo .line-on-top');
