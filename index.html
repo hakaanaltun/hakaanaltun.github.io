@@ -25,7 +25,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="On Life & Everything">
     
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='38' height='38' x='1' y='1' rx='9' fill='%23FDFCFA' stroke='%23E8E2D9' stroke-width='1'/%3E%3Cline x1='12' y1='6' x2='28' y2='6' stroke='%238A8279' stroke-width='1'/%3E%3Ctext x='20' y='19' font-family='Lora, Georgia, serif' font-style='italic' font-size='14' fill='%238A8279' text-anchor='middle'%3EOn%3C/text%3E%3Ctext x='20' y='27' font-family='Lora, Georgia, serif' font-style='italic' font-size='5.5' fill='%236B8F8A' text-anchor='middle'%3ELife %26%3C/text%3E%3Ctext x='20' y='33' font-family='Lora, Georgia, serif' font-style='italic' font-size='5.5' fill='%236B8F8A' text-anchor='middle'%3EEverything%3C/text%3E%3Cline x1='10' y1='36' x2='30' y2='36' stroke='%238A8279' stroke-width='1'/%3E%3C/svg%3E">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='9' fill='%23FDFCFA' stroke='%23E8E2D9' stroke-width='1'/%3E%3Cline x1='0' y1='7' x2='40' y2='7' stroke='%238A8279' stroke-width='1'/%3E%3Ctext x='20' y='21' font-family='Lora, Georgia, serif' font-style='italic' font-size='12' fill='%238A8279' text-anchor='middle'%3EOn%3C/text%3E%3Ctext x='20' y='27' font-family='Lora, Georgia, serif' font-style='italic' font-size='5' fill='%236B8F8A' text-anchor='middle'%3ELife %26%3C/text%3E%3Ctext x='20' y='32' font-family='Lora, Georgia, serif' font-style='italic' font-size='5' fill='%236B8F8A' text-anchor='middle'%3EEverything%3C/text%3E%3Cline x1='0' y1='34' x2='40' y2='34' stroke='%238A8279' stroke-width='1'/%3E%3C/svg%3E">
     <link rel="apple-touch-icon" href="icon-192.png">
     <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
     <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
@@ -62,28 +62,28 @@
         header{padding:40px 0 0}
         nav{display:flex;flex-direction:column;gap:10px;padding-bottom:20px;border-bottom:1px solid var(--border)}
         
-        /* İSİM BOYUTU GÜNCELLENDİ (Eski: 17px, Yeni: 24px) */
-        .site-name{font-size:24px;letter-spacing:.08em;text-transform:uppercase;color:var(--text);border:none;font-weight:normal;display:block}
+        /* İSİM GÜNCELLENDİ (Boyut: 24px, Kalınlık artırıldı, Genişlik kısaltıldı) */
+        .site-name{font-size:24px;letter-spacing:.02em;text-transform:uppercase;color:var(--text);border:none;font-weight:500;display:block}
         
         .site-logo-row{display:flex;align-items:center;gap:10px;border:none}
         
-        /* LOGO VE İÇİNDEKİ YAZILAR/ÇİZGİLER GÜNCELLENDİ */
-        .site-logo{width:40px;height:40px;border-radius:9px;border:1px solid var(--border);background:var(--cream);display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;padding:2px 4px;gap:0;position:relative}
-        .site-logo .logo-on{font-family:'Lora',Georgia,serif;font-style:italic;font-size:14px;color:var(--text-light);line-height:1;margin:1px 0}
-        .site-logo .logo-le{font-family:'Lora',Georgia,serif;font-style:italic;font-size:6px;color:var(--accent-cool);line-height:1.1;text-align:center;letter-spacing:.02em;margin-top:2px}
+        /* LOGO VE İÇİNDEKİ YAZILAR GÜNCELLENDİ (Daha küçük, merkezde, taşmayı önleyen yapı) */
+        .site-logo{width:40px;height:40px;border-radius:9px;border:1px solid var(--border);background:var(--cream);display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;padding:0;position:relative;overflow:hidden;}
+        .site-logo .logo-on{font-family:'Lora',Georgia,serif;font-style:italic;font-size:12px;color:var(--text-light);line-height:1;margin:0 0 1px 0}
+        .site-logo .logo-le{font-family:'Lora',Georgia,serif;font-style:italic;font-size:5px;color:var(--accent-cool);line-height:1.1;text-align:center;letter-spacing:.02em;}
         
-        /* ÇİZGİLER (Artık ikisi de dışarıdaki "On" rengi olan var(--text-light) renginde) */
+        /* ÇİZGİLER (Tam boy, aynı renk, aynı kalınlık, tavan ve tabana yakın) */
         .site-logo .line-on-top, .site-logo .line-le-bottom {
             display:block;
             height:1px;
             background-color:var(--text-light);
             position:absolute;
-            left:50%;
-            transform:translateX(-50%);
+            left:0;
+            width:100%;
             border:none;
         }
-        .site-logo .line-on-top { top: 5px; }
-        .site-logo .line-le-bottom { bottom: 5px; }
+        .site-logo .line-on-top { top: 6px; }
+        .site-logo .line-le-bottom { bottom: 6px; }
         
         .site-tagline{font-size:15px;letter-spacing:.04em;font-style:italic;display:flex;align-items:baseline;gap:4px;border:none}
         .tagline-on{color:var(--text-light);font-size:16px}.tagline-green{color:var(--accent-cool);font-size:15px}
@@ -91,8 +91,8 @@
         .nav-links a{color:var(--text-light);border:1px solid var(--border);letter-spacing:.03em;transition:color .2s ease,border-color .2s ease,background-color .2s ease;padding:5px 14px;border-radius:4px}.nav-links a:hover{color:var(--text);border-color:var(--accent);background-color:rgba(232,226,217,.25)}
         .hero{padding:56px 0 44px}.hero-intro{display:flex;align-items:center;gap:24px;margin-bottom:8px}
         
-        /* ALINTI BOYUTU GÜNCELLENDİ (Eski: 24px, Yeni: 17px) */
-        .hero h1{font-size:17px;font-weight:400;line-height:1.45;margin-top:24px;padding-top:24px;border-top:1px solid var(--border);letter-spacing:-.005em;font-style:italic}
+        /* ALINTI BOYUTU BİYOGRAFİ İLE EŞİTLENDİ (19px) */
+        .hero h1{font-size:19px;font-weight:400;line-height:1.5;margin-top:24px;padding-top:24px;border-top:1px solid var(--border);font-style:italic}
         
         .hero .subtitle{font-size:19px;color:var(--text-light);line-height:1.7;max-width:520px;font-style:italic}
         section{padding:44px 0;border-top:1px solid var(--border);transition:background-color .6s ease;position:relative}
@@ -166,9 +166,9 @@
             section.depth-1,section.depth-2,section.depth-3{margin-left:-52px;margin-right:-52px;padding-left:52px;padding-right:52px}
         }
         @media(max-width:768px){
-            /* MOBİL İÇİN HİYERARŞİ YER DEĞİŞİMİ */
-            .site-name{font-size:20px} /* Eski: 14px */
-            .hero h1{font-size:14px} /* Eski: 20px */
+            /* MOBİL İÇİN DÜZENLEMELER */
+            .site-name{font-size:20px; letter-spacing:.02em;}
+            .hero h1{font-size:16px}
             
             .hero{padding:40px 0 32px}section{padding:36px 0}
             .hero-intro{gap:12px}.hero .subtitle{font-size:16px;line-height:1.7}
@@ -176,9 +176,11 @@
             .nav-links{gap:6px;font-size:13px}
             .nav-links a{padding:4px 10px}
             .site-tagline{font-size:12px}.tagline-on{font-size:13px}.tagline-green{font-size:12px}
-            .site-logo{width:34px;height:34px;border-radius:7px}.site-logo .logo-on{font-size:12px}.site-logo .logo-le{font-size:5px}
-            .site-logo .line-on-top { top: 4px; }
-            .site-logo .line-le-bottom { bottom: 4px; }
+            .site-logo{width:34px;height:34px;border-radius:7px}
+            .site-logo .logo-on{font-size:10px}
+            .site-logo .logo-le{font-size:4px}
+            .site-logo .line-on-top { top: 5px; }
+            .site-logo .line-le-bottom { bottom: 5px; }
             .hero-intro .profile-photo{display:block;width:110px;height:110px;min-width:110px;min-height:110px;align-self:flex-start;margin-top:2px}
             .essay-thumb{width:52px;height:52px;min-width:52px}.essay-card-subtitle{font-size:13px}
             .margin-texture{display:none}.corridor-vline{display:none}
@@ -366,12 +368,6 @@
             updateMT();
             var mc=document.querySelectorAll('.mobile-corridor');
             for(var i=0;i<mc.length;i++)mc[i].classList.add('visible');
-            var logoOn = document.querySelector('.site-logo .logo-on');
-            var logoLe = document.querySelector('.site-logo .logo-le');
-            var lineTop = document.querySelector('.site-logo .line-on-top');
-            var lineBottom = document.querySelector('.site-logo .line-le-bottom');
-            if (logoOn && lineTop) lineTop.style.width = logoOn.offsetWidth + 'px';
-            if (logoLe && lineBottom) lineBottom.style.width = logoLe.offsetWidth + 'px';
         }
         var tk=false;
         window.addEventListener('scroll',function(){if(!tk){requestAnimationFrame(function(){ta();tk=false;});tk=true;}},{passive:true});
