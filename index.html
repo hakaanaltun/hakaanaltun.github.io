@@ -56,32 +56,31 @@
         .perspective-line line{stroke:var(--accent-cool);stroke-width:.8;opacity:.35}.perspective-line circle{fill:var(--accent-cool);opacity:.25}
         .container{max-width:680px;margin:0 auto;padding:0 28px;position:relative;z-index:1}
         header{padding:40px 0 0}
-        nav{display:flex;flex-direction:column;gap:10px;padding-bottom:20px;border-bottom:1px solid var(--border)}
         
-        /* İSİM GÜNCELLENDİ (Renk daha açık/soft olan bio rengi: var(--text-light)) */
+        /* NAV GÜNCELLENDİ (Dikey boşluklar eşitlendi) */
+        nav{display:flex;flex-direction:column;gap:15px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+        
+        /* İSİM GÜNCELLENDİ (Renk soft/açık bio rengi: var(--text-light), Koyu değil!) */
         .site-name{font-size:24px;letter-spacing:.02em;text-transform:uppercase;color:var(--text-light);border:none;font-weight:500;display:block}
         
         .site-logo-row{display:flex;align-items:center;gap:10px;border:none}
         
         /* LOGO VE İÇİNDEKİ YAZILAR */
-        .site-logo{width:40px;height:40px;border-radius:9px;border:1px solid var(--border);background:var(--cream);display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;padding:0;position:relative;gap:1px;}
+        .site-logo{width:40px;height:40px;border-radius:9px;border:1px solid var(--border);background:var(--cream);display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;padding:2px 0;position:relative;gap:3px; /* Yazılar ve çizgiler arası dikey denge */}
         
         /* Metinler küçültüldü ve aralarındaki boşluk azaltıldı */
         .site-logo .logo-on{font-family:'Lora',Georgia,serif;font-style:italic;font-size:10px;color:var(--text-light);line-height:1;margin:0;}
         .site-logo .logo-le{font-family:'Lora',Georgia,serif;font-style:italic;font-size:3.5px;color:var(--accent-cool);line-height:1.1;text-align:center;letter-spacing:.02em;margin:0;}
         
-        /* ÇİZGİLER (1px ince, renk var(--text-light), daraltıldı, ortalandı ve içeri alındı) */
-        .site-logo .line-on-top, .site-logo .line-le-bottom {
+        /* ÇİZGİLER GÜNCELLENDİ (Renk soft/açık var(--text-light), Sol kenardan sağ kenara tam uzanıyor, Sandviç gibi sıkıştırıyor, temas etmiyor) */
+        .site-logo .sandwich-line {
             display:block;
             height:1px;
             background-color:var(--text-light);
-            position:absolute;
-            width:100%; /* Sol kenardan sağ kenara */
-            left:0; /* Sol kenardan başla */
+            width:100%; /* Sol kenardan sağ kenara uzan */
+            margin:0;
             border:none;
         }
-        .site-logo .line-on-top { top: 10px; } /* Üstten içeri al */
-        .site-logo .line-le-bottom { bottom: 10px; } /* Alttan içeri al */
         
         .site-tagline{font-size:15px;letter-spacing:.04em;font-style:italic;display:flex;align-items:baseline;gap:4px;border:none}
         .tagline-on{color:var(--text-light);font-size:16px}.tagline-green{color:var(--accent-cool);font-size:15px}
@@ -129,7 +128,7 @@
         .essay-title{font-size:19px;font-style:italic;color:var(--text);transition:color .2s ease}
         .essay-list a:hover .essay-title,.essay-card:hover .essay-title{color:var(--accent-hover)}
         
-        /* ESSAY NUMARALARI GÜNCELLENDİ (Renk: var(--text-light)) */
+        /* ESSAY NUMARALARI GÜNCELLENDİ (Renk soft/açık var(--text-light), Koyu değil!) */
         .essay-number{font-size:13px;color:var(--text-light);flex-shrink:0;margin-left:16px}
         
         .series-note{margin-top:20px;font-size:15px;color:var(--text-light);font-style:italic}
@@ -177,18 +176,14 @@
             .nav-links a{padding:4px 10px}
             .site-tagline{font-size:12px}.tagline-on{font-size:13px}.tagline-green{font-size:12px}
             
-            /* Mobil logo ve metin boyutları, çizgiler daraltıldı */
-            .site-logo{width:34px;height:34px;border-radius:7px;gap:0.5px;}
+            /* Mobil logo ve metin boyutları, Çizgiler sol kenardan sağ kenara uzanıyor, Sandviç etkisi, Temassız, Ortalanmış */
+            .site-logo{width:34px;height:34px;border-radius:7px;gap:2px;padding:1.5px 0;}
             .site-logo .logo-on{font-size:8.5px}
             .site-logo .logo-le{font-size:3px}
             
-            /* Mobil daraltma, içeri alma ve konum */
-            .site-logo .line-on-top, .site-logo .line-le-bottom {
+            .site-logo .sandwich-line {
                 width: 100%; /* Sol kenardan sağ kenara */
-                left: 0; /* Sol kenardan başla */
             }
-            .site-logo .line-on-top { top: 8px; } /* Üstten içeri al */
-            .site-logo .line-le-bottom { bottom: 8px; } /* Alttan içeri al */
             
             .hero-intro .profile-photo{display:block;width:110px;height:110px;min-width:110px;min-height:110px;align-self:flex-start;margin-top:2px}
             .essay-thumb{width:52px;height:52px;min-width:52px}.essay-card-subtitle{font-size:13px}
@@ -265,10 +260,10 @@
             <span class="site-name">Hakan Altun</span>
             <a href="#" class="site-logo-row">
                 <span class="site-logo">
-                    <span class="line-on-top"></span>
+                    <span class="sandwich-line top"></span>
                     <span class="logo-on">On</span>
                     <span class="logo-le">Life &<br>Everything</span>
-                    <span class="line-le-bottom"></span>
+                    <span class="sandwich-line bottom"></span>
                 </span>
                 <span class="site-tagline"><span class="tagline-on">On </span><span class="tagline-green">Life & Everything</span></span>
             </a>
