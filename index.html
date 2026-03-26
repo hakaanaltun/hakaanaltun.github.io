@@ -61,10 +61,26 @@
         nav{display:flex;flex-direction:column;gap:10px;padding-bottom:20px;border-bottom:1px solid var(--border)}
         .site-name{font-size:17px;letter-spacing:.08em;text-transform:uppercase;color:var(--text);border:none;font-weight:normal;display:block}
         .site-logo-row{display:flex;align-items:center;gap:10px;border:none}
-        .site-logo{width:40px;height:40px;border-radius:9px;border:1px solid var(--border);background:var(--cream);display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;padding:2px 4px;gap:0}
-        .logo-line{width:70%;height:1px;background:var(--text-light);opacity:.35;flex-shrink:0}
-        .site-logo .logo-on{font-family:'Lora',Georgia,serif;font-style:italic;font-size:14px;color:var(--text-light);line-height:1;margin:1px 0}
-        .site-logo .logo-le{font-family:'Lora',Georgia,serif;font-size:6px;color:var(--accent-cool);line-height:1.1;text-align:center;letter-spacing:.02em}
+        /* Site logosu — Tarife göre yeniden tasarlandı. Kutu border-radius korunurken iç renkler ve çizgiler eklendi. Çizgiler JS ile metin genişliğine ayarlanacak */
+        .site-logo{width:40px;height:40px;border-radius:9px;border:1px solid var(--border);background:var(--cream);display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;padding:2px 4px;gap:0;position:relative}
+        .site-logo .logo-on{font-family:'Lora',Georgia,serif;font-style:italic;font-size:14px;color:var(--bg);/* Krem */line-height:1;margin:1px 0}
+        .site-logo .logo-le{font-family:'Lora',Georgia,serif;font-size:6px;color:var(--accent-cool);/* Petrol yeşili */line-height:1.1;text-align:center;letter-spacing:.02em;margin-top:2px}
+        /* Yeni çizgiler — JS ile genişlikleri ayarlanacak */
+        .site-logo .line-on-top, .site-logo .line-le-bottom {
+            display:block;
+            height:1px;
+            background-color:var(--bg);/* Krem */
+            position:absolute;
+            left:50%;
+            transform:translateX(-50%);
+            border:none;
+        }
+        .site-logo .line-on-top {
+            top: 5px; /* Kutunun tavanından biraz aşağıda */
+        }
+        .site-logo .line-le-bottom {
+            bottom: 5px; /* Kutunun tabanından biraz yukarıda */
+        }
         .site-tagline{font-size:15px;letter-spacing:.04em;font-style:italic;display:flex;align-items:baseline;gap:4px;border:none}
         .tagline-on{color:var(--text-light);font-size:16px}.tagline-green{color:var(--accent-cool);font-size:15px}
         .nav-links{display:flex;gap:8px;font-size:15px}
@@ -150,6 +166,9 @@
             .nav-links a{padding:4px 10px}.site-name{font-size:14px}
             .site-tagline{font-size:12px}.tagline-on{font-size:13px}.tagline-green{font-size:12px}
             .site-logo{width:34px;height:34px;border-radius:7px}.site-logo .logo-on{font-size:12px}.site-logo .logo-le{font-size:5px}
+            /* Mobil logo çizgileri — JS ile ayarlanacak */
+            .site-logo .line-on-top { top: 4px; }
+            .site-logo .line-le-bottom { bottom: 4px; }
             .hero-intro .profile-photo{display:block;width:110px;height:110px;min-width:110px;min-height:110px;align-self:flex-start;margin-top:2px}
             .essay-thumb{width:52px;height:52px;min-width:52px}.essay-card-subtitle{font-size:13px}
             .margin-texture{display:none}.corridor-vline{display:none}
@@ -177,7 +196,6 @@
     <div class="mobile-corridor mobile-corridor--left" aria-hidden="true"></div>
     <div class="mobile-corridor mobile-corridor--right" aria-hidden="true"></div>
 
-    <!-- Mobil kenar dokusu — Sol -->
     <div class="mobile-margin-texture mobile-margin-texture--left" aria-hidden="true">
         <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item" style="margin-bottom:60px">perceiving</span>
         <span class="mobile-margin-line mobile-margin-item" style="margin-bottom:50px"><svg width="2" height="40" viewBox="0 0 2 40"><line x1="1" y1="0" x2="1" y2="40" stroke-width="0.8" opacity="0.32"/></svg></span>
@@ -188,7 +206,6 @@
         <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item" style="margin-bottom:50px">beauty</span>
     </div>
 
-    <!-- Mobil kenar dokusu — Sağ -->
     <div class="mobile-margin-texture mobile-margin-texture--right" aria-hidden="true">
         <span class="mobile-margin-line mobile-margin-item" style="margin-bottom:70px"><svg width="2" height="35" viewBox="0 0 2 35"><line x1="1" y1="0" x2="1" y2="35" stroke-width="0.8" opacity="0.32"/></svg></span>
         <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item" style="margin-bottom:60px">longing</span>
@@ -226,7 +243,12 @@
         <header><nav>
             <span class="site-name">Hakan Altun</span>
             <a href="#" class="site-logo-row">
-                <span class="site-logo"><span class="logo-line"></span><span class="logo-on">On</span><span class="logo-line"></span><span class="logo-le">Life &<br>Everything</span></span>
+                <span class="site-logo">
+                    <span class="line-on-top"></span>
+                    <span class="logo-on">On</span>
+                    <span class="logo-le">Life & Everything</span>
+                    <span class="line-le-bottom"></span>
+                </span>
                 <span class="site-tagline"><span class="tagline-on">On </span><span class="tagline-green">Life & Everything</span></span>
             </a>
             <div class="nav-links"><a href="#book">Book</a><a href="#essays">Essays</a><a href="#moris">Moris</a><a href="#about">About</a></div>
@@ -335,6 +357,13 @@
             // Mobil koridor çizgileri — hemen belir
             var mc=document.querySelectorAll('.mobile-corridor');
             for(var i=0;i<mc.length;i++)mc[i].classList.add('visible');
+            // Logo çizgilerini metin genişliğine göre ayarla
+            var logoOn = document.querySelector('.site-logo .logo-on');
+            var logoLe = document.querySelector('.site-logo .logo-le');
+            var lineTop = document.querySelector('.site-logo .line-on-top');
+            var lineBottom = document.querySelector('.site-logo .line-le-bottom');
+            if (logoOn && lineTop) lineTop.style.width = logoOn.offsetWidth + 'px';
+            if (logoLe && lineBottom) lineBottom.style.width = logoLe.offsetWidth + 'px';
         }
         var tk=false;
         window.addEventListener('scroll',function(){if(!tk){requestAnimationFrame(function(){ta();tk=false;});tk=true;}},{passive:true});
