@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hakan Altun — On Life & Everything</title>
-    <meta name="description" content="Hakan Altun is a lecturer and writer based in İstanbul. Author of Forgetting the Color of Nothingness and The On Series essays.">
+    <meta name="description" content="Hakan Altun is a lecturer based in İstanbul. Author of Forgetting the Color of Nothingness and The On Series essays.">
     <meta name="author" content="Hakan Altun">
-    <meta name="keywords" content="Hakan Altun writer, Forgetting the Color of Nothingness, The On Series, philosophical essays, İstanbul writer, Yeditepe University">
+    <meta name="keywords" content="Hakan Altun, Forgetting the Color of Nothingness, The On Series, philosophical essays, İstanbul lecturer, Yeditepe University">
     <meta property="og:title" content="Hakan Altun — On Life & Everything">
-    <meta property="og:description" content="Lecturer and writer based in İstanbul. Author of Forgetting the Color of Nothingness.">
+    <meta property="og:description" content="Lecturer based in İstanbul. Author of Forgetting the Color of Nothingness.">
     <meta property="og:type" content="website">
     <meta property="og:locale" content="en_US">
     <meta property="og:image" content="https://hakaanaltun.github.io/og-image.png">
@@ -17,7 +17,7 @@
     <meta property="og:url" content="https://hakaanaltun.github.io/">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Hakan Altun — On Life & Everything">
-    <meta name="twitter:description" content="Lecturer and writer based in İstanbul. Author of Forgetting the Color of Nothingness.">
+    <meta name="twitter:description" content="Lecturer based in İstanbul. Author of Forgetting the Color of Nothingness.">
     <meta name="twitter:image" content="https://hakaanaltun.github.io/og-image.png">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#7A6D60">
@@ -27,7 +27,7 @@
     
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Hakan Altun","jobTitle":"Lecturer and Writer","affiliation":{"@type":"Organization","name":"Yeditepe University"},"url":"https://hakaanaltun.github.io","sameAs":["https://medium.com/@hakanaltunn","https://www.goodreads.com/author/show/69006405.Hakan_Altun","https://www.amazon.com/stores/author/B0GPY444LW"],"knowsAbout":["Philosophy","Psychology","Creative Writing"],"description":"Lecturer and writer based in İstanbul, exploring the architectures we build inside ourselves."}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Hakan Altun","jobTitle":"Lecturer","affiliation":{"@type":"Organization","name":"Yeditepe University"},"url":"https://hakaanaltun.github.io","sameAs":["https://medium.com/@hakanaltunn","https://www.goodreads.com/author/show/69006405.Hakan_Altun","https://www.amazon.com/stores/author/B0GPY444LW"],"knowsAbout":["Philosophy","Psychology","Creative Writing"],"description":"Lecturer based in İstanbul, exploring the architectures we build inside ourselves."}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Forgetting the Color of Nothingness","author":{"@type":"Person","name":"Hakan Altun"},"url":"https://www.amazon.com/Forgetting-Color-Nothingness-Hakan-Altun-ebook/dp/B0GPXTV6CP","workExample":[{"@type":"Book","isbn":"","bookFormat":"https://schema.org/EBook","potentialAction":{"@type":"ReadAction","target":{"@type":"EntryPoint","urlTemplate":"https://www.amazon.com/Forgetting-Color-Nothingness-Hakan-Altun-ebook/dp/B0GPXTV6CP"}}},{"@type":"Book","bookFormat":"https://schema.org/Paperback","potentialAction":{"@type":"ReadAction","target":{"@type":"EntryPoint","urlTemplate":"https://www.amazon.com/dp/B0GSLJXY6P"}}}],"genre":"Philosophy","inLanguage":"en","description":"A speculative philosophical work structured as a loop from the Big Bang through a domestic İstanbul scene to a post-singularity future."}</script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400;1,500&display=swap');
@@ -58,28 +58,28 @@
         header{padding:40px 0 0}
         nav{display:flex;flex-direction:column;gap:10px;padding-bottom:20px;border-bottom:1px solid var(--border)}
         
-        /* İSİM GÜNCELLENDİ */
-        .site-name{font-size:24px;letter-spacing:.02em;text-transform:uppercase;color:var(--accent-hover);border:none;font-weight:500;display:block}
+        /* İSİM GÜNCELLENDİ (Renk bio ile aynı: var(--text)) */
+        .site-name{font-size:24px;letter-spacing:.02em;text-transform:uppercase;color:var(--text);border:none;font-weight:500;display:block}
         
         .site-logo-row{display:flex;align-items:center;gap:10px;border:none}
         
-        /* LOGO VE İÇİNDEKİ YAZILAR (overflow: hidden kaldırıldı!) */
+        /* LOGO VE İÇİNDEKİ YAZILAR */
         .site-logo{width:40px;height:40px;border-radius:9px;border:1px solid var(--border);background:var(--cream);display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;padding:0;position:relative;}
         .site-logo .logo-on{font-family:'Lora',Georgia,serif;font-style:italic;font-size:12px;color:var(--text-light);line-height:1;margin:0 0 1px 0}
         .site-logo .logo-le{font-family:'Lora',Georgia,serif;font-style:italic;font-size:5px;color:var(--accent-cool);line-height:1.1;text-align:center;letter-spacing:.02em;}
         
-        /* ÇİZGİLER */
+        /* ÇİZGİLER (1px'e inceltildi, renk bio rengi, ortalama yapıldı) */
         .site-logo .line-on-top, .site-logo .line-le-bottom {
             display:block;
-            height:1.5px;
-            background-color:var(--text-light);
+            height:1px;
+            background-color:var(--text);
             position:absolute;
             left:0;
             width:100%;
             border:none;
         }
-        .site-logo .line-on-top { top: 6px; }
-        .site-logo .line-le-bottom { bottom: 6px; }
+        .site-logo .line-on-top { top: 5px; }
+        .site-logo .line-le-bottom { bottom: 5px; }
         
         .site-tagline{font-size:15px;letter-spacing:.04em;font-style:italic;display:flex;align-items:baseline;gap:4px;border:none}
         .tagline-on{color:var(--text-light);font-size:16px}.tagline-green{color:var(--accent-cool);font-size:15px}
@@ -126,7 +126,10 @@
         .essay-meta{font-size:13px;color:var(--accent-cool);font-style:normal;display:block;margin-top:2px}
         .essay-title{font-size:19px;font-style:italic;color:var(--text);transition:color .2s ease}
         .essay-list a:hover .essay-title,.essay-card:hover .essay-title{color:var(--accent-hover)}
-        .essay-number{font-size:13px;color:var(--accent-cool);flex-shrink:0;margin-left:16px}
+        
+        /* ESSAY NUMARALARI GÜNCELLENDİ (Renk bio ile aynı: var(--text)) */
+        .essay-number{font-size:13px;color:var(--text);flex-shrink:0;margin-left:16px}
+        
         .series-note{margin-top:20px;font-size:15px;color:var(--text-light);font-style:italic}
         .about-text{font-size:18px;color:var(--text)}.about-text p{max-width:560px}
         .profile-photo{width:180px;height:180px;min-width:180px;min-height:180px;border-radius:50%;object-fit:cover;object-position:center 20%;border:2px solid var(--border);background:var(--bg-warm)}
@@ -174,8 +177,11 @@
             .site-logo{width:34px;height:34px;border-radius:7px}
             .site-logo .logo-on{font-size:10px}
             .site-logo .logo-le{font-size:4px}
-            .site-logo .line-on-top { top: 5px; }
-            .site-logo .line-le-bottom { bottom: 5px; }
+            
+            /* Mobil boyut için çizgilerin eşit mesafede kalması adına ayarlandı */
+            .site-logo .line-on-top { top: 4px; }
+            .site-logo .line-le-bottom { bottom: 4px; }
+            
             .hero-intro .profile-photo{display:block;width:110px;height:110px;min-width:110px;min-height:110px;align-self:flex-start;margin-top:2px}
             .essay-thumb{width:52px;height:52px;min-width:52px}.essay-card-subtitle{font-size:13px}
             .margin-texture{display:none}.corridor-vline{display:none}
