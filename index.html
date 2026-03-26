@@ -44,11 +44,11 @@
         .margin-texture--right{right:0;width:calc((100vw - 680px)/2 - 8px);display:flex;flex-direction:column;align-items:flex-start;padding-left:24px;padding-top:200px}
         .margin-word{font-family:'Lora',Georgia,serif;font-style:italic;color:var(--accent-cool);opacity:0;transition:opacity 1.2s ease,transform 1.2s cubic-bezier(.23,1,.32,1);transform:translateY(8px);white-space:nowrap;display:block;line-height:1}
         .margin-word.visible{opacity:1;transform:translateY(0)}
-        .margin-word--lg{font-size:22px;letter-spacing:.12em}.margin-word--lg.visible{opacity:.32}
-        .margin-word--sm{font-size:15px;letter-spacing:.18em;text-transform:uppercase}.margin-word--sm.visible{opacity:.28}
-        .margin-word--xs{font-size:12px;letter-spacing:.25em;text-transform:uppercase}.margin-word--xs.visible{opacity:.24}
+        .margin-word--lg{font-size:22px;letter-spacing:.12em}.margin-word--lg.visible{opacity:.38}
+        .margin-word--sm{font-size:15px;letter-spacing:.18em;text-transform:uppercase}.margin-word--sm.visible{opacity:.32}
+        .margin-word--xs{font-size:12px;letter-spacing:.25em;text-transform:uppercase}.margin-word--xs.visible{opacity:.28}
         .margin-line{display:block;opacity:0;transition:opacity 1s ease .3s}.margin-line.visible{opacity:1}
-        .margin-line svg{display:block}.margin-line svg line,.margin-line svg circle{stroke:var(--accent);fill:none}
+        .margin-line svg{display:block}.margin-line svg line,.margin-line svg circle{stroke:var(--accent-cool);fill:none}
         .corridor-vline{position:fixed;top:0;height:100%;width:2px;pointer-events:none;z-index:0;background:linear-gradient(to bottom,transparent 0%,rgba(156,139,122,.3) 20%,rgba(156,139,122,.5) 50%,rgba(156,139,122,.3) 80%,transparent 100%)}
         .corridor-vline--left{left:calc((100vw - 680px)/2 - 12px)}.corridor-vline--right{right:calc((100vw - 680px)/2 - 12px)}
         @media(max-width:1050px){.margin-texture{display:none}.corridor-vline{display:none}}
@@ -58,7 +58,9 @@
         .container{max-width:680px;margin:0 auto;padding:0 28px;position:relative;z-index:1}
         header{padding:40px 0 0}
         nav{display:flex;justify-content:space-between;align-items:baseline;padding-bottom:20px;border-bottom:1px solid var(--border)}
-        .site-name{font-size:17px;letter-spacing:.08em;text-transform:uppercase;color:var(--text);border:none;font-weight:normal;display:flex;align-items:center;gap:10px}
+        .site-name{font-size:17px;letter-spacing:.08em;text-transform:uppercase;color:var(--text);border:none;font-weight:normal;display:flex;align-items:center;gap:10px;flex-shrink:0}
+        .site-tagline{font-size:13px;letter-spacing:.06em;color:var(--text-light);text-transform:none;font-style:italic}
+        .tagline-green{color:var(--accent-cool)}
         .nav-photo{width:36px;height:36px;border-radius:50%;object-fit:cover;object-position:center 20%;display:none}
         @media(max-width:768px){.nav-photo{display:none}.hero-intro .profile-photo{display:block;width:110px;height:110px;min-width:110px;min-height:110px;align-self:flex-start;margin-top:2px}}
         .nav-links{display:flex;gap:8px;font-size:15px}
@@ -127,11 +129,11 @@
             .mobile-margin-texture--left{left:0;width:44px;align-items:center}
             .mobile-margin-texture--right{right:0;width:44px;align-items:center}
             .mobile-margin-word{font-family:'Lora',Georgia,serif;font-style:italic;color:var(--accent-cool);writing-mode:vertical-rl;text-orientation:mixed;white-space:nowrap;display:block;line-height:1;opacity:0;transition:opacity 1.2s ease,transform 1.2s cubic-bezier(.23,1,.32,1);transform:translateY(6px)}
-            .mobile-margin-word.visible{transform:translateY(0);opacity:.20}
-            .mobile-margin-word--lg{font-size:15px;letter-spacing:.15em}.mobile-margin-word--lg.visible{opacity:.28}
-            .mobile-margin-word--sm{font-size:11px;letter-spacing:.2em;text-transform:uppercase}.mobile-margin-word--sm.visible{opacity:.24}
+            .mobile-margin-word.visible{transform:translateY(0);opacity:.24}
+            .mobile-margin-word--lg{font-size:15px;letter-spacing:.15em}.mobile-margin-word--lg.visible{opacity:.35}
+            .mobile-margin-word--sm{font-size:11px;letter-spacing:.2em;text-transform:uppercase}.mobile-margin-word--sm.visible{opacity:.30}
             .mobile-margin-line{display:block;opacity:0;transition:opacity 1s ease .3s}.mobile-margin-line.visible{opacity:1}
-            .mobile-margin-line svg line{stroke:var(--accent);fill:none}
+            .mobile-margin-line svg line{stroke:var(--accent-cool);fill:none}
             .container{padding:0 52px}
             section.depth-1,section.depth-2,section.depth-3{margin-left:-52px;margin-right:-52px;padding-left:52px;padding-right:52px}
         }
@@ -141,6 +143,8 @@
             .book-layout{grid-template-columns:140px 1fr;gap:24px}
             .nav-links{gap:6px;font-size:13px}
             .nav-links a{padding:4px 10px}.site-name{font-size:14px}
+            .site-tagline{display:none}
+            nav{flex-wrap:wrap;gap:12px}
             .essay-thumb{width:52px;height:52px;min-width:52px}.essay-card-subtitle{font-size:13px}
             .margin-texture{display:none}.corridor-vline{display:none}
             .container{padding:0 40px}
@@ -170,51 +174,51 @@
     <!-- Mobil kenar dokusu — Sol -->
     <div class="mobile-margin-texture mobile-margin-texture--left" aria-hidden="true">
         <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item" style="margin-bottom:60px">perceiving</span>
-        <span class="mobile-margin-line mobile-margin-item" style="margin-bottom:50px"><svg width="2" height="40" viewBox="0 0 2 40"><line x1="1" y1="0" x2="1" y2="40" stroke-width="0.8" opacity="0.22"/></svg></span>
+        <span class="mobile-margin-line mobile-margin-item" style="margin-bottom:50px"><svg width="2" height="40" viewBox="0 0 2 40"><line x1="1" y1="0" x2="1" y2="40" stroke-width="0.8" opacity="0.32"/></svg></span>
         <span class="mobile-margin-word mobile-margin-word--lg mobile-margin-item" style="margin-bottom:80px">corridors</span>
         <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item" style="margin-bottom:70px">forgetting</span>
-        <span class="mobile-margin-line mobile-margin-item" style="margin-bottom:60px"><svg width="2" height="30" viewBox="0 0 2 30"><line x1="1" y1="0" x2="1" y2="30" stroke-width="0.8" opacity="0.18"/></svg></span>
+        <span class="mobile-margin-line mobile-margin-item" style="margin-bottom:60px"><svg width="2" height="30" viewBox="0 0 2 30"><line x1="1" y1="0" x2="1" y2="30" stroke-width="0.8" opacity="0.28"/></svg></span>
         <span class="mobile-margin-word mobile-margin-word--lg mobile-margin-item" style="margin-bottom:90px">silence</span>
         <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item" style="margin-bottom:50px">beauty</span>
     </div>
 
     <!-- Mobil kenar dokusu — Sağ -->
     <div class="mobile-margin-texture mobile-margin-texture--right" aria-hidden="true">
-        <span class="mobile-margin-line mobile-margin-item" style="margin-bottom:70px"><svg width="2" height="35" viewBox="0 0 2 35"><line x1="1" y1="0" x2="1" y2="35" stroke-width="0.8" opacity="0.22"/></svg></span>
+        <span class="mobile-margin-line mobile-margin-item" style="margin-bottom:70px"><svg width="2" height="35" viewBox="0 0 2 35"><line x1="1" y1="0" x2="1" y2="35" stroke-width="0.8" opacity="0.32"/></svg></span>
         <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item" style="margin-bottom:60px">longing</span>
         <span class="mobile-margin-word mobile-margin-word--lg mobile-margin-item" style="margin-bottom:80px">forgiveness</span>
-        <span class="mobile-margin-line mobile-margin-item" style="margin-bottom:50px"><svg width="2" height="45" viewBox="0 0 2 45"><line x1="1" y1="0" x2="1" y2="45" stroke-width="0.8" opacity="0.18"/></svg></span>
+        <span class="mobile-margin-line mobile-margin-item" style="margin-bottom:50px"><svg width="2" height="45" viewBox="0 0 2 45"><line x1="1" y1="0" x2="1" y2="45" stroke-width="0.8" opacity="0.28"/></svg></span>
         <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item" style="margin-bottom:70px">the walls</span>
         <span class="mobile-margin-word mobile-margin-word--lg mobile-margin-item" style="margin-bottom:90px">nothingness</span>
         <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item" style="margin-bottom:60px">lying</span>
     </div>
     <div class="margin-texture margin-texture--left" aria-hidden="true">
         <span class="margin-word margin-word--sm margin-item" style="margin-bottom:48px">perceiving</span>
-        <span class="margin-line margin-item" style="margin-bottom:36px"><svg width="80" height="20" viewBox="0 0 80 20"><line x1="80" y1="10" x2="10" y2="10" stroke-width="0.8" opacity="0.25"/><circle cx="6" cy="10" r="2.5" stroke-width="0.8" opacity="0.22"/></svg></span>
+        <span class="margin-line margin-item" style="margin-bottom:36px"><svg width="80" height="20" viewBox="0 0 80 20"><line x1="80" y1="10" x2="10" y2="10" stroke-width="0.8" opacity="0.35"/><circle cx="6" cy="10" r="2.5" stroke-width="0.8" opacity="0.32"/></svg></span>
         <span class="margin-word margin-word--lg margin-item" style="margin-bottom:80px">corridors</span>
         <span class="margin-word margin-word--xs margin-item" style="margin-bottom:60px">what remains</span>
-        <span class="margin-line margin-item" style="margin-bottom:44px"><svg width="40" height="40" viewBox="0 0 40 40"><line x1="38" y1="2" x2="38" y2="38" stroke-width="0.8" opacity="0.22"/><line x1="28" y1="2" x2="28" y2="38" stroke-width="0.8" opacity="0.14"/></svg></span>
+        <span class="margin-line margin-item" style="margin-bottom:44px"><svg width="40" height="40" viewBox="0 0 40 40"><line x1="38" y1="2" x2="38" y2="38" stroke-width="0.8" opacity="0.32"/><line x1="28" y1="2" x2="28" y2="38" stroke-width="0.8" opacity="0.22"/></svg></span>
         <span class="margin-word margin-word--sm margin-item" style="margin-bottom:90px">forgetting</span>
-        <span class="margin-line margin-item" style="margin-bottom:50px"><svg width="70" height="2" viewBox="0 0 70 2"><line x1="70" y1="1" x2="0" y2="1" stroke-width="0.8" opacity="0.22"/></svg></span>
+        <span class="margin-line margin-item" style="margin-bottom:50px"><svg width="70" height="2" viewBox="0 0 70 2"><line x1="70" y1="1" x2="0" y2="1" stroke-width="0.8" opacity="0.32"/></svg></span>
         <span class="margin-word margin-word--xs margin-item" style="margin-bottom:70px">beauty</span>
         <span class="margin-word margin-word--lg margin-item" style="margin-bottom:60px">silence</span>
-        <span class="margin-line margin-item"><svg width="36" height="36" viewBox="0 0 36 36"><line x1="34" y1="2" x2="2" y2="34" stroke-width="0.8" opacity="0.18"/><line x1="34" y1="34" x2="2" y2="2" stroke-width="0.8" opacity="0.12"/></svg></span>
+        <span class="margin-line margin-item"><svg width="36" height="36" viewBox="0 0 36 36"><line x1="34" y1="2" x2="2" y2="34" stroke-width="0.8" opacity="0.28"/><line x1="34" y1="34" x2="2" y2="2" stroke-width="0.8" opacity="0.28"/></svg></span>
     </div>
     <div class="margin-texture margin-texture--right" aria-hidden="true">
-        <span class="margin-line margin-item" style="margin-bottom:56px"><svg width="70" height="2" viewBox="0 0 70 2"><line x1="0" y1="1" x2="70" y2="1" stroke-width="0.8" opacity="0.22"/></svg></span>
+        <span class="margin-line margin-item" style="margin-bottom:56px"><svg width="70" height="2" viewBox="0 0 70 2"><line x1="0" y1="1" x2="70" y2="1" stroke-width="0.8" opacity="0.32"/></svg></span>
         <span class="margin-word margin-word--xs margin-item" style="margin-bottom:72px">longing</span>
         <span class="margin-word margin-word--sm margin-item" style="margin-bottom:50px">the walls</span>
-        <span class="margin-line margin-item" style="margin-bottom:80px"><svg width="24" height="50" viewBox="0 0 24 50"><line x1="2" y1="0" x2="2" y2="50" stroke-width="0.8" opacity="0.22"/><line x1="12" y1="5" x2="12" y2="45" stroke-width="0.8" opacity="0.14"/></svg></span>
+        <span class="margin-line margin-item" style="margin-bottom:80px"><svg width="24" height="50" viewBox="0 0 24 50"><line x1="2" y1="0" x2="2" y2="50" stroke-width="0.8" opacity="0.32"/><line x1="12" y1="5" x2="12" y2="45" stroke-width="0.8" opacity="0.22"/></svg></span>
         <span class="margin-word margin-word--lg margin-item" style="margin-bottom:64px">forgiveness</span>
         <span class="margin-word margin-word--xs margin-item" style="margin-bottom:90px">looking back</span>
-        <span class="margin-line margin-item" style="margin-bottom:40px"><svg width="80" height="20" viewBox="0 0 80 20"><line x1="0" y1="10" x2="66" y2="10" stroke-width="0.8" opacity="0.25"/><circle cx="72" cy="10" r="2.5" stroke-width="0.8" opacity="0.22"/></svg></span>
+        <span class="margin-line margin-item" style="margin-bottom:40px"><svg width="80" height="20" viewBox="0 0 80 20"><line x1="0" y1="10" x2="66" y2="10" stroke-width="0.8" opacity="0.35"/><circle cx="72" cy="10" r="2.5" stroke-width="0.8" opacity="0.32"/></svg></span>
         <span class="margin-word margin-word--sm margin-item" style="margin-bottom:70px">nothingness</span>
         <span class="margin-word margin-word--xs margin-item" style="margin-bottom:60px">lying</span>
-        <span class="margin-line margin-item"><svg width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="16" stroke-width="0.8" opacity="0.14"/><circle cx="20" cy="20" r="4" stroke-width="0.8" opacity="0.20"/></svg></span>
+        <span class="margin-line margin-item"><svg width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="16" stroke-width="0.8" opacity="0.22"/><circle cx="20" cy="20" r="4" stroke-width="0.8" opacity="0.28"/></svg></span>
     </div>
     <div class="container">
         <header><nav>
-            <a href="#" class="site-name"><img src="profile.jpg" alt="Hakan Altun" class="nav-photo">Hakan Altun</a>
+            <a href="#" class="site-name"><img src="profile.jpg" alt="Hakan Altun" class="nav-photo">Hakan Altun <span class="site-tagline">— On <span class="tagline-green">Life & Everything</span></span></a>
             <div class="nav-links"><a href="#book">Book</a><a href="#essays">Essays</a><a href="#moris">Moris</a><a href="#about">About</a></div>
         </nav></header>
         <div class="hero fade-in">
