@@ -42,15 +42,15 @@
         
         *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
         
-        /* RENK PALETİ (Yeni ve Canlandırılmış) */
+        /* RENK PALETİ */
         :root{
-            --bg:#FAF8F4;              /* Light Bone Cream */
-            --bg-warm:#F5F3ED;         /* depth-1 */
-            --bg-deep:#EDEBE1;         /* depth-2 */
-            --bg-content:#E3E1D5;      /* depth-3 */
-            --text:#2F3D3C;            /* Kömür Yeşili (Ana Metinler) */
-            --text-light:#8A8279;      /* Vizon / Krem (Biodaki renk) */
-            --accent:#849673;          /* Adaçayı Yeşili */
+            --bg:#FAF8F4;              
+            --bg-warm:#F5F3ED;         
+            --bg-deep:#EDEBE1;         
+            --bg-content:#E3E1D5;      
+            --text:#2F3D3C;            /* Kömür Yeşili (Ana Metinler ve Sağ Çizgi) */
+            --text-light:#8A8279;      /* Vizon / Krem / Kahverengi (Sol Çizgi ve On) */
+            --accent:#849673;          /* Adaçayı Yeşili (Vurgular) */
             --accent-hover:#6B7B5A;    
             --accent-cool:#5B6A50;     
             --border:#E8E2D9;          
@@ -66,7 +66,7 @@
         a{color:var(--accent-hover);text-decoration:none;border-bottom:1px solid var(--border);transition:border-color .2s ease}
         a:hover{border-color:var(--accent-hover)}
         
-        /* KENAR YAZILARI (Z-INDEX ile her şeyin üstünde) */
+        /* KENAR YAZILARI */
         .margin-texture{position:fixed;top:0;height:100%;pointer-events:none;z-index:10;overflow:hidden}
         .margin-texture--left{left:0;width:calc((100vw - 680px)/2 - 8px);display:flex;flex-direction:column;align-items:flex-end;padding-right:24px;padding-top:120px}
         .margin-texture--right{right:0;width:calc((100vw - 680px)/2 - 8px);display:flex;flex-direction:column;align-items:flex-start;padding-left:24px;padding-top:200px}
@@ -96,7 +96,7 @@
         
         .site-logo-row{display:flex;align-items:center;gap:10px;border:none}
         
-        /* LOGO KUTUSU VE KORİDOR KONSEPTİ (GÜNCELLENDİ) */
+        /* LOGO: KORİDOR KONSEPTİ */
         .site-logo{
             width:40px;
             height:40px;
@@ -107,31 +107,30 @@
             align-items:center;
             justify-content:center;
             flex-shrink:0;
-            padding:0;
             position:relative; 
-            overflow: hidden; /* Dışarı taşmaları engeller */
+            overflow: hidden; 
         }
         
-        /* Koridor Çizgileri (Uçtan uca ve dikey) */
+        /* Dikey Çizgiler - Kalınlıkları 1px Eşit */
         .site-logo .line-left, 
         .site-logo .line-right {
             position:absolute;
             top:0;
             height:100%; 
-            width:1px; 
+            width:1px; /* KALINLIK EŞİTLENDİ */
             border:none;
         }
         
-        /* Sol Çizgi: Adaçayı Yeşili */
+        /* Sol Çizgi: Vizon / Kahverengi ("On" yazısının rengi) */
         .site-logo .line-left { 
-            left: 8px; /* Sol kenardan koridor genişliği */
-            background-color: var(--accent); 
+            left: 8px; 
+            background-color: var(--text-light); 
         } 
         
-        /* Sağ Çizgi: Vizon / Krem (Kahverengi ton) */
+        /* Sağ Çizgi: Koyu Yeşil ("Life & Everything" yazısının rengi) */
         .site-logo .line-right { 
-            right: 8px; /* Sağ kenardan koridor genişliği */
-            background-color: var(--text-light); 
+            right: 8px; 
+            background-color: var(--text); 
         }
 
         .site-logo .logo-text-group {
@@ -140,21 +139,25 @@
             align-items:center;
             justify-content:center;
             margin-top: -0.5px; 
+            z-index: 2; 
         }
         
+        /* "On" Yazısı: Vizon / Kahverengi */
         .site-logo .logo-on{
             font-family:'Lora',Georgia,serif;
             font-style:italic;
             font-size:10px;
-            color:var(--text-light); /* Vizon / Krem */
+            color:var(--text-light); 
             line-height:1;
             margin:0;
         }
+        
+        /* "Life & Everything" Yazısı: Koyu Yeşil */
         .site-logo .logo-le{
             font-family:'Lora',Georgia,serif;
             font-style:italic;
             font-size:3.5px;
-            color:var(--text); /* Kömür Yeşili */
+            color:var(--text); 
             line-height:1.1;
             text-align:center;
             letter-spacing:.02em;
