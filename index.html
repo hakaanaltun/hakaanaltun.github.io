@@ -25,20 +25,21 @@
         
         *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
         
-        /* NOKTA ATIŞI RENK PALETİ */
         :root{
             --bg:#FAF8F4;              
             --bg-warm:#F5F3ED;         
             --bg-deep:#EDEBE1;         
             --bg-content:#E3E1D5;      
             
-            --petrol: #206060;     /* Petrol Yeşili */
-            --charcoal: #2F3D3C;   /* Kömür Yeşili */
-            --vizon: #8A8279;      /* Klasik Vizon / Krem */
-            --border: #E8E2D9;     /* Dış çizgilerdeki açık krem/vizon */
+            --petrol: #206060;     
+            --charcoal: #2F3D3C;   
+            --vizon: #8A8279;      
+            --border: #E8E2D9;     
             
             --cream:#FDFCFA;           
             --shadow:rgba(47,61,60,0.04);
+            --corridor-line:rgba(47,61,60,0.08); 
+            --corridor-line-active:rgba(47,61,60,0.18);
         }
         
         html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
@@ -46,12 +47,12 @@
         ::selection{background:var(--petrol);color:var(--cream)} 
         a{text-decoration:none;transition:color .2s ease,border-color .2s ease,background-color .2s ease}
         
-        /* KORİDOR DERİNLİK ÇİZGİLERİ (İçi Temizlendi, Sadece Zarif Dış Çizgiler) */
+        /* MASAÜSTÜ KORİDOR ÇİZGİLERİ */
         .corridor-vline{position:fixed;top:0;height:100%;width:1px;pointer-events:none;z-index:0;background-color:var(--charcoal);opacity:0.06;}
         .corridor-vline--left{left:calc((100vw - 680px)/2 - 12px)}.corridor-vline--right{right:calc((100vw - 680px)/2 - 12px)}
         @media(max-width:1050px){.corridor-vline{display:none}}
         
-        /* DAĞITILMIŞ PUSLU ÖĞELERİN STİLİ (SCROLL REVEAL & VANISH) */
+        /* MASAÜSTÜ DAĞITILMIŞ PUSLU ÖĞELER (SCROLL REVEAL & VANISH) */
         .dispersed-elements-container{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden;}
         
         .reveal-item{
@@ -64,7 +65,7 @@
             transition:opacity 0.8s ease, transform 0.8s cubic-bezier(0.25, 1, 0.5, 1); 
         }
         .reveal-item.revealed{
-            opacity:0.15; /* Şekillerin ve kelimelerin pusluluk oranı */
+            opacity:0.15; 
             transform:translateY(0); 
         }
         
@@ -73,8 +74,8 @@
         .reveal-item.charcoal{color:var(--charcoal);}
         
         @media(max-width:1050px){
-            .reveal-item{ opacity: 0; } 
-            .reveal-item.revealed{ opacity: 0.18; } 
+            /* Mobilde masaüstü dağınık öğelerini tamamen gizle */
+            .dispersed-elements-container { display: none; } 
         }
         
         .perspective-line{display:block;margin:0 auto 32px;max-width:320px;width:100%;height:48px;opacity:0;transform:scaleX(.3);transition:opacity 1.2s ease,transform 1.4s cubic-bezier(.23,1,.32,1)}
@@ -119,7 +120,6 @@
         .hero-quote-word{display:inline;opacity:0;transform:translateY(4px);transition:opacity .35s ease,transform .4s cubic-bezier(.23,1,.32,1)}
         .hero-quote-word.word-visible{opacity:1;transform:translateY(0)}
         
-        /* Şeffaf İç Koridor */
         section.depth-0{background-color:transparent}
         section.depth-1{background-color:transparent; margin-left:-28px;margin-right:-28px;padding-left:28px;padding-right:28px}
         section.depth-2{background-color:transparent; margin-left:-28px;margin-right:-28px;padding-left:28px;padding-right:28px}
@@ -180,7 +180,32 @@
         footer{padding:40px 0 32px;border-top:1px solid var(--border);text-align:center}
         footer p{font-size:13px;color:var(--vizon)}
         
-        /* MOBİL DÜZENLEMELER */
+        /* MOBİL DÜZENLEMELER (YENİDEN EKLENDİ VE KORUNDU) */
+        .mobile-corridor{display:none}
+        .mobile-margin-texture{display:none} 
+        
+        @media(max-width:1050px){
+            /* Mobil için orijinal HTML yapıları görünür olur */
+            .mobile-corridor{display:block;position:fixed;top:0;height:100%;width:2px;pointer-events:none;z-index:0;opacity:0;transition:opacity 1.5s ease}
+            .mobile-corridor.visible{opacity:1}
+            .mobile-corridor--left{left:8px;background:linear-gradient(to bottom,transparent 0%,var(--corridor-line) 15%,var(--corridor-line-active) 50%,var(--corridor-line) 85%,transparent 100%)}
+            .mobile-corridor--right{right:8px;background:linear-gradient(to bottom,transparent 0%,var(--corridor-line) 15%,var(--corridor-line-active) 50%,var(--corridor-line) 85%,transparent 100%)}
+            
+            .mobile-margin-texture{display:flex;position:fixed;top:0;height:100%;pointer-events:none;z-index:10;flex-direction:column;padding-top:100px;overflow:hidden;}
+            .mobile-margin-texture--left{left:0;width:50px;align-items:center}
+            .mobile-margin-texture--right{right:0;width:50px;align-items:center}
+            
+            .mobile-margin-word{font-family:'Lora',Georgia,serif;font-style:italic;color:var(--vizon);writing-mode:vertical-rl;text-orientation:mixed;white-space:nowrap;display:block;line-height:1;opacity:0;transition:opacity 1.2s ease,transform 1.2s cubic-bezier(.23,1,.32,1);transform:translateY(6px)}
+            .mobile-margin-word.visible{transform:translateY(0);opacity:.24}
+            .mobile-margin-word--lg{font-size:15px;letter-spacing:.15em}.mobile-margin-word--lg.visible{opacity:.35}
+            .mobile-margin-word--sm{font-size:10px;letter-spacing:.15em;text-transform:uppercase}.mobile-margin-word--sm.visible{opacity:.30}
+            .mobile-margin-line{display:block;opacity:0;transition:opacity 1s ease .3s}.mobile-margin-line.visible{opacity:1}
+            .mobile-margin-line svg line{stroke:var(--petrol);fill:none;opacity:0.3}
+            
+            .container{padding:0 52px}
+            section.depth-1,section.depth-2,section.depth-3{margin-left:-52px;margin-right:-52px;padding-left:52px;padding-right:52px}
+        }
+        
         @media(max-width:768px){
             .site-name{font-size:20px; letter-spacing:.02em;}
             .hero h1{font-size:16px}
@@ -195,13 +220,15 @@
             .site-tagline{font-size:12px}.tagline-on{font-size:13px}.tagline-green{font-size:12px}
             
             .site-logo{width:40px;height:40px;}
+            
             .essay-thumb{width:52px;height:52px;min-width:52px}.essay-card-subtitle{font-size:13px}
             
             .container{padding:0 40px}
             
-            /* Mobilde kelime ve şekillerin dağılımı için boyut ayarı */
-            .reveal-item{ font-size: 13px !important; }
-            .reveal-item svg { width: 60px !important; height: auto !important; }
+            .mobile-margin-texture--left{width:50px}
+            .mobile-margin-texture--right{width:50px}
+            .mobile-margin-word--lg{font-size:13px}
+            .mobile-margin-word--sm{font-size:9.5px}
             
             section.depth-1,section.depth-2,section.depth-3{margin-left:-40px;margin-right:-40px;padding-left:40px;padding-right:40px}
         }
@@ -213,7 +240,7 @@
         @keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
         @media(prefers-reduced-motion:reduce){
             *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
-            .corridor-vline{display:none}.scroll-reveal{opacity:1;transform:none}
+            .corridor-vline{display:none}.mobile-corridor{display:none}.mobile-margin-texture{display:none}.scroll-reveal{opacity:1;transform:none}
             .perspective-line{opacity:1;transform:none}.hero-quote-word{opacity:1;transform:none}section::before{width:100%}
         }
     </style>
@@ -221,9 +248,32 @@
 <body>
     <div class="corridor-vline corridor-vline--left" aria-hidden="true"></div>
     <div class="corridor-vline corridor-vline--right" aria-hidden="true"></div>
+    
+    <div class="mobile-corridor mobile-corridor--left" aria-hidden="true"></div>
+    <div class="mobile-corridor mobile-corridor--right" aria-hidden="true"></div>
+
+    <div class="mobile-margin-texture mobile-margin-texture--left" aria-hidden="true">
+        <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item" style="margin-bottom:60px">perceiving</span>
+        <span class="mobile-margin-line mobile-margin-item" style="margin-bottom:50px"><svg width="2" height="40" viewBox="0 0 2 40"><line x1="1" y1="0" x2="1" y2="40" stroke-width="0.8"/></svg></span>
+        <span class="mobile-margin-word mobile-margin-word--lg mobile-margin-item" style="margin-bottom:80px">corridors</span>
+        <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item" style="margin-bottom:70px">forgetting</span>
+        <span class="mobile-margin-line mobile-margin-item" style="margin-bottom:60px"><svg width="2" height="30" viewBox="0 0 2 30"><line x1="1" y1="0" x2="1" y2="30" stroke-width="0.8"/></svg></span>
+        <span class="mobile-margin-word mobile-margin-word--lg mobile-margin-item" style="margin-bottom:90px">silence</span>
+        <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item" style="margin-bottom:50px">beauty</span>
+    </div>
+
+    <div class="mobile-margin-texture mobile-margin-texture--right" aria-hidden="true">
+        <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item" style="margin-bottom:60px">lying</span>
+        <span class="mobile-margin-line mobile-margin-item" style="margin-bottom:70px"><svg width="2" height="35" viewBox="0 0 2 35"><line x1="1" y1="0" x2="1" y2="35" stroke-width="0.8"/></svg></span>
+        <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item" style="margin-bottom:60px">longing</span>
+        <span class="mobile-margin-word mobile-margin-word--lg mobile-margin-item" style="margin-bottom:80px">forgiveness</span>
+        <span class="mobile-margin-line mobile-margin-item" style="margin-bottom:50px"><svg width="2" height="45" viewBox="0 0 2 45"><line x1="1" y1="0" x2="1" y2="45" stroke-width="0.8"/></svg></span>
+        <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item" style="margin-bottom:70px">the walls</span>
+        <span class="mobile-margin-word mobile-margin-word--lg mobile-margin-item" style="margin-bottom:90px">nothingness</span>
+        <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item" style="margin-bottom:60px">lying</span>
+    </div>
 
     <div class="dispersed-elements-container" aria-hidden="true">
-        
         <span class="reveal-item vizon" style="top: 4%; left: 6%; font-size: 28px;">perceiving</span>
         
         <div class="reveal-item petrol" style="top: 10%; right: 7%;">
@@ -388,7 +438,11 @@
     (function(){
         'use strict';
         
-        // PUSLU BELİRME SİSTEMİ (SCROLL REVEAL & VANISH)
+        // MOBİL DAĞITILMIŞ ÖĞELER İÇİN GECİKME FONKSİYONU
+        var mmi=document.querySelectorAll('.mobile-margin-item');
+        for(var i=0;i<mmi.length;i++)mmi[i].style.transitionDelay=(i*.2)+'s';
+        
+        // MASAÜSTÜ PUSLU BELİRME SİSTEMİ (SCROLL REVEAL & VANISH)
         var dispersedItems = document.querySelectorAll('.reveal-item');
         
         function checkReveal() {
@@ -404,6 +458,10 @@
                     item.classList.remove('revealed'); 
                 }
             });
+            
+            // Mobil kenar yazıları için belirme mantığı
+            var s=window.pageYOffset||document.documentElement.scrollTop,d=document.documentElement.scrollHeight-window.innerHeight,p=d>0?s/d:0;
+            for(var i=0;i<mmi.length;i++){if(p>=i/(mmi.length+2))mmi[i].classList.add('visible');}
         }
         
         var hq=document.getElementById('hero-quote'),ws=[],ts=false;
@@ -419,11 +477,15 @@
         
         function ta(){
             var r=document.querySelectorAll('.scroll-reveal');for(var i=0;i<r.length;i++){if(iv(r[i]))r[i].classList.add('revealed');}
-            var s=document.querySelectorAll('section');for(var i=0;i<s.length;i++){if(iv(s[i]))s[i].classList.add('line-drawn');}
+            var sec=document.querySelectorAll('section');for(var i=0;i<sec.length;i++){if(iv(sec[i]))sec[i].classList.add('line-drawn');}
             if(hq&&iv(hq))stw();
             var p=document.querySelector('.perspective-line');if(p&&iv(p))p.classList.add('visible');
             
             checkReveal();
+            
+            // Mobil koridor çizgileri
+            var mc=document.querySelectorAll('.mobile-corridor');
+            for(var i=0;i<mc.length;i++)mc[i].classList.add('visible');
         }
         
         var tk=false;
