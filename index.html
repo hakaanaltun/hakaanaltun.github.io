@@ -42,22 +42,22 @@
         
         *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
         
-        /* RENK PALETİ */
+        /* GÜNCELLENEN RENK PALETİ VE ATAMALAR */
         :root{
-            --bg:#FAF8F4;              
-            --bg-warm:#F5F3ED;         
-            --bg-deep:#EDEBE1;         
-            --bg-content:#E3E1D5;      
-            --text:#2F3D3C;            /* Kömür Yeşili (Ana Metinler ve Sağ Çizgi) */
-            --text-light:#8A8279;      /* Vizon / Krem / Kahverengi (Sol Çizgi ve On) */
-            --accent:#849673;          /* Adaçayı Yeşili (Vurgular) */
-            --accent-hover:#6B7B5A;    
+            --bg:#FAF8F4;              /* Light Bone Cream */
+            --bg-warm:#F5F3ED;         /* depth-1 */
+            --bg-deep:#EDEBE1;         /* depth-2 */
+            --bg-content:#E3E1D5;      /* depth-3 */
+            --text:#2F3D3C;            /* Kömür Yeşili (Logodaki Life & Everything dahil) */
+            --text-light:#8A8279;      /* Vizon / Krem (Logodaki On dahil) */
+            --accent:#A3B18A;          /* Adaçayı Yeşili (Kenar Yazıları ve Vurgular) */
+            --accent-hover:#8A9876;    
             --accent-cool:#5B6A50;     
             --border:#E8E2D9;          
             --cream:#FDFCFA;           
             --shadow:rgba(47,61,60,0.04);
-            --corridor-line:rgba(132,150,115,0.12); 
-            --corridor-line-active:rgba(132,150,115,0.28);
+            --corridor-line:rgba(163,177,138,0.12); /* Adaçayı Yeşili Koridor */
+            --corridor-line-active:rgba(163,177,138,0.28);
         }
         
         html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
@@ -66,15 +66,15 @@
         a{color:var(--accent-hover);text-decoration:none;border-bottom:1px solid var(--border);transition:border-color .2s ease}
         a:hover{border-color:var(--accent-hover)}
         
-        /* KENAR YAZILARI */
+        /* KENAR YAZILARI (Z-INDEX ile her şeyin üstünde) */
         .margin-texture{position:fixed;top:0;height:100%;pointer-events:none;z-index:10;overflow:hidden}
         .margin-texture--left{left:0;width:calc((100vw - 680px)/2 - 8px);display:flex;flex-direction:column;align-items:flex-end;padding-right:24px;padding-top:120px}
         .margin-texture--right{right:0;width:calc((100vw - 680px)/2 - 8px);display:flex;flex-direction:column;align-items:flex-start;padding-left:24px;padding-top:200px}
         .margin-word{font-family:'Lora',Georgia,serif;font-style:italic;color:var(--accent);opacity:0;transition:opacity 1.2s ease,transform 1.2s cubic-bezier(.23,1,.32,1);transform:translateY(8px);white-space:nowrap;display:block;line-height:1}
         .margin-word.visible{opacity:1;transform:translateY(0)}
-        .margin-word--lg{font-size:22px;letter-spacing:.12em}.margin-word--lg.visible{opacity:.5}
-        .margin-word--sm{font-size:15px;letter-spacing:.18em;text-transform:uppercase}.margin-word--sm.visible{opacity:.5}
-        .margin-word--xs{font-size:12px;letter-spacing:.25em;text-transform:uppercase}.margin-word--xs.visible{opacity:.5}
+        .margin-word--lg{font-size:22px;letter-spacing:.12em}.margin-word--lg.visible{opacity:.38}
+        .margin-word--sm{font-size:15px;letter-spacing:.18em;text-transform:uppercase}.margin-word--sm.visible{opacity:.32}
+        .margin-word--xs{font-size:12px;letter-spacing:.25em;text-transform:uppercase}.margin-word--xs.visible{opacity:.28}
         
         .margin-line{display:block;opacity:0;transition:opacity 1s ease .3s}.margin-line.visible{opacity:1}
         .margin-line svg{display:block}.margin-line svg line,.margin-line svg circle{stroke:var(--accent);fill:none}
@@ -92,11 +92,12 @@
         header{padding:40px 0 0}
         nav{display:flex;flex-direction:column;gap:10px;padding-bottom:20px;border-bottom:1px solid var(--border)}
         
+        /* İSİM GÜNCELLENDİ (Vizon) */
         .site-name{font-size:24px;letter-spacing:.02em;text-transform:uppercase;color:var(--text-light);border:none;font-weight:500;display:block}
         
         .site-logo-row{display:flex;align-items:center;gap:10px;border:none}
         
-        /* LOGO: KORİDOR KONSEPTİ */
+        /* LOGO KUTUSU VE KORİDOR KONSEPTİ (GÜNCELLENDİ) */
         .site-logo{
             width:40px;
             height:40px;
@@ -107,30 +108,31 @@
             align-items:center;
             justify-content:center;
             flex-shrink:0;
+            padding:0;
             position:relative; 
-            overflow: hidden; 
+            overflow: hidden; /* Dışarı taşmaları engeller */
         }
         
-        /* Dikey Çizgiler - Kalınlıkları 1px Eşit */
+        /* Koridor Çizgileri (Uçtan uca ve dikey) */
         .site-logo .line-left, 
         .site-logo .line-right {
             position:absolute;
             top:0;
             height:100%; 
-            width:1px; /* KALINLIK EŞİTLENDİ */
+            width:1px; 
             border:none;
         }
         
-        /* Sol Çizgi: Vizon / Kahverengi ("On" yazısının rengi) */
+        /* Sol Çizgi: Adaçayı Yeşili */
         .site-logo .line-left { 
-            left: 8px; 
-            background-color: var(--text-light); 
+            left: 8px; /* Sol kenardan koridor genişliği */
+            background-color: var(--accent); 
         } 
         
-        /* Sağ Çizgi: Koyu Yeşil ("Life & Everything" yazısının rengi) */
+        /* Sağ Çizgi: Vizon / Krem (Kahverengi ton) */
         .site-logo .line-right { 
-            right: 8px; 
-            background-color: var(--text); 
+            right: 8px; /* Sağ kenardan koridor genişliği */
+            background-color: var(--text-light); 
         }
 
         .site-logo .logo-text-group {
@@ -139,25 +141,21 @@
             align-items:center;
             justify-content:center;
             margin-top: -0.5px; 
-            z-index: 2; 
         }
         
-        /* "On" Yazısı: Vizon / Kahverengi */
         .site-logo .logo-on{
             font-family:'Lora',Georgia,serif;
             font-style:italic;
             font-size:10px;
-            color:var(--text-light); 
+            color:var(--text-light); /* Vizon / Krem */
             line-height:1;
             margin:0;
         }
-        
-        /* "Life & Everything" Yazısı: Koyu Yeşil */
         .site-logo .logo-le{
             font-family:'Lora',Georgia,serif;
             font-style:italic;
             font-size:3.5px;
-            color:var(--text); 
+            color:var(--text); /* Kömür Yeşili */
             line-height:1.1;
             text-align:center;
             letter-spacing:.02em;
@@ -169,7 +167,7 @@
         
         .nav-links{display:flex;gap:8px;font-size:15px}
         .nav-links a{color:var(--text-light);border:1px solid var(--border);letter-spacing:.03em;transition:color .2s ease,border-color .2s ease,background-color .2s ease;padding:5px 14px;border-radius:4px}
-        .nav-links a:hover{color:var(--text);border-color:var(--accent);background-color:rgba(132,150,115,.15)}
+        .nav-links a:hover{color:var(--text);border-color:var(--accent);background-color:rgba(232,226,217,.25)}
         
         .hero{padding:56px 0 44px}
         .hero-intro{display:flex;align-items:center;gap:24px;margin-bottom:8px}
@@ -207,7 +205,7 @@
         .essay-list{list-style:none}
         .essay-list li{padding:16px 0;border-bottom:1px solid var(--border);transition:transform .3s cubic-bezier(.23,1,.32,1),background-color .3s ease;margin-left:-8px;margin-right:-8px;padding-left:8px;padding-right:8px;border-radius:2px}
         .essay-list li:first-child{padding-top:0}
-        .essay-list li:hover{transform:translateX(6px);background-color:rgba(132,150,115,.08)}
+        .essay-list li:hover{transform:translateX(6px);background-color:rgba(163,177,138,0.08)}
         .essay-list a{border:none;display:flex;justify-content:space-between;align-items:baseline}
         .essay-card{border:none;display:flex;align-items:center;gap:16px;width:100%}
         .essay-thumb{width:64px;height:64px;min-width:64px;border-radius:6px;object-fit:cover;opacity:.85;transition:opacity .2s ease}
@@ -245,15 +243,15 @@
         @media(max-width:1050px){
             .mobile-corridor{display:block;position:fixed;top:0;height:100%;width:2px;pointer-events:none;z-index:0;opacity:0;transition:opacity 1.5s ease}
             .mobile-corridor.visible{opacity:1}
-            .mobile-corridor--left{left:8px;background:linear-gradient(to bottom,transparent 0%,rgba(132,150,115,0.25) 15%,rgba(132,150,115,0.4) 50%,rgba(132,150,115,0.25) 85%,transparent 100%)}
-            .mobile-corridor--right{right:8px;background:linear-gradient(to bottom,transparent 0%,rgba(132,150,115,0.25) 15%,rgba(132,150,115,0.4) 50%,rgba(132,150,115,0.25) 85%,transparent 100%)}
+            .mobile-corridor--left{left:8px;background:linear-gradient(to bottom,transparent 0%,rgba(163,177,138,0.25) 15%,rgba(163,177,138,0.4) 50%,rgba(163,177,138,0.25) 85%,transparent 100%)}
+            .mobile-corridor--right{right:8px;background:linear-gradient(to bottom,transparent 0%,rgba(163,177,138,0.25) 15%,rgba(163,177,138,0.4) 50%,rgba(163,177,138,0.25) 85%,transparent 100%)}
             .mobile-margin-texture{display:flex;position:fixed;top:0;height:100%;pointer-events:none;z-index:10;flex-direction:column;padding-top:100px;overflow:hidden}
             .mobile-margin-texture--left{left:0;width:44px;align-items:center}
             .mobile-margin-texture--right{right:0;width:44px;align-items:center}
             .mobile-margin-word{font-family:'Lora',Georgia,serif;font-style:italic;color:var(--accent);writing-mode:vertical-rl;text-orientation:mixed;white-space:nowrap;display:block;line-height:1;opacity:0;transition:opacity 1.2s ease,transform 1.2s cubic-bezier(.23,1,.32,1);transform:translateY(6px)}
-            .mobile-margin-word.visible{transform:translateY(0);opacity:.5}
-            .mobile-margin-word--lg{font-size:15px;letter-spacing:.15em}.mobile-margin-word--lg.visible{opacity:.5}
-            .mobile-margin-word--sm{font-size:11px;letter-spacing:.2em;text-transform:uppercase}.mobile-margin-word--sm.visible{opacity:.5}
+            .mobile-margin-word.visible{transform:translateY(0);opacity:.24}
+            .mobile-margin-word--lg{font-size:15px;letter-spacing:.15em}.mobile-margin-word--lg.visible{opacity:.35}
+            .mobile-margin-word--sm{font-size:11px;letter-spacing:.2em;text-transform:uppercase}.mobile-margin-word--sm.visible{opacity:.30}
             .mobile-margin-line{display:block;opacity:0;transition:opacity 1s ease .3s}.mobile-margin-line.visible{opacity:1}
             .mobile-margin-line svg line{stroke:var(--accent);fill:none}
             
@@ -314,7 +312,6 @@
         <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item" style="margin-bottom:60px">perceiving</span>
         <span class="mobile-margin-line mobile-margin-item" style="margin-bottom:50px"><svg width="2" height="40" viewBox="0 0 2 40"><line x1="1" y1="0" x2="1" y2="40" stroke-width="0.8" opacity="0.32"/></svg></span>
         <span class="mobile-margin-word mobile-margin-word--lg mobile-margin-item" style="margin-bottom:80px">corridors</span>
-        <span class="mobile-margin-word mobile-margin-word--xs mobile-margin-item" style="margin-bottom:60px">what remains</span>
         <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item" style="margin-bottom:70px">forgetting</span>
         <span class="mobile-margin-line mobile-margin-item" style="margin-bottom:60px"><svg width="2" height="30" viewBox="0 0 2 30"><line x1="1" y1="0" x2="1" y2="30" stroke-width="0.8" opacity="0.28"/></svg></span>
         <span class="mobile-margin-word mobile-margin-word--lg mobile-margin-item" style="margin-bottom:90px">silence</span>
@@ -346,6 +343,7 @@
     <div class="margin-texture margin-texture--right" aria-hidden="true">
         <span class="margin-word margin-word--xs margin-item" style="margin-bottom:60px">lying</span>
         <span class="margin-line margin-item" style="margin-bottom:56px"><svg width="70" height="2" viewBox="0 0 70 2"><line x1="0" y1="1" x2="70" y2="1" stroke-width="0.8" opacity="0.32"/></svg></span>
+        <span class="margin-word margin-word--xs margin-item" style="margin-bottom:72px">longing</span>
         <span class="margin-word margin-word--sm margin-item" style="margin-bottom:50px">the walls</span>
         <span class="margin-line margin-item" style="margin-bottom:80px"><svg width="24" height="50" viewBox="0 0 24 50"><line x1="2" y1="0" x2="2" y2="50" stroke-width="0.8" opacity="0.32"/><line x1="12" y1="5" x2="12" y2="45" stroke-width="0.8" opacity="0.22"/></svg></span>
         <span class="margin-word margin-word--lg margin-item" style="margin-bottom:64px">forgiveness</span>
