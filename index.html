@@ -57,14 +57,7 @@
         .corridor-vline--left{left:calc((100vw - 680px)/2 - 12px)}.corridor-vline--right{right:calc((100vw - 680px)/2 - 12px)}
         @media(max-width:1050px){.corridor-vline{display:none}}
         
-        /* DAĞITILMIŞ ÖĞELERİN ANA KAPSAYICISI (Masaüstü ve Mobil için ortak) */
-        .dispersed-elements-container{
-            position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;
-            opacity:0; transition:opacity 1.5s ease; /* Sayfa yüklenirken puslu belirir */
-        }
-        .container-loaded .dispersed-elements-container{opacity:1;}
-        
-        /* DAĞITILMIŞ ÖĞELERİN STİLİ VE PUSLU BELİRME (SCROLL REVEAL) */
+        /* DAĞITILMIŞ PUSLU ÖĞELERİN STİLİ VE PUSLU BELİRME (SCROLL REVEAL) */
         .reveal-item{
             position:absolute;
             font-family:'Lora',Georgia,serif;
@@ -84,16 +77,14 @@
         .reveal-item.vizon{color:var(--vizon);}
         .reveal-item.petrol{color:var(--petrol);}
         .reveal-item.charcoal{color:var(--charcoal);}
-        .reveal-item.shape { border: 2px solid; } /* Şekiller için kenarlık */
+        
+        /* Sofistike Şekil Sınıfları */
+        .reveal-item.line { border-bottom: 2px solid; } /* Çizgi şekli */
+        .reveal-item.dotted-line { border-bottom: 2px dotted; } /* Noktalı çizgi şekli */
         
         /* Mobilde de bu sistem çalışmaya devam edecek, ama koridor çizgileri gizlenecek */
         @media(max-width:1050px){
             .reveal-item{ opacity: 0.18; } /* Mobilde pusluluk biraz daha az ki seçilsin */
-        }
-        @media(max-width:768px){
-            /* Mobilde kelimelerin çok büyük ve karmaşık durmaması için font ve şekil küçültmeleri */
-            .reveal-item{ font-size: 13px !important; }
-            .reveal-item.shape{ border-width: 1px; width: 30px !important; height: 30px !important; }
         }
         
         /* PERSPECTIVE LINE */
@@ -131,7 +122,7 @@
         .nav-links a{color:var(--charcoal);border:1px solid var(--vizon);letter-spacing:.03em;padding:5px 14px;border-radius:4px}
         .nav-links a:hover{background-color:var(--bg-deep)}
         
-        .hero{padding:56px 0 44px}
+        .hero{padding:56px 0 32px} /* Padding ayarlandı */
         /* HERO INTRO - Ayırıcı Çizgi */
         .hero-intro{display:flex;align-items:center;gap:24px;padding-bottom:32px;margin-bottom:32px;border-bottom:1px solid var(--border);}
         
@@ -141,17 +132,18 @@
         /* Alıntı - VİZON */
         .hero h1{font-size:19px;font-weight:400;line-height:1.5;margin-top:0;font-style:italic; color:var(--vizon);}
         
-        section{padding:44px 0;border-top:1px solid var(--border);transition:background-color .6s ease;position:relative}
+        section{padding:36px 0;border-top:1px solid var(--border);transition:background-color .6s ease;position:relative} /* Padding azaltıldı */
         section::before{content:'';position:absolute;top:-1px;left:0;width:0;height:1px;background:linear-gradient(to right,transparent,var(--petrol) 20%,var(--petrol) 80%,transparent);opacity:.2;transition:width 1s cubic-bezier(.23,1,.32,1)}
         section.line-drawn::before{width:100%}
         
         .hero-quote-word{display:inline;opacity:0;transform:translateY(4px);transition:opacity .35s ease,transform .4s cubic-bezier(.23,1,.32,1)}
         .hero-quote-word.word-visible{opacity:1;transform:translateY(0)}
         
+        /* İÇ KORİDORDAKİ FARKLI RENK TONLARI TEMİZLENDİ */
         section.depth-0{background-color:transparent}
-        section.depth-1{background-color:var(--bg-warm);margin-left:-28px;margin-right:-28px;padding-left:28px;padding-right:28px}
-        section.depth-2{background-color:var(--bg-deep);margin-left:-28px;margin-right:-28px;padding-left:28px;padding-right:28px}
-        section.depth-3{background-color:var(--bg-content);margin-left:-28px;margin-right:-28px;padding-left:28px;padding-right:28px}
+        section.depth-1{background-color:transparent; margin-left:-28px;margin-right:-28px;padding-left:28px;padding-right:28px}
+        section.depth-2{background-color:transparent; margin-left:-28px;margin-right:-28px;padding-left:28px;padding-right:28px}
+        section.depth-3{background-color:transparent; margin-left:-28px;margin-right:-28px;padding-left:28px;padding-right:28px}
         
         .scroll-reveal{opacity:0;transform:translateY(16px);transition:opacity .7s cubic-bezier(.23,1,.32,1),transform .7s cubic-bezier(.23,1,.32,1)}
         .scroll-reveal.revealed{opacity:1;transform:translateY(0)}
@@ -221,17 +213,29 @@
         /* Moris Cümlesi - VİZON */
         .moris-caption{margin-top:16px;text-align:center;font-size:15px;color:var(--vizon);font-style:italic}
         
-        footer{padding:40px 0;border-top:1px solid var(--border);text-align:center}
+        footer{padding:40px 0 32px;border-top:1px solid var(--border);text-align:center}
         footer p{font-size:13px;color:var(--vizon)}
         
-        /* MOBİL DÜZENLEMELER */
+        /* MOBİL DÜZENLEMELER VE TEMİZLİK (Canva/SVG Resim Sistemi Çöpe Atıldı) */
         .mobile-corridor{display:none}
+        .mobile-margin-texture{display:none} /* MASAÜSTÜNDE YIĞILMAYI ÖNLER */
         
         @media(max-width:1050px){
             .mobile-corridor{display:block;position:fixed;top:0;height:100%;width:2px;pointer-events:none;z-index:0;opacity:0;transition:opacity 1.5s ease}
             .mobile-corridor.visible{opacity:1}
             .mobile-corridor--left{left:8px;background:linear-gradient(to bottom,transparent 0%,var(--corridor-line) 15%,var(--corridor-line-active) 50%,var(--corridor-line) 85%,transparent 100%)}
             .mobile-corridor--right{right:8px;background:linear-gradient(to bottom,transparent 0%,var(--corridor-line) 15%,var(--corridor-line-active) 50%,var(--corridor-line) 85%,transparent 100%)}
+            
+            .mobile-margin-texture{display:flex;position:fixed;top:0;height:100%;pointer-events:none;z-index:10;flex-direction:column;padding-top:100px;overflow:hidden;}
+            .mobile-margin-texture--left{left:0;width:50px;align-items:center}
+            .mobile-margin-texture--right{right:0;width:50px;align-items:center}
+            
+            .mobile-margin-word{font-family:'Lora',Georgia,serif;font-style:italic;color:var(--vizon);writing-mode:vertical-rl;text-orientation:mixed;white-space:nowrap;display:block;line-height:1;opacity:0;transition:opacity 1.2s ease,transform 1.2s cubic-bezier(.23,1,.32,1);transform:translateY(6px)}
+            .mobile-margin-word.visible{transform:translateY(0);opacity:.24}
+            .mobile-margin-word--lg{font-size:15px;letter-spacing:.15em}.mobile-margin-word--lg.visible{opacity:.35}
+            .mobile-margin-word--sm{font-size:10px;letter-spacing:.15em;text-transform:uppercase}.mobile-margin-word--sm.visible{opacity:.30}
+            .mobile-margin-line{display:block;opacity:0;transition:opacity 1s ease .3s}.mobile-margin-line.visible{opacity:1}
+            .mobile-margin-line svg line{stroke:var(--petrol);fill:none;opacity:0.3}
             
             .container{padding:0 52px}
             section.depth-1,section.depth-2,section.depth-3{margin-left:-52px;margin-right:-52px;padding-left:52px;padding-right:52px}
@@ -257,6 +261,12 @@
             
             .container{padding:0 40px}
             
+            /* KESİLMEYİ ENGELLEMEK İÇİN ALAN GENİŞLETİLDİ (44'ten 50'ye) */
+            .mobile-margin-texture--left{width:50px}
+            .mobile-margin-texture--right{width:50px}
+            .mobile-margin-word--lg{font-size:13px}
+            .mobile-margin-word--sm{font-size:9.5px}
+            
             section.depth-1,section.depth-2,section.depth-3{margin-left:-40px;margin-right:-40px;padding-left:40px;padding-right:40px}
         }
         
@@ -281,23 +291,19 @@
     <div class="dispersed-elements-container" aria-hidden="true">
         
         <span class="reveal-item vizon pos-left-top" style="top: 15%; left: 5%; font-size: 24px;">perceiving</span>
-        <div class="reveal-item shape petrol circle pos-right-mid" style="top: 25%; right: 7%; width: 50px; height: 50px; border-radius: 50%;"></div>
-        <span class="reveal-item charcoal pos-left-low" style="top: 35%; left: 8%; font-size: 36px; transform: rotate(-90deg);">corridors</span>
+        <div class="reveal-item shape petrol pos-right-mid line" style="top: 25%; right: 7%; width: 100px; height: 10px;"></div> <span class="reveal-item charcoal pos-left-low" style="top: 35%; left: 8%; font-size: 36px; transform: rotate(-90deg);">corridors</span>
         
         <span class="reveal-item vizon pos-right-top" style="top: 55%; right: 5%; font-size: 19px; transform: rotate(90deg);">forgiveness</span>
-        <div class="reveal-item shape vizon rectangle pos-left-mid" style="top: 65%; left: 6%; width: 40px; height: 60px; transform: rotate(45deg);"></div>
-        <span class="reveal-item petrol pos-right-low" style="top: 75%; right: 8%; font-size: 28px;">beauty</span>
+        <div class="reveal-item shape vizon pos-left-mid dotted-line" style="top: 65%; left: 6%; width: 80px; height: 10px;"></div> <span class="reveal-item petrol pos-right-low" style="top: 75%; right: 8%; font-size: 28px;">beauty</span>
         
         <span class="reveal-item charcoal pos-left-top" style="top: 90%; left: 4%; font-size: 16px;">longing</span>
-        <div class="reveal-item shape charcoal rectangle pos-right-mid" style="top: 100%; right: 6%; width: 70px; height: 2px;"></div> <span class="reveal-item vizon pos-left-low" style="top: 110%; left: 7%; font-size: 42px;">silence</span>
+        <div class="reveal-item shape charcoal pos-right-mid line" style="top: 100%; right: 6%; width: 120px; height: 10px; transform: rotate(15deg);"></div> <span class="reveal-item vizon pos-left-low" style="top: 110%; left: 7%; font-size: 42px;">silence</span>
         
         <span class="reveal-item petrol pos-right-top" style="top: 125%; right: 5%; font-size: 20px;">forgetting</span>
-        <div class="reveal-item shape petrol circle pos-left-mid" style="top: 135%; left: 8%; width: 25px; height: 25px; border-radius: 50%;"></div>
-        <span class="reveal-item charcoal pos-right-low" style="top: 145%; right: 7%; font-size: 32px; transform: rotate(90deg);">lying</span>
+        <div class="reveal-item shape petrol pos-left-mid dotted-line" style="top: 135%; left: 8%; width: 50px; height: 10px; transform: rotate(-45deg);"></div> <span class="reveal-item charcoal pos-right-low" style="top: 145%; right: 7%; font-size: 32px; transform: rotate(90deg);">lying</span>
         
         <span class="reveal-item vizon pos-left-top" style="top: 165%; left: 5%; font-size: 18px;">the walls</span>
-        <div class="reveal-item shape vizon rectangle pos-right-mid" style="top: 175%; right: 6%; width: 60px; height: 60px; transform: rotate(-30deg);"></div>
-        <span class="reveal-item petrol pos-left-low" style="top: 185%; left: 6%; font-size: 38px;">nothingness</span>
+        <div class="reveal-item shape vizon pos-right-mid line" style="top: 175%; right: 6%; width: 90px; height: 10px; border-bottom-width: 4px;"></div> <span class="reveal-item petrol pos-left-low" style="top: 185%; left: 6%; font-size: 38px;">nothingness</span>
         <span class="reveal-item charcoal pos-right-top" style="top: 200%; right: 4%; font-size: 15px;">forgiveness</span>
 
     </div>
@@ -398,16 +404,32 @@
     (function(){
         'use strict';
         
-        // PUSLU BELİRME SİSTEMİ (SCROLL REVEAL)
+        // PUSLU BELİRME SİSTEMİ (SCROLL REVEAL & VANISH)
         var dispersedItems = document.querySelectorAll('.reveal-item');
         
+        // Önceki scroll pozisyonunu tut
+        var lastScrollTop = 0;
+        
         function checkReveal() {
+            var currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            var direction = currentScrollTop > lastScrollTop ? 'down' : 'up';
+            lastScrollTop = currentScrollTop;
+
             dispersedItems.forEach(function(item) {
                 var itemTop = item.getBoundingClientRect().top;
                 var triggerPoint = window.innerHeight * 0.85; // Ekranın %85'ine gelince belirir
                 
-                if (itemTop < triggerPoint) {
-                    item.classList.add('revealed');
+                // Aşağı inerken belirir
+                if (direction === 'down') {
+                    if (itemTop < triggerPoint) {
+                        item.classList.add('revealed');
+                    }
+                } 
+                // Yukarı çıkarken ve trigger alanının dışına çıkarsa kaybolur
+                else if (direction === 'up') {
+                    if (itemTop > triggerPoint) {
+                        item.classList.remove('revealed');
+                    }
                 }
             });
         }
@@ -415,12 +437,12 @@
         // Kahraman Alıntısı ve diğer standart revellar
         var hq=document.getElementById('hero-quote'),ws=[],ts=false;
         if(hq){var t=hq.textContent,w=t.split(/(\s+)/);hq.innerHTML='';
-            for(var i=0;i<w.length;i++){if(w[i].trim()===''){hq.appendChild(document.createTextNode(w[i]));}
+            for(var i=0;i<w.length;w++){if(w[i].trim()===''){hq.appendChild(document.createTextNode(w[i]));}
             else{var s=document.createElement('span');s.className='hero-quote-word';s.textContent=w[i];hq.appendChild(s);}}
             ws=hq.querySelectorAll('.hero-quote-word');
         }
         function stw(){if(ts||!ws.length)return;ts=true;
-            for(var i=0;i<ws.length;i++){(function(x){setTimeout(function(){ws[x].classList.add('word-visible');},400+x*60);})(i);}
+            for(var i=0;i<ws.length;w++){(function(x){setTimeout(function(){ws[x].classList.add('word-visible');},400+x*60);})(i);}
         }
         function iv(e){return e.getBoundingClientRect().top<window.innerHeight+100;}
         
@@ -440,7 +462,6 @@
         
         // Sayfa yüklendiğinde dispersed container'ı görünür yap
         window.addEventListener('load', function() {
-            document.body.classList.add('container-loaded');
             ta(); 
         });
         
