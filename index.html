@@ -52,57 +52,52 @@
         ::selection{background:var(--petrol);color:var(--cream)} 
         a{text-decoration:none;transition:color .2s ease,border-color .2s ease,background-color .2s ease}
         
-        /* Koridorun dikey sınır çizgileri (Masaüstünde koridor hissi) */
+        /* Koridorun dikey sınır çizgileri */
         .corridor-vline{position:fixed;top:0;height:100%;width:2px;pointer-events:none;z-index:0;background:linear-gradient(to bottom,transparent 0%,var(--corridor-line) 20%,var(--corridor-line-active) 50%,var(--corridor-line) 80%,transparent 100%)}
         .corridor-vline--left{left:calc((100vw - 680px)/2 - 12px)}.corridor-vline--right{right:calc((100vw - 680px)/2 - 12px)}
         @media(max-width:1050px){.corridor-vline{display:none}}
         
-        /* DAĞITILMIŞ PUSLU ÖĞELERİN STİLİ VE PUSLU BELİRME (SCROLL REVEAL) */
+        /* DAĞITILMIŞ PUSLU ÖĞELERİN STİLİ (SCROLL REVEAL & VANISH) */
         .reveal-item{
             position:absolute;
             font-family:'Lora',Georgia,serif;
             font-style:italic;
             pointer-events:none;
-            opacity:0; /* Başlangıçta görünmez */
-            transform:translateY(20px); /* Hafif aşağıda durur */
-            transition:opacity 0.7s ease,transform 0.7s ease; /* Puslu belirme geçişi */
-            z-index:0; /* İçeriğin arkasında kalır */
+            opacity:0; 
+            transform:translateY(30px); 
+            transition:opacity 0.8s ease, transform 0.8s cubic-bezier(0.25, 1, 0.5, 1); 
+            z-index:0; 
         }
         .reveal-item.revealed{
-            opacity:0.12; /* Puslu belirir */
-            transform:translateY(0); /* Yerine oturur */
+            opacity:0.12; /* Fildişi zeminde puslu görünüm */
+            transform:translateY(0); 
         }
         
-        /* Renk ve Stil Sınıfları */
-        .reveal-item.vizon{color:var(--vizon);}
-        .reveal-item.petrol{color:var(--petrol);}
-        .reveal-item.charcoal{color:var(--charcoal);}
+        .reveal-item.vizon{color:var(--vizon); border-color:var(--vizon);}
+        .reveal-item.petrol{color:var(--petrol); border-color:var(--petrol);}
+        .reveal-item.charcoal{color:var(--charcoal); border-color:var(--charcoal);}
         
-        /* Sofistike Şekil Sınıfları */
-        .reveal-item.line { border-bottom: 2px solid; } /* Çizgi şekli */
-        .reveal-item.dotted-line { border-bottom: 2px dotted; } /* Noktalı çizgi şekli */
+        .reveal-item.line { border-bottom-style: solid; border-bottom-width: 1px; } 
+        .reveal-item.dotted-line { border-bottom-style: dotted; border-bottom-width: 2px; } 
+        .reveal-item.thick-line { border-bottom-style: solid; border-bottom-width: 3px; }
         
-        /* Mobilde de bu sistem çalışmaya devam edecek, ama koridor çizgileri gizlenecek */
         @media(max-width:1050px){
-            .reveal-item{ opacity: 0.18; } /* Mobilde pusluluk biraz daha az ki seçilsin */
+            .reveal-item{ opacity: 0; } 
+            .reveal-item.revealed{ opacity: 0.18; } /* Mobilde biraz daha belirgin */
         }
         
-        /* PERSPECTIVE LINE */
         .perspective-line{display:block;margin:0 auto 32px;max-width:320px;width:100%;height:48px;opacity:0;transform:scaleX(.3);transition:opacity 1.2s ease,transform 1.4s cubic-bezier(.23,1,.32,1)}
         .perspective-line.visible{opacity:1;transform:scaleX(1)}
         .perspective-line line{stroke:var(--vizon);stroke-width:.8;opacity:.35}.perspective-line circle{fill:var(--vizon);opacity:.25}
         
-        /* ANA KORİDOR KUTUSU */
         .container{max-width:680px;margin:0 auto;padding:0 28px;position:relative;z-index:1;}
         
         header{padding:40px 0 0}
         nav{display:flex;flex-direction:column;gap:10px;padding-bottom:20px;border-bottom:1px solid var(--border)}
         
-        /* HAKAN ALTUN - VİZON */
         .site-name{font-size:24px;letter-spacing:.02em;text-transform:uppercase;color:var(--vizon);border:none;font-weight:500;display:block}
         .site-logo-row{display:flex;align-items:center;gap:10px;border:none}
         
-        /* Sitenin Canva Logosu */
         .site-logo{
             width:48px; 
             height:48px;
@@ -112,34 +107,28 @@
             flex-shrink:0;
         }
         
-        /* Dış Tagline: On (Vizon) / Life & Everything (Petrol) */
         .site-tagline{font-size:15px;letter-spacing:.04em;font-style:italic;display:flex;align-items:baseline;gap:4px;border:none}
         .tagline-on{color:var(--vizon);font-size:16px}
         .tagline-green{color:var(--petrol);font-size:15px} 
         
-        /* Nav Bar - Metin (Kömür Yeşili), Border (Vizon) */
         .nav-links{display:flex;gap:8px;font-size:15px}
         .nav-links a{color:var(--charcoal);border:1px solid var(--vizon);letter-spacing:.03em;padding:5px 14px;border-radius:4px}
         .nav-links a:hover{background-color:var(--bg-deep)}
         
-        .hero{padding:56px 0 32px} /* Padding ayarlandı */
-        /* HERO INTRO - Ayırıcı Çizgi */
+        .hero{padding:56px 0 32px} 
         .hero-intro{display:flex;align-items:center;gap:24px;padding-bottom:32px;margin-bottom:32px;border-bottom:1px solid var(--border);}
         
-        /* Bio - VİZON */
         .hero .subtitle{font-size:19px;color:var(--vizon);line-height:1.7;max-width:520px;font-style:italic}
-        
-        /* Alıntı - VİZON */
         .hero h1{font-size:19px;font-weight:400;line-height:1.5;margin-top:0;font-style:italic; color:var(--vizon);}
         
-        section{padding:36px 0;border-top:1px solid var(--border);transition:background-color .6s ease;position:relative} /* Padding azaltıldı */
+        section{padding:36px 0;border-top:1px solid var(--border);transition:background-color .6s ease;position:relative} 
         section::before{content:'';position:absolute;top:-1px;left:0;width:0;height:1px;background:linear-gradient(to right,transparent,var(--petrol) 20%,var(--petrol) 80%,transparent);opacity:.2;transition:width 1s cubic-bezier(.23,1,.32,1)}
         section.line-drawn::before{width:100%}
         
         .hero-quote-word{display:inline;opacity:0;transform:translateY(4px);transition:opacity .35s ease,transform .4s cubic-bezier(.23,1,.32,1)}
         .hero-quote-word.word-visible{opacity:1;transform:translateY(0)}
         
-        /* İÇ KORİDORDAKİ FARKLI RENK TONLARI TEMİZLENDİ */
+        /* Şeffaf İç Koridor */
         section.depth-0{background-color:transparent}
         section.depth-1{background-color:transparent; margin-left:-28px;margin-right:-28px;padding-left:28px;padding-right:28px}
         section.depth-2{background-color:transparent; margin-left:-28px;margin-right:-28px;padding-left:28px;padding-right:28px}
@@ -149,9 +138,7 @@
         .scroll-reveal.revealed{opacity:1;transform:translateY(0)}
         .scroll-reveal:nth-child(2){transition-delay:.08s}.scroll-reveal:nth-child(3){transition-delay:.16s}
         
-        /* Bölüm Başlıkları - KÖMÜR YEŞİLİ */
         .section-label{font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:var(--charcoal);margin-bottom:24px;display:block} 
-        /* Kitap Adı - KÖMÜR YEŞİLİ */
         h2{font-size:28px;font-weight:normal;margin-bottom:20px;line-height:1.35;color:var(--charcoal)}
         p+p{margin-top:16px}
         
@@ -159,15 +146,12 @@
         .book-cover{width:100%;aspect-ratio:2/3;background:var(--bg-warm);border:1px solid var(--border);display:flex;align-items:center;justify-content:center}
         .book-cover img{width:100%;height:100%;object-fit:cover}
         
-        /* Kitap Açıklaması - VİZON */
         .book-info p{color:var(--vizon);font-size:17px}
         
-        /* Book Butonları - Metin (Kömür Yeşili), Dış (Vizon) */
         .book-links{margin-top:24px;display:flex;gap:16px;flex-wrap:wrap}
         .book-links a{font-size:14px;padding:8px 20px;border:1px solid var(--vizon);color:var(--charcoal);letter-spacing:.04em;border-radius:4px;}
         .book-links a:hover{background:var(--charcoal);color:var(--cream);border-color:var(--charcoal);}
         
-        /* Bölüm Açıklamaları - VİZON */
         .section-desc {color:var(--vizon);margin-bottom:24px;font-style:italic}
 
         .essay-list{list-style:none}
@@ -180,27 +164,18 @@
         .essay-card:hover .essay-thumb{opacity:1}
         .essay-card-text{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
         
-        /* Essay Başlıkları - KÖMÜR YEŞİLİ */
         .essay-title{font-size:19px;font-style:italic;color:var(--charcoal);}
         .essay-list a:hover .essay-title,.essay-card:hover .essay-title{color:var(--petrol)} 
         
-        /* Essay Alt Başlıkları - VİZON */
         .essay-card-subtitle{font-size:14px;color:var(--vizon);font-style:normal;line-height:1.5}
-        
-        /* Tarih ve Okunma Süresi - VİZON */
         .essay-meta{font-size:13px;color:var(--vizon);font-style:normal;display:block;margin-top:2px} 
-        
-        /* 1 of 7 vb. - VİZON */
         .essay-number{font-size:13px;color:var(--vizon);flex-shrink:0;margin-left:16px;align-self:flex-start;margin-top:2px}
         
         .series-note{margin-top:20px;font-size:15px;color:var(--vizon);font-style:italic}
-        
-        /* About Yazısı - VİZON */
         .about-text p{color:var(--vizon);max-width:560px}
         
         .profile-photo{width:180px;height:180px;min-width:180px;min-height:180px;border-radius:50%;object-fit:cover;object-position:center 20%;border:2px solid var(--border);background:var(--bg-warm)}
         
-        /* Find Me Linkleri - VİZON */
         .link-list{list-style:none;display:flex;flex-direction:column;gap:12px}
         .link-list a{font-size:16px;display:inline-flex;align-items:baseline;gap:8px; color:var(--vizon); border-bottom: 1px solid var(--border);}
         .link-arrow{font-size:13px;color:var(--vizon);transition:transform .2s ease;display:inline-block}
@@ -209,33 +184,19 @@
         
         .moris-video{max-width:300px;margin:0 auto;border-radius:8px;overflow:hidden;box-shadow:0 2px 16px var(--shadow)}
         .moris-video iframe{width:100%;aspect-ratio:9/16;border:none;display:block}
-        
-        /* Moris Cümlesi - VİZON */
         .moris-caption{margin-top:16px;text-align:center;font-size:15px;color:var(--vizon);font-style:italic}
         
         footer{padding:40px 0 32px;border-top:1px solid var(--border);text-align:center}
         footer p{font-size:13px;color:var(--vizon)}
         
-        /* MOBİL DÜZENLEMELER VE TEMİZLİK (Canva/SVG Resim Sistemi Çöpe Atıldı) */
+        /* MOBİL DÜZENLEMELER */
         .mobile-corridor{display:none}
-        .mobile-margin-texture{display:none} /* MASAÜSTÜNDE YIĞILMAYI ÖNLER */
         
         @media(max-width:1050px){
             .mobile-corridor{display:block;position:fixed;top:0;height:100%;width:2px;pointer-events:none;z-index:0;opacity:0;transition:opacity 1.5s ease}
             .mobile-corridor.visible{opacity:1}
             .mobile-corridor--left{left:8px;background:linear-gradient(to bottom,transparent 0%,var(--corridor-line) 15%,var(--corridor-line-active) 50%,var(--corridor-line) 85%,transparent 100%)}
             .mobile-corridor--right{right:8px;background:linear-gradient(to bottom,transparent 0%,var(--corridor-line) 15%,var(--corridor-line-active) 50%,var(--corridor-line) 85%,transparent 100%)}
-            
-            .mobile-margin-texture{display:flex;position:fixed;top:0;height:100%;pointer-events:none;z-index:10;flex-direction:column;padding-top:100px;overflow:hidden;}
-            .mobile-margin-texture--left{left:0;width:50px;align-items:center}
-            .mobile-margin-texture--right{right:0;width:50px;align-items:center}
-            
-            .mobile-margin-word{font-family:'Lora',Georgia,serif;font-style:italic;color:var(--vizon);writing-mode:vertical-rl;text-orientation:mixed;white-space:nowrap;display:block;line-height:1;opacity:0;transition:opacity 1.2s ease,transform 1.2s cubic-bezier(.23,1,.32,1);transform:translateY(6px)}
-            .mobile-margin-word.visible{transform:translateY(0);opacity:.24}
-            .mobile-margin-word--lg{font-size:15px;letter-spacing:.15em}.mobile-margin-word--lg.visible{opacity:.35}
-            .mobile-margin-word--sm{font-size:10px;letter-spacing:.15em;text-transform:uppercase}.mobile-margin-word--sm.visible{opacity:.30}
-            .mobile-margin-line{display:block;opacity:0;transition:opacity 1s ease .3s}.mobile-margin-line.visible{opacity:1}
-            .mobile-margin-line svg line{stroke:var(--petrol);fill:none;opacity:0.3}
             
             .container{padding:0 52px}
             section.depth-1,section.depth-2,section.depth-3{margin-left:-52px;margin-right:-52px;padding-left:52px;padding-right:52px}
@@ -255,17 +216,15 @@
             .site-tagline{font-size:12px}.tagline-on{font-size:13px}.tagline-green{font-size:12px}
             
             .site-logo{width:40px;height:40px;}
-            
             .essay-thumb{width:52px;height:52px;min-width:52px}.essay-card-subtitle{font-size:13px}
             .corridor-vline{display:none}
             
             .container{padding:0 40px}
             
-            /* KESİLMEYİ ENGELLEMEK İÇİN ALAN GENİŞLETİLDİ (44'ten 50'ye) */
-            .mobile-margin-texture--left{width:50px}
-            .mobile-margin-texture--right{width:50px}
-            .mobile-margin-word--lg{font-size:13px}
-            .mobile-margin-word--sm{font-size:9.5px}
+            /* Mobilde kelime ve şekillerin dağılımı için boyut ayarı */
+            .reveal-item{ font-size: 13px !important; }
+            .reveal-item.line, .reveal-item.thick-line{ width: 40px !important; }
+            .reveal-item.dotted-line{ width: 30px !important; }
             
             section.depth-1,section.depth-2,section.depth-3{margin-left:-40px;margin-right:-40px;padding-left:40px;padding-right:40px}
         }
@@ -289,23 +248,26 @@
     <div class="mobile-corridor mobile-corridor--right" aria-hidden="true"></div>
 
     <div class="dispersed-elements-container" aria-hidden="true">
+        <span class="reveal-item vizon" style="top: 8%; left: 6%; font-size: 28px;">perceiving</span>
+        <div class="reveal-item shape petrol dotted-line" style="top: 12%; right: 9%; width: 60px; height: 0;"></div>
         
-        <span class="reveal-item vizon pos-left-top" style="top: 15%; left: 5%; font-size: 24px;">perceiving</span>
-        <div class="reveal-item shape petrol pos-right-mid line" style="top: 25%; right: 7%; width: 100px; height: 10px;"></div> <span class="reveal-item charcoal pos-left-low" style="top: 35%; left: 8%; font-size: 36px; transform: rotate(-90deg);">corridors</span>
+        <span class="reveal-item charcoal" style="top: 18%; right: 7%; font-size: 22px; transform: rotate(90deg); letter-spacing: 2px;">what remains</span>
+        <div class="reveal-item shape vizon thick-line" style="top: 24%; left: 8%; width: 45px; height: 0; transform: rotate(45deg);"></div>
         
-        <span class="reveal-item vizon pos-right-top" style="top: 55%; right: 5%; font-size: 19px; transform: rotate(90deg);">forgiveness</span>
-        <div class="reveal-item shape vizon pos-left-mid dotted-line" style="top: 65%; left: 6%; width: 80px; height: 10px;"></div> <span class="reveal-item petrol pos-right-low" style="top: 75%; right: 8%; font-size: 28px;">beauty</span>
+        <span class="reveal-item petrol" style="top: 32%; left: 5%; font-size: 34px;">forgetting</span>
+        <span class="reveal-item vizon" style="top: 40%; right: 8%; font-size: 26px;">silence</span>
         
-        <span class="reveal-item charcoal pos-left-top" style="top: 90%; left: 4%; font-size: 16px;">longing</span>
-        <div class="reveal-item shape charcoal pos-right-mid line" style="top: 100%; right: 6%; width: 120px; height: 10px; transform: rotate(15deg);"></div> <span class="reveal-item vizon pos-left-low" style="top: 110%; left: 7%; font-size: 42px;">silence</span>
+        <div class="reveal-item shape charcoal line" style="top: 45%; left: 4%; width: 80px; height: 0;"></div>
+        <span class="reveal-item vizon" style="top: 52%; left: 7%; font-size: 20px; transform: rotate(-90deg);">nostalgia</span>
         
-        <span class="reveal-item petrol pos-right-top" style="top: 125%; right: 5%; font-size: 20px;">forgetting</span>
-        <div class="reveal-item shape petrol pos-left-mid dotted-line" style="top: 135%; left: 8%; width: 50px; height: 10px; transform: rotate(-45deg);"></div> <span class="reveal-item charcoal pos-right-low" style="top: 145%; right: 7%; font-size: 32px; transform: rotate(90deg);">lying</span>
+        <span class="reveal-item charcoal" style="top: 60%; right: 5%; font-size: 40px;">lying</span>
+        <div class="reveal-item shape petrol dotted-line" style="top: 68%; left: 9%; width: 50px; height: 0; transform: rotate(-30deg);"></div>
         
-        <span class="reveal-item vizon pos-left-top" style="top: 165%; left: 5%; font-size: 18px;">the walls</span>
-        <div class="reveal-item shape vizon pos-right-mid line" style="top: 175%; right: 6%; width: 90px; height: 10px; border-bottom-width: 4px;"></div> <span class="reveal-item petrol pos-left-low" style="top: 185%; left: 6%; font-size: 38px;">nothingness</span>
-        <span class="reveal-item charcoal pos-right-top" style="top: 200%; right: 4%; font-size: 15px;">forgiveness</span>
-
+        <span class="reveal-item petrol" style="top: 76%; left: 5%; font-size: 30px;">looking back</span>
+        <div class="reveal-item shape vizon line" style="top: 82%; right: 6%; width: 100px; height: 0; transform: rotate(15deg);"></div>
+        
+        <span class="reveal-item vizon" style="top: 90%; right: 8%; font-size: 36px;">nothingness</span>
+        <span class="reveal-item charcoal" style="top: 96%; left: 6%; font-size: 24px; transform: rotate(90deg);">longing</span>
     </div>
 
     <div class="container">
@@ -407,29 +369,17 @@
         // PUSLU BELİRME SİSTEMİ (SCROLL REVEAL & VANISH)
         var dispersedItems = document.querySelectorAll('.reveal-item');
         
-        // Önceki scroll pozisyonunu tut
-        var lastScrollTop = 0;
-        
         function checkReveal() {
-            var currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            var direction = currentScrollTop > lastScrollTop ? 'down' : 'up';
-            lastScrollTop = currentScrollTop;
+            var triggerPoint = window.innerHeight * 0.85; 
 
             dispersedItems.forEach(function(item) {
                 var itemTop = item.getBoundingClientRect().top;
-                var triggerPoint = window.innerHeight * 0.85; // Ekranın %85'ine gelince belirir
                 
-                // Aşağı inerken belirir
-                if (direction === 'down') {
-                    if (itemTop < triggerPoint) {
-                        item.classList.add('revealed');
-                    }
-                } 
-                // Yukarı çıkarken ve trigger alanının dışına çıkarsa kaybolur
-                else if (direction === 'up') {
-                    if (itemTop > triggerPoint) {
-                        item.classList.remove('revealed');
-                    }
+                // Aşağı inince (ekrana girince) belirir, yukarı çıkınca kaybolur
+                if (itemTop < triggerPoint && itemTop > -50) {
+                    item.classList.add('revealed');
+                } else {
+                    item.classList.remove('revealed'); 
                 }
             });
         }
@@ -437,12 +387,12 @@
         // Kahraman Alıntısı ve diğer standart revellar
         var hq=document.getElementById('hero-quote'),ws=[],ts=false;
         if(hq){var t=hq.textContent,w=t.split(/(\s+)/);hq.innerHTML='';
-            for(var i=0;i<w.length;w++){if(w[i].trim()===''){hq.appendChild(document.createTextNode(w[i]));}
+            for(var i=0;i<w.length;i++){if(w[i].trim()===''){hq.appendChild(document.createTextNode(w[i]));}
             else{var s=document.createElement('span');s.className='hero-quote-word';s.textContent=w[i];hq.appendChild(s);}}
             ws=hq.querySelectorAll('.hero-quote-word');
         }
         function stw(){if(ts||!ws.length)return;ts=true;
-            for(var i=0;i<ws.length;w++){(function(x){setTimeout(function(){ws[x].classList.add('word-visible');},400+x*60);})(i);}
+            for(var i=0;i<ws.length;i++){(function(x){setTimeout(function(){ws[x].classList.add('word-visible');},400+x*60);})(i);}
         }
         function iv(e){return e.getBoundingClientRect().top<window.innerHeight+100;}
         
@@ -460,7 +410,7 @@
         window.addEventListener('scroll',function(){if(!tk){requestAnimationFrame(function(){ta();tk=false;});tk=true;}},{passive:true});
         ta();
         
-        // Sayfa yüklendiğinde dispersed container'ı görünür yap
+        // Sayfa yüklendiğinde checkReveal'ı çalıştır
         window.addEventListener('load', function() {
             ta(); 
         });
