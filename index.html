@@ -6,7 +6,7 @@
     <title>Hakan Altun — On Life & Everything</title>
     <meta name="description" content="Hakan Altun is a lecturer based in İstanbul. Author of Forgetting the Color of Nothingness and The On Series essays. Exploring perception and architectures build inside ourselves.">
     <meta name="author" content="Hakan Altun">
-    <meta name="keywords" content="Hakan Altun, Forgetting the Color of Nothingness, The On Series, philosophical essays, İstanbul lecturer, Yeditepe University, intellectual minimalism">
+    <meta name="keywords" content="Hakan Altun, Forgetting the Color of Nothingness, The On Series, philosophical essays, İstanbul lecturer, Yeditepe University, intellectual minimalism, charcoal green, sage green, perception, forgetting">
 
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://hakaanaltun.github.io/">
@@ -26,8 +26,7 @@
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link rel="manifest" href="manifest.json">
 
-    <meta name="theme-color" content="#FAF8F4"> 
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#FAF8F4"> <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="On Life & Everything">
 
@@ -42,22 +41,22 @@
         
         *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
         
-        /* YENİ RENK PALETİ */
+        /* blog Renk Şeması (Son Güncelleme) */
         :root{
-            --bg:#FAF8F4;              
-            --bg-warm:#F5F3ED;         
-            --bg-deep:#EDEBE1;         
-            --bg-content:#E3E1D5;      
-            --text:#2F3D3C;            /* Kömür Yeşili (Ana Metinler) */
-            --text-light:#8A8279;      /* Vizon / Krem (Biodaki renk) */
-            --accent:#849673;          /* Adaçayı Yeşili */
-            --accent-hover:#6B7B5A;    
-            --accent-cool:#5B6A50;     
-            --border:#E8E2D9;          
+            --bg:#FAF8F4;              /* Light Bone Cream ( blog Ana Zemin Rengi) */
+            --bg-warm:#F5F3ED;         /* Light Stone Cream ( depth-1) */
+            --bg-deep:#EDEBE1;         /* depth-2 */
+            --bg-content:#E3E1D5;      /* depth-3 */
+            --text:#2F3D3C;            /* Dark Charcoal Yeşil (Adaçayı değil, Koyu Yeşil) */
+            --text-light:#4A5D5A;      /* Medium Charcoal Yeşil */
+            --accent:#2F3D3C;          /* Koyu Kömür Yeşili (İkon Tonu ve Kenar Yazıları) */
+            --accent-hover:#1A2625;    /* Daha Koyu Kömür Yeşili */
+            --accent-cool:#5B6A50;     /* Deep Sage Green */
+            --border:#E8E2D9;          /* Light Stone Gray */
             --cream:#FDFCFA;           
             --shadow:rgba(47,61,60,0.04);
-            --corridor-line:rgba(132,150,115,0.12); 
-            --corridor-line-active:rgba(132,150,115,0.28);
+            --corridor-line:rgba(47,61,60,0.12); /* Koyu Kömür Yeşili */
+            --corridor-line-active:rgba(47,61,60,0.28);
         }
         
         html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
@@ -66,15 +65,17 @@
         a{color:var(--accent-hover);text-decoration:none;border-bottom:1px solid var(--border);transition:border-color .2s ease}
         a:hover{border-color:var(--accent-hover)}
         
-        /* KENAR YAZILARI (Z-INDEX EKLENDİ) */
+        /* KENAR YAZILARI (Z-INDEX VE DAHA BELİRGİN STİL GÜNCELLEMESİ) */
         .margin-texture{position:fixed;top:0;height:100%;pointer-events:none;z-index:10;overflow:hidden}
         .margin-texture--left{left:0;width:calc((100vw - 680px)/2 - 8px);display:flex;flex-direction:column;align-items:flex-end;padding-right:24px;padding-top:120px}
         .margin-texture--right{right:0;width:calc((100vw - 680px)/2 - 8px);display:flex;flex-direction:column;align-items:flex-start;padding-left:24px;padding-top:200px}
         .margin-word{font-family:'Lora',Georgia,serif;font-style:italic;color:var(--accent);opacity:0;transition:opacity 1.2s ease,transform 1.2s cubic-bezier(.23,1,.32,1);transform:translateY(8px);white-space:nowrap;display:block;line-height:1}
+        
+        /* Kenar yazıları daha belirgin (Opacity tam yapıldı) */
         .margin-word.visible{opacity:1;transform:translateY(0)}
-        .margin-word--lg{font-size:22px;letter-spacing:.12em}.margin-word--lg.visible{opacity:.38}
-        .margin-word--sm{font-size:15px;letter-spacing:.18em;text-transform:uppercase}.margin-word--sm.visible{opacity:.32}
-        .margin-word--xs{font-size:12px;letter-spacing:.25em;text-transform:uppercase}.margin-word--xs.visible{opacity:.28}
+        .margin-word--lg{font-size:22px;letter-spacing:.12em}
+        .margin-word--sm{font-size:15px;letter-spacing:.18em;text-transform:uppercase}
+        .margin-word--xs{font-size:12px;letter-spacing:.25em;text-transform:uppercase}
         
         .margin-line{display:block;opacity:0;transition:opacity 1s ease .3s}.margin-line.visible{opacity:1}
         .margin-line svg{display:block}.margin-line svg line,.margin-line svg circle{stroke:var(--accent);fill:none}
@@ -92,78 +93,32 @@
         header{padding:40px 0 0}
         nav{display:flex;flex-direction:column;gap:10px;padding-bottom:20px;border-bottom:1px solid var(--border)}
         
-        .site-name{font-size:24px;letter-spacing:.02em;text-transform:uppercase;color:var(--text-light);border:none;font-weight:500;display:block}
+        .site-name{font-size:24px;letter-spacing:.02em;text-transform:uppercase;color:var(--text);border:none;font-weight:500;display:block}
         
         .site-logo-row{display:flex;align-items:center;gap:10px;border:none}
         
-        /* LOGO DÜZENLEMESİ */
-        .site-logo{
-            width:40px;
-            height:40px;
-            border-radius:9px;
-            border:1px solid var(--border);
-            background:var(--cream);
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            flex-shrink:0;
-            position:relative; 
-            overflow: hidden; /* Dışarı taşmaları gizler */
-        }
+        /* LOGO VE İÇİNDEKİ YAZILAR (KESİN ÇÖZÜM - ABSOLUTE YÖNTEMİ) */
+        .site-logo{width:40px;height:40px;border-radius:9px;border:1px solid var(--border);background:var(--cream);display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;padding:0;position:relative}
         
-        /* ÇİZGİLER (Uçtan uca ve farklı renklerde) */
-        .site-logo .line-on-top, 
-        .site-logo .line-le-bottom {
-            position:absolute;
-            left:0;
-            width:100%; /* Uçtan uca değmesi için */
-            height:1px; 
-            border:none;
-        }
+        /* Yazılar tam merkezdeki gruba alındı */
+        .site-logo .logo-text-group {display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;position:relative;z-index:1}
         
-        .site-logo .line-on-top { 
-            top: 9px; 
-            background-color: var(--accent); /* Üst çizgi Adaçayı Yeşili */
-        } 
+        .site-logo .logo-on{font-family:'Lora',Georgia,serif;font-style:italic;font-size:10px;color:var(--text-light);line-height:1;margin:0}
+        .site-logo .logo-le{font-family:'Lora',Georgia,serif;font-style:italic;font-size:3.5px;color:var(--accent-cool);line-height:1.1;text-align:center;letter-spacing:.02em;margin:0}
         
-        .site-logo .line-le-bottom { 
-            bottom: 9px; 
-            background-color: var(--text-light); /* Alt çizgi Vizon/Krem */
-        }
-
-        .site-logo .logo-text-group {
-            display:flex;
-            flex-direction:column;
-            align-items:center;
-            justify-content:center;
-            margin-top: -0.5px; 
-        }
+        /* ÇİZGİLER (Tamamen Serbest Bırakıldı - Yazıdan Bağımsız - Eşit Kalınlık) */
+        .site-logo .line-on-top, .site-logo .line-le-bottom {display:block;height:1px;background-color:var(--accent);position:absolute;width:100%;left:0;border:none}
         
-        .site-logo .logo-on{
-            font-family:'Lora',Georgia,serif;
-            font-style:italic;
-            font-size:10px;
-            color:var(--text-light); 
-            line-height:1;
-            margin:0;
-        }
-        .site-logo .logo-le{
-            font-family:'Lora',Georgia,serif;
-            font-style:italic;
-            font-size:3.5px;
-            color:var(--text); /* Kömür Yeşili */
-            line-height:1.1;
-            text-align:center;
-            letter-spacing:.02em;
-            margin:1px 0 0 0; 
-        }
+        /* Sandviç Baskısı - Milimetrik Mesafe Ayarı (Aynı kalınlıkta, üst ve alt sınır) */
+        .site-logo .line-on-top { top: 9px; }
+        .site-logo .line-le-bottom { bottom: 9px; }
         
         .site-tagline{font-size:15px;letter-spacing:.04em;font-style:italic;display:flex;align-items:baseline;gap:4px;border:none}
         .tagline-on{color:var(--text-light);font-size:16px}.tagline-green{color:var(--accent-cool);font-size:15px}
         
         .nav-links{display:flex;gap:8px;font-size:15px}
         .nav-links a{color:var(--text-light);border:1px solid var(--border);letter-spacing:.03em;transition:color .2s ease,border-color .2s ease,background-color .2s ease;padding:5px 14px;border-radius:4px}
-        .nav-links a:hover{color:var(--text);border-color:var(--accent);background-color:rgba(132,150,115,.15)}
+        .nav-links a:hover{color:var(--text);border-color:var(--accent);background-color:rgba(47,61,60,0.15)}
         
         .hero{padding:56px 0 44px}
         .hero-intro{display:flex;align-items:center;gap:24px;margin-bottom:8px}
@@ -201,7 +156,7 @@
         .essay-list{list-style:none}
         .essay-list li{padding:16px 0;border-bottom:1px solid var(--border);transition:transform .3s cubic-bezier(.23,1,.32,1),background-color .3s ease;margin-left:-8px;margin-right:-8px;padding-left:8px;padding-right:8px;border-radius:2px}
         .essay-list li:first-child{padding-top:0}
-        .essay-list li:hover{transform:translateX(6px);background-color:rgba(132,150,115,.08)}
+        .essay-list li:hover{transform:translateX(6px);background-color:rgba(222,214,202,.25)}
         .essay-list a{border:none;display:flex;justify-content:space-between;align-items:baseline}
         .essay-card{border:none;display:flex;align-items:center;gap:16px;width:100%}
         .essay-thumb{width:64px;height:64px;min-width:64px;border-radius:6px;object-fit:cover;opacity:.85;transition:opacity .2s ease}
@@ -239,8 +194,8 @@
         @media(max-width:1050px){
             .mobile-corridor{display:block;position:fixed;top:0;height:100%;width:2px;pointer-events:none;z-index:0;opacity:0;transition:opacity 1.5s ease}
             .mobile-corridor.visible{opacity:1}
-            .mobile-corridor--left{left:8px;background:linear-gradient(to bottom,transparent 0%,rgba(132,150,115,0.25) 15%,rgba(132,150,115,0.4) 50%,rgba(132,150,115,0.25) 85%,transparent 100%)}
-            .mobile-corridor--right{right:8px;background:linear-gradient(to bottom,transparent 0%,rgba(132,150,115,0.25) 15%,rgba(132,150,115,0.4) 50%,rgba(132,150,115,0.25) 85%,transparent 100%)}
+            .mobile-corridor--left{left:8px;background:linear-gradient(to bottom,transparent 0%,rgba(163,177,138,0.25) 15%,rgba(163,177,138,0.4) 50%,rgba(163,177,138,0.25) 85%,transparent 100%)}
+            .mobile-corridor--right{right:8px;background:linear-gradient(to bottom,transparent 0%,rgba(163,177,138,0.25) 15%,rgba(163,177,138,0.4) 50%,rgba(163,177,138,0.25) 85%,transparent 100%)}
             .mobile-margin-texture{display:flex;position:fixed;top:0;height:100%;pointer-events:none;z-index:10;flex-direction:column;padding-top:100px;overflow:hidden}
             .mobile-margin-texture--left{left:0;width:44px;align-items:center}
             .mobile-margin-texture--right{right:0;width:44px;align-items:center}
@@ -265,13 +220,13 @@
             .nav-links a{padding:4px 10px}
             .site-tagline{font-size:12px}.tagline-on{font-size:13px}.tagline-green{font-size:12px}
             
-            /* MOBİL LOGO */
+            /* MOBİL LOGO (Absolute kurallar ile orantılı küçülme) */
             .site-logo{width:34px;height:34px;border-radius:7px;}
             .site-logo .line-on-top, .site-logo .line-le-bottom { width:100%; left:0; }
-            .site-logo .line-on-top { top: 7px; }
-            .site-logo .line-le-bottom { bottom: 7px; }
+            .site-logo .line-on-top { top: 8px; }
+            .site-logo .line-le-bottom { bottom: 8px; }
             .site-logo .logo-on{font-size:8.5px;}
-            .site-logo .logo-le{font-size:3px; margin-top: 0.5px;}
+            .site-logo .logo-le{font-size:3px;}
             
             .hero-intro .profile-photo{display:block;width:110px;height:110px;min-width:110px;min-height:110px;align-self:flex-start;margin-top:2px}
             .essay-thumb{width:52px;height:52px;min-width:52px}.essay-card-subtitle{font-size:13px}
