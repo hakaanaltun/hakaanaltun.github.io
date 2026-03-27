@@ -42,14 +42,14 @@
         
         *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
         
-        /* RENK PALETİ */
+        /* RENK PALETİ (Yeni ve Canlandırılmış) */
         :root{
-            --bg:#FAF8F4;              
-            --bg-warm:#F5F3ED;         
-            --bg-deep:#EDEBE1;         
-            --bg-content:#E3E1D5;      
-            --text:#2F3D3C;            /* Kömür Yeşili */
-            --text-light:#8A8279;      /* Vizon / Krem (Kahverengi ton) */
+            --bg:#FAF8F4;              /* Light Bone Cream */
+            --bg-warm:#F5F3ED;         /* depth-1 */
+            --bg-deep:#EDEBE1;         /* depth-2 */
+            --bg-content:#E3E1D5;      /* depth-3 */
+            --text:#2F3D3C;            /* Kömür Yeşili (Ana Metinler) */
+            --text-light:#8A8279;      /* Vizon / Krem (Biodaki renk) */
             --accent:#849673;          /* Adaçayı Yeşili */
             --accent-hover:#6B7B5A;    
             --accent-cool:#5B6A50;     
@@ -92,11 +92,12 @@
         header{padding:40px 0 0}
         nav{display:flex;flex-direction:column;gap:10px;padding-bottom:20px;border-bottom:1px solid var(--border)}
         
+        /* İSİM GÜNCELLENDİ (Vizon) */
         .site-name{font-size:24px;letter-spacing:.02em;text-transform:uppercase;color:var(--text-light);border:none;font-weight:500;display:block}
         
         .site-logo-row{display:flex;align-items:center;gap:10px;border:none}
         
-        /* LOGO: KORİDOR KONSEPTİ (DİKEY ÇİZGİLER) */
+        /* LOGO KUTUSU VE KORİDOR KONSEPTİ (GÜNCELLENDİ) */
         .site-logo{
             width:40px;
             height:40px;
@@ -107,28 +108,31 @@
             align-items:center;
             justify-content:center;
             flex-shrink:0;
+            padding:0;
             position:relative; 
-            overflow: hidden; /* Taşmaları engeller */
+            overflow: hidden; /* Dışarı taşmaları engeller */
         }
         
-        /* Dikey Koridor Çizgileri */
+        /* Koridor Çizgileri (Uçtan uca ve dikey) */
         .site-logo .line-left, 
         .site-logo .line-right {
             position:absolute;
             top:0;
-            height:100%; /* Yukarıdan aşağıya uçtan uca */
+            height:100%; 
             width:1px; 
             border:none;
         }
         
+        /* Sol Çizgi: Adaçayı Yeşili */
         .site-logo .line-left { 
-            left: 8px; /* Soldan mesafe */
-            background-color: var(--accent); /* Adaçayı Yeşili */
+            left: 8px; /* Sol kenardan koridor genişliği */
+            background-color: var(--accent); 
         } 
         
+        /* Sağ Çizgi: Vizon / Krem (Kahverengi ton) */
         .site-logo .line-right { 
-            right: 8px; /* Sağdan mesafe */
-            background-color: var(--text-light); /* Vizon / Kahverengi */
+            right: 8px; /* Sağ kenardan koridor genişliği */
+            background-color: var(--text-light); 
         }
 
         .site-logo .logo-text-group {
@@ -137,14 +141,13 @@
             align-items:center;
             justify-content:center;
             margin-top: -0.5px; 
-            z-index: 2; /* Çizgilerin üstünde kalmasını garantiler */
         }
         
         .site-logo .logo-on{
             font-family:'Lora',Georgia,serif;
             font-style:italic;
             font-size:10px;
-            color:var(--text-light);  /* Vizon / Kahverengi */
+            color:var(--text-light); /* Vizon / Krem */
             line-height:1;
             margin:0;
         }
@@ -316,6 +319,7 @@
     </div>
 
     <div class="mobile-margin-texture mobile-margin-texture--right" aria-hidden="true">
+        <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item" style="margin-bottom:60px">lying</span>
         <span class="mobile-margin-line mobile-margin-item" style="margin-bottom:70px"><svg width="2" height="35" viewBox="0 0 2 35"><line x1="1" y1="0" x2="1" y2="35" stroke-width="0.8" opacity="0.32"/></svg></span>
         <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item" style="margin-bottom:60px">longing</span>
         <span class="mobile-margin-word mobile-margin-word--lg mobile-margin-item" style="margin-bottom:80px">forgiveness</span>
@@ -337,7 +341,9 @@
         <span class="margin-line margin-item"><svg width="36" height="36" viewBox="0 0 36 36"><line x1="34" y1="2" x2="2" y2="34" stroke-width="0.8" opacity="0.28"/><line x1="34" y1="34" x2="2" y2="2" stroke-width="0.8" opacity="0.28"/></svg></span>
     </div>
     <div class="margin-texture margin-texture--right" aria-hidden="true">
+        <span class="margin-word margin-word--xs margin-item" style="margin-bottom:60px">lying</span>
         <span class="margin-line margin-item" style="margin-bottom:56px"><svg width="70" height="2" viewBox="0 0 70 2"><line x1="0" y1="1" x2="70" y2="1" stroke-width="0.8" opacity="0.32"/></svg></span>
+        <span class="margin-word margin-word--xs margin-item" style="margin-bottom:60px">lying</span>
         <span class="margin-word margin-word--xs margin-item" style="margin-bottom:72px">longing</span>
         <span class="margin-word margin-word--sm margin-item" style="margin-bottom:50px">the walls</span>
         <span class="margin-line margin-item" style="margin-bottom:80px"><svg width="24" height="50" viewBox="0 0 24 50"><line x1="2" y1="0" x2="2" y2="50" stroke-width="0.8" opacity="0.32"/><line x1="12" y1="5" x2="12" y2="45" stroke-width="0.8" opacity="0.22"/></svg></span>
@@ -413,8 +419,8 @@
                 <li><a href="https://medium.com/illumination/why-do-unfinished-things-haunt-us-4ba03107b53d" target="_blank" rel="noopener" class="essay-card"><img src="https://miro.medium.com/v2/resize:fit:128/1*jfEURVCn1DDTIIiU7S_fFg.png" alt="Unfinished things stay on the table; the mind keeps chasing them." class="essay-thumb" loading="lazy"><div class="essay-card-text"><span class="essay-title">Why Do Unfinished Things Haunt Us?</span><span class="essay-card-subtitle">The Zeigarnik–Lacan trap we all fall into</span><span class="essay-meta">6 min · Feb 25, 2026</span></div></a></li>
                 <li><a href="https://medium.com/illumination/jungs-shadow-plays-112e0641e35a" target="_blank" rel="noopener" class="essay-card"><img src="https://miro.medium.com/v2/resize:fit:128/1*xGR4JAqJxcwp-NNSDaadyw.png" alt="Could the brilliance we envy in others actually be the pure potential we hide within ourselves?" class="essay-thumb" loading="lazy"><div class="essay-card-text"><span class="essay-title">Jung's Golden Shadow</span><span class="essay-card-subtitle">Why we envy the things we forbid ourselves the most</span><span class="essay-meta">5 min · Feb 20, 2026</span></div></a></li>
                 <li><a href="https://medium.com/@hakanaltunn/our-defense-mechanisms-protectors-or-dungeon-masters-9ca513a16e9d" target="_blank" rel="noopener" class="essay-card"><img src="https://miro.medium.com/v2/resize:fit:128/1*vJenz3RNAUcWpK9zgnv9iA.png" alt="At the door of our own dungeon, key in hand: protectors or jailers?" class="essay-thumb" loading="lazy"><div class="essay-card-text"><span class="essay-title">Our Defense Mechanisms: Protectors or Dungeon Masters?</span><span class="essay-card-subtitle">Have we handed over the keys to our own prisons?</span><span class="essay-meta">5 min · Feb 17, 2026</span></div></a></li>
-                <li><a href="https://medium.com/@hakanaltunn/will-ai-be-enough-for-us-or-is-the-real-question-something-else-e2d93a6f5210" target="_blank" rel="noopener" class="essay-card"><img src="https://miro.medium.com/v2/resize:fit:128/1*xktOKOEkb01NorbJNzs4yA.png" alt="Can an algorithm ever replace the warmth of a human hand?" class="essay-thumb" loading="lazy"><div class="essay-card-text"><span class="essay-title">Will AI Be Enough for Us, or Is the Real Question Something Else?</span><span class="essay-card-subtitle">A reflection on AI's promise and the warmth it can't replicate</span><span class="essay-meta">4 min · Feb 14, 2026</span></div></a></li>
-                <li><a href="https://medium.com/@hakanaltunn/why-do-we-say-hello-988f3c6ce3f2" target="_blank" rel="noopener" class="essay-card"><img src="https://miro.medium.com/v2/resize:fit:128/1*_TffjC5cdVkKJoadRfi3tQ.png" alt="A polite greeting on the surface can be the precursor to a deep underlying psychological game." class="essay-thumb" loading="lazy"><div class="essay-card-text"><span class="essay-title">Why Do We Say Hello?</span><span class="essay-card-subtitle">Transactional Analysis and the hidden games in our relationships</span><span class="essay-meta">8 min · Feb 10, 2026</span></div></a></li>
+                <li><a href="https://medium.com/@hakanaltunn/will-ai-be-enough-for-us-or-is-the-real-question-something-else-e2d93a6f5210" target="target="_blank" rel="noopener" class="essay-card"><img src="https://miro.medium.com/v2/resize:fit:128/1*xktOKOEkb01NorbJNzs4yA.png" alt="Can an algorithm ever replace the warmth of a human hand?" class="essay-thumb" loading="lazy"><div class="essay-card-text"><span class="essay-title">Will AI Be Enough for Us, or Is the Real Question Something Else?</span><span class="essay-card-subtitle">A reflection on AI's promise and the warmth it can't replicate</span><span class="essay-meta">4 min · Feb 14, 2026</span></div></a></li>
+                <li><a href="https://medium.com/@hakanaltunn/why-do-we-say-hello-988f3c6ce3f2" target="target="_blank" rel="noopener" class="essay-card"><img src="https://miro.medium.com/v2/resize:fit:128/1*_TffjC5cdVkKJoadRfi3tQ.png" alt="A polite greeting on the surface can be the precursor to a deep underlying psychological game." class="essay-thumb" loading="lazy"><div class="essay-card-text"><span class="essay-title">Why Do We Say Hello?</span><span class="essay-card-subtitle">Transactional Analysis and the hidden games in our relationships</span><span class="essay-meta">8 min · Feb 10, 2026</span></div></a></li>
             </ul>
         </div></section>
         <section id="moris" class="depth-1"><div class="scroll-reveal">
