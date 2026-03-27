@@ -48,21 +48,26 @@
             --bg-warm:#F5F3ED;         /* depth-1 */
             --bg-deep:#EDEBE1;         /* depth-2 */
             --bg-content:#E3E1D5;      /* depth-3 */
-            --text:#2F3D3C;            /* Kömür Yeşili (Logodaki Life & Everything dahil) */
-            --text-light:#8A8279;      /* Vizon / Krem (Logodaki On dahil) */
-            --accent:#A3B18A;          /* Adaçayı Yeşili (Kenar Yazıları ve Vurgular) */
-            --accent-hover:#8A9876;    
-            --accent-cool:#5B6A50;     
-            --border:#E8E2D9;          
-            --cream:#FDFCFA;           
+            --text:#2F3D3C;            /* Kömür Yeşili (Ana Metinler) */
+            --text-light:#8A8279;      /* Vizon / Krem (Logodaki koridor ve metinler) */
+            
+            /* PETROL YEŞİLİ (Vurgular ve Kenar Yazıları) - Yeni Palet */
+            --accent:#206060;          /* Petrol Yeşili */
+            --accent-hover:#154D4D;    
+            --accent-cool:#5B6A50;     /* Adaçayı yeşili vurgusu silindi, gerekirse Petrol ile güncellenebilir */
+            
+            --border:#E8E2D9;          /* Light Stone Gray */
+            --cream:#FDFCFA;           /* Off-White */
             --shadow:rgba(47,61,60,0.04);
-            --corridor-line:rgba(163,177,138,0.12); /* Adaçayı Yeşili Koridor */
-            --corridor-line-active:rgba(163,177,138,0.28);
+            
+            /* PETROL YEŞİLİ KORİDOR (Güncellendi) */
+            --corridor-line:rgba(32,96,96,0.12); /* Petrol */
+            --corridor-line-active:rgba(32,96,96,0.28);
         }
         
         html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
         body{font-family:'Lora',Georgia,serif;background-color:var(--bg);color:var(--text);line-height:1.8;font-size:17px;overflow-x:hidden}
-        ::selection{background:var(--accent);color:var(--cream)} 
+        ::selection{background:var(--accent);color:var(--cream)} /* Petrol Yeşili ve Beyaz */
         a{color:var(--accent-hover);text-decoration:none;border-bottom:1px solid var(--border);transition:border-color .2s ease}
         a:hover{border-color:var(--accent-hover)}
         
@@ -123,16 +128,16 @@
             border:none;
         }
         
-        /* Sol Çizgi: Adaçayı Yeşili */
+        /* Sol Çizgi: Adaçayı Yeşili Gitti -> Krem / Vizon Geldi */
         .site-logo .line-left { 
             left: 8px; /* Sol kenardan koridor genişliği */
-            background-color: var(--accent); 
+            background-color: var(--text-light); /* Krem / Vizon */
         } 
         
-        /* Sağ Çizgi: Vizon / Krem (Kahverengi ton) */
+        /* Sağ Çizgi: Vizon Gitti -> Krem / Vizon Geldi */
         .site-logo .line-right { 
             right: 8px; /* Sağ kenardan koridor genişliği */
-            background-color: var(--text-light); 
+            background-color: var(--text-light); /* Krem / Vizon */
         }
 
         .site-logo .logo-text-group {
@@ -163,11 +168,11 @@
         }
         
         .site-tagline{font-size:15px;letter-spacing:.04em;font-style:italic;display:flex;align-items:baseline;gap:4px;border:none}
-        .tagline-on{color:var(--text-light);font-size:16px}.tagline-green{color:var(--accent-cool);font-size:15px}
+        .tagline-on{color:var(--text-light);font-size:16px}.tagline-green{color:var(--text);font-size:15px} /* Life & Everything Kömür */
         
         .nav-links{display:flex;gap:8px;font-size:15px}
         .nav-links a{color:var(--text-light);border:1px solid var(--border);letter-spacing:.03em;transition:color .2s ease,border-color .2s ease,background-color .2s ease;padding:5px 14px;border-radius:4px}
-        .nav-links a:hover{color:var(--text);border-color:var(--accent);background-color:rgba(232,226,217,.25)}
+        .nav-links a:hover{color:var(--text);border-color:var(--accent);background-color:rgba(132,150,115,0.15)} /* Vurgu Petrol */
         
         .hero{padding:56px 0 44px}
         .hero-intro{display:flex;align-items:center;gap:24px;margin-bottom:8px}
@@ -190,7 +195,7 @@
         .scroll-reveal.revealed{opacity:1;transform:translateY(0)}
         .scroll-reveal:nth-child(2){transition-delay:.08s}.scroll-reveal:nth-child(3){transition-delay:.16s}
         
-        .section-label{font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-cool);margin-bottom:24px;display:block}
+        .section-label{font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-light);margin-bottom:24px;display:block} /* Vizon label */
         h2{font-size:28px;font-weight:normal;margin-bottom:20px;line-height:1.35}
         p+p{margin-top:16px}
         
@@ -199,13 +204,13 @@
         .book-cover img{width:100%;height:100%;object-fit:cover}
         .book-info h2{font-size:26px;font-style:italic;margin-bottom:16px}.book-info p{color:var(--text-light);font-size:17px}
         .book-links{margin-top:24px;display:flex;gap:16px;flex-wrap:wrap}
-        .book-links a{font-size:14px;padding:8px 20px;border:1px solid var(--accent);color:var(--accent-hover);letter-spacing:.04em;transition:all .2s ease}
+        .book-links a{font-size:14px;padding:8px 20px;border:1px solid var(--accent);color:var(--accent-hover);letter-spacing:.04em;transition:all .2s ease} /* Petrol Yeşili Kitap Linki */
         .book-links a:hover{background:var(--accent-hover);color:var(--cream);border-color:var(--accent-hover)}
         
         .essay-list{list-style:none}
         .essay-list li{padding:16px 0;border-bottom:1px solid var(--border);transition:transform .3s cubic-bezier(.23,1,.32,1),background-color .3s ease;margin-left:-8px;margin-right:-8px;padding-left:8px;padding-right:8px;border-radius:2px}
         .essay-list li:first-child{padding-top:0}
-        .essay-list li:hover{transform:translateX(6px);background-color:rgba(163,177,138,0.08)}
+        .essay-list li:hover{transform:translateX(6px);background-color:rgba(132,150,115,0.08)} /* Petrol Yeşili hover */
         .essay-list a{border:none;display:flex;justify-content:space-between;align-items:baseline}
         .essay-card{border:none;display:flex;align-items:center;gap:16px;width:100%}
         .essay-thumb{width:64px;height:64px;min-width:64px;border-radius:6px;object-fit:cover;opacity:.85;transition:opacity .2s ease}
@@ -213,9 +218,9 @@
         .essay-card-text{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
         .essay-card .essay-number{flex-shrink:0;align-self:flex-start;margin-left:auto;margin-top:2px}
         .essay-card-subtitle{font-size:14px;color:var(--text-light);font-style:normal;line-height:1.5}
-        .essay-meta{font-size:13px;color:var(--accent);font-style:normal;display:block;margin-top:2px}
+        .essay-meta{font-size:13px;color:var(--accent);font-style:normal;display:block;margin-top:2px} /* Petrol Meta */
         .essay-title{font-size:19px;font-style:italic;color:var(--text);transition:color .2s ease}
-        .essay-list a:hover .essay-title,.essay-card:hover .essay-title{color:var(--accent-hover)}
+        .essay-list a:hover .essay-title,.essay-card:hover .essay-title{color:var(--accent-hover)} /* Petrol Link Hover */
         
         .essay-number{font-size:13px;color:var(--text-light);flex-shrink:0;margin-left:16px}
         
@@ -243,7 +248,7 @@
         @media(max-width:1050px){
             .mobile-corridor{display:block;position:fixed;top:0;height:100%;width:2px;pointer-events:none;z-index:0;opacity:0;transition:opacity 1.5s ease}
             .mobile-corridor.visible{opacity:1}
-            .mobile-corridor--left{left:8px;background:linear-gradient(to bottom,transparent 0%,rgba(163,177,138,0.25) 15%,rgba(163,177,138,0.4) 50%,rgba(163,177,138,0.25) 85%,transparent 100%)}
+            .mobile-corridor--left{left:8px;background:linear-gradient(to bottom,transparent 0%,rgba(163,177,138,0.25) 15%,rgba(163,177,138,0.4) 50%,rgba(163,177,138,0.25) 85%,transparent 100%)} /* Mobile corridor Petrol */
             .mobile-corridor--right{right:8px;background:linear-gradient(to bottom,transparent 0%,rgba(163,177,138,0.25) 15%,rgba(163,177,138,0.4) 50%,rgba(163,177,138,0.25) 85%,transparent 100%)}
             .mobile-margin-texture{display:flex;position:fixed;top:0;height:100%;pointer-events:none;z-index:10;flex-direction:column;padding-top:100px;overflow:hidden}
             .mobile-margin-texture--left{left:0;width:44px;align-items:center}
@@ -319,7 +324,6 @@
     </div>
 
     <div class="mobile-margin-texture mobile-margin-texture--right" aria-hidden="true">
-        <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item" style="margin-bottom:60px">lying</span>
         <span class="mobile-margin-line mobile-margin-item" style="margin-bottom:70px"><svg width="2" height="35" viewBox="0 0 2 35"><line x1="1" y1="0" x2="1" y2="35" stroke-width="0.8" opacity="0.32"/></svg></span>
         <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item" style="margin-bottom:60px">longing</span>
         <span class="mobile-margin-word mobile-margin-word--lg mobile-margin-item" style="margin-bottom:80px">forgiveness</span>
@@ -341,7 +345,6 @@
         <span class="margin-line margin-item"><svg width="36" height="36" viewBox="0 0 36 36"><line x1="34" y1="2" x2="2" y2="34" stroke-width="0.8" opacity="0.28"/><line x1="34" y1="34" x2="2" y2="2" stroke-width="0.8" opacity="0.28"/></svg></span>
     </div>
     <div class="margin-texture margin-texture--right" aria-hidden="true">
-        <span class="margin-word margin-word--xs margin-item" style="margin-bottom:60px">lying</span>
         <span class="margin-line margin-item" style="margin-bottom:56px"><svg width="70" height="2" viewBox="0 0 70 2"><line x1="0" y1="1" x2="70" y2="1" stroke-width="0.8" opacity="0.32"/></svg></span>
         <span class="margin-word margin-word--xs margin-item" style="margin-bottom:72px">longing</span>
         <span class="margin-word margin-word--sm margin-item" style="margin-bottom:50px">the walls</span>
