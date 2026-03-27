@@ -53,7 +53,7 @@
         .corridor-vline--left{left:calc((100vw - 680px)/2 - 12px)}.corridor-vline--right{right:calc((100vw - 680px)/2 - 12px)}
         @media(max-width:1050px){.corridor-vline{display:none}}
         
-        /* DAĞITILMIŞ PUSLU ÖĞELERİN STİLİ (SCROLL REVEAL & VANISH) */
+        /* DAĞITILMIŞ PUSLU ÖĞELER (SCROLL REVEAL & VANISH) */
         .dispersed-elements-container{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden;}
         
         .reveal-item{
@@ -73,7 +73,6 @@
         .reveal-item.vizon{color:var(--vizon); stroke:var(--vizon);}
         .reveal-item.petrol{color:var(--petrol); stroke:var(--petrol);}
         
-        /* Mobilde masaüstü dağınık öğelerini tamamen gizle */
         @media(max-width:1050px){
             .dispersed-elements-container { display: none; } 
         }
@@ -132,8 +131,8 @@
         .scroll-reveal.revealed{opacity:1;transform:translateY(0)}
         .scroll-reveal:nth-child(2){transition-delay:.08s}.scroll-reveal:nth-child(3){transition-delay:.16s}
         
-        /* BÖLÜM BAŞLIKLARI (Kalınlık silindi, artık "On Lying" ile tam aynı tonda) */
-        .section-label{font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:var(--charcoal);margin-bottom:24px;display:block;} 
+        /* DİKKAT: Bölüm başlıklarının kalınlığı (font-weight: 400) ile essay başlıkları tamamen eşitlendi */
+        .section-label{font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:var(--charcoal);margin-bottom:24px;display:block; font-weight:400;} 
         
         h2{font-size:28px;font-weight:normal;margin-bottom:20px;line-height:1.35;color:var(--charcoal)}
         p+p{margin-top:16px}
@@ -160,7 +159,8 @@
         .essay-card:hover .essay-thumb{opacity:1}
         .essay-card-text{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
         
-        .essay-title{font-size:19px;font-style:italic;color:var(--charcoal);}
+        /* DİKKAT: Essay başlıklarının font ağırlığı sabitlendi */
+        .essay-title{font-size:19px;font-style:italic;color:var(--charcoal); font-weight:400;}
         .essay-list a:hover .essay-title,.essay-card:hover .essay-title{color:var(--petrol)} 
         
         .essay-card-subtitle{font-size:14px;color:var(--vizon);font-style:normal;line-height:1.5}
@@ -237,6 +237,10 @@
             .site-name{font-size:20px; letter-spacing:.02em;}
             .hero h1{font-size:16px}
             .hero{padding:40px 0 32px}section{padding:36px 0}
+            
+            /* DİKKAT: Yatay bölüm çizgileri (section::before) mobilde kelimeleri kesmesin diye daraltıldı */
+            section::before { left: 46px; }
+            section.line-drawn::before { width: calc(100% - 92px); }
             
             .hero-intro{gap:12px; padding-bottom:24px; margin-bottom:24px;}
             .hero-intro .profile-photo{display:block;width:110px;height:110px;min-width:110px;min-height:110px;align-self:flex-start;}
@@ -319,9 +323,9 @@
         </div>
 
         <span class="reveal-item reveal-text petrol" style="top: 34%; left: 8%; font-size: 34px;">forgetting</span>
-        <span class="reveal-item reveal-text vizon" style="top: 42%; right: 7%; font-size: 26px;">silence</span>
+        <span class="reveal-item reveal-text vizon" style="top: 45%; right: 7%; font-size: 26px;">silence</span>
         
-        <div class="reveal-item vizon" style="top: 49%; left: 5%;">
+        <div class="reveal-item vizon" style="top: 52%; left: 5%;">
             <svg width="90" height="20" viewBox="0 0 90 20" fill="none" stroke="currentColor" stroke-width="1.5">
                 <line x1="0" y1="10" x2="90" y2="10" />
             </svg>
@@ -446,7 +450,6 @@
     (function(){
         'use strict';
         
-        // MASAÜSTÜ VE MOBİL ORTAK SCROLL REVEAL & VANISH MOTORU
         var dispersedItems = document.querySelectorAll('.reveal-item');
         var mobileMarginItems = document.querySelectorAll('.mobile-margin-item');
         
@@ -496,10 +499,8 @@
             if(hq&&iv(hq))stw();
             var p=document.querySelector('.perspective-line');if(p&&iv(p))p.classList.add('visible');
             
-            // Scroll esnasında hem masaüstü hem mobil puslu öğeleri kontrol et
             checkReveal();
             
-            // Mobil koridor çizgileri (Scroll edilince belirginleşir)
             var mc=document.querySelectorAll('.mobile-corridor');
             for(var i=0;i<mc.length;i++)mc[i].classList.add('visible');
         }
