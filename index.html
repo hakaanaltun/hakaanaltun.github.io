@@ -86,37 +86,42 @@
         .container{max-width:680px;margin:0 auto;padding:0 28px;position:relative;z-index:1;}
         
         header{padding:40px 0 0}
-        nav{display:flex;flex-direction:column;gap:14px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+        nav{padding-bottom:20px;border-bottom:1px solid var(--border); display: flex; flex-direction: column;}
         
-        .site-logo-row{display:flex;align-items:center;gap:12px;border:none}
+        /* DİKKAT: "g" ile "About"un mükemmel hizalanmasını sağlayan taşıyıcı yapı */
+        .nav-inner {
+            display: inline-flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        
+        .site-logo-row{display:flex;align-items:center;gap:6px;border:none} /* Boşluk daraldı */
         
         /* DİKKAT: Logo ve Yazı Büyütüldü (Masaüstü) */
-        .site-logo{width:64px; height:64px; border-radius:9px; object-fit:contain; display:block; flex-shrink:0;}
+        .site-logo{width:68px; height:68px; border-radius:10px; object-fit:contain; display:block; flex-shrink:0;}
         
         .site-tagline{font-size:15px;letter-spacing:.04em;font-style:italic;display:flex;align-items:baseline;gap:5px;border:none}
-        .tagline-on{color:var(--vizon);font-size:21px}
-        .tagline-green{color:var(--petrol);font-size:20px} 
+        .tagline-on{color:var(--vizon);font-size:23px} /* Bir tık daha büyütüldü */
+        .tagline-green{color:var(--petrol);font-size:22px} 
         
-        .nav-links{display:flex;gap:8px;font-size:15px}
+        .nav-links{display:flex; justify-content:space-between; width:100%; font-size:15px;} /* Jilet gibi sağ-sol hizalama sağlar */
         .nav-links a{color:var(--charcoal);border:1px solid var(--vizon);letter-spacing:.03em;padding:5px 14px;border-radius:4px}
         .nav-links a:hover{background-color:var(--bg-deep)}
         
-        /* HERO & BIO MASAÜSTÜ YAPI */
+        /* HERO & BIO YAPI */
         .hero{padding:56px 0 32px} 
         .hero-intro{display:flex;flex-direction:column;align-items:flex-start;gap:24px;padding-bottom:32px;margin-bottom:32px;border-bottom:1px solid var(--border);}
         
         .profile-wrapper { display:flex; align-items:center; gap:24px; width:100%; } 
         .profile-photo{width:150px;height:150px;min-width:150px;min-height:150px;border-radius:50%;object-fit:cover;object-position:center 20%;border:2px solid var(--border);background:var(--bg-warm)}
         
-        /* DİKKAT: İsim kitap başlığıyla (h2) aynı boyuta (28px) indirildi */
+        /* DİKKAT: Hakan Altun ismi Book section başlığı ile tamamen aynı boyuta, kalınlığa ve karaktere getirildi */
         .hero-name { 
             display: block; 
             font-size: 28px; 
-            letter-spacing: .03em; 
-            text-transform: uppercase; 
-            color: var(--vizon); 
-            font-weight: 500;
-            line-height: 1.2;
+            color: var(--charcoal); 
+            font-weight: normal; 
+            line-height: 1.35;
             white-space: nowrap; 
         }
         
@@ -176,6 +181,8 @@
         
         .series-note{margin-top:20px;font-size:15px;color:var(--vizon);font-style:italic}
         .about-text p{color:var(--vizon);max-width:560px}
+        
+        .profile-photo{width:180px;height:180px;min-width:180px;min-height:180px;border-radius:50%;object-fit:cover;object-position:center 20%;border:2px solid var(--border);background:var(--bg-warm)}
         
         .link-list{list-style:none;display:flex;flex-direction:column;gap:12px}
         .link-list a{font-size:16px;display:inline-flex;align-items:baseline;gap:8px; color:var(--vizon); border-bottom: 1px solid var(--border);}
@@ -239,12 +246,14 @@
         }
         
         @media(max-width:768px){
-            nav {gap: 16px;}
+            /* DİKKAT: Mobil Logo ve Yazı Büyütüldü */
+            .site-logo{width:56px;height:56px;}
+            .tagline-on{font-size:19px;}
+            .tagline-green{font-size:18px;}
             
             .hero-intro{gap:20px; padding-bottom:24px; margin-bottom:24px;}
             .profile-wrapper {gap:16px;} 
             .profile-photo{width:110px; height:110px; min-width:110px; min-height:110px;}
-            .hero-name { font-size: 20px; }
             .hero .subtitle{font-size:16px; line-height:1.7;}
             
             .hero h1{font-size:16px}
@@ -254,14 +263,8 @@
             section.line-drawn::before { width: calc(100% - 92px); }
             
             .book-layout{grid-template-columns:140px 1fr;gap:24px}
-            .nav-links{gap:6px;font-size:13px}
+            .nav-links{font-size:13px}
             .nav-links a{padding:4px 10px}
-            
-            /* DİKKAT: Mobil Logo ve Yazı Büyütüldü */
-            .site-logo{width:52px;height:52px;}
-            .site-tagline{font-size:14px;}
-            .tagline-on{font-size:17px;}
-            .tagline-green{font-size:16px;}
             
             .essay-thumb{width:52px;height:52px;min-width:52px}.essay-card-subtitle{font-size:13px}
             
@@ -371,11 +374,15 @@
 
     <div class="container">
         <header><nav>
-            <a href="#" class="site-logo-row">
-                <img src="On Logo.png" alt="On Life & Everything Logo" class="site-logo">
-                <span class="site-tagline"><span class="tagline-on">On </span><span class="tagline-green">Life & Everything</span></span>
-            </a>
-            <div class="nav-links"><a href="#book">Book</a><a href="#essays">Essays</a><a href="#moris">Moris</a><a href="#about">About</a></div>
+            <div class="nav-inner">
+                <a href="#" class="site-logo-row">
+                    <img src="On Logo.png" alt="On Life & Everything Logo" class="site-logo">
+                    <span class="site-tagline"><span class="tagline-on">On </span><span class="tagline-green">Life & Everything</span></span>
+                </a>
+                <div class="nav-links">
+                    <a href="#book">Book</a><a href="#essays">Essays</a><a href="#moris">Moris</a><a href="#about">About</a>
+                </div>
+            </div>
         </nav></header>
         
         <div class="hero fade-in">
