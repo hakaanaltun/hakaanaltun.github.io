@@ -53,7 +53,7 @@
         .corridor-vline--left{left:calc((100vw - 680px)/2 - 12px)}.corridor-vline--right{right:calc((100vw - 680px)/2 - 12px)}
         @media(max-width:1050px){.corridor-vline{display:none}}
         
-        /* DAĞITILMIŞ PUSLU ÖĞELERİN STİLİ (SCROLL REVEAL & VANISH - ARTIK MOBİLDE DE ÇALIŞIYOR) */
+        /* MASAÜSTÜ DAĞITILMIŞ PUSLU ÖĞELER (SCROLL REVEAL & VANISH) */
         .dispersed-elements-container{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden;}
         
         .reveal-item{
@@ -62,31 +62,20 @@
             font-style:italic;
             pointer-events:none;
             opacity:0; 
-            /* Rotasyonları CSS değişkeni ile koruyarak sadece Y ekseninde süzülmelerini sağlıyoruz */
             transform:translateY(30px) rotate(var(--rot, 0deg)); 
             transition:opacity 0.8s ease, transform 0.8s cubic-bezier(0.25, 1, 0.5, 1); 
         }
         .reveal-item.revealed{
-            opacity:0.18; /* Fildişi zeminde puslu görünüm */
+            opacity:0.18; 
             transform:translateY(0) rotate(var(--rot, 0deg)); 
         }
         
         .reveal-item.vizon{color:var(--vizon); stroke:var(--vizon);}
         .reveal-item.petrol{color:var(--petrol); stroke:var(--petrol);}
-        .reveal-item.charcoal{color:var(--charcoal); stroke:var(--charcoal);}
         
-        /* MOBİL DÜZENLEME: Kelimelerin yanlara sığması için dikey hizalama ve şekil küçültme */
+        /* Mobilde masaüstü dağınık öğelerini tamamen gizle */
         @media(max-width:1050px){
-            .reveal-item.revealed{ opacity: 0.22; } /* Mobilde okunabilirlik için çok hafif daha belirgin */
-        }
-        @media(max-width:768px){
-            .reveal-text {
-                writing-mode: vertical-rl !important;
-                text-orientation: mixed !important;
-                font-size: 13px !important;
-                --rot: 0deg !important; /* Dikey mod zaten döndürdüğü için ekstra rotasyonları sıfırlıyoruz */
-            }
-            .reveal-item svg { width: 50px !important; height: auto !important; }
+            .dispersed-elements-container { display: none; } 
         }
         
         /* PERSPECTIVE LINE (UFUK ÇİZGİSİ EFEKTİ) */
@@ -133,7 +122,7 @@
         .hero-quote-word{display:inline;opacity:0;transform:translateY(4px);transition:opacity .35s ease,transform .4s cubic-bezier(.23,1,.32,1)}
         .hero-quote-word.word-visible{opacity:1;transform:translateY(0)}
         
-        /* ŞEFFAF İÇ KORİDOR (Farklı Renk Tonları Temizlendi) */
+        /* ŞEFFAF İÇ KORİDOR */
         section.depth-0{background-color:transparent}
         section.depth-1{background-color:transparent; margin-left:-28px;margin-right:-28px;padding-left:28px;padding-right:28px}
         section.depth-2{background-color:transparent; margin-left:-28px;margin-right:-28px;padding-left:28px;padding-right:28px}
@@ -194,12 +183,35 @@
         footer{padding:40px 0 32px;border-top:1px solid var(--border);text-align:center}
         footer p{font-size:13px;color:var(--vizon)}
         
-        /* MOBİL DÜZENLEMELER */
+        /* MOBİL DÜZENLEMELER VE DİKEY KORİDOR (GERİ GETİRİLDİ) */
+        .mobile-corridor{display:none}
+        .mobile-margin-texture{display:none} 
+        
         @media(max-width:1050px){
             .mobile-corridor{display:block;position:fixed;top:0;height:100%;width:2px;pointer-events:none;z-index:0;opacity:0;transition:opacity 1.5s ease}
             .mobile-corridor.visible{opacity:1}
             .mobile-corridor--left{left:8px;background:linear-gradient(to bottom,transparent 0%,var(--corridor-line) 15%,var(--corridor-line-active) 50%,var(--corridor-line) 85%,transparent 100%)}
             .mobile-corridor--right{right:8px;background:linear-gradient(to bottom,transparent 0%,var(--corridor-line) 15%,var(--corridor-line-active) 50%,var(--corridor-line) 85%,transparent 100%)}
+            
+            .mobile-margin-texture{display:flex;position:fixed;top:0;height:100%;pointer-events:none;z-index:10;flex-direction:column;padding-top:100px;overflow:hidden;}
+            .mobile-margin-texture--left{left:0;width:50px;align-items:center}
+            .mobile-margin-texture--right{right:0;width:50px;align-items:center}
+            
+            /* Mobilde kelimelerin kayarak belirmesi (SCROLL REVEAL & VANISH) */
+            .mobile-margin-item{
+                opacity:0; 
+                transform:translateY(25px); 
+                transition:opacity 0.8s ease, transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+            }
+            
+            .mobile-margin-word{font-family:'Lora',Georgia,serif;font-style:italic;color:var(--vizon);writing-mode:vertical-rl;text-orientation:mixed;white-space:nowrap;display:block;line-height:1;}
+            .mobile-margin-word.visible{transform:translateY(0);opacity:.24}
+            .mobile-margin-word--lg{font-size:15px;letter-spacing:.15em}.mobile-margin-word--lg.visible{opacity:.35}
+            .mobile-margin-word--sm{font-size:10px;letter-spacing:.15em;text-transform:uppercase}.mobile-margin-word--sm.visible{opacity:.30}
+            
+            .mobile-margin-line{display:block;}
+            .mobile-margin-line.visible{transform:translateY(0);opacity:1}
+            .mobile-margin-line svg line{stroke:var(--petrol);fill:none;opacity:0.3}
             
             .container{padding:0 52px}
             section.depth-1,section.depth-2,section.depth-3{margin-left:-52px;margin-right:-52px;padding-left:52px;padding-right:52px}
@@ -244,17 +256,38 @@
     <div class="mobile-corridor mobile-corridor--left" aria-hidden="true"></div>
     <div class="mobile-corridor mobile-corridor--right" aria-hidden="true"></div>
 
+    <div class="mobile-margin-texture mobile-margin-texture--left" aria-hidden="true">
+        <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item" style="margin-bottom:60px">perceiving</span>
+        <span class="mobile-margin-line mobile-margin-item" style="margin-bottom:50px"><svg width="2" height="40" viewBox="0 0 2 40"><line x1="1" y1="0" x2="1" y2="40" stroke-width="0.8"/></svg></span>
+        <span class="mobile-margin-word mobile-margin-word--lg mobile-margin-item" style="margin-bottom:80px">corridors</span>
+        <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item" style="margin-bottom:70px">forgetting</span>
+        <span class="mobile-margin-line mobile-margin-item" style="margin-bottom:60px"><svg width="2" height="30" viewBox="0 0 2 30"><line x1="1" y1="0" x2="1" y2="30" stroke-width="0.8"/></svg></span>
+        <span class="mobile-margin-word mobile-margin-word--lg mobile-margin-item" style="margin-bottom:90px">silence</span>
+        <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item" style="margin-bottom:50px">beauty</span>
+    </div>
+
+    <div class="mobile-margin-texture mobile-margin-texture--right" aria-hidden="true">
+        <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item" style="margin-bottom:60px">lying</span>
+        <span class="mobile-margin-line mobile-margin-item" style="margin-bottom:70px"><svg width="2" height="35" viewBox="0 0 2 35"><line x1="1" y1="0" x2="1" y2="35" stroke-width="0.8"/></svg></span>
+        <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item" style="margin-bottom:60px">longing</span>
+        <span class="mobile-margin-word mobile-margin-word--lg mobile-margin-item" style="margin-bottom:80px">forgiveness</span>
+        <span class="mobile-margin-line mobile-margin-item" style="margin-bottom:50px"><svg width="2" height="45" viewBox="0 0 2 45"><line x1="1" y1="0" x2="1" y2="45" stroke-width="0.8"/></svg></span>
+        <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item" style="margin-bottom:70px">the walls</span>
+        <span class="mobile-margin-word mobile-margin-word--lg mobile-margin-item" style="margin-bottom:90px">nothingness</span>
+        <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item" style="margin-bottom:60px">lying</span>
+    </div>
+
     <div class="dispersed-elements-container" aria-hidden="true">
-        <span class="reveal-item reveal-text vizon" style="top: 6%; left: 6%; font-size: 28px;">perceiving</span>
+        <span class="reveal-item reveal-text petrol" style="top: 6%; left: 6%; font-size: 28px;">perceiving</span>
         
-        <div class="reveal-item petrol" style="top: 12%; right: 7%; --rot: -15deg;">
+        <div class="reveal-item vizon" style="top: 12%; right: 7%; --rot: -15deg;">
             <svg width="80" height="20" viewBox="0 0 80 20" fill="none" stroke="currentColor" stroke-width="1.5">
                 <line x1="0" y1="10" x2="70" y2="10" />
                 <circle cx="76" cy="10" r="3" fill="currentColor" stroke="none" />
             </svg>
         </div>
         
-        <span class="reveal-item reveal-text charcoal" style="top: 18%; right: 6%; font-size: 22px; --rot: 90deg; letter-spacing: 2px;">what remains</span>
+        <span class="reveal-item reveal-text vizon" style="top: 18%; right: 6%; font-size: 22px; --rot: 90deg; letter-spacing: 2px;">what remains</span>
         
         <div class="reveal-item vizon" style="top: 25%; left: 4%; --rot: 45deg;">
             <svg width="60" height="20" viewBox="0 0 60 20" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -266,16 +299,15 @@
         <span class="reveal-item reveal-text petrol" style="top: 34%; left: 8%; font-size: 34px;">forgetting</span>
         <span class="reveal-item reveal-text vizon" style="top: 42%; right: 7%; font-size: 26px;">silence</span>
         
-        <div class="reveal-item charcoal" style="top: 49%; left: 5%;">
+        <div class="reveal-item vizon" style="top: 49%; left: 5%;">
             <svg width="90" height="20" viewBox="0 0 90 20" fill="none" stroke="currentColor" stroke-width="1.5">
                 <line x1="0" y1="10" x2="90" y2="10" />
             </svg>
         </div>
 
-        <span class="reveal-item reveal-text vizon" style="top: 57%; left: 8%; font-size: 20px; --rot: -90deg;">nostalgia</span>
-        <span class="reveal-item reveal-text charcoal" style="top: 67%; right: 6%; font-size: 40px;">lying</span>
+        <span class="reveal-item reveal-text petrol" style="top: 67%; right: 6%; font-size: 40px;">lying</span>
         
-        <div class="reveal-item petrol" style="top: 74%; left: 4%; --rot: -30deg;">
+        <div class="reveal-item vizon" style="top: 74%; left: 4%; --rot: -30deg;">
             <svg width="70" height="20" viewBox="0 0 70 20" fill="none" stroke="currentColor" stroke-width="1.5">
                 <line x1="10" y1="10" x2="70" y2="10" />
                 <circle cx="4" cy="10" r="3" fill="currentColor" stroke="none" />
@@ -292,8 +324,8 @@
         </div>
 
         <span class="reveal-item reveal-text vizon" style="top: 93%; right: 9%; font-size: 36px;">nothingness</span>
-        <span class="reveal-item reveal-text charcoal" style="top: 96%; left: 5%; font-size: 24px; --rot: 90deg;">longing</span>
-        <span class="reveal-item reveal-text petrol" style="top: 98%; right: 6%; font-size: 20px;">forgiveness</span>
+        <span class="reveal-item reveal-text petrol" style="top: 96%; left: 5%; font-size: 24px; --rot: 90deg;">longing</span>
+        <span class="reveal-item reveal-text vizon" style="top: 98%; right: 6%; font-size: 20px;">forgiveness</span>
     </div>
 
     <div class="container">
@@ -392,21 +424,34 @@
     (function(){
         'use strict';
         
-        // PUSLU BELİRME SİSTEMİ (Masaüstü ve Mobil Ortak)
+        // MASAÜSTÜ VE MOBİL ORTAK SCROLL REVEAL & VANISH MOTORU
         var dispersedItems = document.querySelectorAll('.reveal-item');
+        var mobileMarginItems = document.querySelectorAll('.mobile-margin-item');
         
         function checkReveal() {
             var triggerPoint = window.innerHeight * 0.85; 
 
+            // Masaüstü öğelerini kontrol et
             dispersedItems.forEach(function(item) {
                 var itemTop = item.getBoundingClientRect().top;
                 var itemBottom = item.getBoundingClientRect().bottom;
                 
-                // Aşağı inerken (ekrana girince) belirir, tamamen çıkınca kaybolur
-                if (itemTop < triggerPoint && itemBottom > 0) {
+                if (itemTop < triggerPoint && itemBottom > -50) {
                     item.classList.add('revealed');
                 } else {
                     item.classList.remove('revealed'); 
+                }
+            });
+            
+            // Mobil kenar yazılarını ve çizgilerini kontrol et
+            mobileMarginItems.forEach(function(item) {
+                var itemTop = item.getBoundingClientRect().top;
+                var itemBottom = item.getBoundingClientRect().bottom;
+                
+                if (itemTop < triggerPoint && itemBottom > -50) {
+                    item.classList.add('visible');
+                } else {
+                    item.classList.remove('visible'); 
                 }
             });
         }
@@ -431,7 +476,7 @@
             // Scroll esnasında öğeleri kontrol et
             checkReveal();
             
-            // Mobil koridor çizgileri animasyonu
+            // Mobil koridor çizgileri
             var mc=document.querySelectorAll('.mobile-corridor');
             for(var i=0;i<mc.length;i++)mc[i].classList.add('visible');
         }
