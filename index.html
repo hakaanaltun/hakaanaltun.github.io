@@ -42,21 +42,22 @@
         
         *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
         
+        /* YENİ RENK PALETİ */
         :root{
             --bg:#FAF8F4;              
             --bg-warm:#F5F3ED;         
             --bg-deep:#EDEBE1;         
             --bg-content:#E3E1D5;      
-            --text:#2F3D3C;            
-            --text-light:#8A8279;      /* BİODAKİ ORİJİNAL KREM/VİZON RENGİ */
-            --accent:#A3B18A;          
-            --accent-hover:#8A9876;    
+            --text:#2F3D3C;            /* Kömür Yeşili (Ana Metinler) */
+            --text-light:#8A8279;      /* Vizon / Krem (Biodaki renk) */
+            --accent:#849673;          /* Adaçayı Yeşili */
+            --accent-hover:#6B7B5A;    
             --accent-cool:#5B6A50;     
             --border:#E8E2D9;          
             --cream:#FDFCFA;           
             --shadow:rgba(47,61,60,0.04);
-            --corridor-line:rgba(163,177,138,0.12); 
-            --corridor-line-active:rgba(163,177,138,0.28);
+            --corridor-line:rgba(132,150,115,0.12); 
+            --corridor-line-active:rgba(132,150,115,0.28);
         }
         
         html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
@@ -65,7 +66,8 @@
         a{color:var(--accent-hover);text-decoration:none;border-bottom:1px solid var(--border);transition:border-color .2s ease}
         a:hover{border-color:var(--accent-hover)}
         
-        .margin-texture{position:fixed;top:0;height:100%;pointer-events:none;z-index:0;overflow:hidden}
+        /* KENAR YAZILARI (Z-INDEX EKLENDİ) */
+        .margin-texture{position:fixed;top:0;height:100%;pointer-events:none;z-index:10;overflow:hidden}
         .margin-texture--left{left:0;width:calc((100vw - 680px)/2 - 8px);display:flex;flex-direction:column;align-items:flex-end;padding-right:24px;padding-top:120px}
         .margin-texture--right{right:0;width:calc((100vw - 680px)/2 - 8px);display:flex;flex-direction:column;align-items:flex-start;padding-left:24px;padding-top:200px}
         .margin-word{font-family:'Lora',Georgia,serif;font-style:italic;color:var(--accent);opacity:0;transition:opacity 1.2s ease,transform 1.2s cubic-bezier(.23,1,.32,1);transform:translateY(8px);white-space:nowrap;display:block;line-height:1}
@@ -90,12 +92,11 @@
         header{padding:40px 0 0}
         nav{display:flex;flex-direction:column;gap:10px;padding-bottom:20px;border-bottom:1px solid var(--border)}
         
-        /* İSİM BİODAKİ RENGİN AYNISI YAPILDI */
         .site-name{font-size:24px;letter-spacing:.02em;text-transform:uppercase;color:var(--text-light);border:none;font-weight:500;display:block}
         
         .site-logo-row{display:flex;align-items:center;gap:10px;border:none}
         
-        /* LOGO KUTUSU (ESKİ KARE FORMU) */
+        /* LOGO DÜZENLEMESİ */
         .site-logo{
             width:40px;
             height:40px;
@@ -106,39 +107,43 @@
             align-items:center;
             justify-content:center;
             flex-shrink:0;
-            position:relative; /* Çizgiler buna göre hizalanacak */
+            position:relative; 
+            overflow: hidden; /* Dışarı taşmaları gizler */
         }
         
-        /* ÇİZGİLER (Tamamen Serbest Bırakıldı - Yazıdan Bağımsız) */
+        /* ÇİZGİLER (Uçtan uca ve farklı renklerde) */
         .site-logo .line-on-top, 
         .site-logo .line-le-bottom {
             position:absolute;
-            left:50%;
-            transform:translateX(-50%);
-            width:26px; /* Karenin kenarlarına değmesin diye daraltıldı */
-            height:1px; /* İkisi de tam 1 piksel kalınlığında */
-            background-color:var(--text-light); /* Çizgiler biodaki renkle aynı */
+            left:0;
+            width:100%; /* Uçtan uca değmesi için */
+            height:1px; 
             border:none;
         }
         
-        /* Sandviç Baskısı - Milimetrik Mesafe Ayarı */
-        .site-logo .line-on-top { top: 9px; } /* Yukarıdan tam 9px boşluk */
-        .site-logo .line-le-bottom { bottom: 9px; } /* Aşağıdan tam 9px boşluk */
+        .site-logo .line-on-top { 
+            top: 9px; 
+            background-color: var(--accent); /* Üst çizgi Adaçayı Yeşili */
+        } 
+        
+        .site-logo .line-le-bottom { 
+            bottom: 9px; 
+            background-color: var(--text-light); /* Alt çizgi Vizon/Krem */
+        }
 
-        /* YAZI GRUBU (Tam Merkezde) */
         .site-logo .logo-text-group {
             display:flex;
             flex-direction:column;
             align-items:center;
             justify-content:center;
-            margin-top: -0.5px; /* Yazının görsel ağırlığını tam merkeze çekmek için ufak hile */
+            margin-top: -0.5px; 
         }
         
         .site-logo .logo-on{
             font-family:'Lora',Georgia,serif;
             font-style:italic;
             font-size:10px;
-            color:var(--text-light); /* Biodaki renk */
+            color:var(--text-light); 
             line-height:1;
             margin:0;
         }
@@ -146,11 +151,11 @@
             font-family:'Lora',Georgia,serif;
             font-style:italic;
             font-size:3.5px;
-            color:var(--accent-cool);
+            color:var(--text); /* Kömür Yeşili */
             line-height:1.1;
             text-align:center;
             letter-spacing:.02em;
-            margin:1px 0 0 0; /* Sadece On yazısıyla arasına boşluk */
+            margin:1px 0 0 0; 
         }
         
         .site-tagline{font-size:15px;letter-spacing:.04em;font-style:italic;display:flex;align-items:baseline;gap:4px;border:none}
@@ -158,7 +163,7 @@
         
         .nav-links{display:flex;gap:8px;font-size:15px}
         .nav-links a{color:var(--text-light);border:1px solid var(--border);letter-spacing:.03em;transition:color .2s ease,border-color .2s ease,background-color .2s ease;padding:5px 14px;border-radius:4px}
-        .nav-links a:hover{color:var(--text);border-color:var(--accent);background-color:rgba(232,226,217,.25)}
+        .nav-links a:hover{color:var(--text);border-color:var(--accent);background-color:rgba(132,150,115,.15)}
         
         .hero{padding:56px 0 44px}
         .hero-intro{display:flex;align-items:center;gap:24px;margin-bottom:8px}
@@ -172,6 +177,7 @@
         .hero-quote-word{display:inline;opacity:0;transform:translateY(4px);transition:opacity .35s ease,transform .4s cubic-bezier(.23,1,.32,1)}
         .hero-quote-word.word-visible{opacity:1;transform:translateY(0)}
         
+        section.depth-0{background-color:transparent}
         section.depth-1{background-color:var(--bg-warm);margin-left:-28px;margin-right:-28px;padding-left:28px;padding-right:28px}
         section.depth-2{background-color:var(--bg-deep);margin-left:-28px;margin-right:-28px;padding-left:28px;padding-right:28px}
         section.depth-3{background-color:var(--bg-content);margin-left:-28px;margin-right:-28px;padding-left:28px;padding-right:28px}
@@ -195,7 +201,7 @@
         .essay-list{list-style:none}
         .essay-list li{padding:16px 0;border-bottom:1px solid var(--border);transition:transform .3s cubic-bezier(.23,1,.32,1),background-color .3s ease;margin-left:-8px;margin-right:-8px;padding-left:8px;padding-right:8px;border-radius:2px}
         .essay-list li:first-child{padding-top:0}
-        .essay-list li:hover{transform:translateX(6px);background-color:rgba(222,214,202,.25)}
+        .essay-list li:hover{transform:translateX(6px);background-color:rgba(132,150,115,.08)}
         .essay-list a{border:none;display:flex;justify-content:space-between;align-items:baseline}
         .essay-card{border:none;display:flex;align-items:center;gap:16px;width:100%}
         .essay-thumb{width:64px;height:64px;min-width:64px;border-radius:6px;object-fit:cover;opacity:.85;transition:opacity .2s ease}
@@ -233,9 +239,9 @@
         @media(max-width:1050px){
             .mobile-corridor{display:block;position:fixed;top:0;height:100%;width:2px;pointer-events:none;z-index:0;opacity:0;transition:opacity 1.5s ease}
             .mobile-corridor.visible{opacity:1}
-            .mobile-corridor--left{left:8px;background:linear-gradient(to bottom,transparent 0%,rgba(163,177,138,0.25) 15%,rgba(163,177,138,0.4) 50%,rgba(163,177,138,0.25) 85%,transparent 100%)}
-            .mobile-corridor--right{right:8px;background:linear-gradient(to bottom,transparent 0%,rgba(163,177,138,0.25) 15%,rgba(163,177,138,0.4) 50%,rgba(163,177,138,0.25) 85%,transparent 100%)}
-            .mobile-margin-texture{display:flex;position:fixed;top:0;height:100%;pointer-events:none;z-index:0;flex-direction:column;padding-top:100px;overflow:hidden}
+            .mobile-corridor--left{left:8px;background:linear-gradient(to bottom,transparent 0%,rgba(132,150,115,0.25) 15%,rgba(132,150,115,0.4) 50%,rgba(132,150,115,0.25) 85%,transparent 100%)}
+            .mobile-corridor--right{right:8px;background:linear-gradient(to bottom,transparent 0%,rgba(132,150,115,0.25) 15%,rgba(132,150,115,0.4) 50%,rgba(132,150,115,0.25) 85%,transparent 100%)}
+            .mobile-margin-texture{display:flex;position:fixed;top:0;height:100%;pointer-events:none;z-index:10;flex-direction:column;padding-top:100px;overflow:hidden}
             .mobile-margin-texture--left{left:0;width:44px;align-items:center}
             .mobile-margin-texture--right{right:0;width:44px;align-items:center}
             .mobile-margin-word{font-family:'Lora',Georgia,serif;font-style:italic;color:var(--accent);writing-mode:vertical-rl;text-orientation:mixed;white-space:nowrap;display:block;line-height:1;opacity:0;transition:opacity 1.2s ease,transform 1.2s cubic-bezier(.23,1,.32,1);transform:translateY(6px)}
@@ -259,9 +265,9 @@
             .nav-links a{padding:4px 10px}
             .site-tagline{font-size:12px}.tagline-on{font-size:13px}.tagline-green{font-size:12px}
             
-            /* MOBİL LOGO (Absolute kurallar ile orantılı küçülme) */
+            /* MOBİL LOGO */
             .site-logo{width:34px;height:34px;border-radius:7px;}
-            .site-logo .line-on-top, .site-logo .line-le-bottom { width:22px; }
+            .site-logo .line-on-top, .site-logo .line-le-bottom { width:100%; left:0; }
             .site-logo .line-on-top { top: 7px; }
             .site-logo .line-le-bottom { bottom: 7px; }
             .site-logo .logo-on{font-size:8.5px;}
