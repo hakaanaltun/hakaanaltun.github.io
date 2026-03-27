@@ -32,10 +32,10 @@
             --bg-deep:#EDEBE1;         
             --bg-content:#E3E1D5;      
             
-            --petrol: #206060;     
-            --charcoal: #2F3D3C;   
-            --vizon: #8A8279;      
-            --border: #E8E2D9;     
+            --petrol: #206060;     /* Petrol Yeşili */
+            --charcoal: #2F3D3C;   /* Kömür Yeşili */
+            --vizon: #8A8279;      /* Klasik Vizon / Krem */
+            --border: #E8E2D9;     /* Dış çizgilerdeki açık krem/vizon */
             
             --cream:#FDFCFA;           
             --shadow:rgba(47,61,60,0.04);
@@ -63,7 +63,7 @@
             pointer-events:none;
             opacity:0; 
             transform:translateY(30px) rotate(var(--rot, 0deg)); 
-            transition:opacity 1.2s ease, transform 1.2s cubic-bezier(0.25, 1, 0.5, 1); /* Daha yumuşak ve yavaş geçiş */
+            transition:opacity 1.2s ease, transform 1.2s cubic-bezier(0.25, 1, 0.5, 1); 
         }
         .reveal-item.revealed{
             opacity:0.18; 
@@ -77,7 +77,7 @@
             .dispersed-elements-container { display: none; } 
         }
         
-        /* PERSPECTIVE LINE */
+        /* PERSPECTIVE LINE (UFUK ÇİZGİSİ EFEKTİ) */
         .perspective-line{display:block;margin:0 auto 32px;max-width:320px;width:100%;height:48px;opacity:0;transform:scaleX(.3);transition:opacity 1.2s ease,transform 1.4s cubic-bezier(.23,1,.32,1)}
         .perspective-line.visible{opacity:1;transform:scaleX(1)}
         .perspective-line line{stroke:var(--vizon);stroke-width:.8;opacity:.35}.perspective-line circle{fill:var(--vizon);opacity:.25}
@@ -104,8 +104,8 @@
         /* HERO & BIO MASAÜSTÜ YAPI */
         .hero{padding:56px 0 32px} 
         .hero-intro{display:flex;align-items:center;gap:24px;padding-bottom:32px;margin-bottom:32px;border-bottom:1px solid var(--border);}
-        .profile-wrapper { display: contents; } /* Masaüstünde standart flex çalışması için */
-        .mobile-only-name { display: none; } /* Masaüstünde gizli */
+        .profile-wrapper { display: contents; } 
+        .mobile-only-name { display: none; } 
         
         .hero .subtitle{font-size:19px;color:var(--vizon);line-height:1.7;max-width:520px;font-style:italic}
         .hero h1{font-size:19px;font-weight:400;line-height:1.5;margin-top:0;font-style:italic; color:var(--vizon);}
@@ -227,22 +227,22 @@
         }
         
         @media(max-width:768px){
-            /* MOBİL HEADER: Hakan Altun gizlenir, logo ve nav kalır */
             header .site-name{display:none;}
             nav {gap: 16px;}
             
-            /* MOBİL HERO: Profil resmi, isim ve bio'nun yeniden düzenlenmesi */
+            /* DİKKAT: Mobil Hero - Resim ve Metin Oranları İyileştirildi */
             .hero-intro{flex-direction:column; align-items:flex-start; gap:20px; padding-bottom:24px; margin-bottom:24px;}
-            .profile-wrapper {display:flex; align-items:center; gap:20px; width:100%;}
+            .profile-wrapper {display:flex; align-items:center; gap:16px; width:100%;} /* gap biraz kısıldı */
             .hero-intro .profile-photo{display:block; width:110px; height:110px; min-width:110px; min-height:110px;}
             .mobile-only-name {
                 display: block; 
-                font-size: 28px; 
-                letter-spacing: .02em; 
+                font-size: 20px; /* Bağırıp taşmaması için 28'den 20'ye indirildi */
+                letter-spacing: .03em; 
                 text-transform: uppercase; 
                 color: var(--vizon); 
                 font-weight: 500;
                 line-height: 1.2;
+                white-space: nowrap; /* Taşmayı ve alt satıra inmeyi engeller */
             }
             .hero .subtitle{font-size:16px; line-height:1.7;}
             
@@ -465,14 +465,13 @@
         
         var dispersedItems = document.querySelectorAll('.reveal-item');
         var mobileMarginItems = document.querySelectorAll('.mobile-margin-item');
-        var allowReveal = false; // Gecikme kontrolü için bayrak
+        var allowReveal = false; 
         
         function checkReveal() {
-            if (!allowReveal) return; // 3.5 saniye dolmadıysa hiçbir şeyi puslu çıkarma
+            if (!allowReveal) return; 
             
             var triggerPoint = window.innerHeight * 0.85; 
 
-            // Masaüstü öğelerini kontrol et
             dispersedItems.forEach(function(item) {
                 var itemTop = item.getBoundingClientRect().top;
                 var itemBottom = item.getBoundingClientRect().bottom;
@@ -484,7 +483,6 @@
                 }
             });
             
-            // Mobil kenar yazılarını ve çizgilerini kontrol et
             mobileMarginItems.forEach(function(item) {
                 var itemTop = item.getBoundingClientRect().top;
                 var itemBottom = item.getBoundingClientRect().bottom;
@@ -514,7 +512,6 @@
             if(hq&&iv(hq))stw();
             var p=document.querySelector('.perspective-line');if(p&&iv(p))p.classList.add('visible');
             
-            // Scroll esnasında puslu öğeleri kontrol et
             checkReveal();
             
             var mc=document.querySelectorAll('.mobile-corridor');
@@ -525,13 +522,11 @@
         window.addEventListener('scroll',function(){if(!tk){requestAnimationFrame(function(){ta();tk=false;});tk=true;}},{passive:true});
         
         window.addEventListener('load', function() {
-            // Ana metinler ve çizgiler hemen yüklenir
             ta(); 
             
-            // Puslu kelimeler ve şekiller için 3.5 saniye bekle, sonra kontrolü başlat
             setTimeout(function() {
                 allowReveal = true;
-                checkReveal(); // 3.5 saniye anında ekranda olanları puslu çıkarır
+                checkReveal(); 
             }, 3500);
         });
         
