@@ -86,28 +86,47 @@
         .container{max-width:680px;margin:0 auto;padding:0 28px;position:relative;z-index:1;}
         
         header{padding:40px 0 0}
-        nav{display:flex;flex-direction:column;gap:10px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+        nav{display:flex;flex-direction:column;gap:14px;padding-bottom:20px;border-bottom:1px solid var(--border)}
         
-        .site-name{font-size:24px;letter-spacing:.02em;text-transform:uppercase;color:var(--vizon);border:none;font-weight:500;display:block}
-        .site-logo-row{display:flex;align-items:center;gap:10px;border:none}
+        .site-logo-row{display:flex;align-items:center;gap:12px;border:none}
         
-        .site-logo{width:48px; height:48px; border-radius:9px; object-fit:contain; display:block; flex-shrink:0;}
+        /* DİKKAT: Logo ve Yazı eşitlenecek kadar büyütüldü */
+        .site-logo{
+            width:56px; 
+            height:56px;
+            border-radius:10px;
+            object-fit:contain;
+            display:block;
+            flex-shrink:0;
+        }
         
-        .site-tagline{font-size:15px;letter-spacing:.04em;font-style:italic;display:flex;align-items:baseline;gap:4px;border:none}
-        .tagline-on{color:var(--vizon);font-size:16px}
-        .tagline-green{color:var(--petrol);font-size:15px} 
+        .site-tagline{font-size:18px;letter-spacing:.04em;font-style:italic;display:flex;align-items:baseline;gap:5px;border:none}
+        .tagline-on{color:var(--vizon);font-size:19px}
+        .tagline-green{color:var(--petrol);font-size:18px} 
         
         .nav-links{display:flex;gap:8px;font-size:15px}
         .nav-links a{color:var(--charcoal);border:1px solid var(--vizon);letter-spacing:.03em;padding:5px 14px;border-radius:4px}
         .nav-links a:hover{background-color:var(--bg-deep)}
         
-        /* HERO & BIO MASAÜSTÜ YAPI */
+        /* HERO & BIO MASAÜSTÜ YAPI (MOBİLDEKİ GİBİ DÜZENLENDİ) */
         .hero{padding:56px 0 32px} 
-        .hero-intro{display:flex;align-items:center;gap:24px;padding-bottom:32px;margin-bottom:32px;border-bottom:1px solid var(--border);}
-        .profile-wrapper { display: contents; } 
-        .mobile-only-name { display: none; } 
+        .hero-intro{display:flex;flex-direction:column;align-items:flex-start;gap:24px;padding-bottom:32px;margin-bottom:32px;border-bottom:1px solid var(--border);}
         
-        .hero .subtitle{font-size:19px;color:var(--vizon);line-height:1.7;max-width:520px;font-style:italic}
+        .profile-wrapper { display:flex; align-items:center; gap:24px; width:100%; } 
+        .profile-photo{width:150px;height:150px;min-width:150px;min-height:150px;border-radius:50%;object-fit:cover;object-position:center 20%;border:2px solid var(--border);background:var(--bg-warm)}
+        
+        .hero-name { 
+            display: block; 
+            font-size: 32px; 
+            letter-spacing: .03em; 
+            text-transform: uppercase; 
+            color: var(--vizon); 
+            font-weight: 500;
+            line-height: 1.2;
+            white-space: nowrap; 
+        }
+        
+        .hero .subtitle{font-size:19px;color:var(--vizon);line-height:1.7;max-width:620px;font-style:italic}
         .hero h1{font-size:19px;font-weight:400;line-height:1.5;margin-top:0;font-style:italic; color:var(--vizon);}
         
         section{padding:36px 0;border-top:1px solid var(--border);transition:background-color .6s ease;position:relative} 
@@ -117,6 +136,7 @@
         .hero-quote-word{display:inline;opacity:0;transform:translateY(4px);transition:opacity .35s ease,transform .4s cubic-bezier(.23,1,.32,1)}
         .hero-quote-word.word-visible{opacity:1;transform:translateY(0)}
         
+        /* ŞEFFAF İÇ KORİDOR */
         section.depth-0{background-color:transparent}
         section.depth-1{background-color:transparent; margin-left:-28px;margin-right:-28px;padding-left:28px;padding-right:28px}
         section.depth-2{background-color:transparent; margin-left:-28px;margin-right:-28px;padding-left:28px;padding-right:28px}
@@ -162,8 +182,6 @@
         
         .series-note{margin-top:20px;font-size:15px;color:var(--vizon);font-style:italic}
         .about-text p{color:var(--vizon);max-width:560px}
-        
-        .profile-photo{width:180px;height:180px;min-width:180px;min-height:180px;border-radius:50%;object-fit:cover;object-position:center 20%;border:2px solid var(--border);background:var(--bg-warm)}
         
         .link-list{list-style:none;display:flex;flex-direction:column;gap:12px}
         .link-list a{font-size:16px;display:inline-flex;align-items:baseline;gap:8px; color:var(--vizon); border-bottom: 1px solid var(--border);}
@@ -227,23 +245,12 @@
         }
         
         @media(max-width:768px){
-            header .site-name{display:none;}
             nav {gap: 16px;}
             
-            /* DİKKAT: Mobil Hero - Resim ve Metin Oranları İyileştirildi */
-            .hero-intro{flex-direction:column; align-items:flex-start; gap:20px; padding-bottom:24px; margin-bottom:24px;}
-            .profile-wrapper {display:flex; align-items:center; gap:16px; width:100%;} /* gap biraz kısıldı */
-            .hero-intro .profile-photo{display:block; width:110px; height:110px; min-width:110px; min-height:110px;}
-            .mobile-only-name {
-                display: block; 
-                font-size: 20px; /* Bağırıp taşmaması için 28'den 20'ye indirildi */
-                letter-spacing: .03em; 
-                text-transform: uppercase; 
-                color: var(--vizon); 
-                font-weight: 500;
-                line-height: 1.2;
-                white-space: nowrap; /* Taşmayı ve alt satıra inmeyi engeller */
-            }
+            .hero-intro{gap:20px; padding-bottom:24px; margin-bottom:24px;}
+            .profile-wrapper {gap:16px;} 
+            .profile-photo{width:110px; height:110px; min-width:110px; min-height:110px;}
+            .hero-name { font-size: 20px; }
             .hero .subtitle{font-size:16px; line-height:1.7;}
             
             .hero h1{font-size:16px}
@@ -255,9 +262,13 @@
             .book-layout{grid-template-columns:140px 1fr;gap:24px}
             .nav-links{gap:6px;font-size:13px}
             .nav-links a{padding:4px 10px}
-            .site-tagline{font-size:12px}.tagline-on{font-size:13px}.tagline-green{font-size:12px}
             
-            .site-logo{width:40px;height:40px;}
+            /* Logo mobilde çok abartı olmasın diye hafif küçültüldü ama orijinalinden büyük bırakıldı */
+            .site-logo{width:46px;height:46px;}
+            .site-tagline{font-size:14px;}
+            .tagline-on{font-size:15px;}
+            .tagline-green{font-size:14px;}
+            
             .essay-thumb{width:52px;height:52px;min-width:52px}.essay-card-subtitle{font-size:13px}
             
             .container{padding:0 48px}
@@ -366,7 +377,6 @@
 
     <div class="container">
         <header><nav>
-            <span class="site-name">Hakan Altun</span>
             <a href="#" class="site-logo-row">
                 <img src="On Logo.png" alt="On Life & Everything Logo" class="site-logo">
                 <span class="site-tagline"><span class="tagline-on">On </span><span class="tagline-green">Life & Everything</span></span>
@@ -378,7 +388,7 @@
             <div class="hero-intro">
                 <div class="profile-wrapper">
                     <img src="profile.jpg" alt="Hakan Altun" class="profile-photo">
-                    <span class="mobile-only-name">Hakan Altun</span>
+                    <span class="hero-name">Hakan Altun</span>
                 </div>
                 <p class="subtitle">Lecturer based in İstanbul. Exploring philosophy, perception, and the corridors between what we say, what we see, what we perceive, and what we choose to forget.</p>
             </div>
