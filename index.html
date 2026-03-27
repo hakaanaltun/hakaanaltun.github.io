@@ -8,6 +8,19 @@
     <meta name="author" content="Hakan Altun">
     <meta name="keywords" content="Hakan Altun, Forgetting the Color of Nothingness, The On Series, philosophical essays, İstanbul lecturer, Yeditepe University, intellectual minimalism">
 
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://hakaanaltun.github.io/">
+    <meta property="og:title" content="Hakan Altun — On Life & Everything">
+    <meta property="og:description" content="Exploring perception and architectures build inside ourselves. Philosophical essays from İstanbul.">
+    <meta property="og:image" content="https://hakaanaltun.github.io/og-image.png">
+    <meta property="og:locale" content="en_US">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://hakaanaltun.github.io/">
+    <meta name="twitter:title" content="Hakan Altun — On Life & Everything">
+    <meta name="twitter:description" content="Exploring perception and architectures build inside ourselves. Philosophical essays from İstanbul.">
+    <meta name="twitter:image" content="https://hakaanaltun.github.io/og-image.png">
+
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
@@ -17,6 +30,12 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="On Life & Everything">
+
+    <link rel="canonical" href="https://hakaanaltun.github.io/">
+    <meta name="robots" content="index, follow">
+
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Hakan Altun","jobTitle":"Lecturer","affiliation":{"@type":"Organization","name":"Yeditepe University"},"url":"https://hakaanaltun.github.io","sameAs":["https://medium.com/@hakanaltunn","https://www.goodreads.com/author/show/69006405.Hakan_Altun","https://www.amazon.com/stores/author/B0GPY444LW"],"knowsAbout":["Philosophy","Psychology","Creative Writing"],"description":"Lecturer based in İstanbul, exploring perception and architectures build inside ourselves."}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Forgetting the Color of Nothingness","author":{"@type":"Person","name":"Hakan Altun"},"url":"https://www.amazon.com/Forgetting-Color-Nothingness-Hakan-Altun-ebook/dp/B0GPXTV6CP","workExample":[{"@type":"Book","bookFormat":"https://schema.org/EBook","potentialAction":{"@type":"ReadAction","target":{"@type":"EntryPoint","urlTemplate":"https://www.amazon.com/Forgetting-Color-Nothingness-Hakan-Altun-ebook/dp/B0GPXTV6CP"}}},{"@type":"Book","bookFormat":"https://schema.org/Paperback","potentialAction":{"@type":"ReadAction","target":{"@type":"EntryPoint","urlTemplate":"https://www.amazon.com/dp/B0GSLJXY6P"}}}],"genre":"Philosophy","inLanguage":"en","description":"A speculative philosophical work structured as a loop from the Big Bang through a domestic İstanbul scene to a post-singularity future."}</script>
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400;1,500&display=swap');
@@ -30,11 +49,10 @@
             --bg-deep:#EDEBE1;         
             --bg-content:#E3E1D5;      
             
-            /* KULLANICI YÖNERGELERİNE GÖRE ATANMIŞ RENKLER */
-            --petrol: #206060;     /* Essay sürelerindeki Petrol Yeşili */
+            --petrol: #206060;     /* Petrol Yeşili */
             --charcoal: #2F3D3C;   /* Kömür Yeşili */
-            --vizon: #8A8279;      /* Klasik Vizon / Krem */
-            --border: #E8E2D9;     /* Logonun dış çizgisindeki açık krem/vizon */
+            --vizon: #8A8279;      /* Vizon / Krem */
+            --border: #E8E2D9;     /* Dış çizgilerdeki açık krem/vizon */
             
             --cream:#FDFCFA;           
             --shadow:rgba(47,61,60,0.04);
@@ -47,8 +65,8 @@
         ::selection{background:var(--petrol);color:var(--cream)} 
         a{text-decoration:none;transition:color .2s ease,border-color .2s ease,background-color .2s ease}
         
-        /* KENAR YAZILARI (Vizon ve Petrol Çizgiler) */
-        .margin-texture{position:fixed;top:0;height:100%;pointer-events:none;z-index:10;overflow:hidden}
+        /* KENAR YAZILARI */
+        .margin-texture{position:fixed;top:0;height:100%;pointer-events:none;z-index:10;}
         .margin-texture--left{left:0;width:calc((100vw - 680px)/2 - 8px);display:flex;flex-direction:column;align-items:flex-end;padding-right:24px;padding-top:120px}
         .margin-texture--right{right:0;width:calc((100vw - 680px)/2 - 8px);display:flex;flex-direction:column;align-items:flex-start;padding-left:24px;padding-top:200px}
         .margin-word{font-family:'Lora',Georgia,serif;font-style:italic;color:var(--vizon);opacity:0;transition:opacity 1.2s ease,transform 1.2s cubic-bezier(.23,1,.32,1);transform:translateY(8px);white-space:nowrap;display:block;line-height:1}
@@ -64,7 +82,7 @@
         .corridor-vline--left{left:calc((100vw - 680px)/2 - 12px)}.corridor-vline--right{right:calc((100vw - 680px)/2 - 12px)}
         @media(max-width:1050px){.margin-texture{display:none}.corridor-vline{display:none}}
         
-        .perspective-line{display:block;margin:32px auto 0;max-width:320px;width:100%;height:48px;opacity:0;transform:scaleX(.3);transition:opacity 1.2s ease,transform 1.4s cubic-bezier(.23,1,.32,1)}
+        .perspective-line{display:block;margin:0 auto 32px;max-width:320px;width:100%;height:48px;opacity:0;transform:scaleX(.3);transition:opacity 1.2s ease,transform 1.4s cubic-bezier(.23,1,.32,1)}
         .perspective-line.visible{opacity:1;transform:scaleX(1)}
         .perspective-line line{stroke:var(--vizon);stroke-width:.8;opacity:.35}.perspective-line circle{fill:var(--vizon);opacity:.25}
         
@@ -72,40 +90,43 @@
         header{padding:40px 0 0}
         nav{display:flex;flex-direction:column;gap:10px;padding-bottom:20px;border-bottom:1px solid var(--border)}
         
-        /* 1. Hakan Altun = Petrol Yeşili */
-        .site-name{font-size:24px;letter-spacing:.02em;text-transform:uppercase;color:var(--petrol);border:none;font-weight:500;display:block}
+        /* HAKAN ALTUN - VİZON */
+        .site-name{font-size:24px;letter-spacing:.02em;text-transform:uppercase;color:var(--vizon);border:none;font-weight:500;display:block}
         .site-logo-row{display:flex;align-items:center;gap:10px;border:none}
         
         /* LOGO */
         .site-logo{width:40px;height:40px;border-radius:9px;border:1px solid var(--border);background:var(--cream);display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;position:relative;overflow:hidden;}
         
-        /* 2. Logo içindeki çizgiler = Vizon (Dış çizgilerle aynı açık renkte) */
+        /* Logo Çizgileri - VİZON */
         .site-logo .line-left, .site-logo .line-right {position:absolute;top:0;height:100%;width:1px;border:none;background-color:var(--border);}
         .site-logo .line-left { left: 8px; } 
         .site-logo .line-right { right: 8px; }
 
         .site-logo .logo-text-group {display:flex;flex-direction:column;align-items:center;justify-content:center;margin-top:-0.5px;}
-        /* 3. Logonun içindeki On = Vizon */
+        /* Logonun İçindeki On - VİZON */
         .site-logo .logo-on{font-family:'Lora',Georgia,serif;font-style:italic;font-size:10px;color:var(--vizon);line-height:1;margin:0;}
-        /* 4. Logonun içindeki Life & Everything = Petrol Yeşili */
+        /* Logonun İçindeki Life & Everything - PETROL YEŞİLİ */
         .site-logo .logo-le{font-family:'Lora',Georgia,serif;font-style:italic;font-size:3.5px;color:var(--petrol);line-height:1.1;text-align:center;letter-spacing:.02em;margin:1px 0 0 0;}
         
-        /* 5. Logonun dışındaki On Life Everything = On Vizon, Life & Everything Petrol Yeşili */
+        /* Dış Tagline: On (Vizon) / Life & Everything (Petrol) */
         .site-tagline{font-size:15px;letter-spacing:.04em;font-style:italic;display:flex;align-items:baseline;gap:4px;border:none}
         .tagline-on{color:var(--vizon);font-size:16px}
         .tagline-green{color:var(--petrol);font-size:15px} 
         
-        /* 6. Altındaki nav bar = Kömür Yeşili */
+        /* Nav Bar - Metin (Kömür Yeşili), Border (Vizon) */
         .nav-links{display:flex;gap:8px;font-size:15px}
-        .nav-links a{color:var(--charcoal);border:1px solid var(--border);border-bottom:1px solid var(--border);letter-spacing:.03em;padding:5px 14px;border-radius:4px}
+        .nav-links a{color:var(--charcoal);border:1px solid var(--vizon);letter-spacing:.03em;padding:5px 14px;border-radius:4px}
         .nav-links a:hover{background-color:var(--bg-deep)}
         
         .hero{padding:56px 0 44px}
-        .hero-intro{display:flex;align-items:center;gap:24px;margin-bottom:8px}
-        /* 7. Bio = Vizon */
+        /* HERO INTRO - Ayırıcı Çizgi Buraya Eklendi */
+        .hero-intro{display:flex;align-items:center;gap:24px;padding-bottom:32px;margin-bottom:32px;border-bottom:1px solid var(--border);}
+        
+        /* Bio - VİZON */
         .hero .subtitle{font-size:19px;color:var(--vizon);line-height:1.7;max-width:520px;font-style:italic}
-        /* 8. Alıntı = Vizon */
-        .hero h1{font-size:19px;font-weight:400;line-height:1.5;margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid var(--border);font-style:italic; color:var(--vizon);}
+        
+        /* Alıntı - VİZON */
+        .hero h1{font-size:19px;font-weight:400;line-height:1.5;margin-top:0;font-style:italic; color:var(--vizon);}
         
         section{padding:44px 0;border-top:1px solid var(--border);transition:background-color .6s ease;position:relative}
         section::before{content:'';position:absolute;top:-1px;left:0;width:0;height:1px;background:linear-gradient(to right,transparent,var(--petrol) 20%,var(--petrol) 80%,transparent);opacity:.2;transition:width 1s cubic-bezier(.23,1,.32,1)}
@@ -123,9 +144,9 @@
         .scroll-reveal.revealed{opacity:1;transform:translateY(0)}
         .scroll-reveal:nth-child(2){transition-delay:.08s}.scroll-reveal:nth-child(3){transition-delay:.16s}
         
-        /* 9. Book, The On Series, Essays, Moris, About, Find me başlıkları = Kömür Yeşili */
+        /* Bölüm Başlıkları - KÖMÜR YEŞİLİ */
         .section-label{font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:var(--charcoal);margin-bottom:24px;display:block} 
-        /* 10. Forgetting the color of nothingness = Kömür Yeşili */
+        /* Kitap Adı - KÖMÜR YEŞİLİ */
         h2{font-size:28px;font-weight:normal;margin-bottom:20px;line-height:1.35;color:var(--charcoal)}
         p+p{margin-top:16px}
         
@@ -133,15 +154,15 @@
         .book-cover{width:100%;aspect-ratio:2/3;background:var(--bg-warm);border:1px solid var(--border);display:flex;align-items:center;justify-content:center}
         .book-cover img{width:100%;height:100%;object-fit:cover}
         
-        /* 11. Kitap altındaki açıklama = Vizon */
+        /* Kitap Açıklaması - VİZON */
         .book-info p{color:var(--vizon);font-size:17px}
         
-        /* 12. Book altındaki kutular = Kömür Yeşili */
+        /* Book Butonları - Metin (Kömür Yeşili), Dış (Vizon) */
         .book-links{margin-top:24px;display:flex;gap:16px;flex-wrap:wrap}
-        .book-links a{font-size:14px;padding:8px 20px;border:1px solid var(--charcoal);color:var(--charcoal);letter-spacing:.04em;border-bottom:1px solid var(--charcoal);}
-        .book-links a:hover{background:var(--charcoal);color:var(--cream);}
+        .book-links a{font-size:14px;padding:8px 20px;border:1px solid var(--vizon);color:var(--charcoal);letter-spacing:.04em;border-radius:4px;}
+        .book-links a:hover{background:var(--charcoal);color:var(--cream);border-color:var(--charcoal);}
         
-        /* Bölüm altı açıklamaları (The On series altı, vs.) = Vizon */
+        /* Bölüm Açıklamaları - VİZON */
         .section-desc {color:var(--vizon);margin-bottom:24px;font-style:italic}
 
         .essay-list{list-style:none}
@@ -154,27 +175,27 @@
         .essay-card:hover .essay-thumb{opacity:1}
         .essay-card-text{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
         
-        /* 13. On lying vb başlıklar = Kömür Yeşili */
+        /* Essay Başlıkları - KÖMÜR YEŞİLİ */
         .essay-title{font-size:19px;font-style:italic;color:var(--charcoal);}
         .essay-list a:hover .essay-title,.essay-card:hover .essay-title{color:var(--petrol)} 
         
-        /* 14. Essay alt başlıkları = Vizon */
+        /* Essay Alt Başlıkları - VİZON */
         .essay-card-subtitle{font-size:14px;color:var(--vizon);font-style:normal;line-height:1.5}
         
-        /* 15. Okunma süresi tarih = Petrol Yeşili */
-        .essay-meta{font-size:13px;color:var(--petrol);font-style:normal;display:block;margin-top:2px} 
+        /* Tarih ve Okunma Süresi - VİZON */
+        .essay-meta{font-size:13px;color:var(--vizon);font-style:normal;display:block;margin-top:2px} 
         
-        /* 16. 1 of 7 vs = Vizon */
+        /* 1 of 7 vb. - VİZON */
         .essay-number{font-size:13px;color:var(--vizon);flex-shrink:0;margin-left:16px;align-self:flex-start;margin-top:2px}
         
         .series-note{margin-top:20px;font-size:15px;color:var(--vizon);font-style:italic}
         
-        /* About yazısı = Vizon */
+        /* About Yazısı - VİZON */
         .about-text p{color:var(--vizon);max-width:560px}
         
         .profile-photo{width:180px;height:180px;min-width:180px;min-height:180px;border-radius:50%;object-fit:cover;object-position:center 20%;border:2px solid var(--border);background:var(--bg-warm)}
         
-        /* 17. Find me altındaki linkler = Vizon */
+        /* Find Me Linkleri - VİZON */
         .link-list{list-style:none;display:flex;flex-direction:column;gap:12px}
         .link-list a{font-size:16px;display:inline-flex;align-items:baseline;gap:8px; color:var(--vizon); border-bottom: 1px solid var(--border);}
         .link-arrow{font-size:13px;color:var(--vizon);transition:transform .2s ease;display:inline-block}
@@ -184,28 +205,31 @@
         .moris-video{max-width:300px;margin:0 auto;border-radius:8px;overflow:hidden;box-shadow:0 2px 16px var(--shadow)}
         .moris-video iframe{width:100%;aspect-ratio:9/16;border:none;display:block}
         
-        /* 18. Moris "the one who..." cümlesi = Vizon */
+        /* Moris Cümlesi - VİZON */
         .moris-caption{margin-top:16px;text-align:center;font-size:15px;color:var(--vizon);font-style:italic}
         
         footer{padding:40px 0;border-top:1px solid var(--border);text-align:center}
         footer p{font-size:13px;color:var(--vizon)}
         
-        /* Mobil Düzenlemeler */
+        /* Mobile Specifics */
         .mobile-corridor{display:none}
-        .mobile-margin-texture{display:none}
         
         @media(max-width:1050px){
             .mobile-corridor{display:block;position:fixed;top:0;height:100%;width:2px;pointer-events:none;z-index:0;opacity:0;transition:opacity 1.5s ease}
             .mobile-corridor.visible{opacity:1}
-            .mobile-corridor--left{left:8px;background:linear-gradient(to bottom,transparent 0%,var(--corridor-line) 15%,var(--corridor-line-active) 50%,var(--corridor-line) 85%,transparent 100%)}
+            .mobile-corridor--left{left:8px;background:linear-gradient(to bottom,transparent 0%,var(--corridor-line) 15%,var(--corridor-line-active) 50%,var(--corridor-line) 85%,transparent 100%)} 
             .mobile-corridor--right{right:8px;background:linear-gradient(to bottom,transparent 0%,var(--corridor-line) 15%,var(--corridor-line-active) 50%,var(--corridor-line) 85%,transparent 100%)}
-            .mobile-margin-texture{display:flex;position:fixed;top:0;height:100%;pointer-events:none;z-index:10;flex-direction:column;padding-top:100px;overflow:hidden}
-            .mobile-margin-texture--left{left:0;width:44px;align-items:center}
-            .mobile-margin-texture--right{right:0;width:44px;align-items:center}
+            
+            /* KESİLMEYİ ENGELLEMEK İÇİN ALAN GENİŞLETİLDİ (width 44'ten 50'ye çıkarıldı) */
+            .mobile-margin-texture{display:flex;position:fixed;top:0;height:100%;pointer-events:none;z-index:10;flex-direction:column;padding-top:100px;}
+            .mobile-margin-texture--left{left:0;width:50px;align-items:center}
+            .mobile-margin-texture--right{right:0;width:50px;align-items:center}
+            
             .mobile-margin-word{font-family:'Lora',Georgia,serif;font-style:italic;color:var(--vizon);writing-mode:vertical-rl;text-orientation:mixed;white-space:nowrap;display:block;line-height:1;opacity:0;transition:opacity 1.2s ease,transform 1.2s cubic-bezier(.23,1,.32,1);transform:translateY(6px)}
             .mobile-margin-word.visible{transform:translateY(0);opacity:.24}
             .mobile-margin-word--lg{font-size:15px;letter-spacing:.15em}.mobile-margin-word--lg.visible{opacity:.35}
-            .mobile-margin-word--sm{font-size:11px;letter-spacing:.2em;text-transform:uppercase}.mobile-margin-word--sm.visible{opacity:.30}
+            /* UZUN KELİMELERİN SIĞMASI İÇİN FONT KÜÇÜLTÜLDÜ */
+            .mobile-margin-word--sm{font-size:10px;letter-spacing:.15em;text-transform:uppercase}.mobile-margin-word--sm.visible{opacity:.30}
             .mobile-margin-line{display:block;opacity:0;transition:opacity 1s ease .3s}.mobile-margin-line.visible{opacity:1}
             .mobile-margin-line svg line{stroke:var(--petrol);fill:none;opacity:0.3}
             
@@ -217,7 +241,11 @@
             .site-name{font-size:20px; letter-spacing:.02em;}
             .hero h1{font-size:16px}
             .hero{padding:40px 0 32px}section{padding:36px 0}
-            .hero-intro{gap:12px}.hero .subtitle{font-size:16px;line-height:1.7}
+            
+            /* HERO INTRO AYARLARI MOBİL */
+            .hero-intro{gap:12px; padding-bottom:24px; margin-bottom:24px;}
+            .hero-intro .profile-photo{display:block;width:110px;height:110px;min-width:110px;min-height:110px;align-self:flex-start;}
+            
             .book-layout{grid-template-columns:140px 1fr;gap:24px}
             .nav-links{gap:6px;font-size:13px}
             .nav-links a{padding:4px 10px}
@@ -229,15 +257,17 @@
             .site-logo .logo-on{font-size:8.5px;}
             .site-logo .logo-le{font-size:3px; margin-top: 0.5px;}
             
-            .hero-intro .profile-photo{display:block;width:110px;height:110px;min-width:110px;min-height:110px;align-self:flex-start;margin-top:2px}
             .essay-thumb{width:52px;height:52px;min-width:52px}.essay-card-subtitle{font-size:13px}
             .margin-texture{display:none}.corridor-vline{display:none}
             
             .container{padding:0 40px}
-            .mobile-margin-texture--left{width:32px}
-            .mobile-margin-texture--right{width:32px}
+            
+            /* MOBİLDE KESİLMEYİ ENGELLEME (Genişlik 32'den 44'e çıkarıldı) */
+            .mobile-margin-texture--left{width:44px}
+            .mobile-margin-texture--right{width:44px}
             .mobile-margin-word--lg{font-size:13px}
-            .mobile-margin-word--sm{font-size:10px}
+            .mobile-margin-word--sm{font-size:9.5px}
+            
             section.depth-1,section.depth-2,section.depth-3{margin-left:-40px;margin-right:-40px;padding-left:40px;padding-right:40px}
         }
         
