@@ -19,10 +19,6 @@
     <meta name="apple-mobile-web-app-title" content="On Life & Everything">
 
     <link rel="canonical" href="https://hakaanaltun.github.io/">
-    <meta name="robots" content="index, follow">
-
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Hakan Altun","jobTitle":"Lecturer","affiliation":{"@type":"Organization","name":"Yeditepe University"},"url":"https://hakaanaltun.github.io","sameAs":["https://medium.com/@hakanaltunn","https://www.goodreads.com/author/show/69006405.Hakan_Altun","https://www.amazon.com/stores/author/B0GPY444LW"],"knowsAbout":["Philosophy","Psychology","Creative Writing"],"description":"Lecturer based in İstanbul, exploring perception and architectures build inside ourselves."}</script>
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Forgetting the Color of Nothingness","author":{"@type":"Person","name":"Hakan Altun"},"url":"https://www.amazon.com/Forgetting-Color-Nothingness-Hakan-Altun-ebook/dp/B0GPXTV6CP","workExample":[{"@type":"Book","bookFormat":"https://schema.org/EBook","potentialAction":{"@type":"ReadAction","target":{"@type":"EntryPoint","urlTemplate":"https://www.amazon.com/Forgetting-Color-Nothingness-Hakan-Altun-ebook/dp/B0GPXTV6CP"}}},{"@type":"Book","bookFormat":"https://schema.org/Paperback","potentialAction":{"@type":"ReadAction","target":{"@type":"EntryPoint","urlTemplate":"https://www.amazon.com/dp/B0GSLJXY6P"}}}],"genre":"Philosophy","inLanguage":"en","description":"A speculative philosophical work structured as a loop from the Big Bang through a domestic İstanbul scene to a post-singularity future."}</script>
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400;1,500&display=swap');
@@ -43,8 +39,6 @@
             
             --cream:#FDFCFA;           
             --shadow:rgba(47,61,60,0.04);
-            --corridor-line:rgba(47,61,60,0.08); 
-            --corridor-line-active:rgba(47,61,60,0.18);
         }
         
         html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
@@ -52,12 +46,14 @@
         ::selection{background:var(--petrol);color:var(--cream)} 
         a{text-decoration:none;transition:color .2s ease,border-color .2s ease,background-color .2s ease}
         
-        /* Koridorun dikey sınır çizgileri */
-        .corridor-vline{position:fixed;top:0;height:100%;width:2px;pointer-events:none;z-index:0;background:linear-gradient(to bottom,transparent 0%,var(--corridor-line) 20%,var(--corridor-line-active) 50%,var(--corridor-line) 80%,transparent 100%)}
+        /* KORİDOR DERİNLİK ÇİZGİLERİ (İçi Temizlendi, Sadece Zarif Dış Çizgiler) */
+        .corridor-vline{position:fixed;top:0;height:100%;width:1px;pointer-events:none;z-index:0;background-color:var(--charcoal);opacity:0.06;}
         .corridor-vline--left{left:calc((100vw - 680px)/2 - 12px)}.corridor-vline--right{right:calc((100vw - 680px)/2 - 12px)}
         @media(max-width:1050px){.corridor-vline{display:none}}
         
         /* DAĞITILMIŞ PUSLU ÖĞELERİN STİLİ (SCROLL REVEAL & VANISH) */
+        .dispersed-elements-container{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden;}
+        
         .reveal-item{
             position:absolute;
             font-family:'Lora',Georgia,serif;
@@ -66,24 +62,19 @@
             opacity:0; 
             transform:translateY(30px); 
             transition:opacity 0.8s ease, transform 0.8s cubic-bezier(0.25, 1, 0.5, 1); 
-            z-index:0; 
         }
         .reveal-item.revealed{
-            opacity:0.12; /* Fildişi zeminde puslu görünüm */
+            opacity:0.15; /* Şekillerin ve kelimelerin pusluluk oranı */
             transform:translateY(0); 
         }
         
-        .reveal-item.vizon{color:var(--vizon); border-color:var(--vizon);}
-        .reveal-item.petrol{color:var(--petrol); border-color:var(--petrol);}
-        .reveal-item.charcoal{color:var(--charcoal); border-color:var(--charcoal);}
-        
-        .reveal-item.line { border-bottom-style: solid; border-bottom-width: 1px; } 
-        .reveal-item.dotted-line { border-bottom-style: dotted; border-bottom-width: 2px; } 
-        .reveal-item.thick-line { border-bottom-style: solid; border-bottom-width: 3px; }
+        .reveal-item.vizon{color:var(--vizon);}
+        .reveal-item.petrol{color:var(--petrol);}
+        .reveal-item.charcoal{color:var(--charcoal);}
         
         @media(max-width:1050px){
             .reveal-item{ opacity: 0; } 
-            .reveal-item.revealed{ opacity: 0.18; } /* Mobilde biraz daha belirgin */
+            .reveal-item.revealed{ opacity: 0.18; } 
         }
         
         .perspective-line{display:block;margin:0 auto 32px;max-width:320px;width:100%;height:48px;opacity:0;transform:scaleX(.3);transition:opacity 1.2s ease,transform 1.4s cubic-bezier(.23,1,.32,1)}
@@ -190,18 +181,6 @@
         footer p{font-size:13px;color:var(--vizon)}
         
         /* MOBİL DÜZENLEMELER */
-        .mobile-corridor{display:none}
-        
-        @media(max-width:1050px){
-            .mobile-corridor{display:block;position:fixed;top:0;height:100%;width:2px;pointer-events:none;z-index:0;opacity:0;transition:opacity 1.5s ease}
-            .mobile-corridor.visible{opacity:1}
-            .mobile-corridor--left{left:8px;background:linear-gradient(to bottom,transparent 0%,var(--corridor-line) 15%,var(--corridor-line-active) 50%,var(--corridor-line) 85%,transparent 100%)}
-            .mobile-corridor--right{right:8px;background:linear-gradient(to bottom,transparent 0%,var(--corridor-line) 15%,var(--corridor-line-active) 50%,var(--corridor-line) 85%,transparent 100%)}
-            
-            .container{padding:0 52px}
-            section.depth-1,section.depth-2,section.depth-3{margin-left:-52px;margin-right:-52px;padding-left:52px;padding-right:52px}
-        }
-        
         @media(max-width:768px){
             .site-name{font-size:20px; letter-spacing:.02em;}
             .hero h1{font-size:16px}
@@ -217,14 +196,12 @@
             
             .site-logo{width:40px;height:40px;}
             .essay-thumb{width:52px;height:52px;min-width:52px}.essay-card-subtitle{font-size:13px}
-            .corridor-vline{display:none}
             
             .container{padding:0 40px}
             
             /* Mobilde kelime ve şekillerin dağılımı için boyut ayarı */
             .reveal-item{ font-size: 13px !important; }
-            .reveal-item.line, .reveal-item.thick-line{ width: 40px !important; }
-            .reveal-item.dotted-line{ width: 30px !important; }
+            .reveal-item svg { width: 60px !important; height: auto !important; }
             
             section.depth-1,section.depth-2,section.depth-3{margin-left:-40px;margin-right:-40px;padding-left:40px;padding-right:40px}
         }
@@ -236,7 +213,7 @@
         @keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
         @media(prefers-reduced-motion:reduce){
             *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
-            .corridor-vline{display:none}.mobile-corridor{display:none}.scroll-reveal{opacity:1;transform:none}
+            .corridor-vline{display:none}.scroll-reveal{opacity:1;transform:none}
             .perspective-line{opacity:1;transform:none}.hero-quote-word{opacity:1;transform:none}section::before{width:100%}
         }
     </style>
@@ -244,30 +221,75 @@
 <body>
     <div class="corridor-vline corridor-vline--left" aria-hidden="true"></div>
     <div class="corridor-vline corridor-vline--right" aria-hidden="true"></div>
-    <div class="mobile-corridor mobile-corridor--left" aria-hidden="true"></div>
-    <div class="mobile-corridor mobile-corridor--right" aria-hidden="true"></div>
 
     <div class="dispersed-elements-container" aria-hidden="true">
-        <span class="reveal-item vizon" style="top: 8%; left: 6%; font-size: 28px;">perceiving</span>
-        <div class="reveal-item shape petrol dotted-line" style="top: 12%; right: 9%; width: 60px; height: 0;"></div>
         
-        <span class="reveal-item charcoal" style="top: 18%; right: 7%; font-size: 22px; transform: rotate(90deg); letter-spacing: 2px;">what remains</span>
-        <div class="reveal-item shape vizon thick-line" style="top: 24%; left: 8%; width: 45px; height: 0; transform: rotate(45deg);"></div>
+        <span class="reveal-item vizon" style="top: 4%; left: 6%; font-size: 28px;">perceiving</span>
         
-        <span class="reveal-item petrol" style="top: 32%; left: 5%; font-size: 34px;">forgetting</span>
-        <span class="reveal-item vizon" style="top: 40%; right: 8%; font-size: 26px;">silence</span>
+        <div class="reveal-item petrol" style="top: 10%; right: 7%;">
+            <svg width="100" height="100" viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.5">
+                <rect x="10" y="10" width="100" height="100" />
+                <rect x="40" y="40" width="40" height="40" />
+                <line x1="10" y1="10" x2="40" y2="40" />
+                <line x1="110" y1="10" x2="80" y2="40" />
+                <line x1="10" y1="110" x2="40" y2="80" />
+                <line x1="110" y1="110" x2="80" y2="80" />
+            </svg>
+        </div>
         
-        <div class="reveal-item shape charcoal line" style="top: 45%; left: 4%; width: 80px; height: 0;"></div>
-        <span class="reveal-item vizon" style="top: 52%; left: 7%; font-size: 20px; transform: rotate(-90deg);">nostalgia</span>
+        <span class="reveal-item charcoal" style="top: 16%; right: 6%; font-size: 22px; transform: rotate(90deg); letter-spacing: 2px;">what remains</span>
         
-        <span class="reveal-item charcoal" style="top: 60%; right: 5%; font-size: 40px;">lying</span>
-        <div class="reveal-item shape petrol dotted-line" style="top: 68%; left: 9%; width: 50px; height: 0; transform: rotate(-30deg);"></div>
+        <div class="reveal-item vizon" style="top: 24%; left: 4%;">
+            <svg width="60" height="150" viewBox="0 0 80 200" fill="none" stroke="currentColor" stroke-width="1.5">
+                <line x1="20" y1="0" x2="20" y2="200" />
+                <line x1="60" y1="0" x2="60" y2="200" />
+                <line x1="0" y1="40" x2="80" y2="40" />
+                <line x1="0" y1="100" x2="80" y2="100" />
+                <line x1="0" y1="160" x2="80" y2="160" />
+                <circle cx="20" cy="100" r="4" fill="currentColor"/>
+                <circle cx="60" cy="40" r="4" fill="currentColor"/>
+            </svg>
+        </div>
+
+        <span class="reveal-item petrol" style="top: 33%; left: 8%; font-size: 34px;">forgetting</span>
+        <span class="reveal-item vizon" style="top: 41%; right: 7%; font-size: 26px;">silence</span>
         
-        <span class="reveal-item petrol" style="top: 76%; left: 5%; font-size: 30px;">looking back</span>
-        <div class="reveal-item shape vizon line" style="top: 82%; right: 6%; width: 100px; height: 0; transform: rotate(15deg);"></div>
+        <div class="reveal-item charcoal" style="top: 48%; left: 5%;">
+            <svg width="80" height="120" viewBox="0 0 100 150" fill="none" stroke="currentColor" stroke-width="1.5">
+                <polygon points="50,10 90,50 50,90 10,50" />
+                <polygon points="50,60 90,100 50,140 10,100" />
+                <line x1="50" y1="10" x2="50" y2="140" stroke-dasharray="4 4"/>
+            </svg>
+        </div>
+
+        <span class="reveal-item vizon" style="top: 56%; left: 8%; font-size: 20px; transform: rotate(-90deg);">nostalgia</span>
+        <span class="reveal-item charcoal" style="top: 66%; right: 6%; font-size: 40px;">lying</span>
         
-        <span class="reveal-item vizon" style="top: 90%; right: 8%; font-size: 36px;">nothingness</span>
-        <span class="reveal-item charcoal" style="top: 96%; left: 6%; font-size: 24px; transform: rotate(90deg);">longing</span>
+        <div class="reveal-item petrol" style="top: 73%; left: 4%;">
+            <svg width="90" height="100" viewBox="0 0 100 116" fill="none" stroke="currentColor" stroke-width="1.5">
+                <polygon points="50,4 96,30 96,86 50,112 4,86 4,30" />
+                <polygon points="50,24 76,40 76,76 50,92 24,76 24,40" />
+                <line x1="4" y1="30" x2="96" y2="86" stroke-dasharray="3 5"/>
+                <line x1="4" y1="86" x2="96" y2="30" stroke-dasharray="3 5"/>
+            </svg>
+        </div>
+
+        <span class="reveal-item petrol" style="top: 80%; left: 9%; font-size: 30px;">looking back</span>
+        
+        <div class="reveal-item vizon" style="top: 86%; right: 5%;">
+            <svg width="80" height="80" viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.5">
+                <rect x="10" y="10" width="100" height="100" />
+                <rect x="40" y="40" width="40" height="40" />
+                <line x1="10" y1="10" x2="40" y2="40" />
+                <line x1="110" y1="10" x2="80" y2="40" />
+                <line x1="10" y1="110" x2="40" y2="80" />
+                <line x1="110" y1="110" x2="80" y2="80" />
+            </svg>
+        </div>
+
+        <span class="reveal-item vizon" style="top: 92%; right: 9%; font-size: 36px;">nothingness</span>
+        <span class="reveal-item charcoal" style="top: 95%; left: 5%; font-size: 24px; transform: rotate(90deg);">longing</span>
+        <span class="reveal-item petrol" style="top: 97%; right: 6%; font-size: 20px;">forgiveness</span>
     </div>
 
     <div class="container">
@@ -375,8 +397,8 @@
             dispersedItems.forEach(function(item) {
                 var itemTop = item.getBoundingClientRect().top;
                 
-                // Aşağı inince (ekrana girince) belirir, yukarı çıkınca kaybolur
-                if (itemTop < triggerPoint && itemTop > -50) {
+                // Aşağı inince belirir, yukarı çıkınca kaybolur
+                if (itemTop < triggerPoint && itemTop > -100) {
                     item.classList.add('revealed');
                 } else {
                     item.classList.remove('revealed'); 
@@ -384,7 +406,6 @@
             });
         }
         
-        // Kahraman Alıntısı ve diğer standart revellar
         var hq=document.getElementById('hero-quote'),ws=[],ts=false;
         if(hq){var t=hq.textContent,w=t.split(/(\s+)/);hq.innerHTML='';
             for(var i=0;i<w.length;i++){if(w[i].trim()===''){hq.appendChild(document.createTextNode(w[i]));}
@@ -402,7 +423,6 @@
             if(hq&&iv(hq))stw();
             var p=document.querySelector('.perspective-line');if(p&&iv(p))p.classList.add('visible');
             
-            // Puslu kelimeleri kontrol et
             checkReveal();
         }
         
@@ -410,7 +430,6 @@
         window.addEventListener('scroll',function(){if(!tk){requestAnimationFrame(function(){ta();tk=false;});tk=true;}},{passive:true});
         ta();
         
-        // Sayfa yüklendiğinde checkReveal'ı çalıştır
         window.addEventListener('load', function() {
             ta(); 
         });
