@@ -131,7 +131,6 @@
         .scroll-reveal.revealed{opacity:1;transform:translateY(0)}
         .scroll-reveal:nth-child(2){transition-delay:.08s}.scroll-reveal:nth-child(3){transition-delay:.16s}
         
-        /* DİKKAT: Bölüm başlıklarının kalınlığı (font-weight: 400) ile essay başlıkları tamamen eşitlendi */
         .section-label{font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:var(--charcoal);margin-bottom:24px;display:block; font-weight:400;} 
         
         h2{font-size:28px;font-weight:normal;margin-bottom:20px;line-height:1.35;color:var(--charcoal)}
@@ -159,7 +158,6 @@
         .essay-card:hover .essay-thumb{opacity:1}
         .essay-card-text{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
         
-        /* DİKKAT: Essay başlıklarının font ağırlığı sabitlendi */
         .essay-title{font-size:19px;font-style:italic;color:var(--charcoal); font-weight:400;}
         .essay-list a:hover .essay-title,.essay-card:hover .essay-title{color:var(--petrol)} 
         
@@ -238,7 +236,6 @@
             .hero h1{font-size:16px}
             .hero{padding:40px 0 32px}section{padding:36px 0}
             
-            /* DİKKAT: Yatay bölüm çizgileri (section::before) mobilde kelimeleri kesmesin diye daraltıldı */
             section::before { left: 46px; }
             section.line-drawn::before { width: calc(100% - 92px); }
             
@@ -379,7 +376,7 @@
             <div class="book-layout">
                 <div class="book-cover"><img src="cover.png" alt="Forgetting the Color of Nothingness by Hakan Altun — a cat silhouetted against a luminous cosmic sphere woven with geometric patterns and DNA helices, set among stars and rocky terrain."></div>
                 <div class="book-info">
-                    <h2>Forgetting the Color of Nothingness</h2>
+                    <h2>Forgetting<br>the Color of<br>Nothingness</h2>
                     <p>A speculative philosophical work structured as a loop — from the Big Bang through a domestic İstanbul scene to a post-singularity future. A book about what remains when everything that can be forgotten has been.</p>
                     <div class="book-links">
                         <a href="https://www.amazon.com/Forgetting-Color-Nothingness-Hakan-Altun-ebook/dp/B0GPXTV6CP" target="_blank" rel="noopener">Kindle</a>
@@ -456,7 +453,6 @@
         function checkReveal() {
             var triggerPoint = window.innerHeight * 0.85; 
 
-            // Masaüstü öğelerini kontrol et
             dispersedItems.forEach(function(item) {
                 var itemTop = item.getBoundingClientRect().top;
                 var itemBottom = item.getBoundingClientRect().bottom;
@@ -468,12 +464,10 @@
                 }
             });
             
-            // Mobil kenar yazılarını ve çizgilerini kontrol et
             mobileMarginItems.forEach(function(item) {
                 var itemTop = item.getBoundingClientRect().top;
                 var itemBottom = item.getBoundingClientRect().bottom;
                 
-                // Aşağı inince belirir, yukarı çıkınca kaybolur
                 if (itemTop < triggerPoint && itemBottom > -50) {
                     item.classList.add('visible');
                 } else {
