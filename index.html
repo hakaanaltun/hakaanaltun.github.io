@@ -183,7 +183,7 @@
         footer{padding:40px 0 32px;border-top:1px solid var(--border);text-align:center}
         footer p{font-size:13px;color:var(--vizon)}
         
-        /* MOBİL DÜZENLEMELER */
+        /* MOBİL DÜZENLEMELER VE DİKEY KORİDOR */
         .mobile-corridor{display:none}
         .mobile-margin-texture{display:none} 
         
@@ -285,7 +285,7 @@
         <span class="mobile-margin-word mobile-margin-word--lg mobile-margin-item">corridors</span>
         <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item">forgetting</span>
         <span class="mobile-margin-line mobile-margin-item"><svg width="2" height="30" viewBox="0 0 2 30"><line x1="1" y1="0" x2="1" y2="30" stroke-width="0.8"/></svg></span>
-        <span class="mobile-margin-word mobile-margin-word--lg mobile-margin-item" style="margin-top: 40px;">silence</span>
+        <span class="mobile-margin-word mobile-margin-word--lg mobile-margin-item">silence</span>
         <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item">beauty</span>
     </div>
 
@@ -453,7 +453,6 @@
         function checkReveal() {
             var triggerPoint = window.innerHeight * 0.85; 
 
-            // Masaüstü öğelerini kontrol et
             dispersedItems.forEach(function(item) {
                 var itemTop = item.getBoundingClientRect().top;
                 var itemBottom = item.getBoundingClientRect().bottom;
@@ -465,7 +464,6 @@
                 }
             });
             
-            // Mobil kenar yazılarını ve çizgilerini kontrol et
             mobileMarginItems.forEach(function(item) {
                 var itemTop = item.getBoundingClientRect().top;
                 var itemBottom = item.getBoundingClientRect().bottom;
