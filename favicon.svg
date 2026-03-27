@@ -1,8 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">
-    <rect width="40" height="40" rx="9" fill="#FDFCFA" stroke="#E8E2D9" stroke-width="1"/>
-    <line x1="0" y1="7" x2="40" y2="7" stroke="#8A8279" stroke-width="1.5"/>
-    <text x="20" y="21" font-family="Lora, Georgia, serif" font-style="italic" font-size="12" fill="#8A8279" text-anchor="middle">On</text>
-    <text x="20" y="27" font-family="Lora, Georgia, serif" font-style="italic" font-size="5" fill="#6B8F8A" text-anchor="middle">Life &amp;</text>
-    <text x="20" y="32" font-family="Lora, Georgia, serif" font-style="italic" font-size="5" fill="#6B8F8A" text-anchor="middle">Everything</text>
-    <line x1="0" y1="33" x2="40" y2="33" stroke="#8A8279" stroke-width="1.5"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="96" fill="#FDFCFA" stroke="#E8E2D9" stroke-width="6"/>
+  <!-- Üst çizgi -->
+  <line x1="140" y1="130" x2="372" y2="130" stroke="#8A8279" stroke-width="3" opacity="0.4"/>
+  <!-- On -->
+  <text x="256" y="245" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-size="160" fill="#8A8279">On</text>
+  <!-- Alt çizgi -->
+  <line x1="140" y1="280" x2="372" y2="280" stroke="#8A8279" stroke-width="3" opacity="0.4"/>
+  <!-- Life & -->
+  <text x="256" y="370" text-anchor="middle" font-family="Georgia, serif" font-size="80" fill="#6B8F8A">Life &amp;</text>
+  <!-- Everything -->
+  <text x="256" y="450" text-anchor="middle" font-family="Georgia, serif" font-size="68" fill="#6B8F8A">Everything</text>
 </svg>
