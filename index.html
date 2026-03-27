@@ -21,7 +21,7 @@
     <link rel="canonical" href="https://hakaanaltun.github.io/">
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400;1,500;1,600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400;1,500&display=swap');
         
         *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
         
@@ -53,7 +53,7 @@
         .corridor-vline--left{left:calc((100vw - 680px)/2 - 12px)}.corridor-vline--right{right:calc((100vw - 680px)/2 - 12px)}
         @media(max-width:1050px){.corridor-vline{display:none}}
         
-        /* MASAÜSTÜ DAĞITILMIŞ PUSLU ÖĞELER (SCROLL REVEAL & VANISH) */
+        /* DAĞITILMIŞ PUSLU ÖĞELERİN STİLİ (SCROLL REVEAL & VANISH) */
         .dispersed-elements-container{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden;}
         
         .reveal-item{
@@ -132,8 +132,8 @@
         .scroll-reveal.revealed{opacity:1;transform:translateY(0)}
         .scroll-reveal:nth-child(2){transition-delay:.08s}.scroll-reveal:nth-child(3){transition-delay:.16s}
         
-        /* BÖLÜM BAŞLIKLARI - ARTIK KOYU (BOLD) VE TAM CHARCOAL RENGİNDE */
-        .section-label{font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:var(--charcoal);margin-bottom:24px;display:block; font-weight: 600;} 
+        /* BÖLÜM BAŞLIKLARI (Kalınlık silindi, artık "On Lying" ile tam aynı tonda) */
+        .section-label{font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:var(--charcoal);margin-bottom:24px;display:block;} 
         
         h2{font-size:28px;font-weight:normal;margin-bottom:20px;line-height:1.35;color:var(--charcoal)}
         p+p{margin-top:16px}
@@ -185,7 +185,7 @@
         footer{padding:40px 0 32px;border-top:1px solid var(--border);text-align:center}
         footer p{font-size:13px;color:var(--vizon)}
         
-        /* MOBİL DÜZENLEMELER VE DİKEY KORİDOR (İÇERİ ALINDI, BÜYÜTÜLDÜ) */
+        /* MOBİL DÜZENLEMELER VE DİKEY KORİDOR */
         .mobile-corridor{display:none}
         .mobile-margin-texture{display:none} 
         
@@ -210,7 +210,6 @@
                 overflow:hidden;
             }
             
-            /* DİKKAT: align-items center yapılarak dışarı taşması önlendi ve merkeze çekildi */
             .mobile-margin-texture--left{left:4px; width:46px; align-items:center; padding:0;}
             .mobile-margin-texture--right{right:4px; width:46px; align-items:center; padding:0;}
             
@@ -250,14 +249,12 @@
             .site-logo{width:40px;height:40px;}
             .essay-thumb{width:52px;height:52px;min-width:52px}.essay-card-subtitle{font-size:13px}
             
-            /* İçeriğin marginlerle çakışmaması için padding ayarı */
             .container{padding:0 48px}
             
-            /* DİKKAT: Mobil fontlar büyütüldü ve içeri alındı */
             .mobile-margin-texture--left{width:46px; left:4px;}
             .mobile-margin-texture--right{width:46px; right:4px;}
-            .mobile-margin-word--lg{font-size:15px !important;} /* Büyütüldü */
-            .mobile-margin-word--sm{font-size:11px !important;} /* Büyütüldü */
+            .mobile-margin-word--lg{font-size:15px !important;} 
+            .mobile-margin-word--sm{font-size:11px !important;} 
             
             section.depth-1,section.depth-2,section.depth-3{margin-left:-48px;margin-right:-48px;padding-left:48px;padding-right:48px}
         }
