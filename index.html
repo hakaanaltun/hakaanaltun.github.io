@@ -183,7 +183,7 @@
         footer{padding:40px 0 32px;border-top:1px solid var(--border);text-align:center}
         footer p{font-size:13px;color:var(--vizon)}
         
-        /* MOBİL DÜZENLEMELER VE DİKEY KORİDOR (ARTIK SAYFAYLA KAYIYOR) */
+        /* MOBİL DÜZENLEMELER VE DİKEY KORİDOR (KENARA HİZALANDI) */
         .mobile-corridor{display:none}
         .mobile-margin-texture{display:none} 
         
@@ -193,7 +193,6 @@
             .mobile-corridor--left{left:8px;background:linear-gradient(to bottom,transparent 0%,var(--corridor-line) 15%,var(--corridor-line-active) 50%,var(--corridor-line) 85%,transparent 100%)}
             .mobile-corridor--right{right:8px;background:linear-gradient(to bottom,transparent 0%,var(--corridor-line) 15%,var(--corridor-line-active) 50%,var(--corridor-line) 85%,transparent 100%)}
             
-            /* DİKKAT: fixed yerine absolute, height: 100%, sayfa boyunca eşit dağılır */
             .mobile-margin-texture{
                 display:flex;
                 position:absolute; 
@@ -203,18 +202,19 @@
                 pointer-events:none;
                 z-index:10;
                 flex-direction:column;
-                justify-content:space-evenly; /* Öğeleri sayfaya yayar */
+                justify-content:space-evenly; 
                 padding-top:120px;
                 padding-bottom:120px;
                 overflow:hidden;
             }
-            .mobile-margin-texture--left{left:0;width:50px;align-items:center}
-            .mobile-margin-texture--right{right:0;width:50px;align-items:center}
             
-            /* Mobilde kelimelerin kayarak belirmesi (SCROLL REVEAL & VANISH) */
+            /* DİKKAT: align-items flex-start/flex-end yapılarak kenarlara yaslandı */
+            .mobile-margin-texture--left{left:0; width:50px; align-items:flex-start; padding-left:12px;}
+            .mobile-margin-texture--right{right:0; width:50px; align-items:flex-end; padding-right:12px;}
+            
             .mobile-margin-item{
                 opacity:0; 
-                margin-bottom: 0 !important; /* HTML'deki satır içi boşlukları siler */
+                margin-bottom: 0 !important; 
                 transform:translateY(25px); 
                 transition:opacity 0.8s ease, transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
             }
@@ -250,8 +250,9 @@
             
             .container{padding:0 40px}
             
-            .mobile-margin-texture--left{width:50px}
-            .mobile-margin-texture--right{width:50px}
+            /* DİKKAT: Mobil görünümde padding düşürülerek tam çizgi dibine yanaştırıldı */
+            .mobile-margin-texture--left{width:50px; padding-left:6px;}
+            .mobile-margin-texture--right{width:50px; padding-right:6px;}
             .mobile-margin-word--lg{font-size:13px}
             .mobile-margin-word--sm{font-size:9.5px}
             
