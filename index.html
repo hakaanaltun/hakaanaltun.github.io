@@ -183,7 +183,7 @@
         footer{padding:40px 0 32px;border-top:1px solid var(--border);text-align:center}
         footer p{font-size:13px;color:var(--vizon)}
         
-        /* MOBİL DÜZENLEMELER VE DİKEY KORİDOR (GERİ GETİRİLDİ) */
+        /* MOBİL DÜZENLEMELER VE DİKEY KORİDOR (ARTIK SAYFAYLA KAYIYOR) */
         .mobile-corridor{display:none}
         .mobile-margin-texture{display:none} 
         
@@ -193,13 +193,28 @@
             .mobile-corridor--left{left:8px;background:linear-gradient(to bottom,transparent 0%,var(--corridor-line) 15%,var(--corridor-line-active) 50%,var(--corridor-line) 85%,transparent 100%)}
             .mobile-corridor--right{right:8px;background:linear-gradient(to bottom,transparent 0%,var(--corridor-line) 15%,var(--corridor-line-active) 50%,var(--corridor-line) 85%,transparent 100%)}
             
-            .mobile-margin-texture{display:flex;position:fixed;top:0;height:100%;pointer-events:none;z-index:10;flex-direction:column;padding-top:100px;overflow:hidden;}
+            /* DİKKAT: fixed yerine absolute, height: 100%, sayfa boyunca eşit dağılır */
+            .mobile-margin-texture{
+                display:flex;
+                position:absolute; 
+                top:0;
+                bottom:0;
+                height:100%; 
+                pointer-events:none;
+                z-index:10;
+                flex-direction:column;
+                justify-content:space-evenly; /* Öğeleri sayfaya yayar */
+                padding-top:120px;
+                padding-bottom:120px;
+                overflow:hidden;
+            }
             .mobile-margin-texture--left{left:0;width:50px;align-items:center}
             .mobile-margin-texture--right{right:0;width:50px;align-items:center}
             
             /* Mobilde kelimelerin kayarak belirmesi (SCROLL REVEAL & VANISH) */
             .mobile-margin-item{
                 opacity:0; 
+                margin-bottom: 0 !important; /* HTML'deki satır içi boşlukları siler */
                 transform:translateY(25px); 
                 transition:opacity 0.8s ease, transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
             }
@@ -234,6 +249,12 @@
             .essay-thumb{width:52px;height:52px;min-width:52px}.essay-card-subtitle{font-size:13px}
             
             .container{padding:0 40px}
+            
+            .mobile-margin-texture--left{width:50px}
+            .mobile-margin-texture--right{width:50px}
+            .mobile-margin-word--lg{font-size:13px}
+            .mobile-margin-word--sm{font-size:9.5px}
+            
             section.depth-1,section.depth-2,section.depth-3{margin-left:-40px;margin-right:-40px;padding-left:40px;padding-right:40px}
         }
         
@@ -257,24 +278,24 @@
     <div class="mobile-corridor mobile-corridor--right" aria-hidden="true"></div>
 
     <div class="mobile-margin-texture mobile-margin-texture--left" aria-hidden="true">
-        <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item" style="margin-bottom:60px">perceiving</span>
-        <span class="mobile-margin-line mobile-margin-item" style="margin-bottom:50px"><svg width="2" height="40" viewBox="0 0 2 40"><line x1="1" y1="0" x2="1" y2="40" stroke-width="0.8"/></svg></span>
-        <span class="mobile-margin-word mobile-margin-word--lg mobile-margin-item" style="margin-bottom:80px">corridors</span>
-        <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item" style="margin-bottom:70px">forgetting</span>
-        <span class="mobile-margin-line mobile-margin-item" style="margin-bottom:60px"><svg width="2" height="30" viewBox="0 0 2 30"><line x1="1" y1="0" x2="1" y2="30" stroke-width="0.8"/></svg></span>
-        <span class="mobile-margin-word mobile-margin-word--lg mobile-margin-item" style="margin-bottom:90px">silence</span>
-        <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item" style="margin-bottom:50px">beauty</span>
+        <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item">perceiving</span>
+        <span class="mobile-margin-line mobile-margin-item"><svg width="2" height="40" viewBox="0 0 2 40"><line x1="1" y1="0" x2="1" y2="40" stroke-width="0.8"/></svg></span>
+        <span class="mobile-margin-word mobile-margin-word--lg mobile-margin-item">corridors</span>
+        <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item">forgetting</span>
+        <span class="mobile-margin-line mobile-margin-item"><svg width="2" height="30" viewBox="0 0 2 30"><line x1="1" y1="0" x2="1" y2="30" stroke-width="0.8"/></svg></span>
+        <span class="mobile-margin-word mobile-margin-word--lg mobile-margin-item">silence</span>
+        <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item">beauty</span>
     </div>
 
     <div class="mobile-margin-texture mobile-margin-texture--right" aria-hidden="true">
-        <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item" style="margin-bottom:60px">lying</span>
-        <span class="mobile-margin-line mobile-margin-item" style="margin-bottom:70px"><svg width="2" height="35" viewBox="0 0 2 35"><line x1="1" y1="0" x2="1" y2="35" stroke-width="0.8"/></svg></span>
-        <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item" style="margin-bottom:60px">longing</span>
-        <span class="mobile-margin-word mobile-margin-word--lg mobile-margin-item" style="margin-bottom:80px">forgiveness</span>
-        <span class="mobile-margin-line mobile-margin-item" style="margin-bottom:50px"><svg width="2" height="45" viewBox="0 0 2 45"><line x1="1" y1="0" x2="1" y2="45" stroke-width="0.8"/></svg></span>
-        <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item" style="margin-bottom:70px">the walls</span>
-        <span class="mobile-margin-word mobile-margin-word--lg mobile-margin-item" style="margin-bottom:90px">nothingness</span>
-        <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item" style="margin-bottom:60px">lying</span>
+        <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item">lying</span>
+        <span class="mobile-margin-line mobile-margin-item"><svg width="2" height="35" viewBox="0 0 2 35"><line x1="1" y1="0" x2="1" y2="35" stroke-width="0.8"/></svg></span>
+        <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item">longing</span>
+        <span class="mobile-margin-word mobile-margin-word--lg mobile-margin-item">forgiveness</span>
+        <span class="mobile-margin-line mobile-margin-item"><svg width="2" height="45" viewBox="0 0 2 45"><line x1="1" y1="0" x2="1" y2="45" stroke-width="0.8"/></svg></span>
+        <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item">the walls</span>
+        <span class="mobile-margin-word mobile-margin-word--lg mobile-margin-item">nothingness</span>
+        <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item">lying</span>
     </div>
 
     <div class="dispersed-elements-container" aria-hidden="true">
@@ -448,6 +469,7 @@
                 var itemTop = item.getBoundingClientRect().top;
                 var itemBottom = item.getBoundingClientRect().bottom;
                 
+                // Aşağı inince belirir, yukarı çıkınca kaybolur
                 if (itemTop < triggerPoint && itemBottom > -50) {
                     item.classList.add('visible');
                 } else {
@@ -473,10 +495,10 @@
             if(hq&&iv(hq))stw();
             var p=document.querySelector('.perspective-line');if(p&&iv(p))p.classList.add('visible');
             
-            // Scroll esnasında öğeleri kontrol et
+            // Scroll esnasında hem masaüstü hem mobil puslu öğeleri kontrol et
             checkReveal();
             
-            // Mobil koridor çizgileri
+            // Mobil koridor çizgileri (Scroll edilince belirginleşir)
             var mc=document.querySelectorAll('.mobile-corridor');
             for(var i=0;i<mc.length;i++)mc[i].classList.add('visible');
         }
