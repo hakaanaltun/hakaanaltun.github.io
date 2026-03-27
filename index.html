@@ -19,22 +19,27 @@
     <meta name="apple-mobile-web-app-title" content="On Life & Everything">
 
     <link rel="canonical" href="https://hakaanaltun.github.io/">
+    <meta name="robots" content="index, follow">
+
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Hakan Altun","jobTitle":"Lecturer","affiliation":{"@type":"Organization","name":"Yeditepe University"},"url":"https://hakaanaltun.github.io","sameAs":["https://medium.com/@hakanaltunn","https://www.goodreads.com/author/show/69006405.Hakan_Altun","https://www.amazon.com/stores/author/B0GPY444LW"],"knowsAbout":["Philosophy","Psychology","Creative Writing"],"description":"Lecturer based in İstanbul, exploring perception and architectures build inside ourselves."}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Forgetting the Color of Nothingness","author":{"@type":"Person","name":"Hakan Altun"},"url":"https://www.amazon.com/Forgetting-Color-Nothingness-Hakan-Altun-ebook/dp/B0GPXTV6CP","workExample":[{"@type":"Book","bookFormat":"https://schema.org/EBook","potentialAction":{"@type":"ReadAction","target":{"@type":"EntryPoint","urlTemplate":"https://www.amazon.com/Forgetting-Color-Nothingness-Hakan-Altun-ebook/dp/B0GPXTV6CP"}}},{"@type":"Book","bookFormat":"https://schema.org/Paperback","potentialAction":{"@type":"ReadAction","target":{"@type":"EntryPoint","urlTemplate":"https://www.amazon.com/dp/B0GSLJXY6P"}}}],"genre":"Philosophy","inLanguage":"en","description":"A speculative philosophical work structured as a loop from the Big Bang through a domestic İstanbul scene to a post-singularity future."}</script>
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400;1,500&display=swap');
         
         *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
         
+        /* NOKTA ATIŞI RENK PALETİ */
         :root{
             --bg:#FAF8F4;              
             --bg-warm:#F5F3ED;         
             --bg-deep:#EDEBE1;         
             --bg-content:#E3E1D5;      
             
-            --petrol: #206060;     
-            --charcoal: #2F3D3C;   
-            --vizon: #8A8279;      
-            --border: #E8E2D9;     
+            --petrol: #206060;     /* Petrol Yeşili */
+            --charcoal: #2F3D3C;   /* Kömür Yeşili */
+            --vizon: #8A8279;      /* Klasik Vizon / Krem */
+            --border: #E8E2D9;     /* Dış çizgilerdeki açık krem/vizon */
             
             --cream:#FDFCFA;           
             --shadow:rgba(47,61,60,0.04);
@@ -47,12 +52,12 @@
         ::selection{background:var(--petrol);color:var(--cream)} 
         a{text-decoration:none;transition:color .2s ease,border-color .2s ease,background-color .2s ease}
         
-        /* MASAÜSTÜ KORİDOR ÇİZGİLERİ */
-        .corridor-vline{position:fixed;top:0;height:100%;width:1px;pointer-events:none;z-index:0;background-color:var(--charcoal);opacity:0.06;}
+        /* MASAÜSTÜ KORİDOR ÇİZGİLERİ (Desktop'ta koridor hissi) */
+        .corridor-vline{position:fixed;top:0;height:100%;width:2px;pointer-events:none;z-index:0;background:linear-gradient(to bottom,transparent 0%,var(--corridor-line) 20%,var(--corridor-line-active) 50%,var(--corridor-line) 80%,transparent 100%)}
         .corridor-vline--left{left:calc((100vw - 680px)/2 - 12px)}.corridor-vline--right{right:calc((100vw - 680px)/2 - 12px)}
         @media(max-width:1050px){.corridor-vline{display:none}}
         
-        /* MASAÜSTÜ DAĞITILMIŞ PUSLU ÖĞELER (SCROLL REVEAL & VANISH) */
+        /* MASAÜSTÜ DAĞITILMIŞ PUSLU ÖĞELERİN STİLİ (SCROLL REVEAL & VANISH) */
         .dispersed-elements-container{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden;}
         
         .reveal-item{
@@ -60,36 +65,46 @@
             font-family:'Lora',Georgia,serif;
             font-style:italic;
             pointer-events:none;
-            opacity:0; 
-            transform:translateY(30px); 
-            transition:opacity 0.8s ease, transform 0.8s cubic-bezier(0.25, 1, 0.5, 1); 
+            opacity:0; /* Başlangıçta görünmez */
+            transform:translateY(30px); /* Hafif aşağıda durur */
+            transition:opacity 0.8s ease, transform 0.8s cubic-bezier(0.25, 1, 0.5, 1); /* Pürüzsüz geçiş cubic-bezier ile */
+            z-index:0; /* İçeriğin arkasında kalır */
         }
         .reveal-item.revealed{
-            opacity:0.15; 
-            transform:translateY(0); 
+            opacity:0.12; /* Fildişi zeminde puslu görünüm */
+            transform:translateY(0); /* Yerine oturur */
         }
         
-        .reveal-item.vizon{color:var(--vizon);}
-        .reveal-item.petrol{color:var(--petrol);}
-        .reveal-item.charcoal{color:var(--charcoal);}
+        .reveal-item.vizon{color:var(--vizon); border-color:var(--vizon);}
+        .reveal-item.petrol{color:var(--petrol); border-color:var(--petrol);}
+        .reveal-item.charcoal{color:var(--charcoal); border-color:var(--charcoal);}
         
+        /* Şekiller ve Renk Karışımları */
+        .reveal-item.line { border-bottom-style: solid; border-bottom-width: 1px; } 
+        .reveal-item.dotted-line { border-bottom-style: dotted; border-bottom-width: 2px; } 
+        .reveal-item.thick-line { border-bottom-style: solid; border-bottom-width: 3px; }
+        
+        /* Mobilde masaüstü dağınık öğelerini tamamen gizle */
         @media(max-width:1050px){
-            /* Mobilde masaüstü dağınık öğelerini tamamen gizle */
             .dispersed-elements-container { display: none; } 
         }
         
+        /* PERSPECTIVE LINE */
         .perspective-line{display:block;margin:0 auto 32px;max-width:320px;width:100%;height:48px;opacity:0;transform:scaleX(.3);transition:opacity 1.2s ease,transform 1.4s cubic-bezier(.23,1,.32,1)}
         .perspective-line.visible{opacity:1;transform:scaleX(1)}
         .perspective-line line{stroke:var(--vizon);stroke-width:.8;opacity:.35}.perspective-line circle{fill:var(--vizon);opacity:.25}
         
+        /* ANA KORİDOR KUTUSU */
         .container{max-width:680px;margin:0 auto;padding:0 28px;position:relative;z-index:1;}
         
         header{padding:40px 0 0}
         nav{display:flex;flex-direction:column;gap:10px;padding-bottom:20px;border-bottom:1px solid var(--border)}
         
+        /* HAKAN ALTUN - VİZON */
         .site-name{font-size:24px;letter-spacing:.02em;text-transform:uppercase;color:var(--vizon);border:none;font-weight:500;display:block}
         .site-logo-row{display:flex;align-items:center;gap:10px;border:none}
         
+        /* Sitenin Canva Logosu */
         .site-logo{
             width:48px; 
             height:48px;
@@ -99,18 +114,24 @@
             flex-shrink:0;
         }
         
+        /* Dış Tagline: On (Vizon) / Life & Everything (Petrol) */
         .site-tagline{font-size:15px;letter-spacing:.04em;font-style:italic;display:flex;align-items:baseline;gap:4px;border:none}
         .tagline-on{color:var(--vizon);font-size:16px}
         .tagline-green{color:var(--petrol);font-size:15px} 
         
+        /* Nav Bar - Metin (Kömür Yeşili), Border (Vizon) */
         .nav-links{display:flex;gap:8px;font-size:15px}
         .nav-links a{color:var(--charcoal);border:1px solid var(--vizon);letter-spacing:.03em;padding:5px 14px;border-radius:4px}
         .nav-links a:hover{background-color:var(--bg-deep)}
         
         .hero{padding:56px 0 32px} 
+        /* HERO INTRO - Ayırıcı Çizgi */
         .hero-intro{display:flex;align-items:center;gap:24px;padding-bottom:32px;margin-bottom:32px;border-bottom:1px solid var(--border);}
         
+        /* Bio - VİZON */
         .hero .subtitle{font-size:19px;color:var(--vizon);line-height:1.7;max-width:520px;font-style:italic}
+        
+        /* Alıntı - VİZON */
         .hero h1{font-size:19px;font-weight:400;line-height:1.5;margin-top:0;font-style:italic; color:var(--vizon);}
         
         section{padding:36px 0;border-top:1px solid var(--border);transition:background-color .6s ease;position:relative} 
@@ -120,6 +141,7 @@
         .hero-quote-word{display:inline;opacity:0;transform:translateY(4px);transition:opacity .35s ease,transform .4s cubic-bezier(.23,1,.32,1)}
         .hero-quote-word.word-visible{opacity:1;transform:translateY(0)}
         
+        /* Şeffaf İç Koridor (Farklı Renk Tonları Temizlendi) */
         section.depth-0{background-color:transparent}
         section.depth-1{background-color:transparent; margin-left:-28px;margin-right:-28px;padding-left:28px;padding-right:28px}
         section.depth-2{background-color:transparent; margin-left:-28px;margin-right:-28px;padding-left:28px;padding-right:28px}
@@ -129,7 +151,9 @@
         .scroll-reveal.revealed{opacity:1;transform:translateY(0)}
         .scroll-reveal:nth-child(2){transition-delay:.08s}.scroll-reveal:nth-child(3){transition-delay:.16s}
         
+        /* Bölüm Başlıkları - KÖMÜR YEŞİLİ */
         .section-label{font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:var(--charcoal);margin-bottom:24px;display:block} 
+        /* Kitap Adı - KÖMÜR YEŞİLİ */
         h2{font-size:28px;font-weight:normal;margin-bottom:20px;line-height:1.35;color:var(--charcoal)}
         p+p{margin-top:16px}
         
@@ -137,12 +161,15 @@
         .book-cover{width:100%;aspect-ratio:2/3;background:var(--bg-warm);border:1px solid var(--border);display:flex;align-items:center;justify-content:center}
         .book-cover img{width:100%;height:100%;object-fit:cover}
         
+        /* Kitap Açıklaması - VİZON */
         .book-info p{color:var(--vizon);font-size:17px}
         
+        /* Book Butonları - Metin (Kömür Yeşili), Dış (Vizon) */
         .book-links{margin-top:24px;display:flex;gap:16px;flex-wrap:wrap}
         .book-links a{font-size:14px;padding:8px 20px;border:1px solid var(--vizon);color:var(--charcoal);letter-spacing:.04em;border-radius:4px;}
         .book-links a:hover{background:var(--charcoal);color:var(--cream);border-color:var(--charcoal);}
         
+        /* Bölüm Açıklamaları - VİZON */
         .section-desc {color:var(--vizon);margin-bottom:24px;font-style:italic}
 
         .essay-list{list-style:none}
@@ -155,18 +182,27 @@
         .essay-card:hover .essay-thumb{opacity:1}
         .essay-card-text{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
         
+        /* Essay Başlıkları - KÖMÜR YEŞİLİ */
         .essay-title{font-size:19px;font-style:italic;color:var(--charcoal);}
         .essay-list a:hover .essay-title,.essay-card:hover .essay-title{color:var(--petrol)} 
         
+        /* Essay Alt Başlıkları - VİZON */
         .essay-card-subtitle{font-size:14px;color:var(--vizon);font-style:normal;line-height:1.5}
+        
+        /* Tarih ve Okunma Süresi - VİZON */
         .essay-meta{font-size:13px;color:var(--vizon);font-style:normal;display:block;margin-top:2px} 
+        
+        /* 1 of 7 vb. - VİZON */
         .essay-number{font-size:13px;color:var(--vizon);flex-shrink:0;margin-left:16px;align-self:flex-start;margin-top:2px}
         
         .series-note{margin-top:20px;font-size:15px;color:var(--vizon);font-style:italic}
+        
+        /* About Yazısı - VİZON */
         .about-text p{color:var(--vizon);max-width:560px}
         
         .profile-photo{width:180px;height:180px;min-width:180px;min-height:180px;border-radius:50%;object-fit:cover;object-position:center 20%;border:2px solid var(--border);background:var(--bg-warm)}
         
+        /* Find Me Linkleri - VİZON */
         .link-list{list-style:none;display:flex;flex-direction:column;gap:12px}
         .link-list a{font-size:16px;display:inline-flex;align-items:baseline;gap:8px; color:var(--vizon); border-bottom: 1px solid var(--border);}
         .link-arrow{font-size:13px;color:var(--vizon);transition:transform .2s ease;display:inline-block}
@@ -175,6 +211,8 @@
         
         .moris-video{max-width:300px;margin:0 auto;border-radius:8px;overflow:hidden;box-shadow:0 2px 16px var(--shadow)}
         .moris-video iframe{width:100%;aspect-ratio:9/16;border:none;display:block}
+        
+        /* Moris Cümlesi - VİZON */
         .moris-caption{margin-top:16px;text-align:center;font-size:15px;color:var(--vizon);font-style:italic}
         
         footer{padding:40px 0 32px;border-top:1px solid var(--border);text-align:center}
@@ -222,9 +260,11 @@
             .site-logo{width:40px;height:40px;}
             
             .essay-thumb{width:52px;height:52px;min-width:52px}.essay-card-subtitle{font-size:13px}
+            .corridor-vline{display:none}
             
             .container{padding:0 40px}
             
+            /* KESİLMEYİ ENGELLEMEK İÇİN ALAN GENİŞLETİLDİ (44'ten 50'ye) */
             .mobile-margin-texture--left{width:50px}
             .mobile-margin-texture--right{width:50px}
             .mobile-margin-word--lg{font-size:13px}
@@ -240,7 +280,7 @@
         @keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
         @media(prefers-reduced-motion:reduce){
             *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
-            .corridor-vline{display:none}.mobile-corridor{display:none}.mobile-margin-texture{display:none}.scroll-reveal{opacity:1;transform:none}
+            .corridor-vline{display:none}.mobile-corridor{display:none}.scroll-reveal{opacity:1;transform:none}
             .perspective-line{opacity:1;transform:none}.hero-quote-word{opacity:1;transform:none}section::before{width:100%}
         }
     </style>
@@ -274,72 +314,17 @@
     </div>
 
     <div class="dispersed-elements-container" aria-hidden="true">
-        <span class="reveal-item vizon" style="top: 4%; left: 6%; font-size: 28px;">perceiving</span>
+        <span class="reveal-item vizon" style="top: 8%; left: 6%; font-size: 28px;">perceiving</span>
+        <div class="reveal-item shape petrol dotted-line" style="top: 12%; right: 9%; width: 60px; height: 10px;"></div> <span class="reveal-item charcoal" style="top: 18%; right: 7%; font-size: 22px; transform: rotate(90deg); letter-spacing: 2px;">what remains</span>
+        <div class="reveal-item shape vizon thick-line" style="top: 24%; left: 8%; width: 45px; height: 10px; transform: rotate(45deg);"></div> <span class="reveal-item petrol" style="top: 32%; left: 5%; font-size: 34px;">forgetting</span>
+        <span class="reveal-item vizon" style="top: 40%; right: 8%; font-size: 26px;">silence</span>
         
-        <div class="reveal-item petrol" style="top: 10%; right: 7%;">
-            <svg width="100" height="100" viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.5">
-                <rect x="10" y="10" width="100" height="100" />
-                <rect x="40" y="40" width="40" height="40" />
-                <line x1="10" y1="10" x2="40" y2="40" />
-                <line x1="110" y1="10" x2="80" y2="40" />
-                <line x1="10" y1="110" x2="40" y2="80" />
-                <line x1="110" y1="110" x2="80" y2="80" />
-            </svg>
-        </div>
+        <div class="reveal-item shape charcoal line" style="top: 45%; left: 4%; width: 80px; height: 10px;"></div> <span class="reveal-item vizon" style="top: 52%; left: 7%; font-size: 20px; transform: rotate(-90deg);">nostalgia</span>
         
-        <span class="reveal-item charcoal" style="top: 16%; right: 6%; font-size: 22px; transform: rotate(90deg); letter-spacing: 2px;">what remains</span>
-        
-        <div class="reveal-item vizon" style="top: 24%; left: 4%;">
-            <svg width="60" height="150" viewBox="0 0 80 200" fill="none" stroke="currentColor" stroke-width="1.5">
-                <line x1="20" y1="0" x2="20" y2="200" />
-                <line x1="60" y1="0" x2="60" y2="200" />
-                <line x1="0" y1="40" x2="80" y2="40" />
-                <line x1="0" y1="100" x2="80" y2="100" />
-                <line x1="0" y1="160" x2="80" y2="160" />
-                <circle cx="20" cy="100" r="4" fill="currentColor"/>
-                <circle cx="60" cy="40" r="4" fill="currentColor"/>
-            </svg>
-        </div>
-
-        <span class="reveal-item petrol" style="top: 33%; left: 8%; font-size: 34px;">forgetting</span>
-        <span class="reveal-item vizon" style="top: 41%; right: 7%; font-size: 26px;">silence</span>
-        
-        <div class="reveal-item charcoal" style="top: 48%; left: 5%;">
-            <svg width="80" height="120" viewBox="0 0 100 150" fill="none" stroke="currentColor" stroke-width="1.5">
-                <polygon points="50,10 90,50 50,90 10,50" />
-                <polygon points="50,60 90,100 50,140 10,100" />
-                <line x1="50" y1="10" x2="50" y2="140" stroke-dasharray="4 4"/>
-            </svg>
-        </div>
-
-        <span class="reveal-item vizon" style="top: 56%; left: 8%; font-size: 20px; transform: rotate(-90deg);">nostalgia</span>
-        <span class="reveal-item charcoal" style="top: 66%; right: 6%; font-size: 40px;">lying</span>
-        
-        <div class="reveal-item petrol" style="top: 73%; left: 4%;">
-            <svg width="90" height="100" viewBox="0 0 100 116" fill="none" stroke="currentColor" stroke-width="1.5">
-                <polygon points="50,4 96,30 96,86 50,112 4,86 4,30" />
-                <polygon points="50,24 76,40 76,76 50,92 24,76 24,40" />
-                <line x1="4" y1="30" x2="96" y2="86" stroke-dasharray="3 5"/>
-                <line x1="4" y1="86" x2="96" y2="30" stroke-dasharray="3 5"/>
-            </svg>
-        </div>
-
-        <span class="reveal-item petrol" style="top: 80%; left: 9%; font-size: 30px;">looking back</span>
-        
-        <div class="reveal-item vizon" style="top: 86%; right: 5%;">
-            <svg width="80" height="80" viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.5">
-                <rect x="10" y="10" width="100" height="100" />
-                <rect x="40" y="40" width="40" height="40" />
-                <line x1="10" y1="10" x2="40" y2="40" />
-                <line x1="110" y1="10" x2="80" y2="40" />
-                <line x1="10" y1="110" x2="40" y2="80" />
-                <line x1="110" y1="110" x2="80" y2="80" />
-            </svg>
-        </div>
-
-        <span class="reveal-item vizon" style="top: 92%; right: 9%; font-size: 36px;">nothingness</span>
-        <span class="reveal-item charcoal" style="top: 95%; left: 5%; font-size: 24px; transform: rotate(90deg);">longing</span>
-        <span class="reveal-item petrol" style="top: 97%; right: 6%; font-size: 20px;">forgiveness</span>
+        <span class="reveal-item charcoal" style="top: 60%; right: 5%; font-size: 40px;">lying</span>
+        <div class="reveal-item shape petrol dotted-line" style="top: 68%; left: 9%; width: 50px; height: 10px; transform: rotate(-30deg);"></div> <span class="reveal-item petrol" style="top: 76%; left: 5%; font-size: 30px;">looking back</span>
+        <div class="reveal-item shape vizon line" style="top: 82%; right: 6%; width: 100px; height: 10px; transform: rotate(15deg);"></div> <span class="reveal-item vizon" style="top: 90%; right: 8%; font-size: 36px;">nothingness</span>
+        <span class="reveal-item charcoal" style="top: 96%; left: 6%; font-size: 24px; transform: rotate(90deg);">longing</span>
     </div>
 
     <div class="container">
@@ -440,7 +425,7 @@
         
         // MOBİL DAĞITILMIŞ ÖĞELER İÇİN GECİKME FONKSİYONU
         var mmi=document.querySelectorAll('.mobile-margin-item');
-        for(var i=0;i<mmi.length;i++)mmi[i].style.transitionDelay=(i*.2)+'s';
+        for(var i=0;i<mmi.length;i++)mmi[i].style.transitionDelay=(i*.2)+'s'; // Sonsuz döngü düzeltildi (w++ -> i++)
         
         // MASAÜSTÜ PUSLU BELİRME SİSTEMİ (SCROLL REVEAL & VANISH)
         var dispersedItems = document.querySelectorAll('.reveal-item');
@@ -477,7 +462,7 @@
         
         function ta(){
             var r=document.querySelectorAll('.scroll-reveal');for(var i=0;i<r.length;i++){if(iv(r[i]))r[i].classList.add('revealed');}
-            var sec=document.querySelectorAll('section');for(var i=0;i<sec.length;i++){if(iv(sec[i]))sec[i].classList.add('line-drawn');}
+            var s=document.querySelectorAll('section');for(var i=0;i<s.length;i++){if(iv(s[i]))s[i].classList.add('line-drawn');}
             if(hq&&iv(hq))stw();
             var p=document.querySelector('.perspective-line');if(p&&iv(p))p.classList.add('visible');
             
