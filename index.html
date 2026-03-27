@@ -21,7 +21,7 @@
     <link rel="canonical" href="https://hakaanaltun.github.io/">
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400;1,500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400;1,500;1,600&display=swap');
         
         *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
         
@@ -132,7 +132,9 @@
         .scroll-reveal.revealed{opacity:1;transform:translateY(0)}
         .scroll-reveal:nth-child(2){transition-delay:.08s}.scroll-reveal:nth-child(3){transition-delay:.16s}
         
-        .section-label{font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:var(--charcoal);margin-bottom:24px;display:block} 
+        /* BÖLÜM BAŞLIKLARI - ARTIK KOYU (BOLD) VE TAM CHARCOAL RENGİNDE */
+        .section-label{font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:var(--charcoal);margin-bottom:24px;display:block; font-weight: 600;} 
+        
         h2{font-size:28px;font-weight:normal;margin-bottom:20px;line-height:1.35;color:var(--charcoal)}
         p+p{margin-top:16px}
         
@@ -183,7 +185,7 @@
         footer{padding:40px 0 32px;border-top:1px solid var(--border);text-align:center}
         footer p{font-size:13px;color:var(--vizon)}
         
-        /* MOBİL DÜZENLEMELER VE DİKEY KORİDOR (KENARA HİZALANDI) */
+        /* MOBİL DÜZENLEMELER VE DİKEY KORİDOR (İÇERİ ALINDI, BÜYÜTÜLDÜ) */
         .mobile-corridor{display:none}
         .mobile-margin-texture{display:none} 
         
@@ -208,9 +210,9 @@
                 overflow:hidden;
             }
             
-            /* DİKKAT: align-items flex-start/flex-end yapılarak kenarlara yaslandı */
-            .mobile-margin-texture--left{left:0; width:50px; align-items:flex-start; padding-left:12px;}
-            .mobile-margin-texture--right{right:0; width:50px; align-items:flex-end; padding-right:12px;}
+            /* DİKKAT: align-items center yapılarak dışarı taşması önlendi ve merkeze çekildi */
+            .mobile-margin-texture--left{left:4px; width:46px; align-items:center; padding:0;}
+            .mobile-margin-texture--right{right:4px; width:46px; align-items:center; padding:0;}
             
             .mobile-margin-item{
                 opacity:0; 
@@ -222,7 +224,7 @@
             .mobile-margin-word{font-family:'Lora',Georgia,serif;font-style:italic;color:var(--vizon);writing-mode:vertical-rl;text-orientation:mixed;white-space:nowrap;display:block;line-height:1;}
             .mobile-margin-word.visible{transform:translateY(0);opacity:.24}
             .mobile-margin-word--lg{font-size:15px;letter-spacing:.15em}.mobile-margin-word--lg.visible{opacity:.35}
-            .mobile-margin-word--sm{font-size:10px;letter-spacing:.15em;text-transform:uppercase}.mobile-margin-word--sm.visible{opacity:.30}
+            .mobile-margin-word--sm{font-size:11px;letter-spacing:.15em;text-transform:uppercase}.mobile-margin-word--sm.visible{opacity:.30}
             
             .mobile-margin-line{display:block;}
             .mobile-margin-line.visible{transform:translateY(0);opacity:1}
@@ -248,15 +250,16 @@
             .site-logo{width:40px;height:40px;}
             .essay-thumb{width:52px;height:52px;min-width:52px}.essay-card-subtitle{font-size:13px}
             
-            .container{padding:0 40px}
+            /* İçeriğin marginlerle çakışmaması için padding ayarı */
+            .container{padding:0 48px}
             
-            /* DİKKAT: Mobil görünümde padding düşürülerek tam çizgi dibine yanaştırıldı */
-            .mobile-margin-texture--left{width:50px; padding-left:6px;}
-            .mobile-margin-texture--right{width:50px; padding-right:6px;}
-            .mobile-margin-word--lg{font-size:13px}
-            .mobile-margin-word--sm{font-size:9.5px}
+            /* DİKKAT: Mobil fontlar büyütüldü ve içeri alındı */
+            .mobile-margin-texture--left{width:46px; left:4px;}
+            .mobile-margin-texture--right{width:46px; right:4px;}
+            .mobile-margin-word--lg{font-size:15px !important;} /* Büyütüldü */
+            .mobile-margin-word--sm{font-size:11px !important;} /* Büyütüldü */
             
-            section.depth-1,section.depth-2,section.depth-3{margin-left:-40px;margin-right:-40px;padding-left:40px;padding-right:40px}
+            section.depth-1,section.depth-2,section.depth-3{margin-left:-48px;margin-right:-48px;padding-left:48px;padding-right:48px}
         }
         
         @media(max-width:420px){.book-layout{grid-template-columns:1fr}.book-cover{max-width:180px}}
