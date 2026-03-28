@@ -88,7 +88,6 @@
         header{padding:40px 0 0}
         nav{display:flex;flex-direction:column;gap:14px;padding-bottom:20px;border-bottom:1px solid var(--border)}
         
-        /* DİKKAT: Logo ve metin arası gap 12px'ten 6px'e indirildi */
         .site-logo-row{display:flex;align-items:center;gap:6px;border:none}
         
         .site-logo{width:64px; height:64px; border-radius:9px; object-fit:contain; display:block; flex-shrink:0;}
@@ -174,7 +173,7 @@
         .about-text p{color:var(--vizon);max-width:560px}
         
         .link-list{list-style:none;display:flex;flex-direction:column;gap:12px}
-        .link-list a{font-size:16px;display:inline-flex;align-items:baseline;gap:8px; color:var(--vizon); border-bottom: 1px solid var(--border);}
+        .link-list a{font-size:16px;display:inline-flex;align-items:baseline;gap:8px; color:var(--vizon); border-bottom: 1px solid var(--border); cursor:pointer;}
         .link-arrow{font-size:13px;color:var(--vizon);transition:transform .2s ease;display:inline-block}
         .link-list a:hover{color:var(--charcoal); border-color:var(--charcoal);}
         .link-list a:hover .link-arrow{transform:translateX(3px); color:var(--charcoal);}
@@ -399,6 +398,7 @@
                 <li><a href="https://medium.com/@hakanaltunn" target="_blank" rel="noopener">Medium <span class="link-arrow">→</span></a></li>
                 <li><a href="https://www.goodreads.com/author/show/69006405.Hakan_Altun" target="_blank" rel="noopener">Goodreads <span class="link-arrow">→</span></a></li>
                 <li><a href="https://www.amazon.com/stores/author/B0GPY444LW" target="_blank" rel="noopener">Amazon Author Page <span class="link-arrow">→</span></a></li>
+                <li><a href="#" id="share-site-btn">Share this page <span class="link-arrow">↗</span></a></li>
             </ul>
         </div></section>
         
@@ -462,6 +462,26 @@
                 allowReveal = true;
                 checkReveal(); 
             }, 3500);
+            
+            // PAYLAŞIM BUTONU MANTIĞI
+            var shareBtn = document.getElementById('share-site-btn');
+            if (shareBtn) {
+                if (navigator.share) {
+                    shareBtn.addEventListener('click', function(e) {
+                        e.preventDefault(); 
+                        navigator.share({
+                            title: 'Hakan Altun — On Life & Everything',
+                            text: 'Lecturer based in İstanbul. Exploring philosophy, perception, and the corridors between what we choose to forget.',
+                            url: window.location.href
+                        }).catch(function(err){
+                            console.log('Paylaşım kapatıldı.');
+                        });
+                    });
+                } else {
+                    // Desteklenmeyen tarayıcılarda butonu tamamen gizle
+                    shareBtn.parentElement.style.display = 'none';
+                }
+            }
         });
         
     })();
