@@ -88,14 +88,36 @@
         header{padding:40px 0 0}
         nav{display:flex;flex-direction:column;gap:14px;padding-bottom:20px;border-bottom:1px solid var(--border)}
         
+        /* DİKKAT: Üst satır yapısı flex ile ayrıldı */
+        .header-top-row {display:flex; justify-content:space-between; align-items:center; width:100%;}
+        
         .site-logo-row{display:flex;align-items:center;gap:6px;border:none}
-        
         .site-logo{width:64px; height:64px; border-radius:9px; object-fit:contain; display:block; flex-shrink:0;}
-        
         .site-tagline{font-size:15px;letter-spacing:.04em;font-style:italic;display:flex;align-items:baseline;gap:5px;border:none}
         .tagline-on{color:var(--vizon);font-size:21px}
         .tagline-green{color:var(--petrol);font-size:20px} 
         
+        /* DİKKAT: Paylaş Butonu Tasarımı */
+        .header-share-btn {
+            background: transparent;
+            border: 1px solid var(--petrol);
+            color: var(--petrol);
+            width: 36px;
+            height: 36px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all .2s ease;
+            padding: 0;
+            flex-shrink: 0;
+        }
+        .header-share-btn:hover {
+            background: var(--petrol);
+            color: var(--cream);
+        }
+
         .nav-links{display:flex;gap:8px;font-size:15px}
         .nav-links a{color:var(--charcoal);border:1px solid var(--vizon);letter-spacing:.03em;padding:5px 14px;border-radius:4px}
         .nav-links a:hover{background-color:var(--bg-deep)}
@@ -312,10 +334,19 @@
 
     <div class="container">
         <header><nav>
-            <a href="#" class="site-logo-row">
-                <img src="On Logo.png" alt="On Life & Everything Logo" class="site-logo">
-                <span class="site-tagline"><span class="tagline-on">On </span><span class="tagline-green">Life & Everything</span></span>
-            </a>
+            <div class="header-top-row">
+                <a href="#" class="site-logo-row">
+                    <img src="On Logo.png" alt="On Life & Everything Logo" class="site-logo">
+                    <span class="site-tagline"><span class="tagline-on">On </span><span class="tagline-green">Life & Everything</span></span>
+                </a>
+                <button id="share-site-btn" class="header-share-btn" aria-label="Share this website">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
+                        <polyline points="16 6 12 2 8 6"></polyline>
+                        <line x1="12" y1="2" x2="12" y2="15"></line>
+                    </svg>
+                </button>
+            </div>
             <div class="nav-links"><a href="#book">Book</a><a href="#essays">Essays</a><a href="#moris">Moris</a><a href="#about">About</a></div>
         </nav></header>
         
@@ -398,7 +429,6 @@
                 <li><a href="https://medium.com/@hakanaltunn" target="_blank" rel="noopener">Medium <span class="link-arrow">→</span></a></li>
                 <li><a href="https://www.goodreads.com/author/show/69006405.Hakan_Altun" target="_blank" rel="noopener">Goodreads <span class="link-arrow">→</span></a></li>
                 <li><a href="https://www.amazon.com/stores/author/B0GPY444LW" target="_blank" rel="noopener">Amazon Author Page <span class="link-arrow">→</span></a></li>
-                <li><a href="#" id="share-site-btn">Share this page <span class="link-arrow">↗</span></a></li>
             </ul>
         </div></section>
         
@@ -478,8 +508,7 @@
                         });
                     });
                 } else {
-                    // Desteklenmeyen tarayıcılarda butonu tamamen gizle
-                    shareBtn.parentElement.style.display = 'none';
+                    shareBtn.style.display = 'none';
                 }
             }
         });
