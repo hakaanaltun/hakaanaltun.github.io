@@ -107,7 +107,6 @@
         .profile-wrapper { display:flex; align-items:center; gap:24px; width:100%; } 
         .profile-photo{width:150px;height:150px;min-width:150px;min-height:150px;border-radius:50%;object-fit:cover;object-position:center 20%;border:2px solid var(--border);background:var(--bg-warm)}
         
-        /* DİKKAT: İsim kitap başlığıyla (h2) birebir aynı boyuta ve stile getirildi */
         .hero-name { 
             display: block; 
             font-size: 28px; 
@@ -136,12 +135,12 @@
         .scroll-reveal.revealed{opacity:1;transform:translateY(0)}
         .scroll-reveal:nth-child(2){transition-delay:.08s}.scroll-reveal:nth-child(3){transition-delay:.16s}
         
-        .section-label{font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:var(--charcoal);margin-bottom:24px;display:block; font-weight:400;} 
+        /* DİKKAT: Section Label Uppercase Kaldırıldı, Harf Aralığı Dengellendi */
+        .section-label{font-size:15px;letter-spacing:.08em;color:var(--charcoal);margin-bottom:24px;display:block; font-weight:400;} 
         
         h2{font-size:28px;font-weight:normal;margin-bottom:20px;line-height:1.35;color:var(--charcoal)}
         p+p{margin-top:16px}
         
-        /* DİKKAT: Kitap düzeni grid yapısı profile-wrapper ile hizalandı (150px genişlik, 24px boşluk) */
         .book-layout{display:grid;grid-template-columns:150px 1fr;gap:24px;align-items:start}
         .book-cover{width:100%;aspect-ratio:2/3;background:var(--bg-warm);border:1px solid var(--border);display:flex;align-items:center;justify-content:center}
         .book-cover img{width:100%;height:100%;object-fit:cover}
@@ -241,7 +240,6 @@
             .hero-intro{gap:20px; padding-bottom:24px; margin-bottom:24px;}
             .profile-wrapper {gap:16px;} 
             .profile-photo{width:110px; height:110px; min-width:110px; min-height:110px;}
-            /* Hakan Altun ve kitap başlığı mobil boyut uyumu */
             .hero-name { font-size: 20px; }
             h2 { font-size: 20px; margin-bottom: 16px; }
 
@@ -253,7 +251,6 @@
             section::before { left: 46px; }
             section.line-drawn::before { width: calc(100% - 92px); }
             
-            /* DİKKAT: Mobil görünümde kitap kapağı ve profil fotoğrafı simetrisi */
             .book-layout{grid-template-columns:110px 1fr;gap:16px}
             
             .nav-links{gap:6px;font-size:13px}
@@ -409,21 +406,6 @@
         </div></section>
         
         <section id="essays" class="depth-2"><div class="scroll-reveal">
-            <span class="section-label">The On Series</span>
-            <p class="section-desc">Seven essays on what we build inside ourselves — and why.</p>
-            <ul class="essay-list">
-                <li><a href="https://medium.com/@hakanaltunn/on-lying-643b191c22cf" target="_blank" rel="noopener" class="essay-card"><img src="https://miro.medium.com/v2/resize:fit:128/1*IqjZ2v3VkF7FE6Ax3briCA.png" alt="Not being caught carries its own sentence." class="essay-thumb" loading="lazy"><div class="essay-card-text"><span class="essay-title">On Lying</span><span class="essay-card-subtitle">Not being caught carries its own sentence.</span><span class="essay-meta">2 min · Mar 12, 2026</span></div><span class="essay-number">1 of 7</span></a></li>
-                <li><a href="https://medium.com/@hakanaltunn/on-perceiving-1cd658fb2337" target="_blank" rel="noopener" class="essay-card"><img src="https://miro.medium.com/v2/resize:fit:128/1*yOa_B48M5L0j4xm7w8wnKQ.png" alt="Misperception is a corridor whose architect burned the blueprint and moved in." class="essay-thumb" loading="lazy"><div class="essay-card-text"><span class="essay-title">On Perceiving</span><span class="essay-card-subtitle">Misperception is a corridor whose architect burned the blueprint and moved in.</span><span class="essay-meta">5 min · Mar 14, 2026</span></div><span class="essay-number">2 of 7</span></a></li>
-                <li><a href="https://medium.com/@hakanaltunn/on-looking-ca55a089d546" target="_blank" rel="noopener" class="essay-card"><img src="https://miro.medium.com/v2/resize:fit:128/1*g2FLjY3V9utA09Yp_CaQYQ.png" alt="A room full of directors and no audience." class="essay-thumb" loading="lazy"><div class="essay-card-text"><span class="essay-title">On Looking</span><span class="essay-card-subtitle">A room full of directors and no audience.</span><span class="essay-meta">4 min · Mar 22, 2026</span></div><span class="essay-number">3 of 7</span></a></li>
-                <li><a href="https://medium.com/@hakanaltunn" target="_blank" rel="noopener"><span class="essay-title">On Forgiveness</span><span class="essay-number">4 of 7</span></a></li>
-                <li><a href="https://medium.com/@hakanaltunn" target="_blank" rel="noopener"><span class="essay-title">On Beauty</span><span class="essay-number">5 of 7</span></a></li>
-                <li><a href="https://medium.com/@hakanaltunn" target="_blank" rel="noopener"><span class="essay-title">On Longing</span><span class="essay-number">6 of 7</span></a></li>
-                <li><a href="https://medium.com/@hakanaltunn" target="_blank" rel="noopener"><span class="essay-title">On Silence</span><span class="essay-number">7 of 7</span></a></li>
-            </ul>
-            <p class="series-note">Unified by a corridor metaphor and a movement from the external to the solitary.</p>
-        </div></section>
-        
-        <section class="depth-3"><div class="scroll-reveal">
             <span class="section-label">Essays</span>
             <p class="section-desc">Standalone pieces on psychology, language, and the things we carry without knowing.</p>
             <ul class="essay-list">
@@ -436,6 +418,21 @@
                 <li><a href="https://medium.com/@hakanaltunn/will-ai-be-enough-for-us-or-is-the-real-question-something-else-e2d93a6f5210" target="_blank" rel="noopener" class="essay-card"><img src="https://miro.medium.com/v2/resize:fit:128/1*xktOKOEkb01NorbJNzs4yA.png" alt="Can an algorithm ever replace the warmth of a human hand?" class="essay-thumb" loading="lazy"><div class="essay-card-text"><span class="essay-title">Will AI Be Enough for Us, or Is the Real Question Something Else?</span><span class="essay-card-subtitle">A reflection on AI's promise and the warmth it can't replicate</span><span class="essay-meta">4 min · Feb 14, 2026</span></div></a></li>
                 <li><a href="https://medium.com/@hakanaltunn/why-do-we-say-hello-988f3c6ce3f2" target="_blank" rel="noopener" class="essay-card"><img src="https://miro.medium.com/v2/resize:fit:128/1*_TffjC5cdVkKJoadRfi3tQ.png" alt="A polite greeting on the surface can be the precursor to a deep underlying psychological game." class="essay-thumb" loading="lazy"><div class="essay-card-text"><span class="essay-title">Why Do We Say Hello?</span><span class="essay-card-subtitle">Transactional Analysis and the hidden games in our relationships</span><span class="essay-meta">8 min · Feb 10, 2026</span></div></a></li>
             </ul>
+        </div></section>
+        
+        <section class="depth-3"><div class="scroll-reveal">
+            <span class="section-label">The On Series</span>
+            <p class="section-desc">Seven essays on what we build inside ourselves — and why.</p>
+            <ul class="essay-list">
+                <li><a href="https://medium.com/@hakanaltunn/on-lying-643b191c22cf" target="_blank" rel="noopener" class="essay-card"><img src="https://miro.medium.com/v2/resize:fit:128/1*IqjZ2v3VkF7FE6Ax3briCA.png" alt="Not being caught carries its own sentence." class="essay-thumb" loading="lazy"><div class="essay-card-text"><span class="essay-title">On Lying</span><span class="essay-card-subtitle">Not being caught carries its own sentence.</span><span class="essay-meta">2 min · Mar 12, 2026</span></div><span class="essay-number">1 of 7</span></a></li>
+                <li><a href="https://medium.com/@hakanaltunn/on-perceiving-1cd658fb2337" target="_blank" rel="noopener" class="essay-card"><img src="https://miro.medium.com/v2/resize:fit:128/1*yOa_B48M5L0j4xm7w8wnKQ.png" alt="Misperception is a corridor whose architect burned the blueprint and moved in." class="essay-thumb" loading="lazy"><div class="essay-card-text"><span class="essay-title">On Perceiving</span><span class="essay-card-subtitle">Misperception is a corridor whose architect burned the blueprint and moved in.</span><span class="essay-meta">5 min · Mar 14, 2026</span></div><span class="essay-number">2 of 7</span></a></li>
+                <li><a href="https://medium.com/@hakanaltunn/on-looking-ca55a089d546" target="_blank" rel="noopener" class="essay-card"><img src="https://miro.medium.com/v2/resize:fit:128/1*g2FLjY3V9utA09Yp_CaQYQ.png" alt="A room full of directors and no audience." class="essay-thumb" loading="lazy"><div class="essay-card-text"><span class="essay-title">On Looking</span><span class="essay-card-subtitle">A room full of directors and no audience.</span><span class="essay-meta">4 min · Mar 22, 2026</span></div><span class="essay-number">3 of 7</span></a></li>
+                <li><a href="https://medium.com/@hakanaltunn" target="_blank" rel="noopener"><span class="essay-title">On Forgiveness</span><span class="essay-number">4 of 7</span></a></li>
+                <li><a href="https://medium.com/@hakanaltunn" target="_blank" rel="noopener"><span class="essay-title">On Beauty</span><span class="essay-number">5 of 7</span></a></li>
+                <li><a href="https://medium.com/@hakanaltunn" target="_blank" rel="noopener"><span class="essay-title">On Longing</span><span class="essay-number">6 of 7</span></a></li>
+                <li><a href="https://medium.com/@hakanaltunn" target="_blank" rel="noopener"><span class="essay-title">On Silence</span><span class="essay-number">7 of 7</span></a></li>
+            </ul>
+            <p class="series-note">Unified by a corridor metaphor and a movement from the external to the solitary.</p>
         </div></section>
         
         <section id="moris" class="depth-1"><div class="scroll-reveal">
