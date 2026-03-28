@@ -88,7 +88,6 @@
         header{padding:40px 0 0}
         nav{display:flex;flex-direction:column;gap:14px;padding-bottom:20px;border-bottom:1px solid var(--border)}
         
-        /* DİKKAT: Üst satır yapısı flex ile ayrıldı */
         .header-top-row {display:flex; justify-content:space-between; align-items:center; width:100%;}
         
         .site-logo-row{display:flex;align-items:center;gap:6px;border:none}
@@ -97,10 +96,10 @@
         .tagline-on{color:var(--vizon);font-size:21px}
         .tagline-green{color:var(--petrol);font-size:20px} 
         
-        /* DİKKAT: Paylaş Butonu Tasarımı */
+        /* DİKKAT: Paylaş Butonu Tasarımı Menü İle Eşitlendi */
         .header-share-btn {
             background: transparent;
-            border: 1px solid var(--petrol);
+            border: 1px solid var(--vizon); /* Çizgi vizon yapıldı */
             color: var(--petrol);
             width: 36px;
             height: 36px;
@@ -109,13 +108,12 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: all .2s ease;
+            transition: background-color .2s ease;
             padding: 0;
             flex-shrink: 0;
         }
         .header-share-btn:hover {
-            background: var(--petrol);
-            color: var(--cream);
+            background-color: var(--bg-deep); /* Hover efekti diğer butonlarla aynı yapıldı */
         }
 
         .nav-links{display:flex;gap:8px;font-size:15px}
