@@ -500,6 +500,7 @@
                 checkReveal(); 
             }, 3500);
             
+            // PAYLAŞIM BUTONU MANTIĞI 
             var shareBtn = document.getElementById('share-site-btn');
             if (shareBtn) {
                 if (navigator.share) {
@@ -507,7 +508,6 @@
                         e.preventDefault(); 
                         navigator.share({
                             title: 'Hakan Altun — On Life & Everything',
-                            text: 'Lecturer based in İstanbul. Exploring philosophy, perception, memory, and the architectures we build inside ourselves.',
                             url: window.location.href
                         }).catch(function(err){
                             console.log('Paylaşım kapatıldı.');
