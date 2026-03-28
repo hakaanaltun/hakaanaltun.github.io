@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hakan Altun — On Life & Everything</title>
-    <meta name="description" content="Hakan Altun is a lecturer based in İstanbul. Author of Forgetting the Color of Nothingness and The On Series essays. Exploring perception and architectures build inside ourselves.">
+    <meta name="description" content="Hakan Altun is a lecturer based in İstanbul. Author of Forgetting the Color of Nothingness and The On Series essays. Exploring philosophy, perception, memory, and the architectures we build inside ourselves.">
     <meta name="author" content="Hakan Altun">
     <meta name="keywords" content="Hakan Altun, Forgetting the Color of Nothingness, The On Series, philosophical essays, İstanbul lecturer, Yeditepe University, intellectual minimalism">
 
@@ -96,10 +96,10 @@
         .tagline-on{color:var(--vizon);font-size:21px}
         .tagline-green{color:var(--petrol);font-size:20px} 
         
-        /* DİKKAT: Paylaş Butonu Tasarımı Menü İle Eşitlendi */
+        /* Paylaş Butonu Tasarımı */
         .header-share-btn {
             background: transparent;
-            border: 1px solid var(--vizon); /* Çizgi vizon yapıldı */
+            border: 1px solid var(--vizon); 
             color: var(--petrol);
             width: 36px;
             height: 36px;
@@ -113,7 +113,7 @@
             flex-shrink: 0;
         }
         .header-share-btn:hover {
-            background-color: var(--bg-deep); /* Hover efekti diğer butonlarla aynı yapıldı */
+            background-color: var(--bg-deep); 
         }
 
         .nav-links{display:flex;gap:8px;font-size:15px}
@@ -354,7 +354,7 @@
                     <img src="profile.jpg" alt="Hakan Altun" class="profile-photo">
                     <span class="hero-name">Hakan Altun</span>
                 </div>
-                <p class="subtitle">Lecturer based in İstanbul. Exploring philosophy, perception, and the corridors between what we say, what we see, what we perceive, and what we choose to forget.</p>
+                <p class="subtitle">Lecturer based in İstanbul. Exploring philosophy, perception, and the corridors between what we see, what we perceive, and what we choose to forget.</p>
             </div>
             
             <svg class="perspective-line" viewBox="0 0 320 48" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><line x1="0" y1="48" x2="160" y2="6"/><line x1="320" y1="48" x2="160" y2="6"/><line x1="40" y1="48" x2="280" y2="48" opacity="0.15"/><circle cx="160" cy="6" r="2"/><line x1="30" y1="48" x2="160" y2="10" opacity="0.15"/><line x1="290" y1="48" x2="160" y2="10" opacity="0.15"/></svg>
@@ -417,7 +417,7 @@
             <span class="section-label">About</span>
             <div class="about-text">
                 <p>I teach at Yeditepe University in İstanbul and write philosophical personal essays in English for an international audience. My work circles around perception, forgiveness, beauty, and the quiet architectures of self-deception — the corridors we build without noticing the walls.</p>
-                <p>I was born into a city that insists on being looked at. Most of what I write is an attempt to look back.</p>
+                <p>I live in a city that insists on being looked at. Most of what I write is an attempt to look back.</p>
             </div>
         </div></section>
         
@@ -491,7 +491,6 @@
                 checkReveal(); 
             }, 3500);
             
-            // PAYLAŞIM BUTONU MANTIĞI
             var shareBtn = document.getElementById('share-site-btn');
             if (shareBtn) {
                 if (navigator.share) {
@@ -499,7 +498,7 @@
                         e.preventDefault(); 
                         navigator.share({
                             title: 'Hakan Altun — On Life & Everything',
-                            text: 'Lecturer based in İstanbul. Exploring philosophy, perception, and the corridors between what we choose to forget.',
+                            text: 'Lecturer based in İstanbul. Exploring philosophy, perception, and the corridors between what we see, what we perceive, and what we choose to forget.',
                             url: window.location.href
                         }).catch(function(err){
                             console.log('Paylaşım kapatıldı.');
