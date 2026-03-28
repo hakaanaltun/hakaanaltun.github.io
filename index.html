@@ -90,7 +90,6 @@
         
         .site-logo-row{display:flex;align-items:center;gap:12px;border:none}
         
-        /* DİKKAT: Logo ve Yazı Büyütüldü (Masaüstü) */
         .site-logo{width:64px; height:64px; border-radius:9px; object-fit:contain; display:block; flex-shrink:0;}
         
         .site-tagline{font-size:15px;letter-spacing:.04em;font-style:italic;display:flex;align-items:baseline;gap:5px;border:none}
@@ -108,16 +107,13 @@
         .profile-wrapper { display:flex; align-items:center; gap:24px; width:100%; } 
         .profile-photo{width:150px;height:150px;min-width:150px;min-height:150px;border-radius:50%;object-fit:cover;object-position:center 20%;border:2px solid var(--border);background:var(--bg-warm)}
         
-        /* DİKKAT: İsim kitap başlığıyla (h2) aynı boyuta (28px) indirildi */
+        /* DİKKAT: İsim kitap başlığıyla (h2) birebir aynı boyuta ve stile getirildi */
         .hero-name { 
             display: block; 
             font-size: 28px; 
-            letter-spacing: .03em; 
-            text-transform: uppercase; 
-            color: var(--vizon); 
-            font-weight: 500;
-            line-height: 1.2;
-            white-space: nowrap; 
+            color: var(--charcoal); 
+            font-weight: normal;
+            line-height: 1.35;
         }
         
         .hero .subtitle{font-size:19px;color:var(--vizon);line-height:1.7;max-width:620px;font-style:italic}
@@ -145,7 +141,8 @@
         h2{font-size:28px;font-weight:normal;margin-bottom:20px;line-height:1.35;color:var(--charcoal)}
         p+p{margin-top:16px}
         
-        .book-layout{display:grid;grid-template-columns:180px 1fr;gap:36px;align-items:start}
+        /* DİKKAT: Kitap düzeni grid yapısı profile-wrapper ile hizalandı (150px genişlik, 24px boşluk) */
+        .book-layout{display:grid;grid-template-columns:150px 1fr;gap:24px;align-items:start}
         .book-cover{width:100%;aspect-ratio:2/3;background:var(--bg-warm);border:1px solid var(--border);display:flex;align-items:center;justify-content:center}
         .book-cover img{width:100%;height:100%;object-fit:cover}
         
@@ -244,7 +241,10 @@
             .hero-intro{gap:20px; padding-bottom:24px; margin-bottom:24px;}
             .profile-wrapper {gap:16px;} 
             .profile-photo{width:110px; height:110px; min-width:110px; min-height:110px;}
+            /* Hakan Altun ve kitap başlığı mobil boyut uyumu */
             .hero-name { font-size: 20px; }
+            h2 { font-size: 20px; margin-bottom: 16px; }
+
             .hero .subtitle{font-size:16px; line-height:1.7;}
             
             .hero h1{font-size:16px}
@@ -253,11 +253,12 @@
             section::before { left: 46px; }
             section.line-drawn::before { width: calc(100% - 92px); }
             
-            .book-layout{grid-template-columns:140px 1fr;gap:24px}
+            /* DİKKAT: Mobil görünümde kitap kapağı ve profil fotoğrafı simetrisi */
+            .book-layout{grid-template-columns:110px 1fr;gap:16px}
+            
             .nav-links{gap:6px;font-size:13px}
             .nav-links a{padding:4px 10px}
             
-            /* DİKKAT: Mobil Logo ve Yazı Büyütüldü */
             .site-logo{width:52px;height:52px;}
             .site-tagline{font-size:14px;}
             .tagline-on{font-size:17px;}
@@ -315,7 +316,7 @@
         <span class="mobile-margin-line mobile-margin-item"><svg width="2" height="45" viewBox="0 0 2 45"><line x1="1" y1="0" x2="1" y2="45" stroke-width="0.8"/></svg></span>
         <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item">the walls</span>
         <span class="mobile-margin-word mobile-margin-word--lg mobile-margin-item">nothingness</span>
-        <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item">lying</span>
+        <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item">what remains</span>
     </div>
 
     <div class="dispersed-elements-container" aria-hidden="true">
