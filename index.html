@@ -33,14 +33,14 @@
             --bg-content:#E3E1D5;      
             
             --petrol: #206060;     /* Petrol Yeşili */
-            --charcoal: #2F3D3C;   /* Kömür Yeşili */
+            --charcoal: #206060;   /* Kömür Yeşili (Petrol Yeşili ile eşitlendi) */
             --vizon: #8A8279;      /* Klasik Vizon / Krem */
             --border: #E8E2D9;     /* Dış çizgilerdeki açık krem/vizon */
             
             --cream:#FDFCFA;           
-            --shadow:rgba(47,61,60,0.04);
-            --corridor-line:rgba(47,61,60,0.08); 
-            --corridor-line-active:rgba(47,61,60,0.18);
+            --shadow:rgba(32,96,96,0.04);
+            --corridor-line:rgba(32,96,96,0.08); 
+            --corridor-line-active:rgba(32,96,96,0.18);
         }
         
         html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
@@ -88,7 +88,8 @@
         header{padding:40px 0 0}
         nav{display:flex;flex-direction:column;gap:14px;padding-bottom:20px;border-bottom:1px solid var(--border)}
         
-        .site-logo-row{display:flex;align-items:center;gap:12px;border:none}
+        /* DİKKAT: Logo ve metin arası gap 12px'ten 6px'e indirildi */
+        .site-logo-row{display:flex;align-items:center;gap:6px;border:none}
         
         .site-logo{width:64px; height:64px; border-radius:9px; object-fit:contain; display:block; flex-shrink:0;}
         
