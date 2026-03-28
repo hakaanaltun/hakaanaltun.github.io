@@ -135,7 +135,6 @@
         .scroll-reveal.revealed{opacity:1;transform:translateY(0)}
         .scroll-reveal:nth-child(2){transition-delay:.08s}.scroll-reveal:nth-child(3){transition-delay:.16s}
         
-        /* DİKKAT: Section Label boyutu essay-title ile aynı yapıldı (19px) */
         .section-label{font-size:19px;letter-spacing:.04em;color:var(--charcoal);margin-bottom:24px;display:block; font-weight:400;} 
         
         h2{font-size:28px;font-weight:normal;margin-bottom:20px;line-height:1.35;color:var(--charcoal)}
@@ -188,47 +187,12 @@
         
         /* MOBİL DÜZENLEMELER VE DİKEY KORİDOR */
         .mobile-corridor{display:none}
-        .mobile-margin-texture{display:none} 
         
         @media(max-width:1050px){
             .mobile-corridor{display:block;position:fixed;top:0;height:100%;width:2px;pointer-events:none;z-index:0;opacity:0;transition:opacity 1.5s ease}
             .mobile-corridor.visible{opacity:1}
             .mobile-corridor--left{left:8px;background:linear-gradient(to bottom,transparent 0%,var(--corridor-line) 15%,var(--corridor-line-active) 50%,var(--corridor-line) 85%,transparent 100%)}
             .mobile-corridor--right{right:8px;background:linear-gradient(to bottom,transparent 0%,var(--corridor-line) 15%,var(--corridor-line-active) 50%,var(--corridor-line) 85%,transparent 100%)}
-            
-            .mobile-margin-texture{
-                display:flex;
-                position:absolute; 
-                top:0;
-                bottom:0;
-                height:100%; 
-                pointer-events:none;
-                z-index:10;
-                flex-direction:column;
-                justify-content:space-evenly; 
-                padding-top:120px;
-                padding-bottom:120px;
-                overflow:hidden;
-            }
-            
-            .mobile-margin-texture--left{left:4px; width:46px; align-items:center; padding:0;}
-            .mobile-margin-texture--right{right:4px; width:46px; align-items:center; padding:0;}
-            
-            .mobile-margin-item{
-                opacity:0; 
-                margin-bottom: 0 !important; 
-                transform:translateY(25px); 
-                transition:opacity 1.2s ease, transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
-            }
-            
-            .mobile-margin-word{font-family:'Lora',Georgia,serif;font-style:italic;color:var(--vizon);writing-mode:vertical-rl;text-orientation:mixed;white-space:nowrap;display:block;line-height:1;}
-            .mobile-margin-word.visible{transform:translateY(0);opacity:.24}
-            .mobile-margin-word--lg{font-size:15px;letter-spacing:.15em}.mobile-margin-word--lg.visible{opacity:.35}
-            .mobile-margin-word--sm{font-size:11px;letter-spacing:.15em;text-transform:uppercase}.mobile-margin-word--sm.visible{opacity:.30}
-            
-            .mobile-margin-line{display:block;}
-            .mobile-margin-line.visible{transform:translateY(0);opacity:1}
-            .mobile-margin-line svg line{stroke:var(--petrol);fill:none;opacity:0.3}
             
             .container{padding:0 52px}
             section.depth-1,section.depth-2,section.depth-3{margin-left:-52px;margin-right:-52px;padding-left:52px;padding-right:52px}
@@ -265,11 +229,6 @@
             
             .container{padding:0 48px}
             
-            .mobile-margin-texture--left{width:46px; left:4px;}
-            .mobile-margin-texture--right{width:46px; right:4px;}
-            .mobile-margin-word--lg{font-size:15px !important;} 
-            .mobile-margin-word--sm{font-size:11px !important;} 
-            
             section.depth-1,section.depth-2,section.depth-3{margin-left:-48px;margin-right:-48px;padding-left:48px;padding-right:48px}
         }
         
@@ -295,27 +254,6 @@
     <div class="mobile-corridor mobile-corridor--left" aria-hidden="true"></div>
     <div class="mobile-corridor mobile-corridor--right" aria-hidden="true"></div>
 
-    <div class="mobile-margin-texture mobile-margin-texture--left" aria-hidden="true">
-        <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item">perceiving</span>
-        <span class="mobile-margin-line mobile-margin-item"><svg width="2" height="40" viewBox="0 0 2 40"><line x1="1" y1="0" x2="1" y2="40" stroke-width="0.8"/></svg></span>
-        <span class="mobile-margin-word mobile-margin-word--lg mobile-margin-item">corridors</span>
-        <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item">forgetting</span>
-        <span class="mobile-margin-line mobile-margin-item"><svg width="2" height="30" viewBox="0 0 2 30"><line x1="1" y1="0" x2="1" y2="30" stroke-width="0.8"/></svg></span>
-        <span class="mobile-margin-word mobile-margin-word--lg mobile-margin-item" style="margin-top: 40px;">silence</span>
-        <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item">beauty</span>
-    </div>
-
-    <div class="mobile-margin-texture mobile-margin-texture--right" aria-hidden="true">
-        <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item">lying</span>
-        <span class="mobile-margin-line mobile-margin-item"><svg width="2" height="35" viewBox="0 0 2 35"><line x1="1" y1="0" x2="1" y2="35" stroke-width="0.8"/></svg></span>
-        <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item">longing</span>
-        <span class="mobile-margin-word mobile-margin-word--lg mobile-margin-item">forgiveness</span>
-        <span class="mobile-margin-line mobile-margin-item"><svg width="2" height="45" viewBox="0 0 2 45"><line x1="1" y1="0" x2="1" y2="45" stroke-width="0.8"/></svg></span>
-        <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item">the walls</span>
-        <span class="mobile-margin-word mobile-margin-word--lg mobile-margin-item">nothingness</span>
-        <span class="mobile-margin-word mobile-margin-word--sm mobile-margin-item">what remains</span>
-    </div>
-
     <div class="dispersed-elements-container" aria-hidden="true">
         <span class="reveal-item reveal-text petrol" style="top: 6%; left: 6%; font-size: 28px;">perceiving</span>
         
@@ -336,6 +274,9 @@
         </div>
 
         <span class="reveal-item reveal-text petrol" style="top: 34%; left: 8%; font-size: 34px;">forgetting</span>
+        
+        <span class="reveal-item reveal-text vizon" style="top: 39%; right: 8%; font-size: 24px; --rot: 15deg;">beauty</span>
+
         <span class="reveal-item reveal-text vizon" style="top: 45%; right: 7%; font-size: 26px;">silence</span>
         
         <div class="reveal-item vizon" style="top: 52%; left: 5%;">
@@ -343,6 +284,8 @@
                 <line x1="0" y1="10" x2="90" y2="10" />
             </svg>
         </div>
+
+        <span class="reveal-item reveal-text petrol" style="top: 58%; left: 7%; font-size: 28px; --rot: -10deg;">the walls</span>
 
         <span class="reveal-item reveal-text petrol" style="top: 67%; right: 6%; font-size: 40px;">lying</span>
         
@@ -466,7 +409,6 @@
         'use strict';
         
         var dispersedItems = document.querySelectorAll('.reveal-item');
-        var mobileMarginItems = document.querySelectorAll('.mobile-margin-item');
         var allowReveal = false; 
         
         function checkReveal() {
@@ -482,17 +424,6 @@
                     item.classList.add('revealed');
                 } else {
                     item.classList.remove('revealed'); 
-                }
-            });
-            
-            mobileMarginItems.forEach(function(item) {
-                var itemTop = item.getBoundingClientRect().top;
-                var itemBottom = item.getBoundingClientRect().bottom;
-                
-                if (itemTop < triggerPoint && itemBottom > -50) {
-                    item.classList.add('visible');
-                } else {
-                    item.classList.remove('visible'); 
                 }
             });
         }
