@@ -63,7 +63,7 @@
             font-size: 28px;
             font-weight: normal;
             margin: 0;
-            line-height: 1.1; /* Çok satırlı başlıklar için daraltıldı */
+            line-height: 1.1;
             color: var(--petrol);
         }
         
@@ -77,10 +77,10 @@
         .site-logo{width:76px; height:76px; border-radius:12px; object-fit:contain; display:block; flex-shrink:0; background:var(--cream); box-shadow:0 4px 16px rgba(32,96,96,0.06); border:1px solid var(--border);}
         
         /* İstiflenmiş Logo Yazısı Düzeni */
-        .site-tagline{font-size:19px; letter-spacing:.04em; font-style:italic; display:flex; align-items:center; gap:8px; border:none}
+        .site-tagline{font-size:19px; letter-spacing:.04em; font-style:italic; display:flex; align-items:center; gap:6px; border:none}
         
-        /* BÜYÜTÜLEN "ON" YAZISI (Masaüstü/Tablet: 36px) */
-        .tagline-on{color:var(--vizon); font-size:36px; font-weight:bold; line-height:1;}
+        /* BÜYÜTÜLEN "ON" YAZISI VE ESKİ ZARİF HALİ (Masaüstü/Tablet: 42px) */
+        .tagline-on{color:var(--vizon); font-size:42px; font-weight:normal; font-style:italic; line-height:1;}
         
         .tagline-stack{display:flex; flex-direction:column; line-height:1.15;}
         .tagline-green{color:var(--petrol); font-size:19px;}
@@ -108,13 +108,11 @@
         /* --- NİZAMİ BLOK DÜZENİ (HERO & BOOK) --- */
         .hero{padding:56px 0 32px}
         
-        /* Sola Yaslı Nizami Giriş Bloğu (Masaüstü: 180px Geniş Resim Sütunu) */
         .content-block-header{display:grid; grid-template-columns:180px 1fr; gap:32px; align-items:center; margin-bottom:28px;}
         .hero-intro-body, .book-intro-body {width:100%; text-align:left;}
         
         .profile-photo{width:180px; height:180px; min-width:180px; min-height:180px; border-radius:50%; object-fit:cover; object-position:center 20%; border:2px solid var(--border); background:var(--bg-warm)}
         
-        /* Biyografi Yazısı Giriş Bloğunun Hemen Altından Tam Genişlik Akıyor */
         .profile-bio-text{font-size:19px; color:var(--vizon); line-height:1.7; max-width:720px; font-style:italic;}
         
         .hero h1{font-size:19px; font-weight:400; line-height:1.5; margin-top:32px; font-style:italic; color:var(--vizon); background:rgba(32,96,96,0.02); margin-left:-28px; margin-right:-28px; padding:24px 28px; border-radius:2px; text-align:left;}
@@ -136,12 +134,11 @@
         .section-label{font-size:19px;letter-spacing:.04em;color:var(--charcoal);margin-bottom:32px;display:block;font-weight:400;opacity:0;transform:translateX(-12px);transition:opacity .8s ease,transform .8s cubic-bezier(.23,1,.32,1)}
         .scroll-reveal.revealed .section-label{opacity:1;transform:translateX(0)}
         
-        /* --- KİTAP BÖLÜMÜ NİZAMİ BLOK DÜZENİ --- */
+        /* --- KİTAP BÖLÜMÜ --- */
         .book-block-header{display:grid; grid-template-columns:180px 1fr; gap:32px; align-items:flex-start; margin-bottom:28px;}
         .book-cover{width:180px; min-width:180px; aspect-ratio:2/3; background:var(--bg-warm); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; box-shadow: 0 8px 32px rgba(0,0,0,0.06); border-radius:4px;}
         .book-cover img{width:100%;height:100%;object-fit:cover; border-radius:4px;}
         
-        /* Kitap Açıklaması Giriş Bloğunun Hemen Altından Tam Genişlik Akıyor */
         .book-desc-text{color:var(--vizon); font-size:17px; line-height:1.7; max-width:640px;}
         .book-links{margin-top:24px; display:flex; gap:16px; flex-wrap:wrap; justify-content:flex-start;}
         .book-links a{font-size:14px; padding:8px 24px; border:1px solid var(--vizon); color:var(--charcoal); letter-spacing:.04em; border-radius:4px}
@@ -149,7 +146,7 @@
         
         .section-desc{color:var(--vizon);margin-bottom:32px;font-style:italic;max-width:none;}
         
-        /* STITCH KARTLARI (MASAÜSTÜ 2 SÜTUN) */
+        /* STITCH KARTLARI */
         .essay-list {display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; list-style: none; padding: 0; margin: 0;}
         .essay-list li {padding: 0; margin: 0; transition: transform .3s cubic-bezier(.23,1,.32,1); background: transparent;}
         .essay-card {display: flex; flex-direction: column; align-items: flex-start; gap: 16px; width: 100%; height: 100%; border: 1px solid var(--border); border-radius: 8px; padding: 16px; background: var(--cream); transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;}
@@ -177,9 +174,11 @@
         .link-list a:hover{color:var(--charcoal);border-color:var(--charcoal)}
         .link-list a:hover .link-arrow{transform:translateX(4px);color:var(--charcoal)}
         
-        .moris-video{max-width:320px;margin:0 auto;border-radius:12px;overflow:hidden;box-shadow:0 8px 32px var(--shadow)}
-        .moris-video iframe{width:100%;aspect-ratio:9/16;border:none;display:block}
-        .moris-caption{margin-top:20px;text-align:center;font-size:15px;color:var(--vizon);font-style:italic}
+        /* --- YENİ MORİS VİDEOSU (YATAY FORM) --- */
+        /* Genişlik artırıldı, aspect-ratio 16:9 yapılarak tam yatay bir dikdörtgene çevrildi */
+        .moris-video{max-width:640px; margin:0 auto; border-radius:12px; overflow:hidden; box-shadow:0 8px 32px var(--shadow); background-color:#000;}
+        .moris-video iframe{width:100%; aspect-ratio:16/9; border:none; display:block}
+        .moris-caption{margin-top:20px; text-align:center; font-size:15px; color:var(--vizon); font-style:italic}
         
         footer{padding:60px 0 40px;border-top:1px solid var(--border);text-align:center}
         footer p{font-size:14px;color:var(--vizon);letter-spacing: 1px;}
@@ -198,14 +197,12 @@
         }
         
         @media(max-width:768px){
-            /* Mobil Tüm UI Boyutlarını Eşitleme (17px) */
             .tagline-green, .hamburger-text { font-size: 17px; }
             
-            /* MOBİLDE "ON" YAZISI (30px'e çekildi, still büyük) */
-            .tagline-on { font-size: 30px; }
+            /* MOBİLDE "ON" YAZISI (Eskisine göre daha büyük ve zarif) */
+            .tagline-on { font-size: 34px; }
             .site-tagline { gap: 6px; }
             
-            /* Başlık Boyutlarını Küçültme (Mobilde 24px) */
             .content-title { font-size: 24px; }
             
             .site-logo {width:48px; height:48px; border-radius:10px;}
@@ -218,7 +215,6 @@
             .hamburger-btn {gap:8px;}
             .hamburger-btn svg {width:20px; height:20px;}
             
-            /* Mobil Nizami Blok Düzeni (Mobilde Resim Sütunu: 120px) */
             .content-block-header{grid-template-columns:120px 1fr; gap:16px;}
             .profile-photo {width:120px; height:120px; min-width:120px; min-height:120px;}
             
@@ -227,12 +223,10 @@
             .hero{padding:40px 0 32px} section{padding:36px 0}
             section::before{left:46px} section.line-drawn::before{width:calc(100% - 92px)}
             
-            /* Mobilde Kitap Giriş Bloğu (Mobilde Resim Sütunu: 120px) */
             .book-block-header{grid-template-columns:120px 1fr; gap:16px;}
             .book-cover {width:120px; min-width:120px;}
             .book-desc-text {font-size:16px; line-height:1.6; margin-top:20px;}
             
-            /* Mobilde 1 Sütunlu Yatay (Kompakt) Kartlar */
             .essay-list { grid-template-columns: 1fr; gap: 12px; }
             .essay-card {
                 display: grid;
@@ -282,7 +276,6 @@
         }
         
         @media(max-width:420px){
-            /* Çok küçük ekranlarda resim sütununu ve başlık boyutunu daha da daraltıyoruz */
             .content-block-header{grid-template-columns:100px 1fr;}
             .profile-photo {width:100px; height:100px; min-width:100px; min-height:100px;}
             
@@ -567,7 +560,6 @@
     (function(){
         'use strict';
         
-        // Evrensel Hamburger Menü Mantığı
         var hamburgerBtn = document.querySelector('.hamburger-btn');
         var navLinks = document.querySelector('.nav-links');
         if(hamburgerBtn && navLinks) {
@@ -575,7 +567,6 @@
                 e.preventDefault();
                 navLinks.classList.toggle('active');
             });
-            
             var links = navLinks.querySelectorAll('a');
             links.forEach(function(link) {
                 link.addEventListener('click', function() {
