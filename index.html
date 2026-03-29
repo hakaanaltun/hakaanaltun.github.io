@@ -41,7 +41,7 @@
         ::selection{background:var(--petrol);color:var(--cream)}
         a{text-decoration:none;transition:color .2s ease,border-color .2s ease,background-color .2s ease}
         
-        /* Koridor Çizgileri (920px Genişlik) */
+        /* Koridor Çizgileri */
         .corridor-vline{position:fixed;top:0;height:100%;width:1px;pointer-events:none;z-index:0;background-color:var(--charcoal);opacity:0.06}
         .corridor-vline--left{left:calc((100vw - 920px)/2 - 16px)}.corridor-vline--right{right:calc((100vw - 920px)/2 - 16px)}
         @media(max-width:1050px){.corridor-vline{display:none}}
@@ -91,13 +91,12 @@
             to { opacity: 1; transform: translateY(0); }
         }
         
-        /* --- HERO & PROFIL (SOLA YASLI) --- */
+        /* --- KUSURSUZ DİKEY HİZALAMA (HERO & PROFIL) --- */
         .hero{padding:56px 0 32px}
         .hero-intro{display:flex; flex-direction:column; align-items:flex-start; text-align:left; gap:24px; padding-bottom:32px; margin-bottom:32px; border-bottom:1px solid var(--border)}
         
-        /* Masaüstünde fotoğraf ve isim yan yana */
-        .profile-wrapper{display:flex; flex-direction:row; align-items:center; gap:24px; width:100%}
-        .profile-photo{width:160px; height:160px; min-width:160px; min-height:160px; border-radius:50%; object-fit:cover; object-position:center 20%; border:2px solid var(--border); background:var(--bg-warm)}
+        .profile-wrapper{display:flex; flex-direction:row; align-items:center; gap:32px; width:100%}
+        .profile-photo{width:180px; height:180px; min-width:180px; min-height:180px; border-radius:50%; object-fit:cover; object-position:center 20%; border:2px solid var(--border); background:var(--bg-warm)}
         .hero-name{display:block; font-size:28px; color:var(--charcoal); font-weight:normal; line-height:1.35}
         .hero .subtitle{font-size:19px; color:var(--vizon); line-height:1.7; max-width:720px; font-style:italic}
         .hero h1{font-size:19px; font-weight:400; line-height:1.5; margin-top:0; font-style:italic; color:var(--vizon); background:rgba(32,96,96,0.02); margin-left:-28px; margin-right:-28px; padding:24px 28px; border-radius:2px; text-align:left;}
@@ -122,10 +121,9 @@
         
         h2{font-size:28px;font-weight:normal;margin-bottom:20px;line-height:1.35;color:var(--charcoal);font-style:italic}
         
-        /* --- KİTAP BÖLÜMÜ (SOLA YASLI) --- */
-        /* Masaüstünde kapak ve yazı yan yana */
-        .book-layout{display:grid; grid-template-columns:220px 1fr; gap:40px; align-items:start; justify-items:start; text-align:left;}
-        .book-cover{width:100%; aspect-ratio:2/3; background:var(--bg-warm); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; box-shadow: 0 8px 32px rgba(0,0,0,0.06); border-radius:4px;}
+        /* --- KUSURSUZ DİKEY HİZALAMA (KİTAP BÖLÜMÜ) --- */
+        .book-layout{display:grid; grid-template-columns:180px 1fr; gap:32px; align-items:start; justify-items:start; text-align:left;}
+        .book-cover{width:100%; max-width:180px; aspect-ratio:2/3; background:var(--bg-warm); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; box-shadow: 0 8px 32px rgba(0,0,0,0.06); border-radius:4px;}
         .book-cover img{width:100%;height:100%;object-fit:cover; border-radius:4px;}
         .book-info{display:flex; flex-direction:column; align-items:flex-start;}
         .book-info p{color:var(--vizon); font-size:17px; max-width:600px;}
@@ -135,7 +133,7 @@
         
         .section-desc{color:var(--vizon);margin-bottom:32px;font-style:italic;max-width:600px;}
         
-        /* STITCH KARTLARI (2 SÜTUN) */
+        /* STITCH KARTLARI (MASAÜSTÜ 2 SÜTUN) */
         .essay-list {display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; list-style: none; padding: 0; margin: 0;}
         .essay-list li {padding: 0; margin: 0; transition: transform .3s cubic-bezier(.23,1,.32,1); background: transparent;}
         .essay-card {display: flex; flex-direction: column; align-items: flex-start; gap: 16px; width: 100%; height: 100%; border: 1px solid var(--border); border-radius: 8px; padding: 16px; background: var(--cream); transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;}
@@ -193,31 +191,64 @@
             .hamburger-text {font-size:15px;}
             
             /* Dikey ve Sola Yaslı İçerik (Mobil) */
-            .profile-wrapper {flex-direction:column; align-items:flex-start; gap:16px;}
-            .profile-photo {width:120px; height:120px; min-width:120px; min-height:120px;}
-            .hero-name {font-size:24px;}
-            .hero .subtitle {font-size:16px;}
-            .hero h1 {font-size:16px; margin-left:-48px; margin-right:-48px; padding:20px 48px}
+            .profile-wrapper {flex-direction:row; align-items:center; gap:20px;}
+            .profile-photo {width:100px; height:100px; min-width:100px; min-height:100px;}
+            .hero-name {font-size:22px;}
+            .hero .subtitle {font-size:15px; line-height:1.6;}
+            .hero h1 {font-size:15px; margin-left:-48px; margin-right:-48px; padding:20px 48px}
             .hero{padding:40px 0 32px} section{padding:36px 0}
             section::before{left:46px} section.line-drawn::before{width:calc(100% - 92px)}
             
-            h2 {font-size:24px;}
+            h2 {font-size:20px; margin-bottom: 12px;}
             
             /* Mobilde Kitap Kapağı Sola Yaslı Dikey */
-            .book-layout {grid-template-columns:1fr; justify-items:flex-start; gap:24px;}
-            .book-cover {max-width:180px; margin:0;}
+            .book-layout {grid-template-columns:100px 1fr; justify-items:flex-start; gap:20px; align-items:start;}
+            .book-cover {max-width:100px; margin:0;}
             
-            /* Mobilde 2'li Kart Sistemi */
-            .essay-list { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-            .essay-card { padding: 12px; gap: 8px; }
-            .essay-thumb { height: 110px; }
+            /* MOBİLDE 1 SÜTUNLU YATAY (KOMPAKT) KARTLAR */
+            .essay-list { grid-template-columns: 1fr; gap: 12px; }
+            .essay-card {
+                display: grid;
+                grid-template-columns: 84px 1fr;
+                grid-template-rows: auto auto;
+                gap: 6px 16px;
+                padding: 12px;
+                align-items: center;
+            }
+            .essay-thumb {
+                grid-column: 1 / 2;
+                grid-row: 1 / 3;
+                width: 100%;
+                height: auto;
+                aspect-ratio: 1;
+                min-width: unset;
+                margin: 0;
+            }
+            .essay-card-text {
+                grid-column: 2 / 3;
+                grid-row: 1 / 2;
+                gap: 4px;
+            }
+            .essay-meta-wrapper {
+                grid-column: 2 / 3;
+                grid-row: 2 / 3;
+                padding-top: 0;
+                justify-content: flex-start;
+            }
             .essay-title { font-size: 15px; line-height: 1.3; }
             .essay-card-subtitle { font-size: 12px; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-            .essay-meta-wrapper { padding-top: 6px; flex-direction: column; align-items: flex-start; gap: 6px; }
             .essay-meta { font-size: 11px; }
             .essay-number { font-size: 11px; padding: 2px 6px; margin-left: 0; }
             
-            .essay-card.text-only { padding: 20px 8px; }
+            /* Text-only kartlar için mobilde düzenleme */
+            .essay-card.text-only {
+                display: flex; 
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                padding: 20px 16px;
+            }
+            .essay-card.text-only .essay-card-text { align-items: flex-start; justify-content: center; }
             .essay-card.text-only .essay-title { font-size: 16px; }
             
             .container{padding:0 48px}
@@ -225,9 +256,8 @@
         }
         
         @media(max-width:420px){
-            .book-cover {max-width:160px;}
-            .essay-card { padding: 10px; gap: 6px; }
-            .essay-thumb { height: 90px; }
+            .essay-thumb { width: 76px; }
+            .essay-card { grid-template-columns: 76px 1fr; padding: 10px; gap: 4px 12px; }
             .essay-title { font-size: 14px; }
         }
         
