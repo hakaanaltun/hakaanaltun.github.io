@@ -67,23 +67,20 @@
             color: var(--petrol);
         }
         
-        /* --- YENİ BAŞLIK VE MENÜ SİSTEMİ --- */
+        /* --- BAŞLIK VE MENÜ SİSTEMİ --- */
         header{padding:40px 0 0}
         nav{display:flex;flex-direction:column;gap:0;padding-bottom:24px;border-bottom:1px solid var(--border)}
         
         .header-top-row{display:flex;justify-content:space-between;align-items:center;width:100%;}
         
-        .site-logo-row{display:flex;flex-direction:row;align-items:center;gap:16px;border:none;z-index:5;}
+        /* Logo ve Altın Oranlı Metin Düzeni */
+        .site-logo-row{display:flex;flex-direction:row;align-items:center;gap:12px;border:none;z-index:5;}
         .site-logo{width:76px; height:76px; border-radius:12px; object-fit:contain; display:block; flex-shrink:0; background:var(--cream); box-shadow:0 4px 16px rgba(32,96,96,0.06); border:1px solid var(--border);}
         
-        /* İstiflenmiş Logo Yazısı Düzeni */
-        .site-tagline{font-size:19px; letter-spacing:.04em; font-style:italic; display:flex; align-items:center; gap:6px; border:none}
-        
-        /* BÜYÜTÜLEN "ON" YAZISI VE ESKİ ZARİF HALİ (Masaüstü/Tablet: 42px) */
-        .tagline-on{color:var(--vizon); font-size:42px; font-weight:normal; font-style:italic; line-height:1;}
-        
-        .tagline-stack{display:flex; flex-direction:column; line-height:1.15;}
-        .tagline-green{color:var(--petrol); font-size:19px;}
+        .site-tagline{display:flex; align-items:center; gap:6px; border:none}
+        .tagline-on{color:var(--vizon); font-size:32px; font-weight:normal; font-style:italic; line-height:1;}
+        .tagline-stack{display:flex; flex-direction:column; justify-content:center; line-height:1.2;}
+        .tagline-green{color:var(--petrol); font-size:15px; font-style:italic; letter-spacing:.04em;}
         
         /* Paylaşım Butonu */
         .header-share-btn{background:transparent; border:none; color:var(--petrol); padding:8px; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:opacity .2s ease; flex-shrink:0; z-index:10;}
@@ -105,7 +102,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
         
-        /* --- NİZAMİ BLOK DÜZENİ (HERO & BOOK) --- */
+        /* --- NİZAMİ BLOK DÜZENİ (HERO) --- */
         .hero{padding:56px 0 32px}
         
         .content-block-header{display:grid; grid-template-columns:180px 1fr; gap:32px; align-items:center; margin-bottom:28px;}
@@ -134,7 +131,7 @@
         .section-label{font-size:19px;letter-spacing:.04em;color:var(--charcoal);margin-bottom:32px;display:block;font-weight:400;opacity:0;transform:translateX(-12px);transition:opacity .8s ease,transform .8s cubic-bezier(.23,1,.32,1)}
         .scroll-reveal.revealed .section-label{opacity:1;transform:translateX(0)}
         
-        /* --- KİTAP BÖLÜMÜ --- */
+        /* --- KİTAP BÖLÜMÜ NİZAMİ BLOK DÜZENİ --- */
         .book-block-header{display:grid; grid-template-columns:180px 1fr; gap:32px; align-items:flex-start; margin-bottom:28px;}
         .book-cover{width:180px; min-width:180px; aspect-ratio:2/3; background:var(--bg-warm); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; box-shadow: 0 8px 32px rgba(0,0,0,0.06); border-radius:4px;}
         .book-cover img{width:100%;height:100%;object-fit:cover; border-radius:4px;}
@@ -146,7 +143,7 @@
         
         .section-desc{color:var(--vizon);margin-bottom:32px;font-style:italic;max-width:none;}
         
-        /* STITCH KARTLARI */
+        /* STITCH KARTLARI (MASAÜSTÜ 2 SÜTUN) */
         .essay-list {display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; list-style: none; padding: 0; margin: 0;}
         .essay-list li {padding: 0; margin: 0; transition: transform .3s cubic-bezier(.23,1,.32,1); background: transparent;}
         .essay-card {display: flex; flex-direction: column; align-items: flex-start; gap: 16px; width: 100%; height: 100%; border: 1px solid var(--border); border-radius: 8px; padding: 16px; background: var(--cream); transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;}
@@ -174,10 +171,9 @@
         .link-list a:hover{color:var(--charcoal);border-color:var(--charcoal)}
         .link-list a:hover .link-arrow{transform:translateX(4px);color:var(--charcoal)}
         
-        /* --- YENİ MORİS VİDEOSU (YATAY FORM) --- */
-        /* Genişlik artırıldı, aspect-ratio 16:9 yapılarak tam yatay bir dikdörtgene çevrildi */
-        .moris-video{max-width:640px; margin:0 auto; border-radius:12px; overflow:hidden; box-shadow:0 8px 32px var(--shadow); background-color:#000;}
-        .moris-video iframe{width:100%; aspect-ratio:16/9; border:none; display:block}
+        /* --- MORİS VİDEOSU DİKEY YAPIYA (SHORTS) GERİ DÖNDÜ --- */
+        .moris-video{max-width:300px; margin:0 auto; border-radius:12px; overflow:hidden; box-shadow:0 8px 32px var(--shadow); background-color:#000;}
+        .moris-video iframe{width:100%; aspect-ratio:9/16; border:none; display:block}
         .moris-caption{margin-top:20px; text-align:center; font-size:15px; color:var(--vizon); font-style:italic}
         
         footer{padding:60px 0 40px;border-top:1px solid var(--border);text-align:center}
@@ -197,16 +193,17 @@
         }
         
         @media(max-width:768px){
-            .tagline-green, .hamburger-text { font-size: 17px; }
+            .hamburger-text { font-size: 17px; }
             
-            /* MOBİLDE "ON" YAZISI (Eskisine göre daha büyük ve zarif) */
-            .tagline-on { font-size: 34px; }
-            .site-tagline { gap: 6px; }
+            /* Mobil İdeal Logo Orantısı */
+            .site-logo {width:52px; height:52px; border-radius:10px;}
+            .site-logo-row {gap:8px;}
+            
+            .tagline-on { font-size: 26px; }
+            .tagline-green { font-size: 13px; }
+            .site-tagline { gap: 5px; }
             
             .content-title { font-size: 24px; }
-            
-            .site-logo {width:48px; height:48px; border-radius:10px;}
-            .site-logo-row {gap:10px;}
             
             .header-share-btn {padding:0; width:24px; height:24px;}
             .header-share-btn svg {width:20px; height:20px;}
@@ -215,6 +212,7 @@
             .hamburger-btn {gap:8px;}
             .hamburger-btn svg {width:20px; height:20px;}
             
+            /* Mobil Nizami Blok Düzeni (Mobilde Resim Sütunu: 120px) */
             .content-block-header{grid-template-columns:120px 1fr; gap:16px;}
             .profile-photo {width:120px; height:120px; min-width:120px; min-height:120px;}
             
@@ -223,10 +221,12 @@
             .hero{padding:40px 0 32px} section{padding:36px 0}
             section::before{left:46px} section.line-drawn::before{width:calc(100% - 92px)}
             
+            /* Mobilde Kitap Giriş Bloğu (Mobilde Resim Sütunu: 120px) */
             .book-block-header{grid-template-columns:120px 1fr; gap:16px;}
             .book-cover {width:120px; min-width:120px;}
             .book-desc-text {font-size:16px; line-height:1.6; margin-top:20px;}
             
+            /* Mobilde 1 Sütunlu Yatay (Kompakt) Kartlar */
             .essay-list { grid-template-columns: 1fr; gap: 12px; }
             .essay-card {
                 display: grid;
@@ -276,6 +276,7 @@
         }
         
         @media(max-width:420px){
+            /* Çok küçük ekranlarda resim sütununu daha da daraltıyoruz */
             .content-block-header{grid-template-columns:100px 1fr;}
             .profile-photo {width:100px; height:100px; min-width:100px; min-height:100px;}
             
@@ -560,6 +561,7 @@
     (function(){
         'use strict';
         
+        // Evrensel Hamburger Menü Mantığı
         var hamburgerBtn = document.querySelector('.hamburger-btn');
         var navLinks = document.querySelector('.nav-links');
         if(hamburgerBtn && navLinks) {
@@ -567,6 +569,7 @@
                 e.preventDefault();
                 navLinks.classList.toggle('active');
             });
+            
             var links = navLinks.querySelectorAll('a');
             links.forEach(function(link) {
                 link.addEventListener('click', function() {
