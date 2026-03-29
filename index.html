@@ -77,13 +77,14 @@
         .hero-quote-word{display:inline;opacity:0;transform:translateY(4px);transition:opacity .35s ease,transform .4s cubic-bezier(.23,1,.32,1)}
         .hero-quote-word.word-visible{opacity:1;transform:translateY(0)}
         section.depth-0{background-color:transparent}
-        section.depth-1{background-color:transparent;margin-left:-28px;margin-right:-28px;padding-left:28px;padding-right:28px}
-        section.depth-2{background-color:transparent;margin-left:-28px;margin-right:-28px;padding-left:28px;padding-right:28px}
-        section.depth-3{background-color:transparent;margin-left:-28px;margin-right:-28px;padding-left:28px;padding-right:28px}
+        section.depth-1{background-color:rgba(32,96,96,0.03);margin-left:-28px;margin-right:-28px;padding-left:28px;padding-right:28px}
+        section.depth-2{background-color:rgba(32,96,96,0.05);margin-left:-28px;margin-right:-28px;padding-left:28px;padding-right:28px}
+        section.depth-3{background-color:rgba(32,96,96,0.04);margin-left:-28px;margin-right:-28px;padding-left:28px;padding-right:28px}
         .scroll-reveal{opacity:0;transform:translateY(16px);transition:opacity .7s cubic-bezier(.23,1,.32,1),transform .7s cubic-bezier(.23,1,.32,1)}
         .scroll-reveal.revealed{opacity:1;transform:translateY(0)}
         .scroll-reveal:nth-child(2){transition-delay:.08s}.scroll-reveal:nth-child(3){transition-delay:.16s}
-        .section-label{font-size:19px;letter-spacing:.04em;color:var(--charcoal);margin-bottom:24px;display:block;font-weight:400}
+        .section-label{font-size:19px;letter-spacing:.04em;color:var(--charcoal);margin-bottom:24px;display:block;font-weight:400;opacity:0;transform:translateX(-12px);transition:opacity .8s ease,transform .8s cubic-bezier(.23,1,.32,1)}
+        .scroll-reveal.revealed .section-label{opacity:1;transform:translateX(0)}
         h2{font-size:28px;font-weight:normal;margin-bottom:20px;line-height:1.35;color:var(--charcoal);font-style:italic}
         p+p{margin-top:16px}
         .book-layout{display:grid;grid-template-columns:150px 1fr;gap:24px;align-items:start}
@@ -100,8 +101,8 @@
         .essay-list li:hover{transform:translateX(6px);background-color:rgba(32,96,96,0.05)}
         .essay-list a{border:none;display:flex;justify-content:space-between;align-items:baseline}
         .essay-card{border:none;display:flex;align-items:center;gap:16px;width:100%}
-        .essay-thumb{width:64px;height:64px;min-width:64px;border-radius:6px;object-fit:cover;opacity:.85;transition:opacity .2s ease}
-        .essay-card:hover .essay-thumb{opacity:1}
+        .essay-thumb{width:64px;height:64px;min-width:64px;border-radius:6px;object-fit:cover;opacity:.85;transition:opacity .2s ease,transform .3s cubic-bezier(.23,1,.32,1)}
+        .essay-card:hover .essay-thumb{opacity:1;transform:scale(1.08)}
         .essay-card-text{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
         .essay-card .essay-number{flex-shrink:0;align-self:flex-start;margin-left:auto;margin-top:2px}
         .essay-title{font-size:19px;font-style:italic;color:var(--charcoal);font-weight:400}
@@ -244,8 +245,8 @@
             <ul class="essay-list">
                 <li><a href="https://medium.com/@hakanaltunn/on-lying-643b191c22cf" target="_blank" rel="noopener" class="essay-card"><img src="https://miro.medium.com/v2/resize:fit:128/1*IqjZ2v3VkF7FE6Ax3briCA.png" alt="Not being caught carries its own sentence." class="essay-thumb" loading="lazy"><div class="essay-card-text"><span class="essay-title">On Lying</span><span class="essay-card-subtitle">Not being caught carries its own sentence.</span><span class="essay-meta">2 min · Mar 12, 2026</span></div><span class="essay-number">1 of 7</span></a></li>
                 <li><a href="https://medium.com/@hakanaltunn/on-perceiving-1cd658fb2337" target="_blank" rel="noopener" class="essay-card"><img src="https://miro.medium.com/v2/resize:fit:128/1*yOa_B48M5L0j4xm7w8wnKQ.png" alt="Misperception is a corridor whose architect burned the blueprint and moved in." class="essay-thumb" loading="lazy"><div class="essay-card-text"><span class="essay-title">On Perceiving</span><span class="essay-card-subtitle">Misperception is a corridor whose architect burned the blueprint and moved in.</span><span class="essay-meta">5 min · Mar 14, 2026</span></div><span class="essay-number">2 of 7</span></a></li>
-                <li><a href="https://medium.com/@hakanaltunn/on-looking-ca55a089d546" target="_blank" rel="noopener" class="essay-card"><img src="https://miro.medium.com/v2/resize:fit:128/1*g2FLjY3V9utA09Yp_CaQYQ.png" alt="A room full of directors and no audience" class="essay-thumb" loading="lazy"><div class="essay-card-text"><span class="essay-title">On Looking</span><span class="essay-card-subtitle">A room full of directors and no audience</span><span class="essay-meta">4 min · Mar 22, 2026</span></div><span class="essay-number">3 of 7</span></a></li>
-                <li><a href="https://medium.com/@hakanaltunn/on-forgiveness-ad14a98ed181" target="_blank" rel="noopener" class="essay-card"><img src="https://miro.medium.com/v2/resize:fit:128/1*7rEEeB6sH4VS-tePMsb4_w.png" alt="Cruelty made architectural" class="essay-thumb" loading="lazy"><div class="essay-card-text"><span class="essay-title">On Forgiveness</span><span class="essay-card-subtitle">Cruelty made architectural</span><span class="essay-meta">3 min · Mar 29, 2026</span></div><span class="essay-number">4 of 7</span></a></li>
+                <li><a href="https://medium.com/@hakanaltunn/on-looking-ca55a089d546" target="_blank" rel="noopener" class="essay-card"><img src="https://miro.medium.com/v2/resize:fit:128/1*g2FLjY3V9utA09Yp_CaQYQ.png" alt="A room full of directors and no audience." class="essay-thumb" loading="lazy"><div class="essay-card-text"><span class="essay-title">On Looking</span><span class="essay-card-subtitle">A room full of directors and no audience.</span><span class="essay-meta">4 min · Mar 22, 2026</span></div><span class="essay-number">3 of 7</span></a></li>
+                <li><a href="https://medium.com/@hakanaltunn/on-forgiveness-ad14a98ed181" target="_blank" rel="noopener" class="essay-card"><img src="https://miro.medium.com/v2/resize:fit:128/1*7rEEeB6sH4VS-tePMsb4_w.png" alt="Forgiveness is a corridor, handing out a permit at the exit door." class="essay-thumb" loading="lazy"><div class="essay-card-text"><span class="essay-title">On Forgiveness</span><span class="essay-card-subtitle">Forgiveness is a corridor, handing out a permit at the exit door.</span><span class="essay-meta">3 min · Mar 29, 2026</span></div><span class="essay-number">4 of 7</span></a></li>
                 <li><a href="https://medium.com/@hakanaltunn" target="_blank" rel="noopener"><span class="essay-title">On Beauty</span><span class="essay-number">5 of 7</span></a></li>
                 <li><a href="https://medium.com/@hakanaltunn" target="_blank" rel="noopener"><span class="essay-title">On Longing</span><span class="essay-number">6 of 7</span></a></li>
                 <li><a href="https://medium.com/@hakanaltunn" target="_blank" rel="noopener"><span class="essay-title">On Silence</span><span class="essay-number">7 of 7</span></a></li>
