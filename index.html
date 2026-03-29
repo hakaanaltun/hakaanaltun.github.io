@@ -43,6 +43,7 @@
         .corridor-vline{position:fixed;top:0;height:100%;width:1px;pointer-events:none;z-index:0;background-color:var(--charcoal);opacity:0.06}
         .corridor-vline--left{left:calc((100vw - 680px)/2 - 12px)}.corridor-vline--right{right:calc((100vw - 680px)/2 - 12px)}
         @media(max-width:1050px){.corridor-vline{display:none}}
+        @media(max-width:1050px){body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;background:radial-gradient(circle at 15% 25%,rgba(32,96,96,0.015) 0%,transparent 40%),radial-gradient(circle at 85% 75%,rgba(138,130,121,0.02) 0%,transparent 40%);pointer-events:none;z-index:0}body::after{content:'';position:fixed;top:0;left:50%;transform:translateX(-50%);width:1px;height:100%;background:linear-gradient(to bottom,transparent 0%,rgba(32,96,96,0.03) 10%,rgba(32,96,96,0.03) 90%,transparent 100%);pointer-events:none;z-index:0}}
         .dispersed-elements-container{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden}
         .reveal-item{position:absolute;font-family:'Lora',Georgia,serif;font-style:italic;pointer-events:none;opacity:0;transform:translateY(30px) rotate(var(--rot,0deg));transition:opacity 1.2s ease,transform 1.2s cubic-bezier(0.25,1,0.5,1)}
         .reveal-item.revealed{opacity:0.18;transform:translateY(0) rotate(var(--rot,0deg))}
@@ -71,12 +72,13 @@
         .profile-photo{width:150px;height:150px;min-width:150px;min-height:150px;border-radius:50%;object-fit:cover;object-position:center 20%;border:2px solid var(--border);background:var(--bg-warm)}
         .hero-name{display:block;font-size:28px;color:var(--charcoal);font-weight:normal;line-height:1.35}
         .hero .subtitle{font-size:19px;color:var(--vizon);line-height:1.7;max-width:620px;font-style:italic}
-        .hero h1{font-size:19px;font-weight:400;line-height:1.5;margin-top:0;font-style:italic;color:var(--vizon);background:rgba(32,96,96,0.02);margin-left:-28px;margin-right:-28px;padding:24px 28px;border-radius:2px}
+        .book-quote{font-size:18px;font-weight:400;line-height:1.55;margin:28px 0;font-style:italic;color:var(--vizon);background:rgba(32,96,96,0.02);padding:20px 24px;border-radius:2px;border-left:2px solid var(--corridor-line-active)}
         section{padding:36px 0;border-top:1px solid var(--border);transition:background-color .6s ease;position:relative}
+        #book,#on-series{padding:48px 0}
         section::before{content:'';position:absolute;top:-1px;left:0;width:0;height:1px;background:linear-gradient(to right,transparent,var(--petrol) 20%,var(--petrol) 80%,transparent);opacity:.2;transition:width 1s cubic-bezier(.23,1,.32,1)}
         section.line-drawn::before{width:100%}
-        .hero-quote-word{display:inline;opacity:0;transform:translateY(4px);transition:opacity .35s ease,transform .4s cubic-bezier(.23,1,.32,1)}
-        .hero-quote-word.word-visible{opacity:1;transform:translateY(0)}
+        .book-quote-word{display:inline;opacity:0;transform:translateY(4px);transition:opacity .35s ease,transform .4s cubic-bezier(.23,1,.32,1)}
+        .book-quote-word.word-visible{opacity:1;transform:translateY(0)}
         section.depth-0{background-color:transparent}
         section.depth-1{background-color:rgba(32,96,96,0.03);margin-left:-28px;margin-right:-28px;padding-left:28px;padding-right:28px}
         section.depth-2{background-color:rgba(32,96,96,0.05);margin-left:-28px;margin-right:-28px;padding-left:28px;padding-right:28px}
@@ -162,7 +164,7 @@
         .fade-in{opacity:0;transform:translateY(12px);animation:fadeUp .6s ease forwards}
         .fade-in:nth-child(2){animation-delay:.1s}.fade-in:nth-child(3){animation-delay:.2s}
         @keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
-        @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.corridor-vline{display:none}.mobile-corridor{display:none}.scroll-reveal{opacity:1;transform:none}.perspective-line{opacity:1;transform:none}.hero-quote-word{opacity:1;transform:none}section::before{width:100%}}
+        @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.corridor-vline{display:none}.mobile-corridor{display:none}.scroll-reveal{opacity:1;transform:none}.perspective-line{opacity:1;transform:none}.book-quote-word{opacity:1;transform:none}section::before{width:100%}}
     </style>
 </head>
 <body>
@@ -210,7 +212,6 @@
                 <p class="subtitle">Lecturer based in İstanbul. Exploring philosophy, perception, and the corridors between what we see, what we perceive, and what we choose to forget.</p>
             </div>
             <svg class="perspective-line" viewBox="0 0 320 48" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><line x1="0" y1="48" x2="160" y2="6"/><line x1="320" y1="48" x2="160" y2="6"/><line x1="40" y1="48" x2="280" y2="48" opacity="0.15"/><circle cx="160" cy="6" r="2"/><line x1="30" y1="48" x2="160" y2="10" opacity="0.15"/><line x1="290" y1="48" x2="160" y2="10" opacity="0.15"/></svg>
-            <h1 id="hero-quote">"Someone hear me!" I shouted into the void. Yet the one I was shouting to was me, and the one not listening was also me. This was the bitterest form of loneliness: playing hide-and-seek with your own ghost.</h1>
         </div>
         <section id="book" class="depth-1"><div class="scroll-reveal">
             <span class="section-label">Book</span>
@@ -218,6 +219,7 @@
                 <div class="book-cover"><img src="cover.png" alt="Forgetting the Color of Nothingness by Hakan Altun — a cat silhouetted against a luminous cosmic sphere woven with geometric patterns and DNA helices, set among stars and rocky terrain."></div>
                 <div class="book-info">
                     <h2>Forgetting<br>the Color of<br>Nothingness</h2>
+                    <p class="book-quote" id="book-quote">"Someone hear me!" I shouted into the void. Yet the one I was shouting to was me, and the one not listening was also me. This was the bitterest form of loneliness: playing hide-and-seek with your own ghost.</p>
                     <p>A speculative philosophical work structured as a loop — from the Big Bang through a domestic İstanbul scene to a post-singularity future. A book about what remains when everything that can be forgotten has been.</p>
                     <div class="book-links">
                         <a href="https://www.amazon.com/Forgetting-Color-Nothingness-Hakan-Altun-ebook/dp/B0GPXTV6CP" target="_blank" rel="noopener">Kindle</a>
@@ -292,11 +294,11 @@
                 else{item.classList.remove('revealed');}
             });
         }
-        var hq=document.getElementById('hero-quote'),ws=[],ts=false;
+        var hq=document.getElementById('book-quote'),ws=[],ts=false;
         if(hq){var t=hq.textContent,w=t.split(/(\s+)/);hq.innerHTML='';
             for(var i=0;i<w.length;i++){if(w[i].trim()===''){hq.appendChild(document.createTextNode(w[i]));}
-            else{var s=document.createElement('span');s.className='hero-quote-word';s.textContent=w[i];hq.appendChild(s);}}
-            ws=hq.querySelectorAll('.hero-quote-word');
+            else{var s=document.createElement('span');s.className='book-quote-word';s.textContent=w[i];hq.appendChild(s);}}
+            ws=hq.querySelectorAll('.book-quote-word');
         }
         function stw(){if(ts||!ws.length)return;ts=true;for(var i=0;i<ws.length;i++){(function(x){setTimeout(function(){ws[x].classList.add('word-visible');},400+x*60);})(i);}}
         function iv(e){return e.getBoundingClientRect().top<window.innerHeight+100;}
