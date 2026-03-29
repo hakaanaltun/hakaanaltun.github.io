@@ -154,7 +154,7 @@
             display: grid; 
             grid-template-columns: 220px 1fr; 
             gap: 40px; 
-            align-items: stretch; /* Sütun boylarını kapağın yüksekliğine (330px) sabitler */
+            align-items: stretch; /* Sütun boylarını kapağın yüksekliğine sabitler */
             margin-bottom: 28px;
         }
         .book-cover{width:220px; min-width:220px; aspect-ratio:2/3; background:var(--bg-warm); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; box-shadow: 0 8px 32px rgba(0,0,0,0.06); border-radius:4px;}
@@ -178,16 +178,16 @@
             flex: 1; /* Kalan dikey boşluğun tamamını alır */
         }
         
-        /* Açıklama metni, kalan boşluğun tam merkezinde (ortasında) durur */
+        /* Açıklama metni, başlığın hemen altında başlar */
         .book-desc-text {
             color: var(--vizon); 
             font-size: 17px; 
             line-height: 1.7; 
             max-width: 640px; 
-            margin: auto 0; 
+            margin-top: 16px; 
         }
         
-        /* Margin-top: auto ile kutular tam olarak kapağın ALT ÇİZGİSİNE yapışır! */
+        /* Margin-top: auto ile link kutuları tam olarak kapağın ALT ÇİZGİSİNE yapışır! */
         .desktop-links {
             margin-top: auto; 
             display: flex; 
@@ -223,7 +223,8 @@
 
         .series-note{margin-top:32px;font-size:15px;color:var(--vizon);font-style:italic; text-align: left;}
         
-        .about-text p { margin-bottom: 16px; color:var(--vizon); max-width:none; }
+        /* GÜNCELLENDİ: About Paragraf Ara Boşluğu İyice Daraltıldı (16px -> 8px) */
+        .about-text p { margin-bottom: 8px; color:var(--vizon); max-width:none; }
         .about-text p:last-child { margin-bottom: 0; }
         
         .link-list{list-style:none;display:flex;flex-direction:column;gap:16px}
@@ -283,58 +284,61 @@
             .hero{padding:40px 0 32px} section{padding:36px 0}
             section::before{left:46px} section.line-drawn::before{width:calc(100% - 92px)}
             
-            /* --- MOBİL KİTAP KARTI --- */
-            /* Masaüstü linklerini gizle */
+            /* --- MOBİL: KİTAP KARTI ŞEKLİNDE --- */
             .desktop-links { display: none !important; }
+            .book-layout-wrapper { display: flex; flex-direction: column; }
             
+            /* Mobilde kitap bölümü bir "kart" görünümü alır */
             .book-intro {
-                display: flex;
-                flex-direction: row;
-                align-items: flex-start;
+                display: grid;
+                grid-template-columns: 110px 1fr; /* Kapak genişliği + kalan alan */
                 gap: 16px;
                 padding: 16px;
-                margin-bottom: 0; /* Kart dışında linklere yer açmak için 0 */
+                margin-bottom: 0; 
                 border: 1px solid var(--border);
                 border-radius: 8px;
                 background: var(--cream);
                 box-shadow: 0 4px 24px var(--shadow);
-                transition: border-color 0.3s ease, transform 0.3s ease;
-            }
-            .book-intro:hover {
-                border-color: var(--petrol);
-                transform: translateY(-4px);
             }
             .book-cover {
-                width: 84px;
-                min-width: 84px;
+                grid-column: 1 / 2;
+                grid-row: 1 / 2;
+                width: 110px;
+                min-width: 110px;
                 margin: 0;
                 box-shadow: 0 4px 12px rgba(0,0,0,0.06);
             }
             .book-text-content {
-                display: flex;
-                flex-direction: column;
-                gap: 6px;
-                flex: 1;
+                display: contents; /* Display contents sayesinde içindekiler Grid'e katılır */
             }
             .book-text-content .content-title {
-                font-size: 17px;
+                grid-column: 2 / 3;
+                grid-row: 1 / 2;
+                align-self: center;
+                font-size: 18px;
                 line-height: 1.3;
-                margin: 0;
+                margin-top: 0;
             }
+            /* Mobilde 3 satırın doğal akması için <br> leri gizliyoruz */
             .book-text-content .content-title br {
-                display: none; /* Mobilde kart içindeki başlığın doğal akması için br gizlendi */
-            }
-            .book-desc-container {
-                display: block; /* Flex'ten çıkararak doğal metin akışını sağla */
-                margin: 0;
-            }
-            .book-desc-text {
-                font-size: 13px;
-                line-height: 1.5;
-                margin: 0; /* Ortalamayı (auto) mobilde devreden çıkarır */
+                display: none; 
             }
             
-            /* Mobilde kartın dibinde ayrı olarak beliren linkler */
+            /* Açıklama metni, resmin ve başlığın altından tam genişlikte başlar */
+            .book-desc-container {
+                grid-column: 1 / 3;
+                grid-row: 2 / 3;
+                display: block; 
+                margin-top: 12px;
+            }
+            .book-desc-text {
+                font-size: 14px;
+                line-height: 1.6;
+                text-align: left;
+                margin: 0; 
+            }
+            
+            /* Linkler kartın hemen dışında belirir */
             .book-links.mobile-links {
                 display: flex !important;
                 margin-top: 16px;
@@ -347,7 +351,7 @@
                 font-size: 13px;
             }
             
-            /* Mobilde 1 Sütunlu Yatay (Kompakt) Kartlar */
+            /* Mobilde 1 Sütunlu Yatay (Kompakt) Essay Kartları */
             .essay-list { grid-template-columns: 1fr; gap: 12px; }
             .essay-card {
                 display: grid;
@@ -397,9 +401,8 @@
         }
         
         @media(max-width:420px){
-            /* Çok küçük ekranlarda kitap kapağını daraltıyoruz */
-            .book-cover {width:76px; min-width:76px;}
-            .book-intro {gap:12px; padding:12px;}
+            .book-intro { grid-template-columns: 90px 1fr; padding: 12px; }
+            .book-cover { width: 90px; min-width: 90px; }
             
             .content-title { font-size: 20px; }
             
@@ -501,6 +504,7 @@
                         <h2 class="content-title">Forgetting<br>the Color of<br>Nothingness</h2>
                         <div class="book-desc-container">
                             <p class="book-desc-text">A speculative philosophical work structured as a loop — from the Big Bang through a domestic İstanbul scene to a post-singularity future. A book about what remains when everything that can be forgotten has been.</p>
+                            
                             <div class="book-links desktop-links">
                                 <a href="https://www.amazon.com/Forgetting-Color-Nothingness-Hakan-Altun-ebook/dp/B0GPXTV6CP" target="_blank" rel="noopener">Kindle</a>
                                 <a href="https://www.amazon.com/dp/B0GSLJXY6P" target="_blank" rel="noopener">Paperback</a>
