@@ -102,14 +102,15 @@
         /* --- NİZAMİ BLOK DÜZENİ (HERO) --- */
         .hero{padding:56px 0 32px}
         
-        .content-block-header{display:grid; grid-template-columns:180px 1fr; gap:32px; align-items:center; margin-bottom:28px;}
-        .hero-intro-body, .book-intro-body {width:100%; text-align:left;}
+        /* Artık bio metni ismin hemen altında, resmin yanındaki 1fr'lik kolonun içinde */
+        .content-block-header{display:grid; grid-template-columns:200px 1fr; gap:40px; align-items:start; margin-bottom:0;}
+        .hero-intro-body {width:100%; text-align:left;}
         
-        .profile-photo{width:180px; height:180px; min-width:180px; min-height:180px; border-radius:50%; object-fit:cover; object-position:center 20%; border:2px solid var(--border); background:var(--bg-warm)}
+        .profile-photo{width:200px; height:200px; min-width:200px; min-height:200px; border-radius:50%; object-fit:cover; object-position:center 20%; border:2px solid var(--border); background:var(--bg-warm)}
         
-        .profile-bio-text{font-size:19px; color:var(--vizon); line-height:1.7; max-width:720px; font-style:italic;}
+        .profile-bio-text{font-size:18px; color:var(--vizon); line-height:1.7; max-width:640px; font-style:italic; margin-top:16px;}
         
-        /* YENİ EKLENEN BÖLME ÇİZGİSİ */
+        /* Çatı Öncesi Yeni Bölme Çizgisi */
         .hero-divider {
             width: 100%;
             height: 1px;
@@ -137,12 +138,13 @@
         .section-label{font-size:19px;letter-spacing:.04em;color:var(--charcoal);margin-bottom:32px;display:block;font-weight:400;opacity:0;transform:translateX(-12px);transition:opacity .8s ease,transform .8s cubic-bezier(.23,1,.32,1)}
         .scroll-reveal.revealed .section-label{opacity:1;transform:translateX(0)}
         
-        /* --- KİTAP BÖLÜMÜ --- */
-        .book-block-header{display:grid; grid-template-columns:180px 1fr; gap:32px; align-items:flex-start; margin-bottom:28px;}
-        .book-cover{width:180px; min-width:180px; aspect-ratio:2/3; background:var(--bg-warm); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; box-shadow: 0 8px 32px rgba(0,0,0,0.06); border-radius:4px;}
+        /* --- KİTAP BÖLÜMÜ NİZAMİ BLOK DÜZENİ --- */
+        .book-block-header{display:grid; grid-template-columns:200px 1fr; gap:40px; align-items:start; margin-bottom:28px;}
+        .book-intro-body {width:100%; text-align:left;}
+        .book-cover{width:200px; min-width:200px; aspect-ratio:2/3; background:var(--bg-warm); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; box-shadow: 0 8px 32px rgba(0,0,0,0.06); border-radius:4px;}
         .book-cover img{width:100%;height:100%;object-fit:cover; border-radius:4px;}
         
-        .book-desc-text{color:var(--vizon); font-size:17px; line-height:1.7; max-width:640px;}
+        .book-desc-text{color:var(--vizon); font-size:17px; line-height:1.7; max-width:640px; margin-top:16px;}
         .book-links{margin-top:24px; display:flex; gap:16px; flex-wrap:wrap; justify-content:flex-start;}
         .book-links a{font-size:14px; padding:8px 24px; border:1px solid var(--vizon); color:var(--charcoal); letter-spacing:.04em; border-radius:4px}
         .book-links a:hover{background:var(--charcoal); color:var(--cream); border-color:var(--charcoal)}
@@ -200,7 +202,6 @@
         @media(max-width:768px){
             .hamburger-text { font-size: 17px; }
             
-            /* MOBİLDE "ON" YAZISI (Eskisine göre daha büyük ve zarif) */
             .tagline-on { font-size: 34px; }
             .site-tagline { gap: 6px; }
             
@@ -216,21 +217,23 @@
             .hamburger-btn {gap:8px;}
             .hamburger-btn svg {width:20px; height:20px;}
             
-            /* Mobil Nizami Blok Düzeni */
-            .content-block-header{grid-template-columns:120px 1fr; gap:16px; margin-bottom:20px;}
-            .profile-photo {width:120px; height:120px; min-width:120px; min-height:120px;}
+            /* Mobil Nizami Blok Düzeni (Mobilde Resim Sütunu: 130px) */
+            .content-block-header{grid-template-columns:130px 1fr; gap:20px; margin-bottom:0;}
+            .profile-photo {width:130px; height:130px; min-width:130px; min-height:130px;}
             
-            .profile-bio-text {font-size:16px; line-height:1.6;}
+            .profile-bio-text {font-size:15px; line-height:1.6; margin-top:12px;}
+            
             .hero-divider { margin: 32px 0 24px 0; }
             .hero h1 {font-size:15px; margin-left:-48px; margin-right:-48px; padding:20px 48px; margin-top:24px;}
             .hero{padding:40px 0 32px} section{padding:36px 0}
             section::before{left:46px} section.line-drawn::before{width:calc(100% - 92px)}
             
-            .book-block-header{grid-template-columns:120px 1fr; gap:16px; margin-bottom:20px;}
-            .book-cover {width:120px; min-width:120px;}
-            .book-desc-text {font-size:16px; line-height:1.6;}
+            /* Mobilde Kitap Giriş Bloğu */
+            .book-block-header{grid-template-columns:130px 1fr; gap:20px; margin-bottom:0;}
+            .book-cover {width:130px; min-width:130px;}
+            .book-desc-text {font-size:15px; line-height:1.6; margin-top:12px;}
             
-            /* Mobilde 1 Sütunlu Yatay Kartlar */
+            /* Mobilde 1 Sütunlu Yatay (Kompakt) Kartlar */
             .essay-list { grid-template-columns: 1fr; gap: 12px; }
             .essay-card {
                 display: grid;
@@ -280,6 +283,7 @@
         }
         
         @media(max-width:420px){
+            /* Çok küçük ekranlarda resim sütununu daha da daraltıyoruz */
             .content-block-header{grid-template-columns:100px 1fr;}
             .profile-photo {width:100px; height:100px; min-width:100px; min-height:100px;}
             
@@ -367,9 +371,9 @@
                 <img src="profile.jpg" alt="Hakan Altun" class="profile-photo">
                 <div class="hero-intro-body">
                     <h2 class="content-title">Hakan Altun</h2>
+                    <p class="profile-bio-text">Lecturer based in İstanbul. Exploring philosophy, perception, and the corridors between what we see, what we perceive, and what we choose to forget.</p>
                 </div>
             </div>
-            <p class="profile-bio-text">Lecturer based in İstanbul. Exploring philosophy, perception, and the corridors between what we see, what we perceive, and what we choose to forget.</p>
             
             <div class="hero-divider"></div>
             
@@ -385,15 +389,12 @@
                 <div class="book-cover"><img src="cover.png" alt="Forgetting the Color of Nothingness by Hakan Altun"></div>
                 <div class="book-intro-body">
                     <h2 class="content-title">Forgetting<br>the Color of<br>Nothingness</h2>
-                </div>
-            </div>
-            
-            <div class="book-info-body">
-                <p class="book-desc-text">A speculative philosophical work structured as a loop — from the Big Bang through a domestic İstanbul scene to a post-singularity future. A book about what remains when everything that can be forgotten has been.</p>
-                <div class="book-links">
-                    <a href="https://www.amazon.com/Forgetting-Color-Nothingness-Hakan-Altun-ebook/dp/B0GPXTV6CP" target="_blank" rel="noopener">Kindle</a>
-                    <a href="https://www.amazon.com/dp/B0GSLJXY6P" target="_blank" rel="noopener">Paperback</a>
-                    <a href="https://www.goodreads.com/book/show/248970413-forgetting-the-color-of-nothingness" target="_blank" rel="noopener">Goodreads</a>
+                    <p class="book-desc-text">A speculative philosophical work structured as a loop — from the Big Bang through a domestic İstanbul scene to a post-singularity future. A book about what remains when everything that can be forgotten has been.</p>
+                    <div class="book-links">
+                        <a href="https://www.amazon.com/Forgetting-Color-Nothingness-Hakan-Altun-ebook/dp/B0GPXTV6CP" target="_blank" rel="noopener">Kindle</a>
+                        <a href="https://www.amazon.com/dp/B0GSLJXY6P" target="_blank" rel="noopener">Paperback</a>
+                        <a href="https://www.goodreads.com/book/show/248970413-forgetting-the-color-of-nothingness" target="_blank" rel="noopener">Goodreads</a>
+                    </div>
                 </div>
             </div>
             
@@ -600,7 +601,7 @@
             ws=hq.querySelectorAll('.hero-quote-word');
         }
         
-        /* GÜNCELLENEN ZAMANLAYICI (-150ms erken gelsin diye ayarlandı) */
+        /* GÜNCELLENEN ZAMANLAYICI (Çok daha erken gelsin diye ayarlandı) */
         function stw(){
             if(ts||!ws.length)return;
             ts=true;
@@ -610,7 +611,7 @@
             setTimeout(function(){
                 var qs = document.getElementById('hero-quote-source');
                 if(qs) qs.classList.add('visible');
-            }, 400 + ws.length * 60 - 150); 
+            }, 400 + (ws.length * 40)); 
         }
         
         function iv(e){return e.getBoundingClientRect().top<window.innerHeight+100;}
