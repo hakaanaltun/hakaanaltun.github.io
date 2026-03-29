@@ -99,15 +99,28 @@
             to { opacity: 1; transform: translateY(0); }
         }
         
-        /* --- NİZAMİ BLOK DÜZENİ (HERO) --- */
+        /* --- YENİ "MEDIUM" TARZI HERO (MÜTEVAZI VE EDEBİ) --- */
         .hero{padding:56px 0 32px}
         
-        .content-block-header{display:grid; grid-template-columns:220px 1fr; gap:40px; align-items:center; margin-bottom:0;}
-        .hero-intro-body {width:100%; text-align:left;}
+        .hero-author-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .profile-photo-small {
+            width: 72px;
+            height: 72px;
+            min-width: 72px;
+            min-height: 72px;
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: center 20%;
+            border: 1px solid var(--border);
+            background: var(--bg-warm);
+        }
         
-        .profile-photo{width:220px; height:220px; min-width:220px; min-height:220px; border-radius:50%; object-fit:cover; object-position:center 20%; border:2px solid var(--border); background:var(--bg-warm)}
-        
-        .profile-bio-text{font-size:18px; color:var(--vizon); line-height:1.7; max-width:640px; font-style:italic; margin-top:16px;}
+        .profile-bio-text{font-size:19px; color:var(--vizon); line-height:1.7; max-width:720px; font-style:italic; margin:0;}
         
         .hero-divider {
             width: 100%;
@@ -136,12 +149,12 @@
         .section-label{font-size:19px;letter-spacing:.04em;color:var(--charcoal);margin-bottom:32px;display:block;font-weight:400;opacity:0;transform:translateX(-12px);transition:opacity .8s ease,transform .8s cubic-bezier(.23,1,.32,1)}
         .scroll-reveal.revealed .section-label{opacity:1;transform:translateX(0)}
         
-        /* --- KİTAP BÖLÜMÜ (MASAÜSTÜ: KUSURSUZ ALT ÇİZGİ HİZASI) --- */
+        /* --- KİTAP BÖLÜMÜ (AÇIKLAMA DİKEY ORTALANDI) --- */
         .book-block-header {
             display: grid; 
             grid-template-columns: 220px 1fr; 
             gap: 40px; 
-            align-items: stretch; /* Esnek kutuyu kapağın yüksekliğine (330px) sabitler */
+            align-items: stretch; /* Sütunları eşit boya zorlar */
             margin-bottom: 28px;
         }
         .book-cover{width:220px; min-width:220px; aspect-ratio:2/3; background:var(--bg-warm); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; box-shadow: 0 8px 32px rgba(0,0,0,0.06); border-radius:4px;}
@@ -150,15 +163,24 @@
         .book-intro-body {
             display: flex; 
             flex-direction: column; 
-            height: 100%; /* Sütunun tüm boyunu kaplar */
+            height: 100%; 
             text-align: left;
         }
         
-        .book-desc-text{color:var(--vizon); font-size:17px; line-height:1.7; max-width:640px; margin-top:16px;}
+        .book-intro-body .content-title {
+            margin-top: -6px; /* Başlığı kapağın üst çizgisine sıfırlar */
+        }
         
-        /* Margin-top: auto ile kutular tam olarak alt çizgiye yapışır! */
+        /* Kalan dikey boşlukta metni kusursuz ortalar */
+        .book-desc-text {
+            color: var(--vizon); 
+            font-size: 17px; 
+            line-height: 1.7; 
+            max-width: 640px; 
+            margin: auto 0; 
+        }
+        
         .book-links {
-            margin-top: auto; 
             display: flex; 
             gap: 16px; 
             flex-wrap: wrap; 
@@ -221,7 +243,7 @@
         @media(max-width:768px){
             .hamburger-text { font-size: 17px; }
             
-            .tagline-on { font-size: 26px; }
+            .tagline-on { font-size: 26px; } 
             .tagline-green { font-size: 13px; }
             .site-tagline { gap: 4px; }
             
@@ -237,47 +259,40 @@
             .hamburger-btn {gap:8px;}
             .hamburger-btn svg {width:20px; height:20px;}
             
-            /* Mobilde Alıntı Kaynağı Boyutu */
             .hero-quote-source { font-size: 13px; margin-top: 12px; }
             
-            /* --- MOBİL: HERO (Bio Aşağıdan Akıyor) --- */
-            .content-block-header.hero-intro-block {
-                display: grid;
-                grid-template-columns: 145px 1fr;
-                gap: 0 20px;
-                align-items: center; /* Başlığı resme göre dikeyde ortalar */
-                margin-bottom: 0;
-            }
-            .profile-photo { grid-column: 1 / 2; grid-row: 1 / 2; width: 145px; height: 145px; min-width: 145px; min-height: 145px; }
-            .hero-intro-body { display: contents; /* Grid sistemine uyum sağlar */ }
-            .hero-intro-body .content-title { grid-column: 2 / 3; grid-row: 1 / 2; align-self: center; }
-            .profile-bio-text { grid-column: 1 / 3; grid-row: 2 / 3; margin-top: 20px; font-size: 15px; line-height: 1.6; }
+            /* --- MOBİL: HERO (ZARİF KÜÇÜK PROFİL + İSİM YAN YANA) --- */
+            .hero-author-row { gap: 12px; margin-bottom: 16px; }
+            .profile-photo-small { width: 64px; height: 64px; min-width: 64px; min-height: 64px; }
+            
+            .profile-bio-text { font-size: 16px; margin-top: 0; }
             
             .hero-divider { margin: 32px 0 24px 0; }
             .hero h1 {font-size:15px; margin-left:-48px; margin-right:-48px; padding:20px 48px; margin-top:24px;}
             .hero{padding:40px 0 32px} section{padding:36px 0}
             section::before{left:46px} section.line-drawn::before{width:calc(100% - 92px)}
             
-            /* --- MOBİL: BOOK (Kapak Ortalı, Kitap Adı ve Metin Aşağıdan Sola Yaslı) --- */
+            /* --- MOBİL: BOOK DÜZENİ --- */
             .book-block-header {
                 display: flex;
                 flex-direction: column;
-                align-items: center; /* Kapağı ortalar */
+                align-items: center; 
                 gap: 16px;
                 margin-bottom: 0;
             }
             .book-cover {
                 width: 145px;
                 min-width: 145px;
-                margin: 0 auto; /* Resmi tam ortaya alır */
+                margin: 0 auto; 
             }
             .book-intro-body {
                 width: 100%;
-                text-align: left; /* Kitap adını sol başa alır */
-                height: auto; /* Mobilde strech'i ezer */
+                text-align: left; 
+                height: auto; 
             }
-            .book-desc-text {font-size:15px; line-height:1.6; margin-top:12px; text-align: left;}
-            .book-links { margin-top: 20px; justify-content: flex-start; } /* Mobilde margin-top auto ezildi */
+            .book-intro-body .content-title { margin-top: 0; }
+            .book-desc-text {font-size:15px; line-height:1.6; margin: 16px 0; text-align: left;}
+            .book-links { margin-top: 16px; justify-content: flex-start; }
             
             /* Mobilde 1 Sütunlu Yatay (Kompakt) Kartlar */
             .essay-list { grid-template-columns: 1fr; gap: 12px; }
@@ -329,9 +344,7 @@
         }
         
         @media(max-width:420px){
-            .content-block-header.hero-intro-block {grid-template-columns:115px 1fr;}
-            .profile-photo {width:115px; height:115px; min-width:115px; min-height:115px;}
-            
+            /* Çok küçük ekranlarda kitap kapağını daraltıyoruz */
             .book-cover {width:115px; min-width:115px;}
             
             .content-title { font-size: 20px; }
@@ -410,13 +423,12 @@
         </nav></header>
         
         <div class="hero fade-in">
-            <div class="content-block-header hero-intro-block">
-                <img src="profile.jpg" alt="Hakan Altun" class="profile-photo">
-                <div class="hero-intro-body">
-                    <h2 class="content-title">Hakan Altun</h2>
-                    <p class="profile-bio-text">Lecturer based in İstanbul. Exploring philosophy, perception, and the corridors between what we see, what we perceive, and what we choose to forget.</p>
-                </div>
+            <div class="hero-author-row">
+                <img src="profile.jpg" alt="Hakan Altun" class="profile-photo-small">
+                <h2 class="content-title">Hakan Altun</h2>
             </div>
+            
+            <p class="profile-bio-text">Lecturer based in İstanbul. Exploring philosophy, perception, and the corridors between what we see, what we perceive, and what we choose to forget.</p>
             
             <div class="hero-divider"></div>
             
