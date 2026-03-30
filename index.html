@@ -67,9 +67,22 @@
             color: var(--petrol);
         }
         
-        /* --- BAŞLIK VE MENÜ SİSTEMİ --- */
-        header{padding:40px 0 0}
-        nav{display:flex;flex-direction:column;gap:0;padding-bottom:24px;border-bottom:1px solid var(--border)}
+        /* --- BAŞLIK VE MENÜ SİSTEMİ (SABİT) --- */
+        header {
+            position: sticky;
+            top: 0;
+            background: rgba(250, 248, 244, 0.92);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 100;
+            padding-top: 24px;
+            margin-left: -28px;
+            margin-right: -28px;
+            padding-left: 28px;
+            padding-right: 28px;
+        }
+        
+        nav{display:flex;flex-direction:column;gap:0;padding-bottom:16px;border-bottom:1px solid var(--border)}
         
         .header-top-row{display:flex;justify-content:space-between;align-items:center;width:100%;}
         
@@ -100,7 +113,7 @@
         }
         
         /* --- YENİ "MEDIUM" TARZI HERO (MÜTEVAZI VE EDEBİ) --- */
-        .hero{padding:56px 0 32px}
+        .hero{padding:48px 0 32px}
         
         .hero-author-row {
             display: flex;
@@ -118,16 +131,6 @@
             object-position: center 20%;
             border: 1px solid var(--border);
             background: var(--bg-warm);
-        }
-        
-        .profile-bio-text{font-size:19px; color:var(--vizon); line-height:1.7; max-width:720px; font-style:italic; margin:0;}
-        
-        .hero-divider {
-            width: 100%;
-            height: 1px;
-            background: linear-gradient(to right, transparent, var(--petrol) 20%, var(--petrol) 80%, transparent);
-            opacity: 0.15;
-            margin: 48px 0 32px 0;
         }
         
         .hero h1{font-size:19px; font-weight:400; line-height:1.5; margin-top:0; font-style:italic; color:var(--vizon); background:rgba(32,96,96,0.02); margin-left:-28px; margin-right:-28px; padding:24px 28px; border-radius:2px; text-align:left;}
@@ -179,7 +182,6 @@
             flex: 1; /* Kalan dikey boşluğun tamamını alır */
         }
         
-        /* GÜNCELLENDİ: Optik itme kaldırıldı, tam matematiksel merkeze (auto 0) dönüldü */
         .book-desc-text {
             color: var(--vizon); 
             font-size: 17px; 
@@ -188,7 +190,6 @@
             margin: auto 0; /* Dikeyde kusursuz ortalar */
         }
         
-        /* Margin-top: auto ile linkler tam olarak kapağın ALT ÇİZGİSİNE yapışır! */
         .desktop-links {
             margin-top: auto; 
             display: flex; 
@@ -249,12 +250,24 @@
             .mobile-corridor--left{left:8px;background:linear-gradient(to bottom,transparent 0%,var(--corridor-line) 15%,var(--corridor-line-active) 50%,var(--corridor-line) 85%,transparent 100%)}
             .mobile-corridor--right{right:8px;background:linear-gradient(to bottom,transparent 0%,var(--corridor-line) 15%,var(--corridor-line-active) 50%,var(--corridor-line) 85%,transparent 100%)}
             .container{padding:0 52px}
+            
+            header {
+                margin-left: -52px; margin-right: -52px;
+                padding-left: 52px; padding-right: 52px;
+            }
+            
             .hero h1{margin-left:-52px;margin-right:-52px;padding-left:52px;padding-right:52px}
             section.depth-1,section.depth-2,section.depth-3{margin-left:-52px;margin-right:-52px;padding-left:52px;padding-right:52px}
         }
         
         @media(max-width:768px){
             .hamburger-text { font-size: 17px; }
+            
+            header {
+                margin-left: -48px; margin-right: -48px;
+                padding-left: 48px; padding-right: 48px;
+                padding-top: 16px;
+            }
             
             .tagline-on { font-size: 26px; } 
             .tagline-green { font-size: 13px; }
@@ -277,20 +290,18 @@
             /* --- MOBİL: HERO --- */
             .hero-author-row { gap: 12px; margin-bottom: 16px; }
             .profile-photo-small { width: 64px; height: 64px; min-width: 64px; min-height: 64px; }
-            .profile-bio-text { font-size: 16px; margin-top: 0; }
             
-            .hero-divider { margin: 32px 0 24px 0; }
             .hero h1 {font-size:15px; margin-left:-48px; margin-right:-48px; padding:20px 48px; margin-top:24px;}
-            .hero{padding:40px 0 32px} section{padding:36px 0}
+            .hero{padding:32px 0 24px} section{padding:36px 0}
             section::before{left:46px} section.line-drawn::before{width:calc(100% - 92px)}
             
-            /* --- MOBİL: KİTAP KARTI (Başlık Kapağın Üst Çizgisinden Başlar) --- */
+            /* --- MOBİL: KİTAP KARTI --- */
             .desktop-links { display: none !important; }
             .book-layout-wrapper { display: flex; flex-direction: column; }
             
             .book-intro {
                 display: grid;
-                grid-template-columns: 110px 1fr; /* Kapak genişliği + kalan alan */
+                grid-template-columns: 110px 1fr;
                 gap: 16px;
                 padding: 16px;
                 margin-bottom: 0; 
@@ -308,20 +319,18 @@
                 box-shadow: 0 4px 12px rgba(0,0,0,0.06);
             }
             .book-text-content {
-                display: contents; /* İçindekiler Grid'e katılır */
+                display: contents; 
             }
             
-            /* GÜNCELLENDİ: Mobilde kitap adı start (üst) hizasına alındı */
             .book-text-content .content-title {
                 grid-column: 2 / 3;
                 grid-row: 1 / 2;
                 align-self: start; 
                 font-size: 21px; 
                 line-height: 1.25;
-                margin-top: -4px; /* Kapağın tam üst çizgisine oturtur */
+                margin-top: -4px; 
             }
             
-            /* Açıklama metni, resmin ve başlığın altından tam genişlikte başlar */
             .book-desc-container {
                 grid-column: 1 / 3;
                 grid-row: 2 / 3;
@@ -335,7 +344,6 @@
                 margin: 0; 
             }
             
-            /* Linkler kartın hemen dışında belirir */
             .book-links.mobile-links {
                 display: flex !important;
                 margin-top: 16px;
@@ -348,7 +356,7 @@
                 font-size: 13px;
             }
             
-            /* Mobilde 1 Sütunlu Yatay (Kompakt) Kartlar */
+            /* Mobilde 1 Sütunlu Yatay Kartlar */
             .essay-list { grid-template-columns: 1fr; gap: 12px; }
             .essay-card {
                 display: grid;
@@ -454,7 +462,13 @@
                 </div>
                 
                 <button id="share-site-btn" class="header-share-btn" aria-label="Share this website">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></svg>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="18" cy="5" r="3"></circle>
+                        <circle cx="6" cy="12" r="3"></circle>
+                        <circle cx="18" cy="19" r="3"></circle>
+                        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                    </svg>
                 </button>
             </div>
             
@@ -470,56 +484,18 @@
             </div>
             
             <div class="nav-links">
-                <a href="#book">Book</a>
                 <a href="#essays">Essays</a>
+                <a href="#book">Book</a>
                 <a href="#moris">Moris</a>
                 <a href="#about">About</a>
             </div>
         </nav></header>
         
         <div class="hero fade-in">
-            <div class="hero-author-row">
-                <img src="profile.jpg" alt="Hakan Altun" class="profile-photo-small">
-                <h2 class="content-title">Hakan Altun</h2>
-            </div>
-            
-            <p class="profile-bio-text">Lecturer based in İstanbul. Exploring philosophy, perception, and the corridors between what we see, what we perceive, and what we choose to forget.</p>
-            
-            <div class="hero-divider"></div>
-            
             <svg class="perspective-line" viewBox="0 0 320 48" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><line x1="0" y1="48" x2="160" y2="6"/><line x1="320" y1="48" x2="160" y2="6"/><line x1="40" y1="48" x2="280" y2="48" opacity="0.15"/><circle cx="160" cy="6" r="2"/><line x1="30" y1="48" x2="160" y2="10" opacity="0.15"/><line x1="290" y1="48" x2="160" y2="10" opacity="0.15"/></svg>
             <h1 id="hero-quote">"Someone hear me!" I shouted into the void. Yet the one I was shouting to was me, and the one not listening was also me. This was the bitterest form of loneliness: playing hide-and-seek with your own ghost.</h1>
             <span id="hero-quote-source" class="hero-quote-source">— <i>Forgetting the Color of Nothingness</i></span>
         </div>
-        
-        <section id="book" class="depth-0"><div class="scroll-reveal">
-            <span class="section-label">Book</span>
-            
-            <div class="book-layout-wrapper">
-                <div class="book-intro">
-                    <div class="book-cover"><img src="cover.png" alt="Forgetting the Color of Nothingness by Hakan Altun"></div>
-                    <div class="book-text-content">
-                        <h2 class="content-title">Forgetting<br>the Color of<br>Nothingness</h2>
-                        <div class="book-desc-container">
-                            <p class="book-desc-text">A speculative philosophical work structured as a loop — from the Big Bang through a domestic İstanbul scene to a post-singularity future. A book about what remains when everything that can be forgotten has been.</p>
-                            
-                            <div class="book-links desktop-links">
-                                <a href="https://www.amazon.com/Forgetting-Color-Nothingness-Hakan-Altun-ebook/dp/B0GPXTV6CP" target="_blank" rel="noopener">Kindle</a>
-                                <a href="https://www.amazon.com/dp/B0GSLJXY6P" target="_blank" rel="noopener">Paperback</a>
-                                <a href="https://www.goodreads.com/book/show/248970413-forgetting-the-color-of-nothingness" target="_blank" rel="noopener">Goodreads</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="book-links mobile-links">
-                    <a href="https://www.amazon.com/Forgetting-Color-Nothingness-Hakan-Altun-ebook/dp/B0GPXTV6CP" target="_blank" rel="noopener">Kindle</a>
-                    <a href="https://www.amazon.com/dp/B0GSLJXY6P" target="_blank" rel="noopener">Paperback</a>
-                    <a href="https://www.goodreads.com/book/show/248970413-forgetting-the-color-of-nothingness" target="_blank" rel="noopener">Goodreads</a>
-                </div>
-            </div>
-            
-        </div></section>
         
         <section id="essays" class="depth-2"><div class="scroll-reveal">
             <span class="section-label">Essays</span>
@@ -657,6 +633,35 @@
             <p class="series-note">Unified by a corridor metaphor and a movement from the external to the solitary.</p>
         </div></section>
         
+        <section id="book" class="depth-0"><div class="scroll-reveal">
+            <span class="section-label">Book</span>
+            
+            <div class="book-layout-wrapper">
+                <div class="book-intro">
+                    <div class="book-cover"><img src="cover.png" alt="Forgetting the Color of Nothingness by Hakan Altun"></div>
+                    <div class="book-text-content">
+                        <h2 class="content-title">Forgetting<br>the Color of<br>Nothingness</h2>
+                        <div class="book-desc-container">
+                            <p class="book-desc-text">A speculative philosophical work structured as a loop — from the Big Bang through a domestic İstanbul scene to a post-singularity future. A book about what remains when everything that can be forgotten has been.</p>
+                            
+                            <div class="book-links desktop-links">
+                                <a href="https://www.amazon.com/Forgetting-Color-Nothingness-Hakan-Altun-ebook/dp/B0GPXTV6CP" target="_blank" rel="noopener">Kindle</a>
+                                <a href="https://www.amazon.com/dp/B0GSLJXY6P" target="_blank" rel="noopener">Paperback</a>
+                                <a href="https://www.goodreads.com/book/show/248970413-forgetting-the-color-of-nothingness" target="_blank" rel="noopener">Goodreads</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="book-links mobile-links">
+                    <a href="https://www.amazon.com/Forgetting-Color-Nothingness-Hakan-Altun-ebook/dp/B0GPXTV6CP" target="_blank" rel="noopener">Kindle</a>
+                    <a href="https://www.amazon.com/dp/B0GSLJXY6P" target="_blank" rel="noopener">Paperback</a>
+                    <a href="https://www.goodreads.com/book/show/248970413-forgetting-the-color-of-nothingness" target="_blank" rel="noopener">Goodreads</a>
+                </div>
+            </div>
+            
+        </div></section>
+        
         <section id="moris" class="depth-0"><div class="scroll-reveal">
             <span class="section-label">Moris</span>
             <div class="moris-video"><iframe src="https://www.youtube.com/embed/_1lfbVnbHHA" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
@@ -665,6 +670,12 @@
         
         <section id="about" class="depth-0"><div class="scroll-reveal">
             <span class="section-label">About</span>
+            
+            <div class="hero-author-row">
+                <img src="profile.jpg" alt="Hakan Altun" class="profile-photo-small">
+                <h2 class="content-title">Hakan Altun</h2>
+            </div>
+            
             <div class="about-text">
                 <p>I teach at Yeditepe University in İstanbul and write philosophical personal essays in English for an international audience. My work circles around perception, forgiveness, beauty, and the quiet architectures of self-deception — the corridors we build without noticing the walls.<br>I live in a city that insists on being looked at. Most of what I write is an attempt to look back.</p>
             </div>
