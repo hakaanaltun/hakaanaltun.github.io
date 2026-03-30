@@ -71,18 +71,20 @@
         .site-tagline { display: flex; align-items: center; gap: 4px; }
         .tagline-on { color: var(--vizon); font-size: 24px; font-style: italic; line-height: 1; }
         .tagline-stack { display: flex; flex-direction: column; justify-content: center; }
+        /* Life ve Everything Petrol Yeşili Oldu */
         .tagline-life { color: var(--petrol); font-size: 10px; font-style: italic; letter-spacing: .02em; line-height: 1.2; }
-        .tagline-everything { color: var(--vizon); font-size: 10px; font-style: italic; letter-spacing: .02em; line-height: 1.2; }
+        .tagline-everything { color: var(--petrol); font-size: 10px; font-style: italic; letter-spacing: .02em; line-height: 1.2; }
         
         .nav-right { display: flex; align-items: center; gap: 8px; }
         .header-share-btn, .hamburger-btn { background: transparent; border: none; color: var(--petrol); padding: 6px; cursor: pointer; transition: opacity .2s ease, color .2s ease; display: flex; align-items: center; justify-content: center;}
         .header-share-btn svg, .hamburger-btn svg { width: 22px; height: 22px; }
         .header-share-btn:hover, .hamburger-btn:hover { opacity: 0.6; }
         
+        /* Nav Links Güncellendi: Petrol Yeşili */
         .nav-links{display:none; width:100%; flex-direction:column; text-align:left; gap:12px; margin-top:16px; padding-top:16px; border-top:1px dashed var(--border);}
         .nav-links.active{display:flex; animation:menuFadeDown 0.4s cubic-bezier(0.23,1,0.32,1) forwards;}
-        .nav-links a{color:var(--charcoal); border:none; letter-spacing:.04em; padding:6px 0; font-size:18px; transition:color .2s ease;}
-        .nav-links a:hover{color:var(--petrol);}
+        .nav-links a{color:var(--petrol); border:none; letter-spacing:.04em; padding:6px 0; font-size:18px; transition:opacity .2s ease;}
+        .nav-links a:hover{opacity:0.8;}
         @keyframes menuFadeDown { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: translateY(0); } }
         
         /* --- HERO --- */
@@ -144,10 +146,11 @@
         /* ABOUT SECTION */
         .hero-author-row {display: flex; align-items: center; gap: 16px; margin-bottom: 24px;}
         .profile-photo-small {width: 72px; height: 72px; min-width: 72px; min-height: 72px; border-radius: 50%; object-fit: cover; object-position: center 20%; border: 1px solid var(--border); background: var(--bg-warm);}
-        .about-text p { margin-bottom: 24px; color:var(--charcoal); max-width:none; }
+        
+        /* About Metni Güncellendi: Vizon */
+        .about-text p { margin-bottom: 24px; color:var(--vizon); max-width:none; }
         .about-text p:last-child { margin-bottom: 0; }
         
-        /* Find Me (Linkler Vizon) */
         .link-list{list-style:none;display:flex;flex-direction:column;gap:16px}
         .link-list a{font-size:17px;display:inline-flex;align-items:baseline;gap:8px;color:var(--vizon);border-bottom:1px solid var(--border);cursor:pointer; padding-bottom: 4px;}
         .link-arrow{font-size:14px;color:var(--vizon);transition:transform .2s ease;display:inline-block}
@@ -161,8 +164,8 @@
         /* FOOTER */
         footer{padding:60px 0 40px;border-top:1px solid var(--border);text-align:center}
         footer p{font-size:14px;color:var(--vizon);letter-spacing: 1px;}
-        footer a{color:var(--vizon); transition:color .2s ease;}
-        footer a:hover{color:var(--petrol);}
+        footer a{color:var(--vizon); transition:opacity .2s ease;}
+        footer a:hover{opacity:0.7;}
         
         /* MOBİL DÜZENLEMELER */
         .mobile-corridor{display:none}
@@ -488,7 +491,7 @@
         </div></section>
         
         <footer>
-            <p><a href="#">Hakan Altun — On Life & Everything</a></p>
+            <p><a href="#">Hakan Altun — On <span style="color:var(--petrol);">Life & Everything</span></a></p>
             <p style="margin-top:8px">İstanbul, 2026</p>
         </footer>
     </div>
