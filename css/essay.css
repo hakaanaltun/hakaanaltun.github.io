@@ -115,10 +115,10 @@ nav{display:flex;align-items:center;justify-content:space-between;padding-bottom
 .series-nav-list a:hover{opacity: 0.8;}
 .series-nav-list .current{color:var(--petrol);font-weight:500; font-style:italic;}
 
-/* Footer */
-footer{padding:32px 0 24px;border-top:1px solid var(--border);text-align:center}
-footer p{font-size:13px;color:var(--vizon)}
-footer a{font-size:13px;color:var(--vizon);border-bottom:1px solid var(--border)}
+/* FOOTER */
+footer{padding:32px 0 24px;border-top:1px solid var(--border);text-align:center; font-family: 'Lora', Georgia, serif;}
+footer p{font-size:13px;color:var(--vizon); font-family: 'Lora', Georgia, serif;}
+footer a{font-size:13px;color:var(--vizon);border-bottom:1px solid var(--border); font-family: 'Lora', Georgia, serif;}
 footer a:hover{color:var(--petrol)}
 
 /* Responsive */
