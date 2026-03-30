@@ -52,14 +52,27 @@
         
         .container{max-width:920px;margin:0 auto;padding:0 28px;position:relative;z-index:1}
         
-        /* --- ORTAK TİPOGRAFİ (BAŞLIKLAR) --- */
+        /* --- ORTAK TİPOGRAFİ HİYERARŞİSİ (EDİTORYAL DİSİPLİN: 24px) --- */
         .content-title {
-            font-size: 28px;
-            font-weight: normal;
+            font-size: 24px;
+            font-weight: 500;
             margin: 0;
-            line-height: 1.1;
+            line-height: 1.2;
             color: var(--petrol);
         }
+        
+        .section-label {
+            font-size: 24px;
+            letter-spacing: .02em;
+            color: var(--charcoal);
+            margin-bottom: 32px;
+            display: block;
+            font-weight: 500;
+            opacity: 0;
+            transform: translateX(-12px);
+            transition: opacity .8s ease, transform .8s cubic-bezier(.23,1,.32,1);
+        }
+        .scroll-reveal.revealed .section-label { opacity: 1; transform: translateX(0); }
         
         /* --- BAŞLIK VE MENÜ SİSTEMİ (SABİT & ŞEFFAF GEÇİŞLİ) --- */
         header {
@@ -88,20 +101,21 @@
         .header-top-row{display:flex;justify-content:space-between;align-items:center;width:100%;}
         
         .site-logo-row{display:flex;flex-direction:row;align-items:center;gap:14px;border:none;z-index:5;}
-        .site-logo{width:76px; height:76px; border-radius:12px; object-fit:contain; display:block; flex-shrink:0; background:var(--cream); box-shadow:0 4px 16px rgba(32,96,96,0.06); border:1px solid var(--border);}
+        .site-logo{width:64px; height:64px; border-radius:12px; object-fit:contain; display:block; flex-shrink:0; background:var(--cream); box-shadow:0 4px 16px rgba(32,96,96,0.06); border:1px solid var(--border);}
         
-        /* YENİ TİPOGRAFİK LOGO */
-        .site-tagline{display:flex; flex-direction:column; align-items:flex-start; border:none;}
-        .tagline-matched-box {display:flex; flex-direction:column; align-items:stretch; width:min-content;}
-        .tagline-on {color:var(--vizon); font-size:40px; font-weight:normal; font-style:italic; line-height:0.85; padding-right:2px;}
-        .tagline-life {color:var(--petrol); font-size:11px; font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-style:normal; font-weight:500; text-align:justify; text-align-last:justify; text-transform:uppercase; margin-top:4px; line-height:1;}
-        .tagline-everything {color:var(--petrol); font-size:15px; font-style:italic; letter-spacing:0.02em; margin-top:2px;}
+        /* YENİDEN KİLİTLENMİŞ (LOCK-UP) LOGO */
+        .site-tagline {display: flex; align-items: center; gap: 6px;}
+        .tagline-on {color: var(--vizon); font-size: 42px; font-weight: normal; font-style: italic; line-height: 1; display: block;}
+        .tagline-stack {display: flex; flex-direction: column; justify-content: space-between; height: 30px; padding-top: 4px; padding-bottom: 1px;}
+        .tagline-green {color: var(--petrol); font-size: 13px; font-style: italic; letter-spacing: .04em; line-height: 1; display: block;}
         
         .header-share-btn{background:transparent; border:none; color:var(--petrol); padding:8px; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:opacity .2s ease; flex-shrink:0; z-index:10;}
+        .header-share-btn svg {width: 24px; height: 24px;}
         .header-share-btn:hover{opacity:0.6;}
         
         .header-bottom-row{display:flex; justify-content:flex-start; margin-top:20px;}
         .hamburger-btn{display:flex; align-items:center; justify-content:center; background:transparent; border:none; color:var(--petrol); cursor:pointer; padding:8px 8px 8px 0; transition:opacity .2s; z-index:10;}
+        .hamburger-btn svg {width: 24px; height: 24px;}
         .hamburger-btn:hover{opacity:0.7;}
         
         .nav-links{display:none; width:100%; flex-direction:column; text-align:left; gap:12px; margin-top:16px; padding-top:16px; border-top:1px dashed var(--border);}
@@ -133,8 +147,6 @@
         
         .scroll-reveal{opacity:0;transform:translateY(16px);transition:opacity .7s cubic-bezier(.23,1,.32,1),transform .7s cubic-bezier(.23,1,.32,1)}
         .scroll-reveal.revealed{opacity:1;transform:translateY(0)}
-        .section-label{font-size:19px;letter-spacing:.04em;color:var(--charcoal);margin-bottom:32px;display:block;font-weight:400;opacity:0;transform:translateX(-12px);transition:opacity .8s ease,transform .8s cubic-bezier(.23,1,.32,1)}
-        .scroll-reveal.revealed .section-label{opacity:1;transform:translateX(0)}
         
         /* --- KİTAP BÖLÜMÜ --- */
         .book-intro {
@@ -269,21 +281,19 @@
                 padding-top: 16px;
             }
             
-            .tagline-on { font-size: 32px; } 
-            .tagline-life { font-size: 9px; margin-top: 2px;}
-            .tagline-everything { font-size: 13px; }
+            .tagline-on { font-size: 34px; }
+            .tagline-stack { height: 24px; padding-top: 3px; padding-bottom: 1px;}
+            .tagline-green { font-size: 11px; }
             .site-logo-row { gap: 10px; }
             
-            .content-title { font-size: 24px; }
+            .content-title, .section-label { font-size: 22px; } /* Mobilde çok az küçülüyor */
             
             .site-logo {width:48px; height:48px; border-radius:10px;}
             
             .header-share-btn {padding:0; width:24px; height:24px;}
-            .header-share-btn svg {width:20px; height:20px;}
             
             .header-bottom-row {margin-top:16px;}
             .hamburger-btn {padding: 4px 8px 4px 0;}
-            .hamburger-btn svg {width:20px; height:20px;}
             
             .hero-quote-source { font-size: 13px; margin-top: 12px; }
             
@@ -324,7 +334,7 @@
                 grid-column: 2 / 3;
                 grid-row: 1 / 2;
                 align-self: start; 
-                font-size: 21px; 
+                font-size: 20px; 
                 line-height: 1.25;
                 margin-top: -4px; 
             }
@@ -406,8 +416,7 @@
             .book-intro { grid-template-columns: 90px 1fr; padding: 12px; gap: 12px;}
             .book-cover { width: 90px; min-width: 90px; }
             
-            .book-text-content .content-title { font-size: 19px; }
-            .content-title { font-size: 20px; }
+            .book-text-content .content-title, .content-title, .section-label { font-size: 20px; }
             
             .essay-thumb { width: 76px; }
             .essay-card { grid-template-columns: 76px 1fr; padding: 10px; gap: 4px 12px; }
@@ -432,16 +441,16 @@
                 <div class="site-logo-row">
                     <img src="on-logo.png" alt="On Life & Everything Logo" class="site-logo">
                     <div class="site-tagline">
-                        <div class="tagline-matched-box">
-                            <span class="tagline-on">On</span>
-                            <span class="tagline-life">Life &</span>
+                        <span class="tagline-on">On</span>
+                        <div class="tagline-stack">
+                            <span class="tagline-green">Life &</span>
+                            <span class="tagline-green">Everything</span>
                         </div>
-                        <span class="tagline-everything">Everything</span>
                     </div>
                 </div>
                 
                 <button id="share-site-btn" class="header-share-btn" aria-label="Share this website">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="18" cy="5" r="3"></circle>
                         <circle cx="6" cy="12" r="3"></circle>
                         <circle cx="18" cy="19" r="3"></circle>
@@ -453,7 +462,7 @@
             
             <div class="header-bottom-row">
                 <button class="hamburger-btn" aria-label="Toggle Menu">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <line x1="3" y1="12" x2="21" y2="12"></line>
                         <line x1="3" y1="6" x2="21" y2="6"></line>
                         <line x1="3" y1="18" x2="21" y2="18"></line>
