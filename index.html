@@ -49,9 +49,9 @@
         
         .container{max-width:920px;margin:0 auto;padding:0 28px;position:relative;z-index:1}
         
-        /* --- ORTAK TİPOGRAFİ HİYERARŞİSİ --- */
-        .content-title {font-size: 24px; font-weight: 500; margin: 0; line-height: 1.2; color: var(--charcoal);} /* Omurga (Füme) */
-        .section-label {font-size: 24px; letter-spacing: .02em; color: var(--charcoal); margin-bottom: 32px; display: block; font-weight: 500; opacity: 0; transform: translateX(-12px); transition: opacity .8s ease, transform .8s cubic-bezier(.23,1,.32,1);}
+        /* --- ORTAK TİPOGRAFİ HİYERARŞİSİ (BAŞLIKLAR PETROL) --- */
+        .content-title {font-size: 24px; font-weight: 500; margin: 0; line-height: 1.2; color: var(--petrol);}
+        .section-label {font-size: 24px; letter-spacing: .02em; color: var(--petrol); margin-bottom: 32px; display: block; font-weight: 500; opacity: 0; transform: translateX(-12px); transition: opacity .8s ease, transform .8s cubic-bezier(.23,1,.32,1);}
         .scroll-reveal.revealed .section-label { opacity: 1; transform: translateX(0); }
         
         /* --- BAŞLIK VE MENÜ SİSTEMİ --- */
@@ -75,7 +75,6 @@
         .tagline-everything { color: var(--vizon); font-size: 10px; font-style: italic; letter-spacing: .02em; line-height: 1.2; }
         
         .nav-right { display: flex; align-items: center; gap: 8px; }
-        /* İkonlar Füme, Hover'da Petrol */
         .header-share-btn, .hamburger-btn { background: transparent; border: none; color: var(--charcoal); padding: 6px; cursor: pointer; transition: opacity .2s ease, color .2s ease; display: flex; align-items: center; justify-content: center;}
         .header-share-btn svg, .hamburger-btn svg { width: 22px; height: 22px; }
         .header-share-btn:hover, .hamburger-btn:hover { color: var(--petrol); opacity: 0.8; }
@@ -114,9 +113,10 @@
         .book-desc-container {display: flex; flex-direction: column; flex: 1; }
         .book-desc-text {color: var(--charcoal); font-size: 17px; line-height: 1.7; max-width: 640px; margin: auto 0;}
         
+        /* Link Kutuları Petrol Yeşili */
         .desktop-links {margin-top: auto; display: flex; gap: 16px; flex-wrap: wrap; justify-content: flex-start;}
-        .book-links a{font-size:14px; padding:8px 24px; border:1px solid var(--vizon); color:var(--charcoal); letter-spacing:.04em; border-radius:4px}
-        .book-links a:hover{background:var(--charcoal); color:var(--cream); border-color:var(--charcoal)}
+        .book-links a{font-size:14px; padding:8px 24px; border:1px solid var(--petrol); color:var(--petrol); letter-spacing:.04em; border-radius:4px}
+        .book-links a:hover{background:var(--petrol); color:var(--cream); border-color:var(--petrol)}
         .mobile-links { display: none !important; }
         .section-desc{color:var(--vizon);margin-bottom:32px;font-style:italic;max-width:none;}
         
@@ -128,13 +128,13 @@
         .essay-thumb {width: 100%; height: 200px; min-width: unset; border-radius: 4px; object-fit: cover;}
         .essay-card-text {flex: 1; display: flex; flex-direction: column; gap: 6px; width: 100%; text-align: left;}
         
-        /* Kart Hiyerarşisi */
-        .essay-title {font-size: 20px; font-style: italic; color: var(--charcoal); font-weight: 400;} /* Başlık Füme */
-        .essay-card:hover .essay-title {color: var(--petrol);} /* Üzerine gelince Petrol */
-        .essay-card-subtitle {font-size: 15px; color: var(--vizon); font-style: normal; line-height: 1.5;} /* Alt başlık Vizon */
+        /* Kart Hiyerarşisi (Başlıklar Petrol) */
+        .essay-title {font-size: 20px; font-style: italic; color: var(--petrol); font-weight: 400;}
+        .essay-card:hover .essay-title {opacity: 0.8;} 
+        .essay-card-subtitle {font-size: 15px; color: var(--vizon); font-style: normal; line-height: 1.5;} 
         .essay-meta-wrapper {display: flex; justify-content: space-between; align-items: center; width: 100%; margin-top: auto; padding-top: 12px;}
-        .essay-meta {font-size: 13px; color: var(--vizon); font-style: normal;} /* Tarihler Vizon */
-        .essay-number {font-size: 13px; color: var(--vizon); background: var(--border); padding: 4px 10px; border-radius: 4px;} /* Numaralar Vizon */
+        .essay-meta {font-size: 13px; color: var(--vizon); font-style: normal;} 
+        .essay-number {font-size: 13px; color: var(--petrol); background: var(--border); padding: 4px 10px; border-radius: 4px;} 
         
         .essay-card.text-only {justify-content: center; align-items: center; text-align: center; padding: 40px 24px; background: rgba(253, 252, 250, 0.6);}
         .essay-card.text-only .essay-card-text {align-items: center; justify-content: center;}
@@ -147,18 +147,22 @@
         .about-text p { margin-bottom: 24px; color:var(--charcoal); max-width:none; }
         .about-text p:last-child { margin-bottom: 0; }
         
+        /* Find Me (Linkler Petrol) */
         .link-list{list-style:none;display:flex;flex-direction:column;gap:16px}
-        .link-list a{font-size:17px;display:inline-flex;align-items:baseline;gap:8px;color:var(--vizon);border-bottom:1px solid var(--border);cursor:pointer; padding-bottom: 4px;}
-        .link-arrow{font-size:14px;color:var(--vizon);transition:transform .2s ease;display:inline-block}
-        .link-list a:hover{color:var(--charcoal);border-color:var(--charcoal)}
-        .link-list a:hover .link-arrow{transform:translateX(4px);color:var(--charcoal)}
+        .link-list a{font-size:17px;display:inline-flex;align-items:baseline;gap:8px;color:var(--petrol);border-bottom:1px solid var(--border);cursor:pointer; padding-bottom: 4px;}
+        .link-arrow{font-size:14px;color:var(--petrol);transition:transform .2s ease;display:inline-block}
+        .link-list a:hover{color:var(--petrol);border-color:var(--petrol)}
+        .link-list a:hover .link-arrow{transform:translateX(4px);}
         
         .moris-video{max-width:300px; margin:0 auto; border-radius:12px; overflow:hidden; box-shadow:0 8px 32px var(--shadow); background-color:#000;}
         .moris-video iframe{width:100%; aspect-ratio:9/16; border:none; display:block}
         .moris-caption{margin-top:20px; text-align:center; font-size:15px; color:var(--vizon); font-style:italic}
         
+        /* FOOTER (YENİ EKLENEN İSİM LİNKİ İLE) */
         footer{padding:60px 0 40px;border-top:1px solid var(--border);text-align:center}
         footer p{font-size:14px;color:var(--vizon);letter-spacing: 1px;}
+        footer a{color:var(--vizon); transition:color .2s ease;}
+        footer a:hover{color:var(--petrol);}
         
         /* MOBİL DÜZENLEMELER */
         .mobile-corridor{display:none}
@@ -483,7 +487,10 @@
             </ul>
         </div></section>
         
-        <footer><p>İstanbul, 2026</p></footer>
+        <footer>
+            <p><a href="#">Hakan Altun — On Life & Everything</a></p>
+            <p style="margin-top:8px">İstanbul, 2026</p>
+        </footer>
     </div>
     
     <script>
