@@ -50,11 +50,11 @@
         .container{max-width:920px;margin:0 auto;padding:0 28px;position:relative;z-index:1}
         
         /* --- ORTAK TİPOGRAFİ HİYERARŞİSİ --- */
-        .content-title {font-size: 24px; font-weight: 500; margin: 0; line-height: 1.2; color: var(--petrol);} /* Başlıklar Petrol */
+        .content-title {font-size: 24px; font-weight: 500; margin: 0; line-height: 1.2; color: var(--charcoal);} /* Omurga (Füme) */
         .section-label {font-size: 24px; letter-spacing: .02em; color: var(--charcoal); margin-bottom: 32px; display: block; font-weight: 500; opacity: 0; transform: translateX(-12px); transition: opacity .8s ease, transform .8s cubic-bezier(.23,1,.32,1);}
         .scroll-reveal.revealed .section-label { opacity: 1; transform: translateX(0); }
         
-        /* --- BAŞLIK VE MENÜ SİSTEMİ (MİNİMAL VE SABİT) --- */
+        /* --- BAŞLIK VE MENÜ SİSTEMİ --- */
         header {
             position: sticky; top: 0; background: transparent;
             transition: background 0.4s ease, backdrop-filter 0.4s ease, border-bottom-color 0.4s ease;
@@ -71,12 +71,14 @@
         .site-tagline { display: flex; align-items: center; gap: 4px; }
         .tagline-on { color: var(--vizon); font-size: 24px; font-style: italic; line-height: 1; }
         .tagline-stack { display: flex; flex-direction: column; justify-content: center; }
-        .tagline-green { color: var(--petrol); font-size: 10px; font-style: italic; letter-spacing: .02em; line-height: 1.2; }
+        .tagline-life { color: var(--petrol); font-size: 10px; font-style: italic; letter-spacing: .02em; line-height: 1.2; }
+        .tagline-everything { color: var(--vizon); font-size: 10px; font-style: italic; letter-spacing: .02em; line-height: 1.2; }
         
         .nav-right { display: flex; align-items: center; gap: 8px; }
-        .header-share-btn, .hamburger-btn { background: transparent; border: none; color: var(--petrol); padding: 6px; cursor: pointer; transition: opacity .2s ease; display: flex; align-items: center; justify-content: center;}
+        /* İkonlar Füme, Hover'da Petrol */
+        .header-share-btn, .hamburger-btn { background: transparent; border: none; color: var(--charcoal); padding: 6px; cursor: pointer; transition: opacity .2s ease, color .2s ease; display: flex; align-items: center; justify-content: center;}
         .header-share-btn svg, .hamburger-btn svg { width: 22px; height: 22px; }
-        .header-share-btn:hover, .hamburger-btn:hover { opacity: 0.6; }
+        .header-share-btn:hover, .hamburger-btn:hover { color: var(--petrol); opacity: 0.8; }
         
         .nav-links{display:none; width:100%; flex-direction:column; text-align:left; gap:12px; margin-top:16px; padding-top:16px; border-top:1px dashed var(--border);}
         .nav-links.active{display:flex; animation:menuFadeDown 0.4s cubic-bezier(0.23,1,0.32,1) forwards;}
@@ -125,12 +127,14 @@
         .essay-card:hover {border-color: var(--petrol); box-shadow: 0 8px 32px var(--shadow); transform: translateY(-4px);}
         .essay-thumb {width: 100%; height: 200px; min-width: unset; border-radius: 4px; object-fit: cover;}
         .essay-card-text {flex: 1; display: flex; flex-direction: column; gap: 6px; width: 100%; text-align: left;}
-        .essay-title {font-size: 20px; font-style: italic; color: var(--charcoal); font-weight: 400;}
-        .essay-card:hover .essay-title {color: var(--petrol);}
-        .essay-card-subtitle {font-size: 15px; color: var(--vizon); font-style: normal; line-height: 1.5;}
+        
+        /* Kart Hiyerarşisi */
+        .essay-title {font-size: 20px; font-style: italic; color: var(--charcoal); font-weight: 400;} /* Başlık Füme */
+        .essay-card:hover .essay-title {color: var(--petrol);} /* Üzerine gelince Petrol */
+        .essay-card-subtitle {font-size: 15px; color: var(--vizon); font-style: normal; line-height: 1.5;} /* Alt başlık Vizon */
         .essay-meta-wrapper {display: flex; justify-content: space-between; align-items: center; width: 100%; margin-top: auto; padding-top: 12px;}
-        .essay-meta {font-size: 13px; color: var(--petrol); font-style: normal;}
-        .essay-number {font-size: 13px; color: var(--petrol); background: var(--bg-warm); padding: 4px 10px; border-radius: 4px;}
+        .essay-meta {font-size: 13px; color: var(--vizon); font-style: normal;} /* Tarihler Vizon */
+        .essay-number {font-size: 13px; color: var(--vizon); background: var(--border); padding: 4px 10px; border-radius: 4px;} /* Numaralar Vizon */
         
         .essay-card.text-only {justify-content: center; align-items: center; text-align: center; padding: 40px 24px; background: rgba(253, 252, 250, 0.6);}
         .essay-card.text-only .essay-card-text {align-items: center; justify-content: center;}
@@ -175,7 +179,7 @@
             
             .site-logo {width:36px; height:36px; border-radius:8px;}
             .tagline-on {font-size:22px;}
-            .tagline-green {font-size:9px;}
+            .tagline-life, .tagline-everything {font-size:9px;}
             .header-share-btn svg, .hamburger-btn svg {width:20px; height:20px;}
             
             .content-title, .section-label { font-size: 22px; }
@@ -246,8 +250,8 @@
                     <span class="site-tagline">
                         <span class="tagline-on">On</span>
                         <span class="tagline-stack">
-                            <span class="tagline-green">Life &</span>
-                            <span class="tagline-green">Everything</span>
+                            <span class="tagline-life">Life &</span>
+                            <span class="tagline-everything">Everything</span>
                         </span>
                     </span>
                 </a>
