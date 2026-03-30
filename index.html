@@ -46,12 +46,6 @@
         .corridor-vline--left{left:calc((100vw - 920px)/2 - 16px)}.corridor-vline--right{right:calc((100vw - 920px)/2 - 16px)}
         @media(max-width:1050px){.corridor-vline{display:none}}
         
-        .dispersed-elements-container{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden}
-        .reveal-item{position:absolute;font-family:'Lora',Georgia,serif;font-style:italic;pointer-events:none;opacity:0;transform:translateY(30px) rotate(var(--rot,0deg));transition:opacity 1.2s ease,transform 1.2s cubic-bezier(0.25,1,0.5,1)}
-        .reveal-item.revealed{opacity:0.18;transform:translateY(0) rotate(var(--rot,0deg))}
-        .reveal-item.vizon{color:var(--vizon);stroke:var(--vizon)}.reveal-item.petrol{color:var(--petrol);stroke:var(--petrol)}
-        @media(max-width:1050px){.dispersed-elements-container{display:none}}
-        
         .perspective-line{display:block;margin:0 auto 32px;max-width:320px;width:100%;height:48px;opacity:0;transform:scaleX(.3);transition:opacity 1.2s ease,transform 1.4s cubic-bezier(.23,1,.32,1)}
         .perspective-line.visible{opacity:1;transform:scaleX(1)}
         .perspective-line line{stroke:var(--vizon);stroke-width:.8;opacity:.35}.perspective-line circle{fill:var(--vizon);opacity:.25}
@@ -67,40 +61,48 @@
             color: var(--petrol);
         }
         
-        /* --- BAŞLIK VE MENÜ SİSTEMİ (SABİT) --- */
+        /* --- BAŞLIK VE MENÜ SİSTEMİ (SABİT & ŞEFFAF GEÇİŞLİ) --- */
         header {
             position: sticky;
             top: 0;
-            background: rgba(250, 248, 244, 0.92);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            background: transparent;
+            transition: background 0.4s ease, backdrop-filter 0.4s ease, border-bottom-color 0.4s ease;
             z-index: 100;
             padding-top: 24px;
             margin-left: -28px;
             margin-right: -28px;
             padding-left: 28px;
             padding-right: 28px;
+            border-bottom: 1px solid transparent;
         }
         
-        nav{display:flex;flex-direction:column;gap:0;padding-bottom:16px;border-bottom:1px solid var(--border)}
+        header.scrolled {
+            background: rgba(250, 248, 244, 0.92);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-bottom-color: var(--border);
+        }
+        
+        nav{display:flex;flex-direction:column;gap:0;padding-bottom:16px;}
         
         .header-top-row{display:flex;justify-content:space-between;align-items:center;width:100%;}
         
-        .site-logo-row{display:flex;flex-direction:row;align-items:center;gap:12px;border:none;z-index:5;}
+        .site-logo-row{display:flex;flex-direction:row;align-items:center;gap:14px;border:none;z-index:5;}
         .site-logo{width:76px; height:76px; border-radius:12px; object-fit:contain; display:block; flex-shrink:0; background:var(--cream); box-shadow:0 4px 16px rgba(32,96,96,0.06); border:1px solid var(--border);}
         
-        .site-tagline{display:flex; align-items:center; gap:4px; border:none}
-        .tagline-on{color:var(--vizon); font-size:32px; font-weight:normal; font-style:italic; line-height:1;}
-        .tagline-stack{display:flex; flex-direction:column; justify-content:center; line-height:1.2;}
-        .tagline-green{color:var(--petrol); font-size:15px; font-style:italic; letter-spacing:.04em;}
+        /* YENİ TİPOGRAFİK LOGO */
+        .site-tagline{display:flex; flex-direction:column; align-items:flex-start; border:none;}
+        .tagline-matched-box {display:flex; flex-direction:column; align-items:stretch; width:min-content;}
+        .tagline-on {color:var(--vizon); font-size:40px; font-weight:normal; font-style:italic; line-height:0.85; padding-right:2px;}
+        .tagline-life {color:var(--petrol); font-size:11px; font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-style:normal; font-weight:500; text-align:justify; text-align-last:justify; text-transform:uppercase; margin-top:4px; line-height:1;}
+        .tagline-everything {color:var(--petrol); font-size:15px; font-style:italic; letter-spacing:0.02em; margin-top:2px;}
         
         .header-share-btn{background:transparent; border:none; color:var(--petrol); padding:8px; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:opacity .2s ease; flex-shrink:0; z-index:10;}
         .header-share-btn:hover{opacity:0.6;}
         
         .header-bottom-row{display:flex; justify-content:flex-start; margin-top:20px;}
-        .hamburger-btn{display:flex; align-items:center; gap:8px; background:transparent; border:none; color:var(--petrol); cursor:pointer; padding:4px 8px 4px 0; font-family:'Lora',serif; transition:opacity .2s; z-index:10;}
+        .hamburger-btn{display:flex; align-items:center; justify-content:center; background:transparent; border:none; color:var(--petrol); cursor:pointer; padding:8px 8px 8px 0; transition:opacity .2s; z-index:10;}
         .hamburger-btn:hover{opacity:0.7;}
-        .hamburger-text{font-size:19px; font-style:italic; letter-spacing:0.04em;}
         
         .nav-links{display:none; width:100%; flex-direction:column; text-align:left; gap:12px; margin-top:16px; padding-top:16px; border-top:1px dashed var(--border);}
         .nav-links.active{display:flex; animation:menuFadeDown 0.4s cubic-bezier(0.23,1,0.32,1) forwards;}
@@ -112,26 +114,8 @@
             to { opacity: 1; transform: translateY(0); }
         }
         
-        /* --- YENİ "MEDIUM" TARZI HERO (MÜTEVAZI VE EDEBİ) --- */
+        /* --- HERO --- */
         .hero{padding:48px 0 32px}
-        
-        .hero-author-row {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-bottom: 24px;
-        }
-        .profile-photo-small {
-            width: 72px;
-            height: 72px;
-            min-width: 72px;
-            min-height: 72px;
-            border-radius: 50%;
-            object-fit: cover;
-            object-position: center 20%;
-            border: 1px solid var(--border);
-            background: var(--bg-warm);
-        }
         
         .hero h1{font-size:19px; font-weight:400; line-height:1.5; margin-top:0; font-style:italic; color:var(--vizon); background:rgba(32,96,96,0.02); margin-left:-28px; margin-right:-28px; padding:24px 28px; border-radius:2px; text-align:left;}
         .hero-quote-source {display: block; font-size: 15px; color: var(--petrol); margin-top: 16px; text-align: right; opacity: 0; transform: translateY(8px); transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);}
@@ -152,12 +136,12 @@
         .section-label{font-size:19px;letter-spacing:.04em;color:var(--charcoal);margin-bottom:32px;display:block;font-weight:400;opacity:0;transform:translateX(-12px);transition:opacity .8s ease,transform .8s cubic-bezier(.23,1,.32,1)}
         .scroll-reveal.revealed .section-label{opacity:1;transform:translateX(0)}
         
-        /* --- KİTAP BÖLÜMÜ (MASAÜSTÜ KUSURSUZ MATEMATİKSEL HİZALAMA) --- */
+        /* --- KİTAP BÖLÜMÜ --- */
         .book-intro {
             display: grid; 
             grid-template-columns: 220px 1fr; 
             gap: 40px; 
-            align-items: stretch; /* Sütun boylarını kapağın yüksekliğine sabitler */
+            align-items: stretch;
             margin-bottom: 28px;
         }
         .book-cover{width:220px; min-width:220px; aspect-ratio:2/3; background:var(--bg-warm); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; box-shadow: 0 8px 32px rgba(0,0,0,0.06); border-radius:4px;}
@@ -166,12 +150,12 @@
         .book-text-content {
             display: flex; 
             flex-direction: column; 
-            height: 100%; /* Kapağın boyunu tam olarak kaplar */
+            height: 100%;
             text-align: left;
         }
         
         .book-text-content .content-title {
-            margin-top: -6px; /* Kitap adını tam olarak kapağın üst çizgisine hizalar */
+            margin-top: -6px; 
             margin-bottom: 0;
             flex-shrink: 0;
         }
@@ -179,7 +163,7 @@
         .book-desc-container {
             display: flex;
             flex-direction: column;
-            flex: 1; /* Kalan dikey boşluğun tamamını alır */
+            flex: 1; 
         }
         
         .book-desc-text {
@@ -187,7 +171,7 @@
             font-size: 17px; 
             line-height: 1.7; 
             max-width: 640px; 
-            margin: auto 0; /* Dikeyde kusursuz ortalar */
+            margin: auto 0;
         }
         
         .desktop-links {
@@ -200,12 +184,11 @@
         .book-links a{font-size:14px; padding:8px 24px; border:1px solid var(--vizon); color:var(--charcoal); letter-spacing:.04em; border-radius:4px}
         .book-links a:hover{background:var(--charcoal); color:var(--cream); border-color:var(--charcoal)}
         
-        /* Mobilde görünen linkler masaüstünde gizli kalır */
         .mobile-links { display: none !important; }
         
         .section-desc{color:var(--vizon);margin-bottom:32px;font-style:italic;max-width:none;}
         
-        /* STITCH KARTLARI (MASAÜSTÜ 2 SÜTUN) */
+        /* STITCH KARTLARI */
         .essay-list {display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; list-style: none; padding: 0; margin: 0;}
         .essay-list li {padding: 0; margin: 0; transition: transform .3s cubic-bezier(.23,1,.32,1); background: transparent;}
         .essay-card {display: flex; flex-direction: column; align-items: flex-start; gap: 16px; width: 100%; height: 100%; border: 1px solid var(--border); border-radius: 8px; padding: 16px; background: var(--cream); transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;}
@@ -224,6 +207,25 @@
         .essay-card.text-only .essay-title {font-size: 24px;}
 
         .series-note{margin-top:32px;font-size:15px;color:var(--vizon);font-style:italic; text-align: left;}
+        
+        /* ABOUT SECTION */
+        .hero-author-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .profile-photo-small {
+            width: 72px;
+            height: 72px;
+            min-width: 72px;
+            min-height: 72px;
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: center 20%;
+            border: 1px solid var(--border);
+            background: var(--bg-warm);
+        }
         
         .about-text p { margin-bottom: 24px; color:var(--vizon); max-width:none; }
         .about-text p:last-child { margin-bottom: 0; }
@@ -261,33 +263,30 @@
         }
         
         @media(max-width:768px){
-            .hamburger-text { font-size: 17px; }
-            
             header {
                 margin-left: -48px; margin-right: -48px;
                 padding-left: 48px; padding-right: 48px;
                 padding-top: 16px;
             }
             
-            .tagline-on { font-size: 26px; } 
-            .tagline-green { font-size: 13px; }
-            .site-tagline { gap: 4px; }
+            .tagline-on { font-size: 32px; } 
+            .tagline-life { font-size: 9px; margin-top: 2px;}
+            .tagline-everything { font-size: 13px; }
+            .site-logo-row { gap: 10px; }
             
             .content-title { font-size: 24px; }
             
             .site-logo {width:48px; height:48px; border-radius:10px;}
-            .site-logo-row {gap:10px;}
             
             .header-share-btn {padding:0; width:24px; height:24px;}
             .header-share-btn svg {width:20px; height:20px;}
             
             .header-bottom-row {margin-top:16px;}
-            .hamburger-btn {gap:8px;}
+            .hamburger-btn {padding: 4px 8px 4px 0;}
             .hamburger-btn svg {width:20px; height:20px;}
             
             .hero-quote-source { font-size: 13px; margin-top: 12px; }
             
-            /* --- MOBİL: HERO --- */
             .hero-author-row { gap: 12px; margin-bottom: 16px; }
             .profile-photo-small { width: 64px; height: 64px; min-width: 64px; min-height: 64px; }
             
@@ -295,7 +294,6 @@
             .hero{padding:32px 0 24px} section{padding:36px 0}
             section::before{left:46px} section.line-drawn::before{width:calc(100% - 92px)}
             
-            /* --- MOBİL: KİTAP KARTI --- */
             .desktop-links { display: none !important; }
             .book-layout-wrapper { display: flex; flex-direction: column; }
             
@@ -356,7 +354,6 @@
                 font-size: 13px;
             }
             
-            /* Mobilde 1 Sütunlu Yatay Kartlar */
             .essay-list { grid-template-columns: 1fr; gap: 12px; }
             .essay-card {
                 display: grid;
@@ -428,36 +425,18 @@
     <div class="corridor-vline corridor-vline--right" aria-hidden="true"></div>
     <div class="mobile-corridor mobile-corridor--left" aria-hidden="true"></div>
     <div class="mobile-corridor mobile-corridor--right" aria-hidden="true"></div>
-    
-    <div class="dispersed-elements-container" aria-hidden="true">
-        <span class="reveal-item reveal-text petrol" style="top:8%;left:6%;font-size:24px">perceiving</span>
-        <div class="reveal-item vizon" style="top:22%;left:4%;--rot:45deg"><svg width="60" height="20" viewBox="0 0 60 20" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="0" y1="5" x2="60" y2="5"/><line x1="0" y1="15" x2="60" y2="15"/></svg></div>
-        <span class="reveal-item reveal-text petrol" style="top:35%;left:8%;font-size:24px">forgetting</span>
-        <div class="reveal-item vizon" style="top:50%;left:5%"><svg width="90" height="20" viewBox="0 0 90 20" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="0" y1="10" x2="90" y2="10"/></svg></div>
-        <span class="reveal-item reveal-text petrol" style="top:65%;left:7%;font-size:24px;--rot:-10deg">the walls</span>
-        <span class="reveal-item reveal-text petrol" style="top:80%;left:9%;font-size:24px">looking back</span>
-        <span class="reveal-item reveal-text petrol" style="top:92%;left:5%;font-size:24px;--rot:90deg">longing</span>
-
-        <div class="reveal-item vizon" style="top:15%;right:7%;--rot:-15deg"><svg width="80" height="20" viewBox="0 0 80 20" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="0" y1="10" x2="70" y2="10"/><circle cx="76" cy="10" r="3" fill="currentColor" stroke="none"/></svg></div>
-        <span class="reveal-item reveal-text vizon" style="top:28%;right:6%;font-size:24px;--rot:90deg;letter-spacing:2px">what remains</span>
-        <span class="reveal-item reveal-text vizon" style="top:42%;right:8%;font-size:24px;--rot:15deg">beauty</span>
-        <span class="reveal-item reveal-text vizon" style="top:58%;right:7%;font-size:24px">silence</span>
-        <span class="reveal-item reveal-text petrol" style="top:72%;right:6%;font-size:24px">lying</span>
-        <div class="reveal-item vizon" style="top:85%;right:5%;--rot:15deg"><svg width="80" height="20" viewBox="0 0 80 20" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="0" y1="5" x2="80" y2="5"/><line x1="0" y1="15" x2="80" y2="15"/></svg></div>
-        <span class="reveal-item reveal-text vizon" style="top:96%;right:6%;font-size:24px">forgiveness</span>
-    </div>
 
     <div class="container">
-        <header><nav>
+        <header id="site-header"><nav>
             <div class="header-top-row">
                 <div class="site-logo-row">
                     <img src="on-logo.png" alt="On Life & Everything Logo" class="site-logo">
                     <div class="site-tagline">
-                        <span class="tagline-on">On</span>
-                        <div class="tagline-stack">
-                            <span class="tagline-green">Life &</span>
-                            <span class="tagline-green">Everything</span>
+                        <div class="tagline-matched-box">
+                            <span class="tagline-on">On</span>
+                            <span class="tagline-life">Life &</span>
                         </div>
+                        <span class="tagline-everything">Everything</span>
                     </div>
                 </div>
                 
@@ -479,7 +458,6 @@
                         <line x1="3" y1="6" x2="21" y2="6"></line>
                         <line x1="3" y1="18" x2="21" y2="18"></line>
                     </svg>
-                    <span class="hamburger-text">Menu</span>
                 </button>
             </div>
             
@@ -697,6 +675,17 @@
     (function(){
         'use strict';
         
+        // Header Scroll Effect
+        var header = document.getElementById('site-header');
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 20) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        }, {passive: true});
+        
+        // Mobile Menu Toggle
         var hamburgerBtn = document.querySelector('.hamburger-btn');
         var navLinks = document.querySelector('.nav-links');
         if(hamburgerBtn && navLinks) {
@@ -712,18 +701,7 @@
             });
         }
         
-        var dispersedItems=document.querySelectorAll('.reveal-item');
-        var allowReveal=false;
-        function checkReveal(){
-            if(!allowReveal)return;
-            var triggerPoint=window.innerHeight*0.85;
-            dispersedItems.forEach(function(item){
-                var itemTop=item.getBoundingClientRect().top;
-                var itemBottom=item.getBoundingClientRect().bottom;
-                if(itemTop<triggerPoint&&itemBottom>-50){item.classList.add('revealed');}
-                else{item.classList.remove('revealed');}
-            });
-        }
+        // Text Reveal Effect for Hero Quote
         var hq=document.getElementById('hero-quote'),ws=[],ts=false;
         if(hq){var t=hq.textContent,w=t.split(/(\s+)/);hq.innerHTML='';
             for(var i=0;i<w.length;i++){if(w[i].trim()===''){hq.appendChild(document.createTextNode(w[i]));}
@@ -749,14 +727,13 @@
             var s=document.querySelectorAll('section');for(var i=0;i<s.length;i++){if(iv(s[i]))s[i].classList.add('line-drawn');}
             if(hq&&iv(hq))stw();
             var p=document.querySelector('.perspective-line');if(p&&iv(p))p.classList.add('visible');
-            checkReveal();
             var mc=document.querySelectorAll('.mobile-corridor');for(var i=0;i<mc.length;i++)mc[i].classList.add('visible');
         }
+        
         var tk=false;
         window.addEventListener('scroll',function(){if(!tk){requestAnimationFrame(function(){ta();tk=false;});tk=true;}},{passive:true});
         window.addEventListener('load',function(){
             ta();
-            setTimeout(function(){allowReveal=true;checkReveal();},3500);
             var shareBtn=document.getElementById('share-site-btn');
             if(shareBtn){if(navigator.share){shareBtn.addEventListener('click',function(e){e.preventDefault();navigator.share({title:'Hakan Altun — On Life & Everything',url:window.location.href}).catch(function(){});});}else{shareBtn.style.display='none';}}
         });
