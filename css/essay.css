@@ -56,7 +56,7 @@ header.scrolled{
 }
 nav{display:flex;align-items:center;justify-content:space-between;padding-bottom:14px}
 .nav-home{display:flex;align-items:center;gap:6px;border:none;font-style:italic;color:var(--vizon);font-size:15px}
-.nav-home img{width:36px;height:36px;border-radius:8px;object-fit:contain;border:1px solid var(--border);background:var(--cream)}
+.nav-home img{height:36px;width:auto;border-radius:8px;object-fit:contain;border:1px solid var(--border);background:var(--cream)}
 .nav-home:hover{color:var(--petrol)}
 
 .nav-right{display:flex;align-items:center;gap:12px}
@@ -165,7 +165,7 @@ footer a:hover {
     .essay-body h2{font-size:20px}
     .tagline-on{font-size:20px}
     .tagline-green{font-size:8px}
-    .nav-home img{width:32px;height:32px}
+    .nav-home img{height:32px;width:auto}
     .essay-share-btn svg{width:18px;height:18px}
 }
 @media(max-width:420px){
