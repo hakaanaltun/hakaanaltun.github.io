@@ -53,7 +53,7 @@
         .section-label {font-size: 24px; letter-spacing: .02em; color: var(--petrol); margin-bottom: 32px; display: block; font-weight: 500; opacity: 0; transform: translateX(-12px); transition: opacity .8s ease, transform .8s cubic-bezier(.23,1,.32,1);}
         .scroll-reveal.revealed .section-label { opacity: 1; transform: translateX(0); }
         
-        /* --- BAŞLIK (HEADER) SİSTEMİ: İkonlar Kenarlarda --- */
+        /* --- BAŞLIK (HEADER) SİSTEMİ --- */
         header {
             position: sticky; top: 0; background: transparent;
             transition: background 0.4s ease, backdrop-filter 0.4s ease, border-bottom-color 0.4s ease;
@@ -64,12 +64,13 @@
         
         nav { display: flex; flex-direction: column; padding-bottom: 12px; }
         .nav-top-row { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+        .nav-left-group { display: flex; align-items: center; gap: 20px; }
         
         .header-icon-btn { background: transparent; border: none; color: var(--petrol); padding: 6px; cursor: pointer; transition: opacity .2s ease; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px;}
         .header-icon-btn svg { width: 22px; height: 22px; }
         .header-icon-btn:hover { opacity: 0.6; }
 
-        .nav-home { display: flex; align-items: center; gap: 10px; border: none; margin: 0 auto; }
+        .nav-home { display: flex; align-items: center; gap: 10px; border: none; }
         .site-logo { width: 48px; height: 48px; border-radius: 10px; object-fit: contain; background: var(--cream); border: 1px solid var(--border); box-shadow: 0 4px 12px var(--shadow); }
         .site-tagline { display: flex; align-items: center; gap: 4px; }
         .tagline-on { color: var(--vizon); font-size: 28px; font-style: italic; line-height: 1; }
@@ -80,10 +81,10 @@
         .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(32, 96, 96, 0.2); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); z-index: 100; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
         .sidebar-overlay.active { opacity: 1; pointer-events: auto; }
         
-        .sidebar { position: fixed; top: 0; left: 0; width: 340px; max-width: 85vw; height: 100vh; background: var(--bg); border-right: 1px solid var(--border); box-shadow: 4px 0 32px var(--shadow); z-index: 101; transform: translateX(-100%); transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1); display: flex; flex-direction: column; overflow-y: auto; }
+        .sidebar { position: fixed; top: 0; left: 0; width: 340px; max-width: 85vw; height: 100vh; background: var(--bg-warm); border-right: 1px solid var(--border); box-shadow: 4px 0 32px var(--shadow); z-index: 101; transform: translateX(-100%); transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1); display: flex; flex-direction: column; overflow-y: auto; }
         .sidebar.active { transform: translateX(0); }
         
-        .sidebar-header { padding: 24px 28px; display: flex; justify-content: flex-end; position: sticky; top: 0; background: var(--bg); border-bottom: 1px dashed var(--border); z-index: 2;}
+        .sidebar-header { padding: 24px 28px; display: flex; justify-content: flex-end; position: sticky; top: 0; background: var(--bg-warm); border-bottom: 1px dashed var(--border); z-index: 2;}
         .sidebar-content { padding: 32px 28px 64px; display: flex; flex-direction: column; gap: 40px; }
         
         .sidebar-group-title { font-size: 13px; color: var(--petrol); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 16px; border-bottom: 1px solid var(--border); padding-bottom: 8px;}
@@ -92,7 +93,6 @@
         .sidebar-list a:hover { color: var(--petrol); }
         .sidebar-list .series-number { font-size: 12px; color: var(--vizon); opacity: 0.6; margin-right: 6px; font-style: italic;}
         
-        /* Öne çıkan link (Book) */
         .sidebar-list a.highlight-link { color: var(--petrol); font-weight: 500; font-style: italic;}
 
         /* --- HERO --- */
@@ -211,6 +211,7 @@
             .tagline-on {font-size:20px;}
             .tagline-life, .tagline-everything {font-size:8px;}
             .header-icon-btn svg {width:18px; height:18px;}
+            .nav-left-group { gap: 12px; }
             
             .sidebar { width: 300px; }
             .sidebar-header { padding: 16px 20px; }
@@ -313,7 +314,7 @@
             <div class="sidebar-section">
                 <h4 class="sidebar-group-title">Menu</h4>
                 <ul class="sidebar-list">
-                    <li><a href="book.html" class="highlight-link">Book</a></li>
+                    <li><a href="book.html" class="highlight-link">Book Overview</a></li>
                     <li><a href="#about" class="sidebar-scroll-link">About</a></li>
                     <li><a href="#moris" class="sidebar-scroll-link">Moris</a></li>
                 </ul>
@@ -329,24 +330,26 @@
     <div class="container">
         <header id="site-header"><nav>
             <div class="nav-top-row">
-                <button id="open-sidebar-btn" class="header-icon-btn" aria-label="Open Menu">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="3" y1="12" x2="21" y2="12"></line>
-                        <line x1="3" y1="6" x2="21" y2="6"></line>
-                        <line x1="3" y1="18" x2="21" y2="18"></line>
-                    </svg>
-                </button>
+                <div class="nav-left-group">
+                    <button id="open-sidebar-btn" class="header-icon-btn" aria-label="Open Menu">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="3" y1="12" x2="21" y2="12"></line>
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <line x1="3" y1="18" x2="21" y2="18"></line>
+                        </svg>
+                    </button>
 
-                <a href="#" class="nav-home">
-                    <img src="on-logo.png" alt="On Life & Everything" class="site-logo">
-                    <span class="site-tagline">
-                        <span class="tagline-on">On</span>
-                        <span class="tagline-stack">
-                            <span class="tagline-life">Life &</span>
-                            <span class="tagline-everything">Everything</span>
+                    <a href="#" class="nav-home">
+                        <img src="on-logo.png" alt="On Life & Everything" class="site-logo">
+                        <span class="site-tagline">
+                            <span class="tagline-on">On</span>
+                            <span class="tagline-stack">
+                                <span class="tagline-life">Life &</span>
+                                <span class="tagline-everything">Everything</span>
+                            </span>
                         </span>
-                    </span>
-                </a>
+                    </a>
+                </div>
                 
                 <button id="share-site-btn" class="header-icon-btn" aria-label="Share this website">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -526,14 +529,18 @@
                             <p class="book-desc-text">A speculative philosophical work structured as a loop — from the Big Bang through a domestic İstanbul scene to a post-singularity future. A book about what remains when everything that can be forgotten has been.</p>
                             
                             <div class="book-links desktop-links">
-                                <a href="book.html">Discover the Book →</a>
+                                <a href="https://www.amazon.com/Forgetting-Color-Nothingness-Hakan-Altun-ebook/dp/B0GPXTV6CP" target="_blank" rel="noopener">Kindle</a>
+                                <a href="https://www.amazon.com/dp/B0GSLJXY6P" target="_blank" rel="noopener">Paperback</a>
+                                <a href="https://www.goodreads.com/book/show/248970413-forgetting-the-color-of-nothingness" target="_blank" rel="noopener">Goodreads</a>
                             </div>
                         </div>
                     </div>
                 </div>
                 
                 <div class="book-links mobile-links">
-                    <a href="book.html">Discover the Book →</a>
+                    <a href="https://www.amazon.com/Forgetting-Color-Nothingness-Hakan-Altun-ebook/dp/B0GPXTV6CP" target="_blank" rel="noopener">Kindle</a>
+                    <a href="https://www.amazon.com/dp/B0GSLJXY6P" target="_blank" rel="noopener">Paperback</a>
+                    <a href="https://www.goodreads.com/book/show/248970413-forgetting-the-color-of-nothingness" target="_blank" rel="noopener">Goodreads</a>
                 </div>
             </div>
             
@@ -593,7 +600,7 @@
         function openSidebar() {
             sidebar.classList.add('active');
             sidebarOverlay.classList.add('active');
-            document.body.style.overflow = 'hidden'; // Arka planın kaymasını engelle
+            document.body.style.overflow = 'hidden'; 
         }
 
         function closeSidebar() {
@@ -606,7 +613,6 @@
         if(closeSidebarBtn) closeSidebarBtn.addEventListener('click', closeSidebar);
         if(sidebarOverlay) sidebarOverlay.addEventListener('click', closeSidebar);
         
-        // Sayfa içi linklere (About, Moris) tıklandığında sidebar'ı kapat
         sidebarScrollLinks.forEach(function(link) {
             link.addEventListener('click', closeSidebar);
         });
