@@ -8,25 +8,25 @@
     <meta name="author" content="Hakan Altun">
     <meta name="keywords" content="Hakan Altun, Forgetting the Color of Nothingness, The On Series, philosophical essays, İstanbul lecturer, Yeditepe University, intellectual minimalism">
 
-    <link rel="icon" type="image/png" href="on-logo-app.png">
-    <link rel="apple-touch-icon" href="on-logo-app.png">
+    <link rel="icon" type="image/png" href="on-logo.png?v=1.2">
+    <link rel="apple-touch-icon" href="on-logo.png?v=1.2">
     <link rel="manifest" href="manifest.json">
 
     <meta name="theme-color" content="#FAF8F4"> 
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="On">
+    <meta name="apple-mobile-web-app-title" content="On Life & Everything">
 
     <link rel="canonical" href="https://hakanaltun.io/">
 
     <meta property="og:title" content="Hakan Altun — On Life & Everything">
     <meta property="og:description" content="Hakan Altun is a lecturer based in İstanbul. Exploring philosophy, perception, memory, and the architectures we build inside ourselves.">
-    <meta property="og:image" content="https://hakanaltun.io/on logo.jpg">
+    <meta property="og:image" content="https://hakanaltun.io/on-logo.png">
     <meta property="og:url" content="https://hakanaltun.io/">
     <meta property="og:type" content="website">
     
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image" content="https://hakanaltun.io/on logo.jpg">
+    <meta name="twitter:image" content="https://hakanaltun.io/on-logo.png">
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400;1,500&display=swap');
@@ -65,14 +65,21 @@
         nav { display: flex; flex-direction: column; padding-bottom: 12px; }
         .nav-top-row { display: flex; justify-content: space-between; align-items: center; width: 100%; }
         
-        .nav-home { display: flex; align-items: center; border: none; }
-        .site-logo-wide { height: 48px; width: auto; object-fit: contain; }
+        .nav-home { display: flex; align-items: center; gap: 10px; border: none; }
+        .site-logo { width: 44px; height: 44px; border-radius: 10px; object-fit: contain; background: var(--cream); border: 1px solid var(--border); box-shadow: 0 4px 12px var(--shadow); }
+        .site-tagline { display: flex; align-items: center; gap: 4px; }
+        .tagline-on { color: var(--vizon); font-size: 24px; font-style: italic; line-height: 1; }
+        .tagline-stack { display: flex; flex-direction: column; justify-content: center; }
+        /* Life ve Everything Petrol Yeşili Oldu */
+        .tagline-life { color: var(--petrol); font-size: 10px; font-style: italic; letter-spacing: .02em; line-height: 1.2; }
+        .tagline-everything { color: var(--petrol); font-size: 10px; font-style: italic; letter-spacing: .02em; line-height: 1.2; }
         
         .nav-right { display: flex; align-items: center; gap: 8px; }
         .header-share-btn, .hamburger-btn { background: transparent; border: none; color: var(--petrol); padding: 6px; cursor: pointer; transition: opacity .2s ease, color .2s ease; display: flex; align-items: center; justify-content: center;}
         .header-share-btn svg, .hamburger-btn svg { width: 22px; height: 22px; }
         .header-share-btn:hover, .hamburger-btn:hover { opacity: 0.6; }
         
+        /* Nav Links Güncellendi: Petrol Yeşili */
         .nav-links{display:none; width:100%; flex-direction:column; text-align:left; gap:12px; margin-top:16px; padding-top:16px; border-top:1px dashed var(--border);}
         .nav-links.active{display:flex; animation:menuFadeDown 0.4s cubic-bezier(0.23,1,0.32,1) forwards;}
         .nav-links a{color:var(--petrol); border:none; letter-spacing:.04em; padding:6px 0; font-size:18px; transition:opacity .2s ease;}
@@ -107,6 +114,7 @@
         .book-desc-container {display: flex; flex-direction: column; flex: 1; }
         .book-desc-text {color: var(--vizon); font-size: 17px; line-height: 1.7; max-width: 640px; margin: auto 0;}
         
+        /* Link Kutuları: Çizgiler Vizon, İçleri Petrol */
         .desktop-links {margin-top: auto; display: flex; gap: 16px; flex-wrap: wrap; justify-content: flex-start;}
         .book-links a{font-size:14px; padding:8px 24px; border:1px solid var(--vizon); color:var(--petrol); letter-spacing:.04em; border-radius:4px}
         .book-links a:hover{background:var(--petrol); color:var(--cream); border-color:var(--petrol)}
@@ -121,6 +129,7 @@
         .essay-thumb {width: 100%; height: 200px; min-width: unset; border-radius: 4px; object-fit: cover;}
         .essay-card-text {flex: 1; display: flex; flex-direction: column; gap: 6px; width: 100%; text-align: left;}
         
+        /* Kart Hiyerarşisi */
         .essay-title {font-size: 20px; font-style: italic; color: var(--petrol); font-weight: 400;}
         .essay-card:hover .essay-title {opacity: 0.8;} 
         .essay-card-subtitle {font-size: 15px; color: var(--vizon); font-style: normal; line-height: 1.5;} 
@@ -137,6 +146,7 @@
         .hero-author-row {display: flex; align-items: center; gap: 16px; margin-bottom: 24px;}
         .profile-photo-small {width: 72px; height: 72px; min-width: 72px; min-height: 72px; border-radius: 50%; object-fit: cover; object-position: center 20%; border: 1px solid var(--border); background: var(--bg-warm);}
         
+        /* About Metni Güncellendi: Vizon */
         .about-text p { margin-bottom: 24px; color:var(--vizon); max-width:none; }
         .about-text p:last-child { margin-bottom: 0; }
         
@@ -150,22 +160,29 @@
         .moris-video iframe{width:100%; aspect-ratio:9/16; border:none; display:block}
         .moris-caption{margin-top:20px; text-align:center; font-size:15px; color:var(--vizon); font-style:italic}
         
-        /* FOOTER - Logo Eklendi */
+        /* FOOTER - Font Bütünlüğü Sağlandı */
         footer {
-            padding: 60px 0 40px;
-            border-top: 1px solid var(--border);
-            text-align: center;
-            font-family: 'Lora', Georgia, serif !important;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        padding: 60px 0 40px;
+        border-top: 1px solid var(--border);
+        text-align: center;
+        font-family: 'Lora', Georgia, serif !important;
         }
-        
-        .footer-logo { height: 32px; width: auto; opacity: 0.6; margin-bottom: 16px; transition: opacity 0.3s ease; }
-        .footer-logo:hover { opacity: 1; }
 
-        footer p, footer a { font-size: 14px; color: var(--vizon); letter-spacing: 1px; font-family: 'Lora', Georgia, serif !important; text-decoration: none; }
-        footer a:hover { opacity: 0.7; }
+        footer p, footer a {
+        font-size: 14px;
+        color: var(--vizon);
+        letter-spacing: 1px;
+        font-family: 'Lora', Georgia, serif !important;
+        text-decoration: none;
+        }
+
+        footer a:hover {
+        opacity: 0.7;
+        }
+
+        .footer-petrol {
+        color: var(--petrol);
+        }
         
         /* MOBİL DÜZENLEMELER */
         .mobile-corridor{display:none}
@@ -184,7 +201,9 @@
         @media(max-width:768px){
             header {margin-left: -48px; margin-right: -48px; padding-left: 48px; padding-right: 48px; padding-top: 16px;}
             
-            .site-logo-wide {height: 36px;}
+            .site-logo {width:36px; height:36px; border-radius:8px;}
+            .tagline-on {font-size:22px;}
+            .tagline-life, .tagline-everything {font-size:9px;}
             .header-share-btn svg, .hamburger-btn svg {width:20px; height:20px;}
             
             .content-title, .section-label { font-size: 22px; }
@@ -251,7 +270,14 @@
         <header id="site-header"><nav>
             <div class="nav-top-row">
                 <a href="#" class="nav-home">
-                    <img src="on logo wide.png" alt="On Life & Everything" class="site-logo-wide">
+                    <img src="on-logo.png" alt="On Life & Everything" class="site-logo">
+                    <span class="site-tagline">
+                        <span class="tagline-on">On</span>
+                        <span class="tagline-stack">
+                            <span class="tagline-life">Life &</span>
+                            <span class="tagline-everything">Everything</span>
+                        </span>
+                    </span>
                 </a>
                 
                 <div class="nav-right">
@@ -429,7 +455,7 @@
             
             <div class="book-layout-wrapper">
                 <div class="book-intro">
-                    <div class="book-cover"><img src="cover.jpg" alt="Forgetting the Color of Nothingness by Hakan Altun"></div>
+                    <div class="book-cover"><img src="cover.png" alt="Forgetting the Color of Nothingness by Hakan Altun"></div>
                     <div class="book-text-content">
                         <h2 class="content-title">Forgetting<br>the Color of<br>Nothingness</h2>
                         <div class="book-desc-container">
@@ -482,8 +508,7 @@
         </div></section>
         
         <footer>
-            <a href="#"><img src="on logo wide.png" alt="On Life & Everything" class="footer-logo"></a>
-            <p><a href="#">Hakan Altun</a></p>
+            <p><a href="#">Hakan Altun — On <span style="color:var(--petrol);">Life & Everything</span></a></p>
             <p style="margin-top:8px">İstanbul, 2026</p>
         </footer>
     </div>
