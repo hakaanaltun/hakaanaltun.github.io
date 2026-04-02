@@ -70,7 +70,6 @@
         .site-tagline { display: flex; align-items: center; gap: 4px; }
         .tagline-on { color: var(--vizon); font-size: 28px; font-style: italic; line-height: 1; }
         .tagline-stack { display: flex; flex-direction: column; justify-content: center; }
-        /* Life ve Everything Petrol Yeşili Oldu */
         .tagline-life { color: var(--petrol); font-size: 11px; font-style: italic; letter-spacing: .02em; line-height: 1.2; }
         .tagline-everything { color: var(--petrol); font-size: 11px; font-style: italic; letter-spacing: .02em; line-height: 1.2; }
         
@@ -79,7 +78,6 @@
         .header-share-btn svg, .hamburger-btn svg { width: 22px; height: 22px; }
         .header-share-btn:hover, .hamburger-btn:hover { opacity: 0.6; }
         
-        /* Nav Links Güncellendi: Petrol Yeşili */
         .nav-links{display:none; width:100%; flex-direction:column; text-align:left; gap:12px; margin-top:16px; padding-top:16px; border-top:1px dashed var(--border);}
         .nav-links.active{display:flex; animation:menuFadeDown 0.4s cubic-bezier(0.23,1,0.32,1) forwards;}
         .nav-links a{color:var(--petrol); border:none; letter-spacing:.04em; padding:6px 0; font-size:18px; transition:opacity .2s ease;}
@@ -114,7 +112,6 @@
         .book-desc-container {display: flex; flex-direction: column; flex: 1; }
         .book-desc-text {color: var(--vizon); font-size: 17px; line-height: 1.7; max-width: 640px; margin: auto 0;}
         
-        /* Link Kutuları: Çizgiler Vizon, İçleri Petrol */
         .desktop-links {margin-top: auto; display: flex; gap: 16px; flex-wrap: wrap; justify-content: flex-start;}
         .book-links a{font-size:14px; padding:8px 24px; border:1px solid var(--vizon); color:var(--petrol); letter-spacing:.04em; border-radius:4px}
         .book-links a:hover{background:var(--petrol); color:var(--cream); border-color:var(--petrol)}
@@ -129,13 +126,12 @@
         .essay-thumb {width: 100%; height: 200px; min-width: unset; border-radius: 4px; object-fit: cover;}
         .essay-card-text {flex: 1; display: flex; flex-direction: column; gap: 6px; width: 100%; text-align: left;}
         
-        /* Kart Hiyerarşisi */
         .essay-title {font-size: 20px; font-style: italic; color: var(--petrol); font-weight: 400;}
         .essay-card:hover .essay-title {opacity: 0.8;} 
         .essay-card-subtitle {font-size: 15px; color: var(--vizon); font-style: normal; line-height: 1.5;} 
         .essay-meta-wrapper {display: flex; justify-content: space-between; align-items: center; width: 100%; margin-top: auto; padding-top: 12px;}
         .essay-meta {font-size: 13px; color: var(--vizon); font-style: normal;} 
-        .essay-number {font-size: 13px; color: var(--vizon); background: var(--border); padding: 4px 10px; border-radius: 4px;} 
+        .essay-number {font-size: 13px; color: var(--petrol); background: var(--border); padding: 4px 10px; border-radius: 4px;} 
         
         .essay-card.text-only {justify-content: center; align-items: center; text-align: center; padding: 40px 24px; background: rgba(253, 252, 250, 0.6);}
         .essay-card.text-only .essay-card-text {align-items: center; justify-content: center;}
@@ -146,7 +142,6 @@
         .hero-author-row {display: flex; align-items: center; gap: 16px; margin-bottom: 24px;}
         .profile-photo-small {width: 72px; height: 72px; min-width: 72px; min-height: 72px; border-radius: 50%; object-fit: cover; object-position: center 20%; border: 1px solid var(--border); background: var(--bg-warm);}
         
-        /* About Metni Güncellendi: Vizon */
         .about-text p { margin-bottom: 24px; color:var(--vizon); max-width:none; }
         .about-text p:last-child { margin-bottom: 0; }
         
@@ -160,7 +155,7 @@
         .moris-video iframe{width:100%; aspect-ratio:9/16; border:none; display:block}
         .moris-caption{margin-top:20px; text-align:center; font-size:15px; color:var(--vizon); font-style:italic}
         
-        /* FOOTER - Font Bütünlüğü Sağlandı */
+        /* FOOTER */
         footer {
         padding: 60px 0 40px;
         border-top: 1px solid var(--border);
@@ -427,7 +422,7 @@
                     <img src="https://miro.medium.com/v2/resize:fit:600/1*7rEEeB6sH4VS-tePMsb4_w.png" alt="On Forgiveness" class="essay-thumb" loading="lazy">
                     <div class="essay-card-text">
                         <span class="essay-title">On Forgiveness</span>
-                        <span class="essay-card-subtitle">Forgiveness is a corridor, handing out a permit at the exit door.</span>
+                        <span class="essay-card-subtitle">Cruelty made architectural.</span>
                     </div>
                     <div class="essay-meta-wrapper"><span class="essay-meta">Mar 29, 2026</span><span class="essay-number">4 of 7</span></div>
                 </a></li>
@@ -454,7 +449,7 @@
                     <img src="images/on-silence.jpg" alt="I forgot I had a cat." class="essay-thumb" loading="lazy">
                     <div class="essay-card-text">
                         <span class="essay-title">On Silence</span>
-                        <span class="essay-card-subtitle">The void blinked, let out a tiny sound, and sat down on my blanket.</span>
+                        <span class="essay-card-subtitle">I forgot I had a cat.</span>
                     </div>
                     <div class="essay-meta-wrapper"><span class="essay-meta">Apr 2, 2026</span><span class="essay-number">7 of 7</span></div>
                 </a></li>
@@ -507,7 +502,7 @@
             
             <div class="about-text">
                 <p>I write personal essays about the things we experience but rarely examine closely — perception, memory, attention, honesty. I believe everyone and everything carries a story worth telling, and that how a story is told matters as much as the story itself.</p>
-                <p>Most of what I explore lives in the gap between what we feel and what we allow ourselves to name. Defense mechanisms, the weight of unfinished things, the quiet negotiations we have with our own reflection — these are the corridors I keep returning to.</p>
+                <p>Most of what I explore lives in the gap between what we feel and what we allow ourselves to name. Defense mechanisms, the weight of unfinished things, the quiet negotiations we have with our own reflection — the corridors I keep returning to.</p>
                 <p>I teach at Yeditepe University in İstanbul — a city that insists on being looked at. Most of what I write is an attempt to look back.</p>
             </div>
         </div></section>
