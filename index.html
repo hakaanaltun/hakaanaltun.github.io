@@ -28,6 +28,9 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content="https://hakanaltun.io/on-logo.png">
 
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Hakan Altun","jobTitle":"Lecturer and Writer","affiliation":{"@type":"Organization","name":"Yeditepe University"},"url":"https://hakanaltun.io","sameAs":["https://medium.com/@hakanaltunn","https://www.goodreads.com/author/show/69006405.Hakan_Altun","https://www.amazon.com/stores/author/B0GPY444LW"],"knowsAbout":["Philosophy","Psychology","Creative Writing"],"description":"Lecturer and writer based in İstanbul, exploring the architectures we build inside ourselves."}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"Forgetting the Color of Nothingness","author":{"@type":"Person","name":"Hakan Altun"},"url":"https://www.amazon.com/Forgetting-Color-Nothingness-Hakan-Altun-ebook/dp/B0GPXTV6CP","workExample":[{"@type":"Book","isbn":"","bookFormat":"https://schema.org/EBook","potentialAction":{"@type":"ReadAction","target":{"@type":"EntryPoint","urlTemplate":"https://www.amazon.com/Forgetting-Color-Nothingness-Hakan-Altun-ebook/dp/B0GPXTV6CP"}}},{"@type":"Book","bookFormat":"https://schema.org/Paperback","potentialAction":{"@type":"ReadAction","target":{"@type":"EntryPoint","urlTemplate":"https://www.amazon.com/dp/B0GSLJXY6P"}}}],"genre":"Philosophy","inLanguage":"en","description":"A speculative philosophical work structured as a loop from the Big Bang through a domestic İstanbul scene to a post-singularity future."}</script>
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400;1,500&display=swap');
         *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -37,7 +40,6 @@
         ::selection{background:var(--petrol);color:var(--cream)}
         a{text-decoration:none;transition:color .2s ease,border-color .2s ease,background-color .2s ease}
         
-        /* Koridor Çizgileri */
         .corridor-vline{position:fixed;top:0;height:100%;width:1px;pointer-events:none;z-index:0;background-color:var(--charcoal);opacity:0.06}
         .corridor-vline--left{left:calc((100vw - 920px)/2 - 16px)}.corridor-vline--right{right:calc((100vw - 920px)/2 - 16px)}
         @media(max-width:1050px){.corridor-vline{display:none}}
@@ -48,12 +50,11 @@
         
         .container{max-width:920px;margin:0 auto;padding:0 28px;position:relative;z-index:1}
         
-        /* --- ORTAK TİPOGRAFİ HİYERARŞİSİ (BAŞLIKLAR PETROL) --- */
         .content-title {font-size: 24px; font-weight: 500; margin: 0; line-height: 1.2; color: var(--petrol);}
         .section-label {font-size: 24px; letter-spacing: .02em; color: var(--petrol); margin-bottom: 32px; display: block; font-weight: 500; opacity: 0; transform: translateX(-12px); transition: opacity .8s ease, transform .8s cubic-bezier(.23,1,.32,1);}
         .scroll-reveal.revealed .section-label { opacity: 1; transform: translateX(0); }
         
-        /* --- BAŞLIK VE MENÜ SİSTEMİ --- */
+        /* --- YENİ TEMİZ BAŞLIK SİSTEMİ --- */
         header {
             position: sticky; top: 0; background: transparent;
             transition: background 0.4s ease, backdrop-filter 0.4s ease, border-bottom-color 0.4s ease;
@@ -65,22 +66,17 @@
         nav { display: flex; flex-direction: column; padding-bottom: 14px; }
         .nav-top-row { display: flex; justify-content: space-between; align-items: center; width: 100%; }
         
-        .nav-home { display: flex; align-items: center; gap: 10px; border: none; }
-        .site-logo { height: 36px; width: auto; border-radius: 8px; object-fit: contain; background: var(--cream); border: 1px solid var(--border); }
-        .site-tagline { display: flex; align-items: center; gap: 4px; }
-        .tagline-on { color: var(--vizon); font-size: 24px; font-style: italic; line-height: 1; }
-        .tagline-stack { display: flex; flex-direction: column; justify-content: center; }
-        /* Life ve Everything Petrol Yeşili Oldu */
-        .tagline-life { color: var(--petrol); font-size: 10px; font-style: italic; letter-spacing: .02em; line-height: 1.2; }
-        .tagline-everything { color: var(--petrol); font-size: 10px; font-style: italic; letter-spacing: .02em; line-height: 1.2; }
+        .nav-home { display: flex; align-items: center; border: none; }
+        /* Logo css'i temizlendi, sadece boyut var */
+        .site-logo { height: 44px; width: auto; max-width: 240px; object-fit: contain; display: block; }
         
-        .nav-right { display: flex; align-items: center; gap: 8px; }
-        .header-share-btn, .hamburger-btn { background: transparent; border: none; color: var(--petrol); padding: 6px; cursor: pointer; transition: opacity .2s ease, color .2s ease; display: flex; align-items: center; justify-content: center;}
-        .header-share-btn svg { width: 20px; height: 20px; }
-        .hamburger-btn svg { width: 22px; height: 22px; }
+        .nav-right { display: flex; align-items: center; gap: 12px; }
+        .header-share-btn, .hamburger-btn { background: transparent; border: none; color: var(--petrol); padding: 4px; cursor: pointer; transition: opacity .2s ease; display: flex; align-items: center; justify-content: center;}
+        
+        /* İkonlar Birebir Aynı Boyutta */
+        .header-share-btn svg, .hamburger-btn svg { width: 24px; height: 24px; stroke-width: 2px; }
         .header-share-btn:hover, .hamburger-btn:hover { opacity: 0.6; }
         
-        /* Nav Links Güncellendi: Petrol Yeşili */
         .nav-links{display:none; width:100%; flex-direction:column; text-align:left; gap:12px; margin-top:16px; padding-top:16px; border-top:1px dashed var(--border);}
         .nav-links.active{display:flex; animation:menuFadeDown 0.4s cubic-bezier(0.23,1,0.32,1) forwards;}
         .nav-links a{color:var(--petrol); border:none; letter-spacing:.04em; padding:6px 0; font-size:18px; transition:opacity .2s ease;}
@@ -115,7 +111,6 @@
         .book-desc-container {display: flex; flex-direction: column; flex: 1; }
         .book-desc-text {color: var(--vizon); font-size: 17px; line-height: 1.7; max-width: 640px; margin: auto 0;}
         
-        /* Link Kutuları: Çizgiler Vizon, İçleri Petrol */
         .desktop-links {margin-top: auto; display: flex; gap: 16px; flex-wrap: wrap; justify-content: flex-start;}
         .book-links a{font-size:14px; padding:8px 24px; border:1px solid var(--vizon); color:var(--petrol); letter-spacing:.04em; border-radius:4px}
         .book-links a:hover{background:var(--petrol); color:var(--cream); border-color:var(--petrol)}
@@ -130,7 +125,6 @@
         .essay-thumb {width: 100%; height: 200px; min-width: unset; border-radius: 4px; object-fit: cover;}
         .essay-card-text {flex: 1; display: flex; flex-direction: column; gap: 6px; width: 100%; text-align: left;}
         
-        /* Kart Hiyerarşisi */
         .essay-title {font-size: 20px; font-style: italic; color: var(--petrol); font-weight: 400;}
         .essay-card:hover .essay-title {opacity: 0.8;} 
         .essay-card-subtitle {font-size: 15px; color: var(--vizon); font-style: normal; line-height: 1.5;} 
@@ -147,7 +141,6 @@
         .hero-author-row {display: flex; align-items: center; gap: 16px; margin-bottom: 24px;}
         .profile-photo-small {width: 72px; height: 72px; min-width: 72px; min-height: 72px; border-radius: 50%; object-fit: cover; object-position: center 20%; border: 1px solid var(--border); background: var(--bg-warm);}
         
-        /* About Metni Güncellendi: Vizon */
         .about-text p { margin-bottom: 24px; color:var(--vizon); max-width:none; }
         .about-text p:last-child { margin-bottom: 0; }
         
@@ -161,40 +154,11 @@
         .moris-video iframe{width:100%; aspect-ratio:9/16; border:none; display:block}
         .moris-caption{margin-top:20px; text-align:center; font-size:15px; color:var(--vizon); font-style:italic}
         
-        /* FOOTER - Font Bütünlüğü Sağlandı */
-        footer {
-        padding: 60px 0 40px;
-        border-top: 1px solid var(--border);
-        text-align: center;
-        font-family: 'Lora', Georgia, serif !important;
-        }
-
-        footer p, footer a {
-        font-size: 14px;
-        color: var(--vizon);
-        letter-spacing: 1px;
-        font-family: 'Lora', Georgia, serif !important;
-        text-decoration: none;
-        }
-
-        footer a:hover {
-        opacity: 0.7;
-        }
-
-        .footer-petrol {
-        color: var(--petrol);
-        }
-
-        .footer-logo {
-        max-width: 180px;
-        height: auto;
-        opacity: 0.85;
-        transition: opacity 0.3s ease;
-        }
-
-        .footer-logo:hover {
-        opacity: 1;
-        }
+        /* YENİ EDEBİ FOOTER */
+        footer { padding: 60px 0 40px; border-top: 1px solid var(--border); text-align: center; font-family: 'Lora', Georgia, serif !important; display: flex; flex-direction: column; align-items: center;}
+        footer p { font-size: 14px; color: var(--vizon); letter-spacing: 1px; margin: 0;}
+        .footer-logo { height: 36px; width: auto; opacity: 0.85; transition: opacity 0.3s ease; display: block; margin: 16px 0; }
+        .footer-logo:hover { opacity: 1; }
         
         /* MOBİL DÜZENLEMELER */
         .mobile-corridor{display:none}
@@ -213,9 +177,9 @@
         @media(max-width:768px){
             header {margin-left: -48px; margin-right: -48px; padding-left: 48px; padding-right: 48px; padding-top: 16px;}
             
-            .site-logo {height:32px; width:auto; border-radius:8px;}
-            .header-share-btn svg {width:18px; height:18px;}
-            .hamburger-btn svg {width:20px; height:20px;}
+            .site-logo {height: 32px;}
+            .nav-right {gap: 8px;}
+            .header-share-btn svg, .hamburger-btn svg {width:22px; height:22px;}
             
             .content-title, .section-label { font-size: 22px; }
             .hero-quote-source { font-size: 13px; margin-top: 12px; }
@@ -286,7 +250,7 @@
                 
                 <div class="nav-right">
                     <button id="share-site-btn" class="header-share-btn" aria-label="Share this website">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="18" cy="5" r="3"></circle>
                             <circle cx="6" cy="12" r="3"></circle>
                             <circle cx="18" cy="19" r="3"></circle>
@@ -295,7 +259,7 @@
                         </svg>
                     </button>
                     <button class="hamburger-btn" aria-label="Toggle Menu">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
                             <line x1="3" y1="12" x2="21" y2="12"></line>
                             <line x1="3" y1="6" x2="21" y2="6"></line>
                             <line x1="3" y1="18" x2="21" y2="18"></line>
@@ -498,7 +462,8 @@
             </div>
             
             <div class="about-text">
-                <p>I teach at Yeditepe University in İstanbul and write philosophical personal essays in English for an international audience. My work circles around perception, forgiveness, beauty, and the quiet architectures of self-deception — the corridors we build without noticing the walls.<br>I live in a city that insists on being looked at. Most of what I write is an attempt to look back.</p>
+                <p>I teach at Yeditepe University in İstanbul and write philosophical personal essays in English for an international audience. My work circles around perception, forgiveness, beauty, and the quiet architectures of self-deception — the corridors we build without noticing the walls.</p>
+                <p>I live in a city that insists on being looked at. Most of what I write is an attempt to look back.</p>
             </div>
         </div></section>
         
@@ -512,7 +477,9 @@
         </div></section>
         
         <footer>
+            <p style="margin-bottom: 12px;">Hakan Altun —</p>
             <a href="#"><img src="on-logo-wide.png" alt="On Life & Everything" class="footer-logo"></a>
+            <p style="margin-top: 12px;">İstanbul, 2026</p>
         </footer>
     </div>
     
