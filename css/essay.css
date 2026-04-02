@@ -18,13 +18,13 @@
 }
 
 html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
-body{font-family:'Lora',Georgia,serif;background-color:var(--bg);color:var(--charcoal);line-height:1.85;font-size:18px;overflow-x:hidden;position:relative}
+body{font-family:'Lora',Georgia,serif;background-color:var(--bg);color:var(--vizon);line-height:1.85;font-size:18px;overflow-x:hidden;position:relative}
 ::selection{background:var(--petrol);color:var(--cream)}
 a{color:var(--petrol);text-decoration:none;border-bottom:1px solid var(--border);transition:border-color .2s ease,color .2s ease}
 a:hover{border-color:var(--petrol)}
 
 /* Koridor Çizgileri */
-.corridor-vline{position:fixed;top:0;height:100%;width:1px;pointer-events:none;z-index:0;background-color:var(--charcoal);opacity:0.06}
+.corridor-vline{position:fixed;top:0;height:100%;width:1px;pointer-events:none;z-index:0;background-color:var(--vizon);opacity:0.06}
 .corridor-vline--left{left:calc((100vw - 680px)/2 - 12px)}
 .corridor-vline--right{right:calc((100vw - 680px)/2 - 12px)}
 @media(max-width:1050px){.corridor-vline{display:none}}
@@ -54,12 +54,23 @@ header.scrolled{
     backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
     border-bottom-color:var(--border);
 }
-nav{display:flex;align-items:center;justify-content:space-between;padding-bottom:14px}
+nav{display:flex;flex-direction:column;padding-bottom:14px}
+.nav-top-row{display:flex;align-items:center;justify-content:space-between;width:100%}
 .nav-home{display:flex;align-items:center;gap:6px;border:none;font-style:italic;color:var(--vizon);font-size:15px}
 .nav-home img{width:36px;height:36px;border-radius:8px;object-fit:contain;border:1px solid var(--border);background:var(--cream)}
 .nav-home:hover{color:var(--petrol)}
 
 .nav-right{display:flex;align-items:center;gap:12px}
+
+/* Hamburger Menu */
+.hamburger-btn{background:transparent;border:none;color:var(--petrol);padding:4px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:opacity .2s ease,color .2s ease}
+.hamburger-btn svg{width:20px;height:20px}
+.hamburger-btn:hover{opacity:.8}
+.nav-links{display:none;width:100%;flex-direction:column;text-align:left;gap:12px;margin-top:16px;padding-top:16px;border-top:1px dashed var(--border)}
+.nav-links.active{display:flex;animation:menuFadeDown .4s cubic-bezier(.23,1,.32,1) forwards}
+.nav-links a{color:var(--petrol);border:none;letter-spacing:.04em;padding:6px 0;font-size:18px;transition:opacity .2s ease}
+.nav-links a:hover{opacity:.8}
+@keyframes menuFadeDown{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:translateY(0)}}
 
 /* Geri Dönüş Linki (Petrol) */
 .nav-back{font-size:14px;color:var(--petrol);border:1px solid var(--border);padding:4px 14px;border-radius:4px;letter-spacing:.03em; transition: all .2s ease;}
@@ -79,7 +90,9 @@ nav{display:flex;align-items:center;justify-content:space-between;padding-bottom
 .essay-header{padding:48px 0 32px}
 .essay-header h1{font-size:32px;font-weight:500;line-height:1.25;color:var(--petrol);margin-bottom:12px} /* Vurgu (Petrol) */
 .essay-subtitle{font-size:17px;color:var(--vizon);font-style:italic;margin-bottom:20px} /* Detay (Vizon) */
-.essay-meta-info{font-size:14px;color:var(--vizon);display:flex;align-items:center;gap:8px;flex-wrap:wrap} /* Detay (Vizon) */
+.essay-meta-info{font-size:14px;color:var(--vizon);display:flex;flex-direction:column;gap:4px} /* Detay (Vizon) */
+.essay-meta-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.essay-meta-author{font-size:14px;color:var(--vizon)}
 
 /* Cover */
 .essay-cover{width:100%;border-radius:6px;margin:32px 0 40px;overflow:hidden}
@@ -87,7 +100,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding-bottom
 
 /* Essay Body */
 .essay-body{padding-bottom:48px}
-.essay-body p{margin-bottom:24px;color:var(--charcoal)} /* Omurga (Füme) */
+.essay-body p{margin-bottom:24px;color:var(--vizon)} /* Omurga (Vizon) */
 .essay-body p:last-child{margin-bottom:0}
 .essay-body h2{font-size:22px;font-weight:500;color:var(--petrol);margin:40px 0 16px;padding-top:20px;border-top:1px solid var(--border)} /* Vurgu (Petrol) */
 .essay-body h3{font-size:19px;font-weight:500;color:var(--petrol);margin:32px 0 12px} /* Vurgu (Petrol) */
@@ -96,7 +109,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding-bottom
 .essay-body strong,.essay-body b{font-weight:500}
 .essay-body hr{border:none;height:1px;background:var(--border);margin:36px 0}
 .essay-body img{max-width:100%;border-radius:4px;margin:24px 0}
-.essay-body ul,.essay-body ol{margin:0 0 24px 24px;color:var(--charcoal)}
+.essay-body ul,.essay-body ol{margin:0 0 24px 24px;color:var(--vizon)}
 .essay-body li{margin-bottom:8px}
 
 /* Navigasyon (Oklar Vizon, Başlıklar Petrol) */
@@ -156,6 +169,7 @@ footer a:hover {
     .tagline-green{font-size:8px}
     .nav-home img{width:32px;height:32px}
     .essay-share-btn svg{width:18px;height:18px}
+    .hamburger-btn svg{width:18px;height:18px}
 }
 @media(max-width:420px){
     .container{padding:0 32px}
