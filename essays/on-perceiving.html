@@ -22,12 +22,22 @@
 <div class="mobile-corridor mobile-corridor--right" aria-hidden="true"></div>
 <div class="container">
 <header id="site-header"><nav>
+<div class="nav-top-row">
 <a href="../" class="nav-home"><img src="../on-logo-wide.png" alt="On Life &amp; Everything"></a>
-<div class="nav-right"><a href="../#essays" class="nav-back">← Essays</a>
-<button class="essay-share-btn" aria-label="Share this essay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>
-</div></nav></header>
+<div class="nav-right">
+<button id="share-site-btn" class="header-share-btn" aria-label="Share this essay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>
+<button class="hamburger-btn" aria-label="Toggle Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+</div>
+</div>
+<div class="nav-links">
+<a href="../#essays">Essays</a>
+<a href="../#book">Book</a>
+<a href="../#moris">Moris</a>
+<a href="../#about">About</a>
+</div>
+</nav></header>
 <div class="essay-header fade-in"><h1>On Perceiving</h1><p class="essay-subtitle">Misperception is a corridor whose architect burned the blueprint and moved in.</p>
-<div class="essay-meta-info"><span>Hakan Altun</span><span>·</span><span>5 min read</span><span>·</span><span>March 14, 2026</span></div></div>
+<div class="essay-meta-info"><span>5 min read</span><span>·</span><span>March 14, 2026</span></div><p class="essay-author">Hakan Altun</p></div>
 <div class="essay-cover fade-in fade-in-delay"><img src="https://miro.medium.com/v2/resize:fit:875/1*yOa_B48M5L0j4xm7w8wnKQ.png" alt="Misperception is a corridor whose architect burned the blueprint and moved in." loading="lazy"></div>
 <article class="essay-body fade-in fade-in-delay">
             <p>"I'm a realist. I see things exactly as they are."</p>
@@ -64,11 +74,23 @@
             <p>I don't know yet if I want to renovate or walk out.</p>
             <p>But at least I know there's a door.</p>
 </article>
-<div class="series-nav"><p class="series-nav-title">The On Series · Essays on what we build inside ourselves — and why</p><ul class="series-nav-list"><li><a href="on-lying.html">1 of 7 · On Lying</a></li><li><span class="current">2 of 7 · On Perceiving</span></li><li><a href="on-looking.html">3 of 7 · On Looking</a></li><li><a href="on-forgiveness.html">4 of 7 · On Forgiveness</a></li><li><span style="color:var(--vizon);font-style:italic;font-size:15px">5–7 forthcoming</span></li></ul></div>
+<div class="series-nav"><p class="series-nav-title">The On Series <span class="series-nav-desc">· Essays on what we build inside ourselves — and why</span></p><ul class="series-nav-list"><li><a href="on-lying.html"><span class="series-num">1 of 7</span> · <span class="series-essay-title">On Lying</span></a></li><li><span class="current"><span class="series-num">2 of 7</span> · <span class="series-essay-title">On Perceiving</span></span></li><li><a href="on-looking.html"><span class="series-num">3 of 7</span> · <span class="series-essay-title">On Looking</span></a></li><li><a href="on-forgiveness.html"><span class="series-num">4 of 7</span> · <span class="series-essay-title">On Forgiveness</span></a></li><li><span style="color:var(--vizon);font-style:italic;font-size:15px">5–7 forthcoming</span></li></ul></div>
 <div class="essay-nav"><a href="on-lying.html" class="prev"><span class="nav-label">← Previous</span><span class="nav-title">On Lying</span></a><a href="on-looking.html" class="next"><span class="nav-label">Next →</span><span class="nav-title">On Looking</span></a></div>
 <footer><a href="../"><img src="../on-logo-wide.png" alt="On Life &amp; Everything" class="footer-logo"></a></footer>
 </div>
 <script>
-(function(){var h=document.getElementById('site-header');window.addEventListener('scroll',function(){if(window.scrollY>20)h.classList.add('scrolled');else h.classList.remove('scrolled');},{passive:true});var sb=document.querySelector('.essay-share-btn');if(sb){if(navigator.share){sb.addEventListener('click',function(e){e.preventDefault();navigator.share({title:document.title,url:window.location.href}).catch(function(){});})}else{sb.style.display='none'}}})();
+(function(){
+var h=document.getElementById('site-header');
+window.addEventListener('scroll',function(){if(window.scrollY>20)h.classList.add('scrolled');else h.classList.remove('scrolled');},{passive:true});
+var hamburgerBtn=document.querySelector('.hamburger-btn');
+var navLinks=document.querySelector('.nav-links');
+if(hamburgerBtn&&navLinks){
+hamburgerBtn.addEventListener('click',function(e){e.preventDefault();navLinks.classList.toggle('active');});
+var links=navLinks.querySelectorAll('a');
+links.forEach(function(link){link.addEventListener('click',function(){navLinks.classList.remove('active');});});
+}
+var shareBtn=document.getElementById('share-site-btn');
+if(shareBtn){if(navigator.share){shareBtn.addEventListener('click',function(e){e.preventDefault();navigator.share({title:document.title,url:window.location.href}).catch(function(){});});}else{shareBtn.style.display='none';}}
+})();
 </script>
 </body></html>
