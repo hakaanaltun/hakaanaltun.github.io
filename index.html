@@ -57,16 +57,16 @@
         header {
             position: sticky; top: 0; background: transparent;
             transition: background 0.4s ease, backdrop-filter 0.4s ease, border-bottom-color 0.4s ease;
-            z-index: 100; padding-top: 24px; margin-left: -28px; margin-right: -28px;
+            z-index: 100; padding-top: 20px; margin-left: -28px; margin-right: -28px;
             padding-left: 28px; padding-right: 28px; border-bottom: 1px solid transparent;
         }
         header.scrolled {background: rgba(250, 248, 244, 0.92); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-bottom-color: var(--border);}
         
-        nav { display: flex; flex-direction: column; padding-bottom: 12px; }
+        nav { display: flex; flex-direction: column; padding-bottom: 14px; }
         .nav-top-row { display: flex; justify-content: space-between; align-items: center; width: 100%; }
         
         .nav-home { display: flex; align-items: center; gap: 10px; border: none; }
-        .site-logo { width: 44px; height: 44px; border-radius: 10px; object-fit: contain; background: var(--cream); border: 1px solid var(--border); box-shadow: 0 4px 12px var(--shadow); }
+        .site-logo { height: 36px; width: auto; border-radius: 8px; object-fit: contain; background: var(--cream); border: 1px solid var(--border); }
         .site-tagline { display: flex; align-items: center; gap: 4px; }
         .tagline-on { color: var(--vizon); font-size: 24px; font-style: italic; line-height: 1; }
         .tagline-stack { display: flex; flex-direction: column; justify-content: center; }
@@ -76,7 +76,8 @@
         
         .nav-right { display: flex; align-items: center; gap: 8px; }
         .header-share-btn, .hamburger-btn { background: transparent; border: none; color: var(--petrol); padding: 6px; cursor: pointer; transition: opacity .2s ease, color .2s ease; display: flex; align-items: center; justify-content: center;}
-        .header-share-btn svg, .hamburger-btn svg { width: 22px; height: 22px; }
+        .header-share-btn svg { width: 20px; height: 20px; }
+        .hamburger-btn svg { width: 22px; height: 22px; }
         .header-share-btn:hover, .hamburger-btn:hover { opacity: 0.6; }
         
         /* Nav Links Güncellendi: Petrol Yeşili */
@@ -183,6 +184,17 @@
         .footer-petrol {
         color: var(--petrol);
         }
+
+        .footer-logo {
+        max-width: 180px;
+        height: auto;
+        opacity: 0.85;
+        transition: opacity 0.3s ease;
+        }
+
+        .footer-logo:hover {
+        opacity: 1;
+        }
         
         /* MOBİL DÜZENLEMELER */
         .mobile-corridor{display:none}
@@ -201,10 +213,9 @@
         @media(max-width:768px){
             header {margin-left: -48px; margin-right: -48px; padding-left: 48px; padding-right: 48px; padding-top: 16px;}
             
-            .site-logo {width:36px; height:36px; border-radius:8px;}
-            .tagline-on {font-size:22px;}
-            .tagline-life, .tagline-everything {font-size:9px;}
-            .header-share-btn svg, .hamburger-btn svg {width:20px; height:20px;}
+            .site-logo {height:32px; width:auto; border-radius:8px;}
+            .header-share-btn svg {width:18px; height:18px;}
+            .hamburger-btn svg {width:20px; height:20px;}
             
             .content-title, .section-label { font-size: 22px; }
             .hero-quote-source { font-size: 13px; margin-top: 12px; }
@@ -270,14 +281,7 @@
         <header id="site-header"><nav>
             <div class="nav-top-row">
                 <a href="#" class="nav-home">
-                    <img src="on-logo.png" alt="On Life & Everything" class="site-logo">
-                    <span class="site-tagline">
-                        <span class="tagline-on">On</span>
-                        <span class="tagline-stack">
-                            <span class="tagline-life">Life &</span>
-                            <span class="tagline-everything">Everything</span>
-                        </span>
-                    </span>
+                    <img src="on-logo-wide.png" alt="On Life & Everything" class="site-logo">
                 </a>
                 
                 <div class="nav-right">
@@ -508,8 +512,7 @@
         </div></section>
         
         <footer>
-            <p><a href="#">Hakan Altun — On <span style="color:var(--petrol);">Life & Everything</span></a></p>
-            <p style="margin-top:8px">İstanbul, 2026</p>
+            <a href="#"><img src="on-logo-wide.png" alt="On Life & Everything" class="footer-logo"></a>
         </footer>
     </div>
     
