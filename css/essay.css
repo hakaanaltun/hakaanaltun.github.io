@@ -94,6 +94,9 @@ nav{display:flex;flex-direction:column;padding-bottom:14px}
 .essay-meta-top{display:flex;align-items:center;gap:8px}
 .essay-meta-author{font-size:13px;color:var(--vizon)}
 
+/* Etiketler ve Numaralar */
+.essay-number{font-size:13px;color:var(--petrol);background:var(--border);padding:4px 10px;border-radius:4px;display:inline-block;}
+
 /* Cover */
 .essay-cover{width:100%;border-radius:6px;margin:32px 0 40px;overflow:hidden}
 .essay-cover img{width:100%;display:block}
@@ -120,6 +123,10 @@ nav{display:flex;flex-direction:column;padding-bottom:14px}
 .essay-nav .nav-title{font-style:italic}
 .essay-nav .next{text-align:right;margin-left:auto}
 
+/* The On Series'e Özel Geçiş Linki */
+.essay-nav .next-series-link {color: var(--petrol); font-size: 16px; font-weight: 500; text-align: right; margin-left: auto; border: none; align-items: flex-end;}
+.essay-nav .next-series-link:hover {opacity: 0.8;}
+
 /* Series Nav */
 .series-nav{margin-top:36px;padding:24px;border:1px solid var(--border);border-radius:8px;background:var(--cream)}
 .series-nav-title{font-size:14px;color:var(--petrol);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px}
@@ -133,6 +140,7 @@ footer{padding:32px 0 24px;border-top:1px solid var(--border);text-align:center}
 footer p{font-size:13px;color:var(--vizon)}
 footer a{font-size:13px;color:var(--vizon);border-bottom:1px solid var(--border)}
 footer a:hover{color:var(--petrol)}
+.footer-petrol {color: var(--petrol) !important; border-bottom: none !important;}
 
 /* Responsive */
 @media(max-width:1050px){
@@ -151,6 +159,7 @@ footer a:hover{color:var(--petrol)}
     .tagline-green{font-size:8px}
     .nav-home img{width:32px;height:32px}
     .essay-share-btn svg,.hamburger-btn svg{width:18px;height:18px}
+    .essay-nav .next-series-link {font-size: 14px;}
 }
 @media(max-width:420px){
     .container{padding:0 32px}
