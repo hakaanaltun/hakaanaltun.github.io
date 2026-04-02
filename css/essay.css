@@ -36,151 +36,143 @@ a:hover{border-color:var(--petrol)}
     .mobile-corridor--right{right:8px}
 }
 
-/* Container */
 .container{max-width:680px;margin:0 auto;padding:0 28px;position:relative;z-index:1}
 
-/* Sticky Header */
-header{
-    position:sticky;top:0;z-index:100;
-    background:transparent;
-    transition:background .4s ease,backdrop-filter .4s ease,border-bottom-color .4s ease;
-    padding-top:20px;
-    margin-left:-28px;margin-right:-28px;
-    padding-left:28px;padding-right:28px;
-    border-bottom:1px solid transparent;
+/* --- YENİ HEADER DÜZENİ (Ana sayfa ile uyumlu, ikonlar yan yana) --- */
+header {
+    position: sticky; top: 0; background: transparent;
+    transition: background 0.4s ease, backdrop-filter 0.4s ease, border-bottom-color 0.4s ease;
+    z-index: 100; padding-top: 40px; margin-left: -28px; margin-right: -28px;
+    padding-left: 28px; padding-right: 28px; border-bottom: 1px solid transparent;
 }
-header.scrolled{
-    background:rgba(250,248,244,0.92);
-    backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
-    border-bottom-color:var(--border);
+header.scrolled {
+    background: rgba(250, 248, 244, 0.92); 
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); 
+    border-bottom-color: var(--border);
+    padding-top: 20px; 
 }
-nav{display:flex;flex-direction:column;padding-bottom:14px}
-.nav-top-row{display:flex;justify-content:space-between;align-items:center;width:100%}
-.nav-home{display:flex;align-items:center;gap:6px;border:none;font-style:italic;color:var(--vizon);font-size:15px}
-.nav-home img{height:36px;width:auto;border-radius:8px;object-fit:contain;border:1px solid var(--border);background:var(--cream)}
-.nav-home:hover{color:var(--petrol)}
 
-.nav-right{display:flex;align-items:center;gap:8px}
+nav { display: flex; flex-direction: column; gap: 0; padding-bottom: 24px; border-bottom: 1px solid var(--border); position: relative; }
+.header-top-row, .nav-top-row { display: flex; justify-content: space-between; align-items: center; width: 100%; }
 
-/* Header Buttons */
-.header-share-btn,.hamburger-btn{background:transparent;border:none;color:var(--petrol);padding:6px;cursor:pointer;transition:opacity .2s ease,color .2s ease;display:flex;align-items:center;justify-content:center}
-.header-share-btn svg{width:20px;height:20px}
-.hamburger-btn svg{width:22px;height:22px}
-.header-share-btn:hover,.hamburger-btn:hover{opacity:0.6}
+/* Logo Sistemi (Kutu, arka plan, çerçeve tamamen kaldırıldı) */
+.site-logo-row, .nav-home { display: flex; flex-direction: row; align-items: center; gap: 12px; border: none; }
+.site-logo { width: 76px; height: 76px; border-radius: 12px; object-fit: contain; display: block; flex-shrink: 0; background: transparent !important; border: none !important; box-shadow: none !important; }
 
-/* Nav Links Menu */
-.nav-links{display:none;width:100%;flex-direction:column;text-align:left;gap:12px;margin-top:16px;padding-top:16px;border-top:1px dashed var(--border)}
-.nav-links.active{display:flex;animation:menuFadeDown 0.4s cubic-bezier(0.23,1,0.32,1) forwards}
-.nav-links a{color:var(--petrol);border:none;letter-spacing:.04em;padding:6px 0;font-size:18px;transition:opacity .2s ease}
-.nav-links a:hover{opacity:0.8}
-@keyframes menuFadeDown{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:translateY(0)}}
+.site-tagline { display: flex; align-items: center; gap: 4px; border: none; }
+.tagline-on { color: var(--vizon); font-size: 32px; font-weight: normal; font-style: italic; line-height: 1; border: none;}
+.tagline-stack { display: flex; flex-direction: column; justify-content: center; line-height: 1.2; }
+.tagline-green { color: var(--petrol); font-size: 15px; font-style: italic; letter-spacing: .04em; }
 
-/* Essay Header */
-.essay-header{padding:48px 0 32px}
-.essay-header h1{font-size:32px;font-weight:500;line-height:1.25;color:var(--petrol);margin-bottom:12px} /* Başlık (Petrol) */
-.essay-subtitle{font-size:17px;color:var(--charcoal);font-style:italic;margin-bottom:8px} /* Alt başlık (Charcoal) */
-.essay-meta-info{font-size:14px;color:var(--charcoal);display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px} /* Okuma süresi & tarih (Charcoal) */
-.essay-author{font-size:14px;color:var(--charcoal)} /* Yazar ismi (Charcoal) */
+/* İkonlar Sağda Yan Yana (Paylaşım ve Menü) */
+.nav-actions, .nav-right { display: flex; align-items: center; gap: 8px; }
+.header-share-btn, .hamburger-btn, .action-btn { background: transparent; border: none; color: var(--petrol); padding: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: opacity .2s ease; }
+.header-share-btn svg, .hamburger-btn svg, .action-btn svg { width: 24px; height: 24px; stroke-width: 2px; }
+.header-share-btn:hover, .hamburger-btn:hover, .action-btn:hover { opacity: 0.6; }
+.hamburger-text { display: none !important; } 
+
+/* HTML'de alt alta olan ikonları yan yana zorlamak için koruma kodu */
+.header-bottom-row { position: absolute; right: 0; top: 50%; transform: translateY(-50%); margin-top: 0; }
+.header-top-row .header-share-btn { margin-right: 44px; } 
+
+/* Menü Linkleri */
+.nav-links { display: none; width: 100%; flex-direction: column; text-align: left; gap: 12px; margin-top: 16px; padding-top: 16px; border-top: 1px dashed var(--border); }
+.nav-links.active { display: flex; animation: menuFadeDown 0.4s cubic-bezier(0.23,1,0.32,1) forwards; }
+.nav-links a { color: var(--charcoal); border: none; letter-spacing: .04em; padding: 6px 0; font-size: 18px; transition: color .2s ease; }
+.nav-links a:hover { color: var(--petrol); }
+@keyframes menuFadeDown { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: translateY(0); } }
+
+/* --- ESSAY İÇERİK --- */
+.essay-header { padding: 56px 0 32px; }
+.essay-header h1, .essay-detail-title { font-size: 36px; font-style: italic; font-weight: normal; line-height: 1.3; color: var(--petrol); margin-bottom: 16px; border: none; }
+.essay-subtitle, .essay-detail-subtitle { font-size: 21px; color: var(--charcoal); font-style: normal; margin-bottom: 32px; line-height: 1.5; font-weight: 400; }
+
+/* Alt başlık, Yazar ve Tarih Füme Rengi (Charcoal) */
+.essay-meta-info, .essay-detail-meta { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); font-size: 15px; color: var(--charcoal); font-style: italic; margin-bottom: 48px; }
+.essay-author { color: var(--charcoal); }
+.essay-date-time { color: var(--charcoal); }
 
 /* Cover */
-.essay-cover{width:100%;border-radius:6px;margin:32px 0 40px;overflow:hidden}
-.essay-cover img{width:100%;display:block}
+.essay-cover, .feature-img { width: 100%; border-radius: 8px; margin: 0 0 48px; overflow: hidden; box-shadow: 0 8px 32px var(--shadow); height: auto; display: block; }
+.essay-cover img { width: 100%; display: block; height: auto; }
 
 /* Essay Body */
-.essay-body{padding-bottom:48px}
-.essay-body p{margin-bottom:24px;color:var(--charcoal)} /* Omurga (Füme) */
-.essay-body p:last-child{margin-bottom:0}
-.essay-body h2{font-size:22px;font-weight:500;color:var(--petrol);margin:40px 0 16px;padding-top:20px;border-top:1px solid var(--border)} /* Vurgu (Petrol) */
-.essay-body h3{font-size:19px;font-weight:500;color:var(--petrol);margin:32px 0 12px} /* Vurgu (Petrol) */
-.essay-body blockquote{border-left:2px solid var(--petrol);padding:12px 0 12px 20px;margin:28px 0;font-style:italic;color:var(--vizon);font-size:19px}
-.essay-body em{font-style:italic}
-.essay-body strong,.essay-body b{font-weight:500}
-.essay-body hr{border:none;height:1px;background:var(--border);margin:36px 0}
-.essay-body img{max-width:100%;border-radius:4px;margin:24px 0}
-.essay-body ul,.essay-body ol{margin:0 0 24px 24px;color:var(--charcoal)}
-.essay-body li{margin-bottom:8px}
+.essay-body, .essay-content { padding-bottom: 48px; font-size: 19px; line-height: 1.8; color: var(--charcoal); }
+.essay-body p, .essay-content p { margin-bottom: 28px; }
+.essay-body p:last-child, .essay-content p:last-child { margin-bottom: 0; }
+.essay-body h2, .essay-content h2 { font-size: 24px; font-weight: normal; font-style: italic; color: var(--petrol); margin: 48px 0 20px; border: none; padding: 0; }
+.essay-body h3, .essay-content h3 { font-size: 20px; font-weight: 500; color: var(--petrol); margin: 32px 0 16px; }
+.essay-body blockquote, .essay-content blockquote { border-left: 2px solid var(--vizon); padding-left: 24px; margin: 40px 0; font-style: italic; color: var(--vizon); font-size: 22px; }
+.essay-body em, .essay-content em { font-style: italic; }
+.essay-body strong, .essay-body b, .essay-content strong, .essay-content b { font-weight: 500; }
+.essay-body hr, .essay-content hr { border: none; height: 1px; background: linear-gradient(to right, transparent, var(--petrol) 20%, var(--petrol) 80%, transparent); opacity: 0.15; margin: 48px 0; }
+.essay-body img, .essay-content img { max-width: 100%; border-radius: 8px; margin: 32px 0; box-shadow: 0 8px 32px var(--shadow); }
+.essay-body ul, .essay-body ol, .essay-content ul, .essay-content ol { margin: 0 0 28px 24px; color: var(--charcoal); }
+.essay-body li, .essay-content li { margin-bottom: 12px; }
 
-/* Navigasyon (Etiketler ve Başlıklar Charcoal) */
-.essay-nav{display:flex;justify-content:space-between;padding:32px 0;border-top:1px solid var(--border);gap:20px}
-.essay-nav a{font-size:15px;color:var(--charcoal);border:none;display:flex;flex-direction:column;gap:2px;max-width:45%;transition:opacity .2s ease}
-.essay-nav a:hover{opacity: 0.8;}
-.essay-nav .nav-label{font-size:12px;color:var(--charcoal);text-transform:uppercase;letter-spacing:.08em}
-.essay-nav .nav-title{font-style:italic;color:var(--charcoal);}
-.essay-nav .next{text-align:right;margin-left:auto}
+/* Alt Navigasyon */
+.essay-nav { display: flex; justify-content: space-between; padding: 32px 0; border-top: 1px solid var(--border); gap: 20px; }
+.essay-nav a { font-size: 15px; color: var(--charcoal); border: none; display: flex; flex-direction: column; gap: 4px; max-width: 45%; transition: opacity .2s ease; }
+.essay-nav a:hover { opacity: 0.8; }
+.essay-nav .nav-label { font-size: 12px; color: var(--vizon); text-transform: uppercase; letter-spacing: .08em; font-style: normal; }
+.essay-nav .nav-title { font-style: italic; color: var(--petrol); font-size: 17px; }
+.essay-nav .next { text-align: right; margin-left: auto; }
 
-/* Series Nav */
-.series-nav{margin-top:36px;padding:24px;border:1px solid var(--border);border-radius:8px;background:var(--cream)}
-.series-nav-title{font-size:14px;color:var(--petrol);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px}
-.series-nav-title .series-nav-desc{text-transform:none;color:var(--vizon);letter-spacing:normal}
-.series-nav-list{list-style:none;display:flex;flex-direction:column;gap:6px}
-.series-nav-list a{font-size:15px;border:none;font-style:italic;transition:opacity .2s ease}
-.series-nav-list a .series-num{color:var(--vizon);font-style:normal}
-.series-nav-list a .series-essay-title{color:var(--petrol)}
-.series-nav-list a:hover{opacity:0.8}
-.series-nav-list .current{font-weight:500;font-style:italic;font-size:15px}
-.series-nav-list .current .series-num{color:var(--vizon)}
-.series-nav-list .current .series-essay-title{color:var(--petrol)}
+/* --- YENİ EDEBİ FOOTER --- */
+footer { padding: 60px 0 40px; border-top: 1px solid var(--border); text-align: center; display: flex !important; flex-direction: column; align-items: center; justify-content: center; }
+footer p { font-size: 15px; color: var(--vizon); letter-spacing: 1px; margin: 12px 0 !important; font-style: normal; font-family: 'Lora', Georgia, serif !important;}
+footer a { border: none; display: block; margin: 0 !important; }
 
-/* Footer - Font Bütünlüğü Sağlandı */
-footer {
-    margin-top: 60px;
-    padding: 40px 0;
-    border-top: 1px solid var(--border);
-    text-align: center;
-    font-family: 'Lora', Georgia, serif !important; /* Font burada kilitlendi */
+/* Footer Logo Doğal Formu */
+.footer-logo, .footer-logo-row img { width: auto !important; height: 36px !important; object-fit: contain; display: block; opacity: 0.85; transition: opacity 0.3s ease; background: transparent !important; border: none !important; box-shadow: none !important; margin: 0 !important;}
+.footer-logo:hover, .footer-logo-row img:hover { opacity: 1; }
+.footer-logo-row { display: flex; align-items: center; justify-content: center; gap: 0; margin: 0;}
+.footer-logo-text { display: none !important; } /* Eski yazıyı gizler */
+
+/* RESPONSIVE */
+@media(max-width: 1050px) {
+    .container { padding: 0 52px; }
+    header { margin-left: -52px; margin-right: -52px; padding-left: 52px; padding-right: 52px; }
 }
-
-footer p, footer a {
-    font-size: 13px;
-    color: var(--vizon);
-    font-family: 'Lora', Georgia, serif !important; /* Linkler ve paragraflar için tekrar edildi */
-    text-decoration: none;
+@media(max-width: 768px) {
+    body { font-size: 17px; }
+    .container { padding: 0 48px; }
+    header { margin-left: -48px; margin-right: -48px; padding-left: 48px; padding-right: 48px; padding-top: 24px; }
+    header.scrolled { padding-top: 16px; }
+    
+    .site-logo { width: 48px; height: 48px; border-radius: 10px; }
+    .tagline-on { font-size: 26px; } 
+    .tagline-green { font-size: 13px; }
+    .site-tagline { gap: 4px; }
+    
+    .nav-actions, .nav-right { gap: 8px; }
+    .header-share-btn, .hamburger-btn, .action-btn { padding: 4px; }
+    .header-share-btn svg, .hamburger-btn svg, .action-btn svg { width: 22px; height: 22px; }
+    
+    .header-top-row .header-share-btn { margin-right: 36px; } /* Mobil menü hiza koruması */
+    
+    .essay-header { padding: 40px 0 24px; }
+    .essay-header h1, .essay-detail-title { font-size: 28px; }
+    .essay-subtitle, .essay-detail-subtitle { font-size: 18px; margin-bottom: 24px; }
+    .essay-meta-info, .essay-detail-meta { flex-direction: column; align-items: flex-start; gap: 8px; padding: 12px 0; margin-bottom: 32px; font-size: 14px; }
+    
+    .essay-body, .essay-content { font-size: 17px; }
+    .essay-body p, .essay-content p { margin-bottom: 24px; }
+    .essay-body blockquote, .essay-content blockquote { font-size: 19px; margin: 32px 0; padding-left: 16px; }
+    .essay-body h2, .essay-content h2 { font-size: 22px; }
+    
+    .essay-nav { flex-direction: column; gap: 24px; }
+    .essay-nav a { max-width: 100%; text-align: left !important; }
+    .essay-nav .next { margin-left: 0; }
 }
-
-footer a .footer-petrol {
-    color: var(--petrol);
-}
-
-footer a:hover {
-    opacity: 0.7;
-}
-
-.footer-logo {
-    max-width: 180px;
-    height: auto;
-    opacity: 0.85;
-    transition: opacity 0.3s ease;
-}
-
-.footer-logo:hover {
-    opacity: 1;
-}
-
-/* Responsive */
-@media(max-width:1050px){
-    .container{padding:0 52px}
-    header{margin-left:-52px;margin-right:-52px;padding-left:52px;padding-right:52px}
-}
-@media(max-width:768px){
-    body{font-size:17px}
-    .container{padding:0 48px}
-    header{margin-left:-48px;margin-right:-48px;padding-left:48px;padding-right:48px;padding-top:16px}
-    .essay-header h1{font-size:26px}
-    .essay-header{padding:36px 0 24px}
-    .essay-body blockquote{font-size:17px}
-    .essay-body h2{font-size:20px}
-    .nav-home img{height:32px;width:auto}
-    .header-share-btn svg{width:18px;height:18px}
-    .hamburger-btn svg{width:20px;height:20px}
-}
-@media(max-width:420px){
-    .container{padding:0 32px}
-    header{margin-left:-32px;margin-right:-32px;padding-left:32px;padding-right:32px}
-    .essay-header h1{font-size:22px}
+@media(max-width: 420px) {
+    .container { padding: 0 32px; }
+    header { margin-left: -32px; margin-right: -32px; padding-left: 32px; padding-right: 32px; }
+    .essay-header h1, .essay-detail-title { font-size: 24px; }
 }
 
 /* Animations */
-.fade-in{opacity:0;transform:translateY(12px);animation:fadeUp .6s ease forwards}
-.fade-in-delay{animation-delay:.15s}
-@keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}.corridor-vline,.mobile-corridor{display:none}}
+.fade-in { opacity: 0; transform: translateY(12px); animation: fadeUp .6s ease forwards; }
+.fade-in-delay { animation-delay: .15s; }
+@keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+@media(prefers-reduced-motion: reduce) { *,*::before,*::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } .corridor-vline,.mobile-corridor { display: none; } }
