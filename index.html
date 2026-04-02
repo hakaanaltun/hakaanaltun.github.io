@@ -53,33 +53,36 @@
         .section-label {font-size: 24px; letter-spacing: .02em; color: var(--petrol); margin-bottom: 32px; display: block; font-weight: 500; opacity: 0; transform: translateX(-12px); transition: opacity .8s ease, transform .8s cubic-bezier(.23,1,.32,1);}
         .scroll-reveal.revealed .section-label { opacity: 1; transform: translateX(0); }
         
-        /* --- BAŞLIK VE MENÜ SİSTEMİ (UNIFIED) --- */
+        /* --- BAŞLIK VE MENÜ SİSTEMİ --- */
         header {
             position: sticky; top: 0; background: transparent;
             transition: background 0.4s ease, backdrop-filter 0.4s ease, border-bottom-color 0.4s ease;
-            z-index: 100; padding-top: 16px; margin-left: -28px; margin-right: -28px;
+            z-index: 100; padding-top: 24px; margin-left: -28px; margin-right: -28px;
             padding-left: 28px; padding-right: 28px; border-bottom: 1px solid transparent;
         }
         header.scrolled {background: rgba(250, 248, 244, 0.92); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-bottom-color: var(--border);}
         
-        nav { display: flex; flex-direction: column; padding-bottom: 8px; }
+        nav { display: flex; flex-direction: column; padding-bottom: 12px; }
         .nav-top-row { display: flex; justify-content: space-between; align-items: center; width: 100%; }
         
         .nav-home { display: flex; align-items: center; gap: 10px; border: none; }
-        .site-logo { width: 36px; height: 36px; border-radius: 8px; object-fit: contain; background: var(--cream); border: 1px solid var(--border); box-shadow: 0 4px 12px var(--shadow); }
+        .site-logo { width: 44px; height: 44px; border-radius: 10px; object-fit: contain; background: var(--cream); border: 1px solid var(--border); box-shadow: 0 4px 12px var(--shadow); }
         .site-tagline { display: flex; align-items: center; gap: 4px; }
-        .tagline-on { color: var(--vizon); font-size: 20px; font-style: italic; line-height: 1; }
+        .tagline-on { color: var(--vizon); font-size: 24px; font-style: italic; line-height: 1; }
         .tagline-stack { display: flex; flex-direction: column; justify-content: center; }
-        .tagline-life, .tagline-everything { color: var(--petrol); font-size: 9px; font-style: italic; letter-spacing: .02em; line-height: 1.2; }
+        /* Life ve Everything Petrol Yeşili Oldu */
+        .tagline-life { color: var(--petrol); font-size: 10px; font-style: italic; letter-spacing: .02em; line-height: 1.2; }
+        .tagline-everything { color: var(--petrol); font-size: 10px; font-style: italic; letter-spacing: .02em; line-height: 1.2; }
         
-        .nav-right { display: flex; align-items: center; gap: 4px; }
-        .header-share-btn, .hamburger-btn { background: transparent; border: none; color: var(--petrol); width: 36px; height: 36px; padding: 0; cursor: pointer; transition: opacity .2s ease, color .2s ease; display: flex; align-items: center; justify-content: center;}
-        .header-share-btn svg, .hamburger-btn svg { width: 20px; height: 20px; }
+        .nav-right { display: flex; align-items: center; gap: 8px; }
+        .header-share-btn, .hamburger-btn { background: transparent; border: none; color: var(--petrol); padding: 6px; cursor: pointer; transition: opacity .2s ease, color .2s ease; display: flex; align-items: center; justify-content: center;}
+        .header-share-btn svg, .hamburger-btn svg { width: 22px; height: 22px; }
         .header-share-btn:hover, .hamburger-btn:hover { opacity: 0.6; }
         
-        .nav-links{display:none; width:100%; flex-direction:column; text-align:left; gap:12px; margin-top:12px; padding-top:12px; border-top:1px dashed var(--border);}
+        /* Nav Links Güncellendi: Petrol Yeşili */
+        .nav-links{display:none; width:100%; flex-direction:column; text-align:left; gap:12px; margin-top:16px; padding-top:16px; border-top:1px dashed var(--border);}
         .nav-links.active{display:flex; animation:menuFadeDown 0.4s cubic-bezier(0.23,1,0.32,1) forwards;}
-        .nav-links a{color:var(--petrol); border:none; letter-spacing:.04em; padding:6px 0; font-size:16px; transition:opacity .2s ease;}
+        .nav-links a{color:var(--petrol); border:none; letter-spacing:.04em; padding:6px 0; font-size:18px; transition:opacity .2s ease;}
         .nav-links a:hover{opacity:0.8;}
         @keyframes menuFadeDown { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: translateY(0); } }
         
@@ -143,6 +146,7 @@
         .hero-author-row {display: flex; align-items: center; gap: 16px; margin-bottom: 24px;}
         .profile-photo-small {width: 72px; height: 72px; min-width: 72px; min-height: 72px; border-radius: 50%; object-fit: cover; object-position: center 20%; border: 1px solid var(--border); background: var(--bg-warm);}
         
+        /* About Metni Güncellendi: Vizon */
         .about-text p { margin-bottom: 24px; color:var(--vizon); max-width:none; }
         .about-text p:last-child { margin-bottom: 0; }
         
@@ -156,7 +160,7 @@
         .moris-video iframe{width:100%; aspect-ratio:9/16; border:none; display:block}
         .moris-caption{margin-top:20px; text-align:center; font-size:15px; color:var(--vizon); font-style:italic}
         
-        /* FOOTER */
+        /* FOOTER - Font Bütünlüğü Sağlandı */
         footer {
         padding: 60px 0 40px;
         border-top: 1px solid var(--border);
@@ -195,12 +199,12 @@
         }
         
         @media(max-width:768px){
-            header {margin-left: -48px; margin-right: -48px; padding-left: 48px; padding-right: 48px; padding-top: 12px;}
-            .site-logo {width:32px; height:32px; border-radius:6px;}
-            .tagline-on {font-size:18px;}
-            .tagline-life, .tagline-everything {font-size:8px;}
-            .header-share-btn, .hamburger-btn {width: 32px; height: 32px;}
-            .header-share-btn svg, .hamburger-btn svg {width:18px; height:18px;}
+            header {margin-left: -48px; margin-right: -48px; padding-left: 48px; padding-right: 48px; padding-top: 16px;}
+            
+            .site-logo {width:36px; height:36px; border-radius:8px;}
+            .tagline-on {font-size:22px;}
+            .tagline-life, .tagline-everything {font-size:9px;}
+            .header-share-btn svg, .hamburger-btn svg {width:20px; height:20px;}
             
             .content-title, .section-label { font-size: 22px; }
             .hero-quote-source { font-size: 13px; margin-top: 12px; }

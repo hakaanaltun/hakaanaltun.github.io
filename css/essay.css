@@ -39,35 +39,41 @@ a:hover{border-color:var(--petrol)}
 /* Container */
 .container{max-width:680px;margin:0 auto;padding:0 28px;position:relative;z-index:1}
 
-/* --- BAŞLIK VE MENÜ SİSTEMİ (UNIFIED) --- */
-header {
-    position: sticky; top: 0; background: transparent;
-    transition: background 0.4s ease, backdrop-filter 0.4s ease, border-bottom-color 0.4s ease;
-    z-index: 100; padding-top: 16px; margin-left: -28px; margin-right: -28px;
-    padding-left: 28px; padding-right: 28px; border-bottom: 1px solid transparent;
+/* Sticky Header */
+header{
+    position:sticky;top:0;z-index:100;
+    background:transparent;
+    transition:background .4s ease,backdrop-filter .4s ease,border-bottom-color .4s ease;
+    padding-top:20px;
+    margin-left:-28px;margin-right:-28px;
+    padding-left:28px;padding-right:28px;
+    border-bottom:1px solid transparent;
 }
-header.scrolled {background: rgba(250, 248, 244, 0.92); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-bottom-color: var(--border);}
+header.scrolled{
+    background:rgba(250,248,244,0.92);
+    backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    border-bottom-color:var(--border);
+}
+nav{display:flex;align-items:center;justify-content:space-between;padding-bottom:14px}
+.nav-home{display:flex;align-items:center;gap:6px;border:none;font-style:italic;color:var(--vizon);font-size:15px}
+.nav-home img{width:36px;height:36px;border-radius:8px;object-fit:contain;border:1px solid var(--border);background:var(--cream)}
+.nav-home:hover{color:var(--petrol)}
 
-nav { display: flex; flex-direction: column; padding-bottom: 8px; }
-.nav-top-row { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+.nav-right{display:flex;align-items:center;gap:12px}
 
-.nav-home { display: flex; align-items: center; gap: 10px; border: none; }
-.site-logo { width: 36px; height: 36px; border-radius: 8px; object-fit: contain; background: var(--cream); border: 1px solid var(--border); box-shadow: 0 4px 12px var(--shadow); }
-.site-tagline { display: flex; align-items: center; gap: 4px; }
-.tagline-on { color: var(--vizon); font-size: 20px; font-style: italic; line-height: 1; }
-.tagline-stack { display: flex; flex-direction: column; justify-content: center; }
-.tagline-life, .tagline-everything { color: var(--petrol); font-size: 9px; font-style: italic; letter-spacing: .02em; line-height: 1.2; }
+/* Geri Dönüş Linki (Petrol) */
+.nav-back{font-size:14px;color:var(--petrol);border:1px solid var(--border);padding:4px 14px;border-radius:4px;letter-spacing:.03em; transition: all .2s ease;}
+.nav-back:hover{background:var(--bg-deep);border-color:var(--petrol)}
 
-.nav-right { display: flex; align-items: center; gap: 4px; }
-.header-share-btn, .hamburger-btn { background: transparent; border: none; color: var(--petrol); width: 36px; height: 36px; padding: 0; cursor: pointer; transition: opacity .2s ease, color .2s ease; display: flex; align-items: center; justify-content: center;}
-.header-share-btn svg, .hamburger-btn svg { width: 20px; height: 20px; }
-.header-share-btn:hover, .hamburger-btn:hover { opacity: 0.6; }
+/* İkonlar Füme, Hover Petrol */
+.essay-share-btn{background:transparent;border:none;color:var(--petrol);padding:4px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:opacity .2s ease, color .2s ease}
+.essay-share-btn svg{width:20px;height:20px}
+.essay-share-btn:hover{opacity:.8}
 
-.nav-links{display:none; width:100%; flex-direction:column; text-align:left; gap:12px; margin-top:12px; padding-top:12px; border-top:1px dashed var(--border);}
-.nav-links.active{display:flex; animation:menuFadeDown 0.4s cubic-bezier(0.23,1,0.32,1) forwards;}
-.nav-links a{color:var(--petrol); border:none; letter-spacing:.04em; padding:6px 0; font-size:16px; transition:opacity .2s ease;}
-.nav-links a:hover{opacity:0.8;}
-@keyframes menuFadeDown { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: translateY(0); } }
+/* Logo Lockup */
+.tagline-on{color:var(--vizon);font-size:24px;font-style:italic;line-height:1}
+.tagline-stack{display:flex;flex-direction:column;gap:0;padding-top:2px}
+.tagline-green{color:var(--petrol);font-size:9px;font-style:italic;letter-spacing:.04em;line-height:1.2}
 
 /* Essay Header */
 .essay-header{padding:48px 0 32px}
@@ -141,19 +147,15 @@ footer a:hover {
 @media(max-width:768px){
     body{font-size:17px}
     .container{padding:0 48px}
-    header {margin-left: -48px; margin-right: -48px; padding-left: 48px; padding-right: 48px; padding-top: 12px;}
-    
-    .site-logo {width:32px; height:32px; border-radius:6px;}
-    .tagline-on {font-size:18px;}
-    .tagline-life, .tagline-everything {font-size:8px;}
-    
-    .header-share-btn, .hamburger-btn {width: 32px; height: 32px;}
-    .header-share-btn svg, .hamburger-btn svg {width:18px; height:18px;}
-
+    header{margin-left:-48px;margin-right:-48px;padding-left:48px;padding-right:48px;padding-top:16px}
     .essay-header h1{font-size:26px}
     .essay-header{padding:36px 0 24px}
     .essay-body blockquote{font-size:17px}
     .essay-body h2{font-size:20px}
+    .tagline-on{font-size:20px}
+    .tagline-green{font-size:8px}
+    .nav-home img{width:32px;height:32px}
+    .essay-share-btn svg{width:18px;height:18px}
 }
 @media(max-width:420px){
     .container{padding:0 32px}
