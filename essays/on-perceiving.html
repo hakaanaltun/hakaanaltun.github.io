@@ -22,12 +22,25 @@
 <div class="mobile-corridor mobile-corridor--right" aria-hidden="true"></div>
 <div class="container">
 <header id="site-header"><nav>
-<a href="../" class="nav-home"><img src="../on-logo.png" alt="On Life &amp; Everything"><span style="display:flex;align-items:center;gap:4px"><span class="tagline-on">On</span><span class="tagline-stack"><span class="tagline-green">Life &amp;</span><span class="tagline-green">Everything</span></span></span></a>
-<div class="nav-right"><a href="../#essays" class="nav-back">← Essays</a>
+<div class="nav-top-row">
+<a href="../" class="nav-home"><img src="../on-logo.png" alt="On Life &amp; Everything"><span class="site-tagline"><span class="tagline-on">On</span><span class="tagline-stack"><span class="tagline-green">Life &amp;</span><span class="tagline-green">Everything</span></span></span></a>
+<div class="nav-right">
 <button class="essay-share-btn" aria-label="Share this essay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>
-</div></nav></header>
+<button class="hamburger-btn" aria-label="Toggle Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+</div>
+</div>
+<div class="nav-links">
+<a href="../#essays">Essays</a>
+<a href="../#book">Book</a>
+<a href="../#moris">Moris</a>
+<a href="../#about">About</a>
+</div>
+</nav></header>
 <div class="essay-header fade-in"><h1>On Perceiving</h1><p class="essay-subtitle">Misperception is a corridor whose architect burned the blueprint and moved in.</p>
-<div class="essay-meta-info"><span>Hakan Altun</span><span>·</span><span>5 min read</span><span>·</span><span>March 14, 2026</span></div></div>
+<div class="essay-meta-info">
+<div class="essay-meta-top"><span>5 min read</span><span>·</span><span>March 14, 2026</span></div>
+<div class="essay-meta-author">Hakan Altun</div>
+</div></div>
 <div class="essay-cover fade-in fade-in-delay"><img src="https://miro.medium.com/v2/resize:fit:875/1*yOa_B48M5L0j4xm7w8wnKQ.png" alt="Misperception is a corridor whose architect burned the blueprint and moved in." loading="lazy"></div>
 <article class="essay-body fade-in fade-in-delay">
             <p>"I'm a realist. I see things exactly as they are."</p>
@@ -69,6 +82,6 @@
 <footer><p><a href="../">Hakan Altun — On Life &amp; Everything</a></p><p style="margin-top:8px">İstanbul, 2026</p></footer>
 </div>
 <script>
-(function(){var h=document.getElementById('site-header');window.addEventListener('scroll',function(){if(window.scrollY>20)h.classList.add('scrolled');else h.classList.remove('scrolled');},{passive:true});var sb=document.querySelector('.essay-share-btn');if(sb){if(navigator.share){sb.addEventListener('click',function(e){e.preventDefault();navigator.share({title:document.title,url:window.location.href}).catch(function(){});})}else{sb.style.display='none'}}})();
+(function(){var h=document.getElementById('site-header');window.addEventListener('scroll',function(){if(window.scrollY>20)h.classList.add('scrolled');else h.classList.remove('scrolled');},{passive:true});var sb=document.querySelector('.essay-share-btn');if(sb){if(navigator.share){sb.addEventListener('click',function(e){e.preventDefault();navigator.share({title:document.title,url:window.location.href}).catch(function(){});})}else{sb.style.display='none'}}var hamburgerBtn=document.querySelector('.hamburger-btn');var navLinks=document.querySelector('.nav-links');if(hamburgerBtn&&navLinks){hamburgerBtn.addEventListener('click',function(e){e.preventDefault();navLinks.classList.toggle('active');});navLinks.querySelectorAll('a').forEach(function(link){link.addEventListener('click',function(){navLinks.classList.remove('active');});});}})();
 </script>
 </body></html>

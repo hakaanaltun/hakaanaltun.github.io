@@ -1,4 +1,4 @@
-var CACHE_NAME = 'on-life-v3';
+var CACHE_NAME = 'on-life-v4';
 var urlsToCache = [
     '/',
     '/index.html',
