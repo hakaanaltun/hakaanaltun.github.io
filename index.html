@@ -48,16 +48,16 @@
         
         .container{max-width:920px;margin:0 auto;padding:0 28px;position:relative;z-index:1}
         
-        /* --- ORTAK TİPOGRAFİ HİYERARŞİSİ (BAŞLIKLAR PETROL) --- */
+        /* --- ORTAK TİPOGRAFİ HİYERARŞİSİ --- */
         .content-title {font-size: 24px; font-weight: 500; margin: 0; line-height: 1.2; color: var(--petrol);}
         .section-label {font-size: 24px; letter-spacing: .02em; color: var(--petrol); margin-bottom: 32px; display: block; font-weight: 500; opacity: 0; transform: translateX(-12px); transition: opacity .8s ease, transform .8s cubic-bezier(.23,1,.32,1);}
         .scroll-reveal.revealed .section-label { opacity: 1; transform: translateX(0); }
         
-        /* --- BAŞLIK VE MENÜ SİSTEMİ --- */
+        /* --- BAŞLIK (HEADER) SİSTEMİ: İkonlar Kenarlarda --- */
         header {
             position: sticky; top: 0; background: transparent;
             transition: background 0.4s ease, backdrop-filter 0.4s ease, border-bottom-color 0.4s ease;
-            z-index: 100; padding-top: 24px; margin-left: -28px; margin-right: -28px;
+            z-index: 50; padding-top: 24px; margin-left: -28px; margin-right: -28px;
             padding-left: 28px; padding-right: 28px; border-bottom: 1px solid transparent;
         }
         header.scrolled {background: rgba(250, 248, 244, 0.92); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-bottom-color: var(--border);}
@@ -65,25 +65,36 @@
         nav { display: flex; flex-direction: column; padding-bottom: 12px; }
         .nav-top-row { display: flex; justify-content: space-between; align-items: center; width: 100%; }
         
-        .nav-home { display: flex; align-items: center; gap: 10px; border: none; }
+        .header-icon-btn { background: transparent; border: none; color: var(--petrol); padding: 6px; cursor: pointer; transition: opacity .2s ease; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px;}
+        .header-icon-btn svg { width: 22px; height: 22px; }
+        .header-icon-btn:hover { opacity: 0.6; }
+
+        .nav-home { display: flex; align-items: center; gap: 10px; border: none; margin: 0 auto; }
         .site-logo { width: 48px; height: 48px; border-radius: 10px; object-fit: contain; background: var(--cream); border: 1px solid var(--border); box-shadow: 0 4px 12px var(--shadow); }
         .site-tagline { display: flex; align-items: center; gap: 4px; }
         .tagline-on { color: var(--vizon); font-size: 28px; font-style: italic; line-height: 1; }
         .tagline-stack { display: flex; flex-direction: column; justify-content: center; }
-        .tagline-life { color: var(--petrol); font-size: 11px; font-style: italic; letter-spacing: .02em; line-height: 1.2; }
-        .tagline-everything { color: var(--petrol); font-size: 11px; font-style: italic; letter-spacing: .02em; line-height: 1.2; }
+        .tagline-life, .tagline-everything { color: var(--petrol); font-size: 11px; font-style: italic; letter-spacing: .02em; line-height: 1.2; }
         
-        .nav-right { display: flex; align-items: center; gap: 8px; }
-        .header-share-btn, .hamburger-btn { background: transparent; border: none; color: var(--petrol); padding: 6px; cursor: pointer; transition: opacity .2s ease, color .2s ease; display: flex; align-items: center; justify-content: center;}
-        .header-share-btn svg, .hamburger-btn svg { width: 22px; height: 22px; }
-        .header-share-btn:hover, .hamburger-btn:hover { opacity: 0.6; }
+        /* --- SIDEBAR (GİZLİ ÇEKMECE MENÜ) --- */
+        .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(32, 96, 96, 0.2); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); z-index: 100; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
+        .sidebar-overlay.active { opacity: 1; pointer-events: auto; }
         
-        .nav-links{display:none; width:100%; flex-direction:column; text-align:left; gap:12px; margin-top:16px; padding-top:16px; border-top:1px dashed var(--border);}
-        .nav-links.active{display:flex; animation:menuFadeDown 0.4s cubic-bezier(0.23,1,0.32,1) forwards;}
-        .nav-links a{color:var(--petrol); border:none; letter-spacing:.04em; padding:6px 0; font-size:18px; transition:opacity .2s ease;}
-        .nav-links a:hover{opacity:0.8;}
-        @keyframes menuFadeDown { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: translateY(0); } }
+        .sidebar { position: fixed; top: 0; left: 0; width: 340px; max-width: 85vw; height: 100vh; background: var(--bg); border-right: 1px solid var(--border); box-shadow: 4px 0 32px var(--shadow); z-index: 101; transform: translateX(-100%); transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1); display: flex; flex-direction: column; overflow-y: auto; }
+        .sidebar.active { transform: translateX(0); }
         
+        .sidebar-header { padding: 24px 28px; display: flex; justify-content: flex-end; position: sticky; top: 0; background: var(--bg); border-bottom: 1px dashed var(--border); z-index: 2;}
+        .sidebar-content { padding: 32px 28px 64px; display: flex; flex-direction: column; gap: 40px; }
+        
+        .sidebar-group-title { font-size: 13px; color: var(--petrol); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 16px; border-bottom: 1px solid var(--border); padding-bottom: 8px;}
+        .sidebar-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+        .sidebar-list a { font-size: 16px; color: var(--vizon); transition: color 0.2s ease; display: block; line-height: 1.4;}
+        .sidebar-list a:hover { color: var(--petrol); }
+        .sidebar-list .series-number { font-size: 12px; color: var(--vizon); opacity: 0.6; margin-right: 6px; font-style: italic;}
+        
+        /* Öne çıkan link (Book) */
+        .sidebar-list a.highlight-link { color: var(--petrol); font-weight: 500; font-style: italic;}
+
         /* --- HERO --- */
         .hero{padding:48px 0 32px}
         .hero h1{font-size:19px; font-weight:400; line-height:1.5; margin-top:0; font-style:italic; color:var(--vizon); background:rgba(32,96,96,0.02); margin-left:-28px; margin-right:-28px; padding:24px 28px; border-radius:2px; text-align:left;}
@@ -199,7 +210,11 @@
             .site-logo {width:32px; height:32px; border-radius:8px;}
             .tagline-on {font-size:20px;}
             .tagline-life, .tagline-everything {font-size:8px;}
-            .header-share-btn svg, .hamburger-btn svg {width:18px; height:18px;}
+            .header-icon-btn svg {width:18px; height:18px;}
+            
+            .sidebar { width: 300px; }
+            .sidebar-header { padding: 16px 20px; }
+            .sidebar-content { padding: 24px 20px 48px; }
             
             .content-title, .section-label { font-size: 22px; }
             .hero-quote-source { font-size: 13px; margin-top: 12px; }
@@ -256,6 +271,56 @@
     </style>
 </head>
 <body>
+    <div id="sidebar-overlay" class="sidebar-overlay" aria-hidden="true"></div>
+    <aside id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <button id="close-sidebar-btn" class="header-icon-btn" aria-label="Close Menu">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+        
+        <div class="sidebar-content">
+            <div class="sidebar-section">
+                <h4 class="sidebar-group-title">The On Series</h4>
+                <ul class="sidebar-list">
+                    <li><a href="essays/on-lying.html"><span class="series-number">1.</span> On Lying</a></li>
+                    <li><a href="essays/on-perceiving.html"><span class="series-number">2.</span> On Perceiving</a></li>
+                    <li><a href="essays/on-looking.html"><span class="series-number">3.</span> On Looking</a></li>
+                    <li><a href="essays/on-forgiveness.html"><span class="series-number">4.</span> On Forgiveness</a></li>
+                    <li><a href="essays/on-beauty.html"><span class="series-number">5.</span> On Beauty</a></li>
+                    <li><a href="essays/on-longing.html"><span class="series-number">6.</span> On Longing</a></li>
+                    <li><a href="essays/on-silence.html"><span class="series-number">7.</span> On Silence</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <h4 class="sidebar-group-title">Essays</h4>
+                <ul class="sidebar-list">
+                    <li><a href="essays/best-ideas.html">The Best Ideas Come When You Let Go</a></li>
+                    <li><a href="essays/empathy-paradox.html">The Empathy Paradox</a></li>
+                    <li><a href="essays/love-or-fear.html">It Is Either from Love or Fear</a></li>
+                    <li><a href="essays/unfinished-things.html">Why Do Unfinished Things Haunt Us?</a></li>
+                    <li><a href="essays/jung-shadow.html">Jung's Golden Shadow</a></li>
+                    <li><a href="essays/defense-mechanisms.html">Our Defense Mechanisms</a></li>
+                    <li><a href="essays/ai-enough.html">Will AI Be Enough for Us?</a></li>
+                    <li><a href="essays/say-hello.html">Why Do We Say Hello?</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <h4 class="sidebar-group-title">Menu</h4>
+                <ul class="sidebar-list">
+                    <li><a href="book.html" class="highlight-link">Book</a></li>
+                    <li><a href="#about" class="sidebar-scroll-link">About</a></li>
+                    <li><a href="#moris" class="sidebar-scroll-link">Moris</a></li>
+                </ul>
+            </div>
+        </div>
+    </aside>
+
     <div class="corridor-vline corridor-vline--left" aria-hidden="true"></div>
     <div class="corridor-vline corridor-vline--right" aria-hidden="true"></div>
     <div class="mobile-corridor mobile-corridor--left" aria-hidden="true"></div>
@@ -264,6 +329,14 @@
     <div class="container">
         <header id="site-header"><nav>
             <div class="nav-top-row">
+                <button id="open-sidebar-btn" class="header-icon-btn" aria-label="Open Menu">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
+
                 <a href="#" class="nav-home">
                     <img src="on-logo.png" alt="On Life & Everything" class="site-logo">
                     <span class="site-tagline">
@@ -275,31 +348,15 @@
                     </span>
                 </a>
                 
-                <div class="nav-right">
-                    <button id="share-site-btn" class="header-share-btn" aria-label="Share this website">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="18" cy="5" r="3"></circle>
-                            <circle cx="6" cy="12" r="3"></circle>
-                            <circle cx="18" cy="19" r="3"></circle>
-                            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
-                            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
-                        </svg>
-                    </button>
-                    <button class="hamburger-btn" aria-label="Toggle Menu">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="3" y1="12" x2="21" y2="12"></line>
-                            <line x1="3" y1="6" x2="21" y2="6"></line>
-                            <line x1="3" y1="18" x2="21" y2="18"></line>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-            
-            <div class="nav-links">
-                <a href="#essays">Essays</a>
-                <a href="#book">Book</a>
-                <a href="#moris">Moris</a>
-                <a href="#about">About</a>
+                <button id="share-site-btn" class="header-icon-btn" aria-label="Share this website">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="18" cy="5" r="3"></circle>
+                        <circle cx="6" cy="12" r="3"></circle>
+                        <circle cx="18" cy="19" r="3"></circle>
+                        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                    </svg>
+                </button>
             </div>
         </nav></header>
         
@@ -469,18 +526,14 @@
                             <p class="book-desc-text">A speculative philosophical work structured as a loop — from the Big Bang through a domestic İstanbul scene to a post-singularity future. A book about what remains when everything that can be forgotten has been.</p>
                             
                             <div class="book-links desktop-links">
-                                <a href="https://www.amazon.com/Forgetting-Color-Nothingness-Hakan-Altun-ebook/dp/B0GPXTV6CP" target="_blank" rel="noopener">Kindle</a>
-                                <a href="https://www.amazon.com/dp/B0GSLJXY6P" target="_blank" rel="noopener">Paperback</a>
-                                <a href="https://www.goodreads.com/book/show/248970413-forgetting-the-color-of-nothingness" target="_blank" rel="noopener">Goodreads</a>
+                                <a href="book.html">Discover the Book →</a>
                             </div>
                         </div>
                     </div>
                 </div>
                 
                 <div class="book-links mobile-links">
-                    <a href="https://www.amazon.com/Forgetting-Color-Nothingness-Hakan-Altun-ebook/dp/B0GPXTV6CP" target="_blank" rel="noopener">Kindle</a>
-                    <a href="https://www.amazon.com/dp/B0GSLJXY6P" target="_blank" rel="noopener">Paperback</a>
-                    <a href="https://www.goodreads.com/book/show/248970413-forgetting-the-color-of-nothingness" target="_blank" rel="noopener">Goodreads</a>
+                    <a href="book.html">Discover the Book →</a>
                 </div>
             </div>
             
@@ -502,7 +555,7 @@
             
             <div class="about-text">
                 <p>I write personal essays about the things we experience but rarely examine closely — perception, memory, attention, honesty. I believe everyone and everything carries a story worth telling, and that how a story is told matters as much as the story itself.</p>
-                <p>Most of what I explore lives in the gap between what I feel and what I allow myself to name. Defense mechanisms, the weight of unfinished things, the unwilling negotiations I have with my own reflection — the corridors I keep returning to.</p>
+                <p>Most of what I explore lives in the gap between what we feel and what we allow ourselves to name. Defense mechanisms, the weight of unfinished things, the quiet negotiations we have with our own reflection — the corridors I keep returning to.</p>
                 <p>I teach at Yeditepe University in İstanbul — a city that insists on being looked at. Most of what I write is an attempt to look back.</p>
             </div>
         </div></section>
@@ -517,7 +570,7 @@
         </div></section>
         
         <footer>
-            <p><a href="#">Hakan Altun — On <span style="color:var(--petrol);">Life & Everything</span></a></p>
+            <p><a href="#">Hakan Altun — On <span class="footer-petrol">Life & Everything</span></a></p>
             <p style="margin-top:8px">İstanbul, 2026</p>
         </footer>
     </div>
@@ -530,17 +583,33 @@
             if (window.scrollY > 20) { header.classList.add('scrolled'); } else { header.classList.remove('scrolled'); }
         }, {passive: true});
         
-        var hamburgerBtn = document.querySelector('.hamburger-btn');
-        var navLinks = document.querySelector('.nav-links');
-        if(hamburgerBtn && navLinks) {
-            hamburgerBtn.addEventListener('click', function(e) {
-                e.preventDefault(); navLinks.classList.toggle('active');
-            });
-            var links = navLinks.querySelectorAll('a');
-            links.forEach(function(link) {
-                link.addEventListener('click', function() { navLinks.classList.remove('active'); });
-            });
+        /* GİZLİ SİDEBAR KONTROLLERİ */
+        var openSidebarBtn = document.getElementById('open-sidebar-btn');
+        var closeSidebarBtn = document.getElementById('close-sidebar-btn');
+        var sidebar = document.getElementById('sidebar');
+        var sidebarOverlay = document.getElementById('sidebar-overlay');
+        var sidebarScrollLinks = document.querySelectorAll('.sidebar-scroll-link');
+
+        function openSidebar() {
+            sidebar.classList.add('active');
+            sidebarOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Arka planın kaymasını engelle
         }
+
+        function closeSidebar() {
+            sidebar.classList.remove('active');
+            sidebarOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        if(openSidebarBtn) openSidebarBtn.addEventListener('click', openSidebar);
+        if(closeSidebarBtn) closeSidebarBtn.addEventListener('click', closeSidebar);
+        if(sidebarOverlay) sidebarOverlay.addEventListener('click', closeSidebar);
+        
+        // Sayfa içi linklere (About, Moris) tıklandığında sidebar'ı kapat
+        sidebarScrollLinks.forEach(function(link) {
+            link.addEventListener('click', closeSidebar);
+        });
         
         var hq=document.getElementById('hero-quote'),ws=[],ts=false;
         if(hq){var t=hq.textContent,w=t.split(/(\s+)/);hq.innerHTML='';
