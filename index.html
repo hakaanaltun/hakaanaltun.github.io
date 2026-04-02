@@ -53,36 +53,33 @@
         .section-label {font-size: 24px; letter-spacing: .02em; color: var(--petrol); margin-bottom: 32px; display: block; font-weight: 500; opacity: 0; transform: translateX(-12px); transition: opacity .8s ease, transform .8s cubic-bezier(.23,1,.32,1);}
         .scroll-reveal.revealed .section-label { opacity: 1; transform: translateX(0); }
         
-        /* --- BAŞLIK VE MENÜ SİSTEMİ --- */
+        /* --- BAŞLIK VE MENÜ SİSTEMİ (UNIFIED) --- */
         header {
             position: sticky; top: 0; background: transparent;
             transition: background 0.4s ease, backdrop-filter 0.4s ease, border-bottom-color 0.4s ease;
-            z-index: 100; padding-top: 24px; margin-left: -28px; margin-right: -28px;
+            z-index: 100; padding-top: 16px; margin-left: -28px; margin-right: -28px;
             padding-left: 28px; padding-right: 28px; border-bottom: 1px solid transparent;
         }
         header.scrolled {background: rgba(250, 248, 244, 0.92); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-bottom-color: var(--border);}
         
-        nav { display: flex; flex-direction: column; padding-bottom: 12px; }
+        nav { display: flex; flex-direction: column; padding-bottom: 8px; }
         .nav-top-row { display: flex; justify-content: space-between; align-items: center; width: 100%; }
         
         .nav-home { display: flex; align-items: center; gap: 10px; border: none; }
-        .site-logo { width: 44px; height: 44px; border-radius: 10px; object-fit: contain; background: var(--cream); border: 1px solid var(--border); box-shadow: 0 4px 12px var(--shadow); }
+        .site-logo { width: 36px; height: 36px; border-radius: 8px; object-fit: contain; background: var(--cream); border: 1px solid var(--border); box-shadow: 0 4px 12px var(--shadow); }
         .site-tagline { display: flex; align-items: center; gap: 4px; }
-        .tagline-on { color: var(--vizon); font-size: 24px; font-style: italic; line-height: 1; }
+        .tagline-on { color: var(--vizon); font-size: 20px; font-style: italic; line-height: 1; }
         .tagline-stack { display: flex; flex-direction: column; justify-content: center; }
-        /* Life ve Everything Petrol Yeşili Oldu */
-        .tagline-life { color: var(--petrol); font-size: 10px; font-style: italic; letter-spacing: .02em; line-height: 1.2; }
-        .tagline-everything { color: var(--petrol); font-size: 10px; font-style: italic; letter-spacing: .02em; line-height: 1.2; }
+        .tagline-life, .tagline-everything { color: var(--petrol); font-size: 9px; font-style: italic; letter-spacing: .02em; line-height: 1.2; }
         
-        .nav-right { display: flex; align-items: center; gap: 8px; }
-        .header-share-btn, .hamburger-btn { background: transparent; border: none; color: var(--petrol); padding: 6px; cursor: pointer; transition: opacity .2s ease, color .2s ease; display: flex; align-items: center; justify-content: center;}
-        .header-share-btn svg, .hamburger-btn svg { width: 22px; height: 22px; }
+        .nav-right { display: flex; align-items: center; gap: 4px; }
+        .header-share-btn, .hamburger-btn { background: transparent; border: none; color: var(--petrol); width: 36px; height: 36px; padding: 0; cursor: pointer; transition: opacity .2s ease, color .2s ease; display: flex; align-items: center; justify-content: center;}
+        .header-share-btn svg, .hamburger-btn svg { width: 20px; height: 20px; }
         .header-share-btn:hover, .hamburger-btn:hover { opacity: 0.6; }
         
-        /* Nav Links Güncellendi: Petrol Yeşili */
-        .nav-links{display:none; width:100%; flex-direction:column; text-align:left; gap:12px; margin-top:16px; padding-top:16px; border-top:1px dashed var(--border);}
+        .nav-links{display:none; width:100%; flex-direction:column; text-align:left; gap:12px; margin-top:12px; padding-top:12px; border-top:1px dashed var(--border);}
         .nav-links.active{display:flex; animation:menuFadeDown 0.4s cubic-bezier(0.23,1,0.32,1) forwards;}
-        .nav-links a{color:var(--petrol); border:none; letter-spacing:.04em; padding:6px 0; font-size:18px; transition:opacity .2s ease;}
+        .nav-links a{color:var(--petrol); border:none; letter-spacing:.04em; padding:6px 0; font-size:16px; transition:opacity .2s ease;}
         .nav-links a:hover{opacity:0.8;}
         @keyframes menuFadeDown { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: translateY(0); } }
         
@@ -146,7 +143,6 @@
         .hero-author-row {display: flex; align-items: center; gap: 16px; margin-bottom: 24px;}
         .profile-photo-small {width: 72px; height: 72px; min-width: 72px; min-height: 72px; border-radius: 50%; object-fit: cover; object-position: center 20%; border: 1px solid var(--border); background: var(--bg-warm);}
         
-        /* About Metni Güncellendi: Vizon */
         .about-text p { margin-bottom: 24px; color:var(--vizon); max-width:none; }
         .about-text p:last-child { margin-bottom: 0; }
         
@@ -160,7 +156,7 @@
         .moris-video iframe{width:100%; aspect-ratio:9/16; border:none; display:block}
         .moris-caption{margin-top:20px; text-align:center; font-size:15px; color:var(--vizon); font-style:italic}
         
-        /* FOOTER - Font Bütünlüğü Sağlandı */
+        /* FOOTER */
         footer {
         padding: 60px 0 40px;
         border-top: 1px solid var(--border);
@@ -199,12 +195,12 @@
         }
         
         @media(max-width:768px){
-            header {margin-left: -48px; margin-right: -48px; padding-left: 48px; padding-right: 48px; padding-top: 16px;}
-            
-            .site-logo {width:36px; height:36px; border-radius:8px;}
-            .tagline-on {font-size:22px;}
-            .tagline-life, .tagline-everything {font-size:9px;}
-            .header-share-btn svg, .hamburger-btn svg {width:20px; height:20px;}
+            header {margin-left: -48px; margin-right: -48px; padding-left: 48px; padding-right: 48px; padding-top: 12px;}
+            .site-logo {width:32px; height:32px; border-radius:6px;}
+            .tagline-on {font-size:18px;}
+            .tagline-life, .tagline-everything {font-size:8px;}
+            .header-share-btn, .hamburger-btn {width: 32px; height: 32px;}
+            .header-share-btn svg, .hamburger-btn svg {width:18px; height:18px;}
             
             .content-title, .section-label { font-size: 22px; }
             .hero-quote-source { font-size: 13px; margin-top: 12px; }
@@ -220,349 +216,4 @@
             .book-intro {display: grid; grid-template-columns: 110px 1fr; gap: 16px; padding: 16px; margin-bottom: 0; border: 1px solid var(--border); border-radius: 8px; background: var(--cream); box-shadow: 0 4px 24px var(--shadow);}
             .book-cover {grid-column: 1 / 2; grid-row: 1 / 2; width: 110px; min-width: 110px; margin: 0; box-shadow: 0 4px 12px rgba(0,0,0,0.06);}
             .book-text-content {display: contents; }
-            .book-text-content .content-title {grid-column: 2 / 3; grid-row: 1 / 2; align-self: start; font-size: 20px; line-height: 1.25; margin-top: -4px;}
-            .book-desc-container {grid-column: 1 / 3; grid-row: 2 / 3; display: block; margin-top: 12px;}
-            .book-desc-text {font-size: 14px; line-height: 1.6; text-align: left; margin: 0; }
-            
-            .book-links.mobile-links {display: flex !important; margin-top: 16px; gap: 10px; flex-wrap: wrap; justify-content: flex-start;}
-            .book-links.mobile-links a {padding: 6px 16px; font-size: 13px;}
-            
-            .essay-list { grid-template-columns: 1fr; gap: 12px; }
-            .essay-card {display: grid; grid-template-columns: 84px 1fr; grid-template-rows: auto auto; gap: 6px 16px; padding: 12px; align-items: center;}
-            .essay-thumb {grid-column: 1 / 2; grid-row: 1 / 3; width: 100%; height: auto; aspect-ratio: 1; min-width: unset; margin: 0;}
-            .essay-card-text {grid-column: 2 / 3; grid-row: 1 / 2; gap: 4px;}
-            .essay-meta-wrapper {grid-column: 2 / 3; grid-row: 2 / 3; padding-top: 0; justify-content: flex-start;}
-            .essay-title { font-size: 15px; line-height: 1.3; }
-            .essay-card-subtitle { font-size: 12px; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-            .essay-meta { font-size: 11px; }
-            .essay-number { font-size: 11px; padding: 2px 6px; margin-left: 0; }
-            
-            .essay-card.text-only {display: flex; flex-direction: row; justify-content: space-between; align-items: center; padding: 20px 16px;}
-            .essay-card.text-only .essay-card-text { align-items: flex-start; justify-content: center; }
-            .essay-card.text-only .essay-title { font-size: 16px; }
-            
-            .container{padding:0 48px}
-            section.depth-1,section.depth-2,section.depth-3{margin-left:-48px;margin-right:-48px;padding-left:48px;padding-right:48px}
-        }
-        
-        @media(max-width:420px){
-            .book-intro { grid-template-columns: 90px 1fr; padding: 12px; gap: 12px;}
-            .book-cover { width: 90px; min-width: 90px; }
-            .book-text-content .content-title, .content-title, .section-label { font-size: 20px; }
-            .essay-thumb { width: 76px; }
-            .essay-card { grid-template-columns: 76px 1fr; padding: 10px; gap: 4px 12px; }
-            .essay-title { font-size: 14px; }
-        }
-        
-        .fade-in{opacity:0;transform:translateY(12px);animation:fadeUp .6s ease forwards}
-        .fade-in:nth-child(2){animation-delay:.1s}.fade-in:nth-child(3){animation-delay:.2s}
-        @keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
-        @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.corridor-vline{display:none}.mobile-corridor{display:none}.scroll-reveal{opacity:1;transform:none}.perspective-line{opacity:1;transform:none}.hero-quote-word{opacity:1;transform:none}section::before{width:100%}}
-    </style>
-</head>
-<body>
-    <div class="corridor-vline corridor-vline--left" aria-hidden="true"></div>
-    <div class="corridor-vline corridor-vline--right" aria-hidden="true"></div>
-    <div class="mobile-corridor mobile-corridor--left" aria-hidden="true"></div>
-    <div class="mobile-corridor mobile-corridor--right" aria-hidden="true"></div>
-
-    <div class="container">
-        <header id="site-header"><nav>
-            <div class="nav-top-row">
-                <a href="#" class="nav-home">
-                    <img src="on-logo.png" alt="On Life & Everything" class="site-logo">
-                    <span class="site-tagline">
-                        <span class="tagline-on">On</span>
-                        <span class="tagline-stack">
-                            <span class="tagline-life">Life &</span>
-                            <span class="tagline-everything">Everything</span>
-                        </span>
-                    </span>
-                </a>
-                
-                <div class="nav-right">
-                    <button id="share-site-btn" class="header-share-btn" aria-label="Share this website">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="18" cy="5" r="3"></circle>
-                            <circle cx="6" cy="12" r="3"></circle>
-                            <circle cx="18" cy="19" r="3"></circle>
-                            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
-                            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
-                        </svg>
-                    </button>
-                    <button class="hamburger-btn" aria-label="Toggle Menu">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="3" y1="12" x2="21" y2="12"></line>
-                            <line x1="3" y1="6" x2="21" y2="6"></line>
-                            <line x1="3" y1="18" x2="21" y2="18"></line>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-            
-            <div class="nav-links">
-                <a href="#essays">Essays</a>
-                <a href="#book">Book</a>
-                <a href="#moris">Moris</a>
-                <a href="#about">About</a>
-            </div>
-        </nav></header>
-        
-        <div class="hero fade-in">
-            <svg class="perspective-line" viewBox="0 0 320 48" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><line x1="0" y1="48" x2="160" y2="6"/><line x1="320" y1="48" x2="160" y2="6"/><line x1="40" y1="48" x2="280" y2="48" opacity="0.15"/><circle cx="160" cy="6" r="2"/><line x1="30" y1="48" x2="160" y2="10" opacity="0.15"/><line x1="290" y1="48" x2="160" y2="10" opacity="0.15"/></svg>
-            <h1 id="hero-quote">"Someone hear me!" I shouted into the void. Yet the one I was shouting to was me, and the one not listening was also me. This was the bitterest form of loneliness: playing hide-and-seek with your own ghost.</h1>
-            <span id="hero-quote-source" class="hero-quote-source">— <i>Forgetting the Color of Nothingness</i></span>
-        </div>
-        
-        <section id="essays" class="depth-2"><div class="scroll-reveal">
-            <span class="section-label">Essays</span>
-            <p class="section-desc">Standalone pieces on psychology, language, and the things we carry without knowing.</p>
-            <ul class="essay-list">
-                <li><a href="essays/best-ideas.html" class="essay-card">
-                    <img src="https://miro.medium.com/v2/resize:fit:600/1*UjDYBeUBBvmImB5JFvYC0A.jpeg" alt="İdealtepe coast" class="essay-thumb" loading="lazy">
-                    <div class="essay-card-text">
-                        <span class="essay-title">The Best Ideas Come When You Let Go</span>
-                        <span class="essay-card-subtitle">Default Mode Network and the art of not thinking</span>
-                    </div>
-                    <div class="essay-meta-wrapper"><span class="essay-meta">Mar 8, 2026 · 3 min</span></div>
-                </a></li>
-                
-                <li><a href="essays/empathy-paradox.html" class="essay-card">
-                    <img src="https://miro.medium.com/v2/resize:fit:600/1*pN4_9fIbWOr7dNg27qdGqA.png" alt="Two coffees gone cold" class="essay-thumb" loading="lazy">
-                    <div class="essay-card-text">
-                        <span class="essay-title">The Empathy Paradox</span>
-                        <span class="essay-card-subtitle">Outside every story but our own</span>
-                    </div>
-                    <div class="essay-meta-wrapper"><span class="essay-meta">Mar 4, 2026 · 4 min</span></div>
-                </a></li>
-                
-                <li><a href="essays/love-or-fear.html" class="essay-card">
-                    <img src="https://miro.medium.com/v2/resize:fit:600/1*1e3whgMVRxzw13ve5wK1MA.png" alt="Shield as a weapon" class="essay-thumb" loading="lazy">
-                    <div class="essay-card-text">
-                        <span class="essay-title">It Is Either from Love or Fear</span>
-                        <span class="essay-card-subtitle">Fear wears love's face — and speaks its language</span>
-                    </div>
-                    <div class="essay-meta-wrapper"><span class="essay-meta">Mar 1, 2026 · 5 min</span></div>
-                </a></li>
-                
-                <li><a href="essays/unfinished-things.html" class="essay-card">
-                    <img src="https://miro.medium.com/v2/resize:fit:600/1*jfEURVCn1DDTIIiU7S_fFg.png" alt="Unfinished things" class="essay-thumb" loading="lazy">
-                    <div class="essay-card-text">
-                        <span class="essay-title">Why Do Unfinished Things Haunt Us?</span>
-                        <span class="essay-card-subtitle">The Zeigarnik–Lacan trap we all fall into</span>
-                    </div>
-                    <div class="essay-meta-wrapper"><span class="essay-meta">Feb 25, 2026 · 6 min</span></div>
-                </a></li>
-                
-                <li><a href="essays/jung-shadow.html" class="essay-card">
-                    <img src="https://miro.medium.com/v2/resize:fit:600/1*xGR4JAqJxcwp-NNSDaadyw.png" alt="Jung's shadow" class="essay-thumb" loading="lazy">
-                    <div class="essay-card-text">
-                        <span class="essay-title">Jung's Golden Shadow</span>
-                        <span class="essay-card-subtitle">Why we envy the things we forbid ourselves the most</span>
-                    </div>
-                    <div class="essay-meta-wrapper"><span class="essay-meta">Feb 20, 2026 · 5 min</span></div>
-                </a></li>
-                
-                <li><a href="essays/defense-mechanisms.html" class="essay-card">
-                    <img src="https://miro.medium.com/v2/resize:fit:600/1*vJenz3RNAUcWpK9zgnv9iA.png" alt="Dungeon door" class="essay-thumb" loading="lazy">
-                    <div class="essay-card-text">
-                        <span class="essay-title">Our Defense Mechanisms: Protectors or Dungeon Masters?</span>
-                        <span class="essay-card-subtitle">Have we handed over the keys to our own prisons?</span>
-                    </div>
-                    <div class="essay-meta-wrapper"><span class="essay-meta">Feb 17, 2026 · 5 min</span></div>
-                </a></li>
-                
-                <li><a href="essays/ai-enough.html" class="essay-card">
-                    <img src="https://miro.medium.com/v2/resize:fit:600/1*xktOKOEkb01NorbJNzs4yA.png" alt="AI and human warmth" class="essay-thumb" loading="lazy">
-                    <div class="essay-card-text">
-                        <span class="essay-title">Will AI Be Enough for Us?</span>
-                        <span class="essay-card-subtitle">A reflection on AI's promise and the warmth it can't replicate</span>
-                    </div>
-                    <div class="essay-meta-wrapper"><span class="essay-meta">Feb 14, 2026 · 4 min</span></div>
-                </a></li>
-                
-                <li><a href="essays/say-hello.html" class="essay-card">
-                    <img src="https://miro.medium.com/v2/resize:fit:600/1*_TffjC5cdVkKJoadRfi3tQ.png" alt="Saying hello" class="essay-thumb" loading="lazy">
-                    <div class="essay-card-text">
-                        <span class="essay-title">Why Do We Say Hello?</span>
-                        <span class="essay-card-subtitle">Transactional Analysis and the hidden games in our relationships</span>
-                    </div>
-                    <div class="essay-meta-wrapper"><span class="essay-meta">Feb 10, 2026 · 8 min</span></div>
-                </a></li>
-            </ul>
-        </div></section>
-        
-        <section class="depth-3"><div class="scroll-reveal">
-            <span class="section-label">The On Series</span>
-            <p class="section-desc">Seven essays on what we build inside ourselves — and why.</p>
-            <ul class="essay-list">
-                <li><a href="essays/on-lying.html" class="essay-card">
-                    <img src="https://miro.medium.com/v2/resize:fit:600/1*IqjZ2v3VkF7FE6Ax3briCA.png" alt="On Lying" class="essay-thumb" loading="lazy">
-                    <div class="essay-card-text">
-                        <span class="essay-title">On Lying</span>
-                        <span class="essay-card-subtitle">Not being caught carries its own sentence.</span>
-                    </div>
-                    <div class="essay-meta-wrapper"><span class="essay-meta">Mar 12, 2026</span><span class="essay-number">1 of 7</span></div>
-                </a></li>
-                
-                <li><a href="essays/on-perceiving.html" class="essay-card">
-                    <img src="https://miro.medium.com/v2/resize:fit:600/1*yOa_B48M5L0j4xm7w8wnKQ.png" alt="On Perceiving" class="essay-thumb" loading="lazy">
-                    <div class="essay-card-text">
-                        <span class="essay-title">On Perceiving</span>
-                        <span class="essay-card-subtitle">Misperception is a corridor whose architect burned the blueprint.</span>
-                    </div>
-                    <div class="essay-meta-wrapper"><span class="essay-meta">Mar 14, 2026</span><span class="essay-number">2 of 7</span></div>
-                </a></li>
-                
-                <li><a href="essays/on-looking.html" class="essay-card">
-                    <img src="https://miro.medium.com/v2/resize:fit:600/1*g2FLjY3V9utA09Yp_CaQYQ.png" alt="On Looking" class="essay-thumb" loading="lazy">
-                    <div class="essay-card-text">
-                        <span class="essay-title">On Looking</span>
-                        <span class="essay-card-subtitle">A room full of directors and no audience.</span>
-                    </div>
-                    <div class="essay-meta-wrapper"><span class="essay-meta">Mar 22, 2026</span><span class="essay-number">3 of 7</span></div>
-                </a></li>
-                
-                <li><a href="essays/on-forgiveness.html" class="essay-card">
-                    <img src="https://miro.medium.com/v2/resize:fit:600/1*7rEEeB6sH4VS-tePMsb4_w.png" alt="On Forgiveness" class="essay-thumb" loading="lazy">
-                    <div class="essay-card-text">
-                        <span class="essay-title">On Forgiveness</span>
-                        <span class="essay-card-subtitle">Forgiveness is a corridor, handing out a permit at the exit door.</span>
-                    </div>
-                    <div class="essay-meta-wrapper"><span class="essay-meta">Mar 29, 2026</span><span class="essay-number">4 of 7</span></div>
-                </a></li>
-                
-                <li><a href="https://medium.com/@hakanaltunn" target="_blank" rel="noopener" class="essay-card text-only">
-                    <div class="essay-card-text"><span class="essay-title">On Beauty</span></div>
-                    <span class="essay-number">5 of 7</span>
-                </a></li>
-                
-                <li><a href="https://medium.com/@hakanaltunn" target="_blank" rel="noopener" class="essay-card text-only">
-                    <div class="essay-card-text"><span class="essay-title">On Longing</span></div>
-                    <span class="essay-number">6 of 7</span>
-                </a></li>
-                
-                <li><a href="https://medium.com/@hakanaltunn" target="_blank" rel="noopener" class="essay-card text-only">
-                    <div class="essay-card-text"><span class="essay-title">On Silence</span></div>
-                    <span class="essay-number">7 of 7</span>
-                </a></li>
-            </ul>
-            <p class="series-note">Unified by a corridor metaphor and a movement from the external to the solitary.</p>
-        </div></section>
-        
-        <section id="book" class="depth-0"><div class="scroll-reveal">
-            <span class="section-label">Book</span>
-            
-            <div class="book-layout-wrapper">
-                <div class="book-intro">
-                    <div class="book-cover"><img src="cover.png" alt="Forgetting the Color of Nothingness by Hakan Altun"></div>
-                    <div class="book-text-content">
-                        <h2 class="content-title">Forgetting<br>the Color of<br>Nothingness</h2>
-                        <div class="book-desc-container">
-                            <p class="book-desc-text">A speculative philosophical work structured as a loop — from the Big Bang through a domestic İstanbul scene to a post-singularity future. A book about what remains when everything that can be forgotten has been.</p>
-                            
-                            <div class="book-links desktop-links">
-                                <a href="https://www.amazon.com/Forgetting-Color-Nothingness-Hakan-Altun-ebook/dp/B0GPXTV6CP" target="_blank" rel="noopener">Kindle</a>
-                                <a href="https://www.amazon.com/dp/B0GSLJXY6P" target="_blank" rel="noopener">Paperback</a>
-                                <a href="https://www.goodreads.com/book/show/248970413-forgetting-the-color-of-nothingness" target="_blank" rel="noopener">Goodreads</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="book-links mobile-links">
-                    <a href="https://www.amazon.com/Forgetting-Color-Nothingness-Hakan-Altun-ebook/dp/B0GPXTV6CP" target="_blank" rel="noopener">Kindle</a>
-                    <a href="https://www.amazon.com/dp/B0GSLJXY6P" target="_blank" rel="noopener">Paperback</a>
-                    <a href="https://www.goodreads.com/book/show/248970413-forgetting-the-color-of-nothingness" target="_blank" rel="noopener">Goodreads</a>
-                </div>
-            </div>
-            
-        </div></section>
-        
-        <section id="moris" class="depth-0"><div class="scroll-reveal">
-            <span class="section-label">Moris</span>
-            <div class="moris-video"><iframe src="https://www.youtube.com/embed/_1lfbVnbHHA" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
-            <p class="moris-caption">The one who made it to the cover</p>
-        </div></section>
-        
-        <section id="about" class="depth-0"><div class="scroll-reveal">
-            <span class="section-label">About</span>
-            
-            <div class="hero-author-row">
-                <img src="profile.jpg" alt="Hakan Altun" class="profile-photo-small">
-                <h2 class="content-title">Hakan Altun</h2>
-            </div>
-            
-            <div class="about-text">
-                <p>I teach at Yeditepe University in İstanbul and write philosophical personal essays in English for an international audience. My work circles around perception, forgiveness, beauty, and the quiet architectures of self-deception — the corridors we build without noticing the walls.<br>I live in a city that insists on being looked at. Most of what I write is an attempt to look back.</p>
-            </div>
-        </div></section>
-        
-        <section id="connect" class="depth-0"><div class="scroll-reveal">
-            <span class="section-label">Find me</span>
-            <ul class="link-list">
-                <li><a href="https://medium.com/@hakanaltunn" target="_blank" rel="noopener">Medium <span class="link-arrow">→</span></a></li>
-                <li><a href="https://www.goodreads.com/author/show/69006405.Hakan_Altun" target="_blank" rel="noopener">Goodreads <span class="link-arrow">→</span></a></li>
-                <li><a href="https://www.amazon.com/stores/author/B0GPY444LW" target="_blank" rel="noopener">Amazon Author Page <span class="link-arrow">→</span></a></li>
-            </ul>
-        </div></section>
-        
-        <footer>
-            <p><a href="#">Hakan Altun — On <span style="color:var(--petrol);">Life & Everything</span></a></p>
-            <p style="margin-top:8px">İstanbul, 2026</p>
-        </footer>
-    </div>
-    
-    <script>
-    (function(){
-        'use strict';
-        var header = document.getElementById('site-header');
-        window.addEventListener('scroll', function() {
-            if (window.scrollY > 20) { header.classList.add('scrolled'); } else { header.classList.remove('scrolled'); }
-        }, {passive: true});
-        
-        var hamburgerBtn = document.querySelector('.hamburger-btn');
-        var navLinks = document.querySelector('.nav-links');
-        if(hamburgerBtn && navLinks) {
-            hamburgerBtn.addEventListener('click', function(e) {
-                e.preventDefault(); navLinks.classList.toggle('active');
-            });
-            var links = navLinks.querySelectorAll('a');
-            links.forEach(function(link) {
-                link.addEventListener('click', function() { navLinks.classList.remove('active'); });
-            });
-        }
-        
-        var hq=document.getElementById('hero-quote'),ws=[],ts=false;
-        if(hq){var t=hq.textContent,w=t.split(/(\s+)/);hq.innerHTML='';
-            for(var i=0;i<w.length;i++){if(w[i].trim()===''){hq.appendChild(document.createTextNode(w[i]));}
-            else{var s=document.createElement('span');s.className='hero-quote-word';s.textContent=w[i];hq.appendChild(s);}}
-            ws=hq.querySelectorAll('.hero-quote-word');
-        }
-        function stw(){
-            if(ts||!ws.length)return; ts=true;
-            for(var i=0;i<ws.length;i++){ (function(x){setTimeout(function(){ws[x].classList.add('word-visible');},400+x*60);})(i); }
-            setTimeout(function(){ var qs = document.getElementById('hero-quote-source'); if(qs) qs.classList.add('visible'); }, 400 + (ws.length * 40)); 
-        }
-        
-        function iv(e){return e.getBoundingClientRect().top<window.innerHeight+100;}
-        function ta(){
-            var r=document.querySelectorAll('.scroll-reveal');for(var i=0;i<r.length;i++){if(iv(r[i]))r[i].classList.add('revealed');}
-            var s=document.querySelectorAll('section');for(var i=0;i<s.length;i++){if(iv(s[i]))s[i].classList.add('line-drawn');}
-            if(hq&&iv(hq))stw();
-            var p=document.querySelector('.perspective-line');if(p&&iv(p))p.classList.add('visible');
-            var mc=document.querySelectorAll('.mobile-corridor');for(var i=0;i<mc.length;i++)mc[i].classList.add('visible');
-        }
-        
-        var tk=false;
-        window.addEventListener('scroll',function(){if(!tk){requestAnimationFrame(function(){ta();tk=false;});tk=true;}},{passive:true});
-        window.addEventListener('load',function(){
-            ta();
-            var shareBtn=document.getElementById('share-site-btn');
-            if(shareBtn){if(navigator.share){shareBtn.addEventListener('click',function(e){e.preventDefault();navigator.share({title:'Hakan Altun — On Life & Everything',url:window.location.href}).catch(function(){});});}else{shareBtn.style.display='none';}}
-        });
-    })();
-    </script>
-    <script>if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js');});}</script>
-</body>
-</html>
+            .book-text-content .content-title {grid-column: 2 / 3; grid-row: 1 / 2; align-self: start; font-size: 2
