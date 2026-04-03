@@ -100,25 +100,25 @@
 </footer>
 </div>
 <script>
-(function(){var h=document.getElementById('site-header');window.addEventListener('scroll',function(){if(window.scrollY>20)h.classList.add('scrolled');else h.classList.remove('scrolled');},{passive:true});var sb=document.querySelector('.essay-share-btn');if(sb){if(navigator.share){sb.addEventListener('click',function(e){e.preventDefault();navigator.share({title:document.title,url:window.location.href}).catch(function(){});});}else{sb.style.display='none'}}var hamburgerBtn=document.querySelector('.hamburger-btn');var navLinks=document.querySelector('.nav-links');if(hamburgerBtn&&navLinks){hamburgerBtn.addEventListener('click',function(e){e.preventDefault();navLinks.classList.toggle('active');});navLinks.querySelectorAll('a').forEach(function(link){link.addEventListener('click',function(){navLinks.classList.remove('active');});}); }
+(function(){var h=document.getElementById('site-header');window.addEventListener('scroll',function(){if(window.scrollY>20)h.classList.add('scrolled');else h.classList.remove('scrolled');},{passive:true});var sb=document.querySelector('.essay-share-btn');if(sb){if(navigator.share){sb.addEventListener('click',function(e){e.preventDefault();navigator.share({title:document.title,url:window.location.href}).catch(function(){});});}else{sb.style.display='none'}}var hamburgerBtn=document.querySelector('.hamburger-btn');var navLinks=document.querySelector('.nav-links');if(hamburgerBtn&&navLinks){var overlay=document.createElement('div');overlay.className='sidebar-overlay';document.body.appendChild(overlay);function toggleMenu(){var isActive=navLinks.classList.toggle('active');overlay.classList.toggle('active',isActive);document.body.classList.toggle('menu-open',isActive);}function closeMenu(){navLinks.classList.remove('active');overlay.classList.remove('active');document.body.classList.remove('menu-open');}hamburgerBtn.addEventListener('click',function(e){e.preventDefault();toggleMenu();});overlay.addEventListener('click',closeMenu);navLinks.querySelectorAll('a').forEach(function(link){link.addEventListener('click',closeMenu);}); }
 /* === MORE ESSAYS RECOMMENDATIONS === */
 (function(){
   var ALL_ESSAYS=[
-    {href:'best-ideas.html',title:'The Best Ideas Come When You Let Go',subtitle:'Default Mode Network and the art of not thinking',img:'https://miro.medium.com/v2/resize:fit:600/1*UjDYBeUBBvmImB5JFvYC0A.jpeg'},
-    {href:'empathy-paradox.html',title:'The Empathy Paradox',subtitle:'Outside every story but our own',img:'https://miro.medium.com/v2/resize:fit:600/1*pN4_9fIbWOr7dNg27qdGqA.png'},
-    {href:'love-or-fear.html',title:'It Is Either from Love or Fear',subtitle:"Fear wears love’s face — and speaks its language",img:'https://miro.medium.com/v2/resize:fit:600/1*1e3whgMVRxzw13ve5wK1MA.png'},
-    {href:'unfinished-things.html',title:'Why Do Unfinished Things Haunt Us?',subtitle:'The Zeigarnik–Lacan trap we all fall into',img:'https://miro.medium.com/v2/resize:fit:600/1*jfEURVCn1DDTIIiU7S_fFg.png'},
-    {href:'jung-shadow.html',title:"Jung’s Golden Shadow",subtitle:'Why we envy the things we forbid ourselves the most',img:'https://miro.medium.com/v2/resize:fit:600/1*xGR4JAqJxcwp-NNSDaadyw.png'},
-    {href:'defense-mechanisms.html',title:'Our Defense Mechanisms',subtitle:'Have we handed over the keys to our own prisons?',img:'https://miro.medium.com/v2/resize:fit:600/1*vJenz3RNAUcWpK9zgnv9iA.png'},
-    {href:'ai-enough.html',title:'Will AI Be Enough for Us?',subtitle:"A reflection on AI’s promise and the warmth it can’t replicate",img:'https://miro.medium.com/v2/resize:fit:600/1*xktOKOEkb01NorbJNzs4yA.png'},
-    {href:'say-hello.html',title:'Why Do We Say Hello?',subtitle:'Transactional Analysis and the hidden games in our relationships',img:'https://miro.medium.com/v2/resize:fit:600/1*_TffjC5cdVkKJoadRfi3tQ.png'},
-    {href:'on-lying.html',title:'On Lying',subtitle:'Not being caught carries its own sentence.',img:'https://miro.medium.com/v2/resize:fit:600/1*IqjZ2v3VkF7FE6Ax3briCA.png'},
-    {href:'on-perceiving.html',title:'On Perceiving',subtitle:'Misperception is a corridor whose architect burned the blueprint.',img:'https://miro.medium.com/v2/resize:fit:600/1*yOa_B48M5L0j4xm7w8wnKQ.png'},
-    {href:'on-looking.html',title:'On Looking',subtitle:'A room full of directors and no audience.',img:'https://miro.medium.com/v2/resize:fit:600/1*g2FLjY3V9utA09Yp_CaQYQ.png'},
-    {href:'on-forgiveness.html',title:'On Forgiveness',subtitle:'Cruelty made architectural.',img:'https://miro.medium.com/v2/resize:fit:600/1*7rEEeB6sH4VS-tePMsb4_w.png'},
-    {href:'on-beauty.html',title:'On Beauty',subtitle:'The corridor narrows in adversity.',img:'../images/on-beauty.png'},
-    {href:'on-longing.html',title:'On Longing',subtitle:'Lighter. Smaller. Younger.',img:'../images/on-longing.png'},
-    {href:'on-silence.html',title:'On Silence',subtitle:'I forgot I had a cat.',img:'../images/on-silence.jpg'}
+    {href:'best-ideas.html',title:'The Best Ideas Come When You Let Go',subtitle:'Default Mode Network and the art of not thinking',img:'https://miro.medium.com/v2/resize:fit:600/1*UjDYBeUBBvmImB5JFvYC0A.jpeg',date:'Mar 8, 2026',readTime:'3 min'},
+    {href:'empathy-paradox.html',title:'The Empathy Paradox',subtitle:'Outside every story but our own',img:'https://miro.medium.com/v2/resize:fit:600/1*pN4_9fIbWOr7dNg27qdGqA.png',date:'Mar 4, 2026',readTime:'4 min'},
+    {href:'love-or-fear.html',title:'It Is Either from Love or Fear',subtitle:"Fear wears love\u2019s face \u2014 and speaks its language",img:'https://miro.medium.com/v2/resize:fit:600/1*1e3whgMVRxzw13ve5wK1MA.png',date:'Mar 1, 2026',readTime:'5 min'},
+    {href:'unfinished-things.html',title:'Why Do Unfinished Things Haunt Us?',subtitle:'The Zeigarnik\u2013Lacan trap we all fall into',img:'https://miro.medium.com/v2/resize:fit:600/1*jfEURVCn1DDTIIiU7S_fFg.png',date:'Feb 25, 2026',readTime:'6 min'},
+    {href:'jung-shadow.html',title:"Jung's Golden Shadow",subtitle:'Why we envy the things we forbid ourselves the most',img:'https://miro.medium.com/v2/resize:fit:600/1*xGR4JAqJxcwp-NNSDaadyw.png',date:'Feb 20, 2026',readTime:'5 min'},
+    {href:'defense-mechanisms.html',title:'Our Defense Mechanisms',subtitle:'Have we handed over the keys to our own prisons?',img:'https://miro.medium.com/v2/resize:fit:600/1*vJenz3RNAUcWpK9zgnv9iA.png',date:'Feb 17, 2026',readTime:'5 min'},
+    {href:'ai-enough.html',title:'Will AI Be Enough for Us?',subtitle:"A reflection on AI's promise and the warmth it can't replicate",img:'https://miro.medium.com/v2/resize:fit:600/1*xktOKOEkb01NorbJNzs4yA.png',date:'Feb 14, 2026',readTime:'4 min'},
+    {href:'say-hello.html',title:'Why Do We Say Hello?',subtitle:'Transactional Analysis and the hidden games in our relationships',img:'https://miro.medium.com/v2/resize:fit:600/1*_TffjC5cdVkKJoadRfi3tQ.png',date:'Feb 10, 2026',readTime:'8 min'},
+    {href:'on-lying.html',title:'On Lying',subtitle:'Not being caught carries its own sentence.',img:'https://miro.medium.com/v2/resize:fit:600/1*IqjZ2v3VkF7FE6Ax3briCA.png',date:'Mar 12, 2026',readTime:'2 min'},
+    {href:'on-perceiving.html',title:'On Perceiving',subtitle:'Misperception is a corridor whose architect burned the blueprint.',img:'https://miro.medium.com/v2/resize:fit:600/1*yOa_B48M5L0j4xm7w8wnKQ.png',date:'Mar 14, 2026',readTime:'5 min'},
+    {href:'on-looking.html',title:'On Looking',subtitle:'A room full of directors and no audience.',img:'https://miro.medium.com/v2/resize:fit:600/1*g2FLjY3V9utA09Yp_CaQYQ.png',date:'Mar 22, 2026',readTime:'4 min'},
+    {href:'on-forgiveness.html',title:'On Forgiveness',subtitle:'Cruelty made architectural.',img:'https://miro.medium.com/v2/resize:fit:600/1*7rEEeB6sH4VS-tePMsb4_w.png',date:'Mar 29, 2026',readTime:'3 min'},
+    {href:'on-beauty.html',title:'On Beauty',subtitle:'The corridor narrows in adversity.',img:'../images/on-beauty.png',date:'Apr 2, 2026',readTime:'3 min'},
+    {href:'on-longing.html',title:'On Longing',subtitle:'Lighter. Smaller. Younger.',img:'../images/on-longing.png',date:'Apr 2, 2026',readTime:'8 min'},
+    {href:'on-silence.html',title:'On Silence',subtitle:'I forgot I had a cat.',img:'../images/on-silence.jpg',date:'Apr 2, 2026',readTime:'3 min'}
   ];
   var current=window.location.pathname.split('/').pop()||'index.html';
   var pool=ALL_ESSAYS.filter(function(e){return e.href!==current;});
@@ -130,8 +130,9 @@
   picks.forEach(function(e){
     h+='<a href="'+e.href+'" class="more-essays-card">';
     h+='<img src="'+e.img+'" alt="'+e.title+'" loading="lazy">';
-    h+='<div><div class="more-essays-card-title">'+e.title+'</div>';
+    h+='<div class="more-essays-card-body"><div class="more-essays-card-title">'+e.title+'</div>';
     if(e.subtitle)h+='<div class="more-essays-card-subtitle">'+e.subtitle+'</div>';
+    h+='<div class="more-essays-card-meta">'+e.date+' \u00b7 '+e.readTime+'</div>';
     h+='</div></a>';
   });
   h+='</div>';
