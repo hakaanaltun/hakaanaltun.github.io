@@ -78,37 +78,50 @@
         .header-share-btn svg, .hamburger-btn svg { width: 22px; height: 22px; }
         .header-share-btn:hover, .hamburger-btn:hover { opacity: 0.6; }
         
-        .nav-links{display:none; width:100%; flex-direction:column; text-align:left; gap:8px; margin-top:16px; padding-top:16px; border-top:1px dashed var(--border);}
-        .nav-links.active{display:flex; animation:menuFadeDown 0.4s cubic-bezier(0.23,1,0.32,1) forwards;}
-        .nav-links a{color:var(--petrol); border:none; letter-spacing:.04em; padding:4px 0; font-size:16px; transition:opacity .2s ease;}
-        .nav-links a:hover{opacity:0.8;}
-        .nav-links-label{font-size:11px;color:var(--vizon);text-transform:uppercase;letter-spacing:.08em;margin-top:10px;display:block}
-        @keyframes menuFadeDown { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: translateY(0); } }
-        
-        /* Mobile: lock body scroll when menu open */
-        body.menu-open{overflow:hidden}
-        
-        /* Desktop: sidebar filling corridor right space (920px = homepage container width, 16px = corridor offset) */
+        /* Old .nav-links dropdown: hidden — replaced by drawer */
+        .nav-links{display:none!important}
+
+        /* Lock body scroll when drawer is open */
+        body.drawer-open{overflow:hidden}
+
+        /* Drawer backdrop */
+        .drawer-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.18);z-index:199;opacity:0;pointer-events:none;transition:opacity .35s ease}
+        .drawer-backdrop.open{opacity:1;pointer-events:auto}
+
+        /* Drawer panel */
+        .site-drawer{
+          position:fixed;top:0;right:0;bottom:0;
+          width:300px;max-width:85vw;
+          height:100vh;
+          overflow-y:auto;overscroll-behavior:contain;
+          background:rgba(250,248,244,0.97);
+          backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+          border-left:1px solid var(--border);
+          box-shadow:-4px 0 24px rgba(32,96,96,0.08);
+          padding:24px 24px 32px;
+          z-index:200;
+          transform:translateX(100%);
+          transition:transform .35s cubic-bezier(.23,1,.32,1);
+          display:flex;flex-direction:column;gap:8px;
+        }
+        .site-drawer.open{transform:translateX(0)}
+
+        .drawer-close{
+          align-self:flex-end;
+          background:transparent;border:none;color:var(--petrol);
+          padding:6px;cursor:pointer;margin-bottom:8px;
+          display:flex;align-items:center;justify-content:center;
+          transition:opacity .2s ease;
+        }
+        .drawer-close:hover{opacity:.6}
+        .drawer-close svg{width:22px;height:22px}
+
+        .drawer-label{font-size:11px;color:var(--vizon);text-transform:uppercase;letter-spacing:.08em;margin-top:10px;display:block}
+        .site-drawer a{color:var(--petrol);border:none;letter-spacing:.04em;padding:4px 0;font-size:16px;transition:opacity .2s ease}
+        .site-drawer a:hover{opacity:.8}
+
         @media(min-width:769px){
-            .nav-links{
-                position:fixed;top:0;right:0;bottom:0;
-                width:calc((100vw - 920px)/2 + 16px);
-                min-width:260px;max-width:360px;
-                height:100vh;max-height:none;
-                overflow-y:auto;overscroll-behavior:contain;
-                background:rgba(250,248,244,0.97);
-                backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
-                border-left:1px solid var(--border);border-radius:0;
-                box-shadow:-4px 0 24px rgba(32,96,96,0.08);
-                padding:80px 24px 32px;margin-top:0;border-top:none;
-                z-index:200;
-                display:none;animation:none;
-                transform:translateX(100%);transition:transform .35s cubic-bezier(.23,1,.32,1);
-            }
-            .nav-links.active{display:flex;transform:translateX(0);animation:sidebarSlideIn .35s cubic-bezier(.23,1,.32,1) forwards}
-            @keyframes sidebarSlideIn{from{transform:translateX(100%)}to{transform:translateX(0)}}
-            .sidebar-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.15);z-index:199;opacity:0;transition:opacity .35s ease}
-            .sidebar-overlay.active{display:block;opacity:1}
+          .site-drawer{width:calc((100vw - 920px)/2 + 16px);min-width:260px;max-width:360px}
         }
         
         /* --- HERO --- */
@@ -312,7 +325,7 @@
                             <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
                         </svg>
                     </button>
-                    <button class="hamburger-btn" aria-label="Toggle Menu">
+                    <button class="hamburger-btn" aria-label="Toggle Menu" aria-controls="site-drawer" aria-expanded="false">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <line x1="3" y1="12" x2="21" y2="12"></line>
                             <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -322,30 +335,39 @@
                 </div>
             </div>
             
-            <div class="nav-links">
-                <span class="nav-links-label">Essays</span>
-                <a href="essays/best-ideas.html">The Best Ideas Come When You Let Go</a>
-                <a href="essays/empathy-paradox.html">The Empathy Paradox</a>
-                <a href="essays/love-or-fear.html">It Is Either from Love or Fear</a>
-                <a href="essays/unfinished-things.html">Why Do Unfinished Things Haunt Us?</a>
-                <a href="essays/jung-shadow.html">Jung's Golden Shadow</a>
-                <a href="essays/defense-mechanisms.html">Our Defense Mechanisms</a>
-                <a href="essays/ai-enough.html">Will AI Be Enough for Us?</a>
-                <a href="essays/say-hello.html">Why Do We Say Hello?</a>
-                <span class="nav-links-label">The On Series</span>
-                <a href="essays/on-lying.html">On Lying</a>
-                <a href="essays/on-perceiving.html">On Perceiving</a>
-                <a href="essays/on-looking.html">On Looking</a>
-                <a href="essays/on-forgiveness.html">On Forgiveness</a>
-                <a href="essays/on-beauty.html">On Beauty</a>
-                <a href="essays/on-longing.html">On Longing</a>
-                <a href="essays/on-silence.html">On Silence</a>
-                <span class="nav-links-label">More</span>
-                <a href="#book">Book</a>
-                <a href="#moris">Moris</a>
-                <a href="#about">About</a>
-            </div>
+            <div class="nav-links" style="display:none!important"></div>
         </nav></header>
+
+        <!-- Drawer backdrop + sidebar -->
+        <div id="site-drawer-backdrop" class="drawer-backdrop" aria-hidden="true"></div>
+        <div id="site-drawer" class="site-drawer" aria-hidden="true">
+            <button id="site-drawer-close" class="drawer-close" aria-label="Close menu">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+            <span class="drawer-label">Sections</span>
+            <a href="#essays">Essays</a>
+            <a href="#on-series">The On Series</a>
+            <a href="#book">Book</a>
+            <a href="#moris">Moris</a>
+            <a href="#about">About</a>
+            <span class="drawer-label">Essays</span>
+            <a href="essays/best-ideas.html">The Best Ideas Come When You Let Go</a>
+            <a href="essays/empathy-paradox.html">The Empathy Paradox</a>
+            <a href="essays/love-or-fear.html">It Is Either from Love or Fear</a>
+            <a href="essays/unfinished-things.html">Why Do Unfinished Things Haunt Us?</a>
+            <a href="essays/jung-shadow.html">Jung's Golden Shadow</a>
+            <a href="essays/defense-mechanisms.html">Our Defense Mechanisms</a>
+            <a href="essays/ai-enough.html">Will AI Be Enough for Us?</a>
+            <a href="essays/say-hello.html">Why Do We Say Hello?</a>
+            <span class="drawer-label">The On Series</span>
+            <a href="essays/on-lying.html">On Lying</a>
+            <a href="essays/on-perceiving.html">On Perceiving</a>
+            <a href="essays/on-looking.html">On Looking</a>
+            <a href="essays/on-forgiveness.html">On Forgiveness</a>
+            <a href="essays/on-beauty.html">On Beauty</a>
+            <a href="essays/on-longing.html">On Longing</a>
+            <a href="essays/on-silence.html">On Silence</a>
+        </div>
         
         <div class="hero fade-in">
             <svg class="perspective-line" viewBox="0 0 320 48" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><line x1="0" y1="48" x2="160" y2="6"/><line x1="320" y1="48" x2="160" y2="6"/><line x1="40" y1="48" x2="280" y2="48" opacity="0.15"/><circle cx="160" cy="6" r="2"/><line x1="30" y1="48" x2="160" y2="10" opacity="0.15"/><line x1="290" y1="48" x2="160" y2="10" opacity="0.15"/></svg>
@@ -431,7 +453,7 @@
             </ul>
         </div></section>
         
-        <section class="depth-3"><div class="scroll-reveal">
+        <section id="on-series" class="depth-3"><div class="scroll-reveal">
             <span class="section-label">The On Series</span>
             <p class="section-desc">Seven essays on what we build inside ourselves — and why.</p>
             <ul class="essay-list">
@@ -566,42 +588,10 @@
         </footer>
     </div>
     
+    <script src="js/site-nav.js"></script>
     <script>
     (function(){
         'use strict';
-        var header = document.getElementById('site-header');
-        window.addEventListener('scroll', function() {
-            if (window.scrollY > 20) { header.classList.add('scrolled'); } else { header.classList.remove('scrolled'); }
-        }, {passive: true});
-        
-        var hamburgerBtn = document.querySelector('.hamburger-btn');
-        var navLinks = document.querySelector('.nav-links');
-        if(hamburgerBtn && navLinks) {
-            // Create overlay for desktop sidebar
-            var overlay = document.createElement('div');
-            overlay.className = 'sidebar-overlay';
-            document.body.appendChild(overlay);
-            
-            function toggleMenu() {
-                var isActive = navLinks.classList.toggle('active');
-                overlay.classList.toggle('active', isActive);
-                document.body.classList.toggle('menu-open', isActive);
-            }
-            function closeMenu() {
-                navLinks.classList.remove('active');
-                overlay.classList.remove('active');
-                document.body.classList.remove('menu-open');
-            }
-            hamburgerBtn.addEventListener('click', function(e) {
-                e.preventDefault(); toggleMenu();
-            });
-            overlay.addEventListener('click', closeMenu);
-            var links = navLinks.querySelectorAll('a');
-            links.forEach(function(link) {
-                link.addEventListener('click', closeMenu);
-            });
-        }
-        
         var hq=document.getElementById('hero-quote'),ws=[],ts=false;
         if(hq){var t=hq.textContent,w=t.split(/(\s+)/);hq.innerHTML='';
             for(var i=0;i<w.length;i++){if(w[i].trim()===''){hq.appendChild(document.createTextNode(w[i]));}
@@ -625,11 +615,7 @@
         
         var tk=false;
         window.addEventListener('scroll',function(){if(!tk){requestAnimationFrame(function(){ta();tk=false;});tk=true;}},{passive:true});
-        window.addEventListener('load',function(){
-            ta();
-            var shareBtn=document.getElementById('share-site-btn');
-            if(shareBtn){if(navigator.share){shareBtn.addEventListener('click',function(e){e.preventDefault();navigator.share({title:'Hakan Altun — On Life & Everything',url:window.location.href}).catch(function(){});});}else{shareBtn.style.display='none';}}
-        });
+        window.addEventListener('load',function(){ ta(); });
     })();
     </script>
     <script>if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js');});}</script>
