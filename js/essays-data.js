@@ -12,7 +12,7 @@ var ALL_ESSAYS = [
   {href:'on-perceiving.html',title:'On Perceiving',subtitle:'Misperception is a corridor whose architect burned the blueprint.',img:'https://miro.medium.com/v2/resize:fit:600/1*yOa_B48M5L0j4xm7w8wnKQ.png',date:'Mar 14, 2026',readTime:'5 min'},
   {href:'on-looking.html',title:'On Looking',subtitle:'A room full of directors and no audience.',img:'https://miro.medium.com/v2/resize:fit:600/1*g2FLjY3V9utA09Yp_CaQYQ.png',date:'Mar 22, 2026',readTime:'4 min'},
   {href:'on-forgiveness.html',title:'On Forgiveness',subtitle:'Cruelty made architectural.',img:'https://miro.medium.com/v2/resize:fit:600/1*7rEEeB6sH4VS-tePMsb4_w.png',date:'Mar 29, 2026',readTime:'3 min'},
-  {href:'on-beauty.html',title:'On Beauty',subtitle:'The corridor narrows in adversity.',img:'https://hakaanaltun.github.io/images/on-beauty.png',date:'Apr 2, 2026',readTime:'3 min'},
+  {href:'on-beauty.html',title:'On Keeping',subtitle:'The corridor narrows in adversity.',img:'https://hakaanaltun.github.io/images/on-beauty.png',date:'Apr 2, 2026',readTime:'3 min'},
   {href:'on-longing.html',title:'On Longing',subtitle:'Lighter. Smaller. Younger.',img:'https://hakaanaltun.github.io/images/on-longing.png',date:'Apr 2, 2026',readTime:'8 min'},
   {href:'on-silence.html',title:'On Silence',subtitle:'I forgot I had a cat.',img:'https://hakaanaltun.github.io/images/on-silence.jpg',date:'Apr 2, 2026',readTime:'3 min',isFinale:true}
 ];

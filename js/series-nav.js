@@ -7,7 +7,7 @@
     { num: 2, href: 'on-perceiving.html',  label: 'On Perceiving' },
     { num: 3, href: 'on-looking.html',     label: 'On Looking' },
     { num: 4, href: 'on-forgiveness.html', label: 'On Forgiveness' },
-    { num: 5, href: 'on-beauty.html',      label: 'On Beauty' },
+    { num: 5, href: 'on-beauty.html',      label: 'On Keeping' },
     { num: 6, href: 'on-longing.html',     label: 'On Longing' },
     { num: 7, href: 'on-silence.html',     label: 'On Silence',     isFinale: true  }
   ];
