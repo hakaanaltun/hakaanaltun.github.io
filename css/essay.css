@@ -74,39 +74,52 @@ nav{display:flex;flex-direction:column;padding-bottom:14px}
 .essay-share-btn svg,.hamburger-btn svg{width:22px;height:22px}
 .essay-share-btn:hover{opacity:.6}
 
-/* Nav Links — Mobile: inline menu */
-.nav-links{display:none;width:100%;flex-direction:column;text-align:left;gap:8px;margin-top:16px;padding-top:16px;border-top:1px dashed var(--border)}
-.nav-links.active{display:flex;animation:menuFadeDown .4s cubic-bezier(.23,1,.32,1) forwards}
-.nav-links a{color:var(--petrol);border:none;letter-spacing:.04em;padding:4px 0;font-size:16px;transition:opacity .2s ease}
-.nav-links a:hover{opacity:.8}
-.nav-links-label{font-size:11px;color:var(--vizon);text-transform:uppercase;letter-spacing:.08em;margin-top:10px;display:block}
-@keyframes menuFadeDown{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:translateY(0)}}
+/* Old .nav-links dropdown: hidden — replaced by drawer */
+.nav-links{display:none!important}
 
-/* Mobile: lock body scroll when menu open */
-body.menu-open{overflow:hidden}
+/* Lock body scroll when drawer is open */
+body.drawer-open{overflow:hidden}
 
-/* Desktop: sidebar from right filling corridor space (680px = essay container width, 12px = corridor offset) */
+/* Drawer backdrop */
+.drawer-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.18);z-index:199;opacity:0;pointer-events:none;transition:opacity .35s ease}
+.drawer-backdrop.open{opacity:1;pointer-events:auto}
+
+/* Drawer panel — right side, works on all viewports */
+.site-drawer{
+  position:fixed;top:0;right:0;bottom:0;
+  width:300px;max-width:85vw;
+  height:100vh;
+  overflow-y:auto;overscroll-behavior:contain;
+  background:rgba(250,248,244,0.97);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border-left:1px solid var(--border);
+  box-shadow:-4px 0 24px rgba(32,96,96,0.08);
+  padding:24px 24px 32px;
+  z-index:200;
+  transform:translateX(100%);
+  transition:transform .35s cubic-bezier(.23,1,.32,1);
+  display:flex;flex-direction:column;gap:8px;
+}
+.site-drawer.open{transform:translateX(0)}
+
+/* Close button inside drawer */
+.drawer-close{
+  align-self:flex-end;
+  background:transparent;border:none;color:var(--petrol);
+  padding:6px;cursor:pointer;margin-bottom:8px;
+  display:flex;align-items:center;justify-content:center;
+  transition:opacity .2s ease;
+}
+.drawer-close:hover{opacity:.6}
+.drawer-close svg{width:22px;height:22px}
+
+/* Drawer nav items */
+.drawer-label{font-size:11px;color:var(--vizon);text-transform:uppercase;letter-spacing:.08em;margin-top:10px;display:block}
+.site-drawer a{color:var(--petrol);border:none;letter-spacing:.04em;padding:4px 0;font-size:16px;transition:opacity .2s ease}
+.site-drawer a:hover{opacity:.8}
+
 @media(min-width:769px){
-  .nav-links{
-    position:fixed;top:0;right:0;bottom:0;
-    width:calc((100vw - 680px)/2 + 12px);
-    min-width:260px;max-width:360px;
-    height:100vh;max-height:none;
-    overflow-y:auto;overscroll-behavior:contain;
-    background:rgba(250,248,244,0.97);
-    backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
-    border-left:1px solid var(--border);border-radius:0;
-    box-shadow:-4px 0 24px rgba(32,96,96,0.08);
-    padding:80px 24px 32px;margin-top:0;border-top:none;
-    z-index:200;
-    display:none;
-    animation:none;
-    transform:translateX(100%);transition:transform .35s cubic-bezier(.23,1,.32,1);
-  }
-  .nav-links.active{display:flex;transform:translateX(0);animation:sidebarSlideIn .35s cubic-bezier(.23,1,.32,1) forwards}
-  @keyframes sidebarSlideIn{from{transform:translateX(100%)}to{transform:translateX(0)}}
-  .sidebar-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.15);z-index:199;opacity:0;transition:opacity .35s ease}
-  .sidebar-overlay.active{display:block;opacity:1}
+  .site-drawer{width:calc((100vw - 680px)/2 + 12px);min-width:260px;max-width:360px}
 }
 
 /* Logo Lockup */
@@ -165,23 +178,31 @@ body.menu-open{overflow:hidden}
 .series-nav-list .series-num{color:var(--vizon)}
 .series-nav-list .series-title{color:var(--petrol)}
 
-/* More Essays Recommendation Cards */
+/* More Essays — Homepage-style cards on essay pages */
 .more-essays{border-top:1px solid var(--border);padding:32px 0 48px;margin-top:32px}
 .more-essays-title{font-size:13px;color:var(--petrol);text-transform:uppercase;letter-spacing:.08em;margin-bottom:20px}
-.more-essays-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
-.more-essays-card{display:flex;flex-direction:row;gap:10px;border:1px solid var(--border);border-radius:8px;padding:10px;background:var(--cream);color:inherit;transition:border-color .3s ease,box-shadow .3s ease,transform .3s ease}
-.more-essays-card:hover{border-color:var(--petrol);box-shadow:0 6px 24px rgba(32,96,96,0.08);transform:translateY(-2px)}
-.more-essays-card img{width:56px;height:56px;min-width:56px;object-fit:cover;border-radius:4px;display:block}
-.more-essays-card-body{display:flex;flex-direction:column;gap:2px;min-width:0}
-.more-essays-card-title{font-size:13px;font-style:italic;color:var(--petrol);font-weight:400;line-height:1.3;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
-.more-essays-card-subtitle{font-size:11px;color:var(--vizon);line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.more-essays-card-meta{font-size:11px;color:var(--vizon);margin-top:auto;opacity:.8}
+
+/* Re-use homepage card structure: .essay-list + .essay-card */
+.more-essays-grid-hp{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;list-style:none;padding:0;margin:0}
+.more-essays-grid-hp li{padding:0;margin:0;transition:transform .3s cubic-bezier(.23,1,.32,1);background:transparent}
+.more-essays-grid-hp .essay-card{display:flex;flex-direction:column;align-items:flex-start;gap:16px;width:100%;height:100%;border:1px solid var(--border);border-radius:8px;padding:16px;background:var(--cream);transition:border-color .3s ease,box-shadow .3s ease,transform .3s ease}
+.more-essays-grid-hp .essay-card:hover{border-color:var(--petrol);box-shadow:0 8px 32px var(--shadow);transform:translateY(-4px)}
+.more-essays-grid-hp .essay-thumb{width:100%;height:200px;min-width:unset;border-radius:4px;object-fit:cover}
+.more-essays-grid-hp .essay-card-text{flex:1;display:flex;flex-direction:column;gap:6px;width:100%;text-align:left}
+.more-essays-grid-hp .essay-title{font-size:20px;font-style:italic;color:var(--petrol);font-weight:400}
+.more-essays-grid-hp .essay-card:hover .essay-title{opacity:.8}
+.more-essays-grid-hp .essay-card-subtitle{font-size:15px;color:var(--vizon);font-style:normal;line-height:1.5}
+.more-essays-grid-hp .essay-meta-wrapper{display:flex;justify-content:space-between;align-items:center;width:100%;margin-top:auto;padding-top:12px}
+.more-essays-grid-hp .essay-meta{font-size:13px;color:var(--vizon);font-style:normal}
 @media(max-width:768px){
-  .more-essays-grid{grid-template-columns:1fr;gap:10px}
-  .more-essays-card{padding:8px}
-  .more-essays-card img{width:48px;height:48px;min-width:48px}
-  .more-essays-card-title{font-size:12px;-webkit-line-clamp:1}
-  .more-essays-card-meta{font-size:10px}
+  .more-essays-grid-hp{grid-template-columns:1fr;gap:12px}
+  .more-essays-grid-hp .essay-card{display:grid;grid-template-columns:84px 1fr;grid-template-rows:auto auto;gap:6px 16px;padding:12px;align-items:center}
+  .more-essays-grid-hp .essay-thumb{grid-column:1/2;grid-row:1/3;width:100%;height:auto;aspect-ratio:1;min-width:unset;margin:0}
+  .more-essays-grid-hp .essay-card-text{grid-column:2/3;grid-row:1/2;gap:4px}
+  .more-essays-grid-hp .essay-meta-wrapper{grid-column:2/3;grid-row:2/3;padding-top:0;justify-content:flex-start}
+  .more-essays-grid-hp .essay-title{font-size:15px;line-height:1.3}
+  .more-essays-grid-hp .essay-card-subtitle{font-size:12px;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .more-essays-grid-hp .essay-meta{font-size:11px}
 }
 
 /* Footer */
