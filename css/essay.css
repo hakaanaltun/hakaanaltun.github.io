@@ -87,7 +87,7 @@ nav{display:flex;flex-direction:column;padding-bottom:14px}
 /* Desktop dropdown: right-aligned floating panel */
 @media(min-width:769px){
     nav{position:relative}
-    .nav-links.active{position:absolute;right:0;top:100%;width:280px;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:16px 20px;box-shadow:0 8px 32px rgba(32,96,96,0.12);margin-top:4px;z-index:200;border-top:1px dashed var(--border);gap:6px}
+    .nav-links.active{position:absolute;right:0;top:100%;width:280px;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:16px 20px;box-shadow:0 8px 32px rgba(32,96,96,0.12);margin-top:4px;z-index:200;gap:6px}
 }
 
 /* Logo Lockup */
