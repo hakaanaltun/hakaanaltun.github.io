@@ -7,14 +7,16 @@
   "theme_color": "#FAF8F4",
   "icons": [
     {
-      "src": "On Logo.png",
+      "src": "on-logo.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
-      "src": "On Logo.png",
+      "src": "on-logo.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }
