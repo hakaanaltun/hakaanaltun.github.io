@@ -75,11 +75,30 @@ nav{display:flex;flex-direction:column;padding-bottom:14px}
 .essay-share-btn:hover{opacity:.6}
 
 /* Nav Links Dropdown */
-.nav-links{display:none;width:100%;flex-direction:column;text-align:left;gap:12px;margin-top:16px;padding-top:16px;border-top:1px dashed var(--border)}
+.nav-links{display:none;width:100%;flex-direction:column;text-align:left;gap:8px;margin-top:16px;padding-top:16px;border-top:1px dashed var(--border)}
 .nav-links.active{display:flex;animation:menuFadeDown .4s cubic-bezier(.23,1,.32,1) forwards}
-.nav-links a{color:var(--petrol);border:none;letter-spacing:.04em;padding:6px 0;font-size:18px;transition:opacity .2s ease}
+.nav-links a{color:var(--petrol);border:none;letter-spacing:.04em;padding:4px 0;font-size:16px;transition:opacity .2s ease}
 .nav-links a:hover{opacity:.8}
+.nav-group-label{font-size:11px;color:var(--vizon);text-transform:uppercase;letter-spacing:.1em;padding:8px 0 2px;margin-top:4px;font-weight:500;pointer-events:none;display:block}
+.nav-group-label:first-child{padding-top:0;margin-top:0}
 @keyframes menuFadeDown{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:translateY(0)}}
+
+/* Desktop: right-aligned dropdown */
+@media(min-width:769px){
+    nav{position:relative}
+    .nav-links{width:auto;margin-top:0;border-top:none}
+    .nav-links.active{
+        position:absolute;top:calc(100% + 4px);right:0;
+        min-width:280px;max-height:75vh;overflow-y:auto;
+        background:rgba(250,248,244,0.98);
+        border:1px solid var(--border);border-radius:8px;
+        box-shadow:0 8px 32px rgba(48,46,43,0.12);
+        padding:14px 16px;z-index:200;
+    }
+    .nav-links.active a{font-size:15px;padding:3px 0}
+    .nav-group-label{padding:6px 0 2px}
+    .nav-group-label:first-child{padding-top:0}
+}
 
 /* Logo Lockup */
 .tagline-on{color:var(--vizon);font-size:28px;font-style:italic;line-height:1}
@@ -139,6 +158,25 @@ nav{display:flex;flex-direction:column;padding-bottom:14px}
 
 /* Footer */
 footer{padding:32px 0 24px;border-top:1px solid var(--border);text-align:center}
+
+/* More Essays Cards */
+.more-essays{padding:32px 0 0;border-top:1px solid var(--border)}
+.more-essays-label{font-size:13px;color:var(--petrol);text-transform:uppercase;letter-spacing:.08em;margin-bottom:20px;font-weight:500}
+.essay-list{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;list-style:none;padding:0;margin:0}
+.essay-list li{padding:0;margin:0}
+.essay-card{display:flex;flex-direction:column;gap:10px;width:100%;height:100%;border:1px solid var(--border);border-radius:8px;padding:14px;background:var(--cream);transition:border-color .3s ease,box-shadow .3s ease,transform .3s ease;border-bottom:none}
+.essay-card:hover{border-color:var(--petrol);box-shadow:0 8px 32px var(--shadow);transform:translateY(-4px);opacity:1}
+.essay-thumb{width:100%;height:150px;border-radius:4px;object-fit:cover}
+.essay-card-text{flex:1;display:flex;flex-direction:column;gap:6px}
+.essay-title{font-size:16px;font-style:italic;color:var(--petrol);font-weight:400;line-height:1.3}
+.essay-card-subtitle{font-size:13px;color:var(--vizon);line-height:1.4}
+@media(max-width:768px){
+    .essay-list{grid-template-columns:1fr;gap:10px}
+    .essay-card{flex-direction:row;padding:10px;gap:12px}
+    .essay-thumb{width:80px;height:80px;min-width:80px;border-radius:4px}
+    .essay-title{font-size:14px}
+    .essay-card-subtitle{font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+}
 footer p{font-size:13px;color:var(--vizon)}
 footer a{font-size:13px;color:var(--vizon);border-bottom:1px solid var(--border)}
 footer a:hover{color:var(--petrol)}

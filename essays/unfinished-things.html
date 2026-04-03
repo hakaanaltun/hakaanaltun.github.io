@@ -31,7 +31,24 @@
 </div>
 </div>
 <div class="nav-links">
-<a href="../#essays">Essays</a>
+<span class="nav-group-label">Essays</span>
+<a href="best-ideas.html">The Best Ideas Come When You Let Go</a>
+<a href="empathy-paradox.html">The Empathy Paradox</a>
+<a href="love-or-fear.html">It Is Either from Love or Fear</a>
+<a href="unfinished-things.html">Why Do Unfinished Things Haunt Us?</a>
+<a href="jung-shadow.html">Jung&#39;s Golden Shadow</a>
+<a href="defense-mechanisms.html">Our Defense Mechanisms</a>
+<a href="ai-enough.html">Will AI Be Enough for Us?</a>
+<a href="say-hello.html">Why Do We Say Hello?</a>
+<span class="nav-group-label">The On Series</span>
+<a href="on-lying.html">On Lying</a>
+<a href="on-perceiving.html">On Perceiving</a>
+<a href="on-looking.html">On Looking</a>
+<a href="on-forgiveness.html">On Forgiveness</a>
+<a href="on-beauty.html">On Beauty</a>
+<a href="on-longing.html">On Longing</a>
+<a href="on-silence.html">On Silence</a>
+<span class="nav-group-label">More</span>
 <a href="../#book">Book</a>
 <a href="../#moris">Moris</a>
 <a href="../#about">About</a>
@@ -76,7 +93,10 @@
             <p>The cashier hands me the receipt. I thank her and walk out. The air is cold. The list in my head is still warm. I'm thinking. Some things can't be solved. Some of them I'm just making bigger than they are. My phone buzzes for real this time. I don't look. Not yet. I just want to walk for a bit.</p>
 </article>
 
-<div class="essay-nav"><a href="love-or-fear.html" class="prev"><span class="nav-label">← Previous</span><span class="nav-title">It Is Either from Love or Fear</span></a><a href="jung-shadow.html" class="next"><span class="nav-label">Next →</span><span class="nav-title">Jung's Golden Shadow</span></a></div>
+<div class="more-essays">
+<p class="more-essays-label">More Essays</p>
+<ul id="random-essays" class="essay-list"></ul>
+</div>
 <footer>
     <p><a href="../index.html">Hakan Altun — On <span class="footer-petrol">Life &amp; Everything</span></a></p>
     <p style="margin-top:8px">İstanbul, 2026</p>
@@ -85,4 +105,5 @@
 <script>
 (function(){var h=document.getElementById('site-header');window.addEventListener('scroll',function(){if(window.scrollY>20)h.classList.add('scrolled');else h.classList.remove('scrolled');},{passive:true});var sb=document.querySelector('.essay-share-btn');if(sb){if(navigator.share){sb.addEventListener('click',function(e){e.preventDefault();navigator.share({title:document.title,url:window.location.href}).catch(function(){});})}else{sb.style.display='none'}}var hamburgerBtn=document.querySelector('.hamburger-btn');var navLinks=document.querySelector('.nav-links');if(hamburgerBtn&&navLinks){hamburgerBtn.addEventListener('click',function(e){e.preventDefault();navLinks.classList.toggle('active');});navLinks.querySelectorAll('a').forEach(function(link){link.addEventListener('click',function(){navLinks.classList.remove('active');});});}})();
 </script>
+<script src="../js/more-essays.js"></script>
 </body></html>
