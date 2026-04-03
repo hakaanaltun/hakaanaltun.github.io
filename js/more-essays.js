@@ -21,10 +21,30 @@ var pool=ALL_ESSAYS.filter(function(e){return e.href!==currentPage;});
 for(var i=pool.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=pool[i];pool[i]=pool[j];pool[j]=t;}
 var picks=pool.slice(0,4);
 var ul=document.getElementById('random-essays');
-if(!ul)return;
+if(!ul){console.warn('more-essays: #random-essays element not found');return;}
 picks.forEach(function(e){
   var li=document.createElement('li');
-  li.innerHTML='<a href="'+e.href+'" class="essay-card"><img src="'+e.img+'" alt="'+e.title+'" class="essay-thumb" loading="lazy"><div class="essay-card-text"><span class="essay-title">'+e.title+'</span><span class="essay-card-subtitle">'+e.subtitle+'</span></div></a>';
+  var a=document.createElement('a');
+  a.href=e.href;
+  a.className='essay-card';
+  var img=document.createElement('img');
+  img.src=e.img;
+  img.alt=e.title;
+  img.className='essay-thumb';
+  img.loading='lazy';
+  var div=document.createElement('div');
+  div.className='essay-card-text';
+  var titleSpan=document.createElement('span');
+  titleSpan.className='essay-title';
+  titleSpan.textContent=e.title;
+  var subSpan=document.createElement('span');
+  subSpan.className='essay-card-subtitle';
+  subSpan.textContent=e.subtitle;
+  div.appendChild(titleSpan);
+  div.appendChild(subSpan);
+  a.appendChild(img);
+  a.appendChild(div);
+  li.appendChild(a);
   ul.appendChild(li);
 });
 })();

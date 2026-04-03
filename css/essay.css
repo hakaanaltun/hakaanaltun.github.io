@@ -164,7 +164,7 @@ footer{padding:32px 0 24px;border-top:1px solid var(--border);text-align:center}
 .more-essays-label{font-size:13px;color:var(--petrol);text-transform:uppercase;letter-spacing:.08em;margin-bottom:20px;font-weight:500}
 .essay-list{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;list-style:none;padding:0;margin:0}
 .essay-list li{padding:0;margin:0}
-.essay-card{display:flex;flex-direction:column;gap:10px;width:100%;height:100%;border:1px solid var(--border);border-radius:8px;padding:14px;background:var(--cream);transition:border-color .3s ease,box-shadow .3s ease,transform .3s ease;border-bottom:none}
+.essay-card{display:flex;flex-direction:column;gap:10px;width:100%;height:100%;border:1px solid var(--border);border-radius:8px;padding:14px;background:var(--cream);transition:border-color .3s ease,box-shadow .3s ease,transform .3s ease}
 .essay-card:hover{border-color:var(--petrol);box-shadow:0 8px 32px var(--shadow);transform:translateY(-4px);opacity:1}
 .essay-thumb{width:100%;height:150px;border-radius:4px;object-fit:cover}
 .essay-card-text{flex:1;display:flex;flex-direction:column;gap:6px}
