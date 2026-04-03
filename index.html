@@ -78,11 +78,18 @@
         .header-share-btn svg, .hamburger-btn svg { width: 22px; height: 22px; }
         .header-share-btn:hover, .hamburger-btn:hover { opacity: 0.6; }
         
-        .nav-links{display:none; width:100%; flex-direction:column; text-align:left; gap:12px; margin-top:16px; padding-top:16px; border-top:1px dashed var(--border);}
+        .nav-links{display:none; width:100%; flex-direction:column; text-align:left; gap:8px; margin-top:16px; padding-top:16px; border-top:1px dashed var(--border);}
         .nav-links.active{display:flex; animation:menuFadeDown 0.4s cubic-bezier(0.23,1,0.32,1) forwards;}
-        .nav-links a{color:var(--petrol); border:none; letter-spacing:.04em; padding:6px 0; font-size:18px; transition:opacity .2s ease;}
+        .nav-links a{color:var(--petrol); border:none; letter-spacing:.04em; padding:4px 0; font-size:16px; transition:opacity .2s ease;}
         .nav-links a:hover{opacity:0.8;}
+        .nav-links-label{font-size:11px;color:var(--vizon);text-transform:uppercase;letter-spacing:.08em;margin-top:10px;display:block}
         @keyframes menuFadeDown { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Desktop: nav-links opens as right-aligned dropdown */
+        @media(min-width:769px){
+            nav{position:relative}
+            .nav-links{position:absolute;top:100%;right:0;width:auto;min-width:260px;max-height:80vh;overflow-y:auto;background:rgba(250,248,244,0.97);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid var(--border);border-radius:8px;box-shadow:0 8px 32px rgba(32,96,96,0.10);padding:16px 20px;margin-top:4px;border-top:none;z-index:200}
+        }
         
         /* --- HERO --- */
         .hero{padding:48px 0 32px}
@@ -296,7 +303,24 @@
             </div>
             
             <div class="nav-links">
-                <a href="#essays">Essays</a>
+                <span class="nav-links-label">Essays</span>
+                <a href="essays/best-ideas.html">The Best Ideas Come When You Let Go</a>
+                <a href="essays/empathy-paradox.html">The Empathy Paradox</a>
+                <a href="essays/love-or-fear.html">It Is Either from Love or Fear</a>
+                <a href="essays/unfinished-things.html">Why Do Unfinished Things Haunt Us?</a>
+                <a href="essays/jung-shadow.html">Jung's Golden Shadow</a>
+                <a href="essays/defense-mechanisms.html">Our Defense Mechanisms</a>
+                <a href="essays/ai-enough.html">Will AI Be Enough for Us?</a>
+                <a href="essays/say-hello.html">Why Do We Say Hello?</a>
+                <span class="nav-links-label">The On Series</span>
+                <a href="essays/on-lying.html">On Lying</a>
+                <a href="essays/on-perceiving.html">On Perceiving</a>
+                <a href="essays/on-looking.html">On Looking</a>
+                <a href="essays/on-forgiveness.html">On Forgiveness</a>
+                <a href="essays/on-beauty.html">On Beauty</a>
+                <a href="essays/on-longing.html">On Longing</a>
+                <a href="essays/on-silence.html">On Silence</a>
+                <span class="nav-links-label">More</span>
                 <a href="#book">Book</a>
                 <a href="#moris">Moris</a>
                 <a href="#about">About</a>
