@@ -85,7 +85,7 @@ nav{display:flex;flex-direction:column;padding-bottom:14px}
 /* Mobile: lock body scroll when menu open */
 body.menu-open{overflow:hidden}
 
-/* Desktop: sidebar from right filling corridor space */
+/* Desktop: sidebar from right filling corridor space (680px = essay container width, 12px = corridor offset) */
 @media(min-width:769px){
   .nav-links{
     position:fixed;top:0;right:0;bottom:0;
