@@ -39,8 +39,9 @@
       var isCurrent = (e.href === current);
       var safeTitle = e.title.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
 
+      var isFinale = !!e.isFinale;
       var card = document.createElement('div');
-      card.className = 'drawer-essay-card' + (isCurrent ? ' drawer-essay-card--current' : '');
+      card.className = 'drawer-essay-card' + (isCurrent ? ' drawer-essay-card--current' : '') + (isFinale ? ' drawer-essay-card--finale' : '');
 
       var img = document.createElement('img');
       img.src = e.img;
@@ -58,7 +59,7 @@
       } else {
         var link = document.createElement('a');
         link.href = prefix + e.href;
-        link.className = 'drawer-essay-card-link';
+        link.className = 'drawer-essay-card-link' + (isFinale ? ' drawer-essay-card-link--finale' : '');
         link.setAttribute('aria-label', e.title);
         link.appendChild(card);
         container.appendChild(link);

@@ -9,7 +9,7 @@
     { num: 4, href: 'on-forgiveness.html', label: 'On Forgiveness' },
     { num: 5, href: 'on-beauty.html',      label: 'On Beauty' },
     { num: 6, href: 'on-longing.html',     label: 'On Longing' },
-    { num: 7, href: 'on-silence.html',     label: 'On Silence' }
+    { num: 7, href: 'on-silence.html',     label: 'On Silence',     isFinale: true  }
   ];
 
   var nav = document.querySelector('.series-nav');
@@ -37,7 +37,8 @@
     var img = imgMap[s.href] || '';
     var label = s.label.replace(/"/g, '&quot;');
 
-    var inner = '<div class="series-thumb-card' + (isCurrent ? ' series-thumb-card--current' : '') + '">'
+    var isFinale = !!s.isFinale;
+    var inner = '<div class="series-thumb-card' + (isCurrent ? ' series-thumb-card--current' : '') + (isFinale ? ' series-thumb-card--finale' : '') + '">'
       + (img ? '<img src="' + img + '" alt="' + label + '" loading="lazy">' : '<div class="series-thumb-img-placeholder"></div>')
       + '<span class="series-thumb-label">'
       + '<span class="series-thumb-num">' + s.num + '</span>. ' + s.label

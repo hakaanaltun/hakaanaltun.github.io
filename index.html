@@ -93,12 +93,13 @@
           position:fixed;top:0;right:0;bottom:0;
           width:300px;max-width:85vw;
           height:100vh;
+          height:100dvh;
           overflow-y:auto;overscroll-behavior:contain;
           background:rgba(250,248,244,0.97);
           backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
           border-left:1px solid var(--border);
           box-shadow:-4px 0 24px rgba(32,96,96,0.08);
-          padding:24px 24px 32px;
+          padding:24px 24px env(safe-area-inset-bottom, 32px);
           z-index:200;
           transform:translateX(100%);
           transition:transform .35s cubic-bezier(.23,1,.32,1);
@@ -127,6 +128,9 @@
         .drawer-essay-card-title{font-size:10px;color:var(--vizon);line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
         .drawer-essay-card--current{opacity:.38;cursor:default}
         .drawer-essay-card--current img{border-color:var(--petrol)}
+        /* On Silence — finale card spans full row in drawer grid */
+        .drawer-essay-card-link--finale,.drawer-essay-card--finale{grid-column:1 / -1}
+        .drawer-essay-card--finale img{height:auto;aspect-ratio:16/7}
 
         @media(min-width:769px){
           .site-drawer{width:calc((100vw - 920px)/2 + 16px);min-width:260px;max-width:360px}
@@ -185,6 +189,9 @@
         .essay-card.text-only .essay-card-text {align-items: center; justify-content: center;}
         .essay-card.text-only .essay-title {font-size: 24px;}
         .series-note{margin-top:32px;font-size:15px;color:var(--vizon);font-style:italic; text-align: left;}
+        /* On Silence — finale card spans full row */
+        .essay-list-item--finale{grid-column:1 / -1}
+        .essay-list-item--finale .essay-thumb{height:auto;aspect-ratio:16/7}
         
         /* ABOUT SECTION */
         .hero-author-row {display: flex; align-items: center; gap: 16px; margin-bottom: 24px;}
@@ -519,7 +526,7 @@
                     <div class="essay-meta-wrapper"><span class="essay-meta">Apr 2, 2026</span><span class="essay-number">6 of 7</span></div>
                 </a></li>
                 
-                <li><a href="essays/on-silence.html" class="essay-card">
+                <li class="essay-list-item--finale"><a href="essays/on-silence.html" class="essay-card">
                     <img src="images/on-silence.jpg" alt="I forgot I had a cat." class="essay-thumb" loading="lazy">
                     <div class="essay-card-text">
                         <span class="essay-title">On Silence</span>
