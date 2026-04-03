@@ -55,7 +55,7 @@ header.scrolled{
     backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
     border-bottom-color:var(--border);
 }
-nav{display:flex;flex-direction:column;padding-bottom:14px}
+nav{display:flex;flex-direction:column;padding-bottom:14px;position:relative}
 .nav-home{display:flex;align-items:center;gap:6px;border:none;font-style:italic;color:var(--vizon);font-size:15px}
 .nav-home img{width:44px;height:44px;border-radius:10px;object-fit:contain;border:1px solid var(--border);background:var(--cream)}
 .nav-home:hover{color:var(--petrol)}
@@ -75,11 +75,21 @@ nav{display:flex;flex-direction:column;padding-bottom:14px}
 .essay-share-btn:hover{opacity:.6}
 
 /* Nav Links Dropdown */
-.nav-links{display:none;width:100%;flex-direction:column;text-align:left;gap:12px;margin-top:16px;padding-top:16px;border-top:1px dashed var(--border)}
+.nav-links{display:none;width:100%;flex-direction:column;text-align:left;gap:8px;margin-top:16px;padding-top:16px;border-top:1px dashed var(--border)}
 .nav-links.active{display:flex;animation:menuFadeDown .4s cubic-bezier(.23,1,.32,1) forwards}
-.nav-links a{color:var(--petrol);border:none;letter-spacing:.04em;padding:6px 0;font-size:18px;transition:opacity .2s ease}
+.nav-links a{color:var(--petrol);border:none;letter-spacing:.04em;padding:4px 0;font-size:16px;transition:opacity .2s ease}
 .nav-links a:hover{opacity:.8}
+.nav-group-label{font-size:10px;color:var(--vizon);text-transform:uppercase;letter-spacing:.12em;display:block;padding:8px 0 2px;border-top:1px dashed var(--border);margin-top:4px}
+.nav-group-label:first-child{border-top:none;margin-top:0;padding-top:0}
 @keyframes menuFadeDown{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:translateY(0)}}
+
+/* Desktop: right-aligned dropdown */
+@media(min-width:769px){
+    .nav-links{position:absolute;right:0;top:100%;width:auto;min-width:260px;max-height:70vh;overflow-y:auto;background:rgba(250,248,244,0.97);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--border);border-radius:8px;padding:16px 20px;box-shadow:0 8px 32px rgba(32,96,96,0.08);gap:4px;margin-top:0;border-top:none;z-index:200}
+    .nav-links a{font-size:14px;padding:3px 0}
+    .nav-group-label{font-size:9px;padding:6px 0 2px}
+    .nav-group-label:first-child{padding-top:0}
+}
 
 /* Logo Lockup */
 .tagline-on{color:var(--vizon);font-size:28px;font-style:italic;line-height:1}
@@ -115,7 +125,7 @@ nav{display:flex;flex-direction:column;padding-bottom:14px}
 .essay-body ul,.essay-body ol{margin:0 0 24px 24px;color:var(--vizon)}
 .essay-body li{margin-bottom:8px}
 
-/* Navigasyon */
+/* Navigasyon (eski prev/next - artık kullanılmıyor ama geriye dönük uyumluluk için) */
 .essay-nav{display:flex;justify-content:space-between;padding:32px 0;border-top:1px solid var(--border);gap:20px}
 .essay-nav a{font-size:15px;color:var(--vizon);border:none;display:flex;flex-direction:column;gap:2px;max-width:45%;transition:color .2s ease}
 .essay-nav a:hover{color:var(--petrol)}
@@ -136,6 +146,19 @@ nav{display:flex;flex-direction:column;padding-bottom:14px}
 .series-nav-list .current{color:var(--petrol);font-weight:500}
 .series-nav-list .series-num{color:var(--vizon)}
 .series-nav-list .series-title{color:var(--petrol)}
+
+/* More Essays Section */
+#more-essays,.more-essays-section{border-top:1px solid var(--border);padding:40px 0 48px}
+.more-essays-title{font-size:20px;font-weight:500;color:var(--petrol);margin-bottom:24px}
+.more-essays-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;list-style:none;padding:0;margin:0}
+.more-essays-grid li{margin:0;padding:0}
+.more-essays-grid .essay-card{display:flex;flex-direction:column;gap:8px;border:1px solid var(--border);border-bottom:1px solid var(--border);border-radius:8px;padding:12px;background:var(--cream);transition:border-color .3s ease,box-shadow .3s ease,transform .3s ease}
+.more-essays-grid .essay-card:hover{border-color:var(--petrol);box-shadow:0 8px 32px rgba(32,96,96,0.06);transform:translateY(-4px)}
+.more-essays-grid .essay-thumb{width:100%;height:130px;object-fit:cover;border-radius:4px;display:block}
+.more-essays-grid .essay-card-text{display:flex;flex-direction:column;gap:4px}
+.more-essays-grid .essay-title{font-size:15px;font-style:italic;color:var(--petrol);font-weight:400;line-height:1.3;display:block}
+.more-essays-grid .essay-card-subtitle{font-size:12px;color:var(--vizon);font-style:normal;line-height:1.4;display:block}
+@media(max-width:500px){.more-essays-grid{grid-template-columns:1fr}}
 
 /* Footer */
 footer{padding:32px 0 24px;border-top:1px solid var(--border);text-align:center}

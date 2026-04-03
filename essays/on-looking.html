@@ -31,7 +31,24 @@
 </div>
 </div>
 <div class="nav-links">
-<a href="../#essays">Essays</a>
+<span class="nav-group-label">Essays</span>
+<a href="best-ideas.html">The Best Ideas Come When You Let Go</a>
+<a href="empathy-paradox.html">The Empathy Paradox</a>
+<a href="love-or-fear.html">It Is Either from Love or Fear</a>
+<a href="unfinished-things.html">Why Do Unfinished Things Haunt Us?</a>
+<a href="jung-shadow.html">Jung's Golden Shadow</a>
+<a href="defense-mechanisms.html">Our Defense Mechanisms</a>
+<a href="ai-enough.html">Will AI Be Enough for Us?</a>
+<a href="say-hello.html">Why Do We Say Hello?</a>
+<span class="nav-group-label">The On Series</span>
+<a href="on-lying.html">On Lying</a>
+<a href="on-perceiving.html">On Perceiving</a>
+<a href="on-looking.html">On Looking</a>
+<a href="on-forgiveness.html">On Forgiveness</a>
+<a href="on-beauty.html">On Beauty</a>
+<a href="on-longing.html">On Longing</a>
+<a href="on-silence.html">On Silence</a>
+<span class="nav-group-label">More</span>
 <a href="../#book">Book</a>
 <a href="../#moris">Moris</a>
 <a href="../#about">About</a>
@@ -73,7 +90,7 @@
             <p>The rest follows.</p>
 </article>
 <div class="series-nav"><p class="series-nav-title">The On Series · Essays on what we build inside ourselves — and why</p><ul class="series-nav-list"><li><a href="on-lying.html"><span class="series-num">1 of 7</span> · <span class="series-title">On Lying</span></a></li><li><a href="on-perceiving.html"><span class="series-num">2 of 7</span> · <span class="series-title">On Perceiving</span></a></li><li><span class="current"><span class="series-num">3 of 7</span> · <span class="series-title">On Looking</span></span></li><li><a href="on-forgiveness.html"><span class="series-num">4 of 7</span> · <span class="series-title">On Forgiveness</span></a></li><li><a href="on-beauty.html"><span class="series-num">5 of 7</span> · <span class="series-title">On Beauty</span></a></li><li><a href="on-longing.html"><span class="series-num">6 of 7</span> · <span class="series-title">On Longing</span></a></li><li><a href="on-silence.html"><span class="series-num">7 of 7</span> · <span class="series-title">On Silence</span></a></li></ul></div>
-<div class="essay-nav"><a href="on-perceiving.html" class="prev"><span class="nav-label">← Previous</span><span class="nav-title">On Perceiving</span></a><a href="on-forgiveness.html" class="next"><span class="nav-label">Next →</span><span class="nav-title">On Forgiveness</span></a></div>
+<div id="more-essays"></div>
 <footer>
     <p><a href="../index.html">Hakan Altun — On <span class="footer-petrol">Life &amp; Everything</span></a></p>
     <p style="margin-top:8px">İstanbul, 2026</p>
@@ -81,5 +98,36 @@
 </div>
 <script>
 (function(){var h=document.getElementById('site-header');window.addEventListener('scroll',function(){if(window.scrollY>20)h.classList.add('scrolled');else h.classList.remove('scrolled');},{passive:true});var sb=document.querySelector('.essay-share-btn');if(sb){if(navigator.share){sb.addEventListener('click',function(e){e.preventDefault();navigator.share({title:document.title,url:window.location.href}).catch(function(){});})}else{sb.style.display='none'}}var hamburgerBtn=document.querySelector('.hamburger-btn');var navLinks=document.querySelector('.nav-links');if(hamburgerBtn&&navLinks){hamburgerBtn.addEventListener('click',function(e){e.preventDefault();navLinks.classList.toggle('active');});navLinks.querySelectorAll('a').forEach(function(link){link.addEventListener('click',function(){navLinks.classList.remove('active');});});}})();
+</script>
+<script>
+(function(){
+var ALL=[
+{href:'best-ideas.html',title:'The Best Ideas Come When You Let Go',subtitle:'Default Mode Network and the art of not thinking',img:'https://miro.medium.com/v2/resize:fit:600/1*UjDYBeUBBvmImB5JFvYC0A.jpeg'},
+{href:'empathy-paradox.html',title:'The Empathy Paradox',subtitle:'Outside every story but our own',img:'https://miro.medium.com/v2/resize:fit:600/1*pN4_9fIbWOr7dNg27qdGqA.png'},
+{href:'love-or-fear.html',title:'It Is Either from Love or Fear',subtitle:'Fear wears love\u2019s face \u2014 and speaks its language',img:'https://miro.medium.com/v2/resize:fit:600/1*1e3whgMVRxzw13ve5wK1MA.png'},
+{href:'unfinished-things.html',title:'Why Do Unfinished Things Haunt Us?',subtitle:'The Zeigarnik\u2013Lacan trap we all fall into',img:'https://miro.medium.com/v2/resize:fit:600/1*jfEURVCn1DDTIIiU7S_fFg.png'},
+{href:'jung-shadow.html',title:'Jung\u2019s Golden Shadow',subtitle:'Why we envy the things we forbid ourselves the most',img:'https://miro.medium.com/v2/resize:fit:600/1*xGR4JAqJxcwp-NNSDaadyw.png'},
+{href:'defense-mechanisms.html',title:'Our Defense Mechanisms: Protectors or Dungeon Masters?',subtitle:'Have we handed over the keys to our own prisons?',img:'https://miro.medium.com/v2/resize:fit:600/1*vJenz3RNAUcWpK9zgnv9iA.png'},
+{href:'ai-enough.html',title:'Will AI Be Enough for Us?',subtitle:'A reflection on AI\u2019s promise and the warmth it can\u2019t replicate',img:'https://miro.medium.com/v2/resize:fit:600/1*xktOKOEkb01NorbJNzs4yA.png'},
+{href:'say-hello.html',title:'Why Do We Say Hello?',subtitle:'Transactional Analysis and the hidden games in our relationships',img:'https://miro.medium.com/v2/resize:fit:600/1*_TffjC5cdVkKJoadRfi3tQ.png'},
+{href:'on-lying.html',title:'On Lying',subtitle:'Not being caught carries its own sentence.',img:'https://miro.medium.com/v2/resize:fit:600/1*IqjZ2v3VkF7FE6Ax3briCA.png'},
+{href:'on-perceiving.html',title:'On Perceiving',subtitle:'Misperception is a corridor whose architect burned the blueprint.',img:'https://miro.medium.com/v2/resize:fit:600/1*yOa_B48M5L0j4xm7w8wnKQ.png'},
+{href:'on-looking.html',title:'On Looking',subtitle:'A room full of directors and no audience.',img:'https://miro.medium.com/v2/resize:fit:600/1*g2FLjY3V9utA09Yp_CaQYQ.png'},
+{href:'on-forgiveness.html',title:'On Forgiveness',subtitle:'Cruelty made architectural.',img:'https://miro.medium.com/v2/resize:fit:600/1*7rEEeB6sH4VS-tePMsb4_w.png'},
+{href:'on-beauty.html',title:'On Beauty',subtitle:'The corridor narrows in adversity.',img:'../images/on-beauty.png'},
+{href:'on-longing.html',title:'On Longing',subtitle:'Lighter. Smaller. Younger.',img:'../images/on-longing.png'},
+{href:'on-silence.html',title:'On Silence',subtitle:'I forgot I had a cat.',img:'../images/on-silence.jpg'}
+];
+var cur=window.location.pathname.split('/').pop();
+var pool=ALL.filter(function(e){return e.href!==cur;});
+for(var i=pool.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=pool[i];pool[i]=pool[j];pool[j]=t;}
+var picks=pool.slice(0,4);
+var el=document.getElementById('more-essays');
+if(!el)return;
+var h='<h2 class="more-essays-title">More Essays</h2><ul class="more-essays-grid">';
+for(var k=0;k<picks.length;k++){var e=picks[k];h+='<li><a href="'+e.href+'" class="essay-card"><img src="'+e.img+'" alt="'+e.title.replace(/"/g,'&quot;')+'" class="essay-thumb" loading="lazy"><div class="essay-card-text"><span class="essay-title">'+e.title+'</span><span class="essay-card-subtitle">'+e.subtitle+'</span></div></a></li>';}
+h+='</ul>';
+el.innerHTML=h;
+})();
 </script>
 </body></html>

@@ -62,7 +62,7 @@
         }
         header.scrolled {background: rgba(250, 248, 244, 0.92); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-bottom-color: var(--border);}
         
-        nav { display: flex; flex-direction: column; padding-bottom: 12px; }
+        nav { display: flex; flex-direction: column; padding-bottom: 12px; position: relative; }
         .nav-top-row { display: flex; justify-content: space-between; align-items: center; width: 100%; }
         
         .nav-home { display: flex; align-items: center; gap: 10px; border: none; }
@@ -78,11 +78,19 @@
         .header-share-btn svg, .hamburger-btn svg { width: 22px; height: 22px; }
         .header-share-btn:hover, .hamburger-btn:hover { opacity: 0.6; }
         
-        .nav-links{display:none; width:100%; flex-direction:column; text-align:left; gap:12px; margin-top:16px; padding-top:16px; border-top:1px dashed var(--border);}
+        .nav-links{display:none; width:100%; flex-direction:column; text-align:left; gap:8px; margin-top:16px; padding-top:16px; border-top:1px dashed var(--border);}
         .nav-links.active{display:flex; animation:menuFadeDown 0.4s cubic-bezier(0.23,1,0.32,1) forwards;}
-        .nav-links a{color:var(--petrol); border:none; letter-spacing:.04em; padding:6px 0; font-size:18px; transition:opacity .2s ease;}
+        .nav-links a{color:var(--petrol); border:none; letter-spacing:.04em; padding:4px 0; font-size:16px; transition:opacity .2s ease;}
         .nav-links a:hover{opacity:0.8;}
+        .nav-group-label{font-size:10px;color:var(--vizon);text-transform:uppercase;letter-spacing:.12em;display:block;padding:8px 0 2px;border-top:1px dashed var(--border);margin-top:4px;}
+        .nav-group-label:first-child{border-top:none;margin-top:0;padding-top:0;}
         @keyframes menuFadeDown { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: translateY(0); } }
+        @media(min-width:769px){
+            .nav-links{position:absolute;right:0;top:100%;width:auto;min-width:260px;max-height:70vh;overflow-y:auto;background:rgba(250,248,244,0.97);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--border);border-radius:8px;padding:16px 20px;box-shadow:0 8px 32px rgba(32,96,96,0.08);gap:4px;margin-top:0;border-top:none;z-index:200;}
+            .nav-links a{font-size:14px;padding:3px 0;}
+            .nav-group-label{font-size:9px;padding:6px 0 2px;}
+            .nav-group-label:first-child{padding-top:0;}
+        }
         
         /* --- HERO --- */
         .hero{padding:48px 0 32px}
@@ -296,7 +304,24 @@
             </div>
             
             <div class="nav-links">
-                <a href="#essays">Essays</a>
+                <span class="nav-group-label">Essays</span>
+                <a href="essays/best-ideas.html">The Best Ideas Come When You Let Go</a>
+                <a href="essays/empathy-paradox.html">The Empathy Paradox</a>
+                <a href="essays/love-or-fear.html">It Is Either from Love or Fear</a>
+                <a href="essays/unfinished-things.html">Why Do Unfinished Things Haunt Us?</a>
+                <a href="essays/jung-shadow.html">Jung's Golden Shadow</a>
+                <a href="essays/defense-mechanisms.html">Our Defense Mechanisms</a>
+                <a href="essays/ai-enough.html">Will AI Be Enough for Us?</a>
+                <a href="essays/say-hello.html">Why Do We Say Hello?</a>
+                <span class="nav-group-label">The On Series</span>
+                <a href="essays/on-lying.html">On Lying</a>
+                <a href="essays/on-perceiving.html">On Perceiving</a>
+                <a href="essays/on-looking.html">On Looking</a>
+                <a href="essays/on-forgiveness.html">On Forgiveness</a>
+                <a href="essays/on-beauty.html">On Beauty</a>
+                <a href="essays/on-longing.html">On Longing</a>
+                <a href="essays/on-silence.html">On Silence</a>
+                <span class="nav-group-label">More</span>
                 <a href="#book">Book</a>
                 <a href="#moris">Moris</a>
                 <a href="#about">About</a>
