@@ -120,17 +120,14 @@
         .drawer-label{font-size:11px;color:var(--vizon);text-transform:uppercase;letter-spacing:.08em;margin-top:10px;display:block}
         .site-drawer a{color:var(--petrol);border:none;letter-spacing:.04em;padding:4px 0;font-size:16px;transition:opacity .2s ease}
         .site-drawer a:hover{opacity:.8}
-        .drawer-essay-cards{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:4px 0 4px}
+        .drawer-essay-cards{display:grid;grid-template-columns:1fr;gap:6px;margin:4px 0 4px}
         .drawer-essay-card-link{border:none;display:block;transition:opacity .2s ease;padding:0;letter-spacing:normal;font-size:inherit}
         .drawer-essay-card-link:hover{opacity:.7}
         .drawer-essay-card{display:flex;flex-direction:column;gap:4px}
-        .drawer-essay-card img{width:100%;height:54px;object-fit:cover;border-radius:4px;border:1px solid var(--border);display:block}
-        .drawer-essay-card-title{font-size:10px;color:var(--vizon);line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+        .drawer-essay-card img{width:100%;height:72px;object-fit:cover;border-radius:4px;border:1px solid var(--border);display:block}
+        .drawer-essay-card-title{font-size:10px;color:var(--petrol);line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
         .drawer-essay-card--current{opacity:.38;cursor:default}
         .drawer-essay-card--current img{border-color:var(--petrol)}
-        /* On Silence — finale card spans full row in drawer grid */
-        .drawer-essay-card-link--finale,.drawer-essay-card--finale{grid-column:1 / -1}
-        .drawer-essay-card--finale img{height:auto;aspect-ratio:16/7}
 
         @media(min-width:769px){
           .site-drawer{width:calc((100vw - 920px)/2 + 16px);min-width:260px;max-width:360px}
@@ -189,9 +186,6 @@
         .essay-card.text-only .essay-card-text {align-items: center; justify-content: center;}
         .essay-card.text-only .essay-title {font-size: 24px;}
         .series-note{margin-top:32px;font-size:15px;color:var(--vizon);font-style:italic; text-align: left;}
-        /* On Silence — finale card spans full row */
-        .essay-list-item--finale{grid-column:1 / -1}
-        .essay-list-item--finale .essay-thumb{height:auto;aspect-ratio:16/7}
         
         /* ABOUT SECTION */
         .hero-author-row {display: flex; align-items: center; gap: 16px; margin-bottom: 24px;}
@@ -282,7 +276,6 @@
             .essay-thumb {grid-column: 1 / 2; grid-row: 1 / 3; width: 100%; height: auto; aspect-ratio: 1; min-width: unset; margin: 0;}
             
             /* DÜZELTME BURADA YAPILDI */
-            .essay-list-item--finale .essay-thumb { aspect-ratio: 1; }
             
             .essay-card-text {grid-column: 2 / 3; grid-row: 1 / 2; gap: 4px;}
             .essay-meta-wrapper {grid-column: 2 / 3; grid-row: 2 / 3; padding-top: 0; justify-content: flex-start;}
@@ -529,7 +522,7 @@
                     <div class="essay-meta-wrapper"><span class="essay-meta">Apr 2, 2026</span><span class="essay-number">6 of 7</span></div>
                 </a></li>
                 
-                <li class="essay-list-item--finale"><a href="essays/on-silence.html" class="essay-card">
+                <li><a href="essays/on-silence.html" class="essay-card">
                     <img src="images/on-silence.jpg" alt="I forgot I had a cat." class="essay-thumb" loading="lazy">
                     <div class="essay-card-text">
                         <span class="essay-title">On Silence</span>
