@@ -37,11 +37,9 @@
 
     essays.forEach(function (e) {
       var isCurrent = (e.href === current);
-      var safeTitle = e.title.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
 
-      var isFinale = !!e.isFinale;
       var card = document.createElement('div');
-      card.className = 'drawer-essay-card' + (isCurrent ? ' drawer-essay-card--current' : '') + (isFinale ? ' drawer-essay-card--finale' : '');
+      card.className = 'drawer-essay-card' + (isCurrent ? ' drawer-essay-card--current' : '');
 
       var img = document.createElement('img');
       img.src = e.img;
@@ -59,7 +57,7 @@
       } else {
         var link = document.createElement('a');
         link.href = prefix + e.href;
-        link.className = 'drawer-essay-card-link' + (isFinale ? ' drawer-essay-card-link--finale' : '');
+        link.className = 'drawer-essay-card-link';
         link.setAttribute('aria-label', e.title);
         link.appendChild(card);
         container.appendChild(link);
