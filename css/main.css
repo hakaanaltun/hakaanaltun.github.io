@@ -119,7 +119,7 @@ body.drawer-open{overflow:hidden}
 }
 
 /* --- HERO --- */
-.hero{padding:48px 0 32px}
+.hero{padding:48px 0 32px;background-color:rgba(32,96,96,0.05);margin-left:-28px;margin-right:-28px;padding-left:28px;padding-right:28px}
 .hero h1{font-size:19px; font-weight:400; line-height:1.5; margin-top:0; font-style:italic; color:var(--vizon); background:rgba(32,96,96,0.02); margin-left:-28px; margin-right:-28px; padding:24px 28px; border-radius:2px; text-align:left;}
 .hero-quote-source {display: block; font-size: 15px; color: var(--petrol); margin-top: 16px; text-align: right; opacity: 0; transform: translateY(8px); transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);}
 .hero-quote-source.visible {opacity: 1; transform: translateY(0);}
@@ -302,6 +302,7 @@ color: var(--petrol);
     .container{padding:0 52px}
     header {margin-left: -52px; margin-right: -52px; padding-left: 52px; padding-right: 52px;}
     .hero h1{margin-left:-52px;margin-right:-52px;padding-left:52px;padding-right:52px}
+    .hero{margin-left:-52px;margin-right:-52px;padding-left:52px;padding-right:52px}
     .hero-quote-card h1{margin-left:0;margin-right:0;padding-left:0;padding-right:0}
     section.depth-1,section.depth-2,section.depth-3{margin-left:-52px;margin-right:-52px;padding-left:52px;padding-right:52px}
 }
@@ -360,6 +361,7 @@ color: var(--petrol);
 
     .container{padding:0 48px}
     section.depth-1,section.depth-2,section.depth-3{margin-left:-48px;margin-right:-48px;padding-left:48px;padding-right:48px}
+    .hero{margin-left:-48px;margin-right:-48px;padding-left:48px;padding-right:48px}
 }
 
 @media(max-width:420px){
