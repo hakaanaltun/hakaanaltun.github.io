@@ -237,6 +237,9 @@ color: var(--petrol);
     font-style: normal;
     letter-spacing: .04em;
     white-space: nowrap;
+    font-size: inherit;
+    color: var(--vizon);
+    letter-spacing: 1px;
 }
 .footer-brand-logo {
     width: 22px;
