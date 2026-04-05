@@ -232,6 +232,11 @@ color: var(--petrol);
     letter-spacing: 0;
 }
 .footer-brand-name {
+    color: var(--vizon);
+    font-size: inherit;
+    font-style: normal;
+    letter-spacing: .04em;
+    white-space: nowrap;
     font-size: inherit;
     color: var(--vizon);
     letter-spacing: 1px;
