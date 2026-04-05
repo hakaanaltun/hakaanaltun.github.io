@@ -222,6 +222,14 @@ opacity: 0.7;
 color: var(--petrol);
 }
 
+/* Footer brand lockup */
+.footer-brand { display: inline-flex; align-items: center; gap: 6px; text-decoration: none; }
+.footer-brand-logo { width: 24px; height: 24px; border-radius: 6px; object-fit: contain; background: var(--cream); border: 1px solid var(--border); }
+.footer-brand-tagline { display: flex; align-items: center; gap: 3px; }
+.footer-brand-on { color: var(--vizon); font-size: 14px; font-style: italic; line-height: 1; letter-spacing: 0; }
+.footer-brand-stack { display: flex; flex-direction: column; justify-content: center; }
+.footer-brand-line { color: var(--petrol); font-size: 6.5px; font-style: italic; letter-spacing: .04em; line-height: 1.2; }
+
 /* MOBİL DÜZENLEMELER */
 .mobile-corridor{display:none}
 

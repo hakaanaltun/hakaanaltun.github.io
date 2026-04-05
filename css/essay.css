@@ -254,6 +254,14 @@ footer a{font-size:13px;color:var(--vizon);border-bottom:1px solid var(--border)
 footer a:hover{color:var(--petrol)}
 .footer-petrol {color: var(--petrol) !important; border-bottom: none !important;}
 
+/* Footer brand lockup */
+.footer-brand{display:inline-flex;align-items:center;gap:6px;text-decoration:none;border-bottom:none}
+.footer-brand-logo{width:22px;height:22px;border-radius:6px;object-fit:contain;background:var(--cream);border:1px solid var(--border)}
+.footer-brand-tagline{display:flex;align-items:center;gap:3px}
+.footer-brand-on{color:var(--vizon);font-size:13px;font-style:italic;line-height:1;letter-spacing:0}
+.footer-brand-stack{display:flex;flex-direction:column;justify-content:center}
+.footer-brand-line{color:var(--petrol);font-size:6px;font-style:italic;letter-spacing:.04em;line-height:1.2}
+
 /* Responsive */
 @media(max-width:1050px){
     .container{padding:0 52px}
