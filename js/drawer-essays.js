@@ -19,7 +19,7 @@
   ];
   var SERIES_HREFS = [
     'on-lying.html', 'on-perceiving.html', 'on-looking.html',
-    'on-forgiveness.html', 'on-beauty.html', 'on-longing.html', 'on-silence.html'
+    'on-forgiveness.html', 'on-keeping.html', 'on-longing.html', 'on-silence.html'
   ];
 
   function filterEssays(hrefs) {
