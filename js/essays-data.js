@@ -1,4 +1,4 @@
-/* essays-data.js — Shared essay metadata for navigation and "More Essays" cards */
+/* essays-data.js—Shared essay metadata for navigation and "More Essays" cards */
 var ALL_ESSAYS = [
   {href:'best-ideas.html',title:'The Best Ideas Come When You Let Go',subtitle:'Default Mode Network and the art of not thinking',img:'https://miro.medium.com/v2/resize:fit:600/1*UjDYBeUBBvmImB5JFvYC0A.jpeg',date:'Mar 8, 2026',readTime:'3 min'},
   {href:'empathy-paradox.html',title:'The Empathy Paradox',subtitle:'Outside every story but our own',img:'https://miro.medium.com/v2/resize:fit:600/1*pN4_9fIbWOr7dNg27qdGqA.png',date:'Mar 4, 2026',readTime:'4 min'},

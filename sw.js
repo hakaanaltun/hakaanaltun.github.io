@@ -8,7 +8,7 @@ var urlsToCache = [
     '/icon-512.png'
 ];
 
-// Install — cache core files
+// Install—cache core files
 self.addEventListener('install', function(event) {
     event.waitUntil(
         caches.open(CACHE_NAME).then(function(cache) {
@@ -18,7 +18,7 @@ self.addEventListener('install', function(event) {
     self.skipWaiting();
 });
 
-// Activate — clean old caches
+// Activate—clean old caches
 self.addEventListener('activate', function(event) {
     event.waitUntil(
         caches.keys().then(function(cacheNames) {
@@ -34,7 +34,7 @@ self.addEventListener('activate', function(event) {
     self.clients.claim();
 });
 
-// Fetch — network first, cache fallback
+// Fetch—network first, cache fallback
 self.addEventListener('fetch', function(event) {
     event.respondWith(
         fetch(event.request).then(function(response) {

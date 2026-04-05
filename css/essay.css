@@ -1,4 +1,4 @@
-/* essay.css — On Life & Everything — Ortak Essay Stilleri */
+/* essay.css—On Life & Everything—Ortak Essay Stilleri */
 /* Bu dosyayı değiştirdiğinde TÜM essay sayfaları güncellenir */
 
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -68,7 +68,7 @@ nav{display:flex;flex-direction:column;padding-bottom:14px}
 /* Hamburger Button */
 .hamburger-btn{background:transparent;border:none;color:var(--petrol);padding:6px;cursor:pointer;transition:opacity .2s ease;display:flex;align-items:center;justify-content:center}
 .hamburger-btn:hover{opacity:.6}
-/* Remove sticky focus ring on touch — show only for keyboard */
+/* Remove sticky focus ring on touch—show only for keyboard */
 .hamburger-btn:focus,
 .essay-share-btn:focus,
 .drawer-close:focus {
@@ -86,7 +86,7 @@ nav{display:flex;flex-direction:column;padding-bottom:14px}
 .essay-share-btn svg,.hamburger-btn svg{width:22px;height:22px}
 .essay-share-btn:hover{opacity:.6}
 
-/* Old .nav-links dropdown: hidden — replaced by drawer */
+/* Old .nav-links dropdown: hidden—replaced by drawer */
 .nav-links{display:none!important}
 
 /* Lock body scroll when drawer is open */
@@ -96,7 +96,7 @@ body.drawer-open{overflow:hidden}
 .drawer-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.18);z-index:199;opacity:0;pointer-events:none;transition:opacity .35s ease}
 .drawer-backdrop.open{opacity:1;pointer-events:auto}
 
-/* Drawer panel — right side, works on all viewports */
+/* Drawer panel—right side, works on all viewports */
 .site-drawer{
   position:fixed;top:0;right:0;bottom:0;
   width:220px;max-width:62vw;
@@ -220,7 +220,7 @@ body.drawer-open{overflow:hidden}
 .series-nav-list .series-num{color:var(--vizon)}
 .series-nav-list .series-title{color:var(--petrol)}
 
-/* More Essays — Homepage-style cards on essay pages */
+/* More Essays—Homepage-style cards on essay pages */
 .more-essays{border-top:1px solid var(--border);padding:32px 0 48px;margin-top:32px}
 .more-essays-title{font-size:13px;color:var(--petrol);text-transform:uppercase;letter-spacing:.08em;margin-bottom:20px}
 

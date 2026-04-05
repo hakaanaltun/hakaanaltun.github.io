@@ -1,4 +1,4 @@
-/* main.css — On Life & Everything — Homepage Styles */
+/* main.css—On Life & Everything—Homepage Styles */
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{--bg:#FAF8F4;--bg-warm:#F5F3ED;--bg-deep:#EDEBE1;--bg-content:#E3E1D5;--petrol:#206060;--charcoal:#302E2B;--vizon:#8A8279;--border:#E8E2D9;--cream:#FDFCFA;--shadow:rgba(32,96,96,0.04);--corridor-line:rgba(32,96,96,0.08);--corridor-line-active:rgba(32,96,96,0.18)}
 html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
@@ -46,7 +46,7 @@ nav { display: flex; flex-direction: column; padding-bottom: 12px; }
 .header-share-btn, .hamburger-btn { background: transparent; border: none; color: var(--petrol); padding: 6px; cursor: pointer; transition: opacity .2s ease, color .2s ease; display: flex; align-items: center; justify-content: center;}
 .header-share-btn svg, .hamburger-btn svg { width: 22px; height: 22px; }
 .header-share-btn:hover, .hamburger-btn:hover { opacity: 0.6; }
-/* Remove sticky focus ring on touch — show only for keyboard */
+/* Remove sticky focus ring on touch—show only for keyboard */
 .hamburger-btn:focus,
 .header-share-btn:focus,
 .drawer-close:focus {
@@ -60,7 +60,7 @@ nav { display: flex; flex-direction: column; padding-bottom: 12px; }
   border-radius: 4px;
 }
 
-/* Old .nav-links dropdown: hidden — replaced by drawer */
+/* Old .nav-links dropdown: hidden—replaced by drawer */
 .nav-links{display:none!important}
 
 /* Lock body scroll when drawer is open */
