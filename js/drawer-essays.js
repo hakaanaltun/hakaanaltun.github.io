@@ -10,7 +10,8 @@
   /* Detect if we're inside the essays/ subdirectory */
   var isEssayPage = window.location.pathname.indexOf('/essays/') !== -1;
   var prefix = isEssayPage ? '' : 'essays/';
-  var current = window.location.pathname.split('/').pop() || '';
+  /* Only mark a card as current when we are actually on an essay page */
+  var current = isEssayPage ? (window.location.pathname.split('/').pop() || '') : '';
 
   var REGULAR_HREFS = [
     'best-ideas.html', 'empathy-paradox.html', 'love-or-fear.html',
