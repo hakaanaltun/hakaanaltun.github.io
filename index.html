@@ -308,7 +308,12 @@
         <section id="moris" class="depth-0"><div class="scroll-reveal">
             <span class="section-label">Moris</span>
             <div class="moris-card">
-              <div class="moris-video"><iframe src="https://www.youtube.com/embed/_1lfbVnbHHA" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+              <div class="moris-video" id="moris-video-wrapper">
+                <img src="https://img.youtube.com/vi/_1lfbVnbHHA/hqdefault.jpg" alt="Moris – The one who made it to the cover" class="moris-video-thumb" loading="lazy">
+                <button class="moris-video-play" aria-label="Play Moris video">
+                  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polygon points="6,3 20,12 6,21"/></svg>
+                </button>
+              </div>
               <p class="moris-caption">The one who made it to the cover</p>
             </div>
         </div></section>
@@ -513,21 +518,25 @@
             window.addEventListener('load',function(){ ta(); });
         }
 
-        var bookVideoWrapper = document.getElementById('book-video-wrapper');
-        if (bookVideoWrapper) {
-            bookVideoWrapper.addEventListener('click', function() {
-                var iframe = document.createElement('iframe');
-                iframe.src = 'https://www.youtube.com/embed/RQE0mUu75n8?autoplay=1';
-                iframe.setAttribute('allowfullscreen', '');
-                iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
-                iframe.style.cssText = 'width:100%;height:100%;border:none;position:absolute;top:0;left:0';
-                bookVideoWrapper.style.position = 'relative';
-                while (bookVideoWrapper.firstChild) {
-                    bookVideoWrapper.removeChild(bookVideoWrapper.firstChild);
-                }
-                bookVideoWrapper.appendChild(iframe);
-            });
+        function initClickToLoadVideo(wrapperId, videoUrl) {
+            var wrapper = document.getElementById(wrapperId);
+            if (wrapper) {
+                wrapper.addEventListener('click', function() {
+                    var iframe = document.createElement('iframe');
+                    iframe.src = videoUrl;
+                    iframe.setAttribute('allowfullscreen', '');
+                    iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+                    iframe.style.cssText = 'width:100%;height:100%;border:none;position:absolute;top:0;left:0';
+                    wrapper.style.position = 'relative';
+                    while (wrapper.firstChild) {
+                        wrapper.removeChild(wrapper.firstChild);
+                    }
+                    wrapper.appendChild(iframe);
+                });
+            }
         }
+        initClickToLoadVideo('book-video-wrapper', 'https://www.youtube.com/embed/RQE0mUu75n8?autoplay=1');
+        initClickToLoadVideo('moris-video-wrapper', 'https://www.youtube.com/embed/_1lfbVnbHHA?autoplay=1');
     })();
     </script>
     <script>if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js');});}</script>
