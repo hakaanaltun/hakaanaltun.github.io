@@ -193,10 +193,15 @@ section.depth-3{background-color:rgba(32,96,96,0.04);margin-left:-28px;margin-ri
 .book-video-caption {margin-top: 12px; font-size: 14px; color: var(--vizon); font-style: italic; line-height: 1.5;}
 
 /* MORIS KART */
-.moris-card {max-width: 380px; margin: 0 auto; border: 1px solid var(--border); border-radius: 8px; background: var(--cream); overflow: hidden;}
-.moris-video {margin: 0; border-radius: 0; overflow: hidden; background-color: #000; box-shadow: none;}
-.moris-video iframe{width:100%; aspect-ratio:9/16; border:none; display:block}
-.moris-caption{padding: 16px; text-align:center; font-size:15px; color:var(--vizon); font-style:italic; margin-top: 0;}
+.moris-card {max-width: 380px; margin: 0 auto;}
+.moris-video {position: relative; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); cursor: pointer; aspect-ratio: 9/16; background-color: #000;}
+.moris-video-thumb {width: 100%; height: 100%; object-fit: cover; display: block;}
+.moris-video-play {position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(32,96,96,0.85); border: none; border-radius: 50%; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background .2s ease, transform .2s ease;}
+.moris-video-play:hover {background: rgba(32,96,96,1); transform: translate(-50%, -50%) scale(1.1);}
+.moris-video-play:focus-visible {outline: 2px solid var(--petrol); outline-offset: 3px; background: rgba(32,96,96,1);}
+.moris-video-play svg {width: 20px; height: 20px; fill: var(--cream); margin-left: 2px;}
+.moris-video iframe {width: 100%; height: 100%; border: none; position: absolute; top: 0; left: 0;}
+.moris-caption {padding: 12px 0 0; text-align: center; font-size: 14px; color: var(--vizon); font-style: italic; line-height: 1.5; margin-top: 0;}
 
 /* FOOTER */
 footer {
