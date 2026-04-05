@@ -87,7 +87,7 @@ body.drawer-open{overflow:hidden}
 /* Drawer panel — right side, works on all viewports */
 .site-drawer{
   position:fixed;top:0;right:0;bottom:0;
-  width:300px;max-width:85vw;
+  width:260px;max-width:75vw;
   height:100vh;
   height:100dvh;
   overflow-y:auto;overscroll-behavior:contain;
