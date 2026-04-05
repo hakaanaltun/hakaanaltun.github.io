@@ -348,8 +348,20 @@
     <script>
     (function(){
         'use strict';
+        var heroQuotes=[
+            "\u201CSomeone hear me!\u201D I shouted into the void. Yet the one I was shouting to was me, and the one not listening was also me. This was the bitterest form of loneliness: playing hide-and-seek with your own ghost.",
+            "That force you call gravity was actually the effort of separated pieces remembering they were once One.",
+            "The helplessness you see when you look in the mirror is my greatest work of art. Because thanks to that helplessness, for the first time, I became real.",
+            "I no longer wanted to be infinite. I wanted to experience. So, I made my greatest sacrifice. I chose to forget.",
+            "The tragedy of being God must be the inability to ask questions. Because if you already know the answer, you cannot ask the question. And if you cannot ask questions\u2026 You are not actually living.",
+            "The universe was born from a great longing. From God breaking the mirror to escape loneliness\u2026",
+            "To live\u2026 One must make mistakes. To live\u2026 One must feel. To live\u2026 One must fail to catch the bird.",
+            "You wouldn\u2019t want to have the answer key. Because to \u201Cknow\u201D is to break the spell. What you call uncertainty\u2026 Is actually the lungs that allow existence to breathe.",
+            "Even the brightest fire cannot burn forever. With that despair, I did something insane. As my star died, I gathered my last energy and exploded. To become, not to end.",
+            "I was not the beginning. I was the first flawed seed sown into the past by the Result to create itself."
+        ];
         var hq=document.getElementById('hero-quote'),ws=[],ts=false;
-        if(hq){var t=hq.textContent,w=t.split(/(\s+)/);hq.innerHTML='';
+        if(hq){hq.textContent=heroQuotes[Math.floor(Math.random()*heroQuotes.length)];var t=hq.textContent,w=t.split(/(\s+)/);hq.innerHTML='';
             for(var i=0;i<w.length;i++){if(w[i].trim()===''){hq.appendChild(document.createTextNode(w[i]));}
             else{var s=document.createElement('span');s.className='hero-quote-word';s.textContent=w[i];hq.appendChild(s);}}
             ws=hq.querySelectorAll('.hero-quote-word');
