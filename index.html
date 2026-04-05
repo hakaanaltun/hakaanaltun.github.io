@@ -37,6 +37,19 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400;1,500&display=swap">
     <link rel="stylesheet" href="css/main.css">
 
+    <style>
+    .quote-nav{display:flex;justify-content:center;gap:28px;margin-top:20px;opacity:0;transition:opacity 0.6s ease 1.2s;}
+    .hero-quote-card:hover .quote-nav,.hero-quote-card:focus-within .quote-nav{opacity:1;}
+    .quote-nav-btn{background:none;border:1px solid rgba(60,50,40,0.15);border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;color:rgba(60,50,40,0.4);transition:color 0.3s,border-color 0.3s,background 0.3s;}
+    .quote-nav-btn:hover{color:rgba(60,50,40,0.75);border-color:rgba(60,50,40,0.35);background:rgba(60,50,40,0.04);}
+    .quote-nav-btn svg{width:18px;height:18px;}
+    @media(max-width:600px){
+        .quote-nav{opacity:1;margin-top:16px;gap:20px;}
+        .quote-nav-btn{width:32px;height:32px;border-color:rgba(60,50,40,0.12);}
+        .quote-nav-btn svg{width:16px;height:16px;}
+    }
+    </style>
+
 </head>
 <body>
     <div class="corridor-vline corridor-vline--left" aria-hidden="true"></div>
@@ -122,6 +135,14 @@
             <div class="hero-quote-card">
             <h1 id="hero-quote">"Someone hear me!" I shouted into the void. Yet the one I was shouting to was me, and the one not listening was also me. This was the bitterest form of loneliness: playing hide-and-seek with your own ghost.</h1>
             <span id="hero-quote-source" class="hero-quote-source">— <i>Forgetting the Color of Nothingness</i></span>
+            <div class="quote-nav" aria-label="Quote navigation">
+                <button id="quote-prev" class="quote-nav-btn" aria-label="Previous quote">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                </button>
+                <button id="quote-next" class="quote-nav-btn" aria-label="Next quote">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg>
+                </button>
+            </div>
             </div>
         </div>
         
@@ -425,7 +446,7 @@
             {t:"Then I closed my eyes and let the dark simply be the dark.",s:"On Silence"}
         ];
         var hq=document.getElementById('hero-quote'),qs=document.getElementById('hero-quote-source'),ws=[],ts=false;
-        var lastIdx=-1,rotateTimer=null,ROTATE_DELAY=35000;
+        var currentIdx=-1,rotateTimer=null,ROTATE_DELAY=35000,isTransitioning=false;
 
         function buildWords(pick){
             if(qs){qs.classList.remove('visible');qs.innerHTML='\u2014 <i>'+pick.s+'</i>';}
@@ -441,8 +462,8 @@
         }
 
         function pickRandom(){
-            var idx;do{idx=Math.floor(Math.random()*heroQuotes.length);}while(idx===lastIdx&&heroQuotes.length>1);
-            lastIdx=idx;return heroQuotes[idx];
+            var idx;do{idx=Math.floor(Math.random()*heroQuotes.length);}while(idx===currentIdx&&heroQuotes.length>1);
+            currentIdx=idx;return heroQuotes[idx];
         }
 
         if(hq){
@@ -456,19 +477,44 @@
             var srcDelay=400+(ws.length*40);
             setTimeout(function(){if(qs)qs.classList.add('visible');},srcDelay);
             /* Schedule next rotation */
-            if(rotateTimer)clearTimeout(rotateTimer);
-            rotateTimer=setTimeout(rotateQuote,srcDelay+ROTATE_DELAY);
+            scheduleRotation(srcDelay+ROTATE_DELAY);
         }
 
-        function rotateQuote(){
+        function scheduleRotation(delay){
+            if(rotateTimer)clearTimeout(rotateTimer);
+            rotateTimer=setTimeout(rotateQuote,delay);
+        }
+
+        function transitionTo(idx){
+            if(isTransitioning)return;isTransitioning=true;
             hq.style.opacity='0';
             if(qs)qs.classList.remove('visible');
             setTimeout(function(){
-                buildWords(pickRandom());
+                currentIdx=idx;
+                buildWords(heroQuotes[currentIdx]);
                 hq.style.opacity='1';
+                isTransitioning=false;
                 stw();
             },700);
         }
+
+        function rotateQuote(){
+            var idx;do{idx=Math.floor(Math.random()*heroQuotes.length);}while(idx===currentIdx&&heroQuotes.length>1);
+            transitionTo(idx);
+        }
+
+        /* Manual navigation */
+        var prevBtn=document.getElementById('quote-prev'),nextBtn=document.getElementById('quote-next');
+        if(prevBtn)prevBtn.addEventListener('click',function(){
+            if(isTransitioning)return;
+            var idx=(currentIdx-1+heroQuotes.length)%heroQuotes.length;
+            transitionTo(idx);
+        });
+        if(nextBtn)nextBtn.addEventListener('click',function(){
+            if(isTransitioning)return;
+            var idx=(currentIdx+1)%heroQuotes.length;
+            transitionTo(idx);
+        });
 
         /* Use IntersectionObserver for reveal animations when available */
         if ('IntersectionObserver' in window) {
