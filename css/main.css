@@ -194,8 +194,8 @@ section.depth-3{background-color:rgba(32,96,96,0.04);margin-left:-28px;margin-ri
 
 /* MORIS KART */
 .moris-card {max-width: 380px; margin: 0 auto; border: 1px solid var(--border); border-radius: 8px; background: var(--cream); overflow: hidden;}
-.moris-video {margin: 0; border-radius: 0; overflow: hidden; background-color: #000; box-shadow: none;}
-.moris-video iframe{width:100%; aspect-ratio:9/16; border:none; display:block}
+.moris-video {position: relative; margin: 0; border-radius: 0; overflow: hidden; background-color: #000; box-shadow: none; aspect-ratio: 9/16; cursor: pointer;}
+.moris-video iframe{width:100%;height:100%;border:none;display:block;position:absolute;top:0;left:0;}
 .moris-caption{padding: 16px; text-align:center; font-size:15px; color:var(--vizon); font-style:italic; margin-top: 0;}
 
 /* FOOTER */
