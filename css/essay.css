@@ -130,6 +130,9 @@ body.drawer-open{overflow:hidden}
 .drawer-label{font-size:11px;color:var(--vizon);text-transform:uppercase;letter-spacing:.08em;margin-top:10px;display:block}
 .site-drawer a{color:var(--petrol);border:none;letter-spacing:.04em;padding:4px 0;font-size:16px;transition:opacity .2s ease}
 .site-drawer a:hover{opacity:.8}
+.drawer-section-links{display:flex;flex-direction:column;gap:4px;margin:4px 0}
+.drawer-section-links a{display:block;padding:8px 12px;border:1px solid var(--border);border-radius:6px;background:var(--cream);font-size:14px;color:var(--petrol);letter-spacing:.02em;transition:border-color .2s ease,background-color .2s ease,opacity .2s ease}
+.drawer-section-links a:hover{border-color:var(--petrol);background:rgba(32,96,96,0.03);opacity:1}
 
 /* Drawer essay thumbnail cards */
 .drawer-essay-cards{display:grid;grid-template-columns:1fr;gap:6px;margin:4px 0 4px}
