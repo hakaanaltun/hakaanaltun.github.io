@@ -1,4 +1,4 @@
-/* site-nav.js — Shared drawer sidebar for all pages */
+/* site-nav.js—Shared drawer sidebar for all pages */
 (function () {
   'use strict';
 

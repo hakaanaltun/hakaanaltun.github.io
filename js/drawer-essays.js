@@ -1,4 +1,4 @@
-/* drawer-essays.js — Replaces static essay links in drawer with thumbnail cards */
+/* drawer-essays.js—Replaces static essay links in drawer with thumbnail cards */
 (function () {
   'use strict';
 

@@ -1,4 +1,4 @@
-/* series-nav.js — Replaces .series-nav with On Series thumbnail cards */
+/* series-nav.js—Replaces .series-nav with On Series thumbnail cards */
 (function () {
   'use strict';
 

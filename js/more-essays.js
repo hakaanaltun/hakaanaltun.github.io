@@ -1,4 +1,4 @@
-/* more-essays.js — Renders 4 random "More essays" cards (homepage-style) */
+/* more-essays.js—Renders 4 random "More essays" cards (homepage-style) */
 (function () {
   'use strict';
   if (typeof ALL_ESSAYS === 'undefined') return;
