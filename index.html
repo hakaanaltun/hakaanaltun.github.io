@@ -349,26 +349,60 @@
     (function(){
         'use strict';
         var heroQuotes=[
-            "Can the future shape the past?",
-            "I was hungry for existence.\nHe was in love with nothingness.",
-            "Nostalgia.\nThat force you call gravity was actually the effort of separated pieces remembering they were once One.",
-            "I used to think time was my friend; it turned out to be my executioner.",
-            "And the first lesson of existence.\nEven the brightest fire cannot burn forever.",
-            "I knew heat, but I didn\u2019t know what it meant to burn.\nI knew gravity, but I didn\u2019t know what it meant to miss someone.\nI possessed the physics of existence, but not its story.",
-            "I compressed the memory of billions of years of starlight into that immense software called DNA.",
-            "\u201CYou are not stardust,\u201D I lied to myself.\n\u201CYou are this body.\nYou are this fear.\nYou are this hunger.\u201D",
-            "\u201CSomeone hear me!\u201D I shouted into the void.\nYet the one I was shouting to was me, and the one not listening was also me.\nThis was the bitterest form of loneliness:\nPlaying hide-and-seek with your own ghost.",
-            "There was only blood, mud, and the desperate question whispered to the sky:\n\u201CWho am I?\u201D",
-            "\u201CAlright, wise guys, you always wanted me to catch him. Now, what do I do?\u201D",
-            "\u201CSometimes\u2026\u201D It paused. \u201CSometimes I feel like I feel nothing.\u201D",
-            "\u201CThe tragedy of being God must be the inability to ask questions.\u201D",
-            "\u201CWhy?\u201D you ask.\nWhy is the past locked like an iron door closing behind you, while the future is as uncertain as a misty abyss?",
-            "What you call uncertainty\u2026\nIs actually the lungs that allow existence to breathe.",
-            "To live\u2026\nOne must make mistakes.\nTo live\u2026\nOne must feel.\nTo live\u2026\nOne must fail to catch the bird."
+            // — Forgetting the Color of Nothingness (16)
+            {t:"Can the future shape the past?",s:"Forgetting the Color of Nothingness"},
+            {t:"I was hungry for existence.\nHe was in love with nothingness.",s:"Forgetting the Color of Nothingness"},
+            {t:"Nostalgia.\nThat force you call gravity was actually the effort of separated pieces remembering they were once One.",s:"Forgetting the Color of Nothingness"},
+            {t:"I used to think time was my friend; it turned out to be my executioner.",s:"Forgetting the Color of Nothingness"},
+            {t:"And the first lesson of existence.\nEven the brightest fire cannot burn forever.",s:"Forgetting the Color of Nothingness"},
+            {t:"I knew heat, but I didn\u2019t know what it meant to burn.\nI knew gravity, but I didn\u2019t know what it meant to miss someone.\nI possessed the physics of existence, but not its story.",s:"Forgetting the Color of Nothingness"},
+            {t:"I compressed the memory of billions of years of starlight into that immense software called DNA.",s:"Forgetting the Color of Nothingness"},
+            {t:"\u201CYou are not stardust,\u201D I lied to myself.\n\u201CYou are this body.\nYou are this fear.\nYou are this hunger.\u201D",s:"Forgetting the Color of Nothingness"},
+            {t:"\u201CSomeone hear me!\u201D I shouted into the void.\nYet the one I was shouting to was me, and the one not listening was also me.\nThis was the bitterest form of loneliness:\nPlaying hide-and-seek with your own ghost.",s:"Forgetting the Color of Nothingness"},
+            {t:"There was only blood, mud, and the desperate question whispered to the sky:\n\u201CWho am I?\u201D",s:"Forgetting the Color of Nothingness"},
+            {t:"\u201CAlright, wise guys, you always wanted me to catch him. Now, what do I do?\u201D",s:"Forgetting the Color of Nothingness"},
+            {t:"\u201CSometimes\u2026\u201D It paused. \u201CSometimes I feel like I feel nothing.\u201D",s:"Forgetting the Color of Nothingness"},
+            {t:"\u201CThe tragedy of being God must be the inability to ask questions.\u201D",s:"Forgetting the Color of Nothingness"},
+            {t:"\u201CWhy?\u201D you ask.\nWhy is the past locked like an iron door closing behind you, while the future is as uncertain as a misty abyss?",s:"Forgetting the Color of Nothingness"},
+            {t:"What you call uncertainty\u2026\nIs actually the lungs that allow existence to breathe.",s:"Forgetting the Color of Nothingness"},
+            {t:"To live\u2026\nOne must make mistakes.\nTo live\u2026\nOne must feel.\nTo live\u2026\nOne must fail to catch the bird.",s:"Forgetting the Color of Nothingness"},
+            // — Essays (30)
+            {t:"New ideas need empty spaces to pass through.",s:"The Best Ideas Come When You Let Go"},
+            {t:"The brain is funny like that.\nWe think it\u2019s working the least when actually it\u2019s working the hardest.",s:"The Best Ideas Come When You Let Go"},
+            {t:"My friend\u2019s life is a map\u2014I look at it from above, I see the paths.\nMy own life is a forest. I am inside it. The trees block everything.",s:"The Empathy Paradox"},
+            {t:"I don\u2019t need someone to understand me.\nI just need a silence that doesn\u2019t ask questions.",s:"The Empathy Paradox"},
+            {t:"Fear is not stupid. Fear is the most intelligent thing inside us.\nIt studies love, learns its vocabulary, wears its clothes.",s:"It Is Either from Love or Fear"},
+            {t:"Love is slower. Love loses more visibly.\nBut love is the only thing I have ever done that felt like it was actually mine.",s:"It Is Either from Love or Fear"},
+            {t:"Some unfinished things are noise\u2014they grow if you don\u2019t put them somewhere.\nOthers are a compass\u2014they don\u2019t stop because they\u2019re not supposed to.",s:"Why Do Unfinished Things Haunt Us?"},
+            {t:"You close the email, but the email was never the point.\nBeing seen was.",s:"Why Do Unfinished Things Haunt Us?"},
+            {t:"We spend the first twenty years of our lives deciding what to lock away in that baggage.\nAnd we spend the rest of our lives trying to pull things back out.",s:"Jung\u2019s Golden Shadow"},
+            {t:"Those who never open the baggage grow older as the years pass, but they never mature.\nThose who open it are terrified at first, but then they become lighter.",s:"Jung\u2019s Golden Shadow"},
+            {t:"The system I\u2019d built to keep pain out was keeping everything else out too.",s:"Our Defense Mechanisms"},
+            {t:"The fortress that was supposed to protect me slowly turns into a damp, moldy cell.",s:"Our Defense Mechanisms"},
+            {t:"Life isn\u2019t about the perfect result we\u2019re trying to reach;\nit\u2019s about who we fall with and whose hand we hold to get back up.",s:"Will AI Be Enough for Us?"},
+            {t:"Perhaps in the future, our greatest joy won\u2019t be telling an AI, \u201CDo this for me.\u201D\nIt will be saying, \u201CNo, stop. I want to feel this myself.\u201D",s:"Will AI Be Enough for Us?"},
+            {t:"For us, the greatest fear is not being unloved or criticized, but being ignored.",s:"Why Do We Say Hello?"},
+            {t:"Even knowing they will be scolded, they prefer her shouting to her indifferent silence.\nBecause receiving a reaction is the most concrete proof of saying I am here and I exist.",s:"Why Do We Say Hello?"},
+            {t:"A lie carries no physical weight and still expands like a black hole.",s:"On Lying"},
+            {t:"Honesty was always available. Most of us knew that.\nWe just couldn\u2019t stomach what it cost on the first day.",s:"On Lying"},
+            {t:"The moment perception becomes uncomfortable is the moment it might be getting accurate.",s:"On Perceiving"},
+            {t:"The buildings we never question are the ones we should.",s:"On Perceiving"},
+            {t:"Everyone moved toward the stage.\nThe seats emptied behind them.",s:"On Looking"},
+            {t:"It\u2019s hard to obsess over who\u2019s watching when you\u2019ve just been watching someone else.",s:"On Looking"},
+            {t:"The debt sits untouched in the archive.\nYou just stop trying to collect it.",s:"On Forgiveness"},
+            {t:"To truly forgive\u2014to look at intentional destruction and offer absolution\u2014you need the towering, quiet arrogance of a god.",s:"On Forgiveness"},
+            {t:"The danger of surrender lay in who you became inside the disarray.",s:"On Keeping"},
+            {t:"Existence, quietly, refuses to come undone.",s:"On Keeping"},
+            {t:"Back then nothing had to be enough.\nWe hadn\u2019t learned that word yet, not in that way.",s:"On Longing"},
+            {t:"You see with what you have learned.\nWhat you have learned is your prison.",s:"On Longing"},
+            {t:"He breathed\u2014slow, even, entirely without effort\u2014the way only a creature with no unfinished business breathes.",s:"On Silence"},
+            {t:"Then I closed my eyes and let the dark simply be the dark.",s:"On Silence"}
         ];
-        var hq=document.getElementById('hero-quote'),ws=[],ts=false;
-        if(hq){var q=heroQuotes[Math.floor(Math.random()*heroQuotes.length)];hq.innerHTML='';
-            var lines=q.split('\n');
+        var hq=document.getElementById('hero-quote'),qs=document.getElementById('hero-quote-source'),ws=[],ts=false;
+        if(hq){var pick=heroQuotes[Math.floor(Math.random()*heroQuotes.length)];
+            if(qs)qs.innerHTML='\u2014 <i>'+pick.s+'</i>';
+            hq.innerHTML='';
+            var lines=pick.t.split('\n');
             for(var li=0;li<lines.length;li++){
                 if(li>0)hq.appendChild(document.createElement('br'));
                 var w=lines[li].split(/(\s+)/);
