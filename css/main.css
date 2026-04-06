@@ -1,21 +1,42 @@
 .footer-brand-logo {
-    width: 30px;
-    height: 30px;
-    border-radius: 7px;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
 }
 .footer-brand-on {
-    font-size: 19px;
+    font-size: 23px;
 }
 .footer-brand-life,
 .footer-brand-everything {
-    font-size: 9px;
+    font-size: 11px;
 }
 .footer-brand-tagline {
     gap: 5px;
 }
 .footer-brand-top {
-    gap: 8px;
+    gap: 9px;
 }
 .footer-lockup {
-    gap: 10px;
+    gap: 12px;
+}
+.footer-author {
+    font-size: 15px;
+}
+
+@media (max-width: 768px) {
+    .footer-brand-logo {
+        width: 32px;
+        height: 32px;
+        border-radius: 7px;
+    }
+    .footer-brand-on {
+        font-size: 20px;
+    }
+    .footer-brand-life,
+    .footer-brand-everything {
+        font-size: 10px;
+    }
+    .footer-author {
+        font-size: 14px;
+    }
 }
