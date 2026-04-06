@@ -267,14 +267,14 @@ footer a:hover{color:var(--petrol)}
 .footer-petrol {color: var(--petrol) !important; border-bottom: none !important;}
 
 /* Footer brand lockup */
-.footer-brand{display:inline-flex;align-items:center;gap:5px;text-decoration:none;border-bottom:none !important;letter-spacing:0}
+.footer-brand{display:inline-flex;align-items:center;gap:8px;text-decoration:none;border-bottom:none !important;letter-spacing:0}
 .footer-brand-name{color:var(--vizon);font-size:inherit;font-style:normal;letter-spacing:.04em;white-space:nowrap}
 .footer-brand-name{font-size:inherit;color:var(--vizon)}
-.footer-brand-logo{width:20px;height:20px;border-radius:5px;object-fit:contain;background:var(--cream);border:1px solid var(--border);flex-shrink:0}
+.footer-brand-logo{width:32px;height:32px;border-radius:6px;object-fit:contain;background:var(--cream);border:1px solid var(--border);flex-shrink:0}
 .footer-brand-tagline{display:flex;align-items:center;gap:3px}
-.footer-brand-on{color:var(--vizon);font-size:13px;font-style:italic;line-height:1;letter-spacing:0}
+.footer-brand-on{color:var(--vizon);font-size:22px;font-style:italic;line-height:1;letter-spacing:0}
 .footer-brand-stack{display:flex;flex-direction:column;justify-content:center}
-.footer-brand-life,.footer-brand-everything{color:var(--petrol);font-size:7px;font-style:italic;letter-spacing:.02em;line-height:1.2}
+.footer-brand-life,.footer-brand-everything{color:var(--petrol);font-size:10px;font-style:italic;letter-spacing:.02em;line-height:1.15}
 
 /* Responsive */
 @media(max-width:1050px){
@@ -291,6 +291,10 @@ footer a:hover{color:var(--petrol)}
     .essay-body h2{font-size:20px}
     .tagline-on{font-size:20px}
     .tagline-green{font-size:8px}
+    .footer-brand{gap:6px}
+    .footer-brand-logo{width:28px;height:28px;border-radius:5px}
+    .footer-brand-on{font-size:18px}
+    .footer-brand-life,.footer-brand-everything{font-size:8.5px}
     .nav-home img{width:32px;height:32px}
     .essay-share-btn svg,.hamburger-btn svg{width:18px;height:18px}
     .essay-nav .next-series-link {font-size: 14px;}
