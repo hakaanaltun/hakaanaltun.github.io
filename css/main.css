@@ -223,17 +223,14 @@ text-align: center;
 font-family: 'Lora', Georgia, serif !important;
 }
 
-footer p, footer a {
+footer > p {
 font-size: 14px;
 color: var(--vizon);
 letter-spacing: 1px;
 font-family: 'Lora', Georgia, serif !important;
 text-decoration: none;
-}
-
-footer p {
-    margin: 0;
-    line-height: 1.4;
+margin: 0;
+line-height: 1.4;
 }
 
 footer a:hover {
