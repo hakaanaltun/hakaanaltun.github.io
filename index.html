@@ -38,14 +38,14 @@
     <link rel="stylesheet" href="css/main.css">
 
     <style>
-    .quote-nav{display:flex;justify-content:center;gap:28px;margin-top:20px;opacity:0;transition:opacity 0.6s ease 1.2s;}
-    .hero-quote-card:hover .quote-nav,.hero-quote-card:focus-within .quote-nav{opacity:1;}
+    .quote-nav{display:flex;justify-content:center;gap:28px;margin-top:20px;opacity:0;pointer-events:none;transition:opacity 0.4s ease;}
+    .quote-nav.quote-nav-visible{opacity:1;pointer-events:auto;}
     .quote-nav-btn{background:none;border:1px solid rgba(60,50,40,0.15);border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;color:rgba(60,50,40,0.4);transition:color 0.3s,border-color 0.3s,background 0.3s;}
     .quote-nav-btn:hover{color:rgba(60,50,40,0.75);border-color:rgba(60,50,40,0.35);background:rgba(60,50,40,0.04);}
     .quote-nav-btn svg{width:18px;height:18px;}
     @media(max-width:600px){
-        .quote-nav{opacity:0;margin-top:16px;gap:20px;transition:opacity 0.4s ease;}
-        .quote-nav.quote-nav-visible{opacity:1;}
+        .quote-nav{opacity:0;margin-top:16px;gap:20px;transition:opacity 0.4s ease;pointer-events:none;}
+        .quote-nav.quote-nav-visible{opacity:1;pointer-events:auto;}
         .quote-nav-btn{width:32px;height:32px;border-color:rgba(60,50,40,0.12);}
         .quote-nav-btn svg{width:16px;height:16px;}
     }
@@ -376,7 +376,7 @@
         </div></section>
         
         <footer>
-            <a href="/" style="color:var(--vizon);text-decoration:none;">İstanbul, 2026</a>
+            <a href="#" style="color:var(--vizon);text-decoration:none;">İstanbul, 2026</a>
         </footer>
     </div>
     
@@ -519,7 +519,12 @@
         });
         if(prevBtn)prevBtn.addEventListener('click',flashNav);
         if(nextBtn)nextBtn.addEventListener('click',flashNav);
-        flashNav();
+        document.addEventListener('click',function(e){
+            if(!qNav)return;
+            if(e.target.closest('.quote-nav-btn')||e.target.closest('.hero-quote-card'))return;
+            qNav.classList.remove('quote-nav-visible');
+            clearTimeout(navHideTimer);
+        });
 
         /* Use IntersectionObserver for reveal animations when available */
         if ('IntersectionObserver' in window) {
