@@ -248,6 +248,7 @@ opacity: 0.7;
     gap: 6px;
     text-decoration: none;
     border: none;
+    white-space: nowrap;
 }
 .footer-brand-logo {
     width: 22px;
@@ -261,7 +262,7 @@ opacity: 0.7;
 .footer-brand-tagline {
     display: inline-flex;
     align-items: center;
-    gap: 3px;
+    gap: 4px;
 }
 .footer-brand-on {
     color: var(--vizon);
@@ -271,18 +272,18 @@ opacity: 0.7;
     letter-spacing: 0;
 }
 .footer-brand-stack {
-    display: flex;
+    display: inline-flex;
     flex-direction: column;
-    justify-content: center;
-    line-height: 1;
+    justify-content: space-between;
+    align-self: stretch;
 }
 .footer-brand-life,
 .footer-brand-everything {
     color: var(--petrol);
-    font-size: 6.5px;
+    font-size: 7px;
     font-style: italic;
     letter-spacing: .02em;
-    line-height: 1.15;
+    line-height: 1;
 }
 .footer-author {
     font-size: 13px;
@@ -314,7 +315,6 @@ opacity: 0.7;
     .site-logo {width:32px; height:32px; border-radius:8px;}
     .tagline-on {font-size:20px;}
     .tagline-life, .tagline-everything {font-size:8px;}
-    .nav-home-author { padding-left: 42px; }
     .header-share-btn svg, .hamburger-btn svg {width:18px; height:18px;}
 
     .content-title, .section-label { font-size: 22px; }
