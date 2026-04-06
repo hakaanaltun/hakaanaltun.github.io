@@ -245,49 +245,14 @@ color: var(--petrol);
 }
 
 /* FOOTER BRAND LOCKUP */
-.footer-brand {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    text-decoration: none;
-    border: none;
-    letter-spacing: 0;
-    white-space: nowrap;
-}
-.footer-brand-logo {
-    width: 32px;
-    height: 32px;
-    border-radius: 6px;
-    object-fit: contain;
-    background: var(--cream);
-    border: 1px solid var(--border);
-    flex-shrink: 0;
-}
-.footer-brand-tagline {
-    display: inline-flex;
-    align-items: center;
-    gap: 3px;
-}
-.footer-brand-on {
-    color: var(--vizon);
-    font-size: 22px;
-    font-style: italic;
-    line-height: 1;
-    letter-spacing: 0;
-}
-.footer-brand-stack {
+.footer-logo-wrap {
     display: flex;
-    flex-direction: column;
     justify-content: center;
-    gap: 0;
+    margin-bottom: 4px;
 }
-.footer-brand-life,
-.footer-brand-everything {
-    color: var(--petrol);
-    font-size: 10px;
-    font-style: italic;
-    letter-spacing: .02em;
-    line-height: 1.2;
+.footer-logo-wrap .nav-home {
+    transform: scale(0.72);
+    transform-origin: center center;
 }
 
 /* MOBİL DÜZENLEMELER */
@@ -322,10 +287,7 @@ color: var(--petrol);
     .hero{padding:32px 0 24px} section{padding:36px 0}
     section::before{left:46px} section.line-drawn::before{width:calc(100% - 92px)}
 
-    .footer-brand { gap: 6px; }
-    .footer-brand-logo { width: 28px; height: 28px; border-radius: 5px; }
-    .footer-brand-on { font-size: 18px; }
-    .footer-brand-life, .footer-brand-everything { font-size: 8.5px; line-height: 1.2; }
+    .footer-logo-wrap .nav-home { transform: scale(0.62); }
 
     .desktop-links { display: none !important; }
     .book-layout-wrapper { display: flex; flex-direction: column; }
