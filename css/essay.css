@@ -56,7 +56,7 @@ header.scrolled{
 }
 nav{display:flex;flex-direction:column;padding-bottom:14px}
 .nav-home{display:flex;align-items:center;gap:10px;border:none}
-.site-logo-wide{height:58px;width:auto;object-fit:contain}
+.site-logo-wide{height:68px;width:auto;object-fit:contain}
 
 /* Nav Top Row */
 .nav-top-row{display:flex;justify-content:space-between;align-items:center;width:100%}
@@ -256,9 +256,9 @@ body.drawer-open{overflow:hidden}
 footer{padding:60px 0 40px;border-top:1px solid var(--border);text-align:center;font-family:'Lora',Georgia,serif !important}
 footer > p{font-size:13px;color:var(--vizon);margin:0;line-height:1.4}
 .footer-home{display:inline-block;text-decoration:none;border:none;border-bottom:none !important}
-.footer-logo-wide{height:36px;width:auto;object-fit:contain}
+.footer-logo-wide{height:48px;width:auto;object-fit:contain}
 .drawer-logo-link{display:block;border:none;border-bottom:none !important;text-decoration:none;margin-bottom:16px}
-.drawer-logo{height:28px;width:auto;object-fit:contain;display:block;opacity:0.7}
+.drawer-logo{height:36px;width:auto;object-fit:contain;display:block;opacity:0.82}
 
 /* Responsive */
 @media(max-width:1050px){
@@ -273,13 +273,15 @@ footer > p{font-size:13px;color:var(--vizon);margin:0;line-height:1.4}
     .essay-header{padding:36px 0 24px}
     .essay-body blockquote{font-size:17px}
     .essay-body h2{font-size:20px}
-    .site-logo-wide{height:40px}
-    .footer-logo-wide{height:30px}
+    .site-logo-wide{height:52px}
+    .footer-logo-wide{height:40px}
     .essay-share-btn svg,.hamburger-btn svg{width:18px;height:18px}
     .essay-nav .next-series-link {font-size: 14px;}
     .essay-card-wrapper{padding:24px 20px}
 }
 @media(max-width:420px){
+    .site-logo-wide{height:46px}
+    .footer-logo-wide{height:36px}
     .container{padding:0 32px}
     header{margin-left:-32px;margin-right:-32px;padding-left:32px;padding-right:32px}
     .essay-header h1{font-size:22px}
