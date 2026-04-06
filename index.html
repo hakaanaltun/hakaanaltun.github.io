@@ -44,8 +44,7 @@
     .quote-nav-btn:hover{color:rgba(60,50,40,0.75);border-color:rgba(60,50,40,0.35);background:rgba(60,50,40,0.04);}
     .quote-nav-btn svg{width:18px;height:18px;}
     @media(max-width:600px){
-        .quote-nav{opacity:0;margin-top:16px;gap:20px;}
-        .quote-nav.touch-visible{opacity:1;}
+        .quote-nav{opacity:1;margin-top:16px;gap:20px;}
         .quote-nav-btn{width:32px;height:32px;border-color:rgba(60,50,40,0.12);}
         .quote-nav-btn svg{width:16px;height:16px;}
     }
@@ -376,19 +375,18 @@
         </div></section>
         
         <footer>
-            <div class="footer-lockup">
-                <a href="#" class="footer-brand-top" aria-label="On Life &amp; Everything">
-                    <img src="on-logo.png" alt="On Life &amp; Everything logo" class="footer-brand-logo">
-                    <span class="footer-brand-tagline">
-                        <span class="footer-brand-on">On</span>
-                        <span class="footer-brand-stack">
-                            <span class="footer-brand-life">Life &amp;</span>
-                            <span class="footer-brand-everything">Everything</span>
-                        </span>
+            <p><a href="#" class="footer-brand" aria-label="Hakan Altun — On Life &amp; Everything">
+                <span class="footer-brand-name">Hakan Altun&ensp;—</span>
+                <img src="on-logo.png" alt="On Life &amp; Everything logo" class="footer-brand-logo">
+                <span class="footer-brand-tagline">
+                    <span class="footer-brand-on">On</span>
+                    <span class="footer-brand-stack">
+                        <span class="footer-brand-life">Life &amp;</span>
+                        <span class="footer-brand-everything">Everything</span>
                     </span>
-                </a>
-                <p class="footer-author">Hakan Altun — İstanbul, 2026</p>
-            </div>
+                </span>
+            </a></p>
+            <p style="margin-top:8px">İstanbul, 2026</p>
         </footer>
     </div>
     
@@ -430,7 +428,7 @@
             {t:"The fortress that was supposed to protect me slowly turns into a damp, moldy cell.",s:"Our Defense Mechanisms"},
             {t:"Life is about who we fall with and whose hand we hold to get back up.",s:"Will AI Be Enough for Us?"},
             {t:"Perhaps in the future, our greatest joy will be saying,\n\u201CNo, stop. I want to feel this myself.\u201D",s:"Will AI Be Enough for Us?"},
-            {t:"Generally speaking, when we are being selfish, affectionate, playful, creative, mean, or are simply having fun, we are operating from our Child Ego State.",s:"Why Do We Say Hello?"},
+            {t:"For us, the greatest fear is not being unloved or criticized, but being ignored.",s:"Why Do We Say Hello?"},
             {t:"Even knowing they will be scolded, they prefer her shouting to her indifferent silence.\nBecause receiving a reaction is the most concrete proof of saying I am here and I exist.",s:"Why Do We Say Hello?"},
             {t:"A lie carries no physical weight and still expands like a black hole.",s:"On Lying"},
             {t:"Honesty was always available. Most of us knew that.\nWe just couldn\u2019t stomach what it cost on the first day.",s:"On Lying"},
@@ -507,22 +505,16 @@
 
         /* Manual navigation */
         var prevBtn=document.getElementById('quote-prev'),nextBtn=document.getElementById('quote-next');
-        if(prevBtn)prevBtn.addEventListener('click',function(){if(isTransitioning)return;rotateQuote();});
-        if(nextBtn)nextBtn.addEventListener('click',function(){if(isTransitioning)return;rotateQuote();});
-
-        /* Touch-to-reveal arrows on mobile */
-        var quoteCard = document.querySelector('.hero-quote-card');
-        var quoteNavEl = document.querySelector('.quote-nav');
-        if (quoteCard && quoteNavEl) {
-            var touchTimer = null;
-            quoteCard.addEventListener('touchstart', function() {
-                quoteNavEl.classList.add('touch-visible');
-                if (touchTimer) clearTimeout(touchTimer);
-                touchTimer = setTimeout(function() {
-                    quoteNavEl.classList.remove('touch-visible');
-                }, 2500);
-            }, {passive: true});
-        }
+        if(prevBtn)prevBtn.addEventListener('click',function(){
+            if(isTransitioning)return;
+            var idx=(currentIdx-1+heroQuotes.length)%heroQuotes.length;
+            transitionTo(idx);
+        });
+        if(nextBtn)nextBtn.addEventListener('click',function(){
+            if(isTransitioning)return;
+            var idx=(currentIdx+1)%heroQuotes.length;
+            transitionTo(idx);
+        });
 
         /* Use IntersectionObserver for reveal animations when available */
         if ('IntersectionObserver' in window) {
