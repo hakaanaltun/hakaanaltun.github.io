@@ -66,6 +66,14 @@
     }
   });
 
+  /* ── Header & footer logo scroll-to-top on homepage ── */
+  document.querySelectorAll('a.nav-home[href="#"], a.footer-home[href="#"]').forEach(function (el) {
+    el.addEventListener('click', function (e) {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+
   /* ── Close‑then‑navigate for links inside drawer ── */
   var links = drawer.querySelectorAll('a');
   links.forEach(function (link) {
@@ -83,8 +91,12 @@
         closeDrawer(false);
         /* Wait for drawer close transition then scroll */
         setTimeout(function () {
-          var target = document.querySelector(href);
-          if (target) target.scrollIntoView({ behavior: 'smooth' });
+          if (href === '#') {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          } else {
+            var target = document.querySelector(href);
+            if (target) target.scrollIntoView({ behavior: 'smooth' });
+          }
         }, 100);
       } else {
         /* Normal link or remote anchor – close drawer first, then navigate */
