@@ -509,16 +509,8 @@
 
         /* Manual navigation */
         var prevBtn=document.getElementById('quote-prev'),nextBtn=document.getElementById('quote-next');
-        if(prevBtn)prevBtn.addEventListener('click',function(){
-            if(isTransitioning)return;
-            var idx;do{idx=Math.floor(Math.random()*heroQuotes.length);}while(idx===currentIdx&&heroQuotes.length>1);
-            transitionTo(idx);
-        });
-        if(nextBtn)nextBtn.addEventListener('click',function(){
-            if(isTransitioning)return;
-            var idx;do{idx=Math.floor(Math.random()*heroQuotes.length);}while(idx===currentIdx&&heroQuotes.length>1);
-            transitionTo(idx);
-        });
+        if(prevBtn)prevBtn.addEventListener('click',function(){if(isTransitioning)return;rotateQuote();});
+        if(nextBtn)nextBtn.addEventListener('click',function(){if(isTransitioning)return;rotateQuote();});
 
         /* Touch-to-reveal arrows on mobile */
         var quoteCard = document.querySelector('.hero-quote-card');
