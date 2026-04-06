@@ -375,8 +375,7 @@
         </div></section>
         
         <footer>
-            <p><a href="#" class="footer-brand" aria-label="Hakan Altun — On Life &amp; Everything">
-                <span class="footer-brand-name">Hakan Altun&ensp;—</span>
+            <p><a href="#" class="footer-brand" aria-label="On Life &amp; Everything">
                 <img src="on-logo.png" alt="On Life &amp; Everything logo" class="footer-brand-logo">
                 <span class="footer-brand-tagline">
                     <span class="footer-brand-on">On</span>
@@ -386,7 +385,7 @@
                     </span>
                 </span>
             </a></p>
-            <p style="margin-top:8px">İstanbul, 2026</p>
+            <p style="margin-top:8px">Hakan Altun&ensp;—&ensp;İstanbul, 2026</p>
         </footer>
     </div>
     
@@ -507,13 +506,11 @@
         var prevBtn=document.getElementById('quote-prev'),nextBtn=document.getElementById('quote-next');
         if(prevBtn)prevBtn.addEventListener('click',function(){
             if(isTransitioning)return;
-            var idx=(currentIdx-1+heroQuotes.length)%heroQuotes.length;
-            transitionTo(idx);
+            rotateQuote();
         });
         if(nextBtn)nextBtn.addEventListener('click',function(){
             if(isTransitioning)return;
-            var idx=(currentIdx+1)%heroQuotes.length;
-            transitionTo(idx);
+            rotateQuote();
         });
 
         /* Use IntersectionObserver for reveal animations when available */
