@@ -44,7 +44,8 @@
     .quote-nav-btn:hover{color:rgba(60,50,40,0.75);border-color:rgba(60,50,40,0.35);background:rgba(60,50,40,0.04);}
     .quote-nav-btn svg{width:18px;height:18px;}
     @media(max-width:600px){
-        .quote-nav{opacity:1;margin-top:16px;gap:20px;}
+        .quote-nav{opacity:0;margin-top:16px;gap:20px;}
+        .quote-nav.touch-visible{opacity:1;}
         .quote-nav-btn{width:32px;height:32px;border-color:rgba(60,50,40,0.12);}
         .quote-nav-btn svg{width:16px;height:16px;}
     }
@@ -515,6 +516,20 @@
             var idx=(currentIdx+1)%heroQuotes.length;
             transitionTo(idx);
         });
+
+        /* Touch-to-reveal arrows on mobile */
+        var quoteCard = document.querySelector('.hero-quote-card');
+        var quoteNavEl = document.querySelector('.quote-nav');
+        if (quoteCard && quoteNavEl) {
+            var touchTimer = null;
+            quoteCard.addEventListener('touchstart', function() {
+                quoteNavEl.classList.add('touch-visible');
+                if (touchTimer) clearTimeout(touchTimer);
+                touchTimer = setTimeout(function() {
+                    quoteNavEl.classList.remove('touch-visible');
+                }, 2500);
+            }, {passive: true});
+        }
 
         /* Use IntersectionObserver for reveal animations when available */
         if ('IntersectionObserver' in window) {
