@@ -8,8 +8,8 @@
     <meta name="author" content="Hakan Altun">
     <meta name="keywords" content="Hakan Altun, Forgetting the Color of Nothingness, The On Series, philosophical essays, İstanbul lecturer, Yeditepe University, intellectual minimalism">
 
-    <link rel="icon" type="image/png" href="on-logo.png?v=1.2">
-    <link rel="apple-touch-icon" href="on-logo.png?v=1.2">
+    <link rel="icon" type="image/png" href="on-logo-greenandgold.png">
+    <link rel="apple-touch-icon" href="on-logo-greenandgold.png">
     <link rel="manifest" href="manifest.json">
 
     <meta name="theme-color" content="#FAF8F4"> 
@@ -21,14 +21,14 @@
 
     <meta property="og:title" content="Hakan Altun—On Life & Everything">
     <meta property="og:description" content="Hakan Altun is a lecturer based in İstanbul. Exploring philosophy, perception, memory, and the architectures we build inside ourselves.">
-    <meta property="og:image" content="https://hakanaltun.io/og-image.png">
+    <meta property="og:image" content="https://hakanaltun.io/og-image-greenandgold.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:url" content="https://hakanaltun.io/">
     <meta property="og:type" content="website">
     
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image" content="https://hakanaltun.io/og-image.png">
+    <meta name="twitter:image" content="https://hakanaltun.io/og-image-greenandgold.png">
 
     <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","name":"On Life \u0026 Everything","url":"https://hakanaltun.io/","author":{"@type":"Person","name":"Hakan Altun"},"description":"Exploring philosophy, perception, memory, and the architectures we build inside ourselves."},{"@type":"Person","name":"Hakan Altun","url":"https://hakanaltun.io/","jobTitle":"Lecturer","worksFor":{"@type":"Organization","name":"Yeditepe University"},"sameAs":["https://medium.com/@hakanaltunn"]}]}</script>
 
@@ -43,6 +43,7 @@
     .quote-nav-btn{background:none;border:1px solid rgba(60,50,40,0.15);border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;color:rgba(60,50,40,0.4);transition:color 0.3s,border-color 0.3s,background 0.3s;}
     .quote-nav-btn:hover{color:rgba(60,50,40,0.75);border-color:rgba(60,50,40,0.35);background:rgba(60,50,40,0.04);}
     .quote-nav-btn svg{width:18px;height:18px;}
+    @media(hover:hover){.hero-quote-card:hover .quote-nav,.hero-quote-card:focus-within .quote-nav{opacity:1;pointer-events:auto;}}
     @media(max-width:600px){
         .quote-nav{opacity:0;margin-top:16px;gap:20px;transition:opacity 0.4s ease;pointer-events:none;}
         .quote-nav.quote-nav-visible{opacity:1;pointer-events:auto;}
@@ -62,14 +63,7 @@
         <header id="site-header"><nav>
             <div class="nav-top-row">
                 <a href="#" class="nav-home">
-                    <img src="on-logo.png" alt="On Life & Everything" class="site-logo">
-                    <span class="site-tagline">
-                        <span class="tagline-on">On</span>
-                        <span class="tagline-stack">
-                            <span class="tagline-life">Life &</span>
-                            <span class="tagline-everything">Everything</span>
-                        </span>
-                    </span>
+                    <img src="on-logo-greenandgold-wide.png" alt="On Life & Everything" class="site-logo-wide">
                 </a>
                 
                 <div class="nav-right">
@@ -376,7 +370,10 @@
         </div></section>
         
         <footer>
-            <a href="#" class="footer-link"><span class="footer-line">Hakan Altun—<span class="footer-on">On</span> <span class="footer-petrol">Life <span class="footer-amp">&amp;</span> Everything</span></span><span class="footer-line">İstanbul, 2026</span></a>
+            <a href="#" class="footer-home">
+                <img src="on-logo-greenandgold-wide.png" alt="On Life & Everything" class="footer-logo-wide">
+            </a>
+            <p>Hakan Altun&ensp;—&ensp;İstanbul, 2026</p>
         </footer>
     </div>
     
@@ -520,10 +517,10 @@
         if(prevBtn)prevBtn.addEventListener('click',flashNav);
         if(nextBtn)nextBtn.addEventListener('click',flashNav);
         document.addEventListener('click',function(e){
-            if(!qNav)return;
-            if(e.target.closest('.quote-nav-btn')||e.target.closest('.hero-quote-card'))return;
-            qNav.classList.remove('quote-nav-visible');
-            clearTimeout(navHideTimer);
+            if(qNav && !e.target.closest('.hero-quote-card')){
+                qNav.classList.remove('quote-nav-visible');
+                clearTimeout(navHideTimer);
+            }
         });
 
         /* Use IntersectionObserver for reveal animations when available */

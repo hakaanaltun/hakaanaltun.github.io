@@ -35,12 +35,21 @@ nav { display: flex; flex-direction: column; padding-bottom: 12px; }
 .nav-top-row { display: flex; justify-content: space-between; align-items: center; width: 100%; }
 
 .nav-home { display: flex; align-items: center; gap: 10px; border: none; }
-.site-logo { width: 48px; height: 48px; border-radius: 10px; object-fit: contain; background: var(--cream); border: 1px solid var(--border); box-shadow: 0 4px 12px var(--shadow); }
-.site-tagline { display: flex; align-items: center; gap: 4px; }
-.tagline-on { color: var(--vizon); font-size: 28px; font-style: italic; line-height: 1; }
-.tagline-stack { display: flex; flex-direction: column; justify-content: center; }
-.tagline-life { color: var(--petrol); font-size: 11px; font-style: italic; letter-spacing: .02em; line-height: 1.2; }
-.tagline-everything { color: var(--petrol); font-size: 11px; font-style: italic; letter-spacing: .02em; line-height: 1.2; }
+.site-logo-wide {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
+}
+.footer-home {
+    display: inline-block;
+    text-decoration: none;
+    border: none;
+}
+.footer-logo-wide {
+    height: 32px;
+    width: auto;
+    object-fit: contain;
+}
 
 .nav-right { display: flex; align-items: center; gap: 8px; }
 .header-share-btn, .hamburger-btn { background: transparent; border: none; color: var(--petrol); padding: 6px; cursor: pointer; transition: opacity .2s ease, color .2s ease; display: flex; align-items: center; justify-content: center;}
@@ -223,44 +232,13 @@ text-align: center;
 font-family: 'Lora', Georgia, serif !important;
 }
 
-footer p,
-.footer-line {
+footer > p {
 font-size: 14px;
 color: var(--vizon);
 letter-spacing: 1px;
 font-family: 'Lora', Georgia, serif !important;
-text-decoration: none;
 margin: 0;
 line-height: 1.4;
-}
-
-.footer-line {
-display: block;
-}
-
-.footer-link {
-border: none;
-text-decoration: none;
-display: block;
-transition: opacity .2s ease;
-}
-
-.footer-link:hover {
-opacity: 0.7;
-border: none;
-}
-
-.footer-on {
-color: var(--vizon);
-}
-
-.footer-petrol {
-color: var(--petrol);
-}
-
-.footer-amp {
-font-style: italic;
-color: var(--petrol);
 }
 
 /* MOBİL DÜZENLEMELER */
@@ -282,9 +260,8 @@ color: var(--petrol);
 @media(max-width:768px){
     header {margin-left: -48px; margin-right: -48px; padding-left: 48px; padding-right: 48px; padding-top: 16px;}
 
-    .site-logo {width:32px; height:32px; border-radius:8px;}
-    .tagline-on {font-size:20px;}
-    .tagline-life, .tagline-everything {font-size:8px;}
+    .site-logo-wide { height: 28px; }
+    .footer-logo-wide { height: 24px; }
     .header-share-btn svg, .hamburger-btn svg {width:18px; height:18px;}
 
     .content-title, .section-label { font-size: 22px; }
