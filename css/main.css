@@ -34,7 +34,9 @@ header.scrolled {background: rgba(250, 248, 244, 0.92); backdrop-filter: blur(8p
 nav { display: flex; flex-direction: column; padding-bottom: 12px; }
 .nav-top-row { display: flex; justify-content: space-between; align-items: center; width: 100%; }
 
-.nav-home { display: flex; align-items: center; gap: 10px; border: none; }
+.nav-home { display: flex; flex-direction: column; gap: 2px; border: none; }
+.nav-home-top { display: flex; align-items: center; gap: 10px; }
+.nav-home-author { font-size: 11px; color: var(--vizon); letter-spacing: .03em; padding-left: 58px; }
 .site-logo { width: 48px; height: 48px; border-radius: 10px; object-fit: contain; background: var(--cream); border: 1px solid var(--border); box-shadow: 0 4px 12px var(--shadow); }
 .site-tagline { display: flex; align-items: center; gap: 4px; }
 .tagline-on { color: var(--vizon); font-size: 28px; font-style: italic; line-height: 1; }
@@ -268,7 +270,7 @@ color: var(--petrol);
     flex-shrink: 0;
 }
 .footer-brand-tagline {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: 3px;
 }
@@ -283,14 +285,15 @@ color: var(--petrol);
     display: flex;
     flex-direction: column;
     justify-content: center;
+    line-height: 1;
 }
 .footer-brand-life,
 .footer-brand-everything {
     color: var(--petrol);
-    font-size: 8px;
+    font-size: 6.5px;
     font-style: italic;
     letter-spacing: .02em;
-    line-height: 1.2;
+    line-height: 1.25;
 }
 
 /* MOBİL DÜZENLEMELER */
@@ -315,6 +318,7 @@ color: var(--petrol);
     .site-logo {width:32px; height:32px; border-radius:8px;}
     .tagline-on {font-size:20px;}
     .tagline-life, .tagline-everything {font-size:8px;}
+    .nav-home-author { padding-left: 42px; }
     .header-share-btn svg, .hamburger-btn svg {width:18px; height:18px;}
 
     .content-title, .section-label { font-size: 22px; }
