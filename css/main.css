@@ -265,7 +265,7 @@ color: var(--petrol);
 }
 .footer-brand-tagline {
     display: inline-flex;
-    align-items: stretch;
+    align-items: center;
     gap: 3px;
 }
 .footer-brand-on {
@@ -278,7 +278,7 @@ color: var(--petrol);
 .footer-brand-stack {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
     gap: 0;
 }
 .footer-brand-life,
