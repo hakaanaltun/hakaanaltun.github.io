@@ -231,6 +231,11 @@ font-family: 'Lora', Georgia, serif !important;
 text-decoration: none;
 }
 
+footer p {
+    margin: 0;
+    line-height: 1.4;
+}
+
 footer a:hover {
 opacity: 0.7;
 }
@@ -243,15 +248,15 @@ color: var(--petrol);
 .footer-brand {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
     text-decoration: none;
     border: none;
     letter-spacing: 0;
     white-space: nowrap;
 }
 .footer-brand-logo {
-    width: 14px;
-    height: 14px;
+    width: 16px;
+    height: 16px;
     border-radius: 3px;
     object-fit: contain;
     background: var(--cream);
@@ -259,9 +264,9 @@ color: var(--petrol);
     flex-shrink: 0;
 }
 .footer-brand-tagline {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 3px;
+    gap: 2px;
 }
 .footer-brand-on {
     color: var(--vizon);
@@ -278,10 +283,10 @@ color: var(--petrol);
 .footer-brand-life,
 .footer-brand-everything {
     color: var(--petrol);
-    font-size: 6px;
+    font-size: 7px;
     font-style: italic;
     letter-spacing: .02em;
-    line-height: 1.2;
+    line-height: 1.15;
 }
 
 /* MOBİL DÜZENLEMELER */
