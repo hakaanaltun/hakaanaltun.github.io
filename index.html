@@ -44,7 +44,8 @@
     .quote-nav-btn:hover{color:rgba(60,50,40,0.75);border-color:rgba(60,50,40,0.35);background:rgba(60,50,40,0.04);}
     .quote-nav-btn svg{width:18px;height:18px;}
     @media(max-width:600px){
-        .quote-nav{opacity:1;margin-top:16px;gap:20px;}
+        .quote-nav{opacity:0;margin-top:16px;gap:20px;transition:opacity 0.4s ease;}
+        .quote-nav.quote-nav-visible{opacity:1;}
         .quote-nav-btn{width:32px;height:32px;border-color:rgba(60,50,40,0.12);}
         .quote-nav-btn svg{width:16px;height:16px;}
     }
@@ -375,7 +376,17 @@
         </div></section>
         
         <footer>
-            <p>Hakan Altun&ensp;—&ensp;İstanbul, 2026</p>
+            <a href="#" class="footer-brand" aria-label="On Life &amp; Everything">
+                <img src="on-logo.png" alt="On Life &amp; Everything logo" class="footer-brand-logo">
+                <span class="footer-brand-tagline">
+                    <span class="footer-brand-on">On</span>
+                    <span class="footer-brand-stack">
+                        <span class="footer-brand-life">Life &amp;</span>
+                        <span class="footer-brand-everything">Everything</span>
+                    </span>
+                </span>
+            </a>
+            <p style="margin-top:6px">Hakan Altun&ensp;—&ensp;İstanbul, 2026</p>
         </footer>
     </div>
     
@@ -502,6 +513,22 @@
             if(isTransitioning)return;
             rotateQuote();
         });
+
+        /* Mobile: tap quote card to show arrows, auto-hide after 2s */
+        var qNav=document.querySelector('.quote-nav'),navHideTimer=null;
+        function flashNav(){
+            if(!qNav)return;
+            qNav.classList.add('quote-nav-visible');
+            clearTimeout(navHideTimer);
+            navHideTimer=setTimeout(function(){qNav.classList.remove('quote-nav-visible');},2000);
+        }
+        var qCard=document.querySelector('.hero-quote-card');
+        if(qCard)qCard.addEventListener('click',function(e){
+            if(e.target.closest('.quote-nav-btn'))return;
+            flashNav();
+        });
+        if(prevBtn)prevBtn.addEventListener('click',flashNav);
+        if(nextBtn)nextBtn.addEventListener('click',flashNav);
 
         /* Use IntersectionObserver for reveal animations when available */
         if ('IntersectionObserver' in window) {
