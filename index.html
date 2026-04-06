@@ -62,14 +62,17 @@
         <header id="site-header"><nav>
             <div class="nav-top-row">
                 <a href="#" class="nav-home">
-                    <img src="on-logo.png" alt="On Life & Everything" class="site-logo">
-                    <span class="site-tagline">
-                        <span class="tagline-on">On</span>
-                        <span class="tagline-stack">
-                            <span class="tagline-life">Life &</span>
-                            <span class="tagline-everything">Everything</span>
+                    <div class="nav-home-top">
+                        <img src="on-logo.png" alt="On Life & Everything" class="site-logo">
+                        <span class="site-tagline">
+                            <span class="tagline-on">On</span>
+                            <span class="tagline-stack">
+                                <span class="tagline-life">Life &</span>
+                                <span class="tagline-everything">Everything</span>
+                            </span>
                         </span>
-                    </span>
+                    </div>
+                    <span class="nav-home-author">Hakan Altun · İstanbul, 2026</span>
                 </a>
                 
                 <div class="nav-right">
@@ -506,16 +509,8 @@
 
         /* Manual navigation */
         var prevBtn=document.getElementById('quote-prev'),nextBtn=document.getElementById('quote-next');
-        if(prevBtn)prevBtn.addEventListener('click',function(){
-            if(isTransitioning)return;
-            var idx=(currentIdx-1+heroQuotes.length)%heroQuotes.length;
-            transitionTo(idx);
-        });
-        if(nextBtn)nextBtn.addEventListener('click',function(){
-            if(isTransitioning)return;
-            var idx=(currentIdx+1)%heroQuotes.length;
-            transitionTo(idx);
-        });
+        if(prevBtn)prevBtn.addEventListener('click',function(){if(isTransitioning)return;rotateQuote();});
+        if(nextBtn)nextBtn.addEventListener('click',function(){if(isTransitioning)return;rotateQuote();});
 
         /* Touch-to-reveal arrows on mobile */
         var quoteCard = document.querySelector('.hero-quote-card');
