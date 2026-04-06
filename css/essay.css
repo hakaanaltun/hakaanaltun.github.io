@@ -150,7 +150,7 @@ body.drawer-open{overflow:hidden}
 
 /* Logo Lockup */
 .tagline-on{color:var(--vizon);font-size:28px;font-style:italic;line-height:1}
-.tagline-stack{display:flex;flex-direction:column;gap:0;padding-top:2px}
+.tagline-stack{display:flex;flex-direction:column;gap:0}
 .tagline-green{color:var(--petrol);font-size:11px;font-style:italic;letter-spacing:.04em;line-height:1.2}
 
 /* Essay Card Wrapper */
@@ -273,8 +273,8 @@ footer a:hover{color:var(--petrol)}
 .footer-brand-logo{width:32px;height:32px;border-radius:6px;object-fit:contain;background:var(--cream);border:1px solid var(--border);flex-shrink:0}
 .footer-brand-tagline{display:flex;align-items:center;gap:3px}
 .footer-brand-on{color:var(--vizon);font-size:22px;font-style:italic;line-height:1;letter-spacing:0}
-.footer-brand-stack{display:flex;flex-direction:column;justify-content:center}
-.footer-brand-life,.footer-brand-everything{color:var(--petrol);font-size:10px;font-style:italic;letter-spacing:.02em;line-height:1.15}
+.footer-brand-stack{display:flex;flex-direction:column;justify-content:center;gap:0}
+.footer-brand-life,.footer-brand-everything{color:var(--petrol);font-size:10px;font-style:italic;letter-spacing:.02em;line-height:1.2}
 
 /* Responsive */
 @media(max-width:1050px){
@@ -294,7 +294,7 @@ footer a:hover{color:var(--petrol)}
     .footer-brand{gap:6px}
     .footer-brand-logo{width:28px;height:28px;border-radius:5px}
     .footer-brand-on{font-size:18px}
-    .footer-brand-life,.footer-brand-everything{font-size:8.5px}
+    .footer-brand-life,.footer-brand-everything{font-size:8.5px;line-height:1.2}
     .nav-home img{width:32px;height:32px}
     .essay-share-btn svg,.hamburger-btn svg{width:18px;height:18px}
     .essay-nav .next-series-link {font-size: 14px;}
