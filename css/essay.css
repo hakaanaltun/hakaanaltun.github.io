@@ -55,10 +55,8 @@ header.scrolled{
     border-bottom-color:var(--border);
 }
 nav{display:flex;flex-direction:column;padding-bottom:14px}
-.nav-home{display:flex;align-items:center;gap:6px;border:none;font-style:italic;color:var(--vizon);font-size:15px}
-.nav-home img{width:44px;height:44px;border-radius:10px;object-fit:contain;border:1px solid var(--border);background:var(--cream)}
+.nav-home{display:flex;align-items:center;gap:10px;border:none}
 .site-logo{width:48px;height:48px;border-radius:10px;object-fit:contain;background:var(--cream);border:1px solid var(--border);box-shadow:0 4px 12px var(--shadow)}
-.nav-home:hover{color:var(--petrol)}
 
 /* Nav Top Row */
 .nav-top-row{display:flex;justify-content:space-between;align-items:center;width:100%}
@@ -288,7 +286,6 @@ footer p,.footer-line{font-size:14px;color:var(--vizon);letter-spacing:1px;font-
     .tagline-on{font-size:20px}
     .tagline-green{font-size:8px}
     .tagline-life,.tagline-everything{font-size:8px}
-    .nav-home img{width:32px;height:32px}
     .site-logo{width:32px;height:32px;border-radius:8px}
     .essay-share-btn svg,.hamburger-btn svg{width:18px;height:18px}
     .essay-nav .next-series-link {font-size: 14px;}
