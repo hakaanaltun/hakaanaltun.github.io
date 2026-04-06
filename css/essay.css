@@ -271,9 +271,9 @@ footer a:hover{color:var(--petrol)}
 .footer-brand-name{color:var(--vizon);font-size:inherit;font-style:normal;letter-spacing:.04em;white-space:nowrap}
 .footer-brand-name{font-size:inherit;color:var(--vizon)}
 .footer-brand-logo{width:32px;height:32px;border-radius:6px;object-fit:contain;background:var(--cream);border:1px solid var(--border);flex-shrink:0}
-.footer-brand-tagline{display:flex;align-items:center;gap:3px}
+.footer-brand-tagline{display:flex;align-items:stretch;gap:3px}
 .footer-brand-on{color:var(--vizon);font-size:22px;font-style:italic;line-height:1;letter-spacing:0}
-.footer-brand-stack{display:flex;flex-direction:column;justify-content:center;gap:0}
+.footer-brand-stack{display:flex;flex-direction:column;justify-content:space-between;gap:0}
 .footer-brand-life,.footer-brand-everything{color:var(--petrol);font-size:10px;font-style:italic;letter-spacing:.02em;line-height:1.2}
 
 /* Responsive */
