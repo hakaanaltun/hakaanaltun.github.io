@@ -262,7 +262,8 @@ body.drawer-open{overflow:hidden}
 /* Footer */
 footer{padding:60px 0 40px;border-top:1px solid var(--border);text-align:center;font-family:'Lora',Georgia,serif !important}
 footer p{font-size:14px;color:var(--vizon);letter-spacing:1px;font-family:'Lora',Georgia,serif !important;text-decoration:none;margin:0;line-height:1.4}
-footer a:hover{opacity:0.7}
+.footer-link{border:none;text-decoration:none;display:block;transition:opacity .2s ease}
+.footer-link:hover{opacity:0.7;border:none}
 .footer-on{color:var(--vizon)}
 .footer-petrol{color:var(--petrol)}
 .footer-amp{font-style:italic;color:var(--petrol)}
