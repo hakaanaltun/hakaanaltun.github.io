@@ -34,9 +34,7 @@ header.scrolled {background: rgba(250, 248, 244, 0.92); backdrop-filter: blur(8p
 nav { display: flex; flex-direction: column; padding-bottom: 12px; }
 .nav-top-row { display: flex; justify-content: space-between; align-items: center; width: 100%; }
 
-.nav-home { display: flex; flex-direction: column; gap: 2px; border: none; }
-.nav-home-top { display: flex; align-items: center; gap: 10px; }
-.nav-home-author { font-size: 11px; color: var(--vizon); letter-spacing: .03em; padding-left: 58px; }
+.nav-home { display: flex; align-items: center; gap: 10px; border: none; }
 .site-logo { width: 48px; height: 48px; border-radius: 10px; object-fit: contain; background: var(--cream); border: 1px solid var(--border); box-shadow: 0 4px 12px var(--shadow); }
 .site-tagline { display: flex; align-items: center; gap: 4px; }
 .tagline-on { color: var(--vizon); font-size: 28px; font-style: italic; line-height: 1; }
@@ -237,28 +235,19 @@ footer a:hover {
 opacity: 0.7;
 }
 
-.footer-petrol {
-color: var(--petrol);
-}
-
 /* FOOTER BRAND LOCKUP */
-.footer-brand {
+.footer-lockup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+.footer-brand-top {
     display: inline-flex;
     align-items: center;
     gap: 6px;
     text-decoration: none;
     border: none;
-    letter-spacing: 0;
-}
-.footer-brand-name {
-    color: var(--vizon);
-    font-size: inherit;
-    font-style: normal;
-    letter-spacing: .04em;
-    white-space: nowrap;
-    font-size: inherit;
-    color: var(--vizon);
-    letter-spacing: 1px;
 }
 .footer-brand-logo {
     width: 22px;
@@ -293,7 +282,14 @@ color: var(--petrol);
     font-size: 6.5px;
     font-style: italic;
     letter-spacing: .02em;
-    line-height: 1.25;
+    line-height: 1.15;
+}
+.footer-author {
+    font-size: 13px;
+    color: var(--vizon);
+    letter-spacing: .04em;
+    margin: 0;
+    font-family: 'Lora', Georgia, serif !important;
 }
 
 /* MOBİL DÜZENLEMELER */
