@@ -376,17 +376,7 @@
         </div></section>
         
         <footer>
-            <a href="#" class="footer-brand" aria-label="On Life &amp; Everything">
-                <img src="on-logo.png" alt="On Life &amp; Everything logo" class="footer-brand-logo">
-                <span class="footer-brand-tagline">
-                    <span class="footer-brand-on">On</span>
-                    <span class="footer-brand-stack">
-                        <span class="footer-brand-life">Life &amp;</span>
-                        <span class="footer-brand-everything">Everything</span>
-                    </span>
-                </span>
-            </a>
-            <p style="margin-top:6px">Hakan Altun&ensp;—&ensp;İstanbul, 2026</p>
+            <a href="/" style="color:var(--vizon);text-decoration:none;">İstanbul, 2026</a>
         </footer>
     </div>
     
@@ -529,6 +519,7 @@
         });
         if(prevBtn)prevBtn.addEventListener('click',flashNav);
         if(nextBtn)nextBtn.addEventListener('click',flashNav);
+        flashNav();
 
         /* Use IntersectionObserver for reveal animations when available */
         if ('IntersectionObserver' in window) {
