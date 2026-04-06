@@ -36,7 +36,7 @@ nav { display: flex; flex-direction: column; padding-bottom: 12px; }
 
 .nav-home { display: flex; align-items: center; gap: 10px; border: none; }
 .site-logo-wide {
-    height: 48px;
+    height: 56px;
     width: auto;
     object-fit: contain;
 }
@@ -46,9 +46,17 @@ nav { display: flex; flex-direction: column; padding-bottom: 12px; }
     border: none;
 }
 .footer-logo-wide {
+    height: 34px;
+    width: auto;
+    object-fit: contain;
+}
+.drawer-logo {
     height: 28px;
     width: auto;
     object-fit: contain;
+    display: block;
+    margin-bottom: 16px;
+    opacity: 0.7;
 }
 
 .nav-right { display: flex; align-items: center; gap: 8px; }
@@ -260,8 +268,8 @@ line-height: 1.4;
 @media(max-width:768px){
     header {margin-left: -48px; margin-right: -48px; padding-left: 48px; padding-right: 48px; padding-top: 16px;}
 
-    .site-logo-wide { height: 32px; }
-    .footer-logo-wide { height: 22px; }
+    .site-logo-wide { height: 36px; }
+    .footer-logo-wide { height: 26px; }
     .header-share-btn svg, .hamburger-btn svg {width:18px; height:18px;}
 
     .content-title, .section-label { font-size: 22px; }
