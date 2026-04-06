@@ -241,51 +241,6 @@ opacity: 0.7;
 color: var(--petrol);
 }
 
-/* FOOTER BRAND LOCKUP */
-.footer-brand {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    text-decoration: none;
-    border: none;
-}
-.footer-brand:hover {
-    opacity: 0.7;
-}
-.footer-brand-logo {
-    width: 48px;
-    height: 48px;
-    border-radius: 10px;
-    object-fit: contain;
-    background: var(--cream);
-    border: 1px solid var(--border);
-    box-shadow: 0 4px 12px var(--shadow);
-}
-.footer-brand-tagline {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-}
-.footer-brand-on {
-    color: var(--vizon);
-    font-size: 28px;
-    font-style: italic;
-    line-height: 1;
-}
-.footer-brand-stack {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-.footer-brand-life,
-.footer-brand-everything {
-    color: var(--petrol);
-    font-size: 11px;
-    font-style: italic;
-    letter-spacing: .02em;
-    line-height: 1.2;
-}
-
 /* MOBİL DÜZENLEMELER */
 .mobile-corridor{display:none}
 
@@ -317,10 +272,6 @@ color: var(--petrol);
     .hero h1 {font-size:15px; margin-left:-48px; margin-right:-48px; padding:20px 48px; margin-top:24px;}
     .hero{padding:32px 0 24px} section{padding:36px 0}
     section::before{left:46px} section.line-drawn::before{width:calc(100% - 92px)}
-
-    .footer-brand-logo { width: 32px; height: 32px; border-radius: 8px; }
-    .footer-brand-on { font-size: 20px; }
-    .footer-brand-life, .footer-brand-everything { font-size: 8px; }
 
     .desktop-links { display: none !important; }
     .book-layout-wrapper { display: flex; flex-direction: column; }
