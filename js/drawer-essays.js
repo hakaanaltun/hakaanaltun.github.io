@@ -66,7 +66,7 @@
       if (e.date || e.readTime) {
         var metaSpan = document.createElement('span');
         metaSpan.className = 'drawer-essay-card-meta';
-        metaSpan.textContent = (e.date || '') + (e.date && e.readTime ? ' · ' : '') + (e.readTime || '');
+        metaSpan.textContent = [e.date, e.readTime].filter(Boolean).join(' · ');
         textWrap.appendChild(metaSpan);
       }
 
