@@ -36,7 +36,7 @@ nav { display: flex; flex-direction: column; padding-bottom: 12px; }
 
 .nav-home { display: flex; align-items: center; gap: 10px; border: none; }
 .site-logo-wide {
-    height: 68px;
+    height: 56px;
     width: auto;
     object-fit: contain;
 }
@@ -46,7 +46,7 @@ nav { display: flex; flex-direction: column; padding-bottom: 12px; }
     border: none;
 }
 .footer-logo-wide {
-    height: 48px;
+    height: 40px;
     width: auto;
     object-fit: contain;
 }
