@@ -25,8 +25,8 @@ a:hover{border-color:var(--petrol)}
 
 /* Koridor Çizgileri */
 .corridor-vline{position:fixed;top:0;height:100%;width:1px;pointer-events:none;z-index:0;background-color:var(--vizon);opacity:0.06}
-.corridor-vline--left{left:calc((100vw - 680px)/2 - 12px)}
-.corridor-vline--right{right:calc((100vw - 680px)/2 - 12px)}
+.corridor-vline--left{left:calc((100vw - 760px)/2 - 12px)}
+.corridor-vline--right{right:calc((100vw - 760px)/2 - 12px)}
 @media(max-width:1050px){.corridor-vline{display:none}}
 
 .mobile-corridor{display:none}
@@ -37,7 +37,7 @@ a:hover{border-color:var(--petrol)}
 }
 
 /* Container */
-.container{max-width:680px;margin:0 auto;padding:0 28px;position:relative;z-index:1}
+.container{max-width:760px;margin:0 auto;padding:0 28px;position:relative;z-index:1}
 
 /* Sticky Header */
 header{
@@ -56,7 +56,7 @@ header.scrolled{
 }
 nav{display:flex;flex-direction:column;padding-bottom:14px}
 .nav-home{display:flex;align-items:center;gap:10px;border:none}
-.site-logo-wide{height:68px;width:auto;object-fit:contain}
+.site-logo-wide{height:56px;width:auto;object-fit:contain}
 
 /* Nav Top Row */
 .nav-top-row{display:flex;justify-content:space-between;align-items:center;width:100%}
@@ -143,7 +143,7 @@ body.drawer-open{overflow:hidden}
 .drawer-essay-card--current img{border-color:var(--petrol)}
 
 @media(min-width:769px){
-  .site-drawer{width:calc((100vw - 680px)/2 + 12px);min-width:260px;max-width:360px}
+  .site-drawer{width:calc((100vw - 760px)/2 + 12px);min-width:260px;max-width:360px}
 }
 
 /* Essay Card Wrapper */
@@ -256,7 +256,7 @@ body.drawer-open{overflow:hidden}
 footer{padding:60px 0 40px;border-top:1px solid var(--border);text-align:center;font-family:'Lora',Georgia,serif !important}
 footer > p{font-size:13px;color:var(--vizon);margin:0;line-height:1.4}
 .footer-home{display:inline-block;text-decoration:none;border:none;border-bottom:none !important}
-.footer-logo-wide{height:48px;width:auto;object-fit:contain}
+.footer-logo-wide{height:40px;width:auto;object-fit:contain}
 .drawer-logo-link{display:block;border:none;border-bottom:none !important;text-decoration:none;margin-bottom:16px}
 .drawer-logo{height:36px;width:auto;object-fit:contain;display:block;opacity:0.82}
 
