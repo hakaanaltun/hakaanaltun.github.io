@@ -48,10 +48,29 @@
       img.setAttribute('loading', 'lazy');
       card.appendChild(img);
 
+      var textWrap = document.createElement('div');
+      textWrap.className = 'drawer-essay-card-text';
+
       var titleSpan = document.createElement('span');
       titleSpan.className = 'drawer-essay-card-title';
       titleSpan.textContent = e.title;
-      card.appendChild(titleSpan);
+      textWrap.appendChild(titleSpan);
+
+      if (e.subtitle) {
+        var subSpan = document.createElement('span');
+        subSpan.className = 'drawer-essay-card-subtitle';
+        subSpan.textContent = e.subtitle;
+        textWrap.appendChild(subSpan);
+      }
+
+      if (e.date || e.readTime) {
+        var metaSpan = document.createElement('span');
+        metaSpan.className = 'drawer-essay-card-meta';
+        metaSpan.textContent = (e.date || '') + (e.date && e.readTime ? ' · ' : '') + (e.readTime || '');
+        textWrap.appendChild(metaSpan);
+      }
+
+      card.appendChild(textWrap);
 
       if (isCurrent) {
         container.appendChild(card);
