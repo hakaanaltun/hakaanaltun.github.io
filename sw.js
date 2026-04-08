@@ -1,11 +1,16 @@
-var CACHE_NAME = 'on-life-v4';
+var CACHE_NAME = 'on-life-v5';
 var urlsToCache = [
     '/',
     '/index.html',
     '/profile.jpg',
     '/cover.png',
-    '/icon-192.png',
-    '/icon-512.png'
+    '/on-logo-greenandgold.png',
+    '/on-logo-greenandgold-wide.png',
+    '/apple-touch-icon.png',
+    '/css/main.css',
+    '/js/site-nav.js',
+    '/js/essays-data.js',
+    '/js/drawer-essays.js'
 ];
 
 // Install—cache core files
