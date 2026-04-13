@@ -22,7 +22,7 @@
   /* Title with split colors */
   var html = '<p class="series-nav-title">'
     + '<span class="series-nav-title-on">The Fragments</span>'
-    + '<span class="series-nav-title-sub"> \u00b7 A personal essay and two short stories</span>'
+    + '<span class="series-nav-title-sub"> \u00b7 A personal essay and two short stories\u2014memory, interference, and the decisions we make on behalf of others</span>'
     + '</p>';
 
   /* Thumbnail cards row */
