@@ -162,7 +162,7 @@ body.drawer-open{overflow:hidden}
 
 /* Cover */
 .essay-cover{width:100%;border-radius:6px;margin:32px 0 40px;overflow:hidden}
-.essay-cover img{width:100%;display:block}
+.essay-cover img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block}
 
 /* Essay Body */
 .essay-body{padding-bottom:48px}

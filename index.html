@@ -99,6 +99,7 @@
             <div class="drawer-section-links">
                 <a href="#quotes">Quotes</a>
                 <a href="#essays">Essays</a>
+                <a href="#fragments">The Fragments</a>
                 <a href="#on-series">The On Series</a>
                 <a href="#book">Book</a>
                 <a href="#moris">Moris</a>
@@ -114,6 +115,10 @@
             <a href="essays/defense-mechanisms.html">Our Defense Mechanisms</a>
             <a href="essays/ai-enough.html">Will AI Be Enough for Us?</a>
             <a href="essays/say-hello.html">Why Do We Say Hello?</a>
+            <span class="drawer-label">The Fragments</span>
+            <a href="essays/the-joy.html">The Joy</a>
+            <a href="essays/the-anxiety.html">The Anxiety</a>
+            <a href="essays/the-poise.html">The Poise</a>
             <span class="drawer-label">The On Series</span>
             <a href="essays/on-lying.html">On Lying</a>
             <a href="essays/on-perceiving.html">On Perceiving</a>
@@ -216,6 +221,37 @@
                         <span class="essay-card-subtitle">Transactional Analysis and the hidden games in our relationships</span>
                     </div>
                     <div class="essay-meta-wrapper"><span class="essay-meta">Feb 10, 2026 · 8 min</span></div>
+                </a></li>
+            </ul>
+        </div></section>
+        
+        <section id="fragments" class="depth-3"><div class="scroll-reveal">
+            <span class="section-label">The Fragments</span>
+            <p class="section-desc">A personal essay and two short stories—memory, interference, and the decisions we make on behalf of others.</p>
+            <ul class="essay-list">
+                <li><a href="essays/the-joy.html" class="essay-card">
+                    <img src="images/the-joy.png" alt="A boy walks out of school into blinding summer light" class="essay-thumb" loading="lazy">
+                    <div class="essay-card-text">
+                        <span class="essay-title">The Joy</span>
+                        <span class="essay-card-subtitle">The Summer of Superman and Straight A's</span>
+                    </div>
+                    <div class="essay-meta-wrapper"><span class="essay-meta">Apr 13, 2026 · 5 min</span></div>
+                </a></li>
+                <li><a href="essays/the-anxiety.html" class="essay-card">
+                    <img src="images/the-anxiety.png" alt="A lone car on an Aegean coastal road" class="essay-thumb" loading="lazy">
+                    <div class="essay-card-text">
+                        <span class="essay-title">The Anxiety</span>
+                        <span class="essay-card-subtitle">The Road to Nowhere</span>
+                    </div>
+                    <div class="essay-meta-wrapper"><span class="essay-meta">Apr 13, 2026 · 17 min</span></div>
+                </a></li>
+                <li><a href="essays/the-poise.html" class="essay-card">
+                    <img src="images/the-poise.png" alt="A young man sitting across a mahogany desk in an office" class="essay-thumb" loading="lazy">
+                    <div class="essay-card-text">
+                        <span class="essay-title">The Poise</span>
+                        <span class="essay-card-subtitle">They Must Know What They're Doing</span>
+                    </div>
+                    <div class="essay-meta-wrapper"><span class="essay-meta">Apr 13, 2026 · 5 min</span></div>
                 </a></li>
             </ul>
         </div></section>
@@ -416,7 +452,6 @@
             {t:"The fortress that was supposed to protect me slowly turns into a damp, moldy cell.",s:"Our Defense Mechanisms"},
             {t:"Life is about who we fall with and whose hand we hold to get back up.",s:"Will AI Be Enough for Us?"},
             {t:"Perhaps in the future, our greatest joy will be saying,\n\u201CNo, stop. I want to feel this myself.\u201D",s:"Will AI Be Enough for Us?"},
-            {t:"For us, the greatest fear is not being unloved or criticized, but being ignored.",s:"Why Do We Say Hello?"},
             {t:"Even knowing they will be scolded, they prefer her shouting to her indifferent silence.\nBecause receiving a reaction is the most concrete proof of saying I am here and I exist.",s:"Why Do We Say Hello?"},
             {t:"A lie carries no physical weight and still expands like a black hole.",s:"On Lying"},
             {t:"Honesty was always available. Most of us knew that.\nWe just couldn\u2019t stomach what it cost on the first day.",s:"On Lying"},
@@ -431,7 +466,14 @@
             {t:"Back then nothing had to be enough.\nWe hadn\u2019t learned that word yet, not in that way.",s:"On Longing"},
             {t:"You see with what you have learned.\nWhat you have learned is your prison.",s:"On Longing"},
             {t:"He breathed\u2014slow, even, entirely without effort\u2014the way only a creature with no unfinished business breathes.",s:"On Silence"},
-            {t:"Then I closed my eyes and let the dark simply be the dark.",s:"On Silence"}
+            {t:"Then I closed my eyes and let the dark simply be the dark.",s:"On Silence"},
+            //—The Fragments
+            {t:"You merged the request without my approval.",s:"The Road to Nowhere"},
+            {t:"They must know what they\u2019re doing.",s:"They Must Know What They\u2019re Doing"},
+            {t:"None, uncle. They\u2019re all A\u2019s.",s:"The Summer of Superman and Straight A\u2019s"},
+            {t:"I had been the oldest person in that caf\u00e9. I had also been the youngest.",s:"The Road to Nowhere"},
+            {t:"He was going to walk six kilometers to a town he\u2019d never been to, carrying everything I\u2019d broken in a bag too small to hold it.",s:"The Road to Nowhere"},
+            {t:"Don\u2019t do anything. Just wait.",s:"The Road to Nowhere"}
         ];
         var hq=document.getElementById('hero-quote'),qs=document.getElementById('hero-quote-source'),ws=[],ts=false;
         var currentIdx=-1,rotateTimer=null,ROTATE_DELAY=35000,isTransitioning=false;
