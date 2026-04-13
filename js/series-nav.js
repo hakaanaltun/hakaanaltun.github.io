@@ -26,7 +26,7 @@
   /* Title with split colors */
   var html = '<p class="series-nav-title">'
     + '<span class="series-nav-title-on">The On Series</span>'
-    + '<span class="series-nav-title-sub"> \u00b7 Essays on what we build inside ourselves \u2014 and why</span>'
+    + '<span class="series-nav-title-sub"> \u00b7 Essays on what we build inside ourselves\u2014and why</span>'
     + '</p>';
 
   /* Thumbnail cards row */

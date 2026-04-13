@@ -18,6 +18,9 @@
     'unfinished-things.html', 'jung-shadow.html', 'defense-mechanisms.html',
     'ai-enough.html', 'say-hello.html'
   ];
+  var FRAGMENTS_HREFS = [
+    'the-joy.html', 'the-anxiety.html', 'the-poise.html'
+  ];
   var SERIES_HREFS = [
     'on-lying.html', 'on-perceiving.html', 'on-looking.html',
     'on-forgiveness.html', 'on-keeping.html', 'on-longing.html', 'on-silence.html'
@@ -108,16 +111,18 @@
     }
   }
 
-  /* Find the Essays and The On Series labels */
+  /* Find the Essays, The Fragments, and The On Series labels */
   var drawerLabels = drawer.querySelectorAll('.drawer-label');
-  var essaysLabel = null, seriesLabel = null;
+  var essaysLabel = null, fragmentsLabel = null, seriesLabel = null;
   for (var i = 0; i < drawerLabels.length; i++) {
     var text = drawerLabels[i].textContent.trim();
     if (text === 'Essays') essaysLabel = drawerLabels[i];
+    if (text === 'The Fragments') fragmentsLabel = drawerLabels[i];
     if (text === 'The On Series') seriesLabel = drawerLabels[i];
   }
 
   replaceLinksAfterLabel(essaysLabel, buildCards(filterEssays(REGULAR_HREFS)));
+  replaceLinksAfterLabel(fragmentsLabel, buildCards(filterEssays(FRAGMENTS_HREFS)));
   replaceLinksAfterLabel(seriesLabel, buildCards(filterEssays(SERIES_HREFS)));
 
   /* Attach close-drawer behaviour to newly created links */
