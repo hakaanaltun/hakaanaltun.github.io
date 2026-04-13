@@ -257,6 +257,14 @@ margin: 0;
 line-height: 1.4;
 }
 
+.copyright {
+    font-size: 12px;
+    color: var(--vizon);
+    letter-spacing: 0.5px;
+    margin-top: 8px;
+    opacity: 0.7;
+}
+
 /* MOBİL DÜZENLEMELER */
 .mobile-corridor{display:none}
 
