@@ -283,6 +283,7 @@ footer > p{font-size:14px;color:var(--vizon);letter-spacing:1px;font-family:'Lor
     .essay-share-btn svg,.hamburger-btn svg{width:18px;height:18px}
     .essay-nav .next-series-link {font-size: 14px;}
     .essay-card-wrapper{padding:24px 20px}
+    .scroll-reveal > .section-label{font-size:22px}
 }
 @media(max-width:420px){
     .site-logo-wide{height:46px}
@@ -290,6 +291,7 @@ footer > p{font-size:14px;color:var(--vizon);letter-spacing:1px;font-family:'Lor
     .container{padding:0 32px}
     header{margin-left:-32px;margin-right:-32px;padding-left:32px;padding-right:32px}
     .essay-header h1{font-size:22px}
+    .scroll-reveal > .section-label{font-size:20px}
 }
 
 /* Animations */
@@ -299,6 +301,14 @@ footer > p{font-size:14px;color:var(--vizon);letter-spacing:1px;font-family:'Lor
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}.corridor-vline,.mobile-corridor{display:none}}
 
 /* --- SUBSCRIBE FORM --- */
+.scroll-reveal > .section-label {
+  font-size: 24px;
+  letter-spacing: .02em;
+  color: var(--petrol);
+  margin-bottom: 16px;
+  display: block;
+  font-weight: 500;
+}
 .subscribe-section {
   margin-top: 32px;
   padding: 28px 24px;
@@ -307,15 +317,10 @@ footer > p{font-size:14px;color:var(--vizon);letter-spacing:1px;font-family:'Lor
   border-radius: 12px;
   box-shadow: 0 4px 24px var(--shadow);
 }
-.subscribe-section .section-label {
-  opacity: 1;
-  transform: none;
-  margin-bottom: 16px;
-}
 .subscribe-intro {
   font-size: 18px;
   color: var(--vizon);
-  font-style: normal;
+  font-style: italic;
   line-height: 1.7;
   margin-bottom: 28px;
   max-width: 480px;
@@ -328,7 +333,7 @@ footer > p{font-size:14px;color:var(--vizon);letter-spacing:1px;font-family:'Lor
 }
 .subscribe-form label {
   font-size: 13px;
-  color: var(--vizon);
+  color: var(--petrol);
   letter-spacing: 0.04em;
 }
 .subscribe-form input[type="email"] {
@@ -369,9 +374,9 @@ footer > p{font-size:14px;color:var(--vizon);letter-spacing:1px;font-family:'Lor
   border-color: var(--petrol);
 }
 .subscribe-note {
-  margin-top: 8px;
+  margin-top: 16px;
   font-size: 12px;
-  color: var(--petrol);
+  color: var(--vizon);
   opacity: 0.75;
 }
 @media(max-width:768px) {
