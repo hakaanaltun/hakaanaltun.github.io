@@ -212,12 +212,13 @@ section.depth-3{background-color:rgba(32,96,96,0.04);margin-left:-28px;margin-ri
 .about-card {background: var(--cream); border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 4px 24px var(--shadow); padding: 28px 24px;}
 
 .link-list{list-style:none;display:flex;flex-direction:column;gap:16px}
-.link-list a{font-size:17px;display:inline-flex;align-items:baseline;gap:8px;color:var(--vizon);border-bottom:1px solid var(--border);cursor:pointer; padding-bottom: 4px;}
-.link-arrow{font-size:14px;color:var(--vizon);transition:transform .2s ease;display:inline-block}
-.link-list a:hover{color:var(--petrol);border-color:var(--petrol)}
+.link-list a{font-size:17px;display:inline-flex;align-items:baseline;gap:8px;color:var(--petrol);border-bottom:1px solid var(--border);cursor:pointer; padding-bottom: 4px;}
+.link-arrow{font-size:14px;color:var(--petrol);transition:transform .2s ease;display:inline-block}
+.link-list a:hover{color:var(--petrol);border-color:var(--petrol);opacity:.75}
 .link-list a:hover .link-arrow{transform:translateX(4px); color:var(--petrol);}
 
 .findme-card {background: var(--cream); border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 4px 24px var(--shadow); padding: 24px;}
+.findme-card .section-label {opacity: 1; transform: none; margin-bottom: 20px;}
 
 /* BOOK VIDEO THUMBNAIL */
 .book-video-card {margin-top: 28px; max-width: 400px; padding: 20px; background: var(--cream); border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 4px 24px var(--shadow);}
