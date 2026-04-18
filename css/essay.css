@@ -383,3 +383,14 @@ footer > p{font-size:14px;color:var(--vizon);letter-spacing:1px;font-family:'Lor
   .subscribe-section { padding: 20px 16px; }
   .subscribe-form { max-width: 100%; }
 }
+
+/* --- FIND ME CARD --- */
+.findme-card {background: var(--cream); border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 4px 24px var(--shadow); padding: 24px;}
+.link-list{list-style:none;display:flex;flex-direction:column;gap:16px}
+.link-list a{font-size:17px;display:inline-flex;align-items:baseline;gap:8px;color:var(--vizon);border-bottom:1px solid var(--border);cursor:pointer;padding-bottom:4px;}
+.link-arrow{font-size:14px;color:var(--vizon);transition:transform .2s ease;display:inline-block}
+.link-list a:hover{color:var(--petrol);border-color:var(--petrol)}
+.link-list a:hover .link-arrow{transform:translateX(4px);color:var(--petrol);}
+@media(max-width:768px) {
+  .findme-card {padding: 20px 16px;}
+}
