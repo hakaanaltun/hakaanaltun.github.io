@@ -14,11 +14,28 @@ layout: default
 {{ content }}
 </article>
 </div>
+<div class="essay-section-divider"></div>
 {% if page.series == "on-series" %}
 <div class="series-nav"></div>
+<div class="essay-section-divider"></div>
 {% elsif page.series == "fragments" %}
 <div class="fragments-nav"></div>
+<div class="essay-section-divider"></div>
 {% endif %}
 <div id="more-essays-container" class="more-essays"></div>
+<div class="essay-section-divider"></div>
 {% include subscribe-block.html %}
+<div class="essay-section-divider"></div>
 {% include findme-block.html %}
+<script>
+(function(){
+  'use strict';
+  if(!('IntersectionObserver' in window)) return;
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){e.target.classList.add('line-drawn');obs.unobserve(e.target);}
+    });
+  },{rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.essay-section-divider').forEach(function(el){obs.observe(el);});
+})();
+</script>
