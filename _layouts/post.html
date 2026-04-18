@@ -14,10 +14,10 @@ layout: default
 {{ content }}
 </article>
 </div>
-{% include subscribe-block.html %}
 {% if page.series == "on-series" %}
 <div class="series-nav"></div>
 {% elsif page.series == "fragments" %}
 <div class="fragments-nav"></div>
 {% endif %}
 <div id="more-essays-container" class="more-essays"></div>
+{% include subscribe-block.html %}
