@@ -1,0 +1,29 @@
+title: "On Life & Everything"
+author: "Hakan Altun"
+url: "https://hakanaltun.io"
+baseurl: ""
+
+permalink: /essays/:slug.html
+
+markdown: kramdown
+kramdown:
+  input: GFM
+
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - node_modules
+
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+      author: "Hakan Altun"

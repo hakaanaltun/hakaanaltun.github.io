@@ -13,26 +13,13 @@
   /* Only mark a card as current when we are actually on an essay page */
   var current = isEssayPage ? (window.location.pathname.split('/').pop() || '') : '';
 
-  var REGULAR_HREFS = [
-    'best-ideas.html', 'empathy-paradox.html', 'love-or-fear.html',
-    'unfinished-things.html', 'jung-shadow.html', 'defense-mechanisms.html',
-    'ai-enough.html', 'say-hello.html'
-  ];
-  var FRAGMENTS_HREFS = [
-    'the-joy.html', 'the-anxiety.html', 'the-poise.html'
-  ];
-  var SERIES_HREFS = [
-    'on-lying.html', 'on-perceiving.html', 'on-looking.html',
-    'on-forgiveness.html', 'on-keeping.html', 'on-longing.html', 'on-silence.html'
-  ];
-
-  function filterEssays(hrefs) {
-    return hrefs.map(function (h) {
-      for (var i = 0; i < ALL_ESSAYS.length; i++) {
-        if (ALL_ESSAYS[i].href === h) return ALL_ESSAYS[i];
-      }
-      return null;
-    }).filter(Boolean);
+  /* Filter essays by series field from front matter */
+  function filterBySeries(seriesName) {
+    return ALL_ESSAYS.filter(function (e) {
+      return (e.series || '') === seriesName;
+    }).sort(function (a, b) {
+      return (a.seriesOrder || 0) - (b.seriesOrder || 0);
+    });
   }
 
   function buildCards(essays) {
@@ -121,9 +108,9 @@
     if (text === 'The On Series') seriesLabel = drawerLabels[i];
   }
 
-  replaceLinksAfterLabel(essaysLabel, buildCards(filterEssays(REGULAR_HREFS)));
-  replaceLinksAfterLabel(fragmentsLabel, buildCards(filterEssays(FRAGMENTS_HREFS)));
-  replaceLinksAfterLabel(seriesLabel, buildCards(filterEssays(SERIES_HREFS)));
+  replaceLinksAfterLabel(essaysLabel, buildCards(filterBySeries('')));
+  replaceLinksAfterLabel(fragmentsLabel, buildCards(filterBySeries('fragments')));
+  replaceLinksAfterLabel(seriesLabel, buildCards(filterBySeries('on-series')));
 
   /* Attach close-drawer behaviour to newly created links */
   var backdrop = document.getElementById('site-drawer-backdrop');
