@@ -19,7 +19,7 @@ layout: home
     </div>
 </div>
 
-{% assign regular_essays = site.posts | where: "series", "" %}
+{% assign regular_essays = site.posts | where: "series", "" | sort: "date" | reverse %}
 <section id="essays" class="depth-2"><div class="scroll-reveal">
     <span class="section-label">Essays</span>
     <p class="section-desc">Standalone pieces on psychology, language, and the things we carry without knowing.</p>

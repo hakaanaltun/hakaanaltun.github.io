@@ -257,6 +257,19 @@ margin: 0;
 line-height: 1.4;
 }
 
+.footer-contact {
+    font-size: 13px;
+    margin-top: 6px;
+}
+.footer-contact a {
+    color: var(--vizon);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s ease;
+}
+.footer-contact a:hover {
+    border-bottom-color: var(--vizon);
+}
+
 .copyright {
     font-size: 12px;
     color: var(--vizon);
