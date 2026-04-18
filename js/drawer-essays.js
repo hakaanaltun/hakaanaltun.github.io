@@ -43,7 +43,7 @@
       var isCurrent = (e.href === current);
 
       var card = document.createElement('div');
-      card.className = 'drawer-essay-card' + (isCurrent ? ' drawer-essay-card--current' : '') + (e.comingSoon ? ' drawer-essay-card--coming-soon' : '');
+      card.className = 'drawer-essay-card' + (isCurrent ? ' drawer-essay-card--current' : '');
 
       var img = document.createElement('img');
       img.src = e.img;
@@ -66,16 +66,16 @@
         textWrap.appendChild(subSpan);
       }
 
-      if (e.comingSoon) {
-        var csSpan = document.createElement('span');
-        csSpan.className = 'drawer-essay-card-coming-soon';
-        csSpan.textContent = 'Coming Soon';
-        textWrap.appendChild(csSpan);
+      if (e.date || e.readTime) {
+        var metaSpan = document.createElement('span');
+        metaSpan.className = 'drawer-essay-card-meta';
+        metaSpan.textContent = (e.date || '') + (e.date && e.readTime ? ' · ' : '') + (e.readTime || '');
+        textWrap.appendChild(metaSpan);
       }
 
       card.appendChild(textWrap);
 
-      if (e.comingSoon || isCurrent) {
+      if (isCurrent) {
         container.appendChild(card);
       } else {
         var link = document.createElement('a');
