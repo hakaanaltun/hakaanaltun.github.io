@@ -18,8 +18,11 @@
 <script src="/js/essays-data.js" defer></script>
 <script src="/js/drawer-essays.js" defer></script>
 {% if page.layout == "post" %}
+{% if page.series == "on-series" %}
 <script src="/js/series-nav.js" defer></script>
+{% elsif page.series == "fragments" %}
 <script src="/js/fragments-nav.js" defer></script>
+{% endif %}
 <script src="/js/more-essays.js" defer></script>
 {% endif %}
 {% if page.layout == "home" %}

@@ -5,6 +5,8 @@ baseurl: ""
 
 permalink: /essays/:slug.html
 
+future: true
+
 markdown: kramdown
 kramdown:
   input: GFM
@@ -19,6 +21,7 @@ exclude:
   - Gemfile.lock
   - README.md
   - node_modules
+  - vendor
 
 defaults:
   - scope:
