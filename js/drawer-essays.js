@@ -71,11 +71,6 @@
         csSpan.className = 'drawer-essay-card-coming-soon';
         csSpan.textContent = 'Coming Soon';
         textWrap.appendChild(csSpan);
-      } else if (e.date || e.readTime) {
-        var metaSpan = document.createElement('span');
-        metaSpan.className = 'drawer-essay-card-meta';
-        metaSpan.textContent = (e.date || '') + (e.date && e.readTime ? ' · ' : '') + (e.readTime || '');
-        textWrap.appendChild(metaSpan);
       }
 
       card.appendChild(textWrap);
