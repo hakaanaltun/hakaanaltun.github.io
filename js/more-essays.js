@@ -15,8 +15,8 @@
   /* Current page filename to exclude */
   var current = window.location.pathname.split('/').pop() || 'index.html';
 
-  /* Filter out current essay */
-  var pool = ALL_ESSAYS.filter(function (e) { return e.href !== current; });
+  /* Filter out current essay and coming-soon entries */
+  var pool = ALL_ESSAYS.filter(function (e) { return e.href !== current && !e.comingSoon; });
 
   /* Fisher-Yates shuffle */
   for (var i = pool.length - 1; i > 0; i--) {
