@@ -1,0 +1,35 @@
+{% if page.layout == "home" %}{% assign section_prefix = "" %}{% assign logo_href = "#" %}{% assign essay_prefix = "/essays/" %}{% else %}{% assign section_prefix = "/" %}{% assign logo_href = "/" %}{% assign essay_prefix = "/essays/" %}{% endif %}
+<div id="site-drawer-backdrop" class="drawer-backdrop" aria-hidden="true"></div>
+<div id="site-drawer" class="site-drawer" aria-hidden="true">
+    <button id="site-drawer-close" class="drawer-close" aria-label="Close menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <a href="{{ logo_href }}" class="drawer-logo-link"><img src="/on-logo-greenandgold-wide.png" alt="On Life &amp; Everything" class="drawer-logo"></a>
+    <span class="drawer-label">Sections</span>
+    <div class="drawer-section-links">
+        <a href="{{ section_prefix }}#quotes">Quotes</a>
+        <a href="{{ section_prefix }}#essays">Essays</a>
+        <a href="{{ section_prefix }}#fragments">The Fragments</a>
+        <a href="{{ section_prefix }}#on-series">The On Series</a>
+        <a href="{{ section_prefix }}#book">Book</a>
+        <a href="{{ section_prefix }}#moris">Moris</a>
+        <a href="{{ section_prefix }}#about">About</a>
+        <a href="{{ section_prefix }}#subscribe">Subscribe</a>
+        <a href="{{ section_prefix }}#connect">Find me</a>
+    </div>
+    <span class="drawer-label">Essays</span>
+    {% assign regular_essays = site.posts | where: "series", "" | sort: "date" | reverse %}
+    {% for post in regular_essays %}
+    <a href="{{ post.url }}">{{ post.title }}</a>
+    {% endfor %}
+    <span class="drawer-label">The Fragments</span>
+    {% assign fragments = site.posts | where: "series", "fragments" | sort: "series_order" %}
+    {% for post in fragments %}
+    <a href="{{ post.url }}">{{ post.title }}</a>
+    {% endfor %}
+    <span class="drawer-label">The On Series</span>
+    {% assign on_series = site.posts | where: "series", "on-series" | sort: "series_order" %}
+    {% for post in on_series %}
+    <a href="{{ post.url }}">{{ post.title }}</a>
+    {% endfor %}
+</div>

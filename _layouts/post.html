@@ -1,0 +1,23 @@
+---
+layout: default
+---
+<div class="essay-card-wrapper">
+<div class="essay-header fade-in"><h1>{{ page.title }}</h1><p class="essay-subtitle">{{ page.subtitle }}</p>
+<div class="essay-meta-info">
+<div class="essay-meta-top"><span>{{ page.date | date: "%B %-d, %Y" }}</span><span>·</span><span>{{ page.read_time }} read</span></div>
+<div class="essay-meta-author">Hakan Altun</div>
+</div></div>
+{% if page.image %}
+<div class="essay-cover fade-in fade-in-delay"><img src="{{ page.image }}" alt="{{ page.cover_alt | default: page.subtitle }}" loading="lazy"></div>
+{% endif %}
+<article class="essay-body fade-in fade-in-delay">
+{{ content }}
+</article>
+</div>
+{% include subscribe-block.html %}
+{% if page.series == "on-series" %}
+<div class="series-nav"></div>
+{% elsif page.series == "fragments" %}
+<div class="fragments-nav"></div>
+{% endif %}
+<div id="more-essays-container" class="more-essays"></div>
