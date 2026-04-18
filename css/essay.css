@@ -385,12 +385,11 @@ footer > p{font-size:14px;color:var(--vizon);letter-spacing:1px;font-family:'Lor
 }
 
 /* --- FIND ME CARD --- */
-.findme-card {background: var(--cream); border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 4px 24px var(--shadow); padding: 24px; margin-top: 32px;}
-.findme-card .section-label {font-size: 24px; letter-spacing: .02em; color: var(--petrol); margin-bottom: 20px; display: block; font-weight: 500;}
+.findme-card {background: var(--cream); border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 4px 24px var(--shadow); padding: 24px; margin-top: 0;}
 .link-list{list-style:none;display:flex;flex-direction:column;gap:16px}
-.link-list a{font-size:17px;display:inline-flex;align-items:baseline;gap:8px;color:var(--petrol);border-bottom:1px solid var(--border);cursor:pointer;padding-bottom:4px;}
-.link-arrow{font-size:14px;color:var(--petrol);transition:transform .2s ease;display:inline-block}
-.link-list a:hover{color:var(--petrol);border-color:var(--petrol);opacity:.75}
+.link-list a{font-size:17px;display:inline-flex;align-items:baseline;gap:8px;color:var(--vizon);border-bottom:1px solid var(--border);cursor:pointer;padding-bottom:4px;}
+.link-arrow{font-size:14px;color:var(--vizon);transition:transform .2s ease, color .2s ease;display:inline-block}
+.link-list a:hover{color:var(--petrol);border-color:var(--petrol)}
 .link-list a:hover .link-arrow{transform:translateX(4px);color:var(--petrol);}
 @media(max-width:768px) {
   .findme-card {padding: 20px 16px;}
