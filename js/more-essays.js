@@ -15,8 +15,8 @@
   /* Current page filename to exclude */
   var current = window.location.pathname.split('/').pop() || 'index.html';
 
-  /* Filter out current essay and coming-soon entries */
-  var pool = ALL_ESSAYS.filter(function (e) { return e.href !== current && !e.comingSoon; });
+  /* Filter out current essay only; coming-soon entries are shown as non-clickable cards */
+  var pool = ALL_ESSAYS.filter(function (e) { return e.href !== current; });
 
   /* Fisher-Yates shuffle */
   for (var i = pool.length - 1; i > 0; i--) {
@@ -31,13 +31,24 @@
   html += '<ul class="essay-list more-essays-grid-hp">';
 
   picks.forEach(function (e) {
-    html += '<li><a href="' + hrefPrefix + e.href + '" class="essay-card">';
-    html += '<img src="' + e.img + '" alt="' + e.title.replace(/"/g, '&quot;') + '" class="essay-thumb" loading="lazy">';
-    html += '<div class="essay-card-text">';
-    html += '<span class="essay-title">' + e.title + '</span>';
-    if (e.subtitle) html += '<span class="essay-card-subtitle">' + e.subtitle + '</span>';
-    html += '</div>';
-    html += '</a></li>';
+    if (e.comingSoon) {
+      html += '<li><div class="essay-card essay-card--coming-soon" style="pointer-events:none">';
+      html += '<img src="' + e.img + '" alt="' + e.title.replace(/"/g, '&quot;') + '" class="essay-thumb" loading="lazy">';
+      html += '<div class="essay-card-text">';
+      html += '<span class="essay-title">' + e.title + '</span>';
+      if (e.subtitle) html += '<span class="essay-card-subtitle">' + e.subtitle + '</span>';
+      html += '<span class="essay-coming-soon-tag">Coming Soon</span>';
+      html += '</div>';
+      html += '</div></li>';
+    } else {
+      html += '<li><a href="' + hrefPrefix + e.href + '" class="essay-card">';
+      html += '<img src="' + e.img + '" alt="' + e.title.replace(/"/g, '&quot;') + '" class="essay-thumb" loading="lazy">';
+      html += '<div class="essay-card-text">';
+      html += '<span class="essay-title">' + e.title + '</span>';
+      if (e.subtitle) html += '<span class="essay-card-subtitle">' + e.subtitle + '</span>';
+      html += '</div>';
+      html += '</a></li>';
+    }
   });
 
   html += '</ul>';
