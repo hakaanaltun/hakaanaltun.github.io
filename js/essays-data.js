@@ -16,6 +16,6 @@ var ALL_ESSAYS = [
   {href:'on-longing.html',title:'On Longing',subtitle:'Lighter. Smaller. Younger.',img:'https://hakaanaltun.github.io/images/on-longing.png',date:'Apr 2, 2026',readTime:'8 min'},
   {href:'on-silence.html',title:'On Silence',subtitle:'I forgot I had a cat.',img:'https://hakaanaltun.github.io/images/on-silence.jpg',date:'Apr 2, 2026',readTime:'3 min'},
   {href:'the-joy.html',title:'The Joy',subtitle:'The Summer of Superman and Straight A\u2019s',img:'https://hakaanaltun.github.io/images/the-joy.png',date:'Apr 13, 2026',readTime:'5 min'},
-  {href:'the-anxiety.html',title:'The Anxiety',subtitle:'The Road to Nowhere',img:'https://hakaanaltun.github.io/images/the-anxiety.png',date:'Apr 13, 2026',readTime:'17 min'},
+  {href:'the-anxiety.html',title:'The Anxiety',subtitle:'The Road to Nowhere',img:'https://hakaanaltun.github.io/images/the-anxiety.png',date:'Apr 13, 2026',readTime:'17 min',comingSoon:true},
   {href:'the-poise.html',title:'The Poise',subtitle:'They Must Know What They\u2019re Doing',img:'https://hakaanaltun.github.io/images/the-poise.png',date:'Apr 13, 2026',readTime:'5 min'}
 ];

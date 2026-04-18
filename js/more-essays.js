@@ -37,7 +37,6 @@
     html += '<span class="essay-title">' + e.title + '</span>';
     if (e.subtitle) html += '<span class="essay-card-subtitle">' + e.subtitle + '</span>';
     html += '</div>';
-    html += '<div class="essay-meta-wrapper"><span class="essay-meta">' + e.date + ' \u00b7 ' + e.readTime + '</span></div>';
     html += '</a></li>';
   });
 
