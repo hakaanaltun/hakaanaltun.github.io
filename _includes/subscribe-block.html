@@ -1,10 +1,12 @@
-<div class="subscribe-section scroll-reveal">
+<div class="scroll-reveal">
   <span class="section-label">Subscribe</span>
-  <p class="subscribe-intro">If you'd like new pieces sent directly to your inbox when they're ready, drop your email below.</p>
-  <form action="https://buttondown.com/api/emails/embed-subscribe/hakanaltun" method="post" class="subscribe-form">
-    <label for="bd-email-{{ page.slug }}">Email address</label>
-    <input type="email" name="email" id="bd-email-{{ page.slug }}" placeholder="your@email.com" required>
-    <button type="submit">Subscribe</button>
-  </form>
-  <p class="subscribe-note">Powered by Buttondown. Unsubscribe anytime.</p>
+  <div class="subscribe-section" style="margin-top:0">
+    <p class="subscribe-intro">If you'd like new pieces sent directly to your inbox when they're ready, drop your email below.</p>
+    <form action="https://buttondown.com/api/emails/embed-subscribe/hakanaltun" method="post" class="subscribe-form">
+      <label for="bd-email-{{ page.slug }}">Email address</label>
+      <input type="email" name="email" id="bd-email-{{ page.slug }}" placeholder="your@email.com" required>
+      <button type="submit">Subscribe</button>
+    </form>
+    <p class="subscribe-note">Powered by Buttondown. Unsubscribe anytime.</p>
+  </div>
 </div>
