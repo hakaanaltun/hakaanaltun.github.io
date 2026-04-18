@@ -138,6 +138,9 @@ body.drawer-open{overflow:hidden}
 .drawer-essay-card-meta{font-size:8px;color:var(--vizon);white-space:nowrap}
 .drawer-essay-card--current{opacity:.38;cursor:default}
 .drawer-essay-card--current img{border-color:var(--petrol)}
+/* Coming soon drawer cards */
+.drawer-essay-card--coming-soon{opacity:.65;cursor:default}
+.drawer-essay-card-coming-soon{font-size:9px;color:var(--petrol);text-transform:uppercase;letter-spacing:.07em;display:block;margin-top:2px}
 
 @media(min-width:769px){
   .site-drawer{width:calc((100vw - 920px)/2 + 16px);min-width:260px;max-width:360px}
