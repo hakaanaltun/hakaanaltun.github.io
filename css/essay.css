@@ -256,6 +256,9 @@ body.drawer-open{overflow:hidden}
 /* Footer */
 footer{padding:60px 0 40px;border-top:1px solid var(--border);text-align:center;font-family:'Lora',Georgia,serif !important}
 footer > p{font-size:14px;color:var(--vizon);letter-spacing:1px;font-family:'Lora',Georgia,serif !important;margin:0;line-height:1.4}
+.footer-contact{font-size:13px;margin-top:6px}
+.footer-contact a{color:var(--vizon);border-bottom:1px solid transparent;transition:border-color 0.2s ease}
+.footer-contact a:hover{border-bottom-color:var(--vizon)}
 .copyright{font-size:12px;color:var(--vizon);letter-spacing:0.5px;margin-top:8px;opacity:0.7}
 .footer-home{display:inline-block;text-decoration:none;border:none;border-bottom:none !important}
 .footer-logo-wide{height:40px;width:auto;object-fit:contain}
