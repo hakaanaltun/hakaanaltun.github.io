@@ -172,20 +172,9 @@
                 });
             }, {rootMargin: '100px'});
 
-            var perspObs = new IntersectionObserver(function(entries) {
-                entries.forEach(function(entry) {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                        perspObs.unobserve(entry.target);
-                    }
-                });
-            }, {rootMargin: '100px'});
-
             document.querySelectorAll('.scroll-reveal').forEach(function(el) { revealObs.observe(el); });
             document.querySelectorAll('section').forEach(function(el) { lineObs.observe(el); });
             if (hq) heroObs.observe(hq);
-            var pl = document.querySelector('.perspective-line');
-            if (pl) perspObs.observe(pl);
 
             /* Mobile corridors: show once on page load */
             document.querySelectorAll('.mobile-corridor').forEach(function(el) { el.classList.add('visible'); });
@@ -196,7 +185,6 @@
                 var r=document.querySelectorAll('.scroll-reveal');for(var i=0;i<r.length;i++){if(iv(r[i]))r[i].classList.add('revealed');}
                 var s=document.querySelectorAll('section');for(var i=0;i<s.length;i++){if(iv(s[i]))s[i].classList.add('line-drawn');}
                 if(hq&&iv(hq))stw();
-                var p=document.querySelector('.perspective-line');if(p&&iv(p))p.classList.add('visible');
                 var mc=document.querySelectorAll('.mobile-corridor');for(var i=0;i<mc.length;i++)mc[i].classList.add('visible');
             }
             var tk=false;
