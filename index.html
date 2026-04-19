@@ -18,7 +18,7 @@ layout: home
 </div>
 
 {% assign regular_essays = site.posts | where: "series", "" | sort: "date" | reverse %}
-<section id="essays"><div class="scroll-reveal">
+<section id="essays" class="depth-2"><div class="scroll-reveal">
     <span class="section-label">Essays</span>
     <p class="section-desc">Standalone pieces on psychology, language, and the things we carry without knowing.</p>
     <ul class="essay-list">
@@ -36,7 +36,7 @@ layout: home
 </div></section>
 
 {% assign fragments = site.posts | where: "series", "fragments" | sort: "series_order" %}
-<section id="fragments"><div class="scroll-reveal">
+<section id="fragments" class="depth-3"><div class="scroll-reveal">
     <span class="section-label">The Fragments</span>
     <p class="section-desc">A personal essay and two short stories—memory, interference, and the decisions we make on behalf of others.</p>
     <ul class="essay-list">
@@ -54,7 +54,7 @@ layout: home
 </div></section>
 
 {% assign on_series = site.posts | where: "series", "on-series" | sort: "series_order" %}
-<section id="on-series"><div class="scroll-reveal">
+<section id="on-series" class="depth-3"><div class="scroll-reveal">
     <span class="section-label">The On Series</span>
     <p class="section-desc">Seven essays on what we build inside ourselves—and why.</p>
     <ul class="essay-list">
@@ -72,7 +72,7 @@ layout: home
     <p class="series-note">Unified by a corridor metaphor and a movement from the external to the solitary.</p>
 </div></section>
 
-<section id="book"><div class="scroll-reveal">
+<section id="book" class="depth-0"><div class="scroll-reveal">
     <span class="section-label">Book</span>
     
     <div class="book-layout-wrapper">
@@ -113,7 +113,7 @@ layout: home
     
 </div></section>
 
-<section id="moris"><div class="scroll-reveal">
+<section id="moris" class="depth-0"><div class="scroll-reveal">
     <span class="section-label">Moris</span>
     <div class="moris-card">
       <div class="moris-video" id="moris-video-wrapper">
@@ -126,7 +126,7 @@ layout: home
     </div>
 </div></section>
 
-<section id="about"><div class="scroll-reveal">
+<section id="about" class="depth-0"><div class="scroll-reveal">
     <span class="section-label">About</span>
     <div class="about-card">
         <div class="hero-author-row">
@@ -141,7 +141,7 @@ layout: home
     </div>
 </div></section>
 
-<section id="subscribe"><div class="scroll-reveal">
+<section id="subscribe" class="depth-0"><div class="scroll-reveal">
     <span class="section-label">Subscribe</span>
     <div class="subscribe-section" style="margin-top:0">
         <p class="subscribe-intro">If you'd like new pieces sent directly to your inbox when they're ready, drop your email below.</p>
@@ -154,4 +154,4 @@ layout: home
     </div>
 </div></section>
 
-<section id="connect">{% include findme-block.html %}</section>
+<section id="connect" class="depth-0">{% include findme-block.html %}</section>
