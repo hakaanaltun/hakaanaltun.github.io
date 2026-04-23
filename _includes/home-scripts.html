@@ -47,6 +47,8 @@
             {t:"You see with what you have learned.\nWhat you have learned is your prison.",s:"On Longing"},
             {t:"He breathed\u2014slow, even, entirely without effort\u2014the way only a creature with no unfinished business breathes.",s:"On Silence"},
             {t:"Then I closed my eyes and let the dark simply be the dark.",s:"On Silence"},
+            {t:"It’s handled.",s:"Handled"},
+            {t:"He stood at the sink. He looked at the clean glass. He reached out and tightened the faucet handle, though no water was dripping.",s:"Handled"},
             //—The Fragments
             {t:"You merged the request without my approval.",s:"The Anxiety"},
             {t:"They must know what they\u2019re doing.",s:"The Poise"},
@@ -56,7 +58,7 @@
             {t:"Don\u2019t do anything. Just wait.",s:"The Anxiety"},
         ];
         var hq=document.getElementById('hero-quote'),qs=document.getElementById('hero-quote-source'),ws=[],ts=false;
-        var currentIdx=-1,rotateTimer=null,ROTATE_DELAY=35000,isTransitioning=false;
+        var currentIdx=-1,rotateTimer=null,ROTATE_DELAY=30000,isTransitioning=false;
 
         function buildWords(pick){
             if(qs){qs.classList.remove('visible');qs.innerHTML='\u2014 <i>'+pick.s+'</i>';}

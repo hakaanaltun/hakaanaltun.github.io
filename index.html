@@ -19,8 +19,8 @@ layout: home
 
 {% assign regular_essays = site.posts | where: "series", "" | sort: "date" | reverse %}
 <section id="essays" class="depth-2"><div class="scroll-reveal">
-    <span class="section-label">Essays</span>
-    <p class="section-desc">Standalone pieces on psychology, language, and the things we carry without knowing.</p>
+    <span class="section-label">Pieces</span>
+    <p class="section-desc">Essays, short fiction, and other writing.</p>
     <ul class="essay-list">
         {% for post in regular_essays %}
         <li><a href="{{ post.url }}" class="essay-card">

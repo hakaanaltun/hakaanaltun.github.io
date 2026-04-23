@@ -98,12 +98,12 @@
     }
   }
 
-  /* Find the Essays, The Fragments, and The On Series labels */
+  /* Find the Pieces, The Fragments, and The On Series labels */
   var drawerLabels = drawer.querySelectorAll('.drawer-label');
   var essaysLabel = null, fragmentsLabel = null, seriesLabel = null;
   for (var i = 0; i < drawerLabels.length; i++) {
     var text = drawerLabels[i].textContent.trim();
-    if (text === 'Essays') essaysLabel = drawerLabels[i];
+    if (text === 'Pieces') essaysLabel = drawerLabels[i];
     if (text === 'The Fragments') fragmentsLabel = drawerLabels[i];
     if (text === 'The On Series') seriesLabel = drawerLabels[i];
   }
