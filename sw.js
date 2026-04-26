@@ -1,4 +1,4 @@
-var CACHE_NAME = 'on-life-v6';
+var CACHE_NAME = 'on-life-v7';
 var urlsToCache = [
     '/',
     '/index.html',
@@ -8,6 +8,7 @@ var urlsToCache = [
     '/on-logo-greenandgold-wide.png',
     '/apple-touch-icon.png',
     '/css/main.css',
+    '/css/essay.css',
     '/js/site-nav.js',
     '/js/essays-data.js',
     '/js/drawer-essays.js'
