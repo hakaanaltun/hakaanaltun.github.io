@@ -18,7 +18,7 @@
   /* Title with split colors */
   var html = '<p class="series-nav-title">'
     + '<span class="series-nav-title-on">The Fragments</span>'
-    + '<span class="series-nav-title-sub"> \u00b7 A personal essay and three short stories\u2014memory, interference, and the decisions we make on behalf of others</span>'
+    + '<span class="series-nav-title-sub"> \u00b7 How a boy becomes someone who knows where to put his hands.</span>'
     + '</p>';
 
   /* Thumbnail cards row */
