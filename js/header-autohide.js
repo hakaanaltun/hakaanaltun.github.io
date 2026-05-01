@@ -17,7 +17,7 @@
     if (currentScrollY <= SCROLL_THRESHOLD) {
       /* Always show at the top */
       header.classList.remove('header-hidden');
-    } else if (Math.abs(delta) > DELTA_THRESHOLD) {
+    } else if (!window.suppressHeaderAutoHide && Math.abs(delta) > DELTA_THRESHOLD) {
       if (delta > 0) {
         /* Scrolling down — hide */
         header.classList.add('header-hidden');

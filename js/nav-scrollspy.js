@@ -54,9 +54,8 @@
       if (!intersecting[i]) continue;
       var link = getLinkForId(sections[i].id);
       if (!link || link === currentActive) return;
-      if (currentActive) currentActive.classList.remove('nav-active');
       currentActive = link;
-      currentActive.classList.add('nav-active');
+      /* currentActive.classList.add('nav-active'); */
       try {
         /* scrollIntoView with options is widely supported; no-op fallback on very old Safari */
         currentActive.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
@@ -85,4 +84,14 @@
   for (var j = 0; j < sections.length; j++) {
     observer.observe(sections[j]);
   }
+
+  /* ── Suppress auto-hide during anchor-link navigation ── */
+  var navLinks = navBar.querySelectorAll('a');
+  for (var n = 0; n < navLinks.length; n++) {
+    navLinks[n].addEventListener('click', function () {
+      window.suppressHeaderAutoHide = true;
+      setTimeout(function () { window.suppressHeaderAutoHide = false; }, 600);
+    });
+  }
+
 })();
