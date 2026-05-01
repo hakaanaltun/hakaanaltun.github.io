@@ -27,7 +27,7 @@
   var picks = pool.slice(0, 4);
 
   /* Build HTML using homepage card structure */
-  var html = '<p class="more-essays-title">Keep reading</p>';
+  var html = '<p class="more-essays-title">Keep Reading</p>';
   html += '<ul class="essay-list more-essays-grid-hp">';
 
   picks.forEach(function (e) {
