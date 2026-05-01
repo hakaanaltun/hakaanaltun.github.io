@@ -263,7 +263,7 @@ body.drawer-open{overflow:hidden}
 
 /* More Essays—Homepage-style cards on essay pages */
 .more-essays{border-top:none;padding:0;margin-top:0}
-.more-essays-title{font-size:13px;color:var(--petrol);text-transform:uppercase;letter-spacing:.08em;margin-bottom:20px}
+.more-essays-title{font-size:24px;font-weight:500;color:var(--petrol);letter-spacing:.02em;margin-bottom:16px;display:block}
 
 /* Re-use homepage card structure: .essay-list + .essay-card */
 .more-essays-grid-hp{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;list-style:none;padding:0;margin:0}
@@ -325,6 +325,7 @@ footer > p{font-size:14px;color:var(--vizon);letter-spacing:1px;font-family:'Lor
     .essay-card-wrapper{padding:24px 20px}
     .essay-section-divider{margin:36px 0}
     .scroll-reveal > .section-label{font-size:22px}
+    .more-essays-title{font-size:22px}
 }
 @media(max-width:420px){
     .site-logo-wide{height:46px}
@@ -333,6 +334,7 @@ footer > p{font-size:14px;color:var(--vizon);letter-spacing:1px;font-family:'Lor
     header{margin-left:-32px;margin-right:-32px;padding-left:32px;padding-right:32px}
     .essay-header h1{font-size:22px}
     .scroll-reveal > .section-label{font-size:20px}
+    .more-essays-title{font-size:20px}
 }
 
 /* Animations */
