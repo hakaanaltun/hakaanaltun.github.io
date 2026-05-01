@@ -91,6 +91,8 @@ nav { display: flex; flex-direction: column; padding-bottom: 12px; }
   padding-top:10px;
   padding-bottom:2px;
   overflow-x:auto;
+  max-width:100%;
+  min-width:0;
   scroll-behavior:smooth;
   -webkit-overflow-scrolling:touch;
   scrollbar-width:none;
@@ -120,10 +122,6 @@ nav { display: flex; flex-direction: column; padding-bottom: 12px; }
   background:rgba(32,96,96,0.06);
   border-color:var(--petrol);
   color:var(--petrol);
-}
-.header-nav-bar a.nav-active{
-  background:rgba(192,160,64,0.12);
-  border-color:rgba(192,160,64,0.55);
 }
 
 /* Lock body scroll when drawer is open */
