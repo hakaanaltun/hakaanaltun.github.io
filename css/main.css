@@ -22,11 +22,12 @@ a{text-decoration:none;transition:color .2s ease,border-color .2s ease,backgroun
 /* --- BAŞLIK VE MENÜ SİSTEMİ --- */
 header {
     position: sticky; top: 0; background: transparent;
-    transition: background 0.4s ease, backdrop-filter 0.4s ease, border-bottom-color 0.4s ease;
+    transition: background 0.4s ease, backdrop-filter 0.4s ease, border-bottom-color 0.4s ease, transform 0.3s ease;
     z-index: 100; padding-top: 24px; margin-left: -28px; margin-right: -28px;
     padding-left: 28px; padding-right: 28px; border-bottom: 1px solid transparent;
 }
 header.scrolled {background: rgba(250, 248, 244, 0.92); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-bottom-color: var(--border);}
+header.header-hidden { transform: translateY(-100%); }
 
 nav { display: flex; flex-direction: column; padding-bottom: 12px; }
 .nav-top-row { display: flex; justify-content: space-between; align-items: center; width: 100%; }
