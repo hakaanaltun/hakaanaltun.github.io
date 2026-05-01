@@ -86,12 +86,24 @@
   }
 
   /* ── Suppress auto-hide during anchor-link navigation ── */
+  /* Keep suppression active until scrolling actually stops (debounced 150ms),
+     instead of a fixed timeout that may expire before a long smooth-scroll finishes. */
+  function suppressUntilScrollStops() {
+    window.suppressHeaderAutoHide = true;
+    clearTimeout(window.__autoHideResumeTimer);
+    function onScroll() {
+      clearTimeout(window.__autoHideResumeTimer);
+      window.__autoHideResumeTimer = setTimeout(function () {
+        window.suppressHeaderAutoHide = false;
+        window.removeEventListener('scroll', onScroll);
+      }, 150);
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
+
   var navLinks = navBar.querySelectorAll('a');
   for (var n = 0; n < navLinks.length; n++) {
-    navLinks[n].addEventListener('click', function () {
-      window.suppressHeaderAutoHide = true;
-      setTimeout(function () { window.suppressHeaderAutoHide = false; }, 600);
-    });
+    navLinks[n].addEventListener('click', suppressUntilScrollStops);
   }
 
 })();
