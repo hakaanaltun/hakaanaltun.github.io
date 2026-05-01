@@ -116,13 +116,6 @@ nav{display:flex;flex-direction:column;padding-bottom:14px}
     color:var(--petrol);
   }
 }
-@media(min-width:768px) and (max-width:1024px){
-  .header-nav-bar a{
-    font-size:13px;
-    padding:7px 11px;
-  }
-}
-
 /* Lock body scroll when drawer is open */
 body.drawer-open{overflow:hidden}
 
