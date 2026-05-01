@@ -23,6 +23,8 @@ header {
 }
 header.scrolled {background: rgba(250, 248, 244, 0.92); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-bottom-color: var(--border);}
 header.header-hidden { transform: translateY(-100%); }
+header::after{content:'';display:block;height:1px;background:var(--border)}
+header.scrolled::after{display:none}
 
 nav { display: flex; flex-direction: column; padding-bottom: 12px; }
 .nav-top-row { display: flex; justify-content: space-between; align-items: center; width: 100%; }
