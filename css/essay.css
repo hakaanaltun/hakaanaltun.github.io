@@ -210,7 +210,7 @@ body.drawer-open{overflow:hidden}
 .essay-body li{margin-bottom:8px}
 
 /* Essay Card Wrapper */
-.essay-card-wrapper{background:var(--cream);border:1px solid var(--border);border-radius:12px;box-shadow:0 4px 24px var(--shadow);padding:32px 28px;margin-bottom:0}
+.essay-card-wrapper{background:var(--cream);border:1px solid var(--border);border-radius:12px;box-shadow:0 4px 24px var(--shadow);padding:32px 28px;margin-top:48px;margin-bottom:0}
 .essay-card-wrapper .essay-header{padding-top:0}
 .essay-card-wrapper .essay-cover{margin-top:0}
 .essay-card-wrapper .essay-body{padding-bottom:0}
