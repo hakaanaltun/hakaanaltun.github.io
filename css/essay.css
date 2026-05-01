@@ -38,7 +38,7 @@ a:hover{border-color:var(--petrol)}
 }
 
 /* Container */
-.container{max-width:760px;margin:0 auto;padding:0 28px;position:relative;z-index:1}
+.container{max-width:920px;margin:0 auto;padding:0 28px;position:relative;z-index:1}
 
 /* Sticky Header */
 header{
@@ -175,7 +175,7 @@ body.drawer-open{overflow:hidden}
 .drawer-essay-card--current img{border-color:var(--petrol)}
 
 @media(min-width:769px){
-  .site-drawer{width:calc((100vw - 760px)/2 + 12px);min-width:260px;max-width:360px}
+  .site-drawer{width:calc((100vw - 920px)/2 + 16px);min-width:260px;max-width:360px}
 }
 
 /* Essay Header */
