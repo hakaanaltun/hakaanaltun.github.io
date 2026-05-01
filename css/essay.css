@@ -58,7 +58,7 @@ header.scrolled{
 header.header-hidden{transform:translateY(-100%);}
 header::after{content: ''; display: block; height: 1px; background: var(--border);}
 header.scrolled::after{display: none;}
-nav{display:flex;flex-direction:column;padding-bottom:14px}
+nav{display:flex;flex-direction:column;padding-bottom:20px}
 .nav-home{display:flex;align-items:center;gap:10px;border:none}
 .site-logo-wide{height:56px;width:auto;object-fit:contain}
 
