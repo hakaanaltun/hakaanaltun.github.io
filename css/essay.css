@@ -55,7 +55,7 @@ header.scrolled{
     backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
     border-bottom-color:var(--border);
 }
-header.header-hidden{transform:translateY(-100%)}
+header.header-hidden{transform:translateY(-100%);}
 nav{display:flex;flex-direction:column;padding-bottom:14px}
 .nav-home{display:flex;align-items:center;gap:10px;border:none}
 .site-logo-wide{height:56px;width:auto;object-fit:contain}
