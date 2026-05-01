@@ -94,6 +94,7 @@ nav { display: flex; flex-direction: column; padding-bottom: 12px; }
   scroll-behavior:smooth;
   -webkit-overflow-scrolling:touch;
   scrollbar-width:none;
+  scroll-snap-type:x proximity;
   mask-image:linear-gradient(to right, black 0%, black calc(100% - 40px), transparent 100%);
   -webkit-mask-image:linear-gradient(to right, black 0%, black calc(100% - 40px), transparent 100%);
 }
@@ -104,8 +105,7 @@ nav { display: flex; flex-direction: column; padding-bottom: 12px; }
 }
 .header-nav-bar a{
   flex-shrink:0;
-  width:calc(25% - 4.5px);
-  text-align:center;
+  scroll-snap-align:start;
   font-size:13px;
   padding:7px 16px;
   border:1px solid var(--vizon);
@@ -124,9 +124,6 @@ nav { display: flex; flex-direction: column; padding-bottom: 12px; }
 .header-nav-bar a.nav-active{
   background:rgba(192,160,64,0.12);
   border-color:rgba(192,160,64,0.55);
-}
-@media(max-width:767px){
-  .header-nav-bar a{width:calc(33.333% - 4px)}
 }
 
 /* Lock body scroll when drawer is open */
