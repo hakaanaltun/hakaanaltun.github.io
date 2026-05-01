@@ -44,7 +44,7 @@ a:hover{border-color:var(--petrol)}
 header{
     position:sticky;top:0;z-index:100;
     background:transparent;
-    transition:background .4s ease,backdrop-filter .4s ease,border-bottom-color .4s ease;
+    transition:background .4s ease,backdrop-filter .4s ease,border-bottom-color .4s ease,transform .3s ease;
     padding-top:20px;
     margin-left:-28px;margin-right:-28px;
     padding-left:28px;padding-right:28px;
@@ -55,6 +55,7 @@ header.scrolled{
     backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
     border-bottom-color:var(--border);
 }
+header.header-hidden{transform:translateY(-100%);}
 nav{display:flex;flex-direction:column;padding-bottom:14px}
 .nav-home{display:flex;align-items:center;gap:10px;border:none}
 .site-logo-wide{height:56px;width:auto;object-fit:contain}
