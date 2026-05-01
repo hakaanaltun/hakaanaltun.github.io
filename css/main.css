@@ -93,8 +93,8 @@ nav { display: flex; flex-direction: column; padding-bottom: 12px; }
     justify-content:flex-start;
   }
   .header-nav-bar a{
-    font-size:12px;
-    padding:4px 11px;
+    font-size:13px;
+    padding:7px 16px;
     border:1px solid var(--vizon);
     color:var(--petrol);
     letter-spacing:.04em;
