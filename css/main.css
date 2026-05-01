@@ -442,3 +442,20 @@ line-height: 1.4;
   .subscribe-section { padding: 20px 16px; }
   .subscribe-form { max-width: 100%; }
 }
+/* --- QUOTE NAVIGATION (moved from inline head.html) --- */
+.quote-nav{display:flex;justify-content:center;gap:28px;margin-top:20px;opacity:0;pointer-events:none;transition:opacity 0.4s ease;}
+.quote-nav.quote-nav-visible{opacity:1;pointer-events:auto;}
+.quote-nav-btn{background:none;border:1px solid rgba(60,50,40,0.15);border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;color:rgba(60,50,40,0.4);transition:color 0.3s,border-color 0.3s,background 0.3s;}
+.quote-nav-btn:hover{color:rgba(60,50,40,0.75);border-color:rgba(60,50,40,0.35);background:rgba(60,50,40,0.04);}
+.quote-nav-btn svg{width:18px;height:18px;}
+@media(hover:hover){.hero-quote-card:hover .quote-nav,.hero-quote-card:focus-within .quote-nav{opacity:1;pointer-events:auto;}}
+@media(max-width:600px){
+  .quote-nav{opacity:0;margin-top:16px;gap:20px;transition:opacity 0.4s ease;pointer-events:none;}
+  .quote-nav.quote-nav-visible{opacity:1;pointer-events:auto;}
+  .quote-nav-btn{width:32px;height:32px;border-color:rgba(60,50,40,0.12);}
+  .quote-nav-btn svg{width:16px;height:16px;}
+}
+/* --- COMING SOON CARDS (moved from inline head.html) --- */
+.essay-card--coming-soon{cursor:default;opacity:0.55;pointer-events:none;}
+.essay-thumb--placeholder{width:80px;height:80px;min-width:80px;background:var(--bg-deep,#ede9e2);border-radius:6px;border:1px solid var(--border,rgba(60,50,40,0.12));flex-shrink:0;}
+.essay-card--coming-soon .essay-card-subtitle{font-style:italic;color:var(--petrol,#3a5a52);}
