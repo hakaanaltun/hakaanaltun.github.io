@@ -240,20 +240,22 @@ section.depth-3{margin-left:-28px;margin-right:-28px;padding-left:28px;padding-r
 
 .findme-card {background: var(--cream); border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 4px 24px var(--shadow); padding: 24px;}
 
-/* BOOK VIDEO THUMBNAIL */
-.book-video-card {margin-top: 28px; max-width: 400px; padding: 20px; background: var(--cream); border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 4px 24px var(--shadow);}
-.book-video-wrapper {position: relative; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); cursor: pointer; aspect-ratio: 16/9;}
+/* BOOK VIDEO SECTION (lower zone inside merged card) */
+.book-divider {border: none; border-top: 1px solid var(--border); margin: 28px 0;}
+.book-video-section {display: flex; flex-direction: column; align-items: center; max-width: 400px; margin: 0 auto;}
+.book-video-wrapper {position: relative; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); cursor: pointer; aspect-ratio: 16/9; width: 100%;}
 .book-video-thumb {width: 100%; height: 100%; object-fit: cover; display: block;}
 .book-video-play {position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(32,96,96,0.85); border: none; border-radius: 50%; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background .2s ease, transform .2s ease;}
 .book-video-play:hover {background: rgba(32,96,96,1); transform: translate(-50%, -50%) scale(1.1);}
 .book-video-play:focus-visible {outline: 2px solid var(--petrol); outline-offset: 3px; background: rgba(32,96,96,1);}
 .book-video-play svg {width: 20px; height: 20px; fill: var(--cream); margin-left: 2px;}
-.book-video-caption {margin-top: 12px; font-size: 14px; color: var(--vizon); font-style: italic; line-height: 1.5;}
+.book-video-caption {margin-top: 12px; font-size: 14px; color: var(--vizon); font-style: italic; line-height: 1.5; text-align: center; width: 100%;}
 
 /* MORIS KART */
-.moris-card {max-width: 420px; margin: 0 auto; padding: 20px; background: var(--cream); border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 4px 24px var(--shadow);}
-.moris-card .about-text {margin-bottom: 20px;}
-.moris-video {position: relative; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); cursor: pointer; aspect-ratio: 1/1; background-color: #000;}
+.moris-card {max-width: 660px; margin: 0 auto; padding: 20px; background: var(--cream); border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 4px 24px var(--shadow); display: flex; flex-direction: row; align-items: center; gap: 28px;}
+.moris-card .about-text {flex: 1; margin-bottom: 0;}
+.moris-right-col {flex-shrink: 0; width: 280px; display: flex; flex-direction: column;}
+.moris-video {position: relative; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); cursor: pointer; aspect-ratio: 1/1; background-color: #000; width: 100%;}
 .moris-video-thumb {width: 100%; height: 100%; object-fit: cover; display: block;}
 .moris-video-play {position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(32,96,96,0.85); border: none; border-radius: 50%; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background .2s ease, transform .2s ease;}
 .moris-video-play:hover {background: rgba(32,96,96,1); transform: translate(-50%, -50%) scale(1.1);}
@@ -355,8 +357,7 @@ line-height: 1.4;
     .essay-card.text-only .essay-card-text { align-items: flex-start; justify-content: center; }
     .essay-card.text-only .essay-title { font-size: 16px; }
 
-    .book-video-card {max-width: 100%; margin-top: 20px;}
-    .moris-card {max-width: 100%;}
+    .book-video-section {max-width: 100%;}
     .hero-quote-card {padding: 24px 20px 20px;}
     .hero-quote-card h1 {margin-left: 0; margin-right: 0; padding-left: 0; padding-right: 0;}
     .about-card {padding: 20px 16px;}
@@ -365,6 +366,11 @@ line-height: 1.4;
     .container{padding:0 48px}
     section.depth-1,section.depth-2,section.depth-3{margin-left:-48px;margin-right:-48px;padding-left:48px;padding-right:48px}
     .hero{margin-left:-48px;margin-right:-48px;padding-left:48px;padding-right:48px}
+}
+
+@media(max-width:640px){
+    .moris-card {max-width: 100%; flex-direction: column; align-items: stretch;}
+    .moris-right-col {width: 100%;}
 }
 
 @media(max-width:420px){
