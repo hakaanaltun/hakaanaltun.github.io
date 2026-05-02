@@ -189,8 +189,8 @@ section.depth-3{margin-left:-28px;margin-right:-28px;padding-left:28px;padding-r
 
 /* --- KİTAP BÖLÜMÜ --- */
 .book-card {background: var(--cream); border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 4px 24px var(--shadow); padding: 28px 24px;}
-.book-intro {display: grid; grid-template-columns: 1fr 220px; gap: 40px; align-items: stretch;}
-.book-cover{width:220px; min-width:220px; aspect-ratio:2/3; background:var(--bg-warm); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; box-shadow: 0 8px 32px rgba(0,0,0,0.08); border-radius:4px; overflow:hidden;}
+.book-intro {display: grid; grid-template-columns: 1fr 280px; gap: 40px; align-items: stretch;}
+.book-cover{width:280px; min-width:280px; aspect-ratio:1/1; background:var(--bg-warm); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; box-shadow: 0 8px 32px rgba(0,0,0,0.08); border-radius:4px; overflow:hidden;}
 .book-cover img{width:100%;height:100%;object-fit:cover; border-radius:4px;}
 .book-text-content {display: flex; flex-direction: column; height: 100%; text-align: left;}
 .book-text-content .content-title {margin-top: -6px; margin-bottom: 0; flex-shrink: 0;}
@@ -379,17 +379,18 @@ line-height: 1.4;
     .moris-right-col {width: 100%;}
     .book-video-section {flex-direction: column; align-items: stretch;}
     .book-video-right-col {width: 100%;}
-    .book-intro {grid-template-columns: 110px 1fr;}
-    .book-cover {grid-column: 1 / 2; grid-row: 1 / 2;}
-    .book-text-content .content-title {grid-column: 2 / 3; grid-row: 1 / 2;}
+    .book-intro {display: flex; flex-direction: column; gap: 12px;}
+    .book-cover {order: -1; width: 100%; min-width: unset;}
+    .book-text-content {display: flex; flex-direction: column; order: 1;}
+    .book-text-content .content-title {align-self: flex-start; margin-top: 0; font-size: 20px; line-height: 1.25;}
+    .book-desc-container {display: block; margin-top: 8px;}
 }
 
 @media(max-width:420px){
     .site-logo-wide { height: 46px; }
     .footer-logo-wide { height: 36px; }
     .book-card {padding: 12px;}
-    .book-intro { grid-template-columns: 90px 1fr; gap: 12px;}
-    .book-cover { width: 90px; min-width: 90px; }
+    .book-intro { gap: 10px;}
     .book-text-content .content-title, .content-title, .section-label { font-size: 20px; }
     .essay-thumb { width: 76px; }
     .essay-card { grid-template-columns: 76px 1fr; padding: 10px; gap: 4px 12px; }
