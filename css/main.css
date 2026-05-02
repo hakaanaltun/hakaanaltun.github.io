@@ -380,7 +380,7 @@ line-height: 1.4;
     .book-video-section {flex-direction: column; align-items: stretch;}
     .book-video-right-col {width: 100%;}
     .book-intro {display: flex; flex-direction: column; gap: 12px;}
-    .book-cover {order: -1; width: 100%; min-width: unset; aspect-ratio: 1/1;}
+    .book-cover {order: -1; width: 100%; min-width: unset;}
     .book-text-content {display: flex; flex-direction: column; order: 1;}
     .book-text-content .content-title {align-self: flex-start; margin-top: 0; font-size: 20px; line-height: 1.25;}
     .book-desc-container {display: block; margin-top: 8px;}
