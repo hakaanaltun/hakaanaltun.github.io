@@ -359,7 +359,8 @@ line-height: 1.4;
     .essay-card.text-only .essay-card-text { align-items: flex-start; justify-content: center; }
     .essay-card.text-only .essay-title { font-size: 16px; }
 
-    .book-video-section {width: auto; max-width: 100%; margin-left: calc(110px + 16px);}
+    .book-video-section {width: 100%; max-width: 100%; margin-left: 0;}
+    .book-video-wrapper {aspect-ratio: 1/1;}
     .book-video-caption { text-align: left; }
     .hero-quote-card {padding: 24px 20px 20px;}
     .hero-quote-card h1 {margin-left: 0; margin-right: 0; padding-left: 0; padding-right: 0;}
@@ -383,7 +384,7 @@ line-height: 1.4;
     .book-intro { grid-template-columns: 90px 1fr; gap: 12px;}
     .book-cover { width: 90px; min-width: 90px; }
     .book-text-content .content-title, .content-title, .section-label { font-size: 20px; }
-    .book-video-section { width: auto; margin-left: calc(90px + 12px); }
+    .book-video-section { width: 100%; margin-left: 0; }
     .essay-thumb { width: 76px; }
     .essay-card { grid-template-columns: 76px 1fr; padding: 10px; gap: 4px 12px; }
     .essay-title { font-size: 14px; }
