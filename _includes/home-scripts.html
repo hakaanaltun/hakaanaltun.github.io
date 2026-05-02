@@ -178,6 +178,7 @@
 
             document.querySelectorAll('.scroll-reveal').forEach(function(el) { revealObs.observe(el); });
             document.querySelectorAll('section').forEach(function(el) { lineObs.observe(el); });
+            document.querySelectorAll('.book-divider').forEach(function(el) { lineObs.observe(el); });
             if (hq) heroObs.observe(hq);
         } else {
             /* Fallback for browsers without IntersectionObserver */
@@ -185,6 +186,7 @@
             function ta(){
                 var r=document.querySelectorAll('.scroll-reveal');for(var i=0;i<r.length;i++){if(iv(r[i]))r[i].classList.add('revealed');}
                 var s=document.querySelectorAll('section');for(var i=0;i<s.length;i++){if(iv(s[i]))s[i].classList.add('line-drawn');}
+                var d=document.querySelectorAll('.book-divider');for(var i=0;i<d.length;i++){if(iv(d[i]))d[i].classList.add('line-drawn');}
                 if(hq&&iv(hq))stw();
             }
             var tk=false;
