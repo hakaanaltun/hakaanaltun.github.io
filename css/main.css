@@ -377,7 +377,7 @@ line-height: 1.4;
 @media(max-width:640px){
     .moris-card {flex-direction: column; align-items: stretch;}
     .moris-right-col {width: 100%;}
-    .book-video-section {flex-direction: column;}
+    .book-video-section {flex-direction: column; align-items: stretch;}
     .book-video-right-col {width: 100%;}
 }
 
