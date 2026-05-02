@@ -241,7 +241,9 @@ section.depth-3{margin-left:-28px;margin-right:-28px;padding-left:28px;padding-r
 .findme-card {background: var(--cream); border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 4px 24px var(--shadow); padding: 24px;}
 
 /* BOOK VIDEO SECTION (lower zone inside merged card) */
-.book-divider {border: none; border-top: 1px solid var(--border); margin: 28px 0;}
+.book-divider {position: relative; border: none; height: 1px; margin: 28px 0; background: var(--border);}
+.book-divider::before {content: ''; position: absolute; top: 0; left: 0; width: 0; height: 1px; background: linear-gradient(to right, transparent, var(--petrol) 20%, var(--petrol) 80%, transparent); opacity: .20; transition: width 1.2s cubic-bezier(.23,1,.32,1);}
+.book-divider.line-drawn::before {width: 100%;}
 .book-video-section {display: flex; flex-direction: column; align-items: center; max-width: 400px; margin: 0 auto;}
 .book-video-wrapper {position: relative; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); cursor: pointer; aspect-ratio: 16/9; width: 100%;}
 .book-video-thumb {width: 100%; height: 100%; object-fit: cover; display: block;}
@@ -252,7 +254,7 @@ section.depth-3{margin-left:-28px;margin-right:-28px;padding-left:28px;padding-r
 .book-video-caption {margin-top: 12px; font-size: 14px; color: var(--vizon); font-style: italic; line-height: 1.5; text-align: center; width: 100%;}
 
 /* MORIS KART */
-.moris-card {max-width: 660px; margin: 0 auto; padding: 20px; background: var(--cream); border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 4px 24px var(--shadow); display: flex; flex-direction: row; align-items: center; gap: 28px;}
+.moris-card {padding: 20px; background: var(--cream); border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 4px 24px var(--shadow); display: flex; flex-direction: row; align-items: center; gap: 28px;}
 .moris-card .about-text {flex: 1; margin-bottom: 0;}
 .moris-right-col {flex-shrink: 0; width: 280px; display: flex; flex-direction: column;}
 .moris-video {position: relative; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); cursor: pointer; aspect-ratio: 1/1; background-color: #000; width: 100%;}
@@ -369,7 +371,7 @@ line-height: 1.4;
 }
 
 @media(max-width:640px){
-    .moris-card {max-width: 100%; flex-direction: column; align-items: stretch;}
+    .moris-card {flex-direction: column; align-items: stretch;}
     .moris-right-col {width: 100%;}
 }
 
