@@ -194,7 +194,7 @@ section.depth-3{margin-left:-28px;margin-right:-28px;padding-left:28px;padding-r
 .book-cover img{width:100%;height:100%;object-fit:cover; border-radius:4px;}
 .book-text-content {display: flex; flex-direction: column; height: 100%; text-align: left;}
 .book-text-content .content-title {margin-top: -6px; margin-bottom: 0; flex-shrink: 0;}
-.book-desc-container {display: flex; flex-direction: column; flex: 1; margin-top: 16px;}
+.book-desc-container {display: flex; flex-direction: column; flex: 1; margin-top: 10px;}
 .book-desc-text {color: var(--vizon); font-size: 17px; line-height: 1.7; max-width: 640px; margin: 0;}
 
 .desktop-links {margin-top: auto; display: flex; gap: 16px; flex-wrap: wrap; justify-content: flex-start;}
