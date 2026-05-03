@@ -44,20 +44,18 @@ a:hover{border-color:var(--petrol)}
 header{
     position:sticky;top:0;z-index:100;
     background:transparent;
-    transition:background .4s ease,backdrop-filter .4s ease,border-bottom-color .4s ease,transform .3s ease;
+    transition:background .4s ease,backdrop-filter .4s ease,transform .3s ease;
     padding-top:20px;
     margin-left:-28px;margin-right:-28px;
     padding-left:28px;padding-right:28px;
-    border-bottom:1px solid transparent;
 }
 header.scrolled{
     background:rgba(250,248,244,0.92);
     backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
-    border-bottom-color:var(--border);
 }
 header.header-hidden{transform:translateY(-100%);}
 header::after{content:'';display:block;height:1px;max-width:680px;margin-left:auto;margin-right:auto;background-color:var(--border);background-image:linear-gradient(to right,transparent,rgba(32,96,96,.2) 20%,rgba(32,96,96,.2) 80%,transparent);background-repeat:no-repeat;background-size:0 100%;animation:header-line-draw 1.2s cubic-bezier(.23,1,.32,1) .4s forwards;}
-header.scrolled::after{display: none;}
+header.scrolled::after{background-size:100% 100%;animation:none;}
 nav{display:flex;flex-direction:column;padding-bottom:20px;max-width:680px;margin-left:auto;margin-right:auto}
 .nav-home{display:flex;align-items:center;gap:10px;border:none}
 .site-logo-wide{height:56px;width:auto;object-fit:contain}
