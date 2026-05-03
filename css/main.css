@@ -195,7 +195,7 @@ section.depth-3{margin-left:-28px;margin-right:-28px;padding-left:28px;padding-r
 .book-text-content {display: flex; flex-direction: column; height: 100%; text-align: left;}
 .book-text-content .content-title {margin-top: -6px; margin-bottom: 0; flex-shrink: 0;}
 .book-desc-container {display: flex; flex-direction: column; flex: 1; }
-.book-desc-text {color: var(--vizon); font-size: 17px; line-height: 1.7; max-width: 640px; margin: auto 0;}
+.book-desc-text {color: var(--vizon); font-size: 17px; line-height: 1.7; max-width: 640px; margin: 0;}
 
 .desktop-links {margin-top: auto; display: flex; gap: 16px; flex-wrap: wrap; justify-content: flex-start;}
 .book-links a{font-size:14px; padding:8px 24px; border:1px solid var(--vizon); color:var(--petrol); letter-spacing:.04em; border-radius:4px}
