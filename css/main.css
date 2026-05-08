@@ -255,7 +255,8 @@ section.depth-3{margin-left:-28px;margin-right:-28px;padding-left:28px;padding-r
 
 /* FOOTER */
 footer {
-padding: 40px 0;
+margin-top: 48px;
+padding: 0 0 40px;
 text-align: center;
 font-family: 'Lora', Georgia, serif !important;
 }
@@ -265,7 +266,7 @@ background: var(--cream);
 border: 1px solid var(--border);
 border-radius: 12px;
 box-shadow: 0 4px 24px var(--shadow);
-padding: 32px 28px;
+padding: 120px 28px 32px;
 }
 
 footer p {
@@ -357,7 +358,7 @@ line-height: 1.4;
     .hero-quote-card h1 {margin-left: 0; margin-right: 0; padding-left: 0; padding-right: 0;}
     .about-card {padding: 20px 16px;}
     .findme-card {padding: 20px 16px;}
-    .footer-card {padding: 20px 16px;}
+    .footer-card {padding: 108px 16px 20px;}
 
     .container{padding:0 48px}
     section.depth-1,section.depth-2,section.depth-3{margin-left:-48px;margin-right:-48px;padding-left:48px;padding-right:48px}
