@@ -38,6 +38,13 @@ layout: default
       if(e.isIntersecting){e.target.classList.add('line-drawn');obs.unobserve(e.target);}
     });
   },{rootMargin:'0px 0px -40px 0px'});
-  document.querySelectorAll('.essay-section-divider').forEach(function(el){obs.observe(el);});
+  function observeAll(){
+    document.querySelectorAll('.essay-section-divider').forEach(function(el){obs.observe(el);});
+  }
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', observeAll);
+  } else {
+    observeAll();
+  }
 })();
 </script>
