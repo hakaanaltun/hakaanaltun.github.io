@@ -288,11 +288,10 @@ body.drawer-open{overflow:hidden}
 .essay-section-divider{position:relative;height:1px;margin:48px 0;background:var(--border)}
 .essay-section-divider::before{content:'';position:absolute;top:0;left:0;width:0;height:1px;background:linear-gradient(to right,transparent,var(--petrol) 20%,var(--petrol) 80%,transparent);opacity:.20;transition:width 1.2s cubic-bezier(.23,1,.32,1)}
 .essay-section-divider.line-drawn::before{width:100%}
-.footer-section-divider{margin-top:0;margin-bottom:16px}
 
 /* Footer */
-footer{max-width:680px;margin-left:auto;margin-right:auto;margin-top:48px;padding:0 0 40px;text-align:center;font-family:'Lora',Georgia,serif !important}
-.footer-card{background:var(--cream);border:1px solid var(--border);border-radius:12px;box-shadow:0 4px 24px var(--shadow);padding:80px 28px 32px}
+footer{max-width:680px;margin-left:auto;margin-right:auto;padding:0 0 40px;text-align:center;font-family:'Lora',Georgia,serif !important}
+.footer-card{background:var(--cream);border:1px solid var(--border);border-radius:12px;box-shadow:0 4px 24px var(--shadow);padding:32px 28px}
 footer p{font-size:14px;color:var(--vizon);letter-spacing:1px;font-family:'Lora',Georgia,serif !important;margin:0;line-height:1.4}
 .footer-contact{font-size:13px;margin-top:6px}
 .footer-contact a{color:var(--vizon);border-bottom:1px solid transparent;transition:border-color 0.2s ease}
@@ -322,10 +321,8 @@ footer p{font-size:14px;color:var(--vizon);letter-spacing:1px;font-family:'Lora'
     .essay-nav .next-series-link {font-size: 14px;}
     .essay-card-wrapper{padding:24px 20px}
     .essay-section-divider{margin:36px 0}
-    .footer-section-divider{margin-top:0;margin-bottom:16px}
     .scroll-reveal > .section-label{font-size:22px}
-    .footer-card{padding:56px 16px 20px}
-    footer{margin-top:36px}
+    .footer-card{padding:20px 16px}
 }
 @media(max-width:420px){
     .site-logo-wide{height:46px}
