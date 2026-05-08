@@ -488,7 +488,7 @@ line-height: 1.4;
 .essay-section-divider{position:relative;height:1px;margin:48px 0;background:var(--border)}
 .essay-section-divider::before{content:'';position:absolute;top:0;left:0;width:0;height:1px;background:linear-gradient(to right,transparent,var(--petrol) 20%,var(--petrol) 80%,transparent);opacity:.20;transition:width 1.2s cubic-bezier(.23,1,.32,1)}
 .essay-section-divider.line-drawn::before{width:100%}
-.footer-section-divider{margin-top:0;margin-bottom:48px}
+.footer-section-divider{margin-top:0;margin-bottom:16px}
 /* --- COMING SOON CARDS (moved from inline head.html) --- */
 .essay-card--coming-soon{cursor:default;opacity:0.55;pointer-events:none;}
 .essay-thumb--placeholder{width:80px;height:80px;min-width:80px;background:var(--bg-deep,#ede9e2);border-radius:6px;border:1px solid var(--border,rgba(60,50,40,0.12));flex-shrink:0;}
