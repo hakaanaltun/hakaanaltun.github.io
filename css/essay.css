@@ -291,7 +291,7 @@ body.drawer-open{overflow:hidden}
 
 /* Footer */
 footer{max-width:680px;margin-left:auto;margin-right:auto;padding:0 0 40px;text-align:center;font-family:'Lora',Georgia,serif !important}
-.footer-card{background:var(--cream);border:1px solid var(--border);border-radius:12px;box-shadow:0 4px 24px var(--shadow);padding:32px 28px}
+.footer-card{background:var(--cream);border:1px solid var(--border);border-radius:12px;box-shadow:0 4px 24px var(--shadow);padding:64px 28px 32px}
 footer p{font-size:14px;color:var(--vizon);letter-spacing:1px;font-family:'Lora',Georgia,serif !important;margin:0;line-height:1.4}
 .footer-contact{font-size:13px;margin-top:6px}
 .footer-contact a{color:var(--vizon);border-bottom:1px solid transparent;transition:border-color 0.2s ease}
@@ -322,7 +322,7 @@ footer p{font-size:14px;color:var(--vizon);letter-spacing:1px;font-family:'Lora'
     .essay-card-wrapper{padding:24px 20px}
     .essay-section-divider{margin:36px 0}
     .scroll-reveal > .section-label{font-size:22px}
-    .footer-card{padding:20px 16px}
+    .footer-card{padding:40px 16px 20px}
 }
 @media(max-width:420px){
     .site-logo-wide{height:46px}
