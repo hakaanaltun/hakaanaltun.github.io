@@ -290,7 +290,7 @@ body.drawer-open{overflow:hidden}
 .essay-section-divider.line-drawn::before{width:100%}
 
 /* Footer */
-footer{max-width:680px;margin-top:-48px;margin-left:auto;margin-right:auto;padding:0 0 40px;text-align:center;font-family:'Lora',Georgia,serif !important}
+footer{max-width:680px;margin-top:0;margin-left:auto;margin-right:auto;padding:0 0 40px;text-align:center;font-family:'Lora',Georgia,serif !important}
 .footer-card{background:var(--cream);border:1px solid var(--border);border-radius:12px;box-shadow:0 4px 24px var(--shadow);padding:64px 28px 32px}
 footer p{font-size:14px;color:var(--vizon);letter-spacing:1px;font-family:'Lora',Georgia,serif !important;margin:0;line-height:1.4}
 .footer-contact{font-size:13px;margin-top:6px}
