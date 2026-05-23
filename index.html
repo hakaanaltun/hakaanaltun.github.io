@@ -23,9 +23,6 @@ layout: home
     {% for post in regular_essays limit: 9 %}
       {% assign span = pieces_spans[forloop.index0] %}
       {% assign pieces_kicker = "" %}
-      {% if forloop.first %}
-        {% assign pieces_kicker = "Latest essay" %}
-      {% endif %}
       {% include home-card.html post=post span=span featured=forloop.first kicker=pieces_kicker %}
     {% endfor %}
   </ul>
