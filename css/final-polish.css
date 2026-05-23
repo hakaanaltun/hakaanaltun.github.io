@@ -1,0 +1,56 @@
+/* final-polish.css — final visual consistency overrides */
+:root{
+  --vizon:#8C867E;
+  --muted:#8C867E;
+  --rule:#EEEAE4;
+  --rule-strong:#D8D2C8;
+}
+
+html,body{background:#fff!important}
+.container{box-shadow:none!important}
+
+/* keep supporting text in one consistent light-vizon register */
+.essay-subtitle,
+.essay-meta-info,
+.essay-meta-author,
+.essay-body p,
+.essay-body blockquote,
+.essay-body ul,
+.essay-body ol,
+.essay-nav a,
+.series-thumb-label,
+.drawer-essay-card-subtitle,
+.asym-subtitle,
+.asym-meta,
+.section-subtitle,
+.hero-quote-text,
+.about-text p,
+.book-description p,
+.moris-caption,
+.footer-meta{color:var(--vizon)!important}
+
+/* preserve hierarchy */
+.essay-header h1,
+.asym-title,
+.book-title,
+.section-title{color:var(--petrol)!important}
+.hero-quote-source,
+.hero-quote-source i{color:var(--petrol)!important}
+
+/* note used on On Silence */
+.piece-note{font-size:.95rem!important;line-height:1.55!important;color:var(--vizon)!important;border-left:2px solid var(--petrol);padding:10px 0 10px 16px;margin-bottom:30px!important;font-style:italic;background:transparent}
+
+/* Moris should echo the Book section: small square video, caption below, copy aligned to the top */
+#moris .moris-card{display:grid!important;grid-template-columns:minmax(180px,260px) minmax(0,1fr)!important;gap:42px!important;align-items:start!important;max-width:none!important;margin:0!important;background:transparent!important;border:0!important;box-shadow:none!important;padding:0!important}
+#moris .moris-right-col{grid-column:1!important;grid-row:1!important;display:flex!important;flex-direction:column!important;align-items:center!important;width:240px!important;max-width:240px!important;margin:0 auto!important}
+#moris .moris-video{width:240px!important;height:240px!important;max-width:240px!important;max-height:240px!important;aspect-ratio:1/1!important;overflow:hidden!important}
+#moris .moris-video-thumb{width:100%!important;height:100%!important;object-fit:cover!important}
+#moris .moris-caption{text-align:center!important;width:240px!important;max-width:240px!important;margin:12px 0 0!important}
+#moris .about-text{grid-column:2!important;grid-row:1!important;max-width:720px!important;margin:0!important;padding-top:0!important}
+
+@media(max-width:900px){
+  #moris .moris-card{grid-template-columns:1fr!important;gap:24px!important}
+  #moris .moris-right-col{grid-column:1!important;grid-row:1!important;margin:0!important;align-items:flex-start!important;width:240px!important;max-width:100%!important}
+  #moris .about-text{grid-column:1!important;grid-row:2!important;max-width:100%!important}
+  #moris .moris-caption{text-align:center!important}
+}

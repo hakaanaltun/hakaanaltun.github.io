@@ -2,7 +2,7 @@
 ---
 /* essays-data.js — static build-safe essay data for more essays and series nav */
 var ALL_ESSAYS = [
-{"href":"the-cove.html","title":"The Cove","subtitle":"","img":"https://hakanaltun.io/images/the-cove.png","date":"May 23, 2026","readTime":"1 min","series":"fragments","seriesOrder":4},
+{"href":"the-cove.html","title":"The Cove","subtitle":"A Command I No Longer Knew How to Give","img":"https://hakanaltun.io/images/the-cove.png","date":"May 23, 2026","readTime":"2 min","series":"fragments","seriesOrder":4},
 {"href":"collateral.html","title":"Collateral","subtitle":"A Turn Too Early","img":"https://hakanaltun.io/images/collateral.jpg","date":"Apr 28, 2026","readTime":"7 min","series":"","seriesOrder":0},
 {"href":"handled.html","title":"Handled","subtitle":"Fractions of a Millimeter","img":"https://hakanaltun.io/images/handled.png","date":"Apr 23, 2026","readTime":"5 min","series":"fragments","seriesOrder":5},
 {"href":"the-anxiety.html","title":"The Anxiety","subtitle":"The Road to Nowhere","img":"https://hakanaltun.io/images/the-anxiety.png","date":"Apr 13, 2026","readTime":"17 min","series":"fragments","seriesOrder":3},
