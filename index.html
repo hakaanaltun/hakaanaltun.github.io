@@ -7,6 +7,17 @@ layout: home
 {% assign cove_page = cove_pages | first %}
 {% assign on_series = site.posts | where: "series", "on-series" | sort: "series_order" %}
 
+<section id="quotes" class="hero-quotes-section">
+  <div class="hero-quote-card" aria-live="polite">
+    <p id="hero-quote" class="hero-quote-text"></p>
+    <p id="hero-quote-source" class="hero-quote-source"></p>
+    <div class="quote-nav" aria-label="Quote navigation">
+      <button id="quote-prev" class="quote-nav-btn" type="button" aria-label="Previous quote">‹</button>
+      <button id="quote-next" class="quote-nav-btn" type="button" aria-label="Random quote">›</button>
+    </div>
+  </div>
+</section>
+
 <section id="book">
   {% include section-header.html title="Book" subtitle="" %}
   <div class="book-grid">
