@@ -1,0 +1,12 @@
+<li class="asym-item span-{{ include.span }}{% if include.featured %} is-featured-wrap{% endif %}">
+  <a href="{{ include.post.url }}" class="asym-card{% if include.featured %} is-featured{% endif %}">
+    {% unless include.kicker == blank %}
+    <span class="asym-kicker">{{ include.kicker }}</span>
+    {% endunless %}
+    <h3 class="asym-title">{{ include.post.title }}</h3>
+    {% if include.post.subtitle %}
+    <p class="asym-subtitle">{{ include.post.subtitle }}</p>
+    {% endif %}
+    <p class="asym-meta">{{ include.post.date | date: "%b %-d, %Y" }} · {{ include.post.read_time }}</p>
+  </a>
+</li>

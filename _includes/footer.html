@@ -1,13 +1,47 @@
 <footer>
-<div class="footer-card">
-{% if page.layout == "home" %}
-    <a href="#" class="footer-home">
-{% else %}
-    <a href="/" class="footer-home">
-{% endif %}
-        <img src="/on-logo-greenandgold-wide.png" alt="On Life &amp; Everything" class="footer-logo-wide" width="1095" height="357" loading="lazy">
-    </a>
-    <p>Hakan Altun—İstanbul, 2026</p>
-    <p class="copyright">© All rights reserved.</p>
-</div>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <section class="footer-col footer-subscribe">
+        <h3>Subscribe</h3>
+        <p class="footer-subscribe-blurb">If you'd like new pieces sent directly to your inbox when they're ready, drop your email below.</p>
+        <form action="https://buttondown.com/api/emails/embed-subscribe/hakanaltun" method="post" class="footer-subscribe-form">
+          <label for="bd-email-footer">Email address</label>
+          <input type="email" name="email" id="bd-email-footer" placeholder="your@email.com" required>
+          <button type="submit">Subscribe</button>
+        </form>
+        <p class="footer-note">Powered by Buttondown. Unsubscribe anytime.</p>
+      </section>
+
+      <section class="footer-col">
+        <h3>Find me</h3>
+        <ul>
+          <li><a href="/feed.xml">RSS <span>→</span></a></li>
+          <li><a href="https://www.goodreads.com/author/show/69006405.Hakan_Altun" target="_blank" rel="noopener">Goodreads <span>→</span></a></li>
+          <li><a href="#">Email <span>→</span></a></li>
+        </ul>
+      </section>
+
+      <section class="footer-col">
+        <h3>Sections</h3>
+        <ul>
+          <li><a href="/#book">Book</a></li>
+          <li><a href="/#pieces">Pieces</a></li>
+          <li><a href="/#fragments-arc">Şafak's Arc</a></li>
+          <li><a href="/#on-series">The On Series</a></li>
+          <li><a href="/#moris">Moris</a></li>
+          <li><a href="/#about">About</a></li>
+        </ul>
+      </section>
+    </div>
+
+    <hr class="footer-rule footer-rule-bottom">
+
+    <div class="footer-bottom">
+      <div>
+        <p class="footer-brand">On Life &amp; Everything</p>
+        <p class="footer-meta">Hakan Altun · İstanbul, 2026</p>
+      </div>
+      <p class="footer-copy">© All rights reserved.</p>
+    </div>
+  </div>
 </footer>
