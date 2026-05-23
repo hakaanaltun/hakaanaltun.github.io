@@ -157,10 +157,9 @@ body.drawer-open{overflow:hidden}
   .section-head{flex-direction:column;align-items:flex-start;margin-bottom:2.4rem}
   .section-subtitle{text-align:left;max-width:100%}
   .book-grid,.cove-block,.moris-card{grid-template-columns:1fr}
-  .asym-grid{grid-template-columns:repeat(6,minmax(0,1fr))}
-  .span-12{grid-column:span 6}.span-8,.span-7,.span-6,.span-5,.span-4{grid-column:span 3}.span-3{grid-column:span 2}
-  #fragments-arc .asym-grid{grid-template-columns:1fr}
-  #fragments-arc .asym-item{grid-column:auto}
+  .asym-grid{grid-template-columns:1fr}
+  .span-12,.span-8,.span-7,.span-6,.span-5,.span-4,.span-3{grid-column:span 1}
+  .asym-card{min-height:0}
   .footer-inner{padding:100px 28px 68px}
   .footer-grid{grid-template-columns:1fr 1fr}
   .footer-subscribe{grid-column:1 / -1}
@@ -175,9 +174,6 @@ body.drawer-open{overflow:hidden}
   .header-nav-bar a{font-size:1rem}
   .header-share-btn svg,.essay-share-btn svg,.hamburger-btn svg{width:18px;height:18px}
   .site-drawer{max-width:82vw}
-  .asym-grid{grid-template-columns:1fr}
-  .span-12,.span-8,.span-7,.span-6,.span-5,.span-4,.span-3{grid-column:span 1}
-  .asym-card{min-height:0}
   .cove-left h3{font-size:4.4rem}
   .footer-inner{padding:88px 20px 60px}
   .footer-grid{grid-template-columns:1fr}
