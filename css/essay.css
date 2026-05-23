@@ -44,7 +44,7 @@ a:hover{border-color:var(--petrol)}
 }
 
 /* Container */
-.container{max-width:1180px;margin:0 auto;padding:0 40px;position:relative;z-index:1}
+.container{max-width:920px;margin:0 auto;padding:0 28px;position:relative;z-index:1}
 
 /* Sticky Header */
 header{
@@ -52,17 +52,17 @@ header{
     background:transparent;
     transition:background .4s ease,backdrop-filter .4s ease,transform .3s ease;
     padding-top:20px;
-    margin-left:-40px;margin-right:-40px;
-    padding-left:40px;padding-right:40px;
+    margin-left:-28px;margin-right:-28px;
+    padding-left:28px;padding-right:28px;
 }
 header.scrolled{
     background:rgba(250,248,244,0.92);
     backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
 }
 header.header-hidden{transform:translateY(-100%);}
-header::after{content:'';display:block;height:1px;background-color:var(--border);background-image:linear-gradient(to right,transparent,rgba(32,96,96,.2) 20%,rgba(32,96,96,.2) 80%,transparent);background-repeat:no-repeat;background-size:0 100%;animation:header-line-draw 1.2s cubic-bezier(.23,1,.32,1) .4s forwards;}
+header::after{content:'';display:block;height:1px;max-width:680px;margin-left:auto;margin-right:auto;background-color:var(--border);background-image:linear-gradient(to right,transparent,rgba(32,96,96,.2) 20%,rgba(32,96,96,.2) 80%,transparent);background-repeat:no-repeat;background-size:0 100%;animation:header-line-draw 1.2s cubic-bezier(.23,1,.32,1) .4s forwards;}
 header.scrolled::after{background-size:100% 100%;animation:none;}
-nav{display:flex;flex-direction:column;padding-bottom:20px}
+nav{display:flex;flex-direction:column;padding-bottom:20px;max-width:680px;margin-left:auto;margin-right:auto}
 .nav-home{display:flex;align-items:center;gap:10px;border:none}
 .site-logo-wide{height:56px;width:auto;object-fit:contain}
 
@@ -449,7 +449,7 @@ header::after{display:none!important}
 nav{max-width:none!important;padding:22px 0 16px!important;display:flex;flex-direction:column;gap:12px}
 .nav-top-row{display:flex;align-items:flex-end;justify-content:space-between;gap:20px}
 .nav-home{display:flex;flex-direction:column;line-height:1;text-decoration:none;border:none}
-.brand-main{font-family:'Cormorant Garamond',Georgia,serif;font-style:normal;font-size:clamp(2rem,3.5vw,2.8rem);color:var(--petrol)}
+.brand-main{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:clamp(2rem,3.5vw,2.8rem);color:var(--petrol)}
 .brand-sub{margin-top:6px;font-size:.95rem;color:var(--vizon)}
 .nav-right{display:flex;align-items:center;gap:8px}
 .header-share-btn,.essay-share-btn,.hamburger-btn{background:transparent;border:none;color:var(--petrol);padding:6px;cursor:pointer;display:flex!important;align-items:center;justify-content:center;transition:opacity .2s ease,color .2s ease}
