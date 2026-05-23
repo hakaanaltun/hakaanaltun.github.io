@@ -444,9 +444,9 @@ footer p{font-size:14px;color:var(--vizon);letter-spacing:1px;font-family:'Lora'
   .findme-card {padding: 20px 16px;}
 }
 /* --- Redesign overrides: shared nav + footer --- */
-header{background:rgba(255,255,255,.88)!important;backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);border-bottom:1px solid var(--border);padding-top:0!important}
+header{background:rgba(255,255,255,.88)!important;backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);border-bottom:1px solid var(--border);padding-top:0!important;margin-left:calc(-50vw + 50%)!important;margin-right:calc(-50vw + 50%)!important;padding-left:calc(50vw - 50%)!important;padding-right:calc(50vw - 50%)!important}
 header::after{display:none!important}
-nav{max-width:none!important;padding:22px 0 16px!important;display:flex;flex-direction:column;gap:12px}
+nav{max-width:1180px!important;margin-left:auto!important;margin-right:auto!important;padding:22px 40px 16px!important;display:flex;flex-direction:column;gap:12px}
 .nav-top-row{display:flex;align-items:flex-end;justify-content:space-between;gap:20px}
 .nav-home{display:flex;flex-direction:column;line-height:1;text-decoration:none;border:none}
 .brand-main{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:clamp(2rem,3.5vw,2.8rem);color:var(--petrol)}
@@ -492,13 +492,14 @@ footer{max-width:none!important;margin-left:calc(50% - 50vw)!important;margin-ri
 .footer-card{all:unset}
 
 @media(max-width:900px){
-  nav{gap:10px}
+  nav{gap:10px;padding-left:28px!important;padding-right:28px!important}
   .header-nav-bar{gap:14px}
   .footer-inner{padding:100px 28px 68px}
   .footer-grid{grid-template-columns:1fr 1fr}
   .footer-subscribe{grid-column:1 / -1}
 }
 @media(max-width:600px){
+  nav{padding-left:20px!important;padding-right:20px!important}
   .header-nav-bar{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 14px;width:100%}
   .header-nav-bar a{font-size:1rem}
   .header-share-btn svg,.essay-share-btn svg,.hamburger-btn svg{width:18px;height:18px}
