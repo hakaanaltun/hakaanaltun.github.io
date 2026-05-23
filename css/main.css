@@ -158,6 +158,8 @@ body.drawer-open{overflow:hidden}
   .book-grid,.cove-block,.moris-card{grid-template-columns:1fr}
   .asym-grid{grid-template-columns:repeat(6,minmax(0,1fr))}
   .span-12{grid-column:span 6}.span-8,.span-7,.span-6,.span-5,.span-4{grid-column:span 3}.span-3{grid-column:span 2}
+  #fragments-arc .asym-grid{grid-template-columns:1fr}
+  #fragments-arc .asym-item{grid-column:auto}
   .footer-inner{padding:100px 28px 68px}
   .footer-grid{grid-template-columns:1fr 1fr}
   .footer-subscribe{grid-column:1 / -1}

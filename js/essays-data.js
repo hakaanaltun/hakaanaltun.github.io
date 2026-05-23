@@ -1,26 +1,8 @@
 ---
 ---
-/* essays-data.js — static build-safe essay data for more essays and series nav */
-var ALL_ESSAYS = [
-{"href":"the-cove.html","title":"The Cove","subtitle":"A Command I No Longer Knew How to Give","img":"https://hakanaltun.io/images/the-cove.png","date":"May 23, 2026","readTime":"2 min","series":"fragments","seriesOrder":4},
-{"href":"collateral.html","title":"Collateral","subtitle":"A Turn Too Early","img":"https://hakanaltun.io/images/collateral.jpg","date":"Apr 28, 2026","readTime":"7 min","series":"","seriesOrder":0},
-{"href":"handled.html","title":"Handled","subtitle":"Fractions of a Millimeter","img":"https://hakanaltun.io/images/handled.png","date":"Apr 23, 2026","readTime":"5 min","series":"fragments","seriesOrder":5},
-{"href":"the-anxiety.html","title":"The Anxiety","subtitle":"The Road to Nowhere","img":"https://hakanaltun.io/images/the-anxiety.png","date":"Apr 13, 2026","readTime":"17 min","series":"fragments","seriesOrder":3},
-{"href":"the-joy.html","title":"The Joy","subtitle":"The Summer of Superman and Straight A’s","img":"https://hakanaltun.io/images/the-joy.png","date":"Apr 13, 2026","readTime":"5 min","series":"fragments","seriesOrder":2},
-{"href":"the-poise.html","title":"The Poise","subtitle":"They Must Know What They’re Doing","img":"https://hakanaltun.io/images/the-poise.jpg","date":"Apr 13, 2026","readTime":"5 min","series":"fragments","seriesOrder":1},
-{"href":"on-keeping.html","title":"On Keeping","subtitle":"The Corridor Narrows in Adversity.","img":"https://hakanaltun.io/images/on-keeping.png","date":"Apr 2, 2026","readTime":"3 min","series":"on-series","seriesOrder":5},
-{"href":"on-longing.html","title":"On Longing","subtitle":"Lighter. Smaller. Younger.","img":"https://hakanaltun.io/images/on-longing.png","date":"Apr 2, 2026","readTime":"8 min","series":"on-series","seriesOrder":6},
-{"href":"on-silence.html","title":"On Silence","subtitle":"I Forgot I Had a Cat.","img":"https://hakanaltun.io/images/on-silence.jpg","date":"Apr 2, 2026","readTime":"3 min","series":"on-series","seriesOrder":7},
-{"href":"on-forgiveness.html","title":"On Forgiveness","subtitle":"Cruelty Made Architectural.","img":"https://hakanaltun.io/images/on-forgiveness.png","date":"Mar 29, 2026","readTime":"3 min","series":"on-series","seriesOrder":4},
-{"href":"on-looking.html","title":"On Looking","subtitle":"A Room Full of Directors and No Audience.","img":"https://hakanaltun.io/images/on-looking.jpg","date":"Mar 22, 2026","readTime":"4 min","series":"on-series","seriesOrder":3},
-{"href":"on-perceiving.html","title":"On Perceiving","subtitle":"Misperception Is a Corridor Whose Architect Burned the Blueprint.","img":"https://hakanaltun.io/images/on-perceiving.png","date":"Mar 14, 2026","readTime":"5 min","series":"on-series","seriesOrder":2},
-{"href":"on-lying.html","title":"On Lying","subtitle":"Not Being Caught Carries Its Own Sentence.","img":"https://hakanaltun.io/images/on-lying.png","date":"Mar 12, 2026","readTime":"2 min","series":"on-series","seriesOrder":1},
-{"href":"best-ideas.html","title":"The Best Ideas Come When You Let Go","subtitle":"Default Mode Network and the Art of Not Thinking","img":"https://hakanaltun.io/images/the-best-ideas-come-when-you-let-go.jpg","date":"Mar 8, 2026","readTime":"3 min","series":"","seriesOrder":0},
-{"href":"empathy-paradox.html","title":"The Empathy Paradox","subtitle":"Outside Every Story but Our Own","img":"https://hakanaltun.io/images/the-empathy-paradox.jpg","date":"Mar 4, 2026","readTime":"4 min","series":"","seriesOrder":0},
-{"href":"love-or-fear.html","title":"It Is Either from Love or Fear","subtitle":"Fear Wears Love’s Face—and Speaks Its Language","img":"https://hakanaltun.io/images/it-is-either-from-love-or-fear.png","date":"Mar 1, 2026","readTime":"5 min","series":"","seriesOrder":0},
-{"href":"unfinished-things.html","title":"Why Do Unfinished Things Haunt Us?","subtitle":"The Zeigarnik–Lacan Trap We All Fall Into","img":"https://hakanaltun.io/images/why-do-unfinished-things-haunt-us.png","date":"Feb 25, 2026","readTime":"6 min","series":"","seriesOrder":0},
-{"href":"jung-shadow.html","title":"Jung's Golden Shadow","subtitle":"Why Do We Envy the Things We Forbid Ourselves the Most","img":"https://hakanaltun.io/images/jung's-golden-shadow.jpg","date":"Feb 20, 2026","readTime":"5 min","series":"","seriesOrder":0},
-{"href":"defense-mechanisms.html","title":"Our Defense Mechanisms","subtitle":"Have We Handed Over the Keys to Our Own Prisons","img":"https://hakanaltun.io/images/our-defense-mechanisms.jpg","date":"Feb 17, 2026","readTime":"5 min","series":"","seriesOrder":0},
-{"href":"ai-enough.html","title":"Will AI Be Enough for Us?","subtitle":"A Reflection on AI's Promise and the Warmth It Can't Replicate","img":"https://hakanaltun.io/images/will-ai-be-enough-for-us.png","date":"Feb 14, 2026","readTime":"4 min","series":"","seriesOrder":0},
-{"href":"say-hello.html","title":"Why Do We Say Hello?","subtitle":"Transactional Analysis and the Hidden Games in Our Relationships","img":"https://hakanaltun.io/images/why-do-we-say-hello.png","date":"Feb 10, 2026","readTime":"8 min","series":"","seriesOrder":0}
+/* essays-data.js — generated by Jekyll from post front matter */
+{% assign all_essays = site.posts | sort: "date" | reverse %}
+var ALL_ESSAYS = [{% for essay in all_essays %}
+{% assign essay_img = essay.thumb | default: essay.image | default: "" %}
+  {href:{{ essay.url | split: "/" | last | jsonify }},title:{{ essay.title | jsonify }},subtitle:{{ essay.subtitle | default: "" | jsonify }},img:{% if essay_img contains '://' %}{{ essay_img | jsonify }}{% elsif essay_img != "" %}{{ essay_img | absolute_url | jsonify }}{% else %}""{% endif %},date:'{{ essay.date | date: "%b %-d, %Y" }}',readTime:{{ essay.read_time | default: "" | jsonify }},series:{{ essay.series | default: "" | jsonify }},seriesOrder:{{ essay.series_order | default: 0 }}}{% unless forloop.last %},{% endunless %}{% endfor %}
 ];

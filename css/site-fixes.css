@@ -1,15 +1,15 @@
 /* site-fixes.css — visual repair, palette, and rhythm layer */
 :root{
-  --bg:#DDE5DF;
+  --bg:#FFFFFF;
   --paper:#FFFFFF;
   --card:#FFFFFF;
-  --card-soft:#F5F7F4;
+  --card-soft:#FAFAF8;
   --ink:#2F2B27;
   --ink-soft:#403A34;
   --muted:#7C736A;
   --vizon:#8C867E;
-  --rule:#D9E0DA;
-  --rule-strong:#C8D2CB;
+  --rule:#EEEAE4;
+  --rule-strong:#D8D2C8;
   --petrol:#1E5552;
   --petrol-deep:#153F3D;
   --footer-bg:#1E4F4C;
@@ -17,9 +17,9 @@
   --footer-muted:#A8B8B3;
 }
 
-html{scroll-padding-top:150px;background:var(--bg)!important}
-body{font-size:19px!important;color:var(--ink)!important;background:var(--bg)!important}
-.container{background:#fff!important;box-shadow:0 0 40px rgba(47,43,39,.075)}
+html{scroll-padding-top:150px;background:#fff!important}
+body{font-size:19px!important;color:var(--ink)!important;background:#fff!important}
+.container{background:#fff!important}
 
 header{transition:background .4s ease,backdrop-filter .4s ease,transform .3s ease;z-index:1200!important;background:rgba(255,255,255,.92)!important;border-bottom:1px solid rgba(200,210,203,.72)!important}
 header.header-hidden{transform:translateY(-100%)}
@@ -153,19 +153,6 @@ body.drawer-open header{z-index:1100!important}
   .drawer-essay-card-title{font-size:1rem!important}
   .drawer-essay-card-subtitle{font-size:.76rem!important}
 }
-
-/* Final white background + Moris book-style layout */
-:root{
-  --bg:#FFFFFF;
-  --card-soft:#FAFAF8;
-  --rule:#EEEAE4;
-  --rule-strong:#D8D2C8;
-}
-
-html,
-body{background:#fff!important}
-
-.container{box-shadow:none!important}
 
 #moris .moris-card{display:grid!important;grid-template-columns:minmax(180px,260px) minmax(0,1fr)!important;gap:42px!important;align-items:center!important;max-width:none!important;margin:0!important;background:transparent!important;border:0!important;box-shadow:none!important;padding:0!important}
 #moris .moris-right-col{grid-column:1!important;grid-row:1!important;display:flex!important;flex-direction:column!important;align-items:center!important;max-width:240px!important;margin:0 auto!important}
