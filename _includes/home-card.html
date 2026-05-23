@@ -1,12 +1,20 @@
 <li class="asym-item span-{{ include.span }}{% if include.featured %} is-featured-wrap{% endif %}">
   <a href="{{ include.post.url }}" class="asym-card{% if include.featured %} is-featured{% endif %}">
-    {% unless include.kicker == blank %}
-    <span class="asym-kicker">{{ include.kicker }}</span>
-    {% endunless %}
-    <h3 class="asym-title">{{ include.post.title }}</h3>
-    {% if include.post.subtitle %}
-    <p class="asym-subtitle">{{ include.post.subtitle }}</p>
+    {% assign card_image = include.post.thumb | default: include.post.image %}
+    {% if card_image %}
+    <span class="asym-thumb-wrap">
+      <img src="{{ card_image }}" alt="{{ include.post.cover_alt | default: include.post.title }}" class="asym-thumb" loading="lazy">
+    </span>
     {% endif %}
-    <p class="asym-meta">{{ include.post.date | date: "%b %-d, %Y" }} · {{ include.post.read_time }}</p>
+    <span class="asym-card-body">
+      {% unless include.kicker == blank %}
+      <span class="asym-kicker">{{ include.kicker }}</span>
+      {% endunless %}
+      <span class="asym-title">{{ include.post.title }}</span>
+      {% if include.post.subtitle %}
+      <span class="asym-subtitle">{{ include.post.subtitle }}</span>
+      {% endif %}
+      <span class="asym-meta">{{ include.post.date | date: "%b %-d, %Y" }} · {{ include.post.read_time }}</span>
+    </span>
   </a>
 </li>
