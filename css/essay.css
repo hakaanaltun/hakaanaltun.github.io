@@ -31,8 +31,8 @@ a:hover{border-color:var(--petrol)}
 
 /* Koridor Çizgileri */
 .corridor-vline{position:fixed;top:0;height:100%;width:1px;pointer-events:none;z-index:0;background-color:var(--vizon);opacity:0.06}
-.corridor-vline--left{left:calc((100vw - 760px)/2 - 12px)}
-.corridor-vline--right{right:calc((100vw - 760px)/2 - 12px)}
+.corridor-vline--left{left:calc((100vw - 840px)/2 - 12px)}
+.corridor-vline--right{right:calc((100vw - 840px)/2 - 12px)}
 @media(max-width:1050px){.corridor-vline{display:none}}
 
 .mobile-corridor{display:none}
@@ -58,7 +58,7 @@ header.scrolled{
     backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);
 }
 header.header-hidden{transform:translateY(-100%);}
-nav{display:flex;flex-direction:column;gap:12px;padding:22px 0 16px;max-width:680px;margin-left:auto;margin-right:auto;border-bottom:none;position:relative}
+nav{display:flex;flex-direction:column;gap:12px;padding:22px 0 16px;max-width:760px;margin-left:auto;margin-right:auto;border-bottom:none;position:relative}
 nav::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:1px;background:var(--border)}
 
 /* Nav Top Row */
@@ -190,7 +190,7 @@ body.drawer-open{overflow:hidden}
 .essay-body li{margin-bottom:8px}
 
 /* Essay Article — narrows all post content below the site header */
-.essay-article{max-width:680px;margin-left:auto;margin-right:auto}
+.essay-article{max-width:760px;margin-left:auto;margin-right:auto}
 
 /* Essay Card Wrapper */
 .essay-card-wrapper{background:var(--cream);border:1px solid var(--border);border-radius:12px;box-shadow:0 4px 24px var(--shadow);padding:32px 28px;margin-top:48px;margin-bottom:0}
@@ -272,7 +272,7 @@ body.drawer-open{overflow:hidden}
 .essay-section-divider.line-drawn::before{width:100%}
 
 /* Footer */
-footer{max-width:680px;margin-top:0;margin-left:auto;margin-right:auto;padding:0 0 40px;text-align:center;font-family:'Lora',Georgia,serif !important}
+footer{max-width:760px;margin-top:0;margin-left:auto;margin-right:auto;padding:0 0 40px;text-align:center;font-family:'Lora',Georgia,serif !important}
 .footer-card{background:var(--cream);border:1px solid var(--border);border-radius:12px;box-shadow:0 4px 24px var(--shadow);padding:80px 36px 48px}
 footer p{font-size:14px;color:var(--vizon);letter-spacing:1px;font-family:'Lora',Georgia,serif !important;margin:0;line-height:1.4}
 .footer-contact{font-size:13px;margin-top:6px}
