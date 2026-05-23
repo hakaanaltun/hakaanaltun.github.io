@@ -153,3 +153,29 @@ body.drawer-open header{z-index:1100!important}
   .drawer-essay-card-title{font-size:1rem!important}
   .drawer-essay-card-subtitle{font-size:.76rem!important}
 }
+
+/* Final soft background + Moris editorial stack */
+:root{
+  --bg:#F2F7F3;
+  --card-soft:#F8FAF8;
+  --rule:#E6ECE7;
+  --rule-strong:#D7E1DA;
+}
+
+html,
+body{background:var(--bg)!important}
+
+.container{box-shadow:0 0 34px rgba(30,85,82,.055)!important}
+
+#moris .moris-card{display:block!important;max-width:760px!important;margin:0!important;background:transparent!important;border:0!important;box-shadow:none!important;padding:0!important}
+#moris .about-text{max-width:680px!important;margin:0 0 28px!important}
+#moris .moris-right-col{display:flex!important;flex-direction:column!important;align-items:flex-start!important;max-width:560px!important;margin:0!important}
+#moris .moris-video{width:100%!important;max-width:560px!important}
+#moris .moris-caption{text-align:center!important;width:100%!important;max-width:560px!important;margin:12px 0 0!important}
+
+@media(max-width:700px){
+  #moris .moris-card,
+  #moris .moris-right-col,
+  #moris .moris-video,
+  #moris .moris-caption{max-width:100%!important}
+}
