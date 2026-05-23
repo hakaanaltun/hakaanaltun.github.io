@@ -60,13 +60,13 @@ header.scrolled{
 }
 header.header-hidden{transform:translateY(-100%);}
 nav{display:flex;flex-direction:column;gap:12px;padding:22px 0 16px}
-.nav-home{display:flex;align-items:center;gap:10px;border:none}
-.site-logo-wide{height:56px;width:auto;object-fit:contain}
 
 /* Nav Top Row */
-.nav-top-row{display:flex;justify-content:space-between;align-items:center;width:100%}
-
-.nav-right{display:flex;align-items:center;gap:12px}
+.nav-top-row{display:flex;align-items:flex-end;justify-content:space-between;gap:20px}
+.nav-home{display:flex;flex-direction:column;line-height:1;text-decoration:none;border:none}
+.brand-main{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:clamp(2rem,3.5vw,2.8rem);color:var(--petrol)}
+.brand-sub{margin-top:6px;font-size:.95rem;color:var(--vizon)}
+.nav-right{display:flex;align-items:center;gap:8px}
 
 /* Hamburger Button */
 .hamburger-btn{background:transparent;border:none;color:var(--petrol);padding:6px;cursor:pointer;transition:opacity .2s ease;display:flex;align-items:center;justify-content:center}
@@ -93,32 +93,11 @@ nav{display:flex;flex-direction:column;gap:12px;padding:22px 0 16px}
 .nav-links{display:none!important}
 
 /* --- HEADER NAV BAR --- */
-.header-nav-bar{display:none}
-@media(min-width:768px){
-  .header-nav-bar{
-    display:flex;
-    flex-wrap:wrap;
-    gap:14px;
-    padding-top:10px;
-    justify-content:flex-start;
-  }
-  .header-nav-bar a{
-    font-size:13px;
-    padding:7px 16px;
-    border:1px solid var(--vizon);
-    color:var(--petrol);
-    letter-spacing:.04em;
-    border-radius:4px;
-    background:var(--cream);
-    white-space:nowrap;
-    transition:background .2s ease,border-color .2s ease,color .2s ease;
-  }
-  .header-nav-bar a:hover{
-    background:rgba(32,96,96,0.06);
-    border-color:var(--petrol);
-    color:var(--petrol);
-  }
-}
+.header-nav-bar{display:flex;flex-wrap:wrap;gap:18px}
+.header-nav-bar a{font-size:1.1rem;position:relative;color:var(--ink-soft);border:none;border-bottom:none;padding:0;background:none;letter-spacing:normal;border-radius:0;white-space:normal}
+.header-nav-bar a::after{content:"";position:absolute;left:0;bottom:-3px;width:100%;height:1px;background:var(--petrol);transform:scaleX(0);transform-origin:left;transition:transform .25s ease}
+.header-nav-bar a:hover{color:var(--petrol);background:none;border-color:transparent}
+.header-nav-bar a:hover::after{transform:scaleX(1)}
 /* Lock body scroll when drawer is open */
 body.drawer-open{overflow:hidden}
 
