@@ -143,6 +143,67 @@ body.drawer-open header{z-index:1100!important}
   .quote-nav{left:50%;right:auto;bottom:14px;opacity:0;transform:translate(-50%,6px)}
   .quote-nav.quote-nav-visible{opacity:1;pointer-events:auto;transform:translate(-50%,0)}
   .asym-thumb-wrap{aspect-ratio:16/9}
+
+  /* Compact horizontal layout for non-featured cards on mobile */
+  .asym-card:not(.is-featured){
+    display:grid !important;
+    grid-template-columns:96px 1fr;
+    grid-template-rows:auto;
+    gap:14px;
+    align-items:center;
+    padding:12px !important;
+  }
+  .asym-card:not(.is-featured) .asym-thumb-wrap{
+    width:96px !important;
+    height:96px !important;
+    aspect-ratio:1 / 1 !important;
+    border:1px solid var(--rule-strong);
+    border-radius:8px;
+    border-bottom:1px solid var(--rule-strong);
+    overflow:hidden;
+  }
+  .asym-card:not(.is-featured) .asym-thumb{
+    width:100% !important;
+    height:100% !important;
+    object-fit:cover;
+  }
+  .asym-card:not(.is-featured) .asym-card-body{
+    padding:0 !important;
+    gap:4px !important;
+    min-width:0;
+    background:transparent !important;
+  }
+  .asym-card:not(.is-featured) .asym-kicker{
+    display:none;
+  }
+  .asym-card:not(.is-featured) .asym-title{
+    font-size:1.35rem !important;
+    line-height:1.15 !important;
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+  }
+  .asym-card:not(.is-featured) .asym-subtitle{
+    font-size:.92rem !important;
+    line-height:1.3 !important;
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+  }
+  .asym-card:not(.is-featured) .asym-meta{
+    font-size:.78rem !important;
+    padding-top:4px !important;
+    margin-top:0 !important;
+  }
+
+  /* Featured cards keep the full vertical layout — tighten
+     bottom padding slightly on mobile */
+  .asym-card.is-featured{
+    padding-bottom:14px !important;
+  }
+
   .book-cover{max-width:190px!important;max-height:285px!important}
   .book-description p{font-size:1.05rem;line-height:1.6}
   .more-essays-grid-hp{grid-template-columns:1fr!important}
