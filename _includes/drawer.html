@@ -7,15 +7,13 @@
     <a href="{{ logo_href }}" class="drawer-logo-link"><img src="/on-logo-greenandgold-wide.png" alt="On Life &amp; Everything" class="drawer-logo" width="1095" height="357" loading="lazy"></a>
     <span class="drawer-label">Sections</span>
     <div class="drawer-section-links">
-        <a href="{{ section_prefix }}#quotes">Quotes</a>
-        <a href="{{ section_prefix }}#essays">Pieces</a>
-        <a href="{{ section_prefix }}#fragments">The Fragments</a>
-        <a href="{{ section_prefix }}#on-series">The On Series</a>
         <a href="{{ section_prefix }}#book">Book</a>
+        <a href="{{ section_prefix }}#pieces">Pieces</a>
+        <a href="{{ section_prefix }}#fragments-arc">Şafak's Arc</a>
+        <a href="{{ section_prefix }}#the-cove">The Cove</a>
+        <a href="{{ section_prefix }}#on-series">The On Series</a>
         <a href="{{ section_prefix }}#moris">Moris</a>
         <a href="{{ section_prefix }}#about">About</a>
-        <a href="{{ section_prefix }}#subscribe">Subscribe</a>
-        <a href="{{ section_prefix }}#connect">Find me</a>
     </div>
     <span class="drawer-label">Pieces</span>
     {% assign regular_essays = site.posts | where: "series", "" | sort: "date" | reverse %}
