@@ -1,0 +1,43 @@
+/* site-fixes.css — visual repair layer for homepage cards, drawer cards, and footer/header behavior */
+header{transition:background .4s ease,backdrop-filter .4s ease,transform .3s ease}
+header.header-hidden{transform:translateY(-100%)}
+
+.book-cover{width:100%;max-width:360px;aspect-ratio:2/3;object-fit:cover;display:block;box-shadow:0 18px 34px rgba(0,0,0,.16);border:1px solid var(--rule-strong, var(--border, #D8D3C8));background:#fff}
+.book-cover-placeholder{display:none}
+
+.asym-card{display:flex;flex-direction:column;min-height:100%;background:#fff;border:1px solid var(--rule, var(--border, #EBE7DF));border-radius:14px;overflow:hidden;box-shadow:0 8px 28px rgba(26,22,20,.055);transition:border-color .24s ease,box-shadow .24s ease,transform .24s ease,color .24s ease;padding:0!important}
+.asym-thumb-wrap{display:block;width:100%;aspect-ratio:16/10;background:var(--rule, var(--border, #EBE7DF));overflow:hidden;border-bottom:1px solid var(--rule, var(--border, #EBE7DF))}
+.asym-thumb{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s ease}
+.asym-card-body{display:flex;flex-direction:column;gap:10px;flex:1;padding:18px}
+.asym-card:hover{border-color:var(--petrol);box-shadow:0 14px 38px rgba(26,22,20,.09);transform:translateY(-2px)}
+.asym-card:hover .asym-thumb{transform:scale(1.025)}
+.asym-card.is-featured{border-color:var(--petrol)}
+.asym-card.is-featured .asym-thumb-wrap{aspect-ratio:16/8}
+.asym-title{display:block}
+.asym-subtitle{display:block}
+.asym-meta{display:block;margin-top:auto}
+
+.site-drawer{width:320px!important;max-width:min(88vw,420px)!important;display:flex;flex-direction:column;gap:10px}
+.site-drawer a{letter-spacing:normal!important;padding:0;border:none!important}
+.drawer-section-links{display:grid!important;grid-template-columns:1fr 1fr;gap:8px;margin:4px 0}
+.drawer-section-links a{display:block;padding:10px 12px!important;border:1px solid var(--rule, var(--border, #EBE7DF))!important;border-radius:10px;background:#fff;font-size:14px;color:var(--petrol);letter-spacing:.02em!important;transition:border-color .2s ease,background .2s ease}
+.drawer-section-links a:hover{border-color:var(--petrol)!important;background:rgba(30,79,76,0.03);opacity:1}
+.drawer-essay-cards{display:grid!important;grid-template-columns:1fr;gap:8px;margin:2px 0 8px}
+.drawer-essay-card-link{display:block;text-decoration:none;border:none!important}
+.drawer-essay-card{display:grid!important;grid-template-columns:72px 1fr;gap:12px;align-items:center;padding:10px;border:1px solid var(--rule, var(--border, #EBE7DF));border-radius:12px;background:#fff;box-shadow:0 4px 16px rgba(26,22,20,.045);transition:border-color .2s ease,box-shadow .2s ease,transform .2s ease}
+.drawer-essay-card-link:hover .drawer-essay-card{border-color:var(--petrol);box-shadow:0 8px 22px rgba(26,22,20,.075);transform:translateY(-1px)}
+.drawer-essay-card img{width:72px!important;height:72px!important;aspect-ratio:auto!important;object-fit:cover;border-radius:8px;border:1px solid var(--rule, var(--border, #EBE7DF));display:block;background:var(--rule, var(--border, #EBE7DF))}
+.drawer-book-card img{height:96px!important;object-position:center top}
+.drawer-essay-card-text{display:flex;flex-direction:column;gap:3px;min-width:0}
+.drawer-essay-card-title{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.12rem!important;font-style:italic;font-weight:500;line-height:1.08!important;color:var(--petrol);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.drawer-essay-card-subtitle{font-size:.78rem!important;line-height:1.25!important;color:var(--ink-soft, var(--vizon));display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.drawer-essay-card-meta{font-size:.74rem!important;line-height:1.2!important;color:var(--muted, var(--vizon));white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.drawer-essay-card--current{opacity:.58;cursor:default;border-color:var(--petrol)}
+
+@media(max-width:600px){
+  .asym-thumb-wrap{aspect-ratio:16/9}
+  .site-drawer{width:340px!important;max-width:88vw!important}
+  .drawer-essay-card{grid-template-columns:64px 1fr}
+  .drawer-essay-card img{width:64px!important;height:64px!important}
+  .drawer-book-card img{height:86px!important}
+}
