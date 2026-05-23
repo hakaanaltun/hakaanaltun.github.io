@@ -1,15 +1,15 @@
 /* site-fixes.css — visual repair, palette, and rhythm layer */
 :root{
-  --bg:#FFFFFF;
-  --paper:#FFFEFC;
-  --card:#F3F5F1;
-  --card-soft:#ECEFE9;
+  --bg:#B9AD9E;
+  --paper:#FFFFFF;
+  --card:#FFFFFF;
+  --card-soft:#F6F4EF;
   --ink:#2F2B27;
   --ink-soft:#403A34;
-  --muted:#726C66;
+  --muted:#7C736A;
   --vizon:#B9AD9E;
-  --rule:#E3E7E0;
-  --rule-strong:#D6DCD4;
+  --rule:#E6E0D6;
+  --rule-strong:#D2C8BA;
   --petrol:#1E5552;
   --petrol-deep:#153F3D;
   --footer-bg:#1E4F4C;
@@ -17,15 +17,16 @@
   --footer-muted:#A8B8B3;
 }
 
-html{scroll-padding-top:150px}
+html{scroll-padding-top:150px;background:var(--bg)!important}
 body{font-size:19px!important;color:var(--ink)!important;background:var(--bg)!important}
+.container{background:#fff!important;box-shadow:0 0 40px rgba(47,43,39,.075)}
 
-header{transition:background .4s ease,backdrop-filter .4s ease,transform .3s ease;z-index:1200!important;background:rgba(255,255,255,.9)!important;border-bottom:1px solid rgba(214,220,212,.72)!important}
+header{transition:background .4s ease,backdrop-filter .4s ease,transform .3s ease;z-index:1200!important;background:rgba(255,255,255,.92)!important;border-bottom:1px solid rgba(210,200,186,.72)!important}
 header.header-hidden{transform:translateY(-100%)}
 .brand-main{color:var(--petrol-deep)!important}
 .brand-sub{font-family:'Cormorant Garamond',Georgia,serif!important;font-size:1.5rem!important;font-style:italic!important;line-height:1.05!important;color:var(--petrol)!important;letter-spacing:0!important}
 .header-nav-bar{gap:10px!important;margin-top:6px}
-.header-nav-bar a{display:inline-flex!important;align-items:center;justify-content:center;padding:7px 13px!important;border:1px solid var(--rule-strong)!important;border-radius:999px!important;background:var(--paper)!important;font-size:1.02rem!important;line-height:1!important;color:var(--petrol-deep)!important;box-shadow:0 4px 14px rgba(47,43,39,.03);transition:background .2s ease,border-color .2s ease,box-shadow .2s ease,transform .2s ease}
+.header-nav-bar a{display:inline-flex!important;align-items:center;justify-content:center;padding:7px 13px!important;border:1px solid var(--rule-strong)!important;border-radius:999px!important;background:#fff!important;font-size:1.02rem!important;line-height:1!important;color:var(--petrol-deep)!important;box-shadow:0 4px 14px rgba(47,43,39,.03);transition:background .2s ease,border-color .2s ease,box-shadow .2s ease,transform .2s ease}
 .header-nav-bar a::after{display:none!important}
 .header-nav-bar a:hover{background:#fff!important;border-color:var(--petrol)!important;box-shadow:0 7px 18px rgba(47,43,39,.07);transform:translateY(-1px)}
 
@@ -36,10 +37,10 @@ section.line-drawn::before{animation:horizonDraw 1.15s ease-out forwards}
 
 .section-head{display:flex!important;flex-direction:column!important;align-items:flex-start!important;justify-content:flex-start!important;gap:10px!important;margin-bottom:2.6rem!important}
 .section-title{font-size:clamp(2.4rem,4vw,3.35rem)!important;line-height:1.02!important;color:var(--petrol)!important;letter-spacing:-.01em!important}
-.section-subtitle{max-width:680px!important;text-align:left!important;font-size:clamp(1.18rem,1.55vw,1.42rem)!important;line-height:1.42!important;color:var(--ink-soft)!important;font-style:italic!important;margin-top:2px!important}
+.section-subtitle{max-width:680px!important;text-align:left!important;font-size:clamp(1.18rem,1.55vw,1.42rem)!important;line-height:1.42!important;color:var(--vizon)!important;font-style:italic!important;margin-top:2px!important}
 
 .hero-quotes-section{padding-top:74px!important;margin-top:0!important}
-.hero-quote-card{position:relative;min-height:220px;padding:38px 44px 34px;border:1px solid var(--rule-strong);border-radius:18px;background:var(--card);box-shadow:0 10px 26px rgba(47,43,39,.045);display:flex;flex-direction:column;justify-content:center;overflow:hidden}
+.hero-quote-card{position:relative;min-height:220px;padding:38px 44px 34px;border:1px solid var(--rule-strong);border-radius:18px;background:#fff;box-shadow:0 10px 26px rgba(47,43,39,.055);display:flex;flex-direction:column;justify-content:center;overflow:hidden}
 .hero-quote-card::before{content:'“';position:absolute;left:24px;top:16px;font-family:'Cormorant Garamond',Georgia,serif;font-size:5rem;line-height:1;color:rgba(30,85,82,.06);pointer-events:none}
 .hero-quote-text{font-family:'EB Garamond',Georgia,serif;font-size:clamp(1.45rem,2vw,2.15rem);font-style:normal;line-height:1.5;color:var(--ink-soft);letter-spacing:0;max-width:860px;min-height:1.2em}
 .hero-quote-word{opacity:0;transform:translateY(8px);display:inline-block;transition:opacity .55s ease,transform .55s ease}
@@ -55,27 +56,27 @@ section.line-drawn::before{animation:horizonDraw 1.15s ease-out forwards}
 .book-grid{align-items:center!important;grid-template-columns:minmax(180px,260px) minmax(0,1fr)!important;gap:42px!important}
 .book-cover{width:100%;max-width:240px!important;max-height:360px!important;aspect-ratio:2/3;object-fit:contain!important;display:block;box-shadow:0 18px 34px rgba(0,0,0,.14);border:1px solid var(--rule-strong);background:#fff;margin:0 auto}
 .book-cover-placeholder{display:none}
-.book-title{color:var(--ink)!important}
+.book-title{color:var(--petrol)!important}
 .book-description{max-width:720px;margin:12px 0 24px;color:var(--ink-soft)}
 .book-description p{margin:0 0 14px;font-size:1.16rem;line-height:1.68;color:var(--ink-soft)}
 .book-description em{font-style:italic;color:var(--petrol)}
 .book-links{margin-top:20px!important;display:flex!important;flex-wrap:wrap!important;gap:9px!important;align-items:center!important}
 .book-links span{display:none!important}
-.book-links a{display:inline-flex!important;align-items:center!important;justify-content:center!important;padding:7px 12px!important;border:1px solid var(--rule-strong)!important;border-radius:999px!important;background:var(--paper)!important;color:var(--petrol-deep)!important;font-size:1rem!important;line-height:1!important;box-shadow:0 4px 12px rgba(47,43,39,.03)}
+.book-links a{display:inline-flex!important;align-items:center!important;justify-content:center!important;padding:7px 12px!important;border:1px solid var(--rule-strong)!important;border-radius:999px!important;background:#fff!important;color:var(--petrol-deep)!important;font-size:1rem!important;line-height:1!important;box-shadow:0 4px 12px rgba(47,43,39,.03)}
 .book-links a:hover{background:#fff!important;border-color:var(--petrol)!important}
 
-.asym-card{display:flex;flex-direction:column;min-height:100%;background:var(--card)!important;border:1px solid var(--rule-strong)!important;border-radius:14px;overflow:hidden;box-shadow:0 10px 28px rgba(47,43,39,.045);transition:border-color .24s ease,box-shadow .24s ease,transform .24s ease,color .24s ease;padding:0!important}
+.asym-card{display:flex;flex-direction:column;min-height:100%;background:#fff!important;border:1px solid var(--rule-strong)!important;border-radius:14px;overflow:hidden;box-shadow:0 10px 28px rgba(47,43,39,.06);transition:border-color .24s ease,box-shadow .24s ease,transform .24s ease,color .24s ease;padding:0!important}
 .asym-thumb-wrap{display:block;width:100%;aspect-ratio:16/10;background:var(--card-soft);overflow:hidden;border-bottom:1px solid var(--rule)}
 .asym-thumb{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s ease}
-.asym-card-body{display:flex;flex-direction:column;gap:10px;flex:1;padding:21px;background:var(--card)}
-.asym-card:hover{border-color:var(--petrol)!important;box-shadow:0 14px 34px rgba(47,43,39,.07);transform:translateY(-2px)}
+.asym-card-body{display:flex;flex-direction:column;gap:10px;flex:1;padding:21px;background:#fff}
+.asym-card:hover{border-color:var(--petrol)!important;box-shadow:0 14px 34px rgba(47,43,39,.09);transform:translateY(-2px)}
 .asym-card:hover .asym-thumb{transform:scale(1.025)}
 .asym-card.is-featured{border-color:var(--rule-strong)!important}
 .asym-card.is-featured:hover{border-color:var(--petrol)!important}
 .asym-card.is-featured .asym-thumb-wrap{aspect-ratio:16/8}
-.asym-title{display:block;color:var(--petrol-deep)!important;font-size:clamp(1.95rem,2.4vw,2.55rem)!important;line-height:1.08!important}
+.asym-title{display:block;color:var(--petrol)!important;font-size:clamp(1.95rem,2.4vw,2.55rem)!important;line-height:1.08!important}
 .asym-card.is-featured .asym-title{font-size:clamp(2.35rem,3vw,3rem)!important}
-.asym-subtitle{display:block;font-size:1.16rem!important;line-height:1.45!important;color:var(--ink-soft)!important}
+.asym-subtitle{display:block;font-size:1.16rem!important;line-height:1.45!important;color:var(--vizon)!important}
 .asym-meta{display:block;margin-top:auto;font-size:1rem!important;color:var(--muted)!important}
 
 .about-card,.moris-card{background:transparent!important;border:0!important;padding-top:0!important;box-shadow:none!important}
@@ -84,7 +85,7 @@ section.line-drawn::before{animation:horizonDraw 1.15s ease-out forwards}
 .moris-caption{text-align:center!important;width:100%!important;margin:12px auto 0!important;font-size:1.08rem!important;color:var(--muted)!important}
 .moris-right-col{align-items:center!important}
 
-.more-essays .essay-card,.series-nav,.fragments-nav{background:var(--card)!important;border-color:var(--rule-strong)!important}
+.more-essays .essay-card,.series-nav,.fragments-nav{background:#fff!important;border-color:var(--rule-strong)!important}
 .more-essays-grid-hp{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px!important;list-style:none!important;padding:0!important;margin-top:18px!important}
 .more-essays-grid-hp li{list-style:none!important}
 .more-essays-title{display:block!important;margin-bottom:18px!important;color:var(--petrol)!important}
@@ -96,17 +97,17 @@ body.drawer-open header{z-index:1100!important}
 .drawer-logo-link .brand-main{color:var(--petrol-deep)!important}
 .drawer-logo-link .brand-sub{color:var(--petrol)!important}
 .drawer-section-links{display:grid!important;grid-template-columns:1fr 1fr;gap:8px;margin:4px 0}
-.drawer-section-links a{display:block;padding:10px 12px!important;border:1px solid var(--rule-strong)!important;border-radius:10px;background:var(--paper);font-size:14px;color:var(--petrol-deep);letter-spacing:.02em!important;transition:border-color .2s ease,background .2s ease}
+.drawer-section-links a{display:block;padding:10px 12px!important;border:1px solid var(--rule-strong)!important;border-radius:10px;background:#fff;font-size:14px;color:var(--petrol-deep);letter-spacing:.02em!important;transition:border-color .2s ease,background .2s ease}
 .drawer-section-links a:hover{border-color:var(--petrol)!important;background:#fff;opacity:1}
 .drawer-essay-cards{display:grid!important;grid-template-columns:1fr;gap:8px;margin:2px 0 8px}
 .drawer-essay-card-link{display:block;text-decoration:none;border:none!important}
-.drawer-essay-card{display:grid!important;grid-template-columns:72px 1fr;gap:12px;align-items:center;padding:10px;border:1px solid var(--rule-strong);border-radius:12px;background:var(--card);box-shadow:0 4px 16px rgba(47,43,39,.04);transition:border-color .2s ease,box-shadow .2s ease,transform .2s ease}
+.drawer-essay-card{display:grid!important;grid-template-columns:72px 1fr;gap:12px;align-items:center;padding:10px;border:1px solid var(--rule-strong);border-radius:12px;background:#fff;box-shadow:0 4px 16px rgba(47,43,39,.045);transition:border-color .2s ease,box-shadow .2s ease,transform .2s ease}
 .drawer-essay-card-link:hover .drawer-essay-card{border-color:var(--petrol);box-shadow:0 8px 22px rgba(47,43,39,.07);transform:translateY(-1px)}
 .drawer-essay-card img{width:72px!important;height:72px!important;aspect-ratio:auto!important;object-fit:cover;border-radius:8px;border:1px solid var(--rule-strong);display:block;background:var(--card-soft)}
 .drawer-book-card img{height:96px!important;object-position:center top}
 .drawer-essay-card-text{display:flex;flex-direction:column;gap:3px;min-width:0}
-.drawer-essay-card-title{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.12rem!important;font-style:italic;font-weight:500;line-height:1.08!important;color:var(--petrol-deep);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.drawer-essay-card-subtitle{font-size:.82rem!important;line-height:1.25!important;color:var(--ink-soft);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.drawer-essay-card-title{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.12rem!important;font-style:italic;font-weight:500;line-height:1.08!important;color:var(--petrol);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.drawer-essay-card-subtitle{font-size:.82rem!important;line-height:1.25!important;color:var(--vizon);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .drawer-essay-card-meta{font-size:.76rem!important;line-height:1.2!important;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .drawer-essay-card--current{opacity:.58;cursor:default;border-color:var(--petrol)}
 
@@ -130,8 +131,7 @@ body.drawer-open header{z-index:1100!important}
 @media(max-width:600px){
   body{font-size:18px!important}
   .brand-sub,.footer-brand{font-size:1.25rem!important}
-  .header-nav-bar{display:flex!important;gap:8px!important}
-  .header-nav-bar a{font-size:.92rem!important;padding:7px 11px!important}
+  .header-nav-bar{display:none!important}
   section{padding-top:72px!important}
   .section-title{font-size:2.55rem!important}
   .section-subtitle{font-size:1.08rem!important;line-height:1.4!important}
@@ -146,8 +146,10 @@ body.drawer-open header{z-index:1100!important}
   .book-cover{max-width:190px!important;max-height:285px!important}
   .book-description p{font-size:1.05rem;line-height:1.6}
   .more-essays-grid-hp{grid-template-columns:1fr!important}
-  .site-drawer{width:340px!important;max-width:88vw!important}
-  .drawer-essay-card{grid-template-columns:64px 1fr}
-  .drawer-essay-card img{width:64px!important;height:64px!important}
-  .drawer-book-card img{height:86px!important}
+  .site-drawer{width:280px!important;max-width:76vw!important}
+  .drawer-essay-card{grid-template-columns:56px 1fr;gap:10px;padding:9px}
+  .drawer-essay-card img{width:56px!important;height:56px!important}
+  .drawer-book-card img{height:76px!important}
+  .drawer-essay-card-title{font-size:1rem!important}
+  .drawer-essay-card-subtitle{font-size:.76rem!important}
 }
