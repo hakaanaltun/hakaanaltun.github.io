@@ -129,7 +129,25 @@ body.drawer-open header{z-index:1100!important}
   .footer-grid{grid-template-columns:1fr!important;gap:34px!important}
   .footer-col + .footer-col{padding-left:0!important;border-left:0!important;border-top:1px solid rgba(237,228,207,.32);padding-top:28px!important}
 
-  /* Compact horizontal layout for non-featured cards on tablet & mobile */
+}
+
+@media(max-width:600px){
+  body{font-size:18px!important}
+  .brand-sub,.footer-brand{font-size:1.25rem!important}
+  .header-nav-bar{display:none!important}
+  section{padding-top:72px!important}
+  .section-title{font-size:2.55rem!important}
+  .section-subtitle{font-size:1.08rem!important;line-height:1.4!important}
+  .hero-quotes-section{padding-top:44px!important}
+  .hero-quote-card{min-height:190px;padding:30px 26px 52px;border-radius:16px}
+  .hero-quote-card::before{font-size:4rem;left:18px;top:12px}
+  .hero-quote-text{font-size:1.35rem;line-height:1.45}
+  .hero-quote-source{font-size:1rem;text-align:right;align-self:flex-end}
+  .quote-nav{left:50%;right:auto;bottom:14px;opacity:0;transform:translate(-50%,6px)}
+  .quote-nav.quote-nav-visible{opacity:1;pointer-events:auto;transform:translate(-50%,0)}
+  .asym-thumb-wrap{aspect-ratio:16/9}
+
+  /* Compact horizontal layout for non-featured cards on mobile */
   .asym-card:not(.is-featured){
     display:grid !important;
     grid-template-columns:96px 1fr;
@@ -185,23 +203,6 @@ body.drawer-open header{z-index:1100!important}
   .asym-card.is-featured{
     padding-bottom:14px !important;
   }
-}
-
-@media(max-width:600px){
-  body{font-size:18px!important}
-  .brand-sub,.footer-brand{font-size:1.25rem!important}
-  .header-nav-bar{display:none!important}
-  section{padding-top:72px!important}
-  .section-title{font-size:2.55rem!important}
-  .section-subtitle{font-size:1.08rem!important;line-height:1.4!important}
-  .hero-quotes-section{padding-top:44px!important}
-  .hero-quote-card{min-height:190px;padding:30px 26px 52px;border-radius:16px}
-  .hero-quote-card::before{font-size:4rem;left:18px;top:12px}
-  .hero-quote-text{font-size:1.35rem;line-height:1.45}
-  .hero-quote-source{font-size:1rem;text-align:right;align-self:flex-end}
-  .quote-nav{left:50%;right:auto;bottom:14px;opacity:0;transform:translate(-50%,6px)}
-  .quote-nav.quote-nav-visible{opacity:1;pointer-events:auto;transform:translate(-50%,0)}
-  .asym-thumb-wrap{aspect-ratio:16/9}
 
   .book-cover{max-width:190px!important;max-height:285px!important}
   .book-description p{font-size:1.05rem;line-height:1.6}
