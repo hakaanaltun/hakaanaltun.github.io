@@ -20,6 +20,7 @@
 html{scroll-padding-top:150px;background:#fff!important}
 body{font-size:19px!important;color:var(--ink)!important;background:#fff!important}
 .container{background:#fff!important}
+.rss-cover-image{display:none!important}
 
 header{transition:background .4s ease,backdrop-filter .4s ease,transform .3s ease;z-index:1200!important;background:rgba(255,255,255,.92)!important;border-bottom:1px solid rgba(200,210,203,.72)!important}
 header.header-hidden{transform:translateY(-100%)}
