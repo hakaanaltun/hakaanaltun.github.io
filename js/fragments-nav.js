@@ -1,4 +1,4 @@
-/* fragments-nav.js—Replaces .fragments-nav with The Fragments thumbnail cards */
+/* fragments-nav.js—Replaces .fragments-nav with Şafak's Arc thumbnail cards */
 (function () {
   'use strict';
 
@@ -17,7 +17,7 @@
 
   /* Title with split colors */
   var html = '<p class="series-nav-title">'
-    + '<span class="series-nav-title-on">The Fragments</span>'
+    + '<span class="series-nav-title-on">Şafak\'s Arc from The Fragments</span>'
     + '<span class="series-nav-title-sub"> \u00b7 How a boy becomes someone who knows where to put his hands.</span>'
     + '</p>';
 
