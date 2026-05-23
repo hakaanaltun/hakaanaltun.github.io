@@ -1,11 +1,14 @@
 /* site-fixes.css — visual repair and polish layer */
 :root{
-  --card-cream:#FCF8EF;
-  --card-cream-deep:#F7F0E3;
+  --card-cream:#FFFDF8;
+  --card-cream-deep:#FAF6EC;
 }
 
-header{transition:background .4s ease,backdrop-filter .4s ease,transform .3s ease}
+header{transition:background .4s ease,backdrop-filter .4s ease,transform .3s ease;z-index:1200!important}
 header.header-hidden{transform:translateY(-100%)}
+.drawer-backdrop{z-index:2400!important}
+.site-drawer{z-index:2500!important;top:0!important;height:100vh!important;padding-top:28px!important}
+body.drawer-open header{z-index:1100!important}
 
 .brand-sub{font-family:'Cormorant Garamond',Georgia,serif!important;font-size:1.5rem!important;font-style:italic!important;line-height:1.05!important;color:var(--petrol)!important;letter-spacing:0!important}
 .footer-brand{font-family:'Cormorant Garamond',Georgia,serif!important;font-size:1.5rem!important;font-style:italic!important;line-height:1.05!important}
@@ -35,6 +38,10 @@ header.header-hidden{transform:translateY(-100%)}
 .asym-meta{display:block;margin-top:auto}
 
 .about-card,.moris-card{background:var(--card-cream)!important;border-color:var(--rule-strong, #D8D3C8)!important}
+.more-essays .essay-card,.series-nav,.fragments-nav{background:var(--card-cream)!important;border-color:var(--rule-strong, #D8D3C8)!important}
+.more-essays-grid-hp{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px!important;list-style:none!important;padding:0!important;margin-top:18px!important}
+.more-essays-grid-hp li{list-style:none!important}
+.more-essays-title{display:block!important;margin-bottom:18px!important}
 
 .site-drawer{width:320px!important;max-width:min(88vw,420px)!important;display:flex;flex-direction:column;gap:10px}
 .site-drawer a{letter-spacing:normal!important;padding:0;border:none!important}
@@ -53,9 +60,17 @@ header.header-hidden{transform:translateY(-100%)}
 .drawer-essay-card-meta{font-size:.74rem!important;line-height:1.2!important;color:var(--muted, var(--vizon));white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .drawer-essay-card--current{opacity:.58;cursor:default;border-color:var(--petrol)}
 
+.footer-grid{grid-template-columns:minmax(0,1.35fr) minmax(170px,.65fr) minmax(220px,.75fr)!important;gap:52px!important}
+.footer-col{position:relative}
+.footer-col + .footer-col{padding-left:34px!important;border-left:1px solid rgba(237,228,207,.32)}
+.footer-col ul{gap:12px!important}
+.footer-col a{line-height:1.25!important}
+
 @media(max-width:900px){
   .book-grid{grid-template-columns:1fr!important;gap:26px!important;text-align:left!important}
   .book-cover{max-width:210px!important;max-height:315px!important;margin:0}
+  .footer-grid{grid-template-columns:1fr!important;gap:34px!important}
+  .footer-col + .footer-col{padding-left:0!important;border-left:0!important;border-top:1px solid rgba(237,228,207,.32);padding-top:28px!important}
 }
 
 @media(max-width:600px){
@@ -65,6 +80,7 @@ header.header-hidden{transform:translateY(-100%)}
   .asym-thumb-wrap{aspect-ratio:16/9}
   .book-cover{max-width:190px!important;max-height:285px!important}
   .book-description p{font-size:1rem;line-height:1.55}
+  .more-essays-grid-hp{grid-template-columns:1fr!important}
   .site-drawer{width:340px!important;max-width:88vw!important}
   .drawer-essay-card{grid-template-columns:64px 1fr}
   .drawer-essay-card img{width:64px!important;height:64px!important}
