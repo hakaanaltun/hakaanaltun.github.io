@@ -1,14 +1,16 @@
 ---
 layout: home
 ---
-{% assign regular_essays = site.posts | where: "series", "" | sort: "date" | reverse %}
-{% assign fragments = site.posts | where: "series", "fragments" | sort: "series_order" %}
-{% assign on_series = site.posts | where: "series", "on-series" | sort: "series_order" %}
+{% assign post_pages = site.pages | where: "layout", "post" %}
+{% assign all_writing = site.posts | concat: post_pages %}
+{% assign regular_essays = all_writing | where: "series", "" | sort: "date" | reverse %}
+{% assign fragments = all_writing | where: "series", "fragments" | sort: "series_order" %}
+{% assign on_series = all_writing | where: "series", "on-series" | sort: "series_order" %}
 
 <section id="book">
   {% include section-header.html title="Book" subtitle="" %}
   <div class="book-grid">
-    <div class="book-cover-placeholder" aria-hidden="true"></div>
+    <img src="/cover.png" alt="The Fragments cover" class="book-cover" width="1800" height="2700" loading="eager">
     <div class="book-content">
       <h3 class="book-title">The Fragments</h3>
       <!-- -->
