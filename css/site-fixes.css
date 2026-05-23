@@ -1,15 +1,15 @@
 /* site-fixes.css — visual repair, palette, and rhythm layer */
 :root{
-  --bg:#B9AD9E;
+  --bg:#DDE5DF;
   --paper:#FFFFFF;
   --card:#FFFFFF;
-  --card-soft:#F6F4EF;
+  --card-soft:#F5F7F4;
   --ink:#2F2B27;
   --ink-soft:#403A34;
   --muted:#7C736A;
-  --vizon:#B9AD9E;
-  --rule:#E6E0D6;
-  --rule-strong:#D2C8BA;
+  --vizon:#8C867E;
+  --rule:#D9E0DA;
+  --rule-strong:#C8D2CB;
   --petrol:#1E5552;
   --petrol-deep:#153F3D;
   --footer-bg:#1E4F4C;
@@ -21,7 +21,7 @@ html{scroll-padding-top:150px;background:var(--bg)!important}
 body{font-size:19px!important;color:var(--ink)!important;background:var(--bg)!important}
 .container{background:#fff!important;box-shadow:0 0 40px rgba(47,43,39,.075)}
 
-header{transition:background .4s ease,backdrop-filter .4s ease,transform .3s ease;z-index:1200!important;background:rgba(255,255,255,.92)!important;border-bottom:1px solid rgba(210,200,186,.72)!important}
+header{transition:background .4s ease,backdrop-filter .4s ease,transform .3s ease;z-index:1200!important;background:rgba(255,255,255,.92)!important;border-bottom:1px solid rgba(200,210,203,.72)!important}
 header.header-hidden{transform:translateY(-100%)}
 .brand-main{color:var(--petrol-deep)!important}
 .brand-sub{font-family:'Cormorant Garamond',Georgia,serif!important;font-size:1.5rem!important;font-style:italic!important;line-height:1.05!important;color:var(--petrol)!important;letter-spacing:0!important}
@@ -31,7 +31,7 @@ header.header-hidden{transform:translateY(-100%)}
 .header-nav-bar a:hover{background:#fff!important;border-color:var(--petrol)!important;box-shadow:0 7px 18px rgba(47,43,39,.07);transform:translateY(-1px)}
 
 section{position:relative;border-top:0!important;padding-top:92px!important}
-section:not(:first-of-type)::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(185,173,158,.22),rgba(30,85,82,.42),rgba(185,173,158,.22),transparent);box-shadow:0 0 18px rgba(30,85,82,.10);transform:scaleX(.18);transform-origin:center;opacity:.38}
+section:not(:first-of-type)::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(140,134,126,.22),rgba(30,85,82,.42),rgba(140,134,126,.22),transparent);box-shadow:0 0 18px rgba(30,85,82,.10);transform:scaleX(.18);transform-origin:center;opacity:.38}
 section.line-drawn::before{animation:horizonDraw 1.15s ease-out forwards}
 @keyframes horizonDraw{0%{transform:scaleX(.14);opacity:.15;box-shadow:0 0 0 rgba(30,85,82,0)}45%{opacity:1;box-shadow:0 0 24px rgba(30,85,82,.20)}100%{transform:scaleX(1);opacity:.72;box-shadow:0 0 16px rgba(30,85,82,.10)}}
 
@@ -48,8 +48,8 @@ section.line-drawn::before{animation:horizonDraw 1.15s ease-out forwards}
 .hero-quote-source{opacity:0;align-self:flex-end;text-align:right;margin-top:18px;font-size:1.02rem;line-height:1.2;color:var(--petrol);transition:opacity .55s ease}
 .hero-quote-source.visible{opacity:1}
 .hero-quote-source i{color:var(--petrol);font-style:italic}
-.quote-nav{position:absolute;right:22px;bottom:20px;display:flex;gap:10px;opacity:0;transform:translateY(6px);transition:opacity .2s ease,transform .2s ease;pointer-events:none}
-.hero-quote-card:hover .quote-nav,.quote-nav.quote-nav-visible{opacity:1;transform:translateY(0);pointer-events:auto}
+.quote-nav{position:absolute;left:50%;right:auto;bottom:18px;display:flex;gap:10px;opacity:0;transform:translate(-50%,6px);transition:opacity .2s ease,transform .2s ease;pointer-events:none}
+.hero-quote-card:hover .quote-nav,.quote-nav.quote-nav-visible{opacity:1;transform:translate(-50%,0);pointer-events:auto}
 .quote-nav-btn{width:38px;height:38px;border-radius:999px;border:1px solid var(--rule-strong);background:#fff;color:var(--petrol);font-family:'Cormorant Garamond',Georgia,serif;font-size:2rem;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 6px 16px rgba(47,43,39,.06);transition:border-color .2s ease,transform .2s ease}
 .quote-nav-btn:hover{border-color:var(--petrol);transform:translateY(-1px)}
 
@@ -140,8 +140,8 @@ body.drawer-open header{z-index:1100!important}
   .hero-quote-card::before{font-size:4rem;left:18px;top:12px}
   .hero-quote-text{font-size:1.35rem;line-height:1.45}
   .hero-quote-source{font-size:1rem;text-align:right;align-self:flex-end}
-  .quote-nav{opacity:0;right:16px;bottom:14px}
-  .quote-nav.quote-nav-visible{opacity:1;pointer-events:auto}
+  .quote-nav{left:50%;right:auto;bottom:14px;opacity:0;transform:translate(-50%,6px)}
+  .quote-nav.quote-nav-visible{opacity:1;pointer-events:auto;transform:translate(-50%,0)}
   .asym-thumb-wrap{aspect-ratio:16/9}
   .book-cover{max-width:190px!important;max-height:285px!important}
   .book-description p{font-size:1.05rem;line-height:1.6}
