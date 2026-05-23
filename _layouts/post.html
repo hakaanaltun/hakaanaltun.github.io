@@ -8,8 +8,9 @@ layout: default
 <div class="essay-meta-top"><span>{{ page.date | date: "%B %-d, %Y" }}</span><span>·</span><span>{{ page.read_time }} read</span></div>
 <div class="essay-meta-author">Hakan Altun</div>
 </div></div>
-{% if page.image %}
-<div class="essay-cover fade-in fade-in-delay"><img src="{{ page.image }}" alt="{{ page.cover_alt | default: page.subtitle }}" loading="lazy"></div>
+{% assign cover_image = page.image | default: page.thumb %}
+{% if cover_image %}
+<div class="essay-cover fade-in fade-in-delay"><img src="{{ cover_image }}" alt="{{ page.cover_alt | default: page.subtitle }}" loading="lazy"></div>
 {% endif %}
 <article class="essay-body fade-in fade-in-delay">
 {{ content }}
@@ -24,11 +25,6 @@ layout: default
 <div class="essay-section-divider"></div>
 {% endif %}
 <div id="more-essays-container" class="more-essays"></div>
-<div class="essay-section-divider"></div>
-{% include subscribe-block.html %}
-<div class="essay-section-divider"></div>
-{% include findme-block.html %}
-<div class="essay-section-divider"></div>
 </div>
 <script>
 (function(){
