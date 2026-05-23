@@ -35,6 +35,21 @@ layout: home
   </div>
 </section>
 
+<section id="fragments-arc">
+  {% include section-header.html title="Şafak's Arc from The Fragments" subtitle="How a boy becomes someone who knows where to put his hands." %}
+  <ul class="asym-grid">
+    {% for post in fragments %}
+      {% if post.series_order == 1 %}{% include home-card.html post=post span="7" featured=true %}{% endif %}
+      {% if post.series_order == 2 %}{% include home-card.html post=post span="5" %}{% endif %}
+      {% if post.series_order == 3 %}{% include home-card.html post=post span="4" %}{% endif %}
+    {% endfor %}
+    {% if cove_page %}{% include home-card.html post=cove_page span="4" %}{% endif %}
+    {% for post in fragments %}
+      {% if post.series_order == 5 %}{% include home-card.html post=post span="4" %}{% endif %}
+    {% endfor %}
+  </ul>
+</section>
+
 <section id="pieces">
   {% include section-header.html title="Pieces" subtitle="Essays, short fiction, and other writing." %}
   {% assign pieces_spans = "8,4,4,5,3,4,3,5,4" | split: "," %}
@@ -46,21 +61,6 @@ layout: home
         {% assign pieces_kicker = "Latest essay" %}
       {% endif %}
       {% include home-card.html post=post span=span featured=forloop.first kicker=pieces_kicker %}
-    {% endfor %}
-  </ul>
-</section>
-
-<section id="fragments-arc">
-  {% include section-header.html title="Şafak's arc from The Fragments" subtitle="How a boy becomes someone who knows where to put his hands." %}
-  <ul class="asym-grid">
-    {% for post in fragments %}
-      {% if post.series_order == 1 %}{% include home-card.html post=post span="7" featured=true %}{% endif %}
-      {% if post.series_order == 2 %}{% include home-card.html post=post span="5" %}{% endif %}
-      {% if post.series_order == 3 %}{% include home-card.html post=post span="4" %}{% endif %}
-    {% endfor %}
-    {% if cove_page %}{% include home-card.html post=cove_page span="4" %}{% endif %}
-    {% for post in fragments %}
-      {% if post.series_order == 5 %}{% include home-card.html post=post span="4" %}{% endif %}
     {% endfor %}
   </ul>
 </section>
