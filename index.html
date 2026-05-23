@@ -1,152 +1,122 @@
 ---
 layout: home
 ---
-<div id="quotes" class="hero fade-in">
-    <span class="section-label">Quotes</span>
-    <div class="hero-quote-card">
-    <h1 id="hero-quote">"Someone hear me!" I shouted into the void. Yet the one I was shouting to was me, and the one not listening was also me. This was the bitterest form of loneliness: playing hide-and-seek with your own ghost.</h1>
-    <span id="hero-quote-source" class="hero-quote-source">— <i>Forgetting the Color of Nothingness</i></span>
-    <div class="quote-nav" aria-label="Quote navigation">
-        <button id="quote-prev" class="quote-nav-btn" aria-label="Previous quote">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-        </button>
-        <button id="quote-next" class="quote-nav-btn" aria-label="Next quote">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg>
-        </button>
-    </div>
-    </div>
-</div>
-
 {% assign regular_essays = site.posts | where: "series", "" | sort: "date" | reverse %}
-<section id="essays" class="depth-2"><div class="scroll-reveal">
-    <span class="section-label">Pieces</span>
-    <p class="section-desc">Essays, short fiction, and other writing.</p>
-    <ul class="essay-list">
-        {% for post in regular_essays %}
-        <li><a href="{{ post.url }}" class="essay-card">
-            <img src="{{ post.thumb }}" alt="{{ post.title }}" class="essay-thumb" loading="lazy">
-            <div class="essay-card-text">
-                <span class="essay-title">{{ post.title }}</span>
-                <span class="essay-card-subtitle">{{ post.subtitle }}</span>
-            </div>
-            <div class="essay-meta-wrapper"><span class="essay-meta">{{ post.date | date: "%b %-d, %Y" }} · {{ post.read_time }}</span></div>
-        </a></li>
-        {% endfor %}
-    </ul>
-</div></section>
-
-{% assign fragments = site.posts | where: "series", "fragments" | sort: "series_order" %}
-<section id="fragments" class="depth-3"><div class="scroll-reveal">
-    <span class="section-label">The Fragments</span>
-    <p class="section-desc">How a boy becomes someone who knows where to put his hands.</p>
-    <ul class="essay-list">
-        {% for post in fragments %}
-        <li><a href="{{ post.url }}" class="essay-card">
-            <img src="{{ post.thumb }}" alt="{{ post.title }}" class="essay-thumb" loading="lazy">
-            <div class="essay-card-text">
-                <span class="essay-title">{{ post.title }}</span>
-                <span class="essay-card-subtitle">{{ post.subtitle }}</span>
-            </div>
-            <div class="essay-meta-wrapper"><span class="essay-meta">{{ post.date | date: "%b %-d, %Y" }} · {{ post.read_time }}</span><span class="essay-number">{{ post.series_order }} of {{ fragments | size }}</span></div>
-        </a></li>
-        {% endfor %}
-    </ul>
-</div></section>
-
+{% assign fragments = site.posts | where: "series", "fragments" | sort: "date" | reverse %}
 {% assign on_series = site.posts | where: "series", "on-series" | sort: "series_order" %}
-<section id="on-series" class="depth-3"><div class="scroll-reveal">
-    <span class="section-label">The On Series</span>
-    <p class="section-desc">Seven essays on what we build inside ourselves—and why.</p>
-    <ul class="essay-list">
-        {% for post in on_series %}
-        <li><a href="{{ post.url }}" class="essay-card">
-            <img src="{{ post.thumb }}" alt="{{ post.title }}" class="essay-thumb" loading="lazy">
-            <div class="essay-card-text">
-                <span class="essay-title">{{ post.title }}</span>
-                <span class="essay-card-subtitle">{{ post.subtitle }}</span>
-            </div>
-            <div class="essay-meta-wrapper"><span class="essay-meta">{{ post.date | date: "%b %-d, %Y" }} · {{ post.read_time }}</span><span class="essay-number">{{ post.series_order }} of {{ on_series | size }}</span></div>
-        </a></li>
-        {% endfor %}
-    </ul>
-    <p class="series-note">Unified by a corridor metaphor and a movement from the external to the solitary.</p>
-</div></section>
 
-<section id="book" class="depth-0"><div class="scroll-reveal">
-    <span class="section-label">Book</span>
-    
-    <div class="book-layout-wrapper">
-        <div class="book-card">
-        <div class="book-intro">
-            <div class="book-cover"><img src="/cover.png" alt="Forgetting the Color of Nothingness by Hakan Altun" width="1333" height="2000" loading="lazy"></div>
-            <div class="book-text-content">
-                <h2 class="content-title">Forgetting<br>the Color of<br>Nothingness</h2>
-                <div class="book-desc-container">
-                    <p class="book-desc-text">Symmetry's balance is disturbed by an echo from the future, triggering cosmic disobedience where gravity becomes nostalgia, and the universe is born from a great longing.</p>
-                    
-                    <div class="book-links desktop-links">
-                        <a href="https://www.amazon.com/Forgetting-Color-Nothingness-Hakan-Altun-ebook/dp/B0GPXTV6CP" target="_blank" rel="noopener">Kindle</a>
-                        <a href="https://www.amazon.com/dp/B0GSLJXY6P" target="_blank" rel="noopener">Paperback</a>
-                        <a href="https://www.goodreads.com/book/show/248970413-forgetting-the-color-of-nothingness" target="_blank" rel="noopener">Goodreads</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="book-links mobile-links">
-            <a href="https://www.amazon.com/Forgetting-Color-Nothingness-Hakan-Altun-ebook/dp/B0GPXTV6CP" target="_blank" rel="noopener">Kindle</a>
-            <a href="https://www.amazon.com/dp/B0GSLJXY6P" target="_blank" rel="noopener">Paperback</a>
-            <a href="https://www.goodreads.com/book/show/248970413-forgetting-the-color-of-nothingness" target="_blank" rel="noopener">Goodreads</a>
-        </div>
-
-        </div>
-    </div>
-    
-</div></section>
-
-<section id="moris" class="depth-0"><div class="scroll-reveal">
-    <span class="section-label">Moris</span>
-    <div class="moris-card">
-      <div class="about-text"><p>Moris is the silent presence behind the stories, the witness who became part of the work. The muse who is already there.</p></div>
-      <div class="moris-right-col">
-        <div class="moris-video" id="moris-video-wrapper">
-          <img src="/images/moris.jpg" alt="Moris – The one who made it to the cover" class="moris-video-thumb" loading="lazy">
-          <button class="moris-video-play" aria-label="Play Moris video">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polygon points="6,3 20,12 6,21"/></svg>
-          </button>
-        </div>
-        <p class="moris-caption">The one who made it to the cover</p>
+<section id="book">
+  {% include section-header.html title="Book" subtitle="From the same narrative world: a long-form work in progress." %}
+  <div class="book-grid">
+    <div class="book-cover-placeholder" aria-hidden="true"></div>
+    <div class="book-content">
+      <h3 class="book-title">The Fragments</h3>
+      <p class="book-text">A placeholder synopsis will appear here as soon as the finalized jacket copy is ready.</p>
+      <p class="book-text">A second placeholder paragraph sits here to preserve rhythm, spacing, and hierarchy in the final layout.</p>
+      <div class="book-links">
+        <a href="https://www.amazon.com/dp/B0GSLJXY6P" target="_blank" rel="noopener">Paperback</a>
+        <span>·</span>
+        <a href="#" aria-disabled="true">Hardcover</a>
+        <span>·</span>
+        <a href="https://www.amazon.com/Forgetting-Color-Nothingness-Hakan-Altun-ebook/dp/B0GPXTV6CP" target="_blank" rel="noopener">Kindle</a>
+        <span>·</span>
+        <a href="#" aria-disabled="true">Kobo</a>
+        <span>·</span>
+        <a href="#" aria-disabled="true">Google Play</a>
+        <span>·</span>
+        <a href="https://www.goodreads.com/book/show/248970413-forgetting-the-color-of-nothingness" target="_blank" rel="noopener">Goodreads</a>
       </div>
     </div>
-</div></section>
+  </div>
+</section>
 
-<section id="about" class="depth-0"><div class="scroll-reveal">
-    <span class="section-label">About</span>
-    <div class="about-card">
-        <div class="hero-author-row">
-            <img src="/profile.jpg" alt="Hakan Altun" class="profile-photo-small" width="640" height="666" loading="lazy">
-            <h2 class="content-title">Hakan Altun</h2>
-        </div>
-        <div class="about-text">
-            <p>I tell stories that want to live, and I give them a home where they can be.</p>
-            <p>Most of what I explore lives in the gap between what I feel and what I allow myself to name. Defense mechanisms, the weight of unfinished things, the unwilling negotiations I have with my own reflection—the corridors I keep returning to.</p>
-            <p>I teach at Yeditepe University in İstanbul—a city that insists on being looked at. What I do is an attempt to look back.</p>
-        </div>
+<section id="pieces">
+  {% include section-header.html title="Pieces" subtitle="Essays, short fiction, and other writing." %}
+  {% assign pieces_spans = "8,4,4,5,3,4,3,5,4" | split: "," %}
+  <ul class="asym-grid">
+    {% for post in regular_essays limit: 9 %}
+      {% assign span = pieces_spans[forloop.index0] %}
+      {% assign pieces_kicker = "" %}
+      {% if forloop.first %}
+        {% assign pieces_kicker = "Latest essay" %}
+      {% endif %}
+      {% include home-card.html post=post span=span featured=forloop.first kicker=pieces_kicker %}
+    {% endfor %}
+  </ul>
+</section>
+
+<section id="fragments-arc">
+  {% include section-header.html title="Şafak's arc from The Fragments" subtitle="How a boy becomes someone who knows where to put his hands." %}
+  {% assign fragments_spans = "7,5,5,7" | split: "," %}
+  <ul class="asym-grid">
+    {% for post in fragments limit: 4 %}
+      {% assign span = fragments_spans[forloop.index0] %}
+      {% include home-card.html post=post span=span featured=forloop.first %}
+    {% endfor %}
+  </ul>
+</section>
+
+<section id="the-cove">
+  {% include section-header.html title="The Cove" subtitle="A quieter corner in the same world." %}
+  <div class="cove-block">
+    <div class="cove-left">
+      <h3>The<br>Cove</h3>
+      <p>a standalone piece · forthcoming</p>
     </div>
-</div></section>
-
-<section id="subscribe" class="depth-0"><div class="scroll-reveal">
-    <span class="section-label">Subscribe</span>
-    <div class="subscribe-section" style="margin-top:0">
-        <p class="subscribe-intro">If you'd like new pieces sent directly to your inbox when they're ready, drop your email below.</p>
-        <form action="https://buttondown.com/api/emails/embed-subscribe/hakanaltun" method="post" class="subscribe-form">
-            <label for="bd-email-home">Email address</label>
-            <input type="email" name="email" id="bd-email-home" placeholder="your@email.com" required>
-            <button type="submit">Subscribe</button>
-        </form>
-        <p class="subscribe-note">Powered by Buttondown. Unsubscribe anytime.</p>
+    <div class="cove-right">
+      <p class="cove-subtitle">A dedicated entry point for a slower, inward strand.</p>
+      <p>A first placeholder paragraph will be replaced with final descriptive copy for this piece.</p>
+      <p>A second placeholder paragraph remains intentionally brief to preserve proportional balance.</p>
+      <a href="/essays/the-cove.html" class="cove-link">Read the piece →</a>
     </div>
-</div></section>
+  </div>
+</section>
 
-<section id="connect" class="depth-0">{% include findme-block.html %}</section>
-<div class="essay-section-divider"></div>
+<section id="on-series">
+  {% include section-header.html title="The On Series" subtitle="Seven essays on what we build inside ourselves—and why." %}
+  {% assign on_series_spans = "4,5,3,6,3,3,12" | split: "," %}
+  <ul class="asym-grid">
+    {% for post in on_series %}
+      {% assign span = on_series_spans[forloop.index0] %}
+      {% assign is_featured = false %}
+      {% if forloop.index == 7 %}
+        {% assign is_featured = true %}
+      {% endif %}
+      {% include home-card.html post=post span=span featured=is_featured %}
+    {% endfor %}
+  </ul>
+  <p class="series-note">Unified by a corridor metaphor and a movement from the external to the solitary.</p>
+</section>
+
+<section id="moris">
+  {% include section-header.html title="Moris" subtitle="The witness who became part of the work." %}
+  <div class="moris-card">
+    <div class="about-text">
+      <p>Moris is the silent presence behind the stories, the witness who became part of the work. The muse who is already there.</p>
+    </div>
+    <div class="moris-right-col">
+      <div class="moris-video" id="moris-video-wrapper">
+        <img src="/images/moris.jpg" alt="Moris – The one who made it to the cover" class="moris-video-thumb" loading="lazy">
+        <button class="moris-video-play" aria-label="Play Moris video">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polygon points="6,3 20,12 6,21"/></svg>
+        </button>
+      </div>
+      <p class="moris-caption">The one who made it to the cover</p>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  {% include section-header.html title="About" subtitle="" %}
+  <div class="about-card">
+    <div class="hero-author-row">
+      <img src="/profile.jpg" alt="Hakan Altun" class="profile-photo-small" width="640" height="666" loading="lazy">
+      <h3 class="about-name">Hakan Altun</h3>
+    </div>
+    <div class="about-text">
+      <p>I tell stories that want to live, and I give them a home where they can be.</p>
+      <p>Most of what I explore lives in the gap between what I feel and what I allow myself to name. Defense mechanisms, the weight of unfinished things, the unwilling negotiations I have with my own reflection—the corridors I keep returning to.</p>
+      <p>I teach at Yeditepe University in İstanbul—a city that insists on being looked at. What I do is an attempt to look back.</p>
+    </div>
+  </div>
+</section>
