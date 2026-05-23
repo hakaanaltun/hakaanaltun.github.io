@@ -1,10 +1,9 @@
 {% if page.layout == "home" %}{% assign section_prefix = "" %}{% assign logo_href = "#" %}{% else %}{% assign section_prefix = "/" %}{% assign logo_href = "/" %}{% endif %}
-{% assign post_pages = site.pages | where: "layout", "post" %}
-{% assign all_writing = site.posts | concat: post_pages %}
-{% assign regular_essays = all_writing | where: "series", "" | sort: "date" | reverse %}
-{% assign fragment_pages = site.pages | where: "layout", "post" | where: "series", "fragments" %}
-{% assign fragments = site.posts | where: "series", "fragments" | concat: fragment_pages | sort: "series_order" %}
-{% assign on_series = all_writing | where: "series", "on-series" | sort: "series_order" %}
+{% assign regular_essays = site.posts | where: "series", "" | sort: "date" | reverse %}
+{% assign fragments = site.posts | where: "series", "fragments" | sort: "series_order" %}
+{% assign cove_pages = site.pages | where: "permalink", "/essays/the-cove.html" %}
+{% assign cove_page = cove_pages | first %}
+{% assign on_series = site.posts | where: "series", "on-series" | sort: "series_order" %}
 <div id="site-drawer-backdrop" class="drawer-backdrop" aria-hidden="true"></div>
 <div id="site-drawer" class="site-drawer" aria-hidden="true">
   <button id="site-drawer-close" class="drawer-close" aria-label="Close menu">
@@ -31,45 +30,55 @@
   <div class="drawer-essay-cards">
     {% for post in regular_essays %}
     {% assign drawer_image = post.thumb | default: post.image %}
-    {% if post.url == page.url %}
-    <span class="drawer-essay-card drawer-essay-card--current">
-    {% else %}
-    <a href="{{ post.url }}" class="drawer-essay-card-link"><span class="drawer-essay-card">
-    {% endif %}
-        {% if drawer_image %}<img src="{{ drawer_image }}" alt="{{ post.cover_alt | default: post.title }}" loading="lazy">{% endif %}
-        <span class="drawer-essay-card-text">
-          <span class="drawer-essay-card-title">{{ post.title }}</span>
-          {% if post.subtitle %}<span class="drawer-essay-card-subtitle">{{ post.subtitle }}</span>{% endif %}
-          <span class="drawer-essay-card-meta">{{ post.date | date: "%b %-d, %Y" }} · {{ post.read_time }}</span>
-        </span>
-    {% if post.url == page.url %}
-    </span>
-    {% else %}
-    </span></a>
-    {% endif %}
+    {% if post.url == page.url %}<span class="drawer-essay-card drawer-essay-card--current">{% else %}<a href="{{ post.url }}" class="drawer-essay-card-link"><span class="drawer-essay-card">{% endif %}
+      {% if drawer_image %}<img src="{{ drawer_image }}" alt="{{ post.cover_alt | default: post.title }}" loading="lazy">{% endif %}
+      <span class="drawer-essay-card-text">
+        <span class="drawer-essay-card-title">{{ post.title }}</span>
+        {% if post.subtitle %}<span class="drawer-essay-card-subtitle">{{ post.subtitle }}</span>{% endif %}
+        <span class="drawer-essay-card-meta">{{ post.date | date: "%b %-d, %Y" }} · {{ post.read_time }}</span>
+      </span>
+    {% if post.url == page.url %}</span>{% else %}</span></a>{% endif %}
     {% endfor %}
   </div>
 
   <span class="drawer-label">Şafak's Arc</span>
   <div class="drawer-essay-cards">
     {% for post in fragments %}
-    {% assign drawer_image = post.thumb | default: post.image %}
-    {% if post.url == page.url %}
-    <span class="drawer-essay-card drawer-essay-card--current">
-    {% else %}
-    <a href="{{ post.url }}" class="drawer-essay-card-link"><span class="drawer-essay-card">
-    {% endif %}
+      {% if post.series_order == 1 or post.series_order == 2 or post.series_order == 3 %}
+      {% assign drawer_image = post.thumb | default: post.image %}
+      {% if post.url == page.url %}<span class="drawer-essay-card drawer-essay-card--current">{% else %}<a href="{{ post.url }}" class="drawer-essay-card-link"><span class="drawer-essay-card">{% endif %}
         {% if drawer_image %}<img src="{{ drawer_image }}" alt="{{ post.cover_alt | default: post.title }}" loading="lazy">{% endif %}
         <span class="drawer-essay-card-text">
           <span class="drawer-essay-card-title">{{ post.title }}</span>
           {% if post.subtitle %}<span class="drawer-essay-card-subtitle">{{ post.subtitle }}</span>{% endif %}
           <span class="drawer-essay-card-meta">{{ post.date | date: "%b %-d, %Y" }} · {{ post.read_time }}</span>
         </span>
-    {% if post.url == page.url %}
-    </span>
-    {% else %}
-    </span></a>
+      {% if post.url == page.url %}</span>{% else %}</span></a>{% endif %}
+      {% endif %}
+    {% endfor %}
+    {% if cove_page %}
+      {% assign drawer_image = cove_page.thumb | default: cove_page.image %}
+      {% if cove_page.url == page.url %}<span class="drawer-essay-card drawer-essay-card--current">{% else %}<a href="{{ cove_page.url }}" class="drawer-essay-card-link"><span class="drawer-essay-card">{% endif %}
+        {% if drawer_image %}<img src="{{ drawer_image }}" alt="{{ cove_page.cover_alt | default: cove_page.title }}" loading="lazy">{% endif %}
+        <span class="drawer-essay-card-text">
+          <span class="drawer-essay-card-title">{{ cove_page.title }}</span>
+          {% if cove_page.subtitle %}<span class="drawer-essay-card-subtitle">{{ cove_page.subtitle }}</span>{% endif %}
+          <span class="drawer-essay-card-meta">{{ cove_page.date | date: "%b %-d, %Y" }} · {{ cove_page.read_time }}</span>
+        </span>
+      {% if cove_page.url == page.url %}</span>{% else %}</span></a>{% endif %}
     {% endif %}
+    {% for post in fragments %}
+      {% if post.series_order == 5 %}
+      {% assign drawer_image = post.thumb | default: post.image %}
+      {% if post.url == page.url %}<span class="drawer-essay-card drawer-essay-card--current">{% else %}<a href="{{ post.url }}" class="drawer-essay-card-link"><span class="drawer-essay-card">{% endif %}
+        {% if drawer_image %}<img src="{{ drawer_image }}" alt="{{ post.cover_alt | default: post.title }}" loading="lazy">{% endif %}
+        <span class="drawer-essay-card-text">
+          <span class="drawer-essay-card-title">{{ post.title }}</span>
+          {% if post.subtitle %}<span class="drawer-essay-card-subtitle">{{ post.subtitle }}</span>{% endif %}
+          <span class="drawer-essay-card-meta">{{ post.date | date: "%b %-d, %Y" }} · {{ post.read_time }}</span>
+        </span>
+      {% if post.url == page.url %}</span>{% else %}</span></a>{% endif %}
+      {% endif %}
     {% endfor %}
   </div>
 
@@ -77,22 +86,14 @@
   <div class="drawer-essay-cards">
     {% for post in on_series %}
     {% assign drawer_image = post.thumb | default: post.image %}
-    {% if post.url == page.url %}
-    <span class="drawer-essay-card drawer-essay-card--current">
-    {% else %}
-    <a href="{{ post.url }}" class="drawer-essay-card-link"><span class="drawer-essay-card">
-    {% endif %}
-        {% if drawer_image %}<img src="{{ drawer_image }}" alt="{{ post.cover_alt | default: post.title }}" loading="lazy">{% endif %}
-        <span class="drawer-essay-card-text">
-          <span class="drawer-essay-card-title">{{ post.title }}</span>
-          {% if post.subtitle %}<span class="drawer-essay-card-subtitle">{{ post.subtitle }}</span>{% endif %}
-          <span class="drawer-essay-card-meta">{{ post.date | date: "%b %-d, %Y" }} · {{ post.read_time }}</span>
-        </span>
-    {% if post.url == page.url %}
-    </span>
-    {% else %}
-    </span></a>
-    {% endif %}
+    {% if post.url == page.url %}<span class="drawer-essay-card drawer-essay-card--current">{% else %}<a href="{{ post.url }}" class="drawer-essay-card-link"><span class="drawer-essay-card">{% endif %}
+      {% if drawer_image %}<img src="{{ drawer_image }}" alt="{{ post.cover_alt | default: post.title }}" loading="lazy">{% endif %}
+      <span class="drawer-essay-card-text">
+        <span class="drawer-essay-card-title">{{ post.title }}</span>
+        {% if post.subtitle %}<span class="drawer-essay-card-subtitle">{{ post.subtitle }}</span>{% endif %}
+        <span class="drawer-essay-card-meta">{{ post.date | date: "%b %-d, %Y" }} · {{ post.read_time }}</span>
+      </span>
+    {% if post.url == page.url %}</span>{% else %}</span></a>{% endif %}
     {% endfor %}
   </div>
 
