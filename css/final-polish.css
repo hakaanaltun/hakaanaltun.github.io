@@ -87,6 +87,10 @@ footer .footer-rule-bottom{margin-top:32px!important;margin-bottom:20px!importan
   footer .footer-rule-bottom{margin-top:32px!important;margin-bottom:20px!important}
 }
 
+@media(max-width:1024px){
+  .site-drawer{padding-bottom:calc(env(safe-area-inset-bottom, 0px) + 64px)!important;height:100dvh!important}
+  .drawer-section-links{margin-bottom:18px!important}
+}
 @media(max-width:600px){
   .site-drawer{padding-bottom:calc(env(safe-area-inset-bottom, 0px) + 64px)!important}
   .drawer-section-links{margin-bottom:18px!important}

@@ -93,7 +93,7 @@ section.line-drawn::before{animation:horizonDraw 1.15s ease-out forwards}
 .more-essays-title{display:block!important;margin-bottom:18px!important;color:var(--petrol)!important}
 
 .drawer-backdrop{z-index:2400!important}
-.site-drawer{z-index:2500!important;top:0!important;height:100vh!important;padding-top:28px!important;width:320px!important;max-width:min(88vw,420px)!important;display:flex;flex-direction:column;gap:10px;background:rgba(255,255,255,.985)!important}
+.site-drawer{z-index:2500!important;top:0!important;height:100vh!important;height:100dvh!important;padding-top:28px!important;width:320px!important;max-width:min(88vw,420px)!important;display:flex;flex-direction:column;gap:10px;background:rgba(255,255,255,.985)!important}
 body.drawer-open header{z-index:1100!important}
 .site-drawer a{letter-spacing:normal!important;padding:0;border:none!important}
 .drawer-logo-link .brand-main{color:var(--petrol-deep)!important}
