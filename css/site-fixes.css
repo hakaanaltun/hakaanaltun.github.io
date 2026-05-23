@@ -25,7 +25,7 @@ body{font-size:19px!important;color:var(--ink)!important;background:#fff!importa
 header{transition:background .4s ease,backdrop-filter .4s ease,transform .3s ease;z-index:1200!important;background:rgba(255,255,255,.92)!important;border-bottom:1px solid rgba(200,210,203,.72)!important}
 header.header-hidden{transform:translateY(-100%)}
 .brand-main{color:var(--petrol-deep)!important}
-.brand-sub{font-family:'Cormorant Garamond',Georgia,serif!important;font-size:1.5rem!important;font-style:italic!important;line-height:1.05!important;color:var(--petrol)!important;letter-spacing:0!important}.brand-sub{margin-left:-2px}
+.brand-sub{font-family:'Cormorant Garamond',Georgia,serif!important;font-size:1.5rem!important;font-style:italic!important;line-height:1.05!important;color:var(--petrol)!important;letter-spacing:0!important}
 .header-nav-bar{gap:10px!important;margin-top:6px}
 .header-nav-bar a{display:inline-flex!important;align-items:center;justify-content:center;padding:7px 13px!important;border:1px solid var(--rule-strong)!important;border-radius:999px!important;background:#fff!important;font-size:1.02rem!important;line-height:1!important;color:var(--petrol-deep)!important;box-shadow:0 4px 14px rgba(47,43,39,.03);transition:background .2s ease,border-color .2s ease,box-shadow .2s ease,transform .2s ease}
 .header-nav-bar a::after{display:none!important}
