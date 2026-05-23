@@ -10,22 +10,30 @@ layout: null
     <atom:link href="{{ '/feed.xml' | absolute_url }}" rel="self" type="application/rss+xml" />
     <language>en</language>
     <lastBuildDate>{{ site.time | date_to_rfc822 }}</lastBuildDate>
+
     {% assign goodreads_featured = "the-anxiety,the-cove,handled,collateral" | split: "," %}
     {% for slug in goodreads_featured %}
       {% assign post = site.posts | where: "slug", slug | first %}
       {% if post %}
+      {% case slug %}
+        {% when "the-anxiety" %}{% assign rss_pubdate = "Tue, 26 May 2026 12:00:00 +0000" %}
+        {% when "the-cove" %}{% assign rss_pubdate = "Mon, 25 May 2026 12:00:00 +0000" %}
+        {% when "handled" %}{% assign rss_pubdate = "Sun, 24 May 2026 12:00:00 +0000" %}
+        {% when "collateral" %}{% assign rss_pubdate = "Sat, 23 May 2026 12:00:00 +0000" %}
+      {% endcase %}
     <item>
       <title>{{ post.title | xml_escape }}</title>
       <description>{{ post.description | default: post.subtitle | default: site.description | xml_escape }}</description>
       <link>{{ post.url | absolute_url }}</link>
       <guid isPermaLink="true">{{ post.url | absolute_url }}</guid>
-      <pubDate>{{ post.date | date_to_rfc822 }}</pubDate>
+      <pubDate>{{ rss_pubdate }}</pubDate>
       {% assign post_image = post.image | default: post.thumb %}
       {% if post_image %}<media:content url="{{ post_image | absolute_url }}" medium="image" />{% endif %}
       <content:encoded><![CDATA[{{ post.content }}]]></content:encoded>
     </item>
       {% endif %}
     {% endfor %}
+
     {% assign excluded_slugs = goodreads_featured %}
     {% for post in site.posts %}
       {% unless excluded_slugs contains post.slug %}
