@@ -1,14 +1,31 @@
-/* site-fixes.css — visual repair layer for homepage cards, drawer cards, and footer/header behavior */
+/* site-fixes.css — visual repair and polish layer */
+:root{
+  --card-cream:#FCF8EF;
+  --card-cream-deep:#F7F0E3;
+}
+
 header{transition:background .4s ease,backdrop-filter .4s ease,transform .3s ease}
 header.header-hidden{transform:translateY(-100%)}
 
-.book-cover{width:100%;max-width:360px;aspect-ratio:2/3;object-fit:cover;display:block;box-shadow:0 18px 34px rgba(0,0,0,.16);border:1px solid var(--rule-strong, var(--border, #D8D3C8));background:#fff}
-.book-cover-placeholder{display:none}
+.brand-sub{font-family:'Cormorant Garamond',Georgia,serif!important;font-size:1.5rem!important;font-style:italic!important;line-height:1.05!important;color:var(--petrol)!important;letter-spacing:0!important}
+.footer-brand{font-family:'Cormorant Garamond',Georgia,serif!important;font-size:1.5rem!important;font-style:italic!important;line-height:1.05!important}
+.header-nav-bar{gap:10px!important;margin-top:6px}
+.header-nav-bar a{display:inline-flex!important;align-items:center;justify-content:center;padding:7px 13px!important;border:1px solid var(--rule-strong, #D8D3C8)!important;border-radius:999px!important;background:var(--card-cream)!important;font-size:1rem!important;line-height:1!important;color:var(--petrol)!important;box-shadow:0 4px 14px rgba(26,22,20,.035);transition:background .2s ease,border-color .2s ease,box-shadow .2s ease,transform .2s ease}
+.header-nav-bar a::after{display:none!important}
+.header-nav-bar a:hover{background:#fff!important;border-color:var(--petrol)!important;box-shadow:0 7px 18px rgba(26,22,20,.07);transform:translateY(-1px)}
 
-.asym-card{display:flex;flex-direction:column;min-height:100%;background:#fff;border:1px solid var(--rule, var(--border, #EBE7DF));border-radius:14px;overflow:hidden;box-shadow:0 8px 28px rgba(26,22,20,.055);transition:border-color .24s ease,box-shadow .24s ease,transform .24s ease,color .24s ease;padding:0!important}
-.asym-thumb-wrap{display:block;width:100%;aspect-ratio:16/10;background:var(--rule, var(--border, #EBE7DF));overflow:hidden;border-bottom:1px solid var(--rule, var(--border, #EBE7DF))}
+.book-grid{align-items:center!important;grid-template-columns:minmax(180px,260px) minmax(0,1fr)!important;gap:42px!important}
+.book-cover{width:100%;max-width:240px!important;max-height:360px!important;aspect-ratio:2/3;object-fit:contain!important;display:block;box-shadow:0 18px 34px rgba(0,0,0,.16);border:1px solid var(--rule-strong, var(--border, #D8D3C8));background:#fff;margin:0 auto}
+.book-cover-placeholder{display:none}
+.book-description{max-width:680px;margin:12px 0 24px;color:var(--ink-soft, #3A3531)}
+.book-description p{margin:0 0 13px;font-size:1.08rem;line-height:1.62;color:var(--ink-soft, #3A3531)}
+.book-description em{font-style:italic;color:var(--petrol)}
+.book-links{margin-top:18px!important}
+
+.asym-card{display:flex;flex-direction:column;min-height:100%;background:var(--card-cream)!important;border:1px solid var(--rule-strong, var(--border, #D8D3C8));border-radius:14px;overflow:hidden;box-shadow:0 8px 28px rgba(26,22,20,.055);transition:border-color .24s ease,box-shadow .24s ease,transform .24s ease,color .24s ease;padding:0!important}
+.asym-thumb-wrap{display:block;width:100%;aspect-ratio:16/10;background:var(--card-cream-deep);overflow:hidden;border-bottom:1px solid var(--rule-strong, var(--border, #D8D3C8))}
 .asym-thumb{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s ease}
-.asym-card-body{display:flex;flex-direction:column;gap:10px;flex:1;padding:18px}
+.asym-card-body{display:flex;flex-direction:column;gap:10px;flex:1;padding:18px;background:var(--card-cream)}
 .asym-card:hover{border-color:var(--petrol);box-shadow:0 14px 38px rgba(26,22,20,.09);transform:translateY(-2px)}
 .asym-card:hover .asym-thumb{transform:scale(1.025)}
 .asym-card.is-featured{border-color:var(--petrol)}
@@ -17,16 +34,18 @@ header.header-hidden{transform:translateY(-100%)}
 .asym-subtitle{display:block}
 .asym-meta{display:block;margin-top:auto}
 
+.about-card,.moris-card{background:var(--card-cream)!important;border-color:var(--rule-strong, #D8D3C8)!important}
+
 .site-drawer{width:320px!important;max-width:min(88vw,420px)!important;display:flex;flex-direction:column;gap:10px}
 .site-drawer a{letter-spacing:normal!important;padding:0;border:none!important}
 .drawer-section-links{display:grid!important;grid-template-columns:1fr 1fr;gap:8px;margin:4px 0}
-.drawer-section-links a{display:block;padding:10px 12px!important;border:1px solid var(--rule, var(--border, #EBE7DF))!important;border-radius:10px;background:#fff;font-size:14px;color:var(--petrol);letter-spacing:.02em!important;transition:border-color .2s ease,background .2s ease}
-.drawer-section-links a:hover{border-color:var(--petrol)!important;background:rgba(30,79,76,0.03);opacity:1}
+.drawer-section-links a{display:block;padding:10px 12px!important;border:1px solid var(--rule-strong, var(--border, #D8D3C8))!important;border-radius:10px;background:var(--card-cream);font-size:14px;color:var(--petrol);letter-spacing:.02em!important;transition:border-color .2s ease,background .2s ease}
+.drawer-section-links a:hover{border-color:var(--petrol)!important;background:#fff;opacity:1}
 .drawer-essay-cards{display:grid!important;grid-template-columns:1fr;gap:8px;margin:2px 0 8px}
 .drawer-essay-card-link{display:block;text-decoration:none;border:none!important}
-.drawer-essay-card{display:grid!important;grid-template-columns:72px 1fr;gap:12px;align-items:center;padding:10px;border:1px solid var(--rule, var(--border, #EBE7DF));border-radius:12px;background:#fff;box-shadow:0 4px 16px rgba(26,22,20,.045);transition:border-color .2s ease,box-shadow .2s ease,transform .2s ease}
+.drawer-essay-card{display:grid!important;grid-template-columns:72px 1fr;gap:12px;align-items:center;padding:10px;border:1px solid var(--rule-strong, var(--border, #D8D3C8));border-radius:12px;background:var(--card-cream);box-shadow:0 4px 16px rgba(26,22,20,.045);transition:border-color .2s ease,box-shadow .2s ease,transform .2s ease}
 .drawer-essay-card-link:hover .drawer-essay-card{border-color:var(--petrol);box-shadow:0 8px 22px rgba(26,22,20,.075);transform:translateY(-1px)}
-.drawer-essay-card img{width:72px!important;height:72px!important;aspect-ratio:auto!important;object-fit:cover;border-radius:8px;border:1px solid var(--rule, var(--border, #EBE7DF));display:block;background:var(--rule, var(--border, #EBE7DF))}
+.drawer-essay-card img{width:72px!important;height:72px!important;aspect-ratio:auto!important;object-fit:cover;border-radius:8px;border:1px solid var(--rule-strong, var(--border, #D8D3C8));display:block;background:var(--card-cream-deep)}
 .drawer-book-card img{height:96px!important;object-position:center top}
 .drawer-essay-card-text{display:flex;flex-direction:column;gap:3px;min-width:0}
 .drawer-essay-card-title{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.12rem!important;font-style:italic;font-weight:500;line-height:1.08!important;color:var(--petrol);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
@@ -34,8 +53,18 @@ header.header-hidden{transform:translateY(-100%)}
 .drawer-essay-card-meta{font-size:.74rem!important;line-height:1.2!important;color:var(--muted, var(--vizon));white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .drawer-essay-card--current{opacity:.58;cursor:default;border-color:var(--petrol)}
 
+@media(max-width:900px){
+  .book-grid{grid-template-columns:1fr!important;gap:26px!important;text-align:left!important}
+  .book-cover{max-width:210px!important;max-height:315px!important;margin:0}
+}
+
 @media(max-width:600px){
+  .brand-sub,.footer-brand{font-size:1.25rem!important}
+  .header-nav-bar{display:flex!important;gap:8px!important}
+  .header-nav-bar a{font-size:.92rem!important;padding:7px 11px!important}
   .asym-thumb-wrap{aspect-ratio:16/9}
+  .book-cover{max-width:190px!important;max-height:285px!important}
+  .book-description p{font-size:1rem;line-height:1.55}
   .site-drawer{width:340px!important;max-width:88vw!important}
   .drawer-essay-card{grid-template-columns:64px 1fr}
   .drawer-essay-card img{width:64px!important;height:64px!important}
