@@ -154,28 +154,29 @@ body.drawer-open header{z-index:1100!important}
   .drawer-essay-card-subtitle{font-size:.76rem!important}
 }
 
-/* Final soft background + Moris editorial stack */
+/* Final white background + Moris book-style layout */
 :root{
-  --bg:#F2F7F3;
-  --card-soft:#F8FAF8;
-  --rule:#E6ECE7;
-  --rule-strong:#D7E1DA;
+  --bg:#FFFFFF;
+  --card-soft:#FAFAF8;
+  --rule:#EEEAE4;
+  --rule-strong:#D8D2C8;
 }
 
 html,
-body{background:var(--bg)!important}
+body{background:#fff!important}
 
-.container{box-shadow:0 0 34px rgba(30,85,82,.055)!important}
+.container{box-shadow:none!important}
 
-#moris .moris-card{display:block!important;max-width:760px!important;margin:0!important;background:transparent!important;border:0!important;box-shadow:none!important;padding:0!important}
-#moris .about-text{max-width:680px!important;margin:0 0 28px!important}
-#moris .moris-right-col{display:flex!important;flex-direction:column!important;align-items:flex-start!important;max-width:560px!important;margin:0!important}
-#moris .moris-video{width:100%!important;max-width:560px!important}
-#moris .moris-caption{text-align:center!important;width:100%!important;max-width:560px!important;margin:12px 0 0!important}
+#moris .moris-card{display:grid!important;grid-template-columns:minmax(180px,260px) minmax(0,1fr)!important;gap:42px!important;align-items:center!important;max-width:none!important;margin:0!important;background:transparent!important;border:0!important;box-shadow:none!important;padding:0!important}
+#moris .moris-right-col{grid-column:1!important;grid-row:1!important;display:flex!important;flex-direction:column!important;align-items:center!important;max-width:240px!important;margin:0 auto!important}
+#moris .moris-video{width:240px!important;max-width:240px!important;max-height:360px!important;aspect-ratio:2/3!important;overflow:hidden!important}
+#moris .moris-video-thumb{width:100%!important;height:100%!important;object-fit:cover!important}
+#moris .moris-caption{text-align:center!important;width:240px!important;max-width:240px!important;margin:12px 0 0!important}
+#moris .about-text{grid-column:2!important;grid-row:1!important;max-width:720px!important;margin:0!important}
 
-@media(max-width:700px){
-  #moris .moris-card,
-  #moris .moris-right-col,
-  #moris .moris-video,
-  #moris .moris-caption{max-width:100%!important}
+@media(max-width:900px){
+  #moris .moris-card{grid-template-columns:1fr!important;gap:24px!important}
+  #moris .moris-right-col{grid-column:1!important;grid-row:1!important;margin:0!important;align-items:flex-start!important}
+  #moris .about-text{grid-column:1!important;grid-row:2!important;max-width:100%!important}
+  #moris .moris-caption{text-align:center!important}
 }
