@@ -79,5 +79,6 @@ body:has(#quotes) footer .footer-rule-bottom{margin-top:32px!important;margin-bo
   .drawer-section-links{margin-bottom:18px!important}
   footer .footer-inner{padding-top:58px!important;padding-bottom:42px!important}
   footer .footer-grid{gap:16px!important}
-  footer .footer-col + .footer-col{padding-top:16px!important}
+  footer section.footer-col{padding-top:0!important;padding-bottom:0!important;margin-top:0!important;margin-bottom:0!important}
+  footer .footer-col + .footer-col{padding-top:14px!important}
 }
