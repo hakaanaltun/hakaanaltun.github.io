@@ -126,6 +126,15 @@
         showNav();
       });
 
+      // Hide quote nav when tapping outside the card (mobile)
+      document.addEventListener('touchstart', function(e){
+        if(!qNav || !qCard) return;
+        if(!qCard.contains(e.target)){
+          qNav.classList.remove('quote-nav-visible');
+          clearTimeout(navHideTimer);
+        }
+      });
+
       if(hq) render(randomIndex(-1), false);
 
       if ('IntersectionObserver' in window) {
