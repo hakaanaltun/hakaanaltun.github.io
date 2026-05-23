@@ -33,7 +33,7 @@ layout: home
 
 <section id="on-series">
   {% include section-header.html title="The On Series" subtitle="Seven essays on what we build inside ourselves—and why." %}
-  {% assign on_series_spans = "8,4,4,4,4,4,4" | split: "," %}
+  {% assign on_series_spans = "8,4,4,4,4,4,8" | split: "," %}
   <ul class="asym-grid">
     {% for post in on_series %}
       {% assign span = on_series_spans[forloop.index0] %}
