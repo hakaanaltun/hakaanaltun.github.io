@@ -305,8 +305,9 @@ footer p{font-size:14px;color:var(--vizon);letter-spacing:1px;font-family:'Lora'
 .copyright{font-size:12px;color:var(--vizon);letter-spacing:0.5px;margin-top:8px;opacity:0.7}
 .footer-home{display:inline-block;text-decoration:none;border:none;border-bottom:none !important}
 .footer-logo-wide{height:40px;width:auto;object-fit:contain}
-.drawer-logo-link{display:block;border:none;border-bottom:none !important;text-decoration:none;margin-bottom:16px}
-.drawer-logo{height:36px;width:auto;object-fit:contain;display:block;opacity:0.82}
+.drawer-logo-link{display:flex;border:none;border-bottom:none !important;text-decoration:none;margin-bottom:16px;flex-direction:column;line-height:1;gap:4px}
+.drawer-logo-link .brand-main{font-size:2rem;color:var(--petrol)}
+.drawer-logo-link .brand-sub{font-size:.9rem;color:var(--vizon);margin-top:0}
 
 /* Responsive */
 @media(max-width:1050px){

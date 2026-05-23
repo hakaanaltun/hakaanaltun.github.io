@@ -137,8 +137,9 @@ footer{margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);margin-top:40p
 }
 .drawer-close:hover{opacity:.6}
 .drawer-close svg{width:22px;height:22px}
-.drawer-logo-link{display:block;border:none;text-decoration:none;margin-bottom:16px}
-.drawer-logo{height:36px;width:auto;object-fit:contain;display:block;opacity:0.82}
+.drawer-logo-link{display:flex;border:none;text-decoration:none;margin-bottom:16px;flex-direction:column;line-height:1;gap:4px}
+.drawer-logo-link .brand-main{font-size:2rem;color:var(--petrol)}
+.drawer-logo-link .brand-sub{font-size:.9rem;color:var(--muted);margin-top:0}
 .drawer-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-top:10px;display:block}
 .site-drawer a{color:var(--petrol);border:none;letter-spacing:.04em;padding:4px 0;font-size:16px;transition:opacity .2s ease}
 .site-drawer a:hover{opacity:.8}
