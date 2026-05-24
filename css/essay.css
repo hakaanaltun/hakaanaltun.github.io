@@ -24,7 +24,7 @@
 }
 
 html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
-body{font-family:'EB Garamond',Georgia,serif;background-color:var(--bg);color:var(--charcoal);line-height:1.85;font-size:18px;overflow-x:hidden;position:relative}
+body{font-family:'EB Garamond',Georgia,serif;background-color:var(--bg);color:var(--charcoal);line-height:1.85;font-size:20px;overflow-x:hidden;position:relative}
 ::selection{background:var(--petrol);color:var(--cream)}
 a{color:var(--petrol);text-decoration:none;border-bottom:1px solid var(--border);transition:border-color .2s ease,color .2s ease}
 a:hover{border-color:var(--petrol)}
@@ -181,7 +181,7 @@ body.drawer-open{overflow:hidden}
 .essay-body p:last-child{margin-bottom:0}
 .essay-body h2{font-size:22px;font-weight:500;color:var(--petrol);margin:40px 0 16px;padding-top:20px;border-top:1px solid var(--border)}
 .essay-body h3{font-size:19px;font-weight:500;color:var(--petrol);margin:32px 0 12px}
-.essay-body blockquote{border-left:2px solid var(--petrol);padding:12px 0 12px 20px;margin:28px 0;font-style:italic;color:var(--vizon);font-size:19px}
+.essay-body blockquote{border-left:2px solid var(--petrol);padding:12px 0 12px 20px;margin:28px 0;font-style:italic;color:var(--vizon);font-size:21px}
 .essay-body em{font-style:italic}
 .essay-body strong,.essay-body b{font-weight:500}
 .essay-body hr{border:none;height:1px;background:linear-gradient(to right, transparent, var(--petrol) 20%, var(--petrol) 80%, transparent);opacity:.20;margin:36px 0}
@@ -291,12 +291,12 @@ footer p{font-size:14px;color:var(--vizon);letter-spacing:1px;font-family:'Lora'
     header{margin-left:-52px;margin-right:-52px;padding-left:52px;padding-right:52px}
 }
 @media(max-width:768px){
-    body{font-size:17px}
+    body{font-size:19px}
     .container{padding:0 48px}
     header{margin-left:-48px;margin-right:-48px;padding-left:48px;padding-right:48px;padding-top:16px}
     .essay-header h1{font-size:26px}
     .essay-header{padding:36px 0 24px}
-    .essay-body blockquote{font-size:17px}
+    .essay-body blockquote{font-size:19px}
     .essay-body h2{font-size:20px}
     .site-logo-wide{height:52px}
     .footer-logo-wide{height:40px}
