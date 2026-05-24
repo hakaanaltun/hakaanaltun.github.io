@@ -216,7 +216,7 @@ body.drawer-open header{z-index:1100!important}
 }
 
 #moris .moris-card{display:flex!important;flex-direction:column!important;gap:24px!important;max-width:none!important;margin:0!important;background:transparent!important;border:0!important;box-shadow:none!important;padding:0!important}
-#moris .moris-video-col{display:flex!important;flex-direction:column!important;align-items:center!important;width:100%!important;max-width:520px!important;margin:0 auto!important}
+#moris .moris-video-col{display:flex!important;flex-direction:column!important;align-items:center!important;width:100%!important;max-width:480px!important;margin:0 auto!important}
 #moris .moris-video{width:100%!important;height:auto!important;max-width:100%!important;max-height:none!important;aspect-ratio:1/1!important;overflow:hidden!important}
 #moris .moris-video-thumb{width:100%!important;height:100%!important;object-fit:cover!important}
 #moris .moris-caption{text-align:center!important;width:100%!important;max-width:100%!important;margin:12px 0 0!important}
