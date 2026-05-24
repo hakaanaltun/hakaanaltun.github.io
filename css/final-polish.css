@@ -86,11 +86,6 @@ footer .footer-rule-bottom{margin-top:32px!important;margin-bottom:20px!importan
   footer .footer-rule-bottom{margin-top:32px!important;margin-bottom:20px!important}
 }
 
-@media(min-width:601px) and (max-width:900px){
-  #moris .about-text{max-width:100%!important}
-  #moris .about-text p{font-size:1rem!important}
-}
-
 @media(max-width:1024px){
   .site-drawer{padding-bottom:calc(env(safe-area-inset-bottom, 0px) + 64px)!important;height:100dvh!important}
   .drawer-section-links{margin-bottom:18px!important}
