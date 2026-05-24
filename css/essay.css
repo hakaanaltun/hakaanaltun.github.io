@@ -23,7 +23,7 @@
     --footer-rule:#2F615E;
 }
 
-html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 body{font-family:'EB Garamond',Georgia,serif;background-color:var(--bg);color:var(--charcoal);line-height:1.85;font-size:20px;overflow-x:hidden;position:relative}
 ::selection{background:var(--petrol);color:var(--cream)}
 a{color:var(--petrol);text-decoration:none;border-bottom:1px solid var(--border);transition:border-color .2s ease,color .2s ease}
