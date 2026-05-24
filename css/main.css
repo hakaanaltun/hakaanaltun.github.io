@@ -82,6 +82,7 @@ section{padding:82px 0;border-top:1px solid var(--rule)}
 .moris-video-play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:52px;height:52px;border:none;border-radius:50%;background:rgba(30,79,76,.92);color:var(--footer-text);display:flex;align-items:center;justify-content:center;cursor:pointer}
 .moris-video-play svg{width:20px;height:20px;fill:currentColor;margin-left:2px}
 .moris-caption{margin:10px 0 0;font-style:italic;color:var(--muted);font-size:1rem}
+.tablet-portrait-br{display:none}
 .hero-author-row{display:flex;align-items:center;gap:16px;margin-bottom:14px}
 .profile-photo-small{width:84px;height:84px;border-radius:50%;object-fit:cover;object-position:center 20%}
 .about-name{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:2rem;font-weight:500;color:var(--ink)}
@@ -163,6 +164,7 @@ body.drawer-open{overflow:hidden}
 }
 
 @media (min-width:601px) and (max-width:900px){
+  .tablet-portrait-br{display:block}
   .asym-grid{grid-template-columns:repeat(12,minmax(0,1fr))}
   .span-12{grid-column:span 12}.span-8{grid-column:span 8}.span-7{grid-column:span 7}.span-6{grid-column:span 6}.span-5{grid-column:span 5}.span-4{grid-column:span 4}.span-3{grid-column:span 3}
   .asym-card{min-height:220px}
