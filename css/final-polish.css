@@ -72,6 +72,11 @@ footer .footer-rule-bottom{margin-top:32px!important;margin-bottom:20px!importan
 #moris .moris-video-thumb{width:100%!important;height:100%!important;object-fit:cover!important}
 #moris .moris-caption{text-align:center!important;width:100%!important;max-width:100%!important;margin:12px 0 0!important}
 
+@media(min-width:601px) and (max-width:900px){
+  #moris .about-text{max-width:100%!important}
+  #moris .about-text p{font-size:1rem!important}
+}
+
 @media(max-width:900px){
   #book .book-grid{grid-template-columns:1fr!important;gap:24px!important}
   #book .book-cover{height:auto!important;width:min(240px,100%)!important;max-height:none!important;margin:0!important}
