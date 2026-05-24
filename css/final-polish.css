@@ -75,10 +75,10 @@ footer .footer-rule-bottom{margin-top:32px!important;margin-bottom:20px!importan
 @media(max-width:900px){
   #book .book-grid{grid-template-columns:1fr!important;gap:24px!important}
   #book .book-cover{height:auto!important;width:min(240px,100%)!important;max-height:none!important;margin:0!important}
-  #moris .moris-video-col{max-width:360px!important}
+  #moris .moris-video-col{max-width:480px!important}
   #moris .moris-video{width:100%!important;height:auto!important;aspect-ratio:1/1!important}
   #moris .moris-caption{width:100%!important;text-align:center!important}
-  #moris .about-text{max-width:100%!important}
+  #moris .about-text{max-width:480px!important}
   footer .footer-inner{padding-top:72px!important;padding-bottom:52px!important}
   footer .footer-grid{gap:22px!important}
   footer .footer-col + .footer-col{padding-top:20px!important}
