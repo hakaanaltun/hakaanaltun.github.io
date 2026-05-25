@@ -7,6 +7,7 @@
 
   var footer = document.querySelector('footer');
   var lastScrollY = window.scrollY;
+  var lastTouchY = null;
   var ticking = false;
   var SCROLL_THRESHOLD = 80;
   var DELTA_THRESHOLD  = 5;
@@ -19,6 +20,10 @@
 
   function drawerIsOpen() {
     return document.body.classList.contains('drawer-open') || document.documentElement.classList.contains('drawer-open');
+  }
+
+  function revealHeader() {
+    if (!drawerIsOpen()) setHidden(false);
   }
 
   function update() {
@@ -50,6 +55,25 @@
       window.requestAnimationFrame(update);
       ticking = true;
     }
+  }, { passive: true });
+
+  window.addEventListener('wheel', function (e) {
+    if (e.deltaY < -DELTA_THRESHOLD) revealHeader();
+  }, { passive: true });
+
+  window.addEventListener('touchstart', function (e) {
+    if (e.touches && e.touches.length) lastTouchY = e.touches[0].clientY;
+  }, { passive: true });
+
+  window.addEventListener('touchmove', function (e) {
+    if (!e.touches || !e.touches.length || lastTouchY === null) return;
+    var currentTouchY = e.touches[0].clientY;
+    if (currentTouchY - lastTouchY > DELTA_THRESHOLD) revealHeader();
+    lastTouchY = currentTouchY;
+  }, { passive: true });
+
+  window.addEventListener('touchend', function () {
+    lastTouchY = null;
   }, { passive: true });
 
   if (footer && 'IntersectionObserver' in window) {
