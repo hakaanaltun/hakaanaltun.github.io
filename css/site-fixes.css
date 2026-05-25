@@ -15,19 +15,14 @@
   --footer-bg:#1E4F4C;
   --footer-text:#EDE4CF;
   --footer-muted:#A8B8B3;
-  --z-header:100;
-  --z-drawer-backdrop:190;
-  --z-drawer:200;
 }
 
 html{scroll-padding-top:150px;background:#fff!important}
-html.drawer-open,
-body.drawer-open{overflow:hidden!important;overscroll-behavior:none}
 body{font-size:19px!important;color:var(--ink)!important;background:#fff!important}
 .container{background:#fff!important}
 .rss-cover-image{display:none!important}
 
-header{transition:background .4s ease,backdrop-filter .4s ease,transform .3s ease;z-index:var(--z-header)!important;background:rgba(255,255,255,.92)!important}
+header{transition:background .4s ease,backdrop-filter .4s ease,transform .3s ease;z-index:1200!important;background:rgba(255,255,255,.92)!important}
 header.header-hidden{transform:translateY(-100%)}
 .brand-main{color:var(--petrol-deep)!important}
 .brand-sub{font-family:'Cormorant Garamond',Georgia,serif!important;font-size:1.5rem!important;font-style:italic!important;line-height:1.05!important;color:var(--petrol)!important;letter-spacing:0!important}
@@ -97,9 +92,9 @@ section.line-drawn::before{animation:horizonDraw 1.15s ease-out forwards}
 .more-essays-grid-hp li{list-style:none!important}
 .more-essays-title{display:block!important;margin-bottom:18px!important;color:var(--petrol)!important}
 
-.drawer-backdrop{z-index:var(--z-drawer-backdrop)!important}
-.site-drawer{z-index:var(--z-drawer)!important;top:0!important;height:100vh!important;height:100dvh!important;padding-top:28px!important;width:320px!important;max-width:min(88vw,420px)!important;display:flex;flex-direction:column;gap:10px;background:rgba(255,255,255,.985)!important}
-body.drawer-open header{z-index:var(--z-header)!important}
+.drawer-backdrop{z-index:2400!important}
+.site-drawer{z-index:2500!important;top:0!important;height:100vh!important;height:100dvh!important;padding-top:28px!important;width:320px!important;max-width:min(88vw,420px)!important;display:flex;flex-direction:column;gap:10px;background:rgba(255,255,255,.985)!important}
+body.drawer-open header{z-index:1100!important}
 .site-drawer a{letter-spacing:normal!important;padding:0;border:none!important}
 .drawer-logo-link .brand-main{color:var(--petrol-deep)!important}
 .drawer-logo-link .brand-sub{color:var(--petrol)!important}
