@@ -1,55 +1,50 @@
-/* header-autohide.js — Medium-style auto-hide header, with footer guard */
+/* header-autohide.js — direction-based sticky header */
 (function () {
   'use strict';
 
   var header = document.getElementById('site-header');
   if (!header) return;
 
-  var footer = document.querySelector('footer');
-  var lastScrollY = window.scrollY;
+  var scrollRoot = document.scrollingElement || document.documentElement;
+  var lastScrollY = scrollRoot.scrollTop || window.pageYOffset || 0;
   var ticking = false;
   var SCROLL_THRESHOLD = 80;
-  var DELTA_THRESHOLD  = 5;
-  var footerVisible = false;
+  var DELTA_THRESHOLD = 5;
 
-  function setHidden(shouldHide) {
-    if (shouldHide) header.classList.add('header-hidden');
-    else header.classList.remove('header-hidden');
+  function getScrollY() {
+    return scrollRoot.scrollTop || window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
   }
 
-  function update() {
-    var currentScrollY = window.scrollY;
-    var delta = currentScrollY - lastScrollY;
+  function setHidden(shouldHide) {
+    header.classList.toggle('header-hidden', shouldHide);
+  }
 
-    if (footerVisible) {
-      setHidden(true);
-      lastScrollY = currentScrollY;
-      ticking = false;
-      return;
-    }
+  function updateHeader() {
+    var currentScrollY = getScrollY();
+    var delta = currentScrollY - lastScrollY;
 
     if (currentScrollY <= SCROLL_THRESHOLD) {
       setHidden(false);
-    } else if (Math.abs(delta) > DELTA_THRESHOLD) {
-      setHidden(delta > 0);
+    } else if (delta > DELTA_THRESHOLD) {
+      setHidden(true);
+    } else if (delta < -DELTA_THRESHOLD) {
+      setHidden(false);
     }
 
     lastScrollY = currentScrollY;
     ticking = false;
   }
 
-  window.addEventListener('scroll', function () {
+  function requestUpdate() {
     if (!ticking) {
-      window.requestAnimationFrame(update);
+      window.requestAnimationFrame(updateHeader);
       ticking = true;
     }
-  }, { passive: true });
-
-  if (footer && 'IntersectionObserver' in window) {
-    var observer = new IntersectionObserver(function (entries) {
-      footerVisible = entries.some(function (entry) { return entry.isIntersecting; });
-      update();
-    }, { root: null, threshold: 0, rootMargin: '-1px 0px 0px 0px' });
-    observer.observe(footer);
   }
+
+  window.addEventListener('scroll', requestUpdate, { passive: true });
+  window.addEventListener('pageshow', function () {
+    lastScrollY = getScrollY();
+    setHidden(false);
+  });
 })();
