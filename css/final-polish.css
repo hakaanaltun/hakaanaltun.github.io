@@ -66,11 +66,37 @@ footer .footer-rule-bottom{margin-top:32px!important;margin-bottom:20px!importan
 
 /* Moris echoes the Book section but with a larger square video */
 #moris .moris-card{display:flex!important;flex-direction:column!important;gap:24px!important;max-width:none!important;margin:0!important;background:transparent!important;border:0!important;box-shadow:none!important;padding:0!important}
-#moris .about-text{max-width:720px!important;margin:0!important;padding-top:0!important}
+#moris .about-text{max-width:none!important;width:100%!important;margin:0!important;padding-top:0!important}
 #moris .moris-video-col{display:flex!important;flex-direction:column!important;align-items:center!important;width:100%!important;max-width:480px!important;margin:0 auto!important}
 #moris .moris-video{width:100%!important;height:auto!important;max-width:100%!important;max-height:none!important;aspect-ratio:1/1!important;overflow:hidden!important}
 #moris .moris-video-thumb{width:100%!important;height:100%!important;object-fit:cover!important}
 #moris .moris-caption{text-align:center!important;width:100%!important;max-width:100%!important;margin:12px 0 0!important}
+
+/* Let Book, Moris, and About text use the natural available page width */
+#book .book-content,
+#book .book-description,
+#moris .moris-card,
+#moris .about-text,
+#about .about-card,
+#about .about-text{
+  max-width:none!important;
+  width:100%!important;
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+}
+
+#book .book-description p,
+#moris .about-text p,
+#about .about-text p{
+  max-width:none!important;
+  width:auto!important;
+}
+
+#about .about-card{
+  padding:0!important;
+  margin:0!important;
+}
 
 @media(max-width:900px){
   #book .book-grid{grid-template-columns:1fr!important;gap:24px!important}
@@ -99,4 +125,3 @@ footer .footer-rule-bottom{margin-top:32px!important;margin-bottom:20px!importan
 }
 
 .series-note{text-align:left!important}
-}
