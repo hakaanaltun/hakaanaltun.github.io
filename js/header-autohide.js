@@ -1,50 +1,34 @@
-/* header-autohide.js — direction-based sticky header */
+/* header-autohide.js — direction-based sticky header (essay pages only) */
 (function () {
   'use strict';
 
   var header = document.getElementById('site-header');
   if (!header) return;
 
-  var scrollRoot = document.scrollingElement || document.documentElement;
-  var lastScrollY = scrollRoot.scrollTop || window.pageYOffset || 0;
-  var ticking = false;
+  /* Only enable autohide on essay/post pages (pages with .essay-article) */
+  if (!document.querySelector('.essay-article')) return;
+
+  var lastScrollY = window.scrollY || 0;
   var SCROLL_THRESHOLD = 80;
   var DELTA_THRESHOLD = 5;
 
-  function getScrollY() {
-    return scrollRoot.scrollTop || window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-  }
+  window.addEventListener('scroll', function () {
+    var sy = window.scrollY;
+    var delta = sy - lastScrollY;
 
-  function setHidden(shouldHide) {
-    header.classList.toggle('header-hidden', shouldHide);
-  }
-
-  function updateHeader() {
-    var currentScrollY = getScrollY();
-    var delta = currentScrollY - lastScrollY;
-
-    if (currentScrollY <= SCROLL_THRESHOLD) {
-      setHidden(false);
+    if (sy <= SCROLL_THRESHOLD) {
+      header.classList.remove('header-hidden');
     } else if (delta > DELTA_THRESHOLD) {
-      setHidden(true);
+      header.classList.add('header-hidden');
     } else if (delta < -DELTA_THRESHOLD) {
-      setHidden(false);
+      header.classList.remove('header-hidden');
     }
 
-    lastScrollY = currentScrollY;
-    ticking = false;
-  }
+    lastScrollY = sy;
+  }, { passive: true });
 
-  function requestUpdate() {
-    if (!ticking) {
-      window.requestAnimationFrame(updateHeader);
-      ticking = true;
-    }
-  }
-
-  window.addEventListener('scroll', requestUpdate, { passive: true });
   window.addEventListener('pageshow', function () {
-    lastScrollY = getScrollY();
-    setHidden(false);
+    lastScrollY = window.scrollY || 0;
+    header.classList.remove('header-hidden');
   });
 })();
