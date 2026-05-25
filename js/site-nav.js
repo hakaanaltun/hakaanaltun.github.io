@@ -29,12 +29,14 @@
   var drawer = document.getElementById('site-drawer');
   var backdrop = document.getElementById('site-drawer-backdrop');
   var closeBtn = document.getElementById('site-drawer-close');
+  var root = document.documentElement;
 
   if (!toggleBtn || !drawer || !backdrop || !closeBtn) return;
 
   function openDrawer() {
     drawer.classList.add('open');
     backdrop.classList.add('open');
+    root.classList.add('drawer-open');
     document.body.classList.add('drawer-open');
     toggleBtn.setAttribute('aria-expanded', 'true');
     drawer.setAttribute('aria-hidden', 'false');
@@ -44,6 +46,7 @@
   function closeDrawer(restoreFocus) {
     drawer.classList.remove('open');
     backdrop.classList.remove('open');
+    root.classList.remove('drawer-open');
     document.body.classList.remove('drawer-open');
     toggleBtn.setAttribute('aria-expanded', 'false');
     drawer.setAttribute('aria-hidden', 'true');
