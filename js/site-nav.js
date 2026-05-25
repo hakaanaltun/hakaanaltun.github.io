@@ -29,24 +29,13 @@
   var drawer = document.getElementById('site-drawer');
   var backdrop = document.getElementById('site-drawer-backdrop');
   var closeBtn = document.getElementById('site-drawer-close');
-  var root = document.documentElement;
 
   if (!toggleBtn || !drawer || !backdrop || !closeBtn) return;
-
-  function lockPageScroll() {
-    root.classList.add('drawer-open');
-    document.body.classList.add('drawer-open');
-  }
-
-  function unlockPageScroll() {
-    root.classList.remove('drawer-open');
-    document.body.classList.remove('drawer-open');
-  }
 
   function openDrawer() {
     drawer.classList.add('open');
     backdrop.classList.add('open');
-    lockPageScroll();
+    document.body.classList.add('drawer-open');
     toggleBtn.setAttribute('aria-expanded', 'true');
     drawer.setAttribute('aria-hidden', 'false');
     closeBtn.focus();
@@ -55,7 +44,7 @@
   function closeDrawer(restoreFocus) {
     drawer.classList.remove('open');
     backdrop.classList.remove('open');
-    unlockPageScroll();
+    document.body.classList.remove('drawer-open');
     toggleBtn.setAttribute('aria-expanded', 'false');
     drawer.setAttribute('aria-hidden', 'true');
     if (restoreFocus !== false) toggleBtn.focus();
