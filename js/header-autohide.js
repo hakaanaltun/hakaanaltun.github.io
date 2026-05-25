@@ -1,17 +1,15 @@
-/* header-autohide.js — Medium-style auto-hide header, with footer guard */
+/* header-autohide.js — Medium-style auto-hide header */
 (function () {
   'use strict';
 
   var header = document.getElementById('site-header');
   if (!header) return;
 
-  var footer = document.querySelector('footer');
   var lastScrollY = window.scrollY;
   var lastTouchY = null;
   var ticking = false;
   var SCROLL_THRESHOLD = 80;
-  var DELTA_THRESHOLD  = 5;
-  var footerVisible = false;
+  var DELTA_THRESHOLD = 5;
 
   function setHidden(shouldHide) {
     if (shouldHide) header.classList.add('header-hidden');
@@ -39,48 +37,39 @@
     if (currentScrollY <= SCROLL_THRESHOLD) {
       setHidden(false);
     } else if (Math.abs(delta) > DELTA_THRESHOLD) {
-      if (delta < 0) {
-        setHidden(false);
-      } else if (footerVisible || delta > 0) {
-        setHidden(true);
-      }
+      setHidden(delta > 0);
     }
 
     lastScrollY = currentScrollY;
     ticking = false;
   }
 
-  window.addEventListener('scroll', function () {
+  function requestUpdate() {
     if (!ticking) {
       window.requestAnimationFrame(update);
       ticking = true;
     }
-  }, { passive: true });
+  }
+
+  window.addEventListener('scroll', requestUpdate, { passive: true });
+  document.addEventListener('scroll', requestUpdate, { passive: true, capture: true });
 
   window.addEventListener('wheel', function (e) {
     if (e.deltaY < -DELTA_THRESHOLD) revealHeader();
   }, { passive: true });
 
-  window.addEventListener('touchstart', function (e) {
+  document.addEventListener('touchstart', function (e) {
     if (e.touches && e.touches.length) lastTouchY = e.touches[0].clientY;
   }, { passive: true });
 
-  window.addEventListener('touchmove', function (e) {
+  document.addEventListener('touchmove', function (e) {
     if (!e.touches || !e.touches.length || lastTouchY === null) return;
     var currentTouchY = e.touches[0].clientY;
     if (currentTouchY - lastTouchY > DELTA_THRESHOLD) revealHeader();
     lastTouchY = currentTouchY;
   }, { passive: true });
 
-  window.addEventListener('touchend', function () {
+  document.addEventListener('touchend', function () {
     lastTouchY = null;
   }, { passive: true });
-
-  if (footer && 'IntersectionObserver' in window) {
-    var observer = new IntersectionObserver(function (entries) {
-      footerVisible = entries.some(function (entry) { return entry.isIntersecting; });
-      update();
-    }, { root: null, threshold: 0, rootMargin: '-1px 0px 0px 0px' });
-    observer.observe(footer);
-  }
 })();
