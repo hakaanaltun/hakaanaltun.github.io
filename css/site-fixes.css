@@ -21,6 +21,8 @@
 }
 
 html{scroll-padding-top:150px;background:#fff!important}
+html.drawer-open,
+body.drawer-open{overflow:hidden!important;overscroll-behavior:none}
 body{font-size:19px!important;color:var(--ink)!important;background:#fff!important}
 .container{background:#fff!important}
 .rss-cover-image{display:none!important}
