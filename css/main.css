@@ -148,7 +148,8 @@ footer{margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);margin-top:40p
 .drawer-section-links{display:flex;flex-direction:column;gap:4px;margin:4px 0}
 .drawer-section-links a{display:block;padding:8px 12px;border:1px solid var(--rule);border-radius:6px;background:#fff;font-size:14px;color:var(--petrol);letter-spacing:.02em;transition:border-color .2s ease,background .2s ease}
 .drawer-section-links a:hover{border-color:var(--petrol);background:rgba(30,79,76,0.03);opacity:1}
-body.drawer-open{overflow:hidden}
+html.drawer-open,
+body.drawer-open{overflow:hidden;overscroll-behavior:none}
 
 @media (max-width:900px){
   .container{padding:0 28px}
