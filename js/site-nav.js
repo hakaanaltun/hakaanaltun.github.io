@@ -2,22 +2,14 @@
 (function () {
   'use strict';
 
-  /* ── Header scroll detection + autohide ── */
+  /* ── Header scroll detection (visual 'scrolled' class only) ── */
+  /* NOTE: autohide (header-hidden) is handled exclusively by header-autohide.js */
   var header = document.getElementById('site-header');
   if (header) {
-    var lastScrollY = 0;
     window.addEventListener('scroll', function () {
       var sy = window.scrollY;
       if (sy > 20) header.classList.add('scrolled');
       else header.classList.remove('scrolled');
-
-      /* Hide header on scroll down, reveal on scroll up */
-      if (sy > lastScrollY && sy > 80) {
-        header.classList.add('header-hidden');
-      } else {
-        header.classList.remove('header-hidden');
-      }
-      lastScrollY = sy;
     }, { passive: true });
   }
 
