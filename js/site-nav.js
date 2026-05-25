@@ -2,12 +2,22 @@
 (function () {
   'use strict';
 
-  /* ── Header scroll detection ── */
+  /* ── Header scroll detection + autohide ── */
   var header = document.getElementById('site-header');
   if (header) {
+    var lastScrollY = 0;
     window.addEventListener('scroll', function () {
-      if (window.scrollY > 20) header.classList.add('scrolled');
+      var sy = window.scrollY;
+      if (sy > 20) header.classList.add('scrolled');
       else header.classList.remove('scrolled');
+
+      /* Hide header on scroll down, reveal on scroll up */
+      if (sy > lastScrollY && sy > 80) {
+        header.classList.add('header-hidden');
+      } else {
+        header.classList.remove('header-hidden');
+      }
+      lastScrollY = sy;
     }, { passive: true });
   }
 
@@ -35,6 +45,7 @@
   function openDrawer() {
     drawer.classList.add('open');
     backdrop.classList.add('open');
+    document.documentElement.classList.add('drawer-open');
     document.body.classList.add('drawer-open');
     toggleBtn.setAttribute('aria-expanded', 'true');
     drawer.setAttribute('aria-hidden', 'false');
@@ -44,6 +55,7 @@
   function closeDrawer(restoreFocus) {
     drawer.classList.remove('open');
     backdrop.classList.remove('open');
+    document.documentElement.classList.remove('drawer-open');
     document.body.classList.remove('drawer-open');
     toggleBtn.setAttribute('aria-expanded', 'false');
     drawer.setAttribute('aria-hidden', 'true');
