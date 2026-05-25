@@ -36,7 +36,8 @@ html,body{background:#fff!important}
 .section-title,
 .about-name{color:var(--petrol)!important}
 .hero-quote-source,
-.hero-quote-source i{color:var(--petrol)!important}
+.hero-quote-source i,
+.hero-quote-source-link{color:var(--petrol)!important}
 
 /* make all card subtitles use the same italic rhythm */
 .asym-subtitle,

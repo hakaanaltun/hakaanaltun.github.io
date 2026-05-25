@@ -49,6 +49,8 @@ section.line-drawn::before{animation:horizonDraw 1.15s ease-out forwards}
 .hero-quote-source{opacity:0;align-self:flex-end;text-align:right;margin-top:18px;font-size:1.02rem;line-height:1.2;color:var(--petrol);transition:opacity .55s ease}
 .hero-quote-source.visible{opacity:1}
 .hero-quote-source i{color:var(--petrol);font-style:italic}
+.hero-quote-source-link{color:var(--petrol);text-decoration:none;transition:color .2s ease,text-decoration-color .2s ease}
+.hero-quote-source-link:hover,.hero-quote-source-link:focus{color:var(--petrol);text-decoration:underline;text-decoration-thickness:0.5px;text-underline-offset:3px;outline:none}
 .quote-nav{position:absolute;left:50%;right:auto;bottom:18px;display:flex;gap:10px;opacity:0;transform:translate(-50%,6px);transition:opacity .2s ease,transform .2s ease;pointer-events:none}
 .quote-nav.quote-nav-visible{opacity:1;transform:translate(-50%,0);pointer-events:auto}
 @media(hover:hover){.hero-quote-card:hover .quote-nav{opacity:1;transform:translate(-50%,0);pointer-events:auto}}
