@@ -2,12 +2,74 @@
 (function () {
   'use strict';
 
-  /* ── Header scroll detection ── */
+  /* ── Header scroll detection + rescue ── */
   var header = document.getElementById('site-header');
   if (header) {
-    window.addEventListener('scroll', function () {
-      if (window.scrollY > 20) header.classList.add('scrolled');
+    var lastHeaderScrollY = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    var headerTicking = false;
+    var HEADER_DELTA = 5;
+
+    function getHeaderScrollY() {
+      return window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    }
+
+    function showHeader() {
+      header.classList.remove('header-hidden');
+      header.style.transform = 'translateY(0)';
+    }
+
+    function allowHeaderAutoHide() {
+      header.style.transform = '';
+    }
+
+    function updateHeaderState() {
+      var currentY = getHeaderScrollY();
+      var delta = currentY - lastHeaderScrollY;
+
+      if (currentY > 20) header.classList.add('scrolled');
       else header.classList.remove('scrolled');
+
+      if (delta < -HEADER_DELTA) {
+        showHeader();
+      } else if (delta > HEADER_DELTA) {
+        allowHeaderAutoHide();
+      }
+
+      lastHeaderScrollY = currentY;
+      headerTicking = false;
+    }
+
+    function requestHeaderUpdate() {
+      if (!headerTicking) {
+        window.requestAnimationFrame(updateHeaderState);
+        headerTicking = true;
+      }
+    }
+
+    window.addEventListener('scroll', requestHeaderUpdate, { passive: true });
+    document.addEventListener('scroll', requestHeaderUpdate, { passive: true, capture: true });
+
+    window.addEventListener('wheel', function (event) {
+      if (event.deltaY < -HEADER_DELTA) showHeader();
+      else if (event.deltaY > HEADER_DELTA) allowHeaderAutoHide();
+    }, { passive: true });
+
+    var lastTouchY = null;
+    document.addEventListener('touchstart', function (event) {
+      if (event.touches && event.touches.length) lastTouchY = event.touches[0].clientY;
+    }, { passive: true });
+
+    document.addEventListener('touchmove', function (event) {
+      if (!event.touches || !event.touches.length || lastTouchY === null) return;
+      var currentTouchY = event.touches[0].clientY;
+      var touchDelta = currentTouchY - lastTouchY;
+      if (touchDelta > HEADER_DELTA) showHeader();
+      else if (touchDelta < -HEADER_DELTA) allowHeaderAutoHide();
+      lastTouchY = currentTouchY;
+    }, { passive: true });
+
+    document.addEventListener('touchend', function () {
+      lastTouchY = null;
     }, { passive: true });
   }
 
