@@ -17,12 +17,15 @@
     else header.classList.remove('header-hidden');
   }
 
+  function drawerIsOpen() {
+    return document.body.classList.contains('drawer-open') || document.documentElement.classList.contains('drawer-open');
+  }
+
   function update() {
     var currentScrollY = window.scrollY;
     var delta = currentScrollY - lastScrollY;
 
-    if (footerVisible) {
-      setHidden(true);
+    if (drawerIsOpen()) {
       lastScrollY = currentScrollY;
       ticking = false;
       return;
@@ -31,7 +34,11 @@
     if (currentScrollY <= SCROLL_THRESHOLD) {
       setHidden(false);
     } else if (Math.abs(delta) > DELTA_THRESHOLD) {
-      setHidden(delta > 0);
+      if (delta < 0) {
+        setHidden(false);
+      } else if (footerVisible || delta > 0) {
+        setHidden(true);
+      }
     }
 
     lastScrollY = currentScrollY;
