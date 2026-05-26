@@ -1,9 +1,9 @@
 ---
 layout: home
 ---
-{% assign regular_essays = site.posts | where: “series”, “” | sort: “date” | reverse %}
-{% assign fragments = site.posts | where: “series”, “fragments” | sort: “series_order” %}
-{% assign on_series = site.posts | where: “series”, “on-series” | sort: “series_order” %}
+{% assign regular_essays = site.posts | where: "series", "" | sort: "date" | reverse %}
+{% assign fragments = site.posts | where: "series", "fragments" | sort: "series_order" %}
+{% assign on_series = site.posts | where: "series", "on-series" | sort: "series_order" %}
 
 <section id="quotes" class="hero-quotes-section">
   <div class="hero-quote-card" aria-live="polite">
@@ -17,20 +17,20 @@ layout: home
 </section>
 
 <section id="pieces">
-  {% include section-header.html title=”Pieces” subtitle=”Essays, short fiction, and other writing.” %}
-  {% assign pieces_spans = “8,4,4,5,3,4,3,5,4” | split: “,” %}
+  {% include section-header.html title="Pieces" subtitle="Essays, short fiction, and other writing." %}
+  {% assign pieces_spans = "8,4,4,5,3,4,3,5,4" | split: "," %}
   <ul class="asym-grid">
     {% for post in regular_essays limit: 9 %}
       {% assign span = pieces_spans[forloop.index0] %}
-      {% assign pieces_kicker = “” %}
+      {% assign pieces_kicker = "" %}
       {% include home-card.html post=post span=span featured=forloop.first kicker=pieces_kicker %}
     {% endfor %}
   </ul>
 </section>
 
 <section id="on-series">
-  {% include section-header.html title=”The On Series” subtitle=”Seven essays on what we build inside ourselves—and why.” %}
-  {% assign on_series_spans = “8,4,4,4,4,4,8” | split: “,” %}
+  {% include section-header.html title="The On Series" subtitle="Seven essays on what we build inside ourselves—and why." %}
+  {% assign on_series_spans = "8,4,4,4,4,4,8" | split: "," %}
   <ul class="asym-grid">
     {% for post in on_series %}
       {% assign span = on_series_spans[forloop.index0] %}
@@ -41,8 +41,8 @@ layout: home
 </section>
 
 <section id="fragments-arc">
-  {% include section-header.html title=”Şafak’s Arc from The Fragments” subtitle=”How a boy becomes someone who knows where to put his hands.” %}
-  {% assign fragments_spans = “7,5,4,4,4” | split: “,” %}
+  {% include section-header.html title="Şafak's Arc from The Fragments" subtitle="How a boy becomes someone who knows where to put his hands." %}
+  {% assign fragments_spans = "7,5,4,4,4" | split: "," %}
   <ul class="asym-grid">
     {% for post in fragments %}
       {% assign span = fragments_spans[forloop.index0] %}
@@ -52,7 +52,7 @@ layout: home
 </section>
 
 <section id="book">
-  {% include section-header.html title=”Book” subtitle=”” %}
+  {% include section-header.html title="Book" subtitle="" %}
   <div class="book-grid">
     <img src="/cover.png" alt="The Fragments cover" class="book-cover" width="1800" height="2700" loading="eager">
     <div class="book-content">
@@ -78,7 +78,7 @@ layout: home
 </section>
 
 <section id="moris">
-  {% include section-header.html title=”Moris” subtitle=”” %}
+  {% include section-header.html title="Moris" subtitle="" %}
   <div class="moris-card">
     <div class="about-text">
       <p>Moris is the silent presence behind the stories, the witness who became part of the work. The muse who is already there.</p>
@@ -96,7 +96,7 @@ layout: home
 </section>
 
 <section id="about">
-  {% include section-header.html title=”About” subtitle=”” %}
+  {% include section-header.html title="About" subtitle="" %}
   <div class="about-card">
     <div class="hero-author-row">
       <img src="/profile.jpg" alt="Hakan Altun" class="profile-photo-small" width="640" height="666" loading="lazy">
