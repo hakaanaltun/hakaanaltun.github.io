@@ -188,7 +188,7 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
 
 .hero-quote-word { opacity: 0; transform: translateY(8px); display: inline-block; transition: opacity 0.55s ease, transform 0.55s ease; }
 .hero-quote-word.word-visible { opacity: 1; transform: translateY(0); }
-.hero-quote-source { opacity: 0; align-self: flex-end; text-align: right; margin-top: 18px; font-size: 1.02rem; line-height: 1.2; color: var(--petrol); transition: opacity 0.55s ease; }
+.hero-quote-source { opacity: 0; align-self: flex-end; text-align: right; margin-top: 18px; font-size: 1.15rem; line-height: 1.3; color: var(--petrol); transition: opacity 0.55s ease; }
 .hero-quote-source.visible { opacity: 1; }
 .hero-quote-source i { color: var(--petrol); font-style: italic; }
 .quote-nav { position: absolute; left: 50%; bottom: 18px; display: flex; gap: 10px; opacity: 0; transform: translate(-50%, 6px); transition: opacity 0.2s ease, transform 0.2s ease; pointer-events: none; }
