@@ -5,7 +5,7 @@ layout: default
 <div class="essay-card-wrapper">
 <div class="essay-header fade-in"><h1>{{ page.title }}</h1><p class="essay-subtitle">{{ page.subtitle }}</p>
 <div class="essay-meta-info">
-<div class="essay-meta-top"><span>{{ page.date | date: "%B %-d, %Y" }}</span><span>·</span><span>{{ page.read_time }} read</span></div>
+<div class="essay-meta-top"><span>{{ page.date | date: “%B %-d, %Y” }}</span><span>·</span><span>{{ page.read_time }} read</span></div>
 <div class="essay-meta-author">Hakan Altun</div>
 </div></div>
 {% assign cover_image = page.image | default: page.thumb %}
@@ -17,10 +17,10 @@ layout: default
 </article>
 </div>
 <div class="essay-section-divider"></div>
-{% if page.series == "on-series" %}
+{% if page.series == “on-series” %}
 <div class="series-nav"></div>
 <div class="essay-section-divider"></div>
-{% elsif page.series == "fragments" %}
+{% elsif page.series == “fragments” %}
 <div class="fragments-nav"></div>
 <div class="essay-section-divider"></div>
 {% endif %}
