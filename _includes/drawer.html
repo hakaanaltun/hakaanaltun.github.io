@@ -1,7 +1,7 @@
-{% if page.layout == "home" %}{% assign section_prefix = "" %}{% assign logo_href = "#" %}{% else %}{% assign section_prefix = "/" %}{% assign logo_href = "/" %}{% endif %}
-{% assign regular_essays = site.posts | where: "series", "" | sort: "date" | reverse %}
-{% assign fragments = site.posts | where: "series", "fragments" | sort: "series_order" %}
-{% assign on_series = site.posts | where: "series", "on-series" | sort: "series_order" %}
+{% if page.layout == “home” %}{% assign section_prefix = “” %}{% assign logo_href = “#” %}{% else %}{% assign section_prefix = “/” %}{% assign logo_href = “/” %}{% endif %}
+{% assign regular_essays = site.posts | where: “series”, “” | sort: “date” | reverse %}
+{% assign fragments = site.posts | where: “series”, “fragments” | sort: “series_order” %}
+{% assign on_series = site.posts | where: “series”, “on-series” | sort: “series_order” %}
 <div id="site-drawer-backdrop" class="drawer-backdrop" aria-hidden="true"></div>
 <div id="site-drawer" class="site-drawer" aria-hidden="true">
   <button id="site-drawer-close" class="drawer-close" aria-label="Close menu">
@@ -21,7 +21,7 @@
       <span class="drawer-essay-card-text">
         <span class="drawer-essay-card-title">{{ post.title }}</span>
         {% if post.subtitle %}<span class="drawer-essay-card-subtitle">{{ post.subtitle }}</span>{% endif %}
-        <span class="drawer-essay-card-meta">{{ post.date | date: "%b %-d, %Y" }} · {{ post.read_time }}</span>
+        <span class="drawer-essay-card-meta">{{ post.date | date: “%b %-d, %Y” }} · {{ post.read_time }}</span>
       </span>
     {% if post.url == page.url %}</span>{% else %}</span></a>{% endif %}
     {% endfor %}
@@ -36,13 +36,13 @@
       <span class="drawer-essay-card-text">
         <span class="drawer-essay-card-title">{{ post.title }}</span>
         {% if post.subtitle %}<span class="drawer-essay-card-subtitle">{{ post.subtitle }}</span>{% endif %}
-        <span class="drawer-essay-card-meta">{{ post.date | date: "%b %-d, %Y" }} · {{ post.read_time }}</span>
+        <span class="drawer-essay-card-meta">{{ post.date | date: “%b %-d, %Y” }} · {{ post.read_time }}</span>
       </span>
     {% if post.url == page.url %}</span>{% else %}</span></a>{% endif %}
     {% endfor %}
   </div>
 
-  <span class="drawer-label">Şafak's Arc</span>
+  <span class="drawer-label">Şafak’s Arc</span>
   <div class="drawer-essay-cards">
     {% for post in fragments %}
     {% assign drawer_image = post.thumb | default: post.image %}
@@ -51,7 +51,7 @@
       <span class="drawer-essay-card-text">
         <span class="drawer-essay-card-title">{{ post.title }}</span>
         {% if post.subtitle %}<span class="drawer-essay-card-subtitle">{{ post.subtitle }}</span>{% endif %}
-        <span class="drawer-essay-card-meta">{{ post.date | date: "%b %-d, %Y" }} · {{ post.read_time }}</span>
+        <span class="drawer-essay-card-meta">{{ post.date | date: “%b %-d, %Y” }} · {{ post.read_time }}</span>
       </span>
     {% if post.url == page.url %}</span>{% else %}</span></a>{% endif %}
     {% endfor %}

@@ -1,5 +1,5 @@
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-{% if page.layout == "post" %}
+{% if page.layout == “post” %}
 {% assign _post_desc = page.description | default: site.description %}
 {% assign _post_og_desc = page.og_description | default: page.description | default: site.description %}
 <title>{{ page.title }}—Hakan Altun</title>
