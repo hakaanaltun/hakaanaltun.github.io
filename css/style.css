@@ -14,6 +14,7 @@
   /* Surfaces */
   --bg: #FFFFFF;             /* Page background */
   --paper: #FFFFFF;          /* Cards, drawer, header overlay, hero quote */
+  --surface-soft: #FAFAF8;   /* Image placeholder, very-slightly-tinted off-white */
 
   /* Brand */
   --petrol: #1E5552;         /* Primary petrol (titles, accents, hover) */
@@ -210,7 +211,7 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
   transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
 }
 .asym-card:hover { border-color: var(--petrol); box-shadow: var(--shadow-card-hover); transform: translateY(-4px); }
-.asym-thumb-wrap { display: block; width: 100%; aspect-ratio: 16 / 10; background: #FAFAF8; border-bottom: 1px solid var(--rule); overflow: hidden; }
+.asym-thumb-wrap { display: block; width: 100%; aspect-ratio: 16 / 10; background: var(--surface-soft); border-bottom: 1px solid var(--rule); overflow: hidden; }
 .asym-thumb { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.35s ease; }
 .asym-card:hover .asym-thumb { transform: scale(1.025); }
 
@@ -266,6 +267,11 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
 .essay-number { display: inline-block; font-size: 15px; color: var(--petrol); background: var(--rule); padding: 4px 10px; border-radius: 4px; }
 .essay-cover { width: 100%; border-radius: 6px; margin: 32px 0 40px; overflow: hidden; }
 .essay-cover img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; display: block; }
+
+/* Hidden cover image used solely for RSS feed enclosure (e.g. The Cove).
+   The visible cover is rendered via layout; this img sits inline in body
+   so feed readers pick it up, but is hidden from the page itself. */
+.rss-cover-image { display: none; }
 .essay-body { padding-bottom: 48px; }
 .essay-body p { margin-bottom: 24px; color: var(--ink-soft); line-height: 1.85; }
 .essay-body p:last-child { margin-bottom: 0; }
@@ -423,7 +429,7 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
   .hero-quote-source { font-size: 1rem; }
   
   .asym-thumb-wrap { aspect-ratio: 16 / 9; }
-  .asym-card:not(.is-featured) { display: grid !important; grid-template-columns: 88px 1fr; gap: 14px; align-items: center; padding: 12px; }
+  .asym-card:not(.is-featured) { display: grid; grid-template-columns: 88px 1fr; gap: 14px; align-items: center; padding: 12px; }
   .asym-card:not(.is-featured) .asym-thumb-wrap { width: 88px; height: 88px; aspect-ratio: 1 / 1; border: 1px solid var(--rule-strong); border-radius: 8px; border-bottom: 1px solid var(--rule-strong); margin: 0; }
   .asym-card:not(.is-featured) .asym-card-body { padding: 0; gap: 4px; min-width: 0; background: transparent; }
   .asym-card:not(.is-featured) .asym-kicker { display: none; }
@@ -461,16 +467,16 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
 /* Telefonun yatay (landscape) modunda kart ızgarasını masaüstü ile eşitle */
 @media (max-width: 900px) and (orientation: landscape) {
   .asym-grid { 
-    display: grid !important; 
-    grid-template-columns: repeat(12, minmax(0, 1fr)) !important; 
-    gap: 20px !important; 
+    display: grid; 
+    grid-template-columns: repeat(12, minmax(0, 1fr)); 
+    gap: 20px; 
   }
-  .asym-grid > * { width: auto !important; }
+  .asym-grid > * { width: auto; }
   
   /* Kartları dikey düzen yerine orijinal desktop grid'ine döndür */
   .asym-card:not(.is-featured) {
-    display: flex !important; 
-    flex-direction: column !important;
+    display: flex; 
+    flex-direction: column;
   }
-  .asym-card:not(.is-featured) .asym-thumb-wrap { width: 100% !important; height: auto !important; aspect-ratio: 16/10 !important; }
+  .asym-card:not(.is-featured) .asym-thumb-wrap { width: 100%; height: auto; aspect-ratio: 16/10; }
 }
