@@ -354,7 +354,7 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
 .footer-subscribe-form button:hover { background: var(--footer-text); color: var(--footer-bg); }
 .footer-note { margin-top: 10px; font-size: 0.9rem; color: var(--footer-muted); }
 .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
-.footer-col a { color: var(--footer-text); opacity: 0.88; line-height: 1.25; }
+.footer-col a { color: var(--footer-text); opacity: 0.88; line-height: 1.25; white-space: nowrap; }
 .footer-col a:hover { opacity: 1; }
 .footer-col a span { display: inline-block; margin-left: 6px; color: var(--footer-muted); transition: transform 0.2s ease; }
 .footer-col a:hover span { transform: translateX(3px); }
