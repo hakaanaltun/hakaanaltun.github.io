@@ -465,6 +465,7 @@ footer{max-width:none!important;margin-left:calc(50% - 50vw)!important;margin-ri
 
 @media(max-width:900px){
   .container{padding:0 28px}
+  header{margin-left:-28px;margin-right:-28px;padding-left:28px;padding-right:28px}
   nav{gap:10px}
   .header-nav-bar{gap:14px}
   .footer-inner{padding:100px 28px 68px}
@@ -473,6 +474,7 @@ footer{max-width:none!important;margin-left:calc(50% - 50vw)!important;margin-ri
 }
 @media(max-width:600px){
   .container{padding:0 20px}
+  header{margin-left:-20px;margin-right:-20px;padding-left:20px;padding-right:20px}
   .header-nav-bar{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 14px;width:100%}
   .header-nav-bar a{font-size:1rem}
   .header-share-btn svg,.essay-share-btn svg,.hamburger-btn svg{width:18px;height:18px}
