@@ -31,7 +31,7 @@
     document.body.classList.add('drawer-open');
     toggleBtn.setAttribute('aria-expanded', 'true');
     drawer.setAttribute('aria-hidden', 'false');
-    closeBtn.focus();
+    closeBtn.focus({ preventScroll: true });
   }
 
   function closeDrawer(restoreFocus) {
@@ -41,22 +41,22 @@
     document.body.classList.remove('drawer-open');
     toggleBtn.setAttribute('aria-expanded', 'false');
     drawer.setAttribute('aria-hidden', 'true');
-    if (restoreFocus !== false) toggleBtn.focus();
+    if (restoreFocus === true) toggleBtn.focus({ preventScroll: true });
   }
 
   toggleBtn.addEventListener('click', function (e) {
     e.preventDefault();
-    if (drawer.classList.contains('open')) closeDrawer();
+    if (drawer.classList.contains('open')) closeDrawer(false);
     else openDrawer();
   });
 
-  closeBtn.addEventListener('click', function () { closeDrawer(); });
-  backdrop.addEventListener('click', function () { closeDrawer(); });
+  closeBtn.addEventListener('click', function () { closeDrawer(false); });
+  backdrop.addEventListener('click', function () { closeDrawer(false); });
 
-  /* ESC closes drawer */
+  /* ESC closes drawer — keyboard user, restore focus */
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape' && drawer.classList.contains('open')) {
-      closeDrawer();
+      closeDrawer(true);
     }
   });
 
