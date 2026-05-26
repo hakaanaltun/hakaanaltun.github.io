@@ -9,11 +9,11 @@
    ========================================================================== */
 :root {
   /* Dynamic Layout Variable */
-  --pad: 40px;               /* Konteynerin yan boşlukları (Ekran küçüldükçe güncellenecek) */
+  --pad: 40px;               /* Konteynerin yan boşlukları */
 
   /* Surfaces */
   --bg: #FFFFFF;             /* Page background */
-  --paper: #FFFFFF;          /* Cards, drawer, header overlay */
+  --paper: #FFFFFF;          /* Cards, drawer, header overlay, hero quote */
 
   /* Brand */
   --petrol: #1E5552;         /* Primary petrol (titles, accents, hover) */
@@ -78,7 +78,6 @@ header {
   border-bottom: 1px solid var(--rule);
   transition: transform 0.3s ease, background 0.4s ease;
   
-  /* FIX: Header tam ekran genişliğine yayıldı, içeriği hizada tutuldu */
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
   padding-left: calc(50vw - 50% + var(--pad));
@@ -174,22 +173,22 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
 .section-subtitle { font-style: italic; font-size: clamp(1.18rem, 1.55vw, 1.42rem); line-height: 1.42; color: var(--vizon); max-width: 680px; margin-top: 2px; }
 
 /* ==========================================================================
-   6. Hero Quotes
+   6. Hero Quotes (Restored to White/Vizon)
    ========================================================================== */
 .hero-quotes-section { padding-top: 74px; margin-top: 0; }
-.hero-quote-card { position: relative; min-height: 220px; padding: 38px 44px 34px; border-radius: 18px; background: var(--footer-bg); box-shadow: 0 12px 30px rgba(30, 79, 76, 0.18); display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
-.hero-quote-card::before { content: '\201C'; position: absolute; left: 24px; top: 16px; font-family: 'Cormorant Garamond', Georgia, serif; font-size: 5rem; line-height: 1; color: rgba(237, 228, 207, 0.12); pointer-events: none; }
-.hero-quote-text { font-family: 'EB Garamond', Georgia, serif; font-size: clamp(1.45rem, 2vw, 2.15rem); line-height: 1.5; color: var(--footer-text); max-width: 860px; min-height: 1.2em; }
+.hero-quote-card { position: relative; min-height: 220px; padding: 38px 44px 34px; border-radius: 18px; border: 1px solid var(--rule-strong); background: var(--paper); box-shadow: 0 10px 28px rgba(47, 43, 39, 0.05); display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
+.hero-quote-card::before { content: '\201C'; position: absolute; left: 24px; top: 16px; font-family: 'Cormorant Garamond', Georgia, serif; font-size: 5rem; line-height: 1; color: rgba(30, 85, 82, 0.06); pointer-events: none; }
+.hero-quote-text { font-family: 'EB Garamond', Georgia, serif; font-size: clamp(1.45rem, 2vw, 2.15rem); line-height: 1.5; color: var(--ink-soft); max-width: 860px; min-height: 1.2em; }
 .hero-quote-word { opacity: 0; transform: translateY(8px); display: inline-block; transition: opacity 0.55s ease, transform 0.55s ease; }
 .hero-quote-word.word-visible { opacity: 1; transform: translateY(0); }
-.hero-quote-source { opacity: 0; align-self: flex-end; text-align: right; margin-top: 18px; font-size: 1.02rem; line-height: 1.2; color: var(--footer-text); transition: opacity 0.55s ease; }
+.hero-quote-source { opacity: 0; align-self: flex-end; text-align: right; margin-top: 18px; font-size: 1.02rem; line-height: 1.2; color: var(--petrol); transition: opacity 0.55s ease; }
 .hero-quote-source.visible { opacity: 1; }
-.hero-quote-source i { color: var(--footer-text); font-style: italic; }
+.hero-quote-source i { color: var(--petrol); font-style: italic; }
 .quote-nav { position: absolute; left: 50%; bottom: 18px; display: flex; gap: 10px; opacity: 0; transform: translate(-50%, 6px); transition: opacity 0.2s ease, transform 0.2s ease; pointer-events: none; }
 .quote-nav.quote-nav-visible { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
 @media (hover: hover) { .hero-quote-card:hover .quote-nav { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; } }
-.quote-nav-btn { width: 38px; height: 38px; border-radius: 999px; border: 1px solid rgba(237, 228, 207, 0.35); background: rgba(237, 228, 207, 0.08); color: var(--footer-text); font-family: 'Cormorant Garamond', Georgia, serif; font-size: 2rem; line-height: 1; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease; }
-.quote-nav-btn:hover { border-color: var(--footer-text); background: rgba(237, 228, 207, 0.14); transform: translateY(-1px); }
+.quote-nav-btn { width: 38px; height: 38px; border-radius: 999px; border: 1px solid var(--rule-strong); background: var(--paper); color: var(--petrol); font-family: 'Cormorant Garamond', Georgia, serif; font-size: 2rem; line-height: 1; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease; box-shadow: 0 4px 12px rgba(47, 43, 39, 0.04); }
+.quote-nav-btn:hover { border-color: var(--petrol); background: var(--paper); transform: translateY(-1px); box-shadow: 0 6px 16px rgba(47, 43, 39, 0.08); }
 
 /* ==========================================================================
    7. Asym Cards
@@ -400,11 +399,16 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
   :root { --pad: 20px; }
   body { font-size: 18px; }
   
-  .brand-sub, .footer-brand { font-size: 1.25rem; }
+  /* FIX: Hakan Altun isminin alt satıra düşmesini engeller */
+  .brand-main { font-size: 1.85rem; white-space: nowrap; }
+  .brand-sub { font-size: 1.15rem; white-space: nowrap; margin-top: 2px; }
+  
+  .footer-brand { font-size: 1.25rem; }
   .header-nav-bar { display: none; }
   section { padding-top: 72px; }
   .section-title { font-size: 2.55rem; }
   .section-subtitle { font-size: 1.08rem; line-height: 1.4; }
+  
   .hero-quotes-section { padding-top: 44px; }
   .hero-quote-card { min-height: 190px; padding: 30px 26px 52px; border-radius: 16px; }
   .hero-quote-card::before { font-size: 4rem; left: 18px; top: 12px; }
@@ -437,6 +441,11 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
 
 @media (max-width: 420px) {
   :root { --pad: 32px; }
+  
+  /* Daha dar ekranlarda logonun sığmasını garantiye almak için minik bir küçültme */
+  .brand-main { font-size: 1.65rem; }
+  .brand-sub { font-size: 1.05rem; }
+  
   .essay-header h1 { font-size: 22px; }
   .more-essays-title { font-size: 22px; }
 }
