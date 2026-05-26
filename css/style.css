@@ -458,17 +458,19 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
 @media (max-width: 950px) and (max-height: 500px) and (orientation: landscape) {
   .header-nav-bar { display: none; }
 }
-/* Telefonun yatay modunda kartları alt alta (dikey) dizmek için: */
+/* Telefonun yatay (landscape) modunda kart ızgarasını masaüstü ile eşitle */
 @media (max-width: 900px) and (orientation: landscape) {
-  .asym-grid { display: flex !important; flex-direction: column !important; gap: 24px !important; }
-  .asym-grid > * { width: 100% !important; }
-  
-  /* Kartları mobildeki gibi yatay thumbnail düzenine zorla */
-  .asym-card:not(.is-featured) {
+  .asym-grid { 
     display: grid !important; 
-    grid-template-columns: 88px 1fr !important; 
-    gap: 14px !important; 
-    align-items: center !important; 
-    padding: 12px !important;
+    grid-template-columns: repeat(12, minmax(0, 1fr)) !important; 
+    gap: 20px !important; 
   }
+  .asym-grid > * { width: auto !important; }
+  
+  /* Kartları dikey düzen yerine orijinal desktop grid'ine döndür */
+  .asym-card:not(.is-featured) {
+    display: flex !important; 
+    flex-direction: column !important;
+  }
+  .asym-card:not(.is-featured) .asym-thumb-wrap { width: 100% !important; height: auto !important; aspect-ratio: 16/10 !important; }
 }
