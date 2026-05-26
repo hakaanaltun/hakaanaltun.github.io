@@ -13,15 +13,15 @@
 <script src="/js/site-nav.js?v=20260525" defer></script>
 <script src="/js/header-autohide.js?v=20260525-2" defer></script>
 <script src="/js/essays-data.js" defer></script>
-{% if page.layout == “post” %}
-{% if page.series == “on-series” %}
+{% if page.layout == "post" %}
+{% if page.series == "on-series" %}
 <script src="/js/series-nav.js" defer></script>
-{% elsif page.series == “fragments” %}
+{% elsif page.series == "fragments" %}
 <script src="/js/fragments-nav.js" defer></script>
 {% endif %}
 <script src="/js/more-essays.js" defer></script>
 {% endif %}
-{% if page.layout == “home” %}
+{% if page.layout == "home" %}
 {% include home-scripts.html %}
 {% endif %}
 </body></html>
