@@ -17,7 +17,7 @@ layout: home
 </section>
 
 <section id="pieces">
-  {% include section-header.html title=“Pieces” subtitle=“Essays, short fiction, and other writing.” %}
+title="Pieces" subtitle="Essays, short fiction, and other writing."
   {% assign pieces_spans = “8,4,4,5,3,4,3,5,4” | split: “,” %}
   <ul class="asym-grid">
     {% for post in regular_essays limit: 9 %}
