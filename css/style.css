@@ -9,28 +9,28 @@
    ========================================================================== */
 :root {
   /* Surfaces */
-  --bg: #F4F0EA;             /* Updated: Kırık beyaz-krem */
+  --bg: #FFFFFF;             /* Page background */
   --paper: #FFFFFF;          /* Cards, drawer, header overlay */
 
   /* Brand */
   --petrol: #1E5552;         /* Primary petrol (titles, accents, hover) */
-  --petrol-deep: #153F3D;    /* Brand mark */
+  --petrol-deep: #153F3D;    /* Brand mark — slightly deeper than primary */
 
   /* Text */
   --ink: #2F2B27;            /* Body text */
   --ink-soft: #403A34;       /* Slightly softer ink for paragraphs */
-  --vizon: #8C867E;          /* Updated: Açık vizon */
+  --vizon: #8C867E;          /* Supporting text, meta, subtitles */
 
   /* Lines */
   --rule: #EEEAE4;
   --rule-strong: #D8D2C8;
 
-  /* Shadows (Modernized) */
+  /* Shadow */
   --shadow-card: 0 4px 16px rgba(47, 43, 39, 0.04);
-  --shadow-card-hover: 0 16px 40px rgba(30, 85, 82, 0.08); /* Petrol tinted soft shadow */
+  --shadow-card-hover: 0 16px 40px rgba(30, 85, 82, 0.08);
   --shadow-cover: 0 18px 34px rgba(0, 0, 0, 0.14);
 
-  /* Footer */
+  /* Footer — deliberately distinct from --petrol */
   --footer-bg: #1E4F4C;
   --footer-text: #EDE4CF;
   --footer-muted: #A8B8B3;
@@ -64,6 +64,7 @@ a { color: inherit; text-decoration: none; transition: color 0.2s ease, border-c
 
 .container { max-width: 1180px; margin: 0 auto; padding: 0 40px; position: relative; }
 
+/* Body scroll-lock when drawer is open */
 html.drawer-open, body.drawer-open { overflow: hidden; overscroll-behavior: none; }
 
 /* ==========================================================================
@@ -77,32 +78,52 @@ header {
   transition: transform 0.3s ease, background 0.4s ease;
 }
 header.header-hidden { transform: translateY(-100%); }
+
+/* Lower header z-index when drawer is open */
 body.drawer-open header { z-index: 50; }
 
 nav { display: flex; flex-direction: column; gap: 12px; padding: 22px 0 16px; }
 
-/* Fixed Header Alignment */
+/* FIX: Align items center to prevent vertical overflow, adjusted line-heights */
 .nav-top-row { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
 .nav-home { display: flex; flex-direction: column; line-height: 1.1; padding-bottom: 2px; }
-.brand-main { font-family: 'Cormorant Garamond', Georgia, serif; font-style: normal; font-size: clamp(2rem, 3.5vw, 2.8rem); color: var(--petrol-deep); }
-.brand-sub { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.5rem; font-style: italic; color: var(--petrol); margin-top: 4px; }
+.brand-main {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: normal;
+  font-size: clamp(2rem, 3.5vw, 2.8rem);
+  color: var(--petrol-deep);
+}
+.brand-sub {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.5rem;
+  font-style: italic;
+  line-height: 1.05;
+  color: var(--petrol);
+  margin-top: 4px;
+}
 .nav-right { display: flex; align-items: center; gap: 8px; }
 
+/* Icon buttons */
 .hamburger-btn, .header-share-btn, .essay-share-btn, .drawer-close {
-  background: transparent; border: none; color: var(--petrol); padding: 6px; cursor: pointer;
-  display: flex; align-items: center; justify-content: center; transition: opacity 0.2s ease;
+  background: transparent; border: none;
+  color: var(--petrol); padding: 6px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity 0.2s ease;
 }
 .hamburger-btn svg, .header-share-btn svg, .essay-share-btn svg, .drawer-close svg { width: 22px; height: 22px; }
 .hamburger-btn:hover, .header-share-btn:hover, .essay-share-btn:hover, .drawer-close:hover { opacity: 0.65; }
 .hamburger-btn:focus, .header-share-btn:focus, .essay-share-btn:focus, .drawer-close:focus { outline: none; }
-.hamburger-btn:focus-visible, .header-share-btn:focus-visible, .essay-share-btn:focus-visible, .drawer-close:focus-visible { outline: 2px solid var(--petrol); outline-offset: 2px; border-radius: 4px; }
+.hamburger-btn:focus-visible, .header-share-btn:focus-visible,
+.essay-share-btn:focus-visible, .drawer-close:focus-visible { outline: 2px solid var(--petrol); outline-offset: 2px; border-radius: 4px; }
 
+/* Header pill nav */
 .header-nav-bar { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 6px; }
 .header-nav-bar a {
-  display: inline-flex; align-items: center; justify-content: center; padding: 7px 13px;
-  border: 1px solid var(--rule-strong); border-radius: 999px; background: var(--paper);
-  font-size: 1.02rem; line-height: 1; color: var(--petrol-deep);
-  box-shadow: 0 4px 14px rgba(47, 43, 39, 0.03); transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 7px 13px; border: 1px solid var(--rule-strong); border-radius: 999px;
+  background: var(--paper); font-size: 1.02rem; line-height: 1; color: var(--petrol-deep);
+  box-shadow: 0 4px 14px rgba(47, 43, 39, 0.03);
+  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
 }
 .header-nav-bar a:hover { border-color: var(--petrol); box-shadow: 0 7px 18px rgba(47, 43, 39, 0.07); transform: translateY(-1px); }
 
@@ -111,6 +132,7 @@ nav { display: flex; flex-direction: column; gap: 12px; padding: 22px 0 16px; }
    ========================================================================== */
 .drawer-backdrop { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.18); z-index: 200; opacity: 0; pointer-events: none; transition: opacity 0.35s ease; }
 .drawer-backdrop.open { opacity: 1; pointer-events: auto; }
+
 .site-drawer {
   position: fixed; top: 0; right: 0; bottom: 0; z-index: 210;
   width: 320px; max-width: min(88vw, 420px); height: 100dvh;
@@ -127,11 +149,14 @@ nav { display: flex; flex-direction: column; gap: 12px; padding: 22px 0 16px; }
 .drawer-logo-link .brand-main { font-size: 2rem; color: var(--petrol-deep); }
 .drawer-logo-link .brand-sub { font-size: 0.9rem; color: var(--petrol); margin-top: 0; }
 .drawer-label { display: block; margin-top: 10px; font-size: 11px; color: var(--vizon); text-transform: uppercase; letter-spacing: 0.08em; }
+
 .site-drawer a { color: var(--petrol); padding: 4px 0; font-size: 16px; }
 .site-drawer a:hover { opacity: 0.8; }
+
 .drawer-section-links { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 4px 0; }
 .drawer-section-links a { display: block; padding: 10px 12px; border: 1px solid var(--rule-strong); border-radius: 10px; background: var(--paper); font-size: 14px; color: var(--petrol-deep); text-align: center; transition: border-color 0.2s ease; }
 .drawer-section-links a:hover { border-color: var(--petrol); opacity: 1; }
+
 .drawer-essay-cards { display: grid; grid-template-columns: 1fr; gap: 8px; margin: 2px 0 8px; }
 .drawer-essay-card-link { display: block; }
 .drawer-essay-card-link:hover .drawer-essay-card { border-color: var(--petrol); box-shadow: 0 8px 22px rgba(47, 43, 39, 0.07); transform: translateY(-1px); }
@@ -149,7 +174,7 @@ nav { display: flex; flex-direction: column; gap: 12px; padding: 22px 0 16px; }
    ========================================================================== */
 section { position: relative; padding: 92px 0 82px; }
 
-/* Modern Animated Section Divider */
+/* FIX: Modern Animated Section Divider */
 section:not(:first-of-type)::before {
   content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px;
   background: linear-gradient(90deg, transparent, rgba(30, 85, 82, 0.6), transparent);
@@ -182,26 +207,25 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
 .quote-nav-btn:hover { border-color: var(--footer-text); background: rgba(237, 228, 207, 0.14); transform: translateY(-1px); }
 
 /* ==========================================================================
-   7. Asym Cards (Modernized Grid)
+   7. Asym Cards
    ========================================================================== */
-.asym-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 24px; list-style: none; }
+.asym-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 20px; list-style: none; }
 .span-12 { grid-column: span 12; } .span-8 { grid-column: span 8; } .span-7 { grid-column: span 7; } .span-6 { grid-column: span 6; } .span-5 { grid-column: span 5; } .span-4 { grid-column: span 4; } .span-3 { grid-column: span 3; }
 
 .asym-card {
   display: flex; flex-direction: column; min-height: 100%;
   background: var(--paper); border: 1px solid var(--rule-strong); border-radius: 14px;
   overflow: hidden; box-shadow: var(--shadow-card);
-  /* Modern Animation */
+  /* FIX: Modern Animation */
   transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
 }
 .asym-card:hover {
-  border-color: var(--petrol);
-  box-shadow: var(--shadow-card-hover);
-  transform: translateY(-4px); /* Hover kaldırma efekti */
+  border-color: var(--petrol); box-shadow: var(--shadow-card-hover);
+  transform: translateY(-4px); /* Kaldırma efekti eklendi */
 }
 .asym-thumb-wrap { display: block; width: 100%; aspect-ratio: 16 / 10; background: #FAFAF8; border-bottom: 1px solid var(--rule); overflow: hidden; }
-.asym-thumb { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s ease; }
-.asym-card:hover .asym-thumb { transform: scale(1.04); }
+.asym-thumb { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.35s ease; }
+.asym-card:hover .asym-thumb { transform: scale(1.025); }
 
 .asym-card-body { display: flex; flex-direction: column; gap: 10px; padding: 21px; flex: 1; background: var(--paper); }
 .asym-kicker { font-style: italic; font-size: 0.95rem; color: var(--vizon); }
@@ -268,13 +292,9 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
 .essay-body ul, .essay-body ol { margin: 0 0 24px 24px; color: var(--ink-soft); }
 .essay-body li { margin-bottom: 8px; }
 
-/* In-body animated dividers */
+/* In-body divider */
 .essay-section-divider { position: relative; height: 1px; margin: 48px 0; background: var(--rule); }
-.essay-section-divider::before {
-  content: ''; position: absolute; top: 0; left: 0; width: 0; height: 1px;
-  background: linear-gradient(to right, transparent, var(--petrol) 20%, var(--petrol) 80%, transparent);
-  opacity: 0.50; transition: width 1.2s cubic-bezier(0.23, 1, 0.32, 1);
-}
+.essay-section-divider::before { content: ''; position: absolute; top: 0; left: 0; width: 0; height: 1px; background: linear-gradient(to right, transparent, var(--petrol) 20%, var(--petrol) 80%, transparent); opacity: 0.50; transition: width 1.2s cubic-bezier(0.23, 1, 0.32, 1); }
 .essay-section-divider.line-drawn::before { width: 100%; }
 
 .essay-nav { display: flex; justify-content: space-between; padding: 32px 0; gap: 20px; border-top: 1px solid var(--rule); }
@@ -376,7 +396,7 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
 }
 
 @media (max-width: 768px) {
-  /* Fix Mobile Grid Overflow: Ana 12-kolon yapısını esnek flex sütuna dönüştürdük */
+  /* FIX: Reset the grid so cards don't overflow on tablet */
   .asym-grid { display: flex; flex-direction: column; gap: 24px; }
   .asym-grid > * { width: 100%; }
 
@@ -410,8 +430,8 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
   .hero-quote-card::before { font-size: 4rem; left: 18px; top: 12px; }
   .hero-quote-text { font-size: 1.35rem; line-height: 1.45; }
   .hero-quote-source { font-size: 1rem; }
-  
-  /* İlk Kart Büyük (Featured), Diğerleri Küçük ve Yatay */
+
+  /* FIX: Featured card is big, rest are compact horizontal */
   .asym-thumb-wrap { aspect-ratio: 16 / 9; }
   .asym-card:not(.is-featured) { display: grid !important; grid-template-columns: 88px 1fr; gap: 14px; align-items: center; padding: 12px; }
   .asym-card:not(.is-featured) .asym-thumb-wrap { width: 88px; height: 88px; aspect-ratio: 1 / 1; border: 1px solid var(--rule-strong); border-radius: 8px; border-bottom: 1px solid var(--rule-strong); margin: 0; }
@@ -424,12 +444,14 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
 
   .book-cover { max-width: 190px; max-height: 285px; }
   .book-description p { font-size: 1.05rem; line-height: 1.6; }
+  
   .site-drawer { width: 280px; max-width: 76vw; }
   .drawer-essay-card { grid-template-columns: 56px 1fr; gap: 10px; padding: 9px; }
   .drawer-essay-card img { width: 56px; height: 56px; }
   .drawer-book-card img { height: 76px; }
   .drawer-essay-card-title { font-size: 1rem; }
   .drawer-essay-card-subtitle { font-size: 0.76rem; }
+  
   .footer-inner { padding: 88px 20px 60px; }
   .footer-bottom { flex-direction: column; align-items: flex-start; gap: 12px; }
 }
