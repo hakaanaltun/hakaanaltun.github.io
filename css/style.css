@@ -259,18 +259,18 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
 .essay-article { max-width: 760px; margin: 0 auto; }
 .essay-header { padding: 48px 0 32px; }
 .essay-header h1 { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: 32px; line-height: 1.25; color: var(--petrol); margin-bottom: 12px; }
-.essay-subtitle { font-size: 17px; font-style: italic; color: var(--vizon); margin-bottom: 20px; }
-.essay-meta-info { font-size: 14px; color: var(--vizon); display: flex; flex-direction: column; gap: 4px; }
+.essay-subtitle { font-size: 22px; font-style: italic; color: var(--vizon); margin-bottom: 20px; }
+.essay-meta-info { font-size: 16px; color: var(--vizon); display: flex; flex-direction: column; gap: 4px; }
 .essay-meta-top { display: flex; align-items: center; gap: 8px; }
-.essay-meta-author { font-size: 13px; color: var(--vizon); }
-.essay-number { display: inline-block; font-size: 13px; color: var(--petrol); background: var(--rule); padding: 4px 10px; border-radius: 4px; }
+.essay-meta-author { font-size: 15px; color: var(--vizon); }
+.essay-number { display: inline-block; font-size: 15px; color: var(--petrol); background: var(--rule); padding: 4px 10px; border-radius: 4px; }
 .essay-cover { width: 100%; border-radius: 6px; margin: 32px 0 40px; overflow: hidden; }
 .essay-cover img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; display: block; }
 .essay-body { padding-bottom: 48px; }
 .essay-body p { margin-bottom: 24px; color: var(--ink-soft); line-height: 1.85; }
 .essay-body p:last-child { margin-bottom: 0; }
-.essay-body h2 { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: 22px; color: var(--petrol); margin: 40px 0 16px; padding-top: 20px; border-top: 1px solid var(--rule); }
-.essay-body h3 { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: 19px; color: var(--petrol); margin: 32px 0 12px; }
+.essay-body h2 { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: 28px; color: var(--petrol); margin: 40px 0 16px; padding-top: 20px; border-top: 1px solid var(--rule); }
+.essay-body h3 { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: 24px; color: var(--petrol); margin: 32px 0 12px; }
 .essay-body blockquote { border-left: 2px solid var(--petrol); padding: 12px 0 12px 20px; margin: 28px 0; font-style: italic; font-size: 21px; color: var(--vizon); }
 .essay-body em { font-style: italic; }
 .essay-body strong, .essay-body b { font-weight: 500; }
