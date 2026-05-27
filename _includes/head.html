@@ -2,6 +2,7 @@
 {% if page.layout == "post" %}
 {% assign _post_desc = page.description | default: site.description %}
 {% assign _post_og_desc = page.og_description | default: page.description | default: site.description %}
+{% if page.series == "fragments" or page.fiction %}{% assign _schema_type = "ShortStory" %}{% else %}{% assign _schema_type = "Article" %}{% endif %}
 <title>{{ page.title }}—Hakan Altun</title>
 <meta name="description" content="{{ _post_desc }}">
 <meta name="author" content="{{ site.author }}">
@@ -24,14 +25,40 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": {{ page.title | jsonify }},
-  "description": {{ _post_og_desc | jsonify }},
-  "author": {"@type": "Person", "name": "Hakan Altun", "url": {{ site.url | jsonify }}},
-  "datePublished": "{{ page.date | date: '%Y-%m-%d' }}",
-  {% if page.last_modified_at %}"dateModified": "{{ page.last_modified_at | date: '%Y-%m-%d' }}",{% endif %}
-  "image": {{ page.image | absolute_url | jsonify }},
-  "mainEntityOfPage": {{ page.url | absolute_url | jsonify }}
+  "@graph": [
+    {
+      "@type": "{{ _schema_type }}",
+      "@id": "{{ page.url | absolute_url }}#main",
+      "headline": {{ page.title | jsonify }},
+      "name": {{ page.title | jsonify }},
+      "description": {{ _post_og_desc | jsonify }},
+      "url": "{{ page.url | absolute_url }}",
+      "mainEntityOfPage": "{{ page.url | absolute_url }}",
+      "datePublished": "{{ page.date | date_to_xmlschema }}",
+      "dateModified": "{{ page.last_modified_at | default: page.date | date_to_xmlschema }}",
+      "author": { "@id": "{{ site.url }}/#hakan" },
+      "publisher": { "@id": "{{ site.url }}/#hakan" },
+      "copyrightHolder": { "@id": "{{ site.url }}/#hakan" },
+      {% if page.image %}"image": "{{ page.image | absolute_url }}",{% endif %}
+      {% if page.series == "fragments" %}"isPartOf": {"@type":"CreativeWorkSeries","name":"Şafak's Arc from The Fragments"},{% elsif page.series == "on-series" %}"isPartOf": {"@type":"CreativeWorkSeries","name":"The On Series"},{% endif %}
+      {% if _schema_type == "ShortStory" %}"genre": "Fiction",{% endif %}
+      "inLanguage": "en"
+    },
+    {
+      "@type": "Person",
+      "@id": "{{ site.url }}/#hakan",
+      "name": "Hakan Altun",
+      "url": "{{ site.url }}/",
+      "image": "{{ site.url }}/profile.jpg",
+      "jobTitle": "Lecturer",
+      "worksFor": {
+        "@type": "CollegeOrUniversity",
+        "name": "Yeditepe University",
+        "url": "https://www.yeditepe.edu.tr/"
+      },
+      "knowsLanguage": ["tr", "en"]
+    }
+  ]
 }
 </script>
 <link rel="stylesheet" href="/css/style.css?v=20260526">
@@ -39,7 +66,7 @@
 <title>Hakan Altun—On Life &amp; Everything</title>
 <meta name="description" content="Hakan Altun is a lecturer at Yeditepe University in İstanbul. His work moves between speculative fiction, philosophy, and the fractures of ordinary life. He is interested in the moments where inner life meets larger systems—time, technology, consciousness, and the stories we build to survive them.">
 <meta name="author" content="Hakan Altun">
-<meta name="keywords" content="Hakan Altun, Forgetting the Color of Nothingness, The Fragments, The On Series, philosophical essays, İstanbul lecturer, Yeditepe University, intellectual minimalism, time, memory">
+<meta name="keywords" content="Hakan Altun, The Fragments, The On Series, philosophical essays, İstanbul lecturer, Yeditepe University, intellectual minimalism, time, memory">
 <link rel="icon" type="image/png" href="/on-logo-greenandgold.png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="manifest" href="/manifest.json">
@@ -61,7 +88,98 @@
 <meta name="twitter:title" content="Hakan Altun—On Life &amp; Everything">
 <meta name="twitter:description" content="Hakan Altun is a lecturer based in İstanbul. Essays and short fiction on perception, memory, and the architectures we build inside ourselves.">
 <meta name="twitter:image" content="https://hakanaltun.io/og-image-greenandgold.png">
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","name":"On Life \u0026 Everything","url":"https://hakanaltun.io/","author":{"@type":"Person","name":"Hakan Altun"},"description":"Exploring philosophy, perception, memory, and the architectures we build inside ourselves."},{"@type":"Person","name":"Hakan Altun","url":"https://hakanaltun.io/","jobTitle":"Lecturer","worksFor":{"@type":"Organization","name":"Yeditepe University"}}]}</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://hakanaltun.io/#website",
+      "url": "https://hakanaltun.io/",
+      "name": "On Life & Everything",
+      "description": "Hakan Altun is a lecturer based in İstanbul. Essays and short fiction on perception, memory, and the architectures we build inside ourselves.",
+      "inLanguage": "en",
+      "publisher": { "@id": "https://hakanaltun.io/#hakan" },
+      "author": { "@id": "https://hakanaltun.io/#hakan" },
+      "copyrightHolder": { "@id": "https://hakanaltun.io/#hakan" }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://hakanaltun.io/#hakan",
+      "name": "Hakan Altun",
+      "url": "https://hakanaltun.io/",
+      "image": "https://hakanaltun.io/profile.jpg",
+      "jobTitle": "Lecturer",
+      "worksFor": {
+        "@type": "CollegeOrUniversity",
+        "name": "Yeditepe University",
+        "url": "https://www.yeditepe.edu.tr/"
+      },
+      "description": "Lecturer at Yeditepe University in İstanbul. Essays and short fiction on perception, memory, and the architectures we build inside ourselves.",
+      "knowsLanguage": ["tr", "en"],
+      "nationality": "Turkish"
+    },
+    {
+      "@type": "Book",
+      "@id": "https://hakanaltun.io/#the-fragments",
+      "name": "The Fragments",
+      "author": { "@id": "https://hakanaltun.io/#hakan" },
+      "publisher": { "@id": "https://hakanaltun.io/#hakan" },
+      "url": "https://hakanaltun.io/#book",
+      "image": "https://hakanaltun.io/cover.png",
+      "inLanguage": "en",
+      "numberOfPages": 116,
+      "description": "First, there was Symmetry. A novel of forgetting and remembering, of betrayal and longing, of a silver watch that survives time, and of becoming whole again in a garden at the end of the universe.",
+      "sameAs": [
+        "https://www.goodreads.com/book/show/252076100-the-fragments"
+      ],
+      "workExample": [
+        {
+          "@type": "Book",
+          "@id": "https://hakanaltun.io/#the-fragments-paperback",
+          "bookFormat": "https://schema.org/Paperback",
+          "isbn": "979-8196346927",
+          "inLanguage": "en",
+          "author": { "@id": "https://hakanaltun.io/#hakan" }
+        },
+        {
+          "@type": "Book",
+          "@id": "https://hakanaltun.io/#the-fragments-hardcover",
+          "bookFormat": "https://schema.org/Hardcover",
+          "isbn": "9798197583536",
+          "inLanguage": "en",
+          "author": { "@id": "https://hakanaltun.io/#hakan" },
+          "sameAs": ["https://www.amazon.com/dp/B0H2CKMMBQ"]
+        },
+        {
+          "@type": "Book",
+          "@id": "https://hakanaltun.io/#the-fragments-kindle",
+          "bookFormat": "https://schema.org/EBook",
+          "inLanguage": "en",
+          "author": { "@id": "https://hakanaltun.io/#hakan" },
+          "sameAs": ["https://www.amazon.com/dp/B0H18K5XN9"]
+        },
+        {
+          "@type": "Book",
+          "@id": "https://hakanaltun.io/#the-fragments-kobo",
+          "bookFormat": "https://schema.org/EBook",
+          "inLanguage": "en",
+          "author": { "@id": "https://hakanaltun.io/#hakan" },
+          "sameAs": ["https://www.kobo.com/tr/tr/ebook/the-fragments-4"]
+        },
+        {
+          "@type": "Book",
+          "@id": "https://hakanaltun.io/#the-fragments-google-play",
+          "bookFormat": "https://schema.org/EBook",
+          "inLanguage": "en",
+          "author": { "@id": "https://hakanaltun.io/#hakan" },
+          "sameAs": ["https://play.google.com/store/books/details?id=U8vXEQAAQBAJ"]
+        }
+      ]
+    }
+  ]
+}
+</script>
 <link rel="stylesheet" href="/css/style.css?v=20260526">
 {% endif %}
 <link rel="preconnect" href="https://fonts.googleapis.com">
