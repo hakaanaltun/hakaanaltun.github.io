@@ -163,6 +163,18 @@
     display: none;
   }
 
+  @media (max-width: 1024px) {
+    .book-cover-wrap {
+      box-shadow:
+        0 12px 20px rgba(0, 0, 0, 0.11),
+        0 4px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .book-cover-wrap::before {
+      display: none;
+    }
+  }
+
   @media (min-width: 641px) and (max-width: 1024px) and (orientation: portrait) {
     header nav {
       padding-bottom: 36px;
@@ -180,11 +192,6 @@
 
     .drawer-logo-link {
       margin-bottom: 70px;
-    }
-
-    .book-cover-wrap::before {
-      left: -6px;
-      width: 7px;
     }
   }
 </style>
