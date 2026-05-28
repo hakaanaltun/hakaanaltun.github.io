@@ -39,42 +39,57 @@
     padding: 8px 15px;
     border: 1px solid rgba(237, 228, 207, 0.76);
     border-radius: 8px;
-    background: rgba(21, 63, 61, 0.62);
+    background: rgba(30, 79, 76, 0.42);
     color: var(--footer-text);
     box-shadow: none;
   }
 
   header .header-nav-bar a:hover {
     border-color: var(--footer-text);
-    background: rgba(21, 63, 61, 0.82);
+    background: rgba(30, 79, 76, 0.62);
     color: var(--footer-text);
     box-shadow: none;
     transform: none;
   }
 
+  .drawer-logo-link {
+    margin: -4px -16px 18px;
+    padding: 24px 16px 22px;
+    background: rgba(30, 79, 76, 0.88);
+    border-bottom: 1px solid rgba(237, 228, 207, 0.22);
+    backdrop-filter: blur(14px) saturate(120%);
+    -webkit-backdrop-filter: blur(14px) saturate(120%);
+  }
+
+  .drawer-logo-link .brand-main,
+  .drawer-logo-link .brand-sub {
+    color: var(--footer-text);
+  }
+
+  .drawer-label {
+    color: var(--petrol);
+  }
+
   .book-links {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .book-links-row {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    row-gap: 12px;
-    column-gap: 10px;
+    gap: 10px;
   }
 
   .book-links a {
     border-radius: 8px;
   }
 
-  .book-links > span:not(.book-link-break) {
+  .book-links span {
     display: none;
-  }
-
-  .book-link-break {
-    display: block;
-    flex: 0 0 100%;
-    width: 100%;
-    height: 0;
-    margin: 0;
-    padding: 0;
   }
 </style>
 
