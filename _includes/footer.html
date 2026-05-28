@@ -33,8 +33,7 @@
     outline-color: var(--footer-text);
   }
 
-  header .header-nav-bar a,
-  .book-links a {
+  header .header-nav-bar a {
     padding: 8px 15px;
     border: 1px solid rgba(237, 228, 207, 0.76);
     border-radius: 8px;
@@ -43,13 +42,22 @@
     box-shadow: none;
   }
 
-  header .header-nav-bar a:hover,
-  .book-links a:hover {
+  header .header-nav-bar a:hover {
     border-color: var(--footer-text);
     background: rgba(21, 63, 61, 0.92);
     color: var(--footer-text);
     box-shadow: none;
     transform: none;
+  }
+
+  .book-links a {
+    border-radius: 8px;
+  }
+
+  .book-link-break {
+    flex-basis: 100%;
+    width: 0;
+    height: 0;
   }
 </style>
 
