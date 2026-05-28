@@ -50,14 +50,29 @@
     transform: none;
   }
 
+  .book-links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    row-gap: 12px;
+    column-gap: 10px;
+  }
+
   .book-links a {
     border-radius: 8px;
   }
 
+  .book-links > span:not(.book-link-break) {
+    display: none;
+  }
+
   .book-link-break {
-    flex-basis: 100%;
-    width: 0;
+    display: block;
+    flex: 0 0 100%;
+    width: 100%;
     height: 0;
+    margin: 0;
+    padding: 0;
   }
 </style>
 
