@@ -98,47 +98,23 @@
   }
 
   .book-cover-wrap {
-    position: relative;
     display: inline-block;
     align-self: start;
     line-height: 0;
-    background: #fff;
+  }
+
+  .book-cover-wrap::before,
+  .book-cover-wrap::after {
+    content: none;
+    display: none;
+  }
+
+  .book-cover-wrap .book-cover {
+    display: block;
     border-radius: 2px;
     box-shadow:
       0 14px 24px rgba(0, 0, 0, 0.12),
       0 4px 8px rgba(0, 0, 0, 0.06);
-  }
-
-  .book-cover-wrap::before {
-    content: "";
-    position: absolute;
-    top: 6px;
-    bottom: 6px;
-    left: -7px;
-    width: 8px;
-    background: linear-gradient(to right, rgba(210, 210, 210, 0.95), rgba(244, 244, 244, 1));
-    border-radius: 2px 0 0 2px;
-    box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.06);
-    z-index: 0;
-  }
-
-  .book-cover-wrap::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    box-shadow:
-      inset 0 0 0 1px rgba(0, 0, 0, 0.05),
-      inset 1px 0 0 rgba(255, 255, 255, 0.75);
-    pointer-events: none;
-    z-index: 2;
-  }
-
-  .book-cover-wrap .book-cover {
-    position: relative;
-    z-index: 1;
-    display: block;
-    border-radius: 2px;
-    box-shadow: none;
   }
 
   .book-links {
@@ -163,18 +139,6 @@
     display: none;
   }
 
-  @media (max-width: 1024px) {
-    .book-cover-wrap {
-      box-shadow:
-        0 12px 20px rgba(0, 0, 0, 0.11),
-        0 4px 8px rgba(0, 0, 0, 0.05);
-    }
-
-    .book-cover-wrap::before {
-      display: none;
-    }
-  }
-
   @media (min-width: 641px) and (max-width: 1024px) and (orientation: portrait) {
     header nav {
       padding-bottom: 36px;
@@ -192,6 +156,12 @@
 
     .drawer-logo-link {
       margin-bottom: 70px;
+    }
+
+    .book-cover-wrap .book-cover {
+      box-shadow:
+        0 12px 20px rgba(0, 0, 0, 0.11),
+        0 4px 8px rgba(0, 0, 0, 0.05);
     }
   }
 </style>
