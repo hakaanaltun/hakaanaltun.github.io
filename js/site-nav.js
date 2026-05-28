@@ -24,13 +24,29 @@
 
   if (!toggleBtn || !drawer || !backdrop || !closeBtn) return;
 
+  var siteHeader = document.getElementById('site-header');
+  var drawerLogo = drawer.querySelector('.drawer-logo-link');
+
+  /* Drawer'ın yeşil bandını header'ın canlı yüksekliğine eşitler — tüm cihazlarda tam hizalama */
+  function syncDrawerBand() {
+    if (!siteHeader) return;
+    var h = siteHeader.offsetHeight;
+    root.style.setProperty('--head-band', h + 'px');
+    if (drawerLogo) {
+      var logoBottom = drawerLogo.offsetTop + drawerLogo.offsetHeight;
+      root.style.setProperty('--drawer-logo-mb', Math.max(16, h - logoBottom + 6) + 'px');
+    }
+  }
+
   function openDrawer() {
+    if (siteHeader) siteHeader.classList.remove('header-hidden');
     drawer.classList.add('open');
     backdrop.classList.add('open');
     root.classList.add('drawer-open');
     document.body.classList.add('drawer-open');
     toggleBtn.setAttribute('aria-expanded', 'true');
     drawer.setAttribute('aria-hidden', 'false');
+    syncDrawerBand();
     closeBtn.focus({ preventScroll: true });
   }
 
@@ -52,6 +68,11 @@
 
   closeBtn.addEventListener('click', function () { closeDrawer(false); });
   backdrop.addEventListener('click', function () { closeDrawer(false); });
+
+  /* Cihaz döndürülünce / pencere yeniden boyutlanınca, drawer açıksa bandı tazele */
+  window.addEventListener('resize', function () {
+    if (drawer.classList.contains('open')) syncDrawerBand();
+  });
 
   /* ESC closes drawer — keyboard user, restore focus */
   document.addEventListener('keydown', function (e) {
