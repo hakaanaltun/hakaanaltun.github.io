@@ -113,6 +113,31 @@
   .book-links span {
     display: none;
   }
+
+  @media (max-width: 640px) {
+    header nav {
+      gap: 16px;
+      padding-top: 24px;
+      padding-bottom: 22px;
+    }
+
+    header .brand-main {
+      font-size: clamp(2.25rem, 12vw, 3rem);
+    }
+
+    header .brand-sub {
+      margin-top: 7px;
+      font-size: clamp(1.18rem, 5.4vw, 1.45rem);
+    }
+
+    .site-drawer::before {
+      height: 178px;
+    }
+
+    .drawer-logo-link {
+      margin-bottom: 70px;
+    }
+  }
 </style>
 
 <footer>
