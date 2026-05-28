@@ -1,3 +1,30 @@
+<style id="header-footer-color-sync">
+  header {
+    background: var(--footer-bg);
+    border-bottom: 1px solid rgba(237, 228, 207, 0.22);
+  }
+
+  header .brand-main,
+  header .brand-sub,
+  header .hamburger-btn,
+  header .header-share-btn,
+  header .essay-share-btn {
+    color: var(--footer-text);
+  }
+
+  header .hamburger-btn:focus-visible,
+  header .header-share-btn:focus-visible,
+  header .essay-share-btn:focus-visible {
+    outline-color: var(--footer-text);
+  }
+
+  header .header-nav-bar a {
+    border-color: rgba(237, 228, 207, 0.42);
+    background: rgba(255, 255, 255, 0.96);
+    color: var(--petrol-deep);
+  }
+</style>
+
 <footer>
   <div class="footer-inner">
     <div class="footer-grid">
