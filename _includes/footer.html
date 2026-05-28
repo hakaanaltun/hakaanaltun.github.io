@@ -92,6 +92,45 @@
     color: var(--petrol);
   }
 
+  .book-cover-wrap {
+    position: relative;
+    display: inline-block;
+    align-self: start;
+    line-height: 0;
+    transform: perspective(1200px) rotateY(-5deg);
+    transform-origin: center left;
+    filter: drop-shadow(0 18px 24px rgba(0, 0, 0, 0.12));
+  }
+
+  .book-cover-wrap::before {
+    content: "";
+    position: absolute;
+    top: 10px;
+    bottom: 10px;
+    left: -9px;
+    width: 11px;
+    background: linear-gradient(to right, rgba(205, 205, 205, 0.85), rgba(248, 248, 248, 0.98));
+    border-radius: 2px 0 0 2px;
+    box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.06);
+    z-index: 0;
+  }
+
+  .book-cover-wrap::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    box-shadow: inset 1px 0 0 rgba(255, 255, 255, 0.9), inset -1px 0 0 rgba(0, 0, 0, 0.05);
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .book-cover-wrap .book-cover {
+    position: relative;
+    z-index: 1;
+    display: block;
+    box-shadow: none;
+  }
+
   .book-links {
     display: flex;
     flex-direction: column;
@@ -116,13 +155,13 @@
 
   @media (min-width: 641px) and (max-width: 1024px) and (orientation: portrait) {
     header nav {
-      padding-bottom: 34px;
+      padding-bottom: 36px;
     }
   }
 
   @media (max-width: 640px) {
     header nav {
-      padding-bottom: 34px;
+      padding-bottom: 40px;
     }
 
     .site-drawer::before {
