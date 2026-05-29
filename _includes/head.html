@@ -8,14 +8,15 @@
 <title>{{ page.title }}—Hakan Altun</title>
 <meta name="description" content="{{ _post_desc }}">
 <meta name="author" content="{{ site.author }}">
-<link rel="icon" type="image/png" href="/favicon-32x32.png?v=20260529">
-<link rel="apple-touch-icon" href="/on-icon-20260529.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-on.png">
 <link rel="canonical" href="{{ page.url | absolute_url }}">
 
 <meta property="og:locale" content="en_US">
 <meta property="og:title" content="{{ page.title }}—Hakan Altun">
 <meta property="og:description" content="{{ _post_og_desc }}">
-<meta property="og:image" content="{{ page.image | absolute_url }}">
+<meta property="og:image" content="{{ page.image | default: '/og-image-on-card.png' | absolute_url }}">
 <meta property="og:url" content="{{ page.url | absolute_url }}">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="{{ page.date | date_to_xmlschema }}">
@@ -25,7 +26,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{{ page.title }}—Hakan Altun">
 <meta name="twitter:description" content="{{ _post_og_desc }}">
-<meta name="twitter:image" content="{{ page.image | absolute_url }}">
+<meta name="twitter:image" content="{{ page.image | default: '/og-image-on-card.png' | absolute_url }}">
 
 <script type="application/ld+json">
 {
@@ -67,7 +68,7 @@
 }
 </script>
 
-<link rel="stylesheet" href="/css/style.css?v=20260529-8">
+<link rel="stylesheet" href="/css/style.css?v=20260529-9">
 
 {% else %}
 
@@ -76,9 +77,10 @@
 <meta name="author" content="Hakan Altun">
 <meta name="keywords" content="Hakan Altun, The Fragments, The On Series, philosophical essays, İstanbul lecturer, Yeditepe University, intellectual minimalism, time, memory">
 
-<link rel="icon" type="image/png" href="/favicon-32x32.png?v=20260529">
-<link rel="apple-touch-icon" href="/on-icon-20260529.png">
-<link rel="manifest" href="/manifest.json?v=20260529">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-on.png">
+<link rel="manifest" href="/manifest.json?v=20260529-9">
 <link rel="alternate" type="application/rss+xml" title="Hakan Altun—On Life &amp; Everything" href="/feed.xml">
 
 <meta name="theme-color" content="#1E4F4C">
@@ -91,16 +93,16 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:title" content="Hakan Altun—On Life & Everything">
 <meta property="og:description" content="{{ site.description }}">
-<meta property="og:image" content="https://hakanaltun.io/og-image-on-card-20260529.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
+<meta property="og:image" content="https://hakanaltun.io/og-image-on-card.png">
+<meta property="og:image:width" content="1254">
+<meta property="og:image:height" content="1254">
 <meta property="og:url" content="https://hakanaltun.io/">
 <meta property="og:type" content="website">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Hakan Altun—On Life &amp; Everything">
 <meta name="twitter:description" content="{{ site.description }}">
-<meta name="twitter:image" content="https://hakanaltun.io/og-image-on-card-20260529.png">
+<meta name="twitter:image" content="https://hakanaltun.io/og-image-on-card.png">
 
 <script type="application/ld+json">
 {
@@ -207,7 +209,7 @@
 }
 </script>
 
-<link rel="stylesheet" href="/css/style.css?v=20260529-8">
+<link rel="stylesheet" href="/css/style.css?v=20260529-9">
 
 {% endif %}
 
