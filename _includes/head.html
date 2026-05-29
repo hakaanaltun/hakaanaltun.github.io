@@ -5,7 +5,7 @@
 {% assign _post_og_desc = page.og_description | default: page.description | default: site.description %}
 {% if page.series == "fragments" or page.fiction %}{% assign _schema_type = "ShortStory" %}{% else %}{% assign _schema_type = "Article" %}{% endif %}
 
-<title>{{ page.title }}—Hakan Altun</title>
+<title>{{ page.title }}</title>
 <meta name="description" content="{{ _post_desc }}">
 <meta name="author" content="{{ site.author }}">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -69,11 +69,11 @@
 }
 </script>
 
-<link rel="stylesheet" href="/css/style.css?v=20260529-11">
+<link rel="stylesheet" href="/css/style.css?v=20260529-12">
 
 {% else %}
 
-<title>Hakan Altun—On Life &amp; Everything</title>
+<title>On Life &amp; Everything</title>
 <meta name="description" content="{{ site.description }}">
 <meta name="author" content="Hakan Altun">
 <meta name="keywords" content="Hakan Altun, The Fragments, The On Series, philosophical essays, İstanbul lecturer, Yeditepe University, intellectual minimalism, time, memory">
@@ -211,7 +211,7 @@
 }
 </script>
 
-<link rel="stylesheet" href="/css/style.css?v=20260529-11">
+<link rel="stylesheet" href="/css/style.css?v=20260529-12">
 
 {% endif %}
 
