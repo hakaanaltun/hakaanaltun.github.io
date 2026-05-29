@@ -413,9 +413,14 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
   .section-head { gap: 8px; margin-bottom: 2.2rem; }
   .book-grid { grid-template-columns: 1fr; gap: 26px; text-align: left; }
   .book-cover { max-width: 210px; max-height: 315px; margin: 0; }
-  .footer-inner { padding: 56px var(--pad) 48px; }
-  .footer-grid { grid-template-columns: 1fr; gap: 22px; }
-  .footer-col + .footer-col { padding-left: 0; border-left: 0; padding-top: 20px; border-top: 1px solid rgba(237, 228, 207, 0.32); }
+  .footer-inner { padding: 44px var(--pad) 40px; }
+  .footer-grid { grid-template-columns: 1fr; gap: 18px; }
+  .footer-col + .footer-col { padding-left: 0; border-left: 0; padding-top: 18px; border-top: 1px solid rgba(237, 228, 207, 0.32); }
+  .footer-col h3 { font-size: 1.65rem; margin-bottom: 9px; }
+  .footer-col ul { gap: 9px; }
+  .footer-subscribe-blurb { max-width: none; }
+  .footer-subscribe-form { margin-top: 10px; }
+  .footer-rule-bottom { margin-top: 20px; margin-bottom: 14px; }
 }
 
 @media (max-width: 768px) {
@@ -481,7 +486,7 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
   .drawer-essay-card-title { font-size: 1rem; }
   .drawer-essay-card-subtitle { font-size: 0.76rem; }
 
-  .footer-inner { padding: 48px var(--pad) 44px; }
+  .footer-inner { padding: 36px var(--pad) 36px; }
   .footer-bottom { flex-direction: column; align-items: flex-start; gap: 12px; }
 }
 
@@ -500,7 +505,7 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
   :root { --head-pad-top: 18px; --head-pad-bottom: 16px; }
 }
 
-/* Telefonun yatay (landscape) modunda: yan yana 2'li kart düzeni */
+/* Telefonun yatay (landscape) modunda: yan yana 2'li, featured ayrımı yok, hepsi eşit 16/9 */
 @media (max-width: 900px) and (orientation: landscape) {
   .asym-grid {
     display: grid;
@@ -508,23 +513,19 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
     gap: 20px;
   }
   .asym-grid > * { width: auto; grid-column: auto; }
+  /* Featured kart da diğerleri gibi tek sütun, büyütme yok */
+  .asym-item.is-featured-wrap { grid-column: auto; }
 
-  /* Featured kart üstte tam genişlik, gerisi ikişerli */
-  .asym-item.is-featured-wrap { grid-column: 1 / -1; }
-
-  /* Tüm kartlar dikey: görsel üstte, metin altta */
-  .asym-card:not(.is-featured) {
-    display: flex;
-    flex-direction: column;
-    padding: 0;
-  }
-  .asym-card:not(.is-featured) .asym-thumb-wrap {
+  .asym-card { display: flex; flex-direction: column; padding: 0; }
+  .asym-card .asym-thumb-wrap,
+  .asym-card.is-featured .asym-thumb-wrap {
     width: 100%; height: auto; aspect-ratio: 16 / 9;
     border: 0; border-bottom: 1px solid var(--rule); border-radius: 0; margin: 0;
   }
-  .asym-card:not(.is-featured) .asym-card-body { padding: 16px; gap: 6px; }
-  .asym-card:not(.is-featured) .asym-kicker { display: none; }
-  .asym-card:not(.is-featured) .asym-title { font-size: 1.5rem; line-height: 1.12; }
-  .asym-card:not(.is-featured) .asym-subtitle { font-size: 0.98rem; line-height: 1.35; }
-  .asym-card:not(.is-featured) .asym-meta { font-size: 0.82rem; padding-top: 2px; }
+  .asym-card-body { padding: 16px; gap: 6px; }
+  .asym-kicker { display: none; }
+  .asym-title,
+  .asym-card.is-featured .asym-title { font-size: 1.5rem; line-height: 1.12; }
+  .asym-subtitle { font-size: 0.98rem; line-height: 1.35; }
+  .asym-meta { font-size: 0.82rem; padding-top: 2px; }
 }
