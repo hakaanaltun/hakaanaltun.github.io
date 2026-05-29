@@ -58,6 +58,7 @@ html {
   scroll-padding-top: 150px;
   background: var(--footer-bg);
   overflow-x: clip;
+  overscroll-behavior-y: none;
 }
 
 body {
@@ -67,6 +68,7 @@ body {
   font-size: 20px;
   line-height: 1.75;
   overflow-x: clip;
+  overscroll-behavior-y: none;
   position: relative;
 }
 
@@ -406,6 +408,7 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
 
 @media (min-width: 641px) and (max-width: 1024px) and (orientation: portrait) {
   :root { --head-pad-bottom: 24px; }
+  .asym-card.is-featured .asym-thumb-wrap { aspect-ratio: 16 / 9; }
 }
 
 @media (max-width: 900px) {
