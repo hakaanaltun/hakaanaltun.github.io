@@ -73,7 +73,7 @@ body {
 ::selection { background: var(--petrol); color: var(--paper); }
 a { color: inherit; text-decoration: none; transition: color 0.2s ease, border-color 0.2s ease, opacity 0.2s ease; }
 
-.container { max-width: 1100px; margin: 0 auto; padding: 0 var(--pad); position: relative; }
+.container { max-width: 1040px; margin: 0 auto; padding: 0 var(--pad); position: relative; }
 
 html.drawer-open, body.drawer-open { overflow: hidden; overscroll-behavior: none; }
 
@@ -90,8 +90,8 @@ header {
 
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
-  padding-left: calc(50vw - 50% + var(--pad));
-  padding-right: calc(50vw - 50% + var(--pad));
+  padding-left: calc(50vw - 50%);
+  padding-right: calc(50vw - 50%);
 }
 header.header-hidden { transform: translateY(-100%); }
 body.drawer-open header { z-index: 50; }
@@ -361,7 +361,7 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
    10. Footer
    ========================================================================== */
 footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-top: 40px; background: var(--footer-bg); color: var(--footer-text); font-family: 'EB Garamond', Georgia, serif; }
-.footer-inner { max-width: 1100px; margin: 0 auto; padding: 56px var(--pad) calc(44px + env(safe-area-inset-bottom, 0px)); }
+.footer-inner { max-width: 1040px; margin: 0 auto; padding: 56px var(--pad) calc(44px + env(safe-area-inset-bottom, 0px)); }
 .footer-home-link { display: inline-flex; flex-direction: column; gap: 5px; color: inherit; }
 .footer-home-link:hover .footer-brand { text-decoration: underline; text-underline-offset: 4px; }
 .footer-brand { display: block; font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 1.5rem; line-height: 1.05; color: var(--footer-text); }
