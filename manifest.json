@@ -1,19 +1,25 @@
 {
   "name": "On Life & Everything",
-  "short_name": "On",
-  "start_url": "/",
+  "short_name": "On Life & Everything",
+  "start_url": ".",
   "display": "standalone",
   "background_color": "#FAF8F4",
   "theme_color": "#1E4F4C",
   "icons": [
     {
-      "src": "/on-icon-20260529.png",
+      "src": "on-icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "on-icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/on-icon-20260529.png",
+      "src": "on-icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
