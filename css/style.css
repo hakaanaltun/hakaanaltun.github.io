@@ -58,7 +58,6 @@ html {
   scroll-padding-top: 150px;
   background: var(--footer-bg);
   overflow-x: clip;
-  overscroll-behavior-y: none;
 }
 
 body {
@@ -68,7 +67,6 @@ body {
   font-size: 20px;
   line-height: 1.75;
   overflow-x: clip;
-  overscroll-behavior-y: none;
   position: relative;
 }
 
