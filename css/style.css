@@ -361,7 +361,7 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
    10. Footer
    ========================================================================== */
 footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-top: 40px; background: var(--footer-bg); color: var(--footer-text); font-family: 'EB Garamond', Georgia, serif; }
-.footer-inner { max-width: 1040px; margin: 0 auto; padding: 56px var(--pad) calc(44px + env(safe-area-inset-bottom, 0px)); }
+.footer-inner { max-width: 1040px; margin: 0 auto; padding: 56px var(--pad) 44px; }
 .footer-home-link { display: inline-flex; flex-direction: column; gap: 5px; color: inherit; }
 .footer-home-link:hover .footer-brand { text-decoration: underline; text-underline-offset: 4px; }
 .footer-brand { display: block; font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 1.5rem; line-height: 1.05; color: var(--footer-text); }
@@ -413,7 +413,7 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
   .section-head { gap: 8px; margin-bottom: 2.2rem; }
   .book-grid { grid-template-columns: 1fr; gap: 26px; text-align: left; }
   .book-cover { max-width: 210px; max-height: 315px; margin: 0; }
-  .footer-inner { padding: 56px var(--pad) calc(48px + env(safe-area-inset-bottom, 0px)); }
+  .footer-inner { padding: 56px var(--pad) 48px; }
   .footer-grid { grid-template-columns: 1fr; gap: 28px; }
   .footer-col + .footer-col { padding-left: 0; border-left: 0; padding-top: 26px; border-top: 1px solid rgba(237, 228, 207, 0.32); }
   .footer-col h3 { font-size: 1.65rem; margin-bottom: 12px; }
@@ -486,7 +486,7 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
   .drawer-essay-card-title { font-size: 1rem; }
   .drawer-essay-card-subtitle { font-size: 0.76rem; }
 
-  .footer-inner { padding: 48px var(--pad) calc(44px + env(safe-area-inset-bottom, 0px)); }
+  .footer-inner { padding: 48px var(--pad) 44px; }
   .footer-bottom { flex-direction: column; align-items: flex-start; gap: 12px; }
 }
 
