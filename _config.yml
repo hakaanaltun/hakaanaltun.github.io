@@ -33,3 +33,8 @@ defaults:
     values:
       layout: "post"
       author: "Hakan Altun"
+
+# --- Added for Jekyll 4 (standalone, no github-pages gem) ---
+# Use the modern Sass implementation bundled with Jekyll 4
+sass:
+  style: compressed
