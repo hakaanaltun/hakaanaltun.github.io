@@ -1,0 +1,27 @@
+{%- comment -%}
+  Renders one RSS <item>. Converts Turkish/accented letters to HTML entities
+  so Goodreads (which mishandles raw multi-byte UTF-8) renders them correctly.
+  ORDER MATTERS for title/description: xml_escape FIRST (handles real & < > "),
+  THEN the entity chain — otherwise xml_escape would turn our "&#304;" into
+  "&amp;#304;". content:encoded is inside CDATA (not xml-escaped), so the chain
+  is applied directly there.
+  Params: include.post, include.pubdate
+{%- endcomment -%}
+{%- assign feed_image = include.post.image | default: include.post.thumb -%}
+{%- assign t = include.post.title | xml_escape -%}
+{%- assign d = include.post.description | default: include.post.subtitle | default: site.description | xml_escape -%}
+{%- assign a = include.post.cover_alt | default: include.post.title | xml_escape -%}
+{%- assign c = include.post.content -%}
+{%- assign t = t | replace: 'İ','&#304;' | replace: 'ı','&#305;' | replace: 'Ş','&#350;' | replace: 'ş','&#351;' | replace: 'Ğ','&#286;' | replace: 'ğ','&#287;' | replace: 'Ü','&#220;' | replace: 'ü','&#252;' | replace: 'Ö','&#214;' | replace: 'ö','&#246;' | replace: 'Ç','&#199;' | replace: 'ç','&#231;' | replace: 'é','&#233;' | replace: 'è','&#232;' | replace: 'ê','&#234;' | replace: 'â','&#226;' | replace: 'î','&#238;' | replace: 'ô','&#244;' | replace: 'û','&#251;' | replace: 'á','&#225;' -%}
+{%- assign d = d | replace: 'İ','&#304;' | replace: 'ı','&#305;' | replace: 'Ş','&#350;' | replace: 'ş','&#351;' | replace: 'Ğ','&#286;' | replace: 'ğ','&#287;' | replace: 'Ü','&#220;' | replace: 'ü','&#252;' | replace: 'Ö','&#214;' | replace: 'ö','&#246;' | replace: 'Ç','&#199;' | replace: 'ç','&#231;' | replace: 'é','&#233;' | replace: 'è','&#232;' | replace: 'ê','&#234;' | replace: 'â','&#226;' | replace: 'î','&#238;' | replace: 'ô','&#244;' | replace: 'û','&#251;' | replace: 'á','&#225;' -%}
+{%- assign a = a | replace: 'İ','&#304;' | replace: 'ı','&#305;' | replace: 'Ş','&#350;' | replace: 'ş','&#351;' | replace: 'Ğ','&#286;' | replace: 'ğ','&#287;' | replace: 'Ü','&#220;' | replace: 'ü','&#252;' | replace: 'Ö','&#214;' | replace: 'ö','&#246;' | replace: 'Ç','&#199;' | replace: 'ç','&#231;' | replace: 'é','&#233;' | replace: 'è','&#232;' | replace: 'ê','&#234;' | replace: 'â','&#226;' | replace: 'î','&#238;' | replace: 'ô','&#244;' | replace: 'û','&#251;' | replace: 'á','&#225;' -%}
+{%- assign c = c | replace: 'İ','&#304;' | replace: 'ı','&#305;' | replace: 'Ş','&#350;' | replace: 'ş','&#351;' | replace: 'Ğ','&#286;' | replace: 'ğ','&#287;' | replace: 'Ü','&#220;' | replace: 'ü','&#252;' | replace: 'Ö','&#214;' | replace: 'ö','&#246;' | replace: 'Ç','&#199;' | replace: 'ç','&#231;' | replace: 'é','&#233;' | replace: 'è','&#232;' | replace: 'ê','&#234;' | replace: 'â','&#226;' | replace: 'î','&#238;' | replace: 'ô','&#244;' | replace: 'û','&#251;' | replace: 'á','&#225;' -%}
+    <item>
+      <title>{{ t }}</title>
+      <description>{{ d }}</description>
+      <link>{{ include.post.url | absolute_url }}</link>
+      <guid isPermaLink="true">{{ include.post.url | absolute_url }}</guid>
+      <pubDate>{{ include.pubdate }}</pubDate>
+      {% if feed_image %}<media:content url="{{ feed_image | absolute_url }}" medium="image" />{% endif %}
+      <content:encoded><![CDATA[{% if feed_image %}<p><img src="{{ feed_image | absolute_url }}" alt="{{ a }}" /></p>{% endif %}{{ c }}]]></content:encoded>
+    </item>
