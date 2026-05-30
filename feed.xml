@@ -13,33 +13,27 @@ layout: null
 
     {%- comment -%}
       Pinned posts keep fixed Goodreads dates so their order never changes.
-      Threshold = the newest pinned date. Any post newer than this floats
-      above the pinned block automatically; older posts fall below it.
+      Any post newer than the newest pinned date floats above the pinned
+      block automatically; older posts fall below it.
+
+      All text goes through _includes/feed-item.html, which converts Turkish
+      and accented letters to HTML entities (Goodreads mangles raw UTF-8).
     {%- endcomment -%}
     {% assign pinned = "collateral,handled,the-cove,the-anxiety" | split: "," %}
     {% assign pin_top_ts = "2026-05-26 12:00:00" | date: "%s" | plus: 0 %}
 
-    {%- comment -%} 1) New posts, newer than the pinned block — auto, real dates, newest first {%- endcomment -%}
+    {%- comment -%} 1) New posts, newer than the pinned block {%- endcomment -%}
     {% for post in site.posts %}
       {% unless pinned contains post.slug %}
         {% assign post_ts = post.date | date: "%s" | plus: 0 %}
         {% if post_ts > pin_top_ts %}
           {% assign rss_pubdate = post.date | date_to_rfc822 %}
-          {% assign feed_image = post.image | default: post.thumb %}
-    <item>
-      <title>{{ post.title | xml_escape }}</title>
-      <description>{{ post.description | default: post.subtitle | default: site.description | xml_escape }}</description>
-      <link>{{ post.url | absolute_url }}</link>
-      <guid isPermaLink="true">{{ post.url | absolute_url }}</guid>
-      <pubDate>{{ rss_pubdate }}</pubDate>
-      {% if feed_image %}<media:content url="{{ feed_image | absolute_url }}" medium="image" />{% endif %}
-      <content:encoded><![CDATA[{% if feed_image %}<p><img src="{{ feed_image | absolute_url }}" alt="{{ post.cover_alt | default: post.title | xml_escape }}" /></p>{% endif %}{{ post.content }}]]></content:encoded>
-    </item>
+          {% include feed-item.html post=post pubdate=rss_pubdate %}
         {% endif %}
       {% endunless %}
     {% endfor %}
 
-    {%- comment -%} 2) The four pinned posts — fixed order, fixed Goodreads dates {%- endcomment -%}
+    {%- comment -%} 2) The four pinned posts — fixed order and dates {%- endcomment -%}
     {% for slug in pinned %}
       {% assign post = site.posts | where: "slug", slug | first %}
       {% if post %}
@@ -49,35 +43,17 @@ layout: null
           {% when "the-cove" %}{% assign rss_pubdate = "Sun, 24 May 2026 12:00:00 +0000" %}
           {% when "the-anxiety" %}{% assign rss_pubdate = "Sat, 23 May 2026 12:00:00 +0000" %}
         {% endcase %}
-        {% assign feed_image = post.image | default: post.thumb %}
-    <item>
-      <title>{{ post.title | xml_escape }}</title>
-      <description>{{ post.description | default: post.subtitle | default: site.description | xml_escape }}</description>
-      <link>{{ post.url | absolute_url }}</link>
-      <guid isPermaLink="true">{{ post.url | absolute_url }}</guid>
-      <pubDate>{{ rss_pubdate }}</pubDate>
-      {% if feed_image %}<media:content url="{{ feed_image | absolute_url }}" medium="image" />{% endif %}
-      <content:encoded><![CDATA[{% if feed_image %}<p><img src="{{ feed_image | absolute_url }}" alt="{{ post.cover_alt | default: post.title | xml_escape }}" /></p>{% endif %}{{ post.content }}]]></content:encoded>
-    </item>
+        {% include feed-item.html post=post pubdate=rss_pubdate %}
       {% endif %}
     {% endfor %}
 
-    {%- comment -%} 3) Everything else — older than the pinned block — auto, real dates, newest first {%- endcomment -%}
+    {%- comment -%} 3) Everything else — older than the pinned block {%- endcomment -%}
     {% for post in site.posts %}
       {% unless pinned contains post.slug %}
         {% assign post_ts = post.date | date: "%s" | plus: 0 %}
         {% if post_ts <= pin_top_ts %}
           {% assign rss_pubdate = post.date | date_to_rfc822 %}
-          {% assign feed_image = post.image | default: post.thumb %}
-    <item>
-      <title>{{ post.title | xml_escape }}</title>
-      <description>{{ post.description | default: post.subtitle | default: site.description | xml_escape }}</description>
-      <link>{{ post.url | absolute_url }}</link>
-      <guid isPermaLink="true">{{ post.url | absolute_url }}</guid>
-      <pubDate>{{ rss_pubdate }}</pubDate>
-      {% if feed_image %}<media:content url="{{ feed_image | absolute_url }}" medium="image" />{% endif %}
-      <content:encoded><![CDATA[{% if feed_image %}<p><img src="{{ feed_image | absolute_url }}" alt="{{ post.cover_alt | default: post.title | xml_escape }}" /></p>{% endif %}{{ post.content }}]]></content:encoded>
-    </item>
+          {% include feed-item.html post=post pubdate=rss_pubdate %}
         {% endif %}
       {% endunless %}
     {% endfor %}
