@@ -11,43 +11,76 @@ layout: null
     <language>en</language>
     <lastBuildDate>{{ site.time | date_to_rfc822 }}</lastBuildDate>
 
-    {% assign goodreads_featured = "collateral,handled,the-cove,the-anxiety" | split: "," %}
-    {% for slug in goodreads_featured %}
-      {% assign post = site.posts | where: "slug", slug | first %}
-      {% if post %}
-      {% case slug %}
-        {% when "collateral" %}{% assign rss_pubdate = "Tue, 26 May 2026 12:00:00 +0000" %}
-        {% when "handled" %}{% assign rss_pubdate = "Mon, 25 May 2026 12:00:00 +0000" %}
-        {% when "the-cove" %}{% assign rss_pubdate = "Sun, 24 May 2026 12:00:00 +0000" %}
-        {% when "the-anxiety" %}{% assign rss_pubdate = "Sat, 23 May 2026 12:00:00 +0000" %}
-      {% endcase %}
+    {%- comment -%}
+      Pinned posts keep fixed Goodreads dates so their order never changes.
+      Threshold = the newest pinned date. Any post newer than this floats
+      above the pinned block automatically; older posts fall below it.
+    {%- endcomment -%}
+    {% assign pinned = "collateral,handled,the-cove,the-anxiety" | split: "," %}
+    {% assign pin_top_ts = "2026-05-26 12:00:00" | date: "%s" | plus: 0 %}
+
+    {%- comment -%} 1) New posts, newer than the pinned block — auto, real dates, newest first {%- endcomment -%}
+    {% for post in site.posts %}
+      {% unless pinned contains post.slug %}
+        {% assign post_ts = post.date | date: "%s" | plus: 0 %}
+        {% if post_ts > pin_top_ts %}
+          {% assign rss_pubdate = post.date | date_to_rfc822 %}
+          {% assign feed_image = post.image | default: post.thumb %}
     <item>
       <title>{{ post.title | xml_escape }}</title>
       <description>{{ post.description | default: post.subtitle | default: site.description | xml_escape }}</description>
       <link>{{ post.url | absolute_url }}</link>
       <guid isPermaLink="true">{{ post.url | absolute_url }}</guid>
       <pubDate>{{ rss_pubdate }}</pubDate>
-      {% assign post_image = post.image | default: post.thumb %}
-      {% if post_image %}<media:content url="{{ post_image | absolute_url }}" medium="image" />{% endif %}
-      <content:encoded><![CDATA[{{ post.content }}]]></content:encoded>
+      {% if feed_image %}<media:content url="{{ feed_image | absolute_url }}" medium="image" />{% endif %}
+      <content:encoded><![CDATA[{% if feed_image %}<p><img src="{{ feed_image | absolute_url }}" alt="{{ post.cover_alt | default: post.title | xml_escape }}" /></p>{% endif %}{{ post.content }}]]></content:encoded>
     </item>
-      {% endif %}
+        {% endif %}
+      {% endunless %}
     {% endfor %}
 
-    {% assign excluded_slugs = goodreads_featured %}
-    {% for post in site.posts %}
-      {% unless excluded_slugs contains post.slug %}
+    {%- comment -%} 2) The four pinned posts — fixed order, fixed Goodreads dates {%- endcomment -%}
+    {% for slug in pinned %}
+      {% assign post = site.posts | where: "slug", slug | first %}
+      {% if post %}
+        {% case slug %}
+          {% when "collateral" %}{% assign rss_pubdate = "Tue, 26 May 2026 12:00:00 +0000" %}
+          {% when "handled" %}{% assign rss_pubdate = "Mon, 25 May 2026 12:00:00 +0000" %}
+          {% when "the-cove" %}{% assign rss_pubdate = "Sun, 24 May 2026 12:00:00 +0000" %}
+          {% when "the-anxiety" %}{% assign rss_pubdate = "Sat, 23 May 2026 12:00:00 +0000" %}
+        {% endcase %}
+        {% assign feed_image = post.image | default: post.thumb %}
     <item>
       <title>{{ post.title | xml_escape }}</title>
       <description>{{ post.description | default: post.subtitle | default: site.description | xml_escape }}</description>
       <link>{{ post.url | absolute_url }}</link>
       <guid isPermaLink="true">{{ post.url | absolute_url }}</guid>
-      <pubDate>{{ post.date | date_to_rfc822 }}</pubDate>
-      {% assign post_image = post.image | default: post.thumb %}
-      {% if post_image %}<media:content url="{{ post_image | absolute_url }}" medium="image" />{% endif %}
-      <content:encoded><![CDATA[{{ post.content }}]]></content:encoded>
+      <pubDate>{{ rss_pubdate }}</pubDate>
+      {% if feed_image %}<media:content url="{{ feed_image | absolute_url }}" medium="image" />{% endif %}
+      <content:encoded><![CDATA[{% if feed_image %}<p><img src="{{ feed_image | absolute_url }}" alt="{{ post.cover_alt | default: post.title | xml_escape }}" /></p>{% endif %}{{ post.content }}]]></content:encoded>
     </item>
+      {% endif %}
+    {% endfor %}
+
+    {%- comment -%} 3) Everything else — older than the pinned block — auto, real dates, newest first {%- endcomment -%}
+    {% for post in site.posts %}
+      {% unless pinned contains post.slug %}
+        {% assign post_ts = post.date | date: "%s" | plus: 0 %}
+        {% if post_ts <= pin_top_ts %}
+          {% assign rss_pubdate = post.date | date_to_rfc822 %}
+          {% assign feed_image = post.image | default: post.thumb %}
+    <item>
+      <title>{{ post.title | xml_escape }}</title>
+      <description>{{ post.description | default: post.subtitle | default: site.description | xml_escape }}</description>
+      <link>{{ post.url | absolute_url }}</link>
+      <guid isPermaLink="true">{{ post.url | absolute_url }}</guid>
+      <pubDate>{{ rss_pubdate }}</pubDate>
+      {% if feed_image %}<media:content url="{{ feed_image | absolute_url }}" medium="image" />{% endif %}
+      <content:encoded><![CDATA[{% if feed_image %}<p><img src="{{ feed_image | absolute_url }}" alt="{{ post.cover_alt | default: post.title | xml_escape }}" /></p>{% endif %}{{ post.content }}]]></content:encoded>
+    </item>
+        {% endif %}
       {% endunless %}
     {% endfor %}
+
   </channel>
 </rss>
