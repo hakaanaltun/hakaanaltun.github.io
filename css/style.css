@@ -209,12 +209,12 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
 .hero-quote-card { position: relative; min-height: 220px; padding: 38px 44px 34px; border-radius: 18px; border: 1px solid var(--rule-cream); background: var(--paper); box-shadow: 0 10px 28px rgba(47, 43, 39, 0.05); display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
 .hero-quote-card::before { content: '\201C'; position: absolute; left: 24px; top: 16px; font-family: 'Cormorant Garamond', Georgia, serif; font-size: 5rem; line-height: 1; color: rgba(30, 85, 82, 0.06); pointer-events: none; }
 
-/* FIX: Quote text daha minimal boyutlara küçültüldü */
+/* FIX: Desktop quote text daha minimal boyutlara küçültüldü */
 .hero-quote-text { font-family: 'EB Garamond', Georgia, serif; font-style: italic; font-size: clamp(1.1rem, 1.4vw, 1.5rem); line-height: 1.55; color: var(--vizon); max-width: 860px; min-height: 1.2em; }
 
 .hero-quote-word { opacity: 0; transform: translateY(8px); display: inline-block; transition: opacity 0.55s ease, transform 0.55s ease; }
 .hero-quote-word.word-visible { opacity: 1; transform: translateY(0); }
-.hero-quote-source { opacity: 0; align-self: flex-end; text-align: right; margin-top: 18px; font-size: 1rem; line-height: 1.3; color: var(--petrol); transition: opacity 0.55s ease; }
+.hero-quote-source { opacity: 0; align-self: flex-end; text-align: right; margin-top: 18px; font-size: 1.15rem; line-height: 1.3; color: var(--petrol); transition: opacity 0.55s ease; }
 .hero-quote-source.visible { opacity: 1; }
 .hero-quote-source i { color: var(--petrol); font-style: italic; }
 .quote-nav { position: absolute; left: 50%; bottom: 18px; display: flex; gap: 10px; opacity: 0; transform: translate(-50%, 6px); transition: opacity 0.2s ease, transform 0.2s ease; pointer-events: none; }
@@ -464,9 +464,10 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
   .hero-quotes-section { padding-top: 44px; }
   .hero-quote-card { min-height: 190px; padding: 30px 26px 52px; border-radius: 16px; }
   .hero-quote-card::before { font-size: 4rem; left: 18px; top: 12px; }
-  /* FIX: Mobil için Hero yazısı daha orantılı hale getirildi */
-  .hero-quote-text { font-size: 1.05rem; line-height: 1.45; }
-  .hero-quote-source { font-size: 0.9rem; }
+  
+  /* MOBİL: Orijinal haline geri döndürüldü */
+  .hero-quote-text { font-size: 1.2rem; line-height: 1.45; }
+  .hero-quote-source { font-size: 1rem; }
 
   .asym-thumb-wrap { aspect-ratio: 16 / 9; }
   .asym-card:not(.is-featured) { display: grid; grid-template-columns: 88px 1fr; gap: 14px; align-items: center; padding: 12px; }
