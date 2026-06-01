@@ -166,13 +166,13 @@ header .hamburger-btn:focus-visible, header .header-share-btn:focus-visible, hea
 .site-drawer a:hover { opacity: 0.8; }
 
 .drawer-section-links { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 4px 0; }
-.drawer-section-links a { display: block; padding: 10px 12px; border: 1px solid var(--petrol); border-radius: 10px; background: var(--paper); font-size: 14px; color: var(--petrol-deep); text-align: center; transition: border-color 0.2s ease; }
-.drawer-section-links a:hover { border-color: var(--rule-cream); opacity: 1; }
+.drawer-section-links a { display: block; padding: 10px 12px; border: 1px solid var(--rule-cream); border-radius: 10px; background: var(--paper); font-size: 14px; color: var(--petrol-deep); text-align: center; transition: border-color 0.2s ease; }
+.drawer-section-links a:hover { border-color: var(--petrol); opacity: 1; }
 
 .drawer-essay-cards { display: grid; grid-template-columns: 1fr; gap: 8px; margin: 2px 0 8px; }
 .drawer-essay-card-link { display: block; }
-.drawer-essay-card-link:hover .drawer-essay-card { border-color: var(--rule-cream); box-shadow: 0 8px 22px rgba(47, 43, 39, 0.07); transform: translateY(-1px); }
-.drawer-essay-card { display: grid; grid-template-columns: 72px 1fr; gap: 12px; align-items: center; padding: 10px; border: 1px solid var(--petrol); border-radius: 12px; background: var(--paper); box-shadow: 0 4px 16px rgba(47, 43, 39, 0.045); transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease; }
+.drawer-essay-card-link:hover .drawer-essay-card { border-color: var(--petrol); box-shadow: 0 8px 22px rgba(47, 43, 39, 0.07); transform: translateY(-1px); }
+.drawer-essay-card { display: grid; grid-template-columns: 72px 1fr; gap: 12px; align-items: center; padding: 10px; border: 1px solid var(--rule-cream); border-radius: 12px; background: var(--paper); box-shadow: 0 4px 16px rgba(47, 43, 39, 0.045); transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease; }
 .drawer-essay-card img { width: 72px; height: 72px; object-fit: cover; border-radius: 8px; border: 1px solid var(--rule-cream); display: block; }
 .drawer-essay-card-text { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
 .drawer-essay-card-title { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.12rem; font-style: italic; font-weight: 500; line-height: 1.08; color: var(--petrol); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
@@ -206,8 +206,8 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
    6. Hero Quotes
    ========================================================================== */
 .hero-quotes-section { padding-top: 74px; margin-top: 0; }
-.hero-quote-card { position: relative; min-height: 220px; padding: 38px 44px 34px; border-radius: 18px; border: 1px solid var(--petrol); background: var(--paper); box-shadow: 0 10px 28px rgba(47, 43, 39, 0.05); display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
-.hero-quote-card::before { content: '\201C'; position: absolute; left: 24px; top: 16px; font-family: 'Cormorant Garamond', Georgia, serif; font-size: 5rem; line-height: 1; color: var(--petrol); pointer-events: none; }
+.hero-quote-card { position: relative; min-height: 220px; padding: 38px 44px 34px; border-radius: 18px; border: 1px solid var(--rule-cream); background: var(--paper); box-shadow: 0 10px 28px rgba(47, 43, 39, 0.05); display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
+.hero-quote-card::before { content: '\201C'; position: absolute; left: 24px; top: 16px; font-family: 'Cormorant Garamond', Georgia, serif; font-size: 5rem; line-height: 1; color: rgba(30, 85, 82, 0.06); pointer-events: none; }
 
 /* FIX: Desktop quote text `.section-subtitle` ile aynı boyuta getirildi */
 .hero-quote-text { font-family: 'EB Garamond', Georgia, serif; font-style: italic; font-size: clamp(1.18rem, 1.55vw, 1.42rem); line-height: 1.55; color: var(--vizon); max-width: 860px; min-height: 1.2em; }
@@ -220,8 +220,8 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
 .quote-nav { position: absolute; left: 50%; bottom: 18px; display: flex; gap: 10px; opacity: 0; transform: translate(-50%, 6px); transition: opacity 0.2s ease, transform 0.2s ease; pointer-events: none; }
 .quote-nav.quote-nav-visible { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
 @media (hover: hover) { .hero-quote-card:hover .quote-nav { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; } }
-.quote-nav-btn { width: 38px; height: 38px; border-radius: 999px; border: 1px solid var(--petrol); background: var(--paper); color: var(--petrol); font-family: 'Cormorant Garamond', Georgia, serif; font-size: 2rem; line-height: 1; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease; box-shadow: 0 4px 12px rgba(47, 43, 39, 0.04); }
-.quote-nav-btn:hover { border-color: var(--rule-cream); background: var(--paper); transform: translateY(-1px); box-shadow: 0 6px 16px rgba(47, 43, 39, 0.08); }
+.quote-nav-btn { width: 38px; height: 38px; border-radius: 999px; border: 1px solid var(--rule-cream); background: var(--paper); color: var(--petrol); font-family: 'Cormorant Garamond', Georgia, serif; font-size: 2rem; line-height: 1; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease; box-shadow: 0 4px 12px rgba(47, 43, 39, 0.04); }
+.quote-nav-btn:hover { border-color: var(--petrol); background: var(--paper); transform: translateY(-1px); box-shadow: 0 6px 16px rgba(47, 43, 39, 0.08); }
 
 /* ========================================================================== 
    7. Asym Cards
@@ -231,11 +231,11 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
 
 .asym-card {
   display: flex; flex-direction: column; min-height: 100%;
-  background: var(--paper); border: 1px solid var(--petrol); border-radius: 14px;
+  background: var(--paper); border: 1px solid var(--rule-cream); border-radius: 14px;
   overflow: hidden; box-shadow: var(--shadow-card);
   transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
 }
-.asym-card:hover { border-color: var(--rule-cream); box-shadow: var(--shadow-card-hover); transform: translateY(-4px); }
+.asym-card:hover { border-color: var(--petrol); box-shadow: var(--shadow-card-hover); transform: translateY(-4px); }
 .asym-thumb-wrap { display: block; width: 100%; aspect-ratio: 16 / 9; background: var(--surface-soft); border-bottom: 1px solid var(--rule-cream); overflow: hidden; }
 .asym-thumb { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.35s ease; }
 .asym-card:hover .asym-thumb { transform: scale(1.025); }
@@ -264,8 +264,8 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
 .book-links { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; margin-top: 20px; }
 .book-links-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
 .book-links span { display: none; }
-.book-links a { display: inline-flex; align-items: center; justify-content: center; padding: 7px 12px; border: 1px solid var(--petrol); border-radius: 8px; background: var(--paper); color: var(--petrol-deep); font-size: 1rem; line-height: 1; box-shadow: 0 4px 12px rgba(47, 43, 39, 0.03); transition: border-color 0.2s ease; }
-.book-links a:hover { border-color: var(--rule-cream); }
+.book-links a { display: inline-flex; align-items: center; justify-content: center; padding: 7px 12px; border: 1px solid var(--rule-cream); border-radius: 8px; background: var(--paper); color: var(--petrol-deep); font-size: 1rem; line-height: 1; box-shadow: 0 4px 12px rgba(47, 43, 39, 0.03); transition: border-color 0.2s ease; }
+.book-links a:hover { border-color: var(--petrol); }
 
 .moris-card, .about-card { display: flex; flex-direction: column; gap: 24px; background: transparent; border: 0; padding-top: 0; }
 .about-text p { font-size: 1.13rem; line-height: 1.68; color: var(--vizon); margin-bottom: 16px; }
@@ -326,7 +326,7 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
 .essay-nav .next-series-link { color: var(--petrol); font-size: 16px; font-weight: 500; text-align: right; margin-left: auto; align-items: flex-end; }
 .essay-nav .next-series-link:hover { opacity: 0.8; }
 
-.series-nav, .fragments-nav { margin-top: 0; padding: 24px; border: 1px solid var(--petrol); border-radius: 8px; background: var(--paper); }
+.series-nav, .fragments-nav { margin-top: 0; padding: 24px; border: 1px solid var(--rule-cream); border-radius: 8px; background: var(--paper); }
 .series-nav-title { font-size: 13px; letter-spacing: 0.08em; margin-bottom: 14px; line-height: 1.4; }
 .series-nav-title-on { color: var(--petrol); }
 .series-nav-title-sub { color: var(--ink-soft); }
@@ -348,8 +348,8 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
 .more-essays-title { display: block; font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: 32px; color: var(--petrol); margin-bottom: 18px; }
 .more-essays-grid-hp { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; list-style: none; padding: 0; }
 .more-essays-grid-hp li { padding: 0; margin: 0; }
-.more-essays-grid-hp .essay-card { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; width: 100%; height: 100%; padding: 16px; border: 1px solid var(--petrol); border-radius: 8px; background: var(--paper); text-decoration: none; color: inherit; transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s cubic-bezier(0.23, 1, 0.32, 1); }
-.more-essays-grid-hp .essay-card:hover { border-color: var(--rule-cream); box-shadow: 0 8px 32px rgba(47, 43, 39, 0.05); transform: translateY(-4px); }
+.more-essays-grid-hp .essay-card { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; width: 100%; height: 100%; padding: 16px; border: 1px solid var(--rule-cream); border-radius: 8px; background: var(--paper); text-decoration: none; color: inherit; transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s cubic-bezier(0.23, 1, 0.32, 1); }
+.more-essays-grid-hp .essay-card:hover { border-color: var(--petrol); box-shadow: 0 8px 32px rgba(47, 43, 39, 0.05); transform: translateY(-4px); }
 .more-essays-grid-hp .essay-thumb { width: 100%; height: 200px; object-fit: cover; border-radius: 4px; }
 .more-essays-grid-hp .essay-card-text { flex: 1; display: flex; flex-direction: column; gap: 6px; width: 100%; }
 .more-essays-grid-hp .essay-title { font-size: 20px; font-style: italic; font-weight: 400; color: var(--petrol); }
