@@ -18,9 +18,9 @@ layout: home
 
 <section id="pieces">
   {% include section-header.html title="Pieces" subtitle="Essays, short fiction, and other writing." %}
-  {% assign pieces_spans = "7,5,4,4,4,4,4,4,4" | split: "," %}
+  {% assign pieces_spans = "7,5,4,4,4,4,4,4,4,4,4,4" | split: "," %}
   <ul class="asym-grid">
-    {% for post in regular_essays limit: 9 %}
+    {% for post in regular_essays limit: 12 %}
       {% assign span = pieces_spans[forloop.index0] %}
       {% assign pieces_kicker = "" %}
       {% include home-card.html post=post span=span featured=forloop.first kicker=pieces_kicker %}
