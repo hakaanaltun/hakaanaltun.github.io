@@ -295,6 +295,9 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
 .essay-number { display: inline-block; font-size: 15px; color: var(--petrol); background: var(--rule); padding: 4px 10px; border-radius: 4px; }
 .essay-cover { width: 100%; border-radius: 6px; margin: 32px 0 40px; overflow: hidden; }
 .essay-cover img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; display: block; border: 1px solid var(--rule-cream); border-radius: 4px; }
+.essay-audio { margin: 0 0 40px; padding: 15px 18px; border: 1px solid var(--rule-cream); border-radius: 8px; background: var(--paper); box-shadow: var(--shadow-card); }
+.essay-audio-label { display: flex; align-items: center; gap: 8px; font-family: 'EB Garamond', Georgia, serif; font-style: italic; font-size: 16px; color: var(--vizon); margin-bottom: 10px; }
+.essay-audio audio { width: 100%; height: 36px; display: block; accent-color: var(--petrol); }
 
 /* Hidden cover image used solely for RSS feed enclosure (e.g. The Cove).
    The visible cover is rendered via layout; this img sits inline in body
