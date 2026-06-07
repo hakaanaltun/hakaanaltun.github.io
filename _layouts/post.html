@@ -12,6 +12,12 @@ layout: default
 {% if cover_image %}
 <div class="essay-cover fade-in fade-in-delay"><img src="{{ cover_image }}" alt="{{ page.cover_alt | default: page.subtitle }}" loading="lazy"></div>
 {% endif %}
+{% if page.audio %}
+<figure class="essay-audio fade-in fade-in-delay">
+<figcaption class="essay-audio-label"><span>Read aloud</span>{% if page.audio_length %}<span aria-hidden="true">·</span><span>{{ page.audio_length }}</span>{% endif %}</figcaption>
+<audio controls preload="none" src="{{ page.audio }}">Your browser can't play this here. <a href="{{ page.audio }}">Download the recording</a>.</audio>
+</figure>
+{% endif %}
 <article class="essay-body fade-in fade-in-delay">
 {{ content }}
 </article>
