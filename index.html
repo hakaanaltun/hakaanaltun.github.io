@@ -2,8 +2,6 @@
 layout: home
 ---
 {% assign regular_essays = site.posts | where: "series", "" | sort: "date" | reverse %}
-{% assign fragments = site.posts | where: "series", "fragments" | sort: "series_order" %}
-{% assign on_series = site.posts | where: "series", "on-series" | sort: "series_order" %}
 
 <section id="quotes" class="hero-quotes-section">
   <div class="hero-quote-card" aria-live="polite">
@@ -27,29 +25,6 @@ layout: home
     {% endfor %}
   </ul>
   <a class="section-more" href="/archive/">Read everything <span class="section-more-arrow" aria-hidden="true">&rarr;</span></a>
-</section>
-
-<section id="on-series">
-  {% include section-header.html title="The On Series" subtitle="Seven essays on what we build inside ourselves—and why." %}
-  {% assign on_series_spans = "7,5,4,4,4,5,7" | split: "," %}
-  <ul class="asym-grid">
-    {% for post in on_series %}
-      {% assign span = on_series_spans[forloop.index0] %}
-      {% include home-card.html post=post span=span featured=forloop.first %}
-    {% endfor %}
-  </ul>
-  <p class="series-note">Unified by a corridor metaphor and a movement from the external to the solitary.</p>
-</section>
-
-<section id="fragments-arc">
-  {% include section-header.html title="Şafak’s Arc from The Fragments" subtitle="How a boy becomes someone who knows where to put his hands." %}
-  {% assign fragments_spans = "7,5,4,4,4" | split: "," %}
-  <ul class="asym-grid">
-    {% for post in fragments %}
-      {% assign span = fragments_spans[forloop.index0] %}
-      {% include home-card.html post=post span=span featured=forloop.first %}
-    {% endfor %}
-  </ul>
 </section>
 
 <section id="book">
