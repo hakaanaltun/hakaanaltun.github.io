@@ -1,0 +1,17 @@
+<li class="archive-item">
+  <a href="{{ include.post.url }}" class="archive-row">
+    {% assign row_img = include.post.thumb | default: include.post.image %}
+    {% if row_img %}
+    <span class="archive-thumb-wrap">
+      <img src="{{ row_img }}" alt="{{ include.post.cover_alt | default: include.post.title }}" class="archive-thumb" loading="lazy">
+    </span>
+    {% else %}
+    <span class="archive-thumb-wrap archive-thumb-wrap--empty" aria-hidden="true"></span>
+    {% endif %}
+    <span class="archive-row-text">
+      <span class="archive-row-title">{{ include.post.title }}</span>
+      {% if include.post.subtitle %}<span class="archive-row-subtitle">{{ include.post.subtitle }}</span>{% endif %}
+      <span class="archive-row-meta">{{ include.post.date | date: "%b %-d, %Y" }} · {{ include.post.read_time }}</span>
+    </span>
+  </a>
+</li>
