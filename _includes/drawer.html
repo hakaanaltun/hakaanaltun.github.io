@@ -12,7 +12,7 @@
     <span class="brand-sub">On Life &amp; Everything</span>
   </a>
 
-  <span class="drawer-label">Pieces</span>
+  <a class="drawer-label" href="{{ section_prefix }}#pieces">Pieces</a>
   <div class="drawer-essay-cards">
     {% for post in regular_essays limit: 8 %}
     {% assign drawer_image = post.thumb | default: post.image %}
@@ -28,7 +28,7 @@
   </div>
   <a href="/archive/" class="drawer-more">Read everything <span aria-hidden="true">&rarr;</span></a>
 
-  <span class="drawer-label">The On Series</span>
+  <a class="drawer-label" href="/archive/#on-series">The On Series</a>
   <div class="drawer-essay-cards">
     {% for post in on_series %}
     {% assign drawer_image = post.thumb | default: post.image %}
@@ -43,7 +43,7 @@
     {% endfor %}
   </div>
 
-  <span class="drawer-label">Şafak’s Arc</span>
+  <a class="drawer-label" href="/archive/#fragments-arc">Şafak’s Arc</a>
   <div class="drawer-essay-cards">
     {% for post in fragments %}
     {% assign drawer_image = post.thumb | default: post.image %}
