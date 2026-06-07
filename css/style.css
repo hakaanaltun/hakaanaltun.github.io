@@ -540,9 +540,9 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
    Section "More" link (Pieces → Archive)
    ========================================================================== */
 .section-more {
-  display: inline-flex; align-items: center; gap: 7px; margin-top: 24px;
+  display: inline-flex; align-items: center; gap: 8px; margin-top: 28px;
   font-family: 'EB Garamond', Georgia, serif; font-style: italic;
-  font-size: clamp(1.08rem, 1.4vw, 1.3rem); color: var(--petrol);
+  font-size: clamp(1.25rem, 1.8vw, 1.55rem); color: var(--petrol);
   text-decoration: none; transition: color 0.2s ease, gap 0.2s ease;
 }
 .section-more:hover { color: var(--petrol-deep); gap: 11px; }
@@ -559,7 +559,7 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
 /* ==========================================================================
    Archive page
    ========================================================================== */
-.archive-page { padding: 4px 0 24px; }
+.archive-page { padding: 72px 0 48px; }
 .archive-head { margin-bottom: 40px; }
 .archive-title {
   font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500;
@@ -604,6 +604,7 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
 .archive-row-meta { font-size: 13px; color: var(--vizon); margin-top: 2px; }
 
 @media (max-width: 600px) {
+  .archive-page { padding-top: 52px; }
   .archive-head { margin-bottom: 30px; }
   .archive-row { grid-template-columns: 68px 1fr; gap: 13px; padding: 13px 0; }
   .archive-thumb-wrap { width: 68px; }
