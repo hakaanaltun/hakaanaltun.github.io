@@ -13,6 +13,8 @@ description: "Every essay and short fiction, in one place."
     <h1 class="archive-title">Everything, in one place</h1>
   </div>
 
+  <div class="archive-divider" aria-hidden="true"></div>
+
   <section id="pieces" class="archive-group fade-in fade-in-delay">
     <div class="archive-group-head">
       <h2 class="archive-group-title">Pieces</h2>
@@ -22,6 +24,8 @@ description: "Every essay and short fiction, in one place."
       {% for post in regular_essays %}{% include archive-row.html post=post %}{% endfor %}
     </ul>
   </section>
+
+  <div class="archive-divider" aria-hidden="true"></div>
 
   <section id="on-series" class="archive-group fade-in fade-in-delay">
     <div class="archive-group-head">
@@ -33,6 +37,8 @@ description: "Every essay and short fiction, in one place."
     </ul>
   </section>
 
+  <div class="archive-divider" aria-hidden="true"></div>
+
   <section id="fragments-arc" class="archive-group fade-in fade-in-delay">
     <div class="archive-group-head">
       <h2 class="archive-group-title">Şafak’s Arc from The Fragments</h2>
@@ -43,3 +49,16 @@ description: "Every essay and short fiction, in one place."
     </ul>
   </section>
 </div>
+
+<script>
+(function(){
+  'use strict';
+  if(!('IntersectionObserver' in window)) return;
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){e.target.classList.add('line-drawn');obs.unobserve(e.target);}
+    });
+  },{rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.archive-divider').forEach(function(el){obs.observe(el);});
+})();
+</script>
