@@ -14,7 +14,7 @@
 
   <span class="drawer-label">Pieces</span>
   <div class="drawer-essay-cards">
-    {% for post in regular_essays limit: 11 %}
+    {% for post in regular_essays limit: 8 %}
     {% assign drawer_image = post.thumb | default: post.image %}
     {% if post.url == page.url %}<span class="drawer-essay-card drawer-essay-card--current">{% else %}<a href="{{ post.url }}" class="drawer-essay-card-link"><span class="drawer-essay-card">{% endif %}
       {% if drawer_image %}<img src="{{ drawer_image }}" alt="{{ post.cover_alt | default: post.title }}" loading="lazy">{% endif %}
