@@ -168,8 +168,9 @@ header .hamburger-btn:focus-visible, header .header-share-btn:focus-visible, hea
 .drawer-toggle-chevron { display: inline-block; font-style: normal; font-size: 8px; line-height: 1; transition: transform 0.22s ease; color: var(--vizon); }
 .drawer-toggle-chevron::before { content: '▲'; }
 .drawer-section-toggle[aria-expanded="false"] .drawer-toggle-chevron { transform: rotate(180deg); }
-.drawer-section-content { overflow: hidden; }
-.drawer-section-content.collapsed { display: none; }
+.drawer-section-content { display: grid; grid-template-rows: 1fr; transition: grid-template-rows 0.3s ease, opacity 0.25s ease; opacity: 1; overflow: hidden; }
+.drawer-section-content.collapsed { grid-template-rows: 0fr; opacity: 0; pointer-events: none; }
+.drawer-section-inner { overflow: hidden; min-height: 0; }
 
 .site-drawer a { color: var(--petrol); padding: 4px 0; font-size: 16px; }
 .site-drawer a:hover { opacity: 0.8; }
