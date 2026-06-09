@@ -427,6 +427,10 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
   .footer-rule-bottom { margin-top: 28px; margin-bottom: 18px; }
 }
 
+@media (max-width: 768px) and (orientation: portrait) {
+  #pieces .asym-grid > *:nth-child(n+5) { display: none; }
+}
+
 @media (max-width: 768px) {
   .asym-grid { display: flex; flex-direction: column; gap: 24px; }
   .asym-grid > * { width: 100%; }
