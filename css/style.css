@@ -143,7 +143,7 @@ header .hamburger-btn:focus-visible, header .header-share-btn:focus-visible, hea
   padding: 24px 16px env(safe-area-inset-bottom, 24px);
   background: rgba(255, 255, 255, 0.985); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
   border-left: 1px solid var(--rule); box-shadow: -4px 0 24px rgba(47, 43, 39, 0.08);
-  display: flex; flex-direction: column; gap: 10px; overflow-y: auto; overscroll-behavior: contain;
+  display: flex; flex-direction: column; gap: 10px; overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain;
   transform: translateX(100%); transition: transform 0.35s cubic-bezier(0.23, 1, 0.32, 1);
 }
 .site-drawer.open { transform: translateX(0); }
@@ -175,7 +175,7 @@ summary.drawer-label::after { content: ""; flex: none; width: 7px; height: 7px; 
 .drawer-section[open] > summary.drawer-label::after { transform: rotate(-135deg); margin-bottom: -2px; }
 summary.drawer-label:hover { color: var(--petrol-deep); }
 summary.drawer-label:hover::after { border-color: var(--petrol-deep); }
-.drawer-section[open] > .drawer-essay-cards, .drawer-section[open] > .drawer-more, .drawer-section[open] > .drawer-book-link { animation: drawerReveal 0.25s ease; }
+.drawer-section[open] > .drawer-essay-cards, .drawer-section[open] > .drawer-more, .drawer-section[open] > .drawer-book-link, .drawer-section[open] > .drawer-section-links { animation: drawerReveal 0.25s ease; }
 @keyframes drawerReveal { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
 
 .drawer-section-links { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 4px 0; }
