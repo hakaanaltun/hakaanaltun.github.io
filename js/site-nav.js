@@ -123,33 +123,4 @@
       }
     });
   });
-  /* ── Drawer section toggles — accordion: only one section open at a time ── */
-  var sectionToggles = drawer.querySelectorAll('.drawer-section-toggle');
-  sectionToggles.forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      var content = btn.nextElementSibling;
-      if (!content || !content.classList.contains('drawer-section-content')) return;
-      var isExpanded = btn.getAttribute('aria-expanded') === 'true';
-
-      if (isExpanded) {
-        /* Collapse this section */
-        btn.setAttribute('aria-expanded', 'false');
-        content.classList.add('collapsed');
-      } else {
-        /* Collapse all other sections first */
-        sectionToggles.forEach(function (otherBtn) {
-          if (otherBtn === btn) return;
-          var otherContent = otherBtn.nextElementSibling;
-          if (otherContent && otherContent.classList.contains('drawer-section-content')) {
-            otherBtn.setAttribute('aria-expanded', 'false');
-            otherContent.classList.add('collapsed');
-          }
-        });
-        /* Expand this section */
-        btn.setAttribute('aria-expanded', 'true');
-        content.classList.remove('collapsed');
-      }
-    });
-  });
-
 })();
