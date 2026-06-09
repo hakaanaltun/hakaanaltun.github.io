@@ -169,6 +169,14 @@ header .hamburger-btn:focus-visible, header .header-share-btn:focus-visible, hea
 .site-drawer a:hover { opacity: 0.8; }
 .site-drawer a.drawer-label { padding: 0; font-size: 11px; }
 .site-drawer a.drawer-label:hover { opacity: 1; color: var(--petrol-deep); }
+summary.drawer-label { display: flex; align-items: center; justify-content: space-between; gap: 10px; cursor: pointer; list-style: none; }
+summary.drawer-label::-webkit-details-marker { display: none; }
+summary.drawer-label::after { content: ""; flex: none; width: 7px; height: 7px; border-right: 1.5px solid var(--vizon); border-bottom: 1.5px solid var(--vizon); transform: rotate(45deg); transition: transform 0.25s ease; margin-bottom: 2px; }
+.drawer-section[open] > summary.drawer-label::after { transform: rotate(-135deg); margin-bottom: -2px; }
+summary.drawer-label:hover { color: var(--petrol-deep); }
+summary.drawer-label:hover::after { border-color: var(--petrol-deep); }
+.drawer-section[open] > .drawer-essay-cards, .drawer-section[open] > .drawer-more { animation: drawerReveal 0.25s ease; }
+@keyframes drawerReveal { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
 
 .drawer-section-links { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 4px 0; }
 .drawer-section-links a { display: block; padding: 10px 12px; border: 1px solid var(--rule-cream); border-radius: 10px; background: var(--paper); font-size: 14px; color: var(--petrol-deep); text-align: center; transition: border-color 0.2s ease; }
@@ -496,6 +504,17 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
 
   .footer-inner { padding: 48px var(--pad) 44px; }
   .footer-bottom { flex-direction: column; align-items: flex-start; gap: 12px; }
+}
+
+/* Portrait phones: every Pieces card full-size and stacked; show the first four, then Read everything */
+@media (max-width: 600px) and (orientation: portrait) {
+  #pieces .asym-card { display: flex; flex-direction: column; padding: 0; gap: 0; }
+  #pieces .asym-card .asym-thumb-wrap { width: 100%; height: auto; aspect-ratio: 16 / 9; border: 0; border-bottom: 1px solid var(--rule-cream); border-radius: 0; margin: 0; }
+  #pieces .asym-card .asym-card-body { padding: 18px; gap: 8px; background: var(--paper); }
+  #pieces .asym-card .asym-title { font-size: clamp(2.1rem, 6.5vw, 2.5rem); line-height: 1.1; display: block; -webkit-line-clamp: unset; overflow: visible; }
+  #pieces .asym-card .asym-subtitle { font-size: 1.05rem; line-height: 1.4; font-style: italic; display: block; -webkit-line-clamp: unset; overflow: visible; }
+  #pieces .asym-card .asym-meta { font-size: 0.85rem; padding-top: 2px; margin-top: 4px; }
+  #pieces .asym-grid > .asym-item:nth-child(n+5) { display: none; }
 }
 
 @media (max-width: 420px) {
