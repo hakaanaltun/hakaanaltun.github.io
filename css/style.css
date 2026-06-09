@@ -175,7 +175,7 @@ summary.drawer-label::after { content: ""; flex: none; width: 7px; height: 7px; 
 .drawer-section[open] > summary.drawer-label::after { transform: rotate(-135deg); margin-bottom: -2px; }
 summary.drawer-label:hover { color: var(--petrol-deep); }
 summary.drawer-label:hover::after { border-color: var(--petrol-deep); }
-.drawer-section[open] > .drawer-essay-cards, .drawer-section[open] > .drawer-more { animation: drawerReveal 0.25s ease; }
+.drawer-section[open] > .drawer-essay-cards, .drawer-section[open] > .drawer-more, .drawer-section[open] > .drawer-book-link { animation: drawerReveal 0.25s ease; }
 @keyframes drawerReveal { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
 
 .drawer-section-links { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 4px 0; }
