@@ -123,4 +123,15 @@
       }
     });
   });
+  /* ── Drawer section toggles (Pieces, The On Series, Şafak's Arc) ── */
+  drawer.querySelectorAll('.drawer-section-toggle').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var content = btn.nextElementSibling;
+      if (!content || !content.classList.contains('drawer-section-content')) return;
+      var expanded = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+      content.classList.toggle('collapsed', expanded);
+    });
+  });
+
 })();

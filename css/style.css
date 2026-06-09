@@ -161,6 +161,15 @@ header .hamburger-btn:focus-visible, header .header-share-btn:focus-visible, hea
 .drawer-logo-link .brand-sub { font-size: 1.15rem; color: var(--footer-text); margin-top: 2px; white-space: nowrap; }
 
 .drawer-label { display: block; margin-top: 10px; font-size: 11px; color: var(--petrol); text-transform: uppercase; letter-spacing: 0.08em; }
+.drawer-section-toggle { appearance: none; -webkit-appearance: none; background: none; border: none; cursor: pointer; width: 100%; text-align: left; display: flex; align-items: center; justify-content: space-between; padding: 0; font-family: inherit; font-size: 11px; color: var(--petrol); text-transform: uppercase; letter-spacing: 0.08em; }
+.drawer-section-toggle:hover { color: var(--petrol-deep); }
+.drawer-section-toggle:focus { outline: none; }
+.drawer-section-toggle:focus-visible { outline: 2px solid var(--petrol); outline-offset: 2px; border-radius: 2px; }
+.drawer-toggle-chevron { display: inline-block; font-style: normal; font-size: 8px; line-height: 1; transition: transform 0.22s ease; color: var(--vizon); }
+.drawer-toggle-chevron::before { content: '▲'; }
+.drawer-section-toggle[aria-expanded="false"] .drawer-toggle-chevron { transform: rotate(180deg); }
+.drawer-section-content { overflow: hidden; }
+.drawer-section-content.collapsed { display: none; }
 
 .site-drawer a { color: var(--petrol); padding: 4px 0; font-size: 16px; }
 .site-drawer a:hover { opacity: 0.8; }

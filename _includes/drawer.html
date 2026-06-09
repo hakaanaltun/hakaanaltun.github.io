@@ -12,50 +12,56 @@
     <span class="brand-sub">On Life &amp; Everything</span>
   </a>
 
-  <a class="drawer-label" href="{{ section_prefix }}#pieces">Pieces</a>
-  <div class="drawer-essay-cards">
-    {% for post in regular_essays limit: 8 %}
-    {% assign drawer_image = post.thumb | default: post.image %}
-    {% if post.url == page.url %}<span class="drawer-essay-card drawer-essay-card--current">{% else %}<a href="{{ post.url }}" class="drawer-essay-card-link"><span class="drawer-essay-card">{% endif %}
-      {% if drawer_image %}<img src="{{ drawer_image }}" alt="{{ post.cover_alt | default: post.title }}" loading="lazy">{% endif %}
-      <span class="drawer-essay-card-text">
-        <span class="drawer-essay-card-title">{{ post.title }}</span>
-        {% if post.subtitle %}<span class="drawer-essay-card-subtitle">{{ post.subtitle }}</span>{% endif %}
-        <span class="drawer-essay-card-meta">{{ post.date | date: "%b %-d, %Y" }} · {{ post.read_time }}</span>
-      </span>
-    {% if post.url == page.url %}</span>{% else %}</span></a>{% endif %}
-    {% endfor %}
-  </div>
-  <a href="/archive/" class="drawer-more">Read everything <span aria-hidden="true">&rarr;</span></a>
-
-  <a class="drawer-label" href="/archive/#on-series">The On Series</a>
-  <div class="drawer-essay-cards">
-    {% for post in on_series %}
-    {% assign drawer_image = post.thumb | default: post.image %}
-    {% if post.url == page.url %}<span class="drawer-essay-card drawer-essay-card--current">{% else %}<a href="{{ post.url }}" class="drawer-essay-card-link"><span class="drawer-essay-card">{% endif %}
-      {% if drawer_image %}<img src="{{ drawer_image }}" alt="{{ post.cover_alt | default: post.title }}" loading="lazy">{% endif %}
-      <span class="drawer-essay-card-text">
-        <span class="drawer-essay-card-title">{{ post.title }}</span>
-        {% if post.subtitle %}<span class="drawer-essay-card-subtitle">{{ post.subtitle }}</span>{% endif %}
-        <span class="drawer-essay-card-meta">{{ post.date | date: "%b %-d, %Y" }} · {{ post.read_time }}</span>
-      </span>
-    {% if post.url == page.url %}</span>{% else %}</span></a>{% endif %}
-    {% endfor %}
+  <button type="button" class="drawer-label drawer-section-toggle" aria-expanded="true">Pieces <span class="drawer-toggle-chevron" aria-hidden="true"></span></button>
+  <div class="drawer-section-content">
+    <div class="drawer-essay-cards">
+      {% for post in regular_essays limit: 8 %}
+      {% assign drawer_image = post.thumb | default: post.image %}
+      {% if post.url == page.url %}<span class="drawer-essay-card drawer-essay-card--current">{% else %}<a href="{{ post.url }}" class="drawer-essay-card-link"><span class="drawer-essay-card">{% endif %}
+        {% if drawer_image %}<img src="{{ drawer_image }}" alt="{{ post.cover_alt | default: post.title }}" loading="lazy">{% endif %}
+        <span class="drawer-essay-card-text">
+          <span class="drawer-essay-card-title">{{ post.title }}</span>
+          {% if post.subtitle %}<span class="drawer-essay-card-subtitle">{{ post.subtitle }}</span>{% endif %}
+          <span class="drawer-essay-card-meta">{{ post.date | date: "%b %-d, %Y" }} · {{ post.read_time }}</span>
+        </span>
+      {% if post.url == page.url %}</span>{% else %}</span></a>{% endif %}
+      {% endfor %}
+    </div>
+    <a href="/archive/" class="drawer-more">Read everything <span aria-hidden="true">&rarr;</span></a>
   </div>
 
-  <a class="drawer-label" href="/archive/#fragments-arc">Şafak’s Arc</a>
-  <div class="drawer-essay-cards">
-    {% for post in fragments %}
-    {% assign drawer_image = post.thumb | default: post.image %}
-    {% if post.url == page.url %}<span class="drawer-essay-card drawer-essay-card--current">{% else %}<a href="{{ post.url }}" class="drawer-essay-card-link"><span class="drawer-essay-card">{% endif %}
-      {% if drawer_image %}<img src="{{ drawer_image }}" alt="{{ post.cover_alt | default: post.title }}" loading="lazy">{% endif %}
-      <span class="drawer-essay-card-text">
-        <span class="drawer-essay-card-title">{{ post.title }}</span>
-        {% if post.subtitle %}<span class="drawer-essay-card-subtitle">{{ post.subtitle }}</span>{% endif %}
-        <span class="drawer-essay-card-meta">{{ post.date | date: "%b %-d, %Y" }} · {{ post.read_time }}</span>
-      </span>
-    {% if post.url == page.url %}</span>{% else %}</span></a>{% endif %}
-    {% endfor %}
+  <button type="button" class="drawer-label drawer-section-toggle" aria-expanded="true">The On Series <span class="drawer-toggle-chevron" aria-hidden="true"></span></button>
+  <div class="drawer-section-content">
+    <div class="drawer-essay-cards">
+      {% for post in on_series %}
+      {% assign drawer_image = post.thumb | default: post.image %}
+      {% if post.url == page.url %}<span class="drawer-essay-card drawer-essay-card--current">{% else %}<a href="{{ post.url }}" class="drawer-essay-card-link"><span class="drawer-essay-card">{% endif %}
+        {% if drawer_image %}<img src="{{ drawer_image }}" alt="{{ post.cover_alt | default: post.title }}" loading="lazy">{% endif %}
+        <span class="drawer-essay-card-text">
+          <span class="drawer-essay-card-title">{{ post.title }}</span>
+          {% if post.subtitle %}<span class="drawer-essay-card-subtitle">{{ post.subtitle }}</span>{% endif %}
+          <span class="drawer-essay-card-meta">{{ post.date | date: "%b %-d, %Y" }} · {{ post.read_time }}</span>
+        </span>
+      {% if post.url == page.url %}</span>{% else %}</span></a>{% endif %}
+      {% endfor %}
+    </div>
+  </div>
+
+  <button type="button" class="drawer-label drawer-section-toggle" aria-expanded="true">Şafak's Arc <span class="drawer-toggle-chevron" aria-hidden="true"></span></button>
+  <div class="drawer-section-content">
+    <div class="drawer-essay-cards">
+      {% for post in fragments %}
+      {% assign drawer_image = post.thumb | default: post.image %}
+      {% if post.url == page.url %}<span class="drawer-essay-card drawer-essay-card--current">{% else %}<a href="{{ post.url }}" class="drawer-essay-card-link"><span class="drawer-essay-card">{% endif %}
+        {% if drawer_image %}<img src="{{ drawer_image }}" alt="{{ post.cover_alt | default: post.title }}" loading="lazy">{% endif %}
+        <span class="drawer-essay-card-text">
+          <span class="drawer-essay-card-title">{{ post.title }}</span>
+          {% if post.subtitle %}<span class="drawer-essay-card-subtitle">{{ post.subtitle }}</span>{% endif %}
+          <span class="drawer-essay-card-meta">{{ post.date | date: "%b %-d, %Y" }} · {{ post.read_time }}</span>
+        </span>
+      {% if post.url == page.url %}</span>{% else %}</span></a>{% endif %}
+      {% endfor %}
+    </div>
   </div>
 
   <span class="drawer-label">Book</span>
