@@ -18,6 +18,17 @@
   /* Filter out current essay */
   var pool = ALL_ESSAYS.filter(function (e) { return e.href !== current; });
 
+  /* Quiet recommendation filter:
+     - the five early pieces stay public but are not suggested
+     - Şafak's Arc is entered only through its first piece (The Poise) */
+  var notSuggested = ['say-hello', 'ai-enough', 'defense-mechanisms', 'jung-shadow', 'unfinished-things'];
+  pool = pool.filter(function (e) {
+    var slug = (e.href || '').replace(/\.html$/, '');
+    if (notSuggested.indexOf(slug) !== -1) return false;
+    if (e.series === 'fragments' && e.seriesOrder !== 1) return false;
+    return true;
+  });
+
   /* Fisher-Yates shuffle */
   for (var i = pool.length - 1; i > 0; i--) {
     var j = Math.floor(Math.random() * (i + 1));
