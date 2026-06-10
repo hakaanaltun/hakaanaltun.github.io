@@ -58,7 +58,6 @@ html {
   -webkit-font-smoothing: antialiased;
   scroll-padding-top: 150px;
   background: var(--bg);
-  overflow-x: clip;
 }
 
 body {
@@ -67,7 +66,6 @@ body {
   font-family: 'EB Garamond', Georgia, serif;
   font-size: 20px;
   line-height: 1.75;
-  overflow-x: clip;
   position: relative;
 }
 
