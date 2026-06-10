@@ -383,7 +383,7 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
 .footer-farewell { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 2rem; text-align: center; }
 .footer-signature { text-align: center; margin-top: 6px; color: var(--footer-muted); }
 .footer-rule { margin: 28px auto; border: 0; border-top: 1px solid rgba(237, 228, 207, 0.8); }
-.footer-grid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(170px, 0.65fr) minmax(220px, 0.75fr); gap: 52px; }
+.footer-grid { display: grid; grid-template-columns: minmax(220px, 0.75fr) minmax(0, 1.35fr) minmax(220px, 0.7fr); gap: 52px; }
 .footer-col { position: relative; padding: 0; }
 .footer-col + .footer-col { padding-left: 34px; border-left: 1px solid rgba(237, 228, 207, 0.32); }
 .footer-col h3 { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: 2rem; margin-bottom: 14px; color: var(--footer-text); }
