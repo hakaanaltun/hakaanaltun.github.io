@@ -507,15 +507,15 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
   .footer-bottom { flex-direction: column; align-items: flex-start; gap: 12px; }
 }
 
-/* Portrait phones: every Pieces card full-size and stacked; show the first four, then Read everything */
+/* Portrait phones: every Pieces card full-size and stacked; show the first six, then Read everything */
 @media (max-width: 600px) and (orientation: portrait) {
-  #pieces .asym-card { display: flex; flex-direction: column; padding: 0; gap: 0; }
+  #pieces .asym-card { display: flex; flex-direction: column; align-items: stretch; padding: 0; gap: 0; }
   #pieces .asym-card .asym-thumb-wrap { width: 100%; height: auto; aspect-ratio: 16 / 9; border: 0; border-bottom: 1px solid var(--rule-cream); border-radius: 0; margin: 0; }
   #pieces .asym-card .asym-card-body { padding: 18px; gap: 8px; background: var(--paper); }
   #pieces .asym-card .asym-title { font-size: clamp(2.1rem, 6.5vw, 2.5rem); line-height: 1.1; display: block; -webkit-line-clamp: unset; overflow: visible; }
   #pieces .asym-card .asym-subtitle { font-size: 1.05rem; line-height: 1.4; font-style: italic; display: block; -webkit-line-clamp: unset; overflow: visible; }
   #pieces .asym-card .asym-meta { font-size: 0.85rem; padding-top: 2px; margin-top: 4px; }
-  #pieces .asym-grid > .asym-item:nth-child(n+5) { display: none; }
+  #pieces .asym-grid > .asym-item:nth-child(n+7) { display: none; }
 }
 
 @media (max-width: 420px) {
