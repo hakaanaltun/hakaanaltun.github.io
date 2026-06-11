@@ -172,16 +172,17 @@ summary.drawer-label { display: flex; align-items: center; justify-content: spac
 summary.drawer-label::-webkit-details-marker { display: none; }
 summary.drawer-label::after { content: ""; flex: none; width: 8px; height: 8px; border-right: 1.5px solid var(--vizon); border-bottom: 1.5px solid var(--vizon); transform: rotate(45deg); transition: transform 0.25s ease; margin-bottom: 2px; }
 .drawer-section[open] > summary.drawer-label::after { transform: rotate(-135deg); margin-bottom: -2px; }
+.drawer-section > .drawer-book-link { display: block; margin-top: 10px; }
 summary.drawer-label:hover { color: var(--petrol-deep); }
 summary.drawer-label:hover::after { border-color: var(--petrol-deep); }
 .drawer-section[open] > .drawer-essay-cards, .drawer-section[open] > .drawer-more, .drawer-section[open] > .drawer-book-link, .drawer-section[open] > .drawer-section-links { animation: drawerReveal 0.25s ease; }
 @keyframes drawerReveal { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
 
-.drawer-section-links { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 4px 0; }
+.drawer-section-links { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 10px 0 4px; }
 .drawer-section-links a { display: block; padding: 10px 12px; border: 1px solid var(--rule-cream); border-radius: 10px; background: var(--paper); font-size: 14px; color: var(--petrol-deep); text-align: center; transition: border-color 0.2s ease; }
 .drawer-section-links a:hover { border-color: var(--petrol); opacity: 1; }
 
-.drawer-essay-cards { display: grid; grid-template-columns: 1fr; gap: 8px; margin: 2px 0 8px; }
+.drawer-essay-cards { display: grid; grid-template-columns: 1fr; gap: 8px; margin: 10px 0 8px; }
 .drawer-essay-card-link { display: block; }
 .drawer-essay-card-link:hover .drawer-essay-card { border-color: var(--petrol); box-shadow: 0 8px 22px rgba(47, 43, 39, 0.07); transform: translateY(-1px); }
 .drawer-essay-card { display: grid; grid-template-columns: 72px 1fr; gap: 12px; align-items: center; padding: 10px; border: 1px solid var(--rule-cream); border-radius: 12px; background: var(--paper); box-shadow: 0 4px 16px rgba(47, 43, 39, 0.045); transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease; }
