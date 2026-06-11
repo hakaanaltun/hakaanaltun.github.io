@@ -591,15 +591,15 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
 /* Moris section quote — epigraph style */
 .moris-quote { margin: 22px auto 0; padding: 0; border: 0; max-width: 56ch; text-align: center; }
 .moris-quote p { font-style: italic; color: var(--vizon); margin: 0; line-height: 1.6; }
-.moris-quote-source { font-style: normal; font-size: 0.9rem; color: var(--petrol); white-space: nowrap; }
+.moris-quote-source { display: block; text-align: right; margin-top: 8px; font-style: normal; font-size: 0.9rem; color: var(--petrol); white-space: nowrap; }
 
 /* ==========================================================================
    From the archive (home)
    ========================================================================== */
-#from-archive { padding: 56px 0 48px; }
+#from-archive { padding: 56px 0 60px; }
 .from-archive-kicker { font-size: 13px; color: var(--petrol); text-transform: uppercase; letter-spacing: 0.09em; margin-bottom: 18px; }
 #from-archive-slot { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
-.from-archive-row { display: flex; align-items: center; gap: 14px; min-width: 0; }
+.from-archive-row { display: flex; align-items: flex-start; gap: 14px; min-width: 0; }
 .from-archive-thumb { width: 84px; height: 84px; flex: none; object-fit: cover; border-radius: 12px; border: 1px solid var(--rule-cream); }
 .from-archive-text { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
 .from-archive-title { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: 1.4rem; line-height: 1.1; color: var(--petrol); transition: color 0.2s ease; }
