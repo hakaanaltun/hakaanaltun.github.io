@@ -588,9 +588,9 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
 .notfound-links a:hover { color: var(--petrol-deep); border-color: var(--petrol-deep); }
 .notfound-sep { color: var(--rule-strong); margin: 0 14px; }
 
-/* Moris section quote */
-.moris-quote { margin: 16px 0 0; padding: 0 0 0 18px; border-left: 2px solid var(--rule-strong); }
-.moris-quote p { font-style: italic; color: var(--vizon); margin: 0; }
+/* Moris section quote — epigraph style */
+.moris-quote { margin: 22px auto 0; padding: 0; border: 0; max-width: 56ch; text-align: center; }
+.moris-quote p { font-style: italic; color: var(--vizon); margin: 0; line-height: 1.6; }
 .moris-quote-source { font-style: normal; font-size: 0.9rem; color: var(--petrol); white-space: nowrap; }
 
 /* ==========================================================================
