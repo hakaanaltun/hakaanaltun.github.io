@@ -164,15 +164,13 @@ header .hamburger-btn:focus-visible, header .header-share-btn:focus-visible, hea
 .drawer-logo-link .brand-main { font-size: 1.85rem; color: var(--footer-text); white-space: nowrap; }
 .drawer-logo-link .brand-sub { font-size: 1.15rem; color: var(--footer-text); margin-top: 2px; white-space: nowrap; }
 
-.drawer-label { display: block; margin-top: 10px; font-size: 11px; color: var(--petrol); text-transform: uppercase; letter-spacing: 0.08em; }
+.drawer-label { display: block; margin-top: 20px; font-size: 13px; color: var(--petrol); text-transform: uppercase; letter-spacing: 0.09em; }
 
 .site-drawer a { color: var(--petrol); padding: 4px 0; font-size: 16px; }
 .site-drawer a:hover { opacity: 0.8; }
-.site-drawer a.drawer-label { padding: 0; font-size: 11px; }
-.site-drawer a.drawer-label:hover { opacity: 1; color: var(--petrol-deep); }
 summary.drawer-label { display: flex; align-items: center; justify-content: space-between; gap: 10px; cursor: pointer; list-style: none; }
 summary.drawer-label::-webkit-details-marker { display: none; }
-summary.drawer-label::after { content: ""; flex: none; width: 7px; height: 7px; border-right: 1.5px solid var(--vizon); border-bottom: 1.5px solid var(--vizon); transform: rotate(45deg); transition: transform 0.25s ease; margin-bottom: 2px; }
+summary.drawer-label::after { content: ""; flex: none; width: 8px; height: 8px; border-right: 1.5px solid var(--vizon); border-bottom: 1.5px solid var(--vizon); transform: rotate(45deg); transition: transform 0.25s ease; margin-bottom: 2px; }
 .drawer-section[open] > summary.drawer-label::after { transform: rotate(-135deg); margin-bottom: -2px; }
 summary.drawer-label:hover { color: var(--petrol-deep); }
 summary.drawer-label:hover::after { border-color: var(--petrol-deep); }
