@@ -183,7 +183,7 @@
     </script>
 <script>
 /* From the archive — one quiet card from the depth of the corpus */
-(function () {
+document.addEventListener('DOMContentLoaded', function () {
   'use strict';
   if (typeof ALL_ESSAYS === 'undefined') return;
   var sec = document.getElementById('from-archive');
@@ -221,5 +221,5 @@
   html += '</span></a>';
   slot.innerHTML = html;
   sec.hidden = false;
-})();
+});
 </script>
