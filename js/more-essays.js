@@ -20,13 +20,11 @@
 
   /* Quiet recommendation filter:
      - the five early pieces stay public but are not suggested
-     - Şafak's Arc is entered only through its first piece (The Poise) */
-  var notSuggested = ['say-hello', 'ai-enough', 'defense-mechanisms', 'jung-shadow', 'unfinished-things'];
+     - The Cove is a coda to The Anxiety, so it is reached through the arc, not suggested cold */
+  var notSuggested = ['say-hello', 'ai-enough', 'defense-mechanisms', 'jung-shadow', 'unfinished-things', 'the-cove'];
   pool = pool.filter(function (e) {
     var slug = (e.href || '').replace(/\.html$/, '');
-    if (notSuggested.indexOf(slug) !== -1) return false;
-    if (e.series === 'fragments' && e.seriesOrder !== 1) return false;
-    return true;
+    return notSuggested.indexOf(slug) === -1;
   });
 
   /* Fisher-Yates shuffle */
