@@ -591,21 +591,23 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
 /* Moris section quote */
 .moris-quote { margin: 16px 0 0; padding: 0 0 0 18px; border-left: 2px solid var(--rule-strong); }
 .moris-quote p { font-style: italic; color: var(--vizon); margin: 0; }
-.moris-quote-source { display: block; margin-top: 8px; font-style: normal; font-size: 0.9rem; color: var(--vizon); }
+.moris-quote-source { font-style: normal; font-size: 0.9rem; color: var(--petrol); white-space: nowrap; }
 
 /* ==========================================================================
    From the archive (home)
    ========================================================================== */
 #from-archive { padding: 56px 0 48px; }
-.from-archive-kicker { font-size: 13px; color: var(--petrol); text-transform: uppercase; letter-spacing: 0.09em; margin-bottom: 16px; }
-.from-archive-row { display: flex; align-items: center; gap: 20px; }
-.from-archive-thumb { width: 116px; height: 116px; flex: none; object-fit: cover; border-radius: 12px; border: 1px solid var(--rule-cream); }
-.from-archive-text { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
-.from-archive-title { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: clamp(1.5rem, 2.2vw, 1.9rem); line-height: 1.1; color: var(--petrol); transition: color 0.2s ease; }
+.from-archive-kicker { font-size: 13px; color: var(--petrol); text-transform: uppercase; letter-spacing: 0.09em; margin-bottom: 18px; }
+#from-archive-slot { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
+.from-archive-row { display: flex; align-items: center; gap: 14px; min-width: 0; }
+.from-archive-thumb { width: 84px; height: 84px; flex: none; object-fit: cover; border-radius: 12px; border: 1px solid var(--rule-cream); }
+.from-archive-text { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.from-archive-title { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: 1.4rem; line-height: 1.1; color: var(--petrol); transition: color 0.2s ease; }
 .from-archive-row:hover .from-archive-title { color: var(--petrol-deep); }
-.from-archive-subtitle { font-family: 'EB Garamond', Georgia, serif; font-style: italic; font-size: 1.05rem; color: var(--vizon); line-height: 1.35; }
-.from-archive-meta { font-size: 0.85rem; color: var(--vizon); }
-@media (max-width: 600px) {
+.from-archive-subtitle { font-family: 'EB Garamond', Georgia, serif; font-style: italic; font-size: 1rem; color: var(--vizon); line-height: 1.3; }
+.from-archive-meta { font-size: 0.82rem; color: var(--vizon); }
+@media (max-width: 700px) {
+  #from-archive-slot { grid-template-columns: 1fr; gap: 16px; }
   .from-archive-thumb { width: 88px; height: 88px; }
   #from-archive { padding: 44px 0 38px; }
 }
