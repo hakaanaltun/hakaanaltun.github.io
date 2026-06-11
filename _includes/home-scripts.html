@@ -8,7 +8,7 @@
         {s:'The Fragments',t:'You will give pulls like this many names, later. Gravity among them.'},
         {s:'The Fragments',t:'I gave it another name first.\nNostalgia.'},
         {s:'The Fragments',t:'The first cell tasted fear.'},
-        {s:'The Fragments',t:'Hiç yok amca. Hepsi pekiyi.'},
+        {s:'The Fragments',t:'None, uncle. They’re all A’s.'},
         {s:'The Fragments',t:'They must know what they’re doing.'},
         {s:'The Fragments',t:'You merged the request without my approval.'},
         {s:'The Fragments',t:'I had been the oldest person in that café. I had also been the youngest.'},
@@ -38,6 +38,7 @@
         {s:'On Forgiveness',t:'The debt sits untouched in the archive. You just stop trying to collect it.'},
         {s:'On Forgiveness',t:'To truly forgive, you need the towering arrogance of a god.'},
         {s:'On Keeping',t:'The danger of surrender lay in who you became inside the disarray.'},
+        {s:'On Keeping',t:'Existence, quietly, refuses to come undone.'},
         {s:'On Longing',t:'Back then nothing had to be enough.'},
         {s:'On Longing',t:'You see with what you have learned. What you have learned is your prison.'},
         {s:'On Silence',t:'He breathed—slow, even, entirely without effort.'},
@@ -180,3 +181,45 @@
       initClickToLoadVideo('moris-video-wrapper', 'https://www.youtube.com/embed/hBpAOitmBNw?si=AEhHGFWstiHfFR83&autoplay=1');
     })();
     </script>
+<script>
+/* From the archive — one quiet card from the depth of the corpus */
+(function () {
+  'use strict';
+  if (typeof ALL_ESSAYS === 'undefined') return;
+  var sec = document.getElementById('from-archive');
+  var slot = document.getElementById('from-archive-slot');
+  if (!sec || !slot) return;
+
+  /* slugs already visible in the Pieces grid */
+  var onPage = {};
+  var gridLinks = document.querySelectorAll('#pieces .asym-grid a[href]');
+  for (var i = 0; i < gridLinks.length; i++) {
+    var seg = gridLinks[i].pathname.split('/').filter(Boolean).pop();
+    if (seg) onPage[seg] = true;
+  }
+  /* derive the link prefix from an existing card so the URL pattern stays in one place */
+  if (!gridLinks.length) return;
+  var parts = gridLinks[0].pathname.split('/').filter(Boolean);
+  parts.pop();
+  var prefix = '/' + (parts.length ? parts.join('/') + '/' : '');
+
+  var hidden = ['say-hello', 'ai-enough', 'defense-mechanisms', 'jung-shadow', 'unfinished-things', 'the-cove'];
+  var pool = ALL_ESSAYS.filter(function (e) {
+    var slug = (e.href || '').replace(/\.html$/, '');
+    return hidden.indexOf(slug) === -1 && !onPage[slug];
+  });
+  if (!pool.length) return;
+
+  var e = pool[Math.floor(Math.random() * pool.length)];
+  var esc = function (s) { return String(s || '').replace(/"/g, '&quot;'); };
+  var html = '<a href="' + prefix + e.href + '" class="from-archive-row">';
+  if (e.img) html += '<img src="' + e.img + '" alt="' + esc(e.title) + '" class="from-archive-thumb" loading="lazy">';
+  html += '<span class="from-archive-text">';
+  html += '<span class="from-archive-title">' + e.title + '</span>';
+  if (e.subtitle) html += '<span class="from-archive-subtitle">' + e.subtitle + '</span>';
+  html += '<span class="from-archive-meta">' + e.date + ' \u00b7 ' + e.readTime + '</span>';
+  html += '</span></a>';
+  slot.innerHTML = html;
+  sec.hidden = false;
+})();
+</script>
