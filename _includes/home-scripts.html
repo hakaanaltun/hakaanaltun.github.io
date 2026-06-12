@@ -8,7 +8,7 @@
         {s:'The Fragments',t:'You will give pulls like this many names, later. Gravity among them.'},
         {s:'The Fragments',t:'I gave it another name first.\nNostalgia.'},
         {s:'The Fragments',t:'The first cell tasted fear.'},
-        {s:'The Fragments',t:'Hiç yok amca. Hepsi pekiyi.'},
+        {s:'The Fragments',t:'None, uncle. They’re all A’s.'},
         {s:'The Fragments',t:'They must know what they’re doing.'},
         {s:'The Fragments',t:'You merged the request without my approval.'},
         {s:'The Fragments',t:'I had been the oldest person in that café. I had also been the youngest.'},
@@ -38,6 +38,7 @@
         {s:'On Forgiveness',t:'The debt sits untouched in the archive. You just stop trying to collect it.'},
         {s:'On Forgiveness',t:'To truly forgive, you need the towering arrogance of a god.'},
         {s:'On Keeping',t:'The danger of surrender lay in who you became inside the disarray.'},
+        {s:'On Keeping',t:'Existence, quietly, refuses to come undone.'},
         {s:'On Longing',t:'Back then nothing had to be enough.'},
         {s:'On Longing',t:'You see with what you have learned. What you have learned is your prison.'},
         {s:'On Silence',t:'He breathed—slow, even, entirely without effort.'},
@@ -50,7 +51,8 @@
         {s:'None of Us Are',t:'Feeling good can stay innocent for a long time.\nFeeling special starts making demands.'},
         {s:'Let\'s Have Some Cheese',t:'When good cheese comes to your feet, be suspicious.'},
         {s:'Let\'s Have Some Cheese',t:'Give a man a nickname and you no longer have to meet him.'},
-        {s:'Thinking Is for After',t:'The sounds remain sounds.'},
+        {s:'Written in Ink',t:'Writing it down was the only way the place held still long enough to be hers.'},
+        {s:'Thinking Is for After',t:'The handle of the chef’s knife wears down to the shape of Mara’s grip.'},
         {s:'Thinking Is for After',t:'We will ask about the bottles tomorrow.'},
         {s:'Written in Ink',t:'She was a foreigner, and so she was allowed to stare.'}
       ];
@@ -215,7 +217,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var r = Math.floor(Math.random() * (k + 1));
     var tmp = pool[k]; pool[k] = pool[r]; pool[r] = tmp;
   }
-  var picks = pool.slice(0, 3);
+  var picks = pool.slice(0, 6);
 
   var esc = function (s) { return String(s || '').replace(/"/g, '&quot;'); };
   var html = '';
