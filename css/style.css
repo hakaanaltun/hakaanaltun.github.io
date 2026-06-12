@@ -293,7 +293,7 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
 
 .hero-author-row { display: flex; align-items: center; gap: 16px; margin-bottom: 14px; }
 .profile-photo-small { width: 84px; height: 84px; border-radius: 50%; object-fit: cover; object-position: center 20%; }
-.about-name { font-family: 'Cormorant Garamond', Georgia, serif; font-style: normal; font-weight: 500; font-size: 2rem; color: var(--petrol); }
+.about-name { font-family: 'Cormorant Garamond', Georgia, serif; font-style: normal; font-weight: 500; font-size: clamp(1.7rem, 2.5vw, 2.1rem); color: var(--petrol); }
 
 /* ========================================================================== 
    9. Essay Pages
@@ -624,7 +624,7 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
 .archive-head { margin-bottom: 40px; }
 .archive-title {
   font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500;
-  font-size: clamp(2.4rem, 4vw, 3.35rem); line-height: 1.02; letter-spacing: -0.01em; color: var(--petrol);
+  font-size: clamp(2.1rem, 3.5vw, 2.9rem); line-height: 1.02; letter-spacing: -0.01em; color: var(--petrol);
 }
 .archive-subtitle {
   font-family: 'EB Garamond', Georgia, serif; font-style: italic;
@@ -642,7 +642,7 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
 .archive-group-head { margin-bottom: 12px; padding-bottom: 12px; }
 .archive-group-title {
   font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500;
-  font-size: clamp(2rem, 3.2vw, 2.7rem); line-height: 1.06; color: var(--petrol);
+  font-size: clamp(2.1rem, 3.5vw, 2.9rem); line-height: 1.06; color: var(--petrol);
 }
 .archive-group-subtitle {
   font-family: 'EB Garamond', Georgia, serif; font-style: italic;
