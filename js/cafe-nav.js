@@ -17,7 +17,7 @@
 
   /* Title with split colors */
   var html = '<p class="series-nav-title">'
-    + '<span class="series-nav-title-on">Mara\'s Café</span>'
+    + '<span class="series-nav-title-on">The Corner</span>'
     + '<span class="series-nav-title-sub"> \u00b7 Three stories from a corner that never emptied.</span>'
     + '</p>';
 

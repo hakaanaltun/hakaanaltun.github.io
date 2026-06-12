@@ -1,5 +1,6 @@
 {% if page.layout == "home" %}{% assign section_prefix = "" %}{% assign logo_href = "#" %}{% else %}{% assign section_prefix = "/" %}{% assign logo_href = "/" %}{% endif %}
 {% assign regular_essays = site.posts | where: "series", "" | sort: "date" | reverse %}
+{% assign cafe_series = site.posts | where: "series", "cafe-series" | sort: "series_order" %}
 {% assign fragments = site.posts | where: "series", "fragments" | sort: "series_order" %}
 {% assign on_series = site.posts | where: "series", "on-series" | sort: "series_order" %}
 <div id="site-drawer-backdrop" class="drawer-backdrop" aria-hidden="true"></div>
@@ -28,6 +29,24 @@
       {% endfor %}
     </div>
     <a href="/archive/" class="drawer-more">Read everything <span aria-hidden="true">&rarr;</span></a>
+  </details>
+
+  <details class="drawer-section">
+    <summary class="drawer-label">The Corner</summary>
+    <div class="drawer-essay-cards">
+      {% for post in cafe_series %}
+      {% assign drawer_image = post.thumb | default: post.image %}
+      {% if post.url == page.url %}<span class="drawer-essay-card drawer-essay-card--current">{% else %}<a href="{{ post.url }}" class="drawer-essay-card-link"><span class="drawer-essay-card">{% endif %}
+        {% if drawer_image %}<img src="{{ drawer_image }}" alt="{{ post.cover_alt | default: post.title }}" loading="lazy">{% endif %}
+        <span class="drawer-essay-card-text">
+          <span class="drawer-essay-card-title">{{ post.title }}</span>
+          {% if post.subtitle %}<span class="drawer-essay-card-subtitle">{{ post.subtitle }}</span>{% endif %}
+          <span class="drawer-essay-card-meta">{{ post.date | date: "%b %-d, %Y" }} · {{ post.read_time }}</span>
+        </span>
+      {% if post.url == page.url %}</span>{% else %}</span></a>{% endif %}
+      {% endfor %}
+    </div>
+    <a href="/archive/#the-corner" class="drawer-more">In the archive <span aria-hidden="true">&rarr;</span></a>
   </details>
 
   <details class="drawer-section">
