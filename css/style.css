@@ -598,11 +598,11 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
 .from-archive-kicker { font-size: 13px; color: var(--petrol); text-transform: uppercase; letter-spacing: 0.09em; margin-bottom: 22px; }
 #from-archive-slot { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
 .from-archive-row { display: block; min-width: 0; position: relative; }
-#from-archive-slot { row-gap: 36px; }
+#from-archive-slot { row-gap: 48px; }
 #from-archive-slot > .from-archive-row:not(:nth-child(3n+1)) { padding-left: 28px; }
 #from-archive-slot > .from-archive-row:not(:nth-child(3n+1))::before {
   content: ""; position: absolute; left: 0; top: 4px; bottom: 4px; width: 1px;
-  background: linear-gradient(to bottom, var(--rule-cream) 0 38%, transparent 38% 62%, var(--rule-cream) 62% 100%);
+  background: var(--rule-cream);
 }
 .from-archive-text { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
 .from-archive-title { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: clamp(1.6rem, 2.2vw, 1.85rem); line-height: 1.1; color: var(--petrol); transition: color 0.2s ease; }
