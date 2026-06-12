@@ -597,7 +597,7 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
    From the archive (home)
    ========================================================================== */
 #from-archive { padding: 56px 0 60px; }
-.from-archive-kicker { font-size: 13px; color: var(--petrol); text-transform: uppercase; letter-spacing: 0.09em; margin-bottom: 28px; }
+.from-archive-kicker { font-size: 13px; color: var(--petrol); text-transform: uppercase; letter-spacing: 0.09em; margin-bottom: 22px; }
 #from-archive-slot { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
 .from-archive-row { display: block; min-width: 0; }
 .from-archive-text { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
