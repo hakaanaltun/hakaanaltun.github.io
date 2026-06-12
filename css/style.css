@@ -209,7 +209,7 @@ section:not(:first-of-type)::before {
 section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
 
 .section-head { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; margin-bottom: 2.6rem; }
-.section-title { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: clamp(2.4rem, 4vw, 3.35rem); line-height: 1.02; letter-spacing: -0.01em; color: var(--petrol); }
+.section-title { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: clamp(2.1rem, 3.5vw, 2.9rem); line-height: 1.02; letter-spacing: -0.01em; color: var(--petrol); }
 .section-subtitle { font-style: italic; font-size: clamp(1.18rem, 1.55vw, 1.42rem); line-height: 1.42; color: var(--vizon); max-width: 680px; margin-top: 2px; }
 
 /* FIX: "Unified by a corridor..." yazısı subtitle ile aynı boyuta getirildi */
@@ -471,7 +471,7 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
   .footer-brand { font-size: 1.25rem; }
   .header-nav-bar { display: none; }
   section { padding-top: 72px; }
-  .section-title { font-size: 2.55rem; }
+  .section-title { font-size: 2.2rem; }
   .section-subtitle { font-size: 1.08rem; line-height: 1.4; }
 
   .hero-quotes-section { padding-top: 44px; }
