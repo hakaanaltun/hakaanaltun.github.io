@@ -339,7 +339,7 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
 .essay-nav .next-series-link { color: var(--petrol); font-size: 16px; font-weight: 500; text-align: right; margin-left: auto; align-items: flex-end; }
 .essay-nav .next-series-link:hover { opacity: 0.8; }
 
-.series-nav, .fragments-nav { margin-top: 0; padding: 24px; border: 1px solid var(--rule-cream); border-radius: 8px; background: var(--paper); }
+.series-nav, .fragments-nav, .cafe-nav { margin-top: 0; padding: 24px; border: 1px solid var(--rule-cream); border-radius: 8px; background: var(--paper); }
 .series-nav-title { font-size: 13px; letter-spacing: 0.08em; margin-bottom: 14px; line-height: 1.4; }
 .series-nav-title-on { color: var(--petrol); }
 .series-nav-title-sub { color: var(--ink-soft); }
