@@ -589,7 +589,7 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
 .notfound-sep { color: var(--rule-strong); margin: 0 14px; }
 
 /* Moris caption quote attribution */
-.moris-quote-source { font-style: normal; font-size: 0.88rem; color: var(--petrol); white-space: nowrap; }
+.moris-quote-source { display: block; text-align: right; margin-top: 4px; font-style: normal; font-size: 0.88rem; color: var(--petrol); white-space: nowrap; }
 
 /* ==========================================================================
    From the archive (home)
