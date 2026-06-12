@@ -5,6 +5,7 @@ permalink: /archive/
 description: "Every essay and short fiction, in one place."
 ---
 {% assign regular_essays = site.posts | where: "series", "" | sort: "date" | reverse %}
+{% assign cafe_series = site.posts | where: "series", "cafe-series" | sort: "series_order" %}
 {% assign on_series = site.posts | where: "series", "on-series" | sort: "series_order" %}
 {% assign fragments = site.posts | where: "series", "fragments" | sort: "series_order" %}
 
@@ -27,6 +28,18 @@ description: "Every essay and short fiction, in one place."
 
   <div class="archive-divider" aria-hidden="true"></div>
 
+  <section id="the-corner" class="archive-group fade-in fade-in-delay">
+    <div class="archive-group-head">
+      <h2 class="archive-group-title">The Corner</h2>
+      <p class="archive-group-subtitle">Three stories from a corner that never emptied.</p>
+    </div>
+    <ul class="archive-list">
+      {% for post in cafe_series %}{% include archive-row.html post=post %}{% endfor %}
+    </ul>
+  </section>
+
+  <div class="archive-divider" aria-hidden="true"></div>
+
   <section id="on-series" class="archive-group fade-in fade-in-delay">
     <div class="archive-group-head">
       <h2 class="archive-group-title">The On Series</h2>
@@ -41,7 +54,7 @@ description: "Every essay and short fiction, in one place."
 
   <section id="fragments-arc" class="archive-group fade-in fade-in-delay">
     <div class="archive-group-head">
-      <h2 class="archive-group-title">Şafak’s Arc from The Fragments</h2>
+      <h2 class="archive-group-title">Şafak's Arc from The Fragments</h2>
       <p class="archive-group-subtitle">How a boy becomes someone who knows where to put his hands.</p>
     </div>
     <ul class="archive-list">
