@@ -104,7 +104,7 @@ nav { display: flex; flex-direction: column; gap: var(--head-gap); padding: var(
 
 .nav-top-row { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
 .nav-home { display: flex; flex-direction: column; line-height: 1.1; padding-bottom: 2px; }
-.brand-main { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: clamp(1.55rem, 2vw, 1.7rem); color: var(--petrol-deep); }
+.brand-main { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: clamp(1.35rem, 1.75vw, 1.5rem); color: var(--petrol-deep); }
 .brand-sub { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.5rem; font-style: normal; line-height: 1.05; color: var(--petrol); margin-top: 4px; }
 .nav-right { display: flex; align-items: center; gap: 8px; }
 
@@ -161,7 +161,7 @@ header .hamburger-btn:focus-visible, header .header-share-btn:focus-visible, hea
 .drawer-close { position: absolute; top: 16px; right: 16px; z-index: 2; color: var(--footer-text); }
 
 .drawer-logo-link { display: flex; flex-direction: column; gap: 4px; margin-bottom: var(--drawer-logo-mb); line-height: 1; position: relative; z-index: 1; background: transparent; }
-.drawer-logo-link .brand-main { font-size: 1.25rem; color: var(--footer-text); white-space: nowrap; }
+.drawer-logo-link .brand-main { font-size: 1.1rem; color: var(--footer-text); white-space: nowrap; }
 .drawer-logo-link .brand-sub { font-size: 1.15rem; color: var(--footer-text); margin-top: 2px; white-space: nowrap; }
 
 .drawer-label { display: block; margin-top: 20px; font-size: 13px; color: var(--petrol); text-transform: uppercase; letter-spacing: 0.09em; }
@@ -464,7 +464,7 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
   body { font-size: 18px; }
 
   :root { --head-pad-bottom: 22px; }
-  .brand-main { font-size: 1.25rem; white-space: nowrap; }
+  .brand-main { font-size: 1.1rem; white-space: nowrap; }
   .brand-sub { font-size: 1.15rem; white-space: nowrap; margin-top: 2px; }
   header .brand-sub { margin-top: 6px; }
 
@@ -519,7 +519,7 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
 
 @media (max-width: 420px) {
   :root { --pad: 32px; }
-  .brand-main { font-size: 1.15rem; }
+  .brand-main { font-size: 1.0rem; }
   .brand-sub { font-size: 1.05rem; }
 
   .essay-header h1 { font-size: 22px; }
@@ -595,7 +595,7 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
    From the archive (home)
    ========================================================================== */
 #from-archive { padding: 56px 0 60px; }
-.from-archive-kicker { font-size: 13px; color: var(--petrol); text-transform: uppercase; letter-spacing: 0.09em; margin-bottom: 22px; }
+.from-archive-kicker { font-size: 13px; font-style: italic; color: var(--petrol); text-transform: uppercase; letter-spacing: 0.09em; margin-bottom: 22px; }
 #from-archive-slot { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
 .from-archive-row { display: block; min-width: 0; position: relative; }
 #from-archive-slot { row-gap: 48px; }
