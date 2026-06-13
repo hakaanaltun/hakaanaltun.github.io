@@ -9,6 +9,10 @@ description: "Every essay and short fiction, in one place."
 {% assign on_series = site.posts | where: "series", "on-series" | sort: "series_order" %}
 {% assign fragments = site.posts | where: "series", "fragments" | sort: "series_order" %}
 
+<style>
+  .archive-row-subtitle { font-style: italic; }
+</style>
+
 <div class="archive-page">
   <div class="archive-head fade-in">
     <h1 class="archive-title">Everything, in one place</h1>
