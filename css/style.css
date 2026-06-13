@@ -104,8 +104,8 @@ nav { display: flex; flex-direction: column; gap: var(--head-gap); padding: var(
 
 .nav-top-row { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
 .nav-home { display: flex; flex-direction: column; line-height: 1.1; padding-bottom: 2px; }
-.brand-main { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: clamp(1.35rem, 1.75vw, 1.5rem); color: var(--petrol-deep); }
-.brand-sub { font-family: 'EB Garamond', Georgia, serif; font-size: 0.92rem; font-style: normal; line-height: 1.25; color: var(--vizon); margin-top: 4px; letter-spacing: 0.005em; max-width: 30ch; }
+.brand-main { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: clamp(1.18rem, 1.5vw, 1.3rem); color: var(--petrol-deep); }
+.brand-sub { font-family: 'EB Garamond', Georgia, serif; font-size: 1.02rem; font-style: italic; line-height: 1.25; color: var(--vizon); margin-top: 4px; letter-spacing: 0.005em; max-width: 30ch; }
 .nav-right { display: flex; align-items: center; gap: 8px; }
 
 header .brand-main, header .brand-sub,
@@ -161,8 +161,8 @@ header .hamburger-btn:focus-visible, header .header-share-btn:focus-visible, hea
 .drawer-close { position: absolute; top: 16px; right: 16px; z-index: 2; color: var(--footer-text); }
 
 .drawer-logo-link { display: flex; flex-direction: column; gap: 4px; margin-bottom: var(--drawer-logo-mb); line-height: 1; position: relative; z-index: 1; background: transparent; }
-.drawer-logo-link .brand-main { font-size: 1.1rem; color: var(--footer-text); white-space: nowrap; }
-.drawer-logo-link .brand-sub { font-size: 0.92rem; color: var(--footer-text); opacity: 0.92; margin-top: 3px; white-space: normal; line-height: 1.25; max-width: 26ch; }
+.drawer-logo-link .brand-main { font-size: 1.0rem; color: var(--footer-text); white-space: nowrap; }
+.drawer-logo-link .brand-sub { font-size: 1.02rem; color: var(--footer-text); opacity: 0.92; margin-top: 3px; white-space: normal; line-height: 1.25; max-width: 26ch; }
 
 .drawer-label { display: block; margin-top: 20px; font-size: 13px; color: var(--petrol); text-transform: uppercase; letter-spacing: 0.09em; }
 
@@ -297,7 +297,6 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
 .about-id { display: flex; flex-direction: column; gap: 4px; }
 .about-photo { width: 136px; height: 136px; border-radius: 50%; object-fit: cover; object-position: center 20%; border: 1px solid var(--rule-cream); box-shadow: 0 6px 18px rgba(47, 43, 39, 0.06); margin-bottom: 8px; }
 .about-name { font-family: 'Cormorant Garamond', Georgia, serif; font-style: normal; font-weight: 500; font-size: clamp(1.5rem, 2vw, 1.85rem); line-height: 1.06; color: var(--petrol); }
-.about-place { font-size: 0.82rem; letter-spacing: 0.09em; text-transform: uppercase; color: var(--vizon); }
 
 @media (max-width: 768px) {
   .about-card { grid-template-columns: 1fr; gap: 26px; padding: 30px 26px; }
@@ -475,8 +474,8 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
   body { font-size: 18px; }
 
   :root { --head-pad-bottom: 22px; }
-  .brand-main { font-size: 1.1rem; white-space: nowrap; }
-  .brand-sub { font-size: 0.82rem; white-space: normal; margin-top: 3px; max-width: 28ch; }
+  .brand-main { font-size: 1.0rem; white-space: nowrap; }
+  .brand-sub { font-size: 0.92rem; white-space: normal; margin-top: 3px; max-width: 28ch; }
   header .brand-sub { margin-top: 5px; }
 
   .footer-brand { font-size: 1.25rem; }
@@ -530,8 +529,8 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
 
 @media (max-width: 420px) {
   :root { --pad: 32px; }
-  .brand-main { font-size: 1.0rem; }
-  .brand-sub { font-size: 0.78rem; }
+  .brand-main { font-size: 0.95rem; }
+  .brand-sub { font-size: 0.88rem; }
 
   .essay-header h1 { font-size: 22px; }
   .more-essays-title { font-size: 22px; }
