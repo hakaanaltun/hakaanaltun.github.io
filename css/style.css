@@ -26,6 +26,7 @@
   /* Brand */
   --petrol: #1E5552;         /* Primary petrol (titles, accents, hover) */
   --petrol-deep: #153F3D;    /* Brand mark */
+  --petrol-light: #4A9E96;   /* Light petrol (hero quote mark) */
 
   /* Text */
   --ink: #2F2B27;            /* Body text */
@@ -125,13 +126,15 @@ header .hamburger-btn:focus-visible, header .header-share-btn:focus-visible, hea
 
 .header-nav-bar { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 0; }
 .header-nav-bar a {
-  display: inline-flex; align-items: center; justify-content: center; padding: 8px 15px;
-  border: 1px solid var(--footer-text); border-radius: 8px; background: rgba(30, 79, 76, 0.14);
+  display: inline-flex; align-items: center; justify-content: center; padding: 6px 2px;
+  border: none; border-radius: 0; background: transparent;
   font-size: 1.02rem; line-height: 1; color: var(--footer-muted); box-shadow: none;
-  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  border-bottom: 2px solid rgba(237, 228, 207, 0.55);
+  transition: color 0.2s ease, border-color 0.2s ease;
 }
 .header-nav-bar a:hover,
-.header-nav-bar a:active { border-color: #fff; background: rgba(30, 79, 76, 0.36); color: var(--footer-text); box-shadow: 0 0 0 1px var(--footer-text); transform: none; }
+.header-nav-bar a:active { color: var(--footer-text); border-bottom-color: var(--footer-text); background: transparent; box-shadow: none; transform: none; }
+.header-nav-bar a.is-active { color: var(--footer-text); border-bottom-color: var(--footer-text); }
 
 /* ========================================================================== 
    4. Drawer
@@ -222,7 +225,7 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
    ========================================================================== */
 .hero-quotes-section { padding-top: 74px; margin-top: 0; }
 .hero-quote-card { position: relative; min-height: 220px; padding: 38px 44px 34px; border-radius: 18px; border: 1px solid var(--rule-cream); background: var(--paper); box-shadow: 0 10px 28px rgba(47, 43, 39, 0.05); display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
-.hero-quote-card::before { content: '\201C'; position: absolute; left: 24px; top: 16px; font-family: 'Cormorant Garamond', Georgia, serif; font-size: 5rem; line-height: 1; color: var(--rule-cream); opacity: 0.7; pointer-events: none; }
+.hero-quote-card::before { content: '\201C'; position: absolute; left: 24px; top: 16px; font-family: 'Cormorant Garamond', Georgia, serif; font-size: 5rem; line-height: 1; color: var(--petrol-light); opacity: 0.7; pointer-events: none; }
 
 /* FIX: Desktop quote text `.section-subtitle` ile aynı boyuta getirildi */
 .hero-quote-text { font-family: 'EB Garamond', Georgia, serif; font-style: italic; font-size: clamp(1.18rem, 1.55vw, 1.42rem); line-height: 1.55; color: var(--vizon); max-width: 860px; min-height: 1.2em; }
@@ -407,9 +410,10 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
 .footer-subscribe-form button:hover { background: var(--footer-text); color: var(--footer-bg); }
 .footer-note { margin-top: 10px; font-size: 0.9rem; color: var(--footer-muted); }
 .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
-.footer-col a { color: var(--footer-muted); opacity: 1; line-height: 1.25; white-space: nowrap; border-bottom: 1px solid transparent; padding-bottom: 1px; transition: color 0.2s ease, border-color 0.2s ease; }
+.footer-col a { color: var(--footer-muted); opacity: 1; line-height: 1.25; white-space: nowrap; border-bottom: 2px solid rgba(237, 228, 207, 0.55); padding-bottom: 2px; transition: color 0.2s ease, border-color 0.2s ease; }
 .footer-col a:hover,
 .footer-col a:active { color: var(--footer-text); border-bottom-color: var(--footer-text); }
+.footer-col a.is-active { color: var(--footer-text); border-bottom-color: var(--footer-text); }
 .footer-col a span { display: inline-block; margin-left: 6px; color: var(--footer-muted); transition: transform 0.2s ease; }
 .footer-col a:hover span { transform: translateX(3px); }
 .footer-rule-bottom { margin-top: 24px; margin-bottom: 20px; border: 0; border-top: 1px solid rgba(237, 228, 207, 0.6); }
