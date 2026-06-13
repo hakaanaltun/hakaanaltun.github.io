@@ -3,6 +3,10 @@ layout: home
 ---
 {% assign regular_essays = site.posts | where: "series", "" | sort: "date" | reverse %}
 
+<style>
+  .hero-quote-card::before { opacity: 0.09; }
+</style>
+
 <section id="quotes" class="hero-quotes-section">
   <div class="hero-quote-card" aria-live="polite">
     <p id="hero-quote" class="hero-quote-text"></p>
