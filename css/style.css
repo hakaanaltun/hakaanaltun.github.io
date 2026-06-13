@@ -112,7 +112,7 @@ nav { display: flex; flex-direction: column; gap: var(--head-gap); padding: var(
 
 header .brand-main,
 header .hamburger-btn, header .header-share-btn, header .essay-share-btn { color: var(--footer-text); }
-header .brand-sub { margin-top: 6px; color: var(--petrol-light); }
+header .brand-sub { margin-top: 6px; color: var(--footer-muted); }
 
 .hamburger-btn, .header-share-btn, .essay-share-btn, .drawer-close {
   background: transparent; border: none; color: var(--petrol); padding: 6px; cursor: pointer;
@@ -202,7 +202,7 @@ summary.drawer-label:hover::after { border-color: var(--petrol-deep); }
 /* ========================================================================== 
    5. Sections & Animated Dividers
    ========================================================================== */
-section { position: relative; padding: 112px 0 100px; }
+section { position: relative; padding: 100px 0 90px; }
 
 section:not(:first-of-type)::before {
   content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px;
@@ -214,7 +214,7 @@ section:not(:first-of-type)::before {
 section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
 
 .section-head { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; margin-bottom: 2.6rem; }
-.section-title { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: clamp(2.4rem, 4vw, 3.2rem); line-height: 1.02; letter-spacing: -0.01em; color: var(--petrol-light); }
+.section-title { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: clamp(2.25rem, 3.7vw, 3.05rem); line-height: 1.02; letter-spacing: -0.01em; color: var(--petrol); }
 .section-subtitle { font-style: italic; font-size: clamp(1.18rem, 1.55vw, 1.42rem); line-height: 1.42; color: var(--vizon); max-width: 680px; margin-top: 2px; }
 
 /* FIX: "Unified by a corridor..." yazısı subtitle ile aynı boyuta getirildi */
@@ -225,7 +225,7 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
    ========================================================================== */
 .hero-quotes-section { padding-top: 74px; margin-top: 0; }
 .hero-quote-card { position: relative; min-height: 220px; padding: 38px 44px 34px; border-radius: 18px; border: 1px solid var(--rule-cream); background: var(--paper); box-shadow: 0 10px 28px rgba(47, 43, 39, 0.05); display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
-.hero-quote-card::before { content: '\201C'; position: absolute; left: 24px; top: 16px; font-family: 'Cormorant Garamond', Georgia, serif; font-size: 5rem; line-height: 1; color: var(--petrol-light); opacity: 0.7; pointer-events: none; }
+.hero-quote-card::before { content: '\201C'; position: absolute; left: 24px; top: 16px; font-family: 'Cormorant Garamond', Georgia, serif; font-size: 5rem; line-height: 1; color: var(--footer-muted); opacity: 0.7; pointer-events: none; }
 
 /* FIX: Desktop quote text `.section-subtitle` ile aynı boyuta getirildi */
 .hero-quote-text { font-family: 'EB Garamond', Georgia, serif; font-style: italic; font-size: clamp(1.18rem, 1.55vw, 1.42rem); line-height: 1.55; color: var(--vizon); max-width: 860px; min-height: 1.2em; }
@@ -487,8 +487,8 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
 
   .footer-brand { font-size: 1.25rem; }
   .header-nav-bar { display: none; }
-  section { padding-top: 88px; }
-  .section-title { font-size: 2.5rem; }
+  section { padding-top: 80px; }
+  .section-title { font-size: 2.35rem; }
   .section-subtitle { font-size: 1.08rem; line-height: 1.4; }
 
   .hero-quotes-section { padding-top: 44px; }
