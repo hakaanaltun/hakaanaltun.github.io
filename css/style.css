@@ -106,12 +106,12 @@ nav { display: flex; flex-direction: column; gap: var(--head-gap); padding: var(
 .nav-home { display: flex; flex-direction: column; line-height: 1.1; padding-bottom: 2px; }
 .brand-main { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: clamp(1.35rem, 1.7vw, 1.5rem); color: var(--petrol-deep); }
 .brand-sub { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.06rem; font-style: italic; line-height: 1.2; color: var(--vizon); margin-top: 5px; letter-spacing: 0.005em; white-space: nowrap; }
-.brand-sub::before { content: ""; display: block; width: 26px; height: 1px; background: currentColor; opacity: 0.4; margin: 0 0 7px; }
+.brand-sub::before { display: none; }
 .nav-right { display: flex; align-items: center; gap: 8px; }
 
-header .brand-main, header .brand-sub,
+header .brand-main,
 header .hamburger-btn, header .header-share-btn, header .essay-share-btn { color: var(--footer-text); }
-header .brand-sub { margin-top: 6px; }
+header .brand-sub { margin-top: 6px; color: var(--footer-muted); }
 
 .hamburger-btn, .header-share-btn, .essay-share-btn, .drawer-close {
   background: transparent; border: none; color: var(--petrol); padding: 6px; cursor: pointer;
@@ -163,7 +163,7 @@ header .hamburger-btn:focus-visible, header .header-share-btn:focus-visible, hea
 
 .drawer-logo-link { display: flex; flex-direction: column; gap: 4px; margin-bottom: var(--drawer-logo-mb); line-height: 1; position: relative; z-index: 1; background: transparent; }
 .drawer-logo-link .brand-main { font-size: 1.3rem; color: var(--footer-text); white-space: nowrap; }
-.drawer-logo-link .brand-sub { font-size: 1.0rem; color: var(--footer-text); opacity: 0.92; margin-top: 4px; white-space: normal; line-height: 1.2; max-width: 26ch; }
+.drawer-logo-link .brand-sub { font-size: 1.0rem; color: var(--footer-muted); margin-top: 4px; white-space: normal; line-height: 1.2; max-width: 26ch; }
 
 .drawer-label { display: block; margin-top: 20px; font-size: 13px; color: var(--petrol); text-transform: uppercase; letter-spacing: 0.09em; }
 
@@ -601,6 +601,10 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
 
 /* Moris caption quote attribution */
 .moris-quote-source { display: block; text-align: right; margin-top: 4px; font-style: italic; font-size: 0.88rem; color: var(--petrol); white-space: nowrap; }
+@media (min-width: 769px) {
+  .moris-caption { font-size: 0.82rem; }
+  .moris-quote-source { font-size: 0.71rem; }
+}
 
 /* ==========================================================================
    From the archive (home)
