@@ -10,7 +10,10 @@ description: "Every essay and short fiction, in one place."
 {% assign fragments = site.posts | where: "series", "fragments" | sort: "series_order" %}
 
 <style>
-  .archive-row-subtitle { font-style: italic; }
+  .archive-row-subtitle {
+    color: var(--vizon);
+    font-style: italic;
+  }
 </style>
 
 <div class="archive-page">
