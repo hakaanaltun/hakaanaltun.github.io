@@ -162,6 +162,7 @@ header .hamburger-btn:focus-visible, header .header-share-btn:focus-visible, hea
 
 .drawer-logo-link { display: flex; flex-direction: column; gap: 4px; margin-bottom: var(--drawer-logo-mb); line-height: 1; position: relative; z-index: 1; background: transparent; }
 .drawer-logo-link .brand-main { font-size: 1.0rem; color: var(--footer-text); white-space: nowrap; }
+.drawer-logo-link .brand-sub { font-size: 1.06rem; color: var(--footer-text); opacity: 0.92; margin-top: 2px; white-space: normal; line-height: 1.2; max-width: 26ch; }
 
 .drawer-label { display: block; margin-top: 20px; font-size: 13px; color: var(--petrol); text-transform: uppercase; letter-spacing: 0.09em; }
 
