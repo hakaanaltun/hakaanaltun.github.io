@@ -613,15 +613,15 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
 }
 
 /* ==========================================================================
-   From the archive (home)
+   Rails — "Latest" (home, top) & "From the archive" (home)
+   Shared three-across layout, cream vertical dividers, hover lift, no images
    ========================================================================== */
-#from-archive { padding: 56px 0 60px; }
+#suggested, #from-archive { padding: 56px 0 60px; }
 .from-archive-kicker { font-size: 13px; font-style: italic; color: var(--petrol); text-transform: uppercase; letter-spacing: 0.09em; margin-bottom: 22px; }
-#from-archive-slot { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
+.rail-slot { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; row-gap: 48px; }
 .from-archive-row { display: block; min-width: 0; position: relative; border-radius: 10px; padding: 12px; margin: -12px; transition: outline-color 0.2s ease, transform 0.2s ease; outline: 2px solid transparent; outline-offset: 2px; }
-#from-archive-slot { row-gap: 48px; }
-#from-archive-slot > .from-archive-row:not(:nth-child(3n+1)) { padding-left: 40px; margin-left: 0; }
-#from-archive-slot > .from-archive-row:not(:nth-child(3n+1))::before {
+.rail-slot > .from-archive-row:not(:nth-child(3n+1)) { padding-left: 40px; margin-left: 0; }
+.rail-slot > .from-archive-row:not(:nth-child(3n+1))::before {
   content: ""; position: absolute; left: 12px; top: 4px; bottom: 4px; width: 1px;
   background: var(--rule-cream);
 }
@@ -636,11 +636,12 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
 .from-archive-subtitle { font-family: 'EB Garamond', Georgia, serif; font-style: italic; font-size: 1.12rem; color: var(--vizon); line-height: 1.35; }
 .from-archive-meta { font-size: 0.9rem; color: var(--vizon); margin-top: 2px; }
 @media (max-width: 700px) {
-  #from-archive-slot { grid-template-columns: 1fr; gap: 18px; }
-  #from-archive-slot > .from-archive-row { margin: 0; padding: 6px 0; }
-  #from-archive-slot > .from-archive-row::before { display: none; }
-  #from-archive-slot > .from-archive-row:nth-child(n+4) { display: none; }
-  #from-archive { padding: 44px 0 38px; }
+  .rail-slot { grid-template-columns: 1fr; gap: 18px; }
+  .rail-slot > .from-archive-row { margin: 0; padding: 6px 0; }
+  .rail-slot > .from-archive-row:not(:nth-child(3n+1)) { padding-left: 0; }
+  .rail-slot > .from-archive-row::before { display: none; }
+  .rail-slot > .from-archive-row:nth-child(n+4) { display: none; }
+  #suggested, #from-archive { padding: 44px 0 38px; }
 }
 
 /* ==========================================================================
