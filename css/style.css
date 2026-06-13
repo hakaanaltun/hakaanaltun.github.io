@@ -194,7 +194,7 @@ summary.drawer-label:hover::after { border-color: var(--petrol-deep); }
 .drawer-essay-card img { width: 72px; height: 72px; object-fit: cover; border-radius: 8px; border: 1px solid var(--rule-cream); display: block; }
 .drawer-essay-card-text { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
 .drawer-essay-card-title { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.12rem; font-style: italic; font-weight: 500; line-height: 1.08; color: var(--petrol); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-.drawer-essay-card-subtitle { font-size: 0.82rem; line-height: 1.25; color: var(--vizon); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.drawer-essay-card-subtitle { font-size: 0.82rem; font-style: italic; line-height: 1.25; color: var(--vizon); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .drawer-essay-card-meta { font-size: 0.76rem; line-height: 1.2; color: var(--vizon); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .drawer-essay-card--current { opacity: 0.58; cursor: default; border-color: var(--petrol); }
 .drawer-book-card img { height: 96px; object-position: center top; }
