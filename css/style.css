@@ -616,7 +616,7 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
    Rails — "Latest" (home, top) & "From the archive" (home)
    Shared three-across layout, cream vertical dividers, hover lift, no images
    ========================================================================== */
-#suggested, #from-archive { padding: 56px 0 60px; }
+#from-archive { padding: 56px 0 60px; }
 .from-archive-kicker { font-size: 13px; font-style: italic; color: var(--petrol); text-transform: uppercase; letter-spacing: 0.09em; margin-bottom: 22px; }
 .rail-slot { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; row-gap: 48px; }
 .from-archive-row { display: block; min-width: 0; position: relative; border-radius: 10px; padding: 12px; margin: -12px; transition: outline-color 0.2s ease, transform 0.2s ease; outline: 2px solid transparent; outline-offset: 2px; }
@@ -641,7 +641,7 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
   .rail-slot > .from-archive-row:not(:nth-child(3n+1)) { padding-left: 0; }
   .rail-slot > .from-archive-row::before { display: none; }
   .rail-slot > .from-archive-row:nth-child(n+4) { display: none; }
-  #suggested, #from-archive { padding: 44px 0 38px; }
+  #from-archive { padding: 44px 0 38px; }
 }
 
 /* ==========================================================================
