@@ -17,7 +17,7 @@ layout: home
 <section id="suggested">
   <p class="from-archive-kicker">Suggested</p>
   <div id="suggested-slot" class="rail-slot">
-    {% assign suggested_slugs = "written-in-ink,the-poise,on-lying" | split: "," %}
+    {% assign suggested_slugs = "written-in-ink,thinking-is-for-after,it-will-be" | split: "," %}
     {% for s in suggested_slugs %}
       {% assign post = site.posts | where: "slug", s | first %}
       {% if post %}
