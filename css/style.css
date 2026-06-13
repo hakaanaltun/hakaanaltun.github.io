@@ -300,14 +300,14 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
 .about-card { display: grid; grid-template-columns: 200px 1fr; gap: 44px; align-items: start; background: var(--paper); border: 1px solid var(--rule-cream); border-radius: 16px; padding: 40px 44px; box-shadow: 0 10px 28px rgba(47, 43, 39, 0.05); }
 .about-author { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 6px; }
 .about-id { display: flex; flex-direction: column; gap: 4px; }
-.about-photo { width: 110px; height: 110px; border-radius: 50%; object-fit: cover; object-position: center 20%; border: 1px solid var(--rule-cream); box-shadow: 0 6px 18px rgba(47, 43, 39, 0.06); margin-bottom: 8px; }
-.about-name { font-family: 'Cormorant Garamond', Georgia, serif; font-style: normal; font-weight: 500; font-size: clamp(1.32rem, 1.7vw, 1.55rem); line-height: 1.06; color: var(--petrol); }
+.about-photo { width: 92px; height: 92px; border-radius: 50%; object-fit: cover; object-position: center 20%; border: 1px solid var(--rule-cream); box-shadow: 0 6px 18px rgba(47, 43, 39, 0.06); margin-bottom: 8px; }
+.about-name { font-family: 'Cormorant Garamond', Georgia, serif; font-style: normal; font-weight: 500; font-size: clamp(1.2rem, 1.5vw, 1.4rem); line-height: 1.06; color: var(--petrol); }
 
 @media (max-width: 768px) {
   .about-card { grid-template-columns: 1fr; gap: 26px; padding: 30px 26px; }
   .about-author { flex-direction: row; gap: 16px; text-align: left; align-items: center; }
   .about-id { align-items: flex-start; }
-  .about-photo { width: 72px; height: 72px; margin-bottom: 0; }
+  .about-photo { width: 62px; height: 62px; margin-bottom: 0; }
 }
 
 /* ========================================================================== 
@@ -618,7 +618,7 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
 #from-archive { padding: 56px 0 60px; }
 .from-archive-kicker { font-size: 13px; font-style: italic; color: var(--petrol); text-transform: uppercase; letter-spacing: 0.09em; margin-bottom: 22px; }
 #from-archive-slot { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
-.from-archive-row { display: block; min-width: 0; position: relative; border-radius: 10px; padding: 12px; margin: -12px; transition: outline-color 0.2s ease, background-color 0.2s ease; outline: 2px solid transparent; outline-offset: 2px; }
+.from-archive-row { display: block; min-width: 0; position: relative; border-radius: 10px; padding: 12px; margin: -12px; transition: outline-color 0.2s ease, transform 0.2s ease; outline: 2px solid transparent; outline-offset: 2px; }
 #from-archive-slot { row-gap: 48px; }
 #from-archive-slot > .from-archive-row:not(:nth-child(3n+1)) { padding-left: 40px; margin-left: 0; }
 #from-archive-slot > .from-archive-row:not(:nth-child(3n+1))::before {
@@ -629,11 +629,10 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
 .from-archive-row:focus-within,
 .from-archive-row:active { outline-color: var(--petrol); }
 @media (hover: hover) {
-  .from-archive-row:hover { background: rgba(30, 85, 82, 0.045); outline-color: rgba(30, 85, 82, 0.18); }
+  .from-archive-row:hover { transform: translateY(-5px); }
 }
 .from-archive-text { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
-.from-archive-title { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: clamp(1.35rem, 1.8vw, 1.55rem); line-height: 1.1; color: var(--petrol); transition: color 0.2s ease; }
-.from-archive-row:hover .from-archive-title { color: var(--petrol-deep); }
+.from-archive-title { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: clamp(1.35rem, 1.8vw, 1.55rem); line-height: 1.1; color: var(--petrol); }
 .from-archive-subtitle { font-family: 'EB Garamond', Georgia, serif; font-style: italic; font-size: 1.12rem; color: var(--vizon); line-height: 1.35; }
 .from-archive-meta { font-size: 0.9rem; color: var(--vizon); margin-top: 2px; }
 @media (max-width: 700px) {
