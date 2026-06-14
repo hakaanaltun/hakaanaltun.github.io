@@ -48,9 +48,10 @@ layout: home
       {% endif %}
     {% endfor %}
     {% if is_excluded %}{% continue %}{% endif %}
-    {% assign pool_posts = pool_posts | push: post %}
+    {% assign post_arr = "" | split: "" | push: post %}
+    {% assign pool_posts = pool_posts | concat: post_arr %}
   {% endfor %}
-  <div id="further-back-grid" class="further-back-grid"></div>
+  <ul id="further-back-grid" class="further-back-grid" role="list"></ul>
   <script>
   (function() {
     var pool = [
@@ -76,13 +77,24 @@ layout: home
     var grid = document.getElementById('further-back-grid');
     var html = '';
     selected.forEach(function(p, i) {
-      if (i === 3) html += '<div class="fb-separator"></div>';
-      html += '<div class="fb-card"><a href="' + p.url + '" class="fb-card-link">';
-      html += '<span class="piece-title">' + p.title + '</span>';
-      if (p.subtitle) html += '<span class="piece-subtitle">' + p.subtitle + '</span>';
-      html += '<span class="piece-meta">' + p.date + ' · ' + p.readTime + '</span>';
-      if (p.excerpt) html += '<span class="piece-excerpt">' + p.excerpt + '</span>';
-      html += '</a></div>';
+      if (i === 3) html += '<li class="fb-separator" role="separator" aria-hidden="true"></li>';
+      html += '<li class="fb-card"><a href="' + p.url + '" class="fb-card-link">';
+      html += '<span class="piece-title"></span>';
+      if (p.subtitle) html += '<span class="piece-subtitle"></span>';
+      html += '<span class="piece-meta"></span>';
+      if (p.excerpt) html += '<span class="piece-excerpt"></span>';
+      html += '</a></li>';
+    });
+    grid.innerHTML = html;
+    var cards = grid.querySelectorAll('.fb-card');
+    cards.forEach(function(card, i) {
+      var p = selected[i];
+      card.querySelector('.piece-title').textContent = p.title;
+      var sub = card.querySelector('.piece-subtitle');
+      if (sub) sub.textContent = p.subtitle;
+      card.querySelector('.piece-meta').textContent = p.date + ' \u00b7 ' + p.readTime;
+      var exc = card.querySelector('.piece-excerpt');
+      if (exc) exc.textContent = p.excerpt;
     });
     grid.innerHTML = html;
   })();

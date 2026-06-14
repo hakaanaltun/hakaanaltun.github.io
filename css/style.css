@@ -705,7 +705,7 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
   list-style: none; padding: 0; margin: 0;
 }
 .fb-card {
-  padding: 18px 24px;
+  padding: 18px 24px; list-style: none;
 }
 .fb-card-link {
   display: flex; flex-direction: column; gap: 4px;
@@ -720,6 +720,7 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
   height: 1px;
   background: var(--rule-cream);
   margin: 0;
+  list-style: none;
 }
 @media (max-width: 900px) {
   .further-back-grid { grid-template-columns: repeat(2, 1fr); }
