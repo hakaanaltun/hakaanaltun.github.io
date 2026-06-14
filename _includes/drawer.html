@@ -24,10 +24,11 @@
     <div class="drawer-essay-cards">
       {% for post in regular_essays limit: 8 %}
       {% assign drawer_image = post.thumb | default: post.image %}
+      {% assign display_title = post.title | replace: "'", "’" %}
       {% if post.url == page.url %}<span class="drawer-essay-card drawer-essay-card--current">{% else %}<a href="{{ post.url }}" class="drawer-essay-card-link"><span class="drawer-essay-card">{% endif %}
         {% if drawer_image %}<img src="{{ drawer_image }}" alt="{{ post.cover_alt | default: post.title }}" loading="lazy">{% endif %}
         <span class="drawer-essay-card-text">
-          <span class="drawer-essay-card-title">{{ post.title }}</span>
+          <span class="drawer-essay-card-title">{{ display_title }}</span>
           {% if post.subtitle %}<span class="drawer-essay-card-subtitle">{{ post.subtitle }}</span>{% endif %}
           <span class="drawer-essay-card-meta">{{ post.date | date: "%b %-d, %Y" }} · {{ post.read_time }}</span>
         </span>
@@ -42,10 +43,11 @@
     <div class="drawer-essay-cards">
       {% for post in cafe_series %}
       {% assign drawer_image = post.thumb | default: post.image %}
+      {% assign display_title = post.title | replace: "'", "’" %}
       {% if post.url == page.url %}<span class="drawer-essay-card drawer-essay-card--current">{% else %}<a href="{{ post.url }}" class="drawer-essay-card-link"><span class="drawer-essay-card">{% endif %}
         {% if drawer_image %}<img src="{{ drawer_image }}" alt="{{ post.cover_alt | default: post.title }}" loading="lazy">{% endif %}
         <span class="drawer-essay-card-text">
-          <span class="drawer-essay-card-title">{{ post.title }}</span>
+          <span class="drawer-essay-card-title">{{ display_title }}</span>
           {% if post.subtitle %}<span class="drawer-essay-card-subtitle">{{ post.subtitle }}</span>{% endif %}
           <span class="drawer-essay-card-meta">{{ post.date | date: "%b %-d, %Y" }} · {{ post.read_time }}</span>
         </span>
@@ -60,10 +62,11 @@
     <div class="drawer-essay-cards">
       {% for post in on_series %}
       {% assign drawer_image = post.thumb | default: post.image %}
+      {% assign display_title = post.title | replace: "'", "’" %}
       {% if post.url == page.url %}<span class="drawer-essay-card drawer-essay-card--current">{% else %}<a href="{{ post.url }}" class="drawer-essay-card-link"><span class="drawer-essay-card">{% endif %}
         {% if drawer_image %}<img src="{{ drawer_image }}" alt="{{ post.cover_alt | default: post.title }}" loading="lazy">{% endif %}
         <span class="drawer-essay-card-text">
-          <span class="drawer-essay-card-title">{{ post.title }}</span>
+          <span class="drawer-essay-card-title">{{ display_title }}</span>
           {% if post.subtitle %}<span class="drawer-essay-card-subtitle">{{ post.subtitle }}</span>{% endif %}
           <span class="drawer-essay-card-meta">{{ post.date | date: "%b %-d, %Y" }} · {{ post.read_time }}</span>
         </span>
@@ -78,17 +81,18 @@
     <div class="drawer-essay-cards">
       {% for post in fragments %}
       {% assign drawer_image = post.thumb | default: post.image %}
+      {% assign display_title = post.title | replace: "'", "’" %}
       {% if post.url == page.url %}<span class="drawer-essay-card drawer-essay-card--current">{% else %}<a href="{{ post.url }}" class="drawer-essay-card-link"><span class="drawer-essay-card">{% endif %}
         {% if drawer_image %}<img src="{{ drawer_image }}" alt="{{ post.cover_alt | default: post.title }}" loading="lazy">{% endif %}
         <span class="drawer-essay-card-text">
-          <span class="drawer-essay-card-title">{{ post.title }}</span>
+          <span class="drawer-essay-card-title">{{ display_title }}</span>
           {% if post.subtitle %}<span class="drawer-essay-card-subtitle">{{ post.subtitle }}</span>{% endif %}
           <span class="drawer-essay-card-meta">{{ post.date | date: "%b %-d, %Y" }} · {{ post.read_time }}</span>
         </span>
       {% if post.url == page.url %}</span>{% else %}</span></a>{% endif %}
       {% endfor %}
     </div>
-    <a href="/safaks-arc/" class="drawer-more">All in Şafak's Arc <span aria-hidden="true">&rarr;</span></a>
+    <a href="/safaks-arc/" class="drawer-more">All in Şafak’s Arc <span aria-hidden="true">&rarr;</span></a>
   </details>
 
   <details class="drawer-section">
