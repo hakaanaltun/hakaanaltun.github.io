@@ -12,13 +12,16 @@
     align-items: center;
     gap: 4px;
     text-decoration: none;
+    transition: opacity 0.2s ease;
   }
+  .footer-home-link:hover,
+  .footer-home-link:active { opacity: 0.8; }
   .footer-tagline {
     font-family: 'EB Garamond', Georgia, serif;
     font-style: italic;
     font-size: 1.02rem;
-    color: var(--footer-text);
-    opacity: 0.8;
+    color: var(--footer-muted);
+    opacity: 1;
   }
   .footer-credit {
     color: var(--footer-muted);
@@ -79,7 +82,7 @@
         <span class="footer-brand">On Life &amp; Everything</span>
         <span class="footer-tagline">Essays, short fiction, and other writing.</span>
       </a>
-      <p class="footer-credit">© Hakan Altun · İstanbul, 2026 · All rights reserved.</p>
+      <p class="footer-credit">Hakan Altun · İstanbul, 2026 · &copy; All rights reserved.</p>
     </div>
   </div>
 </footer>
