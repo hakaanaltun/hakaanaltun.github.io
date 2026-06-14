@@ -18,7 +18,7 @@ layout: home
 </section>
 
 <section id="latest">
-  {% include section-header.html title="Latest" subtitle="Newest first." %}
+  {% include section-header.html title="Latest" subtitle="" %}
   {% assign latest = site.posts | sort: "date" | reverse %}
   {% assign latest_count = 8 %}
   <ul class="piece-grid">
@@ -31,43 +31,71 @@ layout: home
 <section id="further-back">
   {% include section-header.html title="Further back" subtitle="" %}
   {% assign all_posts = site.posts | sort: "date" | reverse %}
-  <!-- Exclude The Cove (standalone series piece) and the five earliest posts -->
   {% assign excluded_slugs = "say-hello,ai-enough,defense-mechanisms,jung-shadow,unfinished-things,the-cove" | split: "," %}
-  {% assign shown = 0 %}
+  {% assign pool_posts = "" | split: "" %}
   {% assign skipped = 0 %}
-  <ul class="piece-grid">
-    {% for post in all_posts %}
-      {% if skipped < latest_count %}
-        {% assign skipped = skipped | plus: 1 %}
-        {% continue %}
-      {% endif %}
-      {% assign post_slug = post.slug %}
-      {% assign is_excluded = false %}
-      {% for s in excluded_slugs %}
-        {% if post_slug == s %}
-          {% assign is_excluded = true %}
-          {% break %}
-        {% endif %}
-      {% endfor %}
-      {% if is_excluded %}{% continue %}{% endif %}
-      {% if shown < 8 %}
-        {% include piece-card.html post=post %}
-        {% assign shown = shown | plus: 1 %}
+  {% for post in all_posts %}
+    {% if skipped < latest_count %}
+      {% assign skipped = skipped | plus: 1 %}
+      {% continue %}
+    {% endif %}
+    {% assign post_slug = post.slug %}
+    {% assign is_excluded = false %}
+    {% for s in excluded_slugs %}
+      {% if post_slug == s %}
+        {% assign is_excluded = true %}
+        {% break %}
       {% endif %}
     {% endfor %}
-  </ul>
+    {% if is_excluded %}{% continue %}{% endif %}
+    {% assign pool_posts = pool_posts | push: post %}
+  {% endfor %}
+  <div id="further-back-grid" class="further-back-grid"></div>
+  <script>
+  (function() {
+    var pool = [
+      {% for post in pool_posts %}
+      {
+        url: "{{ post.url }}",
+        title: {{ post.title | jsonify }},
+        subtitle: {{ post.subtitle | default: "" | jsonify }},
+        date: "{{ post.date | date: '%b %-d, %Y' }}",
+        readTime: {{ post.read_time | default: "" | jsonify }},
+        excerpt: {{ post.content | strip_html | strip_newlines | truncatewords: 32 | jsonify }}
+      }{% unless forloop.last %},{% endunless %}
+      {% endfor %}
+    ];
+    function shuffle(arr) {
+      for (var i = arr.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp;
+      }
+      return arr;
+    }
+    var selected = shuffle(pool.slice()).slice(0, 6);
+    var grid = document.getElementById('further-back-grid');
+    var html = '';
+    selected.forEach(function(p, i) {
+      if (i === 3) html += '<div class="fb-separator"></div>';
+      html += '<div class="fb-card"><a href="' + p.url + '" class="fb-card-link">';
+      html += '<span class="piece-title">' + p.title + '</span>';
+      if (p.subtitle) html += '<span class="piece-subtitle">' + p.subtitle + '</span>';
+      html += '<span class="piece-meta">' + p.date + ' · ' + p.readTime + '</span>';
+      if (p.excerpt) html += '<span class="piece-excerpt">' + p.excerpt + '</span>';
+      html += '</a></div>';
+    });
+    grid.innerHTML = html;
+  })();
+  </script>
 </section>
 
 <section id="book">
   {% include section-header.html title="Book" subtitle="" %}
-  <div class="book-grid">
-    <div class="book-cover-wrap">
-      <img src="/images/cover.webp" alt="The Fragments cover" class="book-cover" width="1000" height="1500" loading="lazy">
-    </div>
+  <div class="book-grid book-grid-reversed">
     <div class="book-content">
       <h3 class="book-title">The Fragments</h3>
       <div class="book-description">
-        <p>First, there was Symmetry. Then matter hesitated. It disobeyed. From that hesitation, everything we know and everything we don’t was born. Stars learned to hold against the void, and the first cell tasted fear.</p>
+        <p>First, there was Symmetry. Then matter hesitated. It disobeyed. From that hesitation, everything we know and everything we don't was born. Stars learned to hold against the void, and the first cell tasted fear.</p>
         <p>Now that same tremor lives in a cup of tea going cold on a kitchen table, in a man who walks into the wrong office and stays, and in a pair of green eyes watching you at three in the morning.</p>
         <p><em>The Fragments</em> is a story of forgetting and remembering, of betrayal and longing, of a silver watch that survives time, and of becoming whole again in a garden at the end of the universe.</p>
       </div>
@@ -85,6 +113,9 @@ layout: home
           <a href="https://books2read.com/u/bOVA7J" target="_blank" rel="noopener">More</a>
         </div>
       </div>
+    </div>
+    <div class="book-cover-wrap">
+      <img src="/images/cover.webp" alt="The Fragments cover" class="book-cover" width="1000" height="1500" loading="lazy">
     </div>
   </div>
 </section>

@@ -699,6 +699,53 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
   display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
 }
 
+/* Further Back grid – text-only cards with cream separators */
+.further-back-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 0;
+  list-style: none; padding: 0; margin: 0;
+}
+.fb-card {
+  padding: 18px 24px;
+}
+.fb-card-link {
+  display: flex; flex-direction: column; gap: 4px;
+  text-decoration: none; color: inherit;
+  transition: transform 0.25s ease;
+}
+.fb-card-link:hover { transform: translateY(-2px); }
+.fb-card-link:hover .piece-title { color: var(--petrol); }
+.fb-card-link:focus-visible { outline: 2px solid var(--petrol); outline-offset: 4px; border-radius: 14px; }
+.fb-separator {
+  grid-column: 1 / -1;
+  height: 1px;
+  background: var(--rule-cream);
+  margin: 0;
+}
+@media (max-width: 900px) {
+  .further-back-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .further-back-grid { grid-template-columns: 1fr; }
+  .fb-card { padding: 14px 0; }
+}
+
+/* Book grid reversed – description left, cover right */
+.book-grid-reversed {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(180px, 260px);
+  gap: 42px;
+  align-items: center;
+}
+@media (max-width: 900px) {
+  .book-grid-reversed {
+    grid-template-columns: 1fr;
+    gap: 26px;
+    text-align: left;
+  }
+  .book-grid-reversed .book-cover-wrap { order: -1; }
+  .book-grid-reversed .book-cover { max-width: 210px; max-height: 315px; margin: 0; }
+}
+
 @media (max-width: 600px) {
   .section-page { padding-top: 52px; }
   .section-page-title { font-size: 2.2rem; }
