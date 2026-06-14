@@ -201,7 +201,7 @@
   .footer-grid {
     grid-template-columns: minmax(0, 1fr) minmax(320px, 1.12fr) minmax(0, 1fr) !important;
     align-items: start;
-    gap: clamp(30px, 5vw, 76px);
+    gap: clamp(26px, 4vw, 52px);
   }
   .footer-col {
     border-left: 0 !important;
@@ -211,20 +211,14 @@
     min-width: 0;
     position: relative;
   }
+  .footer-col::before,
   .footer-col::after {
     content: none !important;
     display: none !important;
   }
-  .footer-grid > .footer-col:nth-child(n+2)::before {
-    content: "" !important;
-    display: block !important;
-    position: absolute;
-    left: -38px;
-    top: 4px;
-    bottom: 4px;
-    width: 1px;
-    background: var(--footer-muted);
-    opacity: 0.26;
+  .footer-grid > .footer-col:nth-child(n+2) {
+    border-left: 1px solid rgba(237, 228, 207, 0.38) !important;
+    padding-left: clamp(22px, 3vw, 34px) !important;
   }
   .footer-col,
   .footer-col h3,
@@ -294,7 +288,10 @@
   @media (max-width: 600px) {
     .footer-bottom { align-items: center; }
     .footer-grid { grid-template-columns: 1fr !important; }
-    .footer-grid > .footer-col:nth-child(n+2)::before { display: none !important; }
+    .footer-grid > .footer-col:nth-child(n+2) {
+      border-left: 0 !important;
+      padding-left: 0 !important;
+    }
     .hero-quotes-section { padding-top: 54px !important; padding-bottom: 60px !important; }
     .hero-quote-card { min-height: 238px !important; padding: 38px 26px 72px !important; }
     .hero-quote-source { margin-right: 0 !important; }
