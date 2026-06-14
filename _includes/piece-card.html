@@ -1,4 +1,4 @@
-<li class="piece-card">
+<li class="piece-card{% if include.featured %} is-featured{% endif %}">
   <a href="{{ include.post.url }}" class="piece-card-link">
     {% assign img = include.post.thumb | default: include.post.image %}
     {% if img %}
