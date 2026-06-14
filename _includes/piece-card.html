@@ -7,12 +7,14 @@
     </span>
     {% endif %}
     <span class="piece-body">
-      <span class="piece-title">{{ include.post.title }}</span>
+      {% assign display_title = include.post.title | replace: "'", "’" %}
+      <span class="piece-title">{{ display_title }}</span>
       {% if include.post.subtitle %}
       <span class="piece-subtitle">{{ include.post.subtitle }}</span>
       {% endif %}
       <span class="piece-meta">{{ include.post.date | date: "%b %-d, %Y" }} · {{ include.post.read_time }}</span>
       {% assign excerpt_text = include.post.content | strip_html | strip_newlines | truncatewords: 32 %}
+      {% if include.post.slug == "collateral" %}{% assign excerpt_text = excerpt_text | replace: "halıcı", "<em>halıcı</em>" %}{% endif %}
       {% if excerpt_text != blank %}
       <span class="piece-excerpt">{{ excerpt_text }}</span>
       {% endif %}
