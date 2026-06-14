@@ -2,6 +2,21 @@
   .nav-home { transition: opacity 0.2s ease; }
   .nav-home:hover,
   .nav-home:active { opacity: 0.8; }
+
+  .header-share-btn,
+  .essay-share-btn { padding: 4px; }
+  .header-share-btn svg,
+  .essay-share-btn svg { width: 19px; height: 19px; }
+
+  .site-drawer {
+    left: 0;
+    right: auto;
+    border-left: 0;
+    border-right: 1px solid var(--rule);
+    box-shadow: 4px 0 24px rgba(47, 43, 39, 0.08);
+    transform: translateX(-100%);
+  }
+  .site-drawer.open { transform: translateX(0); }
 </style>
 
 <header id="site-header">
