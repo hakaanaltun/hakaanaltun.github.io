@@ -80,6 +80,15 @@
     transform: translateY(-50%) rotate(-135deg) !important;
     margin-bottom: 0 !important;
   }
+  .drawer-more {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
   .drawer-essay-card {
     grid-template-columns: minmax(0, 1fr) 72px !important;
   }
@@ -147,6 +156,10 @@
   .essay-nav .nav-title {
     font-style: italic;
   }
+  .footer-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    align-items: start;
+  }
   .footer-col,
   .footer-col h3,
   .footer-col p,
@@ -209,6 +222,7 @@
 
   @media (max-width: 600px) {
     .footer-bottom { align-items: center; }
+    .footer-grid { grid-template-columns: 1fr !important; }
     #latest .piece-grid .piece-card:nth-child(n+7) { display: none; }
     #further-back .further-back-grid .fb-separator,
     #further-back .further-back-grid .fb-card:nth-of-type(n+5) { display: none; }
