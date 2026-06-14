@@ -23,7 +23,6 @@
 
   /* Thumbnail cards row */
   html += '<div class="series-nav-cards">';
-  html += '<span aria-hidden="true" style="flex:1 0 0; min-width:0;"></span>';
 
   FRAGMENTS.forEach(function (f, i) {
     var isCurrent = (f.href === current);
@@ -44,7 +43,6 @@
     }
   });
 
-  html += '<span aria-hidden="true" style="flex:1 0 0; min-width:0;"></span>';
   html += '</div>';
 
   nav.innerHTML = html;
