@@ -53,6 +53,24 @@ layout: home
   #latest .piece-card.is-featured .piece-subtitle { font-size: 1.12rem; -webkit-line-clamp: 3; }
   #latest .piece-card.is-featured .piece-excerpt { font-size: 1.03rem; -webkit-line-clamp: 4; }
 
+  #book .book-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(180px, 260px);
+    gap: 56px;
+    align-items: center;
+  }
+  #book .book-content {
+    max-width: 720px;
+  }
+  #book .book-description {
+    max-width: none;
+  }
+  #book .book-cover-wrap {
+    justify-self: end;
+  }
+  #book .book-cover {
+    margin: 0 0 0 auto;
+  }
+
   #further-back .fb-card { position: relative; }
   @media (min-width: 901px) {
     #further-back .further-back-grid > .fb-card:nth-child(2)::before,
@@ -95,6 +113,9 @@ layout: home
     .hero-quote-card::before { left: 18px; }
     #latest .piece-card.is-featured { grid-column: span 1; }
     #latest .piece-card.is-featured .piece-title { font-size: 1.55rem; }
+    #book .book-grid { grid-template-columns: 1fr; gap: 28px; }
+    #book .book-cover-wrap { justify-self: center; }
+    #book .book-cover { margin: 0 auto; }
   }
 </style>
 
