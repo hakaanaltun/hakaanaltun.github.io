@@ -4,5 +4,5 @@
 {% assign all_essays = site.posts | sort: "date" | reverse %}
 var ALL_ESSAYS = [{% for essay in all_essays %}
 {% assign essay_img = essay.thumb | default: essay.image | default: "" %}
-  {href:{{ essay.url | split: "/" | last | jsonify }},title:{{ essay.title | jsonify }},subtitle:{{ essay.subtitle | default: "" | jsonify }},img:{% if essay_img contains '://' %}{{ essay_img | jsonify }}{% elsif essay_img != "" %}{{ essay_img | absolute_url | jsonify }}{% else %}""{% endif %},date:'{{ essay.date | date: "%b %-d, %Y" }}',readTime:{{ essay.read_time | default: "" | jsonify }},series:{{ essay.series | default: "" | jsonify }},seriesOrder:{{ essay.series_order | default: 0 }}}{% unless forloop.last %},{% endunless %}{% endfor %}
+  {href:{{ essay.url | split: "/" | last | jsonify }},title:{{ essay.title | jsonify }},subtitle:{{ essay.subtitle | default: "" | jsonify }},img:{% if essay_img contains '://' %}{{ essay_img | jsonify }}{% elsif essay_img != "" %}{{ essay_img | absolute_url | jsonify }}{% else %}""{% endif %},date:'{{ essay.date | date: "%b %-d, %Y" }}',series:{{ essay.series | default: "" | jsonify }},seriesOrder:{{ essay.series_order | default: 0 }}}{% unless forloop.last %},{% endunless %}{% endfor %}
 ];
