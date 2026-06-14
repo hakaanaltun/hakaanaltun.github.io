@@ -4,6 +4,31 @@ layout: home
 
 <style>
   .hero-quote-card::before { opacity: 0.09; }
+  .hero-quote-card {
+    border-color: transparent;
+    box-shadow: none;
+  }
+  .about-card {
+    border-color: transparent;
+    box-shadow: none;
+  }
+  .quote-nav-btn {
+    border-color: transparent;
+    background: transparent;
+    box-shadow: none;
+    opacity: 0.55;
+  }
+  .quote-nav-btn:hover,
+  .quote-nav-btn:active,
+  .quote-nav-btn:focus-visible {
+    border-color: transparent;
+    background: transparent;
+    box-shadow: none;
+    color: var(--petrol-deep);
+    opacity: 1;
+    transform: translateY(-1px) scale(1.08);
+    outline: none;
+  }
 
   #latest .piece-card.is-featured { grid-column: span 2; }
   #latest .piece-card.is-featured .piece-thumb-wrap { aspect-ratio: 16 / 9; }
