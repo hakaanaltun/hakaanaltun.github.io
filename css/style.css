@@ -103,12 +103,13 @@ body.drawer-open header { z-index: 50; }
 
 nav { display: flex; flex-direction: column; gap: var(--head-gap); padding: var(--head-pad-top) 0 var(--head-pad-bottom); }
 
-.nav-top-row { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
-.nav-home { display: flex; flex-direction: column; line-height: 1.1; padding-bottom: 2px; }
+.nav-top-row { display: flex; align-items: center; justify-content: center; gap: 20px; position: relative; }
+.nav-home { display: flex; flex-direction: column; align-items: center; text-align: center; line-height: 1.1; padding-bottom: 2px; }
+.nav-right { position: absolute; right: 0; display: flex; align-items: center; gap: 8px; }
+.nav-right-left { position: absolute; left: 0; display: flex; align-items: center; gap: 8px; }
 .brand-main { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: clamp(1.35rem, 1.7vw, 1.5rem); color: var(--petrol-deep); }
 .brand-sub { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.06rem; font-style: italic; line-height: 1.2; color: var(--vizon); margin-top: 5px; letter-spacing: 0.005em; white-space: nowrap; }
 .brand-sub::before { display: none; }
-.nav-right { display: flex; align-items: center; gap: 8px; }
 
 header .brand-main,
 header .hamburger-btn, header .header-share-btn, header .essay-share-btn { color: var(--footer-text); }
@@ -124,7 +125,7 @@ header .brand-sub { margin-top: 6px; color: var(--footer-muted); }
 .hamburger-btn:focus-visible, .header-share-btn:focus-visible, .essay-share-btn:focus-visible, .drawer-close:focus-visible { outline: 2px solid var(--petrol); outline-offset: 2px; border-radius: 4px; }
 header .hamburger-btn:focus-visible, header .header-share-btn:focus-visible, header .essay-share-btn:focus-visible { outline-color: var(--footer-text); }
 
-.header-nav-bar { display: flex; flex-wrap: wrap; gap: 44px; margin-top: 0; }
+.header-nav-bar { display: flex; flex-wrap: wrap; gap: 44px; margin-top: 0; justify-content: center; }
 .header-nav-bar a {
   display: inline-flex; align-items: center; justify-content: center; padding: 6px 2px;
   border: none; border-radius: 0; background: transparent;
@@ -164,10 +165,12 @@ header .hamburger-btn:focus-visible, header .header-share-btn:focus-visible, hea
   z-index: -1;
 }
 .drawer-close { position: absolute; top: 16px; right: 16px; z-index: 2; color: var(--footer-text); }
+.drawer-close svg { width: 18px; height: 18px; }
 
-.drawer-logo-link { display: flex; flex-direction: column; gap: 4px; margin-bottom: var(--drawer-logo-mb); line-height: 1; position: relative; z-index: 1; background: transparent; }
-.drawer-logo-link .brand-main { font-size: 1.3rem; color: var(--footer-text); white-space: nowrap; }
-.drawer-logo-link .brand-sub { font-size: 1.0rem; color: var(--footer-muted); margin-top: 4px; white-space: normal; line-height: 1.2; max-width: 26ch; }
+.drawer-logo-wrap { display: flex; justify-content: center; margin-bottom: var(--drawer-logo-mb); }
+.drawer-logo-link { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 4px; line-height: 1; position: relative; z-index: 1; background: transparent; }
+.drawer-logo-link .brand-main { font-size: 1.3rem; color: var(--footer-text); white-space: nowrap; text-align: center; }
+.drawer-logo-link .brand-sub { font-size: 1.0rem; color: var(--footer-muted); margin-top: 4px; white-space: normal; line-height: 1.2; max-width: 26ch; text-align: center; }
 
 .drawer-label { display: block; margin-top: 20px; font-size: 13px; color: var(--petrol); text-transform: uppercase; letter-spacing: 0.09em; }
 
@@ -391,9 +394,10 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
    ========================================================================== */
 footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-top: 40px; background: var(--footer-bg); color: var(--footer-text); font-family: 'EB Garamond', Georgia, serif; }
 .footer-inner { max-width: 1040px; margin: 0 auto; padding: 56px var(--pad) 44px; }
-.footer-home-link { display: inline-flex; flex-direction: column; gap: 5px; color: inherit; }
+.footer-home-link { display: inline-flex; flex-direction: column; align-items: center; gap: 5px; color: inherit; }
 .footer-home-link:hover .footer-brand { text-decoration: underline; text-underline-offset: 4px; }
 .footer-brand { display: block; font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 1.5rem; line-height: 1.05; color: var(--footer-text); }
+.footer-tagline { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 1.06rem; color: var(--footer-muted); line-height: 1.2; }
 .footer-farewell { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 1.65rem; text-align: center; }
 .footer-signature { text-align: center; margin-top: 6px; color: var(--footer-muted); }
 .footer-rule { margin: 28px auto; border: 0; border-top: 1px solid rgba(237, 228, 207, 0.8); }
@@ -417,7 +421,7 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
 .footer-col a span { display: inline-block; margin-left: 6px; color: var(--footer-muted); transition: transform 0.2s ease; }
 .footer-col a:hover span { transform: translateX(3px); }
 .footer-rule-bottom { margin-top: 24px; margin-bottom: 20px; border: 0; border-top: 1px solid rgba(237, 228, 207, 0.6); }
-.footer-bottom { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; }
+.footer-bottom { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 6px; }
 .footer-meta, .footer-copy { color: var(--footer-muted); font-size: 0.95rem; }
 
 /* ========================================================================== 
@@ -520,7 +524,7 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
   .drawer-essay-card-subtitle { font-size: 0.76rem; }
 
   .footer-inner { padding: 48px var(--pad) 44px; }
-  .footer-bottom { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .footer-bottom { gap: 6px; }
 }
 
 /* Portrait phones: every Pieces card full-size and stacked; show the first six, then Read everything */
