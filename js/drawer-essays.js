@@ -1,4 +1,4 @@
-/* drawer-essays.js—Replaces static essay links in drawer with thumbnail cards */
+/* drawer-essays.js—Replaces static essay links in drawer with text cards */
 (function () {
   'use strict';
 
@@ -36,12 +36,6 @@
 
       var card = document.createElement('div');
       card.className = 'drawer-essay-card' + (isCurrent ? ' drawer-essay-card--current' : '');
-
-      var img = document.createElement('img');
-      img.src = e.img;
-      img.alt = title;
-      img.setAttribute('loading', 'lazy');
-      card.appendChild(img);
 
       var textWrap = document.createElement('div');
       textWrap.className = 'drawer-essay-card-text';
