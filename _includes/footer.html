@@ -205,9 +205,15 @@
     text-overflow: ellipsis;
   }
   .footer-grid {
-    grid-template-columns: minmax(0, 1fr) minmax(320px, 1.12fr) minmax(0, 1fr) !important;
-    align-items: start;
-    gap: clamp(26px, 4vw, 52px);
+    grid-template-columns: minmax(0, 1fr) 1px minmax(320px, 1.12fr) 1px minmax(0, 1fr) !important;
+    align-items: stretch;
+    gap: clamp(22px, 3.2vw, 44px);
+  }
+  .footer-separator {
+    width: 1px;
+    min-height: 178px;
+    align-self: stretch;
+    background: rgba(237, 228, 207, 0.42);
   }
   .footer-col {
     border-left: 0 !important;
@@ -221,10 +227,6 @@
   .footer-col::after {
     content: none !important;
     display: none !important;
-  }
-  .footer-grid > .footer-col:nth-child(n+2) {
-    border-left: 1px solid rgba(237, 228, 207, 0.38) !important;
-    padding-left: clamp(22px, 3vw, 34px) !important;
   }
   .footer-col,
   .footer-col h3,
@@ -294,10 +296,7 @@
   @media (max-width: 600px) {
     .footer-bottom { align-items: center; }
     .footer-grid { grid-template-columns: 1fr !important; }
-    .footer-grid > .footer-col:nth-child(n+2) {
-      border-left: 0 !important;
-      padding-left: 0 !important;
-    }
+    .footer-separator { display: none !important; }
     .hero-quotes-section { padding-top: 54px !important; padding-bottom: 60px !important; }
     .hero-quote-card { min-height: 238px !important; padding: 38px 26px 72px !important; }
     .hero-quote-source { margin-right: 0 !important; }
@@ -325,6 +324,8 @@
         </ul>
       </section>
 
+      <div class="footer-separator" aria-hidden="true"></div>
+
       <section class="footer-col footer-subscribe">
         <h3>Subscribe</h3>
         <p class="footer-subscribe-blurb">If you’d like new pieces sent directly to your inbox when they’re ready, drop your email below.</p>
@@ -334,6 +335,8 @@
         </form>
         <p class="footer-note">Powered by Buttondown. Unsubscribe anytime.</p>
       </section>
+
+      <div class="footer-separator" aria-hidden="true"></div>
 
       <section class="footer-col footer-findme">
         <h3>Find me</h3>
