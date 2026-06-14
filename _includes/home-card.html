@@ -10,7 +10,8 @@
       {% unless include.kicker == blank %}
       <span class="asym-kicker">{{ include.kicker }}</span>
       {% endunless %}
-      <span class="asym-title">{{ include.post.title }}</span>
+      {% assign display_title = include.post.title | replace: "'", "’" %}
+      <span class="asym-title">{{ display_title }}</span>
       {% if include.post.subtitle %}
       <span class="asym-subtitle">{{ include.post.subtitle }}</span>
       {% endif %}
