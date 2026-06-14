@@ -153,7 +153,6 @@ layout: home
         title: {{ post.title | jsonify }},
         subtitle: {{ post.subtitle | default: "" | jsonify }},
         date: "{{ post.date | date: '%b %-d, %Y' }}",
-        readTime: {{ post.read_time | default: "" | jsonify }},
         excerpt: {{ post.content | strip_html | strip_newlines | truncatewords: 32 | jsonify }}
       }{% unless forloop.last %},{% endunless %}
       {% endfor %}
@@ -195,7 +194,7 @@ layout: home
       card.querySelector('.piece-title').textContent = displayTitle(p.title);
       var sub = card.querySelector('.piece-subtitle');
       if (sub) sub.textContent = p.subtitle;
-      card.querySelector('.piece-meta').textContent = p.date + ' \u00b7 ' + p.readTime;
+      card.querySelector('.piece-meta').textContent = p.date;
       setExcerpt(card.querySelector('.piece-excerpt'), p);
     });
   })();
