@@ -3,21 +3,23 @@ layout: home
 ---
 
 <style>
-  .hero-quote-card::before { opacity: 0.09; }
   .hero-quote-card {
+    --hero-quote-column: 760px;
     border-color: transparent;
     box-shadow: none;
   }
+  .hero-quote-card::before {
+    left: max(24px, calc((100% - var(--hero-quote-column)) / 2 - 42px));
+    opacity: 0.09;
+  }
   .hero-quote-text {
-    width: 100%;
-    max-width: 860px;
+    width: min(100%, var(--hero-quote-column));
     margin-left: auto;
     margin-right: auto;
     text-align: left;
   }
   .hero-quote-source {
-    width: 100%;
-    max-width: 860px;
+    width: min(100%, var(--hero-quote-column));
     margin-left: auto;
     margin-right: auto;
     align-self: center;
@@ -80,6 +82,7 @@ layout: home
   }
 
   @media (min-width: 641px) and (max-width: 1024px) and (orientation: portrait) {
+    .hero-quote-card { --hero-quote-column: 700px; }
     #about .about-text p:first-child {
       font-size: 1rem;
       letter-spacing: -0.015em;
@@ -88,6 +91,8 @@ layout: home
   }
 
   @media (max-width: 600px) {
+    .hero-quote-card { --hero-quote-column: 100%; }
+    .hero-quote-card::before { left: 18px; }
     #latest .piece-card.is-featured { grid-column: span 1; }
     #latest .piece-card.is-featured .piece-title { font-size: 1.55rem; }
   }
