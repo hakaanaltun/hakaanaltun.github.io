@@ -1,0 +1,21 @@
+<li class="piece-card">
+  <a href="{{ include.post.url }}" class="piece-card-link">
+    {% assign img = include.post.thumb | default: include.post.image %}
+    {% if img %}
+    <span class="piece-thumb-wrap">
+      <img src="{{ img }}" alt="{{ include.post.cover_alt | default: include.post.title }}" class="piece-thumb" loading="lazy">
+    </span>
+    {% endif %}
+    <span class="piece-body">
+      <span class="piece-title">{{ include.post.title }}</span>
+      {% if include.post.subtitle %}
+      <span class="piece-subtitle">{{ include.post.subtitle }}</span>
+      {% endif %}
+      <span class="piece-meta">{{ include.post.date | date: "%b %-d, %Y" }} · {{ include.post.read_time }}</span>
+      {% assign excerpt_text = include.post.description | default: include.post.excerpt | strip_html | truncatewords: 30 %}
+      {% if excerpt_text != blank %}
+      <span class="piece-excerpt">{{ excerpt_text }}</span>
+      {% endif %}
+    </span>
+  </a>
+</li>

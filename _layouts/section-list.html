@@ -1,0 +1,23 @@
+---
+layout: default
+---
+{% if page.series_filter == "" %}
+  {% assign section_posts = site.posts | where: "series", "" | sort: "date" | reverse %}
+{% else %}
+  {% assign section_posts = site.posts | where: "series", page.series_filter | sort: "series_order" %}
+{% endif %}
+
+<div class="section-page">
+  <div class="section-page-head">
+    <h1 class="section-page-title">{{ page.heading }}</h1>
+    {% if page.subheading %}
+    <p class="section-page-subtitle">{{ page.subheading }}</p>
+    {% endif %}
+  </div>
+
+  <ul class="piece-grid">
+    {% for post in section_posts %}
+      {% include piece-card.html post=post %}
+    {% endfor %}
+  </ul>
+</div>
