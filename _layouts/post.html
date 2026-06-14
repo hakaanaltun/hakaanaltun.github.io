@@ -5,17 +5,8 @@ layout: default
   .essay-header {
     display: flex;
     flex-direction: column;
-    gap: 18px;
-  }
-  .essay-header .essay-meta-info {
-    align-self: flex-end;
-    text-align: right;
-    gap: 2px;
-  }
-  .essay-meta-date,
-  .essay-meta-read {
-    display: block;
-    text-align: right;
+    align-items: center;
+    gap: 10px;
   }
   .essay-title-block {
     text-align: center;
@@ -24,15 +15,27 @@ layout: default
   .essay-title-block .essay-subtitle {
     text-align: center;
   }
+  .essay-header .essay-meta-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    align-self: center;
+    text-align: center;
+  }
+  .essay-meta-date,
+  .essay-meta-read {
+    display: inline;
+    text-align: center;
+  }
 </style>
 <div class="essay-article">
 <div class="essay-card-wrapper">
 <div class="essay-header fade-in">
-<div class="essay-meta-info">
-<span class="essay-meta-date">{{ page.date | date: "%B %-d, %Y" }}</span>
-<span class="essay-meta-read">{{ page.read_time }} read</span>
-</div>
 <div class="essay-title-block"><h1>{{ page.title | replace: "'", "’" }}</h1><p class="essay-subtitle">{{ page.subtitle }}</p></div>
+<div class="essay-meta-info">
+<span class="essay-meta-date">{{ page.date | date: "%B %-d, %Y" }}</span><span aria-hidden="true">·</span><span class="essay-meta-read">{{ page.read_time }} read</span>
+</div>
 </div>
 {% assign cover_image = page.image | default: page.thumb %}
 {% if cover_image %}
