@@ -5,15 +5,15 @@
 {% assign on_series = site.posts | where: "series", "on-series" | sort: "series_order" %}
 <style>
   #site-drawer .drawer-essay-card {
-    grid-template-columns: minmax(0, 1fr) 72px !important;
+    grid-template-columns: 72px minmax(0, 1fr) !important;
   }
   #site-drawer .drawer-essay-card-text {
-    grid-column: 1 !important;
+    grid-column: 2 !important;
     grid-row: 1 !important;
   }
   #site-drawer .drawer-essay-card img {
     display: block !important;
-    grid-column: 2 !important;
+    grid-column: 1 !important;
     grid-row: 1 !important;
   }
 </style>
