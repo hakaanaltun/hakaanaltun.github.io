@@ -1,3 +1,25 @@
+<style>
+  .footer-meta-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 24px;
+  }
+  .footer-meta-row .footer-meta { text-align: left; }
+  .footer-meta-row .footer-copy { text-align: right; }
+
+  @media (max-width: 600px) {
+    .footer-meta-row {
+      flex-direction: column;
+      justify-content: center;
+      gap: 4px;
+    }
+    .footer-meta-row .footer-meta,
+    .footer-meta-row .footer-copy { text-align: center; }
+  }
+</style>
+
 <footer>
   <div class="footer-inner">
     <div class="footer-grid">
@@ -43,7 +65,10 @@
         <span class="footer-brand">On Life &amp; Everything</span>
         <span class="footer-tagline">Essays, short fiction, and other writing.</span>
       </a>
-      <p class="footer-meta">Hakan Altun · İstanbul, 2026 · All rights reserved.</p>
+      <div class="footer-meta-row">
+        <p class="footer-meta">Hakan Altun · İstanbul, 2026</p>
+        <p class="footer-copy">All rights reserved.</p>
+      </div>
     </div>
   </div>
 </footer>
