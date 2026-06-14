@@ -142,8 +142,19 @@ layout: home
     #latest .piece-card.is-featured {
       grid-column: auto;
     }
+    #latest .piece-card.is-featured .piece-thumb-wrap {
+      aspect-ratio: 3 / 2;
+    }
     #latest .piece-card.is-featured .piece-title {
       font-size: 1.5rem;
+    }
+    #latest .piece-card.is-featured .piece-subtitle {
+      font-size: 1rem;
+      -webkit-line-clamp: 2;
+    }
+    #latest .piece-card.is-featured .piece-excerpt {
+      font-size: 0.97rem;
+      -webkit-line-clamp: 3;
     }
     #latest .piece-card:nth-child(n+7) {
       display: none;
@@ -168,7 +179,10 @@ layout: home
     .hero-quote-card { --hero-quote-column: 100%; }
     .hero-quote-card::before { left: 18px; }
     #latest .piece-card.is-featured { grid-column: span 1; }
-    #latest .piece-card.is-featured .piece-title { font-size: 1.55rem; }
+    #latest .piece-card.is-featured .piece-thumb-wrap { aspect-ratio: 3 / 2; }
+    #latest .piece-card.is-featured .piece-title { font-size: 1.35rem; }
+    #latest .piece-card.is-featured .piece-subtitle { font-size: 1rem; -webkit-line-clamp: 2; }
+    #latest .piece-card.is-featured .piece-excerpt { font-size: 0.97rem; -webkit-line-clamp: 3; }
     #book .book-grid { gap: 28px; }
     #book .book-content { max-width: none; }
     #moris .about-text { max-width: none; }
