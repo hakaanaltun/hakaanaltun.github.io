@@ -54,24 +54,32 @@ layout: home
   #latest .piece-card.is-featured .piece-excerpt { font-size: 1.03rem; -webkit-line-clamp: 4; }
 
   #book .book-grid {
-    grid-template-columns: minmax(0, 1fr) minmax(180px, 260px);
-    gap: 56px;
+    grid-template-columns: 1fr;
+    gap: 28px;
     align-items: center;
-  }
-  #book .book-content {
-    max-width: 720px;
-  }
-  #book .book-title {
-    text-align: center;
-  }
-  #book .book-description {
-    max-width: none;
+    justify-items: center;
   }
   #book .book-cover-wrap {
-    justify-self: end;
+    justify-self: center;
   }
   #book .book-cover {
-    margin: 0 0 0 auto;
+    margin: 0 auto;
+  }
+  #book .book-content {
+    width: 100%;
+    max-width: 650px;
+    margin: 0 auto;
+  }
+  #book .book-description {
+    max-width: 650px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  #book .book-links {
+    align-items: center;
+  }
+  #book .book-links-row {
+    justify-content: center;
   }
 
   #further-back .fb-card { position: relative; }
@@ -116,9 +124,8 @@ layout: home
     .hero-quote-card::before { left: 18px; }
     #latest .piece-card.is-featured { grid-column: span 1; }
     #latest .piece-card.is-featured .piece-title { font-size: 1.55rem; }
-    #book .book-grid { grid-template-columns: 1fr; gap: 28px; }
-    #book .book-cover-wrap { justify-self: center; }
-    #book .book-cover { margin: 0 auto; }
+    #book .book-grid { gap: 28px; }
+    #book .book-content { max-width: none; }
   }
 </style>
 
@@ -228,8 +235,10 @@ layout: home
 <section id="book">
   {% include section-header.html title="Book" subtitle="" %}
   <div class="book-grid">
+    <div class="book-cover-wrap">
+      <img src="/images/cover.webp" alt="The Fragments cover" class="book-cover" width="1000" height="1500" loading="lazy">
+    </div>
     <div class="book-content">
-      <h3 class="book-title">The Fragments</h3>
       <div class="book-description">
         <p>First, there was Symmetry. Then matter hesitated. It disobeyed. From that hesitation, everything we know and everything we don't was born. Stars learned to hold against the void, and the first cell tasted fear.</p>
         <p>Now that same tremor lives in a cup of tea going cold on a kitchen table, in a man who walks into the wrong office and stays, and in a pair of green eyes watching you at three in the morning.</p>
@@ -249,9 +258,6 @@ layout: home
           <a href="https://books2read.com/u/bOVA7J" target="_blank" rel="noopener">More</a>
         </div>
       </div>
-    </div>
-    <div class="book-cover-wrap">
-      <img src="/images/cover.webp" alt="The Fragments cover" class="book-cover" width="1000" height="1500" loading="lazy">
     </div>
   </div>
 </section>
