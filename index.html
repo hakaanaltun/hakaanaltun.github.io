@@ -11,6 +11,34 @@ layout: home
   #latest .piece-card.is-featured .piece-subtitle { font-size: 1.12rem; -webkit-line-clamp: 3; }
   #latest .piece-card.is-featured .piece-excerpt { font-size: 1.03rem; -webkit-line-clamp: 4; }
 
+  #further-back .fb-card { position: relative; }
+  @media (min-width: 901px) {
+    #further-back .further-back-grid > .fb-card:nth-child(2)::before,
+    #further-back .further-back-grid > .fb-card:nth-child(3)::before,
+    #further-back .further-back-grid > .fb-card:nth-child(6)::before,
+    #further-back .further-back-grid > .fb-card:nth-child(7)::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 18px;
+      bottom: 18px;
+      width: 1px;
+      background: var(--rule-cream);
+    }
+  }
+  @media (min-width: 601px) and (max-width: 900px) {
+    #further-back .further-back-grid > .fb-card:nth-child(2)::before,
+    #further-back .further-back-grid > .fb-card:nth-child(6)::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 18px;
+      bottom: 18px;
+      width: 1px;
+      background: var(--rule-cream);
+    }
+  }
+
   @media (max-width: 600px) {
     #latest .piece-card.is-featured { grid-column: span 1; }
     #latest .piece-card.is-featured .piece-title { font-size: 1.55rem; }
@@ -84,6 +112,17 @@ layout: home
       }
       return arr;
     }
+    function displayTitle(text) {
+      return (text || '').replace(/'/g, '’');
+    }
+    function setExcerpt(el, p) {
+      if (!el) return;
+      if ((p.url || '').indexOf('collateral') !== -1) {
+        el.innerHTML = (p.excerpt || '').replace(/halıcı/g, '<em>halıcı</em>');
+      } else {
+        el.textContent = p.excerpt || '';
+      }
+    }
     var selected = shuffle(pool.slice()).slice(0, 6);
     var grid = document.getElementById('further-back-grid');
     var html = '';
@@ -100,12 +139,11 @@ layout: home
     var cards = grid.querySelectorAll('.fb-card');
     cards.forEach(function(card, i) {
       var p = selected[i];
-      card.querySelector('.piece-title').textContent = p.title;
+      card.querySelector('.piece-title').textContent = displayTitle(p.title);
       var sub = card.querySelector('.piece-subtitle');
       if (sub) sub.textContent = p.subtitle;
       card.querySelector('.piece-meta').textContent = p.date + ' \u00b7 ' + p.readTime;
-      var exc = card.querySelector('.piece-excerpt');
-      if (exc) exc.textContent = p.excerpt;
+      setExcerpt(card.querySelector('.piece-excerpt'), p);
     });
   })();
   </script>
@@ -113,7 +151,10 @@ layout: home
 
 <section id="book">
   {% include section-header.html title="Book" subtitle="" %}
-  <div class="book-grid book-grid-reversed">
+  <div class="book-grid">
+    <div class="book-cover-wrap">
+      <img src="/images/cover.webp" alt="The Fragments cover" class="book-cover" width="1000" height="1500" loading="lazy">
+    </div>
     <div class="book-content">
       <h3 class="book-title">The Fragments</h3>
       <div class="book-description">
@@ -135,9 +176,6 @@ layout: home
           <a href="https://books2read.com/u/bOVA7J" target="_blank" rel="noopener">More</a>
         </div>
       </div>
-    </div>
-    <div class="book-cover-wrap">
-      <img src="/images/cover.webp" alt="The Fragments cover" class="book-cover" width="1000" height="1500" loading="lazy">
     </div>
   </div>
 </section>
