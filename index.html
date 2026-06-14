@@ -4,6 +4,17 @@ layout: home
 
 <style>
   .hero-quote-card::before { opacity: 0.09; }
+
+  #latest .piece-card.is-featured { grid-column: span 2; }
+  #latest .piece-card.is-featured .piece-thumb-wrap { aspect-ratio: 16 / 9; }
+  #latest .piece-card.is-featured .piece-title { font-size: clamp(1.85rem, 3vw, 2.4rem); }
+  #latest .piece-card.is-featured .piece-subtitle { font-size: 1.12rem; -webkit-line-clamp: 3; }
+  #latest .piece-card.is-featured .piece-excerpt { font-size: 1.03rem; -webkit-line-clamp: 4; }
+
+  @media (max-width: 600px) {
+    #latest .piece-card.is-featured { grid-column: span 1; }
+    #latest .piece-card.is-featured .piece-title { font-size: 1.55rem; }
+  }
 </style>
 
 <section id="quotes" class="hero-quotes-section">
@@ -23,7 +34,7 @@ layout: home
   {% assign latest_count = 8 %}
   <ul class="piece-grid">
     {% for post in latest limit: latest_count %}
-      {% include piece-card.html post=post %}
+      {% include piece-card.html post=post featured=forloop.first %}
     {% endfor %}
   </ul>
 </section>
