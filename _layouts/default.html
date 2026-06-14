@@ -12,6 +12,74 @@
 {{ content }}
 </main>
 {% include footer.html %}
+<style>
+  .series-nav-title,
+  .series-nav-cards {
+    text-align: left !important;
+  }
+  .series-nav-cards {
+    justify-content: flex-start !important;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+  .more-essays-title {
+    text-align: left !important;
+  }
+  .footer-col,
+  .footer-col h3,
+  .footer-col p,
+  .footer-col ul,
+  .footer-col li,
+  .footer-col a,
+  .footer-subscribe-form,
+  .footer-subscribe-form label,
+  .footer-note {
+    text-align: left !important;
+  }
+  .footer-col ul {
+    align-items: flex-start !important;
+  }
+  .footer-subscribe-blurb,
+  .footer-subscribe-form,
+  .footer-subscribe-form input,
+  .footer-subscribe-form button {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+  .footer-subscribe-form {
+    align-items: flex-start !important;
+  }
+  .footer-findme a span {
+    position: static !important;
+    transform: none !important;
+    margin-left: 0.35em;
+  }
+  .footer-bottom,
+  .footer-home-link {
+    align-items: center !important;
+    text-align: center !important;
+  }
+  .footer-bottom .footer-tagline,
+  .footer-bottom .footer-credit {
+    text-align: center !important;
+  }
+  @media (max-width: 767px), (min-width: 768px) and (max-width: 1024px) and (orientation: portrait), (max-height: 500px) and (orientation: landscape) {
+    .footer-grid {
+      grid-template-columns: 1fr !important;
+      gap: 28px !important;
+    }
+    .footer-separator {
+      display: none !important;
+    }
+    .footer-col + .footer-col {
+      padding-left: 0 !important;
+      border-left: 0 !important;
+      padding-top: 26px !important;
+      border-top: 1px solid rgba(237, 228, 207, 0.32) !important;
+    }
+  }
+</style>
 </div>
 <script src="/js/site-nav.js?v=20260528-2" defer></script>
 <script src="/js/header-autohide.js?v=20260525-2" defer></script>
