@@ -6,7 +6,7 @@ layout: default
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
   }
   .essay-title-block {
     text-align: center;
@@ -15,34 +15,24 @@ layout: default
   .essay-title-block .essay-subtitle {
     text-align: center;
   }
-  .essay-meta-info {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 12px;
-    text-align: left;
-    margin: 14px 0 26px;
+  .essay-date-line {
     color: var(--vizon);
-    font-size: 0.95rem;
-  }
-  .essay-meta-date,
-  .essay-meta-read {
-    display: inline;
-    text-align: left;
+    font-size: 0.98rem;
+    line-height: 1.25;
+    text-align: center;
+    margin-top: 2px;
   }
 </style>
 <div class="essay-article">
 <div class="essay-card-wrapper">
 <div class="essay-header fade-in">
 <div class="essay-title-block"><h1>{{ page.title | replace: "'", "’" }}</h1><p class="essay-subtitle">{{ page.subtitle }}</p></div>
+<p class="essay-date-line">{{ page.date | date: "%B %-d, %Y" }}</p>
 </div>
 {% assign cover_image = page.image | default: page.thumb %}
 {% if cover_image %}
 <div class="essay-cover fade-in fade-in-delay"><img src="{{ cover_image }}" alt="{{ page.cover_alt | default: page.subtitle }}" loading="lazy"></div>
 {% endif %}
-<div class="essay-meta-info fade-in fade-in-delay">
-<span class="essay-meta-date">{{ page.date | date: "%B %-d, %Y" }}</span><span class="essay-meta-read">{{ page.read_time }} read</span>
-</div>
 <article class="essay-body fade-in fade-in-delay">
 {{ content }}
 </article>
