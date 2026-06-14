@@ -133,6 +133,36 @@ layout: home
     }
   }
 
+  @media (max-width: 900px) and (orientation: landscape) {
+    #latest .piece-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+    }
+    #latest .piece-card.is-featured {
+      grid-column: auto;
+    }
+    #latest .piece-card.is-featured .piece-title {
+      font-size: 1.5rem;
+    }
+    #latest .piece-card:nth-child(n+7) {
+      display: none;
+    }
+    #further-back .further-back-grid {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+    #further-back .fb-card {
+      padding: 14px 0;
+    }
+    #further-back .fb-card::before {
+      display: none !important;
+    }
+    #further-back .fb-separator,
+    #further-back .fb-card:nth-of-type(n+5) {
+      display: none;
+    }
+  }
+
   @media (max-width: 600px) {
     .hero-quote-card { --hero-quote-column: 100%; }
     .hero-quote-card::before { left: 18px; }
