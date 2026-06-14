@@ -58,6 +58,11 @@
   .drawer-essay-card img {
     border: 0 !important;
   }
+  .drawer-label {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+  }
   .drawer-essay-card {
     grid-template-columns: minmax(0, 1fr) 72px !important;
   }
@@ -125,7 +130,32 @@
   .essay-nav .nav-title {
     font-style: italic;
   }
-  .footer-col h3 { text-align: center; }
+  .footer-col,
+  .footer-col h3,
+  .footer-col p,
+  .footer-col ul,
+  .footer-col li,
+  .footer-col a,
+  .footer-subscribe-form,
+  .footer-subscribe-form label,
+  .footer-note {
+    text-align: center;
+  }
+  .footer-col ul {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .footer-subscribe-form {
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .footer-subscribe-form input,
+  .footer-subscribe-form button {
+    margin-left: auto;
+    margin-right: auto;
+  }
 
   .piece-card .piece-title,
   .piece-card .piece-subtitle,
