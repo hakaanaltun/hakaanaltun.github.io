@@ -19,6 +19,21 @@
     background: transparent !important;
     box-shadow: none !important;
     border-radius: 0 !important;
+    padding: 4px 0 !important;
+    color: var(--petrol) !important;
+    font-size: 13px !important;
+    line-height: 1.2;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    transition: transform 0.28s ease, opacity 0.2s ease, color 0.2s ease;
+  }
+  #site-drawer .drawer-section-links a:hover,
+  #site-drawer .drawer-section-links a:active,
+  #site-drawer .drawer-section-links a:focus-visible {
+    transform: translateY(-3px);
+    opacity: 0.85;
+    color: var(--petrol-deep) !important;
+    outline: none;
   }
 </style>
 <div id="site-drawer-backdrop" class="drawer-backdrop" aria-hidden="true"></div>
