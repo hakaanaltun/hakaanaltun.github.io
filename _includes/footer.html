@@ -297,10 +297,58 @@
     text-align: center;
   }
 
-  @media (max-width: 600px) {
-    .footer-bottom { align-items: center; }
-    .footer-grid { grid-template-columns: 1fr !important; }
+  @media (max-width: 960px) {
+    .footer-grid {
+      grid-template-columns: 1fr !important;
+      gap: 28px;
+    }
     .footer-separator { display: none !important; }
+    .footer-bottom {
+      align-items: flex-start;
+      text-align: left;
+    }
+    .footer-home-link {
+      align-items: flex-start;
+      text-align: left;
+    }
+    .footer-tagline,
+    .footer-credit,
+    .footer-col,
+    .footer-col h3,
+    .footer-col p,
+    .footer-col ul,
+    .footer-col li,
+    .footer-col a,
+    .footer-subscribe-form,
+    .footer-subscribe-form label,
+    .footer-note {
+      text-align: left !important;
+    }
+    .footer-col ul {
+      align-items: flex-start !important;
+    }
+    .footer-subscribe-blurb {
+      margin-left: 0;
+      margin-right: 0;
+    }
+    .footer-subscribe-form {
+      align-items: flex-start;
+      margin-left: 0;
+      margin-right: 0;
+    }
+    .footer-subscribe-form input,
+    .footer-subscribe-form button {
+      margin-left: 0;
+      margin-right: 0;
+    }
+    .footer-findme a span {
+      position: static;
+      transform: none;
+      margin-left: 0.35em;
+    }
+  }
+
+  @media (max-width: 600px) {
     .hero-quotes-section { padding-top: 54px !important; padding-bottom: 60px !important; }
     .hero-quote-card { min-height: 238px !important; padding: 38px 26px 72px !important; }
     .hero-quote-source { margin-right: 0 !important; }
