@@ -1,13 +1,33 @@
 ---
 layout: default
 ---
+<style>
+  .essay-header {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .essay-header .essay-meta-info {
+    align-self: flex-start;
+    text-align: left;
+  }
+  .essay-title-block {
+    text-align: center;
+  }
+  .essay-title-block h1,
+  .essay-title-block .essay-subtitle {
+    text-align: center;
+  }
+</style>
 <div class="essay-article">
 <div class="essay-card-wrapper">
-<div class="essay-header fade-in"><h1>{{ page.title | replace: "'", "’" }}</h1><p class="essay-subtitle">{{ page.subtitle }}</p>
+<div class="essay-header fade-in">
 <div class="essay-meta-info">
 <div class="essay-meta-top"><span>{{ page.date | date: "%B %-d, %Y" }}</span><span>·</span><span>{{ page.read_time }} read</span></div>
 <div class="essay-meta-author">Hakan Altun</div>
-</div></div>
+</div>
+<div class="essay-title-block"><h1>{{ page.title | replace: "'", "’" }}</h1><p class="essay-subtitle">{{ page.subtitle }}</p></div>
+</div>
 {% assign cover_image = page.image | default: page.thumb %}
 {% if cover_image %}
 <div class="essay-cover fade-in fade-in-delay"><img src="{{ cover_image }}" alt="{{ page.cover_alt | default: page.subtitle }}" loading="lazy"></div>
