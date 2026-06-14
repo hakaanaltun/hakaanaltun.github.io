@@ -27,6 +27,10 @@
     return notSuggested.indexOf(slug) === -1;
   });
 
+  function displayTitle(text) {
+    return (text || '').replace(/'/g, '’');
+  }
+
   /* Fisher-Yates shuffle */
   for (var i = pool.length - 1; i > 0; i--) {
     var j = Math.floor(Math.random() * (i + 1));
@@ -40,10 +44,11 @@
   html += '<ul class="essay-list more-essays-grid-hp">';
 
   picks.forEach(function (e) {
+    var title = displayTitle(e.title);
     html += '<li><a href="' + hrefPrefix + e.href + '" class="essay-card">';
-    html += '<img src="' + e.img + '" alt="' + e.title.replace(/"/g, '&quot;') + '" class="essay-thumb" loading="lazy">';
+    html += '<img src="' + e.img + '" alt="' + title.replace(/"/g, '&quot;') + '" class="essay-thumb" loading="lazy">';
     html += '<div class="essay-card-text">';
-    html += '<span class="essay-title">' + e.title + '</span>';
+    html += '<span class="essay-title">' + title + '</span>';
     if (e.subtitle) html += '<span class="essay-card-subtitle">' + e.subtitle + '</span>';
     html += '</div>';
     html += '<div class="essay-meta-wrapper"><span class="essay-meta">' + e.date + ' \u00b7 ' + e.readTime + '</span></div>';
