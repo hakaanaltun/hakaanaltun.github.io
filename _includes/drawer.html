@@ -5,16 +5,14 @@
 {% assign on_series = site.posts | where: "series", "on-series" | sort: "series_order" %}
 <style>
   #site-drawer .drawer-essay-card {
-    grid-template-columns: 72px minmax(0, 1fr) !important;
+    grid-template-columns: 1fr !important;
   }
   #site-drawer .drawer-essay-card-text {
-    grid-column: 2 !important;
+    grid-column: 1 !important;
     grid-row: 1 !important;
   }
   #site-drawer .drawer-essay-card img {
-    display: block !important;
-    grid-column: 1 !important;
-    grid-row: 1 !important;
+    display: none !important;
   }
 </style>
 <div id="site-drawer-backdrop" class="drawer-backdrop" aria-hidden="true"></div>
@@ -37,7 +35,6 @@
     <summary class="drawer-label">Pieces</summary>
     <div class="drawer-essay-cards">
       {% for post in regular_essays limit: 8 %}
-      {% assign drawer_image = post.thumb | default: post.image %}
       {% assign display_title = post.title | replace: "'", "’" %}
       {% if post.url == page.url %}<span class="drawer-essay-card drawer-essay-card--current">{% else %}<a href="{{ post.url }}" class="drawer-essay-card-link"><span class="drawer-essay-card">{% endif %}
         <span class="drawer-essay-card-text">
@@ -45,7 +42,6 @@
           {% if post.subtitle %}<span class="drawer-essay-card-subtitle">{{ post.subtitle }}</span>{% endif %}
           <span class="drawer-essay-card-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
         </span>
-        {% if drawer_image %}<img src="{{ drawer_image }}" alt="{{ post.cover_alt | default: post.title }}" loading="lazy">{% endif %}
       {% if post.url == page.url %}</span>{% else %}</span></a>{% endif %}
       {% endfor %}
     </div>
@@ -56,7 +52,6 @@
     <summary class="drawer-label">The Corner</summary>
     <div class="drawer-essay-cards">
       {% for post in cafe_series %}
-      {% assign drawer_image = post.thumb | default: post.image %}
       {% assign display_title = post.title | replace: "'", "’" %}
       {% if post.url == page.url %}<span class="drawer-essay-card drawer-essay-card--current">{% else %}<a href="{{ post.url }}" class="drawer-essay-card-link"><span class="drawer-essay-card">{% endif %}
         <span class="drawer-essay-card-text">
@@ -64,7 +59,6 @@
           {% if post.subtitle %}<span class="drawer-essay-card-subtitle">{{ post.subtitle }}</span>{% endif %}
           <span class="drawer-essay-card-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
         </span>
-        {% if drawer_image %}<img src="{{ drawer_image }}" alt="{{ post.cover_alt | default: post.title }}" loading="lazy">{% endif %}
       {% if post.url == page.url %}</span>{% else %}</span></a>{% endif %}
       {% endfor %}
     </div>
@@ -75,7 +69,6 @@
     <summary class="drawer-label">The On Series</summary>
     <div class="drawer-essay-cards">
       {% for post in on_series %}
-      {% assign drawer_image = post.thumb | default: post.image %}
       {% assign display_title = post.title | replace: "'", "’" %}
       {% if post.url == page.url %}<span class="drawer-essay-card drawer-essay-card--current">{% else %}<a href="{{ post.url }}" class="drawer-essay-card-link"><span class="drawer-essay-card">{% endif %}
         <span class="drawer-essay-card-text">
@@ -83,7 +76,6 @@
           {% if post.subtitle %}<span class="drawer-essay-card-subtitle">{{ post.subtitle }}</span>{% endif %}
           <span class="drawer-essay-card-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
         </span>
-        {% if drawer_image %}<img src="{{ drawer_image }}" alt="{{ post.cover_alt | default: post.title }}" loading="lazy">{% endif %}
       {% if post.url == page.url %}</span>{% else %}</span></a>{% endif %}
       {% endfor %}
     </div>
@@ -94,7 +86,6 @@
     <summary class="drawer-label">Şafak’s Arc</summary>
     <div class="drawer-essay-cards">
       {% for post in fragments %}
-      {% assign drawer_image = post.thumb | default: post.image %}
       {% assign display_title = post.title | replace: "'", "’" %}
       {% if post.url == page.url %}<span class="drawer-essay-card drawer-essay-card--current">{% else %}<a href="{{ post.url }}" class="drawer-essay-card-link"><span class="drawer-essay-card">{% endif %}
         <span class="drawer-essay-card-text">
@@ -102,7 +93,6 @@
           {% if post.subtitle %}<span class="drawer-essay-card-subtitle">{{ post.subtitle }}</span>{% endif %}
           <span class="drawer-essay-card-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
         </span>
-        {% if drawer_image %}<img src="{{ drawer_image }}" alt="{{ post.cover_alt | default: post.title }}" loading="lazy">{% endif %}
       {% if post.url == page.url %}</span>{% else %}</span></a>{% endif %}
       {% endfor %}
     </div>
@@ -118,7 +108,6 @@
           <span class="drawer-essay-card-subtitle">A speculative narrative on memory, time, technology, and ordinary life.</span>
           <span class="drawer-essay-card-meta">Book · 2026</span>
         </span>
-        <img src="/images/cover.webp" alt="The Fragments cover" loading="lazy">
       </span>
     </a>
   </details>
