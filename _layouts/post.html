@@ -10,6 +10,12 @@ layout: default
   .essay-header .essay-meta-info {
     align-self: flex-start;
     text-align: left;
+    gap: 2px;
+  }
+  .essay-meta-date,
+  .essay-meta-read {
+    display: block;
+    text-align: left;
   }
   .essay-title-block {
     text-align: center;
@@ -23,8 +29,8 @@ layout: default
 <div class="essay-card-wrapper">
 <div class="essay-header fade-in">
 <div class="essay-meta-info">
-<div class="essay-meta-top"><span>{{ page.date | date: "%B %-d, %Y" }}</span><span>·</span><span>{{ page.read_time }} read</span></div>
-<div class="essay-meta-author">Hakan Altun</div>
+<span class="essay-meta-date">{{ page.date | date: "%B %-d, %Y" }}</span>
+<span class="essay-meta-read">{{ page.read_time }} read</span>
 </div>
 <div class="essay-title-block"><h1>{{ page.title | replace: "'", "’" }}</h1><p class="essay-subtitle">{{ page.subtitle }}</p></div>
 </div>
