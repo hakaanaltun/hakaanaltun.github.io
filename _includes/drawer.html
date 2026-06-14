@@ -14,6 +14,18 @@
   #site-drawer .drawer-essay-card img {
     display: none !important;
   }
+  #site-drawer .drawer-book-card {
+    grid-template-columns: minmax(0, 1fr) 72px !important;
+  }
+  #site-drawer .drawer-book-card .drawer-essay-card-text {
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+  }
+  #site-drawer .drawer-book-card img {
+    display: block !important;
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+  }
 </style>
 <div id="site-drawer-backdrop" class="drawer-backdrop" aria-hidden="true"></div>
 <div id="site-drawer" class="site-drawer" aria-hidden="true">
@@ -108,6 +120,7 @@
           <span class="drawer-essay-card-subtitle">A speculative narrative on memory, time, technology, and ordinary life.</span>
           <span class="drawer-essay-card-meta">Book · 2026</span>
         </span>
+        <img src="/images/cover.webp" alt="The Fragments cover" loading="lazy">
       </span>
     </a>
   </details>
