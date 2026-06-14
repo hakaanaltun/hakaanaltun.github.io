@@ -1,4 +1,4 @@
-/* drawer-essays.js—Replaces static essay links in drawer with thumbnail cards */
+/* drawer-essays.js—Replaces static essay links in drawer with text cards */
 (function () {
   'use strict';
 
@@ -60,14 +60,6 @@
       }
 
       card.appendChild(textWrap);
-
-      if (e.img) {
-        var img = document.createElement('img');
-        img.src = e.img;
-        img.alt = title;
-        img.setAttribute('loading', 'lazy');
-        card.appendChild(img);
-      }
 
       if (isCurrent) {
         container.appendChild(card);
