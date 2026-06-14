@@ -45,16 +45,16 @@
   picks.forEach(function (e) {
     var title = displayTitle(e.title);
     html += '<li class="piece-card"><a href="' + hrefPrefix + e.href + '" class="piece-card-link">';
-    if (e.img) {
-      html += '<span class="piece-thumb-wrap">';
-      html += '<img src="' + e.img + '" alt="' + title.replace(/"/g, '&quot;') + '" class="piece-thumb" loading="lazy">';
-      html += '</span>';
-    }
     html += '<span class="piece-body">';
     html += '<span class="piece-title">' + title + '</span>';
     if (e.subtitle) html += '<span class="piece-subtitle">' + e.subtitle + '</span>';
     html += '<span class="piece-meta">' + e.date + ' \u00b7 ' + e.readTime + '</span>';
     html += '</span>';
+    if (e.img) {
+      html += '<span class="piece-thumb-wrap">';
+      html += '<img src="' + e.img + '" alt="' + title.replace(/"/g, '&quot;') + '" class="piece-thumb" loading="lazy">';
+      html += '</span>';
+    }
     html += '</a></li>';
   });
 
