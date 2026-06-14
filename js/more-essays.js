@@ -1,4 +1,4 @@
-/* more-essays.js—Renders 4 random "More essays" cards (homepage-style) */
+/* more-essays.js—Renders 4 random "Keep reading" cards in the standard piece-card format */
 (function () {
   'use strict';
   if (typeof ALL_ESSAYS === 'undefined') return;
@@ -39,19 +39,22 @@
 
   var picks = pool.slice(0, 4);
 
-  /* Build HTML using homepage card structure */
   var html = '<p class="more-essays-title">Keep reading</p>';
-  html += '<ul class="essay-list more-essays-grid-hp">';
+  html += '<ul class="piece-grid more-essays-grid-hp">';
 
   picks.forEach(function (e) {
     var title = displayTitle(e.title);
-    html += '<li><a href="' + hrefPrefix + e.href + '" class="essay-card">';
-    html += '<img src="' + e.img + '" alt="' + title.replace(/"/g, '&quot;') + '" class="essay-thumb" loading="lazy">';
-    html += '<div class="essay-card-text">';
-    html += '<span class="essay-title">' + title + '</span>';
-    if (e.subtitle) html += '<span class="essay-card-subtitle">' + e.subtitle + '</span>';
-    html += '</div>';
-    html += '<div class="essay-meta-wrapper"><span class="essay-meta">' + e.date + ' \u00b7 ' + e.readTime + '</span></div>';
+    html += '<li class="piece-card"><a href="' + hrefPrefix + e.href + '" class="piece-card-link">';
+    if (e.img) {
+      html += '<span class="piece-thumb-wrap">';
+      html += '<img src="' + e.img + '" alt="' + title.replace(/"/g, '&quot;') + '" class="piece-thumb" loading="lazy">';
+      html += '</span>';
+    }
+    html += '<span class="piece-body">';
+    html += '<span class="piece-title">' + title + '</span>';
+    if (e.subtitle) html += '<span class="piece-subtitle">' + e.subtitle + '</span>';
+    html += '<span class="piece-meta">' + e.date + ' \u00b7 ' + e.readTime + '</span>';
+    html += '</span>';
     html += '</a></li>';
   });
 
