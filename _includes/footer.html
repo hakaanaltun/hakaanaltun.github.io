@@ -53,10 +53,10 @@
   }
   .hero-quote-source {
     max-width: min(720px, 100%) !important;
-    width: 100% !important;
-    align-self: center !important;
-    margin: 0 auto !important;
-    text-align: center !important;
+    width: auto !important;
+    align-self: flex-end !important;
+    margin: 0 max(0px, calc((100% - 720px) / 2)) 0 auto !important;
+    text-align: left !important;
   }
   .quote-nav {
     bottom: 26px !important;
@@ -297,6 +297,7 @@
     .footer-grid > .footer-col:nth-child(n+2)::before { display: none !important; }
     .hero-quotes-section { padding-top: 54px !important; padding-bottom: 60px !important; }
     .hero-quote-card { min-height: 238px !important; padding: 38px 26px 72px !important; }
+    .hero-quote-source { margin-right: 0 !important; }
     #latest .piece-grid .piece-card:nth-child(n+7) { display: none; }
     #further-back .further-back-grid .fb-separator,
     #further-back .further-back-grid .fb-card:nth-of-type(n+5) { display: none; }
