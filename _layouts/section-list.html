@@ -9,7 +9,7 @@ layout: default
 
 <div class="section-page">
   <div class="section-page-head">
-    <h1 class="section-page-title">{{ page.heading }}</h1>
+    <h1 class="section-page-title">{{ page.heading | replace: "'", "’" }}</h1>
     {% if page.subheading %}
     <p class="section-page-subtitle">{{ page.subheading }}</p>
     {% endif %}
