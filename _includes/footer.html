@@ -33,6 +33,40 @@
     content: none !important;
     display: none !important;
   }
+  .hero-quotes-section {
+    padding-top: 74px !important;
+    padding-bottom: 76px !important;
+  }
+  .hero-quote-card {
+    min-height: 260px !important;
+    padding: 46px 44px 78px !important;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    overflow: visible;
+  }
+  .hero-quote-text {
+    max-width: min(720px, 100%) !important;
+    width: 100% !important;
+    margin: 0 auto !important;
+    text-align: center !important;
+  }
+  .hero-quote-source {
+    max-width: min(720px, 100%) !important;
+    width: 100% !important;
+    align-self: center !important;
+    margin: 0 auto !important;
+    text-align: center !important;
+  }
+  .quote-nav {
+    bottom: 26px !important;
+    gap: 14px !important;
+  }
+  .quote-nav-btn {
+    width: 30px !important;
+    height: 30px !important;
+    font-size: 1.55rem !important;
+  }
   .piece-card-link,
   .asym-card,
   .fb-card-link,
@@ -167,11 +201,22 @@
     padding-left: 0 !important;
     padding-right: 0 !important;
     min-width: 0;
+    position: relative;
   }
-  .footer-col::before,
   .footer-col::after {
     content: none !important;
     display: none !important;
+  }
+  .footer-grid > .footer-col:nth-child(n+2)::before {
+    content: "" !important;
+    display: block !important;
+    position: absolute;
+    left: -38px;
+    top: 4px;
+    bottom: 4px;
+    width: 1px;
+    background: var(--footer-muted);
+    opacity: 0.26;
   }
   .footer-col,
   .footer-col h3,
@@ -241,6 +286,9 @@
   @media (max-width: 600px) {
     .footer-bottom { align-items: center; }
     .footer-grid { grid-template-columns: 1fr !important; }
+    .footer-grid > .footer-col:nth-child(n+2)::before { display: none !important; }
+    .hero-quotes-section { padding-top: 54px !important; padding-bottom: 60px !important; }
+    .hero-quote-card { min-height: 238px !important; padding: 38px 26px 72px !important; }
     #latest .piece-grid .piece-card:nth-child(n+7) { display: none; }
     #further-back .further-back-grid .fb-separator,
     #further-back .further-back-grid .fb-card:nth-of-type(n+5) { display: none; }
