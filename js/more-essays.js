@@ -48,7 +48,7 @@
     html += '<span class="piece-body">';
     html += '<span class="piece-title">' + title + '</span>';
     if (e.subtitle) html += '<span class="piece-subtitle">' + e.subtitle + '</span>';
-    html += '<span class="piece-meta">' + e.date + ' \u00b7 ' + e.readTime + '</span>';
+    html += '<span class="piece-meta">' + e.date + '</span>';
     html += '</span>';
     if (e.img) {
       html += '<span class="piece-thumb-wrap">';
