@@ -13,6 +13,10 @@
   /* Only mark a card as current when we are actually on an essay page */
   var current = isEssayPage ? (window.location.pathname.split('/').pop() || '') : '';
 
+  function displayTitle(text) {
+    return (text || '').replace(/'/g, '’');
+  }
+
   /* Filter essays by series field from front matter */
   function filterBySeries(seriesName) {
     return ALL_ESSAYS.filter(function (e) {
@@ -28,13 +32,14 @@
 
     essays.forEach(function (e) {
       var isCurrent = (e.href === current);
+      var title = displayTitle(e.title);
 
       var card = document.createElement('div');
       card.className = 'drawer-essay-card' + (isCurrent ? ' drawer-essay-card--current' : '');
 
       var img = document.createElement('img');
       img.src = e.img;
-      img.alt = e.title;
+      img.alt = title;
       img.setAttribute('loading', 'lazy');
       card.appendChild(img);
 
@@ -43,7 +48,7 @@
 
       var titleSpan = document.createElement('span');
       titleSpan.className = 'drawer-essay-card-title';
-      titleSpan.textContent = e.title;
+      titleSpan.textContent = title;
       textWrap.appendChild(titleSpan);
 
       if (e.subtitle) {
@@ -68,7 +73,7 @@
         var link = document.createElement('a');
         link.href = prefix + e.href;
         link.className = 'drawer-essay-card-link';
-        link.setAttribute('aria-label', e.title);
+        link.setAttribute('aria-label', title);
         link.appendChild(card);
         container.appendChild(link);
       }
