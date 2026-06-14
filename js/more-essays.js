@@ -40,7 +40,7 @@
   var picks = pool.slice(0, 4);
 
   var html = '<p class="more-essays-title">Keep reading</p>';
-  html += '<ul class="piece-grid more-essays-grid-hp">';
+  html += '<ul class="piece-grid more-essays-grid-hp" style="margin-top: 24px;">';
 
   picks.forEach(function (e) {
     var title = displayTitle(e.title);
