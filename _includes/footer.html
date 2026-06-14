@@ -59,9 +59,26 @@
     border: 0 !important;
   }
   .drawer-label {
-    display: flex;
-    justify-content: center;
-    text-align: center;
+    text-align: center !important;
+  }
+  summary.drawer-label {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    padding-right: 0;
+  }
+  summary.drawer-label::after {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg) !important;
+    margin-bottom: 0 !important;
+  }
+  .drawer-section[open] > summary.drawer-label::after {
+    transform: translateY(-50%) rotate(-135deg) !important;
+    margin-bottom: 0 !important;
   }
   .drawer-essay-card {
     grid-template-columns: minmax(0, 1fr) 72px !important;
@@ -207,8 +224,7 @@
         <h3>Subscribe</h3>
         <p class="footer-subscribe-blurb">If you’d like new pieces sent directly to your inbox when they’re ready, drop your email below.</p>
         <form action="https://buttondown.com/api/emails/embed-subscribe/hakanaltun" method="post" class="footer-subscribe-form">
-          <label for="bd-email-footer">Email address</label>
-          <input type="email" name="email" id="bd-email-footer" placeholder="your@email.com" required>
+          <input type="email" name="email" id="bd-email-footer" placeholder="your@email.com" aria-label="Email address" required>
           <button type="submit">Subscribe</button>
         </form>
         <p class="footer-note">Powered by Buttondown. Unsubscribe anytime.</p>
