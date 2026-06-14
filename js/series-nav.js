@@ -18,11 +18,12 @@
   /* Title with split colors */
   var html = '<p class="series-nav-title">'
     + '<span class="series-nav-title-on">The On Series</span>'
-    + '<span class="series-nav-title-sub"> \u00b7 Essays on what we build inside ourselves\u2014and why</span>'
+    + '<span class="series-nav-title-sub"> \u00b7 Essays on what we build inside ourselves—and why</span>'
     + '</p>';
 
   /* Thumbnail cards row */
   html += '<div class="series-nav-cards">';
+  html += '<span aria-hidden="true" style="flex:1 0 0; min-width:0;"></span>';
 
   SERIES.forEach(function (s, i) {
     var isCurrent = (s.href === current);
@@ -43,6 +44,7 @@
     }
   });
 
+  html += '<span aria-hidden="true" style="flex:1 0 0; min-width:0;"></span>';
   html += '</div>';
 
   nav.innerHTML = html;
