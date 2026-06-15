@@ -3,52 +3,6 @@
 {% assign cafe_series = site.posts | where: "series", "cafe-series" | sort: "series_order" %}
 {% assign fragments = site.posts | where: "series", "fragments" | sort: "series_order" %}
 {% assign on_series = site.posts | where: "series", "on-series" | sort: "series_order" %}
-<style>
-  #site-drawer .drawer-essay-card {
-    grid-template-columns: 1fr !important;
-  }
-  #site-drawer .drawer-essay-card-text {
-    grid-column: 1 !important;
-    grid-row: 1 !important;
-  }
-  #site-drawer .drawer-essay-card img {
-    display: none !important;
-  }
-  #site-drawer .drawer-section-links {
-    display: grid !important;
-    grid-template-columns: 1fr !important;
-    gap: 10px;
-  }
-  #site-drawer .drawer-logo-wrap + .drawer-section-links {
-    margin-top: 10px !important;
-  }
-  #site-drawer .drawer-section-links a {
-    border: 0 !important;
-    background: transparent !important;
-    box-shadow: none !important;
-    border-radius: 0 !important;
-    padding: 4px 0 !important;
-    color: var(--petrol) !important;
-    font-size: 13px !important;
-    line-height: 1.2;
-    text-transform: uppercase;
-    letter-spacing: 0.09em;
-    transition: transform 0.28s ease, opacity 0.2s ease, color 0.2s ease;
-  }
-  #site-drawer .drawer-section-links a:hover,
-  #site-drawer .drawer-section-links a:active,
-  #site-drawer .drawer-section-links a:focus-visible {
-    transform: translateY(-3px);
-    opacity: 0.85;
-    color: var(--petrol-deep) !important;
-    outline: none;
-  }
-  @media (max-width: 767px), (max-height: 500px) and (orientation: landscape) {
-    #site-drawer .drawer-pieces-cards > .drawer-piece-item:nth-child(n+7) {
-      display: none !important;
-    }
-  }
-</style>
 <div id="site-drawer-backdrop" class="drawer-backdrop" aria-hidden="true"></div>
 <div id="site-drawer" class="site-drawer" aria-hidden="true">
   <button id="site-drawer-close" class="drawer-close" aria-label="Close menu">
