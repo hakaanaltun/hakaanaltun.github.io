@@ -55,6 +55,29 @@
     transform: none !important;
     margin-left: 0.35em;
   }
+  .footer-share-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 18px;
+    padding: 8px 16px;
+    background: transparent;
+    border: 1px solid rgba(237, 228, 207, 0.85);
+    color: var(--footer-text);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-style: italic;
+    font-size: 1.2rem;
+    line-height: 1.2;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .footer-share-btn:hover,
+  .footer-share-btn:active,
+  .footer-share-btn:focus-visible {
+    background: var(--footer-text);
+    color: var(--footer-bg);
+    outline: none;
+  }
   .footer-bottom,
   .footer-home-link {
     align-items: center !important;
@@ -99,7 +122,7 @@
   }
 </style>
 </div>
-<script src="/js/site-nav.js?v=20260528-2" defer></script>
+<script src="/js/site-nav.js?v=20260615-1" defer></script>
 <script src="/js/header-autohide.js?v=20260525-2" defer></script>
 <script src="/js/essays-data.js" defer></script>
 {% if page.layout == "post" %}
