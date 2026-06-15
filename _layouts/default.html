@@ -55,12 +55,17 @@
     transform: none !important;
     margin-left: 0.35em;
   }
+  .footer-share-wrap {
+    width: 100%;
+    margin-top: 24px;
+    padding-top: 13px;
+    border-top: 1px solid rgba(237, 228, 207, 0.9);
+  }
   .footer-share-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    position: relative;
-    margin-top: 30px;
+    margin: 0;
     padding: 8px 16px;
     background: transparent;
     border: 1px solid rgba(237, 228, 207, 0.85);
@@ -73,13 +78,8 @@
     transition: background 0.2s ease, color 0.2s ease;
   }
   .footer-share-btn::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: -13px;
-    height: 1px;
-    background: rgba(237, 228, 207, 0.9);
+    content: none !important;
+    display: none !important;
   }
   .footer-share-btn:hover,
   .footer-share-btn:active,
@@ -132,7 +132,7 @@
   }
 </style>
 </div>
-<script src="/js/site-nav.js?v=20260615-1" defer></script>
+<script src="/js/site-nav.js?v=20260615-2" defer></script>
 <script src="/js/header-autohide.js?v=20260525-2" defer></script>
 <script src="/js/essays-data.js" defer></script>
 {% if page.layout == "post" %}
