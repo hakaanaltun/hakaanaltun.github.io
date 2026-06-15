@@ -7,12 +7,17 @@
   var shareBtn = document.querySelector('.footer-share-btn');
 
   if (!shareBtn && findMe && navigator.share) {
+    var shareWrap = document.createElement('div');
+    shareWrap.className = 'footer-share-wrap';
+
     shareBtn = document.createElement('button');
     shareBtn.type = 'button';
     shareBtn.className = 'footer-share-btn';
     shareBtn.setAttribute('aria-label', 'Share this page');
     shareBtn.textContent = 'Share';
-    findMe.appendChild(shareBtn);
+
+    shareWrap.appendChild(shareBtn);
+    findMe.appendChild(shareWrap);
   }
 
   if (shareBtn) {
