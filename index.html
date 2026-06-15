@@ -80,11 +80,53 @@ layout: home
     text-align: left;
   }
   #book .book-links {
-    align-items: flex-start;
+    width: 100%;
+    margin-top: 30px;
+    align-items: center;
+  }
+  #book .book-links-grid {
+    width: min(100%, 760px);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
   }
   #book .book-links-row {
-    justify-content: flex-start;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    align-items: center;
+    justify-content: center;
+  }
+  #book .book-links-row a {
+    display: block;
+    padding: 0 14px;
+    text-align: center;
+    color: var(--petrol);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-style: italic;
+    font-size: clamp(1.08rem, 1.6vw, 1.26rem);
+    line-height: 1.2;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    transition: color 0.2s ease, opacity 0.2s ease, transform 0.25s ease;
+  }
+  #book .book-links-row a + a {
+    border-left: 1px solid var(--rule-cream) !important;
+  }
+  #book .book-links-row a:hover,
+  #book .book-links-row a:active,
+  #book .book-links-row a:focus-visible {
+    color: var(--petrol-deep);
+    opacity: 0.82;
+    transform: translateY(-2px);
+    outline: none;
+  }
+  #book .book-links-divider {
+    width: 100%;
+    height: 1px;
+    background: var(--rule-cream);
   }
 
   #moris .about-text {
@@ -185,6 +227,17 @@ layout: home
     #latest .piece-card.is-featured .piece-excerpt { font-size: 0.97rem; -webkit-line-clamp: 3; }
     #book .book-grid { gap: 28px; }
     #book .book-content { max-width: none; }
+    #book .book-links-grid { width: 100%; gap: 14px; }
+    #book .book-links-row {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      row-gap: 14px;
+    }
+    #book .book-links-row a + a {
+      border-left: 0 !important;
+    }
+    #book .book-links-row a:nth-child(even) {
+      border-left: 1px solid var(--rule-cream) !important;
+    }
     #moris .about-text { max-width: none; }
     #about .section-head { margin-bottom: 1.25rem; }
   }
@@ -306,15 +359,20 @@ layout: home
         <p><em>The Fragments</em> is a story of forgetting and remembering, of betrayal and longing, of a silver watch that survives time, and of becoming whole again in a garden at the end of the universe.</p>
       </div>
       <div class="book-links">
-        <div class="book-links-row">
-          <a href="https://www.amazon.com/dp/B0H2CKMMBQ" target="_blank" rel="noopener">Hardcover</a>
-          <a href="https://www.amazon.com/dp/B0H18K5XN9" target="_blank" rel="noopener">Kindle</a>
-          <a href="https://www.kobo.com/tr/tr/ebook/the-fragments-4" target="_blank" rel="noopener">Kobo</a>
-          <a href="https://play.google.com/store/books/details?id=U8vXEQAAQBAJ&amp;rdid=book-U8vXEQAAQBAJ&amp;rdot=1&amp;source=gbs_atb&amp;pcampaignid=books_booksearch_atb" target="_blank" rel="noopener">Google Play</a>
-          <a href="https://books.apple.com/us/book/the-fragments/id6773904007" target="_blank" rel="noopener">Apple Books</a>
-          <a href="https://www.barnesandnoble.com/w/the-fragments-hakan-altun/1150270923" target="_blank" rel="noopener">Barnes &amp; Noble</a>
-          <a href="https://www.goodreads.com/book/show/252076100-the-fragments" target="_blank" rel="noopener">Goodreads</a>
-          <a href="https://books2read.com/u/bOVA7J" target="_blank" rel="noopener">More</a>
+        <div class="book-links-grid">
+          <div class="book-links-row">
+            <a href="https://www.amazon.com/dp/B0H2CKMMBQ" target="_blank" rel="noopener">Hardcover</a>
+            <a href="https://www.amazon.com/dp/B0H18K5XN9" target="_blank" rel="noopener">Kindle</a>
+            <a href="https://www.kobo.com/tr/tr/ebook/the-fragments-4" target="_blank" rel="noopener">Kobo</a>
+            <a href="https://play.google.com/store/books/details?id=U8vXEQAAQBAJ&amp;rdid=book-U8vXEQAAQBAJ&amp;rdot=1&amp;source=gbs_atb&amp;pcampaignid=books_booksearch_atb" target="_blank" rel="noopener">Google Play</a>
+          </div>
+          <div class="book-links-divider" aria-hidden="true"></div>
+          <div class="book-links-row">
+            <a href="https://books.apple.com/us/book/the-fragments/id6773904007" target="_blank" rel="noopener">Apple Books</a>
+            <a href="https://www.barnesandnoble.com/w/the-fragments-hakan-altun/1150270923" target="_blank" rel="noopener">Barnes &amp; Noble</a>
+            <a href="https://www.goodreads.com/book/show/252076100-the-fragments" target="_blank" rel="noopener">Goodreads</a>
+            <a href="https://books2read.com/u/bOVA7J" target="_blank" rel="noopener">More</a>
+          </div>
         </div>
       </div>
     </div>
