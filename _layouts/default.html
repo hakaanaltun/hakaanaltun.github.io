@@ -132,6 +132,54 @@
     outline: none;
   }
 
+  #book .book-links {
+    align-items: center !important;
+    overflow: hidden !important;
+  }
+  #book .book-links-grid {
+    width: min(100%, 760px) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 0 !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  #book .book-links-grid::-webkit-scrollbar {
+    display: none;
+  }
+  #book .book-links-row {
+    display: flex !important;
+    flex: 0 0 auto !important;
+    width: auto !important;
+    min-width: auto !important;
+    grid-template-columns: none !important;
+    row-gap: 0 !important;
+  }
+  #book .book-links-divider {
+    display: none !important;
+  }
+  #book .book-links-row a {
+    flex: 0 0 auto !important;
+    white-space: nowrap !important;
+    padding: 0 20px !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    border-bottom: 0 !important;
+    padding-bottom: 0 !important;
+  }
+  #book .book-links-row a + a,
+  #book .book-links-divider + .book-links-row a:first-child,
+  #book .book-links-row a:nth-child(even) {
+    border-left: 1px solid var(--rule-cream) !important;
+  }
+
   @media (max-width: 767px), (max-height: 500px) and (orientation: landscape) {
     .footer-grid {
       grid-template-columns: 1fr !important;
@@ -167,57 +215,17 @@
       white-space: nowrap !important;
     }
 
-    #book .book-links {
-      align-items: center !important;
-      overflow: hidden !important;
-    }
     #book .book-links-grid {
       width: 100% !important;
-      margin-left: auto !important;
-      margin-right: auto !important;
-      display: flex !important;
-      flex-direction: row !important;
-      align-items: center !important;
-      gap: 0 !important;
-      overflow-x: auto !important;
-      overflow-y: hidden !important;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-    }
-    #book .book-links-grid::-webkit-scrollbar {
-      display: none;
-    }
-    #book .book-links-row {
-      display: flex !important;
-      flex: 0 0 auto !important;
-      width: auto !important;
-      min-width: auto !important;
-      grid-template-columns: none !important;
-      row-gap: 0 !important;
-    }
-    #book .book-links-divider {
-      display: none !important;
     }
     #book .book-links-row a {
-      flex: 0 0 auto !important;
-      white-space: nowrap !important;
-      padding: 0 18px !important;
-      border: 0 !important;
-      border-radius: 0 !important;
-      background: transparent !important;
-      box-shadow: none !important;
-      border-bottom: 0 !important;
-      padding-bottom: 0 !important;
-    }
-    #book .book-links-row a + a,
-    #book .book-links-divider + .book-links-row a:first-child,
-    #book .book-links-row a:nth-child(even) {
-      border-left: 1px solid var(--rule-cream) !important;
+      padding-left: 18px !important;
+      padding-right: 18px !important;
     }
   }
 </style>
 </div>
-<script src="/js/site-nav.js?v=20260615-2" defer></script>
+<script src="/js/site-nav.js?v=20260615-3" defer></script>
 <script src="/js/header-autohide.js?v=20260525-2" defer></script>
 <script src="/js/essays-data.js" defer></script>
 {% if page.layout == "post" %}
