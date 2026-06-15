@@ -3,7 +3,7 @@
   'use strict';
 
   /* ── Share button ── */
-  var shareBtn = document.querySelector('.header-share-btn') || document.querySelector('.essay-share-btn');
+  var shareBtn = document.querySelector('.footer-share-btn');
   if (shareBtn) {
     if (navigator.share) {
       shareBtn.addEventListener('click', function (e) {
@@ -82,7 +82,7 @@
   });
 
   /* ── Header & footer logo scroll-to-top on homepage ── */
-  document.querySelectorAll('a.nav-home[href="#"], a.footer-home[href="#"]').forEach(function (el) {
+  document.querySelectorAll('a.nav-home[href="#"], a.footer-home[href="#"], a.footer-home-link[href="#"]').forEach(function (el) {
     el.addEventListener('click', function (e) {
       e.preventDefault();
       window.scrollTo({ top: 0, behavior: 'smooth' });
