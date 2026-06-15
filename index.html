@@ -80,11 +80,10 @@ layout: home
         el.textContent = p.excerpt || '';
       }
     }
-    var selected = shuffle(pool.slice()).slice(0, 6);
+    var selected = shuffle(pool.slice()).slice(0, 8);
     var grid = document.getElementById('further-back-grid');
     var html = '';
     selected.forEach(function(p, i) {
-      if (i === 3) html += '<li class="fb-separator" role="separator" aria-hidden="true"></li>';
       html += '<li class="fb-card"><a href="' + p.url + '" class="fb-card-link">';
       html += '<span class="piece-title"></span>';
       if (p.subtitle) html += '<span class="piece-subtitle"></span>';
