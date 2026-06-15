@@ -130,6 +130,36 @@
       border-top: 1px solid rgba(237, 228, 207, 0.32) !important;
     }
   }
+  @media (max-width: 600px) and (orientation: portrait) {
+    #book .book-links-grid {
+      width: 100% !important;
+      overflow-x: auto !important;
+      overflow-y: hidden !important;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    #book .book-links-grid::-webkit-scrollbar {
+      display: none;
+    }
+    #book .book-links-row {
+      width: 200% !important;
+      min-width: 200% !important;
+      grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+      row-gap: 0 !important;
+    }
+    #book .book-links-divider {
+      width: 200% !important;
+      min-width: 200% !important;
+    }
+    #book .book-links-row a + a,
+    #book .book-links-row a:nth-child(even) {
+      border-left: 1px solid var(--rule-cream) !important;
+    }
+    #book .book-links-row a:nth-child(-n+2) {
+      padding-bottom: 0 !important;
+      border-bottom: 0 !important;
+    }
+  }
 </style>
 </div>
 <script src="/js/site-nav.js?v=20260615-2" defer></script>
