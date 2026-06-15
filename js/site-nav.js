@@ -31,6 +31,17 @@
     }
   }
 
+  /* ── Desktop wheel support for horizontal book links ── */
+  document.querySelectorAll('#book .book-links-grid').forEach(function (el) {
+    el.addEventListener('wheel', function (e) {
+      if (el.scrollWidth <= el.clientWidth) return;
+      var delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+      if (!delta) return;
+      e.preventDefault();
+      el.scrollLeft += delta;
+    }, { passive: false });
+  });
+
   /* ── Drawer elements ── */
   var toggleBtn = document.querySelector('.hamburger-btn');
   var drawer = document.getElementById('site-drawer');
