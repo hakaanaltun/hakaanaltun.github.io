@@ -2,8 +2,19 @@
 (function () {
   'use strict';
 
-  /* ── Share button ── */
+  /* ── Footer share button ── */
+  var findMe = document.querySelector('.footer-findme');
   var shareBtn = document.querySelector('.footer-share-btn');
+
+  if (!shareBtn && findMe && navigator.share) {
+    shareBtn = document.createElement('button');
+    shareBtn.type = 'button';
+    shareBtn.className = 'footer-share-btn';
+    shareBtn.setAttribute('aria-label', 'Share this page');
+    shareBtn.textContent = 'Share';
+    findMe.appendChild(shareBtn);
+  }
+
   if (shareBtn) {
     if (navigator.share) {
       shareBtn.addEventListener('click', function (e) {
