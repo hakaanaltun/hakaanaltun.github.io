@@ -364,41 +364,6 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
 .more-essays-grid-hp .essay-meta { font-size: 13px; color: var(--vizon); }
 
 /* ========================================================================== 
-   10. Footer
-   ========================================================================== */
-footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-top: 40px; background: var(--footer-bg); color: var(--footer-text); font-family: 'EB Garamond', Georgia, serif; }
-.footer-inner { max-width: 1040px; margin: 0 auto; padding: 56px var(--pad) 44px; }
-.footer-home-link { display: inline-flex; flex-direction: column; align-items: center; gap: 5px; color: inherit; }
-.footer-home-link:hover .footer-brand { text-decoration: underline; text-underline-offset: 4px; }
-.footer-brand { display: block; font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 1.5rem; line-height: 1.05; color: var(--footer-text); }
-.footer-tagline { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 1.06rem; color: var(--footer-muted); line-height: 1.2; }
-.footer-farewell { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 1.65rem; text-align: center; }
-.footer-signature { text-align: center; margin-top: 6px; color: var(--footer-muted); }
-.footer-rule { margin: 28px auto; border: 0; border-top: 1px solid rgba(237, 228, 207, 0.8); }
-.footer-grid { display: grid; grid-template-columns: minmax(220px, 0.75fr) minmax(0, 1.35fr) minmax(220px, 0.7fr); gap: 52px; }
-.footer-col { position: relative; padding: 0; }
-.footer-col + .footer-col { padding-left: 34px; border-left: 1px solid rgba(237, 228, 207, 0.32); }
-.footer-col h3 { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: 1.65rem; margin-bottom: 14px; color: var(--footer-text); }
-.footer-subscribe-blurb { color: var(--footer-muted); max-width: 520px; }
-.footer-subscribe-form { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 14px; align-items: flex-end; }
-.footer-subscribe-form label { display: block; width: 100%; font-size: 0.9rem; color: var(--footer-muted); }
-.footer-subscribe-form input { flex: 1 1 250px; background: transparent; border: none; border-bottom: 1px solid rgba(237, 228, 207, 0.9); color: var(--footer-text); font: inherit; padding: 8px 0; }
-.footer-subscribe-form input::placeholder { color: var(--footer-muted); }
-.footer-subscribe-form button { padding: 8px 16px; background: transparent; border: 1px solid rgba(237, 228, 207, 0.85); color: var(--footer-text); font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 1.2rem; cursor: pointer; transition: background 0.2s ease, color 0.2s ease; }
-.footer-subscribe-form button:hover { background: var(--footer-text); color: var(--footer-bg); }
-.footer-note { margin-top: 10px; font-size: 0.9rem; color: var(--footer-muted); }
-.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
-.footer-col a { color: var(--footer-muted); opacity: 1; line-height: 1.25; white-space: nowrap; border-bottom: 2px solid transparent; padding-bottom: 2px; transition: color 0.2s ease, border-color 0.2s ease; }
-.footer-col a:hover,
-.footer-col a:active { color: var(--footer-text); border-bottom-color: var(--footer-text); }
-.footer-col a.is-active { color: var(--footer-text); border-bottom-color: var(--footer-text); }
-.footer-col a span { display: inline-block; margin-left: 6px; color: var(--footer-muted); transition: transform 0.2s ease; }
-.footer-col a:hover span { transform: translateX(3px); }
-.footer-rule-bottom { margin-top: 24px; margin-bottom: 20px; border: 0; border-top: 1px solid rgba(237, 228, 207, 0.6); }
-.footer-bottom { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 6px; }
-.footer-meta, .footer-copy { color: var(--footer-muted); font-size: 0.95rem; }
-
-/* ========================================================================== 
    11. Animations
    ========================================================================== */
 .fade-in { opacity: 0; transform: translateY(12px); animation: fadeUp 0.6s ease forwards; }
@@ -422,14 +387,6 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
   .section-head { gap: 8px; margin-bottom: 2.2rem; }
   .book-grid { grid-template-columns: 1fr; gap: 26px; text-align: left; }
   .book-cover { max-width: 210px; max-height: 315px; margin: 0; }
-  .footer-inner { padding: 56px var(--pad) 48px; }
-  .footer-grid { grid-template-columns: 1fr; gap: 28px; }
-  .footer-col + .footer-col { padding-left: 0; border-left: 0; padding-top: 26px; border-top: 1px solid rgba(237, 228, 207, 0.32); }
-  .footer-col h3 { font-size: 1.45rem; margin-bottom: 12px; }
-  .footer-col ul { gap: 12px; }
-  .footer-subscribe-blurb { max-width: none; }
-  .footer-subscribe-form { margin-top: 14px; }
-  .footer-rule-bottom { margin-top: 28px; margin-bottom: 18px; }
 }
 
 @media (max-width: 768px) {
@@ -459,8 +416,6 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
   .brand-main { font-size: 1.2rem; white-space: nowrap; }
   .brand-sub { font-size: 0.92rem; white-space: normal; margin-top: 2px; max-width: 28ch; }
   header .brand-sub { margin-top: 5px; }
-
-  .footer-brand { font-size: 1.25rem; }
   .header-nav-bar { display: none; }
   section { padding-top: 80px; }
   .section-title { font-size: 2.35rem; }
@@ -483,9 +438,6 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
   .drawer-book-card img { height: 76px; }
   .drawer-essay-card-title { font-size: 1rem; }
   .drawer-essay-card-subtitle { font-size: 0.76rem; }
-
-  .footer-inner { padding: 48px var(--pad) 44px; }
-  .footer-bottom { gap: 6px; }
 }
 
 @media (max-width: 420px) {
@@ -1009,38 +961,6 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
     text-align: center;
     margin-top: 2px;
   }
-
-
-/* ===================== consolidated from footer.html ===================== */
-.footer-bottom {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 10px;
-  }
-  .footer-home-link {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    text-decoration: none;
-    transition: opacity 0.2s ease;
-  }
-  .footer-home-link:hover,
-  .footer-home-link:active { opacity: 0.8; }
-  .footer-tagline {
-    font-family: 'EB Garamond', Georgia, serif;
-    font-style: italic;
-    font-size: 1.02rem;
-    color: var(--footer-muted);
-    opacity: 1;
-  }
-  .footer-credit {
-    color: var(--footer-muted);
-    font-size: 0.95rem;
-    margin: 0;
-  }
   [class*="subtitle"] { font-style: italic; }
   .hero-quote-card::before {
     content: none !important;
@@ -1221,74 +1141,6 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  .footer-grid {
-    grid-template-columns: minmax(0, 1fr) 1px minmax(320px, 1.12fr) 1px minmax(0, 1fr) !important;
-    align-items: stretch;
-    gap: clamp(22px, 3.2vw, 44px);
-  }
-  .footer-separator {
-    width: 1px;
-    min-height: 178px;
-    align-self: stretch;
-    background: rgba(237, 228, 207, 0.42);
-  }
-  .footer-col {
-    border-left: 0 !important;
-    border-right: 0 !important;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-    min-width: 0;
-    position: relative;
-  }
-  .footer-col::before,
-  .footer-col::after {
-    content: none !important;
-    display: none !important;
-  }
-  .footer-col,
-  .footer-col h3,
-  .footer-col p,
-  .footer-col ul,
-  .footer-col li,
-  .footer-col a,
-  .footer-subscribe-form,
-  .footer-subscribe-form label,
-  .footer-note {
-    text-align: center;
-  }
-  .footer-subscribe-blurb {
-    max-width: 32ch;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .footer-col ul {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .footer-findme a {
-    display: inline-block;
-    position: relative;
-    padding-right: 0;
-  }
-  .footer-findme a span {
-    position: absolute;
-    left: calc(100% + 0.35em);
-    top: 50%;
-    transform: translateY(-50%);
-    pointer-events: none;
-  }
-  .footer-subscribe-form {
-    align-items: center;
-    margin-top: 24px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .footer-subscribe-form input,
-  .footer-subscribe-form button {
-    margin-left: auto;
-    margin-right: auto;
-  }
 
   .piece-card .piece-title,
   .piece-card .piece-subtitle,
@@ -1308,59 +1160,6 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
     display: block;
     width: 100%;
     text-align: center;
-  }
-
-  @media (max-width: 767px), (max-height: 500px) and (orientation: landscape) {
-    .footer-grid {
-      grid-template-columns: 1fr !important;
-      gap: 28px;
-    }
-    .footer-separator { display: none !important; }
-    .footer-bottom {
-      align-items: center;
-      text-align: center;
-    }
-    .footer-home-link {
-      align-items: center;
-      text-align: center;
-    }
-    .footer-col,
-    .footer-col h3,
-    .footer-col p,
-    .footer-col ul,
-    .footer-col li,
-    .footer-col a,
-    .footer-subscribe-form,
-    .footer-subscribe-form label,
-    .footer-note {
-      text-align: left !important;
-    }
-    .footer-col ul {
-      align-items: flex-start !important;
-    }
-    .footer-subscribe-blurb {
-      margin-left: 0;
-      margin-right: 0;
-    }
-    .footer-subscribe-form {
-      align-items: flex-start;
-      margin-left: 0;
-      margin-right: 0;
-    }
-    .footer-subscribe-form input,
-    .footer-subscribe-form button {
-      margin-left: 0;
-      margin-right: 0;
-    }
-    .footer-findme a span {
-      position: static;
-      transform: none;
-      margin-left: 0.35em;
-    }
-    .footer-bottom .footer-tagline,
-    .footer-bottom .footer-credit {
-      text-align: center !important;
-    }
   }
 
   @media (max-width: 600px) {
@@ -1401,95 +1200,6 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
   }
   .more-essays-title {
     text-align: left !important;
-  }
-  .footer-col,
-  .footer-col h3,
-  .footer-col p,
-  .footer-col ul,
-  .footer-col li,
-  .footer-col a,
-  .footer-subscribe-form,
-  .footer-subscribe-form label,
-  .footer-note {
-    text-align: left !important;
-  }
-  .footer-col ul {
-    align-items: flex-start !important;
-  }
-  .footer-subscribe-blurb,
-  .footer-subscribe-form,
-  .footer-subscribe-form input,
-  .footer-subscribe-form button {
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-  }
-  .footer-subscribe-form {
-    align-items: flex-start !important;
-  }
-  .footer-findme a span {
-    position: static !important;
-    transform: none !important;
-    margin-left: 0.35em;
-  }
-  .footer-share-wrap {
-    width: 100%;
-    margin-top: 10px;
-    padding-top: 25px;
-    border-top: 1px solid rgba(237, 228, 207, 0.9);
-  }
-  .footer-share-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0;
-    padding: 8px 16px;
-    background: transparent;
-    border: 1px solid rgba(237, 228, 207, 0.85);
-    color: var(--footer-text);
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-style: italic;
-    font-size: 1.2rem;
-    line-height: 1.2;
-    cursor: pointer;
-    transition: background 0.2s ease, color 0.2s ease;
-  }
-  .footer-share-btn::before {
-    content: none !important;
-    display: none !important;
-  }
-  .footer-share-btn:hover,
-  .footer-share-btn:active,
-  .footer-share-btn:focus-visible {
-    background: var(--footer-text);
-    color: var(--footer-bg);
-    outline: none;
-  }
-  .footer-bottom,
-  .footer-home-link {
-    align-items: center !important;
-    text-align: center !important;
-  }
-  .footer-bottom .footer-tagline,
-  .footer-bottom .footer-credit {
-    text-align: center !important;
-  }
-  .footer-home-link,
-  .footer-home-link:hover,
-  .footer-home-link:active,
-  .footer-home-link:focus-visible,
-  .footer-home-link .footer-brand,
-  .footer-home-link .footer-tagline {
-    border: 0 !important;
-    border-bottom: 0 !important;
-    box-shadow: none !important;
-    text-decoration: none !important;
-    background-image: none !important;
-  }
-  .footer-home-link:hover,
-  .footer-home-link:active,
-  .footer-home-link:focus-visible {
-    opacity: 0.78;
-    outline: none;
   }
 
   #book .book-links {
@@ -1553,19 +1263,6 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
   }
 
   @media (max-width: 767px), (max-height: 500px) and (orientation: landscape) {
-    .footer-grid {
-      grid-template-columns: 1fr !important;
-      gap: 28px !important;
-    }
-    .footer-separator {
-      display: none !important;
-    }
-    .footer-col + .footer-col {
-      padding-left: 0 !important;
-      border-left: 0 !important;
-      padding-top: 26px !important;
-      border-top: 1px solid rgba(237, 228, 207, 0.32) !important;
-    }
 
     .header-nav-bar {
       width: 100% !important;
@@ -1599,3 +1296,71 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
       padding-right: 14px !important;
     }
   }
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-top: 40px; background: var(--footer-bg); color: var(--footer-text); font-family: 'EB Garamond', Georgia, serif; }
+.footer-inner { max-width: 1040px; margin: 0 auto; padding: 56px var(--pad) 44px; }
+
+/* legacy farewell / signature (centered) */
+.footer-farewell { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 1.65rem; text-align: center; }
+.footer-signature { text-align: center; margin-top: 6px; color: var(--footer-muted); }
+.footer-rule { margin: 28px auto; border: 0; border-top: 1px solid rgba(237, 228, 207, 0.8); }
+
+/* top — three columns split by hairline separators */
+.footer-grid { display: grid; grid-template-columns: minmax(0, 1fr) 1px minmax(320px, 1.12fr) 1px minmax(0, 1fr); align-items: stretch; gap: clamp(22px, 3.2vw, 44px); }
+.footer-separator { width: 1px; min-height: 178px; align-self: stretch; background: rgba(237, 228, 207, 0.42); }
+.footer-col { position: relative; min-width: 0; padding: 0; text-align: left; }
+.footer-col h3 { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: 1.65rem; margin-bottom: 14px; color: var(--footer-text); }
+
+/* subscribe */
+.footer-subscribe-blurb { color: var(--footer-muted); max-width: 32ch; }
+.footer-subscribe-form { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 12px; margin-top: 24px; }
+.footer-subscribe-form label { display: block; width: 100%; font-size: 0.9rem; color: var(--footer-muted); }
+.footer-subscribe-form input { flex: 1 1 250px; background: transparent; border: none; border-bottom: 1px solid rgba(237, 228, 207, 0.9); color: var(--footer-text); font: inherit; padding: 8px 0; }
+.footer-subscribe-form input::placeholder { color: var(--footer-muted); }
+.footer-subscribe-form button { padding: 8px 16px; background: transparent; border: 1px solid rgba(237, 228, 207, 0.85); color: var(--footer-text); font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 1.2rem; cursor: pointer; transition: background 0.2s ease, color 0.2s ease; }
+.footer-subscribe-form button:hover { background: var(--footer-text); color: var(--footer-bg); }
+.footer-note { margin-top: 10px; font-size: 0.9rem; color: var(--footer-muted); }
+
+/* sections list */
+.footer-col ul { list-style: none; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+.footer-col a { color: var(--footer-muted); line-height: 1.25; white-space: nowrap; border-bottom: 2px solid transparent; padding-bottom: 2px; transition: color 0.2s ease, border-color 0.2s ease; }
+.footer-col a:hover, .footer-col a:active, .footer-col a.is-active { color: var(--footer-text); border-bottom-color: var(--footer-text); }
+
+/* find me — arrow inline after the link */
+.footer-findme a { display: inline-block; position: relative; padding-right: 0; }
+.footer-findme a span { display: inline-block; margin-left: 0.35em; color: var(--footer-muted); }
+
+/* share row (post pages) */
+.footer-share-wrap { width: 100%; margin-top: 10px; padding-top: 25px; border-top: 1px solid rgba(237, 228, 207, 0.9); }
+.footer-share-btn { display: inline-flex; align-items: center; justify-content: center; margin: 0; padding: 8px 16px; background: transparent; border: 1px solid rgba(237, 228, 207, 0.85); color: var(--footer-text); font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 1.2rem; line-height: 1.2; cursor: pointer; transition: background 0.2s ease, color 0.2s ease; }
+.footer-share-btn:hover, .footer-share-btn:active, .footer-share-btn:focus-visible { background: var(--footer-text); color: var(--footer-bg); outline: none; }
+
+/* bottom — centered logo, tagline, credit */
+.footer-rule-bottom { margin-top: 24px; margin-bottom: 20px; border: 0; border-top: 1px solid rgba(237, 228, 207, 0.6); }
+.footer-bottom { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px; }
+.footer-home-link { display: flex; flex-direction: column; align-items: center; gap: 4px; color: inherit; text-decoration: none; transition: opacity 0.2s ease; }
+.footer-home-link:hover, .footer-home-link:active { opacity: 0.78; }
+.footer-brand { display: block; font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 1.5rem; line-height: 1.05; color: var(--footer-text); }
+.footer-tagline { font-family: 'EB Garamond', Georgia, serif; font-style: italic; font-size: 1.02rem; line-height: 1.2; color: var(--footer-muted); }
+.footer-credit { margin: 0; color: var(--footer-muted); font-size: 0.95rem; }
+.footer-meta, .footer-copy { color: var(--footer-muted); font-size: 0.95rem; }
+
+@media (max-width: 900px) {
+  .footer-inner { padding: 56px var(--pad) 48px; }
+  .footer-col h3 { font-size: 1.45rem; margin-bottom: 12px; }
+  .footer-rule-bottom { margin-top: 28px; margin-bottom: 18px; }
+}
+
+@media (max-width: 767px), (max-height: 500px) and (orientation: landscape) {
+  .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+  .footer-separator { display: none; }
+  .footer-col + .footer-col { padding-top: 26px; border-top: 1px solid rgba(237, 228, 207, 0.32); }
+}
+
+@media (max-width: 600px) {
+  .footer-brand { font-size: 1.25rem; }
+  .footer-inner { padding: 48px var(--pad) 44px; }
+}
