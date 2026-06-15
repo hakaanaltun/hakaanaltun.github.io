@@ -59,7 +59,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    margin-top: 18px;
+    position: relative;
+    margin-top: 30px;
     padding: 8px 16px;
     background: transparent;
     border: 1px solid rgba(237, 228, 207, 0.85);
@@ -70,6 +71,15 @@
     line-height: 1.2;
     cursor: pointer;
     transition: background 0.2s ease, color 0.2s ease;
+  }
+  .footer-share-btn::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -13px;
+    height: 1px;
+    background: rgba(237, 228, 207, 0.9);
   }
   .footer-share-btn:hover,
   .footer-share-btn:active,
