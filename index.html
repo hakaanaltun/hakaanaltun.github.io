@@ -241,6 +241,16 @@ layout: home
     #moris .about-text { max-width: none; }
     #about .section-head { margin-bottom: 1.25rem; }
   }
+
+  @media (max-width: 600px) and (orientation: portrait) {
+    #book .book-links-row {
+      row-gap: 18px;
+    }
+    #book .book-links-row a:nth-child(-n+2) {
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--rule-cream) !important;
+    }
+  }
 </style>
 
 <section id="quotes" class="hero-quotes-section">
