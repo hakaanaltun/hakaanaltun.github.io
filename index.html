@@ -174,13 +174,26 @@ layout: home
 
 <script>
 (function () {
-  // Let mouse-wheel scroll the horizontal strips (book links, further back) on desktop.
-  // Temporarily disables CSS scroll-snap to prevent it from fighting the wheel event.
+  // Cihazın trackpad (veya yatay kaydırma yapabilen bir fare) olup olmadığını takip ediyoruz.
+  var supportsHorizontalScroll = false;
+
   function enableWheelScroll(el) {
     el.addEventListener('wheel', function (e) {
+      // Eğer sistem donanımsal yatay (X ekseni) bir hareket algılarsa, 
+      // bu cihazın trackpad olduğunu anlarız ve bayrağı kaldırırız.
+      if (Math.abs(e.deltaX) > 0) {
+        supportsHorizontalScroll = true;
+      }
+
+      // Eğer trackpad kullanılıyorsa, JS aradan çekilir.
+      // Tarayıcı doğal davranır: Sağ/sol hareketi listeyi, aşağı/yukarı hareketi sayfayı kaydırır.
+      if (supportsHorizontalScroll) {
+        return; 
+      }
+
+      // BUNDAN SONRASI SADECE STANDART FARELER İÇİN ÇALIŞIR:
       if (!e.deltaY) return;
       
-      // Küsuratlı alt pikseller için yuvarlama yapıyoruz
       var max = Math.round(el.scrollWidth - el.clientWidth);
       if (max <= 1) return;
       
@@ -189,13 +202,11 @@ layout: home
       var atEnd = currentScroll >= max - 1;
       
       if ((e.deltaY > 0 && !atEnd) || (e.deltaY < 0 && !atStart)) {
-        // Çakışmayı önlemek için kaydırma esnasında snap'i askıya al
+        // Çakışmayı önlemek için snap geçici olarak kapatılır
         el.style.scrollSnapType = 'none';
-        
         el.scrollLeft += e.deltaY;
         e.preventDefault();
         
-        // Tekerlek hareketi durduktan kısa süre sonra snap'i geri yükle
         clearTimeout(el._wheelSnapTimer);
         el._wheelSnapTimer = setTimeout(function () {
           el.style.scrollSnapType = '';
@@ -203,6 +214,7 @@ layout: home
       }
     }, { passive: false });
   }
+  
   document.querySelectorAll('.book-links-grid, .further-back-grid').forEach(enableWheelScroll);
 })();
 </script>
