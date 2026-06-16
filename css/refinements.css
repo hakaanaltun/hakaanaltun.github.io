@@ -4,7 +4,7 @@
    Purpose: keep recent layout decisions out of templates and inline CSS.
    ========================================================================== */
 
-/* Hidden-scroll horizontal rows: touch, trackpad, and JS wheel support remain active. */
+/* Hidden-scroll horizontal rows: touch, trackpad, wheel, and drag support remain active. */
 #further-back .further-back-grid,
 #book .book-links-grid {
   overflow-x: auto;
@@ -12,6 +12,7 @@
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  cursor: grab;
 }
 
 #further-back .further-back-grid::-webkit-scrollbar,
@@ -21,22 +22,36 @@
   height: 0;
 }
 
-#further-back .further-back-grid {
-  padding-bottom: 0;
-  cursor: grab;
-}
-
-#book .book-links-grid {
-  cursor: grab;
-}
-
 #further-back .further-back-grid.is-dragging,
 #book .book-links-grid.is-dragging {
   cursor: grabbing;
   scroll-snap-type: none;
 }
 
-/* Book section: centered cover, description below, scrollable boxed links. */
+/* Further Back: 4 visible on desktop/tablet, 2 visible on mobile, remaining items by horizontal scroll. */
+#further-back .further-back-grid {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(2, auto);
+  grid-auto-columns: calc((100% - 34px) / 2);
+  column-gap: 34px;
+  row-gap: 26px;
+  align-items: start;
+  width: 100%;
+  padding: 4px 0 0;
+  scroll-snap-type: x mandatory;
+  scroll-padding-left: 0;
+}
+
+#further-back .fb-card {
+  min-width: 0;
+}
+
+#further-back .fb-card:nth-child(4n+1) {
+  scroll-snap-align: start;
+}
+
+/* Book section: centered cover, description below, text-only paged links. */
 #book .book-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -85,17 +100,21 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 10px;
-  padding: 2px 2px 4px;
-  scroll-snap-type: x proximity;
+  gap: 0;
+  padding: 2px 0 4px;
+  scroll-snap-type: x mandatory;
+  scroll-padding-left: 0;
 }
 
 #book .book-links-row {
-  display: flex;
-  flex: 0 0 auto;
-  width: auto;
-  min-width: 0;
-  gap: 10px;
+  flex: 0 0 100%;
+  width: 100%;
+  min-width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: center;
+  justify-items: center;
+  gap: 0;
   padding: 0;
   margin: 0;
   scroll-snap-align: start;
@@ -110,10 +129,13 @@
 }
 
 #book .book-links-row a {
-  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
   white-space: nowrap;
-  padding: 8px 16px;
-  border: 1px solid var(--rule-cream);
+  padding: 4px 10px;
+  border: 0;
   border-radius: 0;
   background: transparent;
   box-shadow: none;
@@ -122,16 +144,15 @@
   font-style: italic;
   font-size: 1.12rem;
   line-height: 1.2;
-  transition: background 0.2s ease, color 0.2s ease, transform 0.25s ease, opacity 0.2s ease;
+  transition: color 0.2s ease, opacity 0.2s ease, transform 0.25s ease;
 }
 
 #book .book-links-row a:hover,
 #book .book-links-row a:active,
 #book .book-links-row a:focus-visible {
-  background: var(--petrol);
-  color: var(--paper);
+  color: var(--petrol-deep);
+  opacity: 0.62;
   transform: translateY(-2px);
-  opacity: 1;
   outline: none;
 }
 
@@ -151,6 +172,16 @@
 }
 
 @media (max-width: 600px) {
+  #further-back .further-back-grid {
+    grid-auto-columns: 100%;
+    column-gap: 18px;
+    row-gap: 22px;
+  }
+
+  #further-back .fb-card:nth-child(odd) {
+    scroll-snap-align: start;
+  }
+
   #book .book-cover {
     max-width: 190px;
     max-height: 285px;
@@ -163,8 +194,8 @@
   }
 
   #book .book-links-row a {
-    padding-left: 14px;
-    padding-right: 14px;
+    padding-left: 8px;
+    padding-right: 8px;
     font-size: 1.02rem;
   }
 }
