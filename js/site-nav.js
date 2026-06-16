@@ -1,4 +1,4 @@
-/* site-nav.js — Drawer + share button. Header autohide is handled by header-autohide.js. */
+/* site-nav.js — Drawer, share button, and horizontal scrollers. Header autohide is handled by header-autohide.js. */
 (function () {
   'use strict';
 
@@ -31,16 +31,64 @@
     }
   }
 
-  /* ── Desktop wheel support for horizontal book links ── */
-  document.querySelectorAll('#book .book-links-grid').forEach(function (el) {
-    el.addEventListener('wheel', function (e) {
-      if (el.scrollWidth <= el.clientWidth) return;
-      var delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
-      if (!delta) return;
-      e.preventDefault();
-      el.scrollLeft += delta;
-    }, { passive: false });
-  });
+  /* ── Horizontal scrollers: hidden scrollbar, wheel + drag support ── */
+  function enableHorizontalScroller(selector) {
+    document.querySelectorAll(selector).forEach(function (el) {
+      el.addEventListener('wheel', function (e) {
+        if (el.scrollWidth <= el.clientWidth) return;
+        var delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+        if (!delta) return;
+        e.preventDefault();
+        el.scrollLeft += delta;
+      }, { passive: false });
+
+      var isDown = false;
+      var startX = 0;
+      var startScrollLeft = 0;
+      var moved = false;
+
+      el.addEventListener('pointerdown', function (e) {
+        if (el.scrollWidth <= el.clientWidth) return;
+        isDown = true;
+        moved = false;
+        startX = e.clientX;
+        startScrollLeft = el.scrollLeft;
+        el.classList.add('is-dragging');
+        el.setPointerCapture(e.pointerId);
+      });
+
+      el.addEventListener('pointermove', function (e) {
+        if (!isDown) return;
+        var distance = e.clientX - startX;
+        if (Math.abs(distance) > 3) moved = true;
+        el.scrollLeft = startScrollLeft - distance;
+      });
+
+      function endDrag(e) {
+        if (!isDown) return;
+        isDown = false;
+        el.classList.remove('is-dragging');
+        try { el.releasePointerCapture(e.pointerId); } catch (err) {}
+      }
+
+      el.addEventListener('pointerup', endDrag);
+      el.addEventListener('pointercancel', endDrag);
+      el.addEventListener('mouseleave', function () {
+        isDown = false;
+        el.classList.remove('is-dragging');
+      });
+
+      el.addEventListener('click', function (e) {
+        if (!moved) return;
+        e.preventDefault();
+        e.stopPropagation();
+        moved = false;
+      }, true);
+    });
+  }
+
+  enableHorizontalScroller('#book .book-links-grid');
+  enableHorizontalScroller('#further-back .further-back-grid');
 
   /* ── Drawer elements ── */
   var toggleBtn = document.querySelector('.hamburger-btn');
@@ -54,7 +102,6 @@
   var siteHeader = document.getElementById('site-header');
   var drawerLogo = drawer.querySelector('.drawer-logo-link');
 
-  /* Drawer'ın yeşil bandını header'ın canlı yüksekliğine eşitler — tüm cihazlarda tam hizalama */
   function syncDrawerBand() {
     if (!siteHeader) return;
     var h = siteHeader.offsetHeight;
@@ -96,19 +143,16 @@
   closeBtn.addEventListener('click', function () { closeDrawer(false); });
   backdrop.addEventListener('click', function () { closeDrawer(false); });
 
-  /* Cihaz döndürülünce / pencere yeniden boyutlanınca, drawer açıksa bandı tazele */
   window.addEventListener('resize', function () {
     if (drawer.classList.contains('open')) syncDrawerBand();
   });
 
-  /* ESC closes drawer — keyboard user, restore focus */
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape' && drawer.classList.contains('open')) {
       closeDrawer(true);
     }
   });
 
-  /* ── Header & footer logo scroll-to-top on homepage ── */
   document.querySelectorAll('a.nav-home[href="#"], a.footer-home[href="#"], a.footer-home-link[href="#"]').forEach(function (el) {
     el.addEventListener('click', function (e) {
       e.preventDefault();
@@ -116,22 +160,18 @@
     });
   });
 
-  /* ── Close‑then‑navigate for links inside drawer ── */
   var links = drawer.querySelectorAll('a');
   links.forEach(function (link) {
     link.addEventListener('click', function (e) {
       var href = link.getAttribute('href');
       if (!href) return;
 
-      /* On-page anchor on same page */
       var isAnchor = href.charAt(0) === '#';
-      /* Anchor to homepage section from essay page, e.g. ../#about */
       var isRemoteAnchor = !isAnchor && href.indexOf('#') !== -1;
 
       if (isAnchor) {
         e.preventDefault();
         closeDrawer(false);
-        /* Wait for drawer close transition then scroll */
         setTimeout(function () {
           if (href === '#') {
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -141,11 +181,9 @@
           }
         }, 100);
       } else {
-        /* Normal link or remote anchor – close drawer first, then navigate */
         closeDrawer(false);
-        /* Small delay so scroll lock is removed before navigation */
         if (isRemoteAnchor) {
-          /* Let browser handle naturally after unlock */
+          /* Let browser handle naturally after unlock. */
         }
       }
     });
