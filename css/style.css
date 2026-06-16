@@ -1081,3 +1081,15 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
   .hero-quote-text { max-width: 100%; width: 100%; margin-left: 0; margin-right: 0; font-size: 1.2rem; line-height: 1.45; text-align: left; }
   .hero-quote-source { max-width: 100%; width: 100%; align-self: stretch; margin-left: 0; margin-right: 0; font-size: 0.95rem; text-align: right; }
 }
+
+/* ========================================================================== 
+   Drawer Serbest Link (Home vb.) Hizalama Düzeltmesi
+   ========================================================================== */
+.site-drawer > a,
+.site-drawer nav a,
+.site-drawer ul a {
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
