@@ -31,15 +31,30 @@
     }
   }
 
-  /* ── Horizontal scrollers: hidden scrollbar, wheel + drag support ── */
+  /* ── Horizontal scrollers: hidden scrollbar, paged wheel + drag support ── */
   function enableHorizontalScroller(selector) {
     document.querySelectorAll(selector).forEach(function (el) {
+      var wheelLocked = false;
+
       el.addEventListener('wheel', function (e) {
         if (el.scrollWidth <= el.clientWidth) return;
+
         var delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
         if (!delta) return;
+
         e.preventDefault();
-        el.scrollLeft += delta;
+
+        if (wheelLocked) return;
+        wheelLocked = true;
+
+        el.scrollBy({
+          left: delta > 0 ? el.clientWidth : -el.clientWidth,
+          behavior: 'smooth'
+        });
+
+        window.setTimeout(function () {
+          wheelLocked = false;
+        }, 420);
       }, { passive: false });
 
       var isDown = false;
