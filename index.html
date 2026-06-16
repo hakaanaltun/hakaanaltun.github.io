@@ -2,7 +2,6 @@
 layout: home
 ---
 
-
 <section id="quotes" class="hero-quotes-section">
   <div class="hero-quote-card" aria-live="polite">
     <p id="hero-quote" class="hero-quote-text"></p>
@@ -172,21 +171,35 @@ layout: home
     </div>
   </div>
 </section>
+
 <script>
 (function () {
   // Let mouse-wheel scroll the horizontal strips (book links, further back) on desktop.
-  // Only hijacks vertical wheel while there is room to scroll horizontally; at the
-  // ends it releases so the page scrolls normally. Touch swipe is unaffected.
+  // Temporarily disables CSS scroll-snap to prevent it from fighting the wheel event.
   function enableWheelScroll(el) {
     el.addEventListener('wheel', function (e) {
       if (!e.deltaY) return;
-      var max = el.scrollWidth - el.clientWidth;
+      
+      // Küsuratlı alt pikseller için yuvarlama yapıyoruz
+      var max = Math.round(el.scrollWidth - el.clientWidth);
       if (max <= 1) return;
-      var atStart = el.scrollLeft <= 0;
-      var atEnd = el.scrollLeft >= max - 1;
+      
+      var currentScroll = Math.round(el.scrollLeft);
+      var atStart = currentScroll <= 0;
+      var atEnd = currentScroll >= max - 1;
+      
       if ((e.deltaY > 0 && !atEnd) || (e.deltaY < 0 && !atStart)) {
+        // Çakışmayı önlemek için kaydırma esnasında snap'i askıya al
+        el.style.scrollSnapType = 'none';
+        
         el.scrollLeft += e.deltaY;
         e.preventDefault();
+        
+        // Tekerlek hareketi durduktan kısa süre sonra snap'i geri yükle
+        clearTimeout(el._wheelSnapTimer);
+        el._wheelSnapTimer = setTimeout(function () {
+          el.style.scrollSnapType = '';
+        }, 150);
       }
     }, { passive: false });
   }
