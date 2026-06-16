@@ -172,3 +172,24 @@ layout: home
     </div>
   </div>
 </section>
+<script>
+(function () {
+  // Let mouse-wheel scroll the horizontal strips (book links, further back) on desktop.
+  // Only hijacks vertical wheel while there is room to scroll horizontally; at the
+  // ends it releases so the page scrolls normally. Touch swipe is unaffected.
+  function enableWheelScroll(el) {
+    el.addEventListener('wheel', function (e) {
+      if (!e.deltaY) return;
+      var max = el.scrollWidth - el.clientWidth;
+      if (max <= 1) return;
+      var atStart = el.scrollLeft <= 0;
+      var atEnd = el.scrollLeft >= max - 1;
+      if ((e.deltaY > 0 && !atEnd) || (e.deltaY < 0 && !atStart)) {
+        el.scrollLeft += e.deltaY;
+        e.preventDefault();
+      }
+    }, { passive: false });
+  }
+  document.querySelectorAll('.book-links-grid, .further-back-grid').forEach(enableWheelScroll);
+})();
+</script>
