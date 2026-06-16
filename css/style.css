@@ -355,16 +355,18 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
 
 /* Further Back: two rows; 4 cards visible on desktop/tablet, 2 on mobile, rest by horizontal scroll. */
 #further-back .further-back-grid {
-  list-style: none; margin: 0; padding: 4px 0 12px;
+  list-style: none; margin: 0 auto; padding: 4px 0 12px;
   display: grid; grid-auto-flow: column; grid-template-rows: repeat(2, auto);
-  grid-auto-columns: calc(100% - 24px);
-  column-gap: 24px; row-gap: 26px; align-items: start; width: 100%; max-width: 520px;
+  grid-auto-columns: calc(100% - 44px);
+  column-gap: 24px; row-gap: 26px; align-items: start; width: 100%; max-width: 600px;
   scroll-snap-type: x mandatory;
 }
 .fb-card { position: relative; min-width: 0; }
 .fb-card:nth-child(odd) { scroll-snap-align: start; }
 /* Touch devices keep the free, inertial feel; precise pointers (trackpad/mouse) snap per column. */
 @media (hover: none) and (pointer: coarse) { #further-back .further-back-grid { scroll-snap-type: none; } }
+/* Mobile (portrait + landscape) shows 6 cards; tablet and desktop keep all 8. */
+@media (max-width: 600px), (max-height: 500px) and (orientation: landscape) { #further-back .fb-card:nth-child(n+7) { display: none; } }
 .fb-card-link { display: flex; flex-direction: column; gap: 6px; text-decoration: none; color: inherit; border: 0; box-shadow: none; background: transparent; transition: transform 0.25s ease, opacity 0.2s ease; }
 .fb-card-link:hover { transform: translateY(-2px); }
 .fb-card-link:hover .piece-title { color: var(--petrol); }
