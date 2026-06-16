@@ -1066,3 +1066,50 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
   .hero-quote-text { max-width: 100%; width: 100%; margin-left: 0; margin-right: 0; font-size: 1.2rem; line-height: 1.45; text-align: left; }
   .hero-quote-source { max-width: 100%; width: 100%; align-self: stretch; margin-left: 0; margin-right: 0; font-size: 0.95rem; text-align: right; }
 }
+/* ========================================================================== 
+   Yatay Kaydırma (Scrollbar) & Boşluk Düzeltmeleri
+   ========================================================================== */
+
+/* Kitap linklerindeki bitişikliği çözmek için araya boşluk (gap) ekliyoruz */
+.book-links-grid {
+  gap: 32px;
+  padding-bottom: 12px; /* Scrollbar metne değmesin diye biraz pay */
+}
+
+/* Standart Tarayıcılar (Firefox vb.) için Scrollbar açma */
+.book-links-grid, 
+#further-back .further-back-grid {
+  scrollbar-width: thin;
+  scrollbar-color: var(--rule-strong) transparent;
+}
+
+/* Chrome / Safari / Edge için Zarif Scrollbar Stili */
+.book-links-grid::-webkit-scrollbar,
+#further-back .further-back-grid::-webkit-scrollbar {
+  display: block; /* Eski "display: none" kuralını ezer */
+  height: 4px;    /* İnce ve zarif bir kalınlık */
+}
+
+.book-links-grid::-webkit-scrollbar-track,
+#further-back .further-back-grid::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.book-links-grid::-webkit-scrollbar-thumb,
+#further-back .further-back-grid::-webkit-scrollbar-thumb {
+  background-color: var(--rule-strong);
+  border-radius: 4px;
+}
+
+/* Mobilde scrollbar görünmesin, sadece dokunmatik kaydırma olsun diyorsan (Opsiyonel) */
+@media (max-width: 768px) {
+  .book-links-grid::-webkit-scrollbar,
+  #further-back .further-back-grid::-webkit-scrollbar {
+    display: none;
+  }
+  .book-links-grid, 
+  #further-back .further-back-grid {
+    scrollbar-width: none;
+  }
+}
+
