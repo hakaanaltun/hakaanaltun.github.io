@@ -174,20 +174,18 @@ layout: home
 
 <script>
 (function () {
-  // Trackpad (veya Apple Magic Mouse gibi yatay kaydırma yapabilen cihazları) takip ederiz.
+  // Trackpad (veya Apple Magic Mouse) kullanıp kullanmadığını anlıyoruz
   var hasHorizontalScroll = false;
 
   function enableWheelScroll(el) {
     el.addEventListener('wheel', function (e) {
-      // Yatay bir hareket algılanırsa, cihazın trackpad olduğu onaylanır.
       if (Math.abs(e.deltaX) > 0) {
         hasHorizontalScroll = true;
       }
-
-      // Trackpad devredeyse JS hiçbir şeye karışmaz. Kutu, CSS snap kuralları ve tarayıcı doğallığıyla çalışır.
+      
+      // Trackpad varsa JavaScript tamamen aradan çekilir, sistemin native dokunmatiği çalışır
       if (hasHorizontalScroll) return;
 
-      // === BUNDAN SONRASI SADECE STANDART MASAÜSTÜ FARELERİ İÇİNDİR ===
       if (!e.deltaY) return;
       
       var max = Math.round(el.scrollWidth - el.clientWidth);
@@ -197,18 +195,24 @@ layout: home
       var atStart = currentScroll <= 0;
       var atEnd = currentScroll >= max - 1;
       
-      // Kaydırma yönü uçlarda değilse (yani sağa sola gidecek yer varsa)
       if ((e.deltaY > 0 && !atEnd) || (e.deltaY < 0 && !atStart)) {
         e.preventDefault();
         
-        // CSS hack yapmıyoruz; CSS'i destekleyecek kadar güçlü bir ivme veriyoruz.
-        // Standart fare tekerleğinin gücü (genelde 100px), geniş kutularda snap barajını (genişliğin %50'sini) aşamaz.
-        // Bu yüzden scroll adımını kutunun en az %60'ı büyüklüğüne zorlayarak CSS Snap'in diğer karta geçmesini garanti ediyoruz.
-        var step = Math.max(Math.abs(e.deltaY), el.clientWidth * 0.6);
+        // Kilitlenmeyi (Browser Bug) önlemek için snap geçici kapatılır
+        el.style.scrollSnapType = 'none';
+        
+        // Sadece tekerleği 1 tık çevirdiğinde kutu genişliğinin en az %70'i kadar itiyoruz ki,
+        // (Özellikle Book linklerindeki 460px'lik geniş alanda) CSS snap onu eski yerine çekemesin.
+        var jump = el.clientWidth > 400 ? el.clientWidth : el.clientWidth * 0.7;
         var direction = e.deltaY > 0 ? 1 : -1;
         
-        // Native pürüzsüz kaydırma metodu. Tarayıcı kaydırır, CSS Snap yakalar ve oturtur.
-        el.scrollBy({ left: direction * step, behavior: 'smooth' });
+        el.scrollBy({ left: direction * jump, behavior: 'smooth' });
+        
+        // Pürüzsüz kaydırma bittiğinde snap'i tekrar açarak kartı jilet gibi yerine oturtuyoruz.
+        clearTimeout(el._wheelSnapTimer);
+        el._wheelSnapTimer = setTimeout(function () {
+          el.style.scrollSnapType = '';
+        }, 450); 
       }
     }, { passive: false });
   }
