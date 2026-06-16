@@ -1,0 +1,170 @@
+/* ========================================================================== 
+   Site refinements — stable overrides
+   --------------------------------------------------------------------------
+   Purpose: keep recent layout decisions out of templates and inline CSS.
+   ========================================================================== */
+
+/* Hidden-scroll horizontal rows: touch, trackpad, and JS wheel support remain active. */
+#further-back .further-back-grid,
+#book .book-links-grid {
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+#further-back .further-back-grid::-webkit-scrollbar,
+#book .book-links-grid::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+#further-back .further-back-grid {
+  padding-bottom: 0;
+  cursor: grab;
+}
+
+#book .book-links-grid {
+  cursor: grab;
+}
+
+#further-back .further-back-grid.is-dragging,
+#book .book-links-grid.is-dragging {
+  cursor: grabbing;
+  scroll-snap-type: none;
+}
+
+/* Book section: centered cover, description below, scrollable boxed links. */
+#book .book-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-items: center;
+  align-items: center;
+  gap: 28px;
+  text-align: left;
+}
+
+#book .book-cover-wrap {
+  display: block;
+  justify-self: center;
+  align-self: center;
+  line-height: 0;
+}
+
+#book .book-cover {
+  width: 100%;
+  max-width: 240px;
+  max-height: 360px;
+  margin: 0 auto;
+}
+
+#book .book-content {
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  min-width: 0;
+}
+
+#book .book-description {
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+#book .book-links {
+  width: 100%;
+  margin-top: 30px;
+  overflow: hidden;
+}
+
+#book .book-links-grid {
+  width: min(100%, 760px);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  padding: 2px 2px 4px;
+  scroll-snap-type: x proximity;
+}
+
+#book .book-links-row {
+  display: flex;
+  flex: 0 0 auto;
+  width: auto;
+  min-width: 0;
+  gap: 10px;
+  padding: 0;
+  margin: 0;
+  scroll-snap-align: start;
+}
+
+#book .book-links-row:first-of-type {
+  margin-right: 0;
+}
+
+#book .book-links-divider {
+  display: none;
+}
+
+#book .book-links-row a {
+  flex: 0 0 auto;
+  white-space: nowrap;
+  padding: 8px 16px;
+  border: 1px solid var(--rule-cream);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: var(--petrol);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-size: 1.12rem;
+  line-height: 1.2;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.25s ease, opacity 0.2s ease;
+}
+
+#book .book-links-row a:hover,
+#book .book-links-row a:active,
+#book .book-links-row a:focus-visible {
+  background: var(--petrol);
+  color: var(--paper);
+  transform: translateY(-2px);
+  opacity: 1;
+  outline: none;
+}
+
+@media (max-width: 900px) {
+  #book .book-grid {
+    grid-template-columns: 1fr;
+    gap: 26px;
+    justify-items: center;
+    text-align: left;
+  }
+
+  #book .book-cover {
+    max-width: 210px;
+    max-height: 315px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 600px) {
+  #book .book-cover {
+    max-width: 190px;
+    max-height: 285px;
+  }
+
+  #book .book-content,
+  #book .book-description,
+  #book .book-links-grid {
+    width: 100%;
+  }
+
+  #book .book-links-row a {
+    padding-left: 14px;
+    padding-right: 14px;
+    font-size: 1.02rem;
+  }
+}
