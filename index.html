@@ -174,18 +174,23 @@ layout: home
 
 <script>
 (function () {
-  // Trackpad (veya Apple Magic Mouse) kullanıp kullanmadığını anlıyoruz
-  var hasHorizontalScroll = false;
+  var isTrackpad = false;
+  var trackpadTimer;
 
   function enableWheelScroll(el) {
     el.addEventListener('wheel', function (e) {
+      // 1. TRACKPAD KONTROLÜ
       if (Math.abs(e.deltaX) > 0) {
-        hasHorizontalScroll = true;
+        isTrackpad = true;
+        clearTimeout(trackpadTimer);
+        // 1 saniye boyunca yatay hareket olmazsa fareye geri dön
+        trackpadTimer = setTimeout(function() { isTrackpad = false; }, 1000);
       }
       
-      // Trackpad varsa JavaScript tamamen aradan çekilir, sistemin native dokunmatiği çalışır
-      if (hasHorizontalScroll) return;
+      // Trackpad devredeyse JavaScript aradan çekilir, CSS Snap kendi kendine çalışır.
+      if (isTrackpad) return;
 
+      // 2. STANDART FARE TEKERLEĞİ KONTROLÜ
       if (!e.deltaY) return;
       
       var max = Math.round(el.scrollWidth - el.clientWidth);
@@ -198,21 +203,18 @@ layout: home
       if ((e.deltaY > 0 && !atEnd) || (e.deltaY < 0 && !atStart)) {
         e.preventDefault();
         
-        // Kilitlenmeyi (Browser Bug) önlemek için snap geçici kapatılır
+        // Animasyon ve CSS çatışmasını (kilitlenmeyi) önlemek için snap'i geçici kapatıyoruz
         el.style.scrollSnapType = 'none';
         
-        // Sadece tekerleği 1 tık çevirdiğinde kutu genişliğinin en az %70'i kadar itiyoruz ki,
-        // (Özellikle Book linklerindeki 460px'lik geniş alanda) CSS snap onu eski yerine çekemesin.
-        var jump = el.clientWidth > 400 ? el.clientWidth : el.clientWidth * 0.7;
-        var direction = e.deltaY > 0 ? 1 : -1;
+        // "behavior: smooth" KULLANMIYORUZ. Hareketi anında yansıtıyoruz.
+        // Hissi rahatlatmak için tekerlek gücünü 1.5 ile çarptım.
+        el.scrollLeft += (e.deltaY * 1.5);
         
-        el.scrollBy({ left: direction * jump, behavior: 'smooth' });
-        
-        // Pürüzsüz kaydırma bittiğinde snap'i tekrar açarak kartı jilet gibi yerine oturtuyoruz.
+        // Tekerlek hareketi TAMAMEN durduktan sonra (150ms) snap'i geri verip hizalıyoruz.
         clearTimeout(el._wheelSnapTimer);
-        el._wheelSnapTimer = setTimeout(function () {
+        el._wheelSnapTimer = setTimeout(function() {
           el.style.scrollSnapType = '';
-        }, 450); 
+        }, 150);
       }
     }, { passive: false });
   }
