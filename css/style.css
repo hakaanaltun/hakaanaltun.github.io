@@ -1112,4 +1112,20 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
     scrollbar-width: none;
   }
 }
+/* ========================================================================== 
+   Animasyon ve Hover Güncellemeleri
+   ========================================================================== */
+
+/* 1. Kitap Linkleri: Yukarı zıplama iptal, sadece yanıp sönme (opacity) efekti */
+@keyframes book-link-pulse { 
+  0%, 100% { opacity: 1; transform: translateY(0); } 
+  50% { opacity: 0.4; transform: translateY(0); } 
+}
+
+/* 2. Footer Linkleri: Hover durumunda alt çizgi kalksın, sadece renk aydınlansın */
+.footer-col a:hover, 
+.footer-col a:active { 
+  border-bottom-color: transparent !important; 
+}
+
 
