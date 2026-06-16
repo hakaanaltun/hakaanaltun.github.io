@@ -222,27 +222,6 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
 
 /* FIX: "Unified by a corridor..." yazısı subtitle ile aynı boyuta getirildi */
 .series-note { color: var(--vizon); font-style: italic; font-size: clamp(1.05rem, 1.35vw, 1.22rem); line-height: 1.42; margin-top: 16px; text-align: left; }
-
-/* ========================================================================== 
-   6. Hero Quotes
-   ========================================================================== */
-.hero-quotes-section { padding-top: 74px; margin-top: 0; }
-.hero-quote-card { position: relative; min-height: 220px; padding: 38px 44px 34px; border-radius: 18px; border: 1px solid var(--rule-cream); background: var(--paper); box-shadow: 0 10px 28px rgba(47, 43, 39, 0.05); display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
-.hero-quote-card::before { content: '\201C'; position: absolute; left: 24px; top: 16px; font-family: 'Cormorant Garamond', Georgia, serif; font-size: 5rem; line-height: 1; color: var(--petrol); opacity: 0.3; pointer-events: none; }
-
-/* FIX: Desktop quote text `.section-subtitle` ile aynı boyuta getirildi */
-.hero-quote-text { font-family: 'EB Garamond', Georgia, serif; font-style: italic; font-size: clamp(1.05rem, 1.35vw, 1.22rem); line-height: 1.55; color: var(--vizon); max-width: 860px; min-height: 1.2em; }
-
-.hero-quote-word { opacity: 0; transform: translateY(8px); display: inline-block; transition: opacity 0.55s ease, transform 0.55s ease; }
-.hero-quote-word.word-visible { opacity: 1; transform: translateY(0); }
-.hero-quote-source { opacity: 0; align-self: flex-end; text-align: right; margin-top: 18px; font-size: 0.98rem; line-height: 1.3; color: var(--petrol); transition: opacity 0.55s ease; }
-.hero-quote-source.visible { opacity: 1; }
-.hero-quote-source i { color: var(--petrol); font-style: italic; }
-.quote-nav { position: absolute; left: 50%; bottom: 18px; display: flex; gap: 10px; opacity: 0; transform: translate(-50%, 6px); transition: opacity 0.2s ease, transform 0.2s ease; pointer-events: none; }
-.quote-nav.quote-nav-visible { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
-@media (hover: hover) { .hero-quote-card:hover .quote-nav { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; } }
-.quote-nav-btn { width: 38px; height: 38px; border-radius: 999px; border: 1px solid var(--rule-cream); background: var(--paper); color: var(--petrol); font-family: 'Cormorant Garamond', Georgia, serif; font-size: 2rem; line-height: 1; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease; box-shadow: 0 4px 12px rgba(47, 43, 39, 0.04); }
-.quote-nav-btn:hover { border-color: var(--petrol); background: var(--paper); transform: translateY(-1px); box-shadow: 0 6px 16px rgba(47, 43, 39, 0.08); }
 .span-12 { grid-column: span 12; } .span-8 { grid-column: span 8; } .span-7 { grid-column: span 7; } .span-6 { grid-column: span 6; } .span-5 { grid-column: span 5; } .span-4 { grid-column: span 4; } .span-3 { grid-column: span 3; }
 
 /* ========================================================================== 
@@ -415,14 +394,6 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
   section { padding-top: 80px; }
   .section-title { font-size: 2.35rem; }
   .section-subtitle { font-size: 1.08rem; line-height: 1.4; }
-
-  .hero-quotes-section { padding-top: 44px; }
-  .hero-quote-card { min-height: 190px; padding: 30px 26px 52px; border-radius: 16px; }
-  .hero-quote-card::before { font-size: 4rem; left: 18px; top: 12px; }
-  
-  /* MOBİL: Orijinal haline geri döndürüldü */
-  .hero-quote-text { font-size: 1.2rem; line-height: 1.45; }
-  .hero-quote-source { font-size: 0.95rem; }
 
   .book-cover { max-width: 190px; max-height: 285px; box-shadow: 0 12px 20px rgba(0, 0, 0, 0.11), 0 4px 8px rgba(0, 0, 0, 0.05); }
   .book-description p { font-size: 1.05rem; line-height: 1.6; }
@@ -640,54 +611,12 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
       display: none !important;
     }
   }
-
-
-/* ===================== consolidated from index.html ===================== */
-.hero-quote-card {
-    --hero-quote-column: 680px;
-    border-color: transparent;
-    box-shadow: none;
-  }
-  .hero-quote-card::before {
-    left: max(24px, calc((100% - var(--hero-quote-column)) / 2 - 42px));
-    opacity: 0.09;
-  }
-  .hero-quote-text {
-    width: min(100%, var(--hero-quote-column));
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-  }
-  .hero-quote-source {
-    width: min(100%, var(--hero-quote-column));
-    margin-left: auto;
-    margin-right: auto;
-    align-self: center;
-    text-align: right;
-  }
   .about-card {
     border-color: transparent;
     box-shadow: none;
   }
   #about .section-head {
     margin-bottom: 1.55rem;
-  }
-  .quote-nav-btn {
-    border-color: transparent;
-    background: transparent;
-    box-shadow: none;
-    opacity: 0.55;
-  }
-  .quote-nav-btn:hover,
-  .quote-nav-btn:active,
-  .quote-nav-btn:focus-visible {
-    border-color: transparent;
-    background: transparent;
-    box-shadow: none;
-    color: var(--petrol-deep);
-    opacity: 1;
-    transform: translateY(-1px) scale(1.08);
-    outline: none;
   }
 
   #latest .piece-card.is-featured { grid-column: span 2; }
@@ -731,7 +660,6 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
   }
 
   @media (min-width: 641px) and (max-width: 1024px) and (orientation: portrait) {
-    .hero-quote-card { --hero-quote-column: 640px; }
     #about .about-text p:first-child {
       font-size: 1rem;
       letter-spacing: -0.015em;
@@ -767,8 +695,6 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
   }
 
   @media (max-width: 600px) {
-    .hero-quote-card { --hero-quote-column: 100%; }
-    .hero-quote-card::before { left: 18px; }
     #latest .piece-card.is-featured { grid-column: span 1; }
     #latest .piece-card.is-featured .piece-thumb-wrap { aspect-ratio: 3 / 2; }
     #latest .piece-card.is-featured .piece-title { font-size: 1.35rem; }
@@ -803,44 +729,6 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
     margin-top: 2px;
   }
   [class*="subtitle"] { font-style: italic; }
-  .hero-quote-card::before {
-    content: none !important;
-    display: none !important;
-  }
-  .hero-quotes-section {
-    padding-top: 74px !important;
-    padding-bottom: 76px !important;
-  }
-  .hero-quote-card {
-    min-height: 260px !important;
-    padding: 46px 44px 78px !important;
-    align-items: center;
-    justify-content: center;
-    gap: 18px;
-    overflow: visible;
-  }
-  .hero-quote-text {
-    max-width: min(720px, 100%) !important;
-    width: 100% !important;
-    margin: 0 auto !important;
-    text-align: center !important;
-  }
-  .hero-quote-source {
-    max-width: min(720px, 100%) !important;
-    width: auto !important;
-    align-self: flex-end !important;
-    margin: 0 max(0px, calc((100% - 720px) / 2)) 0 auto !important;
-    text-align: left !important;
-  }
-  .quote-nav {
-    bottom: 26px !important;
-    gap: 14px !important;
-  }
-  .quote-nav-btn {
-    width: 30px !important;
-    height: 30px !important;
-    font-size: 1.55rem !important;
-  }
   .piece-card-link,
   .asym-card,
   .fb-card-link,
@@ -1004,23 +892,6 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
   }
 
   @media (max-width: 600px) {
-    .hero-quotes-section { padding-top: 54px !important; padding-bottom: 60px !important; }
-    .hero-quote-card { min-height: 238px !important; padding: 38px 26px 72px !important; }
-    .hero-quote-text {
-      max-width: 100% !important;
-      width: 100% !important;
-      margin-left: 0 !important;
-      margin-right: 0 !important;
-      text-align: left !important;
-    }
-    .hero-quote-source {
-      max-width: 100% !important;
-      width: 100% !important;
-      align-self: stretch !important;
-      margin-left: 0 !important;
-      margin-right: 0 !important;
-      text-align: right !important;
-    }
     #latest .piece-grid .piece-card:nth-child(n+7) { display: none; }
     .more-essays-grid-hp { grid-template-columns: 1fr; }
   }
@@ -1167,4 +1038,31 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
 @media (max-width: 600px) {
   #further-back .further-back-grid { grid-auto-columns: calc(100% - 26px); column-gap: 18px; row-gap: 22px; }
   .fb-card:nth-child(odd) { scroll-snap-align: start; }
+}
+
+/* ==========================================================================
+   Hero — rotating quote, borderless and centered
+   ========================================================================== */
+.hero-quotes-section { padding-top: 74px; padding-bottom: 76px; margin-top: 0; }
+.hero-quote-card { position: relative; min-height: 260px; padding: 46px 44px 78px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; overflow: visible; border: 1px solid transparent; background: var(--paper); border-radius: 18px; }
+.hero-quote-text { width: 100%; max-width: min(720px, 100%); margin: 0 auto; font-family: 'EB Garamond', Georgia, serif; font-style: italic; font-size: clamp(1.05rem, 1.35vw, 1.22rem); line-height: 1.55; color: var(--vizon); min-height: 1.2em; text-align: center; }
+.hero-quote-word { opacity: 0; transform: translateY(8px); display: inline-block; transition: opacity 0.55s ease, transform 0.55s ease; }
+.hero-quote-word.word-visible { opacity: 1; transform: translateY(0); }
+.hero-quote-source { opacity: 0; max-width: min(720px, 100%); width: auto; align-self: flex-end; margin: 0 max(0px, calc((100% - 720px) / 2)) 0 auto; font-size: 0.98rem; line-height: 1.3; color: var(--petrol); text-align: left; transition: opacity 0.55s ease; }
+.hero-quote-source.visible { opacity: 1; }
+.hero-quote-source i { color: var(--petrol); font-style: italic; }
+.quote-nav { position: absolute; left: 50%; bottom: 26px; display: flex; gap: 14px; opacity: 0; transform: translate(-50%, 6px); transition: opacity 0.2s ease, transform 0.2s ease; pointer-events: none; }
+.quote-nav.quote-nav-visible { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
+.quote-nav-btn { width: 30px; height: 30px; border-radius: 999px; border: 1px solid transparent; background: transparent; color: var(--petrol); font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.55rem; line-height: 1; display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: 0.55; box-shadow: none; transition: color 0.2s ease, transform 0.2s ease, opacity 0.2s ease; }
+.quote-nav-btn:hover, .quote-nav-btn:active, .quote-nav-btn:focus-visible { color: var(--petrol-deep); opacity: 1; transform: translateY(-1px) scale(1.08); outline: none; }
+
+@media (hover: hover) {
+  .hero-quote-card:hover .quote-nav { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
+}
+
+@media (max-width: 600px) {
+  .hero-quotes-section { padding-top: 54px; padding-bottom: 60px; }
+  .hero-quote-card { min-height: 238px; padding: 38px 26px 72px; }
+  .hero-quote-text { max-width: 100%; width: 100%; margin-left: 0; margin-right: 0; font-size: 1.2rem; line-height: 1.45; text-align: left; }
+  .hero-quote-source { max-width: 100%; width: 100%; align-self: stretch; margin-left: 0; margin-right: 0; font-size: 0.95rem; text-align: right; }
 }
