@@ -1004,9 +1004,15 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
 .book-links-row { flex: 0 0 100%; box-sizing: border-box; display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 0 2px; scroll-snap-align: start; }
 .book-links-divider { display: none; }
 .book-links span { display: none; }
-.book-links-row a { flex: 0 0 auto; white-space: nowrap; border: 0; background: transparent; padding: 0; color: var(--petrol); font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 1.12rem; line-height: 1.2; transition: opacity 0.2s ease; }
-.book-links-row a:hover, .book-links-row a:active, .book-links-row a:focus-visible { color: var(--petrol); outline: none; animation: book-link-pulse 1.1s ease-in-out infinite; }
-@keyframes book-link-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+.book-links-row a { 
+  flex: 0 0 auto; white-space: nowrap; border: 0; background: transparent; padding: 0; 
+  color: var(--petrol); font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 1.12rem; line-height: 1.2; 
+  transition: opacity 0.25s ease; /* Pürüzsüz geçiş hızı */
+}
+.book-links-row a:hover, .book-links-row a:active, .book-links-row a:focus-visible { 
+  color: var(--petrol); outline: none; 
+  opacity: 0.55; /* Animasyon yerine sabit şeffaflık: Dokunulduğunda solar, bırakıldığında eski haline döner */
+}
 
 @media (max-width: 600px) {
   .book-links-grid { width: 100%; }
