@@ -179,18 +179,22 @@ layout: home
 
   function enableWheelScroll(el) {
     el.addEventListener('wheel', function (e) {
-      // 1. TRACKPAD KONTROLÜ
-      if (Math.abs(e.deltaX) > 0) {
+      // 1. GELİŞMİŞ TRACKPAD TESPİTİ
+      // Yatay hareket varsa VEYA dikey hareket fare tekerleği olamayacak kadar küçük/küsuratlıysa bu bir trackpad'dir (veya Apple Magic Mouse'tur).
+      var isSmoothDevice = Math.abs(e.deltaX) > 0 || (Math.abs(e.deltaY) > 0 && Math.abs(e.deltaY) < 40) || !Number.isInteger(e.deltaY);
+      
+      if (isSmoothDevice) {
         isTrackpad = true;
         clearTimeout(trackpadTimer);
-        // 1 saniye boyunca yatay hareket olmazsa fareye geri dön
+        // 1 saniye boyunca trackpad hareketi olmazsa sistemi sıfırla
         trackpadTimer = setTimeout(function() { isTrackpad = false; }, 1000);
       }
       
-      // Trackpad devredeyse JavaScript aradan çekilir, CSS Snap kendi kendine çalışır.
+      // Trackpad kullanılıyorsa JS aradan tamamen çekilir!
+      // Native sistem çalışır: Yukarı/aşağı hareket sayfayı kaydırır, sağa/sola hareket listeyi kaydırır.
       if (isTrackpad) return;
 
-      // 2. STANDART FARE TEKERLEĞİ KONTROLÜ
+      // === 2. BUNDAN SONRASI SADECE STANDART MASAÜSTÜ FARELERİ İÇİNDİR ===
       if (!e.deltaY) return;
       
       var max = Math.round(el.scrollWidth - el.clientWidth);
@@ -203,14 +207,9 @@ layout: home
       if ((e.deltaY > 0 && !atEnd) || (e.deltaY < 0 && !atStart)) {
         e.preventDefault();
         
-        // Animasyon ve CSS çatışmasını (kilitlenmeyi) önlemek için snap'i geçici kapatıyoruz
         el.style.scrollSnapType = 'none';
-        
-        // "behavior: smooth" KULLANMIYORUZ. Hareketi anında yansıtıyoruz.
-        // Hissi rahatlatmak için tekerlek gücünü 1.5 ile çarptım.
         el.scrollLeft += (e.deltaY * 1.5);
         
-        // Tekerlek hareketi TAMAMEN durduktan sonra (150ms) snap'i geri verip hizalıyoruz.
         clearTimeout(el._wheelSnapTimer);
         el._wheelSnapTimer = setTimeout(function() {
           el.style.scrollSnapType = '';
