@@ -15,6 +15,7 @@
       <span class="piece-meta">{{ include.post.date | date: "%b %-d, %Y" }}</span>
       {% assign excerpt_text = include.post.content | strip_html | strip_newlines | truncatewords: 32 %}
       {% if include.post.slug == "collateral" %}{% assign excerpt_text = excerpt_text | replace: "halıcı", "<em>halıcı</em>" %}{% endif %}
+      {% if include.post.slug == "on-silence" %}{% assign excerpt_text = excerpt_text | replace: 'This piece also appears in The Fragments as Chapter 8, Moris.', '<em>This piece also appears in The Fragments as Chapter 8, Moris.</em>' %}{% endif %}
       {% if excerpt_text != blank %}
       <span class="piece-excerpt">{{ excerpt_text }}</span>
       {% endif %}
