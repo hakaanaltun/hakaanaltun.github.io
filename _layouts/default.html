@@ -13,6 +13,28 @@
 </main>
 {% include footer.html %}
 </div>
+<style>
+/* Further Back: tek satır, slayt başına tek yazı, kart başına snap. */
+#further-back .further-back-grid {
+  list-style: none; margin: 0 auto; padding: 4px 0 12px;
+  display: grid; grid-auto-flow: column; grid-template-rows: none;
+  grid-auto-columns: 100%;
+  column-gap: 0; row-gap: 0; align-items: start; width: 100%; max-width: 600px;
+  scroll-snap-type: x mandatory;
+}
+#further-back .fb-card { position: relative; min-width: 0; scroll-snap-align: start; }
+@media (hover: none) and (pointer: coarse) {
+  #further-back .further-back-grid { scroll-snap-type: x mandatory; }
+}
+@media (max-width: 600px), (max-height: 500px) and (orientation: landscape) {
+  #further-back .fb-card:nth-child(n+7) { display: none; }
+  #further-back .further-back-grid { grid-auto-columns: 100%; column-gap: 0; }
+}
+#further-back .fb-card .piece-excerpt {
+  display: block; width: 100%; text-align: center;
+  max-width: 46ch; margin: 6px auto 0;
+}
+</style>
 <script src="/js/site-nav.js?v=20260627-1" defer></script>
 <script src="/js/header-autohide.js?v=20260525-2" defer></script>
 <script src="/js/essays-data.js" defer></script>
