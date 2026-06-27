@@ -47,14 +47,19 @@
         if (wheelLocked) return;
         wheelLocked = true;
 
-        el.scrollBy({
-          left: delta > 0 ? el.clientWidth : -el.clientWidth,
-          behavior: 'smooth'
-        });
+        var firstChild = el.firstElementChild;
+        var gap = parseFloat(getComputedStyle(el).columnGap) || 0;
+        var stride = firstChild ? firstChild.offsetWidth + gap : el.clientWidth;
+        var currentIndex = Math.round(el.scrollLeft / stride);
+        var targetLeft = (delta > 0 ? currentIndex + 1 : currentIndex - 1) * stride;
 
-        window.setTimeout(function () {
+        el.scrollTo({ left: targetLeft, behavior: 'smooth' });
+
+        var unlockTimer = window.setTimeout(function () { wheelLocked = false; }, 700);
+        el.addEventListener('scrollend', function () {
           wheelLocked = false;
-        }, 420);
+          clearTimeout(unlockTimer);
+        }, { once: true });
       }, { passive: false });
 
       var isDown = false;
@@ -68,15 +73,21 @@
         moved = false;
         startX = e.clientX;
         startScrollLeft = el.scrollLeft;
-        el.classList.add('is-dragging');
-        el.setPointerCapture(e.pointerId);
+        /* setPointerCapture is intentionally deferred to pointermove after the
+           movement threshold so that anchor clicks fire naturally. */
       });
 
       el.addEventListener('pointermove', function (e) {
         if (!isDown) return;
         var distance = e.clientX - startX;
-        if (Math.abs(distance) > 3) moved = true;
-        el.scrollLeft = startScrollLeft - distance;
+        if (Math.abs(distance) > 5) {
+          if (!moved) {
+            moved = true;
+            el.classList.add('is-dragging');
+            try { el.setPointerCapture(e.pointerId); } catch (err) {}
+          }
+          el.scrollLeft = startScrollLeft - distance;
+        }
       });
 
       function endDrag(e) {
