@@ -371,7 +371,7 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
 .fb-card-link:hover .piece-title { color: var(--petrol); }
 .fb-card-link:focus-visible { outline: 2px solid var(--petrol); outline-offset: 4px; border-radius: 8px; }
 .fb-card .piece-title, .fb-card .piece-subtitle, .fb-card .piece-meta { display: block; width: 100%; text-align: center; }
-.fb-card .piece-excerpt { max-width: 40ch; margin-left: auto; margin-right: auto; display: block; overflow: visible; -webkit-line-clamp: none; }
+#further-back .fb-card .piece-excerpt { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 8; text-align: left; font-size: 0.97rem; line-height: 1.5; max-width: 48ch; margin: 8px auto 0; overflow: hidden; }
 
 /* ========================================================================== 
    8. Book, Moris & About
