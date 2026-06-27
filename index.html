@@ -57,7 +57,7 @@ layout: home
         title: {{ post.title | jsonify }},
         subtitle: {{ post.subtitle | default: "" | jsonify }},
         date: "{{ post.date | date: '%b %-d, %Y' }}",
-        excerpt: {{ post.content | strip_html | strip_newlines | truncatewords: 55 | jsonify }}
+        excerpt: {{ post.content | strip_html | strip_newlines | truncatewords: 32 | jsonify }}
       }{% unless forloop.last %},{% endunless %}
       {% endfor %}
     ];
