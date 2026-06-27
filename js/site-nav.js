@@ -33,71 +33,62 @@
 
   /* ── Horizontal scrollers: hidden scrollbar, paged wheel + drag support ── */
   function enableHorizontalScroller(selector) {
-    document.querySelectorAll(selector).forEach(function (el) {
-      var wheelLocked = false;
+    var els = document.querySelectorAll(selector);
+    Array.prototype.forEach.call(els, function (el) {
+      if (!el) return;
 
+      /* wheel/trackpad: jest başına bir görüntü kadar ilerle, momentumu yut */
+      var wheelLocked = false, unlockTimer = null;
       el.addEventListener('wheel', function (e) {
-        if (el.scrollWidth <= el.clientWidth) return;
-
         var delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
         if (!delta) return;
-
         e.preventDefault();
-
+        if (unlockTimer) clearTimeout(unlockTimer);
+        unlockTimer = setTimeout(function () { wheelLocked = false; }, 260); // flick durunca aç
         if (wheelLocked) return;
         wheelLocked = true;
-
-        el.scrollBy({
-          left: delta > 0 ? el.clientWidth : -el.clientWidth,
-          behavior: 'smooth'
-        });
-
-        window.setTimeout(function () {
-          wheelLocked = false;
-        }, 420);
+        el.scrollBy({ left: delta > 0 ? el.clientWidth : -el.clientWidth, behavior: 'smooth' });
       }, { passive: false });
 
-      var isDown = false;
-      var startX = 0;
-      var startScrollLeft = 0;
-      var moved = false;
+      /* drag: capture SADECE gerçek sürüklemede → düz tık anchor'a gider */
+      var isDown = false, moved = false, captured = false;
+      var startX = 0, startScrollLeft = 0, activeId = null;
 
       el.addEventListener('pointerdown', function (e) {
-        if (el.scrollWidth <= el.clientWidth) return;
-        isDown = true;
-        moved = false;
-        startX = e.clientX;
-        startScrollLeft = el.scrollLeft;
-        el.classList.add('is-dragging');
-        el.setPointerCapture(e.pointerId);
+        if (el.scrollWidth <= el.clientWidth) return; // kaydıracak bir şey yoksa tıka karışma
+        isDown = true; moved = false; captured = false;
+        activeId = e.pointerId; startX = e.clientX; startScrollLeft = el.scrollLeft;
       });
 
       el.addEventListener('pointermove', function (e) {
         if (!isDown) return;
         var distance = e.clientX - startX;
-        if (Math.abs(distance) > 3) moved = true;
-        el.scrollLeft = startScrollLeft - distance;
+        if (!moved && Math.abs(distance) > 5) {
+          moved = true; captured = true;
+          el.classList.add('is-dragging');
+          try { el.setPointerCapture(activeId); } catch (err) {}
+        }
+        if (moved) el.scrollLeft = startScrollLeft - distance;
       });
 
-      function endDrag(e) {
+      function endDrag() {
         if (!isDown) return;
         isDown = false;
         el.classList.remove('is-dragging');
-        try { el.releasePointerCapture(e.pointerId); } catch (err) {}
+        if (captured) { try { el.releasePointerCapture(activeId); } catch (err) {} }
+        captured = false;
       }
-
       el.addEventListener('pointerup', endDrag);
       el.addEventListener('pointercancel', endDrag);
       el.addEventListener('mouseleave', function () {
-        isDown = false;
-        el.classList.remove('is-dragging');
+        if (!isDown) return;
+        isDown = false; el.classList.remove('is-dragging');
       });
 
+      /* sürüklemeyi bitiren tık'ı yut, gerçek tık'ı geçir */
       el.addEventListener('click', function (e) {
         if (!moved) return;
-        e.preventDefault();
-        e.stopPropagation();
-        moved = false;
+        e.preventDefault(); e.stopPropagation(); moved = false;
       }, true);
     });
   }
