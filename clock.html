@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>Clock &middot; On Life &amp; Everything</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=EB+Garamond:ital@0;1&display=swap">
+
+<style>
+  /* ============================================================
+     Palette: matches the site footer (deep petrol).
+     The only off-palette value is --alert (warm amber) — swap if you like.
+     ============================================================ */
+  :root{
+    --bg:     #1E4F4C;
+    --fg:     #EDE4CF;
+    --muted:  #A8B8B3;
+    --accent: #EDE4CF;
+    --alert:  #E6A15C;
+    --line:   rgba(237,228,207,0.30);
+
+    --display: 'Cormorant Garamond', Georgia, serif;
+    --body:    'EB Garamond', Georgia, serif;
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html,body{ height:100%; }
+
+  body{
+    background:var(--bg); color:var(--fg); font-family:var(--body);
+    height:100vh; overflow:hidden; display:flex; flex-direction:column;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ---- Top bar ---- */
+  .chrome{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 26px; border-bottom:1px solid var(--line);
+    transition:opacity .4s ease; flex-wrap:wrap; gap:12px;
+  }
+  .tabs{ display:flex; gap:4px; }
+  .tab{
+    background:none; border:1px solid transparent; color:var(--muted);
+    font-family:var(--body); font-size:16px; letter-spacing:.02em;
+    padding:8px 18px; border-radius:999px; cursor:pointer;
+    transition:color .2s, background .2s;
+  }
+  .tab:hover{ color:var(--fg); }
+  .tab[aria-selected="true"]{ color:var(--bg); background:var(--accent); }
+  .tab:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+
+  .settings{ display:flex; align-items:center; gap:18px; }
+  .toggle{
+    display:flex; align-items:center; gap:8px; color:var(--muted);
+    font-size:14px; letter-spacing:.02em; cursor:pointer; user-select:none;
+  }
+  .toggle input{ accent-color:var(--accent); width:16px; height:16px; cursor:pointer; }
+  .icon-btn{
+    background:none; border:1px solid var(--line); color:var(--muted);
+    width:40px; height:40px; border-radius:8px; cursor:pointer; font-size:17px;
+    display:grid; place-items:center; transition:color .2s, border-color .2s;
+  }
+  .icon-btn:hover{ color:var(--fg); border-color:var(--muted); }
+  .icon-btn:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+
+  /* ---- Stage ---- */
+  .stage{ flex:1; display:grid; place-items:center; position:relative; text-align:center; padding:24px; }
+  .panel{ display:none; }
+  .panel.active{ display:block; }
+
+  .display{
+    font-family:var(--display); font-weight:400;
+    font-variant-numeric:lining-nums tabular-nums;
+    font-feature-settings:"tnum" 1, "lnum" 1;
+    line-height:.95; white-space:nowrap;
+    font-size:clamp(4rem, 20vw, 22rem); letter-spacing:.01em;
+  }
+  .display .sec{ color:var(--muted); }
+
+  .subline{
+    margin-top:.5em; font-family:var(--body); font-style:italic;
+    color:var(--muted); font-size:clamp(1.1rem, 3.5vw, 2.1rem); letter-spacing:.02em;
+  }
+
+  .controls{ margin-top:2.4rem; display:flex; gap:12px; justify-content:center; align-items:center; flex-wrap:wrap; }
+  .btn{
+    font-family:var(--display); font-style:italic; font-size:1.25rem;
+    padding:9px 28px; border-radius:0; cursor:pointer;
+    border:1px solid var(--line); background:none; color:var(--fg);
+    transition:background .2s, color .2s, border-color .2s;
+  }
+  .btn:hover{ border-color:var(--fg); }
+  .btn.primary{ background:var(--accent); color:var(--bg); border-color:var(--accent); }
+  .btn.primary:hover{ filter:brightness(1.06); }
+  .btn:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+
+  .mode-row{ display:flex; gap:10px; justify-content:center; align-items:center; margin-bottom:1.8rem; flex-wrap:wrap; }
+  .seg{ display:flex; border:1px solid var(--line); border-radius:999px; overflow:hidden; }
+  .seg button{
+    background:none; border:none; color:var(--muted); font-family:var(--body);
+    font-size:14px; padding:8px 18px; cursor:pointer; letter-spacing:.02em;
+  }
+  .seg button[aria-pressed="true"]{ background:var(--accent); color:var(--bg); }
+
+  .time-input{
+    background:transparent; border:1px solid var(--line); color:var(--fg);
+    font-family:var(--display); font-size:1.7rem; padding:5px 12px; border-radius:8px;
+    text-align:center; letter-spacing:.04em;
+  }
+  .time-input:focus{ outline:2px solid var(--accent); outline-offset:2px; }
+  .dur-input{ width:4.5ch; }
+  .field-label{ color:var(--muted); font-size:14px; font-style:italic; margin:0 4px; }
+
+  /* alert at zero */
+  body.alarm .display{ color:var(--alert); }
+  body.alarm{ animation:flash 1s steps(1) infinite; }
+  @keyframes flash{ 50%{ background:#173D3A; } }
+  .overtime{ color:var(--alert); font-family:var(--body); font-style:italic; font-size:clamp(1rem,2.5vw,1.5rem); margin-top:.45em; letter-spacing:.04em; }
+
+  /* ---- Corner: home link (footer brand + tagline) ---- */
+  .home{
+    position:absolute; left:26px; bottom:22px; text-decoration:none;
+    display:flex; flex-direction:column; gap:2px; text-align:left;
+    opacity:.7; transition:opacity .2s;
+  }
+  .home:hover{ opacity:1; }
+  .home-brand{ font-family:var(--display); font-style:italic; font-size:1.4rem; line-height:1.05; color:var(--fg); }
+  .home-tagline{ font-family:var(--body); font-style:italic; font-size:.95rem; line-height:1.2; color:var(--muted); }
+
+  /* ---- Fullscreen ---- */
+  body.immersive .chrome{ opacity:0; pointer-events:none; }
+  body.immersive.show-chrome .chrome{ opacity:1; pointer-events:auto; }
+  body.immersive .controls, body.immersive .mode-row{ opacity:0; pointer-events:none; transition:opacity .4s; }
+  body.immersive.show-chrome .controls, body.immersive.show-chrome .mode-row{ opacity:1; pointer-events:auto; }
+  body.immersive .display{ font-size:clamp(5rem, 23vw, 25rem); }
+
+  @media (prefers-reduced-motion:reduce){
+    body.alarm{ animation:none; background:#173D3A; }
+    *{ transition:none !important; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="chrome" id="chrome">
+    <div class="tabs" role="tablist" aria-label="View">
+      <button class="tab" role="tab" data-panel="clock"     aria-selected="true">Clock</button>
+      <button class="tab" role="tab" data-panel="countdown" aria-selected="false">Countdown</button>
+      <button class="tab" role="tab" data-panel="stopwatch" aria-selected="false">Stopwatch</button>
+    </div>
+    <div class="settings">
+      <label class="toggle"><input type="checkbox" id="secToggle" checked> Seconds</label>
+      <button class="icon-btn" id="fsBtn" title="Fullscreen" aria-label="Fullscreen">&#10530;</button>
+    </div>
+  </div>
+
+  <div class="stage">
+
+    <section class="panel active" id="clock">
+      <div class="display" id="clockDisplay">00:00</div>
+      <div class="subline" id="dateLine"></div>
+    </section>
+
+    <section class="panel" id="countdown">
+      <div class="mode-row">
+        <div class="seg" role="group" aria-label="Countdown mode">
+          <button id="modeTarget" aria-pressed="true">End time</button>
+          <button id="modeDur" aria-pressed="false">Duration</button>
+        </div>
+        <span id="targetWrap"><input type="time" id="targetTime" class="time-input" step="60"></span>
+        <span id="durWrap" style="display:none">
+          <input type="number" id="durH" class="time-input dur-input" min="0" max="23" value="1" inputmode="numeric">
+          <span class="field-label">hr</span>
+          <input type="number" id="durM" class="time-input dur-input" min="0" max="59" value="30" inputmode="numeric">
+          <span class="field-label">min</span>
+        </span>
+      </div>
+      <div class="display" id="cdDisplay">00:00</div>
+      <div class="overtime" id="overtime"></div>
+      <div class="controls">
+        <button class="btn primary" id="cdStart">Start</button>
+        <button class="btn" id="cdReset">Reset</button>
+      </div>
+    </section>
+
+    <section class="panel" id="stopwatch">
+      <div class="display" id="swDisplay">00:00</div>
+      <div class="controls">
+        <button class="btn primary" id="swStart">Start</button>
+        <button class="btn" id="swReset">Reset</button>
+      </div>
+    </section>
+
+    <a class="home" href="/" aria-label="On Life &amp; Everything — home">
+      <span class="home-brand">On Life &amp; Everything</span>
+      <span class="home-tagline">Essays, short fiction, and other writing.</span>
+    </a>
+  </div>
+
+<script>
+(function(){
+  "use strict";
+  const $ = s => document.querySelector(s);
+  const pad = n => String(n).padStart(2,"0");
+  const LS = "olae-clock-v1";
+
+  const state = Object.assign({
+    panel:"clock", seconds:true, cdMode:"target",
+    cdTargetEpoch:null, cdRunning:false, cdRemainingPaused:null,
+    swStartEpoch:null, swAccumMs:0, swRunning:false
+  }, load());
+
+  function load(){ try{ return JSON.parse(localStorage.getItem(LS)) || {}; }catch(e){ return {}; } }
+  function save(){ try{ localStorage.setItem(LS, JSON.stringify(state)); }catch(e){} }
+
+  const tabs = [...document.querySelectorAll(".tab")];
+  const panels = { clock:$("#clock"), countdown:$("#countdown"), stopwatch:$("#stopwatch") };
+  function selectPanel(name){
+    state.panel = name;
+    tabs.forEach(t => t.setAttribute("aria-selected", t.dataset.panel===name));
+    Object.entries(panels).forEach(([k,el]) => el.classList.toggle("active", k===name));
+    save();
+  }
+  tabs.forEach(t => t.addEventListener("click", () => selectPanel(t.dataset.panel)));
+
+  const secToggle = $("#secToggle");
+  secToggle.checked = state.seconds;
+  secToggle.addEventListener("change", () => { state.seconds = secToggle.checked; save(); });
+
+  const fsBtn = $("#fsBtn");
+  fsBtn.addEventListener("click", () => {
+    if(!document.fullscreenElement){ document.documentElement.requestFullscreen?.(); }
+    else{ document.exitFullscreen?.(); }
+  });
+  document.addEventListener("fullscreenchange", () => {
+    document.body.classList.toggle("immersive", !!document.fullscreenElement);
+    if(document.fullscreenElement) pokeChrome();
+  });
+  let chromeTimer;
+  function pokeChrome(){
+    document.body.classList.add("show-chrome");
+    clearTimeout(chromeTimer);
+    chromeTimer = setTimeout(() => document.body.classList.remove("show-chrome"), 2800);
+  }
+  ["mousemove","touchstart","keydown"].forEach(ev =>
+    document.addEventListener(ev, () => { if(document.body.classList.contains("immersive")) pokeChrome(); }));
+
+  const modeTarget=$("#modeTarget"), modeDur=$("#modeDur");
+  const targetWrap=$("#targetWrap"), durWrap=$("#durWrap");
+  function setCdMode(m){
+    state.cdMode = m; save();
+    const t = m==="target";
+    modeTarget.setAttribute("aria-pressed", t);
+    modeDur.setAttribute("aria-pressed", !t);
+    targetWrap.style.display = t ? "" : "none";
+    durWrap.style.display = t ? "none" : "";
+  }
+  modeTarget.addEventListener("click", () => setCdMode("target"));
+  modeDur.addEventListener("click", () => setCdMode("dur"));
+
+  (function initTargetField(){
+    const d = new Date(Date.now()+60*60*1000);
+    $("#targetTime").value = pad(d.getHours())+":"+pad(d.getMinutes());
+  })();
+
+  function cdStart(){
+    let target;
+    if(state.cdMode==="target"){
+      const v = $("#targetTime").value; if(!v) return;
+      const [h,m] = v.split(":").map(Number);
+      const d = new Date(); d.setHours(h,m,0,0);
+      if(d.getTime() <= Date.now()) d.setDate(d.getDate()+1);
+      target = d.getTime();
+    } else {
+      const ms = ((+$("#durH").value||0)*3600 + (+$("#durM").value||0)*60)*1000;
+      if(ms<=0) return;
+      target = Date.now()+ms;
+    }
+    state.cdTargetEpoch=target; state.cdRunning=true; state.cdRemainingPaused=null; save();
+  }
+  function cdPause(){ state.cdRemainingPaused=Math.max(0, state.cdTargetEpoch-Date.now()); state.cdRunning=false; save(); }
+  function cdResume(){
+    if(state.cdRemainingPaused==null) return;
+    state.cdTargetEpoch=Date.now()+state.cdRemainingPaused; state.cdRunning=true; state.cdRemainingPaused=null; save();
+  }
+  function cdReset(){ state.cdRunning=false; state.cdTargetEpoch=null; state.cdRemainingPaused=null; document.body.classList.remove("alarm"); save(); }
+  const cdStartBtn=$("#cdStart");
+  cdStartBtn.addEventListener("click", () => {
+    if(state.cdRunning) cdPause();
+    else if(state.cdRemainingPaused!=null) cdResume();
+    else cdStart();
+  });
+  $("#cdReset").addEventListener("click", cdReset);
+
+  const swStartBtn=$("#swStart");
+  function swElapsed(){ return state.swAccumMs + (state.swRunning ? Date.now()-state.swStartEpoch : 0); }
+  swStartBtn.addEventListener("click", () => {
+    if(state.swRunning){ state.swAccumMs=swElapsed(); state.swRunning=false; }
+    else{ state.swStartEpoch=Date.now(); state.swRunning=true; }
+    save();
+  });
+  $("#swReset").addEventListener("click", () => { state.swRunning=false; state.swAccumMs=0; state.swStartEpoch=null; save(); });
+
+  function fmt(ms){
+    const total = Math.floor(ms/1000);
+    const h=Math.floor(total/3600), m=Math.floor(total%3600/60), s=total%60;
+    if(h>0) return pad(h)+":"+pad(m)+":"+pad(s);
+    return pad(m)+":"+pad(s);
+  }
+
+  const clockDisplay=$("#clockDisplay"), dateLine=$("#dateLine");
+  const cdDisplay=$("#cdDisplay"), overtime=$("#overtime"), swDisplay=$("#swDisplay");
+  const dateFmt = new Intl.DateTimeFormat("en-US",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
+
+  function tick(){
+    const now = new Date();
+
+    const t = pad(now.getHours())+":"+pad(now.getMinutes());
+    clockDisplay.innerHTML = state.seconds ? t + '<span class="sec">:'+pad(now.getSeconds())+'</span>' : t;
+    dateLine.textContent = dateFmt.format(now);
+
+    let alarm=false;
+    if(state.cdRunning){
+      const rem = state.cdTargetEpoch - Date.now();
+      if(rem > 0){ cdDisplay.textContent=fmt(rem); overtime.textContent=""; cdStartBtn.textContent="Pause"; }
+      else{ cdDisplay.textContent="00:00"; overtime.textContent="Time\u2019s up  \u00B7  +"+fmt(-rem); cdStartBtn.textContent="Start"; alarm=true; }
+    } else if(state.cdRemainingPaused!=null){
+      cdDisplay.textContent=fmt(state.cdRemainingPaused); overtime.textContent=""; cdStartBtn.textContent="Resume";
+    } else {
+      cdDisplay.textContent="00:00"; overtime.textContent=""; cdStartBtn.textContent="Start";
+    }
+    document.body.classList.toggle("alarm", alarm && state.panel==="countdown");
+
+    swDisplay.textContent = fmt(swElapsed());
+  }
+
+  setCdMode(state.cdMode);
+  selectPanel(state.panel);
+  tick();
+  setInterval(tick, 250);
+})();
+</script>
+</body>
+</html>
