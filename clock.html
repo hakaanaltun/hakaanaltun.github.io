@@ -11,10 +11,6 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=EB+Garamond:ital@0;1&display=swap">
 
 <style>
-  /* ============================================================
-     Palette: matches the site footer (deep petrol).
-     The only off-palette value is --alert (warm amber) — swap if you like.
-     ============================================================ */
   :root{
     --bg:     #1E4F4C;
     --fg:     #EDE4CF;
@@ -36,7 +32,6 @@
     -webkit-font-smoothing:antialiased;
   }
 
-  /* ---- Top bar ---- */
   .chrome{
     display:flex; align-items:center; justify-content:space-between;
     padding:18px 26px; border-bottom:1px solid var(--line);
@@ -67,7 +62,6 @@
   .icon-btn:hover{ color:var(--fg); border-color:var(--muted); }
   .icon-btn:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
 
-  /* ---- Stage ---- */
   .stage{ flex:1; display:grid; place-items:center; position:relative; text-align:center; padding:24px; }
   .panel{ display:none; }
   .panel.active{ display:block; }
@@ -76,7 +70,7 @@
     font-family:var(--display); font-weight:400;
     font-variant-numeric:lining-nums tabular-nums;
     font-feature-settings:"tnum" 1, "lnum" 1;
-    line-height:.95; white-space:nowrap;
+    line-height:.95; white-space:nowrap; cursor:pointer;
     font-size:clamp(4rem, 20vw, 22rem); letter-spacing:.01em;
   }
   .display .sec{ color:var(--muted); }
@@ -85,6 +79,20 @@
     margin-top:.5em; font-family:var(--body); font-style:italic;
     color:var(--muted); font-size:clamp(1.1rem, 3.5vw, 2.1rem); letter-spacing:.02em;
   }
+
+  /* analog */
+  .face-slot{ display:none; }
+  .analog-face{ width:clamp(220px, 56vmin, 540px); height:auto; display:block; margin:0 auto; cursor:pointer; }
+  body.immersive .analog-face{ width:clamp(280px, 62vmin, 640px); }
+  .analog-face .tick{ stroke:var(--muted); stroke-width:2; }
+  .analog-face .tick.major{ stroke:var(--fg); stroke-width:3; }
+  .analog-face .ring-fg{ fill:none; stroke:var(--alert); stroke-width:4; stroke-linecap:round; transform:rotate(-90deg); transform-origin:100px 100px; display:none; }
+  .analog-face .hand{ stroke-linecap:round; }
+  .analog-face .hand-h{ stroke:var(--fg); stroke-width:5; }
+  .analog-face .hand-m{ stroke:var(--fg); stroke-width:4; }
+  .analog-face .hand-s{ stroke:var(--alert); stroke-width:2; }
+  .analog-face .cap{ fill:var(--fg); }
+  body.alarm .analog-face .hand{ stroke:var(--alert); }
 
   .controls{ margin-top:2.4rem; display:flex; gap:12px; justify-content:center; align-items:center; flex-wrap:wrap; }
   .btn{
@@ -115,23 +123,21 @@
   .dur-input{ width:4.5ch; }
   .field-label{ color:var(--muted); font-size:14px; font-style:italic; margin:0 4px; }
 
-  /* alert at zero */
   body.alarm .display{ color:var(--alert); }
   body.alarm{ animation:flash 1s steps(1) infinite; }
   @keyframes flash{ 50%{ background:#173D3A; } }
   .overtime{ color:var(--alert); font-family:var(--body); font-style:italic; font-size:clamp(1rem,2.5vw,1.5rem); margin-top:.45em; letter-spacing:.04em; }
 
-  /* ---- Corner: home link (footer brand + tagline) ---- */
+  /* home link — matches footer brand + tagline exactly */
   .home{
     position:absolute; left:26px; bottom:22px; text-decoration:none;
     display:flex; flex-direction:column; gap:2px; text-align:left;
     opacity:.7; transition:opacity .2s;
   }
   .home:hover{ opacity:1; }
-  .home-brand{ font-family:var(--display); font-style:italic; font-size:1.4rem; line-height:1.05; color:var(--fg); }
-  .home-tagline{ font-family:var(--body); font-style:italic; font-size:.95rem; line-height:1.2; color:var(--muted); }
+  .home-brand{ font-family:var(--display); font-style:italic; font-weight:400; font-size:clamp(1.35rem, 1.7vw, 1.5rem); line-height:1.05; color:var(--fg); }
+  .home-tagline{ font-family:var(--body); font-style:italic; font-weight:400; font-size:1.06rem; line-height:1.2; color:var(--muted); }
 
-  /* ---- Fullscreen ---- */
   body.immersive .chrome{ opacity:0; pointer-events:none; }
   body.immersive.show-chrome .chrome{ opacity:1; pointer-events:auto; }
   body.immersive .controls, body.immersive .mode-row{ opacity:0; pointer-events:none; transition:opacity .4s; }
@@ -162,6 +168,7 @@
 
     <section class="panel active" id="clock">
       <div class="display" id="clockDisplay">00:00</div>
+      <div class="face-slot"></div>
       <div class="subline" id="dateLine"></div>
     </section>
 
@@ -180,6 +187,7 @@
         </span>
       </div>
       <div class="display" id="cdDisplay">00:00</div>
+      <div class="face-slot"></div>
       <div class="overtime" id="overtime"></div>
       <div class="controls">
         <button class="btn primary" id="cdStart">Start</button>
@@ -188,7 +196,8 @@
     </section>
 
     <section class="panel" id="stopwatch">
-      <div class="display" id="swDisplay">00:00</div>
+      <div class="display" id="swDisplay">00:00.00</div>
+      <div class="face-slot"></div>
       <div class="controls">
         <button class="btn primary" id="swStart">Start</button>
         <button class="btn" id="swReset">Reset</button>
@@ -207,36 +216,79 @@
   const $ = s => document.querySelector(s);
   const pad = n => String(n).padStart(2,"0");
   const LS = "olae-clock-v1";
+  const RING_C = 2*Math.PI*92;
 
   const state = Object.assign({
-    panel:"clock", seconds:true, cdMode:"target",
-    cdTargetEpoch:null, cdRunning:false, cdRemainingPaused:null,
+    panel:"clock", seconds:true, analog:false, cdMode:"target",
+    cdTargetEpoch:null, cdTotalMs:null, cdRunning:false, cdRemainingPaused:null,
     swStartEpoch:null, swAccumMs:0, swRunning:false
   }, load());
 
   function load(){ try{ return JSON.parse(localStorage.getItem(LS)) || {}; }catch(e){ return {}; } }
   function save(){ try{ localStorage.setItem(LS, JSON.stringify(state)); }catch(e){} }
 
-  const tabs = [...document.querySelectorAll(".tab")];
-  const panels = { clock:$("#clock"), countdown:$("#countdown"), stopwatch:$("#stopwatch") };
-  function selectPanel(name){
-    state.panel = name;
-    tabs.forEach(t => t.setAttribute("aria-selected", t.dataset.panel===name));
-    Object.entries(panels).forEach(([k,el]) => el.classList.toggle("active", k===name));
-    save();
+  /* ---- analog face (built once, moved into the active panel) ---- */
+  function buildFace(){
+    const NS="http://www.w3.org/2000/svg";
+    const svg=document.createElementNS(NS,"svg");
+    svg.setAttribute("viewBox","0 0 200 200");
+    svg.setAttribute("class","analog-face");
+    let html="";
+    for(let i=0;i<12;i++){
+      const a=i*30*Math.PI/180, outer=94, inner=(i%3===0)?80:86;
+      const x1=(100+outer*Math.sin(a)).toFixed(1), y1=(100-outer*Math.cos(a)).toFixed(1);
+      const x2=(100+inner*Math.sin(a)).toFixed(1), y2=(100-inner*Math.cos(a)).toFixed(1);
+      html+='<line class="tick '+(i%3===0?'major':'')+'" x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'"/>';
+    }
+    html+='<circle class="ring-fg" cx="100" cy="100" r="92"/>';
+    html+='<line class="hand hand-h" x1="100" y1="100" x2="100" y2="56"/>';
+    html+='<line class="hand hand-m" x1="100" y1="100" x2="100" y2="38"/>';
+    html+='<line class="hand hand-s" x1="100" y1="110" x2="100" y2="30"/>';
+    html+='<circle class="cap" cx="100" cy="100" r="3.5"/>';
+    svg.innerHTML=html;
+    return svg;
   }
-  tabs.forEach(t => t.addEventListener("click", () => selectPanel(t.dataset.panel)));
+  const face=buildFace();
+  const handH=face.querySelector(".hand-h"), handM=face.querySelector(".hand-m"),
+        handS=face.querySelector(".hand-s"), ring=face.querySelector(".ring-fg");
+  face.addEventListener("click", toggleAnalog);
+  function rot(el,deg){ el.setAttribute("transform","rotate("+deg.toFixed(2)+" 100 100)"); }
 
-  const secToggle = $("#secToggle");
-  secToggle.checked = state.seconds;
-  secToggle.addEventListener("change", () => { state.seconds = secToggle.checked; save(); });
+  /* ---- tabs ---- */
+  const tabs=[...document.querySelectorAll(".tab")];
+  const panels={ clock:$("#clock"), countdown:$("#countdown"), stopwatch:$("#stopwatch") };
+  function selectPanel(name){
+    state.panel=name;
+    tabs.forEach(t=>t.setAttribute("aria-selected", t.dataset.panel===name));
+    Object.entries(panels).forEach(([k,el])=>el.classList.toggle("active", k===name));
+    applyAnalog(); save();
+  }
+  tabs.forEach(t=>t.addEventListener("click", ()=>selectPanel(t.dataset.panel)));
 
-  const fsBtn = $("#fsBtn");
-  fsBtn.addEventListener("click", () => {
+  /* ---- analog visibility ---- */
+  function applyAnalog(){
+    document.querySelectorAll(".panel").forEach(p=>{
+      const disp=p.querySelector(".display"), slot=p.querySelector(".face-slot");
+      disp.style.display = state.analog ? "none" : "";
+      slot.style.display = state.analog ? "block" : "none";
+    });
+    if(state.analog){ panels[state.panel].querySelector(".face-slot").appendChild(face); }
+  }
+  function toggleAnalog(){ state.analog=!state.analog; applyAnalog(); save(); }
+  document.querySelectorAll(".display").forEach(d=>d.addEventListener("click", toggleAnalog));
+
+  /* ---- seconds toggle ---- */
+  const secToggle=$("#secToggle");
+  secToggle.checked=state.seconds;
+  secToggle.addEventListener("change", ()=>{ state.seconds=secToggle.checked; save(); });
+
+  /* ---- fullscreen ---- */
+  const fsBtn=$("#fsBtn");
+  fsBtn.addEventListener("click", ()=>{
     if(!document.fullscreenElement){ document.documentElement.requestFullscreen?.(); }
     else{ document.exitFullscreen?.(); }
   });
-  document.addEventListener("fullscreenchange", () => {
+  document.addEventListener("fullscreenchange", ()=>{
     document.body.classList.toggle("immersive", !!document.fullscreenElement);
     if(document.fullscreenElement) pokeChrome();
   });
@@ -244,104 +296,150 @@
   function pokeChrome(){
     document.body.classList.add("show-chrome");
     clearTimeout(chromeTimer);
-    chromeTimer = setTimeout(() => document.body.classList.remove("show-chrome"), 2800);
+    chromeTimer=setTimeout(()=>document.body.classList.remove("show-chrome"), 2800);
   }
-  ["mousemove","touchstart","keydown"].forEach(ev =>
-    document.addEventListener(ev, () => { if(document.body.classList.contains("immersive")) pokeChrome(); }));
+  ["mousemove","touchstart","keydown"].forEach(ev=>
+    document.addEventListener(ev, ()=>{ if(document.body.classList.contains("immersive")) pokeChrome(); }));
 
+  /* ---- countdown mode ---- */
   const modeTarget=$("#modeTarget"), modeDur=$("#modeDur");
   const targetWrap=$("#targetWrap"), durWrap=$("#durWrap");
   function setCdMode(m){
-    state.cdMode = m; save();
-    const t = m==="target";
+    state.cdMode=m; save();
+    const t=m==="target";
     modeTarget.setAttribute("aria-pressed", t);
     modeDur.setAttribute("aria-pressed", !t);
-    targetWrap.style.display = t ? "" : "none";
-    durWrap.style.display = t ? "none" : "";
+    targetWrap.style.display=t?"":"none";
+    durWrap.style.display=t?"none":"";
   }
-  modeTarget.addEventListener("click", () => setCdMode("target"));
-  modeDur.addEventListener("click", () => setCdMode("dur"));
+  modeTarget.addEventListener("click", ()=>setCdMode("target"));
+  modeDur.addEventListener("click", ()=>setCdMode("dur"));
 
   (function initTargetField(){
-    const d = new Date(Date.now()+60*60*1000);
-    $("#targetTime").value = pad(d.getHours())+":"+pad(d.getMinutes());
+    const d=new Date(Date.now()+60*60*1000);
+    $("#targetTime").value=pad(d.getHours())+":"+pad(d.getMinutes());
   })();
 
   function cdStart(){
     let target;
     if(state.cdMode==="target"){
-      const v = $("#targetTime").value; if(!v) return;
-      const [h,m] = v.split(":").map(Number);
-      const d = new Date(); d.setHours(h,m,0,0);
-      if(d.getTime() <= Date.now()) d.setDate(d.getDate()+1);
-      target = d.getTime();
+      const v=$("#targetTime").value; if(!v) return;
+      const [h,m]=v.split(":").map(Number);
+      const d=new Date(); d.setHours(h,m,0,0);
+      if(d.getTime()<=Date.now()) d.setDate(d.getDate()+1);
+      target=d.getTime();
     } else {
-      const ms = ((+$("#durH").value||0)*3600 + (+$("#durM").value||0)*60)*1000;
+      const ms=((+$("#durH").value||0)*3600+(+$("#durM").value||0)*60)*1000;
       if(ms<=0) return;
-      target = Date.now()+ms;
+      target=Date.now()+ms;
     }
+    state.cdTotalMs=target-Date.now();
     state.cdTargetEpoch=target; state.cdRunning=true; state.cdRemainingPaused=null; save();
   }
-  function cdPause(){ state.cdRemainingPaused=Math.max(0, state.cdTargetEpoch-Date.now()); state.cdRunning=false; save(); }
+  function cdPause(){ state.cdRemainingPaused=Math.max(0,state.cdTargetEpoch-Date.now()); state.cdRunning=false; save(); }
   function cdResume(){
     if(state.cdRemainingPaused==null) return;
     state.cdTargetEpoch=Date.now()+state.cdRemainingPaused; state.cdRunning=true; state.cdRemainingPaused=null; save();
   }
-  function cdReset(){ state.cdRunning=false; state.cdTargetEpoch=null; state.cdRemainingPaused=null; document.body.classList.remove("alarm"); save(); }
+  function cdReset(){ state.cdRunning=false; state.cdTargetEpoch=null; state.cdRemainingPaused=null; state.cdTotalMs=null; document.body.classList.remove("alarm"); save(); }
   const cdStartBtn=$("#cdStart");
-  cdStartBtn.addEventListener("click", () => {
+  cdStartBtn.addEventListener("click", ()=>{
     if(state.cdRunning) cdPause();
     else if(state.cdRemainingPaused!=null) cdResume();
     else cdStart();
   });
   $("#cdReset").addEventListener("click", cdReset);
 
+  /* ---- stopwatch ---- */
   const swStartBtn=$("#swStart");
-  function swElapsed(){ return state.swAccumMs + (state.swRunning ? Date.now()-state.swStartEpoch : 0); }
-  swStartBtn.addEventListener("click", () => {
+  function swElapsed(){ return state.swAccumMs+(state.swRunning?Date.now()-state.swStartEpoch:0); }
+  swStartBtn.addEventListener("click", ()=>{
     if(state.swRunning){ state.swAccumMs=swElapsed(); state.swRunning=false; }
     else{ state.swStartEpoch=Date.now(); state.swRunning=true; }
     save();
   });
-  $("#swReset").addEventListener("click", () => { state.swRunning=false; state.swAccumMs=0; state.swStartEpoch=null; save(); });
+  $("#swReset").addEventListener("click", ()=>{ state.swRunning=false; state.swAccumMs=0; state.swStartEpoch=null; save(); });
 
+  /* ---- formatting ---- */
   function fmt(ms){
-    const total = Math.floor(ms/1000);
+    const total=Math.floor(ms/1000);
+    const h=Math.floor(total/3600), m=Math.floor(total%3600/60), s=total%60;
+    return h>0 ? pad(h)+":"+pad(m)+":"+pad(s) : pad(m)+":"+pad(s);
+  }
+  function fmtSW(ms){
+    const total=Math.floor(ms/1000);
     const h=Math.floor(total/3600), m=Math.floor(total%3600/60), s=total%60;
     if(h>0) return pad(h)+":"+pad(m)+":"+pad(s);
-    return pad(m)+":"+pad(s);
+    const cs=Math.floor(ms/10)%100;
+    return pad(m)+":"+pad(s)+"."+pad(cs);
+  }
+  function handsFromMs(ms){
+    const s=ms/1000;
+    return { s:(s%60)*6, m:((ms/60000)%60)*6, h:((ms/3600000)%12)*30 };
   }
 
+  /* ---- render loop ---- */
   const clockDisplay=$("#clockDisplay"), dateLine=$("#dateLine");
   const cdDisplay=$("#cdDisplay"), overtime=$("#overtime"), swDisplay=$("#swDisplay");
-  const dateFmt = new Intl.DateTimeFormat("en-US",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
+  const dateFmt=new Intl.DateTimeFormat("en-US",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
+  const last={};
+  function setText(el,key,val){ if(last[key]!==val){ last[key]=val; el.textContent=val; } }
+  function setHTML(el,key,val){ if(last[key]!==val){ last[key]=val; el.innerHTML=val; } }
 
   function tick(){
-    const now = new Date();
+    const now=new Date();
 
-    const t = pad(now.getHours())+":"+pad(now.getMinutes());
-    clockDisplay.innerHTML = state.seconds ? t + '<span class="sec">:'+pad(now.getSeconds())+'</span>' : t;
-    dateLine.textContent = dateFmt.format(now);
+    /* clock digital */
+    const t=pad(now.getHours())+":"+pad(now.getMinutes());
+    setHTML(clockDisplay,"clk", state.seconds ? t+'<span class="sec">:'+pad(now.getSeconds())+'</span>' : t);
+    setText(dateLine,"date", dateFmt.format(now));
 
-    let alarm=false;
+    /* countdown digital + state */
+    let alarm=false, cdRemaining=0, cdFrac=null;
     if(state.cdRunning){
-      const rem = state.cdTargetEpoch - Date.now();
-      if(rem > 0){ cdDisplay.textContent=fmt(rem); overtime.textContent=""; cdStartBtn.textContent="Pause"; }
-      else{ cdDisplay.textContent="00:00"; overtime.textContent="Time\u2019s up  \u00B7  +"+fmt(-rem); cdStartBtn.textContent="Start"; alarm=true; }
+      const rem=state.cdTargetEpoch-Date.now();
+      if(rem>0){ cdRemaining=rem; setText(cdDisplay,"cd",fmt(rem)); setText(overtime,"ot",""); cdStartBtn.textContent="Pause"; }
+      else{ cdRemaining=0; setText(cdDisplay,"cd","00:00"); setText(overtime,"ot","Time\u2019s up  \u00B7  +"+fmt(-rem)); cdStartBtn.textContent="Start"; alarm=true; }
     } else if(state.cdRemainingPaused!=null){
-      cdDisplay.textContent=fmt(state.cdRemainingPaused); overtime.textContent=""; cdStartBtn.textContent="Resume";
+      cdRemaining=state.cdRemainingPaused; setText(cdDisplay,"cd",fmt(cdRemaining)); setText(overtime,"ot",""); cdStartBtn.textContent="Resume";
     } else {
-      cdDisplay.textContent="00:00"; overtime.textContent=""; cdStartBtn.textContent="Start";
+      setText(cdDisplay,"cd","00:00"); setText(overtime,"ot",""); cdStartBtn.textContent="Start";
     }
+    if(state.cdTotalMs) cdFrac=Math.max(0,Math.min(1,cdRemaining/state.cdTotalMs));
     document.body.classList.toggle("alarm", alarm && state.panel==="countdown");
 
-    swDisplay.textContent = fmt(swElapsed());
+    /* stopwatch digital */
+    const sw=swElapsed();
+    setText(swDisplay,"sw", fmtSW(sw));
+
+    /* analog */
+    if(state.analog){
+      let ang;
+      if(state.panel==="clock"){
+        const ms=now.getHours()*3600000+now.getMinutes()*60000+now.getSeconds()*1000+now.getMilliseconds();
+        ang=handsFromMs(ms);
+        ring.style.display="none";
+      } else if(state.panel==="stopwatch"){
+        ang=handsFromMs(sw);
+        ring.style.display="none";
+      } else {
+        ang=handsFromMs(cdRemaining);
+        if(cdFrac!=null){
+          ring.style.display="block";
+          ring.setAttribute("stroke-dasharray", RING_C.toFixed(1));
+          ring.setAttribute("stroke-dashoffset", (RING_C*(1-cdFrac)).toFixed(1));
+        } else { ring.style.display="none"; }
+      }
+      rot(handH,ang.h); rot(handM,ang.m); rot(handS,ang.s);
+    }
+
+    requestAnimationFrame(tick);
   }
 
   setCdMode(state.cdMode);
+  applyAnalog();
   selectPanel(state.panel);
-  tick();
-  setInterval(tick, 250);
+  requestAnimationFrame(tick);
 })();
 </script>
 </body>
