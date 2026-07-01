@@ -1,4 +1,8 @@
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% if page.series %}{% assign _sk = page.series %}{% elsif page.series_filter %}{% assign _sk = page.series_filter %}{% else %}{% assign _sk = "default" %}{% endif %}
+{% if _sk == "" %}{% assign _sk = "pieces" %}{% endif %}
+{% assign _tc = site.data.series[_sk] | default: site.data.series.default %}
+<meta name="theme-color" content="rgb({{ _tc }})">
 {% if page.noindex %}<meta name="robots" content="noindex">{% endif %}
 
 {% if page.layout == "post" %}
@@ -86,7 +90,6 @@
 <link rel="manifest" href="/manifest.json?v=20260529-9">
 <link rel="alternate" type="application/rss+xml" title="Hakan Altun—On Life &amp; Everything" href="/feed.xml">
 
-<meta name="theme-color" content="#1E4F4C">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="On Life & Everything">
