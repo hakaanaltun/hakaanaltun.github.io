@@ -4,8 +4,8 @@
 {% include head.html %}
 </head>
 {% assign _skey = page.series | default: page.series_filter %}
-{% assign _chrome = site.data.series[_skey] %}
-<body{% if _chrome %} style="--chrome-rgb: {{ _chrome }};"{% endif %}>
+{% assign _chrome = site.data.series[_skey] | default: site.data.series.default %}
+<body style="--chrome-rgb: {{ _chrome }};">
 <a class="skip-link" href="#main">Skip to content</a>
 <div class="container">
 {% include header.html %}
