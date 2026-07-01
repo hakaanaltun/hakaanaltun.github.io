@@ -1,4 +1,5 @@
 ---
+layout: null
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -162,6 +163,22 @@
   }
   body.immersive .display{ font-size:clamp(5rem, 23vw, 25rem); }
 
+  /* mobile: logo top-center, fullscreen top-right, tabs full-width below */
+  @media (max-width:600px){
+    .chrome{
+      display:grid; grid-template-columns:40px 1fr 40px;
+      grid-template-areas:". logo fs" "tabs tabs tabs";
+      align-items:center; row-gap:12px; padding:12px 14px;
+    }
+    .masthead{ position:static; transform:none; grid-area:logo; }
+    .settings{ grid-area:fs; justify-self:end; }
+    .tabs{ grid-area:tabs; justify-content:center; flex-wrap:wrap; gap:6px; }
+    .tab{ padding:7px 14px; font-size:15px; }
+    .home-brand{ font-size:1rem; }
+    .home-tagline{ font-size:0.74rem; }
+    .seconds-corner{ left:16px; bottom:16px; }
+  }
+
   @media (prefers-reduced-motion:reduce){
     body.alarm{ animation:none; background:#173D3A; }
     *{ transition:none !important; }
@@ -302,16 +319,33 @@
   secToggle.checked=state.seconds;
   secToggle.addEventListener("change", ()=>{ state.seconds=secToggle.checked; save(); });
 
-  /* ---- fullscreen ---- */
+  /* ---- fullscreen (webkit-prefixed + CSS fallback for iOS Safari) ---- */
   const fsBtn=$("#fsBtn");
+  const docEl=document.documentElement;
+  let fakeFs=false;
+  function nativeFsElement(){ return document.fullscreenElement || document.webkitFullscreenElement || null; }
+  function requestFs(){
+    const fn = docEl.requestFullscreen || docEl.webkitRequestFullscreen || docEl.mozRequestFullScreen || docEl.msRequestFullscreen;
+    if(fn){ try{ fn.call(docEl); return true; }catch(e){} }
+    return false;
+  }
+  function exitFs(){
+    const fn = document.exitFullscreen || document.webkitExitFullscreen || document.mozCancelFullScreen || document.msExitFullscreen;
+    if(fn){ try{ fn.call(document); }catch(e){} }
+  }
+  function syncImmersive(){
+    const on = !!nativeFsElement() || fakeFs;
+    document.body.classList.toggle("immersive", on);
+    if(on) pokeChrome();
+  }
   fsBtn.addEventListener("click", ()=>{
-    if(!document.fullscreenElement){ document.documentElement.requestFullscreen?.(); }
-    else{ document.exitFullscreen?.(); }
+    if(nativeFsElement()){ exitFs(); return; }
+    if(fakeFs){ fakeFs=false; syncImmersive(); return; }
+    if(!requestFs()){ fakeFs=true; syncImmersive(); }   // API yoksa (ör. iOS Safari) CSS odak modu
   });
-  document.addEventListener("fullscreenchange", ()=>{
-    document.body.classList.toggle("immersive", !!document.fullscreenElement);
-    if(document.fullscreenElement) pokeChrome();
-  });
+  document.addEventListener("fullscreenchange", syncImmersive);
+  document.addEventListener("webkitfullscreenchange", syncImmersive);
+  document.addEventListener("keydown", (e)=>{ if(e.key==="Escape" && fakeFs){ fakeFs=false; syncImmersive(); } });
   let chromeTimer;
   function pokeChrome(){
     document.body.classList.add("show-chrome");
