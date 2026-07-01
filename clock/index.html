@@ -33,10 +33,12 @@
   }
 
   .chrome{
+    position:relative;
     display:flex; align-items:center; justify-content:space-between;
-    padding:18px 26px; border-bottom:1px solid var(--line);
-    transition:opacity .4s ease; flex-wrap:wrap; gap:12px;
+    padding:16px 26px; border-bottom:1px solid var(--line);
+    gap:12px; transition:border-color .4s ease;
   }
+  .chrome .tabs, .chrome .settings{ transition:opacity .4s ease; }
   .tabs{ display:flex; gap:4px; }
   .tab{
     background:none; border:1px solid transparent; color:var(--muted);
@@ -74,6 +76,7 @@
     font-size:clamp(4rem, 20vw, 22rem); letter-spacing:.01em;
   }
   .display .sec{ color:var(--muted); }
+  .display .cs{ color:var(--muted); font-size:0.4em; letter-spacing:0; }
 
   .subline{
     margin-top:.5em; font-family:var(--body); font-style:italic;
@@ -128,20 +131,28 @@
   @keyframes flash{ 50%{ background:#173D3A; } }
   .overtime{ color:var(--alert); font-family:var(--body); font-style:italic; font-size:clamp(1rem,2.5vw,1.5rem); margin-top:.45em; letter-spacing:.04em; }
 
-  /* home link — matches footer brand + tagline exactly */
-  .home{
-    position:absolute; left:26px; bottom:22px; text-decoration:none;
-    display:flex; flex-direction:column; gap:2px; text-align:left;
-    opacity:.7; transition:opacity .2s;
+  /* logo — centered at top, like the site header */
+  .masthead{
+    position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+    text-decoration:none; display:flex; flex-direction:column; align-items:center;
+    gap:1px; text-align:center; opacity:.85; transition:opacity .2s;
   }
-  .home:hover{ opacity:1; }
-  .home-brand{ font-family:var(--display); font-style:italic; font-weight:400; font-size:clamp(1.35rem, 1.7vw, 1.5rem); line-height:1.05; color:var(--fg); }
-  .home-tagline{ font-family:var(--body); font-style:italic; font-weight:400; font-size:1.06rem; line-height:1.2; color:var(--muted); }
+  .masthead:hover{ opacity:1; }
+  .home-brand{ font-family:var(--display); font-style:italic; font-weight:400; font-size:1.1rem; line-height:1.05; color:var(--fg); }
+  .home-tagline{ font-family:var(--body); font-style:italic; font-weight:400; font-size:0.8rem; line-height:1.2; color:var(--muted); }
 
-  body.immersive .chrome{ opacity:0; pointer-events:none; }
-  body.immersive.show-chrome .chrome{ opacity:1; pointer-events:auto; }
-  body.immersive .controls, body.immersive .mode-row{ opacity:0; pointer-events:none; transition:opacity .4s; }
-  body.immersive.show-chrome .controls, body.immersive.show-chrome .mode-row{ opacity:1; pointer-events:auto; }
+  /* seconds toggle — bottom-left */
+  .seconds-corner{ position:absolute; left:26px; bottom:20px; transition:opacity .4s ease; }
+
+  body.immersive .chrome{ border-color:transparent; }
+  body.immersive .tabs, body.immersive .settings,
+  body.immersive .seconds-corner, body.immersive .controls, body.immersive .mode-row{
+    opacity:0; pointer-events:none; transition:opacity .4s;
+  }
+  body.immersive.show-chrome .tabs, body.immersive.show-chrome .settings,
+  body.immersive.show-chrome .seconds-corner, body.immersive.show-chrome .controls, body.immersive.show-chrome .mode-row{
+    opacity:1; pointer-events:auto;
+  }
   body.immersive .display{ font-size:clamp(5rem, 23vw, 25rem); }
 
   @media (prefers-reduced-motion:reduce){
@@ -158,8 +169,11 @@
       <button class="tab" role="tab" data-panel="countdown" aria-selected="false">Countdown</button>
       <button class="tab" role="tab" data-panel="stopwatch" aria-selected="false">Stopwatch</button>
     </div>
+    <a class="masthead" href="/" aria-label="On Life &amp; Everything — home">
+      <span class="home-brand">On Life &amp; Everything</span>
+      <span class="home-tagline">Essays, short fiction, and other writing.</span>
+    </a>
     <div class="settings">
-      <label class="toggle"><input type="checkbox" id="secToggle" checked> Seconds</label>
       <button class="icon-btn" id="fsBtn" title="Fullscreen" aria-label="Fullscreen">&#10530;</button>
     </div>
   </div>
@@ -196,7 +210,7 @@
     </section>
 
     <section class="panel" id="stopwatch">
-      <div class="display" id="swDisplay">00:00.00</div>
+      <div class="display" id="swDisplay"><span id="swMain">00:00</span><span class="cs" id="swCs">.00</span></div>
       <div class="face-slot"></div>
       <div class="controls">
         <button class="btn primary" id="swStart">Start</button>
@@ -204,10 +218,9 @@
       </div>
     </section>
 
-    <a class="home" href="/" aria-label="On Life &amp; Everything — home">
-      <span class="home-brand">On Life &amp; Everything</span>
-      <span class="home-tagline">Essays, short fiction, and other writing.</span>
-    </a>
+    <div class="seconds-corner">
+      <label class="toggle"><input type="checkbox" id="secToggle" checked> Seconds</label>
+    </div>
   </div>
 
 <script>
@@ -366,12 +379,12 @@
     const h=Math.floor(total/3600), m=Math.floor(total%3600/60), s=total%60;
     return h>0 ? pad(h)+":"+pad(m)+":"+pad(s) : pad(m)+":"+pad(s);
   }
-  function fmtSW(ms){
+  function swParts(ms){
     const total=Math.floor(ms/1000);
     const h=Math.floor(total/3600), m=Math.floor(total%3600/60), s=total%60;
-    if(h>0) return pad(h)+":"+pad(m)+":"+pad(s);
+    if(h>0) return { main: pad(h)+":"+pad(m)+":"+pad(s), cs: "" };
     const cs=Math.floor(ms/10)%100;
-    return pad(m)+":"+pad(s)+"."+pad(cs);
+    return { main: pad(m)+":"+pad(s), cs: "."+pad(cs) };
   }
   function handsFromMs(ms){
     const s=ms/1000;
@@ -380,7 +393,8 @@
 
   /* ---- render loop ---- */
   const clockDisplay=$("#clockDisplay"), dateLine=$("#dateLine");
-  const cdDisplay=$("#cdDisplay"), overtime=$("#overtime"), swDisplay=$("#swDisplay");
+  const cdDisplay=$("#cdDisplay"), overtime=$("#overtime");
+  const swMain=$("#swMain"), swCs=$("#swCs");
   const dateFmt=new Intl.DateTimeFormat("en-US",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
   const last={};
   function setText(el,key,val){ if(last[key]!==val){ last[key]=val; el.textContent=val; } }
@@ -410,7 +424,9 @@
 
     /* stopwatch digital */
     const sw=swElapsed();
-    setText(swDisplay,"sw", fmtSW(sw));
+    const swp=swParts(sw);
+    setText(swMain,"swm", swp.main);
+    setText(swCs,"swc", swp.cs);
 
     /* analog */
     if(state.analog){
