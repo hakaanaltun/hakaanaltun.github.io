@@ -329,55 +329,27 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
 }
 
 /* ========================================================================== 
-   7. Further Back & Book Links — horizontal scroll strips
+   7. Further Back — quiet two-column index (no carousel)
    ========================================================================== */
-
-/* Shared strip behavior: no scrollbar on touch; a thin scrollbar fades in on
-   desktop hover and clears when the pointer leaves. Gentle (proximity) snap so
-   the wheel/trackpad never feels stuck. */
-#further-back .further-back-grid,
-#book .book-links-grid {
-  overflow-x: auto; overflow-y: hidden;
-  -webkit-overflow-scrolling: touch;
-  scroll-snap-type: x proximity;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-#further-back .further-back-grid::-webkit-scrollbar,
-#book .book-links-grid::-webkit-scrollbar { height: 0; }
-
-@media (hover: hover) and (pointer: fine) {
-  #further-back .further-back-grid,
-  #book .book-links-grid { scrollbar-width: thin; scrollbar-color: transparent transparent; }
-  #further-back .further-back-grid:hover,
-  #book .book-links-grid:hover { scrollbar-color: var(--rule-strong) transparent; }
-  #further-back .further-back-grid::-webkit-scrollbar,
-  #book .book-links-grid::-webkit-scrollbar { height: 8px; }
-  #further-back .further-back-grid::-webkit-scrollbar-track,
-  #book .book-links-grid::-webkit-scrollbar-track { background: transparent; }
-  #further-back .further-back-grid::-webkit-scrollbar-thumb,
-  #book .book-links-grid::-webkit-scrollbar-thumb { background-color: transparent; border-radius: 999px; transition: background-color 0.2s ease; }
-  #further-back .further-back-grid:hover::-webkit-scrollbar-thumb,
-  #book .book-links-grid:hover::-webkit-scrollbar-thumb { background-color: var(--rule-strong); }
-}
-
-/* Further Back: one card per slide; 8 cards on tablet/desktop, 6 on mobile. */
 #further-back .further-back-grid {
-  list-style: none; margin: 0 auto; padding: 4px 0 12px;
-  display: grid; grid-auto-flow: column; grid-template-rows: auto;
-  grid-auto-columns: calc(100% - 44px);
-  column-gap: 24px; align-items: start; width: 100%; max-width: 560px;
-  scroll-snap-type: x mandatory;
+  list-style: none; margin: 0 auto; padding: 0;
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 64px; row-gap: 34px;
+  width: 100%; max-width: 820px; align-items: start;
 }
-.fb-card { position: relative; min-width: 0; scroll-snap-align: start; }
+.fb-card { position: relative; min-width: 0; }
 /* Mobile (portrait + landscape) shows 6 cards; tablet and desktop keep all 8. */
 @media (max-width: 600px), (max-height: 500px) and (orientation: landscape) { #further-back .fb-card:nth-child(n+7) { display: none; } }
-.fb-card-link { display: flex; flex-direction: column; gap: 6px; text-decoration: none; color: inherit; border: 0; box-shadow: none; background: transparent; transition: transform 0.25s ease, opacity 0.2s ease; }
+.fb-card-link { display: flex; flex-direction: column; gap: 5px; text-decoration: none; color: inherit; border: 0; box-shadow: none; background: transparent; transition: transform 0.25s ease, opacity 0.2s ease; }
 .fb-card-link:hover { transform: translateY(-2px); }
 .fb-card-link:hover .piece-title { color: var(--petrol); }
 .fb-card-link:focus-visible { outline: 2px solid var(--petrol); outline-offset: 4px; border-radius: 8px; }
+.fb-card .piece-title { font-size: 1.3rem; }
 .fb-card .piece-title, .fb-card .piece-subtitle, .fb-card .piece-meta { display: block; width: 100%; text-align: center; }
-#further-back .fb-card .piece-excerpt { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 8; text-align: left; font-size: 0.97rem; line-height: 1.5; max-width: 54ch; margin: 8px auto 0; overflow: hidden; }
+
+@media (max-width: 600px) {
+  #further-back .further-back-grid { grid-template-columns: 1fr; row-gap: 26px; max-width: none; }
+}
 
 /* ========================================================================== 
    8. Book, Moris & About
@@ -391,15 +363,15 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
 #book .book-cover-wrap { display: block; justify-self: center; align-self: center; }
 .book-cover { width: 100%; max-width: 240px; max-height: 360px; aspect-ratio: 2 / 3; object-fit: contain; display: block; margin: 0 auto; background: var(--paper); border: 1px solid var(--rule-cream); border-radius: 2px; box-shadow: var(--shadow-cover); }
 .book-content { min-width: 0; }
-#book .book-content { width: 100%; max-width: 760px; margin: 0 auto; }
-.book-description { max-width: 720px; margin: 12px 0 24px; }
+#book .book-content { width: 100%; max-width: none; margin: 0 auto; }
+.book-description { max-width: none; margin: 12px 0 24px; }
 #book .book-description { margin: 0 auto 24px; text-align: left; }
 .book-description p { margin: 0 0 14px; font-size: 1.16rem; line-height: 1.68; color: var(--vizon); }
 .book-description em { font-style: italic; color: var(--petrol); }
 
 #book .book-links { width: 100%; margin-top: 30px; }
-#book .book-links-grid { width: min(100%, 400px); margin: 0 auto; display: flex; flex-direction: row; align-items: center; gap: 26px; padding: 2px 0 6px; scroll-snap-type: none; -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 44px), transparent 100%); mask-image: linear-gradient(to right, #000 calc(100% - 44px), transparent 100%); }
-#book .book-links-row { display: flex; flex: 0 0 auto; align-items: center; gap: 26px; min-width: 0; }
+#book .book-links-grid { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 0; }
+#book .book-links-row { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 12px 30px; min-width: 0; }
 .book-links-divider { display: none; }
 .book-links span { display: none; }
 #book .book-links-row a { display: inline-flex; align-items: center; justify-content: center; white-space: nowrap; padding: 4px 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; color: var(--petrol); font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 1.12rem; line-height: 1.2; transition: color 0.2s ease, opacity 0.2s ease, transform 0.25s ease; }
@@ -445,14 +417,12 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
 }
 
 @media (max-width: 600px) {
-  #further-back .further-back-grid { grid-auto-columns: calc(100% - 20px); column-gap: 20px; row-gap: 22px; }
-
   .book-cover { max-width: 190px; max-height: 285px; box-shadow: 0 12px 20px rgba(0, 0, 0, 0.11), 0 4px 8px rgba(0, 0, 0, 0.05); }
   .book-description p { font-size: 1.05rem; line-height: 1.6; }
   #book .book-content, #book .book-description { width: 100%; }
   #book .book-description { max-width: none; margin-left: 0; margin-right: 0; text-align: left; }
-  #book .book-links-grid { gap: 22px; scroll-snap-type: none; }
-  #book .book-links-row { display: flex; flex: 0 0 auto; width: auto; min-width: 0; gap: 22px; }
+  #book .book-links-grid { gap: 12px; }
+  #book .book-links-row { gap: 10px 22px; }
   #book .book-links-row a { padding: 4px 0; font-size: 1.0rem; }
   #moris .about-text { max-width: none; margin-left: 0; margin-right: 0; text-align: left; }
   #moris .about-text p { text-align: left; }
