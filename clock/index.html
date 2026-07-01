@@ -137,7 +137,7 @@ layout: null
 
   body.alarm .display{ color:var(--alert); }
   body.alarm{ animation:flash 1s steps(1) infinite; }
-  @keyframes flash{ 50%{ background:#173D3A; } }
+  @keyframes flash{ 50%{ filter:brightness(1.28); } }
   .overtime{ color:var(--alert); font-family:var(--body); font-style:italic; font-size:clamp(1rem,2.5vw,1.5rem); margin-top:.45em; letter-spacing:.04em; }
 
   /* logo — centered at top, like the site header */
@@ -152,14 +152,19 @@ layout: null
 
   /* seconds toggle — bottom-left */
   .seconds-corner{ position:absolute; left:26px; bottom:20px; transition:opacity .4s ease; }
+  .theme-corner{ position:absolute; right:26px; bottom:20px; display:flex; gap:9px; align-items:center; transition:opacity .4s ease; }
+  .swatch{ width:20px; height:20px; border-radius:999px; border:1px solid rgba(237,228,207,0.35); padding:0; cursor:pointer; transition:transform .15s ease; }
+  .swatch:hover{ transform:scale(1.12); }
+  .swatch[aria-pressed="true"]{ box-shadow:0 0 0 2px var(--fg); }
+  .swatch:focus-visible{ outline:2px solid var(--fg); outline-offset:2px; }
 
   body.immersive .chrome{ border-color:transparent; }
   body.immersive .tabs, body.immersive .settings, body.immersive .masthead,
-  body.immersive .seconds-corner, body.immersive .controls, body.immersive .mode-row{
+  body.immersive .seconds-corner, body.immersive .theme-corner, body.immersive .controls, body.immersive .mode-row{
     opacity:0; pointer-events:none; transition:opacity .4s;
   }
   body.immersive.show-chrome .tabs, body.immersive.show-chrome .settings, body.immersive.show-chrome .masthead,
-  body.immersive.show-chrome .seconds-corner, body.immersive.show-chrome .controls, body.immersive.show-chrome .mode-row{
+  body.immersive.show-chrome .seconds-corner, body.immersive.show-chrome .theme-corner, body.immersive.show-chrome .controls, body.immersive.show-chrome .mode-row{
     opacity:1; pointer-events:auto;
   }
   body.immersive .display{ font-size:clamp(5rem, 23vw, 25rem); }
@@ -178,6 +183,7 @@ layout: null
     .home-brand{ font-size:1rem; }
     .home-tagline{ font-size:0.74rem; }
     .seconds-corner{ left:16px; bottom:16px; }
+    .theme-corner{ right:16px; bottom:16px; gap:7px; }
   }
 
   /* landscape phones: drop the logo (short, wide viewport crowds it) */
@@ -193,7 +199,7 @@ layout: null
   }
 
   @media (prefers-reduced-motion:reduce){
-    body.alarm{ animation:none; background:#173D3A; }
+    body.alarm{ animation:none; }
     *{ transition:none !important; }
   }
 </style>
@@ -258,6 +264,14 @@ layout: null
     <div class="seconds-corner">
       <label class="toggle"><input type="checkbox" id="secToggle" checked> Seconds</label>
     </div>
+
+    <div class="theme-corner" role="group" aria-label="Theme">
+      <button class="swatch" data-bg="#1E4F4C" style="background:#1E4F4C" title="Petrol" aria-label="Petrol"></button>
+      <button class="swatch" data-bg="#17333D" style="background:#17333D" title="Prussian blue" aria-label="Prussian blue"></button>
+      <button class="swatch" data-bg="#342A3E" style="background:#342A3E" title="Aubergine" aria-label="Aubergine"></button>
+      <button class="swatch" data-bg="#4C2A2F" style="background:#4C2A2F" title="Oxblood" aria-label="Oxblood"></button>
+      <button class="swatch" data-bg="#1E1B1A" style="background:#1E1B1A" title="Ink" aria-label="Ink"></button>
+    </div>
   </div>
 
 <script>
@@ -269,7 +283,7 @@ layout: null
   const RING_C = 2*Math.PI*92;
 
   const state = Object.assign({
-    panel:"clock", seconds:true, analog:false, cdMode:"target",
+    panel:"clock", seconds:true, analog:false, bg:null, cdMode:"target",
     cdTargetEpoch:null, cdTotalMs:null, cdRunning:false, cdRemainingPaused:null,
     swStartEpoch:null, swAccumMs:0, swRunning:false
   }, load());
@@ -331,6 +345,16 @@ layout: null
   const secToggle=$("#secToggle");
   secToggle.checked=state.seconds;
   secToggle.addEventListener("change", ()=>{ state.seconds=secToggle.checked; save(); });
+
+  /* ---- themes ---- */
+  const swatches=[...document.querySelectorAll(".swatch")];
+  function applyTheme(){
+    if(state.bg) document.documentElement.style.setProperty("--bg", state.bg);
+    else document.documentElement.style.removeProperty("--bg");
+    const cur=(state.bg||"#1E4F4C").toLowerCase();
+    swatches.forEach(sw=>sw.setAttribute("aria-pressed", sw.dataset.bg.toLowerCase()===cur));
+  }
+  swatches.forEach(sw=>sw.addEventListener("click", ()=>{ state.bg=sw.dataset.bg; applyTheme(); save(); }));
 
   /* ---- fullscreen (webkit-prefixed + CSS fallback for iOS Safari) ---- */
   const fsBtn=$("#fsBtn");
@@ -521,6 +545,7 @@ layout: null
   }
 
   setCdMode(state.cdMode);
+  applyTheme();
   applyAnalog();
   selectPanel(state.panel);
   requestAnimationFrame(tick);
