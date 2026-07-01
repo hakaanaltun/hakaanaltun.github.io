@@ -179,6 +179,11 @@ layout: null
     .seconds-corner{ left:16px; bottom:16px; }
   }
 
+  /* landscape phones: drop the logo (short, wide viewport crowds it) */
+  @media (orientation:landscape) and (max-height:500px){
+    .masthead{ display:none; }
+  }
+
   @media (prefers-reduced-motion:reduce){
     body.alarm{ animation:none; background:#173D3A; }
     *{ transition:none !important; }
