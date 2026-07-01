@@ -427,6 +427,7 @@
     const swp=swParts(sw);
     setText(swMain,"swm", swp.main);
     setText(swCs,"swc", swp.cs);
+    swStartBtn.textContent = state.swRunning ? "Pause" : (sw>0 ? "Resume" : "Start");
 
     /* analog */
     if(state.analog){
