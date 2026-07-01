@@ -165,6 +165,7 @@ header .hamburger-btn:focus-visible { outline-color: var(--footer-text); }
 .drawer-backdrop.open { opacity: 1; pointer-events: auto; }
 
 .site-drawer {
+  --chrome-deep: color-mix(in srgb, rgb(var(--chrome-rgb, 30, 85, 82)) 74%, black);
   position: fixed; top: 0; left: 0; bottom: 0; z-index: 210;
   width: 320px; max-width: min(88vw, 420px); height: 100dvh;
   padding: 24px 16px env(safe-area-inset-bottom, 24px);
@@ -201,17 +202,17 @@ summary.drawer-label { display: flex; justify-content: center; align-items: cent
 summary.drawer-label::-webkit-details-marker { display: none; }
 summary.drawer-label::after { content: ""; position: absolute; right: 0; top: 50%; transform: translateY(-50%) rotate(45deg); width: 8px; height: 8px; border-right: 1.5px solid var(--vizon); border-bottom: 1.5px solid var(--vizon); transition: transform 0.25s ease; margin-bottom: 0; }
 .drawer-section[open] > summary.drawer-label::after { transform: translateY(-50%) rotate(-135deg); margin-bottom: 0; }
-summary.drawer-label:hover { color: color-mix(in srgb, rgb(var(--chrome-rgb, 30, 85, 82)) 74%, black); }
-summary.drawer-label:hover::after { border-color: color-mix(in srgb, rgb(var(--chrome-rgb, 30, 85, 82)) 74%, black); }
+summary.drawer-label:hover { color: var(--chrome-deep); }
+summary.drawer-label:hover::after { border-color: var(--chrome-deep); }
 a.drawer-label--link { display: flex; justify-content: center; align-items: center; font-size: 13px; padding: 0; text-decoration: none; transition: transform 0.28s ease, opacity 0.2s ease, color 0.2s ease; }
-a.drawer-label--link:hover, a.drawer-label--link:active, a.drawer-label--link:focus-visible { color: color-mix(in srgb, rgb(var(--chrome-rgb, 30, 85, 82)) 74%, black); opacity: 0.85; transform: translateY(-3px); outline: none; }
+a.drawer-label--link:hover, a.drawer-label--link:active, a.drawer-label--link:focus-visible { color: var(--chrome-deep); opacity: 0.85; transform: translateY(-3px); outline: none; }
 .drawer-logo-wrap + a.drawer-label--link { margin-top: 10px; }
 .drawer-section[open] > .drawer-essay-cards, .drawer-section[open] > .drawer-more, .drawer-section[open] > .drawer-section-links { animation: drawerReveal 0.25s ease; }
 @keyframes drawerReveal { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
 
 .drawer-section-links { display: grid; grid-template-columns: 1fr; gap: 10px; margin: 10px 0 4px; }
 .drawer-section-links a { display: block; padding: 4px 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; font-size: 13px; line-height: 1.2; color: rgb(var(--chrome-rgb, 30, 85, 82)); text-transform: uppercase; letter-spacing: 0.09em; text-align: center; transition: transform 0.28s ease, opacity 0.2s ease, color 0.2s ease; }
-.drawer-section-links a:hover, .drawer-section-links a:active, .drawer-section-links a:focus-visible { transform: translateY(-3px); opacity: 0.85; color: color-mix(in srgb, rgb(var(--chrome-rgb, 30, 85, 82)) 74%, black); outline: none; }
+.drawer-section-links a:hover, .drawer-section-links a:active, .drawer-section-links a:focus-visible { transform: translateY(-3px); opacity: 0.85; color: var(--chrome-deep); outline: none; }
 
 .drawer-essay-cards { display: grid; grid-template-columns: 1fr; gap: 16px; margin: 12px 0 10px; }
 .drawer-essay-card-link { display: block; border: 0; box-shadow: none; background: transparent; transition: opacity 0.2s ease; }
@@ -225,7 +226,7 @@ a.drawer-label--link:hover, a.drawer-label--link:active, a.drawer-label--link:fo
 .drawer-essay-card--current { opacity: 0.58; cursor: default; }
 
 .drawer-more { display: flex; justify-content: center; align-items: center; width: 100%; text-align: center; margin: 0 auto 8px; padding: 2px; font-family: 'EB Garamond', Georgia, serif; font-style: italic; font-size: 15px; color: rgb(var(--chrome-rgb, 30, 85, 82)); text-decoration: none; transition: color 0.2s ease, gap 0.2s ease; gap: 6px; }
-.drawer-more:hover { color: color-mix(in srgb, rgb(var(--chrome-rgb, 30, 85, 82)) 74%, black); gap: 9px; }
+.drawer-more:hover { color: var(--chrome-deep); gap: 9px; }
 
 @media (max-width: 600px) {
   .site-drawer { width: 280px; max-width: 76vw; }
