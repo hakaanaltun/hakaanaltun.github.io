@@ -122,6 +122,24 @@ layout: home
           </div>
         </div>
       </div>
+      <script>
+      (function() {
+        var strip = document.querySelector('#book .book-links-grid');
+        if (!strip) return;
+        function update() {
+          var max = strip.scrollWidth - strip.clientWidth;
+          strip.classList.remove('fade-l', 'fade-r', 'fade-lr');
+          if (max <= 1) return;
+          var x = strip.scrollLeft;
+          if (x <= 1) strip.classList.add('fade-r');
+          else if (x >= max - 1) strip.classList.add('fade-l');
+          else strip.classList.add('fade-lr');
+        }
+        strip.addEventListener('scroll', update, { passive: true });
+        window.addEventListener('resize', update);
+        update();
+      })();
+      </script>
     </div>
   </div>
 </section>
