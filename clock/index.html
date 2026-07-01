@@ -132,8 +132,10 @@ layout: null
     text-align:center; letter-spacing:.04em;
   }
   .time-input:focus{ outline:2px solid var(--accent); outline-offset:2px; }
-  .dur-input{ width:4.5ch; }
+  .dur-input{ width:4.5ch; -moz-appearance:textfield; appearance:textfield; }
+  .dur-input::-webkit-outer-spin-button, .dur-input::-webkit-inner-spin-button{ -webkit-appearance:none; margin:0; }
   .field-label{ color:var(--muted); font-size:14px; font-style:italic; margin:0 4px; }
+  #targetWrap .field-label{ font-family:var(--display); font-style:normal; font-size:1.4rem; margin:0 2px; }
 
   body.alarm .display{ color:var(--alert); }
   body.alarm{ animation:flash 1s steps(1) infinite; }
@@ -235,7 +237,11 @@ layout: null
           <button id="modeTarget" aria-pressed="true">End time</button>
           <button id="modeDur" aria-pressed="false">Duration</button>
         </div>
-        <span id="targetWrap"><input type="time" id="targetTime" class="time-input" step="60"></span>
+        <span id="targetWrap">
+          <input type="number" id="targetH" class="time-input dur-input" min="0" max="23" inputmode="numeric" aria-label="End hour">
+          <span class="field-label">:</span>
+          <input type="number" id="targetM" class="time-input dur-input" min="0" max="59" inputmode="numeric" aria-label="End minute">
+        </span>
         <span id="durWrap" style="display:none">
           <input type="number" id="durH" class="time-input dur-input" min="0" max="23" value="1" inputmode="numeric">
           <span class="field-label">hr</span>
@@ -409,14 +415,21 @@ layout: null
 
   (function initTargetField(){
     const d=new Date(Date.now()+60*60*1000);
-    $("#targetTime").value=pad(d.getHours())+":"+pad(d.getMinutes());
+    const th=$("#targetH"), tm=$("#targetM");
+    th.value=pad(d.getHours()); tm.value=pad(d.getMinutes());
+    [th,tm].forEach(el=>el.addEventListener("blur", ()=>{
+      let v=parseInt(el.value,10);
+      if(isNaN(v)) v=0;
+      v=Math.min(Math.max(v, +el.min), +el.max);
+      el.value=pad(v);
+    }));
   })();
 
   function cdStart(){
     let target;
     if(state.cdMode==="target"){
-      const v=$("#targetTime").value; if(!v) return;
-      const [h,m]=v.split(":").map(Number);
+      const h=Math.min(Math.max(parseInt($("#targetH").value,10)||0,0),23);
+      const m=Math.min(Math.max(parseInt($("#targetM").value,10)||0,0),59);
       const d=new Date(); d.setHours(h,m,0,0);
       if(d.getTime()<=Date.now()) d.setDate(d.getDate()+1);
       target=d.getTime();
@@ -532,7 +545,9 @@ layout: null
         ang=handsFromMs(sw);
         ring.style.display="none";
       } else {
-        ang=handsFromMs(cdRemaining);
+        /* hands run forward, showing elapsed time; the ring drains with what remains */
+        var cdElapsed = (state.cdTotalMs!=null) ? Math.max(0, state.cdTotalMs - cdRemaining) : 0;
+        ang=handsFromMs(cdElapsed);
         if(cdFrac!=null){
           ring.style.display="block";
           ring.setAttribute("stroke-dasharray", RING_C.toFixed(1));
