@@ -85,6 +85,7 @@ layout: null
   }
   .display .sec{ color:var(--muted); }
   .display .cs{ color:var(--muted); font-size:0.4em; letter-spacing:0; }
+  .display .unit{ color:var(--muted); font-size:0.32em; font-style:italic; letter-spacing:0.02em; margin-left:0.18em; }
 
   .subline{
     margin-top:.5em; font-family:var(--body); font-style:italic;
@@ -236,7 +237,7 @@ layout: null
           <span class="field-label">min</span>
         </span>
       </div>
-      <div class="display" id="cdDisplay">00:00</div>
+      <div class="display" id="cdDisplay"><span id="cdMain">00:00</span><span class="unit" id="cdUnit"></span></div>
       <div class="face-slot"></div>
       <div class="overtime" id="overtime"></div>
       <div class="controls">
@@ -432,6 +433,17 @@ layout: null
     const h=Math.floor(total/3600), m=Math.floor(total%3600/60), s=total%60;
     return h>0 ? pad(h)+":"+pad(m)+":"+pad(s) : pad(m)+":"+pad(s);
   }
+
+  function fmtCd(ms){
+    const total=Math.floor(ms/1000);
+    const h=Math.floor(total/3600), m=Math.floor(total%3600/60), s=total%60;
+    if(state.seconds){
+      return { main: h>0 ? pad(h)+":"+pad(m)+":"+pad(s) : pad(m)+":"+pad(s), unit:"" };
+    }
+    let tm=Math.ceil(ms/60000); if(tm<0) tm=0;           // saniye kapalı: kalan dakika (yukarı yuvarla)
+    const hh=Math.floor(tm/60), mm=tm%60;
+    return hh>0 ? { main: hh+":"+pad(mm), unit:"" } : { main: String(mm), unit:"min" };
+  }
   function swParts(ms){
     const total=Math.floor(ms/1000);
     const h=Math.floor(total/3600), m=Math.floor(total%3600/60), s=total%60;
@@ -446,7 +458,9 @@ layout: null
 
   /* ---- render loop ---- */
   const clockDisplay=$("#clockDisplay"), dateLine=$("#dateLine");
-  const cdDisplay=$("#cdDisplay"), overtime=$("#overtime");
+  const overtime=$("#overtime");
+  const cdMain=$("#cdMain"), cdUnit=$("#cdUnit");
+  function showCd(ms){ const p=fmtCd(ms); setText(cdMain,"cdm",p.main); setText(cdUnit,"cdu",p.unit); }
   const swMain=$("#swMain"), swCs=$("#swCs");
   const dateFmt=new Intl.DateTimeFormat("en-US",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
   const last={};
@@ -465,12 +479,12 @@ layout: null
     let alarm=false, cdRemaining=0, cdFrac=null;
     if(state.cdRunning){
       const rem=state.cdTargetEpoch-Date.now();
-      if(rem>0){ cdRemaining=rem; setText(cdDisplay,"cd",fmt(rem)); setText(overtime,"ot",""); cdStartBtn.textContent="Pause"; }
-      else{ cdRemaining=0; setText(cdDisplay,"cd","00:00"); setText(overtime,"ot","Time\u2019s up  \u00B7  +"+fmt(-rem)); cdStartBtn.textContent="Start"; alarm=true; }
+      if(rem>0){ cdRemaining=rem; showCd(rem); setText(overtime,"ot",""); cdStartBtn.textContent="Pause"; }
+      else{ cdRemaining=0; showCd(0); setText(overtime,"ot","Time\u2019s up  \u00B7  +"+fmt(-rem)); cdStartBtn.textContent="Start"; alarm=true; }
     } else if(state.cdRemainingPaused!=null){
-      cdRemaining=state.cdRemainingPaused; setText(cdDisplay,"cd",fmt(cdRemaining)); setText(overtime,"ot",""); cdStartBtn.textContent="Resume";
+      cdRemaining=state.cdRemainingPaused; showCd(cdRemaining); setText(overtime,"ot",""); cdStartBtn.textContent="Resume";
     } else {
-      setText(cdDisplay,"cd","00:00"); setText(overtime,"ot",""); cdStartBtn.textContent="Start";
+      showCd(0); setText(overtime,"ot",""); cdStartBtn.textContent="Start";
     }
     if(state.cdTotalMs) cdFrac=Math.max(0,Math.min(1,cdRemaining/state.cdTotalMs));
     document.body.classList.toggle("alarm", alarm && state.panel==="countdown");
