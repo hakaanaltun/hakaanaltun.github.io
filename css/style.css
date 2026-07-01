@@ -370,8 +370,29 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
 .book-description em { font-style: italic; color: var(--petrol); }
 
 #book .book-links { width: 100%; margin-top: 30px; }
-#book .book-links-grid { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 0; }
-#book .book-links-row { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 12px 30px; min-width: 0; }
+#book .book-links-grid {
+  width: min(100%, 400px); margin: 0 auto;
+  display: flex; flex-direction: row; align-items: center; gap: 26px; padding: 2px 0 6px;
+  overflow-x: auto; overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x proximity;
+  scrollbar-width: none; -ms-overflow-style: none;
+}
+#book .book-links-grid::-webkit-scrollbar { height: 0; }
+@media (hover: hover) and (pointer: fine) {
+  #book .book-links-grid { scrollbar-width: thin; scrollbar-color: transparent transparent; }
+  #book .book-links-grid:hover { scrollbar-color: var(--rule-strong) transparent; }
+  #book .book-links-grid::-webkit-scrollbar { height: 8px; }
+  #book .book-links-grid::-webkit-scrollbar-track { background: transparent; }
+  #book .book-links-grid::-webkit-scrollbar-thumb { background-color: transparent; border-radius: 999px; transition: background-color 0.2s ease; }
+  #book .book-links-grid:hover::-webkit-scrollbar-thumb { background-color: var(--rule-strong); }
+}
+/* Edge fades follow the scroll position (classes set by JS): the fade only
+   appears on a side that still has content beyond it. */
+#book .book-links-grid.fade-r { -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 44px), transparent 100%); mask-image: linear-gradient(to right, #000 calc(100% - 44px), transparent 100%); }
+#book .book-links-grid.fade-l { -webkit-mask-image: linear-gradient(to right, transparent 0, #000 44px); mask-image: linear-gradient(to right, transparent 0, #000 44px); }
+#book .book-links-grid.fade-lr { -webkit-mask-image: linear-gradient(to right, transparent 0, #000 44px, #000 calc(100% - 44px), transparent 100%); mask-image: linear-gradient(to right, transparent 0, #000 44px, #000 calc(100% - 44px), transparent 100%); }
+#book .book-links-row { display: flex; flex: 0 0 auto; align-items: center; gap: 26px; min-width: 0; }
 .book-links-divider { display: none; }
 .book-links span { display: none; }
 #book .book-links-row a { display: inline-flex; align-items: center; justify-content: center; white-space: nowrap; padding: 4px 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; color: var(--petrol); font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 1.12rem; line-height: 1.2; transition: color 0.2s ease, opacity 0.2s ease, transform 0.25s ease; }
@@ -421,8 +442,8 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
   .book-description p { font-size: 1.05rem; line-height: 1.6; }
   #book .book-content, #book .book-description { width: 100%; }
   #book .book-description { max-width: none; margin-left: 0; margin-right: 0; text-align: left; }
-  #book .book-links-grid { gap: 12px; }
-  #book .book-links-row { gap: 10px 22px; }
+  #book .book-links-grid { gap: 22px; }
+  #book .book-links-row { gap: 22px; }
   #book .book-links-row a { padding: 4px 0; font-size: 1.0rem; }
   #moris .about-text { max-width: none; margin-left: 0; margin-right: 0; text-align: left; }
   #moris .about-text p { text-align: left; }
