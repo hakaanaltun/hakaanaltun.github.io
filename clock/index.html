@@ -20,7 +20,7 @@ layout: null
 
 <style>
   :root{
-    --bg:     #1E4F4C;
+    --bg:     #342A3E;
     --fg:     #EDE4CF;
     --muted:  #A8B8B3;
     --accent: #EDE4CF;
@@ -266,9 +266,9 @@ layout: null
     </div>
 
     <div class="theme-corner" role="group" aria-label="Theme">
+      <button class="swatch" data-bg="#342A3E" style="background:#342A3E" title="Aubergine" aria-label="Aubergine"></button>
       <button class="swatch" data-bg="#1E4F4C" style="background:#1E4F4C" title="Petrol" aria-label="Petrol"></button>
       <button class="swatch" data-bg="#17333D" style="background:#17333D" title="Prussian blue" aria-label="Prussian blue"></button>
-      <button class="swatch" data-bg="#342A3E" style="background:#342A3E" title="Aubergine" aria-label="Aubergine"></button>
       <button class="swatch" data-bg="#4C2A2F" style="background:#4C2A2F" title="Oxblood" aria-label="Oxblood"></button>
       <button class="swatch" data-bg="#1E1B1A" style="background:#1E1B1A" title="Ink" aria-label="Ink"></button>
     </div>
@@ -351,7 +351,7 @@ layout: null
   function applyTheme(){
     if(state.bg) document.documentElement.style.setProperty("--bg", state.bg);
     else document.documentElement.style.removeProperty("--bg");
-    const cur=(state.bg||"#1E4F4C").toLowerCase();
+    const cur=(state.bg||"#342A3E").toLowerCase();
     swatches.forEach(sw=>sw.setAttribute("aria-pressed", sw.dataset.bg.toLowerCase()===cur));
   }
   swatches.forEach(sw=>sw.addEventListener("click", ()=>{ state.bg=sw.dataset.bg; applyTheme(); save(); }));
