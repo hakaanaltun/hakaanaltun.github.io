@@ -20,7 +20,7 @@ layout: null
 
 <style>
   :root{
-    --bg:     #342A3E;
+    --bg:     #3E3249;
     --fg:     #EDE4CF;
     --muted:  #A8B8B3;
     --accent: #EDE4CF;
@@ -266,11 +266,11 @@ layout: null
     </div>
 
     <div class="theme-corner" role="group" aria-label="Theme">
-      <button class="swatch" data-bg="#342A3E" style="background:#342A3E" title="Aubergine — Home" aria-label="Aubergine, Home"></button>
-      <button class="swatch" data-bg="#26274A" style="background:#26274A" title="Ink indigo — Pieces" aria-label="Ink indigo, Pieces"></button>
-      <button class="swatch" data-bg="#4C2A2F" style="background:#4C2A2F" title="Oxblood — The Corner" aria-label="Oxblood, The Corner"></button>
-      <button class="swatch" data-bg="#17333D" style="background:#17333D" title="Prussian blue — The On Series" aria-label="Prussian blue, The On Series"></button>
-      <button class="swatch" data-bg="#1E4F4C" style="background:#1E4F4C" title="Petrol — Şafak's Arc" aria-label="Petrol, Şafak's Arc"></button>
+      <button class="swatch" data-bg="#3E3249" style="background:#3E3249" title="Plum — Home" aria-label="Plum, Home"></button>
+      <button class="swatch" data-bg="#2E3B53" style="background:#2E3B53" title="Indigo — Pieces" aria-label="Indigo, Pieces"></button>
+      <button class="swatch" data-bg="#1D4354" style="background:#1D4354" title="Teal-blue — The Corner" aria-label="Teal-blue, The Corner"></button>
+      <button class="swatch" data-bg="#1A494D" style="background:#1A494D" title="Deep teal — The On Series" aria-label="Deep teal, The On Series"></button>
+      <button class="swatch" data-bg="#2A4D42" style="background:#2A4D42" title="Green-teal — Şafak's Arc" aria-label="Green-teal, Şafak's Arc"></button>
       <button class="swatch" data-bg="#1E1B1A" style="background:#1E1B1A" title="Charcoal" aria-label="Charcoal"></button>
     </div>
   </div>
@@ -352,7 +352,7 @@ layout: null
   function applyTheme(){
     if(state.bg) document.documentElement.style.setProperty("--bg", state.bg);
     else document.documentElement.style.removeProperty("--bg");
-    const cur=(state.bg||"#342A3E").toLowerCase();
+    const cur=(state.bg||"#3E3249").toLowerCase();
     swatches.forEach(sw=>sw.setAttribute("aria-pressed", sw.dataset.bg.toLowerCase()===cur));
   }
   swatches.forEach(sw=>sw.addEventListener("click", ()=>{ state.bg=sw.dataset.bg; applyTheme(); save(); }));
