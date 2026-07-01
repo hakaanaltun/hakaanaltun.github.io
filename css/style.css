@@ -475,8 +475,8 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
 .essay-body { padding-bottom: 48px; }
 .essay-body p { margin-bottom: 24px; color: var(--ink-soft); line-height: 1.85; }
 .essay-body p:last-child { margin-bottom: 0; }
-.essay-body h2 { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: 28px; color: var(--petrol); margin: 40px 0 16px; padding-top: 20px; border-top: 1px solid var(--rule); }
-.essay-body h3 { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: 24px; color: var(--petrol); margin: 32px 0 12px; }
+.essay-body h2 { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: 28px; color: var(--petrol); margin: 40px 0 16px; padding-top: 20px; border-top: 1px solid var(--rule); text-align: center; }
+.essay-body h3 { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: 24px; color: var(--petrol); margin: 32px 0 12px; text-align: center; }
 .essay-body blockquote { border-left: 2px solid var(--petrol); padding: 12px 0 12px 20px; margin: 28px 0; font-style: italic; font-size: 21px; color: var(--vizon); }
 .essay-body em { font-style: italic; }
 .essay-body strong, .essay-body b { font-weight: 500; }
