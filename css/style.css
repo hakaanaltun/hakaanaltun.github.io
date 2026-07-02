@@ -454,10 +454,13 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
 .moris-quote-source { display: block; text-align: right; margin-top: 4px; font-style: italic; font-size: 0.8rem; color: var(--petrol); white-space: nowrap; }
 
 @media (min-width: 769px) {
-  /* The single paragraph centres vertically against the video column,
-     so the text sits at the video's midline instead of hanging at the top. */
-  .moris-card { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 42px; align-items: center; background: var(--paper); border: 1px solid transparent; border-radius: 16px; padding: 40px 44px; }
-  .moris-video-col { max-width: 360px; margin: 0; }
+  /* Centred single column: title, centred description, video, caption.
+     The square video scales with the smaller viewport side (vmin) so it
+     adapts to the device without growing huge or shrinking to a stamp. */
+  .moris-card { display: flex; flex-direction: column; align-items: center; gap: 28px; background: var(--paper); border: 1px solid transparent; border-radius: 16px; padding: 40px 44px; }
+  #moris .about-text { max-width: 680px; }
+  #moris .about-text p { text-align: center; }
+  .moris-video-col { max-width: clamp(240px, 34vmin, 360px); margin: 0 auto; }
   .moris-caption { font-size: 0.88rem; max-width: 100%; }
   .moris-quote-source { font-size: 0.76rem; }
 }
@@ -503,8 +506,6 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
   .book-cover-wrap { order: 0; width: 100%; }
   .book-cover { max-width: none; margin: 0; }
   #book .section-head { margin-bottom: 1rem; }
-  .moris-card { display: grid; grid-template-columns: minmax(0, 1fr) 220px; gap: 26px; align-items: start; background: var(--paper); border: 1px solid transparent; border-radius: 16px; padding: 22px 26px; }
-  .moris-video-col { max-width: 220px; margin: 0; }
   .about-card { grid-template-columns: 150px 1fr; gap: 26px; padding: 22px 26px; }
   .about-author { flex-direction: column; gap: 6px; text-align: center; align-items: center; }
   .about-id { align-items: center; }
