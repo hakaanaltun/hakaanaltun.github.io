@@ -68,6 +68,13 @@
       var moved = false;
 
       el.addEventListener('pointerdown', function (e) {
+        /* Touch (and pen) devices already get native scrolling and tap
+           handling from CSS overflow-x/-webkit-overflow-scrolling; running
+           the custom drag detection for them too caused normal taps to be
+           misread as drags (any >5px finger jitter cancelled the click),
+           making links intermittently unresponsive on mobile. Only mice
+           need the manual drag-to-scroll behaviour. */
+        if (e.pointerType !== 'mouse') return;
         if (el.scrollWidth <= el.clientWidth) return;
         isDown = true;
         moved = false;
