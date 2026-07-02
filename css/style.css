@@ -385,15 +385,18 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
    8. Book, Moris & About
    ========================================================================== */
 /* Book, Moris and About live on their own pages.
-   Book — every device, both orientations: centred column of title, cover,
-   then description, all aligned under the title.
-   Moris — centred column of title, description, video, caption; the text
-   block is centred but reads left-aligned with normal line wrapping.
+   Book — every device, both orientations: centred column of cover, title,
+   then description, all aligned under the cover.
+   Moris — centred column of title, then a video-width column holding the
+   description (left-aligned), the video and its caption.
    About — photo left, text right on desktop; stacks on portrait phones;
    scaled side-by-side on landscape phones. */
 
 /* Book */
 .book-card { display: flex; flex-direction: column; align-items: center; gap: 28px; }
+/* The title sits inside the card between cover and description; the flex
+   gap spaces it, so the section-head's own margin has to go. */
+#book .book-card .section-head { margin-bottom: 0; }
 .book-cover-wrap { line-height: 0; }
 .book-cover-wrap::before, .book-cover-wrap::after { content: none; display: none; }
 /* height: auto is load-bearing: the img's height="1500" attribute survives
@@ -443,6 +446,9 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
 .moris-card { display: flex; flex-direction: column; align-items: center; gap: 24px; background: transparent; border: 0; padding-top: 0; }
 .about-text p { font-size: 1.13rem; line-height: 1.68; color: var(--vizon); margin-bottom: 16px; }
 .about-text p:last-child { margin-bottom: 0; }
+/* The description lives inside the video column so it is always exactly
+   as wide as the video, centred under the title, reading left-aligned. */
+#moris .about-text { width: 100%; margin: 0 0 24px; text-align: left; }
 .moris-video-col { display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 320px; margin: 0 auto; }
 .moris-video { width: 100%; aspect-ratio: 1 / 1; border: 1px solid var(--rule-cream); border-radius: 14px; background: #000; box-shadow: 0 12px 30px rgba(47, 43, 39, 0.055); overflow: hidden; position: relative; }
 .moris-video-thumb { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -452,16 +458,22 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
 .moris-quote-source { display: block; text-align: right; margin-top: 4px; font-style: italic; font-size: 0.8rem; color: var(--petrol); white-space: nowrap; }
 
 @media (min-width: 769px) {
-  /* Centred single column: title, description, video, caption. The text
-     block is centred under the title but reads left-aligned, wrapping
-     normally at the block edge. The square video scales with the smaller
-     viewport side (vmin) so it adapts to the device without growing huge
-     or shrinking to a stamp. */
+  /* Centred single column: title, description, video, caption. The square
+     video scales with the smaller viewport side (vmin) so it adapts to the
+     device without growing huge or shrinking to a stamp; the description
+     tracks the video width. */
   .moris-card { align-items: center; gap: 28px; }
-  #moris .about-text { max-width: 680px; }
+  #moris .about-text { margin-bottom: 28px; }
   .moris-video-col { max-width: clamp(240px, 34vmin, 360px); margin: 0 auto; }
   .moris-caption { font-size: 0.88rem; max-width: 100%; }
   .moris-quote-source { font-size: 0.76rem; }
+}
+
+/* Landscape phones: the video keeps the size it has in portrait on the
+   same device. In landscape 100vmin is the portrait viewport width, and
+   132px is the container + card padding that framed it there. */
+@media (max-height: 500px) and (orientation: landscape) {
+  .moris-video-col { max-width: min(320px, calc(100vmin - 132px)); }
 }
 
 /* About */
@@ -493,8 +505,6 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
   #book .book-links-grid { gap: 22px; }
   #book .book-links-row { gap: 22px; }
   #book .book-links-row a { padding: 4px 0; font-size: 1.0rem; }
-  #moris .about-text { max-width: none; margin-left: 0; margin-right: 0; text-align: left; }
-  #moris .about-text p { text-align: left; }
   #about .section-head { margin-bottom: 1.25rem; }
 }
 
@@ -566,7 +576,9 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
   margin: -48px calc(50% - 50vw) 0;
   padding: 56px calc(50vw - 50%) 64px;
 }
-@media (max-width: 600px) {
+/* The divider's margin shrinks to 36px at 768px (see below), so the pull-up
+   has to shrink with it or the grey band climbs past the line. */
+@media (max-width: 768px) {
   .more-essays { margin-top: -36px; }
 }
 .more-essays-title { display: block; font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: 32px; color: var(--petrol); margin-bottom: 18px; text-align: left; }
