@@ -137,13 +137,11 @@ header .hamburger-btn:focus-visible { outline-color: var(--footer-text); }
 
 @media (max-width: 767px), (max-height: 500px) and (orientation: landscape) {
   .header-nav-bar {
-    width: 100%; max-width: 100%; display: flex; flex-wrap: nowrap; justify-content: flex-start;
-    gap: 30px; padding-right: 10px;
-    overflow-x: auto; overflow-y: hidden; white-space: nowrap; -webkit-overflow-scrolling: touch; scrollbar-width: none;
-    -webkit-mask-image: linear-gradient(to right, #000 82%, transparent 100%);
-    mask-image: linear-gradient(to right, #000 82%, transparent 100%);
+    width: 100%; max-width: 100%; display: flex; flex-wrap: wrap; justify-content: center;
+    row-gap: 12px; column-gap: 22px; padding-right: 0;
+    overflow: visible; white-space: normal;
+    -webkit-mask-image: none; mask-image: none;
   }
-  .header-nav-bar::-webkit-scrollbar { display: none; }
   .header-nav-bar a { flex: 0 0 auto; white-space: nowrap; }
 }
 
