@@ -395,7 +395,10 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
 .book-card { display: flex; flex-direction: column; gap: 28px; }
 .book-cover-wrap { line-height: 0; order: 2; }
 .book-cover-wrap::before, .book-cover-wrap::after { content: none; display: none; }
-.book-cover { width: 100%; max-width: 210px; aspect-ratio: 2 / 3; object-fit: contain; display: block; margin: 0 auto; background: var(--paper); border: 1px solid var(--rule-cream); border-radius: 2px; box-shadow: var(--shadow-cover); }
+/* height: auto is load-bearing: the img's height="1500" attribute survives
+   as a presentational hint when CSS only sets width, which lets the cover
+   render 1500px tall and turns aspect-ratio into a no-op. */
+.book-cover { width: 100%; height: auto; max-width: 210px; aspect-ratio: 2 / 3; object-fit: contain; display: block; margin: 0 auto; background: var(--paper); border: 1px solid var(--rule-cream); border-radius: 2px; box-shadow: var(--shadow-cover); }
 .book-content { min-width: 0; width: 100%; }
 #book .section-head { margin-bottom: 1.6rem; }
 .book-description { margin: 0 0 24px; text-align: left; }
@@ -451,9 +454,11 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
 .moris-quote-source { display: block; text-align: right; margin-top: 4px; font-style: italic; font-size: 0.8rem; color: var(--petrol); white-space: nowrap; }
 
 @media (min-width: 769px) {
-  .moris-card { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 42px; align-items: start; background: var(--paper); border: 1px solid transparent; border-radius: 16px; padding: 40px 44px; }
-  .moris-video-col { max-width: 320px; margin: 0; }
-  .moris-caption { font-size: 0.88rem; }
+  /* The single paragraph centres vertically against the video column,
+     so the text sits at the video's midline instead of hanging at the top. */
+  .moris-card { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 42px; align-items: center; background: var(--paper); border: 1px solid transparent; border-radius: 16px; padding: 40px 44px; }
+  .moris-video-col { max-width: 360px; margin: 0; }
+  .moris-caption { font-size: 0.88rem; max-width: 100%; }
   .moris-quote-source { font-size: 0.76rem; }
 }
 
@@ -470,8 +475,9 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
 
 @media (max-width: 768px) {
   .about-card { grid-template-columns: 1fr; gap: 26px; padding: 30px 26px; }
-  /* Portrait order for all three tabs: title, then text, then media. */
-  .about-author { order: 2; flex-direction: row; gap: 16px; text-align: left; align-items: center; }
+  /* Portrait: Book and Moris run title, text, media; About keeps the
+     photo + name row right under the title, long text below. */
+  .about-author { flex-direction: row; gap: 16px; text-align: left; align-items: center; }
   .about-id { align-items: flex-start; }
   .about-photo { width: 62px; height: 62px; margin-bottom: 0; }
   .book-card, .moris-card { gap: 26px; padding: 30px 26px; background: var(--paper); border-radius: 16px; }
@@ -500,7 +506,7 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
   .moris-card { display: grid; grid-template-columns: minmax(0, 1fr) 220px; gap: 26px; align-items: start; background: var(--paper); border: 1px solid transparent; border-radius: 16px; padding: 22px 26px; }
   .moris-video-col { max-width: 220px; margin: 0; }
   .about-card { grid-template-columns: 150px 1fr; gap: 26px; padding: 22px 26px; }
-  .about-author { order: 0; flex-direction: column; gap: 6px; text-align: center; align-items: center; }
+  .about-author { flex-direction: column; gap: 6px; text-align: center; align-items: center; }
   .about-id { align-items: center; }
   .about-photo { width: 80px; height: 80px; margin-bottom: 6px; }
 }
