@@ -356,29 +356,32 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
   #further-back .further-back-grid { grid-template-columns: 1fr; row-gap: 26px; max-width: none; }
 }
 
+/* Further Back sits on the same full-bleed quiet band as the hero.
+   Desktop and tablet only; mobile stays on white. */
+@media (min-width: 601px) {
+  #further-back {
+    background: var(--band);
+    margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw);
+    padding-left: calc(50vw - 50%); padding-right: calc(50vw - 50%);
+  }
+  #further-back::before { left: calc(50vw - 50%); right: calc(50vw - 50%); }
+}
+
 /* ========================================================================== 
    8. Book, Moris & About
    ========================================================================== */
-/* Book: centered cover, description below, text-only links paged four at a time.
-   The section sits on a quiet full-bleed paper band to give the page one
-   breathing point between the white sections. */
-#book {
-  margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw);
-  padding-left: calc(50vw - 50%); padding-right: calc(50vw - 50%);
-}
-.is-home #book { background: var(--band); }
-#book::before { left: calc(50vw - 50%); right: calc(50vw - 50%); }
-.book-grid { display: grid; grid-template-columns: minmax(180px, 260px) minmax(0, 1fr); gap: 42px; align-items: center; }
-#book .book-grid { grid-template-columns: 1fr; justify-items: center; align-items: center; gap: 28px; text-align: left; }
+/* Book, Moris and About live on their own pages and share one card grammar:
+   a quiet white card with a 200px media column beside the text.
+   About: photo left, text right. Book & Moris: text left, media right.
+   Below 769px all three collapse to the stacked mobile presentation. */
 
-.book-cover-wrap { display: inline-block; align-self: start; line-height: 0; }
+/* Book */
+.book-card { display: flex; flex-direction: column; gap: 28px; }
+.book-cover-wrap { line-height: 0; order: -1; }
 .book-cover-wrap::before, .book-cover-wrap::after { content: none; display: none; }
-#book .book-cover-wrap { display: block; justify-self: center; align-self: center; }
-.book-cover { width: 100%; max-width: 240px; max-height: 360px; aspect-ratio: 2 / 3; object-fit: contain; display: block; margin: 0 auto; background: var(--paper); border: 1px solid var(--rule-cream); border-radius: 2px; box-shadow: var(--shadow-cover); }
-.book-content { min-width: 0; }
-#book .book-content { width: 100%; max-width: none; margin: 0 auto; }
-.book-description { max-width: none; margin: 12px 0 24px; }
-#book .book-description { margin: 0 auto 24px; text-align: left; }
+.book-cover { width: 100%; max-width: 210px; aspect-ratio: 2 / 3; object-fit: contain; display: block; margin: 0 auto; background: var(--paper); border: 1px solid var(--rule-cream); border-radius: 2px; box-shadow: var(--shadow-cover); }
+.book-content { min-width: 0; width: 100%; }
+.book-description { margin: 0 0 24px; text-align: left; }
 .book-description p { margin: 0 0 14px; font-size: 1.16rem; line-height: 1.68; color: var(--vizon); }
 .book-description em { font-style: italic; color: var(--petrol); }
 
@@ -411,6 +414,13 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
 #book .book-links-row a { display: inline-flex; align-items: center; justify-content: center; white-space: nowrap; padding: 4px 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; color: var(--petrol); font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 1.12rem; line-height: 1.2; transition: color 0.2s ease, opacity 0.2s ease, transform 0.25s ease; }
 #book .book-links-row a:hover, #book .book-links-row a:active, #book .book-links-row a:focus-visible { color: var(--petrol-deep); opacity: 0.62; transform: translateY(-2px); outline: none; }
 
+@media (min-width: 769px) {
+  .book-card { display: grid; grid-template-columns: minmax(0, 1fr) 200px; gap: 44px; align-items: start; background: var(--paper); border: 1px solid transparent; border-radius: 16px; padding: 40px 44px; }
+  .book-cover-wrap { order: 0; width: 100%; }
+  .book-cover { max-width: none; max-height: none; margin: 0; }
+  #book .book-links-grid { margin: 0; }
+}
+
 /* Moris */
 .moris-card { display: flex; flex-direction: column; gap: 24px; background: transparent; border: 0; padding-top: 0; }
 .about-text p { font-size: 1.13rem; line-height: 1.68; color: var(--vizon); margin-bottom: 16px; }
@@ -423,6 +433,13 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
 .moris-caption { margin: 14px 0 0; width: 100%; font-style: italic; font-size: 0.92rem; line-height: 1.45; color: var(--vizon); text-align: center; max-width: 320px; }
 .moris-quote-source { display: block; text-align: right; margin-top: 4px; font-style: italic; font-size: 0.8rem; color: var(--petrol); white-space: nowrap; }
 
+@media (min-width: 769px) {
+  .moris-card { display: grid; grid-template-columns: minmax(0, 1fr) 200px; gap: 44px; align-items: start; background: var(--paper); border: 1px solid transparent; border-radius: 16px; padding: 40px 44px; }
+  .moris-video-col { max-width: 200px; margin: 0; }
+  .moris-caption { font-size: 0.88rem; }
+  .moris-quote-source { font-size: 0.76rem; }
+}
+
 /* About */
 .about-card { display: grid; grid-template-columns: 200px 1fr; gap: 44px; align-items: start; background: var(--paper); border: 1px solid transparent; border-radius: 16px; padding: 40px 44px; box-shadow: none; }
 .about-author { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 6px; }
@@ -434,10 +451,6 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
   #about .about-text p:first-child { font-size: 1rem; letter-spacing: -0.015em; white-space: nowrap; }
 }
 
-@media (max-width: 900px) {
-  #book .book-cover { max-width: 210px; max-height: 315px; margin: 0 auto; }
-}
-
 @media (max-width: 768px) {
   .about-card { grid-template-columns: 1fr; gap: 26px; padding: 30px 26px; }
   .about-author { flex-direction: row; gap: 16px; text-align: left; align-items: center; }
@@ -445,13 +458,8 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
   .about-photo { width: 62px; height: 62px; margin-bottom: 0; }
 }
 
-@media (min-width: 769px) {
-  .moris-caption { font-size: 0.88rem; }
-  .moris-quote-source { font-size: 0.76rem; }
-}
-
 @media (max-width: 600px) {
-  .book-cover { max-width: 190px; max-height: 285px; box-shadow: 0 12px 20px rgba(0, 0, 0, 0.11), 0 4px 8px rgba(0, 0, 0, 0.05); }
+  .book-cover { max-width: 190px; box-shadow: 0 12px 20px rgba(0, 0, 0, 0.11), 0 4px 8px rgba(0, 0, 0, 0.05); }
   .book-description p { font-size: 1.05rem; line-height: 1.6; }
   #book .book-content, #book .book-description { width: 100%; }
   #book .book-description { max-width: none; margin-left: 0; margin-right: 0; text-align: left; }
@@ -462,6 +470,7 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
   #moris .about-text p { text-align: left; }
   #about .section-head { margin-bottom: 1.25rem; }
 }
+
 /* ========================================================================== 
    9. Essay Pages & More Essays
    ========================================================================== */
@@ -513,6 +522,15 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
 .series-thumb-num { color: var(--petrol); font-style: italic; }
 
 .more-essays { padding: 0; margin-top: 0; }
+/* Keep reading sits on the same quiet band as the hero.
+   Desktop and tablet only; mobile stays on white. */
+@media (min-width: 601px) {
+  .more-essays {
+    background: var(--band);
+    margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw);
+    padding: 56px calc(50vw - 50%) 64px;
+  }
+}
 .more-essays-title { display: block; font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: 32px; color: var(--petrol); margin-bottom: 18px; text-align: left; }
 .more-essays-grid-hp { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; list-style: none; padding: 0; }
 .more-essays-grid-hp li { padding: 0; margin: 0; }
@@ -606,6 +624,12 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
 /* ==========================================================================
    12. Footer
    ========================================================================== */
+/* On pages whose last section sits on the quiet band (home: Further Back,
+   posts: Keep reading) the band meets the footer directly; elsewhere the
+   40px breather stays. Mobile keeps the breather everywhere. */
+@media (min-width: 601px) {
+  .is-home footer, .is-post footer { margin-top: 0; }
+}
 footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-top: 40px; background: rgb(var(--chrome-rgb, 30, 79, 76)); color: var(--footer-text); font-family: 'EB Garamond', Georgia, serif; }
 .footer-inner { max-width: 1040px; margin: 0 auto; padding: 56px var(--pad) 44px; }
 
