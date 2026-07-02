@@ -120,8 +120,29 @@
     });
   }
 
+  /* Edge fades for horizontal strips: the fade only appears on a side
+     that still has content beyond it (mirrors the book-links pattern). */
+  function trackEdgeFades(selector) {
+    document.querySelectorAll(selector).forEach(function (el) {
+      function update() {
+        var max = el.scrollWidth - el.clientWidth;
+        el.classList.remove('fade-l', 'fade-r', 'fade-lr');
+        if (max <= 1) return;
+        var x = el.scrollLeft;
+        if (x <= 1) el.classList.add('fade-r');
+        else if (x >= max - 1) el.classList.add('fade-l');
+        else el.classList.add('fade-lr');
+      }
+      el.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update);
+      update();
+    });
+  }
+
   enableHorizontalScroller('#book .book-links-grid');
   enableHorizontalScroller('#further-back .further-back-grid');
+  enableHorizontalScroller('.header-nav-bar');
+  trackEdgeFades('.header-nav-bar');
 
   /* ── Drawer elements ── */
   var toggleBtn = document.querySelector('.hamburger-btn');
