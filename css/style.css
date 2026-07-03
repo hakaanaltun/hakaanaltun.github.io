@@ -441,37 +441,50 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
 }
 
 /* Moris */
-.moris-card { display: flex; flex-direction: column; align-items: center; gap: 24px; background: transparent; border: 0; padding-top: 0; }
 .about-text p { font-size: 1.13rem; line-height: 1.68; color: var(--vizon); margin-bottom: 16px; }
 .about-text p:last-child { margin-bottom: 0; }
-/* The description lives inside the video column so it is always exactly
-   as wide as the video, centred under the title, reading left-aligned. */
-#moris .about-text { width: 100%; margin: 0 0 24px; text-align: left; }
-.moris-video-col { display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 320px; margin: 0 auto; }
-.moris-video { width: 100%; aspect-ratio: 1 / 1; border: 1px solid var(--rule-cream); border-radius: 14px; background: #000; box-shadow: 0 12px 30px rgba(47, 43, 39, 0.055); overflow: hidden; position: relative; }
-.moris-video-thumb { width: 100%; height: 100%; object-fit: cover; display: block; }
-.moris-video-play { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 52px; height: 52px; border-radius: 50%; border: none; background: rgba(30, 79, 76, 0.92); color: var(--footer-text); display: flex; align-items: center; justify-content: center; cursor: pointer; }
-.moris-video-play svg { width: 20px; height: 20px; fill: currentColor; margin-left: 2px; }
-.moris-caption { margin: 14px 0 0; width: 100%; font-style: italic; font-size: 0.92rem; line-height: 1.45; color: var(--vizon); text-align: center; max-width: 320px; }
-.moris-quote-source { display: block; text-align: right; margin-top: 4px; font-style: italic; font-size: 0.8rem; color: var(--petrol); white-space: nowrap; }
+
+/* Centred single column: title, quote, description, gallery cover. */
+.moris-page { display: flex; flex-direction: column; align-items: center; }
+.moris-quote { margin: 0 auto 34px; max-width: 560px; text-align: center; font-style: italic; font-size: clamp(1.02rem, 1.3vw, 1.18rem); line-height: 1.55; color: var(--vizon); }
+.moris-quote p { margin: 0; }
+.moris-quote cite { display: block; margin-top: 10px; font-style: italic; font-size: 0.85rem; color: var(--petrol); }
+#moris .about-text { max-width: 560px; margin: 0 auto 38px; text-align: center; }
+
+/* Gallery cover keeps the exact frame the video used: square, vmin-scaled. */
+.moris-gallery-cover { position: relative; display: block; width: 100%; max-width: 320px; aspect-ratio: 1 / 1; margin: 0 auto; padding: 0; border: 1px solid var(--rule-cream); border-radius: 14px; background: #000; box-shadow: 0 12px 30px rgba(47, 43, 39, 0.055); overflow: hidden; cursor: pointer; }
+.moris-gallery-cover img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.45s ease; }
+.moris-gallery-cover:hover img, .moris-gallery-cover:focus-visible img { transform: scale(1.03); }
+.moris-gallery-badge { position: absolute; right: 10px; bottom: 10px; padding: 3px 11px; border-radius: 999px; background: rgba(47, 43, 39, 0.55); color: #FFFFFF; font-style: italic; font-size: 0.78rem; letter-spacing: 0.02em; pointer-events: none; }
 
 @media (min-width: 769px) {
-  /* Centred single column: title, description, video, caption. The square
-     video scales with the smaller viewport side (vmin) so it adapts to the
-     device without growing huge or shrinking to a stamp; the description
-     tracks the video width. */
-  .moris-card { align-items: center; gap: 28px; }
-  #moris .about-text { margin-bottom: 28px; }
-  .moris-video-col { max-width: clamp(240px, 34vmin, 360px); margin: 0 auto; }
-  .moris-caption { font-size: 0.88rem; max-width: 100%; }
-  .moris-quote-source { font-size: 0.76rem; }
+  .moris-gallery-cover { max-width: clamp(240px, 34vmin, 360px); }
 }
 
-/* Landscape phones: the video keeps the size it has in portrait on the
-   same device. In landscape 100vmin is the portrait viewport width, and
-   132px is the container + card padding that framed it there. */
+/* Landscape phones: the cover keeps the size it has in portrait on the
+   same device, exactly as the video frame did. */
 @media (max-height: 500px) and (orientation: landscape) {
-  .moris-video-col { max-width: min(320px, calc(100vmin - 132px)); }
+  .moris-gallery-cover { max-width: min(320px, calc(100vmin - 132px)); }
+}
+
+/* Moris lightbox */
+.moris-lightbox { position: fixed; inset: 0; z-index: 300; display: none; align-items: center; justify-content: center; background: rgba(22, 20, 18, 0.94); }
+.moris-lightbox.open { display: flex; }
+.moris-lightbox figure { margin: 0; display: flex; align-items: center; justify-content: center; }
+.moris-lightbox img { max-width: min(92vw, 1000px); max-height: 82vh; object-fit: contain; border-radius: 6px; box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5); }
+.moris-lb-btn { position: absolute; display: flex; align-items: center; justify-content: center; width: 46px; height: 46px; padding: 0; border: none; border-radius: 50%; background: transparent; color: rgba(255, 255, 255, 0.75); cursor: pointer; transition: color 0.2s ease, background 0.2s ease; }
+.moris-lb-btn:hover, .moris-lb-btn:focus-visible { color: #FFFFFF; background: rgba(255, 255, 255, 0.08); outline: none; }
+.moris-lb-btn svg { width: 26px; height: 26px; stroke: currentColor; stroke-width: 1.6; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.moris-lb-close { top: 16px; right: 16px; }
+.moris-lb-prev { left: 10px; top: 50%; transform: translateY(-50%); }
+.moris-lb-next { right: 10px; top: 50%; transform: translateY(-50%); }
+.moris-lb-count { position: absolute; bottom: 18px; left: 50%; transform: translateX(-50%); color: rgba(255, 255, 255, 0.65); font-style: italic; font-size: 0.9rem; letter-spacing: 0.03em; }
+body.moris-lightbox-open { overflow: hidden; }
+
+@media (max-width: 600px) {
+  .moris-lightbox img { max-width: 100vw; max-height: 76vh; border-radius: 0; }
+  .moris-lb-prev { left: 2px; }
+  .moris-lb-next { right: 2px; }
 }
 
 /* About */
@@ -492,7 +505,7 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
   .about-author { flex-direction: row; gap: 16px; text-align: left; align-items: center; }
   .about-id { align-items: flex-start; }
   .about-photo { width: 62px; height: 62px; margin-bottom: 0; }
-  .book-card, .moris-card { gap: 26px; padding: 30px 26px; background: var(--paper); border-radius: 16px; }
+  .book-card { gap: 26px; padding: 30px 26px; background: var(--paper); border-radius: 16px; }
 }
 
 @media (max-width: 600px) {
