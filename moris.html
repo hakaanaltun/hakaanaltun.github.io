@@ -8,39 +8,111 @@ description: "Moris is the silent presence behind the stories. The witness who b
 
 <section id="moris">
   {% include section-header.html title="Moris" subtitle="" %}
-  <div class="moris-card">
-    <div class="moris-video-col">
-      <div class="about-text">
-        <p>Moris is the silent presence behind the stories. The witness who became part of the work. The muse who is already there. The one who made it to the cover.</p>
-      </div>
-      <div class="moris-video" id="moris-video-wrapper">
-        <img src="/images/moris.webp" alt="Moris – The one who made it to the cover" class="moris-video-thumb" loading="lazy">
-        <button class="moris-video-play" aria-label="Play Moris video">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polygon points="6,3 20,12 6,21"/></svg>
-        </button>
-      </div>
-      <p class="moris-caption">Every now and then, his soft paws twitch; he is probably chasing a bird in his dream that he will never catch. <cite class="moris-quote-source">&mdash;&thinsp;The Fragments</cite></p>
+  <div class="moris-page">
+    <blockquote class="moris-quote">
+      <p>Every now and then, his soft paws twitch; he is probably chasing a bird in his dream that he will never catch.</p>
+      <cite>&mdash;&thinsp;The Fragments</cite>
+    </blockquote>
+    <div class="about-text">
+      <p>Moris is the silent presence behind the stories. The witness who became part of the work. The muse who is already there. The one who made it to the cover.</p>
     </div>
+    <button type="button" class="moris-gallery-cover" id="moris-gallery-cover" aria-label="Open the Moris gallery" aria-haspopup="dialog">
+      <img src="/images/moris/moris-01.webp" alt="Moris peering out from under a cream blanket on the couch" loading="lazy">
+      <span class="moris-gallery-badge">12 photographs</span>
+    </button>
   </div>
 </section>
+
+<div class="moris-lightbox" id="moris-lightbox" role="dialog" aria-modal="true" aria-label="Moris gallery">
+  <figure><img id="moris-lb-img" src="" alt=""></figure>
+  <button type="button" class="moris-lb-btn moris-lb-close" aria-label="Close gallery">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+  </button>
+  <button type="button" class="moris-lb-btn moris-lb-prev" aria-label="Previous photograph">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polyline points="14,5 7,12 14,19"/></svg>
+  </button>
+  <button type="button" class="moris-lb-btn moris-lb-next" aria-label="Next photograph">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polyline points="10,5 17,12 10,19"/></svg>
+  </button>
+  <span class="moris-lb-count" id="moris-lb-count"></span>
+</div>
 
 <script>
 (function() {
   'use strict';
-  function initClickToLoadVideo(wrapperId, videoUrl) {
-    var wrapper = document.getElementById(wrapperId);
-    if (!wrapper) return;
-    wrapper.addEventListener('click', function() {
-      var iframe = document.createElement('iframe');
-      iframe.src = videoUrl;
-      iframe.setAttribute('allowfullscreen', '');
-      iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
-      iframe.style.cssText = 'width:100%;height:100%;border:none;position:absolute;top:0;left:0';
-      wrapper.style.position = 'relative';
-      while (wrapper.firstChild) wrapper.removeChild(wrapper.firstChild);
-      wrapper.appendChild(iframe);
-    });
+  var photos = [
+    { src: '/images/moris/moris-01.webp', alt: 'Moris peering out from under a cream blanket on the couch' },
+    { src: '/images/moris/moris-02.webp', alt: 'Moris, still small, curled on a light blanket' },
+    { src: '/images/moris/moris-03.webp', alt: 'Moris sitting in a cardboard box lid on the wooden floor' },
+    { src: '/images/moris/moris-04.webp', alt: 'Moris on a burgundy mat, watching the street through the balcony screen' },
+    { src: '/images/moris/moris-05.webp', alt: 'Moris looking down from the top of the kitchen cabinets' },
+    { src: '/images/moris/moris-06.webp', alt: 'Moris sitting upright in front of the television' },
+    { src: '/images/moris/moris-07.webp', alt: 'Moris settled on the desk' },
+    { src: '/images/moris/moris-08.webp', alt: 'Moris lying upside down against the wall, looking up at the camera' },
+    { src: '/images/moris/moris-09.webp', alt: 'Moris stretched out on the couch' },
+    { src: '/images/moris/moris-10.webp', alt: 'Moris resting on the couch' },
+    { src: '/images/moris/moris-11.webp', alt: 'Moris tucked into a loaf' },
+    { src: '/images/moris/moris-12.webp', alt: 'Moris, up close' }
+  ];
+
+  var cover = document.getElementById('moris-gallery-cover');
+  var box = document.getElementById('moris-lightbox');
+  var img = document.getElementById('moris-lb-img');
+  var count = document.getElementById('moris-lb-count');
+  if (!cover || !box) return;
+
+  var current = 0;
+  var isOpen = false;
+
+  function preload(i) {
+    var n = new Image();
+    n.src = photos[((i % photos.length) + photos.length) % photos.length].src;
   }
-  initClickToLoadVideo('moris-video-wrapper', 'https://www.youtube.com/embed/hBpAOitmBNw?si=AEhHGFWstiHfFR83&autoplay=1');
+
+  function show(i) {
+    current = ((i % photos.length) + photos.length) % photos.length;
+    img.src = photos[current].src;
+    img.alt = photos[current].alt;
+    count.textContent = (current + 1) + ' / ' + photos.length;
+    preload(current + 1);
+    preload(current - 1);
+  }
+
+  function open(i) {
+    show(i);
+    box.classList.add('open');
+    document.body.classList.add('moris-lightbox-open');
+    isOpen = true;
+  }
+
+  function close() {
+    box.classList.remove('open');
+    document.body.classList.remove('moris-lightbox-open');
+    isOpen = false;
+    cover.focus();
+  }
+
+  cover.addEventListener('click', function() { open(0); });
+  box.querySelector('.moris-lb-close').addEventListener('click', close);
+  box.querySelector('.moris-lb-prev').addEventListener('click', function(e) { e.stopPropagation(); show(current - 1); });
+  box.querySelector('.moris-lb-next').addEventListener('click', function(e) { e.stopPropagation(); show(current + 1); });
+  box.addEventListener('click', function(e) { if (e.target === box) close(); });
+
+  document.addEventListener('keydown', function(e) {
+    if (!isOpen) return;
+    if (e.key === 'Escape') close();
+    else if (e.key === 'ArrowLeft') show(current - 1);
+    else if (e.key === 'ArrowRight') show(current + 1);
+  });
+
+  var touchX = null;
+  box.addEventListener('touchstart', function(e) { touchX = e.changedTouches[0].clientX; }, { passive: true });
+  box.addEventListener('touchend', function(e) {
+    if (touchX === null) return;
+    var dx = e.changedTouches[0].clientX - touchX;
+    touchX = null;
+    if (Math.abs(dx) < 40) return;
+    show(dx < 0 ? current + 1 : current - 1);
+  }, { passive: true });
 })();
 </script>
