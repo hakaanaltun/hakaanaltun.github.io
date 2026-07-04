@@ -8,16 +8,22 @@ description: "Moris is the silent presence behind the stories. The witness who b
 
 <section id="moris">
   {% include section-header.html title="Moris" subtitle="" %}
+  <div class="hero-quotes-section">
+    <div class="hero-quote-card" aria-live="polite">
+      <p id="moris-quote" class="hero-quote-text"></p>
+      <p id="moris-quote-source" class="hero-quote-source"></p>
+    </div>
+  </div>
   <div class="moris-card">
     <div class="moris-col">
       <div class="about-text">
-        <p>Moris is the silent presence behind the stories. The witness who became part of the work. The muse who is already there. The one who made it to the cover.</p>
+        <p>Moris is the silent presence behind the stories. The witness who became part of the work. The muse who is already there.</p>
       </div>
       <button type="button" class="moris-gallery-cover" id="moris-gallery-cover" aria-label="Open the Moris gallery" aria-haspopup="dialog">
         <img src="/images/moris-12.webp" alt="Moris, up close" loading="lazy">
         <span class="moris-gallery-badge">12 photographs</span>
       </button>
-      <p class="moris-caption">Every now and then, his soft paws twitch; he is probably chasing a bird in his dream that he will never catch. <cite class="moris-quote-source">&mdash;&thinsp;The Fragments</cite></p>
+      <p class="moris-caption">The one who made it to the cover.</p>
     </div>
   </div>
 </section>
@@ -39,6 +45,28 @@ description: "Moris is the silent presence behind the stories. The witness who b
 <script>
 (function() {
   'use strict';
+  var morisQuote = { s: 'The Fragments', t: 'Every now and then, his soft paws twitch; he is probably chasing a bird in his dream that he will never catch.' };
+  var mq = document.getElementById('moris-quote');
+  var mqs = document.getElementById('moris-quote-source');
+  if (mq) {
+    mq.innerHTML = '';
+    morisQuote.t.split('\n').forEach(function(line, lineIndex) {
+      if (lineIndex) mq.appendChild(document.createElement('br'));
+      line.split(/(\s+)/).forEach(function(part, partIndex) {
+        if (part.trim() === '') { mq.appendChild(document.createTextNode(part)); return; }
+        var span = document.createElement('span');
+        span.className = 'hero-quote-word';
+        span.textContent = part;
+        mq.appendChild(span);
+        setTimeout(function() { span.classList.add('word-visible'); }, 80 + partIndex * 35 + lineIndex * 220);
+      });
+    });
+    if (mqs) {
+      mqs.innerHTML = '&mdash;&thinsp;<i>' + morisQuote.s + '</i>';
+      setTimeout(function() { mqs.classList.add('visible'); }, 650);
+    }
+  }
+
   var photos = [
     { src: '/images/moris-01.webp', alt: 'Moris sitting on the table, looking back over his shoulder' },
     { src: '/images/moris-02.webp', alt: 'Moris, still small, curled on a light blanket' },

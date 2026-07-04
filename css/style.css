@@ -454,7 +454,6 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
 .moris-gallery-badge { position: absolute; right: 10px; bottom: 10px; padding: 3px 11px; border-radius: 999px; background: rgba(47, 43, 39, 0.55); color: #FFFFFF; font-style: italic; font-size: 0.78rem; letter-spacing: 0.02em; pointer-events: none; }
 
 .moris-caption { margin: 14px 0 0; width: 100%; font-style: italic; font-size: 0.72rem; line-height: 1.4; color: var(--vizon); text-align: center; max-width: 320px; }
-.moris-quote-source { display: block; text-align: right; margin-top: 4px; font-style: italic; font-size: 0.65rem; color: var(--petrol); white-space: nowrap; }
 
 @media (min-width: 769px) {
   /* Centred single column: title, description, photo frame, caption. The
@@ -465,7 +464,6 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
   #moris .about-text { margin-bottom: 28px; }
   .moris-col { max-width: clamp(240px, 34vmin, 360px); margin: 0 auto; }
   .moris-caption { font-size: 0.68rem; max-width: 100%; }
-  .moris-quote-source { font-size: 0.62rem; }
 }
 
 /* Landscape phones: the frame keeps the size it has in portrait on the
