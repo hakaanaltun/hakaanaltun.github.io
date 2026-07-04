@@ -593,46 +593,22 @@ body.moris-lightbox-open { overflow: hidden; }
   margin: 0 auto 48px;
   padding: 34px var(--pad) 0;
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 14px 22px;
   background: transparent;
 }
-.post-subscribe-line1 {
+.post-subscribe-line {
   margin: 0;
   font-family: 'EB Garamond', Georgia, serif;
   font-style: italic;
   font-size: 1.08rem;
   color: var(--vizon);
-  text-align: left;
-  white-space: nowrap;
 }
-.post-subscribe-row2 {
-  display: flex;
-  align-items: baseline;
-  gap: 12px;
-  margin-top: 2px;
-  max-width: 100%;
-  width: 100%;
-}
-.post-subscribe-line2 {
-  font-family: 'EB Garamond', Georgia, serif;
-  font-style: italic;
-  font-size: 1.08rem;
-  color: var(--vizon);
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-.post-subscribe-form {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex: 1;
-  min-width: 0;
-}
+.post-subscribe-form { display: flex; align-items: center; gap: 12px; }
 .post-subscribe-form input {
-  flex: 1;
-  min-width: 0;
+  width: 200px;
   background: transparent;
   border: none;
   border-bottom: 1px solid var(--rule-strong);
@@ -649,7 +625,6 @@ body.moris-lightbox-open { overflow: hidden; }
   font-size: 1.1rem;
   cursor: pointer;
   transition: background 0.2s ease, color 0.2s ease;
-  white-space: nowrap;
 }
 .post-subscribe-form button:hover,
 .post-subscribe-form button:focus-visible {
@@ -660,12 +635,12 @@ body.moris-lightbox-open { overflow: hidden; }
 
 @media (max-width: 768px) {
   .post-subscribe { margin-bottom: 36px; }
-  .post-subscribe-row2 {
-    flex-wrap: wrap;
-  }
-  .post-subscribe-form {
-    width: 100%;
-  }
+}
+
+@media (max-width: 600px) {
+  .post-subscribe { flex-direction: column; align-items: center; text-align: center; }
+  .post-subscribe-form { flex-direction: column; }
+  .post-subscribe-form input { width: 100%; max-width: 280px; }
 }
 
 /* Keep reading sits on the same quiet band as the hero, on every
