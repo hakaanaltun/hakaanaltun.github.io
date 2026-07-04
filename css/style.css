@@ -639,6 +639,7 @@ body.moris-lightbox-open { overflow: hidden; }
 
 @media (max-width: 600px) {
   .post-subscribe { flex-direction: column; align-items: center; text-align: center; }
+  .post-subscribe-line { align-self: stretch; text-align: left; }
   .post-subscribe-form { flex-direction: column; }
   .post-subscribe-form input { width: 100%; max-width: 280px; }
 }
