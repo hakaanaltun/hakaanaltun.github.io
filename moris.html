@@ -8,12 +8,13 @@ description: "Moris is the silent presence behind the stories. The witness who b
 
 <section id="moris">
   {% include section-header.html title="Moris" subtitle="" %}
-  <div class="hero-quotes-section">
+  <div class="hero-quotes-section moris-quote-section">
     <div class="hero-quote-card" aria-live="polite">
       <p id="moris-quote" class="hero-quote-text"></p>
       <p id="moris-quote-source" class="hero-quote-source"></p>
     </div>
   </div>
+  <div class="essay-section-divider moris-divider"></div>
   <div class="moris-card">
     <div class="moris-col">
       <div class="about-text">
@@ -141,5 +142,17 @@ description: "Moris is the silent presence behind the stories. The witness who b
     if (Math.abs(dx) < 40) return;
     show(dx < 0 ? current + 1 : current - 1);
   }, { passive: true });
+
+  if ('IntersectionObserver' in window) {
+    var dividerObs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('line-drawn');
+          dividerObs.unobserve(entry.target);
+        }
+      });
+    }, { rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.essay-section-divider').forEach(function(el) { dividerObs.observe(el); });
+  }
 })();
 </script>
