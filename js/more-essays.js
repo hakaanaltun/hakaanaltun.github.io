@@ -6,12 +6,6 @@
   var container = document.getElementById('more-essays-container');
   if (!container) return;
 
-  /* Determine base path for images/links.
-     On essay pages the file is essays/foo.html so href is just 'file.html'.
-     On index.html it would be 'essays/file.html'. */
-  var onIndex = /\/(index\.html)?$/.test(window.location.pathname);
-  var hrefPrefix = onIndex ? 'essays/' : '';
-
   /* Current page filename to exclude */
   var current = window.location.pathname.split('/').pop() || 'index.html';
 
@@ -44,7 +38,7 @@
 
   picks.forEach(function (e) {
     var title = displayTitle(e.title);
-    html += '<li class="piece-card"><a href="' + hrefPrefix + e.href + '" class="piece-card-link">';
+    html += '<li class="piece-card"><a href="/pieces/' + e.href + '" class="piece-card-link">';
     html += '<span class="piece-body">';
     html += '<span class="piece-title">' + title + '</span>';
     if (e.subtitle) html += '<span class="piece-subtitle">' + e.subtitle + '</span>';
