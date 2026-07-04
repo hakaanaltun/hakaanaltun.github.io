@@ -439,14 +439,12 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
 }
 
 /* Moris */
-/* The Moris quote sits on the same quiet grey band used on the homepage hero,
-   but slightly narrower (no hidden nav arrows here). A themed divider
-   separates the band from the section title below. */
-.moris-quote-section { padding-bottom: 0; padding-left: calc(50vw - 50% + 32px); padding-right: calc(50vw - 50% + 32px); }
-.moris-divider { margin: 0 0 48px; }
 .moris-card { display: flex; flex-direction: column; align-items: center; gap: 24px; background: transparent; border: 0; padding-top: 0; }
 .about-text p { font-size: 1.13rem; line-height: 1.68; color: var(--vizon); margin-bottom: 16px; }
 .about-text p:last-child { margin-bottom: 0; }
+/* The description lives inside the gallery column so it is always exactly
+   as wide as the photo frame, centred under the title, reading left-aligned. */
+#moris .about-text { width: 100%; margin: 0 0 24px; text-align: left; }
 .moris-col { display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 320px; margin: 0 auto; }
 
 /* Gallery cover keeps the exact frame the video used: square, vmin-scaled. */
@@ -456,6 +454,7 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
 .moris-gallery-badge { position: absolute; right: 10px; bottom: 10px; padding: 3px 11px; border-radius: 999px; background: rgba(47, 43, 39, 0.55); color: #FFFFFF; font-style: italic; font-size: 0.78rem; letter-spacing: 0.02em; pointer-events: none; }
 
 .moris-caption { margin: 14px 0 0; width: 100%; font-style: italic; font-size: 0.72rem; line-height: 1.4; color: var(--vizon); text-align: center; max-width: 320px; }
+.moris-quote-source { display: block; text-align: right; margin-top: 4px; font-style: italic; font-size: 0.65rem; color: var(--petrol); white-space: nowrap; }
 
 @media (min-width: 769px) {
   /* Centred single column: title, description, photo frame, caption. The
@@ -463,8 +462,10 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
      to the device without growing huge or shrinking to a stamp; the
      description tracks the frame width. */
   .moris-card { align-items: center; gap: 28px; }
+  #moris .about-text { margin-bottom: 28px; }
   .moris-col { max-width: clamp(240px, 34vmin, 360px); margin: 0 auto; }
   .moris-caption { font-size: 0.68rem; max-width: 100%; }
+  .moris-quote-source { font-size: 0.62rem; }
 }
 
 /* Landscape phones: the frame keeps the size it has in portrait on the
@@ -715,8 +716,6 @@ body.moris-lightbox-open { overflow: hidden; }
 
 @media (max-width: 600px) {
   .hero-quotes-section { padding-top: 30px; padding-bottom: 32px; }
-  .moris-quote-section { padding-bottom: 0; }
-  .moris-divider { margin: 0 0 36px; }
   .hero-quote-card { min-height: 150px; padding: 22px 20px 46px; }
   .hero-quote-text { max-width: 100%; width: 100%; margin-left: 0; margin-right: 0; font-size: 1.2rem; line-height: 1.45; text-align: left; }
   .hero-quote-source { max-width: 100%; width: 100%; align-self: stretch; margin-left: 0; margin-right: 0; font-size: 0.95rem; text-align: right; }
