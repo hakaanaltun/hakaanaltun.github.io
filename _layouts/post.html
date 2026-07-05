@@ -29,6 +29,37 @@ layout: default
 <nav class="story-renav" aria-label="Story navigation">
 <a href="/story/1/" class="story-renav-link">Back to the beginning.</a>
 </nav>
+<script>
+(function(){
+  var nav = document.querySelector('.story-renav');
+  var link = document.querySelector('.story-renav-link');
+  if(!nav || !link) return;
+  var hideTimer = null;
+  function show(){
+    link.style.opacity = '1';
+    clearTimeout(hideTimer);
+    hideTimer = setTimeout(hide, 3000);
+  }
+  function hide(){
+    link.style.opacity = '';
+    clearTimeout(hideTimer);
+  }
+  nav.addEventListener('click', function(e){
+    if(e.target === link) return;
+    show();
+  });
+  nav.addEventListener('touchstart', function(e){
+    if(e.target === link) return;
+    show();
+  }, {passive:true});
+  document.addEventListener('click', function(e){
+    if(!nav.contains(e.target)) hide();
+  });
+  document.addEventListener('touchstart', function(e){
+    if(!nav.contains(e.target)) hide();
+  }, {passive:true});
+})();
+</script>
 {% endif %}
 </div>
 <div class="essay-section-divider"></div>
