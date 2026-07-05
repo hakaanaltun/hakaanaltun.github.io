@@ -13,9 +13,16 @@ layout: home
   </div>
 </section>
 
+<section id="story-doorway" class="story-doorway" aria-label="Start here">
+  <a href="/story/" class="story-doorway-link">
+    <span class="story-doorway-lead">New here?</span>
+    <span class="story-doorway-cue">Start from the notice.</span>
+  </a>
+</section>
+
 <section id="latest">
   {% include section-header.html title="Latest" subtitle="" %}
-  {% assign latest = site.posts | sort: "date" | reverse %}
+  {% assign latest = site.posts | sort: "date" | reverse | where_exp: "p", "p.story_card != true" %}
   {% assign latest_count = 8 %}
   <ul class="piece-grid">
     {% for post in latest limit: latest_count %}
@@ -31,10 +38,12 @@ layout: home
   {% assign pool_posts = "" | split: "" %}
   {% assign skipped = 0 %}
   {% for post in all_posts %}
-    {% if skipped < latest_count %}
-      {% assign skipped = skipped | plus: 1 %}
-      {% continue %}
-    {% endif %}
+    {% unless post.story_card %}
+      {% if skipped < latest_count %}
+        {% assign skipped = skipped | plus: 1 %}
+        {% continue %}
+      {% endif %}
+    {% endunless %}
     {% assign post_slug = post.slug %}
     {% assign is_excluded = false %}
     {% for s in excluded_slugs %}
@@ -53,7 +62,7 @@ layout: home
     var pool = [
       {% for post in pool_posts %}
       {
-        url: "{{ post.url }}",
+        url: "{% if post.story_card %}/story/{% else %}{{ post.url }}{% endif %}",
         title: {{ post.title | jsonify }},
         subtitle: {{ post.subtitle | default: "" | jsonify }},
         date: "{{ post.date | date: '%b %-d, %Y' }}"
