@@ -745,7 +745,7 @@ body.moris-lightbox-open { overflow: hidden; }
 .story-doorway-lead {
   font-family: 'EB Garamond', Georgia, serif;
   font-size: 1.1rem; letter-spacing: 0.04em; color: var(--vizon);
-  text-align: left; margin-top: 10px;
+  text-align: center; margin-top: 10px;
 }
 @media (max-width: 600px) {
   #story-doorway { padding-top: 22px; }
