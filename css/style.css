@@ -827,30 +827,44 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
 /* ── Story ── */
 /* ==========================================================================
    Story — "The Notice" (branching fiction)
+   Reading order in the header: title, subtitle, date, then per-scene
+   section head + clock. No pronoun gate; /story/ opens straight into it.
    ========================================================================== */
 
-/* Section marker: quiet clock + one-word head, so the reader never feels lost
-   without a title announcing the scene. */
-.story-clock {
+/* Section marker: sits under the date. One-word head, then a quiet clock —
+   enough to place the reader in the day without announcing the scene. */
+.story-marker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin-top: 22px;
+}
+.essay-header h2.story-section-head {
+  border-top: none;
+  padding-top: 0;
+  margin: 0;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 1.2;
+  color: var(--petrol);
   text-align: center;
+}
+.story-clock {
+  margin: 0;
   font-family: 'EB Garamond', Georgia, serif;
   font-style: italic;
   font-size: 0.95rem;
   letter-spacing: 0.02em;
   color: var(--vizon);
-  margin: 0 0 4px;
-}
-.essay-body h2.story-section-head {
-  border-top: none;
-  padding-top: 0;
-  margin: 0 0 40px;
-  font-size: 26px;
-  color: var(--petrol);
+  text-align: center;
 }
 
 /* Scene rhythm: the prose lives or dies on the space around one-word
-   paragraphs ("Low."), so give story paragraphs a touch more breathing room. */
-.essay-body .story-choice { margin-bottom: 24px; }
+   paragraphs ("Low."), so give story paragraphs generous breathing room. */
+.essay-body p { margin-bottom: 28px; }
 
 /* Choices: clearly links, but diegetic — no buttons, no moral weight. */
 .story-choice {
@@ -861,6 +875,7 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
   font-style: italic;
   font-size: 1.35rem;
 }
+.story-choice:first-of-type { margin-top: 40px; }
 .story-choice a {
   color: var(--petrol);
   text-decoration: none;
@@ -875,53 +890,12 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
   outline: none;
 }
 
-/* Threshold — the door page at /story/ */
-.story-threshold-lead {
-  text-align: center;
-  font-style: italic;
-  color: var(--vizon);
-  font-size: 1.15rem;
-  line-height: 1.6;
-  max-width: 34em;
-  margin: 8px auto 40px;
-}
-.story-threshold {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: clamp(28px, 6vw, 64px);
-  margin: 8px 0 36px;
-}
-.story-door {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-style: italic;
-  font-size: clamp(1.9rem, 4vw, 2.6rem);
-  color: var(--petrol);
-  text-decoration: none;
-  padding: 6px 4px;
-  border-bottom: 1px solid transparent;
-  transition: border-color 0.2s ease, transform 0.2s ease;
-}
-.story-door:hover,
-.story-door:focus-visible {
-  border-bottom-color: rgb(var(--chrome-rgb, 62, 50, 73));
-  transform: translateY(-2px);
-  outline: none;
-}
-.story-threshold-note {
-  text-align: center;
-  font-style: italic;
-  font-size: 0.98rem;
-  color: var(--vizon);
-  margin-top: 8px;
-}
-
 /* Hidden-door input box: last element on each ending, unlabeled, quiet.
    Wrong input does nothing — so the box stays understated. */
 .doorbox {
   display: flex;
   justify-content: center;
-  margin: 44px auto 0;
+  margin: 48px auto 0;
 }
 .doorbox input {
   width: 8em;
@@ -939,4 +913,8 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
 .doorbox input:focus {
   border-bottom-color: rgba(var(--chrome-rgb, 62, 50, 73), 0.55);
 }
-.doorbox input { border: none; outline: none; background: transparent; font: inherit; color: inherit; width: 100%; padding: 0; }
+
+@media (max-width: 767px) {
+  .essay-header h2.story-section-head { font-size: 21px; }
+  .story-choice { font-size: 1.2rem; }
+}
