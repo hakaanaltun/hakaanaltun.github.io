@@ -25,6 +25,11 @@ layout: default
 <article class="essay-body fade-in fade-in-delay">
 {{ content }}
 </article>
+{% if is_story and page.story_end %}
+<nav class="story-renav" aria-label="Story navigation">
+<a href="/story/1/" class="story-renav-link">Back to the beginning</a>
+</nav>
+{% endif %}
 </div>
 <div class="essay-section-divider"></div>
 {% if page.series == "on-series" %}
