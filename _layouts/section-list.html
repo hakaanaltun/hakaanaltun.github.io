@@ -2,7 +2,7 @@
 layout: default
 ---
 {% if page.series_filter == "" %}
-  {% assign section_posts = site.posts | where: "series", "" | sort: "date" | reverse %}
+  {% assign section_posts = site.posts | where: "series", "" | sort: "date" | reverse | where_exp: "p", "p.story_card != true" %}
 {% else %}
   {% assign section_posts = site.posts | where: "series", page.series_filter | sort: "series_order" %}
 {% endif %}
