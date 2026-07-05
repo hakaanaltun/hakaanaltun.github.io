@@ -1,5 +1,6 @@
 <li class="piece-card{% if include.featured %} is-featured{% endif %}">
-  <a href="{{ include.post.url }}" class="piece-card-link">
+  {% if include.post.story_card %}{% assign _card_url = "/story/" %}{% else %}{% assign _card_url = include.post.url %}{% endif %}
+  <a href="{{ _card_url }}" class="piece-card-link">
     {% assign img = include.post.thumb | default: include.post.image %}
     {% if img %}
     <span class="piece-thumb-wrap">
@@ -13,7 +14,7 @@
       <span class="piece-subtitle">{{ include.post.subtitle }}</span>
       {% endif %}
       <span class="piece-meta">{{ include.post.date | date: "%b %-d, %Y" }}</span>
-      {% assign excerpt_text = include.post.content | strip_html | strip_newlines | truncatewords: 32 %}
+      {% if include.post.story_card and include.post.excerpt %}{% assign excerpt_text = include.post.excerpt %}{% else %}{% assign excerpt_text = include.post.content | strip_html | strip_newlines | truncatewords: 32 %}{% endif %}
       {% if include.post.slug == "collateral" %}{% assign excerpt_text = excerpt_text | replace: "halıcı", "<em>halıcı</em>" %}{% endif %}
       {% if include.post.slug == "on-silence" %}{% assign excerpt_text = excerpt_text | replace: 'This piece also appears in The Fragments as Chapter 8, Moris.', '<em>This piece also appears in The Fragments as Chapter 8, Moris.</em>' %}{% endif %}
       {% if excerpt_text != blank %}
