@@ -845,7 +845,7 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
   margin: 0;
   font-family: 'EB Garamond', Georgia, serif;
   font-style: italic;
-  font-size: 0.95rem;
+  font-size: 0.98rem;
   letter-spacing: 0.02em;
   color: var(--vizon);
   text-align: center;
@@ -880,57 +880,6 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
 }
 
 /* Story gate — pronoun selection threshold page */
-.story-gate {
-  max-width: 34em;
-  margin: 14vh auto 0;
-  padding: 0 1.5em;
-  text-align: center;
-}
-.story-gate-title {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 2.4rem;
-  font-weight: 400;
-  color: var(--ink);
-  margin-bottom: 0.25em;
-}
-.story-gate-subtitle {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-style: italic;
-  font-size: 1.25rem;
-  color: var(--vizon);
-  margin-bottom: 2.5em;
-}
-.story-gate-prompt {
-  font-family: 'EB Garamond', Georgia, serif;
-  font-size: 1.1rem;
-  color: var(--ink-soft);
-  margin-bottom: 1.5em;
-}
-.story-gate-choices {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1em;
-}
-.story-gate-btn {
-  display: block;
-  width: 10em;
-  padding: 0.7em 1em;
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-style: italic;
-  font-size: 1.3rem;
-  color: var(--petrol);
-  text-decoration: none;
-  border: 1px solid rgba(var(--chrome-rgb, 62, 50, 73), 0.3);
-  border-radius: 4px;
-  transition: border-color 0.2s ease, background 0.2s ease;
-}
-.story-gate-btn:hover,
-.story-gate-btn:focus-visible {
-  border-color: rgb(var(--chrome-rgb, 62, 50, 73));
-  background: rgba(var(--chrome-rgb, 62, 50, 73), 0.04);
-  outline: none;
-}
 
 /* Hidden-door input box: last element on each ending, unlabeled, quiet.
    Wrong input does nothing — so the box stays understated. */
