@@ -732,11 +732,6 @@ body.moris-lightbox-open { overflow: hidden; }
 .story-doorway-cue {
   font-family: 'Cormorant Garamond', Georgia, serif;
   font-style: italic; font-size: 1.5rem; color: var(--petrol);
-  transition: color 0.2s ease;
-}
-.story-doorway-link:hover .story-doorway-cue,
-.story-doorway-link:focus-visible .story-doorway-cue {
-  color: var(--petrol);
 }
 .story-doorway-link:focus-visible { outline: none; }
 @media (max-width: 600px) {
