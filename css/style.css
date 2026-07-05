@@ -912,7 +912,7 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
 /* Re-entry: a hushed "back to the beginning" on the four ending pages only.
    Sends the reader to page one — a clean reset, not a step-back that would undo
    a single choice. It sits just under the hidden-door box. */
-.story-renav { text-align: center; margin-top: 46px; }
+.story-renav { text-align: center; margin-top: 46px; padding: 18px 0; }
 .story-renav-link {
   display: inline;
   font-family: 'EB Garamond', Georgia, serif;
@@ -923,13 +923,22 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
   text-decoration: none;
   border-bottom: 1px solid rgba(var(--chrome-rgb, 62, 50, 73), 0.22);
   padding-bottom: 1px;
-  transition: color 0.2s ease, border-color 0.2s ease;
+  opacity: 0;
+  transition: color 0.2s ease, border-color 0.2s ease, opacity 0.3s ease;
+}
+.story-renav:hover .story-renav-link,
+.story-renav-link:focus-visible {
+  opacity: 1;
 }
 .story-renav-link:hover,
 .story-renav-link:focus-visible {
   color: var(--petrol);
   border-bottom-color: rgba(var(--chrome-rgb, 62, 50, 73), 0.5);
   outline: none;
+}
+@media (hover: none) {
+  .story-renav:active .story-renav-link,
+  .story-renav:focus-within .story-renav-link { opacity: 1; }
 }
 
 /* Story gate — pronoun selection threshold page */
