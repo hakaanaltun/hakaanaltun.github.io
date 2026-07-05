@@ -59,8 +59,8 @@ layout: default
     if(e.target === link) return;
     show();
   }, {passive:true});
-  nav.addEventListener('mouseenter', function(e){
-    if(e.target === nav) show();
+  nav.addEventListener('mouseenter', function(){
+    show();
   });
   /* Hide when clicking/touching anywhere outside nav */
   document.addEventListener('click', function(e){
