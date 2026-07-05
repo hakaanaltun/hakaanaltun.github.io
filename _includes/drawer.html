@@ -1,5 +1,5 @@
 {% if page.layout == "home" %}{% assign logo_href = "#" %}{% else %}{% assign logo_href = "/" %}{% endif %}
-{% assign regular_essays = site.posts | where: "series", "" | sort: "date" | reverse %}
+{% assign regular_essays = site.posts | where: "series", "" | sort: "date" | reverse | where_exp: "p", "p.story_card != true" %}
 {% assign cafe_series = site.posts | where: "series", "cafe-series" | sort: "series_order" %}
 {% assign fragments = site.posts | where: "series", "fragments" | sort: "series_order" %}
 {% assign on_series = site.posts | where: "series", "on-series" | sort: "series_order" %}
