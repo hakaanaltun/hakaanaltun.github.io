@@ -825,6 +825,118 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
 }
 
 /* ── Story ── */
-.story-choice { display: block; margin: 0.6em 0; color: inherit; text-decoration: none; font-weight: normal; }
-.story-choice:hover { text-decoration: underline; }
+/* ==========================================================================
+   Story — "The Notice" (branching fiction)
+   ========================================================================== */
+
+/* Section marker: quiet clock + one-word head, so the reader never feels lost
+   without a title announcing the scene. */
+.story-clock {
+  text-align: center;
+  font-family: 'EB Garamond', Georgia, serif;
+  font-style: italic;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  color: var(--vizon);
+  margin: 0 0 4px;
+}
+.essay-body h2.story-section-head {
+  border-top: none;
+  padding-top: 0;
+  margin: 0 0 40px;
+  font-size: 26px;
+  color: var(--petrol);
+}
+
+/* Scene rhythm: the prose lives or dies on the space around one-word
+   paragraphs ("Low."), so give story paragraphs a touch more breathing room. */
+.essay-body .story-choice { margin-bottom: 24px; }
+
+/* Choices: clearly links, but diegetic — no buttons, no moral weight. */
+.story-choice {
+  display: block;
+  margin: 0.9em 0;
+  text-align: center;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-size: 1.35rem;
+}
+.story-choice a {
+  color: var(--petrol);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(var(--chrome-rgb, 62, 50, 73), 0.35);
+  padding-bottom: 1px;
+  transition: border-color 0.2s ease, opacity 0.2s ease;
+}
+.story-choice a:hover,
+.story-choice a:focus-visible {
+  border-bottom-color: rgb(var(--chrome-rgb, 62, 50, 73));
+  opacity: 0.82;
+  outline: none;
+}
+
+/* Threshold — the door page at /story/ */
+.story-threshold-lead {
+  text-align: center;
+  font-style: italic;
+  color: var(--vizon);
+  font-size: 1.15rem;
+  line-height: 1.6;
+  max-width: 34em;
+  margin: 8px auto 40px;
+}
+.story-threshold {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(28px, 6vw, 64px);
+  margin: 8px 0 36px;
+}
+.story-door {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-size: clamp(1.9rem, 4vw, 2.6rem);
+  color: var(--petrol);
+  text-decoration: none;
+  padding: 6px 4px;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+.story-door:hover,
+.story-door:focus-visible {
+  border-bottom-color: rgb(var(--chrome-rgb, 62, 50, 73));
+  transform: translateY(-2px);
+  outline: none;
+}
+.story-threshold-note {
+  text-align: center;
+  font-style: italic;
+  font-size: 0.98rem;
+  color: var(--vizon);
+  margin-top: 8px;
+}
+
+/* Hidden-door input box: last element on each ending, unlabeled, quiet.
+   Wrong input does nothing — so the box stays understated. */
+.doorbox {
+  display: flex;
+  justify-content: center;
+  margin: 44px auto 0;
+}
+.doorbox input {
+  width: 8em;
+  text-align: center;
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 1rem;
+  color: var(--ink-soft);
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--rule-strong);
+  padding: 6px 4px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+.doorbox input:focus {
+  border-bottom-color: rgba(var(--chrome-rgb, 62, 50, 73), 0.55);
+}
 .doorbox input { border: none; outline: none; background: transparent; font: inherit; color: inherit; width: 100%; padding: 0; }
