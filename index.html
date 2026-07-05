@@ -40,12 +40,11 @@ layout: home
   {% assign pool_posts = "" | split: "" %}
   {% assign skipped = 0 %}
   {% for post in all_posts %}
-    {% unless post.story_card %}
-      {% if skipped < latest_count %}
-        {% assign skipped = skipped | plus: 1 %}
-        {% continue %}
-      {% endif %}
-    {% endunless %}
+    {% if post.story_card %}{% continue %}{% endif %}
+    {% if skipped < latest_count %}
+      {% assign skipped = skipped | plus: 1 %}
+      {% continue %}
+    {% endif %}
     {% assign post_slug = post.slug %}
     {% assign is_excluded = false %}
     {% for s in excluded_slugs %}
@@ -64,7 +63,7 @@ layout: home
     var pool = [
       {% for post in pool_posts %}
       {
-        url: "{% if post.story_card %}/story/{% else %}{{ post.url }}{% endif %}",
+        url: "{{ post.url }}",
         title: {{ post.title | jsonify }},
         subtitle: {{ post.subtitle | default: "" | jsonify }},
         date: "{{ post.date | date: '%b %-d, %Y' }}"
