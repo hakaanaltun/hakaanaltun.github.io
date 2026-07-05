@@ -841,18 +841,6 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
   gap: 4px;
   margin-top: 22px;
 }
-.essay-header h2.story-section-head {
-  border-top: none;
-  padding-top: 0;
-  margin: 0;
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-style: italic;
-  font-weight: 500;
-  font-size: 24px;
-  line-height: 1.2;
-  color: var(--petrol);
-  text-align: center;
-}
 .story-clock {
   margin: 0;
   font-family: 'EB Garamond', Georgia, serif;
@@ -975,6 +963,5 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
 }
 
 @media (max-width: 767px) {
-  .essay-header h2.story-section-head { font-size: 21px; }
   .story-choice { font-size: 1.2rem; }
 }
