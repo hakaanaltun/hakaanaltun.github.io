@@ -6,6 +6,12 @@ layout: default
 <div class="essay-header fade-in">
 <div class="essay-title-block"><h1>{{ page.title | replace: "'", "’" }}</h1><p class="essay-subtitle">{{ page.subtitle }}</p></div>
 <p class="essay-date-line">{{ page.date | date: "%B %-d, %Y" }}</p>
+{% if page.series == "story" and page.story_section %}
+<div class="story-marker">
+<h2 class="story-section-head">{{ page.story_section }}</h2>
+{% if page.story_clock %}<p class="story-clock">{{ page.story_clock }}</p>{% endif %}
+</div>
+{% endif %}
 </div>
 {% assign cover_image = page.image | default: page.thumb %}
 {% if cover_image %}
