@@ -727,22 +727,17 @@ body.moris-lightbox-open { overflow: hidden; }
 }
 .story-doorway-lead {
   font-family: 'EB Garamond', Georgia, serif;
-  font-size: 0.95rem; letter-spacing: 0.04em; color: var(--vizon);
+  font-size: 1.1rem; letter-spacing: 0.04em; color: var(--vizon);
 }
 .story-doorway-cue {
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-style: italic; font-size: 1.3rem; color: var(--petrol);
-  border-bottom: 1px solid rgba(var(--chrome-rgb, 62, 50, 73), 0.28);
-  padding-bottom: 1px; transition: border-color 0.2s ease;
-}
-.story-doorway-link:hover .story-doorway-cue,
-.story-doorway-link:focus-visible .story-doorway-cue {
-  border-bottom-color: rgb(var(--chrome-rgb, 62, 50, 73));
+  font-style: italic; font-size: 1.5rem; color: var(--petrol);
 }
 .story-doorway-link:focus-visible { outline: none; }
 @media (max-width: 600px) {
   #story-doorway { padding-top: 22px; }
-  .story-doorway-cue { font-size: 1.2rem; }
+  .story-doorway-cue { font-size: 1.35rem; }
+  .story-doorway-lead { font-size: 1rem; }
 }
 
 @media (max-width: 600px) {
@@ -919,6 +914,7 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
    a single choice. It sits just under the hidden-door box. */
 .story-renav { text-align: center; margin-top: 46px; }
 .story-renav-link {
+  display: inline;
   font-family: 'EB Garamond', Georgia, serif;
   font-style: italic;
   font-size: 0.98rem;
