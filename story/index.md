@@ -1,18 +1,20 @@
 ---
-layout: default
-title: "The Notice"
+layout: null
 noindex: true
 sitemap: false
 series: story
 permalink: /story/
+redirect_to: /story/1/
 ---
-<div class="story-gate">
-  <h1 class="story-gate-title">The Notice</h1>
-  <p class="story-gate-subtitle">A door, and the hour beside it</p>
-  <p class="story-gate-prompt">Choose a pronoun for the protagonist.</p>
-  <div class="story-gate-choices">
-    <a href="/story/he/1/" class="story-gate-btn">he</a>
-    <a href="/story/she/1/" class="story-gate-btn">she</a>
-    <a href="/story/they/1/" class="story-gate-btn">they</a>
-  </div>
-</div>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="refresh" content="0;url=/story/1/">
+<link rel="canonical" href="/story/1/">
+<title>The Notice</title>
+</head>
+<body>
+<p><a href="/story/1/">Continue</a></p>
+</body>
+</html>
