@@ -36,13 +36,20 @@ layout: default
   if(!nav || !link) return;
   var hideTimer = null;
   function show(){
-    link.style.opacity = '1';
+    link.classList.add('is-visible');
     clearTimeout(hideTimer);
     hideTimer = setTimeout(hide, 3000);
   }
   function hide(){
-    link.style.opacity = '';
+    link.classList.remove('is-visible');
     clearTimeout(hideTimer);
+  }
+  /* Show when interacting with the area below the doorbox (password input) */
+  var doorbox = document.querySelector('.doorbox');
+  if(doorbox) {
+    doorbox.addEventListener('click', function(e){
+      if(e.target === doorbox) show();
+    });
   }
   nav.addEventListener('click', function(e){
     if(e.target === link) return;
@@ -52,6 +59,10 @@ layout: default
     if(e.target === link) return;
     show();
   }, {passive:true});
+  nav.addEventListener('mouseenter', function(e){
+    if(e.target === nav) show();
+  });
+  /* Hide when clicking/touching anywhere outside nav */
   document.addEventListener('click', function(e){
     if(!nav.contains(e.target)) hide();
   });
