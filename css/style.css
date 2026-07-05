@@ -716,6 +716,35 @@ body.moris-lightbox-open { overflow: hidden; }
   .hero-quote-card:hover .quote-nav { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
 }
 
+/* Story doorway — a quiet threshold under the hero. Not a card, not a section
+   head; one line that lets a first-time reader step straight into the story.
+   Kept off /latest/ and /pieces/ on purpose — this is the only cold invitation. */
+#story-doorway { padding: 28px 0 0; }
+.story-doorway { text-align: center; }
+.story-doorway-link {
+  display: inline-flex; flex-wrap: wrap; align-items: baseline; justify-content: center;
+  gap: 0.55ch; text-decoration: none;
+}
+.story-doorway-lead {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 0.95rem; letter-spacing: 0.04em; color: var(--vizon);
+}
+.story-doorway-cue {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic; font-size: 1.3rem; color: var(--petrol);
+  border-bottom: 1px solid rgba(var(--chrome-rgb, 62, 50, 73), 0.28);
+  padding-bottom: 1px; transition: border-color 0.2s ease;
+}
+.story-doorway-link:hover .story-doorway-cue,
+.story-doorway-link:focus-visible .story-doorway-cue {
+  border-bottom-color: rgb(var(--chrome-rgb, 62, 50, 73));
+}
+.story-doorway-link:focus-visible { outline: none; }
+@media (max-width: 600px) {
+  #story-doorway { padding-top: 22px; }
+  .story-doorway-cue { font-size: 1.2rem; }
+}
+
 @media (max-width: 600px) {
   .hero-quotes-section { padding-top: 30px; padding-bottom: 32px; }
   .hero-quote-card { min-height: 150px; padding: 22px 20px 46px; }
@@ -839,15 +868,21 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
   flex-direction: column;
   align-items: center;
   gap: 4px;
-  margin-top: 22px;
+  margin-top: 26px;
 }
+/* Scene-time heading. With the section titles gone, the clock now carries the
+   header on its own, so it reads at heading weight (Variant A). To try the
+   alternatives: Variant B — tracked timestamp kicker; Variant C — larger quiet
+   italic. Both are one rule-swap away; see the handover note. */
 .story-clock {
   margin: 0;
-  font-family: 'EB Garamond', Georgia, serif;
+  font-family: 'Cormorant Garamond', Georgia, serif;
   font-style: italic;
-  font-size: 0.98rem;
-  letter-spacing: 0.02em;
-  color: var(--vizon);
+  font-weight: 500;
+  font-size: clamp(1.5rem, 2.3vw, 1.85rem);
+  line-height: 1.1;
+  letter-spacing: 0.01em;
+  color: var(--petrol);
   text-align: center;
 }
 
