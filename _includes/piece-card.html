@@ -6,8 +6,6 @@
     <span class="piece-thumb-wrap">
       <img src="{{ img }}" alt="{{ include.post.cover_alt | default: include.post.title }}" class="piece-thumb" loading="lazy">
     </span>
-    {% elsif include.post.story_card %}
-    <span class="piece-thumb-wrap piece-thumb-empty" aria-hidden="true"></span>
     {% endif %}
     <span class="piece-body">
       {% assign display_title = include.post.title | replace: "'", "’" %}
