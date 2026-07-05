@@ -722,12 +722,17 @@ body.moris-lightbox-open { overflow: hidden; }
 #story-doorway { padding: 28px 0 0; }
 .story-doorway { text-align: center; }
 .story-doorway-link {
-  display: flex; flex-direction: column; text-decoration: none;
-  padding: 18px 20px 16px; border-radius: 14px;
-  transition: transform 0.28s ease;
+  display: inline-flex; flex-direction: column; text-align: center;
+  max-width: 440px; width: calc(100% - 40px);
+  text-decoration: none;
+  padding: 22px 30px 20px; border-radius: 16px;
+  border: 1px solid var(--rule-strong);
+  background: var(--surface-soft);
+  box-shadow: var(--shadow-card);
+  transition: transform 0.28s ease, box-shadow 0.28s ease;
 }
-.story-doorway-link:hover { transform: translateY(-4px); }
-.story-doorway-link:focus-visible { outline: none; }
+.story-doorway-link:hover { transform: translateY(-4px); box-shadow: var(--shadow-card-hover); }
+.story-doorway-link:focus-visible { outline: 2px solid var(--petrol); outline-offset: 4px; }
 .story-doorway-cue {
   font-family: 'Cormorant Garamond', Georgia, serif;
   font-style: italic; font-size: 1.5rem; color: var(--petrol);
@@ -927,17 +932,19 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
    a single choice. It sits just under the hidden-door box. */
 .story-renav { text-align: center; margin-top: 46px; padding: 18px 0; }
 .story-renav-link {
-  display: inline;
+  display: inline-block;
   font-family: 'EB Garamond', Georgia, serif;
   font-style: italic;
   font-size: 0.98rem;
   letter-spacing: 0.02em;
   color: var(--vizon);
-  text-decoration: underline;
-  border-bottom: none;
-  padding-bottom: 1px;
+  text-decoration: none;
+  padding: 10px 22px;
+  border: 1px solid var(--rule-strong);
+  border-radius: 12px;
+  background: var(--surface-soft);
   opacity: 0;
-  transition: color 0.2s ease, opacity 0.3s ease;
+  transition: color 0.2s ease, opacity 0.3s ease, transform 0.25s ease, box-shadow 0.25s ease;
   pointer-events: none;
 }
 .story-renav-link.is-visible {
@@ -947,6 +954,8 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
 .story-renav-link:hover,
 .story-renav-link:focus-visible {
   color: var(--petrol);
+  box-shadow: var(--shadow-card);
+  transform: translateY(-2px);
   outline: none;
 }
 
