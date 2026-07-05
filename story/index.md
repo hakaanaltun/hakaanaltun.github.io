@@ -9,5 +9,6 @@ sitemap: false
 story_clock: "6:20 a.m."
 story_section: "The Notice"
 story_render: "they"
+permalink: /story/
 ---
 {% include story/n1.html r="they" %}
