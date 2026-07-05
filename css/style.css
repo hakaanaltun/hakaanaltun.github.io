@@ -963,9 +963,15 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
   padding: 6px 4px;
   outline: none;
   transition: border-color 0.2s ease;
+  animation: doorbox-glow 2.4s ease-in-out 3;
 }
 .doorbox input:focus {
   border-bottom-color: rgba(var(--chrome-rgb, 62, 50, 73), 0.55);
+  animation: none;
+}
+@keyframes doorbox-glow {
+  0%, 100% { border-bottom-color: var(--rule-strong); }
+  50% { border-bottom-color: rgba(var(--chrome-rgb, 62, 50, 73), 0.6); }
 }
 
 @media (max-width: 767px) {

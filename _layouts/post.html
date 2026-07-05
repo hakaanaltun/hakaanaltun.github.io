@@ -3,10 +3,16 @@ layout: default
 ---
 <div class="essay-article">
 <div class="essay-card-wrapper">
+{% assign is_story = false %}
+{% if page.series == "story" and page.story_section %}{% assign is_story = true %}{% endif %}
+{% assign is_first_story = false %}
+{% if is_story and page.permalink and page.permalink contains "/1/" %}{% assign is_first_story = true %}{% endif %}
 <div class="essay-header fade-in">
-<div class="essay-title-block"><h1>{{ page.title | replace: "'", "’" }}</h1><p class="essay-subtitle">{{ page.subtitle }}</p></div>
+{% if is_story == false or is_first_story %}
+<div class="essay-title-block"><h1>{{ page.title | replace: "'", "'" }}</h1><p class="essay-subtitle">{{ page.subtitle }}</p></div>
 <p class="essay-date-line">{{ page.date | date: "%B %-d, %Y" }}</p>
-{% if page.series == "story" and page.story_section %}
+{% endif %}
+{% if is_story %}
 <div class="story-marker">
 <h2 class="story-section-head">{{ page.story_section }}</h2>
 {% if page.story_clock %}<p class="story-clock">{{ page.story_clock }}</p>{% endif %}
