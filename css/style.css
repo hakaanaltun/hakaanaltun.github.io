@@ -1008,15 +1008,20 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
 
    The ruling lives on the prose paragraphs themselves (not the whole column), so
    it begins at the first sentence and ends at the last — the choice links and the
-   hidden doorbox are left exactly as they were, with no lines behind them. */
-.story-ruled .essay-body { line-height: 36px; }
-/* Lock the prose to the grid: one line = one gap, spacing = one gap, so the
-   rhythm never drifts. One-word paragraphs ("Low.") stay on grid at 2 gaps.
-   :not(.story-choice) keeps the choice links untouched — their own spacing and
-   size stand. */
-.story-ruled .essay-body p:not(.story-choice) {
+   hidden doorbox are left exactly as they were, with no lines behind them. The
+   line-height is set on the paragraphs, never the container, so any heading, list
+   or quote wouldn't inherit the grid. */
+
+/* Lock the prose to the grid: one line = one gap. The paragraph gap is carried
+   as padding (which the background fills) rather than margin, so the ruling runs
+   *continuously* — every text line and the blank line between paragraphs — the
+   way ruled paper does. The phase never drifts because each paragraph box is a
+   whole number of 36px gaps tall. :not(.story-choice) leaves the choice links'
+   own spacing and size untouched; > scopes to direct prose only. */
+.story-ruled .essay-body > p:not(.story-choice) {
   line-height: 36px;
-  margin-bottom: 36px;
+  margin: 0;
+  padding-bottom: 36px;
   background-image: repeating-linear-gradient(
     to bottom,
     rgba(var(--chrome-rgb, 62, 50, 73), 0.07) 0,
@@ -1028,11 +1033,19 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
   background-position: 0 24px;
   background-repeat: repeat;
 }
+/* The last prose paragraph — anything not directly followed by more prose (a
+   choice, the doorbox, or nothing) — drops the ruled gap and uses a plain margin,
+   so the lines stop at the final sentence and the choices/doorbox below stay
+   clear. */
+.story-ruled .essay-body > p:not(.story-choice):not(:has(+ p:not(.story-choice))) {
+  padding-bottom: 0;
+  margin-bottom: 36px;
+}
 
 @media (max-width: 767px) {
   /* Keep the ruling equally faint on narrow screens; the 36px grid holds since
      the body size is unchanged, so no re-tuning is needed. */
-  .story-ruled .essay-body p:not(.story-choice) {
+  .story-ruled .essay-body > p:not(.story-choice) {
     background-image: repeating-linear-gradient(
       to bottom,
       rgba(var(--chrome-rgb, 62, 50, 73), 0.06) 0,
@@ -1044,6 +1057,12 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
 }
 
 @media print {
-  /* Paper doesn't need painted lines. */
-  .story-ruled .essay-body p:not(.story-choice) { background-image: none; }
+  /* Paper doesn't need painted lines — and it shouldn't inherit the airy screen
+     grid either, so hand the prose back its normal essay spacing for print. */
+  .story-ruled .essay-body > p:not(.story-choice) {
+    background-image: none;
+    line-height: 1.85;
+    padding-bottom: 0;
+    margin-bottom: 28px;
+  }
 }
