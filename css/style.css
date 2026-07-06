@@ -992,3 +992,55 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
 @media (max-width: 767px) {
   .story-choice { font-size: 1.2rem; }
 }
+
+/* Ruled notebook leaves — story pages only.
+   A near-subliminal horizontal ruling behind the reading column: the story's
+   "leaves" motif read as faint paper, never as skeuomorph. No red margin, no
+   spiral, no texture, no images, no shadows. Scoped strictly to .story-ruled so
+   normal essays are untouched.
+
+   Baseline discipline: body text runs on an exact px grid (line-height = the
+   rule gap = 36px, at the 20px body size), paragraph spacing is one gap, and a
+   background-position offset drops each rule under the baseline so text sits ON
+   the lines rather than floating between them. The ink is derived from the story
+   palette (--chrome-rgb) at 0.07 alpha — decorative only, well under any contrast
+   concern; body text keeps its full AA-legible colour. */
+.story-ruled .essay-body {
+  line-height: 36px;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(var(--chrome-rgb, 62, 50, 73), 0.07) 0,
+    rgba(var(--chrome-rgb, 62, 50, 73), 0.07) 1px,
+    transparent 1px,
+    transparent 36px
+  );
+  /* phase the ruling down so a line falls under each text baseline */
+  background-position: 0 24px;
+  background-repeat: repeat;
+}
+/* Lock the prose to the grid: one line = one gap, spacing = one gap, so the
+   rhythm never drifts. One-word paragraphs ("Low.") stay on grid at 2 gaps. */
+.story-ruled .essay-body p {
+  line-height: 36px;
+  margin-bottom: 36px;
+}
+.story-ruled .essay-body p:last-child { margin-bottom: 0; }
+
+@media (max-width: 767px) {
+  /* Keep the ruling equally faint on narrow screens; the 36px grid holds since
+     the body size is unchanged, so no re-tuning is needed. */
+  .story-ruled .essay-body {
+    background-image: repeating-linear-gradient(
+      to bottom,
+      rgba(var(--chrome-rgb, 62, 50, 73), 0.06) 0,
+      rgba(var(--chrome-rgb, 62, 50, 73), 0.06) 1px,
+      transparent 1px,
+      transparent 36px
+    );
+  }
+}
+
+@media print {
+  /* Paper doesn't need painted lines. */
+  .story-ruled .essay-body { background-image: none; }
+}
