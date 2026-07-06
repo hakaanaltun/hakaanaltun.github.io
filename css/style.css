@@ -1004,9 +1004,19 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
    background-position offset drops each rule under the baseline so text sits ON
    the lines rather than floating between them. The ink is derived from the story
    palette (--chrome-rgb) at 0.07 alpha — decorative only, well under any contrast
-   concern; body text keeps its full AA-legible colour. */
-.story-ruled .essay-body {
+   concern; body text keeps its full AA-legible colour.
+
+   The ruling lives on the prose paragraphs themselves (not the whole column), so
+   it begins at the first sentence and ends at the last — the choice links and the
+   hidden doorbox are left exactly as they were, with no lines behind them. */
+.story-ruled .essay-body { line-height: 36px; }
+/* Lock the prose to the grid: one line = one gap, spacing = one gap, so the
+   rhythm never drifts. One-word paragraphs ("Low.") stay on grid at 2 gaps.
+   :not(.story-choice) keeps the choice links untouched — their own spacing and
+   size stand. */
+.story-ruled .essay-body p:not(.story-choice) {
   line-height: 36px;
+  margin-bottom: 36px;
   background-image: repeating-linear-gradient(
     to bottom,
     rgba(var(--chrome-rgb, 62, 50, 73), 0.07) 0,
@@ -1018,18 +1028,11 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
   background-position: 0 24px;
   background-repeat: repeat;
 }
-/* Lock the prose to the grid: one line = one gap, spacing = one gap, so the
-   rhythm never drifts. One-word paragraphs ("Low.") stay on grid at 2 gaps. */
-.story-ruled .essay-body p {
-  line-height: 36px;
-  margin-bottom: 36px;
-}
-.story-ruled .essay-body p:last-child { margin-bottom: 0; }
 
 @media (max-width: 767px) {
   /* Keep the ruling equally faint on narrow screens; the 36px grid holds since
      the body size is unchanged, so no re-tuning is needed. */
-  .story-ruled .essay-body {
+  .story-ruled .essay-body p:not(.story-choice) {
     background-image: repeating-linear-gradient(
       to bottom,
       rgba(var(--chrome-rgb, 62, 50, 73), 0.06) 0,
@@ -1042,5 +1045,5 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
 
 @media print {
   /* Paper doesn't need painted lines. */
-  .story-ruled .essay-body { background-image: none; }
+  .story-ruled .essay-body p:not(.story-choice) { background-image: none; }
 }
