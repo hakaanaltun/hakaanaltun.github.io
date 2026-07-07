@@ -1,0 +1,249 @@
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% if page.series %}{% assign _sk = page.series %}{% elsif page.series_filter %}{% assign _sk = page.series_filter %}{% else %}{% assign _sk = "default" %}{% endif %}
+{% if _sk == "" %}{% assign _sk = "pieces" %}{% endif %}
+{% assign _tc = site.data.series[_sk] | default: site.data.series.default %}
+<meta name="theme-color" content="rgb({{ _tc }})">
+{% if page.noindex %}<meta name="robots" content="noindex">{% endif %}
+
+{% if page.layout == "post" %}
+{% assign _post_desc = page.description | default: site.description %}
+{% assign _post_og_desc = page.og_description | default: page.description | default: site.description %}
+{% if page.series == "fragments" or page.fiction %}{% assign _schema_type = "ShortStory" %}{% else %}{% assign _schema_type = "Article" %}{% endif %}
+
+<title>{{ page.title }}</title>
+<meta name="description" content="{{ _post_desc }}">
+<meta name="author" content="{{ site.author }}">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-on.png">
+<link rel="canonical" href="{{ page.url | absolute_url }}">
+
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="{{ page.title }}—Hakan Altun">
+<meta property="og:description" content="{{ _post_og_desc }}">
+<meta property="og:image" content="{{ page.image | default: '/og-image-on-card.png' | absolute_url }}">
+<meta property="og:url" content="{{ page.url | absolute_url }}">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="{{ page.date | date_to_xmlschema }}">
+{% if page.last_modified_at %}<meta property="article:modified_time" content="{{ page.last_modified_at | date_to_xmlschema }}">{% endif %}
+<meta property="article:author" content="{{ site.url }}">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ page.title }}—Hakan Altun">
+<meta name="twitter:description" content="{{ _post_og_desc }}">
+<meta name="twitter:image" content="{{ page.image | default: '/og-image-on-card.png' | absolute_url }}">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "{{ _schema_type }}",
+      "@id": "{{ page.url | absolute_url }}#main",
+      "headline": {{ page.title | jsonify }},
+      "name": {{ page.title | jsonify }},
+      "description": {{ _post_og_desc | jsonify }},
+      "url": "{{ page.url | absolute_url }}",
+      "mainEntityOfPage": "{{ page.url | absolute_url }}",
+      "datePublished": "{{ page.date | date_to_xmlschema }}",
+      "dateModified": "{{ page.last_modified_at | default: page.date | date_to_xmlschema }}",
+      "author": { "@id": "{{ site.url }}/#hakan" },
+      "publisher": { "@id": "{{ site.url }}/#hakan" },
+      "copyrightHolder": { "@id": "{{ site.url }}/#hakan" },
+      {% if page.image %}"image": "{{ page.image | absolute_url }}",{% endif %}
+      {% if page.series == "fragments" %}"isPartOf": {"@type":"CreativeWorkSeries","name":"Şafak's Arc from The Fragments"},{% elsif page.series == "on-series" %}"isPartOf": {"@type":"CreativeWorkSeries","name":"The On Series"},{% endif %}
+      {% if _schema_type == "ShortStory" %}"genre": "Fiction",{% endif %}
+      "inLanguage": "en"
+    },
+    {
+      "@type": "Person",
+      "@id": "{{ site.url }}/#hakan",
+      "name": "Hakan Altun",
+      "url": "{{ site.url }}/",
+      "image": "{{ site.url }}/profile.jpg",
+      "jobTitle": "Lecturer",
+      "worksFor": {
+        "@type": "CollegeOrUniversity",
+        "name": "Yeditepe University",
+        "url": "https://www.yeditepe.edu.tr/"
+      },
+      "knowsLanguage": ["tr", "en"]
+    }
+  ]
+}
+</script>
+
+<link rel="stylesheet" href="/css/style.css?v=20260707-8">
+
+{% elsif page.layout == "home" %}
+
+<title>On Life &amp; Everything</title>
+<meta name="description" content="{{ site.description }}">
+<meta name="author" content="Hakan Altun">
+<meta name="keywords" content="Hakan Altun, The Fragments, The On Series, philosophical essays, İstanbul lecturer, Yeditepe University, intellectual minimalism, time, memory">
+
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-on.png">
+<link rel="manifest" href="/manifest.json?v=20260703-6">
+<link rel="alternate" type="application/rss+xml" title="Hakan Altun—On Life &amp; Everything" href="/feed.xml">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="On Life & Everything">
+
+<link rel="canonical" href="https://hakanaltun.io/">
+
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Hakan Altun—On Life & Everything">
+<meta property="og:description" content="{{ site.description }}">
+<meta property="og:image" content="https://hakanaltun.io/og-image-on-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://hakanaltun.io/">
+<meta property="og:type" content="website">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Hakan Altun—On Life &amp; Everything">
+<meta name="twitter:description" content="{{ site.description }}">
+<meta name="twitter:image" content="https://hakanaltun.io/og-image-on-card.png">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://hakanaltun.io/#website",
+      "url": "https://hakanaltun.io/",
+      "name": "On Life & Everything",
+      "description": {{ site.description | jsonify }},
+      "inLanguage": "en",
+      "author": { "@id": "https://hakanaltun.io/#hakan" },
+      "copyrightHolder": { "@id": "https://hakanaltun.io/#hakan" }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://hakanaltun.io/#hakan",
+      "name": "Hakan Altun",
+      "url": "https://hakanaltun.io/",
+      "image": "https://hakanaltun.io/profile.jpg",
+      "jobTitle": "Lecturer",
+      "worksFor": {
+        "@type": "CollegeOrUniversity",
+        "name": "Yeditepe University",
+        "url": "https://www.yeditepe.edu.tr/"
+      },
+      "description": {{ site.description | jsonify }},
+      "knowsLanguage": ["tr", "en"]
+    },
+    {
+      "@type": "Book",
+      "@id": "https://hakanaltun.io/#the-fragments",
+      "name": "The Fragments",
+      "author": { "@id": "https://hakanaltun.io/#hakan" },
+      "publisher": { "@id": "https://hakanaltun.io/#hakan" },
+      "url": "https://hakanaltun.io/book/",
+      "image": "https://hakanaltun.io/images/cover.webp",
+      "datePublished": "2026",
+      "inLanguage": "en",
+      "numberOfPages": 116,
+      "genre": [
+        "Speculative fiction",
+        "Philosophical fiction",
+        "Literary fiction"
+      ],
+      "description": "First, there was Symmetry. A novel of forgetting and remembering, of betrayal and longing, of a silver watch that survives time, and of becoming whole again in a garden at the end of the universe.",
+      "sameAs": [
+        "https://www.goodreads.com/book/show/252076100-the-fragments"
+      ],
+      "workExample": [
+        {
+          "@type": "Book",
+          "@id": "https://hakanaltun.io/#the-fragments-hardcover",
+          "bookFormat": "https://schema.org/Hardcover",
+          "isbn": "9798197583536",
+          "url": "https://www.amazon.com/dp/B0H2CKMMBQ",
+          "inLanguage": "en",
+          "author": { "@id": "https://hakanaltun.io/#hakan" }
+        },
+        {
+          "@type": "Book",
+          "@id": "https://hakanaltun.io/#the-fragments-kindle",
+          "bookFormat": "https://schema.org/EBook",
+          "url": "https://www.amazon.com/dp/B0H18K5XN9",
+          "inLanguage": "en",
+          "author": { "@id": "https://hakanaltun.io/#hakan" }
+        },
+        {
+          "@type": "Book",
+          "@id": "https://hakanaltun.io/#the-fragments-kobo",
+          "bookFormat": "https://schema.org/EBook",
+          "url": "https://www.kobo.com/tr/tr/ebook/the-fragments-4",
+          "inLanguage": "en",
+          "author": { "@id": "https://hakanaltun.io/#hakan" }
+        },
+        {
+          "@type": "Book",
+          "@id": "https://hakanaltun.io/#the-fragments-google-play",
+          "bookFormat": "https://schema.org/EBook",
+          "url": "https://play.google.com/store/books/details?id=U8vXEQAAQBAJ",
+          "inLanguage": "en",
+          "author": { "@id": "https://hakanaltun.io/#hakan" }
+        },
+        {
+          "@type": "Book",
+          "@id": "https://hakanaltun.io/#the-fragments-apple-books",
+          "bookFormat": "https://schema.org/EBook",
+          "url": "https://books.apple.com/us/book/the-fragments/id6773904007",
+          "inLanguage": "en",
+          "author": { "@id": "https://hakanaltun.io/#hakan" }
+        },
+        {
+          "@type": "Book",
+          "@id": "https://hakanaltun.io/#the-fragments-barnes-noble",
+          "bookFormat": "https://schema.org/EBook",
+          "url": "https://www.barnesandnoble.com/w/the-fragments-hakan-altun/1150270923",
+          "inLanguage": "en",
+          "author": { "@id": "https://hakanaltun.io/#hakan" }
+        }
+      ]
+    }
+  ]
+}
+</script>
+
+<link rel="stylesheet" href="/css/style.css?v=20260707-8">
+
+{% else %}
+
+<title>{{ page.title }} &mdash; On Life &amp; Everything</title>
+<meta name="description" content="{{ page.description | default: site.description }}">
+<meta name="author" content="Hakan Altun">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-on.png">
+<link rel="canonical" href="{{ page.url | absolute_url }}">
+
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="{{ page.title }} &mdash; Hakan Altun">
+<meta property="og:description" content="{{ page.description | default: site.description }}">
+<meta property="og:image" content="https://hakanaltun.io/og-image-on-card.png">
+<meta property="og:url" content="{{ page.url | absolute_url }}">
+<meta property="og:type" content="website">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ page.title }} &mdash; Hakan Altun">
+<meta name="twitter:description" content="{{ page.description | default: site.description }}">
+<meta name="twitter:image" content="https://hakanaltun.io/og-image-on-card.png">
+
+<link rel="stylesheet" href="/css/style.css?v=20260707-8">
+
+{% endif %}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap">
