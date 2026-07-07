@@ -1002,11 +1002,11 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
   width: 2px;
   height: 1.05rem;
   margin: -0.52rem 0 0 -1px;
-  background: rgba(var(--chrome-rgb, 62, 50, 73), 0.72);
-  opacity: 0;
+  background: var(--ink-soft);
+  opacity: 0.55;
   pointer-events: none;
-  -webkit-animation: doorbox-caret 1.1s linear 6;
-  animation: doorbox-caret 1.1s linear 6;
+  -webkit-animation: doorbox-caret 1.1s linear 6 forwards;
+  animation: doorbox-caret 1.1s linear 6 forwards;
 }
 .doorbox-field:focus-within::after { display: none; }
 @-webkit-keyframes doorbox-caret {
@@ -1018,7 +1018,7 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
   50%, 100% { opacity: 0; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .doorbox-field::after { -webkit-animation: none; animation: none; }
+  .doorbox-field::after { -webkit-animation: none; animation: none; opacity: 0.5; }
 }
 
 @media (max-width: 767px) {
