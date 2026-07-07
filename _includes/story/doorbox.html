@@ -1,16 +1,23 @@
 <form class="doorbox" onsubmit="return false;">
-  <input type="text" id="doorbox-input" autocomplete="off" autocapitalize="off" spellcheck="false">
+  <span class="doorbox-field">
+    <input type="text" id="doorbox-input" autocomplete="off" autocapitalize="off" spellcheck="false">
+    <span class="doorbox-caret" aria-hidden="true"></span>
+  </span>
 </form>
 <script>
 (function () {
   var el = document.getElementById('doorbox-input');
   if (!el || !window.crypto || !crypto.subtle) return;
+  var keys = {
+    '5ed0a10b951bfe152c4facd9448d686a1d4a7dc79efded33a31329eb98b85c85': 1,
+    '9f91161f43433e49a6de6db680d79f60159f2e4ac9172621a12846428158440b': 1
+  };
   el.addEventListener('keydown', function (e) {
     if (e.key !== 'Enter') return;
     var v = el.value.trim().toLowerCase();
     crypto.subtle.digest('SHA-256', new TextEncoder().encode(v)).then(function (buf) {
       var h = Array.from(new Uint8Array(buf)).map(function (b) { return b.toString(16).padStart(2, '0'); }).join('');
-      if (h === '5ed0a10b951bfe152c4facd9448d686a1d4a7dc79efded33a31329eb98b85c85') { window.location.href = '/story/9r2m/'; }
+      if (keys[h]) { window.location.href = '/story/9r2m/'; }
     });
   });
 })();
