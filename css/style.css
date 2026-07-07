@@ -994,20 +994,21 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
    typed without naming the door. Re-fires on refresh (no persistence); the
    real caret takes over on focus. */
 .doorbox-field { position: relative; display: inline-block; }
-.doorbox-caret {
+.doorbox-field::after {
+  content: "";
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 1px;
+  width: 2px;
   height: 1.05rem;
-  margin-top: -0.52rem;
-  background: rgba(var(--chrome-rgb, 62, 50, 73), 0.55);
+  margin: -0.52rem 0 0 -1px;
+  background: rgba(var(--chrome-rgb, 62, 50, 73), 0.72);
   opacity: 0;
   pointer-events: none;
   -webkit-animation: doorbox-caret 1.1s linear 6;
   animation: doorbox-caret 1.1s linear 6;
 }
-.doorbox-field:focus-within .doorbox-caret { display: none; }
+.doorbox-field:focus-within::after { display: none; }
 @-webkit-keyframes doorbox-caret {
   0%, 49.999% { opacity: 1; }
   50%, 100% { opacity: 0; }
@@ -1017,7 +1018,7 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
   50%, 100% { opacity: 0; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .doorbox-caret { -webkit-animation: none; animation: none; }
+  .doorbox-field::after { -webkit-animation: none; animation: none; }
 }
 
 @media (max-width: 767px) {
