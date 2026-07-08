@@ -3,44 +3,55 @@ layout: default
 permalink: /series/
 title: "Series"
 series: series
-description: "Ongoing series — The On Series, The Corner, and Şafak’s Arc."
+description: "Ongoing series — The Corner and The On Series."
 ---
+
+{% assign cafe_series = site.posts | where: "series", "cafe-series" | sort: "series_order" %}
+{% assign on_series = site.posts | where: "series", "on-series" | sort: "series_order" %}
 
 <div class="section-page">
   <div class="section-page-head">
     <h1 class="section-page-title">Series</h1>
     <p class="section-page-subtitle">Writing that runs together — read one, or follow the whole thread.</p>
   </div>
-
-  {% assign on_series = site.posts | where: "series", "on-series" | sort: "series_order" %}
-  {% assign cafe_series = site.posts | where: "series", "cafe-series" | sort: "series_order" %}
-
-  <ul class="series-grid">
-    <li class="series-card">
-      <a href="/the-on-series/" class="series-card-link">
-        <span class="series-card-title">The On Series</span>
-        <span class="series-card-subtitle">Seven essays on what we build inside ourselves—and why.</span>
-        <span class="series-card-thumbs" aria-hidden="true">
-          {% for post in on_series %}
-          {% assign img = post.thumb | default: post.image %}
-          {% if img %}<img src="{{ img }}" alt="" class="series-card-thumb" loading="lazy">{% endif %}
-          {% endfor %}
-        </span>
-        <span class="series-card-meta">{{ on_series | size }} essays</span>
-      </a>
-    </li>
-    <li class="series-card">
-      <a href="/the-corner/" class="series-card-link">
-        <span class="series-card-title">The Corner</span>
-        <span class="series-card-subtitle">Three stories from a corner that never emptied.</span>
-        <span class="series-card-thumbs" aria-hidden="true">
-          {% for post in cafe_series %}
-          {% assign img = post.thumb | default: post.image %}
-          {% if img %}<img src="{{ img }}" alt="" class="series-card-thumb" loading="lazy">{% endif %}
-          {% endfor %}
-        </span>
-        <span class="series-card-meta">{{ cafe_series | size }} stories</span>
-      </a>
-    </li>
-  </ul>
 </div>
+
+<section class="series-band" aria-label="The Corner">
+  <div class="series-band-inner">
+    <h2 class="series-band-title"><a href="/the-corner/">The Corner</a></h2>
+    <p class="series-band-subtitle">Three stories from a corner that never emptied.</p>
+    <div class="series-nav-cards series-band-cards">
+      {% for post in cafe_series %}
+      {% assign img = post.thumb | default: post.image %}
+      {% assign display_title = post.title | replace: "'", "’" %}
+      <a href="{{ post.url }}" class="series-thumb-link" aria-label="{{ display_title }}">
+        <div class="series-thumb-card">
+          {% if img %}<img src="{{ img }}" alt="{{ display_title }}" loading="lazy">{% endif %}
+          <span class="series-thumb-label"><span class="series-thumb-num">{{ forloop.index }}</span>. {{ display_title }}</span>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<div class="series-band-divider" aria-hidden="true"></div>
+
+<section class="series-band" aria-label="The On Series">
+  <div class="series-band-inner">
+    <h2 class="series-band-title"><a href="/the-on-series/">The On Series</a></h2>
+    <p class="series-band-subtitle">Seven essays on what we build inside ourselves—and why.</p>
+    <div class="series-nav-cards series-band-cards">
+      {% for post in on_series %}
+      {% assign img = post.thumb | default: post.image %}
+      {% assign display_title = post.title | replace: "'", "’" %}
+      <a href="{{ post.url }}" class="series-thumb-link" aria-label="{{ display_title }}">
+        <div class="series-thumb-card">
+          {% if img %}<img src="{{ img }}" alt="{{ display_title }}" loading="lazy">{% endif %}
+          <span class="series-thumb-label"><span class="series-thumb-num">{{ forloop.index }}</span>. {{ display_title }}</span>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>

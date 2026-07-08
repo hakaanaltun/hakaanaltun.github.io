@@ -815,70 +815,57 @@ body.moris-lightbox-open { overflow: hidden; }
   #start-here { padding-top: 40px; }
 }
 
-/* Series landing page */
-.series-grid {
-  list-style: none; padding: 0; margin: 0 auto; max-width: 760px;
-  display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px;
+/* Series landing page — banded rows with thumbnail strips */
+.series-band {
+  background: var(--band);
+  margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw);
+  padding: 44px calc(50vw - 50%) 40px;
 }
-.series-card { display: flex; }
-.series-card-link {
-  display: flex; flex-direction: column; align-items: center; gap: 8px; width: 100%;
-  padding: 26px 24px; background: var(--surface-soft);
-  border: 1px solid var(--rule); border-radius: 14px;
-  text-align: center; text-decoration: none; box-shadow: var(--shadow-card);
-  transition: transform 0.22s ease, box-shadow 0.22s ease;
-}
-.series-card-link:hover { transform: translateY(-4px); box-shadow: var(--shadow-card-hover); }
-.series-card-title {
+.series-band-inner { max-width: 720px; margin: 0 auto; text-align: center; }
+.series-band-title {
   font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic;
-  font-size: 1.5rem; color: var(--petrol-deep);
+  font-weight: 500; font-size: clamp(1.7rem, 2.8vw, 2.2rem); line-height: 1.1;
 }
-.series-card-subtitle {
-  font-family: 'EB Garamond', Georgia, serif; font-size: 1.02rem;
-  line-height: 1.5; color: var(--vizon);
-}
-.series-card-thumbs {
-  display: flex; justify-content: center; flex-wrap: wrap; gap: 8px;
-  margin-top: 14px;
-}
-.series-card-thumb {
-  width: 52px; height: 52px; object-fit: cover; border-radius: 8px;
-  border: 1px solid var(--rule); display: block;
-}
-.series-card-meta { margin-top: auto; padding-top: 12px; font-size: 0.82rem; letter-spacing: 0.04em; color: var(--vizon); }
-@media (max-width: 600px) {
-  .series-card-thumb { width: 44px; height: 44px; }
-}
-@media (max-width: 600px) { .series-grid { grid-template-columns: 1fr; gap: 18px; } }
-
-/* All Work page — Short Fiction / Essays groups */
-.all-work-tabs {
-  display: flex; flex-direction: row; justify-content: center; align-items: stretch;
-  gap: 12px; margin-top: 22px; flex-wrap: nowrap; max-width: 420px; margin-left: auto; margin-right: auto;
-}
-.all-work-tab {
-  display: inline-flex; align-items: center; justify-content: center;
-  flex: 1 1 0; min-width: 0; white-space: nowrap;
-  padding: 6px 16px; border: 1px solid var(--rule-strong); border-radius: 999px;
+.series-band-title a { color: var(--petrol-deep); text-decoration: none; transition: color 0.2s ease, opacity 0.2s ease; }
+.series-band-title a:hover { color: var(--petrol); opacity: 0.85; }
+.series-band-subtitle {
   font-family: 'EB Garamond', Georgia, serif; font-style: italic;
-  font-size: 1rem; line-height: 1.2; color: var(--petrol); text-decoration: none;
-  background: var(--surface-soft);
-  transition: color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  font-size: 1.05rem; line-height: 1.5; color: var(--vizon); margin-top: 8px;
 }
-.all-work-tab:hover { color: var(--petrol-deep); border-color: var(--petrol); transform: translateY(-2px); }
+.series-band-cards { justify-content: center; margin-top: 22px; }
+.series-band-divider {
+  width: min(300px, 60%); height: 1px; margin: 46px auto;
+  background: linear-gradient(90deg, transparent, rgba(var(--chrome-rgb, 28, 61, 74), 0.55), transparent);
+}
 @media (max-width: 600px) {
-  .all-work-tab { padding: 5px 14px; font-size: 0.95rem; }
+  .series-band { padding-top: 34px; padding-bottom: 30px; }
+  .series-band-divider { margin: 36px auto; }
+  .series-band-cards { justify-content: flex-start; }
 }
-.all-work-group { margin-top: 8px; scroll-margin-top: 150px; }
-.all-work-group + .all-work-group { margin-top: 64px; }
-.all-work-group-head { text-align: center; margin-bottom: 32px; }
+
+/* All page — Short Fiction and Essays side by side */
+.section-page--wide { max-width: 1200px; }
+.all-work-columns {
+  display: grid; grid-template-columns: 1fr 1px 1fr;
+  gap: 0 44px; align-items: start;
+}
+.all-work-divider {
+  width: 1px; height: 100%; min-height: 280px;
+  background: linear-gradient(180deg, transparent, rgba(var(--chrome-rgb, 28, 61, 74), 0.4) 8%, rgba(var(--chrome-rgb, 28, 61, 74), 0.4) 92%, transparent);
+}
+.section-page .piece-grid.all-work-col-grid { grid-template-columns: 1fr; gap: 28px; }
+.all-work-group-head { text-align: center; margin-bottom: 28px; }
 .all-work-group-title {
   font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic;
   font-weight: 500; font-size: clamp(1.6rem, 2.6vw, 2.1rem); color: var(--petrol-deep);
 }
-@media (max-width: 600px) {
-  .all-work-group + .all-work-group { margin-top: 48px; }
-  .all-work-group-head { margin-bottom: 24px; }
+@media (max-width: 800px) {
+  .all-work-columns { grid-template-columns: 1fr; gap: 0; }
+  .all-work-divider {
+    width: min(300px, 60%); height: 1px; min-height: 0; margin: 44px auto;
+    background: linear-gradient(90deg, transparent, rgba(var(--chrome-rgb, 28, 61, 74), 0.45), transparent);
+  }
+  .all-work-group-head { margin-bottom: 22px; }
 }
 
 /* Şafak's Arc block on the Book page */
