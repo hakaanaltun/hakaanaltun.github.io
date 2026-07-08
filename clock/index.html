@@ -20,7 +20,7 @@ layout: null
 
 <style>
   :root{
-    --bg:     #2E3B53;
+    --bg:     #1C3D4A;
     --fg:     #EDE4CF;
     --muted:  #A8B8B3;
     --accent: #EDE4CF;
@@ -276,7 +276,7 @@ layout: null
     </div>
 
     <div class="theme-corner collapsed" role="group" aria-label="Theme">
-      <button class="swatch" data-bg="#2E3B53" style="background:#2E3B53" title="Navy — Home" aria-label="Navy, Home"></button>
+      <button class="swatch" data-bg="#1C3D4A" style="background:#1C3D4A" title="Ocean — Home" aria-label="Ocean, Home"></button>
       <button class="swatch" data-bg="#1D4354" style="background:#1D4354" title="Petrol — All" aria-label="Petrol, All"></button>
       <button class="swatch" data-bg="#1A494D" style="background:#1A494D" title="Teal — Series" aria-label="Teal, Series"></button>
       <button class="swatch" data-bg="#2A4D42" style="background:#2A4D42" title="Green-teal — Book" aria-label="Green-teal, Book"></button>
@@ -363,7 +363,7 @@ layout: null
   function applyTheme(){
     if(state.bg) document.documentElement.style.setProperty("--bg", state.bg);
     else document.documentElement.style.removeProperty("--bg");
-    const cur=(state.bg||"#2E3B53").toLowerCase();
+    const cur=(state.bg||"#1C3D4A").toLowerCase();
     swatches.forEach(sw=>sw.setAttribute("aria-pressed", sw.dataset.bg.toLowerCase()===cur));
   }
   const themeCorner=$(".theme-corner");
