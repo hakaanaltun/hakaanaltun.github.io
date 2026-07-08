@@ -34,7 +34,7 @@
   <details class="drawer-section">
     <summary class="drawer-label">Series</summary>
     {% assign corner_posts = site.posts | where: "series", "cafe-series" | sort: "series_order" %}
-    {% assign on_posts = site.posts | where: "series", "on-series" | sort: "series_order" | reverse %}
+    {% assign on_posts = site.posts | where: "series", "on-series" | sort: "series_order" %}
     <div class="drawer-essay-cards">
       {% for post in corner_posts %}
       {% assign display_title = post.title | replace: "'", "’" %}
