@@ -1,0 +1,14 @@
+<li class="all-work-thumb">
+  {% assign img = include.post.thumb | default: include.post.image %}
+  {% assign display_title = include.post.title | replace: "'", "’" %}
+  <a href="{{ include.post.url }}" class="all-work-thumb-link" aria-label="{{ display_title }}">
+    <span class="all-work-thumb-card">
+      {% if img %}
+        <img src="{{ img }}" alt="{{ include.post.cover_alt | default: display_title }}" loading="lazy">
+      {% else %}
+        <span class="all-work-thumb-img-placeholder" aria-hidden="true"></span>
+      {% endif %}
+      <span class="all-work-thumb-title">{{ display_title }}</span>
+    </span>
+  </a>
+</li>
