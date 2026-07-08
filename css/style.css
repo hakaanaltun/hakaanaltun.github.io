@@ -780,6 +780,85 @@ body.moris-lightbox-open { overflow: hidden; }
   .section-page-title { font-size: 2.2rem; }
 }
 
+/* Notice accent tag on the homepage doorway */
+.story-doorway-tag {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-style: italic; font-size: 0.82rem; letter-spacing: 0.14em;
+  text-transform: uppercase; color: #b07a3c;
+  text-align: center; margin-bottom: 8px;
+}
+
+/* "Start here" orientation guide on the homepage */
+#start-here { padding-top: 48px; }
+.start-here-list {
+  list-style: none; margin: 4px auto 0; padding: 0;
+  max-width: 560px; display: flex; flex-direction: column; gap: 12px;
+}
+.start-here-item {
+  display: flex; align-items: baseline; justify-content: center;
+  gap: 10px; flex-wrap: wrap; text-align: center;
+}
+.start-here-label {
+  font-family: 'EB Garamond', Georgia, serif; font-style: italic;
+  font-size: 0.98rem; color: var(--vizon); letter-spacing: 0.02em;
+}
+.start-here-label::after { content: ":"; }
+.start-here-link {
+  font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic;
+  font-size: 1.25rem; color: var(--petrol); text-decoration: none;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+.start-here-link:hover { color: var(--petrol-deep); transform: translateY(-1px); }
+@media (max-width: 600px) {
+  #start-here { padding-top: 40px; }
+}
+
+/* Series landing page */
+.series-grid {
+  list-style: none; padding: 0; margin: 0;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;
+}
+.series-card { display: flex; }
+.series-card-link {
+  display: flex; flex-direction: column; gap: 8px; width: 100%;
+  padding: 26px 24px; background: var(--surface-soft);
+  border: 1px solid var(--rule); border-radius: 14px;
+  text-decoration: none; box-shadow: var(--shadow-card);
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+.series-card-link:hover { transform: translateY(-4px); box-shadow: var(--shadow-card-hover); }
+.series-card-title {
+  font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic;
+  font-size: 1.5rem; color: var(--petrol-deep);
+}
+.series-card-subtitle {
+  font-family: 'EB Garamond', Georgia, serif; font-size: 1.02rem;
+  line-height: 1.5; color: var(--vizon);
+}
+.series-card-meta { margin-top: auto; padding-top: 6px; font-size: 0.82rem; letter-spacing: 0.04em; color: #999; }
+@media (max-width: 900px) { .series-grid { grid-template-columns: repeat(2, 1fr); gap: 22px; } }
+@media (max-width: 600px) { .series-grid { grid-template-columns: 1fr; gap: 18px; } }
+
+/* Şafak's Arc block on the Book page */
+.book-arc { margin-top: 56px; padding-top: 48px; border-top: 1px solid var(--rule); }
+.book-arc-head { text-align: center; max-width: 640px; margin: 0 auto 36px; }
+.book-arc-title {
+  font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic;
+  font-weight: 500; font-size: clamp(1.8rem, 3vw, 2.4rem); color: var(--petrol-deep);
+}
+.book-arc-intro {
+  font-family: 'EB Garamond', Georgia, serif; font-size: 1.1rem;
+  line-height: 1.62; color: var(--vizon); margin-top: 12px;
+}
+.book-arc-intro em { font-style: italic; color: var(--petrol); }
+.book-arc-lead {
+  font-family: 'EB Garamond', Georgia, serif; font-style: italic;
+  font-size: 1.05rem; color: var(--vizon); margin-top: 10px;
+}
+.book-arc-lead a { color: var(--petrol); text-decoration: none; border-bottom: 1px solid currentColor; }
+.book-arc-lead a:hover { color: var(--petrol-deep); }
+@media (max-width: 600px) { .book-arc { margin-top: 40px; padding-top: 36px; } }
+
 /* ========================================================================== 
    11. 404 & Animations
    ========================================================================== */
