@@ -12,14 +12,20 @@ description: "Ongoing series — The On Series, The Corner, and Şafak’s Arc."
     <p class="section-page-subtitle">Writing that runs together — read one, or follow the whole thread.</p>
   </div>
 
-  {% assign on_series = site.posts | where: "series", "on-series" %}
-  {% assign cafe_series = site.posts | where: "series", "cafe-series" %}
+  {% assign on_series = site.posts | where: "series", "on-series" | sort: "series_order" %}
+  {% assign cafe_series = site.posts | where: "series", "cafe-series" | sort: "series_order" %}
 
   <ul class="series-grid">
     <li class="series-card">
       <a href="/the-on-series/" class="series-card-link">
         <span class="series-card-title">The On Series</span>
         <span class="series-card-subtitle">Seven essays on what we build inside ourselves—and why.</span>
+        <span class="series-card-thumbs" aria-hidden="true">
+          {% for post in on_series %}
+          {% assign img = post.thumb | default: post.image %}
+          {% if img %}<img src="{{ img }}" alt="" class="series-card-thumb" loading="lazy">{% endif %}
+          {% endfor %}
+        </span>
         <span class="series-card-meta">{{ on_series | size }} essays</span>
       </a>
     </li>
@@ -27,6 +33,12 @@ description: "Ongoing series — The On Series, The Corner, and Şafak’s Arc."
       <a href="/the-corner/" class="series-card-link">
         <span class="series-card-title">The Corner</span>
         <span class="series-card-subtitle">Three stories from a corner that never emptied.</span>
+        <span class="series-card-thumbs" aria-hidden="true">
+          {% for post in cafe_series %}
+          {% assign img = post.thumb | default: post.image %}
+          {% if img %}<img src="{{ img }}" alt="" class="series-card-thumb" loading="lazy">{% endif %}
+          {% endfor %}
+        </span>
         <span class="series-card-meta">{{ cafe_series | size }} stories</span>
       </a>
     </li>
