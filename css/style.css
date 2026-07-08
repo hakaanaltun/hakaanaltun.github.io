@@ -249,16 +249,9 @@ a.drawer-label--link:hover, a.drawer-label--link:active, a.drawer-label--link:fo
 .drawer-more:hover { color: var(--chrome-deep); gap: 9px; }
 .drawer-subsection-link {
   display: flex; justify-content: center; align-items: center;
-  margin: 18px auto 6px; padding: 2px;
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-style: italic; font-weight: 500; font-size: 1.05rem;
-  color: rgb(var(--chrome-rgb, 62, 50, 73));
-  text-decoration: none;
-  transition: opacity 0.2s ease, transform 0.28s ease, color 0.2s ease;
+  margin: 6px auto 10px;
 }
-.drawer-subsection-link:hover,
-.drawer-subsection-link:active,
-.drawer-subsection-link:focus-visible { opacity: 0.85; transform: translateY(-2px); color: var(--chrome-deep); outline: none; }
+.drawer-subsection-link.drawer-more { margin-top: 10px; }
 
 @media (max-width: 600px) {
   .site-drawer { width: 280px; max-width: 76vw; }

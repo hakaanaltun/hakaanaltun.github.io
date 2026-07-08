@@ -35,7 +35,6 @@
     <summary class="drawer-label">Series</summary>
     {% assign corner_posts = site.posts | where: "series", "cafe-series" | sort: "series_order" %}
     {% assign on_posts = site.posts | where: "series", "on-series" | sort: "series_order" | reverse %}
-    <a href="/the-corner/" class="drawer-subsection-link">The Corner</a>
     <div class="drawer-essay-cards">
       {% for post in corner_posts %}
       {% assign display_title = post.title | replace: "'", "’" %}
@@ -48,8 +47,8 @@
       {% if post.url == page.url %}</span>{% else %}</span></a>{% endif %}
       {% endfor %}
     </div>
+    <a href="/the-corner/" class="drawer-more drawer-subsection-link">All in The Corner <span aria-hidden="true">&rarr;</span></a>
 
-    <a href="/the-on-series/" class="drawer-subsection-link">The On Series</a>
     <div class="drawer-essay-cards">
       {% for post in on_posts %}
       {% assign display_title = post.title | replace: "'", "’" %}
@@ -62,12 +61,12 @@
       {% if post.url == page.url %}</span>{% else %}</span></a>{% endif %}
       {% endfor %}
     </div>
+    <a href="/the-on-series/" class="drawer-more drawer-subsection-link">All in The On Series <span aria-hidden="true">&rarr;</span></a>
   </details>
 
   <details class="drawer-section">
     <summary class="drawer-label">Book</summary>
     {% assign fragments_posts = site.posts | where: "series", "fragments" | sort: "series_order" %}
-    <a href="/book/#safaks-arc" class="drawer-subsection-link">Şafak’s Arc</a>
     <div class="drawer-essay-cards">
       {% for post in fragments_posts %}
       {% assign display_title = post.title | replace: "'", "’" %}
@@ -80,6 +79,7 @@
       {% if post.url == page.url %}</span>{% else %}</span></a>{% endif %}
       {% endfor %}
     </div>
+    <a href="/book/#safaks-arc" class="drawer-more drawer-subsection-link">All in Şafak’s Arc <span aria-hidden="true">&rarr;</span></a>
   </details>
 
   <div class="drawer-section-links">
