@@ -1,7 +1,7 @@
 ---
 layout: default
 permalink: /all-work/
-title: "All Work"
+title: "All"
 series: pieces
 description: "Everything on the site — short fiction and essays, newest first."
 ---
@@ -18,9 +18,9 @@ description: "Everything on the site — short fiction and essays, newest first.
   {% endif %}
 {% endfor %}
 
-{% comment %} The On Series appears as one block in reading order (On Lying → On Silence),
+{% comment %} The On Series appears as one block in reading order (On Silence → On Lying),
 placed where its newest post falls in the date-sorted list. {% endcomment %}
-{% assign on_series = site.posts | where: "series", "on-series" | sort: "series_order" %}
+{% assign on_series = site.posts | where: "series", "on-series" | sort: "series_order" | reverse %}
 {% assign essays_ordered = "" | split: "" %}
 {% assign on_inserted = false %}
 {% for post in essays %}
@@ -37,7 +37,7 @@ placed where its newest post falls in the date-sorted list. {% endcomment %}
 
 <div class="section-page">
   <div class="section-page-head">
-    <h1 class="section-page-title">All Work</h1>
+    <h1 class="section-page-title">All</h1>
     <p class="section-page-subtitle">Everything on the site, newest first.</p>
     <nav class="all-work-tabs" aria-label="Jump to a section">
       <a href="#short-fiction" class="all-work-tab">Short Fiction</a>
