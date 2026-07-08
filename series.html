@@ -1,0 +1,42 @@
+---
+layout: default
+permalink: /series/
+title: "Series"
+series: series
+description: "Ongoing series — The On Series, The Corner, and Şafak’s Arc."
+---
+
+<div class="section-page">
+  <div class="section-page-head">
+    <h1 class="section-page-title">Series</h1>
+    <p class="section-page-subtitle">Writing that runs together — read one, or follow the whole thread.</p>
+  </div>
+
+  {% assign on_series = site.posts | where: "series", "on-series" %}
+  {% assign cafe_series = site.posts | where: "series", "cafe-series" %}
+  {% assign fragments = site.posts | where: "series", "fragments" %}
+
+  <ul class="series-grid">
+    <li class="series-card">
+      <a href="/the-on-series/" class="series-card-link">
+        <span class="series-card-title">The On Series</span>
+        <span class="series-card-subtitle">Seven essays on what we build inside ourselves—and why.</span>
+        <span class="series-card-meta">{{ on_series | size }} essays</span>
+      </a>
+    </li>
+    <li class="series-card">
+      <a href="/the-corner/" class="series-card-link">
+        <span class="series-card-title">The Corner</span>
+        <span class="series-card-subtitle">Three stories from a corner that never emptied.</span>
+        <span class="series-card-meta">{{ cafe_series | size }} stories</span>
+      </a>
+    </li>
+    <li class="series-card">
+      <a href="/book/#safaks-arc" class="series-card-link">
+        <span class="series-card-title">Şafak’s Arc</span>
+        <span class="series-card-subtitle">How a boy becomes someone who knows where to put his hands.</span>
+        <span class="series-card-meta">On the Book page · {{ fragments | size }} pieces</span>
+      </a>
+    </li>
+  </ul>
+</div>
