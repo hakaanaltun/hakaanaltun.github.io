@@ -853,12 +853,12 @@ body.moris-lightbox-open { overflow: hidden; }
 
 /* All Work page — Short Fiction / Essays groups */
 .all-work-tabs {
-  display: flex; justify-content: center; align-items: center; gap: 12px;
-  margin-top: 22px; flex-wrap: nowrap;
+  display: flex; flex-direction: row; justify-content: center; align-items: stretch;
+  gap: 12px; margin-top: 22px; flex-wrap: nowrap; max-width: 420px; margin-left: auto; margin-right: auto;
 }
 .all-work-tab {
   display: inline-flex; align-items: center; justify-content: center;
-  flex: 0 0 auto; width: auto; white-space: nowrap;
+  flex: 1 1 0; min-width: 0; white-space: nowrap;
   padding: 6px 16px; border: 1px solid var(--rule-strong); border-radius: 999px;
   font-family: 'EB Garamond', Georgia, serif; font-style: italic;
   font-size: 1rem; line-height: 1.2; color: var(--petrol); text-decoration: none;
