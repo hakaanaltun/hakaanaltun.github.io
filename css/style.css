@@ -833,36 +833,59 @@ body.moris-lightbox-open { overflow: hidden; }
   #start-here { padding-top: 40px; }
 }
 
-/* Series landing page — centered rows with thumbnail strips */
-.series-band { padding: 12px 0 8px; }
-.series-band-inner { max-width: 720px; margin: 0 auto; text-align: center; }
+/* Series landing page — full series cards */
+.series-band {
+  padding: 12px 0 8px;
+  scroll-margin-top: calc(var(--head-band) + 28px);
+}
+
+.series-band-inner {
+  max-width: var(--card-grid-max);
+  margin: 0 auto;
+  text-align: center;
+}
+
 .series-band-title {
-  font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic;
-  font-weight: 500; font-size: clamp(1.7rem, 2.8vw, 2.2rem); line-height: 1.1;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(1.7rem, 2.8vw, 2.2rem);
+  line-height: 1.1;
 }
-.series-band-title a { color: var(--petrol-deep); text-decoration: none; transition: color 0.2s ease; }
-@keyframes series-title-flicker {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.35; }
+
+.series-band-title a {
+  color: var(--petrol-deep);
+  text-decoration: none;
+  opacity: 1;
+  transition: color 0.2s ease, opacity 0.2s ease;
 }
+
 .series-band-title a:hover,
 .series-band-title a:focus-visible {
   color: var(--petrol);
-  animation: series-title-flicker 1.5s ease-in-out infinite;
+  opacity: 0.78;
   outline: none;
 }
+
 .series-band-subtitle {
-  font-family: 'EB Garamond', Georgia, serif; font-style: italic;
-  font-size: 1.05rem; line-height: 1.5; color: var(--vizon); margin-top: 8px;
+  font-family: 'EB Garamond', Georgia, serif;
+  font-style: italic;
+  font-size: 1.05rem;
+  line-height: 1.5;
+  color: var(--vizon);
+  margin-top: 8px;
 }
-.series-band-cards { justify-content: center; margin-top: 22px; }
+
+.series-piece-grid {
+  margin-top: 28px;
+}
 .series-band-divider {
   width: min(300px, 60%); height: 1px; margin: 46px auto;
   background: linear-gradient(90deg, transparent, rgba(var(--chrome-rgb, 28, 61, 74), 0.55), transparent);
 }
 @media (max-width: 600px) {
   .series-band-divider { margin: 36px auto; }
-  .series-band-cards { justify-content: flex-start; }
+  .series-piece-grid { margin-top: 24px; }
 }
 
 /* All page — Short Fiction and Essays side by side */
