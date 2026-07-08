@@ -867,24 +867,27 @@ body.moris-lightbox-open { overflow: hidden; }
   outline: none;
 }
 
-.series-band-subtitle {
-  font-family: 'EB Garamond', Georgia, serif;
+.series-band-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
   font-style: italic;
-  font-size: 1.05rem;
-  line-height: 1.5;
-  color: var(--vizon);
-  margin-top: 8px;
+  font-weight: 500;
+  font-size: clamp(1.7rem, 2.8vw, 2.2rem);
+  line-height: 1.1;
+  color: var(--petrol-deep);
 }
 
 .series-piece-grid {
   margin-top: 28px;
 }
 .series-band-divider {
-  width: min(300px, 60%); height: 1px; margin: 46px auto;
-  background: linear-gradient(90deg, transparent, rgba(var(--chrome-rgb, 28, 61, 74), 0.55), transparent);
+  width: 100%;
+  max-width: var(--card-grid-max);
+  height: 1px;
+  margin: 56px auto;
+  background: var(--rule-strong);
 }
 @media (max-width: 600px) {
-  .series-band-divider { margin: 36px auto; }
+  .series-band-divider { margin: 40px auto; }
   .series-piece-grid { margin-top: 24px; }
 }
 
