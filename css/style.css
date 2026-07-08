@@ -808,6 +808,11 @@ body.moris-lightbox-open { overflow: hidden; }
 
 /* "Start here" orientation guide on the homepage */
 #start-here { padding-top: 48px; }
+
+#start-here .section-title {
+  color: #7A4453;
+}
+
 .start-here-list {
   list-style: none; margin: 4px auto 0; padding: 0;
   max-width: 560px; display: flex; flex-direction: column; gap: 12px;
