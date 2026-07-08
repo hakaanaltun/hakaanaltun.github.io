@@ -38,7 +38,7 @@
 
   picks.forEach(function (e) {
     var title = displayTitle(e.title);
-    var href = e.story ? '/story/' : '/pieces/' + e.href;
+    var href = e.story ? '/story/1/' : '/pieces/' + e.href;
     html += '<li class="piece-card"><a href="' + href + '" class="piece-card-link">';
     html += '<span class="piece-body">';
     html += '<span class="piece-title">' + title + '</span>';
