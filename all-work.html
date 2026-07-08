@@ -3,7 +3,7 @@ layout: default
 permalink: /all-work/
 title: "All Work"
 series: pieces
-description: "Everything on the site — essays and fiction, newest first."
+description: "Everything on the site — short fiction and essays, newest first."
 ---
 
 {% assign all_posts = site.posts | sort: "date" | reverse %}
@@ -18,26 +18,32 @@ description: "Everything on the site — essays and fiction, newest first."
   {% endif %}
 {% endfor %}
 
+{% comment %} The On Series appears as one block in reading order (On Lying → On Silence),
+placed where its newest post falls in the date-sorted list. {% endcomment %}
+{% assign on_series = site.posts | where: "series", "on-series" | sort: "series_order" %}
+{% assign essays_ordered = "" | split: "" %}
+{% assign on_inserted = false %}
+{% for post in essays %}
+  {% if post.series == "on-series" %}
+    {% unless on_inserted %}
+      {% assign essays_ordered = essays_ordered | concat: on_series %}
+      {% assign on_inserted = true %}
+    {% endunless %}
+  {% else %}
+    {% assign post_arr = "" | split: "" | push: post %}
+    {% assign essays_ordered = essays_ordered | concat: post_arr %}
+  {% endif %}
+{% endfor %}
+
 <div class="section-page">
   <div class="section-page-head">
     <h1 class="section-page-title">All Work</h1>
     <p class="section-page-subtitle">Everything on the site, newest first.</p>
     <nav class="all-work-tabs" aria-label="Jump to a section">
-      <a href="#essays" class="all-work-tab">Essays</a>
       <a href="#short-fiction" class="all-work-tab">Short Fiction</a>
+      <a href="#essays" class="all-work-tab">Essays</a>
     </nav>
   </div>
-
-  <section id="essays" class="all-work-group" aria-label="Essays">
-    <div class="all-work-group-head">
-      <h2 class="all-work-group-title">Essays</h2>
-    </div>
-    <ul class="piece-grid">
-      {% for post in essays %}
-        {% include piece-card.html post=post %}
-      {% endfor %}
-    </ul>
-  </section>
 
   <section id="short-fiction" class="all-work-group" aria-label="Short Fiction">
     <div class="all-work-group-head">
@@ -45,6 +51,17 @@ description: "Everything on the site — essays and fiction, newest first."
     </div>
     <ul class="piece-grid">
       {% for post in fiction %}
+        {% include piece-card.html post=post %}
+      {% endfor %}
+    </ul>
+  </section>
+
+  <section id="essays" class="all-work-group" aria-label="Essays">
+    <div class="all-work-group-head">
+      <h2 class="all-work-group-title">Essays</h2>
+    </div>
+    <ul class="piece-grid">
+      {% for post in essays_ordered %}
         {% include piece-card.html post=post %}
       {% endfor %}
     </ul>
