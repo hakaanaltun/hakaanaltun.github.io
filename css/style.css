@@ -10,6 +10,13 @@
 :root {
   --pad: 40px;
 
+  /* Shared piece-card grid — Latest, series lists, Şafak's Arc, Further back */
+  --card-grid-max: 900px;
+  --card-grid-gap: 32px;
+  --card-grid-gap-md: 26px;
+  --card-grid-gap-sm: 24px;
+  --card-grid-gap-landscape: 22px;
+
   --head-pad-top: 22px;
   --head-pad-bottom: 20px;
   --head-gap: 18px;
@@ -295,7 +302,18 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
 /* ========================================================================== 
    6. Latest & Piece Cards (Shared)
    ========================================================================== */
-.piece-grid { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 36px; }
+.piece-grid,
+#further-back .further-back-grid {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto;
+  max-width: var(--card-grid-max);
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--card-grid-gap);
+  align-items: start;
+}
 .piece-card { list-style: none; }
 .piece-card-link { display: flex; flex-direction: column; height: 100%; text-decoration: none; color: inherit; border-radius: 14px; border: 0; box-shadow: none; background: transparent; transition: transform 0.28s ease, opacity 0.2s ease; }
 .piece-card-link:hover { transform: translateY(-4px); }
@@ -307,7 +325,7 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
 .piece-card-link:hover .piece-thumb { transform: scale(1.03); }
 
 .piece-body { margin-top: 14px; display: flex; flex-direction: column; gap: 4px; }
-.piece-title { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: 1.5rem; line-height: 1.15; color: var(--petrol-deep); display: block; width: 100%; text-align: center; transition: color 0.2s ease; }
+.piece-title { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: 1.4rem; line-height: 1.15; color: var(--petrol-deep); display: block; width: 100%; text-align: center; transition: color 0.2s ease; }
 .piece-card-link:hover .piece-title { color: var(--petrol); }
 .piece-subtitle { font-family: 'EB Garamond', Georgia, serif; font-size: 1rem; color: var(--vizon); line-height: 1.35; display: block; width: 100%; text-align: center; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
 .piece-meta { font-size: 0.85rem; letter-spacing: 0.02em; color: var(--vizon); margin-top: 2px; display: block; width: 100%; text-align: center; }
@@ -316,62 +334,56 @@ section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
 /* Featured (first) Latest card spans two columns on desktop/tablet. */
 #latest .piece-card.is-featured { grid-column: span 2; }
 #latest .piece-card.is-featured .piece-thumb-wrap { aspect-ratio: 16 / 9; }
-#latest .piece-card.is-featured .piece-title { font-size: clamp(1.85rem, 3vw, 2.4rem); }
-#latest .piece-card.is-featured .piece-subtitle { font-size: 1.12rem; -webkit-line-clamp: 3; }
-#latest .piece-card.is-featured .piece-excerpt { font-size: 1.03rem; -webkit-line-clamp: 4; }
+#latest .piece-card.is-featured .piece-title { font-size: clamp(1.6rem, 2.4vw, 2rem); }
+#latest .piece-card.is-featured .piece-subtitle { font-size: 1.05rem; -webkit-line-clamp: 3; }
+#latest .piece-card.is-featured .piece-excerpt { font-size: 0.97rem; -webkit-line-clamp: 4; }
 
 @media (min-width: 641px) and (max-width: 1024px) and (orientation: portrait) {
-  #latest .piece-grid,
-  .section-page .piece-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
+  .piece-grid,
+  #further-back .further-back-grid { gap: var(--card-grid-gap-md); }
 }
 
 @media (max-width: 900px) {
-  .piece-grid { grid-template-columns: repeat(2, 1fr); gap: 28px; }
+  .piece-grid,
+  #further-back .further-back-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--card-grid-gap-md); }
 }
 
 @media (max-width: 900px) and (orientation: landscape) {
-  #latest .piece-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }
+  .piece-grid,
+  #further-back .further-back-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--card-grid-gap-landscape); }
   #latest .piece-card.is-featured { grid-column: auto; }
   #latest .piece-card.is-featured .piece-thumb-wrap { aspect-ratio: 3 / 2; }
-  #latest .piece-card.is-featured .piece-title { font-size: 1.5rem; }
+  #latest .piece-card.is-featured .piece-title { font-size: 1.4rem; }
   #latest .piece-card.is-featured .piece-subtitle { font-size: 1rem; -webkit-line-clamp: 2; }
   #latest .piece-card.is-featured .piece-excerpt { font-size: 0.97rem; -webkit-line-clamp: 3; }
   #latest .piece-card:nth-child(n+7) { display: none; }
 }
 
 @media (max-width: 600px) {
-  .piece-grid { grid-template-columns: 1fr; gap: 24px; }
+  .piece-grid,
+  #further-back .further-back-grid { grid-template-columns: 1fr; gap: var(--card-grid-gap-sm); }
   #latest .piece-card.is-featured { grid-column: span 1; }
   #latest .piece-card.is-featured .piece-thumb-wrap { aspect-ratio: 3 / 2; }
-  #latest .piece-card.is-featured .piece-title { font-size: 1.35rem; }
+  #latest .piece-card.is-featured .piece-title { font-size: 1.3rem; }
   #latest .piece-card.is-featured .piece-subtitle { font-size: 1rem; -webkit-line-clamp: 2; }
   #latest .piece-card.is-featured .piece-excerpt { font-size: 0.97rem; -webkit-line-clamp: 3; }
   #latest .piece-grid .piece-card:nth-child(n+7) { display: none; }
-  .piece-title { font-size: 1.35rem; }
+  .piece-title { font-size: 1.3rem; }
 }
 
 /* ========================================================================== 
    7. Further Back — quiet two-column index (no carousel)
    ========================================================================== */
-#further-back .further-back-grid {
-  list-style: none; margin: 0 auto; padding: 0;
-  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
-  column-gap: 48px; row-gap: 34px;
-  width: 100%; max-width: 1040px; align-items: start;
-}
-.fb-card { position: relative; min-width: 0; }
+.fb-card { position: relative; min-width: 0; max-width: 100%; }
 /* Mobile (portrait + landscape) shows 6 cards; tablet and desktop keep all 9. */
 @media (max-width: 600px), (max-height: 500px) and (orientation: landscape) { #further-back .fb-card:nth-child(n+7) { display: none; } }
 .fb-card-link { display: flex; flex-direction: column; gap: 5px; text-decoration: none; color: inherit; border: 0; box-shadow: none; background: transparent; transition: transform 0.25s ease, opacity 0.2s ease; }
 .fb-card-link:hover { transform: translateY(-2px); }
 .fb-card-link:hover .piece-title { color: var(--petrol); }
 .fb-card-link:focus-visible { outline: 2px solid var(--petrol); outline-offset: 4px; border-radius: 8px; }
-.fb-card .piece-title { font-size: 1.3rem; }
+.fb-card .piece-title { font-size: 1.25rem; }
+.fb-card .piece-subtitle { font-size: 0.95rem; -webkit-line-clamp: 2; overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; }
 .fb-card .piece-title, .fb-card .piece-subtitle, .fb-card .piece-meta { display: block; width: 100%; text-align: center; }
-
-@media (max-width: 600px) {
-  #further-back .further-back-grid { grid-template-columns: 1fr; row-gap: 26px; max-width: none; }
-}
 
 /* Further Back sits on the same full-bleed quiet band as the hero, on
    every viewport. The band starts exactly at the section's own divider
@@ -775,7 +787,7 @@ body.moris-lightbox-open { overflow: hidden; }
   #latest { padding-top: 50px; }
 }
 
-.section-page { max-width: 1100px; margin: 0 auto; padding: 72px var(--pad) 48px; }
+.section-page { max-width: 1100px; margin: 0 auto; padding: 72px 0 48px; }
 .section-page-head { text-align: center; margin-bottom: 48px; }
 .section-page-title { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: clamp(2.1rem, 4vw, 2.9rem); line-height: 1.05; letter-spacing: -0.01em; color: var(--petrol-deep); }
 .section-page-subtitle { font-family: 'EB Garamond', Georgia, serif; font-style: italic; font-size: clamp(1.05rem, 1.5vw, 1.28rem); color: var(--vizon); margin-top: 10px; max-width: 540px; margin-left: auto; margin-right: auto; line-height: 1.45; }
