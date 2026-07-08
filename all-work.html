@@ -41,29 +41,31 @@ placed where its newest post falls in the date-sorted list. {% endcomment %}
     <p class="section-page-subtitle">Everything on the site, newest first.</p>
   </div>
 
-  <div class="all-work-columns">
-    <section id="short-fiction" class="all-work-col" aria-label="Short Fiction">
+  <section id="short-fiction" class="all-work-band" aria-label="Short Fiction">
+    <div class="all-work-band-inner">
       <div class="all-work-group-head">
         <h2 class="all-work-group-title">Short Fiction</h2>
       </div>
-      <ul class="piece-grid all-work-col-grid">
+      <ul class="all-work-thumb-grid" aria-label="Short Fiction posts">
         {% for post in fiction %}
-          {% include piece-card.html post=post %}
+          {% include all-work-thumb.html post=post %}
         {% endfor %}
       </ul>
-    </section>
+    </div>
+  </section>
 
-    <div class="all-work-divider" aria-hidden="true"></div>
+  <div class="all-work-band-divider" aria-hidden="true"></div>
 
-    <section id="essays" class="all-work-col" aria-label="Essays">
+  <section id="essays" class="all-work-band" aria-label="Essays">
+    <div class="all-work-band-inner">
       <div class="all-work-group-head">
         <h2 class="all-work-group-title">Essays</h2>
       </div>
-      <ul class="piece-grid all-work-col-grid">
+      <ul class="all-work-thumb-grid" aria-label="Essay posts">
         {% for post in essays_ordered %}
-          {% include piece-card.html post=post %}
+          {% include all-work-thumb.html post=post %}
         {% endfor %}
       </ul>
-    </section>
-  </div>
+    </div>
+  </section>
 </div>
