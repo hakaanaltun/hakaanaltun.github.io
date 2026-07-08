@@ -20,7 +20,7 @@ layout: null
 
 <style>
   :root{
-    --bg:     #3E3249;
+    --bg:     #2E3B53;
     --fg:     #EDE4CF;
     --muted:  #A8B8B3;
     --accent: #EDE4CF;
@@ -276,14 +276,12 @@ layout: null
     </div>
 
     <div class="theme-corner collapsed" role="group" aria-label="Theme">
-      <button class="swatch" data-bg="#3E3249" style="background:#3E3249" title="Plum — Home" aria-label="Plum, Home"></button>
-      <button class="swatch" data-bg="#2E3B53" style="background:#2E3B53" title="Indigo — Pieces" aria-label="Indigo, Pieces"></button>
-      <button class="swatch" data-bg="#1D4354" style="background:#1D4354" title="Teal-blue — The Corner" aria-label="Teal-blue, The Corner"></button>
-      <button class="swatch" data-bg="#1A494D" style="background:#1A494D" title="Deep teal — The On Series" aria-label="Deep teal, The On Series"></button>
-      <button class="swatch" data-bg="#2A4D42" style="background:#2A4D42" title="Green-teal — Şafak's Arc" aria-label="Green-teal, Şafak's Arc"></button>
+      <button class="swatch" data-bg="#2E3B53" style="background:#2E3B53" title="Indigo — Home" aria-label="Indigo, Home"></button>
+      <button class="swatch" data-bg="#26344A" style="background:#26344A" title="Slate — All Work" aria-label="Slate, All Work"></button>
+      <button class="swatch" data-bg="#2A4D42" style="background:#2A4D42" title="Green-teal — Series" aria-label="Green-teal, Series"></button>
       <button class="swatch" data-bg="#14281C" style="background:#14281C" title="Forest — Book" aria-label="Forest, Book"></button>
       <button class="swatch" data-bg="#0C1C12" style="background:#0C1C12" title="Pine — Moris" aria-label="Pine, Moris"></button>
-      <button class="swatch" data-bg="#1E1B1A" style="background:#1E1B1A" title="Charcoal" aria-label="Charcoal"></button>
+      <button class="swatch" data-bg="#0E0E0E" style="background:#0E0E0E" title="Ink — About" aria-label="Ink, About"></button>
       <button class="theme-more" id="themeMore" title="More colors" aria-label="More colors" aria-expanded="false">&hellip;</button>
     </div>
   </div>
@@ -365,7 +363,7 @@ layout: null
   function applyTheme(){
     if(state.bg) document.documentElement.style.setProperty("--bg", state.bg);
     else document.documentElement.style.removeProperty("--bg");
-    const cur=(state.bg||"#3E3249").toLowerCase();
+    const cur=(state.bg||"#2E3B53").toLowerCase();
     swatches.forEach(sw=>sw.setAttribute("aria-pressed", sw.dataset.bg.toLowerCase()===cur));
   }
   const themeCorner=$(".theme-corner");
