@@ -2,33 +2,22 @@
 (function () {
   'use strict';
 
-  /* ── Footer share button ── */
-  var findMe = document.querySelector('.footer-findme');
+  /* ── Footer share button: native share sheet, or copy the link ── */
   var shareBtn = document.querySelector('.footer-share-btn');
 
-  if (!shareBtn && findMe && navigator.share) {
-    var shareWrap = document.createElement('div');
-    shareWrap.className = 'footer-share-wrap';
-
-    shareBtn = document.createElement('button');
-    shareBtn.type = 'button';
-    shareBtn.className = 'footer-share-btn';
-    shareBtn.setAttribute('aria-label', 'Share this page');
-    shareBtn.textContent = 'Share';
-
-    shareWrap.appendChild(shareBtn);
-    findMe.appendChild(shareWrap);
-  }
-
   if (shareBtn) {
-    if (navigator.share) {
-      shareBtn.addEventListener('click', function (e) {
-        e.preventDefault();
+    shareBtn.addEventListener('click', function (e) {
+      e.preventDefault();
+      if (navigator.share) {
         navigator.share({ title: document.title, url: window.location.href }).catch(function () {});
-      });
-    } else {
-      shareBtn.style.display = 'none';
-    }
+      } else if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(window.location.href).then(function () {
+          var old = shareBtn.textContent;
+          shareBtn.textContent = 'Link copied';
+          setTimeout(function () { shareBtn.textContent = old; }, 1600);
+        }).catch(function () {});
+      }
+    });
   }
 
   /* ── Horizontal scrollers: hidden scrollbar, paged wheel + drag support ── */
