@@ -99,8 +99,8 @@ nav { display: flex; flex-direction: column; gap: var(--head-gap); padding: var(
 .nav-top-row { display: flex; align-items: center; justify-content: center; gap: 20px; position: relative; }
 .nav-home { display: flex; flex-direction: column; align-items: center; text-align: center; line-height: 1.1; padding-bottom: 2px; transition: opacity 0.2s ease; }
 .nav-home:hover, .nav-home:active { opacity: 0.8; }
-.nav-right { position: absolute; right: 0; display: flex; align-items: center; gap: 8px; }
-.nav-left { position: absolute; left: 0; display: flex; align-items: center; gap: 8px; }
+.nav-right { position: absolute; right: 8px; display: flex; align-items: center; gap: 8px; }
+.nav-left { position: absolute; left: 8px; display: flex; align-items: center; gap: 8px; }
 .brand-main { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: clamp(1.35rem, 1.7vw, 1.5rem); color: var(--petrol-deep); }
 .brand-sub { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.06rem; font-style: italic; line-height: 1.2; color: var(--vizon); margin-top: 5px; letter-spacing: 0.005em; white-space: nowrap; }
 .brand-sub::before { display: none; }
@@ -126,14 +126,14 @@ header .hamburger-btn:focus-visible { outline-color: var(--footer-text); }
    hidden links, and the drawer always carries the full list. */
 .header-nav-bar {
   width: 100%; max-width: 100%; display: flex; flex-wrap: wrap; justify-content: center;
-  gap: 44px; margin-top: 0; padding-right: 0;
+  gap: 52px; margin-top: 0; padding-right: 0;
   overflow: visible; white-space: normal;
   -webkit-mask-image: none; mask-image: none;
 }
 .header-nav-bar a {
   display: inline-flex; align-items: center; justify-content: center; padding: 6px 2px;
   border: none; border-radius: 0; background: transparent;
-  font-size: 1.02rem; line-height: 1; color: var(--footer-muted); box-shadow: none;
+  font-size: 1.10rem; line-height: 1; color: var(--footer-muted); box-shadow: none;
   border-bottom: 2px solid rgba(237, 228, 207, 0.55);
   transition: color 0.2s ease, border-color 0.2s ease;
   flex: 0 0 auto; white-space: nowrap;
@@ -247,6 +247,18 @@ a.drawer-label--link:hover, a.drawer-label--link:active, a.drawer-label--link:fo
 
 .drawer-more { display: flex; justify-content: center; align-items: center; width: 100%; text-align: center; margin: 0 auto 8px; padding: 2px; font-family: 'EB Garamond', Georgia, serif; font-style: italic; font-size: 15px; color: rgb(var(--chrome-rgb, 62, 50, 73)); text-decoration: none; transition: color 0.2s ease, gap 0.2s ease; gap: 6px; }
 .drawer-more:hover { color: var(--chrome-deep); gap: 9px; }
+.drawer-subsection-link {
+  display: flex; justify-content: center; align-items: center;
+  margin: 18px auto 6px; padding: 2px;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic; font-weight: 500; font-size: 1.05rem;
+  color: rgb(var(--chrome-rgb, 62, 50, 73));
+  text-decoration: none;
+  transition: opacity 0.2s ease, transform 0.28s ease, color 0.2s ease;
+}
+.drawer-subsection-link:hover,
+.drawer-subsection-link:active,
+.drawer-subsection-link:focus-visible { opacity: 0.85; transform: translateY(-2px); color: var(--chrome-deep); outline: none; }
 
 @media (max-width: 600px) {
   .site-drawer { width: 280px; max-width: 76vw; }
