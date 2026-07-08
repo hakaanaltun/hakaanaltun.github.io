@@ -259,6 +259,7 @@ a.drawer-label--link:hover, a.drawer-label--link:active, a.drawer-label--link:fo
   margin: 6px auto 10px;
 }
 .drawer-subsection-link.drawer-more { margin-top: 10px; }
+.drawer-subsection-link--first.drawer-more { margin-top: 10px; margin-bottom: 12px; }
 
 @media (max-width: 600px) {
   .site-drawer { width: 280px; max-width: 76vw; }
@@ -941,8 +942,22 @@ body.moris-lightbox-open { overflow: hidden; }
   font-family: 'EB Garamond', Georgia, serif; font-style: italic;
   font-size: 1.05rem; color: var(--vizon); margin-top: 10px;
 }
-.book-arc-lead a { color: var(--petrol); text-decoration: none; border-bottom: 1px solid currentColor; }
-.book-arc-lead a:hover { color: var(--petrol-deep); }
+.book-arc-lead a.book-arc-fragment-link {
+  color: var(--petrol);
+  text-decoration: none;
+  border-bottom: 0;
+  transition: color 0.2s ease;
+}
+.book-arc-lead a.book-arc-fragment-link:hover,
+.book-arc-lead a.book-arc-fragment-link:focus-visible {
+  color: var(--petrol-deep);
+  animation: bookArcLinkPulse 0.85s ease-in-out infinite;
+  outline: none;
+}
+@keyframes bookArcLinkPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.32; }
+}
 @media (max-width: 600px) { .book-arc { margin-top: 40px; padding-top: 36px; } }
 
 /* ========================================================================== 
@@ -987,6 +1002,9 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
 .footer-findme a span { display: inline-block; margin-left: 0.35em; color: var(--footer-muted); }
 
 .footer-share-wrap, .footer-tool-wrap { width: 100%; margin-top: auto; padding-top: 25px; border-top: 1px solid rgba(237, 228, 207, 0.9); }
+.footer-tools-group { width: 100%; margin-top: auto; }
+.footer-tools-group > .footer-tool-wrap { margin-top: 0; }
+.footer-tools-group > .footer-tool-wrap--stacked { padding-top: 14px; border-top: 1px solid rgba(237, 228, 207, 0.42); }
 .footer-col > ul { margin-bottom: 24px; }
 .footer-share-btn, .footer-col a.footer-tool-btn { display: inline-flex; align-items: center; justify-content: center; margin: 0; padding: 8px 16px; background: transparent; border: 1px solid rgba(237, 228, 207, 0.85); color: var(--footer-text); font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 1.2rem; line-height: 1.2; cursor: pointer; text-decoration: none; white-space: nowrap; transition: background 0.2s ease, color 0.2s ease; }
 .footer-share-btn:hover, .footer-share-btn:active, .footer-share-btn:focus-visible,

@@ -66,6 +66,7 @@
 
   <details class="drawer-section">
     <summary class="drawer-label">Book</summary>
+    <a href="/book/" class="drawer-more drawer-subsection-link drawer-subsection-link--first">The Fragments <span aria-hidden="true">&rarr;</span></a>
     {% assign fragments_posts = site.posts | where: "series", "fragments" | sort: "series_order" %}
     <div class="drawer-essay-cards">
       {% for post in fragments_posts %}
