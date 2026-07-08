@@ -10,6 +10,7 @@ description: "Everything on the site—short fiction and essays, newest first."
 {% assign essays = "" | split: "" %}
 {% assign fiction = "" | split: "" %}
 {% for post in all_posts %}
+  {% if post.story_card %}{% continue %}{% endif %}
   {% assign post_arr = "" | split: "" | push: post %}
   {% if post.fiction %}
     {% assign fiction = fiction | concat: post_arr %}
