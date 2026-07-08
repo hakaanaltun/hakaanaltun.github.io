@@ -14,7 +14,6 @@ description: "Ongoing series — The On Series, The Corner, and Şafak’s Arc."
 
   {% assign on_series = site.posts | where: "series", "on-series" %}
   {% assign cafe_series = site.posts | where: "series", "cafe-series" %}
-  {% assign fragments = site.posts | where: "series", "fragments" %}
 
   <ul class="series-grid">
     <li class="series-card">
@@ -29,13 +28,6 @@ description: "Ongoing series — The On Series, The Corner, and Şafak’s Arc."
         <span class="series-card-title">The Corner</span>
         <span class="series-card-subtitle">Three stories from a corner that never emptied.</span>
         <span class="series-card-meta">{{ cafe_series | size }} stories</span>
-      </a>
-    </li>
-    <li class="series-card">
-      <a href="/book/#safaks-arc" class="series-card-link">
-        <span class="series-card-title">Şafak’s Arc</span>
-        <span class="series-card-subtitle">How a boy becomes someone who knows where to put his hands.</span>
-        <span class="series-card-meta">On the Book page · {{ fragments | size }} pieces</span>
       </a>
     </li>
   </ul>

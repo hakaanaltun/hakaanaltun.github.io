@@ -815,15 +815,15 @@ body.moris-lightbox-open { overflow: hidden; }
 
 /* Series landing page */
 .series-grid {
-  list-style: none; padding: 0; margin: 0;
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;
+  list-style: none; padding: 0; margin: 0 auto; max-width: 760px;
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px;
 }
 .series-card { display: flex; }
 .series-card-link {
-  display: flex; flex-direction: column; gap: 8px; width: 100%;
+  display: flex; flex-direction: column; align-items: center; gap: 8px; width: 100%;
   padding: 26px 24px; background: var(--surface-soft);
   border: 1px solid var(--rule); border-radius: 14px;
-  text-decoration: none; box-shadow: var(--shadow-card);
+  text-align: center; text-decoration: none; box-shadow: var(--shadow-card);
   transition: transform 0.22s ease, box-shadow 0.22s ease;
 }
 .series-card-link:hover { transform: translateY(-4px); box-shadow: var(--shadow-card-hover); }
@@ -836,8 +836,20 @@ body.moris-lightbox-open { overflow: hidden; }
   line-height: 1.5; color: var(--vizon);
 }
 .series-card-meta { margin-top: auto; padding-top: 6px; font-size: 0.82rem; letter-spacing: 0.04em; color: #999; }
-@media (max-width: 900px) { .series-grid { grid-template-columns: repeat(2, 1fr); gap: 22px; } }
 @media (max-width: 600px) { .series-grid { grid-template-columns: 1fr; gap: 18px; } }
+
+/* All Work page — Essays / Fiction groups */
+.all-work-group { margin-top: 8px; }
+.all-work-group + .all-work-group { margin-top: 64px; }
+.all-work-group-head { text-align: center; margin-bottom: 32px; }
+.all-work-group-title {
+  font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic;
+  font-weight: 500; font-size: clamp(1.6rem, 2.6vw, 2.1rem); color: var(--petrol-deep);
+}
+@media (max-width: 600px) {
+  .all-work-group + .all-work-group { margin-top: 48px; }
+  .all-work-group-head { margin-bottom: 24px; }
+}
 
 /* Şafak's Arc block on the Book page */
 .book-arc { margin-top: 56px; padding-top: 48px; border-top: 1px solid var(--rule); }
