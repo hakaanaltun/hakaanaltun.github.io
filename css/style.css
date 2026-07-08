@@ -804,11 +804,13 @@ body.moris-lightbox-open { overflow: hidden; }
 }
 .start-here-label::after { content: ":"; }
 .start-here-link {
+  display: inline-block;
   font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic;
   font-size: 1.25rem; color: var(--petrol); text-decoration: none;
   transition: color 0.2s ease, transform 0.2s ease;
 }
-.start-here-link:hover { color: var(--petrol-deep); transform: translateY(-1px); }
+.start-here-link:hover,
+.start-here-link:focus-visible { color: var(--petrol-deep); transform: translateY(-1px); }
 @media (max-width: 600px) {
   #start-here { padding-top: 40px; }
 }
@@ -835,7 +837,7 @@ body.moris-lightbox-open { overflow: hidden; }
   font-family: 'EB Garamond', Georgia, serif; font-size: 1.02rem;
   line-height: 1.5; color: var(--vizon);
 }
-.series-card-meta { margin-top: auto; padding-top: 6px; font-size: 0.82rem; letter-spacing: 0.04em; color: #999; }
+.series-card-meta { margin-top: auto; padding-top: 6px; font-size: 0.82rem; letter-spacing: 0.04em; color: var(--vizon); }
 @media (max-width: 600px) { .series-grid { grid-template-columns: 1fr; gap: 18px; } }
 
 /* All Work page — Essays / Short Fiction groups */
