@@ -22,9 +22,13 @@ description: "Everything on the site — essays and fiction, newest first."
   <div class="section-page-head">
     <h1 class="section-page-title">All Work</h1>
     <p class="section-page-subtitle">Everything on the site, newest first.</p>
+    <nav class="all-work-tabs" aria-label="Jump to a section">
+      <a href="#essays" class="all-work-tab">Essays</a>
+      <a href="#short-fiction" class="all-work-tab">Short Fiction</a>
+    </nav>
   </div>
 
-  <section class="all-work-group" aria-label="Essays">
+  <section id="essays" class="all-work-group" aria-label="Essays">
     <div class="all-work-group-head">
       <h2 class="all-work-group-title">Essays</h2>
     </div>
@@ -35,9 +39,9 @@ description: "Everything on the site — essays and fiction, newest first."
     </ul>
   </section>
 
-  <section class="all-work-group" aria-label="Fiction">
+  <section id="short-fiction" class="all-work-group" aria-label="Short Fiction">
     <div class="all-work-group-head">
-      <h2 class="all-work-group-title">Fiction</h2>
+      <h2 class="all-work-group-title">Short Fiction</h2>
     </div>
     <ul class="piece-grid">
       {% for post in fiction %}

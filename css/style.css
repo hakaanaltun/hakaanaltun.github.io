@@ -838,8 +838,21 @@ body.moris-lightbox-open { overflow: hidden; }
 .series-card-meta { margin-top: auto; padding-top: 6px; font-size: 0.82rem; letter-spacing: 0.04em; color: #999; }
 @media (max-width: 600px) { .series-grid { grid-template-columns: 1fr; gap: 18px; } }
 
-/* All Work page — Essays / Fiction groups */
-.all-work-group { margin-top: 8px; }
+/* All Work page — Essays / Short Fiction groups */
+.all-work-tabs {
+  display: flex; justify-content: center; gap: 12px;
+  margin-top: 22px; flex-wrap: wrap;
+}
+.all-work-tab {
+  display: inline-flex; align-items: center;
+  padding: 7px 20px; border: 1px solid var(--rule-strong); border-radius: 999px;
+  font-family: 'EB Garamond', Georgia, serif; font-style: italic;
+  font-size: 1.02rem; color: var(--petrol); text-decoration: none;
+  background: var(--surface-soft);
+  transition: color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+.all-work-tab:hover { color: var(--petrol-deep); border-color: var(--petrol); transform: translateY(-2px); }
+.all-work-group { margin-top: 8px; scroll-margin-top: 150px; }
 .all-work-group + .all-work-group { margin-top: 64px; }
 .all-work-group-head { text-align: center; margin-bottom: 32px; }
 .all-work-group-title {
