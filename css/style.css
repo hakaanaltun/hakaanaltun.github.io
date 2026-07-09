@@ -1007,7 +1007,7 @@ body.moris-lightbox-open { overflow: hidden; }
 .book-arc-lead a.book-arc-fragment-link:hover,
 .book-arc-lead a.book-arc-fragment-link:focus-visible {
   color: var(--petrol-deep);
-  animation: bookArcLinkPulse 0.85s ease-in-out infinite;
+  animation: bookArcLinkPulse 0.85s ease-in-out 1;
   outline: none;
 }
 @keyframes bookArcLinkPulse {
