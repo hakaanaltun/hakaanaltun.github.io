@@ -6,53 +6,29 @@ series: book
 description: "The Fragments—a novel of forgetting and remembering, of betrayal and longing, of a silver watch that survives time."
 ---
 
-<section id="book">
-  <div class="book-card">
-    {% include section-header.html title="Book" subtitle="" %}
+<section id="book" class="book-hero" aria-label="The Fragments">
+  <div class="book-hero-grid">
     <div class="book-cover-wrap">
       <img src="/images/cover.webp" alt="The Fragments cover" class="book-cover" width="1000" height="1500" loading="lazy">
     </div>
-    <div class="book-content">
+    <div class="book-hero-text">
+      <p class="book-kicker">A novel</p>
+      <h1 class="book-hero-title">The Fragments</h1>
       <div class="book-description">
         <p>First, there was Symmetry. Then matter hesitated. It disobeyed. From that hesitation, everything we know and everything we don't was born. Stars learned to hold against the void, and the first cell tasted fear.</p>
         <p>Now that same tremor lives in a cup of tea going cold on a kitchen table, in a man who walks into the wrong office and stays, and in a pair of green eyes watching you at three in the morning.</p>
         <p><em>The Fragments</em> is a story of forgetting and remembering, of betrayal and longing, of a silver watch that survives time, and of becoming whole again in a garden at the end of the universe.</p>
       </div>
-      <div class="book-links">
-        <div class="book-links-grid">
-          <div class="book-links-row">
-            <a href="https://www.amazon.com/dp/B0H2CKMMBQ" target="_blank" rel="noopener">Hardcover</a>
-            <a href="https://www.amazon.com/dp/B0H18K5XN9" target="_blank" rel="noopener">Kindle</a>
-            <a href="https://www.kobo.com/tr/tr/ebook/the-fragments-4" target="_blank" rel="noopener">Kobo</a>
-            <a href="https://play.google.com/store/books/details?id=U8vXEQAAQBAJ&amp;rdid=book-U8vXEQAAQBAJ&amp;rdot=1&amp;source=gbs_atb&amp;pcampaignid=books_booksearch_atb" target="_blank" rel="noopener">Google Play</a>
-          </div>
-          <div class="book-links-divider" aria-hidden="true"></div>
-          <div class="book-links-row">
-            <a href="https://books.apple.com/us/book/the-fragments/id6773904007" target="_blank" rel="noopener">Apple Books</a>
-            <a href="https://www.barnesandnoble.com/w/the-fragments-hakan-altun/1150270923" target="_blank" rel="noopener">Barnes &amp; Noble</a>
-            <a href="https://www.goodreads.com/book/show/252076100-the-fragments" target="_blank" rel="noopener">Goodreads</a>
-            <a href="https://books2read.com/u/bOVA7J" target="_blank" rel="noopener">More</a>
-          </div>
-        </div>
-      </div>
-      <script>
-      (function() {
-        var strip = document.querySelector('#book .book-links-grid');
-        if (!strip) return;
-        function update() {
-          var max = strip.scrollWidth - strip.clientWidth;
-          strip.classList.remove('fade-l', 'fade-r', 'fade-lr');
-          if (max <= 1) return;
-          var x = strip.scrollLeft;
-          if (x <= 1) strip.classList.add('fade-r');
-          else if (x >= max - 1) strip.classList.add('fade-l');
-          else strip.classList.add('fade-lr');
-        }
-        strip.addEventListener('scroll', update, { passive: true });
-        window.addEventListener('resize', update);
-        update();
-      })();
-      </script>
+      <ul class="book-retailers" aria-label="Where to find the book">
+        <li><a href="https://www.amazon.com/dp/B0H2CKMMBQ" target="_blank" rel="noopener">Hardcover</a></li>
+        <li><a href="https://www.amazon.com/dp/B0H18K5XN9" target="_blank" rel="noopener">Kindle</a></li>
+        <li><a href="https://www.kobo.com/tr/tr/ebook/the-fragments-4" target="_blank" rel="noopener">Kobo</a></li>
+        <li><a href="https://play.google.com/store/books/details?id=U8vXEQAAQBAJ&amp;rdid=book-U8vXEQAAQBAJ&amp;rdot=1&amp;source=gbs_atb&amp;pcampaignid=books_booksearch_atb" target="_blank" rel="noopener">Google Play</a></li>
+        <li><a href="https://books.apple.com/us/book/the-fragments/id6773904007" target="_blank" rel="noopener">Apple Books</a></li>
+        <li><a href="https://www.barnesandnoble.com/w/the-fragments-hakan-altun/1150270923" target="_blank" rel="noopener">Barnes &amp; Noble</a></li>
+        <li><a href="https://www.goodreads.com/book/show/252076100-the-fragments" target="_blank" rel="noopener">Goodreads</a></li>
+        <li><a href="https://books2read.com/u/bOVA7J" target="_blank" rel="noopener">More</a></li>
+      </ul>
     </div>
   </div>
 </section>
@@ -64,9 +40,9 @@ description: "The Fragments—a novel of forgetting and remembering, of betrayal
     <p class="book-arc-lead">Read a fragment. Begin with <a href="/pieces/the-poise.html" class="book-arc-fragment-link">The Poise</a>.</p>
   </div>
   {% assign fragments = site.posts | where: "series", "fragments" | sort: "series_order" %}
-  <ul class="piece-grid">
+  <ul class="work-index">
     {% for post in fragments %}
-      {% include piece-card.html post=post %}
+      {% include all-work-row.html post=post number=forloop.index %}
     {% endfor %}
   </ul>
 </section>
