@@ -30,7 +30,9 @@
 
   --ink: #2F2B27;
   --ink-soft: #403A34;
-  --vizon: #8C867E;
+  /* WCAG AA: 4.5:1+ on --bg, --band and --surface-soft (the old #8C867E sat
+     at 3.6:1 on white). Same warm-grey hue, two steps darker. */
+  --vizon: #746F69;
 
   --rule: #EEEAE4;
   --rule-strong: #D8D2C8;
@@ -527,13 +529,13 @@ section.line-drawn::before,
 .book-description p:last-child { margin-bottom: 0; }
 .book-description em { font-style: italic; color: var(--petrol); }
 /* Retailer strip — one horizontal, swipeable row directly under the book
-   description, centred within the description column. The max-width caps the
-   window at roughly three or four links; the rest slide in from the right.
-   Hidden scrollbar + JS edge fades (fade-l/r/lr, set in site-nav.js), the
-   same pattern as the phone header nav. */
+   description, flush left with it like the title above. The max-width caps
+   the window at roughly three or four links; the rest slide in from the
+   right. Hidden scrollbar + JS edge fades (fade-l/r/lr, set in site-nav.js),
+   the same pattern as the phone header nav. */
 .book-retailers {
   list-style: none; display: flex; flex-wrap: nowrap; align-items: baseline;
-  column-gap: 26px; margin: 26px auto 0; padding: 0 2px 4px;
+  column-gap: 26px; margin: 26px 0 0; padding: 0 2px 4px;
   max-width: 380px;
   overflow-x: auto; overflow-y: hidden;
   -webkit-overflow-scrolling: touch;

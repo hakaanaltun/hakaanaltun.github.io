@@ -18,7 +18,7 @@
   <details class="drawer-section">
     <summary class="drawer-label">All</summary>
     <div class="drawer-essay-cards">
-      {% for post in drawer_fiction limit: 4 %}
+      {% for post in drawer_fiction limit: 3 %}
       {% assign display_title = post.title | replace: "'", "’" %}
       {% comment %} Story cards (The Notice) link to the story itself, not the redirect stub. {% endcomment %}
       {% if post.story_card %}{% assign _card_url = post.story_url | default: "/story/1/" %}{% else %}{% assign _card_url = post.url %}{% endif %}
@@ -34,7 +34,7 @@
     <a href="/all-work/#short-fiction" class="drawer-more drawer-subsection-link">All in Short Fiction <span aria-hidden="true">&rarr;</span></a>
 
     <div class="drawer-essay-cards">
-      {% for post in drawer_essays limit: 4 %}
+      {% for post in drawer_essays limit: 3 %}
       {% assign display_title = post.title | replace: "'", "’" %}
       {% if post.url == page.url %}<span class="drawer-essay-card drawer-essay-card--current">{% else %}<a href="{{ post.url }}" class="drawer-essay-card-link"><span class="drawer-essay-card">{% endif %}
         <span class="drawer-essay-card-text">
@@ -53,7 +53,7 @@
     {% assign corner_posts = site.posts | where: "series", "cafe-series" | sort: "series_order" %}
     {% assign on_posts = site.posts | where: "series", "on-series" | sort: "series_order" %}
     <div class="drawer-essay-cards">
-      {% for post in corner_posts %}
+      {% for post in corner_posts limit: 3 %}
       {% assign display_title = post.title | replace: "'", "’" %}
       {% if post.url == page.url %}<span class="drawer-essay-card drawer-essay-card--current">{% else %}<a href="{{ post.url }}" class="drawer-essay-card-link"><span class="drawer-essay-card">{% endif %}
         <span class="drawer-essay-card-text">
@@ -67,7 +67,7 @@
     <a href="/series/#the-corner" class="drawer-more drawer-subsection-link">All in The Corner <span aria-hidden="true">&rarr;</span></a>
 
     <div class="drawer-essay-cards">
-      {% for post in on_posts %}
+      {% for post in on_posts limit: 3 %}
       {% assign display_title = post.title | replace: "'", "’" %}
       {% if post.url == page.url %}<span class="drawer-essay-card drawer-essay-card--current">{% else %}<a href="{{ post.url }}" class="drawer-essay-card-link"><span class="drawer-essay-card">{% endif %}
         <span class="drawer-essay-card-text">
@@ -86,7 +86,7 @@
     <a href="/book/" class="drawer-more drawer-subsection-link drawer-subsection-link--first">The Fragments <span aria-hidden="true">&rarr;</span></a>
     {% assign fragments_posts = site.posts | where: "series", "fragments" | sort: "series_order" %}
     <div class="drawer-essay-cards">
-      {% for post in fragments_posts %}
+      {% for post in fragments_posts limit: 3 %}
       {% assign display_title = post.title | replace: "'", "’" %}
       {% if post.url == page.url %}<span class="drawer-essay-card drawer-essay-card--current">{% else %}<a href="{{ post.url }}" class="drawer-essay-card-link"><span class="drawer-essay-card">{% endif %}
         <span class="drawer-essay-card-text">
