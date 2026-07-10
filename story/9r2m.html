@@ -10,8 +10,15 @@ permalink: /story/9r2m/
 <meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>&nbsp;</title>
+<script>(function(){try{var t=localStorage.getItem('theme');if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();</script>
 <style>
   body { max-width: 34em; margin: 18vh auto 0; padding: 0 1.5em; font-family: Georgia, serif; line-height: 1.7; color: #222; background: #fff; }
+  /* Standalone page — mirror the site's dark theme (system preference, or the
+     choice stored by the header toggle). */
+  @media (prefers-color-scheme: dark) {
+    html:not([data-theme="light"]) body { color: #CFC7BA; background: #191712; }
+  }
+  html[data-theme="dark"] body { color: #CFC7BA; background: #191712; }
 </style>
 </head>
 <body>
