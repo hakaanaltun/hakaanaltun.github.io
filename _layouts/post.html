@@ -16,7 +16,7 @@ layout: default
 {% unless is_first_story %}
 {% comment %} Later story pages hide the title block by design, which would
 leave the document without an h1 — give screen readers one. {% endcomment %}
-<h1 class="visually-hidden">{{ page.title }} &mdash; {{ page.story_clock }}</h1>
+<h1 class="visually-hidden">{{ page.title }}&mdash;{{ page.story_clock }}</h1>
 {% endunless %}
 <div class="story-marker">
 <p class="story-clock">{{ page.story_clock }}</p>
