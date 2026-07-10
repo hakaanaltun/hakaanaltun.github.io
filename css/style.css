@@ -147,7 +147,13 @@ html {
   overflow-x: clip;
 }
 
+/* Body and .container form a flex column so main can grow and the footer
+   always reaches the bottom of the viewport on short pages. */
 body {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
   background: var(--bg);
   color: var(--ink);
   font-family: 'EB Garamond', Georgia, serif;
@@ -160,11 +166,12 @@ body {
 ::selection { background: var(--petrol); color: var(--paper); }
 a { color: inherit; text-decoration: none; transition: color 0.2s ease, border-color 0.2s ease, opacity 0.2s ease; }
 
-.container { max-width: 1040px; margin: 0 auto; padding: 0 var(--pad); position: relative; }
+.container { display: flex; flex-direction: column; flex: 1 0 auto; width: 100%; max-width: 1040px; margin: 0 auto; padding: 0 var(--pad); position: relative; }
 .skip-link { position: absolute; left: -9999px; top: 0; z-index: 2000; background: var(--petrol); color: var(--paper); padding: 10px 16px; border-radius: 0 0 6px 0; font-size: 0.95rem; }
 .skip-link:focus { left: 0; }
 /* Screen-reader-only content (e.g. the h1 on later story pages). */
 .visually-hidden { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+main { flex: 1 0 auto; }
 main:focus { outline: none; }
 
 html.drawer-open, body.drawer-open { overflow: hidden; overscroll-behavior: none; }
@@ -1326,25 +1333,35 @@ footer {
   }
 }
 
-/* Phone */
-@media (max-width: 767px),
-       (max-height: 500px) and (orientation: landscape) {
+/* Phone portrait: the boxed controls move above the Find me line and
+   everything aligns left. Landscape keeps the desktop single-row order. */
+@media (max-width: 767px) and (orientation: portrait) {
   .footer-topline {
     flex-direction: column;
-    align-items: stretch;
+    align-items: flex-start;
     gap: 18px;
   }
 
-  .footer-findme-line {
-    justify-content: flex-start;
-  }
-
   .footer-actions {
-    justify-content: flex-end;
+    order: -1;
+    justify-content: flex-start;
   }
 
   .footer-rule-bottom {
     margin-top: 18px;
+  }
+}
+
+/* Phone landscape: desktop order, but the row may wrap when cramped. */
+@media (max-width: 767px) and (orientation: landscape) {
+  .footer-topline {
+    flex-wrap: wrap;
+    row-gap: 14px;
+  }
+
+  .footer-contact-links {
+    flex-wrap: wrap;
+    row-gap: 8px;
   }
 }
 
@@ -1371,7 +1388,7 @@ footer {
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 480px) and (orientation: portrait) {
   .footer-findme-line {
     display: block;
   }
@@ -1379,9 +1396,10 @@ footer {
   .footer-findme-line h3 {
     margin: 0 0 12px;
   }
+}
 
+@media (max-width: 480px) {
   .footer-actions {
-    justify-content: flex-start;
     gap: 8px;
   }
 
