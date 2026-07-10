@@ -949,6 +949,12 @@ body.moris-lightbox-open { overflow: hidden; }
   margin-top: 52px;
   padding-top: 64px;
 }
+/* Section bands on /all-work/ and /series/ are separated by headings and
+   index rules — no animated divider between them. */
+.all-work-band:not(:first-of-type)::before,
+.series-band:not(:first-of-type)::before {
+  content: none;
+}
 .series-band .work-tag,
 .book-arc .work-tag { display: none; }
 
