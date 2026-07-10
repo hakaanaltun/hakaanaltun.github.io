@@ -78,6 +78,8 @@ a { color: inherit; text-decoration: none; transition: color 0.2s ease, border-c
 .container { max-width: 1040px; margin: 0 auto; padding: 0 var(--pad); position: relative; }
 .skip-link { position: absolute; left: -9999px; top: 0; z-index: 2000; background: var(--petrol); color: #fff; padding: 10px 16px; border-radius: 0 0 6px 0; font-size: 0.95rem; }
 .skip-link:focus { left: 0; }
+/* Screen-reader-only content (e.g. the h1 on later story pages). */
+.visually-hidden { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 main:focus { outline: none; }
 
 html.drawer-open, body.drawer-open { overflow: hidden; overscroll-behavior: none; }

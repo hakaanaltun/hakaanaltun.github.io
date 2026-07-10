@@ -9,8 +9,9 @@ description: "Everything on the site—short fiction and essays, newest first."
 {% assign all_posts = site.posts | sort: "date" | reverse %}
 {% assign essays = "" | split: "" %}
 {% assign fiction = "" | split: "" %}
+{% comment %} Story cards (e.g. The Notice) are listed here under Short Fiction;
+all-work-thumb.html sends them to post.story_url instead of the redirect stub. {% endcomment %}
 {% for post in all_posts %}
-  {% if post.story_card %}{% continue %}{% endif %}
   {% assign post_arr = "" | split: "" | push: post %}
   {% if post.fiction %}
     {% assign fiction = fiction | concat: post_arr %}

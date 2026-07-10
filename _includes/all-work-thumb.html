@@ -1,7 +1,9 @@
 <li class="all-work-thumb">
   {% assign img = include.post.thumb | default: include.post.image %}
   {% assign display_title = include.post.title | replace: "'", "’" %}
-  <a href="{{ include.post.url }}" class="all-work-thumb-link" aria-label="{{ display_title }}">
+  {% comment %} Story cards point at the story itself, never at the redirect stub. {% endcomment %}
+  {% if include.post.story_card %}{% assign _thumb_url = include.post.story_url | default: "/story/1/" %}{% else %}{% assign _thumb_url = include.post.url %}{% endif %}
+  <a href="{{ _thumb_url }}" class="all-work-thumb-link" aria-label="{{ display_title }}">
     <span class="all-work-thumb-card">
       {% if img %}
         <img src="{{ img }}" alt="{{ include.post.cover_alt | default: display_title }}" loading="lazy">
