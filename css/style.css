@@ -1186,10 +1186,8 @@ footer {
   background: rgba(237, 228, 207, 0.42);
 }
 
-/* Controls remain ordered Dark mode, Clock, Share. On desktop and tablet
-   (both orientations) they are the boxed buttons — bordered labels that
-   invert on hover. Phones keep the icon-only, divider-separated row;
-   see the phone media query further down. */
+/* Controls remain ordered Dark mode, Clock, Share: boxed buttons at
+   every breakpoint — bordered labels that invert on hover. */
 .footer-actions {
   display: flex;
   align-items: center;
@@ -1198,7 +1196,8 @@ footer {
   gap: 10px;
 }
 
-/* The dividers between the controls belong to the phone icon row only. */
+/* The markup keeps dividers between the controls for the icon row;
+   the boxed buttons never show them. */
 .footer-actions .footer-link-divider {
   display: none;
 }
@@ -1356,68 +1355,32 @@ footer {
   }
 }
 
-/* Phones — portrait and landscape — keep the icon-only controls: the
-   moon/sun, clock and share glyphs separated by dividers, no boxes.
-   Everything larger gets the boxed buttons above. */
-@media (max-width: 767px), (max-height: 500px) and (orientation: landscape) {
+/* Small phones: the compact box sizing from the original design. */
+@media (max-width: 480px) {
   .footer-actions {
-    gap: 0;
-  }
-
-  .footer-actions .footer-link-divider {
-    display: block;
+    gap: 8px;
   }
 
   .footer-share-btn,
   .footer-tool-btn,
   .footer-theme-toggle {
-    justify-content: flex-start;
-    min-height: 0;
-    padding: 8px 2px;
-    border: 0;
-    color: var(--footer-muted);
-    font: inherit;
-    line-height: 1.25;
-    transition: color 0.2s ease;
-  }
-
-  .footer-share-btn:hover,
-  .footer-share-btn:active,
-  .footer-share-btn:focus-visible,
-  .footer-tool-btn:hover,
-  .footer-tool-btn:active,
-  .footer-tool-btn:focus-visible,
-  .footer-theme-toggle:hover,
-  .footer-theme-toggle:active,
-  .footer-theme-toggle:focus-visible {
-    background: transparent;
-    color: var(--footer-text);
-    outline: revert;
+    min-height: 38px;
+    padding: 7px 10px;
+    font-size: 1.02rem;
   }
 
   .footer-theme-toggle {
-    gap: 0;
+    gap: 7px;
   }
 
   .footer-theme-toggle svg {
-    width: 20px;
-    height: 20px;
-  }
-
-  .footer-btn-icon {
-    display: block;
-    width: 20px;
-    height: 20px;
-  }
-
-  .footer-theme-label,
-  .footer-btn-label {
-    display: none;
+    width: 15px;
+    height: 15px;
   }
 }
 
 /* Phone portrait is the one layout exception: the whole footer becomes
-   a single centered column — heading, contact links, icon row, rule,
+   a single centered column — heading, contact links, button row, rule,
    brand block — so the top half sits on the same axis as the already
    centered bottom half. */
 @media (max-width: 767px) and (orientation: portrait) {
