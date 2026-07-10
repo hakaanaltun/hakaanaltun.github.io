@@ -1,8 +1,12 @@
+{% comment %} One work as an index row. Used by /all-work/, /series/ and the
+Şafak's Arc block on /book/. Pass `number` for series pages, where the rows
+follow reading order. {% endcomment %}
 <li class="work-row">
   {% assign display_title = include.post.title | replace: "'", "’" %}
   {% comment %} Story cards point at the story itself, never at the redirect stub. {% endcomment %}
   {% if include.post.story_card %}{% assign _row_url = include.post.story_url | default: "/story/1/" %}{% else %}{% assign _row_url = include.post.url %}{% endif %}
-  <a href="{{ _row_url }}" class="work-row-link">
+  <a href="{{ _row_url }}" class="work-row-link{% if include.number %} has-num{% endif %}">
+    {% if include.number %}<span class="work-num" aria-hidden="true">{{ include.number }}</span>{% endif %}
     {% assign img = include.post.thumb | default: include.post.image %}
     {% if img %}
     <span class="work-thumb"><img src="{{ img }}" alt="" loading="lazy"></span>
@@ -13,10 +17,12 @@
     <span class="work-main">
       <span class="work-title">{{ display_title }}</span>
       {% if include.post.subtitle %}<span class="work-subtitle">{{ include.post.subtitle }}</span>{% endif %}
-      {% comment %} Story cards would repeat their subtitle in the description,
-          so they show their excerpt instead. {% endcomment %}
-      {% if include.post.story_card %}{% assign _lede = include.post.excerpt %}{% else %}{% assign _lede = include.post.description %}{% endif %}
-      {% if _lede %}<span class="work-excerpt">{{ _lede }}</span>{% endif %}
+      {% comment %} The lede is the piece's own opening — sentences from the
+      text, not written copy. normalize_whitespace keeps a space where
+      paragraphs join. Story cards use their front-matter excerpt (also taken
+      from the text). {% endcomment %}
+      {% if include.post.story_card %}{% assign _lede = include.post.excerpt %}{% else %}{% assign _lede = include.post.content | strip_html | normalize_whitespace | truncatewords: 44 %}{% endif %}
+      {% if _lede and _lede != "" %}<span class="work-excerpt">{{ _lede }}</span>{% endif %}
     </span>
     <span class="work-side">
       <time class="work-date" datetime="{{ include.post.date | date: '%Y-%m-%d' }}">{{ include.post.date | date: "%b %-d, %Y" }}</time>
