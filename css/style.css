@@ -369,14 +369,36 @@ a.drawer-label--link:hover, a.drawer-label--link:active, a.drawer-label--link:fo
    5. Sections & Animated Dividers
    ========================================================================== */
 section { position: relative; padding: 100px 0 90px; }
-section:not(:first-of-type)::before {
-  content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+
+/* Full-width animated dividers — theme colour via --petrol (--chrome-rgb). */
+.essay-section-divider {
+  position: relative;
+  height: 1px;
+  margin: 48px 0;
+  background: var(--rule);
+}
+
+section:not(:first-of-type)::before,
+.essay-section-divider::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
   background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--petrol) 60%, transparent), transparent);
   box-shadow: 0 0 12px color-mix(in srgb, var(--petrol) 20%, transparent);
-  transform: scaleX(0); transform-origin: center; opacity: 0;
+  transform: scaleX(0);
+  transform-origin: center;
+  opacity: 0;
   transition: transform 1.2s cubic-bezier(0.23, 1, 0.32, 1), opacity 1.2s ease;
 }
-section.line-drawn::before { transform: scaleX(1); opacity: 0.5; }
+
+section.line-drawn::before,
+.essay-section-divider.line-drawn::before {
+  transform: scaleX(1);
+  opacity: 0.5;
+}
 
 .section-head { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px; margin-bottom: 2.6rem; }
 .section-title { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: clamp(1.85rem, 3vw, 2.5rem); line-height: 1.02; letter-spacing: -0.01em; color: var(--petrol); }
@@ -643,15 +665,17 @@ body.moris-lightbox-open { overflow: hidden; }
 .essay-body blockquote { border-left: 2px solid var(--petrol); padding: 12px 0 12px 20px; margin: 28px 0; font-style: italic; font-size: 21px; color: var(--vizon); }
 .essay-body em { font-style: italic; }
 .essay-body strong, .essay-body b { font-weight: 500; }
-.essay-body hr { border: none; height: 1px; background: linear-gradient(to right, transparent, var(--petrol) 20%, var(--petrol) 80%, transparent); opacity: 0.20; margin: 36px 0; }
+.essay-body hr {
+  border: none;
+  height: 1px;
+  margin: 48px 0;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--petrol) 60%, transparent), transparent);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--petrol) 20%, transparent);
+  opacity: 0.5;
+}
 .essay-body img { max-width: 100%; border-radius: 8px; margin: 24px 0; overflow: hidden; }
 .essay-body ul, .essay-body ol { margin: 0 0 24px 24px; color: var(--ink-soft); }
 .essay-body li { margin-bottom: 8px; }
-
-.essay-section-divider { position: relative; height: 1px; margin: 48px 0; background: var(--rule); }
-.essay-section-divider::before { content: ''; position: absolute; top: 0; left: 0; width: 0; height: 1px; background: linear-gradient(to right, transparent, var(--petrol) 20%, var(--petrol) 80%, transparent); opacity: 0.50; transition: width 1.2s cubic-bezier(0.23, 1, 0.32, 1); }
-.essay-section-divider.line-drawn::before { width: 100%; }
-
 
 .series-nav, .fragments-nav, .cafe-nav { margin-top: 0; padding: 24px 0; border: 0; background: transparent; }
 .series-nav-title { font-size: 13px; letter-spacing: 0.08em; margin-bottom: 14px; line-height: 1.4; font-style: italic; text-align: left; }
@@ -764,6 +788,7 @@ body.moris-lightbox-open { overflow: hidden; }
   .essay-body blockquote { font-size: 19px; }
   .essay-body h2 { font-size: 20px; }
   .essay-section-divider { margin: 36px 0; }
+  .essay-body hr { margin: 36px 0; }
   .more-essays-title { font-size: 26px; }
 }
 
@@ -920,6 +945,10 @@ body.moris-lightbox-open { overflow: hidden; }
   padding: 12px 0 8px;
   scroll-margin-top: calc(var(--head-band) + 28px);
 }
+.series-band:not(:first-of-type) {
+  margin-top: 52px;
+  padding-top: 64px;
+}
 .series-band .work-tag,
 .book-arc .work-tag { display: none; }
 
@@ -931,17 +960,16 @@ body.moris-lightbox-open { overflow: hidden; }
    the index holds in both themes.
    ========================================================================== */
 .all-work-band { padding: 0; }
+.all-work-band:not(:first-of-type) {
+  margin-top: 52px;
+  padding-top: 52px;
+}
 .all-work-group-head { text-align: center; margin-bottom: 26px; }
 .all-work-group-title {
   font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic;
   font-weight: 500; font-size: clamp(1.6rem, 2.6vw, 2.1rem); color: var(--petrol-deep);
 }
 .all-work-group-count { margin-top: 3px; font-style: italic; font-size: 0.85rem; letter-spacing: 0.04em; color: var(--vizon); }
-
-.all-work-band-divider {
-  width: min(300px, 60%); height: 1px; margin: 52px auto;
-  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--petrol) 55%, transparent), transparent);
-}
 
 /* Quiet jump row under the page head — two sections, one glance.
    flex-direction: row overrides the global header `nav { flex-direction: column }`. */
@@ -1002,12 +1030,13 @@ body.moris-lightbox-open { overflow: hidden; }
   .work-excerpt { display: none; }
   .work-side { flex-direction: row; align-items: baseline; justify-content: flex-start; gap: 10px; text-align: left; }
   .work-title { font-size: 1.18rem; }
-  .all-work-band-divider { margin: 40px auto; }
+  .all-work-band:not(:first-of-type) { margin-top: 40px; padding-top: 40px; }
+  .series-band:not(:first-of-type) { margin-top: 40px; padding-top: 52px; }
   .work-jump { margin-bottom: 34px; }
 }
 
 /* Şafak's Arc block on the Book page */
-.book-arc { margin-top: 56px; padding-top: 48px; border-top: 1px solid var(--rule); }
+.book-arc { margin-top: 56px; padding-top: 48px; }
 .book-arc-head { text-align: center; max-width: 640px; margin: 0 auto 36px; }
 .book-arc-title {
   font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic;
