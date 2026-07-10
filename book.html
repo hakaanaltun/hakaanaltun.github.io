@@ -41,7 +41,7 @@ description: "The Fragments—a novel of forgetting and remembering, of betrayal
   {% assign fragments = site.posts | where: "series", "fragments" | sort: "series_order" %}
   <ul class="work-index">
     {% for post in fragments %}
-      {% include all-work-row.html post=post number=forloop.index %}
+      {% include all-work-row.html post=post %}
     {% endfor %}
   </ul>
 </section>

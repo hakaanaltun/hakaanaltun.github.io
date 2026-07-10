@@ -1,12 +1,11 @@
 {% comment %} One work as an index row. Used by /all-work/, /series/ and the
-Şafak's Arc block on /book/. Pass `number` for series pages, where the rows
-follow reading order. {% endcomment %}
+Şafak's Arc block on /book/. Series pages keep reading order through the
+list itself — the rows carry no numbers. {% endcomment %}
 <li class="work-row">
   {% assign display_title = include.post.title | replace: "'", "’" %}
   {% comment %} Story cards point at the story itself, never at the redirect stub. {% endcomment %}
   {% if include.post.story_card %}{% assign _row_url = include.post.story_url | default: "/story/1/" %}{% else %}{% assign _row_url = include.post.url %}{% endif %}
-  <a href="{{ _row_url }}" class="work-row-link{% if include.number %} has-num{% endif %}">
-    {% if include.number %}<span class="work-num" aria-hidden="true">{{ include.number }}</span>{% endif %}
+  <a href="{{ _row_url }}" class="work-row-link">
     {% assign img = include.post.thumb | default: include.post.image %}
     {% if img %}
     <span class="work-thumb"><img src="{{ img }}" alt="" loading="lazy"></span>

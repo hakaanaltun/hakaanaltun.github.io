@@ -110,7 +110,7 @@
   }
 
   /* Edge fades for horizontal strips: the fade only appears on a side
-     that still has content beyond it (mirrors the book-links pattern). */
+     that still has content beyond it. */
   function trackEdgeFades(selector) {
     document.querySelectorAll(selector).forEach(function (el) {
       function update() {
@@ -128,8 +128,10 @@
     });
   }
 
-  enableHorizontalScroller('#book .book-links-grid');
-  enableHorizontalScroller('#further-back .further-back-grid');
+  /* Book retailer strip and the phone header nav are the only horizontal
+     scrollers left — Further back went back to a plain grid. */
+  enableHorizontalScroller('#book .book-retailers');
+  trackEdgeFades('#book .book-retailers');
   enableHorizontalScroller('.header-nav-bar');
   trackEdgeFades('.header-nav-bar');
 

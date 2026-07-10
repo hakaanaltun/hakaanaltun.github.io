@@ -26,10 +26,10 @@ description: "Ongoing series—The Corner and The On Series."
       <h2 class="all-work-group-title">The Corner</h2>
       <p class="all-work-group-count">Three stories from a corner that never emptied.</p>
     </div>
-    {% comment %} Numbered: series rows follow reading order, not date. {% endcomment %}
+    {% comment %} Series rows follow reading order, not date. {% endcomment %}
     <ul class="work-index">
       {% for post in cafe_series %}
-        {% include all-work-row.html post=post number=forloop.index %}
+        {% include all-work-row.html post=post %}
       {% endfor %}
     </ul>
   </section>
@@ -41,7 +41,7 @@ description: "Ongoing series—The Corner and The On Series."
     </div>
     <ul class="work-index">
       {% for post in on_series %}
-        {% include all-work-row.html post=post number=forloop.index %}
+        {% include all-work-row.html post=post %}
       {% endfor %}
     </ul>
   </section>
