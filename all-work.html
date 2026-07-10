@@ -9,8 +9,9 @@ description: "Everything on the site—short fiction and essays, newest first."
 {% assign all_posts = site.posts | sort: "date" | reverse %}
 {% assign essays = "" | split: "" %}
 {% assign fiction = "" | split: "" %}
+{% comment %} Story cards (e.g. The Notice) are listed here under Short Fiction;
+all-work-row.html sends them to post.story_url instead of the redirect stub. {% endcomment %}
 {% for post in all_posts %}
-  {% if post.story_card %}{% continue %}{% endif %}
   {% assign post_arr = "" | split: "" | push: post %}
   {% if post.fiction %}
     {% assign fiction = fiction | concat: post_arr %}
@@ -36,37 +37,41 @@ placed where its newest post falls in the date-sorted list. {% endcomment %}
   {% endif %}
 {% endfor %}
 
-<div class="section-page section-page--wide">
+<div class="section-page">
   <div class="section-page-head">
     <h1 class="section-page-title">All</h1>
     <p class="section-page-subtitle">Everything on the site, newest first.</p>
   </div>
 
+  <nav class="work-jump" aria-label="Sections on this page">
+    <a href="#short-fiction">Short Fiction</a>
+    <span class="work-jump-sep" aria-hidden="true">·</span>
+    <a href="#essays">Essays</a>
+  </nav>
+
   <section id="short-fiction" class="all-work-band" aria-label="Short Fiction">
-    <div class="all-work-band-inner">
-      <div class="all-work-group-head">
-        <h2 class="all-work-group-title">Short Fiction</h2>
-      </div>
-      <ul class="all-work-thumb-grid" aria-label="Short Fiction posts">
-        {% for post in fiction %}
-          {% include all-work-thumb.html post=post %}
-        {% endfor %}
-      </ul>
+    <div class="all-work-group-head">
+      <h2 class="all-work-group-title">Short Fiction</h2>
+      <p class="all-work-group-count">{{ fiction | size }} pieces</p>
     </div>
+    <ul class="work-index">
+      {% for post in fiction %}
+        {% include all-work-row.html post=post %}
+      {% endfor %}
+    </ul>
   </section>
 
   <div class="all-work-band-divider" aria-hidden="true"></div>
 
   <section id="essays" class="all-work-band" aria-label="Essays">
-    <div class="all-work-band-inner">
-      <div class="all-work-group-head">
-        <h2 class="all-work-group-title">Essays</h2>
-      </div>
-      <ul class="all-work-thumb-grid" aria-label="Essay posts">
-        {% for post in essays_ordered %}
-          {% include all-work-thumb.html post=post %}
-        {% endfor %}
-      </ul>
+    <div class="all-work-group-head">
+      <h2 class="all-work-group-title">Essays</h2>
+      <p class="all-work-group-count">{{ essays_ordered | size }} pieces</p>
     </div>
+    <ul class="work-index">
+      {% for post in essays_ordered %}
+        {% include all-work-row.html post=post %}
+      {% endfor %}
+    </ul>
   </section>
 </div>
