@@ -14,32 +14,37 @@ description: "Ongoing series—The Corner and The On Series."
     <h1 class="section-page-title">Series</h1>
     <p class="section-page-subtitle">Writing that runs together—read one, or follow the whole thread.</p>
   </div>
-</div>
 
-<section id="the-corner" class="series-band" aria-label="The Corner">
-  <div class="series-band-inner">
-    <h2 class="series-band-title">The Corner</h2>
-    <p class="series-band-subtitle">Three stories from a corner that never emptied.</p>
+  <nav class="work-jump" aria-label="Sections on this page">
+    <a href="#the-corner">The Corner</a>
+    <span class="work-jump-sep" aria-hidden="true">·</span>
+    <a href="#the-on-series">The On Series</a>
+  </nav>
 
-    <ul class="piece-grid series-piece-grid">
+  <section id="the-corner" class="series-band" aria-label="The Corner">
+    <div class="all-work-group-head">
+      <h2 class="all-work-group-title">The Corner</h2>
+      <p class="all-work-group-count">Three stories from a corner that never emptied.</p>
+    </div>
+    {% comment %} Numbered: series rows follow reading order, not date. {% endcomment %}
+    <ul class="work-index">
       {% for post in cafe_series %}
-        {% include piece-card.html post=post %}
+        {% include all-work-row.html post=post number=forloop.index %}
       {% endfor %}
     </ul>
-  </div>
-</section>
+  </section>
 
-<div class="series-band-divider" aria-hidden="true"></div>
+  <div class="all-work-band-divider" aria-hidden="true"></div>
 
-<section id="the-on-series" class="series-band" aria-label="The On Series">
-  <div class="series-band-inner">
-    <h2 class="series-band-title">The On Series</h2>
-    <p class="series-band-subtitle">Seven essays on what we build inside ourselves—and why.</p>
-
-    <ul class="piece-grid series-piece-grid">
+  <section id="the-on-series" class="series-band" aria-label="The On Series">
+    <div class="all-work-group-head">
+      <h2 class="all-work-group-title">The On Series</h2>
+      <p class="all-work-group-count">Seven essays on what we build inside ourselves—and why.</p>
+    </div>
+    <ul class="work-index">
       {% for post in on_series %}
-        {% include piece-card.html post=post %}
+        {% include all-work-row.html post=post number=forloop.index %}
       {% endfor %}
     </ul>
-  </div>
-</section>
+  </section>
+</div>
