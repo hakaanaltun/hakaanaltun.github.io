@@ -1248,6 +1248,13 @@ footer {
   display: none;
 }
 
+/* Clock/Share carry icons that replace their labels on phones only. */
+.footer-btn-icon {
+  display: none;
+  width: 18px;
+  height: 18px;
+}
+
 .footer-rule {
   border: 0;
   border-top: 1px solid rgba(237, 228, 207, 0.8);
@@ -1333,18 +1340,24 @@ footer {
   }
 }
 
-/* Phone portrait: the boxed controls move above the Find me line and
-   everything aligns left. Landscape keeps the desktop single-row order. */
+/* Phone portrait: the Find me heading and the icon controls share the
+   first row (heading left, icons right); the contact links take the full
+   row below. */
 @media (max-width: 767px) and (orientation: portrait) {
   .footer-topline {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 18px;
+    flex-wrap: wrap;
+    gap: 16px 20px;
   }
 
-  .footer-actions {
-    order: -1;
-    justify-content: flex-start;
+  .footer-findme-line {
+    display: contents;
+  }
+
+  .footer-contact-links {
+    order: 3;
+    flex-basis: 100%;
+    flex-wrap: wrap;
+    row-gap: 8px;
   }
 
   .footer-rule-bottom {
@@ -1352,8 +1365,8 @@ footer {
   }
 }
 
-/* Phone landscape: desktop order, but the row may wrap when cramped. */
-@media (max-width: 767px) and (orientation: landscape) {
+/* Phone landscape: desktop single-row order; wraps only when cramped. */
+@media (max-height: 500px) and (orientation: landscape) {
   .footer-topline {
     flex-wrap: wrap;
     row-gap: 14px;
@@ -1362,6 +1375,38 @@ footer {
   .footer-contact-links {
     flex-wrap: wrap;
     row-gap: 8px;
+  }
+}
+
+/* Phones in either orientation: the boxed controls shrink to icon-only
+   squares. Tablet and desktop keep the labelled buttons. */
+@media (max-width: 767px) and (orientation: portrait),
+       (max-height: 500px) and (orientation: landscape) {
+  .footer-share-btn,
+  .footer-tool-btn,
+  .footer-theme-toggle {
+    width: 44px;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0;
+  }
+
+  .footer-btn-icon {
+    display: block;
+  }
+
+  .footer-theme-label,
+  .footer-btn-label {
+    display: none;
+  }
+
+  .footer-theme-toggle {
+    gap: 0;
+  }
+
+  .footer-theme-toggle svg {
+    width: 18px;
+    height: 18px;
   }
 }
 
@@ -1388,36 +1433,9 @@ footer {
   }
 }
 
-@media (max-width: 480px) and (orientation: portrait) {
-  .footer-findme-line {
-    display: block;
-  }
-
-  .footer-findme-line h3 {
-    margin: 0 0 12px;
-  }
-}
-
 @media (max-width: 480px) {
   .footer-actions {
     gap: 8px;
-  }
-
-  .footer-share-btn,
-  .footer-tool-btn,
-  .footer-theme-toggle {
-    min-height: 38px;
-    padding: 7px 10px;
-    font-size: 1.02rem;
-  }
-
-  .footer-theme-toggle {
-    gap: 7px;
-  }
-
-  .footer-theme-toggle svg {
-    width: 15px;
-    height: 15px;
   }
 }
 
