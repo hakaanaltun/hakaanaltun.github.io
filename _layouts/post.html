@@ -25,7 +25,12 @@ leave the document without an h1 — give screen readers one. {% endcomment %}
 </div>
 {% assign cover_image = page.image | default: page.thumb %}
 {% if cover_image %}
-<div class="essay-cover fade-in fade-in-delay"><img src="{{ cover_image }}" alt="{{ page.cover_alt | default: page.subtitle }}" loading="lazy"></div>
+{% comment %} The cover column tops out at 760px. 1600w approximates the recent
+originals (1492–1672px); older covers are smaller than 960px anyway, so their
+copied variants resolve the same file the page always used. {% endcomment %}
+{% assign cover480 = cover_image | replace: '/images/', '/images/480/' %}
+{% assign cover960 = cover_image | replace: '/images/', '/images/960/' %}
+<div class="essay-cover fade-in fade-in-delay"><img src="{{ cover_image }}" srcset="{{ cover480 }} 480w, {{ cover960 }} 960w, {{ cover_image }} 1600w" sizes="(max-width: 840px) calc(100vw - 80px), 760px" alt="{{ page.cover_alt | default: page.subtitle }}" loading="lazy"></div>
 {% endif %}
 <article class="essay-body fade-in fade-in-delay">
 {{ content }}

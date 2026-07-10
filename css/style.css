@@ -30,7 +30,9 @@
 
   --ink: #2F2B27;
   --ink-soft: #403A34;
-  --vizon: #8C867E;
+  /* WCAG AA: 4.5:1+ on --bg, --band and --surface-soft (the old #8C867E sat
+     at 3.6:1 on white). Same warm-grey hue, two steps darker. */
+  --vizon: #746F69;
 
   --rule: #EEEAE4;
   --rule-strong: #D8D2C8;

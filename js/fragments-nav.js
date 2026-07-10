@@ -26,7 +26,7 @@
 
   FRAGMENTS.forEach(function (f, i) {
     var isCurrent = (f.href === current);
-    var img = f.img || '';
+    var img = (f.img || '').replace('/images/', '/images/480/');
     var label = f.title.replace(/"/g, '&quot;');
 
     var inner = '<div class="series-thumb-card' + (isCurrent ? ' series-thumb-card--current' : '') + '">'

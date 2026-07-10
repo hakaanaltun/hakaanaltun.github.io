@@ -26,7 +26,7 @@
 
   SERIES.forEach(function (s, i) {
     var isCurrent = (s.href === current);
-    var img = s.img || '';
+    var img = (s.img || '').replace('/images/', '/images/480/');
     var label = s.title.replace(/"/g, '&quot;');
 
     var inner = '<div class="series-thumb-card' + (isCurrent ? ' series-thumb-card--current' : '') + '">'

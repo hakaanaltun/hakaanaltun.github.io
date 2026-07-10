@@ -48,8 +48,9 @@
     html += '<span class="piece-meta">' + e.date + '</span>';
     html += '</span>';
     if (e.img) {
+      /* 96px thumb — the pre-generated 480px variant is plenty at 2x. */
       html += '<span class="piece-thumb-wrap">';
-      html += '<img src="' + e.img + '" alt="' + title.replace(/"/g, '&quot;') + '" class="piece-thumb" loading="lazy">';
+      html += '<img src="' + e.img.replace('/images/', '/images/480/') + '" alt="' + title.replace(/"/g, '&quot;') + '" class="piece-thumb" loading="lazy">';
       html += '</span>';
     } else if (e.story) {
       /* Imageless story cards (The Notice): same doorframe as the All index row. */

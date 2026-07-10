@@ -8,7 +8,9 @@ list itself — the rows carry no numbers. {% endcomment %}
   <a href="{{ _row_url }}" class="work-row-link">
     {% assign img = include.post.thumb | default: include.post.image %}
     {% if img %}
-    <span class="work-thumb"><img src="{{ img }}" alt="" loading="lazy"></span>
+    {% comment %} The row thumb renders at 116px (86px on phones) — the 480px
+    variant covers 2x screens with room to spare. {% endcomment %}
+    <span class="work-thumb"><img src="{{ img | replace: '/images/', '/images/480/' }}" alt="" loading="lazy"></span>
     {% else %}
     {% comment %} No image (The Notice): a quiet doorframe with its pencil mark. {% endcomment %}
     <span class="work-thumb work-thumb--bare" aria-hidden="true"></span>

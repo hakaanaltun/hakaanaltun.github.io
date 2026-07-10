@@ -5,8 +5,16 @@
   <a href="{{ _card_url }}" class="piece-card-link">
     {% assign img = include.post.thumb | default: include.post.image %}
     {% if img %}
+    {% comment %} /images/480/ and /images/960/ hold pre-generated downscales of
+    every content image (originals smaller than the target are copied as-is), so
+    the srcset can be built by path alone. Regular cards top out around 280px,
+    the featured card around 590px. {% endcomment %}
+    {% assign img480 = img | replace: '/images/', '/images/480/' %}
+    {% assign img960 = img | replace: '/images/', '/images/960/' %}
     <span class="piece-thumb-wrap">
-      <img src="{{ img }}" alt="{{ include.post.cover_alt | default: include.post.title }}" class="piece-thumb" loading="lazy">
+      <img src="{{ img480 }}" srcset="{{ img480 }} 480w, {{ img960 }} 960w"
+           sizes="{% if include.featured %}(max-width: 600px) calc(100vw - 80px), (max-width: 900px) 92vw, 590px{% else %}(max-width: 600px) calc(100vw - 80px), (max-width: 900px) 45vw, 280px{% endif %}"
+           alt="{{ include.post.cover_alt | default: include.post.title }}" class="piece-thumb" loading="lazy">
     </span>
     {% elsif include.post.story_card %}
     {% comment %} No image (The Notice): same doorframe as the All index row. {% endcomment %}
