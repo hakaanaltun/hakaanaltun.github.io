@@ -1186,14 +1186,20 @@ footer {
   background: rgba(237, 228, 207, 0.42);
 }
 
-/* Controls remain ordered Dark mode, Clock, Share. They read like the
-   contact links — no boxes, muted color, a divider between each. */
+/* Controls remain ordered Dark mode, Clock, Share: boxed buttons at
+   every breakpoint — bordered labels that invert on hover. */
 .footer-actions {
   display: flex;
   align-items: center;
   justify-content: flex-end;
   flex: 0 0 auto;
-  gap: 0;
+  gap: 10px;
+}
+
+/* The markup keeps dividers between the controls for the icon row;
+   the boxed buttons never show them. */
+.footer-actions .footer-link-divider {
+  display: none;
 }
 
 .footer-share-btn,
@@ -1201,33 +1207,46 @@ footer {
 .footer-theme-toggle {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  min-height: 42px;
   margin: 0;
-  padding: 8px 2px;
+  padding: 8px 16px;
   background: transparent;
-  border: 0;
-  color: var(--footer-muted);
-  font: inherit;
-  line-height: 1.25;
+  border: 1px solid rgba(237, 228, 207, 0.85);
+  color: var(--footer-text);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-size: 1.2rem;
+  line-height: 1.2;
   cursor: pointer;
   text-decoration: none;
   white-space: nowrap;
-  transition: color 0.2s ease;
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
 .footer-share-btn:hover,
 .footer-share-btn:active,
+.footer-share-btn:focus-visible,
 .footer-tool-btn:hover,
 .footer-tool-btn:active,
+.footer-tool-btn:focus-visible,
 .footer-theme-toggle:hover,
-.footer-theme-toggle:active {
-  color: var(--footer-text);
+.footer-theme-toggle:active,
+.footer-theme-toggle:focus-visible {
+  background: var(--footer-text);
+  color: var(--surface-footer);
+  outline: none;
 }
 
-/* The theme toggle's moon/sun and the Clock/Share icons replace their
-   text labels at every breakpoint (phone, tablet, desktop). */
+/* Boxed theme toggle pairs the moon/sun with its label; Clock and Share
+   are text-only, so their icons stay hidden outside the phone row. */
+.footer-theme-toggle {
+  gap: 10px;
+}
+
 .footer-theme-toggle svg {
-  width: 20px;
-  height: 20px;
+  width: 17px;
+  height: 17px;
 }
 
 .footer-theme-toggle .theme-icon-sun {
@@ -1247,15 +1266,7 @@ footer {
   display: none;
 }
 
-/* Clock/Share carry icons that replace their labels at every breakpoint. */
 .footer-btn-icon {
-  display: block;
-  width: 20px;
-  height: 20px;
-}
-
-.footer-theme-label,
-.footer-btn-label {
   display: none;
 }
 
@@ -1334,10 +1345,42 @@ footer {
   .footer-link-divider {
     margin: 0 10px;
   }
+
+  .footer-share-btn,
+  .footer-tool-btn,
+  .footer-theme-toggle {
+    min-height: 40px;
+    padding: 7px 12px;
+    font-size: 1.1rem;
+  }
+}
+
+/* Small phones: the compact box sizing from the original design. */
+@media (max-width: 480px) {
+  .footer-actions {
+    gap: 8px;
+  }
+
+  .footer-share-btn,
+  .footer-tool-btn,
+  .footer-theme-toggle {
+    min-height: 38px;
+    padding: 7px 10px;
+    font-size: 1.02rem;
+  }
+
+  .footer-theme-toggle {
+    gap: 7px;
+  }
+
+  .footer-theme-toggle svg {
+    width: 15px;
+    height: 15px;
+  }
 }
 
 /* Phone portrait is the one layout exception: the whole footer becomes
-   a single centered column — heading, contact links, icon row, rule,
+   a single centered column — heading, contact links, button row, rule,
    brand block — so the top half sits on the same axis as the already
    centered bottom half. */
 @media (max-width: 767px) and (orientation: portrait) {
