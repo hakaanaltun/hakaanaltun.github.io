@@ -1198,7 +1198,7 @@ footer {
   display: inline-flex;
   align-items: center;
   margin: 0;
-  padding: 0;
+  padding: 8px 2px;
   background: transparent;
   border: 0;
   color: var(--footer-muted);
@@ -1219,16 +1219,19 @@ footer {
   color: var(--footer-text);
 }
 
-/* The theme toggle's moon/sun and the Clock/Share icons appear on phones
-   only; tablet and desktop show the plain labels. */
+/* The theme toggle's moon/sun and the Clock/Share icons replace their
+   text labels at every breakpoint (phone, tablet, desktop). */
 .footer-theme-toggle svg {
   width: 20px;
   height: 20px;
 }
 
-.footer-theme-toggle .theme-icon-sun,
+.footer-theme-toggle .theme-icon-sun {
+  display: var(--theme-icon-sun, none);
+}
+
 .footer-theme-toggle .theme-icon-moon {
-  display: none;
+  display: var(--theme-icon-moon, block);
 }
 
 .footer-theme-toggle[hidden] {
@@ -1240,11 +1243,16 @@ footer {
   display: none;
 }
 
-/* Clock/Share carry icons that replace their labels on phones only. */
+/* Clock/Share carry icons that replace their labels at every breakpoint. */
 .footer-btn-icon {
-  display: none;
+  display: block;
   width: 20px;
   height: 20px;
+}
+
+.footer-theme-label,
+.footer-btn-label {
+  display: none;
 }
 
 .footer-rule {
@@ -1326,7 +1334,8 @@ footer {
 
 /* Phone portrait: the Find me heading and the icon controls share the
    first row (heading left, icons right); the contact links take the full
-   row below. */
+   row below. The icon controls stack top to bottom (dark mode, clock,
+   share), right-aligned, in place of their usual horizontal row. */
 @media (max-width: 767px) and (orientation: portrait) {
   .footer-topline {
     flex-wrap: wrap;
@@ -1344,6 +1353,16 @@ footer {
     row-gap: 8px;
   }
 
+  .footer-actions {
+    flex-direction: column;
+    align-items: flex-end;
+    row-gap: 4px;
+  }
+
+  .footer-actions .footer-link-divider {
+    display: none;
+  }
+
   .footer-rule-bottom {
     margin-top: 18px;
   }
@@ -1359,34 +1378,6 @@ footer {
   .footer-contact-links {
     flex-wrap: wrap;
     row-gap: 8px;
-  }
-}
-
-/* Phones in either orientation: the controls swap their labels for
-   icons. Tablet and desktop keep the plain text labels. */
-@media (max-width: 767px) and (orientation: portrait),
-       (max-height: 500px) and (orientation: landscape) {
-  .footer-share-btn,
-  .footer-tool-btn,
-  .footer-theme-toggle {
-    padding: 8px 2px;
-  }
-
-  .footer-btn-icon {
-    display: block;
-  }
-
-  .footer-theme-label,
-  .footer-btn-label {
-    display: none;
-  }
-
-  .footer-theme-toggle .theme-icon-sun {
-    display: var(--theme-icon-sun, none);
-  }
-
-  .footer-theme-toggle .theme-icon-moon {
-    display: var(--theme-icon-moon, block);
   }
 }
 
