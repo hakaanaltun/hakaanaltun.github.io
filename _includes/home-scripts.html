@@ -139,15 +139,6 @@
       if(hq) render(randomIndex(-1), false);
 
       if ('IntersectionObserver' in window) {
-        var revealObs = new IntersectionObserver(function(entries) {
-          entries.forEach(function(entry) {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('revealed');
-              revealObs.unobserve(entry.target);
-            }
-          });
-        }, {rootMargin: '0px 0px -40px 0px'});
-
         var lineObs = new IntersectionObserver(function(entries) {
           entries.forEach(function(entry) {
             if (entry.isIntersecting) {
@@ -157,7 +148,6 @@
           });
         }, {rootMargin: '0px 0px -40px 0px'});
 
-        document.querySelectorAll('.scroll-reveal').forEach(function(el) { revealObs.observe(el); });
         document.querySelectorAll('section').forEach(function(el) { lineObs.observe(el); });
         document.querySelectorAll('.essay-section-divider').forEach(function(el) { lineObs.observe(el); });
       }
