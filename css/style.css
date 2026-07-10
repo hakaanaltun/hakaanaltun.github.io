@@ -946,8 +946,8 @@ body.moris-lightbox-open { overflow: hidden; }
 /* Quiet jump row under the page head — two sections, one glance.
    flex-direction: row overrides the global header `nav { flex-direction: column }`. */
 .work-jump { display: flex; flex-direction: row; justify-content: center; align-items: baseline; gap: 14px; margin: -8px 0 44px; padding: 0; font-size: 0.82rem; letter-spacing: 0.14em; text-transform: uppercase; }
-.work-jump a { color: var(--vizon); border-bottom: 1px solid transparent; padding-bottom: 2px; }
-.work-jump a:hover, .work-jump a:focus-visible { color: var(--petrol); border-bottom-color: color-mix(in srgb, var(--petrol) 45%, transparent); outline: none; }
+.work-jump a { color: var(--wine); border-bottom: 1px solid transparent; padding-bottom: 2px; }
+.work-jump a:hover, .work-jump a:focus-visible { color: var(--wine); border-bottom-color: color-mix(in srgb, var(--wine) 55%, transparent); outline: none; }
 .work-jump-sep { color: var(--rule-strong); }
 
 .work-index { list-style: none; margin: 0 auto; padding: 0; max-width: 860px; border-top: 1px solid var(--rule); }
@@ -964,10 +964,13 @@ body.moris-lightbox-open { overflow: hidden; }
 .work-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s ease; }
 .work-row-link:hover .work-thumb img { transform: scale(1.04); }
 /* Imageless works (The Notice): a door standing in the frame, and a pencil
-   mark on the jamb. */
-.work-thumb--bare { position: relative; border: 1px solid var(--rule); background: var(--surface-soft); }
-.work-thumb--bare::before { content: ""; position: absolute; left: calc(50% - 12px); top: 26%; bottom: 0; width: 24px; border: 1px solid var(--rule-strong); border-bottom: 0; }
-.work-thumb--bare::after { content: ""; position: absolute; left: calc(50% - 17px); top: 54%; width: 9px; height: 1px; background: color-mix(in srgb, var(--petrol) 70%, transparent); }
+   mark on the jamb. Shared by the All index rows and piece cards. */
+.work-thumb--bare,
+.piece-thumb-wrap--bare { position: relative; border: 1px solid var(--rule); background: var(--surface-soft); }
+.work-thumb--bare::before,
+.piece-thumb-wrap--bare::before { content: ""; position: absolute; left: calc(50% - 12px); top: 26%; bottom: 0; width: 24px; border: 1px solid var(--rule-strong); border-bottom: 0; }
+.work-thumb--bare::after,
+.piece-thumb-wrap--bare::after { content: ""; position: absolute; left: calc(50% - 17px); top: 54%; width: 9px; height: 1px; background: color-mix(in srgb, var(--petrol) 70%, transparent); }
 
 .work-main { grid-area: main; display: flex; flex-direction: column; gap: 3px; min-width: 0; text-align: left; }
 .work-title { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: 1.34rem; line-height: 1.15; color: var(--ink); transition: color 0.2s ease; }
