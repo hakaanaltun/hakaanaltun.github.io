@@ -1308,6 +1308,10 @@ footer {
 /* Tablet */
 
 @media (max-width: 900px) {
+  .footer-inner {
+    padding: 42px var(--pad) 44px;
+  }
+
   .footer-topline {
     gap: 20px;
   }
