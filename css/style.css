@@ -1182,13 +1182,14 @@ footer {
   background: rgba(237, 228, 207, 0.42);
 }
 
-/* Controls remain ordered Dark mode, Clock, Share. */
+/* Controls remain ordered Dark mode, Clock, Share. They read like the
+   contact links — no boxes, muted color, a divider between each. */
 .footer-actions {
   display: flex;
   align-items: center;
   justify-content: flex-end;
   flex: 0 0 auto;
-  gap: 10px;
+  gap: 0;
 }
 
 .footer-share-btn,
@@ -1196,56 +1197,54 @@ footer {
 .footer-theme-toggle {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  min-height: 42px;
   margin: 0;
-  padding: 8px 16px;
+  padding: 0;
   background: transparent;
-  border: 1px solid rgba(237, 228, 207, 0.85);
-  color: var(--footer-text);
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-style: italic;
-  font-size: 1.2rem;
-  line-height: 1.2;
+  border: 0;
+  color: var(--footer-muted);
+  font: inherit;
+  line-height: 1.25;
   cursor: pointer;
   text-decoration: none;
   white-space: nowrap;
-  transition: background 0.2s ease, color 0.2s ease;
+  transition: color 0.2s ease;
 }
 
 .footer-share-btn:hover,
 .footer-share-btn:active,
-.footer-share-btn:focus-visible,
 .footer-tool-btn:hover,
 .footer-tool-btn:active,
-.footer-tool-btn:focus-visible,
 .footer-theme-toggle:hover,
-.footer-theme-toggle:active,
-.footer-theme-toggle:focus-visible {
-  background: var(--footer-text);
-  color: var(--surface-footer);
-  outline: none;
+.footer-theme-toggle:active {
+  color: var(--footer-text);
 }
 
-.footer-theme-toggle {
-  gap: 10px;
-}
-
+/* The theme toggle's moon/sun and the Clock/Share icons appear on phones
+   only; tablet and desktop show the plain labels. */
 .footer-theme-toggle svg {
-  width: 17px;
-  height: 17px;
+  width: 20px;
+  height: 20px;
 }
 
-.footer-theme-toggle .theme-icon-sun {
-  display: var(--theme-icon-sun, none);
-}
-
+.footer-theme-toggle .theme-icon-sun,
 .footer-theme-toggle .theme-icon-moon {
-  display: var(--theme-icon-moon, block);
+  display: none;
 }
 
 .footer-theme-toggle[hidden] {
   display: none;
+}
+
+/* Until theme.js unhides the toggle, hide its trailing divider too. */
+.footer-theme-toggle[hidden] + .footer-link-divider {
+  display: none;
+}
+
+/* Clock/Share carry icons that replace their labels on phones only. */
+.footer-btn-icon {
+  display: none;
+  width: 20px;
+  height: 20px;
 }
 
 .footer-rule {
@@ -1323,28 +1322,26 @@ footer {
   .footer-link-divider {
     margin: 0 10px;
   }
-
-  .footer-share-btn,
-  .footer-tool-btn,
-  .footer-theme-toggle {
-    min-height: 40px;
-    padding: 7px 12px;
-    font-size: 1.1rem;
-  }
 }
 
-/* Phone portrait: the boxed controls move above the Find me line and
-   everything aligns left. Landscape keeps the desktop single-row order. */
+/* Phone portrait: the Find me heading and the icon controls share the
+   first row (heading left, icons right); the contact links take the full
+   row below. */
 @media (max-width: 767px) and (orientation: portrait) {
   .footer-topline {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 18px;
+    flex-wrap: wrap;
+    gap: 16px 20px;
   }
 
-  .footer-actions {
-    order: -1;
-    justify-content: flex-start;
+  .footer-findme-line {
+    display: contents;
+  }
+
+  .footer-contact-links {
+    order: 3;
+    flex-basis: 100%;
+    flex-wrap: wrap;
+    row-gap: 8px;
   }
 
   .footer-rule-bottom {
@@ -1352,8 +1349,8 @@ footer {
   }
 }
 
-/* Phone landscape: desktop order, but the row may wrap when cramped. */
-@media (max-width: 767px) and (orientation: landscape) {
+/* Phone landscape: desktop single-row order; wraps only when cramped. */
+@media (max-height: 500px) and (orientation: landscape) {
   .footer-topline {
     flex-wrap: wrap;
     row-gap: 14px;
@@ -1362,6 +1359,34 @@ footer {
   .footer-contact-links {
     flex-wrap: wrap;
     row-gap: 8px;
+  }
+}
+
+/* Phones in either orientation: the controls swap their labels for
+   icons. Tablet and desktop keep the plain text labels. */
+@media (max-width: 767px) and (orientation: portrait),
+       (max-height: 500px) and (orientation: landscape) {
+  .footer-share-btn,
+  .footer-tool-btn,
+  .footer-theme-toggle {
+    padding: 8px 2px;
+  }
+
+  .footer-btn-icon {
+    display: block;
+  }
+
+  .footer-theme-label,
+  .footer-btn-label {
+    display: none;
+  }
+
+  .footer-theme-toggle .theme-icon-sun {
+    display: var(--theme-icon-sun, none);
+  }
+
+  .footer-theme-toggle .theme-icon-moon {
+    display: var(--theme-icon-moon, block);
   }
 }
 
@@ -1385,39 +1410,6 @@ footer {
 
   .footer-credit {
     font-size: 0.8rem;
-  }
-}
-
-@media (max-width: 480px) and (orientation: portrait) {
-  .footer-findme-line {
-    display: block;
-  }
-
-  .footer-findme-line h3 {
-    margin: 0 0 12px;
-  }
-}
-
-@media (max-width: 480px) {
-  .footer-actions {
-    gap: 8px;
-  }
-
-  .footer-share-btn,
-  .footer-tool-btn,
-  .footer-theme-toggle {
-    min-height: 38px;
-    padding: 7px 10px;
-    font-size: 1.02rem;
-  }
-
-  .footer-theme-toggle {
-    gap: 7px;
-  }
-
-  .footer-theme-toggle svg {
-    width: 15px;
-    height: 15px;
   }
 }
 

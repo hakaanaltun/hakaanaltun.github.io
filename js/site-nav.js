@@ -12,9 +12,10 @@
         navigator.share({ title: document.title, url: window.location.href }).catch(function () {});
       } else if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(window.location.href).then(function () {
-          var old = shareBtn.textContent;
-          shareBtn.textContent = 'Link copied';
-          setTimeout(function () { shareBtn.textContent = old; }, 1600);
+          var label = shareBtn.querySelector('.footer-btn-label') || shareBtn;
+          var old = label.textContent;
+          label.textContent = 'Link copied';
+          setTimeout(function () { label.textContent = old; }, 1600);
         }).catch(function () {});
       }
     });
