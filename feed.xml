@@ -26,14 +26,17 @@ layout: null
       {% unless pinned contains post.slug %}
         {% assign post_ts = post.date | date: "%s" | plus: 0 %}
         {% if post_ts > pin_top_ts %}
+        {%- comment -%} Story cards (story_card: true) represent a story that lives
+            at post.story_url, not at the post's own (redirect-stub) URL. {%- endcomment -%}
+        {% if post.story_card %}{% assign post_link = post.story_url | absolute_url %}{% else %}{% assign post_link = post.url | absolute_url %}{% endif %}
     <item>
       <title>{{ post.title | xml_escape }}</title>
       <description>{{ post.description | default: post.subtitle | default: site.description | xml_escape }}</description>
-      <link>{{ post.url | absolute_url }}</link>
-      <guid isPermaLink="true">{{ post.url | absolute_url }}</guid>
+      <link>{{ post_link }}</link>
+      <guid isPermaLink="true">{{ post_link }}</guid>
       <pubDate>{{ post.date | date_to_rfc822 }}</pubDate>
       {% assign feed_image = post.image | default: post.thumb %}{% if feed_image %}<media:content url="{{ feed_image | absolute_url }}" medium="image" />{% endif %}
-      <content:encoded><![CDATA[{% if feed_image %}<p><img src="{{ feed_image | absolute_url }}" alt="{{ post.cover_alt | default: post.title }}" /></p>{% endif %}{{ post.content }}]]></content:encoded>
+      <content:encoded><![CDATA[{% if feed_image %}<p><img src="{{ feed_image | absolute_url }}" alt="{{ post.cover_alt | default: post.title }}" /></p>{% endif %}{% if post.story_card %}<p>{{ post.excerpt }}</p><p><a href="{{ post_link }}">Read the story.</a></p>{% else %}{{ post.content }}{% endif %}]]></content:encoded>
     </item>
         {% endif %}
       {% endunless %}
@@ -48,14 +51,15 @@ layout: null
         {% if slug == "handled" %}{% assign rss_pubdate = "Mon, 25 May 2026 12:00:00 +0000" %}{% endif %}
         {% if slug == "the-cove" %}{% assign rss_pubdate = "Sun, 24 May 2026 12:00:00 +0000" %}{% endif %}
         {% if slug == "the-anxiety" %}{% assign rss_pubdate = "Sat, 23 May 2026 12:00:00 +0000" %}{% endif %}
+        {% if post.story_card %}{% assign post_link = post.story_url | absolute_url %}{% else %}{% assign post_link = post.url | absolute_url %}{% endif %}
     <item>
       <title>{{ post.title | xml_escape }}</title>
       <description>{{ post.description | default: post.subtitle | default: site.description | xml_escape }}</description>
-      <link>{{ post.url | absolute_url }}</link>
-      <guid isPermaLink="true">{{ post.url | absolute_url }}</guid>
+      <link>{{ post_link }}</link>
+      <guid isPermaLink="true">{{ post_link }}</guid>
       <pubDate>{{ rss_pubdate }}</pubDate>
       {% assign feed_image = post.image | default: post.thumb %}{% if feed_image %}<media:content url="{{ feed_image | absolute_url }}" medium="image" />{% endif %}
-      <content:encoded><![CDATA[{% if feed_image %}<p><img src="{{ feed_image | absolute_url }}" alt="{{ post.cover_alt | default: post.title }}" /></p>{% endif %}{{ post.content }}]]></content:encoded>
+      <content:encoded><![CDATA[{% if feed_image %}<p><img src="{{ feed_image | absolute_url }}" alt="{{ post.cover_alt | default: post.title }}" /></p>{% endif %}{% if post.story_card %}<p>{{ post.excerpt }}</p><p><a href="{{ post_link }}">Read the story.</a></p>{% else %}{{ post.content }}{% endif %}]]></content:encoded>
     </item>
       {% endif %}
     {% endfor %}

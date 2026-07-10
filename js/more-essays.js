@@ -38,7 +38,9 @@
 
   picks.forEach(function (e) {
     var title = displayTitle(e.title);
-    var href = e.story ? '/story/1/' : '/pieces/' + e.href;
+    /* Story cards link to the story itself (storyUrl from post front matter),
+       never to the card post's own redirect-stub URL. */
+    var href = e.story ? (e.storyUrl || '/story/1/') : '/pieces/' + e.href;
     html += '<li class="piece-card"><a href="' + href + '" class="piece-card-link">';
     html += '<span class="piece-body">';
     html += '<span class="piece-title">' + title + '</span>';
