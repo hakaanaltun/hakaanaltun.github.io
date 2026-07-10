@@ -1147,8 +1147,11 @@ footer {
 
 .footer-contact-links {
   display: flex;
+  flex-direction: row;
   align-items: center;
+  gap: 0;
   min-width: 0;
+  padding: 0;
 }
 
 .footer-contact-links a {
