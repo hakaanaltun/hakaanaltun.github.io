@@ -1096,8 +1096,9 @@ body.moris-lightbox-open { overflow: hidden; }
    12. Footer
    ========================================================================== */
 
-/* On pages whose last section sits on the quiet band, the band meets the
-   footer directly; elsewhere the 40px space remains. */
+/* On pages whose last section sits on the quiet band (home: Further Back,
+   posts: Keep reading) the band meets the footer directly; elsewhere the
+   40px breather stays. */
 .is-home footer,
 .is-post footer {
   margin-top: 0;
@@ -1118,8 +1119,7 @@ footer {
   padding: 42px var(--pad) 44px;
 }
 
-/* Find me links and footer tools */
-
+/* Find me links and footer controls share one row above the rule. */
 .footer-topline {
   display: flex;
   align-items: center;
@@ -1172,8 +1172,7 @@ footer {
   background: rgba(237, 228, 207, 0.42);
 }
 
-/* Dark mode, Clock and Share */
-
+/* Controls remain ordered Dark mode, Clock, Share. */
 .footer-actions {
   display: flex;
   align-items: center;
@@ -1201,9 +1200,7 @@ footer {
   cursor: pointer;
   text-decoration: none;
   white-space: nowrap;
-  transition:
-    background 0.2s ease,
-    color 0.2s ease;
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
 .footer-share-btn:hover,
@@ -1240,8 +1237,6 @@ footer {
 .footer-theme-toggle[hidden] {
   display: none;
 }
-
-/* Footer rule and logo block */
 
 .footer-rule {
   border: 0;
@@ -1300,18 +1295,12 @@ footer {
 }
 
 /* The Notice pages keep the quiet logo-only footer. */
-
 .footer-quiet .footer-inner {
   padding: 44px var(--pad) 40px;
 }
 
 /* Tablet */
-
 @media (max-width: 900px) {
-  .footer-inner {
-    padding: 42px var(--pad) 44px;
-  }
-
   .footer-topline {
     gap: 20px;
   }
@@ -1335,7 +1324,6 @@ footer {
 }
 
 /* Phone */
-
 @media (max-width: 767px),
        (max-height: 500px) and (orientation: landscape) {
   .footer-topline {
