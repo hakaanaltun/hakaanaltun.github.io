@@ -1,5 +1,7 @@
 <li class="piece-card{% if include.featured %} is-featured{% endif %}">
-  {% if include.post.story_card %}{% assign _card_url = "/story/1/" %}{% else %}{% assign _card_url = include.post.url %}{% endif %}
+  {% comment %} Story cards point at the story itself (post.story_url), never at
+      the post's own redirect-stub URL. {% endcomment %}
+  {% if include.post.story_card %}{% assign _card_url = include.post.story_url | default: "/story/1/" %}{% else %}{% assign _card_url = include.post.url %}{% endif %}
   <a href="{{ _card_url }}" class="piece-card-link">
     {% assign img = include.post.thumb | default: include.post.image %}
     {% if img %}

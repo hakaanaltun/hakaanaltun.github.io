@@ -73,6 +73,9 @@ layout: default
 </script>
 {% endif %}
 </div>
+{% unless is_story %}
+{% comment %} Story pages ("The Notice") end on a choice or the hidden doorbox —
+no subscribe box, no "Keep reading" cards, nothing after the last line. {% endcomment %}
 <div class="essay-section-divider"></div>
 {% if page.series == "on-series" %}
 <div class="series-nav"></div>
@@ -86,6 +89,7 @@ layout: default
 {% endif %}
 {% include post-subscribe.html %}
 <div id="more-essays-container" class="more-essays"></div>
+{% endunless %}
 </div>
 <script>
 (function(){

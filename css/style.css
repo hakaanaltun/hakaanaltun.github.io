@@ -1121,11 +1121,11 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
 /* ── Story ── */
 /* ==========================================================================
    Story — "The Notice" (branching fiction)
-   Reading order in the header: title, subtitle, date, then per-scene
-   section head + clock. No pronoun gate; /story/ opens straight into it.
+   Reading order in the header: title, subtitle, date, then the per-scene
+   clock. /story/ redirects straight into page one (/story/1/).
    ========================================================================== */
 
-/* Section marker: sits under the date. One-word head, then a quiet clock —
+/* Scene marker: sits under the date and carries only the quiet clock —
    enough to place the reader in the day without announcing the scene. */
 .story-marker {
   display: flex;
@@ -1151,8 +1151,10 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
 }
 
 /* Scene rhythm: the prose lives or dies on the space around one-word
-   paragraphs ("Low."), so give story paragraphs generous breathing room. */
-.essay-body p { margin-bottom: 28px; }
+   paragraphs ("Low."), so give story paragraphs generous breathing room.
+   Scoped to .story-ruled so normal essays keep their own 24px rhythm.
+   (On screen the ruled grid below overrides this; it still governs print.) */
+.story-ruled .essay-body p { margin-bottom: 28px; }
 
 /* Choices: clearly links, but diegetic — no buttons, no moral weight. */
 .story-choice {
@@ -1163,7 +1165,10 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
   font-style: italic;
   font-size: 1.35rem;
 }
-.story-choice:first-of-type { margin-top: 40px; }
+/* Extra air above the first choice of the block — i.e. the choice that follows
+   prose. (:first-of-type couldn't do this: it matches the first <p> among all
+   siblings, which is always a prose paragraph, so the rule never fired.) */
+.essay-body p:not(.story-choice) + .story-choice { margin-top: 40px; }
 .story-choice a {
   color: var(--petrol);
   text-decoration: none;
@@ -1178,7 +1183,7 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
   outline: none;
 }
 
-/* Re-entry: a hushed "back to the beginning" on the four ending pages only.
+/* Re-entry: a hushed "back to the beginning" on the three ending pages only.
    Sends the reader to page one — a clean reset, not a step-back that would undo
    a single choice. It sits just under the hidden-door box. */
 /* display:block overrides the global `nav { display:flex }` above — otherwise
@@ -1211,10 +1216,9 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
   outline: none;
 }
 
-/* Story gate — pronoun selection threshold page */
-
-/* Hidden-door input box: last element on each ending, unlabeled, quiet.
-   Wrong input does nothing — so the box stays understated. */
+/* Hidden-door input box: last element on each ending, visually unlabeled,
+   quiet (screen readers get an aria-label). Wrong input does nothing —
+   so the box stays understated. */
 .doorbox {
   display: flex;
   justify-content: center;

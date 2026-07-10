@@ -1,13 +1,40 @@
 ---
-layout: post
+# "The Notice" lives in two halves that represent the SAME story:
+#   - this post: the card/metadata representative — it feeds the home doorway,
+#     the "Keep reading" cards (via essays-data.js), and the RSS feed. It renders
+#     only as a redirect stub, so /pieces/the-notice.html never shows an empty page.
+#   - /story/*.md + _includes/story/*.html: the actual reading experience,
+#     starting at /story/1/ (all noindex, sitemap: false).
+# story_card: true is the flag every list/feed checks; story_url is the single
+# source of truth for where the story starts (used by feed.xml, piece-card.html,
+# and essays-data.js).
+# layout must be "none" (not null): a null front-matter value would be
+# overridden by the site-wide posts default (layout: post) in _config.yml.
+layout: none
 title: "The Notice"
 subtitle: "A door, and the hour beside it"
 date: 2026-07-05
 slug: the-notice
-description: "A door, and the hour beside it."
-og_description: "A door, and the hour beside it."
+description: "A door, and the hour beside it. A short story told in choices."
+og_description: "A door, and the hour beside it. A short story told in choices."
 series: ""
 fiction: true
 story_card: true
-excerpt: "The notice had gone up weeks ago, on the street door, at a height that had once been out of reach. The seal, the block number, the word demolition, a date. The date was this week."
+story_url: /story/1/
+noindex: true
+sitemap: false
+excerpt: "The notice had gone up weeks ago, on the street door. The seal, the block number, the word demolition, a date. The date was this week."
 ---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<meta http-equiv="refresh" content="0;url=/story/1/">
+<link rel="canonical" href="/story/1/">
+<title>The Notice</title>
+</head>
+<body>
+<p><a href="/story/1/">Continue to the story.</a></p>
+</body>
+</html>
