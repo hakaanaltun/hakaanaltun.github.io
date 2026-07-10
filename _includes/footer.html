@@ -1,28 +1,19 @@
-<footer>
+<footer{% if page.series == "story" %} class="footer-quiet"{% endif %}>
   <div class="footer-inner">
+    {% unless page.series == "story" %}
     <div class="footer-grid">
       <section class="footer-col footer-sections">
         <h3>Sections</h3>
-        <div class="footer-sections-lead">
-          <a href="/" class="footer-sections-home">Home</a>
-          <a href="/#latest" class="footer-tool-btn">Latest</a>
-        </div>
         <ul class="footer-links-list">
+          <li><a href="/">Home</a></li>
+          <li><a href="/#latest">Latest</a></li>
           <li><a href="/all-work/">All</a></li>
           <li><a href="/series/">Series</a></li>
           <li><a href="/book/">Book</a></li>
           <li><a href="/moris/">Moris</a></li>
           <li><a href="/about/">About</a></li>
         </ul>
-
-        <hr class="footer-col-rule" aria-hidden="true">
-
-        <div class="footer-tool-cell">
-          <a href="/clock/" class="footer-tool-btn">Clock</a>
-        </div>
       </section>
-
-      <div class="footer-separator" aria-hidden="true"></div>
 
       <section class="footer-col footer-findme">
         <h3>Find me</h3>
@@ -31,16 +22,26 @@
           <li><a href="https://www.goodreads.com/author/show/69006405.Hakan_Altun" target="_blank" rel="noopener">Goodreads <span>→</span></a></li>
           <li><a href="mailto:letters@hakanaltun.io">letters@hakanaltun.io <span>→</span></a></li>
         </ul>
+      </section>
 
-        <hr class="footer-col-rule" aria-hidden="true">
-
-        <div class="footer-tool-cell">
-          <button class="footer-share-btn" type="button" aria-label="Share this page">Share</button>
+      <section class="footer-col footer-onsite">
+        <h3>On this site</h3>
+        <div class="footer-actions">
+          <button class="footer-theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark theme" hidden>
+            <svg class="theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            <svg class="theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            <span class="footer-theme-label">Dark mode</span>
+          </button>
+          <div class="footer-actions-row">
+            <a href="/clock/" class="footer-tool-btn">Clock</a>
+            <button class="footer-share-btn" type="button" aria-label="Share this page">Share</button>
+          </div>
         </div>
       </section>
     </div>
 
     <hr class="footer-rule footer-rule-bottom">
+    {% endunless %}
 
     <div class="footer-bottom">
       <a href="#" class="footer-home-link" aria-label="Back to top">

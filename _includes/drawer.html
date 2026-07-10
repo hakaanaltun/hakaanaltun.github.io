@@ -1,5 +1,6 @@
 {% if page.layout == "home" %}{% assign logo_href = "#" %}{% else %}{% assign logo_href = "/" %}{% endif %}
-{% assign regular_essays = site.posts | sort: "date" | reverse | where_exp: "p", "p.story_card != true" %}
+{% assign drawer_fiction = site.posts | sort: "date" | reverse | where_exp: "p", "p.fiction == true" %}
+{% assign drawer_essays = site.posts | sort: "date" | reverse | where_exp: "p", "p.fiction != true" %}
 <div id="site-drawer-backdrop" class="drawer-backdrop" aria-hidden="true"></div>
 <div id="site-drawer" class="site-drawer" aria-hidden="true">
   <button id="site-drawer-close" class="drawer-close" aria-label="Close menu">
@@ -16,10 +17,26 @@
 
   <details class="drawer-section">
     <summary class="drawer-label">All</summary>
-    <div class="drawer-essay-cards drawer-pieces-cards">
-      {% for post in regular_essays limit: 8 %}
+    <div class="drawer-essay-cards">
+      {% for post in drawer_fiction limit: 4 %}
       {% assign display_title = post.title | replace: "'", "’" %}
-      {% if post.url == page.url %}<span class="drawer-essay-card drawer-essay-card--current drawer-piece-item">{% else %}<a href="{{ post.url }}" class="drawer-essay-card-link drawer-piece-item"><span class="drawer-essay-card">{% endif %}
+      {% comment %} Story cards (The Notice) link to the story itself, not the redirect stub. {% endcomment %}
+      {% if post.story_card %}{% assign _card_url = post.story_url | default: "/story/1/" %}{% else %}{% assign _card_url = post.url %}{% endif %}
+      {% if _card_url == page.url %}<span class="drawer-essay-card drawer-essay-card--current">{% else %}<a href="{{ _card_url }}" class="drawer-essay-card-link"><span class="drawer-essay-card">{% endif %}
+        <span class="drawer-essay-card-text">
+          <span class="drawer-essay-card-title">{{ display_title }}</span>
+          {% if post.subtitle %}<span class="drawer-essay-card-subtitle">{{ post.subtitle }}</span>{% endif %}
+          <span class="drawer-essay-card-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
+        </span>
+      {% if _card_url == page.url %}</span>{% else %}</span></a>{% endif %}
+      {% endfor %}
+    </div>
+    <a href="/all-work/#short-fiction" class="drawer-more drawer-subsection-link">All in Short Fiction <span aria-hidden="true">&rarr;</span></a>
+
+    <div class="drawer-essay-cards">
+      {% for post in drawer_essays limit: 4 %}
+      {% assign display_title = post.title | replace: "'", "’" %}
+      {% if post.url == page.url %}<span class="drawer-essay-card drawer-essay-card--current">{% else %}<a href="{{ post.url }}" class="drawer-essay-card-link"><span class="drawer-essay-card">{% endif %}
         <span class="drawer-essay-card-text">
           <span class="drawer-essay-card-title">{{ display_title }}</span>
           {% if post.subtitle %}<span class="drawer-essay-card-subtitle">{{ post.subtitle }}</span>{% endif %}
@@ -28,7 +45,7 @@
       {% if post.url == page.url %}</span>{% else %}</span></a>{% endif %}
       {% endfor %}
     </div>
-    <a href="/all-work/" class="drawer-more">All <span aria-hidden="true">&rarr;</span></a>
+    <a href="/all-work/#essays" class="drawer-more drawer-subsection-link">All in Essays <span aria-hidden="true">&rarr;</span></a>
   </details>
 
   <details class="drawer-section">

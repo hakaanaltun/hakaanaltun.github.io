@@ -69,7 +69,7 @@ body {
 /* ==========================================================================
    Dark theme
    Two triggers, same tokens: the system preference (unless the reader chose
-   light) and an explicit choice stored by the header toggle (js/theme.js;
+   light) and an explicit choice stored by the footer toggle (js/theme.js;
    head.html applies the stored choice pre-paint, so there is no flash).
    The header, drawer band and footer keep their chrome surfaces — only the
    page itself turns. Accent colours all run through --petrol, which here
@@ -191,7 +191,6 @@ nav { display: flex; flex-direction: column; gap: var(--head-gap); padding: var(
 .nav-top-row { display: flex; align-items: center; justify-content: center; gap: 20px; position: relative; }
 .nav-home { display: flex; flex-direction: column; align-items: center; text-align: center; line-height: 1.1; padding-bottom: 2px; transition: opacity 0.2s ease; }
 .nav-home:hover, .nav-home:active { opacity: 0.8; }
-.nav-right { position: absolute; right: 8px; display: flex; align-items: center; gap: 8px; }
 .nav-left { position: absolute; left: 8px; display: flex; align-items: center; gap: 8px; }
 .brand-main { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: clamp(1.35rem, 1.7vw, 1.5rem); color: var(--petrol-deep); }
 .brand-sub { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.06rem; font-style: italic; line-height: 1.2; color: var(--vizon); margin-top: 5px; letter-spacing: 0.005em; white-space: nowrap; }
@@ -199,15 +198,6 @@ nav { display: flex; flex-direction: column; gap: var(--head-gap); padding: var(
 
 header .brand-main,
 header .hamburger-btn { color: var(--footer-text); }
-/* Theme toggle — the header's right slot, mirroring the hamburger. Hidden
-   until js/theme.js wires it, so a no-JS page shows no dead control. */
-.theme-btn { background: transparent; border: none; color: var(--footer-text); padding: 6px; cursor: pointer; display: flex; align-items: center; opacity: 0.85; transition: opacity 0.2s ease; }
-.theme-btn:hover { opacity: 1; }
-.theme-btn:focus-visible { opacity: 1; outline: 2px solid var(--footer-text); outline-offset: 2px; border-radius: 4px; }
-.theme-btn svg { width: 19px; height: 19px; }
-.theme-btn .theme-icon-sun { display: var(--theme-icon-sun, none); }
-.theme-btn .theme-icon-moon { display: var(--theme-icon-moon, block); }
-.theme-btn[hidden] { display: none; }
 header .brand-sub { margin-top: 6px; color: var(--footer-muted); }
 
 .hamburger-btn, .drawer-close {
@@ -361,11 +351,7 @@ a.drawer-label--link:hover, a.drawer-label--link:active, a.drawer-label--link:fo
   .drawer-essay-card-subtitle { font-size: 0.76rem; }
 }
 
-@media (max-width: 767px), (max-height: 500px) and (orientation: landscape) {
-  #site-drawer .drawer-pieces-cards > .drawer-piece-item:nth-child(n+7) { display: none; }
-}
-
-/* ========================================================================== 
+/* ==========================================================================
    5. Sections & Animated Dividers
    ========================================================================== */
 section { position: relative; padding: 100px 0 90px; }
@@ -540,15 +526,34 @@ section.line-drawn::before,
 .book-description p { margin-bottom: 16px; color: var(--ink-soft); line-height: 1.75; }
 .book-description p:last-child { margin-bottom: 0; }
 .book-description em { font-style: italic; color: var(--petrol); }
-.book-retailers { list-style: none; display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 22px; row-gap: 8px; margin: 26px 0 0; padding: 0; }
-.book-retailers a { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 1.12rem; line-height: 1.2; color: var(--petrol); border-bottom: 1px solid transparent; padding-bottom: 1px; transition: color 0.2s ease, border-color 0.2s ease; }
+/* Retailer strip — one horizontal, swipeable row directly under the book
+   description, centred within the description column. The max-width caps the
+   window at roughly three or four links; the rest slide in from the right.
+   Hidden scrollbar + JS edge fades (fade-l/r/lr, set in site-nav.js), the
+   same pattern as the phone header nav. */
+.book-retailers {
+  list-style: none; display: flex; flex-wrap: nowrap; align-items: baseline;
+  column-gap: 26px; margin: 26px auto 0; padding: 0 2px 4px;
+  max-width: 380px;
+  overflow-x: auto; overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; -ms-overflow-style: none;
+}
+.book-retailers::-webkit-scrollbar { display: none; }
+.book-retailers.fade-r { -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 40px), transparent 100%); mask-image: linear-gradient(to right, #000 calc(100% - 40px), transparent 100%); }
+.book-retailers.fade-l { -webkit-mask-image: linear-gradient(to right, transparent 0, #000 40px); mask-image: linear-gradient(to right, transparent 0, #000 40px); }
+.book-retailers.fade-lr { -webkit-mask-image: linear-gradient(to right, transparent 0, #000 40px, #000 calc(100% - 40px), transparent 100%); mask-image: linear-gradient(to right, transparent 0, #000 40px, #000 calc(100% - 40px), transparent 100%); }
+.book-retailers.is-dragging { cursor: grabbing; user-select: none; }
+.book-retailers li { flex: 0 0 auto; }
+.book-retailers a { display: inline-block; white-space: nowrap; font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 1.12rem; line-height: 1.2; color: var(--petrol); border-bottom: 1px solid transparent; padding-bottom: 1px; transition: color 0.2s ease, border-color 0.2s ease; }
 .book-retailers a:hover, .book-retailers a:focus-visible { border-bottom-color: color-mix(in srgb, var(--petrol) 45%, transparent); outline: none; }
 
 @media (max-width: 800px) {
-  .book-hero-grid { grid-template-columns: 1fr; row-gap: 34px; }
+  /* minmax(0, 1fr): the no-wrap retailer strip must not widen the column. */
+  .book-hero-grid { grid-template-columns: minmax(0, 1fr); row-gap: 34px; }
   .book-cover { max-width: 210px; }
   .book-kicker, .book-hero-title { text-align: center; }
-  .book-retailers { justify-content: center; }
+  .book-retailers { max-width: min(380px, 100%); }
 }
 
 /* Moris */
@@ -938,7 +943,7 @@ body.moris-lightbox-open { overflow: hidden; }
   #start-here { padding-top: 40px; }
 }
 
-/* Series landing page — the same index rows as /all-work/, numbered in
+/* Series landing page — the same index rows as /all-work/, listed in
    reading order. Inside a series band the per-row series tag would only
    repeat the band title, so it is hidden. */
 .series-band {
@@ -1015,10 +1020,6 @@ body.moris-lightbox-open { overflow: hidden; }
   display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
 }
 
-/* Numbered rows — series pages, where the index follows reading order. */
-.work-num { grid-area: num; align-self: center; font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 1.1rem; color: var(--vizon); text-align: center; }
-.work-row-link.has-num { grid-template-columns: 24px 116px minmax(0, 1fr) auto; grid-template-areas: "num thumb main side"; }
-
 .work-side { grid-area: side; display: flex; flex-direction: column; align-items: flex-end; gap: 4px; text-align: right; white-space: nowrap; }
 .work-date { font-size: 0.85rem; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
 .work-tag { font-size: 0.68rem; letter-spacing: 0.13em; text-transform: uppercase; color: var(--petrol); }
@@ -1031,8 +1032,6 @@ body.moris-lightbox-open { overflow: hidden; }
     column-gap: 16px; row-gap: 6px; align-items: start; padding: 16px 2px;
   }
   .work-thumb { width: 86px; margin-top: 3px; }
-  .work-row-link.has-num { grid-template-columns: 16px 86px minmax(0, 1fr); grid-template-areas: "num thumb main" "num thumb side"; }
-  .work-num { align-self: start; margin-top: 6px; font-size: 0.95rem; }
   .work-excerpt { display: none; }
   .work-side { flex-direction: row; align-items: baseline; justify-content: flex-start; gap: 10px; text-align: left; }
   .work-title { font-size: 1.18rem; }
@@ -1103,49 +1102,48 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
 
 .footer-rule { margin: 28px auto; border: 0; border-top: 1px solid rgba(237, 228, 207, 0.8); }
 
-/* Two columns pulled toward the center divider, each ending in a ruled tool box. */
-.footer-grid { display: flex; justify-content: center; align-items: stretch; gap: clamp(36px, 6vw, 72px); }
-.footer-separator { width: 1px; min-height: 178px; align-self: stretch; background: rgba(237, 228, 207, 0.42); }
-.footer-col { position: relative; display: flex; flex-direction: column; min-width: 0; width: clamp(180px, 22vw, 240px); padding: 0; text-align: left; }
-.footer-col h3 { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: 1.65rem; margin-bottom: 14px; color: var(--footer-text); }
+/* Three columns across the full footer width — the sections as a short
+   two-column list, the contact links, then the on-site tools with the
+   light/dark box. */
+.footer-grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr) minmax(0, 1fr); gap: 36px clamp(40px, 7vw, 96px); align-items: start; }
+/* The columns are <section>s — zero out the global section padding and keep
+   the animated divider off them. */
+.footer-col { display: flex; flex-direction: column; min-width: 0; padding: 0; text-align: left; }
+/* footer prefix outranks the section:not(:first-of-type)::before divider rule */
+footer .footer-col::before { content: none; }
+.footer-col h3 { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: 1.65rem; margin-bottom: 16px; color: var(--footer-text); }
 
 .footer-col ul { list-style: none; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
 .footer-col a { color: var(--footer-muted); line-height: 1.25; white-space: nowrap; border-bottom: 2px solid transparent; padding-bottom: 2px; transition: color 0.2s ease, border-color 0.2s ease; }
 .footer-col a:hover, .footer-col a:active { color: var(--footer-text); border-bottom-color: transparent; }
 
-.footer-findme a { display: inline-block; position: relative; padding-right: 0; }
+/* Section links run in two short columns so the footer stays shallow. */
+.footer-sections .footer-links-list { display: grid; grid-template-columns: repeat(2, minmax(0, max-content)); column-gap: clamp(28px, 4vw, 56px); row-gap: 12px; }
+
+.footer-findme a { display: inline-block; }
 .footer-findme a span { display: inline-block; margin-left: 0.35em; color: var(--footer-muted); }
 
-.footer-sections-lead {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-  margin-bottom: 12px;
-}
-.footer-sections-home {
-  color: var(--footer-muted);
-  line-height: 1.25;
-  white-space: nowrap;
-  border-bottom: 2px solid transparent;
-  padding-bottom: 2px;
-  transition: color 0.2s ease, border-color 0.2s ease;
-}
-.footer-sections-home:hover, .footer-sections-home:active { color: var(--footer-text); border-bottom-color: transparent; }
-
-.footer-col-rule {
-  width: 100%;
-  margin: 18px 0;
-  border: 0;
-  border-top: 1px solid rgba(237, 228, 207, 0.9);
-}
-.footer-tool-cell { width: 100%; }
-
-.footer-col.footer-sections > ul,
-.footer-col.footer-findme > ul { margin-top: 0; margin-bottom: 0; }
+/* On this site — the light/dark box above a row of small tools. */
+.footer-actions { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; }
+.footer-actions-row { display: flex; flex-wrap: wrap; gap: 10px; }
 .footer-share-btn, .footer-col a.footer-tool-btn { display: inline-flex; align-items: center; justify-content: center; margin: 0; padding: 8px 16px; background: transparent; border: 1px solid rgba(237, 228, 207, 0.85); color: var(--footer-text); font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 1.2rem; line-height: 1.2; cursor: pointer; text-decoration: none; white-space: nowrap; transition: background 0.2s ease, color 0.2s ease; }
 .footer-share-btn:hover, .footer-share-btn:active, .footer-share-btn:focus-visible,
 .footer-col a.footer-tool-btn:hover, .footer-col a.footer-tool-btn:active, .footer-col a.footer-tool-btn:focus-visible { background: var(--footer-text); color: var(--surface-footer); outline: none; }
+
+/* Light/dark box: the tools' bordered voice, icon + label. The icons ride
+   the shared --theme-icon-* vars (moon in light, sun in dark); the control
+   stays hidden until js/theme.js wires it, so a no-JS page shows no dead
+   button. */
+.footer-theme-toggle { display: inline-flex; align-items: center; gap: 10px; margin: 0; padding: 8px 16px; background: transparent; border: 1px solid rgba(237, 228, 207, 0.85); color: var(--footer-text); font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 1.2rem; line-height: 1.2; cursor: pointer; white-space: nowrap; transition: background 0.2s ease, color 0.2s ease; }
+.footer-theme-toggle svg { width: 17px; height: 17px; }
+.footer-theme-toggle .theme-icon-sun { display: var(--theme-icon-sun, none); }
+.footer-theme-toggle .theme-icon-moon { display: var(--theme-icon-moon, block); }
+.footer-theme-toggle:hover, .footer-theme-toggle:active, .footer-theme-toggle:focus-visible { background: var(--footer-text); color: var(--surface-footer); outline: none; }
+.footer-theme-toggle[hidden] { display: none; }
+
+/* The Notice pages: no grid, no rule — only the brand block below, so the
+   story ends on a quieter note. */
+.footer-quiet .footer-inner { padding: 44px var(--pad) 40px; }
 .footer-rule-bottom { margin-top: 24px; margin-bottom: 20px; border: 0; border-top: 1px solid rgba(237, 228, 207, 0.6); }
 .footer-bottom { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px; }
 .footer-home-link { display: flex; flex-direction: column; align-items: center; gap: 4px; color: inherit; text-decoration: none; transition: opacity 0.2s ease; }
@@ -1161,9 +1159,7 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
 }
 
 @media (max-width: 767px), (max-height: 500px) and (orientation: landscape) {
-  .footer-grid { flex-direction: column; align-items: stretch; gap: 28px; }
-  .footer-col { width: 100%; }
-  .footer-separator { display: none; }
+  .footer-grid { grid-template-columns: 1fr; gap: 28px; }
   .footer-col + .footer-col { padding-top: 26px; border-top: 1px solid rgba(237, 228, 207, 0.32); }
 }
 
@@ -1176,11 +1172,9 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
   .footer-credit { font-size: 0.74rem; }
 }
 
-/* Landscape phones get the desktop two-column footer back. */
+/* Landscape phones get the desktop three-column footer back. */
 @media (max-height: 540px) and (orientation: landscape) {
-  .footer-grid { flex-direction: row; justify-content: center; gap: clamp(18px, 2.6vw, 36px); }
-  .footer-col { width: clamp(180px, 30vw, 240px); }
-  .footer-separator { display: block; min-height: 120px; }
+  .footer-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(18px, 3vw, 36px); }
   .footer-col + .footer-col { padding-top: 0; border-top: 0; }
 }
 
