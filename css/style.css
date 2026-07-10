@@ -1095,89 +1095,331 @@ body.moris-lightbox-open { overflow: hidden; }
 /* ==========================================================================
    12. Footer
    ========================================================================== */
-/* On pages whose last section sits on the quiet band (home: Further Back,
-   posts: Keep reading) the band meets the footer directly; elsewhere the
-   40px breather stays. */
-.is-home footer, .is-post footer { margin-top: 0; }
-footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-top: 40px; background: var(--surface-footer); color: var(--footer-text); font-family: 'EB Garamond', Georgia, serif; }
-.footer-inner { max-width: 1040px; margin: 0 auto; padding: 64px var(--pad) 44px; }
 
-.footer-rule { margin: 28px auto; border: 0; border-top: 1px solid rgba(237, 228, 207, 0.8); }
-
-/* Three columns across the full footer width — the sections as a short
-   two-column list, the contact links, then the on-site tools with the
-   light/dark box. */
-.footer-grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr) minmax(0, 1fr); gap: 36px clamp(40px, 7vw, 96px); align-items: start; }
-/* The columns are <section>s — zero out the global section padding and keep
-   the animated divider off them. */
-.footer-col { display: flex; flex-direction: column; min-width: 0; padding: 0; text-align: left; }
-/* footer prefix outranks the section:not(:first-of-type)::before divider rule */
-footer .footer-col::before { content: none; }
-.footer-col h3 { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: 1.65rem; margin-bottom: 16px; color: var(--footer-text); }
-
-.footer-col ul { list-style: none; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
-.footer-col a { color: var(--footer-muted); line-height: 1.25; white-space: nowrap; border-bottom: 2px solid transparent; padding-bottom: 2px; transition: color 0.2s ease, border-color 0.2s ease; }
-.footer-col a:hover, .footer-col a:active { color: var(--footer-text); border-bottom-color: transparent; }
-
-/* Section links run in two short columns so the footer stays shallow. */
-.footer-sections .footer-links-list { display: grid; grid-template-columns: repeat(2, minmax(0, max-content)); column-gap: clamp(28px, 4vw, 56px); row-gap: 12px; }
-
-.footer-findme a { display: inline-block; }
-.footer-findme a span { display: inline-block; margin-left: 0.35em; color: var(--footer-muted); }
-
-/* On this site — the light/dark box above a row of small tools. */
-.footer-actions { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; }
-.footer-actions-row { display: flex; flex-wrap: wrap; gap: 10px; }
-.footer-share-btn, .footer-col a.footer-tool-btn { display: inline-flex; align-items: center; justify-content: center; margin: 0; padding: 8px 16px; background: transparent; border: 1px solid rgba(237, 228, 207, 0.85); color: var(--footer-text); font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 1.2rem; line-height: 1.2; cursor: pointer; text-decoration: none; white-space: nowrap; transition: background 0.2s ease, color 0.2s ease; }
-.footer-share-btn:hover, .footer-share-btn:active, .footer-share-btn:focus-visible,
-.footer-col a.footer-tool-btn:hover, .footer-col a.footer-tool-btn:active, .footer-col a.footer-tool-btn:focus-visible { background: var(--footer-text); color: var(--surface-footer); outline: none; }
-
-/* Light/dark box: the tools' bordered voice, icon + label. The icons ride
-   the shared --theme-icon-* vars (moon in light, sun in dark); the control
-   stays hidden until js/theme.js wires it, so a no-JS page shows no dead
-   button. */
-.footer-theme-toggle { display: inline-flex; align-items: center; gap: 10px; margin: 0; padding: 8px 16px; background: transparent; border: 1px solid rgba(237, 228, 207, 0.85); color: var(--footer-text); font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 1.2rem; line-height: 1.2; cursor: pointer; white-space: nowrap; transition: background 0.2s ease, color 0.2s ease; }
-.footer-theme-toggle svg { width: 17px; height: 17px; }
-.footer-theme-toggle .theme-icon-sun { display: var(--theme-icon-sun, none); }
-.footer-theme-toggle .theme-icon-moon { display: var(--theme-icon-moon, block); }
-.footer-theme-toggle:hover, .footer-theme-toggle:active, .footer-theme-toggle:focus-visible { background: var(--footer-text); color: var(--surface-footer); outline: none; }
-.footer-theme-toggle[hidden] { display: none; }
-
-/* The Notice pages: no grid, no rule — only the brand block below, so the
-   story ends on a quieter note. */
-.footer-quiet .footer-inner { padding: 44px var(--pad) 40px; }
-.footer-rule-bottom { margin-top: 24px; margin-bottom: 20px; border: 0; border-top: 1px solid rgba(237, 228, 207, 0.6); }
-.footer-bottom { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px; }
-.footer-home-link { display: flex; flex-direction: column; align-items: center; gap: 4px; color: inherit; text-decoration: none; transition: opacity 0.2s ease; }
-.footer-home-link:hover, .footer-home-link:active { opacity: 0.78; }
-.footer-brand { display: block; font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: clamp(1.35rem, 1.7vw, 1.5rem); line-height: 1.05; color: var(--footer-text); }
-.footer-tagline { font-family: 'EB Garamond', Georgia, serif; font-style: italic; font-size: 1.06rem; line-height: 1.2; color: var(--footer-muted); }
-.footer-credit { margin: 0; color: var(--footer-muted); font-size: 0.95rem; }
-
-@media (max-width: 900px) {
-  .footer-inner { padding: 56px var(--pad) 48px; }
-  .footer-col h3 { font-size: 1.45rem; margin-bottom: 12px; }
-  .footer-rule-bottom { margin-top: 28px; margin-bottom: 18px; }
+/* On pages whose last section sits on the quiet band, the band meets the
+   footer directly; elsewhere the 40px space remains. */
+.is-home footer,
+.is-post footer {
+  margin-top: 0;
 }
 
-@media (max-width: 767px), (max-height: 500px) and (orientation: landscape) {
-  .footer-grid { grid-template-columns: 1fr; gap: 28px; }
-  .footer-col + .footer-col { padding-top: 26px; border-top: 1px solid rgba(237, 228, 207, 0.32); }
+footer {
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  margin-top: 40px;
+  background: var(--surface-footer);
+  color: var(--footer-text);
+  font-family: 'EB Garamond', Georgia, serif;
+}
+
+.footer-inner {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 42px var(--pad) 44px;
+}
+
+/* Find me links and footer tools */
+
+.footer-topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  min-width: 0;
+}
+
+.footer-findme-line {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.footer-findme-line h3 {
+  flex: 0 0 auto;
+  margin: 0 20px 0 0;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: 1.45rem;
+  line-height: 1;
+  color: var(--footer-text);
+}
+
+.footer-contact-links {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.footer-contact-links a {
+  color: var(--footer-muted);
+  line-height: 1.25;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer-contact-links a:hover,
+.footer-contact-links a:active {
+  color: var(--footer-text);
+}
+
+.footer-link-divider {
+  flex: 0 0 auto;
+  width: 1px;
+  height: 0.85em;
+  margin: 0 13px;
+  background: rgba(237, 228, 207, 0.42);
+}
+
+/* Dark mode, Clock and Share */
+
+.footer-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex: 0 0 auto;
+  gap: 10px;
+}
+
+.footer-share-btn,
+.footer-tool-btn,
+.footer-theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  margin: 0;
+  padding: 8px 16px;
+  background: transparent;
+  border: 1px solid rgba(237, 228, 207, 0.85);
+  color: var(--footer-text);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.footer-share-btn:hover,
+.footer-share-btn:active,
+.footer-share-btn:focus-visible,
+.footer-tool-btn:hover,
+.footer-tool-btn:active,
+.footer-tool-btn:focus-visible,
+.footer-theme-toggle:hover,
+.footer-theme-toggle:active,
+.footer-theme-toggle:focus-visible {
+  background: var(--footer-text);
+  color: var(--surface-footer);
+  outline: none;
+}
+
+.footer-theme-toggle {
+  gap: 10px;
+}
+
+.footer-theme-toggle svg {
+  width: 17px;
+  height: 17px;
+}
+
+.footer-theme-toggle .theme-icon-sun {
+  display: var(--theme-icon-sun, none);
+}
+
+.footer-theme-toggle .theme-icon-moon {
+  display: var(--theme-icon-moon, block);
+}
+
+.footer-theme-toggle[hidden] {
+  display: none;
+}
+
+/* Footer rule and logo block */
+
+.footer-rule {
+  border: 0;
+  border-top: 1px solid rgba(237, 228, 207, 0.8);
+}
+
+.footer-rule-bottom {
+  margin: 18px 0 20px;
+  border-top-color: rgba(237, 228, 207, 0.6);
+}
+
+.footer-bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+}
+
+.footer-home-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  color: inherit;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.footer-home-link:hover,
+.footer-home-link:active {
+  opacity: 0.78;
+}
+
+.footer-brand {
+  display: block;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-size: clamp(1.35rem, 1.7vw, 1.5rem);
+  line-height: 1.05;
+  color: var(--footer-text);
+}
+
+.footer-tagline {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-style: italic;
+  font-size: 1.06rem;
+  line-height: 1.2;
+  color: var(--footer-muted);
+}
+
+.footer-credit {
+  margin: 0;
+  color: var(--footer-muted);
+  font-size: 0.95rem;
+}
+
+/* The Notice pages keep the quiet logo-only footer. */
+
+.footer-quiet .footer-inner {
+  padding: 44px var(--pad) 40px;
+}
+
+/* Tablet */
+
+@media (max-width: 900px) {
+  .footer-topline {
+    gap: 20px;
+  }
+
+  .footer-findme-line h3 {
+    margin-right: 16px;
+    font-size: 1.35rem;
+  }
+
+  .footer-link-divider {
+    margin: 0 10px;
+  }
+
+  .footer-share-btn,
+  .footer-tool-btn,
+  .footer-theme-toggle {
+    min-height: 40px;
+    padding: 7px 12px;
+    font-size: 1.1rem;
+  }
+}
+
+/* Phone */
+
+@media (max-width: 767px),
+       (max-height: 500px) and (orientation: landscape) {
+  .footer-topline {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 18px;
+  }
+
+  .footer-findme-line {
+    justify-content: flex-start;
+  }
+
+  .footer-actions {
+    justify-content: flex-end;
+  }
+
+  .footer-rule-bottom {
+    margin-top: 18px;
+  }
 }
 
 @media (max-width: 600px) {
-  .footer-inner { padding: 48px var(--pad) 44px; }
-  .footer-credit { font-size: 0.8rem; }
+  .footer-inner {
+    padding: 40px var(--pad) 44px;
+  }
+
+  .footer-findme-line {
+    align-items: flex-start;
+  }
+
+  .footer-contact-links {
+    flex-wrap: wrap;
+    row-gap: 8px;
+  }
+
+  .footer-link-divider {
+    align-self: center;
+  }
+
+  .footer-credit {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-findme-line {
+    display: block;
+  }
+
+  .footer-findme-line h3 {
+    margin: 0 0 12px;
+  }
+
+  .footer-actions {
+    justify-content: flex-start;
+    gap: 8px;
+  }
+
+  .footer-share-btn,
+  .footer-tool-btn,
+  .footer-theme-toggle {
+    min-height: 38px;
+    padding: 7px 10px;
+    font-size: 1.02rem;
+  }
+
+  .footer-theme-toggle {
+    gap: 7px;
+  }
+
+  .footer-theme-toggle svg {
+    width: 15px;
+    height: 15px;
+  }
 }
 
 @media (max-width: 420px) {
-  .footer-credit { font-size: 0.74rem; }
-}
+  .footer-contact-links {
+    font-size: 0.95rem;
+  }
 
-/* Landscape phones get the desktop three-column footer back. */
-@media (max-height: 540px) and (orientation: landscape) {
-  .footer-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(18px, 3vw, 36px); }
-  .footer-col + .footer-col { padding-top: 0; border-top: 0; }
+  .footer-link-divider {
+    margin: 0 8px;
+  }
+
+  .footer-credit {
+    font-size: 0.74rem;
+  }
 }
 
 /* ── Story ── */
