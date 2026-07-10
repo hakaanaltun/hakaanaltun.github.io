@@ -1332,10 +1332,10 @@ footer {
   }
 }
 
-/* Phone portrait: the Find me heading and the icon controls share the
-   first row (heading left, icons right); the contact links take the full
-   row below. The icon controls stack top to bottom (dark mode, clock,
-   share), right-aligned, in place of their usual horizontal row. */
+/* Phone portrait: the Find me heading and its contact links take the
+   first two rows in full. The icon controls (dark mode, clock, share)
+   move below the find-me links as their own row, stacked top to bottom
+   and left-aligned, in place of their usual horizontal row. */
 @media (max-width: 767px) and (orientation: portrait) {
   .footer-topline {
     flex-wrap: wrap;
@@ -1354,8 +1354,10 @@ footer {
   }
 
   .footer-actions {
+    order: 4;
+    flex-basis: 100%;
     flex-direction: column;
-    align-items: flex-end;
+    align-items: flex-start;
     row-gap: 4px;
   }
 
