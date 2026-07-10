@@ -1182,13 +1182,14 @@ footer {
   background: rgba(237, 228, 207, 0.42);
 }
 
-/* Controls remain ordered Dark mode, Clock, Share. */
+/* Controls remain ordered Dark mode, Clock, Share. They read like the
+   contact links — no boxes, muted color, a divider between each. */
 .footer-actions {
   display: flex;
   align-items: center;
   justify-content: flex-end;
   flex: 0 0 auto;
-  gap: 10px;
+  gap: 0;
 }
 
 .footer-share-btn,
@@ -1196,63 +1197,54 @@ footer {
 .footer-theme-toggle {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  min-height: 42px;
   margin: 0;
-  padding: 8px 16px;
+  padding: 0;
   background: transparent;
-  border: 1px solid rgba(237, 228, 207, 0.85);
-  color: var(--footer-text);
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-style: italic;
-  font-size: 1.2rem;
-  line-height: 1.2;
+  border: 0;
+  color: var(--footer-muted);
+  font: inherit;
+  line-height: 1.25;
   cursor: pointer;
   text-decoration: none;
   white-space: nowrap;
-  transition: background 0.2s ease, color 0.2s ease;
+  transition: color 0.2s ease;
 }
 
 .footer-share-btn:hover,
 .footer-share-btn:active,
-.footer-share-btn:focus-visible,
 .footer-tool-btn:hover,
 .footer-tool-btn:active,
-.footer-tool-btn:focus-visible,
 .footer-theme-toggle:hover,
-.footer-theme-toggle:active,
-.footer-theme-toggle:focus-visible {
-  background: var(--footer-text);
-  color: var(--surface-footer);
-  outline: none;
+.footer-theme-toggle:active {
+  color: var(--footer-text);
 }
 
-.footer-theme-toggle {
-  gap: 10px;
-}
-
+/* The theme toggle's moon/sun and the Clock/Share icons appear on phones
+   only; tablet and desktop show the plain labels. */
 .footer-theme-toggle svg {
-  width: 17px;
-  height: 17px;
+  width: 20px;
+  height: 20px;
 }
 
-.footer-theme-toggle .theme-icon-sun {
-  display: var(--theme-icon-sun, none);
-}
-
+.footer-theme-toggle .theme-icon-sun,
 .footer-theme-toggle .theme-icon-moon {
-  display: var(--theme-icon-moon, block);
+  display: none;
 }
 
 .footer-theme-toggle[hidden] {
   display: none;
 }
 
+/* Until theme.js unhides the toggle, hide its trailing divider too. */
+.footer-theme-toggle[hidden] + .footer-link-divider {
+  display: none;
+}
+
 /* Clock/Share carry icons that replace their labels on phones only. */
 .footer-btn-icon {
   display: none;
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
 }
 
 .footer-rule {
@@ -1330,14 +1322,6 @@ footer {
   .footer-link-divider {
     margin: 0 10px;
   }
-
-  .footer-share-btn,
-  .footer-tool-btn,
-  .footer-theme-toggle {
-    min-height: 40px;
-    padding: 7px 12px;
-    font-size: 1.1rem;
-  }
 }
 
 /* Phone portrait: the Find me heading and the icon controls share the
@@ -1378,17 +1362,14 @@ footer {
   }
 }
 
-/* Phones in either orientation: the boxed controls shrink to icon-only
-   squares. Tablet and desktop keep the labelled buttons. */
+/* Phones in either orientation: the controls swap their labels for
+   icons. Tablet and desktop keep the plain text labels. */
 @media (max-width: 767px) and (orientation: portrait),
        (max-height: 500px) and (orientation: landscape) {
   .footer-share-btn,
   .footer-tool-btn,
   .footer-theme-toggle {
-    width: 44px;
-    min-width: 44px;
-    min-height: 44px;
-    padding: 0;
+    padding: 8px 2px;
   }
 
   .footer-btn-icon {
@@ -1400,13 +1381,12 @@ footer {
     display: none;
   }
 
-  .footer-theme-toggle {
-    gap: 0;
+  .footer-theme-toggle .theme-icon-sun {
+    display: var(--theme-icon-sun, none);
   }
 
-  .footer-theme-toggle svg {
-    width: 18px;
-    height: 18px;
+  .footer-theme-toggle .theme-icon-moon {
+    display: var(--theme-icon-moon, block);
   }
 }
 
@@ -1430,12 +1410,6 @@ footer {
 
   .footer-credit {
     font-size: 0.8rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .footer-actions {
-    gap: 8px;
   }
 }
 
