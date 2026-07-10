@@ -994,66 +994,79 @@ body.moris-lightbox-open { overflow: hidden; }
   .series-piece-grid { margin-top: 24px; }
 }
 
-/* All page — Short Fiction and Essays side by side */
-.section-page--wide { max-width: 1320px; }
+/* ==========================================================================
+   All page — the archive as an index
+   One work per line, like a book's table of contents: cover swatch on the
+   left, title and lede in the middle, the date on the far margin. Rows are
+   separated by hairline rules; everything reads off the shared tokens, so
+   the index holds in both themes.
+   ========================================================================== */
 .all-work-band { padding: 0; }
-.all-work-band-inner { max-width: 1040px; margin: 0 auto; text-align: center; }
-.all-work-group-head { text-align: center; margin-bottom: 28px; }
+.all-work-group-head { text-align: center; margin-bottom: 26px; }
 .all-work-group-title {
   font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic;
   font-weight: 500; font-size: clamp(1.6rem, 2.6vw, 2.1rem); color: var(--petrol-deep);
 }
+.all-work-group-count { margin-top: 3px; font-style: italic; font-size: 0.85rem; letter-spacing: 0.04em; color: var(--vizon); }
 
 .all-work-band-divider {
-  width: min(300px, 60%); height: 1px; margin: 46px auto;
+  width: min(300px, 60%); height: 1px; margin: 52px auto;
   background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--petrol) 55%, transparent), transparent);
 }
 
-.all-work-thumb-grid {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  grid-template-columns: repeat(10, minmax(0, 1fr));
-  gap: 14px 10px;
+/* Quiet jump row under the page head — two sections, one glance.
+   flex-direction: row overrides the global header `nav { flex-direction: column }`. */
+.work-jump { display: flex; flex-direction: row; justify-content: center; align-items: baseline; gap: 14px; margin: -8px 0 44px; padding: 0; font-size: 0.82rem; letter-spacing: 0.14em; text-transform: uppercase; }
+.work-jump a { color: var(--vizon); border-bottom: 1px solid transparent; padding-bottom: 2px; }
+.work-jump a:hover, .work-jump a:focus-visible { color: var(--petrol); border-bottom-color: color-mix(in srgb, var(--petrol) 45%, transparent); outline: none; }
+.work-jump-sep { color: var(--rule-strong); }
+
+.work-index { list-style: none; margin: 0 auto; padding: 0; max-width: 860px; border-top: 1px solid var(--rule); }
+.work-row { border-bottom: 1px solid var(--rule); }
+.work-row-link {
+  display: grid; grid-template-columns: 116px minmax(0, 1fr) auto;
+  grid-template-areas: "thumb main side";
+  align-items: center; column-gap: 26px;
+  padding: 20px 6px; text-decoration: none; color: inherit;
+}
+.work-row-link:focus-visible { outline: 2px solid var(--petrol); outline-offset: -2px; border-radius: 10px; }
+
+.work-thumb { grid-area: thumb; width: 116px; aspect-ratio: 3 / 2; border-radius: 10px; overflow: hidden; background: var(--surface-soft); display: block; }
+.work-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s ease; }
+.work-row-link:hover .work-thumb img { transform: scale(1.04); }
+/* Imageless works (The Notice): a door standing in the frame, and a pencil
+   mark on the jamb. */
+.work-thumb--bare { position: relative; border: 1px solid var(--rule); background: var(--surface-soft); }
+.work-thumb--bare::before { content: ""; position: absolute; left: calc(50% - 12px); top: 26%; bottom: 0; width: 24px; border: 1px solid var(--rule-strong); border-bottom: 0; }
+.work-thumb--bare::after { content: ""; position: absolute; left: calc(50% - 17px); top: 54%; width: 9px; height: 1px; background: color-mix(in srgb, var(--petrol) 70%, transparent); }
+
+.work-main { grid-area: main; display: flex; flex-direction: column; gap: 3px; min-width: 0; text-align: left; }
+.work-title { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: 1.34rem; line-height: 1.15; color: var(--ink); transition: color 0.2s ease; }
+.work-row-link:hover .work-title { color: var(--petrol); }
+.work-subtitle { font-style: italic; font-size: 0.95rem; line-height: 1.35; color: var(--vizon); }
+.work-excerpt {
+  margin-top: 5px; font-size: 0.95rem; line-height: 1.55; color: var(--ink-soft);
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
 }
 
-.all-work-thumb { list-style: none; }
-.all-work-thumb-link { display: block; text-decoration: none; color: inherit; transition: opacity 0.2s ease, transform 0.28s ease; }
-.all-work-thumb-link:hover { opacity: 0.75; transform: translateY(-2px); }
-.all-work-thumb-link:focus-visible { outline: 2px solid var(--petrol); outline-offset: 4px; border-radius: 10px; }
-.all-work-thumb-card { display: flex; flex-direction: column; align-items: center; gap: 7px; }
-.all-work-thumb-card img,
-.all-work-thumb-img-placeholder {
-  width: 72px; height: 52px;
-  object-fit: cover;
-  border-radius: 10px;
-  background: var(--surface-soft);
-  display: block;
-}
-.all-work-thumb-img-placeholder { background: var(--rule); }
-.all-work-thumb-title {
-  font-size: 10px;
-  line-height: 1.25;
-  color: var(--ink-soft);
-  font-style: italic;
-  max-width: 92px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+.work-side { grid-area: side; display: flex; flex-direction: column; align-items: flex-end; gap: 4px; text-align: right; white-space: nowrap; }
+.work-date { font-size: 0.85rem; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+.work-tag { font-size: 0.68rem; letter-spacing: 0.13em; text-transform: uppercase; color: var(--petrol); }
+.work-read { font-style: italic; font-size: 0.8rem; color: var(--vizon); }
 
-@media (max-width: 1024px) {
-  .all-work-thumb-grid { grid-template-columns: repeat(8, minmax(0, 1fr)); }
+@media (max-width: 680px) {
+  .work-row-link {
+    grid-template-columns: 86px minmax(0, 1fr);
+    grid-template-areas: "thumb main" "thumb side";
+    column-gap: 16px; row-gap: 6px; align-items: start; padding: 16px 2px;
+  }
+  .work-thumb { width: 86px; margin-top: 3px; }
+  .work-excerpt { display: none; }
+  .work-side { flex-direction: row; align-items: baseline; justify-content: flex-start; gap: 10px; text-align: left; }
+  .work-title { font-size: 1.18rem; }
+  .all-work-band-divider { margin: 40px auto; }
+  .work-jump { margin-bottom: 34px; }
 }
-
-@media (max-width: 800px) {
-  .all-work-band-divider { margin: 36px auto; }
-  .all-work-group-head { margin-bottom: 22px; }
-  .all-work-thumb-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px 10px; }
-}
-
-@media (max-width: 600px) { .all-work-thumb-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
 /* Şafak's Arc block on the Book page */
 .book-arc { margin-top: 56px; padding-top: 48px; border-top: 1px solid var(--rule); }

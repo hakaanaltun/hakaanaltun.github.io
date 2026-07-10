@@ -1,0 +1,30 @@
+<li class="work-row">
+  {% assign display_title = include.post.title | replace: "'", "’" %}
+  {% comment %} Story cards point at the story itself, never at the redirect stub. {% endcomment %}
+  {% if include.post.story_card %}{% assign _row_url = include.post.story_url | default: "/story/1/" %}{% else %}{% assign _row_url = include.post.url %}{% endif %}
+  <a href="{{ _row_url }}" class="work-row-link">
+    {% assign img = include.post.thumb | default: include.post.image %}
+    {% if img %}
+    <span class="work-thumb"><img src="{{ img }}" alt="" loading="lazy"></span>
+    {% else %}
+    {% comment %} No image (The Notice): a quiet doorframe with its pencil mark. {% endcomment %}
+    <span class="work-thumb work-thumb--bare" aria-hidden="true"></span>
+    {% endif %}
+    <span class="work-main">
+      <span class="work-title">{{ display_title }}</span>
+      {% if include.post.subtitle %}<span class="work-subtitle">{{ include.post.subtitle }}</span>{% endif %}
+      {% comment %} Story cards would repeat their subtitle in the description,
+          so they show their excerpt instead. {% endcomment %}
+      {% if include.post.story_card %}{% assign _lede = include.post.excerpt %}{% else %}{% assign _lede = include.post.description %}{% endif %}
+      {% if _lede %}<span class="work-excerpt">{{ _lede }}</span>{% endif %}
+    </span>
+    <span class="work-side">
+      <time class="work-date" datetime="{{ include.post.date | date: '%Y-%m-%d' }}">{{ include.post.date | date: "%b %-d, %Y" }}</time>
+      {% if include.post.series == "on-series" %}<span class="work-tag">The On Series</span>
+      {% elsif include.post.series == "fragments" %}<span class="work-tag">Şafak’s Arc</span>
+      {% elsif include.post.series == "cafe-series" %}<span class="work-tag">The Corner</span>
+      {% elsif include.post.story_card %}<span class="work-tag">In choices</span>{% endif %}
+      {% if include.post.read_time %}<span class="work-read">{{ include.post.read_time }}</span>{% endif %}
+    </span>
+  </a>
+</li>
