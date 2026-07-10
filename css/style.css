@@ -1379,6 +1379,90 @@ footer {
   }
 }
 
+/* Phone landscape keeps the exact desktop arrangement — Find me line on
+   the left, boxed controls on the right, one row — by shrinking the
+   type and spacing until everything fits. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .footer-inner {
+    padding: 30px 24px 34px;
+  }
+
+  .footer-topline {
+    gap: 10px 14px;
+  }
+
+  .footer-findme-line h3 {
+    margin-right: 12px;
+    font-size: 1.1rem;
+  }
+
+  .footer-contact-links {
+    font-size: 0.85rem;
+  }
+
+  .footer-link-divider {
+    margin: 0 8px;
+  }
+
+  .footer-actions {
+    gap: 7px;
+  }
+
+  .footer-share-btn,
+  .footer-tool-btn,
+  .footer-theme-toggle {
+    min-height: 32px;
+    padding: 4px 9px;
+    font-size: 0.9rem;
+  }
+
+  .footer-theme-toggle {
+    gap: 6px;
+  }
+
+  .footer-theme-toggle svg {
+    width: 13px;
+    height: 13px;
+  }
+
+  .footer-rule-bottom {
+    margin: 14px 0 16px;
+  }
+
+  .footer-credit {
+    font-size: 0.85rem;
+  }
+}
+
+/* The narrowest landscape phones get one more notch so the row still
+   holds together. */
+@media (orientation: landscape) and (max-height: 500px) and (max-width: 620px) {
+  .footer-findme-line h3 {
+    margin-right: 10px;
+    font-size: 1rem;
+  }
+
+  .footer-contact-links {
+    font-size: 0.78rem;
+  }
+
+  .footer-link-divider {
+    margin: 0 6px;
+  }
+
+  .footer-actions {
+    gap: 6px;
+  }
+
+  .footer-share-btn,
+  .footer-tool-btn,
+  .footer-theme-toggle {
+    min-height: 30px;
+    padding: 4px 8px;
+    font-size: 0.84rem;
+  }
+}
+
 /* Phone portrait is the one layout exception: the whole footer becomes
    a single centered column — heading, contact links, button row, rule,
    brand block — so the top half sits on the same axis as the already
