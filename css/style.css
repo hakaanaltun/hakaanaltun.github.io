@@ -1253,38 +1253,6 @@ footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); margin-t
   50% { border-bottom-color: rgba(var(--chrome-rgb, 62, 50, 73), 0.6); }
 }
 
-/* Hidden-door caret: a thin vertical line at the writing position, blinking
-   three times on each page load, then gone. Points to where a word can be
-   typed without naming the door. Re-fires on refresh (no persistence); the
-   real caret takes over on focus. */
-.doorbox-field { position: relative; display: inline-block; }
-.doorbox-field::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 2px;
-  height: 1.05rem;
-  margin: -0.52rem 0 0 -1px;
-  background: var(--ink-soft);
-  opacity: 0.55;
-  pointer-events: none;
-  -webkit-animation: doorbox-caret 1.1s linear 6 forwards;
-  animation: doorbox-caret 1.1s linear 6 forwards;
-}
-.doorbox-field:focus-within::after { display: none; }
-@-webkit-keyframes doorbox-caret {
-  0%, 49.999% { opacity: 1; }
-  50%, 100% { opacity: 0; }
-}
-@keyframes doorbox-caret {
-  0%, 49.999% { opacity: 1; }
-  50%, 100% { opacity: 0; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .doorbox-field::after { -webkit-animation: none; animation: none; opacity: 0.5; }
-}
-
 @media (max-width: 767px) {
   .story-choice { font-size: 1.2rem; }
 }
