@@ -51,6 +51,9 @@
       html += '<span class="piece-thumb-wrap">';
       html += '<img src="' + e.img + '" alt="' + title.replace(/"/g, '&quot;') + '" class="piece-thumb" loading="lazy">';
       html += '</span>';
+    } else if (e.story) {
+      /* Imageless story cards (The Notice): same doorframe as the All index row. */
+      html += '<span class="piece-thumb-wrap piece-thumb-wrap--bare" aria-hidden="true"></span>';
     }
     html += '</a></li>';
   });

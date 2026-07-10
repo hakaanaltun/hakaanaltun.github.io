@@ -8,6 +8,9 @@
     <span class="piece-thumb-wrap">
       <img src="{{ img }}" alt="{{ include.post.cover_alt | default: include.post.title }}" class="piece-thumb" loading="lazy">
     </span>
+    {% elsif include.post.story_card %}
+    {% comment %} No image (The Notice): same doorframe as the All index row. {% endcomment %}
+    <span class="piece-thumb-wrap piece-thumb-wrap--bare" aria-hidden="true"></span>
     {% endif %}
     <span class="piece-body">
       {% assign display_title = include.post.title | replace: "'", "’" %}
