@@ -844,8 +844,10 @@ body.moris-lightbox-open { overflow: hidden; }
 
 /* Story doorway — a quiet threshold under the hero. Not a card, not a section
    head; one line that lets a first-time reader step straight into the story.
-   Kept off /latest/ and /pieces/ on purpose — this is the only cold invitation. */
+   Kept off /latest/ and /pieces/ on purpose — this is the only cold invitation.
+   No animated divider here: it sat flush against the hero band's bottom edge. */
 #story-doorway { padding: 28px 0 0; }
+#story-doorway::before { content: none; }
 .story-doorway { text-align: center; }
 /* Transparent by design: the link shrinks to its own text so only the words
    are the click target — no full-width row, no visible card chrome. */
