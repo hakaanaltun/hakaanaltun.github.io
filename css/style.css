@@ -171,7 +171,11 @@ a { color: inherit; text-decoration: none; transition: color 0.2s ease, border-c
 .skip-link:focus { left: 0; }
 /* Screen-reader-only content (e.g. the h1 on later story pages). */
 .visually-hidden { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
-main { flex: 1 0 auto; }
+/* Short pages (About, Moris) don't fill tall portrait screens on their own;
+   centering main's content splits the leftover space above and below instead
+   of piling it all between the content and the footer. Pages taller than the
+   viewport are unaffected — there is no leftover space to distribute. */
+main { flex: 1 0 auto; display: flex; flex-direction: column; justify-content: center; }
 main:focus { outline: none; }
 
 html.drawer-open, body.drawer-open { overflow: hidden; overscroll-behavior: none; }
