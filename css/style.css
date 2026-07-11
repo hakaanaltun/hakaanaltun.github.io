@@ -1175,12 +1175,15 @@ footer {
   font-size: 0.95rem;
 }
 
-/* Utility strip above the footer proper — contact links on the left, icon
-   controls on the right. It shares the footer surface so the whole footer
-   reads as one solid block in each section's chrome color. Hidden on story
-   pages. */
+/* Utility strip above the footer proper — contact links and icon controls
+   sit together, right-aligned, on a single row at every width and both
+   orientations. The strip drops the per-section chrome colour and sits on
+   the same quiet band grey as Further Back / Keep reading (--band), which
+   also gives it one consistent colour across all themes; in dark it falls
+   to the dark band tone with the rest of the page. Hidden on story pages. */
 .footer-strip {
-  background: var(--surface-footer);
+  background: var(--band);
+  color: var(--vizon);
 }
 
 .footer-strip-inner {
@@ -1188,10 +1191,10 @@ footer {
   margin: 0 auto;
   padding: 14px var(--pad);
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: center;
-  justify-content: space-between;
-  gap: 8px 16px;
+  justify-content: flex-end;
+  gap: 10px;
 }
 
 /* The three text links stay one horizontal row at every width. */
@@ -1204,7 +1207,7 @@ footer {
 }
 
 .footer-contact-links a {
-  color: var(--footer-muted);
+  color: var(--vizon);
   line-height: 1.25;
   white-space: nowrap;
   text-decoration: none;
@@ -1213,11 +1216,11 @@ footer {
 
 .footer-contact-links a:hover,
 .footer-contact-links a:active {
-  color: var(--footer-text);
+  color: var(--ink);
 }
 
 .footer-dot {
-  color: color-mix(in srgb, var(--footer-text) 42%, transparent);
+  color: color-mix(in srgb, var(--vizon) 55%, transparent);
 }
 
 .footer-actions {
@@ -1239,7 +1242,7 @@ footer {
   padding: 0;
   background: transparent;
   border: 0;
-  color: var(--footer-muted);
+  color: var(--vizon);
   cursor: pointer;
   text-decoration: none;
   transition: color 0.2s ease;
@@ -1248,7 +1251,7 @@ footer {
 .footer-icon-btn:hover,
 .footer-icon-btn:active,
 .footer-icon-btn:focus-visible {
-  color: var(--footer-text);
+  color: var(--ink);
   outline: none;
 }
 
@@ -1282,26 +1285,21 @@ footer {
   padding: 44px var(--pad) 40px;
 }
 
-/* Narrow landscape phones: the strip wraps into two centered lines — links
-   stay a single horizontal row, only the type shrinks. (Portrait gets the
-   dropdown layout below instead.) */
+/* Narrow landscape phones: everything stays on the same right-aligned row —
+   only the type shrinks so links and icons still fit beside each other.
+   (Portrait gets the dropdown layout below instead.) */
 @media (max-width: 480px) and (orientation: landscape) {
-  .footer-strip-inner {
-    justify-content: center;
-  }
-
   .footer-contact-links {
     font-size: 0.85rem;
   }
 }
 
-/* Phone portrait: the whole strip is one row — links hard left, chevron hard
-   right. The icon controls (theme, clock, share) move into a dropdown that
-   opens under the chevron, stacked in that order. */
+/* Phone portrait: the whole strip stays one right-aligned row — links first,
+   chevron at the far right beside them. The icon controls (theme, clock,
+   share) move into a dropdown that opens under the chevron, stacked in that
+   order. */
 @media (max-width: 767px) and (orientation: portrait) {
   .footer-strip-inner {
-    flex-wrap: nowrap;
-    justify-content: space-between;
     gap: 8px;
     padding: 12px 20px;
   }
@@ -1339,10 +1337,10 @@ footer {
     flex-direction: column;
     gap: 2px;
     padding: 5px;
-    background: var(--surface-footer);
-    border: 1px solid color-mix(in srgb, var(--footer-text) 22%, transparent);
+    background: var(--band);
+    border: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
     border-radius: 12px;
-    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.22);
   }
 
   .footer-actions-wrap.open .footer-actions {
