@@ -1183,6 +1183,18 @@ footer {
   background: color-mix(in srgb, var(--surface-footer) 90%, var(--footer-text));
 }
 
+/* In dark themes the mix would lift the strip into a visible grey band on an
+   otherwise black page, so it melts into the footer surface instead. */
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme="light"]) .footer-strip {
+    background: var(--surface-footer);
+  }
+}
+
+html[data-theme="dark"] .footer-strip {
+  background: var(--surface-footer);
+}
+
 .footer-strip-inner {
   max-width: 1040px;
   margin: 0 auto;
