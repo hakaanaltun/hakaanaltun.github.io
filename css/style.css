@@ -171,11 +171,11 @@ a { color: inherit; text-decoration: none; transition: color 0.2s ease, border-c
 .skip-link:focus { left: 0; }
 /* Screen-reader-only content (e.g. the h1 on later story pages). */
 .visually-hidden { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
-/* Short pages (About, Moris) don't fill tall portrait screens on their own;
-   centering main's content splits the leftover space above and below instead
-   of piling it all between the content and the footer. Pages taller than the
-   viewport are unaffected — there is no leftover space to distribute. */
-main { flex: 1 0 auto; display: flex; flex-direction: column; justify-content: center; }
+/* Content top-aligns on every page so section titles sit at the same height
+   on every device and orientation; on short pages (About, Moris) the leftover
+   space runs between the content and the footer, which the body flex column
+   keeps pinned to the bottom of the viewport. */
+main { flex: 1 0 auto; display: flex; flex-direction: column; }
 main:focus { outline: none; }
 
 html.drawer-open, body.drawer-open { overflow: hidden; overscroll-behavior: none; }
@@ -569,7 +569,7 @@ section.line-drawn::before,
 }
 
 /* Moris */
-.moris-card { display: flex; flex-direction: column; align-items: center; gap: 24px; background: transparent; border: 0; padding-top: 0; }
+.moris-card { display: flex; flex-direction: column; align-items: center; gap: 24px; }
 .about-text p { font-size: 1.13rem; line-height: 1.68; color: var(--vizon); margin-bottom: 16px; }
 .about-text p:last-child { margin-bottom: 0; }
 /* The description lives inside the gallery column so it is always exactly
@@ -625,7 +625,10 @@ body.moris-lightbox-open { overflow: hidden; }
 }
 
 /* About */
-.about-card { display: grid; grid-template-columns: 200px 1fr; gap: 44px; align-items: start; background: var(--paper); border: 1px solid transparent; border-radius: 16px; padding: 40px 44px; box-shadow: none; }
+/* The card ground matches the page ground, so any card padding would read as
+   extra empty space under the title; the head's standard margin is the whole
+   title-to-content gap, exactly as on the All and Series pages. */
+.about-card { display: grid; grid-template-columns: 200px 1fr; gap: 44px; align-items: start; max-width: 880px; margin: 0 auto; }
 .about-author { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 6px; }
 .about-id { display: flex; flex-direction: column; gap: 4px; }
 .about-photo { width: 92px; height: 92px; border-radius: 50%; object-fit: cover; object-position: center 20%; border: 1px solid var(--rule-cream); box-shadow: 0 6px 18px rgba(47, 43, 39, 0.06); margin-bottom: 8px; }
@@ -636,25 +639,24 @@ body.moris-lightbox-open { overflow: hidden; }
 }
 
 @media (max-width: 768px) {
-  .about-card { grid-template-columns: 1fr; gap: 26px; padding: 30px 26px; }
+  .about-card { grid-template-columns: 1fr; gap: 26px; }
   /* Portrait: Book and Moris run title, text, media; About keeps the
      photo + name row right under the title, long text below. */
   .about-author { flex-direction: row; gap: 16px; text-align: left; align-items: center; }
   .about-id { align-items: flex-start; }
   .about-photo { width: 62px; height: 62px; margin-bottom: 0; }
-  .moris-card { gap: 26px; padding: 30px 26px; background: var(--paper); border-radius: 16px; }
+  .moris-card { gap: 26px; }
 }
 
 @media (max-width: 600px) {
   .book-cover { max-width: 190px; box-shadow: 0 12px 20px rgba(0, 0, 0, 0.11), 0 4px 8px rgba(0, 0, 0, 0.05); }
   .book-description p { font-size: 1.05rem; line-height: 1.6; }
-  #about .section-head { margin-bottom: 1.25rem; }
 }
 
 /* Landscape phones get the desktop layout, scaled down to fit.
    Below 568px of width the stacked layout stays. */
 @media (min-width: 568px) and (max-width: 768px) and (orientation: landscape) {
-  .about-card { grid-template-columns: 150px 1fr; gap: 26px; padding: 22px 26px; }
+  .about-card { grid-template-columns: 150px 1fr; gap: 26px; }
   .about-author { flex-direction: column; gap: 6px; text-align: center; align-items: center; }
   .about-id { align-items: center; }
   .about-photo { width: 80px; height: 80px; margin-bottom: 6px; }
