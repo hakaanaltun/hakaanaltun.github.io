@@ -21,6 +21,34 @@
     });
   }
 
+  /* ── Footer actions dropdown (phone portrait): the chevron toggles the
+     strip's icon controls. Elsewhere the chevron is display:none and the
+     controls sit inline, so this wiring is inert. ── */
+  var actionsWrap = document.querySelector('.footer-actions-wrap');
+  var actionsToggle = document.querySelector('.footer-actions-toggle');
+
+  if (actionsWrap && actionsToggle) {
+    var closeActions = function () {
+      actionsWrap.classList.remove('open');
+      actionsToggle.setAttribute('aria-expanded', 'false');
+    };
+
+    actionsToggle.addEventListener('click', function () {
+      var open = actionsWrap.classList.toggle('open');
+      actionsToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+
+    document.addEventListener('click', function (e) {
+      if (actionsWrap.classList.contains('open') && !actionsWrap.contains(e.target)) {
+        closeActions();
+      }
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeActions();
+    });
+  }
+
   /* ── Horizontal scrollers: hidden scrollbar, paged wheel + drag support ── */
   function enableHorizontalScroller(selector) {
     document.querySelectorAll(selector).forEach(function (el) {
