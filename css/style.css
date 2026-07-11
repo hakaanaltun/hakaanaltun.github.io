@@ -1128,7 +1128,7 @@ footer {
   padding: 42px var(--pad) 44px;
 }
 
-/* One centered column: brand, tagline, credit, then the utility row. */
+/* One centered column: brand, tagline, credit. */
 .footer-bottom {
   display: flex;
   flex-direction: column;
@@ -1175,27 +1175,32 @@ footer {
   font-size: 0.95rem;
 }
 
-/* Utility row: contact links and icon controls share one quiet line above
-   the brand block. Muted by default, full footer text on hover. Wraps into two
-   centered groups when the line runs out of room. */
-.footer-utility {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: 8px 16px;
-  margin-bottom: 8px;
-  min-width: 0;
+/* Utility strip: a distinct band above the footer proper — contact links on
+   the left, icon controls on the right. The background is mixed from the
+   footer surface and its text color so it tracks light/dark and every
+   per-series chrome color automatically. Hidden on story pages. */
+.footer-strip {
+  background: color-mix(in srgb, var(--surface-footer) 90%, var(--footer-text));
 }
 
-.footer-contact-links {
+.footer-strip-inner {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 14px var(--pad);
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: center;
-  gap: 4px 10px;
+  justify-content: space-between;
+  gap: 8px 16px;
+}
+
+/* The three text links stay one horizontal row at every width. */
+.footer-contact-links {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
   font-size: 0.95rem;
-  min-width: 0;
 }
 
 .footer-contact-links a {
@@ -1213,13 +1218,6 @@ footer {
 
 .footer-dot {
   color: rgba(237, 228, 207, 0.42);
-}
-
-.footer-utility-divider {
-  flex: 0 0 auto;
-  width: 1px;
-  height: 0.9em;
-  background: rgba(237, 228, 207, 0.42);
 }
 
 .footer-actions {
@@ -1276,20 +1274,15 @@ footer {
   padding: 44px var(--pad) 40px;
 }
 
-/* Phones: tighter type; the row wraps on its own. */
+/* Narrow portrait phones: the strip wraps into two centered lines — links
+   stay a single horizontal row, only the type shrinks. */
 @media (max-width: 480px) {
+  .footer-strip-inner {
+    justify-content: center;
+  }
+
   .footer-contact-links {
-    font-size: 0.88rem;
-  }
-
-  .footer-icon-btn {
-    width: 34px;
-    height: 34px;
-  }
-
-  .footer-icon-btn svg {
-    width: 16px;
-    height: 16px;
+    font-size: 0.85rem;
   }
 }
 
@@ -1304,23 +1297,15 @@ footer {
 }
 
 @media (max-width: 420px) and (orientation: portrait) {
-  .footer-contact-links {
-    font-size: 0.84rem;
-  }
-
   .footer-credit {
     font-size: 0.74rem;
   }
 }
 
-/* Phone landscape: same row, one notch smaller. */
+/* Phone landscape: one notch smaller. */
 @media (orientation: landscape) and (max-height: 500px) {
   .footer-inner {
     padding: 30px 24px 34px;
-  }
-
-  .footer-contact-links {
-    font-size: 0.85rem;
   }
 
   .footer-credit {
