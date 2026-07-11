@@ -1226,6 +1226,7 @@ footer {
   gap: 2px;
 }
 
+
 /* Icon-only controls: no box, no border — hit area comes from the 36px
    square, the visible state from the color shift. */
 .footer-icon-btn {
@@ -1256,6 +1257,13 @@ footer {
   height: 17px;
 }
 
+/* The chevron that collapses the icon controls into a dropdown exists only
+   for phone portrait; everywhere else the controls sit inline as before.
+   (Kept after .footer-icon-btn so this display wins at equal specificity.) */
+.footer-actions-toggle {
+  display: none;
+}
+
 /* Theme toggle swaps moon/sun via the custom properties theme.js drives. */
 .footer-theme-toggle .theme-icon-sun {
   display: var(--theme-icon-sun, none);
@@ -1274,15 +1282,80 @@ footer {
   padding: 44px var(--pad) 40px;
 }
 
-/* Narrow portrait phones: the strip wraps into two centered lines — links
-   stay a single horizontal row, only the type shrinks. */
-@media (max-width: 480px) {
+/* Narrow landscape phones: the strip wraps into two centered lines — links
+   stay a single horizontal row, only the type shrinks. (Portrait gets the
+   dropdown layout below instead.) */
+@media (max-width: 480px) and (orientation: landscape) {
   .footer-strip-inner {
     justify-content: center;
   }
 
   .footer-contact-links {
     font-size: 0.85rem;
+  }
+}
+
+/* Phone portrait: the whole strip is one row — links hard left, chevron hard
+   right. The icon controls (theme, clock, share) move into a dropdown that
+   opens under the chevron, stacked in that order. */
+@media (max-width: 767px) and (orientation: portrait) {
+  .footer-strip-inner {
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 12px 20px;
+  }
+
+  .footer-contact-links {
+    font-size: 0.8rem;
+    gap: 7px;
+  }
+
+  .footer-actions-wrap {
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .footer-actions-toggle {
+    display: inline-flex;
+    width: 30px;
+    height: 32px;
+  }
+
+  .footer-actions-toggle svg {
+    transition: transform 0.2s ease;
+  }
+
+  .footer-actions-wrap.open .footer-actions-toggle svg {
+    transform: rotate(180deg);
+  }
+
+  .footer-actions {
+    display: none;
+    position: absolute;
+    top: calc(100% + 6px);
+    right: 0;
+    z-index: 40;
+    flex-direction: column;
+    gap: 2px;
+    padding: 5px;
+    background: var(--surface-footer);
+    border: 1px solid color-mix(in srgb, var(--footer-text) 22%, transparent);
+    border-radius: 12px;
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.35);
+  }
+
+  .footer-actions-wrap.open .footer-actions {
+    display: flex;
+  }
+}
+
+/* The smallest portrait phones: shave the link type once more so the row
+   still holds the chevron. */
+@media (max-width: 374px) and (orientation: portrait) {
+  .footer-contact-links {
+    font-size: 0.72rem;
+    gap: 6px;
   }
 }
 
