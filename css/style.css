@@ -1175,23 +1175,11 @@ footer {
   font-size: 0.95rem;
 }
 
-/* Utility strip: a distinct band above the footer proper — contact links on
-   the left, icon controls on the right. The background is mixed from the
-   footer surface and its text color so it tracks light/dark and every
-   per-series chrome color automatically. Hidden on story pages. */
+/* Utility strip above the footer proper — contact links on the left, icon
+   controls on the right. It shares the footer surface so the whole footer
+   reads as one solid block in each section's chrome color. Hidden on story
+   pages. */
 .footer-strip {
-  background: color-mix(in srgb, var(--surface-footer) 90%, var(--footer-text));
-}
-
-/* In dark themes the mix would lift the strip into a visible grey band on an
-   otherwise black page, so it melts into the footer surface instead. */
-@media (prefers-color-scheme: dark) {
-  html:not([data-theme="light"]) .footer-strip {
-    background: var(--surface-footer);
-  }
-}
-
-html[data-theme="dark"] .footer-strip {
   background: var(--surface-footer);
 }
 
