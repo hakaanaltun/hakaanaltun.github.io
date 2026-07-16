@@ -98,11 +98,6 @@ layout: null
   .analog-face .tick.major{ stroke:var(--fg); stroke-width:3; }
   .analog-face .tick.fine{ stroke:var(--muted); stroke-width:1; opacity:.5; }
   .analog-face .num{ fill:var(--muted); font-family:var(--display); font-size:13px; text-anchor:middle; dominant-baseline:central; }
-  .face-sub{
-    margin-top:1.1rem; font-family:var(--display); color:var(--muted);
-    font-variant-numeric:lining-nums tabular-nums; font-feature-settings:"tnum" 1,"lnum" 1;
-    font-size:clamp(1.4rem, 4.5vw, 2.6rem); letter-spacing:.02em; line-height:1;
-  }
   .pom-rounds{ display:flex; gap:12px; justify-content:center; margin-top:1.7rem; }
   .pom-dot{ width:10px; height:10px; border-radius:999px; border:1px solid var(--muted); transition:background .2s, border-color .2s; }
   .pom-dot.done{ background:var(--accent); border-color:var(--accent); }
@@ -184,16 +179,23 @@ layout: null
   }
   body.immersive .display{ font-size:clamp(5rem, 23vw, 25rem); }
 
-  /* mobile: logo top-center, fullscreen top-right, tabs full-width below */
-  @media (max-width:600px){
+  /* tablets & phones: logo top-center, fullscreen top-right, tabs full-width below
+     (the absolutely-centered masthead collides with the tabs on narrower viewports) */
+  @media (max-width:1150px){
     .chrome{
       display:grid; grid-template-columns:40px 1fr 40px;
       grid-template-areas:". logo fs" "tabs tabs tabs";
-      align-items:center; row-gap:12px; padding:12px 14px;
+      align-items:center; row-gap:12px;
     }
     .masthead{ position:static; transform:none; grid-area:logo; }
     .settings{ grid-area:fs; justify-self:end; }
-    .tabs{ grid-area:tabs; justify-content:center; flex-wrap:wrap; gap:6px; }
+    .tabs{ grid-area:tabs; justify-content:center; flex-wrap:wrap; }
+  }
+
+  /* phones: tighter spacing */
+  @media (max-width:600px){
+    .chrome{ padding:12px 14px; }
+    .tabs{ gap:6px; }
     .tab{ padding:7px 14px; font-size:15px; }
     .home-brand{ font-size:1rem; }
     .home-tagline{ font-size:0.74rem; }
@@ -373,8 +375,6 @@ layout: null
   const handH=face.querySelector(".hand-h"), handM=face.querySelector(".hand-m"),
         handS=face.querySelector(".hand-s"), ring=face.querySelector(".ring-fg");
   face.addEventListener("click", toggleAnalog);
-  const faceSub=document.createElement("div");   /* exact digits under the analog face */
-  faceSub.className="face-sub";
   function rot(el,deg){ el.setAttribute("transform","rotate("+deg.toFixed(2)+" 100 100)"); }
 
   /* ---- tabs ---- */
@@ -398,7 +398,6 @@ layout: null
     if(state.analog){
       const slot=panels[state.panel].querySelector(".face-slot");
       slot.appendChild(face);
-      slot.appendChild(faceSub);
     }
   }
   function toggleAnalog(){ state.analog=!state.analog; applyAnalog(); save(); }
@@ -701,13 +700,6 @@ layout: null
         } else { ring.style.display="none"; }
       }
       rot(handH,ang.h); rot(handM,ang.m); rot(handS,ang.s);
-
-      let subTxt;
-      if(state.panel==="clock")          subTxt = state.seconds ? t+":"+pad(now.getSeconds()) : t;
-      else if(state.panel==="countdown") subTxt = last["cdm"] || "";
-      else if(state.panel==="stopwatch") subTxt = swp.main + swp.cs;
-      else                               subTxt = last["pom"] || "";
-      setText(faceSub,"fsub", subTxt);
     }
 
     requestAnimationFrame(tick);
