@@ -1,0 +1,71 @@
+# Sveltia CMS — hakanaltun.io
+#
+# Auth: personal access token ("Sign In with Token" on the login screen).
+# No OAuth app, no base_url needed. If a Cloudflare Worker authenticator is
+# added later, only a base_url line is added under backend.
+#
+# Scope: only NEW posts written as .md through the CMS. Existing .html posts
+# and the story architecture (/story/*, The Notice stub) are invisible here
+# by design — extension: md keeps them out of the list.
+
+backend:
+  name: github
+  repo: hakaanaltun/hakaanaltun.github.io
+  branch: main
+
+site_url: https://hakanaltun.io
+display_url: https://hakanaltun.io
+
+media_folder: images
+public_folder: /images
+
+slug:
+  encoding: ascii
+  clean_accents: true
+
+collections:
+  - name: pieces
+    label: Pieces
+    label_singular: Piece
+    folder: _posts
+    create: true
+    extension: md
+    format: yaml-frontmatter
+    slug: "{{year}}-{{month}}-{{day}}-{{fields.slug}}"
+    preview_path: "pieces/{{fields.slug}}.html"
+    summary: "{{title}} — {{date | date('MMM D, YYYY')}}"
+    sortable_fields: [date, title]
+    fields:
+      # layout is intentionally absent: _config.yml defaults give posts
+      # layout: post and author: Hakan Altun.
+      - { label: Title, name: title, widget: string }
+      - { label: Subtitle, name: subtitle, widget: string, required: false }
+      - label: Date
+        name: date
+        widget: datetime
+        format: YYYY-MM-DD
+        time_format: false
+        picker_utc: true
+      - label: Slug
+        name: slug
+        widget: string
+        pattern: ['^[a-z0-9]+(-[a-z0-9]+)*$', 'lowercase words separated by hyphens']
+        hint: "URL: /pieces/<slug>.html — also becomes part of the filename"
+      - { label: Read time, name: read_time, widget: string, required: false, hint: "e.g. 8 min" }
+      - { label: Description, name: description, widget: text, hint: "Meta description; usually the subtitle or one quiet sentence" }
+      - { label: OG description, name: og_description, widget: text, required: false, hint: "Only if the share-card text should differ from the description" }
+      - { label: Cover image, name: image, widget: image, required: false }
+      - { label: Thumbnail, name: thumb, widget: image, required: false, hint: "Usually the same file as the cover; landscape works best in cards" }
+      - { label: Cover alt text, name: cover_alt, widget: text, required: false }
+      - label: Series
+        name: series
+        widget: select
+        required: false
+        options:
+          - { label: "The On Series", value: "on-series" }
+          - { label: "Şafak's Arc", value: "fragments" }
+          - { label: "The Corner", value: "cafe-series" }
+        hint: "Leave empty for standalone pieces"
+      - { label: Series order, name: series_order, widget: number, required: false, value_type: int }
+      - { label: Fiction, name: fiction, widget: boolean, required: false, default: false }
+      - { label: Body, name: body, widget: markdown }
