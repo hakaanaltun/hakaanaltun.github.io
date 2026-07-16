@@ -1,0 +1,352 @@
+---
+layout: null
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moon Phase Today &mdash; Current Lunar Phase &amp; Illumination &middot; On Life &amp; Everything</title>
+<meta name="description" content="Tonight's moon: the current phase, illumination percentage and the moon's age, with the dates of the next full moon and new moon — computed and drawn in your browser.">
+<link rel="canonical" href="https://hakanaltun.io/moon/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Moon Phase Today — Current Lunar Phase &amp; Illumination">
+<meta property="og:description" content="Tonight's moon: phase, illumination and age, with the next full and new moon — drawn in your browser.">
+<meta property="og:url" content="https://hakanaltun.io/moon/">
+<meta property="og:image" content="https://hakanaltun.io/images/og/moon.png?v=20260716-1">
+<meta property="og:image:alt" content="The Moon — tonight's phase, drawn in your browser">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Moon Phase Today — Current Lunar Phase &amp; Illumination">
+<meta name="twitter:description" content="Tonight's moon: phase, illumination and age, with the next full and new moon — drawn in your browser.">
+<meta name="twitter:image" content="https://hakanaltun.io/images/og/moon.png?v=20260716-1">
+<meta name="theme-color" content="#101720">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "@id": "https://hakanaltun.io/moon/#app",
+      "name": "The Moon — Moon Phase Today",
+      "url": "https://hakanaltun.io/moon/",
+      "description": "Tonight's moon: the current phase, illumination percentage and the moon's age, with the dates of the next full moon and new moon — computed and drawn in your browser.",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires JavaScript",
+      "isAccessibleForFree": true,
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "author": { "@type": "Person", "name": "Hakan Altun", "url": "https://hakanaltun.io/" },
+      "inLanguage": "en"
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://hakanaltun.io/moon/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How is the moon phase computed?",
+          "acceptedAnswer": { "@type": "Answer", "text": "From the mean synodic cycle: the moon returns to new every 29.53 days, so the page measures the time since a reference new moon and reads the phase off that cycle, entirely in your browser. The real orbit is slightly elliptical, so the result can differ from precise astronomical tables by a few hours — never enough to mistake the phase itself." }
+        },
+        {
+          "@type": "Question",
+          "name": "What does the illumination percentage mean?",
+          "acceptedAnswer": { "@type": "Answer", "text": "The share of the moon's visible disc that is currently lit by the sun — 0% at new moon, about 50% at the quarters, 100% at full moon." }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the moon's age?",
+          "acceptedAnswer": { "@type": "Answer", "text": "The number of days since the last new moon. A full cycle takes about 29.5 days: first quarter arrives near day 7, full moon near day 15, last quarter near day 22." }
+        },
+        {
+          "@type": "Question",
+          "name": "Why does the moon look flipped from the southern hemisphere?",
+          "acceptedAnswer": { "@type": "Answer", "text": "The page draws the moon as seen from the northern hemisphere, where a waxing moon lights up from the right. South of the equator the same moon stands the other way up, so the lit side appears mirrored." }
+        }
+      ]
+    }
+  ]
+}
+</script>
+
+<link rel="stylesheet" href="/css/fonts.css?v=20260710-1">
+
+<style>
+  :root{
+    --bg:    #101720;
+    --fg:    #EDE4CF;
+    --muted: rgba(237,228,207,0.62);
+    --line:  rgba(237,228,207,0.28);
+    --disc:  #1C2634;
+
+    --display: 'Cormorant Garamond', Georgia, serif;
+    --body:    'EB Garamond', Georgia, serif;
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ height:100%; }
+
+  body{
+    background:var(--bg); color:var(--fg); font-family:var(--body);
+    min-height:100vh; min-height:100dvh;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* the moon fills the first viewport; the notes wait below the fold */
+  .app{ height:100vh; height:100dvh; display:flex; flex-direction:column; }
+  body.immersive{ height:100vh; height:100dvh; overflow:hidden; }
+  body.immersive .notes{ display:none; }
+
+  .chrome{
+    position:relative; display:flex; align-items:center; justify-content:space-between;
+    padding:16px 26px; border-bottom:1px solid var(--line); gap:12px;
+    transition:opacity .4s ease, border-color .4s ease;
+  }
+  .masthead{
+    position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+    text-decoration:none; display:flex; flex-direction:column; align-items:center;
+    gap:1px; text-align:center; opacity:.85; transition:opacity .2s;
+  }
+  .masthead:hover{ opacity:1; }
+  .home-brand{ font-family:var(--display); font-style:italic; font-weight:400; font-size:1.1rem; line-height:1.05; color:var(--fg); }
+  .home-tagline{ font-family:var(--body); font-style:italic; font-weight:400; font-size:0.8rem; line-height:1.2; color:var(--muted); }
+
+  .icon-btn{
+    background:none; border:1px solid var(--line); color:var(--muted);
+    width:40px; height:40px; border-radius:8px; cursor:pointer; font-size:17px;
+    display:grid; place-items:center; transition:color .2s, border-color .2s;
+    margin-left:auto;
+  }
+  .icon-btn:hover{ color:var(--fg); border-color:var(--muted); }
+  .icon-btn:focus-visible{ outline:2px solid var(--fg); outline-offset:2px; }
+
+  .stage{
+    flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; padding:24px; gap:0;
+  }
+  .disc{ width:clamp(170px, 30vmin, 300px); height:auto; display:block; }
+  .disc .dark{ fill:var(--disc); stroke:var(--line); stroke-width:1; }
+  .disc .lit{ fill:var(--fg); }
+  .phase{
+    margin-top:2.2rem;
+    font-family:var(--display); font-style:italic; font-weight:400;
+    font-size:clamp(2.4rem, 8vw, 5.5rem); line-height:1.02; letter-spacing:.01em;
+  }
+  .next{
+    margin-top:1rem; font-family:var(--body); font-style:italic;
+    color:var(--muted); font-size:clamp(1.05rem, 3vw, 1.5rem); letter-spacing:.02em;
+  }
+  .times{
+    margin-top:3rem; display:flex; flex-wrap:wrap; justify-content:center;
+    gap:10px 26px; font-size:clamp(0.95rem, 2.4vw, 1.15rem); letter-spacing:.02em;
+  }
+  .times .t{ color:var(--muted); }
+  .times .t b{
+    font-weight:400; color:var(--fg);
+    font-variant-numeric:lining-nums tabular-nums; font-feature-settings:"tnum" 1,"lnum" 1;
+    margin-left:.35em;
+  }
+  .place{
+    margin-top:2rem; font-family:var(--body); font-style:italic;
+    color:var(--muted); font-size:0.85rem; letter-spacing:.03em; opacity:.8;
+  }
+
+  body.immersive .chrome{ opacity:0; pointer-events:none; border-color:transparent; }
+  body.immersive.show-chrome .chrome{ opacity:1; pointer-events:auto; }
+
+  /* notes — quiet reading matter under the moon */
+  .notes{ border-top:1px solid var(--line); padding:60px 26px 84px; }
+  .notes-inner{ max-width:640px; margin:0 auto; }
+  .notes h2{ font-family:var(--display); font-style:italic; font-weight:400; font-size:1.6rem; margin:2.4rem 0 1rem; color:var(--fg); }
+  .notes h2:first-child{ margin-top:0; }
+  .notes h3{ font-family:var(--body); font-style:italic; font-weight:400; font-size:1.15rem; margin:1.5rem 0 .35rem; color:var(--fg); }
+  .notes p{ color:var(--muted); font-size:1.05rem; line-height:1.65; margin:0 0 .9rem; }
+  .notes a{ color:var(--fg); text-decoration:underline; text-underline-offset:3px; text-decoration-color:var(--line); }
+  .notes a:hover{ text-decoration-color:var(--fg); }
+  .notes .notes-links{ margin-top:2.4rem; padding-top:1.3rem; border-top:1px solid var(--line); font-style:italic; }
+
+  @media (max-width:600px){
+    .chrome{ padding:12px 14px; }
+    .home-brand{ font-size:1rem; }
+    .home-tagline{ font-size:0.74rem; }
+    .times{ flex-direction:column; gap:8px; margin-top:2.4rem; }
+    .phase{ margin-top:1.8rem; }
+  }
+  @media (orientation:landscape) and (max-height:500px){
+    .masthead{ display:none; }
+    .chrome{ padding:8px 14px; }
+    .disc{ width:clamp(110px, 26vh, 170px); }
+    .phase{ margin-top:1.1rem; font-size:clamp(1.8rem, 8vh, 3rem); }
+    .times{ margin-top:1.4rem; }
+    .place{ margin-top:1.1rem; }
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    *{ transition:none !important; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="app">
+
+  <div class="chrome" id="chrome">
+    <a class="masthead" href="/" aria-label="On Life &amp; Everything — home">
+      <span class="home-brand">On Life &amp; Everything</span>
+      <span class="home-tagline">Essays, short fiction, and other writing.</span>
+    </a>
+    <button class="icon-btn" id="fsBtn" title="Fullscreen" aria-label="Fullscreen">&#10530;</button>
+  </div>
+
+  <div class="stage">
+    <svg class="disc" viewBox="0 0 200 200" aria-hidden="true">
+      <circle class="dark" cx="100" cy="100" r="80"/>
+      <path class="lit" id="litPath" d=""/>
+    </svg>
+    <h1 class="phase" id="phase">&nbsp;</h1>
+    <div class="next" id="next"></div>
+    <div class="times" id="times"></div>
+    <div class="place">as seen from the northern hemisphere &middot; computed in your browser</div>
+  </div>
+
+  </div><!-- /.app -->
+
+  <footer class="notes">
+    <div class="notes-inner">
+      <h2>About this page</h2>
+      <p>Tonight&rsquo;s moon, drawn in your browser: the current lunar phase and its name, the share of the disc that is lit, the moon&rsquo;s age in days, and the dates of the next full moon and next new moon. The drawing follows the real terminator, so the crescent thins and the gibbous swells exactly as the sky does. A single static page &mdash; no ads, no account, nothing sent anywhere.</p>
+
+      <h2>Questions</h2>
+      <h3>How is the moon phase computed?</h3>
+      <p>From the mean synodic cycle: the moon returns to new every 29.53 days, so the page measures the time since a reference new moon and reads the phase off that cycle, entirely in your browser. The real orbit is slightly elliptical, so the result can differ from precise astronomical tables by a few hours &mdash; never enough to mistake the phase itself.</p>
+
+      <h3>What does the illumination percentage mean?</h3>
+      <p>The share of the moon&rsquo;s visible disc that is currently lit by the sun &mdash; 0% at new moon, about 50% at the quarters, 100% at full moon.</p>
+
+      <h3>What is the moon&rsquo;s age?</h3>
+      <p>The number of days since the last new moon. A full cycle takes about 29.5 days: first quarter arrives near day 7, full moon near day 15, last quarter near day 22.</p>
+
+      <h3>Why does the moon look flipped from the southern hemisphere?</h3>
+      <p>The page draws the moon as seen from the northern hemisphere, where a waxing moon lights up from the right. South of the equator the same moon stands the other way up, so the lit side appears mirrored.</p>
+
+      <p class="notes-links">More instruments: <a href="/twilight/">&#304;stanbul&rsquo;s twilight and sun times</a>, <a href="/clock/">a fullscreen clock</a>, <a href="/write/">a blank page to write on</a>, <a href="/words/">a word counter</a>, <a href="/breathe/">a breathing exercise</a> and <a href="/noise/">ambient noise</a> &mdash; or see <a href="/tools/">all the tools</a>.</p>
+    </div>
+  </footer>
+
+<script>
+(function(){
+  "use strict";
+  var $ = function(s){ return document.querySelector(s); };
+
+  var SYNODIC = 29.530588853;                            /* mean lunation, days */
+  var NEW_EPOCH = Date.UTC(2000, 0, 6, 18, 14);          /* a known new moon */
+
+  function lunation(now){ return (now.getTime() - NEW_EPOCH) / 86400000 / SYNODIC; }
+
+  function phaseName(age){
+    if(age < 1.84566)  return "New Moon";
+    if(age < 5.53699)  return "Waxing Crescent";
+    if(age < 9.22831)  return "First Quarter";
+    if(age < 12.91963) return "Waxing Gibbous";
+    if(age < 16.61096) return "Full Moon";
+    if(age < 20.30228) return "Waning Gibbous";
+    if(age < 23.99361) return "Last Quarter";
+    if(age < 27.68493) return "Waning Crescent";
+    return "New Moon";
+  }
+
+  /* the sunlit part of the disc: one limb arc + one elliptical terminator arc */
+  function litPath(p){
+    var r = 80, top = "100,20", bottom = "100,180";
+    var c = Math.cos(2 * Math.PI * p);
+    var rx = (Math.abs(c) * r).toFixed(2);
+    if(p < 0.0034 || p > 0.9966) return "";                          /* new: nothing lit */
+    if(Math.abs(p - 0.5) < 0.0034)                                    /* full: whole disc */
+      return "M " + top + " A " + r + "," + r + " 0 1 1 " + bottom + " A " + r + "," + r + " 0 1 1 " + top;
+    var waxing = p < 0.5;
+    var limbSweep = waxing ? 1 : 0;
+    var termSweep = waxing ? (c > 0 ? 0 : 1) : (c > 0 ? 1 : 0);
+    return "M " + top +
+      " A " + r + "," + r + " 0 0 " + limbSweep + " " + bottom +
+      " A " + rx + "," + r + " 0 0 " + termSweep + " " + top;
+  }
+
+  function ordinalDate(ms){
+    return new Intl.DateTimeFormat("en-GB", { weekday:"long", day:"numeric", month:"long" }).format(new Date(ms));
+  }
+
+  var lastKey = null;
+  function render(){
+    var now = new Date();
+    var lun = lunation(now);
+    var age = (lun - Math.floor(lun)) * SYNODIC;
+    var p = age / SYNODIC;
+    var illum = (1 - Math.cos(2 * Math.PI * p)) / 2;
+
+    $("#litPath").setAttribute("d", litPath(p));
+    $("#phase").textContent = phaseName(age);
+
+    var k = Math.floor(lun);
+    var nextFull = NEW_EPOCH + (k + (p < 0.5 ? 0.5 : 1.5)) * SYNODIC * 86400000;
+    var nextNew  = NEW_EPOCH + (k + 1) * SYNODIC * 86400000;
+    var soonest = Math.min(nextFull, nextNew);
+    var days = Math.round((soonest - now.getTime()) / 86400000);
+    var what = soonest === nextFull ? "Full moon" : "New moon";
+    $("#next").textContent = what + (days <= 0 ? " tonight" : days === 1 ? " tomorrow" : " in " + days + " days");
+
+    var key = Math.floor(now.getTime() / 60000);
+    if(key !== lastKey){
+      lastKey = key;
+      $("#times").innerHTML =
+        '<span class="t">Illumination<b>' + Math.round(illum * 100) + "%</b></span>" +
+        '<span class="t">Moon age<b>' + age.toFixed(1) + " days</b></span>" +
+        '<span class="t">Next full moon<b>' + ordinalDate(nextFull) + "</b></span>" +
+        '<span class="t">Next new moon<b>' + ordinalDate(nextNew) + "</b></span>";
+    }
+  }
+
+  /* ---- fullscreen, as on /clock/ ---- */
+  var docEl = document.documentElement, fakeFs = false;
+  function nativeFsElement(){ return document.fullscreenElement || document.webkitFullscreenElement || null; }
+  function requestFs(){
+    var fn = docEl.requestFullscreen || docEl.webkitRequestFullscreen || docEl.mozRequestFullScreen || docEl.msRequestFullscreen;
+    if(fn){ try{ fn.call(docEl); return true; }catch(e){} }
+    return false;
+  }
+  function exitFs(){
+    var fn = document.exitFullscreen || document.webkitExitFullscreen || document.mozCancelFullScreen || document.msExitFullscreen;
+    if(fn){ try{ fn.call(document); }catch(e){} }
+  }
+  function syncImmersive(){
+    var on = !!nativeFsElement() || fakeFs;
+    document.body.classList.toggle("immersive", on);
+    if(on) pokeChrome();
+  }
+  $("#fsBtn").addEventListener("click", function(){
+    if(nativeFsElement()){ exitFs(); return; }
+    if(fakeFs){ fakeFs = false; syncImmersive(); return; }
+    if(!requestFs()){ fakeFs = true; syncImmersive(); }
+  });
+  document.addEventListener("fullscreenchange", syncImmersive);
+  document.addEventListener("webkitfullscreenchange", syncImmersive);
+  document.addEventListener("keydown", function(e){ if(e.key === "Escape" && fakeFs){ fakeFs = false; syncImmersive(); } });
+  var chromeTimer;
+  function pokeChrome(){
+    document.body.classList.add("show-chrome");
+    clearTimeout(chromeTimer);
+    chromeTimer = setTimeout(function(){ document.body.classList.remove("show-chrome"); }, 2800);
+  }
+  ["mousemove","touchstart","keydown"].forEach(function(ev){
+    document.addEventListener(ev, function(){ if(document.body.classList.contains("immersive")) pokeChrome(); });
+  });
+
+  /* ---- run ---- */
+  render();
+  setInterval(render, 60000);
+  document.addEventListener("visibilitychange", function(){ if(!document.hidden) render(); });
+})();
+</script>
+</body>
+</html>

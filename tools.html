@@ -2,13 +2,13 @@
 layout: default
 permalink: /tools/
 title: "Tools"
-description: "A few small instruments kept here: a fullscreen clock with countdown, stopwatch and pomodoro; a blank page to write on; and İstanbul's twilight, in real time."
+description: "Small free instruments kept here: a fullscreen clock with countdown, stopwatch and pomodoro; a blank page to write on; a word counter; a breathing exercise; white, pink and brown noise; the phase of the moon; and İstanbul's twilight, in real time."
 ---
 
 <section id="tools" class="section-page">
   <div class="section-page-head">
     <h1 class="section-page-title">Tools</h1>
-    <p class="section-page-subtitle">A few small instruments I keep here. Nothing you type leaves your browser.</p>
+    <p class="section-page-subtitle">Small instruments I keep here. No ads, no accounts&mdash;nothing you type leaves your browser.</p>
   </div>
 
   <div class="tools-list">
@@ -20,9 +20,50 @@ description: "A few small instruments kept here: a fullscreen clock with countdo
       <h2>The Page</h2>
       <p>A blank page to write on. Garamond type, a word count, fullscreen, autosave&mdash;and nothing else. Your text stays on your device.</p>
     </a>
+    <a class="tools-item" href="/words/">
+      <h2>The Counter</h2>
+      <p>A word counter: words, characters, sentences, paragraphs, reading time and speaking time&mdash;counted live as you type or paste.</p>
+    </a>
+    <a class="tools-item" href="/breathe/">
+      <h2>The Breath</h2>
+      <p>A guided breathing exercise&mdash;box, 4-7-8 and coherent breathing, paced by a slowly swelling circle.</p>
+    </a>
+    <a class="tools-item" href="/noise/">
+      <h2>The Noise</h2>
+      <p>White, pink and brown noise for focus and sleep, generated live in your browser&mdash;with a volume dial and a sleep timer.</p>
+    </a>
+    <a class="tools-item" href="/moon/">
+      <h2>The Moon</h2>
+      <p>Tonight's moon: the current phase drawn as it hangs in the sky, its illumination and age, and the next full and new moon.</p>
+    </a>
     <a class="tools-item" href="/twilight/">
       <h2>Twilight</h2>
-      <p>&#304;stanbul's sky, kept in real time. Today's sunrise, sunset and civil twilight; the page follows the color of the hour.</p>
+      <p>&#304;stanbul's sky, kept in real time. Today's sunrise, sunset, civil twilight and day length; the page follows the color of the hour.</p>
     </a>
   </div>
 </section>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "@id": "https://hakanaltun.io/tools/#page",
+  "name": "Tools",
+  "url": "https://hakanaltun.io/tools/",
+  "description": "Small free browser instruments: a fullscreen clock with countdown, stopwatch and pomodoro; a blank page to write on; a word counter; a breathing exercise; white, pink and brown noise; the phase of the moon; and İstanbul's twilight in real time.",
+  "inLanguage": "en",
+  "author": { "@type": "Person", "name": "Hakan Altun", "url": "https://hakanaltun.io/" },
+  "mainEntity": {
+    "@type": "ItemList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "The Clock — Fullscreen Clock, Countdown, Stopwatch & Pomodoro", "url": "https://hakanaltun.io/clock/" },
+      { "@type": "ListItem", "position": 2, "name": "The Page — A Blank Page for Distraction-Free Writing", "url": "https://hakanaltun.io/write/" },
+      { "@type": "ListItem", "position": 3, "name": "The Counter — Word Counter with Reading Time", "url": "https://hakanaltun.io/words/" },
+      { "@type": "ListItem", "position": 4, "name": "The Breath — Box, 4-7-8 & Coherent Breathing", "url": "https://hakanaltun.io/breathe/" },
+      { "@type": "ListItem", "position": 5, "name": "The Noise — White, Pink & Brown Noise", "url": "https://hakanaltun.io/noise/" },
+      { "@type": "ListItem", "position": 6, "name": "The Moon — Moon Phase Today", "url": "https://hakanaltun.io/moon/" },
+      { "@type": "ListItem", "position": 7, "name": "Twilight — Sunrise, Sunset & Civil Twilight Today", "url": "https://hakanaltun.io/twilight/" }
+    ]
+  }
+}
+</script>

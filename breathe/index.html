@@ -1,0 +1,399 @@
+---
+layout: null
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Breathing Exercise &mdash; Box, 4-7-8 &amp; Coherent Breathing &middot; On Life &amp; Everything</title>
+<meta name="description" content="A quiet guided breathing exercise: box breathing, 4-7-8 and coherent breathing, paced by a slowly swelling circle. Free, fullscreen, ad-free — nothing leaves your browser.">
+<link rel="canonical" href="https://hakanaltun.io/breathe/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Breathing Exercise — Box, 4-7-8 &amp; Coherent Breathing">
+<meta property="og:description" content="A quiet guided breathing exercise, paced by a slowly swelling circle. Free, fullscreen, ad-free.">
+<meta property="og:url" content="https://hakanaltun.io/breathe/">
+<meta property="og:image" content="https://hakanaltun.io/images/og/breathe.png?v=20260716-1">
+<meta property="og:image:alt" content="The Breath — a quiet breathing exercise">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Breathing Exercise — Box, 4-7-8 &amp; Coherent Breathing">
+<meta name="twitter:description" content="A quiet guided breathing exercise, paced by a slowly swelling circle. Free, fullscreen, ad-free.">
+<meta name="twitter:image" content="https://hakanaltun.io/images/og/breathe.png?v=20260716-1">
+<meta name="theme-color" content="#2A4D42">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "@id": "https://hakanaltun.io/breathe/#app",
+      "name": "The Breath — A Quiet Breathing Exercise",
+      "url": "https://hakanaltun.io/breathe/",
+      "description": "A quiet guided breathing exercise: box breathing, 4-7-8 and coherent breathing, paced by a slowly swelling circle. Free, fullscreen, ad-free — nothing leaves your browser.",
+      "applicationCategory": "HealthApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires JavaScript",
+      "isAccessibleForFree": true,
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "author": { "@type": "Person", "name": "Hakan Altun", "url": "https://hakanaltun.io/" },
+      "inLanguage": "en"
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://hakanaltun.io/breathe/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is box breathing?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Four equal sides: breathe in for four counts, hold for four, breathe out for four, hold for four. The even square of it steadies attention, which is why it is taught to people who must stay calm under pressure." }
+        },
+        {
+          "@type": "Question",
+          "name": "What is 4-7-8 breathing?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Breathe in for four counts, hold for seven, and let the breath out slowly for eight. The long exhale leans on the body's own braking system, and many people use a few rounds of it before sleep." }
+        },
+        {
+          "@type": "Question",
+          "name": "What is coherent breathing?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Even five-count breaths in and out — about six breaths a minute, with no holds. It is the gentlest of the three and comfortable to keep up for several minutes." }
+        },
+        {
+          "@type": "Question",
+          "name": "How long should I practice?",
+          "acceptedAnswer": { "@type": "Answer", "text": "A few minutes is plenty; even four or five rounds can settle things. Stop and breathe normally if you feel light-headed. This page is a relaxation exercise, not medical advice or treatment." }
+        }
+      ]
+    }
+  ]
+}
+</script>
+
+<link rel="stylesheet" href="/css/fonts.css?v=20260710-1">
+
+<style>
+  :root{
+    --bg:    #2A4D42;
+    --fg:    #EDE4CF;
+    --muted: rgba(237,228,207,0.62);
+    --line:  rgba(237,228,207,0.28);
+
+    --display: 'Cormorant Garamond', Georgia, serif;
+    --body:    'EB Garamond', Georgia, serif;
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ height:100%; }
+
+  body{
+    background:var(--bg); color:var(--fg); font-family:var(--body);
+    min-height:100vh; min-height:100dvh;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* the exercise fills the first viewport; the notes wait below the fold */
+  .app{ height:100vh; height:100dvh; display:flex; flex-direction:column; }
+  body.immersive{ height:100vh; height:100dvh; overflow:hidden; }
+  body.immersive .notes{ display:none; }
+
+  .chrome{
+    position:relative; display:flex; align-items:center; justify-content:space-between;
+    padding:16px 26px; border-bottom:1px solid var(--line); gap:12px;
+    transition:opacity .4s ease, border-color .4s ease;
+  }
+  .masthead{
+    position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+    text-decoration:none; display:flex; flex-direction:column; align-items:center;
+    gap:1px; text-align:center; opacity:.85; transition:opacity .2s;
+  }
+  .masthead:hover{ opacity:1; }
+  .home-brand{ font-family:var(--display); font-style:italic; font-weight:400; font-size:1.1rem; line-height:1.05; color:var(--fg); }
+  .home-tagline{ font-family:var(--body); font-style:italic; font-weight:400; font-size:0.8rem; line-height:1.2; color:var(--muted); }
+
+  .icon-btn{
+    background:none; border:1px solid var(--line); color:var(--muted);
+    width:40px; height:40px; border-radius:8px; cursor:pointer; font-size:17px;
+    display:grid; place-items:center; transition:color .2s, border-color .2s;
+    margin-left:auto;
+  }
+  .icon-btn:hover{ color:var(--fg); border-color:var(--muted); }
+  .icon-btn:focus-visible{ outline:2px solid var(--fg); outline-offset:2px; }
+
+  .stage{
+    flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; padding:24px;
+  }
+
+  .mode-row{ display:flex; gap:10px; justify-content:center; align-items:center; margin-bottom:3rem; flex-wrap:wrap; transition:opacity .4s ease; }
+  .seg{ display:flex; border:1px solid var(--line); border-radius:999px; overflow:hidden; }
+  .seg button{
+    background:none; border:none; color:var(--muted); font-family:var(--body);
+    font-size:14px; padding:8px 18px; cursor:pointer; letter-spacing:.02em;
+  }
+  .seg button[aria-pressed="true"]{ background:var(--fg); color:var(--bg); }
+  .seg button:focus-visible{ outline:2px solid var(--fg); outline-offset:2px; }
+
+  .orb-wrap{
+    position:relative; width:clamp(220px, 44vmin, 400px); aspect-ratio:1;
+    display:grid; place-items:center;
+  }
+  .orb-ring{ position:absolute; inset:0; border-radius:50%; border:1px solid var(--line); }
+  .orb{
+    position:absolute; inset:0; border-radius:50%;
+    background:rgba(237,228,207,0.13); border:1px solid rgba(237,228,207,0.4);
+    transform:scale(.62); will-change:transform;
+  }
+  .orb-label{ position:relative; z-index:1; pointer-events:none; }
+  .orb-word{
+    font-family:var(--display); font-style:italic; font-weight:400;
+    font-size:clamp(1.6rem, 4.5vw, 2.6rem); line-height:1.1;
+  }
+  .orb-count{
+    margin-top:.2rem; font-family:var(--body); color:var(--muted);
+    font-size:clamp(1rem, 2.6vw, 1.3rem);
+    font-variant-numeric:lining-nums tabular-nums; font-feature-settings:"tnum" 1,"lnum" 1;
+  }
+
+  .rounds{ margin-top:2.2rem; font-style:italic; color:var(--muted); font-size:.95rem; letter-spacing:.03em; min-height:1.3em; }
+
+  .controls{ margin-top:1.6rem; display:flex; gap:12px; justify-content:center; align-items:center; transition:opacity .4s ease; }
+  .btn{
+    font-family:var(--display); font-style:italic; font-size:1.25rem;
+    padding:9px 28px; border-radius:0; cursor:pointer;
+    border:1px solid var(--line); background:none; color:var(--fg);
+    transition:background .2s, color .2s, border-color .2s;
+  }
+  .btn:hover{ border-color:var(--fg); }
+  .btn.primary{ background:var(--fg); color:var(--bg); border-color:var(--fg); }
+  .btn.primary:hover{ filter:brightness(1.06); }
+  .btn:focus-visible{ outline:2px solid var(--fg); outline-offset:2px; }
+
+  body.immersive .chrome{ opacity:0; pointer-events:none; border-color:transparent; }
+  body.immersive.show-chrome .chrome{ opacity:1; pointer-events:auto; }
+  body.running .mode-row{ opacity:.35; }
+
+  /* notes — quiet reading matter under the exercise */
+  .notes{ border-top:1px solid var(--line); padding:60px 26px 84px; }
+  .notes-inner{ max-width:640px; margin:0 auto; }
+  .notes h2{ font-family:var(--display); font-style:italic; font-weight:400; font-size:1.6rem; margin:2.4rem 0 1rem; color:var(--fg); }
+  .notes h2:first-child{ margin-top:0; }
+  .notes h3{ font-family:var(--body); font-style:italic; font-weight:400; font-size:1.15rem; margin:1.5rem 0 .35rem; color:var(--fg); }
+  .notes p{ color:var(--muted); font-size:1.05rem; line-height:1.65; margin:0 0 .9rem; }
+  .notes a{ color:var(--fg); text-decoration:underline; text-underline-offset:3px; text-decoration-color:var(--line); }
+  .notes a:hover{ text-decoration-color:var(--fg); }
+  .notes .notes-links{ margin-top:2.4rem; padding-top:1.3rem; border-top:1px solid var(--line); font-style:italic; }
+
+  @media (max-width:600px){
+    .chrome{ padding:12px 14px; }
+    .home-brand{ font-size:1rem; }
+    .home-tagline{ font-size:0.74rem; }
+    .mode-row{ margin-bottom:2.2rem; }
+  }
+  @media (orientation:landscape) and (max-height:500px){
+    .masthead{ display:none; }
+    .chrome{ padding:8px 14px; }
+    .mode-row{ margin-bottom:1.2rem; }
+    .orb-wrap{ width:clamp(140px, 38vh, 220px); }
+    .rounds{ margin-top:1rem; }
+    .controls{ margin-top:.8rem; }
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    *{ transition:none !important; }
+    .orb{ transform:none !important; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="app">
+
+  <div class="chrome" id="chrome">
+    <a class="masthead" href="/" aria-label="On Life &amp; Everything — home">
+      <span class="home-brand">On Life &amp; Everything</span>
+      <span class="home-tagline">Essays, short fiction, and other writing.</span>
+    </a>
+    <button class="icon-btn" id="fsBtn" title="Fullscreen" aria-label="Fullscreen">&#10530;</button>
+  </div>
+
+  <div class="stage">
+    <div class="mode-row">
+      <div class="seg" role="group" aria-label="Breathing pattern">
+        <button id="modeBox" aria-pressed="true">Box</button>
+        <button id="mode478" aria-pressed="false">4-7-8</button>
+        <button id="modeCoherent" aria-pressed="false">Coherent</button>
+      </div>
+    </div>
+
+    <div class="orb-wrap">
+      <div class="orb-ring" aria-hidden="true"></div>
+      <div class="orb" id="orb" aria-hidden="true"></div>
+      <div class="orb-label" aria-live="polite">
+        <h1 class="orb-word" id="word">Breathe</h1>
+        <div class="orb-count" id="count">&nbsp;</div>
+      </div>
+    </div>
+
+    <div class="rounds" id="rounds"></div>
+
+    <div class="controls">
+      <button class="btn primary" id="startBtn">Begin</button>
+    </div>
+  </div>
+
+  </div><!-- /.app -->
+
+  <footer class="notes">
+    <div class="notes-inner">
+      <h2>About this exercise</h2>
+      <p>A guided breathing exercise with nothing to install and nothing to sign up for. Choose a pattern &mdash; box breathing, 4-7-8, or coherent breathing &mdash; and follow the circle: it swells as you breathe in, rests while you hold, and empties as you breathe out, with the count kept for you. Take it fullscreen and let the room go quiet. The page is a single static file; nothing about you leaves the browser.</p>
+
+      <h2>Questions</h2>
+      <h3>What is box breathing?</h3>
+      <p>Four equal sides: breathe in for four counts, hold for four, breathe out for four, hold for four. The even square of it steadies attention, which is why it is taught to people who must stay calm under pressure.</p>
+
+      <h3>What is 4-7-8 breathing?</h3>
+      <p>Breathe in for four counts, hold for seven, and let the breath out slowly for eight. The long exhale leans on the body&rsquo;s own braking system, and many people use a few rounds of it before sleep.</p>
+
+      <h3>What is coherent breathing?</h3>
+      <p>Even five-count breaths in and out &mdash; about six breaths a minute, with no holds. It is the gentlest of the three and comfortable to keep up for several minutes.</p>
+
+      <h3>How long should I practice?</h3>
+      <p>A few minutes is plenty; even four or five rounds can settle things. Stop and breathe normally if you feel light-headed. This page is a relaxation exercise, not medical advice or treatment.</p>
+
+      <p class="notes-links">More instruments: <a href="/noise/">ambient noise for focus</a>, <a href="/clock/">a fullscreen clock with pomodoro</a>, <a href="/write/">a blank page to write on</a>, <a href="/words/">a word counter</a>, <a href="/moon/">the phase of the moon</a> and <a href="/twilight/">&#304;stanbul&rsquo;s twilight</a> &mdash; or see <a href="/tools/">all the tools</a>.</p>
+    </div>
+  </footer>
+
+<script>
+(function(){
+  "use strict";
+  var $ = function(s){ return document.querySelector(s); };
+
+  var PATTERNS = {
+    box:      [["Breathe in",4],["Hold",4],["Breathe out",4],["Hold",4]],
+    p478:     [["Breathe in",4],["Hold",7],["Breathe out",8]],
+    coherent: [["Breathe in",5],["Breathe out",5]]
+  };
+  var MIN_SCALE = 0.62, MAX_SCALE = 1;
+
+  var orb = $("#orb"), word = $("#word"), count = $("#count"), roundsEl = $("#rounds");
+  var startBtn = $("#startBtn");
+  var modeBtns = { box: $("#modeBox"), p478: $("#mode478"), coherent: $("#modeCoherent") };
+  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  var mode = "box", running = false, raf = null;
+  var phaseIdx = 0, phaseStart = 0, rounds = 0, scaleAtHold = MIN_SCALE;
+
+  function setMode(m){
+    mode = m;
+    Object.keys(modeBtns).forEach(function(k){ modeBtns[k].setAttribute("aria-pressed", String(k === m)); });
+    if(running) stop();
+    word.textContent = "Breathe";
+    count.innerHTML = "&nbsp;";
+    roundsEl.textContent = "";
+    setScale(MIN_SCALE);
+  }
+  Object.keys(modeBtns).forEach(function(k){
+    modeBtns[k].addEventListener("click", function(){ setMode(k); });
+  });
+
+  function setScale(s){
+    if(reduceMotion){ orb.style.opacity = String(0.35 + (s - MIN_SCALE) / (MAX_SCALE - MIN_SCALE) * 0.65); return; }
+    orb.style.transform = "scale(" + s.toFixed(4) + ")";
+  }
+  function ease(f){ return (1 - Math.cos(Math.PI * f)) / 2; }
+
+  function tick(){
+    if(!running) return;
+    var pattern = PATTERNS[mode];
+    var phase = pattern[phaseIdx];
+    var dur = phase[1] * 1000;
+    var elapsed = performance.now() - phaseStart;
+
+    if(elapsed >= dur){
+      if(phase[0] === "Breathe in") scaleAtHold = MAX_SCALE;
+      if(phase[0] === "Breathe out") scaleAtHold = MIN_SCALE;
+      phaseIdx = (phaseIdx + 1) % pattern.length;
+      if(phaseIdx === 0){ rounds++; roundsEl.textContent = rounds === 1 ? "one round" : rounds + " rounds"; }
+      phaseStart = performance.now();
+      elapsed = 0;
+      phase = pattern[phaseIdx];
+      dur = phase[1] * 1000;
+      word.textContent = phase[0];
+    }
+
+    var f = Math.min(1, elapsed / dur);
+    if(phase[0] === "Breathe in")       setScale(MIN_SCALE + (MAX_SCALE - MIN_SCALE) * ease(f));
+    else if(phase[0] === "Breathe out") setScale(MAX_SCALE - (MAX_SCALE - MIN_SCALE) * ease(f));
+    else                                setScale(scaleAtHold);
+
+    count.textContent = String(Math.ceil((dur - elapsed) / 1000));
+    raf = requestAnimationFrame(tick);
+  }
+
+  function start(){
+    running = true;
+    document.body.classList.add("running");
+    startBtn.textContent = "Rest";
+    startBtn.classList.remove("primary");
+    phaseIdx = 0; rounds = 0; scaleAtHold = MIN_SCALE;
+    phaseStart = performance.now();
+    word.textContent = PATTERNS[mode][0][0];
+    roundsEl.textContent = "";
+    raf = requestAnimationFrame(tick);
+  }
+  function stop(){
+    running = false;
+    document.body.classList.remove("running");
+    if(raf) cancelAnimationFrame(raf);
+    startBtn.textContent = "Begin";
+    startBtn.classList.add("primary");
+    word.textContent = "Breathe";
+    count.innerHTML = "&nbsp;";
+    setScale(MIN_SCALE);
+  }
+  startBtn.addEventListener("click", function(){ running ? stop() : start(); });
+
+  /* ---- fullscreen, as on /clock/ ---- */
+  var docEl = document.documentElement, fakeFs = false;
+  function nativeFsElement(){ return document.fullscreenElement || document.webkitFullscreenElement || null; }
+  function requestFs(){
+    var fn = docEl.requestFullscreen || docEl.webkitRequestFullscreen || docEl.mozRequestFullScreen || docEl.msRequestFullscreen;
+    if(fn){ try{ fn.call(docEl); return true; }catch(e){} }
+    return false;
+  }
+  function exitFs(){
+    var fn = document.exitFullscreen || document.webkitExitFullscreen || document.mozCancelFullScreen || document.msExitFullscreen;
+    if(fn){ try{ fn.call(document); }catch(e){} }
+  }
+  function syncImmersive(){
+    var on = !!nativeFsElement() || fakeFs;
+    document.body.classList.toggle("immersive", on);
+    if(on) pokeChrome();
+  }
+  $("#fsBtn").addEventListener("click", function(){
+    if(nativeFsElement()){ exitFs(); return; }
+    if(fakeFs){ fakeFs = false; syncImmersive(); return; }
+    if(!requestFs()){ fakeFs = true; syncImmersive(); }
+  });
+  document.addEventListener("fullscreenchange", syncImmersive);
+  document.addEventListener("webkitfullscreenchange", syncImmersive);
+  document.addEventListener("keydown", function(e){ if(e.key === "Escape" && fakeFs){ fakeFs = false; syncImmersive(); } });
+  var chromeTimer;
+  function pokeChrome(){
+    document.body.classList.add("show-chrome");
+    clearTimeout(chromeTimer);
+    chromeTimer = setTimeout(function(){ document.body.classList.remove("show-chrome"); }, 2800);
+  }
+  ["mousemove","touchstart","keydown"].forEach(function(ev){
+    document.addEventListener(ev, function(){ if(document.body.classList.contains("immersive")) pokeChrome(); });
+  });
+
+  setScale(MIN_SCALE);
+})();
+</script>
+</body>
+</html>
