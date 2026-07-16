@@ -28,6 +28,20 @@ jobs:
           ruby-version: '3.3'
           bundler-cache: true
 
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      # /images/480/ and /images/960/ are generated here, at build time, so
+      # images uploaded through the CMS get their card variants without any
+      # manual Pillow step or committed derivatives. Variants that DO exist
+      # in the repo are kept as-is.
+      - name: Generate image variants
+        run: |
+          pip install --quiet Pillow
+          python scripts/generate_image_variants.py
+
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5
