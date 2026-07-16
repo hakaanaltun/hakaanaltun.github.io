@@ -68,4 +68,8 @@ collections:
         hint: "Leave empty for standalone pieces"
       - { label: Series order, name: series_order, widget: number, required: false, value_type: int }
       - { label: Fiction, name: fiction, widget: boolean, required: false, default: false }
+      # Draft switch. Sveltia doesn't support publish_mode: editorial_workflow
+      # yet, so drafting rides on Jekyll instead: published: false commits the
+      # post to the repo but keeps it out of the built site.
+      - { label: Published, name: published, widget: boolean, default: true, hint: "Off = draft: saved to the repo but not built into the site. Turn on when ready." }
       - { label: Body, name: body, widget: markdown }
