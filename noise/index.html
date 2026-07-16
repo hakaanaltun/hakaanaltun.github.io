@@ -6,21 +6,21 @@ layout: null
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>White, Pink &amp; Brown Noise &mdash; Ambient Sound for Focus &amp; Sleep &middot; On Life &amp; Everything</title>
-<meta name="description" content="A quiet noise machine: white, pink and brown noise generated live in your browser, with a volume dial and a sleep timer. No files, no streaming, no ads — nothing leaves your device.">
+<title>White, Pink &amp; Brown Noise, Wind, Waves &amp; Birdsong &middot; On Life &amp; Everything</title>
+<meta name="description" content="A quiet sound machine for focus and sleep: white, pink and brown noise, plus wind, waves, a stream and birdsong — all synthesized live in your browser, with a volume dial and a sleep timer.">
 <link rel="canonical" href="https://hakanaltun.io/noise/">
 <meta property="og:type" content="website">
-<meta property="og:title" content="White, Pink &amp; Brown Noise — Ambient Sound for Focus &amp; Sleep">
-<meta property="og:description" content="White, pink and brown noise generated live in your browser, with a volume dial and a sleep timer.">
+<meta property="og:title" content="White, Pink &amp; Brown Noise, Wind, Waves &amp; Birdsong">
+<meta property="og:description" content="Noise colors and nature sounds for focus and sleep, synthesized live in your browser, with a volume dial and a sleep timer.">
 <meta property="og:url" content="https://hakanaltun.io/noise/">
-<meta property="og:image" content="https://hakanaltun.io/images/og/noise.png?v=20260716-1">
-<meta property="og:image:alt" content="The Noise — ambient sound for focus and sleep">
+<meta property="og:image" content="https://hakanaltun.io/images/og/noise.png?v=20260716-2">
+<meta property="og:image:alt" content="The Noise — noise colors and nature sounds for focus and sleep">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="White, Pink &amp; Brown Noise — Ambient Sound for Focus &amp; Sleep">
-<meta name="twitter:description" content="White, pink and brown noise generated live in your browser, with a volume dial and a sleep timer.">
-<meta name="twitter:image" content="https://hakanaltun.io/images/og/noise.png?v=20260716-1">
+<meta name="twitter:title" content="White, Pink &amp; Brown Noise, Wind, Waves &amp; Birdsong">
+<meta name="twitter:description" content="Noise colors and nature sounds for focus and sleep, synthesized live in your browser, with a volume dial and a sleep timer.">
+<meta name="twitter:image" content="https://hakanaltun.io/images/og/noise.png?v=20260716-2">
 <meta name="theme-color" content="#191712">
 
 <script type="application/ld+json">
@@ -30,9 +30,9 @@ layout: null
     {
       "@type": "WebApplication",
       "@id": "https://hakanaltun.io/noise/#app",
-      "name": "The Noise — White, Pink & Brown Noise",
+      "name": "The Noise — Noise Colors & Nature Sounds",
       "url": "https://hakanaltun.io/noise/",
-      "description": "A quiet noise machine: white, pink and brown noise generated live in your browser, with a volume dial and a sleep timer. No files, no streaming, no ads — nothing leaves your device.",
+      "description": "A quiet sound machine for focus and sleep: white, pink and brown noise, plus wind, waves, a stream and birdsong — all synthesized live in your browser, with a volume dial and a sleep timer.",
       "applicationCategory": "UtilitiesApplication",
       "operatingSystem": "Any",
       "browserRequirements": "Requires JavaScript and Web Audio",
@@ -52,8 +52,8 @@ layout: null
         },
         {
           "@type": "Question",
-          "name": "Where does the sound come from?",
-          "acceptedAnswer": { "@type": "Answer", "text": "It is generated live by your browser's Web Audio engine the moment you press play. Nothing is downloaded or streamed, there are no loops of someone else's recording, and the sound never repeats." }
+          "name": "Where do the sounds come from?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Your browser synthesizes them the moment you press play. The noise colors are shaped from raw randomness, and the nature sounds are built from the same material — filtered into wind, gathered into waves, quickened into a stream, with birdsong sketched over a light breeze. Because they are computed rather than recorded, they carry on indefinitely and never loop." }
         },
         {
           "@type": "Question",
@@ -85,7 +85,7 @@ layout: null
   }
 
   *{ box-sizing:border-box; margin:0; padding:0; }
-  html{ height:100%; }
+  html{ height:100%; scroll-behavior:smooth; }
 
   body{
     background:var(--bg); color:var(--fg); font-family:var(--body);
@@ -94,9 +94,19 @@ layout: null
   }
 
   /* the instrument fills the first viewport; the notes wait below the fold */
-  .app{ height:100vh; height:100dvh; display:flex; flex-direction:column; }
+  .app{ position:relative; height:100vh; height:100dvh; display:flex; flex-direction:column; }
   body.immersive{ height:100vh; height:100dvh; overflow:hidden; }
   body.immersive .notes{ display:none; }
+
+  /* a small pointer to the notes below the fold */
+  .notes-cue{
+    position:absolute; left:50%; bottom:16px; transform:translateX(-50%);
+    font-family:var(--body); font-style:italic; font-size:.85rem; letter-spacing:.03em;
+    color:var(--muted); text-decoration:none; opacity:.85;
+    transition:color .2s, opacity .4s ease;
+  }
+  .notes-cue:hover{ color:var(--fg); }
+  body.immersive .notes-cue{ opacity:0; pointer-events:none; }
 
   .chrome{
     position:relative; display:flex; align-items:center; justify-content:space-between;
@@ -127,6 +137,15 @@ layout: null
   }
 
   .mode-row{ display:flex; gap:10px; justify-content:center; align-items:center; margin-bottom:3rem; flex-wrap:wrap; }
+  .choices{ display:flex; flex-wrap:wrap; justify-content:center; gap:8px; max-width:560px; }
+  .choices button{
+    background:none; border:1px solid var(--line); color:var(--muted); font-family:var(--body);
+    font-size:14px; padding:8px 18px; border-radius:999px; cursor:pointer; letter-spacing:.02em;
+    transition:color .2s, border-color .2s, background .2s;
+  }
+  .choices button:hover{ color:var(--fg); border-color:var(--muted); }
+  .choices button[aria-pressed="true"]{ background:var(--fg); color:var(--bg); border-color:var(--fg); }
+  .choices button:focus-visible{ outline:2px solid var(--fg); outline-offset:2px; }
   .seg{ display:flex; border:1px solid var(--line); border-radius:999px; overflow:hidden; }
   .seg button{
     background:none; border:none; color:var(--muted); font-family:var(--body);
@@ -224,10 +243,14 @@ layout: null
 
   <div class="stage">
     <div class="mode-row">
-      <div class="seg" role="group" aria-label="Noise color">
-        <button id="colWhite" aria-pressed="false">White</button>
-        <button id="colPink" aria-pressed="false">Pink</button>
-        <button id="colBrown" aria-pressed="true">Brown</button>
+      <div class="choices" role="group" aria-label="Sound">
+        <button data-sound="white" aria-pressed="false">White</button>
+        <button data-sound="pink" aria-pressed="false">Pink</button>
+        <button data-sound="brown" aria-pressed="true">Brown</button>
+        <button data-sound="wind" aria-pressed="false">Wind</button>
+        <button data-sound="waves" aria-pressed="false">Waves</button>
+        <button data-sound="stream" aria-pressed="false">Stream</button>
+        <button data-sound="birds" aria-pressed="false">Birdsong</button>
       </div>
     </div>
 
@@ -255,19 +278,21 @@ layout: null
     </div>
   </div>
 
+  <a class="notes-cue" href="#notes">notes &amp; questions &darr;</a>
+
   </div><!-- /.app -->
 
-  <footer class="notes">
+  <footer class="notes" id="notes">
     <div class="notes-inner">
-      <h2>About this noise</h2>
-      <p>A small noise machine for focus, sleep and covering a loud world: white, pink and brown noise, generated live by your browser&rsquo;s own audio engine the moment you press play. There is nothing to download and nothing streamed &mdash; no recordings, no loops, no ads &mdash; so the sound never repeats and never buffers. Set the volume low, choose a color, and let the room close its door. A sleep timer can fade the sound out after 15, 30 or 60 minutes.</p>
+      <h2>About this sound machine</h2>
+      <p>Sounds to work, rest and sleep inside: three colors of noise &mdash; white, pink and brown &mdash; and four borrowed from nature: wind, waves, a stream and birdsong. Your browser&rsquo;s audio engine shapes them live as they play, so each one carries on for as long as you leave it running. Set the volume low, choose a sound, and let it hold the room; the sleep timer can fade everything out after 15, 30 or 60 minutes.</p>
 
       <h2>Questions</h2>
       <h3>What is the difference between white, pink and brown noise?</h3>
       <p>White noise spreads its energy evenly across all frequencies and sounds bright, like static. Pink noise tilts toward the low end and sounds like steady rain. Brown noise leans lower still &mdash; closer to surf or a distant waterfall &mdash; and many people find it the easiest to sit inside for hours.</p>
 
-      <h3>Where does the sound come from?</h3>
-      <p>It is generated live by your browser&rsquo;s Web Audio engine the moment you press play. Nothing is downloaded or streamed, there are no loops of someone else&rsquo;s recording, and the sound never repeats.</p>
+      <h3>Where do the sounds come from?</h3>
+      <p>Your browser synthesizes them the moment you press play. The noise colors are shaped from raw randomness, and the nature sounds are built from the same material &mdash; filtered into wind, gathered into waves, quickened into a stream, with birdsong sketched over a light breeze. Because they are computed rather than recorded, they carry on indefinitely and never loop.</p>
 
       <h3>Will it keep playing if I switch tabs or lock my phone?</h3>
       <p>In a background tab on a computer, yes. On phones the operating system may pause web audio when the screen locks &mdash; keep the page in the foreground, or use the sleep timer and let it fade out on its own.</p>
@@ -285,22 +310,30 @@ layout: null
   var $ = function(s){ return document.querySelector(s); };
   var LS = "olae-noise-v1";
 
-  var color = "brown", playing = false;
-  var ctx = null, master = null, source = null;
+  var sound = "brown", playing = false;
+  var ctx = null, master = null, active = null;
   var buffers = {};
-  var LEVELS = { white:0.16, pink:0.22, brown:0.38 };   /* rough loudness matching */
-  var NAMES  = { white:"White noise", pink:"Pink noise", brown:"Brown noise" };
+  var SOUNDS = {                     /* display name + rough loudness matching */
+    white:  { name:"White noise", level:0.16 },
+    pink:   { name:"Pink noise",  level:0.22 },
+    brown:  { name:"Brown noise", level:0.38 },
+    wind:   { name:"Wind",        level:0.55 },
+    waves:  { name:"Waves",       level:0.55 },
+    stream: { name:"Stream",      level:0.38 },
+    birds:  { name:"Birdsong",    level:0.80 }
+  };
 
   try{
     var saved = JSON.parse(localStorage.getItem(LS));
     if(saved){
-      if(NAMES[saved.color]) color = saved.color;
+      if(SOUNDS[saved.sound]) sound = saved.sound;
+      else if(SOUNDS[saved.color]) sound = saved.color;   /* older saves */
       if(typeof saved.vol === "number") $("#vol").value = saved.vol;
     }
   }catch(e){}
 
   function save(){
-    try{ localStorage.setItem(LS, JSON.stringify({ color: color, vol: +$("#vol").value })); }catch(e){}
+    try{ localStorage.setItem(LS, JSON.stringify({ sound: sound, vol: +$("#vol").value })); }catch(e){}
   }
 
   /* ---- generation: a 12 s buffer per color, seam crossfaded so the loop is silent ---- */
@@ -348,18 +381,144 @@ layout: null
     master = ctx.createGain();
     master.connect(ctx.destination);
   }
-  function targetGain(){ return (+$("#vol").value / 100) * LEVELS[color]; }
+  function targetGain(){ return (+$("#vol").value / 100) * SOUNDS[sound].level; }
 
-  function startSource(){
-    if(!buffers[color]) buffers[color] = makeBuffer(color);
-    source = ctx.createBufferSource();
-    source.buffer = buffers[color];
-    source.loop = true;
-    source.connect(master);
-    source.start();
+  /* ---- the sounds: each builder wires a small graph into master and
+     returns a handle whose stop() silences everything it started ---- */
+  function handle(){
+    var h = { sources:[], oscs:[], timers:[] };
+    h.stop = function(){
+      h.timers.forEach(clearTimeout);
+      h.oscs.forEach(function(o){ try{ o.stop(); }catch(e){} });
+      h.sources.forEach(function(s){ try{ s.stop(); }catch(e){} });
+    };
+    return h;
   }
-  function stopSource(){
-    if(source){ try{ source.stop(); }catch(e){} source.disconnect(); source = null; }
+  function loopSrc(kind, h){
+    if(!buffers[kind]) buffers[kind] = makeBuffer(kind);
+    var s = ctx.createBufferSource();
+    s.buffer = buffers[kind];
+    s.loop = true;
+    h.sources.push(s);
+    return s;
+  }
+  function lfo(freq, depth, param, h){
+    var o = ctx.createOscillator();
+    o.frequency.value = freq;
+    var g = ctx.createGain();
+    g.gain.value = depth;
+    o.connect(g); g.connect(param); o.start();
+    h.oscs.push(o);
+    return o;
+  }
+
+  function buildColor(kind){
+    var h = handle();
+    var s = loopSrc(kind, h);
+    s.connect(master); s.start();
+    return h;
+  }
+
+  function buildWind(){
+    var h = handle();
+    var s = loopSrc("pink", h);
+    var lp = ctx.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = 420; lp.Q.value = 0.8;
+    var amp = ctx.createGain(); amp.gain.value = 0.7;
+    s.connect(lp); lp.connect(amp); amp.connect(master); s.start();
+    lfo(0.05, 160, lp.frequency, h);      /* slow swells */
+    lfo(0.11, 90,  lp.frequency, h);      /* off-beat gusts */
+    lfo(0.043, 0.28, amp.gain, h);
+    return h;
+  }
+
+  function buildWaves(){
+    var h = handle();
+    var s = loopSrc("brown", h);
+    var lp = ctx.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = 550; lp.Q.value = 0.7;
+    var wash = ctx.createGain(); wash.gain.value = 0.5;
+    s.connect(lp); lp.connect(wash); wash.connect(master); s.start();
+    /* one oscillator drives loudness and brightness together, so each wave
+       hushes dark and breaks bright */
+    var o = ctx.createOscillator(); o.frequency.value = 0.08;
+    var ga = ctx.createGain(); ga.gain.value = 0.36; o.connect(ga); ga.connect(wash.gain);
+    var gf = ctx.createGain(); gf.gain.value = 380;  o.connect(gf); gf.connect(lp.frequency);
+    o.start(); h.oscs.push(o);
+    lfo(0.021, 0.1, wash.gain, h);        /* a slower tide under the waves */
+    var bed = loopSrc("brown", h);
+    var lp2 = ctx.createBiquadFilter(); lp2.type = "lowpass"; lp2.frequency.value = 200;
+    var g2 = ctx.createGain(); g2.gain.value = 0.22;
+    bed.connect(lp2); lp2.connect(g2); g2.connect(master); bed.start();
+    return h;
+  }
+
+  function buildStream(){
+    var h = handle();
+    var s1 = loopSrc("white", h);
+    var bp1 = ctx.createBiquadFilter(); bp1.type = "bandpass"; bp1.frequency.value = 1800; bp1.Q.value = 0.9;
+    var g1 = ctx.createGain(); g1.gain.value = 0.55;
+    s1.connect(bp1); bp1.connect(g1); g1.connect(master); s1.start();
+    lfo(1.3, 220, bp1.frequency, h);      /* babble */
+    lfo(0.7, 0.12, g1.gain, h);
+    var s2 = loopSrc("white", h);
+    var bp2 = ctx.createBiquadFilter(); bp2.type = "bandpass"; bp2.frequency.value = 500; bp2.Q.value = 1.1;
+    var g2 = ctx.createGain(); g2.gain.value = 0.5;
+    s2.connect(bp2); bp2.connect(g2); g2.connect(master); s2.start();
+    lfo(0.53, 90, bp2.frequency, h);      /* gurgle */
+    var s3 = loopSrc("brown", h);
+    var lp = ctx.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = 260;
+    var g3 = ctx.createGain(); g3.gain.value = 0.18;
+    s3.connect(lp); lp.connect(g3); g3.connect(master); s3.start();
+    return h;
+  }
+
+  function buildBirds(){
+    var h = handle();
+    var s = loopSrc("pink", h);           /* a light breeze under the song */
+    var lp = ctx.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = 700;
+    var g = ctx.createGain(); g.gain.value = 0.16;
+    s.connect(lp); lp.connect(g); g.connect(master); s.start();
+    lfo(0.06, 0.05, g.gain, h);
+    lfo(0.09, 180, lp.frequency, h);
+    var birdGain = ctx.createGain(); birdGain.gain.value = 1;
+    birdGain.connect(master);
+    function song(){
+      var t = ctx.currentTime + 0.05;
+      var f0 = 2100 + Math.random() * 1900;
+      var syllables = 2 + Math.floor(Math.random() * 4);
+      for(var i = 0; i < syllables; i++){
+        var dur = 0.05 + Math.random() * 0.09;
+        var osc = ctx.createOscillator();
+        var env = ctx.createGain();
+        var fa = f0 * (0.85 + Math.random() * 0.3);
+        var fb = fa * (1.1 + Math.random() * 0.45);
+        osc.frequency.setValueAtTime(fa, t);
+        osc.frequency.exponentialRampToValueAtTime(fb, t + dur * 0.6);
+        osc.frequency.exponentialRampToValueAtTime(fa * 0.95, t + dur);
+        env.gain.setValueAtTime(0, t);
+        env.gain.linearRampToValueAtTime(0.5, t + 0.012);
+        env.gain.exponentialRampToValueAtTime(0.001, t + dur);
+        osc.connect(env); env.connect(birdGain);
+        osc.start(t); osc.stop(t + dur + 0.05);
+        t += dur + 0.04 + Math.random() * 0.12;
+      }
+      h.timers[0] = setTimeout(song, 1200 + Math.random() * 4200);
+    }
+    song();
+    return h;
+  }
+
+  var BUILDERS = {
+    white:  function(){ return buildColor("white"); },
+    pink:   function(){ return buildColor("pink"); },
+    brown:  function(){ return buildColor("brown"); },
+    wind:   buildWind,
+    waves:  buildWaves,
+    stream: buildStream,
+    birds:  buildBirds
+  };
+
+  function stopActive(){
+    if(active){ active.stop(); active = null; }
   }
 
   function play(){
@@ -368,36 +527,36 @@ layout: null
     master.gain.cancelScheduledValues(ctx.currentTime);
     master.gain.setValueAtTime(0, ctx.currentTime);
     master.gain.linearRampToValueAtTime(targetGain(), ctx.currentTime + 0.4);
-    startSource();
+    active = BUILDERS[sound]();
     playing = true;
     document.body.classList.add("playing");
     armTimer();
   }
   function pause(){
     if(!ctx) return;
-    stopSource();
+    stopActive();
     playing = false;
     document.body.classList.remove("playing");
     disarmTimer();
   }
   $("#playBtn").addEventListener("click", function(){ playing ? pause() : play(); });
 
-  /* ---- colors ---- */
-  var colBtns = { white: $("#colWhite"), pink: $("#colPink"), brown: $("#colBrown") };
-  function setColor(c){
-    color = c;
-    Object.keys(colBtns).forEach(function(k){ colBtns[k].setAttribute("aria-pressed", String(k === c)); });
-    $("#note").textContent = NAMES[c];
+  /* ---- choosing a sound ---- */
+  var soundBtns = Array.prototype.slice.call(document.querySelectorAll(".choices button"));
+  function setSound(k){
+    sound = k;
+    soundBtns.forEach(function(b){ b.setAttribute("aria-pressed", String(b.getAttribute("data-sound") === k)); });
+    $("#note").textContent = SOUNDS[k].name;
     if(playing){
-      stopSource();
+      stopActive();
       master.gain.cancelScheduledValues(ctx.currentTime);
       master.gain.setValueAtTime(targetGain(), ctx.currentTime);
-      startSource();
+      active = BUILDERS[k]();
     }
     save();
   }
-  Object.keys(colBtns).forEach(function(k){
-    colBtns[k].addEventListener("click", function(){ setColor(k); });
+  soundBtns.forEach(function(b){
+    b.addEventListener("click", function(){ setSound(b.getAttribute("data-sound")); });
   });
 
   /* ---- volume ---- */
@@ -487,7 +646,7 @@ layout: null
   });
 
   /* ---- init ---- */
-  setColor(color);
+  setSound(sound);
 })();
 </script>
 </body>
