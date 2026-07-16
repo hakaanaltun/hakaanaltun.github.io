@@ -6,19 +6,19 @@ layout: null
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>&#304;stanbul Twilight &mdash; Sunrise, Sunset &amp; Civil Twilight Today &middot; On Life &amp; Everything</title>
-<meta name="description" content="Today's sunrise, sunset, civil twilight and day length for İstanbul — and a handful of other cities — computed in your browser. The page follows the color of the sky in real time.">
+<title>&#304;stanbul Twilight&mdash;Sunrise, Sunset &amp; Civil Twilight Today &middot; On Life &amp; Everything</title>
+<meta name="description" content="Today's sunrise, sunset, civil twilight and day length for İstanbul—and a handful of other cities—computed in your browser. The page follows the color of the sky in real time.">
 <link rel="canonical" href="https://hakanaltun.io/twilight/">
 <meta property="og:type" content="website">
-<meta property="og:title" content="İstanbul Twilight — Sunrise, Sunset &amp; Civil Twilight Today">
+<meta property="og:title" content="İstanbul Twilight—Sunrise, Sunset &amp; Civil Twilight Today">
 <meta property="og:description" content="Today's sun times for İstanbul. The page follows the color of the sky in real time.">
 <meta property="og:url" content="https://hakanaltun.io/twilight/">
 <meta property="og:image" content="https://hakanaltun.io/images/og/twilight.png?v=20260716-1">
-<meta property="og:image:alt" content="Twilight — today's sun times, in the color of the hour">
+<meta property="og:image:alt" content="Twilight—today's sun times, in the color of the hour">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="İstanbul Twilight — Sunrise, Sunset &amp; Civil Twilight Today">
+<meta name="twitter:title" content="İstanbul Twilight—Sunrise, Sunset &amp; Civil Twilight Today">
 <meta name="twitter:description" content="Today's sun times for İstanbul. The page follows the color of the sky in real time.">
 <meta name="twitter:image" content="https://hakanaltun.io/images/og/twilight.png?v=20260716-1">
 <meta name="theme-color" content="#101720">
@@ -30,7 +30,7 @@ layout: null
     {
       "@type": "WebApplication",
       "@id": "https://hakanaltun.io/twilight/#app",
-      "name": "Twilight — Sunrise, Sunset & Civil Twilight Today",
+      "name": "Twilight—Sunrise, Sunset & Civil Twilight Today",
       "url": "https://hakanaltun.io/twilight/",
       "description": "Today's sunrise, sunset, civil twilight and day length for İstanbul and a handful of other cities, computed in your browser. The page follows the color of the sky in real time.",
       "applicationCategory": "UtilitiesApplication",
@@ -48,7 +48,7 @@ layout: null
         {
           "@type": "Question",
           "name": "What is civil twilight?",
-          "acceptedAnswer": { "@type": "Answer", "text": "The stretch when the sun sits less than six degrees below the horizon — civil dawn before sunrise, civil dusk after sunset. There is usually enough light to read outside, and it is the boundary many countries use for headlights and flight rules." }
+          "acceptedAnswer": { "@type": "Answer", "text": "The stretch when the sun sits less than six degrees below the horizon—civil dawn before sunrise, civil dusk after sunset. There is usually enough light to read outside, and it is the boundary many countries use for headlights and flight rules." }
         },
         {
           "@type": "Question",
@@ -63,7 +63,7 @@ layout: null
         {
           "@type": "Question",
           "name": "Why does the page change color?",
-          "acceptedAnswer": { "@type": "Answer", "text": "The background follows the sun's altitude for the chosen city — deep night blue through dawn amber into daylight — recomputed every half minute, so the page always wears the color of the hour." }
+          "acceptedAnswer": { "@type": "Answer", "text": "The background follows the sun's altitude for the chosen city—deep night blue through dawn amber into daylight—recomputed every half minute, so the page always wears the color of the hour." }
         }
       ]
     }
@@ -84,6 +84,9 @@ layout: null
   }
 
   *{ box-sizing:border-box; margin:0; padding:0; }
+
+  /* the ampersand the site uses — the display italic, as in the header logo */
+  .amp{ font-family:var(--display); font-style:italic; }
   html{ height:100%; scroll-behavior:smooth; }
 
   body{
@@ -94,7 +97,7 @@ layout: null
   }
 
   /* the sky fills the first viewport; the notes wait below the fold */
-  .app{ position:relative; height:100vh; height:100dvh; display:flex; flex-direction:column; }
+  .app{ position:relative; min-height:100vh; min-height:100dvh; display:flex; flex-direction:column; padding-bottom:44px; }
   body.immersive{ height:100vh; height:100dvh; overflow:hidden; }
   body.immersive .notes{ display:none; }
 
@@ -203,7 +206,7 @@ layout: null
   <div class="app">
 
   <div class="chrome" id="chrome">
-    <a class="masthead" href="/" aria-label="On Life &amp; Everything — home">
+    <a class="masthead" href="/" aria-label="On Life &amp; Everything—home">
       <span class="home-brand">On Life &amp; Everything</span>
       <span class="home-tagline">Essays, short fiction, and other writing.</span>
     </a>
@@ -229,18 +232,18 @@ layout: null
     </nav>
   </div>
 
-  <a class="notes-cue" href="#notes">notes &amp; questions &darr;</a>
+  <a class="notes-cue" href="#notes">notes <span class="amp">&amp;</span> questions &darr;</a>
 
   </div><!-- /.app -->
 
   <footer class="notes" id="notes">
     <div class="notes-inner">
       <h2>About this page</h2>
-      <p>The sky of &#304;stanbul, kept in real time. The page shows today&rsquo;s civil dawn, sunrise, sunset, civil dusk and day length &mdash; for &#304;stanbul by default, or for one of ten cities &mdash; and its background follows the sun&rsquo;s altitude, so it always wears the color of the hour. The times are worked out in your browser from the city&rsquo;s coordinates, in the city&rsquo;s own time zone.</p>
+      <p>The sky of &#304;stanbul, kept in real time. The page shows today&rsquo;s civil dawn, sunrise, sunset, civil dusk and day length&mdash;for &#304;stanbul by default, or for one of ten cities&mdash;and its background follows the sun&rsquo;s altitude, so it always wears the color of the hour. The times are worked out in your browser from the city&rsquo;s coordinates, in the city&rsquo;s own time zone.</p>
 
       <h2>Questions</h2>
       <h3>What is civil twilight?</h3>
-      <p>The stretch when the sun sits less than six degrees below the horizon &mdash; civil dawn before sunrise, civil dusk after sunset. There is usually enough light to read outside, and it is the boundary many countries use for headlights and flight rules.</p>
+      <p>The stretch when the sun sits less than six degrees below the horizon&mdash;civil dawn before sunrise, civil dusk after sunset. There is usually enough light to read outside, and it is the boundary many countries use for headlights and flight rules.</p>
 
       <h3>How accurate are the times?</h3>
       <p>They are computed in your browser with a standard almanac algorithm and usually land within a minute or two of published tables. Horizon, altitude and unusual atmospheric refraction can shift the real moment slightly.</p>
@@ -249,9 +252,9 @@ layout: null
       <p>Pick one from the row beneath the times, or add <code>?city=</code> to the address, e.g. <a href="/twilight/?city=london"><code>/twilight/?city=london</code></a>. The times come from each city&rsquo;s fixed coordinates, shown in that city&rsquo;s own time zone.</p>
 
       <h3>Why does the page change color?</h3>
-      <p>The background follows the sun&rsquo;s altitude for the chosen city &mdash; deep night blue through dawn amber into daylight &mdash; recomputed every half minute, so the page always wears the color of the hour.</p>
+      <p>The background follows the sun&rsquo;s altitude for the chosen city&mdash;deep night blue through dawn amber into daylight&mdash;recomputed every half minute, so the page always wears the color of the hour.</p>
 
-      <p class="notes-links">More instruments: <a href="/moon/">the phase of the moon</a>, <a href="/clock/">a fullscreen clock</a>, <a href="/write/">a blank page to write on</a>, <a href="/words/">a word counter</a>, <a href="/breathe/">a breathing exercise</a> and <a href="/noise/">ambient noise</a> &mdash; or see <a href="/tools/">all the tools</a>.</p>
+      <p class="notes-links">More instruments: <a href="/moon/">the phase of the moon</a>, <a href="/clock/">a fullscreen clock</a>, <a href="/write/">a blank page to write on</a>, <a href="/words/">a word counter</a>, <a href="/breathe/">a breathing exercise</a> and <a href="/noise/">ambient noise</a>&mdash;or see <a href="/tools/">all the tools</a>.</p>
     </div>
   </footer>
 
@@ -502,7 +505,7 @@ layout: null
       if(links[i].getAttribute("data-city") === cityKey) links[i].classList.add("now");
     }
     if(cityKey !== "istanbul"){
-      document.title = CITY.name + " Twilight — Sunrise, Sunset & Civil Twilight Today · On Life & Everything";
+      document.title = CITY.name + " Twilight—Sunrise, Sunset & Civil Twilight Today · On Life & Everything";
     }
   })();
 

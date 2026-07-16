@@ -7,19 +7,19 @@ layout: null
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Fullscreen Clock, Countdown, Stopwatch &amp; Pomodoro &middot; On Life &amp; Everything</title>
-<meta name="description" content="A clean, ad-free fullscreen clock with a countdown, stopwatch and pomodoro timer. Large tabular numerals, an analog view, and a distraction-free display — made for classrooms, exams and focused work.">
+<meta name="description" content="A clean, ad-free fullscreen clock with a countdown, stopwatch and pomodoro timer. Large tabular numerals, an analog view, and a distraction-free display—made for classrooms, exams and focused work.">
 <link rel="canonical" href="https://hakanaltun.io/clock/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Fullscreen Clock, Countdown, Stopwatch &amp; Pomodoro">
-<meta property="og:description" content="A clean, ad-free fullscreen clock with a countdown, stopwatch and pomodoro timer — distraction-free, made for classrooms, exams and focused work.">
+<meta property="og:description" content="A clean, ad-free fullscreen clock with a countdown, stopwatch and pomodoro timer—distraction-free, made for classrooms, exams and focused work.">
 <meta property="og:url" content="https://hakanaltun.io/clock/">
 <meta property="og:image" content="https://hakanaltun.io/images/og/clock.png?v=20260716-1">
-<meta property="og:image:alt" content="The Clock — a fullscreen clock, countdown, stopwatch and pomodoro">
+<meta property="og:image:alt" content="The Clock—a fullscreen clock, countdown, stopwatch and pomodoro">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Fullscreen Clock, Countdown, Stopwatch &amp; Pomodoro">
-<meta name="twitter:description" content="A clean, ad-free fullscreen clock with a countdown, stopwatch and pomodoro timer — distraction-free, made for classrooms, exams and focused work.">
+<meta name="twitter:description" content="A clean, ad-free fullscreen clock with a countdown, stopwatch and pomodoro timer—distraction-free, made for classrooms, exams and focused work.">
 <meta name="twitter:image" content="https://hakanaltun.io/images/og/clock.png?v=20260716-1">
 <meta name="theme-color" content="#1D4354">
 
@@ -30,9 +30,9 @@ layout: null
     {
       "@type": "WebApplication",
       "@id": "https://hakanaltun.io/clock/#app",
-      "name": "The Clock — Fullscreen Clock, Countdown, Stopwatch & Pomodoro",
+      "name": "The Clock—Fullscreen Clock, Countdown, Stopwatch & Pomodoro",
       "url": "https://hakanaltun.io/clock/",
-      "description": "A clean, ad-free fullscreen clock with a countdown, stopwatch and pomodoro timer. Large tabular numerals, an analog view, and a distraction-free display — made for classrooms, exams and focused work.",
+      "description": "A clean, ad-free fullscreen clock with a countdown, stopwatch and pomodoro timer. Large tabular numerals, an analog view, and a distraction-free display—made for classrooms, exams and focused work.",
       "applicationCategory": "UtilitiesApplication",
       "operatingSystem": "Any",
       "browserRequirements": "Requires JavaScript",
@@ -58,7 +58,7 @@ layout: null
         {
           "@type": "Question",
           "name": "Will the timers survive a page reload?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Yes. The countdown and the pomodoro aim at a fixed end time and the stopwatch remembers when it started, so a reload — or a laptop going to sleep — picks up exactly where you left off." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. The countdown and the pomodoro aim at a fixed end time and the stopwatch remembers when it started, so a reload—or a laptop going to sleep—picks up exactly where you left off." }
         },
         {
           "@type": "Question",
@@ -92,6 +92,9 @@ layout: null
   }
 
   *{ box-sizing:border-box; margin:0; padding:0; }
+
+  /* the ampersand the site uses — the display italic, as in the header logo */
+  .amp{ font-family:var(--display); font-style:italic; }
   html{ height:100%; scroll-behavior:smooth; }
 
   body{
@@ -101,7 +104,7 @@ layout: null
   }
 
   /* the instrument fills the first viewport; the notes wait below the fold */
-  .app{ position:relative; height:100vh; height:100dvh; display:flex; flex-direction:column; }
+  .app{ position:relative; min-height:100vh; min-height:100dvh; display:flex; flex-direction:column; padding-bottom:44px; }
   body.immersive{ height:100vh; height:100dvh; overflow:hidden; }
 
   /* a small pointer to the notes below the fold */
@@ -341,7 +344,7 @@ layout: null
       <button class="tab" role="tab" data-panel="stopwatch" aria-selected="false">Stopwatch</button>
       <button class="tab" role="tab" data-panel="pomodoro"  aria-selected="false">Pomodoro</button>
     </div>
-    <a class="masthead" href="/" aria-label="On Life &amp; Everything — home">
+    <a class="masthead" href="/" aria-label="On Life &amp; Everything—home">
       <span class="home-brand">On Life &amp; Everything</span>
       <span class="home-tagline">Essays, short fiction, and other writing.</span>
     </a>
@@ -422,17 +425,17 @@ layout: null
     </div>
 
     <div class="theme-corner collapsed" role="group" aria-label="Theme">
-      <button class="swatch" data-bg="#1D4354" style="background:#1D4354" title="Ocean — Home" aria-label="Ocean, Home"></button>
-      <button class="swatch" data-bg="#2E3B53" style="background:#2E3B53" title="Navy — All" aria-label="Navy, All"></button>
-      <button class="swatch" data-bg="#1A494D" style="background:#1A494D" title="Teal — Series" aria-label="Teal, Series"></button>
-      <button class="swatch" data-bg="#2A4D42" style="background:#2A4D42" title="Green-teal — Book" aria-label="Green-teal, Book"></button>
-      <button class="swatch" data-bg="#14281C" style="background:#14281C" title="Forest — Moris" aria-label="Forest, Moris"></button>
-      <button class="swatch" data-bg="#0E0E0E" style="background:#0E0E0E" title="Charcoal — About" aria-label="Charcoal, About"></button>
+      <button class="swatch" data-bg="#1D4354" style="background:#1D4354" title="Ocean—Home" aria-label="Ocean, Home"></button>
+      <button class="swatch" data-bg="#2E3B53" style="background:#2E3B53" title="Navy—All" aria-label="Navy, All"></button>
+      <button class="swatch" data-bg="#1A494D" style="background:#1A494D" title="Teal—Series" aria-label="Teal, Series"></button>
+      <button class="swatch" data-bg="#2A4D42" style="background:#2A4D42" title="Green-teal—Book" aria-label="Green-teal, Book"></button>
+      <button class="swatch" data-bg="#14281C" style="background:#14281C" title="Forest—Moris" aria-label="Forest, Moris"></button>
+      <button class="swatch" data-bg="#0E0E0E" style="background:#0E0E0E" title="Charcoal—About" aria-label="Charcoal, About"></button>
       <button class="theme-more" id="themeMore" title="More colors" aria-label="More colors" aria-expanded="false">&hellip;</button>
     </div>
   </div>
 
-  <a class="notes-cue" href="#notes">notes &amp; questions &darr;</a>
+  <a class="notes-cue" href="#notes">notes <span class="amp">&amp;</span> questions &darr;</a>
 
   </div><!-- /.app -->
 
@@ -449,7 +452,7 @@ layout: null
       <p>Add <code>?until=</code> to the address: <a href="/clock/?until=2026-09-01T09:00&amp;label=First%20bell"><code>/clock/?until=2026-09-01T09:00</code></a> opens the page already counting down to that moment, and <code>&amp;label=Exam</code> places a caption under the numbers. A bare time such as <code>?until=13:30</code> counts down to the next half past one.</p>
 
       <h3>Will the timers survive a page reload?</h3>
-      <p>Yes. The countdown and the pomodoro aim at a fixed end time and the stopwatch remembers when it started, so a reload &mdash; or a laptop going to sleep &mdash; picks up exactly where you left off.</p>
+      <p>Yes. The countdown and the pomodoro aim at a fixed end time and the stopwatch remembers when it started, so a reload&mdash;or a laptop going to sleep&mdash;picks up exactly where you left off.</p>
 
       <h3>How do I switch to the analog face?</h3>
       <p>Click or tap the digits themselves and an analog face takes their place; click the face to return to digits. The page remembers which one you prefer.</p>
@@ -457,7 +460,7 @@ layout: null
       <h3>Where are my settings kept?</h3>
       <p>In your browser&rsquo;s local storage, on your device. The running timers, the background color and the seconds toggle are all waiting there the next time you open the page.</p>
 
-      <p class="notes-links">More instruments: <a href="/words/">a word counter</a>, <a href="/write/">a blank page to write on</a>, <a href="/breathe/">a breathing exercise</a>, <a href="/noise/">noise &amp; nature sounds</a>, <a href="/moon/">the phase of the moon</a> and <a href="/twilight/">&#304;stanbul&rsquo;s twilight</a> &mdash; or see <a href="/tools/">all the tools</a>.</p>
+      <p class="notes-links">More instruments: <a href="/words/">a word counter</a>, <a href="/write/">a blank page to write on</a>, <a href="/breathe/">a breathing exercise</a>, <a href="/noise/">noise <span class="amp">&amp;</span> nature sounds</a>, <a href="/moon/">the phase of the moon</a> and <a href="/twilight/">&#304;stanbul&rsquo;s twilight</a>&mdash;or see <a href="/tools/">all the tools</a>.</p>
     </div>
   </footer>
 

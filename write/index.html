@@ -6,19 +6,19 @@ layout: null
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>A Blank Page &mdash; Distraction-Free Writing &middot; On Life &amp; Everything</title>
-<meta name="description" content="A quiet, ad-free page to write on. Garamond type, a word count, fullscreen, autosave — and nothing else. What you write stays in your browser; nothing is sent anywhere.">
+<title>A Blank Page&mdash;Distraction-Free Writing &middot; On Life &amp; Everything</title>
+<meta name="description" content="A quiet, ad-free page to write on. Garamond type, a word count, fullscreen, autosave—and nothing else. What you write stays in your browser; nothing is sent anywhere.">
 <link rel="canonical" href="https://hakanaltun.io/write/">
 <meta property="og:type" content="website">
-<meta property="og:title" content="A Blank Page — Distraction-Free Writing">
+<meta property="og:title" content="A Blank Page—Distraction-Free Writing">
 <meta property="og:description" content="A quiet, ad-free page to write on. What you write stays in your browser; nothing is sent anywhere.">
 <meta property="og:url" content="https://hakanaltun.io/write/">
 <meta property="og:image" content="https://hakanaltun.io/images/og/write.png?v=20260716-1">
-<meta property="og:image:alt" content="The Page — a blank page for distraction-free writing">
+<meta property="og:image:alt" content="The Page—a blank page for distraction-free writing">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="A Blank Page — Distraction-Free Writing">
+<meta name="twitter:title" content="A Blank Page—Distraction-Free Writing">
 <meta name="twitter:description" content="A quiet, ad-free page to write on. What you write stays in your browser; nothing is sent anywhere.">
 <meta name="twitter:image" content="https://hakanaltun.io/images/og/write.png?v=20260716-1">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#FFFFFF">
@@ -31,9 +31,9 @@ layout: null
     {
       "@type": "WebApplication",
       "@id": "https://hakanaltun.io/write/#app",
-      "name": "The Page — A Blank Page for Distraction-Free Writing",
+      "name": "The Page—A Blank Page for Distraction-Free Writing",
       "url": "https://hakanaltun.io/write/",
-      "description": "A quiet, ad-free page to write on. Garamond type, a word count, fullscreen, autosave — and nothing else. What you write stays in your browser; nothing is sent anywhere.",
+      "description": "A quiet, ad-free page to write on. Garamond type, a word count, fullscreen, autosave—and nothing else. What you write stays in your browser; nothing is sent anywhere.",
       "applicationCategory": "UtilitiesApplication",
       "operatingSystem": "Any",
       "browserRequirements": "Requires JavaScript",
@@ -54,7 +54,7 @@ layout: null
         {
           "@type": "Question",
           "name": "Does the page autosave?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Yes — a moment after you pause typing, and again when you leave. Ctrl-S (Cmd-S on a Mac) saves on the spot, and a quiet note in the corner confirms it." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes—a moment after you pause typing, and again when you leave. Ctrl-S (Cmd-S on a Mac) saves on the spot, and a quiet note in the corner confirms it." }
         },
         {
           "@type": "Question",
@@ -106,6 +106,9 @@ layout: null
   *{ box-sizing:border-box; margin:0; padding:0; }
   html{ scroll-behavior:smooth; }
 
+  /* the ampersand the site uses — the display italic, as in the header logo */
+  .amp{ font-family:var(--display); font-style:italic; }
+
   body{
     position:relative;
     background:var(--paper); color:var(--ink); font-family:var(--body);
@@ -114,10 +117,15 @@ layout: null
     transition:background .4s ease, color .4s ease;
   }
 
+  /* the paper fills at least the first viewport; the notes wait below it */
+  .app{
+    position:relative; display:flex; flex-direction:column;
+    min-height:100vh; min-height:100dvh; padding-bottom:56px;
+  }
+
   /* a small pointer to the notes below the fold; it scrolls away with the page */
   .notes-cue{
-    position:absolute; left:50%; transform:translateX(-50%);
-    top:calc(100vh - 40px); top:calc(100dvh - 40px);
+    position:absolute; left:50%; bottom:16px; transform:translateX(-50%);
     font-family:var(--body); font-style:italic; font-size:.85rem; letter-spacing:.03em;
     color:var(--muted); text-decoration:none; opacity:.8;
     transition:color .2s, opacity .4s ease;
@@ -151,7 +159,7 @@ layout: null
   .theme-btn .icon-sun{ display:var(--icon-sun); }
   .theme-btn .icon-moon{ display:var(--icon-moon); }
 
-  .sheet{ max-width:680px; margin:0 auto; padding:8vh 26px 32vh; }
+  .sheet{ width:100%; max-width:680px; margin:0 auto; padding:8vh 26px 24vh; flex:1; }
   textarea{
     display:block; width:100%; min-height:52vh;
     border:0; background:transparent; color:var(--ink);
@@ -204,9 +212,11 @@ layout: null
 </head>
 <body>
 
+  <div class="app">
+
   <div class="chrome" id="chrome">
     <span aria-hidden="true"></span>
-    <a class="masthead" href="/" aria-label="On Life &amp; Everything — home">
+    <a class="masthead" href="/" aria-label="On Life &amp; Everything—home">
       <span class="home-brand">On Life &amp; Everything</span>
       <span class="home-tagline">Essays, short fiction, and other writing.</span>
     </a>
@@ -239,7 +249,9 @@ layout: null
     <textarea id="page" placeholder="Start anywhere." autocomplete="off" spellcheck="true"></textarea>
   </div>
 
-  <a class="notes-cue" href="#notes">notes &amp; questions &darr;</a>
+  <a class="notes-cue" href="#notes">notes <span class="amp">&amp;</span> questions &darr;</a>
+
+  </div><!-- /.app -->
 
   <footer class="notes" id="notes">
     <div class="notes-inner">
@@ -251,7 +263,7 @@ layout: null
       <p>It stays in this browser, saved to local storage on your device, and reappears when you return. Clearing the browser&rsquo;s site data clears the page too, so download anything you want to keep.</p>
 
       <h3>Does the page autosave?</h3>
-      <p>Yes &mdash; a moment after you pause typing, and again when you leave. Ctrl-S (Cmd-S on a Mac) saves on the spot, and a quiet note in the corner confirms it.</p>
+      <p>Yes&mdash;a moment after you pause typing, and again when you leave. Ctrl-S (Cmd-S on a Mac) saves on the spot, and a quiet note in the corner confirms it.</p>
 
       <h3>Can I save my writing as a file?</h3>
       <p>The download button in the top right saves the page as a plain .txt file named after today&rsquo;s date.</p>
@@ -259,12 +271,12 @@ layout: null
       <h3>Can I write in fullscreen?</h3>
       <p>Yes. The fullscreen button clears away everything but the paper, with the word count for company; moving the mouse brings the controls back.</p>
 
-      <p class="notes-links">More instruments: <a href="/words/">a word counter</a>, <a href="/clock/">a fullscreen clock with pomodoro</a>, <a href="/breathe/">a breathing exercise</a>, <a href="/noise/">noise &amp; nature sounds</a>, <a href="/moon/">the phase of the moon</a> and <a href="/twilight/">&#304;stanbul&rsquo;s twilight</a> &mdash; or see <a href="/tools/">all the tools</a>.</p>
+      <p class="notes-links">More instruments: <a href="/words/">a word counter</a>, <a href="/clock/">a fullscreen clock with pomodoro</a>, <a href="/breathe/">a breathing exercise</a>, <a href="/noise/">noise <span class="amp">&amp;</span> nature sounds</a>, <a href="/moon/">the phase of the moon</a> and <a href="/twilight/">&#304;stanbul&rsquo;s twilight</a>&mdash;or see <a href="/tools/">all the tools</a>.</p>
     </div>
   </footer>
 
   <div class="corner words" id="wordCount" aria-live="polite">0 words</div>
-  <div class="corner saved" id="savedNote">Saved &mdash; stays in this browser</div>
+  <div class="corner saved" id="savedNote">Saved&mdash;stays in this browser</div>
 
 <script>
 (function(){
