@@ -8,7 +8,7 @@
 {% else %}{% assign _skey = "default" %}{% endif %}
 {% if _skey == "" %}{% assign _skey = "pieces" %}{% endif %}
 {% assign _chrome = site.data.series[_skey] | default: site.data.series.default %}
-<body class="{% if page.layout == 'home' %}is-home{% elsif page.layout == 'post' %}is-post{% endif %}" style="--chrome-rgb: {{ _chrome }};">
+<body class="series-{{ _skey }}{% if page.layout == 'home' %} is-home{% elsif page.layout == 'post' %} is-post{% endif %}" style="--chrome-rgb: {{ _chrome }};">
 <a class="skip-link" href="#main">Skip to content</a>
 <div class="container">
 {% include header.html %}

@@ -1605,6 +1605,16 @@ footer {
 /* ==========================================================================
    Tools index (/tools/) — a quiet list of instruments
    ========================================================================== */
+/* The wine bands keep neutral text: the green-grey the other chromes
+   use for taglines, nav and the footer lines clashes with the red. */
+body.series-tools header .brand-sub,
+body.series-tools .header-nav-bar a,
+body.series-tools .drawer-logo-link .brand-sub,
+body.series-tools .footer-tagline,
+body.series-tools .footer-credit {
+  color: rgba(237, 228, 207, 0.8);
+}
+
 .tools-list {
   max-width: 560px;
   margin: 0 auto;
