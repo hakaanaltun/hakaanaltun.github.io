@@ -189,7 +189,19 @@ layout: null
     }
     .masthead{ position:static; transform:none; grid-area:logo; }
     .settings{ grid-area:fs; justify-self:end; }
-    .tabs{ grid-area:tabs; justify-content:center; flex-wrap:wrap; }
+    /* One-row swipeable strip (same idea as the home header-nav-bar) */
+    .tabs{
+      grid-area:tabs; justify-content:flex-start; flex-wrap:nowrap;
+      min-width:0; gap:6px; padding:0 2px 2px;
+      overflow-x:auto; overflow-y:hidden;
+      -webkit-overflow-scrolling:touch;
+      scrollbar-width:none; -ms-overflow-style:none;
+    }
+    .tabs::-webkit-scrollbar{ display:none; }
+    .tab{ flex:0 0 auto; white-space:nowrap; }
+    .tabs.fade-r{ -webkit-mask-image:linear-gradient(to right, #000 calc(100% - 40px), transparent 100%); mask-image:linear-gradient(to right, #000 calc(100% - 40px), transparent 100%); }
+    .tabs.fade-l{ -webkit-mask-image:linear-gradient(to right, transparent 0, #000 40px); mask-image:linear-gradient(to right, transparent 0, #000 40px); }
+    .tabs.fade-lr{ -webkit-mask-image:linear-gradient(to right, transparent 0, #000 40px, #000 calc(100% - 40px), transparent 100%); mask-image:linear-gradient(to right, transparent 0, #000 40px, #000 calc(100% - 40px), transparent 100%); }
   }
 
   /* phones: tighter spacing */
@@ -379,14 +391,40 @@ layout: null
 
   /* ---- tabs ---- */
   const tabs=[...document.querySelectorAll(".tab")];
+  const tablist=$(".tabs");
   const panels={ clock:$("#clock"), countdown:$("#countdown"), stopwatch:$("#stopwatch"), pomodoro:$("#pomodoro") };
+
+  /* Edge fades for the swipeable tab strip (mirrors site-nav.js trackEdgeFades) */
+  function updateTabFades(){
+    if(!tablist) return;
+    const max=tablist.scrollWidth-tablist.clientWidth;
+    tablist.classList.remove("fade-l","fade-r","fade-lr");
+    if(max<=1) return;
+    const x=tablist.scrollLeft;
+    if(x<=1) tablist.classList.add("fade-r");
+    else if(x>=max-1) tablist.classList.add("fade-l");
+    else tablist.classList.add("fade-lr");
+  }
+  if(tablist){
+    tablist.addEventListener("scroll", updateTabFades, {passive:true});
+    window.addEventListener("resize", updateTabFades);
+  }
+
   function selectPanel(name){
     state.panel=name;
-    tabs.forEach(t=>t.setAttribute("aria-selected", t.dataset.panel===name));
+    tabs.forEach(t=>{
+      const on=t.dataset.panel===name;
+      t.setAttribute("aria-selected", on);
+      if(on && typeof t.scrollIntoView==="function"){
+        t.scrollIntoView({inline:"nearest", block:"nearest", behavior:"smooth"});
+      }
+    });
     Object.entries(panels).forEach(([k,el])=>el.classList.toggle("active", k===name));
     applyAnalog(); save();
+    requestAnimationFrame(updateTabFades);
   }
   tabs.forEach(t=>t.addEventListener("click", ()=>selectPanel(t.dataset.panel)));
+  requestAnimationFrame(updateTabFades);
 
   /* ---- analog visibility ---- */
   function applyAnalog(){
