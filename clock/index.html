@@ -6,12 +6,12 @@ layout: null
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fullscreen Clock, Countdown &amp; Stopwatch &middot; On Life &amp; Everything</title>
-<meta name="description" content="A clean, ad-free fullscreen clock with a countdown and stopwatch. Large tabular numerals, an analog view, and a distraction-free display — made for classrooms and exams.">
+<title>Fullscreen Clock, Countdown, Stopwatch &amp; Pomodoro &middot; On Life &amp; Everything</title>
+<meta name="description" content="A clean, ad-free fullscreen clock with a countdown, stopwatch and pomodoro timer. Large tabular numerals, an analog view, and a distraction-free display — made for classrooms, exams and focused work.">
 <link rel="canonical" href="https://hakanaltun.io/clock/">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Fullscreen Clock, Countdown &amp; Stopwatch">
-<meta property="og:description" content="A clean, ad-free fullscreen clock with a countdown and stopwatch — distraction-free, made for classrooms and exams.">
+<meta property="og:title" content="Fullscreen Clock, Countdown, Stopwatch &amp; Pomodoro">
+<meta property="og:description" content="A clean, ad-free fullscreen clock with a countdown, stopwatch and pomodoro timer — distraction-free, made for classrooms, exams and focused work.">
 <meta property="og:url" content="https://hakanaltun.io/clock/">
 
 <link rel="stylesheet" href="/css/fonts.css?v=20260710-1">
@@ -96,6 +96,17 @@ layout: null
   body.immersive .analog-face{ width:clamp(280px, 62vmin, 640px); }
   .analog-face .tick{ stroke:var(--muted); stroke-width:2; }
   .analog-face .tick.major{ stroke:var(--fg); stroke-width:3; }
+  .analog-face .tick.fine{ stroke:var(--muted); stroke-width:1; opacity:.5; }
+  .analog-face .num{ fill:var(--muted); font-family:var(--display); font-size:13px; text-anchor:middle; dominant-baseline:central; }
+  .face-sub{
+    margin-top:1.1rem; font-family:var(--display); color:var(--muted);
+    font-variant-numeric:lining-nums tabular-nums; font-feature-settings:"tnum" 1,"lnum" 1;
+    font-size:clamp(1.4rem, 4.5vw, 2.6rem); letter-spacing:.02em; line-height:1;
+  }
+  .pom-rounds{ display:flex; gap:12px; justify-content:center; margin-top:1.7rem; }
+  .pom-dot{ width:10px; height:10px; border-radius:999px; border:1px solid var(--muted); transition:background .2s, border-color .2s; }
+  .pom-dot.done{ background:var(--accent); border-color:var(--accent); }
+  .pom-dot.now{ border-color:var(--fg); }
   .analog-face .ring-fg{ fill:none; stroke:var(--alert); stroke-width:4; stroke-linecap:round; transform:rotate(-90deg); transform-origin:100px 100px; display:none; }
   .analog-face .hand{ stroke-linecap:round; }
   .analog-face .hand-h{ stroke:var(--fg); stroke-width:5; }
@@ -215,6 +226,7 @@ layout: null
       <button class="tab" role="tab" data-panel="clock"     aria-selected="true">Clock</button>
       <button class="tab" role="tab" data-panel="countdown" aria-selected="false">Countdown</button>
       <button class="tab" role="tab" data-panel="stopwatch" aria-selected="false">Stopwatch</button>
+      <button class="tab" role="tab" data-panel="pomodoro"  aria-selected="false">Pomodoro</button>
     </div>
     <a class="masthead" href="/" aria-label="On Life &amp; Everything — home">
       <span class="home-brand">On Life &amp; Everything</span>
@@ -269,6 +281,28 @@ layout: null
       </div>
     </section>
 
+    <section class="panel" id="pomodoro">
+      <div class="mode-row">
+        <span>
+          <input type="number" id="pomFocusIn" class="time-input dur-input" min="1" max="180" value="25" inputmode="numeric" aria-label="Focus minutes">
+          <span class="field-label">focus</span>
+          <input type="number" id="pomBreakIn" class="time-input dur-input" min="1" max="60" value="5" inputmode="numeric" aria-label="Break minutes">
+          <span class="field-label">break</span>
+          <input type="number" id="pomLongIn" class="time-input dur-input" min="1" max="90" value="15" inputmode="numeric" aria-label="Long break minutes">
+          <span class="field-label">long</span>
+        </span>
+      </div>
+      <div class="display" id="pomDisplay"><span id="pomMain">25:00</span></div>
+      <div class="face-slot"></div>
+      <div class="pom-rounds" id="pomRounds" aria-hidden="true"></div>
+      <div class="subline" id="pomPhaseLine">Focus</div>
+      <div class="controls">
+        <button class="btn primary" id="pomStart">Start</button>
+        <button class="btn" id="pomSkip">Skip</button>
+        <button class="btn" id="pomReset">Reset</button>
+      </div>
+    </section>
+
     <div class="seconds-corner">
       <label class="toggle"><input type="checkbox" id="secToggle" checked> Seconds</label>
     </div>
@@ -295,7 +329,10 @@ layout: null
   const state = Object.assign({
     panel:"clock", seconds:true, analog:false, bg:null, cdMode:"target",
     cdTargetEpoch:null, cdTotalMs:null, cdRunning:false, cdRemainingPaused:null,
-    swStartEpoch:null, swAccumMs:0, swRunning:false
+    swStartEpoch:null, swAccumMs:0, swRunning:false,
+    pomPhase:"focus", pomRound:0, pomTargetEpoch:null, pomTotalMs:null,
+    pomRunning:false, pomRemainingPaused:null, pomAwait:false,
+    pomFocus:25, pomBreak:5, pomLong:15
   }, load());
 
   function load(){ try{ return JSON.parse(localStorage.getItem(LS)) || {}; }catch(e){ return {}; } }
@@ -308,12 +345,22 @@ layout: null
     svg.setAttribute("viewBox","0 0 200 200");
     svg.setAttribute("class","analog-face");
     let html="";
+    for(let i=0;i<60;i++){                      /* fine minute ticks (hour marks drawn below) */
+      if(i%5===0) continue;
+      const a=i*6*Math.PI/180;
+      const x1=(100+94*Math.sin(a)).toFixed(1), y1=(100-94*Math.cos(a)).toFixed(1);
+      const x2=(100+90.5*Math.sin(a)).toFixed(1), y2=(100-90.5*Math.cos(a)).toFixed(1);
+      html+='<line class="tick fine" x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'"/>';
+    }
     for(let i=0;i<12;i++){
       const a=i*30*Math.PI/180, outer=94, inner=(i%3===0)?80:86;
       const x1=(100+outer*Math.sin(a)).toFixed(1), y1=(100-outer*Math.cos(a)).toFixed(1);
       const x2=(100+inner*Math.sin(a)).toFixed(1), y2=(100-inner*Math.cos(a)).toFixed(1);
       html+='<line class="tick '+(i%3===0?'major':'')+'" x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'"/>';
     }
+    [[100,32,"12"],[168,100,"3"],[100,168,"6"],[32,100,"9"]].forEach(n=>{
+      html+='<text class="num" x="'+n[0]+'" y="'+n[1]+'">'+n[2]+'</text>';
+    });
     html+='<circle class="ring-fg" cx="100" cy="100" r="92"/>';
     html+='<line class="hand hand-h" x1="100" y1="100" x2="100" y2="56"/>';
     html+='<line class="hand hand-m" x1="100" y1="100" x2="100" y2="38"/>';
@@ -326,11 +373,13 @@ layout: null
   const handH=face.querySelector(".hand-h"), handM=face.querySelector(".hand-m"),
         handS=face.querySelector(".hand-s"), ring=face.querySelector(".ring-fg");
   face.addEventListener("click", toggleAnalog);
+  const faceSub=document.createElement("div");   /* exact digits under the analog face */
+  faceSub.className="face-sub";
   function rot(el,deg){ el.setAttribute("transform","rotate("+deg.toFixed(2)+" 100 100)"); }
 
   /* ---- tabs ---- */
   const tabs=[...document.querySelectorAll(".tab")];
-  const panels={ clock:$("#clock"), countdown:$("#countdown"), stopwatch:$("#stopwatch") };
+  const panels={ clock:$("#clock"), countdown:$("#countdown"), stopwatch:$("#stopwatch"), pomodoro:$("#pomodoro") };
   function selectPanel(name){
     state.panel=name;
     tabs.forEach(t=>t.setAttribute("aria-selected", t.dataset.panel===name));
@@ -346,7 +395,11 @@ layout: null
       disp.style.display = state.analog ? "none" : "";
       slot.style.display = state.analog ? "block" : "none";
     });
-    if(state.analog){ panels[state.panel].querySelector(".face-slot").appendChild(face); }
+    if(state.analog){
+      const slot=panels[state.panel].querySelector(".face-slot");
+      slot.appendChild(face);
+      slot.appendChild(faceSub);
+    }
   }
   function toggleAnalog(){ state.analog=!state.analog; applyAnalog(); save(); }
   document.querySelectorAll(".display").forEach(d=>d.addEventListener("click", toggleAnalog));
@@ -475,6 +528,51 @@ layout: null
   });
   $("#swReset").addEventListener("click", ()=>{ state.swRunning=false; state.swAccumMs=0; state.swStartEpoch=null; save(); });
 
+  /* ---- pomodoro ---- */
+  const pomStartBtn=$("#pomStart"), pomMain=$("#pomMain"), pomPhaseLine=$("#pomPhaseLine"), pomRoundsEl=$("#pomRounds");
+  const pomIn={ pomFocus:$("#pomFocusIn"), pomBreak:$("#pomBreakIn"), pomLong:$("#pomLongIn") };
+  Object.entries(pomIn).forEach(([key,el])=>{
+    el.value=state[key];
+    el.addEventListener("blur", ()=>{
+      let v=parseInt(el.value,10);
+      if(isNaN(v)||v<+el.min) v=+el.min;
+      v=Math.min(v,+el.max);
+      el.value=v; state[key]=v; save();
+    });
+  });
+  for(let i=0;i<4;i++){ const d=document.createElement("span"); d.className="pom-dot"; pomRoundsEl.appendChild(d); }
+  const pomDots=[...pomRoundsEl.children];
+  function pomPhaseMin(){ return state.pomPhase==="focus"?state.pomFocus:state.pomPhase==="long"?state.pomLong:state.pomBreak; }
+  function pomPhaseName(p){ return p==="focus"?"Focus":p==="long"?"Long break":"Break"; }
+  function pomAdvance(){                            /* bookkeeping when a phase ends or is skipped */
+    if(state.pomPhase==="focus"){
+      state.pomRound++;
+      state.pomPhase=(state.pomRound%4===0)?"long":"break";
+    } else {
+      if(state.pomPhase==="long") state.pomRound=0;
+      state.pomPhase="focus";
+    }
+    state.pomRunning=false; state.pomTargetEpoch=null; state.pomTotalMs=null; state.pomRemainingPaused=null;
+  }
+  pomStartBtn.addEventListener("click", ()=>{
+    if(state.pomRunning){
+      state.pomRemainingPaused=Math.max(0,state.pomTargetEpoch-Date.now()); state.pomRunning=false;
+    } else if(state.pomRemainingPaused!=null){
+      state.pomTargetEpoch=Date.now()+state.pomRemainingPaused; state.pomRunning=true; state.pomRemainingPaused=null;
+    } else {
+      const ms=pomPhaseMin()*60000;
+      state.pomTotalMs=ms; state.pomTargetEpoch=Date.now()+ms;
+      state.pomRunning=true; state.pomAwait=false;
+    }
+    save();
+  });
+  $("#pomSkip").addEventListener("click", ()=>{ pomAdvance(); state.pomAwait=false; save(); });
+  $("#pomReset").addEventListener("click", ()=>{
+    state.pomPhase="focus"; state.pomRound=0; state.pomRunning=false;
+    state.pomTargetEpoch=null; state.pomTotalMs=null; state.pomRemainingPaused=null; state.pomAwait=false;
+    save();
+  });
+
   /* ---- formatting ---- */
   function fmt(ms){
     const total=Math.floor(ms/1000);
@@ -535,7 +633,36 @@ layout: null
       showCd(0); setText(overtime,"ot",""); cdStartBtn.textContent="Start";
     }
     if(state.cdTotalMs) cdFrac=Math.max(0,Math.min(1,cdRemaining/state.cdTotalMs));
-    document.body.classList.toggle("alarm", alarm && state.panel==="countdown");
+
+    /* pomodoro digital + state */
+    let pomRemaining, pomFrac=null;
+    if(state.pomRunning){
+      const rem=state.pomTargetEpoch-Date.now();
+      if(rem>0){
+        pomRemaining=rem;
+        if(state.pomTotalMs) pomFrac=Math.max(0,Math.min(1,rem/state.pomTotalMs));
+        pomStartBtn.textContent="Pause";
+      } else {
+        pomAdvance(); state.pomAwait=true; save();     /* phase over: flash until the next one is started */
+        pomRemaining=pomPhaseMin()*60000;
+      }
+    } else if(state.pomRemainingPaused!=null){
+      pomRemaining=state.pomRemainingPaused;
+      if(state.pomTotalMs) pomFrac=Math.max(0,Math.min(1,pomRemaining/state.pomTotalMs));
+      pomStartBtn.textContent="Resume";
+    } else {
+      pomRemaining=pomPhaseMin()*60000;
+      pomStartBtn.textContent=state.pomAwait ? "Start "+pomPhaseName(state.pomPhase).toLowerCase() : "Start";
+    }
+    setText(pomMain,"pom", fmt(pomRemaining));
+    setText(pomPhaseLine,"pomp", pomPhaseName(state.pomPhase));
+    pomDots.forEach((d,i)=>{
+      d.classList.toggle("done", i<state.pomRound);
+      d.classList.toggle("now", state.pomPhase==="focus" && !state.pomAwait && i===state.pomRound);
+    });
+
+    document.body.classList.toggle("alarm",
+      (alarm && state.panel==="countdown") || (state.pomAwait && state.panel==="pomodoro"));
 
     /* stopwatch digital */
     const sw=swElapsed();
@@ -554,6 +681,15 @@ layout: null
       } else if(state.panel==="stopwatch"){
         ang=handsFromMs(sw);
         ring.style.display="none";
+      } else if(state.panel==="pomodoro"){
+        /* hands run forward through the phase; the ring drains with what remains */
+        var pomElapsed=(state.pomTotalMs!=null)?Math.max(0,state.pomTotalMs-pomRemaining):0;
+        ang=handsFromMs(pomElapsed);
+        if(pomFrac!=null){
+          ring.style.display="block";
+          ring.setAttribute("stroke-dasharray", RING_C.toFixed(1));
+          ring.setAttribute("stroke-dashoffset", (RING_C*(1-pomFrac)).toFixed(1));
+        } else { ring.style.display="none"; }
       } else {
         /* hands run forward, showing elapsed time; the ring drains with what remains */
         var cdElapsed = (state.cdTotalMs!=null) ? Math.max(0, state.cdTotalMs - cdRemaining) : 0;
@@ -565,6 +701,13 @@ layout: null
         } else { ring.style.display="none"; }
       }
       rot(handH,ang.h); rot(handM,ang.m); rot(handS,ang.s);
+
+      let subTxt;
+      if(state.panel==="clock")          subTxt = state.seconds ? t+":"+pad(now.getSeconds()) : t;
+      else if(state.panel==="countdown") subTxt = last["cdm"] || "";
+      else if(state.panel==="stopwatch") subTxt = swp.main + swp.cs;
+      else                               subTxt = last["pom"] || "";
+      setText(faceSub,"fsub", subTxt);
     }
 
     requestAnimationFrame(tick);
