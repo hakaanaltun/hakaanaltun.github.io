@@ -64,7 +64,7 @@ layout: null
         {
           "@type": "Question",
           "name": "Is my text uploaded anywhere?",
-          "acceptedAnswer": { "@type": "Answer", "text": "No. The counting happens in your browser as you type, and the draft is kept only in your browser's local storage so it survives a reload. There is no server, no ads and no analytics." }
+          "acceptedAnswer": { "@type": "Answer", "text": "It is counted right here in the browser as you type, and kept in local storage so it survives a reload — it travels no further than your device." }
         }
       ]
     }
@@ -104,13 +104,26 @@ layout: null
   html[data-theme="dark"]{ --icon-sun:block; --icon-moon:none; }
 
   *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
 
   body{
+    position:relative;
     background:var(--paper); color:var(--ink); font-family:var(--body);
     min-height:100vh; min-height:100dvh;
     -webkit-font-smoothing:antialiased;
     transition:background .4s ease, color .4s ease;
   }
+
+  /* a small pointer to the notes below the fold; it scrolls away with the page */
+  .notes-cue{
+    position:absolute; left:50%; transform:translateX(-50%);
+    top:calc(100vh - 40px); top:calc(100dvh - 40px);
+    font-family:var(--body); font-style:italic; font-size:.85rem; letter-spacing:.03em;
+    color:var(--muted); text-decoration:none; opacity:.8;
+    transition:color .2s, opacity .4s ease;
+  }
+  .notes-cue:hover{ color:var(--ink); }
+  body.immersive .notes-cue{ opacity:0; pointer-events:none; }
 
   .chrome{
     position:sticky; top:0; z-index:2; background:var(--paper);
@@ -233,7 +246,7 @@ layout: null
 
   <header class="counter-head">
     <h1>Word counter</h1>
-    <p class="lede">Words, characters, sentences and reading time &mdash; counted as you type. Nothing leaves your browser.</p>
+    <p class="lede">Words, characters, sentences and reading time &mdash; counted as you type, right here in your browser.</p>
   </header>
 
   <div class="stats" aria-live="polite">
@@ -254,10 +267,12 @@ layout: null
     </div>
   </div>
 
-  <footer class="notes">
+  <a class="notes-cue" href="#notes">notes &amp; questions &darr;</a>
+
+  <footer class="notes" id="notes">
     <div class="notes-inner">
       <h2>About this counter</h2>
-      <p>A free word counter that keeps quiet company: words, characters with and without spaces, sentences, paragraphs, and how long the text takes to read silently or to speak aloud. It counts live as you type or paste, autosaves the draft to your browser, and sends nothing anywhere &mdash; no ads, no account, no upload. Useful for essays and abstracts, for platform limits, and for judging whether a talk fits its slot.</p>
+      <p>A word counter for essays and abstracts, platform limits, and talks that must fit their slot: words, characters with and without spaces, sentences, paragraphs, and how long the text takes to read silently or speak aloud. Everything updates live as you type or paste, and the draft is kept in your browser between visits.</p>
 
       <h2>Questions</h2>
       <h3>What counts as a word?</h3>
@@ -270,9 +285,9 @@ layout: null
       <p>Characters counts everything you typed, including spaces and line breaks &mdash; this is what most platform limits mean by characters. Without spaces drops all whitespace and keeps only the visible marks.</p>
 
       <h3>Is my text uploaded anywhere?</h3>
-      <p>No. The counting happens in your browser as you type, and the draft is kept only in your browser&rsquo;s local storage so it survives a reload. There is no server, no ads and no analytics.</p>
+      <p>It is counted right here in the browser as you type, and kept in local storage so it survives a reload &mdash; it travels no further than your device.</p>
 
-      <p class="notes-links">More instruments: <a href="/write/">a blank page to write on</a>, <a href="/clock/">a fullscreen clock with pomodoro</a>, <a href="/breathe/">a breathing exercise</a>, <a href="/noise/">ambient noise</a>, <a href="/moon/">the phase of the moon</a> and <a href="/twilight/">&#304;stanbul&rsquo;s twilight</a> &mdash; or see <a href="/tools/">all the tools</a>.</p>
+      <p class="notes-links">More instruments: <a href="/write/">a blank page to write on</a>, <a href="/clock/">a fullscreen clock with pomodoro</a>, <a href="/breathe/">a breathing exercise</a>, <a href="/noise/">noise &amp; nature sounds</a>, <a href="/moon/">the phase of the moon</a> and <a href="/twilight/">&#304;stanbul&rsquo;s twilight</a> &mdash; or see <a href="/tools/">all the tools</a>.</p>
     </div>
   </footer>
 

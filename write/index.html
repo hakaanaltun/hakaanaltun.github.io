@@ -49,12 +49,12 @@ layout: null
         {
           "@type": "Question",
           "name": "Where does my text go?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Nowhere. It is kept in your browser's local storage, on your device — there is no server, no account and no sync. Clearing the browser's site data erases it, so download anything you want to keep." }
+          "acceptedAnswer": { "@type": "Answer", "text": "It stays in this browser, saved to local storage on your device, and reappears when you return. Clearing the browser's site data clears the page too, so download anything you want to keep." }
         },
         {
           "@type": "Question",
           "name": "Does the page autosave?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Yes — a moment after you pause typing, and again when you leave. Ctrl-S (Cmd-S on a Mac) saves on the spot. A quiet note in the corner confirms it." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes — a moment after you pause typing, and again when you leave. Ctrl-S (Cmd-S on a Mac) saves on the spot, and a quiet note in the corner confirms it." }
         },
         {
           "@type": "Question",
@@ -64,7 +64,7 @@ layout: null
         {
           "@type": "Question",
           "name": "Can I write in fullscreen?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Yes. The fullscreen button hides everything but the paper; only the word count keeps you company. Move the mouse to bring the controls back." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. The fullscreen button clears away everything but the paper, with the word count for company; moving the mouse brings the controls back." }
         }
       ]
     }
@@ -104,13 +104,26 @@ layout: null
   html[data-theme="dark"]{ --icon-sun:block; --icon-moon:none; }
 
   *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
 
   body{
+    position:relative;
     background:var(--paper); color:var(--ink); font-family:var(--body);
     min-height:100vh; min-height:100dvh;
     -webkit-font-smoothing:antialiased;
     transition:background .4s ease, color .4s ease;
   }
+
+  /* a small pointer to the notes below the fold; it scrolls away with the page */
+  .notes-cue{
+    position:absolute; left:50%; transform:translateX(-50%);
+    top:calc(100vh - 40px); top:calc(100dvh - 40px);
+    font-family:var(--body); font-style:italic; font-size:.85rem; letter-spacing:.03em;
+    color:var(--muted); text-decoration:none; opacity:.8;
+    transition:color .2s, opacity .4s ease;
+  }
+  .notes-cue:hover{ color:var(--ink); }
+  body.immersive .notes-cue{ opacity:0; pointer-events:none; }
 
   .chrome{
     position:sticky; top:0; z-index:2; background:var(--paper);
@@ -226,25 +239,27 @@ layout: null
     <textarea id="page" placeholder="Start anywhere." autocomplete="off" spellcheck="true"></textarea>
   </div>
 
-  <footer class="notes">
+  <a class="notes-cue" href="#notes">notes &amp; questions &darr;</a>
+
+  <footer class="notes" id="notes">
     <div class="notes-inner">
       <h2>About this page</h2>
-      <p>A blank page for distraction-free writing &mdash; Garamond type on quiet paper, a word count in the corner, autosave, fullscreen, and nothing else. No ads, no account, no toolbar. It is the writing tool this site&rsquo;s essays wish they had been written in; use it for morning pages, drafts, letters, or whatever needs an empty sheet.</p>
+      <p>A blank page set in Garamond, for morning pages, drafts, letters, or whatever needs an empty sheet. A word count sits in one corner and autosave in the other: the page keeps your text in this browser as you write, and it is waiting when you come back. When a draft is done, the download button hands it to you as a plain text file.</p>
 
       <h2>Questions</h2>
       <h3>Where does my text go?</h3>
-      <p>Nowhere. It is kept in your browser&rsquo;s local storage, on your device &mdash; there is no server, no account and no sync. Clearing the browser&rsquo;s site data erases it, so download anything you want to keep.</p>
+      <p>It stays in this browser, saved to local storage on your device, and reappears when you return. Clearing the browser&rsquo;s site data clears the page too, so download anything you want to keep.</p>
 
       <h3>Does the page autosave?</h3>
-      <p>Yes &mdash; a moment after you pause typing, and again when you leave. Ctrl-S (Cmd-S on a Mac) saves on the spot. A quiet note in the corner confirms it.</p>
+      <p>Yes &mdash; a moment after you pause typing, and again when you leave. Ctrl-S (Cmd-S on a Mac) saves on the spot, and a quiet note in the corner confirms it.</p>
 
       <h3>Can I save my writing as a file?</h3>
       <p>The download button in the top right saves the page as a plain .txt file named after today&rsquo;s date.</p>
 
       <h3>Can I write in fullscreen?</h3>
-      <p>Yes. The fullscreen button hides everything but the paper; only the word count keeps you company. Move the mouse to bring the controls back.</p>
+      <p>Yes. The fullscreen button clears away everything but the paper, with the word count for company; moving the mouse brings the controls back.</p>
 
-      <p class="notes-links">More instruments: <a href="/words/">a word counter</a>, <a href="/clock/">a fullscreen clock with pomodoro</a>, <a href="/breathe/">a breathing exercise</a>, <a href="/noise/">ambient noise</a>, <a href="/moon/">the phase of the moon</a> and <a href="/twilight/">&#304;stanbul&rsquo;s twilight</a> &mdash; or see <a href="/tools/">all the tools</a>.</p>
+      <p class="notes-links">More instruments: <a href="/words/">a word counter</a>, <a href="/clock/">a fullscreen clock with pomodoro</a>, <a href="/breathe/">a breathing exercise</a>, <a href="/noise/">noise &amp; nature sounds</a>, <a href="/moon/">the phase of the moon</a> and <a href="/twilight/">&#304;stanbul&rsquo;s twilight</a> &mdash; or see <a href="/tools/">all the tools</a>.</p>
     </div>
   </footer>
 

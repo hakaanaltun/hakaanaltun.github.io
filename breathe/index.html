@@ -85,7 +85,7 @@ layout: null
   }
 
   *{ box-sizing:border-box; margin:0; padding:0; }
-  html{ height:100%; }
+  html{ height:100%; scroll-behavior:smooth; }
 
   body{
     background:var(--bg); color:var(--fg); font-family:var(--body);
@@ -94,9 +94,19 @@ layout: null
   }
 
   /* the exercise fills the first viewport; the notes wait below the fold */
-  .app{ height:100vh; height:100dvh; display:flex; flex-direction:column; }
+  .app{ position:relative; height:100vh; height:100dvh; display:flex; flex-direction:column; }
   body.immersive{ height:100vh; height:100dvh; overflow:hidden; }
   body.immersive .notes{ display:none; }
+
+  /* a small pointer to the notes below the fold */
+  .notes-cue{
+    position:absolute; left:50%; bottom:16px; transform:translateX(-50%);
+    font-family:var(--body); font-style:italic; font-size:.85rem; letter-spacing:.03em;
+    color:var(--muted); text-decoration:none; opacity:.85;
+    transition:color .2s, opacity .4s ease;
+  }
+  .notes-cue:hover{ color:var(--fg); }
+  body.immersive .notes-cue, body.running .notes-cue{ opacity:0; pointer-events:none; }
 
   .chrome{
     position:relative; display:flex; align-items:center; justify-content:space-between;
@@ -243,12 +253,14 @@ layout: null
     </div>
   </div>
 
+  <a class="notes-cue" href="#notes">notes &amp; questions &darr;</a>
+
   </div><!-- /.app -->
 
-  <footer class="notes">
+  <footer class="notes" id="notes">
     <div class="notes-inner">
       <h2>About this exercise</h2>
-      <p>A guided breathing exercise with nothing to install and nothing to sign up for. Choose a pattern &mdash; box breathing, 4-7-8, or coherent breathing &mdash; and follow the circle: it swells as you breathe in, rests while you hold, and empties as you breathe out, with the count kept for you. Take it fullscreen and let the room go quiet. The page is a single static file; nothing about you leaves the browser.</p>
+      <p>A guided breathing exercise. Choose a pattern &mdash; box breathing, 4-7-8, or coherent breathing &mdash; press begin, and follow the circle: it swells as you breathe in, rests while you hold, and empties as you breathe out, with the count kept for you. Take it fullscreen and let the room go quiet; the rounds are tallied so you know when a few is enough.</p>
 
       <h2>Questions</h2>
       <h3>What is box breathing?</h3>
@@ -263,7 +275,7 @@ layout: null
       <h3>How long should I practice?</h3>
       <p>A few minutes is plenty; even four or five rounds can settle things. Stop and breathe normally if you feel light-headed. This page is a relaxation exercise, not medical advice or treatment.</p>
 
-      <p class="notes-links">More instruments: <a href="/noise/">ambient noise for focus</a>, <a href="/clock/">a fullscreen clock with pomodoro</a>, <a href="/write/">a blank page to write on</a>, <a href="/words/">a word counter</a>, <a href="/moon/">the phase of the moon</a> and <a href="/twilight/">&#304;stanbul&rsquo;s twilight</a> &mdash; or see <a href="/tools/">all the tools</a>.</p>
+      <p class="notes-links">More instruments: <a href="/noise/">noise &amp; nature sounds</a>, <a href="/clock/">a fullscreen clock with pomodoro</a>, <a href="/write/">a blank page to write on</a>, <a href="/words/">a word counter</a>, <a href="/moon/">the phase of the moon</a> and <a href="/twilight/">&#304;stanbul&rsquo;s twilight</a> &mdash; or see <a href="/tools/">all the tools</a>.</p>
     </div>
   </footer>
 

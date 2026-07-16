@@ -48,27 +48,27 @@ layout: null
         {
           "@type": "Question",
           "name": "How do I make the clock fullscreen?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Use the button in the top right corner, or your browser's own shortcut (F11 on most keyboards). In fullscreen the controls retire; move the mouse or touch the screen to bring them back." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Press the button in the top right corner, or F11 on most keyboards. The controls fade out after a moment; moving the mouse or touching the screen brings them back." }
         },
         {
           "@type": "Question",
           "name": "Can I link straight to a running countdown?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Yes. Add ?until= to the address: /clock/?until=2026-09-01T09:00 opens the page already counting down to that moment, and &label=Exam places a caption under the numbers. A bare time such as ?until=13:30 counts down to the next half past one." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Add ?until= to the address: /clock/?until=2026-09-01T09:00 opens the page already counting down to that moment, and &label=Exam places a caption under the numbers. A bare time such as ?until=13:30 counts down to the next half past one." }
         },
         {
           "@type": "Question",
           "name": "Will the timers survive a page reload?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Yes. The countdown and the pomodoro aim at a fixed end time and the stopwatch remembers when it started, so a reload — or a laptop going to sleep — does not lose your place. Everything is kept in your browser's local storage." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. The countdown and the pomodoro aim at a fixed end time and the stopwatch remembers when it started, so a reload — or a laptop going to sleep — picks up exactly where you left off." }
         },
         {
           "@type": "Question",
           "name": "How do I switch to the analog face?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Click or tap the digits themselves and an analog face takes their place; click the face to return to digits. The choice is remembered." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Click or tap the digits themselves and an analog face takes their place; click the face to return to digits. The page remembers which one you prefer." }
         },
         {
           "@type": "Question",
-          "name": "Is anything sent to a server?",
-          "acceptedAnswer": { "@type": "Answer", "text": "No. The page is a single static file — no ads, no analytics, no account. Settings and running timers stay on your device." }
+          "name": "Where are my settings kept?",
+          "acceptedAnswer": { "@type": "Answer", "text": "In your browser's local storage, on your device. The running timers, the background color and the seconds toggle are all waiting there the next time you open the page." }
         }
       ]
     }
@@ -92,7 +92,7 @@ layout: null
   }
 
   *{ box-sizing:border-box; margin:0; padding:0; }
-  html{ height:100%; }
+  html{ height:100%; scroll-behavior:smooth; }
 
   body{
     background:var(--bg); color:var(--fg); font-family:var(--body);
@@ -101,8 +101,18 @@ layout: null
   }
 
   /* the instrument fills the first viewport; the notes wait below the fold */
-  .app{ height:100vh; height:100dvh; display:flex; flex-direction:column; }
+  .app{ position:relative; height:100vh; height:100dvh; display:flex; flex-direction:column; }
   body.immersive{ height:100vh; height:100dvh; overflow:hidden; }
+
+  /* a small pointer to the notes below the fold */
+  .notes-cue{
+    position:absolute; left:50%; bottom:18px; transform:translateX(-50%);
+    font-family:var(--body); font-style:italic; font-size:.85rem; letter-spacing:.03em;
+    color:var(--muted); text-decoration:none; opacity:.85;
+    transition:color .2s, opacity .4s ease;
+  }
+  .notes-cue:hover{ color:var(--fg); }
+  body.immersive .notes-cue{ opacity:0; pointer-events:none; }
 
   .chrome{
     position:relative;
@@ -422,30 +432,32 @@ layout: null
     </div>
   </div>
 
+  <a class="notes-cue" href="#notes">notes &amp; questions &darr;</a>
+
   </div><!-- /.app -->
 
-  <footer class="notes">
+  <footer class="notes" id="notes">
     <div class="notes-inner">
       <h2>About this clock</h2>
-      <p>A free fullscreen clock with a countdown timer, a stopwatch and a pomodoro timer on one quiet page &mdash; made for classrooms, exams, presentations and focused work. There are no ads and no account; the page is a single static file, and every setting stays in your browser. Click the digits for an analog face, pick a background from the palette in the corner, and press the fullscreen button when the clock should be the only thing in the room.</p>
+      <p>A fullscreen clock for classrooms, exams, presentations and focused work, with a countdown timer, a stopwatch and a pomodoro timer on the same page. The numerals are cut large enough to read from the back row; click them and an analog face takes their place. The palette in the corner changes the background, the fullscreen button clears everything else away, and the page remembers your settings between visits.</p>
 
       <h2>Questions</h2>
       <h3>How do I make the clock fullscreen?</h3>
-      <p>Use the button in the top right corner, or your browser&rsquo;s own shortcut (F11 on most keyboards). In fullscreen the controls retire; move the mouse or touch the screen to bring them back.</p>
+      <p>Press the button in the top right corner, or F11 on most keyboards. The controls fade out after a moment; moving the mouse or touching the screen brings them back.</p>
 
       <h3>Can I link straight to a running countdown?</h3>
-      <p>Yes. Add <code>?until=</code> to the address: <a href="/clock/?until=2026-09-01T09:00&amp;label=First%20bell"><code>/clock/?until=2026-09-01T09:00</code></a> opens the page already counting down to that moment, and <code>&amp;label=Exam</code> places a caption under the numbers. A bare time such as <code>?until=13:30</code> counts down to the next half past one.</p>
+      <p>Add <code>?until=</code> to the address: <a href="/clock/?until=2026-09-01T09:00&amp;label=First%20bell"><code>/clock/?until=2026-09-01T09:00</code></a> opens the page already counting down to that moment, and <code>&amp;label=Exam</code> places a caption under the numbers. A bare time such as <code>?until=13:30</code> counts down to the next half past one.</p>
 
       <h3>Will the timers survive a page reload?</h3>
-      <p>Yes. The countdown and the pomodoro aim at a fixed end time and the stopwatch remembers when it started, so a reload &mdash; or a laptop going to sleep &mdash; does not lose your place. Everything is kept in your browser&rsquo;s local storage.</p>
+      <p>Yes. The countdown and the pomodoro aim at a fixed end time and the stopwatch remembers when it started, so a reload &mdash; or a laptop going to sleep &mdash; picks up exactly where you left off.</p>
 
       <h3>How do I switch to the analog face?</h3>
-      <p>Click or tap the digits themselves and an analog face takes their place; click the face to return to digits. The choice is remembered.</p>
+      <p>Click or tap the digits themselves and an analog face takes their place; click the face to return to digits. The page remembers which one you prefer.</p>
 
-      <h3>Is anything sent to a server?</h3>
-      <p>No. The page is a single static file &mdash; no ads, no analytics, no account. Settings and running timers stay on your device.</p>
+      <h3>Where are my settings kept?</h3>
+      <p>In your browser&rsquo;s local storage, on your device. The running timers, the background color and the seconds toggle are all waiting there the next time you open the page.</p>
 
-      <p class="notes-links">More instruments: <a href="/words/">a word counter</a>, <a href="/write/">a blank page to write on</a>, <a href="/breathe/">a breathing exercise</a>, <a href="/noise/">ambient noise</a>, <a href="/moon/">the phase of the moon</a> and <a href="/twilight/">&#304;stanbul&rsquo;s twilight</a> &mdash; or see <a href="/tools/">all the tools</a>.</p>
+      <p class="notes-links">More instruments: <a href="/words/">a word counter</a>, <a href="/write/">a blank page to write on</a>, <a href="/breathe/">a breathing exercise</a>, <a href="/noise/">noise &amp; nature sounds</a>, <a href="/moon/">the phase of the moon</a> and <a href="/twilight/">&#304;stanbul&rsquo;s twilight</a> &mdash; or see <a href="/tools/">all the tools</a>.</p>
     </div>
   </footer>
 
