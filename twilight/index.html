@@ -7,12 +7,69 @@ layout: null
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>&#304;stanbul Twilight &mdash; Sunrise, Sunset &amp; Civil Twilight Today &middot; On Life &amp; Everything</title>
-<meta name="description" content="Today's sunrise, sunset and civil twilight times for İstanbul, computed in your browser. The page follows the color of the sky in real time.">
+<meta name="description" content="Today's sunrise, sunset, civil twilight and day length for İstanbul — and a handful of other cities — computed in your browser. The page follows the color of the sky in real time.">
 <link rel="canonical" href="https://hakanaltun.io/twilight/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="İstanbul Twilight — Sunrise, Sunset &amp; Civil Twilight Today">
 <meta property="og:description" content="Today's sun times for İstanbul. The page follows the color of the sky in real time.">
 <meta property="og:url" content="https://hakanaltun.io/twilight/">
+<meta property="og:image" content="https://hakanaltun.io/images/og/twilight.png?v=20260716-1">
+<meta property="og:image:alt" content="Twilight — today's sun times, in the color of the hour">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="İstanbul Twilight — Sunrise, Sunset &amp; Civil Twilight Today">
+<meta name="twitter:description" content="Today's sun times for İstanbul. The page follows the color of the sky in real time.">
+<meta name="twitter:image" content="https://hakanaltun.io/images/og/twilight.png?v=20260716-1">
+<meta name="theme-color" content="#101720">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "@id": "https://hakanaltun.io/twilight/#app",
+      "name": "Twilight — Sunrise, Sunset & Civil Twilight Today",
+      "url": "https://hakanaltun.io/twilight/",
+      "description": "Today's sunrise, sunset, civil twilight and day length for İstanbul and a handful of other cities, computed in your browser. The page follows the color of the sky in real time.",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires JavaScript",
+      "isAccessibleForFree": true,
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "author": { "@type": "Person", "name": "Hakan Altun", "url": "https://hakanaltun.io/" },
+      "inLanguage": "en"
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://hakanaltun.io/twilight/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is civil twilight?",
+          "acceptedAnswer": { "@type": "Answer", "text": "The stretch when the sun sits less than six degrees below the horizon — civil dawn before sunrise, civil dusk after sunset. There is usually enough light to read outside, and it is the boundary many countries use for headlights and flight rules." }
+        },
+        {
+          "@type": "Question",
+          "name": "How accurate are the times?",
+          "acceptedAnswer": { "@type": "Answer", "text": "They are computed in your browser with a standard almanac algorithm and usually land within a minute or two of published tables. Horizon, altitude and unusual atmospheric refraction can shift the real moment slightly." }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I see a city other than İstanbul?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes — pick a city from the row beneath the times, or add ?city= to the address, e.g. /twilight/?city=london. The page never asks for your location; nothing about you leaves the browser." }
+        },
+        {
+          "@type": "Question",
+          "name": "Why does the page change color?",
+          "acceptedAnswer": { "@type": "Answer", "text": "The background follows the sun's altitude for the chosen city — deep night blue through dawn amber into daylight — recomputed every half minute, so the page always wears the color of the hour." }
+        }
+      ]
+    }
+  ]
+}
+</script>
 
 <link rel="stylesheet" href="/css/fonts.css?v=20260710-1">
 
@@ -27,14 +84,19 @@ layout: null
   }
 
   *{ box-sizing:border-box; margin:0; padding:0; }
-  html,body{ height:100%; }
+  html{ height:100%; }
 
   body{
     background:#101720; color:var(--fg); font-family:var(--body);
-    height:100vh; height:100dvh; overflow:hidden; display:flex; flex-direction:column;
+    min-height:100vh; min-height:100dvh;
     -webkit-font-smoothing:antialiased;
     transition:background-color 3s linear, color 3s linear;
   }
+
+  /* the sky fills the first viewport; the notes wait below the fold */
+  .app{ height:100vh; height:100dvh; display:flex; flex-direction:column; }
+  body.immersive{ height:100vh; height:100dvh; overflow:hidden; }
+  body.immersive .notes{ display:none; }
 
   .chrome{
     position:relative; display:flex; align-items:center; justify-content:space-between;
@@ -85,6 +147,26 @@ layout: null
     margin-top:2rem; font-family:var(--body); font-style:italic;
     color:var(--muted); font-size:0.85rem; letter-spacing:.03em; opacity:.8;
   }
+  .cities{
+    margin-top:.9rem; display:flex; flex-wrap:wrap; justify-content:center;
+    gap:5px 14px; font-family:var(--body); font-style:italic;
+    font-size:0.85rem; letter-spacing:.03em; opacity:.85; max-width:520px;
+  }
+  .cities a{ color:var(--muted); text-decoration:none; transition:color .2s; }
+  .cities a:hover{ color:var(--fg); }
+  .cities a.now{ color:var(--fg); border-bottom:1px solid var(--line); }
+
+  /* notes — quiet reading matter under the sky */
+  .notes{ border-top:1px solid var(--line); padding:60px 26px 84px; transition:border-color .4s ease; }
+  .notes-inner{ max-width:640px; margin:0 auto; }
+  .notes h2{ font-family:var(--display); font-style:italic; font-weight:400; font-size:1.6rem; margin:2.4rem 0 1rem; color:var(--fg); }
+  .notes h2:first-child{ margin-top:0; }
+  .notes h3{ font-family:var(--body); font-style:italic; font-weight:400; font-size:1.15rem; margin:1.5rem 0 .35rem; color:var(--fg); }
+  .notes p{ color:var(--muted); font-size:1.05rem; line-height:1.65; margin:0 0 .9rem; }
+  .notes code{ font-family:inherit; font-style:italic; color:var(--fg); }
+  .notes a{ color:var(--fg); text-decoration:underline; text-underline-offset:3px; text-decoration-color:var(--line); }
+  .notes a:hover{ text-decoration-color:var(--fg); }
+  .notes .notes-links{ margin-top:2.4rem; padding-top:1.3rem; border-top:1px solid var(--line); font-style:italic; }
 
   body.immersive .chrome{ opacity:0; pointer-events:none; border-color:transparent; }
   body.immersive.show-chrome .chrome{ opacity:1; pointer-events:auto; }
@@ -108,6 +190,8 @@ layout: null
 </head>
 <body>
 
+  <div class="app">
+
   <div class="chrome" id="chrome">
     <a class="masthead" href="/" aria-label="On Life &amp; Everything — home">
       <span class="home-brand">On Life &amp; Everything</span>
@@ -120,22 +204,88 @@ layout: null
     <h1 class="phase" id="phase">&nbsp;</h1>
     <div class="next" id="next"></div>
     <div class="times" id="times"></div>
-    <div class="place">&#304;stanbul &middot; 41.0&deg;N 29.0&deg;E &middot; computed in your browser</div>
+    <div class="place" id="place">&#304;stanbul &middot; 41.0&deg;N 29.0&deg;E &middot; computed in your browser</div>
+    <nav class="cities" id="cities" aria-label="Cities">
+      <a href="/twilight/" data-city="istanbul">&#304;stanbul</a>
+      <a href="/twilight/?city=ankara" data-city="ankara">Ankara</a>
+      <a href="/twilight/?city=izmir" data-city="izmir">&#304;zmir</a>
+      <a href="/twilight/?city=london" data-city="london">London</a>
+      <a href="/twilight/?city=paris" data-city="paris">Paris</a>
+      <a href="/twilight/?city=berlin" data-city="berlin">Berlin</a>
+      <a href="/twilight/?city=newyork" data-city="newyork">New York</a>
+      <a href="/twilight/?city=losangeles" data-city="losangeles">Los Angeles</a>
+      <a href="/twilight/?city=tokyo" data-city="tokyo">Tokyo</a>
+      <a href="/twilight/?city=sydney" data-city="sydney">Sydney</a>
+    </nav>
   </div>
+
+  </div><!-- /.app -->
+
+  <footer class="notes">
+    <div class="notes-inner">
+      <h2>About this page</h2>
+      <p>The sky of &#304;stanbul, kept in real time. The page shows today&rsquo;s civil dawn, sunrise, sunset, civil dusk and day length &mdash; for &#304;stanbul by default, or for a handful of other cities &mdash; and its background follows the sun&rsquo;s altitude, so it always wears the color of the hour. Everything is computed in your browser from the city&rsquo;s coordinates; there are no ads, no account and no location request.</p>
+
+      <h2>Questions</h2>
+      <h3>What is civil twilight?</h3>
+      <p>The stretch when the sun sits less than six degrees below the horizon &mdash; civil dawn before sunrise, civil dusk after sunset. There is usually enough light to read outside, and it is the boundary many countries use for headlights and flight rules.</p>
+
+      <h3>How accurate are the times?</h3>
+      <p>They are computed in your browser with a standard almanac algorithm and usually land within a minute or two of published tables. Horizon, altitude and unusual atmospheric refraction can shift the real moment slightly.</p>
+
+      <h3>Can I see a city other than &#304;stanbul?</h3>
+      <p>Yes &mdash; pick a city from the row beneath the times, or add <code>?city=</code> to the address, e.g. <a href="/twilight/?city=london"><code>/twilight/?city=london</code></a>. The page never asks for your location; nothing about you leaves the browser.</p>
+
+      <h3>Why does the page change color?</h3>
+      <p>The background follows the sun&rsquo;s altitude for the chosen city &mdash; deep night blue through dawn amber into daylight &mdash; recomputed every half minute, so the page always wears the color of the hour.</p>
+
+      <p class="notes-links">More instruments: <a href="/moon/">the phase of the moon</a>, <a href="/clock/">a fullscreen clock</a>, <a href="/write/">a blank page to write on</a>, <a href="/words/">a word counter</a>, <a href="/breathe/">a breathing exercise</a> and <a href="/noise/">ambient noise</a> &mdash; or see <a href="/tools/">all the tools</a>.</p>
+    </div>
+  </footer>
 
 <script>
 (function(){
   "use strict";
   var $ = function(s){ return document.querySelector(s); };
-  var LAT = 41.015, LNG = 28.979;         /* İstanbul */
   var RAD = Math.PI / 180;
-  var IST_OFFSET = 3 * 3600000;            /* Türkiye: UTC+3, sabit */
 
-  var fmtTime = new Intl.DateTimeFormat("en-GB", { hour:"2-digit", minute:"2-digit", timeZone:"Europe/Istanbul" });
+  var CITIES = {
+    istanbul:   { name:"İstanbul",  lat:41.015,  lng:28.979,   tz:"Europe/Istanbul" },
+    ankara:     { name:"Ankara",         lat:39.933,  lng:32.860,   tz:"Europe/Istanbul" },
+    izmir:      { name:"İzmir",     lat:38.423,  lng:27.143,   tz:"Europe/Istanbul" },
+    london:     { name:"London",         lat:51.507,  lng:-0.128,   tz:"Europe/London" },
+    paris:      { name:"Paris",          lat:48.857,  lng:2.352,    tz:"Europe/Paris" },
+    berlin:     { name:"Berlin",         lat:52.520,  lng:13.405,   tz:"Europe/Berlin" },
+    newyork:    { name:"New York",       lat:40.713,  lng:-74.006,  tz:"America/New_York" },
+    losangeles: { name:"Los Angeles",    lat:34.052,  lng:-118.244, tz:"America/Los_Angeles" },
+    tokyo:      { name:"Tokyo",          lat:35.677,  lng:139.650,  tz:"Asia/Tokyo" },
+    sydney:     { name:"Sydney",         lat:-33.868, lng:151.209,  tz:"Australia/Sydney" }
+  };
+  var cityKey = "istanbul";
+  try{
+    var q = (new URLSearchParams(location.search).get("city") || "").toLowerCase().replace(/[^a-z]/g, "");
+    if(CITIES[q]) cityKey = q;
+  }catch(e){}
+  var CITY = CITIES[cityKey];
+  var LAT = CITY.lat, LNG = CITY.lng;
+
+  var fmtTime = new Intl.DateTimeFormat("en-GB", { hour:"2-digit", minute:"2-digit", timeZone:CITY.tz });
+
+  /* the city's UTC offset at a given instant (DST-aware, via Intl) */
+  var offFmt = new Intl.DateTimeFormat("en-US", {
+    timeZone:CITY.tz, year:"numeric", month:"2-digit", day:"2-digit",
+    hour:"2-digit", minute:"2-digit", second:"2-digit", hour12:false
+  });
+  function tzOffsetMs(date){
+    var p = {};
+    offFmt.formatToParts(date).forEach(function(x){ p[x.type] = x.value; });
+    var asUTC = Date.UTC(+p.year, +p.month - 1, +p.day, (+p.hour) % 24, +p.minute, +p.second);
+    return asUTC - Math.floor(date.getTime() / 1000) * 1000;
+  }
 
   /* ---- sunrise/sunset (Almanac for Computers algorithm, ±1–2 min) ---- */
-  function dayOfYearIst(now){
-    var s = new Date(now.getTime() + IST_OFFSET);       /* UTC fields = İstanbul wall clock */
+  function dayOfYearLocal(now){
+    var s = new Date(now.getTime() + tzOffsetMs(now));  /* UTC fields = the city's wall clock */
     var start = Date.UTC(s.getUTCFullYear(), 0, 0);
     return { n: Math.floor((s.getTime() - start) / 86400000),
              y: s.getUTCFullYear(), mo: s.getUTCMonth(), d: s.getUTCDate() };
@@ -242,7 +392,7 @@ layout: null
 
   function render(){
     var now = new Date();
-    var day = dayOfYearIst(now);
+    var day = dayOfYearLocal(now);
     var ev = eventsFor(day);
     var alt = sunAltitude(now);
 
@@ -272,7 +422,7 @@ layout: null
       if(order[i][0] && order[i][0].getTime() > now.getTime()){ next = order[i][0]; nextLabel = order[i][1]; break; }
     }
     if(!next){
-      var tomorrow = dayOfYearIst(new Date(now.getTime() + 86400000));
+      var tomorrow = dayOfYearLocal(new Date(now.getTime() + 86400000));
       var ev2 = eventsFor(tomorrow);
       if(ev2.civilDawn){ next = ev2.civilDawn; nextLabel = "Civil dawn"; }
     }
@@ -287,6 +437,9 @@ layout: null
       for(var j = 0; j < rows.length; j++){
         if(!rows[j][1]) continue;
         html += '<span class="t">' + rows[j][0] + "<b>" + fmtTime.format(rows[j][1]) + "</b></span>";
+      }
+      if(ev.sunrise && ev.sunset){
+        html += '<span class="t">Day length<b>' + ago(ev.sunset.getTime() - ev.sunrise.getTime()) + "</b></span>";
       }
       timesEl.innerHTML = html;
     }
@@ -326,6 +479,20 @@ layout: null
   ["mousemove","touchstart","keydown"].forEach(function(ev){
     document.addEventListener(ev, function(){ if(document.body.classList.contains("immersive")) pokeChrome(); });
   });
+
+  /* ---- city dressing ---- */
+  (function initCity(){
+    var latTxt = Math.abs(LAT).toFixed(1) + "°" + (LAT >= 0 ? "N" : "S");
+    var lngTxt = Math.abs(LNG).toFixed(1) + "°" + (LNG >= 0 ? "E" : "W");
+    $("#place").textContent = CITY.name + " · " + latTxt + " " + lngTxt + " · computed in your browser";
+    var links = document.querySelectorAll("#cities a");
+    for(var i = 0; i < links.length; i++){
+      if(links[i].getAttribute("data-city") === cityKey) links[i].classList.add("now");
+    }
+    if(cityKey !== "istanbul"){
+      document.title = CITY.name + " Twilight — Sunrise, Sunset & Civil Twilight Today · On Life & Everything";
+    }
+  })();
 
   /* ---- run ---- */
   render();

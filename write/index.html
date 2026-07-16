@@ -13,6 +13,64 @@ layout: null
 <meta property="og:title" content="A Blank Page — Distraction-Free Writing">
 <meta property="og:description" content="A quiet, ad-free page to write on. What you write stays in your browser; nothing is sent anywhere.">
 <meta property="og:url" content="https://hakanaltun.io/write/">
+<meta property="og:image" content="https://hakanaltun.io/images/og/write.png?v=20260716-1">
+<meta property="og:image:alt" content="The Page — a blank page for distraction-free writing">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="A Blank Page — Distraction-Free Writing">
+<meta name="twitter:description" content="A quiet, ad-free page to write on. What you write stays in your browser; nothing is sent anywhere.">
+<meta name="twitter:image" content="https://hakanaltun.io/images/og/write.png?v=20260716-1">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#FFFFFF">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#191712">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "@id": "https://hakanaltun.io/write/#app",
+      "name": "The Page — A Blank Page for Distraction-Free Writing",
+      "url": "https://hakanaltun.io/write/",
+      "description": "A quiet, ad-free page to write on. Garamond type, a word count, fullscreen, autosave — and nothing else. What you write stays in your browser; nothing is sent anywhere.",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires JavaScript",
+      "isAccessibleForFree": true,
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "author": { "@type": "Person", "name": "Hakan Altun", "url": "https://hakanaltun.io/" },
+      "inLanguage": "en"
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://hakanaltun.io/write/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Where does my text go?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Nowhere. It is kept in your browser's local storage, on your device — there is no server, no account and no sync. Clearing the browser's site data erases it, so download anything you want to keep." }
+        },
+        {
+          "@type": "Question",
+          "name": "Does the page autosave?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes — a moment after you pause typing, and again when you leave. Ctrl-S (Cmd-S on a Mac) saves on the spot. A quiet note in the corner confirms it." }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I save my writing as a file?",
+          "acceptedAnswer": { "@type": "Answer", "text": "The download button in the top right saves the page as a plain .txt file named after today's date." }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I write in fullscreen?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. The fullscreen button hides everything but the paper; only the word count keeps you company. Move the mouse to bring the controls back." }
+        }
+      ]
+    }
+  ]
+}
+</script>
 
 <link rel="stylesheet" href="/css/fonts.css?v=20260710-1">
 
@@ -102,6 +160,18 @@ layout: null
   /* fullscreen focus: only the chrome retires; the page and its count remain */
   body.immersive .chrome{ opacity:0; pointer-events:none; }
   body.immersive.show-chrome .chrome{ opacity:1; pointer-events:auto; }
+  body.immersive .notes{ display:none; }
+
+  /* notes — quiet reading matter under the paper */
+  .notes{ border-top:1px solid var(--line); padding:60px 26px 110px; }
+  .notes-inner{ max-width:640px; margin:0 auto; }
+  .notes h2{ font-family:var(--display); font-style:italic; font-weight:400; font-size:1.6rem; margin:2.4rem 0 1rem; color:var(--ink); }
+  .notes h2:first-child{ margin-top:0; }
+  .notes h3{ font-family:var(--body); font-style:italic; font-weight:400; font-size:1.15rem; margin:1.5rem 0 .35rem; color:var(--ink); }
+  .notes p{ color:var(--muted); font-size:1.05rem; line-height:1.65; margin:0 0 .9rem; }
+  .notes a{ color:var(--ink); text-decoration:underline; text-underline-offset:3px; text-decoration-color:var(--line); }
+  .notes a:hover{ text-decoration-color:var(--ink); }
+  .notes .notes-links{ margin-top:2.4rem; padding-top:1.3rem; border-top:1px solid var(--line); font-style:italic; }
 
   @media (max-width:600px){
     .chrome{ padding:12px 14px; }
@@ -155,6 +225,28 @@ layout: null
     <label for="page" class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);">Write here</label>
     <textarea id="page" placeholder="Start anywhere." autocomplete="off" spellcheck="true"></textarea>
   </div>
+
+  <footer class="notes">
+    <div class="notes-inner">
+      <h2>About this page</h2>
+      <p>A blank page for distraction-free writing &mdash; Garamond type on quiet paper, a word count in the corner, autosave, fullscreen, and nothing else. No ads, no account, no toolbar. It is the writing tool this site&rsquo;s essays wish they had been written in; use it for morning pages, drafts, letters, or whatever needs an empty sheet.</p>
+
+      <h2>Questions</h2>
+      <h3>Where does my text go?</h3>
+      <p>Nowhere. It is kept in your browser&rsquo;s local storage, on your device &mdash; there is no server, no account and no sync. Clearing the browser&rsquo;s site data erases it, so download anything you want to keep.</p>
+
+      <h3>Does the page autosave?</h3>
+      <p>Yes &mdash; a moment after you pause typing, and again when you leave. Ctrl-S (Cmd-S on a Mac) saves on the spot. A quiet note in the corner confirms it.</p>
+
+      <h3>Can I save my writing as a file?</h3>
+      <p>The download button in the top right saves the page as a plain .txt file named after today&rsquo;s date.</p>
+
+      <h3>Can I write in fullscreen?</h3>
+      <p>Yes. The fullscreen button hides everything but the paper; only the word count keeps you company. Move the mouse to bring the controls back.</p>
+
+      <p class="notes-links">More instruments: <a href="/words/">a word counter</a>, <a href="/clock/">a fullscreen clock with pomodoro</a>, <a href="/breathe/">a breathing exercise</a>, <a href="/noise/">ambient noise</a>, <a href="/moon/">the phase of the moon</a> and <a href="/twilight/">&#304;stanbul&rsquo;s twilight</a> &mdash; or see <a href="/tools/">all the tools</a>.</p>
+    </div>
+  </footer>
 
   <div class="corner words" id="wordCount" aria-live="polite">0 words</div>
   <div class="corner saved" id="savedNote">Saved &mdash; stays in this browser</div>

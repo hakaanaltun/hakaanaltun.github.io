@@ -13,6 +13,68 @@ layout: null
 <meta property="og:title" content="Fullscreen Clock, Countdown, Stopwatch &amp; Pomodoro">
 <meta property="og:description" content="A clean, ad-free fullscreen clock with a countdown, stopwatch and pomodoro timer — distraction-free, made for classrooms, exams and focused work.">
 <meta property="og:url" content="https://hakanaltun.io/clock/">
+<meta property="og:image" content="https://hakanaltun.io/images/og/clock.png?v=20260716-1">
+<meta property="og:image:alt" content="The Clock — a fullscreen clock, countdown, stopwatch and pomodoro">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Fullscreen Clock, Countdown, Stopwatch &amp; Pomodoro">
+<meta name="twitter:description" content="A clean, ad-free fullscreen clock with a countdown, stopwatch and pomodoro timer — distraction-free, made for classrooms, exams and focused work.">
+<meta name="twitter:image" content="https://hakanaltun.io/images/og/clock.png?v=20260716-1">
+<meta name="theme-color" content="#1D4354">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "@id": "https://hakanaltun.io/clock/#app",
+      "name": "The Clock — Fullscreen Clock, Countdown, Stopwatch & Pomodoro",
+      "url": "https://hakanaltun.io/clock/",
+      "description": "A clean, ad-free fullscreen clock with a countdown, stopwatch and pomodoro timer. Large tabular numerals, an analog view, and a distraction-free display — made for classrooms, exams and focused work.",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires JavaScript",
+      "isAccessibleForFree": true,
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "author": { "@type": "Person", "name": "Hakan Altun", "url": "https://hakanaltun.io/" },
+      "inLanguage": "en"
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://hakanaltun.io/clock/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How do I make the clock fullscreen?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Use the button in the top right corner, or your browser's own shortcut (F11 on most keyboards). In fullscreen the controls retire; move the mouse or touch the screen to bring them back." }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I link straight to a running countdown?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. Add ?until= to the address: /clock/?until=2026-09-01T09:00 opens the page already counting down to that moment, and &label=Exam places a caption under the numbers. A bare time such as ?until=13:30 counts down to the next half past one." }
+        },
+        {
+          "@type": "Question",
+          "name": "Will the timers survive a page reload?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. The countdown and the pomodoro aim at a fixed end time and the stopwatch remembers when it started, so a reload — or a laptop going to sleep — does not lose your place. Everything is kept in your browser's local storage." }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I switch to the analog face?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Click or tap the digits themselves and an analog face takes their place; click the face to return to digits. The choice is remembered." }
+        },
+        {
+          "@type": "Question",
+          "name": "Is anything sent to a server?",
+          "acceptedAnswer": { "@type": "Answer", "text": "No. The page is a single static file — no ads, no analytics, no account. Settings and running timers stay on your device." }
+        }
+      ]
+    }
+  ]
+}
+</script>
 
 <link rel="stylesheet" href="/css/fonts.css?v=20260710-1">
 
@@ -30,13 +92,17 @@ layout: null
   }
 
   *{ box-sizing:border-box; margin:0; padding:0; }
-  html,body{ height:100%; }
+  html{ height:100%; }
 
   body{
     background:var(--bg); color:var(--fg); font-family:var(--body);
-    height:100vh; height:100dvh; overflow:hidden; display:flex; flex-direction:column;
+    min-height:100vh; min-height:100dvh;
     -webkit-font-smoothing:antialiased;
   }
+
+  /* the instrument fills the first viewport; the notes wait below the fold */
+  .app{ height:100vh; height:100dvh; display:flex; flex-direction:column; }
+  body.immersive{ height:100vh; height:100dvh; overflow:hidden; }
 
   .chrome{
     position:relative;
@@ -89,6 +155,14 @@ layout: null
     margin-top:.5em; font-family:var(--body); font-style:italic;
     color:var(--muted); font-size:clamp(1.1rem, 3.5vw, 2.1rem); letter-spacing:.02em;
   }
+  .cd-caption{
+    display:none; margin-bottom:.7em; font-family:var(--body); font-style:italic;
+    color:var(--muted); font-size:clamp(1.1rem, 3.5vw, 2.1rem); letter-spacing:.02em;
+  }
+  .cd-caption.on{ display:block; }
+  /* multi-day countdowns carry more characters — give them a smaller cloth */
+  .display.long{ font-size:clamp(2.4rem, 11vw, 12rem); }
+  body.immersive .display.long{ font-size:clamp(2.8rem, 13vw, 14rem); }
 
   /* analog */
   .face-slot{ display:none; }
@@ -178,6 +252,19 @@ layout: null
     opacity:1; pointer-events:auto;
   }
   body.immersive .display{ font-size:clamp(5rem, 23vw, 25rem); }
+  body.immersive .notes{ display:none; }
+
+  /* notes — quiet reading matter under the instrument */
+  .notes{ border-top:1px solid var(--line); padding:60px 26px 84px; }
+  .notes-inner{ max-width:640px; margin:0 auto; }
+  .notes h2{ font-family:var(--display); font-style:italic; font-weight:400; font-size:1.6rem; margin:2.4rem 0 1rem; color:var(--fg); }
+  .notes h2:first-child{ margin-top:0; }
+  .notes h3{ font-family:var(--body); font-style:italic; font-weight:400; font-size:1.15rem; margin:1.5rem 0 .35rem; color:var(--fg); }
+  .notes p{ color:var(--muted); font-size:1.05rem; line-height:1.65; margin:0 0 .9rem; }
+  .notes code{ font-family:inherit; font-style:italic; color:var(--fg); }
+  .notes a{ color:var(--fg); text-decoration:underline; text-underline-offset:3px; text-decoration-color:var(--line); }
+  .notes a:hover{ text-decoration-color:var(--fg); }
+  .notes .notes-links{ margin-top:2.4rem; padding-top:1.3rem; border-top:1px solid var(--line); font-style:italic; }
 
   /* tablets & phones: logo top-center, fullscreen top-right, tabs full-width below
      (the absolutely-centered masthead collides with the tabs on narrower viewports) */
@@ -235,6 +322,8 @@ layout: null
 </head>
 <body>
 
+  <div class="app">
+
   <div class="chrome" id="chrome">
     <div class="tabs" role="tablist" aria-label="View">
       <button class="tab" role="tab" data-panel="clock"     aria-selected="true">Clock</button>
@@ -277,6 +366,7 @@ layout: null
           <span class="field-label">min</span>
         </span>
       </div>
+      <div class="cd-caption" id="cdCaption"></div>
       <div class="display" id="cdDisplay"><span id="cdMain">00:00</span><span class="unit" id="cdUnit"></span></div>
       <div class="face-slot"></div>
       <div class="overtime" id="overtime"></div>
@@ -331,6 +421,33 @@ layout: null
       <button class="theme-more" id="themeMore" title="More colors" aria-label="More colors" aria-expanded="false">&hellip;</button>
     </div>
   </div>
+
+  </div><!-- /.app -->
+
+  <footer class="notes">
+    <div class="notes-inner">
+      <h2>About this clock</h2>
+      <p>A free fullscreen clock with a countdown timer, a stopwatch and a pomodoro timer on one quiet page &mdash; made for classrooms, exams, presentations and focused work. There are no ads and no account; the page is a single static file, and every setting stays in your browser. Click the digits for an analog face, pick a background from the palette in the corner, and press the fullscreen button when the clock should be the only thing in the room.</p>
+
+      <h2>Questions</h2>
+      <h3>How do I make the clock fullscreen?</h3>
+      <p>Use the button in the top right corner, or your browser&rsquo;s own shortcut (F11 on most keyboards). In fullscreen the controls retire; move the mouse or touch the screen to bring them back.</p>
+
+      <h3>Can I link straight to a running countdown?</h3>
+      <p>Yes. Add <code>?until=</code> to the address: <a href="/clock/?until=2026-09-01T09:00&amp;label=First%20bell"><code>/clock/?until=2026-09-01T09:00</code></a> opens the page already counting down to that moment, and <code>&amp;label=Exam</code> places a caption under the numbers. A bare time such as <code>?until=13:30</code> counts down to the next half past one.</p>
+
+      <h3>Will the timers survive a page reload?</h3>
+      <p>Yes. The countdown and the pomodoro aim at a fixed end time and the stopwatch remembers when it started, so a reload &mdash; or a laptop going to sleep &mdash; does not lose your place. Everything is kept in your browser&rsquo;s local storage.</p>
+
+      <h3>How do I switch to the analog face?</h3>
+      <p>Click or tap the digits themselves and an analog face takes their place; click the face to return to digits. The choice is remembered.</p>
+
+      <h3>Is anything sent to a server?</h3>
+      <p>No. The page is a single static file &mdash; no ads, no analytics, no account. Settings and running timers stay on your device.</p>
+
+      <p class="notes-links">More instruments: <a href="/words/">a word counter</a>, <a href="/write/">a blank page to write on</a>, <a href="/breathe/">a breathing exercise</a>, <a href="/noise/">ambient noise</a>, <a href="/moon/">the phase of the moon</a> and <a href="/twilight/">&#304;stanbul&rsquo;s twilight</a> &mdash; or see <a href="/tools/">all the tools</a>.</p>
+    </div>
+  </footer>
 
 <script>
 (function(){
@@ -619,12 +736,14 @@ layout: null
 
   function fmtCd(ms){
     const total=Math.floor(ms/1000);
-    const h=Math.floor(total/3600), m=Math.floor(total%3600/60), s=total%60;
+    const d=Math.floor(total/86400), h=Math.floor(total%86400/3600), m=Math.floor(total%3600/60), s=total%60;
     if(state.seconds){
+      if(d>0) return { main: d+"d "+pad(h)+":"+pad(m)+":"+pad(s), unit:"" };
       return { main: h>0 ? pad(h)+":"+pad(m)+":"+pad(s) : pad(m)+":"+pad(s), unit:"" };
     }
     let tm=Math.ceil(ms/60000); if(tm<0) tm=0;           // saniye kapalı: kalan dakika (yukarı yuvarla)
-    const hh=Math.floor(tm/60), mm=tm%60;
+    const dd=Math.floor(tm/1440), hh=Math.floor(tm%1440/60), mm=tm%60;
+    if(dd>0) return { main: dd+"d "+pad(hh)+":"+pad(mm), unit:"" };
     return hh>0 ? { main: hh+":"+pad(mm), unit:"" } : { main: String(mm), unit:"min" };
   }
   function swParts(ms){
@@ -642,8 +761,12 @@ layout: null
   /* ---- render loop ---- */
   const clockDisplay=$("#clockDisplay"), dateLine=$("#dateLine");
   const overtime=$("#overtime");
-  const cdMain=$("#cdMain"), cdUnit=$("#cdUnit");
-  function showCd(ms){ const p=fmtCd(ms); setText(cdMain,"cdm",p.main); setText(cdUnit,"cdu",p.unit); }
+  const cdMain=$("#cdMain"), cdUnit=$("#cdUnit"), cdDisplay=$("#cdDisplay");
+  function showCd(ms){
+    const p=fmtCd(ms);
+    setText(cdMain,"cdm",p.main); setText(cdUnit,"cdu",p.unit);
+    cdDisplay.classList.toggle("long", p.main.length>8);
+  }
   const swMain=$("#swMain"), swCs=$("#swCs");
   const dateFmt=new Intl.DateTimeFormat("en-US",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
   const last={};
@@ -742,6 +865,35 @@ layout: null
 
     requestAnimationFrame(tick);
   }
+
+  /* ---- shareable countdown URLs: /clock/?until=2026-09-01T09:00&label=Exam ---- */
+  function parseUntil(str){
+    if(!str) return null;
+    let m=str.match(/^(\d{4})-(\d{2})-(\d{2})(?:[T ](\d{1,2}):(\d{2}))?$/);
+    if(m) return new Date(+m[1], +m[2]-1, +m[3], m[4]?+m[4]:0, m[5]?+m[5]:0, 0, 0).getTime();
+    m=str.match(/^(\d{1,2}):(\d{2})$/);
+    if(m){
+      const d=new Date(); d.setHours(+m[1], +m[2], 0, 0);
+      if(d.getTime()<=Date.now()) d.setDate(d.getDate()+1);
+      return d.getTime();
+    }
+    return null;
+  }
+  (function initFromUrl(){
+    let q;
+    try{ q=new URLSearchParams(location.search); }catch(e){ return; }
+    const t=parseUntil(q.get("until"));
+    if(t!=null && t>Date.now()){
+      state.panel="countdown";
+      state.cdTargetEpoch=t; state.cdTotalMs=t-Date.now();
+      state.cdRunning=true; state.cdRemainingPaused=null;
+      const label=(q.get("label")||"").trim().slice(0,80);
+      if(label){
+        const cap=$("#cdCaption");
+        cap.textContent=label; cap.classList.add("on");
+      }
+    }
+  })();
 
   setCdMode(state.cdMode);
   applyTheme();

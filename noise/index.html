@@ -1,0 +1,494 @@
+---
+layout: null
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>White, Pink &amp; Brown Noise &mdash; Ambient Sound for Focus &amp; Sleep &middot; On Life &amp; Everything</title>
+<meta name="description" content="A quiet noise machine: white, pink and brown noise generated live in your browser, with a volume dial and a sleep timer. No files, no streaming, no ads — nothing leaves your device.">
+<link rel="canonical" href="https://hakanaltun.io/noise/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="White, Pink &amp; Brown Noise — Ambient Sound for Focus &amp; Sleep">
+<meta property="og:description" content="White, pink and brown noise generated live in your browser, with a volume dial and a sleep timer.">
+<meta property="og:url" content="https://hakanaltun.io/noise/">
+<meta property="og:image" content="https://hakanaltun.io/images/og/noise.png?v=20260716-1">
+<meta property="og:image:alt" content="The Noise — ambient sound for focus and sleep">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="White, Pink &amp; Brown Noise — Ambient Sound for Focus &amp; Sleep">
+<meta name="twitter:description" content="White, pink and brown noise generated live in your browser, with a volume dial and a sleep timer.">
+<meta name="twitter:image" content="https://hakanaltun.io/images/og/noise.png?v=20260716-1">
+<meta name="theme-color" content="#191712">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "@id": "https://hakanaltun.io/noise/#app",
+      "name": "The Noise — White, Pink & Brown Noise",
+      "url": "https://hakanaltun.io/noise/",
+      "description": "A quiet noise machine: white, pink and brown noise generated live in your browser, with a volume dial and a sleep timer. No files, no streaming, no ads — nothing leaves your device.",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires JavaScript and Web Audio",
+      "isAccessibleForFree": true,
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "author": { "@type": "Person", "name": "Hakan Altun", "url": "https://hakanaltun.io/" },
+      "inLanguage": "en"
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://hakanaltun.io/noise/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the difference between white, pink and brown noise?",
+          "acceptedAnswer": { "@type": "Answer", "text": "White noise spreads its energy evenly across all frequencies and sounds bright, like static. Pink noise tilts toward the low end and sounds like steady rain. Brown noise leans lower still — closer to surf or a distant waterfall — and many people find it the easiest to sit inside for hours." }
+        },
+        {
+          "@type": "Question",
+          "name": "Where does the sound come from?",
+          "acceptedAnswer": { "@type": "Answer", "text": "It is generated live by your browser's Web Audio engine the moment you press play. Nothing is downloaded or streamed, there are no loops of someone else's recording, and the sound never repeats." }
+        },
+        {
+          "@type": "Question",
+          "name": "Will it keep playing if I switch tabs or lock my phone?",
+          "acceptedAnswer": { "@type": "Answer", "text": "In a background tab on a computer, yes. On phones the operating system may pause web audio when the screen locks — keep the page in the foreground, or use the sleep timer and let it fade out on its own." }
+        },
+        {
+          "@type": "Question",
+          "name": "Is it safe to fall asleep to?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Keep the volume modest — comfortably below conversation level — and use the sleep timer, which fades the sound out gently after 15, 30 or 60 minutes so it doesn't play all night." }
+        }
+      ]
+    }
+  ]
+}
+</script>
+
+<link rel="stylesheet" href="/css/fonts.css?v=20260710-1">
+
+<style>
+  :root{
+    --bg:    #191712;
+    --fg:    #E7E1D6;
+    --muted: rgba(231,225,214,0.6);
+    --line:  rgba(231,225,214,0.26);
+
+    --display: 'Cormorant Garamond', Georgia, serif;
+    --body:    'EB Garamond', Georgia, serif;
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ height:100%; }
+
+  body{
+    background:var(--bg); color:var(--fg); font-family:var(--body);
+    min-height:100vh; min-height:100dvh;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* the instrument fills the first viewport; the notes wait below the fold */
+  .app{ height:100vh; height:100dvh; display:flex; flex-direction:column; }
+  body.immersive{ height:100vh; height:100dvh; overflow:hidden; }
+  body.immersive .notes{ display:none; }
+
+  .chrome{
+    position:relative; display:flex; align-items:center; justify-content:space-between;
+    padding:16px 26px; border-bottom:1px solid var(--line); gap:12px;
+    transition:opacity .4s ease, border-color .4s ease;
+  }
+  .masthead{
+    position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+    text-decoration:none; display:flex; flex-direction:column; align-items:center;
+    gap:1px; text-align:center; opacity:.85; transition:opacity .2s;
+  }
+  .masthead:hover{ opacity:1; }
+  .home-brand{ font-family:var(--display); font-style:italic; font-weight:400; font-size:1.1rem; line-height:1.05; color:var(--fg); }
+  .home-tagline{ font-family:var(--body); font-style:italic; font-weight:400; font-size:0.8rem; line-height:1.2; color:var(--muted); }
+
+  .icon-btn{
+    background:none; border:1px solid var(--line); color:var(--muted);
+    width:40px; height:40px; border-radius:8px; cursor:pointer; font-size:17px;
+    display:grid; place-items:center; transition:color .2s, border-color .2s;
+    margin-left:auto;
+  }
+  .icon-btn:hover{ color:var(--fg); border-color:var(--muted); }
+  .icon-btn:focus-visible{ outline:2px solid var(--fg); outline-offset:2px; }
+
+  .stage{
+    flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; padding:24px;
+  }
+
+  .mode-row{ display:flex; gap:10px; justify-content:center; align-items:center; margin-bottom:3rem; flex-wrap:wrap; }
+  .seg{ display:flex; border:1px solid var(--line); border-radius:999px; overflow:hidden; }
+  .seg button{
+    background:none; border:none; color:var(--muted); font-family:var(--body);
+    font-size:14px; padding:8px 18px; cursor:pointer; letter-spacing:.02em;
+  }
+  .seg button[aria-pressed="true"]{ background:var(--fg); color:var(--bg); }
+  .seg button:focus-visible{ outline:2px solid var(--fg); outline-offset:2px; }
+
+  .play{
+    width:clamp(120px, 22vmin, 170px); aspect-ratio:1; border-radius:50%;
+    background:none; border:1px solid var(--line); color:var(--fg); cursor:pointer;
+    display:grid; place-items:center; transition:border-color .2s, background .2s;
+  }
+  .play:hover{ border-color:var(--fg); }
+  .play:focus-visible{ outline:2px solid var(--fg); outline-offset:4px; }
+  .play svg{ width:34%; height:34%; fill:var(--fg); }
+  .play .icon-pause{ display:none; }
+  body.playing .play{ background:rgba(231,225,214,0.07); }
+  body.playing .play .icon-play{ display:none; }
+  body.playing .play .icon-pause{ display:block; }
+
+  .playing-note{
+    margin-top:1.6rem; font-family:var(--display); font-style:italic;
+    font-size:clamp(1.3rem, 3.4vw, 1.9rem); min-height:1.4em;
+  }
+  .fade-note{ margin-top:.3rem; font-style:italic; color:var(--muted); font-size:.95rem; min-height:1.3em; }
+
+  .vol-row{
+    margin-top:2.4rem; display:flex; align-items:center; gap:14px;
+    width:min(320px, 76vw);
+  }
+  .vol-row .vlab{ font-style:italic; color:var(--muted); font-size:.9rem; }
+  input[type="range"]{
+    flex:1; -webkit-appearance:none; appearance:none; height:2px;
+    background:var(--line); border-radius:999px; outline:none; cursor:pointer;
+  }
+  input[type="range"]::-webkit-slider-thumb{
+    -webkit-appearance:none; appearance:none; width:16px; height:16px; border-radius:50%;
+    background:var(--fg); border:none;
+  }
+  input[type="range"]::-moz-range-thumb{
+    width:16px; height:16px; border-radius:50%; background:var(--fg); border:none;
+  }
+  input[type="range"]:focus-visible{ outline:2px solid var(--fg); outline-offset:4px; }
+
+  .timer-row{ margin-top:2rem; display:flex; align-items:center; gap:12px; flex-wrap:wrap; justify-content:center; }
+  .timer-row .tlab{ font-style:italic; color:var(--muted); font-size:.9rem; }
+
+  body.immersive .chrome{ opacity:0; pointer-events:none; border-color:transparent; }
+  body.immersive.show-chrome .chrome{ opacity:1; pointer-events:auto; }
+
+  /* notes — quiet reading matter under the instrument */
+  .notes{ border-top:1px solid var(--line); padding:60px 26px 84px; }
+  .notes-inner{ max-width:640px; margin:0 auto; }
+  .notes h2{ font-family:var(--display); font-style:italic; font-weight:400; font-size:1.6rem; margin:2.4rem 0 1rem; color:var(--fg); }
+  .notes h2:first-child{ margin-top:0; }
+  .notes h3{ font-family:var(--body); font-style:italic; font-weight:400; font-size:1.15rem; margin:1.5rem 0 .35rem; color:var(--fg); }
+  .notes p{ color:var(--muted); font-size:1.05rem; line-height:1.65; margin:0 0 .9rem; }
+  .notes a{ color:var(--fg); text-decoration:underline; text-underline-offset:3px; text-decoration-color:var(--line); }
+  .notes a:hover{ text-decoration-color:var(--fg); }
+  .notes .notes-links{ margin-top:2.4rem; padding-top:1.3rem; border-top:1px solid var(--line); font-style:italic; }
+
+  @media (max-width:600px){
+    .chrome{ padding:12px 14px; }
+    .home-brand{ font-size:1rem; }
+    .home-tagline{ font-size:0.74rem; }
+    .mode-row{ margin-bottom:2.2rem; }
+  }
+  @media (orientation:landscape) and (max-height:500px){
+    .masthead{ display:none; }
+    .chrome{ padding:8px 14px; }
+    .mode-row{ margin-bottom:1.2rem; }
+    .play{ width:clamp(80px, 24vh, 110px); }
+    .playing-note{ margin-top:.9rem; }
+    .vol-row{ margin-top:1.2rem; }
+    .timer-row{ margin-top:1rem; }
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    *{ transition:none !important; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="app">
+
+  <div class="chrome" id="chrome">
+    <a class="masthead" href="/" aria-label="On Life &amp; Everything — home">
+      <span class="home-brand">On Life &amp; Everything</span>
+      <span class="home-tagline">Essays, short fiction, and other writing.</span>
+    </a>
+    <button class="icon-btn" id="fsBtn" title="Fullscreen" aria-label="Fullscreen">&#10530;</button>
+  </div>
+
+  <div class="stage">
+    <div class="mode-row">
+      <div class="seg" role="group" aria-label="Noise color">
+        <button id="colWhite" aria-pressed="false">White</button>
+        <button id="colPink" aria-pressed="false">Pink</button>
+        <button id="colBrown" aria-pressed="true">Brown</button>
+      </div>
+    </div>
+
+    <button class="play" id="playBtn" aria-label="Play or pause">
+      <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg>
+      <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 4.5h4v15h-4zM13.5 4.5h4v15h-4z"/></svg>
+    </button>
+
+    <h1 class="playing-note" id="note">Brown noise</h1>
+    <div class="fade-note" id="fadeNote"></div>
+
+    <div class="vol-row">
+      <span class="vlab" id="volLabel">Volume</span>
+      <input type="range" id="vol" min="0" max="100" value="60" aria-labelledby="volLabel">
+    </div>
+
+    <div class="timer-row">
+      <span class="tlab" id="timerLabel">Fade out after</span>
+      <div class="seg" role="group" aria-labelledby="timerLabel">
+        <button data-min="0" aria-pressed="true">Off</button>
+        <button data-min="15" aria-pressed="false">15 m</button>
+        <button data-min="30" aria-pressed="false">30 m</button>
+        <button data-min="60" aria-pressed="false">60 m</button>
+      </div>
+    </div>
+  </div>
+
+  </div><!-- /.app -->
+
+  <footer class="notes">
+    <div class="notes-inner">
+      <h2>About this noise</h2>
+      <p>A small noise machine for focus, sleep and covering a loud world: white, pink and brown noise, generated live by your browser&rsquo;s own audio engine the moment you press play. There is nothing to download and nothing streamed &mdash; no recordings, no loops, no ads &mdash; so the sound never repeats and never buffers. Set the volume low, choose a color, and let the room close its door. A sleep timer can fade the sound out after 15, 30 or 60 minutes.</p>
+
+      <h2>Questions</h2>
+      <h3>What is the difference between white, pink and brown noise?</h3>
+      <p>White noise spreads its energy evenly across all frequencies and sounds bright, like static. Pink noise tilts toward the low end and sounds like steady rain. Brown noise leans lower still &mdash; closer to surf or a distant waterfall &mdash; and many people find it the easiest to sit inside for hours.</p>
+
+      <h3>Where does the sound come from?</h3>
+      <p>It is generated live by your browser&rsquo;s Web Audio engine the moment you press play. Nothing is downloaded or streamed, there are no loops of someone else&rsquo;s recording, and the sound never repeats.</p>
+
+      <h3>Will it keep playing if I switch tabs or lock my phone?</h3>
+      <p>In a background tab on a computer, yes. On phones the operating system may pause web audio when the screen locks &mdash; keep the page in the foreground, or use the sleep timer and let it fade out on its own.</p>
+
+      <h3>Is it safe to fall asleep to?</h3>
+      <p>Keep the volume modest &mdash; comfortably below conversation level &mdash; and use the sleep timer, which fades the sound out gently after 15, 30 or 60 minutes so it doesn&rsquo;t play all night.</p>
+
+      <p class="notes-links">More instruments: <a href="/clock/">a fullscreen clock with pomodoro</a>, <a href="/breathe/">a breathing exercise</a>, <a href="/write/">a blank page to write on</a>, <a href="/words/">a word counter</a>, <a href="/moon/">the phase of the moon</a> and <a href="/twilight/">&#304;stanbul&rsquo;s twilight</a> &mdash; or see <a href="/tools/">all the tools</a>.</p>
+    </div>
+  </footer>
+
+<script>
+(function(){
+  "use strict";
+  var $ = function(s){ return document.querySelector(s); };
+  var LS = "olae-noise-v1";
+
+  var color = "brown", playing = false;
+  var ctx = null, master = null, source = null;
+  var buffers = {};
+  var LEVELS = { white:0.16, pink:0.22, brown:0.38 };   /* rough loudness matching */
+  var NAMES  = { white:"White noise", pink:"Pink noise", brown:"Brown noise" };
+
+  try{
+    var saved = JSON.parse(localStorage.getItem(LS));
+    if(saved){
+      if(NAMES[saved.color]) color = saved.color;
+      if(typeof saved.vol === "number") $("#vol").value = saved.vol;
+    }
+  }catch(e){}
+
+  function save(){
+    try{ localStorage.setItem(LS, JSON.stringify({ color: color, vol: +$("#vol").value })); }catch(e){}
+  }
+
+  /* ---- generation: a 12 s buffer per color, seam crossfaded so the loop is silent ---- */
+  function makeBuffer(kind){
+    var sr = ctx.sampleRate, len = sr * 12, fade = Math.floor(sr / 2);
+    var raw = new Float32Array(len + fade);
+    var i, w;
+    if(kind === "white"){
+      for(i = 0; i < raw.length; i++) raw[i] = Math.random() * 2 - 1;
+    } else if(kind === "pink"){
+      var b0=0,b1=0,b2=0,b3=0,b4=0,b5=0,b6=0;
+      for(i = 0; i < raw.length; i++){
+        w = Math.random() * 2 - 1;
+        b0 = 0.99886*b0 + w*0.0555179;
+        b1 = 0.99332*b1 + w*0.0750759;
+        b2 = 0.96900*b2 + w*0.1538520;
+        b3 = 0.86650*b3 + w*0.3104856;
+        b4 = 0.55000*b4 + w*0.5329522;
+        b5 = -0.7616*b5 - w*0.0168980;
+        raw[i] = (b0+b1+b2+b3+b4+b5+b6 + w*0.5362) * 0.11;
+        b6 = w * 0.115926;
+      }
+    } else {
+      var last = 0;
+      for(i = 0; i < raw.length; i++){
+        w = Math.random() * 2 - 1;
+        last = (last + 0.02 * w) / 1.02;
+        raw[i] = last * 3.5;
+      }
+    }
+    var buf = ctx.createBuffer(1, len, sr);
+    var data = buf.getChannelData(0);
+    for(i = 0; i < len; i++){
+      data[i] = i < fade
+        ? raw[i] * (i / fade) + raw[len + i] * (1 - i / fade)
+        : raw[i];
+    }
+    return buf;
+  }
+
+  function ensureCtx(){
+    if(ctx) return;
+    var AC = window.AudioContext || window.webkitAudioContext;
+    ctx = new AC();
+    master = ctx.createGain();
+    master.connect(ctx.destination);
+  }
+  function targetGain(){ return (+$("#vol").value / 100) * LEVELS[color]; }
+
+  function startSource(){
+    if(!buffers[color]) buffers[color] = makeBuffer(color);
+    source = ctx.createBufferSource();
+    source.buffer = buffers[color];
+    source.loop = true;
+    source.connect(master);
+    source.start();
+  }
+  function stopSource(){
+    if(source){ try{ source.stop(); }catch(e){} source.disconnect(); source = null; }
+  }
+
+  function play(){
+    ensureCtx();
+    if(ctx.state === "suspended") ctx.resume();
+    master.gain.cancelScheduledValues(ctx.currentTime);
+    master.gain.setValueAtTime(0, ctx.currentTime);
+    master.gain.linearRampToValueAtTime(targetGain(), ctx.currentTime + 0.4);
+    startSource();
+    playing = true;
+    document.body.classList.add("playing");
+    armTimer();
+  }
+  function pause(){
+    if(!ctx) return;
+    stopSource();
+    playing = false;
+    document.body.classList.remove("playing");
+    disarmTimer();
+  }
+  $("#playBtn").addEventListener("click", function(){ playing ? pause() : play(); });
+
+  /* ---- colors ---- */
+  var colBtns = { white: $("#colWhite"), pink: $("#colPink"), brown: $("#colBrown") };
+  function setColor(c){
+    color = c;
+    Object.keys(colBtns).forEach(function(k){ colBtns[k].setAttribute("aria-pressed", String(k === c)); });
+    $("#note").textContent = NAMES[c];
+    if(playing){
+      stopSource();
+      master.gain.cancelScheduledValues(ctx.currentTime);
+      master.gain.setValueAtTime(targetGain(), ctx.currentTime);
+      startSource();
+    }
+    save();
+  }
+  Object.keys(colBtns).forEach(function(k){
+    colBtns[k].addEventListener("click", function(){ setColor(k); });
+  });
+
+  /* ---- volume ---- */
+  $("#vol").addEventListener("input", function(){
+    if(ctx && playing){
+      master.gain.cancelScheduledValues(ctx.currentTime);
+      master.gain.linearRampToValueAtTime(targetGain(), ctx.currentTime + 0.08);
+    }
+    save();
+  });
+
+  /* ---- sleep timer ---- */
+  var timerMin = 0, timerAt = null, timerT = null, noteT = null;
+  var timerBtns = Array.prototype.slice.call(document.querySelectorAll(".timer-row .seg button"));
+  timerBtns.forEach(function(b){
+    b.addEventListener("click", function(){
+      timerMin = +b.getAttribute("data-min");
+      timerBtns.forEach(function(x){ x.setAttribute("aria-pressed", String(x === b)); });
+      if(playing) armTimer(); else updateFadeNote();
+    });
+  });
+  function armTimer(){
+    disarmTimer();
+    if(timerMin > 0){
+      timerAt = Date.now() + timerMin * 60000;
+      timerT = setTimeout(fadeOut, timerMin * 60000);
+      noteT = setInterval(updateFadeNote, 15000);
+    }
+    updateFadeNote();
+  }
+  function disarmTimer(){
+    if(timerT){ clearTimeout(timerT); timerT = null; }
+    if(noteT){ clearInterval(noteT); noteT = null; }
+    timerAt = null;
+    updateFadeNote();
+  }
+  function updateFadeNote(){
+    var el = $("#fadeNote");
+    if(playing && timerAt){
+      var m = Math.max(1, Math.round((timerAt - Date.now()) / 60000));
+      el.textContent = "fades out in about " + m + (m === 1 ? " minute" : " minutes");
+    } else {
+      el.textContent = "";
+    }
+  }
+  function fadeOut(){
+    if(!ctx || !playing) return;
+    master.gain.cancelScheduledValues(ctx.currentTime);
+    master.gain.setValueAtTime(master.gain.value, ctx.currentTime);
+    master.gain.linearRampToValueAtTime(0, ctx.currentTime + 5);
+    setTimeout(pause, 5200);
+  }
+
+  /* ---- fullscreen, as on /clock/ ---- */
+  var docEl = document.documentElement, fakeFs = false;
+  function nativeFsElement(){ return document.fullscreenElement || document.webkitFullscreenElement || null; }
+  function requestFs(){
+    var fn = docEl.requestFullscreen || docEl.webkitRequestFullscreen || docEl.mozRequestFullScreen || docEl.msRequestFullscreen;
+    if(fn){ try{ fn.call(docEl); return true; }catch(e){} }
+    return false;
+  }
+  function exitFs(){
+    var fn = document.exitFullscreen || document.webkitExitFullscreen || document.mozCancelFullScreen || document.msExitFullscreen;
+    if(fn){ try{ fn.call(document); }catch(e){} }
+  }
+  function syncImmersive(){
+    var on = !!nativeFsElement() || fakeFs;
+    document.body.classList.toggle("immersive", on);
+    if(on) pokeChrome();
+  }
+  $("#fsBtn").addEventListener("click", function(){
+    if(nativeFsElement()){ exitFs(); return; }
+    if(fakeFs){ fakeFs = false; syncImmersive(); return; }
+    if(!requestFs()){ fakeFs = true; syncImmersive(); }
+  });
+  document.addEventListener("fullscreenchange", syncImmersive);
+  document.addEventListener("webkitfullscreenchange", syncImmersive);
+  document.addEventListener("keydown", function(e){ if(e.key === "Escape" && fakeFs){ fakeFs = false; syncImmersive(); } });
+  var chromeTimer;
+  function pokeChrome(){
+    document.body.classList.add("show-chrome");
+    clearTimeout(chromeTimer);
+    chromeTimer = setTimeout(function(){ document.body.classList.remove("show-chrome"); }, 2800);
+  }
+  ["mousemove","touchstart","keydown"].forEach(function(ev){
+    document.addEventListener(ev, function(){ if(document.body.classList.contains("immersive")) pokeChrome(); });
+  });
+
+  /* ---- init ---- */
+  setColor(color);
+})();
+</script>
+</body>
+</html>
