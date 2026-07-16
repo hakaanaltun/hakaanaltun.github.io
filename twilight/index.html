@@ -324,6 +324,13 @@ layout: null
     var UT = ((T - lngHour) % 24 + 24) % 24;
     var date = new Date(Date.UTC(day.y, day.mo, day.d));
     date.setUTCMinutes(Math.round(UT * 60));
+    /* anchor the event to the city's own calendar day: for far-east or
+       far-west cities the UT can land on the neighboring UTC date, which
+       put sunset before sunrise and bent the day length negative */
+    var wall = new Date(date.getTime() + tzOffsetMs(date));
+    var shift = Date.UTC(day.y, day.mo, day.d)
+              - Date.UTC(wall.getUTCFullYear(), wall.getUTCMonth(), wall.getUTCDate());
+    if(shift !== 0) date = new Date(date.getTime() + shift);
     return date;
   }
   function eventsFor(day){
@@ -352,8 +359,9 @@ layout: null
     return Math.asin(Math.sin(latR) * sinDec + Math.cos(latR) * Math.cos(dec) * Math.cos(H * RAD)) / RAD;
   }
 
-  /* ---- sky ramp: altitude → background, and how far the text leans to ink ---- */
-  var CREAM = [237,228,207], INK = [47,43,39];
+  /* ---- sky ramp: altitude → background, and how far the text leans from
+     cream toward wine — the tools' own red — as the day brightens ---- */
+  var CREAM = [237,228,207], WINE = [122,68,83];
   var STOPS = [   /* [altitude°, [r,g,b], inkMix 0..1] */
     [-30, [ 12, 16, 24], 0],
     [-18, [ 14, 19, 29], 0],
@@ -414,12 +422,12 @@ layout: null
     /* sky */
     var sky = skyAt(alt);
     document.body.style.backgroundColor = "rgb(" + sky[1].join(",") + ")";
-    document.body.style.color = mix(CREAM, INK, sky[2]);
-    var mutedA = sky[2] > 0.5 ? "rgba(47,43,39,0.62)" : "rgba(237,228,207,0.62)";
-    var lineA  = sky[2] > 0.5 ? "rgba(47,43,39,0.28)" : "rgba(237,228,207,0.28)";
+    document.body.style.color = mix(CREAM, WINE, sky[2]);
+    var mutedA = sky[2] > 0.5 ? "rgba(122,68,83,0.66)" : "rgba(237,228,207,0.62)";
+    var lineA  = sky[2] > 0.5 ? "rgba(122,68,83,0.3)" : "rgba(237,228,207,0.28)";
     document.documentElement.style.setProperty("--muted", mutedA);
     document.documentElement.style.setProperty("--line", lineA);
-    document.documentElement.style.setProperty("--fg", mix(CREAM, INK, sky[2]));
+    document.documentElement.style.setProperty("--fg", mix(CREAM, WINE, sky[2]));
 
     /* phase word */
     var name = phaseName(alt, now, ev);
