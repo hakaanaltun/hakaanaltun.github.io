@@ -7,14 +7,14 @@ layout: null
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>White, Pink &amp; Brown Noise, Wind, Waves &amp; Birdsong &middot; On Life &amp; Everything</title>
-<meta name="description" content="A quiet sound machine for focus and sleep: white, pink and brown noise, plus wind, waves, a stream and birdsong — all synthesized live in your browser, with a volume dial and a sleep timer.">
+<meta name="description" content="A quiet sound machine for focus and sleep: white, pink and brown noise, plus wind, waves, a stream and birdsong—all synthesized live in your browser, with a volume dial and a sleep timer.">
 <link rel="canonical" href="https://hakanaltun.io/noise/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="White, Pink &amp; Brown Noise, Wind, Waves &amp; Birdsong">
 <meta property="og:description" content="Noise colors and nature sounds for focus and sleep, synthesized live in your browser, with a volume dial and a sleep timer.">
 <meta property="og:url" content="https://hakanaltun.io/noise/">
 <meta property="og:image" content="https://hakanaltun.io/images/og/noise.png?v=20260716-2">
-<meta property="og:image:alt" content="The Noise — noise colors and nature sounds for focus and sleep">
+<meta property="og:image:alt" content="The Noise—noise colors and nature sounds for focus and sleep">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
@@ -30,9 +30,9 @@ layout: null
     {
       "@type": "WebApplication",
       "@id": "https://hakanaltun.io/noise/#app",
-      "name": "The Noise — Noise Colors & Nature Sounds",
+      "name": "The Noise—Noise Colors & Nature Sounds",
       "url": "https://hakanaltun.io/noise/",
-      "description": "A quiet sound machine for focus and sleep: white, pink and brown noise, plus wind, waves, a stream and birdsong — all synthesized live in your browser, with a volume dial and a sleep timer.",
+      "description": "A quiet sound machine for focus and sleep: white, pink and brown noise, plus wind, waves, a stream and birdsong—all synthesized live in your browser, with a volume dial and a sleep timer.",
       "applicationCategory": "UtilitiesApplication",
       "operatingSystem": "Any",
       "browserRequirements": "Requires JavaScript and Web Audio",
@@ -48,22 +48,22 @@ layout: null
         {
           "@type": "Question",
           "name": "What is the difference between white, pink and brown noise?",
-          "acceptedAnswer": { "@type": "Answer", "text": "White noise spreads its energy evenly across all frequencies and sounds bright, like static. Pink noise tilts toward the low end and sounds like steady rain. Brown noise leans lower still — closer to surf or a distant waterfall — and many people find it the easiest to sit inside for hours." }
+          "acceptedAnswer": { "@type": "Answer", "text": "White noise spreads its energy evenly across all frequencies and sounds bright, like static. Pink noise tilts toward the low end and sounds like steady rain. Brown noise leans lower still—closer to surf or a distant waterfall—and many people find it the easiest to sit inside for hours." }
         },
         {
           "@type": "Question",
           "name": "Where do the sounds come from?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Your browser synthesizes them the moment you press play. The noise colors are shaped from raw randomness, and the nature sounds are built from the same material — filtered into wind, gathered into waves, quickened into a stream, with birdsong sketched over a light breeze. Because they are computed rather than recorded, they carry on indefinitely and never loop." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Your browser synthesizes them the moment you press play. The noise colors are shaped from raw randomness, and the nature sounds are built from the same material—filtered into wind, gathered into waves, quickened into a stream, with birdsong sketched over a light breeze. Because they are computed rather than recorded, they carry on indefinitely and never loop." }
         },
         {
           "@type": "Question",
           "name": "Will it keep playing if I switch tabs or lock my phone?",
-          "acceptedAnswer": { "@type": "Answer", "text": "In a background tab on a computer, yes. On phones the operating system may pause web audio when the screen locks — keep the page in the foreground, or use the sleep timer and let it fade out on its own." }
+          "acceptedAnswer": { "@type": "Answer", "text": "In a background tab on a computer, yes. On phones the operating system may pause web audio when the screen locks—keep the page in the foreground, or use the sleep timer and let it fade out on its own." }
         },
         {
           "@type": "Question",
           "name": "Is it safe to fall asleep to?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Keep the volume modest — comfortably below conversation level — and use the sleep timer, which fades the sound out gently after 15, 30 or 60 minutes so it doesn't play all night." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Keep the volume modest—comfortably below conversation level—and use the sleep timer, which fades the sound out gently after 15, 30 or 60 minutes so it doesn't play all night." }
         }
       ]
     }
@@ -120,6 +120,7 @@ layout: null
   }
   .masthead:hover{ opacity:1; }
   .home-brand{ font-family:var(--display); font-style:italic; font-weight:400; font-size:1.1rem; line-height:1.05; color:var(--fg); }
+  .brand-amp{ font-family:var(--display); font-style:normal; font-weight:650; }
   .home-tagline{ font-family:var(--body); font-style:italic; font-weight:400; font-size:0.8rem; line-height:1.2; color:var(--muted); }
 
   .icon-btn{
@@ -197,7 +198,7 @@ layout: null
   body.immersive .chrome{ opacity:0; pointer-events:none; border-color:transparent; }
   body.immersive.show-chrome .chrome{ opacity:1; pointer-events:auto; }
 
-  /* notes — quiet reading matter under the instrument */
+  /* notes—quiet reading matter under the instrument */
   .notes{ border-top:1px solid var(--line); padding:60px 26px 84px; }
   .notes-inner{ max-width:640px; margin:0 auto; }
   .notes h2{ font-family:var(--display); font-style:italic; font-weight:400; font-size:1.6rem; margin:2.4rem 0 1rem; color:var(--fg); }
@@ -235,7 +236,7 @@ layout: null
 
   <div class="chrome" id="chrome">
     <a class="masthead" href="/" aria-label="On Life &amp; Everything — home">
-      <span class="home-brand">On Life &amp; Everything</span>
+      <span class="home-brand">On Life <span class="brand-amp">&amp;</span> Everything</span>
       <span class="home-tagline">Essays, short fiction, and other writing.</span>
     </a>
     <button class="icon-btn" id="fsBtn" title="Fullscreen" aria-label="Fullscreen">&#10530;</button>
@@ -285,22 +286,22 @@ layout: null
   <footer class="notes" id="notes">
     <div class="notes-inner">
       <h2>About this sound machine</h2>
-      <p>Sounds to work, rest and sleep inside: three colors of noise &mdash; white, pink and brown &mdash; and four borrowed from nature: wind, waves, a stream and birdsong. Your browser&rsquo;s audio engine shapes them live as they play, so each one carries on for as long as you leave it running. Set the volume low, choose a sound, and let it hold the room; the sleep timer can fade everything out after 15, 30 or 60 minutes.</p>
+      <p>Sounds to work, rest and sleep inside: three colors of noise—white, pink and brown—and four borrowed from nature: wind, waves, a stream and birdsong. Your browser&rsquo;s audio engine shapes them live as they play, so each one carries on for as long as you leave it running. Set the volume low, choose a sound, and let it hold the room; the sleep timer can fade everything out after 15, 30 or 60 minutes.</p>
 
       <h2>Questions</h2>
       <h3>What is the difference between white, pink and brown noise?</h3>
-      <p>White noise spreads its energy evenly across all frequencies and sounds bright, like static. Pink noise tilts toward the low end and sounds like steady rain. Brown noise leans lower still &mdash; closer to surf or a distant waterfall &mdash; and many people find it the easiest to sit inside for hours.</p>
+      <p>White noise spreads its energy evenly across all frequencies and sounds bright, like static. Pink noise tilts toward the low end and sounds like steady rain. Brown noise leans lower still—closer to surf or a distant waterfall—and many people find it the easiest to sit inside for hours.</p>
 
       <h3>Where do the sounds come from?</h3>
-      <p>Your browser synthesizes them the moment you press play. The noise colors are shaped from raw randomness, and the nature sounds are built from the same material &mdash; filtered into wind, gathered into waves, quickened into a stream, with birdsong sketched over a light breeze. Because they are computed rather than recorded, they carry on indefinitely and never loop.</p>
+      <p>Your browser synthesizes them the moment you press play. The noise colors are shaped from raw randomness, and the nature sounds are built from the same material—filtered into wind, gathered into waves, quickened into a stream, with birdsong sketched over a light breeze. Because they are computed rather than recorded, they carry on indefinitely and never loop.</p>
 
       <h3>Will it keep playing if I switch tabs or lock my phone?</h3>
-      <p>In a background tab on a computer, yes. On phones the operating system may pause web audio when the screen locks &mdash; keep the page in the foreground, or use the sleep timer and let it fade out on its own.</p>
+      <p>In a background tab on a computer, yes. On phones the operating system may pause web audio when the screen locks—keep the page in the foreground, or use the sleep timer and let it fade out on its own.</p>
 
       <h3>Is it safe to fall asleep to?</h3>
-      <p>Keep the volume modest &mdash; comfortably below conversation level &mdash; and use the sleep timer, which fades the sound out gently after 15, 30 or 60 minutes so it doesn&rsquo;t play all night.</p>
+      <p>Keep the volume modest—comfortably below conversation level—and use the sleep timer, which fades the sound out gently after 15, 30 or 60 minutes so it doesn&rsquo;t play all night.</p>
 
-      <p class="notes-links">More instruments: <a href="/clock/">a fullscreen clock with pomodoro</a>, <a href="/breathe/">a breathing exercise</a>, <a href="/write/">a blank page to write on</a>, <a href="/words/">a word counter</a>, <a href="/moon/">the phase of the moon</a> and <a href="/twilight/">&#304;stanbul&rsquo;s twilight</a> &mdash; or see <a href="/tools/">all the tools</a>.</p>
+      <p class="notes-links">More instruments: <a href="/clock/">a fullscreen clock with pomodoro</a>, <a href="/breathe/">a breathing exercise</a>, <a href="/write/">a blank page to write on</a>, <a href="/words/">a word counter</a>, <a href="/moon/">the phase of the moon</a> and <a href="/twilight/">&#304;stanbul&rsquo;s twilight</a>—or see <a href="/tools/">all the tools</a>.</p>
     </div>
   </footer>
 

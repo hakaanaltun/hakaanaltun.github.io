@@ -6,20 +6,20 @@ layout: null
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Word Counter &mdash; Words, Characters &amp; Reading Time &middot; On Life &amp; Everything</title>
-<meta name="description" content="A free word counter: words, characters with and without spaces, sentences, paragraphs, reading time and speaking time — counted live in your browser. Nothing you paste leaves your device.">
+<title>Word Counter—Words, Characters &amp; Reading Time &middot; On Life &amp; Everything</title>
+<meta name="description" content="A free word counter: words, characters with and without spaces, sentences, paragraphs, reading time and speaking time—counted live in your browser. Nothing you paste leaves your device.">
 <link rel="canonical" href="https://hakanaltun.io/words/">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Word Counter — Words, Characters &amp; Reading Time">
-<meta property="og:description" content="Words, characters, sentences, paragraphs, reading time and speaking time — counted live in your browser. Nothing you paste leaves your device.">
+<meta property="og:title" content="Word Counter—Words, Characters &amp; Reading Time">
+<meta property="og:description" content="Words, characters, sentences, paragraphs, reading time and speaking time—counted live in your browser. Nothing you paste leaves your device.">
 <meta property="og:url" content="https://hakanaltun.io/words/">
 <meta property="og:image" content="https://hakanaltun.io/images/og/words.png?v=20260716-1">
-<meta property="og:image:alt" content="The Counter — a quiet word counter">
+<meta property="og:image:alt" content="The Counter—a quiet word counter">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Word Counter — Words, Characters &amp; Reading Time">
-<meta name="twitter:description" content="Words, characters, sentences, paragraphs, reading time and speaking time — counted live in your browser.">
+<meta name="twitter:title" content="Word Counter—Words, Characters &amp; Reading Time">
+<meta name="twitter:description" content="Words, characters, sentences, paragraphs, reading time and speaking time—counted live in your browser.">
 <meta name="twitter:image" content="https://hakanaltun.io/images/og/words.png?v=20260716-1">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#FFFFFF">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#191712">
@@ -31,9 +31,9 @@ layout: null
     {
       "@type": "WebApplication",
       "@id": "https://hakanaltun.io/words/#app",
-      "name": "The Counter — Word Counter with Reading Time",
+      "name": "The Counter—Word Counter with Reading Time",
       "url": "https://hakanaltun.io/words/",
-      "description": "A free word counter: words, characters with and without spaces, sentences, paragraphs, reading time and speaking time — counted live in your browser. Nothing you paste leaves your device.",
+      "description": "A free word counter: words, characters with and without spaces, sentences, paragraphs, reading time and speaking time—counted live in your browser. Nothing you paste leaves your device.",
       "applicationCategory": "UtilitiesApplication",
       "operatingSystem": "Any",
       "browserRequirements": "Requires JavaScript",
@@ -49,22 +49,22 @@ layout: null
         {
           "@type": "Question",
           "name": "What counts as a word?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Any run of characters separated by spaces or line breaks — so a hyphenated pair like well-worn is one word, and numbers count like words. This matches what most word processors report." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Any run of characters separated by spaces or line breaks—so a hyphenated pair like well-worn is one word, and numbers count like words. This matches what most word processors report." }
         },
         {
           "@type": "Question",
           "name": "How are reading and speaking time estimated?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Reading time assumes about 225 words per minute of silent reading; speaking time assumes about 130 words per minute aloud — a comfortable pace for a talk or a lecture. Both are estimates, rounded to the nearest minute." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Reading time assumes about 225 words per minute of silent reading; speaking time assumes about 130 words per minute aloud—a comfortable pace for a talk or a lecture. Both are estimates, rounded to the nearest minute." }
         },
         {
           "@type": "Question",
           "name": "What is the difference between characters with and without spaces?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Characters counts everything you typed, including spaces and line breaks — this is what most platform limits mean by characters. Without spaces drops all whitespace and keeps only the visible marks." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Characters counts everything you typed, including spaces and line breaks—this is what most platform limits mean by characters. Without spaces drops all whitespace and keeps only the visible marks." }
         },
         {
           "@type": "Question",
           "name": "Is my text uploaded anywhere?",
-          "acceptedAnswer": { "@type": "Answer", "text": "It is counted right here in the browser as you type, and kept in local storage so it survives a reload — it travels no further than your device." }
+          "acceptedAnswer": { "@type": "Answer", "text": "It is counted right here in the browser as you type, and kept in local storage so it survives a reload—it travels no further than your device." }
         }
       ]
     }
@@ -137,6 +137,7 @@ layout: null
   }
   .masthead:hover{ opacity:1; }
   .home-brand{ font-family:var(--display); font-style:italic; font-weight:400; font-size:1.1rem; line-height:1.05; color:var(--ink); }
+  .brand-amp{ font-family:var(--display); font-style:normal; font-weight:650; }
   .home-tagline{ font-family:var(--body); font-style:italic; font-weight:400; font-size:0.8rem; line-height:1.2; color:var(--muted); }
 
   .actions{ grid-column:3; justify-self:end; display:flex; gap:8px; }
@@ -192,7 +193,7 @@ layout: null
   body.immersive.show-chrome .chrome{ opacity:1; pointer-events:auto; }
   body.immersive .notes{ display:none; }
 
-  /* notes — quiet reading matter under the counter */
+  /* notes—quiet reading matter under the counter */
   .notes{ border-top:1px solid var(--line); padding:60px 26px 84px; }
   .notes-inner{ max-width:640px; margin:0 auto; }
   .notes h2{ font-family:var(--display); font-style:italic; font-weight:400; font-size:1.6rem; margin:2.4rem 0 1rem; color:var(--ink); }
@@ -224,7 +225,7 @@ layout: null
   <div class="chrome" id="chrome">
     <span aria-hidden="true"></span>
     <a class="masthead" href="/" aria-label="On Life &amp; Everything — home">
-      <span class="home-brand">On Life &amp; Everything</span>
+      <span class="home-brand">On Life <span class="brand-amp">&amp;</span> Everything</span>
       <span class="home-tagline">Essays, short fiction, and other writing.</span>
     </a>
     <div class="actions">
@@ -246,7 +247,7 @@ layout: null
 
   <header class="counter-head">
     <h1>Word counter</h1>
-    <p class="lede">Words, characters, sentences and reading time &mdash; counted as you type, right here in your browser.</p>
+    <p class="lede">Words, characters, sentences and reading time—counted as you type, right here in your browser.</p>
   </header>
 
   <div class="stats" aria-live="polite">
@@ -255,8 +256,8 @@ layout: null
     <div class="stat"><b id="stCharsNs">0</b><span>without spaces</span></div>
     <div class="stat"><b id="stSent">0</b><span>sentences</span></div>
     <div class="stat"><b id="stPara">0</b><span>paragraphs</span></div>
-    <div class="stat"><b id="stRead">&mdash;</b><span>reading time</span></div>
-    <div class="stat"><b id="stSpeak">&mdash;</b><span>speaking time</span></div>
+    <div class="stat"><b id="stRead">—</b><span>reading time</span></div>
+    <div class="stat"><b id="stSpeak">—</b><span>speaking time</span></div>
   </div>
 
   <div class="sheet">
@@ -276,18 +277,18 @@ layout: null
 
       <h2>Questions</h2>
       <h3>What counts as a word?</h3>
-      <p>Any run of characters separated by spaces or line breaks &mdash; so a hyphenated pair like <em>well-worn</em> is one word, and numbers count like words. This matches what most word processors report.</p>
+      <p>Any run of characters separated by spaces or line breaks—so a hyphenated pair like <em>well-worn</em> is one word, and numbers count like words. This matches what most word processors report.</p>
 
       <h3>How are reading and speaking time estimated?</h3>
-      <p>Reading time assumes about 225 words per minute of silent reading; speaking time assumes about 130 words per minute aloud &mdash; a comfortable pace for a talk or a lecture. Both are estimates, rounded to the nearest minute.</p>
+      <p>Reading time assumes about 225 words per minute of silent reading; speaking time assumes about 130 words per minute aloud—a comfortable pace for a talk or a lecture. Both are estimates, rounded to the nearest minute.</p>
 
       <h3>What is the difference between characters with and without spaces?</h3>
-      <p>Characters counts everything you typed, including spaces and line breaks &mdash; this is what most platform limits mean by characters. Without spaces drops all whitespace and keeps only the visible marks.</p>
+      <p>Characters counts everything you typed, including spaces and line breaks—this is what most platform limits mean by characters. Without spaces drops all whitespace and keeps only the visible marks.</p>
 
       <h3>Is my text uploaded anywhere?</h3>
-      <p>It is counted right here in the browser as you type, and kept in local storage so it survives a reload &mdash; it travels no further than your device.</p>
+      <p>It is counted right here in the browser as you type, and kept in local storage so it survives a reload—it travels no further than your device.</p>
 
-      <p class="notes-links">More instruments: <a href="/write/">a blank page to write on</a>, <a href="/clock/">a fullscreen clock with pomodoro</a>, <a href="/breathe/">a breathing exercise</a>, <a href="/noise/">noise &amp; nature sounds</a>, <a href="/moon/">the phase of the moon</a> and <a href="/twilight/">&#304;stanbul&rsquo;s twilight</a> &mdash; or see <a href="/tools/">all the tools</a>.</p>
+      <p class="notes-links">More instruments: <a href="/write/">a blank page to write on</a>, <a href="/clock/">a fullscreen clock with pomodoro</a>, <a href="/breathe/">a breathing exercise</a>, <a href="/noise/">noise &amp; nature sounds</a>, <a href="/moon/">the phase of the moon</a> and <a href="/twilight/">&#304;stanbul&rsquo;s twilight</a>—or see <a href="/tools/">all the tools</a>.</p>
     </div>
   </footer>
 
@@ -338,7 +339,7 @@ layout: null
     $("#stSpeak").textContent   = fmtMinutes(words, 130);
   }
 
-  /* ---- grow + autosave (local only — nothing leaves the page) ---- */
+  /* ---- grow + autosave (local only—nothing leaves the page) ---- */
   function grow(){ ta.style.height = "auto"; ta.style.height = ta.scrollHeight + "px"; }
   var saveT;
   function saveNow(){
