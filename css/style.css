@@ -1601,3 +1601,53 @@ footer {
     margin-bottom: 28px;
   }
 }
+
+/* ==========================================================================
+   Tools index (/tools/) — a quiet list of instruments
+   ========================================================================== */
+.tools-list {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 0 var(--pad);
+  display: flex;
+  flex-direction: column;
+}
+
+.tools-item {
+  display: block;
+  text-decoration: none;
+  padding: 26px 0;
+  border-top: 1px solid var(--rule);
+}
+
+.tools-item:last-child {
+  border-bottom: 1px solid var(--rule);
+}
+
+.tools-item h2 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: 1.6rem;
+  line-height: 1.1;
+  color: var(--petrol-deep);
+  transition: color 0.2s ease;
+}
+
+.tools-item p {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 1.05rem;
+  line-height: 1.5;
+  color: var(--vizon);
+  margin-top: 6px;
+}
+
+.tools-item:hover h2,
+.tools-item:focus-visible h2 {
+  color: var(--petrol);
+}
+
+@media (max-width: 600px) {
+  .tools-list { padding: 0 24px; }
+  .tools-item { padding: 22px 0; }
+}
