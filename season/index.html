@@ -7,11 +7,11 @@ layout: null
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Days Until the Next Solstice or Equinox&mdash;The Season &amp; Year Progress &middot; On Life &amp; Everything</title>
-<meta name="description" content="The current astronomical season, the days until the next solstice or equinox with its exact date and time, and the year's quiet progress—computed live in your browser for the northern hemisphere.">
+<meta name="description" content="The current astronomical season, the days until the next solstice or equinox with its exact date and time, and the year's progress—computed live in your browser for the northern hemisphere.">
 <link rel="canonical" href="https://hakanaltun.io/season/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="The Season—Days Until the Next Solstice or Equinox &amp; Year Progress">
-<meta property="og:description" content="Where the year stands: the current season, the road to the next solstice or equinox, and the year's quiet progress—computed in your browser.">
+<meta property="og:description" content="Where the year stands: the current season, the road to the next solstice or equinox, and the year's progress—computed in your browser.">
 <meta property="og:url" content="https://hakanaltun.io/season/">
 <meta name="theme-color" content="#101720">
 
@@ -24,7 +24,7 @@ layout: null
       "@id": "https://hakanaltun.io/season/#app",
       "name": "The Season—Days Until the Next Solstice or Equinox & Year Progress",
       "url": "https://hakanaltun.io/season/",
-      "description": "The current astronomical season, the days until the next solstice or equinox with its exact date and time, and the year's quiet progress—computed live in your browser for the northern hemisphere.",
+      "description": "The current astronomical season, the days until the next solstice or equinox with its exact date and time, and the year's progress—computed live in your browser for the northern hemisphere.",
       "applicationCategory": "UtilitiesApplication",
       "operatingSystem": "Any",
       "browserRequirements": "Requires JavaScript",
@@ -94,7 +94,7 @@ layout: null
   body.immersive{ height:100vh; height:100dvh; overflow:hidden; }
   body.immersive .notes{ display:none; }
 
-  /* a small pointer to the notes below the fold */
+  /* a pointer to the notes below the fold */
   .notes-cue{
     position:absolute; left:50%; bottom:16px; transform:translateX(-50%);
     font-family:var(--body); font-style:italic; font-size:.85rem; letter-spacing:.03em;
@@ -169,7 +169,7 @@ layout: null
   body.immersive .chrome{ opacity:0; pointer-events:none; border-color:transparent; }
   body.immersive.show-chrome .chrome{ opacity:1; pointer-events:auto; }
 
-  /* notes — quiet reading matter under the season */
+  /* notes — reading matter under the season */
   .notes{ border-top:1px solid var(--line); padding:60px 26px 84px; }
   .notes-inner{ max-width:640px; margin:0 auto; }
   .notes h2{ font-family:var(--display); font-style:italic; font-weight:400; font-size:1.6rem; margin:2.4rem 0 1rem; color:var(--fg); }
@@ -237,7 +237,7 @@ layout: null
   <footer class="notes" id="notes">
     <div class="notes-inner">
       <h2>About this page</h2>
-      <p>Where the year stands: the current astronomical season with its dates, the road to the next solstice or equinox, and a thin line filling quietly as the year passes. The four turning points are computed in your browser from a standard astronomical series&mdash;the same arithmetic the almanacs use&mdash;and shown on the &#304;stanbul clock. The names follow the northern hemisphere&rsquo;s sky; south of the equator, read each season as its opposite.</p>
+      <p>Where the year stands: the current astronomical season with its dates, the road to the next solstice or equinox, and a thin line filling as the year passes. The four turning points are computed from a standard astronomical series&mdash;the same arithmetic the almanacs use&mdash;and shown on the &#304;stanbul clock. The names follow the northern hemisphere&rsquo;s sky; south of the equator, read each season as its opposite.</p>
 
       <h2>Questions</h2>
       <h3>When is the next solstice or equinox?</h3>
@@ -344,7 +344,7 @@ layout: null
     $("#next").textContent = POINT_NAMES[nextIdx] + " — " + fullFmt.format(new Date(end)) + ", " + when;
     $("#instant").textContent = "at " + timeFmt.format(new Date(end)) + " İstanbul time";
 
-    /* the year's quiet progress */
+    /* the year's progress */
     var y0 = new Date(year, 0, 1).getTime();
     var y1 = new Date(year + 1, 0, 1).getTime();
     var frac = Math.max(0, Math.min(1, (now - y0) / (y1 - y0)));

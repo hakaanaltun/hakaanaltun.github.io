@@ -53,7 +53,7 @@ layout: null
         {
           "@type": "Question",
           "name": "How accurate are the times?",
-          "acceptedAnswer": { "@type": "Answer", "text": "They are computed in your browser with a standard almanac algorithm and usually land within a minute or two of published tables. Horizon, altitude and unusual atmospheric refraction can shift the real moment slightly." }
+          "acceptedAnswer": { "@type": "Answer", "text": "They are computed with a standard almanac algorithm and usually land within a minute or two of published tables. Horizon, altitude and unusual atmospheric refraction can shift the real moment slightly." }
         },
         {
           "@type": "Question",
@@ -101,7 +101,7 @@ layout: null
   body.immersive{ height:100vh; height:100dvh; overflow:hidden; }
   body.immersive .notes{ display:none; }
 
-  /* a small pointer to the notes below the fold */
+  /* a pointer to the notes below the fold */
   .notes-cue{
     position:absolute; left:50%; bottom:16px; transform:translateX(-50%);
     font-family:var(--body); font-style:italic; font-size:.85rem; letter-spacing:.03em;
@@ -169,7 +169,7 @@ layout: null
   .cities a:hover{ color:var(--fg); }
   .cities a.now{ color:var(--fg); border-bottom:1px solid var(--line); }
 
-  /* notes — quiet reading matter under the sky */
+  /* notes — reading matter under the sky */
   .notes{ border-top:1px solid var(--line); padding:60px 26px 84px; transition:border-color .4s ease; }
   .notes-inner{ max-width:640px; margin:0 auto; }
   .notes h2{ font-family:var(--display); font-style:italic; font-weight:400; font-size:1.6rem; margin:2.4rem 0 1rem; color:var(--fg); }
@@ -239,14 +239,14 @@ layout: null
   <footer class="notes" id="notes">
     <div class="notes-inner">
       <h2>About this page</h2>
-      <p>The sky of &#304;stanbul, kept in real time. The page shows today&rsquo;s civil dawn, sunrise, sunset, civil dusk and day length&mdash;for &#304;stanbul by default, or for one of ten cities&mdash;and its background follows the sun&rsquo;s altitude, so it always wears the color of the hour. The times are worked out in your browser from the city&rsquo;s coordinates, in the city&rsquo;s own time zone.</p>
+      <p>The sky of &#304;stanbul, kept in real time. The page shows today&rsquo;s civil dawn, sunrise, sunset, civil dusk and day length&mdash;for &#304;stanbul by default, or for one of ten cities&mdash;and its background follows the sun&rsquo;s altitude, so it always wears the color of the hour. The times are worked out from the city&rsquo;s coordinates, in the city&rsquo;s own time zone.</p>
 
       <h2>Questions</h2>
       <h3>What is civil twilight?</h3>
       <p>The stretch when the sun sits less than six degrees below the horizon&mdash;civil dawn before sunrise, civil dusk after sunset. There is usually enough light to read outside, and it is the boundary many countries use for headlights and flight rules.</p>
 
       <h3>How accurate are the times?</h3>
-      <p>They are computed in your browser with a standard almanac algorithm and usually land within a minute or two of published tables. Horizon, altitude and unusual atmospheric refraction can shift the real moment slightly.</p>
+      <p>They are computed with a standard almanac algorithm and usually land within a minute or two of published tables. Horizon, altitude and unusual atmospheric refraction can shift the real moment slightly.</p>
 
       <h3>Can I see a city other than &#304;stanbul?</h3>
       <p>Pick one from the row beneath the times, or add <code>?city=</code> to the address, e.g. <a href="/twilight/?city=london"><code>/twilight/?city=london</code></a>. The times come from each city&rsquo;s fixed coordinates, shown in that city&rsquo;s own time zone.</p>
