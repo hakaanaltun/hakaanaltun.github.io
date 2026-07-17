@@ -590,6 +590,11 @@ section.line-drawn::before,
   .tonight-sep { display: none; }
   .tonight-word { margin-right: 0; }
 }
+/* Portrait phones: the stacked lines read better centred, as they were;
+   everywhere else the band stays flush left. */
+@media (max-width: 600px) and (orientation: portrait) {
+  .tonight-strip { text-align: center; }
+}
 
 /* ========================================================================== 
    8. Book, Moris & About
