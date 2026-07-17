@@ -15,9 +15,6 @@ kramdown:
 plugins:
   - jekyll-sitemap
 
-feed:
-  show_excerpts: false
-
 exclude:
   - Gemfile
   - Gemfile.lock
@@ -33,6 +30,12 @@ defaults:
     values:
       layout: "post"
       author: "Hakan Altun"
+  # The Google verification stub is a bare static file (no front matter), so
+  # jekyll-sitemap can only be told to skip it from here.
+  - scope:
+      path: "google51b64a9a40664f6d.html"
+    values:
+      sitemap: false
 
 # --- Added for Jekyll 4 (standalone, no github-pages gem) ---
 # Use the modern Sass implementation bundled with Jekyll 4

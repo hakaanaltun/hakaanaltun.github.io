@@ -6,16 +6,27 @@
   var shareBtn = document.querySelector('.footer-share-btn');
 
   if (shareBtn) {
+    /* The button is icon-only, so the "copied" feedback swaps the share icon
+       for a checkmark and restores it — the original markup is captured once
+       so repeated clicks can't lose it. */
+    var shareIconHtml = shareBtn.innerHTML;
+    var shareIconLabel = shareBtn.getAttribute('aria-label');
+    var shareRestoreT;
+    var checkSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>';
+
     shareBtn.addEventListener('click', function (e) {
       e.preventDefault();
       if (navigator.share) {
         navigator.share({ title: document.title, url: window.location.href }).catch(function () {});
       } else if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(window.location.href).then(function () {
-          var label = shareBtn.querySelector('.footer-btn-label') || shareBtn;
-          var old = label.textContent;
-          label.textContent = 'Link copied';
-          setTimeout(function () { label.textContent = old; }, 1600);
+          shareBtn.innerHTML = checkSvg;
+          shareBtn.setAttribute('aria-label', 'Link copied');
+          clearTimeout(shareRestoreT);
+          shareRestoreT = setTimeout(function () {
+            shareBtn.innerHTML = shareIconHtml;
+            if (shareIconLabel) shareBtn.setAttribute('aria-label', shareIconLabel);
+          }, 1600);
         }).catch(function () {});
       }
     });
