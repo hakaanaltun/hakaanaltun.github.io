@@ -1,0 +1,66 @@
+/* Offline shell for the tools. Each instrument runs entirely in the
+   browser, so a cached copy IS the whole tool: once a page has been
+   visited, it opens without a connection. Tool pages are served
+   stale-while-revalidate — instant from cache, refreshed in the
+   background on every online visit — so a change to a tool needs no
+   version bump here; bump CACHE only if the asset list itself changes.
+   Registered only from the tool pages; every other URL on the site is
+   left to the network untouched. */
+"use strict";
+
+var CACHE = "olae-tools-v1";
+
+var TOOL_PAGES = [
+  "/clock/", "/write/", "/words/", "/breathe/", "/noise/", "/moon/", "/twilight/"
+];
+
+var TOOL_ASSETS = [
+  "/css/fonts.css",
+  "/fonts/cormorant-garamond-italic-latin-ext.woff2",
+  "/fonts/cormorant-garamond-italic-latin.woff2",
+  "/fonts/cormorant-garamond-latin-ext.woff2",
+  "/fonts/cormorant-garamond-latin.woff2",
+  "/fonts/eb-garamond-italic-latin-ext.woff2",
+  "/fonts/eb-garamond-italic-latin.woff2",
+  "/fonts/eb-garamond-latin-ext.woff2",
+  "/fonts/eb-garamond-latin.woff2"
+];
+
+var PRECACHE = TOOL_PAGES.concat(TOOL_ASSETS);
+
+self.addEventListener("install", function(e){
+  e.waitUntil(
+    caches.open(CACHE)
+      .then(function(c){ return c.addAll(PRECACHE); })
+      .then(function(){ return self.skipWaiting(); })
+  );
+});
+
+self.addEventListener("activate", function(e){
+  e.waitUntil(
+    caches.keys().then(function(keys){
+      return Promise.all(keys.filter(function(k){ return k !== CACHE; })
+                             .map(function(k){ return caches.delete(k); }));
+    }).then(function(){ return self.clients.claim(); })
+  );
+});
+
+self.addEventListener("fetch", function(e){
+  if(e.request.method !== "GET") return;
+  var url = new URL(e.request.url);
+  if(url.origin !== self.location.origin) return;
+  if(PRECACHE.indexOf(url.pathname) === -1) return;
+
+  /* cache keys are bare pathnames, so ?v=… and ?until=… hit the same entry */
+  e.respondWith(
+    caches.open(CACHE).then(function(c){
+      return c.match(url.pathname).then(function(hit){
+        var refresh = fetch(e.request).then(function(res){
+          if(res && res.ok) c.put(url.pathname, res.clone());
+          return res;
+        }).catch(function(){ return hit; });
+        return hit || refresh;
+      });
+    })
+  );
+});

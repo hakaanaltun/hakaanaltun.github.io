@@ -363,5 +363,6 @@ layout: null
   document.addEventListener("visibilitychange", function(){ if(!document.hidden) render(); });
 })();
 </script>
+<script>if("serviceWorker" in navigator){navigator.serviceWorker.register("/sw.js").catch(function(){});}</script>
 </body>
 </html>

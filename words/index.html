@@ -422,5 +422,6 @@ layout: null
   window.addEventListener("resize", grow);
 })();
 </script>
+<script>if("serviceWorker" in navigator){navigator.serviceWorker.register("/sw.js").catch(function(){});}</script>
 </body>
 </html>
