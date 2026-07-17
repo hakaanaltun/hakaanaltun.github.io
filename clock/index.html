@@ -101,10 +101,7 @@ layout: null
     background:var(--bg); color:var(--fg); font-family:var(--body);
     min-height:100vh; min-height:100dvh;
     -webkit-font-smoothing:antialiased;
-    transition:background-color 2s ease;
   }
-  body.bg-instant{ transition:none; }
-  @media (prefers-reduced-motion: reduce){ body{ transition:none; } }
 
   /* the instrument fills the first viewport; the notes wait below the fold */
   .app{ position:relative; min-height:100vh; min-height:100dvh; display:flex; flex-direction:column; padding-bottom:44px; }
@@ -428,7 +425,6 @@ layout: null
     </div>
 
     <div class="theme-corner collapsed" role="group" aria-label="Theme">
-      <button class="swatch" data-bg="#7A4453" style="background:#7A4453" title="Wine—Tools" aria-label="Wine, Tools"></button>
       <button class="swatch" data-bg="#1D4354" style="background:#1D4354" title="Ocean—Home" aria-label="Ocean, Home"></button>
       <button class="swatch" data-bg="#2E3B53" style="background:#2E3B53" title="Navy—All" aria-label="Navy, All"></button>
       <button class="swatch" data-bg="#1A494D" style="background:#1A494D" title="Teal—Series" aria-label="Teal, Series"></button>
@@ -916,18 +912,6 @@ layout: null
 
   setCdMode(state.cdMode);
   applyTheme();
-  /* arrival wash: coming from /tools/ (the wine band), open on that wine and
-     settle into the ocean default. A saved theme or prefers-reduced-motion skips it. */
-  let fromTools=false;
-  try{ const r=new URL(document.referrer); fromTools = r.origin===location.origin && /^\/tools\/?$/.test(r.pathname); }catch(e){}
-  if(fromTools && !state.bg && !(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches)){
-    document.body.classList.add("bg-instant");
-    document.documentElement.style.setProperty("--bg", "#7A4453");
-    requestAnimationFrame(()=>requestAnimationFrame(()=>{
-      document.body.classList.remove("bg-instant");
-      setTimeout(()=>{ if(!state.bg) document.documentElement.style.removeProperty("--bg"); }, 500);
-    }));
-  }
   applyAnalog();
   selectPanel(state.panel);
   requestAnimationFrame(tick);
