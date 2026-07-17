@@ -221,7 +221,6 @@ layout: null
     <nav class="cities" id="cities" aria-label="Cities">
       <a href="/twilight/" data-city="istanbul">&#304;stanbul</a>
       <a href="/twilight/?city=ankara" data-city="ankara">Ankara</a>
-      <a href="/twilight/?city=izmir" data-city="izmir">&#304;zmir</a>
       <a href="/twilight/?city=london" data-city="london">London</a>
       <a href="/twilight/?city=paris" data-city="paris">Paris</a>
       <a href="/twilight/?city=berlin" data-city="berlin">Berlin</a>
@@ -267,7 +266,6 @@ layout: null
   var CITIES = {
     istanbul:   { name:"İstanbul",  lat:41.015,  lng:28.979,   tz:"Europe/Istanbul" },
     ankara:     { name:"Ankara",         lat:39.933,  lng:32.860,   tz:"Europe/Istanbul" },
-    izmir:      { name:"İzmir",     lat:38.423,  lng:27.143,   tz:"Europe/Istanbul" },
     london:     { name:"London",         lat:51.507,  lng:-0.128,   tz:"Europe/London" },
     paris:      { name:"Paris",          lat:48.857,  lng:2.352,    tz:"Europe/Paris" },
     berlin:     { name:"Berlin",         lat:52.520,  lng:13.405,   tz:"Europe/Berlin" },
@@ -360,8 +358,8 @@ layout: null
   }
 
   /* ---- sky ramp: altitude → background, and how far the text leans from
-     cream toward wine — the tools' own red — as the day brightens ---- */
-  var CREAM = [237,228,207], WINE = [122,68,83];
+     cream toward pink as the day brightens ---- */
+  var CREAM = [237,228,207], PINK = [190,145,160];
   var STOPS = [   /* [altitude°, [r,g,b], inkMix 0..1] */
     [-30, [ 12, 16, 24], 0],
     [-18, [ 14, 19, 29], 0],
@@ -422,12 +420,12 @@ layout: null
     /* sky */
     var sky = skyAt(alt);
     document.body.style.backgroundColor = "rgb(" + sky[1].join(",") + ")";
-    document.body.style.color = mix(CREAM, WINE, sky[2]);
-    var mutedA = sky[2] > 0.5 ? "rgba(122,68,83,0.66)" : "rgba(237,228,207,0.62)";
-    var lineA  = sky[2] > 0.5 ? "rgba(122,68,83,0.3)" : "rgba(237,228,207,0.28)";
+    document.body.style.color = mix(CREAM, PINK, sky[2]);
+    var mutedA = sky[2] > 0.5 ? "rgba(190,145,160,0.66)" : "rgba(237,228,207,0.62)";
+    var lineA  = sky[2] > 0.5 ? "rgba(190,145,160,0.3)" : "rgba(237,228,207,0.28)";
     document.documentElement.style.setProperty("--muted", mutedA);
     document.documentElement.style.setProperty("--line", lineA);
-    document.documentElement.style.setProperty("--fg", mix(CREAM, WINE, sky[2]));
+    document.documentElement.style.setProperty("--fg", mix(CREAM, PINK, sky[2]));
 
     /* phase word */
     var name = phaseName(alt, now, ev);
