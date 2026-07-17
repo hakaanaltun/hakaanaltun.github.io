@@ -358,8 +358,8 @@ layout: null
   }
 
   /* ---- sky ramp: altitude → background, and how far the text leans from
-     cream toward pink as the day brightens ---- */
-  var CREAM = [237,228,207], PINK = [190,145,160];
+     cream toward navy as the day brightens ---- */
+  var CREAM = [237,228,207], NAVY = [36,50,72];
   var STOPS = [   /* [altitude°, [r,g,b], inkMix 0..1] */
     [-30, [ 12, 16, 24], 0],
     [-18, [ 14, 19, 29], 0],
@@ -420,12 +420,12 @@ layout: null
     /* sky */
     var sky = skyAt(alt);
     document.body.style.backgroundColor = "rgb(" + sky[1].join(",") + ")";
-    document.body.style.color = mix(CREAM, PINK, sky[2]);
-    var mutedA = sky[2] > 0.5 ? "rgba(190,145,160,0.66)" : "rgba(237,228,207,0.62)";
-    var lineA  = sky[2] > 0.5 ? "rgba(190,145,160,0.3)" : "rgba(237,228,207,0.28)";
+    document.body.style.color = mix(CREAM, NAVY, sky[2]);
+    var mutedA = sky[2] > 0.5 ? "rgba(36,50,72,0.68)" : "rgba(237,228,207,0.62)";
+    var lineA  = sky[2] > 0.5 ? "rgba(36,50,72,0.28)" : "rgba(237,228,207,0.28)";
     document.documentElement.style.setProperty("--muted", mutedA);
     document.documentElement.style.setProperty("--line", lineA);
-    document.documentElement.style.setProperty("--fg", mix(CREAM, PINK, sky[2]));
+    document.documentElement.style.setProperty("--fg", mix(CREAM, NAVY, sky[2]));
 
     /* phase word */
     var name = phaseName(alt, now, ev);
