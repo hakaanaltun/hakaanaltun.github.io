@@ -7,7 +7,6 @@
   'use strict';
   var btn = document.getElementById('theme-toggle');
   if (!btn) return;
-  var labelEl = btn.querySelector('.footer-theme-label');
   var mq = window.matchMedia('(prefers-color-scheme: dark)');
   function stored() {
     try { return localStorage.getItem('theme'); } catch (e) { return null; }
@@ -32,7 +31,6 @@
   function label() {
     var next = effective() === 'dark' ? 'light' : 'dark';
     btn.setAttribute('aria-label', 'Switch to ' + next + ' theme');
-    if (labelEl) labelEl.textContent = next === 'dark' ? 'Dark mode' : 'Light mode';
   }
   btn.hidden = false;
   label();
