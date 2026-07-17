@@ -2,15 +2,15 @@
 {% if page.series %}{% assign _sk = page.series %}{% elsif page.series_filter %}{% assign _sk = page.series_filter %}{% else %}{% assign _sk = "default" %}{% endif %}
 {% if _sk == "" %}{% assign _sk = "pieces" %}{% endif %}
 {% assign _tc = site.data.series[_sk] | default: site.data.series.default %}
-{% comment %} data-light/data-dark carry both palette values so js/theme.js can
-retarget the metas when the reader picks a theme by hand; data-default restores
-the system-preference behaviour. {% endcomment %}
-<meta name="theme-color" media="(prefers-color-scheme: light)" content="rgb({{ _tc }})" data-light="rgb({{ _tc }})" data-dark="#151310" data-default="rgb({{ _tc }})">
-<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#151310" data-light="rgb({{ _tc }})" data-dark="#151310" data-default="#151310">
+{% comment %} data-light/data-dark/data-midnight carry the palette values so
+js/theme.js can retarget the metas when the reader picks a theme by hand;
+data-default restores the system-preference behaviour. {% endcomment %}
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="rgb({{ _tc }})" data-light="rgb({{ _tc }})" data-dark="#151310" data-midnight="#0C1119" data-default="rgb({{ _tc }})">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#151310" data-light="rgb({{ _tc }})" data-dark="#151310" data-midnight="#0C1119" data-default="#151310">
 {% comment %} Apply a stored theme choice before first paint — no flash — and
 point the theme-color metas at the chosen palette in the same breath.
 Without a stored choice, CSS follows prefers-color-scheme on its own. {% endcomment %}
-<script>(function(){try{var t=localStorage.getItem('theme');if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t);var m=document.querySelectorAll('meta[name="theme-color"]');for(var i=0;i<m.length;i++){m[i].setAttribute('content',m[i].getAttribute(t==='dark'?'data-dark':'data-light'));}}}catch(e){}})();</script>
+<script>(function(){try{var t=localStorage.getItem('theme');if(t==='dark'||t==='light'||t==='midnight'){document.documentElement.setAttribute('data-theme',t);var m=document.querySelectorAll('meta[name="theme-color"]');for(var i=0;i<m.length;i++){var v=m[i].getAttribute('data-'+t);if(v)m[i].setAttribute('content',v);}}}catch(e){}})();</script>
 {% if page.noindex %}<meta name="robots" content="noindex">{% endif %}
 
 {% if page.layout == "post" %}
@@ -88,7 +88,7 @@ Without a stored choice, CSS follows prefers-color-scheme on its own. {% endcomm
 }
 </script>
 
-<link rel="stylesheet" href="/css/style.css?v=20260711-6">
+<link rel="stylesheet" href="/css/style.css?v=20260717-2">
 
 {% elsif page.layout == "home" %}
 
@@ -232,7 +232,7 @@ Without a stored choice, CSS follows prefers-color-scheme on its own. {% endcomm
 }
 </script>
 
-<link rel="stylesheet" href="/css/style.css?v=20260711-6">
+<link rel="stylesheet" href="/css/style.css?v=20260717-2">
 
 {% else %}
 
@@ -263,7 +263,7 @@ Without a stored choice, CSS follows prefers-color-scheme on its own. {% endcomm
 <meta name="twitter:image" content="https://hakanaltun.io/og-image-on-card.png?v=20260714-4">
 <meta name="twitter:image:alt" content="{{ page.title | escape }} — Hakan Altun">
 
-<link rel="stylesheet" href="/css/style.css?v=20260711-6">
+<link rel="stylesheet" href="/css/style.css?v=20260717-2">
 
 {% endif %}
 

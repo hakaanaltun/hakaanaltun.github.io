@@ -134,6 +134,42 @@ html[data-theme="dark"] body {
   --surface-footer: #14120E;
 }
 
+/* ==========================================================================
+   Midnight theme
+   The second dark: the /moon/ page's palette carried across the whole site —
+   parliament-blue ground, cream ink, the accents run gold instead of the
+   warm near-black above. Only ever an explicit choice from the footer menu
+   (js/theme.js); no system preference maps to it, so there is no media-query
+   twin of this block.
+   ========================================================================== */
+html[data-theme="midnight"] {
+  color-scheme: dark;
+  --bg: #101720;
+  --paper: #101720;
+  --surface-soft: #161F2B;
+  --band: #0C1219;
+  --ink: #EDE4CF;
+  --ink-soft: #D8CEB7;
+  --vizon: #A69E8C;
+  --rule: #222A36;
+  --rule-strong: #4A5260;
+  --rule-cream: #4A4433;
+  --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.3);
+  --shadow-card-hover: 0 16px 40px rgba(0, 0, 0, 0.45);
+  --shadow-cover: 0 14px 24px rgba(0, 0, 0, 0.5), 0 4px 8px rgba(0, 0, 0, 0.35);
+  --drawer-bg: rgba(16, 23, 32, 0.985);
+  --wine: #C08E9B;
+  --header-border: rgba(237, 228, 207, 0.12);
+  --theme-icon-sun: block;
+  --theme-icon-moon: none;
+}
+html[data-theme="midnight"] body {
+  --petrol: #C6B98F;
+  --petrol-deep: #DCD1AC;
+  --surface-chrome: rgba(12, 17, 24, 0.88);
+  --surface-footer: #0C1119;
+}
+
 /* ========================================================================== 
    2. Reset & Base
    ========================================================================== */
@@ -1309,6 +1345,75 @@ footer {
   display: none;
 }
 
+/* Theme menu — the toggle opens a small list instead of flipping straight
+   to dark, because there are two darks to choose from (Dark and Midnight).
+   Anchored to the button, opening upward: the strip sits at the page foot. */
+.theme-menu-wrap {
+  position: relative;
+  display: inline-flex;
+}
+
+.theme-menu {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  right: 0;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 140px;
+  padding: 5px;
+  background: var(--band);
+  border: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
+  border-radius: 12px;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.22);
+}
+
+.theme-menu[hidden] {
+  display: none;
+}
+
+.theme-menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 7px 11px;
+  background: transparent;
+  border: 0;
+  border-radius: 8px;
+  font-family: 'EB Garamond', Georgia, serif;
+  font-style: italic;
+  font-size: 0.95rem;
+  line-height: 1.25;
+  color: var(--vizon);
+  text-align: left;
+  cursor: pointer;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.theme-menu-item:hover,
+.theme-menu-item:focus-visible {
+  color: var(--ink);
+  background: color-mix(in srgb, var(--ink) 8%, transparent);
+  outline: none;
+}
+
+.theme-menu-item[aria-checked="true"] {
+  color: var(--ink);
+}
+
+.theme-menu-mark {
+  visibility: hidden;
+  color: var(--petrol);
+  font-style: normal;
+  font-size: 0.85em;
+}
+
+.theme-menu-item[aria-checked="true"] .theme-menu-mark {
+  visibility: visible;
+}
+
 /* The Notice pages keep the quiet logo-only footer. */
 .footer-quiet .footer-inner {
   padding: 44px var(--pad) 40px;
@@ -1374,6 +1479,14 @@ footer {
 
   .footer-actions-wrap.open .footer-actions {
     display: flex;
+  }
+
+  /* Inside the dropdown the strip's foot is no longer below the button, so
+     the theme menu opens sideways, into the page, instead of upward. */
+  .footer-actions .theme-menu {
+    bottom: auto;
+    top: 0;
+    right: calc(100% + 10px);
   }
 }
 
