@@ -6,8 +6,8 @@ layout: null
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Word Counter&mdash;Words, Characters &amp; Reading Time &middot; On Life &amp; Everything</title>
-<meta name="description" content="A free word counter: words, characters with and without spaces, sentences, paragraphs, reading time and speaking time—counted live in your browser. Nothing you paste leaves your device.">
+<title>Word Counter&mdash;Words, Characters, Reading Time &amp; Readability &middot; On Life &amp; Everything</title>
+<meta name="description" content="A free word counter: words, characters with and without spaces, sentences, paragraphs, reading time and speaking time—plus readability: Flesch Reading Ease, sentence lengths and their distribution. Counted live in your browser; nothing you paste leaves your device.">
 <link rel="canonical" href="https://hakanaltun.io/words/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Word Counter—Words, Characters &amp; Reading Time">
@@ -31,9 +31,9 @@ layout: null
     {
       "@type": "WebApplication",
       "@id": "https://hakanaltun.io/words/#app",
-      "name": "The Counter—Word Counter with Reading Time",
+      "name": "The Counter—Word Counter with Reading Time & Readability",
       "url": "https://hakanaltun.io/words/",
-      "description": "A free word counter: words, characters with and without spaces, sentences, paragraphs, reading time and speaking time—counted live in your browser. Nothing you paste leaves your device.",
+      "description": "A free word counter: words, characters with and without spaces, sentences, paragraphs, reading time and speaking time—plus readability: Flesch Reading Ease, sentence lengths and their distribution. Counted live in your browser; nothing you paste leaves your device.",
       "applicationCategory": "UtilitiesApplication",
       "operatingSystem": "Any",
       "browserRequirements": "Requires JavaScript",
@@ -60,6 +60,16 @@ layout: null
           "@type": "Question",
           "name": "What is the difference between characters with and without spaces?",
           "acceptedAnswer": { "@type": "Answer", "text": "Characters counts everything you typed, including spaces and line breaks—this is what most platform limits mean by characters. Without spaces drops all whitespace and keeps only the visible marks." }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the Flesch Reading Ease score?",
+          "acceptedAnswer": { "@type": "Answer", "text": "A classic readability measure built from sentence length and syllables per word: the higher the score, the easier the text reads. Around 90 is very easy, 60–70 is plain prose, below 30 is dense academic writing. The page shows it once your text has at least three sentences." }
+        },
+        {
+          "@type": "Question",
+          "name": "How accurate are the readability numbers?",
+          "acceptedAnswer": { "@type": "Answer", "text": "They are estimates. Syllables are counted with a standard English heuristic, and the Flesch formula itself was designed for English—so treat the score as a mirror to glance at, not a grade, and expect it to wobble for other languages." }
         },
         {
           "@type": "Question",
@@ -196,6 +206,30 @@ layout: null
   }
   .textbtn:hover{ color:var(--ink); text-decoration-color:var(--ink); }
 
+  /* readability — a quiet block that appears once there is enough text */
+  .readability{ max-width:680px; margin:0 auto; padding:0 26px 8vh; text-align:center; }
+  .readability[hidden]{ display:none; }
+  .rd-name{
+    font-family:var(--body); font-style:italic; font-weight:400;
+    font-size:1.05rem; color:var(--muted); letter-spacing:.03em;
+    border-top:1px solid var(--line); padding-top:3.4rem; margin-bottom:1.8rem;
+  }
+  .rd-grid{
+    display:grid; grid-template-columns:repeat(auto-fit, minmax(120px, 1fr));
+    gap:20px 14px;
+  }
+  .rd-grid .stat b{ font-size:2.1rem; }
+  .rd-longest{
+    margin:2.2rem auto 0; max-width:560px;
+    font-style:italic; color:var(--muted); font-size:1rem; line-height:1.6;
+  }
+  .rd-longest b{ font-weight:400; font-style:normal; color:var(--ink); }
+  .rd-hist{ margin-top:2.4rem; }
+  .rd-hist svg{ width:min(420px, 100%); height:auto; display:block; margin:0 auto; overflow:visible; }
+  .rd-hist .bar{ fill:var(--muted); opacity:.55; }
+  .rd-hist .lbl{ fill:var(--muted); font-family:var(--body); font-size:9.5px; letter-spacing:.02em; }
+  .rd-hist-note{ margin-top:.7rem; font-style:italic; color:var(--muted); font-size:.85rem; letter-spacing:.02em; }
+
   body.immersive .chrome{ opacity:0; pointer-events:none; }
   body.immersive.show-chrome .chrome{ opacity:1; pointer-events:auto; }
   body.immersive .notes{ display:none; }
@@ -277,6 +311,20 @@ layout: null
     </div>
   </div>
 
+  <section class="readability" id="readability" hidden>
+    <h2 class="rd-name">Readability</h2>
+    <div class="rd-grid">
+      <div class="stat"><b id="rdFlesch">&mdash;</b><span id="rdGloss">reading ease</span></div>
+      <div class="stat"><b id="rdAvgSent">&mdash;</b><span>words per sentence</span></div>
+      <div class="stat"><b id="rdAvgWord">&mdash;</b><span>characters per word</span></div>
+    </div>
+    <p class="rd-longest" id="rdLongest"></p>
+    <div class="rd-hist">
+      <svg id="rdHist" viewBox="0 0 322 104" role="img" aria-label="How many sentences fall in each length bucket"></svg>
+      <p class="rd-hist-note">sentences by length, in words</p>
+    </div>
+  </section>
+
   <a class="notes-cue" href="#notes">notes <span class="amp">&amp;</span> questions &darr;</a>
 
   </div><!-- /.app -->
@@ -284,7 +332,7 @@ layout: null
   <footer class="notes" id="notes">
     <div class="notes-inner">
       <h2>About this counter</h2>
-      <p>A word counter for essays and abstracts, platform limits, and talks that must fit their slot: words, characters with and without spaces, sentences, paragraphs, and how long the text takes to read silently or speak aloud. Everything updates live as you type or paste, and the draft is kept in your browser between visits.</p>
+      <p>A word counter for essays and abstracts, platform limits, and talks that must fit their slot: words, characters with and without spaces, sentences, paragraphs, and how long the text takes to read silently or speak aloud. Once the text has a few sentences, a quiet readability section appears beneath it&mdash;the Flesch Reading Ease score, the average sentence and word length, the longest sentence, and a small histogram of sentence lengths: the mirror a writer glances at to see whether every sentence marches at the same pace. Everything updates live as you type or paste, and the draft is kept in your browser between visits.</p>
 
       <h2>Questions</h2>
       <h3>What counts as a word?</h3>
@@ -296,10 +344,16 @@ layout: null
       <h3>What is the difference between characters with and without spaces?</h3>
       <p>Characters counts everything you typed, including spaces and line breaks&mdash;this is what most platform limits mean by characters. Without spaces drops all whitespace and keeps only the visible marks.</p>
 
+      <h3>What is the Flesch Reading Ease score?</h3>
+      <p>A classic readability measure built from sentence length and syllables per word: the higher the score, the easier the text reads. Around 90 is very easy, 60&ndash;70 is plain prose, below 30 is dense academic writing. The page shows it once your text has at least three sentences.</p>
+
+      <h3>How accurate are the readability numbers?</h3>
+      <p>They are estimates. Syllables are counted with a standard English heuristic&mdash;vowel groups, silent endings&mdash;and the Flesch formula itself was designed for English, so treat the score as a mirror to glance at, not a grade, and expect it to wobble for other languages.</p>
+
       <h3>Is my text uploaded anywhere?</h3>
       <p>It is counted right here in the browser as you type, and kept in local storage so it survives a reload&mdash;it travels no further than your device.</p>
 
-      <p class="notes-links">More instruments: <a href="/write/">a blank page to write on</a>, <a href="/clock/">a fullscreen clock with pomodoro</a>, <a href="/breathe/">a breathing exercise</a>, <a href="/noise/">ambient noise</a>, <a href="/moon/">the phase of the moon</a> and <a href="/twilight/">&#304;stanbul&rsquo;s twilight</a>&mdash;or see <a href="/tools/">all the tools</a>.</p>
+      <p class="notes-links">More instruments: <a href="/write/">a blank page to write on</a>, <a href="/diff/">a comparison of two texts</a>, <a href="/marks/">typographic marks to copy</a>, <a href="/draw/">a blank page to draw on</a>, <a href="/days/">days between dates</a>, <a href="/clock/">a fullscreen clock with pomodoro</a>, <a href="/breathe/">a breathing exercise</a>, <a href="/noise/">ambient noise and rain</a>, <a href="/moon/">the phase of the moon</a>, <a href="/season/">the turn of the seasons</a> and <a href="/twilight/">&#304;stanbul&rsquo;s twilight</a>&mdash;or see <a href="/tools/">all the tools</a>.</p>
     </div>
   </footer>
 
@@ -350,6 +404,113 @@ layout: null
     $("#stSpeak").textContent   = fmtMinutes(words, 130);
   }
 
+  /* ---- readability (an estimate, tuned for English — see the notes) ---- */
+  var ABBR = { "mr":1, "mrs":1, "ms":1, "dr":1, "prof":1, "st":1, "vs":1, "etc":1,
+               "e.g":1, "i.e":1, "eg":1, "ie":1, "cf":1, "jr":1, "sr":1, "no":1, "fig":1, "vol":1 };
+  function splitSentences(text){
+    var t = text.replace(/\s+/g, " ").trim();
+    if(!t) return [];
+    var sentences = [];
+    var re = /[.!?…]+['"’”)\]]*(?=\s|$)/g;
+    var m, start = 0;
+    while((m = re.exec(t))){
+      var end = m.index + m[0].length;
+      var punct = m[0];
+      var isEnd = true;
+      if(punct.charAt(0) === "."){
+        var wordM = /(\S+)$/.exec(t.slice(start, m.index));
+        var core = wordM ? wordM[1].toLowerCase().replace(/^["'“‘(\[]+/, "") : "";
+        if(/^[a-z]$/.test(core)) isEnd = false;                 /* a single initial: "H. Altun" */
+        else if(ABBR[core]) isEnd = false;                      /* a common abbreviation */
+      }
+      if(isEnd && /^(?:…|\.{3})/.test(punct)){
+        /* an ellipsis ends a sentence only when a capital follows */
+        var next = t.slice(end).replace(/^[\s"'“‘(\[]+/, "").charAt(0);
+        if(next && !(next === next.toUpperCase() && next !== next.toLowerCase())) isEnd = false;
+      }
+      if(isEnd){
+        var s = t.slice(start, end).trim();
+        if(s) sentences.push(s);
+        start = end;
+      }
+    }
+    var rest = t.slice(start).trim();
+    if(rest) sentences.push(rest);
+    return sentences;
+  }
+  function syllables(word){
+    var w = word.toLowerCase().replace(/[^a-z]/g, "");
+    if(!w) return 1;
+    if(w.length <= 3) return 1;
+    w = w.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/, "");      /* common silent endings */
+    w = w.replace(/^y/, "");
+    var g = w.match(/[aeiouy]{1,2}/g);
+    return Math.max(1, g ? g.length : 1);
+  }
+  var BUCKETS = [[1,5],[6,10],[11,15],[16,20],[21,25],[26,30],[31,Infinity]];
+  function bucketLabel(b){ return b[1] === Infinity ? b[0] + "+" : b[0] + "–" + b[1]; }
+  function fleschGloss(score){
+    if(score >= 90) return "very easy";
+    if(score >= 70) return "easy";
+    if(score >= 50) return "plain";
+    if(score >= 30) return "difficult";
+    return "very difficult";
+  }
+  function renderReadability(){
+    var block = $("#readability");
+    var sentences = splitSentences(ta.value);
+    if(sentences.length < 3){ block.hidden = true; return; }
+
+    var words = 0, chars = 0, sylls = 0;
+    var longest = null, longestWords = 0;
+    var counts = BUCKETS.map(function(){ return 0; });
+    sentences.forEach(function(s){
+      var ws = s.match(/\S+/g) || [];
+      words += ws.length;
+      ws.forEach(function(w){
+        chars += Array.from ? Array.from(w).length : w.length;
+        sylls += syllables(w);
+      });
+      if(ws.length > longestWords){ longestWords = ws.length; longest = s; }
+      for(var i = 0; i < BUCKETS.length; i++){
+        if(ws.length >= BUCKETS[i][0] && ws.length <= BUCKETS[i][1]){ counts[i]++; break; }
+      }
+    });
+    if(!words){ block.hidden = true; return; }
+
+    var flesch = 206.835 - 1.015 * (words / sentences.length) - 84.6 * (sylls / words);
+    flesch = Math.max(0, Math.min(121, flesch));
+    $("#rdFlesch").textContent = Math.round(flesch);
+    $("#rdGloss").textContent = fleschGloss(flesch) + " · reading ease";
+    $("#rdAvgSent").textContent = (words / sentences.length).toFixed(1);
+    $("#rdAvgWord").textContent = (chars / words).toFixed(1);
+
+    var shown = longest.length > 200 ? longest.slice(0, 200).replace(/\s+\S*$/, "") + "…" : longest;
+    $("#rdLongest").innerHTML = "The longest sentence runs <b>" + longestWords +
+      (longestWords === 1 ? " word" : " words") + "</b>: “" +
+      shown.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") + "”";
+
+    /* the histogram: thin bars, labels, nothing else */
+    var maxN = Math.max.apply(null, counts) || 1;
+    var svg = "";
+    var slot = 322 / BUCKETS.length, barW = 22, plotH = 78, base = 84;
+    for(var i = 0; i < BUCKETS.length; i++){
+      var h = counts[i] ? Math.max(2, (counts[i] / maxN) * plotH) : 0;
+      var x = i * slot + (slot - barW) / 2;
+      if(h) svg += '<rect class="bar" x="' + x.toFixed(1) + '" y="' + (base - h).toFixed(1) +
+                   '" width="' + barW + '" height="' + h.toFixed(1) + '"/>';
+      svg += '<text class="lbl" x="' + (i * slot + slot / 2).toFixed(1) +
+             '" y="99" text-anchor="middle">' + bucketLabel(BUCKETS[i]) + "</text>";
+    }
+    $("#rdHist").innerHTML = svg;
+    block.hidden = false;
+  }
+  var rdT;
+  function scheduleReadability(){
+    clearTimeout(rdT);
+    rdT = setTimeout(renderReadability, 300);
+  }
+
   /* ---- grow + autosave (local only — nothing leaves the page) ---- */
   function grow(){ ta.style.height = "auto"; ta.style.height = ta.scrollHeight + "px"; }
   var saveT;
@@ -358,6 +519,7 @@ layout: null
   }
   ta.addEventListener("input", function(){
     grow(); recount();
+    scheduleReadability();
     clearTimeout(saveT);
     saveT = setTimeout(saveNow, 500);
   });
@@ -366,7 +528,7 @@ layout: null
   $("#clearBtn").addEventListener("click", function(){
     if(ta.value.length && !confirm("Clear the page? This cannot be undone.")) return;
     ta.value = "";
-    grow(); recount(); saveNow();
+    grow(); recount(); renderReadability(); saveNow();
     ta.focus();
   });
 
@@ -418,7 +580,7 @@ layout: null
   });
 
   /* ---- init ---- */
-  grow(); recount();
+  grow(); recount(); renderReadability();
   window.addEventListener("resize", grow);
 })();
 </script>
