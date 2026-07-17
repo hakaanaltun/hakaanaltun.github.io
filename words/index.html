@@ -14,7 +14,7 @@ layout: null
 <meta property="og:description" content="Words, characters, sentences, paragraphs, reading time and speaking time—counted live in your browser. Nothing you paste leaves your device.">
 <meta property="og:url" content="https://hakanaltun.io/words/">
 <meta property="og:image" content="https://hakanaltun.io/images/og/words.png?v=20260716-1">
-<meta property="og:image:alt" content="The Counter—a quiet word counter">
+<meta property="og:image:alt" content="The Counter—a word counter">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
@@ -133,7 +133,7 @@ layout: null
     min-height:100vh; min-height:100dvh; padding-bottom:56px;
   }
 
-  /* a small pointer to the notes below the fold; it scrolls away with the page */
+  /* a pointer to the notes below the fold; it scrolls away with the page */
   .notes-cue{
     position:absolute; left:50%; bottom:16px; transform:translateX(-50%);
     font-family:var(--body); font-style:italic; font-size:.85rem; letter-spacing:.03em;
@@ -206,7 +206,7 @@ layout: null
   }
   .textbtn:hover{ color:var(--ink); text-decoration-color:var(--ink); }
 
-  /* readability — a quiet block that appears once there is enough text */
+  /* readability — a block that appears once there is enough text */
   .readability{ max-width:680px; margin:0 auto; padding:0 26px 8vh; text-align:center; }
   .readability[hidden]{ display:none; }
   .rd-name{
@@ -234,7 +234,7 @@ layout: null
   body.immersive.show-chrome .chrome{ opacity:1; pointer-events:auto; }
   body.immersive .notes{ display:none; }
 
-  /* notes — quiet reading matter under the counter */
+  /* notes — reading matter under the counter */
   .notes{ border-top:1px solid var(--line); padding:60px 26px 84px; }
   .notes-inner{ max-width:640px; margin:0 auto; }
   .notes h2{ font-family:var(--display); font-style:italic; font-weight:400; font-size:1.6rem; margin:2.4rem 0 1rem; color:var(--ink); }
@@ -332,7 +332,7 @@ layout: null
   <footer class="notes" id="notes">
     <div class="notes-inner">
       <h2>About this counter</h2>
-      <p>A word counter for essays and abstracts, platform limits, and talks that must fit their slot: words, characters with and without spaces, sentences, paragraphs, and how long the text takes to read silently or speak aloud. Once the text has a few sentences, a quiet readability section appears beneath it&mdash;the Flesch Reading Ease score, the average sentence and word length, the longest sentence, and a small histogram of sentence lengths: the mirror a writer glances at to see whether every sentence marches at the same pace. Everything updates live as you type or paste, and the draft is kept in your browser between visits.</p>
+      <p>A word counter for essays and abstracts, platform limits, and talks that must fit their slot: words, characters with and without spaces, sentences, paragraphs, and how long the text takes to read silently or speak aloud. Once the text has a few sentences, a readability section appears beneath it&mdash;the Flesch Reading Ease score, the average sentence and word length, the longest sentence, and a histogram of sentence lengths: the mirror a writer glances at to see whether every sentence marches at the same pace. Everything updates live as you type or paste, and the draft is kept in your browser between visits.</p>
 
       <h2>Questions</h2>
       <h3>What counts as a word?</h3>
