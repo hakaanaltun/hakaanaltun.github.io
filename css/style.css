@@ -50,6 +50,12 @@
 
   --header-border: rgba(237, 228, 207, 0.22);
 
+  /* The Tonight band on the homepage: mustard ground, dark ink in light;
+     the dark themes flip it — dark ground, yellow-cream ink. */
+  --tonight-band: #D3AD52;
+  --tonight-text: #43371A;
+  --tonight-accent: #2B2210;
+
   /* Header theme-toggle icons: show the moon in light, the sun in dark. */
   --theme-icon-sun: none;
   --theme-icon-moon: block;
@@ -96,6 +102,9 @@ body {
   --drawer-bg: rgba(24, 22, 17, 0.985);
   --wine: #C08E9B;
   --header-border: rgba(237, 228, 207, 0.12);
+  --tonight-band: #26210F;
+  --tonight-text: #D9C87E;
+  --tonight-accent: #EDE4CF;
   --theme-icon-sun: block;
   --theme-icon-moon: none;
   }
@@ -124,6 +133,9 @@ html[data-theme="dark"] {
   --drawer-bg: rgba(24, 22, 17, 0.985);
   --wine: #C08E9B;
   --header-border: rgba(237, 228, 207, 0.12);
+  --tonight-band: #26210F;
+  --tonight-text: #D9C87E;
+  --tonight-accent: #EDE4CF;
   --theme-icon-sun: block;
   --theme-icon-moon: none;
 }
@@ -160,6 +172,9 @@ html[data-theme="midnight"] {
   --drawer-bg: rgba(16, 23, 32, 0.985);
   --wine: #C08E9B;
   --header-border: rgba(237, 228, 207, 0.12);
+  --tonight-band: #17212D;
+  --tonight-text: #D6C89E;
+  --tonight-accent: #EDE4CF;
   --theme-icon-sun: block;
   --theme-icon-moon: none;
 }
@@ -555,17 +570,21 @@ section.line-drawn::before,
 #further-back::before { left: calc(50vw - 50%); right: calc(50vw - 50%); }
 
 /* Tonight — the homepage's closing line: the sky as it stands, pointing at
-   /moon/ and /twilight/. Filled in by home-scripts; hidden without JS. */
-#tonight { background: var(--paper);
+   /moon/ and /twilight/. Filled in by home-scripts; hidden without JS.
+   The line sits flush left in a mustard band that fills the whole space
+   between the divider above and the grey footer strip below; in the dark
+   themes the band goes dark instead and the type carries the yellow-cream.
+   The band and its inks come from the --tonight-* tokens in section 1. */
+#tonight { background: var(--tonight-band);
   margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw);
   padding-left: calc(50vw - 50%); padding-right: calc(50vw - 50%);
 }
-.tonight-strip { text-align: center; padding-top: 8px; padding-bottom: 46px; }
-.tonight-line { font-family: 'EB Garamond', Georgia, serif; font-size: 0.95rem; color: var(--vizon); letter-spacing: 0.03em; margin: 0; }
-.tonight-word { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 1.08rem; color: var(--petrol); margin-right: 7px; }
+.tonight-strip { text-align: left; padding-top: 22px; padding-bottom: 22px; }
+.tonight-line { font-family: 'EB Garamond', Georgia, serif; font-size: 0.95rem; color: var(--tonight-text); letter-spacing: 0.03em; margin: 0; }
+.tonight-word { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 1.08rem; color: var(--tonight-accent); margin-right: 7px; }
 .tonight-sep { margin: 0 7px; }
-.tonight-link { color: var(--vizon); text-decoration: none; border-bottom: 1px solid transparent; transition: color 0.2s ease, border-color 0.2s ease; }
-.tonight-link:hover { color: var(--petrol); border-bottom-color: var(--petrol); }
+.tonight-link { color: var(--tonight-text); text-decoration: none; border-bottom: 1px solid transparent; transition: color 0.2s ease, border-color 0.2s ease; }
+.tonight-link:hover { color: var(--tonight-accent); border-bottom-color: var(--tonight-accent); }
 @media (max-width: 600px) {
   .tonight-line { display: flex; flex-direction: column; gap: 3px; }
   .tonight-sep { display: none; }
@@ -1736,8 +1755,9 @@ footer {
 /* ==========================================================================
    Tools index (/tools/) — a quiet list of instruments
    ========================================================================== */
-/* The wine bands keep neutral text: the green-grey the other chromes
-   use for taglines, nav and the footer lines clashes with the red. */
+/* The tools chrome runs the moon page's navy, so its bands carry the same
+   cream the moon page types with — the green-grey the other chromes use
+   for taglines, nav and the footer lines would tint it toward sage. */
 body.series-tools header .brand-sub,
 body.series-tools .header-nav-bar a,
 body.series-tools .drawer-logo-link .brand-sub,
