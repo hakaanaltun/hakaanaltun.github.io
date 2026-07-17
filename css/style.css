@@ -518,6 +518,24 @@ section.line-drawn::before,
 }
 #further-back::before { left: calc(50vw - 50%); right: calc(50vw - 50%); }
 
+/* Tonight — the homepage's closing line: the sky as it stands, pointing at
+   /moon/ and /twilight/. Filled in by home-scripts; hidden without JS. */
+#tonight { background: var(--paper);
+  margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw);
+  padding-left: calc(50vw - 50%); padding-right: calc(50vw - 50%);
+}
+.tonight-strip { text-align: center; padding-top: 8px; padding-bottom: 46px; }
+.tonight-line { font-family: 'EB Garamond', Georgia, serif; font-size: 0.95rem; color: var(--vizon); letter-spacing: 0.03em; margin: 0; }
+.tonight-word { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 1.08rem; color: var(--petrol); margin-right: 7px; }
+.tonight-sep { margin: 0 7px; }
+.tonight-link { color: var(--vizon); text-decoration: none; border-bottom: 1px solid transparent; transition: color 0.2s ease, border-color 0.2s ease; }
+.tonight-link:hover { color: var(--petrol); border-bottom-color: var(--petrol); }
+@media (max-width: 600px) {
+  .tonight-line { display: flex; flex-direction: column; gap: 3px; }
+  .tonight-sep { display: none; }
+  .tonight-word { margin-right: 0; }
+}
+
 /* ========================================================================== 
    8. Book, Moris & About
    ========================================================================== */
