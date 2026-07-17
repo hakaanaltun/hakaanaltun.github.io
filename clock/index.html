@@ -617,7 +617,7 @@ layout: null
   fsBtn.addEventListener("click", ()=>{
     if(nativeFsElement()){ exitFs(); return; }
     if(fakeFs){ fakeFs=false; syncImmersive(); return; }
-    if(!requestFs()){ fakeFs=true; syncImmersive(); }   // API yoksa (ör. iOS Safari) CSS odak modu
+    if(!requestFs()){ fakeFs=true; syncImmersive(); }   // no API (e.g. iOS Safari): CSS focus mode
   });
   document.addEventListener("fullscreenchange", syncImmersive);
   document.addEventListener("webkitfullscreenchange", syncImmersive);
@@ -756,7 +756,7 @@ layout: null
       if(d>0) return { main: d+"d "+pad(h)+":"+pad(m)+":"+pad(s), unit:"" };
       return { main: h>0 ? pad(h)+":"+pad(m)+":"+pad(s) : pad(m)+":"+pad(s), unit:"" };
     }
-    let tm=Math.ceil(ms/60000); if(tm<0) tm=0;           // saniye kapalı: kalan dakika (yukarı yuvarla)
+    let tm=Math.ceil(ms/60000); if(tm<0) tm=0;           // seconds off: minutes remaining (round up)
     const dd=Math.floor(tm/1440), hh=Math.floor(tm%1440/60), mm=tm%60;
     if(dd>0) return { main: dd+"d "+pad(hh)+":"+pad(mm), unit:"" };
     return hh>0 ? { main: hh+":"+pad(mm), unit:"" } : { main: String(mm), unit:"min" };
