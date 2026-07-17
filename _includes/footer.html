@@ -51,11 +51,15 @@
             </svg>
           </a>
 
+          <div class="theme-menu-wrap">
           <button
             class="footer-icon-btn footer-theme-toggle"
             id="theme-toggle"
             type="button"
-            aria-label="Switch to dark theme"
+            aria-label="Choose a theme"
+            aria-haspopup="true"
+            aria-expanded="false"
+            aria-controls="theme-menu"
             hidden
           >
             <svg
@@ -92,6 +96,22 @@
               <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
             </svg>
           </button>
+
+          <div class="theme-menu" id="theme-menu" role="menu" aria-label="Theme" hidden>
+            <button type="button" class="theme-menu-item" role="menuitemradio" aria-checked="false" data-set-theme="light">
+              Light
+              <span class="theme-menu-mark" aria-hidden="true">&#10003;</span>
+            </button>
+            <button type="button" class="theme-menu-item" role="menuitemradio" aria-checked="false" data-set-theme="dark">
+              Dark
+              <span class="theme-menu-mark" aria-hidden="true">&#10003;</span>
+            </button>
+            <button type="button" class="theme-menu-item" role="menuitemradio" aria-checked="false" data-set-theme="midnight">
+              Midnight
+              <span class="theme-menu-mark" aria-hidden="true">&#10003;</span>
+            </button>
+          </div>
+          </div>
 
           <button
             class="footer-icon-btn footer-share-btn"
