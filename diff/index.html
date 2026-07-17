@@ -1,0 +1,553 @@
+---
+layout: null
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compare Two Texts&mdash;A Private, Free Diff for Drafts &middot; On Life &amp; Everything</title>
+<meta name="description" content="Compare two texts or drafts online, privately: paste a before and an after, and see every word added or removed. The comparison runs entirely in your browser—your texts never leave your device.">
+<link rel="canonical" href="https://hakanaltun.io/diff/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="The Diff—Compare Two Texts Online, Private &amp; Free">
+<meta property="og:description" content="Paste a before and an after and see every word added or removed. Compared entirely in your browser—your texts never leave your device.">
+<meta property="og:url" content="https://hakanaltun.io/diff/">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#FFFFFF">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#191712">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "@id": "https://hakanaltun.io/diff/#app",
+      "name": "The Diff—Compare Two Texts Online",
+      "url": "https://hakanaltun.io/diff/",
+      "description": "Compare two texts or drafts online, privately: paste a before and an after, and see every word added or removed. The comparison runs entirely in your browser—your texts never leave your device.",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires JavaScript",
+      "isAccessibleForFree": true,
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "author": { "@type": "Person", "name": "Hakan Altun", "url": "https://hakanaltun.io/" },
+      "inLanguage": "en"
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://hakanaltun.io/diff/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Where do my texts go?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Nowhere. Both texts are compared entirely in this browser and kept only in its local storage so an accidental tab close loses nothing—they are never uploaded or sent anywhere." }
+        },
+        {
+          "@type": "Question",
+          "name": "How large can the texts be?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Essays and stories of several thousand words compare comfortably. The page first matches whole paragraphs and then looks inside the changed ones, so even long drafts stay quick; only two texts with almost nothing in common take noticeably longer." }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the difference between word and character comparison?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Word mode treats each word as the unit, which reads best for prose. Character mode looks inside the words themselves, so a fixed typo or a changed ending shows as the two or three letters that actually moved, not the whole word." }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I compare drafts of an essay or story?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes—that is what the page is for. Paste yesterday's draft on the left and today's on the right, and the result shows the revision as a reader would see it: what was cut struck through, what arrived quietly highlighted." }
+        }
+      ]
+    }
+  ]
+}
+</script>
+
+<link rel="stylesheet" href="/css/fonts.css?v=20260710-1">
+
+<style>
+  :root{
+    --paper: #FFFFFF;
+    --ink:   #2F2B27;
+    --muted: #746F69;
+    --line:  #EEEAE4;
+    --tint:  rgba(230,161,92,0.22);
+
+    --display: 'Cormorant Garamond', Georgia, serif;
+    --body:    'EB Garamond', Georgia, serif;
+
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark){
+    html:not([data-theme="light"]){
+      --paper:#191712; --ink:#E7E1D6; --muted:#9C948A; --line:#2B2721;
+      --tint:rgba(230,161,92,0.16);
+      color-scheme: dark;
+    }
+  }
+  html[data-theme="dark"]{
+    --paper:#191712; --ink:#E7E1D6; --muted:#9C948A; --line:#2B2721;
+    --tint:rgba(230,161,92,0.16);
+    color-scheme: dark;
+  }
+  /* theme toggle icons: moon in light, sun in dark */
+  :root{ --icon-sun:none; --icon-moon:block; }
+  @media (prefers-color-scheme: dark){
+    html:not([data-theme="light"]){ --icon-sun:block; --icon-moon:none; }
+  }
+  html[data-theme="dark"]{ --icon-sun:block; --icon-moon:none; }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+
+  /* the ampersand the site uses — the display italic, as in the header logo */
+  .amp{ font-family:var(--display); font-style:italic; }
+
+  body{
+    position:relative;
+    background:var(--paper); color:var(--ink); font-family:var(--body);
+    min-height:100vh; min-height:100dvh;
+    -webkit-font-smoothing:antialiased;
+    transition:background .4s ease, color .4s ease;
+  }
+
+  .chrome{
+    position:sticky; top:0; z-index:2; background:var(--paper);
+    display:grid; grid-template-columns:1fr auto 1fr; align-items:center;
+    padding:14px 22px; border-bottom:1px solid var(--line);
+    transition:border-color .4s ease, background .4s ease;
+  }
+  .masthead{
+    grid-column:2; text-decoration:none; display:flex; flex-direction:column;
+    align-items:center; gap:1px; text-align:center; opacity:.85; transition:opacity .2s;
+  }
+  .masthead:hover{ opacity:1; }
+  .home-brand{ font-family:var(--display); font-style:italic; font-weight:400; font-size:1.1rem; line-height:1.05; color:var(--ink); }
+  .home-tagline{ font-family:var(--body); font-style:italic; font-weight:400; font-size:0.8rem; line-height:1.2; color:var(--muted); }
+
+  .actions{ grid-column:3; justify-self:end; display:flex; gap:8px; }
+  .icon-btn{
+    background:none; border:1px solid var(--line); color:var(--muted);
+    width:38px; height:38px; border-radius:8px; cursor:pointer; font-size:16px;
+    display:grid; place-items:center; transition:color .2s, border-color .2s;
+  }
+  .icon-btn:hover{ color:var(--ink); border-color:var(--muted); }
+  .icon-btn:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
+  .icon-btn svg{ width:16px; height:16px; }
+  .theme-btn .icon-sun{ display:var(--icon-sun); }
+  .theme-btn .icon-moon{ display:var(--icon-moon); }
+
+  .diff-head{ max-width:900px; margin:0 auto; padding:6vh 26px 0; text-align:center; }
+  .diff-head h1{
+    font-family:var(--display); font-style:italic; font-weight:400;
+    font-size:clamp(1.9rem, 5vw, 2.6rem); line-height:1.1;
+  }
+  .diff-head .lede{ margin-top:.5rem; font-style:italic; color:var(--muted); font-size:1rem; }
+
+  .sheet{ width:100%; max-width:900px; margin:0 auto; padding:4vh 26px 10vh; }
+
+  .panes{ display:grid; grid-template-columns:1fr 1fr; gap:22px; }
+  .pane label{
+    display:block; font-family:var(--body); font-style:italic; color:var(--muted);
+    font-size:.95rem; letter-spacing:.03em; margin-bottom:.5rem;
+  }
+  .pane textarea{
+    display:block; width:100%; min-height:34vh;
+    border:1px solid var(--line); border-radius:8px; padding:14px 16px;
+    background:transparent; color:var(--ink);
+    font-family:var(--body); font-size:1.1rem; line-height:1.6;
+    resize:vertical; outline:none; caret-color:var(--ink);
+  }
+  .pane textarea:focus-visible{ border-color:var(--muted); }
+  .pane textarea::placeholder{ color:var(--muted); font-style:italic; opacity:.65; }
+
+  .controls{ margin-top:1.6rem; display:flex; gap:14px; justify-content:center; align-items:center; flex-wrap:wrap; }
+  .btn{
+    font-family:var(--display); font-style:italic; font-size:1.25rem;
+    padding:9px 28px; border-radius:0; cursor:pointer;
+    border:1px solid var(--line); background:none; color:var(--ink);
+    transition:background .2s, color .2s, border-color .2s;
+  }
+  .btn:hover{ border-color:var(--ink); }
+  .btn:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
+  .seg{ display:flex; border:1px solid var(--line); border-radius:999px; overflow:hidden; }
+  .seg button{
+    background:none; border:none; color:var(--muted); font-family:var(--body);
+    font-size:14px; padding:8px 18px; cursor:pointer; letter-spacing:.02em;
+  }
+  .seg button[aria-pressed="true"]{ background:var(--ink); color:var(--paper); }
+  .seg button:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
+
+  .stats{
+    margin-top:2.6rem; text-align:center; font-style:italic; color:var(--muted);
+    font-size:.98rem; letter-spacing:.02em; min-height:1.4em;
+  }
+  .result{
+    margin-top:1.2rem; border-top:1px solid var(--line); padding-top:2rem;
+    font-size:1.18rem; line-height:1.7; display:none;
+  }
+  .result.on{ display:block; }
+  .result p{ margin:0 0 1em; }
+  .result del{
+    color:var(--muted); text-decoration:line-through;
+    text-decoration-thickness:1px; opacity:.75;
+  }
+  .result ins{ text-decoration:none; background:var(--tint); border-radius:2px; }
+
+  /* notes — quiet reading matter under the instrument */
+  .notes{ border-top:1px solid var(--line); padding:60px 26px 84px; }
+  .notes-inner{ max-width:640px; margin:0 auto; }
+  .notes h2{ font-family:var(--display); font-style:italic; font-weight:400; font-size:1.6rem; margin:2.4rem 0 1rem; color:var(--ink); }
+  .notes h2:first-child{ margin-top:0; }
+  .notes h3{ font-family:var(--body); font-style:italic; font-weight:400; font-size:1.15rem; margin:1.5rem 0 .35rem; color:var(--ink); }
+  .notes p{ color:var(--muted); font-size:1.05rem; line-height:1.65; margin:0 0 .9rem; }
+  .notes a{ color:var(--ink); text-decoration:underline; text-underline-offset:3px; text-decoration-color:var(--line); }
+  .notes a:hover{ text-decoration-color:var(--ink); }
+  .notes .notes-links{ margin-top:2.4rem; padding-top:1.3rem; border-top:1px solid var(--line); font-style:italic; }
+
+  @media (max-width:700px){
+    .panes{ grid-template-columns:1fr; gap:18px; }
+    .pane textarea{ min-height:24vh; }
+  }
+  @media (max-width:600px){
+    .chrome{ padding:12px 14px; }
+    .home-brand{ font-size:1rem; }
+    .home-tagline{ font-size:0.74rem; }
+    .sheet{ padding:3vh 20px 8vh; }
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    *{ transition:none !important; }
+  }
+</style>
+<script>(function(){try{var t=localStorage.getItem('olae-page-theme');if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();</script>
+</head>
+<body>
+
+  <div class="chrome" id="chrome">
+    <span aria-hidden="true"></span>
+    <a class="masthead" href="/" aria-label="On Life &amp; Everything—home">
+      <span class="home-brand">On Life &amp; Everything</span>
+      <span class="home-tagline">Essays, short fiction, and other writing.</span>
+    </a>
+    <div class="actions">
+      <button class="icon-btn theme-btn" id="themeBtn" type="button" title="Light / dark" aria-label="Switch theme">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <header class="diff-head">
+    <h1>The diff</h1>
+    <p class="lede">Two drafts, compared where they stand&mdash;nothing leaves your browser.</p>
+  </header>
+
+  <main class="sheet">
+
+    <div class="panes">
+      <div class="pane">
+        <label for="beforeText">Before</label>
+        <textarea id="beforeText" placeholder="The earlier draft." autocomplete="off" spellcheck="false"></textarea>
+      </div>
+      <div class="pane">
+        <label for="afterText">After</label>
+        <textarea id="afterText" placeholder="The later draft." autocomplete="off" spellcheck="false"></textarea>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button class="btn" id="compareBtn" type="button">Compare</button>
+      <div class="seg" role="group" aria-label="Comparison unit">
+        <button id="modeWords" aria-pressed="true">Words</button>
+        <button id="modeChars" aria-pressed="false">Characters</button>
+      </div>
+    </div>
+
+    <div class="stats" id="stats" aria-live="polite"></div>
+    <div class="result" id="result"></div>
+
+  </main>
+
+  <footer class="notes" id="notes">
+    <div class="notes-inner">
+      <h2>About this page</h2>
+      <p>Two texts, compared in the browser: paste yesterday&rsquo;s draft on one side and today&rsquo;s on the other, press compare, and read the revision as one text&mdash;what was cut struck through in a muted tone, what arrived resting on a faint warm tint. After the first comparison the result follows your edits on its own. Both texts stay in this browser and travel nowhere.</p>
+
+      <h2>Questions</h2>
+      <h3>Where do my texts go?</h3>
+      <p>Nowhere. Both texts are compared entirely in this browser and kept only in its local storage so an accidental tab close loses nothing&mdash;they are never uploaded or sent anywhere.</p>
+
+      <h3>How large can the texts be?</h3>
+      <p>Essays and stories of several thousand words compare comfortably. The page first matches whole paragraphs and then looks inside the changed ones, so even long drafts stay quick; only two texts with almost nothing in common take noticeably longer.</p>
+
+      <h3>What is the difference between word and character comparison?</h3>
+      <p>Word mode treats each word as the unit, which reads best for prose. Character mode looks inside the words themselves, so a fixed typo or a changed ending shows as the two or three letters that actually moved, not the whole word.</p>
+
+      <h3>Can I compare drafts of an essay or story?</h3>
+      <p>Yes&mdash;that is what the page is for. Paste the earlier draft on the left and the later one on the right, and the result shows the revision as a reader would see it.</p>
+
+      <p class="notes-links">More instruments: <a href="/write/">a blank page to write on</a>, <a href="/words/">a word counter</a>, <a href="/marks/">typographic marks to copy</a>, <a href="/draw/">a blank page to draw on</a>, <a href="/days/">days between dates</a>, <a href="/clock/">a fullscreen clock with pomodoro</a>, <a href="/breathe/">a breathing exercise</a>, <a href="/noise/">ambient noise and rain</a>, <a href="/moon/">the phase of the moon</a>, <a href="/season/">the turn of the seasons</a> and <a href="/twilight/">&#304;stanbul&rsquo;s twilight</a>&mdash;or see <a href="/tools/">all the tools</a>.</p>
+    </div>
+  </footer>
+
+<script>
+(function(){
+  "use strict";
+  var $ = function(s){ return document.querySelector(s); };
+  var LS = "olae-diff-v1";
+
+  var taA = $("#beforeText"), taB = $("#afterText");
+  var statsEl = $("#stats"), resultEl = $("#result");
+  var mode = "words", compared = false;
+
+  /* ================= Myers O(ND) diff, with a depth cap =================
+     Returns a list of [op, token] with op -1 removed, 0 kept, 1 added —
+     or null when the texts differ by more than the cap allows. */
+  function diffCore(a, b, cap){
+    /* strip the common head and tail first — typical drafts share most of both */
+    var n = a.length, m = b.length;
+    var start = 0;
+    while(start < n && start < m && a[start] === b[start]) start++;
+    var endA = n, endB = m;
+    while(endA > start && endB > start && a[endA - 1] === b[endB - 1]){ endA--; endB--; }
+
+    var midA = a.slice(start, endA), midB = b.slice(start, endB);
+    var midOps = myers(midA, midB, cap);
+    if(midOps === null) return null;
+
+    var ops = [];
+    var i;
+    for(i = 0; i < start; i++) ops.push([0, a[i]]);
+    ops = ops.concat(midOps);
+    for(i = endA; i < n; i++) ops.push([0, a[i]]);
+    return ops;
+  }
+  function myers(a, b, cap){
+    var n = a.length, m = b.length;
+    if(!n && !m) return [];
+    if(!n){ return b.map(function(t){ return [1, t]; }); }
+    if(!m){ return a.map(function(t){ return [-1, t]; }); }
+    var max = n + m;
+    var D_MAX = Math.min(max, cap || max);
+    var off = D_MAX + 1;
+    var V = new Int32Array(2 * D_MAX + 3);
+    var trace = [];
+    var d, k, x, y;
+    for(d = 0; d <= D_MAX; d++){
+      trace.push(V.slice());
+      for(k = -d; k <= d; k += 2){
+        if(k === -d || (k !== d && V[off + k - 1] < V[off + k + 1])) x = V[off + k + 1];
+        else x = V[off + k - 1] + 1;
+        y = x - k;
+        while(x < n && y < m && a[x] === b[y]){ x++; y++; }
+        V[off + k] = x;
+        if(x >= n && y >= m) return backtrack(trace, a, b, off);
+      }
+    }
+    return null;   /* the texts differ by more than the cap — caller falls back */
+  }
+  function backtrack(trace, a, b, off){
+    var ops = [];
+    var x = a.length, y = b.length;
+    for(var d = trace.length - 1; d >= 0 && (x > 0 || y > 0); d--){
+      var V = trace[d];
+      var k = x - y, prevK;
+      if(k === -d || (k !== d && V[off + k - 1] < V[off + k + 1])) prevK = k + 1;
+      else prevK = k - 1;
+      var prevX = V[off + prevK], prevY = prevX - prevK;
+      while(x > prevX && y > prevY){ ops.push([0, a[x - 1]]); x--; y--; }
+      if(d > 0){
+        if(x === prevX){ ops.push([1, b[y - 1]]); y--; }
+        else { ops.push([-1, a[x - 1]]); x--; }
+      }
+    }
+    while(x > 0 && y > 0){ ops.push([0, a[x - 1]]); x--; y--; }
+    ops.reverse();
+    return ops;
+  }
+  function replaceAll(a, b){
+    return a.map(function(t){ return [-1, t]; }).concat(b.map(function(t){ return [1, t]; }));
+  }
+
+  /* ============ paragraph-first comparison, then inside the changes ============ */
+  var BREAK = " ¶";   /* internal paragraph-break token */
+  function splitParas(t){
+    return t.replace(/\r\n?/g, "\n").split(/\n\s*\n/);
+  }
+  function tokenize(t, m){
+    if(m === "chars"){
+      var out = [], i;
+      var arr = Array.from ? Array.from(t) : t.split("");
+      for(i = 0; i < arr.length; i++) out.push(arr[i]);
+      return out;
+    }
+    return t.match(/\S+/g) || [];
+  }
+  function diffTexts(aText, bText, m){
+    var aParas = splitParas(aText), bParas = splitParas(bText);
+    var pOps = diffCore(aParas, bParas, 400) || replaceAll(aParas, bParas);
+
+    /* walk the paragraph ops; equal paragraphs pass through, changed runs
+       are gathered and compared token by token */
+    var ops = [];
+    var runA = [], runB = [];
+    function pushBreak(){ ops.push([0, BREAK]); }
+    function flushRun(){
+      if(!runA.length && !runB.length) return;
+      var ta = tokensOfRun(runA, m), tb = tokensOfRun(runB, m);
+      var inner = diffCore(ta, tb, 1200) || replaceAll(ta, tb);
+      if(ops.length) pushBreak();
+      ops = ops.concat(inner);
+      runA = []; runB = [];
+    }
+    function tokensOfRun(paras, m){
+      var toks = [];
+      for(var i = 0; i < paras.length; i++){
+        if(i) toks.push(BREAK);
+        toks = toks.concat(tokenize(paras[i], m));
+      }
+      return toks;
+    }
+    for(var i = 0; i < pOps.length; i++){
+      var op = pOps[i][0], para = pOps[i][1];
+      if(op === 0){
+        flushRun();
+        if(ops.length) pushBreak();
+        var toks = tokenize(para, m);
+        for(var j = 0; j < toks.length; j++) ops.push([0, toks[j]]);
+      } else if(op === -1) runA.push(para);
+      else runB.push(para);
+    }
+    flushRun();
+    return ops;
+  }
+
+  /* ================= rendering ================= */
+  function esc(s){
+    return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+  function render(ops, m){
+    var glue = m === "chars" ? "" : " ";
+    var paras = [[]];                     /* paragraphs, each a list of html chunks */
+    var buf = [], bufOp = null;
+    var added = 0, removed = 0, kept = 0;
+    function cur(){ return paras[paras.length - 1]; }
+    function flushBuf(){
+      if(bufOp === null || !buf.length){ buf = []; bufOp = null; return; }
+      var text = esc(buf.join(glue));
+      if(m === "chars") text = text.replace(/\n/g, "<br>");
+      if(bufOp === 0) cur().push(text);
+      else if(bufOp === -1) cur().push("<del>" + text + "</del>");
+      else cur().push("<ins>" + text + "</ins>");
+      buf = []; bufOp = null;
+    }
+    for(var i = 0; i < ops.length; i++){
+      var op = ops[i][0], tok = ops[i][1];
+      if(tok === BREAK){
+        flushBuf();
+        if(op === -1) cur().push("<del>\u00b6</del>");   /* a removed paragraph break */
+        paras.push([]);
+        continue;
+      }
+      if(op === 0) kept++; else if(op === -1) removed++; else added++;
+      if(bufOp !== op) flushBuf();
+      bufOp = op;
+      buf.push(tok);
+    }
+    flushBuf();
+    var html = "";
+    for(i = 0; i < paras.length; i++){
+      if(paras[i].length) html += "<p>" + paras[i].join(glue) + "</p>";
+    }
+    return { html: html || "<p></p>", added: added, removed: removed, kept: kept };
+  }
+
+  function unitName(n, m){
+    var u = m === "chars" ? "character" : "word";
+    return n === 1 ? u : u + "s";
+  }
+  function compare(){
+    var a = taA.value, b = taB.value;
+    if(!a.trim() && !b.trim()){
+      statsEl.textContent = "";
+      resultEl.classList.remove("on");
+      resultEl.innerHTML = "";
+      return;
+    }
+    var ops = diffTexts(a, b, mode);
+    var r = render(ops, mode);
+    statsEl.textContent = r.added + " " + unitName(r.added, mode) + " added · " +
+                          r.removed + " " + unitName(r.removed, mode) + " removed · " +
+                          r.kept + " unchanged";
+    resultEl.innerHTML = r.html;
+    resultEl.classList.add("on");
+    compared = true;
+  }
+  $("#compareBtn").addEventListener("click", compare);
+
+  /* live mode: after the first comparison, follow the edits (debounced) */
+  var liveT;
+  function liveCompare(){
+    if(!compared) return;
+    clearTimeout(liveT);
+    liveT = setTimeout(compare, 400);
+  }
+
+  /* ---- mode toggle ---- */
+  var modeWordsBtn = $("#modeWords"), modeCharsBtn = $("#modeChars");
+  function setMode(m){
+    mode = m;
+    modeWordsBtn.setAttribute("aria-pressed", String(m === "words"));
+    modeCharsBtn.setAttribute("aria-pressed", String(m === "chars"));
+    if(compared) compare();
+  }
+  modeWordsBtn.addEventListener("click", function(){ setMode("words"); });
+  modeCharsBtn.addEventListener("click", function(){ setMode("chars"); });
+
+  /* ---- persistence (local only — nothing leaves the page) ---- */
+  try{
+    var saved = JSON.parse(localStorage.getItem(LS));
+    if(saved){
+      if(typeof saved.a === "string") taA.value = saved.a;
+      if(typeof saved.b === "string") taB.value = saved.b;
+    }
+  }catch(e){}
+  var saveT;
+  function saveNow(){
+    try{ localStorage.setItem(LS, JSON.stringify({ a: taA.value, b: taB.value, at: Date.now() })); }catch(e){}
+  }
+  [taA, taB].forEach(function(ta){
+    ta.addEventListener("input", function(){
+      clearTimeout(saveT);
+      saveT = setTimeout(saveNow, 500);
+      liveCompare();
+    });
+  });
+  window.addEventListener("beforeunload", saveNow);
+
+  /* ---- theme ---- */
+  $("#themeBtn").addEventListener("click", function(){
+    var root = document.documentElement;
+    var current = root.getAttribute("data-theme");
+    var next;
+    if(current === "dark") next = "light";
+    else if(current === "light") next = "dark";
+    else next = window.matchMedia("(prefers-color-scheme: dark)").matches ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    try{ localStorage.setItem("olae-page-theme", next); }catch(e){}
+  });
+})();
+</script>
+<script>if("serviceWorker" in navigator){navigator.serviceWorker.register("/sw.js").catch(function(){});}</script>
+</body>
+</html>

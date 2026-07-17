@@ -1,0 +1,485 @@
+---
+layout: null
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Em Dash, En Dash, Curly Quotes &amp; Other Typographic Marks to Copy &middot; On Life &amp; Everything</title>
+<meta name="description" content="Em dash, en dash, curly quotes, ellipsis, section sign, thin space and the rest of typography's quiet marks—click any character to copy it. No ads, no hunting through character maps; nothing you copy leaves your browser.">
+<link rel="canonical" href="https://hakanaltun.io/marks/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="The Marks—Em Dash, Curly Quotes &amp; Other Typographic Characters to Copy">
+<meta property="og:description" content="A quiet page of typographic characters, click to copy. Em dash, curly quotes, thin space and the rest—nothing you copy leaves your browser.">
+<meta property="og:url" content="https://hakanaltun.io/marks/">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#FFFFFF">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#191712">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "@id": "https://hakanaltun.io/marks/#app",
+      "name": "The Marks—Em Dash, Curly Quotes & Other Typographic Characters to Copy",
+      "url": "https://hakanaltun.io/marks/",
+      "description": "A quiet page of typographic characters, click to copy: em dash, en dash, curly quotes, ellipsis, thin space, Turkish letters and more. No ads; nothing you copy leaves your browser.",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires JavaScript",
+      "isAccessibleForFree": true,
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "author": { "@type": "Person", "name": "Hakan Altun", "url": "https://hakanaltun.io/" },
+      "inLanguage": "en"
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://hakanaltun.io/marks/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How do I type an em dash on my own keyboard?",
+          "acceptedAnswer": { "@type": "Answer", "text": "On a Mac, Shift-Option-hyphen (Option-hyphen gives the en dash). On Windows, hold Alt and type 0151 on the numeric keypad, or press Win-period for the emoji-and-symbols panel. Many phone keyboards hide the dashes under a long press on the hyphen. Or skip the shortcuts and copy it from this page." }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the difference between an em dash and an en dash?",
+          "acceptedAnswer": { "@type": "Answer", "text": "The em dash (—) is the wide one, used to set off a phrase—like this—or mark a break in thought. The en dash (–) is narrower and joins ranges and pairings: 1914–1918, the İstanbul–Ankara train. The hyphen (-) is shorter still and only joins words." }
+        },
+        {
+          "@type": "Question",
+          "name": "What are curly quotes?",
+          "acceptedAnswer": { "@type": "Answer", "text": "The typographer's quotation marks—“ ” and ‘ ’—which curl toward the text they enclose, unlike the straight marks (\" ') on a keyboard. Books and careful prose use the curly set; word processors usually substitute them automatically, plain text fields usually don't." }
+        },
+        {
+          "@type": "Question",
+          "name": "Where does my clipboard data go?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Nowhere. Clicking a character only writes it to your device's clipboard, right in the browser—the page reads nothing back, sends nothing anywhere, and keeps only your handful of recently copied marks in this browser's local storage." }
+        }
+      ]
+    }
+  ]
+}
+</script>
+
+<link rel="stylesheet" href="/css/fonts.css?v=20260710-1">
+
+<style>
+  :root{
+    --paper: #FFFFFF;
+    --ink:   #2F2B27;
+    --muted: #746F69;
+    --line:  #EEEAE4;
+
+    --display: 'Cormorant Garamond', Georgia, serif;
+    --body:    'EB Garamond', Georgia, serif;
+
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark){
+    html:not([data-theme="light"]){
+      --paper:#191712; --ink:#E7E1D6; --muted:#9C948A; --line:#2B2721;
+      color-scheme: dark;
+    }
+  }
+  html[data-theme="dark"]{
+    --paper:#191712; --ink:#E7E1D6; --muted:#9C948A; --line:#2B2721;
+    color-scheme: dark;
+  }
+  /* theme toggle icons: moon in light, sun in dark */
+  :root{ --icon-sun:none; --icon-moon:block; }
+  @media (prefers-color-scheme: dark){
+    html:not([data-theme="light"]){ --icon-sun:block; --icon-moon:none; }
+  }
+  html[data-theme="dark"]{ --icon-sun:block; --icon-moon:none; }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+
+  /* the ampersand the site uses — the display italic, as in the header logo */
+  .amp{ font-family:var(--display); font-style:italic; }
+
+  body{
+    position:relative;
+    background:var(--paper); color:var(--ink); font-family:var(--body);
+    min-height:100vh; min-height:100dvh;
+    -webkit-font-smoothing:antialiased;
+    transition:background .4s ease, color .4s ease;
+  }
+
+  .chrome{
+    position:sticky; top:0; z-index:2; background:var(--paper);
+    display:grid; grid-template-columns:1fr auto 1fr; align-items:center;
+    padding:14px 22px; border-bottom:1px solid var(--line);
+    transition:border-color .4s ease, background .4s ease;
+  }
+  .masthead{
+    grid-column:2; text-decoration:none; display:flex; flex-direction:column;
+    align-items:center; gap:1px; text-align:center; opacity:.85; transition:opacity .2s;
+  }
+  .masthead:hover{ opacity:1; }
+  .home-brand{ font-family:var(--display); font-style:italic; font-weight:400; font-size:1.1rem; line-height:1.05; color:var(--ink); }
+  .home-tagline{ font-family:var(--body); font-style:italic; font-weight:400; font-size:0.8rem; line-height:1.2; color:var(--muted); }
+
+  .actions{ grid-column:3; justify-self:end; display:flex; gap:8px; }
+  .icon-btn{
+    background:none; border:1px solid var(--line); color:var(--muted);
+    width:38px; height:38px; border-radius:8px; cursor:pointer; font-size:16px;
+    display:grid; place-items:center; transition:color .2s, border-color .2s;
+  }
+  .icon-btn:hover{ color:var(--ink); border-color:var(--muted); }
+  .icon-btn:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
+  .icon-btn svg{ width:16px; height:16px; }
+  .theme-btn .icon-sun{ display:var(--icon-sun); }
+  .theme-btn .icon-moon{ display:var(--icon-moon); }
+
+  .marks-head{ max-width:680px; margin:0 auto; padding:6vh 26px 0; text-align:center; }
+  .marks-head h1{
+    font-family:var(--display); font-style:italic; font-weight:400;
+    font-size:clamp(1.9rem, 5vw, 2.6rem); line-height:1.1;
+  }
+  .marks-head .lede{ margin-top:.5rem; font-style:italic; color:var(--muted); font-size:1rem; }
+
+  .sheet{ width:100%; max-width:680px; margin:0 auto; padding:4vh 26px 10vh; }
+
+  .group{ margin-top:2.6rem; }
+  .group:first-child{ margin-top:0; }
+  .group-name{
+    font-family:var(--body); font-style:italic; font-weight:400;
+    font-size:1.05rem; color:var(--muted); letter-spacing:.03em; margin-bottom:.9rem;
+  }
+  .grid{
+    display:grid; grid-template-columns:repeat(auto-fill, minmax(92px, 1fr));
+    gap:10px;
+  }
+  .cell{
+    position:relative; background:none; border:1px solid var(--line); border-radius:8px;
+    color:var(--ink); cursor:pointer; padding:14px 6px 10px; text-align:center;
+    display:flex; flex-direction:column; align-items:center; gap:6px;
+    transition:border-color .2s;
+  }
+  .cell:hover{ border-color:var(--muted); }
+  .cell:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
+  .glyph{
+    font-family:var(--display); font-weight:400; font-size:2.1rem; line-height:1.1;
+    min-height:1.1em; display:block;
+  }
+  .glyph .bar{ color:var(--line); font-size:.8em; }
+  .cell .name{
+    font-family:var(--body); font-size:.74rem; color:var(--muted);
+    letter-spacing:.02em; line-height:1.25;
+  }
+  /* the quiet confirmation, on the cell itself */
+  .cell::after{
+    content:"copied"; position:absolute; inset:0; display:grid; place-items:center;
+    background:var(--paper); border-radius:8px;
+    font-family:var(--body); font-style:italic; font-size:.9rem; color:var(--muted);
+    opacity:0; pointer-events:none; transition:opacity .3s ease;
+  }
+  .cell.copied::after{ opacity:1; }
+
+  .recent{ display:none; }
+  .recent.on{ display:block; margin-bottom:2.6rem; }
+
+  /* notes — quiet reading matter under the marks */
+  .notes{ border-top:1px solid var(--line); padding:60px 26px 84px; }
+  .notes-inner{ max-width:640px; margin:0 auto; }
+  .notes h2{ font-family:var(--display); font-style:italic; font-weight:400; font-size:1.6rem; margin:2.4rem 0 1rem; color:var(--ink); }
+  .notes h2:first-child{ margin-top:0; }
+  .notes h3{ font-family:var(--body); font-style:italic; font-weight:400; font-size:1.15rem; margin:1.5rem 0 .35rem; color:var(--ink); }
+  .notes p{ color:var(--muted); font-size:1.05rem; line-height:1.65; margin:0 0 .9rem; }
+  .notes a{ color:var(--ink); text-decoration:underline; text-underline-offset:3px; text-decoration-color:var(--line); }
+  .notes a:hover{ text-decoration-color:var(--ink); }
+  .notes .notes-links{ margin-top:2.4rem; padding-top:1.3rem; border-top:1px solid var(--line); font-style:italic; }
+
+  .sr-only{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); }
+
+  @media (max-width:600px){
+    .chrome{ padding:12px 14px; }
+    .home-brand{ font-size:1rem; }
+    .home-tagline{ font-size:0.74rem; }
+    .sheet{ padding:3vh 20px 8vh; }
+    .grid{ grid-template-columns:repeat(auto-fill, minmax(76px, 1fr)); gap:8px; }
+    .glyph{ font-size:1.8rem; }
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    *{ transition:none !important; }
+  }
+</style>
+<script>(function(){try{var t=localStorage.getItem('olae-page-theme');if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();</script>
+</head>
+<body>
+
+  <div class="chrome" id="chrome">
+    <span aria-hidden="true"></span>
+    <a class="masthead" href="/" aria-label="On Life &amp; Everything—home">
+      <span class="home-brand">On Life &amp; Everything</span>
+      <span class="home-tagline">Essays, short fiction, and other writing.</span>
+    </a>
+    <div class="actions">
+      <button class="icon-btn theme-btn" id="themeBtn" type="button" title="Light / dark" aria-label="Switch theme">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <header class="marks-head">
+    <h1>The marks</h1>
+    <p class="lede">Typography&rsquo;s quiet characters&mdash;click any of them to copy it.</p>
+  </header>
+
+  <main class="sheet">
+
+    <section class="group recent" id="recent">
+      <h2 class="group-name">Recently copied</h2>
+      <div class="grid" id="recentGrid"></div>
+    </section>
+
+    <section class="group">
+      <h2 class="group-name">Dashes</h2>
+      <div class="grid">
+        <button class="cell" type="button" aria-label="Copy em dash"><span class="glyph">—</span><span class="name">em dash</span></button>
+        <button class="cell" type="button" aria-label="Copy en dash"><span class="glyph">–</span><span class="name">en dash</span></button>
+        <button class="cell" type="button" aria-label="Copy non-breaking hyphen"><span class="glyph">‑</span><span class="name">non-breaking hyphen</span></button>
+        <button class="cell" type="button" aria-label="Copy minus sign"><span class="glyph">−</span><span class="name">minus</span></button>
+        <button class="cell" type="button" aria-label="Copy horizontal bar"><span class="glyph">―</span><span class="name">horizontal bar</span></button>
+      </div>
+    </section>
+
+    <section class="group">
+      <h2 class="group-name">Quotes</h2>
+      <div class="grid">
+        <button class="cell" type="button" aria-label="Copy left double quote"><span class="glyph">“</span><span class="name">left double</span></button>
+        <button class="cell" type="button" aria-label="Copy right double quote"><span class="glyph">”</span><span class="name">right double</span></button>
+        <button class="cell" type="button" aria-label="Copy left single quote"><span class="glyph">‘</span><span class="name">left single</span></button>
+        <button class="cell" type="button" aria-label="Copy right single quote or apostrophe"><span class="glyph">’</span><span class="name">right single</span></button>
+        <button class="cell" type="button" aria-label="Copy low double quote"><span class="glyph">„</span><span class="name">low double</span></button>
+        <button class="cell" type="button" aria-label="Copy low single quote"><span class="glyph">‚</span><span class="name">low single</span></button>
+        <button class="cell" type="button" aria-label="Copy left guillemet"><span class="glyph">«</span><span class="name">left guillemet</span></button>
+        <button class="cell" type="button" aria-label="Copy right guillemet"><span class="glyph">»</span><span class="name">right guillemet</span></button>
+        <button class="cell" type="button" aria-label="Copy left single guillemet"><span class="glyph">‹</span><span class="name">single left</span></button>
+        <button class="cell" type="button" aria-label="Copy right single guillemet"><span class="glyph">›</span><span class="name">single right</span></button>
+      </div>
+    </section>
+
+    <section class="group">
+      <h2 class="group-name">Dots <span class="amp">&amp;</span> marks</h2>
+      <div class="grid">
+        <button class="cell" type="button" aria-label="Copy ellipsis"><span class="glyph">…</span><span class="name">ellipsis</span></button>
+        <button class="cell" type="button" aria-label="Copy middle dot"><span class="glyph">·</span><span class="name">middle dot</span></button>
+        <button class="cell" type="button" aria-label="Copy bullet"><span class="glyph">•</span><span class="name">bullet</span></button>
+        <button class="cell" type="button" aria-label="Copy interrobang"><span class="glyph">‽</span><span class="name">interrobang</span></button>
+        <button class="cell" type="button" aria-label="Copy dagger"><span class="glyph">†</span><span class="name">dagger</span></button>
+        <button class="cell" type="button" aria-label="Copy double dagger"><span class="glyph">‡</span><span class="name">double dagger</span></button>
+        <button class="cell" type="button" aria-label="Copy section sign"><span class="glyph">§</span><span class="name">section</span></button>
+        <button class="cell" type="button" aria-label="Copy pilcrow"><span class="glyph">¶</span><span class="name">pilcrow</span></button>
+        <button class="cell" type="button" aria-label="Copy numero sign"><span class="glyph">№</span><span class="name">numero</span></button>
+      </div>
+    </section>
+
+    <section class="group">
+      <h2 class="group-name">Spaces</h2>
+      <div class="grid">
+        <button class="cell" type="button" data-code="00A0" aria-label="Copy non-breaking space"><span class="glyph"><span class="bar">|</span>&#160;<span class="bar">|</span></span><span class="name">non-breaking</span></button>
+        <button class="cell" type="button" data-code="202F" aria-label="Copy narrow no-break space"><span class="glyph"><span class="bar">|</span>&#8239;<span class="bar">|</span></span><span class="name">narrow no-break</span></button>
+        <button class="cell" type="button" data-code="2009" aria-label="Copy thin space"><span class="glyph"><span class="bar">|</span>&#8201;<span class="bar">|</span></span><span class="name">thin</span></button>
+        <button class="cell" type="button" data-code="200A" aria-label="Copy hair space"><span class="glyph"><span class="bar">|</span>&#8202;<span class="bar">|</span></span><span class="name">hair</span></button>
+        <button class="cell" type="button" data-code="2002" aria-label="Copy en space"><span class="glyph"><span class="bar">|</span>&#8194;<span class="bar">|</span></span><span class="name">en</span></button>
+        <button class="cell" type="button" data-code="2003" aria-label="Copy em space"><span class="glyph"><span class="bar">|</span>&#8195;<span class="bar">|</span></span><span class="name">em</span></button>
+      </div>
+    </section>
+
+    <section class="group">
+      <h2 class="group-name">Accents <span class="amp">&amp;</span> letters</h2>
+      <div class="grid">
+        <button class="cell" type="button" aria-label="Copy prime"><span class="glyph">′</span><span class="name">prime</span></button>
+        <button class="cell" type="button" aria-label="Copy double prime"><span class="glyph">″</span><span class="name">double prime</span></button>
+        <button class="cell" type="button" aria-label="Copy degree sign"><span class="glyph">°</span><span class="name">degree</span></button>
+        <button class="cell" type="button" aria-label="Copy capital dotted I"><span class="glyph">İ</span><span class="name">dotted I</span></button>
+        <button class="cell" type="button" aria-label="Copy dotless i"><span class="glyph">ı</span><span class="name">dotless i</span></button>
+        <button class="cell" type="button" aria-label="Copy capital S cedilla"><span class="glyph">Ş</span><span class="name">S cedilla</span></button>
+        <button class="cell" type="button" aria-label="Copy s cedilla"><span class="glyph">ş</span><span class="name">s cedilla</span></button>
+        <button class="cell" type="button" aria-label="Copy capital G breve"><span class="glyph">Ğ</span><span class="name">G breve</span></button>
+        <button class="cell" type="button" aria-label="Copy g breve"><span class="glyph">ğ</span><span class="name">g breve</span></button>
+        <button class="cell" type="button" aria-label="Copy capital C cedilla"><span class="glyph">Ç</span><span class="name">C cedilla</span></button>
+        <button class="cell" type="button" aria-label="Copy c cedilla"><span class="glyph">ç</span><span class="name">c cedilla</span></button>
+        <button class="cell" type="button" aria-label="Copy capital O umlaut"><span class="glyph">Ö</span><span class="name">O umlaut</span></button>
+        <button class="cell" type="button" aria-label="Copy o umlaut"><span class="glyph">ö</span><span class="name">o umlaut</span></button>
+        <button class="cell" type="button" aria-label="Copy capital U umlaut"><span class="glyph">Ü</span><span class="name">U umlaut</span></button>
+        <button class="cell" type="button" aria-label="Copy u umlaut"><span class="glyph">ü</span><span class="name">u umlaut</span></button>
+        <button class="cell" type="button" aria-label="Copy ae ligature"><span class="glyph">æ</span><span class="name">ae</span></button>
+        <button class="cell" type="button" aria-label="Copy oe ligature"><span class="glyph">œ</span><span class="name">oe</span></button>
+        <button class="cell" type="button" aria-label="Copy eszett"><span class="glyph">ß</span><span class="name">eszett</span></button>
+        <button class="cell" type="button" aria-label="Copy a grave"><span class="glyph">à</span><span class="name">a grave</span></button>
+        <button class="cell" type="button" aria-label="Copy e acute"><span class="glyph">é</span><span class="name">e acute</span></button>
+        <button class="cell" type="button" aria-label="Copy e grave"><span class="glyph">è</span><span class="name">e grave</span></button>
+        <button class="cell" type="button" aria-label="Copy e circumflex"><span class="glyph">ê</span><span class="name">e circumflex</span></button>
+        <button class="cell" type="button" aria-label="Copy i circumflex"><span class="glyph">î</span><span class="name">i circumflex</span></button>
+        <button class="cell" type="button" aria-label="Copy o circumflex"><span class="glyph">ô</span><span class="name">o circumflex</span></button>
+        <button class="cell" type="button" aria-label="Copy u circumflex"><span class="glyph">û</span><span class="name">u circumflex</span></button>
+        <button class="cell" type="button" aria-label="Copy n tilde"><span class="glyph">ñ</span><span class="name">n tilde</span></button>
+      </div>
+    </section>
+
+    <section class="group">
+      <h2 class="group-name">Arrows <span class="amp">&amp;</span> math</h2>
+      <div class="grid">
+        <button class="cell" type="button" aria-label="Copy right arrow"><span class="glyph">→</span><span class="name">right arrow</span></button>
+        <button class="cell" type="button" aria-label="Copy left arrow"><span class="glyph">←</span><span class="name">left arrow</span></button>
+        <button class="cell" type="button" aria-label="Copy both-ways arrow"><span class="glyph">↔</span><span class="name">both ways</span></button>
+        <button class="cell" type="button" aria-label="Copy double arrow"><span class="glyph">⇒</span><span class="name">double arrow</span></button>
+        <button class="cell" type="button" aria-label="Copy multiplication sign"><span class="glyph">×</span><span class="name">times</span></button>
+        <button class="cell" type="button" aria-label="Copy division sign"><span class="glyph">÷</span><span class="name">divided by</span></button>
+        <button class="cell" type="button" aria-label="Copy plus-minus sign"><span class="glyph">±</span><span class="name">plus-minus</span></button>
+        <button class="cell" type="button" aria-label="Copy approximately equal sign"><span class="glyph">≈</span><span class="name">approximately</span></button>
+        <button class="cell" type="button" aria-label="Copy not equal sign"><span class="glyph">≠</span><span class="name">not equal</span></button>
+        <button class="cell" type="button" aria-label="Copy less than or equal sign"><span class="glyph">≤</span><span class="name">at most</span></button>
+        <button class="cell" type="button" aria-label="Copy greater than or equal sign"><span class="glyph">≥</span><span class="name">at least</span></button>
+        <button class="cell" type="button" aria-label="Copy per mille sign"><span class="glyph">‰</span><span class="name">per mille</span></button>
+        <button class="cell" type="button" aria-label="Copy infinity sign"><span class="glyph">∞</span><span class="name">infinity</span></button>
+      </div>
+    </section>
+
+  </main>
+
+  <div class="sr-only" id="announce" aria-live="polite"></div>
+
+  <footer class="notes" id="notes">
+    <div class="notes-inner">
+      <h2>About this page</h2>
+      <p>The characters a keyboard hides: the dashes, the curly quotes, the spaces of every width, the Turkish letters and the small marks of mathematics. Click any of them and it is on your clipboard, ready to paste into a draft, a message or a filename. The page keeps your last few marks at the top, remembers them in this browser, and sends nothing anywhere.</p>
+
+      <h2>Questions</h2>
+      <h3>How do I type an em dash on my own keyboard?</h3>
+      <p>On a Mac, Shift-Option-hyphen (Option-hyphen gives the en dash). On Windows, hold Alt and type 0151 on the numeric keypad, or press Win-period for the emoji-and-symbols panel. Many phone keyboards hide the dashes under a long press on the hyphen. Or skip the shortcuts and copy it from this page.</p>
+
+      <h3>What is the difference between an em dash and an en dash?</h3>
+      <p>The em dash (&mdash;) is the wide one, used to set off a phrase&mdash;like this&mdash;or mark a break in thought. The en dash (&ndash;) is narrower and joins ranges and pairings: 1914&ndash;1918, the &#304;stanbul&ndash;Ankara train. The hyphen (-) is shorter still and only joins words.</p>
+
+      <h3>What are curly quotes?</h3>
+      <p>The typographer&rsquo;s quotation marks&mdash;&ldquo; &rdquo; and &lsquo; &rsquo;&mdash;which curl toward the text they enclose, unlike the straight marks (" ') on a keyboard. Books and careful prose use the curly set; word processors usually substitute them automatically, plain text fields usually don&rsquo;t.</p>
+
+      <h3>Where does my clipboard data go?</h3>
+      <p>Nowhere. Clicking a character only writes it to your device&rsquo;s clipboard, right in the browser&mdash;the page reads nothing back, sends nothing anywhere, and keeps only your handful of recently copied marks in this browser&rsquo;s local storage.</p>
+
+      <p class="notes-links">More instruments: <a href="/write/">a blank page to write on</a>, <a href="/draw/">a blank page to draw on</a>, <a href="/words/">a word counter</a>, <a href="/diff/">a comparison of two texts</a>, <a href="/days/">days between dates</a>, <a href="/clock/">a fullscreen clock with pomodoro</a>, <a href="/breathe/">a breathing exercise</a>, <a href="/noise/">ambient noise and rain</a>, <a href="/moon/">the phase of the moon</a>, <a href="/season/">the turn of the seasons</a> and <a href="/twilight/">&#304;stanbul&rsquo;s twilight</a>&mdash;or see <a href="/tools/">all the tools</a>.</p>
+    </div>
+  </footer>
+
+<script>
+(function(){
+  "use strict";
+  var $ = function(s){ return document.querySelector(s); };
+  var LS = "olae-marks-v1";
+  var MAX_RECENT = 8;
+
+  /* every mark on the page, char → its cell markup details */
+  var byChar = {};   /* char → { name, spaceHTML } */
+  function charOf(cell){
+    if(cell.dataset.code) return String.fromCodePoint(parseInt(cell.dataset.code, 16));
+    return cell.querySelector(".glyph").textContent;
+  }
+  Array.prototype.forEach.call(document.querySelectorAll(".group:not(.recent) .cell"), function(cell){
+    byChar[charOf(cell)] = {
+      name: cell.querySelector(".name").textContent,
+      glyphHTML: cell.querySelector(".glyph").innerHTML,
+      label: cell.getAttribute("aria-label")
+    };
+  });
+
+  /* ---- recents (kept in this browser only) ---- */
+  var recent = [];
+  try{
+    var saved = JSON.parse(localStorage.getItem(LS));
+    if(saved && Array.isArray(saved.recent)){
+      recent = saved.recent.filter(function(c){ return byChar[c]; }).slice(0, MAX_RECENT);
+    }
+  }catch(e){}
+  function saveRecent(){
+    try{ localStorage.setItem(LS, JSON.stringify({ recent: recent })); }catch(e){}
+  }
+  function renderRecent(){
+    var wrap = $("#recent"), grid = $("#recentGrid");
+    if(!recent.length){ wrap.classList.remove("on"); return; }
+    grid.innerHTML = "";
+    recent.forEach(function(c){
+      var info = byChar[c];
+      var b = document.createElement("button");
+      b.className = "cell"; b.type = "button";
+      b.setAttribute("aria-label", info.label);
+      var code = c.codePointAt(0).toString(16).toUpperCase();
+      while(code.length < 4) code = "0" + code;
+      b.setAttribute("data-code", code);
+      b.innerHTML = '<span class="glyph">' + info.glyphHTML + '</span><span class="name">' + info.name + "</span>";
+      grid.appendChild(b);
+    });
+    wrap.classList.add("on");
+  }
+
+  /* ---- copy (clipboard only — nothing is read back or sent anywhere) ---- */
+  function copyText(text, done){
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(done, function(){ execCopy(text); done(); });
+    } else { execCopy(text); done(); }
+  }
+  function execCopy(text){
+    var ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.position = "fixed"; ta.style.opacity = "0";
+    document.body.appendChild(ta);
+    ta.select();
+    try{ document.execCommand("copy"); }catch(e){}
+    ta.remove();
+  }
+
+  var announceEl = $("#announce");
+  document.addEventListener("click", function(e){
+    var cell = e.target.closest ? e.target.closest(".cell") : null;
+    if(!cell) return;
+    var c = charOf(cell);
+    copyText(c, function(){
+      cell.classList.add("copied");
+      setTimeout(function(){ cell.classList.remove("copied"); }, 1200);
+      announceEl.textContent = "Copied " + (byChar[c] ? byChar[c].name : c);
+      var i = recent.indexOf(c);
+      if(i !== -1) recent.splice(i, 1);
+      recent.unshift(c);
+      recent = recent.slice(0, MAX_RECENT);
+      saveRecent();
+      /* refresh the row only when the click came from the groups below,
+         so the button under the pointer never moves mid-click */
+      if(!cell.closest("#recent")) renderRecent();
+    });
+  });
+
+  /* ---- theme ---- */
+  $("#themeBtn").addEventListener("click", function(){
+    var root = document.documentElement;
+    var current = root.getAttribute("data-theme");
+    var next;
+    if(current === "dark") next = "light";
+    else if(current === "light") next = "dark";
+    else next = window.matchMedia("(prefers-color-scheme: dark)").matches ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    try{ localStorage.setItem("olae-page-theme", next); }catch(e){}
+  });
+
+  /* ---- init ---- */
+  renderRecent();
+})();
+</script>
+<script>if("serviceWorker" in navigator){navigator.serviceWorker.register("/sw.js").catch(function(){});}</script>
+</body>
+</html>

@@ -1,0 +1,579 @@
+---
+layout: null
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Blank Page to Draw On&mdash;Free &amp; Private &middot; On Life &amp; Everything</title>
+<meta name="description" content="A quiet, ad-free page to draw on—mouse, finger or stylus, with pressure. Four inks, three widths, undo, autosave and a PNG download. Your drawing stays in your browser; nothing is sent anywhere.">
+<link rel="canonical" href="https://hakanaltun.io/draw/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="The Draw—A Blank Page to Draw On, Free &amp; Private">
+<meta property="og:description" content="A quiet, ad-free page to draw on. Your drawing stays in your browser; nothing is sent anywhere.">
+<meta property="og:url" content="https://hakanaltun.io/draw/">
+<meta name="theme-color" content="#FFFFFF">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "@id": "https://hakanaltun.io/draw/#app",
+      "name": "The Draw—A Blank Page to Draw On",
+      "url": "https://hakanaltun.io/draw/",
+      "description": "A quiet, ad-free page to draw on—mouse, finger or stylus, with pressure. Four inks, three widths, undo, autosave and a PNG download. Your drawing stays in your browser; nothing is sent anywhere.",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires JavaScript",
+      "isAccessibleForFree": true,
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "author": { "@type": "Person", "name": "Hakan Altun", "url": "https://hakanaltun.io/" },
+      "inLanguage": "en"
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://hakanaltun.io/draw/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Where do my drawings go?",
+          "acceptedAnswer": { "@type": "Answer", "text": "They stay in this browser, saved to local storage on your device, and reappear when you return. Clearing the browser's site data clears the page too, so download anything you want to keep as a PNG." }
+        },
+        {
+          "@type": "Question",
+          "name": "Does the page autosave?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes—a moment after the pen lifts, and again when you leave. A very long drawing can outgrow the browser's storage allowance; if that happens the page keeps the most recent strokes and lets the oldest go, so download finished work you care about." }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I use it with a stylus or drawing tablet?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. The page listens to pen, touch and mouse alike, and where the hardware reports pressure—an iPad pencil, a drawing tablet—the stroke swells and thins with it." }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I save my drawing as an image?",
+          "acceptedAnswer": { "@type": "Answer", "text": "The download button in the top right saves the page as a PNG named after today's date, rendered at double resolution so it stays crisp." }
+        }
+      ]
+    }
+  ]
+}
+</script>
+
+<link rel="stylesheet" href="/css/fonts.css?v=20260710-1">
+
+<style>
+  :root{
+    --paper: #FFFFFF;
+    --ink:   #2F2B27;
+    --muted: #746F69;
+    --line:  #EEEAE4;
+
+    --display: 'Cormorant Garamond', Georgia, serif;
+    --body:    'EB Garamond', Georgia, serif;
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+
+  /* the ampersand the site uses — the display italic, as in the header logo */
+  .amp{ font-family:var(--display); font-style:italic; }
+
+  body{
+    position:relative;
+    background:var(--paper); color:var(--ink); font-family:var(--body);
+    min-height:100vh; min-height:100dvh;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* the paper fills the first viewport; the notes wait below it */
+  .app{
+    position:relative; display:flex; flex-direction:column;
+    height:100vh; height:100dvh;
+  }
+  body.immersive{ height:100vh; height:100dvh; overflow:hidden; }
+  body.immersive .notes{ display:none; }
+
+  .notes-cue{
+    position:absolute; left:50%; bottom:14px; transform:translateX(-50%);
+    font-family:var(--body); font-style:italic; font-size:.85rem; letter-spacing:.03em;
+    color:var(--muted); text-decoration:none; opacity:.8;
+    transition:color .2s, opacity .4s ease;
+  }
+  .notes-cue:hover{ color:var(--ink); }
+  body.immersive .notes-cue{ opacity:0; pointer-events:none; }
+
+  .chrome{
+    position:relative; z-index:2; background:var(--paper);
+    display:grid; grid-template-columns:1fr auto 1fr; align-items:center;
+    padding:14px 22px; border-bottom:1px solid var(--line);
+    transition:opacity .4s ease, border-color .4s ease;
+  }
+  .masthead{
+    grid-column:2; text-decoration:none; display:flex; flex-direction:column;
+    align-items:center; gap:1px; text-align:center; opacity:.85; transition:opacity .2s;
+  }
+  .masthead:hover{ opacity:1; }
+  .home-brand{ font-family:var(--display); font-style:italic; font-weight:400; font-size:1.1rem; line-height:1.05; color:var(--ink); }
+  .home-tagline{ font-family:var(--body); font-style:italic; font-weight:400; font-size:0.8rem; line-height:1.2; color:var(--muted); }
+
+  .actions{ grid-column:3; justify-self:end; display:flex; gap:8px; }
+  .icon-btn{
+    background:none; border:1px solid var(--line); color:var(--muted);
+    width:38px; height:38px; border-radius:8px; cursor:pointer; font-size:16px;
+    display:grid; place-items:center; transition:color .2s, border-color .2s;
+  }
+  .icon-btn:hover{ color:var(--ink); border-color:var(--muted); }
+  .icon-btn:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
+  .icon-btn svg{ width:16px; height:16px; }
+
+  .board{ position:relative; flex:1; min-height:0; }
+  canvas{
+    position:absolute; inset:0; width:100%; height:100%;
+    touch-action:none; cursor:crosshair; display:block;
+  }
+
+  /* the toolbox — a quiet corner bar, in the site's chrome style */
+  .tools{
+    position:absolute; left:20px; bottom:16px; z-index:2;
+    display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+    padding:10px 14px; background:var(--paper);
+    border:1px solid var(--line); border-radius:10px;
+    transition:opacity .4s ease;
+  }
+  .tools .set{ display:flex; align-items:center; gap:9px; }
+  .tools .sep{ width:1px; height:22px; background:var(--line); }
+
+  .swatch{
+    width:20px; height:20px; border-radius:999px; border:1px solid var(--line);
+    padding:0; cursor:pointer; transition:transform .15s ease;
+  }
+  .swatch:hover{ transform:scale(1.12); }
+  .swatch[aria-pressed="true"]{ box-shadow:0 0 0 2px var(--ink); }
+  .swatch:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
+
+  .width-btn{
+    width:26px; height:26px; border-radius:999px; border:1px solid transparent;
+    background:none; cursor:pointer; display:grid; place-items:center; padding:0;
+    transition:border-color .2s;
+  }
+  .width-btn:hover{ border-color:var(--muted); }
+  .width-btn[aria-pressed="true"]{ border-color:var(--ink); }
+  .width-btn:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
+  .width-btn i{ display:block; border-radius:999px; background:var(--ink); }
+  .width-btn .w1{ width:4px;  height:4px; }
+  .width-btn .w2{ width:7px;  height:7px; }
+  .width-btn .w3{ width:11px; height:11px; }
+
+  .tool-btn{
+    background:none; border:1px solid var(--line); color:var(--muted);
+    font-family:var(--display); font-style:italic; font-size:1.02rem;
+    padding:5px 14px; border-radius:8px; cursor:pointer;
+    transition:color .2s, border-color .2s, background .2s;
+  }
+  .tool-btn:hover{ color:var(--ink); border-color:var(--muted); }
+  .tool-btn[aria-pressed="true"]{ background:var(--ink); color:var(--paper); border-color:var(--ink); }
+  .tool-btn:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
+  .tool-btn.arm{ color:var(--ink); border-color:var(--ink); }
+
+  .corner{
+    position:absolute; bottom:16px; right:20px; z-index:2;
+    font-family:var(--body); font-style:italic;
+    font-size:0.85rem; color:var(--muted); letter-spacing:.02em;
+    pointer-events:none; user-select:none;
+    opacity:0; transition:opacity .6s ease;
+  }
+  .corner.on{ opacity:1; }
+
+  body.immersive .chrome, body.immersive .tools{ opacity:0; pointer-events:none; }
+  body.immersive.show-chrome .chrome, body.immersive.show-chrome .tools{ opacity:1; pointer-events:auto; }
+
+  /* notes — quiet reading matter under the paper */
+  .notes{ border-top:1px solid var(--line); padding:60px 26px 110px; }
+  .notes-inner{ max-width:640px; margin:0 auto; }
+  .notes h2{ font-family:var(--display); font-style:italic; font-weight:400; font-size:1.6rem; margin:2.4rem 0 1rem; color:var(--ink); }
+  .notes h2:first-child{ margin-top:0; }
+  .notes h3{ font-family:var(--body); font-style:italic; font-weight:400; font-size:1.15rem; margin:1.5rem 0 .35rem; color:var(--ink); }
+  .notes p{ color:var(--muted); font-size:1.05rem; line-height:1.65; margin:0 0 .9rem; }
+  .notes a{ color:var(--ink); text-decoration:underline; text-underline-offset:3px; text-decoration-color:var(--line); }
+  .notes a:hover{ text-decoration-color:var(--ink); }
+  .notes .notes-links{ margin-top:2.4rem; padding-top:1.3rem; border-top:1px solid var(--line); font-style:italic; }
+
+  @media (max-width:600px){
+    .chrome{ padding:12px 14px; }
+    .home-brand{ font-size:1rem; }
+    .home-tagline{ font-size:0.74rem; }
+    .tools{ left:12px; right:12px; bottom:12px; justify-content:center; gap:10px; padding:8px 10px; }
+    .corner{ display:none; }
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    *{ transition:none !important; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="app">
+
+  <div class="chrome" id="chrome">
+    <span aria-hidden="true"></span>
+    <a class="masthead" href="/" aria-label="On Life &amp; Everything—home">
+      <span class="home-brand">On Life &amp; Everything</span>
+      <span class="home-tagline">Essays, short fiction, and other writing.</span>
+    </a>
+    <div class="actions">
+      <button class="icon-btn" id="dlBtn" type="button" title="Download as PNG" aria-label="Download as PNG image">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+      </button>
+      <button class="icon-btn" id="fsBtn" type="button" title="Fullscreen" aria-label="Fullscreen">&#10530;</button>
+    </div>
+  </div>
+
+  <div class="board">
+    <canvas id="paper" aria-label="Drawing surface—draw with your mouse, finger or stylus"></canvas>
+
+    <div class="tools" id="tools">
+      <div class="set" role="group" aria-label="Ink">
+        <button class="swatch" data-ink="ink"    style="background:#2F2B27" title="Ink"    aria-label="Ink, dark"    aria-pressed="true"></button>
+        <button class="swatch" data-ink="petrol" style="background:#1D4354" title="Petrol" aria-label="Petrol blue"  aria-pressed="false"></button>
+        <button class="swatch" data-ink="teal"   style="background:#1A494D" title="Teal"   aria-label="Teal"         aria-pressed="false"></button>
+        <button class="swatch" data-ink="amber"  style="background:#E6A15C" title="Amber"  aria-label="Amber, warm"  aria-pressed="false"></button>
+      </div>
+      <span class="sep" aria-hidden="true"></span>
+      <div class="set" role="group" aria-label="Stroke width">
+        <button class="width-btn" data-w="fine"    title="Fine"    aria-label="Fine stroke"    aria-pressed="false"><i class="w1"></i></button>
+        <button class="width-btn" data-w="regular" title="Regular" aria-label="Regular stroke" aria-pressed="true"><i class="w2"></i></button>
+        <button class="width-btn" data-w="broad"   title="Broad"   aria-label="Broad stroke"   aria-pressed="false"><i class="w3"></i></button>
+      </div>
+      <span class="sep" aria-hidden="true"></span>
+      <div class="set">
+        <button class="tool-btn" id="eraserBtn" type="button" aria-pressed="false">Eraser</button>
+        <button class="tool-btn" id="undoBtn" type="button" aria-label="Undo last stroke">Undo</button>
+        <button class="tool-btn" id="clearBtn" type="button">Clear</button>
+      </div>
+    </div>
+
+    <div class="corner" id="savedNote" aria-live="polite">Saved&mdash;stays in this browser</div>
+  </div>
+
+  <a class="notes-cue" href="#notes">notes <span class="amp">&amp;</span> questions &darr;</a>
+
+  </div><!-- /.app -->
+
+  <footer class="notes" id="notes">
+    <div class="notes-inner">
+      <h2>About this page</h2>
+      <p>A blank page for the hand instead of the keyboard&mdash;the sibling of <a href="/write/">The Page</a>. Draw with a mouse, a finger or a stylus; where the hardware reports pressure, the line answers it. Four inks from the site&rsquo;s own shelf, three widths, an eraser and an undo, and the page keeps your drawing in this browser as you work. When something is worth keeping, the download button hands it over as a PNG.</p>
+
+      <h2>Questions</h2>
+      <h3>Where do my drawings go?</h3>
+      <p>They stay in this browser, saved to local storage on your device, and reappear when you return. Clearing the browser&rsquo;s site data clears the page too, so download anything you want to keep as a PNG.</p>
+
+      <h3>Does the page autosave?</h3>
+      <p>Yes&mdash;a moment after the pen lifts, and again when you leave. A very long drawing can outgrow the browser&rsquo;s storage allowance; if that happens the page keeps the most recent strokes and lets the oldest go, so download finished work you care about.</p>
+
+      <h3>Can I use it with a stylus or drawing tablet?</h3>
+      <p>Yes. The page listens to pen, touch and mouse alike, and where the hardware reports pressure&mdash;an iPad pencil, a drawing tablet&mdash;the stroke swells and thins with it.</p>
+
+      <h3>Can I save my drawing as an image?</h3>
+      <p>The download button in the top right saves the page as a PNG named after today&rsquo;s date, rendered at double resolution so it stays crisp.</p>
+
+      <p class="notes-links">More instruments: <a href="/write/">a blank page to write on</a>, <a href="/marks/">typographic marks to copy</a>, <a href="/words/">a word counter</a>, <a href="/diff/">a comparison of two texts</a>, <a href="/days/">days between dates</a>, <a href="/clock/">a fullscreen clock with pomodoro</a>, <a href="/breathe/">a breathing exercise</a>, <a href="/noise/">ambient noise and rain</a>, <a href="/moon/">the phase of the moon</a>, <a href="/season/">the turn of the seasons</a> and <a href="/twilight/">&#304;stanbul&rsquo;s twilight</a>&mdash;or see <a href="/tools/">all the tools</a>.</p>
+    </div>
+  </footer>
+
+<script>
+(function(){
+  "use strict";
+  var $ = function(s){ return document.querySelector(s); };
+  var LS = "olae-draw-v1";
+
+  var INKS = { ink:"#2F2B27", petrol:"#1D4354", teal:"#1A494D", amber:"#E6A15C", paper:"#FFFFFF" };
+  var WIDTHS = { fine:2, regular:4.5, broad:9 };
+  var ERASER_W = 28;
+
+  var canvas = $("#paper"), ctx = canvas.getContext("2d");
+  var strokes = [];          /* [{c:ink key, w:base width, pts:[[x,y,pressure],...]}] */
+  var current = null;
+  var ink = "ink", widthKey = "regular", eraser = false;
+
+  /* ---- canvas sizing (CSS-pixel coordinates, devicePixelRatio-crisp) ---- */
+  function fitCanvas(){
+    var r = canvas.getBoundingClientRect();
+    var dpr = window.devicePixelRatio || 1;
+    canvas.width = Math.max(1, Math.round(r.width * dpr));
+    canvas.height = Math.max(1, Math.round(r.height * dpr));
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    renderAll();
+  }
+
+  /* ---- rendering: smoothed quadratics through midpoints ---- */
+  function segWidth(s, a, b){
+    var base = s.c === "paper" ? s.w : s.w * (0.5 + (a[2] + b[2]) / 2);
+    return Math.max(0.6, base);
+  }
+  function drawStroke(c, s){
+    var p = s.pts;
+    c.strokeStyle = c.fillStyle = INKS[s.c] || INKS.ink;
+    c.lineCap = "round"; c.lineJoin = "round";
+    if(p.length === 1){
+      c.beginPath();
+      c.arc(p[0][0], p[0][1], segWidth(s, p[0], p[0]) / 2, 0, 2 * Math.PI);
+      c.fill();
+      return;
+    }
+    for(var i = 1; i < p.length; i++){
+      var m0 = i > 1 ? [(p[i-1][0]+p[i-2][0])/2, (p[i-1][1]+p[i-2][1])/2] : p[0];
+      var m1 = i < p.length - 1 ? [(p[i][0]+p[i-1][0])/2, (p[i][1]+p[i-1][1])/2] : p[i];
+      c.beginPath();
+      c.moveTo(m0[0], m0[1]);
+      c.quadraticCurveTo(p[i-1][0], p[i-1][1], m1[0], m1[1]);
+      c.lineWidth = segWidth(s, p[i-1], p[i]);
+      c.stroke();
+    }
+  }
+  function renderAll(){
+    var r = canvas.getBoundingClientRect();
+    ctx.fillStyle = INKS.paper;
+    ctx.fillRect(0, 0, r.width, r.height);
+    for(var i = 0; i < strokes.length; i++) drawStroke(ctx, strokes[i]);
+    if(current) drawStroke(ctx, current);
+  }
+
+  /* ---- drawing (Pointer Events: mouse, touch, stylus, with pressure) ---- */
+  var drawing = false;
+  function pointOf(e){
+    var r = canvas.getBoundingClientRect();
+    var p = (typeof e.pressure === "number" && e.pressure > 0) ? e.pressure : 0.5;
+    return [ Math.round((e.clientX - r.left) * 10) / 10,
+             Math.round((e.clientY - r.top) * 10) / 10, Math.round(p * 100) / 100 ];
+  }
+  canvas.addEventListener("pointerdown", function(e){
+    if(e.button !== 0 && e.pointerType === "mouse") return;
+    e.preventDefault();
+    try{ canvas.setPointerCapture(e.pointerId); }catch(err){}
+    drawing = true;
+    current = {
+      c: eraser ? "paper" : ink,
+      w: eraser ? ERASER_W : WIDTHS[widthKey],
+      pts: [pointOf(e)]
+    };
+    drawStroke(ctx, current);
+  });
+  canvas.addEventListener("pointermove", function(e){
+    if(!drawing || !current) return;
+    var pt = pointOf(e);
+    var last = current.pts[current.pts.length - 1];
+    var dx = pt[0] - last[0], dy = pt[1] - last[1];
+    if(dx * dx + dy * dy < 2) return;            /* skip micro-moves */
+    current.pts.push(pt);
+    /* draw only the newest smoothed segment; round joins hide the seams */
+    var p = current.pts, n = p.length;
+    ctx.strokeStyle = INKS[current.c];
+    ctx.lineCap = "round"; ctx.lineJoin = "round";
+    var m0 = n > 2 ? [(p[n-2][0]+p[n-3][0])/2, (p[n-2][1]+p[n-3][1])/2] : p[0];
+    var m1 = [(p[n-1][0]+p[n-2][0])/2, (p[n-1][1]+p[n-2][1])/2];
+    ctx.beginPath();
+    ctx.moveTo(m0[0], m0[1]);
+    ctx.quadraticCurveTo(p[n-2][0], p[n-2][1], m1[0], m1[1]);
+    ctx.lineWidth = segWidth(current, p[n-2], p[n-1]);
+    ctx.stroke();
+  });
+  function endStroke(){
+    if(!drawing) return;
+    drawing = false;
+    if(current){ strokes.push(current); current = null; renderAll(); scheduleSave(); }
+  }
+  canvas.addEventListener("pointerup", endStroke);
+  canvas.addEventListener("pointercancel", endStroke);
+
+  /* ---- autosave (local only — nothing leaves the page) ---- */
+  var saveT, noteT, savedEl = $("#savedNote");
+  function serialize(){ return JSON.stringify({ v: 1, strokes: strokes }); }
+  function saveNow(){
+    try{
+      var payload = serialize();
+      /* if the drawing has outgrown localStorage, keep the newest strokes */
+      for(var guard = 0; guard < 40; guard++){
+        try{ localStorage.setItem(LS, payload); break; }
+        catch(e){
+          if(strokes.length < 2) return;
+          strokes.splice(0, Math.max(1, Math.floor(strokes.length * 0.1)));
+          payload = serialize();
+        }
+      }
+      savedEl.classList.add("on");
+      clearTimeout(noteT);
+      noteT = setTimeout(function(){ savedEl.classList.remove("on"); }, 2200);
+    }catch(e){}
+  }
+  function scheduleSave(){
+    clearTimeout(saveT);
+    saveT = setTimeout(saveNow, 600);
+  }
+  window.addEventListener("beforeunload", function(){
+    try{ localStorage.setItem(LS, serialize()); }catch(e){}
+  });
+
+  /* ---- restore ---- */
+  try{
+    var saved = JSON.parse(localStorage.getItem(LS));
+    if(saved && Array.isArray(saved.strokes)){
+      strokes = saved.strokes.filter(function(s){
+        return s && INKS[s.c] && typeof s.w === "number" && Array.isArray(s.pts) && s.pts.length;
+      });
+    }
+  }catch(e){}
+
+  /* ---- ink, width, eraser ---- */
+  var swatches = Array.prototype.slice.call(document.querySelectorAll(".swatch"));
+  swatches.forEach(function(sw){
+    sw.addEventListener("click", function(){
+      ink = sw.getAttribute("data-ink");
+      eraser = false;
+      syncTools();
+    });
+  });
+  var widthBtns = Array.prototype.slice.call(document.querySelectorAll(".width-btn"));
+  widthBtns.forEach(function(b){
+    b.addEventListener("click", function(){
+      widthKey = b.getAttribute("data-w");
+      eraser = false;
+      syncTools();
+    });
+  });
+  var eraserBtn = $("#eraserBtn");
+  eraserBtn.addEventListener("click", function(){
+    eraser = !eraser;
+    syncTools();
+  });
+  function syncTools(){
+    swatches.forEach(function(sw){ sw.setAttribute("aria-pressed", String(!eraser && sw.getAttribute("data-ink") === ink)); });
+    widthBtns.forEach(function(b){ b.setAttribute("aria-pressed", String(b.getAttribute("data-w") === widthKey)); });
+    eraserBtn.setAttribute("aria-pressed", String(eraser));
+  }
+
+  /* ---- undo ---- */
+  function undo(){
+    if(drawing || !strokes.length) return;
+    strokes.pop();
+    renderAll();
+    scheduleSave();
+  }
+  $("#undoBtn").addEventListener("click", undo);
+  document.addEventListener("keydown", function(e){
+    if((e.metaKey || e.ctrlKey) && (e.key === "z" || e.key === "Z")){ e.preventDefault(); undo(); }
+  });
+
+  /* ---- clear (press once "clear?", press again to confirm) ---- */
+  var clearBtn = $("#clearBtn"), clearArmT = null;
+  clearBtn.addEventListener("click", function(){
+    if(clearBtn.classList.contains("arm")){
+      clearTimeout(clearArmT);
+      clearBtn.classList.remove("arm");
+      clearBtn.textContent = "Clear";
+      strokes = []; current = null;
+      renderAll(); saveNow();
+      return;
+    }
+    if(!strokes.length) return;
+    clearBtn.classList.add("arm");
+    clearBtn.textContent = "clear?";
+    clearArmT = setTimeout(function(){
+      clearBtn.classList.remove("arm");
+      clearBtn.textContent = "Clear";
+    }, 3000);
+  });
+
+  /* ---- download as PNG, named after today (as The Page's txt) ---- */
+  $("#dlBtn").addEventListener("click", function(){
+    if(!strokes.length) return;
+    var r = canvas.getBoundingClientRect(), scale = 2;
+    var off = document.createElement("canvas");
+    off.width = Math.round(r.width * scale);
+    off.height = Math.round(r.height * scale);
+    var oc = off.getContext("2d");
+    oc.setTransform(scale, 0, 0, scale, 0, 0);
+    oc.fillStyle = INKS.paper;
+    oc.fillRect(0, 0, r.width, r.height);
+    for(var i = 0; i < strokes.length; i++) drawStroke(oc, strokes[i]);
+    var name = "draw-" + new Date().toISOString().slice(0, 10) + ".png";
+    if(off.toBlob){
+      off.toBlob(function(blob){
+        if(!blob) return;
+        var a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = name;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(function(){ URL.revokeObjectURL(a.href); }, 1000);
+      }, "image/png");
+    } else {
+      var a = document.createElement("a");
+      a.href = off.toDataURL("image/png");
+      a.download = name;
+      document.body.appendChild(a); a.click(); a.remove();
+    }
+  });
+
+  /* ---- fullscreen (webkit-prefixed + CSS fallback, as on /write/) ---- */
+  var docEl = document.documentElement, fakeFs = false;
+  function nativeFsElement(){ return document.fullscreenElement || document.webkitFullscreenElement || null; }
+  function requestFs(){
+    var fn = docEl.requestFullscreen || docEl.webkitRequestFullscreen || docEl.mozRequestFullScreen || docEl.msRequestFullscreen;
+    if(fn){ try{ fn.call(docEl); return true; }catch(e){} }
+    return false;
+  }
+  function exitFs(){
+    var fn = document.exitFullscreen || document.webkitExitFullscreen || document.mozCancelFullScreen || document.msExitFullscreen;
+    if(fn){ try{ fn.call(document); }catch(e){} }
+  }
+  function syncImmersive(){
+    var on = !!nativeFsElement() || fakeFs;
+    document.body.classList.toggle("immersive", on);
+    if(on) pokeChrome();
+  }
+  $("#fsBtn").addEventListener("click", function(){
+    if(nativeFsElement()){ exitFs(); return; }
+    if(fakeFs){ fakeFs = false; syncImmersive(); return; }
+    if(!requestFs()){ fakeFs = true; syncImmersive(); }
+  });
+  document.addEventListener("fullscreenchange", function(){ syncImmersive(); fitCanvas(); });
+  document.addEventListener("webkitfullscreenchange", function(){ syncImmersive(); fitCanvas(); });
+  document.addEventListener("keydown", function(e){ if(e.key === "Escape" && fakeFs){ fakeFs = false; syncImmersive(); } });
+
+  /* chrome peeks on mouse or touch — but never mid-stroke, so drawing stays undisturbed */
+  var chromeTimer;
+  function pokeChrome(){
+    document.body.classList.add("show-chrome");
+    clearTimeout(chromeTimer);
+    chromeTimer = setTimeout(function(){ document.body.classList.remove("show-chrome"); }, 2800);
+  }
+  ["mousemove","touchstart"].forEach(function(ev){
+    document.addEventListener(ev, function(){
+      if(document.body.classList.contains("immersive") && !drawing) pokeChrome();
+    });
+  });
+
+  /* ---- init ---- */
+  syncTools();
+  fitCanvas();
+  var resizeT;
+  window.addEventListener("resize", function(){
+    clearTimeout(resizeT);
+    resizeT = setTimeout(fitCanvas, 120);
+  });
+})();
+</script>
+<script>if("serviceWorker" in navigator){navigator.serviceWorker.register("/sw.js").catch(function(){});}</script>
+</body>
+</html>

@@ -6,20 +6,20 @@ layout: null
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>White, Pink &amp; Brown Noise &middot; On Life &amp; Everything</title>
-<meta name="description" content="A quiet sound machine for focus and sleep: white, pink and brown noise, synthesized live in your browser, with a volume dial and a sleep timer.">
+<title>White, Pink &amp; Brown Noise, and Rain &middot; On Life &amp; Everything</title>
+<meta name="description" content="A quiet sound machine for focus and sleep: white, pink and brown noise, and steady rain—all synthesized live in your browser, no recordings, with a volume dial and a sleep timer.">
 <link rel="canonical" href="https://hakanaltun.io/noise/">
 <meta property="og:type" content="website">
-<meta property="og:title" content="White, Pink &amp; Brown Noise">
-<meta property="og:description" content="Noise colors for focus and sleep, synthesized live in your browser, with a volume dial and a sleep timer.">
+<meta property="og:title" content="White, Pink &amp; Brown Noise, and Rain">
+<meta property="og:description" content="Noise colors and steady rain for focus and sleep, synthesized live in your browser, with a volume dial and a sleep timer.">
 <meta property="og:url" content="https://hakanaltun.io/noise/">
 <meta property="og:image" content="https://hakanaltun.io/images/og/noise.png?v=20260716-3">
 <meta property="og:image:alt" content="The Noise—white, pink and brown noise for focus and sleep">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="White, Pink &amp; Brown Noise">
-<meta name="twitter:description" content="Noise colors for focus and sleep, synthesized live in your browser, with a volume dial and a sleep timer.">
+<meta name="twitter:title" content="White, Pink &amp; Brown Noise, and Rain">
+<meta name="twitter:description" content="Noise colors and steady rain for focus and sleep, synthesized live in your browser, with a volume dial and a sleep timer.">
 <meta name="twitter:image" content="https://hakanaltun.io/images/og/noise.png?v=20260716-3">
 <meta name="theme-color" content="#191712">
 
@@ -30,9 +30,9 @@ layout: null
     {
       "@type": "WebApplication",
       "@id": "https://hakanaltun.io/noise/#app",
-      "name": "The Noise—White, Pink & Brown Noise",
+      "name": "The Noise—White, Pink & Brown Noise, and Rain",
       "url": "https://hakanaltun.io/noise/",
-      "description": "A quiet sound machine for focus and sleep: white, pink and brown noise, synthesized live in your browser, with a volume dial and a sleep timer.",
+      "description": "A quiet sound machine for focus and sleep: white, pink and brown noise, and steady rain—all synthesized live in your browser, no recordings, with a volume dial and a sleep timer.",
       "applicationCategory": "UtilitiesApplication",
       "operatingSystem": "Any",
       "browserRequirements": "Requires JavaScript and Web Audio",
@@ -54,6 +54,11 @@ layout: null
           "@type": "Question",
           "name": "Where does the sound come from?",
           "acceptedAnswer": { "@type": "Answer", "text": "Your browser synthesizes it the moment you press play, shaping each color live from raw randomness. Because the sound is computed rather than recorded, it carries on indefinitely and never loops." }
+        },
+        {
+          "@type": "Question",
+          "name": "How is the rain made?",
+          "acceptedAnswer": { "@type": "Answer", "text": "It is synthesized live like the noise colors—no recordings. A bed of filtered noise breathes slowly underneath while tiny random bursts, each a few milliseconds long at a random pitch, fall through it as droplets. Because every drop is drawn fresh from randomness, the rain never loops—which is also why it sounds a little different from a recording of any one real roof." }
         },
         {
           "@type": "Question",
@@ -252,6 +257,7 @@ layout: null
         <button data-sound="white" aria-pressed="false">White</button>
         <button data-sound="pink" aria-pressed="false">Pink</button>
         <button data-sound="brown" aria-pressed="true">Brown</button>
+        <button data-sound="rain" aria-pressed="false">Rain</button>
       </div>
     </div>
 
@@ -286,7 +292,7 @@ layout: null
   <footer class="notes" id="notes">
     <div class="notes-inner">
       <h2>About this sound machine</h2>
-      <p>Sounds to work, rest and sleep inside: three colors of noise&mdash;white, pink and brown. Your browser&rsquo;s audio engine shapes them live as they play, so each one carries on for as long as you leave it running. Set the volume low, choose a color, and let it hold the room; the sleep timer can fade everything out after 15, 30 or 60 minutes.</p>
+      <p>Sounds to work, rest and sleep inside: three colors of noise&mdash;white, pink and brown&mdash;and steady rain on a roof. Your browser&rsquo;s audio engine shapes them live as they play, so each one carries on for as long as you leave it running. Set the volume low, choose a sound, and let it hold the room; the sleep timer can fade everything out after 15, 30 or 60 minutes.</p>
 
       <h2>Questions</h2>
       <h3>What is the difference between white, pink and brown noise?</h3>
@@ -295,13 +301,16 @@ layout: null
       <h3>Where does the sound come from?</h3>
       <p>Your browser synthesizes it the moment you press play, shaping each color live from raw randomness. Because the sound is computed rather than recorded, it carries on indefinitely and never loops.</p>
 
+      <h3>How is the rain made?</h3>
+      <p>It is synthesized live like the noise colors&mdash;no recordings. A bed of filtered noise breathes slowly underneath while tiny random bursts, each a few milliseconds long at a random pitch, fall through it as droplets. Because every drop is drawn fresh from randomness, the rain never loops&mdash;which is also why it sounds a little different from a recording of any one real roof.</p>
+
       <h3>Will it keep playing if I switch tabs or lock my phone?</h3>
       <p>In a background tab on a computer, yes. On phones the operating system may pause web audio when the screen locks&mdash;keep the page in the foreground, or use the sleep timer and let it fade out on its own.</p>
 
       <h3>Is it safe to fall asleep to?</h3>
       <p>Keep the volume modest&mdash;comfortably below conversation level&mdash;and use the sleep timer, which fades the sound out gently after 15, 30 or 60 minutes so it doesn&rsquo;t play all night.</p>
 
-      <p class="notes-links">More instruments: <a href="/clock/">a fullscreen clock with pomodoro</a>, <a href="/breathe/">a breathing exercise</a>, <a href="/write/">a blank page to write on</a>, <a href="/words/">a word counter</a>, <a href="/moon/">the phase of the moon</a> and <a href="/twilight/">&#304;stanbul&rsquo;s twilight</a>&mdash;or see <a href="/tools/">all the tools</a>.</p>
+      <p class="notes-links">More instruments: <a href="/breathe/">a breathing exercise</a>, <a href="/clock/">a fullscreen clock with pomodoro</a>, <a href="/write/">a blank page to write on</a>, <a href="/draw/">a blank page to draw on</a>, <a href="/words/">a word counter</a>, <a href="/diff/">a comparison of two texts</a>, <a href="/marks/">typographic marks to copy</a>, <a href="/days/">days between dates</a>, <a href="/moon/">the phase of the moon</a>, <a href="/season/">the turn of the seasons</a> and <a href="/twilight/">&#304;stanbul&rsquo;s twilight</a>&mdash;or see <a href="/tools/">all the tools</a>.</p>
     </div>
   </footer>
 
@@ -317,7 +326,8 @@ layout: null
   var SOUNDS = {                     /* display name + rough loudness matching */
     white:  { name:"White noise", level:0.16 },
     pink:   { name:"Pink noise",  level:0.22 },
-    brown:  { name:"Brown noise", level:0.38 }
+    brown:  { name:"Brown noise", level:0.38 },
+    rain:   { name:"Rain",        level:0.42 }
   };
 
   try{
@@ -382,12 +392,74 @@ layout: null
 
   /* ---- one looping source per color; stop() silences it ---- */
   function buildColor(kind){
+    if(kind === "rain") return buildRain();
     if(!buffers[kind]) buffers[kind] = makeBuffer(kind);
     var s = ctx.createBufferSource();
     s.buffer = buffers[kind];
     s.loop = true;
     s.connect(master); s.start();
     return { stop: function(){ try{ s.stop(); }catch(e){} } };
+  }
+
+  /* ---- rain: a breathing bed of filtered noise, with droplets on top ----
+     Synthesized like the colors — no recordings, nothing loaded. The bed is
+     the pink buffer shaped into a 400 Hz – 2.5 kHz band and swelled gently
+     by a very slow LFO; the droplets are millisecond bursts cut at random
+     from the white buffer, each through its own band-pass at a random
+     center, quiet enough to sit inside the bed rather than on top of it. */
+  function buildRain(){
+    if(!buffers.pink)  buffers.pink  = makeBuffer("pink");
+    if(!buffers.white) buffers.white = makeBuffer("white");
+
+    var bed = ctx.createBufferSource();
+    bed.buffer = buffers.pink; bed.loop = true;
+    var hp = ctx.createBiquadFilter(); hp.type = "highpass"; hp.frequency.value = 400;  hp.Q.value = 0.7;
+    var lp = ctx.createBiquadFilter(); lp.type = "lowpass";  lp.frequency.value = 2500; lp.Q.value = 0.7;
+    var bedGain = ctx.createGain(); bedGain.gain.value = 0.85;
+    var lfo = ctx.createOscillator(); lfo.type = "sine"; lfo.frequency.value = 0.09;
+    var lfoDepth = ctx.createGain(); lfoDepth.gain.value = 0.12;
+    lfo.connect(lfoDepth); lfoDepth.connect(bedGain.gain);
+    bed.connect(hp); hp.connect(lp); lp.connect(bedGain); bedGain.connect(master);
+    bed.start(); lfo.start();
+
+    var dropBus = ctx.createGain(); dropBus.gain.value = 0.5; dropBus.connect(master);
+    function scheduleDrop(t){
+      var src = ctx.createBufferSource();
+      src.buffer = buffers.white;
+      var dur = 0.005 + Math.random() * 0.015;                   /* 5–20 ms  */
+      var offset = Math.random() * (buffers.white.duration - 0.1);
+      var bp = ctx.createBiquadFilter(); bp.type = "bandpass";
+      bp.frequency.value = 1000 + Math.random() * 5000;           /* ~1–6 kHz */
+      bp.Q.value = 6;
+      var g = ctx.createGain();
+      var peak = 0.05 + Math.random() * 0.25;
+      g.gain.setValueAtTime(0, t);
+      g.gain.linearRampToValueAtTime(peak, t + 0.002);
+      g.gain.exponentialRampToValueAtTime(0.001, t + dur + 0.03);
+      src.connect(bp); bp.connect(g); g.connect(dropBus);
+      src.start(t, offset, dur + 0.05);
+      src.onended = function(){ try{ src.disconnect(); bp.disconnect(); g.disconnect(); }catch(e){} };
+    }
+    /* lookahead scheduling against the audio clock, a few drops per second */
+    var nextDrop = ctx.currentTime + 0.05;
+    var timer = setInterval(function(){
+      var horizon = ctx.currentTime + 0.25;
+      while(nextDrop < horizon){
+        scheduleDrop(nextDrop);
+        nextDrop += 0.06 + Math.random() * 0.5;
+      }
+    }, 100);
+
+    return {
+      stop: function(){
+        clearInterval(timer);
+        try{ bed.stop(); }catch(e){}
+        try{ lfo.stop(); }catch(e){}
+        [bed, hp, lp, bedGain, lfo, lfoDepth, dropBus].forEach(function(n){
+          try{ n.disconnect(); }catch(e){}
+        });
+      }
+    };
   }
 
   function stopActive(){

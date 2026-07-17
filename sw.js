@@ -8,10 +8,11 @@
    left to the network untouched. */
 "use strict";
 
-var CACHE = "olae-tools-v1";
+var CACHE = "olae-tools-v2";
 
 var TOOL_PAGES = [
-  "/clock/", "/write/", "/words/", "/breathe/", "/noise/", "/moon/", "/twilight/"
+  "/clock/", "/write/", "/words/", "/breathe/", "/noise/", "/moon/", "/twilight/",
+  "/marks/", "/draw/", "/diff/", "/days/", "/season/"
 ];
 
 var TOOL_ASSETS = [

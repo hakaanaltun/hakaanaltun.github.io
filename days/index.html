@@ -1,0 +1,455 @@
+---
+layout: null
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Days Between Dates, Weekday of Any Date &amp; Day of the Year &middot; On Life &amp; Everything</title>
+<meta name="description" content="Count the days between two dates, find the weekday of any date, and see where today stands in the year—day of the year, ISO week and days remaining. Free, ad-free, computed in your browser.">
+<link rel="canonical" href="https://hakanaltun.io/days/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="The Days—Days Between Dates, Weekday of Any Date &amp; Day of the Year">
+<meta property="og:description" content="Date arithmetic, quietly: days between two dates, the weekday of any date, and where today stands in the year—computed in your browser.">
+<meta property="og:url" content="https://hakanaltun.io/days/">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#FFFFFF">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#191712">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "@id": "https://hakanaltun.io/days/#app",
+      "name": "The Days—Days Between Dates, Weekday of Any Date & Day of the Year",
+      "url": "https://hakanaltun.io/days/",
+      "description": "Count the days between two dates, find the weekday of any date, and see where today stands in the year—day of the year, ISO week and days remaining. Free, ad-free, computed in your browser.",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires JavaScript",
+      "isAccessibleForFree": true,
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "author": { "@type": "Person", "name": "Hakan Altun", "url": "https://hakanaltun.io/" },
+      "inLanguage": "en"
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://hakanaltun.io/days/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How many days are there between two dates?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Pick both dates and the page counts the days between them instantly, in either order, and restates the same span as weeks and days and as calendar months and days. Everything is computed in your browser from the calendar itself." }
+        },
+        {
+          "@type": "Question",
+          "name": "Are both endpoint days included in the count?",
+          "acceptedAnswer": { "@type": "Answer", "text": "The result is the difference between the two dates: Monday to Friday of the same week is 4 days. Some counts—days of an event, nights of a stay—want both endpoints included; if that is what you mean, add 1 to the number shown." }
+        },
+        {
+          "@type": "Question",
+          "name": "What is an ISO week number?",
+          "acceptedAnswer": { "@type": "Answer", "text": "The week's position in the year under ISO 8601, the convention planners and payrolls use: weeks run Monday to Sunday, and week 1 is the week containing the year's first Thursday. A year has 52 or 53 such weeks." }
+        },
+        {
+          "@type": "Question",
+          "name": "Does it handle leap years?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. The counting works on the real calendar, so 29 February is a day like any other when it exists, the day-of-year runs to 366 in leap years, and spans across leap days come out exact." }
+        }
+      ]
+    }
+  ]
+}
+</script>
+
+<link rel="stylesheet" href="/css/fonts.css?v=20260710-1">
+
+<style>
+  :root{
+    --paper: #FFFFFF;
+    --ink:   #2F2B27;
+    --muted: #746F69;
+    --line:  #EEEAE4;
+
+    --display: 'Cormorant Garamond', Georgia, serif;
+    --body:    'EB Garamond', Georgia, serif;
+
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark){
+    html:not([data-theme="light"]){
+      --paper:#191712; --ink:#E7E1D6; --muted:#9C948A; --line:#2B2721;
+      color-scheme: dark;
+    }
+  }
+  html[data-theme="dark"]{
+    --paper:#191712; --ink:#E7E1D6; --muted:#9C948A; --line:#2B2721;
+    color-scheme: dark;
+  }
+  /* theme toggle icons: moon in light, sun in dark */
+  :root{ --icon-sun:none; --icon-moon:block; }
+  @media (prefers-color-scheme: dark){
+    html:not([data-theme="light"]){ --icon-sun:block; --icon-moon:none; }
+  }
+  html[data-theme="dark"]{ --icon-sun:block; --icon-moon:none; }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+
+  /* the ampersand the site uses — the display italic, as in the header logo */
+  .amp{ font-family:var(--display); font-style:italic; }
+
+  body{
+    position:relative;
+    background:var(--paper); color:var(--ink); font-family:var(--body);
+    min-height:100vh; min-height:100dvh;
+    -webkit-font-smoothing:antialiased;
+    transition:background .4s ease, color .4s ease;
+  }
+
+  .chrome{
+    position:sticky; top:0; z-index:2; background:var(--paper);
+    display:grid; grid-template-columns:1fr auto 1fr; align-items:center;
+    padding:14px 22px; border-bottom:1px solid var(--line);
+    transition:border-color .4s ease, background .4s ease;
+  }
+  .masthead{
+    grid-column:2; text-decoration:none; display:flex; flex-direction:column;
+    align-items:center; gap:1px; text-align:center; opacity:.85; transition:opacity .2s;
+  }
+  .masthead:hover{ opacity:1; }
+  .home-brand{ font-family:var(--display); font-style:italic; font-weight:400; font-size:1.1rem; line-height:1.05; color:var(--ink); }
+  .home-tagline{ font-family:var(--body); font-style:italic; font-weight:400; font-size:0.8rem; line-height:1.2; color:var(--muted); }
+
+  .actions{ grid-column:3; justify-self:end; display:flex; gap:8px; }
+  .icon-btn{
+    background:none; border:1px solid var(--line); color:var(--muted);
+    width:38px; height:38px; border-radius:8px; cursor:pointer; font-size:16px;
+    display:grid; place-items:center; transition:color .2s, border-color .2s;
+  }
+  .icon-btn:hover{ color:var(--ink); border-color:var(--muted); }
+  .icon-btn:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
+  .icon-btn svg{ width:16px; height:16px; }
+  .theme-btn .icon-sun{ display:var(--icon-sun); }
+  .theme-btn .icon-moon{ display:var(--icon-moon); }
+
+  .days-head{ max-width:680px; margin:0 auto; padding:6vh 26px 0; text-align:center; }
+  .days-head h1{
+    font-family:var(--display); font-style:italic; font-weight:400;
+    font-size:clamp(1.9rem, 5vw, 2.6rem); line-height:1.1;
+  }
+  .days-head .lede{ margin-top:.5rem; font-style:italic; color:var(--muted); font-size:1rem; }
+
+  .sheet{ width:100%; max-width:680px; margin:0 auto; padding:2vh 26px 10vh; }
+
+  .panel{ padding:5vh 0; border-bottom:1px solid var(--line); text-align:center; }
+  .panel:last-child{ border-bottom:none; }
+  .panel-name{
+    font-family:var(--body); font-style:italic; font-weight:400;
+    font-size:1.05rem; color:var(--muted); letter-spacing:.03em; margin-bottom:1.4rem;
+  }
+
+  .date-row{ display:flex; gap:12px; justify-content:center; align-items:center; flex-wrap:wrap; }
+  input[type="date"]{
+    background:transparent; border:1px solid var(--line); color:var(--ink);
+    font-family:var(--display); font-size:1.25rem; padding:7px 12px; border-radius:8px;
+    letter-spacing:.03em; outline:none;
+    transition:border-color .2s;
+  }
+  input[type="date"]:hover{ border-color:var(--muted); }
+  input[type="date"]:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
+  .date-row .to{ font-style:italic; color:var(--muted); }
+  .textbtn{
+    background:none; border:none; cursor:pointer; padding:4px 2px;
+    font-family:var(--body); font-style:italic; font-size:.9rem; color:var(--muted);
+    text-decoration:underline; text-underline-offset:3px; text-decoration-color:var(--line);
+  }
+  .textbtn:hover{ color:var(--ink); text-decoration-color:var(--ink); }
+
+  .big{
+    margin-top:2.2rem; font-family:var(--display); font-weight:400;
+    font-variant-numeric:lining-nums; font-feature-settings:"lnum" 1;
+    font-size:clamp(2.6rem, 9vw, 5rem); line-height:1.05;
+  }
+  .big i{ font-style:italic; }
+  .big .unit{ font-style:italic; font-size:.45em; color:var(--muted); margin-left:.2em; }
+  .under{
+    margin-top:.9rem; font-family:var(--body); font-style:italic;
+    color:var(--muted); font-size:clamp(1rem, 2.6vw, 1.2rem); letter-spacing:.02em;
+  }
+
+  .today-date{
+    font-family:var(--display); font-style:italic; font-weight:400;
+    font-size:clamp(1.7rem, 5.5vw, 2.7rem); line-height:1.15;
+  }
+  .today-facts{
+    margin-top:1.6rem; display:flex; flex-wrap:wrap; justify-content:center;
+    gap:10px 26px; font-size:clamp(0.95rem, 2.4vw, 1.15rem); letter-spacing:.02em;
+  }
+  .today-facts .t{ color:var(--muted); }
+  .today-facts .t b{
+    font-weight:400; color:var(--ink);
+    font-variant-numeric:lining-nums tabular-nums; font-feature-settings:"tnum" 1,"lnum" 1;
+    margin-left:.35em;
+  }
+
+  /* notes — quiet reading matter under the instrument */
+  .notes{ border-top:1px solid var(--line); padding:60px 26px 84px; }
+  .notes-inner{ max-width:640px; margin:0 auto; }
+  .notes h2{ font-family:var(--display); font-style:italic; font-weight:400; font-size:1.6rem; margin:2.4rem 0 1rem; color:var(--ink); }
+  .notes h2:first-child{ margin-top:0; }
+  .notes h3{ font-family:var(--body); font-style:italic; font-weight:400; font-size:1.15rem; margin:1.5rem 0 .35rem; color:var(--ink); }
+  .notes p{ color:var(--muted); font-size:1.05rem; line-height:1.65; margin:0 0 .9rem; }
+  .notes a{ color:var(--ink); text-decoration:underline; text-underline-offset:3px; text-decoration-color:var(--line); }
+  .notes a:hover{ text-decoration-color:var(--ink); }
+  .notes .notes-links{ margin-top:2.4rem; padding-top:1.3rem; border-top:1px solid var(--line); font-style:italic; }
+
+  @media (max-width:600px){
+    .chrome{ padding:12px 14px; }
+    .home-brand{ font-size:1rem; }
+    .home-tagline{ font-size:0.74rem; }
+    .sheet{ padding:1vh 20px 8vh; }
+    .today-facts{ flex-direction:column; gap:8px; }
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    *{ transition:none !important; }
+  }
+</style>
+<script>(function(){try{var t=localStorage.getItem('olae-page-theme');if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();</script>
+</head>
+<body>
+
+  <div class="chrome" id="chrome">
+    <span aria-hidden="true"></span>
+    <a class="masthead" href="/" aria-label="On Life &amp; Everything—home">
+      <span class="home-brand">On Life &amp; Everything</span>
+      <span class="home-tagline">Essays, short fiction, and other writing.</span>
+    </a>
+    <div class="actions">
+      <button class="icon-btn theme-btn" id="themeBtn" type="button" title="Light / dark" aria-label="Switch theme">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <header class="days-head">
+    <h1>The days</h1>
+    <p class="lede">Date arithmetic, quietly&mdash;computed in your browser.</p>
+  </header>
+
+  <main class="sheet">
+
+    <section class="panel">
+      <h2 class="panel-name">Between</h2>
+      <div class="date-row">
+        <label class="sr-only" for="fromDate" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);">First date</label>
+        <input type="date" id="fromDate">
+        <span class="to">to</span>
+        <label class="sr-only" for="toDate" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);">Second date</label>
+        <input type="date" id="toDate">
+      </div>
+      <div class="date-row" style="margin-top:.6rem">
+        <button class="textbtn" id="fromTodayBtn" type="button">from today</button>
+      </div>
+      <div aria-live="polite">
+        <div class="big" id="betweenBig">&mdash;</div>
+        <div class="under" id="betweenUnder">&nbsp;</div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2 class="panel-name">What day</h2>
+      <div class="date-row">
+        <label class="sr-only" for="whichDate" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);">A date</label>
+        <input type="date" id="whichDate">
+      </div>
+      <div aria-live="polite">
+        <div class="big" id="weekdayBig"><i>&mdash;</i></div>
+        <div class="under" id="weekdayUnder">&nbsp;</div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2 class="panel-name">Today</h2>
+      <div class="today-date" id="todayDate">&nbsp;</div>
+      <div class="today-facts" id="todayFacts"></div>
+    </section>
+
+  </main>
+
+  <footer class="notes" id="notes">
+    <div class="notes-inner">
+      <h2>About this page</h2>
+      <p>Three small sums the calendar keeps asking for: the days between two dates&mdash;also spelled out as weeks and as calendar months; the weekday any date falls on, with its ISO week number; and where today stands in the year. Everything is worked out in your browser from the calendar itself, with leap years counted properly and no off-by-one surprises from daylight saving.</p>
+
+      <h2>Questions</h2>
+      <h3>How many days are there between two dates?</h3>
+      <p>Pick both dates and the page counts the days between them instantly, in either order, and restates the same span as weeks and days and as calendar months and days. Everything is computed in your browser from the calendar itself.</p>
+
+      <h3>Are both endpoint days included in the count?</h3>
+      <p>The result is the difference between the two dates: Monday to Friday of the same week is 4 days. Some counts&mdash;days of an event, nights of a stay&mdash;want both endpoints included; if that is what you mean, add 1 to the number shown.</p>
+
+      <h3>What is an ISO week number?</h3>
+      <p>The week&rsquo;s position in the year under ISO 8601, the convention planners and payrolls use: weeks run Monday to Sunday, and week 1 is the week containing the year&rsquo;s first Thursday. A year has 52 or 53 such weeks.</p>
+
+      <h3>Does it handle leap years?</h3>
+      <p>Yes. The counting works on the real calendar, so 29 February is a day like any other when it exists, the day-of-year runs to 366 in leap years, and spans across leap days come out exact.</p>
+
+      <p class="notes-links">More instruments: <a href="/season/">the turn of the seasons</a>, <a href="/clock/">a fullscreen clock with pomodoro</a>, <a href="/write/">a blank page to write on</a>, <a href="/words/">a word counter</a>, <a href="/marks/">typographic marks to copy</a>, <a href="/draw/">a blank page to draw on</a>, <a href="/diff/">a comparison of two texts</a>, <a href="/breathe/">a breathing exercise</a>, <a href="/noise/">ambient noise and rain</a>, <a href="/moon/">the phase of the moon</a> and <a href="/twilight/">&#304;stanbul&rsquo;s twilight</a>&mdash;or see <a href="/tools/">all the tools</a>.</p>
+    </div>
+  </footer>
+
+<script>
+(function(){
+  "use strict";
+  var $ = function(s){ return document.querySelector(s); };
+  var DAY = 86400000;
+  var WEEKDAYS = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+  var nf = new Intl.NumberFormat("en-US");
+
+  /* All arithmetic is date-only, anchored at UTC noon, so daylight-saving
+     shifts can never produce an off-by-one. */
+  function parseDate(v){
+    var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(v || "");
+    if(!m) return null;
+    return { y: +m[1], m: +m[2], d: +m[3] };
+  }
+  function noon(d){ return Date.UTC(d.y, d.m - 1, d.d, 12); }
+  function daysInMonth(y, m){ return new Date(Date.UTC(y, m, 0, 12)).getUTCDate(); }
+  function isLeap(y){ return (y % 4 === 0 && y % 100 !== 0) || y % 400 === 0; }
+  function daysBetween(a, b){ return Math.round((noon(b) - noon(a)) / DAY); }
+
+  /* the span as whole calendar months plus leftover days (a <= b) */
+  function monthsDays(a, b){
+    var months = (b.y - a.y) * 12 + (b.m - a.m);
+    if(b.d < a.d) months--;
+    if(months < 0) months = 0;
+    var total = a.m - 1 + months;
+    var anchor = {
+      y: a.y + Math.floor(total / 12),
+      m: (total % 12) + 1,
+      d: a.d
+    };
+    anchor.d = Math.min(anchor.d, daysInMonth(anchor.y, anchor.m));
+    return { months: months, days: daysBetween(anchor, b) };
+  }
+
+  function isoWeek(d){
+    var date = new Date(Date.UTC(d.y, d.m - 1, d.d));
+    var dayNum = (date.getUTCDay() + 6) % 7;                 /* Monday = 0 */
+    date.setUTCDate(date.getUTCDate() - dayNum + 3);          /* this week's Thursday */
+    var firstThursday = new Date(Date.UTC(date.getUTCFullYear(), 0, 4));
+    var fdn = (firstThursday.getUTCDay() + 6) % 7;
+    firstThursday.setUTCDate(firstThursday.getUTCDate() - fdn + 3);
+    return 1 + Math.round((date.getTime() - firstThursday.getTime()) / (7 * DAY));
+  }
+
+  function todayParts(){
+    var n = new Date();
+    return { y: n.getFullYear(), m: n.getMonth() + 1, d: n.getDate() };
+  }
+  function toValue(d){
+    var mm = String(d.m); if(mm.length < 2) mm = "0" + mm;
+    var dd = String(d.d); if(dd.length < 2) dd = "0" + dd;
+    return d.y + "-" + mm + "-" + dd;
+  }
+  function plural(n, word){ return nf.format(n) + " " + (n === 1 ? word : word + "s"); }
+
+  /* ---- panel 1: between ---- */
+  var fromIn = $("#fromDate"), toIn = $("#toDate");
+  var betweenBig = $("#betweenBig"), betweenUnder = $("#betweenUnder");
+  function renderBetween(){
+    var a = parseDate(fromIn.value), b = parseDate(toIn.value);
+    if(!a || !b){
+      betweenBig.innerHTML = "&mdash;";
+      betweenUnder.innerHTML = "&nbsp;";
+      return;
+    }
+    if(noon(a) > noon(b)){ var t = a; a = b; b = t; }      /* order never matters */
+    var n = daysBetween(a, b);
+    betweenBig.innerHTML = nf.format(n) + '<span class="unit">' + (n === 1 ? "day" : "days") + "</span>";
+    var w = Math.floor(n / 7), wd = n % 7;
+    var md = monthsDays(a, b);
+    var parts = [];
+    parts.push(plural(w, "week") + (wd ? ", " + plural(wd, "day") : ""));
+    parts.push(plural(md.months, "month") + (md.days ? ", " + plural(md.days, "day") : ""));
+    betweenUnder.textContent = "that is " + parts[0] + " · or " + parts[1];
+  }
+  fromIn.addEventListener("input", renderBetween);
+  toIn.addEventListener("input", renderBetween);
+  $("#fromTodayBtn").addEventListener("click", function(){
+    fromIn.value = toValue(todayParts());
+    renderBetween();
+    toIn.focus();
+  });
+
+  /* ---- panel 2: what day ---- */
+  var whichIn = $("#whichDate");
+  var weekdayBig = $("#weekdayBig"), weekdayUnder = $("#weekdayUnder");
+  function renderWeekday(){
+    var d = parseDate(whichIn.value);
+    if(!d){
+      weekdayBig.innerHTML = "<i>&mdash;</i>";
+      weekdayUnder.innerHTML = "&nbsp;";
+      return;
+    }
+    var name = WEEKDAYS[new Date(noon(d)).getUTCDay()];
+    weekdayBig.innerHTML = "<i>a " + name + "</i>";
+    weekdayUnder.textContent = "ISO week " + isoWeek(d);
+  }
+  whichIn.addEventListener("input", renderWeekday);
+
+  /* ---- panel 3: today, kept live ---- */
+  var dateFmt = new Intl.DateTimeFormat("en-GB", { weekday:"long", day:"numeric", month:"long", year:"numeric" });
+  var lastKey = null;
+  function renderToday(){
+    var t = todayParts();
+    var key = t.y + "-" + t.m + "-" + t.d;
+    if(key === lastKey) return;
+    lastKey = key;
+    $("#todayDate").textContent = dateFmt.format(new Date());
+    var total = isLeap(t.y) ? 366 : 365;
+    var doy = daysBetween({ y: t.y, m: 1, d: 1 }, t) + 1;
+    $("#todayFacts").innerHTML =
+      '<span class="t">Day of the year<b>' + doy + " of " + total + "</b></span>" +
+      '<span class="t">ISO week<b>' + isoWeek(t) + "</b></span>" +
+      '<span class="t">Days remaining<b>' + (total - doy) + "</b></span>";
+  }
+  renderToday();
+  setInterval(renderToday, 60000);
+  document.addEventListener("visibilitychange", function(){ if(!document.hidden) renderToday(); });
+
+  /* ---- start with today in the first fields ---- */
+  fromIn.value = toValue(todayParts());
+  whichIn.value = toValue(todayParts());
+  renderBetween();
+  renderWeekday();
+
+  /* ---- theme ---- */
+  $("#themeBtn").addEventListener("click", function(){
+    var root = document.documentElement;
+    var current = root.getAttribute("data-theme");
+    var next;
+    if(current === "dark") next = "light";
+    else if(current === "light") next = "dark";
+    else next = window.matchMedia("(prefers-color-scheme: dark)").matches ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    try{ localStorage.setItem("olae-page-theme", next); }catch(e){}
+  });
+})();
+</script>
+<script>if("serviceWorker" in navigator){navigator.serviceWorker.register("/sw.js").catch(function(){});}</script>
+</body>
+</html>
