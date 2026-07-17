@@ -84,9 +84,9 @@ body {
   --paper: #191712;
   --surface-soft: #221F18;
   --band: #15130F;
-  --ink: #E7E1D6;
-  --ink-soft: #CFC7BA;
-  --vizon: #9C948A;
+  --ink: #EDE4CF;
+  --ink-soft: #D8CEB7;
+  --vizon: #A69E8C;
   --rule: #2B2721;
   --rule-strong: #474138;
   --rule-cream: #453D2E;
@@ -100,8 +100,8 @@ body {
   --theme-icon-moon: none;
   }
   html:not([data-theme="light"]) body {
-  --petrol: #94A6A4;
-  --petrol-deep: #ABBAB8;
+  --petrol: #C6B98F;
+  --petrol-deep: #DCD1AC;
   --surface-chrome: rgba(21, 19, 15, 0.88);
   --surface-footer: #14120E;
   }
@@ -112,9 +112,9 @@ html[data-theme="dark"] {
   --paper: #191712;
   --surface-soft: #221F18;
   --band: #15130F;
-  --ink: #E7E1D6;
-  --ink-soft: #CFC7BA;
-  --vizon: #9C948A;
+  --ink: #EDE4CF;
+  --ink-soft: #D8CEB7;
+  --vizon: #A69E8C;
   --rule: #2B2721;
   --rule-strong: #474138;
   --rule-cream: #453D2E;
@@ -128,8 +128,8 @@ html[data-theme="dark"] {
   --theme-icon-moon: none;
 }
 html[data-theme="dark"] body {
-  --petrol: #94A6A4;
-  --petrol-deep: #ABBAB8;
+  --petrol: #C6B98F;
+  --petrol-deep: #DCD1AC;
   --surface-chrome: rgba(21, 19, 15, 0.88);
   --surface-footer: #14120E;
 }
@@ -562,7 +562,7 @@ section.line-drawn::before,
 }
 /* Equal padding above and below: the line sits centred between the divider
    at the section's top edge and the grey utility strip below. */
-.tonight-strip { text-align: left; padding-top: 27px; padding-bottom: 27px; }
+.tonight-strip { text-align: center; padding-top: 27px; padding-bottom: 27px; }
 .tonight-line { font-family: 'EB Garamond', Georgia, serif; font-size: 0.95rem; color: var(--vizon); letter-spacing: 0.03em; margin: 0; }
 .tonight-word { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 1.08rem; color: var(--petrol); margin-right: 7px; }
 .tonight-sep { margin: 0 7px; }
@@ -572,11 +572,6 @@ section.line-drawn::before,
   .tonight-line { display: flex; flex-direction: column; gap: 3px; }
   .tonight-sep { display: none; }
   .tonight-word { margin-right: 0; }
-}
-/* Portrait phones: the stacked lines read better centred;
-   everywhere else the line stays flush left. */
-@media (max-width: 600px) and (orientation: portrait) {
-  .tonight-strip { text-align: center; }
 }
 
 /* ========================================================================== 
