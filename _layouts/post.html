@@ -40,45 +40,24 @@ copied variants resolve the same file the page always used. {% endcomment %}
 <a href="/story/1/" class="story-renav-link">Back to the beginning.</a>
 </nav>
 <script>
+/* The link fades in once, when the reader reaches the end of the page, and
+   stays. No hover games, no timers: finishing the ending is what earns the
+   way back. Without IntersectionObserver it is simply visible. */
 (function(){
   var nav = document.querySelector('.story-renav');
   var link = document.querySelector('.story-renav-link');
   if(!nav || !link) return;
-  var hideTimer = null;
-  function show(){
-    link.classList.add('is-visible');
-    clearTimeout(hideTimer);
-    hideTimer = setTimeout(hide, 3000);
-  }
-  function hide(){
-    link.classList.remove('is-visible');
-    clearTimeout(hideTimer);
-  }
-  /* Show when interacting with the area below the doorbox (password input) */
-  var doorbox = document.querySelector('.doorbox');
-  if(doorbox) {
-    doorbox.addEventListener('click', function(e){
-      if(e.target === doorbox) show();
-    });
-  }
-  nav.addEventListener('click', function(e){
-    if(e.target === link) return;
-    show();
-  });
-  nav.addEventListener('touchstart', function(e){
-    if(e.target === link) return;
-    show();
-  }, {passive:true});
-  nav.addEventListener('mouseenter', function(){
-    show();
-  });
-  /* Hide when clicking/touching anywhere outside nav */
-  document.addEventListener('click', function(e){
-    if(!nav.contains(e.target)) hide();
-  });
-  document.addEventListener('touchstart', function(e){
-    if(!nav.contains(e.target)) hide();
-  }, {passive:true});
+  if(!('IntersectionObserver' in window)){ link.classList.add('is-visible'); return; }
+  var io = new IntersectionObserver(function(entries){
+    for(var i=0;i<entries.length;i++){
+      if(entries[i].isIntersecting){
+        link.classList.add('is-visible');
+        io.disconnect();
+        return;
+      }
+    }
+  }, { threshold: 0.6 });
+  io.observe(nav);
 })();
 </script>
 {% endif %}
