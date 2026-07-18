@@ -1,5 +1,5 @@
 <form class="doorbox" onsubmit="return false;">
-  <input type="text" id="doorbox-input" aria-label="A word for the door" autocomplete="off" autocapitalize="off" spellcheck="false">
+  <input type="text" id="doorbox-input" aria-label="A word for the door" placeholder="a word, for the door" autocomplete="off" autocapitalize="off" spellcheck="false">
 </form>
 <script>
 (function () {
@@ -12,9 +12,20 @@
   el.addEventListener('keydown', function (e) {
     if (e.key !== 'Enter') return;
     var v = el.value.trim().toLowerCase();
+    if (!v || el.readOnly) return;
     crypto.subtle.digest('SHA-256', new TextEncoder().encode(v)).then(function (buf) {
       var h = Array.from(new Uint8Array(buf)).map(function (b) { return b.toString(16).padStart(2, '0'); }).join('');
-      if (keys[h]) { window.location.href = '/story/9r2m/'; }
+      if (keys[h]) { window.location.href = '/story/9r2m/'; return; }
+      /* The door doesn't answer: the word fades out and the box empties.
+         No error state — a quiet refusal, and room to try again. */
+      el.readOnly = true;
+      el.classList.add('is-fading');
+      setTimeout(function () {
+        el.value = '';
+        el.classList.remove('is-fading');
+        el.readOnly = false;
+        el.focus();
+      }, 650);
     });
   });
 })();
