@@ -3,7 +3,7 @@ layout: default
 permalink: /tools/
 title: "Tools"
 series: tools
-description: "Free instruments kept here: a fullscreen clock with countdown, stopwatch and pomodoro; blank pages to write and draw on; a word counter with readability; a text diff; typographic marks to copy; days between dates; a breathing exercise; noise and rain; the moon, the season and İstanbul's twilight."
+description: "Free instruments kept here: a fullscreen clock with countdown, stopwatch and pomodoro; blank pages to write and draw on; a word counter with readability; a text cleaner with Turkish-aware case conversion; a text diff; typographic marks to copy; a random name picker and group maker; noise and rain; a breathing exercise; İstanbul's twilight; days between dates; the moon and the season."
 ---
 
 <section id="tools" class="section-page">
@@ -19,35 +19,47 @@ description: "Free instruments kept here: a fullscreen clock with countdown, sto
     </a>
     <a class="tools-item" href="/write/">
       <h2>The Page</h2>
-      <p>A blank page to write on. Garamond type, a word count, fullscreen, autosave&mdash;and nothing else. Your text stays on your device.</p>
+      <p>A blank page to write on. Garamond type, a word count, fullscreen, autosave&mdash;and nothing else.</p>
     </a>
     <a class="tools-item" href="/draw/">
       <h2>The Draw</h2>
-      <p>A blank page to draw on&mdash;mouse, finger or stylus, with pressure. Four inks, undo, autosave and a PNG download; nothing leaves your device.</p>
+      <p>A blank page to draw on&mdash;mouse, finger or stylus, with pressure. Four inks, undo, autosave and a PNG download.</p>
     </a>
     <a class="tools-item" href="/words/">
       <h2>The Counter</h2>
       <p>A word counter: words, characters, sentences, paragraphs, reading and speaking time, plus readability&mdash;counted live as you type or paste.</p>
     </a>
+    <a class="tools-item" href="/clean/">
+      <h2>The Clean</h2>
+      <p>Pasted text set right: quotes curled, double hyphens turned into dashes, stray spaces and invisible characters removed&mdash;with case conversion that handles Turkish correctly.</p>
+    </a>
     <a class="tools-item" href="/diff/">
       <h2>The Diff</h2>
-      <p>Two texts compared word by word&mdash;every addition and removal, for writers checking drafts. The texts never leave your device.</p>
+      <p>Two texts compared word by word&mdash;every addition and removal, for writers checking drafts.</p>
     </a>
     <a class="tools-item" href="/marks/">
       <h2>The Marks</h2>
       <p>Typographic characters&mdash;em dash, curly quotes, thin space and the rest&mdash;click any of them to copy it.</p>
     </a>
-    <a class="tools-item" href="/days/">
-      <h2>The Days</h2>
-      <p>Date arithmetic: days between two dates, the weekday of any date, and where today stands in the year.</p>
+    <a class="tools-item" href="/lots/">
+      <h2>The Lots</h2>
+      <p>A name draw for classrooms and meetings: paste a list, draw one name at random&mdash;sized for the projector&mdash;or divide the list into groups.</p>
+    </a>
+    <a class="tools-item" href="/noise/">
+      <h2>The Noise</h2>
+      <p>White, pink and brown noise, and steady rain&mdash;generated live, with a volume dial and a sleep timer.</p>
     </a>
     <a class="tools-item" href="/breathe/">
       <h2>The Breath</h2>
       <p>A guided breathing exercise&mdash;box, 4-7-8 and coherent breathing, paced by a slowly swelling circle.</p>
     </a>
-    <a class="tools-item" href="/noise/">
-      <h2>The Noise</h2>
-      <p>White, pink and brown noise, and steady rain&mdash;generated live, with a volume dial and a sleep timer.</p>
+    <a class="tools-item" href="/twilight/">
+      <h2>Twilight</h2>
+      <p>&#304;stanbul's sky, kept in real time. Today's sunrise, sunset, civil twilight and day length; the page follows the color of the hour.</p>
+    </a>
+    <a class="tools-item" href="/days/">
+      <h2>The Days</h2>
+      <p>Date arithmetic: days between two dates, the weekday of any date, and where today stands in the year.</p>
     </a>
     <a class="tools-item" href="/moon/">
       <h2>The Moon</h2>
@@ -56,10 +68,6 @@ description: "Free instruments kept here: a fullscreen clock with countdown, sto
     <a class="tools-item" href="/season/">
       <h2>The Season</h2>
       <p>Where the year stands: the current season, the days until the next solstice or equinox, and the year's progress.</p>
-    </a>
-    <a class="tools-item" href="/twilight/">
-      <h2>Twilight</h2>
-      <p>&#304;stanbul's sky, kept in real time. Today's sunrise, sunset, civil twilight and day length; the page follows the color of the hour.</p>
     </a>
   </div>
 </section>
@@ -71,7 +79,7 @@ description: "Free instruments kept here: a fullscreen clock with countdown, sto
   "@id": "https://hakanaltun.io/tools/#page",
   "name": "Tools",
   "url": "https://hakanaltun.io/tools/",
-  "description": "Free browser instruments: a fullscreen clock with countdown, stopwatch and pomodoro; blank pages to write and draw on; a word counter with readability; a text diff; typographic marks to copy; days between dates; a breathing exercise; white, pink and brown noise and rain; the phase of the moon; the current season; and İstanbul's twilight in real time.",
+  "description": "Free browser instruments: a fullscreen clock with countdown, stopwatch and pomodoro; blank pages to write and draw on; a word counter with readability; a text cleaner with Turkish-aware case conversion; a text diff; typographic marks to copy; a random name picker and group maker; white, pink and brown noise and rain; a breathing exercise; İstanbul's twilight in real time; days between dates; the phase of the moon; and the current season.",
   "inLanguage": "en",
   "author": { "@type": "Person", "name": "Hakan Altun", "url": "https://hakanaltun.io/" },
   "mainEntity": {
@@ -81,14 +89,16 @@ description: "Free instruments kept here: a fullscreen clock with countdown, sto
       { "@type": "ListItem", "position": 2, "name": "The Page—A Blank Page for Distraction-Free Writing", "url": "https://hakanaltun.io/write/" },
       { "@type": "ListItem", "position": 3, "name": "The Draw—A Blank Page to Draw On", "url": "https://hakanaltun.io/draw/" },
       { "@type": "ListItem", "position": 4, "name": "The Counter—Word Counter with Reading Time & Readability", "url": "https://hakanaltun.io/words/" },
-      { "@type": "ListItem", "position": 5, "name": "The Diff—Compare Two Texts Online", "url": "https://hakanaltun.io/diff/" },
-      { "@type": "ListItem", "position": 6, "name": "The Marks—Em Dash, Curly Quotes & Other Typographic Characters to Copy", "url": "https://hakanaltun.io/marks/" },
-      { "@type": "ListItem", "position": 7, "name": "The Days—Days Between Dates, Weekday of Any Date & Day of the Year", "url": "https://hakanaltun.io/days/" },
-      { "@type": "ListItem", "position": 8, "name": "The Breath—Box, 4-7-8 & Coherent Breathing", "url": "https://hakanaltun.io/breathe/" },
+      { "@type": "ListItem", "position": 5, "name": "The Clean—Fix Quotes, Dashes & Spaces in Pasted Text", "url": "https://hakanaltun.io/clean/" },
+      { "@type": "ListItem", "position": 6, "name": "The Diff—Compare Two Texts Online", "url": "https://hakanaltun.io/diff/" },
+      { "@type": "ListItem", "position": 7, "name": "The Marks—Em Dash, Curly Quotes & Other Typographic Characters to Copy", "url": "https://hakanaltun.io/marks/" },
+      { "@type": "ListItem", "position": 8, "name": "The Lots—Random Name Picker & Group Maker for Classrooms", "url": "https://hakanaltun.io/lots/" },
       { "@type": "ListItem", "position": 9, "name": "The Noise—White, Pink & Brown Noise, and Rain", "url": "https://hakanaltun.io/noise/" },
-      { "@type": "ListItem", "position": 10, "name": "The Moon—Moon Phase Today", "url": "https://hakanaltun.io/moon/" },
-      { "@type": "ListItem", "position": 11, "name": "The Season—Days Until the Next Solstice or Equinox", "url": "https://hakanaltun.io/season/" },
-      { "@type": "ListItem", "position": 12, "name": "Twilight—Sunrise, Sunset & Civil Twilight Today", "url": "https://hakanaltun.io/twilight/" }
+      { "@type": "ListItem", "position": 10, "name": "The Breath—Box, 4-7-8 & Coherent Breathing", "url": "https://hakanaltun.io/breathe/" },
+      { "@type": "ListItem", "position": 11, "name": "Twilight—Sunrise, Sunset & Civil Twilight Today", "url": "https://hakanaltun.io/twilight/" },
+      { "@type": "ListItem", "position": 12, "name": "The Days—Days Between Dates, Weekday of Any Date & Day of the Year", "url": "https://hakanaltun.io/days/" },
+      { "@type": "ListItem", "position": 13, "name": "The Moon—Moon Phase Today", "url": "https://hakanaltun.io/moon/" },
+      { "@type": "ListItem", "position": 14, "name": "The Season—Days Until the Next Solstice or Equinox", "url": "https://hakanaltun.io/season/" }
     ]
   }
 }
