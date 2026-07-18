@@ -1595,7 +1595,9 @@ footer {
 
 /* Re-entry: a hushed "back to the beginning" on the three ending pages only.
    Sends the reader to page one — a clean reset, not a step-back that would undo
-   a single choice. It sits just under the hidden-door box. */
+   a single choice. It sits just under the hidden-door box. The link fades in
+   when the reader reaches the end of the page (see post.html) and then stays —
+   finishing the ending is what earns the way back. */
 /* display:block overrides the global `nav { display:flex }` above — otherwise
    the nav becomes a flex column that stretches the link to the full row width. */
 .story-renav { display: block; text-align: center; margin-top: 46px; padding: 18px 0; }
@@ -1612,7 +1614,7 @@ footer {
   border-bottom: 1px solid color-mix(in srgb, var(--petrol) 35%, transparent);
   padding-bottom: 1px;
   opacity: 0;
-  transition: border-color 0.2s ease, color 0.2s ease, opacity 0.3s ease;
+  transition: border-color 0.2s ease, color 0.2s ease, opacity 0.6s ease;
   pointer-events: none;
 }
 .story-renav-link.is-visible {
@@ -1626,16 +1628,17 @@ footer {
   outline: none;
 }
 
-/* Hidden-door input box: last element on each ending, visually unlabeled,
-   quiet (screen readers get an aria-label). Wrong input does nothing —
-   so the box stays understated. */
+/* Hidden-door input box: last element on each ending, quiet. A small gray
+   placeholder says the door is here; the word itself is still the reader's to
+   find. On a wrong word the typed text fades out and the box empties (see
+   doorbox.html) — a refusal, not an error state, so no shake and no red. */
 .doorbox {
   display: flex;
   justify-content: center;
   margin: 48px auto 0;
 }
 .doorbox input {
-  width: 8em;
+  width: 11em;
   text-align: center;
   font-family: 'EB Garamond', Georgia, serif;
   font-size: 1rem;
@@ -1645,12 +1648,21 @@ footer {
   border-bottom: 1px solid var(--rule-strong);
   padding: 6px 4px;
   outline: none;
-  transition: border-color 0.2s ease;
+  transition: border-color 0.2s ease, color 0.6s ease;
   animation: doorbox-glow 2.4s ease-in-out 3;
+}
+.doorbox input::placeholder {
+  color: color-mix(in srgb, var(--ink-soft) 55%, transparent);
+  font-style: italic;
+  opacity: 1;
 }
 .doorbox input:focus {
   border-bottom-color: color-mix(in srgb, var(--petrol) 55%, transparent);
   animation: none;
+}
+/* Wrong word: the text goes, the line stays. */
+.doorbox input.is-fading {
+  color: transparent;
 }
 @keyframes doorbox-glow {
   0%, 100% { border-bottom-color: var(--rule-strong); }
