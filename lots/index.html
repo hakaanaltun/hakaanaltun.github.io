@@ -1,0 +1,624 @@
+---
+layout: null
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Random Name Picker &amp; Group Maker for Classrooms &middot; On Life &amp; Everything</title>
+<meta name="description" content="Paste a class list and draw one name at random, or divide the list into groups. Drawn names leave the pool so nobody is called twice, and a fullscreen view is sized for the projector. No ads, free.">
+<link rel="canonical" href="https://hakanaltun.io/lots/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="The Lots—Random Name Picker &amp; Group Maker for Classrooms">
+<meta property="og:description" content="Paste a class list and draw one name at random, or divide the list into groups. Drawn names leave the pool so nobody is called twice.">
+<meta property="og:url" content="https://hakanaltun.io/lots/">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#FFFFFF">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#191712">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "@id": "https://hakanaltun.io/lots/#app",
+      "name": "The Lots—Random Name Picker & Group Maker for Classrooms",
+      "url": "https://hakanaltun.io/lots/",
+      "description": "Paste a class list and draw one name at random, or divide the list into groups. Drawn names leave the pool so nobody is called twice, and a fullscreen view is sized for the projector. No ads, free.",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires JavaScript",
+      "isAccessibleForFree": true,
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "author": { "@type": "Person", "name": "Hakan Altun", "url": "https://hakanaltun.io/" },
+      "inLanguage": "en"
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://hakanaltun.io/lots/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How do I pick a random student?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Paste the class list into the box, one name per line (commas work too), and press Draw. One name is chosen at random—the page uses the browser's cryptographic random source, so every name has exactly the same chance—and shown large enough to read from the back row. The fullscreen button turns the drawn name into a projector view." }
+        },
+        {
+          "@type": "Question",
+          "name": "Can it avoid calling the same person twice?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. With 'remove drawn names from the pool' switched on, each drawn name leaves the pool and is listed beneath in draw order. Restore all returns every name to the pool, and switching the toggle off allows repeats." }
+        },
+        {
+          "@type": "Question",
+          "name": "How does it divide a list that doesn't split evenly?",
+          "acceptedAnswer": { "@type": "Answer", "text": "The list is shuffled and dealt so the group sizes differ by at most one. Nobody is left in a stub group: dividing 23 names into groups of 5 gives four groups of 5 and 6 rather than four groups of 5 and one person alone." }
+        },
+        {
+          "@type": "Question",
+          "name": "Where does my class list go?",
+          "acceptedAnswer": { "@type": "Answer", "text": "It is kept in this browser's local storage and sent nowhere, so the list is waiting when you return for the next session. Clearing the browser's site data clears the list too." }
+        }
+      ]
+    }
+  ]
+}
+</script>
+
+<link rel="stylesheet" href="/css/fonts.css?v=20260710-1">
+
+<style>
+  :root{
+    --paper: #FFFFFF;
+    --ink:   #2F2B27;
+    --muted: #746F69;
+    --line:  #EEEAE4;
+
+    --display: 'Cormorant Garamond', Georgia, serif;
+    --body:    'EB Garamond', Georgia, serif;
+
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark){
+    html:not([data-theme="light"]){
+      --paper:#191712; --ink:#E7E1D6; --muted:#9C948A; --line:#2B2721;
+      color-scheme: dark;
+    }
+  }
+  html[data-theme="dark"]{
+    --paper:#191712; --ink:#E7E1D6; --muted:#9C948A; --line:#2B2721;
+    color-scheme: dark;
+  }
+  /* theme toggle icons: moon in light, sun in dark */
+  :root{ --icon-sun:none; --icon-moon:block; }
+  @media (prefers-color-scheme: dark){
+    html:not([data-theme="light"]){ --icon-sun:block; --icon-moon:none; }
+  }
+  html[data-theme="dark"]{ --icon-sun:block; --icon-moon:none; }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+
+  /* the ampersand the site uses — the display italic, as in the header logo */
+  .amp{ font-family:var(--display); font-style:italic; }
+
+  body{
+    position:relative;
+    background:var(--paper); color:var(--ink); font-family:var(--body);
+    min-height:100vh; min-height:100dvh;
+    -webkit-font-smoothing:antialiased;
+    transition:background .4s ease, color .4s ease;
+  }
+
+  .chrome{
+    position:sticky; top:0; z-index:2; background:var(--paper);
+    display:grid; grid-template-columns:1fr auto 1fr; align-items:center;
+    padding:14px 22px; border-bottom:1px solid var(--line);
+    transition:opacity .4s ease, border-color .4s ease, background .4s ease;
+  }
+  .masthead{
+    grid-column:2; text-decoration:none; display:flex; flex-direction:column;
+    align-items:center; gap:1px; text-align:center; opacity:.85; transition:opacity .2s;
+  }
+  .masthead:hover{ opacity:1; }
+  .home-brand{ font-family:var(--display); font-style:italic; font-weight:400; font-size:1.1rem; line-height:1.05; color:var(--ink); }
+  .home-tagline{ font-family:var(--body); font-style:italic; font-weight:400; font-size:0.8rem; line-height:1.2; color:var(--muted); }
+
+  .actions{ grid-column:3; justify-self:end; display:flex; gap:8px; }
+  .icon-btn{
+    background:none; border:1px solid var(--line); color:var(--muted);
+    width:38px; height:38px; border-radius:8px; cursor:pointer; font-size:16px;
+    display:grid; place-items:center; transition:color .2s, border-color .2s;
+  }
+  .icon-btn:hover{ color:var(--ink); border-color:var(--muted); }
+  .icon-btn:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
+  .icon-btn svg{ width:16px; height:16px; }
+  .theme-btn .icon-sun{ display:var(--icon-sun); }
+  .theme-btn .icon-moon{ display:var(--icon-moon); }
+
+  .tool-head{ max-width:900px; margin:0 auto; padding:6vh 26px 0; text-align:center; }
+  .tool-head h1{
+    font-family:var(--display); font-style:italic; font-weight:400;
+    font-size:clamp(1.9rem, 5vw, 2.6rem); line-height:1.1;
+  }
+  .tool-head .lede{ margin-top:.5rem; font-style:italic; color:var(--muted); font-size:1rem; }
+
+  .sheet{ width:100%; max-width:900px; margin:0 auto; padding:4vh 26px 10vh; }
+
+  .list-block label{
+    display:block; font-family:var(--body); font-style:italic; color:var(--muted);
+    font-size:.95rem; letter-spacing:.03em; margin-bottom:.5rem;
+  }
+  .list-block textarea{
+    display:block; width:100%; min-height:26vh;
+    border:1px solid var(--line); border-radius:8px; padding:14px 16px;
+    background:transparent; color:var(--ink);
+    font-family:var(--body); font-size:1.1rem; line-height:1.6;
+    resize:vertical; outline:none; caret-color:var(--ink);
+  }
+  .list-block textarea:focus-visible{ border-color:var(--muted); }
+  .list-block textarea::placeholder{ color:var(--muted); font-style:italic; opacity:.65; }
+  .list-count{
+    margin-top:.5rem; text-align:right; font-style:italic; color:var(--muted);
+    font-size:.95rem; letter-spacing:.02em;
+  }
+
+  .panel{ margin-top:4rem; border-top:1px solid var(--line); padding-top:2.4rem; }
+  .panel-name{
+    font-family:var(--display); font-style:italic; font-weight:400;
+    font-size:1.6rem; color:var(--ink); margin-bottom:1.2rem;
+  }
+
+  /* the drawn name — display type, sized for a projector (as on /clock/) */
+  .draw-stage{ display:grid; place-items:center; text-align:center; padding:3vh 0; min-height:22vh; }
+  .draw-display{
+    font-family:var(--display); font-style:italic; font-weight:400;
+    line-height:1.05; overflow-wrap:anywhere;
+    font-size:clamp(2.6rem, 9vw, 8rem);
+  }
+  .draw-display.long{ font-size:clamp(1.8rem, 5.5vw, 5rem); }
+  .draw-display.idle{ color:var(--muted); font-size:1.1rem; font-family:var(--body); }
+
+  .draw-controls{ display:flex; gap:16px; justify-content:center; align-items:center; flex-wrap:wrap; }
+  .btn{
+    font-family:var(--display); font-style:italic; font-size:1.25rem;
+    padding:9px 28px; border-radius:0; cursor:pointer;
+    border:1px solid var(--line); background:none; color:var(--ink);
+    transition:background .2s, color .2s, border-color .2s;
+  }
+  .btn:hover{ border-color:var(--ink); }
+  .btn:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
+  .btn.primary{ background:var(--ink); color:var(--paper); border-color:var(--ink); }
+  .btn.primary:hover{ filter:brightness(1.12); }
+  .btn[disabled]{ opacity:.5; cursor:default; }
+  .toggle{
+    display:flex; align-items:center; gap:8px; color:var(--muted);
+    font-size:.95rem; font-style:italic; letter-spacing:.02em; cursor:pointer; user-select:none;
+  }
+  .toggle input{ accent-color:var(--ink); width:16px; height:16px; cursor:pointer; }
+
+  .drawn-block{ margin-top:2rem; display:none; }
+  .drawn-block.on{ display:block; }
+  .drawn-name{
+    font-family:var(--body); font-style:italic; font-size:1.05rem; color:var(--muted);
+    letter-spacing:.03em; margin-bottom:.6rem;
+  }
+  .drawn-list{ list-style:none; color:var(--muted); font-size:1.05rem; line-height:1.8; }
+  .drawn-list li::before{ content:counter(list-item) "\2002"; color:var(--line); font-variant-numeric:tabular-nums; }
+  .drawn-list li{ counter-increment:list-item; }
+  .link-btn{
+    background:none; border:none; cursor:pointer; padding:0; margin-top:.8rem;
+    font-family:var(--body); font-style:italic; font-size:1rem; color:var(--ink);
+    text-decoration:underline; text-underline-offset:3px; text-decoration-color:var(--line);
+  }
+  .link-btn:hover{ text-decoration-color:var(--ink); }
+  .link-btn:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
+
+  .seg{ display:flex; border:1px solid var(--line); border-radius:999px; overflow:hidden; }
+  .seg button{
+    background:none; border:none; color:var(--muted); font-family:var(--body);
+    font-size:14px; padding:8px 18px; cursor:pointer; letter-spacing:.02em;
+  }
+  .seg button[aria-pressed="true"]{ background:var(--ink); color:var(--paper); }
+  .seg button:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
+  .num-input{
+    background:transparent; border:1px solid var(--line); color:var(--ink);
+    font-family:var(--display); font-size:1.3rem; padding:5px 10px; border-radius:8px;
+    text-align:center; width:4.5ch;
+    -moz-appearance:textfield; appearance:textfield;
+  }
+  .num-input::-webkit-outer-spin-button, .num-input::-webkit-inner-spin-button{ -webkit-appearance:none; margin:0; }
+  .num-input:focus{ outline:2px solid var(--ink); outline-offset:2px; }
+
+  .groups-controls{ display:flex; gap:14px; align-items:center; flex-wrap:wrap; margin-bottom:1.6rem; }
+  .groups-note{
+    font-style:italic; color:var(--muted); font-size:.98rem; letter-spacing:.02em;
+    min-height:1.4em; margin-bottom:1rem;
+  }
+  .groups-result{
+    display:grid; grid-template-columns:repeat(auto-fill, minmax(170px, 1fr));
+    gap:22px;
+  }
+  .group h3{
+    font-family:var(--body); font-style:italic; font-weight:400;
+    font-size:1.05rem; color:var(--muted); letter-spacing:.03em;
+    margin-bottom:.5rem; padding-bottom:.35rem; border-bottom:1px solid var(--line);
+  }
+  .group ul{ list-style:none; font-size:1.1rem; line-height:1.75; }
+
+  /* fullscreen: the drawn name alone, as on /clock/ */
+  body.immersive{ overflow:hidden; }
+  body.immersive .tool-head, body.immersive .list-block, body.immersive .groups-panel,
+  body.immersive .drawn-block, body.immersive .notes{ display:none; }
+  body.immersive .panel{ border-top:none; margin:0; padding:0; }
+  body.immersive .panel-name{ display:none; }
+  body.immersive .draw-stage{
+    position:fixed; inset:0; z-index:1; background:var(--paper);
+    padding:24px; min-height:0;
+  }
+  body.immersive .draw-display{ font-size:clamp(3.5rem, 14vw, 16rem); }
+  body.immersive .draw-display.long{ font-size:clamp(2.2rem, 8vw, 9rem); }
+  body.immersive .chrome{ position:fixed; top:0; left:0; right:0; z-index:3; opacity:0; pointer-events:none; }
+  body.immersive.show-chrome .chrome{ opacity:1; pointer-events:auto; }
+  body.immersive .draw-controls{
+    position:fixed; left:0; right:0; bottom:26px; z-index:3;
+    opacity:0; pointer-events:none; transition:opacity .4s ease;
+  }
+  body.immersive.show-chrome .draw-controls{ opacity:1; pointer-events:auto; }
+
+  /* notes — reading matter under the instrument */
+  .notes{ border-top:1px solid var(--line); padding:60px 26px 84px; }
+  .notes-inner{ max-width:640px; margin:0 auto; }
+  .notes h2{ font-family:var(--display); font-style:italic; font-weight:400; font-size:1.6rem; margin:2.4rem 0 1rem; color:var(--ink); }
+  .notes h2:first-child{ margin-top:0; }
+  .notes h3{ font-family:var(--body); font-style:italic; font-weight:400; font-size:1.15rem; margin:1.5rem 0 .35rem; color:var(--ink); }
+  .notes p{ color:var(--muted); font-size:1.05rem; line-height:1.65; margin:0 0 .9rem; }
+  .notes a{ color:var(--ink); text-decoration:underline; text-underline-offset:3px; text-decoration-color:var(--line); }
+  .notes a:hover{ text-decoration-color:var(--ink); }
+  .notes .notes-links{ margin-top:2.4rem; padding-top:1.3rem; border-top:1px solid var(--line); font-style:italic; }
+
+  .sr-only{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); }
+
+  @media (max-width:600px){
+    .chrome{ padding:12px 14px; }
+    .home-brand{ font-size:1rem; }
+    .home-tagline{ font-size:0.74rem; }
+    .sheet{ padding:3vh 20px 8vh; }
+    .groups-result{ grid-template-columns:repeat(auto-fill, minmax(140px, 1fr)); gap:16px; }
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    *{ transition:none !important; }
+  }
+</style>
+<script>(function(){try{var t=localStorage.getItem('olae-page-theme');if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();</script>
+</head>
+<body>
+
+  <div class="chrome" id="chrome">
+    <span aria-hidden="true"></span>
+    <a class="masthead" href="/" aria-label="On Life &amp; Everything—home">
+      <span class="home-brand">On Life &amp; Everything</span>
+      <span class="home-tagline">Essays, short fiction, and other writing.</span>
+    </a>
+    <div class="actions">
+      <button class="icon-btn theme-btn" id="themeBtn" type="button" title="Light / dark" aria-label="Switch theme">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+      <button class="icon-btn" id="fsBtn" type="button" title="Fullscreen" aria-label="Fullscreen">&#10530;</button>
+    </div>
+  </div>
+
+  <header class="tool-head">
+    <h1>The lots</h1>
+    <p class="lede">A name draw for classrooms and meetings&mdash;one at random, or the whole list in groups.</p>
+  </header>
+
+  <main class="sheet">
+
+    <div class="list-block">
+      <label for="nameList">The list&mdash;one name per line, or separated by commas</label>
+      <textarea id="nameList" placeholder="One name per line." autocomplete="off" spellcheck="false"></textarea>
+      <div class="list-count" id="listCount" aria-live="polite">0 names</div>
+    </div>
+
+    <section class="panel" id="drawPanel">
+      <h2 class="panel-name">Draw</h2>
+      <div class="draw-stage">
+        <div class="draw-display idle" id="drawDisplay" aria-live="polite">Press draw and a name appears here.</div>
+      </div>
+      <div class="draw-controls">
+        <button class="btn primary" id="drawBtn" type="button">Draw a name</button>
+        <label class="toggle"><input type="checkbox" id="removeToggle" checked> Remove drawn names from the pool</label>
+      </div>
+      <div class="drawn-block" id="drawnBlock">
+        <h3 class="drawn-name">Drawn so far</h3>
+        <ol class="drawn-list" id="drawnList"></ol>
+        <button class="link-btn" id="restoreBtn" type="button">Restore all to the pool</button>
+      </div>
+    </section>
+
+    <section class="panel groups-panel" id="groupsPanel">
+      <h2 class="panel-name">Groups</h2>
+      <div class="groups-controls">
+        <div class="seg" role="group" aria-label="How to divide">
+          <button id="modeSize" type="button" aria-pressed="true">Groups of N</button>
+          <button id="modeCount" type="button" aria-pressed="false">N groups</button>
+        </div>
+        <input type="number" id="groupNum" class="num-input" min="1" max="99" value="4" inputmode="numeric" aria-label="N">
+        <button class="btn" id="dealBtn" type="button">Divide</button>
+      </div>
+      <div class="groups-note" id="groupsNote" aria-live="polite"></div>
+      <div class="groups-result" id="groupsResult"></div>
+    </section>
+
+  </main>
+
+  <footer class="notes" id="notes">
+    <div class="notes-inner">
+      <h2>About this page</h2>
+      <p>A drawing of lots for whoever runs a room: paste the class list once and it is waiting at every session after. Draw calls one name at random and shows it in type sized for a projector&mdash;take it fullscreen and the name stands alone on the screen. Drawn names leave the pool and queue up beneath, so nobody is called twice until you restore them. Groups shuffles the same list and deals it into teams, either by group size or by number of groups.</p>
+
+      <h2>Questions</h2>
+      <h3>How do I pick a random student?</h3>
+      <p>Paste the class list into the box, one name per line (commas work too), and press Draw. One name is chosen at random&mdash;the page uses the browser&rsquo;s cryptographic random source, so every name has exactly the same chance&mdash;and shown large enough to read from the back row. The fullscreen button turns the drawn name into a projector view.</p>
+
+      <h3>Can it avoid calling the same person twice?</h3>
+      <p>Yes. With &ldquo;remove drawn names from the pool&rdquo; switched on, each drawn name leaves the pool and is listed beneath in draw order. Restore all returns every name to the pool, and switching the toggle off allows repeats.</p>
+
+      <h3>How does it divide a list that doesn&rsquo;t split evenly?</h3>
+      <p>The list is shuffled and dealt so the group sizes differ by at most one. Nobody is left in a stub group: dividing 23 names into groups of 5 gives four groups of 5 and 6 rather than four groups of 5 and one person alone.</p>
+
+      <h3>Where does my class list go?</h3>
+      <p>It is kept in this browser&rsquo;s local storage and sent nowhere, so the list is waiting when you return for the next session. Clearing the browser&rsquo;s site data clears the list too.</p>
+
+      <p class="notes-links">More instruments: <a href="/clock/">a fullscreen clock with pomodoro</a>, <a href="/write/">a blank page to write on</a>, <a href="/draw/">a blank page to draw on</a>, <a href="/words/">a word counter</a>, <a href="/clean/">a text cleaner</a>, <a href="/diff/">a comparison of two texts</a>, <a href="/marks/">typographic marks to copy</a>, <a href="/noise/">ambient noise and rain</a>, <a href="/breathe/">a breathing exercise</a>, <a href="/twilight/">&#304;stanbul&rsquo;s twilight</a>, <a href="/days/">days between dates</a>, <a href="/moon/">the phase of the moon</a> and <a href="/season/">the turn of the seasons</a>&mdash;or see <a href="/tools/">all the tools</a>.</p>
+    </div>
+  </footer>
+
+<script>
+(function(){
+  "use strict";
+  var $ = function(s){ return document.querySelector(s); };
+  var LS = "olae-lots-v1";
+
+  var ta = $("#nameList"), countEl = $("#listCount");
+  var drawBtn = $("#drawBtn"), display = $("#drawDisplay");
+  var removeToggle = $("#removeToggle");
+  var drawnBlock = $("#drawnBlock"), drawnList = $("#drawnList"), restoreBtn = $("#restoreBtn");
+  var modeSize = $("#modeSize"), modeCount = $("#modeCount"), groupNum = $("#groupNum");
+  var dealBtn = $("#dealBtn"), groupsNote = $("#groupsNote"), groupsResult = $("#groupsResult");
+
+  var drawn = [];            /* names drawn, in draw order */
+  var groupMode = "size";    /* "size" = groups of N, "count" = N groups */
+  var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---- randomness: crypto throughout ---- */
+  function randInt(n){       /* uniform integer in [0, n) via rejection sampling */
+    if(n <= 0) return 0;
+    var buf = new Uint32Array(1);
+    var limit = Math.floor(4294967296 / n) * n;
+    do{ crypto.getRandomValues(buf); }while(buf[0] >= limit);
+    return buf[0] % n;
+  }
+  function shuffle(arr){     /* Fisher–Yates */
+    for(var i = arr.length - 1; i > 0; i--){
+      var j = randInt(i + 1);
+      var t = arr[i]; arr[i] = arr[j]; arr[j] = t;
+    }
+    return arr;
+  }
+
+  /* ---- the list ---- */
+  function parseNames(){
+    var seen = {}, out = [];
+    ta.value.split(/[\n,]+/).forEach(function(raw){
+      var name = raw.trim();
+      if(!name || seen[name]) return;
+      seen[name] = true;
+      out.push(name);
+    });
+    return out;
+  }
+  function pool(){
+    var names = parseNames();
+    if(!removeToggle.checked) return names;
+    var gone = {};
+    drawn.forEach(function(n){ gone[n] = true; });
+    return names.filter(function(n){ return !gone[n]; });
+  }
+  function renderCount(){
+    var n = parseNames().length;
+    countEl.textContent = n === 1 ? "1 name" : n + " names";
+  }
+
+  /* ---- persistence (same autosave pattern as /write/) ---- */
+  function save(){
+    try{
+      localStorage.setItem(LS, JSON.stringify({
+        text: ta.value, drawn: drawn, remove: removeToggle.checked, at: Date.now()
+      }));
+    }catch(e){}
+  }
+  try{
+    var saved = JSON.parse(localStorage.getItem(LS));
+    if(saved){
+      if(typeof saved.text === "string") ta.value = saved.text;
+      if(Array.isArray(saved.drawn)) drawn = saved.drawn.filter(function(n){ return typeof n === "string"; });
+      if(typeof saved.remove === "boolean") removeToggle.checked = saved.remove;
+    }
+  }catch(e){}
+  var saveT;
+  ta.addEventListener("input", function(){
+    renderCount();
+    clearTimeout(saveT);
+    saveT = setTimeout(save, 500);
+  });
+  window.addEventListener("beforeunload", save);
+
+  /* ---- draw ---- */
+  function setName(name){
+    display.classList.remove("idle");
+    display.classList.toggle("long", name.length > 12);
+    display.textContent = name;
+  }
+  function setIdle(msg){
+    display.classList.add("idle");
+    display.classList.remove("long");
+    display.textContent = msg;
+  }
+  function renderDrawn(){
+    drawnList.innerHTML = "";
+    drawn.forEach(function(n){
+      var li = document.createElement("li");
+      li.textContent = n;
+      drawnList.appendChild(li);
+    });
+    drawnBlock.classList.toggle("on", drawn.length > 0);
+  }
+  var flicking = false;
+  drawBtn.addEventListener("click", function(){
+    if(flicking) return;
+    var names = pool();
+    if(!names.length){
+      if(!parseNames().length){ setIdle("The list above is empty—paste some names first."); }
+      else{ setIdle("Every name has been drawn—restore the pool to begin again."); drawnBlock.classList.add("on"); }
+      return;
+    }
+    var name = names[randInt(names.length)];
+    function settle(){
+      flicking = false;
+      setName(name);
+      if(removeToggle.checked || drawn.indexOf(name) === -1) drawn.push(name);
+      renderDrawn();
+      save();
+    }
+    /* a brief flick through the pool before the name settles */
+    if(reduceMotion || names.length < 2){ settle(); return; }
+    flicking = true;
+    var flicks = Math.min(8, 2 + names.length), i = 0;
+    var tick = setInterval(function(){
+      setName(names[randInt(names.length)]);
+      if(++i >= flicks){ clearInterval(tick); settle(); }
+    }, 80);
+  });
+  restoreBtn.addEventListener("click", function(){
+    drawn = [];
+    renderDrawn();
+    if(display.classList.contains("idle")) setIdle("Press draw and a name appears here.");
+    save();
+  });
+  removeToggle.addEventListener("change", save);
+
+  /* ---- groups ---- */
+  function setGroupMode(m){
+    groupMode = m;
+    modeSize.setAttribute("aria-pressed", m === "size");
+    modeCount.setAttribute("aria-pressed", m === "count");
+  }
+  modeSize.addEventListener("click", function(){ setGroupMode("size"); });
+  modeCount.addEventListener("click", function(){ setGroupMode("count"); });
+
+  function deal(){
+    var names = parseNames();
+    if(names.length < 2){
+      groupsNote.textContent = "Two names at least—paste the list above first.";
+      groupsResult.innerHTML = "";
+      return;
+    }
+    var n = Math.max(1, Math.min(99, parseInt(groupNum.value, 10) || 1));
+    groupNum.value = n;
+    /* how many groups: by target size, or directly; remainders spread one
+       per group so no stub group is ever dealt */
+    var k = groupMode === "size" ? Math.max(1, Math.floor(names.length / n))
+                                 : Math.min(n, names.length);
+    shuffle(names);
+    var base = Math.floor(names.length / k), extra = names.length % k, at = 0;
+    groupsResult.innerHTML = "";
+    for(var g = 0; g < k; g++){
+      var size = base + (g < extra ? 1 : 0);
+      var sec = document.createElement("section");
+      sec.className = "group";
+      var h = document.createElement("h3");
+      h.textContent = "Group " + (g + 1);
+      sec.appendChild(h);
+      var ul = document.createElement("ul");
+      names.slice(at, at + size).forEach(function(name){
+        var li = document.createElement("li");
+        li.textContent = name;
+        ul.appendChild(li);
+      });
+      at += size;
+      sec.appendChild(ul);
+      groupsResult.appendChild(sec);
+    }
+    groupsNote.textContent = names.length + " names in " + (k === 1 ? "1 group" : k + " groups");
+    dealBtn.textContent = "Reshuffle";
+  }
+  dealBtn.addEventListener("click", deal);
+
+  /* ---- theme ---- */
+  $("#themeBtn").addEventListener("click", function(){
+    var root = document.documentElement;
+    var current = root.getAttribute("data-theme");
+    var next;
+    if(current === "dark") next = "light";
+    else if(current === "light") next = "dark";
+    else next = window.matchMedia("(prefers-color-scheme: dark)").matches ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    try{ localStorage.setItem("olae-page-theme", next); }catch(e){}
+  });
+
+  /* ---- fullscreen (webkit-prefixed + CSS fallback, as on /clock/) ---- */
+  var docEl = document.documentElement, fakeFs = false;
+  function nativeFsElement(){ return document.fullscreenElement || document.webkitFullscreenElement || null; }
+  function requestFs(){
+    var fn = docEl.requestFullscreen || docEl.webkitRequestFullscreen || docEl.mozRequestFullScreen || docEl.msRequestFullscreen;
+    if(fn){ try{ fn.call(docEl); return true; }catch(e){} }
+    return false;
+  }
+  function exitFs(){
+    var fn = document.exitFullscreen || document.webkitExitFullscreen || document.mozCancelFullScreen || document.msExitFullscreen;
+    if(fn){ try{ fn.call(document); }catch(e){} }
+  }
+  function syncImmersive(){
+    var on = !!nativeFsElement() || fakeFs;
+    document.body.classList.toggle("immersive", on);
+    if(on) pokeChrome();
+  }
+  $("#fsBtn").addEventListener("click", function(){
+    if(nativeFsElement()){ exitFs(); return; }
+    if(fakeFs){ fakeFs = false; syncImmersive(); return; }
+    if(!requestFs()){ fakeFs = true; syncImmersive(); }
+  });
+  document.addEventListener("fullscreenchange", syncImmersive);
+  document.addEventListener("webkitfullscreenchange", syncImmersive);
+  document.addEventListener("keydown", function(e){ if(e.key === "Escape" && fakeFs){ fakeFs = false; syncImmersive(); } });
+
+  var chromeTimer;
+  function pokeChrome(){
+    document.body.classList.add("show-chrome");
+    clearTimeout(chromeTimer);
+    chromeTimer = setTimeout(function(){ document.body.classList.remove("show-chrome"); }, 2800);
+  }
+  ["mousemove","touchstart"].forEach(function(ev){
+    document.addEventListener(ev, function(){ if(document.body.classList.contains("immersive")) pokeChrome(); });
+  });
+
+  /* ---- init ---- */
+  renderCount();
+  renderDrawn();
+  setGroupMode(groupMode);
+})();
+</script>
+<script>if("serviceWorker" in navigator){navigator.serviceWorker.register("/sw.js").catch(function(){});}</script>
+</body>
+</html>
