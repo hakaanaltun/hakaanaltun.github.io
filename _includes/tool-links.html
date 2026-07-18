@@ -1,0 +1,8 @@
+{% comment %}
+  tool-links.html — the "More instruments" paragraph on a tool page.
+  Usage: {% include tool-links.html slug="write" %}
+  Reads _data/tools.yml: three related instruments in prose, a link to
+  /tools/, and — when the entry names one — a piece from the writing.
+{% endcomment %}
+{%- assign _t = site.data.tools | where: "slug", include.slug | first -%}
+<p class="notes-links">More instruments: {% for _rs in _t.related %}{%- assign _r = site.data.tools | where: "slug", _rs | first -%}<a href="/{{ _r.slug }}/">{{ _r.line }}</a>{% if forloop.rindex == 2 %} and {% elsif forloop.last == false %}, {% endif %}{% endfor %}&mdash;or see <a href="/tools/">all the tools</a>.{% if _t.post %} From the writing: <a href="{{ _t.post.url }}">{{ _t.post.title }}</a>.{% endif %}</p>

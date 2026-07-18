@@ -26,48 +26,26 @@ layout: null
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebApplication",
-      "@id": "https://hakanaltun.io/moon/#app",
-      "name": "The Moon—Moon Phase Today",
-      "url": "https://hakanaltun.io/moon/",
-      "description": "Tonight's moon: the current phase, illumination percentage and the moon's age, with the dates of the next full moon and new moon—computed and drawn live.",
-      "applicationCategory": "UtilitiesApplication",
-      "operatingSystem": "Any",
-      "browserRequirements": "Requires JavaScript",
-      "isAccessibleForFree": true,
-      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-      "author": { "@type": "Person", "name": "Hakan Altun", "url": "https://hakanaltun.io/" },
-      "inLanguage": "en"
-    },
-    {
-      "@type": "FAQPage",
-      "@id": "https://hakanaltun.io/moon/#faq",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "How is the moon phase computed?",
-          "acceptedAnswer": { "@type": "Answer", "text": "From the mean synodic cycle: the moon returns to new every 29.53 days, so the page measures the time since a reference new moon and reads the phase off that cycle. The real orbit is slightly elliptical, so the result can differ from precise astronomical tables by a few hours—never enough to mistake the phase itself." }
-        },
-        {
-          "@type": "Question",
-          "name": "What does the illumination percentage mean?",
-          "acceptedAnswer": { "@type": "Answer", "text": "The share of the moon's visible disc that is currently lit by the sun—0% at new moon, about 50% at the quarters, 100% at full moon." }
-        },
-        {
-          "@type": "Question",
-          "name": "What is the moon's age?",
-          "acceptedAnswer": { "@type": "Answer", "text": "The number of days since the last new moon. A full cycle takes about 29.5 days: first quarter arrives near day 7, full moon near day 15, last quarter near day 22." }
-        },
-        {
-          "@type": "Question",
-          "name": "Why does the moon look flipped from the southern hemisphere?",
-          "acceptedAnswer": { "@type": "Answer", "text": "The page draws the moon as seen from the northern hemisphere, where a waxing moon lights up from the right. South of the equator the same moon stands the other way up, so the lit side appears mirrored." }
-        }
-      ]
-    }
-  ]
+  "@type": "WebApplication",
+  "@id": "https://hakanaltun.io/moon/#app",
+  "name": "The Moon—Moon Phase Today",
+  "url": "https://hakanaltun.io/moon/",
+  "description": "Tonight's moon: the current phase, illumination percentage and the moon's age, with the dates of the next full moon and new moon—computed and drawn live.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "browserRequirements": "Requires JavaScript",
+  "isAccessibleForFree": true,
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Hakan Altun",
+    "url": "https://hakanaltun.io/"
+  },
+  "inLanguage": "en"
 }
 </script>
 
@@ -212,7 +190,7 @@ layout: null
 </head>
 <body>
 
-  <div class="app">
+  <main class="app">
 
   <div class="chrome" id="chrome">
     <a class="tools-link" href="/tools/" aria-label="All the tools">&larr;&#8202;tools</a>
@@ -236,7 +214,7 @@ layout: null
 
   <a class="notes-cue" href="#notes">notes <span class="amp">&amp;</span> questions &darr;</a>
 
-  </div><!-- /.app -->
+  </main><!-- /.app -->
 
   <footer class="notes" id="notes">
     <div class="notes-inner">
@@ -256,7 +234,7 @@ layout: null
       <h3>Why does the moon look flipped from the southern hemisphere?</h3>
       <p>The page draws the moon as seen from the northern hemisphere, where a waxing moon lights up from the right. South of the equator the same moon stands the other way up, so the lit side appears mirrored.</p>
 
-      <p class="notes-links">More instruments: <a href="/twilight/">&#304;stanbul&rsquo;s twilight and sun times</a>, <a href="/season/">the turn of the seasons</a>, <a href="/days/">days between dates</a>, <a href="/clock/">a fullscreen clock</a>, <a href="/write/">a blank page to write on</a>, <a href="/draw/">a blank page to draw on</a>, <a href="/words/">a word counter</a>, <a href="/clean/">a text cleaner</a>, <a href="/diff/">a comparison of two texts</a>, <a href="/marks/">typographic marks to copy</a>, <a href="/lots/">a name draw for classrooms</a>, <a href="/breathe/">a breathing exercise</a> and <a href="/noise/">ambient noise and rain</a>&mdash;or see <a href="/tools/">all the tools</a>.</p>
+      {% include tool-links.html slug="moon" %}
     </div>
   </footer>
 

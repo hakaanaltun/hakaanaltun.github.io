@@ -13,54 +13,40 @@ layout: null
 <meta property="og:title" content="The Clean—Fix Quotes, Dashes &amp; Spaces in Pasted Text">
 <meta property="og:description" content="Straight quotes curled, dashes and ellipses set right, stray spaces and invisible characters removed—plus Turkish-aware case conversion.">
 <meta property="og:url" content="https://hakanaltun.io/clean/">
+<meta property="og:image" content="https://hakanaltun.io/images/og/clean.png?v=20260718-1">
+<meta property="og:image:alt" content="The Clean—fix quotes, dashes & spaces in pasted text">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Clean—Fix Quotes, Dashes &amp; Spaces in Pasted Text">
+<meta name="twitter:description" content="Straight quotes curled, dashes and ellipses set right, stray spaces and invisible characters removed—plus Turkish-aware case conversion.">
+<meta name="twitter:image" content="https://hakanaltun.io/images/og/clean.png?v=20260718-1">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#FFFFFF">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#191712">
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebApplication",
-      "@id": "https://hakanaltun.io/clean/#app",
-      "name": "The Clean—Fix Quotes, Dashes & Spaces in Pasted Text, with Turkish-Aware Case Conversion",
-      "url": "https://hakanaltun.io/clean/",
-      "description": "Paste a draft and get it back with proper typography: straight quotes curled, -- and --- turned into dashes, three dots into an ellipsis, doubled spaces and invisible characters removed—plus lowercase, UPPERCASE, sentence case and title case that handle Turkish i/İ and ı/I correctly.",
-      "applicationCategory": "UtilitiesApplication",
-      "operatingSystem": "Any",
-      "browserRequirements": "Requires JavaScript",
-      "isAccessibleForFree": true,
-      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-      "author": { "@type": "Person", "name": "Hakan Altun", "url": "https://hakanaltun.io/" },
-      "inLanguage": "en"
-    },
-    {
-      "@type": "FAQPage",
-      "@id": "https://hakanaltun.io/clean/#faq",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "How do I convert straight quotes to curly quotes?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Paste the text and press Clean. Every straight double and single quote is turned the right way—“ ” and ‘ ’—apostrophes become ’, decade abbreviations like ’90s curl toward the numbers, and measurements such as 5'10\" are left alone. The line under the button reports how many were curled." }
-        },
-        {
-          "@type": "Question",
-          "name": "What does it do with -- and ...?",
-          "acceptedAnswer": { "@type": "Answer", "text": "A double hyphen becomes an en dash (–), a triple hyphen an em dash (—), and a hyphen between numbers—1914-1918—becomes the en dash a range wants. Three dots become a single ellipsis character (…)." }
-        },
-        {
-          "@type": "Question",
-          "name": "Why do ordinary case converters break Turkish?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Turkish has two i's—dotted i/İ and dotless ı/I—so İstanbul must lowercase to istanbul and ırmak must uppercase to IRMAK. Converters that only know English map both to the English i/I pair and produce İSTANBUL as ISTANBUL or istanbul as İSTANBUL wrongly. With the Turkish box ticked, all four case buttons use the Turkish mapping." }
-        },
-        {
-          "@type": "Question",
-          "name": "Where does my text go?",
-          "acceptedAnswer": { "@type": "Answer", "text": "It is cleaned in this browser and sent nowhere; the page keeps the text in local storage so it is still there if the tab closes. Clearing the browser's site data clears it too." }
-        }
-      ]
-    }
-  ]
+  "@type": "WebApplication",
+  "@id": "https://hakanaltun.io/clean/#app",
+  "name": "The Clean—Fix Quotes, Dashes & Spaces in Pasted Text, with Turkish-Aware Case Conversion",
+  "url": "https://hakanaltun.io/clean/",
+  "description": "Paste a draft and get it back with proper typography: straight quotes curled, -- and --- turned into dashes, three dots into an ellipsis, doubled spaces and invisible characters removed—plus lowercase, UPPERCASE, sentence case and title case that handle Turkish i/İ and ı/I correctly.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "browserRequirements": "Requires JavaScript",
+  "isAccessibleForFree": true,
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Hakan Altun",
+    "url": "https://hakanaltun.io/"
+  },
+  "inLanguage": "en"
 }
 </script>
 
@@ -333,7 +319,7 @@ layout: null
       <h3>Where does my text go?</h3>
       <p>It is cleaned in this browser and sent nowhere; the page keeps the text in local storage so it is still there if the tab closes. Clearing the browser&rsquo;s site data clears it too.</p>
 
-      <p class="notes-links">More instruments: <a href="/clock/">a fullscreen clock with pomodoro</a>, <a href="/write/">a blank page to write on</a>, <a href="/draw/">a blank page to draw on</a>, <a href="/words/">a word counter</a>, <a href="/diff/">a comparison of two texts</a>, <a href="/marks/">typographic marks to copy</a>, <a href="/lots/">a name draw for classrooms</a>, <a href="/noise/">ambient noise and rain</a>, <a href="/breathe/">a breathing exercise</a>, <a href="/twilight/">&#304;stanbul&rsquo;s twilight</a>, <a href="/days/">days between dates</a>, <a href="/moon/">the phase of the moon</a> and <a href="/season/">the turn of the seasons</a>&mdash;or see <a href="/tools/">all the tools</a>.</p>
+      {% include tool-links.html slug="clean" %}
     </div>
   </footer>
 

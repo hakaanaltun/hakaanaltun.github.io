@@ -13,53 +13,39 @@ layout: null
 <meta property="og:title" content="The Season—Days Until the Next Solstice or Equinox &amp; Year Progress">
 <meta property="og:description" content="Where the year stands: the current season, the road to the next solstice or equinox, and the year's progress.">
 <meta property="og:url" content="https://hakanaltun.io/season/">
+<meta property="og:image" content="https://hakanaltun.io/images/og/season.png?v=20260718-1">
+<meta property="og:image:alt" content="The Season—days until the next solstice or equinox">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Season—Days Until the Next Solstice or Equinox &amp; Year Progress">
+<meta name="twitter:description" content="Where the year stands: the current season, the road to the next solstice or equinox, and the year's progress.">
+<meta name="twitter:image" content="https://hakanaltun.io/images/og/season.png?v=20260718-1">
 <meta name="theme-color" content="#101720">
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebApplication",
-      "@id": "https://hakanaltun.io/season/#app",
-      "name": "The Season—Days Until the Next Solstice or Equinox & Year Progress",
-      "url": "https://hakanaltun.io/season/",
-      "description": "The current astronomical season, the days until the next solstice or equinox with its exact date and time, and the year's progress—computed live for the northern hemisphere.",
-      "applicationCategory": "UtilitiesApplication",
-      "operatingSystem": "Any",
-      "browserRequirements": "Requires JavaScript",
-      "isAccessibleForFree": true,
-      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-      "author": { "@type": "Person", "name": "Hakan Altun", "url": "https://hakanaltun.io/" },
-      "inLanguage": "en"
-    },
-    {
-      "@type": "FAQPage",
-      "@id": "https://hakanaltun.io/season/#faq",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "When is the next solstice or equinox?",
-          "acceptedAnswer": { "@type": "Answer", "text": "The page computes it live whenever you open it: the next of the four turning points—March equinox, June solstice, September equinox, December solstice—with its date, its local İstanbul time and the days remaining. The instants come from a standard astronomical series and are good to well within the hour." }
-        },
-        {
-          "@type": "Question",
-          "name": "What is the difference between astronomical and meteorological seasons?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Astronomical seasons begin at the solstices and equinoxes—the sun's actual turning points—so summer starts about 21 June. Meteorological seasons are the statistician's tidy version, whole months at a time: summer is June, July, August. This page keeps the astronomical calendar." }
-        },
-        {
-          "@type": "Question",
-          "name": "Why do the dates shift from year to year?",
-          "acceptedAnswer": { "@type": "Answer", "text": "A tropical year runs about 365 days and a quarter, so each turning point drifts nearly six hours later every year until a leap year pulls it back a day. That is why the March equinox can fall on the 19th, 20th or 21st depending on the year and your time zone." }
-        },
-        {
-          "@type": "Question",
-          "name": "Is this page for the northern hemisphere?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Yes—the season names follow the northern sky, where June brings the summer solstice. South of the equator the same instants hold but the seasons are reversed: a northern summer solstice opens the southern winter." }
-        }
-      ]
-    }
-  ]
+  "@type": "WebApplication",
+  "@id": "https://hakanaltun.io/season/#app",
+  "name": "The Season—Days Until the Next Solstice or Equinox & Year Progress",
+  "url": "https://hakanaltun.io/season/",
+  "description": "The current astronomical season, the days until the next solstice or equinox with its exact date and time, and the year's progress—computed live for the northern hemisphere.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "browserRequirements": "Requires JavaScript",
+  "isAccessibleForFree": true,
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Hakan Altun",
+    "url": "https://hakanaltun.io/"
+  },
+  "inLanguage": "en"
 }
 </script>
 
@@ -212,7 +198,7 @@ layout: null
 </head>
 <body>
 
-  <div class="app">
+  <main class="app">
 
   <div class="chrome" id="chrome">
     <a class="tools-link" href="/tools/" aria-label="All the tools">&larr;&#8202;tools</a>
@@ -242,7 +228,7 @@ layout: null
 
   <a class="notes-cue" href="#notes">notes <span class="amp">&amp;</span> questions &darr;</a>
 
-  </div><!-- /.app -->
+  </main><!-- /.app -->
 
   <footer class="notes" id="notes">
     <div class="notes-inner">
@@ -262,7 +248,7 @@ layout: null
       <h3>Is this page for the northern hemisphere?</h3>
       <p>Yes&mdash;the season names follow the northern sky, where June brings the summer solstice. South of the equator the same instants hold but the seasons are reversed: a northern summer solstice opens the southern winter.</p>
 
-      <p class="notes-links">More instruments: <a href="/moon/">the phase of the moon</a>, <a href="/twilight/">&#304;stanbul&rsquo;s twilight</a>, <a href="/days/">days between dates</a>, <a href="/clock/">a fullscreen clock with pomodoro</a>, <a href="/write/">a blank page to write on</a>, <a href="/words/">a word counter</a>, <a href="/clean/">a text cleaner</a>, <a href="/marks/">typographic marks to copy</a>, <a href="/lots/">a name draw for classrooms</a>, <a href="/draw/">a blank page to draw on</a>, <a href="/diff/">a comparison of two texts</a>, <a href="/breathe/">a breathing exercise</a> and <a href="/noise/">ambient noise and rain</a>&mdash;or see <a href="/tools/">all the tools</a>.</p>
+      {% include tool-links.html slug="season" %}
     </div>
   </footer>
 

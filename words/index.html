@@ -27,58 +27,26 @@ layout: null
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebApplication",
-      "@id": "https://hakanaltun.io/words/#app",
-      "name": "The Counter—Word Counter with Reading Time & Readability",
-      "url": "https://hakanaltun.io/words/",
-      "description": "A free word counter: words, characters with and without spaces, sentences, paragraphs, reading time and speaking time—plus readability: Flesch Reading Ease, sentence lengths and their distribution. Counted live as you type or paste.",
-      "applicationCategory": "UtilitiesApplication",
-      "operatingSystem": "Any",
-      "browserRequirements": "Requires JavaScript",
-      "isAccessibleForFree": true,
-      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-      "author": { "@type": "Person", "name": "Hakan Altun", "url": "https://hakanaltun.io/" },
-      "inLanguage": "en"
-    },
-    {
-      "@type": "FAQPage",
-      "@id": "https://hakanaltun.io/words/#faq",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "What counts as a word?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Any run of characters separated by spaces or line breaks—so a hyphenated pair like well-worn is one word, and numbers count like words. This matches what most word processors report." }
-        },
-        {
-          "@type": "Question",
-          "name": "How are reading and speaking time estimated?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Reading time assumes about 225 words per minute of silent reading; speaking time assumes about 130 words per minute aloud—a comfortable pace for a talk or a lecture. Both are estimates, rounded to the nearest minute." }
-        },
-        {
-          "@type": "Question",
-          "name": "What is the difference between characters with and without spaces?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Characters counts everything you typed, including spaces and line breaks—this is what most platform limits mean by characters. Without spaces drops all whitespace and keeps only the visible marks." }
-        },
-        {
-          "@type": "Question",
-          "name": "What is the Flesch Reading Ease score?",
-          "acceptedAnswer": { "@type": "Answer", "text": "A classic readability measure built from sentence length and syllables per word: the higher the score, the easier the text reads. Around 90 is very easy, 60–70 is plain prose, below 30 is dense academic writing. The page shows it once your text has at least three sentences." }
-        },
-        {
-          "@type": "Question",
-          "name": "How accurate are the readability numbers?",
-          "acceptedAnswer": { "@type": "Answer", "text": "They are estimates. Syllables are counted with a standard English heuristic, and the Flesch formula itself was designed for English—so treat the score as a mirror to glance at, not a grade, and expect it to wobble for other languages." }
-        },
-        {
-          "@type": "Question",
-          "name": "Is my text uploaded anywhere?",
-          "acceptedAnswer": { "@type": "Answer", "text": "It is counted right here in the browser as you type, and kept in local storage so it survives a reload—it travels no further than your device." }
-        }
-      ]
-    }
-  ]
+  "@type": "WebApplication",
+  "@id": "https://hakanaltun.io/words/#app",
+  "name": "The Counter—Word Counter with Reading Time & Readability",
+  "url": "https://hakanaltun.io/words/",
+  "description": "A free word counter: words, characters with and without spaces, sentences, paragraphs, reading time and speaking time—plus readability: Flesch Reading Ease, sentence lengths and their distribution. Counted live as you type or paste.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "browserRequirements": "Requires JavaScript",
+  "isAccessibleForFree": true,
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Hakan Altun",
+    "url": "https://hakanaltun.io/"
+  },
+  "inLanguage": "en"
 }
 </script>
 
@@ -274,7 +242,7 @@ layout: null
 </head>
 <body>
 
-  <div class="app">
+  <main class="app">
 
   <div class="chrome" id="chrome">
     <a class="tools-link" href="/tools/" aria-label="All the tools">&larr;&#8202;tools</a>
@@ -338,7 +306,7 @@ layout: null
 
   <a class="notes-cue" href="#notes">notes <span class="amp">&amp;</span> questions &darr;</a>
 
-  </div><!-- /.app -->
+  </main><!-- /.app -->
 
   <footer class="notes" id="notes">
     <div class="notes-inner">
@@ -364,7 +332,7 @@ layout: null
       <h3>Is my text uploaded anywhere?</h3>
       <p>It is counted right here in the browser as you type, and kept in local storage so it survives a reload&mdash;it travels no further than your device.</p>
 
-      <p class="notes-links">More instruments: <a href="/write/">a blank page to write on</a>, <a href="/diff/">a comparison of two texts</a>, <a href="/clean/">a text cleaner</a>, <a href="/marks/">typographic marks to copy</a>, <a href="/lots/">a name draw for classrooms</a>, <a href="/draw/">a blank page to draw on</a>, <a href="/days/">days between dates</a>, <a href="/clock/">a fullscreen clock with pomodoro</a>, <a href="/breathe/">a breathing exercise</a>, <a href="/noise/">ambient noise and rain</a>, <a href="/moon/">the phase of the moon</a>, <a href="/season/">the turn of the seasons</a> and <a href="/twilight/">&#304;stanbul&rsquo;s twilight</a>&mdash;or see <a href="/tools/">all the tools</a>.</p>
+      {% include tool-links.html slug="words" %}
     </div>
   </footer>
 
