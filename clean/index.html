@@ -342,7 +342,7 @@ layout: null
   var saveT;
   function grow(){ ta.style.height = "auto"; ta.style.height = ta.scrollHeight + "px"; }
   function syncTr(){
-    if(!trTouched) trToggle.checked = /[ıİşğç]/.test(ta.value);
+    if(!trTouched) trToggle.checked = /[ıİşŞğĞçÇ]/.test(ta.value);
   }
   ta.addEventListener("input", function(){
     grow(); syncTr();
