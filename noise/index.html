@@ -26,53 +26,26 @@ layout: null
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebApplication",
-      "@id": "https://hakanaltun.io/noise/#app",
-      "name": "The Noise—White, Pink & Brown Noise, and Rain",
-      "url": "https://hakanaltun.io/noise/",
-      "description": "A sound machine for focus and sleep: white, pink and brown noise, and steady rain—all synthesized live in your browser, no recordings, with a volume dial and a sleep timer.",
-      "applicationCategory": "UtilitiesApplication",
-      "operatingSystem": "Any",
-      "browserRequirements": "Requires JavaScript and Web Audio",
-      "isAccessibleForFree": true,
-      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-      "author": { "@type": "Person", "name": "Hakan Altun", "url": "https://hakanaltun.io/" },
-      "inLanguage": "en"
-    },
-    {
-      "@type": "FAQPage",
-      "@id": "https://hakanaltun.io/noise/#faq",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "What is the difference between white, pink and brown noise?",
-          "acceptedAnswer": { "@type": "Answer", "text": "White noise spreads its energy evenly across all frequencies and sounds bright, like static. Pink noise tilts toward the low end and sounds like steady rain. Brown noise leans lower still—closer to surf or a distant waterfall—and many people find it the easiest to sit inside for hours." }
-        },
-        {
-          "@type": "Question",
-          "name": "Where does the sound come from?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Your browser synthesizes it the moment you press play, shaping each color live from raw randomness. Because the sound is computed rather than recorded, it carries on indefinitely and never loops." }
-        },
-        {
-          "@type": "Question",
-          "name": "How is the rain made?",
-          "acceptedAnswer": { "@type": "Answer", "text": "It is synthesized live like the noise colors—no recordings. A bed of filtered noise breathes slowly underneath while random bursts, each a few milliseconds long at a random pitch, fall through it as droplets. Because every drop is drawn fresh from randomness, the rain never loops—which is also why it does not sound quite like a recording of any one real roof." }
-        },
-        {
-          "@type": "Question",
-          "name": "Will it keep playing if I switch tabs or lock my phone?",
-          "acceptedAnswer": { "@type": "Answer", "text": "In a background tab on a computer, yes. On phones the operating system may pause web audio when the screen locks—keep the page in the foreground, or use the sleep timer and let it fade out on its own." }
-        },
-        {
-          "@type": "Question",
-          "name": "Is it safe to fall asleep to?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Keep the volume modest—comfortably below conversation level—and use the sleep timer, which fades the sound out gently after 15, 30 or 60 minutes so it doesn't play all night." }
-        }
-      ]
-    }
-  ]
+  "@type": "WebApplication",
+  "@id": "https://hakanaltun.io/noise/#app",
+  "name": "The Noise—White, Pink & Brown Noise, and Rain",
+  "url": "https://hakanaltun.io/noise/",
+  "description": "A sound machine for focus and sleep: white, pink and brown noise, and steady rain—all synthesized live in your browser, no recordings, with a volume dial and a sleep timer.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "browserRequirements": "Requires JavaScript and Web Audio",
+  "isAccessibleForFree": true,
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Hakan Altun",
+    "url": "https://hakanaltun.io/"
+  },
+  "inLanguage": "en"
 }
 </script>
 
@@ -250,7 +223,7 @@ layout: null
 </head>
 <body>
 
-  <div class="app">
+  <main class="app">
 
   <div class="chrome" id="chrome">
     <a class="tools-link" href="/tools/" aria-label="All the tools">&larr;&#8202;tools</a>
@@ -297,7 +270,7 @@ layout: null
 
   <a class="notes-cue" href="#notes">notes <span class="amp">&amp;</span> questions &darr;</a>
 
-  </div><!-- /.app -->
+  </main><!-- /.app -->
 
   <footer class="notes" id="notes">
     <div class="notes-inner">
@@ -320,7 +293,7 @@ layout: null
       <h3>Is it safe to fall asleep to?</h3>
       <p>Keep the volume modest&mdash;comfortably below conversation level&mdash;and use the sleep timer, which fades the sound out gently after 15, 30 or 60 minutes so it doesn&rsquo;t play all night.</p>
 
-      <p class="notes-links">More instruments: <a href="/breathe/">a breathing exercise</a>, <a href="/clock/">a fullscreen clock with pomodoro</a>, <a href="/write/">a blank page to write on</a>, <a href="/draw/">a blank page to draw on</a>, <a href="/words/">a word counter</a>, <a href="/clean/">a text cleaner</a>, <a href="/diff/">a comparison of two texts</a>, <a href="/marks/">typographic marks to copy</a>, <a href="/lots/">a name draw for classrooms</a>, <a href="/days/">days between dates</a>, <a href="/moon/">the phase of the moon</a>, <a href="/season/">the turn of the seasons</a> and <a href="/twilight/">&#304;stanbul&rsquo;s twilight</a>&mdash;or see <a href="/tools/">all the tools</a>.</p>
+      {% include tool-links.html slug="noise" %}
     </div>
   </footer>
 

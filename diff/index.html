@@ -13,54 +13,40 @@ layout: null
 <meta property="og:title" content="The Diff—Compare Two Texts Online, Free">
 <meta property="og:description" content="Paste a before and an after and see every word added or removed—for writers checking revisions.">
 <meta property="og:url" content="https://hakanaltun.io/diff/">
+<meta property="og:image" content="https://hakanaltun.io/images/og/diff.png?v=20260718-1">
+<meta property="og:image:alt" content="The Diff—compare two texts online">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Diff—Compare Two Texts Online, Free">
+<meta name="twitter:description" content="Paste a before and an after and see every word added or removed—for writers checking revisions.">
+<meta name="twitter:image" content="https://hakanaltun.io/images/og/diff.png?v=20260718-1">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#FFFFFF">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#191712">
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebApplication",
-      "@id": "https://hakanaltun.io/diff/#app",
-      "name": "The Diff—Compare Two Texts Online",
-      "url": "https://hakanaltun.io/diff/",
-      "description": "Compare two texts or drafts online: paste a before and an after, and see every word added or removed—for writers checking revisions.",
-      "applicationCategory": "UtilitiesApplication",
-      "operatingSystem": "Any",
-      "browserRequirements": "Requires JavaScript",
-      "isAccessibleForFree": true,
-      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-      "author": { "@type": "Person", "name": "Hakan Altun", "url": "https://hakanaltun.io/" },
-      "inLanguage": "en"
-    },
-    {
-      "@type": "FAQPage",
-      "@id": "https://hakanaltun.io/diff/#faq",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "Where do my texts go?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Nowhere. Both texts are compared entirely in this browser and kept only in its local storage so an accidental tab close loses nothing—they are never uploaded or sent anywhere." }
-        },
-        {
-          "@type": "Question",
-          "name": "How large can the texts be?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Essays and stories of several thousand words compare comfortably. The page first matches whole paragraphs and then looks inside the changed ones, so even long drafts stay quick; only two texts with almost nothing in common take noticeably longer." }
-        },
-        {
-          "@type": "Question",
-          "name": "What is the difference between word and character comparison?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Word mode treats each word as the unit, which reads best for prose. Character mode looks inside the words themselves, so a fixed typo or a changed ending shows as the two or three letters that actually moved, not the whole word." }
-        },
-        {
-          "@type": "Question",
-          "name": "Can I compare drafts of an essay or story?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Yes—that is what the page is for. Paste yesterday's draft on the left and today's on the right, and the result shows the revision as a reader would see it: what was cut struck through, what arrived quietly highlighted." }
-        }
-      ]
-    }
-  ]
+  "@type": "WebApplication",
+  "@id": "https://hakanaltun.io/diff/#app",
+  "name": "The Diff—Compare Two Texts Online",
+  "url": "https://hakanaltun.io/diff/",
+  "description": "Compare two texts or drafts online: paste a before and an after, and see every word added or removed—for writers checking revisions.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "browserRequirements": "Requires JavaScript",
+  "isAccessibleForFree": true,
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Hakan Altun",
+    "url": "https://hakanaltun.io/"
+  },
+  "inLanguage": "en"
 }
 </script>
 
@@ -313,7 +299,7 @@ layout: null
       <h3>Can I compare drafts of an essay or story?</h3>
       <p>Yes&mdash;that is what the page is for. Paste the earlier draft on the left and the later one on the right, and the result shows the revision as a reader would see it.</p>
 
-      <p class="notes-links">More instruments: <a href="/write/">a blank page to write on</a>, <a href="/words/">a word counter</a>, <a href="/clean/">a text cleaner</a>, <a href="/marks/">typographic marks to copy</a>, <a href="/lots/">a name draw for classrooms</a>, <a href="/draw/">a blank page to draw on</a>, <a href="/days/">days between dates</a>, <a href="/clock/">a fullscreen clock with pomodoro</a>, <a href="/breathe/">a breathing exercise</a>, <a href="/noise/">ambient noise and rain</a>, <a href="/moon/">the phase of the moon</a>, <a href="/season/">the turn of the seasons</a> and <a href="/twilight/">&#304;stanbul&rsquo;s twilight</a>&mdash;or see <a href="/tools/">all the tools</a>.</p>
+      {% include tool-links.html slug="diff" %}
     </div>
   </footer>
 

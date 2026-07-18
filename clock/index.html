@@ -26,53 +26,26 @@ layout: null
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebApplication",
-      "@id": "https://hakanaltun.io/clock/#app",
-      "name": "The Clock—Fullscreen Clock, Countdown, Stopwatch & Pomodoro",
-      "url": "https://hakanaltun.io/clock/",
-      "description": "A clean, ad-free fullscreen clock with a countdown, stopwatch and pomodoro timer. Large tabular numerals, an analog view, and a distraction-free display—made for classrooms, exams and focused work.",
-      "applicationCategory": "UtilitiesApplication",
-      "operatingSystem": "Any",
-      "browserRequirements": "Requires JavaScript",
-      "isAccessibleForFree": true,
-      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-      "author": { "@type": "Person", "name": "Hakan Altun", "url": "https://hakanaltun.io/" },
-      "inLanguage": "en"
-    },
-    {
-      "@type": "FAQPage",
-      "@id": "https://hakanaltun.io/clock/#faq",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "How do I make the clock fullscreen?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Press the button in the top right corner, or F11 on most keyboards. The controls fade out after a moment; moving the mouse or touching the screen brings them back." }
-        },
-        {
-          "@type": "Question",
-          "name": "Can I link straight to a running countdown?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Add ?until= to the address: /clock/?until=2026-09-01T09:00 opens the page already counting down to that moment, and &label=Exam places a caption under the numbers. A bare time such as ?until=13:30 counts down to the next half past one." }
-        },
-        {
-          "@type": "Question",
-          "name": "Will the timers survive a page reload?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Yes. The countdown and the pomodoro aim at a fixed end time and the stopwatch remembers when it started, so a reload—or a laptop going to sleep—picks up exactly where you left off." }
-        },
-        {
-          "@type": "Question",
-          "name": "How do I switch to the analog face?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Click or tap the digits themselves and an analog face takes their place; click the face to return to digits. The page remembers which one you prefer." }
-        },
-        {
-          "@type": "Question",
-          "name": "Where are my settings kept?",
-          "acceptedAnswer": { "@type": "Answer", "text": "In your browser's local storage, on your device. The running timers, the background color and the seconds toggle are all waiting there the next time you open the page." }
-        }
-      ]
-    }
-  ]
+  "@type": "WebApplication",
+  "@id": "https://hakanaltun.io/clock/#app",
+  "name": "The Clock—Fullscreen Clock, Countdown, Stopwatch & Pomodoro",
+  "url": "https://hakanaltun.io/clock/",
+  "description": "A clean, ad-free fullscreen clock with a countdown, stopwatch and pomodoro timer. Large tabular numerals, an analog view, and a distraction-free display—made for classrooms, exams and focused work.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "browserRequirements": "Requires JavaScript",
+  "isAccessibleForFree": true,
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Hakan Altun",
+    "url": "https://hakanaltun.io/"
+  },
+  "inLanguage": "en"
 }
 </script>
 
@@ -278,6 +251,8 @@ layout: null
   /* notes — reading matter under the instrument */
   .notes{ border-top:1px solid var(--line); padding:60px 26px 84px; }
   .notes-inner{ max-width:640px; margin:0 auto; }
+  .notes h1{ font-family:var(--display); font-style:italic; font-weight:400; font-size:2rem; margin:0 0 .3rem; color:var(--fg); }
+  .notes .notes-lede{ font-style:italic; margin:0 0 2.2rem; }
   .notes h2{ font-family:var(--display); font-style:italic; font-weight:400; font-size:1.6rem; margin:2.4rem 0 1rem; color:var(--fg); }
   .notes h2:first-child{ margin-top:0; }
   .notes h3{ font-family:var(--body); font-style:italic; font-weight:400; font-size:1.15rem; margin:1.5rem 0 .35rem; color:var(--fg); }
@@ -344,7 +319,7 @@ layout: null
 </head>
 <body>
 
-  <div class="app">
+  <main class="app">
 
   <div class="chrome" id="chrome">
     <a class="tools-link" href="/tools/" aria-label="All the tools">&larr;&#8202;tools</a>
@@ -448,10 +423,13 @@ layout: null
 
   <a class="notes-cue" href="#notes">notes <span class="amp">&amp;</span> questions &darr;</a>
 
-  </div><!-- /.app -->
+  </main><!-- /.app -->
 
   <footer class="notes" id="notes">
     <div class="notes-inner">
+      <h1>The Clock</h1>
+      <p class="notes-lede">A fullscreen clock, countdown, stopwatch and pomodoro.</p>
+
       <h2>About this clock</h2>
       <p>A fullscreen clock for classrooms, exams, presentations and focused work, with a countdown timer, a stopwatch and a pomodoro timer on the same page. The numerals are cut large enough to read from the back row; click them and an analog face takes their place. The palette in the corner changes the background, the fullscreen button clears everything else away, and the page remembers your settings between visits.</p>
 
@@ -471,7 +449,7 @@ layout: null
       <h3>Where are my settings kept?</h3>
       <p>In your browser&rsquo;s local storage, on your device. The running timers, the background color and the seconds toggle are all waiting there the next time you open the page.</p>
 
-      <p class="notes-links">More instruments: <a href="/days/">days between dates</a>, <a href="/write/">a blank page to write on</a>, <a href="/draw/">a blank page to draw on</a>, <a href="/words/">a word counter</a>, <a href="/clean/">a text cleaner</a>, <a href="/diff/">a comparison of two texts</a>, <a href="/marks/">typographic marks to copy</a>, <a href="/lots/">a name draw for classrooms</a>, <a href="/breathe/">a breathing exercise</a>, <a href="/noise/">ambient noise and rain</a>, <a href="/moon/">the phase of the moon</a>, <a href="/season/">the turn of the seasons</a> and <a href="/twilight/">&#304;stanbul&rsquo;s twilight</a>&mdash;or see <a href="/tools/">all the tools</a>.</p>
+      {% include tool-links.html slug="clock" %}
     </div>
   </footer>
 

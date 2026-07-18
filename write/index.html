@@ -27,48 +27,26 @@ layout: null
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebApplication",
-      "@id": "https://hakanaltun.io/write/#app",
-      "name": "The Page—A Blank Page for Distraction-Free Writing",
-      "url": "https://hakanaltun.io/write/",
-      "description": "An ad-free page to write on. Garamond type, a word count, fullscreen, autosave—and nothing else.",
-      "applicationCategory": "UtilitiesApplication",
-      "operatingSystem": "Any",
-      "browserRequirements": "Requires JavaScript",
-      "isAccessibleForFree": true,
-      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-      "author": { "@type": "Person", "name": "Hakan Altun", "url": "https://hakanaltun.io/" },
-      "inLanguage": "en"
-    },
-    {
-      "@type": "FAQPage",
-      "@id": "https://hakanaltun.io/write/#faq",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "Where does my text go?",
-          "acceptedAnswer": { "@type": "Answer", "text": "It stays in this browser, saved to local storage on your device, and reappears when you return. Clearing the browser's site data clears the page too, so download anything you want to keep." }
-        },
-        {
-          "@type": "Question",
-          "name": "Does the page autosave?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Yes—a moment after you pause typing, and again when you leave. Ctrl-S (Cmd-S on a Mac) saves on the spot, and a note in the corner confirms it." }
-        },
-        {
-          "@type": "Question",
-          "name": "Can I save my writing as a file?",
-          "acceptedAnswer": { "@type": "Answer", "text": "The download button in the top right saves the page as a plain .txt file named after today's date." }
-        },
-        {
-          "@type": "Question",
-          "name": "Can I write in fullscreen?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Yes. The fullscreen button clears away everything but the paper, with the word count for company; moving the mouse brings the controls back." }
-        }
-      ]
-    }
-  ]
+  "@type": "WebApplication",
+  "@id": "https://hakanaltun.io/write/#app",
+  "name": "The Page—A Blank Page for Distraction-Free Writing",
+  "url": "https://hakanaltun.io/write/",
+  "description": "An ad-free page to write on. Garamond type, a word count, fullscreen, autosave—and nothing else.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "browserRequirements": "Requires JavaScript",
+  "isAccessibleForFree": true,
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Hakan Altun",
+    "url": "https://hakanaltun.io/"
+  },
+  "inLanguage": "en"
 }
 </script>
 
@@ -197,6 +175,8 @@ layout: null
   /* land clear of the sticky chrome when arriving via the notes cue */
   .notes{ border-top:1px solid var(--line); padding:60px 26px 110px; scroll-margin-top:64px; }
   .notes-inner{ max-width:640px; margin:0 auto; }
+  .notes h1{ font-family:var(--display); font-style:italic; font-weight:400; font-size:2rem; margin:0 0 .3rem; color:var(--ink); }
+  .notes .notes-lede{ font-style:italic; margin:0 0 2.2rem; }
   .notes h2{ font-family:var(--display); font-style:italic; font-weight:400; font-size:1.6rem; margin:2.4rem 0 1rem; color:var(--ink); }
   .notes h2:first-child{ margin-top:0; }
   .notes h3{ font-family:var(--body); font-style:italic; font-weight:400; font-size:1.15rem; margin:1.5rem 0 .35rem; color:var(--ink); }
@@ -223,7 +203,7 @@ layout: null
 </head>
 <body>
 
-  <div class="app">
+  <main class="app">
 
   <div class="chrome" id="chrome">
     <a class="tools-link" href="/tools/" aria-label="All the tools">&larr;&#8202;tools</a>
@@ -262,10 +242,13 @@ layout: null
 
   <a class="notes-cue" href="#notes">notes <span class="amp">&amp;</span> questions &darr;</a>
 
-  </div><!-- /.app -->
+  </main><!-- /.app -->
 
   <footer class="notes" id="notes">
     <div class="notes-inner">
+      <h1>The Page</h1>
+      <p class="notes-lede">A blank page for distraction-free writing.</p>
+
       <h2>About this page</h2>
       <p>A blank page set in Garamond, for morning pages, drafts, letters, or whatever needs an empty sheet. A word count sits in one corner and autosave in the other: the page keeps your text as you write, and it is waiting when you come back. When a draft is done, the download button hands it to you as a plain text file.</p>
 
@@ -282,7 +265,7 @@ layout: null
       <h3>Can I write in fullscreen?</h3>
       <p>Yes. The fullscreen button clears away everything but the paper, with the word count for company; moving the mouse brings the controls back.</p>
 
-      <p class="notes-links">More instruments: <a href="/draw/">a blank page to draw on</a>, <a href="/words/">a word counter</a>, <a href="/clean/">a text cleaner</a>, <a href="/marks/">typographic marks to copy</a>, <a href="/lots/">a name draw for classrooms</a>, <a href="/diff/">a comparison of two texts</a>, <a href="/days/">days between dates</a>, <a href="/clock/">a fullscreen clock with pomodoro</a>, <a href="/breathe/">a breathing exercise</a>, <a href="/noise/">ambient noise and rain</a>, <a href="/moon/">the phase of the moon</a>, <a href="/season/">the turn of the seasons</a> and <a href="/twilight/">&#304;stanbul&rsquo;s twilight</a>&mdash;or see <a href="/tools/">all the tools</a>.</p>
+      {% include tool-links.html slug="write" %}
     </div>
   </footer>
 

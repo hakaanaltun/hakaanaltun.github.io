@@ -26,48 +26,26 @@ layout: null
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebApplication",
-      "@id": "https://hakanaltun.io/breathe/#app",
-      "name": "The Breath—A Guided Breathing Exercise",
-      "url": "https://hakanaltun.io/breathe/",
-      "description": "A guided breathing exercise: box breathing, 4-7-8 and coherent breathing, paced by a slowly swelling circle. Free, fullscreen, ad-free.",
-      "applicationCategory": "HealthApplication",
-      "operatingSystem": "Any",
-      "browserRequirements": "Requires JavaScript",
-      "isAccessibleForFree": true,
-      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-      "author": { "@type": "Person", "name": "Hakan Altun", "url": "https://hakanaltun.io/" },
-      "inLanguage": "en"
-    },
-    {
-      "@type": "FAQPage",
-      "@id": "https://hakanaltun.io/breathe/#faq",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "What is box breathing?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Four equal sides: breathe in for four counts, hold for four, breathe out for four, hold for four. The even square of it steadies attention, which is why it is taught to people who must stay calm under pressure." }
-        },
-        {
-          "@type": "Question",
-          "name": "What is 4-7-8 breathing?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Breathe in for four counts, hold for seven, and let the breath out slowly for eight. The long exhale leans on the body's own braking system, and many people use a few rounds of it before sleep." }
-        },
-        {
-          "@type": "Question",
-          "name": "What is coherent breathing?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Even five-count breaths in and out—about six breaths a minute, with no holds. It is the gentlest of the three and comfortable to keep up for several minutes." }
-        },
-        {
-          "@type": "Question",
-          "name": "How long should I practice?",
-          "acceptedAnswer": { "@type": "Answer", "text": "A few minutes is plenty; even four or five rounds can settle things. Stop and breathe normally if you feel light-headed. This page is a relaxation exercise, not medical advice or treatment." }
-        }
-      ]
-    }
-  ]
+  "@type": "WebApplication",
+  "@id": "https://hakanaltun.io/breathe/#app",
+  "name": "The Breath—A Guided Breathing Exercise",
+  "url": "https://hakanaltun.io/breathe/",
+  "description": "A guided breathing exercise: box breathing, 4-7-8 and coherent breathing, paced by a slowly swelling circle. Free, fullscreen, ad-free.",
+  "applicationCategory": "HealthApplication",
+  "operatingSystem": "Any",
+  "browserRequirements": "Requires JavaScript",
+  "isAccessibleForFree": true,
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Hakan Altun",
+    "url": "https://hakanaltun.io/"
+  },
+  "inLanguage": "en"
 }
 </script>
 
@@ -230,7 +208,7 @@ layout: null
 </head>
 <body>
 
-  <div class="app">
+  <main class="app">
 
   <div class="chrome" id="chrome">
     <a class="tools-link" href="/tools/" aria-label="All the tools">&larr;&#8202;tools</a>
@@ -268,7 +246,7 @@ layout: null
 
   <a class="notes-cue" href="#notes">notes <span class="amp">&amp;</span> questions &darr;</a>
 
-  </div><!-- /.app -->
+  </main><!-- /.app -->
 
   <footer class="notes" id="notes">
     <div class="notes-inner">
@@ -288,7 +266,7 @@ layout: null
       <h3>How long should I practice?</h3>
       <p>A few minutes is plenty; even four or five rounds can settle things. Stop and breathe normally if you feel light-headed. This page is a relaxation exercise, not medical advice or treatment.</p>
 
-      <p class="notes-links">More instruments: <a href="/noise/">ambient noise and rain</a>, <a href="/clock/">a fullscreen clock with pomodoro</a>, <a href="/write/">a blank page to write on</a>, <a href="/draw/">a blank page to draw on</a>, <a href="/words/">a word counter</a>, <a href="/clean/">a text cleaner</a>, <a href="/diff/">a comparison of two texts</a>, <a href="/marks/">typographic marks to copy</a>, <a href="/lots/">a name draw for classrooms</a>, <a href="/days/">days between dates</a>, <a href="/moon/">the phase of the moon</a>, <a href="/season/">the turn of the seasons</a> and <a href="/twilight/">&#304;stanbul&rsquo;s twilight</a>&mdash;or see <a href="/tools/">all the tools</a>.</p>
+      {% include tool-links.html slug="breathe" %}
     </div>
   </footer>
 

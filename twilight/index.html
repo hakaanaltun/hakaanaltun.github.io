@@ -26,48 +26,26 @@ layout: null
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebApplication",
-      "@id": "https://hakanaltun.io/twilight/#app",
-      "name": "Twilight—Sunrise, Sunset & Civil Twilight Today",
-      "url": "https://hakanaltun.io/twilight/",
-      "description": "Today's sunrise, sunset, civil twilight and day length for İstanbul and a handful of other cities. The page follows the color of the sky in real time.",
-      "applicationCategory": "UtilitiesApplication",
-      "operatingSystem": "Any",
-      "browserRequirements": "Requires JavaScript",
-      "isAccessibleForFree": true,
-      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-      "author": { "@type": "Person", "name": "Hakan Altun", "url": "https://hakanaltun.io/" },
-      "inLanguage": "en"
-    },
-    {
-      "@type": "FAQPage",
-      "@id": "https://hakanaltun.io/twilight/#faq",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "What is civil twilight?",
-          "acceptedAnswer": { "@type": "Answer", "text": "The stretch when the sun sits less than six degrees below the horizon—civil dawn before sunrise, civil dusk after sunset. There is usually enough light to read outside, and it is the boundary many countries use for headlights and flight rules." }
-        },
-        {
-          "@type": "Question",
-          "name": "How accurate are the times?",
-          "acceptedAnswer": { "@type": "Answer", "text": "They are computed with a standard almanac algorithm and usually land within a minute or two of published tables. Horizon, altitude and unusual atmospheric refraction can shift the real moment slightly." }
-        },
-        {
-          "@type": "Question",
-          "name": "Can I see a city other than İstanbul?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Pick one from the row beneath the times, or add ?city= to the address, e.g. /twilight/?city=london. The times come from each city's fixed coordinates, shown in that city's own time zone." }
-        },
-        {
-          "@type": "Question",
-          "name": "Why does the page change color?",
-          "acceptedAnswer": { "@type": "Answer", "text": "The background follows the sun's altitude for the chosen city—deep night blue through dawn amber into daylight—recomputed every half minute, so the page always wears the color of the hour." }
-        }
-      ]
-    }
-  ]
+  "@type": "WebApplication",
+  "@id": "https://hakanaltun.io/twilight/#app",
+  "name": "Twilight—Sunrise, Sunset & Civil Twilight Today",
+  "url": "https://hakanaltun.io/twilight/",
+  "description": "Today's sunrise, sunset, civil twilight and day length for İstanbul and a handful of other cities. The page follows the color of the sky in real time.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "browserRequirements": "Requires JavaScript",
+  "isAccessibleForFree": true,
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Hakan Altun",
+    "url": "https://hakanaltun.io/"
+  },
+  "inLanguage": "en"
 }
 </script>
 
@@ -212,7 +190,7 @@ layout: null
 </head>
 <body>
 
-  <div class="app">
+  <main class="app">
 
   <div class="chrome" id="chrome">
     <a class="tools-link" href="/tools/" aria-label="All the tools">&larr;&#8202;tools</a>
@@ -243,7 +221,7 @@ layout: null
 
   <a class="notes-cue" href="#notes">notes <span class="amp">&amp;</span> questions &darr;</a>
 
-  </div><!-- /.app -->
+  </main><!-- /.app -->
 
   <footer class="notes" id="notes">
     <div class="notes-inner">
@@ -263,7 +241,7 @@ layout: null
       <h3>Why does the page change color?</h3>
       <p>The background follows the sun&rsquo;s altitude for the chosen city&mdash;deep night blue through dawn amber into daylight&mdash;recomputed every half minute, so the page always wears the color of the hour.</p>
 
-      <p class="notes-links">More instruments: <a href="/moon/">the phase of the moon</a>, <a href="/season/">the turn of the seasons</a>, <a href="/days/">days between dates</a>, <a href="/clock/">a fullscreen clock</a>, <a href="/write/">a blank page to write on</a>, <a href="/draw/">a blank page to draw on</a>, <a href="/words/">a word counter</a>, <a href="/clean/">a text cleaner</a>, <a href="/diff/">a comparison of two texts</a>, <a href="/marks/">typographic marks to copy</a>, <a href="/lots/">a name draw for classrooms</a>, <a href="/breathe/">a breathing exercise</a> and <a href="/noise/">ambient noise and rain</a>&mdash;or see <a href="/tools/">all the tools</a>.</p>
+      {% include tool-links.html slug="twilight" %}
     </div>
   </footer>
 

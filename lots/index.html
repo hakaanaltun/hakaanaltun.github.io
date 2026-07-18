@@ -13,59 +13,40 @@ layout: null
 <meta property="og:title" content="The Lots—Random Name Picker &amp; Group Maker for Classrooms">
 <meta property="og:description" content="Paste a class list and draw one name at random, or divide the list into groups. Drawn names leave the pool so nobody is called twice, and a saved link restores the pool to continue anywhere.">
 <meta property="og:url" content="https://hakanaltun.io/lots/">
+<meta property="og:image" content="https://hakanaltun.io/images/og/lots.png?v=20260718-1">
+<meta property="og:image:alt" content="The Lots—random name picker & group maker for classrooms">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Lots—Random Name Picker &amp; Group Maker for Classrooms">
+<meta name="twitter:description" content="Paste a class list and draw one name at random, or divide the list into groups. Drawn names leave the pool so nobody is called twice, and a saved link restores the pool to continue anywhere.">
+<meta name="twitter:image" content="https://hakanaltun.io/images/og/lots.png?v=20260718-1">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#FFFFFF">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#191712">
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebApplication",
-      "@id": "https://hakanaltun.io/lots/#app",
-      "name": "The Lots—Random Name Picker & Group Maker for Classrooms",
-      "url": "https://hakanaltun.io/lots/",
-      "description": "Paste a class list and draw one name at random, or divide the list into groups. Drawn names leave the pool so nobody is called twice, the pool shows who is gone and who remains, and a saved link restores it all to continue anywhere. No ads, free.",
-      "applicationCategory": "UtilitiesApplication",
-      "operatingSystem": "Any",
-      "browserRequirements": "Requires JavaScript",
-      "isAccessibleForFree": true,
-      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-      "author": { "@type": "Person", "name": "Hakan Altun", "url": "https://hakanaltun.io/" },
-      "inLanguage": "en"
-    },
-    {
-      "@type": "FAQPage",
-      "@id": "https://hakanaltun.io/lots/#faq",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "How do I pick a random student?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Paste the class list into the box, one name per line (commas work too), and press Draw. One name is chosen at random—the page uses the browser's cryptographic random source, so every name has exactly the same chance—and shown large enough to read from the back row. The fullscreen button turns the drawn name into a projector view." }
-        },
-        {
-          "@type": "Question",
-          "name": "Can it avoid calling the same person twice?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Yes. With 'remove drawn names from the pool' switched on, each drawn name leaves the pool and is listed beneath in draw order. The pool itself is laid out on the page with drawn names struck through, so anyone can see who is gone and who remains. Restore all returns every name to the pool, and switching the toggle off allows repeats." }
-        },
-        {
-          "@type": "Question",
-          "name": "Can I save the pool as a link?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Yes. The address bar always carries the pool's current state—the list, the drawn names and the toggle—so bookmarking the page at any moment keeps it exactly as it stands. 'Copy this pool as a link' copies that address; opening it in any browser restores the same pool and the draw continues from where it left off." }
-        },
-        {
-          "@type": "Question",
-          "name": "How does it divide a list that doesn't split evenly?",
-          "acceptedAnswer": { "@type": "Answer", "text": "The list is shuffled and dealt so the group sizes differ by at most one. Nobody is left in a stub group: dividing 23 names into groups of 5 gives four groups of 5 and 6 rather than four groups of 5 and one person alone." }
-        },
-        {
-          "@type": "Question",
-          "name": "Where does my class list go?",
-          "acceptedAnswer": { "@type": "Answer", "text": "It is kept in this browser's local storage and sent nowhere, so the list is waiting when you return for the next session. Clearing the browser's site data clears the list too. A copied link carries the list inside the address itself, so it travels to another device without any server involved." }
-        }
-      ]
-    }
-  ]
+  "@type": "WebApplication",
+  "@id": "https://hakanaltun.io/lots/#app",
+  "name": "The Lots—Random Name Picker & Group Maker for Classrooms",
+  "url": "https://hakanaltun.io/lots/",
+  "description": "Paste a class list and draw one name at random, or divide the list into groups. Drawn names leave the pool so nobody is called twice, the pool shows who is gone and who remains, and a saved link restores it all to continue anywhere. No ads, free.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "browserRequirements": "Requires JavaScript",
+  "isAccessibleForFree": true,
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Hakan Altun",
+    "url": "https://hakanaltun.io/"
+  },
+  "inLanguage": "en"
 }
 </script>
 
@@ -435,7 +416,7 @@ layout: null
       <h3>Where does my class list go?</h3>
       <p>It is kept in this browser&rsquo;s local storage and sent nowhere, so the list is waiting when you return for the next session. Clearing the browser&rsquo;s site data clears the list too. A copied link carries the list inside the address itself, so it travels to another device without any server involved.</p>
 
-      <p class="notes-links">More instruments: <a href="/clock/">a fullscreen clock with pomodoro</a>, <a href="/write/">a blank page to write on</a>, <a href="/draw/">a blank page to draw on</a>, <a href="/words/">a word counter</a>, <a href="/clean/">a text cleaner</a>, <a href="/diff/">a comparison of two texts</a>, <a href="/marks/">typographic marks to copy</a>, <a href="/noise/">ambient noise and rain</a>, <a href="/breathe/">a breathing exercise</a>, <a href="/twilight/">&#304;stanbul&rsquo;s twilight</a>, <a href="/days/">days between dates</a>, <a href="/moon/">the phase of the moon</a> and <a href="/season/">the turn of the seasons</a>&mdash;or see <a href="/tools/">all the tools</a>.</p>
+      {% include tool-links.html slug="lots" %}
     </div>
   </footer>
 
