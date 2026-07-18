@@ -488,15 +488,16 @@ layout: null
     drawn.forEach(function(n){ gone[n] = true; });
     var left = 0;
     names.forEach(function(n){
+      if(removeToggle.checked && gone[n]) return;
       var s = document.createElement("span");
       s.textContent = n;
-      if(gone[n]) s.className = removeToggle.checked ? "gone" : "called";
+      if(gone[n]) s.className = "called";
       else left++;
       poolNames.appendChild(s);
     });
     var called = names.length - left;
     poolTitle.textContent = removeToggle.checked
-      ? "The pool—" + left + (left === 1 ? " name remains" : " names remain") + (called ? ", " + called + " drawn" : "")
+      ? "The pool—" + left + " of " + names.length
       : "The pool—" + names.length + " names" + (called ? ", " + called + " drawn so far" : "");
   }
 
