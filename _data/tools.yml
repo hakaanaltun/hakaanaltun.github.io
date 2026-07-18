@@ -1,0 +1,135 @@
+# _data/tools.yml — the single catalogue of the instruments.
+#
+# Everything tool-related is generated from this file:
+#   * /tools/ — the visible list and its ItemList schema (tools.html)
+#   * the "More instruments" paragraph on every tool page (_includes/tool-links.html)
+#   * the service worker precache list (sw.js)
+#   * the homepage instruments line (index.html)
+#
+# Adding an instrument = one entry here + its page at /<slug>/index.html.
+# (Then bump CACHE in sw.js so returning visitors pick up the new list.)
+#
+# Fields:
+#   slug      folder name; the page lives at /<slug>/
+#   name      display name, as on /tools/
+#   listname  the long name used in the ItemList schema on /tools/
+#   card      the description under the name on /tools/
+#   line      the prose phrase used in "More instruments" links
+#   related   exactly three slugs, in order, for the links paragraph
+#   post      optional — one piece from the writing: { url, title }
+
+- slug: clock
+  name: The Clock
+  listname: "The Clock—Fullscreen Clock, Countdown, Stopwatch & Pomodoro"
+  card: "A fullscreen clock, countdown, stopwatch and pomodoro. Large numerals, an analog view&mdash;made for classrooms, exams and focused work."
+  line: "a fullscreen clock with pomodoro"
+  related: [prompt, lots, noise]
+
+- slug: write
+  name: The Page
+  listname: "The Page—A Blank Page for Distraction-Free Writing"
+  card: "A blank page to write on. Garamond type, a word count, fullscreen, autosave&mdash;and nothing else."
+  line: "a blank page to write on"
+  related: [draw, words, clean]
+  post: { url: "/pieces/written-in-ink.html", title: "Written in Ink" }
+
+- slug: draw
+  name: The Draw
+  listname: "The Draw—A Blank Page to Draw On"
+  card: "A blank page to draw on&mdash;mouse, finger or stylus, with pressure. Four inks, undo, autosave and a PNG download."
+  line: "a blank page to draw on"
+  related: [write, marks, words]
+
+- slug: words
+  name: The Counter
+  listname: "The Counter—Word Counter with Reading Time & Readability"
+  card: "A word counter: words, characters, sentences, paragraphs, reading and speaking time, plus readability&mdash;counted live as you type or paste."
+  line: "a word counter"
+  related: [write, diff, clean]
+
+- slug: clean
+  name: The Clean
+  listname: "The Clean—Fix Quotes, Dashes & Spaces in Pasted Text"
+  card: "Pasted text set right: quotes curled, double hyphens turned into dashes, stray spaces and invisible characters removed&mdash;with case conversion that handles Turkish correctly."
+  line: "a text cleaner"
+  related: [words, list, marks]
+
+- slug: diff
+  name: The Diff
+  listname: "The Diff—Compare Two Texts Online"
+  card: "Two texts compared word by word&mdash;every addition and removal, for writers checking drafts."
+  line: "a comparison of two texts"
+  related: [clean, words, write]
+
+- slug: marks
+  name: The Marks
+  listname: "The Marks—Em Dash, Curly Quotes & Other Typographic Characters to Copy"
+  card: "Typographic characters&mdash;em dash, curly quotes, thin space and the rest&mdash;click any of them to copy it."
+  line: "typographic marks to copy"
+  related: [clean, write, draw]
+
+- slug: lots
+  name: The Lots
+  listname: "The Lots—Random Name Picker & Group Maker for Classrooms"
+  card: "A name draw for classrooms and meetings: paste a list, draw one name at random&mdash;sized for the projector&mdash;or divide the list into groups."
+  line: "a name draw for classrooms"
+  related: [list, clock, prompt]
+
+- slug: list
+  name: The List
+  listname: "The List—Sort, Shuffle, Deduplicate & Number Lines Online"
+  card: "Lines put in order: sorted, shuffled, reversed, deduplicated, numbered, or turned from commas into lines and back&mdash;with alphabetizing that handles Turkish correctly."
+  line: "a tidier for lists"
+  related: [lots, clean, words]
+
+- slug: prompt
+  name: The Prompter
+  listname: "The Prompter—Free Online Teleprompter with Mirroring"
+  card: "A fullscreen teleprompter: paste your script, set the pace, and read. Mirroring, large type, keyboard and remote control&mdash;for lectures, videos and speeches."
+  line: "a teleprompter"
+  related: [clock, write, lots]
+
+- slug: noise
+  name: The Noise
+  listname: "The Noise—White, Pink & Brown Noise, and Rain"
+  card: "White, pink and brown noise, and steady rain&mdash;generated live, with a volume dial and a sleep timer."
+  line: "ambient noise and rain"
+  related: [breathe, clock, write]
+  post: { url: "/pieces/on-silence.html", title: "On Silence" }
+
+- slug: breathe
+  name: The Breath
+  listname: "The Breath—Box, 4-7-8 & Coherent Breathing"
+  card: "A guided breathing exercise&mdash;box, 4-7-8 and coherent breathing, paced by a slowly swelling circle."
+  line: "a breathing exercise"
+  related: [noise, twilight, moon]
+  post: { url: "/pieces/the-anxiety.html", title: "The Anxiety" }
+
+- slug: twilight
+  name: Twilight
+  listname: "Twilight—Sunrise, Sunset & Civil Twilight Today"
+  card: "İstanbul's sky, kept in real time. Today's sunrise, sunset, civil twilight and day length; the page follows the color of the hour."
+  line: "İstanbul&rsquo;s twilight"
+  related: [moon, season, days]
+  post: { url: "/pieces/the-cove.html", title: "The Cove" }
+
+- slug: moon
+  name: The Moon
+  listname: "The Moon—Moon Phase Today"
+  card: "Tonight's moon: the current phase drawn as it hangs in the sky, its illumination and age, and the next full and new moon."
+  line: "the phase of the moon"
+  related: [twilight, season, days]
+
+- slug: days
+  name: The Days
+  listname: "The Days—Days Between Dates, Weekday of Any Date & Day of the Year"
+  card: "Date arithmetic: days between two dates, the weekday of any date, and where today stands in the year."
+  line: "days between dates"
+  related: [season, moon, clock]
+
+- slug: season
+  name: The Season
+  listname: "The Season—Days Until the Next Solstice or Equinox"
+  card: "Where the year stands: the current season, the days until the next solstice or equinox, and the year's progress."
+  line: "the turn of the seasons"
+  related: [days, moon, twilight]
