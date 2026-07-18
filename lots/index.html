@@ -7,11 +7,11 @@ layout: null
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Random Name Picker &amp; Group Maker for Classrooms &middot; On Life &amp; Everything</title>
-<meta name="description" content="Paste a class list and draw one name at random, or divide the list into groups. Drawn names leave the pool so nobody is called twice, and a fullscreen view is sized for the projector. No ads, free.">
+<meta name="description" content="Paste a class list and draw one name at random, or divide the list into groups. Drawn names leave the pool so nobody is called twice, the pool shows who is gone and who remains, and a saved link restores it all to continue anywhere. No ads, free.">
 <link rel="canonical" href="https://hakanaltun.io/lots/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="The Lots—Random Name Picker &amp; Group Maker for Classrooms">
-<meta property="og:description" content="Paste a class list and draw one name at random, or divide the list into groups. Drawn names leave the pool so nobody is called twice.">
+<meta property="og:description" content="Paste a class list and draw one name at random, or divide the list into groups. Drawn names leave the pool so nobody is called twice, and a saved link restores the pool to continue anywhere.">
 <meta property="og:url" content="https://hakanaltun.io/lots/">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#FFFFFF">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#191712">
@@ -25,7 +25,7 @@ layout: null
       "@id": "https://hakanaltun.io/lots/#app",
       "name": "The Lots—Random Name Picker & Group Maker for Classrooms",
       "url": "https://hakanaltun.io/lots/",
-      "description": "Paste a class list and draw one name at random, or divide the list into groups. Drawn names leave the pool so nobody is called twice, and a fullscreen view is sized for the projector. No ads, free.",
+      "description": "Paste a class list and draw one name at random, or divide the list into groups. Drawn names leave the pool so nobody is called twice, the pool shows who is gone and who remains, and a saved link restores it all to continue anywhere. No ads, free.",
       "applicationCategory": "UtilitiesApplication",
       "operatingSystem": "Any",
       "browserRequirements": "Requires JavaScript",
@@ -46,7 +46,12 @@ layout: null
         {
           "@type": "Question",
           "name": "Can it avoid calling the same person twice?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Yes. With 'remove drawn names from the pool' switched on, each drawn name leaves the pool and is listed beneath in draw order. Restore all returns every name to the pool, and switching the toggle off allows repeats." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. With 'remove drawn names from the pool' switched on, each drawn name leaves the pool and is listed beneath in draw order. The pool itself is laid out on the page with drawn names struck through, so anyone can see who is gone and who remains. Restore all returns every name to the pool, and switching the toggle off allows repeats." }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I save the pool as a link?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. The address bar always carries the pool's current state—the list, the drawn names and the toggle—so bookmarking the page at any moment keeps it exactly as it stands. 'Copy this pool as a link' copies that address; opening it in any browser restores the same pool and the draw continues from where it left off." }
         },
         {
           "@type": "Question",
@@ -56,7 +61,7 @@ layout: null
         {
           "@type": "Question",
           "name": "Where does my class list go?",
-          "acceptedAnswer": { "@type": "Answer", "text": "It is kept in this browser's local storage and sent nowhere, so the list is waiting when you return for the next session. Clearing the browser's site data clears the list too." }
+          "acceptedAnswer": { "@type": "Answer", "text": "It is kept in this browser's local storage and sent nowhere, so the list is waiting when you return for the next session. Clearing the browser's site data clears the list too. A copied link carries the list inside the address itself, so it travels to another device without any server involved." }
         }
       ]
     }
@@ -144,10 +149,17 @@ layout: null
 
   .sheet{ width:100%; max-width:900px; margin:0 auto; padding:4vh 26px 10vh; }
 
+  .list-head{
+    display:flex; align-items:baseline; justify-content:space-between;
+    gap:14px; margin-bottom:.5rem;
+  }
   .list-block label{
     display:block; font-family:var(--body); font-style:italic; color:var(--muted);
-    font-size:.95rem; letter-spacing:.03em; margin-bottom:.5rem;
+    font-size:.95rem; letter-spacing:.03em;
   }
+  .list-toggle{ flex:none; margin-top:0; font-size:.95rem; color:var(--muted); }
+  .list-block.collapsed textarea{ display:none; }
+  .list-block.collapsed .list-count{ margin-top:0; }
   .list-block textarea{
     display:block; width:100%; min-height:26vh;
     border:1px solid var(--line); border-radius:8px; padding:14px 16px;
@@ -195,6 +207,18 @@ layout: null
     font-size:.95rem; font-style:italic; letter-spacing:.02em; cursor:pointer; user-select:none;
   }
   .toggle input{ accent-color:var(--ink); width:16px; height:16px; cursor:pointer; }
+
+  .pool-block{ margin-top:2rem; display:none; }
+  .pool-block.on{ display:block; }
+  .pool-names{
+    display:flex; flex-wrap:wrap; gap:4px 16px;
+    font-size:1.1rem; line-height:1.7;
+  }
+  .pool-names .called{ color:var(--muted); opacity:.6; }
+  .pool-names .gone{
+    color:var(--muted); opacity:.6;
+    text-decoration:line-through; text-decoration-color:var(--muted);
+  }
 
   .drawn-block{ margin-top:2rem; display:none; }
   .drawn-block.on{ display:block; }
@@ -248,7 +272,7 @@ layout: null
   /* fullscreen: the drawn name alone, as on /clock/ */
   body.immersive{ overflow:hidden; }
   body.immersive .tool-head, body.immersive .list-block, body.immersive .groups-panel,
-  body.immersive .drawn-block, body.immersive .notes{ display:none; }
+  body.immersive .pool-block, body.immersive .drawn-block, body.immersive .notes{ display:none; }
   body.immersive .panel{ border-top:none; margin:0; padding:0; }
   body.immersive .panel-name{ display:none; }
   body.immersive .draw-stage{
@@ -324,8 +348,11 @@ layout: null
 
   <main class="sheet">
 
-    <div class="list-block">
-      <label for="nameList">The list&mdash;one name per line, or separated by commas</label>
+    <div class="list-block" id="listBlock">
+      <div class="list-head">
+        <label for="nameList">The list&mdash;one name per line, or separated by commas</label>
+        <button class="link-btn list-toggle" id="listToggle" type="button" aria-expanded="true" aria-controls="nameList">Hide the list</button>
+      </div>
       <textarea id="nameList" placeholder="One name per line." autocomplete="off" spellcheck="false"></textarea>
       <div class="list-count" id="listCount" aria-live="polite">0 names</div>
     </div>
@@ -338,6 +365,11 @@ layout: null
       <div class="draw-controls">
         <button class="btn primary" id="drawBtn" type="button">Draw a name</button>
         <label class="toggle"><input type="checkbox" id="removeToggle" checked> Remove drawn names from the pool</label>
+      </div>
+      <div class="pool-block" id="poolBlock">
+        <h3 class="drawn-name" id="poolTitle">The pool</h3>
+        <div class="pool-names" id="poolNames"></div>
+        <button class="link-btn" id="linkBtn" type="button">Copy this pool as a link</button>
       </div>
       <div class="drawn-block" id="drawnBlock">
         <h3 class="drawn-name">Drawn so far</h3>
@@ -365,20 +397,23 @@ layout: null
   <footer class="notes" id="notes">
     <div class="notes-inner">
       <h2>About this page</h2>
-      <p>A drawing of lots for whoever runs a room: paste the class list once and it is waiting at every session after. Draw calls one name at random and shows it in type sized for a projector&mdash;take it fullscreen and the name stands alone on the screen. Drawn names leave the pool and queue up beneath, so nobody is called twice until you restore them. Groups shuffles the same list and deals it into teams, either by group size or by number of groups.</p>
+      <p>A drawing of lots for whoever runs a room: paste the class list once and it is waiting at every session after. Draw calls one name at random and shows it in type sized for a projector&mdash;take it fullscreen and the name stands alone on the screen. Drawn names leave the pool and queue up beneath, so nobody is called twice until you restore them. Once the first name is drawn the list folds away to keep the page quiet&mdash;edit it again whenever you like&mdash;and the pool is laid out beneath with drawn names struck through, so anyone can see who is gone and who remains. Copy this pool as a link and the whole state travels in the address: open the link anywhere and the draw continues from where it left off. Groups shuffles the same list and deals it into teams, either by group size or by number of groups.</p>
 
       <h2>Questions</h2>
       <h3>How do I pick a random student?</h3>
       <p>Paste the class list into the box, one name per line (commas work too), and press Draw. One name is chosen at random&mdash;the page uses the browser&rsquo;s cryptographic random source, so every name has exactly the same chance&mdash;and shown large enough to read from the back row. The fullscreen button turns the drawn name into a projector view.</p>
 
       <h3>Can it avoid calling the same person twice?</h3>
-      <p>Yes. With &ldquo;remove drawn names from the pool&rdquo; switched on, each drawn name leaves the pool and is listed beneath in draw order. Restore all returns every name to the pool, and switching the toggle off allows repeats.</p>
+      <p>Yes. With &ldquo;remove drawn names from the pool&rdquo; switched on, each drawn name leaves the pool and is listed beneath in draw order. The pool itself is laid out on the page with drawn names struck through, so anyone can see who is gone and who remains. Restore all returns every name to the pool, and switching the toggle off allows repeats.</p>
+
+      <h3>Can I save the pool as a link?</h3>
+      <p>Yes. The address bar always carries the pool&rsquo;s current state&mdash;the list, the drawn names and the toggle&mdash;so bookmarking the page at any moment keeps it exactly as it stands. &ldquo;Copy this pool as a link&rdquo; copies that address; opening it in any browser restores the same pool and the draw continues from where it left off.</p>
 
       <h3>How does it divide a list that doesn&rsquo;t split evenly?</h3>
       <p>The list is shuffled and dealt so the group sizes differ by at most one. Nobody is left in a stub group: dividing 23 names into groups of 5 gives four groups of 5 and 6 rather than four groups of 5 and one person alone.</p>
 
       <h3>Where does my class list go?</h3>
-      <p>It is kept in this browser&rsquo;s local storage and sent nowhere, so the list is waiting when you return for the next session. Clearing the browser&rsquo;s site data clears the list too.</p>
+      <p>It is kept in this browser&rsquo;s local storage and sent nowhere, so the list is waiting when you return for the next session. Clearing the browser&rsquo;s site data clears the list too. A copied link carries the list inside the address itself, so it travels to another device without any server involved.</p>
 
       <p class="notes-links">More instruments: <a href="/clock/">a fullscreen clock with pomodoro</a>, <a href="/write/">a blank page to write on</a>, <a href="/draw/">a blank page to draw on</a>, <a href="/words/">a word counter</a>, <a href="/clean/">a text cleaner</a>, <a href="/diff/">a comparison of two texts</a>, <a href="/marks/">typographic marks to copy</a>, <a href="/noise/">ambient noise and rain</a>, <a href="/breathe/">a breathing exercise</a>, <a href="/twilight/">&#304;stanbul&rsquo;s twilight</a>, <a href="/days/">days between dates</a>, <a href="/moon/">the phase of the moon</a> and <a href="/season/">the turn of the seasons</a>&mdash;or see <a href="/tools/">all the tools</a>.</p>
     </div>
@@ -391,8 +426,11 @@ layout: null
   var LS = "olae-lots-v1";
 
   var ta = $("#nameList"), countEl = $("#listCount");
+  var listBlock = $("#listBlock"), listToggle = $("#listToggle");
   var drawBtn = $("#drawBtn"), display = $("#drawDisplay");
   var removeToggle = $("#removeToggle");
+  var poolBlock = $("#poolBlock"), poolTitle = $("#poolTitle"), poolNames = $("#poolNames");
+  var linkBtn = $("#linkBtn");
   var drawnBlock = $("#drawnBlock"), drawnList = $("#drawnList"), restoreBtn = $("#restoreBtn");
   var modeSize = $("#modeSize"), modeCount = $("#modeCount"), groupNum = $("#groupNum");
   var dealBtn = $("#dealBtn"), groupsNote = $("#groupsNote"), groupsResult = $("#groupsResult");
@@ -440,29 +478,137 @@ layout: null
     countEl.textContent = n === 1 ? "1 name" : n + " names";
   }
 
-  /* ---- persistence (same autosave pattern as /write/) ---- */
+  /* ---- the pool, laid out so anyone can see who is gone and who remains ---- */
+  function renderPool(){
+    var names = parseNames();
+    poolBlock.classList.toggle("on", names.length > 0);
+    poolNames.innerHTML = "";
+    if(!names.length) return;
+    var gone = {};
+    drawn.forEach(function(n){ gone[n] = true; });
+    var left = 0;
+    names.forEach(function(n){
+      var s = document.createElement("span");
+      s.textContent = n;
+      if(gone[n]) s.className = removeToggle.checked ? "gone" : "called";
+      else left++;
+      poolNames.appendChild(s);
+    });
+    var called = names.length - left;
+    poolTitle.textContent = removeToggle.checked
+      ? "The pool—" + left + (left === 1 ? " name remains" : " names remain") + (called ? ", " + called + " drawn" : "")
+      : "The pool—" + names.length + " names" + (called ? ", " + called + " drawn so far" : "");
+  }
+
+  /* ---- collapsing the list once it is made ---- */
+  function setCollapsed(on){
+    listBlock.classList.toggle("collapsed", on);
+    listToggle.textContent = on ? "Edit the list" : "Hide the list";
+    listToggle.setAttribute("aria-expanded", on ? "false" : "true");
+  }
+  listToggle.addEventListener("click", function(){
+    var on = !listBlock.classList.contains("collapsed");
+    setCollapsed(on);
+    if(!on) ta.focus();
+    save();
+  });
+
+  /* ---- persistence: local storage, and the same state in the address bar
+         so a bookmarked or shared link restores the pool exactly ---- */
   function save(){
     try{
       localStorage.setItem(LS, JSON.stringify({
-        text: ta.value, drawn: drawn, remove: removeToggle.checked, at: Date.now()
+        text: ta.value, drawn: drawn, remove: removeToggle.checked,
+        collapsed: listBlock.classList.contains("collapsed"), at: Date.now()
       }));
     }catch(e){}
+    updateHash();
   }
-  try{
-    var saved = JSON.parse(localStorage.getItem(LS));
-    if(saved){
-      if(typeof saved.text === "string") ta.value = saved.text;
-      if(Array.isArray(saved.drawn)) drawn = saved.drawn.filter(function(n){ return typeof n === "string"; });
-      if(typeof saved.remove === "boolean") removeToggle.checked = saved.remove;
-    }
-  }catch(e){}
+  function encodeState(){
+    try{
+      var json = JSON.stringify({ t: ta.value, d: drawn, r: removeToggle.checked });
+      return btoa(unescape(encodeURIComponent(json)))
+        .replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+    }catch(e){ return ""; }
+  }
+  function readHash(){
+    var m = location.hash.match(/^#s=([A-Za-z0-9\-_]+)$/);
+    if(!m) return null;
+    try{
+      var o = JSON.parse(decodeURIComponent(escape(atob(m[1].replace(/-/g, "+").replace(/_/g, "/")))));
+      if(o && typeof o.t === "string") return o;
+    }catch(e){}
+    return null;
+  }
+  function updateHash(){
+    if(!history.replaceState) return;
+    try{
+      if(ta.value.trim() || drawn.length){
+        var s = encodeState();
+        if(s) history.replaceState(null, "", "#s=" + s);
+      }else if(location.hash){
+        history.replaceState(null, "", location.pathname + location.search);
+      }
+    }catch(e){}
+  }
+  function applyState(text, drawnNames, remove){
+    if(typeof text === "string") ta.value = text;
+    if(Array.isArray(drawnNames)) drawn = drawnNames.filter(function(n){ return typeof n === "string"; });
+    if(typeof remove === "boolean") removeToggle.checked = remove;
+  }
+  var fromLink = readHash();
+  if(fromLink){
+    applyState(fromLink.t, fromLink.d, fromLink.r);
+    setCollapsed(parseNames().length > 0);
+  }else{
+    try{
+      var saved = JSON.parse(localStorage.getItem(LS));
+      if(saved){
+        applyState(saved.text, saved.drawn, saved.remove);
+        if(saved.collapsed && parseNames().length) setCollapsed(true);
+      }
+    }catch(e){}
+  }
+  window.addEventListener("hashchange", function(){
+    var o = readHash();
+    if(!o) return;
+    applyState(o.t, o.d, o.r);
+    renderCount(); renderDrawn(); renderPool();
+    setCollapsed(parseNames().length > 0);
+    setIdle("Press draw and a name appears here.");
+  });
   var saveT;
   ta.addEventListener("input", function(){
     renderCount();
+    renderPool();
     clearTimeout(saveT);
     saveT = setTimeout(save, 500);
   });
   window.addEventListener("beforeunload", save);
+
+  /* ---- copy the link (clipboard API with fallback, as on /marks/) ---- */
+  function execCopy(text){
+    var t = document.createElement("textarea");
+    t.value = text;
+    t.style.position = "fixed"; t.style.opacity = "0";
+    document.body.appendChild(t);
+    t.select();
+    try{ document.execCommand("copy"); }catch(e){}
+    t.remove();
+  }
+  var linkT;
+  linkBtn.addEventListener("click", function(){
+    updateHash();
+    var url = location.href;
+    function done(){
+      linkBtn.textContent = "Link copied—bookmark or share it";
+      clearTimeout(linkT);
+      linkT = setTimeout(function(){ linkBtn.textContent = "Copy this pool as a link"; }, 2000);
+    }
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(url).then(done, function(){ execCopy(url); done(); });
+    }else{ execCopy(url); done(); }
+  });
 
   /* ---- draw ---- */
   function setName(name){
@@ -494,11 +640,13 @@ layout: null
       return;
     }
     var name = names[randInt(names.length)];
+    setCollapsed(true);
     function settle(){
       flicking = false;
       setName(name);
       if(removeToggle.checked || drawn.indexOf(name) === -1) drawn.push(name);
       renderDrawn();
+      renderPool();
       save();
     }
     /* a brief flick through the pool before the name settles */
@@ -513,10 +661,11 @@ layout: null
   restoreBtn.addEventListener("click", function(){
     drawn = [];
     renderDrawn();
+    renderPool();
     if(display.classList.contains("idle")) setIdle("Press draw and a name appears here.");
     save();
   });
-  removeToggle.addEventListener("change", save);
+  removeToggle.addEventListener("change", function(){ renderPool(); save(); });
 
   /* ---- groups ---- */
   function setGroupMode(m){
@@ -562,6 +711,8 @@ layout: null
     }
     groupsNote.textContent = names.length + " names in " + (k === 1 ? "1 group" : k + " groups");
     dealBtn.textContent = "Reshuffle";
+    setCollapsed(true);
+    save();
   }
   dealBtn.addEventListener("click", deal);
 
@@ -616,7 +767,9 @@ layout: null
   /* ---- init ---- */
   renderCount();
   renderDrawn();
+  renderPool();
   setGroupMode(groupMode);
+  updateHash();
 })();
 </script>
 <script>if("serviceWorker" in navigator){navigator.serviceWorker.register("/sw.js").catch(function(){});}</script>
