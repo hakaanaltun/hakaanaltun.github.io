@@ -1,0 +1,521 @@
+---
+layout: null
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fix Quotes, Dashes &amp; Spaces in Pasted Text&mdash;Turkish-Aware Case Converter &middot; On Life &amp; Everything</title>
+<meta name="description" content="Paste a draft and get it back with proper typography: straight quotes curled, -- and --- turned into dashes, three dots into an ellipsis, doubled spaces and invisible characters removed—plus lowercase, UPPERCASE, sentence case and title case that handle Turkish i/İ and ı/I correctly.">
+<link rel="canonical" href="https://hakanaltun.io/clean/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="The Clean—Fix Quotes, Dashes &amp; Spaces in Pasted Text">
+<meta property="og:description" content="Straight quotes curled, dashes and ellipses set right, stray spaces and invisible characters removed—plus Turkish-aware case conversion.">
+<meta property="og:url" content="https://hakanaltun.io/clean/">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#FFFFFF">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#191712">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "@id": "https://hakanaltun.io/clean/#app",
+      "name": "The Clean—Fix Quotes, Dashes & Spaces in Pasted Text, with Turkish-Aware Case Conversion",
+      "url": "https://hakanaltun.io/clean/",
+      "description": "Paste a draft and get it back with proper typography: straight quotes curled, -- and --- turned into dashes, three dots into an ellipsis, doubled spaces and invisible characters removed—plus lowercase, UPPERCASE, sentence case and title case that handle Turkish i/İ and ı/I correctly.",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires JavaScript",
+      "isAccessibleForFree": true,
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "author": { "@type": "Person", "name": "Hakan Altun", "url": "https://hakanaltun.io/" },
+      "inLanguage": "en"
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://hakanaltun.io/clean/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How do I convert straight quotes to curly quotes?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Paste the text and press Clean. Every straight double and single quote is turned the right way—“ ” and ‘ ’—apostrophes become ’, decade abbreviations like ’90s curl toward the numbers, and measurements such as 5'10\" are left alone. The line under the button reports how many were curled." }
+        },
+        {
+          "@type": "Question",
+          "name": "What does it do with -- and ...?",
+          "acceptedAnswer": { "@type": "Answer", "text": "A double hyphen becomes an en dash (–), a triple hyphen an em dash (—), and a hyphen between numbers—1914-1918—becomes the en dash a range wants. Three dots become a single ellipsis character (…)." }
+        },
+        {
+          "@type": "Question",
+          "name": "Why do ordinary case converters break Turkish?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Turkish has two i's—dotted i/İ and dotless ı/I—so İstanbul must lowercase to istanbul and ırmak must uppercase to IRMAK. Converters that only know English map both to the English i/I pair and produce İSTANBUL as ISTANBUL or istanbul as İSTANBUL wrongly. With the Turkish box ticked, all four case buttons use the Turkish mapping." }
+        },
+        {
+          "@type": "Question",
+          "name": "Where does my text go?",
+          "acceptedAnswer": { "@type": "Answer", "text": "It is cleaned in this browser and sent nowhere; the page keeps the text in local storage so it is still there if the tab closes. Clearing the browser's site data clears it too." }
+        }
+      ]
+    }
+  ]
+}
+</script>
+
+<link rel="stylesheet" href="/css/fonts.css?v=20260710-1">
+
+<style>
+  :root{
+    --paper: #FFFFFF;
+    --ink:   #2F2B27;
+    --muted: #746F69;
+    --line:  #EEEAE4;
+
+    --display: 'Cormorant Garamond', Georgia, serif;
+    --body:    'EB Garamond', Georgia, serif;
+
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark){
+    html:not([data-theme="light"]){
+      --paper:#191712; --ink:#E7E1D6; --muted:#9C948A; --line:#2B2721;
+      color-scheme: dark;
+    }
+  }
+  html[data-theme="dark"]{
+    --paper:#191712; --ink:#E7E1D6; --muted:#9C948A; --line:#2B2721;
+    color-scheme: dark;
+  }
+  /* theme toggle icons: moon in light, sun in dark */
+  :root{ --icon-sun:none; --icon-moon:block; }
+  @media (prefers-color-scheme: dark){
+    html:not([data-theme="light"]){ --icon-sun:block; --icon-moon:none; }
+  }
+  html[data-theme="dark"]{ --icon-sun:block; --icon-moon:none; }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+
+  /* the ampersand the site uses — the display italic, as in the header logo */
+  .amp{ font-family:var(--display); font-style:italic; }
+
+  body{
+    position:relative;
+    background:var(--paper); color:var(--ink); font-family:var(--body);
+    min-height:100vh; min-height:100dvh;
+    -webkit-font-smoothing:antialiased;
+    transition:background .4s ease, color .4s ease;
+  }
+
+  .chrome{
+    position:sticky; top:0; z-index:2; background:var(--paper);
+    display:grid; grid-template-columns:1fr auto 1fr; align-items:center;
+    padding:14px 22px; border-bottom:1px solid var(--line);
+    transition:border-color .4s ease, background .4s ease;
+  }
+  .masthead{
+    grid-column:2; text-decoration:none; display:flex; flex-direction:column;
+    align-items:center; gap:1px; text-align:center; opacity:.85; transition:opacity .2s;
+  }
+  .masthead:hover{ opacity:1; }
+  .home-brand{ font-family:var(--display); font-style:italic; font-weight:400; font-size:1.1rem; line-height:1.05; color:var(--ink); }
+  .home-tagline{ font-family:var(--body); font-style:italic; font-weight:400; font-size:0.8rem; line-height:1.2; color:var(--muted); }
+
+  .actions{ grid-column:3; justify-self:end; display:flex; gap:8px; }
+  .icon-btn{
+    background:none; border:1px solid var(--line); color:var(--muted);
+    width:38px; height:38px; border-radius:8px; cursor:pointer; font-size:16px;
+    display:grid; place-items:center; transition:color .2s, border-color .2s;
+  }
+  .icon-btn:hover{ color:var(--ink); border-color:var(--muted); }
+  .icon-btn:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
+  .icon-btn svg{ width:16px; height:16px; }
+  .theme-btn .icon-sun{ display:var(--icon-sun); }
+  .theme-btn .icon-moon{ display:var(--icon-moon); }
+
+  .tool-head{ max-width:680px; margin:0 auto; padding:6vh 26px 0; text-align:center; }
+  .tool-head h1{
+    font-family:var(--display); font-style:italic; font-weight:400;
+    font-size:clamp(1.9rem, 5vw, 2.6rem); line-height:1.1;
+  }
+  .tool-head .lede{ margin-top:.5rem; font-style:italic; color:var(--muted); font-size:1rem; }
+
+  .sheet{ width:100%; max-width:680px; margin:0 auto; padding:4vh 26px 10vh; }
+
+  /* the paper — as on /write/ */
+  textarea{
+    display:block; width:100%; min-height:38vh;
+    border:0; background:transparent; color:var(--ink);
+    font-family:var(--body); font-size:1.35rem; line-height:1.66;
+    resize:none; outline:none; overflow:hidden;
+    caret-color:var(--ink);
+  }
+  textarea::placeholder{ color:var(--muted); font-style:italic; opacity:.65; }
+
+  .rules{ margin-top:2.2rem; border-top:1px solid var(--line); padding-top:1.6rem; }
+  .rules-name{
+    font-family:var(--body); font-style:italic; font-weight:400;
+    font-size:1.05rem; color:var(--muted); letter-spacing:.03em; margin-bottom:.9rem;
+  }
+  .rule-grid{ display:grid; grid-template-columns:1fr 1fr; gap:10px 24px; }
+  .rule{
+    display:flex; align-items:baseline; gap:9px; color:var(--ink);
+    font-size:1.02rem; line-height:1.45; cursor:pointer; user-select:none;
+  }
+  .rule input{ accent-color:var(--ink); width:15px; height:15px; cursor:pointer; flex:none; position:relative; top:2px; }
+  .rule .hint{ color:var(--muted); }
+
+  .act-row{ margin-top:1.8rem; display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+  .btn{
+    font-family:var(--display); font-style:italic; font-size:1.25rem;
+    padding:9px 28px; border-radius:0; cursor:pointer;
+    border:1px solid var(--line); background:none; color:var(--ink);
+    transition:background .2s, color .2s, border-color .2s;
+  }
+  .btn:hover{ border-color:var(--ink); }
+  .btn:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
+  .btn.primary{ background:var(--ink); color:var(--paper); border-color:var(--ink); }
+  .btn.primary:hover{ filter:brightness(1.12); }
+  .btn[disabled]{ opacity:.45; cursor:default; }
+  .btn[disabled]:hover{ border-color:var(--line); }
+  .btn.primary[disabled]:hover{ filter:none; }
+
+  .report{
+    margin-top:1rem; font-style:italic; color:var(--muted);
+    font-size:.98rem; letter-spacing:.02em; min-height:1.4em;
+  }
+
+  .case-row{ margin-top:2.2rem; border-top:1px solid var(--line); padding-top:1.6rem; }
+  .case-btns{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+  .case-btn{
+    background:none; border:1px solid var(--line); color:var(--ink);
+    font-family:var(--body); font-size:1rem; padding:8px 16px; border-radius:8px;
+    cursor:pointer; letter-spacing:.02em; transition:border-color .2s;
+  }
+  .case-btn:hover{ border-color:var(--ink); }
+  .case-btn:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
+  .toggle{
+    display:flex; align-items:center; gap:8px; color:var(--muted);
+    font-size:.98rem; font-style:italic; letter-spacing:.02em; cursor:pointer; user-select:none;
+  }
+  .toggle input{ accent-color:var(--ink); width:15px; height:15px; cursor:pointer; }
+
+  /* notes — reading matter under the instrument */
+  .notes{ border-top:1px solid var(--line); padding:60px 26px 84px; }
+  .notes-inner{ max-width:640px; margin:0 auto; }
+  .notes h2{ font-family:var(--display); font-style:italic; font-weight:400; font-size:1.6rem; margin:2.4rem 0 1rem; color:var(--ink); }
+  .notes h2:first-child{ margin-top:0; }
+  .notes h3{ font-family:var(--body); font-style:italic; font-weight:400; font-size:1.15rem; margin:1.5rem 0 .35rem; color:var(--ink); }
+  .notes p{ color:var(--muted); font-size:1.05rem; line-height:1.65; margin:0 0 .9rem; }
+  .notes code{ font-family:inherit; font-style:italic; color:var(--ink); }
+  .notes a{ color:var(--ink); text-decoration:underline; text-underline-offset:3px; text-decoration-color:var(--line); }
+  .notes a:hover{ text-decoration-color:var(--ink); }
+  .notes .notes-links{ margin-top:2.4rem; padding-top:1.3rem; border-top:1px solid var(--line); font-style:italic; }
+
+  .sr-only{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); }
+
+  @media (max-width:600px){
+    .chrome{ padding:12px 14px; }
+    .home-brand{ font-size:1rem; }
+    .home-tagline{ font-size:0.74rem; }
+    .sheet{ padding:3vh 20px 8vh; }
+    textarea{ font-size:1.22rem; }
+    .rule-grid{ grid-template-columns:1fr; }
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    *{ transition:none !important; }
+  }
+</style>
+<script>(function(){try{var t=localStorage.getItem('olae-page-theme');if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();</script>
+</head>
+<body>
+
+  <div class="chrome" id="chrome">
+    <span aria-hidden="true"></span>
+    <a class="masthead" href="/" aria-label="On Life &amp; Everything—home">
+      <span class="home-brand">On Life &amp; Everything</span>
+      <span class="home-tagline">Essays, short fiction, and other writing.</span>
+    </a>
+    <div class="actions">
+      <button class="icon-btn theme-btn" id="themeBtn" type="button" title="Light / dark" aria-label="Switch theme">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <header class="tool-head">
+    <h1>The clean</h1>
+    <p class="lede">Pasted text set right&mdash;curly quotes, real dashes, single spaces, Turkish-aware case.</p>
+  </header>
+
+  <main class="sheet">
+
+    <label for="text" class="sr-only">Text to clean</label>
+    <textarea id="text" placeholder="Paste a draft that has been through Word, email or the web." autocomplete="off" spellcheck="false"></textarea>
+
+    <div class="rules">
+      <h2 class="rules-name">The rules</h2>
+      <div class="rule-grid">
+        <label class="rule"><input type="checkbox" id="ruleQuotes" checked> <span>Curl quotes <span class="hint">&mdash;" " and ' ' to &ldquo; &rdquo; and &lsquo; &rsquo;, apostrophes to &rsquo;</span></span></label>
+        <label class="rule"><input type="checkbox" id="ruleDashes" checked> <span>Set dashes <span class="hint">&mdash;-- to &ndash;, --- to &mdash;, 1914-1918 to 1914&ndash;1918</span></span></label>
+        <label class="rule"><input type="checkbox" id="ruleEllipsis" checked> <span>Set ellipses <span class="hint">&mdash;three dots to &hellip;</span></span></label>
+        <label class="rule"><input type="checkbox" id="ruleSpaces" checked> <span>Tidy spaces <span class="hint">&mdash;doubles to one, none before punctuation, line ends trimmed</span></span></label>
+        <label class="rule"><input type="checkbox" id="ruleInvisible" checked> <span>Remove invisible characters <span class="hint">&mdash;zero-width and directional marks; non-breaking spaces to spaces</span></span></label>
+        <label class="rule"><input type="checkbox" id="ruleBlank" checked> <span>Collapse blank lines <span class="hint">&mdash;runs of empty lines to one</span></span></label>
+      </div>
+    </div>
+
+    <div class="act-row">
+      <button class="btn primary" id="cleanBtn" type="button">Clean</button>
+      <button class="btn" id="undoBtn" type="button" disabled>Undo</button>
+      <button class="btn" id="copyBtn" type="button">Copy</button>
+    </div>
+    <div class="report" id="report" aria-live="polite"></div>
+
+    <div class="case-row">
+      <h2 class="rules-name">Case</h2>
+      <div class="case-btns">
+        <button class="case-btn" id="caseLower" type="button">lowercase</button>
+        <button class="case-btn" id="caseUpper" type="button">UPPERCASE</button>
+        <button class="case-btn" id="caseSentence" type="button">Sentence case</button>
+        <button class="case-btn" id="caseTitle" type="button">Title Case</button>
+        <label class="toggle"><input type="checkbox" id="trToggle"> Turkish</label>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="notes" id="notes">
+    <div class="notes-inner">
+      <h2>About this page</h2>
+      <p>Text that has passed through Word, email or a web page arrives bent: straight quotes where curly ones belong, double hyphens standing in for dashes, three dots for an ellipsis, doubled spaces, and invisible characters the eye never catches. Paste it here, press clean, and it comes back set right, with a line reporting exactly what changed and an undo if you disagree. Beneath, four case buttons&mdash;lowercase, uppercase, sentence case and title case&mdash;convert the whole text, and with the Turkish box ticked they treat &#304;stanbul&rsquo;s letters correctly. The box ticks itself when the text contains &#305;, &#304;, &#351;, &#287; or &#231;.</p>
+
+      <h2>Questions</h2>
+      <h3>How do I convert straight quotes to curly quotes?</h3>
+      <p>Paste the text and press Clean. Every straight double and single quote is turned the right way&mdash;&ldquo; &rdquo; and &lsquo; &rsquo;&mdash;apostrophes become &rsquo;, decade abbreviations like &rsquo;90s curl toward the numbers, and measurements such as 5'10" are left alone. The line under the button reports how many were curled.</p>
+
+      <h3>What does it do with <code>--</code> and <code>...</code>?</h3>
+      <p>A double hyphen becomes an en dash (&ndash;), a triple hyphen an em dash (&mdash;), and a hyphen between numbers&mdash;1914-1918&mdash;becomes the en dash a range wants. Three dots become a single ellipsis character (&hellip;).</p>
+
+      <h3>Why do ordinary case converters break Turkish?</h3>
+      <p>Turkish has two i&rsquo;s&mdash;dotted i/&#304; and dotless &#305;/I&mdash;so &#304;stanbul must lowercase to istanbul and &#305;rmak must uppercase to IRMAK. Converters that only know English map both to the English i/I pair and get every one of those words wrong. With the Turkish box ticked, all four case buttons use the Turkish mapping.</p>
+
+      <h3>Where does my text go?</h3>
+      <p>It is cleaned in this browser and sent nowhere; the page keeps the text in local storage so it is still there if the tab closes. Clearing the browser&rsquo;s site data clears it too.</p>
+
+      <p class="notes-links">More instruments: <a href="/clock/">a fullscreen clock with pomodoro</a>, <a href="/write/">a blank page to write on</a>, <a href="/draw/">a blank page to draw on</a>, <a href="/words/">a word counter</a>, <a href="/diff/">a comparison of two texts</a>, <a href="/marks/">typographic marks to copy</a>, <a href="/lots/">a name draw for classrooms</a>, <a href="/noise/">ambient noise and rain</a>, <a href="/breathe/">a breathing exercise</a>, <a href="/twilight/">&#304;stanbul&rsquo;s twilight</a>, <a href="/days/">days between dates</a>, <a href="/moon/">the phase of the moon</a> and <a href="/season/">the turn of the seasons</a>&mdash;or see <a href="/tools/">all the tools</a>.</p>
+    </div>
+  </footer>
+
+<script>
+(function(){
+  "use strict";
+  var $ = function(s){ return document.querySelector(s); };
+  var LS = "olae-clean-v1";
+
+  var ta = $("#text"), report = $("#report");
+  var cleanBtn = $("#cleanBtn"), undoBtn = $("#undoBtn"), copyBtn = $("#copyBtn");
+  var trToggle = $("#trToggle");
+  var undoText = null;        /* the text as it was before the last transform */
+  var trTouched = false;      /* the user has set the Turkish box by hand */
+
+  /* ---- restore + autosave (same pattern as /write/) ---- */
+  try{
+    var saved = JSON.parse(localStorage.getItem(LS));
+    if(saved && typeof saved.text === "string") ta.value = saved.text;
+  }catch(e){}
+  function saveNow(){
+    try{ localStorage.setItem(LS, JSON.stringify({ text: ta.value, at: Date.now() })); }catch(e){}
+  }
+  var saveT;
+  function grow(){ ta.style.height = "auto"; ta.style.height = ta.scrollHeight + "px"; }
+  function syncTr(){
+    if(!trTouched) trToggle.checked = /[ıİşğç]/.test(ta.value);
+  }
+  ta.addEventListener("input", function(){
+    grow(); syncTr();
+    clearTimeout(saveT);
+    saveT = setTimeout(saveNow, 500);
+  });
+  window.addEventListener("beforeunload", saveNow);
+  trToggle.addEventListener("change", function(){ trTouched = true; });
+
+  /* ================= the rules ================= */
+
+  /* Straight quotes → curly. The rules, in order: decade abbreviations
+     ('90s), apostrophes inside words, opening quotes after whitespace or
+     an opening bracket or dash, primes after digits left alone (5'10"),
+     everything else closing. */
+  function curlQuotes(s, n){
+    var OPEN_BEFORE = /(^|[\s([{‘“–—-])$/;
+    s = s.replace(/'(?=\d0s\b)/g, function(){ n.quotes++; return "’"; });
+    s = s.replace(/([\p{L}\p{N}])'(?=\p{L})/gu, function(m, a){ n.quotes++; return a + "’"; });
+    s = s.replace(/'(?=\S)/g, function(m, off, str){
+      if(!OPEN_BEFORE.test(str.slice(Math.max(0, off - 1), off))) return m;
+      n.quotes++; return "‘";
+    });
+    s = s.replace(/'/g, function(m, off, str){
+      if(/\d/.test(str.charAt(off - 1))) return m;   /* a prime: 5'10" */
+      n.quotes++; return "’";
+    });
+    s = s.replace(/"(?=\S)/g, function(m, off, str){
+      if(!OPEN_BEFORE.test(str.slice(Math.max(0, off - 1), off))) return m;
+      n.quotes++; return "“";
+    });
+    s = s.replace(/"/g, function(m, off, str){
+      if(/\d/.test(str.charAt(off - 1)) && !/\p{L}/u.test(str.charAt(off + 1) || "")) return m;
+      n.quotes++; return "”";
+    });
+    return s;
+  }
+  function setDashes(s, n){
+    s = s.replace(/---/g, function(){ n.dashes++; return "—"; });
+    s = s.replace(/--/g, function(){ n.dashes++; return "–"; });
+    s = s.replace(/(\d)-(?=\d)/g, function(m, a){ n.dashes++; return a + "–"; });
+    return s;
+  }
+  function setEllipses(s, n){
+    return s.replace(/\.{3}/g, function(){ n.ellipses++; return "…"; });
+  }
+  function tidySpaces(s, n){
+    s = s.replace(/ {2,}/g, function(){ n.spaces++; return " "; });
+    s = s.replace(/ +(?=[,.;:!?…])/g, function(){ n.spaces++; return ""; });
+    s = s.replace(/[ \t]+$/gm, function(){ n.spaces++; return ""; });
+    return s;
+  }
+  function removeInvisible(s, n){
+    /* zero-width spaces and joiners, soft hyphens, directional marks, BOM */
+    s = s.replace(/[\u200B\u200C\u200D\u00AD\u200E\u200F\u202A-\u202E\u2060-\u2064\u2066-\u2069\uFEFF]/g,
+      function(){ n.invisibles++; return ""; });
+    /* non-breaking spaces → ordinary spaces */
+    s = s.replace(/[\u00A0\u202F]/g, function(){ n.invisibles++; return " "; });
+    return s;
+  }
+  function collapseBlank(s, n){
+    return s.replace(/\n{3,}/g, function(){ n.blanks++; return "\n\n"; });
+  }
+
+  function snapshot(){ undoText = ta.value; undoBtn.disabled = false; }
+  function afterTransform(){ grow(); syncTr(); saveNow(); }
+
+  cleanBtn.addEventListener("click", function(){
+    var s = ta.value;
+    if(!s){ report.textContent = ""; return; }
+    var n = { quotes:0, dashes:0, ellipses:0, spaces:0, invisibles:0, blanks:0 };
+    snapshot();
+    if($("#ruleInvisible").checked) s = removeInvisible(s, n);
+    if($("#ruleQuotes").checked)    s = curlQuotes(s, n);
+    if($("#ruleDashes").checked)    s = setDashes(s, n);
+    if($("#ruleEllipsis").checked)  s = setEllipses(s, n);
+    if($("#ruleSpaces").checked)    s = tidySpaces(s, n);
+    if($("#ruleBlank").checked)     s = collapseBlank(s, n);
+    ta.value = s;
+    afterTransform();
+    var parts = [];
+    if(n.quotes)     parts.push(n.quotes === 1 ? "1 quote curled" : n.quotes + " quotes curled");
+    if(n.dashes)     parts.push(n.dashes === 1 ? "1 dash" : n.dashes + " dashes");
+    if(n.ellipses)   parts.push(n.ellipses === 1 ? "1 ellipsis" : n.ellipses + " ellipses");
+    if(n.spaces)     parts.push(n.spaces === 1 ? "1 space" : n.spaces + " spaces");
+    if(n.invisibles) parts.push(n.invisibles === 1 ? "1 invisible character" : n.invisibles + " invisible characters");
+    if(n.blanks)     parts.push(n.blanks === 1 ? "1 blank-line run" : n.blanks + " blank-line runs");
+    report.textContent = parts.length ? parts.join(" · ") : "Nothing to change—the text is already clean.";
+  });
+
+  undoBtn.addEventListener("click", function(){
+    if(undoText === null) return;
+    ta.value = undoText;
+    undoText = null;
+    undoBtn.disabled = true;
+    report.textContent = "Restored the text as it was.";
+    afterTransform();
+  });
+
+  /* ---- copy (clipboard API with fallback, as on /marks/) ---- */
+  function execCopy(text){
+    var t = document.createElement("textarea");
+    t.value = text;
+    t.style.position = "fixed"; t.style.opacity = "0";
+    document.body.appendChild(t);
+    t.select();
+    try{ document.execCommand("copy"); }catch(e){}
+    t.remove();
+  }
+  var copyT;
+  copyBtn.addEventListener("click", function(){
+    var text = ta.value;
+    if(!text) return;
+    function done(){
+      copyBtn.textContent = "Copied";
+      clearTimeout(copyT);
+      copyT = setTimeout(function(){ copyBtn.textContent = "Copy"; }, 1400);
+    }
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(done, function(){ execCopy(text); done(); });
+    } else { execCopy(text); done(); }
+  });
+
+  /* ================= case ================= */
+  function lower(s){ return trToggle.checked ? s.toLocaleLowerCase("tr") : s.toLowerCase(); }
+  function upper(s){ return trToggle.checked ? s.toLocaleUpperCase("tr") : s.toUpperCase(); }
+
+  function sentenceCase(s){
+    s = lower(s);
+    return s.replace(/(^|[.!?…]["'’”)\]]*\s+|\n\s*)(\p{L})/gu,
+      function(m, pre, ch){ return pre + upper(ch); });
+  }
+  var MINOR = { a:1, an:1, the:1, of:1, "in":1, on:1, and:1, or:1, to:1 };
+  function titleCase(s){
+    s = lower(s);
+    return s.replace(/[\p{L}\p{N}][\p{L}\p{N}’'-]*/gu, function(w, off, str){
+      var tail = str.slice(Math.max(0, off - 12), off);
+      var atStart = off === 0 || /\n\s*$/.test(tail) ||
+                    /[.!?…:—]["'’”)\]]*\s*$/.test(tail) ||
+                    (off <= 12 && /^\s*$/.test(tail));
+      if(!atStart && MINOR[w]) return w;
+      return upper(w.charAt(0)) + w.slice(1);
+    });
+  }
+  function applyCase(fn){
+    if(!ta.value) return;
+    snapshot();
+    ta.value = fn(ta.value);
+    report.textContent = "";
+    afterTransform();
+  }
+  $("#caseLower").addEventListener("click", function(){ applyCase(lower); });
+  $("#caseUpper").addEventListener("click", function(){ applyCase(upper); });
+  $("#caseSentence").addEventListener("click", function(){ applyCase(sentenceCase); });
+  $("#caseTitle").addEventListener("click", function(){ applyCase(titleCase); });
+
+  /* ---- theme ---- */
+  $("#themeBtn").addEventListener("click", function(){
+    var root = document.documentElement;
+    var current = root.getAttribute("data-theme");
+    var next;
+    if(current === "dark") next = "light";
+    else if(current === "light") next = "dark";
+    else next = window.matchMedia("(prefers-color-scheme: dark)").matches ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    try{ localStorage.setItem("olae-page-theme", next); }catch(e){}
+  });
+
+  /* ---- init ---- */
+  grow(); syncTr();
+  window.addEventListener("resize", grow);
+})();
+</script>
+<script>if("serviceWorker" in navigator){navigator.serviceWorker.register("/sw.js").catch(function(){});}</script>
+</body>
+</html>
