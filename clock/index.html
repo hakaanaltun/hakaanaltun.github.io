@@ -124,7 +124,7 @@ layout: null
     gap:12px; transition:border-color .4s ease;
   }
   .chrome .tabs, .chrome .settings{ transition:opacity .4s ease; }
-  .tabs{ display:flex; gap:4px; }
+  .tabs{ display:flex; gap:4px; margin-right:auto; }
   .tab{
     background:none; border:1px solid transparent; color:var(--muted);
     font-family:var(--body); font-size:16px; letter-spacing:.02em;
@@ -136,6 +136,14 @@ layout: null
   .tab:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
 
   .settings{ display:flex; align-items:center; gap:18px; }
+  /* a quiet way back to the toolshed */
+  .tools-link{
+    font-family:var(--body); font-style:italic; font-size:.95rem; letter-spacing:.03em;
+    color:var(--muted); text-decoration:none; white-space:nowrap;
+    transition:color .2s, opacity .4s ease;
+  }
+  .tools-link:hover{ color:var(--fg); }
+  .tools-link:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
   .toggle{
     display:flex; align-items:center; gap:8px; color:var(--muted);
     font-size:14px; letter-spacing:.02em; cursor:pointer; user-select:none;
@@ -256,11 +264,11 @@ layout: null
   .theme-corner.collapsed .swatch:nth-child(n+3){ display:none; }
 
   body.immersive .chrome{ border-color:transparent; }
-  body.immersive .tabs, body.immersive .settings, body.immersive .masthead,
+  body.immersive .tabs, body.immersive .settings, body.immersive .masthead, body.immersive .tools-link,
   body.immersive .seconds-corner, body.immersive .theme-corner, body.immersive .controls, body.immersive .mode-row{
     opacity:0; pointer-events:none; transition:opacity .4s;
   }
-  body.immersive.show-chrome .tabs, body.immersive.show-chrome .settings, body.immersive.show-chrome .masthead,
+  body.immersive.show-chrome .tabs, body.immersive.show-chrome .settings, body.immersive.show-chrome .masthead, body.immersive.show-chrome .tools-link,
   body.immersive.show-chrome .seconds-corner, body.immersive.show-chrome .theme-corner, body.immersive.show-chrome .controls, body.immersive.show-chrome .mode-row{
     opacity:1; pointer-events:auto;
   }
@@ -283,15 +291,16 @@ layout: null
      (the absolutely-centered masthead collides with the tabs on narrower viewports) */
   @media (max-width:1150px){
     .chrome{
-      display:grid; grid-template-columns:40px 1fr 40px;
-      grid-template-areas:". logo fs" "tabs tabs tabs";
+      display:grid; grid-template-columns:64px 1fr 64px;
+      grid-template-areas:"tools logo fs" "tabs tabs tabs";
       align-items:center; row-gap:12px;
     }
+    .tools-link{ grid-area:tools; justify-self:start; }
     .masthead{ position:static; transform:none; grid-area:logo; }
     .settings{ grid-area:fs; justify-self:end; }
     /* One-row swipeable strip (same idea as the home header-nav-bar) */
     .tabs{
-      grid-area:tabs; justify-content:flex-start; flex-wrap:nowrap;
+      grid-area:tabs; margin-right:0; justify-content:flex-start; flex-wrap:nowrap;
       min-width:0; gap:6px; padding:0 2px 2px;
       overflow-x:auto; overflow-y:hidden;
       -webkit-overflow-scrolling:touch;
@@ -338,6 +347,7 @@ layout: null
   <div class="app">
 
   <div class="chrome" id="chrome">
+    <a class="tools-link" href="/tools/" aria-label="All the tools">&larr;&#8202;tools</a>
     <div class="tabs" role="tablist" aria-label="View">
       <button class="tab" role="tab" data-panel="clock"     aria-selected="true">Clock</button>
       <button class="tab" role="tab" data-panel="countdown" aria-selected="false">Countdown</button>
