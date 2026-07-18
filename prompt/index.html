@@ -1,0 +1,682 @@
+---
+layout: null
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Online Teleprompter&mdash;Mirroring, Speed &amp; Remote Keys &middot; On Life &amp; Everything</title>
+<meta name="description" content="A fullscreen teleprompter in the browser: paste your script, set the pace in words per minute, and read. Adjustable type size and line width, mirroring for beam-splitter rigs, keyboard and presentation-remote control, an estimated finish time, and local autosave. Free and ad-free.">
+<link rel="canonical" href="https://hakanaltun.io/prompt/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="The Prompter—Free Online Teleprompter with Mirroring">
+<meta property="og:description" content="A fullscreen teleprompter: paste your script, set the pace, and read—mirroring, large type, keyboard and remote control, and an estimated finish time.">
+<meta property="og:url" content="https://hakanaltun.io/prompt/">
+<meta property="og:image" content="https://hakanaltun.io/images/og/prompt.png?v=20260718-1">
+<meta property="og:image:alt" content="The Prompter—free online teleprompter with mirroring">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Prompter—Free Online Teleprompter with Mirroring">
+<meta name="twitter:description" content="A fullscreen teleprompter: paste your script, set the pace, and read—mirroring, large type, keyboard and remote control, and an estimated finish time.">
+<meta name="twitter:image" content="https://hakanaltun.io/images/og/prompt.png?v=20260718-1">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#FFFFFF">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#191712">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "@id": "https://hakanaltun.io/prompt/#app",
+  "name": "The Prompter—Free Online Teleprompter with Mirroring",
+  "url": "https://hakanaltun.io/prompt/",
+  "description": "A fullscreen teleprompter in the browser: paste your script, set the pace in words per minute, and read. Adjustable type size and line width, mirroring for beam-splitter rigs, keyboard and presentation-remote control, an estimated finish time, and local autosave. Free and ad-free.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "browserRequirements": "Requires JavaScript",
+  "isAccessibleForFree": true,
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Hakan Altun",
+    "url": "https://hakanaltun.io/"
+  },
+  "inLanguage": "en"
+}
+</script>
+
+<link rel="stylesheet" href="/css/fonts.css?v=20260710-1">
+
+<style>
+  :root{
+    --paper: #FFFFFF;
+    --ink:   #2F2B27;
+    --muted: #746F69;
+    --line:  #EEEAE4;
+
+    /* the stage keeps its own colors — a prompter is white on black in any theme */
+    --stage:     #0E0C0A;
+    --stage-ink: #EDE7DB;
+    --stage-dim: #8F887D;
+
+    --display: 'Cormorant Garamond', Georgia, serif;
+    --body:    'EB Garamond', Georgia, serif;
+
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark){
+    html:not([data-theme="light"]){
+      --paper:#191712; --ink:#E7E1D6; --muted:#9C948A; --line:#2B2721;
+      color-scheme: dark;
+    }
+  }
+  html[data-theme="dark"]{
+    --paper:#191712; --ink:#E7E1D6; --muted:#9C948A; --line:#2B2721;
+    color-scheme: dark;
+  }
+  /* theme toggle icons: moon in light, sun in dark */
+  :root{ --icon-sun:none; --icon-moon:block; }
+  @media (prefers-color-scheme: dark){
+    html:not([data-theme="light"]){ --icon-sun:block; --icon-moon:none; }
+  }
+  html[data-theme="dark"]{ --icon-sun:block; --icon-moon:none; }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+
+  /* the ampersand the site uses — the display italic, as in the header logo */
+  .amp{ font-family:var(--display); font-style:italic; }
+
+  body{
+    position:relative;
+    background:var(--paper); color:var(--ink); font-family:var(--body);
+    min-height:100vh; min-height:100dvh;
+    -webkit-font-smoothing:antialiased;
+    transition:background .4s ease, color .4s ease;
+  }
+
+  .chrome{
+    position:sticky; top:0; z-index:2; background:var(--paper);
+    display:grid; grid-template-columns:1fr auto 1fr; align-items:center; column-gap:10px;
+    padding:14px 22px; border-bottom:1px solid var(--line);
+    transition:border-color .4s ease, background .4s ease;
+  }
+  .masthead{
+    grid-column:2; text-decoration:none; display:flex; flex-direction:column;
+    align-items:center; gap:1px; text-align:center; opacity:.85; transition:opacity .2s;
+  }
+  .masthead:hover{ opacity:1; }
+  .home-brand{ font-family:var(--display); font-style:italic; font-weight:400; font-size:1.1rem; line-height:1.05; color:var(--ink); }
+  .home-tagline{ font-family:var(--body); font-style:italic; font-weight:400; font-size:0.8rem; line-height:1.2; color:var(--muted); }
+
+  /* a quiet way back to the toolshed */
+  .tools-link{
+    grid-column:1; justify-self:start;
+    font-family:var(--body); font-style:italic; font-size:.95rem; letter-spacing:.03em;
+    color:var(--muted); text-decoration:none; white-space:nowrap;
+    transition:color .2s;
+  }
+  .tools-link:hover{ color:var(--ink); }
+  .tools-link:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
+
+  .actions{ grid-column:3; justify-self:end; display:flex; gap:8px; }
+  .icon-btn{
+    background:none; border:1px solid var(--line); color:var(--muted);
+    width:38px; height:38px; border-radius:8px; cursor:pointer; font-size:16px;
+    display:grid; place-items:center; transition:color .2s, border-color .2s;
+  }
+  .icon-btn:hover{ color:var(--ink); border-color:var(--muted); }
+  .icon-btn:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
+  .icon-btn svg{ width:16px; height:16px; }
+  .theme-btn .icon-sun{ display:var(--icon-sun); }
+  .theme-btn .icon-moon{ display:var(--icon-moon); }
+
+  .tool-head{ max-width:680px; margin:0 auto; padding:6vh 26px 0; text-align:center; }
+  .tool-head h1{
+    font-family:var(--display); font-style:italic; font-weight:400;
+    font-size:clamp(1.9rem, 5vw, 2.6rem); line-height:1.1;
+  }
+  .tool-head .lede{ margin-top:.5rem; font-style:italic; color:var(--muted); font-size:1rem; }
+
+  .sheet{ width:100%; max-width:680px; margin:0 auto; padding:4vh 26px 10vh; }
+
+  /* the paper — as on /write/ */
+  textarea{
+    display:block; width:100%; min-height:32vh;
+    border:0; background:transparent; color:var(--ink);
+    font-family:var(--body); font-size:1.35rem; line-height:1.66;
+    resize:none; outline:none; overflow:hidden;
+    caret-color:var(--ink);
+  }
+  textarea::placeholder{ color:var(--muted); font-style:italic; opacity:.65; }
+
+  .settings{ margin-top:1.8rem; border-top:1px solid var(--line); padding-top:1.6rem; }
+  .settings-name{
+    font-family:var(--body); font-style:italic; font-weight:400;
+    font-size:1.05rem; color:var(--muted); letter-spacing:.03em; margin-bottom:.9rem;
+  }
+  .set-grid{ display:flex; gap:22px 34px; flex-wrap:wrap; align-items:center; }
+  .set{ display:flex; align-items:center; gap:9px; color:var(--ink); font-size:1.02rem; }
+  .set .lbl{ color:var(--muted); font-style:italic; }
+  .set input[type="number"]{
+    width:74px; background:transparent; color:var(--ink);
+    border:1px solid var(--line); border-radius:8px; padding:7px 9px;
+    font-family:var(--body); font-size:1rem; text-align:center; outline:none;
+  }
+  .set input[type="number"]:focus-visible{ border-color:var(--muted); }
+  .toggle{
+    display:flex; align-items:center; gap:8px; color:var(--muted);
+    font-size:.98rem; font-style:italic; letter-spacing:.02em; cursor:pointer; user-select:none;
+  }
+  .toggle input{ accent-color:var(--ink); width:15px; height:15px; cursor:pointer; }
+
+  .act-row{ margin-top:1.8rem; display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+  .btn{
+    font-family:var(--display); font-style:italic; font-size:1.25rem;
+    padding:9px 28px; border-radius:0; cursor:pointer;
+    border:1px solid var(--line); background:none; color:var(--ink);
+    transition:background .2s, color .2s, border-color .2s;
+  }
+  .btn:hover{ border-color:var(--ink); }
+  .btn:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
+  .btn.primary{ background:var(--ink); color:var(--paper); border-color:var(--ink); }
+  .btn.primary:hover{ filter:brightness(1.12); }
+  .btn[disabled]{ opacity:.45; cursor:default; }
+  .btn[disabled]:hover{ border-color:var(--line); }
+  .btn.primary[disabled]:hover{ filter:none; }
+
+  .report{
+    margin-top:1rem; font-style:italic; color:var(--muted);
+    font-size:.98rem; letter-spacing:.02em; min-height:1.4em;
+  }
+
+  /* ============ the stage ============ */
+  .stage{
+    position:fixed; inset:0; z-index:10; display:none;
+    background:var(--stage); color:var(--stage-ink);
+    overflow:hidden; cursor:none;
+  }
+  body.playing .stage{ display:block; }
+  body.playing{ overflow:hidden; }
+
+  .roll-clip{ position:absolute; inset:0; overflow:hidden; }
+  .roll{
+    position:absolute; left:50%; top:0; transform:translate(-50%,0);
+    width:min(92vw, var(--roll-width, 36ch));
+    font-family:var(--body); font-size:var(--roll-size, 44px);
+    line-height:1.5; text-align:center;
+    padding:46vh 0 55vh;
+    will-change:transform;
+  }
+  .roll p{ margin:0 0 1.1em; }
+  .stage.mirrored .roll-clip{ transform:scaleX(-1); }
+
+  /* the reading line */
+  .guide{
+    position:absolute; left:0; right:0; top:34vh; pointer-events:none;
+    border-top:1px solid rgba(237,231,219,.18);
+  }
+  .guide::before{
+    content:""; position:absolute; left:14px; top:-6px;
+    border:6px solid transparent; border-left-color:rgba(237,231,219,.38);
+  }
+
+  /* progress hairline */
+  .progress{
+    position:absolute; top:0; left:0; height:2px; width:0;
+    background:rgba(237,231,219,.35);
+  }
+
+  /* HUD — fades like the chrome on /write/ */
+  .hud{
+    position:absolute; left:0; right:0; top:0; padding:16px 20px;
+    display:flex; justify-content:space-between; align-items:baseline;
+    font-size:15px; font-style:italic; color:var(--stage-dim);
+    opacity:0; transition:opacity .35s ease; pointer-events:none;
+  }
+  .hints{
+    position:absolute; left:0; right:0; bottom:0; padding:14px 20px;
+    text-align:center; font-size:14px; font-style:italic; color:var(--stage-dim);
+    opacity:0; transition:opacity .35s ease; pointer-events:none;
+  }
+  .stage.show-hud .hud, .stage.show-hud .hints{ opacity:1; }
+  .stage.show-hud{ cursor:default; }
+
+  /* the countdown */
+  .count{
+    position:absolute; inset:0; display:none; place-items:center;
+    font-family:var(--display); font-style:italic; font-size:clamp(80px, 22vh, 200px);
+    color:var(--stage-ink);
+  }
+  .stage.counting .count{ display:grid; }
+  .stage.counting .roll-clip, .stage.counting .guide{ opacity:.25; }
+
+  /* paused mark */
+  .paused-mark{
+    position:absolute; top:16px; right:20px; display:none;
+    font-size:15px; font-style:italic; color:var(--stage-dim);
+  }
+  .stage.paused-state .paused-mark{ display:block; }
+
+  /* notes — reading matter under the instrument */
+  .notes{ border-top:1px solid var(--line); padding:60px 26px 84px; scroll-margin-top:64px; }
+  .notes-inner{ max-width:640px; margin:0 auto; }
+  .notes h2{ font-family:var(--display); font-style:italic; font-weight:400; font-size:1.6rem; margin:2.4rem 0 1rem; color:var(--ink); }
+  .notes h2:first-child{ margin-top:0; }
+  .notes h3{ font-family:var(--body); font-style:italic; font-weight:400; font-size:1.15rem; margin:1.5rem 0 .35rem; color:var(--ink); }
+  .notes p{ color:var(--muted); font-size:1.05rem; line-height:1.65; margin:0 0 .9rem; }
+  .notes code{ font-family:inherit; font-style:italic; color:var(--ink); }
+  .notes a{ color:var(--ink); text-decoration:underline; text-underline-offset:3px; text-decoration-color:var(--line); }
+  .notes a:hover{ text-decoration-color:var(--ink); }
+  .notes .notes-links{ margin-top:2.4rem; padding-top:1.3rem; border-top:1px solid var(--line); font-style:italic; }
+
+  .sr-only{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); }
+
+  /* tablets: tighten the tall first screen so the settings stay within reach */
+  @media (min-width:601px) and (max-width:1150px){
+    .tool-head{ padding-top:3.5vh; }
+    .sheet{ padding-top:2.5vh; }
+    textarea{ min-height:26vh; }
+  }
+
+  @media (max-width:600px){
+    .chrome{ padding:12px 14px; }
+    .home-brand{ font-size:1rem; }
+    .home-tagline{ font-size:0.74rem; }
+    .sheet{ padding:3vh 20px 8vh; }
+    textarea{ font-size:1.22rem; }
+    .set-grid{ gap:14px 22px; }
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    *{ transition:none !important; }
+  }
+</style>
+<script>(function(){try{var t=localStorage.getItem('olae-page-theme');if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();</script>
+</head>
+<body>
+
+  <div class="chrome" id="chrome">
+    <a class="tools-link" href="/tools/" aria-label="All the tools">&larr;&#8202;tools</a>
+    <a class="masthead" href="/" aria-label="On Life &amp; Everything—home">
+      <span class="home-brand">On Life &amp; Everything</span>
+      <span class="home-tagline">Essays, short fiction, and other writing.</span>
+    </a>
+    <div class="actions">
+      <button class="icon-btn theme-btn" id="themeBtn" type="button" title="Light / dark" aria-label="Switch theme">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <header class="tool-head">
+    <h1>The prompter</h1>
+    <p class="lede">Paste the script, set the pace, and read&mdash;the page does the scrolling.</p>
+  </header>
+
+  <main class="sheet">
+
+    <label for="script" class="sr-only">The script</label>
+    <textarea id="script" placeholder="Paste the lecture, the speech, or the lines for the camera." autocomplete="off" spellcheck="false"></textarea>
+
+    <div class="settings">
+      <h2 class="settings-name">The pace</h2>
+      <div class="set-grid">
+        <label class="set"><span class="lbl">words a minute</span>
+          <input type="number" id="wpm" min="60" max="300" step="5" value="140">
+        </label>
+        <label class="set"><span class="lbl">type size</span>
+          <input type="number" id="fsize" min="24" max="96" step="2" value="44">
+        </label>
+        <label class="set"><span class="lbl">line width</span>
+          <input type="number" id="lwidth" min="20" max="60" step="2" value="36">
+        </label>
+        <label class="toggle"><input type="checkbox" id="mirror"> Mirror</label>
+        <label class="toggle"><input type="checkbox" id="countdown" checked> Count in</label>
+      </div>
+    </div>
+
+    <div class="act-row">
+      <button class="btn primary" id="startBtn" type="button" disabled>Prompt</button>
+    </div>
+    <div class="report" id="report" aria-live="polite">&nbsp;</div>
+
+  </main>
+
+  <!-- ============ the stage ============ -->
+  <div class="stage" id="stage" aria-hidden="true">
+    <div class="progress" id="progress"></div>
+    <div class="guide" aria-hidden="true"></div>
+    <div class="roll-clip"><div class="roll" id="roll"></div></div>
+    <div class="hud">
+      <span id="hudWpm">140 wpm</span>
+      <span id="hudLeft"></span>
+    </div>
+    <div class="paused-mark">paused</div>
+    <div class="hints">space pause &middot; &uarr;&darr; pace &middot; &larr;&rarr; jump &middot; M mirror &middot; F fullscreen &middot; Esc leave</div>
+    <div class="count" id="count" aria-hidden="true"></div>
+  </div>
+
+  <footer class="notes" id="notes">
+    <div class="notes-inner">
+      <h2>About this page</h2>
+      <p>A teleprompter with nothing to install: the script goes in the box, the pace is set in words a minute, and the Prompt button turns the screen into a slow river of type&mdash;white on black, a faint line marking where to read. The space bar pauses, the arrows adjust pace and position, and a presentation remote&rsquo;s page keys do the same, so the lectern stays hands-free. The line under the button tells you how long the script will take before you commit to it; the mirror switch flips the text for a beam-splitter rig. The script itself stays in this browser, saved as you type.</p>
+
+      <h2>Questions</h2>
+      <h3>How fast should the prompter scroll?</h3>
+      <p>Conversational delivery sits around 130&ndash;150 words a minute; lectures often want less, readings for the camera a little more. Set the number, read the estimate under the button&mdash;the page converts your script&rsquo;s length into minutes&mdash;and adjust while reading with the up and down arrows; the speed shown in the corner follows.</p>
+
+      <h3>Can I use it with a presentation remote?</h3>
+      <p>Yes. Remotes present themselves as a keyboard sending Page Up and Page Down: here Page Down pauses and resumes, and Page Up steps back ten seconds&mdash;the two gestures a talk actually needs. The space bar and arrow keys do the rest when you are within reach.</p>
+
+      <h3>What is the mirror for?</h3>
+      <p>A studio teleprompter bounces the screen off angled glass in front of the lens, which flips the image; mirrored text flips it back. Tick Mirror&mdash;or press M while reading&mdash;when the prompter is read through a beam-splitter; leave it off when reading straight from the screen.</p>
+
+      <h3>Where does my script go?</h3>
+      <p>Nowhere. It stays in this browser, saved to local storage on your device as you type, and is waiting when you return. Clearing the browser&rsquo;s site data clears the script too.</p>
+
+      {% include tool-links.html slug="prompt" %}
+    </div>
+  </footer>
+
+<script>
+(function(){
+  "use strict";
+  var $ = function(s){ return document.querySelector(s); };
+  var LS = "olae-prompt-v1";
+
+  var ta = $("#script"), report = $("#report"), startBtn = $("#startBtn");
+  var wpmIn = $("#wpm"), sizeIn = $("#fsize"), widthIn = $("#lwidth");
+  var mirrorIn = $("#mirror"), countIn = $("#countdown");
+  var stage = $("#stage"), roll = $("#roll"), progress = $("#progress");
+  var hudWpm = $("#hudWpm"), hudLeft = $("#hudLeft"), countEl = $("#count");
+
+  /* ---- restore + autosave (same pattern as /write/) ---- */
+  try{
+    var saved = JSON.parse(localStorage.getItem(LS));
+    if(saved){
+      if(typeof saved.text === "string") ta.value = saved.text;
+      if(saved.wpm) wpmIn.value = saved.wpm;
+      if(saved.size) sizeIn.value = saved.size;
+      if(saved.width) widthIn.value = saved.width;
+      mirrorIn.checked = !!saved.mirror;
+      if(saved.count === false) countIn.checked = false;
+    }
+  }catch(e){}
+  function saveNow(){
+    try{
+      localStorage.setItem(LS, JSON.stringify({
+        text: ta.value, wpm: +wpmIn.value, size: +sizeIn.value,
+        width: +widthIn.value, mirror: mirrorIn.checked,
+        count: countIn.checked, at: Date.now()
+      }));
+    }catch(e){}
+  }
+  var saveT;
+  function grow(){ ta.style.height = "auto"; ta.style.height = ta.scrollHeight + "px"; }
+
+  /* ---- the estimate ---- */
+  function words(){
+    var m = ta.value.match(/\S+/g);
+    return m ? m.length : 0;
+  }
+  function clampWpm(){ return Math.min(300, Math.max(60, +wpmIn.value || 140)); }
+  function fmt(sec){
+    sec = Math.max(0, Math.round(sec));
+    var m = Math.floor(sec / 60), s = sec % 60;
+    return m ? m + " min " + s + " s" : s + " s";
+  }
+  function fmtClock(sec){
+    sec = Math.max(0, Math.round(sec));
+    var m = Math.floor(sec / 60), s = sec % 60;
+    return m + ":" + (s < 10 ? "0" : "") + s;
+  }
+  function estimate(){
+    var n = words();
+    startBtn.disabled = n === 0;
+    if(!n){ report.innerHTML = "&nbsp;"; return; }
+    var sec = n / clampWpm() * 60;
+    report.textContent = n.toLocaleString("en-US") + (n === 1 ? " word" : " words")
+      + " — about " + fmt(sec) + " at " + clampWpm() + " wpm.";
+  }
+  ta.addEventListener("input", function(){
+    grow(); estimate();
+    clearTimeout(saveT);
+    saveT = setTimeout(saveNow, 500);
+  });
+  [wpmIn, sizeIn, widthIn, mirrorIn, countIn].forEach(function(el){
+    el.addEventListener("change", function(){ estimate(); saveNow(); });
+  });
+  window.addEventListener("beforeunload", saveNow);
+
+  /* ---- the stage ---- */
+  var playing = false, paused = false, y = 0, lastT = 0, raf = 0, total = 1;
+
+  function pxPerSec(){
+    /* the text's own height, read at the set pace — the lead-in and
+       run-out paddings ride along at the same speed */
+    var sec = words() / clampWpm() * 60;
+    var textPx = roll.scrollHeight - vh(46) - vh(55);
+    return sec > 0 ? textPx / sec : 0;
+  }
+  function vh(n){ return window.innerHeight * n / 100; }
+
+  function buildRoll(){
+    roll.innerHTML = "";
+    var paras = ta.value.split(/\n\s*\n/);
+    paras.forEach(function(p){
+      var t = p.replace(/\s+\n/g, "\n").trim();
+      if(!t) return;
+      var el = document.createElement("p");
+      el.textContent = t;
+      roll.appendChild(el);
+    });
+    if(!roll.children.length){
+      var el2 = document.createElement("p");
+      el2.textContent = ta.value.trim();
+      roll.appendChild(el2);
+    }
+    roll.style.setProperty("--roll-size", clampSize() + "px");
+    roll.style.fontSize = clampSize() + "px";
+    roll.style.width = "min(92vw, " + clampWidth() + "ch)";
+  }
+  function clampSize(){ return Math.min(96, Math.max(24, +sizeIn.value || 44)); }
+  function clampWidth(){ return Math.min(60, Math.max(20, +widthIn.value || 36)); }
+
+  function setMirror(on){
+    mirrorIn.checked = on;
+    stage.classList.toggle("mirrored", on);
+    saveNow();
+  }
+
+  function place(){
+    roll.style.transform = "translate(-50%, " + (-y) + "px)";
+    var frac = Math.min(1, Math.max(0, y / total));
+    progress.style.width = (frac * 100) + "%";
+    var left = pps > 0 ? (total - y) / pps : 0;
+    hudLeft.textContent = y >= total ? "the end" : fmtClock(left) + " left";
+  }
+
+  var pps = 0;
+  function retime(){
+    pps = pxPerSec();
+    hudWpm.textContent = clampWpm() + " wpm";
+  }
+
+  function tick(t){
+    if(!playing) return;
+    if(!paused){
+      var dt = lastT ? (t - lastT) / 1000 : 0;
+      lastT = t;
+      y += pps * dt;
+      if(y >= total){ y = total; pause(true); }
+      place();
+    }else{
+      lastT = t;
+    }
+    raf = requestAnimationFrame(tick);
+  }
+
+  function start(){
+    if(!words()) return;
+    buildRoll();
+    document.body.classList.add("playing");
+    stage.setAttribute("aria-hidden", "false");
+    stage.classList.toggle("mirrored", mirrorIn.checked);
+    /* travel: from the top padding (text begins at the guide after the
+       lead-in) to the last line passing the guide */
+    y = vh(46) - vh(34);
+    retime();
+    total = roll.scrollHeight - vh(34) - vh(55);
+    place();
+    playing = true; paused = false; lastT = 0;
+    if(countIn.checked){ countIn3(); }
+    else{ raf = requestAnimationFrame(tick); }
+    pokeHud();
+  }
+  function countIn3(){
+    var n = 3;
+    stage.classList.add("counting");
+    countEl.textContent = n;
+    var iv = setInterval(function(){
+      n--;
+      if(n <= 0){
+        clearInterval(iv);
+        stage.classList.remove("counting");
+        countEl.textContent = "";
+        lastT = 0;
+        raf = requestAnimationFrame(tick);
+        return;
+      }
+      countEl.textContent = n;
+    }, 800);
+  }
+  function pause(atEnd){
+    paused = true;
+    stage.classList.add("paused-state");
+    if(atEnd) pokeHud();
+  }
+  function resume(){
+    if(y >= total) y = Math.max(0, total - 1);
+    paused = false;
+    stage.classList.remove("paused-state");
+  }
+  function stop(){
+    playing = false; paused = false;
+    cancelAnimationFrame(raf);
+    document.body.classList.remove("playing");
+    stage.setAttribute("aria-hidden", "true");
+    stage.classList.remove("paused-state", "counting", "show-hud");
+    saveNow();
+  }
+  function jump(sec){
+    y = Math.min(total, Math.max(0, y + pps * sec));
+    place();
+  }
+
+  startBtn.addEventListener("click", start);
+
+  /* HUD visibility — the chrome peeks on movement, as on /write/ */
+  var hudT;
+  function pokeHud(){
+    stage.classList.add("show-hud");
+    clearTimeout(hudT);
+    hudT = setTimeout(function(){
+      if(!paused) stage.classList.remove("show-hud");
+    }, 2600);
+  }
+  ["mousemove","touchstart"].forEach(function(ev){
+    stage.addEventListener(ev, pokeHud);
+  });
+  stage.addEventListener("click", function(){
+    if(!playing || stage.classList.contains("counting")) return;
+    paused ? resume() : pause();
+    pokeHud();
+  });
+
+  /* ---- keys: the lectern set ---- */
+  document.addEventListener("keydown", function(e){
+    if(!playing) return;
+    if(e.key === "Escape"){ stop(); return; }
+    if(stage.classList.contains("counting")) return;
+    switch(e.key){
+      case " ":
+        e.preventDefault(); paused ? resume() : pause(); pokeHud(); break;
+      case "ArrowUp":
+        e.preventDefault(); wpmIn.value = Math.min(300, clampWpm() + 5); retime(); saveNow(); pokeHud(); break;
+      case "ArrowDown":
+        e.preventDefault(); wpmIn.value = Math.max(60, clampWpm() - 5); retime(); saveNow(); pokeHud(); break;
+      case "ArrowLeft":
+        e.preventDefault(); jump(-5); pokeHud(); break;
+      case "ArrowRight":
+        e.preventDefault(); jump(5); pokeHud(); break;
+      case "PageDown":
+        e.preventDefault(); paused ? resume() : pause(); pokeHud(); break;
+      case "PageUp":
+        e.preventDefault(); jump(-10); pokeHud(); break;
+      case "Home":
+        e.preventDefault(); y = vh(46) - vh(34); place(); pokeHud(); break;
+      case "m": case "M":
+        setMirror(!mirrorIn.checked); break;
+      case "f": case "F":
+        toggleFs(); break;
+    }
+  });
+
+  window.addEventListener("resize", function(){
+    if(!playing) return;
+    var frac = total > 0 ? y / total : 0;
+    buildRoll();
+    retime();
+    total = roll.scrollHeight - vh(34) - vh(55);
+    y = frac * total;
+    place();
+  });
+
+  /* ---- fullscreen (webkit-prefixed, as on /clock/) ---- */
+  var docEl = document.documentElement;
+  function nativeFsElement(){ return document.fullscreenElement || document.webkitFullscreenElement || null; }
+  function toggleFs(){
+    if(nativeFsElement()){
+      var ex = document.exitFullscreen || document.webkitExitFullscreen;
+      if(ex){ try{ ex.call(document); }catch(e){} }
+      return;
+    }
+    var fn = docEl.requestFullscreen || docEl.webkitRequestFullscreen;
+    if(fn){ try{ fn.call(docEl); }catch(e){} }
+  }
+
+  /* ---- theme ---- */
+  $("#themeBtn").addEventListener("click", function(){
+    var root = document.documentElement;
+    var current = root.getAttribute("data-theme");
+    var next;
+    if(current === "dark") next = "light";
+    else if(current === "light") next = "dark";
+    else next = window.matchMedia("(prefers-color-scheme: dark)").matches ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    try{ localStorage.setItem("olae-page-theme", next); }catch(e){}
+  });
+
+  /* ---- init ---- */
+  grow(); estimate();
+  window.addEventListener("resize", grow);
+})();
+</script>
+<script>if("serviceWorker" in navigator){navigator.serviceWorker.register("/sw.js").catch(function(){});}</script>
+</body>
+</html>
