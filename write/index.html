@@ -199,7 +199,7 @@ layout: null
     *{ transition:none !important; }
   }
 </style>
-<script>(function(){try{var t=localStorage.getItem('olae-page-theme');if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();</script>
+<script>(function(){try{var t=localStorage.getItem('olae-page-theme');if(t!=='dark'&&t!=='light'){var s=localStorage.getItem('theme');t=(s==='midnight'||s==='dusk')?'dark':s;}if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();</script>
 </head>
 <body>
 

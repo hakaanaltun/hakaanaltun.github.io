@@ -184,6 +184,24 @@ layout: null
   }
   .corner.on{ opacity:1; }
 
+  /* storage notice — when the drawing outgrows autosave */
+  .storage-note{
+    position:absolute; top:16px; left:50%; transform:translateX(-50%); z-index:3;
+    display:flex; align-items:center; gap:12px; max-width:min(92%, 480px);
+    padding:10px 14px; background:var(--paper);
+    border:1px solid var(--line); border-radius:10px;
+    font-family:var(--body); font-style:italic; font-size:.92rem; color:var(--ink);
+  }
+  .storage-note[hidden]{ display:none; }
+  .storage-note .dismiss{
+    background:none; border:1px solid var(--line); color:var(--muted);
+    width:26px; height:26px; border-radius:8px; cursor:pointer; font-size:14px;
+    line-height:1; flex:0 0 auto; display:grid; place-items:center;
+    transition:color .2s, border-color .2s;
+  }
+  .storage-note .dismiss:hover{ color:var(--ink); border-color:var(--muted); }
+  .storage-note .dismiss:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
+
   body.immersive .chrome, body.immersive .tools{ opacity:0; pointer-events:none; }
   body.immersive.show-chrome .chrome, body.immersive.show-chrome .tools{ opacity:1; pointer-events:auto; }
 
@@ -260,6 +278,11 @@ layout: null
     </div>
 
     <div class="corner" id="savedNote" aria-live="polite">Saved</div>
+
+    <div class="storage-note" id="storageNote" role="status" hidden>
+      <span>This drawing has grown too large to autosave. Download it now.</span>
+      <button class="dismiss" type="button" aria-label="Dismiss">&times;</button>
+    </div>
   </div>
 
   <a class="notes-cue" href="#notes">notes <span class="amp">&amp;</span> questions &darr;</a>
@@ -279,7 +302,7 @@ layout: null
       <p>They stay in this browser, saved to local storage on your device, and reappear when you return. Clearing the browser&rsquo;s site data clears the page too, so download anything you want to keep as a PNG.</p>
 
       <h3>Does the page autosave?</h3>
-      <p>Yes&mdash;a moment after the pen lifts, and again when you leave. A very long drawing can outgrow the browser&rsquo;s storage allowance; if that happens the page keeps the most recent strokes and lets the oldest go, so download finished work you care about.</p>
+      <p>Yes&mdash;a moment after the pen lifts, and again when you leave. A very long drawing can outgrow the browser&rsquo;s storage allowance; if that happens the drawing stays whole on screen, autosave stops for the session, and a notice asks you to download it&mdash;so nothing you drew is ever thrown away.</p>
 
       <h3>Can I use it with a stylus or drawing tablet?</h3>
       <p>Yes. The page listens to pen, touch and mouse alike, and where the hardware reports pressure&mdash;an iPad pencil, a drawing tablet&mdash;the stroke swells and thins with it.</p>
@@ -398,18 +421,20 @@ layout: null
 
   /* ---- autosave (local only — nothing leaves the page) ---- */
   var saveT, noteT, savedEl = $("#savedNote");
+  var storageNote = $("#storageNote");
+  var autosaveOff = false;   /* set when the drawing outgrows localStorage */
   function serialize(){ return JSON.stringify({ v: 1, strokes: strokes }); }
   function saveNow(){
+    if(autosaveOff) return;
     try{
-      var payload = serialize();
-      /* if the drawing has outgrown localStorage, keep the newest strokes */
-      for(var guard = 0; guard < 40; guard++){
-        try{ localStorage.setItem(LS, payload); break; }
-        catch(e){
-          if(strokes.length < 2) return;
-          strokes.splice(0, Math.max(1, Math.floor(strokes.length * 0.1)));
-          payload = serialize();
-        }
+      /* if the drawing has outgrown localStorage, the work stays whole in
+         memory — autosave simply stops for the session and a notice asks
+         the reader to download; strokes are never thrown away to fit */
+      try{ localStorage.setItem(LS, serialize()); }
+      catch(e){
+        autosaveOff = true;
+        storageNote.hidden = false;
+        return;
       }
       savedEl.classList.add("on");
       clearTimeout(noteT);
@@ -420,7 +445,11 @@ layout: null
     clearTimeout(saveT);
     saveT = setTimeout(saveNow, 600);
   }
+  storageNote.querySelector(".dismiss").addEventListener("click", function(){
+    storageNote.hidden = true;
+  });
   window.addEventListener("beforeunload", function(){
+    if(autosaveOff) return;
     try{ localStorage.setItem(LS, serialize()); }catch(e){}
   });
 

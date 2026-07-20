@@ -1,11 +1,14 @@
-/* theme.js — footer theme menu (light / dark / midnight / dusk).
+/* theme.js — footer theme menu (system / light / dark / midnight / dusk).
    The effective theme is the stored choice if any, else the system
-   preference. head.html applies the stored choice to <html data-theme>
-   (and points the theme-color metas at it) before CSS paints, so this
-   file only has to wire the menu and keep the metas in step.
+   preference ("System", the state for first-time visitors: no stored
+   key, no data-theme attribute, CSS follows prefers-color-scheme and
+   tracks it live). head.html applies the stored choice to
+   <html data-theme> (and points the theme-color metas at it) before
+   CSS paints, so this file only has to wire the menu and keep the
+   metas in step.
 
-   "Dusk" is not a fourth palette but a rule: follow the reader's own
-   sky — light while the sun is up, dark through civil twilight,
+   "Dusk" is not a fourth palette but a rule: roughly follow local
+   dusk — light while the sun is up, dark through civil twilight,
    midnight once the sun is more than 6° down. The sun's altitude is
    computed from the clock and the IANA time zone (a rough coordinate
    guess — this sets an ambience, it is not an almanac), so no location
@@ -17,7 +20,6 @@
   var menu = document.getElementById('theme-menu');
   if (!btn || !menu) return;
   var THEMES = ['light', 'dark', 'midnight', 'dusk'];
-  var PALETTES = ['light', 'dark', 'midnight'];
   var mq = window.matchMedia('(prefers-color-scheme: dark)');
   function stored() {
     try { return localStorage.getItem('theme'); } catch (e) { return null; }
@@ -69,12 +71,13 @@
   function effective() {
     var t = stored();
     if (THEMES.indexOf(t) !== -1) return t;
-    var a = document.documentElement.getAttribute('data-theme');
-    if (PALETTES.indexOf(a) !== -1) return a;
-    return mq.matches ? 'dark' : 'light';
+    return 'system';
   }
   function apply(t) {
-    document.documentElement.setAttribute('data-theme', resolve(t));
+    /* System = no attribute at all: CSS falls back to prefers-color-scheme
+       and keeps following it live when the OS preference changes. */
+    if (t === 'system') document.documentElement.removeAttribute('data-theme');
+    else document.documentElement.setAttribute('data-theme', resolve(t));
   }
   /* Keep <meta name="theme-color"> on the active palette. A manual choice
      pins both metas to the chosen colour (data-light/data-dark/data-midnight,
@@ -96,10 +99,17 @@
       item.setAttribute('aria-checked', item.getAttribute('data-set-theme') === t ? 'true' : 'false');
     });
   }
+  function items() {
+    return Array.prototype.slice.call(menu.querySelectorAll('[data-set-theme]'));
+  }
   function openMenu() {
     syncMenu();
     menu.hidden = false;
     btn.setAttribute('aria-expanded', 'true');
+    /* menuitemradio pattern: focus lands on the checked item */
+    var list = items();
+    var sel = list.filter(function (i) { return i.getAttribute('aria-checked') === 'true'; })[0];
+    (sel || list[0]).focus();
   }
   function closeMenu(refocus) {
     if (menu.hidden) return;
@@ -117,10 +127,25 @@
     if (!item) return;
     var t = item.getAttribute('data-set-theme');
     apply(t);
-    try { localStorage.setItem('theme', t); } catch (e2) { /* private mode */ }
+    try {
+      if (t === 'system') localStorage.removeItem('theme');
+      else localStorage.setItem('theme', t);
+    } catch (e2) { /* private mode */ }
     syncThemeColor();
     syncMenu();
     closeMenu(true);
+  });
+  menu.addEventListener('keydown', function (e) {
+    var list = items();
+    var i = list.indexOf(document.activeElement);
+    var next = null;
+    if (e.key === 'ArrowDown') next = list[(i + 1) % list.length];
+    else if (e.key === 'ArrowUp') next = list[(i - 1 + list.length) % list.length];
+    else if (e.key === 'Home') next = list[0];
+    else if (e.key === 'End') next = list[list.length - 1];
+    else return;
+    e.preventDefault();
+    next.focus();
   });
   document.addEventListener('click', function (e) {
     if (!menu.hidden && !menu.contains(e.target) && !btn.contains(e.target)) closeMenu();

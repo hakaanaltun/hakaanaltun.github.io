@@ -12,14 +12,18 @@
    on the site is left to the network untouched. */
 "use strict";
 
-var CACHE = "olae-tools-v4";
+var CACHE = "olae-tools-v5";
 
 var TOOL_PAGES = [
+  "/tools/",   /* the catalogue itself, so "all of them" works offline */
   {% for tool in site.data.tools %}"/{{ tool.slug }}/"{% unless forloop.last %}, {% endunless %}{% endfor %}
 ];
 
 var TOOL_ASSETS = [
+  "/css/style.css",   /* the catalogue page's stylesheet */
   "/css/fonts.css",
+  "/js/rain-engine.js",
+  "/js/astronomy.js",
   "/fonts/cormorant-garamond-italic-latin-ext.woff2",
   "/fonts/cormorant-garamond-italic-latin.woff2",
   "/fonts/cormorant-garamond-latin-ext.woff2",
@@ -43,7 +47,9 @@ self.addEventListener("install", function(e){
 self.addEventListener("activate", function(e){
   e.waitUntil(
     caches.keys().then(function(keys){
-      return Promise.all(keys.filter(function(k){ return k !== CACHE; })
+      /* only retire our own old versions — a future site-level cache
+         under another prefix must survive this worker's activation */
+      return Promise.all(keys.filter(function(k){ return k.indexOf("olae-tools-") === 0 && k !== CACHE; })
                              .map(function(k){ return caches.delete(k); }));
     }).then(function(){ return self.clients.claim(); })
   );
