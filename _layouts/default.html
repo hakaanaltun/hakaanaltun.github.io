@@ -3,7 +3,8 @@
 <head>
 {% include head.html %}
 </head>
-{% if page.series %}{% assign _skey = page.series %}
+{% if page.layout == "home" %}{% assign _skey = "home" %}
+{% elsif page.series %}{% assign _skey = page.series %}
 {% elsif page.series_filter %}{% assign _skey = page.series_filter %}
 {% else %}{% assign _skey = "default" %}{% endif %}
 {% if _skey == "" %}{% assign _skey = "pieces" %}{% endif %}
