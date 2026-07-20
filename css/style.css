@@ -790,9 +790,10 @@ body.moris-lightbox-open { overflow: hidden; }
 .series-thumb-num { color: var(--petrol); font-style: italic; }
 
 /* The afterward — one quiet line from the essay's last paragraph to an
-   instrument (_includes/essay-afterward.html), sitting just above the
-   section divider. */
-.essay-afterward { text-align: center; font-style: italic; color: var(--vizon); font-size: 1.02rem; letter-spacing: 0.01em; margin: 0; }
+   instrument (_includes/essay-afterward.html), sitting below the subscribe
+   box. Its bottom margin matches the subscribe box's so .more-essays'
+   negative top margin still collapses cleanly against it. */
+.essay-afterward { text-align: center; font-style: italic; color: var(--vizon); font-size: 1.02rem; letter-spacing: 0.01em; margin: 0 0 48px; }
 .essay-afterward a { color: var(--petrol); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--rule-strong); transition: text-decoration-color 0.2s ease; }
 .essay-afterward a:hover { text-decoration-color: var(--petrol); }
 

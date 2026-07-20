@@ -70,7 +70,6 @@ copied variants resolve the same file the page always used. {% endcomment %}
 {% unless is_story %}
 {% comment %} Story pages ("The Notice") end on a choice or the hidden doorbox —
 no subscribe box, no "Keep reading" cards, nothing after the last line. {% endcomment %}
-{% include essay-afterward.html %}
 <div class="essay-section-divider"></div>
 {% if page.series == "on-series" %}
 <div class="series-nav"></div>
@@ -83,6 +82,9 @@ no subscribe box, no "Keep reading" cards, nothing after the last line. {% endco
 <div class="essay-section-divider"></div>
 {% endif %}
 {% include post-subscribe.html %}
+{% comment %} The one quiet line to an instrument now sits below the subscribe
+box (js/afterward.js), and never on the newest eight or oldest five essays. {% endcomment %}
+{% include essay-afterward.html %}
 <div id="more-essays-container" class="more-essays"></div>
 {% endunless %}
 </div>
