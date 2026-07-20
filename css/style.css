@@ -100,8 +100,10 @@ body {
   --theme-icon-moon: none;
   }
   html:not([data-theme="light"]) body {
-  --petrol: #C6B98F;
-  --petrol-deep: #DCD1AC;
+  /* Dark's accent is a dried rose, not midnight's gold — the two dark
+     themes each keep their own voice (gold stays midnight's). */
+  --petrol: #C99BA6;
+  --petrol-deep: #DDB7C0;
   --surface-chrome: rgba(21, 19, 15, 0.88);
   --surface-footer: #14120E;
   }
@@ -128,8 +130,9 @@ html[data-theme="dark"] {
   --theme-icon-moon: none;
 }
 html[data-theme="dark"] body {
-  --petrol: #C6B98F;
-  --petrol-deep: #DCD1AC;
+  /* Dried rose, as in the media-query twin above — gold stays midnight's. */
+  --petrol: #C99BA6;
+  --petrol-deep: #DDB7C0;
   --surface-chrome: rgba(21, 19, 15, 0.88);
   --surface-footer: #14120E;
 }
