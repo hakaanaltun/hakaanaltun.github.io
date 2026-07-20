@@ -1,0 +1,28 @@
+{% comment %}
+  essay-afterward.html — the bridge from a finished essay to an instrument.
+  Instead of ending on a dead stop, the last line hands the reader somewhere
+  to sit for a moment: The Breath, The Noise, or Twilight. Each essay keeps
+  its own instrument — picked deterministically from the title length and the
+  day of year it was published (title length alone clustered badly), so the
+  pairing is stable across builds — or names one in front matter:
+      afterward: breathe | noise | twilight | none
+  Story pages never include this (post.html guards on is_story).
+{% endcomment %}
+{% assign _aw = page.afterward | default: "" %}
+{% unless _aw == "none" %}
+{% if _aw == "" %}
+{% assign _doy = page.date | date: "%j" | times: 2 %}
+{% assign _awn = page.title | size | plus: _doy | modulo: 3 %}
+{% if _awn == 0 %}{% assign _aw = "breathe" %}{% elsif _awn == 1 %}{% assign _aw = "noise" %}{% else %}{% assign _aw = "twilight" %}{% endif %}
+{% endif %}
+<p class="essay-afterward">
+{%- case _aw -%}
+{%- when "breathe" -%}
+No need to rush off&mdash;<a href="/breathe/">three minutes of The Breath</a>, and then the day.
+{%- when "noise" -%}
+If it is loud where you are, <a href="/noise/">The Noise</a> can hold the room for a while.
+{%- when "twilight" -%}
+When you look up from the page, <a href="/twilight/">the sky is kept in real time</a>.
+{%- endcase -%}
+</p>
+{% endunless %}

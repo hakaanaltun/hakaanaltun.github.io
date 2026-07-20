@@ -9,8 +9,16 @@ data-default restores the system-preference behaviour. {% endcomment %}
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#151310" data-light="rgb({{ _tc }})" data-dark="#151310" data-midnight="#0C1119" data-default="#151310">
 {% comment %} Apply a stored theme choice before first paint — no flash — and
 point the theme-color metas at the chosen palette in the same breath.
-Without a stored choice, CSS follows prefers-color-scheme on its own. {% endcomment %}
-<script>(function(){try{var t=localStorage.getItem('theme');if(t==='dark'||t==='light'||t==='midnight'){document.documentElement.setAttribute('data-theme',t);var m=document.querySelectorAll('meta[name="theme-color"]');for(var i=0;i<m.length;i++){var v=m[i].getAttribute('data-'+t);if(v)m[i].setAttribute('content',v);}}}catch(e){}})();</script>
+Without a stored choice, CSS follows prefers-color-scheme on its own.
+"dusk" resolves to light/dark/midnight by the sun's altitude where the
+reader is — a compact copy of skyPhase() in js/theme.js; keep in sync. {% endcomment %}
+<script>(function(){try{var t=localStorage.getItem('theme');if(t!=='dark'&&t!=='light'&&t!=='midnight'&&t!=='dusk')return;var r=t;
+if(t==='dusk'){var R=Math.PI/180,z='';try{z=Intl.DateTimeFormat().resolvedOptions().timeZone||''}catch(e){}
+var C={Istanbul:[41,29],London:[51.5,-0.1],Paris:[48.9,2.4],Berlin:[52.5,13.4],Madrid:[40.4,-3.7],Rome:[41.9,12.5],Athens:[38,23.7],Moscow:[55.8,37.6],New_York:[40.7,-74],Chicago:[41.9,-87.6],Denver:[39.7,-105],Los_Angeles:[34.1,-118.2],Toronto:[43.7,-79.4],Mexico_City:[19.4,-99.1],Sao_Paulo:[-23.5,-46.6],Buenos_Aires:[-34.6,-58.4],Cairo:[30.1,31.2],Johannesburg:[-26.2,28],Dubai:[25.3,55.3],Kolkata:[22.6,88.4],Bangkok:[13.8,100.5],Singapore:[1.4,103.8],Shanghai:[31.2,121.5],Tokyo:[35.7,139.7],Seoul:[37.6,127],Sydney:[-33.9,151.2],Auckland:[-36.8,174.8]};
+var p=C[z.split('/').pop()];if(!p){var LA={Europe:48,America:40,Asia:30,Africa:9,Australia:-27,Pacific:-10,Atlantic:35,Indian:-10},la=LA[z.split('/')[0]];p=[la==null?41:la,-new Date().getTimezoneOffset()/4];}
+var d=Date.now()/864e5-10957.5,g=(357.529+0.98560028*d)*R,L=(280.459+0.98564736*d+1.915*Math.sin(g)+0.02*Math.sin(2*g))*R,E=23.439*R,sD=Math.sin(E)*Math.sin(L),RA=Math.atan2(Math.cos(E)*Math.sin(L),Math.cos(L))/R/15,GM=((18.697374558+24.06570982441908*d)%24+24)%24,H=((((GM+p[1]/15)%24+24)%24-RA)*15+540)%360-180,al=Math.asin(Math.sin(p[0]*R)*sD+Math.cos(p[0]*R)*Math.cos(Math.asin(sD))*Math.cos(H*R))/R;
+r=al>=-0.8?'light':al>=-6?'dark':'midnight';}
+document.documentElement.setAttribute('data-theme',r);var m=document.querySelectorAll('meta[name="theme-color"]');for(var i=0;i<m.length;i++){var v=m[i].getAttribute('data-'+r);if(v)m[i].setAttribute('content',v);}}catch(e){}})();</script>
 {% if page.noindex %}<meta name="robots" content="noindex">{% endif %}
 
 {% if page.layout == "post" %}
@@ -93,7 +101,7 @@ the story pages ("The Notice"), which share one card. {% endcomment %}
 }
 </script>
 
-<link rel="stylesheet" href="/css/style.css?v=20260718-2">
+<link rel="stylesheet" href="/css/style.css?v=20260720-1">
 
 {% elsif page.layout == "home" %}
 
@@ -237,7 +245,7 @@ the story pages ("The Notice"), which share one card. {% endcomment %}
 }
 </script>
 
-<link rel="stylesheet" href="/css/style.css?v=20260718-2">
+<link rel="stylesheet" href="/css/style.css?v=20260720-1">
 
 {% else %}
 
@@ -270,7 +278,7 @@ results; the visible page keeps its plain title. Used as-is — no suffix. {% en
 <meta name="twitter:image" content="https://hakanaltun.io/og-image-on-card.png?v=20260714-4">
 <meta name="twitter:image:alt" content="{{ page.title | escape }} — Hakan Altun">
 
-<link rel="stylesheet" href="/css/style.css?v=20260718-2">
+<link rel="stylesheet" href="/css/style.css?v=20260720-1">
 
 {% endif %}
 

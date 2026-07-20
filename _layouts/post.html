@@ -11,6 +11,11 @@ layout: default
 {% if is_story == false or is_first_story %}
 <div class="essay-title-block"><h1>{{ page.title | replace: "'", "'" }}</h1><p class="essay-subtitle">{{ page.subtitle }}</p></div>
 <p class="essay-date-line">{{ page.date | date: "%B %-d, %Y" }}</p>
+{% unless is_story %}
+{% comment %} "Read with rain" — /noise/'s synthesized rain, quietly behind
+the essay. js/rain-read.js unhides the button where Web Audio exists. {% endcomment %}
+<button type="button" class="essay-rain" id="essay-rain" aria-pressed="false" hidden>read with rain</button>
+{% endunless %}
 {% endif %}
 {% if is_story %}
 {% unless is_first_story %}
@@ -65,6 +70,7 @@ copied variants resolve the same file the page always used. {% endcomment %}
 {% unless is_story %}
 {% comment %} Story pages ("The Notice") end on a choice or the hidden doorbox —
 no subscribe box, no "Keep reading" cards, nothing after the last line. {% endcomment %}
+{% include essay-afterward.html %}
 <div class="essay-section-divider"></div>
 {% if page.series == "on-series" %}
 <div class="series-nav"></div>
