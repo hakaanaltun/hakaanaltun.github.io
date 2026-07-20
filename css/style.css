@@ -63,8 +63,10 @@ body {
   /* Chrome surfaces (header, drawer band, footer). Defined on body — not
      :root — because --chrome-rgb lives in body's inline style and custom
      properties resolve where they are declared. In light they carry the
-     per-section colour; in dark they drop to one near-black. */
-  --surface-chrome: rgba(var(--chrome-rgb, 62, 50, 73), 0.88);
+     per-section colour; in dark they drop to one near-black. The header is
+     fully opaque here so it matches the footer's depth — a translucent band
+     over the pale page reads washed-out, the lighter the section colour. */
+  --surface-chrome: rgb(var(--chrome-rgb, 62, 50, 73));
   --surface-footer: rgb(var(--chrome-rgb, 62, 50, 73));
 }
 
