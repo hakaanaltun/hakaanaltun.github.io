@@ -43,7 +43,9 @@
   --shadow-cover: 0 14px 24px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.06);
 
   --footer-text: #EDE4CF;
-  --footer-muted: #A8B8B3;
+  /* WCAG AA: 4.66:1 on the home chrome #214E5B (the old #A8B8B3 sat at
+     4.41:1); every other section chrome is darker, so this is the floor. */
+  --footer-muted: #ADBDB8;
 
   --drawer-bg: rgba(255, 255, 255, 0.985);
   --wine: #7A4453;
@@ -59,7 +61,11 @@
 
 body {
   --petrol: rgb(var(--chrome-rgb, 62, 50, 73));
-  --petrol-deep: rgb(var(--chrome-rgb, 43, 34, 51));
+  /* Always a step darker than --petrol, even when a page sets --chrome-rgb
+     (the old rgb(var(--chrome-rgb, 43, 34, 51)) collapsed to the same
+     colour as --petrol whenever the variable was defined, hiding hover
+     shifts). 70% toward black reproduces the old 43, 34, 51 fallback. */
+  --petrol-deep: color-mix(in srgb, rgb(var(--chrome-rgb, 62, 50, 73)) 70%, black);
   /* Chrome surfaces (header, drawer band, footer). Defined on body — not
      :root — because --chrome-rgb lives in body's inline style and custom
      properties resolve where they are declared. In light they carry the

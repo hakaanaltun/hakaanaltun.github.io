@@ -206,7 +206,7 @@ layout: null
       <circle class="dark" cx="100" cy="100" r="80"/>
       <path class="lit" id="litPath" d=""/>
     </svg>
-    <h1 class="phase" id="phase">&nbsp;</h1>
+    <h1 class="phase" id="phase">The Moon</h1>
     <div class="next" id="next"></div>
     <div class="times" id="times"></div>
     <div class="place">as seen from the northern hemisphere &middot; computed in your browser</div>
@@ -238,27 +238,22 @@ layout: null
     </div>
   </footer>
 
+<script src="/js/astronomy.js?v=20260720-1"></script>
 <script>
 (function(){
   "use strict";
   var $ = function(s){ return document.querySelector(s); };
 
-  var SYNODIC = 29.530588853;                            /* mean lunation, days */
-  var NEW_EPOCH = Date.UTC(2000, 0, 6, 18, 14);          /* a known new moon */
+  /* ---- lunar arithmetic: js/astronomy.js, shared with the homepage's
+     "Tonight" line so the two always agree ---- */
+  var ASTRO = window.OLAE_ASTRO;
+  var SYNODIC = ASTRO.SYNODIC, NEW_EPOCH = ASTRO.NEW_EPOCH;
 
-  function lunation(now){ return (now.getTime() - NEW_EPOCH) / 86400000 / SYNODIC; }
+  function lunation(now){ return ASTRO.lunation(now); }
 
-  function phaseName(age){
-    if(age < 1.84566)  return "New Moon";
-    if(age < 5.53699)  return "Waxing Crescent";
-    if(age < 9.22831)  return "First Quarter";
-    if(age < 12.91963) return "Waxing Gibbous";
-    if(age < 16.61096) return "Full Moon";
-    if(age < 20.30228) return "Waning Gibbous";
-    if(age < 23.99361) return "Last Quarter";
-    if(age < 27.68493) return "Waning Crescent";
-    return "New Moon";
-  }
+  var PHASE_NAMES = ["New Moon", "Waxing Crescent", "First Quarter", "Waxing Gibbous",
+                     "Full Moon", "Waning Gibbous", "Last Quarter", "Waning Crescent"];
+  function phaseName(age){ return PHASE_NAMES[ASTRO.moonPhaseIndex(age)]; }
 
   /* the sunlit part of the disc: one limb arc + one elliptical terminator arc */
   function litPath(p){

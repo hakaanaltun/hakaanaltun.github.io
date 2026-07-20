@@ -81,6 +81,15 @@
     lastTouchY = null;
   }, { passive: true });
 
+  /* If keyboard focus lands inside the auto-hidden header (Tab, shift-Tab),
+     bring it back so the focused control is actually visible. */
+  header.addEventListener('focusin', function () {
+    if (header.classList.contains('header-hidden')) {
+      revealHeader();
+      lastScrollY = getScrollY();
+    }
+  });
+
   window.addEventListener('pageshow', function () {
     lastScrollY = getScrollY();
     setHidden(false);

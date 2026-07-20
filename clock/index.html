@@ -407,6 +407,7 @@ layout: null
 
     <div class="seconds-corner">
       <label class="toggle"><input type="checkbox" id="secToggle" checked> Seconds</label>
+      <label class="toggle"><input type="checkbox" id="chimeToggle"> Chime</label>
     </div>
 
     <div class="theme-corner collapsed" role="group" aria-label="Theme">
@@ -462,7 +463,7 @@ layout: null
   const RING_C = 2*Math.PI*92;
 
   const state = Object.assign({
-    panel:"clock", seconds:true, analog:false, bg:null, cdMode:"target",
+    panel:"clock", seconds:true, analog:false, bg:null, chime:false, cdMode:"target",
     cdTargetEpoch:null, cdTotalMs:null, cdRunning:false, cdRemainingPaused:null,
     swStartEpoch:null, swAccumMs:0, swRunning:false,
     pomPhase:"focus", pomRound:0, pomTargetEpoch:null, pomTotalMs:null,
@@ -471,7 +472,65 @@ layout: null
   }, load());
 
   function load(){ try{ return JSON.parse(localStorage.getItem(LS)) || {}; }catch(e){ return {}; } }
-  function save(){ try{ localStorage.setItem(LS, JSON.stringify(state)); }catch(e){} }
+  function save(){ try{ localStorage.setItem(LS, JSON.stringify(state)); }catch(e){} syncWakeLock(); }
+
+  /* ---- screen wake lock while a countdown or pomodoro runs ----
+     Feature-detected; the lock is dropped by the browser when the tab
+     hides and re-requested on return, per the spec's guidance. */
+  let wakeLock=null, wakeLockPending=false;
+  function syncWakeLock(){
+    if(!("wakeLock" in navigator)) return;
+    const want=(state.cdRunning || state.pomRunning) && document.visibilityState==="visible";
+    if(want && !wakeLock && !wakeLockPending){
+      wakeLockPending=true;
+      navigator.wakeLock.request("screen").then(wl=>{
+        wakeLockPending=false; wakeLock=wl;
+        wl.addEventListener("release", ()=>{ wakeLock=null; });
+        if(!(state.cdRunning || state.pomRunning)) wl.release().catch(()=>{});
+      }).catch(()=>{ wakeLockPending=false; });
+    } else if(!want && wakeLock){
+      wakeLock.release().catch(()=>{});
+      wakeLock=null;
+    }
+  }
+  document.addEventListener("visibilitychange", syncWakeLock);
+
+  /* ---- end-of-timer chime: one soft two-note bell, synthesized live —
+     no audio files. Off by default; the toggle primes the audio context
+     inside a user gesture so autoplay policies allow the later ring. */
+  let chimeCtx=null;
+  function ensureChimeCtx(){
+    const AC=window.AudioContext||window.webkitAudioContext;
+    if(!AC) return null;
+    if(!chimeCtx) chimeCtx=new AC();
+    if(chimeCtx.state==="suspended") chimeCtx.resume();
+    return chimeCtx;
+  }
+  function chime(){
+    if(!state.chime) return;
+    try{
+      const c=ensureChimeCtx();
+      if(!c) return;
+      const t0=c.currentTime+0.02;
+      [880,1174.66].forEach((f,i)=>{
+        const o=c.createOscillator(), g=c.createGain();
+        o.type="sine"; o.frequency.value=f;
+        const t=t0+i*0.22;
+        g.gain.setValueAtTime(0,t);
+        g.gain.linearRampToValueAtTime(0.22/(i+1), t+0.02);
+        g.gain.exponentialRampToValueAtTime(0.0001, t+1.4);
+        o.connect(g); g.connect(c.destination);
+        o.start(t); o.stop(t+1.5);
+      });
+    }catch(e){}
+  }
+  const chimeToggle=$("#chimeToggle");
+  chimeToggle.checked=!!state.chime;
+  chimeToggle.addEventListener("change", ()=>{
+    state.chime=chimeToggle.checked;
+    if(state.chime) ensureChimeCtx();
+    save();
+  });
 
   /* ---- analog face (built once, moved into the active panel) ---- */
   function buildFace(){
@@ -646,6 +705,10 @@ layout: null
     }));
   })();
 
+  /* one ring per countdown run; a restored, already-overtime countdown
+     does not ring again on reload */
+  let cdChimed = !!(state.cdRunning && state.cdTargetEpoch && state.cdTargetEpoch <= Date.now());
+
   function cdStart(){
     let target;
     if(state.cdMode==="target"){
@@ -660,14 +723,14 @@ layout: null
       target=Date.now()+ms;
     }
     state.cdTotalMs=target-Date.now();
-    state.cdTargetEpoch=target; state.cdRunning=true; state.cdRemainingPaused=null; save();
+    state.cdTargetEpoch=target; state.cdRunning=true; state.cdRemainingPaused=null; cdChimed=false; save();
   }
   function cdPause(){ state.cdRemainingPaused=Math.max(0,state.cdTargetEpoch-Date.now()); state.cdRunning=false; save(); }
   function cdResume(){
     if(state.cdRemainingPaused==null) return;
     state.cdTargetEpoch=Date.now()+state.cdRemainingPaused; state.cdRunning=true; state.cdRemainingPaused=null; save();
   }
-  function cdReset(){ state.cdRunning=false; state.cdTargetEpoch=null; state.cdRemainingPaused=null; state.cdTotalMs=null; document.body.classList.remove("alarm"); save(); }
+  function cdReset(){ state.cdRunning=false; state.cdTargetEpoch=null; state.cdRemainingPaused=null; state.cdTotalMs=null; cdChimed=false; document.body.classList.remove("alarm"); save(); }
   const cdStartBtn=$("#cdStart");
   cdStartBtn.addEventListener("click", ()=>{
     if(state.cdRunning) cdPause();
@@ -790,7 +853,10 @@ layout: null
     if(state.cdRunning){
       const rem=state.cdTargetEpoch-Date.now();
       if(rem>0){ cdRemaining=rem; showCd(rem); setText(overtime,"ot",""); cdStartBtn.textContent="Pause"; }
-      else{ cdRemaining=0; showCd(0); setText(overtime,"ot","Time\u2019s up  \u00B7  +"+fmt(-rem)); cdStartBtn.textContent="Start"; alarm=true; }
+      else{
+        cdRemaining=0; showCd(0); setText(overtime,"ot","Time\u2019s up  \u00B7  +"+fmt(-rem)); cdStartBtn.textContent="Start"; alarm=true;
+        if(!cdChimed){ cdChimed=true; chime(); }
+      }
     } else if(state.cdRemainingPaused!=null){
       cdRemaining=state.cdRemainingPaused; showCd(cdRemaining); setText(overtime,"ot",""); cdStartBtn.textContent="Resume";
     } else {
@@ -808,6 +874,7 @@ layout: null
         pomStartBtn.textContent="Pause";
       } else {
         pomAdvance(); state.pomAwait=true; save();     /* phase over: flash until the next one is started */
+        chime();
         pomRemaining=pomPhaseMin()*60000;
       }
     } else if(state.pomRemainingPaused!=null){
@@ -903,6 +970,7 @@ layout: null
   applyTheme();
   applyAnalog();
   selectPanel(state.panel);
+  syncWakeLock();
   requestAnimationFrame(tick);
 })();
 </script>

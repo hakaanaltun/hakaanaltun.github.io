@@ -64,6 +64,7 @@
       var rotateTimer = null;
       var navHideTimer = null;
       var ROTATE_DELAY = 15000;
+      var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
       function randomIndex(except){
         if(heroQuotes.length < 2) return 0;
@@ -101,7 +102,14 @@
 
       function schedule(){
         clearTimeout(rotateTimer);
-        rotateTimer = setTimeout(function(){ render(randomIndex(currentIdx), true); }, ROTATE_DELAY);
+        /* auto-rotation stays quiet: no rotation at all under reduced
+           motion, and no aria-live announcement for automatic swaps —
+           only a manual advance (below) turns the live region on */
+        if(reduceMotion.matches) return;
+        rotateTimer = setTimeout(function(){
+          if(qCard) qCard.removeAttribute('aria-live');
+          render(randomIndex(currentIdx), true);
+        }, ROTATE_DELAY);
       }
 
       function showNav(){
@@ -113,12 +121,14 @@
 
       if(prevBtn) prevBtn.addEventListener('click', function(e){
         e.preventDefault(); e.stopPropagation(); showNav();
+        if(qCard) qCard.setAttribute('aria-live', 'polite');
         var previous = history.length ? history.pop() : randomIndex(currentIdx);
         render(previous, false);
       });
 
       if(nextBtn) nextBtn.addEventListener('click', function(e){
         e.preventDefault(); e.stopPropagation(); showNav();
+        if(qCard) qCard.setAttribute('aria-live', 'polite');
         render(randomIndex(currentIdx), true);
       });
 
@@ -137,78 +147,37 @@
       });
 
       if(hq) render(randomIndex(-1), false);
-
-      function initClickToLoadVideo(wrapperId, videoUrl) {
-        var wrapper = document.getElementById(wrapperId);
-        if (!wrapper) return;
-        wrapper.addEventListener('click', function() {
-          var iframe = document.createElement('iframe');
-          iframe.src = videoUrl;
-          iframe.setAttribute('allowfullscreen', '');
-          iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
-          iframe.style.cssText = 'width:100%;height:100%;border:none;position:absolute;top:0;left:0';
-          wrapper.style.position = 'relative';
-          while (wrapper.firstChild) wrapper.removeChild(wrapper.firstChild);
-          wrapper.appendChild(iframe);
-        });
-      }
-      initClickToLoadVideo('moris-video-wrapper', 'https://www.youtube.com/embed/hBpAOitmBNw?si=AEhHGFWstiHfFR83&autoplay=1');
     })();
     </script>
 
+<script src="/js/astronomy.js?v=20260720-1"></script>
 <script>
-/* Tonight — the closing line: the moon and İstanbul's sun, computed with
-   the same arithmetic as /moon/ and /twilight/ so all three always agree. */
+/* Tonight — the closing line: the moon and İstanbul's sun, computed by
+   js/astronomy.js — the same arithmetic as /moon/ and /twilight/, so all
+   three always agree. */
 (function(){
   'use strict';
   var strip = document.getElementById('tonight');
   var moonEl = document.getElementById('tonight-moon');
   var sunEl = document.getElementById('tonight-sun');
-  if(!strip || !moonEl || !sunEl) return;
+  if(!strip || !moonEl || !sunEl || !window.OLAE_ASTRO) return;
+  var ASTRO = window.OLAE_ASTRO;
 
   var now = new Date();
 
-  var SYNODIC = 29.530588853, NEW_EPOCH = Date.UTC(2000, 0, 6, 18, 14);
-  var lun = (now.getTime() - NEW_EPOCH) / 86400000 / SYNODIC;
-  var age = (lun - Math.floor(lun)) * SYNODIC;
-  var illum = Math.round((1 - Math.cos(2 * Math.PI * age / SYNODIC)) / 2 * 100);
-  var edges = [1.84566, 5.53699, 9.22831, 12.91963, 16.61096, 20.30228, 23.99361, 27.68493];
+  var lun = ASTRO.lunation(now);
+  var age = (lun - Math.floor(lun)) * ASTRO.SYNODIC;
+  var illum = Math.round((1 - Math.cos(2 * Math.PI * age / ASTRO.SYNODIC)) / 2 * 100);
   var names = ['new moon', 'waxing crescent', 'first quarter', 'waxing gibbous', 'full moon', 'waning gibbous', 'last quarter', 'waning crescent'];
-  var phase = 'new moon';
-  for(var i = 0; i < edges.length; i++){ if(age < edges[i]){ phase = names[i]; break; } }
+  var phase = names[ASTRO.moonPhaseIndex(age)];
   moonEl.textContent = phase + ', ' + illum + '% lit';
 
-  var RAD = Math.PI / 180, LAT = 41.015, LNG = 28.979, TZ = 'Europe/Istanbul';
-  var offFmt = new Intl.DateTimeFormat('en-US', {
-    timeZone: TZ, year: 'numeric', month: '2-digit', day: '2-digit',
-    hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
-  });
-  function tzOffsetMs(date){
-    var p = {};
-    offFmt.formatToParts(date).forEach(function(x){ p[x.type] = x.value; });
-    return Date.UTC(+p.year, +p.month - 1, +p.day, (+p.hour) % 24, +p.minute, +p.second)
-         - Math.floor(date.getTime() / 1000) * 1000;
-  }
+  var LAT = 41.015, LNG = 28.979, TZ = 'Europe/Istanbul';
   function sunEvent(dayShift, rising){
-    var s = new Date(now.getTime() + tzOffsetMs(now) + dayShift * 86400000);
+    var s = new Date(now.getTime() + ASTRO.tzOffsetMs(TZ, now) + dayShift * 86400000);
     var y = s.getUTCFullYear(), mo = s.getUTCMonth(), d = s.getUTCDate();
     var n = Math.floor((Date.UTC(y, mo, d) - Date.UTC(y, 0, 0)) / 86400000);
-    var lngHour = LNG / 15;
-    var t = n + (((rising ? 6 : 18) - lngHour) / 24);
-    var M = (0.9856 * t) - 3.289;
-    var L = M + (1.916 * Math.sin(M * RAD)) + (0.020 * Math.sin(2 * M * RAD)) + 282.634;
-    L = ((L % 360) + 360) % 360;
-    var RA = Math.atan(0.91764 * Math.tan(L * RAD)) / RAD;
-    RA = ((RA % 360) + 360) % 360;
-    RA = (RA + (Math.floor(L / 90) * 90) - (Math.floor(RA / 90) * 90)) / 15;
-    var sinDec = 0.39782 * Math.sin(L * RAD), cosDec = Math.cos(Math.asin(sinDec));
-    var cosH = (Math.cos(90.833 * RAD) - (sinDec * Math.sin(LAT * RAD))) / (cosDec * Math.cos(LAT * RAD));
-    if(cosH > 1 || cosH < -1) return null;
-    var H = (rising ? 360 - Math.acos(cosH) / RAD : Math.acos(cosH) / RAD) / 15;
-    var UT = ((H + RA - (0.06571 * t) - 6.622 - lngHour) % 24 + 24) % 24;
-    var date = new Date(Date.UTC(y, mo, d));
-    date.setUTCMinutes(Math.round(UT * 60));
-    return date;
+    return ASTRO.sunEvent({ n: n, y: y, mo: mo, d: d }, rising, 90.833, LAT, LNG, TZ);
   }
   var fmtTime = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: TZ });
   var sunset = sunEvent(0, false);

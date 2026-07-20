@@ -297,7 +297,7 @@ layout: null
     *{ transition:none !important; }
   }
 </style>
-<script>(function(){try{var t=localStorage.getItem('olae-page-theme');if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();</script>
+<script>(function(){try{var t=localStorage.getItem('olae-page-theme');if(t!=='dark'&&t!=='light'){var s=localStorage.getItem('theme');t=(s==='midnight'||s==='dusk')?'dark':s;}if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();</script>
 </head>
 <body>
 
@@ -466,6 +466,30 @@ layout: null
   /* ---- the stage ---- */
   var playing = false, paused = false, y = 0, lastT = 0, raf = 0, total = 1;
 
+  /* ---- screen wake lock while the prompter rolls or stands fullscreen ----
+     Feature-detected; the lock is dropped by the browser when the tab
+     hides and re-requested on return, per the spec's guidance. */
+  var wakeLock = null, wakeLockPending = false;
+  function wakeLockWanted(){ return playing || !!nativeFsElement(); }
+  function syncWakeLock(){
+    if(!("wakeLock" in navigator)) return;
+    var want = wakeLockWanted() && document.visibilityState === "visible";
+    if(want && !wakeLock && !wakeLockPending){
+      wakeLockPending = true;
+      navigator.wakeLock.request("screen").then(function(wl){
+        wakeLockPending = false; wakeLock = wl;
+        wl.addEventListener("release", function(){ wakeLock = null; });
+        if(!wakeLockWanted()) wl.release().catch(function(){});
+      }).catch(function(){ wakeLockPending = false; });
+    } else if(!want && wakeLock){
+      wakeLock.release().catch(function(){});
+      wakeLock = null;
+    }
+  }
+  document.addEventListener("visibilitychange", syncWakeLock);
+  document.addEventListener("fullscreenchange", syncWakeLock);
+  document.addEventListener("webkitfullscreenchange", syncWakeLock);
+
   function pxPerSec(){
     /* the text's own height, read at the set pace — the lead-in and
        run-out paddings ride along at the same speed */
@@ -544,6 +568,7 @@ layout: null
     total = roll.scrollHeight - vh(34) - vh(55);
     place();
     playing = true; paused = false; lastT = 0;
+    syncWakeLock();
     if(countIn.checked){ countIn3(); }
     else{ raf = requestAnimationFrame(tick); }
     pokeHud();
@@ -581,6 +606,7 @@ layout: null
     document.body.classList.remove("playing");
     stage.setAttribute("aria-hidden", "true");
     stage.classList.remove("paused-state", "counting", "show-hud");
+    syncWakeLock();
     saveNow();
   }
   function jump(sec){

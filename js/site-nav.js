@@ -225,8 +225,31 @@
     else openDrawer();
   });
 
-  closeBtn.addEventListener('click', function () { closeDrawer(false); });
-  backdrop.addEventListener('click', function () { closeDrawer(false); });
+  /* Focus returns to the hamburger on every close, so keyboard users are
+     never stranded inside the hidden drawer. */
+  closeBtn.addEventListener('click', function () { closeDrawer(true); });
+  backdrop.addEventListener('click', function () { closeDrawer(true); });
+
+  /* Focus trap: while the drawer is open, Tab cycles inside it. */
+  drawer.addEventListener('keydown', function (e) {
+    if (e.key !== 'Tab' || !drawer.classList.contains('open')) return;
+    var focusables = drawer.querySelectorAll(
+      'a[href], button:not([disabled]), summary, input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
+    var list = Array.prototype.filter.call(focusables, function (el) {
+      return el.getClientRects().length > 0;   /* skip links inside closed <details> */
+    });
+    if (!list.length) return;
+    var first = list[0];
+    var last = list[list.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  });
 
   window.addEventListener('resize', function () {
     if (drawer.classList.contains('open')) syncDrawerBand();

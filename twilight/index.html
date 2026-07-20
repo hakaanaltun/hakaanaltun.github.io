@@ -202,7 +202,7 @@ layout: null
   </div>
 
   <div class="stage">
-    <h1 class="phase" id="phase">&nbsp;</h1>
+    <h1 class="phase" id="phase">&#304;stanbul Twilight</h1>
     <div class="next" id="next"></div>
     <div class="times" id="times"></div>
     <div class="place" id="place">&#304;stanbul &middot; 41.0&deg;N 29.0&deg;E &middot; computed in your browser</div>
@@ -245,11 +245,11 @@ layout: null
     </div>
   </footer>
 
+<script src="/js/astronomy.js?v=20260720-1"></script>
 <script>
 (function(){
   "use strict";
   var $ = function(s){ return document.querySelector(s); };
-  var RAD = Math.PI / 180;
 
   var CITIES = {
     istanbul:   { name:"İstanbul",  lat:41.015,  lng:28.979,   tz:"Europe/Istanbul" },
@@ -272,53 +272,11 @@ layout: null
 
   var fmtTime = new Intl.DateTimeFormat("en-GB", { hour:"2-digit", minute:"2-digit", timeZone:CITY.tz });
 
-  /* the city's UTC offset at a given instant (DST-aware, via Intl) */
-  var offFmt = new Intl.DateTimeFormat("en-US", {
-    timeZone:CITY.tz, year:"numeric", month:"2-digit", day:"2-digit",
-    hour:"2-digit", minute:"2-digit", second:"2-digit", hour12:false
-  });
-  function tzOffsetMs(date){
-    var p = {};
-    offFmt.formatToParts(date).forEach(function(x){ p[x.type] = x.value; });
-    var asUTC = Date.UTC(+p.year, +p.month - 1, +p.day, (+p.hour) % 24, +p.minute, +p.second);
-    return asUTC - Math.floor(date.getTime() / 1000) * 1000;
-  }
-
-  /* ---- sunrise/sunset (Almanac for Computers algorithm, ±1–2 min) ---- */
-  function dayOfYearLocal(now){
-    var s = new Date(now.getTime() + tzOffsetMs(now));  /* UTC fields = the city's wall clock */
-    var start = Date.UTC(s.getUTCFullYear(), 0, 0);
-    return { n: Math.floor((s.getTime() - start) / 86400000),
-             y: s.getUTCFullYear(), mo: s.getUTCMonth(), d: s.getUTCDate() };
-  }
-  function sunEvent(day, rising, zenith){
-    var lngHour = LNG / 15;
-    var t = day.n + (((rising ? 6 : 18) - lngHour) / 24);
-    var M = (0.9856 * t) - 3.289;
-    var L = M + (1.916 * Math.sin(M * RAD)) + (0.020 * Math.sin(2 * M * RAD)) + 282.634;
-    L = ((L % 360) + 360) % 360;
-    var RA = Math.atan(0.91764 * Math.tan(L * RAD)) / RAD;
-    RA = ((RA % 360) + 360) % 360;
-    RA = (RA + (Math.floor(L / 90) * 90) - (Math.floor(RA / 90) * 90)) / 15;
-    var sinDec = 0.39782 * Math.sin(L * RAD);
-    var cosDec = Math.cos(Math.asin(sinDec));
-    var cosH = (Math.cos(zenith * RAD) - (sinDec * Math.sin(LAT * RAD))) / (cosDec * Math.cos(LAT * RAD));
-    if(cosH > 1 || cosH < -1) return null;
-    var H = rising ? 360 - Math.acos(cosH) / RAD : Math.acos(cosH) / RAD;
-    H /= 15;
-    var T = H + RA - (0.06571 * t) - 6.622;
-    var UT = ((T - lngHour) % 24 + 24) % 24;
-    var date = new Date(Date.UTC(day.y, day.mo, day.d));
-    date.setUTCMinutes(Math.round(UT * 60));
-    /* anchor the event to the city's own calendar day: for far-east or
-       far-west cities the UT can land on the neighboring UTC date, which
-       put sunset before sunrise and bent the day length negative */
-    var wall = new Date(date.getTime() + tzOffsetMs(date));
-    var shift = Date.UTC(day.y, day.mo, day.d)
-              - Date.UTC(wall.getUTCFullYear(), wall.getUTCMonth(), wall.getUTCDate());
-    if(shift !== 0) date = new Date(date.getTime() + shift);
-    return date;
-  }
+  /* ---- sun arithmetic: js/astronomy.js, shared with /moon/, /season/
+     and the homepage's "Tonight" line, bound here to the chosen city ---- */
+  var ASTRO = window.OLAE_ASTRO;
+  function dayOfYearLocal(now){ return ASTRO.dayOfYearLocal(now, CITY.tz); }
+  function sunEvent(day, rising, zenith){ return ASTRO.sunEvent(day, rising, zenith, LAT, LNG, CITY.tz); }
   function eventsFor(day){
     return {
       civilDawn: sunEvent(day, true,  96),
@@ -329,37 +287,29 @@ layout: null
   }
 
   /* ---- current solar altitude (low-precision ephemeris, ±0.3°) ---- */
-  function sunAltitude(now){
-    var d = (now.getTime() / 86400000) - 10957.5;        /* days since J2000 */
-    var g = (357.529 + 0.98560028 * d) * RAD;
-    var q = 280.459 + 0.98564736 * d;
-    var L = (q + 1.915 * Math.sin(g) + 0.020 * Math.sin(2 * g)) * RAD;
-    var e = (23.439 - 0.00000036 * d) * RAD;
-    var sinDec = Math.sin(e) * Math.sin(L);
-    var dec = Math.asin(sinDec);
-    var RAh = (Math.atan2(Math.cos(e) * Math.sin(L), Math.cos(L)) / RAD) / 15;
-    var GMST = ((18.697374558 + 24.06570982441908 * d) % 24 + 24) % 24;
-    var lst = ((GMST + LNG / 15) % 24 + 24) % 24;
-    var H = ((lst - RAh) * 15 + 540) % 360 - 180;
-    var latR = LAT * RAD;
-    return Math.asin(Math.sin(latR) * sinDec + Math.cos(latR) * Math.cos(dec) * Math.cos(H * RAD)) / RAD;
-  }
+  function sunAltitude(now){ return ASTRO.sunAltitude(now, LAT, LNG); }
 
-  /* ---- sky ramp: altitude → background; the ink is the site's cream at
-     every hour (inkMix stays 0), so the daylight sky has to be deep enough
-     to carry it — a steel blue rather than the washed-out pale blues that
-     left white text unreadable at noon (cream on the noon stop ~4.2:1) ---- */
-  var CREAM = [237,228,207], NAVY = [36,50,72];
+  /* ---- sky ramp: altitude → background. The ink is the site's cream
+     through the night and blends toward a warm near-white (inkMix → 1) as
+     the sun climbs, because the mid-tone daylight skies cannot carry cream
+     at WCAG AA (cream on the noon stop ~4.2:1) — and no dark ink can carry
+     them either (even pure black tops out under 4.5:1 on the sunrise, day
+     and noon stops), so brighter ink is the only direction that works.
+     Measured (fg / muted): sunrise 4.87/4.58, day 4.81/4.53, noon
+     5.24/4.92. The one golden stop at 5° is the ceiling case: white
+     itself only reaches 3.88:1 there, so it carries the maximum
+     physically possible (~3.8:1) rather than AA. ---- */
+  var CREAM = [237,228,207], DAYINK = [255,252,245];
   var STOPS = [   /* [altitude°, [r,g,b], inkMix 0..1] */
     [-30, [ 12, 16, 24], 0],
     [-18, [ 14, 19, 29], 0],
     [-12, [ 23, 32, 48], 0],
     [ -6, [ 44, 58, 82], 0],
-    [ -2, [ 98, 84, 84], 0],
-    [  0, [140,104, 79], 0],
-    [  5, [140,128,106], 0],
-    [ 12, [ 88,116,134], 0],
-    [ 40, [ 82,110,130], 0]
+    [ -2, [ 98, 84, 84], 0.6],
+    [  0, [140,104, 79], 1],
+    [  5, [140,128,106], 1],
+    [ 12, [ 88,116,134], 1],
+    [ 40, [ 82,110,130], 1]
   ];
   function lerp(a, b, f){ return a + (b - a) * f; }
   function skyAt(alt){
@@ -410,12 +360,12 @@ layout: null
     /* sky */
     var sky = skyAt(alt);
     document.body.style.backgroundColor = "rgb(" + sky[1].join(",") + ")";
-    document.body.style.color = mix(CREAM, NAVY, sky[2]);
-    var mutedA = sky[2] > 0.5 ? "rgba(36,50,72,0.68)" : "rgba(237,228,207,0.68)";
-    var lineA  = sky[2] > 0.5 ? "rgba(36,50,72,0.28)" : "rgba(237,228,207,0.28)";
+    document.body.style.color = mix(CREAM, DAYINK, sky[2]);
+    var mutedA = sky[2] > 0.5 ? "rgba(255,252,245,0.95)" : "rgba(237,228,207,0.68)";
+    var lineA  = sky[2] > 0.5 ? "rgba(255,252,245,0.42)" : "rgba(237,228,207,0.28)";
     document.documentElement.style.setProperty("--muted", mutedA);
     document.documentElement.style.setProperty("--line", lineA);
-    document.documentElement.style.setProperty("--fg", mix(CREAM, NAVY, sky[2]));
+    document.documentElement.style.setProperty("--fg", mix(CREAM, DAYINK, sky[2]));
 
     /* phase word */
     var name = phaseName(alt, now, ev);
