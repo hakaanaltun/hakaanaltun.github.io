@@ -53,9 +53,9 @@ layout: null
 
 <style>
   :root{
-    --fg:    #EDE4CF;
-    --muted: rgba(237,228,207,0.62);
-    --line:  rgba(237,228,207,0.28);
+    --fg:    #FFFFFF;
+    --muted: rgba(255,255,255,0.68);
+    --line:  rgba(255,255,255,0.28);
 
     --display: 'Cormorant Garamond', Georgia, serif;
     --body:    'EB Garamond', Georgia, serif;
@@ -345,9 +345,9 @@ layout: null
     return Math.asin(Math.sin(latR) * sinDec + Math.cos(latR) * Math.cos(dec) * Math.cos(H * RAD)) / RAD;
   }
 
-  /* ---- sky ramp: altitude → background, and how far the text leans from
-     cream toward navy as the day brightens ---- */
-  var CREAM = [237,228,207], NAVY = [36,50,72];
+  /* ---- sky ramp: altitude → background; inkMix leans the text from white
+     toward navy only if a stop needs dark ink on a pale ground ---- */
+  var WHITE = [255,255,255], NAVY = [36,50,72];
   var STOPS = [   /* [altitude°, [r,g,b], inkMix 0..1] */
     [-30, [ 12, 16, 24], 0],
     [-18, [ 14, 19, 29], 0],
@@ -355,9 +355,9 @@ layout: null
     [ -6, [ 44, 58, 82], 0],
     [ -2, [ 98, 84, 84], 0],
     [  0, [140,104, 79], 0],
-    [  5, [178,155,124], 0.55],
-    [ 12, [186,205,212], 1],
-    [ 40, [196,216,223], 1]
+    [  5, [155, 168, 195], 0],
+    [ 12, [105, 165, 225], 0],
+    [ 40, [ 72, 145, 215], 0]
   ];
   function lerp(a, b, f){ return a + (b - a) * f; }
   function skyAt(alt){
@@ -408,12 +408,12 @@ layout: null
     /* sky */
     var sky = skyAt(alt);
     document.body.style.backgroundColor = "rgb(" + sky[1].join(",") + ")";
-    document.body.style.color = mix(CREAM, NAVY, sky[2]);
-    var mutedA = sky[2] > 0.5 ? "rgba(36,50,72,0.68)" : "rgba(237,228,207,0.62)";
-    var lineA  = sky[2] > 0.5 ? "rgba(36,50,72,0.28)" : "rgba(237,228,207,0.28)";
+    document.body.style.color = mix(WHITE, NAVY, sky[2]);
+    var mutedA = sky[2] > 0.5 ? "rgba(36,50,72,0.68)" : "rgba(255,255,255,0.68)";
+    var lineA  = sky[2] > 0.5 ? "rgba(36,50,72,0.28)" : "rgba(255,255,255,0.28)";
     document.documentElement.style.setProperty("--muted", mutedA);
     document.documentElement.style.setProperty("--line", lineA);
-    document.documentElement.style.setProperty("--fg", mix(CREAM, NAVY, sky[2]));
+    document.documentElement.style.setProperty("--fg", mix(WHITE, NAVY, sky[2]));
 
     /* phase word */
     var name = phaseName(alt, now, ev);
