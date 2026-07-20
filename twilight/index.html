@@ -291,14 +291,11 @@ layout: null
 
   /* ---- sky ramp: altitude → background. The ink is the site's cream
      through the night and blends toward a warm near-white (inkMix → 1) as
-     the sun climbs, because the mid-tone daylight skies cannot carry cream
-     at WCAG AA (cream on the noon stop ~4.2:1) — and no dark ink can carry
-     them either (even pure black tops out under 4.5:1 on the sunrise, day
-     and noon stops), so brighter ink is the only direction that works.
-     Measured (fg / muted): sunrise 4.87/4.58, day 4.81/4.53, noon
-     5.24/4.92. The one golden stop at 5° is the ceiling case: white
-     itself only reaches 3.88:1 there, so it carries the maximum
-     physically possible (~3.8:1) rather than AA. ---- */
+     the sun climbs. The golden 5° stop is deliberately dark enough to keep
+     light text above WCAG AA; muted ink uses the same blended color with a
+     continuously interpolated alpha, avoiding a visible switch around
+     civil twilight. A dense sweep across the ramp measures at least
+     4.80:1 for foreground and 4.51:1 for muted text. ---- */
   var CREAM = [237,228,207], DAYINK = [255,252,245];
   var STOPS = [   /* [altitude°, [r,g,b], inkMix 0..1] */
     [-30, [ 12, 16, 24], 0],
@@ -307,7 +304,7 @@ layout: null
     [ -6, [ 44, 58, 82], 0],
     [ -2, [ 98, 84, 84], 0.6],
     [  0, [140,104, 79], 1],
-    [  5, [140,128,106], 1],
+    [  5, [108, 98, 79], 1],
     [ 12, [ 88,116,134], 1],
     [ 40, [ 82,110,130], 1]
   ];
@@ -327,8 +324,15 @@ layout: null
     }
     return STOPS[STOPS.length - 1];
   }
+  function mixChannels(a, b, f){
+    return [
+      Math.round(lerp(a[0], b[0], f)),
+      Math.round(lerp(a[1], b[1], f)),
+      Math.round(lerp(a[2], b[2], f))
+    ];
+  }
   function mix(a, b, f){
-    return "rgb(" + Math.round(lerp(a[0], b[0], f)) + "," + Math.round(lerp(a[1], b[1], f)) + "," + Math.round(lerp(a[2], b[2], f)) + ")";
+    return "rgb(" + mixChannels(a, b, f).join(",") + ")";
   }
 
   function phaseName(alt, now, ev){
@@ -360,12 +364,14 @@ layout: null
     /* sky */
     var sky = skyAt(alt);
     document.body.style.backgroundColor = "rgb(" + sky[1].join(",") + ")";
-    document.body.style.color = mix(CREAM, DAYINK, sky[2]);
-    var mutedA = sky[2] > 0.5 ? "rgba(255,252,245,0.95)" : "rgba(237,228,207,0.68)";
-    var lineA  = sky[2] > 0.5 ? "rgba(255,252,245,0.42)" : "rgba(237,228,207,0.28)";
-    document.documentElement.style.setProperty("--muted", mutedA);
-    document.documentElement.style.setProperty("--line", lineA);
-    document.documentElement.style.setProperty("--fg", mix(CREAM, DAYINK, sky[2]));
+    var ink = mixChannels(CREAM, DAYINK, sky[2]);
+    var fg = "rgb(" + ink.join(",") + ")";
+    var mutedAlpha = lerp(0.80, 0.95, sky[2]);
+    var lineAlpha = lerp(0.28, 0.42, sky[2]);
+    document.body.style.color = fg;
+    document.documentElement.style.setProperty("--muted", "rgba(" + ink.join(",") + "," + mutedAlpha.toFixed(3) + ")");
+    document.documentElement.style.setProperty("--line", "rgba(" + ink.join(",") + "," + lineAlpha.toFixed(3) + ")");
+    document.documentElement.style.setProperty("--fg", fg);
 
     /* phase word */
     var name = phaseName(alt, now, ev);

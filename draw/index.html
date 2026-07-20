@@ -511,6 +511,12 @@ layout: null
       clearBtn.classList.remove("arm");
       clearBtn.textContent = "Clear";
       strokes = []; current = null;
+      /* A quota failure leaves the last successful snapshot in storage.
+         Clearing must remove that stale copy too, otherwise it reappears
+         after reload even though the reader explicitly cleared the page. */
+      try{ localStorage.removeItem(LS); }catch(e){}
+      autosaveOff = false;
+      storageNote.hidden = true;
       renderAll(); saveNow();
       return;
     }
