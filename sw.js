@@ -12,7 +12,7 @@
    on the site is left to the network untouched. */
 "use strict";
 
-var CACHE = "olae-tools-v5";
+var CACHE = "olae-tools-v6";
 
 var TOOL_PAGES = [
   "/tools/",   /* the catalogue itself, so "all of them" works offline */
@@ -22,6 +22,12 @@ var TOOL_PAGES = [
 var TOOL_ASSETS = [
   "/css/style.css",   /* the catalogue page's stylesheet */
   "/css/fonts.css",
+  /* /tools/ uses the site's default shell; keep its navigation and theme
+     controls functional offline as well as its content and styles. */
+  "/js/site-nav.js",
+  "/js/theme.js",
+  "/js/divider-lines.js",
+  "/js/header-autohide.js",
   "/js/rain-engine.js",
   "/js/astronomy.js",
   "/fonts/cormorant-garamond-italic-latin-ext.woff2",

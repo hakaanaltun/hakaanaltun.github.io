@@ -55,6 +55,7 @@
 
       var hq = document.getElementById('hero-quote');
       var qs = document.getElementById('hero-quote-source');
+      var quoteStatus = document.getElementById('hero-quote-status');
       var prevBtn = document.getElementById('quote-prev');
       var nextBtn = document.getElementById('quote-next');
       var qCard = document.querySelector('.hero-quote-card');
@@ -62,6 +63,9 @@
       var currentIdx = -1;
       var history = [];
       var rotateTimer = null;
+      var renderTimer = null;
+      var sourceTimer = null;
+      var wordTimers = [];
       var navHideTimer = null;
       var ROTATE_DELAY = 15000;
       var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -73,42 +77,79 @@
         return idx;
       }
 
-      function render(idx, pushHistory){
+      function clearRenderTimers(){
+        clearTimeout(renderTimer);
+        clearTimeout(sourceTimer);
+        wordTimers.forEach(function(t){ clearTimeout(t); });
+        wordTimers = [];
+      }
+
+      function setSource(pick){
+        qs.textContent = '— ';
+        var title = document.createElement('i');
+        title.textContent = pick.s;
+        qs.appendChild(title);
+      }
+
+      function paintQuote(pick, animate, announce){
+        hq.innerHTML = '';
+        pick.t.split('\n').forEach(function(line,lineIndex){
+          if(lineIndex) hq.appendChild(document.createElement('br'));
+          if(!animate){
+            hq.appendChild(document.createTextNode(line));
+            return;
+          }
+          line.split(/(\s+)/).forEach(function(part,partIndex){
+            if(part.trim()==='') { hq.appendChild(document.createTextNode(part)); return; }
+            var span = document.createElement('span');
+            span.className = 'hero-quote-word';
+            span.textContent = part;
+            hq.appendChild(span);
+            wordTimers.push(setTimeout(function(){
+              span.classList.add('word-visible');
+            }, 80 + partIndex * 35 + lineIndex * 220));
+          });
+        });
+        setSource(pick);
+        if(animate){
+          sourceTimer = setTimeout(function(){ qs.classList.add('visible'); }, 650);
+        } else {
+          qs.classList.add('visible');
+        }
+        hq.style.opacity = '1';
+        /* Manual navigation gets one atomic announcement. The visible card
+           itself stays quiet, so word-by-word DOM updates are never read as
+           a stream of separate live-region changes. */
+        if(announce && quoteStatus){
+          quoteStatus.textContent = pick.t.replace(/\n/g, ' ') + ' — ' + pick.s;
+        }
+        schedule();
+      }
+
+      function render(idx, pushHistory, announce){
         if(!hq || !qs || !heroQuotes[idx]) return;
         if(pushHistory && currentIdx > -1) history.push(currentIdx);
         currentIdx = idx;
-        hq.style.opacity = '0';
+        clearRenderTimers();
         qs.classList.remove('visible');
-        setTimeout(function(){
-          var pick = heroQuotes[idx];
-          hq.innerHTML = '';
-          pick.t.split('\n').forEach(function(line,lineIndex){
-            if(lineIndex) hq.appendChild(document.createElement('br'));
-            line.split(/(\s+)/).forEach(function(part,partIndex){
-              if(part.trim()==='') { hq.appendChild(document.createTextNode(part)); return; }
-              var span = document.createElement('span');
-              span.className = 'hero-quote-word';
-              span.textContent = part;
-              hq.appendChild(span);
-              setTimeout(function(){ span.classList.add('word-visible'); }, 80 + partIndex * 35 + lineIndex * 220);
-            });
-          });
-          qs.innerHTML = '— <i>' + pick.s + '</i>';
-          setTimeout(function(){ qs.classList.add('visible'); }, 650);
-          hq.style.opacity = '1';
-          schedule();
+        var pick = heroQuotes[idx];
+        if(reduceMotion.matches){
+          paintQuote(pick, false, announce);
+          return;
+        }
+        hq.style.opacity = '0';
+        renderTimer = setTimeout(function(){
+          paintQuote(pick, true, announce);
         }, 260);
       }
 
       function schedule(){
         clearTimeout(rotateTimer);
-        /* auto-rotation stays quiet: no rotation at all under reduced
-           motion, and no aria-live announcement for automatic swaps —
-           only a manual advance (below) turns the live region on */
+        /* Reduced motion keeps the first quote still. Automatic swaps stay
+           silent; only explicit Previous/Next actions update the live status. */
         if(reduceMotion.matches) return;
         rotateTimer = setTimeout(function(){
-          if(qCard) qCard.removeAttribute('aria-live');
-          render(randomIndex(currentIdx), true);
+          render(randomIndex(currentIdx), true, false);
         }, ROTATE_DELAY);
       }
 
@@ -121,15 +162,13 @@
 
       if(prevBtn) prevBtn.addEventListener('click', function(e){
         e.preventDefault(); e.stopPropagation(); showNav();
-        if(qCard) qCard.setAttribute('aria-live', 'polite');
         var previous = history.length ? history.pop() : randomIndex(currentIdx);
-        render(previous, false);
+        render(previous, false, true);
       });
 
       if(nextBtn) nextBtn.addEventListener('click', function(e){
         e.preventDefault(); e.stopPropagation(); showNav();
-        if(qCard) qCard.setAttribute('aria-live', 'polite');
-        render(randomIndex(currentIdx), true);
+        render(randomIndex(currentIdx), true, true);
       });
 
       if(qCard) qCard.addEventListener('click', function(e){
@@ -146,7 +185,7 @@
         }
       });
 
-      if(hq) render(randomIndex(-1), false);
+      if(hq) render(randomIndex(-1), false, false);
     })();
     </script>
 

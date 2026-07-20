@@ -324,10 +324,10 @@ layout: null
   <div class="chrome" id="chrome">
     <a class="tools-link" href="/tools/" aria-label="All the instruments">&larr;&#8202;instruments</a>
     <div class="tabs" role="tablist" aria-label="View">
-      <button class="tab" role="tab" data-panel="clock"     aria-selected="true">Clock</button>
-      <button class="tab" role="tab" data-panel="countdown" aria-selected="false">Countdown</button>
-      <button class="tab" role="tab" data-panel="stopwatch" aria-selected="false">Stopwatch</button>
-      <button class="tab" role="tab" data-panel="pomodoro"  aria-selected="false">Pomodoro</button>
+      <button class="tab" id="tab-clock" role="tab" data-panel="clock" aria-controls="clock" aria-selected="true" tabindex="0">Clock</button>
+      <button class="tab" id="tab-countdown" role="tab" data-panel="countdown" aria-controls="countdown" aria-selected="false" tabindex="-1">Countdown</button>
+      <button class="tab" id="tab-stopwatch" role="tab" data-panel="stopwatch" aria-controls="stopwatch" aria-selected="false" tabindex="-1">Stopwatch</button>
+      <button class="tab" id="tab-pomodoro" role="tab" data-panel="pomodoro" aria-controls="pomodoro" aria-selected="false" tabindex="-1">Pomodoro</button>
     </div>
     <a class="masthead" href="/" aria-label="On Life &amp; Everything—home">
       <span class="home-brand">On Life &amp; Everything</span>
@@ -340,13 +340,13 @@ layout: null
 
   <div class="stage">
 
-    <section class="panel active" id="clock">
+    <section class="panel active" id="clock" role="tabpanel" aria-labelledby="tab-clock">
       <div class="display" id="clockDisplay">00:00</div>
       <div class="face-slot"></div>
       <div class="subline" id="dateLine"></div>
     </section>
 
-    <section class="panel" id="countdown">
+    <section class="panel" id="countdown" role="tabpanel" aria-labelledby="tab-countdown">
       <div class="mode-row">
         <div class="seg" role="group" aria-label="Countdown mode">
           <button id="modeTarget" aria-pressed="true">End time</button>
@@ -358,9 +358,9 @@ layout: null
           <input type="number" id="targetM" class="time-input dur-input" min="0" max="59" inputmode="numeric" aria-label="End minute">
         </span>
         <span id="durWrap" style="display:none">
-          <input type="number" id="durH" class="time-input dur-input" min="0" max="23" value="1" inputmode="numeric">
+          <input type="number" id="durH" class="time-input dur-input" min="0" max="23" value="1" inputmode="numeric" aria-label="Duration hours">
           <span class="field-label">hr</span>
-          <input type="number" id="durM" class="time-input dur-input" min="0" max="59" value="30" inputmode="numeric">
+          <input type="number" id="durM" class="time-input dur-input" min="0" max="59" value="30" inputmode="numeric" aria-label="Duration minutes">
           <span class="field-label">min</span>
         </span>
       </div>
@@ -374,7 +374,7 @@ layout: null
       </div>
     </section>
 
-    <section class="panel" id="stopwatch">
+    <section class="panel" id="stopwatch" role="tabpanel" aria-labelledby="tab-stopwatch">
       <div class="display" id="swDisplay"><span id="swMain">00:00</span><span class="cs" id="swCs">.00</span></div>
       <div class="face-slot"></div>
       <div class="controls">
@@ -383,7 +383,7 @@ layout: null
       </div>
     </section>
 
-    <section class="panel" id="pomodoro">
+    <section class="panel" id="pomodoro" role="tabpanel" aria-labelledby="tab-pomodoro">
       <div class="mode-row">
         <span>
           <input type="number" id="pomFocusIn" class="time-input dur-input" min="1" max="180" value="25" inputmode="numeric" aria-label="Focus minutes">
@@ -474,19 +474,23 @@ layout: null
   function load(){ try{ return JSON.parse(localStorage.getItem(LS)) || {}; }catch(e){ return {}; } }
   function save(){ try{ localStorage.setItem(LS, JSON.stringify(state)); }catch(e){} syncWakeLock(); }
 
-  /* ---- screen wake lock while a countdown or pomodoro runs ----
-     Feature-detected; the lock is dropped by the browser when the tab
-     hides and re-requested on return, per the spec's guidance. */
+  /* ---- screen wake lock while a running timer or fullscreen clock needs
+     to remain visible. Feature-detected; the browser releases the lock when
+     the tab hides and it is requested again when the tab returns. ---- */
   let wakeLock=null, wakeLockPending=false;
+  function wakeLockWanted(){
+    return state.cdRunning || state.pomRunning || state.swRunning ||
+           !!nativeFsElement() || fakeFs;
+  }
   function syncWakeLock(){
     if(!("wakeLock" in navigator)) return;
-    const want=(state.cdRunning || state.pomRunning) && document.visibilityState==="visible";
+    const want=wakeLockWanted() && document.visibilityState==="visible";
     if(want && !wakeLock && !wakeLockPending){
       wakeLockPending=true;
       navigator.wakeLock.request("screen").then(wl=>{
         wakeLockPending=false; wakeLock=wl;
         wl.addEventListener("release", ()=>{ wakeLock=null; });
-        if(!(state.cdRunning || state.pomRunning)) wl.release().catch(()=>{});
+        if(!wakeLockWanted() || document.visibilityState!=="visible") wl.release().catch(()=>{});
       }).catch(()=>{ wakeLockPending=false; });
     } else if(!want && wakeLock){
       wakeLock.release().catch(()=>{});
@@ -595,6 +599,7 @@ layout: null
     tabs.forEach(t=>{
       const on=t.dataset.panel===name;
       t.setAttribute("aria-selected", on);
+      t.tabIndex=on ? 0 : -1;
       if(on && typeof t.scrollIntoView==="function"){
         t.scrollIntoView({inline:"nearest", block:"nearest", behavior:"smooth"});
       }
@@ -604,6 +609,21 @@ layout: null
     requestAnimationFrame(updateTabFades);
   }
   tabs.forEach(t=>t.addEventListener("click", ()=>selectPanel(t.dataset.panel)));
+  if(tablist){
+    tablist.addEventListener("keydown", e=>{
+      const i=tabs.indexOf(document.activeElement);
+      if(i<0) return;
+      let next=null;
+      if(e.key==="ArrowRight" || e.key==="ArrowDown") next=(i+1)%tabs.length;
+      else if(e.key==="ArrowLeft" || e.key==="ArrowUp") next=(i-1+tabs.length)%tabs.length;
+      else if(e.key==="Home") next=0;
+      else if(e.key==="End") next=tabs.length-1;
+      if(next===null) return;
+      e.preventDefault();
+      tabs[next].focus();
+      selectPanel(tabs[next].dataset.panel);
+    });
+  }
   requestAnimationFrame(updateTabFades);
 
   /* ---- analog visibility ---- */
@@ -661,6 +681,7 @@ layout: null
     const on = !!nativeFsElement() || fakeFs;
     document.body.classList.toggle("immersive", on);
     if(on) pokeChrome();
+    syncWakeLock();
   }
   fsBtn.addEventListener("click", ()=>{
     if(nativeFsElement()){ exitFs(); return; }
