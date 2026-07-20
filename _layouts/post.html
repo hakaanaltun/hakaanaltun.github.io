@@ -71,6 +71,11 @@ copied variants resolve the same file the page always used. {% endcomment %}
 {% comment %} Story pages ("The Notice") end on a choice or the hidden doorbox —
 no subscribe box, no "Keep reading" cards, nothing after the last line. {% endcomment %}
 <div class="essay-section-divider"></div>
+{% comment %} A related instrument appears right after the essay when it sets the
+afterward key in front matter; the include closes itself with a second divider,
+so the flow is essay → divider → link → divider → subscribe. Essays without the
+key render nothing here and fall straight through to the subscribe box. {% endcomment %}
+{% include essay-afterward.html %}
 {% if page.series == "on-series" %}
 <div class="series-nav"></div>
 <div class="essay-section-divider"></div>
@@ -82,9 +87,6 @@ no subscribe box, no "Keep reading" cards, nothing after the last line. {% endco
 <div class="essay-section-divider"></div>
 {% endif %}
 {% include post-subscribe.html %}
-{% comment %} The one quiet line to an instrument now sits below the subscribe
-box (js/afterward.js), and never on the newest eight or oldest five essays. {% endcomment %}
-{% include essay-afterward.html %}
 <div id="more-essays-container" class="more-essays"></div>
 {% endunless %}
 </div>
