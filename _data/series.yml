@@ -1,10 +1,9 @@
-# home now wears the site's deep blue, while the greyed dark peacock — a blue
-# leaning toward green, muted with grey — moves to default, dressing
-# /all-work/ (the "All" section) and every generic page. The two simply swap:
-# the homepage takes the deep blue, and "All" takes the peacock. Standalone
-# essays (series: "") fall through to default, so they always share "All"'s
-# colour and follow it whenever it changes.
-home:        "29, 67, 84"
+# home is a custom greyed blue nudged a touch toward green, so it sits apart
+# from the site's standard deep blue and petrols. The greyed dark peacock lives
+# in default, dressing /all-work/ (the "All" section) and every generic page.
+# Standalone essays (series: "") fall through to default, so they always share
+# "All"'s colour and follow it whenever it changes.
+home:        "32, 69, 79"
 default:     "33, 78, 91"
 series:      "26, 73, 77"
 cafe-series: "26, 73, 77"
