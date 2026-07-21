@@ -307,6 +307,25 @@ layout: null
   var sound = "brown", playing = false;
   var ctx = null, master = null, active = null;
   var buffers = {};
+
+  /* ---- iOS: this page makes sound with Web Audio, which Safari routes
+     through the "ambient" session — silenced by the hardware mute switch.
+     Playing a short silent clip through an <audio> element on the tap
+     promotes the session to "playback", so the noise is heard whether or
+     not the ring/silent switch is on. A tiny 8-bit WAV, looped, inaudible. */
+  var SILENT_WAV = "data:audio/wav;base64,UklGRrQBAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YZABAACAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA";
+  var silentEl = null;
+  function unlockSilent(){
+    try{
+      if(!silentEl){
+        silentEl = new Audio(SILENT_WAV);
+        silentEl.loop = true; silentEl.preload = "auto";
+        silentEl.setAttribute("playsinline", "");
+      }
+      var p = silentEl.play();
+      if(p && p.catch) p.catch(function(){});
+    }catch(e){}
+  }
   var SOUNDS = {                     /* display name + rough loudness matching */
     white:  { name:"White noise", level:0.16 },
     pink:   { name:"Pink noise",  level:0.22 },
@@ -363,6 +382,7 @@ layout: null
 
   function play(){
     ensureCtx();
+    unlockSilent();
     if(ctx.state === "suspended") ctx.resume();
     master.gain.cancelScheduledValues(ctx.currentTime);
     master.gain.setValueAtTime(0, ctx.currentTime);
@@ -374,6 +394,7 @@ layout: null
   }
   function pause(){
     if(!ctx) return;
+    try{ if(silentEl) silentEl.pause(); }catch(e){}
     stopActive();
     playing = false;
     document.body.classList.remove("playing");
