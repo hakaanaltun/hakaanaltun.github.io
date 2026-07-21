@@ -1,6 +1,6 @@
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 {% if page.layout == "home" %}{% assign _sk = "home" %}{% elsif page.series %}{% assign _sk = page.series %}{% elsif page.series_filter %}{% assign _sk = page.series_filter %}{% else %}{% assign _sk = "default" %}{% endif %}
-{% if _sk == "" %}{% assign _sk = "pieces" %}{% endif %}
+{% if _sk == "" %}{% assign _sk = "default" %}{% endif %}
 {% assign _tc = site.data.series[_sk] | default: site.data.series.default %}
 {% comment %} data-light/data-dark/data-midnight carry the palette values so
 js/theme.js can retarget the metas when the reader picks a theme by hand;
