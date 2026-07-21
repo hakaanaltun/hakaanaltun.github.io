@@ -17,6 +17,25 @@
   var ctx = null, master = null, rain = null, playing = false, stopT = null;
   var buffers = {};
 
+  /* iOS: Web Audio runs through the "ambient" session, which the hardware
+     ring/silent switch mutes. Playing a short, looped, inaudible clip
+     through an <audio> element on the tap promotes the session to
+     "playback", so the rain is heard whether or not the switch is on.
+     Same trick as /noise/; the WAV is a tiny 8-bit silence. */
+  var SILENT_WAV = 'data:audio/wav;base64,UklGRrQBAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YZABAACAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA';
+  var silentEl = null;
+  function unlockSilent() {
+    try {
+      if (!silentEl) {
+        silentEl = new Audio(SILENT_WAV);
+        silentEl.loop = true; silentEl.preload = 'auto';
+        silentEl.setAttribute('playsinline', '');
+      }
+      var p = silentEl.play();
+      if (p && p.catch) p.catch(function () {});
+    } catch (e) {}
+  }
+
   function start() {
     if (!ctx) {
       ctx = new AC();
@@ -24,6 +43,7 @@
       master.gain.value = 0;
       master.connect(ctx.destination);
     }
+    unlockSilent();
     if (ctx.state === 'suspended') ctx.resume();
     clearTimeout(stopT);
     if (!rain) rain = window.OLAE_RAIN.buildRain(ctx, master, buffers);
@@ -36,6 +56,7 @@
   }
   function stop() {
     if (!ctx || !rain) return;
+    try { if (silentEl) silentEl.pause(); } catch (e) {}
     master.gain.cancelScheduledValues(ctx.currentTime);
     master.gain.setValueAtTime(master.gain.value, ctx.currentTime);
     master.gain.linearRampToValueAtTime(0, ctx.currentTime + 1.2);
