@@ -13,14 +13,17 @@ description: "Ad-free instruments kept here: a fullscreen clock with countdown, 
     <p class="section-page-subtitle">Instruments I keep here—one job each, everything stays in your browser.</p>
   </div>
 
+  {% for shelf in site.data.shelves %}
+  <h2 class="tools-shelf">{{ shelf.title }}</h2>
   <div class="tools-list">
-    {% for tool in site.data.tools %}
+    {% for tool in site.data.tools %}{% if tool.group == shelf.key %}
     <a class="tools-item" href="/{{ tool.slug }}/">
-      <h2>{{ tool.name }}</h2>
+      <h3>{{ tool.name }}</h3>
       <p>{{ tool.card }}</p>
     </a>
-    {% endfor %}
+    {% endif %}{% endfor %}
   </div>
+  {% endfor %}
 </section>
 
 <script type="application/ld+json">

@@ -1795,7 +1795,7 @@ footer {
   border-bottom: 1px solid var(--rule);
 }
 
-.tools-item h2 {
+.tools-item h3 {
   font-family: 'Cormorant Garamond', Georgia, serif;
   font-style: italic;
   font-weight: 500;
@@ -1813,9 +1813,26 @@ footer {
   margin-top: 6px;
 }
 
-.tools-item:hover h2,
-.tools-item:focus-visible h2 {
+.tools-item:hover h3,
+.tools-item:focus-visible h3 {
   color: var(--petrol);
+}
+
+.tools-shelf {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: 1.05rem;
+  letter-spacing: 0.06em;
+  color: var(--vizon);
+  max-width: 560px;
+  margin: 54px auto 2px;
+  padding: 0 var(--pad);
+  text-align: center;
+}
+
+.tools-shelf:first-of-type {
+  margin-top: 24px;
 }
 
 @media (max-width: 600px) {
