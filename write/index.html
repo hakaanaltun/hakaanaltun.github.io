@@ -698,6 +698,15 @@ layout: null
     if(!on && refocus) shelfBtn.focus();
   }
   shelfBtn.addEventListener("click", function(){ setOpen(!open, open); });
+  /* on wide screens the shelf starts under the header, so the chrome
+     buttons — its own toggle included — stay within reach while it is
+     open; as a bottom sheet the media query's top takes over */
+  var chromeEl = $("#chrome");
+  function placeShelf(){
+    shelf.style.top = window.innerWidth > 600 ? chromeEl.offsetHeight + "px" : "";
+  }
+  placeShelf();
+  window.addEventListener("resize", placeShelf);
   document.addEventListener("click", function(e){
     if(!open) return;
     if(shelf.contains(e.target)) return;
