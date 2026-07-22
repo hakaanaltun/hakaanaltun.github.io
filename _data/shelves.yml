@@ -1,0 +1,18 @@
+# _data/shelves.yml — the three shelves the instruments group under.
+#
+# Each entry gives a shelf key and its heading, in display order.
+# /tools/ (tools.html) loops these in order, and for each shelf lists the
+# entries in _data/tools.yml whose `group:` matches the key.
+#
+# Fields:
+#   key    matches the `group:` field on entries in _data/tools.yml
+#   title  the shelf heading shown on /tools/
+
+- key: page
+  title: "On the page"
+
+- key: room
+  title: "In the room"
+
+- key: window
+  title: "Out the window"

@@ -9,24 +9,24 @@
 # Adding an instrument = one entry here + its page at /<slug>/index.html.
 # (Then bump CACHE in sw.js so returning visitors pick up the new list.)
 #
+# The file is kept in shelf order (see _data/shelves.yml): all `page`
+# entries, then all `room`, then all `window`. tools.html, the ItemList
+# schema, the sw.js precache list and the homepage line all read this file
+# in order, so keeping it ordered means none of them need touching.
+#
 # Fields:
 #   slug      folder name; the page lives at /<slug>/
 #   name      display name, as on /tools/
+#   group     shelf key from _data/shelves.yml (page | room | window)
 #   listname  the long name used in the ItemList schema on /tools/
 #   card      the description under the name on /tools/
 #   line      the prose phrase used in "More instruments" links
 #   related   exactly three slugs, in order, for the links paragraph
 #   post      optional — one piece from the writing: { url, title }
 
-- slug: clock
-  name: The Clock
-  listname: "The Clock—Fullscreen Clock, Countdown, Stopwatch & Pomodoro"
-  card: "A fullscreen clock, countdown, stopwatch and pomodoro. Large numerals, an analog view&mdash;made for classrooms, exams and focused work."
-  line: "a fullscreen clock with pomodoro"
-  related: [prompt, lots, noise]
-
 - slug: write
   name: The Page
+  group: page
   listname: "The Page—A Blank Page for Distraction-Free Writing"
   card: "A blank page to write on. Garamond type, a word count, fullscreen, autosave&mdash;and nothing else."
   line: "a blank page to write on"
@@ -35,6 +35,7 @@
 
 - slug: draw
   name: The Draw
+  group: page
   listname: "The Draw—A Blank Page to Draw On"
   card: "A blank page to draw on&mdash;mouse, finger or stylus, with pressure. Four inks, undo, autosave and a PNG download."
   line: "a blank page to draw on"
@@ -42,55 +43,71 @@
 
 - slug: words
   name: The Counter
+  group: page
   listname: "The Counter—Word Counter with Reading Time & Readability"
   card: "A word counter: words, characters, sentences, paragraphs, reading and speaking time, plus readability&mdash;counted live as you type or paste."
   line: "a word counter"
   related: [write, diff, clean]
 
-- slug: clean
-  name: The Clean
-  listname: "The Clean—Fix Quotes, Dashes & Spaces in Pasted Text"
-  card: "Pasted text set right: quotes curled, double hyphens turned into dashes, stray spaces and invisible characters removed&mdash;with case conversion that handles Turkish correctly."
-  line: "a text cleaner"
-  related: [words, list, marks]
-
-- slug: diff
-  name: The Diff
-  listname: "The Diff—Compare Two Texts Online"
-  card: "Two texts compared word by word&mdash;every addition and removal, for writers checking drafts."
-  line: "a comparison of two texts"
-  related: [clean, words, write]
-
 - slug: marks
   name: The Marks
+  group: page
   listname: "The Marks—Em Dash, Curly Quotes & Other Typographic Characters to Copy"
   card: "Typographic characters&mdash;em dash, curly quotes, thin space and the rest&mdash;click any of them to copy it."
   line: "typographic marks to copy"
   related: [clean, write, draw]
 
-- slug: lots
-  name: The Lots
-  listname: "The Lots—Random Name Picker & Group Maker for Classrooms"
-  card: "A name draw for classrooms and meetings: paste a list, draw one name at random&mdash;sized for the projector&mdash;or divide the list into groups."
-  line: "a name draw for classrooms"
-  related: [list, clock, prompt]
+- slug: clean
+  name: The Clean
+  group: page
+  listname: "The Clean—Fix Quotes, Dashes & Spaces in Pasted Text"
+  card: "Pasted text set right: quotes curled, double hyphens turned into dashes, stray spaces and invisible characters removed&mdash;with case conversion that handles Turkish correctly."
+  line: "a text cleaner"
+  related: [words, list, marks]
 
 - slug: list
   name: The List
+  group: page
   listname: "The List—Sort, Shuffle, Deduplicate & Number Lines Online"
   card: "Lines put in order: sorted, shuffled, reversed, deduplicated, numbered, or turned from commas into lines and back&mdash;with alphabetizing that handles Turkish correctly."
   line: "a tidier for lists"
   related: [lots, clean, words]
 
+- slug: diff
+  name: The Diff
+  group: page
+  listname: "The Diff—Compare Two Texts Online"
+  card: "Two texts compared word by word&mdash;every addition and removal, for writers checking drafts."
+  line: "a comparison of two texts"
+  related: [clean, words, write]
+
+- slug: clock
+  name: The Clock
+  group: room
+  listname: "The Clock—Fullscreen Clock, Countdown, Stopwatch & Pomodoro"
+  card: "A fullscreen clock, countdown, stopwatch and pomodoro. Large numerals, an analog view&mdash;made for classrooms, exams and focused work."
+  line: "a fullscreen clock with pomodoro"
+  related: [prompt, lots, noise]
+
 - slug: prompt
   name: The Prompter
+  group: room
   listname: "The Prompter—Free Online Teleprompter with Mirroring"
   card: "A fullscreen teleprompter: paste your script, set the pace, and read. Mirroring, large type, keyboard and remote control&mdash;for lectures, videos and speeches."
   line: "a teleprompter"
   related: [clock, write, lots]
 
+- slug: lots
+  name: The Lots
+  group: room
+  listname: "The Lots—Random Name Picker & Group Maker for Classrooms"
+  card: "A name draw for classrooms and meetings: paste a list, draw one name at random&mdash;sized for the projector&mdash;or divide the list into groups."
+  line: "a name draw for classrooms"
+  related: [list, clock, prompt]
+
 - slug: noise
   name: The Noise
+  group: room
   listname: "The Noise—White, Pink & Brown Noise, and Rain"
   card: "White, pink and brown noise, and steady rain&mdash;generated live, with a volume dial and a sleep timer."
   line: "ambient noise and rain"
@@ -99,6 +116,7 @@
 
 - slug: breathe
   name: The Breath
+  group: room
   listname: "The Breath—Box, 4-7-8 & Coherent Breathing"
   card: "A guided breathing exercise&mdash;box, 4-7-8 and coherent breathing, paced by a slowly swelling circle."
   line: "a breathing exercise"
@@ -107,6 +125,7 @@
 
 - slug: twilight
   name: Twilight
+  group: window
   listname: "Twilight—Sunrise, Sunset & Civil Twilight Today"
   card: "İstanbul's sky, kept in real time. Today's sunrise, sunset, civil twilight and day length; the page follows the color of the hour."
   line: "İstanbul&rsquo;s twilight"
@@ -115,21 +134,24 @@
 
 - slug: moon
   name: The Moon
+  group: window
   listname: "The Moon—Moon Phase Today"
   card: "Tonight's moon: the current phase drawn as it hangs in the sky, its illumination and age, and the next full and new moon."
   line: "the phase of the moon"
   related: [twilight, season, days]
 
-- slug: days
-  name: The Days
-  listname: "The Days—Days Between Dates, Weekday of Any Date & Day of the Year"
-  card: "Date arithmetic: days between two dates, the weekday of any date, and where today stands in the year."
-  line: "days between dates"
-  related: [season, moon, clock]
-
 - slug: season
   name: The Season
+  group: window
   listname: "The Season—Days Until the Next Solstice or Equinox"
   card: "Where the year stands: the current season, the days until the next solstice or equinox, and the year's progress."
   line: "the turn of the seasons"
   related: [days, moon, twilight]
+
+- slug: days
+  name: The Days
+  group: window
+  listname: "The Days—Days Between Dates, Weekday of Any Date & Day of the Year"
+  card: "Date arithmetic: days between two dates, the weekday of any date, and where today stands in the year."
+  line: "days between dates"
+  related: [season, moon, clock]
