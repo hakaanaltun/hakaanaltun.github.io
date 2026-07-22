@@ -166,6 +166,79 @@ layout: null
   .corner.saved{ right:20px; opacity:0; transition:opacity .6s ease; }
   .corner.saved.on{ opacity:1; }
 
+  /* the pomodoro's only trace on the page: a hairline across the very top */
+  .timer-line{
+    position:fixed; top:0; left:0; height:2px; width:0;
+    background:var(--ink); opacity:.25; z-index:5; pointer-events:none;
+  }
+
+  /* the shelf — a narrow panel over the right edge; the writing stays visible */
+  .shelf{
+    position:fixed; top:0; right:0; bottom:0; width:300px; z-index:3;
+    background:var(--paper); border-left:1px solid var(--line);
+    transform:translateX(100%); visibility:hidden;
+    overflow-y:auto; overscroll-behavior:contain;
+    transition:transform .4s ease, visibility 0s linear .4s, background .4s ease, border-color .4s ease;
+  }
+  .shelf.open{
+    transform:translateX(0); visibility:visible;
+    transition:transform .4s ease, background .4s ease, border-color .4s ease;
+  }
+  .shelf-row{ padding:20px; }
+  .shelf-row + .shelf-row{ border-top:1px solid var(--line); }
+  .shelf-label{
+    font-family:var(--body); font-style:italic; font-weight:400;
+    font-size:.9rem; color:var(--muted); letter-spacing:.03em; margin-bottom:.75rem;
+  }
+  .shelf-controls{ display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+  .shelf-pill{
+    background:none; border:1px solid var(--line); color:var(--ink); font-family:var(--body);
+    font-size:.92rem; padding:6px 14px; border-radius:999px; cursor:pointer; letter-spacing:.02em;
+    transition:color .2s, border-color .2s, background .2s;
+  }
+  .shelf-pill:hover{ border-color:var(--muted); }
+  .shelf-pill[aria-pressed="true"]{ background:var(--ink); color:var(--paper); border-color:var(--ink); }
+  .shelf-pill:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
+  .shelf-note{ margin-top:.7rem; font-style:italic; color:var(--muted); font-size:.85rem; letter-spacing:.02em; }
+  .shelf-line{ display:flex; align-items:baseline; gap:10px; margin-bottom:.8rem; }
+  .shelf-word{ font-family:var(--display); font-style:italic; font-size:1.35rem; line-height:1.1; }
+  .shelf-clock{
+    color:var(--muted);
+    font-variant-numeric:lining-nums tabular-nums; font-feature-settings:"tnum" 1,"lnum" 1;
+  }
+  .shelf-vol{ margin-top:1rem; display:flex; align-items:center; gap:10px; }
+  .shelf-vol .vlab{ font-style:italic; color:var(--muted); font-size:.85rem; }
+  .shelf-vol input[type="range"]{
+    flex:1; -webkit-appearance:none; appearance:none; height:2px;
+    background:var(--line); border-radius:999px; outline:none; cursor:pointer;
+  }
+  .shelf-vol input[type="range"]::-webkit-slider-thumb{
+    -webkit-appearance:none; appearance:none; width:14px; height:14px; border-radius:50%;
+    background:var(--ink); border:none;
+  }
+  .shelf-vol input[type="range"]::-moz-range-thumb{
+    width:14px; height:14px; border-radius:50%; background:var(--ink); border:none;
+  }
+  .shelf-vol input[type="range"]:focus-visible{ outline:2px solid var(--ink); outline-offset:4px; }
+  .shelf-marks{ display:grid; grid-template-columns:repeat(auto-fill, minmax(36px, 1fr)); gap:6px; }
+  .shelf-mark{
+    background:none; border:1px solid var(--line); border-radius:8px; color:var(--ink);
+    font-family:var(--display); font-size:1.15rem; line-height:1; padding:8px 0;
+    cursor:pointer; transition:border-color .2s;
+  }
+  .shelf-mark:hover{ border-color:var(--muted); }
+  .shelf-mark:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
+  .shelf-count{ display:grid; grid-template-columns:1fr 1fr; gap:14px 10px; }
+  .shelf-count b{
+    display:block; font-family:var(--display); font-weight:400; font-size:1.35rem; line-height:1.1;
+    font-variant-numeric:lining-nums tabular-nums; font-feature-settings:"tnum" 1,"lnum" 1;
+    color:var(--ink);
+  }
+  .shelf-count span{
+    display:block; margin-top:2px; font-style:italic; color:var(--muted);
+    font-size:.8rem; letter-spacing:.02em;
+  }
+
   /* fullscreen focus: only the chrome retires; the page and its count remain */
   body.immersive .chrome{ opacity:0; pointer-events:none; }
   body.immersive.show-chrome .chrome{ opacity:1; pointer-events:auto; }
@@ -193,13 +266,136 @@ layout: null
     textarea{ font-size:1.22rem; }
     .corner.words{ left:16px; }
     .corner.saved{ right:16px; }
+    /* the shelf becomes a bottom sheet */
+    .shelf{
+      top:auto; left:0; right:0; bottom:0; width:100%; max-height:72vh;
+      border-left:none; border-top:1px solid var(--line); border-radius:14px 14px 0 0;
+      transform:translateY(100%);
+      padding-bottom:calc(14px + env(safe-area-inset-bottom));
+    }
+    .shelf.open{ transform:translateY(0); }
+  }
+
+  /* the fourth button crowds the top row on narrow screens: below this
+     width the masthead takes its own line, so nothing ever overlaps */
+  @media (max-width:520px){
+    .chrome{ grid-template-columns:1fr auto; row-gap:10px; }
+    .masthead{ grid-column:1 / -1; grid-row:1; }
+    .tools-link{ grid-column:1; grid-row:2; }
+    .actions{ grid-column:2; grid-row:2; }
   }
 
   @media (prefers-reduced-motion:reduce){
     *{ transition:none !important; }
   }
 </style>
-<script>(function(){try{var t=localStorage.getItem('olae-page-theme');if(t!=='dark'&&t!=='light'){var s=localStorage.getItem('theme');t=(s==='midnight'||s==='dusk')?'dark':s;}if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();</script>
+<script>
+(function(){
+  "use strict";
+  /* The stored light: 'light' and 'dark' as before, plus 'sky' — the shelf's
+     "follow the sky". The city table, the ramp and the ink blending are the
+     twilight page's, lifted as written and measured there against WCAG AA;
+     the altitude below is a compact copy of OLAE_ASTRO.sunAltitude (the same
+     precedent as the Dusk theme in js/theme.js) so the sky can resolve before
+     first paint — the shelf loads /js/astronomy.js for the minute-by-minute
+     recompute. */
+  var CITIES = {
+    istanbul:   { name:"İstanbul",    lat:41.015,  lng:28.979,   tz:"Europe/Istanbul" },
+    ankara:     { name:"Ankara",      lat:39.933,  lng:32.860,   tz:"Europe/Istanbul" },
+    london:     { name:"London",      lat:51.507,  lng:-0.128,   tz:"Europe/London" },
+    paris:      { name:"Paris",       lat:48.857,  lng:2.352,    tz:"Europe/Paris" },
+    berlin:     { name:"Berlin",      lat:52.520,  lng:13.405,   tz:"Europe/Berlin" },
+    newyork:    { name:"New York",    lat:40.713,  lng:-74.006,  tz:"America/New_York" },
+    losangeles: { name:"Los Angeles", lat:34.052,  lng:-118.244, tz:"America/Los_Angeles" },
+    tokyo:      { name:"Tokyo",       lat:35.677,  lng:139.650,  tz:"Asia/Tokyo" },
+    sydney:     { name:"Sydney",      lat:-33.868, lng:151.209,  tz:"Australia/Sydney" }
+  };
+  function pickCity(){
+    var tz = "";
+    try{ tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ""; }catch(e){}
+    for(var k in CITIES){ if(CITIES[k].tz === tz) return CITIES[k]; }
+    return CITIES.istanbul;
+  }
+  var CREAM = [237,228,207], DAYINK = [255,252,245];
+  var STOPS = [   /* [altitude°, [r,g,b], inkMix 0..1] */
+    [-30, [ 12, 16, 24], 0],
+    [-18, [ 14, 19, 29], 0],
+    [-12, [ 23, 32, 48], 0],
+    [ -6, [ 44, 58, 82], 0],
+    [ -2, [ 98, 84, 84], 0.6],
+    [  0, [140,104, 79], 1],
+    [  5, [108, 98, 79], 1],
+    [ 12, [ 88,116,134], 1],
+    [ 40, [ 82,110,130], 1]
+  ];
+  function lerp(a, b, f){ return a + (b - a) * f; }
+  function skyAt(alt){
+    if(alt <= STOPS[0][0]) return STOPS[0];
+    for(var i = 1; i < STOPS.length; i++){
+      if(alt <= STOPS[i][0]){
+        var lo = STOPS[i-1], hi = STOPS[i];
+        var f = (alt - lo[0]) / (hi[0] - lo[0]);
+        return [alt,
+          [ Math.round(lerp(lo[1][0], hi[1][0], f)),
+            Math.round(lerp(lo[1][1], hi[1][1], f)),
+            Math.round(lerp(lo[1][2], hi[1][2], f)) ],
+          lerp(lo[2], hi[2], f)];
+      }
+    }
+    return STOPS[STOPS.length - 1];
+  }
+  function mixChannels(a, b, f){
+    return [
+      Math.round(lerp(a[0], b[0], f)),
+      Math.round(lerp(a[1], b[1], f)),
+      Math.round(lerp(a[2], b[2], f))
+    ];
+  }
+  function sunAltitude(now, lat, lng){
+    var RAD = Math.PI / 180;
+    var d = (now.getTime() / 86400000) - 10957.5;        /* days since J2000 */
+    var g = (357.529 + 0.98560028 * d) * RAD;
+    var q = 280.459 + 0.98564736 * d;
+    var L = (q + 1.915 * Math.sin(g) + 0.020 * Math.sin(2 * g)) * RAD;
+    var e = (23.439 - 0.00000036 * d) * RAD;
+    var sinDec = Math.sin(e) * Math.sin(L);
+    var dec = Math.asin(sinDec);
+    var RAh = (Math.atan2(Math.cos(e) * Math.sin(L), Math.cos(L)) / RAD) / 15;
+    var GMST = ((18.697374558 + 24.06570982441908 * d) % 24 + 24) % 24;
+    var lst = ((GMST + lng / 15) % 24 + 24) % 24;
+    var H = ((lst - RAh) * 15 + 540) % 360 - 180;
+    var latR = lat * RAD;
+    return Math.asin(Math.sin(latR) * sinDec + Math.cos(latR) * Math.cos(dec) * Math.cos(H * RAD)) / RAD;
+  }
+  function paint(alt){
+    var sky = skyAt(alt), st = document.documentElement.style;
+    var ink = mixChannels(CREAM, DAYINK, sky[2]);
+    st.setProperty("--paper", "rgb(" + sky[1].join(",") + ")");
+    st.setProperty("--ink", "rgb(" + ink.join(",") + ")");
+    st.setProperty("--muted", "rgba(" + ink.join(",") + "," + lerp(0.80, 0.95, sky[2]).toFixed(3) + ")");
+    st.setProperty("--line", "rgba(" + ink.join(",") + "," + lerp(0.28, 0.42, sky[2]).toFixed(3) + ")");
+  }
+  function clear(){
+    var st = document.documentElement.style;
+    ["--paper","--ink","--muted","--line"].forEach(function(p){ st.removeProperty(p); });
+  }
+  window.OLAE_PAGE_SKY = { pickCity: pickCity, sunAltitude: sunAltitude, paint: paint, clear: clear };
+  try{
+    var t = localStorage.getItem('olae-page-theme');
+    if(t !== 'dark' && t !== 'light' && t !== 'sky'){
+      var s = localStorage.getItem('theme');
+      t = (s === 'midnight' || s === 'dusk') ? 'dark' : s;
+    }
+    if(t === 'dark' || t === 'light'){
+      document.documentElement.setAttribute('data-theme', t);
+    } else if(t === 'sky'){
+      document.documentElement.setAttribute('data-theme', 'sky');
+      var c = pickCity();
+      paint(sunAltitude(new Date(), c.lat, c.lng));
+    }
+  }catch(e){}
+})();
+</script>
 </head>
 <body>
 
@@ -212,6 +408,13 @@ layout: null
       <span class="home-tagline">Essays, short fiction, and other writing.</span>
     </a>
     <div class="actions">
+      <button class="icon-btn" id="shelfBtn" type="button" title="The shelf" aria-label="The shelf" aria-expanded="false" aria-controls="shelf">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="4" y1="7" x2="20" y2="7"/>
+          <line x1="4" y1="12" x2="16" y2="12"/>
+          <line x1="4" y1="17" x2="12" y2="17"/>
+        </svg>
+      </button>
       <button class="icon-btn theme-btn" id="themeBtn" type="button" title="Light / dark" aria-label="Switch theme">
         <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
@@ -244,6 +447,95 @@ layout: null
 
   </main><!-- /.app -->
 
+  <aside class="shelf" id="shelf" aria-label="The shelf">
+
+    <div class="shelf-row">
+      <h2 class="shelf-label">Time</h2>
+      <div class="shelf-line"><span class="shelf-word" id="tmPhase">write</span><span class="shelf-clock" id="tmClock">25:00</span></div>
+      <div class="shelf-controls">
+        <button class="shelf-pill" id="tmStart" type="button">Start</button>
+        <button class="shelf-pill" id="tmPause" type="button">Pause</button>
+        <button class="shelf-pill" id="tmReset" type="button">Reset</button>
+      </div>
+      <div class="shelf-note" id="tmSittings">0 sittings</div>
+    </div>
+
+    <div class="shelf-row">
+      <h2 class="shelf-label">Sound</h2>
+      <div class="shelf-controls" role="group" aria-label="Sound">
+        <button class="shelf-pill" data-sound="off" aria-pressed="true" type="button">Off</button>
+        <button class="shelf-pill" data-sound="rain" aria-pressed="false" type="button">Rain</button>
+        <button class="shelf-pill" data-sound="brown" aria-pressed="false" type="button">Brown noise</button>
+      </div>
+      <div class="shelf-vol">
+        <span class="vlab" id="shVolLabel">Volume</span>
+        <input type="range" id="shVol" min="0" max="100" value="60" aria-labelledby="shVolLabel">
+      </div>
+    </div>
+
+    <div class="shelf-row">
+      <h2 class="shelf-label">Marks</h2>
+      <div class="shelf-marks" id="shelfMarks">
+        <button class="shelf-mark" type="button" data-ch="—" aria-label="Insert em dash">—</button>
+        <button class="shelf-mark" type="button" data-ch="–" aria-label="Insert en dash">–</button>
+        <button class="shelf-mark" type="button" data-ch="“" aria-label="Insert left double quote">“</button>
+        <button class="shelf-mark" type="button" data-ch="”" aria-label="Insert right double quote">”</button>
+        <button class="shelf-mark" type="button" data-ch="‘" aria-label="Insert left single quote">‘</button>
+        <button class="shelf-mark" type="button" data-ch="’" aria-label="Insert right single quote or apostrophe">’</button>
+        <button class="shelf-mark" type="button" data-ch="„" aria-label="Insert low double quote">„</button>
+        <button class="shelf-mark" type="button" data-ch="«" aria-label="Insert left guillemet">«</button>
+        <button class="shelf-mark" type="button" data-ch="»" aria-label="Insert right guillemet">»</button>
+        <button class="shelf-mark" type="button" data-ch="…" aria-label="Insert ellipsis">…</button>
+        <button class="shelf-mark" type="button" data-ch="·" aria-label="Insert middle dot">·</button>
+        <button class="shelf-mark" type="button" data-ch="§" aria-label="Insert section sign">§</button>
+        <button class="shelf-mark" type="button" data-ch="İ" aria-label="Insert capital dotted I">İ</button>
+        <button class="shelf-mark" type="button" data-ch="ı" aria-label="Insert dotless i">ı</button>
+        <button class="shelf-mark" type="button" data-ch="Ş" aria-label="Insert capital S cedilla">Ş</button>
+        <button class="shelf-mark" type="button" data-ch="ş" aria-label="Insert s cedilla">ş</button>
+        <button class="shelf-mark" type="button" data-ch="Ğ" aria-label="Insert capital G breve">Ğ</button>
+        <button class="shelf-mark" type="button" data-ch="ğ" aria-label="Insert g breve">ğ</button>
+        <button class="shelf-mark" type="button" data-ch="Ç" aria-label="Insert capital C cedilla">Ç</button>
+        <button class="shelf-mark" type="button" data-ch="ç" aria-label="Insert c cedilla">ç</button>
+        <button class="shelf-mark" type="button" data-ch="Ö" aria-label="Insert capital O umlaut">Ö</button>
+        <button class="shelf-mark" type="button" data-ch="ö" aria-label="Insert o umlaut">ö</button>
+        <button class="shelf-mark" type="button" data-ch="Ü" aria-label="Insert capital U umlaut">Ü</button>
+        <button class="shelf-mark" type="button" data-ch="ü" aria-label="Insert u umlaut">ü</button>
+      </div>
+    </div>
+
+    <div class="shelf-row">
+      <h2 class="shelf-label">Tidy</h2>
+      <div class="shelf-controls">
+        <button class="shelf-pill" id="tidyBtn" type="button">Tidy</button>
+      </div>
+      <div class="shelf-note">curls quotes, sets dashes, tidies spaces, strips invisible characters</div>
+    </div>
+
+    <div class="shelf-row">
+      <h2 class="shelf-label">Count</h2>
+      <div class="shelf-count">
+        <div><b id="shWords">0</b><span>words</span></div>
+        <div><b id="shChars">0</b><span>characters</span></div>
+        <div><b id="shSent">0</b><span>sentences</span></div>
+        <div><b id="shPara">0</b><span>paragraphs</span></div>
+        <div><b id="shRead">&mdash;</b><span>reading time</span></div>
+      </div>
+    </div>
+
+    <div class="shelf-row">
+      <h2 class="shelf-label">Light</h2>
+      <div class="shelf-controls" role="group" aria-label="Light">
+        <button class="shelf-pill" data-light="light" aria-pressed="false" type="button">Light</button>
+        <button class="shelf-pill" data-light="dark" aria-pressed="false" type="button">Dark</button>
+        <button class="shelf-pill" data-light="sky" aria-pressed="false" type="button">Follow the sky</button>
+      </div>
+      <div class="shelf-note" id="skyCity"></div>
+    </div>
+
+  </aside>
+
+  <div class="timer-line" id="timerLine" aria-hidden="true"></div>
+
   <footer class="notes" id="notes">
     <div class="notes-inner">
       <h1>The Page</h1>
@@ -264,6 +556,12 @@ layout: null
 
       <h3>Can I write in fullscreen?</h3>
       <p>Yes. The fullscreen button clears away everything but the paper, with the word count for company; moving the mouse brings the controls back.</p>
+
+      <h3>What is on the shelf?</h3>
+      <p>Six small things, borrowed from the other instruments and kept behind the lines button in the corner: a 25-and-5 writing timer whose only trace is a thin line along the top of the screen, rain and brown noise to write inside, the typographic marks, a tidy button that curls quotes and sets dashes right, a fuller count, and the light&mdash;light, dark, or following the sky over your city. Close the panel and the page is as bare as it ever was.</p>
+
+      <h3>Does the shelf send anything anywhere?</h3>
+      <p>No. The timer keeps time inside the page and never asks to send notifications, the rain and the noise are synthesized live in your browser&mdash;no recordings, nothing streamed&mdash;and the sky is computed from the clock and your time zone. Like the page itself, the shelf never lets your writing leave your device.</p>
 
       {% include tool-links.html slug="write" %}
     </div>
@@ -381,6 +679,345 @@ layout: null
   /* ---- init ---- */
   grow(); count();
   window.addEventListener("resize", grow);
+})();
+</script>
+<script>
+(function(){
+  "use strict";
+  var $ = function(s){ return document.querySelector(s); };
+  var ta = $("#page");
+  var shelf = $("#shelf"), shelfBtn = $("#shelfBtn");
+
+  /* ================= the shelf itself ================= */
+  var open = false;
+  function setOpen(on, refocus){
+    open = on;
+    shelf.classList.toggle("open", on);
+    shelfBtn.setAttribute("aria-expanded", String(on));
+    if(on) recountShelf();
+    if(!on && refocus) shelfBtn.focus();
+  }
+  shelfBtn.addEventListener("click", function(){ setOpen(!open, open); });
+  document.addEventListener("click", function(e){
+    if(!open) return;
+    if(shelf.contains(e.target)) return;
+    if(e.target.closest && e.target.closest("#shelfBtn")) return;
+    setOpen(false, false);
+  });
+  document.addEventListener("keydown", function(e){
+    if(e.key === "Escape" && open) setOpen(false, true);
+  });
+  /* entering fullscreen puts the shelf away — the paper has the room */
+  function fsEl(){ return document.fullscreenElement || document.webkitFullscreenElement || null; }
+  ["fullscreenchange","webkitfullscreenchange"].forEach(function(ev){
+    document.addEventListener(ev, function(){ if(fsEl() && open) setOpen(false, false); });
+  });
+  $("#fsBtn").addEventListener("click", function(){ if(open) setOpen(false, false); });
+
+  /* ================= 1 · time — a silent pomodoro ================= */
+  /* 25 write / 5 rest. No sound, no notifications, nothing persisted:
+     the only trace on the page is the hairline filling along the top. */
+  var WRITE_S = 25 * 60, REST_S = 5 * 60;
+  var tPhase = "write", tLeft = WRITE_S, tEndAt = null, tTicker = null, sittings = 0;
+  var lineEl = $("#timerLine"), tmPhase = $("#tmPhase"), tmClock = $("#tmClock"), tmSits = $("#tmSittings");
+  function phaseLen(){ return tPhase === "write" ? WRITE_S : REST_S; }
+  function fmtClock(s){
+    s = Math.max(0, Math.ceil(s));
+    var m = Math.floor(s / 60), r = s % 60;
+    return m + ":" + (r < 10 ? "0" : "") + r;
+  }
+  function renderTimer(){
+    var left = tEndAt ? (tEndAt - Date.now()) / 1000 : tLeft;
+    tmPhase.textContent = tPhase;
+    tmClock.textContent = fmtClock(left);
+    tmSits.textContent = sittings === 1 ? "1 sitting" : sittings + " sittings";
+    lineEl.style.width = left < phaseLen() ? (100 * (1 - left / phaseLen())).toFixed(3) + "%" : "0";
+  }
+  function turn(){
+    if(tPhase === "write") sittings++;
+    tPhase = tPhase === "write" ? "rest" : "write";
+    tEndAt = Date.now() + phaseLen() * 1000;   /* the line resets with the phase */
+  }
+  function tick(){
+    if(tEndAt && Date.now() >= tEndAt) turn();
+    renderTimer();
+  }
+  $("#tmStart").addEventListener("click", function(){
+    if(tTicker) return;
+    tEndAt = Date.now() + tLeft * 1000;
+    tTicker = setInterval(tick, 250);
+    renderTimer();
+  });
+  $("#tmPause").addEventListener("click", function(){
+    if(!tTicker) return;
+    clearInterval(tTicker); tTicker = null;
+    tLeft = Math.max(0, (tEndAt - Date.now()) / 1000);
+    tEndAt = null;
+    renderTimer();
+  });
+  $("#tmReset").addEventListener("click", function(){
+    clearInterval(tTicker); tTicker = null;
+    tPhase = "write"; tLeft = WRITE_S; tEndAt = null;
+    renderTimer();
+  });
+
+  /* ================= 2 · sound — from /noise/ ================= */
+  /* The generators live in /js/rain-engine.js, the same file /noise/ plays
+     through; it is fetched the first time a sound is chosen. Levels, ramps
+     and the iOS mute-switch unlock are /noise/'s, unchanged. Never plays
+     on load — the row is off until asked. */
+  var SOUNDS = {                     /* display name + rough loudness matching */
+    brown: { name:"Brown noise", level:0.38 },
+    rain:  { name:"Rain",        level:0.42 }
+  };
+  var sound = "off", sndCtx = null, sndMaster = null, sndActive = null, sndBuffers = {};
+  var SILENT_WAV = "data:audio/wav;base64,UklGRrQBAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YZABAACAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA";
+  var silentEl = null;
+  function unlockSilent(){
+    try{
+      if(!silentEl){
+        silentEl = new Audio(SILENT_WAV);
+        silentEl.loop = true; silentEl.preload = "auto";
+        silentEl.setAttribute("playsinline", "");
+      }
+      var p = silentEl.play();
+      if(p && p.catch) p.catch(function(){});
+    }catch(e){}
+  }
+  function ensureCtx(){
+    if(sndCtx) return;
+    var AC = window.AudioContext || window.webkitAudioContext;
+    sndCtx = new AC();
+    sndMaster = sndCtx.createGain();
+    sndMaster.connect(sndCtx.destination);
+  }
+  function targetGain(){ return (+$("#shVol").value / 100) * SOUNDS[sound].level; }
+  function stopSound(){
+    if(sndActive){ sndActive.stop(); sndActive = null; }
+    try{ if(silentEl) silentEl.pause(); }catch(e){}
+  }
+  function buildSound(kind){
+    if(kind === "rain") return OLAE_RAIN.buildRain(sndCtx, sndMaster, sndBuffers);
+    if(!sndBuffers[kind]) sndBuffers[kind] = OLAE_RAIN.makeNoiseBuffer(sndCtx, kind);
+    var s = sndCtx.createBufferSource();
+    s.buffer = sndBuffers[kind];
+    s.loop = true;
+    s.connect(sndMaster); s.start();
+    return { stop: function(){ try{ s.stop(); }catch(e){} } };
+  }
+  var engineWaiters = null;
+  function withEngine(done){
+    if(window.OLAE_RAIN){ done(); return; }
+    if(engineWaiters){ engineWaiters.push(done); return; }
+    engineWaiters = [done];
+    var s = document.createElement("script");
+    s.src = "/js/rain-engine.js?v=20260720-1";
+    s.onload = function(){
+      var q = engineWaiters; engineWaiters = null;
+      q.forEach(function(f){ f(); });
+    };
+    document.head.appendChild(s);
+  }
+  var sndBtns = Array.prototype.slice.call(document.querySelectorAll("#shelf .shelf-pill[data-sound]"));
+  function chooseSound(k){
+    sound = k;
+    sndBtns.forEach(function(b){ b.setAttribute("aria-pressed", String(b.getAttribute("data-sound") === k)); });
+    if(k === "off"){ stopSound(); return; }
+    withEngine(function(){
+      if(sound !== k) return;          /* the choice moved on while the engine loaded */
+      stopSound();
+      ensureCtx();
+      unlockSilent();
+      if(sndCtx.state === "suspended") sndCtx.resume();
+      sndMaster.gain.cancelScheduledValues(sndCtx.currentTime);
+      sndMaster.gain.setValueAtTime(0, sndCtx.currentTime);
+      sndMaster.gain.linearRampToValueAtTime(targetGain(), sndCtx.currentTime + 0.4);
+      sndActive = buildSound(k);
+    });
+  }
+  sndBtns.forEach(function(b){
+    b.addEventListener("click", function(){ chooseSound(b.getAttribute("data-sound")); });
+  });
+  $("#shVol").addEventListener("input", function(){
+    if(sndCtx && sndActive){
+      sndMaster.gain.cancelScheduledValues(sndCtx.currentTime);
+      sndMaster.gain.linearRampToValueAtTime(targetGain(), sndCtx.currentTime + 0.08);
+    }
+  });
+
+  /* ================= 3 · marks — from /marks/ ================= */
+  /* insert at the caret, hand the caret back, and let the page's own
+     input listener run the autosave and the corner count */
+  $("#shelfMarks").addEventListener("click", function(e){
+    var b = e.target.closest ? e.target.closest(".shelf-mark") : null;
+    if(!b) return;
+    var ch = b.getAttribute("data-ch");
+    var s = ta.selectionStart, en = ta.selectionEnd;
+    ta.value = ta.value.slice(0, s) + ch + ta.value.slice(en);
+    ta.focus();
+    ta.setSelectionRange(s + ch.length, s + ch.length);
+    ta.dispatchEvent(new Event("input", { bubbles: true }));
+  });
+
+  /* ================= 4 · tidy — the rules from /clean/ ================= */
+  /* Straight quotes → curly. The rules, in order: decade abbreviations
+     ('90s), apostrophes inside words, opening quotes after whitespace or
+     an opening bracket or dash, primes after digits left alone (5'10"),
+     everything else closing. */
+  function curlQuotes(s, n){
+    var OPEN_BEFORE = /(^|[\s([{‘“–—-])$/;
+    s = s.replace(/'(?=\d0s\b)/g, function(){ n.quotes++; return "’"; });
+    s = s.replace(/([\p{L}\p{N}])'(?=\p{L})/gu, function(m, a){ n.quotes++; return a + "’"; });
+    s = s.replace(/'(?=\S)/g, function(m, off, str){
+      if(!OPEN_BEFORE.test(str.slice(Math.max(0, off - 1), off))) return m;
+      n.quotes++; return "‘";
+    });
+    s = s.replace(/'/g, function(m, off, str){
+      if(/\d/.test(str.charAt(off - 1))) return m;   /* a prime: 5'10" */
+      n.quotes++; return "’";
+    });
+    s = s.replace(/"(?=\S)/g, function(m, off, str){
+      if(!OPEN_BEFORE.test(str.slice(Math.max(0, off - 1), off))) return m;
+      n.quotes++; return "“";
+    });
+    s = s.replace(/"/g, function(m, off, str){
+      if(/\d/.test(str.charAt(off - 1)) && !/\p{L}/u.test(str.charAt(off + 1) || "")) return m;
+      n.quotes++; return "”";
+    });
+    return s;
+  }
+  function setDashes(s, n){
+    s = s.replace(/---/g, function(){ n.dashes++; return "—"; });
+    s = s.replace(/--/g, function(){ n.dashes++; return "–"; });
+    s = s.replace(/(\d)-(?=\d)/g, function(m, a){ n.dashes++; return a + "–"; });
+    return s;
+  }
+  function tidySpaces(s, n){
+    s = s.replace(/ {2,}/g, function(){ n.spaces++; return " "; });
+    s = s.replace(/ +(?=[,.;:!?…])/g, function(){ n.spaces++; return ""; });
+    s = s.replace(/[ \t]+$/gm, function(){ n.spaces++; return ""; });
+    return s;
+  }
+  function removeInvisible(s, n){
+    /* zero-width spaces and joiners, soft hyphens, directional marks, BOM */
+    s = s.replace(/[\u200B\u200C\u200D\u00AD\u200E\u200F\u202A-\u202E\u2060-\u2064\u2066-\u2069\uFEFF]/g,
+      function(){ n.invisibles++; return ""; });
+    /* non-breaking spaces → ordinary spaces */
+    s = s.replace(/[\u00A0\u202F]/g, function(){ n.invisibles++; return " "; });
+    return s;
+  }
+  var tidyBtn = $("#tidyBtn"), tidyUndo = null, tidyT = null;
+  tidyBtn.addEventListener("click", function(){
+    if(tidyUndo !== null){
+      ta.value = tidyUndo;
+      tidyUndo = null;
+      clearTimeout(tidyT);
+      tidyBtn.textContent = "Tidy";
+      ta.dispatchEvent(new Event("input", { bubbles: true }));
+      return;
+    }
+    var s = ta.value;
+    if(!s) return;
+    var n = { quotes:0, dashes:0, spaces:0, invisibles:0 };
+    tidyUndo = s;
+    s = removeInvisible(s, n);
+    s = curlQuotes(s, n);
+    s = setDashes(s, n);
+    s = tidySpaces(s, n);
+    ta.value = s;
+    ta.dispatchEvent(new Event("input", { bubbles: true }));
+    tidyBtn.textContent = "Undo";
+    tidyT = setTimeout(function(){ tidyUndo = null; tidyBtn.textContent = "Tidy"; }, 15000);
+  });
+
+  /* ================= 5 · count — from /words/ ================= */
+  function fmtMinutes(words, wpm){
+    if(words === 0) return "—";
+    var min = Math.round(words / wpm);
+    if(min < 1) return "<1 min";
+    if(min < 60) return min + " min";
+    var h = Math.floor(min / 60), m = min % 60;
+    return h + " h" + (m > 0 ? " " + m + " m" : "");
+  }
+  function countSentences(t){
+    t = t.trim();
+    if(!t) return 0;
+    var m = t.match(/[.!?…]+(?=['"’”)\]]*(?:\s|$))/g);
+    var n = m ? m.length : 0;
+    if(!/[.!?…]['"’”)\]]*$/.test(t)) n++;   /* an unfinished last sentence still counts */
+    return n;
+  }
+  var nf = new Intl.NumberFormat("en-US");
+  function recountShelf(){
+    if(!open) return;
+    var t = ta.value;
+    var words = (t.match(/\S+/g) || []).length;
+    $("#shWords").textContent = nf.format(words);
+    $("#shChars").textContent = nf.format(Array.from ? Array.from(t).length : t.length);
+    $("#shSent").textContent  = nf.format(countSentences(t));
+    $("#shPara").textContent  = nf.format(t.split(/\n\s*\n/).filter(function(x){ return x.trim(); }).length);
+    $("#shRead").textContent  = fmtMinutes(words, 225);
+  }
+  ta.addEventListener("input", recountShelf);
+
+  /* ================= 6 · light ================= */
+  /* Light and Dark do what the corner button does; 'sky' follows the sun
+     over the nearest city in the twilight page's table — painted before
+     first paint by the head script, recomputed here every minute with
+     OLAE_ASTRO.sunAltitude once /js/astronomy.js has loaded. */
+  var SKY = window.OLAE_PAGE_SKY;
+  var skyCity = SKY.pickCity();
+  var skyT = null;
+  var lightBtns = Array.prototype.slice.call(document.querySelectorAll("#shelf .shelf-pill[data-light]"));
+  function skyPaint(){
+    var alt = window.OLAE_ASTRO
+      ? window.OLAE_ASTRO.sunAltitude(new Date(), skyCity.lat, skyCity.lng)
+      : SKY.sunAltitude(new Date(), skyCity.lat, skyCity.lng);
+    SKY.paint(alt);
+  }
+  function startSky(){
+    if(!window.OLAE_ASTRO && !startSky.asked){
+      startSky.asked = true;
+      var s = document.createElement("script");
+      s.src = "/js/astronomy.js?v=20260720-1";
+      s.onload = function(){ if(skyT) skyPaint(); };
+      document.head.appendChild(s);
+    }
+    skyPaint();
+    if(!skyT) skyT = setInterval(skyPaint, 60000);
+  }
+  function stopSky(){
+    if(skyT){ clearInterval(skyT); skyT = null; }
+    SKY.clear();
+  }
+  function syncLightRow(){
+    var cur = document.documentElement.getAttribute("data-theme");
+    lightBtns.forEach(function(b){ b.setAttribute("aria-pressed", String(b.getAttribute("data-light") === cur)); });
+    $("#skyCity").textContent = cur === "sky" ? "the sky over " + skyCity.name : "";
+  }
+  lightBtns.forEach(function(b){
+    b.addEventListener("click", function(){
+      var v = b.getAttribute("data-light");
+      if(v === "sky"){
+        document.documentElement.setAttribute("data-theme", "sky");
+        startSky();
+      } else {
+        stopSky();
+        document.documentElement.setAttribute("data-theme", v);
+      }
+      try{ localStorage.setItem("olae-page-theme", v); }catch(e){}
+      syncLightRow();
+    });
+  });
+  /* the corner theme button keeps its old habits; leaving the sky is one of them */
+  $("#themeBtn").addEventListener("click", function(){ stopSky(); syncLightRow(); });
+  document.addEventListener("visibilitychange", function(){
+    if(!document.hidden && skyT) skyPaint();
+  });
+
+  /* ---- init ---- */
+  if(document.documentElement.getAttribute("data-theme") === "sky") startSky();
+  syncLightRow();
 })();
 </script>
 <script>if("serviceWorker" in navigator){navigator.serviceWorker.register("/sw.js").catch(function(){});}</script>
