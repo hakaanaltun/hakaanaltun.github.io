@@ -45,7 +45,14 @@ var PRECACHE = TOOL_PAGES.concat(TOOL_ASSETS);
 self.addEventListener("install", function(e){
   e.waitUntil(
     caches.open(CACHE)
-      .then(function(c){ return c.addAll(PRECACHE); })
+      /* each entry is cached on its own: addAll(PRECACHE) rejects the whole
+         install if any single page or asset is momentarily 404, and the list
+         only grows — so one bad fetch must not cost the visitor the rest */
+      .then(function(c){
+        return Promise.all(PRECACHE.map(function(url){
+          return c.add(url).catch(function(){});
+        }));
+      })
       .then(function(){ return self.skipWaiting(); })
   );
 });
