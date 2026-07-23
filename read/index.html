@@ -6,20 +6,20 @@ layout: null
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Reader&mdash;Read Your Own Text Files, Distraction-Free &middot; On Life &amp; Everything</title>
-<meta name="description" content="A quiet page to read your own text files in—Garamond type, rain if you want it, a light that follows the sky. Nothing is uploaded; the page remembers only where you stopped.">
+<title>The Reader&mdash;Read Your Own Text &amp; EPUB Files, Distraction-Free &middot; On Life &amp; Everything</title>
+<meta name="description" content="A quiet page to read your own books in—plain text and EPUB, in Garamond type, with rain if you want it and a light that follows the sky. Nothing is uploaded; the page remembers only where you stopped.">
 <link rel="canonical" href="https://hakanaltun.io/read/">
 <meta property="og:type" content="website">
-<meta property="og:title" content="The Reader—Read Your Own Text Files, Distraction-Free">
-<meta property="og:description" content="A quiet page to read your own text files in—Garamond type, rain if you want it, a light that follows the sky. Nothing is uploaded; the page remembers only where you stopped.">
+<meta property="og:title" content="The Reader—Read Your Own Text &amp; EPUB Files, Distraction-Free">
+<meta property="og:description" content="A quiet page to read your own books in—plain text and EPUB, in Garamond type, with rain if you want it and a light that follows the sky. Nothing is uploaded; the page remembers only where you stopped.">
 <meta property="og:url" content="https://hakanaltun.io/read/">
 <meta property="og:image" content="https://hakanaltun.io/images/og/read.png">
-<meta property="og:image:alt" content="The Reader—read your own text files, distraction-free">
+<meta property="og:image:alt" content="The Reader—read your own text and EPUB files, distraction-free">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="The Reader—Read Your Own Text Files, Distraction-Free">
-<meta name="twitter:description" content="A quiet page to read your own text files in—Garamond type, rain if you want it, a light that follows the sky. Nothing is uploaded; the page remembers only where you stopped.">
+<meta name="twitter:title" content="The Reader—Read Your Own Text &amp; EPUB Files, Distraction-Free">
+<meta name="twitter:description" content="A quiet page to read your own books in—plain text and EPUB, in Garamond type, with rain if you want it and a light that follows the sky. Nothing is uploaded; the page remembers only where you stopped.">
 <meta name="twitter:image" content="https://hakanaltun.io/images/og/read.png">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#FFFFFF">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#191712">
@@ -29,9 +29,9 @@ layout: null
   "@context": "https://schema.org",
   "@type": "WebApplication",
   "@id": "https://hakanaltun.io/read/#app",
-  "name": "The Reader—Read Your Own Text Files, Distraction-Free",
+  "name": "The Reader—Read Your Own Text & EPUB Files, Distraction-Free",
   "url": "https://hakanaltun.io/read/",
-  "description": "A quiet page to read your own text files in—Garamond type, rain if you want it, a light that follows the sky. Nothing is uploaded; the page remembers only where you stopped.",
+  "description": "A quiet page to read your own books in—plain text and EPUB, in Garamond type, with rain if you want it and a light that follows the sky. Nothing is uploaded; the page remembers only where you stopped.",
   "applicationCategory": "UtilitiesApplication",
   "operatingSystem": "Any",
   "browserRequirements": "Requires JavaScript",
@@ -156,6 +156,29 @@ layout: null
   }
   #reading p{ margin:0 0 1.1em; }
   #reading p:last-child{ margin-bottom:0; }
+
+  /* a book's own structure, set in the page's type — its dress is stripped on the way in */
+  #reading section + section{ margin-top:3em; }
+  #reading h1, #reading h2, #reading h3, #reading h4, #reading h5, #reading h6{
+    font-family:var(--display); font-weight:400; line-height:1.25; margin:1.6em 0 .7em;
+  }
+  #reading h1{ font-size:1.6em; }
+  #reading h2{ font-size:1.35em; }
+  #reading h3{ font-size:1.15em; }
+  #reading h4, #reading h5, #reading h6{ font-size:1em; font-style:italic; }
+  #reading blockquote{ margin:1.1em 0 1.1em 1.6em; }
+  #reading ul, #reading ol, #reading dl{ margin:0 0 1.1em; padding-left:1.6em; }
+  #reading li{ margin-bottom:.2em; }
+  #reading hr{ border:none; border-top:1px solid var(--line); width:38%; margin:2.2em auto; }
+  #reading img{ display:block; max-width:100%; height:auto; margin:1.4em auto; }
+  #reading figure{ margin:1.4em 0; text-align:center; }
+  #reading figcaption{ font-style:italic; color:var(--muted); font-size:.9em; margin-top:.4em; }
+  #reading table{ border-collapse:collapse; margin:1.4em 0; font-size:.9em; display:block; max-width:100%; overflow-x:auto; }
+  #reading td, #reading th{ border:1px solid var(--line); padding:6px 10px; text-align:left; vertical-align:top; }
+  #reading a[href]{ color:var(--ink); text-decoration:underline; text-underline-offset:3px; text-decoration-color:var(--line); }
+  #reading a[href]:hover{ text-decoration-color:var(--ink); }
+  /* jumps from links and the contents land clear of the sticky chrome */
+  #reading section, #reading [id]{ scroll-margin-top:76px; }
   body[data-size="1"] #reading{ font-size:1.2rem; }
   body[data-size="3"] #reading{ font-size:1.52rem; }
   body[data-size="4"] #reading{ font-size:1.7rem; }
@@ -241,6 +264,17 @@ layout: null
     width:14px; height:14px; border-radius:50%; background:var(--ink); border:none;
   }
   .shelf-vol input[type="range"]:focus-visible{ outline:2px solid var(--ink); outline-offset:4px; }
+  /* the book's own contents, one chapter a line, in the notes' muted voice */
+  .shelf-toc{ max-height:40vh; overflow-y:auto; }
+  .shelf-toc-item{
+    display:block; width:100%; text-align:left; background:none; border:none; cursor:pointer;
+    font-family:var(--body); font-style:italic; color:var(--muted);
+    font-size:.85rem; letter-spacing:.02em; line-height:1.5; padding:3px 0;
+    transition:color .2s;
+  }
+  .shelf-toc-item:hover{ color:var(--ink); }
+  .shelf-toc-item:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
+  .shelf-toc-item.lvl2{ padding-left:14px; }
   /* the four type sizes, smallest to largest */
   .shelf-pill.type-1{ font-size:.78rem; }
   .shelf-pill.type-2{ font-size:.92rem; }
@@ -447,13 +481,13 @@ layout: null
     </div>
   </div>
 
-  <input type="file" id="fileInput" accept=".txt,text/plain" aria-hidden="true" tabindex="-1"
+  <input type="file" id="fileInput" accept=".txt,text/plain,.epub,application/epub+zip" aria-hidden="true" tabindex="-1"
          style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);">
 
   <div class="sheet">
     <div class="empty" id="emptyState">
       <p id="emptyLine">Bring a book. It stays on your device; nothing is sent anywhere.</p>
-      <button type="button" id="emptyOpen">Open a text file</button>
+      <button type="button" id="emptyOpen">Open a book</button>
     </div>
     <article id="reading" aria-label="The text"></article>
   </div>
@@ -463,6 +497,11 @@ layout: null
   </main><!-- /.app -->
 
   <aside class="shelf" id="shelf" aria-label="The shelf">
+
+    <div class="shelf-row" id="tocRow" hidden>
+      <h2 class="shelf-label">Contents</h2>
+      <div class="shelf-toc" id="tocList"></div>
+    </div>
 
     <div class="shelf-row">
       <h2 class="shelf-label">Sound</h2>
@@ -507,7 +546,7 @@ layout: null
       <p class="notes-lede">A quiet page to read your own files in.</p>
 
       <h2>About this page</h2>
-      <p>The reading counterpart of <a href="/write/">the blank page</a>: bring a plain text file from your device and it is set in Garamond in a single quiet column, with rain to read inside and a light that follows the sky. The file is opened right here in the browser, and the page keeps only your place in it&mdash;close the tab, come back, open the same file, and you are where you stopped.</p>
+      <p>The reading counterpart of <a href="/write/">the blank page</a>: bring a plain text file or an EPUB from your device and it is set in Garamond in a single quiet column&mdash;a whole book as one continuous scroll&mdash;with rain to read inside and a light that follows the sky. The file is opened right here in the browser, and the page keeps only your place in it&mdash;close the tab, come back, open the same file, and you are where you stopped.</p>
 
       <h2>Questions</h2>
       <h3>Is my file uploaded anywhere?</h3>
@@ -517,10 +556,13 @@ layout: null
       <p>No. The text itself is never stored; when you leave, it is gone from the page. The only thing remembered is where you stopped&mdash;a bookmark, kept on your device, so that opening the same file again returns you to your place.</p>
 
       <h3>Which formats can it read?</h3>
-      <p>Plain text, for now&mdash;a .txt file, in UTF-8 or the older Turkish encoding, which the page tells apart on its own so no character arrives broken. Other formats may join later.</p>
+      <p>Plain text and EPUB. A .txt file arrives in UTF-8 or the older Turkish encoding, which the page tells apart on its own so no character arrives broken; an EPUB is unpacked and set in the page&rsquo;s own type right here in the browser&mdash;no reader app, no library. Other formats may join later.</p>
+
+      <h3>Why won&rsquo;t a book I bought open?</h3>
+      <p>Files bought from most stores carry the seller&rsquo;s lock, and a locked copy cannot be opened here&mdash;the page says so plainly rather than showing broken text. A book you own as a plain EPUB opens fine.</p>
 
       <h3>What is on the shelf?</h3>
-      <p>Three small things, kept behind the lines button in the corner: rain and brown noise to read inside, four sizes of type, and the light&mdash;light, dark, or following the sky over your city. Close the panel and the page is as bare as it ever was.</p>
+      <p>A few small things, kept behind the lines button in the corner: the book&rsquo;s own table of contents when it carries one, rain and brown noise to read inside, four sizes of type, and the light&mdash;light, dark, or following the sky over your city. Close the panel and the page is as bare as it ever was.</p>
 
       {% include tool-links.html slug="read" %}
     </div>
@@ -535,7 +577,9 @@ layout: null
   var input = $("#fileInput"), article = $("#reading");
   var emptyLine = $("#emptyLine"), cornerNote = $("#cornerNote");
   var progressLine = $("#progressLine");
-  var MAX_BYTES = 5 * 1024 * 1024;
+  var BASE_TITLE = document.title;
+  var MAX_BYTES = 5 * 1024 * 1024;         /* plain text */
+  var EPUB_MAX = 64 * 1024 * 1024;         /* a book carries its images */
   var current = null;                 /* { key } while a file is open */
 
   /* ---- the bookmark ledger (positions only — never the text) ---- */
@@ -568,6 +612,11 @@ layout: null
   }
   function paintProgress(){
     progressLine.style.width = current ? (scrollFrac() * 100).toFixed(3) + "%" : "0";
+  }
+  /* the jump is instant — the smooth scroll is for links, not bookmarks */
+  function jumpTo(y){
+    try{ window.scrollTo({ top: y, left: 0, behavior: "instant" }); }
+    catch(e){ window.scrollTo(0, y); }
   }
   var posT;
   window.addEventListener("scroll", function(){
@@ -637,21 +686,19 @@ layout: null
   }
 
   function readTxt(file){
+    var gen = ++openGen;
     var fr = new FileReader();
     fr.onload = function(){
+      if(gen !== openGen) return;
       var paras = toParagraphs(decodeText(fr.result));
       if(!paras.length){ quietLine("There is nothing to read in that file."); return; }
+      clearBook();                    /* a book opened earlier leaves the room */
       render(paras);
       current = { key: fileKey(file) };
       document.title = file.name;
       document.body.classList.add("reading");
       var frac = posGet(current.key);
-      /* two frames, so the text has its height before the page moves;
-         the jump is instant — the smooth scroll is for links, not bookmarks */
-      function jumpTo(y){
-        try{ window.scrollTo({ top: y, left: 0, behavior: "instant" }); }
-        catch(e){ window.scrollTo(0, y); }
-      }
+      /* two frames, so the text has its height before the page moves */
       requestAnimationFrame(function(){ requestAnimationFrame(function(){
         if(frac && frac > 0.02 && scrollMax() > 0){
           jumpTo(frac * scrollMax());
@@ -666,12 +713,530 @@ layout: null
     fr.readAsArrayBuffer(file);
   }
 
-  /* the one door every format comes through — EPUB will be a second
-     branch here, nothing more */
+  /* ================= EPUB ================= */
+  /* An EPUB is a ZIP of XHTML, and the browser can inflate ZIP entries
+     natively — so this is parsing work, not a dependency: end of central
+     directory, central directory, local headers, read on demand, and
+     DecompressionStream('deflate-raw') for the packed ones. */
+  var openGen = 0;                    /* a newer open cancels an older one */
+  var book = null;                    /* { zip, spine, pathToSec, byPath, title, creator, toc } */
+  var urlList = [], urlCache = {}, imagePromises = [];
+
+  /* the column empties for whatever comes next; blob: URLs are let go */
+  function clearBook(){
+    urlList.forEach(function(u){ try{ URL.revokeObjectURL(u); }catch(e){} });
+    urlList = []; urlCache = {}; imagePromises = [];
+    book = null;
+    setToc(null);
+    article.textContent = "";
+    current = null;
+    document.body.classList.remove("reading");
+    document.title = BASE_TITLE;
+    paintProgress();
+  }
+
+  function parseZip(buf){
+    var dv = new DataView(buf), n = buf.byteLength;
+    if(n < 22) throw new Error("bad");
+    var eocd = -1, stop = Math.max(0, n - 65558);
+    for(var i = n - 22; i >= stop; i--){
+      if(dv.getUint32(i, true) === 0x06054b50){ eocd = i; break; }
+    }
+    if(eocd < 0) throw new Error("bad");
+    var count = dv.getUint16(eocd + 10, true);
+    var cdOff = dv.getUint32(eocd + 16, true);
+    if(count === 0xFFFF || cdOff === 0xFFFFFFFF) throw new Error("zip64");
+    var names = {}, td = new TextDecoder("utf-8"), p = cdOff;
+    for(var e = 0; e < count; e++){
+      if(dv.getUint32(p, true) !== 0x02014b50) throw new Error("bad");
+      var method = dv.getUint16(p + 10, true);
+      var csize = dv.getUint32(p + 20, true);
+      var usize = dv.getUint32(p + 24, true);
+      var nameLen = dv.getUint16(p + 28, true);
+      var extraLen = dv.getUint16(p + 30, true);
+      var cmtLen = dv.getUint16(p + 32, true);
+      var lho = dv.getUint32(p + 42, true);
+      if(csize === 0xFFFFFFFF || usize === 0xFFFFFFFF || lho === 0xFFFFFFFF) throw new Error("zip64");
+      names[td.decode(new Uint8Array(buf, p + 46, nameLen))] = { method: method, csize: csize, offset: lho };
+      p += 46 + nameLen + extraLen + cmtLen;
+    }
+    function read(name){
+      var en = names[name];
+      if(!en) return Promise.reject(new Error("missing " + name));
+      if(dv.getUint32(en.offset, true) !== 0x04034b50) return Promise.reject(new Error("bad"));
+      var nl = dv.getUint16(en.offset + 26, true);
+      var el = dv.getUint16(en.offset + 28, true);
+      var bytes = new Uint8Array(buf, en.offset + 30 + nl + el, en.csize);
+      if(en.method === 0) return Promise.resolve(bytes);
+      if(en.method !== 8) return Promise.reject(new Error("compression"));
+      var ds = new DecompressionStream("deflate-raw");
+      return new Response(new Blob([bytes]).stream().pipeThrough(ds)).arrayBuffer()
+        .then(function(ab){ return new Uint8Array(ab); });
+    }
+    return {
+      has: function(nm){ return Object.prototype.hasOwnProperty.call(names, nm); },
+      read: read
+    };
+  }
+  function readEntryText(zip, name){
+    return zip.read(name).then(function(b){ return new TextDecoder("utf-8").decode(b); });
+  }
+
+  function parseXmlStrict(text){
+    var d = new DOMParser().parseFromString(text, "application/xml");
+    if(d.getElementsByTagNameNS("*", "parsererror").length) throw new Error("bad xml");
+    return d;
+  }
+  function parseSpineDoc(text){
+    var d = new DOMParser().parseFromString(text, "application/xhtml+xml");
+    if(d.getElementsByTagNameNS("*", "parsererror").length) d = new DOMParser().parseFromString(text, "text/html");
+    return d;
+  }
+  function firstNS(el, name){ return el.getElementsByTagNameNS("*", name)[0] || null; }
+  function childByName(el, name){
+    for(var c = el.firstElementChild; c; c = c.nextElementSibling){ if(c.localName === name) return c; }
+    return null;
+  }
+  function dirOf(p){ var i = p.lastIndexOf("/"); return i < 0 ? "" : p.slice(0, i); }
+  function splitHash(h){ var i = h.indexOf("#"); return i < 0 ? [h, ""] : [h.slice(0, i), h.slice(i + 1)]; }
+  function resolveHref(baseDir, href){
+    try{ href = decodeURIComponent(href); }catch(e){}
+    var stack = baseDir ? baseDir.split("/") : [];
+    href.split("/").forEach(function(seg){
+      if(seg === "" || seg === ".") return;
+      if(seg === "..") stack.pop(); else stack.push(seg);
+    });
+    return stack.join("/");
+  }
+
+  /* the seller's lock. An encryption.xml that only obfuscates fonts (the
+     idpf/adobe embedding algorithms) is not DRM — the fonts are stripped
+     on the way in anyway — but anything else means a locked copy. */
+  var FONT_ALGS = { "http://www.idpf.org/2008/embedding": 1, "http://ns.adobe.com/pdf/enc#RC": 1 };
+  function checkLocked(zip){
+    if(!zip.has("META-INF/encryption.xml")) return Promise.resolve(false);
+    return readEntryText(zip, "META-INF/encryption.xml").then(function(t){
+      var d;
+      try{ d = parseXmlStrict(t); }catch(e){ return true; }
+      var ms = d.getElementsByTagNameNS("*", "EncryptionMethod");
+      for(var i = 0; i < ms.length; i++){
+        if(!FONT_ALGS[ms[i].getAttribute("Algorithm") || ""]) return true;
+      }
+      return false;
+    });
+  }
+
+  /* ---- the sanitiser: the text keeps its structure, loses its dress ---- */
+  var EPUB_DROP = { script:1, style:1, link:1, iframe:1, object:1, embed:1, video:1, audio:1,
+                    form:1, input:1, select:1, textarea:1, button:1, canvas:1, map:1, area:1,
+                    base:1, meta:1, noscript:1, template:1, head:1, title:1 };
+  var EPUB_KEEP = { h1:1, h2:1, h3:1, h4:1, h5:1, h6:1, p:1, em:1, strong:1, blockquote:1,
+                    ul:1, ol:1, li:1, dl:1, dt:1, dd:1, br:1, hr:1, sup:1, sub:1,
+                    figure:1, figcaption:1, table:1, thead:1, tbody:1, tfoot:1, tr:1, td:1,
+                    th:1, caption:1, img:1, a:1 };
+  var EPUB_RENAME = { i: "em", b: "strong" };
+  var EPUB_ATTRS = { a: { href:1 }, img: { src:1, alt:1 },
+                     td: { colspan:1, rowspan:1 }, th: { colspan:1, rowspan:1 } };
+  function scrubAttrs(el, tag){
+    var ok = EPUB_ATTRS[tag] || {};
+    for(var i = el.attributes.length - 1; i >= 0; i--){
+      var nm = el.attributes[i].name;
+      if(nm !== "id" && !ok[nm.toLowerCase()]) el.removeAttribute(nm);
+    }
+  }
+  function sanitize(parent){
+    var child = parent.firstChild, next;
+    while(child){
+      next = child.nextSibling;
+      if(child.nodeType === 1){
+        var tag = child.localName ? child.localName.toLowerCase() : "";
+        if(EPUB_DROP[tag]){
+          parent.removeChild(child);
+        } else if(tag === "svg"){
+          /* a cover wrapped in svg becomes a plain img; anything else goes */
+          var im = firstNS(child, "image");
+          var ih = im && (im.getAttribute("href") || im.getAttributeNS("http://www.w3.org/1999/xlink", "href"));
+          if(ih){
+            var cover = child.ownerDocument.createElement("img");
+            cover.setAttribute("src", ih);
+            parent.replaceChild(cover, child);
+          } else {
+            parent.removeChild(child);
+          }
+        } else if(EPUB_RENAME[tag]){
+          var renamed = child.ownerDocument.createElement(EPUB_RENAME[tag]);
+          if(child.getAttribute("id")) renamed.setAttribute("id", child.getAttribute("id"));
+          while(child.firstChild) renamed.appendChild(child.firstChild);
+          parent.replaceChild(renamed, child);
+          sanitize(renamed);
+        } else if(EPUB_KEEP[tag]){
+          scrubAttrs(child, tag);
+          sanitize(child);
+        } else {
+          /* unwrap: divs, spans and the rest dissolve into their contents;
+             an id on the way out leaves an empty anchor so links still land */
+          var mark = null;
+          if(child.getAttribute("id")){
+            mark = child.ownerDocument.createElement("a");
+            mark.setAttribute("id", child.getAttribute("id"));
+            parent.insertBefore(mark, child);
+          }
+          var first = child.firstChild;
+          while(child.firstChild) parent.insertBefore(child.firstChild, child);
+          parent.removeChild(child);
+          next = mark || first || next;
+        }
+      } else if(child.nodeType !== 3){
+        parent.removeChild(child);     /* comments, processing instructions */
+      }
+      child = next;
+    }
+  }
+
+  /* ---- images: entry bytes → blob:, mapped by resolved path ---- */
+  function guessType(path){
+    var m = { png:"image/png", jpg:"image/jpeg", jpeg:"image/jpeg", gif:"image/gif",
+              webp:"image/webp", svg:"image/svg+xml", bmp:"image/bmp", avif:"image/avif" };
+    return m[path.slice(path.lastIndexOf(".") + 1).toLowerCase()] || "application/octet-stream";
+  }
+  function imageUrl(path){
+    if(!book) return Promise.resolve("");
+    if(!Object.prototype.hasOwnProperty.call(urlCache, path)){
+      var bk = book;
+      urlCache[path] = bk.zip.read(path).then(function(bytes){
+        var t = (bk.byPath[path] && bk.byPath[path].type) || guessType(path);
+        var u = URL.createObjectURL(new Blob([bytes], { type: t }));
+        urlList.push(u);
+        return u;
+      }).catch(function(){ return ""; });
+    }
+    return urlCache[path];
+  }
+  /* an image that cannot be shown leaves its alt text behind, or nothing */
+  function imgToAlt(img){
+    if(!img.parentNode) return;
+    var alt = img.getAttribute("alt");
+    if(alt){
+      var em = document.createElement("em");
+      em.textContent = alt;
+      img.parentNode.replaceChild(em, img);
+    } else {
+      img.parentNode.removeChild(img);
+    }
+  }
+  function fixImages(sec, baseDir){
+    Array.prototype.slice.call(sec.querySelectorAll("img")).forEach(function(img){
+      var src = img.getAttribute("src") || "";
+      img.removeAttribute("src");
+      if(!src){ imgToAlt(img); return; }
+      if(/^data:image\//.test(src)){ img.setAttribute("src", src); return; }
+      /* a remote image is never fetched — nothing leaves, nothing arrives */
+      if(/^[a-z][a-z0-9+.\-]*:/i.test(src)){ imgToAlt(img); return; }
+      var path = resolveHref(baseDir, splitHash(src)[0]);
+      imagePromises.push(imageUrl(path).then(function(u){
+        if(u) img.src = u; else imgToAlt(img);
+      }));
+    });
+  }
+
+  /* ---- links: inside the book they scroll; outside they leave politely ---- */
+  function fixLinks(sec, baseDir, secIndex){
+    Array.prototype.slice.call(sec.querySelectorAll("a")).forEach(function(a){
+      var href = a.getAttribute("href");
+      if(!href) return;
+      if(/^[a-z][a-z0-9+.\-]*:/i.test(href)){
+        a.setAttribute("target", "_blank");
+        a.setAttribute("rel", "noopener noreferrer");
+        return;
+      }
+      var hp = splitHash(href), target;
+      if(!hp[0]) target = secIndex;
+      else target = book.pathToSec[resolveHref(baseDir, hp[0])];
+      if(target === undefined){ a.removeAttribute("href"); return; }
+      a.setAttribute("href", "#s" + target);
+      a.setAttribute("data-sec", String(target));
+      if(hp[1]) a.setAttribute("data-frag", hp[1]);
+    });
+  }
+  function goTo(secIdx, frag){
+    var sec = document.getElementById("s" + secIdx);
+    if(!sec) return;
+    var t = sec;
+    if(frag){
+      try{
+        var hit = sec.querySelector('[id="' + frag.replace(/\\/g, "\\\\").replace(/"/g, '\\"') + '"]');
+        if(hit) t = hit;
+      }catch(e){}
+    }
+    t.scrollIntoView();
+  }
+  article.addEventListener("click", function(e){
+    var a = e.target.closest ? e.target.closest("a[data-sec]") : null;
+    if(!a) return;
+    e.preventDefault();
+    goTo(a.getAttribute("data-sec"), a.getAttribute("data-frag") || "");
+  });
+  $("#tocList").addEventListener("click", function(e){
+    var b = e.target.closest ? e.target.closest("[data-sec]") : null;
+    if(!b) return;
+    goTo(b.getAttribute("data-sec"), b.getAttribute("data-frag") || "");
+  });
+
+  /* ---- the contents row on the shelf ---- */
+  function setToc(entries){
+    var row = $("#tocRow"), list = $("#tocList");
+    list.textContent = "";
+    if(!entries || !entries.length){ row.hidden = true; return; }
+    entries.forEach(function(en){
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "shelf-toc-item" + (en.lvl === 2 ? " lvl2" : "");
+      b.textContent = en.label;
+      b.setAttribute("data-sec", String(en.sec));
+      if(en.frag) b.setAttribute("data-frag", en.frag);
+      list.appendChild(b);
+    });
+    row.hidden = false;
+  }
+  function tocPush(out, label, href, baseDir, lvl){
+    if(!label || !href) return;
+    var hp = splitHash(href);
+    var sec = book.pathToSec[resolveHref(baseDir, hp[0])];
+    if(sec === undefined) return;
+    out.push({ label: label, sec: sec, frag: hp[1], lvl: lvl });
+  }
+  function tidyLabel(s){ return (s || "").replace(/\s+/g, " ").trim(); }
+  function tocFromNav(text, navPath){
+    var out = [], doc = parseSpineDoc(text);
+    var navs = doc.getElementsByTagNameNS("*", "nav"), toc = null;
+    for(var i = 0; i < navs.length; i++){
+      var t = navs[i].getAttribute("epub:type") || navs[i].getAttributeNS("http://www.idpf.org/2007/ops", "type") || "";
+      if(/\btoc\b/.test(t)){ toc = navs[i]; break; }
+    }
+    if(!toc) toc = navs[0] || null;
+    var ol = toc && firstNS(toc, "ol");
+    if(!ol) return out;
+    var base = dirOf(navPath);
+    Array.prototype.slice.call(ol.children).forEach(function(li){
+      if(li.localName !== "li") return;
+      var a = childByName(li, "a");
+      if(a && a.getAttribute("href")) tocPush(out, tidyLabel(a.textContent), a.getAttribute("href"), base, 1);
+      var sub = childByName(li, "ol");
+      if(!sub) return;
+      Array.prototype.slice.call(sub.children).forEach(function(li2){
+        if(li2.localName !== "li") return;
+        var a2 = childByName(li2, "a");
+        if(a2 && a2.getAttribute("href")) tocPush(out, tidyLabel(a2.textContent), a2.getAttribute("href"), base, 2);
+      });
+    });
+    return out;
+  }
+  function tocFromNcx(text, ncxPath){
+    var out = [], d;
+    try{ d = parseXmlStrict(text); }catch(e){ return out; }
+    var navMap = firstNS(d, "navMap");
+    if(!navMap) return out;
+    var base = dirOf(ncxPath);
+    function pointLabel(np){
+      var lab = childByName(np, "navLabel");
+      var t = lab && firstNS(lab, "text");
+      return t ? tidyLabel(t.textContent) : "";
+    }
+    function pointHref(np){
+      var c = childByName(np, "content");
+      return c ? c.getAttribute("src") : "";
+    }
+    for(var np = navMap.firstElementChild; np; np = np.nextElementSibling){
+      if(np.localName !== "navPoint") continue;
+      tocPush(out, pointLabel(np), pointHref(np), base, 1);
+      for(var np2 = np.firstElementChild; np2; np2 = np2.nextElementSibling){
+        if(np2.localName !== "navPoint") continue;
+        tocPush(out, pointLabel(np2), pointHref(np2), base, 2);
+      }
+    }
+    return out;
+  }
+
+  /* ---- the book itself: container → package → spine ---- */
+  function buildSection(text, idx, docPath){
+    var doc = parseSpineDoc(text);
+    var body = doc.body || firstNS(doc, "body");
+    var sec = document.createElement("section");
+    sec.id = "s" + idx;
+    if(!body) return sec;
+    sanitize(body);
+    /* built in the detached parsed document; only sanitised nodes are imported */
+    Array.prototype.slice.call(body.childNodes).forEach(function(n){
+      sec.appendChild(document.importNode(n, true));
+    });
+    fixLinks(sec, dirOf(docPath), idx);
+    fixImages(sec, dirOf(docPath));
+    return sec;
+  }
+  function loadBook(zip, file, gen){
+    return readEntryText(zip, "META-INF/container.xml").then(function(t){
+      var d = parseXmlStrict(t);
+      var rfs = d.getElementsByTagNameNS("*", "rootfile"), rf = rfs[0];
+      for(var i = 0; i < rfs.length; i++){
+        if(rfs[i].getAttribute("media-type") === "application/oebps-package+xml"){ rf = rfs[i]; break; }
+      }
+      if(!rf) throw new Error("no rootfile");
+      var opfPath = resolveHref("", rf.getAttribute("full-path") || "");
+      return readEntryText(zip, opfPath).then(function(opfText){
+        return { path: opfPath, text: opfText };
+      });
+    }).then(function(opf){
+      if(gen !== openGen) return;
+      var d = parseXmlStrict(opf.text), opfDir = dirOf(opf.path);
+      var DC = "http://purl.org/dc/elements/1.1/";
+      var tEl = d.getElementsByTagNameNS(DC, "title")[0];
+      var cEl = d.getElementsByTagNameNS(DC, "creator")[0];
+      var byId = {}, byPath = {};
+      var items = d.getElementsByTagNameNS("*", "item");
+      for(var i = 0; i < items.length; i++){
+        var it = {
+          path: resolveHref(opfDir, items[i].getAttribute("href") || ""),
+          type: items[i].getAttribute("media-type") || "",
+          props: items[i].getAttribute("properties") || ""
+        };
+        byId[items[i].getAttribute("id")] = it;
+        byPath[it.path] = it;
+      }
+      var spineEl = d.getElementsByTagNameNS("*", "spine")[0];
+      if(!spineEl) throw new Error("no spine");
+      var spine = [], pathToSec = {};
+      var refs = spineEl.getElementsByTagNameNS("*", "itemref");
+      for(var j = 0; j < refs.length; j++){
+        if((refs[j].getAttribute("linear") || "").toLowerCase() === "no") continue;
+        var item = byId[refs[j].getAttribute("idref")];
+        if(!item || !/xhtml|html/.test(item.type)) continue;
+        if(pathToSec[item.path] !== undefined) continue;
+        pathToSec[item.path] = spine.length;
+        spine.push(item);
+      }
+      if(!spine.length) throw new Error("empty spine");
+      clearBook();                    /* the column empties only once the book is sound */
+      book = {
+        zip: zip, spine: spine, pathToSec: pathToSec, byPath: byPath,
+        title: tEl ? tEl.textContent.trim() : "",
+        creator: cEl ? cEl.textContent.trim() : "",
+        toc: []
+      };
+      /* the navigation document, when the book carries one */
+      var navItem = null, ncxItem = null;
+      for(var k in byPath){
+        if(/(^|\s)nav(\s|$)/.test(byPath[k].props)) navItem = byPath[k];
+        if(byPath[k].type === "application/x-dtbncx+xml") ncxItem = byPath[k];
+      }
+      var tocId = spineEl.getAttribute("toc");
+      if(tocId && byId[tocId]) ncxItem = byId[tocId];
+      var tocReady = navItem
+        ? readEntryText(zip, navItem.path).then(function(t){ return tocFromNav(t, navItem.path); })
+        : ncxItem
+          ? readEntryText(zip, ncxItem.path).then(function(t){ return tocFromNcx(t, ncxItem.path); })
+          : Promise.resolve([]);
+      return tocReady.catch(function(){ return []; }).then(function(toc){
+        if(gen !== openGen) return;
+        book.toc = toc;
+        renderBook(file, gen);
+      });
+    });
+  }
+  /* the first section goes up at once; the rest follow in small steps,
+     yielding to the browser, so a long book opens instead of freezing */
+  function renderBook(file, gen){
+    var bk = book, i = 0;
+    cornerNote.textContent = "Opening the book…";
+    clearTimeout(noteT);
+    cornerNote.classList.add("on");
+    function step(){
+      if(gen !== openGen) return;
+      if(i >= bk.spine.length){ finish(); return; }
+      var idx = i++;
+      readEntryText(bk.zip, bk.spine[idx].path).then(function(t){
+        if(gen !== openGen) return;
+        article.appendChild(buildSection(t, idx, bk.spine[idx].path));
+        if(idx === 0){
+          document.body.classList.add("reading");
+          document.title = bk.title || file.name;
+        }
+        setTimeout(step, 0);
+      }).catch(function(){
+        if(gen !== openGen) return;
+        var sec = document.createElement("section");
+        sec.id = "s" + idx;
+        article.appendChild(sec);
+        setTimeout(step, 0);
+      });
+    }
+    function finish(){
+      setToc(bk.toc);
+      current = { key: fileKey(file) };
+      var frac = posGet(current.key);
+      /* give the images a moment to take their height, then settle */
+      Promise.race([
+        Promise.all(imagePromises.slice()),
+        new Promise(function(r){ setTimeout(r, 1500); })
+      ]).then(function(){
+        if(gen !== openGen) return;
+        requestAnimationFrame(function(){ requestAnimationFrame(function(){
+          cornerNote.classList.remove("on");
+          if(frac && frac > 0.02 && scrollMax() > 0){
+            jumpTo(frac * scrollMax());
+            flashNote("Back where you were");
+          } else {
+            jumpTo(0);
+            if(bk.title) flashNote(bk.creator ? bk.title + " — " + bk.creator : bk.title);
+          }
+          paintProgress();
+        }); });
+      });
+    }
+    step();
+  }
+  function readEpub(file){
+    if(typeof DecompressionStream === "undefined"){
+      quietLine("This browser cannot unpack an EPUB — a current one can.");
+      return;
+    }
+    var gen = ++openGen;
+    var fr = new FileReader();
+    fr.onload = function(){
+      if(gen !== openGen) return;
+      var zip;
+      try{ zip = parseZip(fr.result); }
+      catch(err){
+        quietLine(err && err.message === "zip64"
+          ? "This EPUB is packed in a newer way (ZIP64) than this page can open."
+          : "That file could not be read as an EPUB.");
+        return;
+      }
+      checkLocked(zip).then(function(locked){
+        if(gen !== openGen) return;
+        if(locked){
+          quietLine("This copy is locked by its seller and cannot be opened here. A plain EPUB you own opens fine.");
+          return;
+        }
+        return loadBook(zip, file, gen);
+      }).catch(function(){
+        if(gen === openGen) quietLine("That EPUB could not be read.");
+      });
+    };
+    fr.onerror = function(){ quietLine("That file could not be read."); };
+    fr.readAsArrayBuffer(file);
+  }
+
+  /* the one door every format comes through */
   function openFile(file){
     if(!file) return;
-    var isTxt = /\.txt$/i.test(file.name || "") || file.type === "text/plain";
-    if(!isTxt){ quietLine("Only plain text (.txt), for now."); return; }
+    var name = file.name || "";
+    if(/\.epub$/i.test(name) || file.type === "application/epub+zip"){
+      if(file.size > EPUB_MAX){ quietLine("That file is too large for this page."); return; }
+      readEpub(file);
+      return;
+    }
+    var isTxt = /\.txt$/i.test(name) || file.type === "text/plain";
+    if(!isTxt){ quietLine("Only plain text (.txt) or EPUB, for now."); return; }
     if(file.size > MAX_BYTES){ quietLine("That file is too large for this page."); return; }
     readTxt(file);
   }
@@ -791,6 +1356,11 @@ layout: null
     document.addEventListener(ev, function(){ if(fsEl() && open) setOpen(false, false); });
   });
   $("#fsBtn").addEventListener("click", function(){ if(open) setOpen(false, false); });
+  /* choosing a chapter from the contents puts the panel away — the jump
+     itself is handled where the book lives */
+  $("#tocList").addEventListener("click", function(e){
+    if(e.target.closest && e.target.closest("[data-sec]")) setOpen(false, false);
+  });
 
   /* ================= 1 · sound — from /noise/ ================= */
   /* The generators live in /js/rain-engine.js, the same file /noise/ plays
