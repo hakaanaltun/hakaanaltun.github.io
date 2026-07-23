@@ -6,20 +6,20 @@ layout: null
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Reader&mdash;Read Your Own Text &amp; EPUB Files, Distraction-Free &middot; On Life &amp; Everything</title>
-<meta name="description" content="A quiet page to read your own books in—plain text and EPUB, in Garamond type, with rain if you want it and a light that follows the sky. Nothing is uploaded; the page remembers only where you stopped.">
+<title>The Reader&mdash;Read Your Own Text, EPUB &amp; Word Files, Distraction-Free &middot; On Life &amp; Everything</title>
+<meta name="description" content="A quiet page to read your own books in—plain text, EPUB and Word, in Garamond type, with rain if you want it and a light that follows the sky. Nothing is uploaded; the page remembers only where you stopped.">
 <link rel="canonical" href="https://hakanaltun.io/read/">
 <meta property="og:type" content="website">
-<meta property="og:title" content="The Reader—Read Your Own Text &amp; EPUB Files, Distraction-Free">
-<meta property="og:description" content="A quiet page to read your own books in—plain text and EPUB, in Garamond type, with rain if you want it and a light that follows the sky. Nothing is uploaded; the page remembers only where you stopped.">
+<meta property="og:title" content="The Reader—Read Your Own Text, EPUB &amp; Word Files, Distraction-Free">
+<meta property="og:description" content="A quiet page to read your own books in—plain text, EPUB and Word, in Garamond type, with rain if you want it and a light that follows the sky. Nothing is uploaded; the page remembers only where you stopped.">
 <meta property="og:url" content="https://hakanaltun.io/read/">
 <meta property="og:image" content="https://hakanaltun.io/images/og/read.png">
-<meta property="og:image:alt" content="The Reader—read your own text and EPUB files, distraction-free">
+<meta property="og:image:alt" content="The Reader—read your own text, EPUB and Word files, distraction-free">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="The Reader—Read Your Own Text &amp; EPUB Files, Distraction-Free">
-<meta name="twitter:description" content="A quiet page to read your own books in—plain text and EPUB, in Garamond type, with rain if you want it and a light that follows the sky. Nothing is uploaded; the page remembers only where you stopped.">
+<meta name="twitter:title" content="The Reader—Read Your Own Text, EPUB &amp; Word Files, Distraction-Free">
+<meta name="twitter:description" content="A quiet page to read your own books in—plain text, EPUB and Word, in Garamond type, with rain if you want it and a light that follows the sky. Nothing is uploaded; the page remembers only where you stopped.">
 <meta name="twitter:image" content="https://hakanaltun.io/images/og/read.png">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#FFFFFF">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#191712">
@@ -29,9 +29,9 @@ layout: null
   "@context": "https://schema.org",
   "@type": "WebApplication",
   "@id": "https://hakanaltun.io/read/#app",
-  "name": "The Reader—Read Your Own Text & EPUB Files, Distraction-Free",
+  "name": "The Reader—Read Your Own Text, EPUB & Word Files, Distraction-Free",
   "url": "https://hakanaltun.io/read/",
-  "description": "A quiet page to read your own books in—plain text and EPUB, in Garamond type, with rain if you want it and a light that follows the sky. Nothing is uploaded; the page remembers only where you stopped.",
+  "description": "A quiet page to read your own books in—plain text, EPUB and Word, in Garamond type, with rain if you want it and a light that follows the sky. Nothing is uploaded; the page remembers only where you stopped.",
   "applicationCategory": "UtilitiesApplication",
   "operatingSystem": "Any",
   "browserRequirements": "Requires JavaScript",
@@ -481,7 +481,7 @@ layout: null
     </div>
   </div>
 
-  <input type="file" id="fileInput" accept=".txt,text/plain,.epub,application/epub+zip" aria-hidden="true" tabindex="-1"
+  <input type="file" id="fileInput" accept=".txt,text/plain,.epub,application/epub+zip,.docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document" aria-hidden="true" tabindex="-1"
          style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);">
 
   <div class="sheet">
@@ -546,7 +546,7 @@ layout: null
       <p class="notes-lede">A quiet page to read your own files in.</p>
 
       <h2>About this page</h2>
-      <p>The reading counterpart of <a href="/write/">the blank page</a>: bring a plain text file or an EPUB from your device and it is set in Garamond in a single quiet column&mdash;a whole book as one continuous scroll&mdash;with rain to read inside and a light that follows the sky. The file is opened right here in the browser, and the page keeps only your place in it&mdash;close the tab, come back, open the same file, and you are where you stopped.</p>
+      <p>The reading counterpart of <a href="/write/">the blank page</a>: bring a plain text file, an EPUB or a Word document from your device and it is set in Garamond in a single quiet column&mdash;a whole book as one continuous scroll&mdash;with rain to read inside and a light that follows the sky. The file is opened right here in the browser, and the page keeps only your place in it&mdash;close the tab, come back, open the same file, and you are where you stopped.</p>
 
       <h2>Questions</h2>
       <h3>Is my file uploaded anywhere?</h3>
@@ -556,7 +556,7 @@ layout: null
       <p>No. The text itself is never stored; when you leave, it is gone from the page. The only thing remembered is where you stopped&mdash;a bookmark, kept on your device, so that opening the same file again returns you to your place.</p>
 
       <h3>Which formats can it read?</h3>
-      <p>Plain text and EPUB. A .txt file arrives in UTF-8 or the older Turkish encoding, which the page tells apart on its own so no character arrives broken; an EPUB is unpacked and set in the page&rsquo;s own type right here in the browser&mdash;no reader app, no library. Other formats may join later.</p>
+      <p>Plain text, EPUB and Word. A .txt file arrives in UTF-8 or the older Turkish encoding, which the page tells apart on its own so no character arrives broken; an EPUB or a Word .docx is unpacked and set in the page&rsquo;s own type right here in the browser&mdash;no reader app, no library. Other formats may join later.</p>
 
       <h3>Why won&rsquo;t a book I bought open?</h3>
       <p>Files bought from most stores carry the seller&rsquo;s lock, and a locked copy cannot be opened here&mdash;the page says so plainly rather than showing broken text. A book you own as a plain EPUB opens fine.</p>
@@ -1226,6 +1226,452 @@ layout: null
     fr.readAsArrayBuffer(file);
   }
 
+  /* ================= Word (.docx) ================= */
+  /* A .docx is a ZIP of XML, so the archive reader above does the unpacking;
+     the work here is WordprocessingML — walking word/document.xml in order
+     and setting its structure in the page's own type, its own fonts and
+     sizes discarded exactly as an EPUB's are. Elements are built with
+     createElement and textContent; nothing is ever assigned as markup. */
+  var WML = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
+
+  /* attributes come with varied prefixes (w:, r:, xml:); match by local
+     name, which is stable, rather than by a prefix that is not */
+  function attrLocal(el, local){
+    for(var i = 0; i < el.attributes.length; i++){
+      if(el.attributes[i].localName === local) return el.attributes[i].value;
+    }
+    return null;
+  }
+  function kids(el, local){
+    var out = [];
+    for(var c = el.firstElementChild; c; c = c.nextElementSibling){
+      if(c.localName === local) out.push(c);
+    }
+    return out;
+  }
+  function kid(el, local){ return childByName(el, local); }   /* first child by local name */
+  function findId(root, id){
+    try{ return root.querySelector('[id="' + id.replace(/\\/g, "\\\\").replace(/"/g, '\\"') + '"]'); }
+    catch(e){ return null; }
+  }
+  function isWebImage(path){ return /\.(png|jpe?g|gif|webp|bmp|svg|avif)$/i.test(path); }
+
+  /* ---- the four sidecar parts, each optional but for document.xml ---- */
+  function parseRels(xml){
+    var map = {};
+    if(!xml) return map;
+    var d; try{ d = parseXmlStrict(xml); }catch(e){ return map; }
+    var rs = d.getElementsByTagNameNS("*", "Relationship");
+    for(var i = 0; i < rs.length; i++){
+      var id = rs[i].getAttribute("Id"), target = rs[i].getAttribute("Target");
+      if(!id || !target) continue;
+      map[id] = { target: target, external: rs[i].getAttribute("TargetMode") === "External" };
+    }
+    return map;
+  }
+  function parseNumbering(xml){
+    var res = {};                       /* numId → { ilvl → numFmt } */
+    if(!xml) return res;
+    var d; try{ d = parseXmlStrict(xml); }catch(e){ return res; }
+    var abst = {};
+    var anums = d.getElementsByTagNameNS("*", "abstractNum");
+    for(var i = 0; i < anums.length; i++){
+      var aid = attrLocal(anums[i], "abstractNumId"), lvls = {};
+      kids(anums[i], "lvl").forEach(function(lvl){
+        var il = attrLocal(lvl, "ilvl") || "0", nf = kid(lvl, "numFmt");
+        lvls[il] = nf ? attrLocal(nf, "val") : "";
+      });
+      abst[aid] = lvls;
+    }
+    var nums = d.getElementsByTagNameNS("*", "num");
+    for(var j = 0; j < nums.length; j++){
+      var nid = attrLocal(nums[j], "numId"), an = kid(nums[j], "abstractNumId");
+      var ref = an ? attrLocal(an, "val") : null;
+      if(nid != null && ref != null && abst[ref]) res[nid] = abst[ref];
+    }
+    return res;
+  }
+  function parseFootnotes(xml){
+    var map = {};
+    if(!xml) return map;
+    var d; try{ d = parseXmlStrict(xml); }catch(e){ return map; }
+    var fns = d.getElementsByTagNameNS("*", "footnote");
+    for(var i = 0; i < fns.length; i++){
+      var id = attrLocal(fns[i], "id"), type = attrLocal(fns[i], "type");
+      if(id == null) continue;
+      /* the separator and continuation placeholders are apparatus, not notes */
+      if(type === "separator" || type === "continuationSeparator" || type === "continuationNotice") continue;
+      map[id] = fns[i];
+    }
+    return map;
+  }
+  function parseCoreTitle(xml){
+    if(!xml) return "";
+    var d; try{ d = parseXmlStrict(xml); }catch(e){ return ""; }
+    var t = d.getElementsByTagNameNS("http://purl.org/dc/elements/1.1/", "title")[0];
+    return t ? t.textContent : "";
+  }
+
+  /* ---- the paragraph style decides the element ---- */
+  function styleToTag(styleId){
+    if(!styleId) return "p";
+    var s = styleId.replace(/\s+/g, "").toLowerCase();
+    if(s === "title") return "h1";
+    var m = s.match(/^heading([0-9]+)$/);
+    if(m){ var n = +m[1]; return n <= 1 ? "h1" : n === 2 ? "h2" : "h3"; }
+    if(s === "quote" || s === "intensequote") return "blockquote";
+    return "p";
+  }
+
+  /* ---- a run's marks: bold → strong, italic → em, and the rest ---- */
+  function runOn(rPr, name){
+    var e = kid(rPr, name);
+    if(!e) return false;
+    var v = attrLocal(e, "val");
+    return !(v === "0" || v === "false" || v === "off" || v === "none");
+  }
+  function wrapRun(inner, rPr){
+    if(!rPr || !inner.length) return inner;
+    var chain = [];
+    if(runOn(rPr, "b") || runOn(rPr, "bCs")) chain.push("strong");
+    if(runOn(rPr, "i") || runOn(rPr, "iCs")) chain.push("em");
+    var u = kid(rPr, "u"); if(u){ var uv = attrLocal(u, "val"); if(uv && uv !== "none") chain.push("u"); }
+    if(runOn(rPr, "strike") || runOn(rPr, "dstrike")) chain.push("s");
+    var va = kid(rPr, "vertAlign");
+    if(va){ var v = attrLocal(va, "val"); if(v === "superscript") chain.push("sup"); else if(v === "subscript") chain.push("sub"); }
+    if(!chain.length) return inner;
+    var outer = null, deep = null;
+    chain.forEach(function(tag){
+      var e = document.createElement(tag);
+      if(!outer){ outer = e; deep = e; } else { deep.appendChild(e); deep = e; }
+    });
+    inner.forEach(function(n){ deep.appendChild(n); });
+    return [outer];
+  }
+
+  /* ---- images: a drawing's r:embed, resolved and blobbed as for EPUB ---- */
+  function buildDrawing(el, ctx){
+    var blip = el.getElementsByTagNameNS("*", "blip")[0];
+    var rid = blip ? (attrLocal(blip, "embed") || attrLocal(blip, "link")) : null;
+    if(!rid){
+      var idata = el.getElementsByTagNameNS("*", "imagedata")[0];   /* legacy VML */
+      if(idata) rid = attrLocal(idata, "id");
+    }
+    var rel = rid ? ctx.rels[rid] : null;
+    if(!rel || rel.external) return null;
+    var path = resolveHref("word", rel.target);
+    var docPr = el.getElementsByTagNameNS("*", "docPr")[0];
+    var alt = docPr ? (docPr.getAttribute("descr") || docPr.getAttribute("title") || "") : "";
+    if(!isWebImage(path)){
+      if(alt){ var em = document.createElement("em"); em.textContent = alt; return em; }
+      return null;
+    }
+    var img = document.createElement("img");
+    if(alt) img.setAttribute("alt", alt);
+    imagePromises.push(imageUrl(path).then(function(uu){ if(uu) img.src = uu; else imgToAlt(img); }));
+    return img;
+  }
+
+  /* ---- footnotes: a superscript number linking to a Notes section ---- */
+  function buildFootnoteRef(c, ctx){
+    var id = attrLocal(c, "id");
+    if(id == null || !ctx.footnotes[id]) return null;    /* skip the placeholders */
+    var num = ++ctx.footnoteCount;
+    ctx.footnotesUsed.push({ num: num, id: id });
+    var sup = document.createElement("sup"), a = document.createElement("a");
+    a.id = "fnref-" + num;
+    a.setAttribute("data-sec", "0");
+    a.setAttribute("data-frag", "fn-" + num);
+    a.setAttribute("href", "#fn-" + num);
+    a.textContent = String(num);
+    sup.appendChild(a);
+    return sup;
+  }
+
+  /* ---- a run and its text, breaks and tabs ---- */
+  function buildRun(r, ctx, out){
+    var rPr = kid(r, "rPr"), inner = [];
+    for(var c = r.firstElementChild; c; c = c.nextElementSibling){
+      switch(c.localName){
+        case "t": inner.push(document.createTextNode(c.textContent || "")); break;
+        case "tab": inner.push(document.createTextNode(" ")); break;
+        case "br": case "cr": inner.push(document.createElement("br")); break;
+        case "noBreakHyphen": inner.push(document.createTextNode("-")); break;
+        case "drawing": case "pict": var im = buildDrawing(c, ctx); if(im) inner.push(im); break;
+        case "footnoteReference": var fn = buildFootnoteRef(c, ctx); if(fn) inner.push(fn); break;
+        /* w:instrText (field codes), w:footnoteRef (the note's own marker),
+           w:sym and the rest are apparatus — left out */
+        default: break;
+      }
+    }
+    if(!inner.length) return;
+    wrapRun(inner, rPr).forEach(function(n){ out.push(n); });
+  }
+
+  /* ---- inline flow: runs, tracked changes, links and bookmarks in order ---- */
+  function collectInline(parent, ctx, out){
+    for(var c = parent.firstElementChild; c; c = c.nextElementSibling){
+      switch(c.localName){
+        case "pPr": case "rPr": break;
+        case "r": buildRun(c, ctx, out); break;
+        case "ins": collectInline(c, ctx, out); break;      /* keep insertions */
+        case "del": break;                                   /* drop deletions */
+        case "hyperlink": buildHyperlink(c, ctx, out); break;
+        case "smartTag": case "fldSimple": collectInline(c, ctx, out); break;
+        case "sdt": var sc = kid(c, "sdtContent"); if(sc) collectInline(sc, ctx, out); break;
+        case "bookmarkStart":
+          var nm = attrLocal(c, "name");
+          if(nm && nm !== "_GoBack"){ var a = document.createElement("a"); a.id = nm; out.push(a); }
+          break;
+        default: break;
+      }
+    }
+  }
+  function buildHyperlink(h, ctx, out){
+    var inner = [];
+    collectInline(h, ctx, inner);
+    if(!inner.length) return;
+    var rid = attrLocal(h, "id"), anchor = attrLocal(h, "anchor");
+    var rel = rid ? ctx.rels[rid] : null;
+    if(rel && rel.target){
+      var a = document.createElement("a");
+      inner.forEach(function(n){ a.appendChild(n); });
+      a.setAttribute("href", rel.target);
+      a.setAttribute("target", "_blank");
+      a.setAttribute("rel", "noopener noreferrer");
+      out.push(a);
+    } else if(anchor){
+      var a2 = document.createElement("a");
+      inner.forEach(function(n){ a2.appendChild(n); });
+      a2.setAttribute("data-sec", "0");
+      a2.setAttribute("data-frag", anchor);
+      a2.setAttribute("href", "#" + anchor);
+      ctx.internalLinks.push(a2);       /* kept only if the bookmark is real */
+      out.push(a2);
+    } else {
+      inner.forEach(function(n){ out.push(n); });   /* no target → plain text */
+    }
+  }
+
+  /* ---- a paragraph: its style names the element, its runs fill it ---- */
+  function buildParagraph(p, ctx){
+    var pPr = kid(p, "pPr"), styleId = null;
+    if(pPr){ var ps = kid(pPr, "pStyle"); if(ps) styleId = attrLocal(ps, "val"); }
+    var numPr = pPr ? kid(pPr, "numPr") : null, numId = null, ilvl = 0;
+    if(numPr){
+      var ne = kid(numPr, "numId"); numId = ne ? attrLocal(ne, "val") : null;
+      var le = kid(numPr, "ilvl"); ilvl = le ? (parseInt(attrLocal(le, "val"), 10) || 0) : 0;
+    }
+    var isList = numId != null && numId !== "0";
+
+    var nodes = [];
+    collectInline(p, ctx, nodes);
+    var frag = document.createDocumentFragment();
+    nodes.forEach(function(n){ frag.appendChild(n); });
+    var hasText = frag.textContent.replace(/\s+/g, "").length > 0;
+    var hasMedia = frag.querySelector ? frag.querySelector("img, br") : null;
+    if(!hasText && !hasMedia) return null;              /* an empty paragraph is nothing */
+
+    if(isList){
+      var li = document.createElement("li");
+      li.appendChild(frag);
+      var fmtMap = ctx.numFmt[numId];
+      var fmt = fmtMap ? (fmtMap[String(ilvl)] !== undefined ? fmtMap[String(ilvl)] : fmtMap["0"]) : "";
+      var ol = !!(fmt && fmt !== "bullet" && fmt !== "none");
+      return { li: li, ol: ol, level: ilvl >= 1 ? 1 : 0, numId: numId };
+    }
+    var tag = styleToTag(styleId), el = document.createElement(tag);
+    el.appendChild(frag);
+    if(tag === "h1" || tag === "h2" || tag === "h3"){
+      el.id = "h" + (ctx.hCount++);
+      ctx.headings.push({ el: el, rank: +tag.charAt(1) });
+    }
+    return { node: el };
+  }
+
+  function buildTable(tbl, ctx){
+    var table = document.createElement("table"), tbody = document.createElement("tbody");
+    table.appendChild(tbody);
+    kids(tbl, "tr").forEach(function(tr){
+      var row = document.createElement("tr");
+      kids(tr, "tc").forEach(function(tc){
+        var td = document.createElement("td"), items = [];
+        walkBlocks(tc, items, ctx);
+        assembleBlocks(items).forEach(function(n){ td.appendChild(n); });
+        var tcPr = kid(tc, "tcPr");
+        if(tcPr){ var gs = kid(tcPr, "gridSpan"); if(gs){ var v = attrLocal(gs, "val"); if(v && +v > 1) td.setAttribute("colspan", String(+v)); } }
+        row.appendChild(td);
+      });
+      tbody.appendChild(row);
+    });
+    return table;
+  }
+
+  /* ---- the body in order: paragraphs, tables, content controls ---- */
+  function walkBlocks(container, out, ctx){
+    for(var c = container.firstElementChild; c; c = c.nextElementSibling){
+      if(c.localName === "p"){ var d = buildParagraph(c, ctx); if(d) out.push(d); }
+      else if(c.localName === "tbl"){ out.push({ node: buildTable(c, ctx) }); }
+      else if(c.localName === "sdt"){ var sc = kid(c, "sdtContent"); if(sc) walkBlocks(sc, out, ctx); }
+    }
+  }
+  /* consecutive list items of one list gather into a single list, two deep */
+  function buildList(group){
+    var root = document.createElement(group[0].ol ? "ol" : "ul");
+    var lastTop = null, sub = null;
+    group.forEach(function(g){
+      if(g.level >= 1 && lastTop){
+        if(!sub){ sub = document.createElement(g.ol ? "ol" : "ul"); lastTop.appendChild(sub); }
+        sub.appendChild(g.li);
+      } else {
+        root.appendChild(g.li); lastTop = g.li; sub = null;
+      }
+    });
+    return root;
+  }
+  function assembleBlocks(items){
+    var out = [], i = 0;
+    while(i < items.length){
+      if(items[i].li){
+        var numId = items[i].numId, group = [];
+        while(i < items.length && items[i].li && items[i].numId === numId){ group.push(items[i]); i++; }
+        out.push(buildList(group));
+      } else { out.push(items[i].node); i++; }
+    }
+    return out;
+  }
+
+  function appendNotes(sec, ctx){
+    sec.appendChild(document.createElement("hr"));
+    var h = document.createElement("h2");
+    h.textContent = "Notes";
+    sec.appendChild(h);
+    ctx.footnotesUsed.slice().forEach(function(u){
+      var fnEl = ctx.footnotes[u.id], p = document.createElement("p");
+      p.id = "fn-" + u.num;
+      var mark = document.createElement("sup"); mark.textContent = u.num + " ";
+      p.appendChild(mark);
+      var nodes = [];
+      kids(fnEl, "p").forEach(function(np, idx){
+        if(idx > 0) nodes.push(document.createTextNode(" "));
+        collectInline(np, ctx, nodes);
+      });
+      nodes.forEach(function(n){ p.appendChild(n); });
+      p.appendChild(document.createTextNode(" "));
+      var back = document.createElement("a");
+      back.setAttribute("data-sec", "0");
+      back.setAttribute("data-frag", "fnref-" + u.num);
+      back.setAttribute("href", "#fnref-" + u.num);
+      back.textContent = "↩";
+      p.appendChild(back);
+      sec.appendChild(p);
+    });
+  }
+  function buildDocxToc(ctx){
+    if(!ctx.headings.length) return null;
+    var minRank = 99;
+    ctx.headings.forEach(function(hd){ if(hd.rank < minRank) minRank = hd.rank; });
+    return ctx.headings.map(function(hd){
+      return { label: tidyLabel(hd.el.textContent), sec: 0, frag: hd.el.id, lvl: hd.rank <= minRank ? 1 : 2 };
+    });
+  }
+
+  function loadDocx(zip, file, gen){
+    function opt(name){ return zip.has(name) ? readEntryText(zip, name) : Promise.resolve(""); }
+    return Promise.all([
+      readEntryText(zip, "word/document.xml"),
+      opt("word/_rels/document.xml.rels"),
+      opt("word/numbering.xml"),
+      opt("word/footnotes.xml"),
+      opt("docProps/core.xml")
+    ]).then(function(parts){
+      if(gen !== openGen) return;
+      var doc = parseXmlStrict(parts[0]);
+      var body = firstNS(doc, "body");
+      if(!body) throw new Error("no body");
+      var ctx = {
+        rels: parseRels(parts[1]),
+        numFmt: parseNumbering(parts[2]),
+        footnotes: parseFootnotes(parts[3]),
+        title: parseCoreTitle(parts[4]),
+        headings: [], footnotesUsed: [], internalLinks: [],
+        footnoteCount: 0, hCount: 0
+      };
+      clearBook();
+      book = { zip: zip, byPath: {}, pathToSec: {} };   /* imageUrl reads these */
+
+      var items = [];
+      walkBlocks(body, items, ctx);
+      var sec = document.createElement("section");
+      sec.id = "s0";
+      assembleBlocks(items).forEach(function(n){ sec.appendChild(n); });
+      if(ctx.footnotesUsed.length) appendNotes(sec, ctx);
+      /* an internal link whose bookmark never appears becomes plain text */
+      ctx.internalLinks.forEach(function(a){
+        var frag = a.getAttribute("data-frag");
+        if(frag && findId(sec, frag)) return;
+        while(a.firstChild) a.parentNode.insertBefore(a.firstChild, a);
+        a.parentNode.removeChild(a);
+      });
+
+      article.textContent = "";
+      article.appendChild(sec);
+      document.body.classList.add("reading");
+      document.title = (ctx.title && ctx.title.trim()) ? ctx.title.trim() : file.name;
+      setToc(buildDocxToc(ctx));
+
+      current = { key: fileKey(file) };
+      var frac = posGet(current.key);
+      Promise.race([
+        Promise.all(imagePromises.slice()),
+        new Promise(function(r){ setTimeout(r, 1500); })
+      ]).then(function(){
+        if(gen !== openGen) return;
+        requestAnimationFrame(function(){ requestAnimationFrame(function(){
+          if(frac && frac > 0.02 && scrollMax() > 0){
+            jumpTo(frac * scrollMax());
+            flashNote("Back where you were");
+          } else {
+            jumpTo(0);
+          }
+          paintProgress();
+        }); });
+      });
+    });
+  }
+  function readDocx(file){
+    if(typeof DecompressionStream === "undefined"){
+      quietLine("This browser cannot unpack a Word file — a current one can.");
+      return;
+    }
+    var gen = ++openGen;
+    var fr = new FileReader();
+    fr.onload = function(){
+      if(gen !== openGen) return;
+      var buf = fr.result;
+      /* the old binary Word format is not a ZIP — it starts with something
+         other than "PK"; say so plainly rather than trying to parse it */
+      var head = new Uint8Array(buf, 0, Math.min(2, buf.byteLength));
+      if(head[0] !== 0x50 || head[1] !== 0x4B){
+        quietLine("This is an older Word (.doc) file. Save it again as .docx and it will open here.");
+        return;
+      }
+      var zip;
+      try{ zip = parseZip(buf); }
+      catch(err){
+        quietLine(err && err.message === "zip64"
+          ? "This Word file is packed in a newer way (ZIP64) than this page can open."
+          : "That file could not be read as a Word document.");
+        return;
+      }
+      loadDocx(zip, file, gen).catch(function(){
+        if(gen === openGen) quietLine("That Word file could not be read.");
+      });
+    };
+    fr.onerror = function(){ quietLine("That file could not be read."); };
+    fr.readAsArrayBuffer(file);
+  }
+
   /* the one door every format comes through */
   function openFile(file){
     if(!file) return;
@@ -1235,8 +1681,17 @@ layout: null
       readEpub(file);
       return;
     }
+    /* .doc joins .docx here so the byte check inside readDocx can tell the
+       old binary format apart and explain it, rather than a generic refusal */
+    if(/\.docx?$/i.test(name) ||
+       file.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
+       file.type === "application/msword"){
+      if(file.size > EPUB_MAX){ quietLine("That file is too large for this page."); return; }
+      readDocx(file);
+      return;
+    }
     var isTxt = /\.txt$/i.test(name) || file.type === "text/plain";
-    if(!isTxt){ quietLine("Only plain text (.txt) or EPUB, for now."); return; }
+    if(!isTxt){ quietLine("Only plain text (.txt), EPUB or Word (.docx), for now."); return; }
     if(file.size > MAX_BYTES){ quietLine("That file is too large for this page."); return; }
     readTxt(file);
   }
