@@ -1,0 +1,57 @@
+name: Cleanup stale branches
+
+# Gecici temizlik workflow'u: main disindaki tum branchleri siler.
+# Elle calistirilir (Actions sekmesi > Run workflow). Is bitince bu dosya kaldirilacak.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Delete all branches except main
+        run: |
+          set -uo pipefail
+          git fetch --prune origin '+refs/heads/*:refs/remotes/origin/*'
+          mapfile -t BRANCHES < <(git branch -r \
+            | sed 's#^[[:space:]]*origin/##' \
+            | grep -vE '^(main|HEAD)$' \
+            | grep -v '->' \
+            | sort -u)
+          echo "Silinecek branch sayisi: ${#BRANCHES[@]}"
+          if [ "${#BRANCHES[@]}" -eq 0 ]; then
+            echo "Silinecek branch yok."
+            exit 0
+          fi
+          deleted=0
+          batch=()
+          flush() {
+            [ "${#batch[@]}" -eq 0 ] && return
+            if git push origin --delete "${batch[@]}"; then
+              deleted=$((deleted + ${#batch[@]}))
+              echo "  -> ${#batch[@]} branch silindi (toplam $deleted)"
+            else
+              echo "  -> HATA: bu grup silinemedi"
+            fi
+            batch=()
+          }
+          for b in "${BRANCHES[@]}"; do
+            batch+=("$b")
+            if [ "${#batch[@]}" -ge 50 ]; then
+              flush
+            fi
+          done
+          flush
+          echo "==================================="
+          echo "Toplam silinen: $deleted"
+          echo "Kalan uzak branch sayisi:"
+          git ls-remote --heads origin | wc -l
