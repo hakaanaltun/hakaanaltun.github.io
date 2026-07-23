@@ -12,7 +12,7 @@
    on the site is left to the network untouched. */
 "use strict";
 
-var CACHE = "olae-tools-v8";
+var CACHE = "olae-tools-v9";
 
 var TOOL_PAGES = [
   "/tools/",   /* the catalogue itself, so "all of them" works offline */
