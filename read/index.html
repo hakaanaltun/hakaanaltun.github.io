@@ -602,7 +602,7 @@ layout: null
     while(st.length > POS_MAX) st.shift();
     try{ localStorage.setItem(POS_LS, JSON.stringify(st)); }catch(e){}
   }
-  function fileKey(file){ return file.name + " " + file.size + " " + file.lastModified; }
+  function fileKey(file){ return file.name + "\0" + file.size + "\0" + file.lastModified; }
 
   /* ---- the hairline: how far into the text the reader is ---- */
   function scrollMax(){ return document.documentElement.scrollHeight - window.innerHeight; }

@@ -383,7 +383,7 @@ layout: null
   }
 
   /* ============ paragraph-first comparison, then inside the changes ============ */
-  var BREAK = " ¶";   /* internal paragraph-break token */
+  var BREAK = "\0¶";   /* internal paragraph-break token */
   function splitParas(t){
     return t.replace(/\r\n?/g, "\n").split(/\n\s*\n/);
   }
