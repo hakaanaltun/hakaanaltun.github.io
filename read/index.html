@@ -13,14 +13,14 @@ layout: null
 <meta property="og:title" content="The Reader—Read Your Own Text, EPUB &amp; Word Files, Distraction-Free">
 <meta property="og:description" content="A distraction-free page to read your own files in—plain text, EPUB and Word, in Garamond type, with rain if you want it and a light that follows the sky. Nothing is uploaded; the page remembers only where you stopped.">
 <meta property="og:url" content="https://hakanaltun.io/read/">
-<meta property="og:image" content="https://hakanaltun.io/images/og/read.png">
+<meta property="og:image" content="https://hakanaltun.io/images/og/read.png?v=20260723-1">
 <meta property="og:image:alt" content="The Reader—read your own text, EPUB and Word files, distraction-free">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="The Reader—Read Your Own Text, EPUB &amp; Word Files, Distraction-Free">
 <meta name="twitter:description" content="A distraction-free page to read your own files in—plain text, EPUB and Word, in Garamond type, with rain if you want it and a light that follows the sky. Nothing is uploaded; the page remembers only where you stopped.">
-<meta name="twitter:image" content="https://hakanaltun.io/images/og/read.png">
+<meta name="twitter:image" content="https://hakanaltun.io/images/og/read.png?v=20260723-1">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#FFFFFF">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#191712">
 
@@ -481,12 +481,12 @@ layout: null
     </div>
   </div>
 
-  <input type="file" id="fileInput" accept=".txt,text/plain,.epub,application/epub+zip,.docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document" aria-hidden="true" tabindex="-1"
+  <input type="file" id="fileInput" accept=".txt,text/plain,.epub,application/epub+zip,.docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.doc,application/msword" aria-hidden="true" tabindex="-1"
          style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);">
 
   <div class="sheet">
     <div class="empty" id="emptyState">
-      <p id="emptyLine">Bring a file. It stays on your device; nothing is sent anywhere.</p>
+      <p id="emptyLine" role="status" aria-live="polite" aria-atomic="true">Bring a file. It stays on your device; nothing is sent anywhere.</p>
       <button type="button" id="emptyOpen">Open a file</button>
     </div>
     <article id="reading" aria-label="The text"></article>
@@ -562,13 +562,13 @@ layout: null
       <p>Files bought from most stores carry the seller&rsquo;s lock, and a locked copy cannot be opened here&mdash;the page says so plainly rather than showing broken text. A book you own as a plain EPUB opens fine.</p>
 
       <h3>What is on the shelf?</h3>
-      <p>A few small things, kept behind the lines button in the corner: the table of contents when the file carries one, rain and brown noise to read inside, four sizes of type, and the light&mdash;light, dark, or following the sky over your city. Close the panel and the page is as bare as it ever was.</p>
+      <p>A few small things, kept behind the lines button in the corner: the table of contents when the file carries one, rain and brown noise to read inside, four sizes of type, and the light&mdash;light, dark, or following the sky over the city named beneath it. Close the panel and the page is as bare as it ever was.</p>
 
       {% include tool-links.html slug="read" %}
     </div>
   </footer>
 
-  <div class="corner saved" id="cornerNote">Back where you were</div>
+  <div class="corner saved" id="cornerNote" role="status" aria-live="polite" aria-atomic="true">Back where you were</div>
 
 <script>
 (function(){
@@ -580,6 +580,13 @@ layout: null
   var BASE_TITLE = document.title;
   var MAX_BYTES = 5 * 1024 * 1024;         /* plain text */
   var EPUB_MAX = 64 * 1024 * 1024;         /* a book carries its images */
+  /* the file on disk is bounded above; its unpacked contents are not, so a
+     small archive can still inflate to gigabytes. An EPUB or .docx is opened
+     as untrusted input, held to these ceilings before anything is read. */
+  var ZIP_MAX_ENTRIES = 8192;              /* files inside the archive */
+  var ZIP_MAX_ENTRY = 128 * 1024 * 1024;   /* one entry, inflated */
+  var ZIP_MAX_TOTAL = 200 * 1024 * 1024;   /* every entry together, inflated */
+  var ZIP_MAX_RATIO = 500;                 /* inflated ÷ stored, per entry */
   var current = null;                 /* { key } while a file is open */
 
   /* ---- the bookmark ledger (positions only — never the text) ---- */
@@ -605,7 +612,12 @@ layout: null
   function fileKey(file){ return file.name + "\0" + file.size + "\0" + file.lastModified; }
 
   /* ---- the hairline: how far into the text the reader is ---- */
-  function scrollMax(){ return document.documentElement.scrollHeight - window.innerHeight; }
+  /* measured to the foot of the text itself, not the page: the notes and
+     questions below the column must not hold the line short of full */
+  function scrollMax(){
+    var bottom = article.getBoundingClientRect().bottom + window.scrollY;
+    return Math.max(0, bottom - window.innerHeight);
+  }
   function scrollFrac(){
     var max = scrollMax();
     return max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
@@ -746,7 +758,8 @@ layout: null
     var count = dv.getUint16(eocd + 10, true);
     var cdOff = dv.getUint32(eocd + 16, true);
     if(count === 0xFFFF || cdOff === 0xFFFFFFFF) throw new Error("zip64");
-    var names = {}, td = new TextDecoder("utf-8"), p = cdOff;
+    if(count > ZIP_MAX_ENTRIES) throw new Error("too many entries");
+    var names = {}, td = new TextDecoder("utf-8"), p = cdOff, total = 0;
     for(var e = 0; e < count; e++){
       if(dv.getUint32(p, true) !== 0x02014b50) throw new Error("bad");
       var method = dv.getUint16(p + 10, true);
@@ -757,7 +770,13 @@ layout: null
       var cmtLen = dv.getUint16(p + 32, true);
       var lho = dv.getUint32(p + 42, true);
       if(csize === 0xFFFFFFFF || usize === 0xFFFFFFFF || lho === 0xFFFFFFFF) throw new Error("zip64");
-      names[td.decode(new Uint8Array(buf, p + 46, nameLen))] = { method: method, csize: csize, offset: lho };
+      /* an entry the directory itself calls enormous, or one that swells far
+         past any honest ratio, is refused before a single byte is inflated */
+      if(usize > ZIP_MAX_ENTRY) throw new Error("entry too large");
+      if(method === 8 && csize > 0 && usize > (1 << 20) && usize / csize > ZIP_MAX_RATIO) throw new Error("over-compressed");
+      total += usize;
+      if(total > ZIP_MAX_TOTAL) throw new Error("archive too large");
+      names[td.decode(new Uint8Array(buf, p + 46, nameLen))] = { method: method, csize: csize, usize: usize, offset: lho };
       p += 46 + nameLen + extraLen + cmtLen;
     }
     function read(name){
@@ -771,7 +790,12 @@ layout: null
       if(en.method !== 8) return Promise.reject(new Error("compression"));
       var ds = new DecompressionStream("deflate-raw");
       return new Response(new Blob([bytes]).stream().pipeThrough(ds)).arrayBuffer()
-        .then(function(ab){ return new Uint8Array(ab); });
+        .then(function(ab){
+          /* the last guard: a directory that lied about its sizes is caught
+             by the bytes that actually came out */
+          if(ab.byteLength > ZIP_MAX_ENTRY) throw new Error("entry too large");
+          return new Uint8Array(ab);
+        });
     }
     return {
       has: function(nm){ return Object.prototype.hasOwnProperty.call(names, nm); },
@@ -939,14 +963,33 @@ layout: null
     });
   }
 
+  /* an external link is kept only if it points somewhere a click can safely
+     go — http(s), mail or a phone number. javascript:, data: and the rest
+     are the one gap the sanitiser would otherwise leave open, so a link with
+     any other scheme is stripped to plain text. */
+  function safeExternalHref(value){
+    try{
+      var url = new URL(value, location.href);
+      return /^(https?:|mailto:|tel:)$/.test(url.protocol) ? value : "";
+    }catch(e){
+      return "";
+    }
+  }
+
   /* ---- links: inside the book they scroll; outside they leave politely ---- */
   function fixLinks(sec, baseDir, secIndex){
     Array.prototype.slice.call(sec.querySelectorAll("a")).forEach(function(a){
       var href = a.getAttribute("href");
       if(!href) return;
       if(/^[a-z][a-z0-9+.\-]*:/i.test(href)){
-        a.setAttribute("target", "_blank");
-        a.setAttribute("rel", "noopener noreferrer");
+        var safe = safeExternalHref(href);
+        if(safe){
+          a.setAttribute("href", safe);
+          a.setAttribute("target", "_blank");
+          a.setAttribute("rel", "noopener noreferrer");
+        } else {
+          a.removeAttribute("href");
+        }
         return;
       }
       var hp = splitHash(href), target;
@@ -1433,10 +1476,11 @@ layout: null
     if(!inner.length) return;
     var rid = attrLocal(h, "id"), anchor = attrLocal(h, "anchor");
     var rel = rid ? ctx.rels[rid] : null;
-    if(rel && rel.target){
+    var safe = rel && rel.target ? safeExternalHref(rel.target) : "";
+    if(safe){
       var a = document.createElement("a");
       inner.forEach(function(n){ a.appendChild(n); });
-      a.setAttribute("href", rel.target);
+      a.setAttribute("href", safe);
       a.setAttribute("target", "_blank");
       a.setAttribute("rel", "noopener noreferrer");
       out.push(a);
