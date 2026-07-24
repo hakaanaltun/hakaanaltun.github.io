@@ -187,11 +187,19 @@ html[data-theme="midnight"] body {
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html {
-  scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   scroll-padding-top: 150px;
   background: var(--bg);
   overflow-x: clip;
+}
+
+/* Smooth scrolling is enabled only after the first load (see the inline
+   script in the default layout). Applying it to the bare html element makes
+   browsers animate their automatic scroll-restoration, so every reload slid
+   the page up by roughly one screen. Deferring it keeps anchor navigation
+   smooth while letting the initial restoration jump instantly. */
+html.smooth-scroll {
+  scroll-behavior: smooth;
 }
 
 /* Body and .container form a flex column so main can grow and the footer
