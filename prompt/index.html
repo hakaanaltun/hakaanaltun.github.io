@@ -427,7 +427,16 @@ layout: null
     }catch(e){}
   }
   var saveT;
-  function grow(){ ta.style.height = "auto"; ta.style.height = ta.scrollHeight + "px"; }
+  function grow(){
+    var y = window.pageYOffset || document.documentElement.scrollTop || 0;
+    ta.style.height = "auto";
+    ta.style.height = ta.scrollHeight + "px";
+    /* Shrinking the textarea (e.g. deleting a line) briefly collapses the
+       page and clamps the scroll position; scroll-behavior: smooth would
+       animate that as a full-page jump. Restore the offset instantly. */
+    try{ window.scrollTo({ top: y, left: 0, behavior: "instant" }); }
+    catch(e){ window.scrollTo(0, y); }
+  }
 
   /* ---- the estimate ---- */
   function words(){
