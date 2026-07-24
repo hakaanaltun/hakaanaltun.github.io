@@ -82,7 +82,7 @@ layout: null
   html[data-theme="dark"]{ --icon-sun:block; --icon-moon:none; }
 
   *{ box-sizing:border-box; margin:0; padding:0; }
-  html{ scroll-behavior:smooth; }
+  html.smooth-scroll{ scroll-behavior:smooth; }
 
   /* the ampersand the site uses — the display italic, as in the header logo */
   .amp{ font-family:var(--display); font-style:italic; }
@@ -1030,5 +1030,6 @@ layout: null
 })();
 </script>
 <script>if("serviceWorker" in navigator){navigator.serviceWorker.register("/sw.js").catch(function(){});}</script>
+<script>/* Enable smooth scrolling only after the initial load, so a reload no longer animates the browser's scroll restoration (the page sliding up by one screen). */(function(){var e=function(){document.documentElement.classList.add("smooth-scroll");};if(document.readyState==="complete"){requestAnimationFrame(e);}else{window.addEventListener("load",function(){requestAnimationFrame(e);});}})();</script>
 </body>
 </html>
