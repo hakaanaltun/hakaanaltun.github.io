@@ -41,5 +41,21 @@
 {% if page.layout == "home" %}
 {% include home-scripts.html %}
 {% endif %}
+<script>
+/* Enable CSS smooth scrolling only after the browser has completed its
+   initial scroll restoration. Applying scroll-behavior: smooth to the root
+   at load time made reloads (and pressing Enter in the address bar) animate
+   the restoration, sliding the page up by about one screen. */
+(function () {
+  var enable = function () {
+    document.documentElement.classList.add('smooth-scroll');
+  };
+  if (document.readyState === 'complete') {
+    requestAnimationFrame(enable);
+  } else {
+    window.addEventListener('load', function () { requestAnimationFrame(enable); });
+  }
+})();
+</script>
 <script data-goatcounter="https://hakanaltun.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body></html>
