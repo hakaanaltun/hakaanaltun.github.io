@@ -28,11 +28,7 @@ leave the document without an h1 — give screen readers one. {% endcomment %}
 </div>
 {% endif %}
 </div>
-{% if page.cover_style == "typographic" %}
-<div class="essay-cover essay-cover--typographic fade-in fade-in-delay">
-  {% include typographic-cover.html item=page %}
-</div>
-{% else %}
+{% unless page.cover_style == "typographic" %}
   {% assign cover_image = page.image | default: page.thumb %}
   {% if cover_image %}
   {% comment %} The cover column tops out at 760px. 1600w approximates the recent
@@ -42,7 +38,7 @@ leave the document without an h1 — give screen readers one. {% endcomment %}
   {% assign cover960 = cover_image | replace: '/images/', '/images/960/' %}
   <div class="essay-cover fade-in fade-in-delay"><img src="{{ cover_image }}" srcset="{{ cover480 }} 480w, {{ cover960 }} 960w, {{ cover_image }} 1600w" sizes="(max-width: 840px) calc(100vw - 80px), 760px" alt="{{ page.cover_alt | default: page.subtitle }}" loading="lazy"></div>
   {% endif %}
-{% endif %}
+{% endunless %}
 <article class="essay-body fade-in fade-in-delay">
 {{ content }}
 </article>
