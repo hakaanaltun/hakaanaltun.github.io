@@ -927,7 +927,46 @@ layout: null
       if(/\d/.test(str.charAt(off - 1)) && !/\p{L}/u.test(str.charAt(off + 1) || "")) return m;
       n.quotes++; return "”";
     });
+    s = turnQuotes(s, n, OPEN_BEFORE);
     return s.slice(pad.length);
+  }
+
+  /* Curly quotes that face the wrong way — what text picks up when it has
+     been through a smart-quote pass that could not see its own context, so
+     that ”like this” comes back with both marks closing. A quote is turned
+     only where its direction contradicts the text around it; apostrophes
+     and elisions (’90s, ’tis) stay as they are, and a text using the low
+     quotes of German or Polish setting („so“, ‚so‘) is left alone, its
+     closing marks being the ones this rule would otherwise turn. */
+  var ELISION = /^(?:\d0s|tis|twas|em|round|til|cause)\b/i;
+  var lowQuotes = false;
+  function turnQuotes(s, n, OPEN_BEFORE){
+    if(lowQuotes) return s;
+    function opensHere(str, off){
+      return OPEN_BEFORE.test(str.slice(Math.max(0, off - 1), off)) &&
+             /\S/.test(str.charAt(off + 1) || "");
+    }
+    s = s.replace(/[“”]/g, function(m, off, str){
+      var open = opensHere(str, off);
+      if(open && m === "”"){ n.turned++; return "“"; }
+      if(!open && m === "“"){ n.turned++; return "”"; }
+      return m;
+    });
+    s = s.replace(/[‘’]/g, function(m, off, str){
+      var after = str.charAt(off + 1) || "";
+      if(/[\p{L}\p{N}]/u.test(str.charAt(off - 1)) && /\p{L}/u.test(after)){
+        if(m === "‘"){ n.turned++; return "’"; }   /* an apostrophe: it‘s */
+        return m;
+      }
+      var open = opensHere(str, off);
+      if(open && m === "’"){
+        if(!/\p{L}/u.test(after) || ELISION.test(str.slice(off + 1))) return m;
+        n.turned++; return "‘";
+      }
+      if(!open && m === "‘"){ n.turned++; return "’"; }
+      return m;
+    });
+    return s;
   }
   function setDashes(s, n){
     s = s.replace(/---/g, function(){ n.dashes++; return "—"; });
@@ -961,8 +1000,9 @@ layout: null
     }
     var s = ta.value;
     if(!s) return;
-    var n = { quotes:0, dashes:0, spaces:0, invisibles:0 };
+    var n = { quotes:0, turned:0, dashes:0, spaces:0, invisibles:0 };
     tidyUndo = s;
+    lowQuotes = /[„‚]/.test(s);
     s = removeInvisible(s, n);
     s = outsideTags(s, function(t, prev){ return curlQuotes(t, n, prev); });
     s = outsideTags(s, function(t){ return setDashes(t, n); });
