@@ -483,10 +483,12 @@ layout: null
         <button class="shelf-mark" type="button" data-ch="‘" aria-label="Insert left single quote">‘</button>
         <button class="shelf-mark" type="button" data-ch="’" aria-label="Insert right single quote or apostrophe">’</button>
         <button class="shelf-mark" type="button" data-ch="„" aria-label="Insert low double quote">„</button>
+        <button class="shelf-mark" type="button" data-ch="‚" aria-label="Insert low single quote">‚</button>
         <button class="shelf-mark" type="button" data-ch="«" aria-label="Insert left guillemet">«</button>
         <button class="shelf-mark" type="button" data-ch="»" aria-label="Insert right guillemet">»</button>
         <button class="shelf-mark" type="button" data-ch="…" aria-label="Insert ellipsis">…</button>
         <button class="shelf-mark" type="button" data-ch="·" aria-label="Insert middle dot">·</button>
+        <button class="shelf-mark" type="button" data-ch="⁂" aria-label="Insert asterism">⁂</button>
         <button class="shelf-mark" type="button" data-ch="§" aria-label="Insert section sign">§</button>
         <button class="shelf-mark" type="button" data-ch="İ" aria-label="Insert capital dotted I">İ</button>
         <button class="shelf-mark" type="button" data-ch="ı" aria-label="Insert dotless i">ı</button>
@@ -500,6 +502,9 @@ layout: null
         <button class="shelf-mark" type="button" data-ch="ö" aria-label="Insert o umlaut">ö</button>
         <button class="shelf-mark" type="button" data-ch="Ü" aria-label="Insert capital U umlaut">Ü</button>
         <button class="shelf-mark" type="button" data-ch="ü" aria-label="Insert u umlaut">ü</button>
+        <button class="shelf-mark" type="button" data-ch="â" aria-label="Insert a circumflex">â</button>
+        <button class="shelf-mark" type="button" data-ch="î" aria-label="Insert i circumflex">î</button>
+        <button class="shelf-mark" type="button" data-ch="û" aria-label="Insert u circumflex">û</button>
       </div>
     </div>
 
@@ -559,6 +564,9 @@ layout: null
 
       <h3>What is on the shelf?</h3>
       <p>Six small things, borrowed from the other instruments and kept behind the lines button in the corner: a 25-and-5 writing timer whose only trace is a thin line along the top of the screen, rain and brown noise to write inside, the typographic marks, a tidy button that curls quotes and sets dashes right, a fuller count, and the light&mdash;light, dark, or following the sky over your city. Close the panel and the page is as bare as it ever was.</p>
+
+      <h3>What if I am drafting in HTML?</h3>
+      <p>Tidy leaves the tags alone. Attribute quotes stay straight, so <code>class="lede"</code> survives untouched, and a quote that opens a paragraph is read against the prose before it rather than the <code>&gt;</code> of its tag&mdash;it curls as &ldquo;, not &rdquo;.</p>
 
       <h3>Does the shelf send anything anywhere?</h3>
       <p>No. The timer keeps time inside the page and never asks to send notifications, the rain and the noise are synthesized live in your browser&mdash;no recordings, nothing streamed&mdash;and the sky is computed from the clock and your time zone. Like the page itself, the shelf never lets your writing leave your device.</p>
@@ -878,12 +886,29 @@ layout: null
   });
 
   /* ================= 4 · tidy — the rules from /clean/ ================= */
+  /* HTML tags are left alone. The text is split into markup and prose, the
+     rules run on the prose only, and each run is told the last character of
+     the prose before it, so a quote opening a paragraph is read as following
+     that text and not the > of its tag. */
+  var TAG = /(<\/?[a-zA-Z][^<>]*>|<!--[\s\S]*?-->|<!\[CDATA\[[\s\S]*?\]\]>)/;
+  function outsideTags(s, fn){
+    var parts = s.split(TAG), prev = "";
+    for(var i = 0; i < parts.length; i += 2){
+      if(!parts[i]) continue;
+      parts[i] = fn(parts[i], prev);
+      prev = parts[i].charAt(parts[i].length - 1);
+    }
+    return parts.join("");
+  }
+
   /* Straight quotes → curly. The rules, in order: decade abbreviations
      ('90s), apostrophes inside words, opening quotes after whitespace or
      an opening bracket or dash, primes after digits left alone (5'10"),
      everything else closing. */
-  function curlQuotes(s, n){
+  function curlQuotes(s, n, prev){
     var OPEN_BEFORE = /(^|[\s([{‘“–—-])$/;
+    var pad = prev || "";
+    s = pad + s;
     s = s.replace(/'(?=\d0s\b)/g, function(){ n.quotes++; return "’"; });
     s = s.replace(/([\p{L}\p{N}])'(?=\p{L})/gu, function(m, a){ n.quotes++; return a + "’"; });
     s = s.replace(/'(?=\S)/g, function(m, off, str){
@@ -902,7 +927,7 @@ layout: null
       if(/\d/.test(str.charAt(off - 1)) && !/\p{L}/u.test(str.charAt(off + 1) || "")) return m;
       n.quotes++; return "”";
     });
-    return s;
+    return s.slice(pad.length);
   }
   function setDashes(s, n){
     s = s.replace(/---/g, function(){ n.dashes++; return "—"; });
@@ -913,7 +938,7 @@ layout: null
   function tidySpaces(s, n){
     s = s.replace(/ {2,}/g, function(){ n.spaces++; return " "; });
     s = s.replace(/ +(?=[,.;:!?…])/g, function(){ n.spaces++; return ""; });
-    s = s.replace(/[ \t]+$/gm, function(){ n.spaces++; return ""; });
+    s = s.replace(/[ \t]+(?=\n)/g, function(){ n.spaces++; return ""; });
     return s;
   }
   function removeInvisible(s, n){
@@ -939,9 +964,10 @@ layout: null
     var n = { quotes:0, dashes:0, spaces:0, invisibles:0 };
     tidyUndo = s;
     s = removeInvisible(s, n);
-    s = curlQuotes(s, n);
-    s = setDashes(s, n);
-    s = tidySpaces(s, n);
+    s = outsideTags(s, function(t, prev){ return curlQuotes(t, n, prev); });
+    s = outsideTags(s, function(t){ return setDashes(t, n); });
+    s = outsideTags(s, function(t){ return tidySpaces(t, n); });
+    s = s.replace(/[ \t]+$/, function(){ n.spaces++; return ""; });
     ta.value = s;
     ta.dispatchEvent(new Event("input", { bubbles: true }));
     tidyBtn.textContent = "Undo";
