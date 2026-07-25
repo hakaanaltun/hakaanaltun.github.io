@@ -198,6 +198,7 @@ layout: null
   }
   .shelf-pill:hover{ border-color:var(--muted); }
   .shelf-pill[aria-pressed="true"]{ background:var(--ink); color:var(--paper); border-color:var(--ink); }
+  .shelf-pill.arm{ background:var(--ink); color:var(--paper); border-color:var(--ink); }
   .shelf-pill:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
   .shelf-note{ margin-top:.7rem; font-style:italic; color:var(--muted); font-size:.85rem; letter-spacing:.02em; }
   .shelf-line{ display:flex; align-items:baseline; gap:10px; margin-bottom:.8rem; }
@@ -474,6 +475,15 @@ layout: null
     </div>
 
     <div class="shelf-row">
+      <h2 class="shelf-label">Typewriter</h2>
+      <div class="shelf-controls" role="group" aria-label="Typewriter scrolling">
+        <button class="shelf-pill" data-typewriter="off" aria-pressed="true" type="button">Off</button>
+        <button class="shelf-pill" data-typewriter="on" aria-pressed="false" type="button">On</button>
+      </div>
+      <div class="shelf-note">keeps the line you&rsquo;re writing centered and clicks softly as you type, at the volume above</div>
+    </div>
+
+    <div class="shelf-row">
       <h2 class="shelf-label">Marks</h2>
       <div class="shelf-marks" id="shelfMarks">
         <button class="shelf-mark" type="button" data-ch="—" aria-label="Insert em dash">—</button>
@@ -521,7 +531,7 @@ layout: null
       <div class="shelf-controls">
         <button class="shelf-pill" id="clearBtn" type="button">Clear</button>
       </div>
-      <div class="shelf-note">empties the page in one click&mdash;fifteen seconds to undo</div>
+      <div class="shelf-note">press once to arm, again to empty the page&mdash;fifteen seconds to undo after</div>
     </div>
 
     <div class="shelf-row">
@@ -533,15 +543,6 @@ layout: null
         <div><b id="shPara">0</b><span>paragraphs</span></div>
         <div><b id="shRead">&mdash;</b><span>reading time</span></div>
       </div>
-    </div>
-
-    <div class="shelf-row">
-      <h2 class="shelf-label">Typewriter</h2>
-      <div class="shelf-controls" role="group" aria-label="Typewriter scrolling">
-        <button class="shelf-pill" data-typewriter="off" aria-pressed="true" type="button">Off</button>
-        <button class="shelf-pill" data-typewriter="on" aria-pressed="false" type="button">On</button>
-      </div>
-      <div class="shelf-note">keeps the line you&rsquo;re writing centered and clicks softly as you type, at the volume set above</div>
     </div>
 
     <div class="shelf-row">
@@ -583,7 +584,7 @@ layout: null
       <p>Eight small things, borrowed from the other instruments and kept behind the lines button in the corner: a 25-and-5 writing timer whose only trace is a thin line along the top of the screen, rain and brown noise to write inside, the typographic marks, a tidy button that curls quotes and sets dashes right, a clear button that empties the page in one click, a fuller count, typewriter scrolling that keeps your line centered, and the light&mdash;light, dark, or following the sky over your city. Close the panel and the page is as bare as it ever was.</p>
 
       <h3>Can I undo a clear?</h3>
-      <p>Yes&mdash;for fifteen seconds the button reads Undo and brings the text back. After that it&rsquo;s gone, so download first if you want to keep it.</p>
+      <p>Clearing takes two presses&mdash;the first arms the button, reading &ldquo;clear?&rdquo; for three seconds, and the second empties the page&mdash;so a stray click never costs a draft. After it clears, the button reads Undo for fifteen seconds and brings the text back. After that it&rsquo;s gone, so download first if you want to keep it.</p>
 
       <h3>What does typewriter scrolling do?</h3>
       <p>Turned on from the shelf, it keeps the line you&rsquo;re writing near the middle of the screen, scrolling the page to follow your cursor through longer drafts, and adds a soft mechanical click for every keystroke. It is off by default. Like the rain and the noise, the click is synthesized live in your browser&mdash;nothing recorded, nothing streamed.</p>
@@ -1037,24 +1038,37 @@ layout: null
     tidyT = setTimeout(function(){ tidyUndo = null; tidyBtn.textContent = "Tidy"; }, 15000);
   });
 
-  /* ================= 4b · clear — empties the page, same undo window as tidy ================= */
-  var clearBtn = $("#clearBtn"), clearUndo = null, clearT = null;
+  /* ================= 4b · clear — arm on the first press, empty on the
+     second (as /draw/'s Clear does), with the same undo window as tidy ================= */
+  var clearBtn = $("#clearBtn"), clearArmT = null, clearUndo = null, clearUndoT = null;
   clearBtn.addEventListener("click", function(){
     if(clearUndo !== null){
       ta.value = clearUndo;
       clearUndo = null;
-      clearTimeout(clearT);
+      clearTimeout(clearUndoT);
       clearBtn.textContent = "Clear";
       ta.dispatchEvent(new Event("input", { bubbles: true }));
       return;
     }
+    if(clearBtn.classList.contains("arm")){
+      clearTimeout(clearArmT);
+      clearBtn.classList.remove("arm");
+      if(!ta.value){ clearBtn.textContent = "Clear"; return; }
+      clearUndo = ta.value;
+      ta.value = "";
+      ta.focus();
+      ta.dispatchEvent(new Event("input", { bubbles: true }));
+      clearBtn.textContent = "Undo";
+      clearUndoT = setTimeout(function(){ clearUndo = null; clearBtn.textContent = "Clear"; }, 15000);
+      return;
+    }
     if(!ta.value) return;
-    clearUndo = ta.value;
-    ta.value = "";
-    ta.focus();
-    ta.dispatchEvent(new Event("input", { bubbles: true }));
-    clearBtn.textContent = "Undo";
-    clearT = setTimeout(function(){ clearUndo = null; clearBtn.textContent = "Clear"; }, 15000);
+    clearBtn.classList.add("arm");
+    clearBtn.textContent = "clear?";
+    clearArmT = setTimeout(function(){
+      clearBtn.classList.remove("arm");
+      clearBtn.textContent = "Clear";
+    }, 3000);
   });
 
   /* ================= 5 · count — from /words/ ================= */
