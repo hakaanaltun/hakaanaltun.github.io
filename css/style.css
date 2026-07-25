@@ -48,9 +48,8 @@
   --footer-muted: #ADBDB8;
   /* Attribution line on --band-hero (lighter than the header/footer chrome,
      so --footer-muted's 3.3-4.2:1 there falls short of AA). The band only
-     ever renders on the homepage, so this is checked against the home chrome
-     alone: 4.70:1 on the 85% mix below (the old #C9D8DB sat at 4.25:1 once
-     the band was lightened from 92%). */
+     ever renders on the homepage; this token keeps a 5.13:1 contrast ratio
+     against the balanced #37616C hero surface below. */
   --hero-source-muted: #D6E2E4;
 
   --drawer-bg: rgba(255, 255, 255, 0.985);
@@ -80,12 +79,11 @@ body {
      over the pale page reads washed-out, the lighter the section colour. */
   --surface-chrome: rgb(var(--chrome-rgb, 62, 50, 73));
   --surface-footer: rgb(var(--chrome-rgb, 62, 50, 73));
-  /* Hero quote band (homepage only): a clear step lighter than the chrome, so
-     the masthead reads as two surfaces instead of one tall slab of colour —
-     at the old 92% the band and the header were near-identical in value and
-     the two ran together. 85% is the floor: below it the attribution line
-     drops under AA on the home chrome — see --hero-source-muted above. */
-  --band-hero: color-mix(in srgb, rgb(var(--chrome-rgb, 33, 78, 91)) 85%, white);
+  /* Hero quote band (homepage only): a clear step lighter than the chrome
+     while retaining enough chroma to read as the same petrol family. The
+     previous 85% sRGB mix produced #416169, which felt washed out beside the
+     richer #20454F home chrome. */
+  --band-hero: #37616C;
 }
 
 /* ==========================================================================
