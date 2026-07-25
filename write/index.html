@@ -517,6 +517,14 @@ layout: null
     </div>
 
     <div class="shelf-row">
+      <h2 class="shelf-label">Clear</h2>
+      <div class="shelf-controls">
+        <button class="shelf-pill" id="clearBtn" type="button">Clear</button>
+      </div>
+      <div class="shelf-note">empties the page in one click&mdash;fifteen seconds to undo</div>
+    </div>
+
+    <div class="shelf-row">
       <h2 class="shelf-label">Count</h2>
       <div class="shelf-count">
         <div><b id="shWords">0</b><span>words</span></div>
@@ -525,6 +533,15 @@ layout: null
         <div><b id="shPara">0</b><span>paragraphs</span></div>
         <div><b id="shRead">&mdash;</b><span>reading time</span></div>
       </div>
+    </div>
+
+    <div class="shelf-row">
+      <h2 class="shelf-label">Typewriter</h2>
+      <div class="shelf-controls" role="group" aria-label="Typewriter scrolling">
+        <button class="shelf-pill" data-typewriter="off" aria-pressed="true" type="button">Off</button>
+        <button class="shelf-pill" data-typewriter="on" aria-pressed="false" type="button">On</button>
+      </div>
+      <div class="shelf-note">keeps the line you&rsquo;re writing centered and clicks softly as you type, at the volume set above</div>
     </div>
 
     <div class="shelf-row">
@@ -563,7 +580,13 @@ layout: null
       <p>Yes. The fullscreen button clears away everything but the paper, with the word count for company; moving the mouse brings the controls back.</p>
 
       <h3>What is on the shelf?</h3>
-      <p>Six small things, borrowed from the other instruments and kept behind the lines button in the corner: a 25-and-5 writing timer whose only trace is a thin line along the top of the screen, rain and brown noise to write inside, the typographic marks, a tidy button that curls quotes and sets dashes right, a fuller count, and the light&mdash;light, dark, or following the sky over your city. Close the panel and the page is as bare as it ever was.</p>
+      <p>Eight small things, borrowed from the other instruments and kept behind the lines button in the corner: a 25-and-5 writing timer whose only trace is a thin line along the top of the screen, rain and brown noise to write inside, the typographic marks, a tidy button that curls quotes and sets dashes right, a clear button that empties the page in one click, a fuller count, typewriter scrolling that keeps your line centered, and the light&mdash;light, dark, or following the sky over your city. Close the panel and the page is as bare as it ever was.</p>
+
+      <h3>Can I undo a clear?</h3>
+      <p>Yes&mdash;for fifteen seconds the button reads Undo and brings the text back. After that it&rsquo;s gone, so download first if you want to keep it.</p>
+
+      <h3>What does typewriter scrolling do?</h3>
+      <p>Turned on from the shelf, it keeps the line you&rsquo;re writing near the middle of the screen, scrolling the page to follow your cursor through longer drafts, and adds a soft mechanical click for every keystroke. It is off by default. Like the rain and the noise, the click is synthesized live in your browser&mdash;nothing recorded, nothing streamed.</p>
 
       <h3>What if I am drafting in HTML?</h3>
       <p>Tidy leaves the tags alone. Attribute quotes stay straight, so <code>class="lede"</code> survives untouched, and a quote that opens a paragraph is read against the prose before it rather than the <code>&gt;</code> of its tag&mdash;it curls as &ldquo;, not &rdquo;.</p>
@@ -1014,6 +1037,26 @@ layout: null
     tidyT = setTimeout(function(){ tidyUndo = null; tidyBtn.textContent = "Tidy"; }, 15000);
   });
 
+  /* ================= 4b · clear — empties the page, same undo window as tidy ================= */
+  var clearBtn = $("#clearBtn"), clearUndo = null, clearT = null;
+  clearBtn.addEventListener("click", function(){
+    if(clearUndo !== null){
+      ta.value = clearUndo;
+      clearUndo = null;
+      clearTimeout(clearT);
+      clearBtn.textContent = "Clear";
+      ta.dispatchEvent(new Event("input", { bubbles: true }));
+      return;
+    }
+    if(!ta.value) return;
+    clearUndo = ta.value;
+    ta.value = "";
+    ta.focus();
+    ta.dispatchEvent(new Event("input", { bubbles: true }));
+    clearBtn.textContent = "Undo";
+    clearT = setTimeout(function(){ clearUndo = null; clearBtn.textContent = "Clear"; }, 15000);
+  });
+
   /* ================= 5 · count — from /words/ ================= */
   function fmtMinutes(words, wpm){
     if(words === 0) return "—";
@@ -1099,9 +1142,96 @@ layout: null
     if(!document.hidden && skyT) skyPaint();
   });
 
+  /* ================= 7 · typewriter — keeps the caret's line centered ================= */
+  /* A hidden mirror copies the textarea's own font, padding and wrapping
+     width, so the caret's line can be measured in pixels the same way the
+     browser lays the real text out — the same technique behind third-party
+     "caret position" helpers, done here without one. */
+  var typewriterOn = false, twMirror = null;
+  function twBuildMirror(){
+    twMirror = document.createElement("div");
+    var cs = window.getComputedStyle(ta);
+    ["fontFamily","fontSize","fontWeight","fontStyle","letterSpacing","lineHeight",
+     "textTransform","wordSpacing","paddingTop","paddingRight","paddingBottom","paddingLeft",
+     "borderTopWidth","borderRightWidth","borderBottomWidth","borderLeftWidth","boxSizing"
+    ].forEach(function(p){ twMirror.style[p] = cs[p]; });
+    twMirror.style.position = "absolute";
+    twMirror.style.visibility = "hidden";
+    twMirror.style.whiteSpace = "pre-wrap";
+    twMirror.style.wordWrap = "break-word";
+    twMirror.style.top = "0";
+    twMirror.style.left = "-9999px";
+    document.body.appendChild(twMirror);
+  }
+  function twCaretTop(){
+    if(!twMirror) twBuildMirror();
+    twMirror.style.width = ta.clientWidth + "px";
+    var idx = ta.selectionStart;
+    twMirror.textContent = "";
+    twMirror.appendChild(document.createTextNode(ta.value.slice(0, idx)));
+    var caret = document.createElement("span");
+    caret.textContent = "​";
+    twMirror.appendChild(caret);
+    twMirror.appendChild(document.createTextNode(ta.value.slice(idx)));
+    return caret.offsetTop;
+  }
+  function centerCaret(){
+    if(!typewriterOn || document.activeElement !== ta) return;
+    var rect = ta.getBoundingClientRect();
+    var y = rect.top + window.pageYOffset + twCaretTop() - window.innerHeight * 0.45;
+    var max = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+    y = Math.max(0, Math.min(y, max));
+    try{ window.scrollTo({ top: y, left: 0, behavior: "instant" }); }
+    catch(e){ window.scrollTo(0, y); }
+  }
+  /* a short filtered noise burst standing in for a mechanical clack — built
+     from the same AudioContext as Sound above (2), synthesized fresh each
+     keystroke rather than a recording */
+  function playTypewriterClick(){
+    try{
+      ensureCtx();
+      unlockSilent();
+      if(sndCtx.state === "suspended") sndCtx.resume();
+      var t = sndCtx.currentTime, dur = 0.045;
+      var n = Math.max(1, Math.floor(sndCtx.sampleRate * dur));
+      var buf = sndCtx.createBuffer(1, n, sndCtx.sampleRate);
+      var data = buf.getChannelData(0);
+      for(var i = 0; i < n; i++){ data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / n, 2); }
+      var src = sndCtx.createBufferSource();
+      src.buffer = buf;
+      var bp = sndCtx.createBiquadFilter();
+      bp.type = "bandpass";
+      bp.frequency.value = 2000 + Math.random() * 500;
+      bp.Q.value = 1.1;
+      var g = sndCtx.createGain();
+      var vol = (+$("#shVol").value / 100) * 0.5;
+      g.gain.setValueAtTime(vol, t);
+      g.gain.exponentialRampToValueAtTime(0.001, t + dur);
+      src.connect(bp); bp.connect(g); g.connect(sndCtx.destination);
+      src.start(t); src.stop(t + dur);
+    }catch(e){}
+  }
+  ta.addEventListener("input", function(){ if(typewriterOn){ centerCaret(); playTypewriterClick(); } });
+  ["keyup","click"].forEach(function(ev){
+    ta.addEventListener(ev, function(){ if(typewriterOn) centerCaret(); });
+  });
+  var twBtns = Array.prototype.slice.call(document.querySelectorAll("#shelf .shelf-pill[data-typewriter]"));
+  function setTypewriter(on){
+    typewriterOn = on;
+    twBtns.forEach(function(b){ b.setAttribute("aria-pressed", String(b.getAttribute("data-typewriter") === (on ? "on" : "off"))); });
+    try{ localStorage.setItem("olae-page-typewriter", on ? "on" : "off"); }catch(e){}
+    if(on) centerCaret();
+  }
+  twBtns.forEach(function(b){
+    b.addEventListener("click", function(){ setTypewriter(b.getAttribute("data-typewriter") === "on"); });
+  });
+
   /* ---- init ---- */
   if(document.documentElement.getAttribute("data-theme") === "sky") startSky();
   syncLightRow();
+  var twSaved = false;
+  try{ twSaved = localStorage.getItem("olae-page-typewriter") === "on"; }catch(e){}
+  setTypewriter(twSaved);
 })();
 </script>
 <script>if("serviceWorker" in navigator){navigator.serviceWorker.register("/sw.js").catch(function(){});}</script>
