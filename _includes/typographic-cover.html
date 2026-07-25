@@ -1,0 +1,10 @@
+{% assign type_cover_item = include.item %}
+{% assign type_cover_title = type_cover_item.title | replace: "'", "’" %}
+<span class="type-cover" aria-hidden="true">
+  <span class="type-cover-inner">
+    <span class="type-cover-mark">⁂</span>
+    <span class="type-cover-title">{{ type_cover_title }}</span>
+    {% if type_cover_item.subtitle %}<span class="type-cover-subtitle">{{ type_cover_item.subtitle }}</span>{% endif %}
+    <span class="type-cover-label">{{ type_cover_item.cover_label | default: "Short fiction" }}</span>
+  </span>
+</span>
