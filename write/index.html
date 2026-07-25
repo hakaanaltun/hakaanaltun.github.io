@@ -216,6 +216,29 @@ layout: null
      the shelf covers the writing, and a blurred textarea draws no highlight */
   .shelf-target{ margin:0 0 .75rem; color:var(--ink); }
 
+  /* On a touch screen the same buttons come to the foot of the screen instead
+     of the bubble's place: the system's own Cut and Copy already stand over a
+     selection, and the shelf, as a bottom sheet, would cover the writing. */
+  .stylebar{
+    position:fixed; left:0; right:0; bottom:0; z-index:4;
+    background:var(--ink); color:var(--paper);
+    box-shadow:0 -6px 20px rgba(0,0,0,.18);
+    overflow-x:auto; overscroll-behavior:contain; -webkit-overflow-scrolling:touch;
+    transform:translateY(110%); visibility:hidden;
+    transition:transform .22s ease, visibility 0s linear .22s, background .4s ease;
+  }
+  .stylebar.on{ transform:translateY(0); visibility:visible; transition:transform .22s ease, background .4s ease; }
+  /* centred while the buttons fit, scrolling from the left when they do not */
+  .stylebar-inner{
+    display:flex; align-items:center; gap:1px; width:max-content; margin:0 auto;
+    padding:7px 8px calc(7px + env(safe-area-inset-bottom));
+  }
+  /* 36px is the size the shelf's own marks are given, and nine of them with
+     their rules come to under a phone's width; anything narrower scrolls */
+  .stylebar .bub-btn{ min-width:36px; height:38px; padding:0 4px; flex:none; opacity:.88; }
+  .stylebar .bub-btn svg{ width:17px; height:17px; }
+  .stylebar .bub-sep{ height:20px; margin:0 5px; }
+
   /* the pomodoro's only trace on the page: a hairline across the very top */
   .timer-line{
     position:fixed; top:0; left:0; height:2px; width:0;
@@ -547,7 +570,7 @@ layout: null
         <button class="shelf-pill" data-style="ul" type="button">Bullets</button>
         <button class="shelf-pill" data-style="ol" type="button">Numbers</button>
       </div>
-      <div class="shelf-note">Markdown marks for the selected text, or the line the cursor sits on&mdash;press again to take them off. On a mouse the same buttons come to the text as you select it.</div>
+      <div class="shelf-note">Markdown marks for the selected text, or the line the cursor sits on&mdash;press again to take them off. The same buttons come to the writing as you select it: onto the text itself on a mouse, to the foot of the screen on a touch screen.</div>
     </div>
 
     <div class="shelf-row">
@@ -651,7 +674,7 @@ layout: null
       <p>Nine small things, borrowed from the other instruments and kept behind the lines button in the corner: a 25-and-5 writing timer whose only trace is a thin line along the top of the screen, rain and brown noise to write inside, typewriter scrolling that keeps your line centered, a row of style buttons for headings, bold, links and lists, the typographic marks, a tidy button that curls quotes and sets dashes right, a clear button that empties the page in one click, a fuller count, and the light&mdash;light, dark, or following the sky over your city. Close the panel and the page is as bare as it ever was.</p>
 
       <h3>Can I make a heading, or bold a word?</h3>
-      <p>Select the words and a small bubble comes to them, with headings, bold, italic, a link, a quote and two kinds of list&mdash;or press Ctrl-B and Ctrl-I (Cmd on a Mac) as you write. With nothing selected the buttons work on the line the cursor is on, and pressing one again takes its marks back off. On a phone or a tablet, where the system already puts its own menu over a selection, the same buttons wait on the shelf under Style: the shelf opens on that row when words are selected, names what it is about to mark, and brings the line up above the panel so you can watch the marks land.</p>
+      <p>Select the words and a small bubble comes to them, with headings, bold, italic, a link, a quote and two kinds of list&mdash;or press Ctrl-B and Ctrl-I (Cmd on a Mac) as you write. With nothing selected the buttons work on the line the cursor is on, and pressing one again takes its marks back off. On a phone or a tablet the buttons come to the foot of the screen instead of the text, since the system puts its own Cut and Copy over a selection and two bars in one place help nobody; if a keyboard is up, they sit above it. They are on the shelf as well, under Style, which is where to reach them for a line the cursor is merely sitting on&mdash;that row names what it is about to mark, since the shelf covers the writing on a small screen.</p>
 
       <h3>What do the marks in my text mean?</h3>
       <p>They are Markdown: <code># </code> before a line makes it a heading, <code>**a pair of asterisks**</code> marks bold, <code>_underscores_</code> italic, <code>&gt; </code> a quotation, <code>- </code> and <code>1. </code> the two lists. The page stays plain text, so nothing is hidden from you&mdash;and the file you download opens as formatted writing in anything that reads Markdown, and as itself everywhere else.</p>
@@ -705,6 +728,12 @@ layout: null
         </g>
       </svg>
     </button>
+  </div>
+
+  <!-- the same buttons as the bubble above, cloned into it on load rather than
+       written out a second time -->
+  <div class="stylebar" id="styleBar">
+    <div class="stylebar-inner" id="styleBarInner" role="group" aria-label="Style the selection"></div>
   </div>
 
   <div class="corner words" id="wordCount" aria-live="polite">0 words</div>
@@ -866,6 +895,7 @@ layout: null
       }
     }
     if(!on && refocus) shelfBtn.focus();
+    placeBar();   /* the shelf and the bar (8) never stand at once */
   }
   shelfBtn.addEventListener("click", function(){ setOpen(!open, open); });
   /* on wide screens the shelf starts under the header, so the chrome
@@ -1405,6 +1435,7 @@ layout: null
     holdSelection();
     placeBubble();
     showTarget();
+    placeBar();
   }
 
   /* the lines a selection touches, whole */
@@ -1441,6 +1472,22 @@ layout: null
     }
   }
 
+  /* The words a selection really points at. ** bold ** is read as asterisks
+     and not as bold, so the marks close in past whatever whitespace was swept
+     up; and a line's own mark — the # of a heading, the - of a list — is not
+     one of the words and must not be shut inside them. */
+  function styleWords(s, e){
+    var v = ta.value;
+    while(e > s && /\s/.test(v.charAt(e - 1))) e--;
+    while(s < e && /\s/.test(v.charAt(s))) s++;
+    var lineStart = s === 0 ? 0 : v.lastIndexOf("\n", s - 1) + 1;
+    if(s === lineStart){
+      var m = BLOCK_MARK.exec(v.slice(lineStart));
+      if(m && e > lineStart + m[0].length) s = lineStart + m[0].length;
+    }
+    return [s, e];
+  }
+
   /* bold and italic are marks around words */
   function styleWrap(op){
     var m = STYLE_WRAP[op], v = ta.value, s = ta.selectionStart, e = ta.selectionEnd;
@@ -1448,10 +1495,7 @@ layout: null
       styleReplace(s, s, m + m, s + m.length, s + m.length);
       return;
     }
-    /* ** bold ** is read as asterisks and not as bold, so the marks close in
-       past whatever whitespace the selection swept up */
-    while(e > s && /\s/.test(v.charAt(e - 1))) e--;
-    while(s < e && /\s/.test(v.charAt(s))) s++;
+    var w = styleWords(s, e); s = w[0]; e = w[1];
     if(s === e) return;
     var sel = v.slice(s, e), L = m.length;
     if(sel.length >= 2 * L && sel.slice(0, L) === m && sel.slice(-L) === m){
@@ -1467,7 +1511,9 @@ layout: null
 
   var LINK_HINT = "https://";
   function styleLink(){
-    var v = ta.value, s = ta.selectionStart, e = ta.selectionEnd, sel = v.slice(s, e);
+    var v = ta.value, s = ta.selectionStart, e = ta.selectionEnd;
+    if(s !== e){ var w = styleWords(s, e); s = w[0]; e = w[1]; }
+    var sel = v.slice(s, e);
     var made = /^\[([^\]]*)\]\([^)\s]*\)$/.exec(sel);
     if(made){                                    /* pressed on a finished link: take it apart again */
       styleReplace(s, e, made[1], s, s + made[1].length);
@@ -1557,10 +1603,41 @@ layout: null
     if(t.length > 34) t = t.slice(0, 33).replace(/\s+\S*$/, "") + "…";
     targetEl.textContent = "“" + t + "”";
   }
+  /* ---- the bar, where a touch screen puts the same buttons ---- */
+  var bar = $("#styleBar"), barInner = $("#styleBarInner");
+  barInner.innerHTML = bub.innerHTML;
+  function barWanted(){
+    if(bubbleWanted() || open) return false;   /* a pointer has the bubble; an open shelf has the row */
+    var r = takeRange();
+    return r[0] !== r[1];
+  }
+  function placeBar(){
+    if(!barWanted()){ bar.classList.remove("on"); return; }
+    /* A keyboard shortens what can be seen without shortening the page, and a
+       bar left on the page's own bottom edge would sit behind it. Where the
+       visual viewport reports something covering the foot of the screen, the
+       bar is set against the bottom of what is actually visible; otherwise the
+       stylesheet's own bottom edge stands. */
+    var vv = window.visualViewport;
+    var covered = vv ? (window.innerHeight - vv.height - vv.offsetTop) : 0;
+    if(covered > 80){
+      bar.style.top = (vv.offsetTop + vv.height - bar.offsetHeight) + "px";
+      bar.style.bottom = "auto";
+    } else {
+      bar.style.top = "";
+      bar.style.bottom = "";
+    }
+    bar.classList.add("on");
+  }
   function watchSelection(){
     holdSelection();
     cancelAnimationFrame(bubRaf);
-    bubRaf = requestAnimationFrame(function(){ placeBubble(); showTarget(); });
+    bubRaf = requestAnimationFrame(function(){ placeBubble(); showTarget(); placeBar(); });
+  }
+  if(window.visualViewport){
+    ["resize","scroll"].forEach(function(ev){
+      window.visualViewport.addEventListener(ev, function(){ if(bar.classList.contains("on")) placeBar(); });
+    });
   }
   ["keyup","mouseup","select","input","focus"].forEach(function(ev){
     ta.addEventListener(ev, watchSelection);
@@ -1575,12 +1652,16 @@ layout: null
        next question put to it */
     if(twMirror && twMirror.parentNode){ twMirror.parentNode.removeChild(twMirror); twMirror = null; }
     watchSelection();
+    placeBar();
   });
   /* The selection has to survive the press that acts on it — and on a pointer
      so does the highlight that shows it, which a textarea only draws while it
      holds the focus. So neither the bubble, nor the Style row, nor the button
      that opens the shelf takes the focus off the page. */
   bub.addEventListener("mousedown", function(e){ e.preventDefault(); });
+  bar.addEventListener("mousedown", function(e){
+    if(e.target.closest && e.target.closest("button")) e.preventDefault();
+  });
   [styleRow, shelfBtn].forEach(function(el){
     el.addEventListener("mousedown", function(e){
       if(e.target.closest && e.target.closest("button")) e.preventDefault();
@@ -1592,6 +1673,7 @@ layout: null
     if(b) runStyle(b.getAttribute("data-style"));
   }
   bub.addEventListener("click", styleClick);
+  bar.addEventListener("click", styleClick);
   shelf.addEventListener("click", styleClick);
 
   /* Ctrl-B and Ctrl-I — read from the physical key as well as the letter, so a
