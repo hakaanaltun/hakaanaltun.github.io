@@ -3,7 +3,6 @@
 {% if include.post.story_card and include.post.excerpt %}{% assign excerpt_text = include.post.excerpt %}{% else %}{% assign excerpt_text = include.post.content | strip_html | normalize_whitespace | truncatewords: 32 %}{% endif %}
 {% if include.post.slug == "collateral" %}{% assign excerpt_text = excerpt_text | replace: "halıcı", "<em>halıcı</em>" %}{% endif %}
 {% if include.post.slug == "on-silence" %}{% assign excerpt_text = excerpt_text | replace: 'This piece also appears in The Fragments as Chapter 8, Moris.', '<em>This piece also appears in The Fragments as Chapter 8, Moris.</em>' %}{% endif %}
-{% assign type_cover_excerpt = excerpt_text | strip_html | truncatewords: 24 %}
 <li class="piece-card{% if include.featured %} is-featured{% endif %}{% if include.post.cover_style == "typographic" %} is-typographic{% endif %}">
   {% comment %} Story cards point at the story itself (post.story_url), never at
       the post's own redirect-stub URL. {% endcomment %}
@@ -11,9 +10,9 @@
   <a href="{{ _card_url }}" class="piece-card-link">
     {% if include.post.cover_style == "typographic" %}
     <span class="piece-thumb-wrap piece-thumb-wrap--typographic">
-      {% include typographic-cover.html item=include.post meta=true date=card_date excerpt=type_cover_excerpt %}
+      {% include typographic-cover.html item=include.post meta=true date=card_date %}
     </span>
-    <span class="visually-hidden">{{ display_title }}{% if include.post.subtitle %}. {{ include.post.subtitle }}{% endif %}. {{ card_date }}{% if type_cover_excerpt != blank %}. {{ type_cover_excerpt }}{% endif %}</span>
+    <span class="visually-hidden">{{ display_title }}{% if include.post.subtitle %}. {{ include.post.subtitle }}{% endif %}. {{ card_date }}</span>
     {% else %}
       {% assign img = include.post.thumb | default: include.post.image %}
       {% if img %}
