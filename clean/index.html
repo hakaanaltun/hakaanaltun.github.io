@@ -272,7 +272,7 @@ layout: null
     <div class="rules">
       <h2 class="rules-name">The rules</h2>
       <div class="rule-grid">
-        <label class="rule"><input type="checkbox" id="ruleQuotes" checked> <span>Curl quotes <span class="hint">&mdash;" " and ' ' to &ldquo; &rdquo; and &lsquo; &rsquo;, apostrophes to &rsquo;</span></span></label>
+        <label class="rule"><input type="checkbox" id="ruleQuotes" checked> <span>Curl quotes <span class="hint">&mdash;" " and ' ' to &ldquo; &rdquo; and &lsquo; &rsquo;, apostrophes to &rsquo;, wrong-facing quotes turned</span></span></label>
         <label class="rule"><input type="checkbox" id="ruleDashes" checked> <span>Set dashes <span class="hint">&mdash;-- to &ndash;, --- to &mdash;, 1914-1918 to 1914&ndash;1918</span></span></label>
         <label class="rule"><input type="checkbox" id="ruleEllipsis" checked> <span>Set ellipses <span class="hint">&mdash;three dots to &hellip;</span></span></label>
         <label class="rule"><input type="checkbox" id="ruleSpaces" checked> <span>Tidy spaces <span class="hint">&mdash;doubles to one, none before punctuation, line ends trimmed</span></span></label>
@@ -312,6 +312,9 @@ layout: null
 
       <h3>What does it do with <code>--</code> and <code>...</code>?</h3>
       <p>A double hyphen becomes an en dash (&ndash;), a triple hyphen an em dash (&mdash;), and a hyphen between numbers&mdash;1914-1918&mdash;becomes the en dash a range wants. Three dots become a single ellipsis character (&hellip;).</p>
+
+      <h3>My quotes are curly already, but some face the wrong way.</h3>
+      <p>Paste it and press Clean. A curly quote whose direction contradicts the text around it&mdash;a closing mark where a quotation opens, an opening mark where one ends&mdash;is turned, and the report counts them separately from the straight ones curled. Apostrophes are safe, elisions like &rsquo;90s and &rsquo;tis keep their direction, and a text set with the low quotes of German or Polish (&bdquo;so&ldquo;) is left alone, since there the marks this rule would turn are the correct ones.</p>
 
       <h3>Can I paste HTML?</h3>
       <p>Yes. Tags are left as they are&mdash;attribute quotes stay straight, so <code>class="lede"</code> comes back unharmed&mdash;and the rules run on the words between them. A quote that opens a paragraph is read against the prose before it rather than the <code>&gt;</code> of its tag, so it curls as &ldquo; and not &rdquo;.</p>
@@ -411,7 +414,46 @@ layout: null
       if(/\d/.test(str.charAt(off - 1)) && !/\p{L}/u.test(str.charAt(off + 1) || "")) return m;
       n.quotes++; return "”";
     });
+    s = turnQuotes(s, n, OPEN_BEFORE);
     return s.slice(pad.length);
+  }
+
+  /* Curly quotes that face the wrong way — what text picks up when it has
+     been through a smart-quote pass that could not see its own context, so
+     that ”like this” comes back with both marks closing. A quote is turned
+     only where its direction contradicts the text around it; apostrophes
+     and elisions (’90s, ’tis) stay as they are, and a text using the low
+     quotes of German or Polish setting („so“, ‚so‘) is left alone, its
+     closing marks being the ones this rule would otherwise turn. */
+  var ELISION = /^(?:\d0s|tis|twas|em|round|til|cause)\b/i;
+  var lowQuotes = false;
+  function turnQuotes(s, n, OPEN_BEFORE){
+    if(lowQuotes) return s;
+    function opensHere(str, off){
+      return OPEN_BEFORE.test(str.slice(Math.max(0, off - 1), off)) &&
+             /\S/.test(str.charAt(off + 1) || "");
+    }
+    s = s.replace(/[“”]/g, function(m, off, str){
+      var open = opensHere(str, off);
+      if(open && m === "”"){ n.turned++; return "“"; }
+      if(!open && m === "“"){ n.turned++; return "”"; }
+      return m;
+    });
+    s = s.replace(/[‘’]/g, function(m, off, str){
+      var after = str.charAt(off + 1) || "";
+      if(/[\p{L}\p{N}]/u.test(str.charAt(off - 1)) && /\p{L}/u.test(after)){
+        if(m === "‘"){ n.turned++; return "’"; }   /* an apostrophe: it‘s */
+        return m;
+      }
+      var open = opensHere(str, off);
+      if(open && m === "’"){
+        if(!/\p{L}/u.test(after) || ELISION.test(str.slice(off + 1))) return m;
+        n.turned++; return "‘";
+      }
+      if(!open && m === "‘"){ n.turned++; return "’"; }
+      return m;
+    });
+    return s;
   }
   function setDashes(s, n){
     s = s.replace(/---/g, function(){ n.dashes++; return "—"; });
@@ -446,8 +488,9 @@ layout: null
   cleanBtn.addEventListener("click", function(){
     var s = ta.value;
     if(!s){ report.textContent = ""; return; }
-    var n = { quotes:0, dashes:0, ellipses:0, spaces:0, invisibles:0, blanks:0 };
+    var n = { quotes:0, turned:0, dashes:0, ellipses:0, spaces:0, invisibles:0, blanks:0 };
     snapshot();
+    lowQuotes = /[„‚]/.test(s);
     if($("#ruleInvisible").checked) s = removeInvisible(s, n);
     if($("#ruleQuotes").checked)    s = outsideTags(s, function(t, prev){ return curlQuotes(t, n, prev); });
     if($("#ruleDashes").checked)    s = outsideTags(s, function(t){ return setDashes(t, n); });
@@ -461,6 +504,7 @@ layout: null
     afterTransform();
     var parts = [];
     if(n.quotes)     parts.push(n.quotes === 1 ? "1 quote curled" : n.quotes + " quotes curled");
+    if(n.turned)     parts.push(n.turned === 1 ? "1 quote turned the right way" : n.turned + " quotes turned the right way");
     if(n.dashes)     parts.push(n.dashes === 1 ? "1 dash" : n.dashes + " dashes");
     if(n.ellipses)   parts.push(n.ellipses === 1 ? "1 ellipsis" : n.ellipses + " ellipses");
     if(n.spaces)     parts.push(n.spaces === 1 ? "1 space" : n.spaces + " spaces");
