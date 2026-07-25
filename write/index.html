@@ -212,6 +212,10 @@ layout: null
   .bub-btn.is-q{ font-family:var(--display); font-size:2rem; line-height:0; padding-top:.62em; }
   .bub-sep{ width:1px; height:16px; margin:0 4px; flex:none; background:var(--paper); opacity:.22; }
 
+  /* what the Style row is about to mark, in the row itself: as a bottom sheet
+     the shelf covers the writing, and a blurred textarea draws no highlight */
+  .shelf-target{ margin:0 0 .75rem; color:var(--ink); }
+
   /* the pomodoro's only trace on the page: a hairline across the very top */
   .timer-line{
     position:fixed; top:0; left:0; height:2px; width:0;
@@ -529,8 +533,9 @@ layout: null
       <div class="shelf-note">keeps the line you&rsquo;re writing centered and clicks softly as you type, at the volume above</div>
     </div>
 
-    <div class="shelf-row">
+    <div class="shelf-row" id="styleRow">
       <h2 class="shelf-label">Style</h2>
+      <div class="shelf-note shelf-target" id="styleTarget" aria-live="polite">the line the cursor is on</div>
       <div class="shelf-controls" role="group" aria-label="Style">
         <button class="shelf-pill" data-style="h1" type="button">H1</button>
         <button class="shelf-pill" data-style="h2" type="button">H2</button>
@@ -646,7 +651,7 @@ layout: null
       <p>Nine small things, borrowed from the other instruments and kept behind the lines button in the corner: a 25-and-5 writing timer whose only trace is a thin line along the top of the screen, rain and brown noise to write inside, typewriter scrolling that keeps your line centered, a row of style buttons for headings, bold, links and lists, the typographic marks, a tidy button that curls quotes and sets dashes right, a clear button that empties the page in one click, a fuller count, and the light&mdash;light, dark, or following the sky over your city. Close the panel and the page is as bare as it ever was.</p>
 
       <h3>Can I make a heading, or bold a word?</h3>
-      <p>Select the words and a small bubble comes to them, with headings, bold, italic, a link, a quote and two kinds of list&mdash;or press Ctrl-B and Ctrl-I (Cmd on a Mac) as you write. With nothing selected the buttons work on the line the cursor is on, and pressing one again takes its marks back off. On a phone or a tablet, where the system already puts its own menu over a selection, the same buttons wait on the shelf under Style.</p>
+      <p>Select the words and a small bubble comes to them, with headings, bold, italic, a link, a quote and two kinds of list&mdash;or press Ctrl-B and Ctrl-I (Cmd on a Mac) as you write. With nothing selected the buttons work on the line the cursor is on, and pressing one again takes its marks back off. On a phone or a tablet, where the system already puts its own menu over a selection, the same buttons wait on the shelf under Style: the shelf opens on that row when words are selected, names what it is about to mark, and brings the line up above the panel so you can watch the marks land.</p>
 
       <h3>What do the marks in my text mean?</h3>
       <p>They are Markdown: <code># </code> before a line makes it a heading, <code>**a pair of asterisks**</code> marks bold, <code>_underscores_</code> italic, <code>&gt; </code> a quotation, <code>- </code> and <code>1. </code> the two lists. The page stays plain text, so nothing is hidden from you&mdash;and the file you download opens as formatted writing in anything that reads Markdown, and as itself everywhere else.</p>
@@ -831,6 +836,7 @@ layout: null
   var $ = function(s){ return document.querySelector(s); };
   var ta = $("#page");
   var shelf = $("#shelf"), shelfBtn = $("#shelfBtn");
+  var styleRow = $("#styleRow"), targetEl = $("#styleTarget");
 
   /* ================= the shelf itself ================= */
   var open = false;
@@ -838,7 +844,27 @@ layout: null
     open = on;
     shelf.classList.toggle("open", on);
     shelfBtn.setAttribute("aria-expanded", String(on));
-    if(on) recountShelf();
+    if(on){
+      recountShelf();
+      showTarget();
+      /* Opened with words selected, the Style row (8) is what was wanted. As a
+         bottom sheet the shelf would otherwise open on the timer, with the row
+         below the fold and the writing behind the panel. */
+      var r = takeRange();
+      if(r[0] !== r[1]){
+        shelf.scrollTop = Math.max(0, styleRow.offsetTop - 12);
+        /* and as a bottom sheet it covers the writing, so the line being marked
+           is brought up into the strip left above the panel — the marks can
+           then be watched as they land */
+        if(window.innerWidth <= 600){
+          var rect = ta.getBoundingClientRect();
+          var y = rect.top + window.pageYOffset + twPointAt(r[0]).top - chromeEl.offsetHeight - 20;
+          y = Math.max(0, y);
+          try{ window.scrollTo({ top: y, left: 0, behavior: "instant" }); }
+          catch(err){ window.scrollTo(0, y); }
+        }
+      }
+    }
     if(!on && refocus) shelfBtn.focus();
   }
   shelfBtn.addEventListener("click", function(){ setOpen(!open, open); });
@@ -1008,7 +1034,9 @@ layout: null
     var b = e.target.closest ? e.target.closest(".shelf-mark") : null;
     if(!b) return;
     var ch = b.getAttribute("data-ch");
-    var s = ta.selectionStart, en = ta.selectionEnd;
+    /* the range as the page last had it, not as the shelf's own button left it
+       — the reason is with takeRange (8) */
+    var r = takeRange(), s = r[0], en = r[1];
     ta.value = ta.value.slice(0, s) + ch + ta.value.slice(en);
     ta.focus();
     ta.setSelectionRange(s + ch.length, s + ch.length);
@@ -1374,7 +1402,9 @@ layout: null
       ta.dispatchEvent(new Event("input", { bubbles: true }));
     }
     ta.setSelectionRange(a, b);
+    holdSelection();
     placeBubble();
+    showTarget();
   }
 
   /* the lines a selection touches, whole */
@@ -1450,9 +1480,28 @@ layout: null
   }
 
   function runStyle(op){
+    /* the range first, from wherever it has been kept, so the marks land on the
+       words the writer chose and not on wherever the cursor was left */
+    var r = takeRange();
+    ta.focus();
+    ta.setSelectionRange(r[0], r[1]);
     if(op === "link"){ styleLink(); return; }
     if(STYLE_WRAP[op]){ styleWrap(op); return; }
     if(op === "ol" || STYLE_BLOCK[op]) styleBlock(op);
+  }
+
+  /* ---- holding on to the selection ----
+     The shelf's own button takes the focus the moment it is pressed, and a
+     phone browser lets a textarea's selection go as it blurs — which left the
+     Style row with nothing to mark. So the range is remembered while the page
+     still has it, and every button here works from that. */
+  var heldSel = null;
+  function holdSelection(){
+    if(document.activeElement === ta) heldSel = [ta.selectionStart, ta.selectionEnd];
+  }
+  function takeRange(){
+    if(document.activeElement === ta || !heldSel) return [ta.selectionStart, ta.selectionEnd];
+    return heldSel;
   }
 
   /* ---- the bubble ---- */
@@ -1499,9 +1548,19 @@ layout: null
     bub.style.setProperty("--arrow", Math.min(Math.max(docX - left, 12), w - 12) + "px");
     bub.classList.add("on");
   }
+  /* Under a bottom sheet the selection's own highlight is out of sight, so the
+     row says in words what it is about to mark. */
+  function showTarget(){
+    if(!open) return;
+    var r = takeRange(), t = ta.value.slice(r[0], r[1]).replace(/\s+/g, " ").trim();
+    if(!t){ targetEl.textContent = "the line the cursor is on"; return; }
+    if(t.length > 34) t = t.slice(0, 33).replace(/\s+\S*$/, "") + "…";
+    targetEl.textContent = "“" + t + "”";
+  }
   function watchSelection(){
+    holdSelection();
     cancelAnimationFrame(bubRaf);
-    bubRaf = requestAnimationFrame(placeBubble);
+    bubRaf = requestAnimationFrame(function(){ placeBubble(); showTarget(); });
   }
   ["keyup","mouseup","select","input","focus"].forEach(function(ev){
     ta.addEventListener(ev, watchSelection);
@@ -1517,8 +1576,16 @@ layout: null
     if(twMirror && twMirror.parentNode){ twMirror.parentNode.removeChild(twMirror); twMirror = null; }
     watchSelection();
   });
-  /* the selection has to survive the click that acts on it */
+  /* The selection has to survive the press that acts on it — and on a pointer
+     so does the highlight that shows it, which a textarea only draws while it
+     holds the focus. So neither the bubble, nor the Style row, nor the button
+     that opens the shelf takes the focus off the page. */
   bub.addEventListener("mousedown", function(e){ e.preventDefault(); });
+  [styleRow, shelfBtn].forEach(function(el){
+    el.addEventListener("mousedown", function(e){
+      if(e.target.closest && e.target.closest("button")) e.preventDefault();
+    });
+  });
 
   function styleClick(e){
     var b = e.target.closest ? e.target.closest("[data-style]") : null;
