@@ -514,6 +514,59 @@ section.line-drawn::before,
 .piece-thumb { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s ease; }
 .piece-card-link:hover .piece-thumb { transform: scale(1.03); }
 
+/* Theme-native typographic covers. These use the page tokens instead of a
+   fixed bitmap palette, so light, dark and midnight each retain their own
+   paper, ink and accent relationship. */
+.piece-thumb-wrap--typographic { border: 0; }
+.type-cover {
+  position: relative; width: 100%; height: 100%; overflow: hidden;
+  display: flex; align-items: stretch; justify-content: stretch;
+  border: 1px solid var(--rule); border-radius: inherit; color: var(--ink);
+  background:
+    radial-gradient(circle at 50% 38%, color-mix(in srgb, var(--petrol) 10%, transparent) 0, transparent 58%),
+    var(--surface-soft);
+}
+.type-cover::before {
+  content: ""; position: absolute; inset: clamp(10px, 3%, 22px);
+  border: 1px solid color-mix(in srgb, var(--rule-strong) 76%, transparent);
+  border-radius: 9px; pointer-events: none;
+}
+.type-cover-inner {
+  position: relative; z-index: 1; width: 100%; height: 100%; min-height: 0;
+  padding: clamp(24px, 7%, 46px);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center;
+}
+.type-cover-mark {
+  margin-bottom: clamp(8px, 2%, 14px); color: var(--petrol);
+  font-family: 'EB Garamond', Georgia, serif; font-size: 0.95rem; line-height: 1;
+  opacity: 0.72;
+}
+.type-cover-title {
+  max-width: 88%; color: var(--petrol-deep);
+  font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic;
+  font-weight: 500; font-size: clamp(1.35rem, 2.4vw, 2rem); line-height: 1.02;
+  transition: color 0.2s ease;
+}
+.type-cover-title::after {
+  content: ""; display: block; width: 42px; height: 1px;
+  margin: clamp(10px, 2.5%, 16px) auto;
+  background: color-mix(in srgb, var(--rule-strong) 84%, transparent);
+}
+.type-cover-subtitle {
+  max-width: 76%; color: var(--vizon);
+  font-family: 'EB Garamond', Georgia, serif; font-style: italic;
+  font-size: 0.95rem; line-height: 1.2;
+}
+.type-cover-label {
+  position: absolute; left: 0; right: 0; bottom: clamp(14px, 5%, 28px);
+  color: var(--vizon); font-family: 'EB Garamond', Georgia, serif;
+  font-size: 0.68rem; line-height: 1; letter-spacing: 0.16em; text-transform: uppercase;
+}
+.piece-card-link:hover .type-cover-title { color: var(--petrol); }
+#latest .piece-card.is-featured .type-cover-title { font-size: clamp(2rem, 4.4vw, 3.35rem); }
+#latest .piece-card.is-featured .type-cover-subtitle { font-size: 1.08rem; }
+
 .piece-body { margin-top: 14px; display: flex; flex-direction: column; gap: 4px; }
 .piece-title { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: 1.4rem; line-height: 1.15; color: var(--petrol-deep); display: block; width: 100%; text-align: center; transition: color 0.2s ease; }
 .piece-card-link:hover .piece-title { color: var(--petrol); }
@@ -776,6 +829,11 @@ body.moris-lightbox-open { overflow: hidden; }
 
 .essay-cover { width: 100%; border-radius: 8px; margin: 32px 0 40px; overflow: hidden; }
 .essay-cover img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; display: block; border-radius: 8px; overflow: hidden; }
+.essay-cover--typographic { aspect-ratio: 16 / 9; }
+.essay-cover--typographic .type-cover-inner { padding: clamp(36px, 7%, 68px); }
+.essay-cover--typographic .type-cover-title { font-size: clamp(2.35rem, 5.5vw, 4.2rem); }
+.essay-cover--typographic .type-cover-subtitle { font-size: clamp(1rem, 2vw, 1.25rem); }
+.essay-cover--typographic .type-cover-label { font-size: 0.74rem; }
 
 .essay-body { padding-bottom: 48px; }
 .essay-body p { margin-bottom: 24px; color: var(--ink-soft); line-height: 1.85; }
@@ -1163,6 +1221,18 @@ html[data-theme="midnight"] .quote-nav-btn:focus-visible { color: var(--ink); }
 .work-thumb { grid-area: thumb; width: 116px; aspect-ratio: 3 / 2; border-radius: 10px; overflow: hidden; background: var(--surface-soft); display: block; }
 .work-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s ease; }
 .work-row-link:hover .work-thumb img { transform: scale(1.04); }
+.work-thumb--typographic { border: 0; }
+.work-thumb--typographic .type-cover::before { inset: 6px; border-radius: 5px; }
+.work-thumb--typographic .type-cover-inner { padding: 9px; }
+.work-thumb--typographic .type-cover-mark,
+.work-thumb--typographic .type-cover-subtitle,
+.work-thumb--typographic .type-cover-label { display: none; }
+.work-thumb--typographic .type-cover-title {
+  max-width: 88%; font-size: 0.78rem; line-height: 0.98;
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+}
+.work-thumb--typographic .type-cover-title::after { display: none; }
+.work-row-link:hover .work-thumb--typographic .type-cover-title { color: var(--petrol); }
 /* Imageless works (The Notice): a door standing in the frame, and a pencil
    mark on the jamb. Shared by the All index rows and piece cards. */
 .work-thumb--bare,
