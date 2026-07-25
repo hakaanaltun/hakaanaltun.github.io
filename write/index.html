@@ -166,6 +166,52 @@ layout: null
   .corner.saved{ right:20px; opacity:0; transition:opacity .6s ease; }
   .corner.saved.on{ opacity:1; }
 
+  /* the style bubble — a slip of paper above the line, holding the marks a
+     selection can be given. It sits under the chrome and under the shelf, so
+     neither is ever covered by it. On touch, where the system already owns
+     the space over a selection with its own Copy and Look Up, it stays away
+     and the shelf's Style row does the same work. */
+  .bubble{
+    position:absolute; top:0; left:0; z-index:1;
+    display:flex; align-items:center; gap:1px;
+    padding:4px; border-radius:10px;
+    background:var(--ink); color:var(--paper);
+    box-shadow:0 8px 24px rgba(0,0,0,.20);
+    opacity:0; visibility:hidden; transform:translateY(3px);
+    transition:opacity .16s ease, transform .16s ease, visibility 0s linear .16s;
+  }
+  .bubble.on{
+    opacity:1; visibility:visible; transform:translateY(0);
+    transition:opacity .16s ease, transform .16s ease;
+  }
+  /* the little arrow keeps pointing at the selection even when the bubble
+     has been nudged sideways to stay on screen */
+  .bubble::after{
+    content:""; position:absolute; top:100%; left:var(--arrow, 50%);
+    margin-left:-5px; border:5px solid transparent; border-top-color:var(--ink);
+  }
+  .bubble.below::after{
+    top:auto; bottom:100%;
+    border-top-color:transparent; border-bottom-color:var(--ink);
+  }
+  .bub-btn{
+    background:none; border:0; color:inherit; cursor:pointer;
+    min-width:32px; height:30px; padding:0 7px; border-radius:7px;
+    font-family:var(--body); font-size:.98rem; line-height:1;
+    display:grid; place-items:center; opacity:.72;
+    transition:opacity .15s, background .15s;
+  }
+  /* a grey wash reads as a highlight on the ink of either theme */
+  .bub-btn:hover{ opacity:1; background:rgba(128,128,128,.28); }
+  .bub-btn:focus-visible{ opacity:1; outline:2px solid var(--paper); outline-offset:-2px; }
+  .bub-btn svg{ width:15px; height:15px; }
+  .bub-btn.is-b{ font-weight:700; }
+  .bub-btn.is-i{ font-style:italic; }
+  /* the quotation mark carries its ink at the top of its em box, so it is set
+     larger than its neighbours and pushed down to sit level with them */
+  .bub-btn.is-q{ font-family:var(--display); font-size:2rem; line-height:0; padding-top:.62em; }
+  .bub-sep{ width:1px; height:16px; margin:0 4px; flex:none; background:var(--paper); opacity:.22; }
+
   /* the pomodoro's only trace on the page: a hairline across the very top */
   .timer-line{
     position:fixed; top:0; left:0; height:2px; width:0;
@@ -484,6 +530,22 @@ layout: null
     </div>
 
     <div class="shelf-row">
+      <h2 class="shelf-label">Style</h2>
+      <div class="shelf-controls" role="group" aria-label="Style">
+        <button class="shelf-pill" data-style="h1" type="button">H1</button>
+        <button class="shelf-pill" data-style="h2" type="button">H2</button>
+        <button class="shelf-pill" data-style="h3" type="button">H3</button>
+        <button class="shelf-pill" data-style="bold" type="button">Bold</button>
+        <button class="shelf-pill" data-style="italic" type="button">Italic</button>
+        <button class="shelf-pill" data-style="link" type="button">Link</button>
+        <button class="shelf-pill" data-style="quote" type="button">Quote</button>
+        <button class="shelf-pill" data-style="ul" type="button">Bullets</button>
+        <button class="shelf-pill" data-style="ol" type="button">Numbers</button>
+      </div>
+      <div class="shelf-note">Markdown marks for the selected text, or the line the cursor sits on&mdash;press again to take them off. On a mouse the same buttons come to the text as you select it.</div>
+    </div>
+
+    <div class="shelf-row">
       <h2 class="shelf-label">Marks</h2>
       <div class="shelf-marks" id="shelfMarks">
         <button class="shelf-mark" type="button" data-ch="—" aria-label="Insert em dash">—</button>
@@ -581,7 +643,13 @@ layout: null
       <p>Yes. The fullscreen button clears away everything but the paper, with the word count for company; moving the mouse brings the controls back.</p>
 
       <h3>What is on the shelf?</h3>
-      <p>Eight small things, borrowed from the other instruments and kept behind the lines button in the corner: a 25-and-5 writing timer whose only trace is a thin line along the top of the screen, rain and brown noise to write inside, the typographic marks, a tidy button that curls quotes and sets dashes right, a clear button that empties the page in one click, a fuller count, typewriter scrolling that keeps your line centered, and the light&mdash;light, dark, or following the sky over your city. Close the panel and the page is as bare as it ever was.</p>
+      <p>Nine small things, borrowed from the other instruments and kept behind the lines button in the corner: a 25-and-5 writing timer whose only trace is a thin line along the top of the screen, rain and brown noise to write inside, typewriter scrolling that keeps your line centered, a row of style buttons for headings, bold, links and lists, the typographic marks, a tidy button that curls quotes and sets dashes right, a clear button that empties the page in one click, a fuller count, and the light&mdash;light, dark, or following the sky over your city. Close the panel and the page is as bare as it ever was.</p>
+
+      <h3>Can I make a heading, or bold a word?</h3>
+      <p>Select the words and a small bubble comes to them, with headings, bold, italic, a link, a quote and two kinds of list&mdash;or press Ctrl-B and Ctrl-I (Cmd on a Mac) as you write. With nothing selected the buttons work on the line the cursor is on, and pressing one again takes its marks back off. On a phone or a tablet, where the system already puts its own menu over a selection, the same buttons wait on the shelf under Style.</p>
+
+      <h3>What do the marks in my text mean?</h3>
+      <p>They are Markdown: <code># </code> before a line makes it a heading, <code>**a pair of asterisks**</code> marks bold, <code>_underscores_</code> italic, <code>&gt; </code> a quotation, <code>- </code> and <code>1. </code> the two lists. The page stays plain text, so nothing is hidden from you&mdash;and the file you download opens as formatted writing in anything that reads Markdown, and as itself everywhere else.</p>
 
       <h3>Can I undo a clear?</h3>
       <p>Clearing takes two presses&mdash;the first arms the button, reading &ldquo;clear?&rdquo; for three seconds, and the second empties the page&mdash;so a stray click never costs a draft. After it clears, the button reads Undo for fifteen seconds and brings the text back. After that it&rsquo;s gone, so download first if you want to keep it.</p>
@@ -598,6 +666,41 @@ layout: null
       {% include tool-links.html slug="write" %}
     </div>
   </footer>
+
+  <div class="bubble" id="bubble" role="group" aria-label="Style the selection">
+    <button class="bub-btn" data-style="h1" type="button" title="Heading 1" aria-label="Heading 1">H1</button>
+    <button class="bub-btn" data-style="h2" type="button" title="Heading 2" aria-label="Heading 2">H2</button>
+    <button class="bub-btn" data-style="h3" type="button" title="Heading 3" aria-label="Heading 3">H3</button>
+    <span class="bub-sep" aria-hidden="true"></span>
+    <button class="bub-btn is-b" data-style="bold" type="button" title="Bold (Ctrl-B)" aria-label="Bold">B</button>
+    <button class="bub-btn is-i" data-style="italic" type="button" title="Italic (Ctrl-I)" aria-label="Italic">I</button>
+    <button class="bub-btn" data-style="link" type="button" title="Link" aria-label="Link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M15 7h3a5 5 0 0 1 0 10h-3"/><path d="M9 17H6A5 5 0 0 1 6 7h3"/>
+        <line x1="8" y1="12" x2="16" y2="12"/>
+      </svg>
+    </button>
+    <span class="bub-sep" aria-hidden="true"></span>
+    <button class="bub-btn is-q" data-style="quote" type="button" title="Quote" aria-label="Quote">&ldquo;</button>
+    <button class="bub-btn" data-style="ul" type="button" title="Bulleted list" aria-label="Bulleted list">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="10" y1="6" x2="20" y2="6"/><line x1="10" y1="12" x2="20" y2="12"/><line x1="10" y1="18" x2="20" y2="18"/>
+        <circle cx="4.6" cy="6" r="1.3" fill="currentColor" stroke="none"/>
+        <circle cx="4.6" cy="12" r="1.3" fill="currentColor" stroke="none"/>
+        <circle cx="4.6" cy="18" r="1.3" fill="currentColor" stroke="none"/>
+      </svg>
+    </button>
+    <button class="bub-btn" data-style="ol" type="button" title="Numbered list" aria-label="Numbered list">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="10" y1="6" x2="20" y2="6"/><line x1="10" y1="12" x2="20" y2="12"/><line x1="10" y1="18" x2="20" y2="18"/>
+        <g stroke-width="1.6">
+          <path d="M3.4 4.9 4.6 4.2v3.6"/>
+          <path d="M3.3 10.6h1.9l-1.9 2.6h2"/>
+          <path d="M3.3 16.2h1.9l-1 1.1 1 1.1H3.3"/>
+        </g>
+      </svg>
+    </button>
+  </div>
 
   <div class="corner words" id="wordCount" aria-live="polite">0 words</div>
   <div class="corner saved" id="savedNote">Saved</div>
@@ -752,6 +855,9 @@ layout: null
     if(!open) return;
     if(shelf.contains(e.target)) return;
     if(e.target.closest && e.target.closest("#shelfBtn")) return;
+    /* the style bubble (8) is the shelf's own Style row in another place;
+       reaching for it is not a click away from the shelf */
+    if(e.target.closest && e.target.closest("#bubble")) return;
     setOpen(false, false);
   });
   document.addEventListener("keydown", function(e){
@@ -1177,18 +1283,20 @@ layout: null
     twMirror.style.left = "-9999px";
     document.body.appendChild(twMirror);
   }
-  function twCaretTop(){
+  /* Where a given index falls, in pixels. The typewriter asks for the caret's
+     line; the style bubble (8) asks for the two ends of a selection. */
+  function twPointAt(idx){
     if(!twMirror) twBuildMirror();
     twMirror.style.width = ta.clientWidth + "px";
-    var idx = ta.selectionStart;
     twMirror.textContent = "";
     twMirror.appendChild(document.createTextNode(ta.value.slice(0, idx)));
     var caret = document.createElement("span");
     caret.textContent = "​";
     twMirror.appendChild(caret);
     twMirror.appendChild(document.createTextNode(ta.value.slice(idx)));
-    return caret.offsetTop;
+    return { top: caret.offsetTop, left: caret.offsetLeft, height: caret.offsetHeight };
   }
+  function twCaretTop(){ return twPointAt(ta.selectionStart).top; }
   function centerCaret(){
     if(!typewriterOn || document.activeElement !== ta) return;
     var rect = ta.getBoundingClientRect();
@@ -1238,6 +1346,195 @@ layout: null
   }
   twBtns.forEach(function(b){
     b.addEventListener("click", function(){ setTypewriter(b.getAttribute("data-typewriter") === "on"); });
+  });
+
+  /* ================= 8 · style — marks a selection can be given ============
+     The page stays what it has always been: plain text, saved as plain text,
+     handed over as plain text. So a heading is a #, bold is a pair of
+     asterisks, a quote is a > — Markdown, which reads as itself on the page
+     and opens as formatting anywhere that knows the convention. Every button
+     is a toggle: pressed again, it lifts its own marks off. */
+  var STYLE_BLOCK = { h1:"# ", h2:"## ", h3:"### ", quote:"> ", ul:"- " };
+  var STYLE_WRAP  = { bold:"**", italic:"_" };
+  var BLOCK_MARK  = /^(?:#{1,6} |> |- |\d+\. )/;   /* the mark a line already carries, whichever it is */
+
+  /* Put a piece of text in place of a range, then hand back a selection.
+     insertText is a deprecated command, but it is the one way a textarea's own
+     undo stack keeps its memory: Ctrl-Z lifts a mark the way it lifts a word,
+     and the whole draft behind it survives. Where it is refused, the plain
+     assignment the Marks row (3) makes stands in — and then, as there, the
+     input event has to be raised by hand for the autosave and the counts. */
+  function styleReplace(from, to, text, a, b){
+    var done = false;
+    ta.focus();
+    ta.setSelectionRange(from, to);
+    try{ done = document.execCommand("insertText", false, text); }catch(err){}
+    if(!done){
+      ta.value = ta.value.slice(0, from) + text + ta.value.slice(to);
+      ta.dispatchEvent(new Event("input", { bubbles: true }));
+    }
+    ta.setSelectionRange(a, b);
+    placeBubble();
+  }
+
+  /* the lines a selection touches, whole */
+  function styleLines(s, e){
+    var v = ta.value;
+    if(e > s && v.charAt(e - 1) === "\n") e--;   /* a swept-up newline belongs to the line above */
+    var from = s === 0 ? 0 : v.lastIndexOf("\n", s - 1) + 1;
+    var to = v.indexOf("\n", e);
+    return [from, to === -1 ? v.length : to];
+  }
+
+  /* headings, quotes and lists are marks on a line, so they are given to every
+     line the selection touches */
+  function styleBlock(op){
+    var v = ta.value, s = ta.selectionStart, e = ta.selectionEnd;
+    var b = styleLines(s, e), block = v.slice(b[0], b[1]);
+    var lines = block.split("\n"), ol = (op === "ol"), mark = STYLE_BLOCK[op];
+    /* blank lines between paragraphs are not asked to carry a mark — but a
+       page with one empty line is, since a heading has to start somewhere */
+    var lone = lines.length === 1;
+    function marked(l){ return ol ? /^\d+\. /.test(l) : l.indexOf(mark) === 0; }
+    var has = lines.every(function(l){ return (!l.trim() && !lone) || marked(l); });
+    var n = 0;
+    var out = lines.map(function(l){
+      if(!l.trim() && !lone) return l;
+      var body = l.replace(BLOCK_MARK, "");      /* a line carries one mark at a time */
+      return has ? body : (ol ? (++n) + ". " : mark) + body;
+    }).join("\n");
+    if(s === e){
+      var moved = Math.max(b[0], s + out.length - block.length);
+      styleReplace(b[0], b[1], out, moved, moved);   /* a bare cursor keeps its place in the line */
+    } else {
+      styleReplace(b[0], b[1], out, b[0], b[0] + out.length);
+    }
+  }
+
+  /* bold and italic are marks around words */
+  function styleWrap(op){
+    var m = STYLE_WRAP[op], v = ta.value, s = ta.selectionStart, e = ta.selectionEnd;
+    if(s === e){                                 /* nothing selected: the marks wait for the words */
+      styleReplace(s, s, m + m, s + m.length, s + m.length);
+      return;
+    }
+    /* ** bold ** is read as asterisks and not as bold, so the marks close in
+       past whatever whitespace the selection swept up */
+    while(e > s && /\s/.test(v.charAt(e - 1))) e--;
+    while(s < e && /\s/.test(v.charAt(s))) s++;
+    if(s === e) return;
+    var sel = v.slice(s, e), L = m.length;
+    if(sel.length >= 2 * L && sel.slice(0, L) === m && sel.slice(-L) === m){
+      var bare = sel.slice(L, -L);               /* the marks were inside the selection */
+      styleReplace(s, e, bare, s, s + bare.length);
+    } else if(s >= L && v.slice(s - L, s) === m && v.slice(e, e + L) === m){
+      styleReplace(s - L, e + L, sel, s - L, s - L + sel.length);   /* and here, just outside it */
+    } else {
+      /* the words stay selected, the marks stand outside them */
+      styleReplace(s, e, m + sel + m, s + L, s + L + sel.length);
+    }
+  }
+
+  var LINK_HINT = "https://";
+  function styleLink(){
+    var v = ta.value, s = ta.selectionStart, e = ta.selectionEnd, sel = v.slice(s, e);
+    var made = /^\[([^\]]*)\]\([^)\s]*\)$/.exec(sel);
+    if(made){                                    /* pressed on a finished link: take it apart again */
+      styleReplace(s, e, made[1], s, s + made[1].length);
+      return;
+    }
+    var label = sel || "link";
+    var at = s + label.length + 3;               /* past "[", the label and "](" */
+    /* the address arrives selected, ready to be typed over */
+    styleReplace(s, e, "[" + label + "](" + LINK_HINT + ")", at, at + LINK_HINT.length);
+  }
+
+  function runStyle(op){
+    if(op === "link"){ styleLink(); return; }
+    if(STYLE_WRAP[op]){ styleWrap(op); return; }
+    if(op === "ol" || STYLE_BLOCK[op]) styleBlock(op);
+  }
+
+  /* ---- the bubble ---- */
+  var bub = $("#bubble"), bubRaf = 0;
+  /* A touch device puts its own menu — Copy, Look Up, Share — in exactly the
+     place this bubble wants, and a second bar fighting it is a poor bargain.
+     There the Style row on the shelf does the same work, within reach of a
+     thumb; the bubble is for pointers. */
+  function bubbleWanted(){
+    var coarse = false;
+    try{ coarse = window.matchMedia("(pointer: coarse)").matches; }catch(e){}
+    return !coarse && window.innerWidth > 600;
+  }
+  function hideBubble(){ bub.classList.remove("on"); }
+  /* Escape sends the bubble away and it stays away — the keyup that follows
+     would otherwise call it straight back — until the selection itself moves */
+  var bubOff = false, bubRange = "";
+  function dismissBubble(){ bubOff = true; hideBubble(); }
+  function placeBubble(){
+    var s = ta.selectionStart, e = ta.selectionEnd;
+    var range = s + ":" + e + ":" + ta.value.length;
+    if(range !== bubRange){ bubRange = range; bubOff = false; }
+    if(bubOff || !bubbleWanted()){ hideBubble(); return; }
+    if(s === e || document.activeElement !== ta){ hideBubble(); return; }
+    var head = twPointAt(s), tail = twPointAt(e);
+    var r = ta.getBoundingClientRect();
+    /* over one line the bubble centers on the words themselves; over several
+       it centers on the column, there being no better place for it */
+    var x = (head.top === tail.top) ? (head.left + tail.left) / 2 : r.width / 2;
+    var docX = r.left + window.pageXOffset + x;
+    var docY = r.top + window.pageYOffset + head.top;
+    var w = bub.offsetWidth, h = bub.offsetHeight, edge = 8;
+    var left = Math.min(Math.max(docX - w / 2, window.pageXOffset + edge),
+                        window.pageXOffset + document.documentElement.clientWidth - w - edge);
+    var top = docY - h - 10;
+    /* the sticky chrome owns the top of the screen; a selection up there gets
+       its bubble underneath instead */
+    var guard = document.body.classList.contains("immersive") ? 6 : chromeEl.offsetHeight + 8;
+    var below = top < window.pageYOffset + guard;
+    if(below) top = docY + head.height + 10;
+    bub.classList.toggle("below", below);
+    bub.style.left = left + "px";
+    bub.style.top = top + "px";
+    bub.style.setProperty("--arrow", Math.min(Math.max(docX - left, 12), w - 12) + "px");
+    bub.classList.add("on");
+  }
+  function watchSelection(){
+    cancelAnimationFrame(bubRaf);
+    bubRaf = requestAnimationFrame(placeBubble);
+  }
+  ["keyup","mouseup","select","input","focus"].forEach(function(ev){
+    ta.addEventListener(ev, watchSelection);
+  });
+  ta.addEventListener("mousedown", hideBubble);   /* a new drag starts clean */
+  ta.addEventListener("blur", hideBubble);
+  document.addEventListener("selectionchange", watchSelection);
+  document.addEventListener("keydown", function(e){ if(e.key === "Escape") dismissBubble(); });
+  window.addEventListener("resize", function(){
+    /* the mirror holds the font and width the textarea had when it was built,
+       and a resize can change both: thrown away here, measured anew on the
+       next question put to it */
+    if(twMirror && twMirror.parentNode){ twMirror.parentNode.removeChild(twMirror); twMirror = null; }
+    watchSelection();
+  });
+  /* the selection has to survive the click that acts on it */
+  bub.addEventListener("mousedown", function(e){ e.preventDefault(); });
+
+  function styleClick(e){
+    var b = e.target.closest ? e.target.closest("[data-style]") : null;
+    if(b) runStyle(b.getAttribute("data-style"));
+  }
+  bub.addEventListener("click", styleClick);
+  shelf.addEventListener("click", styleClick);
+
+  /* Ctrl-B and Ctrl-I — read from the physical key as well as the letter, so a
+     Turkish layout finds the same two */
+  document.addEventListener("keydown", function(e){
+    if(!(e.metaKey || e.ctrlKey) || e.altKey || e.shiftKey) return;
+    if(document.activeElement !== ta) return;
+    var k = (e.key || "").toLowerCase();
+    if(k === "b" || e.code === "KeyB"){ e.preventDefault(); runStyle("bold"); }
+    else if(k === "i" || e.code === "KeyI"){ e.preventDefault(); runStyle("italic"); }
   });
 
   /* ---- init ---- */
