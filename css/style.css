@@ -47,9 +47,11 @@
      4.41:1); every other section chrome is darker, so this is the floor. */
   --footer-muted: #ADBDB8;
   /* Attribution line on --band-hero (lighter than the header/footer chrome,
-     so --footer-muted's 3.3-4.2:1 there falls short of AA). Checked against
-     every section chrome at 92% mix: 4.99:1 (default) up to 10.99:1 (about). */
-  --hero-source-muted: #C9D8DB;
+     so --footer-muted's 3.3-4.2:1 there falls short of AA). The band only
+     ever renders on the homepage, so this is checked against the home chrome
+     alone: 4.70:1 on the 85% mix below (the old #C9D8DB sat at 4.25:1 once
+     the band was lightened from 92%). */
+  --hero-source-muted: #D6E2E4;
 
   --drawer-bg: rgba(255, 255, 255, 0.985);
   --wine: #7A4453;
@@ -78,11 +80,12 @@ body {
      over the pale page reads washed-out, the lighter the section colour. */
   --surface-chrome: rgb(var(--chrome-rgb, 62, 50, 73));
   --surface-footer: rgb(var(--chrome-rgb, 62, 50, 73));
-  /* Hero quote band: one step lighter than the chrome so it reads as part of
-     the same masthead instead of the page's neutral --band. 92% (not 88%)
-     because --footer-muted's attribution text needs the extra headroom to
-     clear AA on the lighter surface — see --hero-source-muted above. */
-  --band-hero: color-mix(in srgb, rgb(var(--chrome-rgb, 33, 78, 91)) 92%, white);
+  /* Hero quote band (homepage only): a clear step lighter than the chrome, so
+     the masthead reads as two surfaces instead of one tall slab of colour —
+     at the old 92% the band and the header were near-identical in value and
+     the two ran together. 85% is the floor: below it the attribution line
+     drops under AA on the home chrome — see --hero-source-muted above. */
+  --band-hero: color-mix(in srgb, rgb(var(--chrome-rgb, 33, 78, 91)) 85%, white);
 }
 
 /* ==========================================================================
@@ -931,13 +934,16 @@ body.moris-lightbox-open { overflow: hidden; }
    10. Hero (Quotes) & Archive Page 
    ========================================================================== */
 .hero-quotes-section {
-  padding-top: 40px; padding-bottom: 40px; margin-top: 0;
+  padding-top: 22px; padding-bottom: 22px; margin-top: 0;
   background: var(--band-hero);
   border-top: 1px solid var(--header-border);
   margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw);
   padding-left: calc(50vw - 50%); padding-right: calc(50vw - 50%);
 }
-.hero-quote-card { position: relative; min-height: 175px; padding: 28px 44px 50px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; overflow: visible; }
+/* min-height holds two lines of quote plus the attribution; the 44px bottom
+   padding is what keeps the hover arrows (bottom: 26px, 30px tall) clear of
+   the attribution line. */
+.hero-quote-card { position: relative; min-height: 96px; padding: 16px 44px 44px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; overflow: visible; }
 .hero-quote-text { width: 100%; max-width: min(720px, 100%); margin: 0 auto; font-family: 'EB Garamond', Georgia, serif; font-style: italic; font-size: clamp(1.05rem, 1.35vw, 1.22rem); line-height: 1.55; color: var(--footer-text); min-height: 1.2em; text-align: center; }
 .hero-quote-word { opacity: 0; transform: translateY(8px); display: inline-block; transition: opacity 0.55s ease, transform 0.55s ease; }
 .hero-quote-word.word-visible { opacity: 1; transform: translateY(0); }
@@ -1022,8 +1028,8 @@ html[data-theme="midnight"] .quote-nav-btn:focus-visible { color: var(--ink); }
 }
 
 @media (max-width: 600px) {
-  .hero-quotes-section { padding-top: 30px; padding-bottom: 32px; }
-  .hero-quote-card { min-height: 150px; padding: 22px 20px 46px; }
+  .hero-quotes-section { padding-top: 22px; padding-bottom: 24px; }
+  .hero-quote-card { min-height: 104px; padding: 16px 20px 46px; }
   .hero-quote-text { max-width: 100%; width: 100%; margin-left: 0; margin-right: 0; font-size: 1.2rem; line-height: 1.45; text-align: left; }
   .hero-quote-source { max-width: 100%; width: 100%; align-self: stretch; margin-left: 0; margin-right: 0; font-size: 0.95rem; text-align: right; }
 }
