@@ -975,6 +975,9 @@ body.moris-lightbox-open { overflow: hidden; }
 .more-essays-grid-hp .piece-title { font-size: 1.04rem; line-height: 1.08; text-align: center; }
 .more-essays-grid-hp .piece-subtitle { font-size: 0.8rem; line-height: 1.18; text-align: center; }
 .more-essays-grid-hp .piece-meta { font-size: 0.76rem; line-height: 1.15; text-align: center; }
+.more-essays-grid-hp .piece-thumb-wrap--typographic {
+  height: auto; aspect-ratio: 3 / 2; align-self: center; border-radius: 8px;
+}
 .more-essays-grid-hp .piece-thumb-wrap--typographic .type-cover::before { inset: 6px; border-radius: 5px; }
 .more-essays-grid-hp .piece-thumb-wrap--typographic .type-cover-inner { padding: 9px; }
 .more-essays-grid-hp .piece-thumb-wrap--typographic .type-cover-mark,
