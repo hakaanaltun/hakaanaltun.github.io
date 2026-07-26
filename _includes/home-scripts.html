@@ -70,6 +70,9 @@
       var wordTimers = [];
       var navHideTimer = null;
       var ROTATE_DELAY = 15000;
+      /* Matches the crossfade duration CSS gives .hero-quote-text under
+         reduced motion, so the new quote lands as the old one finishes. */
+      var FADE_DELAY = 320;
       var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
       function randomIndex(except){
@@ -135,21 +138,20 @@
         clearRenderTimers();
         qs.classList.remove('visible');
         var pick = heroQuotes[idx];
-        if(reduceMotion.matches){
-          paintQuote(pick, false, announce);
-          return;
-        }
+        /* Reduced motion drops the per-word travel — that is the part which
+           actually moves — but the quote still changes. The card crossfades
+           on opacity alone, which carries no direction to follow. */
+        var animate = !reduceMotion.matches;
         hq.style.opacity = '0';
         renderTimer = setTimeout(function(){
-          paintQuote(pick, true, announce);
-        }, 260);
+          paintQuote(pick, animate, announce);
+        }, animate ? 260 : FADE_DELAY);
       }
 
       function schedule(){
         clearTimeout(rotateTimer);
-        /* Reduced motion keeps the first quote still. Automatic swaps stay
-           silent; only explicit Previous/Next actions update the live status. */
-        if(reduceMotion.matches) return;
+        /* Automatic swaps stay silent; only explicit Previous/Next actions
+           update the live status. */
         rotateTimer = setTimeout(function(){
           render(randomIndex(currentIdx), true, false);
         }, ROTATE_DELAY);
