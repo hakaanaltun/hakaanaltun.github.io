@@ -1095,8 +1095,12 @@ html[data-theme="midnight"] .quote-nav-btn:focus-visible { color: var(--ink); }
    head; one line that lets a first-time reader step straight into the story.
    Kept off /latest/ and /pieces/ on purpose — this is the only cold invitation.
    The default animated divider (5. Sections & Animated Dividers) marks it off
-   from the hero above, now that both share the page's own background. */
-#story-doorway { padding: 28px 0 0; }
+   from the hero above, now that both share the page's own background.
+   The bottom padding closes the block against the divider that opens
+   #start-here below: 20px here plus the tag's own 8px margin makes 28px, the
+   same clearance the divider above gets, so the doorway sits between two
+   rules instead of hanging off the lower one. */
+#story-doorway { padding: 28px 0 20px; }
 .story-doorway { text-align: center; }
 /* Transparent by design: the link shrinks to its own text so only the words
    are the click target — no full-width row, no visible card chrome. */
@@ -1107,27 +1111,30 @@ html[data-theme="midnight"] .quote-nav-btn:focus-visible { color: var(--ink); }
 }
 .story-doorway-link:hover { transform: translateY(-4px); }
 .story-doorway-link:focus-visible { outline: 2px solid var(--petrol); outline-offset: 4px; border-radius: 8px; }
-/* The featured piece is the largest thing on the page: 3.125rem (50px) at full
-   width, easing to 2.5rem (40px) on a phone, where a bigger line would wrap
-   "The Notice" onto two lines. 50px is one clean typographic step over
-   .section-title's own 40px ceiling (1.25x) — enough to read as the page's
-   opening move without shouting, which 56px did. That 40px floor equals that
-   same ceiling, which is what keeps the order intact at every width — this
-   line is never below 40px, "Latest" is never above it, and the two never
-   meet (the floor applies under 571px, that ceiling only over 1333px).
+/* The featured piece still leads the page, but at 2.75rem (44px) rather than
+   the 50px it used to shout: this is a piece title sitting among section
+   labels, and 1.1x over .section-title's 40px ceiling is enough to say so.
+   The old 1.25x step made the doorway the loudest thing on a page whose own
+   sections are set at 40px and 34px, which read as a headline competing with
+   the site rather than opening it. Order still holds at every width — the
+   44px cap only meets .section-title where the latter is at most 40px, and
+   below 692px this line's 2.25rem (36px) floor sits over that rule's own
+   1.85rem (29.6px) floor. 36px also keeps "The Notice" on one line on a phone.
    Both display lines carry their own leading; body's 1.75 is set for
    paragraphs and opens far too wide at these sizes. */
 .story-doorway-cue {
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-style: italic; font-size: clamp(2.5rem, 7vw, 3.125rem);
+  font-style: italic; font-size: clamp(2.25rem, 5.2vw, 2.75rem);
   line-height: 1.06; color: var(--petrol);
   text-align: center;
 }
-/* Held at half the cue (25px against 50px) so the pair shrinks as one block,
-   and still clear of #start-here's 1.3125rem subtitle cap at every width. */
+/* Held a shade over half the cue (24px against 44px) on a matching ramp, so
+   the pair shrinks as one block and the doorway keeps its internal hierarchy
+   at the smaller size. Still clear of #start-here's 1.3125rem (21px) subtitle
+   cap at every width: both its floor and its cap sit above that rule's. */
 .story-doorway-subtitle {
   font-family: 'EB Garamond', Georgia, serif;
-  font-size: clamp(1.25rem, 3vw, 1.5625rem); line-height: 1.3;
+  font-size: clamp(1.1875rem, 2.8vw, 1.5rem); line-height: 1.3;
   color: var(--vizon); letter-spacing: 0.02em;
   text-align: center; margin-top: 6px;
 }
@@ -1136,7 +1143,8 @@ html[data-theme="midnight"] .quote-nav-btn:focus-visible { color: var(--ink); }
   text-align: center; margin-top: 6px;
 }
 @media (max-width: 600px) {
-  #story-doorway { padding-top: 22px; }
+  /* Same 14 + 8 = 22px symmetry on the phone's shorter opening. */
+  #story-doorway { padding: 22px 0 14px; }
 }
 
 @media (max-width: 600px) {
@@ -1204,21 +1212,23 @@ html[data-theme="midnight"] .quote-nav-btn:focus-visible { color: var(--ink); }
    2.4vw above, and stays well under both at every width. */
 #start-here .section-subtitle { font-size: clamp(1.08rem, 1.5vw, 1.3125rem); }
 
-/* The label introduces the list, so it binds downward: the heading pair above
-   it is a separate unit, and the wide gap belongs between them, not between
-   the label and the links it names. #start-here .section-head drops its own
-   bottom margin so this margin-top alone sets that distance. */
+/* The label reads as the third line of the heading, not as a floating caption:
+   it closes "First time here? / Three doors in" the way "told in choices"
+   closes the doorway above, so it binds upward and the wide gap falls between
+   it and the list. #start-here .section-head drops its own bottom margin so
+   this margin-top alone sets that distance. */
 #start-here .section-head { margin-bottom: 0; }
 
-/* Both gaps were set against the old 64px heading and read oversized now that
-   it is 34px. These margins sit ~7px under the gaps they produce, because the
-   label's own line box (13px text on body's 1.75) carries that much leading
-   above and below its ink: 33px/5px render as ~40px/~12px between the visible
-   glyphs, holding the 3:1 downward bind. */
+/* These margins sit ~7px under the gaps they produce, because the label's own
+   line box (13px text on body's 1.75) carries that much leading above and
+   below its ink: 6px/24px render as ~17px/~35px between the visible glyphs.
+   The 17px above matches .section-head's own 10px title-to-subtitle gap once
+   that pair's leading is counted, which is what folds the label into the
+   heading; the ~35px below is the 2:1 the list needs to stand apart. */
 .start-here-tag {
   display: block;
   width: fit-content;
-  margin: 33px auto 5px;
+  margin: 6px auto 24px;
 }
 
 .story-doorway-date + .story-doorway-tag {
