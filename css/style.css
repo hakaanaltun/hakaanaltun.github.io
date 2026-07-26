@@ -700,7 +700,6 @@ section.line-drawn::before,
 .book-hero-grid { display: grid; grid-template-columns: 280px minmax(0, 1fr); column-gap: clamp(40px, 6vw, 72px); align-items: center; max-width: 880px; margin: 0 auto; padding-top: 10px; }
 .book-cover-wrap { line-height: 0; }
 .book-cover { width: 100%; height: auto; max-width: 280px; aspect-ratio: 2 / 3; object-fit: contain; display: block; margin: 0 auto; background: var(--paper); border: 1px solid var(--rule-cream); border-radius: 2px; box-shadow: var(--shadow-cover); }
-.book-kicker { font-size: 0.78rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--petrol); margin-bottom: 10px; }
 .book-hero-title { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: clamp(2.1rem, 4vw, 2.9rem); line-height: 1.05; letter-spacing: -0.01em; color: var(--petrol-deep); margin-bottom: 20px; }
 .book-description p { margin-bottom: 16px; color: var(--ink-soft); line-height: 1.75; }
 .book-description p:last-child { margin-bottom: 0; }
@@ -731,7 +730,7 @@ section.line-drawn::before,
   /* minmax(0, 1fr): the no-wrap retailer strip must not widen the column. */
   .book-hero-grid { grid-template-columns: minmax(0, 1fr); row-gap: 34px; }
   .book-cover { max-width: 210px; }
-  .book-kicker, .book-hero-title { text-align: center; }
+  .book-hero-title { text-align: center; }
   .book-retailers { max-width: min(380px, 100%); }
 }
 
@@ -1194,10 +1193,15 @@ html[data-theme="midnight"] .quote-nav-btn:focus-visible { color: var(--ink); }
    bottom margin so this margin-top alone sets that distance. */
 #start-here .section-head { margin-bottom: 0; }
 
+/* Both gaps were set against the old 64px heading and read oversized now that
+   it is 34px. These margins sit ~7px under the gaps they produce, because the
+   label's own line box (13px text on body's 1.75) carries that much leading
+   above and below its ink: 33px/5px render as ~40px/~12px between the visible
+   glyphs, holding the 3:1 downward bind. */
 .start-here-tag {
   display: block;
   width: fit-content;
-  margin: 52px auto 10px;
+  margin: 33px auto 5px;
 }
 
 .story-doorway-date + .story-doorway-tag {
