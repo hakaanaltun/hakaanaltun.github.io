@@ -1194,10 +1194,15 @@ html[data-theme="midnight"] .quote-nav-btn:focus-visible { color: var(--ink); }
    bottom margin so this margin-top alone sets that distance. */
 #start-here .section-head { margin-bottom: 0; }
 
+/* Both gaps were set against the old 64px heading and read oversized now that
+   it is 34px. These margins sit ~7px under the gaps they produce, because the
+   label's own line box (13px text on body's 1.75) carries that much leading
+   above and below its ink: 33px/5px render as ~40px/~12px between the visible
+   glyphs, holding the 3:1 downward bind. */
 .start-here-tag {
   display: block;
   width: fit-content;
-  margin: 52px auto 10px;
+  margin: 33px auto 5px;
 }
 
 .story-doorway-date + .story-doorway-tag {
