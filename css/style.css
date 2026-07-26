@@ -27,12 +27,14 @@
   --paper: #FFFFFF;
   --surface-soft: #FAFAF8;
   --band: #F5F7F6;
+  --footer-strip-bg: #E3E9EB;
 
   --ink: #2F2B27;
   --ink-soft: #403A34;
   /* WCAG AA: 4.5:1+ on --bg, --band and --surface-soft (the old #8C867E sat
      at 3.6:1 on white). Same warm-grey hue, two steps darker. */
   --vizon: #746F69;
+  --footer-strip-ink: #596264;
 
   --rule: #EEEAE4;
   --rule-strong: #D8D2C8;
@@ -98,9 +100,11 @@ body {
   --paper: #191712;
   --surface-soft: #221F18;
   --band: #15130F;
+  --footer-strip-bg: var(--band);
   --ink: #EDE4CF;
   --ink-soft: #D8CEB7;
   --vizon: #A69E8C;
+  --footer-strip-ink: var(--vizon);
   --rule: #2B2721;
   --rule-strong: #474138;
   --rule-cream: #453D2E;
@@ -132,9 +136,11 @@ html[data-theme="dark"] {
   --paper: #191712;
   --surface-soft: #221F18;
   --band: #15130F;
+  --footer-strip-bg: var(--band);
   --ink: #EDE4CF;
   --ink-soft: #D8CEB7;
   --vizon: #A69E8C;
+  --footer-strip-ink: var(--vizon);
   --rule: #2B2721;
   --rule-strong: #474138;
   --rule-cream: #453D2E;
@@ -170,9 +176,11 @@ html[data-theme="midnight"] {
   --paper: #101720;
   --surface-soft: #161F2B;
   --band: #0C1219;
+  --footer-strip-bg: var(--band);
   --ink: #EDE4CF;
   --ink-soft: #D8CEB7;
   --vizon: #A69E8C;
+  --footer-strip-ink: var(--vizon);
   --rule: #222A36;
   --rule-strong: #4A5260;
   --rule-cream: #4A4433;
@@ -1421,12 +1429,11 @@ footer {
 
 /* Utility strip above the footer proper — contact links and icon controls
    sit together, right-aligned, on a single row at every width and both
-   orientations. The strip drops the per-section chrome colour and sits on
-   the quiet band grey (--band), one consistent colour across all themes;
-   in dark it falls to the dark band tone. Hidden on story pages. */
+   orientations. In light it echoes the homepage hero's pale blue-grey; dark
+   and midnight keep their existing band tones. Hidden on story pages. */
 .footer-strip {
-  background: var(--band);
-  color: var(--vizon);
+  background: var(--footer-strip-bg);
+  color: var(--footer-strip-ink);
 }
 
 .footer-strip-inner {
@@ -1450,7 +1457,7 @@ footer {
 }
 
 .footer-contact-links a {
-  color: var(--vizon);
+  color: var(--footer-strip-ink);
   line-height: 1.25;
   white-space: nowrap;
   text-decoration: none;
@@ -1463,7 +1470,7 @@ footer {
 }
 
 .footer-dot {
-  color: color-mix(in srgb, var(--vizon) 55%, transparent);
+  color: color-mix(in srgb, var(--footer-strip-ink) 55%, transparent);
 }
 
 .footer-actions {
@@ -1485,7 +1492,7 @@ footer {
   padding: 0;
   background: transparent;
   border: 0;
-  color: var(--vizon);
+  color: var(--footer-strip-ink);
   cursor: pointer;
   text-decoration: none;
   transition: color 0.2s ease;
