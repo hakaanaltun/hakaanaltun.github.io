@@ -48,8 +48,8 @@
   /* WCAG AA: 4.66:1 on the home chrome #214E5B (the old #A8B8B3 sat at
      4.41:1); every other section chrome is darker, so this is the floor. */
   --footer-muted: #ADBDB8;
-  /* Navigation controls on the pale homepage hero. This muted slate keeps a
-     5.10:1 contrast ratio against #E3E9EB. */
+  /* Navigation controls on the homepage hero. This muted slate keeps a
+     5.10:1+ contrast ratio against the hero band (now the page's own white). */
   --hero-source-muted: #596264;
 
   --drawer-bg: rgba(255, 255, 255, 0.985);
@@ -79,9 +79,9 @@ body {
      over the pale page reads washed-out, the lighter the section colour. */
   --surface-chrome: rgb(var(--chrome-rgb, 62, 50, 73));
   --surface-footer: rgb(var(--chrome-rgb, 62, 50, 73));
-  /* Hero quote band (homepage only): a pale blue-grey pause between the
-     darker site chrome and the warm paper below. */
-  --band-hero: #E3E9EB;
+  /* Hero quote band (homepage only): flush with the page below it, no
+     separate tint. */
+  --band-hero: var(--paper);
 }
 
 /* ==========================================================================
