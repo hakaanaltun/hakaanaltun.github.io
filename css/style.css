@@ -1033,6 +1033,15 @@ body.moris-lightbox-open { overflow: hidden; }
 .hero-quote-source { opacity: 0; max-width: min(720px, 100%); width: auto; align-self: flex-end; margin: 0 max(0px, calc((100% - 720px) / 2)) 0 auto; font-size: 0.98rem; line-height: 1.3; color: var(--petrol); text-align: left; transition: opacity 0.55s ease; }
 .hero-quote-source.visible { opacity: 1; }
 .hero-quote-source i { color: var(--petrol); font-style: italic; }
+/* Full motion fades the words in one by one, so the card itself swaps
+   instantly underneath them. Reduced motion has no words to stagger: the
+   quote crossfades as a whole and keeps rotating. Both durations need
+   !important to outrank the blanket transition cutoff further down. */
+.hero-quote-text { transition: opacity 0s linear; }
+@media (prefers-reduced-motion: reduce) {
+  .hero-quote-text { transition-duration: 0.32s !important; }
+  .hero-quote-source { transition-duration: 0.55s !important; }
+}
 
 /* Dark and midnight keep the page's own ink instead of the light theme's
    vizon and petrol — --band-hero there is a near-black step off --paper, so
