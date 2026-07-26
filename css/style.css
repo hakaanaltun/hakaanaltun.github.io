@@ -1019,8 +1019,13 @@ body.moris-lightbox-open { overflow: hidden; }
 /* ========================================================================== 
    10. Hero (Quotes) & Archive Page 
    ========================================================================== */
+/* padding-top is 40px against a 22px bottom because the card underneath is not
+   symmetric: its own 44px of bottom padding is arrow clearance (see below), so
+   at a matched 22px the quote sat 38px under the header band and 66px above the
+   divider — pinned to the header inside its own band. 40px puts 56px over the
+   quote against 66px under it, which reads as centred. */
 .hero-quotes-section {
-  padding-top: 22px; padding-bottom: 22px; margin-top: 0;
+  padding-top: 40px; padding-bottom: 22px; margin-top: 0;
   background: var(--band-hero);
   border-top: 1px solid var(--header-border);
   margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw);
@@ -1135,7 +1140,9 @@ html[data-theme="midnight"] .quote-nav-btn:focus-visible { color: var(--ink); }
 }
 
 @media (max-width: 600px) {
-  .hero-quotes-section { padding-top: 22px; padding-bottom: 24px; }
+  /* Same top-heavy correction as the desktop rule, scaled to the phone card's
+     46px of arrow clearance: 32 + 16 over the quote, 46 + 24 under it. */
+  .hero-quotes-section { padding-top: 32px; padding-bottom: 24px; }
   .hero-quote-card { min-height: 104px; padding: 16px 20px 46px; }
   .hero-quote-text { max-width: 100%; width: 100%; margin-left: 0; margin-right: 0; font-size: 1.2rem; line-height: 1.45; text-align: left; }
   .hero-quote-source { max-width: 100%; width: 100%; align-self: stretch; margin-left: 0; margin-right: 0; font-size: 0.95rem; text-align: right; }
@@ -1177,7 +1184,13 @@ html[data-theme="midnight"] .quote-nav-btn:focus-visible { color: var(--ink); }
 
 /* "Start here" orientation guide on the homepage. One step down from the
    featured piece above it. */
-#start-here { padding-top: 48px; }
+/* The bottom padding is set here rather than inherited from `section`'s 90px:
+   the divider that follows belongs to #latest, which opens with 62px of its
+   own, so 90px above it against 62px below left the rule floating nearer the
+   list it had already finished than the section it introduces. 58px puts the
+   two gaps level, with the heading's own leading tipping the balance downward
+   where it belongs. */
+#start-here { padding-top: 48px; padding-bottom: 58px; }
 /* Capped one step under .section-title (2.125rem vs 2.5rem) and ramped on a
    shallower slope than its 3vw. Matching 3vw would collapse the two to the
    same computed size wherever both sat mid-ramp (~990-1130px), since the
@@ -1236,7 +1249,8 @@ html[data-theme="midnight"] .quote-nav-btn:focus-visible { color: var(--ink); }
 .start-here-link:hover,
 .start-here-link:focus-visible { color: var(--petrol-deep); transform: translateY(-1px); }
 @media (max-width: 600px) {
-  #start-here { padding-top: 40px; }
+  /* 46px holds the same balance against #latest's 50px phone opening. */
+  #start-here { padding-top: 40px; padding-bottom: 46px; }
 }
 
 /* Series landing page — the same index rows as /all-work/, listed in
