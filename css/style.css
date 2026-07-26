@@ -700,7 +700,6 @@ section.line-drawn::before,
 .book-hero-grid { display: grid; grid-template-columns: 280px minmax(0, 1fr); column-gap: clamp(40px, 6vw, 72px); align-items: center; max-width: 880px; margin: 0 auto; padding-top: 10px; }
 .book-cover-wrap { line-height: 0; }
 .book-cover { width: 100%; height: auto; max-width: 280px; aspect-ratio: 2 / 3; object-fit: contain; display: block; margin: 0 auto; background: var(--paper); border: 1px solid var(--rule-cream); border-radius: 2px; box-shadow: var(--shadow-cover); }
-.book-kicker { font-size: 0.78rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--petrol); margin-bottom: 10px; }
 .book-hero-title { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: clamp(2.1rem, 4vw, 2.9rem); line-height: 1.05; letter-spacing: -0.01em; color: var(--petrol-deep); margin-bottom: 20px; }
 .book-description p { margin-bottom: 16px; color: var(--ink-soft); line-height: 1.75; }
 .book-description p:last-child { margin-bottom: 0; }
@@ -731,7 +730,7 @@ section.line-drawn::before,
   /* minmax(0, 1fr): the no-wrap retailer strip must not widen the column. */
   .book-hero-grid { grid-template-columns: minmax(0, 1fr); row-gap: 34px; }
   .book-cover { max-width: 210px; }
-  .book-kicker, .book-hero-title { text-align: center; }
+  .book-hero-title { text-align: center; }
   .book-retailers { max-width: min(380px, 100%); }
 }
 
