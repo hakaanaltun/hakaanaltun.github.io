@@ -745,5 +745,10 @@ html[data-theme="light"][data-palette="12"] body.series-tools { --sec-accent: #3
   .pm-nav { display: none; }
 }
 
-/* The footer theme menu's doorway to /themes/ — an arrow, not a checkmark. */
-.theme-menu-item--link .theme-menu-mark { visibility: visible; }
+/* The footer theme menu's doorway to /themes/ — a plain divider below
+   Dusk, then the link on its own; quieter than a sixth radio item. */
+.theme-menu-divider {
+  height: 1px;
+  margin: 3px 6px;
+  background: color-mix(in srgb, var(--ink) 14%, transparent);
+}
