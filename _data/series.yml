@@ -1,16 +1,13 @@
-# home is a custom greyed blue nudged a touch toward green, so it sits apart
-# from the site's standard deep blue and petrols. The greyed dark peacock lives
-# in default, dressing /all-work/ (the "All" section) and every generic page.
-# Standalone essays (series: "") fall through to default, so they always share
-# "All"'s colour and follow it whenever it changes.
-home:        "32, 69, 79"
-default:     "33, 78, 91"
-series:      "26, 73, 77"
-cafe-series: "26, 73, 77"
-on-series:   "26, 73, 77"
-fragments:   "42, 77, 66"
-book:        "42, 77, 66"
-moris:       "20, 40, 28"
-about:       "14, 14, 14"
-story:       "28, 24, 20"
-tools:       "28, 38, 52"
+# Palette A2 — one ash chrome across every section.
+# Section identity now comes from the --sec-accent tokens in css/style.css.
+home:        "74, 76, 72"
+default:     "74, 76, 72"
+series:      "74, 76, 72"
+cafe-series: "74, 76, 72"
+on-series:   "74, 76, 72"
+fragments:   "74, 76, 72"
+book:        "74, 76, 72"
+moris:       "74, 76, 72"
+about:       "74, 76, 72"
+story:       "74, 76, 72"
+tools:       "74, 76, 72"
