@@ -209,9 +209,9 @@
     });
 
     if (chosen === 1) {
-      status.innerHTML = 'Nothing chosen&mdash;the site always opens in its own <b>Ash &amp; Gold</b>.';
+      status.innerHTML = 'Nothing chosen&mdash;the site always opens in its own <b class="site-face">Ash &amp; Gold</b>.';
     } else {
-      status.innerHTML = '<b>' + name + '</b> is yours on this device, until you pick another.';
+      status.innerHTML = '<b class="site-face">' + name + '</b> is yours on this device, until you pick another.';
     }
   }
 
