@@ -1,5 +1,3 @@
----
----
 /* Offline shell for the tools. Each instrument runs entirely in the
    browser, so a cached copy IS the whole tool: once a page has been
    visited, it opens without a connection. Tool pages are served
@@ -12,11 +10,11 @@
    on the site is left to the network untouched. */
 "use strict";
 
-var CACHE = "olae-tools-v13";
+var CACHE = "olae-tools-v14";
 
 var TOOL_PAGES = [
   "/tools/",   /* the catalogue itself, so "all of them" works offline */
-  {% for tool in site.data.tools %}"/{{ tool.slug }}/"{% unless forloop.last %}, {% endunless %}{% endfor %}
+  "/write/", "/draw/", "/words/", "/marks/", "/clean/", "/list/", "/diff/", "/clock/", "/prompt/", "/lots/", "/noise/", "/read/", "/breathe/", "/twilight/", "/moon/", "/season/", "/days/"
 ];
 
 var TOOL_ASSETS = [
