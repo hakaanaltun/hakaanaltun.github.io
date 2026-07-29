@@ -92,6 +92,9 @@
       var next = manual ? m.getAttribute('data-' + key) : m.getAttribute('data-default');
       if (next) m.setAttribute('content', next);
     });
+    /* A chosen light palette re-points the light meta to its own chrome —
+       palettes.js listens in on every call here. */
+    if (window.__paletteMetaSync) window.__paletteMetaSync();
   }
   function syncMenu() {
     var t = effective();
