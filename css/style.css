@@ -23,39 +23,35 @@
   --head-band: 150px;
   --drawer-logo-mb: calc(var(--head-band) - 68px);
 
-  --bg: #FFFFFF;
-  --paper: #FFFFFF;
-  --surface-soft: #FAFAF8;
-  --band: #F5F7F6;
-  --footer-strip-bg: #E3E9EB;
+  /* A2 — Ash & Cream. Layout tokens above remain unchanged. */
+  --bg: #FDFCF8;
+  --paper: #FDFCF8;
+  --surface-soft: #F6F1E5;
+  --band: #F4EFE2;
+  --footer-strip-bg: #FDFCF8;
 
-  --ink: #2F2B27;
-  --ink-soft: #403A34;
-  /* WCAG AA: 4.5:1+ on --bg, --band and --surface-soft (the old #8C867E sat
-     at 3.6:1 on white). Same warm-grey hue, two steps darker. */
-  --vizon: #746F69;
-  --footer-strip-ink: #596264;
+  --ink: #262320;
+  --ink-soft: #3A342C;
+  --vizon: #6D665B;
+  --footer-strip-ink: #574F42;
 
-  --rule: #EEEAE4;
-  --rule-strong: #D8D2C8;
-  --rule-cream: #E4D8BE;
+  --rule: #EBE5D5;
+  --rule-strong: #D6CDB6;
+  --rule-cream: #DECEA4;
 
-  --shadow-card: 0 4px 16px rgba(47, 43, 39, 0.04);
-  --shadow-card-hover: 0 16px 40px rgba(var(--chrome-rgb, 62, 50, 73), 0.08);
+  --shadow-card: 0 4px 16px rgba(38, 35, 32, 0.05);
+  --shadow-card-hover: 0 16px 40px rgba(var(--chrome-rgb, 74, 76, 72), 0.08);
   --shadow-cover: 0 14px 24px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.06);
 
-  --footer-text: #EDE4CF;
-  /* WCAG AA: 4.66:1 on the home chrome #214E5B (the old #A8B8B3 sat at
-     4.41:1); every other section chrome is darker, so this is the floor. */
-  --footer-muted: #ADBDB8;
-  /* Navigation controls on the homepage hero. This muted slate keeps a
-     5.10:1+ contrast ratio against the hero band (now the page's own white). */
-  --hero-source-muted: #596264;
+  --footer-text: #F5EFDE;
+  /* On A2's fixed #4A4C48 chrome: 5.99:1, safely above WCAG AA. */
+  --footer-muted: #DED6BF;
+  --hero-source-muted: #574F42;
 
-  --drawer-bg: rgba(255, 255, 255, 0.985);
-  --wine: #7A4453;
+  --drawer-bg: rgba(253, 252, 248, 0.985);
+  --wine: #8A6410;
 
-  --header-border: rgba(237, 228, 207, 0.22);
+  --header-border: rgba(245, 239, 222, 0.20);
 
   /* Header theme-toggle icons: show the moon in light, the sun in dark. */
   --theme-icon-sun: none;
@@ -65,22 +61,11 @@
 }
 
 body {
-  --petrol: rgb(var(--chrome-rgb, 62, 50, 73));
-  /* Always a step darker than --petrol, even when a page sets --chrome-rgb
-     (the old rgb(var(--chrome-rgb, 43, 34, 51)) collapsed to the same
-     colour as --petrol whenever the variable was defined, hiding hover
-     shifts). 70% toward black reproduces the old 43, 34, 51 fallback. */
-  --petrol-deep: color-mix(in srgb, rgb(var(--chrome-rgb, 62, 50, 73)) 70%, black);
-  /* Chrome surfaces (header, drawer band, footer). Defined on body — not
-     :root — because --chrome-rgb lives in body's inline style and custom
-     properties resolve where they are declared. In light they carry the
-     per-section colour; in dark they drop to one near-black. The header is
-     fully opaque here so it matches the footer's depth — a translucent band
-     over the pale page reads washed-out, the lighter the section colour. */
-  --surface-chrome: rgb(var(--chrome-rgb, 62, 50, 73));
-  --surface-footer: rgb(var(--chrome-rgb, 62, 50, 73));
-  /* Hero quote band (homepage only): flush with the page below it, no
-     separate tint. */
+  /* A2 keeps one ash chrome and moves section identity into the accents. */
+  --petrol: var(--sec-accent, #4A554F);
+  --petrol-deep: color-mix(in srgb, var(--sec-accent, #4A554F) 74%, black);
+  --surface-chrome: rgb(var(--chrome-rgb, 74, 76, 72));
+  --surface-footer: rgb(var(--chrome-rgb, 74, 76, 72));
   --band-hero: var(--paper);
 }
 
@@ -95,71 +80,73 @@ body {
    ========================================================================== */
 @media (prefers-color-scheme: dark) {
   html:not([data-theme="light"]) {
-  color-scheme: dark;
-  --bg: #191712;
-  --paper: #191712;
-  --surface-soft: #221F18;
-  --band: #15130F;
-  --footer-strip-bg: var(--band);
-  --ink: #EDE4CF;
-  --ink-soft: #D8CEB7;
-  --vizon: #A69E8C;
-  --footer-strip-ink: var(--vizon);
-  --rule: #2B2721;
-  --rule-strong: #474138;
-  --rule-cream: #453D2E;
-  --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.3);
-  --shadow-card-hover: 0 16px 40px rgba(0, 0, 0, 0.45);
-  --shadow-cover: 0 14px 24px rgba(0, 0, 0, 0.5), 0 4px 8px rgba(0, 0, 0, 0.35);
-  --drawer-bg: rgba(24, 22, 17, 0.985);
-  --wine: #C08E9B;
-  --header-border: rgba(237, 228, 207, 0.12);
-  --theme-icon-sun: block;
-  --theme-icon-moon: none;
+    color-scheme: dark;
+    --bg: #1C1B18;
+    --paper: #1C1B18;
+    --surface-soft: #24231F;
+    --band: #171613;
+    --footer-strip-bg: var(--band);
+    --ink: #EFE7D4;
+    --ink-soft: #D7CEB8;
+    --vizon: #A29A8A;
+    --footer-strip-ink: var(--vizon);
+    --rule: #2C2A25;
+    --rule-strong: #47443C;
+    --rule-cream: #4A4232;
+    --footer-text: #EFE7D4;
+    --footer-muted: #C3BAA4;
+    --hero-source-muted: #A29A8A;
+    --drawer-bg: rgba(28, 27, 24, 0.985);
+    --wine: #C9A968;
+    --header-border: rgba(239, 231, 212, 0.12);
+    --theme-icon-sun: block;
+    --theme-icon-moon: none;
+    --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.3);
+    --shadow-card-hover: 0 16px 40px rgba(0, 0, 0, 0.45);
+    --shadow-cover: 0 14px 24px rgba(0, 0, 0, 0.5), 0 4px 8px rgba(0, 0, 0, 0.35);
   }
   html:not([data-theme="light"]) body {
-  /* Dark's accent is a dried rose, not midnight's gold — the two dark
-     themes each keep their own voice (gold stays midnight's). */
-  --petrol: #C99BA6;
-  --petrol-deep: #DDB7C0;
-  --surface-chrome: rgba(21, 19, 15, 0.88);
-  --surface-footer: #14120E;
-  /* Chrome is near-black here, so the color-mix formula above would
-     collapse into the page. One explicit step above --paper (#191712)
-     instead, same as the header/footer chrome does. */
-  --band-hero: #1D1B16;
+    /* Dark chrome belongs to the warm dark theme, never the A2 ash. */
+    --surface-chrome: var(--band);
+    --surface-footer: var(--band);
+    --band-hero: #201F1B;
+    --petrol: var(--sec-accent-dark, #D8C48C);
+    --petrol-deep: color-mix(in srgb, var(--sec-accent-dark, #D8C48C) 72%, #FFFFFF);
   }
 }
 html[data-theme="dark"] {
   color-scheme: dark;
-  --bg: #191712;
-  --paper: #191712;
-  --surface-soft: #221F18;
-  --band: #15130F;
+  --bg: #1C1B18;
+  --paper: #1C1B18;
+  --surface-soft: #24231F;
+  --band: #171613;
   --footer-strip-bg: var(--band);
-  --ink: #EDE4CF;
-  --ink-soft: #D8CEB7;
-  --vizon: #A69E8C;
+  --ink: #EFE7D4;
+  --ink-soft: #D7CEB8;
+  --vizon: #A29A8A;
   --footer-strip-ink: var(--vizon);
-  --rule: #2B2721;
-  --rule-strong: #474138;
-  --rule-cream: #453D2E;
+  --rule: #2C2A25;
+  --rule-strong: #47443C;
+  --rule-cream: #4A4232;
+  --footer-text: #EFE7D4;
+  --footer-muted: #C3BAA4;
+  --hero-source-muted: #A29A8A;
+  --drawer-bg: rgba(28, 27, 24, 0.985);
+  --wine: #C9A968;
+  --header-border: rgba(239, 231, 212, 0.12);
+  --theme-icon-sun: block;
+  --theme-icon-moon: none;
   --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.3);
   --shadow-card-hover: 0 16px 40px rgba(0, 0, 0, 0.45);
   --shadow-cover: 0 14px 24px rgba(0, 0, 0, 0.5), 0 4px 8px rgba(0, 0, 0, 0.35);
-  --drawer-bg: rgba(24, 22, 17, 0.985);
-  --wine: #C08E9B;
-  --header-border: rgba(237, 228, 207, 0.12);
-  --theme-icon-sun: block;
-  --theme-icon-moon: none;
 }
 html[data-theme="dark"] body {
-  /* Dried rose, as in the media-query twin above — gold stays midnight's. */
-  --petrol: #C99BA6;
-  --petrol-deep: #DDB7C0;
-  --surface-chrome: rgba(21, 19, 15, 0.88);
-  --surface-footer: #14120E;
-  --band-hero: #1D1B16;
+  /* Explicit Dark uses the same warm band as the system-dark path. */
+  --surface-chrome: var(--band);
+  --surface-footer: var(--band);
+  --band-hero: #201F1B;
+  --petrol: var(--sec-accent-dark, #D8C48C);
+  --petrol-deep: color-mix(in srgb, var(--sec-accent-dark, #D8C48C) 72%, #FFFFFF);
 }
 
 /* ==========================================================================
@@ -172,36 +159,52 @@ html[data-theme="dark"] body {
    ========================================================================== */
 html[data-theme="midnight"] {
   color-scheme: dark;
-  --bg: #101720;
-  --paper: #101720;
-  --surface-soft: #161F2B;
-  --band: #0C1219;
+  --bg: #14161A;
+  --paper: #14161A;
+  --surface-soft: #1C1F24;
+  --band: #101215;
   --footer-strip-bg: var(--band);
-  --ink: #EDE4CF;
-  --ink-soft: #D8CEB7;
-  --vizon: #A69E8C;
+  --ink: #EDE6D6;
+  --ink-soft: #D3CBB8;
+  --vizon: #9E9C94;
   --footer-strip-ink: var(--vizon);
-  --rule: #222A36;
-  --rule-strong: #4A5260;
-  --rule-cream: #4A4433;
+  --rule: #22262B;
+  --rule-strong: #454A50;
+  --rule-cream: #4A4535;
+  --footer-text: #EDE6D6;
+  --footer-muted: #B0AEA4;
+  --hero-source-muted: #9E9C94;
+  --drawer-bg: rgba(20, 22, 26, 0.985);
+  --wine: #C9A968;
+  --header-border: rgba(237, 230, 214, 0.12);
+  --theme-icon-sun: block;
+  --theme-icon-moon: none;
   --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.3);
   --shadow-card-hover: 0 16px 40px rgba(0, 0, 0, 0.45);
   --shadow-cover: 0 14px 24px rgba(0, 0, 0, 0.5), 0 4px 8px rgba(0, 0, 0, 0.35);
-  --drawer-bg: rgba(16, 23, 32, 0.985);
-  --wine: #C08E9B;
-  --header-border: rgba(237, 228, 207, 0.12);
-  --theme-icon-sun: block;
-  --theme-icon-moon: none;
 }
 html[data-theme="midnight"] body {
-  --petrol: #C6B98F;
-  --petrol-deep: #DCD1AC;
-  --surface-chrome: rgba(12, 17, 24, 0.88);
-  --surface-footer: #0C1119;
-  /* Same one-step-above-paper treatment as dark, against midnight's own
-     --paper (#101720). */
-  --band-hero: #141B24;
+  /* Midnight chrome stays blue-black instead of inheriting A2 ash. */
+  --surface-chrome: var(--band);
+  --surface-footer: var(--band);
+  --band-hero: #181B20;
+  --petrol: var(--sec-accent-dark, #DCC78E);
+  --petrol-deep: color-mix(in srgb, var(--sec-accent-dark, #DCC78E) 72%, #FFFFFF);
 }
+
+/* A2 section identity: fixed chrome, section-specific accents. */
+body.is-home,
+body.series-home        { --sec-accent: #4A554F; --sec-accent-dark: #AFBBA6; }
+body.series-default     { --sec-accent: #6B5A3C; --sec-accent-dark: #D3C39A; }
+body.series-series,
+body.series-on-series,
+body.series-cafe-series { --sec-accent: #35544E; --sec-accent-dark: #9EBBB0; }
+body.series-book,
+body.series-fragments   { --sec-accent: #8A6410; --sec-accent-dark: #E4C97F; }
+body.series-moris       { --sec-accent: #4A4A3A; --sec-accent-dark: #BFBE9C; }
+body.series-about       { --sec-accent: #2E2E2B; --sec-accent-dark: #CFC9BC; }
+body.series-story       { --sec-accent: #6E4A2E; --sec-accent-dark: #DDB894; }
+body.series-tools       { --sec-accent: #3C5468; --sec-accent-dark: #A6BDCE; }
 
 /* ========================================================================== 
    2. Reset & Base
@@ -267,7 +270,7 @@ header {
   min-height: 92px;
   background: var(--surface-chrome);
   backdrop-filter: blur(14px) saturate(120%); -webkit-backdrop-filter: blur(14px) saturate(120%);
-  border-bottom: 1px solid var(--header-border);
+  border-bottom: 0;
   transition: transform 0.3s ease, background 0.4s ease;
 
   margin-left: calc(50% - 50vw);
@@ -1506,7 +1509,13 @@ footer {
 .footer-strip {
   background: var(--footer-strip-bg);
   color: var(--footer-strip-ink);
+  border-top: 1px solid var(--rule);
 }
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme="light"]) .footer-strip { border-top: 0; }
+}
+html[data-theme="dark"] .footer-strip,
+html[data-theme="midnight"] .footer-strip { border-top: 0; }
 
 .footer-strip-inner {
   max-width: 980px;

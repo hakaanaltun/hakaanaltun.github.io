@@ -3,27 +3,26 @@
   "short_name": "On Life & Everything",
   "start_url": ".",
   "display": "standalone",
-  "background_color": "#FFFFFF",
-  "theme_color": "#20454F",
+  "background_color": "#FDFCF8",
+  "theme_color": "#4A4C48",
   "icons": [
     {
-      "src": "on-icon-192x192.png?v=20260721-2",
+      "src": "on-icon-192x192.png?v=20260729-1",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "on-icon-512x512.png?v=20260721-2",
+      "src": "on-icon-512x512.png?v=20260729-1",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "on-icon-512x512-maskable.png?v=20260721-2",
+      "src": "on-icon-512x512-maskable.png?v=20260729-1",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
     }
   ]
 }
-
