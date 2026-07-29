@@ -188,8 +188,9 @@ html[data-theme="midnight"] body {
   --surface-chrome: var(--band);
   --surface-footer: var(--band);
   --band-hero: #181B20;
-  --petrol: var(--sec-accent-dark, #DCC78E);
-  --petrol-deep: color-mix(in srgb, var(--sec-accent-dark, #DCC78E) 72%, #FFFFFF);
+  /* Restore Midnight's original single gold voice across every section. */
+  --petrol: #C6B98F;
+  --petrol-deep: #DCD1AC;
 }
 
 /* A2 section identity: fixed chrome, section-specific accents. */
