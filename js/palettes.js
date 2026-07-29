@@ -9,11 +9,11 @@
       lines in css/palettes.css, the compact table in head.html, and the
       CHROME map below — keep the three in sync.
 
-   2. On /themes/: build the palette previews and wire the two controls,
-      "Keep this palette" and "Rotate with every refresh". A palette only
+   2. On /themes/: build the palette previews; a click keeps that palette
+      on this device — no separate "keep" step, no rotation. A palette only
       ever repaints the light path — Dark, Midnight and the dark half of
       Dusk are out of reach by construction (see css/palettes.css), so
-      previewing here simply forces data-theme="light" for the look; a
+      choosing here simply forces data-theme="light" for the look; a
       stored Dark/Midnight choice is untouched and returns on the next page.
 
    Palette 1 is Ash & Gold, the site's own face — it needs no rules, it is
@@ -89,24 +89,17 @@
   function stored() {
     try { return localStorage.getItem('palette'); } catch (e) { return null; }
   }
-  function shown() {
-    var n = parseInt(document.documentElement.getAttribute('data-palette'), 10);
-    return n >= 1 && n <= COUNT ? n : 1;
-  }
-
   /* Keep <meta name="theme-color"> on the active palette's chrome — but
      only on the light path. theme.js calls this at the end of every
      syncThemeColor(); head.html's pre-paint script covers first paint. */
   function paletteMetaSync() {
-    var s = stored();
-    if (!s) return;                                   /* Ash & Gold default */
-    var n = s === 'rotate' ? shown() : parseInt(s, 10);
-    if (!(n >= 2 && n <= COUNT) || !CHROME[n]) return;
+    var n = parseInt(stored(), 10);
     var t = document.documentElement.getAttribute('data-theme');
     if (t === 'dark' || t === 'midnight') return;     /* dark side is fixed */
     if (!t && window.matchMedia('(prefers-color-scheme: dark)').matches) return;
     document.querySelectorAll('meta[name="theme-color"][data-light]').forEach(function (m) {
-      m.setAttribute('content', CHROME[n]);
+      var v = n >= 2 && n <= COUNT && CHROME[n] ? CHROME[n] : m.getAttribute('data-light');
+      if (v) m.setAttribute('content', v);            /* palette chrome, else Ash & Gold */
     });
   }
   window.__paletteMetaSync = paletteMetaSync;
@@ -116,8 +109,6 @@
   var list = document.getElementById('palette-list');
   if (!list) return;
   var status = document.getElementById('themes-status');
-  var keepBtn = document.getElementById('palette-keep');
-  var rotateBtn = document.getElementById('palette-rotate');
 
   function el(tag, cls, text) {
     var e = document.createElement(tag);
@@ -190,9 +181,16 @@
   PALETTES.forEach(function (p, i) { list.appendChild(buildPreview(p, i + 1)); });
   var previews = Array.prototype.slice.call(list.querySelectorAll('.palette-preview'));
 
-  function preview(n) {
+  /* Click = keep: the choice is stored at once and stays on this device
+     until another palette is picked. Palette 1 means "no choice" — the
+     site's own Ash & Gold — so it clears the key instead of storing. */
+  function choose(n) {
     if (n === 1) document.documentElement.removeAttribute('data-palette');
     else document.documentElement.setAttribute('data-palette', String(n));
+    try {
+      if (n === 1) localStorage.removeItem('palette');
+      else localStorage.setItem('palette', String(n));
+    } catch (e) { /* private mode */ }
     /* Force the light path for the look — a stored Dark/Midnight choice is
        untouched and quietly returns on the next page. */
     document.documentElement.setAttribute('data-theme', 'light');
@@ -201,11 +199,9 @@
   }
 
   function sync() {
-    var s = stored();
-    var n = shown();
-    var name = PALETTES[n - 1].name;
-    var mode = s === 'rotate' ? 'rotate' : (s ? 'keep' : 'none');
-    var chosen = mode === 'none' ? 1 : (mode === 'rotate' ? n : parseInt(s, 10));
+    var s = parseInt(stored(), 10);
+    var chosen = s >= 1 && s <= COUNT ? s : 1;
+    var name = PALETTES[chosen - 1].name;
 
     previews.forEach(function (pv) {
       var on = parseInt(pv.getAttribute('data-n'), 10) === chosen;
@@ -213,48 +209,23 @@
       if (mark) mark.hidden = !on;
     });
 
-    if (mode === 'rotate') {
-      status.innerHTML = 'Rotating — this refresh brought <b>' + name + '</b>.';
-    } else if (n !== chosen) {
-      status.innerHTML = 'Previewing <b>' + name + '</b> — keep it below, or it fades on the next page.';
-    } else if (mode === 'keep') {
-      status.innerHTML = '<b>' + name + '</b> is kept on this device.';
-    } else {
+    if (chosen === 1) {
       status.innerHTML = 'Nothing chosen — the site always opens in its own <b>Ash &amp; Gold</b>.';
+    } else {
+      status.innerHTML = '<b>' + name + '</b> is yours on this device, until you pick another.';
     }
-
-    rotateBtn.classList.toggle('is-active', mode === 'rotate');
-    keepBtn.classList.toggle('is-active', mode === 'keep' && n === chosen);
   }
 
   list.addEventListener('click', function (e) {
     var pv = e.target.closest('.palette-preview');
-    if (pv) preview(parseInt(pv.getAttribute('data-n'), 10));
+    if (pv) choose(parseInt(pv.getAttribute('data-n'), 10));
   });
   list.addEventListener('keydown', function (e) {
     if (e.key !== 'Enter' && e.key !== ' ') return;
     var pv = e.target.closest('.palette-preview');
     if (!pv) return;
     e.preventDefault();
-    preview(parseInt(pv.getAttribute('data-n'), 10));
-  });
-
-  keepBtn.addEventListener('click', function () {
-    try {
-      localStorage.setItem('palette', String(shown()));
-      localStorage.removeItem('palette-last');
-    } catch (e) { /* private mode */ }
-    sync();
-  });
-
-  rotateBtn.addEventListener('click', function () {
-    var n;
-    do { n = 1 + Math.floor(Math.random() * COUNT); } while (n === shown());
-    try {
-      localStorage.setItem('palette', 'rotate');
-      localStorage.setItem('palette-last', String(n));
-    } catch (e) { /* private mode */ }
-    preview(n);
+    choose(parseInt(pv.getAttribute('data-n'), 10));
   });
 
   sync();

@@ -19,19 +19,18 @@ var p=C[z.split('/').pop()];if(!p){var LA={Europe:48,America:40,Asia:30,Africa:9
 var d=Date.now()/864e5-10957.5,g=(357.529+0.98560028*d)*R,L=(280.459+0.98564736*d+1.915*Math.sin(g)+0.02*Math.sin(2*g))*R,E=23.439*R,sD=Math.sin(E)*Math.sin(L),RA=Math.atan2(Math.cos(E)*Math.sin(L),Math.cos(L))/R/15,GM=((18.697374558+24.06570982441908*d)%24+24)%24,H=((((GM+p[1]/15)%24+24)%24-RA)*15+540)%360-180,al=Math.asin(Math.sin(p[0]*R)*sD+Math.cos(p[0]*R)*Math.cos(Math.asin(sD))*Math.cos(H*R))/R;
 r=al>=-0.8?'light':al>=-6?'dark':'midnight';}
 document.documentElement.setAttribute('data-theme',r);var m=document.querySelectorAll('meta[name="theme-color"]');for(var i=0;i<m.length;i++){var v=m[i].getAttribute('data-'+r);if(v)m[i].setAttribute('content',v);}}catch(e){}})();</script>
-{% comment %} Light palettes — the /themes/ wardrobe. Applies a stored
-palette (or rotates one, avoiding an immediate repeat) before first paint
-and points the light theme-color meta at its chrome. Palette 1 is the
-site's own Ash & Gold: no attribute at all. The chrome hexes live in
-three places — css/palettes.css, this table, and the CHROME map in
-js/palettes.js — keep the three in sync. {% endcomment %}
-<script>(function(){try{var s=localStorage.getItem('palette');if(!s)return;var n;
-if(s==='rotate'){var last=0;try{last=parseInt(localStorage.getItem('palette-last')||'0',10)}catch(e){}
-do{n=1+Math.floor(Math.random()*12)}while(n===last);
-try{localStorage.setItem('palette-last',String(n))}catch(e){}}
-else{n=parseInt(s,10);if(!(n>=1&&n<=12))return;}
+{% comment %} Light palettes — the /themes/ wardrobe. Applies the stored
+palette before first paint and points the light theme-color meta at its
+chrome. Palette 1 is the site's own Ash & Gold: no attribute at all. The
+chrome hexes live in three places — css/palettes.css, this table, and the
+CHROME map in js/palettes.js — keep the three in sync. {% endcomment %}
+<script>(function(){try{var s=localStorage.getItem('palette');if(!s)return;var n=parseInt(s,10);
+if(!(n>=1&&n<=12))return;
 if(n===1){document.documentElement.removeAttribute('data-palette');return;}
 document.documentElement.setAttribute('data-palette',String(n));
+var t=document.documentElement.getAttribute('data-theme');
+if(t==='dark'||t==='midnight')return;
+if(!t&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches)return;
 var C={2:'#3E4A44',3:'#3A4148',4:'#5E4234',5:'#3E4F42',6:'#22364F',7:'#59513A',8:'#47415A',9:'#234640',10:'#5E4046',11:'#45412E',12:'#2E3F45'};
 var m=document.querySelector('meta[name="theme-color"][data-light]');if(m&&C[n])m.setAttribute('content',C[n]);}catch(e){}})();</script>
 {% if page.noindex %}<meta name="robots" content="noindex">{% endif %}
@@ -117,7 +116,7 @@ the story pages ("The Notice"), which share one card. {% endcomment %}
 </script>
 
 <link rel="stylesheet" href="/css/style.css?v=20260729-2">
-<link rel="stylesheet" href="/css/palettes.css?v=20260730-2">
+<link rel="stylesheet" href="/css/palettes.css?v=20260730-3">
 
 {% elsif page.layout == "home" %}
 
@@ -262,7 +261,7 @@ the story pages ("The Notice"), which share one card. {% endcomment %}
 </script>
 
 <link rel="stylesheet" href="/css/style.css?v=20260729-2">
-<link rel="stylesheet" href="/css/palettes.css?v=20260730-2">
+<link rel="stylesheet" href="/css/palettes.css?v=20260730-3">
 
 {% else %}
 
@@ -296,7 +295,7 @@ results; the visible page keeps its plain title. Used as-is — no suffix. {% en
 <meta name="twitter:image:alt" content="{{ page.title | escape }} — Hakan Altun">
 
 <link rel="stylesheet" href="/css/style.css?v=20260729-2">
-<link rel="stylesheet" href="/css/palettes.css?v=20260730-2">
+<link rel="stylesheet" href="/css/palettes.css?v=20260730-3">
 
 {% endif %}
 
