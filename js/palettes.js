@@ -125,7 +125,8 @@
     box.setAttribute('aria-label', 'Preview the ' + p.name + ' palette');
 
     var head = el('div', 'palette-preview-head');
-    var name = el('h2', 'palette-preview-name', (n) + ' · ' + p.name + ' ');
+    var name = el('h2', 'palette-preview-name');
+    name.innerHTML = (n) + ' · ' + p.name.replace(/&/g, '&amp;') + ' ';
     name.appendChild(el('span', 'palette-current-mark', '✓'));
     head.appendChild(name);
     head.appendChild(el('span', 'palette-preview-tag', p.tag));
@@ -134,7 +135,8 @@
     var mock = el('div', 'palette-mock');
     var pmh = el('div', 'pm-head');
     pmh.style.background = p.chrome;
-    var brand = el('span', 'pm-brand', 'On Life & Everything');
+    var brand = el('span', 'pm-brand');
+    brand.innerHTML = 'On Life &amp; Everything';
     brand.style.color = p.ftext;
     var nav = el('span', 'pm-nav', 'Essays · Series · Book · About');
     nav.style.color = p.fmuted;
@@ -142,21 +144,18 @@
 
     var pmb = el('div', 'pm-body');
     pmb.style.background = p.paper;
-    var title = el('h3', 'pm-title', 'On the Slow Forgetting of Things');
+    var title = el('h3', 'pm-title', 'The Corner');
     title.style.color = p.acc[0];
-    var text = el('p', 'pm-text', 'We do not lose the past all at once; it thins, the way colour leaves a curtain in the sun. What remains is not the day itself but its light — ');
+    var text = el('p', 'pm-text', 'Three stories from a corner that never emptied.');
     text.style.color = p.inkSoft;
-    var link = el('span', 'pm-link', 'keep reading');
-    link.style.color = p.acc[1];
-    text.appendChild(link);
-    text.appendChild(document.createTextNode('.'));
-    var meta = el('p', 'pm-meta', 'Essays · 8 min');
+    var meta = el('p', 'pm-meta', 'Series · 3 stories');
     meta.style.color = p.vizon;
     pmb.appendChild(title); pmb.appendChild(text); pmb.appendChild(meta);
 
     var pmf = el('div', 'pm-foot');
     pmf.style.background = p.chrome;
-    var f1 = el('span', null, 'On Life & Everything');
+    var f1 = el('span', 'pm-foot-brand');
+    f1.innerHTML = 'On Life &amp; Everything';
     f1.style.color = p.ftext;
     var f2 = el('span', null, 'letters@hakanaltun.io');
     f2.style.color = p.fmuted;
@@ -210,7 +209,7 @@
     });
 
     if (chosen === 1) {
-      status.innerHTML = 'Nothing chosen — the site always opens in its own <b>Ash &amp; Gold</b>.';
+      status.innerHTML = 'Nothing chosen&mdash;the site always opens in its own <b>Ash &amp; Gold</b>.';
     } else {
       status.innerHTML = '<b>' + name + '</b> is yours on this device, until you pick another.';
     }
