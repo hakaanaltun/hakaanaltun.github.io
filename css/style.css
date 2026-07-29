@@ -23,7 +23,7 @@
   --head-band: 150px;
   --drawer-logo-mb: calc(var(--head-band) - 68px);
 
-  /* A2 — Ash & Cream. Layout tokens above remain unchanged. */
+  /* A2 — Tools ash with gold chrome type. Layout tokens remain unchanged. */
   --bg: #FDFCF8;
   --paper: #FDFCF8;
   --surface-soft: #F6F1E5;
@@ -40,18 +40,18 @@
   --rule-cream: #DECEA4;
 
   --shadow-card: 0 4px 16px rgba(38, 35, 32, 0.05);
-  --shadow-card-hover: 0 16px 40px rgba(var(--chrome-rgb, 74, 76, 72), 0.08);
+  --shadow-card-hover: 0 16px 40px rgba(var(--chrome-rgb, 68, 74, 78), 0.08);
   --shadow-cover: 0 14px 24px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.06);
 
-  --footer-text: #F5EFDE;
-  /* On A2's fixed #4A4C48 chrome: 5.99:1, safely above WCAG AA. */
-  --footer-muted: #DED6BF;
+  --footer-text: #DCD1AC;
+  /* Muted gold on the fixed #444A4E chrome: 4.60:1, above WCAG AA. */
+  --footer-muted: #C6B98F;
   --hero-source-muted: #574F42;
 
   --drawer-bg: rgba(253, 252, 248, 0.985);
   --wine: #8A6410;
 
-  --header-border: rgba(245, 239, 222, 0.20);
+  --header-border: rgba(220, 209, 172, 0.20);
 
   /* Header theme-toggle icons: show the moon in light, the sun in dark. */
   --theme-icon-sun: none;
@@ -64,8 +64,8 @@ body {
   /* A2 keeps one ash chrome and moves section identity into the accents. */
   --petrol: var(--sec-accent, #4A554F);
   --petrol-deep: color-mix(in srgb, var(--sec-accent, #4A554F) 74%, black);
-  --surface-chrome: rgb(var(--chrome-rgb, 74, 76, 72));
-  --surface-footer: rgb(var(--chrome-rgb, 74, 76, 72));
+  --surface-chrome: rgb(var(--chrome-rgb, 68, 74, 78));
+  --surface-footer: rgb(var(--chrome-rgb, 68, 74, 78));
   --band-hero: var(--paper);
 }
 
@@ -152,8 +152,8 @@ html[data-theme="dark"] body {
 /* ==========================================================================
    Midnight theme
    The second dark: the /moon/ page's palette carried across the whole site —
-   parliament-blue ground, cream ink, the accents run gold instead of the
-   warm near-black above. Only ever an explicit choice from the footer menu
+   parliament-blue ground with one gold and muted-gold text system instead
+   of mixed cream, grey and gold. Only ever an explicit footer-menu choice
    (js/theme.js); no system preference maps to it, so there is no media-query
    twin of this block.
    ========================================================================== */
@@ -164,19 +164,19 @@ html[data-theme="midnight"] {
   --surface-soft: #1C1F24;
   --band: #101215;
   --footer-strip-bg: var(--band);
-  --ink: #EDE6D6;
-  --ink-soft: #D3CBB8;
-  --vizon: #9E9C94;
+  --ink: #DCD1AC;
+  --ink-soft: #C6B98F;
+  --vizon: #C6B98F;
   --footer-strip-ink: var(--vizon);
   --rule: #22262B;
   --rule-strong: #454A50;
   --rule-cream: #4A4535;
-  --footer-text: #EDE6D6;
-  --footer-muted: #B0AEA4;
-  --hero-source-muted: #9E9C94;
+  --footer-text: #DCD1AC;
+  --footer-muted: #C6B98F;
+  --hero-source-muted: #C6B98F;
   --drawer-bg: rgba(20, 22, 26, 0.985);
-  --wine: #C9A968;
-  --header-border: rgba(237, 230, 214, 0.12);
+  --wine: #C6B98F;
+  --header-border: rgba(220, 209, 172, 0.16);
   --theme-icon-sun: block;
   --theme-icon-moon: none;
   --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.3);
@@ -193,19 +193,19 @@ html[data-theme="midnight"] body {
   --petrol-deep: #DCD1AC;
 }
 
-/* A2 section identity: fixed chrome, section-specific accents. */
+/* A2 section identity: fixed Tools chrome, clearly distinct light accents. */
 body.is-home,
-body.series-home        { --sec-accent: #4A554F; --sec-accent-dark: #AFBBA6; }
-body.series-default     { --sec-accent: #6B5A3C; --sec-accent-dark: #D3C39A; }
+body.series-home        { --sec-accent: #2F625D; --sec-accent-dark: #AFBBA6; }
+body.series-default     { --sec-accent: #7A4453; --sec-accent-dark: #D3C39A; }
 body.series-series,
 body.series-on-series,
-body.series-cafe-series { --sec-accent: #35544E; --sec-accent-dark: #9EBBB0; }
+body.series-cafe-series { --sec-accent: #2F5F48; --sec-accent-dark: #9EBBB0; }
 body.series-book,
 body.series-fragments   { --sec-accent: #8A6410; --sec-accent-dark: #E4C97F; }
-body.series-moris       { --sec-accent: #4A4A3A; --sec-accent-dark: #BFBE9C; }
-body.series-about       { --sec-accent: #2E2E2B; --sec-accent-dark: #CFC9BC; }
-body.series-story       { --sec-accent: #6E4A2E; --sec-accent-dark: #DDB894; }
-body.series-tools       { --sec-accent: #3C5468; --sec-accent-dark: #A6BDCE; }
+body.series-moris       { --sec-accent: #5B6238; --sec-accent-dark: #BFBE9C; }
+body.series-about       { --sec-accent: #654862; --sec-accent-dark: #CFC9BC; }
+body.series-story       { --sec-accent: #7A4B35; --sec-accent-dark: #DDB894; }
+body.series-tools       { --sec-accent: #3F5F7A; --sec-accent-dark: #A6BDCE; }
 
 /* ========================================================================== 
    2. Reset & Base
