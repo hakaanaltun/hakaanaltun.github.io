@@ -569,8 +569,15 @@ html[data-theme="light"][data-palette="12"] body { --chrome-rgb: 46, 63, 69 !imp
 
 .palette-preview { border-top: 1px solid var(--rule); padding: 32px 0; cursor: pointer; }
 .palette-preview-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 14px; gap: 14px; }
-.palette-preview-name { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: 1.3rem; line-height: 1.1; color: var(--ink); transition: color 0.2s ease; }
-.palette-preview:hover .palette-preview-name { color: var(--petrol); }
+.palette-preview-name { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: 1.3rem; line-height: 1.1; }
+/* The keyboard target. It has to look like the heading it sits inside, so it
+   inherits everything and only takes back the focus ring. */
+.palette-preview-btn {
+  font: inherit; color: var(--ink); background: none; border: 0; padding: 0;
+  cursor: pointer; text-align: left; transition: color 0.2s ease;
+}
+.palette-preview:hover .palette-preview-btn { color: var(--petrol); }
+.palette-preview-btn:focus-visible { outline: 2px solid var(--petrol); outline-offset: 3px; border-radius: 3px; }
 .palette-current-mark { color: var(--petrol); }
 .palette-preview-tag { font-size: 0.82rem; font-style: italic; color: var(--vizon); white-space: nowrap; }
 
