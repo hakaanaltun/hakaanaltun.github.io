@@ -13,8 +13,9 @@
    A palette is two things: a sheet of paper (the token block, written twice
    for the two situations above) and a lightness for the section accents (the
    --sec-l table below, written once — the dark themes never read it). The
-   accents themselves are not listed here at all; their hues are fixed
-   sitewide in css/style.css and each palette only says how dark they print.
+   accents themselves are not listed here at all; their hues and chromas are
+   fixed sitewide in css/style.css and each palette only says how dark they
+   print.
 
    Palette 1 is Ash & Gold, the site's own face — it needs no rules, it is
    the :root default in style.css. The pre-paint script in
@@ -29,28 +30,28 @@
 /* ------------------------------------------------------------------------
    Section-accent lightness, one number per palette.
 
-   The eight section hues live in css/style.css and are the same on every
+   The five section voices live in css/style.css and are the same on every
    paper; only how dark they print changes here. Each value is the highest
    lightness that still clears WCAG AA on that palette's --band, the
    darkest ground an accent sits on — so Ash & Gold's near-white carries
-   0.510 while Field's much darker sheet needs 0.422, and both stay legible.
-   Field is also the one paper whose lightness pushes the shared chroma out
-   of sRGB, so it drops a step.
+   0.513 while Field's much darker sheet needs 0.425, and both stay legible.
+   Chroma is not set here — it belongs to the voice, not the paper, and is
+   fixed per section in css/style.css.
 
    Ungated on purpose: Dark and Midnight read --sec-accent-dark, never
    --sec-accent, so there is nothing here for a theme gate to protect.
    ------------------------------------------------------------------------ */
-html[data-palette="2"] { --sec-l: 0.496; }  /* Vellum */
-html[data-palette="3"] { --sec-l: 0.496; }  /* Fog */
-html[data-palette="4"] { --sec-l: 0.486; }  /* Clay */
-html[data-palette="5"] { --sec-l: 0.490; }  /* Sage */
-html[data-palette="6"] { --sec-l: 0.488; }  /* Blueprint */
-html[data-palette="7"] { --sec-l: 0.488; }  /* Ochre */
-html[data-palette="8"] { --sec-l: 0.483; }  /* Lavender Mist */
-html[data-palette="9"] { --sec-l: 0.493; }  /* Sea Salt */
-html[data-palette="10"] { --sec-l: 0.483; }  /* Pudra */
-html[data-palette="11"] { --sec-l: 0.422; --sec-c: 0.071; }  /* Field */
-html[data-palette="12"] { --sec-l: 0.453; }  /* Slate Paper */
+html[data-palette="2"] { --sec-l: 0.499; }  /* Vellum */
+html[data-palette="3"] { --sec-l: 0.499; }  /* Fog */
+html[data-palette="4"] { --sec-l: 0.488; }  /* Clay */
+html[data-palette="5"] { --sec-l: 0.492; }  /* Sage */
+html[data-palette="6"] { --sec-l: 0.492; }  /* Blueprint */
+html[data-palette="7"] { --sec-l: 0.492; }  /* Ochre */
+html[data-palette="8"] { --sec-l: 0.485; }  /* Lavender Mist */
+html[data-palette="9"] { --sec-l: 0.496; }  /* Sea Salt */
+html[data-palette="10"] { --sec-l: 0.487; }  /* Pudra */
+html[data-palette="11"] { --sec-l: 0.425; }  /* Field */
+html[data-palette="12"] { --sec-l: 0.457; }  /* Slate Paper */
 
 /* 2 — Vellum */
 @media (prefers-color-scheme: light) {

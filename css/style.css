@@ -194,48 +194,71 @@ html[data-theme="midnight"] body {
 }
 
 /* ==========================================================================
-   A2 section identity — one hue per section, one lightness per palette
+   Section identity — five voices, one lightness per palette
    --------------------------------------------------------------------------
    The chrome is a single ash across the whole site, so a section's character
-   is carried entirely by its accent. What that accent *is* — teal, wine,
-   olive — belongs to the section. How dark it has to print belongs to the
-   paper. The two were tangled while the accents were hand-mixed hexes: the
+   is carried entirely by its accent. Two decisions sit behind these numbers.
+
+   First: what the accent says. Eight sections once carried eight unrelated
+   colours — a plum next to a green next to a blue — which read as a wheel
+   rather than a palette, and told the reader only which URL they were on.
+   They now carry five, grouped by what a page *is* rather than where it
+   lives: the writing, the book, the quotes, the fiction, and the site's own
+   furniture. Home, About and Tools share one voice on purpose; that is the
+   cost of the grouping, paid deliberately. The five sit inside one family —
+   every hue pulled toward the site's own gold, chroma held low and varied
+   so the quiet ones stay quiet (the shared teal is the least saturated of
+   the five, the book's gold the most).
+
+   Second: how dark it prints. That belongs to the paper, not the section,
+   and the two were tangled while the accents were hand-mixed hexes — the
    same #2F625D was asked to work on Ash & Gold's near-white and on Field's
-   much darker sheet, and it could only manage one of them. Splitting them
-   lets a section keep its hue on every paper in the wardrobe while each
-   palette sets its own --sec-l (css/palettes.css), tuned so even --band,
-   the darkest ground an accent ever sits on, clears WCAG AA.
-
-   The wheel, in OKLCH degrees. Minimum gap 35°, chosen so no two sections
-   read as the same colour at heading size — the old set left home and
-   series only 26° apart, which in Cormorant italic was no difference at all:
-
-     10 essays · 45 story · 82 book · 118 moris
-     155 series · 195 home · 252 tools · 318 about
+   much darker sheet, and could only manage one of them. Each palette now
+   sets its own --sec-l (css/palettes.css), tuned so even --band, the darkest
+   ground an accent ever sits on, clears WCAG AA. Measured in Chromium across
+   all twelve palettes: 4.76:1 at worst.
 
    Only the light path reads --sec-accent; Dark and Midnight run on
-   --sec-accent-dark, whose hand-picked values below are unchanged. That is
-   why none of this needs a theme gate, and why palettes.css can override a
-   palette's accents with one number instead of eight hexes written twice.
+   --sec-accent-dark, which is still eight hand-picked values, one per
+   section — the grouping above has not been carried into the dark wardrobe.
+   That is also why none of this needs a theme gate.
    ========================================================================== */
 :root {
-  --sec-l: 0.510;   /* Ash & Gold — the palest paper in the wardrobe */
-  --sec-c: 0.075;   /* the site's own mute; the old hand-mixed set averaged 0.065 */
+  --sec-l: 0.513;   /* Ash & Gold — the palest paper in the wardrobe */
 }
-body { --sec-accent: oklch(var(--sec-l) var(--sec-c) var(--sec-h, 195)); }
+body { --sec-accent: oklch(var(--sec-l) var(--sec-c, 0.050) var(--sec-h, 178)); }
 
-body.is-home,
-body.series-home        { --sec-h: 195; --sec-accent-dark: #AFBBA6; }
-body.series-default     { --sec-h:  10; --sec-accent-dark: #D3C39A; }
+/* The writing — essays, standalone pieces, and every series */
+body.series-default,
 body.series-series,
 body.series-on-series,
-body.series-cafe-series { --sec-h: 155; --sec-accent-dark: #9EBBB0; }
+body.series-cafe-series { --sec-h:  30; --sec-c: 0.070; }
+/* The book, and the fragments that belong to it */
 body.series-book,
-body.series-fragments   { --sec-h:  82; --sec-accent-dark: #E4C97F; }
-body.series-moris       { --sec-h: 118; --sec-accent-dark: #BFBE9C; }
-body.series-about       { --sec-h: 318; --sec-accent-dark: #CFC9BC; }
-body.series-story       { --sec-h:  45; --sec-accent-dark: #DDB894; }
-body.series-tools       { --sec-h: 252; --sec-accent-dark: #A6BDCE; }
+body.series-fragments   { --sec-h:  86; --sec-c: 0.072; }
+/* The quotes */
+body.series-moris       { --sec-h: 118; --sec-c: 0.058; }
+/* The fiction */
+body.series-story       { --sec-h:  56; --sec-c: 0.066; }
+/* The site's own furniture — the front door, the person, the instruments */
+body.is-home,
+body.series-home,
+body.series-about,
+body.series-tools       { --sec-h: 178; --sec-c: 0.050; }
+
+/* Dark and Midnight keep one accent per section, unchanged. */
+body.is-home,
+body.series-home        { --sec-accent-dark: #AFBBA6; }
+body.series-default     { --sec-accent-dark: #D3C39A; }
+body.series-series,
+body.series-on-series,
+body.series-cafe-series { --sec-accent-dark: #9EBBB0; }
+body.series-book,
+body.series-fragments   { --sec-accent-dark: #E4C97F; }
+body.series-moris       { --sec-accent-dark: #BFBE9C; }
+body.series-about       { --sec-accent-dark: #CFC9BC; }
+body.series-story       { --sec-accent-dark: #DDB894; }
+body.series-tools       { --sec-accent-dark: #A6BDCE; }
 
 /* ========================================================================== 
    2. Reset & Base
