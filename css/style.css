@@ -156,25 +156,33 @@ html[data-theme="dark"] body {
    of mixed cream, grey and gold. Only ever an explicit footer-menu choice
    (js/theme.js); no system preference maps to it, so there is no media-query
    twin of this block.
+
+   The blue is load-bearing — it is the whole reason this theme exists apart
+   from Dark — and it had quietly drained away: the A2 pass took the ground
+   from #101720 to #14161A, dropping its chroma from 0.021 to 0.009, which is
+   near enough to neutral that the paragraph above stopped being true. Every
+   ground below is back on the parliament blue at exactly the lightness A2
+   left it, so the gold reads at the same contrast it did before (11.90:1 on
+   paper, 8.47:1 at the muted end) and only the hue returns.
    ========================================================================== */
 html[data-theme="midnight"] {
   color-scheme: dark;
-  --bg: #14161A;
-  --paper: #14161A;
-  --surface-soft: #1C1F24;
-  --band: #101215;
+  --bg: #10161F;
+  --paper: #10161F;
+  --surface-soft: #171F2B;
+  --band: #0D1219;
   --footer-strip-bg: var(--band);
   --ink: #DCD1AC;
   --ink-soft: #C6B98F;
   --vizon: #C6B98F;
   --footer-strip-ink: var(--vizon);
-  --rule: #22262B;
-  --rule-strong: #454A50;
+  --rule: #1D2632;
+  --rule-strong: #3F4A59;
   --rule-cream: #4A4535;
   --footer-text: #DCD1AC;
   --footer-muted: #C6B98F;
   --hero-source-muted: #C6B98F;
-  --drawer-bg: rgba(20, 22, 26, 0.985);
+  --drawer-bg: rgba(16, 22, 31, 0.985);
   --wine: #C6B98F;
   --header-border: rgba(220, 209, 172, 0.16);
   --theme-icon-sun: block;
@@ -187,7 +195,7 @@ html[data-theme="midnight"] body {
   /* Midnight chrome stays blue-black instead of inheriting A2 ash. */
   --surface-chrome: var(--band);
   --surface-footer: var(--band);
-  --band-hero: #181B20;
+  --band-hero: #131B27;
   /* Restore Midnight's original single gold voice across every section. */
   --petrol: #C6B98F;
   --petrol-deep: #DCD1AC;
@@ -214,55 +222,54 @@ html[data-theme="midnight"] body {
    is what keeps them 15.3 dE apart rather than the 11.4 that made the old
    home/series pair indistinguishable at heading size.
 
-   Second: how dark it prints. That belongs to the paper, not the section,
-   and the two were tangled while the accents were hand-mixed hexes — the
-   same #2F625D was asked to work on Ash & Gold's near-white and on Field's
-   much darker sheet, and could only manage one of them. Each palette now
-   sets its own --sec-l (css/palettes.css), tuned so even --band, the darkest
-   ground an accent ever sits on, clears WCAG AA. Measured in Chromium across
-   all twelve palettes: 4.76:1 at worst.
+   Second: how light or dark it prints. The hue is what a voice *is*, and it
+   is the one thing that survives the change of ground — the writing is the
+   same rose whether it is printed dark on paper or light on the night. What
+   it takes to look like that rose is not the same on both, which is why each
+   voice carries two lightnesses and two chromas rather than one.
 
-   Only the light path reads --sec-accent; Dark and Midnight run on
-   --sec-accent-dark, which is still eight hand-picked values, one per
-   section — the grouping above has not been carried into the dark wardrobe.
-   That is also why none of this needs a theme gate.
+   The temptation was to flip a single lightness and keep the chroma: elegant
+   on paper, wrong in the eye. A hue near red at L 0.82 stops reading as a
+   dusty rose and turns candy pink, and dropping the chroma only bleaches it
+   — the voices lost half their separation and the pink stayed pink. So the
+   writing sits deeper than the rest at night (L 0.70), which is what lets it
+   stay a rose. The greens and golds are happiest light and stay there.
+
+   The dark wardrobe used to carry eight hand-picked tints, and they had
+   drifted: three of the eight sat within 4° of each other in hue, the
+   closest pair only 7.7 dE apart — mushier than anything the five voices
+   produce. Measured in Chromium: light 4.78:1 at worst with the closest
+   voices 15.3 dE apart; dark 5.66:1 at worst, 15.8 dE apart.
+
+   Midnight reads none of this. It pins --petrol to its own single gold
+   further up, so its navy-and-gold stays exactly as it is.
    ========================================================================== */
 :root {
   --sec-l: 0.513;   /* Ash & Gold — the palest paper in the wardrobe */
 }
-body { --sec-accent: oklch(var(--sec-l) var(--sec-c, 0.050) var(--sec-h, 178)); }
+body {
+  --sec-accent:      oklch(var(--sec-l)          var(--sec-c,  0.050) var(--sec-h, 178));
+  --sec-accent-dark: oklch(var(--sec-ld, 0.800)  var(--sec-cd, 0.048) var(--sec-h, 178));
+}
 
+/*                          hue    day chroma    night L + chroma */
 /* The writing — essays, standalone pieces, and every series */
 body.series-default,
 body.series-series,
 body.series-on-series,
-body.series-cafe-series { --sec-h:  12; --sec-c: 0.068; }
+body.series-cafe-series { --sec-h:  12; --sec-c: 0.068; --sec-ld: 0.700; --sec-cd: 0.078; }
 /* The book, and the fragments that belong to it */
 body.series-book,
-body.series-fragments   { --sec-h:  86; --sec-c: 0.072; }
+body.series-fragments   { --sec-h:  86; --sec-c: 0.072; --sec-ld: 0.820; --sec-cd: 0.075; }
 /* The quotes */
-body.series-moris       { --sec-h: 118; --sec-c: 0.058; }
+body.series-moris       { --sec-h: 118; --sec-c: 0.058; --sec-ld: 0.840; --sec-cd: 0.055; }
 /* The fiction */
-body.series-story       { --sec-h:  54; --sec-c: 0.054; }
+body.series-story       { --sec-h:  54; --sec-c: 0.054; --sec-ld: 0.770; --sec-cd: 0.060; }
 /* The site's own furniture — the front door, the person, the instruments */
 body.is-home,
 body.series-home,
 body.series-about,
-body.series-tools       { --sec-h: 178; --sec-c: 0.050; }
-
-/* Dark and Midnight keep one accent per section, unchanged. */
-body.is-home,
-body.series-home        { --sec-accent-dark: #AFBBA6; }
-body.series-default     { --sec-accent-dark: #D3C39A; }
-body.series-series,
-body.series-on-series,
-body.series-cafe-series { --sec-accent-dark: #9EBBB0; }
-body.series-book,
-body.series-fragments   { --sec-accent-dark: #E4C97F; }
-body.series-moris       { --sec-accent-dark: #BFBE9C; }
-body.series-about       { --sec-accent-dark: #CFC9BC; }
-body.series-story       { --sec-accent-dark: #DDB894; }
-body.series-tools       { --sec-accent-dark: #A6BDCE; }
+body.series-tools       { --sec-h: 178; --sec-c: 0.050; --sec-ld: 0.800; --sec-cd: 0.048; }
 
 /* ========================================================================== 
    2. Reset & Base

@@ -125,17 +125,23 @@
     return e;
   }
 
+  /* The whole card is clickable, but it is not the keyboard target: a
+     role="button" makes its descendants presentational, which threw away all
+     twelve <h2>s and with them any way to move through the page by heading.
+     The heading stays a heading; a real <button> inside it carries the name,
+     the focus ring and the keyboard activation. Mouse users still get the
+     whole card — the click listener on the list has not changed. */
   function buildPreview(p, n) {
     var box = el('section', 'palette-preview');
     box.setAttribute('data-n', n);
-    box.setAttribute('tabindex', '0');
-    box.setAttribute('role', 'button');
-    box.setAttribute('aria-label', 'Preview the ' + p.name + ' palette');
 
     var head = el('div', 'palette-preview-head');
     var name = el('h2', 'palette-preview-name');
-    name.innerHTML = (n) + ' · ' + p.name.replace(/&/g, '&amp;') + ' ';
-    name.appendChild(el('span', 'palette-current-mark', '✓'));
+    var btn = el('button', 'palette-preview-btn');
+    btn.type = 'button';
+    btn.innerHTML = (n) + ' · ' + p.name.replace(/&/g, '&amp;') + ' ';
+    btn.appendChild(el('span', 'palette-current-mark', '✓'));
+    name.appendChild(btn);
     head.appendChild(name);
     head.appendChild(el('span', 'palette-preview-tag', p.tag));
     box.appendChild(head);
@@ -214,6 +220,10 @@
       var on = parseInt(pv.getAttribute('data-n'), 10) === chosen;
       var mark = pv.querySelector('.palette-current-mark');
       if (mark) mark.hidden = !on;
+      /* The tick is the sighted cue; aria-pressed is the same news for
+         anyone who cannot see it. */
+      var btn = pv.querySelector('.palette-preview-btn');
+      if (btn) btn.setAttribute('aria-pressed', on ? 'true' : 'false');
     });
 
     if (chosen === 1) {
@@ -223,16 +233,11 @@
     }
   }
 
+  /* One listener covers both routes: a click anywhere on the card, and the
+     click a real <button> already fires for Enter and Space. */
   list.addEventListener('click', function (e) {
     var pv = e.target.closest('.palette-preview');
     if (pv) choose(parseInt(pv.getAttribute('data-n'), 10));
-  });
-  list.addEventListener('keydown', function (e) {
-    if (e.key !== 'Enter' && e.key !== ' ') return;
-    var pv = e.target.closest('.palette-preview');
-    if (!pv) return;
-    e.preventDefault();
-    choose(parseInt(pv.getAttribute('data-n'), 10));
   });
 
   sync();
