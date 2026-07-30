@@ -32,57 +32,63 @@
 
   /* Display data for the /themes/ mocks: paper, soft ink, muted, chrome,
      footer type and the eight section accents (home, essays, series, book,
-     moris, about, story, tools — the same order as the body-class rules in
-     css/palettes.css). */
+     moris, about, story, tools — the ACCENT_LABELS order below).
+
+     The accents are the one thing here that is not authored: the browser
+     derives them from the section hues in css/style.css and the palette's
+     own --sec-l in css/palettes.css. These hexes are that derivation
+     precomputed, purely so the swatches can be painted as inline styles —
+     if either of those two files changes, recompute them, or the mocks will
+     quietly disagree with the site they are previewing. */
   var PALETTES = [
     { name: 'Ash & Gold',    tag: 'the site’s own face',
       paper: '#FDFCF8', inkSoft: '#3A342C', vizon: '#6D665B',
       chrome: '#444A4E', ftext: '#DCD1AC', fmuted: '#C6B98F',
-      acc: ['#2F625D', '#7A4453', '#2F5F48', '#8A6410', '#5B6238', '#654862', '#7A4B35', '#3F5F7A'] },
+      acc: ['#247373', '#8B535C', '#407353', '#7C6230', '#626C38', '#785882', '#8A5841', '#456990'] },
     { name: 'Vellum',        tag: 'warm cream, quiet as old paper',
-      paper: '#F7F2E7', inkSoft: '#443B30', vizon: '#7A6F5C',
+      paper: '#F7F2E7', inkSoft: '#443B30', vizon: '#716654',
       chrome: '#3E4A44', ftext: '#EFE9D4', fmuted: '#CFC7AE',
-      acc: ['#2E5E55', '#8A4B3E', '#4A6B3A', '#8A6410', '#6B6238', '#6E4A62', '#96522E', '#3E5F74'] },
+      acc: ['#1E6F6F', '#875058', '#3C6F4F', '#775E2C', '#5E6834', '#74547E', '#86543D', '#41658C'] },
     { name: 'Fog',           tag: 'a cool grey morning',
-      paper: '#F2F3F1', inkSoft: '#373C42', vizon: '#6B7278',
+      paper: '#F2F3F1', inkSoft: '#373C42', vizon: '#62686E',
       chrome: '#3A4148', ftext: '#E8EBEE', fmuted: '#C3C9CF',
-      acc: ['#2F5F5A', '#7A4453', '#35604A', '#8A6A1E', '#5B6238', '#654862', '#7A4B35', '#3F5F7A'] },
+      acc: ['#1E6F6F', '#875058', '#3C6F4F', '#775E2C', '#5E6834', '#74547E', '#86543D', '#41658C'] },
     { name: 'Clay',          tag: 'terracotta dust',
-      paper: '#F6EDE3', inkSoft: '#4A382D', vizon: '#8A7263',
+      paper: '#F6EDE3', inkSoft: '#4A382D', vizon: '#775F51',
       chrome: '#5E4234', ftext: '#F4E7D6', fmuted: '#D9C3AE',
-      acc: ['#2F625D', '#8A4453', '#4F6B3C', '#96522E', '#6E6430', '#6E4A5E', '#8A3E2E', '#3E5F74'] },
+      acc: ['#1A6C6C', '#844D55', '#396C4C', '#745B29', '#5B6532', '#71517B', '#83513B', '#3F6289'] },
     { name: 'Sage',          tag: 'a garden in pale green',
-      paper: '#EEF1E6', inkSoft: '#3A463D', vizon: '#6C786A',
+      paper: '#EEF1E6', inkSoft: '#3A463D', vizon: '#5D695B',
       chrome: '#3E4F42', ftext: '#E9F0DF', fmuted: '#C4CFB2',
-      acc: ['#2F625D', '#7A4453', '#2F5F48', '#8A6410', '#5B6238', '#654862', '#7A4B35', '#3F5F7A'] },
+      acc: ['#1C6E6E', '#854E57', '#3B6D4D', '#765C2A', '#5D6633', '#72537C', '#84523C', '#40638A'] },
     { name: 'Blueprint',     tag: 'the draughtsman’s blue',
-      paper: '#EDF1F5', inkSoft: '#33414F', vizon: '#68778A',
+      paper: '#EDF1F5', inkSoft: '#33414F', vizon: '#586679',
       chrome: '#22364F', ftext: '#E4EBF3', fmuted: '#B9C6D4',
-      acc: ['#2F625D', '#7A4453', '#2F5F48', '#8A6410', '#5B6238', '#654862', '#7A4B35', '#33587E'] },
+      acc: ['#1B6D6D', '#844D56', '#3A6C4D', '#755B2A', '#5C6632', '#72527C', '#83523B', '#3F6289'] },
     { name: 'Ochre',         tag: 'sunlit straw',
-      paper: '#F6F0D8', inkSoft: '#4A4328', vizon: '#847A50',
+      paper: '#F6F0D8', inkSoft: '#4A4328', vizon: '#6F653C',
       chrome: '#59513A', ftext: '#F3EDD2', fmuted: '#D8CCA4',
-      acc: ['#3A6B58', '#8A4453', '#4F6B3C', '#8A6D1F', '#6B6238', '#654862', '#8A4B2E', '#3E5F74'] },
+      acc: ['#1B6D6D', '#844D56', '#3A6C4D', '#755B2A', '#5C6632', '#72527C', '#83523B', '#3F6289'] },
     { name: 'Lavender Mist', tag: 'dusk-tinted violet',
-      paper: '#F0EEF4', inkSoft: '#3E3A4A', vizon: '#746E84',
+      paper: '#F0EEF4', inkSoft: '#3E3A4A', vizon: '#666176',
       chrome: '#47415A', ftext: '#EDE9F4', fmuted: '#CBC4DA',
-      acc: ['#2F625D', '#7A4453', '#2F5F48', '#8A6410', '#5B6238', '#5E4A74', '#7A4B35', '#3F5F7A'] },
+      acc: ['#196B6C', '#834C55', '#396B4C', '#745A28', '#5B6431', '#70517A', '#82503A', '#3E6188'] },
     { name: 'Sea Salt',      tag: 'a breath of the Aegean',
-      paper: '#EDF4F1', inkSoft: '#33443F', vizon: '#687B74',
+      paper: '#EDF4F1', inkSoft: '#33443F', vizon: '#586A64',
       chrome: '#234640', ftext: '#E7F2EB', fmuted: '#BCD2C8',
-      acc: ['#2F625D', '#7A4453', '#2F5F48', '#8A6410', '#5B6238', '#654862', '#7A4B35', '#3F5F7A'] },
+      acc: ['#1D6E6E', '#864F57', '#3C6E4E', '#775D2B', '#5D6733', '#73537D', '#85533D', '#41648B'] },
     { name: 'Pudra',         tag: 'powder pink, softly worn',
-      paper: '#F7EDE8', inkSoft: '#4C3A3C', vizon: '#8C7577',
+      paper: '#F7EDE8', inkSoft: '#4C3A3C', vizon: '#755E60',
       chrome: '#5E4046', ftext: '#F6E9E4', fmuted: '#DCC5C2',
-      acc: ['#2F625D', '#8A3E50', '#4F6B3C', '#8A6410', '#6B6238', '#654862', '#96522E', '#3E5F74'] },
+      acc: ['#196B6C', '#834C55', '#396B4C', '#745A28', '#5B6431', '#70517A', '#82503A', '#3E6188'] },
     { name: 'Field',         tag: 'harvest gold, full sun',
-      paper: '#DDD6BC', inkSoft: '#453F28', vizon: '#756C48',
+      paper: '#DDD6BC', inkSoft: '#453F28', vizon: '#5B522F',
       chrome: '#45412E', ftext: '#E9E3C8', fmuted: '#C5BB92',
-      acc: ['#2F625D', '#7A4453', '#2F5F48', '#7A5A10', '#5B6238', '#654862', '#7A4B35', '#3F5F7A'] },
+      acc: ['#03595A', '#6F3C45', '#2A593C', '#61491A', '#4A5323', '#5E4167', '#6E402C', '#2F5073'] },
     { name: 'Slate Paper',   tag: 'wet slate after rain',
-      paper: '#DDE3E4', inkSoft: '#324147', vizon: '#63747A',
+      paper: '#DDE3E4', inkSoft: '#324147', vizon: '#4E5E64',
       chrome: '#2E3F45', ftext: '#E3EAEB', fmuted: '#B4C2C6',
-      acc: ['#2F625D', '#7A4453', '#2F5F48', '#8A6410', '#5B6238', '#654862', '#7A4B35', '#33587E'] }
+      acc: ['#096363', '#7A444C', '#306243', '#6B521F', '#525C28', '#684871', '#794832', '#36587F'] }
   ];
   var ACCENT_LABELS = ['home', 'essays', 'series', 'book', 'moris', 'about', 'story', 'tools'];
 
