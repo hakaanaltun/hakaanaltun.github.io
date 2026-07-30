@@ -208,7 +208,11 @@ html[data-theme="midnight"] body {
    cost of the grouping, paid deliberately. The five sit inside one family —
    every hue pulled toward the site's own gold, chroma held low and varied
    so the quiet ones stay quiet (the shared teal is the least saturated of
-   the five, the book's gold the most).
+   the five, the book's gold the most). The two warm voices, the writing and
+   the fiction, are the pair most at risk of collapsing into each other —
+   they are held 42° apart with the fiction's chroma pulled well down, which
+   is what keeps them 15.3 dE apart rather than the 11.4 that made the old
+   home/series pair indistinguishable at heading size.
 
    Second: how dark it prints. That belongs to the paper, not the section,
    and the two were tangled while the accents were hand-mixed hexes — the
@@ -232,14 +236,14 @@ body { --sec-accent: oklch(var(--sec-l) var(--sec-c, 0.050) var(--sec-h, 178)); 
 body.series-default,
 body.series-series,
 body.series-on-series,
-body.series-cafe-series { --sec-h:  30; --sec-c: 0.070; }
+body.series-cafe-series { --sec-h:  12; --sec-c: 0.068; }
 /* The book, and the fragments that belong to it */
 body.series-book,
 body.series-fragments   { --sec-h:  86; --sec-c: 0.072; }
 /* The quotes */
 body.series-moris       { --sec-h: 118; --sec-c: 0.058; }
 /* The fiction */
-body.series-story       { --sec-h:  56; --sec-c: 0.066; }
+body.series-story       { --sec-h:  54; --sec-c: 0.054; }
 /* The site's own furniture — the front door, the person, the instruments */
 body.is-home,
 body.series-home,
