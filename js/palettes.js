@@ -196,16 +196,24 @@
 
   /* Click = keep: the choice is stored at once and stays on this device
      until another palette is picked. Palette 1 means "no choice" — the
-     site's own Ash & Gold — so it clears the key instead of storing. */
+     site's own Ash & Gold — so it clears the key instead of storing.
+
+     Choosing a palette also stores Light. A palette exists only on the day
+     path — every rule in css/palettes.css is behind either
+     prefers-color-scheme: light or an explicit [data-theme="light"] — so a
+     reader whose system prefers dark used to get the look on this page and
+     nothing at all on the next one: the page offered a choice that did not
+     survive a click. Pinning Light is what makes the offer true. It is not
+     a one-way door; the footer menu puts Dark, Midnight and Dusk one click
+     away, and a stored palette waits there for the next time the day is on. */
   function choose(n) {
     if (n === 1) document.documentElement.removeAttribute('data-palette');
     else document.documentElement.setAttribute('data-palette', String(n));
     try {
       if (n === 1) localStorage.removeItem('palette');
       else localStorage.setItem('palette', String(n));
+      localStorage.setItem('theme', 'light');
     } catch (e) { /* private mode */ }
-    /* Force the light path for the look — a stored Dark/Midnight choice is
-       untouched and quietly returns on the next page. */
     document.documentElement.setAttribute('data-theme', 'light');
     paletteMetaSync();
     sync();
@@ -226,11 +234,25 @@
       if (btn) btn.setAttribute('aria-pressed', on ? 'true' : 'false');
     });
 
+    var face = '<b class="site-face">' + name.replace(/&/g, '&amp;') + '</b>';
     if (chosen === 1) {
       status.innerHTML = 'Nothing chosen&mdash;the site always opens in its own <b class="site-face">Ash &amp; Gold</b>.';
+    } else if (dayIsOn()) {
+      status.innerHTML = face + ' is yours on this device, until you pick another.';
     } else {
-      status.innerHTML = '<b class="site-face">' + name + '</b> is yours on this device, until you pick another.';
+      /* Only reachable for a palette stored before choosing one also stored
+         Light. Say what is actually true, and name the way out. */
+      status.innerHTML = face + ' is stored, but the site is on a dark theme right now'
+        + '&mdash;pick it again to turn the day on.';
     }
+  }
+
+  /* Is the light path the one CSS is painting? An explicit theme decides it;
+     with none, the system does. */
+  function dayIsOn() {
+    var t = document.documentElement.getAttribute('data-theme');
+    if (t) return t === 'light';
+    return !window.matchMedia('(prefers-color-scheme: dark)').matches;
   }
 
   /* One listener covers both routes: a click anywhere on the card, and the
