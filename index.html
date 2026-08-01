@@ -125,6 +125,22 @@ layout: home
   </script>
 </section>
 
+<section id="notes" class="home-notes" aria-label="Notes">
+  {% include section-header.html title="Notes" subtitle="" %}
+  {% assign home_notes = site.data.notes | sort: "date" | reverse %}
+  {% assign latest_note = home_notes | first %}
+  {% if latest_note %}
+  {% assign latest_anchor = latest_note.id | default: latest_note.date %}
+  <div class="home-note">
+    <a class="note-date" href="/notes/#{{ latest_anchor }}">
+      <time datetime="{{ latest_note.date }}">{{ latest_note.date | date: "%B %-d, %Y" }}</time>
+    </a>
+    <div class="note-body">{{ latest_note.body | markdownify }}</div>
+  </div>
+  {% endif %}
+  <a class="home-notes-all" href="/notes/">More <span aria-hidden="true">&rarr;</span></a>
+</section>
+
 <section id="instruments" class="home-instruments" aria-label="Instruments">
   {% include section-header.html title="Instruments" subtitle="" %}
   <p class="home-instruments-line">A <a href="/clock/">fullscreen clock</a>, a <a href="/write/">blank page to write on</a>, a <a href="/prompt/">teleprompter</a>, <a href="/noise/">noise and rain</a>, <a href="/twilight/">&#304;stanbul&rsquo;s twilight</a>&mdash;{{ site.data.tools | size }} instruments for work, calm, and focus.</p>
