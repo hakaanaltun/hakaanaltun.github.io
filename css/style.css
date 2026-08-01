@@ -2164,11 +2164,80 @@ html[data-theme="midnight"] .footer-strip { border-top: 0; }
 }
 .home-instruments-line a:hover,
 .home-instruments-line a:focus-visible { color: var(--petrol); border-bottom-color: var(--petrol); }
-.home-instruments-all {
+.home-instruments-all,
+.home-notes-all {
   display: inline-block; margin-top: 18px;
   font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic;
   font-size: 1.2rem; color: var(--petrol); text-decoration: none;
   transition: color 0.2s ease, transform 0.2s ease;
 }
 .home-instruments-all:hover,
-.home-instruments-all:focus-visible { color: var(--petrol-deep); transform: translateY(-1px); }
+.home-instruments-all:focus-visible,
+.home-notes-all:hover,
+.home-notes-all:focus-visible { color: var(--petrol-deep); transform: translateY(-1px); }
+
+/* --- Notes --------------------------------------------------------------- */
+/* No palette variables here on purpose: every colour is relative to the text
+   the notes are set in (currentColor / opacity / color-mix against
+   currentColor), so the section follows all 12 palettes and the light, dark
+   and midnight themes without a single override. */
+
+.notes-list {
+  list-style: none;
+  max-width: 34rem;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.note {
+  padding-block: 2.6rem;
+}
+
+.note:first-child { padding-top: 0.75rem; }
+.note:last-child  { padding-bottom: 0.75rem; }
+
+.note + .note {
+  border-top: 1px solid currentColor;
+  border-top-color: color-mix(in srgb, currentColor 14%, transparent);
+}
+
+/* 0.72, not a lighter wash. This is the hardest text on the page to read —
+   0.76rem, uppercase, on 0.09em tracking — and a fixed opacity lands on a
+   different contrast in every palette, because each palette moves the paper
+   underneath it. Measured across all 12 palettes plus dark and midnight: the
+   darkest paper (Field, #DDD6BC) is the binding case and needs 0.71 to clear
+   WCAG AA, so 0.72 carries the whole set with a little margin. Anything
+   lighter passes on the default paper and quietly fails on the tinted ones. */
+.note-date {
+  display: block;
+  margin-bottom: 1.1rem;
+  color: inherit;
+  opacity: 0.72;
+  font-size: 0.76rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.note-date:hover,
+.note-date:focus-visible { opacity: 1; }
+
+.note-body > p { margin: 0 0 1.05em; }
+.note-body > p:last-child { margin-bottom: 0; }
+
+/* The home strip centres like #instruments — heading, body, and the "More"
+   link all on the page's axis — but the note itself keeps its prose ranged
+   left inside that centred measure, the way it sits on /notes/. */
+.home-notes { text-align: center; }
+
+.home-note {
+  max-width: 34rem;
+  margin-inline: auto;
+  margin-bottom: 1.4rem;
+  text-align: left;
+}
+
+@media (max-width: 600px) {
+  .note { padding-block: 2rem; }
+}
