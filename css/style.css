@@ -2177,10 +2177,12 @@ html[data-theme="midnight"] .footer-strip { border-top: 0; }
 .home-notes-all:focus-visible { color: var(--petrol-deep); transform: translateY(-1px); }
 
 /* --- Notes --------------------------------------------------------------- */
-/* No palette variables here on purpose: every colour is relative to the text
-   the notes are set in (currentColor / opacity / color-mix against
-   currentColor), so the section follows all 12 palettes and the light, dark
-   and midnight themes without a single override. */
+/* No palette variables in the note structure on purpose: every colour is
+   relative to the text the notes are set in (currentColor / opacity /
+   color-mix against currentColor), so the section follows all 12 palettes and
+   the light, dark and midnight themes without a single override. The one
+   exception is the home strip's body colour at the foot of this block, and it
+   is a palette token too, so it adapts on the same terms. */
 
 .notes-list {
   list-style: none;
@@ -2237,6 +2239,17 @@ html[data-theme="midnight"] .footer-strip { border-top: 0; }
   margin-bottom: 1.4rem;
   text-align: left;
 }
+
+/* On /notes/ the notes are the page's subject and stay in --ink. In the home
+   strip they are one voice among several, so the prose takes --vizon, which
+   every other body text on the homepage already uses (#start-here,
+   .piece-excerpt, .home-instruments-line) — the note stopped reading as the
+   one dark block on the page.
+
+   Scoped to .note-body, not .home-note: .note-date renders at opacity 0.72,
+   and 0.72 of --vizon over --paper lands near 3:1, under AA for text that
+   small. The date keeps inheriting --ink and the contrast measured above. */
+.home-note .note-body { color: var(--vizon); }
 
 @media (max-width: 600px) {
   .note { padding-block: 2rem; }
