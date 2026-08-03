@@ -7,11 +7,11 @@ layout: null
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Days Between Dates, Weekday of Any Date &amp; Day of the Year &middot; On Life &amp; Everything</title>
-<meta name="description" content="Count the days between two dates, find the weekday of any date, and see where today stands in the year—day of the year, ISO week and days remaining. Ad-free.">
+<meta name="description" content="Count the days between two dates—the same span as weeks, as months and as years—find the weekday of any date, and see where today stands in the year: day of the year, ISO week and days remaining. Ad-free.">
 <link rel="canonical" href="https://hakanaltun.io/days/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="The Days—Days Between Dates, Weekday of Any Date &amp; Day of the Year">
-<meta property="og:description" content="Date arithmetic: days between two dates, the weekday of any date, and where today stands in the year.">
+<meta property="og:description" content="Date arithmetic: days between two dates—in weeks, months and years—the weekday of any date, and where today stands in the year.">
 <meta property="og:url" content="https://hakanaltun.io/days/">
 <meta property="og:image" content="https://hakanaltun.io/images/og/days.png?v=20260718-1">
 <meta property="og:image:alt" content="The Days—days between dates, weekday of any date & day of the year">
@@ -19,7 +19,7 @@ layout: null
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="The Days—Days Between Dates, Weekday of Any Date &amp; Day of the Year">
-<meta name="twitter:description" content="Date arithmetic: days between two dates, the weekday of any date, and where today stands in the year.">
+<meta name="twitter:description" content="Date arithmetic: days between two dates—in weeks, months and years—the weekday of any date, and where today stands in the year.">
 <meta name="twitter:image" content="https://hakanaltun.io/images/og/days.png?v=20260718-1">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#FFFFFF">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#191712">
@@ -31,7 +31,7 @@ layout: null
   "@id": "https://hakanaltun.io/days/#app",
   "name": "The Days—Days Between Dates, Weekday of Any Date & Day of the Year",
   "url": "https://hakanaltun.io/days/",
-  "description": "Count the days between two dates, find the weekday of any date, and see where today stands in the year—day of the year, ISO week and days remaining. Ad-free.",
+  "description": "Count the days between two dates—the same span as weeks, as months and as years—find the weekday of any date, and see where today stands in the year: day of the year, ISO week and days remaining. Ad-free.",
   "applicationCategory": "UtilitiesApplication",
   "operatingSystem": "Any",
   "browserRequirements": "Requires JavaScript",
@@ -297,11 +297,14 @@ layout: null
   <footer class="notes" id="notes">
     <div class="notes-inner">
       <h2>About this page</h2>
-      <p>Three sums the calendar keeps asking for: the days between two dates&mdash;also spelled out as weeks and as calendar months; the weekday any date falls on, with its ISO week number; and where today stands in the year. Everything is worked out in your browser from the calendar itself, with leap years counted properly and no off-by-one surprises from daylight saving.</p>
+      <p>Three sums the calendar keeps asking for: the days between two dates&mdash;also spelled out as weeks, as calendar months, and, for the long spans, as years; the weekday any date falls on, with its ISO week number; and where today stands in the year. Everything is worked out in your browser from the calendar itself, with leap years counted properly and no off-by-one surprises from daylight saving.</p>
 
       <h2>Questions</h2>
       <h3>How many days are there between two dates?</h3>
-      <p>Pick both dates and the page counts the days between them instantly, in either order, and restates the same span as weeks and days and as calendar months and days. Everything is computed from the calendar itself.</p>
+      <p>Pick both dates and the page counts the days between them instantly, in either order, and restates the same span as weeks and days, as calendar months and days, and&mdash;once it runs past a year&mdash;as years, months and days. Everything is computed from the calendar itself.</p>
+
+      <h3>How many years is that?</h3>
+      <p>Any span of a year or more is also given in whole years, then the leftover months and days: 16,000 days from 1981 comes out as 43 years and change, not a division by 365. The years are counted on the calendar, so leap days are already inside them&mdash;a birthday on 1 March is a year older on 1 March, whether or not February had 29 days.</p>
 
       <h3>Are both endpoint days included in the count?</h3>
       <p>The result is the difference between the two dates: Monday to Friday of the same week is 4 days. Some counts&mdash;days of an event, nights of a stay&mdash;want both endpoints included; if that is what you mean, add 1 to the number shown.</p>
@@ -351,6 +354,12 @@ layout: null
     return { months: months, days: daysBetween(anchor, b) };
   }
 
+  /* the same span again, the whole months gathered into years — read off
+     the month count so the two readings can never disagree */
+  function yearsMonthsDays(md){
+    return { years: Math.floor(md.months / 12), months: md.months % 12, days: md.days };
+  }
+
   function isoWeek(d){
     var date = new Date(Date.UTC(d.y, d.m - 1, d.d));
     var dayNum = (date.getUTCDay() + 6) % 7;                 /* Monday = 0 */
@@ -387,10 +396,17 @@ layout: null
     betweenBig.innerHTML = nf.format(n) + '<span class="unit">' + (n === 1 ? "day" : "days") + "</span>";
     var w = Math.floor(n / 7), wd = n % 7;
     var md = monthsDays(a, b);
+    var ymd = yearsMonthsDays(md);
     var parts = [];
     parts.push(plural(w, "week") + (wd ? ", " + plural(wd, "day") : ""));
     parts.push(plural(md.months, "month") + (md.days ? ", " + plural(md.days, "day") : ""));
-    betweenUnder.textContent = "that is " + parts[0] + " · or " + parts[1];
+    /* under a year the years line would only repeat the months line */
+    if(ymd.years){
+      parts.push(plural(ymd.years, "year")
+        + (ymd.months ? ", " + plural(ymd.months, "month") : "")
+        + (ymd.days ? ", " + plural(ymd.days, "day") : ""));
+    }
+    betweenUnder.textContent = "that is " + parts.join(" · or ");
   }
   fromIn.addEventListener("input", renderBetween);
   toIn.addEventListener("input", renderBetween);
