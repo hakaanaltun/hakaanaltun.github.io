@@ -370,11 +370,12 @@ header .brand-sub { margin-top: 6px; color: var(--footer-muted); }
 .hamburger-btn:focus-visible, .drawer-close:focus-visible { outline: 2px solid var(--petrol); outline-offset: 2px; border-radius: 4px; }
 header .hamburger-btn:focus-visible { outline-color: var(--footer-text); }
 
-/* Desktop and tablet: nav links wrap onto additional lines rather than
-   scroll off-screen. On phones (below) the bar becomes a horizontal
-   scroll strip instead — most links sit off-screen and slide into view.
-   JS-driven edge fades (fade-l/r/lr, set in site-nav.js) signal the
-   hidden links, and the drawer always carries the full list. */
+/* Desktop: nav links wrap onto additional lines rather than scroll
+   off-screen. On phones and on tablets held upright (below) the bar becomes
+   a horizontal scroll strip instead — the links that don't fit sit
+   off-screen and slide into view. JS-driven edge fades (fade-l/r/lr, set in
+   site-nav.js) signal the hidden links, and the drawer always carries the
+   full list. */
 .header-nav-bar {
   width: 100%; max-width: 100%; display: flex; flex-wrap: wrap; justify-content: center;
   gap: 52px; margin-top: 0; padding-right: 0;
@@ -396,9 +397,13 @@ header .hamburger-btn:focus-visible { outline-color: var(--footer-text); }
   .header-nav-bar { gap: 12px 22px; }
 }
 
-/* Phones: the nav bar is a swipeable strip again — hidden scrollbar,
-   links sliding in from the right, edge fades marking the overflow. */
-@media (max-width: 767px) {
+/* Phones, and tablets held upright: the nav bar is a swipeable strip again —
+   hidden scrollbar, links sliding in from the right, edge fades marking the
+   overflow. A tablet in portrait is the width where the row stopped fitting
+   on one line once Instruments joined it, and a second wrapped line under
+   the brand read as a separate menu rather than the tail of this one. */
+@media (max-width: 767px),
+       (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
   .header-nav-bar {
     flex-wrap: nowrap; justify-content: flex-start;
     gap: 22px; padding: 0 2px 2px;
@@ -410,6 +415,19 @@ header .hamburger-btn:focus-visible { outline-color: var(--footer-text); }
   .header-nav-bar.fade-r { -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 40px), transparent 100%); mask-image: linear-gradient(to right, #000 calc(100% - 40px), transparent 100%); }
   .header-nav-bar.fade-l { -webkit-mask-image: linear-gradient(to right, transparent 0, #000 40px); mask-image: linear-gradient(to right, transparent 0, #000 40px); }
   .header-nav-bar.fade-lr { -webkit-mask-image: linear-gradient(to right, transparent 0, #000 40px, #000 calc(100% - 40px), transparent 100%); mask-image: linear-gradient(to right, transparent 0, #000 40px, #000 calc(100% - 40px), transparent 100%); }
+}
+
+/* A tablet has more room than a phone, and on the widest ones the row still
+   fits: keep a roomier gap, and keep the links centred until they actually
+   overflow. `safe center` is what does that — it falls back to the start
+   edge the moment the row is wider than the strip, so the first link is
+   never scrolled out of reach. Browsers without it keep the flex-start
+   above, which is the same behaviour minus the centring. */
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+  .header-nav-bar {
+    gap: 34px;
+    justify-content: safe center;
+  }
 }
 
 @media (max-width: 950px) and (max-height: 500px) and (orientation: landscape) {
@@ -1694,7 +1712,10 @@ html[data-theme="midnight"] .footer-strip { border-top: 0; }
   gap: 2px;
   min-width: 140px;
   padding: 5px;
-  background: var(--band);
+  /* The page's own ground, not the band: the strip behind this menu is
+     already the darkest surface on the page, and a menu a shade darker
+     again read as a hole in it. On --paper the menu sits on the page. */
+  background: var(--paper);
   border: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
   border-radius: 12px;
   box-shadow: 0 10px 26px rgba(0, 0, 0, 0.22);
@@ -1802,7 +1823,9 @@ html[data-theme="midnight"] .footer-strip { border-top: 0; }
     flex-direction: column;
     gap: 2px;
     padding: 5px;
-    background: var(--band);
+    /* Same ground as the theme menu that opens beside it — the two are one
+       control, and a shade between them read as two. */
+    background: var(--paper);
     border: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
     border-radius: 12px;
     box-shadow: 0 10px 26px rgba(0, 0, 0, 0.22);

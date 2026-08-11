@@ -9,12 +9,26 @@
       lines in css/palettes.css, the compact table in head.html, and the
       CHROME map below — keep the three in sync.
 
-   2. On /themes/: build the palette previews; a click keeps that palette
-      on this device — no separate "keep" step, no rotation. A palette only
-      ever repaints the light path — Dark, Midnight and the dark half of
-      Dusk are out of reach by construction (see css/palettes.css), so
-      choosing here simply forces data-theme="light" for the look; a
-      stored Dark/Midnight choice is untouched and returns on the next page.
+   2. On /themes/: build the previews; a click keeps that look on this
+      device — no separate "keep" step, no rotation. The page shows the
+      whole wardrobe, in two halves:
+
+      * Twelve light palettes. A palette only ever repaints the light path —
+        Dark, Midnight and the dark half of Dusk are out of reach by
+        construction (see css/palettes.css), so choosing one simply forces
+        data-theme="light" for the look; a stored palette is untouched by a
+        later Dark choice and returns the next time the day is on.
+      * Dark and Midnight, the two themes the light path cannot reach.
+        These are the same choice the footer menu offers, shown here as
+        previews rather than as words — the reason the footer's own list
+        exists is that there are two darks, and until now the only place
+        you could see the difference was by picking one. Choosing here
+        writes the same localStorage key theme.js reads, so the footer
+        menu, the theme-color metas and this page all agree.
+
+      System and Dusk stay footer-only: neither is a look, so neither has
+      anything to preview — Dusk is a rule that resolves to three of the
+      looks below, and System is whatever the device says.
 
    Palette 1 is Ash & Gold, the site's own face — it needs no rules, it is
    the :root default in style.css, so "no attribute" means 1. */
@@ -94,8 +108,34 @@
   ];
   var ACCENT_LABELS = ['writing', 'book', 'quotes', 'fiction', 'the site'];
 
+  /* The two darks, in the same display shape as a palette so one builder
+     covers both halves of the page. Their grounds and type are read off the
+     [data-theme] blocks in css/style.css; Dark's five accents are the
+     --sec-ld/--sec-cd/--sec-h night voices from the same file, resolved to
+     sRGB — the night twin of the precomputation above, and the same rule
+     applies: if those blocks change, recompute these. Midnight reads none
+     of it. It pins --petrol to a single gold for every section, so it gets
+     one swatch rather than five, which is the honest picture of it. */
+  var DARKS = [
+    { key: 'dark',     name: 'Dark',     tag: 'the warm night',
+      paper: '#1C1B18', inkSoft: '#D7CEB8', vizon: '#A29A8A',
+      chrome: '#171613', ftext: '#EFE7D4', fmuted: '#C3BAA4',
+      acc: ['#CA8A91', '#DAC18C', '#C7D0A8', '#D3AB91', '#9DC8BE'] },
+    { key: 'midnight', name: 'Midnight', tag: 'parliament blue, one gold',
+      paper: '#10161F', inkSoft: '#C6B98F', vizon: '#C6B98F',
+      chrome: '#0D1219', ftext: '#DCD1AC', fmuted: '#C6B98F',
+      acc: ['#C6B98F'], accLabels: ['every section'] }
+  ];
+
   function stored() {
     try { return localStorage.getItem('palette'); } catch (e) { return null; }
+  }
+  /* theme.js owns this key; read it here so the tick can sit on Dark or
+     Midnight when one of them is the stored choice. "dusk" is deliberately
+     not one of them: it is a rule, not a look, and ticking whichever of the
+     two it happens to have resolved to would misreport the choice. */
+  function storedTheme() {
+    try { return localStorage.getItem('theme'); } catch (e) { return null; }
   }
   /* Keep <meta name="theme-color"> on the active palette's chrome — but
      only on the light path. theme.js calls this at the end of every
@@ -125,21 +165,30 @@
     return e;
   }
 
+  function group(text) {
+    var h = el('h2', 'themes-group', text);
+    list.appendChild(h);
+  }
+
   /* The whole card is clickable, but it is not the keyboard target: a
      role="button" makes its descendants presentational, which threw away all
-     twelve <h2>s and with them any way to move through the page by heading.
-     The heading stays a heading; a real <button> inside it carries the name,
-     the focus ring and the keyboard activation. Mouse users still get the
-     whole card — the click listener on the list has not changed. */
-  function buildPreview(p, n) {
+     twelve headings and with them any way to move through the page by
+     heading. The heading stays a heading; a real <button> inside it carries
+     the name, the focus ring and the keyboard activation. Mouse users still
+     get the whole card — the click listener on the list has not changed.
+     (They are <h3> under the two <h2> group headings.)
+
+     `label` is what the button says: "3 · Fog" for a palette, a bare name
+     for a dark — the numbers belong to data-palette, and the darks are not
+     in it. */
+  function buildPreview(p, label) {
     var box = el('section', 'palette-preview');
-    box.setAttribute('data-n', n);
 
     var head = el('div', 'palette-preview-head');
-    var name = el('h2', 'palette-preview-name');
+    var name = el('h3', 'palette-preview-name');
     var btn = el('button', 'palette-preview-btn');
     btn.type = 'button';
-    btn.innerHTML = (n) + ' · ' + p.name.replace(/&/g, '&amp;') + ' ';
+    btn.innerHTML = label.replace(/&/g, '&amp;') + ' ';
     btn.appendChild(el('span', 'palette-current-mark', '✓'));
     name.appendChild(btn);
     head.appendChild(name);
@@ -158,7 +207,7 @@
 
     var pmb = el('div', 'pm-body');
     pmb.style.background = p.paper;
-    var title = el('h3', 'pm-title', 'The Corner');
+    var title = el('h4', 'pm-title', 'The Corner');   /* inside the preview's own h3 */
     title.style.color = p.acc[0];   /* a series, so the writing voice */
     var text = el('p', 'pm-text', 'Three stories from a corner that never emptied.');
     text.style.color = p.inkSoft;
@@ -179,19 +228,33 @@
     box.appendChild(mock);
 
     var accents = el('div', 'palette-accents');
+    var labels = p.accLabels || ACCENT_LABELS;
     p.acc.forEach(function (c, i) {
       var a = el('div', 'palette-accent');
       var sw = el('div', 'pa-sw');
       sw.style.background = c;
       a.appendChild(sw);
-      a.appendChild(el('div', 'pa-lb', ACCENT_LABELS[i]));
+      a.appendChild(el('div', 'pa-lb', labels[i]));
       accents.appendChild(a);
     });
     box.appendChild(accents);
     return box;
   }
 
-  PALETTES.forEach(function (p, i) { list.appendChild(buildPreview(p, i + 1)); });
+  group('Twelve for the day');
+  PALETTES.forEach(function (p, i) {
+    var box = buildPreview(p, (i + 1) + ' · ' + p.name);
+    box.setAttribute('data-n', String(i + 1));
+    list.appendChild(box);
+  });
+
+  group('Two for the night');
+  DARKS.forEach(function (p) {
+    var box = buildPreview(p, p.name);
+    box.setAttribute('data-set-theme', p.key);
+    list.appendChild(box);
+  });
+
   var previews = Array.prototype.slice.call(list.querySelectorAll('.palette-preview'));
 
   /* Click = keep: the choice is stored at once and stays on this device
@@ -204,8 +267,9 @@
      reader whose system prefers dark used to get the look on this page and
      nothing at all on the next one: the page offered a choice that did not
      survive a click. Pinning Light is what makes the offer true. It is not
-     a one-way door; the footer menu puts Dark, Midnight and Dusk one click
-     away, and a stored palette waits there for the next time the day is on. */
+     a one-way door; Dark and Midnight are two cards further down this page
+     (and Dusk is one click away in the footer), and the palette stored here
+     waits through all of them for the next time the day is on. */
   function choose(n) {
     if (n === 1) document.documentElement.removeAttribute('data-palette');
     else document.documentElement.setAttribute('data-palette', String(n));
@@ -215,17 +279,42 @@
       localStorage.setItem('theme', 'light');
     } catch (e) { /* private mode */ }
     document.documentElement.setAttribute('data-theme', 'light');
-    paletteMetaSync();
+    themeMetaSync();
     sync();
   }
 
+  /* Dark and Midnight: the same write theme.js's own menu makes, so the two
+     stay one choice rather than two. The stored palette is deliberately left
+     alone — it is the day's look, and it comes back the next time the day
+     is on. */
+  function chooseTheme(t) {
+    document.documentElement.setAttribute('data-theme', t);
+    try { localStorage.setItem('theme', t); } catch (e) { /* private mode */ }
+    themeMetaSync();
+    sync();
+  }
+
+  /* theme.js publishes its meta sync once it has wired the footer menu; it
+     covers the palette metas too (it ends by calling paletteMetaSync). Fall
+     back to the palette half alone if the footer strip is not on the page. */
+  function themeMetaSync() {
+    if (window.__themeColorSync) window.__themeColorSync();
+    else paletteMetaSync();
+  }
+
   function sync() {
+    var t = storedTheme();
+    var darkChosen = t === 'dark' || t === 'midnight';
     var s = parseInt(stored(), 10);
     var chosen = s >= 1 && s <= COUNT ? s : 1;
     var name = PALETTES[chosen - 1].name;
 
     previews.forEach(function (pv) {
-      var on = parseInt(pv.getAttribute('data-n'), 10) === chosen;
+      var theme = pv.getAttribute('data-set-theme');
+      /* One tick on the page: a stored dark carries it, and the palette
+         underneath waits its turn rather than claiming it too. */
+      var on = theme ? theme === t
+                     : !darkChosen && parseInt(pv.getAttribute('data-n'), 10) === chosen;
       var mark = pv.querySelector('.palette-current-mark');
       if (mark) mark.hidden = !on;
       /* The tick is the sighted cue; aria-pressed is the same news for
@@ -235,13 +324,19 @@
     });
 
     var face = '<b class="site-face">' + name.replace(/&/g, '&amp;') + '</b>';
-    if (chosen === 1) {
-      status.innerHTML = 'Nothing chosen&mdash;the site always opens in its own <b class="site-face">Ash &amp; Gold</b>.';
+    if (darkChosen) {
+      var dark = '<b class="site-face">' + (t === 'dark' ? 'Dark' : 'Midnight') + '</b>';
+      status.innerHTML = chosen === 1
+        ? dark + ' is yours on this device, until you pick another.'
+        : dark + ' is yours on this device&mdash;' + face + ' is still stored, and comes back the next time the day is on.';
+    } else if (chosen === 1) {
+      status.innerHTML = 'No palette chosen&mdash;the site keeps its own <b class="site-face">Ash &amp; Gold</b> '
+        + 'by day, and turns to <b class="site-face">Dark</b> when the day is off.';
     } else if (dayIsOn()) {
       status.innerHTML = face + ' is yours on this device, until you pick another.';
     } else {
-      /* Only reachable for a palette stored before choosing one also stored
-         Light. Say what is actually true, and name the way out. */
+      /* A palette stored while System or Dusk has the night on. Say what is
+         actually true, and name the way out. */
       status.innerHTML = face + ' is stored, but the site is on a dark theme right now'
         + '&mdash;pick it again to turn the day on.';
     }
@@ -259,7 +354,10 @@
      click a real <button> already fires for Enter and Space. */
   list.addEventListener('click', function (e) {
     var pv = e.target.closest('.palette-preview');
-    if (pv) choose(parseInt(pv.getAttribute('data-n'), 10));
+    if (!pv) return;
+    var theme = pv.getAttribute('data-set-theme');
+    if (theme) chooseTheme(theme);
+    else choose(parseInt(pv.getAttribute('data-n'), 10));
   });
 
   sync();
