@@ -96,6 +96,10 @@
        palettes.js listens in on every call here. */
     if (window.__paletteMetaSync) window.__paletteMetaSync();
   }
+  /* /themes/ offers Dark and Midnight beside the twelve palettes, and writes
+     the same key this file reads. Publishing the sync lets it hand the metas
+     back here rather than keep a second copy of the rules. */
+  window.__themeColorSync = syncThemeColor;
   function syncMenu() {
     var t = effective();
     menu.querySelectorAll('[data-set-theme]').forEach(function (item) {
