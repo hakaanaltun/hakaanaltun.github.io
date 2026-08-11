@@ -10,19 +10,18 @@
 # (Then bump CACHE in sw.js so returning visitors pick up the new list.)
 #
 # The file is kept in shelf order (see _data/shelves.yml): all `page`
-# entries, then all `room`, then all `window`, then `site`. tools.html, the
-# ItemList schema, the sw.js precache list and the homepage line all read
-# this file in order, so keeping it ordered means none of them need touching.
+# entries, then all `room`, then all `window`. tools.html, the ItemList
+# schema, the sw.js precache list and the homepage line all read this file
+# in order, so keeping it ordered means none of them need touching.
 #
 # Fields:
 #   slug      folder name; the page lives at /<slug>/
 #   name      display name, as on /tools/
-#   group     shelf key from _data/shelves.yml (page | room | window | site)
+#   group     shelf key from _data/shelves.yml (page | room | window)
 #   listname  the long name used in the ItemList schema on /tools/
 #   card      the description under the name on /tools/
 #   line      the prose phrase used in "More instruments" links
-#   related   exactly three slugs, in order, for the links paragraph —
-#             omitted on entries whose page carries no such paragraph
+#   related   exactly three slugs, in order, for the links paragraph
 #   post      optional — one piece from the writing: { url, title }
 
 - slug: write
@@ -164,14 +163,3 @@
   card: "Date arithmetic: days between two dates—in weeks, months and years—the weekday of any date, and where today stands in the year."
   line: "days between dates"
   related: [season, moon, clock]
-
-# The one instrument that works on the site rather than in it, which is why
-# it has a shelf of its own. It is a page in the site's own layout, not a
-# standalone tool page, so it carries no "More instruments" paragraph and
-# therefore no `related` list.
-- slug: themes
-  name: The Themes
-  group: site
-  listname: "The Themes—Twelve Light Palettes, Dark and Midnight"
-  card: "The site's own wardrobe, previewed: twelve light palettes, plus Dark and Midnight. Click one and it stays on this device."
-  line: "the site&rsquo;s own themes"
