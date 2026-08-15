@@ -82,6 +82,27 @@
   color-scheme: light;
 }
 
+/* Readers who have asked their system for more contrast get a dim shallow
+   enough to keep every hovered token above WCAG AA.
+
+   0.95 is not a taste call, it is the floor: measured across all 12 palettes
+   plus dark and midnight, against both --vizon on --paper and
+   --footer-strip-ink on the strip, 0.94 still leaves the tightest palette at
+   4.47:1 and 0.95 clears at 4.55:1. Anything deeper fails somewhere.
+
+   The honest cost: a 5% fade is close to invisible, so in this mode the
+   hover barely announces itself. That is the right way round — someone who
+   has asked for contrast would rather read the subtitle than watch it move.
+   Keyboard focus is unaffected and still draws its full ring, links still
+   take the pointer cursor, and prose links keep their underline reveal,
+   which costs no contrast at all.
+
+   Everything below reads --select-dim, so this one line moves the whole
+   site and no selector needs to know about it. */
+@media (prefers-contrast: more) {
+  :root { --select-dim: 0.95; }
+}
+
 body {
   /* A2 keeps one ash chrome and moves section identity into the accents. */
   --petrol: var(--sec-accent, #4A554F);
