@@ -31,8 +31,17 @@
      was the loudest thing on a page set in Garamond.
      0.78 is the footer logo's own value; the header's 0.8 rounds into it.
      Links inside running prose are the deliberate exception — see
-     .home-instruments-line and .tonight-link, where a dim would push the
-     link behind the sentence it sits in, so the underline reveal stays. */
+     .home-instruments-line, where a dim would push the link behind the
+     sentence it sits in, so the underline reveal stays.
+
+     Hover and :active only, never :focus-visible. A pointer hover lasts as
+     long as the pointer is there; keyboard focus sits on an element while
+     its owner reads it, and the dim costs contrast the whole time — every
+     token here starts near 5:1, so any dim deep enough to see spends the
+     AA margin. Focus already has its own indicator, and an outline says
+     "you are here" without touching the text at all. Where a rule below
+     used to set `outline: none` and lean on the dim as its focus state,
+     it now carries a real ring instead. */
   --select-dim: 0.78;
   --select-ease: opacity 0.2s ease;
 
@@ -511,14 +520,16 @@ summary.drawer-label::after { content: ""; position: absolute; right: 0; top: 50
 summary.drawer-label { transition: var(--select-ease); }
 summary.drawer-label:hover { opacity: var(--select-dim); }
 a.drawer-label--link { display: flex; justify-content: center; align-items: center; font-size: 13px; padding: 0; text-decoration: none; transition: var(--select-ease); }
-a.drawer-label--link:hover, a.drawer-label--link:active, a.drawer-label--link:focus-visible { opacity: var(--select-dim); outline: none; }
+a.drawer-label--link:hover, a.drawer-label--link:active { opacity: var(--select-dim); }
+a.drawer-label--link:focus-visible { outline: 2px solid var(--petrol); outline-offset: 3px; border-radius: 4px; }
 .drawer-logo-wrap + a.drawer-label--link { margin-top: 10px; }
 .drawer-section[open] > .drawer-essay-cards, .drawer-section[open] > .drawer-more, .drawer-section[open] > .drawer-section-links { animation: drawerReveal 0.25s ease; }
 @keyframes drawerReveal { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
 
 .drawer-section-links { display: grid; grid-template-columns: 1fr; gap: 10px; margin: 10px 0 4px; }
 .drawer-section-links a { display: block; padding: 4px 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; font-size: 13px; line-height: 1.2; color: var(--petrol); text-transform: uppercase; letter-spacing: 0.09em; text-align: center; transition: var(--select-ease); }
-.drawer-section-links a:hover, .drawer-section-links a:active, .drawer-section-links a:focus-visible { opacity: var(--select-dim); outline: none; }
+.drawer-section-links a:hover, .drawer-section-links a:active { opacity: var(--select-dim); }
+.drawer-section-links a:focus-visible { outline: 2px solid var(--petrol); outline-offset: 3px; border-radius: 4px; }
 
 .drawer-essay-cards { display: grid; grid-template-columns: 1fr; gap: 16px; margin: 12px 0 10px; }
 .drawer-essay-card-link { display: block; border: 0; box-shadow: none; background: transparent; transition: var(--select-ease); }
@@ -629,8 +640,7 @@ section.line-drawn::before,
    everything else that dims on this page. */
 .piece-card-link .piece-body { transition: var(--select-ease); }
 .piece-card-link:hover .piece-body,
-.piece-card-link:active .piece-body,
-.piece-card-link:focus-visible .piece-body { opacity: var(--select-dim); }
+.piece-card-link:active .piece-body { opacity: var(--select-dim); }
 
 .piece-thumb-wrap { aspect-ratio: 3 / 2; overflow: hidden; border-radius: 14px; border: 0; background: var(--surface-soft); }
 .piece-thumb { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -760,8 +770,7 @@ section.line-drawn::before,
 /* No cover here, so the whole card is type and the whole card dims. */
 .fb-card-link { display: flex; flex-direction: column; gap: 5px; text-decoration: none; color: inherit; border: 0; box-shadow: none; background: transparent; transition: var(--select-ease); }
 .fb-card-link:hover,
-.fb-card-link:active,
-.fb-card-link:focus-visible { opacity: var(--select-dim); }
+.fb-card-link:active { opacity: var(--select-dim); }
 .fb-card-link:focus-visible { outline: 2px solid var(--petrol); outline-offset: 4px; border-radius: 8px; }
 .fb-card .piece-title { font-size: 1.25rem; }
 .fb-card .piece-subtitle { font-size: 0.95rem; -webkit-line-clamp: 2; overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; }
@@ -795,8 +804,12 @@ section.line-drawn::before,
 .tonight-line { font-family: 'EB Garamond', Georgia, serif; font-size: 0.95rem; color: var(--vizon); letter-spacing: 0.03em; margin: 0; }
 .tonight-word { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 1.08rem; color: var(--petrol); margin-right: 7px; }
 .tonight-sep { margin: 0 7px; }
-.tonight-link { color: var(--vizon); text-decoration: none; border-bottom: 1px solid transparent; transition: color 0.2s ease, border-color 0.2s ease; }
-.tonight-link:hover { color: var(--petrol); border-bottom-color: var(--petrol); }
+/* Not the prose tier after all. The Instruments sentence is a real
+   paragraph whose links need an underline to be found inside it; this line
+   is two links and three words of scaffolding, so the links are the content
+   and the underline was ornament on a closing line meant to be quiet. */
+.tonight-link { color: var(--vizon); text-decoration: none; transition: var(--select-ease); }
+.tonight-link:hover, .tonight-link:active { opacity: var(--select-dim); }
 @media (max-width: 600px) {
   .tonight-line { display: flex; flex-direction: column; gap: 3px; }
   .tonight-sep { display: none; }
@@ -1377,8 +1390,8 @@ html[data-theme="midnight"] .quote-nav-btn:focus-visible { color: var(--ink); }
   transition: var(--select-ease);
 }
 .start-here-link:hover,
-.start-here-link:active,
-.start-here-link:focus-visible { opacity: var(--select-dim); }
+.start-here-link:active { opacity: var(--select-dim); }
+.start-here-link:focus-visible { outline: 2px solid var(--petrol); outline-offset: 3px; border-radius: 4px; }
 @media (max-width: 600px) {
   /* 46px holds the same balance against #latest's 50px phone opening. */
   #start-here { padding-top: 40px; padding-bottom: 46px; }
@@ -1448,9 +1461,7 @@ html[data-theme="midnight"] .quote-nav-btn:focus-visible { color: var(--ink); }
 .work-row-link:hover .work-main,
 .work-row-link:hover .work-side,
 .work-row-link:active .work-main,
-.work-row-link:active .work-side,
-.work-row-link:focus-visible .work-main,
-.work-row-link:focus-visible .work-side { opacity: var(--select-dim); }
+.work-row-link:active .work-side { opacity: var(--select-dim); }
 .work-thumb--typographic { border: 0; }
 .work-thumb--typographic .type-cover::before { inset: 6px; border-radius: 5px; }
 .work-thumb--typographic .type-cover-inner { padding: 9px; }
@@ -1659,17 +1670,26 @@ html[data-theme="midnight"] .footer-strip { border-top: 0; }
   font-size: 0.95rem;
 }
 
+/* The strip used to answer by darkening to --ink while everything else on
+   the site dimmed — the same gesture, but pointing the other way, which is
+   what made this band read as its own thing. It dims now like the rest.
+   Contrast note: hovered, the link lands at 3.4:1 in the tightest palette,
+   under AA for text this size (0.95rem). That is not a footer problem —
+   --vizon inside any dimmed card sits at 3.3:1 for the same reason, so the
+   band is now no better and no worse than the rest of the page. Both are
+   transient pointer states and both are legible at rest; if the dim is ever
+   made gentler, it moves for the whole site at --select-dim, not here. */
 .footer-contact-links a {
   color: var(--footer-strip-ink);
   line-height: 1.25;
   white-space: nowrap;
   text-decoration: none;
-  transition: color 0.2s ease;
+  transition: var(--select-ease);
 }
 
 .footer-contact-links a:hover,
 .footer-contact-links a:active {
-  color: var(--ink);
+  opacity: var(--select-dim);
 }
 
 .footer-dot {
@@ -1698,14 +1718,19 @@ html[data-theme="midnight"] .footer-strip { border-top: 0; }
   color: var(--footer-strip-ink);
   cursor: pointer;
   text-decoration: none;
-  transition: color 0.2s ease;
+  transition: var(--select-ease);
 }
 
+/* Same band, same answer — these sit inline with the links above them. */
 .footer-icon-btn:hover,
-.footer-icon-btn:active,
+.footer-icon-btn:active {
+  opacity: var(--select-dim);
+}
+
 .footer-icon-btn:focus-visible {
-  color: var(--ink);
-  outline: none;
+  outline: 2px solid var(--petrol);
+  outline-offset: -4px;
+  border-radius: 6px;
 }
 
 .footer-icon-btn svg {
@@ -2158,9 +2183,14 @@ html[data-theme="midnight"] .footer-strip { border-top: 0; }
 }
 
 .tools-item:hover,
-.tools-item:active,
-.tools-item:focus-visible {
+.tools-item:active {
   opacity: var(--select-dim);
+}
+
+.tools-item:focus-visible {
+  outline: 2px solid var(--petrol);
+  outline-offset: -2px;
+  border-radius: 6px;
 }
 
 .tools-item:last-child {
@@ -2236,10 +2266,10 @@ html[data-theme="midnight"] .footer-strip { border-top: 0; }
 }
 .home-instruments-all:hover,
 .home-instruments-all:active,
-.home-instruments-all:focus-visible,
 .home-notes-all:hover,
-.home-notes-all:active,
-.home-notes-all:focus-visible { opacity: var(--select-dim); }
+.home-notes-all:active { opacity: var(--select-dim); }
+.home-instruments-all:focus-visible,
+.home-notes-all:focus-visible { outline: 2px solid var(--petrol); outline-offset: 3px; border-radius: 4px; }
 
 /* --- Notes --------------------------------------------------------------- */
 /* No palette variables in the note structure on purpose: every colour is
