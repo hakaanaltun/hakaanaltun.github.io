@@ -377,10 +377,10 @@ header .brand-sub { margin-top: 6px; color: var(--footer-muted); }
 
 .hamburger-btn, .drawer-close {
   background: transparent; border: none; color: var(--petrol); padding: 6px; cursor: pointer;
-  display: flex; align-items: center; justify-content: center; transition: opacity 0.2s ease;
+  display: flex; align-items: center; justify-content: center; transition: var(--select-ease);
 }
 .hamburger-btn svg, .drawer-close svg { width: 22px; height: 22px; }
-.hamburger-btn:hover, .drawer-close:hover { opacity: 0.65; }
+.hamburger-btn:hover, .drawer-close:hover { opacity: var(--select-dim); }
 .hamburger-btn:focus, .drawer-close:focus { outline: none; }
 .hamburger-btn:focus-visible, .drawer-close:focus-visible { outline: 2px solid var(--petrol); outline-offset: 2px; border-radius: 4px; }
 header .hamburger-btn:focus-visible { outline-color: var(--footer-text); }
@@ -498,7 +498,7 @@ header .hamburger-btn:focus-visible { outline-color: var(--footer-text); }
 .drawer-label { display: block; margin-top: 20px; font-size: 13px; color: var(--petrol); text-transform: uppercase; letter-spacing: 0.09em; text-align: center; }
 
 .site-drawer a { color: var(--petrol); padding: 4px 0; font-size: 16px; }
-.site-drawer a:hover { opacity: 0.8; }
+.site-drawer a:hover, .site-drawer a:active { opacity: var(--select-dim); }
 
 .site-drawer > a, .site-drawer nav a, .site-drawer ul a { display: block; width: 100%; text-align: center; }
 
@@ -506,21 +506,23 @@ summary.drawer-label { display: flex; justify-content: center; align-items: cent
 summary.drawer-label::-webkit-details-marker { display: none; }
 summary.drawer-label::after { content: ""; position: absolute; right: 0; top: 50%; transform: translateY(-50%) rotate(45deg); width: 8px; height: 8px; border-right: 1.5px solid var(--vizon); border-bottom: 1.5px solid var(--vizon); transition: transform 0.25s ease; margin-bottom: 0; }
 .drawer-section[open] > summary.drawer-label::after { transform: translateY(-50%) rotate(-135deg); margin-bottom: 0; }
-summary.drawer-label:hover { color: var(--chrome-deep); }
-summary.drawer-label:hover::after { border-color: var(--chrome-deep); }
-a.drawer-label--link { display: flex; justify-content: center; align-items: center; font-size: 13px; padding: 0; text-decoration: none; transition: transform 0.28s ease, opacity 0.2s ease, color 0.2s ease; }
-a.drawer-label--link:hover, a.drawer-label--link:active, a.drawer-label--link:focus-visible { color: var(--chrome-deep); opacity: 0.85; transform: translateY(-3px); outline: none; }
+/* The chevron's rotation is state, not hover, so it stays; the hover
+   itself is the same dim as everything else. */
+summary.drawer-label { transition: var(--select-ease); }
+summary.drawer-label:hover { opacity: var(--select-dim); }
+a.drawer-label--link { display: flex; justify-content: center; align-items: center; font-size: 13px; padding: 0; text-decoration: none; transition: var(--select-ease); }
+a.drawer-label--link:hover, a.drawer-label--link:active, a.drawer-label--link:focus-visible { opacity: var(--select-dim); outline: none; }
 .drawer-logo-wrap + a.drawer-label--link { margin-top: 10px; }
 .drawer-section[open] > .drawer-essay-cards, .drawer-section[open] > .drawer-more, .drawer-section[open] > .drawer-section-links { animation: drawerReveal 0.25s ease; }
 @keyframes drawerReveal { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
 
 .drawer-section-links { display: grid; grid-template-columns: 1fr; gap: 10px; margin: 10px 0 4px; }
-.drawer-section-links a { display: block; padding: 4px 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; font-size: 13px; line-height: 1.2; color: var(--petrol); text-transform: uppercase; letter-spacing: 0.09em; text-align: center; transition: transform 0.28s ease, opacity 0.2s ease, color 0.2s ease; }
-.drawer-section-links a:hover, .drawer-section-links a:active, .drawer-section-links a:focus-visible { transform: translateY(-3px); opacity: 0.85; color: var(--chrome-deep); outline: none; }
+.drawer-section-links a { display: block; padding: 4px 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; font-size: 13px; line-height: 1.2; color: var(--petrol); text-transform: uppercase; letter-spacing: 0.09em; text-align: center; transition: var(--select-ease); }
+.drawer-section-links a:hover, .drawer-section-links a:active, .drawer-section-links a:focus-visible { opacity: var(--select-dim); outline: none; }
 
 .drawer-essay-cards { display: grid; grid-template-columns: 1fr; gap: 16px; margin: 12px 0 10px; }
-.drawer-essay-card-link { display: block; border: 0; box-shadow: none; background: transparent; transition: opacity 0.2s ease; }
-.drawer-essay-card-link:hover { opacity: 0.68; }
+.drawer-essay-card-link { display: block; border: 0; box-shadow: none; background: transparent; transition: var(--select-ease); }
+.drawer-essay-card-link:hover, .drawer-essay-card-link:active { opacity: var(--select-dim); }
 .drawer-essay-card { display: block; padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
 .drawer-essay-card img { display: none; }
 .drawer-essay-card-text { grid-column: 1; grid-row: 1; display: flex; flex-direction: column; gap: 3px; min-width: 0; }
@@ -529,8 +531,10 @@ a.drawer-label--link:hover, a.drawer-label--link:active, a.drawer-label--link:fo
 .drawer-essay-card-meta { font-size: 0.76rem; line-height: 1.2; color: var(--vizon); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; width: 100%; text-align: center; }
 .drawer-essay-card--current { opacity: 0.58; cursor: default; }
 
-.drawer-more { display: flex; justify-content: center; align-items: center; width: 100%; text-align: center; margin: 0 auto 8px; padding: 2px; font-family: 'EB Garamond', Georgia, serif; font-style: italic; font-size: 15px; color: var(--petrol); text-decoration: none; transition: color 0.2s ease, gap 0.2s ease; gap: 6px; }
-.drawer-more:hover { color: var(--chrome-deep); gap: 9px; }
+.drawer-more { display: flex; justify-content: center; align-items: center; width: 100%; text-align: center; margin: 0 auto 8px; padding: 2px; font-family: 'EB Garamond', Georgia, serif; font-style: italic; font-size: 15px; color: var(--petrol); text-decoration: none; transition: var(--select-ease); gap: 6px; }
+/* The gap used to open from 6px to 9px on hover, sliding the arrow away
+   from the word — movement, and the only one left in the drawer. */
+.drawer-more:hover, .drawer-more:active { opacity: var(--select-dim); }
 .drawer-subsection-link {
   display: flex; justify-content: center; align-items: center;
   margin: 6px auto 10px;
@@ -862,6 +866,12 @@ section.line-drawn::before,
 /* Gallery cover keeps the exact frame the video used: square, vmin-scaled. */
 .moris-gallery-cover { position: relative; display: block; width: 100%; aspect-ratio: 1 / 1; padding: 0; border: 1px solid var(--rule-cream); border-radius: 14px; background: #000; box-shadow: 0 12px 30px rgba(47, 43, 39, 0.055); overflow: hidden; cursor: pointer; }
 .moris-gallery-cover img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.45s ease; }
+/* The one motion left on the site, and the only place it means something:
+   here the photograph *is* the target and the action is "open this larger",
+   so a 3% push says what the click does. Everywhere else the thumbnail was
+   decoration attached to a text link, and the zoom was ornament. Dimming is
+   not available as the alternative — this target has no type to dim, and
+   fading the photo would read as "unavailable". */
 .moris-gallery-cover:hover img, .moris-gallery-cover:focus-visible img { transform: scale(1.03); }
 .moris-gallery-badge { position: absolute; right: 10px; bottom: 10px; padding: 3px 11px; border-radius: 999px; background: rgba(47, 43, 39, 0.55); color: #FFFFFF; font-style: italic; font-size: 0.78rem; letter-spacing: 0.02em; pointer-events: none; }
 
@@ -892,7 +902,7 @@ section.line-drawn::before,
 .moris-lightbox figure { margin: 0; display: flex; align-items: center; justify-content: center; }
 .moris-lightbox img { max-width: min(92vw, 1000px); max-height: 82vh; object-fit: contain; border-radius: 6px; box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5); }
 .moris-lb-btn { position: absolute; display: flex; align-items: center; justify-content: center; width: 46px; height: 46px; padding: 0; border: none; border-radius: 50%; background: transparent; color: rgba(255, 255, 255, 0.75); cursor: pointer; transition: color 0.2s ease, background 0.2s ease; }
-.moris-lb-btn:hover, .moris-lb-btn:focus-visible { color: #FFFFFF; background: rgba(255, 255, 255, 0.08); outline: none; }
+.moris-lb-btn:hover, .moris-lb-btn:active, .moris-lb-btn:focus-visible { color: #FFFFFF; outline: none; }
 .moris-lb-btn svg { width: 26px; height: 26px; stroke: currentColor; stroke-width: 1.6; fill: none; stroke-linecap: round; stroke-linejoin: round; }
 .moris-lb-close { top: 16px; right: 16px; }
 .moris-lb-prev { left: 10px; top: 50%; transform: translateY(-50%); }
@@ -997,8 +1007,8 @@ body.moris-lightbox-open { overflow: hidden; }
 .series-nav-cards::-webkit-scrollbar { height: 3px; }
 .series-nav-cards::-webkit-scrollbar-track { background: transparent; }
 .series-nav-cards::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 2px; }
-.series-thumb-link { display: block; flex: 0 0 auto; scroll-snap-align: start; transition: opacity 0.2s ease; }
-.series-thumb-link:hover { opacity: 0.7; }
+.series-thumb-link { display: block; flex: 0 0 auto; scroll-snap-align: start; transition: var(--select-ease); }
+.series-thumb-link:hover, .series-thumb-link:active { opacity: var(--select-dim); }
 .series-thumb-card { width: 80px; display: flex; flex-direction: column; gap: 5px; }
 .series-thumb-card img { width: 80px; height: 58px; object-fit: cover; border-radius: 8px; border: 0; display: block; overflow: hidden; }
 .series-thumb-img-placeholder { width: 80px; height: 58px; border-radius: 8px; border: 0; background: var(--rule); overflow: hidden; }
@@ -1431,8 +1441,16 @@ html[data-theme="midnight"] .quote-nav-btn:focus-visible { color: var(--ink); }
 .work-row-link:focus-visible { outline: 2px solid var(--petrol); outline-offset: -2px; border-radius: 10px; }
 
 .work-thumb { grid-area: thumb; width: 116px; aspect-ratio: 3 / 2; border-radius: 10px; overflow: hidden; background: var(--surface-soft); display: block; }
-.work-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s ease; }
-.work-row-link:hover .work-thumb img { transform: scale(1.04); }
+.work-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+/* Same split as the piece cards: the thumb holds, the row's type dims. */
+.work-row-link .work-main,
+.work-row-link .work-side { transition: var(--select-ease); }
+.work-row-link:hover .work-main,
+.work-row-link:hover .work-side,
+.work-row-link:active .work-main,
+.work-row-link:active .work-side,
+.work-row-link:focus-visible .work-main,
+.work-row-link:focus-visible .work-side { opacity: var(--select-dim); }
 .work-thumb--typographic { border: 0; }
 .work-thumb--typographic .type-cover::before { inset: 6px; border-radius: 5px; }
 .work-thumb--typographic .type-cover-inner { padding: 9px; }
@@ -1444,7 +1462,6 @@ html[data-theme="midnight"] .quote-nav-btn:focus-visible { color: var(--ink); }
   display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
 }
 .work-thumb--typographic .type-cover-title::after { display: none; }
-.work-row-link:hover .work-thumb--typographic .type-cover-title { color: var(--petrol); }
 /* Imageless works (The Notice): a door standing in the frame, and a pencil
    mark on the jamb. Shared by the All index rows and piece cards. */
 .work-thumb--bare,
@@ -1456,7 +1473,6 @@ html[data-theme="midnight"] .quote-nav-btn:focus-visible { color: var(--ink); }
 
 .work-main { grid-area: main; display: flex; flex-direction: column; gap: 3px; min-width: 0; text-align: left; }
 .work-title { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: 1.34rem; line-height: 1.15; color: var(--ink); transition: color 0.2s ease; }
-.work-row-link:hover .work-title { color: var(--petrol); }
 .work-subtitle { font-style: italic; font-size: 0.95rem; line-height: 1.35; color: var(--vizon); }
 .work-excerpt {
   margin-top: 5px; font-size: 0.95rem; line-height: 1.55; color: var(--ink-soft);
@@ -1510,12 +1526,7 @@ html[data-theme="midnight"] .quote-nav-btn:focus-visible { color: var(--ink); }
 .book-arc-lead a.book-arc-fragment-link:hover,
 .book-arc-lead a.book-arc-fragment-link:focus-visible {
   color: var(--petrol-deep);
-  animation: bookArcLinkPulse 0.85s ease-in-out 1;
   outline: none;
-}
-@keyframes bookArcLinkPulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.32; }
 }
 @media (max-width: 600px) {
   .book-hero-title { font-size: 2.2rem; }
@@ -1969,7 +1980,6 @@ html[data-theme="midnight"] .footer-strip { border-top: 0; }
 .story-choice a:hover,
 .story-choice a:focus-visible {
   border-bottom-color: var(--petrol);
-  opacity: 0.82;
   outline: none;
 }
 
@@ -2004,7 +2014,6 @@ html[data-theme="midnight"] .footer-strip { border-top: 0; }
 .story-renav-link:hover,
 .story-renav-link:focus-visible {
   border-bottom-color: var(--petrol);
-  opacity: 0.82;
   outline: none;
 }
 
@@ -2139,11 +2148,19 @@ html[data-theme="midnight"] .footer-strip { border-top: 0; }
   flex-direction: column;
 }
 
+/* The whole row is type, so the whole row dims. */
 .tools-item {
   display: block;
   text-decoration: none;
   padding: 26px 0;
   border-top: 1px solid var(--rule);
+  transition: var(--select-ease);
+}
+
+.tools-item:hover,
+.tools-item:active,
+.tools-item:focus-visible {
+  opacity: var(--select-dim);
 }
 
 .tools-item:last-child {
@@ -2157,7 +2174,6 @@ html[data-theme="midnight"] .footer-strip { border-top: 0; }
   font-size: 1.6rem;
   line-height: 1.1;
   color: var(--petrol-deep);
-  transition: color 0.2s ease;
 }
 
 .tools-item p {
@@ -2168,10 +2184,6 @@ html[data-theme="midnight"] .footer-strip { border-top: 0; }
   margin-top: 6px;
 }
 
-.tools-item:hover h3,
-.tools-item:focus-visible h3 {
-  color: var(--petrol);
-}
 
 .tools-shelf {
   font-family: 'Cormorant Garamond', Georgia, serif;
