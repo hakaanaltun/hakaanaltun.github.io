@@ -1,12 +1,24 @@
 # Notes—short things, out loud.
 #
 # Newest first is handled automatically; add a new block anywhere.
-#   id    — the anchor (/notes/#slug). Lowercase, no spaces.
-#   date  — YYYY-MM-DD, in quotes.
-#   body  — Markdown. A blank line starts a new paragraph.
+#   id     — the anchor (/notes/#slug). Lowercase, no spaces.
+#   date   — YYYY-MM-DD, in quotes.
+#   pinned — optional. true keeps the note at the top of /notes/, above the
+#            dated ones, whatever its date says.
+#   draft  — optional. true keeps the note in the repo but off the site:
+#            it disappears from /notes/ and from the home strip until the
+#            line is removed.
+#   body   — Markdown. A blank line starts a new paragraph.
+
+- id: made-with-ai
+  date: "2026-08-19"
+  pinned: true
+  body: |
+    Everything you'll find here was made together with AI, followed by weeks of careful editing on my end. It's been an enjoyable process, and I've learned a lot from it. Just so you have the full context as you read.
 
 - id: cat-in-the-rain
-  date: "2026-08-01"
+  date: "2026-08-20"
+  draft: true
   body: |
     I was reading *Cat in the Rain* and thinking about the iceberg theory. Is it right to leave the audience this much room?
 
