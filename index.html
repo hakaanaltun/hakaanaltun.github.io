@@ -128,8 +128,10 @@ layout: home
 <section id="notes" class="home-notes" aria-label="Notes">
   {% include section-header.html title="Notes" subtitle="" %}
   {%- comment -%}
-    The strip stays a "latest note" slot: drafts are skipped, and the pinned
-    note on /notes/ only lands here while nothing dated has been written yet.
+    The strip is untouched by the pinned-note work on /notes/ except in what
+    it picks: still the newest DATED note, which is now also the only kind
+    that has a date line to print — a pinned note drops its own. Drafts are
+    skipped, and the pinned note lands here only if nothing dated is live.
   {%- endcomment -%}
   {% assign home_notes = site.data.notes | where_exp: "n", "n.draft != true" | sort: "date" | reverse %}
   {% assign latest_note = home_notes | where_exp: "n", "n.pinned != true" | first %}

@@ -1,0 +1,14 @@
+{%- comment -%}
+  The pushpin on a pinned note. Drawn rather than set as a character: the
+  📌 emoji renders as a different object on every platform (and in colour),
+  and the site has no icon font. Four primitives — cap, shaft, flange,
+  needle — read as a tack at 22px, which is the only size this is used at.
+  currentColor throughout, so it follows the note's ink in all 14 looks.
+{%- endcomment -%}
+<svg class="note-pin" viewBox="0 0 24 24" width="26" height="26" role="img" aria-label="Pinned">
+  <g fill="currentColor">
+    <rect x="8.1" y="1.6" width="7.8" height="7.2" rx="2.2"/>
+    <rect x="5.2" y="8.4" width="13.6" height="3.2" rx="1.5"/>
+    <path d="M11.05 11.4h1.9L12 22.4z"/>
+  </g>
+</svg>

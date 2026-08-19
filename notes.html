@@ -24,10 +24,13 @@ description: "Short things, out loud. Half-thoughts, dated."
     {% for note in notes %}
     {% assign note_anchor = note.id | default: note.date %}
     <li class="note{% if note.pinned %} note-pinned{% endif %}" id="{{ note_anchor }}">
+      {%- if note.pinned -%}
+      {% include note-pin.html %}
+      {%- else -%}
       <a class="note-date" href="#{{ note_anchor }}">
         <time datetime="{{ note.date }}">{{ note.date | date: "%B %-d, %Y" }}</time>
-        {% if note.pinned %}<span class="note-pin">Pinned</span>{% endif %}
       </a>
+      {%- endif -%}
       <div class="note-body">
         {{ note.body | markdownify }}
       </div>
