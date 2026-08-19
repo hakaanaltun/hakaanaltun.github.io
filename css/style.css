@@ -2293,31 +2293,83 @@ html[data-theme="midnight"] .footer-strip { border-top: 0; }
 .home-notes-all:focus-visible { outline: 2px solid var(--petrol); outline-offset: 3px; border-radius: 4px; }
 
 /* --- Notes --------------------------------------------------------------- */
-/* No palette variables in the note structure on purpose: every colour is
-   relative to the text the notes are set in (currentColor / opacity /
-   color-mix against currentColor), so the section follows all 12 palettes and
-   the light, dark and midnight themes without a single override. The one
-   exception is the home strip's body colour at the foot of this block, and it
-   is a palette token too, so it adapts on the same terms. */
+/* The notes are pinned paper: each one is a square-ish card on the wall of
+   /notes/, tacked up rather than ruled off from its neighbours.
+
+   Two colours only, and both are palette tokens, so the whole wall follows all
+   12 palettes and the light, dark and midnight themes with no per-theme
+   override: --surface-soft is the card, --paper is the page behind it. That
+   pairing is already the site's "something sits on top of the page" contrast
+   (it dresses the bands and the cards), which is exactly what a sticky note
+   is; a fixed post-it yellow would have been one hardcoded hue fighting
+   thirteen of the fourteen looks. The tack and the date stay relative to the
+   text, on currentColor; the one literal colour in the block is the curl
+   under each card, and the note on it says why a shadow cannot invert. */
 
 .notes-list {
   list-style: none;
-  max-width: 34rem;
+  /* auto-fit, not auto-fill: with two notes on the wall the empty tracks
+     collapse and justify-content centres what is left, instead of stranding
+     them against the left edge of a three-column grid. 17.5rem is the cap
+     that lets three tracks fit the 960px column the site gives this page —
+     19rem only ever resolved to two, and left a third of the wall empty. It
+     also keeps a lone note from stretching into a banner and, with the
+     min-height below, holds the cards near square, which is the shape the
+     eye reads as a sticky note before it reads a word of them. */
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 17.5rem));
+  justify-content: center;
+  align-items: start;
+  gap: 2.2rem;
+  max-width: 64rem;
   margin: 0 auto;
   padding: 0;
 }
 
 .note {
-  padding-block: 2.6rem;
+  position: relative;
+  padding: 1.95rem 1.6rem 1.75rem;
+  background: var(--surface-soft);
+  /* Square corners. A sticky note is cut, not rounded, and 2px is only there
+     to stop the corner pixel from looking chipped on a fractional zoom. */
+  border-radius: 2px;
+  box-shadow: var(--shadow-card);
+  /* Square-ish, and the shortest note sets the floor rather than the ceiling:
+     a two-line note keeps the shape, a long one grows down and the wall goes
+     ragged, the way a real one does. */
+  min-height: 13.5rem;
+  font-size: 0.95rem;
+  line-height: 1.62;
 }
 
-.note:first-child { padding-top: 0.75rem; }
-.note:last-child  { padding-bottom: 0.75rem; }
+/* The lift is drawn, not moved: the card sits flat and a soft edge under its
+   bottom two corners does the peeling, so the wall still obeys the site's
+   "nothing moves" rule.
 
-.note + .note {
-  border-top: 1px solid currentColor;
-  border-top-color: color-mix(in srgb, currentColor 14%, transparent);
+   Black, not currentColor. currentColor is the note's ink, which inverts with
+   the theme — on Dark and Midnight the curl came back as a pale halo under
+   the card, a light source from below rather than a shadow. Shade is shade in
+   every look, so this is the one place in the block that names a colour, and
+   it names the same one --shadow-card already uses two lines above. It simply
+   fades out on the dark papers, which is what a shadow on a dark wall does. */
+.note::after {
+  content: "";
+  position: absolute;
+  inset: auto 6% -3px 6%;
+  height: 10px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 50% 0%,
+    rgba(0, 0, 0, 0.17), transparent 72%);
+  pointer-events: none;
 }
+
+/* Tacked up by hand, so no two hang at quite the same angle. Kept under a
+   degree: enough to read as paper on a wall, small enough that the type
+   inside is still level to the eye. Static transforms, not motion — nothing
+   here animates, so there is nothing for reduced-motion to switch off. */
+.notes-list .note:nth-child(3n + 1) { transform: rotate(-0.55deg); }
+.notes-list .note:nth-child(3n + 2) { transform: rotate(0.4deg); }
+.notes-list .note:nth-child(3n + 3) { transform: rotate(0.75deg); }
 
 /* 0.72, not a lighter wash. This is the hardest text on the page to read —
    0.76rem, uppercase, on 0.09em tracking — and a fixed opacity lands on a
@@ -2341,23 +2393,50 @@ html[data-theme="midnight"] .footer-strip { border-top: 0; }
 .note-date:hover,
 .note-date:focus-visible { opacity: 1; }
 
-/* A pinned note sits out of date order, so it says so. The word rides in the
-   date line rather than above it — same size, same tracking, same currentColor
-   opacity ramp — separated by a hairline rule instead of a bullet, so it reads
-   as one quiet line and not as a badge. */
-.note-pin {
-  margin-left: 0.7em;
-  padding-left: 0.7em;
-  border-left: 1px solid currentColor;
-  border-left-color: color-mix(in srgb, currentColor 35%, transparent);
+/* .note-date is the one part of a note the home strip shares, and the strip
+   sits on bare --paper, so the values above stay exactly as they were and the
+   wall adjusts itself here. On the wall the date sits on --surface-soft, a
+   step or two darker in every palette, which moves the contrast floor the
+   0.72 above was measured against: 0.78 restores the same margin on the card.
+   The size drops with the card's own 0.95rem body. */
+.notes-list .note-date {
+  margin-bottom: 1.05rem;
+  opacity: 0.78;
+  font-size: 0.72rem;
 }
+
+/* The tack. It is pressed through the top edge of the card, half on the paper
+   and half on the wall, which is the whole reason a pinned note needs no date
+   line to explain itself. Rotated a little, because a pin driven in by hand
+   never lands square. */
+.note-pin {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -44%) rotate(-12deg);
+  opacity: 0.68;
+}
+
+/* The pinned note carries no date, so without this its first line would start
+   a date-line higher than every card beside it, and the top of the wall would
+   read as crooked in a way the tilts do not. 2.2rem is that missing line
+   measured, not guessed: .note-date is 0.72rem on the card's 1.62 leading
+   (18.7px) plus its own 1.05rem margin (16.8px). The tack lands in the space
+   it clears. */
+.notes-list .note-pinned .note-body { padding-top: 2.2rem; }
 
 .note-body > p { margin: 0 0 1.05em; }
 .note-body > p:last-child { margin-bottom: 0; }
 
 /* The home strip centres like #instruments — heading, body, and the "More"
    link all on the page's axis — but the note itself keeps its prose ranged
-   left inside that centred measure, the way it sits on /notes/. */
+   left inside that centred measure.
+
+   None of the wall above reaches it, by construction rather than by override:
+   the card, the curl, the tilt and the tack all hang off .note / .notes-list,
+   and the strip's markup is .home-note. It reads on /notes/ as paper on a
+   wall and on the homepage as one voice in a column of them, which is what
+   each page needs it to be. */
 .home-notes { text-align: center; }
 
 .home-note {
@@ -2379,5 +2458,8 @@ html[data-theme="midnight"] .footer-strip { border-top: 0; }
 .home-note .note-body { color: var(--vizon); }
 
 @media (max-width: 600px) {
-  .note { padding-block: 2rem; }
+  /* One column on a phone, and the card takes the measure rather than sitting
+     in the middle of it as a 17.5rem stamp. */
+  .notes-list { grid-template-columns: minmax(0, 1fr); gap: 2rem; max-width: 24rem; }
+  .note { padding: 2rem 1.5rem 1.75rem; }
 }
