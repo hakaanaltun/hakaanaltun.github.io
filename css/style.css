@@ -2341,6 +2341,17 @@ html[data-theme="midnight"] .footer-strip { border-top: 0; }
 .note-date:hover,
 .note-date:focus-visible { opacity: 1; }
 
+/* A pinned note sits out of date order, so it says so. The word rides in the
+   date line rather than above it — same size, same tracking, same currentColor
+   opacity ramp — separated by a hairline rule instead of a bullet, so it reads
+   as one quiet line and not as a badge. */
+.note-pin {
+  margin-left: 0.7em;
+  padding-left: 0.7em;
+  border-left: 1px solid currentColor;
+  border-left-color: color-mix(in srgb, currentColor 35%, transparent);
+}
+
 .note-body > p { margin: 0 0 1.05em; }
 .note-body > p:last-child { margin-bottom: 0; }
 

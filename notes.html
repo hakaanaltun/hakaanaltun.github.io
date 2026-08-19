@@ -12,13 +12,21 @@ description: "Short things, out loud. Half-thoughts, dated."
     <p class="section-page-subtitle">Out loud</p>
   </div>
 
-  {% assign notes = site.data.notes | sort: "date" | reverse %}
+  {%- comment -%}
+    Drafts stay in _data/notes.yml but off the page; pinned notes sit above the
+    dated run, so the date column still reads newest-first underneath them.
+  {%- endcomment -%}
+  {% assign live_notes = site.data.notes | where_exp: "n", "n.draft != true" | sort: "date" | reverse %}
+  {% assign pinned_notes = live_notes | where_exp: "n", "n.pinned == true" %}
+  {% assign dated_notes = live_notes | where_exp: "n", "n.pinned != true" %}
+  {% assign notes = pinned_notes | concat: dated_notes %}
   <ol class="notes-list" role="list">
     {% for note in notes %}
     {% assign note_anchor = note.id | default: note.date %}
-    <li class="note" id="{{ note_anchor }}">
+    <li class="note{% if note.pinned %} note-pinned{% endif %}" id="{{ note_anchor }}">
       <a class="note-date" href="#{{ note_anchor }}">
         <time datetime="{{ note.date }}">{{ note.date | date: "%B %-d, %Y" }}</time>
+        {% if note.pinned %}<span class="note-pin">Pinned</span>{% endif %}
       </a>
       <div class="note-body">
         {{ note.body | markdownify }}

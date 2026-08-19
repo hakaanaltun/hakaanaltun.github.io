@@ -127,8 +127,13 @@ layout: home
 
 <section id="notes" class="home-notes" aria-label="Notes">
   {% include section-header.html title="Notes" subtitle="" %}
-  {% assign home_notes = site.data.notes | sort: "date" | reverse %}
-  {% assign latest_note = home_notes | first %}
+  {%- comment -%}
+    The strip stays a "latest note" slot: drafts are skipped, and the pinned
+    note on /notes/ only lands here while nothing dated has been written yet.
+  {%- endcomment -%}
+  {% assign home_notes = site.data.notes | where_exp: "n", "n.draft != true" | sort: "date" | reverse %}
+  {% assign latest_note = home_notes | where_exp: "n", "n.pinned != true" | first %}
+  {% unless latest_note %}{% assign latest_note = home_notes | first %}{% endunless %}
   {% if latest_note %}
   {% assign latest_anchor = latest_note.id | default: latest_note.date %}
   <div class="home-note">
