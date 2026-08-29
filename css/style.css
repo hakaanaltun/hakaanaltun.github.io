@@ -276,13 +276,14 @@ html[data-theme="midnight"] body {
    dusty rose and turns candy pink, and dropping the chroma only bleaches it
    — the voices lost half their separation and the pink stayed pink. So the
    writing sits deeper than the rest at night (L 0.70), which is what lets it
-   stay a rose. The greens and golds are happiest light and stay there.
+   stay a rose. The greens, the gold and the blue are happiest light and stay
+   there.
 
    The dark wardrobe used to carry eight hand-picked tints, and they had
    drifted: three of the eight sat within 4° of each other in hue, the
    closest pair only 7.7 dE apart — mushier than anything the five voices
    produce. Measured in Chromium: light 4.78:1 at worst with the closest
-   voices 15.3 dE apart; dark 5.66:1 at worst, 15.8 dE apart.
+   voices 16.7 dE apart; dark 5.66:1 at worst, 19.8 dE apart.
 
    Midnight reads none of this. It pins --petrol to its own single gold
    further up, so its navy-and-gold stays exactly as it is.
@@ -303,7 +304,7 @@ body.series-on-series,
 body.series-cafe-series { --sec-h:  12; --sec-c: 0.068; --sec-ld: 0.700; --sec-cd: 0.078; }
 /* The book, and the fragments that belong to it */
 body.series-book,
-body.series-fragments   { --sec-h:  86; --sec-c: 0.072; --sec-ld: 0.820; --sec-cd: 0.075; }
+body.series-fragments   { --sec-h: 262; --sec-c: 0.075; --sec-ld: 0.820; --sec-cd: 0.058; }
 /* The quotes */
 body.series-moris       { --sec-h: 118; --sec-c: 0.058; --sec-ld: 0.840; --sec-cd: 0.055; }
 /* The fiction */
@@ -1338,15 +1339,16 @@ html[data-theme="midnight"] .quote-nav-btn:focus-visible { color: var(--ink); }
   .section-page-title { font-size: 2.2rem; }
 }
 
-/* Accent label — the small wine caps under the featured piece ("told in
-   choices"), the one place the class is used now. It stays a class of its own
-   rather than folding into .story-doorway-tag: the type is the label, the
-   placement is the doorway's. Uppercasing lives here, not in the markup;
-   .story-doorway-tag below only places the label, it sets no type. */
+/* Accent label — the small caps under the featured piece ("told in
+   choices"), carrying the page's own voice; the one place the class is used
+   now. It stays a class of its own rather than folding into
+   .story-doorway-tag: the type is the label, the placement is the doorway's.
+   Uppercasing lives here, not in the markup; .story-doorway-tag below only
+   places the label, it sets no type. */
 .accent-label {
   font-family: 'EB Garamond', Georgia, serif;
   font-style: italic; font-size: 0.8125rem; letter-spacing: 0.18em;
-  text-transform: uppercase; color: var(--wine);
+  text-transform: uppercase; color: var(--petrol-deep);
 }
 
 /* Notice accent tag on the homepage doorway */
@@ -1460,8 +1462,8 @@ html[data-theme="midnight"] .quote-nav-btn:focus-visible { color: var(--ink); }
 /* Quiet jump row under the page head — two sections, one glance.
    flex-direction: row overrides the global header `nav { flex-direction: column }`. */
 .work-jump { display: flex; flex-direction: row; justify-content: center; align-items: baseline; gap: 14px; margin: -8px 0 44px; padding: 0; font-size: 0.82rem; letter-spacing: 0.14em; text-transform: uppercase; }
-.work-jump a { color: var(--wine); border-bottom: 1px solid transparent; padding-bottom: 2px; }
-.work-jump a:hover, .work-jump a:focus-visible { color: var(--wine); border-bottom-color: color-mix(in srgb, var(--wine) 55%, transparent); outline: none; }
+.work-jump a { color: var(--petrol-deep); border-bottom: 1px solid transparent; padding-bottom: 2px; }
+.work-jump a:hover, .work-jump a:focus-visible { color: var(--petrol-deep); border-bottom-color: color-mix(in srgb, var(--petrol-deep) 55%, transparent); outline: none; }
 .work-jump-sep { color: var(--rule-strong); }
 
 .work-index { list-style: none; margin: 0 auto; padding: 0; max-width: 860px; border-top: 1px solid var(--rule); }
