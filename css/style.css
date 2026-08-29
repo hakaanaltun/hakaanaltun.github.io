@@ -61,6 +61,26 @@
   --rule-strong: #D6CDB6;
   --rule-cream: #DECEA4;
 
+  /* The notes wall. Each card is its own sheet of tinted paper: --note-h
+     carries the hue (set per card in the notes block), --note-base is the
+     surface the tint is mixed into and --note-wash how much of it lands.
+     Day mixes into the bare --paper rather than --surface-soft, which is
+     what lets a tinted card sit closer to the page than the flat one did.
+     Night has to invert the pairing; the note over the dark block says why.
+
+     The tint's lightness and chroma travel as two numbers rather than as a
+     finished colour on purpose. A custom property resolves the var()s inside
+     it where it is declared, not where it is used, so an oklch() built here
+     would read --note-h off :root — unset, one hue — and every card on the
+     wall would come out the same. The colour is assembled on .note instead,
+     which is the element that actually carries the hue. 0.095 is the chroma
+     the least forgiving of the five hues (the book's 262) still holds inside
+     sRGB at this lightness, so no card is quietly gamut-mapped. */
+  --note-base: var(--paper);
+  --note-tint-l: 0.80;
+  --note-tint-c: 0.095;
+  --note-wash: 15%;
+
   --shadow-card: 0 4px 16px rgba(38, 35, 32, 0.05);
   --shadow-card-hover: 0 16px 40px rgba(var(--chrome-rgb, 68, 74, 78), 0.08);
   --shadow-cover: 0 14px 24px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.06);
@@ -71,7 +91,6 @@
   --hero-source-muted: #574F42;
 
   --drawer-bg: rgba(253, 252, 248, 0.985);
-  --wine: #8A6410;
 
   --header-border: rgba(220, 209, 172, 0.20);
 
@@ -128,6 +147,23 @@ body {
     --paper: #1C1B18;
     --surface-soft: #24231F;
     --band: #171613;
+    /* The wash inverts at night. A tint light enough to read as colour on
+       paper is far lighter than the dark ground, so mixing it into --paper
+       lifted the cards into pale slabs — brighter off the wall than the
+       flat --surface-soft card ever was, which is the opposite of what the
+       day change is for. So night mixes a tint near --surface-soft's own
+       lightness into --surface-soft itself: the card keeps the lift the
+       wall was built around and takes the hue on top of it.
+
+       The chroma is not the day's either. A wash this heavy carries far more
+       of the tint through than the day's 15% does, so the day's 0.095 came
+       out at better than twice the colour and the cards read as coloured
+       card rather than as paper at night. 0.025 lands the five the same
+       distance apart on the wall as the day's do (4.2 dE against 4.1). */
+    --note-base: var(--surface-soft);
+    --note-tint-l: 0.26;
+    --note-tint-c: 0.025;
+    --note-wash: 65%;
     --footer-strip-bg: var(--band);
     --ink: #EFE7D4;
     --ink-soft: #D7CEB8;
@@ -140,7 +176,6 @@ body {
     --footer-muted: #C3BAA4;
     --hero-source-muted: #A29A8A;
     --drawer-bg: rgba(28, 27, 24, 0.985);
-    --wine: #C9A968;
     --header-border: rgba(239, 231, 212, 0.12);
     --theme-icon-sun: block;
     --theme-icon-moon: none;
@@ -163,6 +198,10 @@ html[data-theme="dark"] {
   --paper: #1C1B18;
   --surface-soft: #24231F;
   --band: #171613;
+  --note-base: var(--surface-soft);
+  --note-tint-l: 0.26;
+  --note-tint-c: 0.025;
+  --note-wash: 65%;
   --footer-strip-bg: var(--band);
   --ink: #EFE7D4;
   --ink-soft: #D7CEB8;
@@ -175,7 +214,6 @@ html[data-theme="dark"] {
   --footer-muted: #C3BAA4;
   --hero-source-muted: #A29A8A;
   --drawer-bg: rgba(28, 27, 24, 0.985);
-  --wine: #C9A968;
   --header-border: rgba(239, 231, 212, 0.12);
   --theme-icon-sun: block;
   --theme-icon-moon: none;
@@ -214,6 +252,12 @@ html[data-theme="midnight"] {
   --paper: #10161F;
   --surface-soft: #171F2B;
   --band: #0D1219;
+  /* Midnight pins one gold for every section rather than carrying the five
+     voices, and the wall follows it: --note-wash at 0 leaves every card on
+     the bare --surface-soft, so the notes stay one paper here the way the
+     accents stay one gold. The tint numbers are never read at 0%. */
+  --note-base: var(--surface-soft);
+  --note-wash: 0%;
   --footer-strip-bg: var(--band);
   --ink: #DCD1AC;
   --ink-soft: #C6B98F;
@@ -226,7 +270,6 @@ html[data-theme="midnight"] {
   --footer-muted: #C6B98F;
   --hero-source-muted: #C6B98F;
   --drawer-bg: rgba(16, 22, 31, 0.985);
-  --wine: #C6B98F;
   --header-border: rgba(220, 209, 172, 0.16);
   --theme-icon-sun: block;
   --theme-icon-moon: none;
@@ -2298,15 +2341,33 @@ html[data-theme="midnight"] .footer-strip { border-top: 0; }
 /* The notes are pinned paper: each one is a square-ish card on the wall of
    /notes/, tacked up rather than ruled off from its neighbours.
 
-   Two colours only, and both are palette tokens, so the whole wall follows all
-   12 palettes and the light, dark and midnight themes with no per-theme
-   override: --surface-soft is the card, --paper is the page behind it. That
-   pairing is already the site's "something sits on top of the page" contrast
-   (it dresses the bands and the cards), which is exactly what a sticky note
-   is; a fixed post-it yellow would have been one hardcoded hue fighting
-   thirteen of the fourteen looks. The tack and the date stay relative to the
-   text, on currentColor; the one literal colour in the block is the curl
-   under each card, and the note on it says why a shadow cannot invert. */
+   The wall used to be one colour — --surface-soft on --paper, the site's
+   "something sits on top of the page" pairing. It followed all fourteen
+   looks, but it also made every card the same warm block, and on the site's
+   own Ash & Gold it sat further off the page than on any other palette
+   (5.7 dE, against 2.4 on Fog): the one look most readers see was the one
+   where the cards read hardest.
+
+   So the card is now tinted paper instead. Each one takes a hue and the tint
+   is mixed into the palette's own surface, which keeps the whole wall on
+   palette tokens — the reason a fixed post-it yellow was refused still
+   holds, and nothing here is a hardcoded sheet. What it buys is that the
+   cards are told apart by colour rather than by weight, so the value step
+   could come down rather than up: on Ash & Gold the card now sits 3.3 dE in
+   lightness off the page where the flat one sat 3.7, and every other palette
+   is level with its old value or quieter (Field 1.3 against 3.0). Ink on the
+   card stays above 9.3:1 in all twelve.
+
+   The five hues are the section voices from the top of this file, not a new
+   set: the wall is the one place on the site where all five appear at once,
+   and borrowing them means the notes read as this site's paper rather than
+   as stationery. They were already tuned to be told apart, which is the
+   property the wall needs. Five hues against the three tilts below gives a
+   fifteen-card cycle before a card repeats itself exactly.
+
+   The tack and the date stay relative to the text, on currentColor; the one
+   literal colour in the block is the curl under each card, and the note on
+   it says why a shadow cannot invert. */
 
 .notes-list {
   list-style: none;
@@ -2331,7 +2392,8 @@ html[data-theme="midnight"] .footer-strip { border-top: 0; }
 .note {
   position: relative;
   padding: 1.95rem 1.6rem 1.75rem;
-  background: var(--surface-soft);
+  background: color-mix(in oklab, var(--note-base),
+    oklch(var(--note-tint-l) var(--note-tint-c) var(--note-h, 54)) var(--note-wash));
   /* Square corners. A sticky note is cut, not rounded, and 2px is only there
      to stop the corner pixel from looking chipped on a fractional zoom. */
   border-radius: 2px;
@@ -2365,6 +2427,16 @@ html[data-theme="midnight"] .footer-strip { border-top: 0; }
   pointer-events: none;
 }
 
+/* One hue per card, cycling the five section voices in the order they are
+   declared at the top of this file. Only the hue travels: the lightness and
+   the chroma of the wash belong to the theme, not to the voice, which is why
+   these lines carry a bare number and nothing else. */
+.notes-list .note:nth-child(5n + 1) { --note-h:  12; }   /* the writing */
+.notes-list .note:nth-child(5n + 2) { --note-h: 262; }   /* the book */
+.notes-list .note:nth-child(5n + 3) { --note-h: 118; }   /* the quotes */
+.notes-list .note:nth-child(5n + 4) { --note-h:  54; }   /* the fiction */
+.notes-list .note:nth-child(5n + 5) { --note-h: 178; }   /* the site's own */
+
 /* Tacked up by hand, so no two hang at quite the same angle. Kept under a
    degree: enough to read as paper on a wall, small enough that the type
    inside is still level to the eye. Static transforms, not motion — nothing
@@ -2397,7 +2469,7 @@ html[data-theme="midnight"] .footer-strip { border-top: 0; }
 
 /* .note-date is the one part of a note the home strip shares, and the strip
    sits on bare --paper, so the values above stay exactly as they were and the
-   wall adjusts itself here. On the wall the date sits on --surface-soft, a
+   wall adjusts itself here. On the wall the date sits on the tinted card, a
    step or two darker in every palette, which moves the contrast floor the
    0.72 above was measured against: 0.78 restores the same margin on the card.
    The size drops with the card's own 0.95rem body. */
