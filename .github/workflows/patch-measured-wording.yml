@@ -1,0 +1,38 @@
+name: Patch Measured wording
+
+on:
+  push:
+    paths:
+      - '.github/workflows/patch-measured-wording.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Fix publication note wording
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          path = Path('_posts/2026-08-29-measured.html')
+          text = path.read_text(encoding='utf-8')
+          old = 'Yazının çok yürünmüş bir yola girmeye başladığını ve konuya yeterince yeni bir şey eklemediğimi düşündüğüm için tamamlamamaya karar verdim. Bunun yerine planlanan sahnelerden bazılarını yazıp planın kendisiyle birlikte yayımladım.'
+          new = 'Yazıyı, çok yürünmüş bir yola girmeye başladığını ve konuya yeterince yeni bir şey eklemediğimi düşündüğüm için tamamlamamaya karar verdim. Bunun yerine, planlanan sahnelerden bazılarını yazıp planın kendisiyle birlikte yayımladım.'
+          if old not in text:
+              raise SystemExit('Target sentence not found')
+          path.write_text(text.replace(old, new, 1), encoding='utf-8')
+          PY
+      - name: Commit change
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add _posts/2026-08-29-measured.html
+          git commit -m "Fix Measured publication note wording"
+          git push origin HEAD:main
