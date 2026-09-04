@@ -1354,10 +1354,12 @@ html[data-theme="midnight"] .quote-nav-btn:focus-visible { color: var(--ink); }
    Kept off /latest/ and /pieces/ on purpose — this is the only cold invitation.
    The default animated divider (5. Sections & Animated Dividers) marks it off
    from the hero above, now that both share the page's own background.
-   The bottom padding closes the block against the divider that opens
-   #start-here below: 20px here plus the tag's own 8px margin makes 28px, the
-   same clearance the divider above gets, so the doorway sits between two
-   rules instead of hanging off the lower one. */
+   The bottom padding closes the block against the divider that opens the
+   section below it — #latest, since "First time here?" moved under the work
+   it was competing with. Every section but the first draws that rule, so the
+   measurement holds whoever follows: 20px here plus the tag's own 8px margin
+   makes 28px, the same clearance the divider above gets, so the doorway sits
+   between two rules instead of hanging off the lower one. */
 #story-doorway { padding: 28px 0 20px; }
 .story-doorway { text-align: center; }
 /* Transparent by design: the link shrinks to its own text so only the words
