@@ -5,7 +5,7 @@
       var heroQuotes = [
         {s:'The Fragments',t:'First, there was Symmetry.'},
         {s:'The Fragments',t:'I gave it another name first.\nNostalgia.'},
-        {s:'The Fragments',t:'Hiç yok amca. Hepsi pekiyi.'},
+        {s:'The Fragments',t:'Hiç yok amca. Hepsi pekiyi.',l:'tr'},
         {s:'The Fragments',t:'They must know what they’re doing.'},
         {s:'The Fragments',t:'You merged the request without my approval.'},
         {s:'The Fragments',t:'I had been the oldest person in that café. I had also been the youngest.'},
@@ -98,6 +98,11 @@
 
       function paintQuote(pick, animate, announce){
         hq.innerHTML = '';
+        /* A quote carrying l: is not in the page's language. Marking the
+           paragraph lets a screen reader switch voices for it instead of
+           reading Turkish with English phonetics; the same tag is put on the
+           live-region copy below, which is what actually gets announced. */
+        if(pick.l) hq.setAttribute('lang', pick.l); else hq.removeAttribute('lang');
         pick.t.split('\n').forEach(function(line,lineIndex){
           if(lineIndex) hq.appendChild(document.createElement('br'));
           if(!animate){
@@ -126,6 +131,7 @@
            itself stays quiet, so word-by-word DOM updates are never read as
            a stream of separate live-region changes. */
         if(announce && quoteStatus){
+          if(pick.l) quoteStatus.setAttribute('lang', pick.l); else quoteStatus.removeAttribute('lang');
           quoteStatus.textContent = pick.t.replace(/\n/g, ' ') + ' — ' + pick.s;
         }
         schedule();

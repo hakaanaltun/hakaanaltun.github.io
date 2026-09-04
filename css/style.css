@@ -481,6 +481,18 @@ header .hamburger-btn:focus-visible { outline-color: var(--footer-text); }
 }
 .header-nav-bar a:hover,
 .header-nav-bar a:active { color: var(--footer-text); border-bottom-color: var(--footer-text); background: transparent; box-shadow: none; transform: none; }
+/* Where you are, not only where you can go: the current section keeps the
+   hover ink permanently and thickens its rule. Colour is not the only cue —
+   the heavier underline carries it for readers who cannot tell the two
+   greys apart. */
+.header-nav-bar a[aria-current="page"] {
+  color: var(--footer-text);
+  border-bottom-color: var(--footer-text);
+  /* The extra pixel comes out of the padding so the row's height, and the
+     baseline every other link sits on, do not move. */
+  border-bottom-width: 3px;
+  padding-bottom: 5px;
+}
 
 @media (max-width: 767px), (max-height: 500px) and (orientation: landscape) {
   .header-nav-bar { gap: 12px 22px; }
@@ -551,9 +563,20 @@ header .hamburger-btn:focus-visible { outline-color: var(--footer-text); }
   border-right: 1px solid var(--rule); box-shadow: 4px 0 24px rgba(47, 43, 39, 0.08);
   display: flex; flex-direction: column; gap: 10px; overflow-y: auto; overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch; scroll-behavior: smooth;
-  transform: translateX(-100%); transition: transform 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+  transform: translateX(-100%);
+  /* The closed drawer is only pushed off-screen, so its links stayed in the
+     tab order behind aria-hidden="true" — a keyboard reader tabbed into a
+     menu they could not see. visibility takes them out of the tab order and
+     the accessibility tree; the 0.35s delay lets the slide-out finish before
+     it applies, so the animation is unchanged. */
+  visibility: hidden;
+  transition: transform 0.35s cubic-bezier(0.23, 1, 0.32, 1), visibility 0s linear 0.35s;
 }
-.site-drawer.open { transform: translateX(0); }
+.site-drawer.open {
+  transform: translateX(0);
+  visibility: visible;
+  transition: transform 0.35s cubic-bezier(0.23, 1, 0.32, 1), visibility 0s linear 0s;
+}
 .site-drawer::before {
   content: "";
   position: absolute; top: 0; left: 0; right: 0; height: var(--head-band);
@@ -1090,8 +1113,14 @@ body.moris-lightbox-open { overflow: hidden; }
 .series-thumb-card { width: 80px; display: flex; flex-direction: column; gap: 5px; }
 .series-thumb-card img { width: 80px; height: 58px; object-fit: cover; border-radius: 8px; border: 0; display: block; overflow: hidden; }
 .series-thumb-img-placeholder { width: 80px; height: 58px; border-radius: 8px; border: 0; background: var(--rule); overflow: hidden; }
-.series-thumb-card--current { opacity: 0.38; cursor: default; }
-.series-thumb-card--current img { border: 1px solid var(--petrol); }
+/* The piece you are already on. The dimming used to sit on the whole card,
+   which took its label down to 2.1:1 — the least readable line in the strip
+   was the one naming the page you are reading. The thumbnail carries the
+   fade now; the label keeps the ink every other label has, and the petrol
+   border plus the "you are here" the scripts add do the rest of the work. */
+.series-thumb-card--current { cursor: default; }
+.series-thumb-card--current img,
+.series-thumb-card--current .series-thumb-img-placeholder { opacity: 0.38; border: 1px solid var(--petrol); }
 .series-thumb-label { font-size: 10px; color: var(--ink-soft); line-height: 1.3; display: block; width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-style: italic; }
 .series-thumb-num { color: var(--petrol); font-style: italic; }
 

@@ -1,4 +1,13 @@
 
+{%- comment -%}
+  Nav links carry aria-current="page" on the section the reader is in, so the
+  strip says where you are instead of only where you can go. Series pages and
+  the Şafak's Arc stub resolve to their parent tab rather than to nothing.
+{%- endcomment -%}
+{%- assign _nav_here = page.url -%}
+{%- if page.series_filter == "cafe-series" or page.series_filter == "on-series" -%}{%- assign _nav_here = "/series/" -%}
+{%- elsif page.url == "/safaks-arc/" -%}{%- assign _nav_here = "/book/" -%}
+{%- endif -%}
 <header id="site-header">
   <nav>
     <div class="nav-top-row">
@@ -11,14 +20,14 @@
       </a>
     </div>
     <div class="header-nav-bar">
-      <a href="/">Home</a>
-      <a href="/notes/">Notes</a>
-      <a href="/series/">Series</a>
-      <a href="/book/">Book</a>
-      <a href="/all-work/">All</a>
-      <a href="/tools/">Instruments</a>
-      <a href="/moris/">Moris</a>
-      <a href="/about/">About</a>
+      <a href="/"{% if _nav_here == "/" %} aria-current="page"{% endif %}>Home</a>
+      <a href="/notes/"{% if _nav_here == "/notes/" %} aria-current="page"{% endif %}>Notes</a>
+      <a href="/series/"{% if _nav_here == "/series/" %} aria-current="page"{% endif %}>Series</a>
+      <a href="/book/"{% if _nav_here == "/book/" %} aria-current="page"{% endif %}>Book</a>
+      <a href="/all-work/"{% if _nav_here == "/all-work/" %} aria-current="page"{% endif %}>All</a>
+      <a href="/tools/"{% if _nav_here == "/tools/" %} aria-current="page"{% endif %}>Instruments</a>
+      <a href="/moris/"{% if _nav_here == "/moris/" %} aria-current="page"{% endif %}>Moris</a>
+      <a href="/about/"{% if _nav_here == "/about/" %} aria-current="page"{% endif %}>About</a>
     </div>
   </nav>
 </header>
