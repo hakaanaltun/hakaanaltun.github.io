@@ -495,18 +495,14 @@ header .hamburger-btn:focus-visible { outline-color: var(--footer-text); }
 }
 .header-nav-bar a:hover,
 .header-nav-bar a:active { color: var(--footer-text); border-bottom-color: var(--footer-text); background: transparent; box-shadow: none; transform: none; }
-/* Where you are, not only where you can go: the current section keeps the
-   hover ink permanently and thickens its rule. Colour is not the only cue —
-   the heavier underline carries it for readers who cannot tell the two
-   greys apart. */
-.header-nav-bar a[aria-current="page"] {
-  color: var(--footer-text);
-  border-bottom-color: var(--footer-text);
-  /* The extra pixel comes out of the padding so the row's height, and the
-     baseline every other link sits on, do not move. */
-  border-bottom-width: 3px;
-  padding-bottom: 5px;
-}
+/* No visible current-page state here on purpose. The strip lists eight
+   sections, and a piece belongs to none of them — so on /pieces/*, which is
+   most of the site, the indicator simply had nothing to mark. Appearing on
+   About and vanishing on an essay read as a fault in the strip rather than
+   as an answer to "where am I". The aria-current attribute stays in
+   header.html: it costs a reader nothing to hear the current section named
+   when there is one, and its absence on a piece is accurate rather than
+   inconsistent. */
 
 @media (max-width: 767px), (max-height: 500px) and (orientation: landscape) {
   .header-nav-bar { gap: 12px 22px; }
