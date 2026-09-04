@@ -79,48 +79,37 @@ layout: home
     {% assign post_arr = "" | split: "" | push: post %}
     {% assign pool_posts = pool_posts | concat: post_arr %}
   {% endfor %}
-  <ul id="further-back-grid" class="further-back-grid" role="list"></ul>
+  {%- comment -%}
+    The cards are built here rather than in the script below: the section used
+    to be assembled entirely client-side, so without JavaScript — and to a
+    crawler that does not run it — "Further back" was a heading over an empty
+    list. The whole pool is rendered now, and the script keeps the shuffle by
+    dropping all but nine. It runs during parse, before first paint, so the
+    full list is never seen.
+  {%- endcomment -%}
+  <ul id="further-back-grid" class="further-back-grid" role="list">
+    {% for post in pool_posts %}
+    <li class="fb-card">
+      <a href="{{ post.url }}" class="fb-card-link">
+        <span class="piece-title">{{ post.title | replace: "'", "’" }}</span>
+        {% if post.subtitle %}<span class="piece-subtitle">{{ post.subtitle }}</span>{% endif %}
+        <span class="piece-meta">{{ post.date | date: '%b %-d, %Y' }}</span>
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
   <script>
   (function() {
-    var pool = [
-      {% for post in pool_posts %}
-      {
-        url: "{{ post.url }}",
-        title: {{ post.title | jsonify }},
-        subtitle: {{ post.subtitle | default: "" | jsonify }},
-        date: "{{ post.date | date: '%b %-d, %Y' }}"
-      }{% unless forloop.last %},{% endunless %}
-      {% endfor %}
-    ];
-    function shuffle(arr) {
-      for (var i = arr.length - 1; i > 0; i--) {
-        var j = Math.floor(Math.random() * (i + 1));
-        var tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp;
-      }
-      return arr;
-    }
-    function displayTitle(text) {
-      return (text || '').replace(/'/g, '’');
-    }
-    var selected = shuffle(pool.slice()).slice(0, 9);
     var grid = document.getElementById('further-back-grid');
-    var html = '';
-    selected.forEach(function(p) {
-      html += '<li class="fb-card"><a href="' + p.url + '" class="fb-card-link">';
-      html += '<span class="piece-title"></span>';
-      if (p.subtitle) html += '<span class="piece-subtitle"></span>';
-      html += '<span class="piece-meta"></span>';
-      html += '</a></li>';
-    });
-    grid.innerHTML = html;
-    var cards = grid.querySelectorAll('.fb-card');
-    cards.forEach(function(card, i) {
-      var p = selected[i];
-      card.querySelector('.piece-title').textContent = displayTitle(p.title);
-      var sub = card.querySelector('.piece-subtitle');
-      if (sub) sub.textContent = p.subtitle;
-      card.querySelector('.piece-meta').textContent = p.date;
-    });
+    if (!grid) return;
+    var cards = Array.prototype.slice.call(grid.children);
+    if (cards.length <= 9) return;
+    for (var i = cards.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = cards[i]; cards[i] = cards[j]; cards[j] = tmp;
+    }
+    cards.slice(9).forEach(function(card) { card.remove(); });
+    cards.slice(0, 9).forEach(function(card) { grid.appendChild(card); });
   })();
   </script>
 </section>

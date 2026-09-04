@@ -33,6 +33,10 @@
       + (img ? '<img src="' + img + '" alt="' + label + '" loading="lazy">' : '<div class="series-thumb-img-placeholder"></div>')
       + '<span class="series-thumb-label">'
       + '<span class="series-thumb-num">' + (i + 1) + '</span>. ' + s.title
+      /* The current card is a div, not a link, so nothing in the accessibility
+         tree said which one it was — the fade that says it visually is not
+         readable. Name it. */
+      + (isCurrent ? ' <span class="visually-hidden">(you are here)</span>' : '')
       + '</span>'
       + '</div>';
 

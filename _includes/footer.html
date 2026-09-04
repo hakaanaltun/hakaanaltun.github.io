@@ -164,8 +164,10 @@
         </span>
       </a>
 
+      {%- comment -%} The year comes from the build, so the line does not go
+      stale the moment the calendar turns. {%- endcomment -%}
       <p class="footer-credit">
-        Hakan Altun · İstanbul, 2026 · &copy; All rights reserved.
+        Hakan Altun · İstanbul, {{ site.time | date: "%Y" }} · &copy; All rights reserved.
       </p>
     </div>
   </div>

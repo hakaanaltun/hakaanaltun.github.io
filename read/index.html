@@ -105,7 +105,7 @@ layout: null
   .notes-cue{
     position:absolute; left:50%; bottom:16px; transform:translateX(-50%);
     font-family:var(--body); font-style:italic; font-size:.85rem; letter-spacing:.03em;
-    color:var(--muted); text-decoration:none; opacity:.8;
+    color:var(--muted); text-decoration:none;
     transition:color .2s, opacity .4s ease;
   }
   .notes-cue:hover{ color:var(--ink); }
@@ -120,9 +120,12 @@ layout: null
   }
   .masthead{
     grid-column:2; text-decoration:none; display:flex; flex-direction:column;
-    align-items:center; gap:1px; text-align:center; opacity:.85; transition:opacity .2s;
+    align-items:center; gap:1px; text-align:center; opacity:1; transition:opacity .2s;
+    /* The masthead used to sit at .85. Multiplied into var(--muted) that
+       dropped the tagline under the 4.5:1 contrast minimum (3.66:1 on the
+       light ground, 3.76:1 on the darkest). The token on its own clears it
+       everywhere, so the extra dimming is gone. */
   }
-  .masthead:hover{ opacity:1; }
   .home-brand{ font-family:var(--display); font-style:italic; font-weight:400; font-size:1.1rem; line-height:1.05; color:var(--ink); }
   .home-tagline{ font-family:var(--body); font-style:italic; font-weight:400; font-size:0.8rem; line-height:1.2; color:var(--muted); }
 

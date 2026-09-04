@@ -115,7 +115,7 @@ the story pages ("The Notice"), which share one card. {% endcomment %}
 }
 </script>
 
-<link rel="stylesheet" href="/css/style.css?v=20260829-1">
+<link rel="stylesheet" href="/css/style.css?v=20260904-1">
 <link rel="stylesheet" href="/css/palettes.css?v=20260829-1">
 
 {% elsif page.layout == "home" %}
@@ -131,7 +131,6 @@ the story pages ("The Notice"), which share one card. {% endcomment %}
 <link rel="shortcut icon" href="/favicon.ico?v=20260729-2">
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-on.png?v=20260729-2">
 <link rel="manifest" href="/manifest.json?v=20260729-2">
-<link rel="alternate" type="application/rss+xml" title="Hakan Altun—On Life &amp; Everything" href="/feed.xml">
 
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -260,7 +259,7 @@ the story pages ("The Notice"), which share one card. {% endcomment %}
 }
 </script>
 
-<link rel="stylesheet" href="/css/style.css?v=20260829-1">
+<link rel="stylesheet" href="/css/style.css?v=20260904-1">
 <link rel="stylesheet" href="/css/palettes.css?v=20260829-1">
 
 {% else %}
@@ -294,10 +293,15 @@ results; the visible page keeps its plain title. Used as-is — no suffix. {% en
 <meta name="twitter:image" content="https://hakanaltun.io/og-image-on-card.png?v=20260729-2">
 <meta name="twitter:image:alt" content="{{ page.title | escape }} — Hakan Altun">
 
-<link rel="stylesheet" href="/css/style.css?v=20260829-1">
+<link rel="stylesheet" href="/css/style.css?v=20260904-1">
 <link rel="stylesheet" href="/css/palettes.css?v=20260829-1">
 
 {% endif %}
+
+{% comment %} Feed discovery belongs on every page, not just the homepage:
+this is what puts the "subscribe" affordance in a reader's browser or
+extension when they land on an essay from search. {% endcomment %}
+<link rel="alternate" type="application/rss+xml" title="Hakan Altun&mdash;On Life &amp; Everything" href="/feed.xml">
 
 {% comment %} Fonts are self-hosted (see /fonts/ and css/fonts.css) — no
 render-blocking third-party request. Preload the body face for faster LCP. {% endcomment %}
