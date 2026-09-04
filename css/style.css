@@ -1649,16 +1649,42 @@ html[data-theme="midnight"] .quote-nav-btn:focus-visible { color: var(--ink); }
   font-family: 'EB Garamond', Georgia, serif; font-style: italic;
   font-size: 1.05rem; color: var(--vizon); margin-top: 10px;
 }
+/* "Begin with The Poise" — a link inside a sentence, and colour was the only
+   thing marking it, and colour was not enough in any of the fourteen looks.
+   Against the sentence around it the link measures 1.00:1 in the day palettes
+   — same luminance, different hue, so the difference disappears entirely for
+   a reader who cannot separate those hues — 1.60:1 in Dark, and 1.00:1 again
+   in Midnight, where the accent and the body text resolve to one value. Only
+   Dark was loud enough for axe to catch; the identical-colour cases it passes,
+   having no colour difference to call insufficient. A rule under the words says it
+   in every one of the fourteen looks, without asking the palette to carry the
+   job on its own.
+
+   80%, not the 45-55% the hover rules elsewhere use: a hover tint may be
+   faint because it is transient, but this rule is the thing that says "link"
+   at rest, so it has to clear 3:1 against the paper. Measured across all
+   fourteen looks, 72% is where the palest of the twelve day palettes crosses
+   that line and 80% leaves room for one to be retuned without silently
+   dropping under it — worst case 3.60:1, against 2.27:1 before. */
 .book-arc-lead a.book-arc-fragment-link {
   color: var(--petrol);
   text-decoration: none;
-  border-bottom: 0;
-  transition: color 0.2s ease;
+  border-bottom: 1px solid color-mix(in srgb, var(--petrol) 80%, transparent);
+  transition: color 0.2s ease, border-color 0.2s ease;
 }
-.book-arc-lead a.book-arc-fragment-link:hover,
+.book-arc-lead a.book-arc-fragment-link:hover {
+  color: var(--petrol-deep);
+  border-bottom-color: var(--petrol-deep);
+}
+/* This rule used to end on outline: none, leaving a keyboard reader the same
+   colour shift a mouse gets and no ring at all. 2px of --petrol is what the
+   tools list and the story doorway already use. */
 .book-arc-lead a.book-arc-fragment-link:focus-visible {
   color: var(--petrol-deep);
-  outline: none;
+  border-bottom-color: var(--petrol-deep);
+  outline: 2px solid var(--petrol);
+  outline-offset: 3px;
+  border-radius: 2px;
 }
 @media (max-width: 600px) {
   /* The 2.2rem override that used to sit here is gone for the same reason it
