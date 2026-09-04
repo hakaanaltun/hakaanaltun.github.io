@@ -42,6 +42,20 @@
      "you are here" without touching the text at all. Where a rule below
      used to set `outline: none` and lean on the dim as its focus state,
      it now carries a real ring instead. */
+  /* Two heading tiers, each defined once. They were six separate ramps with
+     six different slopes, so what looked like one scale drifted apart between
+     the breakpoints: .story-doorway-cue climbed at 5.2vw while the section
+     titles beside it climbed at 3vw, and the gap between them swung from
+     1.10x on a wide screen to 1.49x around 900px, where the cue was pinned at
+     its cap and the titles at their floor. Sharing a ramp is what holds a
+     ratio steady; sharing a cap only holds it at the cap.
+
+     --type-section: a page's own structure where nothing above it is visible
+     — the homepage's section titles, and the story doorway that sits among
+     them. --type-group: an h2 under a visible h1, so it reads a tier down. */
+  --type-section: clamp(1.85rem, 3vw, 2.5rem);
+  --type-group: clamp(1.6rem, 2.6vw, 2.1rem);
+
   --select-dim: 0.78;
   --select-ease: opacity 0.2s ease;
 
@@ -481,18 +495,14 @@ header .hamburger-btn:focus-visible { outline-color: var(--footer-text); }
 }
 .header-nav-bar a:hover,
 .header-nav-bar a:active { color: var(--footer-text); border-bottom-color: var(--footer-text); background: transparent; box-shadow: none; transform: none; }
-/* Where you are, not only where you can go: the current section keeps the
-   hover ink permanently and thickens its rule. Colour is not the only cue —
-   the heavier underline carries it for readers who cannot tell the two
-   greys apart. */
-.header-nav-bar a[aria-current="page"] {
-  color: var(--footer-text);
-  border-bottom-color: var(--footer-text);
-  /* The extra pixel comes out of the padding so the row's height, and the
-     baseline every other link sits on, do not move. */
-  border-bottom-width: 3px;
-  padding-bottom: 5px;
-}
+/* No visible current-page state here on purpose. The strip lists eight
+   sections, and a piece belongs to none of them — so on /pieces/*, which is
+   most of the site, the indicator simply had nothing to mark. Appearing on
+   About and vanishing on an essay read as a fault in the strip rather than
+   as an answer to "where am I". The aria-current attribute stays in
+   header.html: it costs a reader nothing to hear the current section named
+   when there is one, and its absence on a piece is accurate rather than
+   inconsistent. */
 
 @media (max-width: 767px), (max-height: 500px) and (orientation: landscape) {
   .header-nav-bar { gap: 12px 22px; }
@@ -683,7 +693,7 @@ section.line-drawn::before,
 }
 
 .section-head { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px; margin-bottom: 2.6rem; }
-.section-title { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: clamp(1.85rem, 3vw, 2.5rem); line-height: 1.02; letter-spacing: -0.01em; color: var(--petrol); }
+.section-title { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: var(--type-section); line-height: 1.02; letter-spacing: -0.01em; color: var(--petrol); }
 .section-subtitle { font-style: italic; font-size: clamp(1.05rem, 1.35vw, 1.22rem); line-height: 1.42; color: var(--vizon); max-width: 680px; margin-top: 2px; }
 
 
@@ -695,8 +705,9 @@ section.line-drawn::before,
 /* No .section-title override here: the clamp above already handles narrow
    viewports (its 1.85rem floor takes over below ~990px), and the 2.35rem rule
    that used to sit in this block pushed the size back *above* that floor —
-   a leftover from before the clamp, out of step with .book-hero-title, which
-   uses the same clamp pattern with no mobile override. */
+   a leftover from before the clamp. The same leftover outlived this note in
+   two more places — .section-page-title and .book-hero-title, both on the
+   same clamp — and all three are gone now. */
 @media (max-width: 600px) {
   section { padding-top: 80px; }
   .section-subtitle { font-size: 1.08rem; line-height: 1.4; }
@@ -1219,7 +1230,7 @@ body.moris-lightbox-open { overflow: hidden; }
 @media (max-width: 768px) {
   .more-essays { margin-top: -36px; }
 }
-.more-essays-title { display: block; font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: 32px; color: var(--petrol); margin-bottom: 18px; text-align: left; }
+.more-essays-title { display: block; font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: var(--type-group); color: var(--petrol); margin-bottom: 18px; text-align: left; }
 .more-essays-grid-hp { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; list-style: none; padding: 0; }
 .more-essays-grid-hp li { padding: 0; margin: 0; }
 .more-essays-grid-hp .piece-card-link { display: grid; grid-template-columns: 96px minmax(0, 1fr); align-items: stretch; min-height: 96px; border: 0; border-radius: 0; box-shadow: none; background: transparent; overflow: visible; }
@@ -1251,7 +1262,6 @@ body.moris-lightbox-open { overflow: hidden; }
   .essay-body h2 { font-size: 20px; }
   .essay-section-divider { margin: 36px 0; }
   .essay-body hr { margin: 36px 0; }
-  .more-essays-title { font-size: 26px; }
 }
 
 @media (max-width: 600px) {
@@ -1259,7 +1269,6 @@ body.moris-lightbox-open { overflow: hidden; }
 }
 
 @media (max-width: 420px) {
-  .more-essays-title { font-size: 22px; }
 }
 
 /* ========================================================================== 
@@ -1281,7 +1290,7 @@ body.moris-lightbox-open { overflow: hidden; }
    padding is what keeps the hover arrows (bottom: 26px, 30px tall) clear of
    the attribution line. */
 .hero-quote-card { position: relative; min-height: 96px; padding: 16px 44px 44px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; overflow: visible; }
-.hero-quote-text { width: 100%; max-width: min(720px, 100%); margin: 0 auto; font-family: 'EB Garamond', Georgia, serif; font-style: italic; font-size: clamp(1.05rem, 1.35vw, 1.22rem); line-height: 1.55; color: var(--vizon); min-height: 1.2em; text-align: center; }
+.hero-quote-text { width: 100%; max-width: min(720px, 100%); margin: 0 auto; font-family: 'EB Garamond', Georgia, serif; font-style: italic; font-size: 1.2rem; line-height: 1.55; color: var(--vizon); min-height: 1.2em; text-align: center; }
 .hero-quote-word { opacity: 0; transform: translateY(8px); display: inline-block; transition: opacity 0.55s ease, transform 0.55s ease; }
 .hero-quote-word.word-visible { opacity: 1; transform: translateY(0); }
 .hero-quote-source { opacity: 0; max-width: min(720px, 100%); width: auto; align-self: flex-end; margin: 0 max(0px, calc((100% - 720px) / 2)) 0 auto; font-size: 0.98rem; line-height: 1.3; color: var(--petrol); text-align: left; transition: opacity 0.55s ease; }
@@ -1374,7 +1383,7 @@ html[data-theme="midnight"] .quote-nav-btn:focus-visible { color: var(--ink); }
    paragraphs and opens far too wide at these sizes. */
 .story-doorway-cue {
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-style: italic; font-size: clamp(2.25rem, 5.2vw, 2.75rem);
+  font-style: italic; font-size: var(--type-section);
   line-height: 1.06; color: var(--petrol);
   text-align: center;
 }
@@ -1384,7 +1393,7 @@ html[data-theme="midnight"] .quote-nav-btn:focus-visible { color: var(--ink); }
    cap at every width: both its floor and its cap sit above that rule's. */
 .story-doorway-subtitle {
   font-family: 'EB Garamond', Georgia, serif;
-  font-size: clamp(1.1875rem, 2.8vw, 1.5rem); line-height: 1.3;
+  font-size: clamp(1.15rem, 1.86vw, 1.55rem); line-height: 1.3;
   color: var(--vizon); letter-spacing: 0.02em;
   text-align: center; margin-top: 6px;
 }
@@ -1402,7 +1411,7 @@ html[data-theme="midnight"] .quote-nav-btn:focus-visible { color: var(--ink); }
      46px of arrow clearance: 32 + 16 over the quote, 46 + 24 under it. */
   .hero-quotes-section { padding-top: 32px; padding-bottom: 24px; }
   .hero-quote-card { min-height: 104px; padding: 16px 20px 46px; }
-  .hero-quote-text { max-width: 100%; width: 100%; margin-left: 0; margin-right: 0; font-size: 1.2rem; line-height: 1.45; text-align: left; }
+  .hero-quote-text { max-width: 100%; width: 100%; margin-left: 0; margin-right: 0; line-height: 1.45; text-align: left; }
   .hero-quote-source { max-width: 100%; width: 100%; align-self: stretch; margin-left: 0; margin-right: 0; font-size: 0.95rem; text-align: right; }
 }
 
@@ -1421,7 +1430,9 @@ html[data-theme="midnight"] .quote-nav-btn:focus-visible { color: var(--ink); }
 
 @media (max-width: 600px) {
   .section-page { padding-top: 52px; }
-  .section-page-title { font-size: 2.2rem; }
+  /* No font-size here: this used to pin 2.2rem (35.2px), above the clamp's own
+     2.1rem floor, so the title got larger as the screen got smaller — a phone
+     read a bigger page title than a tablet did. The clamp covers the range. */
 }
 
 /* Accent label — the small caps under the featured piece ("told in
@@ -1540,7 +1551,7 @@ html[data-theme="midnight"] .quote-nav-btn:focus-visible { color: var(--ink); }
 .all-work-group-head { text-align: center; margin-bottom: 26px; }
 .all-work-group-title {
   font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic;
-  font-weight: 500; font-size: clamp(1.6rem, 2.6vw, 2.1rem); color: var(--petrol-deep);
+  font-weight: 500; font-size: var(--type-group); color: var(--petrol-deep);
 }
 .all-work-group-count { margin-top: 3px; font-style: italic; font-size: 0.85rem; letter-spacing: 0.04em; color: var(--vizon); }
 
@@ -1625,7 +1636,7 @@ html[data-theme="midnight"] .quote-nav-btn:focus-visible { color: var(--ink); }
 .book-arc-head { text-align: center; max-width: 640px; margin: 0 auto 36px; }
 .book-arc-title {
   font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic;
-  font-weight: 500; font-size: clamp(1.8rem, 3vw, 2.4rem); color: var(--petrol-deep);
+  font-weight: 500; font-size: var(--type-group); color: var(--petrol-deep);
 }
 .book-arc-intro {
   font-family: 'EB Garamond', Georgia, serif; font-size: 1.1rem;
@@ -1648,7 +1659,9 @@ html[data-theme="midnight"] .quote-nav-btn:focus-visible { color: var(--ink); }
   outline: none;
 }
 @media (max-width: 600px) {
-  .book-hero-title { font-size: 2.2rem; }
+  /* The 2.2rem override that used to sit here is gone for the same reason it
+     is gone from .section-title and .section-page-title: it sat above the
+     shared clamp's 2.1rem floor, so the title grew as the screen shrank. */
   .book-arc { margin-top: 40px; padding-top: 36px; }
 }
 
@@ -2323,11 +2336,15 @@ html[data-theme="midnight"] .footer-strip { border-top: 0; }
 }
 
 
+/* A shelf label, not a heading in the loud sense — but it is an h2, and at
+   1.05rem it was set to exactly the size of the description text under it,
+   so nothing but the rules and the centring said it was a label at all. A
+   step up separates it from the prose while keeping the whisper. */
 .tools-shelf {
   font-family: 'Cormorant Garamond', Georgia, serif;
   font-style: italic;
   font-weight: 500;
-  font-size: 1.05rem;
+  font-size: 1.3rem;
   letter-spacing: 0.06em;
   color: var(--vizon);
   max-width: 560px;
