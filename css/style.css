@@ -1062,8 +1062,23 @@ body.moris-lightbox-open { overflow: hidden; }
 .essay-header { padding: 48px 0 32px; display: flex; flex-direction: column; align-items: center; gap: 8px; }
 .essay-title-block { text-align: center; }
 .essay-title-block h1, .essay-title-block .essay-subtitle { text-align: center; }
-.essay-header h1 { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: 32px; line-height: 1.25; color: var(--petrol); margin-bottom: 12px; }
-.essay-subtitle { font-size: 22px; font-style: italic; color: var(--vizon); margin-bottom: 20px; }
+/* The title of a piece was a flat 32px over a 22px body — 1.45x, and smaller
+   than both the homepage's section headings (34px) and the page titles on
+   /all-work/ and /tools/ (46px). The most important line on the most
+   important page type was the quietest large type on the site. The clamp
+   follows .section-page-title's idiom and lands a little above it, so a
+   piece names itself louder than an index does: 31px on a phone, 54px from
+   about 1090px up. It also replaces the two fixed step-downs further down
+   this file, which is why they are gone. Tighter leading and a hair of
+   negative tracking, both of which a display italic wants at this size. */
+.essay-header h1 { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: clamp(1.95rem, 5vw, 3.4rem); line-height: 1.08; letter-spacing: -0.012em; color: var(--petrol); margin-bottom: 14px; }
+/* The subtitle scales with it. Left at a fixed 22px it closed most of the
+   gap the title had just opened — on a phone the old rules put both at
+   exactly 22px, which is where the hierarchy was worst. The floor is the
+   body's own 20px, never under it: a deck that reads smaller than the text
+   it introduces is a caption. Below that floor the italic and --vizon are
+   what keep it subordinate, not size. */
+.essay-subtitle { font-size: clamp(1.25rem, 1.7vw, 1.42rem); font-style: italic; color: var(--vizon); margin-bottom: 20px; }
 .essay-date-line { color: var(--vizon); font-size: 0.98rem; line-height: 1.25; text-align: center; margin-top: 2px; }
 
 /* "read with rain" — a quiet toggle under the date line; js/rain-read.js
@@ -1231,7 +1246,6 @@ body.moris-lightbox-open { overflow: hidden; }
 [class*="subtitle"] { font-style: italic; }
 
 @media (max-width: 768px) {
-  .essay-header h1 { font-size: 26px; }
   .essay-header { padding: 36px 0 24px; }
   .essay-body blockquote { font-size: 19px; }
   .essay-body h2 { font-size: 20px; }
@@ -1245,7 +1259,6 @@ body.moris-lightbox-open { overflow: hidden; }
 }
 
 @media (max-width: 420px) {
-  .essay-header h1 { font-size: 22px; }
   .more-essays-title { font-size: 22px; }
 }
 
