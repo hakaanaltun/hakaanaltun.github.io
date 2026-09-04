@@ -25,6 +25,17 @@ layout: home
   </a>
 </section>
 
+<section id="latest">
+  {% include section-header.html title="Latest" subtitle="" %}
+  {% assign latest = site.posts | sort: "date" | reverse | where_exp: "p", "p.story_card != true" %}
+  {% assign latest_count = 8 %}
+  <ul class="piece-grid">
+    {% for post in latest limit: latest_count %}
+      {% include piece-card.html post=post featured=forloop.first %}
+    {% endfor %}
+  </ul>
+</section>
+
 <section id="start-here" class="start-here" aria-label="First time here?">
   {% include section-header.html title="First time here?" subtitle="Three doors in." %}
 
@@ -41,17 +52,6 @@ layout: home
       <span class="start-here-label">For the book</span>
       <a href="/book/#safaks-arc" class="start-here-link">Şafak’s Arc</a>
     </li>
-  </ul>
-</section>
-
-<section id="latest">
-  {% include section-header.html title="Latest" subtitle="" %}
-  {% assign latest = site.posts | sort: "date" | reverse | where_exp: "p", "p.story_card != true" %}
-  {% assign latest_count = 8 %}
-  <ul class="piece-grid">
-    {% for post in latest limit: latest_count %}
-      {% include piece-card.html post=post featured=forloop.first %}
-    {% endfor %}
   </ul>
 </section>
 
