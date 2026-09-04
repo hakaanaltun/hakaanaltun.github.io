@@ -197,6 +197,17 @@ layout: null
     top:auto; bottom:100%;
     border-top-color:transparent; border-bottom-color:var(--ink);
   }
+  /* bubbleWanted() in the script below already refuses the bubble on a coarse
+     pointer and under 601px — there the shelf's Style row does the work. But
+     refusing to *show* it is not the same as taking it out of the layout:
+     visibility:hidden still occupies space, and at position:absolute; left:0
+     the row is 333px wide, so on a 320px screen an invisible toolbar was
+     making the page scroll sideways. Same conditions as the script, so the
+     two cannot drift apart. The element stays in the DOM either way — the
+     Style row is built from its innerHTML. */
+  @media (max-width: 600px), (pointer: coarse){
+    .bubble{ display:none; }
+  }
   .bub-btn{
     background:none; border:0; color:inherit; cursor:pointer;
     min-width:32px; height:30px; padding:0 7px; border-radius:7px;
