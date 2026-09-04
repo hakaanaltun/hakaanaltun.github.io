@@ -1389,13 +1389,12 @@ html[data-theme="midnight"] .quote-nav-btn:focus-visible { color: var(--ink); }
   line-height: 1.06; color: var(--petrol);
   text-align: center;
 }
-/* Held a shade over half the cue (24px against 44px) on a matching ramp, so
-   the pair shrinks as one block and the doorway keeps its internal hierarchy
-   at the smaller size. Still clear of #start-here's 1.3125rem (21px) subtitle
-   cap at every width: both its floor and its cap sit above that rule's. */
+/* Held close to half the cue (21.6px against 40px) so it remains a supporting
+   line rather than reading as a second title. The shallower ramp preserves
+   that hierarchy as the doorway narrows. */
 .story-doorway-subtitle {
   font-family: 'EB Garamond', Georgia, serif;
-  font-size: clamp(1.15rem, 1.86vw, 1.55rem); line-height: 1.3;
+  font-size: clamp(1.05rem, 1.6vw, 1.35rem); line-height: 1.3;
   color: var(--vizon); letter-spacing: 0.02em;
   text-align: center; margin-top: 6px;
 }
