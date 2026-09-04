@@ -40,7 +40,11 @@ var m=document.querySelector('meta[name="theme-color"][data-light]');if(m&&C[n])
 {% assign _post_og_desc = page.og_description | default: page.description | default: site.description %}
 {% if page.series == "fragments" or page.series == "story" or page.fiction %}{% assign _schema_type = "ShortStory" %}{% else %}{% assign _schema_type = "Article" %}{% endif %}
 
-<title>{{ page.title }}</title>
+{% comment %} Posts were the one page type whose <title> was the bare
+headline — "Handled", "Michi", "Measured" — with nothing in a search
+result to say whose they were, while every other page type and og:title
+already carried the site. Same suffix as the section pages below. {% endcomment %}
+<title>{{ page.title }} &mdash; On Life &amp; Everything</title>
 <meta name="description" content="{{ _post_desc }}">
 <meta name="author" content="{{ site.author }}">
 <link rel="icon" type="image/svg+xml" href="/on-icon.svg?v=20260729-2">
@@ -306,4 +310,10 @@ extension when they land on an essay from search. {% endcomment %}
 {% comment %} Fonts are self-hosted (see /fonts/ and css/fonts.css) — no
 render-blocking third-party request. Preload the body face for faster LCP. {% endcomment %}
 <link rel="preload" href="/fonts/eb-garamond-latin.woff2" as="font" type="font/woff2" crossorigin>
+{% comment %} The display italic is not decoration on one page: it sets the
+masthead on every page and the essay title, both of them among the first
+things painted. Without the preload font-display: swap showed them in
+Georgia first and reflowed. Latin only, matching the body preload above —
+the Turkish glyphs live in the -ext file and can wait. {% endcomment %}
+<link rel="preload" href="/fonts/cormorant-garamond-italic-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/css/fonts.css?v=20260710-2">

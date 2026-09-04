@@ -1,13 +1,12 @@
 
 {%- comment -%}
   Nav links carry aria-current="page" on the section the reader is in, so the
-  strip says where you are instead of only where you can go. Series pages and
-  the Şafak's Arc stub resolve to their parent tab rather than to nothing.
+  strip says where you are instead of only where you can go. A plain URL match
+  is all this needs: the pages that would want mapping to a parent tab
+  (/the-corner/, /the-on-series/, /safaks-arc/) are redirect stubs that never
+  render this header at all.
 {%- endcomment -%}
 {%- assign _nav_here = page.url -%}
-{%- if page.series_filter == "cafe-series" or page.series_filter == "on-series" -%}{%- assign _nav_here = "/series/" -%}
-{%- elsif page.url == "/safaks-arc/" -%}{%- assign _nav_here = "/book/" -%}
-{%- endif -%}
 <header id="site-header">
   <nav>
     <div class="nav-top-row">
