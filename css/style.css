@@ -1596,7 +1596,11 @@ html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
    repeat the band title, so it is hidden. */
 .series-band {
   padding: 12px 0 8px;
-  scroll-margin-top: calc(var(--head-band) + 28px);
+  /* html already carries scroll-padding-top: 150px for the sticky header, and
+     the two add up: a band with the header's height here as well landed its
+     heading 328px down an 800px viewport, under a screenful of nothing. This
+     is the breathing room above the heading, nothing more. */
+  scroll-margin-top: 28px;
 }
 .series-band:not(:first-of-type) {
   margin-top: 52px;

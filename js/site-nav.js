@@ -68,7 +68,15 @@
       el.addEventListener('wheel', function (e) {
         if (el.scrollWidth <= el.clientWidth) return;
 
-        var delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+        /* Only a sideways gesture pages the strip. Reading the larger of the
+           two axes meant a plain downward wheel over one of these — the
+           retailer row sits mid-page, the nav strip is stuck to the top of
+           every narrow window — was swallowed by preventDefault below and
+           spent scrolling the strip instead. The page simply stopped moving
+           wherever the pointer happened to rest. A mouse without a sideways
+           wheel still has the drag below. */
+        var delta = e.deltaX;
+        if (Math.abs(delta) <= Math.abs(e.deltaY)) return;
         if (!delta) return;
 
         e.preventDefault();
