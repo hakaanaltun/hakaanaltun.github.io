@@ -68,7 +68,15 @@
       el.addEventListener('wheel', function (e) {
         if (el.scrollWidth <= el.clientWidth) return;
 
-        var delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+        /* Only a sideways gesture pages the strip. Reading the larger of the
+           two axes meant a plain downward wheel over one of these — the
+           retailer row sits mid-page, the nav strip is stuck to the top of
+           every narrow window — was swallowed by preventDefault below and
+           spent scrolling the strip instead. The page simply stopped moving
+           wherever the pointer happened to rest. A mouse without a sideways
+           wheel still has the drag below. */
+        var delta = e.deltaX;
+        if (Math.abs(delta) <= Math.abs(e.deltaY)) return;
         if (!delta) return;
 
         e.preventDefault();
@@ -187,7 +195,19 @@
   var siteHeader = document.getElementById('site-header');
   var drawerLogo = drawer.querySelector('.drawer-logo-link');
 
-  function syncDrawerBand() {
+  /* --head-band is the site's one record of how tall the sticky header is
+     (declared in style.css, which explains what reads it). CSS can only
+     guess the number; the header's real height moves with the breakpoints,
+     with the nav strip disappearing in landscape, and with the fonts as they
+     load. So it is measured here and written back.
+
+     This used to run only when the drawer opened, which made the variable a
+     half-truth: correct after the reader had opened the menu once, the CSS
+     guess before that, and never corrected on a resize unless the drawer
+     happened to be open at the time. Anything derived from it — the anchor
+     offset, the drawer's own band — inherited that. It runs on load, on
+     resize and on drawer-open now, so there is one number and it is true. */
+  function syncHeadBand() {
     if (!siteHeader) return;
     var h = siteHeader.offsetHeight;
     root.style.setProperty('--head-band', h + 'px');
@@ -195,6 +215,13 @@
       var logoBottom = drawerLogo.offsetTop + drawerLogo.offsetHeight;
       root.style.setProperty('--drawer-logo-mb', Math.max(16, h - logoBottom + 6) + 'px');
     }
+  }
+
+  syncHeadBand();
+  /* The header is set in EB Garamond; until it arrives the band is a
+     fallback face's height. */
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(syncHeadBand).catch(function () {});
   }
 
   function openDrawer() {
@@ -205,7 +232,7 @@
     document.body.classList.add('drawer-open');
     toggleBtn.setAttribute('aria-expanded', 'true');
     drawer.setAttribute('aria-hidden', 'false');
-    syncDrawerBand();
+    syncHeadBand();
     closeBtn.focus({ preventScroll: true });
   }
 
@@ -251,8 +278,16 @@
     }
   });
 
+  /* offsetHeight forces layout, and resize fires all through a window drag,
+     so the measurement is held to one per frame. */
+  var bandTicking = false;
   window.addEventListener('resize', function () {
-    if (drawer.classList.contains('open')) syncDrawerBand();
+    if (bandTicking) return;
+    bandTicking = true;
+    window.requestAnimationFrame(function () {
+      bandTicking = false;
+      syncHeadBand();
+    });
   });
 
   document.addEventListener('keydown', function (e) {
