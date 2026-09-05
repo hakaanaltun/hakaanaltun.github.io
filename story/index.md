@@ -12,7 +12,7 @@ redirect_to: /story/1/
 <meta charset="utf-8">
 <meta http-equiv="refresh" content="0;url=/story/1/">
 <link rel="canonical" href="/story/1/">
-<title>The Notice</title>
+<title>The Notice&mdash;On Life &amp; Everything</title>
 </head>
 <body>
 <p><a href="/story/1/">Continue</a></p>
