@@ -55,6 +55,14 @@
         {s:'It Was Not a Question',t:'She had come with a word and did not use it.'},
       ];
 
+      /* Resolve attribution titles to Jekyll's canonical destinations. */
+      var quoteSources = {
+        {% for post in site.posts %}
+        {{ post.title | replace: "'", "’" | jsonify }}: {{ post.story_url | default: post.url | relative_url | jsonify }},
+        {% endfor %}
+        "The Fragments": {{ "/book/" | relative_url | jsonify }}
+      };
+
       var hq = document.getElementById('hero-quote');
       var qs = document.getElementById('hero-quote-source');
       var quoteStatus = document.getElementById('hero-quote-status');
@@ -93,7 +101,15 @@
         qs.textContent = '— ';
         var title = document.createElement('i');
         title.textContent = pick.s;
-        qs.appendChild(title);
+        var url = quoteSources[pick.s.replace(/'/g, '’')];
+        if(url){
+          var link = document.createElement('a');
+          link.href = url;
+          link.appendChild(title);
+          qs.appendChild(link);
+        } else {
+          qs.appendChild(title);
+        }
       }
 
       function paintQuote(pick, animate, announce){
@@ -156,11 +172,18 @@
 
       function schedule(){
         clearTimeout(rotateTimer);
+        if(qs && qs.contains(document.activeElement)) return;
         /* Automatic swaps stay silent; only explicit Previous/Next actions
            update the live status. */
         rotateTimer = setTimeout(function(){
           render(randomIndex(currentIdx), true, false);
         }, ROTATE_DELAY);
+      }
+
+      /* Keep the destination stable while its link has keyboard focus. */
+      if(qs){
+        qs.addEventListener('focusin', function(){ clearTimeout(rotateTimer); });
+        qs.addEventListener('focusout', function(){ setTimeout(schedule, 0); });
       }
 
       function showNav(){
@@ -182,7 +205,7 @@
       });
 
       if(qCard) qCard.addEventListener('click', function(e){
-        if(e.target.closest('.quote-nav-btn')) return;
+        if(e.target.closest('.quote-nav-btn, a')) return;
         showNav();
       });
 

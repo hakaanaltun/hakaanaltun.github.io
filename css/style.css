@@ -1384,6 +1384,9 @@ body.moris-lightbox-open { overflow: hidden; }
 .hero-quote-source { opacity: 0; max-width: min(720px, 100%); width: auto; align-self: flex-end; margin: 0 max(0px, calc((100% - 720px) / 2)) 0 auto; font-size: 0.98rem; line-height: 1.3; color: var(--petrol); text-align: left; transition: opacity 0.55s ease; }
 .hero-quote-source.visible { opacity: 1; }
 .hero-quote-source i { color: var(--petrol); font-style: italic; }
+.hero-quote-source a { color: inherit; text-decoration: none; }
+.hero-quote-source a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.hero-quote-source a:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; border-radius: 2px; }
 /* Full motion fades the words in one by one, so the card itself swaps
    instantly underneath them. Reduced motion has no words to stagger: the
    quote crossfades as a whole and keeps rotating. Both durations need
