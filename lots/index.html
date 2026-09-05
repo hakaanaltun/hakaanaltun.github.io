@@ -432,6 +432,7 @@ layout: null
     </div>
   </footer>
 
+{% include storage-feedback.html %}
 <script>
 (function(){
   "use strict";
@@ -531,7 +532,7 @@ layout: null
          so a bookmarked or shared link restores the pool exactly ---- */
   function save(){
     try{
-      localStorage.setItem(LS, JSON.stringify({
+      window.OLAE_STORAGE.save(LS, JSON.stringify({
         text: ta.value, drawn: drawn, remove: removeToggle.checked,
         collapsed: listBlock.classList.contains("collapsed"), at: Date.now()
       }));
@@ -598,7 +599,7 @@ layout: null
     clearTimeout(saveT);
     saveT = setTimeout(save, 500);
   });
-  window.addEventListener("beforeunload", save);
+  window.OLAE_STORAGE.guard(save);
 
   /* ---- copy the link (clipboard API with fallback, as on /marks/) ---- */
   function execCopy(text){
@@ -607,21 +608,23 @@ layout: null
     t.style.position = "fixed"; t.style.opacity = "0";
     document.body.appendChild(t);
     t.select();
-    try{ document.execCommand("copy"); }catch(e){}
+    var copied = false;
+    try{ copied = document.execCommand("copy"); }catch(e){}
     t.remove();
+    return copied;
   }
   var linkT;
   linkBtn.addEventListener("click", function(){
     updateHash();
     var url = location.href;
-    function done(){
-      linkBtn.textContent = "Link copied—bookmark or share it";
+    function done(copied){
+      linkBtn.textContent = copied ? "Link copied—bookmark or share it" : "Copy failed—copy the address bar link";
       clearTimeout(linkT);
       linkT = setTimeout(function(){ linkBtn.textContent = "Copy this pool as a link"; }, 2000);
     }
     if(navigator.clipboard && navigator.clipboard.writeText){
-      navigator.clipboard.writeText(url).then(done, function(){ execCopy(url); done(); });
-    }else{ execCopy(url); done(); }
+      navigator.clipboard.writeText(url).then(function(){ done(true); }, function(){ done(execCopy(url)); });
+    }else{ done(execCopy(url)); }
   });
 
   /* ---- draw ---- */

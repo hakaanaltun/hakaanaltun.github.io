@@ -355,6 +355,7 @@ layout: null
     </div>
   </footer>
 
+{% include storage-feedback.html %}
 <script>
 (function(){
   "use strict";
@@ -373,7 +374,7 @@ layout: null
     if(saved && typeof saved.text === "string") ta.value = saved.text;
   }catch(e){}
   function saveNow(){
-    try{ localStorage.setItem(LS, JSON.stringify({ text: ta.value, at: Date.now() })); }catch(e){}
+    try{ window.OLAE_STORAGE.save(LS, JSON.stringify({ text: ta.value, at: Date.now() })); }catch(e){}
   }
   var saveT;
   function grow(){
@@ -394,7 +395,7 @@ layout: null
     clearTimeout(saveT);
     saveT = setTimeout(saveNow, 500);
   });
-  window.addEventListener("beforeunload", saveNow);
+  window.OLAE_STORAGE.guard(saveNow);
   trToggle.addEventListener("change", function(){ trTouched = true; refresh(); });
   caseToggle.addEventListener("change", refresh);
 
@@ -542,16 +543,18 @@ layout: null
     t.value = text; t.setAttribute("readonly", "");
     t.style.position = "absolute"; t.style.left = "-9999px";
     document.body.appendChild(t); t.select();
-    try{ document.execCommand("copy"); }catch(e){}
+    var copied = false;
+    try{ copied = document.execCommand("copy"); }catch(e){}
     t.remove();
+    return copied;
   }
   copyBtn.addEventListener("click", function(){
     var text = ta.value;
     if(!text.replace(/\s/g,"").length) return;
-    var done = function(){ say("Copied."); };
+    var done = function(copied){ say(copied ? "Copied." : "Copy failed. Select the list and copy it manually."); };
     if(navigator.clipboard && navigator.clipboard.writeText){
-      navigator.clipboard.writeText(text).then(done, function(){ execCopy(text); done(); });
-    }else{ execCopy(text); done(); }
+      navigator.clipboard.writeText(text).then(function(){ done(true); }, function(){ done(execCopy(text)); });
+    }else{ done(execCopy(text)); }
   });
 
   /* ---- theme ---- */

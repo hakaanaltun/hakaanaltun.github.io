@@ -1,0 +1,45 @@
+{% comment %} Shared feedback for instruments that keep user work locally. {% endcomment %}
+<style>
+.instrument-save-warning{position:fixed;left:50%;bottom:72px;transform:translateX(-50%);z-index:10000;box-sizing:border-box;width:calc(100% - 32px);max-width:620px;margin:0;padding:12px 16px;border:1px solid var(--ink,#333);border-radius:8px;background:var(--paper,#fff);color:var(--ink,#222);font:16px/1.45 var(--body,Georgia,serif);box-shadow:0 3px 18px #0002}
+.instrument-save-warning[hidden]{display:none}
+</style>
+<script>
+(function(){
+  "use strict";
+  var failed = false, notice = null;
+  function showFailure(){
+    if(notice && !notice.hidden) return;
+    if(!notice){
+      notice = document.createElement("p");
+      notice.className = "instrument-save-warning";
+      notice.setAttribute("role", "alert");
+      document.body.appendChild(notice);
+    }
+    notice.hidden = false;
+    notice.textContent = "Autosave is unavailable. Copy or download your work before closing this tab.";
+  }
+  function save(key, value){
+    try{
+      localStorage.setItem(key, value);
+      failed = false;
+      if(notice) notice.hidden = true;
+      return true;
+    }catch(e){
+      failed = true;
+      showFailure();
+      return false;
+    }
+  }
+  function guard(saveNow){
+    window.addEventListener("beforeunload", function(e){
+      saveNow();
+      if(failed){ e.preventDefault(); e.returnValue = ""; }
+    });
+    /* Mobile browsers often suspend the tab without a beforeunload event. */
+    document.addEventListener("visibilitychange", function(){
+      if(document.visibilityState === "hidden") saveNow();
+    });
+  }
+  window.OLAE_STORAGE = { save: save, guard: guard };
+})();
+</script>

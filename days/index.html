@@ -346,8 +346,15 @@ layout: null
     if(!m) return null;
     return { y: +m[1], m: +m[2], d: +m[3] };
   }
-  function noon(d){ return Date.UTC(d.y, d.m - 1, d.d, 12); }
-  function daysInMonth(y, m){ return new Date(Date.UTC(y, m, 0, 12)).getUTCDate(); }
+  /* Date.UTC treats years 0–99 as 1900–1999; set the full year explicitly. */
+  function utcDate(y, m, d){
+    var date = new Date(0);
+    date.setUTCHours(12, 0, 0, 0);
+    date.setUTCFullYear(y, m, d);
+    return date;
+  }
+  function noon(d){ return utcDate(d.y, d.m - 1, d.d).getTime(); }
+  function daysInMonth(y, m){ return utcDate(y, m, 0).getUTCDate(); }
   function isLeap(y){ return (y % 4 === 0 && y % 100 !== 0) || y % 400 === 0; }
   function daysBetween(a, b){ return Math.round((noon(b) - noon(a)) / DAY); }
 
@@ -373,10 +380,10 @@ layout: null
   }
 
   function isoWeek(d){
-    var date = new Date(Date.UTC(d.y, d.m - 1, d.d));
+    var date = utcDate(d.y, d.m - 1, d.d);
     var dayNum = (date.getUTCDay() + 6) % 7;                 /* Monday = 0 */
     date.setUTCDate(date.getUTCDate() - dayNum + 3);          /* this week's Thursday */
-    var firstThursday = new Date(Date.UTC(date.getUTCFullYear(), 0, 4));
+    var firstThursday = utcDate(date.getUTCFullYear(), 0, 4);
     var fdn = (firstThursday.getUTCDay() + 6) % 7;
     firstThursday.setUTCDate(firstThursday.getUTCDate() - fdn + 3);
     return 1 + Math.round((date.getTime() - firstThursday.getTime()) / (7 * DAY));

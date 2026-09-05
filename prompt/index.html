@@ -405,6 +405,7 @@ layout: null
     </div>
   </footer>
 
+{% include storage-feedback.html %}
 <script>
 (function(){
   "use strict";
@@ -431,7 +432,7 @@ layout: null
   }catch(e){}
   function saveNow(){
     try{
-      localStorage.setItem(LS, JSON.stringify({
+      window.OLAE_STORAGE.save(LS, JSON.stringify({
         text: ta.value, wpm: +wpmIn.value, size: +sizeIn.value,
         width: +widthIn.value, mirror: mirrorIn.checked,
         count: countIn.checked, at: Date.now()
@@ -482,7 +483,7 @@ layout: null
   [wpmIn, sizeIn, widthIn, mirrorIn, countIn].forEach(function(el){
     el.addEventListener("change", function(){ estimate(); saveNow(); });
   });
-  window.addEventListener("beforeunload", saveNow);
+  window.OLAE_STORAGE.guard(saveNow);
 
   /* ---- the stage ---- */
   var playing = false, paused = false, y = 0, lastT = 0, raf = 0, total = 1;

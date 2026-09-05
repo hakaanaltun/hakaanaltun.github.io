@@ -647,6 +647,7 @@ layout: null
   <div class="corner words" id="wordCount" aria-live="polite">0 words</div>
   <div class="corner saved" id="savedNote">Saved</div>
 
+{% include storage-feedback.html %}
 <script>
 (function(){
   "use strict";
@@ -681,7 +682,11 @@ layout: null
   var saveT, noteT;
   function saveNow(){
     try{
-      localStorage.setItem(LS, JSON.stringify({ text: ta.value, at: Date.now() }));
+      if(!window.OLAE_STORAGE.save(LS, JSON.stringify({ text: ta.value, at: Date.now() }))){
+        clearTimeout(noteT);
+        savedEl.classList.remove("on");
+        return;
+      }
       savedEl.classList.add("on");
       clearTimeout(noteT);
       noteT = setTimeout(function(){ savedEl.classList.remove("on"); }, 2200);
@@ -695,9 +700,7 @@ layout: null
   document.addEventListener("keydown", function(e){
     if((e.metaKey || e.ctrlKey) && (e.key === "s" || e.key === "S")){ e.preventDefault(); saveNow(); }
   });
-  window.addEventListener("beforeunload", function(){
-    try{ localStorage.setItem(LS, JSON.stringify({ text: ta.value, at: Date.now() })); }catch(e){}
-  });
+  window.OLAE_STORAGE.guard(saveNow);
 
   /* ---- download ---- */
   $("#dlBtn").addEventListener("click", function(){

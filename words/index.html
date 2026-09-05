@@ -348,6 +348,7 @@ layout: null
     </div>
   </footer>
 
+{% include storage-feedback.html %}
 <script>
 (function(){
   "use strict";
@@ -515,7 +516,7 @@ layout: null
   }
   var saveT;
   function saveNow(){
-    try{ localStorage.setItem(LS, JSON.stringify({ text: ta.value, at: Date.now() })); }catch(e){}
+    try{ window.OLAE_STORAGE.save(LS, JSON.stringify({ text: ta.value, at: Date.now() })); }catch(e){}
   }
   ta.addEventListener("input", function(){
     grow(); recount();
@@ -523,7 +524,7 @@ layout: null
     clearTimeout(saveT);
     saveT = setTimeout(saveNow, 500);
   });
-  window.addEventListener("beforeunload", saveNow);
+  window.OLAE_STORAGE.guard(saveNow);
 
   $("#clearBtn").addEventListener("click", function(){
     if(ta.value.length && !confirm("Clear the page? This cannot be undone.")) return;

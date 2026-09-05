@@ -454,8 +454,8 @@ layout: null
   /* ---- copy (clipboard only — nothing is read back or sent anywhere) ---- */
   function copyText(text, done){
     if(navigator.clipboard && navigator.clipboard.writeText){
-      navigator.clipboard.writeText(text).then(done, function(){ execCopy(text); done(); });
-    } else { execCopy(text); done(); }
+      navigator.clipboard.writeText(text).then(function(){ done(true); }, function(){ done(execCopy(text)); });
+    } else { done(execCopy(text)); }
   }
   function execCopy(text){
     var ta = document.createElement("textarea");
@@ -463,8 +463,10 @@ layout: null
     ta.style.position = "fixed"; ta.style.opacity = "0";
     document.body.appendChild(ta);
     ta.select();
-    try{ document.execCommand("copy"); }catch(e){}
+    var copied = false;
+    try{ copied = document.execCommand("copy"); }catch(e){}
     ta.remove();
+    return copied;
   }
 
   var announceEl = $("#announce");
@@ -472,7 +474,12 @@ layout: null
     var cell = e.target.closest ? e.target.closest(".cell") : null;
     if(!cell) return;
     var c = charOf(cell);
-    copyText(c, function(){
+    copyText(c, function(copied){
+      announceEl.classList.toggle("sr-only", copied);
+      if(!copied){
+        announceEl.textContent = "Copy failed. Select the character and copy it manually.";
+        return;
+      }
       cell.classList.add("copied");
       setTimeout(function(){ cell.classList.remove("copied"); }, 1200);
       announceEl.textContent = "Copied " + (byChar[c] ? byChar[c].name : c);

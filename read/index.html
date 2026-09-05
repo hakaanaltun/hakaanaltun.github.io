@@ -656,7 +656,7 @@ layout: null
     var cdOff = dv.getUint32(eocd + 16, true);
     if(count === 0xFFFF || cdOff === 0xFFFFFFFF) throw new Error("zip64");
     if(count > ZIP_MAX_ENTRIES) throw new Error("too many entries");
-    var names = {}, td = new TextDecoder("utf-8"), p = cdOff, total = 0;
+    var names = Object.create(null), td = new TextDecoder("utf-8"), p = cdOff, total = 0;
     for(var e = 0; e < count; e++){
       if(dv.getUint32(p, true) !== 0x02014b50) throw new Error("bad");
       var method = dv.getUint16(p + 10, true);
@@ -676,23 +676,43 @@ layout: null
       names[td.decode(new Uint8Array(buf, p + 46, nameLen))] = { method: method, csize: csize, usize: usize, offset: lho };
       p += 46 + nameLen + extraLen + cmtLen;
     }
-    function read(name){
+    async function read(name){
+      if(!Object.prototype.hasOwnProperty.call(names, name)) throw new Error("missing " + name);
       var en = names[name];
-      if(!en) return Promise.reject(new Error("missing " + name));
-      if(dv.getUint32(en.offset, true) !== 0x04034b50) return Promise.reject(new Error("bad"));
+      if(en.offset + 30 > cdOff || dv.getUint32(en.offset, true) !== 0x04034b50) throw new Error("bad");
       var nl = dv.getUint16(en.offset + 26, true);
       var el = dv.getUint16(en.offset + 28, true);
-      var bytes = new Uint8Array(buf, en.offset + 30 + nl + el, en.csize);
-      if(en.method === 0) return Promise.resolve(bytes);
-      if(en.method !== 8) return Promise.reject(new Error("compression"));
+      var dataStart = en.offset + 30 + nl + el;
+      if(dataStart + en.csize > cdOff) throw new Error("bad");
+      var bytes = new Uint8Array(buf, dataStart, en.csize);
+      if(en.method === 0){
+        if(en.csize !== en.usize) throw new Error("size mismatch");
+        return bytes;
+      }
+      if(en.method !== 8) throw new Error("compression");
       var ds = new DecompressionStream("deflate-raw");
-      return new Response(new Blob([bytes]).stream().pipeThrough(ds)).arrayBuffer()
-        .then(function(ab){
-          /* the last guard: a directory that lied about its sizes is caught
-             by the bytes that actually came out */
-          if(ab.byteLength > ZIP_MAX_ENTRY) throw new Error("entry too large");
-          return new Uint8Array(ab);
-        });
+      var reader = new Blob([bytes]).stream().pipeThrough(ds).getReader();
+      var chunks = [], size = 0;
+      try{
+        /* Enforce the limit as bytes arrive. Buffering the whole response
+           first would let a dishonest archive exhaust memory before rejection. */
+        while(true){
+          var chunk = await reader.read();
+          if(chunk.done) break;
+          size += chunk.value.byteLength;
+          if(size > en.usize || size > ZIP_MAX_ENTRY) throw new Error("entry too large");
+          chunks.push(chunk.value);
+        }
+        if(size !== en.usize) throw new Error("size mismatch");
+        var out = new Uint8Array(size), offset = 0;
+        chunks.forEach(function(chunk){ out.set(chunk, offset); offset += chunk.byteLength; });
+        return out;
+      }catch(err){
+        await reader.cancel().catch(function(){});
+        throw err;
+      }finally{
+        reader.releaseLock();
+      }
     }
     return {
       has: function(nm){ return Object.prototype.hasOwnProperty.call(names, nm); },
