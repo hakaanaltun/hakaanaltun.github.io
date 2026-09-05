@@ -1,9 +1,11 @@
 /* astronomy.js — the shared solar and lunar arithmetic behind /moon/,
    /season/, /twilight/ and the homepage's "Tonight" line. Pure math, no
    DOM: each page keeps its own UI and calls in here, so the pages and the
-   home strip always agree. (js/theme.js and head.html carry their own
-   compact copy of the solar altitude for the Dusk theme — those stay
-   inline so the theme can resolve before first paint.) */
+   home strip always agree. (_includes/sky-ramp.html carries a second copy
+   of the solar altitude for the Follow the sky theme and the instrument
+   pages; it stays inline so the sky can resolve before first paint, which
+   an external file cannot do. It was three copies before that file; this
+   is the only one left beside this one.) */
 (function(){
   "use strict";
   var RAD = Math.PI / 180;

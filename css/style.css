@@ -302,6 +302,45 @@ html[data-theme="midnight"] body {
 }
 
 /* ==========================================================================
+   Follow the sky
+   The third rule beside System, and the theme that replaced Dusk. Every
+   colour it uses is computed — _includes/site-sky.html paints the grounds,
+   the four text tiers, the rules and --sky-ld-floor from the sun's altitude,
+   once before first paint and once a minute after. What is left here is
+   only what the sun does not move.
+
+   The ramp runs from midnight navy to a daytime slate, light ink throughout,
+   so this is a dark theme at every hour and the scrollbars and form controls
+   should say so.
+   ========================================================================== */
+html[data-theme="sky"] {
+  color-scheme: dark;
+  /* One paper for the note wall, as Midnight does: the ground is already
+     moving, and cards tinted off a moving ground would drift with it. */
+  --note-wash: 0%;
+  --theme-icon-sun: block;
+  --theme-icon-moon: none;
+  --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.3);
+  --shadow-card-hover: 0 16px 40px rgba(0, 0, 0, 0.45);
+  --shadow-cover: 0 14px 24px rgba(0, 0, 0, 0.5), 0 4px 8px rgba(0, 0, 0, 0.35);
+}
+html[data-theme="sky"] body {
+  --surface-chrome: var(--band);
+  --surface-footer: var(--band);
+  --band-hero: var(--sky-band-hero);
+  /* The five voices keep their own hue, chroma and night lightness. The sun
+     only ever raises the lightness, never lowers it: at night max() leaves
+     each voice exactly where style.css tuned it, and as the ground lifts the
+     floor lifts under all five together. Measured worst case across every
+     voice and the whole ramp: 5.00:1. */
+  --sec-accent-dark: oklch(max(var(--sec-ld, 0.800), var(--sky-ld-floor, 0.62))
+                           var(--sec-cd, 0.048) var(--sec-h, 178));
+  --petrol: var(--sec-accent-dark);
+  --petrol-deep: color-mix(in srgb, var(--sec-accent-dark) 72%, #FFFFFF);
+}
+
+
+/* ==========================================================================
    Section identity — five voices, one lightness per palette
    --------------------------------------------------------------------------
    The chrome is a single ash across the whole site, so a section's character
@@ -1315,11 +1354,14 @@ body.moris-lightbox-open { overflow: hidden; }
   html:not([data-theme="light"]) .hero-quote-source i { color: var(--ink-soft); }
 }
 html[data-theme="dark"] .hero-quote-text,
-html[data-theme="midnight"] .hero-quote-text { color: var(--ink); }
+html[data-theme="midnight"] .hero-quote-text,
+html[data-theme="sky"] .hero-quote-text { color: var(--ink); }
 html[data-theme="dark"] .hero-quote-source,
 html[data-theme="dark"] .hero-quote-source i,
 html[data-theme="midnight"] .hero-quote-source,
-html[data-theme="midnight"] .hero-quote-source i { color: var(--ink-soft); }
+html[data-theme="midnight"] .hero-quote-source i,
+html[data-theme="sky"] .hero-quote-source,
+html[data-theme="sky"] .hero-quote-source i { color: var(--ink-soft); }
 .quote-nav { position: absolute; left: 50%; bottom: 26px; display: flex; gap: 14px; opacity: 0; transform: translate(-50%, 6px); transition: opacity 0.2s ease, transform 0.2s ease; pointer-events: none; }
 .quote-nav.quote-nav-visible { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
 /* --petrol (chrome-hued) nearly disappeared on --band-hero, which is that
@@ -1337,13 +1379,17 @@ html[data-theme="midnight"] .hero-quote-source i { color: var(--ink-soft); }
   html:not([data-theme="light"]) .quote-nav-btn:focus-visible { color: var(--ink); }
 }
 html[data-theme="dark"] .quote-nav-btn,
-html[data-theme="midnight"] .quote-nav-btn { color: var(--ink-soft); }
+html[data-theme="midnight"] .quote-nav-btn,
+html[data-theme="sky"] .quote-nav-btn { color: var(--ink-soft); }
 html[data-theme="dark"] .quote-nav-btn:hover,
 html[data-theme="dark"] .quote-nav-btn:active,
 html[data-theme="dark"] .quote-nav-btn:focus-visible,
 html[data-theme="midnight"] .quote-nav-btn:hover,
 html[data-theme="midnight"] .quote-nav-btn:active,
-html[data-theme="midnight"] .quote-nav-btn:focus-visible { color: var(--ink); }
+html[data-theme="midnight"] .quote-nav-btn:focus-visible,
+html[data-theme="sky"] .quote-nav-btn:hover,
+html[data-theme="sky"] .quote-nav-btn:active,
+html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
 
 @media (hover: hover) {
   .hero-quote-card:hover .quote-nav { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
@@ -1796,7 +1842,8 @@ footer {
   html:not([data-theme="light"]) .footer-strip { border-top: 0; }
 }
 html[data-theme="dark"] .footer-strip,
-html[data-theme="midnight"] .footer-strip { border-top: 0; }
+html[data-theme="midnight"] .footer-strip,
+html[data-theme="sky"] .footer-strip { border-top: 0; }
 
 .footer-strip-inner {
   max-width: 980px;

@@ -2,13 +2,13 @@
    Light palettes — the /themes/ wardrobe
    --------------------------------------------------------------------------
    Twelve curated looks for the light side of the site. A palette repaints
-   the day path only: Dark, Midnight and the dark half of Dusk stay exactly
-   as they are, so every paper block fires in just two situations —
+   the day path only: Dark, Midnight and Follow the sky stay exactly as
+   they are, so every paper block fires in just two situations —
 
      1. the system prefers light and no theme is pinned on <html> (the
         OS-driven blocks carry :not([data-theme]), so an explicit Dark or
         Midnight is never repainted), or
-     2. the reader explicitly chose Light (or Dusk resolved to light).
+     2. the reader explicitly chose Light.
 
    A palette is two things: a sheet of paper (the token block, written twice
    for the two situations above) and a lightness for the section accents (the
@@ -593,7 +593,8 @@ html[data-theme="light"][data-palette="12"] body { --chrome-rgb: 46, 63, 69 !imp
 }
 
 /* The footer theme menu's doorway to /themes/ — a plain divider below
-   Dusk, then the link on its own; quieter than a sixth radio item. */
+   Follow the sky, then the link on its own; quieter than a sixth radio
+   item. */
 .theme-menu-divider {
   height: 1px;
   margin: 3px 6px;

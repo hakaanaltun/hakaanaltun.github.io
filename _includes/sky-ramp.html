@@ -1,0 +1,132 @@
+{% comment %}
+  sky-ramp.html — where the sun is, and what colour the sky is there.
+
+  The one copy. Before this file the ephemeris lived in three places: a
+  compact inline copy in head.html for Dusk's pre-paint, skyPhase() in
+  js/theme.js, and the instrument ramp in page-sky.html — the first two
+  carrying "keep in sync" comments, which is what a duplicated calculation
+  says about itself. Everything that needs the sun now reads this.
+
+  It computes and nothing else: no painting, no storage, no DOM. The two
+  callers differ only in what they do with the answer —
+    page-sky.html   paints an instrument's four tokens
+    site-sky.html   paints the site's full set
+  and both are loaded before first paint, so the sky resolves with no flash.
+
+  The ephemeris is /twilight/'s, good to about ±0.3°, from the clock and the
+  IANA time zone alone — a coordinate guess, not an almanac, and no location
+  permission is ever asked for.
+
+  THE RAMP is the twilight page's colours, deepened above −2° so the site's
+  text hierarchy fits on them. The instruments carry two text tiers and the
+  original daytime slate held them at 4.52:1, two hundredths over the AA
+  floor; the site carries four, and on that same slate the brightest
+  possible ink tops out at 4.81:1, so its dimmest tier could not exist at
+  all. Each lit stop is therefore scaled along its own hue until white ink
+  reads 7.4:1 on it — which puts the muted tier at 6.2:1, matching Dark's
+  own dimmest text (6.17:1). Same colours, more depth. The night stops are
+  untouched: they were already at 14.7:1.
+{% endcomment %}
+<script>
+(function(){
+  "use strict";
+  var CITIES = {
+    istanbul:   { name:"İstanbul",    lat:41.015,  lng:28.979,   tz:"Europe/Istanbul" },
+    ankara:     { name:"Ankara",      lat:39.933,  lng:32.860,   tz:"Europe/Istanbul" },
+    london:     { name:"London",      lat:51.507,  lng:-0.128,   tz:"Europe/London" },
+    paris:      { name:"Paris",       lat:48.857,  lng:2.352,    tz:"Europe/Paris" },
+    berlin:     { name:"Berlin",      lat:52.520,  lng:13.405,   tz:"Europe/Berlin" },
+    newyork:    { name:"New York",    lat:40.713,  lng:-74.006,  tz:"America/New_York" },
+    losangeles: { name:"Los Angeles", lat:34.052,  lng:-118.244, tz:"America/Los_Angeles" },
+    tokyo:      { name:"Tokyo",       lat:35.677,  lng:139.650,  tz:"Asia/Tokyo" },
+    sydney:     { name:"Sydney",      lat:-33.868, lng:151.209,  tz:"Australia/Sydney" }
+  };
+  function pickCity(){
+    var tz = "";
+    try{ tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ""; }catch(e){}
+    for(var k in CITIES){ if(CITIES[k].tz === tz) return CITIES[k]; }
+    return CITIES.istanbul;
+  }
+  var CREAM = [237,228,207], DAYINK = [255,252,245];
+  var STOPS = [   /* [altitude°, [r,g,b], inkMix 0..1] */
+    [-30, [ 12, 16, 24], 0],
+    [-18, [ 14, 19, 29], 0],
+    [-12, [ 23, 32, 48], 0],
+    [ -6, [ 44, 58, 82], 0],
+    [ -2, [ 94, 80, 80], 0.6],
+    [  0, [106, 78, 60], 1],
+    [  5, [ 91, 83, 67], 1],
+    [ 12, [ 66, 86,100], 1],
+    [ 40, [ 64, 86,102], 1]
+  ];
+  function lerp(a, b, f){ return a + (b - a) * f; }
+  function skyAt(alt){
+    if(alt <= STOPS[0][0]) return STOPS[0];
+    for(var i = 1; i < STOPS.length; i++){
+      if(alt <= STOPS[i][0]){
+        var lo = STOPS[i-1], hi = STOPS[i];
+        var f = (alt - lo[0]) / (hi[0] - lo[0]);
+        return [alt,
+          [ Math.round(lerp(lo[1][0], hi[1][0], f)),
+            Math.round(lerp(lo[1][1], hi[1][1], f)),
+            Math.round(lerp(lo[1][2], hi[1][2], f)) ],
+          lerp(lo[2], hi[2], f)];
+      }
+    }
+    return STOPS[STOPS.length - 1];
+  }
+  function mixChannels(a, b, f){
+    return [
+      Math.round(lerp(a[0], b[0], f)),
+      Math.round(lerp(a[1], b[1], f)),
+      Math.round(lerp(a[2], b[2], f))
+    ];
+  }
+  function sunAltitude(now, lat, lng){
+    var RAD = Math.PI / 180;
+    var d = (now.getTime() / 86400000) - 10957.5;        /* days since J2000 */
+    var g = (357.529 + 0.98560028 * d) * RAD;
+    var q = 280.459 + 0.98564736 * d;
+    var L = (q + 1.915 * Math.sin(g) + 0.020 * Math.sin(2 * g)) * RAD;
+    var e = (23.439 - 0.00000036 * d) * RAD;
+    var sinDec = Math.sin(e) * Math.sin(L);
+    var dec = Math.asin(sinDec);
+    var RAh = (Math.atan2(Math.cos(e) * Math.sin(L), Math.cos(L)) / RAD) / 15;
+    var GMST = ((18.697374558 + 24.06570982441908 * d) % 24 + 24) % 24;
+    var lst = ((GMST + lng / 15) % 24 + 24) % 24;
+    var H = ((lst - RAh) * 15 + 540) % 360 - 180;
+    var latR = lat * RAD;
+    return Math.asin(Math.sin(latR) * sinDec + Math.cos(latR) * Math.cos(dec) * Math.cos(H * RAD)) / RAD;
+  }
+  /* Where the sun is now, without the caller having to hold a city. */
+  function altitudeNow(){
+    var c = pickCity();
+    return sunAltitude(new Date(), c.lat, c.lng);
+  }
+  /* Relative luminance of a ground, the input every derived tone needs. */
+  function luminance(rgb){
+    var v = [rgb[0], rgb[1], rgb[2]].map(function(c){
+      c = c / 255;
+      return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+    });
+    return 0.2126 * v[0] + 0.7152 * v[1] + 0.0722 * v[2];
+  }
+  /* A text tone: ink laid over the ground at `alpha`, returned solid so it
+     can go anywhere a colour goes, including into a gradient or a border. */
+  function over(ink, ground, alpha){
+    return [
+      Math.round(ink[0] * alpha + ground[0] * (1 - alpha)),
+      Math.round(ink[1] * alpha + ground[1] * (1 - alpha)),
+      Math.round(ink[2] * alpha + ground[2] * (1 - alpha))
+    ];
+  }
+  function rgb(c){ return "rgb(" + c[0] + "," + c[1] + "," + c[2] + ")"; }
+
+  window.OLAE_SKY = {
+    CREAM: CREAM, DAYINK: DAYINK,
+    pickCity: pickCity, sunAltitude: sunAltitude, altitudeNow: altitudeNow,
+    skyAt: skyAt, mix: mixChannels, luminance: luminance, over: over, rgb: rgb,
+    lerp: lerp
+  };
+})();
+</script>
