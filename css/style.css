@@ -20,6 +20,23 @@
   --head-pad-top: 22px;
   --head-pad-bottom: 20px;
   --head-gap: 18px;
+
+  /* THE HEADER'S HEIGHT LIVES HERE AND NOWHERE ELSE.
+     The header is sticky, so several things need to know how tall it is: the
+     drawer paints a matching band across its own top, and every anchor jump
+     has to clear it. This is the one declaration of that height; the value
+     below is only the starting guess, and site-nav.js measures the rendered
+     header on load, on resize and when the drawer opens, then writes the real
+     number back here — so everything built on it follows the header through
+     its breakpoints instead of drifting from it.
+
+     THE RULE FOR ANCHORS. html's scroll-padding-top (see below) already keeps
+     every anchor target clear of the band. Anything that wants a little more
+     room adds ONLY that extra in its own scroll-margin-top — never the
+     header's height a second time. The two properties are added together by
+     the browser, not resolved against each other: .series-band once carried
+     the band's height here as well and landed its heading 328px down an
+     800px viewport, under a screenful of nothing. */
   --head-band: 150px;
   --drawer-logo-mb: calc(var(--head-band) - 68px);
 
@@ -444,7 +461,11 @@ html[data-theme="light"] body.is-home :is(#story-doorway, #start-here, #notes, #
 
 html {
   -webkit-font-smoothing: antialiased;
-  scroll-padding-top: 150px;
+  /* Where an anchor jump comes to rest: below the sticky header, plus a
+     little air. Derived from --head-band rather than repeating its number,
+     which is how the two came to disagree — the band was measured down to
+     the header's real height at runtime and this stayed at the old guess. */
+  scroll-padding-top: calc(var(--head-band) + 8px);
   background: var(--bg);
   overflow-x: clip;
 }
@@ -1596,10 +1617,9 @@ html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
    repeat the band title, so it is hidden. */
 .series-band {
   padding: 12px 0 8px;
-  /* html already carries scroll-padding-top: 150px for the sticky header, and
-     the two add up: a band with the header's height here as well landed its
-     heading 328px down an 800px viewport, under a screenful of nothing. This
-     is the breathing room above the heading, nothing more. */
+  /* Breathing room above the heading, and nothing more — html's
+     scroll-padding-top has already cleared the header. See the rule at
+     --head-band. */
   scroll-margin-top: 28px;
 }
 .series-band:not(:first-of-type) {
