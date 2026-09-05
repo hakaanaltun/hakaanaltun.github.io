@@ -1,0 +1,135 @@
+{% comment %}
+  page-sky-toggle.html — the corner theme button's third state.
+
+  The instruments with a bare chrome bar carry one button that used to hold
+  two states, light and dark. This gives it a third, "follow the sky", and
+  the note that says whose sky: the mode picks a city from the browser's
+  time zone, so a page that follows the sun without naming the place is
+  telling the reader half of it.
+
+  The note exists only while the sky is on, so for everyone who stays on
+  light or dark the chrome is exactly what it was. It sits in the chrome bar
+  just left of the buttons, taken out of flow so the chrome's three-column
+  grid — 1fr auto 1fr, with the masthead centred in the middle — cannot be
+  pushed off centre by a long city name; and being inside the chrome, the
+  pages with an immersive mode hide it along with everything else.
+
+  Under 820px the bar has no room left of the buttons before the masthead,
+  so the note steps aside there and the button's own label carries the city.
+
+  Requires page-sky.html in the head (window.OLAE_PAGE_SKY) and, in the
+  markup, .actions > button#themeBtn carrying .icon-moon, .icon-sun and
+  .icon-sky. /read/ and /write/ do not use this: they reach the same three
+  states through their shelf.
+{% endcomment %}
+<style>
+  /* The sun and moon are the page's own; the horizon is this file's, and
+     the page's --icon-* switches gain a third position. html[data-theme]
+     outranks the page's :root defaults, so order here does not matter. */
+  :root{ --icon-sky:none; }
+  html[data-theme="sky"]{
+    --icon-sun:none; --icon-moon:none; --icon-sky:block;
+    /* the ramp runs from midnight navy to a daytime slate, light ink
+       throughout, so the scrollbars and controls want the dark scheme at
+       every hour of it */
+    color-scheme: dark;
+  }
+  .theme-btn .icon-sky{ display:var(--icon-sky); }
+
+  .actions{ position:relative; }
+  .sky-note{
+    position:absolute; right:100%; top:50%; transform:translateY(-50%);
+    margin-right:12px;
+    font-family:var(--body); font-style:italic; font-size:.78rem; line-height:1;
+    color:var(--muted); white-space:nowrap; pointer-events:none;
+    opacity:0; transition:opacity .25s;
+  }
+  .sky-note.on{ opacity:1; }
+  @media (prefers-reduced-motion: reduce){ .sky-note{ transition:none; } }
+  /* no room between the masthead and the buttons; the button's own
+     title and aria-label still name the city */
+  @media (max-width: 820px){ .sky-note{ display:none; } }
+</style>
+<script>
+(function(){
+  "use strict";
+  var btn = document.getElementById("themeBtn");
+  if(!btn || !window.OLAE_PAGE_SKY) return;
+
+  var SKY = window.OLAE_PAGE_SKY;
+  var root = document.documentElement;
+  var city = SKY.pickCity();
+  var timer = null;
+
+  var note = document.createElement("p");
+  note.className = "sky-note";
+  note.id = "skyNote";
+  btn.parentNode.appendChild(note);
+
+  /* The head script has already painted the sky once from its own compact
+     copy of the altitude. /js/astronomy.js is the full version and is
+     fetched only when someone actually turns the sky on. */
+  function repaint(){
+    SKY.paint(window.OLAE_ASTRO
+      ? window.OLAE_ASTRO.sunAltitude(new Date(), city.lat, city.lng)
+      : SKY.sunAltitude(new Date(), city.lat, city.lng));
+  }
+  function startSky(){
+    if(!window.OLAE_ASTRO && !startSky.asked){
+      startSky.asked = true;
+      var s = document.createElement("script");
+      s.src = "/js/astronomy.js?v=20260720-1";
+      s.onload = function(){ if(timer) repaint(); };
+      document.head.appendChild(s);
+    }
+    repaint();
+    if(!timer) timer = setInterval(repaint, 60000);
+  }
+  function stopSky(){
+    if(timer){ clearInterval(timer); timer = null; }
+    SKY.clear();
+  }
+
+  function sync(){
+    var cur = root.getAttribute("data-theme");
+    var on = cur === "sky";
+    note.textContent = on ? "following the sky over " + city.name : "";
+    note.classList.toggle("on", on);
+    /* The button says all three states, so the one that is not obvious from
+       the icon is still reachable by name — for a screen reader, and for
+       anyone who hovers wondering what the horizon means. */
+    btn.setAttribute("aria-label", on
+      ? "Switch theme — following the sky over " + city.name
+      : "Switch theme: light, dark, or follow the sky");
+    btn.setAttribute("title", on
+      ? "Following the sky over " + city.name
+      : "Light / dark / follow the sky");
+  }
+
+  /* light → dark → sky → light. With nothing stored the page is following
+     the device, so the first press goes to whichever of light or dark the
+     device is not — the behaviour the two-state button always had. */
+  function next(cur){
+    if(cur === "dark") return "sky";
+    if(cur === "sky") return "light";
+    if(cur === "light") return "dark";
+    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "light" : "dark";
+  }
+
+  btn.addEventListener("click", function(){
+    var v = next(root.getAttribute("data-theme"));
+    if(v === "sky"){ root.setAttribute("data-theme", "sky"); startSky(); }
+    else { stopSky(); root.setAttribute("data-theme", v); }
+    try{ localStorage.setItem("olae-page-theme", v); }catch(e){}
+    sync();
+  });
+
+  /* A tab left open across dusk comes back to the light it should be in. */
+  document.addEventListener("visibilitychange", function(){
+    if(!document.hidden && timer) repaint();
+  });
+
+  if(root.getAttribute("data-theme") === "sky") startSky();
+  sync();
+})();
+</script>
