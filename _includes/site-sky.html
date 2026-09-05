@@ -1,0 +1,86 @@
+{% comment %}
+  site-sky.html — "Follow the sky" as a theme for the whole site.
+
+  Where an instrument has four tokens, the site has a full block: grounds,
+  four tiers of text, rules, the note wall, the section accent. This paints
+  all of them from the two things the ramp gives — a ground and an ink mix —
+  because a theme whose paper moves has to keep every relation to that paper
+  moving with it. Anything fixed (icons, shadows, colour-scheme) is a plain
+  block in css/style.css instead; only what depends on the sun is here.
+
+  The tiers are alpha over the ground rather than free colours, so the
+  hierarchy holds at every altitude instead of at one. Their contrast was
+  solved against the deepened ramp before it was written: ink 7.4:1 at its
+  worst, --vizon 6.2:1, which is where Dark's own dimmest text sits.
+
+  The accent is the interesting one. The five section voices carry their own
+  hue, chroma and night lightness in style.css, and on Dark's near-black
+  ground those lightnesses are comfortable — the writing's red reads 6.20:1.
+  On a lit sky ground the same value collapses to 2.73:1. So the sun sets a
+  floor, --sky-ld-floor, and style.css takes max() of the voice's own value
+  and the floor: at night every voice keeps exactly the lightness it was
+  tuned to, and as the ground lifts the floor lifts under all five. The
+  curve is 0.539 + 1.12·√L, clamped, fitted to sit just above the measured
+  minimum at every altitude — on a dark ground a lighter accent is only ever
+  more contrast, so the safe side of that curve is the high side. Worst case
+  across all five voices and the whole ramp: 5.00:1.
+
+  Runs before first paint. js/theme.js drives it afterwards and re-paints
+  every minute.
+{% endcomment %}
+<script>
+(function(){
+  "use strict";
+  var S = window.OLAE_SKY;
+  var TOKENS = ["--bg","--paper","--surface-soft","--band","--sky-band-hero","--note-base",
+    "--footer-strip-bg","--ink","--ink-soft","--vizon","--footer-strip-ink","--footer-text",
+    "--footer-muted","--hero-source-muted","--rule","--rule-strong","--rule-cream",
+    "--header-border","--drawer-bg","--sky-ld-floor"];
+
+  function paint(alt){
+    var sky = S.skyAt(alt), g = sky[1], m = sky[2];
+    var ink = S.mix(S.CREAM, S.DAYINK, m);
+    var st = document.documentElement.style;
+    var set = function(k, v){ st.setProperty(k, v); };
+
+    /* grounds: the sheet, the card lifted off it, the band sunk into it */
+    set("--bg", S.rgb(g));
+    set("--paper", S.rgb(g));
+    set("--surface-soft", S.rgb(S.over(ink, g, 0.06)));
+    set("--band", S.rgb(S.over([0,0,0], g, 0.18)));
+    set("--sky-band-hero", S.rgb(S.over(ink, g, 0.03)));
+    set("--note-base", S.rgb(S.over(ink, g, 0.06)));
+    set("--footer-strip-bg", S.rgb(S.over([0,0,0], g, 0.18)));
+
+    /* text, four tiers, each solved against this ground */
+    set("--ink", S.rgb(ink));
+    set("--ink-soft", S.rgb(S.over(ink, g, 0.94)));
+    set("--vizon", S.rgb(S.over(ink, g, 0.88)));
+    set("--footer-strip-ink", S.rgb(S.over(ink, g, 0.88)));
+    set("--footer-text", S.rgb(ink));
+    set("--footer-muted", S.rgb(S.over(ink, g, 0.88)));
+    set("--hero-source-muted", S.rgb(S.over(ink, g, 0.88)));
+
+    /* rules are not text and carry no contrast minimum; they are the ink
+       barely present, which is what a rule is on every other theme here */
+    set("--rule", S.rgb(S.over(ink, g, 0.16)));
+    set("--rule-strong", S.rgb(S.over(ink, g, 0.30)));
+    set("--rule-cream", S.rgb(S.over(ink, g, 0.30)));
+    set("--header-border", "rgba(" + ink.join(",") + ",0.14)");
+    /* the drawer slides over the page and wants the ground almost opaque */
+    set("--drawer-bg", "rgba(" + g.join(",") + ",0.985)");
+
+    set("--sky-ld-floor", Math.max(0.62, Math.min(0.93,
+      0.539 + 1.12 * Math.sqrt(S.luminance(g)))).toFixed(4));
+
+    /* the browser chrome follows the sheet, as it does for every theme */
+    var metas = document.querySelectorAll('meta[name="theme-color"]');
+    for(var i = 0; i < metas.length; i++) metas[i].setAttribute("content", S.rgb(g));
+  }
+  function clear(){
+    var st = document.documentElement.style;
+    TOKENS.forEach(function(t){ st.removeProperty(t); });
+  }
+  window.OLAE_SITE_SKY = { paint: paint, clear: clear, paintNow: function(){ paint(S.altitudeNow()); } };
+})();
+</script>

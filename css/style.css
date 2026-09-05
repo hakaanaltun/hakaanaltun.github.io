@@ -302,6 +302,45 @@ html[data-theme="midnight"] body {
 }
 
 /* ==========================================================================
+   Follow the sky
+   The third rule beside System, and the theme that replaced Dusk. Every
+   colour it uses is computed — _includes/site-sky.html paints the grounds,
+   the four text tiers, the rules and --sky-ld-floor from the sun's altitude,
+   once before first paint and once a minute after. What is left here is
+   only what the sun does not move.
+
+   The ramp runs from midnight navy to a daytime slate, light ink throughout,
+   so this is a dark theme at every hour and the scrollbars and form controls
+   should say so.
+   ========================================================================== */
+html[data-theme="sky"] {
+  color-scheme: dark;
+  /* One paper for the note wall, as Midnight does: the ground is already
+     moving, and cards tinted off a moving ground would drift with it. */
+  --note-wash: 0%;
+  --theme-icon-sun: block;
+  --theme-icon-moon: none;
+  --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.3);
+  --shadow-card-hover: 0 16px 40px rgba(0, 0, 0, 0.45);
+  --shadow-cover: 0 14px 24px rgba(0, 0, 0, 0.5), 0 4px 8px rgba(0, 0, 0, 0.35);
+}
+html[data-theme="sky"] body {
+  --surface-chrome: var(--band);
+  --surface-footer: var(--band);
+  --band-hero: var(--sky-band-hero);
+  /* The five voices keep their own hue, chroma and night lightness. The sun
+     only ever raises the lightness, never lowers it: at night max() leaves
+     each voice exactly where style.css tuned it, and as the ground lifts the
+     floor lifts under all five together. Measured worst case across every
+     voice and the whole ramp: 5.00:1. */
+  --sec-accent-dark: oklch(max(var(--sec-ld, 0.800), var(--sky-ld-floor, 0.62))
+                           var(--sec-cd, 0.048) var(--sec-h, 178));
+  --petrol: var(--sec-accent-dark);
+  --petrol-deep: color-mix(in srgb, var(--sec-accent-dark) 72%, #FFFFFF);
+}
+
+
+/* ==========================================================================
    Section identity — five voices, one lightness per palette
    --------------------------------------------------------------------------
    The chrome is a single ash across the whole site, so a section's character
@@ -371,6 +410,56 @@ body.is-home,
 body.series-home,
 body.series-about,
 body.series-tools       { --sec-h: 178; --sec-c: 0.050; --sec-ld: 0.800; --sec-cd: 0.048; }
+
+/* --------------------------------------------------------------------------
+   The homepage's second voice — the light path only
+
+   The front door was one colour. The doorway, all five section titles, the
+   three start-here links, "More" — every accent on it is --petrol, so the
+   page read as one long note in a single key.
+
+   Three of those headings are invitations rather than indexes: The Notice is
+   a door, "First time here?" is an orientation, Notes is a handful of short
+   things said out loud. Latest, Further back and Instruments are lists. The
+   invitations take a second voice and the lists keep the first, so the split
+   carries a distinction rather than decorating one.
+
+   The hue is 239, which is the sky's own paper: Follow the sky's noon slate
+   is rgb(66,86,100), and in OKLCH that is L 0.442 C 0.034 H 239. So the
+   light theme's second voice is the colour the site turns when it follows
+   the sun — a cross-reference rather than a new colour, the way the sky ramp
+   itself is the twilight page's colours.
+
+   Chroma is lifted from the slate's own 0.034 to 0.062. At its measured
+   value the hue reads as grey with a blue cast rather than as blue; 0.062 is
+   the point where it becomes a colour without becoming loud, and it stays
+   under --sec-c's 0.075 for the book, the most saturated voice on the site.
+
+   Lightness is not taken from the slate but from --petrol, which means each
+   of the twelve palettes keeps the lightness it was tuned to. A fixed slate
+   would have drifted: rgb(66,86,100) measures 7.45:1 on Ash & Gold and
+   5.25:1 on Field, while this tracks the paper and holds 5.47:1 and 5.63:1.
+
+   Dark, Midnight and Follow the sky are deliberately left in one voice. On
+   those grounds the accents are already lifted near the top of the lightness
+   range, where hues converge and a second one reads as noise rather than as
+   a distinction; and the sky in particular is the source of this colour, so
+   spending it there would say nothing.
+   -------------------------------------------------------------------------- */
+@media (prefers-color-scheme: light) {
+  html:not([data-theme]) body.is-home :is(.story-doorway-cue,
+                                          #start-here .section-title,
+                                          #notes .section-title) {
+    color: var(--petrol);
+    color: oklch(from var(--petrol) l var(--sec-c-invitation, 0.062) var(--sec-h-invitation, 239));
+  }
+}
+html[data-theme="light"] body.is-home :is(.story-doorway-cue,
+                                          #start-here .section-title,
+                                          #notes .section-title) {
+  color: var(--petrol);
+  color: oklch(from var(--petrol) l var(--sec-c-invitation, 0.062) var(--sec-h-invitation, 239));
+}
 
 /* ========================================================================== 
    2. Reset & Base
@@ -1315,11 +1404,14 @@ body.moris-lightbox-open { overflow: hidden; }
   html:not([data-theme="light"]) .hero-quote-source i { color: var(--ink-soft); }
 }
 html[data-theme="dark"] .hero-quote-text,
-html[data-theme="midnight"] .hero-quote-text { color: var(--ink); }
+html[data-theme="midnight"] .hero-quote-text,
+html[data-theme="sky"] .hero-quote-text { color: var(--ink); }
 html[data-theme="dark"] .hero-quote-source,
 html[data-theme="dark"] .hero-quote-source i,
 html[data-theme="midnight"] .hero-quote-source,
-html[data-theme="midnight"] .hero-quote-source i { color: var(--ink-soft); }
+html[data-theme="midnight"] .hero-quote-source i,
+html[data-theme="sky"] .hero-quote-source,
+html[data-theme="sky"] .hero-quote-source i { color: var(--ink-soft); }
 .quote-nav { position: absolute; left: 50%; bottom: 26px; display: flex; gap: 14px; opacity: 0; transform: translate(-50%, 6px); transition: opacity 0.2s ease, transform 0.2s ease; pointer-events: none; }
 .quote-nav.quote-nav-visible { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
 /* --petrol (chrome-hued) nearly disappeared on --band-hero, which is that
@@ -1337,13 +1429,17 @@ html[data-theme="midnight"] .hero-quote-source i { color: var(--ink-soft); }
   html:not([data-theme="light"]) .quote-nav-btn:focus-visible { color: var(--ink); }
 }
 html[data-theme="dark"] .quote-nav-btn,
-html[data-theme="midnight"] .quote-nav-btn { color: var(--ink-soft); }
+html[data-theme="midnight"] .quote-nav-btn,
+html[data-theme="sky"] .quote-nav-btn { color: var(--ink-soft); }
 html[data-theme="dark"] .quote-nav-btn:hover,
 html[data-theme="dark"] .quote-nav-btn:active,
 html[data-theme="dark"] .quote-nav-btn:focus-visible,
 html[data-theme="midnight"] .quote-nav-btn:hover,
 html[data-theme="midnight"] .quote-nav-btn:active,
-html[data-theme="midnight"] .quote-nav-btn:focus-visible { color: var(--ink); }
+html[data-theme="midnight"] .quote-nav-btn:focus-visible,
+html[data-theme="sky"] .quote-nav-btn:hover,
+html[data-theme="sky"] .quote-nav-btn:active,
+html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
 
 @media (hover: hover) {
   .hero-quote-card:hover .quote-nav { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
@@ -1796,7 +1892,8 @@ footer {
   html:not([data-theme="light"]) .footer-strip { border-top: 0; }
 }
 html[data-theme="dark"] .footer-strip,
-html[data-theme="midnight"] .footer-strip { border-top: 0; }
+html[data-theme="midnight"] .footer-strip,
+html[data-theme="sky"] .footer-strip { border-top: 0; }
 
 .footer-strip-inner {
   max-width: 980px;

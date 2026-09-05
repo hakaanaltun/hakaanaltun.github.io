@@ -14,7 +14,7 @@
       whole wardrobe, in two halves:
 
       * Twelve light palettes. A palette only ever repaints the light path —
-        Dark, Midnight and the dark half of Dusk are out of reach by
+        Dark, Midnight and Follow the sky are out of reach by
         construction (see css/palettes.css), so choosing one simply forces
         data-theme="light" for the look; a stored palette is untouched by a
         later Dark choice and returns the next time the day is on.
@@ -26,9 +26,10 @@
         writes the same localStorage key theme.js reads, so the footer
         menu, the theme-color metas and this page all agree.
 
-      System and Dusk stay footer-only: neither is a look, so neither has
-      anything to preview — Dusk is a rule that resolves to three of the
-      looks below, and System is whatever the device says.
+      System and Follow the sky stay footer-only: neither is a look, so
+      neither has anything to preview — the sky is a rule whose colours are
+      computed from the sun rather than written down, and System is whatever
+      the device says.
 
    Palette 1 is Ash & Gold, the site's own face — it needs no rules, it is
    the :root default in style.css, so "no attribute" means 1. */
@@ -131,9 +132,9 @@
     try { return localStorage.getItem('palette'); } catch (e) { return null; }
   }
   /* theme.js owns this key; read it here so the tick can sit on Dark or
-     Midnight when one of them is the stored choice. "dusk" is deliberately
-     not one of them: it is a rule, not a look, and ticking whichever of the
-     two it happens to have resolved to would misreport the choice. */
+     Midnight when one of them is the stored choice. "sky" is deliberately
+     not one of them: it is a rule, not a look, and it has no fixed colours
+     to tick — its paper is wherever the sun has it at the moment. */
   function storedTheme() {
     try { return localStorage.getItem('theme'); } catch (e) { return null; }
   }
@@ -143,7 +144,7 @@
   function paletteMetaSync() {
     var n = parseInt(stored(), 10);
     var t = document.documentElement.getAttribute('data-theme');
-    if (t === 'dark' || t === 'midnight') return;     /* dark side is fixed */
+    if (t === 'dark' || t === 'midnight' || t === 'sky') return;  /* the dark side sets its own */
     if (!t && window.matchMedia('(prefers-color-scheme: dark)').matches) return;
     document.querySelectorAll('meta[name="theme-color"][data-light]').forEach(function (m) {
       var v = n >= 2 && n <= COUNT && CHROME[n] ? CHROME[n] : m.getAttribute('data-light');
@@ -268,7 +269,7 @@
      nothing at all on the next one: the page offered a choice that did not
      survive a click. Pinning Light is what makes the offer true. It is not
      a one-way door; Dark and Midnight are two cards further down this page
-     (and Dusk is one click away in the footer), and the palette stored here
+     (and Follow the sky is one click away in the footer), and the palette stored here
      waits through all of them for the next time the day is on. */
   function choose(n) {
     if (n === 1) document.documentElement.removeAttribute('data-palette');
@@ -335,7 +336,7 @@
     } else if (dayIsOn()) {
       status.innerHTML = face + ' is yours on this device, until you pick another.';
     } else {
-      /* A palette stored while System or Dusk has the night on. Say what is
+      /* A palette stored while System or Follow the sky has the night on. Say what is
          actually true, and name the way out. */
       status.innerHTML = face + ' is stored, but the site is on a dark theme right now'
         + '&mdash;pick it again to turn the day on.';
