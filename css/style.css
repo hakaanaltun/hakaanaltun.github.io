@@ -412,50 +412,53 @@ body.series-about,
 body.series-tools       { --sec-h: 178; --sec-c: 0.050; --sec-ld: 0.800; --sec-cd: 0.048; }
 
 /* --------------------------------------------------------------------------
-   The homepage's second voice
+   The homepage's second voice — the light path only
 
-   The front door was one colour. Every heading on it — the doorway, the five
-   section titles, the three start-here links, "More" — is --petrol, so the
+   The front door was one colour. The doorway, all five section titles, the
+   three start-here links, "More" — every accent on it is --petrol, so the
    page read as one long note in a single key.
 
    Three of those headings are invitations rather than indexes: The Notice is
    a door, "First time here?" is an orientation, Notes is a handful of short
    things said out loud. Latest, Further back and Instruments are lists. The
-   invitations take a second voice; the lists keep the first, so the split
+   invitations take a second voice and the lists keep the first, so the split
    carries a distinction rather than decorating one.
 
-   The hue is 91, which is not a colour-wheel pick: it is this site's own
-   gold. Midnight pins #C6B98F (h 92.9) and the dark accent default is
-   #D8C48C (h 90.7), and the light theme is called Ash & Gold. It is also
-   free — the five section voices sit at 12, 54, 118, 178 and 262.
+   The hue is 239, which is the sky's own paper: Follow the sky's noon slate
+   is rgb(66,86,100), and in OKLCH that is L 0.442 C 0.034 H 239. So the
+   light theme's second voice is the colour the site turns when it follows
+   the sun — a cross-reference rather than a new colour, the way the sky ramp
+   itself is the twilight page's colours.
 
-   The chroma is lifted because a yellow needs more of it than a teal to read
-   as a colour at all: at --petrol's own 0.048 the gold came out beige. The
-   ×1.6 lands it at 0.077, which is where the site's own dark gold already
-   sits (0.076), and short of the sRGB wall this hue hits near 0.105.
+   Chroma is lifted from the slate's own 0.034 to 0.062. At its measured
+   value the hue reads as grey with a blue cast rather than as blue; 0.062 is
+   the point where it becomes a colour without becoming loud, and it stays
+   under --sec-c's 0.075 for the book, the most saturated voice on the site.
 
-   Written as a relative colour so it inherits everything already solved:
-   from --petrol it takes the lightness and chroma that theme resolved —
-   including Follow the sky's --sky-ld-floor, which moves with the sun — and
-   changes only the hue. So there is no second contrast system to keep. The
-   plain --petrol above it is the fallback for a browser without relative
-   colour syntax: the homepage simply stays in one voice there.
+   Lightness is not taken from the slate but from --petrol, which means each
+   of the twelve palettes keeps the lightness it was tuned to. A fixed slate
+   would have drifted: rgb(66,86,100) measures 7.45:1 on Ash & Gold and
+   5.25:1 on Field, while this tracks the paper and holds 5.47:1 and 5.63:1.
 
-   Midnight is the one theme where this reads as emphasis rather than as a
-   second colour, and that is right: it pins one gold for every section on
-   purpose, so --petrol is already at hue 93 there and the invitations come
-   out as the same gold with more chroma. Giving them a hue of their own
-   would break the single-voice decision that theme exists to make.
-
-   Measured on the built page, worst of the three headings, across every
-   theme and a sample of the palettes: light 5.26:1 at its tightest (palette
-   5), Follow the sky 5.17:1, Dark 9.19:1, Midnight 9.25:1.
+   Dark, Midnight and Follow the sky are deliberately left in one voice. On
+   those grounds the accents are already lifted near the top of the lightness
+   range, where hues converge and a second one reads as noise rather than as
+   a distinction; and the sky in particular is the source of this colour, so
+   spending it there would say nothing.
    -------------------------------------------------------------------------- */
-body.is-home :is(.story-doorway-cue,
-                 #start-here .section-title,
-                 #notes .section-title) {
+@media (prefers-color-scheme: light) {
+  html:not([data-theme]) body.is-home :is(.story-doorway-cue,
+                                          #start-here .section-title,
+                                          #notes .section-title) {
+    color: var(--petrol);
+    color: oklch(from var(--petrol) l var(--sec-c-invitation, 0.062) var(--sec-h-invitation, 239));
+  }
+}
+html[data-theme="light"] body.is-home :is(.story-doorway-cue,
+                                          #start-here .section-title,
+                                          #notes .section-title) {
   color: var(--petrol);
-  color: oklch(from var(--petrol) l calc(c * 1.6) var(--sec-h-invitation, 91));
+  color: oklch(from var(--petrol) l var(--sec-c-invitation, 0.062) var(--sec-h-invitation, 239));
 }
 
 /* ========================================================================== 
