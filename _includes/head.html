@@ -43,8 +43,11 @@ var m=document.querySelector('meta[name="theme-color"][data-light]');if(m&&C[n])
 {% comment %} Posts were the one page type whose <title> was the bare
 headline — "Handled", "Michi", "Measured" — with nothing in a search
 result to say whose they were, while every other page type and og:title
-already carried the site. Same suffix as the section pages below. {% endcomment %}
-<title>{{ page.title }} &mdash; On Life &amp; Everything</title>
+already carried the site. One suffix everywhere now — the site's name, not
+the author's, joined by a closed-up em dash: "Handled—On Life & Everything".
+Same shape as the section pages below and as the standalone instrument
+pages, which set their own heads. {% endcomment %}
+<title>{{ page.title }}&mdash;On Life &amp; Everything</title>
 <meta name="description" content="{{ _post_desc }}">
 <meta name="author" content="{{ site.author }}">
 <link rel="icon" type="image/svg+xml" href="/on-icon.svg?v=20260729-2">
@@ -56,7 +59,7 @@ already carried the site. Same suffix as the section pages below. {% endcomment 
 <link rel="canonical" href="{{ page.url | absolute_url }}">
 
 <meta property="og:locale" content="en_US">
-<meta property="og:title" content="{{ page.title }}—Hakan Altun">
+<meta property="og:title" content="{{ page.title }}—On Life &amp; Everything">
 <meta property="og:description" content="{{ _post_og_desc }}">
 {% comment %} og_image: a social-card-only image (1200×630). Unlike page.image it
 never renders as the essay cover — post.html reads only image/thumb. Used by
@@ -64,7 +67,7 @@ the story pages ("The Notice"), which share one card. {% endcomment %}
 {% assign _og_img = page.og_image | default: page.image | default: '/og-image-on-card.png?v=20260729-2' %}
 {% assign _og_is_card = false %}{% if page.og_image %}{% assign _og_is_card = true %}{% endif %}{% unless page.image or page.og_image %}{% assign _og_is_card = true %}{% endunless %}
 <meta property="og:image" content="{{ _og_img | absolute_url }}">
-<meta property="og:image:alt" content="{{ page.title | escape }} — Hakan Altun">
+<meta property="og:image:alt" content="{{ page.title | escape }}—On Life &amp; Everything">
 {% if _og_is_card %}<meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">{% endif %}
 <meta property="og:url" content="{{ page.url | absolute_url }}">
@@ -74,10 +77,10 @@ the story pages ("The Notice"), which share one card. {% endcomment %}
 <meta property="article:author" content="{{ site.url }}">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="{{ page.title }}—Hakan Altun">
+<meta name="twitter:title" content="{{ page.title }}—On Life &amp; Everything">
 <meta name="twitter:description" content="{{ _post_og_desc }}">
 <meta name="twitter:image" content="{{ _og_img | absolute_url }}">
-<meta name="twitter:image:alt" content="{{ page.title | escape }} — Hakan Altun">
+<meta name="twitter:image:alt" content="{{ page.title | escape }}—On Life &amp; Everything">
 
 <script type="application/ld+json">
 {
@@ -143,20 +146,20 @@ the story pages ("The Notice"), which share one card. {% endcomment %}
 <link rel="canonical" href="https://hakanaltun.io/">
 
 <meta property="og:locale" content="en_US">
-<meta property="og:title" content="Hakan Altun—On Life & Everything">
+<meta property="og:title" content="On Life &amp; Everything">
 <meta property="og:description" content="{{ site.description }}">
 <meta property="og:image" content="https://hakanaltun.io/og-image-on-card.png?v=20260729-2">
-<meta property="og:image:alt" content="On Life &amp; Everything — Hakan Altun">
+<meta property="og:image:alt" content="On Life &amp; Everything">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:url" content="https://hakanaltun.io/">
 <meta property="og:type" content="website">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Hakan Altun—On Life &amp; Everything">
+<meta name="twitter:title" content="On Life &amp; Everything">
 <meta name="twitter:description" content="{{ site.description }}">
 <meta name="twitter:image" content="https://hakanaltun.io/og-image-on-card.png?v=20260729-2">
-<meta name="twitter:image:alt" content="On Life &amp; Everything — Hakan Altun">
+<meta name="twitter:image:alt" content="On Life &amp; Everything">
 
 <script type="application/ld+json">
 {
@@ -269,8 +272,9 @@ the story pages ("The Notice"), which share one card. {% endcomment %}
 {% else %}
 
 {% comment %} seo_title: an optional, more descriptive title for search
-results; the visible page keeps its plain title. Used as-is — no suffix. {% endcomment %}
-{% if page.seo_title %}<title>{{ page.seo_title }}</title>{% else %}<title>{{ page.title }} &mdash; On Life &amp; Everything</title>{% endif %}
+results; the visible page keeps its plain title. Used as-is, so a page that
+sets one writes the "—On Life & Everything" suffix into it itself. {% endcomment %}
+{% if page.seo_title %}<title>{{ page.seo_title }}</title>{% else %}<title>{{ page.title }}&mdash;On Life &amp; Everything</title>{% endif %}
 <meta name="description" content="{{ page.description | default: site.description }}">
 <meta name="author" content="Hakan Altun">
 <link rel="icon" type="image/svg+xml" href="/on-icon.svg?v=20260729-2">
@@ -282,20 +286,20 @@ results; the visible page keeps its plain title. Used as-is — no suffix. {% en
 <link rel="canonical" href="{{ page.url | absolute_url }}">
 
 <meta property="og:locale" content="en_US">
-<meta property="og:title" content="{% if page.seo_title %}{{ page.seo_title }}{% else %}{{ page.title }} &mdash; Hakan Altun{% endif %}">
+<meta property="og:title" content="{% if page.seo_title %}{{ page.seo_title }}{% else %}{{ page.title }}&mdash;On Life &amp; Everything{% endif %}">
 <meta property="og:description" content="{{ page.description | default: site.description }}">
 <meta property="og:image" content="https://hakanaltun.io/og-image-on-card.png?v=20260729-2">
-<meta property="og:image:alt" content="{{ page.title | escape }} — Hakan Altun">
+<meta property="og:image:alt" content="{{ page.title | escape }}—On Life &amp; Everything">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:url" content="{{ page.url | absolute_url }}">
 <meta property="og:type" content="website">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="{% if page.seo_title %}{{ page.seo_title }}{% else %}{{ page.title }} &mdash; Hakan Altun{% endif %}">
+<meta name="twitter:title" content="{% if page.seo_title %}{{ page.seo_title }}{% else %}{{ page.title }}&mdash;On Life &amp; Everything{% endif %}">
 <meta name="twitter:description" content="{{ page.description | default: site.description }}">
 <meta name="twitter:image" content="https://hakanaltun.io/og-image-on-card.png?v=20260729-2">
-<meta name="twitter:image:alt" content="{{ page.title | escape }} — Hakan Altun">
+<meta name="twitter:image:alt" content="{{ page.title | escape }}—On Life &amp; Everything">
 
 <link rel="stylesheet" href="/css/style.css?v=20260904-5">
 <link rel="stylesheet" href="/css/palettes.css?v=20260829-1">
@@ -305,7 +309,7 @@ results; the visible page keeps its plain title. Used as-is — no suffix. {% en
 {% comment %} Feed discovery belongs on every page, not just the homepage:
 this is what puts the "subscribe" affordance in a reader's browser or
 extension when they land on an essay from search. {% endcomment %}
-<link rel="alternate" type="application/rss+xml" title="Hakan Altun&mdash;On Life &amp; Everything" href="/feed.xml">
+<link rel="alternate" type="application/rss+xml" title="On Life &amp; Everything" href="/feed.xml">
 
 {% comment %} Fonts are self-hosted (see /fonts/ and css/fonts.css) — no
 render-blocking third-party request. Preload the body face for faster LCP. {% endcomment %}
