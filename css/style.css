@@ -418,11 +418,19 @@ body.series-tools       { --sec-h: 178; --sec-c: 0.050; --sec-ld: 0.800; --sec-c
    three start-here links, "More" — every accent on it is --petrol, so the
    page read as one long note in a single key.
 
-   Three of those headings are invitations rather than indexes: The Notice is
-   a door, "First time here?" is an orientation, Notes is a handful of short
-   things said out loud. Latest, Further back and Instruments are lists. The
-   invitations take a second voice and the lists keep the first, so the split
-   carries a distinction rather than decorating one.
+   Four of those accents are invitations rather than indexes: The Notice is a
+   door, "First time here?" is an orientation, Notes is a handful of short
+   things said out loud, and Tonight holds the door open on the way out.
+   Latest, Further back and Instruments are lists. The invitations take a
+   second voice and the lists keep the first, so the split carries a
+   distinction rather than decorating one.
+
+   Taken in page order the two voices now alternate the whole way down —
+   doorway, Latest, First time here?, Further back, Notes, Instruments,
+   Tonight — so the front door reads as one measure repeated rather than as
+   three marked headings inside a petrol page. Tonight is the closing line and
+   was the last accent still in the first voice; giving it the second one is
+   what closes the pattern.
 
    The hue is 239, which is the sky's own paper: Follow the sky's noon slate
    is rgb(66,86,100), and in OKLCH that is L 0.442 C 0.034 H 239. So the
@@ -449,14 +457,16 @@ body.series-tools       { --sec-h: 178; --sec-c: 0.050; --sec-ld: 0.800; --sec-c
 @media (prefers-color-scheme: light) {
   html:not([data-theme]) body.is-home :is(.story-doorway-cue,
                                           #start-here .section-title,
-                                          #notes .section-title) {
+                                          #notes .section-title,
+                                          .tonight-word) {
     color: var(--petrol);
     color: oklch(from var(--petrol) l var(--sec-c-invitation, 0.062) var(--sec-h-invitation, 239));
   }
 }
 html[data-theme="light"] body.is-home :is(.story-doorway-cue,
                                           #start-here .section-title,
-                                          #notes .section-title) {
+                                          #notes .section-title,
+                                          .tonight-word) {
   color: var(--petrol);
   color: oklch(from var(--petrol) l var(--sec-c-invitation, 0.062) var(--sec-h-invitation, 239));
 }
@@ -990,6 +1000,8 @@ section.line-drawn::before,
    at the section's top edge and the grey utility strip below. */
 .tonight-strip { text-align: center; padding-top: 27px; padding-bottom: 27px; }
 .tonight-line { font-family: 'EB Garamond', Georgia, serif; font-size: 0.95rem; color: var(--vizon); letter-spacing: 0.03em; margin: 0; }
+/* --petrol is the fallback and the dark path's colour; on the light path the
+   word is the second voice, with the other three invitations (section 1). */
 .tonight-word { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 1.08rem; color: var(--petrol); margin-right: 7px; }
 .tonight-sep { margin: 0 7px; }
 /* Not the prose tier after all. The Instruments sentence is a real
