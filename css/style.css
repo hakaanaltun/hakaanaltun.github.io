@@ -412,63 +412,29 @@ body.series-about,
 body.series-tools       { --sec-h: 178; --sec-c: 0.050; --sec-ld: 0.800; --sec-cd: 0.048; }
 
 /* --------------------------------------------------------------------------
-   The homepage's second voice — the light path only
+   Homepage slate sections — the light path only
 
-   The front door was one colour. The doorway, all five section titles, the
-   three start-here links, "More" — every accent on it is --petrol, so the
-   page read as one long note in a single key.
+   The Notice, First time here?, Notes and Tonight use slate throughout.
+   Latest, Further back and Instruments retain the homepage's teal accent.
+   Scope both accent tokens to each section so links, labels, focus rings,
+   selection and divider glows inherit the same colour as its heading.
+   --petrol-deep is resolved here too: inheriting the body's already-computed
+   value would leave darker accents teal.
 
-   Four of those accents are invitations rather than indexes: The Notice is a
-   door, "First time here?" is an orientation, Notes is a handful of short
-   things said out loud, and Tonight holds the door open on the way out.
-   Latest, Further back and Instruments are lists. The invitations take a
-   second voice and the lists keep the first, so the split carries a
-   distinction rather than decorating one.
-
-   Taken in page order the two voices now alternate the whole way down —
-   doorway, Latest, First time here?, Further back, Notes, Instruments,
-   Tonight — so the front door reads as one measure repeated rather than as
-   three marked headings inside a petrol page. Tonight is the closing line and
-   was the last accent still in the first voice; giving it the second one is
-   what closes the pattern.
-
-   The hue is 239, which is the sky's own paper: Follow the sky's noon slate
-   is rgb(66,86,100), and in OKLCH that is L 0.442 C 0.034 H 239. So the
-   light theme's second voice is the colour the site turns when it follows
-   the sun — a cross-reference rather than a new colour, the way the sky ramp
-   itself is the twilight page's colours.
-
-   Chroma is lifted from the slate's own 0.034 to 0.062. At its measured
-   value the hue reads as grey with a blue cast rather than as blue; 0.062 is
-   the point where it becomes a colour without becoming loud, and it stays
-   under --sec-c's 0.075 for the book, the most saturated voice on the site.
-
-   Lightness is not taken from the slate but from --petrol, which means each
-   of the twelve palettes keeps the lightness it was tuned to. A fixed slate
-   would have drifted: rgb(66,86,100) measures 7.45:1 on Ash & Gold and
-   5.25:1 on Field, while this tracks the paper and holds 5.47:1 and 5.63:1.
-
-   Dark, Midnight and Follow the sky are deliberately left in one voice. On
-   those grounds the accents are already lifted near the top of the lightness
-   range, where hues converge and a second one reads as noise rather than as
-   a distinction; and the sky in particular is the source of this colour, so
-   spending it there would say nothing.
+   Keep the existing slate hue (239), chroma (0.062) and palette lightness.
+   --sec-l is the lightness used by the body's light accent, so this preserves
+   the heading colours without a relative colour referencing its own token.
+   Dark, Midnight and Follow the sky retain their existing single accent.
    -------------------------------------------------------------------------- */
 @media (prefers-color-scheme: light) {
-  html:not([data-theme]) body.is-home :is(.story-doorway-cue,
-                                          #start-here .section-title,
-                                          #notes .section-title,
-                                          .tonight-word) {
-    color: var(--petrol);
-    color: oklch(from var(--petrol) l var(--sec-c-invitation, 0.062) var(--sec-h-invitation, 239));
+  html:not([data-theme]) body.is-home :is(#story-doorway, #start-here, #notes, #tonight) {
+    --petrol: oklch(var(--sec-l) var(--sec-c-invitation, 0.062) var(--sec-h-invitation, 239));
+    --petrol-deep: color-mix(in srgb, var(--petrol) 74%, black);
   }
 }
-html[data-theme="light"] body.is-home :is(.story-doorway-cue,
-                                          #start-here .section-title,
-                                          #notes .section-title,
-                                          .tonight-word) {
-  color: var(--petrol);
-  color: oklch(from var(--petrol) l var(--sec-c-invitation, 0.062) var(--sec-h-invitation, 239));
+html[data-theme="light"] body.is-home :is(#story-doorway, #start-here, #notes, #tonight) {
+  --petrol: oklch(var(--sec-l) var(--sec-c-invitation, 0.062) var(--sec-h-invitation, 239));
+  --petrol-deep: color-mix(in srgb, var(--petrol) 74%, black);
 }
 
 /* ========================================================================== 
