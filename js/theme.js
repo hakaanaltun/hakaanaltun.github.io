@@ -9,11 +9,11 @@
 
    "Follow the sky" is not a fourth palette but a rule, and the one
    theme whose colours are computed rather than written: the paper is
-   the sky over the reader's nearest city, from midnight navy to a
-   daytime slate, moving with the sun instead of snapping between
-   palettes. It replaced "Dusk", which resolved the same sun into
-   whichever of light/dark/midnight it stood nearest — three snaps a
-   day, the worst of them at sunset.
+   the sky at the reader's own hour, from midnight navy to a daytime
+   slate, moving with the sun instead of snapping between palettes. It
+   replaced "Dusk", which resolved the same sun into whichever of
+   light/dark/midnight it stood nearest — three snaps a day, the worst
+   of them at sunset.
 
    The sun is _includes/sky-ramp.html, shared with the instrument pages;
    the token block is _includes/site-sky.html, which head.html has
@@ -67,9 +67,10 @@
        palettes.js listens in on every call here. */
     if (window.__paletteMetaSync) window.__paletteMetaSync();
   }
-  /* /themes/ offers Dark and Midnight beside the twelve palettes, and writes
-     the same key this file reads. Publishing the sync lets it hand the metas
-     back here rather than keep a second copy of the rules. */
+  /* /themes/ offers Dark, Midnight and Follow the sky beside the twelve
+     palettes, and writes the same key this file reads. Publishing the sync
+     lets it hand the metas back here rather than keep a second copy of the
+     rules. */
   window.__themeColorSync = syncThemeColor;
   function syncMenu() {
     var t = effective();

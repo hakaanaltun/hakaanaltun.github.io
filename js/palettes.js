@@ -11,7 +11,7 @@
 
    2. On /themes/: build the previews; a click keeps that look on this
       device — no separate "keep" step, no rotation. The page shows the
-      whole wardrobe, in two halves:
+      whole wardrobe, in three parts:
 
       * Twelve light palettes. A palette only ever repaints the light path —
         Dark, Midnight and Follow the sky are out of reach by
@@ -25,11 +25,15 @@
         you could see the difference was by picking one. Choosing here
         writes the same localStorage key theme.js reads, so the footer
         menu, the theme-color metas and this page all agree.
+      * Follow the sky, the one theme with no colours of its own. Its card
+        is not drawn: _includes/site-sky.html computes the theme's whole
+        token block for the sun's current altitude, and the card is painted
+        from that block and re-painted on the minute, so what is on the page
+        is the theme itself at the hour it is being looked at. Choosing it
+        writes the same key again, and turns the sky on at once.
 
-      System and Follow the sky stay footer-only: neither is a look, so
-      neither has anything to preview — the sky is a rule whose colours are
-      computed from the sun rather than written down, and System is whatever
-      the device says.
+      System stays footer-only: it is not a look but whatever the device
+      says, so it has nothing to preview.
 
    Palette 1 is Ash & Gold, the site's own face — it needs no rules, it is
    the :root default in style.css, so "no attribute" means 1. */
@@ -109,8 +113,12 @@
   ];
   var ACCENT_LABELS = ['writing', 'book', 'quotes', 'fiction', 'the site'];
 
+  /* The three themes that are a stored choice of their own rather than a
+     palette — what the status line calls them, and what the tick reads. */
+  var THEME_NAMES = { dark: 'Dark', midnight: 'Midnight', sky: 'Follow the sky' };
+
   /* The two darks, in the same display shape as a palette so one builder
-     covers both halves of the page. Their grounds and type are read off the
+     covers every part of the page. Their grounds and type are read off the
      [data-theme] blocks in css/style.css; Dark's five accents are the
      --sec-ld/--sec-cd/--sec-h night voices from the same file, resolved to
      sRGB — the night twin of the precomputation above, and the same rule
@@ -128,13 +136,55 @@
       acc: ['#C6B98F'], accLabels: ['every section'] }
   ];
 
+  /* The sky's own painter, from _includes/site-sky.html. It writes its
+     tokens as inline custom properties on <html>, and an inline property
+     outranks every rule in both stylesheets: left standing, they would keep
+     the sky's paper and ink under the palette just chosen. So every way out
+     of the sky clears them here, exactly as theme.js does when the footer
+     menu leaves it. The no-op stands in if the file is ever not on the page:
+     the wardrobe still works, minus its last card. */
+  var sky = window.OLAE_SITE_SKY
+    || { paint: function () {}, paintNow: function () {}, clear: function () {} };
+
+  /* Follow the sky in the same display shape as the rest — except that none
+     of it is written down here. site-sky.html computes the theme's whole
+     token block for the sun's current altitude; this reads that block, so
+     the card carries the very values the page itself would take, and there
+     is no second copy of the arithmetic to keep in sync.
+
+     The five voices are the one thing this has to know for itself. Their
+     hue, chroma and night lightness live in css/style.css, and on the sky
+     the browser lifts each one to the sun's floor with max() — that max()
+     is repeated here rather than precomputed, because the floor moves. If
+     those voices change in style.css they change here too, the same rule
+     the hexes above are under. */
+  var SKY_VOICES = [          /* [--sec-ld, --sec-cd, --sec-h], in ACCENT_LABELS order */
+    [0.700, 0.078, 12], [0.820, 0.058, 262], [0.840, 0.055, 118],
+    [0.770, 0.060, 54], [0.800, 0.048, 178]
+  ];
+  /* Null if site-sky.html is not on the page: a preview of the sky that
+     cannot ask where the sun is has nothing to show, and the card is then
+     simply not built. */
+  function skyFace() {
+    if (!sky.tokensNow) return null;
+    var t = sky.tokensNow();
+    var floor = parseFloat(t['--sky-ld-floor']);
+    return {
+      key: 'sky', name: 'Follow the sky', tag: 'the hour you are reading in',
+      paper: t['--paper'], inkSoft: t['--ink-soft'], vizon: t['--vizon'],
+      chrome: t['--footer-strip-bg'], ftext: t['--footer-text'],
+      fmuted: t['--footer-muted'],
+      acc: SKY_VOICES.map(function (v) {
+        return 'oklch(' + Math.max(v[0], floor).toFixed(3) + ' ' + v[1] + ' ' + v[2] + ')';
+      })
+    };
+  }
+
   function stored() {
     try { return localStorage.getItem('palette'); } catch (e) { return null; }
   }
-  /* theme.js owns this key; read it here so the tick can sit on Dark or
-     Midnight when one of them is the stored choice. "sky" is deliberately
-     not one of them: it is a rule, not a look, and it has no fixed colours
-     to tick — its paper is wherever the sun has it at the moment. */
+  /* theme.js owns this key; read it here so the tick can sit on Dark,
+     Midnight or Follow the sky when one of them is the stored choice. */
   function storedTheme() {
     try { return localStorage.getItem('theme'); } catch (e) { return null; }
   }
@@ -166,9 +216,12 @@
     return e;
   }
 
-  function group(text) {
-    var h = el('h2', 'themes-group', text);
-    list.appendChild(h);
+  /* A heading for each part of the wardrobe, and — for the sky alone — one
+     line under it, because that card is the only one whose colours will not
+     be the same colours tomorrow. */
+  function group(text, note) {
+    list.appendChild(el('h2', 'themes-group', text));
+    if (note) list.appendChild(el('p', 'themes-group-note', note));
   }
 
   /* The whole card is clickable, but it is not the keyboard target: a
@@ -198,32 +251,21 @@
 
     var mock = el('div', 'palette-mock');
     var pmh = el('div', 'pm-head');
-    pmh.style.background = p.chrome;
     var brand = el('span', 'pm-brand');
     brand.innerHTML = 'On Life &amp; Everything';
-    brand.style.color = p.ftext;
-    var nav = el('span', 'pm-nav', 'Essays · Series · Book · About');
-    nav.style.color = p.fmuted;
-    pmh.appendChild(brand); pmh.appendChild(nav);
+    pmh.appendChild(brand);
+    pmh.appendChild(el('span', 'pm-nav', 'Essays · Series · Book · About'));
 
     var pmb = el('div', 'pm-body');
-    pmb.style.background = p.paper;
-    var title = el('h4', 'pm-title', 'The Corner');   /* inside the preview's own h3 */
-    title.style.color = p.acc[0];   /* a series, so the writing voice */
-    var text = el('p', 'pm-text', 'Three stories from a corner that never emptied.');
-    text.style.color = p.inkSoft;
-    var meta = el('p', 'pm-meta', 'Series · 3 stories');
-    meta.style.color = p.vizon;
-    pmb.appendChild(title); pmb.appendChild(text); pmb.appendChild(meta);
+    pmb.appendChild(el('h4', 'pm-title', 'The Corner'));   /* inside the preview's own h3 */
+    pmb.appendChild(el('p', 'pm-text', 'Three stories from a corner that never emptied.'));
+    pmb.appendChild(el('p', 'pm-meta', 'Series · 3 stories'));
 
     var pmf = el('div', 'pm-foot');
-    pmf.style.background = p.chrome;
     var f1 = el('span', 'pm-foot-brand');
     f1.innerHTML = 'On Life &amp; Everything';
-    f1.style.color = p.ftext;
-    var f2 = el('span', null, 'letters@hakanaltun.io');
-    f2.style.color = p.fmuted;
-    pmf.appendChild(f1); pmf.appendChild(f2);
+    pmf.appendChild(f1);
+    pmf.appendChild(el('span', 'pm-foot-mail', 'letters@hakanaltun.io'));
 
     mock.appendChild(pmh); mock.appendChild(pmb); mock.appendChild(pmf);
     box.appendChild(mock);
@@ -232,14 +274,35 @@
     var labels = p.accLabels || ACCENT_LABELS;
     p.acc.forEach(function (c, i) {
       var a = el('div', 'palette-accent');
-      var sw = el('div', 'pa-sw');
-      sw.style.background = c;
-      a.appendChild(sw);
+      a.appendChild(el('div', 'pa-sw'));
       a.appendChild(el('div', 'pa-lb', labels[i]));
       accents.appendChild(a);
     });
     box.appendChild(accents);
+
+    paintPreview(box, p);
     return box;
+  }
+
+  /* Colour is laid on in one pass of its own rather than woven through the
+     builder above, because one card outlives its first painting: the sky
+     moves while the page is open, and the card has to move with it. Every
+     look here is inline style — the mocks show the whole wardrobe at once,
+     which no stylesheet of a single active theme can do. */
+  function paintPreview(box, p) {
+    function put(sel, prop, v) { box.querySelector(sel).style[prop] = v; }
+    put('.pm-head', 'background', p.chrome);
+    put('.pm-brand', 'color', p.ftext);
+    put('.pm-nav', 'color', p.fmuted);
+    put('.pm-body', 'background', p.paper);
+    put('.pm-title', 'color', p.acc[0]);   /* a series, so the writing voice */
+    put('.pm-text', 'color', p.inkSoft);
+    put('.pm-meta', 'color', p.vizon);
+    put('.pm-foot', 'background', p.chrome);
+    put('.pm-foot-brand', 'color', p.ftext);
+    put('.pm-foot-mail', 'color', p.fmuted);
+    var sw = box.querySelectorAll('.pa-sw');
+    for (var i = 0; i < sw.length; i++) sw[i].style.background = p.acc[i];
   }
 
   group('Twelve for the day');
@@ -256,6 +319,19 @@
     list.appendChild(box);
   });
 
+  /* The third part is one card, and the only one that is true for a minute
+     at a time. */
+  var skyBox = null;
+  var skyNow = skyFace();
+  if (skyNow) {
+    group('One that follows the sun',
+      'Not a look but a rule: none of its colours are written down. What is below '
+      + 'is the sky as it stands this minute, and it will have moved by the time you come back.');
+    skyBox = buildPreview(skyNow, skyNow.name);
+    skyBox.setAttribute('data-set-theme', skyNow.key);
+    list.appendChild(skyBox);
+  }
+
   var previews = Array.prototype.slice.call(list.querySelectorAll('.palette-preview'));
 
   /* Click = keep: the choice is stored at once and stays on this device
@@ -268,10 +344,11 @@
      reader whose system prefers dark used to get the look on this page and
      nothing at all on the next one: the page offered a choice that did not
      survive a click. Pinning Light is what makes the offer true. It is not
-     a one-way door; Dark and Midnight are two cards further down this page
-     (and Follow the sky is one click away in the footer), and the palette stored here
-     waits through all of them for the next time the day is on. */
+     a one-way door; Dark, Midnight and Follow the sky are the three cards
+     further down this page, and the palette stored here waits through all of
+     them for the next time the day is on. */
   function choose(n) {
+    sky.clear();
     if (n === 1) document.documentElement.removeAttribute('data-palette');
     else document.documentElement.setAttribute('data-palette', String(n));
     try {
@@ -284,12 +361,17 @@
     sync();
   }
 
-  /* Dark and Midnight: the same write theme.js's own menu makes, so the two
-     stay one choice rather than two. The stored palette is deliberately left
-     alone — it is the day's look, and it comes back the next time the day
-     is on. */
+  /* Dark, Midnight and Follow the sky: the same write theme.js's own menu
+     makes, so each stays one choice rather than two. The stored palette is
+     deliberately left alone — it is the day's look, and it comes back the
+     next time the day is on.
+
+     The sky is turned on here as the menu turns it on, by painting it: its
+     colours are computed, and the attribute alone would leave the page with
+     a theme and no tokens until the next minute came round. */
   function chooseTheme(t) {
     document.documentElement.setAttribute('data-theme', t);
+    if (t === 'sky') sky.paintNow(); else sky.clear();
     try { localStorage.setItem('theme', t); } catch (e) { /* private mode */ }
     themeMetaSync();
     sync();
@@ -305,17 +387,17 @@
 
   function sync() {
     var t = storedTheme();
-    var darkChosen = t === 'dark' || t === 'midnight';
+    var themeChosen = !!THEME_NAMES[t];
     var s = parseInt(stored(), 10);
     var chosen = s >= 1 && s <= COUNT ? s : 1;
     var name = PALETTES[chosen - 1].name;
 
     previews.forEach(function (pv) {
       var theme = pv.getAttribute('data-set-theme');
-      /* One tick on the page: a stored dark carries it, and the palette
-         underneath waits its turn rather than claiming it too. */
+      /* One tick on the page: a stored theme of its own carries it, and the
+         palette underneath waits its turn rather than claiming it too. */
       var on = theme ? theme === t
-                     : !darkChosen && parseInt(pv.getAttribute('data-n'), 10) === chosen;
+                     : !themeChosen && parseInt(pv.getAttribute('data-n'), 10) === chosen;
       var mark = pv.querySelector('.palette-current-mark');
       if (mark) mark.hidden = !on;
       /* The tick is the sighted cue; aria-pressed is the same news for
@@ -325,19 +407,19 @@
     });
 
     var face = '<b class="site-face">' + name.replace(/&/g, '&amp;') + '</b>';
-    if (darkChosen) {
-      var dark = '<b class="site-face">' + (t === 'dark' ? 'Dark' : 'Midnight') + '</b>';
+    if (themeChosen) {
+      var pick = '<b class="site-face">' + THEME_NAMES[t] + '</b>';
       status.innerHTML = chosen === 1
-        ? dark + ' is yours on this device, until you pick another.'
-        : dark + ' is yours on this device&mdash;' + face + ' is still stored, and comes back the next time the day is on.';
+        ? pick + ' is yours on this device, until you pick another.'
+        : pick + ' is yours on this device&mdash;' + face + ' is still stored, and comes back the next time the day is on.';
     } else if (chosen === 1) {
       status.innerHTML = 'No palette chosen&mdash;the site keeps its own <b class="site-face">Ash &amp; Gold</b> '
         + 'by day, and turns to <b class="site-face">Dark</b> when the day is off.';
     } else if (dayIsOn()) {
       status.innerHTML = face + ' is yours on this device, until you pick another.';
     } else {
-      /* A palette stored while System or Follow the sky has the night on. Say what is
-         actually true, and name the way out. */
+      /* A palette stored while System has the night on. Say what is actually
+         true, and name the way out. */
       status.innerHTML = face + ' is stored, but the site is on a dark theme right now'
         + '&mdash;pick it again to turn the day on.';
     }
@@ -360,6 +442,22 @@
     if (theme) chooseTheme(theme);
     else choose(parseInt(pv.getAttribute('data-n'), 10));
   });
+
+  /* Fourteen of the cards are painted once and are done. The fifteenth is a
+     claim about the present, so it is re-made on theme.js's own beat: every
+     minute, and on return to a tab that sat in the background — where a page
+     left open overnight would otherwise still be showing yesterday's
+     afternoon. Nothing is repainted while the tab is hidden; the card is
+     brought up to date on the way back in. */
+  if (skyBox) {
+    var refreshSky = function () {
+      if (document.hidden) return;
+      var now = skyFace();
+      if (now) paintPreview(skyBox, now);
+    };
+    setInterval(refreshSky, 60000);
+    document.addEventListener('visibilitychange', refreshSky);
+  }
 
   sync();
 })();
