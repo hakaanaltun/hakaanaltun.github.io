@@ -275,7 +275,7 @@ layout: null
     <div class="rules">
       <h2 class="rules-name">The rules</h2>
       <div class="rule-grid">
-        <label class="rule"><input type="checkbox" id="ruleQuotes" checked> <span>Curl quotes <span class="hint">&mdash;" " and ' ' to &ldquo; &rdquo; and &lsquo; &rsquo;, apostrophes to &rsquo;, wrong-facing quotes turned</span></span></label>
+        <label class="rule"><input type="checkbox" id="ruleQuotes" checked> <span>Curl quotes <span class="hint">&mdash;" " and ' ' to &ldquo; &rdquo; and &lsquo; &rsquo;, apostrophes and elisions to &rsquo;, wrong-facing quotes turned</span></span></label>
         <label class="rule"><input type="checkbox" id="ruleDashes" checked> <span>Set dashes <span class="hint">&mdash;-- to &ndash;, --- to &mdash;, 1914-1918 to 1914&ndash;1918</span></span></label>
         <label class="rule"><input type="checkbox" id="ruleEllipsis" checked> <span>Set ellipses <span class="hint">&mdash;three dots to &hellip;</span></span></label>
         <label class="rule"><input type="checkbox" id="ruleSpaces" checked> <span>Tidy spaces <span class="hint">&mdash;doubles to one, none before punctuation, line ends trimmed</span></span></label>
@@ -311,13 +311,13 @@ layout: null
 
       <h2>Questions</h2>
       <h3>How do I convert straight quotes to curly quotes?</h3>
-      <p>Paste the text and press Clean. Every straight double and single quote is turned the right way&mdash;&ldquo; &rdquo; and &lsquo; &rsquo;&mdash;apostrophes become &rsquo;, decade abbreviations like &rsquo;90s curl toward the numbers, and measurements such as 5'10" are left alone. The line under the button reports how many were curled.</p>
+      <p>Paste the text and press Clean. Every straight double and single quote is turned the right way&mdash;&ldquo; &rdquo; and &lsquo; &rsquo;&mdash;apostrophes become &rsquo;, an elision curls toward what it stands in for rather than away from it&mdash;&rsquo;90s, &rsquo;99, &rsquo;tis, rock &rsquo;n&rsquo; roll&mdash;and measurements such as 5'10" are left alone. The line under the button reports how many were curled.</p>
 
       <h3>What does it do with <code>--</code> and <code>...</code>?</h3>
       <p>A double hyphen becomes an en dash (&ndash;), a triple hyphen an em dash (&mdash;), and a hyphen between numbers&mdash;1914-1918&mdash;becomes the en dash a range wants. Three dots become a single ellipsis character (&hellip;).</p>
 
       <h3>My quotes are curly already, but some face the wrong way.</h3>
-      <p>Paste it and press Clean. A curly quote whose direction contradicts the text around it&mdash;a closing mark where a quotation opens, an opening mark where one ends&mdash;is turned, and the report counts them separately from the straight ones curled. Apostrophes are safe, elisions like &rsquo;90s and &rsquo;tis keep their direction, and a text set with the low quotes of German or Polish (&bdquo;so&ldquo;) is left alone, since there the marks this rule would turn are the correct ones.</p>
+      <p>Paste it and press Clean. A curly quote whose direction contradicts the text around it&mdash;a closing mark where a quotation opens, an opening mark where one ends&mdash;is turned, and the report counts them separately from the straight ones curled. Apostrophes are safe, elisions like &rsquo;90s, &rsquo;99 and &rsquo;tis keep their direction, and a text set with the low quotes of German or Polish (&bdquo;so&ldquo;) is left alone, since there the marks this rule would turn are the correct ones.</p>
 
       <h3>Can I paste HTML?</h3>
       <p>Yes. Tags are left as they are&mdash;attribute quotes stay straight, so <code>class="lede"</code> comes back unharmed&mdash;and the rules run on the words between them. A quote that opens a paragraph is read against the prose before it rather than the <code>&gt;</code> of its tag, so it curls as &ldquo; and not &rdquo;.</p>
@@ -391,15 +391,30 @@ layout: null
     return parts.join("");
   }
 
-  /* Straight quotes → curly. The rules, in order: decade abbreviations
-     ('90s), apostrophes inside words, opening quotes after whitespace or
-     an opening bracket or dash, primes after digits left alone (5'10"),
-     everything else closing. */
+  /* What an apostrophe stands in front of when it is standing in for a
+     dropped character rather than opening a quotation: the decades ('90s),
+     a bare elided year ('99 — but not '42' in quotes, hence the guard),
+     and the handful of words English elides, "n" among them for rock 'n'
+     roll. Both passes read this list: the one that curls straight quotes,
+     so ’em is produced, and the one that turns wrong-facing curly ones,
+     so an ’em already in the text is not flipped back. */
+  var ELISION = /^(?:\d0s|\d\d(?!['’\d])|tis|twas|em|round|til|cause|n)\b/i;
+
+  /* Straight quotes → curly. The rules, in order: elisions (the apostrophe
+     of '90s, '99, 'tis, 'em), apostrophes inside words, opening quotes
+     after whitespace or an opening bracket or dash, primes after digits
+     left alone (5'10"), everything else closing. An elision is only read
+     as one where a quotation could also have opened — after a space or a
+     bracket — so the 10" of 5'10" is not mistaken for an elided year. */
   function curlQuotes(s, n, prev){
     var OPEN_BEFORE = /(^|[\s([{‘“–—-])$/;
     var pad = prev || "";
     s = pad + s;
-    s = s.replace(/'(?=\d0s\b)/g, function(){ n.quotes++; return "’"; });
+    s = s.replace(/'(?=\S)/g, function(m, off, str){
+      if(!OPEN_BEFORE.test(str.slice(Math.max(0, off - 1), off))) return m;
+      if(!ELISION.test(str.slice(off + 1))) return m;
+      n.quotes++; return "’";
+    });
     s = s.replace(/([\p{L}\p{N}])'(?=\p{L})/gu, function(m, a){ n.quotes++; return a + "’"; });
     s = s.replace(/'(?=\S)/g, function(m, off, str){
       if(!OPEN_BEFORE.test(str.slice(Math.max(0, off - 1), off))) return m;
@@ -428,7 +443,6 @@ layout: null
      and elisions (’90s, ’tis) stay as they are, and a text using the low
      quotes of German or Polish setting („so“, ‚so‘) is left alone, its
      closing marks being the ones this rule would otherwise turn. */
-  var ELISION = /^(?:\d0s|tis|twas|em|round|til|cause)\b/i;
   var lowQuotes = false;
   function turnQuotes(s, n, OPEN_BEFORE){
     if(lowQuotes) return s;
