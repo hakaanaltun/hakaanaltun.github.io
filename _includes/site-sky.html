@@ -25,6 +25,11 @@
   more contrast, so the safe side of that curve is the high side. Worst case
   across all five voices and the whole ramp: 5.00:1.
 
+  The block is computed and returned before it is applied, because it has a
+  second reader: the Follow the sky card on /themes/ is painted from the
+  same tokens, so the card is not a drawing of the theme but the theme, at
+  the minute it is looked at.
+
   Runs before first paint. js/theme.js drives it afterwards and re-paints
   every minute.
 {% endcomment %}
@@ -37,50 +42,67 @@
     "--footer-muted","--hero-source-muted","--rule","--rule-strong","--rule-cream",
     "--header-border","--drawer-bg","--sky-ld-floor"];
 
-  function paint(alt){
+  /* Every token this theme moves, for one altitude of the sun. It only
+     computes: the two callers below decide what to do with the answer —
+     paint() writes it to <html>, js/palettes.js reads it to paint one card
+     on /themes/ without a second copy of the arithmetic. */
+  function tokens(alt){
     var sky = S.skyAt(alt), g = sky[1], m = sky[2];
     var ink = S.mix(S.CREAM, S.DAYINK, m);
-    var st = document.documentElement.style;
-    var set = function(k, v){ st.setProperty(k, v); };
+    var t = {};
 
     /* grounds: the sheet, the card lifted off it, the band sunk into it */
-    set("--bg", S.rgb(g));
-    set("--paper", S.rgb(g));
-    set("--surface-soft", S.rgb(S.over(ink, g, 0.06)));
-    set("--band", S.rgb(S.over([0,0,0], g, 0.18)));
-    set("--sky-band-hero", S.rgb(S.over(ink, g, 0.03)));
-    set("--note-base", S.rgb(S.over(ink, g, 0.06)));
-    set("--footer-strip-bg", S.rgb(S.over([0,0,0], g, 0.18)));
+    t["--bg"] = S.rgb(g);
+    t["--paper"] = S.rgb(g);
+    t["--surface-soft"] = S.rgb(S.over(ink, g, 0.06));
+    t["--band"] = S.rgb(S.over([0,0,0], g, 0.18));
+    t["--sky-band-hero"] = S.rgb(S.over(ink, g, 0.03));
+    t["--note-base"] = S.rgb(S.over(ink, g, 0.06));
+    t["--footer-strip-bg"] = S.rgb(S.over([0,0,0], g, 0.18));
 
     /* text, four tiers, each solved against this ground */
-    set("--ink", S.rgb(ink));
-    set("--ink-soft", S.rgb(S.over(ink, g, 0.94)));
-    set("--vizon", S.rgb(S.over(ink, g, 0.88)));
-    set("--footer-strip-ink", S.rgb(S.over(ink, g, 0.88)));
-    set("--footer-text", S.rgb(ink));
-    set("--footer-muted", S.rgb(S.over(ink, g, 0.88)));
-    set("--hero-source-muted", S.rgb(S.over(ink, g, 0.88)));
+    t["--ink"] = S.rgb(ink);
+    t["--ink-soft"] = S.rgb(S.over(ink, g, 0.94));
+    t["--vizon"] = S.rgb(S.over(ink, g, 0.88));
+    t["--footer-strip-ink"] = S.rgb(S.over(ink, g, 0.88));
+    t["--footer-text"] = S.rgb(ink);
+    t["--footer-muted"] = S.rgb(S.over(ink, g, 0.88));
+    t["--hero-source-muted"] = S.rgb(S.over(ink, g, 0.88));
 
     /* rules are not text and carry no contrast minimum; they are the ink
        barely present, which is what a rule is on every other theme here */
-    set("--rule", S.rgb(S.over(ink, g, 0.16)));
-    set("--rule-strong", S.rgb(S.over(ink, g, 0.30)));
-    set("--rule-cream", S.rgb(S.over(ink, g, 0.30)));
-    set("--header-border", "rgba(" + ink.join(",") + ",0.14)");
+    t["--rule"] = S.rgb(S.over(ink, g, 0.16));
+    t["--rule-strong"] = S.rgb(S.over(ink, g, 0.30));
+    t["--rule-cream"] = S.rgb(S.over(ink, g, 0.30));
+    t["--header-border"] = "rgba(" + ink.join(",") + ",0.14)";
     /* the drawer slides over the page and wants the ground almost opaque */
-    set("--drawer-bg", "rgba(" + g.join(",") + ",0.985)");
+    t["--drawer-bg"] = "rgba(" + g.join(",") + ",0.985)";
 
-    set("--sky-ld-floor", Math.max(0.62, Math.min(0.93,
-      0.539 + 1.12 * Math.sqrt(S.luminance(g)))).toFixed(4));
+    t["--sky-ld-floor"] = Math.max(0.62, Math.min(0.93,
+      0.539 + 1.12 * Math.sqrt(S.luminance(g)))).toFixed(4);
+
+    return t;
+  }
+  /* TOKENS is the list applied as well as the list cleared, so the two can
+     no longer drift apart: anything tokens() adds without a name here is
+     simply never painted, rather than painted and left behind on the next
+     theme. */
+  function paint(alt){
+    var t = tokens(alt), st = document.documentElement.style;
+    TOKENS.forEach(function(k){ st.setProperty(k, t[k]); });
 
     /* the browser chrome follows the sheet, as it does for every theme */
     var metas = document.querySelectorAll('meta[name="theme-color"]');
-    for(var i = 0; i < metas.length; i++) metas[i].setAttribute("content", S.rgb(g));
+    for(var i = 0; i < metas.length; i++) metas[i].setAttribute("content", t["--paper"]);
   }
   function clear(){
     var st = document.documentElement.style;
     TOKENS.forEach(function(t){ st.removeProperty(t); });
   }
-  window.OLAE_SITE_SKY = { paint: paint, clear: clear, paintNow: function(){ paint(S.altitudeNow()); } };
+  window.OLAE_SITE_SKY = {
+    paint: paint, clear: clear,
+    paintNow: function(){ paint(S.altitudeNow()); },
+    tokensNow: function(){ return tokens(S.altitudeNow()); }
+  };
 })();
 </script>
