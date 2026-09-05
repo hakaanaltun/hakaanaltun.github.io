@@ -45,7 +45,11 @@
     var tz = "";
     try{ tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ""; }catch(e){}
     for(var k in CITIES){ if(CITIES[k].tz === tz) return CITIES[k]; }
-    return CITIES.istanbul;
+    /* Unknown zone: use a nominal equatorial day aligned with the device's
+       current UTC offset. This gives roughly 06:00 dawn and 18:00 sunset
+       locally, without claiming to know the visitor's latitude. Fractional
+       offsets and daylight saving are included in getTimezoneOffset(). */
+    return { lat: 0, lng: -new Date().getTimezoneOffset() / 4, tz: tz };
   }
   var CREAM = [237,228,207], DAYINK = [255,252,245];
   var STOPS = [   /* [altitude°, [r,g,b], inkMix 0..1] */

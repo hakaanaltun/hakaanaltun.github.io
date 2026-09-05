@@ -459,7 +459,7 @@ layout: null
       <p>Files bought from most stores carry the seller&rsquo;s lock, and a locked copy cannot be opened here&mdash;the page says so plainly rather than showing broken text. A book you own as a plain EPUB opens fine.</p>
 
       <h3>What is on the shelf?</h3>
-      <p>A few small things, kept behind the lines button in the corner: the table of contents when the file carries one, rain and brown noise to read inside, four sizes of type, and the light&mdash;light, dark, or following the sky over the city named beneath it. Close the panel and the page is as bare as it ever was.</p>
+      <p>A few small things, kept behind the lines button in the corner: the table of contents when the file carries one, rain and brown noise to read inside, four sizes of type, and the light&mdash;light, dark, or following the sky. Close the panel and the page is as bare as it ever was.</p>
 
       {% include tool-links.html slug="read" %}
     </div>
@@ -1862,14 +1862,14 @@ layout: null
 
   /* ================= 3 · light ================= */
   /* Light and Dark do what the corner button does; 'sky' follows the sun
-     over the nearest city in the twilight page's table — painted before
+     using the shared time-zone estimate — painted before
      first paint by the head script, recomputed here every minute with
      OLAE_ASTRO.sunAltitude once /js/astronomy.js has loaded. */
   var SKY = window.OLAE_PAGE_SKY;
-  var skyCity = SKY.pickCity();
   var skyT = null;
   var lightBtns = Array.prototype.slice.call(document.querySelectorAll("#shelf .shelf-pill[data-light]"));
   function skyPaint(){
+    var skyCity = SKY.pickCity();
     var alt = window.OLAE_ASTRO
       ? window.OLAE_ASTRO.sunAltitude(new Date(), skyCity.lat, skyCity.lng)
       : SKY.sunAltitude(new Date(), skyCity.lat, skyCity.lng);
@@ -1893,7 +1893,7 @@ layout: null
   function syncLightRow(){
     var cur = document.documentElement.getAttribute("data-theme");
     lightBtns.forEach(function(b){ b.setAttribute("aria-pressed", String(b.getAttribute("data-light") === cur)); });
-    $("#skyCity").textContent = cur === "sky" ? "the sky over " + skyCity.name : "";
+    $("#skyCity").textContent = cur === "sky" ? "Following the sky" : "";
   }
   lightBtns.forEach(function(b){
     b.addEventListener("click", function(){

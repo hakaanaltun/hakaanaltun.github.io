@@ -579,7 +579,7 @@ layout: null
       <p>Yes. The fullscreen button clears away everything but the paper, with the word count for company; moving the mouse brings the controls back.</p>
 
       <h3>What is on the shelf?</h3>
-      <p>Nine small things, borrowed from the other instruments and kept behind the lines button in the corner: a 25-and-5 writing timer whose only trace is a thin line along the top of the screen, rain and brown noise to write inside, typewriter scrolling that keeps your line centered, a row of style buttons for headings, bold, links and lists, the typographic marks, a tidy button that curls quotes and sets dashes right, a clear button that empties the page in one click, a fuller count, and the light&mdash;light, dark, or following the sky over your city. Close the panel and the page is as bare as it ever was.</p>
+      <p>Nine small things, borrowed from the other instruments and kept behind the lines button in the corner: a 25-and-5 writing timer whose only trace is a thin line along the top of the screen, rain and brown noise to write inside, typewriter scrolling that keeps your line centered, a row of style buttons for headings, bold, links and lists, the typographic marks, a tidy button that curls quotes and sets dashes right, a clear button that empties the page in one click, a fuller count, and the light&mdash;light, dark, or following the sky. Close the panel and the page is as bare as it ever was.</p>
 
       <h3>Can I make a heading, or bold a word?</h3>
       <p>Select the words and a small bubble comes to them, with headings, bold, italic, a link, a quote and two kinds of list&mdash;or press Ctrl-B and Ctrl-I (Cmd on a Mac) as you write. With nothing selected the buttons work on the line the cursor is on, and pressing one again takes its marks back off. On a phone or a tablet the buttons come to the foot of the screen instead of the text, since the system puts its own Cut and Copy over a selection and two bars in one place help nobody; if a keyboard is up, they sit above it. They are on the shelf as well, under Style, which is where to reach them for a line the cursor is merely sitting on&mdash;that row names what it is about to mark, since the shelf covers the writing on a small screen.</p>
@@ -1175,14 +1175,14 @@ layout: null
 
   /* ================= 6 · light ================= */
   /* Light and Dark do what the corner button does; 'sky' follows the sun
-     over the nearest city in the twilight page's table — painted before
+     using the shared time-zone estimate — painted before
      first paint by the head script, recomputed here every minute with
      OLAE_ASTRO.sunAltitude once /js/astronomy.js has loaded. */
   var SKY = window.OLAE_PAGE_SKY;
-  var skyCity = SKY.pickCity();
   var skyT = null;
   var lightBtns = Array.prototype.slice.call(document.querySelectorAll("#shelf .shelf-pill[data-light]"));
   function skyPaint(){
+    var skyCity = SKY.pickCity();
     var alt = window.OLAE_ASTRO
       ? window.OLAE_ASTRO.sunAltitude(new Date(), skyCity.lat, skyCity.lng)
       : SKY.sunAltitude(new Date(), skyCity.lat, skyCity.lng);
@@ -1206,7 +1206,7 @@ layout: null
   function syncLightRow(){
     var cur = document.documentElement.getAttribute("data-theme");
     lightBtns.forEach(function(b){ b.setAttribute("aria-pressed", String(b.getAttribute("data-light") === cur)); });
-    $("#skyCity").textContent = cur === "sky" ? "the sky over " + skyCity.name : "";
+    $("#skyCity").textContent = cur === "sky" ? "Following the sky" : "";
   }
   lightBtns.forEach(function(b){
     b.addEventListener("click", function(){
