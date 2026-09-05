@@ -112,6 +112,10 @@
     } catch (e2) { /* private mode */ }
     syncThemeColor();
     syncMenu();
+    /* On /themes/ the same choice is a tick on one of fifteen cards, and the
+       line under the title names it. palettes.js publishes its own sync for
+       exactly this; anywhere else there is no wardrobe to tell. */
+    if (window.__paletteWardrobeSync) window.__paletteWardrobeSync();
     closeMenu(true);
   });
   menu.addEventListener('keydown', function (e) {

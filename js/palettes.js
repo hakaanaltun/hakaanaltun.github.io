@@ -459,5 +459,14 @@
     document.addEventListener('visibilitychange', refreshSky);
   }
 
+  /* The footer menu is on this page too, and it writes the key this page
+     reads. Until now a theme picked down there left the tick sitting on a
+     light palette while the page went dark around it, and the status line
+     under the title went on describing a choice that was no longer the
+     choice. theme.js calls this after every menu pick, so the two agree at
+     once instead of at the next reload. Published last, and only from here:
+     every other page has returned above, at the missing #palette-list. */
+  window.__paletteWardrobeSync = sync;
+
   sync();
 })();
