@@ -142,6 +142,7 @@
     resultEl.textContent = '';
     popup.classList.remove('has-result', 'is-loading');
     translateButton.disabled = false;
+    translateButton.dataset.done = 'false';
     translateButton.textContent = 'Türkçe';
     popup.hidden = false;
     positionPopup(data.rect);
@@ -200,6 +201,10 @@
   }
 
   async function translateCurrent() {
+    if (translateButton.dataset.done === 'true') {
+      hidePopup();
+      return;
+    }
     if (!current || translateButton.disabled) return;
 
     var data = current;
@@ -211,6 +216,7 @@
     }
 
     translateButton.disabled = true;
+    translateButton.dataset.done = 'false';
     translateButton.textContent = 'Translating';
     popup.classList.add('is-loading');
     resultEl.textContent = '';
@@ -264,7 +270,8 @@
     popup.classList.add('has-result');
     popup.classList.remove('is-loading');
     translateButton.disabled = false;
-    translateButton.textContent = isError ? 'Try again' : 'Translate again';
+    translateButton.dataset.done = isError ? 'false' : 'true';
+    translateButton.textContent = isError ? 'Try again' : 'Done';
     if (current) positionPopup(current.rect);
   }
 
