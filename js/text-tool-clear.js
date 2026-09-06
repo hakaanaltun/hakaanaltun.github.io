@@ -5,7 +5,7 @@
 (function(){
   'use strict';
 
-  function armable(button, hasSomething, clearNow, undoNow){
+  function armable(button, hasSomething, clearNow, undoNow, interceptLegacy){
     var armT = null, undoT = null, canUndo = false;
 
     function reset(){
@@ -17,9 +17,6 @@
     }
 
     function handle(e){
-      /* The Counter already has an older confirm()-based Clear listener.
-         This shared handler runs in the capture phase and owns the action, so
-         all three instruments now behave identically. */
       if(e){
         e.preventDefault();
         e.stopImmediatePropagation();
@@ -56,9 +53,16 @@
       }, 3000);
     }
 
-    /* Capture matters on The Counter because its legacy handler was already
-       registered by the page before this deferred shared script runs. */
-    button.addEventListener('click', handle, true);
+    if(interceptLegacy){
+      /* The Counter's old confirm()-based listener is registered before this
+         deferred script. Catch the click on the document while it is still
+         travelling down to the button, so the old target listener never runs. */
+      document.addEventListener('click', function(e){
+        if(e.target === button || button.contains(e.target)) handle(e);
+      }, true);
+    }else{
+      button.addEventListener('click', handle);
+    }
   }
 
   function fireInput(el){
@@ -87,7 +91,8 @@
         fireInput(ta);
         ta.focus();
         snapshot = '';
-      }
+      },
+      true
     );
   }
 
