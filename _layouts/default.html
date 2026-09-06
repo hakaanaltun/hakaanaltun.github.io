@@ -24,7 +24,10 @@
 <script src="/js/theme.js?v=20260905-2" defer></script>
 <script src="/js/divider-lines.js?v=20260710-1" defer></script>
 <script src="/js/header-autohide.js?v=20260905-1" defer></script>
-{% if page.layout == "post" %}
+{% comment %} The Notice is a branching story under /story/ rather than an ordinary
+post URL. Keep translation available on every branch explicitly instead of
+relying only on the post-layout check. {% endcomment %}
+{% if page.layout == "post" or page.series == "story" %}
 <script src="/js/reader-translate.js?v=20260906-2" defer></script>
 {% endif %}
 {% comment %} Story pages ("The Notice", series: story) carry no nav or
