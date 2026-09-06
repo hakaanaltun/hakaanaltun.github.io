@@ -1,0 +1,450 @@
+# _data/cities.yml — the places the site knows the sky over.
+#
+# One list, two readers:
+#   * _includes/sky-ramp.html — the zone table behind the Follow the sky
+#     theme, emitted as bare coordinates, rounded, before first paint
+#   * twilight/index.html — the same table plus names, the row of links
+#     under the numerals, and the full list in the notes
+#
+# The site never asks for a location. It reads the IANA time zone the
+# browser already reports and looks it up here; an unlisted zone falls back
+# to a nominal point on the equator at the device's UTC offset. So a row
+# earns its place by being the plausible answer to "whose clock is this",
+# not by being a large city: one entry per zone, at the population's centre
+# of gravity rather than the zone's namesake where the two part company
+# (Asia/Kolkata is answered with Delhi).
+#
+# Fields:
+#   slug   the ?city= name on /twilight/, and the key in its CITIES object
+#   name   as displayed
+#   tz     the IANA zone this city answers for
+#   also   older or alternate zone strings browsers still report for it
+#   lat    degrees north, negative south — city centre, ±0.05° is plenty
+#   lng    degrees east, negative west
+#   row    a place in the row of links beneath the times on /twilight/,
+#          and where in it: the row is sorted on this number
+#   alias  a second city inside a zone another entry already answers for:
+#          pickable by ?city=, never the answer to a zone lookup
+#
+# Coordinates are city centres to three decimals, which is nearer than the
+# ±1–2 minutes the almanac arithmetic itself is good for.
+
+# ---- Türkiye ----
+- slug: istanbul
+  name: "İstanbul"
+  tz: Europe/Istanbul
+  also: [Asia/Istanbul, Turkey]
+  lat: 41.015
+  lng: 28.979
+  row: 1
+- slug: ankara
+  name: Ankara
+  tz: Europe/Istanbul
+  lat: 39.933
+  lng: 32.860
+  row: 2
+  alias: true
+- slug: izmir
+  name: "İzmir"
+  tz: Europe/Istanbul
+  lat: 38.423
+  lng: 27.143
+  alias: true
+
+# ---- Europe ----
+- slug: london
+  name: London
+  tz: Europe/London
+  also: [GB, Europe/Belfast]
+  lat: 51.507
+  lng: -0.128
+  row: 3
+- slug: dublin
+  name: Dublin
+  tz: Europe/Dublin
+  lat: 53.350
+  lng: -6.260
+- slug: lisbon
+  name: Lisbon
+  tz: Europe/Lisbon
+  lat: 38.722
+  lng: -9.139
+- slug: madrid
+  name: Madrid
+  tz: Europe/Madrid
+  lat: 40.417
+  lng: -3.703
+- slug: paris
+  name: Paris
+  tz: Europe/Paris
+  lat: 48.857
+  lng: 2.352
+  row: 4
+- slug: brussels
+  name: Brussels
+  tz: Europe/Brussels
+  lat: 50.851
+  lng: 4.352
+- slug: amsterdam
+  name: Amsterdam
+  tz: Europe/Amsterdam
+  lat: 52.374
+  lng: 4.890
+- slug: berlin
+  name: Berlin
+  tz: Europe/Berlin
+  lat: 52.520
+  lng: 13.405
+  row: 5
+- slug: zurich
+  name: "Zürich"
+  tz: Europe/Zurich
+  lat: 47.377
+  lng: 8.542
+- slug: rome
+  name: Rome
+  tz: Europe/Rome
+  lat: 41.903
+  lng: 12.496
+- slug: vienna
+  name: Vienna
+  tz: Europe/Vienna
+  lat: 48.209
+  lng: 16.373
+- slug: prague
+  name: Prague
+  tz: Europe/Prague
+  lat: 50.076
+  lng: 14.438
+- slug: budapest
+  name: Budapest
+  tz: Europe/Budapest
+  lat: 47.498
+  lng: 19.040
+- slug: warsaw
+  name: Warsaw
+  tz: Europe/Warsaw
+  lat: 52.230
+  lng: 21.012
+- slug: belgrade
+  name: Belgrade
+  tz: Europe/Belgrade
+  lat: 44.787
+  lng: 20.449
+- slug: sofia
+  name: Sofia
+  tz: Europe/Sofia
+  lat: 42.698
+  lng: 23.322
+- slug: bucharest
+  name: Bucharest
+  tz: Europe/Bucharest
+  lat: 44.439
+  lng: 26.096
+- slug: athens
+  name: Athens
+  tz: Europe/Athens
+  lat: 37.984
+  lng: 23.728
+- slug: copenhagen
+  name: Copenhagen
+  tz: Europe/Copenhagen
+  lat: 55.677
+  lng: 12.569
+- slug: oslo
+  name: Oslo
+  tz: Europe/Oslo
+  lat: 59.914
+  lng: 10.752
+- slug: stockholm
+  name: Stockholm
+  tz: Europe/Stockholm
+  lat: 59.329
+  lng: 18.069
+- slug: helsinki
+  name: Helsinki
+  tz: Europe/Helsinki
+  lat: 60.170
+  lng: 24.938
+- slug: kyiv
+  name: Kyiv
+  tz: Europe/Kyiv
+  also: [Europe/Kiev]
+  lat: 50.450
+  lng: 30.523
+- slug: moscow
+  name: Moscow
+  tz: Europe/Moscow
+  lat: 55.756
+  lng: 37.617
+
+# ---- The Middle East, the Caucasus and Africa ----
+- slug: jerusalem
+  name: Jerusalem
+  tz: Asia/Jerusalem
+  also: [Asia/Tel_Aviv, Israel]
+  lat: 31.769
+  lng: 35.214
+- slug: beirut
+  name: Beirut
+  tz: Asia/Beirut
+  lat: 33.888
+  lng: 35.495
+- slug: baghdad
+  name: Baghdad
+  tz: Asia/Baghdad
+  lat: 33.315
+  lng: 44.366
+- slug: tehran
+  name: Tehran
+  tz: Asia/Tehran
+  also: [Iran]
+  lat: 35.689
+  lng: 51.389
+- slug: baku
+  name: Baku
+  tz: Asia/Baku
+  lat: 40.409
+  lng: 49.867
+- slug: tbilisi
+  name: Tbilisi
+  tz: Asia/Tbilisi
+  lat: 41.716
+  lng: 44.783
+- slug: dubai
+  name: Dubai
+  tz: Asia/Dubai
+  lat: 25.205
+  lng: 55.271
+- slug: riyadh
+  name: Riyadh
+  tz: Asia/Riyadh
+  lat: 24.713
+  lng: 46.675
+- slug: doha
+  name: Doha
+  tz: Asia/Qatar
+  lat: 25.286
+  lng: 51.531
+- slug: cairo
+  name: Cairo
+  tz: Africa/Cairo
+  also: [Egypt]
+  lat: 30.044
+  lng: 31.236
+- slug: casablanca
+  name: Casablanca
+  tz: Africa/Casablanca
+  lat: 33.573
+  lng: -7.590
+- slug: lagos
+  name: Lagos
+  tz: Africa/Lagos
+  lat: 6.524
+  lng: 3.379
+- slug: nairobi
+  name: Nairobi
+  tz: Africa/Nairobi
+  lat: -1.286
+  lng: 36.817
+- slug: johannesburg
+  name: Johannesburg
+  tz: Africa/Johannesburg
+  lat: -26.204
+  lng: 28.047
+
+# ---- Asia and the Pacific ----
+- slug: karachi
+  name: Karachi
+  tz: Asia/Karachi
+  lat: 24.861
+  lng: 67.010
+- slug: delhi
+  name: Delhi
+  tz: Asia/Kolkata
+  also: [Asia/Calcutta]
+  lat: 28.614
+  lng: 77.209
+- slug: dhaka
+  name: Dhaka
+  tz: Asia/Dhaka
+  also: [Asia/Dacca]
+  lat: 23.811
+  lng: 90.413
+- slug: bangkok
+  name: Bangkok
+  tz: Asia/Bangkok
+  lat: 13.756
+  lng: 100.502
+- slug: hochiminh
+  name: "Ho Chi Minh City"
+  tz: Asia/Ho_Chi_Minh
+  also: [Asia/Saigon]
+  lat: 10.823
+  lng: 106.630
+- slug: jakarta
+  name: Jakarta
+  tz: Asia/Jakarta
+  lat: -6.208
+  lng: 106.846
+- slug: singapore
+  name: Singapore
+  tz: Asia/Singapore
+  lat: 1.352
+  lng: 103.820
+- slug: kualalumpur
+  name: Kuala Lumpur
+  tz: Asia/Kuala_Lumpur
+  lat: 3.139
+  lng: 101.687
+- slug: manila
+  name: Manila
+  tz: Asia/Manila
+  lat: 14.599
+  lng: 120.984
+- slug: hongkong
+  name: Hong Kong
+  tz: Asia/Hong_Kong
+  lat: 22.320
+  lng: 114.174
+- slug: shanghai
+  name: Shanghai
+  tz: Asia/Shanghai
+  also: [Asia/Chongqing, PRC]
+  lat: 31.230
+  lng: 121.474
+- slug: taipei
+  name: Taipei
+  tz: Asia/Taipei
+  lat: 25.033
+  lng: 121.565
+- slug: seoul
+  name: Seoul
+  tz: Asia/Seoul
+  also: [ROK]
+  lat: 37.567
+  lng: 126.978
+- slug: tokyo
+  name: Tokyo
+  tz: Asia/Tokyo
+  also: [Japan]
+  lat: 35.677
+  lng: 139.650
+  row: 8
+- slug: perth
+  name: Perth
+  tz: Australia/Perth
+  lat: -31.953
+  lng: 115.857
+- slug: brisbane
+  name: Brisbane
+  tz: Australia/Brisbane
+  lat: -27.469
+  lng: 153.023
+- slug: adelaide
+  name: Adelaide
+  tz: Australia/Adelaide
+  lat: -34.929
+  lng: 138.601
+- slug: melbourne
+  name: Melbourne
+  tz: Australia/Melbourne
+  lat: -37.814
+  lng: 144.963
+- slug: sydney
+  name: Sydney
+  tz: Australia/Sydney
+  lat: -33.868
+  lng: 151.209
+  row: 9
+- slug: auckland
+  name: Auckland
+  tz: Pacific/Auckland
+  lat: -36.848
+  lng: 174.763
+
+# ---- The Americas ----
+- slug: honolulu
+  name: Honolulu
+  tz: Pacific/Honolulu
+  lat: 21.307
+  lng: -157.858
+- slug: anchorage
+  name: Anchorage
+  tz: America/Anchorage
+  lat: 61.218
+  lng: -149.900
+- slug: vancouver
+  name: Vancouver
+  tz: America/Vancouver
+  lat: 49.283
+  lng: -123.121
+- slug: losangeles
+  name: Los Angeles
+  tz: America/Los_Angeles
+  lat: 34.052
+  lng: -118.244
+  row: 7
+- slug: phoenix
+  name: Phoenix
+  tz: America/Phoenix
+  lat: 33.448
+  lng: -112.074
+- slug: denver
+  name: Denver
+  tz: America/Denver
+  lat: 39.739
+  lng: -104.990
+- slug: mexicocity
+  name: Mexico City
+  tz: America/Mexico_City
+  lat: 19.433
+  lng: -99.133
+- slug: chicago
+  name: Chicago
+  tz: America/Chicago
+  lat: 41.878
+  lng: -87.630
+- slug: newyork
+  name: New York
+  tz: America/New_York
+  lat: 40.713
+  lng: -74.006
+  row: 6
+- slug: toronto
+  name: Toronto
+  tz: America/Toronto
+  lat: 43.653
+  lng: -79.383
+- slug: halifax
+  name: Halifax
+  tz: America/Halifax
+  lat: 44.649
+  lng: -63.576
+- slug: bogota
+  name: "Bogotá"
+  tz: America/Bogota
+  lat: 4.711
+  lng: -74.072
+- slug: lima
+  name: Lima
+  tz: America/Lima
+  lat: -12.046
+  lng: -77.043
+- slug: santiago
+  name: Santiago
+  tz: America/Santiago
+  lat: -33.449
+  lng: -70.669
+- slug: buenosaires
+  name: Buenos Aires
+  tz: America/Argentina/Buenos_Aires
+  also: [America/Buenos_Aires]
+  lat: -34.604
+  lng: -58.382
+- slug: saopaulo
+  name: "São Paulo"
+  tz: America/Sao_Paulo
+  also: [Brazil/East]
+  lat: -23.551
+  lng: -46.633

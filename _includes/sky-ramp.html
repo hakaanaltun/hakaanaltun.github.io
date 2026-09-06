@@ -15,7 +15,9 @@
 
   The ephemeris is /twilight/'s, good to about ±0.3°, from the clock and the
   IANA time zone alone — a coordinate guess, not an almanac, and no location
-  permission is ever asked for.
+  permission is ever asked for. The zones it knows are _data/cities.yml, the
+  one list both this file and /twilight/ render; a zone that is not in it
+  falls back to a nominal equatorial day at the device's UTC offset.
 
   THE RAMP is the twilight page's colours, deepened above −2° so the site's
   text hierarchy fits on them. The instruments carry two text tiers and the
@@ -30,21 +32,19 @@
 <script>
 (function(){
   "use strict";
-  var CITIES = {
-    istanbul:   { name:"İstanbul",    lat:41.015,  lng:28.979,   tz:"Europe/Istanbul" },
-    ankara:     { name:"Ankara",      lat:39.933,  lng:32.860,   tz:"Europe/Istanbul" },
-    london:     { name:"London",      lat:51.507,  lng:-0.128,   tz:"Europe/London" },
-    paris:      { name:"Paris",       lat:48.857,  lng:2.352,    tz:"Europe/Paris" },
-    berlin:     { name:"Berlin",      lat:52.520,  lng:13.405,   tz:"Europe/Berlin" },
-    newyork:    { name:"New York",    lat:40.713,  lng:-74.006,  tz:"America/New_York" },
-    losangeles: { name:"Los Angeles", lat:34.052,  lng:-118.244, tz:"America/Los_Angeles" },
-    tokyo:      { name:"Tokyo",       lat:35.677,  lng:139.650,  tz:"Asia/Tokyo" },
-    sydney:     { name:"Sydney",      lat:-33.868, lng:151.209,  tz:"Australia/Sydney" }
-  };
+  /* zone → [latitude, longitude], rendered from _data/cities.yml, which
+     /twilight/ reads too. A tenth of a degree is finer than this needs:
+     the answer only has to land the sun in the right part of its arc. */
+  var ZONES = {
+    "": null,   /* a browser that reports no zone has found none; standing
+                   first, it also lets every generated line end in a comma */
+{% for c in site.data.cities %}{% unless c.alias %}    "{{ c.tz }}":[{{ c.lat | round: 1 }},{{ c.lng | round: 1 }}],{% for z in c.also %}"{{ z }}":[{{ c.lat | round: 1 }},{{ c.lng | round: 1 }}],{% endfor %}
+{% endunless %}{% endfor %}  };
   function pickCity(){
     var tz = "";
     try{ tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ""; }catch(e){}
-    for(var k in CITIES){ if(CITIES[k].tz === tz) return CITIES[k]; }
+    var z = ZONES[tz];
+    if(z) return { lat: z[0], lng: z[1], tz: tz };
     /* Unknown zone: use a nominal equatorial day aligned with the device's
        current UTC offset. This gives roughly 06:00 dawn and 18:00 sunset
        locally, without claiming to know the visitor's latitude. Fractional
