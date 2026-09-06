@@ -97,6 +97,14 @@
   line: "a desk for two instruments"
   related: [read, write, draw]
 
+- slug: read
+  name: The Reader
+  group: room
+  listname: "The Reader—Read Your Own Text, Markdown, EPUB & Word Files, Distraction-Free"
+  card: "A distraction-free page to read your own files in&mdash;plain text, Markdown, EPUB and Word, set in Garamond, with rain and a light that follows the sky. Nothing is uploaded; only your place is kept."
+  line: "a page to read on"
+  related: [desk, noise, twilight]
+
 - slug: clock
   name: The Clock
   group: room
@@ -121,14 +129,6 @@
   line: "ambient noise and rain"
   related: [breathe, clock, write]
   post: { url: "/pieces/on-silence.html", title: "On Silence" }
-
-- slug: read
-  name: The Reader
-  group: room
-  listname: "The Reader—Read Your Own Text, Markdown, EPUB & Word Files, Distraction-Free"
-  card: "A distraction-free page to read your own files in&mdash;plain text, Markdown, EPUB and Word, set in Garamond, with rain and a light that follows the sky. Nothing is uploaded; only your place is kept."
-  line: "a page to read on"
-  related: [desk, noise, twilight]
 
 - slug: breathe
   name: The Breath
