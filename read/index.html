@@ -6,20 +6,20 @@ layout: null
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Reader&mdash;Read Your Own Text, EPUB &amp; Word Files, Distraction-Free &middot; On Life &amp; Everything</title>
-<meta name="description" content="A distraction-free page to read your own files in—plain text, EPUB and Word, in Garamond type, with rain if you want it and a light that follows the sky. Nothing is uploaded; the page remembers only where you stopped.">
+<title>The Reader&mdash;Read Your Own Text, Markdown, EPUB &amp; Word Files, Distraction-Free &middot; On Life &amp; Everything</title>
+<meta name="description" content="A distraction-free page to read your own files in—plain text, Markdown, EPUB and Word, in Garamond type, with rain if you want it and a light that follows the sky. Nothing is uploaded; the page remembers only where you stopped.">
 <link rel="canonical" href="https://hakanaltun.io/read/">
 <meta property="og:type" content="website">
-<meta property="og:title" content="The Reader—Read Your Own Text, EPUB &amp; Word Files, Distraction-Free">
-<meta property="og:description" content="A distraction-free page to read your own files in—plain text, EPUB and Word, in Garamond type, with rain if you want it and a light that follows the sky. Nothing is uploaded; the page remembers only where you stopped.">
+<meta property="og:title" content="The Reader—Read Your Own Text, Markdown, EPUB &amp; Word Files, Distraction-Free">
+<meta property="og:description" content="A distraction-free page to read your own files in—plain text, Markdown, EPUB and Word, in Garamond type, with rain if you want it and a light that follows the sky. Nothing is uploaded; the page remembers only where you stopped.">
 <meta property="og:url" content="https://hakanaltun.io/read/">
 <meta property="og:image" content="https://hakanaltun.io/images/og/read.png?v=20260723-1">
-<meta property="og:image:alt" content="The Reader—read your own text, EPUB and Word files, distraction-free">
+<meta property="og:image:alt" content="The Reader—read your own text, Markdown, EPUB and Word files, distraction-free">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="The Reader—Read Your Own Text, EPUB &amp; Word Files, Distraction-Free">
-<meta name="twitter:description" content="A distraction-free page to read your own files in—plain text, EPUB and Word, in Garamond type, with rain if you want it and a light that follows the sky. Nothing is uploaded; the page remembers only where you stopped.">
+<meta name="twitter:title" content="The Reader—Read Your Own Text, Markdown, EPUB &amp; Word Files, Distraction-Free">
+<meta name="twitter:description" content="A distraction-free page to read your own files in—plain text, Markdown, EPUB and Word, in Garamond type, with rain if you want it and a light that follows the sky. Nothing is uploaded; the page remembers only where you stopped.">
 <meta name="twitter:image" content="https://hakanaltun.io/images/og/read.png?v=20260723-1">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#FFFFFF">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#191712">
@@ -29,9 +29,9 @@ layout: null
   "@context": "https://schema.org",
   "@type": "WebApplication",
   "@id": "https://hakanaltun.io/read/#app",
-  "name": "The Reader—Read Your Own Text, EPUB & Word Files, Distraction-Free",
+  "name": "The Reader—Read Your Own Text, Markdown, EPUB & Word Files, Distraction-Free",
   "url": "https://hakanaltun.io/read/",
-  "description": "A distraction-free page to read your own files in—plain text, EPUB and Word, in Garamond type, with rain if you want it and a light that follows the sky. Nothing is uploaded; the page remembers only where you stopped.",
+  "description": "A distraction-free page to read your own files in—plain text, Markdown, EPUB and Word, in Garamond type, with rain if you want it and a light that follows the sky. Nothing is uploaded; the page remembers only where you stopped.",
   "applicationCategory": "UtilitiesApplication",
   "operatingSystem": "Any",
   "browserRequirements": "Requires JavaScript",
@@ -169,6 +169,10 @@ layout: null
   #reading h2{ font-size:1.35em; }
   #reading h3{ font-size:1.15em; }
   #reading h4, #reading h5, #reading h6{ font-size:1em; font-style:italic; }
+  #reading pre{ white-space:pre-wrap; overflow-wrap:anywhere; margin:1.1em 0; padding:1em; border:1px solid var(--line); }
+  #reading code{ font-family:ui-monospace, monospace; font-size:.78em; }
+  #reading pre code{ font-size:.78em; }
+  #reading li > p{ margin-bottom:.4em; }
   #reading blockquote{ margin:1.1em 0 1.1em 1.6em; }
   #reading ul, #reading ol, #reading dl{ margin:0 0 1.1em; padding-left:1.6em; }
   #reading li{ margin-bottom:.2em; }
@@ -379,7 +383,7 @@ layout: null
     </div>
   </div>
 
-  <input type="file" id="fileInput" accept=".txt,text/plain,.epub,application/epub+zip,.docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.doc,application/msword" aria-hidden="true" tabindex="-1"
+  <input type="file" id="fileInput" accept=".md,.markdown,text/markdown,text/x-markdown,.txt,text/plain,.epub,application/epub+zip,.docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.doc,application/msword" aria-hidden="true" tabindex="-1"
          style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);">
 
   <div class="sheet">
@@ -444,7 +448,7 @@ layout: null
       <p class="notes-lede">A distraction-free page to read your own files in.</p>
 
       <h2>About this page</h2>
-      <p>The reading counterpart of <a href="/write/">the blank page</a>: bring a plain text file, an EPUB or a Word document from your device and it is set in Garamond in a single quiet column&mdash;however long, as one continuous scroll&mdash;with rain to read inside and a light that follows the sky. The file is opened in the browser, and the page keeps only your place in it&mdash;close the tab, come back, open the same file, and you are where you stopped.</p>
+      <p>The reading counterpart of <a href="/write/">the blank page</a>: bring a plain text or Markdown file, an EPUB or a Word document from your device and it is set in Garamond in a single quiet column&mdash;however long, as one continuous scroll&mdash;with rain to read inside and a light that follows the sky. The file is opened in the browser, and the page keeps only your place in it&mdash;close the tab, come back, open the same file, and you are where you stopped.</p>
 
       <h2>Questions</h2>
       <h3>Is my file uploaded anywhere?</h3>
@@ -454,7 +458,7 @@ layout: null
       <p>No. The text itself is never stored; when you leave, it is gone from the page. The only thing remembered is where you stopped&mdash;a bookmark, kept on your device, so that opening the same file again returns you to your place.</p>
 
       <h3>Which formats can it read?</h3>
-      <p>Plain text, EPUB and Word. A .txt file arrives in UTF-8 or the older Turkish encoding, which the page tells apart on its own so no character arrives broken; an EPUB or a Word .docx is unpacked and set in the page&rsquo;s own type in the browser&mdash;no reader app, no library. Other formats may join later.</p>
+      <p>Plain text, Markdown, EPUB and Word. A .txt file arrives in UTF-8 or the older Turkish encoding, which the page tells apart on its own so no character arrives broken; an EPUB or a Word .docx is unpacked and set in the page&rsquo;s own type in the browser&mdash;no reader app, no library. Markdown (.md or .markdown) keeps headings, emphasis, quotations, lists, tables and code in the same quiet column, with headings in the contents menu. Raw HTML appears as text; images appear as their descriptions.</p>
 
       <h3>Why won&rsquo;t a book I bought open?</h3>
       <p>Files bought from most stores carry the seller&rsquo;s lock, and a locked copy cannot be opened here&mdash;the page says so plainly rather than showing broken text. A book you own as a plain EPUB opens fine.</p>
@@ -468,6 +472,8 @@ layout: null
 
   <div class="corner saved" id="cornerNote" role="status" aria-live="polite" aria-atomic="true">Back where you were</div>
 
+<script src="/js/vendor/marked-18.0.11.umd.js"></script>
+<script src="/js/reader-markdown.js?v=20260906-1"></script>
 <script>
 (function(){
   "use strict";
@@ -595,15 +601,24 @@ layout: null
     article.appendChild(frag);
   }
 
-  function readTxt(file){
+  function readTxt(file, markdown){
     var gen = ++openGen;
     var fr = new FileReader();
     fr.onload = function(){
       if(gen !== openGen) return;
-      var paras = toParagraphs(decodeText(fr.result));
-      if(!paras.length){ quietLine("There is nothing to read in that file."); return; }
+      var source = decodeText(fr.result), parsed, paras;
+      if(!source.trim()){ quietLine("There is nothing to read in that file."); return; }
+      if(markdown){
+        if(!window.OLAE_MARKDOWN || !window.marked){
+          quietLine("Markdown could not be loaded. Reconnect and reload this page, then open the file again."); return;
+        }
+        try{ parsed = window.OLAE_MARKDOWN.render(source, document, window.marked.lexer); }
+        catch(e){ quietLine("That Markdown file could not be read. Try a smaller or less deeply nested file."); return; }
+      } else { paras = toParagraphs(source); }
+      if(current) posSave(current.key, scrollFrac());
       clearBook();                    /* a book opened earlier leaves the room */
-      render(paras);
+      if(parsed){ article.appendChild(parsed.section); setToc(parsed.toc); }
+      else { render(paras); }
       current = { key: fileKey(file) };
       document.title = file.name;
       document.body.classList.add("reading");
@@ -1652,10 +1667,11 @@ layout: null
       readDocx(file);
       return;
     }
+    var isMarkdown = /\.(md|markdown)$/i.test(name) || /^(text\/markdown|text\/x-markdown)$/i.test(file.type);
     var isTxt = /\.txt$/i.test(name) || file.type === "text/plain";
-    if(!isTxt){ quietLine("Only plain text (.txt), EPUB or Word (.docx), for now."); return; }
+    if(!isTxt && !isMarkdown){ quietLine("Open plain text (.txt), Markdown (.md), EPUB or Word (.docx)."); return; }
     if(file.size > MAX_BYTES){ quietLine("That file is too large for this page."); return; }
-    readTxt(file);
+    readTxt(file, isMarkdown);
   }
 
   $("#openBtn").addEventListener("click", function(){ input.click(); });

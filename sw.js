@@ -26,7 +26,7 @@
    on a reader's machine — that copy self-heals on its second load. */
 "use strict";
 
-var CACHE = "olae-tools-v24";
+var CACHE = "olae-tools-v25";
 
 var TOOL_PAGES = [
   "/tools/",   /* the catalogue itself, so "all of them" works offline */
@@ -36,6 +36,8 @@ var TOOL_PAGES = [
 var TOOL_ASSETS = [
   "/css/desk.css",
   "/js/desk.js",
+  "/js/vendor/marked-18.0.11.umd.js",
+  "/js/reader-markdown.js",
   "/css/style.css",   /* the catalogue page's stylesheet */
   "/css/fonts.css",
   "/css/palettes.css",   /* the /themes/ wardrobe; the catalogue shell links it */

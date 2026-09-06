@@ -2,7 +2,7 @@
 (function(){
   'use strict';
   var TOOLS = { read:'The Reader', write:'The Page', draw:'The Draw' };
-  var KEY = 'olae-desk-layout-v1', VERSION = '20260906-desk-2';
+  var KEY = 'olae-desk-layout-v1', VERSION = '20260906-markdown-1';
   var workspace = document.getElementById('workspace');
   var divider = document.getElementById('divider');
   var status = document.getElementById('desk-status');
