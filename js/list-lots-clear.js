@@ -167,26 +167,26 @@
     function undoClear(){
       if(!snapshot) return;
       var s = encodeLotsState(snapshot);
-      if(s){
-        location.hash = 's=' + s;
+      if(s && history.replaceState){
+        history.replaceState(null, '', '#s=' + s);
+        try{ window.dispatchEvent(new HashChangeEvent('hashchange')); }
+        catch(e){ window.dispatchEvent(new Event('hashchange')); }
       }else{
         ta.value = snapshot.text;
-        ta.dispatchEvent(new Event('input', { bubbles:true }));
       }
-      setTimeout(function(){
-        listBlock.classList.toggle('collapsed', snapshot.collapsed);
-        toggle.textContent = snapshot.collapsed ? 'Edit the list' : 'Hide the list';
-        toggle.setAttribute('aria-expanded', snapshot.collapsed ? 'false' : 'true');
-        if(groupsNote) groupsNote.textContent = snapshot.groupsNote;
-        if(groupsResult) groupsResult.innerHTML = snapshot.groupsHtml;
-        if(deal) deal.textContent = snapshot.dealText;
-        if(display){
-          display.className = snapshot.displayClass;
-          display.textContent = snapshot.displayText;
-        }
-        ta.dispatchEvent(new Event('input', { bubbles:true }));
-        snapshot = null;
-      }, 0);
+
+      listBlock.classList.toggle('collapsed', snapshot.collapsed);
+      toggle.textContent = snapshot.collapsed ? 'Edit the list' : 'Hide the list';
+      toggle.setAttribute('aria-expanded', snapshot.collapsed ? 'false' : 'true');
+      if(groupsNote) groupsNote.textContent = snapshot.groupsNote;
+      if(groupsResult) groupsResult.innerHTML = snapshot.groupsHtml;
+      if(deal) deal.textContent = snapshot.dealText;
+      if(display){
+        display.className = snapshot.displayClass;
+        display.textContent = snapshot.displayText;
+      }
+      ta.dispatchEvent(new Event('input', { bubbles:true }));
+      snapshot = null;
     }
 
     armable(
