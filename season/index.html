@@ -236,11 +236,11 @@ layout: null
   <footer class="notes" id="notes">
     <div class="notes-inner">
       <h2>About this page</h2>
-      <p>Where the year stands: the current astronomical season with its dates, the road to the next solstice or equinox, and a thin line filling as the year passes. The four turning points are computed from a standard astronomical series&mdash;the same arithmetic the almanacs use&mdash;and shown on the &#304;stanbul clock. The names follow the northern hemisphere&rsquo;s sky; south of the equator, read each season as its opposite.</p>
+      <p>Where the year stands: the current astronomical season with its dates, the road to the next solstice or equinox, and a thin line filling as the year passes. The four turning points are computed from a standard astronomical series&mdash;the same arithmetic the almanacs use&mdash;and shown on the clock you are keeping: the time zone your browser already reports, never a location permission. The names follow the northern hemisphere&rsquo;s sky; south of the equator, read each season as its opposite.</p>
 
       <h2>Questions</h2>
       <h3>When is the next solstice or equinox?</h3>
-      <p>The page computes it live whenever you open it: the next of the four turning points&mdash;March equinox, June solstice, September equinox, December solstice&mdash;with its date, its local &#304;stanbul time and the days remaining. The instants come from a standard astronomical series and are good to well within the hour.</p>
+      <p>The page computes it live whenever you open it: the next of the four turning points&mdash;March equinox, June solstice, September equinox, December solstice&mdash;with its date, the hour it falls on your own clock and the days remaining. The instants come from a standard astronomical series and are good to well within the hour.</p>
 
       <h3>What is the difference between astronomical and meteorological seasons?</h3>
       <p>Astronomical seasons begin at the solstices and equinoxes&mdash;the sun&rsquo;s actual turning points&mdash;so summer starts about 21 June. Meteorological seasons are the statistician&rsquo;s tidy version, whole months at a time: summer is June, July, August. This page keeps the astronomical calendar.</p>
@@ -260,18 +260,22 @@ layout: null
 (function(){
   "use strict";
   var $ = function(s){ return document.querySelector(s); };
-  var TZ = "Europe/Istanbul";
 
   /* ---- solstices & equinoxes: Meeus, Astronomical Algorithms ch. 27,
      via js/astronomy.js (shared solar/lunar arithmetic) ---- */
   var turningPoint = window.OLAE_ASTRO.turningPoint;
 
-  /* ---- İstanbul calendar dates, for day counts and display ---- */
-  var dayFmt  = new Intl.DateTimeFormat("en-GB", { day:"numeric", month:"long", timeZone:TZ });
-  var fullFmt = new Intl.DateTimeFormat("en-GB", { weekday:"long", day:"numeric", month:"long", timeZone:TZ });
-  var timeFmt = new Intl.DateTimeFormat("en-GB", { hour:"2-digit", minute:"2-digit", timeZone:TZ });
-  var ymdFmt  = new Intl.DateTimeFormat("en-CA", { year:"numeric", month:"2-digit", day:"2-digit", timeZone:TZ });
-  function calDay(ms){                          /* the İstanbul calendar day, as UTC noon ms */
+  /* ---- the visitor's calendar dates, for day counts and display ----
+     A solstice is one instant the world over; the date and the hour it
+     falls on are not, and neither is "in 16 days". These read the turning
+     points on the clock the visitor is actually keeping — the zone the
+     browser reports, which is what Intl uses when timeZone is left unset,
+     and the same reading /twilight/ and the site's theme make. ---- */
+  var dayFmt  = new Intl.DateTimeFormat("en-GB", { day:"numeric", month:"long" });
+  var fullFmt = new Intl.DateTimeFormat("en-GB", { weekday:"long", day:"numeric", month:"long" });
+  var timeFmt = new Intl.DateTimeFormat("en-GB", { hour:"2-digit", minute:"2-digit" });
+  var ymdFmt  = new Intl.DateTimeFormat("en-CA", { year:"numeric", month:"2-digit", day:"2-digit" });
+  function calDay(ms){                          /* the visitor's calendar day, as UTC noon ms */
     var p = ymdFmt.format(new Date(ms)).split("-");
     return Date.UTC(+p[0], +p[1] - 1, +p[2], 12);
   }
@@ -313,7 +317,7 @@ layout: null
     var n = daysUntil(end, now);
     var when = n <= 0 ? "today" : n === 1 ? "tomorrow" : "in " + n + " days";
     $("#next").textContent = POINT_NAMES[nextIdx] + " — " + fullFmt.format(new Date(end)) + ", " + when;
-    $("#instant").textContent = "at " + timeFmt.format(new Date(end)) + " İstanbul time";
+    $("#instant").textContent = "at " + timeFmt.format(new Date(end)) + " by your clock";
 
     /* the year's progress */
     var y0 = new Date(year, 0, 1).getTime();
