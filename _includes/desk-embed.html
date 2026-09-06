@@ -8,7 +8,7 @@
   document.documentElement.classList.add('in-desk');
   var hooks = {}, active = true;
   window.OLAE_DESK_EMBED = {
-    register: function(next){ hooks = next; },
+    register: function(next){ Object.keys(next).forEach(function(key){ hooks[key] = next[key]; }); },
     save: function(){ if(hooks.save) hooks.save(); },
     unsaved: function(){ return hooks.unsaved ? hooks.unsaved() : false; },
     setActive: function(next){

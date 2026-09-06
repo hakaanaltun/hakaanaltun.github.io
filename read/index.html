@@ -1732,6 +1732,9 @@ layout: null
   ["mousemove","touchstart"].forEach(function(ev){
     document.addEventListener(ev, function(){ if(document.body.classList.contains("immersive")) pokeChrome(); });
   });
+  if(window.OLAE_DESK_EMBED) window.OLAE_DESK_EMBED.register({
+    save: function(){ if(current && document.documentElement.getBoundingClientRect().width) posSave(current.key, scrollFrac()); }
+  });
 })();
 </script>
 <script>
@@ -1940,7 +1943,6 @@ layout: null
   if(!window.OLAE_DESK_EMBED && document.documentElement.getAttribute("data-theme") === "sky") startSky();
   syncLightRow();
   if(window.OLAE_DESK_EMBED) window.OLAE_DESK_EMBED.register({
-    save: function(){ if(current && document.documentElement.getBoundingClientRect().width) posSave(current.key, scrollFrac()); },
     pause: function(){ chooseSound("off"); }
   });
 })();

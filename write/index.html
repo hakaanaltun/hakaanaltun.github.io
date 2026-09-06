@@ -769,6 +769,11 @@ layout: null
   /* ---- init ---- */
   grow(); count();
   window.addEventListener("resize", grow);
+  if(window.OLAE_DESK_EMBED) window.OLAE_DESK_EMBED.register({
+    save: saveNow,
+    unsaved: window.OLAE_STORAGE.isUnsaved,
+    resize: grow
+  });
 })();
 </script>
 <script>
@@ -1605,10 +1610,7 @@ layout: null
   try{ twSaved = localStorage.getItem("olae-page-typewriter") === "on"; }catch(e){}
   setTypewriter(twSaved);
   if(window.OLAE_DESK_EMBED) window.OLAE_DESK_EMBED.register({
-    save: saveNow,
-    unsaved: window.OLAE_STORAGE.isUnsaved,
-    pause: function(){ chooseSound("off"); },
-    resize: grow
+    pause: function(){ chooseSound("off"); }
   });
 })();
 </script>
