@@ -253,7 +253,6 @@
       if (current === data) {
         popup.classList.remove('is-loading');
         translateButton.disabled = false;
-        translateButton.textContent = 'Try again';
       }
       requestController = null;
     }
