@@ -40,6 +40,6 @@
       if(document.visibilityState === "hidden") saveNow();
     });
   }
-  window.OLAE_STORAGE = { save: save, guard: guard };
+  window.OLAE_STORAGE = { save: save, guard: guard, isUnsaved: function(){ return failed; } };
 })();
 </script>

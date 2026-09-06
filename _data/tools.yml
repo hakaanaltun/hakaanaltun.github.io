@@ -30,7 +30,7 @@
   listname: "The Page—A Blank Page for Distraction-Free Writing"
   card: "A blank page to write on. Garamond type, a word count, fullscreen, autosave&mdash;and nothing else."
   line: "a blank page to write on"
-  related: [draw, words, clean]
+  related: [desk, words, clean]
   post: { url: "/pieces/written-in-ink.html", title: "Written in Ink" }
 
 - slug: draw
@@ -39,7 +39,7 @@
   listname: "The Draw—A Blank Page to Draw On"
   card: "A blank page to draw on&mdash;mouse, finger or stylus, with pressure. Four inks, undo, autosave and a PNG download."
   line: "a blank page to draw on"
-  related: [write, marks, words]
+  related: [desk, marks, words]
 
 - slug: words
   name: The Counter
@@ -81,6 +81,14 @@
   line: "a comparison of two texts"
   related: [clean, words, write]
 
+- slug: desk
+  name: The Desk
+  group: room
+  listname: "The Desk—Read, Write and Draw Side by Side"
+  card: "Room for two things: read a file beside your notes, or draw beside a page. Adjustable panes, local saving, and a light that follows the sky."
+  line: "a desk for two instruments"
+  related: [read, write, draw]
+
 - slug: clock
   name: The Clock
   group: room
@@ -120,7 +128,7 @@
   listname: "The Reader—Read Your Own Text, EPUB & Word Files, Distraction-Free"
   card: "A distraction-free page to read your own files in&mdash;plain text, EPUB and Word, set in Garamond, with rain and a light that follows the sky. Nothing is uploaded; only your place is kept."
   line: "a page to read on"
-  related: [write, noise, twilight]
+  related: [desk, noise, twilight]
 
 - slug: breathe
   name: The Breath

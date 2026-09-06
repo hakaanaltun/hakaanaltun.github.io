@@ -1,0 +1,48 @@
+{% comment %} Compact, same-origin instrument view used only by The Desk. {% endcomment %}
+<script>
+(function(){
+  'use strict';
+  if(window.parent === window || new URLSearchParams(location.search).get('desk') !== '1') return;
+  try{ if(window.parent.location.origin !== location.origin || !window.parent.OLAE_DESK) return; }
+  catch(e){ return; }
+  document.documentElement.classList.add('in-desk');
+  var hooks = {}, active = true;
+  window.OLAE_DESK_EMBED = {
+    register: function(next){ hooks = next; },
+    save: function(){ if(hooks.save) hooks.save(); },
+    unsaved: function(){ return hooks.unsaved ? hooks.unsaved() : false; },
+    setActive: function(next){
+      if(active && !next){
+        if(hooks.save) hooks.save();
+        if(hooks.pause) hooks.pause();
+      }
+      active = next;
+      if(next && hooks.resize) requestAnimationFrame(hooks.resize);
+    },
+    setTheme: function(theme, tokens){
+      var root = document.documentElement;
+      root.setAttribute('data-theme', theme);
+      Object.keys(tokens).forEach(function(key){ root.style.setProperty(key, tokens[key]); });
+      root.style.colorScheme = theme === 'light' ? 'light' : 'dark';
+    }
+  };
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape') window.parent.OLAE_DESK.restore();
+  });
+})();
+</script>
+<style>
+  html.in-desk .masthead, html.in-desk .tools-link,
+  html.in-desk .notes, html.in-desk .notes-cue,
+  html.in-desk #fsBtn, html.in-desk #themeBtn,
+  html.in-desk .shelf-row:has([data-light]){ display:none; }
+  html.in-desk .chrome{ display:flex; justify-content:flex-end; padding:8px 16px; min-height:54px; }
+  html.in-desk .actions{ gap:6px; }
+  html.in-desk .sheet{ padding:30px 28px 80px; }
+  html.in-desk .app{ padding-bottom:0; }
+  html.in-desk .shelf{ top:54px; }
+  html.in-desk .empty{ min-height:180px; }
+  html.in-desk #page{ min-height:calc(100dvh - 165px); }
+  html.in-desk .tools{ left:12px; right:12px; gap:10px; justify-content:center; }
+  @media(max-width:600px){ html.in-desk .shelf{ top:auto; } }
+</style>

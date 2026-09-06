@@ -1,0 +1,103 @@
+---
+layout: null
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Desk · Two Instruments Together · On Life &amp; Everything</title>
+<meta name="description" content="A quiet desk for two instruments. Read a file beside your notes, or draw beside a page. Adjustable panes, local saving, and a light that follows the sky.">
+<link rel="canonical" href="https://hakanaltun.io/desk/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="The Desk · Two Instruments Together">
+<meta property="og:description" content="Read, write and draw, with room for two things. Everything stays on your device.">
+<meta property="og:url" content="https://hakanaltun.io/desk/">
+<meta property="og:image" content="https://hakanaltun.io/og-image-on-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#FFFFFF">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "@id": "https://hakanaltun.io/desk/#app",
+  "name": "The Desk",
+  "url": "https://hakanaltun.io/desk/",
+  "description": "A desk for reading, writing and drawing with two adjustable panes. Work stays on your device.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "browserRequirements": "Requires JavaScript",
+  "isAccessibleForFree": true,
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Hakan Altun",
+    "url": "https://hakanaltun.io/"
+  },
+  "inLanguage": "en"
+}
+</script>
+<link rel="stylesheet" href="/css/fonts.css?v=20260710-1">
+<link rel="stylesheet" href="/css/desk.css?v=20260905-1">
+{% include page-sky.html %}
+</head>
+<body>
+<a class="skip-link" href="#desk">Skip to the desk</a>
+<header class="chrome">
+  <a class="tools-link" href="/tools/" aria-label="All the instruments">← instruments</a>
+  <a class="masthead" href="/" aria-label="On Life & Everything—home">
+    <span class="home-brand">On Life <span class="amp">&amp;</span> Everything</span>
+    <span class="home-tagline">Essays, short fiction, and other writing.</span>
+  </a>
+  <div class="actions">
+    <button class="icon-btn theme-btn" id="themeBtn" type="button" aria-label="Switch theme: light, dark, or follow the sky" title="Light / dark / follow the sky">
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M20 15.5A8.5 8.5 0 0 1 8.5 4a8.5 8.5 0 1 0 11.5 11.5Z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg>
+      <svg class="icon-sky" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M3 16h18M6 13a6 6 0 0 1 12 0M12 2v3M3 6l2 2m14 0 2-2"/></svg>
+    </button>
+    <button class="icon-btn" id="fullscreen" type="button" aria-label="Fullscreen desk" title="Fullscreen desk">⤢</button>
+  </div>
+</header>
+<main id="desk" tabindex="-1">
+  <div class="desk-heading">
+    <div class="desk-title"><h1>The Desk</h1><p>Room for two things.</p></div>
+    <div class="desk-controls" aria-label="Desk controls">
+      <button id="swap" type="button" title="Swap panes">Swap sides</button>
+      <button id="balance" type="button" title="Make both panes the same size">Equal space</button>
+      <button id="restore" type="button" hidden>Restore split view</button>
+    </div>
+  </div>
+  <noscript><p class="no-script">The Desk needs JavaScript. You can open <a href="/read/">The Reader</a>, <a href="/write/">The Page</a> and <a href="/draw/">The Draw</a> separately.</p></noscript>
+  <div class="workspace" id="workspace">
+    <div id="divider" class="divider" role="separator" tabindex="0" aria-label="Resize panes" aria-orientation="vertical" aria-valuemin="25" aria-valuemax="75" aria-valuenow="50" aria-controls="panel-read panel-write panel-draw" aria-describedby="resize-help"><span></span></div>
+  </div>
+  <p class="sr-only" id="resize-help">Drag to resize. Use the arrow keys for smaller steps, Home or End for the limits, and Enter for equal space.</p>
+  <p class="sr-only" id="desk-status" role="status" aria-live="polite"></p>
+  <div class="desk-foot"><span>Kept on this device.</span><a href="#notes">notes &amp; questions ↓</a></div>
+</main>
+<footer class="notes" id="notes">
+  <div class="notes-inner">
+    <h2>About the desk</h2>
+    <p>Open a file on one side and make notes on the other. Or keep a drawing beside your words. The Reader, The Page and The Draw share a desk, with the same shelves and tools they have on their own.</p>
+    <h3>How do I arrange it?</h3>
+    <p>Choose an instrument above either pane. Drag the line between them to change the space, or use its arrow keys. Swap sides exchanges the two; the expand button gives one instrument the whole desk. On a narrow screen the panes sit one above the other.</p>
+    <h3>What happens when I switch instruments?</h3>
+    <p>Your open file, notes and drawing stay here while this desk is open. Choose an instrument again to return to it. Choosing the instrument on the other side swaps the two. Sound stops when its instrument is put away.</p>
+    <h3>Where is my work saved?</h3>
+    <p>The desk keeps its own notes and drawing in this browser, separately from the standalone Page and Draw. Your arrangement is remembered too. Download anything you want to keep: clearing this browser’s site data clears its saved work.</p>
+    <h3>Does it remember my open file?</h3>
+    <p>The Reader keeps only your place. After closing or reloading the desk, open the file again to continue. Your document is read on your device and is never uploaded.</p>
+    <h3>Can I use it offline?</h3>
+    <p>After the instruments have finished saving for offline use, this desk can open without a connection. You can read local files, write and draw.</p>
+    {% include tool-links.html slug="desk" %}
+  </div>
+</footer>
+{% include page-sky-toggle.html %}
+<script src="/js/desk.js?v=20260905-1"></script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){});}</script>
+</body>
+</html>

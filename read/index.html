@@ -337,6 +337,7 @@ layout: null
   }
 </style>
 {% include page-sky.html %}
+{% include desk-embed.html %}
 </head>
 <body>
 
@@ -487,7 +488,7 @@ layout: null
   var current = null;                 /* { key } while a file is open */
 
   /* ---- the bookmark ledger (positions only — never the text) ---- */
-  var POS_LS = "olae-read-pos", POS_MAX = 20;
+  var POS_LS = window.OLAE_DESK_EMBED ? "olae-desk-read-pos" : "olae-read-pos", POS_MAX = 20;
   function posLoad(){
     try{
       var v = JSON.parse(localStorage.getItem(POS_LS));
@@ -532,11 +533,11 @@ layout: null
     paintProgress();
     if(!current) return;
     clearTimeout(posT);
-    posT = setTimeout(function(){ if(current) posSave(current.key, scrollFrac()); }, 400);
+    posT = setTimeout(function(){ if(current && window.innerWidth && document.documentElement.getBoundingClientRect().width) posSave(current.key, scrollFrac()); }, 400);
   }, { passive: true });
   window.addEventListener("resize", paintProgress);
   window.addEventListener("beforeunload", function(){
-    if(current) posSave(current.key, scrollFrac());
+    if(current && window.innerWidth && document.documentElement.getBoundingClientRect().width) posSave(current.key, scrollFrac());
   });
 
   /* ---- the corner note, in /write/'s "Saved" manner ---- */
@@ -1936,8 +1937,12 @@ layout: null
   });
 
   /* ---- init ---- */
-  if(document.documentElement.getAttribute("data-theme") === "sky") startSky();
+  if(!window.OLAE_DESK_EMBED && document.documentElement.getAttribute("data-theme") === "sky") startSky();
   syncLightRow();
+  if(window.OLAE_DESK_EMBED) window.OLAE_DESK_EMBED.register({
+    save: function(){ if(current && document.documentElement.getBoundingClientRect().width) posSave(current.key, scrollFrac()); },
+    pause: function(){ chooseSound("off"); }
+  });
 })();
 </script>
 <script>if("serviceWorker" in navigator){navigator.serviceWorker.register("/sw.js").catch(function(){});}</script>

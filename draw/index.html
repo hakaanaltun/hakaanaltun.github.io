@@ -233,6 +233,7 @@ layout: null
     *{ transition:none !important; }
   }
 </style>
+{% include desk-embed.html %}
 </head>
 <body>
 
@@ -321,7 +322,7 @@ layout: null
 (function(){
   "use strict";
   var $ = function(s){ return document.querySelector(s); };
-  var LS = "olae-draw-v1";
+  var LS = window.OLAE_DESK_EMBED ? "olae-desk-draw-v1" : "olae-draw-v1";
 
   var INKS = { ink:"#2F2B27", petrol:"#1D4354", teal:"#1A494D", amber:"#E6A15C", paper:"#FFFFFF" };
   var WIDTHS = { fine:2, regular:4.5, broad:9 };
@@ -610,6 +611,11 @@ layout: null
   window.addEventListener("resize", function(){
     clearTimeout(resizeT);
     resizeT = setTimeout(fitCanvas, 120);
+  });
+  if(window.OLAE_DESK_EMBED) window.OLAE_DESK_EMBED.register({
+    save: saveNow,
+    unsaved: function(){ return autosaveOff; },
+    resize: fitCanvas
   });
 })();
 </script>

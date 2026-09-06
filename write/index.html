@@ -378,6 +378,7 @@ layout: null
   }
 </style>
 {% include page-sky.html %}
+{% include desk-embed.html %}
 </head>
 <body>
 
@@ -652,7 +653,7 @@ layout: null
 (function(){
   "use strict";
   var $ = function(s){ return document.querySelector(s); };
-  var LS = "olae-page-v1";
+  var LS = window.OLAE_DESK_EMBED ? "olae-desk-page-v1" : "olae-page-v1";
   var ta = $("#page"), wordEl = $("#wordCount"), savedEl = $("#savedNote");
 
   /* ---- restore ---- */
@@ -1598,11 +1599,17 @@ layout: null
   });
 
   /* ---- init ---- */
-  if(document.documentElement.getAttribute("data-theme") === "sky") startSky();
+  if(!window.OLAE_DESK_EMBED && document.documentElement.getAttribute("data-theme") === "sky") startSky();
   syncLightRow();
   var twSaved = false;
   try{ twSaved = localStorage.getItem("olae-page-typewriter") === "on"; }catch(e){}
   setTypewriter(twSaved);
+  if(window.OLAE_DESK_EMBED) window.OLAE_DESK_EMBED.register({
+    save: saveNow,
+    unsaved: window.OLAE_STORAGE.isUnsaved,
+    pause: function(){ chooseSound("off"); },
+    resize: grow
+  });
 })();
 </script>
 <script>if("serviceWorker" in navigator){navigator.serviceWorker.register("/sw.js").catch(function(){});}</script>
