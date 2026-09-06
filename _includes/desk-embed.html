@@ -46,3 +46,6 @@
   html.in-desk .tools{ left:12px; right:12px; gap:10px; justify-content:center; }
   @media(max-width:600px){ html.in-desk .shelf{ top:auto; } }
 </style>
+{% if page.url == '/read/' %}
+<script src="/js/reader-clear.js?v=20260906-1" defer></script>
+{% endif %}
