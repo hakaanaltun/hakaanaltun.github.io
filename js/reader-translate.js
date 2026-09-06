@@ -183,6 +183,22 @@
     return data.text + '\n\u241f\n' + data.context;
   }
 
+  function isDailyLimit(response, payload) {
+    if (response.status === 429) return true;
+
+    var errorText = '';
+    try {
+      errorText = JSON.stringify(payload || {}).toLowerCase();
+    } catch (e) {
+      errorText = normalizeText(payload).toLowerCase();
+    }
+
+    return errorText.indexOf('3036') !== -1 ||
+      errorText.indexOf('daily free allocation') !== -1 ||
+      (errorText.indexOf('daily') !== -1 && errorText.indexOf('quota') !== -1) ||
+      (errorText.indexOf('allocation') !== -1 && errorText.indexOf('used up') !== -1);
+  }
+
   async function translateCurrent() {
     if (!current || translateButton.disabled) return;
 
@@ -195,7 +211,7 @@
     }
 
     translateButton.disabled = true;
-    translateButton.textContent = 'Çevriliyor';
+    translateButton.textContent = 'Translating';
     popup.classList.add('is-loading');
     resultEl.textContent = '';
     popup.classList.remove('has-result');
@@ -214,7 +230,7 @@
       try { payload = await response.json(); } catch (e) {}
 
       if (!response.ok) {
-        if (response.status === 429) {
+        if (isDailyLimit(response, payload)) {
           throw new Error('daily-limit');
         }
         throw new Error(payload.error || 'translation-unavailable');
@@ -230,14 +246,14 @@
       if (error && error.name === 'AbortError') return;
       if (current !== data) return;
       var message = error && error.message === 'daily-limit'
-        ? 'Günlük çeviri limiti doldu. Yarın tekrar deneyin.'
-        : 'Çeviri şu anda kullanılamıyor.';
+        ? 'Daily translation limit reached. Please try again tomorrow.'
+        : 'Translation is currently unavailable.';
       showResult(message, true);
     } finally {
       if (current === data) {
         popup.classList.remove('is-loading');
         translateButton.disabled = false;
-        translateButton.textContent = 'Yeniden dene';
+        translateButton.textContent = 'Try again';
       }
       requestController = null;
     }
@@ -249,7 +265,7 @@
     popup.classList.add('has-result');
     popup.classList.remove('is-loading');
     translateButton.disabled = false;
-    translateButton.textContent = isError ? 'Yeniden dene' : 'Tekrar çevir';
+    translateButton.textContent = isError ? 'Try again' : 'Translate again';
     if (current) positionPopup(current.rect);
   }
 
