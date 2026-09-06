@@ -7,11 +7,11 @@ layout: null
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>&#304;stanbul Twilight&mdash;Sunrise, Sunset &amp; Civil Twilight Today &middot; On Life &amp; Everything</title>
-<meta name="description" content="Today's sunrise, sunset, civil twilight and day length for İstanbul—and a handful of other cities. The page follows the color of the sky in real time.">
+<meta name="description" content="Today's sunrise, sunset, civil twilight and day length, for the sky your own clock stands under—İstanbul, London, New York and more. The page follows the color of the sky in real time.">
 <link rel="canonical" href="https://hakanaltun.io/twilight/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="İstanbul Twilight—Sunrise, Sunset &amp; Civil Twilight Today">
-<meta property="og:description" content="Today's sun times for İstanbul. The page follows the color of the sky in real time.">
+<meta property="og:description" content="Today's sun times, for the sky your own clock stands under. The page follows the color of the sky in real time.">
 <meta property="og:url" content="https://hakanaltun.io/twilight/">
 <meta property="og:image" content="https://hakanaltun.io/images/og/twilight.png?v=20260716-1">
 <meta property="og:image:alt" content="Twilight—today's sun times, in the color of the hour">
@@ -19,7 +19,7 @@ layout: null
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="İstanbul Twilight—Sunrise, Sunset &amp; Civil Twilight Today">
-<meta name="twitter:description" content="Today's sun times for İstanbul. The page follows the color of the sky in real time.">
+<meta name="twitter:description" content="Today's sun times, for the sky your own clock stands under. The page follows the color of the sky in real time.">
 <meta name="twitter:image" content="https://hakanaltun.io/images/og/twilight.png?v=20260716-1">
 <meta name="theme-color" content="#101720">
 
@@ -30,7 +30,7 @@ layout: null
   "@id": "https://hakanaltun.io/twilight/#app",
   "name": "Twilight—Sunrise, Sunset & Civil Twilight Today",
   "url": "https://hakanaltun.io/twilight/",
-  "description": "Today's sunrise, sunset, civil twilight and day length for İstanbul and a handful of other cities. The page follows the color of the sky in real time.",
+  "description": "Today's sunrise, sunset, civil twilight and day length, for the sky the visitor's own clock stands under—İstanbul, London, New York and more. The page follows the color of the sky in real time.",
   "applicationCategory": "UtilitiesApplication",
   "operatingSystem": "Any",
   "browserRequirements": "Requires JavaScript",
@@ -169,6 +169,17 @@ layout: null
   .notes code{ font-family:inherit; font-style:italic; color:var(--fg); }
   .notes a{ color:var(--fg); text-decoration:underline; text-underline-offset:3px; text-decoration-color:var(--line); }
   .notes a:hover{ text-decoration-color:var(--fg); }
+  .notes details{ margin:-.2rem 0 1.4rem; }
+  .notes summary{
+    color:var(--muted); font-size:1.05rem; cursor:pointer;
+    transition:color .2s;
+  }
+  .notes summary:hover{ color:var(--fg); }
+  .notes .places-list{ margin:.8rem 0 .2rem; line-height:2; }
+  .notes .places-list span{ white-space:nowrap; }   /* a name, and the dot after it, stay together */
+  .notes .places-list a{ text-decoration-color:transparent; }
+  .notes .places-list a:hover{ text-decoration-color:var(--fg); }
+
   .notes .notes-links{ margin-top:2.4rem; padding-top:1.3rem; border-top:1px solid var(--line); font-style:italic; }
 
   body.immersive .chrome{ opacity:0; pointer-events:none; border-color:transparent; }
@@ -205,20 +216,15 @@ layout: null
   </div>
 
   <div class="stage">
-    <h1 class="phase" id="phase">&#304;stanbul Twilight</h1>
+    <h1 class="phase" id="phase">Twilight</h1>
     <div class="next" id="next"></div>
     <div class="times" id="times"></div>
-    <div class="place" id="place">&#304;stanbul &middot; 41.0&deg;N 29.0&deg;E &middot; computed in your browser</div>
+    <div class="place" id="place">computed in your browser</div>
     <nav class="cities" id="cities" aria-label="Cities">
-      <a href="/twilight/" data-city="istanbul">&#304;stanbul</a>
-      <a href="/twilight/?city=ankara" data-city="ankara">Ankara</a>
-      <a href="/twilight/?city=london" data-city="london">London</a>
-      <a href="/twilight/?city=paris" data-city="paris">Paris</a>
-      <a href="/twilight/?city=berlin" data-city="berlin">Berlin</a>
-      <a href="/twilight/?city=newyork" data-city="newyork">New York</a>
-      <a href="/twilight/?city=losangeles" data-city="losangeles">Los Angeles</a>
-      <a href="/twilight/?city=tokyo" data-city="tokyo">Tokyo</a>
-      <a href="/twilight/?city=sydney" data-city="sydney">Sydney</a>
+{%- assign _row = site.data.cities | where_exp: "c", "c.row" | sort: "row" %}
+{%- for c in _row %}
+      <a href="/twilight/?city={{ c.slug }}" data-city="{{ c.slug }}">{{ c.name }}</a>
+{%- endfor %}
     </nav>
   </div>
 
@@ -229,7 +235,7 @@ layout: null
   <footer class="notes" id="notes">
     <div class="notes-inner">
       <h2>About this page</h2>
-      <p>The sky of &#304;stanbul, kept in real time. The page shows today&rsquo;s civil dawn, sunrise, sunset, civil dusk and day length&mdash;for &#304;stanbul by default, or for one of ten cities&mdash;and its background follows the sun&rsquo;s altitude, so it always wears the color of the hour. The times are worked out from the city&rsquo;s coordinates, in the city&rsquo;s own time zone.</p>
+      <p>The sky, kept in real time. The page shows today&rsquo;s civil dawn, sunrise, sunset, civil dusk and day length, and its background follows the sun&rsquo;s altitude, so it always wears the color of the hour. It opens on the sky where your clock says you are&mdash;the time zone the browser already reports, never a location permission&mdash;and any of the cities beneath the times is one click away.</p>
 
       <h2>Questions</h2>
       <h3>What is civil twilight?</h3>
@@ -238,11 +244,26 @@ layout: null
       <h3>How accurate are the times?</h3>
       <p>They are computed with a standard almanac algorithm and usually land within a minute or two of published tables. Horizon, altitude and unusual atmospheric refraction can shift the real moment slightly.</p>
 
-      <h3>Can I see a city other than &#304;stanbul?</h3>
-      <p>Pick one from the row beneath the times, or add <code>?city=</code> to the address, e.g. <a href="/twilight/?city=london"><code>/twilight/?city=london</code></a>. The times come from each city&rsquo;s fixed coordinates, shown in that city&rsquo;s own time zone.</p>
+      <h3>Whose sky is this?</h3>
+      <p>Yours, as closely as a page may guess without asking. Your browser reports the time zone your clock is set to, and the page looks that zone up among the {{ site.data.cities | size }} places below&mdash;a zone for each, from Honolulu to Auckland. When it finds one, the times are worked out from that city&rsquo;s own coordinates, exactly as if you had picked it by hand. This is the same reading the rest of the site makes when its pages follow the sky.</p>
+
+      <h3>And if my zone is not one of them?</h3>
+      <p>Then the page keeps your clock but not your latitude: it uses a nominal point on the equator at your UTC offset, which puts dawn near six and sunset near six on your own time. The color of the hour stays close; the times are indicative, and the line under the numerals says so. Pick the nearest city below for exact ones.</p>
+
+      <h3>Can I choose a city myself?</h3>
+      <p>Pick one from the row beneath the times&mdash;nine of them stand there&mdash;or add <code>?city=</code> to the address, e.g. <a href="/twilight/?city=london"><code>/twilight/?city=london</code></a>. Your choice overrides the time zone, and the times come from that city&rsquo;s fixed coordinates, shown in its own zone.</p>
+
+      <details class="places">
+        <summary>All {{ site.data.cities | size }} places the page knows</summary>
+        <p class="places-list">
+{%- for c in site.data.cities %}
+          <span><a href="/twilight/?city={{ c.slug }}">{{ c.name }}</a>{% unless forloop.last %} &middot;{% endunless %}</span>
+{%- endfor %}
+        </p>
+      </details>
 
       <h3>Why does the page change color?</h3>
-      <p>The background follows the sun&rsquo;s altitude for the chosen city&mdash;deep night blue through dawn amber into daylight&mdash;recomputed every half minute, so the page always wears the color of the hour.</p>
+      <p>The background follows the sun&rsquo;s altitude for the place under the numerals&mdash;deep night blue through dawn amber into daylight&mdash;recomputed every half minute, so the page always wears the color of the hour.</p>
 
       {% include tool-links.html slug="twilight" %}
     </div>
@@ -254,23 +275,46 @@ layout: null
   "use strict";
   var $ = function(s){ return document.querySelector(s); };
 
+  /* The places, and the zones that answer for them: both rendered from
+     _data/cities.yml, the one list the site's theme reads as well. */
   var CITIES = {
-    istanbul:   { name:"İstanbul",  lat:41.015,  lng:28.979,   tz:"Europe/Istanbul" },
-    ankara:     { name:"Ankara",         lat:39.933,  lng:32.860,   tz:"Europe/Istanbul" },
-    london:     { name:"London",         lat:51.507,  lng:-0.128,   tz:"Europe/London" },
-    paris:      { name:"Paris",          lat:48.857,  lng:2.352,    tz:"Europe/Paris" },
-    berlin:     { name:"Berlin",         lat:52.520,  lng:13.405,   tz:"Europe/Berlin" },
-    newyork:    { name:"New York",       lat:40.713,  lng:-74.006,  tz:"America/New_York" },
-    losangeles: { name:"Los Angeles",    lat:34.052,  lng:-118.244, tz:"America/Los_Angeles" },
-    tokyo:      { name:"Tokyo",          lat:35.677,  lng:139.650,  tz:"Asia/Tokyo" },
-    sydney:     { name:"Sydney",         lat:-33.868, lng:151.209,  tz:"Australia/Sydney" }
-  };
-  var cityKey = "istanbul";
+    _: null,    /* no city has a bare underscore for a name; standing first,
+                   the closer lets every generated line end in a comma */
+{% for c in site.data.cities %}    {{ c.slug }}:{ name:"{{ c.name }}", lat:{{ c.lat }}, lng:{{ c.lng }}, tz:"{{ c.tz }}" },
+{% endfor %}  };
+  var ZONES = {
+    "": null,   /* likewise: a browser that reports no zone has found none */
+{% for c in site.data.cities %}{% unless c.alias %}    "{{ c.tz }}":"{{ c.slug }}",{% for z in c.also %}"{{ z }}":"{{ c.slug }}",{% endfor %}
+{% endunless %}{% endfor %}  };
+
+  /* Where you are, near enough. The page reads the IANA zone the browser
+     already reports and matches it against the cities above; ?city= wins
+     over it. This is the same reading the site's theme makes in
+     _includes/sky-ramp.html — the clock and the zone, nothing else, and no
+     location permission is ever asked for. */
+  function own(map, key){
+    return key && Object.prototype.hasOwnProperty.call(map, key) ? map[key] : null;
+  }
+  var localTz = "";
+  try{ localTz = Intl.DateTimeFormat().resolvedOptions().timeZone || ""; }catch(e){}
+  var cityKey = own(ZONES, localTz);
   try{
     var q = (new URLSearchParams(location.search).get("city") || "").toLowerCase().replace(/[^a-z]/g, "");
-    if(CITIES[q]) cityKey = q;
+    if(own(CITIES, q)) cityKey = q;
   }catch(e){}
-  var CITY = CITIES[cityKey];
+  /* An unrecognised zone: a nominal equatorial day aligned with the
+     device's current UTC offset, which puts dawn near 06:00 and sunset
+     near 18:00 on the visitor's own clock. The colour of the hour stays
+     close; the times are only indicative until a city is picked, and the
+     place line says so. Fractional offsets and daylight saving are both
+     carried by getTimezoneOffset(). */
+  var NOMINAL = !cityKey;
+  var CITY = cityKey ? CITIES[cityKey] : {
+    name: "Your time zone",
+    lat:  0,
+    lng:  -new Date().getTimezoneOffset() / 4,
+    tz:   localTz || undefined
+  };
   var LAT = CITY.lat, LNG = CITY.lng;
 
   var fmtTime = new Intl.DateTimeFormat("en-GB", { hour:"2-digit", minute:"2-digit", timeZone:CITY.tz });
@@ -454,12 +498,16 @@ layout: null
   (function initCity(){
     var latTxt = Math.abs(LAT).toFixed(1) + "°" + (LAT >= 0 ? "N" : "S");
     var lngTxt = Math.abs(LNG).toFixed(1) + "°" + (LNG >= 0 ? "E" : "W");
-    $("#place").textContent = CITY.name + " · " + latTxt + " " + lngTxt + " · computed in your browser";
+    $("#place").textContent = NOMINAL
+      ? CITY.name + " · a nominal point at " + latTxt + " " + lngTxt + " · pick a city for exact times"
+      : CITY.name + " · " + latTxt + " " + lngTxt + " · computed in your browser";
     var links = document.querySelectorAll("#cities a");
     for(var i = 0; i < links.length; i++){
       if(links[i].getAttribute("data-city") === cityKey) links[i].classList.add("now");
     }
-    if(cityKey !== "istanbul"){
+    if(NOMINAL){
+      document.title = "Twilight—Sunrise, Sunset & Civil Twilight Today · On Life & Everything";
+    }else if(cityKey !== "istanbul"){
       document.title = CITY.name + " Twilight—Sunrise, Sunset & Civil Twilight Today · On Life & Everything";
     }
   })();
