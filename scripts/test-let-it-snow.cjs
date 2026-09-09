@@ -20,7 +20,7 @@ function check(reduced,width){
   const html='<main id="main"></main>'+fs.readFileSync(path.join(root,'_includes/footer.html'),'utf8').replace(/\{%[\s\S]*?%\}/g,'');
   const dom=new JSDOM(html,{runScripts:'outside-only',pretendToBeVisual:true});
   const w=dom.window;
-  const frames=new Map(),timers=new Map();let id=0,arcs=0,observing=0,strokes=0,ripples=0;
+  const frames=new Map(),timers=new Map();let id=0,arcs=0,observing=0,strokes=0,ripples=0,bankTop=800;
   w.innerWidth=width;w.innerHeight=800;w.devicePixelRatio=3;
   w.matchMedia=()=>({matches:reduced});
   w.requestAnimationFrame=fn=>{frames.set(++id,fn);return id;};
@@ -32,7 +32,7 @@ function check(reduced,width){
     if(this.tagName==='FOOTER')return {left:0,right:width,top:560,bottom:800,width,height:240};
     return {left:width*.25,right:width*.75,top:630,bottom:660,width:width*.5,height:30};
   };
-  const ctx={setTransform(){},clearRect(){},drawImage(){},beginPath(){},moveTo(){},lineTo(){},closePath(){},fill(){},stroke(){strokes++;},save(){},restore(){},fillRect(){},arc(){arcs++;},ellipse(){ripples++;},createLinearGradient(){return {addColorStop(){}};}};
+  const ctx={setTransform(){},clearRect(){},drawImage(){},beginPath(){},moveTo(){},lineTo(){},closePath(){},fill(){},stroke(){strokes++;},save(){},restore(){},fillRect(){},arc(){arcs++;},ellipse(){ripples++;},createLinearGradient(x,y){bankTop=y;return {addColorStop(){}};}};
   w.HTMLCanvasElement.prototype.getContext=()=>ctx;
   w.eval(fs.readFileSync(path.join(root,'js/let-it-snow.js'),'utf8'));
   const button=w.document.getElementById('let-it-snow');
@@ -53,6 +53,18 @@ function check(reduced,width){
   w.document.dispatchEvent(new w.Event('visibilitychange'));assert.equal(frames.size,1);
   const touch=new w.MouseEvent('pointerdown',{bubbles:true,cancelable:true,clientX:width*.5,clientY:795});
   w.document.body.dispatchEvent(touch);assert.equal(touch.defaultPrevented,false);
+  paint(40500);const lightTop=bankTop;
+  button.click();assert.equal(button.dataset.weatherLevel,'2');assert.match(button.title,/Heavy snow/);
+  assert.equal(frames.size,1);assert.equal(timers.size,0);
+  assert.equal(w.document.querySelector('canvas'),canvas);
+  const lightArcs=arcs;paint(41000);
+  assert(arcs-lightArcs>particleCount);assert(arcs-lightArcs<=360);
+  assert(bankTop<=lightTop); // Escalation preserves the existing snow bank.
+  for(let i=1;i<=900;i++){paint(41000+i*80);assert.equal(frames.size,1);}
+  assert(bankTop>=400 && bankTop<410); // Heavy snow settles at half the viewport.
+  w.innerHeight=600;w.dispatchEvent(new w.Event('resize'));paint(114000);
+  assert(bankTop>=500); // A smaller viewport immediately lowers the cap.
+  w.innerHeight=800;w.dispatchEvent(new w.Event('resize'));
   button.click();assert.equal(frames.size,0);assert.equal(observing,0);
   assert.equal(button.getAttribute('aria-pressed'),'false');assert.equal(timers.size,1);
   button.click();assert.equal(frames.size,1);assert.equal(timers.size,0);
@@ -67,15 +79,23 @@ function check(reduced,width){
     assert.equal(frames.size,1);assert(ripples-previousRipples<=24);assert(strokes-oldStrokes<=134);
   }
   assert(strokes>previousStrokes);assert.equal(arcs,previousArcs);
+  rainButton.click();assert.equal(rainButton.dataset.weatherLevel,'2');assert.match(rainButton.title,/Heavy rain/);
+  assert.equal(frames.size,1);assert.equal(timers.size,0);
+  const lightStrokes=strokes;paint(115000);
+  assert(strokes-lightStrokes>particleCount*2);assert(strokes-lightStrokes<=1020);
+  for(let i=1;i<300;i++){
+    const previousRipples=ripples,oldStrokes=strokes;paint(115000+i*80);
+    assert.equal(frames.size,1);assert(ripples-previousRipples<=60);assert(strokes-oldStrokes<=1020);
+  }
   rainButton.click();assert.equal(frames.size,0);assert.equal(rainButton.getAttribute('aria-pressed'),'false');
   // A restart during the fade cannot leave a stale canvas, listener or timer.
   rainButton.click();button.click();
   assert.equal(frames.size,1);assert.equal(timers.size,0);assert.equal(w.document.querySelectorAll('canvas').length,1);
   assert.equal(button.getAttribute('aria-pressed'),'true');assert.equal(rainButton.getAttribute('aria-pressed'),'false');
-  button.click();for(const callback of timers.values())callback();timers.clear();
+  button.click();button.click();for(const callback of timers.values())callback();timers.clear();
   assert.equal(w.document.querySelectorAll('canvas').length,0);
   assert.equal(frames.size,0);assert.equal(observing,0);
   dom.window.close();
 }
 check(false,1440);check(false,390);check(true,390);
-console.log('Weather checks passed: snow limits, brushing, rain/splash limits, exclusive switching, mobile bounds, reduced motion and cleanup.');
+console.log('Weather checks passed: three-stage cycles, preserved snow, half-screen cap and resize, rain/splash limits, exclusive switching, mobile bounds, reduced motion and cleanup.');
