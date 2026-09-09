@@ -197,6 +197,38 @@ function fresh(body){
   assert.equal(btn.textContent,'puzzle mode','The label is never overwritten with an error');
   page.window.close();
 }
+// Hiding the instructions shrinks the panel; it does not take it away, and
+// the choice of unit is still there to be used.
+{
+  const page=fresh('<button id="essay-puzzle" hidden>puzzle mode</button><article class="essay-body"><p>First one. Second one.</p></article>');
+  const doc=page.window.document;
+  doc.getElementById('essay-puzzle').click();
+  const shelf=doc.querySelector('.puzzle-panel');
+  const hide=[...shelf.querySelectorAll('.puzzle-action')].find(b=>b.textContent==='Hide instructions');
+  assert.equal(shelf.classList.contains('puzzle-collapsed'),false);
+  hide.click();
+  assert.equal(shelf.hidden,false,'the panel stays on the page');
+  assert.equal(shelf.classList.contains('puzzle-collapsed'),true,'shrunk, not gone');
+  assert.equal(shelf.querySelectorAll('[data-puzzle-unit]').length,2,'and still carries both units');
+  // Switching unit from the shrunken panel works exactly as before.
+  shelf.querySelector('[data-puzzle-unit="words"]').click();
+  assert.equal(shelf.querySelector('[data-puzzle-unit="words"]').getAttribute('aria-pressed'),'true');
+  assert.equal(doc.querySelectorAll('.puzzle-piece-preview').length,4,'the paragraph is cut by word now');
+  assert.equal(shelf.classList.contains('puzzle-collapsed'),true,'and the panel stays shrunk');
+  // A click on the shrunken panel's own background does not re-expand it.
+  shelf.dispatchEvent(new page.window.MouseEvent('click',{bubbles:true}));
+  assert.equal(shelf.classList.contains('puzzle-collapsed'),true);
+  // The instructions can be asked for again.
+  const show=shelf.querySelector('.puzzle-expand');
+  assert(show,'a way back to the instructions');
+  show.click();
+  assert.equal(shelf.classList.contains('puzzle-collapsed'),false);
+  assert.match(shelf.querySelector('.puzzle-instructions').textContent,/Choose a paragraph to scatter its words/);
+  // Leaving still restores the essay exactly.
+  doc.getElementById('essay-puzzle').click();
+  assert.equal(doc.querySelector('.essay-body').innerHTML,'<p>First one. Second one.</p>');
+  page.window.close();
+}
 // Switching unit redraws the boxed paragraphs, renumbers what is on offer,
 // and never touches a board the reader is working in.
 {
@@ -241,4 +273,4 @@ function fresh(body){
   page.window.close();
 }
 
-console.log('Puzzle mode checks passed: sentences and words, unit switching that spares an open board, one paragraph at a time, per-board exit, Escape ladder, keyboard opening, tap/drag/swap/return, board isolation, comparison, eligibility and exact restoration.');
+console.log('Puzzle mode checks passed: sentences and words, a panel that shrinks instead of vanishing, unit switching that spares an open board, one paragraph at a time, per-board exit, Escape ladder, keyboard opening, tap/drag/swap/return, board isolation, comparison, eligibility and exact restoration.');

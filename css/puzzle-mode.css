@@ -15,6 +15,20 @@
 .puzzle-unit:hover{color:var(--petrol);}
 .puzzle-unit[aria-pressed="true"]{border-color:var(--petrol);color:var(--petrol);}
 .puzzle-unit:focus-visible{outline:2px solid var(--petrol);outline-offset:2px;}
+/* Hidden instructions leave the panel behind, shrunk to the choice of unit
+   and pulled over to the left, so switching between sentences and words is
+   still one click away. It keeps its place in the flow and its stickiness;
+   only its bulk goes. */
+.puzzle-panel.puzzle-collapsed{width:fit-content;max-width:100%;margin-right:auto;margin-bottom:20px;padding:5px 10px;cursor:default;opacity:.72;transition:opacity .2s ease;}
+.puzzle-panel.puzzle-collapsed:hover,.puzzle-panel.puzzle-collapsed:focus-within{opacity:1;}
+.puzzle-collapsed .puzzle-panel-actions,.puzzle-collapsed .puzzle-instructions{display:none;}
+.puzzle-collapsed .puzzle-unit-choice{margin-bottom:0;}
+/* The way back to the instructions, offered only once they are hidden. */
+.puzzle-expand{display:none;font:italic .85rem/1.2 'EB Garamond',Georgia,serif;min-height:32px;padding:2px 6px;margin-left:2px;border:0;border-radius:4px;background:transparent;color:var(--vizon);cursor:pointer;}
+.puzzle-collapsed .puzzle-expand{display:inline-block;}
+.puzzle-expand:hover{color:var(--petrol);}
+.puzzle-expand:focus-visible{outline:2px solid var(--petrol);outline-offset:2px;color:var(--petrol);}
+@media(prefers-reduced-motion:reduce){.puzzle-panel.puzzle-collapsed{transition:none;}}
 .puzzle-action:focus-visible,.puzzle-piece:focus-visible,.puzzle-slot:focus-visible{outline:2px solid var(--petrol);outline-offset:3px;}
 /* A boxed piece in the preview. Cloning the decoration keeps the border whole
    on every line a long sentence wraps onto; a word never wraps. */
