@@ -12,6 +12,18 @@ body.reading-pdf #typeRow{display:none;}
 .pdf-scroll{width:100%;overflow:auto;overscroll-behavior-x:contain;padding-bottom:12px;}
 .pdf-page{position:relative;margin:0 auto;background:white;color:black;box-shadow:0 1px 8px #0002;--scale-round-x:1px;--scale-round-y:1px;}
 .pdf-page canvas{display:block;}
+/* Like the hero's arrows: only present visually while being used.
+   Hidden arrows never intercept a click, drag, or text selection. */
+.pdf-side-nav{position:fixed;inset:0;pointer-events:none;z-index:2;}
+.pdf-side-nav[hidden]{display:none;}
+.pdf-side-arrow{position:absolute;top:var(--pdf-nav-y,50%);width:44px;height:44px;display:grid;place-items:center;border:1px solid var(--line);border-radius:50%;background:var(--paper);color:var(--muted);font-family:var(--display);font-size:1.7rem;line-height:1;cursor:pointer;opacity:0;pointer-events:none;transform:translateY(-50%);transition:opacity .2s ease,color .2s ease;box-shadow:0 1px 5px #0001;touch-action:manipulation;}
+.pdf-side-prev{left:var(--pdf-nav-left,4px);}
+.pdf-side-next{right:var(--pdf-nav-right,4px);}
+.pdf-nav-visible .pdf-side-arrow,.pdf-side-arrow:focus-visible{opacity:.85;pointer-events:auto;}
+.pdf-nav-visible .pdf-side-arrow:disabled{opacity:.25;cursor:default;}
+.pdf-side-arrow:hover,.pdf-side-arrow:focus-visible{color:var(--ink);opacity:1;}
+.pdf-side-arrow:focus-visible{outline:2px solid var(--ink);outline-offset:3px;}
+@media(prefers-reduced-motion:reduce){.pdf-side-arrow{transition:none;}}
 /* Text-layer geometry from Mozilla PDF.js 6.3.289, Apache-2.0.
    Keep in sync with the pinned distribution in scripts/vendor_pdfjs.py. */
 .pdf-page .textLayer{color-scheme:only light;position:absolute;text-align:initial;inset:0;overflow:clip;line-height:1;letter-spacing:normal;word-spacing:normal;text-size-adjust:none;-webkit-text-size-adjust:none;forced-color-adjust:none;transform-origin:0 0;z-index:0;--min-font-size:1;--text-scale-factor:calc(var(--total-scale-factor) * var(--min-font-size));--min-font-size-inv:calc(1 / var(--min-font-size));}

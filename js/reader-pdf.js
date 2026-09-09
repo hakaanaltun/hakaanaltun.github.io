@@ -57,6 +57,76 @@
     var pageInput = wrap.querySelector('[data-pdf="page"]'), zoomInput = wrap.querySelector('[data-pdf="zoom"]');
     var status = wrap.querySelector(".pdf-status"), scroller = wrap.querySelector(".pdf-scroll");
     var surface = wrap.querySelector(".pdf-page");
+    var sideNav = document.createElement("div");
+    sideNav.className = "pdf-side-nav";
+    sideNav.setAttribute("role", "group");
+    sideNav.setAttribute("aria-label", "Turn PDF pages");
+    sideNav.innerHTML = '<button type="button" class="pdf-side-arrow pdf-side-prev" aria-label="Previous PDF page">←</button>' +
+      '<button type="button" class="pdf-side-arrow pdf-side-next" aria-label="Next PDF page">→</button>';
+    wrap.appendChild(sideNav);
+    var sidePrev = sideNav.querySelector(".pdf-side-prev"), sideNext = sideNav.querySelector(".pdf-side-next");
+    var navTimer, navFrame = 0, navBounds;
+    function hideSideNav(){
+      clearTimeout(navTimer);
+      sideNav.classList.remove("pdf-nav-visible");
+    }
+    function placeSideNav(){
+      navFrame = 0;
+      if(dead) return;
+      var rect = scroller.getBoundingClientRect();
+      var toolbar = wrap.querySelector(".pdf-toolbar").getBoundingClientRect();
+      var top = Math.max(0, rect.top, toolbar.bottom + 8);
+      var bottom = Math.min(window.innerHeight, rect.bottom);
+      navBounds = {left:rect.left, right:rect.right, top:top, bottom:bottom};
+      sideNav.hidden = bottom - top < 88 || rect.width <= 0;
+      if(sideNav.hidden){ hideSideNav(); return; }
+      sideNav.style.setProperty("--pdf-nav-y", ((top + bottom) / 2) + "px");
+      sideNav.style.setProperty("--pdf-nav-left", Math.max(4, rect.left - 52) + "px");
+      sideNav.style.setProperty("--pdf-nav-right", Math.max(4, window.innerWidth - rect.right - 52) + "px");
+    }
+    function scheduleSideNav(){
+      if(!navFrame) navFrame = requestAnimationFrame(placeSideNav);
+    }
+    function showSideNav(){
+      placeSideNav();
+      if(sideNav.hidden) return;
+      sideNav.classList.add("pdf-nav-visible");
+      clearTimeout(navTimer);
+      navTimer = setTimeout(hideSideNav, 2200);
+    }
+    function nearSide(event){
+      if(!navBounds || sideNav.hidden || event.clientY < navBounds.top || event.clientY > navBounds.bottom) return false;
+      return (event.clientX >= Math.max(0, navBounds.left - 64) && event.clientX <= navBounds.left + 40) ||
+        (event.clientX >= navBounds.right - 40 && event.clientX <= Math.min(window.innerWidth, navBounds.right + 64));
+    }
+    function moveNearSide(event){
+      if(event.pointerType && event.pointerType !== "mouse") return;
+      // Do not put controls over an active text selection or drag.
+      if(event.buttons || event.target.closest("button, input, select, a, .shelf")) return;
+      if(nearSide(event)) showSideNav();
+    }
+    function tapSide(event){
+      if(sideNav.contains(event.target)) return;
+      if(event.target.closest("button, input, select, a, .shelf")){ hideSideNav(); return; }
+      var selection = window.getSelection();
+      if(selection && !selection.isCollapsed){ hideSideNav(); return; }
+      if(nearSide(event)) showSideNav();
+      else hideSideNav();
+    }
+    function navKey(event){
+      if(event.key !== "Escape") return;
+      hideSideNav();
+      if(sideNav.contains(document.activeElement)) scroller.focus({preventScroll:true});
+    }
+    sidePrev.addEventListener("click", function(event){ event.stopPropagation(); go(pageNumber - 1); showSideNav(); });
+    sideNext.addEventListener("click", function(event){ event.stopPropagation(); go(pageNumber + 1); showSideNav(); });
+    sideNav.addEventListener("focusin", showSideNav);
+    sideNav.addEventListener("pointermove", function(event){ if(event.pointerType === "mouse") showSideNav(); });
+    document.addEventListener("pointermove", moveNearSide, {passive:true});
+    document.addEventListener("click", tapSide);
+    document.addEventListener("keydown", navKey);
+    window.addEventListener("scroll", scheduleSideNav, {passive:true});
+    window.addEventListener("resize", scheduleSideNav, {passive:true});
     pageInput.max = String(doc.numPages);
     wrap.querySelector('[data-pdf="total"]').textContent = "of " + doc.numPages;
     function cancel(){
@@ -68,6 +138,7 @@
       cancel();
       pageInput.value = pageNumber;
       prev.disabled = pageNumber <= 1; next.disabled = pageNumber >= doc.numPages;
+      sidePrev.disabled = prev.disabled; sideNext.disabled = next.disabled;
       status.textContent = "Loading page " + pageNumber + "…";
       surface.setAttribute("aria-busy", "true");
       surface.replaceChildren();
@@ -89,6 +160,7 @@
         canvas.height = Math.max(1, Math.floor(viewport.height * density));
         canvas.style.width = viewport.width + "px"; canvas.style.height = viewport.height + "px";
         surface.style.width = viewport.width + "px"; surface.style.height = viewport.height + "px";
+        scheduleSideNav();
         surface.style.setProperty("--total-scale-factor", scale * (page.userUnit || 1));
         surface.style.setProperty("--scale-factor", scale);
         surface.setAttribute("role", "group");
@@ -141,12 +213,19 @@
       resizeTimer = setTimeout(function(){ if(!dead && zoom === "fit") draw(); }, 120);
     });
     observer.observe(scroller);
+    placeSideNav();
     draw();
     return {
       page:function(){ return pageNumber; },
       progress:function(){ return doc.numPages === 1 ? 1 : (pageNumber - 1) / (doc.numPages - 1); },
       destroy:function(){
         dead = true; generation++; cancel(); observer.disconnect(); clearTimeout(resizeTimer);
+        hideSideNav(); cancelAnimationFrame(navFrame);
+        document.removeEventListener("pointermove", moveNearSide);
+        document.removeEventListener("click", tapSide);
+        document.removeEventListener("keydown", navKey);
+        window.removeEventListener("scroll", scheduleSideNav);
+        window.removeEventListener("resize", scheduleSideNav);
         wrap.remove(); prepared.task.destroy().catch(function(){});
       }
     };

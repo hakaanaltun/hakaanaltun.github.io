@@ -12,6 +12,12 @@ function setup(){
   w.scrollTo = () => {};
   w.HTMLElement.prototype.scrollIntoView = () => {};
   w.HTMLCanvasElement.prototype.getContext = () => ({});
+  const defaultRect = w.HTMLElement.prototype.getBoundingClientRect;
+  w.HTMLElement.prototype.getBoundingClientRect = function(){
+    if(this.classList.contains('pdf-scroll')) return {left:180,right:844,top:160,bottom:900,width:664,height:740};
+    if(this.classList.contains('pdf-toolbar')) return {left:180,right:844,top:100,bottom:150,width:664,height:50};
+    return defaultRect.call(this);
+  };
   w.TextDecoder = TextDecoder;
   Object.defineProperty(w.HTMLElement.prototype,'clientWidth',{get(){return 360;}});
   w.eval(fs.readFileSync(path.join(root,'js/reader-pdf.js'),'utf8'));
@@ -35,9 +41,31 @@ async function main(){
   assert.equal(viewer.page(),4);
   assert.equal(w.document.querySelector('[data-pdf="next"]').disabled,true);
   assert.equal(saved,1);
+  const sideNav=w.document.querySelector('.pdf-side-nav');
+  const sidePrev=w.document.querySelector('.pdf-side-prev');
+  const sideNext=w.document.querySelector('.pdf-side-next');
+  assert.equal(sideNext.disabled,true);
+  assert.equal(sideNav.classList.contains('pdf-nav-visible'),false);
+  w.document.body.dispatchEvent(new w.MouseEvent('pointermove',{bubbles:true,clientX:190,clientY:300}));
+  assert(sideNav.classList.contains('pdf-nav-visible'));
+  w.document.body.dispatchEvent(new w.MouseEvent('click',{bubbles:true,clientX:500,clientY:950}));
+  assert.equal(sideNav.classList.contains('pdf-nav-visible'),false);
+  // A first edge tap reveals the arrows without turning the page.
+  w.document.body.dispatchEvent(new w.MouseEvent('click',{bubbles:true,clientX:190,clientY:300}));
+  assert(sideNav.classList.contains('pdf-nav-visible'));
+  assert.equal(viewer.page(),4);
+  sidePrev.click();await tick();assert.equal(viewer.page(),3);
+  assert(sideNav.classList.contains('pdf-nav-visible'));
+  await new Promise(resolve=>setTimeout(resolve,2250));
+  assert.equal(sideNav.classList.contains('pdf-nav-visible'),false);
+  sidePrev.focus();assert(sideNav.classList.contains('pdf-nav-visible'));
+  sidePrev.dispatchEvent(new w.KeyboardEvent('keydown',{key:'Escape',bubbles:true}));
+  assert.equal(w.document.activeElement,w.document.querySelector('.pdf-scroll'));
+  assert.equal(sideNav.classList.contains('pdf-nav-visible'),false);
   const input = w.document.querySelector('[data-pdf="page"]');
   input.value='-20';input.dispatchEvent(new w.Event('change'));
   await tick();assert.equal(viewer.page(),1);
+  assert.equal(sidePrev.disabled,true);
   input.value='';input.dispatchEvent(new w.Event('change'));
   assert.equal(viewer.page(),1);
   const zoom = w.document.querySelector('[data-pdf="zoom"]');
@@ -47,6 +75,8 @@ async function main(){
   assert.equal(w.document.querySelectorAll('canvas').length,1);
   assert.equal(w.document.querySelector('canvas').style.width,'1800px');
   viewer.destroy();assert.equal(destroyed,1);assert.equal(w.document.querySelectorAll('canvas').length,0);
+  assert.equal(w.document.querySelector('.pdf-side-nav'),null);
+  w.document.body.dispatchEvent(new w.MouseEvent('pointermove',{bubbles:true,clientX:190,clientY:300}));
   dom.window.close();
 
   const second = setup(), v = second.window;
@@ -80,6 +110,6 @@ async function main(){
   assert.equal(v.document.querySelector('#reading p').textContent,'A readable paragraph.');
   assert(clearCount>=2);
   second.window.close();
-  console.log('PDF controls, bounded rendering, bookmarks, errors and PDF → TXT race: passed');
+  console.log('PDF controls, side arrows, reveal/hide timer, keyboard, rendering, bookmarks and PDF → TXT race: passed');
 }
 main().catch(e=>{console.error(e);process.exitCode=1;});
