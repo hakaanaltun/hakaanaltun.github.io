@@ -1,0 +1,66 @@
+.essay-puzzle-toggle{margin-left:12px;}
+.puzzle-active{scroll-margin-top:8px;}
+.puzzle-panel[hidden]{display:none;}
+.puzzle-panel{cursor:pointer;}
+.puzzle-panel{position:sticky;top:calc(var(--head-band,150px) + 8px);z-index:12;background:var(--paper);border:1px solid var(--rule);padding:12px 16px;margin:0 0 28px;border-radius:8px;scroll-margin-top:8px;}
+.puzzle-panel-actions,.puzzle-board-actions{display:flex;align-items:center;flex-wrap:wrap;gap:10px 16px;}
+.essay-body .puzzle-instructions{font-size:.95rem;line-height:1.5;color:var(--ink-soft);margin:8px 0 0;}
+.puzzle-action{font:italic 1rem/1.4 'EB Garamond',Georgia,serif;min-height:40px;padding:5px 10px;border:1px solid var(--rule);border-radius:6px;background:transparent;color:var(--ink);cursor:pointer;}
+.puzzle-action:disabled{opacity:.45;cursor:default;}
+.puzzle-action[hidden],.puzzle-comparison[hidden],.puzzle-piece[hidden]{display:none;}
+/* The choice of unit, quieter than the actions beneath it. */
+.puzzle-unit-choice{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin-bottom:10px;}
+.puzzle-unit-label{font:italic .9rem/1.4 'EB Garamond',Georgia,serif;color:var(--vizon);margin-right:2px;}
+.puzzle-unit{font:italic .95rem/1.3 'EB Garamond',Georgia,serif;min-height:36px;padding:4px 10px;border:1px solid transparent;border-radius:999px;background:transparent;color:var(--ink-soft);cursor:pointer;}
+.puzzle-unit:hover{color:var(--petrol);}
+.puzzle-unit[aria-pressed="true"]{border-color:var(--petrol);color:var(--petrol);}
+.puzzle-unit:focus-visible{outline:2px solid var(--petrol);outline-offset:2px;}
+.puzzle-action:focus-visible,.puzzle-piece:focus-visible,.puzzle-slot:focus-visible{outline:2px solid var(--petrol);outline-offset:3px;}
+/* A boxed piece in the preview. Cloning the decoration keeps the border whole
+   on every line a long sentence wraps onto; a word never wraps. */
+.puzzle-piece-preview{border:1px solid var(--rule);border-radius:5px;padding:1px 5px;-webkit-box-decoration-break:clone;box-decoration-break:clone;}
+.puzzle-by-words .puzzle-piece-preview{display:inline-block;margin:2px 0;}
+/* A paragraph waiting to be chosen. The halo is drawn with a spread shadow
+   rather than padding so nothing on the page shifts on hover. */
+.puzzle-preview{cursor:pointer;border-radius:6px;transition:background-color .2s ease,box-shadow .2s ease;}
+.puzzle-preview:hover,.puzzle-preview:has(.puzzle-scatter-cue:focus-visible){background:color-mix(in srgb,var(--petrol) 8%,transparent);box-shadow:0 0 0 7px color-mix(in srgb,var(--petrol) 8%,transparent);}
+/* The paragraph's one control, in the same quiet voice as "read with rain". */
+.puzzle-scatter-cue{font:italic .85rem/1.2 'EB Garamond',Georgia,serif;letter-spacing:.03em;vertical-align:baseline;padding:2px 6px;border:0;border-radius:4px;background:transparent;color:var(--vizon);cursor:pointer;white-space:nowrap;}
+.puzzle-scatter-cue:hover{color:var(--petrol);}
+.puzzle-scatter-cue:focus-visible{outline:2px solid var(--petrol);outline-offset:2px;color:var(--petrol);}
+.puzzle-board{margin:0 0 32px;padding:20px 0;border-bottom:1px solid var(--rule);font-size:1.05rem;line-height:1.6;scroll-margin-top:160px;}
+.puzzle-paragraph-label{font-size:.875rem;letter-spacing:.03em;color:var(--vizon);margin-bottom:12px;}
+.puzzle-slots{margin-bottom:16px;}
+.puzzle-bank{border:1px dashed var(--rule);border-radius:8px;margin-bottom:14px;}
+.puzzle-piece,.puzzle-slot{font:inherit;padding:10px 12px;border:1px solid var(--rule);border-radius:6px;background:var(--paper);color:var(--ink);cursor:pointer;}
+.puzzle-piece{animation:puzzle-scatter .35s ease-out;}
+.puzzle-slot{border-style:dashed;}
+.puzzle-slot.puzzle-filled{border-style:solid;}
+
+/* Sentences are prose, not chips: they stack, they read left to right, and
+   they keep the column's measure, each against a numbered position. */
+.puzzle-by-sentences .puzzle-slots,.puzzle-by-sentences .puzzle-bank{display:flex;flex-direction:column;gap:8px;}
+.puzzle-by-sentences .puzzle-bank{padding:12px;}
+.puzzle-by-sentences .puzzle-piece,.puzzle-by-sentences .puzzle-slot{display:block;width:100%;text-align:left;min-height:48px;overflow-wrap:break-word;}
+.puzzle-by-sentences .puzzle-slot{display:grid;grid-template-columns:1.6em 1fr;align-items:start;gap:10px;}
+.puzzle-slot-number{color:var(--vizon);font-size:.9rem;line-height:1.75;font-variant-numeric:tabular-nums;}
+
+/* Words are tiles: they wrap, they sit in a field, and a light tilt keeps
+   the field from reading as a form. */
+.puzzle-by-words .puzzle-slots,.puzzle-by-words .puzzle-bank{display:flex;align-items:flex-start;flex-wrap:wrap;gap:8px;}
+.puzzle-by-words .puzzle-bank{padding:16px 12px;min-height:58px;}
+.puzzle-by-words .puzzle-piece,.puzzle-by-words .puzzle-slot{line-height:1.35;min-height:40px;max-width:100%;overflow-wrap:anywhere;padding:6px 9px;border-radius:5px;user-select:none;-webkit-user-select:none;}
+.puzzle-by-words .puzzle-piece{transform:rotate(var(--puzzle-tilt,0deg));}
+.puzzle-by-words .puzzle-slot{min-width:min(var(--puzzle-space,3em),100%);}
+.puzzle-by-words .puzzle-piece[aria-pressed="true"]{transform:translateY(-3px);}
+.puzzle-has-selection .puzzle-slot:hover,.puzzle-piece[aria-pressed="true"]{border-color:var(--petrol);box-shadow:0 0 0 1px var(--petrol);}
+.puzzle-slot.puzzle-different{border-style:dotted;border-color:var(--vizon);}
+.puzzle-status{font-size:.875rem;color:var(--ink-soft);}
+.puzzle-comparison{margin-top:18px;padding:16px;border-left:2px solid var(--rule);}
+.essay-body .puzzle-comparison-label{font:italic 1rem/1.4 'EB Garamond',Georgia,serif;text-align:left;padding:0;margin:0 0 8px;color:var(--vizon);}
+.essay-body .puzzle-version{font-size:1.1rem;line-height:1.7;margin:0 0 16px;white-space:pre-line;}
+.essay-body .puzzle-comparison-note{font-size:.95rem;line-height:1.5;margin:0;color:var(--ink-soft);}
+@keyframes puzzle-scatter{from{opacity:.15;transform:translateY(-8px);}to{opacity:1;}}
+@media(max-width:600px){.puzzle-panel{padding:10px 12px;}.puzzle-board{font-size:1rem;}.puzzle-by-sentences .puzzle-bank{padding:10px;}.puzzle-panel-actions{gap:6px;}.puzzle-by-sentences .puzzle-slot{grid-template-columns:1.4em 1fr;gap:8px;}.puzzle-by-words .puzzle-piece,.puzzle-by-words .puzzle-slot{min-height:44px;}}
+@media(max-height:500px){.puzzle-panel{position:static;}}
+@media(prefers-reduced-motion:reduce){.puzzle-piece{animation:none;}.puzzle-preview{transition:none;}}

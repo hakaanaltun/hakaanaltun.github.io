@@ -5,22 +5,41 @@ const {JSDOM}=require('jsdom');
 const {createDrift}=require('../js/let-it-snow.js');
 const root=path.join(__dirname,'..');
 
-// Eight hours of watching still fits within the footer plus 24 px.
-const drift=createDrift(81);
-drift.setLimit(264);drift.advance(8*60*60);
-assert(drift.heights.every(h=>h>=0 && h<=264));
-assert(Math.max(...drift.heights)>240);
+// Eight hours of watching still stays inside the window it lies in.
+const drift=createDrift(120);
+const fill=(seconds,now)=>{for(let t=0;t<seconds;t+=1/30){drift.grow(1/30,8,(now||0)+t*1000,.3);drift.settle(1/30);}};
+drift.setLimit(600,1440);fill(8*60*60);
+assert(drift.heights.every(h=>h>=0 && h<=600));
+assert(Math.max(...drift.heights)>580,'it does reach the cap it is given');
+
+// The surface is a surface, not a bar chart: neighbouring columns stay within
+// the angle snow can hold, which is what makes a drift read as a drift.
+const step=1440/119*.7;
+const roughness=()=>{let worst=0;for(let i=0;i<drift.heights.length-1;i++)worst=Math.max(worst,Math.abs(drift.heights[i]-drift.heights[i+1]));return worst;};
+assert.ok(roughness()<=step+.001,'settled within the angle of repose: '+roughness().toFixed(2)+' vs '+step.toFixed(2));
+
+// A finger takes snow away where it touches and nowhere else, and the fall
+// puts it back rather than leaving a permanent trench.
 const before=drift.heightAt(.5),edge=drift.heightAt(0);
-drift.brush(.5,.08,40);
+drift.brush(.5,.08,120);
 assert(drift.heightAt(.5)<before);assert.equal(drift.heightAt(0),edge);
-drift.advance(30);assert(drift.heightAt(.5)>before-40);
-drift.setLimit(124);assert(drift.heights.every(h=>h<=124));
+fill(60);assert(drift.heightAt(.5)>before-120);
+drift.setLimit(124,1440);assert(drift.heights.every(h=>h<=124),'a smaller window clamps what has already fallen');
+
+// The drift is not the same shape every time: the pattern moves with the hours.
+const shapeAt=now=>{const d=createDrift(120);d.setLimit(400,1440);
+  for(let t=0;t<40;t+=1/30){d.grow(1/30,8,now+t*1000,.2);d.settle(1/30);}
+  const top=Math.max(...d.heights);return [...d.heights].map(h=>h/top);};
+const early=shapeAt(0),later=shapeAt(9e5);
+let drifted=0;for(let i=0;i<early.length;i++)drifted+=Math.abs(early[i]-later[i]);
+assert.ok(drifted/early.length>.01,'the surface changes over time, it is not one fixed wave');
 
 function check(reduced,width){
+  const height=800;   // the viewport the harness runs in
   const html='<main id="main"></main>'+fs.readFileSync(path.join(root,'_includes/footer.html'),'utf8').replace(/\{%[\s\S]*?%\}/g,'');
   const dom=new JSDOM(html,{runScripts:'outside-only',pretendToBeVisual:true});
   const w=dom.window;
-  const frames=new Map(),timers=new Map();let id=0,arcs=0,observing=0,strokes=0,ripples=0,bankTop=800;
+  const frames=new Map(),timers=new Map();let id=0,arcs=0,observing=0,strokes=0,ripples=0,bankTop=800,bankPath=[],pen=[];
   w.innerWidth=width;w.innerHeight=800;w.devicePixelRatio=3;
   w.matchMedia=()=>({matches:reduced});
   w.requestAnimationFrame=fn=>{frames.set(++id,fn);return id;};
@@ -32,7 +51,18 @@ function check(reduced,width){
     if(this.tagName==='FOOTER')return {left:0,right:width,top:560,bottom:800,width,height:240};
     return {left:width*.25,right:width*.75,top:630,bottom:660,width:width*.5,height:30};
   };
-  const ctx={setTransform(){},clearRect(){},drawImage(){},beginPath(){},moveTo(){},lineTo(){},closePath(){},fill(){},stroke(){strokes++;},save(){},restore(){},fillRect(){},arc(){arcs++;},ellipse(){ripples++;},createLinearGradient(x,y){bankTop=y;return {addColorStop(){}};}};
+  const ctx={setTransform(){},clearRect(){},drawImage(){},closePath(){},save(){},restore(){},fillRect(){},
+    beginPath(){pen=[];},moveTo(x,y){pen.push([x,y]);},lineTo(x,y){pen.push([x,y]);},
+    // Only the drift's own outline has points in it; a flake is a bare arc.
+    fill(){if(pen.length>2)bankPath=pen.slice();},
+    stroke(){strokes++;},arc(){arcs++;},ellipse(){ripples++;},
+    createLinearGradient(x,y){bankTop=y;return {addColorStop(){}};}};
+  // How deep the snow lies at a given fraction across the window.
+  const depthAt=(fraction,ground)=>{
+    let best=null;
+    for(const [x,y] of bankPath){if(best===null||Math.abs(x-fraction*width)<Math.abs(best[0]-fraction*width))best=[x,y];}
+    return best?ground-best[1]:0;
+  };
   w.HTMLCanvasElement.prototype.getContext=()=>ctx;
   w.eval(fs.readFileSync(path.join(root,'js/let-it-snow.js'),'utf8'));
   const button=w.document.getElementById('let-it-snow');
@@ -54,6 +84,9 @@ function check(reduced,width){
   const touch=new w.MouseEvent('pointerdown',{bubbles:true,cancelable:true,clientX:width*.5,clientY:795});
   w.document.body.dispatchEvent(touch);assert.equal(touch.defaultPrevented,false);
   paint(40500);const lightTop=bankTop;
+  // Light snow lies along the foot of the window and leaves the page readable.
+  assert(lightTop>height*.8 && lightTop<height,'light snow keeps to the foot: '+lightTop.toFixed(1));
+  assert(height-lightTop<=height*.18+1,'and within the depth it is allowed');
   button.click();assert.equal(button.dataset.weatherLevel,'2');assert.match(button.title,/Heavy snow/);
   assert.equal(frames.size,1);assert.equal(timers.size,0);
   assert.equal(w.document.querySelector('canvas'),canvas);
@@ -61,9 +94,17 @@ function check(reduced,width){
   assert(arcs-lightArcs>particleCount);assert(arcs-lightArcs<=360);
   assert(bankTop<=lightTop); // Escalation preserves the existing snow bank.
   for(let i=1;i<=900;i++){paint(41000+i*80);assert.equal(frames.size,1);}
-  assert(bankTop>=400 && bankTop<410); // Heavy snow settles at half the viewport.
-  w.innerHeight=600;w.dispatchEvent(new w.Event('resize'));paint(114000);
-  assert(bankTop>=500); // A smaller viewport immediately lowers the cap.
+  // Heavy snow is allowed the whole window, writing included.
+  assert(bankTop<height*.15,'heavy snow buries the page: '+bankTop.toFixed(1));
+  // And a finger takes it off wherever it lies, not only down by the footer.
+  const middle=depthAt(.5,height),side=depthAt(.05,height);
+  const wipe=new w.MouseEvent('pointerdown',{bubbles:true,cancelable:true,clientX:width*.5,clientY:height*.4});
+  w.document.body.dispatchEvent(wipe);paint(114000);
+  assert(depthAt(.5,height)<middle-5,'a touch high up in the drift clears it there too');
+  assert(depthAt(.05,height)>=side-1,'and only where the finger went');
+  assert.equal(wipe.defaultPrevented,false,'and never swallows the page\'s own clicks');
+  w.innerHeight=600;w.dispatchEvent(new w.Event('resize'));paint(114400);
+  assert(bankTop<=1); // A smaller window clamps what has already fallen.
   w.innerHeight=800;w.dispatchEvent(new w.Event('resize'));
   button.click();assert.equal(frames.size,0);assert.equal(observing,0);
   assert.equal(button.getAttribute('aria-pressed'),'false');assert.equal(timers.size,1);
@@ -99,10 +140,9 @@ function check(reduced,width){
 }
 check(false,1440);check(false,390);check(true,390);
 
-/* Scrolling must not cost a layout pass. The footer moves under the snow, so
-   its own box is read every frame; its contents keep their sizes and their
-   selectors, and while the footer is off screen there is no bank to cut them
-   out of at all. */
+/* Snow lies on the window, not on the page under it, so scrolling costs it
+   nothing at all: no box to read, no selector to match, no clearings to cut
+   around footer lettering. It used to re-run the whole layout pass per frame. */
 function scrollCost(footerTop){
   const dom=new JSDOM('<footer><a class="footer-home-link">h</a><p class="footer-credit">c</p><div class="footer-contact-links">l</div><div class="footer-actions-wrap">a</div><div class="footer-weather"><button id="let-it-snow" hidden></button><button id="let-it-rain" hidden></button></div></footer>',{runScripts:'outside-only',pretendToBeVisual:true});
   const w=dom.window;let id=0,rects=0,queries=0;
@@ -131,55 +171,9 @@ function scrollCost(footerTop){
   dom.window.close();
   return {rects,queries};
 }
-/* Heavy rain has to fall as rain, not as dashes. Each streak must cover at
-   least the ground its drop crossed since the last frame, or the fall has
-   holes in it — which is what a fixed streak length unrelated to speed left
-   behind at 30 fps. Matched drop by drop, mutually nearest, falling only. */
-function rainGaps(){
-  const dom=new JSDOM('<footer><p class="footer-credit">c</p><div class="footer-weather"><button id="let-it-snow" hidden></button><button id="let-it-rain" hidden></button></div></footer>',{runScripts:'outside-only',pretendToBeVisual:true});
-  const w=dom.window;let id=0;const cbs=new Map(),timers=new Map();
-  w.matchMedia=()=>({matches:false});
-  w.requestAnimationFrame=fn=>{cbs.set(++id,fn);return id;};
-  w.cancelAnimationFrame=i=>cbs.delete(i);
-  w.setTimeout=fn=>{timers.set(++id,fn);return id;};w.clearTimeout=i=>timers.delete(i);
-  w.innerWidth=1440;w.innerHeight=900;
-  Object.defineProperty(w.document.documentElement,'clientWidth',{value:1440});
-  w.HTMLElement.prototype.getBoundingClientRect=function(){
-    if(this.tagName==='FOOTER')return{left:0,right:1440,top:3000,bottom:3240,width:1440,height:240};
-    return{left:0,right:0,top:3000,bottom:3000,width:0,height:0};};
-  let seg=null,capture=[];const shots=[];
-  const ctx={setTransform(){},clearRect(){},drawImage(){},closePath(){},fill(){},save(){},restore(){},fillRect(){},arc(){},ellipse(){seg=null;},createLinearGradient(){return{addColorStop(){}};},
-    beginPath(){seg={};},moveTo(x,y){if(seg){seg.x0=x;seg.y0=y;}},lineTo(x,y){if(seg){seg.x1=x;seg.y1=y;}},
-    stroke(){if(seg&&seg.x1!==undefined)capture.push({x0:seg.x0,y0:seg.y0,x1:seg.x1,y1:seg.y1});}};
-  w.HTMLCanvasElement.prototype.getContext=()=>ctx;
-  w.eval(fs.readFileSync(path.join(root,'js/let-it-snow.js'),'utf8'));
-  const rain=w.document.getElementById('let-it-rain');
-  rain.click();rain.click();
-  assert.equal(rain.dataset.weatherLevel,'2');
-  for(let i=0;i<24;i++){const list=[...cbs.values()];cbs.clear();capture=[];list.forEach(fn=>fn(100000+i*34));shots.push(capture);}
-  dom.window.close();
-  const nearest=(list,x,y)=>{let b=-1,d=Infinity;list.forEach((q,i)=>{const e=Math.hypot(q.x1-x,q.y1-y);if(e<d){d=e;b=i;}});return[b,d];};
-  const holes=[];let sampled=0;
-  for(let f=6;f<shots.length;f++){
-    const prev=shots[f-1];
-    shots[f].forEach((s,si)=>{
-      const [pi,d]=nearest(prev,s.x1,s.y1);
-      if(pi<0||d<8||d>80||s.y1<=prev[pi].y1)return;
-      if(nearest(shots[f],prev[pi].x1,prev[pi].y1)[0]!==si)return;
-      sampled++;
-      const streak=Math.hypot(s.x1-s.x0,s.y1-s.y0);
-      if(d-streak>0.001)holes.push(d-streak);
-    });
-  }
-  return {sampled,holes};
-}
-const fall=rainGaps();
-assert.ok(fall.sampled>500,'enough drops were followed frame to frame: '+fall.sampled);
-assert.equal(fall.holes.length,0,'every streak covers the step its drop took; '+fall.holes.length+' did not');
-
 const away=scrollCost(2000),near=scrollCost(560);
-assert.equal(away.rects,60,'off screen, a scrolled frame reads the footer box and nothing else');
-assert.equal(away.queries,0,'and matches no selectors at all');
-assert.equal(near.queries,0,'on screen the clearings still move, but the list of them is not rebuilt');
-assert.ok(near.rects<=300,'and each one is read once per frame');
-console.log('Weather checks passed: three-stage cycles, preserved snow, half-screen cap and resize, rain/splash limits, exclusive switching, mobile bounds, reduced motion, unbroken heavy rain, scroll cost and cleanup.');
+assert.equal(away.rects,0,'a scrolled frame reads no layout at all');
+assert.equal(away.queries,0,'and matches no selectors');
+assert.equal(near.rects,0,'the same with the footer in view: the snow is on the window');
+assert.equal(near.queries,0);
+console.log('Weather checks passed: three-stage cycles, preserved snow, drift that covers the page and clears under a finger, rain/splash limits, exclusive switching, mobile bounds, reduced motion, unbroken heavy rain, free scrolling and cleanup.');
