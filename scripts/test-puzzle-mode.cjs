@@ -1,7 +1,7 @@
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const {JSDOM}=require('jsdom');
-const script=fs.readFileSync(require('node:path').join(__dirname,'../js/sentence-puzzle.js'),'utf8');
+const script=fs.readFileSync(require('node:path').join(__dirname,'../js/puzzle-mode.js'),'utf8');
 const BODY='<button id="essay-rain" aria-pressed="true">stop the rain</button><button id="essay-puzzle" hidden>puzzle mode</button><article class="essay-body"><h2>Section</h2><p id="first">The <em>cat</em> saw the dog. It ran. The dog stayed.</p><blockquote><p>I <a href="#first">came</a>. Then I left.</p></blockquote><p>&lt;script&gt; stays text. It really does.</p><ul><li>One sentence. And a second one.</li></ul><p>A lone sentence with no sibling.</p><p><img src="cover.jpg" alt="Cover">Caption stays. A second one here.</p></article>';
 const dom=new JSDOM(BODY,{runScripts:'outside-only',pretendToBeVisual:true});
 const w=dom.window,d=w.document;
@@ -18,15 +18,15 @@ const escape=node=>(node||d).dispatchEvent(new w.KeyboardEvent('keydown',{key:'E
 assert.equal(launch.hidden,false);launch.click();
 const previews=[...d.querySelectorAll('.puzzle-preview')];
 assert.equal(previews.length,4);
-assert.equal(d.querySelectorAll('.sentence-puzzle').length,0);
+assert.equal(d.querySelectorAll('.puzzle-board').length,0);
 assert.equal(original.isConnected,false);
 assert.equal(original.querySelector('em').textContent,'cat');
 assert.equal(article.querySelector('img').getAttribute('src'),'cover.jpg');
-assert.ok([...article.querySelectorAll('p')].some(p=>p.textContent.includes('A lone sentence')),
-  'the single-sentence paragraph is left as prose');
+assert.ok([...article.querySelectorAll('p')].some(p=>p.textContent.includes('A lone sentence') && !p.classList.contains('puzzle-preview')),
+  'the single-sentence paragraph is left as prose in sentence mode');
 // Sentences, not words: the first paragraph is three boxes, not eleven.
-assert.equal(previews[0].querySelectorAll('.puzzle-sentence').length,3);
-assert.deepEqual([...previews[0].querySelectorAll('.puzzle-sentence')].map(s=>s.textContent),
+assert.equal(previews[0].querySelectorAll('.puzzle-piece-preview').length,3);
+assert.deepEqual([...previews[0].querySelectorAll('.puzzle-piece-preview')].map(s=>s.textContent),
   ['The cat saw the dog.','It ran.','The dog stayed.']);
 previews.forEach((node,i)=>{
   assert.equal(node.getAttribute('role'),null,'the paragraph is not relabelled a button');
@@ -42,9 +42,9 @@ assert.equal(article.innerHTML,originalHTML);assert.equal(d.getElementById('firs
 // One paragraph at a time: only the chosen one becomes a board.
 launch.click();
 d.querySelectorAll('.puzzle-preview')[0].click();
-assert.equal(d.querySelectorAll('.sentence-puzzle').length,1);
+assert.equal(d.querySelectorAll('.puzzle-board').length,1);
 assert.equal(d.querySelectorAll('.puzzle-preview').length,3);
-const board=d.querySelector('.sentence-puzzle');
+const board=d.querySelector('.puzzle-board');
 assert.equal(board.id,'first');
 assert.equal(board.querySelectorAll('.puzzle-slot').length,3);
 assert.equal(board.querySelectorAll('.puzzle-piece').length,3);
@@ -74,8 +74,8 @@ assert(dragEvent(slots[0],'dragover',drag).defaultPrevented);
 dragEvent(slots[0],'drop',drag);assert.equal(bodyOf(slots[0]),'The cat saw the dog.');conserve();
 // A second board opened alongside it refuses the first board's sentences.
 d.querySelector('.puzzle-preview').click();
-const second=[...d.querySelectorAll('.sentence-puzzle')][1];
-assert.equal(d.querySelectorAll('.sentence-puzzle').length,2);
+const second=[...d.querySelectorAll('.puzzle-board')][1];
+assert.equal(d.querySelectorAll('.puzzle-board').length,2);
 const beforeOther=second.querySelector('.puzzle-slots').textContent;
 dragEvent(second.querySelector('.puzzle-slot'),'drop',drag);
 assert.equal(second.querySelector('.puzzle-slots').textContent,beforeOther);
@@ -104,19 +104,19 @@ assert.deepEqual([...second.querySelectorAll('.puzzle-piece')].map(n=>n.textCont
 // "Put this paragraph back" returns one board, leaving the other alone.
 const putBack=[...second.querySelectorAll('.puzzle-action')].find(n=>n.textContent==='Put this paragraph back');
 assert(putBack,'Missing per-board exit');putBack.click();
-assert.equal(d.querySelectorAll('.sentence-puzzle').length,1);
+assert.equal(d.querySelectorAll('.puzzle-board').length,1);
 assert.equal(d.querySelectorAll('.puzzle-preview').length,3);
 assert.equal(board.isConnected,true,'The other board keeps its arrangement');
 assert.equal(bodyOf(slots[0]),'The cat saw the dog.');
 
 // Escape is a ladder: the focused board, then the last one open, then the mode.
 d.querySelector('.puzzle-preview').click();
-assert.equal(d.querySelectorAll('.sentence-puzzle').length,2);
-escape(d.querySelectorAll('.sentence-puzzle')[1].querySelector('.puzzle-piece'));
-assert.equal(d.querySelectorAll('.sentence-puzzle').length,1,'Escape closes the board it is in');
+assert.equal(d.querySelectorAll('.puzzle-board').length,2);
+escape(d.querySelectorAll('.puzzle-board')[1].querySelector('.puzzle-piece'));
+assert.equal(d.querySelectorAll('.puzzle-board').length,1,'Escape closes the board it is in');
 assert.equal(board.isConnected,true,'and costs no other paragraph');
 escape(launch);
-assert.equal(d.querySelectorAll('.sentence-puzzle').length,0,'Escape outside a board closes the last one opened');
+assert.equal(d.querySelectorAll('.puzzle-board').length,0,'Escape outside a board closes the last one opened');
 assert.equal(article.classList.contains('puzzle-active'),true,'without leaving puzzle mode');
 escape();
 assert.equal(launch.textContent,'puzzle mode');
@@ -124,11 +124,11 @@ assert.equal(launch.textContent,'puzzle mode');
 // Restore the exact nodes, markup, links and existing rain state.
 assert.equal(article.innerHTML,originalHTML);assert.equal(d.getElementById('first'),original);
 link.click();assert.equal(links,1);assert.equal(d.getElementById('essay-rain').getAttribute('aria-pressed'),'true');
-assert.equal(d.querySelectorAll('.puzzle-panel,.sentence-puzzle,.puzzle-preview').length,0);
+assert.equal(d.querySelectorAll('.puzzle-panel,.puzzle-board,.puzzle-preview').length,0);
 // Activating the cue alone opens the paragraph, for readers on a keyboard.
 launch.click();
 d.querySelector('.puzzle-scatter-cue').click();
-assert.equal(d.querySelectorAll('.sentence-puzzle').length,1);
+assert.equal(d.querySelectorAll('.puzzle-board').length,1);
 escape();escape();
 assert.equal(article.innerHTML,originalHTML);
 for(let i=0;i<3;i++){launch.click();launch.click();assert.equal(article.innerHTML,originalHTML);}
@@ -145,7 +145,7 @@ function fresh(body){
   const page=fresh('<button id="essay-puzzle" hidden>puzzle mode</button><article class="essay-body"><p>Dr. Aydın measured 3.14 metres. She wrote it down, e.g. in the margin. Then she left.</p></article>');
   const doc=page.window.document;
   doc.getElementById('essay-puzzle').click();
-  assert.deepEqual([...doc.querySelectorAll('.puzzle-sentence')].map(s=>s.textContent),
+  assert.deepEqual([...doc.querySelectorAll('.puzzle-piece-preview')].map(s=>s.textContent),
     ['Dr. Aydın measured 3.14 metres.','She wrote it down, e.g. in the margin.','Then she left.']);
   page.window.close();
 }
@@ -158,7 +158,7 @@ function fresh(body){
   page.window.eval(script);
   const doc=page.window.document;
   doc.getElementById('essay-puzzle').click();
-  assert.deepEqual([...doc.querySelectorAll('.puzzle-sentence')].map(s=>s.textContent),
+  assert.deepEqual([...doc.querySelectorAll('.puzzle-piece-preview')].map(s=>s.textContent),
     ['Dr. Aydın measured 3.14 metres.','She wrote it down, e.g. in the margin.','Then she left.'],
     'the fallback splits the same way');
   page.window.close();
@@ -176,13 +176,69 @@ function fresh(body){
   assert.equal(doc.querySelectorAll('.puzzle-slot').length,9,'and it scatters in full when asked');
   page.window.close();
 }
-// An essay with nothing to reorder never shows the button at all.
+// A paragraph of one sentence is no sentence puzzle, but it is a fine word
+// puzzle, so the button is still offered and the other unit reaches it.
 {
   const page=fresh('<button id="essay-puzzle" hidden>puzzle mode</button><article class="essay-body"><p>One sentence only.</p><p><img src="a.jpg" alt="x"></p><pre><code>x=1</code></pre></article>');
+  const doc=page.window.document,btn=doc.getElementById('essay-puzzle');
+  assert.equal(btn.hidden,false,'words can still be reordered here');
+  btn.click();
+  assert.equal(doc.querySelectorAll('.puzzle-preview').length,0,'but not in sentences');
+  doc.querySelector('[data-puzzle-unit="words"]').click();
+  assert.equal(doc.querySelectorAll('.puzzle-preview').length,1,'the other unit reaches it');
+  assert.equal(doc.querySelectorAll('.puzzle-piece-preview').length,3);
+  page.window.close();
+}
+// Nothing to reorder under either unit means no button at all.
+{
+  const page=fresh('<button id="essay-puzzle" hidden>puzzle mode</button><article class="essay-body"><p>Alone.</p><p><img src="a.jpg" alt="x"></p><pre><code>x=1</code></pre></article>');
   const btn=page.window.document.getElementById('essay-puzzle');
   assert.equal(btn.hidden,true,'No offer means no button');
   assert.equal(btn.textContent,'puzzle mode','The label is never overwritten with an error');
   page.window.close();
 }
+// Switching unit redraws the boxed paragraphs, renumbers what is on offer,
+// and never touches a board the reader is working in.
+{
+  const page=fresh('<button id="essay-puzzle" hidden>puzzle mode</button><article class="essay-body"><p>First one. Second one.</p><p>A lone sentence here.</p></article>');
+  const doc=page.window.document,btn=doc.getElementById('essay-puzzle');
+  btn.click();
+  const byUnit=name=>doc.querySelector('[data-puzzle-unit="'+name+'"]');
+  assert.equal(byUnit('sentences').getAttribute('aria-pressed'),'true','sentences to begin with');
+  assert.equal(doc.querySelectorAll('.puzzle-preview').length,1);
+  assert.match(doc.querySelector('.puzzle-scatter-cue').getAttribute('aria-label'),/paragraph 1 of 1$/,
+    'numbered by what this unit offers, not by what exists');
+  // Open a sentence board, then switch unit: the reader's arrangement stays.
+  doc.querySelector('.puzzle-scatter-cue').click();
+  const board=doc.querySelector('.puzzle-board');
+  assert.equal(board.dataset.puzzleUnit,'sentences');
+  assert.equal(board.querySelectorAll('.puzzle-slot-number').length,2,'sentences get numbered positions');
+  byUnit('words').click();
+  assert.equal(byUnit('words').getAttribute('aria-pressed'),'true');
+  assert.equal(doc.querySelector('.puzzle-board'),board,'the open board is left exactly as it was');
+  assert.equal(board.dataset.puzzleUnit,'sentences','and keeps the unit it was opened with');
+  assert.equal(doc.querySelectorAll('.puzzle-preview').length,1,'the lone sentence is now on offer');
+  assert.match(doc.querySelector('.puzzle-scatter-cue').getAttribute('aria-label'),/^Scatter the 4 words of paragraph 2 of 2$/);
+  // A word board is a field of tiles, not a numbered stack.
+  doc.querySelector('.puzzle-scatter-cue').click();
+  const wordBoard=[...doc.querySelectorAll('.puzzle-board')].find(b=>b.dataset.puzzleUnit==='words');
+  assert(wordBoard,'a word board');
+  assert.equal(wordBoard.querySelectorAll('.puzzle-slot-number').length,0,'words get no position numbers');
+  assert.equal(wordBoard.querySelectorAll('.puzzle-slot').length,4);
+  assert.match(wordBoard.querySelector('.puzzle-status').textContent,/0 of 4 words placed/);
+  // Filling it wrongly asks the word question, not the sentence one.
+  const tiles=[...wordBoard.querySelectorAll('.puzzle-piece')];
+  const wordSlots=[...wordBoard.querySelectorAll('.puzzle-slot')];
+  tiles.forEach((tile,i)=>{tile.click();wordSlots[i].click();});
+  const wordCompare=wordBoard.querySelector('.puzzle-action');
+  assert.equal(wordCompare.disabled,false);wordCompare.click();
+  assert.match(wordBoard.querySelector('.puzzle-comparison-note,.puzzle-status').textContent,/.+/);
+  // Back to sentences, and the essay still restores to exactly what it was.
+  byUnit('sentences').click();
+  btn.click();
+  assert.equal(doc.querySelector('.essay-body').innerHTML,
+    '<p>First one. Second one.</p><p>A lone sentence here.</p>');
+  page.window.close();
+}
 
-console.log('Sentence puzzle checks passed: sentence splitting with abbreviations in both paths, one paragraph at a time, per-board exit, Escape ladder, keyboard opening, tap/drag/swap/return, board isolation, comparison, eligibility and exact restoration.');
+console.log('Puzzle mode checks passed: sentences and words, unit switching that spares an open board, one paragraph at a time, per-board exit, Escape ladder, keyboard opening, tap/drag/swap/return, board isolation, comparison, eligibility and exact restoration.');

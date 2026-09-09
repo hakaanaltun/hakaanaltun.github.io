@@ -2,19 +2,40 @@
 (function(){
   'use strict';
   function createDrift(count){
-    var heights = new Float32Array(count), limits = new Float32Array(count);
-    function setLimit(cap){
+    var heights=new Float32Array(count), cap=0, step=8;
+    function setLimit(limit,span){
+      cap=Math.max(0,limit);
+      /* Snow will not stand in a spike: past its angle of repose it slides.
+         The step allowed between neighbouring columns is what makes a drift
+         read as a drift and not as a bar chart, so it follows the column
+         width — about 35 degrees of it. */
+      step=Math.max(1,span/Math.max(1,count-1)*.7);
+      for(var i=0;i<count;i++)if(heights[i]>cap)heights[i]=cap;
+    }
+    /* Snowfall is not even across a window and does not stay where it was:
+       two slow waves drift against each other so the pattern keeps changing,
+       and a lean tips the fall the way the wind is going. */
+    function grow(seconds,rate,now,lean){
       for(var i=0;i<count;i++){
         var x=i/(count-1);
-        limits[i]=Math.max(0,cap*(.88+.065*Math.sin(x*11+1.2)+.055*Math.sin(x*23+.4)));
-        limits[i]=Math.min(cap,limits[i]);
-        heights[i]=Math.min(heights[i],limits[i]);
+        var local=1+.55*Math.sin(x*7.3+now*.00013)+.35*Math.sin(x*17.1-now*.00021)+lean*(x-.5)*1.2;
+        if(local<.05)local=.05;
+        var next=heights[i]+seconds*rate*local;
+        heights[i]=next>cap?cap:next;
       }
     }
-    function advance(seconds){
-      for(var i=0;i<count;i++){
-        heights[i]=Math.min(limits[i],heights[i]+seconds*(1.9+.35*Math.sin(i*.17)));
+    /* The slump. Run in both directions so neither edge is favoured. */
+    function settle(seconds){
+      var relax=Math.min(1,seconds*8);
+      for(var pass=0;pass<2;pass++){
+        for(var k=0;k<count-1;k++){
+          var i=pass===0?k:count-2-k, j=i+1;
+          var diff=heights[i]-heights[j], move;
+          if(diff>step){move=(diff-step)*.5*relax;heights[i]-=move;heights[j]+=move;}
+          else if(-diff>step){move=(-diff-step)*.5*relax;heights[j]-=move;heights[i]+=move;}
+        }
       }
+      for(var n=0;n<count;n++){if(heights[n]>cap)heights[n]=cap;else if(heights[n]<0)heights[n]=0;}
     }
     function heightAt(fraction){
       var p=Math.max(0,Math.min(1,fraction))*(count-1), i=Math.floor(p), next=Math.min(count-1,i+1);
@@ -26,23 +47,31 @@
         if(distance<1) heights[i]=Math.max(0,heights[i]-amount*(.5+.5*Math.cos(distance*Math.PI)));
       }
     }
-    return {heights:heights,setLimit:setLimit,advance:advance,heightAt:heightAt,brush:brush};
+    function deepest(){
+      var most=0;
+      for(var i=0;i<count;i++)if(heights[i]>most)most=heights[i];
+      return most;
+    }
+    return {heights:heights,setLimit:setLimit,grow:grow,settle:settle,
+      heightAt:heightAt,brush:brush,deepest:deepest};
   }
   if(typeof module!=='undefined' && module.exports) module.exports={createDrift:createDrift};
   if(typeof document==='undefined') return;
   var button=document.getElementById('let-it-snow');
   if(!button) return;
   var rainButton=document.getElementById('let-it-rain');
-  var footer=button.closest('footer');
-  if(!footer) return;
   var canvas, context, bank, bankContext, flakes=[], drift;
   var active=false, frame=0, fadeTimer=0, lastTime=0, bankAge=0;
   var mode='snow', intensity=1, splashes=[];
-  var width=0,height=0,density=1,ground=0,footerHeight=0,holes=[];
-  var geometryDirty=true, groundDirty=false, bankDirty=true, observer, holeElements=null;
+  var width=0,height=0,density=1,ground=0;
+  var geometryDirty=true, bankDirty=true, observer;
   var reduce=window.matchMedia('(prefers-reduced-motion: reduce)');
   var MAX_PARTICLES=110;
-  function snowLimit(){return intensity===2?height*.5:footerHeight+24;}
+  /* Light snow settles along the foot of the window; heavy snow is allowed
+     the whole of it, writing included. Whoever wants the words back wipes
+     them clear with a finger or the mouse. */
+  function snowLimit(){return intensity===2?height:height*.18;}
+  function snowRate(){return intensity===2?8:1.8;}
   function seedWeather(){
     var count=Math.min(MAX_PARTICLES,Math.max(36,Math.round(width*.075)));
     if(intensity===2)count=Math.min(mode==='rain'?480:360,Math.max(160,Math.round(width*.32)));
@@ -66,8 +95,10 @@
     if(intensity===2){stop();return;}
     intensity=2;geometryDirty=true;seedWeather();updateButtons();
   }
-  /* The layout pass. Which things the drift leaves clear is a property of the
-     layout, so the list is gathered here and not on every frame. */
+  /* The snow lies on the window, not on the page under it, so nothing here
+     depends on where anything has scrolled to: one pass, on a resize only.
+     The footer's own controls stay above the canvas by z-index instead of by
+     cutting holes in the drift, which is what a reader's finger is for now. */
   function measure(){
     geometryDirty=false;
     var nextWidth=document.documentElement.clientWidth || window.innerWidth;
@@ -84,34 +115,11 @@
       // Resizing never creates more particles; a new page still has one loop.
       flakes.forEach(function(flake){ if(flake.x>width) flake.x=Math.random()*width; });
     }
-    // Leave soft clearings around footer lettering and controls in every theme.
-    // Only these small areas are cut out; the drift still reaches above the footer.
-    holeElements=footer.querySelectorAll('.footer-home-link, .footer-credit, .footer-contact-links, .footer-actions-wrap, .snow-toggle');
-    trackGround();
-  }
-  /* The scroll pass, and the only one a scroll needs: the footer keeps its
-     size and its contents, it just moves. Cheap enough to run per frame. */
-  function trackGround(){
-    groundDirty=false;
-    var rect=footer.getBoundingClientRect();
-    ground=rect.bottom;
-    footerHeight=rect.height;
-    drift.setLimit(snowLimit());
-    holes=[];
-    // A bank nobody can see needs no clearings cut out of it, and while a
-    // reader is still in the essay that is every frame of every scroll.
-    if(holeElements && ground>=0 && ground-snowLimit()<=height){
-      holeElements.forEach(function(el){
-        var r=el.getBoundingClientRect();
-        if(r.width && r.height) holes.push({x:r.left-9,y:r.top-5,w:r.width+18,h:r.height+10});
-      });
-    }
+    ground=height;
+    drift.setLimit(snowLimit(),width);
     bankDirty=true;
   }
-  function remeasure(){
-    if(geometryDirty) measure();
-    else if(groundDirty) trackGround();
-  }
+  function remeasure(){ if(geometryDirty) measure(); }
   function makeFlake(anywhere){
     var depth=Math.random(),heavy=intensity===2;
     if(mode==='rain'){
@@ -185,11 +193,8 @@
   }
   function paintBank(){
     bankDirty=false;
-    var ctx=bankContext, h=drift.heights;
+    var ctx=bankContext, h=drift.heights, tallest=drift.deepest();
     ctx.clearRect(0,0,width,height);
-    if(ground<0 || ground-snowLimit()>height) return;
-    var tallest=0;
-    for(var i=0;i<h.length;i++) tallest=Math.max(tallest,h[i]);
     if(tallest<.5) return;
     var gradient=ctx.createLinearGradient(0,ground-tallest,0,ground);
     gradient.addColorStop(0,'rgba(251,253,255,.98)');
@@ -199,17 +204,14 @@
     ctx.beginPath();ctx.moveTo(0,ground);
     for(var j=0;j<h.length;j++) ctx.lineTo(j/(h.length-1)*width,ground-h[j]);
     ctx.lineTo(width,ground);ctx.closePath();ctx.fill();
-    // A thin cool lip keeps white snow visible on the light palettes too.
+    // A thin cool lip keeps the surface legible against pale writing too.
     ctx.beginPath();
     for(var k=0;k<h.length;k++){
       var x=k/(h.length-1)*width,y=ground-h[k];
       if(k===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
     }
-    ctx.strokeStyle=intensity===2?'rgba(100,139,170,.65)':'rgba(145,174,198,.28)';ctx.lineWidth=intensity===2?1.5:1;ctx.stroke();
-    ctx.save();ctx.globalCompositeOperation='destination-out';
-    ctx.fillStyle='#000';ctx.shadowColor='#000';ctx.shadowBlur=18*density;
-    holes.forEach(function(r){ctx.fillRect(r.x,r.y,r.w,r.h);});
-    ctx.restore();
+    ctx.strokeStyle=intensity===2?'rgba(100,139,170,.65)':'rgba(145,174,198,.4)';
+    ctx.lineWidth=intensity===2?1.5:1;ctx.stroke();
   }
   function step(now){
     frame=0;
@@ -224,10 +226,13 @@
     if(mode==='rain'){
       paintRain(dt,now);frame=requestAnimationFrame(step);return;
     }
-    drift.advance(dt*(intensity===2?7:1));bankAge+=dt;
-    if(bankDirty || bankAge>.14){paintBank();bankAge=0;}
+    var breezeNow=Math.sin(now*.00013)*(intensity===2?24:5);
+    drift.grow(dt,snowRate(),now,Math.max(-1,Math.min(1,breezeNow/26)));
+    drift.settle(dt);
+    bankAge+=dt;
+    if(bankDirty || bankAge>.1){paintBank();bankAge=0;}
     context.drawImage(bank,0,0,bank.width,bank.height,0,0,width,height);
-    var breeze=Math.sin(now*.00013)*(intensity===2?24:5);
+    var breeze=breezeNow;
     for(var i=0;i<flakes.length;i++){
       var flake=flakes[i], motion=reduce.matches ? .45 : 1;
       flake.phase+=dt*.7;
@@ -246,7 +251,6 @@
     frame=requestAnimationFrame(step);
   }
   function invalidate(){geometryDirty=true;}
-  function trackScroll(){groundDirty=true;}
   function sweep(event){
     if(!active || mode!=='snow' || !width) return;
     if(event.type==='pointermove' && event.pointerType!=='mouse' && !event.buttons) return;
@@ -271,7 +275,6 @@
     active=false;cancelAnimationFrame(frame);frame=0;
     if(observer){observer.disconnect();observer=null;}
     window.removeEventListener('resize',invalidate);
-    window.removeEventListener('scroll',trackScroll);
     document.removeEventListener('pointermove',sweep);
     document.removeEventListener('pointerdown',sweep);
     document.removeEventListener('visibilitychange',visibility);
@@ -289,18 +292,19 @@
     context=canvas.getContext('2d');bankContext=bank.getContext('2d');
     if(!context || !bankContext){removeLayers();return;}
     document.body.appendChild(canvas);
-    drift=createDrift(81);width=height=0;holeElements=null;geometryDirty=true;measure();
+    /* Enough columns that a drift has a shape, few enough that slumping it
+       every frame is nothing. */
+    drift=createDrift(Math.max(64,Math.min(220,Math.round((document.documentElement.clientWidth||window.innerWidth||960)/8))));
+    width=height=0;geometryDirty=true;measure();
     seedWeather();
     active=true;lastTime=0;bankAge=0;
     updateButtons();
     window.addEventListener('resize',invalidate,{passive:true});
-    window.addEventListener('scroll',trackScroll,{passive:true});
     document.addEventListener('pointermove',sweep,{passive:true});
     document.addEventListener('pointerdown',sweep,{passive:true});
     document.addEventListener('visibilitychange',visibility);
     if(typeof ResizeObserver!=='undefined'){
-      observer=new ResizeObserver(invalidate);observer.observe(footer);
-      var main=document.getElementById('main');if(main)observer.observe(main);
+      observer=new ResizeObserver(invalidate);observer.observe(document.documentElement);
     }
     if(!document.hidden)frame=requestAnimationFrame(step);
   }

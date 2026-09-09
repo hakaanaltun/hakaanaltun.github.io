@@ -4,7 +4,7 @@
   "private": true,
   "description": "DOM-level checks for the instruments that run in the browser. Run `bundle exec jekyll build` first: the service-worker check reads the rendered _site/sw.js. Development only, and scripts/ is excluded from the Jekyll build, so none of this is published.",
   "scripts": {
-    "test": "node scripts/test-pdfjs.mjs && node scripts/test-reader-pdf.cjs && node scripts/test-let-it-snow.cjs && node scripts/test-sentence-puzzle.cjs && node scripts/test-service-worker.cjs"
+    "test": "node scripts/test-pdfjs.mjs && node scripts/test-reader-pdf.cjs && node scripts/test-let-it-snow.cjs && node scripts/test-puzzle-mode.cjs && node scripts/test-service-worker.cjs"
   },
   "devDependencies": {
     "jsdom": "^30.0.1"

@@ -1,5 +1,7 @@
 /* A small discovery at the foot of the page. The effect itself takes no input. */
-.footer-weather{display:flex;align-items:center;justify-content:center;gap:2px;}
+/* Heavy snow buries the page, writing and all. These two stay above it:
+   they are the way out, and a reader should never have to dig for it. */
+.footer-weather{position:relative;z-index:41;display:flex;align-items:center;justify-content:center;gap:2px;}
 .snow-toggle{display:inline-grid;place-items:center;width:44px;height:44px;padding:0;border:0;background:transparent;color:var(--footer-muted);font:400 1.1rem/1 Georgia,serif;cursor:pointer;opacity:.6;transition:opacity .2s ease,color .2s ease;touch-action:manipulation;}
 .snow-toggle[hidden]{display:none;}
 .snow-toggle svg{width:16px;height:16px;}
