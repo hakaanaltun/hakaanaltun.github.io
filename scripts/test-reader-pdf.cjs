@@ -69,6 +69,32 @@ async function main(){
   input.value='';input.dispatchEvent(new w.Event('change'));
   assert.equal(viewer.page(),1);
   const zoom = w.document.querySelector('[data-pdf="zoom"]');
+  function arrow(key, target=w.document.body, options={}){
+    const event=new w.KeyboardEvent('keydown',{key,bubbles:true,cancelable:true,...options});
+    target.dispatchEvent(event);return event;
+  }
+  assert(arrow('ArrowRight').defaultPrevented);await tick();assert.equal(viewer.page(),2);
+  assert(arrow('ArrowLeft').defaultPrevented);await tick();assert.equal(viewer.page(),1);
+  arrow('ArrowLeft');assert.equal(viewer.page(),1);
+  for(const target of [input,zoom,w.document.querySelector('#shVol')]){
+    assert.equal(arrow('ArrowRight',target).defaultPrevented,false);
+    assert.equal(viewer.page(),1);
+  }
+  const editable=w.document.createElement('div');editable.setAttribute('contenteditable','true');
+  const child=w.document.createElement('span');editable.appendChild(child);w.document.body.appendChild(editable);
+  assert.equal(arrow('ArrowRight',child).defaultPrevented,false);assert.equal(viewer.page(),1);editable.remove();
+  for(const modifier of ['altKey','ctrlKey','metaKey','shiftKey','isComposing']){
+    assert.equal(arrow('ArrowRight',w.document.body,{[modifier]:true}).defaultPrevented,false);
+    assert.equal(viewer.page(),1);
+  }
+  const range=w.document.createRange();range.selectNodeContents(w.document.querySelector('.pdf-status'));
+  w.getSelection().removeAllRanges();
+  w.getSelection().addRange(range);
+  assert.equal(arrow('ArrowRight').defaultPrevented,false);assert.equal(viewer.page(),1);
+  w.getSelection().removeAllRanges();
+  arrow('ArrowRight',w.document.querySelector('.pdf-scroll'));await tick();assert.equal(viewer.page(),2);
+  arrow('ArrowRight',w.document.body,{repeat:true});assert.equal(viewer.page(),2);
+  arrow('ArrowLeft');await tick();assert.equal(viewer.page(),1);
   zoom.value='3';zoom.dispatchEvent(new w.Event('change'));
   w.document.querySelector('[data-pdf="next"]').click();
   await tick();
@@ -76,6 +102,7 @@ async function main(){
   assert.equal(w.document.querySelector('canvas').style.width,'1800px');
   viewer.destroy();assert.equal(destroyed,1);assert.equal(w.document.querySelectorAll('canvas').length,0);
   assert.equal(w.document.querySelector('.pdf-side-nav'),null);
+  assert.equal(arrow('ArrowRight').defaultPrevented,false);
   w.document.body.dispatchEvent(new w.MouseEvent('pointermove',{bubbles:true,clientX:190,clientY:300}));
   dom.window.close();
 

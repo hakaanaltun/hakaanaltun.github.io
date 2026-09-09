@@ -114,9 +114,25 @@
       else hideSideNav();
     }
     function navKey(event){
-      if(event.key !== "Escape") return;
-      hideSideNav();
-      if(sideNav.contains(document.activeElement)) scroller.focus({preventScroll:true});
+      if(event.key === "Escape"){
+        hideSideNav();
+        if(sideNav.contains(document.activeElement)) scroller.focus({preventScroll:true});
+        return;
+      }
+      if(event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+      if(dead || event.defaultPrevented || event.isComposing || event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
+      // Keep editing, selection, form controls and other panels' shortcuts native.
+      var target = event.target;
+      if(target.closest && target.closest('input, textarea, select, a, [contenteditable]:not([contenteditable="false"]), [role="textbox"], [role="slider"], [role="dialog"], .shelf')) return;
+      var selection = window.getSelection();
+      if(selection && !selection.isCollapsed) return;
+      placeSideNav();
+      if(sideNav.hidden) return;
+      event.preventDefault();
+      if(event.repeat) return;
+      var destination = pageNumber + (event.key === "ArrowRight" ? 1 : -1);
+      if(destination >= 1 && destination <= doc.numPages) go(destination);
+      showSideNav();
     }
     sidePrev.addEventListener("click", function(event){ event.stopPropagation(); go(pageNumber - 1); showSideNav(); });
     sideNext.addEventListener("click", function(event){ event.stopPropagation(); go(pageNumber + 1); showSideNav(); });
