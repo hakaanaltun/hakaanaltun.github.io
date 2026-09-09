@@ -4,6 +4,13 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    paths:
+      - 'read/**'
+      - 'js/reader-*.js'
+      - 'css/reader-pdf.css'
+      - 'scripts/*pdf*'
+      - '.github/workflows/pages.yml'
   workflow_dispatch:
 
 permissions:
@@ -66,6 +73,7 @@ jobs:
         uses: actions/upload-pages-artifact@v3
 
   deploy:
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     needs: build
     environment:
