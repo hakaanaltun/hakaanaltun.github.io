@@ -6,20 +6,20 @@ layout: null
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Reader&mdash;Read Your Own Text, Markdown, EPUB &amp; Word Files, Distraction-Free &middot; On Life &amp; Everything</title>
-<meta name="description" content="A distraction-free page to read your own files in—plain text, Markdown, EPUB and Word, in Garamond type, with rain if you want it and a light that follows the sky. Nothing is uploaded; the page remembers only where you stopped.">
+<title>The Reader&mdash;Read Your Own Text, Markdown, PDF, EPUB &amp; Word Files, Distraction-Free &middot; On Life &amp; Everything</title>
+<meta name="description" content="A distraction-free page to read your own files in—plain text, Markdown, PDF, EPUB and Word, with rain if you want it and a light that follows the sky. Nothing is uploaded; the page remembers only where you stopped.">
 <link rel="canonical" href="https://hakanaltun.io/read/">
 <meta property="og:type" content="website">
-<meta property="og:title" content="The Reader—Read Your Own Text, Markdown, EPUB &amp; Word Files, Distraction-Free">
-<meta property="og:description" content="A distraction-free page to read your own files in—plain text, Markdown, EPUB and Word, in Garamond type, with rain if you want it and a light that follows the sky. Nothing is uploaded; the page remembers only where you stopped.">
+<meta property="og:title" content="The Reader—Read Your Own Text, Markdown, PDF, EPUB &amp; Word Files, Distraction-Free">
+<meta property="og:description" content="A distraction-free page to read your own files in—plain text, Markdown, PDF, EPUB and Word, with rain if you want it and a light that follows the sky. Nothing is uploaded; the page remembers only where you stopped.">
 <meta property="og:url" content="https://hakanaltun.io/read/">
 <meta property="og:image" content="https://hakanaltun.io/images/og/read.png?v=20260723-1">
-<meta property="og:image:alt" content="The Reader—read your own text, Markdown, EPUB and Word files, distraction-free">
+<meta property="og:image:alt" content="The Reader—read your own text, Markdown, PDF, EPUB and Word files, distraction-free">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="The Reader—Read Your Own Text, Markdown, EPUB &amp; Word Files, Distraction-Free">
-<meta name="twitter:description" content="A distraction-free page to read your own files in—plain text, Markdown, EPUB and Word, in Garamond type, with rain if you want it and a light that follows the sky. Nothing is uploaded; the page remembers only where you stopped.">
+<meta name="twitter:title" content="The Reader—Read Your Own Text, Markdown, PDF, EPUB &amp; Word Files, Distraction-Free">
+<meta name="twitter:description" content="A distraction-free page to read your own files in—plain text, Markdown, PDF, EPUB and Word, with rain if you want it and a light that follows the sky. Nothing is uploaded; the page remembers only where you stopped.">
 <meta name="twitter:image" content="https://hakanaltun.io/images/og/read.png?v=20260723-1">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#FFFFFF">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#191712">
@@ -29,9 +29,9 @@ layout: null
   "@context": "https://schema.org",
   "@type": "WebApplication",
   "@id": "https://hakanaltun.io/read/#app",
-  "name": "The Reader—Read Your Own Text, Markdown, EPUB & Word Files, Distraction-Free",
+  "name": "The Reader—Read Your Own Text, Markdown, PDF, EPUB & Word Files, Distraction-Free",
   "url": "https://hakanaltun.io/read/",
-  "description": "A distraction-free page to read your own files in—plain text, Markdown, EPUB and Word, in Garamond type, with rain if you want it and a light that follows the sky. Nothing is uploaded; the page remembers only where you stopped.",
+  "description": "A distraction-free page to read your own files in—plain text, Markdown, PDF, EPUB and Word, with rain if you want it and a light that follows the sky. Nothing is uploaded; the page remembers only where you stopped.",
   "applicationCategory": "UtilitiesApplication",
   "operatingSystem": "Any",
   "browserRequirements": "Requires JavaScript",
@@ -52,6 +52,7 @@ layout: null
 
 <link rel="stylesheet" href="/css/fonts.css?v=20260710-1">
 
+<link rel="stylesheet" href="/css/reader-pdf.css?v=20260909-1">
 <style>
   :root{
     --paper: #FFFFFF;
@@ -383,7 +384,7 @@ layout: null
     </div>
   </div>
 
-  <input type="file" id="fileInput" accept=".md,.markdown,text/markdown,text/x-markdown,.txt,text/plain,.epub,application/epub+zip,.docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.doc,application/msword" aria-hidden="true" tabindex="-1"
+  <input type="file" id="fileInput" accept=".pdf,application/pdf,.md,.markdown,text/markdown,text/x-markdown,.txt,text/plain,.epub,application/epub+zip,.docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.doc,application/msword" aria-hidden="true" tabindex="-1"
          style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);">
 
   <div class="sheet">
@@ -418,7 +419,7 @@ layout: null
       </div>
     </div>
 
-    <div class="shelf-row">
+    <div class="shelf-row" id="typeRow">
       <h2 class="shelf-label">Type</h2>
       <div class="shelf-controls" role="group" aria-label="Type size">
         <button class="shelf-pill type-1" data-size="1" aria-pressed="false" aria-label="Smaller type" type="button">A</button>
@@ -448,7 +449,7 @@ layout: null
       <p class="notes-lede">A distraction-free page to read your own files in.</p>
 
       <h2>About this page</h2>
-      <p>The reading counterpart of <a href="/write/">the blank page</a>: bring a plain text or Markdown file, an EPUB or a Word document from your device and it is set in Garamond in a single quiet column&mdash;however long, as one continuous scroll&mdash;with rain to read inside and a light that follows the sky. The file is opened in the browser, and the page keeps only your place in it&mdash;close the tab, come back, open the same file, and you are where you stopped.</p>
+      <p>The reading counterpart of <a href="/write/">the blank page</a>: bring a plain text or Markdown file, a PDF, an EPUB or a Word document from your device, with rain to read inside and a light that follows the sky. Text, Markdown, EPUB and Word are set in Garamond in one continuous column. PDFs keep their original pages, type and images, with page navigation and zoom. The file is opened in the browser, and the page keeps only your place in it&mdash;close the tab, come back, open the same file, and you are where you stopped.</p>
 
       <h2>Questions</h2>
       <h3>Is my file uploaded anywhere?</h3>
@@ -458,13 +459,13 @@ layout: null
       <p>No. The text itself is never stored; when you leave, it is gone from the page. The only thing remembered is where you stopped&mdash;a bookmark, kept on your device, so that opening the same file again returns you to your place.</p>
 
       <h3>Which formats can it read?</h3>
-      <p>Plain text, Markdown, EPUB and Word. A .txt file arrives in UTF-8 or the older Turkish encoding, which the page tells apart on its own so no character arrives broken; an EPUB or a Word .docx is unpacked and set in the page&rsquo;s own type in the browser&mdash;no reader app, no library. Markdown (.md or .markdown) keeps headings, emphasis, quotations, lists, tables and code in the same quiet column, with headings in the contents menu. Raw HTML appears as text; images appear as their descriptions.</p>
+      <p>Plain text, Markdown, PDF, EPUB and Word. PDFs retain their original layout, including scanned pages. Text can be selected when the PDF contains a text layer; scanned images have no selectable text. Password-protected PDFs need to be unlocked before opening here. A .txt file arrives in UTF-8 or the older Turkish encoding, which the page tells apart on its own so no character arrives broken; an EPUB or a Word .docx is unpacked and set in the page&rsquo;s own type in the browser&mdash;no reader app, no library. Markdown (.md or .markdown) keeps headings, emphasis, quotations, lists, tables and code in the same quiet column, with headings in the contents menu. Raw HTML appears as text; images appear as their descriptions.</p>
 
       <h3>Why won&rsquo;t a book I bought open?</h3>
       <p>Files bought from most stores carry the seller&rsquo;s lock, and a locked copy cannot be opened here&mdash;the page says so plainly rather than showing broken text. A book you own as a plain EPUB opens fine.</p>
 
       <h3>What is on the shelf?</h3>
-      <p>A few small things, kept behind the lines button in the corner: the table of contents when the file carries one, rain and brown noise to read inside, four sizes of type, and the light&mdash;light, dark, or following the sky. Close the panel and the page is as bare as it ever was.</p>
+      <p>A few small things, kept behind the lines button in the corner: the table of contents when the file carries one, rain and brown noise to read inside, four sizes of type for flowing text, and the light&mdash;light, dark, or following the sky. PDF page navigation and zoom appear above the page. Close the panel and return to reading.</p>
 
       {% include tool-links.html slug="read" %}
     </div>
@@ -474,6 +475,7 @@ layout: null
 
 <script src="/js/vendor/marked-18.0.11.umd.js"></script>
 <script src="/js/reader-markdown.js?v=20260906-1"></script>
+<script src="/js/reader-pdf.js?v=20260909-1"></script>
 <script>
 (function(){
   "use strict";
@@ -491,6 +493,7 @@ layout: null
   var ZIP_MAX_ENTRY = 128 * 1024 * 1024;   /* one entry, inflated */
   var ZIP_MAX_TOTAL = 200 * 1024 * 1024;   /* every entry together, inflated */
   var ZIP_MAX_RATIO = 500;                 /* inflated ÷ stored, per entry */
+  var pdfReader = null, pendingPdf = null;
   var current = null;                 /* { key } while a file is open */
 
   /* ---- the bookmark ledger (positions only — never the text) ---- */
@@ -513,6 +516,9 @@ layout: null
     while(st.length > POS_MAX) st.shift();
     try{ localStorage.setItem(POS_LS, JSON.stringify(st)); }catch(e){}
   }
+  function saveCurrentPosition(){
+    if(current) posSave(current.key, pdfReader ? pdfReader.page() : scrollFrac());
+  }
   function fileKey(file){ return file.name + "\0" + file.size + "\0" + file.lastModified; }
 
   /* ---- the hairline: how far into the text the reader is ---- */
@@ -527,7 +533,7 @@ layout: null
     return max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
   }
   function paintProgress(){
-    progressLine.style.width = current ? (scrollFrac() * 100).toFixed(3) + "%" : "0";
+    progressLine.style.width = current ? ((pdfReader ? pdfReader.progress() : scrollFrac()) * 100).toFixed(3) + "%" : "0";
   }
   /* the jump is instant — the smooth scroll is for links, not bookmarks */
   function jumpTo(y){
@@ -539,11 +545,11 @@ layout: null
     paintProgress();
     if(!current) return;
     clearTimeout(posT);
-    posT = setTimeout(function(){ if(current && window.innerWidth && document.documentElement.getBoundingClientRect().width) posSave(current.key, scrollFrac()); }, 400);
+    posT = setTimeout(function(){ if(current && window.innerWidth && document.documentElement.getBoundingClientRect().width) saveCurrentPosition(); }, 400);
   }, { passive: true });
   window.addEventListener("resize", paintProgress);
   window.addEventListener("beforeunload", function(){
-    if(current && window.innerWidth && document.documentElement.getBoundingClientRect().width) posSave(current.key, scrollFrac());
+    if(current && window.innerWidth && document.documentElement.getBoundingClientRect().width) saveCurrentPosition();
   });
 
   /* ---- the corner note, in /write/'s "Saved" manner ---- */
@@ -615,7 +621,7 @@ layout: null
         try{ parsed = window.OLAE_MARKDOWN.render(source, document, window.marked.lexer); }
         catch(e){ quietLine("That Markdown file could not be read. Try a smaller or less deeply nested file."); return; }
       } else { paras = toParagraphs(source); }
-      if(current) posSave(current.key, scrollFrac());
+      if(current) saveCurrentPosition();
       clearBook();                    /* a book opened earlier leaves the room */
       if(parsed){ article.appendChild(parsed.section); setToc(parsed.toc); }
       else { render(paras); }
@@ -649,6 +655,9 @@ layout: null
 
   /* the column empties for whatever comes next; blob: URLs are let go */
   function clearBook(){
+    clearTimeout(posT);
+    if(pdfReader){ pdfReader.destroy(); pdfReader = null; }
+    document.body.classList.remove("reading-pdf");
     urlList.forEach(function(u){ try{ URL.revokeObjectURL(u); }catch(e){} });
     urlList = []; urlCache = {}; imagePromises = [];
     book = null;
@@ -1649,10 +1658,53 @@ layout: null
     fr.readAsArrayBuffer(file);
   }
 
+  /* PDF keeps its own page geometry, with a page-number bookmark. */
+  async function readPdf(file){
+    var gen = ++openGen;
+    quietLine("Opening PDF…");
+    try{
+      if(!window.OLAE_PDF) throw Error("The PDF reader could not load. Reload this page and try again.");
+      var prepared = await window.OLAE_PDF.prepare(file, function(){ return gen === openGen; }, function(task){ pendingPdf = task; });
+      if(!prepared || gen !== openGen) return;
+      pendingPdf = null;
+      if(current) saveCurrentPosition();
+      clearBook();
+      current = {key:fileKey(file) + "\\0pdf-page"};
+      var savedPage = posGet(current.key);
+      document.body.classList.add("reading", "reading-pdf");
+      document.title = file.name;
+      pdfReader = window.OLAE_PDF.mount(prepared, article, savedPage, function(){
+        saveCurrentPosition(); paintProgress();
+      });
+      jumpTo(0); paintProgress();
+      if(savedPage > 1) flashNote("Back where you were");
+    }catch(error){
+      if(gen === openGen){ pendingPdf = null; quietLine(error.message); }
+    }
+  }
+  function sizePdfChrome(){
+    document.documentElement.style.setProperty("--pdf-chrome-height", $("#chrome").getBoundingClientRect().height + "px");
+  }
+  if(typeof ResizeObserver !== "undefined"){
+    var pdfChromeObserver = new ResizeObserver(sizePdfChrome);
+    pdfChromeObserver.observe($("#chrome"));
+  } else {
+    window.addEventListener("resize", sizePdfChrome);
+    sizePdfChrome();
+  }
+
   /* the one door every format comes through */
   function openFile(file){
     if(!file) return;
     var name = file.name || "";
+    // Invalidate pending PDF work even when the next file is rejected.
+    ++openGen;
+    if(pendingPdf){ pendingPdf.destroy().catch(function(){}); pendingPdf = null; }
+    if(/\.pdf$/i.test(name) || file.type === "application/pdf"){
+      if(file.size > EPUB_MAX){ quietLine("That PDF is too large. Open a PDF under 64 MB."); return; }
+      readPdf(file);
+      return;
+    }
     if(/\.epub$/i.test(name) || file.type === "application/epub+zip"){
       if(file.size > EPUB_MAX){ quietLine("That file is too large for this page."); return; }
       readEpub(file);
@@ -1669,7 +1721,7 @@ layout: null
     }
     var isMarkdown = /\.(md|markdown)$/i.test(name) || /^(text\/markdown|text\/x-markdown)$/i.test(file.type);
     var isTxt = /\.txt$/i.test(name) || file.type === "text/plain";
-    if(!isTxt && !isMarkdown){ quietLine("Open plain text (.txt), Markdown (.md), EPUB or Word (.docx)."); return; }
+    if(!isTxt && !isMarkdown){ quietLine("Open PDF, plain text (.txt), Markdown (.md), EPUB or Word (.docx)."); return; }
     if(file.size > MAX_BYTES){ quietLine("That file is too large for this page."); return; }
     readTxt(file, isMarkdown);
   }
@@ -1749,7 +1801,7 @@ layout: null
     document.addEventListener(ev, function(){ if(document.body.classList.contains("immersive")) pokeChrome(); });
   });
   if(window.OLAE_DESK_EMBED) window.OLAE_DESK_EMBED.register({
-    save: function(){ if(current && document.documentElement.getBoundingClientRect().width) posSave(current.key, scrollFrac()); }
+    save: function(){ if(current && document.documentElement.getBoundingClientRect().width) saveCurrentPosition(); }
   });
 })();
 </script>

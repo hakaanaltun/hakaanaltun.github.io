@@ -1,0 +1,26 @@
+body.reading-pdf .sheet{max-width:1040px;padding:20px 18px 12vh;min-width:0;}
+body.reading-pdf #typeRow{display:none;}
+.pdf-reader{font-size:1rem;line-height:1.4;scroll-margin-top:var(--pdf-chrome-height,76px);}
+.pdf-toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;position:sticky;top:var(--pdf-chrome-height,76px);z-index:1;background:var(--paper);padding:10px 0;border-bottom:1px solid var(--line);}
+.pdf-toolbar button{min-width:40px;min-height:40px;}
+.pdf-toolbar button:disabled{opacity:.4;cursor:default;}
+.pdf-toolbar input,.pdf-toolbar select{font:inherit;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:6px;min-height:40px;padding:5px 8px;}
+.pdf-toolbar input{width:5em;}
+.pdf-page-label{display:flex;align-items:center;gap:6px;}
+.pdf-toolbar :focus-visible,.pdf-scroll:focus-visible{outline:2px solid var(--ink);outline-offset:2px;}
+#reading .pdf-status{font-size:.875rem;color:var(--muted);text-align:center;margin:8px 0;min-height:1.4em;}
+.pdf-scroll{width:100%;overflow:auto;overscroll-behavior-x:contain;padding-bottom:12px;}
+.pdf-page{position:relative;margin:0 auto;background:white;color:black;box-shadow:0 1px 8px #0002;--scale-round-x:1px;--scale-round-y:1px;}
+.pdf-page canvas{display:block;}
+/* Text-layer geometry from Mozilla PDF.js 6.3.289, Apache-2.0.
+   Keep in sync with the pinned distribution in scripts/vendor_pdfjs.py. */
+.pdf-page .textLayer{color-scheme:only light;position:absolute;text-align:initial;inset:0;overflow:clip;line-height:1;letter-spacing:normal;word-spacing:normal;text-size-adjust:none;-webkit-text-size-adjust:none;forced-color-adjust:none;transform-origin:0 0;z-index:0;--min-font-size:1;--text-scale-factor:calc(var(--total-scale-factor) * var(--min-font-size));--min-font-size-inv:calc(1 / var(--min-font-size));}
+.pdf-page .textLayer :is(span,br){color:transparent;position:absolute;white-space:pre;cursor:text;transform-origin:0 0;user-select:text;-webkit-user-select:text;}
+.pdf-page .textLayer > :not(.markedContent),.pdf-page .textLayer .markedContent span:not(.markedContent){z-index:1;--font-height:0;font-size:calc(var(--text-scale-factor) * var(--font-height));--scale-x:1;--rotate:0deg;transform:rotate(var(--rotate)) scaleX(var(--scale-x)) scale(var(--min-font-size-inv));}
+.pdf-page .textLayer .markedContent{display:contents;}
+.pdf-page .textLayer[data-main-rotation="90"]{transform:rotate(90deg) translateY(-100%);}
+.pdf-page .textLayer[data-main-rotation="180"]{transform:rotate(180deg) translate(-100%,-100%);}
+.pdf-page .textLayer[data-main-rotation="270"]{transform:rotate(270deg) translateX(-100%);}
+.pdf-page .textLayer ::selection{background:rgb(0 100 220 / .3);color:transparent;}
+.pdf-page .textLayer br::selection{background:transparent;}
+@media(max-width:480px){body.reading-pdf .sheet{padding-left:8px;padding-right:8px;}.pdf-toolbar{gap:6px;}.pdf-toolbar input{width:4em;}}
