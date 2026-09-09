@@ -95,6 +95,20 @@ async function main(){
   arrow('ArrowRight',w.document.querySelector('.pdf-scroll'));await tick();assert.equal(viewer.page(),2);
   arrow('ArrowRight',w.document.body,{repeat:true});assert.equal(viewer.page(),2);
   arrow('ArrowLeft');await tick();assert.equal(viewer.page(),1);
+  // Zoomed in, the page is wider than its frame and the arrows cross it
+  // instead of turning it — the frame's own label promises as much.
+  const frame=w.document.querySelector('.pdf-scroll');
+  Object.defineProperty(frame,'clientWidth',{value:664,configurable:true});
+  Object.defineProperty(frame,'scrollWidth',{value:1800,configurable:true});
+  assert.equal(arrow('ArrowRight',frame).defaultPrevented,false,'native sideways scrolling is left alone');
+  await tick();assert.equal(viewer.page(),1,'and the page does not turn under it');
+  // Outside the frame the arrows still turn pages, zoom or no zoom.
+  assert(arrow('ArrowRight',w.document.body).defaultPrevented);await tick();assert.equal(viewer.page(),2);
+  arrow('ArrowLeft',w.document.body);await tick();assert.equal(viewer.page(),1);
+  // Back at fit width there is nothing to cross, so the frame turns pages again.
+  Object.defineProperty(frame,'scrollWidth',{value:664,configurable:true});
+  assert(arrow('ArrowRight',frame).defaultPrevented);await tick();assert.equal(viewer.page(),2);
+  arrow('ArrowLeft',frame);await tick();assert.equal(viewer.page(),1);
   zoom.value='3';zoom.dispatchEvent(new w.Event('change'));
   w.document.querySelector('[data-pdf="next"]').click();
   await tick();
@@ -137,6 +151,6 @@ async function main(){
   assert.equal(v.document.querySelector('#reading p').textContent,'A readable paragraph.');
   assert(clearCount>=2);
   second.window.close();
-  console.log('PDF controls, side arrows, reveal/hide timer, keyboard, rendering, bookmarks and PDF → TXT race: passed');
+  console.log('PDF controls, side arrows, reveal/hide timer, keyboard, rendering, bookmarks, zoomed sideways scrolling and PDF → TXT race: passed');
 }
 main().catch(e=>{console.error(e);process.exitCode=1;});

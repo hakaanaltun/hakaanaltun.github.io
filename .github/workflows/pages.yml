@@ -7,10 +7,13 @@ on:
   pull_request:
     paths:
       - 'read/**'
-      - 'js/reader-*.js'
-      - 'css/reader-pdf.css'
-      - 'scripts/*pdf*'
-      - 'scripts/vendor/pdfjs-*.zip'
+      - 'js/**'
+      - 'css/**'
+      - '_layouts/**'
+      - '_includes/**'
+      - 'scripts/**'
+      - 'package.json'
+      - 'package-lock.json'
       - '.github/workflows/pages.yml'
   workflow_dispatch:
 
@@ -53,13 +56,14 @@ jobs:
       - name: Restore bundled PDF reader assets
         run: python scripts/vendor_pdfjs.py
 
-      - name: Setup Node for PDF parser check
+      - name: Setup Node for the browser-tool checks
         uses: actions/setup-node@v4
         with:
           node-version: '24'
+          cache: 'npm'
 
-      - name: Verify PDF parser
-        run: node scripts/test-pdfjs.mjs
+      - name: Install check dependencies
+        run: npm ci
 
       - name: Setup Pages
         id: pages
@@ -69,6 +73,14 @@ jobs:
         run: bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
         env:
           JEKYLL_ENV: production
+
+      # The PDF parser against the bundled PDF.js, then the DOM-level checks
+      # for The Reader, the footer weather and puzzle mode, and the offline
+      # shell against the sw.js the build just rendered — hence after it, and
+      # still before the upload. A failure here stops the deploy: the deploy
+      # job needs this one.
+      - name: Run browser-tool checks
+        run: npm test
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

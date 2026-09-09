@@ -39,7 +39,7 @@
   var active=false, frame=0, fadeTimer=0, lastTime=0, bankAge=0;
   var mode='snow', intensity=1, splashes=[];
   var width=0,height=0,density=1,ground=0,footerHeight=0,holes=[];
-  var geometryDirty=true, bankDirty=true, observer;
+  var geometryDirty=true, groundDirty=false, bankDirty=true, observer, holeElements=null;
   var reduce=window.matchMedia('(prefers-reduced-motion: reduce)');
   var MAX_PARTICLES=110;
   function snowLimit(){return intensity===2?height*.5:footerHeight+24;}
@@ -66,6 +66,8 @@
     if(intensity===2){stop();return;}
     intensity=2;geometryDirty=true;seedWeather();updateButtons();
   }
+  /* The layout pass. Which things the drift leaves clear is a property of the
+     layout, so the list is gathered here and not on every frame. */
   function measure(){
     geometryDirty=false;
     var nextWidth=document.documentElement.clientWidth || window.innerWidth;
@@ -82,57 +84,103 @@
       // Resizing never creates more particles; a new page still has one loop.
       flakes.forEach(function(flake){ if(flake.x>width) flake.x=Math.random()*width; });
     }
+    // Leave soft clearings around footer lettering and controls in every theme.
+    // Only these small areas are cut out; the drift still reaches above the footer.
+    holeElements=footer.querySelectorAll('.footer-home-link, .footer-credit, .footer-contact-links, .footer-actions-wrap, .snow-toggle');
+    trackGround();
+  }
+  /* The scroll pass, and the only one a scroll needs: the footer keeps its
+     size and its contents, it just moves. Cheap enough to run per frame. */
+  function trackGround(){
+    groundDirty=false;
     var rect=footer.getBoundingClientRect();
     ground=rect.bottom;
     footerHeight=rect.height;
     drift.setLimit(snowLimit());
-    // Leave soft clearings around footer lettering and controls in every theme.
-    // Only these small areas are cut out; the drift still reaches above the footer.
     holes=[];
-    footer.querySelectorAll('.footer-home-link, .footer-credit, .footer-contact-links, .footer-actions-wrap, .snow-toggle').forEach(function(el){
-      var r=el.getBoundingClientRect();
-      if(r.width && r.height) holes.push({x:r.left-9,y:r.top-5,w:r.width+18,h:r.height+10});
-    });
+    // A bank nobody can see needs no clearings cut out of it, and while a
+    // reader is still in the essay that is every frame of every scroll.
+    if(holeElements && ground>=0 && ground-snowLimit()<=height){
+      holeElements.forEach(function(el){
+        var r=el.getBoundingClientRect();
+        if(r.width && r.height) holes.push({x:r.left-9,y:r.top-5,w:r.width+18,h:r.height+10});
+      });
+    }
     bankDirty=true;
+  }
+  function remeasure(){
+    if(geometryDirty) measure();
+    else if(groundDirty) trackGround();
   }
   function makeFlake(anywhere){
     var depth=Math.random(),heavy=intensity===2;
-    if(mode==='rain') return {x:Math.random()*width,y:anywhere?Math.random()*height:-24,
-      speed:(340+depth*420)*(heavy?1.8:1),wind:(20+depth*65)*(heavy?2.5:1),length:(7+depth*15)*(heavy?2.4:1),
-      thickness:(.55+depth*.65)*(heavy?1.7:1),alpha:heavy?.5+depth*.35:.16+depth*.24};
+    if(mode==='rain'){
+      /* Squaring depth puts most of the rain far away, where real rain mostly
+         is. The three jitters are what keep it from looking drawn: drops at
+         one depth no longer fall in lockstep, no two hold the light for the
+         same length, and a gust moves each of them by its own amount, so the
+         sheet leans instead of sliding. */
+      var near=depth*depth;
+      return {x:Math.random()*width,y:anywhere?Math.random()*height:-24,
+        speed:(300+near*520)*(heavy?1.75:1)*(.85+Math.random()*.3),
+        wind:(18+near*70)*(heavy?2.4:1)*(.8+Math.random()*.4),
+        gust:.55+Math.random()*.9, blur:1.05+Math.random()*.35,
+        thickness:(.5+near*.7)*(heavy?1.6:1),
+        alpha:heavy?.22+near*.3:.16+depth*.24};
+    }
     return {x:Math.random()*width,y:anywhere?Math.random()*height:-12,
       radius:(.7+depth*2.5)*(heavy?1.6:1),speed:(16+depth*32)*(heavy?2.2:1),phase:Math.random()*Math.PI*2,
       sway:(5+Math.random()*14)*(heavy?2:1),alpha:heavy?.7+depth*.3:.35+depth*.5};
   }
   function paintRain(dt,now){
-    var motion=reduce.matches ? .45 : 1;
-    var wind=Math.sin(now*.0003)*25;
+    var motion=reduce.matches ? .45 : 1, heavy=intensity===2;
+    /* Two gusts whose periods do not divide each other, so the wind wanders
+       instead of returning on a count the eye can learn. */
+    var swell=heavy?46:18;
+    var wind=Math.sin(now*.00031)*swell+Math.sin(now*.00097+1.7)*swell*.45;
     context.lineCap='round';
     for(var i=0;i<flakes.length;i++){
       var drop=flakes[i];
-      drop.x+=(drop.wind+wind)*dt*motion;
-      drop.y+=drop.speed*dt*motion;
-      if(drop.x>width+24)drop.x=-20;
+      var dx=(drop.wind+wind*drop.gust)*dt*motion, dy=drop.speed*dt*motion;
+      drop.x+=dx; drop.y+=dy;
+      // Rain leaning hard enough to leave the frame re-enters from the far
+      // side at the same height, which is what a continuous sheet does.
+      if(drop.x>width+28)drop.x=-24; else if(drop.x<-28)drop.x=width+24;
       var landed=ground>=0 && ground<=height+1 && drop.y>=ground;
       if(landed || drop.y>height+24){
-        if(landed && splashes.length<(intensity===2?60:24) && Math.random()<(intensity===2?.7:.35)){
-          splashes.push({x:drop.x,y:ground-2,age:0,lifetime:.35+Math.random()*.2});
+        if(landed && splashes.length<(heavy?60:24) && Math.random()<(heavy?.7:.35)){
+          splashes.push({x:drop.x,y:ground-2,age:0,lifetime:.3+Math.random()*.25,
+            reach:4+drop.thickness*3.5});
         }
         flakes[i]=makeFlake(false);continue;
       }
-      var tailX=(drop.wind+wind)/drop.speed*drop.length;
-      context.beginPath();context.moveTo(drop.x-tailX,drop.y-drop.length);context.lineTo(drop.x,drop.y);
+      /* The streak is the ground this drop just covered, held open a little
+         the way a shutter holds it. It used to be a random length unrelated
+         to the drop's speed, and at 30 fps a fast one crosses more than that
+         between frames — which is why heavy rain arrived as dashes with gaps
+         in them rather than as rain. Tying it to the step closes the gaps at
+         any speed and any frame rate; the clamp keeps a stalled tab from
+         drawing one long smear when it comes back. */
+      var travel=Math.sqrt(dx*dx+dy*dy);
+      var stretch=travel>0?Math.min(drop.blur,90/travel):0;
+      context.beginPath();
+      context.moveTo(drop.x-dx*stretch,drop.y-dy*stretch);context.lineTo(drop.x,drop.y);
       context.lineWidth=drop.thickness;
-      context.strokeStyle=(intensity===2?'rgba(65,102,133,':'rgba(160,190,211,')+drop.alpha+')';context.stroke();
-      // A bright core and blue outer stroke show the downpour on both palettes.
-      if(intensity===2){context.lineWidth=drop.thickness*.35;context.strokeStyle='rgba(219,238,252,'+drop.alpha+')';context.stroke();}
+      context.strokeStyle=(heavy?'rgba(96,132,164,':'rgba(160,190,211,')+drop.alpha+')';context.stroke();
+      // A brighter spine on the nearest drops only — enough to carry the
+      // downpour on a light palette without painting every streak white.
+      if(heavy && drop.thickness>1.35){
+        context.lineWidth=drop.thickness*.4;
+        context.strokeStyle='rgba(226,241,253,'+(drop.alpha*.85)+')';context.stroke();
+      }
     }
     for(var j=splashes.length-1;j>=0;j--){
       var splash=splashes[j];splash.age+=dt;
       if(splash.age>=splash.lifetime){splashes.splice(j,1);continue;}
-      var progress=splash.age/splash.lifetime,radius=1+progress*8;
+      var progress=splash.age/splash.lifetime,radius=1+progress*(splash.reach||8);
       context.beginPath();context.ellipse(splash.x,splash.y,radius,radius*.28,0,0,Math.PI*2);
-      context.lineWidth=intensity===2?1.3:.7;context.strokeStyle=(intensity===2?'rgba(65,102,133,':'rgba(160,190,211,')+((intensity===2?.65:.3)*(1-progress))+')';context.stroke();
+      context.lineWidth=heavy?1.1:.7;
+      context.strokeStyle=(heavy?'rgba(96,132,164,':'rgba(160,190,211,')+((heavy?.5:.3)*(1-progress))+')';context.stroke();
     }
   }
   function paintBank(){
@@ -171,7 +219,7 @@
     if(lastTime && now-lastTime<interval){ frame=requestAnimationFrame(step);return; }
     var dt=lastTime?Math.min((now-lastTime)/1000,.1):0;
     lastTime=now;
-    if(geometryDirty) measure();
+    remeasure();
     context.clearRect(0,0,width,height);
     if(mode==='rain'){
       paintRain(dt,now);frame=requestAnimationFrame(step);return;
@@ -198,10 +246,11 @@
     frame=requestAnimationFrame(step);
   }
   function invalidate(){geometryDirty=true;}
+  function trackScroll(){groundDirty=true;}
   function sweep(event){
     if(!active || mode!=='snow' || !width) return;
     if(event.type==='pointermove' && event.pointerType!=='mouse' && !event.buttons) return;
-    if(geometryDirty) measure();
+    remeasure();
     var fraction=event.clientX/width, snowTop=ground-drift.heightAt(fraction);
     if(event.clientY<snowTop-10 || event.clientY>ground) return;
     if(event.target.closest && event.target.closest('a,button,input,select,textarea')) return;
@@ -222,7 +271,7 @@
     active=false;cancelAnimationFrame(frame);frame=0;
     if(observer){observer.disconnect();observer=null;}
     window.removeEventListener('resize',invalidate);
-    window.removeEventListener('scroll',invalidate);
+    window.removeEventListener('scroll',trackScroll);
     document.removeEventListener('pointermove',sweep);
     document.removeEventListener('pointerdown',sweep);
     document.removeEventListener('visibilitychange',visibility);
@@ -240,12 +289,12 @@
     context=canvas.getContext('2d');bankContext=bank.getContext('2d');
     if(!context || !bankContext){removeLayers();return;}
     document.body.appendChild(canvas);
-    drift=createDrift(81);width=height=0;measure();
+    drift=createDrift(81);width=height=0;holeElements=null;geometryDirty=true;measure();
     seedWeather();
     active=true;lastTime=0;bankAge=0;
     updateButtons();
     window.addEventListener('resize',invalidate,{passive:true});
-    window.addEventListener('scroll',invalidate,{passive:true});
+    window.addEventListener('scroll',trackScroll,{passive:true});
     document.addEventListener('pointermove',sweep,{passive:true});
     document.addEventListener('pointerdown',sweep,{passive:true});
     document.addEventListener('visibilitychange',visibility);

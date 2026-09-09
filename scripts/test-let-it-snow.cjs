@@ -98,4 +98,88 @@ function check(reduced,width){
   dom.window.close();
 }
 check(false,1440);check(false,390);check(true,390);
-console.log('Weather checks passed: three-stage cycles, preserved snow, half-screen cap and resize, rain/splash limits, exclusive switching, mobile bounds, reduced motion and cleanup.');
+
+/* Scrolling must not cost a layout pass. The footer moves under the snow, so
+   its own box is read every frame; its contents keep their sizes and their
+   selectors, and while the footer is off screen there is no bank to cut them
+   out of at all. */
+function scrollCost(footerTop){
+  const dom=new JSDOM('<footer><a class="footer-home-link">h</a><p class="footer-credit">c</p><div class="footer-contact-links">l</div><div class="footer-actions-wrap">a</div><div class="footer-weather"><button id="let-it-snow" hidden></button><button id="let-it-rain" hidden></button></div></footer>',{runScripts:'outside-only',pretendToBeVisual:true});
+  const w=dom.window;let id=0,rects=0,queries=0;
+  const frames=new Map(),timers=new Map();
+  w.matchMedia=()=>({matches:false});
+  w.requestAnimationFrame=fn=>{frames.set(++id,fn);return id;};
+  w.cancelAnimationFrame=i=>frames.delete(i);
+  w.setTimeout=fn=>{timers.set(++id,fn);return id;};
+  w.clearTimeout=i=>timers.delete(i);
+  w.innerWidth=1200;w.innerHeight=800;
+  Object.defineProperty(w.document.documentElement,'clientWidth',{value:1200});
+  w.HTMLElement.prototype.getBoundingClientRect=function(){
+    rects++;
+    if(this.tagName==='FOOTER')return {left:0,right:1200,top:footerTop,bottom:footerTop+240,width:1200,height:240};
+    return {left:300,right:900,top:footerTop+70,bottom:footerTop+100,width:600,height:30};
+  };
+  const all=w.Element.prototype.querySelectorAll;
+  w.Element.prototype.querySelectorAll=function(){queries++;return all.apply(this,arguments);};
+  const ctx={setTransform(){},clearRect(){},drawImage(){},beginPath(){},moveTo(){},lineTo(){},closePath(){},fill(){},stroke(){},save(){},restore(){},fillRect(){},arc(){},ellipse(){},createLinearGradient(){return{addColorStop(){}};}};
+  w.HTMLCanvasElement.prototype.getContext=()=>ctx;
+  w.eval(fs.readFileSync(path.join(root,'js/let-it-snow.js'),'utf8'));
+  w.document.getElementById('let-it-snow').click();
+  const paint=n=>{const cbs=[...frames.values()];frames.clear();cbs.forEach(fn=>fn(n));};
+  paint(100);rects=0;queries=0;
+  for(let i=1;i<=60;i++){w.dispatchEvent(new w.Event('scroll'));paint(100+i*40);}
+  dom.window.close();
+  return {rects,queries};
+}
+/* Heavy rain has to fall as rain, not as dashes. Each streak must cover at
+   least the ground its drop crossed since the last frame, or the fall has
+   holes in it — which is what a fixed streak length unrelated to speed left
+   behind at 30 fps. Matched drop by drop, mutually nearest, falling only. */
+function rainGaps(){
+  const dom=new JSDOM('<footer><p class="footer-credit">c</p><div class="footer-weather"><button id="let-it-snow" hidden></button><button id="let-it-rain" hidden></button></div></footer>',{runScripts:'outside-only',pretendToBeVisual:true});
+  const w=dom.window;let id=0;const cbs=new Map(),timers=new Map();
+  w.matchMedia=()=>({matches:false});
+  w.requestAnimationFrame=fn=>{cbs.set(++id,fn);return id;};
+  w.cancelAnimationFrame=i=>cbs.delete(i);
+  w.setTimeout=fn=>{timers.set(++id,fn);return id;};w.clearTimeout=i=>timers.delete(i);
+  w.innerWidth=1440;w.innerHeight=900;
+  Object.defineProperty(w.document.documentElement,'clientWidth',{value:1440});
+  w.HTMLElement.prototype.getBoundingClientRect=function(){
+    if(this.tagName==='FOOTER')return{left:0,right:1440,top:3000,bottom:3240,width:1440,height:240};
+    return{left:0,right:0,top:3000,bottom:3000,width:0,height:0};};
+  let seg=null,capture=[];const shots=[];
+  const ctx={setTransform(){},clearRect(){},drawImage(){},closePath(){},fill(){},save(){},restore(){},fillRect(){},arc(){},ellipse(){seg=null;},createLinearGradient(){return{addColorStop(){}};},
+    beginPath(){seg={};},moveTo(x,y){if(seg){seg.x0=x;seg.y0=y;}},lineTo(x,y){if(seg){seg.x1=x;seg.y1=y;}},
+    stroke(){if(seg&&seg.x1!==undefined)capture.push({x0:seg.x0,y0:seg.y0,x1:seg.x1,y1:seg.y1});}};
+  w.HTMLCanvasElement.prototype.getContext=()=>ctx;
+  w.eval(fs.readFileSync(path.join(root,'js/let-it-snow.js'),'utf8'));
+  const rain=w.document.getElementById('let-it-rain');
+  rain.click();rain.click();
+  assert.equal(rain.dataset.weatherLevel,'2');
+  for(let i=0;i<24;i++){const list=[...cbs.values()];cbs.clear();capture=[];list.forEach(fn=>fn(100000+i*34));shots.push(capture);}
+  dom.window.close();
+  const nearest=(list,x,y)=>{let b=-1,d=Infinity;list.forEach((q,i)=>{const e=Math.hypot(q.x1-x,q.y1-y);if(e<d){d=e;b=i;}});return[b,d];};
+  const holes=[];let sampled=0;
+  for(let f=6;f<shots.length;f++){
+    const prev=shots[f-1];
+    shots[f].forEach((s,si)=>{
+      const [pi,d]=nearest(prev,s.x1,s.y1);
+      if(pi<0||d<8||d>80||s.y1<=prev[pi].y1)return;
+      if(nearest(shots[f],prev[pi].x1,prev[pi].y1)[0]!==si)return;
+      sampled++;
+      const streak=Math.hypot(s.x1-s.x0,s.y1-s.y0);
+      if(d-streak>0.001)holes.push(d-streak);
+    });
+  }
+  return {sampled,holes};
+}
+const fall=rainGaps();
+assert.ok(fall.sampled>500,'enough drops were followed frame to frame: '+fall.sampled);
+assert.equal(fall.holes.length,0,'every streak covers the step its drop took; '+fall.holes.length+' did not');
+
+const away=scrollCost(2000),near=scrollCost(560);
+assert.equal(away.rects,60,'off screen, a scrolled frame reads the footer box and nothing else');
+assert.equal(away.queries,0,'and matches no selectors at all');
+assert.equal(near.queries,0,'on screen the clearings still move, but the list of them is not rebuilt');
+assert.ok(near.rects<=300,'and each one is read once per frame');
+console.log('Weather checks passed: three-stage cycles, preserved snow, half-screen cap and resize, rain/splash limits, exclusive switching, mobile bounds, reduced motion, unbroken heavy rain, scroll cost and cleanup.');
