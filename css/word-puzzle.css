@@ -10,6 +10,14 @@
 .puzzle-action[hidden],.puzzle-comparison[hidden],.puzzle-word[hidden]{display:none;}
 .puzzle-action:focus-visible,.puzzle-word:focus-visible,.puzzle-slot:focus-visible{outline:2px solid var(--petrol);outline-offset:3px;}
 .puzzle-word-preview{display:inline-block;border:1px solid var(--rule);border-radius:5px;padding:1px 5px;margin:2px 0;}
+/* A paragraph waiting to be chosen. The halo is drawn with a spread shadow
+   rather than padding so nothing on the page shifts on hover. */
+.puzzle-preview{cursor:pointer;border-radius:6px;transition:background-color .2s ease,box-shadow .2s ease;}
+.puzzle-preview:hover,.puzzle-preview:has(.puzzle-scatter-cue:focus-visible){background:color-mix(in srgb,var(--petrol) 8%,transparent);box-shadow:0 0 0 7px color-mix(in srgb,var(--petrol) 8%,transparent);}
+/* The paragraph's one control, in the same quiet voice as "read with rain". */
+.puzzle-scatter-cue{font:italic .85rem/1.2 'EB Garamond',Georgia,serif;letter-spacing:.03em;vertical-align:baseline;padding:2px 6px;border:0;border-radius:4px;background:transparent;color:var(--vizon);cursor:pointer;white-space:nowrap;}
+.puzzle-scatter-cue:hover{color:var(--petrol);}
+.puzzle-scatter-cue:focus-visible{outline:2px solid var(--petrol);outline-offset:2px;color:var(--petrol);}
 .word-puzzle{margin:0 0 32px;padding:20px 0;border-bottom:1px solid var(--rule);font-size:1.12rem;line-height:1.5;scroll-margin-top:160px;}
 .puzzle-paragraph-label{font-size:.875rem;letter-spacing:.03em;color:var(--vizon);margin-bottom:12px;}
 .puzzle-slots,.puzzle-bank{display:flex;align-items:flex-start;flex-wrap:wrap;gap:8px;}
@@ -30,4 +38,4 @@
 @keyframes puzzle-scatter{from{opacity:.15;transform:translateY(-12px) rotate(0deg);}to{opacity:1;transform:rotate(var(--puzzle-tilt,0deg));}}
 @media(max-width:600px){.puzzle-panel{padding:10px 12px;}.word-puzzle{font-size:1rem;}.puzzle-word,.puzzle-slot{min-height:44px;}.puzzle-bank{padding:12px 8px;}.puzzle-panel-actions{gap:6px;}}
 @media(max-height:500px){.puzzle-panel{position:static;}}
-@media(prefers-reduced-motion:reduce){.puzzle-word{animation:none;}}
+@media(prefers-reduced-motion:reduce){.puzzle-word{animation:none;}.puzzle-preview{transition:none;}}

@@ -1,12 +1,17 @@
-/* Reversible, paragraph-by-paragraph word puzzles. Original DOM nodes are
-   detached intact and returned on exit; nothing is sent or saved. */
+/* Reversible word puzzles, one paragraph at a time. A reader opens puzzle
+   mode, then scatters whichever paragraph they are curious about; the rest
+   of the essay stays readable. Original DOM nodes are detached intact and
+   returned on exit; nothing is sent or saved. */
 (function(){
   'use strict';
   var launch=document.getElementById('essay-puzzle');
   var article=document.querySelector('.essay-body');
   if(!launch || !article) return;
-  var phase='reading', records=[], panel=null, action=null, message=null;
   var MIME='application/x-olae-word-puzzle';
+  /* Short enough that rebuilding one is a few minutes' curiosity rather than
+     a chore, long enough that the order is worth thinking about. */
+  var MIN_WORDS=2, MAX_WORDS=120;
+  var phase='reading', records=[], opened=[], panel=null, message=null;
   var gameId=Math.random().toString(36).slice(2);
   function el(tag,cls,text){
     var node=document.createElement(tag);
@@ -31,12 +36,29 @@
     return order;
   }
   function clearSelection(){var selection=window.getSelection();if(selection)selection.removeAllRanges();}
+  /* Prose only: nothing with nested blocks, media, code or controls in it,
+     and nothing so long that scattering it would be a punishment. */
+  function eligible(node){
+    if(node.closest('.puzzle-panel, .word-puzzle, .puzzle-preview'))return null;
+    if(node.querySelector('p, li, blockquote, img, svg, video, audio, canvas, iframe, button, input, select, textarea, pre, code, math'))return null;
+    var text=prose(node),words=text.match(/\S+/gu)||[];
+    if(words.length<MIN_WORDS || words.length>MAX_WORDS)return null;
+    return {original:node,text:text,words:words,view:null,board:null};
+  }
+  function survey(stopAtFirst){
+    var found=[],nodes=article.querySelectorAll('p, li, blockquote');
+    for(var i=0;i<nodes.length;i++){
+      var record=eligible(nodes[i]);
+      if(record){found.push(record);if(stopAtFirst)break;}
+    }
+    return found;
+  }
   function restore(){
     records.forEach(function(record){
-      if(record.view.parentNode)record.view.replaceWith(record.original);
+      if(record.view && record.view.parentNode)record.view.replaceWith(record.original);
     });
-    records=[];
-    if(panel)panel.remove();panel=action=message=null;
+    records=[];opened=[];
+    if(panel)panel.remove();panel=message=null;
     phase='reading';article.classList.remove('puzzle-active');
     launch.textContent='puzzle mode';launch.setAttribute('aria-pressed','false');
     launch.focus({preventScroll:true});
@@ -44,59 +66,66 @@
   function setPanel(){
     panel=el('div','puzzle-panel');panel.setAttribute('role','group');panel.setAttribute('aria-label','Puzzle controls');
     var controls=el('div','puzzle-panel-actions');
-    action=button('puzzle-action','Scatter the words');
-    action.addEventListener('click',scatter);
     var exit=button('puzzle-action','Read the original');exit.addEventListener('click',restore);
     function dismiss(){
       panel.hidden=true;
-      var next=article.querySelector('.puzzle-word:not([hidden])') || article.querySelector('.puzzle-slot') || launch;
+      var next=article.querySelector('.puzzle-word:not([hidden])') || article.querySelector('.puzzle-scatter-cue') || launch;
       next.focus({preventScroll:true});
     }
     var hide=button('puzzle-action','Hide instructions');hide.addEventListener('click',dismiss);
     panel.addEventListener('click',function(event){
       if(!event.target.closest('button'))dismiss();
     });
-    controls.append(action,exit,hide);
-    message=el('p','puzzle-instructions','The words are still in their original order. Scatter them when you are ready.');
+    controls.append(exit,hide);
+    message=el('p','puzzle-instructions','Choose a paragraph to scatter its words, then put them back in an order of your own. Escape returns one paragraph; Escape again leaves puzzle mode.');
     panel.append(controls,message);article.prepend(panel);
   }
-  function boxWords(){
-    var candidates=Array.from(article.querySelectorAll('p, li, blockquote')).filter(function(node){
-      return !node.querySelector('p, li, blockquote, img, svg, video, audio, canvas, iframe, button, input, select, textarea, pre, code, math') && prose(node).trim();
+  /* The paragraph keeps its own role, so its prose stays readable and a list
+     item stays a list item; the trailing cue is the actual control. Pointer
+     users can click anywhere in the paragraph, which claims nothing in ARIA. */
+  function makePreview(record,index){
+    var preview=record.original.cloneNode(false);
+    preview.classList.add('puzzle-preview');
+    preview.dataset.puzzleIndex=String(index);
+    (record.text.match(/\S+|\s+/gu)||[]).forEach(function(part){
+      preview.appendChild(/\S/u.test(part)?el('span','puzzle-word-preview',part):document.createTextNode(part));
     });
-    var total=0;
-    records=candidates.map(function(node){
-      var text=prose(node),words=text.match(/\S+/gu)||[];total+=words.length;
-      return {original:node,text:text,words:words,view:null};
-    });
-    if(!records.length || total>15000){
-      records=[];launch.textContent=total>15000?'This text is too long for puzzle mode':'No paragraphs to turn into a puzzle';return;
-    }
+    var cue=button('puzzle-scatter-cue','scatter');
+    cue.setAttribute('aria-label','Scatter the '+record.words.length+' words of paragraph '+(index+1)+' of '+records.length);
+    preview.append(' ',cue);
+    return preview;
+  }
+  function cueOf(preview){return preview && preview.querySelector('.puzzle-scatter-cue');}
+  function focusCue(preview){var cue=cueOf(preview);if(cue)cue.focus({preventScroll:true});}
+  function openPuzzle(){
+    records=survey(false);
+    if(!records.length)return;
     clearSelection();
-    records.forEach(function(record){
-      var preview=record.original.cloneNode(false);preview.classList.add('puzzle-preview');
-      (record.text.match(/\S+|\s+/gu)||[]).forEach(function(part){
-        preview.appendChild(/\S/u.test(part)?el('span','puzzle-word-preview',part):document.createTextNode(part));
-      });
+    records.forEach(function(record,index){
+      var preview=makePreview(record,index);
       record.original.replaceWith(preview);record.view=preview;
     });
-    phase='boxed';article.classList.add('puzzle-active');
-    launch.textContent='scatter the words';launch.setAttribute('aria-pressed','true');
-    setPanel();panel.scrollIntoView({block:'start',behavior:'instant'});action.focus({preventScroll:true});
+    phase='open';article.classList.add('puzzle-active');
+    launch.textContent='leave puzzle mode';launch.setAttribute('aria-pressed','true');
+    setPanel();panel.scrollIntoView({block:'start',behavior:'instant'});
+    focusCue(records[0].view);
   }
   function makeBoard(record,index){
     // Preserve list semantics where a prose item lives inside a list.
     var board=el(record.original.tagName==='LI'?'li':'section','word-puzzle');
     board.setAttribute('aria-label','Paragraph '+(index+1));
+    board.dataset.puzzleIndex=String(index);
     if(record.original.id)board.id=record.original.id;
     var heading=el('div','puzzle-paragraph-label','Paragraph '+(index+1));
     var slots=el('div','puzzle-slots');slots.setAttribute('role','group');slots.setAttribute('aria-label','Rebuild paragraph '+(index+1));
     var bank=el('div','puzzle-bank');bank.setAttribute('role','group');bank.setAttribute('aria-label','Available words for paragraph '+(index+1));
     var actions=el('div','puzzle-board-actions');
     var compare=button('puzzle-action','Compare with original');compare.disabled=true;
+    var putBack=button('puzzle-action','Put this paragraph back');
+    putBack.addEventListener('click',function(){closeBoard(index);});
     var status=el('span','puzzle-status');status.setAttribute('role','status');status.setAttribute('aria-live','polite');
     var comparison=el('div','puzzle-comparison');comparison.hidden=true;
-    actions.append(compare,status);board.append(heading,slots,bank,actions,comparison);
+    actions.append(compare,putBack,status);board.append(heading,slots,bank,actions,comparison);
     var words=record.words,placement=words.map(function(){return null;}),selected=null;
     var slotButtons=[],wordButtons=[],order=shuffled(words),boardId=gameId+'-paragraph-'+index;
     function select(id){
@@ -192,23 +221,49 @@
       slotButtons.forEach(function(slot,i){slot.classList.toggle('puzzle-different',words[placement[i]]!==words[i]);});
       comparison.hidden=false;compare.textContent='Hide comparison';
     });
-    paint();record.view.replaceWith(board);record.view=board;
+    paint();record.view.replaceWith(board);record.view=board;record.board=board;
   }
-  function scatter(){
-    if(phase!=='boxed')return;
-    clearSelection();records.forEach(makeBoard);phase='playing';
-    launch.textContent='leave puzzle mode';
-    action.hidden=true;
-    message.textContent='Choose a word, then a position. You can also drag words. Select a placed word to return it. Fill a paragraph to compare. Escape returns to reading.';
-    var first=article.querySelector('.puzzle-word');if(first)first.focus({preventScroll:true});
+  /* One paragraph at a time: the reader asks for each board, and gets the
+     paragraph back whenever they want it. */
+  function openBoard(index){
+    var record=records[index];
+    if(phase!=='open' || !record || record.board)return;
+    clearSelection();makeBoard(record,index);
+    opened.push(index);
+    var first=record.view.querySelector('.puzzle-word');
+    if(first)first.focus({preventScroll:true});
   }
+  function closeBoard(index){
+    var record=records[index];
+    if(phase!=='open' || !record || !record.board)return;
+    var preview=makePreview(record,index);
+    record.view.replaceWith(preview);record.view=preview;record.board=null;
+    opened=opened.filter(function(other){return other!==index;});
+    focusCue(preview);
+  }
+  function previewIndex(event){
+    var preview=event.target.closest && event.target.closest('.puzzle-preview');
+    return preview && article.contains(preview) ? Number(preview.dataset.puzzleIndex) : null;
+  }
+  article.addEventListener('click',function(event){
+    var index=previewIndex(event);
+    if(index!==null)openBoard(index);
+  });
   launch.addEventListener('click',function(){
-    if(phase==='reading')boxWords();else if(phase==='boxed')scatter();else restore();
+    if(phase==='reading')openPuzzle();else restore();
   });
   document.addEventListener('keydown',function(event){
-    if(event.key!=='Escape' || phase==='reading' || event.defaultPrevented)return;
+    if(event.key!=='Escape' || phase!=='open' || event.defaultPrevented)return;
     if(event.target.closest && event.target.closest('input, textarea, select, [contenteditable], [role="dialog"], .theme-menu, .drawer'))return;
-    event.preventDefault();restore();
+    event.preventDefault();
+    /* A single Escape never costs more than one paragraph's work: it closes
+       the board you are in, or the one opened most recently, and only leaves
+       puzzle mode once nothing is scattered. */
+    var board=event.target.closest && event.target.closest('.word-puzzle');
+    if(board && board.dataset.puzzleIndex)closeBoard(Number(board.dataset.puzzleIndex));
+    else if(opened.length)closeBoard(opened[opened.length-1]);
+    else restore();
   });
-  launch.hidden=false;
+  /* A button that cannot do anything is never offered. */
+  if(survey(true).length)launch.hidden=false;
 })();

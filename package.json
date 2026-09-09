@@ -1,0 +1,12 @@
+{
+  "name": "olae-site-checks",
+  "version": "1.0.0",
+  "private": true,
+  "description": "DOM-level checks for the instruments that run in the browser. Development only: scripts/ is excluded from the Jekyll build, so none of this is published.",
+  "scripts": {
+    "test": "node scripts/test-pdfjs.mjs && node scripts/test-reader-pdf.cjs && node scripts/test-let-it-snow.cjs && node scripts/test-word-puzzle.cjs"
+  },
+  "devDependencies": {
+    "jsdom": "^30.0.1"
+  }
+}
