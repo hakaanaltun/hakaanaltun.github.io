@@ -47,7 +47,16 @@
     action=button('puzzle-action','Scatter the words');
     action.addEventListener('click',scatter);
     var exit=button('puzzle-action','Read the original');exit.addEventListener('click',restore);
-    controls.append(action,exit);
+    function dismiss(){
+      panel.hidden=true;
+      var next=article.querySelector('.puzzle-word:not([hidden])') || article.querySelector('.puzzle-slot') || launch;
+      next.focus({preventScroll:true});
+    }
+    var hide=button('puzzle-action','Hide instructions');hide.addEventListener('click',dismiss);
+    panel.addEventListener('click',function(event){
+      if(!event.target.closest('button'))dismiss();
+    });
+    controls.append(action,exit,hide);
     message=el('p','puzzle-instructions','The words are still in their original order. Scatter them when you are ready.');
     panel.append(controls,message);article.prepend(panel);
   }
