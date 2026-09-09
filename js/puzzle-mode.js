@@ -25,7 +25,7 @@
     words:    {noun:'word',     runaway:400, countAbove:60}
   };
   var unit='sentences';
-  var phase='reading', records=[], offered=0, opened=[], panel=null, message=null;
+  var phase='reading', records=[], offered=0, opened=[], panel=null, message=null, releasePanel=null;
   var gameId=Math.random().toString(36).slice(2);
   function el(tag,cls,text){
     var node=document.createElement(tag);
@@ -125,6 +125,7 @@
       if(record.view && record.view!==record.original && record.view.parentNode)record.view.replaceWith(record.original);
     });
     records=[];opened=[];
+    if(releasePanel){releasePanel();releasePanel=null;}
     if(panel)panel.remove();panel=message=null;
     phase='reading';article.classList.remove('puzzle-active');
     launch.textContent='puzzle mode';launch.setAttribute('aria-pressed','false');
@@ -138,14 +139,29 @@
        What is left is the choice of unit, small and out of the way down the
        left, because a reader who has read the instructions once may still
        want to switch between sentences and words at any point. */
+    /* The rail is fixed to the window, and .essay-body carries the identity
+       transform its fade-in leaves behind — which would make it the rail's
+       containing block and pin the thing back inside the column it is trying
+       to get out of. So while it is a rail it hangs off the body instead, and
+       comes home to the top of the essay when it is opened again. */
+    var wide=window.matchMedia?window.matchMedia('(min-width:1100px)'):{matches:false};
+    function dock(){
+      if(!panel)return;
+      var railed=panel.classList.contains('puzzle-collapsed') && wide.matches;
+      var home=railed?document.body:article;
+      if(panel.parentNode===home)return;
+      if(railed)document.body.appendChild(panel);else article.prepend(panel);
+    }
+    if(wide.addEventListener)wide.addEventListener('change',dock);
+    releasePanel=function(){if(wide.removeEventListener)wide.removeEventListener('change',dock);};
     function collapse(){
       if(panel.classList.contains('puzzle-collapsed'))return;
-      panel.classList.add('puzzle-collapsed');
+      panel.classList.add('puzzle-collapsed');dock();
       var next=article.querySelector('.puzzle-piece:not([hidden])') || article.querySelector('.puzzle-scatter-cue') || launch;
       next.focus({preventScroll:true});
     }
     function expand(){
-      panel.classList.remove('puzzle-collapsed');
+      panel.classList.remove('puzzle-collapsed');dock();
       hide.focus({preventScroll:true});
     }
     var hide=button('puzzle-action','Hide instructions');hide.addEventListener('click',collapse);
@@ -185,7 +201,21 @@
   }
   function setUnit(name){
     if(!UNITS[name] || name===unit)return;
-    unit=name;paintUnitChoice();renderPreviews();
+    unit=name;paintUnitChoice();renumber();
+    /* An open board comes along. The paragraph a reader has scattered is the
+       one they are thinking about, so it is the last one that should be left
+       behind in the old unit. Its arrangement cannot come with it — placed
+       words are not placed sentences — so it opens fresh; and a paragraph
+       the new unit has no use for goes quietly back to being prose. */
+    opened.slice().forEach(function(index){
+      var record=records[index];
+      if(!record || !record.board)return;
+      if(scatterable(record)){makeBoard(record,index);return;}
+      record.view.replaceWith(record.original);
+      record.view=record.original;record.viewUnit=null;record.board=null;
+      opened=opened.filter(function(other){return other!==index;});
+    });
+    renderPreviews();
   }
   /* The paragraph keeps its own role, so its prose stays readable and a list
      item stays a list item; the trailing cue is the actual control. Pointer

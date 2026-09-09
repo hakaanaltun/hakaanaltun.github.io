@@ -134,9 +134,10 @@ assert.equal(article.innerHTML,originalHTML);
 for(let i=0;i<3;i++){launch.click();launch.click();assert.equal(article.innerHTML,originalHTML);}
 dom.window.close();
 
-function fresh(body){
+function fresh(body,wide){
   const page=new JSDOM(body,{runScripts:'outside-only',pretendToBeVisual:true});
   page.window.HTMLElement.prototype.scrollIntoView=function(){};
+  if(wide!==undefined)page.window.matchMedia=()=>({matches:wide,addEventListener(){},removeEventListener(){}});
   page.window.eval(script);
   return page;
 }
@@ -204,6 +205,7 @@ function fresh(body){
   const doc=page.window.document;
   doc.getElementById('essay-puzzle').click();
   const shelf=doc.querySelector('.puzzle-panel');
+  assert.ok(shelf.parentElement.classList.contains('essay-body'),'expanded, it heads the essay');
   const hide=[...shelf.querySelectorAll('.puzzle-action')].find(b=>b.textContent==='Hide instructions');
   assert.equal(shelf.classList.contains('puzzle-collapsed'),false);
   hide.click();
@@ -221,12 +223,43 @@ function fresh(body){
   // The instructions can be asked for again.
   const show=shelf.querySelector('.puzzle-expand');
   assert(show,'a way back to the instructions');
+  assert(show,'a way back to the instructions');
   show.click();
   assert.equal(shelf.classList.contains('puzzle-collapsed'),false);
   assert.match(shelf.querySelector('.puzzle-instructions').textContent,/Choose a paragraph to scatter its words/);
   // Leaving still restores the essay exactly.
   doc.getElementById('essay-puzzle').click();
   assert.equal(doc.querySelector('.essay-body').innerHTML,'<p>First one. Second one.</p>');
+  page.window.close();
+}
+// On a window with a margin to spare, the shrunken rail leaves the column
+// altogether — it hangs off the body, because .essay-body's fade-in leaves a
+// transform behind that would otherwise pin a fixed child inside the column.
+{
+  const page=fresh('<button id="essay-puzzle" hidden>puzzle mode</button><article class="essay-body"><p>First one. Second one.</p></article>',true);
+  const doc=page.window.document;
+  doc.getElementById('essay-puzzle').click();
+  const shelf=doc.querySelector('.puzzle-panel');
+  assert.ok(shelf.parentElement.classList.contains('essay-body'));
+  [...shelf.querySelectorAll('.puzzle-action')].find(b=>b.textContent==='Hide instructions').click();
+  assert.equal(shelf.parentElement,doc.body,'the rail hangs off the body, clear of the transform');
+  assert.equal(shelf.querySelectorAll('[data-puzzle-unit]').length,2,'and still carries both units');
+  shelf.querySelector('.puzzle-expand').click();
+  assert.ok(shelf.parentElement.classList.contains('essay-body'),'and comes home when opened again');
+  doc.getElementById('essay-puzzle').click();
+  assert.equal(doc.querySelectorAll('.puzzle-panel').length,0,'leaving takes it with them');
+  assert.equal(doc.querySelector('.essay-body').innerHTML,'<p>First one. Second one.</p>');
+  page.window.close();
+}
+// On a narrower window there is no margin to move into, so it stays in the flow.
+{
+  const page=fresh('<button id="essay-puzzle" hidden>puzzle mode</button><article class="essay-body"><p>First one. Second one.</p></article>',false);
+  const doc=page.window.document;
+  doc.getElementById('essay-puzzle').click();
+  const shelf=doc.querySelector('.puzzle-panel');
+  [...shelf.querySelectorAll('.puzzle-action')].find(b=>b.textContent==='Hide instructions').click();
+  assert.ok(shelf.parentElement.classList.contains('essay-body'),'it keeps its place in the essay');
+  assert.equal(shelf.classList.contains('puzzle-collapsed'),true,'shrunk all the same');
   page.window.close();
 }
 // Switching unit redraws the boxed paragraphs, renumbers what is on offer,
@@ -247,17 +280,22 @@ function fresh(body){
   assert.equal(board.querySelectorAll('.puzzle-slot-number').length,2,'sentences get numbered positions');
   byUnit('words').click();
   assert.equal(byUnit('words').getAttribute('aria-pressed'),'true');
-  assert.equal(doc.querySelector('.puzzle-board'),board,'the open board is left exactly as it was');
-  assert.equal(board.dataset.puzzleUnit,'sentences','and keeps the unit it was opened with');
+  // The board the reader had open comes along to the other unit.
+  const moved=doc.querySelector('.puzzle-board');
+  assert(moved,'the paragraph stays scattered');
+  assert.equal(moved.dataset.puzzleUnit,'words','in the newly chosen unit');
+  assert.equal(moved.querySelectorAll('.puzzle-slot').length,4,'cut by word now');
+  assert.equal(moved.querySelectorAll('.puzzle-slot-number').length,0);
+  assert.equal(doc.querySelectorAll('.puzzle-board').length,1,'and only the one');
   assert.equal(doc.querySelectorAll('.puzzle-preview').length,1,'the lone sentence is now on offer');
   assert.match(doc.querySelector('.puzzle-scatter-cue').getAttribute('aria-label'),/^Scatter the 4 words of paragraph 2 of 2$/);
   // A word board is a field of tiles, not a numbered stack.
   doc.querySelector('.puzzle-scatter-cue').click();
-  const wordBoard=[...doc.querySelectorAll('.puzzle-board')].find(b=>b.dataset.puzzleUnit==='words');
+  const wordBoard=[...doc.querySelectorAll('.puzzle-board')].pop();
   assert(wordBoard,'a word board');
+  assert.equal(wordBoard.dataset.puzzleUnit,'words');
   assert.equal(wordBoard.querySelectorAll('.puzzle-slot-number').length,0,'words get no position numbers');
-  assert.equal(wordBoard.querySelectorAll('.puzzle-slot').length,4);
-  assert.match(wordBoard.querySelector('.puzzle-status').textContent,/0 of 4 words placed/);
+  assert.match(wordBoard.querySelector('.puzzle-status').textContent,/0 of \d+ words placed/);
   // Filling it wrongly asks the word question, not the sentence one.
   const tiles=[...wordBoard.querySelectorAll('.puzzle-piece')];
   const wordSlots=[...wordBoard.querySelectorAll('.puzzle-slot')];
@@ -265,12 +303,17 @@ function fresh(body){
   const wordCompare=wordBoard.querySelector('.puzzle-action');
   assert.equal(wordCompare.disabled,false);wordCompare.click();
   assert.match(wordBoard.querySelector('.puzzle-comparison-note,.puzzle-status').textContent,/.+/);
-  // Back to sentences, and the essay still restores to exactly what it was.
+  // Back to sentences: the paragraph the words came from follows, and the one
+  // that has no second sentence goes back to being prose rather than lingering.
   byUnit('sentences').click();
+  const back=[...doc.querySelectorAll('.puzzle-board')];
+  assert.ok(back.every(b=>b.dataset.puzzleUnit==='sentences'),'every open board is in the chosen unit');
+  assert.ok([...doc.querySelectorAll('p')].some(p=>p.textContent==='A lone sentence here.'),
+    'a paragraph this unit cannot use is prose again');
   btn.click();
   assert.equal(doc.querySelector('.essay-body').innerHTML,
     '<p>First one. Second one.</p><p>A lone sentence here.</p>');
   page.window.close();
 }
 
-console.log('Puzzle mode checks passed: sentences and words, a panel that shrinks instead of vanishing, unit switching that spares an open board, one paragraph at a time, per-board exit, Escape ladder, keyboard opening, tap/drag/swap/return, board isolation, comparison, eligibility and exact restoration.');
+console.log('Puzzle mode checks passed: sentences and words, a panel that shrinks to a rail out of the column, unit switching that carries an open board across, one paragraph at a time, per-board exit, Escape ladder, keyboard opening, tap/drag/swap/return, board isolation, comparison, eligibility and exact restoration.');
