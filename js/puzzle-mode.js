@@ -134,14 +134,27 @@
     panel=el('div','puzzle-panel');panel.setAttribute('role','group');panel.setAttribute('aria-label','Puzzle controls');
     var controls=el('div','puzzle-panel-actions');
     var exit=button('puzzle-action','Read the original');exit.addEventListener('click',restore);
-    function dismiss(){
-      panel.hidden=true;
+    /* Hiding the instructions shrinks the panel rather than taking it away.
+       What is left is the choice of unit, small and out of the way down the
+       left, because a reader who has read the instructions once may still
+       want to switch between sentences and words at any point. */
+    function collapse(){
+      if(panel.classList.contains('puzzle-collapsed'))return;
+      panel.classList.add('puzzle-collapsed');
       var next=article.querySelector('.puzzle-piece:not([hidden])') || article.querySelector('.puzzle-scatter-cue') || launch;
       next.focus({preventScroll:true});
     }
-    var hide=button('puzzle-action','Hide instructions');hide.addEventListener('click',dismiss);
+    function expand(){
+      panel.classList.remove('puzzle-collapsed');
+      hide.focus({preventScroll:true});
+    }
+    var hide=button('puzzle-action','Hide instructions');hide.addEventListener('click',collapse);
+    var show=button('puzzle-expand','instructions');
+    show.setAttribute('aria-label','Show the puzzle instructions again');
+    show.addEventListener('click',expand);
     panel.addEventListener('click',function(event){
-      if(!event.target.closest('button'))dismiss();
+      if(event.target.closest('button'))return;
+      if(!panel.classList.contains('puzzle-collapsed'))collapse();
     });
     /* The choice of unit. It changes what a paragraph is cut into, so it
        redraws the boxed paragraphs — but never a board a reader is working
@@ -156,6 +169,7 @@
       option.addEventListener('click',function(){setUnit(name);});
       choice.appendChild(option);
     });
+    choice.appendChild(show);
     controls.append(exit,hide);
     message=el('p','puzzle-instructions','');
     panel.append(choice,controls,message);article.prepend(panel);
