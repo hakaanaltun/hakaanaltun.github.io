@@ -1,4 +1,4 @@
-/* A local, opt-in winter. Bounded particles and drift, no network or storage. */
+/* Local, opt-in weather. Bounded particles and drift, no network or storage. */
 (function(){
   'use strict';
   function createDrift(count){
@@ -32,10 +32,12 @@
   if(typeof document==='undefined') return;
   var button=document.getElementById('let-it-snow');
   if(!button) return;
+  var rainButton=document.getElementById('let-it-rain');
   var footer=button.closest('footer');
   if(!footer) return;
   var canvas, context, bank, bankContext, flakes=[], drift;
   var active=false, frame=0, fadeTimer=0, lastTime=0, bankAge=0;
+  var mode='snow', splashes=[];
   var width=0,height=0,density=1,ground=0,footerHeight=0,holes=[];
   var geometryDirty=true, bankDirty=true, observer;
   var reduce=window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -71,9 +73,40 @@
   }
   function makeFlake(anywhere){
     var depth=Math.random();
+    if(mode==='rain') return {x:Math.random()*width,y:anywhere?Math.random()*height:-24,
+      speed:340+depth*420,wind:20+depth*65,length:7+depth*15,
+      thickness:.55+depth*.65,alpha:.16+depth*.24};
     return {x:Math.random()*width,y:anywhere?Math.random()*height:-12,
       radius:.7+depth*2.5,speed:16+depth*32,phase:Math.random()*Math.PI*2,
       sway:5+Math.random()*14,alpha:.35+depth*.5};
+  }
+  function paintRain(dt,now){
+    var motion=reduce.matches ? .45 : 1;
+    var wind=Math.sin(now*.0003)*25;
+    context.lineCap='round';
+    for(var i=0;i<flakes.length;i++){
+      var drop=flakes[i];
+      drop.x+=(drop.wind+wind)*dt*motion;
+      drop.y+=drop.speed*dt*motion;
+      if(drop.x>width+24)drop.x=-20;
+      var landed=ground>=0 && ground<=height+1 && drop.y>=ground;
+      if(landed || drop.y>height+24){
+        if(landed && splashes.length<24 && Math.random()<.35){
+          splashes.push({x:drop.x,y:ground-2,age:0,lifetime:.35+Math.random()*.2});
+        }
+        flakes[i]=makeFlake(false);continue;
+      }
+      var tailX=(drop.wind+wind)/drop.speed*drop.length;
+      context.beginPath();context.moveTo(drop.x-tailX,drop.y-drop.length);context.lineTo(drop.x,drop.y);
+      context.lineWidth=drop.thickness;context.strokeStyle='rgba(160,190,211,'+drop.alpha+')';context.stroke();
+    }
+    for(var j=splashes.length-1;j>=0;j--){
+      var splash=splashes[j];splash.age+=dt;
+      if(splash.age>=splash.lifetime){splashes.splice(j,1);continue;}
+      var progress=splash.age/splash.lifetime,radius=1+progress*8;
+      context.beginPath();context.ellipse(splash.x,splash.y,radius,radius*.28,0,0,Math.PI*2);
+      context.lineWidth=.7;context.strokeStyle='rgba(160,190,211,'+(.3*(1-progress))+')';context.stroke();
+    }
   }
   function paintBank(){
     bankDirty=false;
@@ -112,9 +145,12 @@
     var dt=lastTime?Math.min((now-lastTime)/1000,.1):0;
     lastTime=now;
     if(geometryDirty) measure();
+    context.clearRect(0,0,width,height);
+    if(mode==='rain'){
+      paintRain(dt,now);frame=requestAnimationFrame(step);return;
+    }
     drift.advance(dt);bankAge+=dt;
     if(bankDirty || bankAge>.14){paintBank();bankAge=0;}
-    context.clearRect(0,0,width,height);
     context.drawImage(bank,0,0,bank.width,bank.height,0,0,width,height);
     var breeze=Math.sin(now*.00013)*5;
     for(var i=0;i<flakes.length;i++){
@@ -136,7 +172,7 @@
   }
   function invalidate(){geometryDirty=true;}
   function sweep(event){
-    if(!active || !width) return;
+    if(!active || mode!=='snow' || !width) return;
     if(event.type==='pointermove' && event.pointerType!=='mouse' && !event.buttons) return;
     if(geometryDirty) measure();
     var fraction=event.clientX/width, snowTop=ground-drift.heightAt(fraction);
@@ -153,7 +189,7 @@
     if(canvas) canvas.remove();
     if(canvas) canvas.width=canvas.height=1;
     if(bank) bank.width=bank.height=1;
-    canvas=context=bank=bankContext=null;flakes=[];drift=null;
+    canvas=context=bank=bankContext=null;flakes=[];splashes=[];drift=null;
   }
   function stop(){
     active=false;cancelAnimationFrame(frame);frame=0;
@@ -164,11 +200,14 @@
     document.removeEventListener('pointerdown',sweep);
     document.removeEventListener('visibilitychange',visibility);
     button.setAttribute('aria-pressed','false');button.setAttribute('aria-label','Let it snow');button.title='Let it snow';
+    if(rainButton){rainButton.setAttribute('aria-pressed','false');rainButton.setAttribute('aria-label','Let it rain');rainButton.title='Let it rain';}
     canvas.classList.add('snow-melting');
     fadeTimer=setTimeout(removeLayers,reduce.matches?100:1400);
   }
-  function start(){
+  function start(kind){
+    if(active)stop();
     clearTimeout(fadeTimer);removeLayers();
+    mode=kind;
     canvas=document.createElement('canvas');canvas.className='snowfall';
     canvas.setAttribute('aria-hidden','true');
     bank=document.createElement('canvas');
@@ -180,7 +219,11 @@
     if(reduce.matches)count=Math.round(count*.45);
     for(var i=0;i<count;i++)flakes.push(makeFlake(true));
     active=true;lastTime=0;bankAge=0;
-    button.setAttribute('aria-pressed','true');button.setAttribute('aria-label','Let it melt');button.title='Let it melt';
+    if(mode==='snow'){
+      button.setAttribute('aria-pressed','true');button.setAttribute('aria-label','Let it melt');button.title='Let it melt';
+    }else if(rainButton){
+      rainButton.setAttribute('aria-pressed','true');rainButton.setAttribute('aria-label','Stop the rain');rainButton.title='Stop the rain';
+    }
     window.addEventListener('resize',invalidate,{passive:true});
     window.addEventListener('scroll',invalidate,{passive:true});
     document.addEventListener('pointermove',sweep,{passive:true});
@@ -192,6 +235,10 @@
     }
     if(!document.hidden)frame=requestAnimationFrame(step);
   }
-  button.addEventListener('click',function(){if(active)stop();else start();});
+  button.addEventListener('click',function(){if(active && mode==='snow')stop();else start('snow');});
+  if(rainButton){
+    rainButton.addEventListener('click',function(){if(active && mode==='rain')stop();else start('rain');});
+    rainButton.hidden=false;
+  }
   button.hidden=false;
 })();

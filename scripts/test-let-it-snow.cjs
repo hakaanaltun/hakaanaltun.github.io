@@ -20,7 +20,7 @@ function check(reduced,width){
   const html='<main id="main"></main>'+fs.readFileSync(path.join(root,'_includes/footer.html'),'utf8').replace(/\{%[\s\S]*?%\}/g,'');
   const dom=new JSDOM(html,{runScripts:'outside-only',pretendToBeVisual:true});
   const w=dom.window;
-  const frames=new Map(),timers=new Map();let id=0,arcs=0,observing=0;
+  const frames=new Map(),timers=new Map();let id=0,arcs=0,observing=0,strokes=0,ripples=0;
   w.innerWidth=width;w.innerHeight=800;w.devicePixelRatio=3;
   w.matchMedia=()=>({matches:reduced});
   w.requestAnimationFrame=fn=>{frames.set(++id,fn);return id;};
@@ -32,11 +32,13 @@ function check(reduced,width){
     if(this.tagName==='FOOTER')return {left:0,right:width,top:560,bottom:800,width,height:240};
     return {left:width*.25,right:width*.75,top:630,bottom:660,width:width*.5,height:30};
   };
-  const ctx={setTransform(){},clearRect(){},drawImage(){},beginPath(){},moveTo(){},lineTo(){},closePath(){},fill(){},stroke(){},save(){},restore(){},fillRect(){},arc(){arcs++;},createLinearGradient(){return {addColorStop(){}};}};
+  const ctx={setTransform(){},clearRect(){},drawImage(){},beginPath(){},moveTo(){},lineTo(){},closePath(){},fill(){},stroke(){strokes++;},save(){},restore(){},fillRect(){},arc(){arcs++;},ellipse(){ripples++;},createLinearGradient(){return {addColorStop(){}};}};
   w.HTMLCanvasElement.prototype.getContext=()=>ctx;
   w.eval(fs.readFileSync(path.join(root,'js/let-it-snow.js'),'utf8'));
   const button=w.document.getElementById('let-it-snow');
+  const rainButton=w.document.getElementById('let-it-rain');
   assert.equal(button.hidden,false);
+  assert.equal(rainButton.hidden,false);
   assert.equal(frames.size,0);assert.equal(w.document.querySelectorAll('canvas').length,0);
   button.click();assert.equal(button.getAttribute('aria-pressed'),'true');
   assert.equal(frames.size,1);assert.equal(w.document.querySelectorAll('canvas').length,1);
@@ -55,10 +57,25 @@ function check(reduced,width){
   assert.equal(button.getAttribute('aria-pressed'),'false');assert.equal(timers.size,1);
   button.click();assert.equal(frames.size,1);assert.equal(timers.size,0);
   assert.equal(w.document.querySelectorAll('canvas').length,1);
+  rainButton.click();
+  assert.equal(button.getAttribute('aria-pressed'),'false');assert.equal(rainButton.getAttribute('aria-pressed'),'true');
+  assert.equal(frames.size,1);assert.equal(timers.size,0);assert.equal(w.document.querySelectorAll('canvas').length,1);
+  const previousArcs=arcs,previousStrokes=strokes;
+  for(let i=0;i<500;i++){
+    const previousRipples=ripples,oldStrokes=strokes;
+    paint(50000+i*80);
+    assert.equal(frames.size,1);assert(ripples-previousRipples<=24);assert(strokes-oldStrokes<=134);
+  }
+  assert(strokes>previousStrokes);assert.equal(arcs,previousArcs);
+  rainButton.click();assert.equal(frames.size,0);assert.equal(rainButton.getAttribute('aria-pressed'),'false');
+  // A restart during the fade cannot leave a stale canvas, listener or timer.
+  rainButton.click();button.click();
+  assert.equal(frames.size,1);assert.equal(timers.size,0);assert.equal(w.document.querySelectorAll('canvas').length,1);
+  assert.equal(button.getAttribute('aria-pressed'),'true');assert.equal(rainButton.getAttribute('aria-pressed'),'false');
   button.click();for(const callback of timers.values())callback();timers.clear();
   assert.equal(w.document.querySelectorAll('canvas').length,0);
   assert.equal(frames.size,0);assert.equal(observing,0);
   dom.window.close();
 }
 check(false,1440);check(false,390);check(true,390);
-console.log('Snow checks passed: capped drift, brushing, desktop/mobile canvas bounds, reduced motion, pause, restart and cleanup.');
+console.log('Weather checks passed: snow limits, brushing, rain/splash limits, exclusive switching, mobile bounds, reduced motion and cleanup.');

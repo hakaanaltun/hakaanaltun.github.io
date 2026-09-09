@@ -169,7 +169,12 @@
       <p class="footer-credit">
         Hakan Altun · İstanbul, {{ site.time | date: "%Y" }} · &copy; All rights reserved.
       </p>
-      <button class="snow-toggle" id="let-it-snow" type="button" aria-label="Let it snow" aria-pressed="false" title="Let it snow" hidden><span aria-hidden="true">&#10052;&#65038;</span></button>
+      <div class="footer-weather">
+        <button class="snow-toggle" id="let-it-snow" type="button" aria-label="Let it snow" aria-pressed="false" title="Let it snow" hidden><span aria-hidden="true">&#10052;&#65038;</span></button>
+        <button class="snow-toggle" id="let-it-rain" type="button" aria-label="Let it rain" aria-pressed="false" title="Let it rain" hidden>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c-2.5 4-7 7.5-7 12a7 7 0 0 0 14 0c0-4.5-4.5-8-7-12z"/></svg>
+        </button>
+      </div>
     </div>
   </div>
 </footer>
