@@ -5,6 +5,8 @@
 .snow-toggle svg{width:16px;height:16px;}
 .snow-toggle:hover,.snow-toggle[aria-pressed="true"]{opacity:1;color:var(--footer-text);}
 .snow-toggle:focus-visible{opacity:1;outline:1px solid currentColor;outline-offset:2px;border-radius:50%;}
-.snowfall{position:fixed;inset:0;width:100%;height:100%;z-index:45;pointer-events:none!important;user-select:none;opacity:1;transition:opacity 1.3s ease;}
+/* Above the page it falls on, below anything a reader opens over it: the
+   footer's own actions menu sits at 40, so 45 put snow on top of it. */
+.snowfall{position:fixed;inset:0;width:100%;height:100%;z-index:39;pointer-events:none!important;user-select:none;opacity:1;transition:opacity 1.3s ease;}
 .snowfall.snow-melting{opacity:0;}
 @media(prefers-reduced-motion:reduce){.snow-toggle{transition:none;}.snowfall{transition:opacity .1s linear;}}

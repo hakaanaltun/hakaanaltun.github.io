@@ -98,4 +98,42 @@ function check(reduced,width){
   dom.window.close();
 }
 check(false,1440);check(false,390);check(true,390);
-console.log('Weather checks passed: three-stage cycles, preserved snow, half-screen cap and resize, rain/splash limits, exclusive switching, mobile bounds, reduced motion and cleanup.');
+
+/* Scrolling must not cost a layout pass. The footer moves under the snow, so
+   its own box is read every frame; its contents keep their sizes and their
+   selectors, and while the footer is off screen there is no bank to cut them
+   out of at all. */
+function scrollCost(footerTop){
+  const dom=new JSDOM('<footer><a class="footer-home-link">h</a><p class="footer-credit">c</p><div class="footer-contact-links">l</div><div class="footer-actions-wrap">a</div><div class="footer-weather"><button id="let-it-snow" hidden></button><button id="let-it-rain" hidden></button></div></footer>',{runScripts:'outside-only',pretendToBeVisual:true});
+  const w=dom.window;let id=0,rects=0,queries=0;
+  const frames=new Map(),timers=new Map();
+  w.matchMedia=()=>({matches:false});
+  w.requestAnimationFrame=fn=>{frames.set(++id,fn);return id;};
+  w.cancelAnimationFrame=i=>frames.delete(i);
+  w.setTimeout=fn=>{timers.set(++id,fn);return id;};
+  w.clearTimeout=i=>timers.delete(i);
+  w.innerWidth=1200;w.innerHeight=800;
+  Object.defineProperty(w.document.documentElement,'clientWidth',{value:1200});
+  w.HTMLElement.prototype.getBoundingClientRect=function(){
+    rects++;
+    if(this.tagName==='FOOTER')return {left:0,right:1200,top:footerTop,bottom:footerTop+240,width:1200,height:240};
+    return {left:300,right:900,top:footerTop+70,bottom:footerTop+100,width:600,height:30};
+  };
+  const all=w.Element.prototype.querySelectorAll;
+  w.Element.prototype.querySelectorAll=function(){queries++;return all.apply(this,arguments);};
+  const ctx={setTransform(){},clearRect(){},drawImage(){},beginPath(){},moveTo(){},lineTo(){},closePath(){},fill(){},stroke(){},save(){},restore(){},fillRect(){},arc(){},ellipse(){},createLinearGradient(){return{addColorStop(){}};}};
+  w.HTMLCanvasElement.prototype.getContext=()=>ctx;
+  w.eval(fs.readFileSync(path.join(root,'js/let-it-snow.js'),'utf8'));
+  w.document.getElementById('let-it-snow').click();
+  const paint=n=>{const cbs=[...frames.values()];frames.clear();cbs.forEach(fn=>fn(n));};
+  paint(100);rects=0;queries=0;
+  for(let i=1;i<=60;i++){w.dispatchEvent(new w.Event('scroll'));paint(100+i*40);}
+  dom.window.close();
+  return {rects,queries};
+}
+const away=scrollCost(2000),near=scrollCost(560);
+assert.equal(away.rects,60,'off screen, a scrolled frame reads the footer box and nothing else');
+assert.equal(away.queries,0,'and matches no selectors at all');
+assert.equal(near.queries,0,'on screen the clearings still move, but the list of them is not rebuilt');
+assert.ok(near.rects<=300,'and each one is read once per frame');
+console.log('Weather checks passed: three-stage cycles, preserved snow, half-screen cap and resize, rain/splash limits, exclusive switching, mobile bounds, reduced motion, scroll cost and cleanup.');

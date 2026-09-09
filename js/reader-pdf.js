@@ -124,6 +124,11 @@
       // Keep editing, selection, form controls and other panels' shortcuts native.
       var target = event.target;
       if(target.closest && target.closest('input, textarea, select, a, [contenteditable]:not([contenteditable="false"]), [role="textbox"], [role="slider"], [role="dialog"], .shelf')) return;
+      // A zoomed page is wider than its frame, and the frame says so: "scroll
+      // sideways when zoomed". Then the arrows are the reader's way across the
+      // page, not ours for turning it. At fit width there is nothing to cross.
+      if(scroller.scrollWidth > scroller.clientWidth + 1 &&
+         (target === scroller || (target.closest && target.closest(".pdf-scroll")))) return;
       var selection = window.getSelection();
       if(selection && !selection.isCollapsed) return;
       placeSideNav();

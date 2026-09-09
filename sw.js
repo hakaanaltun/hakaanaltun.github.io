@@ -11,6 +11,13 @@
    pages, but once it is active it covers the origin, so TOOL_ASSETS is
    served from cache on every page of the site, not only on those.
 
+   NOT EVERYTHING IS PRECACHED. PDFJS_ROOT below is cached on use instead:
+   the bundled reader is 7.3 MB, and install's addAll is all-or-nothing and
+   blocking, so precaching it would make every reader who never opens a PDF
+   pay for one — on a phone, before the worker installs at all. Cached on
+   first use, it costs only the readers who use it, and costs them nothing
+   the second time. Same shelf, same stale-while-revalidate, different moment.
+
    WHEN TO BUMP CACHE. Not for a tool page changing: those pages are
    self-contained, and one stale load of an instrument is the same
    instrument. Bump it when the caching scheme itself changes, or when
@@ -26,7 +33,7 @@
    on a reader's machine — that copy self-heals on its second load. */
 "use strict";
 
-var CACHE = "olae-tools-v29";
+var CACHE = "olae-tools-v30";
 
 var TOOL_PAGES = [
   "/tools/",   /* the catalogue itself, so "all of them" works offline */
@@ -38,6 +45,8 @@ var TOOL_ASSETS = [
   "/js/desk.js",
   "/js/vendor/marked-18.0.11.umd.js",
   "/js/reader-markdown.js",
+  "/js/reader-pdf.js",
+  "/css/reader-pdf.css",
   "/js/reader-clear.js",
   "/js/list-lots-clear.js",
   "/js/list-trim.js",
@@ -48,6 +57,8 @@ var TOOL_ASSETS = [
   /* /tools/ uses the site's default shell; keep its navigation and theme
      controls functional offline as well as its content and styles. */
   "/js/site-nav.js",
+  "/js/let-it-snow.js",
+  "/css/let-it-snow.css",
   "/js/palettes.js",
   "/js/theme.js",
   "/js/divider-lines.js",
@@ -65,6 +76,11 @@ var TOOL_ASSETS = [
 ];
 
 var PRECACHE = TOOL_PAGES.concat(TOOL_ASSETS);
+
+/* Everything under here is the bundled PDF.js: hundreds of files, most of
+   which a given document never asks for. Kept out of PRECACHE, kept on the
+   same shelf once fetched. */
+var PDFJS_ROOT = "/js/vendor/pdfjs/";
 
 self.addEventListener("install", function(e){
   e.waitUntil(
@@ -89,7 +105,8 @@ self.addEventListener("fetch", function(e){
   if(e.request.method !== "GET") return;
   var url = new URL(e.request.url);
   if(url.origin !== self.location.origin) return;
-  if(PRECACHE.indexOf(url.pathname) === -1) return;
+  var onUse = url.pathname.lastIndexOf(PDFJS_ROOT, 0) === 0;
+  if(!onUse && PRECACHE.indexOf(url.pathname) === -1) return;
 
   /* The key carries ?v= when the request has one. Keying on the bare
      pathname threw the site's own cache-busting away: head.html stamps

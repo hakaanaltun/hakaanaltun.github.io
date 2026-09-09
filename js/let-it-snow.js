@@ -39,7 +39,7 @@
   var active=false, frame=0, fadeTimer=0, lastTime=0, bankAge=0;
   var mode='snow', intensity=1, splashes=[];
   var width=0,height=0,density=1,ground=0,footerHeight=0,holes=[];
-  var geometryDirty=true, bankDirty=true, observer;
+  var geometryDirty=true, groundDirty=false, bankDirty=true, observer, holeElements=null;
   var reduce=window.matchMedia('(prefers-reduced-motion: reduce)');
   var MAX_PARTICLES=110;
   function snowLimit(){return intensity===2?height*.5:footerHeight+24;}
@@ -66,6 +66,8 @@
     if(intensity===2){stop();return;}
     intensity=2;geometryDirty=true;seedWeather();updateButtons();
   }
+  /* The layout pass. Which things the drift leaves clear is a property of the
+     layout, so the list is gathered here and not on every frame. */
   function measure(){
     geometryDirty=false;
     var nextWidth=document.documentElement.clientWidth || window.innerWidth;
@@ -82,18 +84,33 @@
       // Resizing never creates more particles; a new page still has one loop.
       flakes.forEach(function(flake){ if(flake.x>width) flake.x=Math.random()*width; });
     }
+    // Leave soft clearings around footer lettering and controls in every theme.
+    // Only these small areas are cut out; the drift still reaches above the footer.
+    holeElements=footer.querySelectorAll('.footer-home-link, .footer-credit, .footer-contact-links, .footer-actions-wrap, .snow-toggle');
+    trackGround();
+  }
+  /* The scroll pass, and the only one a scroll needs: the footer keeps its
+     size and its contents, it just moves. Cheap enough to run per frame. */
+  function trackGround(){
+    groundDirty=false;
     var rect=footer.getBoundingClientRect();
     ground=rect.bottom;
     footerHeight=rect.height;
     drift.setLimit(snowLimit());
-    // Leave soft clearings around footer lettering and controls in every theme.
-    // Only these small areas are cut out; the drift still reaches above the footer.
     holes=[];
-    footer.querySelectorAll('.footer-home-link, .footer-credit, .footer-contact-links, .footer-actions-wrap, .snow-toggle').forEach(function(el){
-      var r=el.getBoundingClientRect();
-      if(r.width && r.height) holes.push({x:r.left-9,y:r.top-5,w:r.width+18,h:r.height+10});
-    });
+    // A bank nobody can see needs no clearings cut out of it, and while a
+    // reader is still in the essay that is every frame of every scroll.
+    if(holeElements && ground>=0 && ground-snowLimit()<=height){
+      holeElements.forEach(function(el){
+        var r=el.getBoundingClientRect();
+        if(r.width && r.height) holes.push({x:r.left-9,y:r.top-5,w:r.width+18,h:r.height+10});
+      });
+    }
     bankDirty=true;
+  }
+  function remeasure(){
+    if(geometryDirty) measure();
+    else if(groundDirty) trackGround();
   }
   function makeFlake(anywhere){
     var depth=Math.random(),heavy=intensity===2;
@@ -171,7 +188,7 @@
     if(lastTime && now-lastTime<interval){ frame=requestAnimationFrame(step);return; }
     var dt=lastTime?Math.min((now-lastTime)/1000,.1):0;
     lastTime=now;
-    if(geometryDirty) measure();
+    remeasure();
     context.clearRect(0,0,width,height);
     if(mode==='rain'){
       paintRain(dt,now);frame=requestAnimationFrame(step);return;
@@ -198,10 +215,11 @@
     frame=requestAnimationFrame(step);
   }
   function invalidate(){geometryDirty=true;}
+  function trackScroll(){groundDirty=true;}
   function sweep(event){
     if(!active || mode!=='snow' || !width) return;
     if(event.type==='pointermove' && event.pointerType!=='mouse' && !event.buttons) return;
-    if(geometryDirty) measure();
+    remeasure();
     var fraction=event.clientX/width, snowTop=ground-drift.heightAt(fraction);
     if(event.clientY<snowTop-10 || event.clientY>ground) return;
     if(event.target.closest && event.target.closest('a,button,input,select,textarea')) return;
@@ -222,7 +240,7 @@
     active=false;cancelAnimationFrame(frame);frame=0;
     if(observer){observer.disconnect();observer=null;}
     window.removeEventListener('resize',invalidate);
-    window.removeEventListener('scroll',invalidate);
+    window.removeEventListener('scroll',trackScroll);
     document.removeEventListener('pointermove',sweep);
     document.removeEventListener('pointerdown',sweep);
     document.removeEventListener('visibilitychange',visibility);
@@ -240,12 +258,12 @@
     context=canvas.getContext('2d');bankContext=bank.getContext('2d');
     if(!context || !bankContext){removeLayers();return;}
     document.body.appendChild(canvas);
-    drift=createDrift(81);width=height=0;measure();
+    drift=createDrift(81);width=height=0;holeElements=null;geometryDirty=true;measure();
     seedWeather();
     active=true;lastTime=0;bankAge=0;
     updateButtons();
     window.addEventListener('resize',invalidate,{passive:true});
-    window.addEventListener('scroll',invalidate,{passive:true});
+    window.addEventListener('scroll',trackScroll,{passive:true});
     document.addEventListener('pointermove',sweep,{passive:true});
     document.addEventListener('pointerdown',sweep,{passive:true});
     document.addEventListener('visibilitychange',visibility);
