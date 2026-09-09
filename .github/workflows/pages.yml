@@ -10,6 +10,7 @@ on:
       - 'js/reader-*.js'
       - 'css/reader-pdf.css'
       - 'scripts/*pdf*'
+      - 'scripts/vendor/pdfjs-*.zip'
       - '.github/workflows/pages.yml'
   workflow_dispatch:
 
@@ -49,7 +50,7 @@ jobs:
           pip install --quiet Pillow
           python scripts/generate_image_variants.py
 
-      - name: Install verified PDF reader assets
+      - name: Restore bundled PDF reader assets
         run: python scripts/vendor_pdfjs.py
 
       - name: Setup Node for PDF parser check

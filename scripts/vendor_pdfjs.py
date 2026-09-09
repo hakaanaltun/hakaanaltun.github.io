@@ -1,25 +1,23 @@
-"""Fetch the pinned Mozilla distribution at build time; serve it on our own site."""
+"""Restore the committed PDF.js bundle without making any network requests."""
 import hashlib
 import io
 from pathlib import Path
-import urllib.request
 import zipfile
 
 VERSION = "6.3.289"
-SHA256 = "51683fac4aff7dd31ed91e9ab735a2098a78d50899d1ec529aed6dc8aa19400d"
-URL = f"https://github.com/mozilla/pdf.js/releases/download/v{VERSION}/pdfjs-{VERSION}-legacy-dist.zip"
+SHA256 = "ccf3ac1f43bce6e7e0550323512a33409b49906d688328b95ebfb77d5ca2e19f"
 
 def main():
-    with urllib.request.urlopen(URL, timeout=90) as response:
-        data = response.read(32 * 1024 * 1024 + 1)
+    bundle = Path(__file__).resolve().parent / "vendor" / f"pdfjs-{VERSION}.zip"
+    data = bundle.read_bytes()
     if hashlib.sha256(data).hexdigest() != SHA256:
-        raise RuntimeError("PDF.js distribution checksum mismatch")
+        raise RuntimeError("Bundled PDF.js checksum mismatch")
     target = Path(__file__).resolve().parents[1] / "js/vendor/pdfjs"
     copied = set()
     with zipfile.ZipFile(io.BytesIO(data)) as archive:
         for entry in archive.infolist():
             name = entry.filename
-            if entry.is_dir() or ".." in Path(name).parts:
+            if entry.is_dir() or Path(name).is_absolute() or ".." in Path(name).parts:
                 continue
             if name not in ("build/pdf.mjs", "build/pdf.worker.mjs", "LICENSE") and not name.startswith(("web/cmaps/", "web/standard_fonts/", "web/wasm/")):
                 continue

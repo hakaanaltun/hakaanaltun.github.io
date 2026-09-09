@@ -1,4 +1,4 @@
-/* PDF.js is fetched, checksum-verified and self-hosted by the Pages build.
+/* PDF.js is bundled in this repository, checksum-verified and self-hosted.
    Documents stay in memory. Only the visible page is rendered. */
 (function(){
   "use strict";
