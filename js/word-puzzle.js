@@ -8,9 +8,14 @@
   var article=document.querySelector('.essay-body');
   if(!launch || !article) return;
   var MIME='application/x-olae-word-puzzle';
-  /* Short enough that rebuilding one is a few minutes' curiosity rather than
-     a chore, long enough that the order is worth thinking about. */
-  var MIN_WORDS=2, MAX_WORDS=120;
+  /* No editorial cap: which paragraph is worth the trouble is the reader's
+     call, and one deliberate click is what bounds the cost now. RUNAWAY is
+     only a guard against a pathological paragraph, not a judgement about any
+     particular essay — texts change, and a cap fitted to today's would
+     quietly start hiding tomorrow's. COUNT_SHOWN_ABOVE is where a reader
+     deserves to know the size before choosing; it is about attention, not
+     about these essays. */
+  var MIN_WORDS=2, RUNAWAY_WORDS=400, COUNT_SHOWN_ABOVE=60;
   var phase='reading', records=[], opened=[], panel=null, message=null;
   var gameId=Math.random().toString(36).slice(2);
   function el(tag,cls,text){
@@ -36,13 +41,12 @@
     return order;
   }
   function clearSelection(){var selection=window.getSelection();if(selection)selection.removeAllRanges();}
-  /* Prose only: nothing with nested blocks, media, code or controls in it,
-     and nothing so long that scattering it would be a punishment. */
+  /* Prose only: nothing with nested blocks, media, code or controls in it. */
   function eligible(node){
     if(node.closest('.puzzle-panel, .word-puzzle, .puzzle-preview'))return null;
     if(node.querySelector('p, li, blockquote, img, svg, video, audio, canvas, iframe, button, input, select, textarea, pre, code, math'))return null;
     var text=prose(node),words=text.match(/\S+/gu)||[];
-    if(words.length<MIN_WORDS || words.length>MAX_WORDS)return null;
+    if(words.length<MIN_WORDS || words.length>RUNAWAY_WORDS)return null;
     return {original:node,text:text,words:words,view:null,board:null};
   }
   function survey(stopAtFirst){
@@ -90,8 +94,9 @@
     (record.text.match(/\S+|\s+/gu)||[]).forEach(function(part){
       preview.appendChild(/\S/u.test(part)?el('span','puzzle-word-preview',part):document.createTextNode(part));
     });
-    var cue=button('puzzle-scatter-cue','scatter');
-    cue.setAttribute('aria-label','Scatter the '+record.words.length+' words of paragraph '+(index+1)+' of '+records.length);
+    var size=record.words.length;
+    var cue=button('puzzle-scatter-cue',size>COUNT_SHOWN_ABOVE?'scatter \u00b7 '+size+' words':'scatter');
+    cue.setAttribute('aria-label','Scatter the '+size+' words of paragraph '+(index+1)+' of '+records.length);
     preview.append(' ',cue);
     return preview;
   }

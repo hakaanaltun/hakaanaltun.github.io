@@ -28,6 +28,7 @@ previews.forEach((node,i)=>{
   assert.equal(node.getAttribute('tabindex'),null);
   const cue=node.querySelector('.puzzle-scatter-cue');
   assert.equal(cue.tagName,'BUTTON');assert.equal(cue.type,'button');
+  assert.equal(cue.textContent,'scatter','a short paragraph needs no warning');
   assert.match(cue.getAttribute('aria-label'),new RegExp('^Scatter the \\d+ words of paragraph '+(i+1)+' of 4$'));
 });
 assert.equal(d.querySelector('li .puzzle-scatter-cue').closest('li').getAttribute('role'),null);
@@ -119,21 +120,28 @@ assert.equal(article.innerHTML,originalHTML);
 for(let i=0;i<3;i++){launch.click();launch.click();assert.equal(article.innerHTML,originalHTML);}
 dom.window.close();
 
-// A paragraph too long to be an exercise is never offered, and a page with
-// nothing to offer never shows the button at all.
+// A long paragraph is still the reader's to choose; the cue names its size
+// first, so nothing about the choice is a surprise.
 function fresh(body){
   const page=new JSDOM(body,{runScripts:'outside-only',pretendToBeVisual:true});
   page.window.HTMLElement.prototype.scrollIntoView=function(){};
   page.window.eval(script);
   return page;
 }
-const long='<p>'+('word '.repeat(121))+'</p>';
+const long='<p>'+('word '.repeat(145))+'</p>';
 const mixed=fresh('<button id="essay-puzzle" hidden>puzzle mode</button><article class="essay-body">'+long+'<p>a short one here.</p></article>');
-const mixedButton=mixed.window.document.getElementById('essay-puzzle');
+const mixedDoc=mixed.window.document,mixedButton=mixedDoc.getElementById('essay-puzzle');
 assert.equal(mixedButton.hidden,false);mixedButton.click();
-assert.equal(mixed.window.document.querySelectorAll('.puzzle-preview').length,1,'Only the short paragraph is offered');
+assert.equal(mixedDoc.querySelectorAll('.puzzle-preview').length,2,'A long paragraph is still offered');
+assert.equal(mixedDoc.querySelectorAll('.puzzle-scatter-cue')[0].textContent,'scatter \u00b7 145 words');
+assert.equal(mixedDoc.querySelectorAll('.puzzle-scatter-cue')[1].textContent,'scatter');
+mixedDoc.querySelectorAll('.puzzle-preview')[0].click();
+assert.equal(mixedDoc.querySelectorAll('.puzzle-slot').length,145,'and it scatters in full when asked');
 mixed.window.close();
-const barren=fresh('<button id="essay-puzzle" hidden>puzzle mode</button><article class="essay-body">'+long+'<p><img src="a.jpg" alt="x"></p><pre><code>x=1</code></pre></article>');
+// Only a runaway paragraph is withheld, and a page with nothing to offer
+// never shows the button at all.
+const runaway='<p>'+('word '.repeat(401))+'</p>';
+const barren=fresh('<button id="essay-puzzle" hidden>puzzle mode</button><article class="essay-body">'+runaway+'<p><img src="a.jpg" alt="x"></p><pre><code>x=1</code></pre></article>');
 const barrenButton=barren.window.document.getElementById('essay-puzzle');
 assert.equal(barrenButton.hidden,true,'No offer means no button');
 assert.equal(barrenButton.textContent,'puzzle mode','The label is never overwritten with an error');
