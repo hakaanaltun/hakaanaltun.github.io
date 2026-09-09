@@ -42,6 +42,17 @@ jobs:
           pip install --quiet Pillow
           python scripts/generate_image_variants.py
 
+      - name: Install verified PDF reader assets
+        run: python scripts/vendor_pdfjs.py
+
+      - name: Setup Node for PDF parser check
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Verify PDF parser
+        run: node scripts/test-pdfjs.mjs
+
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5
