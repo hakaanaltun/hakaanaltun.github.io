@@ -1,21 +1,21 @@
-/* Reversible word puzzles, one paragraph at a time. A reader opens puzzle
-   mode, then scatters whichever paragraph they are curious about; the rest
-   of the essay stays readable. Original DOM nodes are detached intact and
-   returned on exit; nothing is sent or saved. */
+/* Reversible sentence puzzles, one paragraph at a time. A reader opens puzzle
+   mode, then scatters whichever paragraph they are curious about and puts its
+   sentences back in an order of their own; the rest of the essay stays
+   readable. Original DOM nodes are detached intact and returned on exit;
+   nothing is sent or saved. */
 (function(){
   'use strict';
   var launch=document.getElementById('essay-puzzle');
   var article=document.querySelector('.essay-body');
   if(!launch || !article) return;
-  var MIME='application/x-olae-word-puzzle';
+  var MIME='application/x-olae-sentence-puzzle';
   /* No editorial cap: which paragraph is worth the trouble is the reader's
-     call, and one deliberate click is what bounds the cost now. RUNAWAY is
-     only a guard against a pathological paragraph, not a judgement about any
+     call, and one deliberate click is what bounds the cost. RUNAWAY is only a
+     guard against a pathological paragraph, not a judgement about any
      particular essay — texts change, and a cap fitted to today's would
-     quietly start hiding tomorrow's. COUNT_SHOWN_ABOVE is where a reader
-     deserves to know the size before choosing; it is about attention, not
-     about these essays. */
-  var MIN_WORDS=2, RUNAWAY_WORDS=400, COUNT_SHOWN_ABOVE=60;
+     quietly start hiding tomorrow's. A paragraph of one sentence is not a
+     puzzle at all: there is nothing in it to reorder. */
+  var MIN_SENTENCES=2, RUNAWAY_SENTENCES=60, COUNT_SHOWN_ABOVE=4;
   var phase='reading', records=[], opened=[], panel=null, message=null;
   var gameId=Math.random().toString(36).slice(2);
   function el(tag,cls,text){
@@ -32,22 +32,61 @@
     if(/^(SCRIPT|STYLE|TEMPLATE|NOSCRIPT)$/.test(node.tagName))return '';
     return Array.from(node.childNodes).map(prose).join('');
   }
-  function shuffled(words){
-    var order=words.map(function(_,i){return i;});
+  /* Where sentences end is the browser's job, not a regular expression's: it
+     knows that "Dr." and "e.g." are not endings and that other scripts end
+     differently. The fallback below only runs where Intl.Segmenter does not. */
+  var segmenter=null;
+  try{
+    if(window.Intl && Intl.Segmenter)
+      segmenter=new Intl.Segmenter(document.documentElement.lang || 'en',{granularity:'sentence'});
+  }catch(e){}
+  /* Neither path knows every abbreviation. Intl.Segmenter follows the Unicode
+     sentence rules, which have no opinion about "Dr." and duly cut it off from
+     the name after it — a card reading "Dr." and nothing else. So both paths
+     are put through the same rejoining afterwards. It errs towards joining on
+     purpose: a sentence left attached to the next one is a longer card, which
+     still works; a sentence cut in half is a broken one. */
+  var ABBREVIATION=/(?:\b[A-Z]|\b(?:mr|mrs|ms|dr|prof|st|jr|sr|vs|etc|no|fig|cf|al|ed|vol|approx|e\.g|i\.e|vb|bkz|sn|yy|örn))\.$/i;
+  function rejoin(pieces){
+    var out=[];
+    pieces.forEach(function(piece){
+      var trimmed=piece.trim();
+      if(!trimmed)return;
+      var previous=out.length?out[out.length-1]:null;
+      if(previous && ABBREVIATION.test(previous))out[out.length-1]=previous+' '+trimmed;
+      else out.push(trimmed);
+    });
+    return out;
+  }
+  function sentences(text){
+    if(!segmenter)return rejoin(text.split(/(?<=[.!?…][»"'”’)\]]?)\s+/u));
+    return rejoin(Array.from(segmenter.segment(text)).map(function(piece){return piece.segment;}));
+  }
+  function opening(sentence){
+    var words=sentence.match(/\S+/gu)||[];
+    return words.slice(0,5).join(' ')+(words.length>5?'…':'');
+  }
+  function shuffled(units){
+    var order=units.map(function(_,i){return i;});
     for(var i=order.length-1;i>0;i--){
       var j=Math.floor(Math.random()*(i+1)),temp=order[i];order[i]=order[j];order[j]=temp;
     }
-    if(order.length>1 && order.every(function(id,i){return words[id]===words[i];}))order.push(order.shift());
+    /* With two or three sentences a fair shuffle lands back on the original
+       often enough to be a non-event. Compared by value, so a paragraph that
+       repeats a sentence is not called "changed" by swapping the two. */
+    if(order.length>1 && order.every(function(id,i){return units[id]===units[i];}))order.push(order.shift());
     return order;
   }
   function clearSelection(){var selection=window.getSelection();if(selection)selection.removeAllRanges();}
   /* Prose only: nothing with nested blocks, media, code or controls in it. */
   function eligible(node){
-    if(node.closest('.puzzle-panel, .word-puzzle, .puzzle-preview'))return null;
+    if(node.closest('.puzzle-panel, .sentence-puzzle, .puzzle-preview'))return null;
     if(node.querySelector('p, li, blockquote, img, svg, video, audio, canvas, iframe, button, input, select, textarea, pre, code, math'))return null;
-    var text=prose(node),words=text.match(/\S+/gu)||[];
-    if(words.length<MIN_WORDS || words.length>RUNAWAY_WORDS)return null;
-    return {original:node,text:text,words:words,view:null,board:null};
+    var text=prose(node).trim();
+    if(!text)return null;
+    var units=sentences(text);
+    if(units.length<MIN_SENTENCES || units.length>RUNAWAY_SENTENCES)return null;
+    return {original:node,text:text,units:units,view:null,board:null};
   }
   function survey(stopAtFirst){
     var found=[],nodes=article.querySelectorAll('p, li, blockquote');
@@ -73,7 +112,7 @@
     var exit=button('puzzle-action','Read the original');exit.addEventListener('click',restore);
     function dismiss(){
       panel.hidden=true;
-      var next=article.querySelector('.puzzle-word:not([hidden])') || article.querySelector('.puzzle-scatter-cue') || launch;
+      var next=article.querySelector('.puzzle-piece:not([hidden])') || article.querySelector('.puzzle-scatter-cue') || launch;
       next.focus({preventScroll:true});
     }
     var hide=button('puzzle-action','Hide instructions');hide.addEventListener('click',dismiss);
@@ -81,7 +120,7 @@
       if(!event.target.closest('button'))dismiss();
     });
     controls.append(exit,hide);
-    message=el('p','puzzle-instructions','Choose a paragraph to scatter its words, then put them back in an order of your own. Escape returns one paragraph; Escape again leaves puzzle mode.');
+    message=el('p','puzzle-instructions','Choose a paragraph to scatter its sentences, then put them back in an order of your own. Escape returns one paragraph; Escape again leaves puzzle mode.');
     panel.append(controls,message);article.prepend(panel);
   }
   /* The paragraph keeps its own role, so its prose stays readable and a list
@@ -91,12 +130,13 @@
     var preview=record.original.cloneNode(false);
     preview.classList.add('puzzle-preview');
     preview.dataset.puzzleIndex=String(index);
-    (record.text.match(/\S+|\s+/gu)||[]).forEach(function(part){
-      preview.appendChild(/\S/u.test(part)?el('span','puzzle-word-preview',part):document.createTextNode(part));
+    record.units.forEach(function(sentence,i){
+      if(i)preview.appendChild(document.createTextNode(' '));
+      preview.appendChild(el('span','puzzle-sentence',sentence));
     });
-    var size=record.words.length;
-    var cue=button('puzzle-scatter-cue',size>COUNT_SHOWN_ABOVE?'scatter \u00b7 '+size+' words':'scatter');
-    cue.setAttribute('aria-label','Scatter the '+size+' words of paragraph '+(index+1)+' of '+records.length);
+    var size=record.units.length;
+    var cue=button('puzzle-scatter-cue',size>COUNT_SHOWN_ABOVE?'scatter · '+size+' sentences':'scatter');
+    cue.setAttribute('aria-label','Scatter the '+size+' sentences of paragraph '+(index+1)+' of '+records.length);
     preview.append(' ',cue);
     return preview;
   }
@@ -117,13 +157,13 @@
   }
   function makeBoard(record,index){
     // Preserve list semantics where a prose item lives inside a list.
-    var board=el(record.original.tagName==='LI'?'li':'section','word-puzzle');
+    var board=el(record.original.tagName==='LI'?'li':'section','sentence-puzzle');
     board.setAttribute('aria-label','Paragraph '+(index+1));
     board.dataset.puzzleIndex=String(index);
     if(record.original.id)board.id=record.original.id;
     var heading=el('div','puzzle-paragraph-label','Paragraph '+(index+1));
     var slots=el('div','puzzle-slots');slots.setAttribute('role','group');slots.setAttribute('aria-label','Rebuild paragraph '+(index+1));
-    var bank=el('div','puzzle-bank');bank.setAttribute('role','group');bank.setAttribute('aria-label','Available words for paragraph '+(index+1));
+    var bank=el('div','puzzle-bank');bank.setAttribute('role','group');bank.setAttribute('aria-label','Available sentences for paragraph '+(index+1));
     var actions=el('div','puzzle-board-actions');
     var compare=button('puzzle-action','Compare with original');compare.disabled=true;
     var putBack=button('puzzle-action','Put this paragraph back');
@@ -131,42 +171,42 @@
     var status=el('span','puzzle-status');status.setAttribute('role','status');status.setAttribute('aria-live','polite');
     var comparison=el('div','puzzle-comparison');comparison.hidden=true;
     actions.append(compare,putBack,status);board.append(heading,slots,bank,actions,comparison);
-    var words=record.words,placement=words.map(function(){return null;}),selected=null;
-    var slotButtons=[],wordButtons=[],order=shuffled(words),boardId=gameId+'-paragraph-'+index;
+    var units=record.units,placement=units.map(function(){return null;}),selected=null;
+    var slotButtons=[],slotBodies=[],pieceButtons=[],order=shuffled(units),boardId=gameId+'-paragraph-'+index;
     function select(id){
       selected=id;
-      wordButtons.forEach(function(node,i){node.setAttribute('aria-pressed',String(i===id));});
+      pieceButtons.forEach(function(node,i){node.setAttribute('aria-pressed',String(i===id));});
       board.classList.toggle('puzzle-has-selection',id!==null);
     }
     function announce(){
       var count=placement.filter(function(id){return id!==null;}).length;
-      status.textContent=count+' of '+words.length+' words placed';
-      compare.disabled=count!==words.length;
+      status.textContent=count+' of '+units.length+' sentences placed';
+      compare.disabled=count!==units.length;
     }
     function paint(){
       comparison.hidden=true;comparison.replaceChildren();compare.textContent='Compare with original';
       var used=new Set(placement.filter(function(id){return id!==null;}));
-      wordButtons.forEach(function(node,id){node.hidden=used.has(id);});
+      pieceButtons.forEach(function(node,id){node.hidden=used.has(id);});
       slotButtons.forEach(function(node,i){
         var id=placement[i];
-        node.textContent=id===null?'\u00a0':words[id];
+        slotBodies[i].textContent=id===null?'':units[id];
         node.classList.toggle('puzzle-filled',id!==null);
         node.classList.remove('puzzle-different');
         node.draggable=id!==null;
-        node.setAttribute('aria-label','Position '+(i+1)+(id===null?', empty':': '+words[id]+'. Select to return this word.'));
+        node.setAttribute('aria-label','Position '+(i+1)+(id===null?', empty':': '+opening(units[id])+'. Select to return this sentence.'));
       });
       announce();
     }
     function place(id,position){
-      if(!Number.isInteger(id) || id<0 || id>=words.length)return;
+      if(!Number.isInteger(id) || id<0 || id>=units.length)return;
       var from=placement.indexOf(id),displaced=placement[position];
       if(from>=0)placement[from]=displaced;
       placement[position]=id;select(null);paint();
     }
-    function returnWord(id){
+    function returnPiece(id){
       var from=placement.indexOf(id);
       if(from>=0)placement[from]=null;
-      select(null);paint();wordButtons[id].focus({preventScroll:true});
+      select(null);paint();pieceButtons[id].focus({preventScroll:true});
     }
     function dragStart(event,id){
       if(id===null || !event.dataTransfer){event.preventDefault();return;}
@@ -176,54 +216,54 @@
       if(!event.dataTransfer)return null;
       var data=event.dataTransfer.getData(MIME).split(':');
       if(data[0]!==boardId || !/^\d+$/.test(data[1]||''))return null;
-      var id=Number(data[1]);return id<words.length?id:null;
+      var id=Number(data[1]);return id<units.length?id:null;
     }
     function dragOver(event){
       if(event.dataTransfer && Array.from(event.dataTransfer.types||[]).includes(MIME)){
         event.preventDefault();event.dataTransfer.dropEffect='move';
       }
     }
-    words.forEach(function(word,id){
-      var token=button('puzzle-word',word);token.draggable=true;token.setAttribute('aria-pressed','false');
-      token.style.setProperty('--puzzle-tilt',(Math.random()*4-2).toFixed(2)+'deg');
-      token.addEventListener('click',function(){
+    units.forEach(function(sentence,id){
+      var piece=button('puzzle-piece',sentence);piece.draggable=true;piece.setAttribute('aria-pressed','false');
+      piece.addEventListener('click',function(){
         select(selected===id?null:id);
-        status.textContent=selected===null?'Selection cleared':'Selected “'+word+'”. Choose a position above.';
+        status.textContent=selected===null?'Selection cleared':'Selected “'+opening(sentence)+'”. Choose a position above.';
       });
-      token.addEventListener('dragstart',function(event){dragStart(event,id);});
-      token.addEventListener('dragend',function(){select(null);});
-      wordButtons.push(token);
-      var slot=button('puzzle-slot','\u00a0');
-      slot.style.setProperty('--puzzle-space',Math.max(2.5,Math.min(8,Array.from(word).length*.48))+'em');
+      piece.addEventListener('dragstart',function(event){dragStart(event,id);});
+      piece.addEventListener('dragend',function(){select(null);});
+      pieceButtons.push(piece);
+      var slot=button('puzzle-slot');
+      var slotBody=el('span','puzzle-slot-text','');
+      slot.append(el('span','puzzle-slot-number',String(id+1)),slotBody);
       slot.addEventListener('click',function(){
         if(selected!==null){place(selected,id);slot.focus({preventScroll:true});}
-        else if(placement[id]!==null)returnWord(placement[id]);
-        else status.textContent='Choose a word below, then select this position.';
+        else if(placement[id]!==null)returnPiece(placement[id]);
+        else status.textContent='Choose a sentence below, then select this position.';
       });
       slot.addEventListener('dragstart',function(event){dragStart(event,placement[id]);});
       slot.addEventListener('dragend',function(){select(null);});
       slot.addEventListener('dragover',dragOver);
       slot.addEventListener('drop',function(event){
-        var tokenId=draggedId(event);if(tokenId===null)return;
-        event.preventDefault();place(tokenId,id);slot.focus({preventScroll:true});
+        var pieceId=draggedId(event);if(pieceId===null)return;
+        event.preventDefault();place(pieceId,id);slot.focus({preventScroll:true});
       });
-      slotButtons.push(slot);slots.appendChild(slot);
+      slotButtons.push(slot);slotBodies.push(slotBody);slots.appendChild(slot);
     });
-    order.forEach(function(id){bank.appendChild(wordButtons[id]);});
+    order.forEach(function(id){bank.appendChild(pieceButtons[id]);});
     bank.addEventListener('dragover',dragOver);
     bank.addEventListener('drop',function(event){
-      var id=draggedId(event);if(id===null)return;event.preventDefault();returnWord(id);
+      var id=draggedId(event);if(id===null)return;event.preventDefault();returnPiece(id);
     });
     compare.addEventListener('click',function(){
       if(!comparison.hidden){comparison.hidden=true;compare.textContent='Compare with original';return;}
       if(placement.some(function(id){return id===null;}))return;
-      var same=placement.every(function(id,i){return words[id]===words[i];});
-      status.textContent=same?'This matches the original wording.':'A different order. Compare the two versions.';
+      var same=placement.every(function(id,i){return units[id]===units[i];});
+      status.textContent=same?'This matches the original order.':'A different order. Compare the two versions.';
       comparison.replaceChildren();
-      comparison.append(el('h3','puzzle-comparison-label','Your version'),el('p','puzzle-version',placement.map(function(id){return words[id];}).join(' ')),
+      comparison.append(el('h3','puzzle-comparison-label','Your version'),el('p','puzzle-version',placement.map(function(id){return units[id];}).join(' ')),
         el('h3','puzzle-comparison-label','Original text'),el('p','puzzle-version',record.text));
-      if(!same)comparison.appendChild(el('p','puzzle-comparison-note','A different order can also be grammatical. What changes in meaning or emphasis?'));
-      slotButtons.forEach(function(slot,i){slot.classList.toggle('puzzle-different',words[placement[i]]!==words[i]);});
+      if(!same)comparison.appendChild(el('p','puzzle-comparison-note','A different order can also be coherent. Which sentence opens the paragraph, and what does that change about where it arrives?'));
+      slotButtons.forEach(function(slot,i){slot.classList.toggle('puzzle-different',units[placement[i]]!==units[i]);});
       comparison.hidden=false;compare.textContent='Hide comparison';
     });
     paint();record.view.replaceWith(board);record.view=board;record.board=board;
@@ -235,7 +275,7 @@
     if(phase!=='open' || !record || record.board)return;
     clearSelection();makeBoard(record,index);
     opened.push(index);
-    var first=record.view.querySelector('.puzzle-word');
+    var first=record.view.querySelector('.puzzle-piece');
     if(first)first.focus({preventScroll:true});
   }
   function closeBoard(index){
@@ -264,7 +304,7 @@
     /* A single Escape never costs more than one paragraph's work: it closes
        the board you are in, or the one opened most recently, and only leaves
        puzzle mode once nothing is scattered. */
-    var board=event.target.closest && event.target.closest('.word-puzzle');
+    var board=event.target.closest && event.target.closest('.sentence-puzzle');
     if(board && board.dataset.puzzleIndex)closeBoard(Number(board.dataset.puzzleIndex));
     else if(opened.length)closeBoard(opened[opened.length-1]);
     else restore();

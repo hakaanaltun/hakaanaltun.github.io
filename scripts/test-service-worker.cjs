@@ -100,7 +100,7 @@ async function main(){
   {
     const h=harness();
     assert.equal(await request(h,'https://hakanaltun.io/pieces/an-essay.html'),null);
-    assert.equal(await request(h,'https://hakanaltun.io/js/word-puzzle.js'),null);
+    assert.equal(await request(h,'https://hakanaltun.io/js/sentence-puzzle.js'),null);
     assert.equal(await request(h,'https://hakanaltun.io/js/vendor/pdfjs'),null,'the prefix must be a directory');
     assert.equal(h.network.length,0);
     // Cross-origin and non-GET stay untouched too.
