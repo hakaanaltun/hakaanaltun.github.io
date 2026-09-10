@@ -36,6 +36,11 @@
   color: var(--ink, #111);
 }
 .book-compress-scene::backdrop { background: var(--paper, #fff); }
+/* The pieces carry the page's own stacking with them (a sticky header sits over
+   the text it scrolls past), so the layer is a stacking context of its own:
+   inside it a header may climb over a paragraph, and none of it climbs over the
+   dark, the flash or the point. */
+.book-compress-pieces { isolation: isolate; }
 .book-compress-pieces,
 .book-compress-dark,
 .book-compress-flash { position: absolute; inset: 0; pointer-events: none; }
@@ -63,9 +68,18 @@
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 }
-.book-compress-point::before { content: ''; width: 7px; height: 7px; background: currentColor; border-radius: 50%; }
+.book-compress-point::before {
+  content: ''; width: 7px; height: 7px; background: currentColor; border-radius: 50%;
+  transition: width .18s ease, height .18s ease;
+}
 .book-compress-point:focus { outline: none; }
-.book-compress-point:focus-visible { outline: 1px solid #8A857C; outline-offset: 2px; }
+/* No ring. A browser draws one around a control its own script focused, and on
+   a phone that put a second, wider circle around a scene that holds one thing.
+   The point is the only thing here to press and it is focused for as long as
+   there is anything to press, so keyboard focus opens the point itself. */
+.book-compress-point:focus-visible { outline: none; }
+.book-compress-point:focus-visible::before { width: 11px; height: 11px; }
 @media (prefers-reduced-motion: reduce) {
-  .book-compress { transition: none; }
+  .book-compress,
+  .book-compress-point::before { transition: none; }
 }

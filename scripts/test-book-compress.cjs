@@ -12,7 +12,7 @@ const source = fs.readFileSync(require('node:path').join(__dirname, '../js/book-
 
 const BODY = `<style>
   body { background: #FDFCF8; }
-  header { background: rgb(68, 74, 78); }
+  header { position: sticky; top: 0; z-index: 100; background: rgb(68, 74, 78); }
   .card { background: rgb(30, 40, 50); }
 </style>
 <header data-rect="0,0,1280,140">
@@ -31,10 +31,13 @@ const BODY = `<style>
   <button class="book-compress" id="book-compress" type="button" hidden>Compress everything</button>
 </div>`;
 
-function build({ reduced = false, animations = true } = {}) {
-  const dom = new JSDOM(BODY, { runScripts: 'outside-only', pretendToBeVisual: true });
+function build({ reduced = false, animations = true, body = BODY, random = null } = {}) {
+  const dom = new JSDOM(body, { runScripts: 'outside-only', pretendToBeVisual: true });
   const w = dom.window;
   const recorded = [];
+  // Every beat in the scene is randomised, so a test that wants to compare two
+  // of them exactly has to stop the dice first.
+  if (random !== null) w.Math.random = () => random;
   w.matchMedia = () => ({ matches: reduced, addEventListener() {}, addListener() {} });
   w.Element.prototype.getBoundingClientRect = function () {
     const [left, top, width, height] = (this.getAttribute('data-rect') || '0,0,0,0').split(',').map(Number);
@@ -131,6 +134,55 @@ async function main() {
     assert.equal(pieces[5].style.background, 'rgb(30, 40, 50)');
     assert.equal(pieces[3].firstElementChild.textContent, 'Hardcover');
     assert.equal(pieces[3].style.background, '');
+  }
+
+  // A fragment carries the page's paint order too, and what the page draws over
+  // everything else is what comes to rest last on the way back.
+  {
+    const kit = await captured();
+    const pieces = [...kit.d.querySelectorAll('.book-compress-piece')];
+    assert.equal(pieces[0].firstElementChild.tagName, 'HEADER');
+    assert.equal(pieces[0].style.zIndex, '100', 'the sticky band keeps the standing it has on the page');
+    assert.equal(pieces[1].style.zIndex, '', 'ordinary type is given no stacking of its own');
+
+    await kit.run();
+    const before = kit.recorded.length;
+    kit.d.querySelector('.book-compress-point').click();
+    await kit.settle();
+    const home = kit.recorded.slice(before)
+      .filter(a => a.target.className === 'book-compress-piece')
+      .map(a => ({ tag: a.target.firstElementChild.tagName, end: a.options.delay + a.options.duration }));
+    const header = home.find(a => a.tag === 'HEADER');
+    const rest = home.filter(a => a.tag !== 'HEADER');
+    assert.ok(rest.length, 'there is something for the header to settle over');
+    assert.ok(rest.every(a => a.end < header.end), 'the header is the last thing to sit down');
+  }
+
+  // A band the page has taken off the top of the screen — the auto-hidden
+  // header a reader leaves behind on the way down to the button — paints over
+  // nothing, and the scene holds no beat for something nobody can see arrive.
+  async function settling(body) {
+    const kit = build({ body, random: .5 });
+    kit.trigger.click();
+    await kit.settle();
+    const z = kit.d.querySelector('.book-compress-piece').style.zIndex;
+    await kit.run();
+    const before = kit.recorded.length;
+    kit.d.querySelector('.book-compress-point').click();
+    await kit.settle();
+    const home = kit.recorded.slice(before)
+      .filter(a => a.target.className === 'book-compress-piece')
+      .map(a => ({ tag: a.target.firstElementChild.tagName, end: a.options.delay + a.options.duration }));
+    return { z, header: home.find(a => a.tag === 'HEADER').end,
+      rest: Math.max(...home.filter(a => a.tag !== 'HEADER').map(a => a.end)) };
+  }
+  {
+    const seen = await settling(BODY);
+    const gone = await settling(BODY.replace('<header data-rect="0,0,1280,140">', '<header data-rect="0,-140,1280,140">'));
+    assert.equal(seen.z, '100');
+    assert.equal(seen.header - seen.rest, 420, 'a header the reader can see sits down a beat after the page');
+    assert.equal(gone.z, '', 'one the page is holding off-screen is given no stacking of its own');
+    assert.equal(gone.header - gone.rest, 0, 'and nothing in the scene waits for it');
   }
 
   // Every keyframe list the script hands to the browser has to be ordered and

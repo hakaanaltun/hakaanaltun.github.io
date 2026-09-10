@@ -55,6 +55,23 @@
     return '';
   }
 
+  /* A fragment keeps the page's paint order as well as its ground. The header
+     is sticky and sits over the text it scrolls past; taken in document order
+     it went back under the cover instead, and the seam showed as the real
+     header snapping over the page the moment the scene closed. */
+  function stackingRank(el, known) {
+    for (var node = el; node && node !== document.documentElement; node = node.parentElement) {
+      var rank = known.get(node);
+      if (rank === undefined) {
+        var style = getComputedStyle(node);
+        rank = style.position === 'static' ? NaN : parseInt(style.zIndex, 10);
+        known.set(node, rank);
+      }
+      if (!isNaN(rank)) return Math.max(0, rank);
+    }
+    return 0;
+  }
+
   function visualCopy(el) {
     var copy = el.cloneNode(true);
     var originals = [el].concat(Array.from(el.querySelectorAll('*')));
@@ -102,6 +119,14 @@
     var rects = chosen.map(function (el) { return el.getBoundingClientRect(); });
     var known = new Map();
     var bands = chosen.map(function (el) { return bandBehind(el, ground, known); });
+    var stacks = new Map();
+    // Only what the reader can see at rest carries it. Scrolling to the button
+    // is what auto-hides the header, and a band held off the top of the screen
+    // paints over nothing and is not what the scene should wait for.
+    var ranks = chosen.map(function (el, index) {
+      var r = rects[index];
+      return r.bottom > 0 && r.top < innerHeight ? stackingRank(el, stacks) : 0;
+    });
     var copies = chosen.map(function (el) { return visualCopy(el); });
     var batch = document.createDocumentFragment();
     chosen.forEach(function (el, index) {
@@ -110,6 +135,7 @@
       wrapper.className = 'book-compress-piece';
       Object.assign(wrapper.style, { left: r.left + 'px', top: r.top + 'px', width: r.width + 'px', height: r.height + 'px' });
       if (bands[index]) wrapper.style.background = bands[index];
+      if (ranks[index]) wrapper.style.zIndex = String(ranks[index]);
       var copy = copies[index];
       Object.assign(copy.style, {
         position: 'static', margin: '0', width: r.width + 'px', height: r.height + 'px',
@@ -123,7 +149,7 @@
       var distance = Math.hypot(x, y) || 1;
       var drift = (Math.random() < .5 ? -1 : 1) * (45 + Math.random() * Math.min(100, innerWidth * .16));
       var phase = Math.random() * Math.PI * 2;
-      pieces.push({ node: wrapper, x: x, y: y, width: r.width, height: r.height,
+      pieces.push({ node: wrapper, x: x, y: y, width: r.width, height: r.height, rank: ranks[index],
         bendX: -y / distance * drift, bendY: x / distance * drift,
         turn: (Math.random() - .5) * 80, phase: phase,
         massX: Math.cos(phase) * 3, massY: Math.sin(phase) * 3,
@@ -423,10 +449,26 @@
       var duration = gentle ? 180 : 6800;
       var pause = gentle ? 0 : 420;
       var firstDelay = pieces.length ? Math.min.apply(null, pieces.map(function (p) { return p.delay; })) : 0;
-      var jobs = pieces.map(function (p) {
-        return animate(p.node, gentle ? [{ opacity: 0 }, { opacity: 1 }] : findHome(p),
-          { duration: gentle ? duration : duration + p.pace * 900,
-            delay: gentle ? 0 : pause + (p.delay - firstDelay) * .5, easing: 'linear' });
+      var plans = pieces.map(function (p) {
+        return { piece: p, delay: gentle ? 0 : pause + (p.delay - firstDelay) * .5,
+          duration: gentle ? duration : duration + p.pace * 900 };
+      });
+      // What the page draws over everything else is what comes to rest last.
+      // The header sitting down early and then being crossed by the cover was
+      // the page put back in an order it does not have, and the last beat of
+      // the scene went to correcting it. It is given that beat instead: the
+      // page finds its places, and the chrome settles over it.
+      if (!gentle) {
+        var settled = plans.reduce(function (latest, plan) {
+          return plan.piece.rank ? latest : Math.max(latest, plan.delay + plan.duration);
+        }, 0);
+        plans.forEach(function (plan) {
+          if (plan.piece.rank) plan.duration = Math.max(plan.duration, settled + pause - plan.delay);
+        });
+      }
+      var jobs = plans.map(function (plan) {
+        return animate(plan.piece.node, gentle ? [{ opacity: 0 }, { opacity: 1 }] : findHome(plan.piece),
+          { duration: plan.duration, delay: plan.delay, easing: 'linear' });
       });
       // Releasing the point is the explosion the book puts after the dark, so
       // the dark it was holding opens into light before anything finds a place.
