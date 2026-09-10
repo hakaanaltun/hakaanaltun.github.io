@@ -85,11 +85,11 @@
       var distance = Math.hypot(x, y) || 1;
       var drift = (Math.random() < .5 ? -1 : 1) * (45 + Math.random() * Math.min(100, innerWidth * .16));
       var phase = Math.random() * Math.PI * 2;
-      pieces.push({ node: wrapper, x: x, y: y,
+      pieces.push({ node: wrapper, x: x, y: y, width: r.width, height: r.height,
         bendX: -y / distance * drift, bendY: x / distance * drift,
         turn: (Math.random() - .5) * 80, phase: phase,
-        massX: Math.cos(phase) * 11, massY: Math.sin(phase) * 8,
-        massScale: Math.min(.4, 48 / Math.max(r.width, r.height)),
+        massX: Math.cos(phase) * 3, massY: Math.sin(phase) * 3,
+        massScale: .62 + Math.random() * .12,
         pace: Math.random(), delay: Math.random() * 650 });
     });
   }
@@ -100,40 +100,100 @@
     return animation.finished.catch(function () {});
   }
 
-  function flight(p, opening) {
+  function flight(p) {
     var frames = [];
     for (var i = 0; i <= 32; i++) {
       var t = i / 32;
-      var progress = opening ? 1 - t : t;
       var arc = Math.sin(Math.PI * t);
       var wander = arc * Math.sin(Math.PI * 2 * t + p.phase);
-      var direction = opening ? -1 : 1;
-      var x = p.x * progress + direction * p.bendX * arc + p.bendY * wander * .18;
-      var y = p.y * progress + direction * p.bendY * arc - p.bendX * wander * .18;
-      if (!opening) { x += p.massX * t; y += p.massY * t; }
-      var scale = opening ? .001 + .999 * (1 - Math.pow(1 - t, 1.6)) : 1 - (1 - p.massScale) * Math.pow(t, 1.6);
-      var angle = p.turn * progress + p.turn * arc * .45;
+      var x = (p.x + p.massX) * t + p.bendX * arc + p.bendY * wander * .18;
+      var y = (p.y + p.massY) * t + p.bendY * arc - p.bendX * wander * .18;
+      // Keep their size as they collide. Only the vacuum clears the pile.
+      var scale = 1 - (1 - p.massScale) * Math.pow(t, 4);
+      var angle = p.turn * t + p.turn * arc * .45;
       frames.push({ offset: t,
         transform: 'translate(' + x + 'px,' + y + 'px) rotate(' + angle + 'deg) scale(' + scale + ')',
-        opacity: opening ? Math.min(1, t * 7) : 1 });
+        opacity: 1 });
     }
     return frames;
   }
 
-  function strain(p) {
-    // The fragments stay visible as a tangled mass until a shared breaking point.
-    return [0, .22, .44, .65, .8, 1].map(function (t, i) {
-      var broken = t === 1;
-      var squeeze = 1 - t * .17;
-      var tremor = i === 0 || broken ? 0 : Math.sin(p.phase + i * 2.1) * 1.6;
-      var x = p.x + (broken ? 0 : p.massX * squeeze + tremor);
-      var y = p.y + (broken ? 0 : p.massY * squeeze - tremor * .6);
-      var scale = broken ? .001 : p.massScale * squeeze;
-      return { offset: t,
-        transform: 'translate(' + x + 'px,' + y + 'px) rotate(' + p.turn + 'deg) scale(' + scale + ')',
-        opacity: broken ? 0 : 1,
-        easing: t === .8 ? 'cubic-bezier(.7,0,1,.3)' : 'ease-in-out' };
+  function vacuum(p) {
+    var frames = [];
+    for (var i = 0; i <= 40; i++) {
+      var t = i / 40;
+      var pull = Math.max(0, (t - .16) / .84);
+      var remaining = 1 - Math.pow(pull, 3);
+      var x = p.x + p.massX * remaining;
+      var y = p.y + p.massY * remaining;
+      var angle = p.turn + (p.turn < 0 ? -1 : 1) * 22 * (1 - remaining);
+      frames.push({ offset: t,
+        transform: 'translate(' + x + 'px,' + y + 'px) rotate(' + angle + 'deg) scale(' + Math.max(.001, p.massScale * remaining) + ')',
+        opacity: Math.min(1, remaining * 16) });
+    }
+    return frames;
+  }
+
+  function wrongPlaces() {
+    // Borrow other fragments' positions, while keeping each first attempt in view.
+    var pool = pieces.filter(function (p) {
+      return Math.abs(p.x) < innerWidth / 2 && Math.abs(p.y) < innerHeight / 2;
     });
+    pieces.forEach(function (p) {
+      var others = pool.filter(function (q) { return q !== p; });
+      var q = others.length ? others[Math.floor(Math.random() * others.length)] : null;
+      var marginX = Math.min(p.width / 2 + 12, innerWidth * .4);
+      var marginY = Math.min(p.height / 2 + 12, innerHeight * .4);
+      var centerX = q ? innerWidth / 2 - q.x : innerWidth * .28;
+      var centerY = q ? innerHeight / 2 - q.y : innerHeight * .35;
+      centerX = Math.max(marginX, Math.min(innerWidth - marginX, centerX));
+      centerY = Math.max(marginY, Math.min(innerHeight - marginY, centerY));
+      var x = centerX - (innerWidth / 2 - p.x);
+      var y = centerY - (innerHeight / 2 - p.y);
+      // Nearby navigation items still need a visibly mistaken first landing.
+      if (Math.hypot(x, y) < 70) {
+        centerY = centerY < innerHeight / 2 ? innerHeight * .7 : innerHeight * .3;
+        y = centerY - (innerHeight / 2 - p.y);
+      }
+      p.wrongX = x;
+      p.wrongY = y;
+      p.guessX = x * .32 + Math.cos(p.phase) * Math.min(85, innerWidth * .16);
+      p.guessY = y * .32 + Math.sin(p.phase) * Math.min(70, innerHeight * .12);
+    });
+  }
+
+  function findHome(p) {
+    var first = .31 + p.pace * .06;
+    var second = .64 + p.pace * .04;
+    var tilt = Math.sin(p.phase) * 19;
+    var stops = [
+      { t: 0, x: p.x, y: p.y, scale: .001, angle: p.turn },
+      { t: first, x: p.wrongX, y: p.wrongY, scale: .84, angle: tilt },
+      { t: first + .12, x: p.wrongX, y: p.wrongY, scale: .84, angle: tilt },
+      { t: second, x: p.guessX, y: p.guessY, scale: .95, angle: -tilt * .4 },
+      { t: second + .09, x: p.guessX, y: p.guessY, scale: .95, angle: -tilt * .4 },
+      { t: 1, x: 0, y: 0, scale: 1, angle: 0 }
+    ];
+    var frames = [];
+    for (var leg = 0; leg < stops.length - 1; leg++) {
+      var from = stops[leg], to = stops[leg + 1];
+      var moving = from.x !== to.x || from.y !== to.y;
+      for (var i = 0; i <= 16; i++) {
+        if (leg > 0 && i === 0) continue;
+        var u = i / 16;
+        var ease = u * u * (3 - 2 * u);
+        var bend = moving ? Math.sin(Math.PI * ease) * (leg === 0 ? .55 : .23) : 0;
+        var t = from.t + (to.t - from.t) * u;
+        var x = from.x + (to.x - from.x) * ease + p.bendX * bend;
+        var y = from.y + (to.y - from.y) * ease + p.bendY * bend;
+        var angle = from.angle + (to.angle - from.angle) * ease;
+        var scale = from.scale + (to.scale - from.scale) * ease;
+        frames.push({ offset: t,
+          transform: 'translate(' + x + 'px,' + y + 'px) rotate(' + angle + 'deg) scale(' + scale + ')',
+          opacity: Math.min(1, t * 12) });
+      }
+    }
+    return frames;
   }
 
   function clean() {
@@ -178,7 +238,7 @@
         var time = gentle ? duration : duration + p.pace * 900;
         var delay = gentle ? 0 : p.delay;
         finish = Math.max(finish, time + delay);
-        return animate(p.node, gentle ? [{ opacity: 1 }, { opacity: 0 }] : flight(p, false),
+        return animate(p.node, gentle ? [{ opacity: 1 }, { opacity: 0 }] : flight(p),
           { duration: time, delay: delay, easing: 'cubic-bezier(.42,0,.7,.4)' });
       });
       jobs.push(animate(white, [{ opacity: 0 }, { opacity: 1 }], { duration: finish }));
@@ -186,11 +246,11 @@
       await Promise.all(jobs);
       if (run !== token) return;
       if (!gentle) {
-        // All arrivals finish before the mass strains and collapses together.
+        // The overlapping mass is pulled inward without making room first.
         var pressure = pieces.map(function (p) {
-          return animate(p.node, strain(p), { duration: 1000 });
+          return animate(p.node, vacuum(p), { duration: 900 });
         });
-        pressure.push(animate(point, [{ opacity: 0 }, { opacity: 1 }], { duration: 160, delay: 840 }));
+        pressure.push(animate(point, [{ opacity: 0 }, { opacity: 1 }], { duration: 200, delay: 550 }));
         await Promise.all(pressure);
         if (run !== token) return;
       }
@@ -211,16 +271,17 @@
     try {
       // Re-measure the untouched page, including after a phone has been rotated.
       capture();
-      var duration = reduced.matches ? 180 : 3000;
+      if (!reduced.matches) wrongPlaces();
+      var duration = reduced.matches ? 180 : 4800;
       var pause = reduced.matches ? 0 : 500;
       var firstDelay = pieces.length ? Math.min.apply(null, pieces.map(function (p) { return p.delay; })) : 0;
       var finish = duration;
       var jobs = pieces.map(function (p) {
-        var time = reduced.matches ? duration : duration + p.pace * 900;
-        var delay = reduced.matches ? 0 : (p.delay - firstDelay) * .8;
+        var time = reduced.matches ? duration : duration + p.pace * 1200;
+        var delay = reduced.matches ? 0 : (p.delay - firstDelay) * 1.2;
         finish = Math.max(finish, time + delay);
-        return animate(p.node, reduced.matches ? [{ opacity: 0 }, { opacity: 1 }] : flight(p, true),
-          { duration: time, delay: pause + delay, easing: 'cubic-bezier(.22,.4,.3,1)' });
+        return animate(p.node, reduced.matches ? [{ opacity: 0 }, { opacity: 1 }] : findHome(p),
+          { duration: time, delay: pause + delay, easing: 'linear' });
       });
       jobs.push(animate(white, [{ opacity: 1 }, { opacity: 0 }], { duration: finish, delay: pause }));
       jobs.push(animate(point, [{ opacity: 1 }, { opacity: 0 }], { duration: reduced.matches ? 180 : 550, delay: pause }));
