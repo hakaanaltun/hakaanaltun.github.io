@@ -16,6 +16,9 @@
 }
 .book-compress:hover { color: var(--petrol); border-color: currentColor; }
 .book-compress:focus-visible { outline: 2px solid var(--petrol); outline-offset: 5px; }
+/* The scene stands on the page's own paper rather than a fixed white, so the
+   fragments keep the contrast they were written with. Washing to white turned
+   the dark themes' cream type invisible long before it reached the middle. */
 .book-compress-scene {
   position: fixed;
   inset: 0;
@@ -29,11 +32,18 @@
   overflow: hidden;
   overscroll-behavior: none;
   touch-action: none;
-  color-scheme: light;
+  background: var(--paper, #fff);
+  color: var(--ink, #111);
 }
-.book-compress-scene::backdrop { background: #fff; }
-.book-compress-white, .book-compress-pieces { position: absolute; inset: 0; pointer-events: none; }
-.book-compress-white { background: #fff; }
+.book-compress-scene::backdrop { background: var(--paper, #fff); }
+.book-compress-pieces,
+.book-compress-dark,
+.book-compress-flash { position: absolute; inset: 0; pointer-events: none; }
+/* The dark closes over the pile only once it is collapsing, and the flash is
+   what the point releases. Both are the same in every theme: by the time they
+   are painted there is no page left underneath to stay legible against. */
+.book-compress-dark { background: #0B0A09; opacity: 0; }
+.book-compress-flash { background: #FFF; opacity: 0; }
 .book-compress-piece { position: absolute; transform-origin: center; will-change: transform, opacity; }
 .book-compress-point {
   appearance: none;
@@ -49,13 +59,13 @@
   border: 0;
   border-radius: 50%;
   background: transparent;
-  color: #111;
+  color: #F3EFE7;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 }
 .book-compress-point::before { content: ''; width: 7px; height: 7px; background: currentColor; border-radius: 50%; }
 .book-compress-point:focus { outline: none; }
-.book-compress-point:focus-visible { outline: 1px solid #777; outline-offset: 2px; }
+.book-compress-point:focus-visible { outline: 1px solid #8A857C; outline-offset: 2px; }
 @media (prefers-reduced-motion: reduce) {
   .book-compress { transition: none; }
 }

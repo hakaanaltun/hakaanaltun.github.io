@@ -7,17 +7,19 @@
   var scene = document.createElement('dialog');
   scene.className = 'book-compress-scene';
   scene.setAttribute('aria-label', 'Everything, compressed to a point');
-  var white = document.createElement('div');
-  white.className = 'book-compress-white';
   var layer = document.createElement('div');
   layer.className = 'book-compress-pieces';
   layer.setAttribute('aria-hidden', 'true');
   layer.inert = true;
+  var dark = document.createElement('div');
+  dark.className = 'book-compress-dark';
+  var flash = document.createElement('div');
+  flash.className = 'book-compress-flash';
   var point = document.createElement('button');
   point.type = 'button';
   point.className = 'book-compress-point';
   point.setAttribute('aria-label', 'Expand everything and return to the page');
-  scene.append(white, layer, point);
+  scene.append(layer, dark, flash, point);
   document.body.appendChild(scene);
 
   var state = 'idle';
@@ -25,6 +27,7 @@
   var pieces = [];
   var saved;
   var run = 0;
+  var skipped = false;
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   function visible(el) {
@@ -34,6 +37,22 @@
     }
     var r = el.getBoundingClientRect();
     return r.width > 0 && r.height > 0 && r.bottom > -160 && r.top < innerHeight + 160 && r.right > 0 && r.left < innerWidth;
+  }
+
+  /* A fragment keeps the ground it was written for. Cream type lifted off a
+     dark surface onto the page's own paper is type nobody can read. */
+  function bandBehind(el, ground, known) {
+    for (var parent = el.parentElement; parent && parent !== document.documentElement; parent = parent.parentElement) {
+      var color = known.get(parent);
+      if (color === undefined) {
+        color = getComputedStyle(parent).backgroundColor;
+        known.set(parent, color);
+      }
+      if (color && color !== 'transparent' && color !== 'rgba(0, 0, 0, 0)') {
+        return color === ground ? '' : color;
+      }
+    }
+    return '';
   }
 
   function visualCopy(el) {
@@ -51,8 +70,9 @@
       clone.removeAttribute('autofocus');
       clone.style.setProperty('animation', 'none', 'important');
       clone.style.setProperty('transition', 'none', 'important');
-      if (original.tagName === 'CANVAS') {
-        clone.getContext('2d').drawImage(original, 0, 0);
+      // A cloned canvas is blank, and one already torn down cannot be read.
+      if (original.tagName === 'CANVAS' && original.width && original.height) {
+        try { clone.getContext('2d').drawImage(original, 0, 0); } catch (error) {}
       }
     });
     return copy;
@@ -61,25 +81,37 @@
   function capture() {
     layer.replaceChildren();
     pieces = [];
-    var candidates = Array.from(document.body.querySelectorAll('h1,h2,h3,p,a,button,img,svg,hr,canvas,span'))
+    // The chrome bands travel whole rather than as one piece per link: a band
+    // is a surface, and taking it apart leaves the type on it without one.
+    var candidates = Array.from(document.body.querySelectorAll('header,footer,h1,h2,h3,p,a,button,img,svg,hr,canvas,span'))
       .filter(function (el) { return !scene.contains(el) && visible(el); });
     var selected = new Set(candidates);
-    candidates.filter(function (el) {
+    var chosen = candidates.filter(function (el) {
       for (var p = el.parentElement; p; p = p.parentElement) if (selected.has(p)) return false;
       return true;
-    }).slice(0, 180).forEach(function (el) {
-      var r = el.getBoundingClientRect();
+    }).slice(0, 180);
+    // Read the page in one pass and attach the layer in one go. Measuring and
+    // appending in the same turn made every piece force its own reflow.
+    var ground = getComputedStyle(document.body).backgroundColor;
+    var rects = chosen.map(function (el) { return el.getBoundingClientRect(); });
+    var known = new Map();
+    var bands = chosen.map(function (el) { return bandBehind(el, ground, known); });
+    var copies = chosen.map(function (el) { return visualCopy(el); });
+    var batch = document.createDocumentFragment();
+    chosen.forEach(function (el, index) {
+      var r = rects[index];
       var wrapper = document.createElement('div');
       wrapper.className = 'book-compress-piece';
       Object.assign(wrapper.style, { left: r.left + 'px', top: r.top + 'px', width: r.width + 'px', height: r.height + 'px' });
-      var copy = visualCopy(el);
+      if (bands[index]) wrapper.style.background = bands[index];
+      var copy = copies[index];
       Object.assign(copy.style, {
         position: 'static', margin: '0', width: r.width + 'px', height: r.height + 'px',
         minWidth: '0', maxWidth: 'none', minHeight: '0', maxHeight: 'none',
         boxSizing: 'border-box', transform: 'none', translate: 'none', rotate: 'none', scale: 'none'
       });
       wrapper.appendChild(copy);
-      layer.appendChild(wrapper);
+      batch.appendChild(wrapper);
       var x = innerWidth / 2 - r.left - r.width / 2;
       var y = innerHeight / 2 - r.top - r.height / 2;
       var distance = Math.hypot(x, y) || 1;
@@ -90,8 +122,9 @@
         turn: (Math.random() - .5) * 80, phase: phase,
         massX: Math.cos(phase) * 3, massY: Math.sin(phase) * 3,
         massScale: .62 + Math.random() * .12,
-        pace: Math.random(), delay: Math.random() * 650 });
+        pace: Math.random(), delay: Math.random() * 400 });
     });
+    layer.appendChild(batch);
   }
 
   function animate(el, frames, options) {
@@ -196,6 +229,16 @@
     return frames;
   }
 
+  /* A reader holding a phone has no Escape key, and the round trip is long
+     enough to want a way out of. A tap runs the rest of it at once. */
+  function skip() {
+    if (state !== 'compressing' && state !== 'expanding') return;
+    skipped = true;
+    animations.forEach(function (animation) {
+      try { animation.finish(); } catch (error) {}
+    });
+  }
+
   function clean() {
     run++;
     animations.forEach(function (a) { a.cancel(); });
@@ -213,6 +256,7 @@
       saved = null;
     }
     state = 'idle';
+    point.disabled = true;
     trigger.focus({ preventScroll: true });
   }
 
@@ -221,39 +265,38 @@
     state = 'compressing';
     var token = ++run;
     var gentle = reduced.matches;
+    skipped = false;
     try {
       var root = document.documentElement;
       saved = { x: scrollX, y: scrollY, overflow: root.style.overflow,
         gutter: root.style.scrollbarGutter, behavior: root.style.scrollBehavior };
       root.style.scrollbarGutter = 'stable';
       root.style.overflow = 'hidden';
-      scene.style.background = getComputedStyle(document.body).background;
       capture();
       point.style.opacity = '0';
       point.disabled = true;
+      dark.style.opacity = '0';
+      flash.style.opacity = '0';
       scene.showModal();
-      var duration = gentle ? 180 : 3600;
-      var finish = duration;
+      var duration = gentle ? 180 : 2200;
       var jobs = pieces.map(function (p) {
-        var time = gentle ? duration : duration + p.pace * 900;
-        var delay = gentle ? 0 : p.delay;
-        finish = Math.max(finish, time + delay);
         return animate(p.node, gentle ? [{ opacity: 1 }, { opacity: 0 }] : flight(p),
-          { duration: time, delay: delay, easing: 'cubic-bezier(.42,0,.7,.4)' });
+          { duration: gentle ? duration : duration + p.pace * 600,
+            delay: gentle ? 0 : p.delay, easing: 'cubic-bezier(.42,0,.7,.4)' });
       });
-      jobs.push(animate(white, [{ opacity: 0 }, { opacity: 1 }], { duration: finish }));
-      if (gentle) jobs.push(animate(point, [{ opacity: 0 }, { opacity: 1 }], { duration: 180 }));
       await Promise.all(jobs);
       if (run !== token) return;
-      if (!gentle) {
-        // The overlapping mass is pulled inward without making room first.
-        var pressure = pieces.map(function (p) {
-          return animate(p.node, vacuum(p), { duration: 900 });
-        });
-        pressure.push(animate(point, [{ opacity: 0 }, { opacity: 1 }], { duration: 200, delay: 550 }));
-        await Promise.all(pressure);
-        if (run !== token) return;
-      }
+      // The overlapping mass is pulled inward without making room first, and
+      // the dark closes over it only once there is nothing left to read.
+      var closing = gentle ? [] : pieces.map(function (p) {
+        return animate(p.node, vacuum(p), { duration: 700 });
+      });
+      closing.push(animate(dark, [{ opacity: 0 }, { opacity: 1 }], { duration: gentle ? 180 : 700 }));
+      closing.push(animate(point, [{ opacity: 0 }, { opacity: 1 }],
+        { duration: gentle ? 180 : 200, delay: gentle ? 0 : 420 }));
+      if (skipped) skip();
+      await Promise.all(closing);
+      if (run !== token) return;
       state = 'collapsed';
       point.disabled = false;
       point.focus({ preventScroll: true });
@@ -267,24 +310,30 @@
     if (state !== 'collapsed') return;
     state = 'expanding';
     var token = run;
+    var gentle = reduced.matches;
+    skipped = false;
     point.disabled = true;
     try {
       // Re-measure the untouched page, including after a phone has been rotated.
       capture();
-      if (!reduced.matches) wrongPlaces();
-      var duration = reduced.matches ? 180 : 4800;
-      var pause = reduced.matches ? 0 : 500;
+      if (!gentle) wrongPlaces();
+      var duration = gentle ? 180 : 2900;
+      var pause = gentle ? 0 : 320;
       var firstDelay = pieces.length ? Math.min.apply(null, pieces.map(function (p) { return p.delay; })) : 0;
-      var finish = duration;
       var jobs = pieces.map(function (p) {
-        var time = reduced.matches ? duration : duration + p.pace * 1200;
-        var delay = reduced.matches ? 0 : (p.delay - firstDelay) * 1.2;
-        finish = Math.max(finish, time + delay);
-        return animate(p.node, reduced.matches ? [{ opacity: 0 }, { opacity: 1 }] : findHome(p),
-          { duration: time, delay: pause + delay, easing: 'linear' });
+        return animate(p.node, gentle ? [{ opacity: 0 }, { opacity: 1 }] : findHome(p),
+          { duration: gentle ? duration : duration + p.pace * 800,
+            delay: gentle ? 0 : pause + (p.delay - firstDelay) * 1.2, easing: 'linear' });
       });
-      jobs.push(animate(white, [{ opacity: 1 }, { opacity: 0 }], { duration: finish, delay: pause }));
-      jobs.push(animate(point, [{ opacity: 1 }, { opacity: 0 }], { duration: reduced.matches ? 180 : 550, delay: pause }));
+      // Releasing the point is the explosion the book puts after the dark, so
+      // the dark it was holding opens into light before anything finds a place.
+      jobs.push(animate(dark, [{ opacity: 1 }, { opacity: 0 }],
+        { duration: gentle ? 180 : 420, easing: 'cubic-bezier(.2,0,0,1)' }));
+      if (!gentle) {
+        jobs.push(animate(flash, [{ opacity: 0, offset: 0 }, { opacity: 1, offset: .06 }, { opacity: 0, offset: 1 }],
+          { duration: 600 }));
+      }
+      jobs.push(animate(point, [{ opacity: 1 }, { opacity: 0 }], { duration: gentle ? 180 : 380 }));
       await Promise.all(jobs);
       if (run === token) clean();
     } catch (error) { clean(); }
@@ -295,8 +344,10 @@
     if (state === 'collapsed') expand();
     else clean();
   });
+  scene.addEventListener('pointerdown', skip);
   window.addEventListener('pagehide', function () { if (state !== 'idle') clean(); });
   point.addEventListener('click', expand);
   trigger.addEventListener('click', compress);
+  point.disabled = true;
   trigger.hidden = false;
 })();
