@@ -28,6 +28,9 @@
   var saved;
   var run = 0;
   var skipped = false;
+  // The pile gathers below the middle and is drawn down out of the frame from
+  // there, rather than imploding on the exact centre of the screen.
+  var sink = 0, drain = 0;
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   function visible(el) {
@@ -92,6 +95,9 @@
     }).slice(0, 180);
     // Read the page in one pass and attach the layer in one go. Measuring and
     // appending in the same turn made every piece force its own reflow.
+    sink = Math.min(innerHeight * .1, 90);
+    drain = Math.min(innerHeight * .07, 60);
+    scene.style.setProperty('--book-compress-sink', (sink + drain) + 'px');
     var ground = getComputedStyle(document.body).backgroundColor;
     var rects = chosen.map(function (el) { return el.getBoundingClientRect(); });
     var known = new Map();
@@ -122,7 +128,7 @@
         turn: (Math.random() - .5) * 80, phase: phase,
         massX: Math.cos(phase) * 3, massY: Math.sin(phase) * 3,
         massScale: .62 + Math.random() * .12,
-        pace: Math.random(), delay: Math.random() * 400 });
+        pace: Math.random(), delay: Math.random() * 400, creep: 6 + Math.random() * 8 });
     });
     layer.appendChild(batch);
   }
@@ -140,7 +146,7 @@
       var arc = Math.sin(Math.PI * t);
       var wander = arc * Math.sin(Math.PI * 2 * t + p.phase);
       var x = (p.x + p.massX) * t + p.bendX * arc + p.bendY * wander * .18;
-      var y = (p.y + p.massY) * t + p.bendY * arc - p.bendX * wander * .18;
+      var y = (p.y + p.massY + sink) * t + p.bendY * arc - p.bendX * wander * .18;
       // Full size the whole way down. Shrinking on the approach read as
       // collapsing before arriving; the pressing happens at the point, not
       // on the way to it.
@@ -160,12 +166,13 @@
     var frames = [];
     for (var i = 0; i <= 24; i++) {
       var t = i / 24;
-      var give = t * t * t * (t * (t * 6 - 15) + 10);
-      var tremor = Math.sin(t * Math.PI * 7 + p.phase) * (1 - t) * 2.4;
+      // It holds, and holds, and then goes. A tremor here read as fidgeting —
+      // twenty fragments each shaking on their own phase — so there is none.
+      var give = t < .55 ? .1 * Math.pow(t / .55, 2)
+        : .1 + .9 * (1 - Math.pow(1 - (t - .55) / .45, 2.6));
       frames.push({ offset: t,
-        transform: 'translate(' + (p.x + p.massX + tremor) + 'px,' + (p.y + p.massY - tremor * .7) + 'px) rotate(' +
-          (p.turn + Math.sin(t * Math.PI * 5 + p.phase) * (1 - t) * 2) + 'deg) scale(' +
-          (.96 + (p.massScale - .96) * give) + ')',
+        transform: 'translate(' + (p.x + p.massX) + 'px,' + (p.y + p.massY + sink + p.creep * give) + 'px) rotate(' +
+          p.turn + 'deg) scale(' + (.96 + (p.massScale - .96) * give) + ')',
         opacity: 1 });
     }
     return frames;
@@ -178,7 +185,7 @@
       var pull = Math.max(0, (t - .16) / .84);
       var remaining = 1 - Math.pow(pull, 3);
       var x = p.x + p.massX * remaining;
-      var y = p.y + p.massY * remaining;
+      var y = p.y + sink + (p.massY + p.creep) * remaining + drain * (1 - remaining);
       var angle = p.turn + (p.turn < 0 ? -1 : 1) * 22 * (1 - remaining);
       frames.push({ offset: t,
         transform: 'translate(' + x + 'px,' + y + 'px) rotate(' + angle + 'deg) scale(' + Math.max(.001, p.massScale * remaining) + ')',
@@ -246,7 +253,7 @@
       // from the whole page flung the small fragments clear across it on every
       // hop, which is not a search — it is teleporting. The busier the
       // fragment, the less time each hop has, so the closer it looks.
-      var fromX = innerWidth / 2, fromY = innerHeight / 2;
+      var fromX = innerWidth / 2, fromY = innerHeight / 2 + sink + drain;
       for (var k = 0; k < count; k++) {
         var seat = null, nearest = Infinity;
         for (var look = 0; look <= count; look++) {
@@ -307,7 +314,8 @@
   }
 
   function findHome(p) {
-    var stops = [{ t: 0, x: p.x, y: p.y, scale: .001, angle: p.turn, swirl: p.tries[0].swirl, curve: p.tries[0].curve, kind: 'travel' }];
+    var stops = [{ t: 0, x: p.x, y: p.y + sink + drain, scale: .001, angle: p.turn,
+      swirl: p.tries[0].swirl, curve: p.tries[0].curve, kind: 'travel' }];
     p.tries.forEach(function (t, i) {
       var next = p.tries[i + 1];
       // Only what actually landed in a crowd is jolted, and only as hard as it was.

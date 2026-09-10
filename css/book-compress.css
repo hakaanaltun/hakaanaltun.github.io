@@ -49,7 +49,7 @@
   appearance: none;
   position: absolute;
   left: 50%;
-  top: 50%;
+  top: calc(50% + var(--book-compress-sink, 0px));
   transform: translate(-50%, -50%);
   display: grid;
   place-items: center;
