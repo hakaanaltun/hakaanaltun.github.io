@@ -84,9 +84,12 @@
       var y = innerHeight / 2 - r.top - r.height / 2;
       var distance = Math.hypot(x, y) || 1;
       var drift = (Math.random() < .5 ? -1 : 1) * (45 + Math.random() * Math.min(100, innerWidth * .16));
+      var phase = Math.random() * Math.PI * 2;
       pieces.push({ node: wrapper, x: x, y: y,
         bendX: -y / distance * drift, bendY: x / distance * drift,
-        turn: (Math.random() - .5) * 80, phase: Math.random() * Math.PI * 2,
+        turn: (Math.random() - .5) * 80, phase: phase,
+        massX: Math.cos(phase) * 11, massY: Math.sin(phase) * 8,
+        massScale: Math.min(.4, 48 / Math.max(r.width, r.height)),
         pace: Math.random(), delay: Math.random() * 650 });
     });
   }
@@ -107,13 +110,30 @@
       var direction = opening ? -1 : 1;
       var x = p.x * progress + direction * p.bendX * arc + p.bendY * wander * .18;
       var y = p.y * progress + direction * p.bendY * arc - p.bendX * wander * .18;
-      var scale = opening ? .001 + .999 * (1 - Math.pow(1 - t, 1.6)) : Math.max(.001, 1 - Math.pow(t, 1.6));
+      if (!opening) { x += p.massX * t; y += p.massY * t; }
+      var scale = opening ? .001 + .999 * (1 - Math.pow(1 - t, 1.6)) : 1 - (1 - p.massScale) * Math.pow(t, 1.6);
       var angle = p.turn * progress + p.turn * arc * .45;
       frames.push({ offset: t,
         transform: 'translate(' + x + 'px,' + y + 'px) rotate(' + angle + 'deg) scale(' + scale + ')',
-        opacity: opening ? Math.min(1, t * 7) : Math.min(1, (1 - t) * 10) });
+        opacity: opening ? Math.min(1, t * 7) : 1 });
     }
     return frames;
+  }
+
+  function strain(p) {
+    // The fragments stay visible as a tangled mass until a shared breaking point.
+    return [0, .22, .44, .65, .8, 1].map(function (t, i) {
+      var broken = t === 1;
+      var squeeze = 1 - t * .17;
+      var tremor = i === 0 || broken ? 0 : Math.sin(p.phase + i * 2.1) * 1.6;
+      var x = p.x + (broken ? 0 : p.massX * squeeze + tremor);
+      var y = p.y + (broken ? 0 : p.massY * squeeze - tremor * .6);
+      var scale = broken ? .001 : p.massScale * squeeze;
+      return { offset: t,
+        transform: 'translate(' + x + 'px,' + y + 'px) rotate(' + p.turn + 'deg) scale(' + scale + ')',
+        opacity: broken ? 0 : 1,
+        easing: t === .8 ? 'cubic-bezier(.7,0,1,.3)' : 'ease-in-out' };
+    });
   }
 
   function clean() {
@@ -140,6 +160,7 @@
     if (state !== 'idle') return;
     state = 'compressing';
     var token = ++run;
+    var gentle = reduced.matches;
     try {
       var root = document.documentElement;
       saved = { x: scrollX, y: scrollY, overflow: root.style.overflow,
@@ -151,19 +172,28 @@
       point.style.opacity = '0';
       point.disabled = true;
       scene.showModal();
-      var duration = reduced.matches ? 180 : 3600;
+      var duration = gentle ? 180 : 3600;
       var finish = duration;
       var jobs = pieces.map(function (p) {
-        var time = reduced.matches ? duration : duration + p.pace * 900;
-        var delay = reduced.matches ? 0 : p.delay;
+        var time = gentle ? duration : duration + p.pace * 900;
+        var delay = gentle ? 0 : p.delay;
         finish = Math.max(finish, time + delay);
-        return animate(p.node, reduced.matches ? [{ opacity: 1 }, { opacity: 0 }] : flight(p, false),
+        return animate(p.node, gentle ? [{ opacity: 1 }, { opacity: 0 }] : flight(p, false),
           { duration: time, delay: delay, easing: 'cubic-bezier(.42,0,.7,.4)' });
       });
       jobs.push(animate(white, [{ opacity: 0 }, { opacity: 1 }], { duration: finish }));
-      jobs.push(animate(point, [{ opacity: 0 }, { opacity: 1 }], { duration: 200, delay: reduced.matches ? 0 : finish - 250 }));
+      if (gentle) jobs.push(animate(point, [{ opacity: 0 }, { opacity: 1 }], { duration: 180 }));
       await Promise.all(jobs);
       if (run !== token) return;
+      if (!gentle) {
+        // All arrivals finish before the mass strains and collapses together.
+        var pressure = pieces.map(function (p) {
+          return animate(p.node, strain(p), { duration: 1000 });
+        });
+        pressure.push(animate(point, [{ opacity: 0 }, { opacity: 1 }], { duration: 160, delay: 840 }));
+        await Promise.all(pressure);
+        if (run !== token) return;
+      }
       state = 'collapsed';
       point.disabled = false;
       point.focus({ preventScroll: true });
@@ -182,16 +212,18 @@
       // Re-measure the untouched page, including after a phone has been rotated.
       capture();
       var duration = reduced.matches ? 180 : 3000;
+      var pause = reduced.matches ? 0 : 500;
+      var firstDelay = pieces.length ? Math.min.apply(null, pieces.map(function (p) { return p.delay; })) : 0;
       var finish = duration;
       var jobs = pieces.map(function (p) {
         var time = reduced.matches ? duration : duration + p.pace * 900;
-        var delay = reduced.matches ? 0 : p.delay * .8;
+        var delay = reduced.matches ? 0 : (p.delay - firstDelay) * .8;
         finish = Math.max(finish, time + delay);
         return animate(p.node, reduced.matches ? [{ opacity: 0 }, { opacity: 1 }] : flight(p, true),
-          { duration: time, delay: delay, easing: 'cubic-bezier(.22,.4,.3,1)' });
+          { duration: time, delay: pause + delay, easing: 'cubic-bezier(.22,.4,.3,1)' });
       });
-      jobs.push(animate(white, [{ opacity: 1 }, { opacity: 0 }], { duration: finish }));
-      jobs.push(animate(point, [{ opacity: 1 }, { opacity: 0 }], { duration: reduced.matches ? 180 : 550 }));
+      jobs.push(animate(white, [{ opacity: 1 }, { opacity: 0 }], { duration: finish, delay: pause }));
+      jobs.push(animate(point, [{ opacity: 1 }, { opacity: 0 }], { duration: reduced.matches ? 180 : 550, delay: pause }));
       await Promise.all(jobs);
       if (run === token) clean();
     } catch (error) { clean(); }
