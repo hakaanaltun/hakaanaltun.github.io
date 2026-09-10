@@ -147,32 +147,12 @@
       var wander = arc * Math.sin(Math.PI * 2 * t + p.phase);
       var x = (p.x + p.massX) * t + p.bendX * arc + p.bendY * wander * .18;
       var y = (p.y + p.massY) * t + p.bendY * arc - p.bendX * wander * .18;
-      // Full size the whole way down. Shrinking on the approach read as
-      // collapsing before arriving; the pressing happens at the point, not
-      // on the way to it.
-      var scale = 1 - .04 * Math.pow(t, 6);
+      // The shrinking is the descent, not a separate beat after it. A fragment
+      // is smaller the nearer it gets and arrives already gathered.
+      var scale = 1 - (1 - p.massScale) * Math.pow(t, 1.6);
       var angle = p.turn * t + p.turn * arc * .45;
       frames.push({ offset: t,
         transform: 'translate(' + x + 'px,' + y + 'px) rotate(' + angle + 'deg) scale(' + scale + ')',
-        opacity: 1 });
-    }
-    return frames;
-  }
-
-  /* Everything is at the point and nothing has given way yet. This is the
-     sentence the button is named for: held against itself until it cannot
-     hold. It gives slowly, then all at once, and shakes while it resists. */
-  function press(p) {
-    var frames = [];
-    for (var i = 0; i <= 24; i++) {
-      var t = i / 24;
-      // It holds, and holds, and then goes. A tremor here read as fidgeting —
-      // twenty fragments each shaking on their own phase — so there is none.
-      var give = t < .55 ? .1 * Math.pow(t / .55, 2)
-        : .1 + .9 * (1 - Math.pow(1 - (t - .55) / .45, 2.6));
-      frames.push({ offset: t,
-        transform: 'translate(' + (p.x + p.massX) + 'px,' + (p.y + p.massY) + 'px) rotate(' +
-          p.turn + 'deg) scale(' + (.96 + (p.massScale - .96) * give) + ')',
         opacity: 1 });
     }
     return frames;
@@ -401,24 +381,14 @@
       dark.style.opacity = '0';
       flash.style.opacity = '0';
       scene.showModal();
-      var duration = gentle ? 180 : 2200;
+      var duration = gentle ? 180 : 2600;
       var jobs = pieces.map(function (p) {
         return animate(p.node, gentle ? [{ opacity: 1 }, { opacity: 0 }] : flight(p),
-          { duration: gentle ? duration : duration + p.pace * 600,
+          { duration: gentle ? duration : duration + p.pace * 700,
             delay: gentle ? 0 : p.delay, easing: 'cubic-bezier(.42,0,.7,.4)' });
       });
       await Promise.all(jobs);
       if (run !== token) return;
-      // Nothing gives way until everything has arrived. The pressing is its
-      // own beat, at the point, and it is the one the button is named for.
-      if (!gentle) {
-        var held = pieces.map(function (p) {
-          return animate(p.node, press(p), { duration: 900 });
-        });
-        if (skipped) skip();
-        await Promise.all(held);
-        if (run !== token) return;
-      }
       // The overlapping mass is pulled inward without making room first, and
       // the dark closes over it only once there is nothing left to read.
       var closing = gentle ? [] : pieces.map(function (p) {
