@@ -141,11 +141,31 @@
       var wander = arc * Math.sin(Math.PI * 2 * t + p.phase);
       var x = (p.x + p.massX) * t + p.bendX * arc + p.bendY * wander * .18;
       var y = (p.y + p.massY) * t + p.bendY * arc - p.bendX * wander * .18;
-      // Keep their size as they collide. Only the vacuum clears the pile.
-      var scale = 1 - (1 - p.massScale) * Math.pow(t, 4);
+      // Full size the whole way down. Shrinking on the approach read as
+      // collapsing before arriving; the pressing happens at the point, not
+      // on the way to it.
+      var scale = 1 - .04 * Math.pow(t, 6);
       var angle = p.turn * t + p.turn * arc * .45;
       frames.push({ offset: t,
         transform: 'translate(' + x + 'px,' + y + 'px) rotate(' + angle + 'deg) scale(' + scale + ')',
+        opacity: 1 });
+    }
+    return frames;
+  }
+
+  /* Everything is at the point and nothing has given way yet. This is the
+     sentence the button is named for: held against itself until it cannot
+     hold. It gives slowly, then all at once, and shakes while it resists. */
+  function press(p) {
+    var frames = [];
+    for (var i = 0; i <= 24; i++) {
+      var t = i / 24;
+      var give = t * t * t * (t * (t * 6 - 15) + 10);
+      var tremor = Math.sin(t * Math.PI * 7 + p.phase) * (1 - t) * 2.4;
+      frames.push({ offset: t,
+        transform: 'translate(' + (p.x + p.massX + tremor) + 'px,' + (p.y + p.massY - tremor * .7) + 'px) rotate(' +
+          (p.turn + Math.sin(t * Math.PI * 5 + p.phase) * (1 - t) * 2) + 'deg) scale(' +
+          (.96 + (p.massScale - .96) * give) + ')',
         opacity: 1 });
     }
     return frames;
@@ -381,6 +401,16 @@
       });
       await Promise.all(jobs);
       if (run !== token) return;
+      // Nothing gives way until everything has arrived. The pressing is its
+      // own beat, at the point, and it is the one the button is named for.
+      if (!gentle) {
+        var held = pieces.map(function (p) {
+          return animate(p.node, press(p), { duration: 900 });
+        });
+        if (skipped) skip();
+        await Promise.all(held);
+        if (run !== token) return;
+      }
       // The overlapping mass is pulled inward without making room first, and
       // the dark closes over it only once there is nothing left to read.
       var closing = gentle ? [] : pieces.map(function (p) {
