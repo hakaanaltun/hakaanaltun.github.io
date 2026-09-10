@@ -18,11 +18,26 @@ const step=1440/119*.7;
 const roughness=()=>{let worst=0;for(let i=0;i<drift.heights.length-1;i++)worst=Math.max(worst,Math.abs(drift.heights[i]-drift.heights[i+1]));return worst;};
 assert.ok(roughness()<=step+.001,'settled within the angle of repose: '+roughness().toFixed(2)+' vs '+step.toFixed(2));
 
-// A finger takes snow away where it touches and nowhere else, and the fall
-// puts it back rather than leaving a permanent trench.
+// A hand clears the snow down to itself and no further: it is the depth the
+// hand is at that decides how much comes off, not a fixed helping.
 const before=drift.heightAt(.5),edge=drift.heightAt(0);
-drift.brush(.5,.08,120);
-assert(drift.heightAt(.5)<before);assert.equal(drift.heightAt(0),edge);
+drift.carve(.5,before-120,.08,1);
+assert(Math.abs(drift.heightAt(.5)-(before-120))<1,'cleared to the hand, not past it');
+assert.equal(drift.heightAt(0),edge,'and nowhere near it stays untouched');
+const graze=createDrift(120);graze.setLimit(600,1440);
+for(let i=0;i<120;i++)graze.heights[i]=400;
+graze.carve(.5,380,.08,1);
+assert(Math.abs(graze.heightAt(.5)-380)<1,'a graze takes the crest only');
+// The snow that comes off is pushed aside, not deleted: a ridge banks up
+// along the shoulders of the stroke.
+assert(graze.heightAt(.5+.12)>400,'a berm on one shoulder');
+assert(graze.heightAt(.5-.12)>400,'and on the other');
+assert.equal(graze.heightAt(0),400,'and none of it lands across the window');
+// A cut wall stands. Poured snow slumps to its angle of repose, but a wiped
+// stripe that flowed shut again would be water, not snow.
+for(let t=0;t<1;t+=1/30)graze.settle(1/30);
+assert(graze.heightAt(.5)<390,'the trench is still a trench a second later');
+// And the fall closes it over rather than leaving it open for good.
 fill(60);assert(drift.heightAt(.5)>before-120);
 drift.setLimit(124,1440);assert(drift.heights.every(h=>h<=124),'a smaller window clamps what has already fallen');
 
@@ -83,7 +98,7 @@ function check(reduced,width){
   w.document.dispatchEvent(new w.Event('visibilitychange'));assert.equal(frames.size,1);
   const touch=new w.MouseEvent('pointerdown',{bubbles:true,cancelable:true,clientX:width*.5,clientY:795});
   w.document.body.dispatchEvent(touch);assert.equal(touch.defaultPrevented,false);
-  paint(40500);const lightTop=bankTop;
+  paint(40500);const lightTop=bankTop,lightSide=depthAt(.05,height);
   // Light snow lies along the foot of the window and leaves the page readable.
   assert(lightTop>height*.8 && lightTop<height,'light snow keeps to the foot: '+lightTop.toFixed(1));
   assert(height-lightTop<=height*.18+1,'and within the depth it is allowed');
@@ -92,7 +107,9 @@ function check(reduced,width){
   assert.equal(w.document.querySelector('canvas'),canvas);
   const lightArcs=arcs;paint(41000);
   assert(arcs-lightArcs>particleCount);assert(arcs-lightArcs<=360);
-  assert(bankTop<=lightTop); // Escalation preserves the existing snow bank.
+  // Escalation preserves the existing snow bank. Read where no hand has been:
+  // a berm one has just pushed up is still finding its own level.
+  assert(depthAt(.05,height)>=lightSide-1);
   for(let i=1;i<=900;i++){paint(41000+i*80);assert.equal(frames.size,1);}
   // Heavy snow is allowed the whole window, writing included.
   assert(bankTop<height*.15,'heavy snow buries the page: '+bankTop.toFixed(1));
@@ -103,6 +120,16 @@ function check(reduced,width){
   assert(depthAt(.5,height)<middle-5,'a touch high up in the drift clears it there too');
   assert(depthAt(.05,height)>=side-1,'and only where the finger went');
   assert.equal(wipe.defaultPrevented,false,'and never swallows the page\'s own clicks');
+  // A drag is one stroke, not the two dots the browser happened to report:
+  // the snow between where the hand was and where it now is goes too. A hand
+  // is about 55px across, and this jump is far wider than that.
+  const midway=depthAt(.28,height);
+  const drag=new w.MouseEvent('pointermove',{bubbles:true,cancelable:true,
+    clientX:width*.06,clientY:height*.4,buttons:1});
+  Object.defineProperty(drag,'pointerType',{value:'mouse'});
+  w.document.body.dispatchEvent(drag);paint(114100);
+  assert(depthAt(.28,height)<midway-5,'the whole stroke is wiped, not its ends: '+
+    depthAt(.28,height).toFixed(1)+' from '+midway.toFixed(1));
   w.innerHeight=600;w.dispatchEvent(new w.Event('resize'));paint(114400);
   assert(bankTop<=1); // A smaller window clamps what has already fallen.
   w.innerHeight=800;w.dispatchEvent(new w.Event('resize'));
@@ -176,4 +203,4 @@ assert.equal(away.rects,0,'a scrolled frame reads no layout at all');
 assert.equal(away.queries,0,'and matches no selectors');
 assert.equal(near.rects,0,'the same with the footer in view: the snow is on the window');
 assert.equal(near.queries,0);
-console.log('Weather checks passed: three-stage cycles, preserved snow, drift that covers the page and clears under a finger, rain/splash limits, exclusive switching, mobile bounds, reduced motion, unbroken heavy rain, free scrolling and cleanup.');
+console.log('Weather checks passed: three-stage cycles, preserved snow, drift that covers the page and is wiped to the depth of the hand along a whole stroke, snow banked into berms rather than deleted, cut walls that stand and fill in, rain/splash limits, exclusive switching, mobile bounds, reduced motion, unbroken heavy rain, free scrolling and cleanup.');

@@ -2,7 +2,11 @@
 (function(){
   'use strict';
   function createDrift(count){
-    var heights=new Float32Array(count), cap=0, step=8;
+    var heights=new Float32Array(count), packed=new Float32Array(count), cap=0, step=8;
+    /* How much steeper a face packed snow holds than poured snow does, and
+       how much fresh fall it takes to bury that packing and give the loose
+       angle back. Snow a hand has pressed is not the snow that fell. */
+    var CUT_HOLD=7, BURY=40;
     function setLimit(limit,span){
       cap=Math.max(0,limit);
       /* Snow will not stand in a spike: past its angle of repose it slides.
@@ -20,8 +24,14 @@
         var x=i/(count-1);
         var local=1+.55*Math.sin(x*7.3+now*.00013)+.35*Math.sin(x*17.1-now*.00021)+lean*(x-.5)*1.2;
         if(local<.05)local=.05;
-        var next=heights[i]+seconds*rate*local;
+        var was=heights[i], next=was+seconds*rate*local;
         heights[i]=next>cap?cap:next;
+        // What falls on a packed column is loose again, and buries the face
+        // that was holding, so a wiped stripe closes over instead of lasting.
+        if(packed[i]>0 && heights[i]>was){
+          packed[i]-=(heights[i]-was)/BURY;
+          if(packed[i]<0)packed[i]=0;
+        }
       }
     }
     /* The slump. Run in both directions so neither edge is favoured. */
@@ -30,9 +40,13 @@
       for(var pass=0;pass<2;pass++){
         for(var k=0;k<count-1;k++){
           var i=pass===0?k:count-2-k, j=i+1;
+          // Poured snow slides at its angle of repose; snow a hand has packed
+          // stands in a wall. Without that the trench a finger cut would flow
+          // shut like water, which is the one thing snow never does.
+          var hold=step*(1+CUT_HOLD*Math.max(packed[i],packed[j]));
           var diff=heights[i]-heights[j], move;
-          if(diff>step){move=(diff-step)*.5*relax;heights[i]-=move;heights[j]+=move;}
-          else if(-diff>step){move=(-diff-step)*.5*relax;heights[j]-=move;heights[i]+=move;}
+          if(diff>hold){move=(diff-hold)*.5*relax;heights[i]-=move;heights[j]+=move;}
+          else if(-diff>hold){move=(-diff-hold)*.5*relax;heights[j]-=move;heights[i]+=move;}
         }
       }
       for(var n=0;n<count;n++){if(heights[n]>cap)heights[n]=cap;else if(heights[n]<0)heights[n]=0;}
@@ -41,11 +55,62 @@
       var p=Math.max(0,Math.min(1,fraction))*(count-1), i=Math.floor(p), next=Math.min(count-1,i+1);
       return heights[i]+(heights[next]-heights[i])*(p-i);
     }
-    function brush(fraction,radius,amount){
-      for(var i=0;i<count;i++){
-        var distance=Math.abs(i/(count-1)-fraction)/radius;
-        if(distance<1) heights[i]=Math.max(0,heights[i]-amount*(.5+.5*Math.cos(distance*Math.PI)));
+    /* A hand does not delete snow, it moves it. What it passes through is
+       pressed down to the depth the hand is at — a graze takes the crest, a
+       plunge takes the lot — and what comes off is pushed the way the hand is
+       going, to bank where it stops. The depth and the bank together are what
+       tell the eye the snow was wiped rather than switched off; taking a
+       fixed amount wherever the pointer happened to be tells it nothing. */
+    function carve(fraction,level,radius,strength,lead){
+      var span=Math.max(1e-6,radius), floor=Math.max(0,level), moved=0, weight=0, i, distance, target;
+      // The hand and its two shoulders, and no more of the window than that:
+      // a stroke across a wide one is a great many of these in a row.
+      var last=count-1, reach=span*2*last;
+      var lo=Math.max(0,Math.ceil(fraction*last-reach)), hi=Math.min(last,Math.floor(fraction*last+reach));
+      for(i=lo;i<=hi;i++){
+        distance=Math.abs(i/last-fraction)/span;
+        if(distance>=1)continue;
+        /* Flat under the hand and tapered at its edges, because that is the
+           shape of a hand. A dome that fell away from its centre left the
+           floor of a stroke rippled at whatever spacing the browser happened
+           to report the pointer at, since a column near one of those centres
+           was pressed harder than a column between two. */
+        var bite=distance<.5?1:.5+.5*Math.cos((distance-.5)*2*Math.PI);
+        target=heights[i]+(floor-heights[i])*bite*strength;
+        if(target>=heights[i])continue;
+        moved+=heights[i]-target;heights[i]=target;packed[i]=1;
       }
+      if(moved<=0)return 0;
+      /* The snow goes the way the hand is going. A hand crossing the window
+         is a plough: what it takes up is carried in front of it, taken up
+         again by its next step and carried on, until what is left of it banks
+         at the end of the stroke. Sharing it evenly to both sides instead
+         dropped a load into the groove just cleared, five steps behind — and
+         since the ring lands on whole columns, the load fell on every third
+         or fourth of them, which is the sawtooth a quick swipe used to leave.
+         A hand pressed straight down is going nowhere and squeezes the snow
+         out to both sides, which is what a lean of nought gives. */
+      var tip=Math.max(-1,Math.min(1,lead||0));
+      for(i=lo;i<=hi;i++){
+        distance=Math.abs(i/last-fraction)/span;
+        if(distance>=1)weight+=(.5+.5*Math.cos((distance-1)*Math.PI))*(1+(i/last>=fraction?tip:-tip));
+      }
+      if(weight<=0)return moved;
+      /* Only a fifth of it banks: snow wiped off a pane mostly leaves the
+         pane, and a plough takes its load up and drops it again at every
+         step, so keeping much of it built a tower rather than a bank.
+         The bank is loose — only the face the hand cut is packed. Marking the
+         ridge packed too froze the peaks and pits that overlapping passes
+         leave in it, and a sawtooth is not a bank of snow; left loose it
+         slumps into one within a frame or two, while the trench beneath it
+         still holds, because the pair either side of that edge is packed. */
+      for(i=lo;i<=hi;i++){
+        distance=Math.abs(i/last-fraction)/span;
+        if(distance<1)continue;
+        heights[i]=Math.min(cap,heights[i]+moved*.2*
+          (.5+.5*Math.cos((distance-1)*Math.PI))*(1+(i/last>=fraction?tip:-tip))/weight);
+      }
+      return moved;
     }
     function deepest(){
       var most=0;
@@ -53,7 +118,7 @@
       return most;
     }
     return {heights:heights,setLimit:setLimit,grow:grow,settle:settle,
-      heightAt:heightAt,brush:brush,deepest:deepest};
+      heightAt:heightAt,carve:carve,deepest:deepest};
   }
   if(typeof module!=='undefined' && module.exports) module.exports={createDrift:createDrift};
   if(typeof document==='undefined') return;
@@ -251,15 +316,48 @@
     frame=requestAnimationFrame(step);
   }
   function invalidate(){geometryDirty=true;}
+  /* Where the hand was last seen, so a stroke can be a stroke. Dropped when
+     the pointer has been away long enough that the next place it turns up is
+     somewhere it went to rather than somewhere it passed through. */
+  var trail=null, STROKE_GAP=260;
+  function press(x,y,radius,strength,lead){
+    /* Only a hand that has gone under the sill is dropped outright. Whether
+       there is anything to take is the carve's question, column by column: a
+       single test against the surface at the hand's own x used to answer it
+       for the whole width of the hand, so a hand skimming a wavy drift bit in
+       and out of it — and the lip each bite raised put the next one out of
+       reach, which is what made a wipe come back a sawtooth. The 6px is the
+       hand's own thickness: a graze takes the crest rather than nothing. */
+    if(y>ground+40) return;
+    if(drift.carve(x/width,ground-y-6,radius,strength,lead)>0) bankDirty=true;
+  }
   function sweep(event){
     if(!active || mode!=='snow' || !width) return;
-    if(event.type==='pointermove' && event.pointerType!=='mouse' && !event.buttons) return;
+    var pressing=event.type==='pointerdown' || !!event.buttons;
+    if(event.type==='pointermove' && event.pointerType!=='mouse' && !pressing) return;
+    // A press aimed at a control is aimed at the control, not at the snow.
+    if(event.type==='pointerdown' && event.target.closest &&
+       event.target.closest('a,button,input,select,textarea')){trail=null;return;}
     remeasure();
-    var fraction=event.clientX/width, snowTop=ground-drift.heightAt(fraction);
-    if(event.clientY<snowTop-10 || event.clientY>ground) return;
-    if(event.target.closest && event.target.closest('a,button,input,select,textarea')) return;
-    drift.brush(fraction,Math.min(.25,55/width),event.type==='pointerdown'?28:9);
-    bankDirty=true;
+    var now=event.timeStamp || Date.now(), x=event.clientX, y=event.clientY;
+    var from=event.type!=='pointerdown' && trail && trail.id===event.pointerId &&
+      now-trail.at<STROKE_GAP ? trail : null;
+    trail={x:x,y:y,id:event.pointerId,at:now};
+    /* A hand is not a series of dots. Pointer events arrive far apart when it
+       moves quickly — further apart than the hand is wide — and wiping only
+       where they landed left the row of scallops this used to draw. The whole
+       segment between two of them is wiped instead, at the depth the hand was
+       passing through along the way. */
+    var radius=Math.min(.25,55/width), reach=Math.max(6,radius*width*.2);
+    var dx=from?x-from.x:0, dy=from?y-from.y:0, gone=Math.sqrt(dx*dx+dy*dy);
+    var steps=from?Math.min(128,Math.max(1,Math.ceil(gone/reach))):1;
+    // A press clears to the hand at once; a mouse merely passing over takes
+    // the snow off in the couple of strokes a sleeve would.
+    var strength=pressing?1:.6, lead=gone>0?dx/gone:0;
+    for(var i=1;i<=steps;i++){
+      var t=i/steps;
+      press(from?from.x+dx*t:x,from?from.y+dy*t:y,radius,strength,lead);
+    }
   }
   function visibility(){
     cancelAnimationFrame(frame);frame=0;lastTime=0;
@@ -269,7 +367,7 @@
     if(canvas) canvas.remove();
     if(canvas) canvas.width=canvas.height=1;
     if(bank) bank.width=bank.height=1;
-    canvas=context=bank=bankContext=null;flakes=[];splashes=[];drift=null;
+    canvas=context=bank=bankContext=null;flakes=[];splashes=[];drift=null;trail=null;
   }
   function stop(){
     active=false;cancelAnimationFrame(frame);frame=0;
@@ -285,7 +383,7 @@
   function start(kind){
     if(active)stop();
     clearTimeout(fadeTimer);removeLayers();
-    mode=kind;intensity=1;
+    mode=kind;intensity=1;trail=null;
     canvas=document.createElement('canvas');canvas.className='snowfall';
     canvas.setAttribute('aria-hidden','true');
     bank=document.createElement('canvas');

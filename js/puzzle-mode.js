@@ -26,6 +26,10 @@
   };
   var unit='sentences';
   var phase='reading', records=[], offered=0, opened=[], panel=null, message=null, releasePanel=null;
+  /* Where the reader last put the rail. Kept for as long as the page is open,
+     so hiding the instructions a second time puts it back where they left it,
+     and never written anywhere: puzzle mode saves nothing. */
+  var railSpot=null;
   var gameId=Math.random().toString(36).slice(2);
   function el(tag,cls,text){
     var node=document.createElement(tag);
@@ -147,24 +151,112 @@
     var wide=window.matchMedia?window.matchMedia('(min-width:1100px)'):{matches:false};
     function dock(){
       if(!panel)return;
-      var railed=panel.classList.contains('puzzle-collapsed') && wide.matches;
+      var railed=panel.classList.contains('puzzle-collapsed') &&
+        (wide.matches || panel.classList.contains('puzzle-moved'));
       var home=railed?document.body:article;
       if(panel.parentNode===home)return;
       if(railed)document.body.appendChild(panel);else article.prepend(panel);
     }
+    /* Where the rail sits is the reader's business, not the stylesheet's: the
+       left margin suits one reader, the paragraph they are working on suits
+       another, and on a narrow window there is no margin to suit anybody. So
+       it is picked up by its grip and put down wherever they want it, which
+       fixes it to the window at any width. Clamped to the window on every
+       move and every resize, because a rail parked off-screen is a rail lost;
+       6px of air is enough to get hold of it again. */
+    function placeRail(left,top){
+      if(!panel)return;
+      panel.classList.add('puzzle-moved');dock();
+      var box=panel.getBoundingClientRect();
+      var room=document.documentElement.clientWidth || window.innerWidth || 0;
+      var sill=window.innerHeight || document.documentElement.clientHeight || 0;
+      railSpot={left:Math.min(Math.max(6,left),Math.max(6,room-box.width-6)),
+        top:Math.min(Math.max(6,top),Math.max(6,sill-box.height-6))};
+      panel.style.left=railSpot.left+'px';panel.style.top=railSpot.top+'px';
+    }
+    function reclamp(){
+      if(panel && railSpot && panel.classList.contains('puzzle-moved'))placeRail(railSpot.left,railSpot.top);
+    }
     if(wide.addEventListener)wide.addEventListener('change',dock);
-    releasePanel=function(){if(wide.removeEventListener)wide.removeEventListener('change',dock);};
+    window.addEventListener('resize',reclamp,{passive:true});
+    releasePanel=function(){
+      if(wide.removeEventListener)wide.removeEventListener('change',dock);
+      window.removeEventListener('resize',reclamp);
+    };
     function collapse(){
       if(panel.classList.contains('puzzle-collapsed'))return;
-      panel.classList.add('puzzle-collapsed');dock();
+      panel.classList.add('puzzle-collapsed');
+      if(railSpot)placeRail(railSpot.left,railSpot.top);else dock();
       var next=article.querySelector('.puzzle-piece:not([hidden])') || article.querySelector('.puzzle-scatter-cue') || launch;
       next.focus({preventScroll:true});
     }
+    /* Opened again it is a panel at the head of the essay, not a rail, so it
+       gives up the spot it was pinned to — but not the memory of it. */
     function expand(){
-      panel.classList.remove('puzzle-collapsed');dock();
+      panel.classList.remove('puzzle-collapsed','puzzle-moved','puzzle-lifted');
+      panel.style.left=panel.style.top='';
+      dock();
       hide.focus({preventScroll:true});
     }
     var hide=button('puzzle-action','Hide instructions');hide.addEventListener('click',collapse);
+    /* The handle. Dragging the rail by its body would fight the page for a
+       touch that meant to scroll, so only this bar takes a drag — it is the
+       one thing on the rail carrying touch-action:none — and the arrow keys
+       do the same job for anyone not using a pointer. */
+    var grip=button('puzzle-grip');
+    var bar=el('span','puzzle-grip-bar');bar.setAttribute('aria-hidden','true');
+    grip.appendChild(bar);
+    grip.setAttribute('aria-label','Move the puzzle rail. Drag it, or use the arrow keys.');
+    grip.title='Drag to move';
+    var lift=null;
+    grip.addEventListener('pointerdown',function(event){
+      if(event.button>0 || !panel.classList.contains('puzzle-collapsed'))return;
+      /* Pinned to the window when the grip is taken hold of, not on the first
+         move: leaving the column re-parents the rail, and an element that
+         moves in the document drops the pointer it captured — done mid-drag
+         that ended the drag one step in. It is pinned exactly where it
+         already was, so taking hold of it moves nothing. */
+      var held=panel.classList.contains('puzzle-moved'), box=panel.getBoundingClientRect();
+      placeRail(box.left,box.top);
+      box=panel.getBoundingClientRect();
+      lift={id:event.pointerId,held:held,moved:false,
+        x:Math.min(Math.max(0,event.clientX-box.left),box.width),
+        y:Math.min(Math.max(0,event.clientY-box.top),box.height)};
+      panel.classList.add('puzzle-lifted');
+      if(grip.setPointerCapture)try{grip.setPointerCapture(event.pointerId);}catch(e){}
+      // Stopping the default keeps a drag from selecting the page, which also
+      // costs the grip the focus it would have had — so it is given back, and
+      // the arrow keys carry on from wherever the hand put it.
+      event.preventDefault();grip.focus({preventScroll:true});
+    });
+    grip.addEventListener('pointermove',function(event){
+      if(!lift || lift.id!==event.pointerId)return;
+      event.preventDefault();lift.moved=true;
+      placeRail(event.clientX-lift.x,event.clientY-lift.y);
+    });
+    function drop(event){
+      if(!lift || (event && lift.id!==event.pointerId))return;
+      if(grip.releasePointerCapture)try{grip.releasePointerCapture(lift.id);}catch(e){}
+      // A grip taken hold of and let go again has asked for nothing, so a rail
+      // that was in the flow goes back to it rather than floating from a tap.
+      if(!lift.moved && !lift.held){
+        railSpot=null;panel.classList.remove('puzzle-moved');
+        panel.style.left=panel.style.top='';dock();
+      }
+      lift=null;panel.classList.remove('puzzle-lifted');
+    }
+    grip.addEventListener('pointerup',drop);
+    grip.addEventListener('pointercancel',drop);
+    grip.addEventListener('lostpointercapture',drop);
+    var NUDGE={ArrowLeft:[-1,0],ArrowRight:[1,0],ArrowUp:[0,-1],ArrowDown:[0,1]};
+    grip.addEventListener('keydown',function(event){
+      var way=NUDGE[event.key];
+      if(!way || !panel.classList.contains('puzzle-collapsed'))return;
+      event.preventDefault();
+      var box=panel.getBoundingClientRect(), stride=event.shiftKey?60:14;
+      var left=railSpot?railSpot.left:box.left, top=railSpot?railSpot.top:box.top;
+      placeRail(left+way[0]*stride,top+way[1]*stride);
+    });
     var show=button('puzzle-expand','instructions');
     show.setAttribute('aria-label','Show the puzzle instructions again');
     show.addEventListener('click',expand);
@@ -188,7 +280,7 @@
     choice.appendChild(show);
     controls.append(exit,hide);
     message=el('p','puzzle-instructions','');
-    panel.append(choice,controls,message);article.prepend(panel);
+    panel.append(grip,choice,controls,message);article.prepend(panel);
     paintUnitChoice();
   }
   function paintUnitChoice(){
