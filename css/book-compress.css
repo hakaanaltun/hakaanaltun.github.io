@@ -48,8 +48,8 @@
 .book-compress-point {
   appearance: none;
   position: absolute;
-  left: 50%;
-  top: calc(50% + var(--book-compress-sink, 0px));
+  left: var(--book-compress-x, 50%);
+  top: var(--book-compress-y, 50%);
   transform: translate(-50%, -50%);
   display: grid;
   place-items: center;

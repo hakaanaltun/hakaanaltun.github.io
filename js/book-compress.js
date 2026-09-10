@@ -28,9 +28,6 @@
   var saved;
   var run = 0;
   var skipped = false;
-  // The pile gathers below the middle and is drawn down out of the frame from
-  // there, rather than imploding on the exact centre of the screen.
-  var sink = 0, drain = 0;
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   function visible(el) {
@@ -95,9 +92,12 @@
     }).slice(0, 180);
     // Read the page in one pass and attach the layer in one go. Measuring and
     // appending in the same turn made every piece force its own reflow.
-    sink = Math.min(innerHeight * .1, 90);
-    drain = Math.min(innerHeight * .07, 60);
-    scene.style.setProperty('--book-compress-sink', (sink + drain) + 'px');
+    // The point is placed from the same numbers the fall aims at. A percentage
+    // of the scene is not the same place: scrollbar-gutter keeps the gutter out
+    // of the fixed box, so 50% of it sat seven pixels left of where the mass
+    // actually landed.
+    scene.style.setProperty('--book-compress-x', (innerWidth / 2) + 'px');
+    scene.style.setProperty('--book-compress-y', (innerHeight / 2) + 'px');
     var ground = getComputedStyle(document.body).backgroundColor;
     var rects = chosen.map(function (el) { return el.getBoundingClientRect(); });
     var known = new Map();
@@ -128,7 +128,7 @@
         turn: (Math.random() - .5) * 80, phase: phase,
         massX: Math.cos(phase) * 3, massY: Math.sin(phase) * 3,
         massScale: .62 + Math.random() * .12,
-        pace: Math.random(), delay: Math.random() * 400, creep: 6 + Math.random() * 8 });
+        pace: Math.random(), delay: Math.random() * 400 });
     });
     layer.appendChild(batch);
   }
@@ -146,7 +146,7 @@
       var arc = Math.sin(Math.PI * t);
       var wander = arc * Math.sin(Math.PI * 2 * t + p.phase);
       var x = (p.x + p.massX) * t + p.bendX * arc + p.bendY * wander * .18;
-      var y = (p.y + p.massY + sink) * t + p.bendY * arc - p.bendX * wander * .18;
+      var y = (p.y + p.massY) * t + p.bendY * arc - p.bendX * wander * .18;
       // Full size the whole way down. Shrinking on the approach read as
       // collapsing before arriving; the pressing happens at the point, not
       // on the way to it.
@@ -171,7 +171,7 @@
       var give = t < .55 ? .1 * Math.pow(t / .55, 2)
         : .1 + .9 * (1 - Math.pow(1 - (t - .55) / .45, 2.6));
       frames.push({ offset: t,
-        transform: 'translate(' + (p.x + p.massX) + 'px,' + (p.y + p.massY + sink + p.creep * give) + 'px) rotate(' +
+        transform: 'translate(' + (p.x + p.massX) + 'px,' + (p.y + p.massY) + 'px) rotate(' +
           p.turn + 'deg) scale(' + (.96 + (p.massScale - .96) * give) + ')',
         opacity: 1 });
     }
@@ -185,7 +185,7 @@
       var pull = Math.max(0, (t - .16) / .84);
       var remaining = 1 - Math.pow(pull, 3);
       var x = p.x + p.massX * remaining;
-      var y = p.y + sink + (p.massY + p.creep) * remaining + drain * (1 - remaining);
+      var y = p.y + p.massY * remaining;
       var angle = p.turn + (p.turn < 0 ? -1 : 1) * 22 * (1 - remaining);
       frames.push({ offset: t,
         transform: 'translate(' + x + 'px,' + y + 'px) rotate(' + angle + 'deg) scale(' + Math.max(.001, p.massScale * remaining) + ')',
@@ -253,7 +253,7 @@
       // from the whole page flung the small fragments clear across it on every
       // hop, which is not a search — it is teleporting. The busier the
       // fragment, the less time each hop has, so the closer it looks.
-      var fromX = innerWidth / 2, fromY = innerHeight / 2 + sink + drain;
+      var fromX = innerWidth / 2, fromY = innerHeight / 2;
       for (var k = 0; k < count; k++) {
         var seat = null, nearest = Infinity;
         for (var look = 0; look <= count; look++) {
@@ -314,7 +314,7 @@
   }
 
   function findHome(p) {
-    var stops = [{ t: 0, x: p.x, y: p.y + sink + drain, scale: .001, angle: p.turn,
+    var stops = [{ t: 0, x: p.x, y: p.y, scale: .001, angle: p.turn,
       swirl: p.tries[0].swirl, curve: p.tries[0].curve, kind: 'travel' }];
     p.tries.forEach(function (t, i) {
       var next = p.tries[i + 1];
