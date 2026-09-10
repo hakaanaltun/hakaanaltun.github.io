@@ -167,62 +167,106 @@
     return frames;
   }
 
-  function wrongPlaces() {
-    // Borrow other fragments' positions, while keeping each first attempt in view.
-    var pool = pieces.filter(function (p) {
-      return Math.abs(p.x) < innerWidth / 2 && Math.abs(p.y) < innerHeight / 2;
-    });
-    pieces.forEach(function (p) {
-      var others = pool.filter(function (q) { return q !== p; });
-      var q = others.length ? others[Math.floor(Math.random() * others.length)] : null;
-      var marginX = Math.min(p.width / 2 + 12, innerWidth * .4);
-      var marginY = Math.min(p.height / 2 + 12, innerHeight * .4);
-      var centerX = q ? innerWidth / 2 - q.x : innerWidth * .28;
-      var centerY = q ? innerHeight / 2 - q.y : innerHeight * .35;
-      centerX = Math.max(marginX, Math.min(innerWidth - marginX, centerX));
-      centerY = Math.max(marginY, Math.min(innerHeight - marginY, centerY));
-      var x = centerX - (innerWidth / 2 - p.x);
-      var y = centerY - (innerHeight / 2 - p.y);
-      // Nearby navigation items still need a visibly mistaken first landing.
-      if (Math.hypot(x, y) < 70) {
-        centerY = centerY < innerHeight / 2 ? innerHeight * .7 : innerHeight * .3;
-        y = centerY - (innerHeight / 2 - p.y);
+  /* Three wrong places before the right one. Each is another fragment's seat,
+     and where two of them reach for the same one they push each other off it.
+     Not physics — only the moment where two things cannot both be right. */
+  function shoulders(round) {
+    for (var pass = 0; pass < 4; pass++) {
+      for (var i = 0; i < pieces.length; i++) {
+        for (var j = i + 1; j < pieces.length; j++) {
+          var a = pieces[i].tries[round], b = pieces[j].tries[round];
+          var dx = (b.cx + b.pushX) - (a.cx + a.pushX);
+          var dy = (b.cy + b.pushY) - (a.cy + a.pushY);
+          var overlapX = (pieces[i].width + pieces[j].width) * .45 - Math.abs(dx);
+          var overlapY = (pieces[i].height + pieces[j].height) * .45 - Math.abs(dy);
+          if (overlapX <= 0 || overlapY <= 0) continue;
+          var push;
+          // Part along the shallower axis, the way two things actually part.
+          if (overlapX < overlapY) {
+            push = (dx < 0 ? -1 : 1) * overlapX * .3;
+            a.pushX -= push; b.pushX += push;
+          } else {
+            push = (dy < 0 ? -1 : 1) * overlapY * .3;
+            a.pushY -= push; b.pushY += push;
+          }
+        }
       }
-      p.wrongX = x;
-      p.wrongY = y;
-      p.guessX = x * .32 + Math.cos(p.phase) * Math.min(85, innerWidth * .16);
-      p.guessY = y * .32 + Math.sin(p.phase) * Math.min(70, innerHeight * .12);
+    }
+    // Weight decides who gives way. A retailer link is knocked clear across;
+    // a paragraph takes the same shove and barely moves.
+    pieces.forEach(function (p) {
+      var t = p.tries[round];
+      var cap = Math.max(26, 130 - Math.sqrt(p.width * p.height) * .35);
+      var reach = Math.hypot(t.pushX, t.pushY);
+      if (reach > cap) {
+        t.pushX *= cap / reach;
+        t.pushY *= cap / reach;
+      }
+    });
+  }
+
+  function wanderings() {
+    var seats = pieces.map(function (p) {
+      return { x: innerWidth / 2 - p.x, y: innerHeight / 2 - p.y };
+    });
+    pieces.forEach(function (p) { p.tries = []; });
+    for (var round = 0; round < 3; round++) {
+      pieces.forEach(function (p, i) {
+        var seat = seats[Math.floor(Math.random() * seats.length)];
+        var cx = seat.x, cy = seat.y;
+        // A fragment that draws its own seat has not gone anywhere yet.
+        if (Math.abs(cx - seats[i].x) < 60 && Math.abs(cy - seats[i].y) < 60) {
+          cy = cy < innerHeight / 2 ? innerHeight * .72 : innerHeight * .28;
+        }
+        var marginX = Math.min(p.width / 2 + 12, innerWidth * .4);
+        var marginY = Math.min(p.height / 2 + 12, innerHeight * .4);
+        p.tries.push({
+          cx: Math.max(marginX, Math.min(innerWidth - marginX, cx)),
+          cy: Math.max(marginY, Math.min(innerHeight - marginY, cy)),
+          pushX: 0, pushY: 0
+        });
+      });
+      shoulders(round);
+    }
+    pieces.forEach(function (p, i) {
+      p.tries.forEach(function (t) {
+        t.x = t.cx - seats[i].x;
+        t.y = t.cy - seats[i].y;
+        t.shovedX = t.x + t.pushX;
+        t.shovedY = t.y + t.pushY;
+      });
     });
   }
 
   function findHome(p) {
-    var first = .31 + p.pace * .06;
-    var second = .64 + p.pace * .04;
-    var tilt = Math.sin(p.phase) * 19;
-    var stops = [
-      { t: 0, x: p.x, y: p.y, scale: .001, angle: p.turn },
-      { t: first, x: p.wrongX, y: p.wrongY, scale: .84, angle: tilt },
-      { t: first + .12, x: p.wrongX, y: p.wrongY, scale: .84, angle: tilt },
-      { t: second, x: p.guessX, y: p.guessY, scale: .95, angle: -tilt * .4 },
-      { t: second + .09, x: p.guessX, y: p.guessY, scale: .95, angle: -tilt * .4 },
-      { t: 1, x: 0, y: 0, scale: 1, angle: 0 }
-    ];
+    var arrive = [.19, .45, .70], scales = [.74, .85, .93];
+    var stops = [{ t: 0, x: p.x, y: p.y, scale: .001, angle: p.turn, kind: 'travel' }];
+    p.tries.forEach(function (t, i) {
+      var tilt = Math.sin(p.phase + i * 1.7) * (17 - i * 4);
+      // Only what actually landed in a crowd is jolted, and only as hard as it was.
+      var knocked = tilt + Math.max(-9, Math.min(9, (t.pushX + t.pushY) * .12));
+      stops.push({ t: arrive[i], x: t.x, y: t.y, scale: scales[i], angle: tilt, kind: 'shove' });
+      stops.push({ t: arrive[i] + .055, x: t.shovedX, y: t.shovedY, scale: scales[i], angle: knocked, kind: 'hold' });
+      stops.push({ t: arrive[i] + .11, x: t.shovedX, y: t.shovedY, scale: scales[i], angle: knocked, kind: 'travel' });
+    });
+    stops.push({ t: 1, x: 0, y: 0, scale: 1, angle: 0 });
     var frames = [];
     for (var leg = 0; leg < stops.length - 1; leg++) {
       var from = stops[leg], to = stops[leg + 1];
-      var moving = from.x !== to.x || from.y !== to.y;
-      for (var i = 0; i <= 16; i++) {
+      var steps = from.kind === 'travel' ? 14 : (from.kind === 'shove' ? 4 : 1);
+      for (var i = 0; i <= steps; i++) {
         if (leg > 0 && i === 0) continue;
-        var u = i / 16;
-        var ease = u * u * (3 - 2 * u);
-        var bend = moving ? Math.sin(Math.PI * ease) * (leg === 0 ? .55 : .23) : 0;
+        var u = i / steps;
+        // A shove is sudden and then over; everything else eases both ends.
+        var ease = from.kind === 'shove' ? 1 - Math.pow(1 - u, 3) : u * u * (3 - 2 * u);
+        var bend = from.kind === 'travel' ? Math.sin(Math.PI * ease) * (leg === 0 ? .55 : .2) : 0;
         var t = from.t + (to.t - from.t) * u;
         var x = from.x + (to.x - from.x) * ease + p.bendX * bend;
         var y = from.y + (to.y - from.y) * ease + p.bendY * bend;
-        var angle = from.angle + (to.angle - from.angle) * ease;
-        var scale = from.scale + (to.scale - from.scale) * ease;
         frames.push({ offset: t,
-          transform: 'translate(' + x + 'px,' + y + 'px) rotate(' + angle + 'deg) scale(' + scale + ')',
+          transform: 'translate(' + x + 'px,' + y + 'px) rotate(' +
+            (from.angle + (to.angle - from.angle) * ease) + 'deg) scale(' +
+            (from.scale + (to.scale - from.scale) * ease) + ')',
           opacity: Math.min(1, t * 12) });
       }
     }
@@ -316,14 +360,14 @@
     try {
       // Re-measure the untouched page, including after a phone has been rotated.
       capture();
-      if (!gentle) wrongPlaces();
-      var duration = gentle ? 180 : 2900;
-      var pause = gentle ? 0 : 320;
+      if (!gentle) wanderings();
+      var duration = gentle ? 180 : 4800;
+      var pause = gentle ? 0 : 380;
       var firstDelay = pieces.length ? Math.min.apply(null, pieces.map(function (p) { return p.delay; })) : 0;
       var jobs = pieces.map(function (p) {
         return animate(p.node, gentle ? [{ opacity: 0 }, { opacity: 1 }] : findHome(p),
-          { duration: gentle ? duration : duration + p.pace * 800,
-            delay: gentle ? 0 : pause + (p.delay - firstDelay) * 1.2, easing: 'linear' });
+          { duration: gentle ? duration : duration + p.pace * 500,
+            delay: gentle ? 0 : pause + (p.delay - firstDelay) * .5, easing: 'linear' });
       });
       // Releasing the point is the explosion the book puts after the dark, so
       // the dark it was holding opens into light before anything finds a place.
