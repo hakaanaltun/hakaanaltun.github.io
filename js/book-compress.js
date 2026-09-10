@@ -67,7 +67,7 @@
     candidates.filter(function (el) {
       for (var p = el.parentElement; p; p = p.parentElement) if (selected.has(p)) return false;
       return true;
-    }).slice(0, 180).forEach(function (el, index) {
+    }).slice(0, 180).forEach(function (el) {
       var r = el.getBoundingClientRect();
       var wrapper = document.createElement('div');
       wrapper.className = 'book-compress-piece';
@@ -80,8 +80,14 @@
       });
       wrapper.appendChild(copy);
       layer.appendChild(wrapper);
-      pieces.push({ node: wrapper, x: innerWidth / 2 - r.left - r.width / 2,
-        y: innerHeight / 2 - r.top - r.height / 2, turn: (index % 2 ? 1 : -1) * (4 + index % 9) });
+      var x = innerWidth / 2 - r.left - r.width / 2;
+      var y = innerHeight / 2 - r.top - r.height / 2;
+      var distance = Math.hypot(x, y) || 1;
+      var drift = (Math.random() < .5 ? -1 : 1) * (45 + Math.random() * Math.min(100, innerWidth * .16));
+      pieces.push({ node: wrapper, x: x, y: y,
+        bendX: -y / distance * drift, bendY: x / distance * drift,
+        turn: (Math.random() - .5) * 80, phase: Math.random() * Math.PI * 2,
+        pace: Math.random(), delay: Math.random() * 650 });
     });
   }
 
@@ -91,8 +97,23 @@
     return animation.finished.catch(function () {});
   }
 
-  function packed(p) {
-    return 'translate(' + p.x + 'px,' + p.y + 'px) rotate(' + p.turn + 'deg) scale(0.001)';
+  function flight(p, opening) {
+    var frames = [];
+    for (var i = 0; i <= 32; i++) {
+      var t = i / 32;
+      var progress = opening ? 1 - t : t;
+      var arc = Math.sin(Math.PI * t);
+      var wander = arc * Math.sin(Math.PI * 2 * t + p.phase);
+      var direction = opening ? -1 : 1;
+      var x = p.x * progress + direction * p.bendX * arc + p.bendY * wander * .18;
+      var y = p.y * progress + direction * p.bendY * arc - p.bendX * wander * .18;
+      var scale = opening ? .001 + .999 * (1 - Math.pow(1 - t, 1.6)) : Math.max(.001, 1 - Math.pow(t, 1.6));
+      var angle = p.turn * progress + p.turn * arc * .45;
+      frames.push({ offset: t,
+        transform: 'translate(' + x + 'px,' + y + 'px) rotate(' + angle + 'deg) scale(' + scale + ')',
+        opacity: opening ? Math.min(1, t * 7) : Math.min(1, (1 - t) * 10) });
+    }
+    return frames;
   }
 
   function clean() {
@@ -130,16 +151,17 @@
       point.style.opacity = '0';
       point.disabled = true;
       scene.showModal();
-      var duration = reduced.matches ? 180 : 2200;
-      var jobs = pieces.map(function (p, i) {
-        return animate(p.node, reduced.matches ? [{ opacity: 1 }, { opacity: 0 }] : [
-          { transform: 'none', opacity: 1 },
-          { transform: 'translate(' + p.x * .1 + 'px,' + p.y * .1 + 'px) rotate(' + p.turn * .15 + 'deg) scale(.94)', opacity: 1, offset: .4 },
-          { transform: packed(p), opacity: 0 }
-        ], { duration: duration, delay: reduced.matches ? 0 : i % 5 * 22, easing: 'cubic-bezier(.55,0,.85,.35)' });
+      var duration = reduced.matches ? 180 : 3600;
+      var finish = duration;
+      var jobs = pieces.map(function (p) {
+        var time = reduced.matches ? duration : duration + p.pace * 900;
+        var delay = reduced.matches ? 0 : p.delay;
+        finish = Math.max(finish, time + delay);
+        return animate(p.node, reduced.matches ? [{ opacity: 1 }, { opacity: 0 }] : flight(p, false),
+          { duration: time, delay: delay, easing: 'cubic-bezier(.42,0,.7,.4)' });
       });
-      jobs.push(animate(white, [{ opacity: 0 }, { opacity: 1 }], { duration: duration }));
-      jobs.push(animate(point, [{ opacity: 0 }, { opacity: 1 }], { duration: 200, delay: reduced.matches ? 0 : duration - 200 }));
+      jobs.push(animate(white, [{ opacity: 0 }, { opacity: 1 }], { duration: finish }));
+      jobs.push(animate(point, [{ opacity: 0 }, { opacity: 1 }], { duration: 200, delay: reduced.matches ? 0 : finish - 250 }));
       await Promise.all(jobs);
       if (run !== token) return;
       state = 'collapsed';
@@ -159,16 +181,17 @@
     try {
       // Re-measure the untouched page, including after a phone has been rotated.
       capture();
-      var duration = reduced.matches ? 180 : 1500;
+      var duration = reduced.matches ? 180 : 3000;
+      var finish = duration;
       var jobs = pieces.map(function (p) {
-        return animate(p.node, reduced.matches ? [{ opacity: 0 }, { opacity: 1 }] : [
-          { transform: packed(p), opacity: 0 },
-          { transform: 'translate(' + -p.x * .025 + 'px,' + -p.y * .025 + 'px) rotate(0deg) scale(1.015)', opacity: 1, offset: .8 },
-          { transform: 'none', opacity: 1 }
-        ], { duration: duration, easing: 'cubic-bezier(.16,.75,.25,1)' });
+        var time = reduced.matches ? duration : duration + p.pace * 900;
+        var delay = reduced.matches ? 0 : p.delay * .8;
+        finish = Math.max(finish, time + delay);
+        return animate(p.node, reduced.matches ? [{ opacity: 0 }, { opacity: 1 }] : flight(p, true),
+          { duration: time, delay: delay, easing: 'cubic-bezier(.22,.4,.3,1)' });
       });
-      jobs.push(animate(white, [{ opacity: 1 }, { opacity: 0 }], { duration: duration }));
-      jobs.push(animate(point, [{ opacity: 1 }, { opacity: 0 }], { duration: 180 }));
+      jobs.push(animate(white, [{ opacity: 1 }, { opacity: 0 }], { duration: finish }));
+      jobs.push(animate(point, [{ opacity: 1 }, { opacity: 0 }], { duration: reduced.matches ? 180 : 550 }));
       await Promise.all(jobs);
       if (run === token) clean();
     } catch (error) { clean(); }
