@@ -213,13 +213,27 @@
       p.mass = Math.sqrt(p.width * p.height);
       // Light things are thrown about and spin; heavy ones lumber.
       p.spin = Math.max(16, 320 - p.mass * 1.1);
-      var count = 1 + Math.floor(Math.random() * 5);
+      // Five seats left a fragment nine per cent of the run to cross the screen
+      // in, which is a flicker, not a search. Four is the most that can be watched.
+      var count = 1 + Math.floor(Math.random() * 4);
       most = Math.max(most, count);
       // Each fragment keeps its own clock. Sharing one is what read as a machine.
-      var span = .78 / count;
+      // The opening leg gets its own share: leaving the point at the same moment
+      // as the first seat meant crossing the screen in half a second.
+      var opening = .18, span = (.84 - opening) / count;
       p.tries = [];
+      // It looks near where it is standing before it looks far. Drawing seats
+      // from the whole page flung the small fragments clear across it on every
+      // hop, which is not a search — it is teleporting. The busier the
+      // fragment, the less time each hop has, so the closer it looks.
+      var fromX = innerWidth / 2, fromY = innerHeight / 2;
       for (var k = 0; k < count; k++) {
-        var seat = seats[Math.floor(Math.random() * seats.length)];
+        var seat = null, nearest = Infinity;
+        for (var look = 0; look <= count; look++) {
+          var candidate = seats[Math.floor(Math.random() * seats.length)];
+          var far = Math.hypot(candidate.x - fromX, candidate.y - fromY);
+          if (far < nearest) { nearest = far; seat = candidate; }
+        }
         var cx = seat.x, cy = seat.y;
         // A fragment that draws its own seat has not gone anywhere yet.
         if (Math.abs(cx - seats[i].x) < 60 && Math.abs(cy - seats[i].y) < 60) {
@@ -228,12 +242,14 @@
         }
         var marginX = Math.min(p.width / 2 + 12, innerWidth * .4);
         var marginY = Math.min(p.height / 2 + 12, innerHeight * .4);
+        cx = Math.max(marginX, Math.min(innerWidth - marginX, cx));
+        cy = Math.max(marginY, Math.min(innerHeight - marginY, cy));
+        fromX = cx; fromY = cy;
         p.tries.push({
-          cx: Math.max(marginX, Math.min(innerWidth - marginX, cx)),
-          cy: Math.max(marginY, Math.min(innerHeight - marginY, cy)),
+          cx: cx, cy: cy,
           pushX: 0, pushY: 0,
-          at: .06 + k * span + Math.random() * span * .35,
-          shoveFor: span * .22, restFor: span * .18,
+          at: opening + k * span + Math.random() * span * .35,
+          shoveFor: span * .28, restFor: span * .15,
           spin: (Math.random() - .5) * 2 * p.spin,
           size: .34 + Math.random() * .92,
           swirl: (Math.random() - .5) * 2.6,
@@ -259,9 +275,15 @@
      and a single symmetric ease on every move is what made this read as a
      machine putting its parts back. */
   function reach(u, curve) {
-    if (curve < .38) return 1 + 2.3 * Math.pow(u - 1, 3) + 1.3 * Math.pow(u - 1, 2);  // past it, then back
-    if (curve < .72) return 1 - Math.pow(1 - u, 2.4);                                 // thrown, and slowing
-    return u * u * (3 - 2 * u);                                                       // carried
+    // Past the mark, then back. The overshoot belongs at the end; an ordinary
+    // back ease puts its speed at the start and the fragment reads as flicked.
+    if (curve < .38) {
+      if (u < .8) { var v = u / .8; return 1.06 * v * v * (3 - 2 * v); }
+      var w = (u - .8) / .2;
+      return 1.06 - .06 * w * w * (3 - 2 * w);
+    }
+    if (curve < .72) return Math.sin(u * Math.PI / 2);   // thrown, and slowing
+    return u * u * (3 - 2 * u);                          // carried
   }
 
   function findHome(p) {
@@ -280,12 +302,12 @@
     var frames = [];
     for (var leg = 0; leg < stops.length - 1; leg++) {
       var from = stops[leg], to = stops[leg + 1];
-      var steps = from.kind === 'travel' ? 16 : (from.kind === 'shove' ? 4 : 3);
+      var steps = from.kind === 'travel' ? 18 : (from.kind === 'shove' ? 4 : 3);
       for (var i = 0; i <= steps; i++) {
         if (leg > 0 && i === 0) continue;
         var u = i / steps;
         // A shove is sudden and then over; a rest only drifts.
-        var ease = from.kind === 'shove' ? 1 - Math.pow(1 - u, 3)
+        var ease = from.kind === 'shove' ? 1 - Math.pow(1 - u, 2.2)
           : from.kind === 'rest' ? u : reach(u, from.curve);
         var bend = from.kind === 'travel' ? Math.sin(Math.PI * Math.min(1, ease)) * from.swirl * (leg === 0 ? .5 : .34) : 0;
         // The turn trails the throw rather than tracking it.
@@ -390,12 +412,12 @@
       // Re-measure the untouched page, including after a phone has been rotated.
       capture();
       if (!gentle) wanderings();
-      var duration = gentle ? 180 : 4800;
-      var pause = gentle ? 0 : 380;
+      var duration = gentle ? 180 : 6800;
+      var pause = gentle ? 0 : 420;
       var firstDelay = pieces.length ? Math.min.apply(null, pieces.map(function (p) { return p.delay; })) : 0;
       var jobs = pieces.map(function (p) {
         return animate(p.node, gentle ? [{ opacity: 0 }, { opacity: 1 }] : findHome(p),
-          { duration: gentle ? duration : duration + p.pace * 500,
+          { duration: gentle ? duration : duration + p.pace * 900,
             delay: gentle ? 0 : pause + (p.delay - firstDelay) * .5, easing: 'linear' });
       });
       // Releasing the point is the explosion the book puts after the dark, so
