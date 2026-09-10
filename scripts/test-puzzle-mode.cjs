@@ -262,6 +262,71 @@ function fresh(body,wide){
   assert.equal(shelf.classList.contains('puzzle-collapsed'),true,'shrunk all the same');
   page.window.close();
 }
+// The rail is the reader's to place. It is picked up by its grip and put down
+// wherever they want it — which is the only way it can suit a narrow window,
+// where there is no margin to leave the column for.
+{
+  const page=fresh('<button id="essay-puzzle" hidden>puzzle mode</button><article class="essay-body"><p>First one. Second one.</p></article>',false);
+  const w=page.window,doc=w.document;
+  // A rail 150 by 60, wherever its inline position has put it.
+  w.HTMLElement.prototype.getBoundingClientRect=function(){
+    const left=parseFloat(this.style.left)||0,top=parseFloat(this.style.top)||0;
+    return {left,top,width:150,height:60,right:left+150,bottom:top+60};
+  };
+  doc.getElementById('essay-puzzle').click();
+  const shelf=doc.querySelector('.puzzle-panel'),grip=shelf.querySelector('.puzzle-grip');
+  assert(grip,'the rail has a handle');
+  assert.equal(grip.tagName,'BUTTON');assert.equal(grip.type,'button');
+  assert.match(grip.getAttribute('aria-label'),/arrow keys/,'and says so to a screen reader');
+  const hidden=()=>[...shelf.querySelectorAll('.puzzle-action')].find(b=>b.textContent==='Hide instructions');
+  hidden().click();
+  assert.ok(shelf.parentElement.classList.contains('essay-body'),'it starts where it always did');
+  const hold=(type,x,y)=>grip.dispatchEvent(new w.PointerEvent(type,{bubbles:true,cancelable:true,clientX:x,clientY:y,pointerId:7}));
+  // A grip taken hold of and let go again has asked for nothing.
+  hold('pointerdown',20,20);hold('pointerup',20,20);
+  assert.ok(shelf.parentElement.classList.contains('essay-body'),'a tap leaves it in the flow');
+  assert.equal(shelf.classList.contains('puzzle-moved'),false);
+  assert.equal(shelf.style.left,'');
+  hold('pointerdown',20,20);
+  assert.equal(shelf.classList.contains('puzzle-lifted'),true,'lifted while it is carried');
+  // Taking hold pins it to the window before the drag, never during it: a rail
+  // that left the column mid-drag would drop the pointer it had captured.
+  assert.equal(shelf.classList.contains('puzzle-moved'),true);
+  assert.equal(shelf.parentElement,doc.body,'a carried rail hangs off the body at any width');
+  hold('pointermove',320,260);
+  assert.equal(shelf.style.left,'306px','and it goes where the hand goes');
+  assert.equal(shelf.style.top,'246px');
+  hold('pointerup',320,260);
+  assert.equal(shelf.classList.contains('puzzle-lifted'),false,'and is put down again');
+  // Another pointer's stray move is not this drag.
+  grip.dispatchEvent(new w.PointerEvent('pointermove',{bubbles:true,cancelable:true,clientX:9,clientY:9,pointerId:8}));
+  assert.equal(shelf.style.left,'306px','and it stays put once let go');
+  // The arrow keys carry it for anyone not using a pointer.
+  const nudge=(key,shift)=>grip.dispatchEvent(new w.KeyboardEvent('keydown',{key,shiftKey:!!shift,bubbles:true,cancelable:true}));
+  nudge('ArrowLeft');assert.equal(shelf.style.left,'292px');
+  nudge('ArrowDown',true);assert.equal(shelf.style.top,'306px');
+  // A window it no longer fits in brings it back into view rather than losing it.
+  w.innerWidth=400;w.innerHeight=200;w.dispatchEvent(new w.Event('resize'));
+  assert.equal(shelf.style.left,'244px');assert.equal(shelf.style.top,'134px');
+  // Opened again it is a panel at the head of the essay once more, and the
+  // spot it was pinned to goes with the pinning.
+  shelf.querySelector('.puzzle-expand').click();
+  assert.equal(shelf.classList.contains('puzzle-moved'),false);
+  assert.equal(shelf.style.left,'');assert.equal(shelf.style.top,'');
+  assert.ok(shelf.parentElement.classList.contains('essay-body'));
+  // Hidden again, it comes back to where the reader left it.
+  hidden().click();
+  assert.equal(shelf.parentElement,doc.body);
+  assert.equal(shelf.style.left,'244px');assert.equal(shelf.style.top,'134px');
+  assert.equal(shelf.querySelectorAll('[data-puzzle-unit]').length,2,'and still carries both units');
+  shelf.querySelector('[data-puzzle-unit="words"]').click();
+  assert.equal(doc.querySelectorAll('.puzzle-piece-preview').length,4,'which still do their job');
+  // Leaving takes the rail with it and gives the essay back exactly.
+  doc.getElementById('essay-puzzle').click();
+  assert.equal(doc.querySelectorAll('.puzzle-panel').length,0);
+  assert.equal(doc.querySelector('.essay-body').innerHTML,'<p>First one. Second one.</p>');
+  page.window.close();
+}
 // Switching unit redraws the boxed paragraphs, renumbers what is on offer,
 // and never touches a board the reader is working in.
 {
@@ -316,4 +381,4 @@ function fresh(body,wide){
   page.window.close();
 }
 
-console.log('Puzzle mode checks passed: sentences and words, a panel that shrinks to a rail out of the column, unit switching that carries an open board across, one paragraph at a time, per-board exit, Escape ladder, keyboard opening, tap/drag/swap/return, board isolation, comparison, eligibility and exact restoration.');
+console.log('Puzzle mode checks passed: sentences and words, a panel that shrinks to a rail out of the column, a rail carried by its grip and kept in view, unit switching that carries an open board across, one paragraph at a time, per-board exit, Escape ladder, keyboard opening, tap/drag/swap/return, board isolation, comparison, eligibility and exact restoration.');
