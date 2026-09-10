@@ -167,26 +167,28 @@
     return frames;
   }
 
-  /* Three wrong places before the right one. Each is another fragment's seat,
-     and where two of them reach for the same one they push each other off it.
-     Not physics — only the moment where two things cannot both be right. */
+  /* The way back is not tidy. A fragment takes anywhere from one wrong seat to
+     five before its own, on its own beat, and every seat belongs to something
+     else; where two reach for the same one they push each other off it. Only
+     the last move is calm, and only because it is the right one. */
   function shoulders(round) {
+    var here = pieces.filter(function (p) { return p.tries.length > round; });
     for (var pass = 0; pass < 4; pass++) {
-      for (var i = 0; i < pieces.length; i++) {
-        for (var j = i + 1; j < pieces.length; j++) {
-          var a = pieces[i].tries[round], b = pieces[j].tries[round];
+      for (var i = 0; i < here.length; i++) {
+        for (var j = i + 1; j < here.length; j++) {
+          var a = here[i].tries[round], b = here[j].tries[round];
           var dx = (b.cx + b.pushX) - (a.cx + a.pushX);
           var dy = (b.cy + b.pushY) - (a.cy + a.pushY);
-          var overlapX = (pieces[i].width + pieces[j].width) * .45 - Math.abs(dx);
-          var overlapY = (pieces[i].height + pieces[j].height) * .45 - Math.abs(dy);
+          var overlapX = (here[i].width + here[j].width) * .45 - Math.abs(dx);
+          var overlapY = (here[i].height + here[j].height) * .45 - Math.abs(dy);
           if (overlapX <= 0 || overlapY <= 0) continue;
           var push;
           // Part along the shallower axis, the way two things actually part.
           if (overlapX < overlapY) {
-            push = (dx < 0 ? -1 : 1) * overlapX * .3;
+            push = (dx < 0 ? -1 : 1) * overlapX * .34;
             a.pushX -= push; b.pushX += push;
           } else {
-            push = (dy < 0 ? -1 : 1) * overlapY * .3;
+            push = (dy < 0 ? -1 : 1) * overlapY * .34;
             a.pushY -= push; b.pushY += push;
           }
         }
@@ -194,14 +196,11 @@
     }
     // Weight decides who gives way. A retailer link is knocked clear across;
     // a paragraph takes the same shove and barely moves.
-    pieces.forEach(function (p) {
+    here.forEach(function (p) {
       var t = p.tries[round];
-      var cap = Math.max(26, 130 - Math.sqrt(p.width * p.height) * .35);
+      var cap = Math.max(30, 150 - p.mass * .38);
       var reach = Math.hypot(t.pushX, t.pushY);
-      if (reach > cap) {
-        t.pushX *= cap / reach;
-        t.pushY *= cap / reach;
-      }
+      if (reach > cap) { t.pushX *= cap / reach; t.pushY *= cap / reach; }
     });
   }
 
@@ -209,25 +208,42 @@
     var seats = pieces.map(function (p) {
       return { x: innerWidth / 2 - p.x, y: innerHeight / 2 - p.y };
     });
-    pieces.forEach(function (p) { p.tries = []; });
-    for (var round = 0; round < 3; round++) {
-      pieces.forEach(function (p, i) {
+    var most = 0;
+    pieces.forEach(function (p, i) {
+      p.mass = Math.sqrt(p.width * p.height);
+      // Light things are thrown about and spin; heavy ones lumber.
+      p.spin = Math.max(16, 320 - p.mass * 1.1);
+      var count = 1 + Math.floor(Math.random() * 5);
+      most = Math.max(most, count);
+      // Each fragment keeps its own clock. Sharing one is what read as a machine.
+      var span = .78 / count;
+      p.tries = [];
+      for (var k = 0; k < count; k++) {
         var seat = seats[Math.floor(Math.random() * seats.length)];
         var cx = seat.x, cy = seat.y;
         // A fragment that draws its own seat has not gone anywhere yet.
         if (Math.abs(cx - seats[i].x) < 60 && Math.abs(cy - seats[i].y) < 60) {
-          cy = cy < innerHeight / 2 ? innerHeight * .72 : innerHeight * .28;
+          cy = cy < innerHeight / 2 ? innerHeight * .74 : innerHeight * .26;
+          cx = cx < innerWidth / 2 ? innerWidth * .78 : innerWidth * .22;
         }
         var marginX = Math.min(p.width / 2 + 12, innerWidth * .4);
         var marginY = Math.min(p.height / 2 + 12, innerHeight * .4);
         p.tries.push({
           cx: Math.max(marginX, Math.min(innerWidth - marginX, cx)),
           cy: Math.max(marginY, Math.min(innerHeight - marginY, cy)),
-          pushX: 0, pushY: 0
+          pushX: 0, pushY: 0,
+          at: .06 + k * span + Math.random() * span * .35,
+          shoveFor: span * .22, restFor: span * .18,
+          spin: (Math.random() - .5) * 2 * p.spin,
+          size: .34 + Math.random() * .92,
+          swirl: (Math.random() - .5) * 2.6,
+          curve: Math.random(),
+          driftX: (Math.random() - .5) * 14, driftY: (Math.random() - .5) * 14,
+          driftTurn: (Math.random() - .5) * 9
         });
-      });
-      shoulders(round);
-    }
+      }
+    });
+    for (var round = 0; round < most; round++) shoulders(round);
     pieces.forEach(function (p, i) {
       p.tries.forEach(function (t) {
         t.x = t.cx - seats[i].x;
@@ -235,38 +251,51 @@
         t.shovedX = t.x + t.pushX;
         t.shovedY = t.y + t.pushY;
       });
+      p.homeSwirl = (Math.random() - .5) * 1.4;
     });
   }
 
+  /* Three ways to arrive. Nothing in the air decelerates the same way twice,
+     and a single symmetric ease on every move is what made this read as a
+     machine putting its parts back. */
+  function reach(u, curve) {
+    if (curve < .38) return 1 + 2.3 * Math.pow(u - 1, 3) + 1.3 * Math.pow(u - 1, 2);  // past it, then back
+    if (curve < .72) return 1 - Math.pow(1 - u, 2.4);                                 // thrown, and slowing
+    return u * u * (3 - 2 * u);                                                       // carried
+  }
+
   function findHome(p) {
-    var arrive = [.19, .45, .70], scales = [.74, .85, .93];
-    var stops = [{ t: 0, x: p.x, y: p.y, scale: .001, angle: p.turn, kind: 'travel' }];
+    var stops = [{ t: 0, x: p.x, y: p.y, scale: .001, angle: p.turn, swirl: p.tries[0].swirl, curve: p.tries[0].curve, kind: 'travel' }];
     p.tries.forEach(function (t, i) {
-      var tilt = Math.sin(p.phase + i * 1.7) * (17 - i * 4);
+      var next = p.tries[i + 1];
       // Only what actually landed in a crowd is jolted, and only as hard as it was.
-      var knocked = tilt + Math.max(-9, Math.min(9, (t.pushX + t.pushY) * .12));
-      stops.push({ t: arrive[i], x: t.x, y: t.y, scale: scales[i], angle: tilt, kind: 'shove' });
-      stops.push({ t: arrive[i] + .055, x: t.shovedX, y: t.shovedY, scale: scales[i], angle: knocked, kind: 'hold' });
-      stops.push({ t: arrive[i] + .11, x: t.shovedX, y: t.shovedY, scale: scales[i], angle: knocked, kind: 'travel' });
+      var knocked = t.spin + Math.max(-14, Math.min(14, (t.pushX + t.pushY) * .16));
+      stops.push({ t: t.at, x: t.x, y: t.y, scale: t.size, angle: t.spin, kind: 'shove' });
+      stops.push({ t: t.at + t.shoveFor, x: t.shovedX, y: t.shovedY, scale: t.size, angle: knocked, kind: 'rest' });
+      stops.push({ t: t.at + t.shoveFor + t.restFor,
+        x: t.shovedX + t.driftX, y: t.shovedY + t.driftY, scale: t.size, angle: knocked + t.driftTurn,
+        swirl: next ? next.swirl : p.homeSwirl, curve: next ? next.curve : .2, kind: 'travel' });
     });
     stops.push({ t: 1, x: 0, y: 0, scale: 1, angle: 0 });
     var frames = [];
     for (var leg = 0; leg < stops.length - 1; leg++) {
       var from = stops[leg], to = stops[leg + 1];
-      var steps = from.kind === 'travel' ? 14 : (from.kind === 'shove' ? 4 : 1);
+      var steps = from.kind === 'travel' ? 16 : (from.kind === 'shove' ? 4 : 3);
       for (var i = 0; i <= steps; i++) {
         if (leg > 0 && i === 0) continue;
         var u = i / steps;
-        // A shove is sudden and then over; everything else eases both ends.
-        var ease = from.kind === 'shove' ? 1 - Math.pow(1 - u, 3) : u * u * (3 - 2 * u);
-        var bend = from.kind === 'travel' ? Math.sin(Math.PI * ease) * (leg === 0 ? .55 : .2) : 0;
+        // A shove is sudden and then over; a rest only drifts.
+        var ease = from.kind === 'shove' ? 1 - Math.pow(1 - u, 3)
+          : from.kind === 'rest' ? u : reach(u, from.curve);
+        var bend = from.kind === 'travel' ? Math.sin(Math.PI * Math.min(1, ease)) * from.swirl * (leg === 0 ? .5 : .34) : 0;
+        // The turn trails the throw rather than tracking it.
+        var turned = from.kind === 'travel' ? Math.pow(Math.max(0, Math.min(1, ease)), 1.6) : ease;
         var t = from.t + (to.t - from.t) * u;
-        var x = from.x + (to.x - from.x) * ease + p.bendX * bend;
-        var y = from.y + (to.y - from.y) * ease + p.bendY * bend;
         frames.push({ offset: t,
-          transform: 'translate(' + x + 'px,' + y + 'px) rotate(' +
-            (from.angle + (to.angle - from.angle) * ease) + 'deg) scale(' +
-            (from.scale + (to.scale - from.scale) * ease) + ')',
+          transform: 'translate(' + (from.x + (to.x - from.x) * ease + p.bendX * bend) + 'px,' +
+            (from.y + (to.y - from.y) * ease + p.bendY * bend) + 'px) rotate(' +
+            (from.angle + (to.angle - from.angle) * turned) + 'deg) scale(' +
+            Math.max(.02, from.scale + (to.scale - from.scale) * ease) + ')',
           opacity: Math.min(1, t * 12) });
       }
     }
