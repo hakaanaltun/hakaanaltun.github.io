@@ -1,0 +1,37 @@
+# _data/unsuggested.yml — pieces the site keeps but never puts forward.
+#
+# These stay published and reachable: they are in /all-work/, in the archive,
+# in the feed, and any link anyone already has still lands on them. What they
+# are kept out of is every place the site *chooses* something on the reader's
+# behalf — the homepage's "Further back" shuffle, the 404's offer of a piece
+# that does exist, and whatever else comes to pick for itself later.
+#
+# The first five are the earliest things here, from before the writing found
+# its footing. They are left up because taking work down is its own kind of
+# dishonesty, and left unsuggested because a first impression should not be
+# made out of them.
+#
+# One list, several readers — the rule lives here so it does not have to be
+# remembered twice. Add a slug and every picker respects it from the next
+# build; there is nothing else to change.
+#
+#   slug    the post's own `slug`, as it appears in its front matter
+#   why     a note for whoever reads this next, including you
+
+- slug: say-hello
+  why: Earliest work.
+- slug: ai-enough
+  why: Earliest work.
+- slug: defense-mechanisms
+  why: Earliest work.
+- slug: jung-shadow
+  why: Earliest work.
+- slug: unfinished-things
+  why: Earliest work.
+
+# Not early work — this one is held back from the shuffle because the homepage
+# already points at Şafak's Arc from "First time here?", and the arc opens on
+# it. Two doors to the same room, one of them chosen at random, made the
+# homepage look like it had less in it than it has.
+- slug: the-cove
+  why: Already carried by "First time here?".

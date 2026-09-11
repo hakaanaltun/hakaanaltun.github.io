@@ -1,0 +1,33 @@
+{% comment %}
+  piece-moon.html — the moon that was over a piece, under its last line.
+
+  A fragment is set on a night. That night had a moon, and the moon is a fact
+  rather than an ornament: _plugins/moon.rb works it out from the same epoch
+  and the same mean lunation that /moon/ uses, so the crescent here and the
+  crescent there are the same sky drawn twice.
+
+  Opt-in, and deliberately so — the mark means something only where the piece
+  has a night in it. In front matter:
+
+      moon: true          the night the piece was published
+      moon: 2026-05-23    a night the piece is set on
+
+  The second is the one that carries meaning for fiction, where the night the
+  story happens and the night it went up are rarely the same.
+
+  Nothing is announced. There is no caption and no heading: a reader who wants
+  to know what it is hovers it, or opens it, and finds the sky kept live. The
+  phase and the date are on the link for a screen reader either way.
+{% endcomment %}
+{% assign moon = page.moon | moon_phase: page.date %}
+{% if moon %}
+<p class="piece-moon-line">
+  <a class="piece-moon" href="/moon/" title="{{ moon.name }}, {{ moon.date | date: '%-d %B %Y' }}">
+    <svg class="piece-moon-disc" viewBox="0 0 200 200" aria-hidden="true" focusable="false">
+      <circle class="piece-moon-dark" cx="100" cy="100" r="80"/>
+      {% if moon.path != "" %}<path class="piece-moon-lit" d="{{ moon.path }}"/>{% endif %}
+    </svg>
+    <span class="visually-hidden">{{ moon.name }}, {{ moon.illumination }} per cent lit, over the night of {{ moon.date | date: '%-d %B %Y' }}. Tonight&rsquo;s moon is kept on its own page.</span>
+  </a>
+</p>
+{% endif %}

@@ -43,6 +43,9 @@ leave the document without an h1 — give screen readers one. {% endcomment %}
 <article class="essay-body fade-in fade-in-delay">
 {{ content }}
 </article>
+{% comment %} The moon that was over the piece, where its night ends. Renders
+only where front matter sets one; see _includes/piece-moon.html. {% endcomment %}
+{% include piece-moon.html %}
 {% if is_story and page.story_end %}
 <nav class="story-renav" aria-label="Story navigation">
 <a href="/story/1/" class="story-renav-link">Back to the beginning.</a>

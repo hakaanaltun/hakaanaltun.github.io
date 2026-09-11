@@ -1186,6 +1186,29 @@ body.moris-lightbox-open { overflow: hidden; }
 .essay-rain:hover, .essay-rain[aria-pressed="true"] { color: var(--petrol); }
 .essay-rain:focus-visible { outline: 2px solid var(--petrol); outline-offset: 2px; }
 
+/* The moon that was over a piece, under its last line. Small on purpose: it
+   is the night the story happened, not a heading — a reader who wants to know
+   what it is hovers it or opens it. --ink and the page's own paper, so it
+   carries across all fourteen looks without a rule of its own; the dark disc
+   is the ground showing through rather than a fixed colour, which is what
+   keeps a new moon from becoming a black hole on a dark palette. */
+.piece-moon-line { margin: 34px 0 0; text-align: center; line-height: 0; }
+.piece-moon {
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  color: var(--ink);
+  opacity: 0.62;
+  transition: opacity 0.25s ease;
+}
+.piece-moon:hover { opacity: 1; }
+.piece-moon:focus-visible { outline: 2px solid var(--petrol); outline-offset: 2px; opacity: 1; }
+.piece-moon-disc { width: 26px; height: 26px; display: block; overflow: visible; }
+.piece-moon-dark { fill: var(--paper); stroke: currentColor; stroke-width: 6; }
+.piece-moon-lit { fill: currentColor; }
+
 .essay-cover { width: 100%; border-radius: 8px; margin: 32px 0 40px; overflow: hidden; }
 .essay-cover img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; display: block; border-radius: 8px; overflow: hidden; }
 .essay-cover--typographic { aspect-ratio: 16 / 9; }
@@ -1797,6 +1820,26 @@ html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
    11. 404 & Animations
    ========================================================================== */
 .notfound { max-width: 600px; margin: 0 auto; text-align: center; padding: clamp(90px, 16vh, 150px) 0 110px; }
+/* One piece that does exist, offered where the wanted one doesn't. Quieter
+   than the title above it and than the way out below it: it is a suggestion,
+   not the reason the reader is on this page. */
+.notfound-offer { margin: 40px 0 4px; }
+.notfound-offer-lead { font-family: 'EB Garamond', Georgia, serif; font-style: italic; font-size: 1rem; color: var(--vizon); margin-bottom: 14px; }
+.notfound-pool { list-style: none; margin: 0; padding: 0; }
+.notfound-offer-link {
+  display: inline-block;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-size: clamp(1.35rem, 3vw, 1.7rem);
+  line-height: 1.2;
+  color: var(--petrol);
+  border-bottom: 1px solid color-mix(in srgb, var(--petrol) 45%, transparent);
+  padding-bottom: 2px;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+.notfound-offer-link:hover { color: var(--petrol-deep); border-bottom-color: var(--petrol-deep); }
+.notfound-offer-link:focus-visible { outline: 2px solid var(--petrol); outline-offset: 4px; border-radius: 2px; }
+.notfound-offer-subtitle { display: block; font-family: 'EB Garamond', Georgia, serif; font-style: italic; font-size: 0.95rem; line-height: 1.4; color: var(--vizon); margin-top: 6px; border: 0; }
 .notfound-title { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: clamp(2.6rem, 5vw, 3.6rem); line-height: 1.02; letter-spacing: -0.01em; color: var(--petrol); }
 .notfound-text { font-family: 'EB Garamond', Georgia, serif; font-size: clamp(1.1rem, 1.6vw, 1.3rem); line-height: 1.5; color: var(--vizon); margin-top: 18px; }
 .notfound-links { margin-top: 28px; font-size: 1.05rem; }
