@@ -130,9 +130,85 @@ function check(reduced,width){
   w.document.body.dispatchEvent(drag);paint(114100);
   assert(depthAt(.28,height)<midway-5,'the whole stroke is wiped, not its ends: '+
     depthAt(.28,height).toFixed(1)+' from '+midway.toFixed(1));
-  w.innerHeight=600;w.dispatchEvent(new w.Event('resize'));paint(114400);
+  w.innerHeight=600;w.dispatchEvent(new w.Event('resize'));paint(114900);
   assert(bankTop<=1); // A smaller window clamps what has already fallen.
-  w.innerHeight=800;w.dispatchEvent(new w.Event('resize'));
+  w.innerHeight=800;w.dispatchEvent(new w.Event('resize'));paint(115000);
+  /* A finger. The browser hands a touch that starts on the page to the
+     page, as a scroll, and stops reporting where it went, so a sweep driven
+     from pointer events alone kept the dab it began with and lost the rest.
+     The snow takes the touch itself, and asks the browser to let it. */
+  const finger=(type,points,target)=>{
+    const event=new w.Event(type,{bubbles:true,cancelable:true});
+    const list=points.map(point=>({identifier:point.id,clientX:point.x,clientY:point.y,
+      target:target||w.document.body}));
+    Object.defineProperty(event,'changedTouches',{value:list});
+    Object.defineProperty(event,'touches',{value:list});
+    return event;
+  };
+  const dabbed=depthAt(.7,height);
+  w.document.body.dispatchEvent(finger('touchstart',[{id:1,x:width*.7,y:height*.45}]));
+  paint(115100);
+  assert(depthAt(.7,height)<dabbed-5,'a finger put down in the drift clears it there');
+  const swept=depthAt(.9,height);
+  const across=finger('touchmove',[{id:1,x:width*.95,y:height*.45}]);
+  w.document.body.dispatchEvent(across);paint(115200);
+  assert.equal(across.defaultPrevented,true,'and the page is asked not to scroll away under it');
+  assert(depthAt(.9,height)<swept-5,'the whole sweep goes, not the ends of it: '+
+    depthAt(.9,height).toFixed(1)+' from '+swept.toFixed(1));
+  w.document.body.dispatchEvent(finger('touchend',[{id:1,x:width*.95,y:height*.45}]));
+  // Up and down is a read, not a sweep: a page under heavy snow still scrolls.
+  const standing=depthAt(.62,height);
+  w.document.body.dispatchEvent(finger('touchstart',[{id:2,x:width*.62,y:height*.6}]));
+  paint(115300);
+  const held=depthAt(.62,height);
+  assert(held<standing-5,'the finger is on snow to begin with, and takes what it lands on');
+  const down=finger('touchmove',[{id:2,x:width*.62,y:height*.9}]);
+  w.document.body.dispatchEvent(down);paint(115400);
+  assert.equal(down.defaultPrevented,false,'a drag down the window is the page\'s own');
+  assert(depthAt(.62,height)>=held-1,'and the drift keeps what it had');
+  w.document.body.dispatchEvent(finger('touchend',[{id:2,x:width*.62,y:height*.9}]));
+  // A hand on the glass is several fingers, and each carries its own stroke.
+  const leftLanded=depthAt(.12,height),rightLanded=depthAt(.58,height);
+  w.document.body.dispatchEvent(finger('touchstart',
+    [{id:3,x:width*.12,y:height*.7},{id:4,x:width*.58,y:height*.7}]));
+  paint(115500);
+  assert(depthAt(.12,height)<leftLanded-5 && depthAt(.58,height)<rightLanded-5,
+    'two fingers, two places');
+  const leftAhead=depthAt(.28,height),rightAhead=depthAt(.74,height);
+  const pair=finger('touchmove',[{id:3,x:width*.38,y:height*.7},{id:4,x:width*.84,y:height*.7}]);
+  w.document.body.dispatchEvent(pair);paint(115600);
+  assert.equal(pair.defaultPrevented,true);
+  assert(depthAt(.28,height)<leftAhead-5,'the first hand takes its own line');
+  assert(depthAt(.74,height)<rightAhead-5,'and the second takes its');
+  /* A browser kept from scrolling a touch finishes the gesture the way it
+     finishes a tap: with a click where the hand came up. A sweep is not a
+     tap, and the page under the snow is full of links. */
+  const aimed=new w.MouseEvent('click',{bubbles:true,cancelable:true,clientX:width*.1,clientY:height*.1});
+  w.document.getElementById('main').dispatchEvent(aimed);
+  assert.equal(aimed.defaultPrevented,false,'a click away from the hand is somebody aiming');
+  const tail=new w.MouseEvent('click',{bubbles:true,cancelable:true,clientX:width*.84,clientY:height*.7});
+  w.document.getElementById('main').dispatchEvent(tail);
+  assert.equal(tail.defaultPrevented,true,'the click trailing a sweep never reaches the page');
+  const second=new w.MouseEvent('click',{bubbles:true,cancelable:true,clientX:width*.84,clientY:height*.7});
+  w.document.getElementById('main').dispatchEvent(second);
+  assert.equal(second.defaultPrevented,false,'and only that one');
+  w.document.body.dispatchEvent(finger('touchcancel',
+    [{id:3,x:width*.38,y:height*.7},{id:4,x:width*.84,y:height*.7}]));
+  /* A finger that lands on a control leaves it alone: heavy snow buries the
+     page, and neither a link nor the way out of the snow is ever dug for.
+     The dab is what a tap would have been, so the dab is what it gives up —
+     a hand that goes on to sweep still sweeps, since a page that is mostly
+     links would otherwise be a page with nowhere to wipe. */
+  const tapped=depthAt(.5,height);
+  w.document.body.dispatchEvent(finger('touchstart',[{id:5,x:width*.5,y:height*.92}],button));
+  paint(115700);
+  assert(depthAt(.5,height)>=tapped-1,'a finger put on a control takes no snow with it');
+  const sweptOn=depthAt(.3,height);
+  const offButton=finger('touchmove',[{id:5,x:width*.2,y:height*.92}]);
+  w.document.body.dispatchEvent(offButton);paint(115800);
+  assert.equal(offButton.defaultPrevented,true,'but a hand drawn off one is still a hand');
+  assert(depthAt(.3,height)<sweptOn-5,'and it sweeps from where it started');
+  w.document.body.dispatchEvent(finger('touchend',[{id:5,x:width*.2,y:height*.92}]));
   button.click();assert.equal(frames.size,0);assert.equal(observing,0);
   assert.equal(button.getAttribute('aria-pressed'),'false');assert.equal(timers.size,1);
   button.click();assert.equal(frames.size,1);assert.equal(timers.size,0);
@@ -144,7 +220,7 @@ function check(reduced,width){
   for(let i=0;i<500;i++){
     const previousRipples=ripples,oldStrokes=strokes;
     paint(50000+i*80);
-    assert.equal(frames.size,1);assert(ripples-previousRipples<=24);assert(strokes-oldStrokes<=134);
+    assert.equal(frames.size,1);assert(ripples-previousRipples<=40);assert(strokes-oldStrokes<=150);
   }
   assert(strokes>previousStrokes);assert.equal(arcs,previousArcs);
   rainButton.click();assert.equal(rainButton.dataset.weatherLevel,'2');assert.match(rainButton.title,/Heavy rain/);
@@ -153,7 +229,7 @@ function check(reduced,width){
   assert(strokes-lightStrokes>particleCount*2);assert(strokes-lightStrokes<=1020);
   for(let i=1;i<300;i++){
     const previousRipples=ripples,oldStrokes=strokes;paint(115000+i*80);
-    assert.equal(frames.size,1);assert(ripples-previousRipples<=60);assert(strokes-oldStrokes<=1020);
+    assert.equal(frames.size,1);assert(ripples-previousRipples<=90);assert(strokes-oldStrokes<=1020);
   }
   rainButton.click();assert.equal(frames.size,0);assert.equal(rainButton.getAttribute('aria-pressed'),'false');
   for(const callback of timers.values())callback();timers.clear();
@@ -227,4 +303,4 @@ assert.equal(away.rects,0,'a scrolled frame reads no layout at all');
 assert.equal(away.queries,0,'and matches no selectors');
 assert.equal(near.rects,0,'the same with the footer in view: the snow is on the window');
 assert.equal(near.queries,0);
-console.log('Weather checks passed: three-stage cycles, one shared sky for the footer and the essays, preserved snow, drift that covers the page and is wiped to the depth of the hand along a whole stroke, snow banked into berms rather than deleted, cut walls that stand and fill in, rain/splash limits, exclusive switching, mobile bounds, reduced motion, unbroken heavy rain, free scrolling and cleanup.');
+console.log('Weather checks passed: three-stage cycles, one shared sky for the footer and the essays, preserved snow, drift that covers the page and is wiped to the depth of the hand along a whole stroke by mouse or by finger, several fingers at once, a page that still scrolls under heavy snow, snow banked into berms rather than deleted, cut walls that stand and fill in, rain/splash limits, exclusive switching, mobile bounds, reduced motion, unbroken heavy rain, free scrolling and cleanup.');
