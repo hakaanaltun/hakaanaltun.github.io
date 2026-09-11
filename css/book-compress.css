@@ -1,21 +1,63 @@
-.book-compress-wrap {
-  margin: 36px auto 0;
-  text-align: center;
-}
+/* The trigger is a dot, and the dot is the whole point: press it and the page
+   falls into a point, press the point and the page comes back. A centred mark
+   between two blocks is the oldest section break a book has, so it needs no
+   label and no rule — the words are on the button's accessible name and its
+   tooltip, where a reader who wants them can find them. */
+.book-compress-wrap { margin: 14px auto 0; text-align: center; }
 .book-compress {
   appearance: none;
-  padding: 10px 8px;
+  display: inline-grid;
+  place-items: center;
+  /* The mark is 7px; the target around it is 48. A dot nobody can hit is not
+     quiet, it is broken. */
+  width: 48px;
+  height: 48px;
+  padding: 0;
   border: 0;
-  border-bottom: 1px solid var(--rule);
-  border-radius: 0;
+  border-radius: 50%;
   background: transparent;
-  color: var(--ink-soft);
-  font: italic 1.15rem/1.4 'Cormorant Garamond', Georgia, serif;
+  color: var(--ink);
   cursor: pointer;
-  transition: color .2s, border-color .2s;
+  -webkit-tap-highlight-color: transparent;
 }
-.book-compress:hover { color: var(--petrol); border-color: currentColor; }
-.book-compress:focus-visible { outline: 2px solid var(--petrol); outline-offset: 5px; }
+/* A real element rather than ::before: the scene clones the page to fly it
+   inward, and a pseudo-element does not clone. The dot has to travel in with
+   everything else — it is what everything else is travelling towards. */
+.book-compress-seed {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: book-compress-breath 4s ease-in-out infinite;
+  transition: width .22s ease, height .22s ease;
+}
+/* Nothing else on this page moves, so the dot does not blink — it breathes,
+   and never all the way out. Half a page with nothing in it is not a hint,
+   and a mark that is absent when a thumb arrives cannot be pressed. On touch
+   this is the only affordance there is: hover never happens there. */
+@keyframes book-compress-breath {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .3; }
+}
+.book-compress:hover .book-compress-seed,
+.book-compress:focus-visible .book-compress-seed {
+  width: 11px;
+  height: 11px;
+  animation-play-state: paused;
+  opacity: 1;
+}
+.book-compress:focus { outline: none; }
+/* The ring belongs around the mark, not around the 48px target it sits in. */
+.book-compress:focus-visible .book-compress-seed {
+  outline: 2px solid var(--petrol);
+  outline-offset: 5px;
+}
+/* The dot is the break between the hero and the arc, so the animated rule that
+   every other section carries is off underneath it. Two marks doing one job,
+   forty pixels apart on a phone, is what read as a mistake. The class is set by
+   the script, so a page without the dot keeps the rule it has always had. */
+.book-compress-on #safaks-arc::before { content: none; }
+
 /* The scene stands on the page's own paper rather than a fixed white, so the
    fragments keep the contrast they were written with. Washing to white turned
    the dark themes' cream type invisible long before it reached the middle. */
@@ -80,6 +122,10 @@
 .book-compress-point:focus-visible { outline: none; }
 .book-compress-point:focus-visible::before { width: 11px; height: 11px; }
 @media (prefers-reduced-motion: reduce) {
-  .book-compress,
+  .book-compress-seed,
   .book-compress-point::before { transition: none; }
+  /* Held at full strength rather than stopped mid-breath: the global reduce
+     rule collapses every duration to 0.01ms, which on an alternating loop
+     leaves the dot wherever the first frame lands. */
+  .book-compress-seed { animation: none; opacity: 1; }
 }

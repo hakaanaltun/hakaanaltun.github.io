@@ -495,4 +495,9 @@
   trigger.addEventListener('click', compress);
   point.disabled = true;
   trigger.hidden = false;
+  // The dot is now the break between the hero and the arc, so the page's own
+  // animated rule under it stands down. Marked from here rather than from the
+  // stylesheet: without the script there is no dot, and then the rule is the
+  // only thing separating the two, so it has to stay.
+  document.body.classList.add('book-compress-on');
 })();
