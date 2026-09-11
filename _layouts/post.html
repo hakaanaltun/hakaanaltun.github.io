@@ -46,6 +46,20 @@ leave the document without an h1 — give screen readers one. {% endcomment %}
 {% comment %} The moon that was over the piece, where its night ends. Renders
 only where front matter sets one; see _includes/piece-moon.html. {% endcomment %}
 {% include piece-moon.html %}
+{% comment %} "Guess the word" — a few of the essay's own words lifted out for a
+reader to put back. The list is _data/guesses.yml, approved by hand, keyed by
+slug; a piece with no entry offers nothing. It sits at the foot of the essay and
+not beside "read with rain" at the top on purpose: pressed before the first
+read, it would hand a newcomer the piece full of holes. {% endcomment %}
+{% assign guess_words = site.data.guesses[page.slug] %}
+{% if guess_words and guess_words.size >= 3 %}
+<div class="essay-guess-wrap">
+  <button type="button" class="essay-guess" id="essay-guess" hidden>guess the word</button>
+</div>
+<script type="application/json" id="essay-guess-words">{{ guess_words | jsonify }}</script>
+<link rel="stylesheet" href="/css/guess-word.css?v=20260911-1">
+<script src="/js/guess-word.js?v=20260911-1" defer></script>
+{% endif %}
 {% if is_story and page.story_end %}
 <nav class="story-renav" aria-label="Story navigation">
 <a href="/story/1/" class="story-renav-link">Back to the beginning.</a>

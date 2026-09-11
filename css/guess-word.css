@@ -1,0 +1,93 @@
+/* Guess the word. The essay's type is the point, so nothing here introduces a
+   second voice: the boxes, the reader's guesses and the words put back are all
+   set in the body face at the body size, and the only thing that separates them
+   is weight of colour. A blank that shouted would stop being part of a
+   paragraph and start being a form. */
+
+/* The offer, at the foot of the essay — where it is safe. Higher up, beside
+   "read with rain", a first-time reader could press it and meet the piece full
+   of holes before ever reading it. */
+.essay-guess-wrap { text-align: center; margin: 38px 0 0; }
+.essay-guess,
+.guess-action {
+  appearance: none;
+  background: none;
+  border: 0;
+  padding: 2px 6px;
+  font-family: 'EB Garamond', Georgia, serif;
+  font-style: italic;
+  font-size: 0.92rem;
+  letter-spacing: 0.03em;
+  color: var(--vizon);
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+.essay-guess:hover,
+.guess-action:hover { color: var(--petrol); }
+.essay-guess:focus-visible,
+.guess-action:focus-visible { outline: 2px solid var(--petrol); outline-offset: 2px; }
+
+.guess-bar { text-align: center; margin: 38px 0 0; display: flex; gap: 18px; justify-content: center; }
+.guess-action[disabled] { color: var(--rule-strong); cursor: default; }
+.guess-action[disabled]:hover { color: var(--rule-strong); }
+
+/* The blank sits on the baseline of the line it interrupts, so the paragraph
+   keeps its rhythm while the game is open. */
+.guess-blank { display: inline; white-space: nowrap; }
+.guess-input {
+  font: inherit;
+  color: var(--ink);
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--petrol) 55%, transparent);
+  border-radius: 0;
+  padding: 0 2px;
+  margin: 0;
+  min-width: 3ch;
+  text-align: center;
+  /* The essay sets its lines at 1.75, and an input inherits that as its own box
+     height, which drops the rule a third of a line below the words it belongs
+     to. Held at the height of the type instead, and sat on the baseline, so the
+     blank underlines its own place in the sentence rather than the gap under it. */
+  line-height: 1.15;
+  height: 1.15em;
+  vertical-align: baseline;
+  /* A phone puts its keyboard over the bottom half of the screen, and a focused
+     box at the bottom of the viewport ends up under it. This asks the browser
+     to bring the line well up the page instead. */
+  scroll-margin-block: 32vh;
+}
+/* iOS zooms the whole page in on a focused input below 16px, and the essay is
+   set smaller than that. Holding the box at 16px on touch keeps the page still. */
+@media (hover: none) {
+  .guess-input { font-size: max(1rem, inherit); }
+}
+.guess-input:focus { outline: none; border-bottom-color: var(--petrol); }
+.guess-input:focus-visible { outline: none; }
+
+/* A word the reader wrote that is not the essay's. It is not an error state —
+   no red, no strike, no shake — it is simply theirs, and it stays. */
+.guess-blank.is-yours .guess-input {
+  color: var(--vizon);
+  font-style: italic;
+  border-bottom-style: dotted;
+}
+
+/* Found, or asked for. Both read as ordinary text, because by now they are. */
+.guess-word { color: inherit; }
+.guess-word.is-found,
+.guess-word.is-revealed { border-bottom: 0; }
+
+/* What the reader had written, standing beside the word that was there. Small
+   and quiet: it is a second thought next to the sentence, not a correction of
+   one. */
+.guess-yours {
+  font-style: italic;
+  font-size: 0.82em;
+  color: var(--vizon);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .essay-guess, .guess-action, .guess-input { transition: none; }
+}
