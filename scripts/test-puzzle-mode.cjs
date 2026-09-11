@@ -211,7 +211,7 @@ function fresh(body,wide){
   hide.click();
   assert.equal(shelf.hidden,false,'the panel stays on the page');
   assert.equal(shelf.classList.contains('puzzle-collapsed'),true,'shrunk, not gone');
-  assert.equal(shelf.querySelectorAll('[data-puzzle-unit]').length,2,'and still carries both units');
+  assert.equal(shelf.querySelectorAll('[data-puzzle-unit]').length,3,'and still carries all three modes');
   // Switching unit from the shrunken panel works exactly as before.
   shelf.querySelector('[data-puzzle-unit="words"]').click();
   assert.equal(shelf.querySelector('[data-puzzle-unit="words"]').getAttribute('aria-pressed'),'true');
@@ -243,7 +243,7 @@ function fresh(body,wide){
   assert.ok(shelf.parentElement.classList.contains('essay-body'));
   [...shelf.querySelectorAll('.puzzle-action')].find(b=>b.textContent==='Hide instructions').click();
   assert.equal(shelf.parentElement,doc.body,'the rail hangs off the body, clear of the transform');
-  assert.equal(shelf.querySelectorAll('[data-puzzle-unit]').length,2,'and still carries both units');
+  assert.equal(shelf.querySelectorAll('[data-puzzle-unit]').length,3,'and still carries all three modes');
   shelf.querySelector('.puzzle-expand').click();
   assert.ok(shelf.parentElement.classList.contains('essay-body'),'and comes home when opened again');
   doc.getElementById('essay-puzzle').click();
@@ -318,7 +318,7 @@ function fresh(body,wide){
   hidden().click();
   assert.equal(shelf.parentElement,doc.body);
   assert.equal(shelf.style.left,'244px');assert.equal(shelf.style.top,'134px');
-  assert.equal(shelf.querySelectorAll('[data-puzzle-unit]').length,2,'and still carries both units');
+  assert.equal(shelf.querySelectorAll('[data-puzzle-unit]').length,3,'and still carries all three modes');
   shelf.querySelector('[data-puzzle-unit="words"]').click();
   assert.equal(doc.querySelectorAll('.puzzle-piece-preview').length,4,'which still do their job');
   // Leaving takes the rail with it and gives the essay back exactly.
@@ -381,4 +381,74 @@ function fresh(body,wide){
   page.window.close();
 }
 
-console.log('Puzzle mode checks passed: sentences and words, a panel that shrinks to a rail out of the column, a rail carried by its grip and kept in view, unit switching that carries an open board across, one paragraph at a time, per-board exit, Escape ladder, keyboard opening, tap/drag/swap/return, board isolation, comparison, eligibility and exact restoration.');
+// Sentence-scoped words keep their neighbours available, preserve each open
+// sentence independently, and reject a word dragged from another sentence.
+{
+  const page=fresh(BODY),doc=page.window.document;
+  const source=doc.querySelector('.essay-body'),html=source.innerHTML;
+  const original=doc.getElementById('first');
+  doc.getElementById('essay-puzzle').click();
+  const mode=name=>doc.querySelector('[data-puzzle-unit="'+name+'"]');
+  mode('sentenceWords').click();
+  const group=doc.getElementById('first');
+  assert.equal(group.querySelectorAll('.puzzle-sentence-ready').length,3);
+  assert.equal(group.querySelectorAll('.puzzle-piece-preview').length,10);
+  assert.equal(group.querySelectorAll('.puzzle-board').length,0);
+  const rows=[...group.querySelectorAll('.puzzle-sentence-preview')];
+  rows[0].querySelector('.puzzle-piece-preview').click();
+  const first=group.querySelector('.puzzle-board');
+  assert.equal(first.querySelectorAll('.puzzle-slot').length,5);
+  assert.equal(rows[0].isConnected,false,'the selected sentence is removed from its old place');
+  assert.equal(rows[1].isConnected,true,'the neighbouring sentence stays in place');
+  const tile=first.querySelector('.puzzle-piece');
+  tile.click();first.querySelector('.puzzle-slot').click();
+  assert(tile.hidden,'the placed word leaves the bank');
+  rows[1].querySelector('.puzzle-scatter-cue').click();
+  const second=group.querySelectorAll('.puzzle-board')[1];
+  assert.equal(second.querySelectorAll('.puzzle-slot').length,2);
+  assert(first.isConnected && tile.hidden,'opening a neighbour preserves the earlier work');
+  const data=transfer();
+  dragEvent(first.querySelector('.puzzle-piece:not([hidden])'),'dragstart',data);
+  dragEvent(second.querySelector('.puzzle-slot'),'drop',data);
+  assert.equal(second.querySelectorAll('.puzzle-filled').length,0,'words cannot cross sentences');
+  const secondSlots=[...second.querySelectorAll('.puzzle-slot')];
+  ['It','ran.'].forEach((text,i)=>{
+    [...second.querySelectorAll('.puzzle-piece')].find(n=>n.textContent===text).click();secondSlots[i].click();
+  });
+  second.querySelector('.puzzle-action').click();
+  assert.equal(second.querySelectorAll('.puzzle-version')[1].textContent,'It ran.','comparison is scoped to this sentence');
+  second.dispatchEvent(new page.window.KeyboardEvent('keydown',{key:'Escape',bubbles:true,cancelable:true}));
+  assert.equal(group.querySelectorAll('.puzzle-board').length,1);
+  assert(rows[1].isConnected && first.isConnected);
+  mode('words').click();
+  assert.equal(doc.querySelector('#first .puzzle-slots').children.length,10,'all words still scatters the full paragraph');
+  mode('sentenceWords').click();
+  assert.equal(doc.querySelectorAll('.puzzle-board').length,0,'switching into sentence scope waits for a choice');
+  doc.querySelector('#first .puzzle-scatter-cue').click();
+  doc.dispatchEvent(new page.window.KeyboardEvent('keydown',{key:'Escape',bubbles:true,cancelable:true}));
+  assert.equal(doc.querySelectorAll('.puzzle-board').length,0);
+  assert.equal(doc.querySelectorAll('[aria-pressed="true"][data-puzzle-unit]').length,1);
+  doc.getElementById('essay-puzzle').click();
+  assert.equal(source.innerHTML,html);assert.equal(doc.getElementById('first'),original);
+  page.window.close();
+}
+// Load the actual stylesheet: hiding by attribute alone missed the sentence
+// layout rule which used to display already-placed sentences a second time.
+{
+  const page=fresh(BODY),doc=page.window.document;
+  const style=doc.createElement('style');
+  style.textContent=fs.readFileSync(require('node:path').join(__dirname,'../css/puzzle-mode.css'),'utf8');
+  doc.head.appendChild(style);
+  doc.getElementById('essay-puzzle').click();
+  for(const name of ['sentences','words','sentenceWords']){
+    doc.querySelector('[data-puzzle-unit="'+name+'"]').click();
+    if(!doc.querySelector('.puzzle-board'))doc.querySelector('.puzzle-scatter-cue').click();
+    const board=doc.querySelector('.puzzle-board'),piece=board.querySelector('.puzzle-piece'),slot=board.querySelector('.puzzle-slot');
+    piece.click();slot.click();
+    assert.equal(page.window.getComputedStyle(piece).display,'none',name+' must hide a placed piece');
+    slot.click();
+    assert.notEqual(page.window.getComputedStyle(piece).display,'none',name+' must show a returned piece');
+  }
+  page.window.close();
+}
+console.log('Puzzle mode checks passed: three scopes, isolated sentence boards, placement visibility with actual CSS, mode switching, comparison, tap/drag/swap/return, Escape, rail controls and exact restoration.');

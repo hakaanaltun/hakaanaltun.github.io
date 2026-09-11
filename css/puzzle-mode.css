@@ -68,11 +68,21 @@
 /* A boxed piece in the preview. Cloning the decoration keeps the border whole
    on every line a long sentence wraps onto; a word never wraps. */
 .puzzle-piece-preview{border:1px solid var(--rule);border-radius:5px;padding:1px 5px;-webkit-box-decoration-break:clone;box-decoration-break:clone;}
+.puzzle-piece-preview{
+  border-color:color-mix(in srgb,var(--ink) 50%,var(--paper));
+  background:color-mix(in srgb,var(--ink) 7%,var(--paper));
+}
+.essay-body .puzzle-sentence-preview{display:inline;margin:0;font:inherit;line-height:inherit;}
+.puzzle-sentence-group{cursor:default;margin-bottom:24px;line-height:1.85;}
+.puzzle-sentence-ready{cursor:pointer;}
+.puzzle-sentence-ready:hover .puzzle-piece-preview{border-color:var(--petrol);}
+.puzzle-sentence-group .puzzle-board{margin:12px 0 20px;}
 .puzzle-by-words .puzzle-piece-preview{display:inline-block;margin:2px 0;}
 /* A paragraph waiting to be chosen. The halo is drawn with a spread shadow
    rather than padding so nothing on the page shifts on hover. */
 .puzzle-preview{cursor:pointer;border-radius:6px;transition:background-color .2s ease,box-shadow .2s ease;}
 .puzzle-preview:hover,.puzzle-preview:has(.puzzle-scatter-cue:focus-visible){background:color-mix(in srgb,var(--petrol) 8%,transparent);box-shadow:0 0 0 7px color-mix(in srgb,var(--petrol) 8%,transparent);}
+.puzzle-sentence-group:hover,.puzzle-sentence-group:has(.puzzle-scatter-cue:focus-visible){background:transparent;box-shadow:none;}
 /* The paragraph's one control, in the same quiet voice as "read with rain". */
 .puzzle-scatter-cue{font:italic .85rem/1.2 'EB Garamond',Georgia,serif;letter-spacing:.03em;vertical-align:baseline;padding:2px 6px;border:0;border-radius:4px;background:transparent;color:var(--vizon);cursor:pointer;white-space:nowrap;}
 .puzzle-scatter-cue:hover{color:var(--petrol);}
@@ -82,6 +92,8 @@
 .puzzle-slots{margin-bottom:16px;}
 .puzzle-bank{border:1px dashed var(--rule);border-radius:8px;margin-bottom:14px;}
 .puzzle-piece,.puzzle-slot{font:inherit;padding:10px 12px;border:1px solid var(--rule);border-radius:6px;background:var(--paper);color:var(--ink);cursor:pointer;}
+.puzzle-piece,.puzzle-slot{border-color:color-mix(in srgb,var(--ink) 50%,var(--paper));background:color-mix(in srgb,var(--ink) 7%,var(--paper));}
+.puzzle-bank{border-color:color-mix(in srgb,var(--ink) 40%,var(--paper));}
 .puzzle-piece{animation:puzzle-scatter .35s ease-out;}
 .puzzle-slot{border-style:dashed;}
 .puzzle-slot.puzzle-filled{border-style:solid;}
@@ -113,3 +125,5 @@
 @media(max-width:600px){.puzzle-collapsed .puzzle-grip{min-height:34px;}.puzzle-panel{padding:10px 12px;}.puzzle-board{font-size:1rem;}.puzzle-by-sentences .puzzle-bank{padding:10px;}.puzzle-panel-actions{gap:6px;}.puzzle-by-sentences .puzzle-slot{grid-template-columns:1.4em 1fr;gap:8px;}.puzzle-by-words .puzzle-piece,.puzzle-by-words .puzzle-slot{min-height:44px;}}
 @media(max-height:500px){.puzzle-panel:not(.puzzle-moved){position:static;}}
 @media(prefers-reduced-motion:reduce){.puzzle-piece{animation:none;}.puzzle-preview{transition:none;}}
+/* Unit layout rules must never make a placed piece visible in the bank again. */
+.puzzle-board .puzzle-piece[hidden]{display:none !important;}
