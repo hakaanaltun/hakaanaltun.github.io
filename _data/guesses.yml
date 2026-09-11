@@ -1,0 +1,650 @@
+# _data/guesses.yml — "guess the word" için onaylanmış kelimeler.
+#
+# Okur bir paragraf seçer, o paragraftaki bu kelimeler boşalır, okur elle
+# doldurur. Yanlış diye bir şey yok: yazdığı kelime kutuda kalır, isterse
+# orijinali görür ve ikisi yan yana durur.
+#
+# Adaylar bir sezgiselden çıkıyor ama liste elle onaylanmış. Sezgisel iki tür
+# arıyor:
+#   yargı  — yerine başka kelime de konabilirdi; yazarın seçimini sorar
+#   sözcük — korpusta nadir ve somut; doğrusunu görünce öğrenilir
+#
+# Bir kelimenin tek başına doğru cevabı olması sorun değil: bilinmiyorsa
+# orijinali görmek zaten kazanç. Elenenler renksiz olanlar (öğretecek şeyi yok),
+# bağlamın ele verdikleri ve yerleşik kalıplar.
+#
+# Kural: her kelime parçada YALNIZCA BİR KEZ geçiyor olmalı — yoksa boşluk
+# metnin başka bir yerinden okunur. Yeni kelime eklerken buna dikkat.
+# Bir paragrafta en az 3 kelime yoksa o paragraf oyuna açılmaz.
+#
+# YAML tuzağı: true/false/yes/no/on/off/y/n kelimeleri tırnak içinde yazılmalı,
+# yoksa YAML onları boolean'a çevirir ve kelime kaybolur.
+#
+# Satırların üstündeki yorum, kelimenin geçtiği cümledir. Silmek için satırı
+# sil; eklemek için parçanın altına yaz.
+
+
+ai-enough:
+  # …ain, which of us hasn’t turned to an AI for a ____ email, a tricky presentation title, or just t…
+  - quick
+
+  # It feels like we’re walking a thin, invisible ____ between surrendering to AI and using it as a …
+  - tightrope
+
+  # Perhaps this is an ____ part of the transition we’re in.
+  - inevitable
+  # …efore we find ourselves standing in a sudden, ____ void, unsure of what to do next, we need to t…
+  - vast
+
+  # Could this void I’m talking about be the ____ of human effort?
+  - absence
+
+  # …inally bought the house he’d dreamed of since ____, he refused our help even with the move.…
+  - childhood
+
+  # …ng us of these memories just to avoid being a ____ by saying, ‘No need, I’ll handle it.’ Those m…
+  - burden
+
+  # While this promise feels like ultimate ____, I can see the desolation behind it more clea…
+  - comfort
+
+best-ideas:
+  # …rise; the sky is torn between deep orange and ____ blue, and the sea is almost silver.…
+  - pale
+
+  # But in those tranquil moments, the mind is ____ rearranging everything.
+  - quietly
+
+  # … panic, the faster he wrote, only to press so ____ while erasing that he nearly tore the page.…
+  - hard
+
+  # …s an antidote to this: that gray area between ____ and imagination.…
+  - reality
+  # A realm where there is no fear of making mistakes, where the outcome is ____ yet exciting.
+  - uncertain
+
+collateral:
+  # Narrow and tall, French ____ on every floor.
+  - balconies
+  # Unlike the ____ boxes upstairs, this one has a separate kitchen.
+  - open-plan
+
+  # The ____ one, mustached, a little heavy, looks toward the film-coated windows.
+  - stocky
+
+  # Which corner is empty at which hour, which ____ rolls down when.
+  - shutter
+
+  # Kahraman jerks his head ____ to the right.
+  - sharply
+
+  # His hands scramble at the man’s waist, ____, desperate.
+  - clumsy
+
+  # The ____ fabric of a sleeve cuts off his air.
+  - rough
+
+  # He feels each layer give—the skin, the fat, the wall of the vein, each one a separate ____.
+  - surrender
+
+  # The boss’s face—ordinary, tired around the eyes, the mole, the shaving ____.
+  - scar
+
+defense-mechanisms:
+  # Because I believe one of my ____ traits is the set of defense mechanisms I’ve …
+  - fundamental
+
+  # That said, I’ve always thought defense mechanisms are ____.
+  - necessary
+
+  # …ssary drama—rationalization—eventually builds ____ not just to pain, but to joy and excitement t…
+  - immunity
+
+  # When a friend seems ____, rather than noticing that we’ve pulled away …
+  - distant
+
+  # The ego hides our ____ selves from shame or guilt.
+  - fragile
+
+  # A friend of mine worked through a ____ disappointment by painting; as he poured his …
+  - major
+
+  # …ng and only further damages relationships and ____ of mind.…
+  - peace
+
+empathy-paradox:
+  # Outside, the rain has just stopped; the pavement is ____.
+  - gleaming
+
+  # …show she is crying, but her voice has already ____.…
+  - broken
+
+  # I can feel the words forming, and I know they’re ____ before they arrive.
+  - wrong
+
+  # When I say them to myself, they’re ____.
+  - hollow
+
+  # At the cafe, I ____ my friend’s life in three sentences.
+  - summarized
+  # …nderstand, and the simplification looked like ____.…
+  - clarity
+
+  # … months—a woman who keeps rebuilding the same ____ with different people, each time convinced it…
+  - relationship
+
+  # Bakhtin had a word for this— ____ .
+  - outsideness
+
+handled:
+  # A single drop of dark red liquid ____ from the rim.
+  - detached
+  # The red seeped into the white cotton, expanding in a ____, dark circle.
+  - perfect
+
+  # A single ____ line ran down the center, from collar to waist.
+  - faint
+
+  # He rolled the white sleeves up to his ____.
+  - elbows
+
+  # She hummed a low tune, ____ the vegetables in the pan with a flick of her…
+  - tossing
+
+  # …eached across him for the olive oil, poured a ____ stream into the pan, and tasted the sauce fro…
+  - thin
+
+  # … centimeters to the right, placing it exactly ____ center on a square slate coaster.…
+  - dead
+
+  # She spooned the food in fluid, ____ arcs.
+  - generous
+
+it-was-not-a-question:
+  # A cousin who would be glad, and would tell people about it ____.
+  - afterwards
+
+  # Inside were ten men, all of them warm from the ____, all of them glad to see him.
+  - radiators
+
+  # … ground floor of an apartment building, light ____ through the curtains onto the pavement.…
+  - spilling
+
+  # …o its own conversation, four or five of them, ____, none of them dancing.…
+  - loud
+
+  # She pulled the door shut behind her out of ____, opened the cupboard and turned the wheel unt…
+  - habit
+
+  # He drew it out in ____ stages, an inch at a time, and Serkan settled…
+  - slow
+
+  # He put the ____ phone back in the pocket it had come out of.
+  - dead
+
+  # Two taxi drivers sat over their glasses with the ____ of men being paid to wait.
+  - patience
+
+it-will-be:
+  # He still ties knots in his sleep—his wife wakes up and finds the sheet ____ to the bedpost.
+  - hitched
+
+  # A cream envelope ____ out of her apron pocket.
+  - sticks
+
+  # A ____ ugly one from the shelter on Sydney Road.
+  - small
+
+  # The light comes in from the ____ side.
+  - wrong
+
+jung-shadow:
+  # …ace: our anger outbursts, our jealousies, our ____, our selfishness, the parts of ourselves we a…
+  - laziness
+
+  # Interestingly, many of us are deeply drawn to ____ characters of the dark side.
+  - well-written
+  # …Star Wars, Tyler Durden in Fight Club, or the ____ stranger in Secret Window—these are the concr…
+  - mysterious
+
+  # …ur charisma, our adventurous spirit, our deep ____, our natural leadership… All of it.…
+  - emotionality
+
+  # … the leadership, self-confidence, and natural ____ you have forbidden yourself for years.…
+  - expressiveness
+
+  # …ssed adventurous spirit, your free side, your ____ to take risks, your power to say “This is my …
+  - courage
+
+lets-have-some-cheese:
+  # …d not seen each other in years, and there are ____ that survive badly in daily life but remain i…
+  - friendships
+
+  # I saw her first near the ____, surrounded by white fabric, perfume, camera …
+  - entrance
+  # She looked like someone the years had carried ____.
+  - carefully
+
+  # Just one thing: ____ me you will tell me all about the table later.
+  - promise
+
+  # Someone at the table asked him the ____ question—why yoga, with a face like that, a f…
+  - obvious
+
+  # We had met a few times, years ago, ____: very little happened, and neither person fully forgot.
+  - briefly
+
+  # …orty years, and tonight the table carried the ____ of that.…
+  - weight
+  # Aged kaşar that ____ when you looked at it.
+  - crumbled
+  # A ____ white cheese so fresh it was still cold.
+  - soft
+
+  # “And when good cheese comes to your feet, be ____.
+  - suspicious
+
+love-or-fear:
+  # The monsters they feared so ____—they became them.
+  - deeply
+  # They were ____ by the very fear they harbored.
+  - forged
+
+  # Fear ____ it out and took its place without him noticing.
+  - hollowed
+
+  # Love requires a direction, a face, a ____—or at minimum, a belonging.
+  - presence
+  # …s at love and sees something naive, something ____, something that will eventually break.…
+  - soft
+
+  # …o and Latin America, cartels have infiltrated ____ protection organizations—the very groups buil…
+  - neighborhood
+
+  # He has seen everything ____ is capable of.
+  - humanity
+
+  # Every wall built, every war started, every ____ offered, every sacrifice made—trace it back f…
+  - kindness
+
+measured:
+  # Below it was the ____ line, showing modest outflows similar to the week before.
+  - non-resident
+  # He ____ a few items, removed one, then put it back.
+  - highlighted
+
+  # The ____ quote was in the corner of the screen.
+  - interbank
+
+  # The dealer asked about the day’s liquidity ____.
+  - operation
+
+  # In the note he was drafting he wrote ____ , then changed it to measured .
+  - gradual
+
+  # If a rate became available, they would buy the ____ amount.
+  - full
+
+  # The air conditioning shut off automatically at eleven, and the room was beginning to get ____.
+  - warm
+
+  # …was stopped as it began to follow the genre’s ____ patterns, leaving these four scenes.…
+  - familiar
+
+michi:
+  # It had rained in the morning, the ____ rain that came and went before the vendors ha…
+  - quicksilver
+
+  # Its fur was ____ except for a small patch of white under the chin.
+  - glossy
+
+  # The air smelled of damp wood, earth, incense, and the ____ smoke from a stall far below.
+  - sweet
+
+  # The noise of the main trail faded until there were only crows and the ____ scrape of his shoes.
+  - soft
+
+  # The train was already waiting, its doors open, ____ light inside.
+  - warm
+
+  # …tone from the edge of the clearing and set it ____ on the envelope so the wind would not take it…
+  - gently
+
+none-of-us-are:
+  # Some of them said it to me, ____, as if I might not have heard.
+  - carefully
+
+  # But the room had an ____ in it.
+  - agreement
+
+  # …hts later, under the hazy yellow light of the ____ in the kitchen, she was standing by the count…
+  - hood
+
+on-forgiveness:
+  # …ned dark—a stage set pretending to be a town, ____ made architectural.…
+  - cruelty
+
+  # You map the exact ____ of the heat.
+  - perimeter
+  # The ____ of the burn stays perfectly intact.
+  - memory
+
+  # It takes that ledger, draws a ____ black line through the total, and hands it ba…
+  - thick
+  # …an steps out through the gate and resumes the ____ on the first afternoon of freedom.…
+  - habit
+  # Forgiveness is a corridor, handing out a ____ at the exit door.
+  - permit
+
+  # The slow, ____ drag of the acoustic guitar.
+  - deliberate
+
+  # It delivers a ____ acknowledgment of a passed storm.
+  - cold
+
+on-keeping:
+  # …t there is an older question than whether the ____ can be undone—it is whether anything can be h…
+  - damage
+
+  # What you choose to maintain in that ____—the small, stubborn acts of order—reveals les…
+  - bareness
+
+  # I remember Augusts in the village during the ____ harvest.
+  - hazelnut
+  # Long before the trip, the ____ of seeing a girl I liked from school would take hold.
+  - anticipation
+  # Every morning, stepping out into the ____ courtyard facing the orchards, my hair was al…
+  - wide
+
+  # …er, holding onto a form in the middle of that ____.…
+  - silence
+  # The danger of ____ lay in who you became inside the disarray.
+  - surrender
+
+  # The mess tin pressed against the collar in an ____ cell says otherwise.
+  - empty
+
+on-longing:
+  # On the fourth, a heavy ____ blooms behind my temples.
+  - ache
+  # The ____ of the kick drum still in my bones.
+  - aftershock
+
+  # The scissors went back to work, a ____, rhythmic snip-snip near my ear.
+  - sharp
+
+  # …ue you taste with—all your old learnings—at a ____ from yourself.”…
+  - distance
+
+  # … us, and sometimes it can seem more real than ____ itself.…
+  - reality
+
+  # When I let it out, I felt a sudden ____ spread through my chest.
+  - lightness
+
+on-looking:
+  # There should be a ____ freedom in this.
+  - comforting
+  # The spotlight is ____, and the guard has left.
+  - broken
+
+  # Something came back—a small ____ I hadn’t touched in years.
+  - memory
+
+on-lying:
+  # The most effective ____ are built from true information, arranged carefully.
+  - deceptions
+
+  # … have denied—a calculated risk, taken in good ____, with the information available at the time.…
+  - faith
+
+  # A slow erosion of the world’s ____ to surprise you.
+  - ability
+
+  # When cornered, confess to something ____—a surveillance program that was “overly broad,”
+  - minor
+
+  # The outside world sees nothing while ____ pulls you apart from the inside.
+  - gravity
+
+  # What’s ____ is that most lies are reflexive.
+  - strange
+  # The deception that feels like control is usually just ____—slowed down and renamed.
+  - panic
+
+on-perceiving:
+  # That’s what makes it harder to argue with and almost ____ to fix.
+  - impossible
+
+  # …k—something cold enough that I filed it under ____ and left it there.…
+  - betrayal
+
+  # The sentence itself had been ____ so many times in the retelling—to myself, mos…
+  - rewritten
+
+  # There’s an accomplished man I know who is ____ that the world is organized against people li…
+  - certain
+
+  # The truth was always there, ____ but intact.
+  - hidden
+
+  # A ____ that burns longer than it should.
+  - criticism
+
+  # I suspect it lacks the clean, ____ clarity promised by “seeing things as they are,”
+  - bright
+
+on-silence:
+  # He only materialized ____ to eat, moving low to the ground, before vanishing again.
+  - briefly
+  # … buying bowls, carrying litter, doing all the ____, practical things required to welcome another…
+  - loud
+  # I fell ____ as a man living alone.
+  - asleep
+
+  # In a ____ room, he doesn’t just blend into the dark; he becomes it.
+  - lightless
+  # …ing my sleeping face with intense, unblinking ____.…
+  - curiosity
+
+  # I lay back down, my pulse ____ returning to normal.
+  - slowly
+  # He simply found a spot near my feet, ____ into a tight shape, and went to sleep.
+  - curled
+
+  # I lay there doing what I always do in the dark—sorting, rehearsing, ____.
+  - replaying
+  # …rt—the way only a creature with no unfinished ____ breathes.…
+  - business
+
+say-hello:
+  # … shrinking into a guilty child in front of an ____ figure?…
+  - authority
+
+  # Generally speaking, when we are being ____, affectionate, playful, creative, mean, or ar…
+  - selfish
+  # …portant parts of our personality because both ____ and curiosity come from the child in us.…
+  - creativity
+
+  # …ation often happens on two levels at once—the ____ social message and a hidden psychological mes…
+  - obvious
+
+  # This ____ allows us to detach from the weight of past t…
+  - awareness
+  # … and what is happening around us with greater ____ and clarity across all areas of life.…
+  - mindfulness
+
+the-anxiety:
+  # …w what triggered it—maybe the heat, maybe the ____ of the road, maybe the way Şafak was sitting …
+  - flatness
+
+  # The rhythm of it had become its own kind of ____.
+  - sickness
+
+  # … garbled Lena had flagged it as either panic, ____, or both.…
+  - plagiarism
+
+  # …lk for a minute, watching her go, feeling the ____ of something I’d just pushed past saving.…
+  - weightlessness
+
+  # We’d left the highway and were on a two-lane stretch that ____ along the coast.
+  - wound
+
+  # The guitar track had shifted to something in a ____ key—the system reading the room, adjusting.
+  - minor
+
+  # “There’s no public transport ____ for this stop in the next three hours.
+  - scheduled
+
+the-cost:
+  # …ight way to cook fish, a glance across a room ____ of people.…
+  - full
+
+  # Then the smile would pass, and his face would return to the place where ____ had left it.
+  - grief
+
+  # She had been talking for almost an hour, and I knew not to ____ her too early.
+  - interrupt
+
+  # He says it is almost ____ to drag me out of where I’ve gone.”
+  - impossible
+
+  # …e, or inside a thought, or inside some narrow ____ that only fits one person.…
+  - tunnel
+
+  # …leasing steam with a violence that seemed too ____ for coffee.…
+  - large
+
+  # I pay it when I say yes and become ____.
+  - resentful
+  # I pay it when I say no and become ____.
+  - cruel
+
+the-cove:
+  # She’d handled just wait before, that afternoon with the syllabus, with a ____ understood.
+  - simple
+
+  # …e name I didn’t know, carrying everything I’d ____ in a bag too small to hold it.…
+  - broken
+
+  # The car, parked behind me in the ____, waited—as it always did—for a command I no l…
+  - dark
+
+the-joy:
+  # Then he looked at me—that long, ____ look from somewhere very far inside himself, …
+  - patient
+
+  # …dy started doing its work on the city—heat so ____ it made the tar on the roads go soft under yo…
+  - thick
+
+  # … in both hands like a winning lottery ticket, ____ not to crease it, and walked out of the schoo…
+  - careful
+
+  # The cover ____ was enough to stop my heart.
+  - alone
+
+  # The friend was a ____ man with a mustache—they all had mustaches—si…
+  - large
+
+  # …y laughed, mouth open, shoulders shaking, the ____ thing.…
+  - whole
+
+the-lines-between-us:
+  # The pension had a door with blue paint ____ near the handle.
+  - peeling
+
+  # In the afternoon the rain cleared and they went back to the beach a ____ time.
+  - final
+
+  # He gave her a name in pencil, in her own hand, because he had seen it and it was ____.
+  - "true"
+
+  # … the cat as if the cat were the only creature ____ that could keep a secret.…
+  - alive
+
+  # …ood then that the silence aimed at me was not ____.…
+  - shyness
+
+  # …r me, and I hated, a little, that he had been ____.…
+  - careful
+
+  # I said no—small and ____, a key turning.
+  - sharp
+
+the-poise:
+  # A woman in a stiff blazer sat reading her phone with ____ focus.
+  - surgical
+
+  # … no coaster, and a single manila folder, very ____, positioned exactly in the center.…
+  - thin
+  # A crane was moving something ____ across the sky, and for a moment Şafak watche…
+  - slowly
+
+  # …t and wide, built like a filing cabinet, with ____ fingers and a watch that sat too loose on his…
+  - thick
+
+  # … switching to English with an accent that was ____ to place, “about the current state of the Tur…
+  - hard
+
+  # …ed at him on the way out—a knowing smile, the ____ receptionists give when they already know the…
+  - kind
+
+thinking-is-for-after:
+  # The hall in Piraeus smells of wool and ____.
+  - tobacco
+
+  # She ____ its edge against the counter and slides it ba…
+  - squares
+
+  # He sets it on the prep table and opens the ____.
+  - clasps
+
+unfinished-things:
+  # It’s something more like a list of unfinished ____.
+  - confrontations
+
+  # …s in a day and still, when your head hits the ____, drift toward the one thing that isn’t done.…
+  - pillow
+
+  # We keep trying to close the loop and ____ to finally feel whole.
+  - hope
+
+  # … when triggered by something specific, like a ____ conversation.…
+  - deep
+  # …ass makes you feel energized, so you start to ____ what’s next.…
+  - wonder
+
+  # My head is still ____ of open tabs.
+  - full
+
+  # The list in my head is still ____.
+  - warm
+
+written-in-ink:
+  # …chen table, in a white box with the lid still ____.…
+  - creased
+  # …r dried her hands on her apron and said she’d ____ her eyes hunching over that little phone; thi…
+  - ruin
+
+  # her mother would say of the written ones—this ____, she’s not like that—and Lucia would tell her…
+  - neighbour
+  # “ Ci metti ____ del tuo ”—same thing; you always put something of yourself in.
+  - sempre
+
+  # …it, and deleted it letter by letter until the ____ sat alone.…
+  - cursor
+
+  # Mara had run the place for thirty years and spoke to the machine more ____ than to her staff.
+  - gently
+
+  # …ut and never charged her for the first drink; ____ was cheaper than accounting, they said.…
+  - hospitality
+
+  # …lked; by the end the whole table swore it was ____.…
+  - "true"
+
+  # …e pen, put the notebook in her bag beside the ____ tablet, and did not take it out again.…
+  - dead
+
+  # …h Italian stamps and her name on the front in ____ capitals.…
+  - careful
