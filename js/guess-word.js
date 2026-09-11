@@ -4,16 +4,23 @@
    There is no wrong here, and that is the whole design rather than a kindness
    bolted onto it. A word that matches settles into the sentence and the box is
    gone. A word that does not match STAYS, in the reader's own hand: it is not
-   refused, not marked, not cleared. Asking for the words puts the writer's back
-   in place and stands the reader's beside whichever ones differ, which is the
-   only moment the two are meant to be compared — not as answer and error, but
-   as two people reaching for the same slot.
+   refused, not marked, not cleared. Asking for a word puts the writer's back in
+   place and stands the reader's beside it if the two differ, which is the only
+   moment they are meant to be compared — not as answer and error, but as two
+   people reaching for the same slot.
+
+   Everything here is shaped by one fact about the list: the words are far
+   apart. Six or seven of them are spread across a whole essay, which is why
+   there is no single control that acts on all of them from the foot of the
+   page — pressing that revealed six words a reader then had to go hunting for.
+   Instead each blank carries its own way out, offered where the reader is
+   actually looking, and finishing one carries them to the next.
 
    Which words are lifted is not decided here. _data/guesses.yml holds the list,
    approved by hand; this file only finds them and hands them back.
 
-   Every original text node is kept and returned on exit, so nothing about the
-   essay survives the game. Nothing is sent or saved. */
+   Every block the game opens is copied first and the copy is put back on exit,
+   so nothing about the essay survives it. Nothing is sent or saved. */
 (function () {
   'use strict';
   var trigger = document.getElementById('essay-guess');
@@ -27,8 +34,10 @@
 
   var blanks = [];        // one per word actually found in the text
   var clones = [];        // every block the game touches, as it was before it did
-  var actions = null;     // the two controls, built when the game opens
+  var bar = null;         // the strip that holds the count and the way out
+  var current = null;     // the blank the reader is standing in, if any
   var phase = 'reading';
+  var motion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   /* The words are approved one per piece and each appears exactly once in it,
      so the first whole-word match is the only match. Case is not part of the
@@ -51,6 +60,44 @@
     return node ? { node: node, at: node.nodeValue.search(pattern) } : null;
   }
 
+  function left() {
+    return blanks.filter(function (b) { return !b.settled; }).length;
+  }
+
+  function nextAfter(blank) {
+    var from = blanks.indexOf(blank);
+    for (var i = from + 1; i < blanks.length; i++) if (!blanks[i].settled) return blanks[i];
+    for (var j = 0; j < from; j++) if (!blanks[j].settled) return blanks[j];
+    return null;
+  }
+
+  /* A word filled is a place finished with, and the next one is most of an
+     essay away. Carrying the reader there is the difference between a game and
+     a scavenger hunt: without it, every turn ends in scrolling to look for the
+     next box. */
+  function goTo(blank) {
+    if (!blank) return;
+    blank.slot.scrollIntoView({ block: 'center',
+      behavior: motion.matches ? 'auto' : 'smooth' });
+    blank.input.focus({ preventScroll: true });
+  }
+
+  function countLabel() {
+    var n = left();
+    return n === 0 ? 'all of them found' : n === 1 ? '1 word left' : n + ' words left';
+  }
+
+  /* The strip says what it will do, always. With a box in focus the middle
+     control acts on that one word; with none it acts on what is left. The
+     label is never a guess about which. */
+  function paint() {
+    if (!bar) return;
+    bar.count.textContent = countLabel();
+    var one = current && !current.settled;
+    bar.show.textContent = one ? 'show this word' : 'show the rest';
+    bar.show.disabled = left() === 0;
+  }
+
   /* The box is as wide as the word it replaces, so the line it sits in keeps
      the shape it had. Anything narrower and the paragraph reflows the moment
      the game opens, which is the sentence moving out from under the reader. */
@@ -58,8 +105,7 @@
     var found = findTextNode(word);
     if (!found) return null;
     var node = found.node;
-    var original = node.nodeValue;
-    var actual = original.substr(found.at, word.length);
+    var actual = node.nodeValue.substr(found.at, word.length);
 
     var tail = node.splitText(found.at);
     tail.nodeValue = tail.nodeValue.substr(word.length);
@@ -81,12 +127,17 @@
 
     input.addEventListener('input', function () {
       slot.classList.remove('is-yours');
-      if (normal(input.value) === normal(word)) settle(blank, actual);
+      if (normal(input.value) === normal(word)) {
+        settle(blank, actual);
+        goTo(nextAfter(blank));
+      }
     });
+    input.addEventListener('focus', function () { current = blank; paint(); });
     // A word that is not the essay's is not taken away. It is kept, and marked
     // as the reader's own, which is a different thing from being marked wrong.
     input.addEventListener('blur', function () {
       if (!blank.settled) slot.classList.toggle('is-yours', input.value.trim() !== '');
+      if (current === blank) { current = null; paint(); }
     });
     return blank;
   }
@@ -95,42 +146,56 @@
      sentence closes over it, which is what finding it actually feels like. */
   function settle(blank, text) {
     blank.settled = true;
-    blank.guess = blank.input.value;
     var word = document.createElement('span');
     word.className = 'guess-word is-found';
     word.textContent = text;
     blank.slot.replaceChildren(word);
     blank.slot.classList.remove('is-yours');
     blank.slot.classList.add('is-settled');
+    if (current === blank) current = null;
+    paint();
   }
 
   /* The writer's word goes back so the sentence reads as written — that is what
      was asked for. The reader's stands next to it only where the two differ,
      small and plainly theirs. Nothing is struck through. */
-  function reveal() {
-    blanks.forEach(function (blank) {
-      if (blank.settled) return;
-      var mine = blank.input.value.trim();
-      blank.settled = true;
-      blank.guess = mine;
-      var word = document.createElement('span');
-      word.className = 'guess-word is-revealed';
-      word.textContent = blank.actual;
-      blank.slot.replaceChildren(word);
-      if (mine && normal(mine) !== normal(blank.word)) {
-        var yours = document.createElement('span');
-        yours.className = 'guess-yours';
-        // The brackets and the space are characters, not CSS: a reader copying
-        // the line, or hearing it read, has to get the same sentence a reader
-        // looking at it gets. Decoration in ::before does not survive either.
-        yours.textContent = ' (' + mine + ')';
-        yours.title = 'What you wrote';
-        blank.slot.appendChild(yours);
-      }
-      blank.slot.classList.remove('is-yours');
-      blank.slot.classList.add('is-settled');
-    });
-    if (actions) actions.reveal.disabled = true;
+  function open_(blank) {
+    if (blank.settled) return;
+    var mine = blank.input.value.trim();
+    blank.settled = true;
+    var word = document.createElement('span');
+    word.className = 'guess-word is-revealed';
+    word.textContent = blank.actual;
+    blank.slot.replaceChildren(word);
+    if (mine && normal(mine) !== normal(blank.word)) {
+      var yours = document.createElement('span');
+      yours.className = 'guess-yours';
+      // The brackets and the space are characters, not CSS: a reader copying
+      // the line, or hearing it read, has to get the same sentence a reader
+      // looking at it gets. Decoration in ::before does not survive either.
+      yours.textContent = ' (' + mine + ')';
+      yours.title = 'What you wrote';
+      blank.slot.appendChild(yours);
+    }
+    blank.slot.classList.remove('is-yours');
+    blank.slot.classList.add('is-settled');
+  }
+
+  /* One word, where the reader is standing. This is the ordinary way to be
+     shown something: asking for all of them at once scattered six answers over
+     an essay and left the reader to find what had changed. */
+  function revealOne(blank) {
+    var next = nextAfter(blank);
+    open_(blank);
+    current = null;
+    paint();
+    goTo(next);
+  }
+
+  function revealRest() {
+    blanks.forEach(open_);
+    current = null;
+    paint();
   }
 
   /* The essay is put back by swapping each block it touched for the copy taken
@@ -148,9 +213,11 @@
     });
     clones = [];
     blanks = [];
-    if (actions) { actions.bar.remove(); actions = null; }
+    current = null;
+    if (bar) { bar.el.remove(); bar = null; }
     article.classList.remove('is-guessing');
     document.removeEventListener('keydown', onKey);
+    if (window.visualViewport) window.visualViewport.removeEventListener('resize', ride);
     phase = 'reading';
     trigger.hidden = false;
     trigger.focus({ preventScroll: true });
@@ -167,6 +234,50 @@
     b.textContent = label;
     b.addEventListener('click', onClick);
     return b;
+  }
+
+  /* The strip stays with the reader rather than at the foot of the page. The
+     way out of a mode has to be reachable from inside it, and at seven words
+     across an essay the foot is nowhere near where anyone is working.
+
+     A popover on the blank itself was tried first and is what a reader would
+     draw if you asked them to. It cannot work here: anything anchored under a
+     line of body type covers the line beneath it, and on this site covering the
+     writing to play a game about the writing is the wrong trade. The strip sits
+     at the edge of the screen instead, where it covers nothing — and the word
+     being worked on is always on screen anyway, because finishing one carries
+     the reader to the next. */
+  function buildBar() {
+    var el = document.createElement('div');
+    el.className = 'guess-bar';
+    var count = document.createElement('span');
+    count.className = 'guess-count';
+    // Taken on pointerdown: a click lands after the box has already lost focus,
+    // and which word is in focus is what this button acts on.
+    var show = document.createElement('button');
+    show.type = 'button';
+    show.className = 'guess-action';
+    show.addEventListener('pointerdown', function (event) {
+      event.preventDefault();
+      if (show.disabled) return;
+      if (current && !current.settled) revealOne(current); else revealRest();
+    });
+    var exit = control('read the original', restore);
+    el.append(count, show, exit);
+    document.body.appendChild(el);
+    bar = { el: el, count: count, show: show, exit: exit };
+    ride();
+    paint();
+  }
+
+  /* A phone's keyboard covers the bottom of the screen, and a fixed element
+     sits behind it. Where the browser reports its visual viewport, the strip
+     rides the top of the keyboard instead of disappearing under it. */
+  function ride() {
+    var vv = window.visualViewport;
+    if (!vv || !bar) return;
+    var lift = Math.max(0, innerHeight - vv.height - vv.offsetTop);
+    bar.el.style.bottom = (18 + lift) + 'px';
   }
 
   /* The block a word sits in, so it can be copied before it is opened up. */
@@ -194,22 +305,15 @@
     if (!blanks.length) { clones = []; return; }
 
     article.classList.add('is-guessing');
-    var bar = document.createElement('p');
-    bar.className = 'guess-bar';
-    var reveal_ = control('Show the words', reveal);
-    var exit = control('Read the original', restore);
-    bar.append(reveal_, exit);
-    actions = { bar: bar, reveal: reveal_, exit: exit };
     trigger.hidden = true;
-    trigger.parentNode.insertBefore(bar, trigger);
-
+    buildBar();
     phase = 'playing';
     document.addEventListener('keydown', onKey);
+    if (window.visualViewport) window.visualViewport.addEventListener('resize', ride);
     // The reader pressed this at the foot of the essay; the first box is
     // somewhere above them. Taking them to it is the difference between a game
     // and a page that appears to have done nothing.
-    blanks[0].slot.scrollIntoView({ block: 'center', behavior: 'smooth' });
-    blanks[0].input.focus({ preventScroll: true });
+    goTo(blanks[0]);
   }
 
   trigger.addEventListener('click', open);
