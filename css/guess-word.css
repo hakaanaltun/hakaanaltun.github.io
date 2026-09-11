@@ -61,6 +61,8 @@
   flex: 0 0 auto;
 }
 .guess-bar .guess-action { flex: 0 0 auto; padding: 2px 0; }
+.guess-next { font-style: normal; font-size: 1.05rem; line-height: 1; }
+@media (max-width: 480px) { .guess-bar .guess-next { font-size: 1rem; } }
 .guess-action[disabled] { color: var(--rule-strong); cursor: default; }
 .guess-action[disabled]:hover { color: var(--rule-strong); }
 
@@ -68,14 +70,20 @@
 /* The blank sits on the baseline of the line it interrupts, so the paragraph
    keeps its rhythm while the game is open. */
 .guess-blank { display: inline; white-space: nowrap; }
+/* Plain enough to belong to the paragraph, plain enough to find. The first
+   version was a hairline and nothing else, and with six or seven of them spread
+   across an essay a reader could not see where the next one was — which matters
+   more now that being shown a word leaves them standing where they are rather
+   than carrying them on. A faint wash of the page's own accent does it without
+   turning the line into a form. */
 .guess-input {
   font: inherit;
   color: var(--ink);
-  background: transparent;
+  background: color-mix(in srgb, var(--petrol) 9%, transparent);
   border: 0;
-  border-bottom: 1px solid color-mix(in srgb, var(--petrol) 55%, transparent);
-  border-radius: 0;
-  padding: 0 2px;
+  border-bottom: 2px solid color-mix(in srgb, var(--petrol) 70%, transparent);
+  border-radius: 3px 3px 0 0;
+  padding: 0 3px;
   margin: 0;
   min-width: 3ch;
   text-align: center;
@@ -96,8 +104,15 @@
 @media (hover: none) {
   .guess-input { font-size: max(1rem, inherit); }
 }
-.guess-input:focus { outline: none; border-bottom-color: var(--petrol); }
+.guess-input:focus {
+  outline: none;
+  background: color-mix(in srgb, var(--petrol) 16%, transparent);
+  border-bottom-color: var(--petrol);
+}
 .guess-input:focus-visible { outline: none; }
+/* The first letter, once asked for. Faint, but not so faint it has to be
+   hunted for a second time. */
+.guess-input::placeholder { color: var(--vizon); opacity: 0.75; font-style: normal; }
 
 /* A word the reader wrote that is not the essay's. It is not an error state —
    no red, no strike, no shake — it is simply theirs, and it stays. */
