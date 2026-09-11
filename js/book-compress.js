@@ -27,6 +27,10 @@
   var pieces = [];
   var saved;
   var run = 0;
+  // Where everything is going, and the colour the point wears once it gets
+  // dark there. Both are read from the page at the moment of the press.
+  var anchor = null;
+  var lit = '';
   var skipped = false;
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
 
@@ -39,6 +43,19 @@
   }
   function remember() {
     try { localStorage.setItem('book-compress-found', '1'); } catch (error) {}
+  }
+
+  /* Where everything is going: the middle of the dot, not the middle of the
+     screen. The dot is the one fixed thing in the scene — it does not fly in
+     with the rest, it is what the rest flies into — so the mass has to land
+     exactly where the reader last saw it and leave from the same place on the
+     way out. Measured after the scrollbar gutter is pinned, so the number is
+     the one the fall will actually aim at. A trigger with no box to measure
+     falls back to the middle of the screen, which is where this used to go. */
+  function aim() {
+    var r = trigger.getBoundingClientRect();
+    if (!r.width || !r.height) return { x: innerWidth / 2, y: innerHeight / 2 };
+    return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
   }
 
   function visible(el) {
@@ -112,7 +129,7 @@
     // The chrome bands travel whole rather than as one piece per link: a band
     // is a surface, and taking it apart leaves the type on it without one.
     var candidates = Array.from(document.body.querySelectorAll('header,footer,h1,h2,h3,p,a,button,img,svg,hr,canvas,span'))
-      .filter(function (el) { return !scene.contains(el) && visible(el); });
+      .filter(function (el) { return !scene.contains(el) && !trigger.contains(el) && visible(el); });
     var selected = new Set(candidates);
     var chosen = candidates.filter(function (el) {
       for (var p = el.parentElement; p; p = p.parentElement) if (selected.has(p)) return false;
@@ -120,12 +137,11 @@
     }).slice(0, 180);
     // Read the page in one pass and attach the layer in one go. Measuring and
     // appending in the same turn made every piece force its own reflow.
-    // The point is placed from the same numbers the fall aims at. A percentage
-    // of the scene is not the same place: scrollbar-gutter keeps the gutter out
-    // of the fixed box, so 50% of it sat seven pixels left of where the mass
-    // actually landed.
-    scene.style.setProperty('--book-compress-x', (innerWidth / 2) + 'px');
-    scene.style.setProperty('--book-compress-y', (innerHeight / 2) + 'px');
+    // The point is placed from the same numbers the fall aims at, so the two
+    // cannot drift apart.
+    anchor = aim();
+    scene.style.setProperty('--book-compress-x', anchor.x + 'px');
+    scene.style.setProperty('--book-compress-y', anchor.y + 'px');
     var ground = getComputedStyle(document.body).backgroundColor;
     var rects = chosen.map(function (el) { return el.getBoundingClientRect(); });
     var known = new Map();
@@ -155,8 +171,8 @@
       });
       wrapper.appendChild(copy);
       batch.appendChild(wrapper);
-      var x = innerWidth / 2 - r.left - r.width / 2;
-      var y = innerHeight / 2 - r.top - r.height / 2;
+      var x = anchor.x - r.left - r.width / 2;
+      var y = anchor.y - r.top - r.height / 2;
       var distance = Math.hypot(x, y) || 1;
       var drift = (Math.random() < .5 ? -1 : 1) * (45 + Math.random() * Math.min(100, innerWidth * .16));
       var phase = Math.random() * Math.PI * 2;
@@ -250,7 +266,7 @@
 
   function wanderings() {
     var seats = pieces.map(function (p) {
-      return { x: innerWidth / 2 - p.x, y: innerHeight / 2 - p.y };
+      return { x: anchor.x - p.x, y: anchor.y - p.y };
     });
     var most = 0;
     pieces.forEach(function (p, i) {
@@ -270,7 +286,7 @@
       // from the whole page flung the small fragments clear across it on every
       // hop, which is not a search — it is teleporting. The busier the
       // fragment, the less time each hop has, so the closer it looks.
-      var fromX = innerWidth / 2, fromY = innerHeight / 2;
+      var fromX = anchor.x, fromY = anchor.y;
       for (var k = 0; k < count; k++) {
         var seat = null, nearest = Infinity;
         for (var look = 0; look <= count; look++) {
@@ -395,6 +411,9 @@
       root.style.scrollBehavior = saved.behavior;
       saved = null;
     }
+    anchor = null;
+    point.style.color = '';
+    point.style.opacity = '';
     state = 'idle';
     point.disabled = true;
     trigger.focus({ preventScroll: true });
@@ -410,14 +429,33 @@
       var root = document.documentElement;
       saved = { x: scrollX, y: scrollY, overflow: root.style.overflow,
         gutter: root.style.scrollbarGutter, behavior: root.style.scrollBehavior };
-      root.style.scrollbarGutter = 'stable';
+      /* Only where a scrollbar actually takes room. Pinning the gutter holds a
+         classic scrollbar's width open when overflow goes hidden, so the page
+         does not slide out from under the dot. Where scrollbars are drawn over
+         the page and take no room at all, pinning opens a gutter that was
+         never there and moves the whole layout by half of it — which, now that
+         the dot is the thing the scene is aimed at, is the dot jumping sideways
+         at the exact moment it is supposed to be the one thing holding still. */
+      if (innerWidth - root.clientWidth > 0) root.style.scrollbarGutter = 'stable';
       root.style.overflow = 'hidden';
       capture();
-      point.style.opacity = '0';
       point.disabled = true;
       dark.style.opacity = '0';
       flash.style.opacity = '0';
       scene.showModal();
+      /* The dot does not arrive, because it never left. The scene opens with
+         the point already at the trigger's place, in the trigger's own colour
+         and at its own strength, so the handover from the page's dot to the
+         scene's is nothing to look at. It turns to the cream it keeps in the
+         dark only while the dark is arriving — the one stretch where ink on
+         the page's paper would otherwise be ink on nothing. */
+      point.style.color = '';
+      point.style.opacity = '';
+      lit = getComputedStyle(point).color;
+      var ink = getComputedStyle(trigger).color;
+      var faded = getComputedStyle(trigger).opacity;
+      point.style.color = ink;
+      point.style.opacity = faded;
       var duration = gentle ? 180 : 2600;
       var jobs = pieces.map(function (p) {
         return animate(p.node, gentle ? [{ opacity: 1 }, { opacity: 0 }] : flight(p),
@@ -432,8 +470,10 @@
         return animate(p.node, vacuum(p), { duration: 700 });
       });
       closing.push(animate(dark, [{ opacity: 0 }, { opacity: 1 }], { duration: gentle ? 180 : 700 }));
-      closing.push(animate(point, [{ opacity: 0 }, { opacity: 1 }],
-        { duration: gentle ? 180 : 200, delay: gentle ? 0 : 420 }));
+      // Ink to cream over exactly the dark's own window: the dot is never
+      // lost against either ground, because it changes with the ground.
+      closing.push(animate(point, [{ color: ink, opacity: faded }, { color: lit, opacity: 1 }],
+        { duration: gentle ? 180 : 700 }));
       if (skipped) skip();
       await Promise.all(closing);
       if (run !== token) return;
@@ -489,7 +529,14 @@
         jobs.push(animate(flash, [{ opacity: 0, offset: 0 }, { opacity: 1, offset: .06 }, { opacity: 0, offset: 1 }],
           { duration: 600 }));
       }
-      jobs.push(animate(point, [{ opacity: 1 }, { opacity: 0 }], { duration: gentle ? 180 : 380 }));
+      /* Back to ink as the light comes up, and then simply left there rather
+         than faded out. The scene closes on a dot the same colour, the same
+         strength and in the same place as the one the page has underneath it,
+         so there is nothing to see in the swap back either. */
+      var ink = getComputedStyle(trigger).color;
+      var faded = getComputedStyle(trigger).opacity;
+      jobs.push(animate(point, [{ color: lit || ink, opacity: 1 }, { color: ink, opacity: faded }],
+        { duration: gentle ? 180 : 420, easing: 'cubic-bezier(.2,0,0,1)' }));
       await Promise.all(jobs);
       if (run === token) clean();
     } catch (error) { clean(); }
