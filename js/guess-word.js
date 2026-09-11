@@ -139,15 +139,22 @@
 
   /* The strip says what it will do, always. Standing on a word it offers the
      smallest help first and the whole word only after — a reader who wants a
-     nudge should not have to spend the answer to get one. With no word in
-     focus it offers what is left. The label is never a guess about which. */
+     nudge should not have to spend the answer to get one.
+
+     Standing on none it offers nothing and says so by not being there. There
+     used to be a "show the rest" in this slot, and it was the wrong thing
+     twice: it opened six words at once for a reader to go hunting through,
+     which is what the per-word help was built to stop, and what it left behind
+     was the essay with its answers in — which is what "read the original"
+     already does, in one press, without the detour. */
   function paint() {
     if (!bar) return;
     bar.count.textContent = countLabel();
     var one = current && !current.settled;
-    bar.show.textContent = !one ? 'show the rest'
-      : current.hinted ? 'show the word' : 'show the first letter';
-    bar.show.disabled = left() === 0;
+    bar.show.hidden = !one;
+    if (one) {
+      bar.show.textContent = current.hinted ? 'show the word' : 'show the first letter';
+    }
     // Nothing to go on to when the reader is standing on the only one left.
     var onward = nextAfter(at);
     bar.next.disabled = !onward || onward === current;
@@ -270,11 +277,6 @@
     paint();
   }
 
-  function revealRest() {
-    blanks.forEach(open_);
-    current = null;
-    paint();
-  }
 
   /* The essay is put back by swapping each block it touched for the copy taken
      before it was touched — the same move puzzle mode makes, and for the same
@@ -338,8 +340,7 @@
     show.className = 'guess-action';
     show.addEventListener('pointerdown', function (event) {
       event.preventDefault();
-      if (show.disabled) return;
-      if (!current || current.settled) { revealRest(); return; }
+      if (!current || current.settled) return;
       if (current.hinted) revealOne(current); else hint(current);
     });
     /* The way on. An arrow rather than the words for it: with the count, the
