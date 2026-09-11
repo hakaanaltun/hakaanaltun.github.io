@@ -206,15 +206,44 @@ function main() {
     assert.equal(kit.actions()[0].disabled, true);
   }
 
-  // Filling one carries the reader to the next, which is most of an essay away.
+  // Finding one does not carry the reader off either. A word just found is a
+  // word worth seeing in the sentence it was found in; the arrow is how anyone
+  // who is done looking moves on.
   {
     const kit = build();
     kit.trigger.click();
     const [first, second] = kit.inputs();
     kit.focus(first);
     kit.type(first, 'hollow');
-    assert.equal(kit.d.activeElement, second, 'focus lands on the next unfilled box');
+    assert.notEqual(kit.d.activeElement, second, 'nothing runs off to the next box');
     assert.equal(kit.count(), '4 words left');
+    kit.actions()[1].click();
+    assert.equal(kit.d.activeElement, kit.inputs()[0], 'and the arrow still knows where they were');
+  }
+
+  // An ending is not a wrong word. A reader who writes "memory" where the essay
+  // wrote "memories" has found it, and the essay's own form is what goes into
+  // the line — so the reader, standing right there, sees which one it was.
+  {
+    const kit = build({ body: BODY
+      .replace('the patience of men', 'the memories of men')
+      .replace('"patience"', '"memories"') });
+    kit.trigger.click();
+    const box = kit.inputs()[2];
+    kit.type(box, 'memory');
+    assert.equal(kit.blanks()[2].classList.contains('is-settled'), true, 'near enough is found');
+    assert.ok(kit.text().includes('the memories of men'), 'and the essay keeps its own form');
+  }
+
+  // It forgives the shape of a word, never the choice of one.
+  {
+    const kit = build();
+    kit.trigger.click();
+    const box = kit.inputs()[2];               // patience
+    kit.type(box, 'patient');
+    assert.equal(kit.blanks()[2].classList.contains('is-settled'), false,
+      '"patient" is not "patience" — in the sentence it would not be');
+    assert.equal(box.value, 'patient', 'and it is kept, the way any word of theirs is');
   }
 
   // The count reads as a sentence rather than a score, and says so at the end.
@@ -222,10 +251,7 @@ function main() {
     const kit = build();
     kit.trigger.click();
     assert.equal(kit.count(), '5 words left');
-    kit.type(kit.inputs()[0], 'hollow');
-    kit.type(kit.inputs()[0], 'sharp');
-    kit.type(kit.inputs()[0], 'patience');
-    kit.type(kit.inputs()[0], 'gleaming');
+    ['hollow', 'sharp', 'patience', 'gleaming'].forEach(w => kit.type(kit.inputs()[0], w));
     assert.equal(kit.count(), '1 word left');
     kit.type(kit.inputs()[0], 'quicksilver');
     assert.equal(kit.count(), 'all of them found');

@@ -48,6 +48,52 @@
     return value.toLowerCase().trim().replace(/[’']/g, "'");
   }
 
+  /* A reader who writes "memory" where the essay wrote "memories" has found the
+     word. So has one who writes "gleam" for "gleaming". Being told otherwise
+     teaches them nothing except that the game is pedantic, and the people most
+     likely to be caught by it are the ones this is for.
+
+     So the two are compared again with their endings off — plurals, -ed, -ing,
+     a doubled consonant, a silent e. Deliberately shallow: it forgives the
+     shape of a word, never the choice of one. "patient" is still not
+     "patience", because in the sentence it would not be.
+
+     Nothing is said about it when it happens. The essay's own form goes into
+     the line, and the reader is standing right there looking at it — which is
+     the whole of the correction, and enough of one. */
+  function stem(value) {
+    var w = normal(value);
+    if (w.length < 4) return w;
+    var back = function (pattern, floor) {
+      var cut = w.replace(pattern, '$1');
+      if (cut !== w && cut.length >= floor) w = cut;
+    };
+    // The manner adverbs go with the rest: writing "careful" where the essay
+    // wrote "carefully" is missing an ending, not missing a word. It does not
+    // reach "gentle" from "gently", and that one stays unforgiven.
+    back(/^(.*)ly$/, 3);
+    back(/^(.*?)ies$/, 3);
+    if (/ies$/.test(value)) w += 'y';
+    back(/^(.*[^aeiou])es$/, 3);
+    back(/^(.*[^s])s$/, 3);
+    back(/^(.*)ing$/, 3);
+    back(/^(.*)ed$/, 3);
+    // Not through back(): the doubled letter has to be the backreference, and
+    // capturing the whole prefix to get there made the reference the prefix.
+    var single = w.replace(/([bdfglmnprt])\1$/, '$1');
+    if (single !== w && single.length >= 3) w = single;
+    back(/^(.*)e$/, 3);
+    return w;
+  }
+
+  /* Named away from "found": lift() keeps a local of that name for the text
+     node it is about to split, and the handler below closed over that one
+     instead of this. Nothing caught it but a test — the file parses either
+     way, and the only symptom was that typing the right word did nothing. */
+  function matches(typed, word) {
+    return normal(typed) === normal(word) || (typed.trim() !== '' && stem(typed) === stem(word));
+  }
+
   function findTextNode(word) {
     var pattern = new RegExp('\\b' + word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'i');
     var walker = document.createTreeWalker(article, NodeFilter.SHOW_TEXT, {
@@ -147,11 +193,10 @@
 
     input.addEventListener('input', function () {
       slot.classList.remove('is-yours');
-      if (normal(input.value) === normal(word)) {
-        settle(blank, actual);
-        // Finding one still moves on: the reader already knows what it says.
-        goTo(nextAfter(blanks.indexOf(blank)));
-      }
+      // Settled with the essay's own form rather than the reader's, so the line
+      // reads as written — and, where the two differ by an ending, so the
+      // reader can see which one it was.
+      if (matches(input.value, word)) settle(blank, actual);
     });
     input.addEventListener('focus', function () {
       current = blank;
@@ -171,6 +216,10 @@
      sentence closes over it, which is what finding it actually feels like. */
   function settle(blank, text) {
     blank.settled = true;
+    // Nothing moves. A reader who has just found a word wants to see it in the
+    // sentence they found it in; being carried off is the same complaint
+    // whether the word was given or guessed.
+    at = blanks.indexOf(blank);
     var word = document.createElement('span');
     word.className = 'guess-word is-found';
     word.textContent = text;
