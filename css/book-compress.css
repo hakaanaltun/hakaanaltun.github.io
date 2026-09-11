@@ -39,6 +39,10 @@
   0%, 100% { opacity: 1; }
   50% { opacity: .3; }
 }
+/* A hint is only owed to someone who has not taken it. Once the dot has been
+   pressed it holds still — a page that keeps waving at a reader who already
+   knows what the mark is has stopped saying anything with it. */
+.book-compress.is-found .book-compress-seed { animation: none; opacity: 1; }
 .book-compress:hover .book-compress-seed,
 .book-compress:focus-visible .book-compress-seed {
   width: 11px;

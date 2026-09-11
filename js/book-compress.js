@@ -30,6 +30,17 @@
   var skipped = false;
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
 
+  /* The dot breathes to be found, and stops once it has been. Kept on the
+     device the way the theme and the palette are, so it does not start waving
+     again on the next visit; storage can be refused, and a reader who has
+     turned it off simply gets the hint every time. */
+  function found() {
+    try { return localStorage.getItem('book-compress-found') === '1'; } catch (error) { return false; }
+  }
+  function remember() {
+    try { localStorage.setItem('book-compress-found', '1'); } catch (error) {}
+  }
+
   function visible(el) {
     for (var parent = el; parent && parent !== document.body; parent = parent.parentElement) {
       var style = getComputedStyle(parent);
@@ -492,8 +503,15 @@
   scene.addEventListener('pointerdown', skip);
   window.addEventListener('pagehide', function () { if (state !== 'idle') clean(); });
   point.addEventListener('click', expand);
-  trigger.addEventListener('click', compress);
+  trigger.addEventListener('click', function () {
+    trigger.classList.add('is-found');
+    remember();
+    compress();
+  });
   point.disabled = true;
+  // Settled before the dot is shown, so a returning reader never catches a
+  // frame of it breathing at them.
+  if (found()) trigger.classList.add('is-found');
   trigger.hidden = false;
   // The dot is now the break between the hero and the arc, so the page's own
   // animated rule under it stands down. Marked from here rather than from the
