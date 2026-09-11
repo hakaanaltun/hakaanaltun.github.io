@@ -1,4 +1,4 @@
-name: One-time em dash house-style cleanup
+name: One-time em dash comment tidy
 
 on:
   push:
@@ -9,148 +9,29 @@ permissions:
   contents: write
 
 jobs:
-  cleanup:
+  tidy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
-      - name: Apply display-separator spacing
+      - name: Tidy internal examples
         shell: bash
         run: |
           python - <<'PY'
           from pathlib import Path
-          import re
-
-          def spaced_display(s):
-              s = re.sub(r'\s*&mdash;\s*', ' &mdash; ', s)
-              s = re.sub(r'\s*—\s*', ' — ', s)
-              return s
-
-          def write_if_changed(path, new):
-              old = path.read_text(encoding='utf-8')
-              if new != old:
-                  path.write_text(new, encoding='utf-8')
-
-          # 1) Common generated page/post suffix: Title — On Life & Everything.
           p = Path('_includes/head.html')
           s = p.read_text(encoding='utf-8')
-          s = s.replace('&mdash;On Life &amp; Everything', ' &mdash; On Life &amp; Everything')
-          s = s.replace('—On Life &amp; Everything', ' — On Life &amp; Everything')
-          s = s.replace('joined by a closed-up em dash:', 'joined by a spaced em dash:')
-          write_if_changed(p, s)
-
-          # 2) Story title + clock is a display separator, not running prose.
-          p = Path('_layouts/post.html')
-          s = p.read_text(encoding='utf-8')
-          s = s.replace('{{ page.title }}&mdash;{{ page.story_clock }}', '{{ page.title }} &mdash; {{ page.story_clock }}')
-          write_if_changed(p, s)
-
-          # 3) Tool catalogue names are display labels: The Reader — Read...
-          p = Path('_data/tools.yml')
-          lines = p.read_text(encoding='utf-8').splitlines(True)
-          out=[]
-          for line in lines:
-              if re.match(r'^\s*listname\s*:', line):
-                  line = re.sub(r'\s*—\s*', ' — ', line)
-              out.append(line)
-          write_if_changed(p, ''.join(out))
-
-          # 4) Static page display contexts. Running prose/descriptions are left alone.
-          candidates=[]
-          for root in [Path('.'), Path('_posts'), Path('story')]:
-              if not root.exists():
-                  continue
-              if root == Path('.'):
-                  candidates += list(root.glob('*.html')) + list(root.glob('*.md'))
-                  for d in root.iterdir():
-                      if d.is_dir() and not d.name.startswith('.') and d.name not in {'_posts','story','_includes','_layouts','_data','_site','assets','css','fonts','images','js','node_modules'}:
-                          for n in ('index.html','index.md'):
-                              q=d/n
-                              if q.exists(): candidates.append(q)
-              else:
-                  candidates += [q for q in root.rglob('*') if q.suffix.lower() in {'.html','.md'}]
-
-          seen=set()
-          for p in candidates:
-              if str(p) in seen: continue
-              seen.add(str(p))
-              s=p.read_text(encoding='utf-8')
-              old=s
-
-              # Explicit site-name suffixes in front matter or hand-written heads.
-              s=s.replace('&mdash;On Life &amp; Everything', ' &mdash; On Life &amp; Everything')
-              s=s.replace('—On Life &amp; Everything', ' — On Life &amp; Everything')
-
-              # Browser titles are display strings: space any em-dash separator there.
-              def title_repl(m):
-                  return '<title>' + spaced_display(m.group(1)) + '</title>'
-              s=re.sub(r'<title>(.*?)</title>', title_repl, s, flags=re.S|re.I)
-
-              # Social-card titles / image alt strings are also display labels.
-              def meta_repl(m):
-                  tag=m.group(0)
-                  cm=re.search(r'content="([^"]*)"', tag, flags=re.I)
-                  if not cm: return tag
-                  val=spaced_display(cm.group(1))
-                  return tag[:cm.start(1)] + val + tag[cm.end(1):]
-              s=re.sub(r'<meta\b[^>]*(?:property|name)="(?:og:title|twitter:title|og:image:alt|twitter:image:alt)"[^>]*>', meta_repl, s, flags=re.I)
-
-              # Accessible home labels separate the brand from the action.
-              s=s.replace('On Life &amp; Everything—home', 'On Life &amp; Everything — home')
-              s=s.replace('On Life & Everything—home', 'On Life & Everything — home')
-
-              # Home page hidden title: site — author.
-              s=s.replace('On Life &amp; Everything&mdash;Hakan Altun', 'On Life &amp; Everything &mdash; Hakan Altun')
-
-              # Standalone tool JSON-LD product/name strings are display labels.
-              if p.parent != Path('.') and p.name == 'index.html' and p.parts[0] != 'story':
-                  def json_name_repl(m):
-                      return m.group(1) + spaced_display(m.group(2)) + m.group(3)
-                  s=re.sub(r'(^\s*"name"\s*:\s*")([^"]*)("\s*,?\s*$)', json_name_repl, s, flags=re.M)
-
-                  # Dynamic browser titles (currently used by Twilight).
-                  def doc_title_repl(m):
-                      return m.group(1) + spaced_display(m.group(2)) + m.group(3)
-                  s=re.sub(r'(document\.title\s*=\s*")([^"]*)("\s*;)', doc_title_repl, s)
-
-              if s != old:
-                  p.write_text(s, encoding='utf-8')
-
-          # Rebuild an audit snapshot for verification.
-          roots = [Path('_posts'), Path('_includes'), Path('_layouts'), Path('_data'), Path('story')]
-          files=[]
-          for root in roots:
-              if root.exists():
-                  files.extend(q for q in root.rglob('*') if q.suffix.lower() in {'.html','.md','.yml','.yaml','.json','.js'})
-          files.extend(Path('.').glob('*.html')); files.extend(Path('.').glob('*.md'))
-          for d in Path('.').iterdir():
-              if d.is_dir() and not d.name.startswith('.') and d.name not in {'_site','assets','css','fonts','images','js','node_modules'}:
-                  for n in ('index.html','index.md'):
-                      q=d/n
-                      if q.exists(): files.append(q)
-          rows=[]; seen=set()
-          for q in sorted(files, key=lambda x: str(x)):
-              if str(q) in seen: continue
-              seen.add(str(q))
-              try: text=q.read_text(encoding='utf-8')
-              except Exception: continue
-              for i,line in enumerate(text.splitlines(),1):
-                  if '—' in line or '&mdash;' in line or '&#8212;' in line:
-                      rows.append(f'{q}:{i}: {line}')
-          Path('.emdash-audit.txt').write_text('\n'.join(rows)+'\n', encoding='utf-8')
+          s = s.replace('joined by a spaced em dash: "Handled—On Life & Everything".', 'joined by a spaced em dash: "Handled — On Life & Everything".')
+          s = s.replace('sets one writes the "—On Life & Everything" suffix into it itself.', 'sets one writes the " — On Life & Everything" suffix into it itself.')
+          p.write_text(s, encoding='utf-8')
           PY
-
-      - name: Commit cleanup
+      - name: Commit
         shell: bash
         run: |
-          if git diff --quiet; then
-            echo "No changes needed."
-            exit 0
-          fi
+          if git diff --quiet; then exit 0; fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A
-          git commit -m "Normalize em dash display spacing"
+          git add _includes/head.html
+          git commit -m "Tidy em dash house-style comments"
           git push origin HEAD:${GITHUB_REF_NAME}
