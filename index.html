@@ -58,7 +58,9 @@ layout: home
 <section id="further-back">
   {% include section-header.html title="Further back" subtitle="" %}
   {% assign all_posts = site.posts | sort: "date" | reverse %}
-  {% assign excluded_slugs = "say-hello,ai-enough,defense-mechanisms,jung-shadow,unfinished-things,the-cove" | split: "," %}
+  {%- comment -%} The slugs the site never puts forward, kept in one place:
+  _data/unsuggested.yml, which says of each one why. {%- endcomment -%}
+  {% assign excluded_slugs = site.data.unsuggested | map: "slug" %}
   {% assign pool_posts = "" | split: "" %}
   {% assign skipped = 0 %}
   {% for post in all_posts %}

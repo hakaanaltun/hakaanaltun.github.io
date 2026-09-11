@@ -7,7 +7,50 @@ noindex: true
 <div class="notfound">
   <h1 class="notfound-title">Not here</h1>
   <p class="notfound-text">The page you wanted isn’t at this address. It may have moved. It may never have existed.</p>
+
+  {%- comment -%}
+    A page that does exist, offered in place of the one that doesn't.
+
+    Liquid cannot pick at random and the site is built once, so the whole
+    eligible pool is rendered hidden and the script lifts one out — the same
+    shape as the homepage's "Further back" shuffle. With JavaScript off the
+    container stays hidden and this page is exactly what it was: a line, and
+    two links out.
+
+    The pool skips story cards, which are a doorway rather than a piece, and
+    everything in _data/unsuggested.yml. See that file for why each one.
+  {%- endcomment -%}
+  {% assign offered = site.data.unsuggested | map: "slug" %}
+  <div id="notfound-offer" class="notfound-offer" hidden>
+    <p class="notfound-offer-lead">Here is one that does.</p>
+    <ul id="notfound-pool" class="notfound-pool" role="list">
+      {%- for post in site.posts -%}
+        {%- if post.story_card -%}{%- continue -%}{%- endif -%}
+        {%- assign skip = false -%}
+        {%- for slug in offered -%}
+          {%- if post.slug == slug -%}{%- assign skip = true -%}{%- break -%}{%- endif -%}
+        {%- endfor -%}
+        {%- if skip -%}{%- continue -%}{%- endif -%}
+      <li><a href="{{ post.url }}" class="notfound-offer-link">{{ post.title | replace: "'", "’" }}{% if post.subtitle %}<span class="notfound-offer-subtitle">{{ post.subtitle }}</span>{% endif %}</a></li>
+      {%- endfor -%}
+    </ul>
+  </div>
+
   <p class="notfound-links">
     <a href="/">Home</a><span class="notfound-sep" aria-hidden="true">·</span><a href="/all-work/">All</a>
   </p>
 </div>
+<script>
+/* Keeps one of the rendered pieces and drops the rest, then shows the block.
+   Runs during parse, before first paint, so the full list is never seen. */
+(function () {
+  var pool = document.getElementById('notfound-pool');
+  var offer = document.getElementById('notfound-offer');
+  if (!pool || !offer) return;
+  var items = Array.prototype.slice.call(pool.children);
+  if (!items.length) return;
+  var keep = items[Math.floor(Math.random() * items.length)];
+  items.forEach(function (item) { if (item !== keep) item.remove(); });
+  offer.hidden = false;
+})();
+</script>
