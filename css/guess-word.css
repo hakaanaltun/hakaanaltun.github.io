@@ -11,6 +11,7 @@
 .essay-guess,
 .guess-action {
   appearance: none;
+  white-space: nowrap;
   background: none;
   border: 0;
   padding: 2px 6px;
@@ -27,9 +28,42 @@
 .essay-guess:focus-visible,
 .guess-action:focus-visible { outline: 2px solid var(--petrol); outline-offset: 2px; }
 
-.guess-bar { text-align: center; margin: 38px 0 0; display: flex; gap: 18px; justify-content: center; }
+/* The strip travels with the reader. Seven words across an essay means the
+   foot of the page is nowhere near where anyone is working, and a way out of a
+   mode has to be reachable from inside it. It carries the count for the same
+   reason: at this spacing a reader cannot see how many are left by looking. */
+.guess-bar {
+  position: fixed;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  z-index: 40;
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  max-width: calc(100vw - 24px);
+  /* The three read as one line or the strip is not worth having: wrapped onto
+     three, "show this word" stops looking like something to press. */
+  flex-wrap: nowrap;
+  padding: 9px 18px;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+.guess-bar { transition: bottom 0.18s ease; }
+.guess-count {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-style: italic;
+  font-size: 0.9rem;
+  color: var(--vizon);
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+.guess-bar .guess-action { flex: 0 0 auto; padding: 2px 0; }
 .guess-action[disabled] { color: var(--rule-strong); cursor: default; }
 .guess-action[disabled]:hover { color: var(--rule-strong); }
+
 
 /* The blank sits on the baseline of the line it interrupts, so the paragraph
    keeps its rhythm while the game is open. */
@@ -88,6 +122,12 @@
   white-space: nowrap;
 }
 
+@media (max-width: 480px) {
+  .guess-bar { gap: 11px; padding: 8px 13px; }
+  .guess-count { font-size: 0.8rem; }
+  .guess-bar .guess-action { font-size: 0.82rem; }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .essay-guess, .guess-action, .guess-input { transition: none; }
+  .essay-guess, .guess-action, .guess-input, .guess-bar { transition: none; }
 }
