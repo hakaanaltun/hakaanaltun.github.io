@@ -116,3 +116,5 @@ jobs:
             _posts/2026-06-11-thinking-is-for-after.html
           git commit -m "Clean up quotation typography"
           git push origin HEAD:${GITHUB_REF_NAME}
+
+# trigger
