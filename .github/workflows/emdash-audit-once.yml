@@ -1,0 +1,59 @@
+name: One-time em dash audit
+
+on:
+  push:
+    paths:
+      - .github/workflows/emdash-audit-once.yml
+
+permissions:
+  contents: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build em dash audit
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          roots = [
+              Path('_posts'), Path('_includes'), Path('_layouts'), Path('_data'),
+              Path('story')
+          ]
+          files = []
+          for root in roots:
+              if root.exists():
+                  files.extend(p for p in root.rglob('*') if p.suffix.lower() in {'.html','.md','.yml','.yaml','.json','.js'})
+          files.extend(p for p in Path('.').glob('*.html'))
+          files.extend(p for p in Path('.').glob('*.md'))
+          for d in Path('.').iterdir():
+              if d.is_dir() and not d.name.startswith('.') and d.name not in {'_site','assets','css','fonts','images','js','node_modules'}:
+                  idx = d / 'index.html'
+                  if idx.exists(): files.append(idx)
+                  idxm = d / 'index.md'
+                  if idxm.exists(): files.append(idxm)
+
+          seen=set(); rows=[]
+          for p in sorted(files, key=lambda x: str(x)):
+              s=str(p)
+              if s in seen: continue
+              seen.add(s)
+              try: text=p.read_text(encoding='utf-8')
+              except Exception: continue
+              for i,line in enumerate(text.splitlines(),1):
+                  if '—' in line or '&mdash;' in line or '&#8212;' in line:
+                      rows.append(f'{s}:{i}: {line}')
+
+          Path('.emdash-audit.txt').write_text('\n'.join(rows)+'\n',encoding='utf-8')
+          PY
+      - name: Commit audit
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .emdash-audit.txt
+          git commit -m "Generate em dash audit"
+          git push origin HEAD:${GITHUB_REF_NAME}
