@@ -1,6 +1,6 @@
 {% assign display_title = include.post.title | replace: "'", "’" %}
 {% assign card_date = include.post.date | date: "%b %-d, %Y" %}
-{% if include.post.story_card and include.post.excerpt %}{% assign excerpt_text = include.post.excerpt %}{% else %}{% assign excerpt_text = include.post.content | strip_html | normalize_whitespace | truncatewords: 32 %}{% endif %}
+{% if include.post.card_excerpt %}{% assign excerpt_text = include.post.card_excerpt | strip_html | normalize_whitespace %}{% elsif include.post.story_card and include.post.excerpt %}{% assign excerpt_text = include.post.excerpt %}{% else %}{% assign excerpt_text = include.post.content | strip_html | normalize_whitespace | truncatewords: 32 %}{% endif %}
 {% if include.post.slug == "collateral" %}{% assign excerpt_text = excerpt_text | replace: "halıcı", "<em>halıcı</em>" %}{% endif %}
 {% if include.post.slug == "on-silence" %}{% assign excerpt_text = excerpt_text | replace: 'This piece also appears in The Fragments as Chapter 8, Moris.', '<em>This piece also appears in The Fragments as Chapter 8, Moris.</em>' %}{% endif %}
 <li class="piece-card{% if include.featured %} is-featured{% endif %}{% if include.post.cover_style == "typographic" %} is-typographic{% endif %}">
