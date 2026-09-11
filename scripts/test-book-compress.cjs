@@ -28,7 +28,7 @@ const BODY = `<style>
   <div class="card" data-rect="544,800,300,60"><a id="carded" href="/y" data-rect="560,812,80,24">Inside</a></div>
 </main>
 <div class="book-compress-wrap">
-  <button class="book-compress" id="book-compress" type="button" hidden>Compress everything</button>
+  <button class="book-compress" id="book-compress" type="button" aria-label="Compress everything" data-rect="616,860,48,48" hidden><span class="book-compress-seed" data-rect="636,880,7,7"></span></button>
 </div>`;
 
 function build({ reduced = false, animations = true, body = BODY, random = null } = {}) {
@@ -114,7 +114,12 @@ async function main() {
     const pieces = [...kit.d.querySelectorAll('.book-compress-piece')];
     const tags = pieces.map(piece => piece.firstElementChild.tagName);
     const text = pieces.map(piece => piece.firstElementChild.textContent.replace(/\s+/g, ' ').trim());
-    assert.deepEqual(tags, ['HEADER', 'H1', 'P', 'A', 'CANVAS', 'A']);
+    assert.deepEqual(tags, ['HEADER', 'H1', 'P', 'A', 'CANVAS', 'A'],
+      'the trigger has a box of its own and still does not travel');
+    assert.equal(pieces.filter(p => p.firstElementChild.tagName === 'BUTTON').length, 0,
+      'the dot is what everything falls into, so it is not one of the things falling');
+    assert.equal(pieces.filter(p => p.firstElementChild.className === 'book-compress-seed').length, 0,
+      'nor is the mark inside it lifted out on its own');
     assert.equal(text[0], 'Notes Book', 'the band comes along whole, not as one piece per link');
     assert.equal(text.filter(t => t === 'Notes').length, 0, 'a link inside a captured band is not its own piece');
     assert.equal(text.filter(t => t === 'Symmetry').length, 0, 'a span inside a captured p is not its own piece');
@@ -123,6 +128,42 @@ async function main() {
     // The copy is placed at the rect it was measured at, not at its old offset.
     assert.equal(pieces[1].style.left, '544px');
     assert.equal(pieces[1].style.width, '240px');
+  }
+
+  // Everything aims at the dot rather than at the middle of the screen, and the
+  // point is drawn at the same coordinates the fall is aimed at. The fixture's
+  // trigger sits at 616,860 and is 48 square, so its middle is 640,884 — well
+  // away from the 640,450 centre of the 1280x900 viewport, which is what a bug
+  // here would fall back to.
+  {
+    const kit = await captured();
+    const scene = kit.scene;
+    assert.equal(scene.style.getPropertyValue('--book-compress-x'), '640px');
+    assert.equal(scene.style.getPropertyValue('--book-compress-y'), '884px');
+    // The h1 sits at 544,250 and is 240x44, so its middle is 664,272: it has
+    // to travel -24 across and +612 down to reach the dot.
+    const pieces = [...kit.d.querySelectorAll('.book-compress-piece')];
+    const h1 = kit.recorded.find(a => a.target === pieces[1]);
+    const landed = h1.frames[h1.frames.length - 1].transform;
+    const [dx, dy] = landed.match(/translate\(([-\d.]+)px,([-\d.]+)px\)/).slice(1).map(Number);
+    assert.ok(Math.abs(dx - -24) < 60, `across: ${dx}`);
+    assert.ok(Math.abs(dy - 612) < 60, `down: ${dy}`);
+  }
+
+  // The point holds its place and its opacity is never taken to zero: it is the
+  // page's own dot standing still, not something the scene fades in and out.
+  {
+    // Driven all the way through the fall: the point's own beat belongs to the
+    // closing, which does not exist until the flight has settled.
+    const kit = build();
+    kit.trigger.click();
+    await kit.run();
+    const pointAnimations = kit.recorded.filter(a => a.target === kit.d.querySelector('.book-compress-point'));
+    assert.ok(pointAnimations.length > 0, 'the point is animated at all');
+    const opacities = pointAnimations.flatMap(a => a.frames.map(f => f.opacity));
+    assert.equal(opacities.filter(o => o === 0).length, 0, 'the dot never blinks out');
+    const transforms = pointAnimations.flatMap(a => a.frames.map(f => f.transform)).filter(Boolean);
+    assert.equal(transforms.length, 0, 'and it is never moved');
   }
 
   // A fragment lifted off a coloured surface keeps the ground it was written
