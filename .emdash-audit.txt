@@ -15,37 +15,37 @@ _data/shelves.yml:1: # _data/shelves.yml — the three shelves the instruments g
 _data/tools.yml:1: # _data/tools.yml — the single catalogue of the instruments.
 _data/tools.yml:4: #   * /tools/ — the visible list and its ItemList schema (tools.html)
 _data/tools.yml:25: #   post      optional — one piece from the writing: { url, title }
-_data/tools.yml:30:   listname: "The Page—A Blank Page for Distraction-Free Writing"
+_data/tools.yml:30:   listname: "The Page — A Blank Page for Distraction-Free Writing"
 _data/tools.yml:31:   card: "A blank page to write on. Garamond type, a word count, fullscreen, autosave&mdash;and nothing else."
-_data/tools.yml:39:   listname: "The Draw—A Blank Page to Draw On"
+_data/tools.yml:39:   listname: "The Draw — A Blank Page to Draw On"
 _data/tools.yml:40:   card: "A blank page to draw on&mdash;mouse, finger or stylus, with pressure. Four inks, undo, autosave and a PNG download."
-_data/tools.yml:47:   listname: "The Counter—Word Counter with Reading Time & Readability"
+_data/tools.yml:47:   listname: "The Counter — Word Counter with Reading Time & Readability"
 _data/tools.yml:48:   card: "A word counter: words, characters, sentences, paragraphs, reading and speaking time, plus readability&mdash;counted live as you type or paste."
-_data/tools.yml:55:   listname: "The Marks—Em Dash, Curly Quotes & Other Typographic Characters to Copy"
+_data/tools.yml:55:   listname: "The Marks — Em Dash, Curly Quotes & Other Typographic Characters to Copy"
 _data/tools.yml:56:   card: "Typographic characters&mdash;em dash, curly quotes, thin space and the rest&mdash;click any of them to copy it."
-_data/tools.yml:63:   listname: "The Clean—Fix Quotes, Dashes & Spaces in Pasted Text"
+_data/tools.yml:63:   listname: "The Clean — Fix Quotes, Dashes & Spaces in Pasted Text"
 _data/tools.yml:64:   card: "Pasted text set right: quotes curled, double hyphens turned into dashes, stray spaces and invisible characters removed&mdash;with case conversion that handles Turkish correctly."
-_data/tools.yml:71:   listname: "The List—Sort, Shuffle, Deduplicate & Number Lines Online"
+_data/tools.yml:71:   listname: "The List — Sort, Shuffle, Deduplicate & Number Lines Online"
 _data/tools.yml:72:   card: "Lines put in order: sorted, shuffled, reversed, deduplicated, numbered, or turned from commas into lines and back&mdash;with alphabetizing that handles Turkish correctly."
-_data/tools.yml:79:   listname: "The Lots—Random Name Picker & Group Maker for Classrooms"
+_data/tools.yml:79:   listname: "The Lots — Random Name Picker & Group Maker for Classrooms"
 _data/tools.yml:80:   card: "A name draw for classrooms and meetings: paste a list, draw one name at random&mdash;sized for the projector&mdash;or divide the list into groups."
-_data/tools.yml:87:   listname: "The Diff—Compare Two Texts Online"
+_data/tools.yml:87:   listname: "The Diff — Compare Two Texts Online"
 _data/tools.yml:88:   card: "Two texts compared word by word&mdash;every addition and removal, for writers checking drafts."
-_data/tools.yml:95:   listname: "The Desk—Read, Write and Draw Side by Side"
-_data/tools.yml:103:   listname: "The Reader—Read Your Own Text, Markdown, PDF, EPUB & Word Files, Distraction-Free"
+_data/tools.yml:95:   listname: "The Desk — Read, Write and Draw Side by Side"
+_data/tools.yml:103:   listname: "The Reader — Read Your Own Text, Markdown, PDF, EPUB & Word Files, Distraction-Free"
 _data/tools.yml:104:   card: "A distraction-free page to read your own files in&mdash;plain text, Markdown, PDF, EPUB and Word, with rain and a light that follows the sky. Nothing is uploaded; only your place is kept."
-_data/tools.yml:111:   listname: "The Clock—Fullscreen Clock, Countdown, Stopwatch & Pomodoro"
+_data/tools.yml:111:   listname: "The Clock — Fullscreen Clock, Countdown, Stopwatch & Pomodoro"
 _data/tools.yml:112:   card: "A fullscreen clock, countdown, stopwatch and pomodoro. Large numerals, an analog view&mdash;made for classrooms, exams and focused work."
-_data/tools.yml:119:   listname: "The Prompter—Ad-free Online Teleprompter with Mirroring"
+_data/tools.yml:119:   listname: "The Prompter — Ad-free Online Teleprompter with Mirroring"
 _data/tools.yml:120:   card: "A fullscreen teleprompter: paste your script, set the pace, and read. Mirroring, large type, keyboard and remote control&mdash;for lectures, videos and speeches."
-_data/tools.yml:127:   listname: "The Noise—White, Pink & Brown Noise, and Rain"
+_data/tools.yml:127:   listname: "The Noise — White, Pink & Brown Noise, and Rain"
 _data/tools.yml:128:   card: "White, pink and brown noise, and steady rain&mdash;generated live, with a volume dial and a sleep timer."
-_data/tools.yml:136:   listname: "The Breath—Box, 4-7-8 & Coherent Breathing"
+_data/tools.yml:136:   listname: "The Breath — Box, 4-7-8 & Coherent Breathing"
 _data/tools.yml:137:   card: "A guided breathing exercise&mdash;box, 4-7-8 and coherent breathing, paced by a slowly swelling circle."
-_data/tools.yml:145:   listname: "Twilight—Sunrise, Sunset & Civil Twilight Today"
-_data/tools.yml:154:   listname: "The Moon—Moon Phase Today"
-_data/tools.yml:162:   listname: "The Season—Days Until the Next Solstice or Equinox"
-_data/tools.yml:170:   listname: "The Days—Days Between Dates, Weekday of Any Date & Day of the Year"
+_data/tools.yml:145:   listname: "Twilight — Sunrise, Sunset & Civil Twilight Today"
+_data/tools.yml:154:   listname: "The Moon — Moon Phase Today"
+_data/tools.yml:162:   listname: "The Season — Days Until the Next Solstice or Equinox"
+_data/tools.yml:170:   listname: "The Days — Days Between Dates, Weekday of Any Date & Day of the Year"
 _data/tools.yml:171:   card: "Date arithmetic: days between two dates—in weeks, months and years—the weekday of any date, and where today stands in the year."
 _includes/all-work-row.html:3: list itself — the rows carry no numbers. {% endcomment %}
 _includes/all-work-row.html:16:       {% comment %} The row thumb renders at 116px (86px on phones) — the 480px
@@ -60,19 +60,19 @@ _includes/head.html:33: chrome hexes live in three places — css/palettes.css, 
 _includes/head.html:34: CHROME map in js/palettes.js — keep the three in sync. {% endcomment %}
 _includes/head.html:52: headline — "Handled", "Michi", "Measured" — with nothing in a search
 _includes/head.html:54: already carried the site. One suffix everywhere now — the site's name, not
-_includes/head.html:55: the author's, joined by a closed-up em dash: "Handled—On Life & Everything".
-_includes/head.html:58: <title>{{ page.title }}&mdash;On Life &amp; Everything</title>
-_includes/head.html:70: <meta property="og:title" content="{{ page.title }}—On Life &amp; Everything">
+_includes/head.html:55: the author's, joined by a spaced em dash: "Handled—On Life & Everything".
+_includes/head.html:58: <title>{{ page.title }} &mdash; On Life &amp; Everything</title>
+_includes/head.html:70: <meta property="og:title" content="{{ page.title }} — On Life &amp; Everything">
 _includes/head.html:73: never renders as the essay cover — post.html reads only image/thumb. Used by
-_includes/head.html:78: <meta property="og:image:alt" content="{{ page.title | escape }}—On Life &amp; Everything">
-_includes/head.html:88: <meta name="twitter:title" content="{{ page.title }}—On Life &amp; Everything">
-_includes/head.html:91: <meta name="twitter:image:alt" content="{{ page.title | escape }}—On Life &amp; Everything">
+_includes/head.html:78: <meta property="og:image:alt" content="{{ page.title | escape }} — On Life &amp; Everything">
+_includes/head.html:88: <meta name="twitter:title" content="{{ page.title }} — On Life &amp; Everything">
+_includes/head.html:91: <meta name="twitter:image:alt" content="{{ page.title | escape }} — On Life &amp; Everything">
 _includes/head.html:284: sets one writes the "—On Life & Everything" suffix into it itself. {% endcomment %}
-_includes/head.html:285: {% if page.seo_title %}<title>{{ page.seo_title }}</title>{% else %}<title>{{ page.title }}&mdash;On Life &amp; Everything</title>{% endif %}
-_includes/head.html:297: <meta property="og:title" content="{% if page.seo_title %}{{ page.seo_title }}{% else %}{{ page.title }}&mdash;On Life &amp; Everything{% endif %}">
-_includes/head.html:300: <meta property="og:image:alt" content="{{ page.title | escape }}—On Life &amp; Everything">
-_includes/head.html:307: <meta name="twitter:title" content="{% if page.seo_title %}{{ page.seo_title }}{% else %}{{ page.title }}&mdash;On Life &amp; Everything{% endif %}">
-_includes/head.html:310: <meta name="twitter:image:alt" content="{{ page.title | escape }}—On Life &amp; Everything">
+_includes/head.html:285: {% if page.seo_title %}<title>{{ page.seo_title }}</title>{% else %}<title>{{ page.title }} &mdash; On Life &amp; Everything</title>{% endif %}
+_includes/head.html:297: <meta property="og:title" content="{% if page.seo_title %}{{ page.seo_title }}{% else %}{{ page.title }} &mdash; On Life &amp; Everything{% endif %}">
+_includes/head.html:300: <meta property="og:image:alt" content="{{ page.title | escape }} — On Life &amp; Everything">
+_includes/head.html:307: <meta name="twitter:title" content="{% if page.seo_title %}{{ page.seo_title }}{% else %}{{ page.title }} &mdash; On Life &amp; Everything{% endif %}">
+_includes/head.html:310: <meta name="twitter:image:alt" content="{{ page.title | escape }} — On Life &amp; Everything">
 _includes/head.html:322: {% comment %} Fonts are self-hosted (see /fonts/ and css/fonts.css) — no
 _includes/head.html:328: Georgia first and reflowed. Latin only, matching the body preload above —
 _includes/home-scripts.html:101:         qs.textContent = '— ';
@@ -122,7 +122,7 @@ _includes/tool-links.html:5:   /tools/, and — when the entry names one — a p
 _includes/tool-links.html:8: <p class="notes-links">More instruments: {% for _rs in _t.related %}{%- assign _r = site.data.tools | where: "slug", _rs | first -%}<a href="/{{ _r.slug }}/">{{ _r.line }}</a>{% if forloop.rindex == 2 %} and {% elsif forloop.last == false %}, {% endif %}{% endfor %}&mdash;or see <a href="/tools/">all of them</a>.{% if _t.post %} From the writing: <a href="{{ _t.post.url }}">{{ _t.post.title }}</a>.{% endif %}</p>
 _layouts/post.html:15: {% comment %} "Read with rain" — /noise/'s synthesized rain, quietly behind
 _layouts/post.html:24: leave the document without an h1 — give screen readers one. {% endcomment %}
-_layouts/post.html:25: <h1 class="visually-hidden">{{ page.title }}&mdash;{{ page.story_clock }}</h1>
+_layouts/post.html:25: <h1 class="visually-hidden">{{ page.title }} &mdash; {{ page.story_clock }}</h1>
 _layouts/post.html:74: {% comment %} Story pages ("The Notice") end on a choice or the hidden doorbox —
 _posts/2026-02-10-say-hello.html:50:     <p>An ego state is a consistent set of feelings, thoughts, and related behaviors. We switch between three distinct ego states constantly, and use them to interact with the outside world or to hold conversations—sometimes endless ones while staring at the ceiling in bed—with ourselves. While inspired by Freud’s psychoanalytic model, these states functionally categorize a person’s internal world:</p>
 _posts/2026-02-10-say-hello.html:53:         <li><b>Child Ego State</b>—The present-day manifestation of the emotions, thoughts, and behavior patterns a person experienced as a child.</li>
@@ -371,7 +371,7 @@ _posts/2026-06-27-the-lines-between-us.html:232: <p>I did not go home. I walked 
 _posts/2026-06-27-the-lines-between-us.html:235: <p>But he had. He had looked at nothing else&mdash;at my hands, at the glass, in rooms he had already left. I had looked up too. I had seen him see me.</p>
 _posts/2026-06-27-the-lines-between-us.html:242: <p style="text-align: right; margin-top: 2em; font-style: italic;">&mdash;Z.</p>
 _posts/2026-07-05-the-notice.html:3: #   - this post: the card/metadata representative — it feeds the home doorway,
-_posts/2026-07-05-the-notice.html:38: <title>The Notice&mdash;On Life &amp; Everything</title>
+_posts/2026-07-05-the-notice.html:38: <title>The Notice &mdash; On Life &amp; Everything</title>
 _posts/2026-07-25-it-was-not-a-question.html:55: <p>The coats lay on a bed in a pile—dark wool, cheap satin capes, one feather boa. Light from the hall reached the bed in a triangle, and in the triangle a camel sleeve. He pulled the coat free.</p>
 _posts/2026-07-25-it-was-not-a-question.html:67: <p>“Why haven’t you answered?” the woman said. “I’m standing here—” Her voice changed gears. “Damn you. God damn you, Serkan.”</p>
 _posts/2026-08-29-measured.html:48: <p class="measured-scene">08:10—Veska</p>
@@ -422,32 +422,32 @@ _posts/2026-08-29-measured.html:512: <strong>Komplo teorisyeni—bütün parçal
 _posts/2026-08-29-measured.html:514: <p><strong>08:10—Washington</strong><br><strong>13:55—London</strong><br><strong>21:20—Beijing</strong></p>
 about.html:21:       <p>I teach at Yeditepe University in İstanbul—a city that insists on being looked at.</p>
 about.html:23:       <p>Most of what I explore lives in the gap between what I feel and what I allow myself to name. Defense mechanisms, the weight of unfinished things, the unwilling negotiations I have with my own reflection—the corridors I keep returning to.</p>
-admin/index.html:11: <title>Content Manager&mdash;On Life &amp; Everything</title>
+admin/index.html:11: <title>Content Manager &mdash; On Life &amp; Everything</title>
 all-work.html:8: description: "Everything on the site—short fiction and essays, newest first."
 book.html:6: description: "The Fragments—a novel of forgetting and remembering, of betrayal and longing, of a silver watch that survives time."
-breathe/index.html:9: <title>Breathing Exercise&mdash;Box, 4-7-8 &amp; Coherent Breathing &middot; On Life &amp; Everything</title>
-breathe/index.html:13: <meta property="og:title" content="Breathing Exercise—Box, 4-7-8 &amp; Coherent Breathing">
-breathe/index.html:17: <meta property="og:image:alt" content="The Breath—a guided breathing exercise">
-breathe/index.html:21: <meta name="twitter:title" content="Breathing Exercise—Box, 4-7-8 &amp; Coherent Breathing">
-breathe/index.html:31:   "name": "The Breath—A Guided Breathing Exercise",
+breathe/index.html:9: <title>Breathing Exercise &mdash; Box, 4-7-8 &amp; Coherent Breathing &middot; On Life &amp; Everything</title>
+breathe/index.html:13: <meta property="og:title" content="Breathing Exercise — Box, 4-7-8 &amp; Coherent Breathing">
+breathe/index.html:17: <meta property="og:image:alt" content="The Breath — a guided breathing exercise">
+breathe/index.html:21: <meta name="twitter:title" content="Breathing Exercise — Box, 4-7-8 &amp; Coherent Breathing">
+breathe/index.html:31:   "name": "The Breath — A Guided Breathing Exercise",
 breathe/index.html:67:   /* the ampersand the site uses — the display italic, as in the header logo */
 breathe/index.html:180:   /* notes — reading matter under the exercise */
-breathe/index.html:218:     <a class="masthead" href="/" aria-label="On Life &amp; Everything—home">
+breathe/index.html:218:     <a class="masthead" href="/" aria-label="On Life &amp; Everything — home">
 breathe/index.html:257:       <p>A guided breathing exercise. Choose a pattern&mdash;box breathing, 4-7-8, or coherent breathing&mdash;press begin, and follow the circle: it swells as you breathe in, rests while you hold, and empties as you breathe out, with the count kept for you. Take it fullscreen to clear everything else away; the rounds are tallied so you know when a few is enough.</p>
 breathe/index.html:267:       <p>Even five-count breaths in and out&mdash;about six breaths a minute, with no holds. It is the gentlest of the three and comfortable to keep up for several minutes.</p>
-clean/index.html:9: <title>Fix Quotes, Dashes &amp; Spaces in Pasted Text&mdash;Turkish-Aware Case Converter &middot; On Life &amp; Everything</title>
+clean/index.html:9: <title>Fix Quotes, Dashes &amp; Spaces in Pasted Text &mdash; Turkish-Aware Case Converter &middot; On Life &amp; Everything</title>
 clean/index.html:10: <meta name="description" content="Paste a draft and get it back with proper typography: straight quotes curled, -- and --- turned into dashes, three dots into an ellipsis, doubled spaces and invisible characters removed—plus lowercase, UPPERCASE, sentence case and title case that handle Turkish i/İ and ı/I correctly.">
-clean/index.html:13: <meta property="og:title" content="The Clean—Fix Quotes, Dashes &amp; Spaces in Pasted Text">
+clean/index.html:13: <meta property="og:title" content="The Clean — Fix Quotes, Dashes &amp; Spaces in Pasted Text">
 clean/index.html:14: <meta property="og:description" content="Straight quotes curled, dashes and ellipses set right, stray spaces and invisible characters removed—plus Turkish-aware case conversion.">
-clean/index.html:17: <meta property="og:image:alt" content="The Clean—fix quotes, dashes & spaces in pasted text">
-clean/index.html:21: <meta name="twitter:title" content="The Clean—Fix Quotes, Dashes &amp; Spaces in Pasted Text">
+clean/index.html:17: <meta property="og:image:alt" content="The Clean — fix quotes, dashes & spaces in pasted text">
+clean/index.html:21: <meta name="twitter:title" content="The Clean — Fix Quotes, Dashes &amp; Spaces in Pasted Text">
 clean/index.html:22: <meta name="twitter:description" content="Straight quotes curled, dashes and ellipses set right, stray spaces and invisible characters removed—plus Turkish-aware case conversion.">
-clean/index.html:32:   "name": "The Clean—Fix Quotes, Dashes & Spaces in Pasted Text, with Turkish-Aware Case Conversion",
+clean/index.html:32:   "name": "The Clean — Fix Quotes, Dashes & Spaces in Pasted Text, with Turkish-Aware Case Conversion",
 clean/index.html:34:   "description": "Paste a draft and get it back with proper typography: straight quotes curled, -- and --- turned into dashes, three dots into an ellipsis, doubled spaces and invisible characters removed—plus lowercase, UPPERCASE, sentence case and title case that handle Turkish i/İ and ı/I correctly.",
 clean/index.html:87:   /* the ampersand the site uses — the display italic, as in the header logo */
 clean/index.html:146:   /* the paper — as on /write/ */
 clean/index.html:204:   /* notes — reading matter under the instrument */
-clean/index.html:245:     <a class="masthead" href="/" aria-label="On Life &amp; Everything—home">
+clean/index.html:245:     <a class="masthead" href="/" aria-label="On Life &amp; Everything — home">
 clean/index.html:276:     <p class="lede">Pasted text set right&mdash;curly quotes, real dashes, single spaces, Turkish-aware case.</p>
 clean/index.html:287:         <label class="rule"><input type="checkbox" id="ruleQuotes" checked> <span>Curl quotes <span class="hint">&mdash;" " and ' ' to &ldquo; &rdquo; and &lsquo; &rsquo;, apostrophes and elisions to &rsquo;, wrong-facing quotes turned</span></span></label>
 clean/index.html:288:         <label class="rule"><input type="checkbox" id="ruleDashes" checked> <span>Set dashes <span class="hint">&mdash;-- to &ndash;, --- to &mdash;, 1914-1918 to 1914&ndash;1918</span></span></label>
@@ -471,29 +471,29 @@ clean/index.html:540:     report.textContent = parts.length ? parts.join(" · ")
 clean/index.html:593:                     /[.!?…:—]["'’”)\]]*\s*$/.test(tail) ||
 clock/index.html:10: <meta name="description" content="A clean, ad-free fullscreen clock with a countdown, stopwatch and pomodoro timer. Large tabular numerals, an analog view, and a distraction-free display—made for classrooms, exams and focused work.">
 clock/index.html:14: <meta property="og:description" content="A clean, ad-free fullscreen clock with a countdown, stopwatch and pomodoro timer—distraction-free, made for classrooms, exams and focused work.">
-clock/index.html:17: <meta property="og:image:alt" content="The Clock—a fullscreen clock, countdown, stopwatch and pomodoro">
+clock/index.html:17: <meta property="og:image:alt" content="The Clock — a fullscreen clock, countdown, stopwatch and pomodoro">
 clock/index.html:22: <meta name="twitter:description" content="A clean, ad-free fullscreen clock with a countdown, stopwatch and pomodoro timer—distraction-free, made for classrooms, exams and focused work.">
-clock/index.html:31:   "name": "The Clock—Fullscreen Clock, Countdown, Stopwatch & Pomodoro",
+clock/index.html:31:   "name": "The Clock — Fullscreen Clock, Countdown, Stopwatch & Pomodoro",
 clock/index.html:33:   "description": "A clean, ad-free fullscreen clock with a countdown, stopwatch and pomodoro timer. Large tabular numerals, an analog view, and a distraction-free display—made for classrooms, exams and focused work.",
 clock/index.html:69:   /* the ampersand the site uses — the display italic, as in the header logo */
 clock/index.html:157:   /* multi-day countdowns carry more characters — give them a smaller cloth */
 clock/index.html:217:   /* logo — centered at top, like the site header */
 clock/index.html:230:   /* seconds toggle — bottom-left */
 clock/index.html:249:   /* notes — reading matter under the instrument */
-clock/index.html:330:     <a class="masthead" href="/" aria-label="On Life &amp; Everything—home">
+clock/index.html:330:     <a class="masthead" href="/" aria-label="On Life &amp; Everything — home">
 clock/index.html:437:       <p>Yes. The countdown and the pomodoro aim at a fixed end time and the stopwatch remembers when it started, so a reload&mdash;or a laptop going to sleep&mdash;picks up exactly where you left off.</p>
 clock/index.html:494:   /* ---- end-of-timer chime: one soft two-note bell, synthesized live —
 days/index.html:10: <meta name="description" content="Count the days between two dates—the same span as weeks, as months and as years—find the weekday of any date, and see where today stands in the year: day of the year, ISO week and days remaining. Ad-free.">
-days/index.html:13: <meta property="og:title" content="The Days—Days Between Dates, Weekday of Any Date &amp; Day of the Year">
+days/index.html:13: <meta property="og:title" content="The Days — Days Between Dates, Weekday of Any Date &amp; Day of the Year">
 days/index.html:14: <meta property="og:description" content="Date arithmetic: days between two dates—in weeks, months and years—the weekday of any date, and where today stands in the year.">
-days/index.html:17: <meta property="og:image:alt" content="The Days—days between dates, weekday of any date & day of the year">
-days/index.html:21: <meta name="twitter:title" content="The Days—Days Between Dates, Weekday of Any Date &amp; Day of the Year">
+days/index.html:17: <meta property="og:image:alt" content="The Days — days between dates, weekday of any date & day of the year">
+days/index.html:21: <meta name="twitter:title" content="The Days — Days Between Dates, Weekday of Any Date &amp; Day of the Year">
 days/index.html:22: <meta name="twitter:description" content="Date arithmetic: days between two dates—in weeks, months and years—the weekday of any date, and where today stands in the year.">
-days/index.html:32:   "name": "The Days—Days Between Dates, Weekday of Any Date & Day of the Year",
+days/index.html:32:   "name": "The Days — Days Between Dates, Weekday of Any Date & Day of the Year",
 days/index.html:34:   "description": "Count the days between two dates—the same span as weeks, as months and as years—find the weekday of any date, and see where today stands in the year: day of the year, ISO week and days remaining. Ad-free.",
 days/index.html:87:   /* the ampersand the site uses — the display italic, as in the header logo */
 days/index.html:197:   /* notes — reading matter under the instrument */
-days/index.html:235:     <a class="masthead" href="/" aria-label="On Life &amp; Everything—home">
+days/index.html:235:     <a class="masthead" href="/" aria-label="On Life &amp; Everything — home">
 days/index.html:266:     <p class="lede">Date arithmetic&mdash;days between dates, weekdays, and where the year stands.</p>
 days/index.html:284:         <div class="big" id="betweenBig">&mdash;</div>
 days/index.html:296:         <div class="big" id="weekdayBig"><i>&mdash;</i></div>
@@ -504,19 +504,19 @@ days/index.html:322:       <p>The result is the difference between the two dates
 days/index.html:376:   /* the same span again, the whole months gathered into years — read off
 days/index.html:409:       betweenBig.innerHTML = "&mdash;";
 days/index.html:444:       weekdayBig.innerHTML = "<i>&mdash;</i>";
-desk/index.html:52:   <a class="masthead" href="/" aria-label="On Life & Everything—home">
-diff/index.html:9: <title>Compare Two Texts&mdash;An Ad-free Diff for Drafts &middot; On Life &amp; Everything</title>
+desk/index.html:52:   <a class="masthead" href="/" aria-label="On Life & Everything — home">
+diff/index.html:9: <title>Compare Two Texts &mdash; An Ad-free Diff for Drafts &middot; On Life &amp; Everything</title>
 diff/index.html:10: <meta name="description" content="Compare two texts or drafts online: paste a before and an after, and see every word added or removed—for writers checking revisions.">
-diff/index.html:13: <meta property="og:title" content="The Diff—Compare Two Texts Online, Ad-free">
+diff/index.html:13: <meta property="og:title" content="The Diff — Compare Two Texts Online, Ad-free">
 diff/index.html:14: <meta property="og:description" content="Paste a before and an after and see every word added or removed—for writers checking revisions.">
-diff/index.html:17: <meta property="og:image:alt" content="The Diff—compare two texts online">
-diff/index.html:21: <meta name="twitter:title" content="The Diff—Compare Two Texts Online, Ad-free">
+diff/index.html:17: <meta property="og:image:alt" content="The Diff — compare two texts online">
+diff/index.html:21: <meta name="twitter:title" content="The Diff — Compare Two Texts Online, Ad-free">
 diff/index.html:22: <meta name="twitter:description" content="Paste a before and an after and see every word added or removed—for writers checking revisions.">
-diff/index.html:32:   "name": "The Diff—Compare Two Texts Online",
+diff/index.html:32:   "name": "The Diff — Compare Two Texts Online",
 diff/index.html:34:   "description": "Compare two texts or drafts online: paste a before and an after, and see every word added or removed—for writers checking revisions.",
 diff/index.html:90:   /* the ampersand the site uses — the display italic, as in the header logo */
 diff/index.html:197:   /* notes — quiet reading matter under the instrument */
-diff/index.html:236:     <a class="masthead" href="/" aria-label="On Life &amp; Everything—home">
+diff/index.html:236:     <a class="masthead" href="/" aria-label="On Life &amp; Everything — home">
 diff/index.html:299:       <p>Two texts, compared: paste yesterday&rsquo;s draft on one side and today&rsquo;s on the other, press compare, and read the revision as one text&mdash;what was cut struck through in a muted tone, what arrived resting on a faint warm tint. After the first comparison the result follows your edits on its own.</p>
 diff/index.html:303:       <p>Nowhere. Both texts are compared entirely in this browser and kept only in its local storage so an accidental tab close loses nothing&mdash;they are never uploaded or sent anywhere.</p>
 diff/index.html:312:       <p>Yes&mdash;that is what the page is for. Paste the earlier draft on the left and the later one on the right, and the result shows the revision as a reader would see it.</p>
@@ -524,20 +524,20 @@ diff/index.html:330:      Returns a list of [op, token] with op -1 removed, 0 ke
 diff/index.html:333:     /* strip the common head and tail first — typical drafts share most of both */
 diff/index.html:373:     return null;   /* the texts differ by more than the cap — caller falls back */
 diff/index.html:533:   /* ---- persistence (local only — nothing leaves the page) ---- */
-draw/index.html:9: <title>A Blank Page to Draw On&mdash;Ad-free &amp; Private &middot; On Life &amp; Everything</title>
+draw/index.html:9: <title>A Blank Page to Draw On &mdash; Ad-free &amp; Private &middot; On Life &amp; Everything</title>
 draw/index.html:10: <meta name="description" content="An ad-free page to draw on—mouse, finger or stylus, with pressure. Four inks, three widths, undo, autosave and a PNG download.">
-draw/index.html:13: <meta property="og:title" content="The Draw—A Blank Page to Draw On, Ad-free &amp; Private">
+draw/index.html:13: <meta property="og:title" content="The Draw — A Blank Page to Draw On, Ad-free &amp; Private">
 draw/index.html:14: <meta property="og:description" content="An ad-free page to draw on—mouse, finger or stylus, with pressure. Four inks, undo, autosave and a PNG download.">
-draw/index.html:17: <meta property="og:image:alt" content="The Draw—a blank page to draw on">
-draw/index.html:21: <meta name="twitter:title" content="The Draw—A Blank Page to Draw On, Ad-free &amp; Private">
+draw/index.html:17: <meta property="og:image:alt" content="The Draw — a blank page to draw on">
+draw/index.html:21: <meta name="twitter:title" content="The Draw — A Blank Page to Draw On, Ad-free &amp; Private">
 draw/index.html:22: <meta name="twitter:description" content="An ad-free page to draw on—mouse, finger or stylus, with pressure. Four inks, undo, autosave and a PNG download.">
-draw/index.html:31:   "name": "The Draw—A Blank Page to Draw On",
+draw/index.html:31:   "name": "The Draw — A Blank Page to Draw On",
 draw/index.html:33:   "description": "An ad-free page to draw on—mouse, finger or stylus, with pressure. Four inks, three widths, undo, autosave and a PNG download.",
 draw/index.html:68:   /* the ampersand the site uses — the display italic, as in the header logo */
 draw/index.html:138:   /* the toolbox — a corner bar, in the site's chrome style */
 draw/index.html:190:   /* storage notice — when the drawing outgrows autosave */
 draw/index.html:211:   /* notes — reading matter under the paper */
-draw/index.html:244:     <a class="masthead" href="/" aria-label="On Life &amp; Everything—home">
+draw/index.html:244:     <a class="masthead" href="/" aria-label="On Life &amp; Everything — home">
 draw/index.html:261:     <canvas id="paper" aria-label="Drawing surface—draw with your mouse, finger or stylus"></canvas>
 draw/index.html:302:       <p>A blank page for the hand instead of the keyboard&mdash;the sibling of <a href="/write/">The Page</a>. Draw with a mouse, a finger or a stylus; where the hardware reports pressure, the line answers it. Four inks from the site&rsquo;s own shelf, three widths, an eraser and an undo, and the page keeps your drawing as you work. When something is worth keeping, the download button hands it over as a PNG.</p>
 draw/index.html:309:       <p>Yes&mdash;a moment after the pen lifts, and again when you leave. A very long drawing can outgrow the browser&rsquo;s storage allowance; if that happens the drawing stays whole on screen, autosave stops for the session, and a notice asks you to download it&mdash;so nothing you drew is ever thrown away.</p>
@@ -545,24 +545,24 @@ draw/index.html:312:       <p>Yes. The page listens to pen, touch and mouse alik
 draw/index.html:426:   /* ---- autosave (local only — nothing leaves the page) ---- */
 draw/index.html:435:          memory — autosave simply stops for the session and a notice asks
 draw/index.html:594:   /* chrome peeks on mouse or touch — but never mid-stroke, so drawing stays undisturbed */
-index.html:5: <h1 class="visually-hidden">On Life &amp; Everything&mdash;Hakan Altun</h1>
+index.html:5: <h1 class="visually-hidden">On Life &amp; Everything &mdash; Hakan Altun</h1>
 index.html:84:     to be assembled entirely client-side, so without JavaScript — and to a
 index.html:85:     crawler that does not run it — "Further back" was a heading over an empty
 index.html:122:     that has a date line to print — a pinned note drops its own. Drafts are
 index.html:142:   <p class="home-instruments-line">A <a href="/clock/">fullscreen clock</a>, a <a href="/write/">blank page to write on</a>, a <a href="/prompt/">teleprompter</a>, <a href="/noise/">noise and rain</a>, <a href="/twilight/">&#304;stanbul&rsquo;s twilight</a>&mdash;{{ site.data.tools | size }} instruments for work, calm, and focus.</p>
-list/index.html:9: <title>Sort, Shuffle, Deduplicate &amp; Number Lines Online&mdash;A Tidier for Lists &middot; On Life &amp; Everything</title>
+list/index.html:9: <title>Sort, Shuffle, Deduplicate &amp; Number Lines Online &mdash; A Tidier for Lists &middot; On Life &amp; Everything</title>
 list/index.html:10: <meta name="description" content="Paste a list and put it in order: sort A to Z or Z to A with numbers handled sensibly, shuffle, reverse, remove duplicate or blank lines, number the lines, and switch between commas and lines—with alphabetizing that handles Turkish correctly. Ad-free.">
-list/index.html:13: <meta property="og:title" content="The List—Sort, Shuffle, Deduplicate &amp; Number Lines Online">
+list/index.html:13: <meta property="og:title" content="The List — Sort, Shuffle, Deduplicate &amp; Number Lines Online">
 list/index.html:14: <meta property="og:description" content="Lines put in order: sorted, shuffled, reversed, deduplicated, numbered, or turned from commas into lines and back—with Turkish-aware alphabetizing.">
-list/index.html:17: <meta property="og:image:alt" content="The List—sort, shuffle, deduplicate &amp; number lines online">
-list/index.html:21: <meta name="twitter:title" content="The List—Sort, Shuffle, Deduplicate &amp; Number Lines Online">
+list/index.html:17: <meta property="og:image:alt" content="The List — sort, shuffle, deduplicate &amp; number lines online">
+list/index.html:21: <meta name="twitter:title" content="The List — Sort, Shuffle, Deduplicate &amp; Number Lines Online">
 list/index.html:22: <meta name="twitter:description" content="Lines put in order: sorted, shuffled, reversed, deduplicated, numbered, or turned from commas into lines and back—with Turkish-aware alphabetizing.">
-list/index.html:32:   "name": "The List—Sort, Shuffle, Deduplicate & Number Lines Online",
+list/index.html:32:   "name": "The List — Sort, Shuffle, Deduplicate & Number Lines Online",
 list/index.html:34:   "description": "Paste a list and put it in order: sort A to Z or Z to A with numbers handled sensibly, shuffle, reverse, remove duplicate or blank lines, number the lines, and switch between commas and lines—with alphabetizing that handles Turkish correctly. Ad-free.",
 list/index.html:87:   /* the ampersand the site uses — the display italic, as in the header logo */
 list/index.html:146:   /* the paper — as on /write/ */
 list/index.html:210:   /* notes — reading matter under the instrument */
-list/index.html:251:     <a class="masthead" href="/" aria-label="On Life &amp; Everything—home">
+list/index.html:251:     <a class="masthead" href="/" aria-label="On Life &amp; Everything — home">
 list/index.html:282:     <p class="lede">Lines put in order&mdash;sorted, shuffled, numbered, or turned from commas into lines and back.</p>
 list/index.html:288:     <textarea id="list" placeholder="One item per line&mdash;or paste a comma-separated list and press the button below." autocomplete="off" spellcheck="false"></textarea>
 list/index.html:336:       <p>Every list arrives a little bent: names in the order they came, duplicates from two pastes, blank lines from nowhere, or the whole thing on one line held together by commas. Paste it here and put it in order&mdash;alphabetical either way, shuffled, reversed, deduplicated, numbered, trimmed&mdash;each press reported in a line under the buttons, with an undo if you disagree. Sorting knows that item 2 belongs before item 10, and with the Turkish box ticked it also knows where &#231;, &#287;, &#305;, &#246;, &#351; and &#252; belong in the alphabet. The box ticks itself when the list contains them.</p>
@@ -571,14 +571,14 @@ list/index.html:343:       <p>With the Turkish box ticked, sorting uses the Turk
 list/index.html:346:       <p>Press Commas&nbsp;&rarr;&nbsp;lines and every comma becomes a line break, with the spaces around items tidied away. Lines&nbsp;&rarr;&nbsp;commas folds the list back onto one line, separated by commas&mdash;useful for pasting into a form or a message.</p>
 list/index.html:349:       <p>Yes&mdash;once the list has two or more lines, a link appears by the buttons that carries it straight into <a href="/lots/">The Lots</a>, the name draw: the list arrives already in the pool, ready for the classroom or the meeting.</p>
 list/index.html:440:     /* the Lots link — the same address-bar state the draw itself uses */
-lots/index.html:13: <meta property="og:title" content="The Lots—Random Name Picker &amp; Group Maker for Classrooms">
-lots/index.html:17: <meta property="og:image:alt" content="The Lots—random name picker & group maker for classrooms">
-lots/index.html:21: <meta name="twitter:title" content="The Lots—Random Name Picker &amp; Group Maker for Classrooms">
-lots/index.html:32:   "name": "The Lots—Random Name Picker & Group Maker for Classrooms",
+lots/index.html:13: <meta property="og:title" content="The Lots — Random Name Picker &amp; Group Maker for Classrooms">
+lots/index.html:17: <meta property="og:image:alt" content="The Lots — random name picker & group maker for classrooms">
+lots/index.html:21: <meta name="twitter:title" content="The Lots — Random Name Picker &amp; Group Maker for Classrooms">
+lots/index.html:32:   "name": "The Lots — Random Name Picker & Group Maker for Classrooms",
 lots/index.html:87:   /* the ampersand the site uses — the display italic, as in the header logo */
 lots/index.html:177:   /* the drawn name — display type, sized for a projector (as on /clock/) */
 lots/index.html:286:   /* notes — reading matter under the instrument */
-lots/index.html:327:     <a class="masthead" href="/" aria-label="On Life &amp; Everything—home">
+lots/index.html:327:     <a class="masthead" href="/" aria-label="On Life &amp; Everything — home">
 lots/index.html:359:     <p class="lede">A name draw for classrooms and meetings&mdash;one at random, or the whole list in groups.</p>
 lots/index.html:366:         <label for="nameList">The list&mdash;one name per line, or separated by commas</label>
 lots/index.html:413:       <p>A drawing of lots for whoever runs a room: paste the class list once and it is waiting at every session after. Draw calls one name at random and shows it in type sized for a projector&mdash;take it fullscreen and the name stands alone on the screen. Drawn names leave the pool and queue up beneath, so nobody is called twice until you restore them. Once the first name is drawn the list folds away to keep the page quiet&mdash;edit it again whenever you like&mdash;and the pool is laid out beneath with drawn names struck through, so anyone can see who is gone and who remains. Copy this pool as a link and the whole state travels in the address: open the link anywhere and the draw continues from where it left off. Groups shuffles the same list and deals it into teams, either by group size or by number of groups.</p>
@@ -591,43 +591,43 @@ lots/index.html:655:       if(!parseNames().length){ setIdle("The list above is 
 lots/index.html:656:       else{ setIdle("Every name has been drawn—restore the pool to begin again."); drawnBlock.classList.add("on"); }
 lots/index.html:699:       groupsNote.textContent = "Two names at least—paste the list above first.";
 marks/index.html:10: <meta name="description" content="Em dash, en dash, curly quotes, ellipsis, section sign, thin space and the rest of typography's marks—click any character to copy it. No ads, no hunting through character maps.">
-marks/index.html:13: <meta property="og:title" content="The Marks—Em Dash, Curly Quotes &amp; Other Typographic Characters to Copy">
-marks/index.html:17: <meta property="og:image:alt" content="The Marks—em dash, curly quotes & other typographic characters to copy">
-marks/index.html:21: <meta name="twitter:title" content="The Marks—Em Dash, Curly Quotes &amp; Other Typographic Characters to Copy">
-marks/index.html:32:   "name": "The Marks—Em Dash, Curly Quotes & Other Typographic Characters to Copy",
+marks/index.html:13: <meta property="og:title" content="The Marks — Em Dash, Curly Quotes &amp; Other Typographic Characters to Copy">
+marks/index.html:17: <meta property="og:image:alt" content="The Marks — em dash, curly quotes & other typographic characters to copy">
+marks/index.html:21: <meta name="twitter:title" content="The Marks — Em Dash, Curly Quotes &amp; Other Typographic Characters to Copy">
+marks/index.html:32:   "name": "The Marks — Em Dash, Curly Quotes & Other Typographic Characters to Copy",
 marks/index.html:87:   /* the ampersand the site uses — the display italic, as in the header logo */
 marks/index.html:185:   /* notes — reading matter under the marks */
-marks/index.html:218:     <a class="masthead" href="/" aria-label="On Life &amp; Everything—home">
+marks/index.html:218:     <a class="masthead" href="/" aria-label="On Life &amp; Everything — home">
 marks/index.html:249:     <p class="lede">Typographic characters&mdash;click any of them to copy it.</p>
 marks/index.html:262:         <button class="cell" type="button" aria-label="Copy em dash"><span class="glyph">—</span><span class="name">em dash</span></button>
 marks/index.html:389:       <p>The em dash (&mdash;) is the wide one, used to set off a phrase&mdash;like this&mdash;or mark a break in thought. The en dash (&ndash;) is narrower and joins ranges and pairings: 1914&ndash;1918, the &#304;stanbul&ndash;Ankara train. The hyphen (-) is shorter still and only joins words.</p>
 marks/index.html:392:       <p>The typographer&rsquo;s quotation marks&mdash;&ldquo; &rdquo; and &lsquo; &rsquo;&mdash;which curl toward the text they enclose, unlike the straight marks (" ') on a keyboard. Books and careful prose use the curly set; word processors usually substitute them automatically, plain text fields usually don&rsquo;t.</p>
 marks/index.html:398:       <p>Nowhere. Clicking a character only writes it to your device&rsquo;s clipboard, right in the browser&mdash;the page reads nothing back, sends nothing anywhere, and keeps only your handful of recently copied marks in this browser&rsquo;s local storage.</p>
 marks/index.html:454:   /* ---- copy (clipboard only — nothing is read back or sent anywhere) ---- */
-moon/index.html:9: <title>Moon Phase Today&mdash;Current Lunar Phase &amp; Illumination &middot; On Life &amp; Everything</title>
+moon/index.html:9: <title>Moon Phase Today &mdash; Current Lunar Phase &amp; Illumination &middot; On Life &amp; Everything</title>
 moon/index.html:10: <meta name="description" content="Tonight's moon: the current phase, illumination percentage and the moon's age, with the dates of the next full moon and new moon—computed and drawn live.">
-moon/index.html:13: <meta property="og:title" content="Moon Phase Today—Current Lunar Phase &amp; Illumination">
+moon/index.html:13: <meta property="og:title" content="Moon Phase Today — Current Lunar Phase &amp; Illumination">
 moon/index.html:14: <meta property="og:description" content="Tonight's moon: phase, illumination and age, with the next full and new moon—drawn live.">
-moon/index.html:17: <meta property="og:image:alt" content="The Moon—tonight's phase, drawn as it hangs in the sky">
-moon/index.html:21: <meta name="twitter:title" content="Moon Phase Today—Current Lunar Phase &amp; Illumination">
+moon/index.html:17: <meta property="og:image:alt" content="The Moon — tonight's phase, drawn as it hangs in the sky">
+moon/index.html:21: <meta name="twitter:title" content="Moon Phase Today — Current Lunar Phase &amp; Illumination">
 moon/index.html:22: <meta name="twitter:description" content="Tonight's moon: phase, illumination and age, with the next full and new moon—drawn live.">
-moon/index.html:31:   "name": "The Moon—Moon Phase Today",
+moon/index.html:31:   "name": "The Moon — Moon Phase Today",
 moon/index.html:33:   "description": "Tonight's moon: the current phase, illumination percentage and the moon's age, with the dates of the next full moon and new moon—computed and drawn live.",
 moon/index.html:68:   /* the ampersand the site uses — the display italic, as in the header logo */
 moon/index.html:162:   /* notes — reading matter under the moon */
-moon/index.html:200:     <a class="masthead" href="/" aria-label="On Life &amp; Everything—home">
+moon/index.html:200:     <a class="masthead" href="/" aria-label="On Life &amp; Everything — home">
 moon/index.html:229:       <p>From the mean synodic cycle: the moon returns to new every 29.53 days, so the page measures the time since a reference new moon and reads the phase off that cycle. The real orbit is slightly elliptical, so the result can differ from precise astronomical tables by a few hours&mdash;never enough to mistake the phase itself.</p>
 moon/index.html:232:       <p>The share of the moon&rsquo;s visible disc that is currently lit by the sun&mdash;0% at new moon, about 50% at the quarters, 100% at full moon.</p>
 moris.html:22:       <p class="moris-caption">Every now and then, his soft paws twitch; he is probably chasing a bird in his dream that he will never catch. <cite class="moris-quote-source">&mdash;&thinsp;The Fragments</cite></p>
 noise/index.html:10: <meta name="description" content="A sound machine for focus and sleep: white, pink and brown noise, and steady rain—all synthesized live in your browser, no recordings, with a volume dial and a sleep timer.">
 noise/index.html:14: <meta property="og:description" content="Noise colors and steady rain for focus and sleep, synthesized live—no recordings—with a volume dial and a sleep timer.">
-noise/index.html:17: <meta property="og:image:alt" content="The Noise—white, pink and brown noise for focus and sleep">
+noise/index.html:17: <meta property="og:image:alt" content="The Noise — white, pink and brown noise for focus and sleep">
 noise/index.html:22: <meta name="twitter:description" content="Noise colors and steady rain for focus and sleep, synthesized live—no recordings—with a volume dial and a sleep timer.">
-noise/index.html:31:   "name": "The Noise—White, Pink & Brown Noise, and Rain",
+noise/index.html:31:   "name": "The Noise — White, Pink & Brown Noise, and Rain",
 noise/index.html:33:   "description": "A sound machine for focus and sleep: white, pink and brown noise, and steady rain—all synthesized live in your browser, no recordings, with a volume dial and a sleep timer.",
 noise/index.html:67:   /* the ampersand the site uses — the display italic, as in the header logo */
 noise/index.html:193:   /* notes — reading matter under the instrument */
-noise/index.html:233:     <a class="masthead" href="/" aria-label="On Life &amp; Everything—home">
+noise/index.html:233:     <a class="masthead" href="/" aria-label="On Life &amp; Everything — home">
 noise/index.html:281:       <p>Sounds to work, rest and sleep inside: three colors of noise&mdash;white, pink and brown&mdash;and steady rain on a roof. Your browser&rsquo;s audio engine shapes them live as they play, so each one carries on for as long as you leave it running. Set the volume low, choose a sound, and let it hold the room; the sleep timer can fade everything out after 15, 30 or 60 minutes.</p>
 noise/index.html:285:       <p>White noise spreads its energy evenly across all frequencies and sounds bright, like static. Pink noise tilts toward the low end and sounds like steady rain. Brown noise leans lower still&mdash;closer to surf or a distant waterfall&mdash;and many people find it the easiest to sit inside for hours.</p>
 noise/index.html:291:       <p>It is synthesized live like the noise colors&mdash;no recordings. A bed of filtered noise breathes slowly underneath while random bursts, each a few milliseconds long at a random pitch, fall through it as droplets. Because every drop is drawn fresh from randomness, the rain never loops&mdash;which is also why it does not sound quite like a recording of any one real roof.</p>
@@ -636,19 +636,19 @@ noise/index.html:297:       <p>Keep the volume modest&mdash;comfortably below co
 noise/index.html:315:      through the "ambient" session — silenced by the hardware mute switch.
 noise/index.html:378:      Synthesized like the colors — no recordings, nothing loaded; the
 on-series.html:7:   — read time and a longer lede — and is the page the header and the drawer
-prompt/index.html:9: <title>Ad-free Online Teleprompter&mdash;Mirroring, Speed &amp; Remote Keys &middot; On Life &amp; Everything</title>
-prompt/index.html:13: <meta property="og:title" content="The Prompter—Ad-free Online Teleprompter with Mirroring">
+prompt/index.html:9: <title>Ad-free Online Teleprompter &mdash; Mirroring, Speed &amp; Remote Keys &middot; On Life &amp; Everything</title>
+prompt/index.html:13: <meta property="og:title" content="The Prompter — Ad-free Online Teleprompter with Mirroring">
 prompt/index.html:14: <meta property="og:description" content="A fullscreen teleprompter: paste your script, set the pace, and read—mirroring, large type, keyboard and remote control, and an estimated finish time.">
-prompt/index.html:17: <meta property="og:image:alt" content="The Prompter—ad-free online teleprompter with mirroring">
-prompt/index.html:21: <meta name="twitter:title" content="The Prompter—Ad-free Online Teleprompter with Mirroring">
+prompt/index.html:17: <meta property="og:image:alt" content="The Prompter — ad-free online teleprompter with mirroring">
+prompt/index.html:21: <meta name="twitter:title" content="The Prompter — Ad-free Online Teleprompter with Mirroring">
 prompt/index.html:22: <meta name="twitter:description" content="A fullscreen teleprompter: paste your script, set the pace, and read—mirroring, large type, keyboard and remote control, and an estimated finish time.">
-prompt/index.html:32:   "name": "The Prompter—Ad-free Online Teleprompter with Mirroring",
+prompt/index.html:32:   "name": "The Prompter — Ad-free Online Teleprompter with Mirroring",
 prompt/index.html:62:     /* the stage keeps its own colors — a prompter is white on black in any theme */
 prompt/index.html:92:   /* the ampersand the site uses — the display italic, as in the header logo */
 prompt/index.html:151:   /* the paper — as on /write/ */
 prompt/index.html:238:   /* HUD — fades like the chrome on /write/ */
 prompt/index.html:269:   /* notes — reading matter under the instrument */
-prompt/index.html:309:     <a class="masthead" href="/" aria-label="On Life &amp; Everything—home">
+prompt/index.html:309:     <a class="masthead" href="/" aria-label="On Life &amp; Everything — home">
 prompt/index.html:340:     <p class="lede">Paste the script, set the pace, and read&mdash;the page does the scrolling.</p>
 prompt/index.html:389:       <p>A teleprompter with nothing to install: the script goes in the box, the pace is set in words a minute, and the Prompt button turns the screen into a slow river of type&mdash;white on black, a faint line marking where to read. The space bar pauses, the arrows adjust pace and position, and a presentation remote&rsquo;s page keys do the same, so the lectern stays hands-free. The line under the button tells you how long the script will take before you commit to it; the mirror switch flips the text for a beam-splitter rig. The script itself stays in this browser, saved as you type.</p>
 prompt/index.html:393:       <p>Conversational delivery sits around 130&ndash;150 words a minute; lectures often want less, readings for the camera a little more. Set the number, read the estimate under the button&mdash;the page converts your script&rsquo;s length into minutes&mdash;and adjust while reading with the up and down arrows; the speed shown in the corner follows.</p>
@@ -657,14 +657,14 @@ prompt/index.html:399:       <p>A studio teleprompter bounces the screen off ang
 prompt/index.html:476:       + " — about " + fmt(sec) + " at " + clampWpm() + " wpm.";
 prompt/index.html:516:     /* the text's own height, read at the set pace — the lead-in and
 prompt/index.html:641:   /* HUD visibility — the chrome peeks on movement, as on /write/ */
-read/index.html:9: <title>The Reader&mdash;Read Your Own Text, Markdown, PDF, EPUB &amp; Word Files, Distraction-Free &middot; On Life &amp; Everything</title>
+read/index.html:9: <title>The Reader &mdash; Read Your Own Text, Markdown, PDF, EPUB &amp; Word Files, Distraction-Free &middot; On Life &amp; Everything</title>
 read/index.html:10: <meta name="description" content="A distraction-free page to read your own files in—plain text, Markdown, PDF, EPUB and Word, with rain if you want it and a light that follows the sky. Nothing is uploaded; the page remembers only where you stopped.">
-read/index.html:13: <meta property="og:title" content="The Reader—Read Your Own Text, Markdown, PDF, EPUB &amp; Word Files, Distraction-Free">
+read/index.html:13: <meta property="og:title" content="The Reader — Read Your Own Text, Markdown, PDF, EPUB &amp; Word Files, Distraction-Free">
 read/index.html:14: <meta property="og:description" content="A distraction-free page to read your own files in—plain text, Markdown, PDF, EPUB and Word, with rain if you want it and a light that follows the sky. Nothing is uploaded; the page remembers only where you stopped.">
-read/index.html:17: <meta property="og:image:alt" content="The Reader—read your own text, Markdown, PDF, EPUB and Word files, distraction-free">
-read/index.html:21: <meta name="twitter:title" content="The Reader—Read Your Own Text, Markdown, PDF, EPUB &amp; Word Files, Distraction-Free">
+read/index.html:17: <meta property="og:image:alt" content="The Reader — read your own text, Markdown, PDF, EPUB and Word files, distraction-free">
+read/index.html:21: <meta name="twitter:title" content="The Reader — Read Your Own Text, Markdown, PDF, EPUB &amp; Word Files, Distraction-Free">
 read/index.html:22: <meta name="twitter:description" content="A distraction-free page to read your own files in—plain text, Markdown, PDF, EPUB and Word, with rain if you want it and a light that follows the sky. Nothing is uploaded; the page remembers only where you stopped.">
-read/index.html:32:   "name": "The Reader—Read Your Own Text, Markdown, PDF, EPUB & Word Files, Distraction-Free",
+read/index.html:32:   "name": "The Reader — Read Your Own Text, Markdown, PDF, EPUB & Word Files, Distraction-Free",
 read/index.html:34:   "description": "A distraction-free page to read your own files in—plain text, Markdown, PDF, EPUB and Word, with rain if you want it and a light that follows the sky. Nothing is uploaded; the page remembers only where you stopped.",
 read/index.html:88:   /* the ampersand the site uses — the display italic, as in the header logo */
 read/index.html:157:   /* the column — the page's measure and type, as on /write/ */
@@ -672,7 +672,7 @@ read/index.html:164:   /* a book's own structure, set in the page's type — its
 read/index.html:194:   /* nothing open yet — an invitation, centred in the column */
 read/index.html:233:   /* the shelf — a narrow panel over the right edge; the reading stays visible */
 read/index.html:297:   /* notes — reading matter under the paper */
-read/index.html:353:     <a class="masthead" href="/" aria-label="On Life &amp; Everything—home">
+read/index.html:353:     <a class="masthead" href="/" aria-label="On Life &amp; Everything — home">
 read/index.html:452:       <p>The reading counterpart of <a href="/write/">the blank page</a>: bring a plain text or Markdown file, a PDF, an EPUB or a Word document from your device, with rain to read inside and a light that follows the sky. Text, Markdown, EPUB and Word are set in Garamond in one continuous column. PDFs keep their original pages, type and images, with page navigation and zoom. The file is opened in the browser, and the page keeps only your place in it&mdash;close the tab, come back, open the same file, and you are where you stopped.</p>
 read/index.html:456:       <p>No. The file is read in the browser and never leaves your device&mdash;there is no server on the other end of this page, no account, and nothing is sent anywhere.</p>
 read/index.html:459:       <p>No. The text itself is never stored; when you leave, it is gone from the page. The only thing remembered is where you stopped&mdash;a bookmark, kept on your device, so that opening the same file again returns you to your place.</p>
@@ -702,16 +702,16 @@ read/index.html:1853:   /* ================= 1 · sound — from /noise/ =======
 read/index.html:1857:      on load — the row is off until asked. */
 read/index.html:1937:   /* ================= 2 · type — four sizes, the middle the page's own ================= */
 read/index.html:1957:      using the shared time-zone estimate — painted before
-season/index.html:9: <title>Days Until the Next Solstice or Equinox&mdash;The Season &amp; Year Progress &middot; On Life &amp; Everything</title>
+season/index.html:9: <title>Days Until the Next Solstice or Equinox &mdash; The Season &amp; Year Progress &middot; On Life &amp; Everything</title>
 season/index.html:10: <meta name="description" content="The current astronomical season, the days until the next solstice or equinox with its exact date and time, and the year's progress—computed live for the northern hemisphere.">
-season/index.html:13: <meta property="og:title" content="The Season—Days Until the Next Solstice or Equinox &amp; Year Progress">
-season/index.html:17: <meta property="og:image:alt" content="The Season—days until the next solstice or equinox">
-season/index.html:21: <meta name="twitter:title" content="The Season—Days Until the Next Solstice or Equinox &amp; Year Progress">
-season/index.html:31:   "name": "The Season—Days Until the Next Solstice or Equinox & Year Progress",
+season/index.html:13: <meta property="og:title" content="The Season — Days Until the Next Solstice or Equinox &amp; Year Progress">
+season/index.html:17: <meta property="og:image:alt" content="The Season — days until the next solstice or equinox">
+season/index.html:21: <meta name="twitter:title" content="The Season — Days Until the Next Solstice or Equinox &amp; Year Progress">
+season/index.html:31:   "name": "The Season — Days Until the Next Solstice or Equinox & Year Progress",
 season/index.html:33:   "description": "The current astronomical season, the days until the next solstice or equinox with its exact date and time, and the year's progress—computed live for the northern hemisphere.",
 season/index.html:67:   /* the ampersand the site uses — the display italic, as in the header logo */
 season/index.html:170:   /* notes — reading matter under the season */
-season/index.html:208:     <a class="masthead" href="/" aria-label="On Life &amp; Everything—home">
+season/index.html:208:     <a class="masthead" href="/" aria-label="On Life &amp; Everything — home">
 season/index.html:239:       <p>Where the year stands: the current astronomical season with its dates, the road to the next solstice or equinox, and a thin line filling as the year passes. The four turning points are computed from a standard astronomical series&mdash;the same arithmetic the almanacs use&mdash;and shown on the clock you are keeping: the time zone your browser already reports, never a location permission. The names follow the northern hemisphere&rsquo;s sky; south of the equator, read each season as its opposite.</p>
 season/index.html:243:       <p>The page computes it live whenever you open it: the next of the four turning points&mdash;March equinox, June solstice, September equinox, December solstice&mdash;with its date, the hour it falls on your own clock and the days remaining. The instants come from a standard astronomical series and are good to well within the hour.</p>
 season/index.html:246:       <p>Astronomical seasons begin at the solstices and equinoxes&mdash;the sun&rsquo;s actual turning points&mdash;so summer starts about 21 June. Meteorological seasons are the statistician&rsquo;s tidy version, whole months at a time: summer is June, July, August. This page keeps the astronomical calendar.</p>
@@ -722,45 +722,45 @@ series.html:6: description: "Ongoing series—The Corner and The On Series."
 series.html:15:     <p class="section-page-subtitle">Writing that runs together—read one, or follow the whole thread.</p>
 series.html:40:       <p class="all-work-group-count">Seven essays on what we build inside ourselves—and why.</p>
 story/9r2m.html:16:   /* Standalone page — mirror the site's dark themes (system preference, or
-story/index.md:15: <title>The Notice&mdash;On Life &amp; Everything</title>
+story/index.md:15: <title>The Notice &mdash; On Life &amp; Everything</title>
 the-corner.html:6:   Superseded by /series/ — see the note in on-series.html. Same three stories,
-themes.html:5: seo_title: "Themes: fifteen ways the site can look—On Life &amp; Everything"
+themes.html:5: seo_title: "Themes: fifteen ways the site can look — On Life &amp; Everything"
 themes.html:7: description: "The whole wardrobe in one place: twelve light palettes to try on, the two darks—Dark and Midnight—and Follow the sky, which takes its colours from the sun. All of them shown as previews rather than as words, and whatever you pick stays on this device."
 themes.html:13:     <p class="section-page-subtitle">Fifteen ways the site can look&mdash;twelve palettes for the day, two darks for the night, and one that takes its colours from the sun. Pick one and it is on at once. What you choose here stays on this device until you change your mind.</p>
 themes.html:20:   <p class="themes-note">With nothing chosen, the site follows the device it is read on: its own <span class="site-face">Ash &amp; Gold</span> by day, <span class="site-face">Dark</span> at night. That rule is <span class="site-face">System</span>, the one thing in the footer menu with nothing to show here&mdash;it is not a look, but whatever the device says.</p>
-tools.html:8: seo_title: "Ad-free Browser Tools for Writing, Teaching and Focus—On Life &amp; Everything"
+tools.html:8: seo_title: "Ad-free Browser Tools for Writing, Teaching and Focus — On Life &amp; Everything"
 tools.html:16:     <p class="section-page-subtitle">Instruments I keep here—one job each, everything stays in your browser.</p>
-twilight/index.html:9: <title>&#304;stanbul Twilight&mdash;Sunrise, Sunset &amp; Civil Twilight Today &middot; On Life &amp; Everything</title>
+twilight/index.html:9: <title>&#304;stanbul Twilight &mdash; Sunrise, Sunset &amp; Civil Twilight Today &middot; On Life &amp; Everything</title>
 twilight/index.html:10: <meta name="description" content="Today's sunrise, sunset, civil twilight and day length, for the sky your own clock stands under—İstanbul, London, New York and more. The page follows the color of the sky in real time.">
-twilight/index.html:13: <meta property="og:title" content="İstanbul Twilight—Sunrise, Sunset &amp; Civil Twilight Today">
-twilight/index.html:17: <meta property="og:image:alt" content="Twilight—today's sun times, in the color of the hour">
-twilight/index.html:21: <meta name="twitter:title" content="İstanbul Twilight—Sunrise, Sunset &amp; Civil Twilight Today">
-twilight/index.html:31:   "name": "Twilight—Sunrise, Sunset & Civil Twilight Today",
+twilight/index.html:13: <meta property="og:title" content="İstanbul Twilight — Sunrise, Sunset &amp; Civil Twilight Today">
+twilight/index.html:17: <meta property="og:image:alt" content="Twilight — today's sun times, in the color of the hour">
+twilight/index.html:21: <meta name="twitter:title" content="İstanbul Twilight — Sunrise, Sunset &amp; Civil Twilight Today">
+twilight/index.html:31:   "name": "Twilight — Sunrise, Sunset & Civil Twilight Today",
 twilight/index.html:33:   "description": "Today's sunrise, sunset, civil twilight and day length, for the sky the visitor's own clock stands under—İstanbul, London, New York and more. The page follows the color of the sky in real time.",
 twilight/index.html:66:   /* the ampersand the site uses — the display italic, as in the header logo */
 twilight/index.html:162:   /* notes — reading matter under the sky */
-twilight/index.html:211:     <a class="masthead" href="/" aria-label="On Life &amp; Everything—home">
+twilight/index.html:211:     <a class="masthead" href="/" aria-label="On Life &amp; Everything — home">
 twilight/index.html:238:       <p>The sky, kept in real time. The page shows today&rsquo;s civil dawn, sunrise, sunset, civil dusk and day length, and its background follows the sun&rsquo;s altitude, so it always wears the color of the hour. It opens on the sky where your clock says you are&mdash;the time zone the browser already reports, never a location permission&mdash;and any of the cities beneath the times is one click away.</p>
 twilight/index.html:242:       <p>The stretch when the sun sits less than six degrees below the horizon&mdash;civil dawn before sunrise, civil dusk after sunset. There is usually enough light to read outside, and it is the boundary many countries use for headlights and flight rules.</p>
 twilight/index.html:248:       <p>Yours, as closely as a page may guess without asking. Your browser reports the time zone your clock is set to, and the page looks that zone up among the {{ site.data.cities | size }} places below&mdash;a zone for each, from Honolulu to Auckland. When it finds one, the times are worked out from that city&rsquo;s own coordinates, exactly as if you had picked it by hand. This is the same reading the rest of the site makes when its pages follow the sky.</p>
 twilight/index.html:254:       <p>Pick one from the row beneath the times&mdash;nine of them stand there&mdash;or add <code>?city=</code> to the address, e.g. <a href="/twilight/?city=london"><code>/twilight/?city=london</code></a>. Your choice overrides the time zone, and the times come from that city&rsquo;s fixed coordinates, shown in its own zone.</p>
 twilight/index.html:266:       <p>The background follows the sun&rsquo;s altitude for the place under the numerals&mdash;deep night blue through dawn amber into daylight&mdash;recomputed every half minute, so the page always wears the color of the hour.</p>
 twilight/index.html:293:      _includes/sky-ramp.html — the clock and the zone, nothing else, and no
-twilight/index.html:509:       document.title = "Twilight—Sunrise, Sunset & Civil Twilight Today · On Life & Everything";
+twilight/index.html:509:       document.title = "Twilight — Sunrise, Sunset & Civil Twilight Today · On Life & Everything";
 twilight/index.html:511:       document.title = CITY.name + " Twilight—Sunrise, Sunset & Civil Twilight Today · On Life & Everything";
-words/index.html:9: <title>Word Counter&mdash;Words, Characters, Reading Time &amp; Readability &middot; On Life &amp; Everything</title>
+words/index.html:9: <title>Word Counter &mdash; Words, Characters, Reading Time &amp; Readability &middot; On Life &amp; Everything</title>
 words/index.html:10: <meta name="description" content="An ad-free word counter: words, characters with and without spaces, sentences, paragraphs, reading time and speaking time—plus readability: Flesch Reading Ease, sentence lengths and their distribution. Counted live as you type or paste.">
-words/index.html:13: <meta property="og:title" content="Word Counter—Words, Characters &amp; Reading Time">
+words/index.html:13: <meta property="og:title" content="Word Counter — Words, Characters &amp; Reading Time">
 words/index.html:14: <meta property="og:description" content="Words, characters, sentences, paragraphs, reading time and speaking time—counted live as you type or paste.">
-words/index.html:17: <meta property="og:image:alt" content="The Counter—a word counter">
-words/index.html:21: <meta name="twitter:title" content="Word Counter—Words, Characters &amp; Reading Time">
+words/index.html:17: <meta property="og:image:alt" content="The Counter — a word counter">
+words/index.html:21: <meta name="twitter:title" content="Word Counter — Words, Characters &amp; Reading Time">
 words/index.html:22: <meta name="twitter:description" content="Words, characters, sentences, paragraphs, reading time and speaking time—counted live as you type or paste.">
-words/index.html:32:   "name": "The Counter—Word Counter with Reading Time & Readability",
+words/index.html:32:   "name": "The Counter — Word Counter with Reading Time & Readability",
 words/index.html:34:   "description": "An ad-free word counter: words, characters with and without spaces, sentences, paragraphs, reading time and speaking time—plus readability: Flesch Reading Ease, sentence lengths and their distribution. Counted live as you type or paste.",
 words/index.html:87:   /* the ampersand the site uses — the display italic, as in the header logo */
 words/index.html:190:   /* readability — a block that appears once there is enough text */
 words/index.html:218:   /* notes — reading matter under the counter */
-words/index.html:252:     <a class="masthead" href="/" aria-label="On Life &amp; Everything—home">
+words/index.html:252:     <a class="masthead" href="/" aria-label="On Life &amp; Everything — home">
 words/index.html:284:     <p class="lede">Words, characters, sentences and reading time&mdash;counted as you type.</p>
 words/index.html:293:     <div class="stat"><b id="stRead">&mdash;</b><span>reading time</span></div>
 words/index.html:294:     <div class="stat"><b id="stSpeak">&mdash;</b><span>speaking time</span></div>
@@ -776,14 +776,14 @@ words/index.html:345:       <p>It is counted in the browser as you type, and kep
 words/index.html:367:     if(words === 0) return "—";
 words/index.html:399:   /* ---- readability (an estimate, tuned for English — see the notes) ---- */
 words/index.html:506:   /* ---- grow + autosave (local only — nothing leaves the page) ---- */
-write/index.html:9: <title>A Blank Page&mdash;Distraction-Free Writing &middot; On Life &amp; Everything</title>
+write/index.html:9: <title>A Blank Page &mdash; Distraction-Free Writing &middot; On Life &amp; Everything</title>
 write/index.html:10: <meta name="description" content="An ad-free page to write on. Garamond type, a word count, fullscreen, autosave—and nothing else.">
-write/index.html:13: <meta property="og:title" content="A Blank Page—Distraction-Free Writing">
+write/index.html:13: <meta property="og:title" content="A Blank Page — Distraction-Free Writing">
 write/index.html:14: <meta property="og:description" content="An ad-free page to write on. Garamond type, a word count, fullscreen, autosave—and nothing else.">
-write/index.html:17: <meta property="og:image:alt" content="The Page—a blank page for distraction-free writing">
-write/index.html:21: <meta name="twitter:title" content="A Blank Page—Distraction-Free Writing">
+write/index.html:17: <meta property="og:image:alt" content="The Page — a blank page for distraction-free writing">
+write/index.html:21: <meta name="twitter:title" content="A Blank Page — Distraction-Free Writing">
 write/index.html:22: <meta name="twitter:description" content="An ad-free page to write on. Garamond type, a word count, fullscreen, autosave—and nothing else.">
-write/index.html:32:   "name": "The Page—A Blank Page for Distraction-Free Writing",
+write/index.html:32:   "name": "The Page — A Blank Page for Distraction-Free Writing",
 write/index.html:34:   "description": "An ad-free page to write on. Garamond type, a word count, fullscreen, autosave—and nothing else.",
 write/index.html:87:   /* the ampersand the site uses — the display italic, as in the header logo */
 write/index.html:172:   /* the style bubble — a slip of paper above the line, holding the marks a
@@ -791,7 +791,7 @@ write/index.html:201:      pointer and under 601px — there the shelf's Style r
 write/index.html:206:      two cannot drift apart. The element stays in the DOM either way — the
 write/index.html:262:   /* the shelf — a narrow panel over the right edge; the writing stays visible */
 write/index.html:335:   /* notes — reading matter under the paper */
-write/index.html:389:     <a class="masthead" href="/" aria-label="On Life &amp; Everything—home">
+write/index.html:389:     <a class="masthead" href="/" aria-label="On Life &amp; Everything — home">
 write/index.html:482:       <div class="shelf-note">Markdown marks for the selected text, or the line the cursor sits on&mdash;press again to take them off. The same buttons come to the writing as you select it: onto the text itself on a mouse, to the foot of the screen on a touch screen.</div>
 write/index.html:488:         <button class="shelf-mark" type="button" data-ch="—" aria-label="Insert em dash">—</button>
 write/index.html:533:       <div class="shelf-note">press once to arm, again to empty the page&mdash;fifteen seconds to undo after</div>
