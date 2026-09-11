@@ -144,6 +144,21 @@
     flakes=[];
     for(var i=0;i<count;i++)flakes.push(makeFlake(true));
   }
+  /* Who else is watching the sky. The essays' "read with rain" keeps its
+     sound in step with the picture through this, so a page has one weather
+     and not two. What leaves is the weather itself, never the steps taken to
+     reach it: setWeather holds the announcement while it stops one kind and
+     starts another, since a moment of clear sky nobody saw is not news. */
+  var watchers=[], announced='', settling=0;
+  function announce(){
+    if(settling) return;
+    var now=(active?mode:'none')+':'+(active?intensity:0);
+    if(now===announced) return;
+    announced=now;
+    for(var i=0;i<watchers.length;i++){
+      try{watchers[i](active?mode:null,active?intensity:0);}catch(e){}
+    }
+  }
   function updateButtons(){
     [[button,'snow'],[rainButton,'rain']].forEach(function(pair){
       var control=pair[0],kind=pair[1];if(!control)return;
@@ -154,11 +169,26 @@
       control.setAttribute('aria-pressed',String(level>0));
       control.setAttribute('aria-label',label);control.title=label;
     });
+    announce();
+  }
+  /* Ask for weather directly: kind, and 0 off, 1 light, 2 heavy. The footer's
+     own buttons are the three-stage cycle over this that they have always
+     been. Whatever it takes to get there — a restart, then a change of weight
+     — leaves as one piece of news, because that is what it was. */
+  function setWeather(kind,level){
+    level=level===2?2:level>=1?1:0;
+    settling++;
+    if(!level){ if(active)stop(); }
+    else{
+      if(!active || mode!==kind)start(kind);
+      if(intensity!==level){intensity=level;geometryDirty=true;seedWeather();updateButtons();}
+    }
+    settling--;
+    announce();
   }
   function cycle(kind){
-    if(!active || mode!==kind){start(kind);return;}
-    if(intensity===2){stop();return;}
-    intensity=2;geometryDirty=true;seedWeather();updateButtons();
+    var level=active && mode===kind?intensity:0;
+    setWeather(kind,level===0?1:level===1?2:0);
   }
   /* The snow lies on the window, not on the page under it, so nothing here
      depends on where anything has scrolled to: one pass, on a resize only.
@@ -384,7 +414,11 @@
     if(active)stop();
     clearTimeout(fadeTimer);removeLayers();
     mode=kind;intensity=1;trail=null;
-    canvas=document.createElement('canvas');canvas.className='snowfall';
+    canvas=document.createElement('canvas');
+    /* The kind is on the canvas so a stylesheet can hold rain back behind
+       the words on a reading page without touching the snow, which is meant
+       to bury them. */
+    canvas.className=kind==='rain'?'snowfall weather-rain':'snowfall';
     canvas.setAttribute('aria-hidden','true');
     bank=document.createElement('canvas');
     context=canvas.getContext('2d');bankContext=bank.getContext('2d');
@@ -406,6 +440,14 @@
     }
     if(!document.hidden)frame=requestAnimationFrame(step);
   }
+  /* The weather belongs to the page, not to the footer: js/rain-read.js
+     drives this same rain from the essay header, so one click there brings
+     the sound and the picture together. */
+  window.OLAE_WEATHER={
+    state:function(){return {kind:active?mode:null,level:active?intensity:0};},
+    set:setWeather,
+    watch:function(fn){if(typeof fn==='function')watchers.push(fn);}
+  };
   button.addEventListener('click',function(){cycle('snow');});
   if(rainButton){
     rainButton.addEventListener('click',function(){cycle('rain');});

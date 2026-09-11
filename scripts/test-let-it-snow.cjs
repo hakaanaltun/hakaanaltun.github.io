@@ -156,6 +156,30 @@ function check(reduced,width){
     assert.equal(frames.size,1);assert(ripples-previousRipples<=60);assert(strokes-oldStrokes<=1020);
   }
   rainButton.click();assert.equal(frames.size,0);assert.equal(rainButton.getAttribute('aria-pressed'),'false');
+  for(const callback of timers.values())callback();timers.clear();
+  /* One sky, asked for directly. The essays' "read with rain" drives this
+     same weather so a reading page has one rain and not two out of step, and
+     it hears back about every change the footer makes — but never about a
+     restart, which is a change of weather and not a moment of clear sky. */
+  const heard=[];
+  w.OLAE_WEATHER.watch((kind,level)=>heard.push((kind||'none')+':'+level));
+  const sky=()=>{const s=w.OLAE_WEATHER.state();return (s.kind||'none')+':'+s.level;};
+  assert.equal(sky(),'none:0');
+  w.OLAE_WEATHER.set('rain',2);
+  assert.equal(sky(),'rain:2');
+  assert.equal(rainButton.dataset.weatherLevel,'2');
+  assert.equal(w.document.querySelector('canvas').className,'snowfall weather-rain');
+  w.OLAE_WEATHER.set('rain',1);
+  assert.equal(sky(),'rain:1');
+  assert.equal(rainButton.dataset.weatherLevel,'1');
+  assert.equal(w.document.querySelectorAll('canvas').length,1,'a weight change is not a new canvas');
+  button.click();   // snow, straight from rain: one restart, announced once
+  assert.equal(w.document.querySelector('canvas').className,'snowfall');
+  w.OLAE_WEATHER.set('rain',0);
+  assert.equal(sky(),'none:0');
+  assert.deepEqual(heard,['rain:2','rain:1','snow:1','none:0']);
+  for(const callback of timers.values())callback();timers.clear();
+  assert.equal(w.document.querySelectorAll('canvas').length,0);
   // A restart during the fade cannot leave a stale canvas, listener or timer.
   rainButton.click();button.click();
   assert.equal(frames.size,1);assert.equal(timers.size,0);assert.equal(w.document.querySelectorAll('canvas').length,1);
@@ -203,4 +227,4 @@ assert.equal(away.rects,0,'a scrolled frame reads no layout at all');
 assert.equal(away.queries,0,'and matches no selectors');
 assert.equal(near.rects,0,'the same with the footer in view: the snow is on the window');
 assert.equal(near.queries,0);
-console.log('Weather checks passed: three-stage cycles, preserved snow, drift that covers the page and is wiped to the depth of the hand along a whole stroke, snow banked into berms rather than deleted, cut walls that stand and fill in, rain/splash limits, exclusive switching, mobile bounds, reduced motion, unbroken heavy rain, free scrolling and cleanup.');
+console.log('Weather checks passed: three-stage cycles, one shared sky for the footer and the essays, preserved snow, drift that covers the page and is wiped to the depth of the hand along a whole stroke, snow banked into berms rather than deleted, cut walls that stand and fill in, rain/splash limits, exclusive switching, mobile bounds, reduced motion, unbroken heavy rain, free scrolling and cleanup.');
