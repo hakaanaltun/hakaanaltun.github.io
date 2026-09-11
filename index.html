@@ -19,7 +19,6 @@ layout: home
 <section id="story-doorway" class="story-doorway" aria-label="The Notice">
   <a href="/story/1/" class="story-doorway-link">
     <span class="story-doorway-cue">The Notice</span>
-    <span class="story-doorway-subtitle">A Door, and the Time It Held</span>
     <span class="story-doorway-date">July 5, 2026</span>
     <span class="accent-label story-doorway-tag">told in choices</span>
   </a>
@@ -94,7 +93,6 @@ layout: home
     <li class="fb-card">
       <a href="{{ post.url }}" class="fb-card-link">
         <span class="piece-title">{{ post.title | replace: "'", "’" }}</span>
-        {% if post.subtitle %}<span class="piece-subtitle">{{ post.subtitle }}</span>{% endif %}
         <span class="piece-meta">{{ post.date | date: '%b %-d, %Y' }}</span>
       </a>
     </li>

@@ -39,7 +39,6 @@ collections:
       # layout is intentionally absent: _config.yml defaults give posts
       # layout: post and author: Hakan Altun.
       - { label: Title, name: title, widget: string }
-      - { label: Subtitle, name: subtitle, widget: string, required: false }
       - label: Date
         name: date
         widget: datetime
@@ -52,7 +51,7 @@ collections:
         pattern: ['^[a-z0-9]+(-[a-z0-9]+)*$', 'lowercase words separated by hyphens']
         hint: "URL: /pieces/<slug>.html — also becomes part of the filename"
       - { label: Read time, name: read_time, widget: string, required: false, hint: "e.g. 8 min" }
-      - { label: Description, name: description, widget: text, hint: "Meta description; usually the subtitle or one quiet sentence" }
+      - { label: Description, name: description, widget: text, hint: "A short description for search results and link previews" }
       - { label: OG description, name: og_description, widget: text, required: false, hint: "Only if the share-card text should differ from the description" }
       - { label: Cover image, name: image, widget: image, required: false }
       - { label: Thumbnail, name: thumb, widget: image, required: false, hint: "Usually the same file as the cover; landscape works best in cards" }
