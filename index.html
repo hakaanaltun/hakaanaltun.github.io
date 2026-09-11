@@ -88,12 +88,32 @@ layout: home
     dropping all but nine. It runs during parse, before first paint, so the
     full list is never seen.
   {%- endcomment -%}
-  <ul id="further-back-grid" class="further-back-grid" role="list">
+  <ul id="further-back-grid" class="further-back-grid more-essays-grid-hp" role="list">
     {% for post in pool_posts %}
-    <li class="fb-card">
-      <a href="{{ post.url }}" class="fb-card-link">
-        <span class="piece-title">{{ post.title | replace: "'", "’" }}</span>
-        <span class="piece-meta">{{ post.date | date: '%b %-d, %Y' }}</span>
+    <li class="fb-card piece-card">
+      <a href="{{ post.url }}" class="piece-card-link">
+        <span class="piece-body">
+          <span class="piece-title">{{ post.title | replace: "'", "’" }}</span>
+          <span class="piece-meta">{{ post.date | date: '%b %-d, %Y' }}</span>
+        </span>
+        {% if post.cover_style == "typographic" %}
+        <span class="piece-thumb-wrap piece-thumb-wrap--typographic">
+          {% include typographic-cover.html item=post %}
+        </span>
+        {% else %}
+          {% assign card_image = post.thumb | default: post.image %}
+          {% if card_image %}
+          <span class="piece-thumb-wrap">
+            <img src="{{ card_image | replace: '/images/', '/images/480/' | relative_url }}"
+                 alt="{{ post.cover_alt | default: post.title | escape }}"
+                 class="piece-thumb" width="96" height="96" loading="lazy" decoding="async">
+          </span>
+          {% else %}
+          <span class="piece-thumb-wrap piece-thumb-wrap--typographic">
+            {% include typographic-cover.html item=post %}
+          </span>
+          {% endif %}
+        {% endif %}
       </a>
     </li>
     {% endfor %}
