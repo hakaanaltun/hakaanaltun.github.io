@@ -31,7 +31,7 @@ noindex: true
           {%- if post.slug == slug -%}{%- assign skip = true -%}{%- break -%}{%- endif -%}
         {%- endfor -%}
         {%- if skip -%}{%- continue -%}{%- endif -%}
-      <li><a href="{{ post.url }}" class="notfound-offer-link">{{ post.title | replace: "'", "’" }}{% if post.subtitle %}<span class="notfound-offer-subtitle">{{ post.subtitle }}</span>{% endif %}</a></li>
+      <li><a href="{{ post.url }}" class="notfound-offer-link">{{ post.title | replace: "'", "’" }}</a></li>
       {%- endfor -%}
     </ul>
   </div>

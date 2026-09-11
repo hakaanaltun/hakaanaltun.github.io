@@ -29,7 +29,6 @@
       {% if post.url == page.url %}<span class="drawer-essay-card drawer-essay-card--current">{% else %}<a href="{{ post.url }}" class="drawer-essay-card-link"><span class="drawer-essay-card">{% endif %}
         <span class="drawer-essay-card-text">
           <span class="drawer-essay-card-title">{{ display_title }}</span>
-          {% if post.subtitle %}<span class="drawer-essay-card-subtitle">{{ post.subtitle }}</span>{% endif %}
           <span class="drawer-essay-card-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
         </span>
       {% if post.url == page.url %}</span>{% else %}</span></a>{% endif %}
@@ -43,7 +42,6 @@
       {% if post.url == page.url %}<span class="drawer-essay-card drawer-essay-card--current">{% else %}<a href="{{ post.url }}" class="drawer-essay-card-link"><span class="drawer-essay-card">{% endif %}
         <span class="drawer-essay-card-text">
           <span class="drawer-essay-card-title">{{ display_title }}</span>
-          {% if post.subtitle %}<span class="drawer-essay-card-subtitle">{{ post.subtitle }}</span>{% endif %}
           <span class="drawer-essay-card-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
         </span>
       {% if post.url == page.url %}</span>{% else %}</span></a>{% endif %}
@@ -62,7 +60,6 @@
       {% if post.url == page.url %}<span class="drawer-essay-card drawer-essay-card--current">{% else %}<a href="{{ post.url }}" class="drawer-essay-card-link"><span class="drawer-essay-card">{% endif %}
         <span class="drawer-essay-card-text">
           <span class="drawer-essay-card-title">{{ display_title }}</span>
-          {% if post.subtitle %}<span class="drawer-essay-card-subtitle">{{ post.subtitle }}</span>{% endif %}
           <span class="drawer-essay-card-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
         </span>
       {% if post.url == page.url %}</span>{% else %}</span></a>{% endif %}
@@ -81,7 +78,6 @@
       {% if _card_url == page.url %}<span class="drawer-essay-card drawer-essay-card--current">{% else %}<a href="{{ _card_url }}" class="drawer-essay-card-link"><span class="drawer-essay-card">{% endif %}
         <span class="drawer-essay-card-text">
           <span class="drawer-essay-card-title">{{ display_title }}</span>
-          {% if post.subtitle %}<span class="drawer-essay-card-subtitle">{{ post.subtitle }}</span>{% endif %}
           <span class="drawer-essay-card-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
         </span>
       {% if _card_url == page.url %}</span>{% else %}</span></a>{% endif %}
@@ -95,7 +91,6 @@
       {% if post.url == page.url %}<span class="drawer-essay-card drawer-essay-card--current">{% else %}<a href="{{ post.url }}" class="drawer-essay-card-link"><span class="drawer-essay-card">{% endif %}
         <span class="drawer-essay-card-text">
           <span class="drawer-essay-card-title">{{ display_title }}</span>
-          {% if post.subtitle %}<span class="drawer-essay-card-subtitle">{{ post.subtitle }}</span>{% endif %}
           <span class="drawer-essay-card-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
         </span>
       {% if post.url == page.url %}</span>{% else %}</span></a>{% endif %}

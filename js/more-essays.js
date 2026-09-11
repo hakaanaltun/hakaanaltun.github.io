@@ -44,7 +44,6 @@
     html += '<li class="piece-card"><a href="' + href + '" class="piece-card-link">';
     html += '<span class="piece-body">';
     html += '<span class="piece-title">' + title + '</span>';
-    if (e.subtitle) html += '<span class="piece-subtitle">' + e.subtitle + '</span>';
     html += '<span class="piece-meta">' + e.date + '</span>';
     html += '</span>';
     if (e.coverStyle === 'typographic') {
@@ -53,7 +52,6 @@
       html += '<span class="type-cover" aria-hidden="true"><span class="type-cover-inner">';
       html += '<span class="type-cover-mark">⁂</span>';
       html += '<span class="type-cover-title">' + title + '</span>';
-      if (e.subtitle) html += '<span class="type-cover-subtitle">' + e.subtitle + '</span>';
       html += '<span class="type-cover-label">' + coverLabel + '</span>';
       html += '</span></span></span>';
     } else if (e.img) {

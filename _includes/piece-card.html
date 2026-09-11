@@ -12,7 +12,7 @@
     <span class="piece-thumb-wrap piece-thumb-wrap--typographic">
       {% include typographic-cover.html item=include.post meta=true date=card_date %}
     </span>
-    <span class="visually-hidden">{{ display_title }}{% if include.post.subtitle %}. {{ include.post.subtitle }}{% endif %}. {{ card_date }}</span>
+    <span class="visually-hidden">{{ display_title }}. {{ card_date }}</span>
     {% else %}
       {% assign img = include.post.thumb | default: include.post.image %}
       {% if img %}
@@ -33,9 +33,6 @@
       {% endif %}
       <span class="piece-body">
         <span class="piece-title">{{ display_title }}</span>
-        {% if include.post.subtitle %}
-        <span class="piece-subtitle">{{ include.post.subtitle }}</span>
-        {% endif %}
         <span class="piece-meta">{{ card_date }}</span>
         {% if excerpt_text != blank %}
         <span class="piece-excerpt">{{ excerpt_text }}</span>

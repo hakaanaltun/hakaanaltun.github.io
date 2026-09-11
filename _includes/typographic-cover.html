@@ -4,7 +4,6 @@
   <span class="type-cover-inner">
     {% unless include.meta %}<span class="type-cover-mark">⁂</span>{% endunless %}
     <span class="type-cover-title">{{ type_cover_title }}</span>
-    {% if type_cover_item.subtitle %}<span class="type-cover-subtitle">{{ type_cover_item.subtitle }}</span>{% endif %}
     {% if include.meta and include.date %}<span class="type-cover-date">{{ include.date }}</span>{% endif %}
     {% unless include.meta %}<span class="type-cover-label">{{ type_cover_item.cover_label | default: "Short fiction" }}</span>{% endunless %}
   </span>
