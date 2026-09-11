@@ -80,6 +80,7 @@ function main() {
     assert.equal(kit.blanks().length, 5, 'a word not in the essay is not a blank');
     assert.equal(kit.trigger.hidden, true, 'the offer stands down while the game is open');
     assert.equal(kit.actions().length, 3, 'help, the way on, and the way out');
+    assert.equal(kit.actions()[0].hidden, false, 'help is offered on the word in focus');
     assert.ok(kit.bar(), 'and it travels with the reader rather than sitting at the foot');
     assert.equal(kit.count(), '5 words left');
     // The box is as wide as the word it stands in for.
@@ -131,9 +132,11 @@ function main() {
     // Opening carries the reader to the first box, so a word is already in
     // focus — and the smallest help is what it offers first.
     assert.equal(show.textContent, 'show the first letter', 'standing on a word');
+    // Standing on none it offers nothing, and says so by not being there.
     kit.blur(kit.inputs()[0]);
-    assert.equal(show.textContent, 'show the rest', 'with nothing in focus');
+    assert.equal(show.hidden, true, 'no word, no help');
     kit.focus(kit.inputs()[0]);
+    assert.equal(show.hidden, false);
     assert.equal(show.textContent, 'show the first letter');
     // Only after the nudge does it offer the answer: a reader who wants a hint
     // should not have to spend the word to get one.
@@ -172,7 +175,7 @@ function main() {
     assert.ok(kit.text().includes('a hollow (dead) space'), 'and it keeps the reader\'s word beside it');
     assert.equal(kit.count(), '4 words left', 'the count follows');
     assert.notEqual(kit.d.activeElement, kit.inputs()[0], 'and nothing runs off to the next one');
-    assert.equal(kit.actions()[0].textContent, 'show the rest');
+    assert.equal(kit.actions()[0].hidden, true, 'and nothing is offered for a word nobody is on');
   }
 
   // The way on, for when being shown a word has left the reader standing still.
@@ -199,11 +202,11 @@ function main() {
   {
     const kit = build();
     kit.trigger.click();
-    kit.blur(kit.d.activeElement);
-    kit.press(kit.actions()[0]);           // show the rest
+    ['hollow', 'sharp', 'patience', 'gleaming', 'quicksilver']
+      .forEach(w => kit.type(kit.inputs()[0], w));
     assert.equal(kit.count(), 'all of them found');
-    assert.equal(kit.actions()[1].disabled, true);
-    assert.equal(kit.actions()[0].disabled, true);
+    assert.equal(kit.actions()[1].disabled, true, 'nowhere left to go');
+    assert.equal(kit.actions()[0].hidden, true, 'and no help to offer');
   }
 
   // Finding one does not carry the reader off either. A word just found is a
@@ -257,26 +260,24 @@ function main() {
     assert.equal(kit.count(), 'all of them found');
   }
 
-  // Asking for the words puts the essay's back so the sentence reads as
-  // written, and stands the reader's beside only the ones that differ.
+  // Opening every word one at a time leaves the essay readable with the
+  // reader's own words standing beside the ones that differ.
   {
     const kit = build();
     kit.trigger.click();
     kit.type(kit.inputs()[0], 'dead');      // differs
     kit.type(kit.inputs()[1], 'sharp');     // settles on its own
-    // With no box in focus the control acts on everything that is left.
-    kit.blur(kit.d.activeElement);
-    const [reveal] = kit.actions();
-    assert.equal(reveal.textContent, 'show the rest');
-    kit.press(reveal);
+    while (kit.inputs().length) {
+      kit.focus(kit.inputs()[0]);
+      kit.press(kit.actions()[0]);          // the letter
+      kit.press(kit.actions()[0]);          // the word
+    }
     assert.equal(kit.inputs().length, 0, 'no boxes are left open');
-    // The reader's word is part of the sentence a reader copies or hears, so
-    // its brackets and its space are characters rather than CSS decoration.
     assert.ok(kit.text().includes('a hollow (dead) space'), 'the writer\'s word is back, the reader\'s beside it');
     const yours = [...kit.d.querySelectorAll('.guess-yours')].map(e => e.textContent);
     assert.deepEqual(yours, [' (dead)'], 'only a differing word is shown beside');
     assert.equal(kit.count(), 'all of them found');
-    assert.equal(reveal.disabled, true, 'and there is nothing left for it to do');
+    assert.equal(kit.actions()[0].hidden, true, 'and there is nothing left for it to do');
   }
 
   // The essay comes back exactly as it was — the case the clone restore exists
@@ -286,8 +287,11 @@ function main() {
     kit.trigger.click();
     kit.type(kit.inputs()[0], 'dead');
     kit.type(kit.inputs()[1], 'sharp');
-    kit.blur(kit.d.activeElement);
-    kit.press(kit.actions()[0]);
+    while (kit.inputs().length) {
+      kit.focus(kit.inputs()[0]);
+      kit.press(kit.actions()[0]);
+      kit.press(kit.actions()[0]);
+    }
     kit.actions()[2].click();
     assert.equal(kit.text(), original, 'not a character added or lost');
     assert.equal(kit.blanks().length, 0);
