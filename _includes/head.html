@@ -52,7 +52,7 @@ var m=document.querySelector('meta[name="theme-color"][data-light]');if(m&&C[n])
 headline — "Handled", "Michi", "Measured" — with nothing in a search
 result to say whose they were, while every other page type and og:title
 already carried the site. One suffix everywhere now — the site's name, not
-the author's, joined by a spaced em dash: "Handled—On Life & Everything".
+the author's, joined by a spaced em dash: "Handled — On Life & Everything".
 Same shape as the section pages below and as the standalone instrument
 pages, which set their own heads. {% endcomment %}
 <title>{{ page.title }} &mdash; On Life &amp; Everything</title>
@@ -281,7 +281,7 @@ the story pages ("The Notice"), which share one card. {% endcomment %}
 
 {% comment %} seo_title: an optional, more descriptive title for search
 results; the visible page keeps its plain title. Used as-is, so a page that
-sets one writes the "—On Life & Everything" suffix into it itself. {% endcomment %}
+sets one writes the " — On Life & Everything" suffix into it itself. {% endcomment %}
 {% if page.seo_title %}<title>{{ page.seo_title }}</title>{% else %}<title>{{ page.title }} &mdash; On Life &amp; Everything</title>{% endif %}
 <meta name="description" content="{{ page.description | default: site.description }}">
 <meta name="author" content="Hakan Altun">
