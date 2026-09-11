@@ -79,7 +79,7 @@ function main() {
     kit.trigger.click();
     assert.equal(kit.blanks().length, 5, 'a word not in the essay is not a blank');
     assert.equal(kit.trigger.hidden, true, 'the offer stands down while the game is open');
-    assert.equal(kit.actions().length, 2, 'the strip carries the two whole-essay controls');
+    assert.equal(kit.actions().length, 3, 'help, the way on, and the way out');
     assert.ok(kit.bar(), 'and it travels with the reader rather than sitting at the foot');
     assert.equal(kit.count(), '5 words left');
     // The box is as wide as the word it stands in for.
@@ -129,28 +129,81 @@ function main() {
     kit.trigger.click();
     const show = kit.actions()[0];
     // Opening carries the reader to the first box, so a word is already in
-    // focus and the control already names it.
-    assert.equal(show.textContent, 'show this word', 'standing on a word');
+    // focus — and the smallest help is what it offers first.
+    assert.equal(show.textContent, 'show the first letter', 'standing on a word');
     kit.blur(kit.inputs()[0]);
     assert.equal(show.textContent, 'show the rest', 'with nothing in focus');
     kit.focus(kit.inputs()[0]);
-    assert.equal(show.textContent, 'show this word');
+    assert.equal(show.textContent, 'show the first letter');
+    // Only after the nudge does it offer the answer: a reader who wants a hint
+    // should not have to spend the word to get one.
+    kit.press(show);
+    assert.equal(show.textContent, 'show the word', 'the offer escalates, once');
+    assert.equal(kit.inputs()[0].placeholder, 'h', 'the letter goes in as a placeholder');
+    assert.equal(kit.inputs().length, 5, 'and the word is still there to guess');
   }
 
-  // One word, where the reader is standing. Asking for all of them at once
-  // scattered six answers over an essay and left the reader hunting, which is
-  // what this control exists to avoid.
+  // The hint yields to the reader rather than overwriting them: a word already
+  // typed stays visible, and clearing the box brings the letter back.
   {
     const kit = build();
     kit.trigger.click();
-    kit.focus(kit.inputs()[0]);
-    kit.type(kit.inputs()[0], 'dead');
+    const input = kit.inputs()[0];
+    kit.type(input, 'dead');
     kit.press(kit.actions()[0]);
+    assert.equal(input.value, 'dead', 'nothing takes the reader\'s word away');
+    assert.equal(input.placeholder, 'h');
+    assert.equal(kit.blanks()[0].classList.contains('is-hinted'), true);
+  }
+
+  // One word, where the reader is standing — and then the reader STAYS there.
+  // Being carried off the moment a word appears is what made this unusable:
+  // shown the thing for an instant, then landed somewhere else with no way back
+  // to the sentence they had just been given.
+  {
+    const kit = build();
+    kit.trigger.click();
+    const first = kit.inputs()[0];
+    kit.focus(first);
+    kit.type(first, 'dead');
+    kit.press(kit.actions()[0]);   // the letter
+    kit.press(kit.actions()[0]);   // the word
     assert.equal(kit.inputs().length, 4, 'only that one is opened');
     assert.ok(kit.text().includes('a hollow (dead) space'), 'and it keeps the reader\'s word beside it');
     assert.equal(kit.count(), '4 words left', 'the count follows');
-    // Being shown a word carries the reader on, the same as finding one.
-    assert.equal(kit.d.activeElement, kit.inputs()[0], 'the next unfilled box has focus');
+    assert.notEqual(kit.d.activeElement, kit.inputs()[0], 'and nothing runs off to the next one');
+    assert.equal(kit.actions()[0].textContent, 'show the rest');
+  }
+
+  // The way on, for when being shown a word has left the reader standing still.
+  // It counts from where they last were, not from where they are — which after
+  // a reveal is nowhere.
+  {
+    const kit = build();
+    kit.trigger.click();
+    const next = kit.actions()[1];
+    assert.equal(next.getAttribute('aria-label'), 'Go to the next word');
+    // Standing on the first of five, the arrow leads to the second.
+    const [first, second] = kit.inputs();
+    next.click();
+    assert.equal(kit.d.activeElement, second);
+    // Shown a word, the reader stays put; the arrow still knows where they were.
+    kit.press(kit.actions()[0]);
+    kit.press(kit.actions()[0]);
+    assert.equal(kit.inputs().length, 4);
+    next.click();
+    assert.equal(kit.d.activeElement, kit.inputs()[1], 'on past the one just opened');
+  }
+
+  // Nothing to go on to when the only word left is the one being stood on.
+  {
+    const kit = build();
+    kit.trigger.click();
+    kit.blur(kit.d.activeElement);
+    kit.press(kit.actions()[0]);           // show the rest
+    assert.equal(kit.count(), 'all of them found');
+    assert.equal(kit.actions()[1].disabled, true);
+    assert.equal(kit.actions()[0].disabled, true);
   }
 
   // Filling one carries the reader to the next, which is most of an essay away.
@@ -209,7 +262,7 @@ function main() {
     kit.type(kit.inputs()[1], 'sharp');
     kit.blur(kit.d.activeElement);
     kit.press(kit.actions()[0]);
-    kit.actions()[1].click();
+    kit.actions()[2].click();
     assert.equal(kit.text(), original, 'not a character added or lost');
     assert.equal(kit.blanks().length, 0);
     assert.equal(kit.actions().length, 0);
@@ -230,10 +283,10 @@ function main() {
   {
     const kit = build();
     kit.trigger.click();
-    kit.actions()[1].click();
+    kit.actions()[2].click();
     kit.trigger.click();
     assert.equal(kit.blanks().length, 5, 'the same five, once each');
-    kit.actions()[1].click();
+    kit.actions()[2].click();
     assert.equal(kit.text(), original);
   }
 

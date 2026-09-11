@@ -36,6 +36,7 @@
   var clones = [];        // every block the game touches, as it was before it did
   var bar = null;         // the strip that holds the count and the way out
   var current = null;     // the blank the reader is standing in, if any
+  var at = -1;            // where they last were, which outlives losing focus
   var phase = 'reading';
   var motion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
@@ -64,10 +65,13 @@
     return blanks.filter(function (b) { return !b.settled; }).length;
   }
 
-  function nextAfter(blank) {
-    var from = blanks.indexOf(blank);
+  /* Counted from where the reader last was rather than from where they are:
+     being shown a word leaves them standing on nothing, and "the next one"
+     still has to mean the next one after that. Wraps, so the last word leads
+     back round to whatever was skipped. */
+  function nextAfter(from) {
     for (var i = from + 1; i < blanks.length; i++) if (!blanks[i].settled) return blanks[i];
-    for (var j = 0; j < from; j++) if (!blanks[j].settled) return blanks[j];
+    for (var j = 0; j <= from && j < blanks.length; j++) if (!blanks[j].settled) return blanks[j];
     return null;
   }
 
@@ -87,15 +91,30 @@
     return n === 0 ? 'all of them found' : n === 1 ? '1 word left' : n + ' words left';
   }
 
-  /* The strip says what it will do, always. With a box in focus the middle
-     control acts on that one word; with none it acts on what is left. The
-     label is never a guess about which. */
+  /* The strip says what it will do, always. Standing on a word it offers the
+     smallest help first and the whole word only after — a reader who wants a
+     nudge should not have to spend the answer to get one. With no word in
+     focus it offers what is left. The label is never a guess about which. */
   function paint() {
     if (!bar) return;
     bar.count.textContent = countLabel();
     var one = current && !current.settled;
-    bar.show.textContent = one ? 'show this word' : 'show the rest';
+    bar.show.textContent = !one ? 'show the rest'
+      : current.hinted ? 'show the word' : 'show the first letter';
     bar.show.disabled = left() === 0;
+    // Nothing to go on to when the reader is standing on the only one left.
+    var onward = nextAfter(at);
+    bar.next.disabled = !onward || onward === current;
+  }
+
+  /* The letter goes in as the box's placeholder rather than as its value: a
+     hint has to yield to whatever the reader writes over it, and nothing here
+     takes a reader's word away from them. Clearing the box brings it back. */
+  function hint(blank) {
+    blank.hinted = true;
+    blank.input.placeholder = blank.actual.charAt(0);
+    blank.slot.classList.add('is-hinted');
+    paint();
   }
 
   /* The box is as wide as the word it replaces, so the line it sits in keeps
@@ -123,16 +142,22 @@
     slot.appendChild(input);
     node.parentNode.insertBefore(slot, tail);
 
-    var blank = { word: word, actual: actual, slot: slot, input: input, settled: false };
+    var blank = { word: word, actual: actual, slot: slot, input: input,
+                  settled: false, hinted: false };
 
     input.addEventListener('input', function () {
       slot.classList.remove('is-yours');
       if (normal(input.value) === normal(word)) {
         settle(blank, actual);
-        goTo(nextAfter(blank));
+        // Finding one still moves on: the reader already knows what it says.
+        goTo(nextAfter(blanks.indexOf(blank)));
       }
     });
-    input.addEventListener('focus', function () { current = blank; paint(); });
+    input.addEventListener('focus', function () {
+      current = blank;
+      at = blanks.indexOf(blank);
+      paint();
+    });
     // A word that is not the essay's is not taken away. It is kept, and marked
     // as the reader's own, which is a different thing from being marked wrong.
     input.addEventListener('blur', function () {
@@ -184,12 +209,16 @@
   /* One word, where the reader is standing. This is the ordinary way to be
      shown something: asking for all of them at once scattered six answers over
      an essay and left the reader to find what had changed. */
+  /* And then it stays. Being carried off the moment a word appears is the one
+     thing that made this unusable: the reader asked to be shown something,
+     was shown it for an instant, and landed somewhere else with no way back to
+     the sentence they had just been given. Finding a word is different — the
+     reader already knows what it says — so that one still moves on. */
   function revealOne(blank) {
-    var next = nextAfter(blank);
+    at = blanks.indexOf(blank);
     open_(blank);
     current = null;
     paint();
-    goTo(next);
   }
 
   function revealRest() {
@@ -214,6 +243,7 @@
     clones = [];
     blanks = [];
     current = null;
+    at = -1;
     if (bar) { bar.el.remove(); bar = null; }
     article.classList.remove('is-guessing');
     document.removeEventListener('keydown', onKey);
@@ -260,12 +290,21 @@
     show.addEventListener('pointerdown', function (event) {
       event.preventDefault();
       if (show.disabled) return;
-      if (current && !current.settled) revealOne(current); else revealRest();
+      if (!current || current.settled) { revealRest(); return; }
+      if (current.hinted) revealOne(current); else hint(current);
     });
+    /* The way on. An arrow rather than the words for it: with the count, the
+       help and the way out already on the strip, "next word" spelled out does
+       not fit a phone, and this is the one of the four whose meaning a glyph
+       carries whole. The words are still on it for anyone listening. */
+    var next = control('\u2192', function () { goTo(nextAfter(at)); });
+    next.classList.add('guess-next');
+    next.setAttribute('aria-label', 'Go to the next word');
+    next.title = 'Next word';
     var exit = control('read the original', restore);
-    el.append(count, show, exit);
+    el.append(count, show, next, exit);
     document.body.appendChild(el);
-    bar = { el: el, count: count, show: show, exit: exit };
+    bar = { el: el, count: count, show: show, next: next, exit: exit };
     ride();
     paint();
   }
