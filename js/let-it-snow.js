@@ -132,6 +132,8 @@
   var geometryDirty=true, bankDirty=true, observer;
   var reduce=window.matchMedia('(prefers-reduced-motion: reduce)');
   var MAX_PARTICLES=110;
+  // What a bead thrown out of a splash falls back at, in pixels a second.
+  var SPLASH_FALL=430;
   /* Light snow settles along the foot of the window; heavy snow is allowed
      the whole of it, writing included. Whoever wants the words back wipes
      them clear with a finger or the mouse. */
@@ -251,9 +253,8 @@
       if(drop.x>width+28)drop.x=-24; else if(drop.x<-28)drop.x=width+24;
       var landed=ground>=0 && ground<=height+1 && drop.y>=ground;
       if(landed || drop.y>height+24){
-        if(landed && splashes.length<(heavy?60:24) && Math.random()<(heavy?.7:.35)){
-          splashes.push({x:drop.x,y:ground-2,age:0,lifetime:.3+Math.random()*.25,
-            reach:4+drop.thickness*3.5});
+        if(landed && splashes.length<(heavy?90:40) && Math.random()<(heavy?.85:.5)){
+          splashes.push(makeSplash(drop.x,drop.thickness,heavy));
         }
         flakes[i]=makeFlake(false);continue;
       }
@@ -280,11 +281,41 @@
     for(var j=splashes.length-1;j>=0;j--){
       var splash=splashes[j];splash.age+=dt;
       if(splash.age>=splash.lifetime){splashes.splice(j,1);continue;}
-      var progress=splash.age/splash.lifetime,radius=1+progress*(splash.reach||8);
-      context.beginPath();context.ellipse(splash.x,splash.y,radius,radius*.28,0,0,Math.PI*2);
-      context.lineWidth=heavy?1.1:.7;
-      context.strokeStyle=(heavy?'rgba(96,132,164,':'rgba(160,190,211,')+((heavy?.5:.3)*(1-progress))+')';context.stroke();
+      var progress=splash.age/splash.lifetime, fade=1-progress;
+      var radius=1+progress*(splash.reach||8);
+      context.beginPath();context.ellipse(splash.x,splash.y,radius,radius*.3,0,0,Math.PI*2);
+      context.lineWidth=heavy?1.6:1.1;
+      context.strokeStyle=(heavy?'rgba(96,132,164,':'rgba(160,190,211,')+((heavy?.8:.55)*fade)+')';context.stroke();
+      /* The crown. Beads are thrown up out of the ring and come down under
+         their own weight, which is the part of a splash the eye actually
+         reads; a ring alone, at the very foot of the window, was easy to
+         miss. Square and a pixel or two across: at that size a bead is a
+         bead, and a rectangle costs nothing to draw. */
+      var beads=splash.beads;
+      context.fillStyle=(heavy?'rgba(96,132,164,':'rgba(160,190,211,')+((heavy?.9:.65)*fade)+')';
+      for(var b=0;b<beads.length;b++){
+        var bead=beads[b];
+        bead.fall+=SPLASH_FALL*dt*motion;
+        bead.x+=bead.drift*dt*motion;bead.y+=(bead.lift+bead.fall)*dt*motion;
+        if(bead.y>=splash.y)continue;   // back into the water it came out of
+        context.fillRect(bead.x-bead.size*.5,bead.y-bead.size*.5,bead.size,bead.size);
+      }
     }
+  }
+  /* A drop that lands is not a drop that vanishes: it opens a ring on the
+     sill and throws a few beads up out of it. Heavier rain throws more of
+     them and throws them higher, which is most of the difference between
+     rain on a window and a downpour on one. */
+  function makeSplash(x,thickness,heavy){
+    var beads=[], many=heavy?3:2, lift=(52+thickness*34)*(heavy?1.3:1), i;
+    for(i=0;i<many;i++){
+      beads.push({x:x,y:ground-2,fall:0,
+        lift:-lift*(.55+Math.random()*.75),
+        drift:(Math.random()*2-1)*(24+thickness*18),
+        size:.9+Math.random()*(heavy?1.2:.8)});
+    }
+    return {x:x,y:ground-2,age:0,lifetime:.34+Math.random()*.3,
+      reach:5+thickness*5,beads:beads};
   }
   function paintBank(){
     bankDirty=false;
@@ -346,10 +377,23 @@
     frame=requestAnimationFrame(step);
   }
   function invalidate(){geometryDirty=true;}
-  /* Where the hand was last seen, so a stroke can be a stroke. Dropped when
-     the pointer has been away long enough that the next place it turns up is
+  /* Where each hand was last seen, so a stroke can be a stroke. One entry
+     per pointer, because a hand on glass is several of them and a tablet
+     reports every finger separately. An entry goes when the pointer lifts,
+     or when it has been away long enough that the next place it turns up is
      somewhere it went to rather than somewhere it passed through. */
-  var trail=null, STROKE_GAP=260;
+  var trails=Object.create(null), touching=Object.create(null), STROKE_GAP=260;
+  var CONTROLS='a,button,input,select,textarea,summary,label,[role="button"]';
+  /* What a finger drawn sideways might mean something to. A page is mostly
+     links — the whole of the front page is — and refusing to sweep snow that
+     lies over one would leave a reader with almost nowhere to wipe; a link
+     has nothing to say to a sideways drag anyway, so only the controls that
+     do are left alone here. Tapping any of them, link included, still works:
+     a tap is not a sweep, and only a sweep is ever taken. */
+  var HANDS_OFF='input,select,textarea,summary,label,[contenteditable],[role="slider"]';
+  // A hand is 55px of cursor or 70px of finger, and never more of a narrow
+  // window than it would be of a hand: a finger is not a third of a phone.
+  function hand(span,most){return Math.min(most,span/Math.max(1,width));}
   function press(x,y,radius,strength,lead){
     /* Only a hand that has gone under the sill is dropped outright. Whether
        there is anything to take is the carve's question, column by column: a
@@ -361,33 +405,118 @@
     if(y>ground+40) return;
     if(drift.carve(x/width,ground-y-6,radius,strength,lead)>0) bankDirty=true;
   }
-  function sweep(event){
-    if(!active || mode!=='snow' || !width) return;
-    var pressing=event.type==='pointerdown' || !!event.buttons;
-    if(event.type==='pointermove' && event.pointerType!=='mouse' && !pressing) return;
-    // A press aimed at a control is aimed at the control, not at the snow.
-    if(event.type==='pointerdown' && event.target.closest &&
-       event.target.closest('a,button,input,select,textarea')){trail=null;return;}
+  /* A hand is not a series of dots. The events arrive far apart when it
+     moves quickly — further apart than the hand is wide — and wiping only
+     where they landed left the row of scallops this used to draw. The whole
+     segment between two of them is wiped instead, at the depth the hand was
+     passing through along the way. */
+  function stroke(from,x,y,radius,strength){
     remeasure();
-    var now=event.timeStamp || Date.now(), x=event.clientX, y=event.clientY;
-    var from=event.type!=='pointerdown' && trail && trail.id===event.pointerId &&
-      now-trail.at<STROKE_GAP ? trail : null;
-    trail={x:x,y:y,id:event.pointerId,at:now};
-    /* A hand is not a series of dots. Pointer events arrive far apart when it
-       moves quickly — further apart than the hand is wide — and wiping only
-       where they landed left the row of scallops this used to draw. The whole
-       segment between two of them is wiped instead, at the depth the hand was
-       passing through along the way. */
-    var radius=Math.min(.25,55/width), reach=Math.max(6,radius*width*.2);
+    if(!width) return;
+    var reach=Math.max(6,radius*width*.2);
     var dx=from?x-from.x:0, dy=from?y-from.y:0, gone=Math.sqrt(dx*dx+dy*dy);
     var steps=from?Math.min(128,Math.max(1,Math.ceil(gone/reach))):1;
-    // A press clears to the hand at once; a mouse merely passing over takes
-    // the snow off in the couple of strokes a sleeve would.
-    var strength=pressing?1:.6, lead=gone>0?dx/gone:0;
+    var lead=gone>0?dx/gone:0;
     for(var i=1;i<=steps;i++){
       var t=i/steps;
       press(from?from.x+dx*t:x,from?from.y+dy*t:y,radius,strength,lead);
     }
+  }
+  function forget(event){delete trails[event.pointerId===undefined?'mouse':event.pointerId];}
+  function sweep(event){
+    if(!active || mode!=='snow' || !width) return;
+    /* A finger comes in below instead. The browser hands a touch that began
+       on the page to the page, as a scroll, and stops saying where it went —
+       which is why a sweep run from pointer events alone kept the dab it
+       started with and lost the rest of the stroke. */
+    if(event.pointerType==='touch') return;
+    var pressing=event.type==='pointerdown' || !!event.buttons;
+    if(event.type==='pointermove' && event.pointerType!=='mouse' && !pressing) return;
+    // A press aimed at a control is aimed at the control, not at the snow.
+    if(event.type==='pointerdown' && event.target.closest &&
+       event.target.closest(CONTROLS)){forget(event);return;}
+    var now=event.timeStamp || Date.now(), x=event.clientX, y=event.clientY;
+    var id=event.pointerId===undefined?'mouse':event.pointerId, seen=trails[id];
+    var from=event.type!=='pointerdown' && seen && now-seen.at<STROKE_GAP ? seen : null;
+    trails[id]={x:x,y:y,at:now};
+    // A press clears to the hand at once; a mouse merely passing over takes
+    // the snow off in the couple of strokes a sleeve would.
+    stroke(from,x,y,hand(55,.25),pressing?1:.6);
+  }
+  /* The finger, which the page has to be asked for. A tablet and a phone
+     have no hovering in them: what a mouse does by passing over the drift, a
+     hand does by being put on it and drawn across. The snow takes the touch
+     itself so that every finger on the glass carries its own stroke, and so
+     that the browser can be told, for that one gesture, not to scroll the
+     page out from under it.
+     Across is a sweep and up-and-down is a read: the direction of the first
+     few pixels decides which, so a page buried in heavy snow still scrolls
+     with a finger while a hand drawn sideways still takes the drift off. The
+     browser hears nothing until that is settled, which happens inside the
+     few pixels it allows itself before starting a scroll; once it has
+     started one the gesture is its, and the snow lets it go. */
+  var GRAB=56, SWEEPABLE=3, INTENT=5;
+  function sweepable(x,y){
+    remeasure();
+    if(!width) return false;
+    var depth=drift.heightAt(x/width);
+    return depth>=SWEEPABLE && y>=ground-depth-GRAB && y<=ground+40;
+  }
+  function land(event){
+    if(!active || mode!=='snow' || !width) return;
+    var spots=event.changedTouches||[];
+    for(var i=0;i<spots.length;i++){
+      var spot=spots[i], target=spot.target;
+      var on=target && target.closest ? target : null;
+      if(on && on.closest(HANDS_OFF)) continue;
+      if(!sweepable(spot.clientX,spot.clientY)) continue;
+      touching[spot.identifier]={x:spot.clientX,y:spot.clientY,held:false};
+      /* A finger put on a control is on the control: heavy snow buries the
+         page, and neither a link nor the way out of the snow should ever
+         need digging for. It may still sweep if it goes on to sweep — it is
+         the dab that belongs to the tap, and the tap keeps it. */
+      if(!(on && on.closest(CONTROLS))) stroke(null,spot.clientX,spot.clientY,hand(70,.12),1);
+    }
+  }
+  function drag(event){
+    var spots=event.changedTouches||[], sweeping=false, last=null;
+    for(var i=0;i<spots.length;i++){
+      var spot=spots[i], seen=touching[spot.identifier];
+      if(!seen) continue;
+      var x=spot.clientX, y=spot.clientY;
+      if(!seen.held){
+        var dx=x-seen.x, dy=y-seen.y;
+        if(dx*dx+dy*dy<INTENT*INTENT) continue;
+        if(Math.abs(dx)<=Math.abs(dy) || !event.cancelable){
+          delete touching[spot.identifier];continue;
+        }
+        seen.held=true;
+      }
+      sweeping=true;last={at:Date.now(),x:x,y:y};
+      if(active && mode==='snow' && width) stroke(seen,x,y,hand(70,.12),1);
+      seen.x=x;seen.y=y;
+    }
+    // Refusing the scroll is the whole of what keeps the stroke coming.
+    if(sweeping){swept=last;if(event.cancelable)event.preventDefault();}
+  }
+  function lift(event){
+    var spots=event.changedTouches||[];
+    for(var i=0;i<spots.length;i++) delete touching[spots[i].identifier];
+  }
+  /* A browser kept from scrolling a touch finishes the gesture the way it
+     finishes a tap: with a click, at the page, where the finger came up. A
+     sweep is not a tap, and the page under the snow is full of links — the
+     first wipe across an essay opened whichever one the hand happened to
+     stop on. The one click that follows a sweep is swallowed, and nothing
+     else is: a tap sweeps nothing, so tapping a link still opens it. */
+  var swept=null;
+  function swallow(event){
+    if(!swept || Date.now()-swept.at>500) return;
+    // Where the hand came up, and only there: a click anywhere else in that
+    // half-second is somebody's aim, not the tail of the gesture.
+    var dx=event.clientX-swept.x, dy=event.clientY-swept.y;
+    if(dx*dx+dy*dy>1600) return;
+    swept=null;event.preventDefault();event.stopPropagation();
   }
   function visibility(){
     cancelAnimationFrame(frame);frame=0;lastTime=0;
@@ -397,7 +526,8 @@
     if(canvas) canvas.remove();
     if(canvas) canvas.width=canvas.height=1;
     if(bank) bank.width=bank.height=1;
-    canvas=context=bank=bankContext=null;flakes=[];splashes=[];drift=null;trail=null;
+    canvas=context=bank=bankContext=null;flakes=[];splashes=[];drift=null;
+    trails=Object.create(null);touching=Object.create(null);
   }
   function stop(){
     active=false;cancelAnimationFrame(frame);frame=0;
@@ -405,6 +535,13 @@
     window.removeEventListener('resize',invalidate);
     document.removeEventListener('pointermove',sweep);
     document.removeEventListener('pointerdown',sweep);
+    document.removeEventListener('pointerup',forget);
+    document.removeEventListener('pointercancel',forget);
+    document.removeEventListener('touchstart',land);
+    document.removeEventListener('touchmove',drag);
+    document.removeEventListener('touchend',lift);
+    document.removeEventListener('touchcancel',lift);
+    document.removeEventListener('click',swallow,true);
     document.removeEventListener('visibilitychange',visibility);
     updateButtons();
     canvas.classList.add('snow-melting');
@@ -413,7 +550,7 @@
   function start(kind){
     if(active)stop();
     clearTimeout(fadeTimer);removeLayers();
-    mode=kind;intensity=1;trail=null;
+    mode=kind;intensity=1;trails=Object.create(null);touching=Object.create(null);
     canvas=document.createElement('canvas');
     /* The kind is on the canvas so a stylesheet can hold rain back behind
        the words on a reading page without touching the snow, which is meant
@@ -434,6 +571,14 @@
     window.addEventListener('resize',invalidate,{passive:true});
     document.addEventListener('pointermove',sweep,{passive:true});
     document.addEventListener('pointerdown',sweep,{passive:true});
+    document.addEventListener('pointerup',forget,{passive:true});
+    document.addEventListener('pointercancel',forget,{passive:true});
+    document.addEventListener('touchstart',land,{passive:true});
+    // Not passive: this one has to be able to refuse the scroll.
+    document.addEventListener('touchmove',drag,{passive:false});
+    document.addEventListener('touchend',lift,{passive:true});
+    document.addEventListener('touchcancel',lift,{passive:true});
+    document.addEventListener('click',swallow,true);
     document.addEventListener('visibilitychange',visibility);
     if(typeof ResizeObserver!=='undefined'){
       observer=new ResizeObserver(invalidate);observer.observe(document.documentElement);
