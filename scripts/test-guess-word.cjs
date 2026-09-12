@@ -99,12 +99,13 @@ function main() {
     assert.ok(kit.text().includes('a hollow space'), 'the sentence closes over it');
   }
 
-  // With the actual stylesheet on: a word found is coloured apart from the
-  // paragraph it settles into, and a word asked for is not. Seven words an
-  // essay apart is further than anyone can hold in their head, and the colour
-  // is how a reader looks up and sees which ones were theirs. Asserted as the
-  // relationship rather than the colour, so the accent can change and this
-  // still means what it says.
+  // With the actual stylesheet on: every word the game puts back is coloured
+  // apart from the paragraph it settles into, and a word asked for is coloured
+  // exactly like a word found. That last one is the point — marking only the
+  // ones the reader got would turn the colour into a score, and leave the word
+  // they most wanted to look at afterwards as the one they cannot find again.
+  // Asserted as the relationship rather than the colour, so the accent can
+  // change and this still means what it says.
   {
     const kit = build();
     const style = kit.d.createElement('style');
@@ -123,8 +124,10 @@ function main() {
     const paragraph = kit.w.getComputedStyle(found.closest('p')).color;
     assert.notEqual(kit.w.getComputedStyle(found).color, paragraph,
       'a word found is marked');
-    assert.equal(kit.w.getComputedStyle(asked).color, paragraph,
-      'a word asked for was handed back, not found');
+    assert.notEqual(kit.w.getComputedStyle(asked).color, paragraph,
+      'and so is a word asked for');
+    assert.equal(kit.w.getComputedStyle(asked).color, kit.w.getComputedStyle(found).color,
+      'the two are marked the same: the colour is not a score');
   }
 
   // Case and a curly apostrophe are not the question being asked.
