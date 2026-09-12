@@ -5,6 +5,115 @@ title: "Notes"
 description: "Short things, out loud. Half-thoughts, dated."
 ---
 
+<style>
+  /* Notes is a wall rather than a catalogue. The pinned disclosure sits above
+     the dated run so it no longer consumes a grid slot; the dated cards then
+     pack into the available columns while keeping their paper character. */
+  #notes {
+    --notes-shadow-rgb: 38, 35, 32;
+    --notes-shadow-alpha: 0.11;
+  }
+
+  .notes-pinned-wrap {
+    max-width: 40rem;
+    margin: -10px auto 3.5rem;
+    padding: 0 1rem;
+  }
+
+  .notes-pinned-wrap .note {
+    --note-h: 12;
+    min-height: 0;
+    padding: 1.55rem 2rem 1.45rem;
+    transform: rotate(-0.18deg);
+  }
+
+  .notes-pinned-wrap .note-body {
+    padding-top: 0.75rem;
+  }
+
+  .notes-list {
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 19rem));
+    column-gap: 2rem;
+    row-gap: 2rem;
+    max-width: 66rem;
+  }
+
+  .notes-list .note {
+    min-height: 11rem;
+    width: 100%;
+    align-self: start;
+  }
+
+  /* JS only adds this class after it has measured every sheet. Without JS the
+     wall remains an ordinary readable grid rather than collapsing into 1px rows. */
+  .notes-list.notes-masonry-ready {
+    grid-auto-rows: 1px;
+    row-gap: 0;
+  }
+
+  /* One light source for the whole wall. Pointer position only changes these
+     variables; no card lifts or scales. On touch devices the defaults read as
+     a quiet light from the upper left. */
+  #notes .note {
+    --note-shadow-x: 7px;
+    --note-shadow-y: 10px;
+    --note-light-x: 18%;
+    --note-light-y: 12%;
+    box-shadow:
+      var(--note-shadow-x) var(--note-shadow-y) 26px rgba(var(--notes-shadow-rgb), var(--notes-shadow-alpha)),
+      calc(var(--note-shadow-x) * 0.22) calc(var(--note-shadow-y) * 0.22) 5px rgba(var(--notes-shadow-rgb), 0.06);
+    transition: box-shadow 90ms linear;
+  }
+
+  /* Replace the old fixed bottom curl with a very faint highlight facing the
+     same light. It is deliberately weaker than the paper tint. */
+  #notes .note::after {
+    inset: 0;
+    height: auto;
+    border-radius: inherit;
+    background: radial-gradient(
+      circle at var(--note-light-x) var(--note-light-y),
+      rgba(255, 255, 255, 0.13),
+      transparent 48%
+    );
+  }
+
+  html[data-theme="dark"] #notes,
+  html[data-theme="midnight"] #notes {
+    --notes-shadow-rgb: 0, 0, 0;
+    --notes-shadow-alpha: 0.34;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    html:not([data-theme="light"]) #notes {
+      --notes-shadow-rgb: 0, 0, 0;
+      --notes-shadow-alpha: 0.34;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .notes-pinned-wrap {
+      max-width: 24rem;
+      margin-bottom: 2.5rem;
+      padding: 0;
+    }
+
+    .notes-pinned-wrap .note {
+      padding: 1.7rem 1.5rem 1.55rem;
+    }
+
+    .notes-list {
+      grid-template-columns: minmax(0, 1fr);
+      row-gap: 2rem;
+      max-width: 24rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #notes .note { transition: none; }
+  }
+</style>
+
 <section id="notes" class="section-page">
   <div class="section-page-head">
     <h1 class="section-page-title">Notes</h1>
@@ -12,24 +121,35 @@ description: "Short things, out loud. Half-thoughts, dated."
   </div>
 
   {%- comment -%}
-    Drafts stay in _data/notes.yml but off the page; pinned notes sit above the
-    dated run, so the date column still reads newest-first underneath them.
+    Drafts stay in _data/notes.yml but off the page. Pinned notes are kept
+    outside the dated wall so the wall can pack by height without the standing
+    disclosure becoming one of its cells.
   {%- endcomment -%}
   {% assign live_notes = site.data.notes | where_exp: "n", "n.draft != true" | sort: "date" | reverse %}
   {% assign pinned_notes = live_notes | where_exp: "n", "n.pinned == true" %}
   {% assign dated_notes = live_notes | where_exp: "n", "n.pinned != true" %}
-  {% assign notes = pinned_notes | concat: dated_notes %}
-  <ol class="notes-list" role="list">
-    {% for note in notes %}
+
+  {% if pinned_notes.size > 0 %}
+  <div class="notes-pinned-wrap">
+    {% for note in pinned_notes %}
     {% assign note_anchor = note.id | default: note.date %}
-    <li class="note{% if note.pinned %} note-pinned{% endif %}" id="{{ note_anchor }}">
-      {%- if note.pinned -%}
+    <div class="note note-pinned" id="{{ note_anchor }}">
       {% include note-pin.html %}
-      {%- else -%}
+      <div class="note-body">
+        {{ note.body | markdownify }}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <ol class="notes-list" role="list">
+    {% for note in dated_notes %}
+    {% assign note_anchor = note.id | default: note.date %}
+    <li class="note" id="{{ note_anchor }}">
       <a class="note-date" href="#{{ note_anchor }}">
         <time datetime="{{ note.date }}">{{ note.date | date: "%B %-d, %Y" }}</time>
       </a>
-      {%- endif -%}
       <div class="note-body">
         {{ note.body | markdownify }}
       </div>
@@ -37,3 +157,107 @@ description: "Short things, out loud. Half-thoughts, dated."
     {% endfor %}
   </ol>
 </section>
+
+<script>
+(() => {
+  const section = document.getElementById('notes');
+  const wall = section && section.querySelector('.notes-list');
+  if (!section || !wall) return;
+
+  const wallCards = Array.from(wall.querySelectorAll('.note'));
+  const allCards = Array.from(section.querySelectorAll('.note'));
+  let layoutFrame = 0;
+  let lightFrame = 0;
+
+  function clearMasonry() {
+    wall.classList.remove('notes-masonry-ready');
+    wallCards.forEach(card => {
+      card.style.removeProperty('grid-column');
+      card.style.removeProperty('grid-row');
+    });
+  }
+
+  function layoutMasonry() {
+    cancelAnimationFrame(layoutFrame);
+    layoutFrame = requestAnimationFrame(() => {
+      clearMasonry();
+
+      /* A single-column wall already packs naturally and needs no measured
+         placement. This also leaves the phone layout entirely to CSS. */
+      const columns = getComputedStyle(wall).gridTemplateColumns
+        .split(/\s+/)
+        .filter(Boolean).length;
+      if (columns < 2) return;
+
+      const heights = wallCards.map(card => card.offsetHeight);
+      const bottoms = new Array(columns).fill(1);
+      const gap = 32;
+
+      wall.classList.add('notes-masonry-ready');
+
+      wallCards.forEach((card, index) => {
+        let column = 0;
+        for (let i = 1; i < bottoms.length; i += 1) {
+          if (bottoms[i] < bottoms[column]) column = i;
+        }
+
+        const start = bottoms[column];
+        const span = Math.ceil(heights[index] + gap);
+        card.style.gridColumn = String(column + 1);
+        card.style.gridRow = `${start} / span ${span}`;
+        bottoms[column] = start + span;
+      });
+    });
+  }
+
+  function resetLight() {
+    allCards.forEach(card => {
+      card.style.removeProperty('--note-shadow-x');
+      card.style.removeProperty('--note-shadow-y');
+      card.style.removeProperty('--note-light-x');
+      card.style.removeProperty('--note-light-y');
+    });
+  }
+
+  const finePointer = window.matchMedia('(pointer: fine)').matches;
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (finePointer && !reducedMotion) {
+    section.addEventListener('pointermove', event => {
+      cancelAnimationFrame(lightFrame);
+      lightFrame = requestAnimationFrame(() => {
+        allCards.forEach(card => {
+          const rect = card.getBoundingClientRect();
+          const cx = rect.left + rect.width / 2;
+          const cy = rect.top + rect.height / 2;
+          const dx = cx - event.clientX;
+          const dy = cy - event.clientY;
+          const distance = Math.hypot(dx, dy) || 1;
+          const magnitude = Math.min(13, 4 + distance / 140);
+          const shadowX = (dx / distance) * magnitude;
+          const shadowY = (dy / distance) * magnitude;
+
+          const lightX = Math.max(0, Math.min(100,
+            ((event.clientX - rect.left) / rect.width) * 100));
+          const lightY = Math.max(0, Math.min(100,
+            ((event.clientY - rect.top) / rect.height) * 100));
+
+          card.style.setProperty('--note-shadow-x', `${shadowX.toFixed(1)}px`);
+          card.style.setProperty('--note-shadow-y', `${shadowY.toFixed(1)}px`);
+          card.style.setProperty('--note-light-x', `${lightX.toFixed(1)}%`);
+          card.style.setProperty('--note-light-y', `${lightY.toFixed(1)}%`);
+        });
+      });
+    });
+
+    section.addEventListener('pointerleave', resetLight);
+  }
+
+  layoutMasonry();
+  window.addEventListener('resize', layoutMasonry, { passive: true });
+
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(layoutMasonry);
+  }
+})();
+</script>
