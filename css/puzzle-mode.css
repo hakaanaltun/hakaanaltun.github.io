@@ -1,4 +1,11 @@
-.essay-puzzle-toggle{margin-left:12px;}
+/* .essay-puzzle-toggle carries no rule, and that is the rule. It was born with
+   margin-left:12px, written as though "puzzle mode" sat beside "read with
+   rain" — but the essay header is a centred column, so the two toggles are
+   stacked, one line each, and all the margin ever did was push this one 6px
+   off the axis the title, the date and "read with rain" all share. Off-centre
+   by less than a word is the kind of thing a reader feels before they can name
+   it. The class stays as the button's name in the markup; the header centres
+   it. */
 .puzzle-active{scroll-margin-top:8px;}
 .puzzle-panel[hidden]{display:none;}
 .puzzle-panel{cursor:pointer;}
