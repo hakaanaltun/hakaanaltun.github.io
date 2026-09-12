@@ -138,7 +138,12 @@
      the whole of it, writing included. Whoever wants the words back wipes
      them clear with a finger or the mouse. */
   function snowLimit(){return intensity===2?height:height*.18;}
-  function snowRate(){return intensity===2?8:1.8;}
+  /* How fast it gathers, in pixels a second before the drift's own waves
+     take a hand to it. Heavy snow still has the whole window to fill — what
+     changed is that it takes the better part of a read to fill it, rather
+     than a minute and a half. Snow that buries a page while you are still on
+     the first paragraph is a wipe, not a snowfall. */
+  function snowRate(){return intensity===2?3.5:1.8;}
   function seedWeather(){
     var count=Math.min(MAX_PARTICLES,Math.max(36,Math.round(width*.075)));
     if(intensity===2)count=Math.min(mode==='rain'?480:360,Math.max(160,Math.round(width*.32)));
@@ -237,8 +242,22 @@
       radius:(.7+depth*2.5)*(heavy?1.6:1),speed:(16+depth*32)*(heavy?2.2:1),phase:Math.random()*Math.PI*2,
       sway:(5+Math.random()*14)*(heavy?2:1),alpha:heavy?.7+depth*.3:.35+depth*.5};
   }
+  /* Where the ground is, in the window's own coordinates. The snow lies on
+     the glass and so keeps to the sill, but rain falls past the glass onto
+     whatever the page is standing on, and that is the end of the page: read
+     from the middle of an essay and the drops go on down past the foot of
+     the window, because the ground is still a long way below it. Scroll to
+     the end and the ground comes up to meet them. The floor under the max is
+     for a page with no scroll in it and for the rubber-band an overscroll
+     gives: in both, the end of the page is the foot of the window. */
+  function pageFoot(){
+    var doc=document.documentElement;
+    var top=window.pageYOffset||doc.scrollTop||0;
+    return Math.max(doc.scrollHeight||0,doc.clientHeight||0,top+height)-top;
+  }
   function paintRain(dt,now){
     var motion=reduce.matches ? .45 : 1, heavy=intensity===2;
+    var foot=pageFoot(), landing=foot>=0 && foot<=height+1;
     /* Two gusts whose periods do not divide each other, so the wind wanders
        instead of returning on a count the eye can learn. */
     var swell=heavy?46:18;
@@ -251,7 +270,7 @@
       // Rain leaning hard enough to leave the frame re-enters from the far
       // side at the same height, which is what a continuous sheet does.
       if(drop.x>width+28)drop.x=-24; else if(drop.x<-28)drop.x=width+24;
-      var landed=ground>=0 && ground<=height+1 && drop.y>=ground;
+      var landed=landing && drop.y>=foot;
       if(landed || drop.y>height+24){
         if(landed && splashes.length<(heavy?90:40) && Math.random()<(heavy?.85:.5)){
           splashes.push(makeSplash(drop.x,drop.thickness,heavy));
@@ -278,17 +297,22 @@
         context.strokeStyle='rgba(226,241,253,'+(drop.alpha*.85)+')';context.stroke();
       }
     }
+    /* A splash is water off the ground, so it goes wherever the ground goes:
+       scroll the end of the page out of the window mid-splash and the rings
+       leave with it rather than hanging on at the foot of the glass. */
+    if(!landing){splashes.length=0;return;}
+    var line=foot-2;
     for(var j=splashes.length-1;j>=0;j--){
       var splash=splashes[j];splash.age+=dt;
       if(splash.age>=splash.lifetime){splashes.splice(j,1);continue;}
       var progress=splash.age/splash.lifetime, fade=1-progress;
       var radius=1+progress*(splash.reach||8);
-      context.beginPath();context.ellipse(splash.x,splash.y,radius,radius*.3,0,0,Math.PI*2);
+      context.beginPath();context.ellipse(splash.x,line,radius,radius*.3,0,0,Math.PI*2);
       context.lineWidth=heavy?1.6:1.1;
       context.strokeStyle=(heavy?'rgba(96,132,164,':'rgba(160,190,211,')+((heavy?.8:.55)*fade)+')';context.stroke();
       /* The crown. Beads are thrown up out of the ring and come down under
          their own weight, which is the part of a splash the eye actually
-         reads; a ring alone, at the very foot of the window, was easy to
+         reads; a ring alone, down at the foot of the page, was easy to
          miss. Square and a pixel or two across: at that size a bead is a
          bead, and a rectangle costs nothing to draw. */
       var beads=splash.beads;
@@ -297,24 +321,27 @@
         var bead=beads[b];
         bead.fall+=SPLASH_FALL*dt*motion;
         bead.x+=bead.drift*dt*motion;bead.y+=(bead.lift+bead.fall)*dt*motion;
-        if(bead.y>=splash.y)continue;   // back into the water it came out of
-        context.fillRect(bead.x-bead.size*.5,bead.y-bead.size*.5,bead.size,bead.size);
+        if(bead.y>=0)continue;   // back into the water it came out of
+        context.fillRect(bead.x-bead.size*.5,line+bead.y-bead.size*.5,bead.size,bead.size);
       }
     }
   }
   /* A drop that lands is not a drop that vanishes: it opens a ring on the
-     sill and throws a few beads up out of it. Heavier rain throws more of
+     ground and throws a few beads up out of it. Heavier rain throws more of
      them and throws them higher, which is most of the difference between
      rain on a window and a downpour on one. */
   function makeSplash(x,thickness,heavy){
     var beads=[], many=heavy?3:2, lift=(52+thickness*34)*(heavy?1.3:1), i;
     for(i=0;i<many;i++){
-      beads.push({x:x,y:ground-2,fall:0,
+      // Height above the ground it came out of, not a place in the window:
+      // the ground moves under a reader who is scrolling, and the beads go
+      // with it. Up is negative here, the way the window counts.
+      beads.push({x:x,y:0,fall:0,
         lift:-lift*(.55+Math.random()*.75),
         drift:(Math.random()*2-1)*(24+thickness*18),
         size:.9+Math.random()*(heavy?1.2:.8)});
     }
-    return {x:x,y:ground-2,age:0,lifetime:.34+Math.random()*.3,
+    return {x:x,age:0,lifetime:.34+Math.random()*.3,
       reach:5+thickness*5,beads:beads};
   }
   function paintBank(){

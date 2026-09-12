@@ -110,13 +110,17 @@ function check(reduced,width){
   // Escalation preserves the existing snow bank. Read where no hand has been:
   // a berm one has just pushed up is still finding its own level.
   assert(depthAt(.05,height)>=lightSide-1);
-  for(let i=1;i<=900;i++){paint(41000+i*80);assert.equal(frames.size,1);}
-  // Heavy snow is allowed the whole window, writing included.
+  /* Heavy snow is allowed the whole window and now takes its time over it:
+     at 3.5px a second that is a few minutes of watching rather than a minute
+     and a half, so this is the same watching, run for as long as it takes. */
+  const buried=41000+2400*80;
+  for(let i=1;i<=2400;i++){paint(41000+i*80);assert.equal(frames.size,1);}
+  // And it still gets there: writing included.
   assert(bankTop<height*.15,'heavy snow buries the page: '+bankTop.toFixed(1));
   // And a finger takes it off wherever it lies, not only down by the footer.
   const middle=depthAt(.5,height),side=depthAt(.05,height);
   const wipe=new w.MouseEvent('pointerdown',{bubbles:true,cancelable:true,clientX:width*.5,clientY:height*.4});
-  w.document.body.dispatchEvent(wipe);paint(114000);
+  w.document.body.dispatchEvent(wipe);paint(buried+1000);
   assert(depthAt(.5,height)<middle-5,'a touch high up in the drift clears it there too');
   assert(depthAt(.05,height)>=side-1,'and only where the finger went');
   assert.equal(wipe.defaultPrevented,false,'and never swallows the page\'s own clicks');
@@ -127,12 +131,12 @@ function check(reduced,width){
   const drag=new w.MouseEvent('pointermove',{bubbles:true,cancelable:true,
     clientX:width*.06,clientY:height*.4,buttons:1});
   Object.defineProperty(drag,'pointerType',{value:'mouse'});
-  w.document.body.dispatchEvent(drag);paint(114100);
+  w.document.body.dispatchEvent(drag);paint(buried+1100);
   assert(depthAt(.28,height)<midway-5,'the whole stroke is wiped, not its ends: '+
     depthAt(.28,height).toFixed(1)+' from '+midway.toFixed(1));
-  w.innerHeight=600;w.dispatchEvent(new w.Event('resize'));paint(114900);
+  w.innerHeight=600;w.dispatchEvent(new w.Event('resize'));paint(buried+1900);
   assert(bankTop<=1); // A smaller window clamps what has already fallen.
-  w.innerHeight=800;w.dispatchEvent(new w.Event('resize'));paint(115000);
+  w.innerHeight=800;w.dispatchEvent(new w.Event('resize'));paint(buried+2000);
   /* A finger. The browser hands a touch that starts on the page to the
      page, as a scroll, and stops reporting where it went, so a sweep driven
      from pointer events alone kept the dab it began with and lost the rest.
@@ -147,11 +151,11 @@ function check(reduced,width){
   };
   const dabbed=depthAt(.7,height);
   w.document.body.dispatchEvent(finger('touchstart',[{id:1,x:width*.7,y:height*.45}]));
-  paint(115100);
+  paint(buried+2100);
   assert(depthAt(.7,height)<dabbed-5,'a finger put down in the drift clears it there');
   const swept=depthAt(.9,height);
   const across=finger('touchmove',[{id:1,x:width*.95,y:height*.45}]);
-  w.document.body.dispatchEvent(across);paint(115200);
+  w.document.body.dispatchEvent(across);paint(buried+2200);
   assert.equal(across.defaultPrevented,true,'and the page is asked not to scroll away under it');
   assert(depthAt(.9,height)<swept-5,'the whole sweep goes, not the ends of it: '+
     depthAt(.9,height).toFixed(1)+' from '+swept.toFixed(1));
@@ -159,11 +163,11 @@ function check(reduced,width){
   // Up and down is a read, not a sweep: a page under heavy snow still scrolls.
   const standing=depthAt(.62,height);
   w.document.body.dispatchEvent(finger('touchstart',[{id:2,x:width*.62,y:height*.6}]));
-  paint(115300);
+  paint(buried+2300);
   const held=depthAt(.62,height);
   assert(held<standing-5,'the finger is on snow to begin with, and takes what it lands on');
   const down=finger('touchmove',[{id:2,x:width*.62,y:height*.9}]);
-  w.document.body.dispatchEvent(down);paint(115400);
+  w.document.body.dispatchEvent(down);paint(buried+2400);
   assert.equal(down.defaultPrevented,false,'a drag down the window is the page\'s own');
   assert(depthAt(.62,height)>=held-1,'and the drift keeps what it had');
   w.document.body.dispatchEvent(finger('touchend',[{id:2,x:width*.62,y:height*.9}]));
@@ -171,12 +175,12 @@ function check(reduced,width){
   const leftLanded=depthAt(.12,height),rightLanded=depthAt(.58,height);
   w.document.body.dispatchEvent(finger('touchstart',
     [{id:3,x:width*.12,y:height*.7},{id:4,x:width*.58,y:height*.7}]));
-  paint(115500);
+  paint(buried+2500);
   assert(depthAt(.12,height)<leftLanded-5 && depthAt(.58,height)<rightLanded-5,
     'two fingers, two places');
   const leftAhead=depthAt(.28,height),rightAhead=depthAt(.74,height);
   const pair=finger('touchmove',[{id:3,x:width*.38,y:height*.7},{id:4,x:width*.84,y:height*.7}]);
-  w.document.body.dispatchEvent(pair);paint(115600);
+  w.document.body.dispatchEvent(pair);paint(buried+2600);
   assert.equal(pair.defaultPrevented,true);
   assert(depthAt(.28,height)<leftAhead-5,'the first hand takes its own line');
   assert(depthAt(.74,height)<rightAhead-5,'and the second takes its');
@@ -201,11 +205,11 @@ function check(reduced,width){
      links would otherwise be a page with nowhere to wipe. */
   const tapped=depthAt(.5,height);
   w.document.body.dispatchEvent(finger('touchstart',[{id:5,x:width*.5,y:height*.92}],button));
-  paint(115700);
+  paint(buried+2700);
   assert(depthAt(.5,height)>=tapped-1,'a finger put on a control takes no snow with it');
   const sweptOn=depthAt(.3,height);
   const offButton=finger('touchmove',[{id:5,x:width*.2,y:height*.92}]);
-  w.document.body.dispatchEvent(offButton);paint(115800);
+  w.document.body.dispatchEvent(offButton);paint(buried+2800);
   assert.equal(offButton.defaultPrevented,true,'but a hand drawn off one is still a hand');
   assert(depthAt(.3,height)<sweptOn-5,'and it sweeps from where it started');
   w.document.body.dispatchEvent(finger('touchend',[{id:5,x:width*.2,y:height*.92}]));
@@ -231,6 +235,23 @@ function check(reduced,width){
     const previousRipples=ripples,oldStrokes=strokes;paint(115000+i*80);
     assert.equal(frames.size,1);assert(ripples-previousRipples<=90);assert(strokes-oldStrokes<=1020);
   }
+  /* Rain falls to the ground, and the ground is the end of the page rather
+     than the foot of the window. Read from the middle of a long one and the
+     drops go on down past the sill with nothing yet to hit; come to the end
+     of it and they land. Heavy rain splashes on four drops in five, so a
+     hundred frames without a single ring is the page held away, not a lull. */
+  const longPage=(where)=>{
+    Object.defineProperty(w.document.documentElement,'scrollHeight',{value:4000,configurable:true});
+    Object.defineProperty(w,'pageYOffset',{value:where,configurable:true});
+  };
+  longPage(1200);
+  const midPage=ripples,midStrokes=strokes;
+  for(let i=0;i<100;i++)paint(140000+i*80);
+  assert.equal(ripples,midPage,'halfway down a page the ground is still below the window');
+  assert(strokes>midStrokes,'and the rain itself keeps falling past it');
+  longPage(3200);   // 4000 of page, 800 of window: the end of it is in view
+  for(let i=0;i<100;i++)paint(148000+i*80);
+  assert(ripples>midPage,'at the end of the page the drops have something to land on');
   rainButton.click();assert.equal(frames.size,0);assert.equal(rainButton.getAttribute('aria-pressed'),'false');
   for(const callback of timers.values())callback();timers.clear();
   /* One sky, asked for directly. The essays' "read with rain" drives this
