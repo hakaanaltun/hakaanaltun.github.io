@@ -99,6 +99,34 @@ function main() {
     assert.ok(kit.text().includes('a hollow space'), 'the sentence closes over it');
   }
 
+  // With the actual stylesheet on: a word found is coloured apart from the
+  // paragraph it settles into, and a word asked for is not. Seven words an
+  // essay apart is further than anyone can hold in their head, and the colour
+  // is how a reader looks up and sees which ones were theirs. Asserted as the
+  // relationship rather than the colour, so the accent can change and this
+  // still means what it says.
+  {
+    const kit = build();
+    const style = kit.d.createElement('style');
+    style.textContent = fs.readFileSync(path.join(__dirname, '..', 'css', 'guess-word.css'), 'utf8');
+    kit.d.head.appendChild(style);
+    kit.trigger.click();
+    kit.type(kit.inputs()[0], 'hollow');            // found
+    // Settling one leaves the reader standing on nothing, so the next word has
+    // to be stood on before the strip will act on it.
+    kit.focus(kit.inputs()[0]);
+    kit.press(kit.actions()[0]);                    // the letter
+    kit.press(kit.actions()[0]);                    // and then the word: asked for
+    const found = kit.d.querySelector('.guess-word.is-found');
+    const asked = kit.d.querySelector('.guess-word.is-revealed');
+    assert.ok(found && asked, 'one of each to compare');
+    const paragraph = kit.w.getComputedStyle(found.closest('p')).color;
+    assert.notEqual(kit.w.getComputedStyle(found).color, paragraph,
+      'a word found is marked');
+    assert.equal(kit.w.getComputedStyle(asked).color, paragraph,
+      'a word asked for was handed back, not found');
+  }
+
   // Case and a curly apostrophe are not the question being asked.
   {
     const kit = build();

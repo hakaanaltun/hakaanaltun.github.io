@@ -122,8 +122,25 @@
   border-bottom-style: dotted;
 }
 
-/* Found, or asked for. Both read as ordinary text, because by now they are. */
+/* A word found and a word asked for are not the same thing to the reader, so
+   they no longer look the same.
+
+   The found word keeps the piece's own accent — the colour the blank's wash and
+   underline were already drawn in, so the box does not change voice when it
+   closes; it simply stops being a box. Seven words an essay apart is further
+   than anyone can hold in their head, and without this a reader who looks up
+   has no way of telling which of them were theirs. The colour is the answer to
+   that, and it is not a score: nothing is green, nothing is ticked.
+
+   A word asked for stays the colour of the paragraph it is in. It was handed
+   back, not found, and the reader's own word is already standing beside it
+   where the two differed — saying it twice would be saying it against them.
+
+   None of it outlives the game. "Read the original" swaps the untouched
+   paragraph back in, accents and all, which is exactly what lets the mark be
+   this plain: it is a light left on in a room, not ink on the page. */
 .guess-word { color: inherit; }
+.guess-word.is-found { color: var(--petrol); }
 .guess-word.is-found,
 .guess-word.is-revealed { border-bottom: 0; }
 

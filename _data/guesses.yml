@@ -17,6 +17,11 @@
 # metnin başka bir yerinden okunur. Yeni kelime eklerken buna dikkat.
 # Bir paragrafta en az 3 kelime yoksa o paragraf oyuna açılmaz.
 #
+# İkinci kural: kelime yazının kendisinden gelmeli; sonuna eklenen çalışma
+# notundan, plandan ya da künyeden değil. Oyun ilk eşleşmeyi alır, o yüzden
+# oraya düşen bir kelime okura yazının değil, yazı hakkındaki notun boşluğunu
+# doldurtur. ("Measured"da "familiar" böyle kaymıştı, çıkarıldı.)
+#
 # YAML tuzağı: true/false/yes/no/on/off/y/n kelimeleri tırnak içinde yazılmalı,
 # yoksa YAML onları boolean'a çevirir ve kelime kaybolur.
 #
@@ -287,9 +292,6 @@ measured:
 
   # The air conditioning shut off automatically at eleven, and the room was beginning to get ____.
   - warm
-
-  # …was stopped as it began to follow the genre’s ____ patterns, leaving these four scenes.…
-  - familiar
 
 michi:
   # It had rained in the morning, the ____ rain that came and went before the vendors ha…
