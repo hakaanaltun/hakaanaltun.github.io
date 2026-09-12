@@ -52,8 +52,8 @@ description: "Short things, out loud. Half-thoughts, dated."
   }
 
   /* One light source for the whole wall. Pointer position only changes these
-     variables; no card lifts or scales. On touch devices the defaults read as
-     a quiet light from the upper left. */
+     variables; no card lifts or scales. On touch devices a virtual light sits
+     above the wall and each sheet casts away from it. */
   #notes .note {
     --note-shadow-x: 7px;
     --note-shadow-y: 10px;
@@ -210,13 +210,39 @@ description: "Short things, out loud. Half-thoughts, dated."
     });
   }
 
-  function resetLight() {
+  function applyLight(sourceX, sourceY) {
     allCards.forEach(card => {
-      card.style.removeProperty('--note-shadow-x');
-      card.style.removeProperty('--note-shadow-y');
-      card.style.removeProperty('--note-light-x');
-      card.style.removeProperty('--note-light-y');
+      const rect = card.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const dx = cx - sourceX;
+      const dy = cy - sourceY;
+      const distance = Math.hypot(dx, dy) || 1;
+      const magnitude = Math.min(13, 4 + distance / 140);
+      const shadowX = (dx / distance) * magnitude;
+      const shadowY = (dy / distance) * magnitude;
+
+      const lightX = Math.max(0, Math.min(100,
+        ((sourceX - rect.left) / rect.width) * 100));
+      const lightY = Math.max(0, Math.min(100,
+        ((sourceY - rect.top) / rect.height) * 100));
+
+      card.style.setProperty('--note-shadow-x', `${shadowX.toFixed(1)}px`);
+      card.style.setProperty('--note-shadow-y', `${shadowY.toFixed(1)}px`);
+      card.style.setProperty('--note-light-x', `${lightX.toFixed(1)}%`);
+      card.style.setProperty('--note-light-y', `${lightY.toFixed(1)}%`);
     });
+  }
+
+  function applyVirtualLight() {
+    /* Fixed in the viewport, a little left of centre and just below its top.
+       Scrolling the wall past it changes each sheet's shadow naturally. */
+    applyLight(window.innerWidth * 0.24, Math.max(24, window.innerHeight * 0.08));
+  }
+
+  function scheduleVirtualLight() {
+    cancelAnimationFrame(lightFrame);
+    lightFrame = requestAnimationFrame(applyVirtualLight);
   }
 
   const finePointer = window.matchMedia('(pointer: fine)').matches;
@@ -225,39 +251,29 @@ description: "Short things, out loud. Half-thoughts, dated."
   if (finePointer && !reducedMotion) {
     section.addEventListener('pointermove', event => {
       cancelAnimationFrame(lightFrame);
-      lightFrame = requestAnimationFrame(() => {
-        allCards.forEach(card => {
-          const rect = card.getBoundingClientRect();
-          const cx = rect.left + rect.width / 2;
-          const cy = rect.top + rect.height / 2;
-          const dx = cx - event.clientX;
-          const dy = cy - event.clientY;
-          const distance = Math.hypot(dx, dy) || 1;
-          const magnitude = Math.min(13, 4 + distance / 140);
-          const shadowX = (dx / distance) * magnitude;
-          const shadowY = (dy / distance) * magnitude;
-
-          const lightX = Math.max(0, Math.min(100,
-            ((event.clientX - rect.left) / rect.width) * 100));
-          const lightY = Math.max(0, Math.min(100,
-            ((event.clientY - rect.top) / rect.height) * 100));
-
-          card.style.setProperty('--note-shadow-x', `${shadowX.toFixed(1)}px`);
-          card.style.setProperty('--note-shadow-y', `${shadowY.toFixed(1)}px`);
-          card.style.setProperty('--note-light-x', `${lightX.toFixed(1)}%`);
-          card.style.setProperty('--note-light-y', `${lightY.toFixed(1)}%`);
-        });
-      });
+      lightFrame = requestAnimationFrame(() => applyLight(event.clientX, event.clientY));
     });
 
-    section.addEventListener('pointerleave', resetLight);
+    section.addEventListener('pointerleave', scheduleVirtualLight);
   }
 
   layoutMasonry();
-  window.addEventListener('resize', layoutMasonry, { passive: true });
+  applyVirtualLight();
+
+  window.addEventListener('resize', () => {
+    layoutMasonry();
+    scheduleVirtualLight();
+  }, { passive: true });
+
+  if (!reducedMotion) {
+    window.addEventListener('scroll', scheduleVirtualLight, { passive: true });
+  }
 
   if (document.fonts && document.fonts.ready) {
-    document.fonts.ready.then(layoutMasonry);
+    document.fonts.ready.then(() => {
+      layoutMasonry();
+      scheduleVirtualLight();
+    });
   }
 })();
 </script>
