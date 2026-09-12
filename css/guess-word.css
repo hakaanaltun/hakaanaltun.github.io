@@ -122,27 +122,29 @@
   border-bottom-style: dotted;
 }
 
-/* A word found and a word asked for are not the same thing to the reader, so
-   they no longer look the same.
+/* Every word the game puts back takes the piece's own accent — the colour the
+   blank's wash and underline were already drawn in, so the box does not change
+   voice when it closes; it simply stops being a box. Seven words an essay apart
+   is further than anyone can hold in their head, and this is how a reader looks
+   up and sees where the game has been.
 
-   The found word keeps the piece's own accent — the colour the blank's wash and
-   underline were already drawn in, so the box does not change voice when it
-   closes; it simply stops being a box. Seven words an essay apart is further
-   than anyone can hold in their head, and without this a reader who looks up
-   has no way of telling which of them were theirs. The colour is the answer to
-   that, and it is not a score: nothing is green, nothing is ticked.
+   Found or asked for, both, and the same colour for each. A reader who could
+   not reach a word and pressed "show the word" has still been there. Marking
+   only the ones they got would turn the colour into a score and pick out, in
+   the accent, exactly the words they would rather not have picked out — and it
+   would leave the word they most wanted to look at afterwards as the one word
+   they cannot find again.
 
-   A word asked for stays the colour of the paragraph it is in. It was handed
-   back, not found, and the reader's own word is already standing beside it
-   where the two differed — saying it twice would be saying it against them.
+   What separates the two is still on the page and is quieter than a colour:
+   where the reader wrote something of their own, it stands beside the essay's
+   word in .guess-yours.
 
    None of it outlives the game. "Read the original" swaps the untouched
    paragraph back in, accents and all, which is exactly what lets the mark be
    this plain: it is a light left on in a room, not ink on the page. */
 .guess-word { color: inherit; }
-.guess-word.is-found { color: var(--petrol); }
 .guess-word.is-found,
-.guess-word.is-revealed { border-bottom: 0; }
+.guess-word.is-revealed { color: var(--petrol); border-bottom: 0; }
 
 /* What the reader had written, standing beside the word that was there. Small
    and quiet: it is a second thought next to the sentence, not a correction of
