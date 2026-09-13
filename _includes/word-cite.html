@@ -1,0 +1,15 @@
+{%- comment -%}
+  Footnote markers for one sentence, tying it to entries in the word's own
+  `sources:` list. Without them a Sources block at the foot of the page reads
+  as sourcing everything above it — the whole story rather than the one claim
+  the sources actually cover.
+
+  Usage, inside a word's body, right after the closing punctuation:
+      {% include word-cite.html n="1,2" %}
+  where the numbers are positions in that word's `sources:` list.
+
+  The markers carry an aria-label, because a screen reader reading "one" out
+  of the middle of a sentence is noise; "Source 1" is the thing meant.
+{%- endcomment -%}
+{%- assign cite_numbers = include.n | split: "," -%}
+<sup class="word-cite">{% for cite_number in cite_numbers %}<a href="#source-{{ cite_number | strip }}" aria-label="Source {{ cite_number | strip }}">{{ cite_number | strip }}</a>{% endfor %}</sup>

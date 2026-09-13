@@ -75,6 +75,49 @@
   .word-story-body p { margin: 0 0 1.35em; }
   .word-story-body p:last-child { margin-bottom: 0; }
 
+  /* The marker that ties one sentence to a source. Small, raised, and a
+     link — the whole point is that it goes there. */
+  .word-cite {
+    font-size: 0.62em;
+    line-height: 0;
+    vertical-align: super;
+    margin-left: 1px;
+  }
+
+  .word-cite a {
+    color: var(--petrol);
+    text-decoration: none;
+    padding: 0 1px;
+    transition: var(--select-ease);
+  }
+
+  .word-cite a + a::before {
+    content: ",";
+    color: var(--vizon);
+  }
+
+  .word-cite a:hover,
+  .word-cite a:active { opacity: var(--select-dim); }
+
+  .word-cite a:focus-visible {
+    outline: 2px solid var(--petrol);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  .word-story-sources li { position: relative; padding-left: 1.35rem; }
+
+  .word-source-number {
+    position: absolute;
+    left: 0;
+    top: 0.1em;
+    font-size: 0.82rem;
+    color: var(--vizon);
+  }
+
+  /* The row a marker jumps to, marked for a moment so the eye finds it. */
+  .word-story-sources li:target .word-source-number { color: var(--petrol); }
+
   .word-story-sources {
     max-width: 36rem;
     margin-top: 46px;
@@ -249,7 +292,8 @@
     <h2 class="word-story-sources-label" id="word-story-sources-label">Sources</h2>
     <ul>
       {% for source in page.sources %}
-      <li>
+      <li id="source-{{ forloop.index }}">
+        <span class="word-source-number" aria-hidden="true">{{ forloop.index }}</span>
         <a href="{{ source.url }}" target="_blank" rel="noopener">{{ source.title }}</a>
         {% if source.where %}<span class="word-story-source-where">{{ source.where }}</span>{% endif %}
       </li>
