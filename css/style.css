@@ -429,58 +429,47 @@ body.series-about,
 body.series-tools       { --sec-h: 178; --sec-c: 0.050; --sec-ld: 0.800; --sec-cd: 0.048; }
 
 /* --------------------------------------------------------------------------
-   Homepage slate sections — the light path only
+   Homepage accent rhythm — the light path only
 
-   The Notice, First time here?, Notes and Tonight use slate throughout.
-   Latest, Further back and Instruments retain the homepage's teal accent.
-   Scope both accent tokens to each section so links, labels, focus rings,
-   selection and divider glows inherit the same colour as its heading.
-   --petrol-deep is resolved here too: inheriting the body's already-computed
-   value would leave darker accents teal.
+   Slate at the hero source, then petrol and slate alternating down the page.
+   Every homepage section is named in one of the two lists below, in page
+   order: quotes, story-doorway, latest, start-here, further-back, notes,
+   words-with-stories, instruments, tonight. Backgrounds are untouched — only
+   the accent tokens change, so each section's headings, links, labels, focus
+   rings, selection and divider glows all answer in the same colour.
+
+   Both tokens are scoped per section: inheriting the body's already-computed
+   --petrol-deep would leave the darker accents teal.
 
    Keep the existing slate hue (239), chroma (0.062) and palette lightness.
    --sec-l is the lightness used by the body's light accent, so this preserves
    the heading colours without a relative colour referencing its own token.
    Dark, Midnight and Follow the sky retain their existing single accent.
+
+   The whole rhythm lives here, not in a section's own include: it describes
+   the page, and an include that can be moved or removed is the wrong place
+   to keep the colours of its neighbours.
    -------------------------------------------------------------------------- */
 @media (prefers-color-scheme: light) {
-  html:not([data-theme]) body.is-home :is(#story-doorway, #start-here, #notes, #tonight) {
+  html:not([data-theme]) body.is-home :is(#quotes, #latest, #further-back, #words-with-stories, #tonight) {
     --petrol: oklch(var(--sec-l) var(--sec-c-invitation, 0.062) var(--sec-h-invitation, 239));
     --petrol-deep: color-mix(in srgb, var(--petrol) 74%, black);
   }
+
+  html:not([data-theme]) body.is-home :is(#story-doorway, #start-here, #notes, #instruments) {
+    --petrol: var(--sec-accent, #4A554F);
+    --petrol-deep: color-mix(in srgb, var(--petrol) 74%, black);
+  }
 }
-html[data-theme="light"] body.is-home :is(#story-doorway, #start-here, #notes, #tonight) {
+
+html[data-theme="light"] body.is-home :is(#quotes, #latest, #further-back, #words-with-stories, #tonight) {
   --petrol: oklch(var(--sec-l) var(--sec-c-invitation, 0.062) var(--sec-h-invitation, 239));
   --petrol-deep: color-mix(in srgb, var(--petrol) 74%, black);
 }
 
-/* Words with Stories sits between Notes and Instruments and takes the teal
-   turn, which pushes the two sections after it one step along the rhythm:
-   the Instruments heading answers in slate, and the word "Tonight" keeps the
-   teal its own section would otherwise have given up. Only those two labels
-   change voice — the --petrol block above still hands #tonight slate for its
-   links and separator, and neither section changes background.
-
-   These rules lived in _includes/words-with-stories-home.html until they were
-   moved here. They are part of the homepage's colour rhythm, not part of that
-   section, and an include that can be moved or removed is the wrong place to
-   keep the colours of its neighbours. */
-@media (prefers-color-scheme: light) {
-  html:not([data-theme]) body.is-home #instruments .section-title {
-    color: oklch(var(--sec-l) var(--sec-c-invitation, 0.062) var(--sec-h-invitation, 239));
-  }
-
-  html:not([data-theme]) body.is-home #tonight .tonight-word {
-    color: var(--sec-accent, #4A554F);
-  }
-}
-
-html[data-theme="light"] body.is-home #instruments .section-title {
-  color: oklch(var(--sec-l) var(--sec-c-invitation, 0.062) var(--sec-h-invitation, 239));
-}
-
-html[data-theme="light"] body.is-home #tonight .tonight-word {
-  color: var(--sec-accent, #4A554F);
+html[data-theme="light"] body.is-home :is(#story-doorway, #start-here, #notes, #instruments) {
+  --petrol: var(--sec-accent, #4A554F);
+  --petrol-deep: color-mix(in srgb, var(--petrol) 74%, black);
 }
 
 /* ========================================================================== 
