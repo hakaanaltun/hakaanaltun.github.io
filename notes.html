@@ -6,42 +6,34 @@ description: "Short things, out loud. Half-thoughts, dated."
 ---
 
 <style>
-  /* Notes is a wall rather than a catalogue. The pinned disclosure sits above
-     the dated run so it no longer consumes a grid slot; the dated cards then
-     pack into the available columns while keeping their paper character. */
+  /* Notes is a reading wall first. Two broad columns use the page instead of
+     compressing prose into three narrow sticky-note tracks. The pinned
+     disclosure is part of the same wall again, so the page begins as one
+     composition rather than a card floating above another layout. */
   #notes {
     --notes-shadow-rgb: 38, 35, 32;
     --notes-shadow-alpha: 0.11;
   }
 
-  .notes-pinned-wrap {
-    max-width: 19rem;
-    margin: -10px auto 3.5rem;
-    padding: 0;
-  }
-
-  .notes-pinned-wrap .note {
-    --note-h: 12;
-    min-height: 13.5rem;
-    padding: 1.95rem 1.6rem 1.75rem;
-    transform: rotate(-0.55deg);
-  }
-
-  .notes-pinned-wrap .note-body {
-    padding-top: 2.2rem;
-  }
-
   .notes-list {
-    grid-template-columns: repeat(auto-fit, minmax(16rem, 19rem));
-    column-gap: 2rem;
-    row-gap: 2rem;
-    max-width: 66rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 3rem;
+    row-gap: 2.6rem;
+    max-width: 68rem;
+    width: 100%;
   }
 
   .notes-list .note {
-    min-height: 11rem;
+    min-height: 0;
     width: 100%;
     align-self: start;
+    padding: 2.15rem 2.1rem 2rem;
+    font-size: 1.04rem;
+    line-height: 1.68;
+  }
+
+  .notes-list .note-pinned .note-body {
+    padding-top: 2.2rem;
   }
 
   .notes-list.notes-masonry-ready {
@@ -84,22 +76,16 @@ description: "Short things, out loud. Half-thoughts, dated."
     }
   }
 
-  @media (max-width: 600px) {
-    .notes-pinned-wrap {
-      max-width: 24rem;
-      margin-bottom: 2.5rem;
-      padding: 0;
-    }
-
-    .notes-pinned-wrap .note {
-      min-height: 0;
-      padding: 1.7rem 1.5rem 1.55rem;
-    }
-
+  @media (max-width: 760px) {
     .notes-list {
       grid-template-columns: minmax(0, 1fr);
       row-gap: 2rem;
-      max-width: 24rem;
+      max-width: 36rem;
+    }
+
+    .notes-list .note {
+      padding: 2rem 1.65rem 1.85rem;
+      font-size: 1rem;
     }
   }
 
@@ -115,35 +101,25 @@ description: "Short things, out loud. Half-thoughts, dated."
   </div>
 
   {%- comment -%}
-    Drafts stay in _data/notes.yml but off the page. Pinned notes are kept
-    outside the dated wall so the wall can pack by height without the standing
-    disclosure becoming one of its cells.
+    Drafts stay in _data/notes.yml but off the page. The pinned disclosure is
+    the first sheet on the same wall; dated notes follow newest-first.
   {%- endcomment -%}
   {% assign live_notes = site.data.notes | where_exp: "n", "n.draft != true" | sort: "date" | reverse %}
   {% assign pinned_notes = live_notes | where_exp: "n", "n.pinned == true" %}
   {% assign dated_notes = live_notes | where_exp: "n", "n.pinned != true" %}
-
-  {% if pinned_notes.size > 0 %}
-  <div class="notes-pinned-wrap">
-    {% for note in pinned_notes %}
-    {% assign note_anchor = note.id | default: note.date %}
-    <div class="note note-pinned" id="{{ note_anchor }}">
-      {% include note-pin.html %}
-      <div class="note-body">
-        {{ note.body | markdownify }}
-      </div>
-    </div>
-    {% endfor %}
-  </div>
-  {% endif %}
+  {% assign notes = pinned_notes | concat: dated_notes %}
 
   <ol class="notes-list" role="list">
-    {% for note in dated_notes %}
+    {% for note in notes %}
     {% assign note_anchor = note.id | default: note.date %}
-    <li class="note" id="{{ note_anchor }}">
+    <li class="note{% if note.pinned %} note-pinned{% endif %}" id="{{ note_anchor }}">
+      {%- if note.pinned -%}
+      {% include note-pin.html %}
+      {%- else -%}
       <a class="note-date" href="#{{ note_anchor }}">
         <time datetime="{{ note.date }}">{{ note.date | date: "%B %-d, %Y" }}</time>
       </a>
+      {%- endif -%}
       <div class="note-body">
         {{ note.body | markdownify }}
       </div>
@@ -159,7 +135,6 @@ description: "Short things, out loud. Half-thoughts, dated."
   if (!section || !wall) return;
 
   const wallCards = Array.from(wall.querySelectorAll('.note'));
-  const allCards = Array.from(section.querySelectorAll('.note'));
   let layoutFrame = 0;
   let lightFrame = 0;
 
@@ -183,7 +158,7 @@ description: "Short things, out loud. Half-thoughts, dated."
 
       const heights = wallCards.map(card => card.offsetHeight);
       const bottoms = new Array(columns).fill(1);
-      const gap = 32;
+      const gap = 42;
 
       wall.classList.add('notes-masonry-ready');
 
@@ -203,7 +178,7 @@ description: "Short things, out loud. Half-thoughts, dated."
   }
 
   function applyLight(sourceX, sourceY) {
-    allCards.forEach(card => {
+    wallCards.forEach(card => {
       const rect = card.getBoundingClientRect();
       const cx = rect.left + rect.width / 2;
       const cy = rect.top + rect.height / 2;
