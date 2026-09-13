@@ -7,14 +7,28 @@ description: "Short pieces on English words that kept something from where they 
 ---
 
 {%- comment -%}
-  Newest first. The date in each word's front matter is what orders the
-  series — it is not printed here, because when a word was written is not
-  what anyone is looking for in a list of words.
+  Alphabetical, grouped by first letter, with a row of letters at the top to
+  jump by. The date in each word's front matter no longer orders anything a
+  reader sees — there is no rule to the series and no reading order, so the
+  order it was written in carried no meaning to show. It still dates the
+  entry, and the story arrows follow this same alphabet (see word-story.html)
+  so the list and the walk through it agree.
 
-  There is no rule about which words belong: they are chosen for being
-  interesting, one at a time.
+  A word whose first character is not A-Z lands under "#" — nothing does yet,
+  but a headword that starts with a digit or a Turkish letter would, and it
+  should be reachable rather than silently missing from the page.
 {%- endcomment -%}
-{% assign words = site.words | sort: "date" | reverse %}
+{% assign words = site.words | sort_natural: "word" %}
+{% assign alphabet = "A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z" | split: "," %}
+
+{%- comment -%} Which letters actually have words behind them. {%- endcomment -%}
+{% assign filled = "" %}
+{% for item in words %}
+  {% assign initial = item.word | slice: 0 | upcase %}
+  {% unless alphabet contains initial %}{% assign initial = "#" %}{% endunless %}
+  {% unless filled contains initial %}{% assign filled = filled | append: initial %}{% endunless %}
+{% endfor %}
+{% assign filled_count = filled | size %}
 
 <div class="section-page word-index-page">
   <div class="section-page-head">
@@ -22,20 +36,173 @@ description: "Short pieces on English words that kept something from where they 
     <p class="section-page-subtitle">Words that kept something from where they have been.</p>
   </div>
 
+  {%- comment -%}
+    One letter is nothing to jump between, so the row waits until there are
+    two. Letters with no word are shown but are not links: the alphabet reads
+    as a whole, and a reader can see at a glance where the gaps are. They are
+    hidden from screen readers, which have the links and need no scenery.
+  {%- endcomment -%}
+  {% if filled_count > 1 %}
+  <nav class="word-alphabet" aria-label="Jump to a letter">
+    {% for letter in alphabet %}
+      {% if filled contains letter %}
+      <a class="word-alphabet-letter" href="#letter-{{ letter | downcase }}">{{ letter }}</a>
+      {% else %}
+      <span class="word-alphabet-letter word-alphabet-letter--empty" aria-hidden="true">{{ letter }}</span>
+      {% endif %}
+    {% endfor %}
+    {% if filled contains "#" %}<a class="word-alphabet-letter" href="#letter-other">#</a>{% endif %}
+  </nav>
+  {% endif %}
+
+  {%- comment -%}
+    Walked letter by letter rather than by watching the initial change down
+    one sorted list. That way the page is in the row's order by construction,
+    and "#" is one section at the end however its words happen to sort: a
+    headword starting with a digit sorts before "a" and one starting with a
+    Turkish letter after "z", so a list-watching loop would have opened the
+    "#" section twice, at both ends of the page, under one id.
+  {%- endcomment -%}
+  {% for letter in alphabet %}
+    {% if filled contains letter %}
+<section class="word-group" aria-labelledby="letter-{{ letter | downcase }}">
+  <h2 class="word-group-letter" id="letter-{{ letter | downcase }}">{{ letter }}</h2>
   <ul class="word-index" role="list">
-    {% for item in words %}
+      {% for item in words %}
+        {% assign initial = item.word | slice: 0 | upcase %}
+        {% if initial == letter %}
     <li class="word-index-item">
       <a class="word-index-link" href="{{ item.url }}">
         <span class="word-index-word">{{ item.word }} <span class="word-index-pos">({{ item.pos }})</span></span>
         <span class="word-index-teaser">{{ item.teaser }}</span>
       </a>
     </li>
+        {% endif %}
+      {% endfor %}
+  </ul>
+</section>
+    {% endif %}
+  {% endfor %}
+
+  {% if filled contains "#" %}
+<section class="word-group" aria-labelledby="letter-other">
+  <h2 class="word-group-letter" id="letter-other">#</h2>
+  <ul class="word-index" role="list">
+    {% for item in words %}
+      {% assign initial = item.word | slice: 0 | upcase %}
+      {% unless alphabet contains initial %}
+    <li class="word-index-item">
+      <a class="word-index-link" href="{{ item.url }}">
+        <span class="word-index-word">{{ item.word }} <span class="word-index-pos">({{ item.pos }})</span></span>
+        <span class="word-index-teaser">{{ item.teaser }}</span>
+      </a>
+    </li>
+      {% endunless %}
     {% endfor %}
   </ul>
+</section>
+  {% endif %}
 </div>
 
 <style>
   .word-index-page { max-width: 46rem; }
+
+  /* The row sits at the list's own width so its ends line up with the rows
+     below it, and wraps rather than scrolling: 26 letters at a readable size
+     do not fit one line on a phone, and a row that has to be swiped hides
+     exactly the letters it exists to offer.
+
+     flex-direction and padding are set rather than left alone: the site
+     styles bare `nav` for the masthead — a column with its own padding — and
+     this is the other kind of nav, so it says so instead of inheriting a
+     header's shape and coming out as one letter per line. */
+  .word-alphabet {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2px 1px;
+    padding: 0;
+    max-width: 34rem;
+    margin: 0 auto 40px;
+  }
+
+  .word-alphabet-letter {
+    display: grid;
+    place-items: center;
+    min-width: 30px;
+    min-height: 32px;
+    padding: 0 2px;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-style: italic;
+    font-size: 1.12rem;
+    line-height: 1;
+    text-decoration: none;
+    border-radius: 5px;
+  }
+
+  a.word-alphabet-letter {
+    color: var(--petrol);
+    transition: var(--select-ease);
+  }
+
+  a.word-alphabet-letter:hover,
+  a.word-alphabet-letter:active { opacity: var(--select-dim); }
+
+  a.word-alphabet-letter:focus-visible {
+    outline: 2px solid var(--petrol);
+    outline-offset: 1px;
+  }
+
+  /* Once there is room for all 27 on one line, they spread to the width of
+     the rows below instead of sitting in a block narrower than the list: the
+     row reads as the head of the index rather than a caption floating over
+     it. Below that they keep a 30px target and wrap onto two or three lines,
+     which is the right trade on a phone — a letter too small to tap is worse
+     than a second line. */
+  @media (min-width: 620px) {
+    .word-alphabet {
+      flex-wrap: nowrap;
+      gap: 0;
+    }
+
+    /* Equal shares rather than space-between: spacing them apart leaves the
+       glyphs 9px wide with dead gaps between, so a click aimed at M lands on
+       nothing. Each letter takes a share of the row and the whole row is
+       live, with the glyph centred in its own. */
+    .word-alphabet-letter {
+      flex: 1 1 0;
+      min-width: 0;
+    }
+  }
+
+  /* A letter with nothing behind it is scenery, not a target: quiet enough
+     that the eye passes over it and goes to the ones that lead somewhere. */
+  .word-alphabet-letter--empty {
+    color: var(--vizon);
+    opacity: 0.32;
+  }
+
+  /* Bare `section` carries the homepage band padding (100px / 90px). These
+     are groups in a list, not bands, so they drop it and space themselves. */
+  .word-group { padding: 0; }
+  .word-group + .word-group { margin-top: 38px; }
+
+  /* Set like the series label on a story page — the same small uppercase
+     voice the site uses for a label that names a group rather than titling
+     one. It is left of its rows, not centred, so the column of letters
+     down the page reads as an index margin. */
+  .word-group-letter {
+    max-width: 34rem;
+    margin: 0 auto 6px;
+    padding: 0 4px;
+    font-family: 'EB Garamond', Georgia, serif;
+    font-weight: 400;
+    font-size: 0.78rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--vizon);
+  }
 
   /* Bounded top and bottom, hairlines in --rule: the same shape as the
      .work-index rows on /series/ and /all-work/, narrower because a word and
