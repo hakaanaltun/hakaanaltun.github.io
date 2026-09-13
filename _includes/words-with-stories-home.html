@@ -89,7 +89,8 @@
   var storageKey = 'home-word-story-index';
   var last = -1;
   try {
-    last = Number(sessionStorage.getItem(storageKey));
+    var stored = sessionStorage.getItem(storageKey);
+    if (stored !== null) last = Number(stored);
   } catch (e) {}
 
   var choices = cards.map(function(_, index) { return index; })
