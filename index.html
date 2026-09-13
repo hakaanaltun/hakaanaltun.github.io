@@ -157,6 +157,8 @@ layout: home
   <a class="home-notes-all" href="/notes/">More <span aria-hidden="true">&rarr;</span></a>
 </section>
 
+{% include words-with-stories-home.html %}
+
 <section id="instruments" class="home-instruments" aria-label="Instruments">
   {% include section-header.html title="Instruments" subtitle="" %}
   <p class="home-instruments-line">A <a href="/clock/">fullscreen clock</a>, a <a href="/write/">blank page to write on</a>, a <a href="/prompt/">teleprompter</a>, <a href="/noise/">noise and rain</a>, <a href="/twilight/">&#304;stanbul&rsquo;s twilight</a>&mdash;{{ site.data.tools | size }} instruments for work, calm, and focus.</p>
@@ -171,4 +173,3 @@ layout: home
     <a href="/twilight/" class="tonight-link" id="tonight-sun"></a>
   </p>
 </section>
-
