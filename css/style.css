@@ -610,8 +610,8 @@ header .hamburger-btn:focus-visible { outline-color: var(--footer-text); }
 }
 .header-nav-bar a:hover,
 .header-nav-bar a:active { color: var(--footer-text); border-bottom-color: var(--footer-text); background: transparent; box-shadow: none; transform: none; }
-/* No visible current-page state here on purpose. The strip lists eight
-   sections, and a piece belongs to none of them — so on /pieces/*, which is
+/* No visible current-page state here on purpose. The strip lists the
+   site's sections, and a piece belongs to none of them — so on /pieces/*, which is
    most of the site, the indicator simply had nothing to mark. Appearing on
    About and vanishing on an essay read as a fault in the strip rather than
    as an answer to "where am I". The aria-current attribute stays in
@@ -2588,7 +2588,8 @@ html[data-theme="sky"] .footer-strip { border-top: 0; }
 .home-instruments-line a:hover,
 .home-instruments-line a:focus-visible { color: var(--petrol); border-bottom-color: var(--petrol); }
 .home-instruments-all,
-.home-notes-all {
+.home-notes-all,
+.home-words-all {
   display: inline-block; margin-top: 18px;
   font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic;
   font-size: 1.2rem; color: var(--petrol); text-decoration: none;
@@ -2597,9 +2598,12 @@ html[data-theme="sky"] .footer-strip { border-top: 0; }
 .home-instruments-all:hover,
 .home-instruments-all:active,
 .home-notes-all:hover,
-.home-notes-all:active { opacity: var(--select-dim); }
+.home-notes-all:active,
+.home-words-all:hover,
+.home-words-all:active { opacity: var(--select-dim); }
 .home-instruments-all:focus-visible,
-.home-notes-all:focus-visible { outline: 2px solid var(--petrol); outline-offset: 3px; border-radius: 4px; }
+.home-notes-all:focus-visible,
+.home-words-all:focus-visible { outline: 2px solid var(--petrol); outline-offset: 3px; border-radius: 4px; }
 
 /* --- Notes --------------------------------------------------------------- */
 /* The notes are pinned paper: each one is a square-ish card on the wall of
