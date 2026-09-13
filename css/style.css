@@ -429,28 +429,46 @@ body.series-about,
 body.series-tools       { --sec-h: 178; --sec-c: 0.050; --sec-ld: 0.800; --sec-cd: 0.048; }
 
 /* --------------------------------------------------------------------------
-   Homepage slate sections — the light path only
+   Homepage accent rhythm — the light path only
 
-   The Notice, First time here?, Notes and Tonight use slate throughout.
-   Latest, Further back and Instruments retain the homepage's teal accent.
-   Scope both accent tokens to each section so links, labels, focus rings,
-   selection and divider glows inherit the same colour as its heading.
-   --petrol-deep is resolved here too: inheriting the body's already-computed
-   value would leave darker accents teal.
+   Slate at the hero source, then petrol and slate alternating down the page.
+   Every homepage section is named in one of the two lists below, in page
+   order: quotes, story-doorway, latest, start-here, further-back, notes,
+   words-with-stories, instruments, tonight. Backgrounds are untouched — only
+   the accent tokens change, so each section's headings, links, labels, focus
+   rings, selection and divider glows all answer in the same colour.
+
+   Both tokens are scoped per section: inheriting the body's already-computed
+   --petrol-deep would leave the darker accents teal.
 
    Keep the existing slate hue (239), chroma (0.062) and palette lightness.
    --sec-l is the lightness used by the body's light accent, so this preserves
    the heading colours without a relative colour referencing its own token.
    Dark, Midnight and Follow the sky retain their existing single accent.
+
+   The whole rhythm lives here, not in a section's own include: it describes
+   the page, and an include that can be moved or removed is the wrong place
+   to keep the colours of its neighbours.
    -------------------------------------------------------------------------- */
 @media (prefers-color-scheme: light) {
-  html:not([data-theme]) body.is-home :is(#story-doorway, #start-here, #notes, #tonight) {
+  html:not([data-theme]) body.is-home :is(#quotes, #latest, #further-back, #words-with-stories, #tonight) {
     --petrol: oklch(var(--sec-l) var(--sec-c-invitation, 0.062) var(--sec-h-invitation, 239));
     --petrol-deep: color-mix(in srgb, var(--petrol) 74%, black);
   }
+
+  html:not([data-theme]) body.is-home :is(#story-doorway, #start-here, #notes, #instruments) {
+    --petrol: var(--sec-accent, #4A554F);
+    --petrol-deep: color-mix(in srgb, var(--petrol) 74%, black);
+  }
 }
-html[data-theme="light"] body.is-home :is(#story-doorway, #start-here, #notes, #tonight) {
+
+html[data-theme="light"] body.is-home :is(#quotes, #latest, #further-back, #words-with-stories, #tonight) {
   --petrol: oklch(var(--sec-l) var(--sec-c-invitation, 0.062) var(--sec-h-invitation, 239));
+  --petrol-deep: color-mix(in srgb, var(--petrol) 74%, black);
+}
+
+html[data-theme="light"] body.is-home :is(#story-doorway, #start-here, #notes, #instruments) {
+  --petrol: var(--sec-accent, #4A554F);
   --petrol-deep: color-mix(in srgb, var(--petrol) 74%, black);
 }
 
@@ -581,8 +599,8 @@ header .hamburger-btn:focus-visible { outline-color: var(--footer-text); }
 }
 .header-nav-bar a:hover,
 .header-nav-bar a:active { color: var(--footer-text); border-bottom-color: var(--footer-text); background: transparent; box-shadow: none; transform: none; }
-/* No visible current-page state here on purpose. The strip lists eight
-   sections, and a piece belongs to none of them — so on /pieces/*, which is
+/* No visible current-page state here on purpose. The strip lists the
+   site's sections, and a piece belongs to none of them — so on /pieces/*, which is
    most of the site, the indicator simply had nothing to mark. Appearing on
    About and vanishing on an essay read as a fault in the strip rather than
    as an answer to "where am I". The aria-current attribute stays in
@@ -2559,7 +2577,8 @@ html[data-theme="sky"] .footer-strip { border-top: 0; }
 .home-instruments-line a:hover,
 .home-instruments-line a:focus-visible { color: var(--petrol); border-bottom-color: var(--petrol); }
 .home-instruments-all,
-.home-notes-all {
+.home-notes-all,
+.home-words-all {
   display: inline-block; margin-top: 18px;
   font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic;
   font-size: 1.2rem; color: var(--petrol); text-decoration: none;
@@ -2568,9 +2587,12 @@ html[data-theme="sky"] .footer-strip { border-top: 0; }
 .home-instruments-all:hover,
 .home-instruments-all:active,
 .home-notes-all:hover,
-.home-notes-all:active { opacity: var(--select-dim); }
+.home-notes-all:active,
+.home-words-all:hover,
+.home-words-all:active { opacity: var(--select-dim); }
 .home-instruments-all:focus-visible,
-.home-notes-all:focus-visible { outline: 2px solid var(--petrol); outline-offset: 3px; border-radius: 4px; }
+.home-notes-all:focus-visible,
+.home-words-all:focus-visible { outline: 2px solid var(--petrol); outline-offset: 3px; border-radius: 4px; }
 
 /* --- Notes --------------------------------------------------------------- */
 /* The notes are pinned paper: each one is a square-ish card on the wall of

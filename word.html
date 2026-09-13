@@ -1,0 +1,109 @@
+---
+layout: default
+permalink: /word/
+title: "Words with Stories"
+seo_title: "Words with Stories — English words and where they have been · On Life &amp; Everything"
+description: "Short pieces on English words that kept something from where they have been — what each one meant before, and what is left of that when you use it now."
+---
+
+{%- comment -%}
+  Newest first. The date in each word's front matter is what orders the
+  series — it is not printed here, because when a word was written is not
+  what anyone is looking for in a list of words.
+
+  There is no rule about which words belong: they are chosen for being
+  interesting, one at a time.
+{%- endcomment -%}
+{% assign words = site.words | sort: "date" | reverse %}
+
+<div class="section-page word-index-page">
+  <div class="section-page-head">
+    <h1 class="section-page-title">Words with Stories</h1>
+    <p class="section-page-subtitle">Words that kept something from where they have been.</p>
+  </div>
+
+  <ul class="word-index" role="list">
+    {% for item in words %}
+    <li class="word-index-item">
+      <a class="word-index-link" href="{{ item.url }}">
+        <span class="word-index-word">{{ item.word }} <span class="word-index-pos">({{ item.pos }})</span></span>
+        <span class="word-index-teaser">{{ item.teaser }}</span>
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+
+<style>
+  .word-index-page { max-width: 46rem; }
+
+  /* Bounded top and bottom, hairlines in --rule: the same shape as the
+     .work-index rows on /series/ and /all-work/, narrower because a word and
+     four words of teaser do not need 860px. */
+  .word-index {
+    list-style: none;
+    margin: 0 auto;
+    padding: 0;
+    max-width: 34rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  .word-index-item { border-bottom: 1px solid var(--rule); }
+
+  .word-index-link {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 4px 20px;
+    padding: 22px 4px;
+    text-decoration: none;
+    color: inherit;
+    transition: var(--select-ease);
+  }
+
+  .word-index-link:hover,
+  .word-index-link:active { opacity: var(--select-dim); }
+
+  .word-index-link:focus-visible {
+    outline: 2px solid var(--petrol);
+    outline-offset: 4px;
+    border-radius: 6px;
+  }
+
+  .word-index-word {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-style: italic;
+    font-size: clamp(1.5rem, 2.4vw, 1.95rem);
+    line-height: 1.1;
+    color: var(--petrol-deep);
+  }
+
+  .word-index-pos {
+    font-size: 0.52em;
+    color: var(--vizon);
+    white-space: nowrap;
+  }
+
+  .word-index-teaser {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-style: italic;
+    font-size: 1rem;
+    letter-spacing: 0.02em;
+    color: var(--vizon);
+    text-align: right;
+  }
+
+  /* Once the two halves stop fitting on one line, the teaser reads as a
+     caption under the word rather than a ragged second column. */
+  @media (max-width: 560px) {
+    .word-index-link {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 5px;
+      padding: 18px 4px;
+    }
+
+    .word-index-teaser { text-align: left; }
+  }
+</style>

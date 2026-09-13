@@ -130,7 +130,7 @@ the story pages ("The Notice"), which share one card. {% endcomment %}
 }
 </script>
 
-<link rel="stylesheet" href="/css/style.css?v=20260905-6">
+<link rel="stylesheet" href="/css/style.css?v=20260913-1">
 <link rel="stylesheet" href="/css/palettes.css?v=20260905-2">
 
 {% elsif page.layout == "home" %}
@@ -274,7 +274,7 @@ the story pages ("The Notice"), which share one card. {% endcomment %}
 }
 </script>
 
-<link rel="stylesheet" href="/css/style.css?v=20260905-6">
+<link rel="stylesheet" href="/css/style.css?v=20260913-1">
 <link rel="stylesheet" href="/css/palettes.css?v=20260905-2">
 
 {% else %}
@@ -301,7 +301,10 @@ sets one writes the " — On Life & Everything" suffix into it itself. {% endcom
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:url" content="{{ page.url | absolute_url }}">
-<meta property="og:type" content="website">
+{% comment %} Most pages in this branch are section pages and landing pages,
+which are websites; a word story is a piece of writing. og_type lets the few
+that are say so without moving out of this branch. {% endcomment %}
+<meta property="og:type" content="{{ page.og_type | default: 'website' }}">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{% if page.seo_title %}{{ page.seo_title }}{% else %}{{ page.title }} &mdash; On Life &amp; Everything{% endif %}">
@@ -309,7 +312,7 @@ sets one writes the " — On Life & Everything" suffix into it itself. {% endcom
 <meta name="twitter:image" content="https://hakanaltun.io/og-image-on-card.png?v=20260729-2">
 <meta name="twitter:image:alt" content="{{ page.title | escape }} — On Life &amp; Everything">
 
-<link rel="stylesheet" href="/css/style.css?v=20260905-6">
+<link rel="stylesheet" href="/css/style.css?v=20260913-1">
 <link rel="stylesheet" href="/css/palettes.css?v=20260905-2">
 
 {% endif %}
