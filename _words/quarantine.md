@@ -6,9 +6,6 @@ pos: n.
 teaser: forty days
 date: 2026-09-13 08:20:00 +0300
 sources:
-  - title: "Mütareke Yıllarında İstanbul'da Beyaz Rusların Sürgün Hayatları"
-    where: "Muammer Göçmen, Süleyman Demirel Üniversitesi İlahiyat Fakültesi Dergisi 20 (2008)"
-    url: "https://isamveri.org/pdfdrg/D01535/2008_20/2008_20_GOCMENM.pdf"
   - title: "Mütareke Döneminde İstanbul'daki Rus Mültecilerin Yaşamı"
     where: "Atatürk Araştırma Merkezi Dergisi XXII, 64–66 (2006)"
     url: "https://atamdergi.gov.tr/tam-metin/159/tur"
