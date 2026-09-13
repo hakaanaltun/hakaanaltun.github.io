@@ -25,7 +25,7 @@ days before anyone could come ashore. The Italian for that period was
 In 1920, ships carrying Russians who had fled the civil war were kept waiting
 off İstanbul before anyone was allowed to land. The reason given was typhus.
 Forty days is sometimes part of the telling, but the accounts do not give a
-number and it could not be confirmed.
+number and it could not be confirmed.{% include word-cite.html n="1,2" %}
 
 A quarantine is rarely forty days now. It is ten days, or two weeks, or
 whatever the illness needs. The forty is still in the word.
