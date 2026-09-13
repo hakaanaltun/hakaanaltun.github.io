@@ -2,7 +2,7 @@
 word: broadcast
 title: "broadcast"
 seo_title: "broadcast, from scattering seed to sending a signal &middot; On Life &amp; Everything"
-pos: v., n.
+pos: v.
 teaser: first scattered by hand
 date: 2026-09-13 19:15:00 +0300
 sources:
