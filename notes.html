@@ -15,20 +15,20 @@ description: "Short things, out loud. Half-thoughts, dated."
   }
 
   .notes-pinned-wrap {
-    max-width: 40rem;
+    max-width: 19rem;
     margin: -10px auto 3.5rem;
-    padding: 0 1rem;
+    padding: 0;
   }
 
   .notes-pinned-wrap .note {
     --note-h: 12;
-    min-height: 0;
-    padding: 1.55rem 2rem 1.45rem;
-    transform: rotate(-0.18deg);
+    min-height: 13.5rem;
+    padding: 1.95rem 1.6rem 1.75rem;
+    transform: rotate(-0.55deg);
   }
 
   .notes-pinned-wrap .note-body {
-    padding-top: 0.75rem;
+    padding-top: 2.2rem;
   }
 
   .notes-list {
@@ -44,16 +44,11 @@ description: "Short things, out loud. Half-thoughts, dated."
     align-self: start;
   }
 
-  /* JS only adds this class after it has measured every sheet. Without JS the
-     wall remains an ordinary readable grid rather than collapsing into 1px rows. */
   .notes-list.notes-masonry-ready {
     grid-auto-rows: 1px;
     row-gap: 0;
   }
 
-  /* One light source for the whole wall. Pointer position only changes these
-     variables; no card lifts or scales. On touch devices a virtual light sits
-     above the wall and each sheet casts away from it. */
   #notes .note {
     --note-shadow-x: 7px;
     --note-shadow-y: 10px;
@@ -65,8 +60,6 @@ description: "Short things, out loud. Half-thoughts, dated."
     transition: box-shadow 90ms linear;
   }
 
-  /* Replace the old fixed bottom curl with a very faint highlight facing the
-     same light. It is deliberately weaker than the paper tint. */
   #notes .note::after {
     inset: 0;
     height: auto;
@@ -99,6 +92,7 @@ description: "Short things, out loud. Half-thoughts, dated."
     }
 
     .notes-pinned-wrap .note {
+      min-height: 0;
       padding: 1.7rem 1.5rem 1.55rem;
     }
 
@@ -182,8 +176,6 @@ description: "Short things, out loud. Half-thoughts, dated."
     layoutFrame = requestAnimationFrame(() => {
       clearMasonry();
 
-      /* A single-column wall already packs naturally and needs no measured
-         placement. This also leaves the phone layout entirely to CSS. */
       const columns = getComputedStyle(wall).gridTemplateColumns
         .split(/\s+/)
         .filter(Boolean).length;
@@ -235,8 +227,6 @@ description: "Short things, out loud. Half-thoughts, dated."
   }
 
   function applyVirtualLight() {
-    /* Fixed in the viewport, a little left of centre and just below its top.
-       Scrolling the wall past it changes each sheet's shadow naturally. */
     applyLight(window.innerWidth * 0.24, Math.max(24, window.innerHeight * 0.08));
   }
 
