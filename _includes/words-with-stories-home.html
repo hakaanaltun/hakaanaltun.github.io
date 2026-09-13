@@ -19,7 +19,12 @@
     {% endfor %}
   </div>
 
-  <a class="home-words-all" href="/word/">See them all <span aria-hidden="true">&rarr;</span></a>
+  {%- comment -%}
+    Not "See them all", which is what Instruments says a section further down
+    — two of those on one page read as a template rather than a voice. This
+    is the phrase the story pages already use for the same door.
+  {%- endcomment -%}
+  <a class="home-words-all" href="/word/">All the words <span aria-hidden="true">&rarr;</span></a>
 </section>
 
 <style>
@@ -66,7 +71,7 @@
 
   /* No rule under the word. A word standing on its own in the middle of the
      page is invitation enough, and marking it as a link says out loud what a
-     reader is better off finding. "See them all" below is the plain door for
+     reader is better off finding. "All the words" below is the plain door for
      anyone who wants one; the card still dims on hover, and its focus ring is
      untouched. */
   .home-word-line {
