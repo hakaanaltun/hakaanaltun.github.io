@@ -75,6 +75,56 @@
   .word-story-body p { margin: 0 0 1.35em; }
   .word-story-body p:last-child { margin-bottom: 0; }
 
+  .word-story-sources {
+    max-width: 36rem;
+    margin-top: 46px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+  }
+
+  .word-story-sources-label {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-weight: 400;
+    font-size: 0.78rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--vizon);
+    margin: 0 0 14px;
+  }
+
+  .word-story-sources ul { list-style: none; margin: 0; padding: 0; }
+
+  .word-story-sources li {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 1rem;
+    line-height: 1.45;
+    margin-bottom: 12px;
+  }
+
+  .word-story-sources li:last-child { margin-bottom: 0; }
+
+  .word-story-sources a {
+    color: var(--petrol);
+    text-decoration: none;
+    transition: var(--select-ease);
+  }
+
+  .word-story-sources a:hover,
+  .word-story-sources a:active { opacity: var(--select-dim); }
+
+  .word-story-sources a:focus-visible {
+    outline: 2px solid var(--petrol);
+    outline-offset: 3px;
+    border-radius: 3px;
+  }
+
+  .word-story-source-where {
+    display: block;
+    font-style: italic;
+    font-size: 0.9rem;
+    color: var(--vizon);
+  }
+
   .word-story-all {
     display: inline-block;
     margin-top: 44px;
@@ -157,6 +207,7 @@
     .word-story-page { padding: 56px 24px 58px; }
     .word-story-title { margin-bottom: 28px; }
     .word-story-body { font-size: 1.06rem; }
+    .word-story-sources { margin-top: 38px; }
     .word-story-all { margin-top: 36px; }
   }
 
@@ -187,6 +238,26 @@
   <div class="word-story-body">
     {{ content }}
   </div>
+  {%- comment -%}
+    Optional, and only where a word makes a claim that needs one — an
+    etymology out of any dictionary does not, a piece of history does. The
+    links open in a new tab, as the site's other outbound links do, and carry
+    no underline on hover, as the rest of the site no longer does.
+  {%- endcomment -%}
+  {% if page.sources %}
+  <aside class="word-story-sources" aria-labelledby="word-story-sources-label">
+    <h2 class="word-story-sources-label" id="word-story-sources-label">Sources</h2>
+    <ul>
+      {% for source in page.sources %}
+      <li>
+        <a href="{{ source.url }}" target="_blank" rel="noopener">{{ source.title }}</a>
+        {% if source.where %}<span class="word-story-source-where">{{ source.where }}</span>{% endif %}
+      </li>
+      {% endfor %}
+    </ul>
+  </aside>
+  {% endif %}
+
   {%- comment -%}
     The arrows are the quiet way through the series and they fade. This one
     does not, and on a touch screen it is the only route to the full list.
