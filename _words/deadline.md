@@ -22,8 +22,7 @@ military prisons. Prisoners were forbidden to cross it, and guards could fire
 on those who did. Andersonville is the best-known example, but the National
 Park Service notes that such lines were used at several prisons.{% include word-cite.html n="1" %}
 
-The modern sense of a final time limit appeared in American newspaper jargon by
-1919. The older prison use may have influenced it, but the connection is not
-certain.{% include word-cite.html n="2" %}
+The modern sense of a final time limit appeared in American newspaper jargon by 1919.
+The older prison use may have influenced it, but the connection is not certain.{% include word-cite.html n="2" %}
 
 *The deadline is Friday.*
