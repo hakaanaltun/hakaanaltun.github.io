@@ -5,18 +5,25 @@ seo_title: "nightmare, and the creature that sat on the sleeper &middot; On Life
 pos: n.
 teaser: once a creature
 date: 2026-09-13 08:30:00 +0300
-description: "The mare in nightmare is the Old English mære, a creature that came at night and sat on the chest of a sleeper. The horse is a different word."
+sources:
+  - title: "Nightmare"
+    where: "The American Heritage Dictionary of the English Language"
+    url: "https://ahdictionary.com/word/search.html?q=nightmare"
+  - title: "Nightmare"
+    where: "Online Etymology Dictionary"
+    url: "https://www.etymonline.com/word/nightmare"
+description: "The mare in nightmare is an old word for a spirit or demon believed to trouble sleepers. The horse is a different word."
 ---
 
-A nightmare is a bad dream. The *mare* in it is the Old English
-<span lang="ang">*mære*</span>, a creature that came at night and sat on the
-chest of a sleeper. The horse is a different word.
+A nightmare is a bad dream. The *mare* in it is an old word for a spirit or
+demon once believed to trouble sleeping people. The horse is a different
+word.{% include word-cite.html n="1,2" %}
 
-The sleeper would wake unable to move, with a weight on the chest and no
-breath to call out. The creature was the explanation.
+In the old belief, the mare oppressed the sleeper and brought a feeling of
+suffocation. The word later moved from the creature to the experience, and
+then to a frightening dream.{% include word-cite.html n="2" %}
 
-People stopped believing in it and kept the word. The Dutch still say
-<span lang="nl">*nachtmerrie*</span>, and the Germans had
-<span lang="de">*Mahr*</span>.
+The creature disappeared from belief, but the word stayed. Related forms
+survive in other Germanic languages too.{% include word-cite.html n="2" %}
 
 *It was a nightmare.*
