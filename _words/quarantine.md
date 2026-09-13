@@ -12,16 +12,19 @@ sources:
   - title: "Constantinople/Istanbul as an Artistic Hub of the Émigrés from the former Russian Empire in 1919–1927"
     where: "Ekaterina Aygün, doctoral dissertation, LMU München (2024)"
     url: "https://edoc.ub.uni-muenchen.de/33654/"
+  - title: "Etymologia: Quarantine"
+    where: "Emerging Infectious Diseases, CDC"
+    url: "https://wwwnc.cdc.gov/eid/article/19/2/et-1902_article"
 description: "Quarantine comes from the Italian quaranta, forty. In 1920 Russian refugees were kept in quarantine off İstanbul."
 ---
 
 Quarantine is a period of separation that keeps a disease from spreading. It
-comes from the Italian <span lang="it">*quaranta*</span>, forty.
+comes from the Italian <span lang="it">*quaranta*</span>, forty.{% include word-cite.html n="3" %}
 
 During the plague, ships arriving from infected places could be kept at anchor
 for forty days before anyone came ashore. The Italian for forty is
 <span lang="it">*quaranta*</span>. The period became
-<span lang="it">*quarantena*</span>.
+<span lang="it">*quarantena*</span>.{% include word-cite.html n="3" %}
 
 In 1920, ships carrying Russians who had fled the civil war were kept in
 quarantine off İstanbul before their passengers were allowed to land. Typhus
