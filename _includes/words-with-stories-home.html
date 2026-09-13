@@ -72,6 +72,40 @@
     letter-spacing: 0.02em;
   }
 
+  /* The homepage closes in the same colour rhythm as the rest of the site:
+     the utility shelf sits on the shared slate chrome, then Tonight answers
+     it with the section petrol. These are existing theme tokens, so Dark,
+     Midnight and the alternate palettes keep their own calibrated versions. */
+  #instruments {
+    background: var(--surface-chrome);
+    color: var(--footer-text);
+  }
+
+  #instruments .section-title,
+  #instruments .section-subtitle,
+  #instruments .home-instruments-line,
+  #instruments .home-instruments-line a,
+  #instruments .home-instruments-all {
+    color: var(--footer-text);
+  }
+
+  #instruments .home-instruments-line a:hover,
+  #instruments .home-instruments-line a:focus-visible {
+    color: var(--paper);
+    border-bottom-color: currentColor;
+  }
+
+  #tonight {
+    background: var(--petrol);
+  }
+
+  #tonight .tonight-line,
+  #tonight .tonight-word,
+  #tonight .tonight-link,
+  #tonight .tonight-sep {
+    color: var(--paper);
+  }
+
   @media (max-width: 600px) {
     .home-words { padding-top: 40px; padding-bottom: 40px; }
     .home-word-stage { min-height: 5.5rem; }
