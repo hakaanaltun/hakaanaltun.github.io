@@ -72,26 +72,6 @@
     letter-spacing: 0.02em;
   }
 
-  /* Only the labels change voice here. The sections keep the same page
-     background as their neighbours so the petrol / slate title rhythm holds. */
-  @media (prefers-color-scheme: light) {
-    html:not([data-theme]) body.is-home #instruments .section-title {
-      color: oklch(var(--sec-l) var(--sec-c-invitation, 0.062) var(--sec-h-invitation, 239));
-    }
-
-    html:not([data-theme]) body.is-home #tonight .tonight-word {
-      color: var(--sec-accent, #4A554F);
-    }
-  }
-
-  html[data-theme="light"] body.is-home #instruments .section-title {
-    color: oklch(var(--sec-l) var(--sec-c-invitation, 0.062) var(--sec-h-invitation, 239));
-  }
-
-  html[data-theme="light"] body.is-home #tonight .tonight-word {
-    color: var(--sec-accent, #4A554F);
-  }
-
   @media (max-width: 600px) {
     .home-words { padding-top: 40px; padding-bottom: 40px; }
     .home-word-stage { min-height: 5.5rem; }

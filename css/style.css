@@ -454,6 +454,35 @@ html[data-theme="light"] body.is-home :is(#story-doorway, #start-here, #notes, #
   --petrol-deep: color-mix(in srgb, var(--petrol) 74%, black);
 }
 
+/* Words with Stories sits between Notes and Instruments and takes the teal
+   turn, which pushes the two sections after it one step along the rhythm:
+   the Instruments heading answers in slate, and the word "Tonight" keeps the
+   teal its own section would otherwise have given up. Only those two labels
+   change voice — the --petrol block above still hands #tonight slate for its
+   links and separator, and neither section changes background.
+
+   These rules lived in _includes/words-with-stories-home.html until they were
+   moved here. They are part of the homepage's colour rhythm, not part of that
+   section, and an include that can be moved or removed is the wrong place to
+   keep the colours of its neighbours. */
+@media (prefers-color-scheme: light) {
+  html:not([data-theme]) body.is-home #instruments .section-title {
+    color: oklch(var(--sec-l) var(--sec-c-invitation, 0.062) var(--sec-h-invitation, 239));
+  }
+
+  html:not([data-theme]) body.is-home #tonight .tonight-word {
+    color: var(--sec-accent, #4A554F);
+  }
+}
+
+html[data-theme="light"] body.is-home #instruments .section-title {
+  color: oklch(var(--sec-l) var(--sec-c-invitation, 0.062) var(--sec-h-invitation, 239));
+}
+
+html[data-theme="light"] body.is-home #tonight .tonight-word {
+  color: var(--sec-accent, #4A554F);
+}
+
 /* ========================================================================== 
    2. Reset & Base
    ========================================================================== */
