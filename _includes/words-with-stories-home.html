@@ -1,0 +1,107 @@
+<section id="words-with-stories" class="home-words" aria-label="Words with Stories">
+  {% include section-header.html title="Words with Stories" subtitle="" %}
+
+  <div class="home-word-stage">
+    {% for item in site.data.words %}
+    <a class="home-word-card{% if forloop.first %} is-active{% endif %}"
+       href="{{ item.url }}"
+       data-word-index="{{ forloop.index0 }}"
+       aria-label="{{ item.word }} ({{ item.pos }}), {{ item.teaser }}">
+      <span class="home-word-line">{{ item.word }} ({{ item.pos }})</span>
+      <span class="home-word-teaser">{{ item.teaser }}</span>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+
+<style>
+  .home-words {
+    text-align: center;
+    padding-top: 48px;
+    padding-bottom: 48px;
+  }
+
+  .home-word-stage {
+    min-height: 6.2rem;
+    display: grid;
+    place-items: center;
+  }
+
+  .home-word-card {
+    display: none;
+    max-width: 34rem;
+    margin: 0 auto;
+    padding: 4px 24px 8px;
+    color: inherit;
+    text-decoration: none;
+    text-align: center;
+    transition: var(--select-ease);
+  }
+
+  .home-word-card.is-active {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 7px;
+  }
+
+  .home-word-card:hover,
+  .home-word-card:active {
+    opacity: var(--select-dim);
+  }
+
+  .home-word-card:focus-visible {
+    outline: 2px solid var(--petrol);
+    outline-offset: 6px;
+    border-radius: 6px;
+  }
+
+  .home-word-line {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-style: italic;
+    font-size: clamp(1.85rem, 3vw, 2.45rem);
+    line-height: 1.08;
+    color: var(--petrol-deep);
+  }
+
+  .home-word-teaser {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--vizon);
+    letter-spacing: 0.02em;
+  }
+
+  @media (max-width: 600px) {
+    .home-words { padding-top: 40px; padding-bottom: 40px; }
+    .home-word-stage { min-height: 5.5rem; }
+  }
+</style>
+
+<script>
+(function() {
+  var stage = document.querySelector('#words-with-stories .home-word-stage');
+  if (!stage) return;
+
+  var cards = Array.prototype.slice.call(stage.querySelectorAll('.home-word-card'));
+  if (cards.length < 2) return;
+
+  var storageKey = 'home-word-story-index';
+  var last = -1;
+  try {
+    last = Number(sessionStorage.getItem(storageKey));
+  } catch (e) {}
+
+  var choices = cards.map(function(_, index) { return index; })
+    .filter(function(index) { return index !== last; });
+  var next = choices[Math.floor(Math.random() * choices.length)];
+
+  cards.forEach(function(card, index) {
+    card.classList.toggle('is-active', index === next);
+  });
+
+  try {
+    sessionStorage.setItem(storageKey, String(next));
+  } catch (e) {}
+})();
+</script>
