@@ -27,3 +27,4 @@ This repository is a **Jekyll 4 static site** ("On Life & Everything", a persona
 - Treat *nightmare* and *quarantine* as roughly the lower editorial threshold. Candidates with a weaker transformation, residue, surprise, or narrative reason should normally be rejected.
 - Words, idioms, and fixed expressions may all qualify in future; the same editorial threshold applies.
 - Keep the prose plain and unshowy. Sentences should carry the content rather than compete with it. Avoid polished, aphoristic endings or lines written mainly to sound quotable. The reader should remember the story more than the sentence.
+- The part-of-speech label must match the specific sense being explained on the page. Do not list every part of speech the spelling can have; label the entry as the reader encounters it in that story and example.
