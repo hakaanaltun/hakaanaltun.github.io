@@ -1,11 +1,24 @@
 {%- comment -%}
-  previous / next come from the collection itself, in the order Jekyll sorts
-  it — by the date in each word's front matter, oldest first. Nothing here
-  has to be kept in step with a list kept somewhere else: a word that exists
-  is in the sequence, and a word that does not is not.
+  The arrows walk the same alphabet /word/ lists, so the map and the walk
+  through it agree: leaving the index at a word and pressing on continues
+  from where that word sat in the list.
+
+  This is not page.previous / page.next, which follow the collection's own
+  order — by date, which is when a word happened to be written. The series
+  has no rule and no reading order, so that sequence had nothing to say.
+
+  Walked rather than indexed on purpose: previous_word is the last word seen
+  before this one, next_word the first seen after, both assigned only from
+  words that are really there. A missing word cannot shift the sequence,
+  because there is no position to be off by.
 {%- endcomment -%}
-{% assign previous_word = page.previous %}
-{% assign next_word = page.next %}
+{% assign ordered_words = site.words | sort_natural: "word" %}
+{% assign passed_this_word = false %}
+{% for candidate in ordered_words %}
+  {% if passed_this_word and next_word == nil %}{% assign next_word = candidate %}{% endif %}
+  {% if candidate.url == page.url %}{% assign passed_this_word = true %}{% endif %}
+  {% unless passed_this_word %}{% assign previous_word = candidate %}{% endunless %}
+{% endfor %}
 
 <style>
   .word-story-page {
