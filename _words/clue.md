@@ -5,17 +5,23 @@ seo_title: "clue, the thread out of the labyrinth &middot; On Life &amp; Everyth
 pos: n.
 teaser: a ball of thread
 date: 2026-09-13 08:10:00 +0300
-description: "A clue was a ball of thread before it meant a hint. Clew, an old word for wound yarn — the thread Theseus followed back out of the labyrinth."
+sources:
+  - title: "Clue"
+    where: "Merriam-Webster"
+    url: "https://www.merriam-webster.com/dictionary/clue"
+  - title: "Theseus and Ariadne"
+    where: "The Metropolitan Museum of Art"
+    url: "https://www.metmuseum.org/art/collection/search/245585"
+description: "A clue was a ball of thread before it meant a hint. Clew, an old word for wound yarn, became associated with the thread that guided Theseus out of the labyrinth."
 ---
 
 A clue is something that helps you solve a puzzle. It comes from *clew*, an
-old word for a ball of thread.
+old word for a ball of thread or yarn.{% include word-cite.html n="1" %}
 
-Theseus went into the labyrinth holding one end of a thread. Ariadne held the
-other end at the entrance. He killed the Minotaur and found his way back out
-by following the thread.
+In the Greek myth, Ariadne gives Theseus a thread at the entrance to the
+labyrinth. He defeats the Minotaur and uses the thread to find his way back out.{% include word-cite.html n="2" %}
 
-That thread is why the word means what it means. A clue is the line you follow
-to get out of something.
+The modern sense grew from that old image: a thread that guides someone through
+a maze became a piece of information that guides someone through a problem.{% include word-cite.html n="1" %}
 
 *He hadn’t a clue.*
