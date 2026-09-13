@@ -1,3 +1,19 @@
+{% assign current_word_index = 0 %}
+{% for item in site.data.words %}
+  {% if item.word == page.word %}
+    {% assign current_word_index = forloop.index0 %}
+  {% endif %}
+{% endfor %}
+{% assign last_word_index = site.data.words.size | minus: 1 %}
+{% if current_word_index > 0 %}
+  {% assign previous_word_index = current_word_index | minus: 1 %}
+  {% assign previous_word = site.data.words[previous_word_index] %}
+{% endif %}
+{% if current_word_index < last_word_index %}
+  {% assign next_word_index = current_word_index | plus: 1 %}
+  {% assign next_word = site.data.words[next_word_index] %}
+{% endif %}
+
 <style>
   .word-story-page {
     max-width: 42rem;
@@ -53,12 +69,81 @@
   .word-story-body p { margin: 0 0 1.35em; }
   .word-story-body p:last-child { margin-bottom: 0; }
 
+  .word-story-nav {
+    position: fixed;
+    top: 50%;
+    z-index: 5;
+    width: 48px;
+    height: 56px;
+    display: grid;
+    place-items: center;
+    transform: translateY(-50%);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 3rem;
+    line-height: 1;
+    color: var(--petrol);
+    text-decoration: none;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.55s ease;
+  }
+
+  .word-story-nav--previous { left: 18px; }
+  .word-story-nav--next { right: 18px; }
+
+  .word-story-nav.is-visible,
+  .word-story-nav:hover,
+  .word-story-nav:focus-visible {
+    opacity: 0.68;
+    pointer-events: auto;
+  }
+
+  .word-story-nav:hover { opacity: 1; }
+
+  .word-story-nav:focus-visible {
+    outline: 2px solid var(--petrol);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
   @media (max-width: 600px) {
     .word-story-page { padding: 56px 24px 58px; }
     .word-story-title { margin-bottom: 28px; }
     .word-story-body { font-size: 1.06rem; }
+
+    .word-story-nav {
+      top: auto;
+      bottom: 16px;
+      width: 48px;
+      height: 48px;
+      transform: none;
+      font-size: 2.7rem;
+    }
+
+    .word-story-nav--previous { left: 10px; }
+    .word-story-nav--next { right: 10px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .word-story-nav {
+      opacity: 0.62;
+      pointer-events: auto;
+      transition: none;
+    }
   }
 </style>
+
+{% if previous_word %}
+<a class="word-story-nav word-story-nav--previous"
+   href="{{ previous_word.url }}"
+   aria-label="Previous word: {{ previous_word.word }}">‹</a>
+{% endif %}
+
+{% if next_word %}
+<a class="word-story-nav word-story-nav--next"
+   href="{{ next_word.url }}"
+   aria-label="Next word: {{ next_word.word }}">›</a>
+{% endif %}
 
 <article class="word-story-page">
   <a class="word-story-series" href="/#words-with-stories">Words with Stories</a>
@@ -67,3 +152,52 @@
     {{ page.story | markdownify }}
   </div>
 </article>
+
+<script>
+(function() {
+  var nav = Array.prototype.slice.call(document.querySelectorAll('.word-story-nav'));
+  if (!nav.length) return;
+
+  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var hideTimer = 0;
+
+  function showNavigation() {
+    if (reducedMotion) return;
+    window.clearTimeout(hideTimer);
+    nav.forEach(function(link) { link.classList.add('is-visible'); });
+    hideTimer = window.setTimeout(function() {
+      nav.forEach(function(link) {
+        if (document.activeElement !== link) link.classList.remove('is-visible');
+      });
+    }, 1800);
+  }
+
+  if (!reducedMotion) {
+    showNavigation();
+    window.addEventListener('pointermove', showNavigation, { passive: true });
+    window.addEventListener('scroll', showNavigation, { passive: true });
+    window.addEventListener('touchstart', showNavigation, { passive: true });
+    window.addEventListener('keydown', showNavigation);
+
+    nav.forEach(function(link) {
+      link.addEventListener('focus', showNavigation);
+    });
+  }
+
+  window.addEventListener('keydown', function(event) {
+    if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
+    var tag = document.activeElement && document.activeElement.tagName;
+    if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+
+    if (event.key === 'ArrowLeft') {
+      var previous = document.querySelector('.word-story-nav--previous');
+      if (previous) window.location.href = previous.href;
+    }
+
+    if (event.key === 'ArrowRight') {
+      var next = document.querySelector('.word-story-nav--next');
+      if (next) window.location.href = next.href;
+    }
+  });
+})();
+</script>
