@@ -5,7 +5,7 @@ title: "All"
 # The default deep-blue chrome (formerly the homepage's color; the homepage
 # now wears a greyed dark peacock of its own).
 series: default
-description: "The book, short fiction, and essays."
+description: "Short fiction, essays, and the book."
 ---
 
 {% assign all_posts = site.posts | sort: "date" | reverse %}
@@ -15,10 +15,12 @@ description: "The book, short fiction, and essays."
 all-work-row.html sends them to post.story_url instead of the redirect stub. {% endcomment %}
 {% comment %} The book's pieces are fiction: true like the rest, but they
 belong to The Fragments rather than to short fiction, and they are about to be
-many. They take the band below instead of swelling a heading that would then
-misname them. The band is called Book, plainly, while the chapters are still
+many. They take a band of their own instead of swelling a heading that would
+then misname them. It is called Book, plainly, while the chapters are still
 arriving — The Fragments and Şafak's Arc are both names worth revisiting once
-it is clear what the band holds. {% endcomment %}
+it is clear what the band holds — and it sits last on the page: once the book
+is done that band stops moving, while the two above it keep taking new work,
+and the page should open on what is still growing. {% endcomment %}
 {% assign arc = site.posts | where: "series", "fragments" | sort: "series_order" %}
 {% for post in all_posts %}
   {% assign post_arr = "" | split: "" | push: post %}
@@ -51,32 +53,16 @@ placed where its newest post falls in the date-sorted list. {% endcomment %}
 <div class="section-page">
   <div class="section-page-head">
     <h1 class="section-page-title">All</h1>
-    <p class="section-page-subtitle">The book, short fiction, and essays.</p>
+    <p class="section-page-subtitle">Short fiction, essays, and the book.</p>
   </div>
 
   <nav class="work-jump" aria-label="Sections on this page">
-    <a href="#book">Book</a>
-    <span class="work-jump-sep" aria-hidden="true">·</span>
     <a href="#short-fiction">Short Fiction</a>
     <span class="work-jump-sep" aria-hidden="true">·</span>
     <a href="#essays">Essays</a>
+    <span class="work-jump-sep" aria-hidden="true">·</span>
+    <a href="#book">Book</a>
   </nav>
-
-  <section id="book" class="all-work-band" aria-label="Book">
-    <div class="all-work-group-head">
-      <h2 class="all-work-group-title">Book</h2>
-      {%- comment -%} The heading stays plain while the chapters arrive; this
-      line says which work they are, without committing the band to a name
-      that is still moving. {%- endcomment -%}
-      <p class="all-work-group-sub">The Fragments — Şafak’s Arc</p>
-      <p class="all-work-group-count">{{ arc | size }} pieces</p>
-    </div>
-    <ul class="work-index">
-      {% for post in arc %}
-        {% include all-work-row.html post=post hide_tag=true %}
-      {% endfor %}
-    </ul>
-  </section>
 
   <section id="short-fiction" class="all-work-band" aria-label="Short Fiction">
     <div class="all-work-group-head">
@@ -98,6 +84,22 @@ placed where its newest post falls in the date-sorted list. {% endcomment %}
     <ul class="work-index">
       {% for post in essays_ordered %}
         {% include all-work-row.html post=post %}
+      {% endfor %}
+    </ul>
+  </section>
+
+  <section id="book" class="all-work-band" aria-label="Book">
+    <div class="all-work-group-head">
+      <h2 class="all-work-group-title">Book</h2>
+      {%- comment -%} The heading stays plain while the chapters arrive; this
+      line says which work they are, without committing the band to a name
+      that is still moving. {%- endcomment -%}
+      <p class="all-work-group-sub">The Fragments—Şafak’s Arc</p>
+      <p class="all-work-group-count">{{ arc | size }} pieces</p>
+    </div>
+    <ul class="work-index">
+      {% for post in arc %}
+        {% include all-work-row.html post=post hide_tag=true %}
       {% endfor %}
     </ul>
   </section>
