@@ -2,121 +2,131 @@
 {% assign drawer_fiction = site.posts | sort: "date" | reverse | where_exp: "p", "p.fiction == true" %}
 {% assign drawer_essays = site.posts | sort: "date" | reverse | where_exp: "p", "p.fiction != true" %}
 <div id="site-drawer-backdrop" class="drawer-backdrop" aria-hidden="true"></div>
+{%- comment -%} Two parts, and the split is what makes the panel work on a
+  short screen: a head that stays where it is, and a list that scrolls under
+  it. The panel used to be one scrolling box, so on a phone held sideways —
+  320 to 430px of height for nine destinations, a field and a brand — the way
+  out and the name at the top scrolled away with everything else, and the
+  links below the fold had nothing to say they were there. {%- endcomment -%}
 <div id="site-drawer" class="site-drawer" aria-hidden="true">
-  <button id="site-drawer-close" class="drawer-close" aria-label="Close menu">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-  </button>
-  <div class="drawer-logo-wrap">
-    <a href="{{ logo_href }}" class="drawer-logo-link">
-      <span class="brand-main">On Life &amp; Everything</span>
-      <span class="brand-sub">Essays, short fiction, and other writing.</span>
-    </a>
+  <div class="drawer-head">
+    <button id="site-drawer-close" class="drawer-close" aria-label="Close menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div class="drawer-logo-wrap">
+      <a href="{{ logo_href }}" class="drawer-logo-link">
+        <span class="brand-main">On Life &amp; Everything</span>
+        <span class="brand-sub">Essays, short fiction, and other writing.</span>
+      </a>
+    </div>
   </div>
 
-  {%- comment -%} A field, not a link: the menu is where a reader goes
-  looking, and a box you can type into says so plainly. It posts to /search/,
-  where the results come live as you type. {%- endcomment -%}
-  {% include search-form.html id="drawer-search" modifier="drawer" %}
+  <div class="drawer-body">
+    {%- comment -%} A field, not a link: the menu is where a reader goes
+    looking, and a box you can type into says so plainly. It posts to /search/,
+    where the results come live as you type. {%- endcomment -%}
+    {% include search-form.html id="drawer-search" modifier="drawer" %}
 
-  <a href="/" class="drawer-label drawer-label--link">Home</a>
+    <a href="/" class="drawer-label drawer-label--link">Home</a>
 
-  <div class="drawer-section-links">
-    <a href="/notes/">Notes</a>
-  </div>
-
-  <details class="drawer-section">
-    <summary class="drawer-label">Series</summary>
-    {% assign corner_posts = site.posts | where: "series", "cafe-series" | sort: "series_order" %}
-    {% assign on_posts = site.posts | where: "series", "on-series" | sort: "series_order" %}
-    <div class="drawer-essay-cards">
-      {% for post in corner_posts limit: 3 %}
-      {% assign display_title = post.title | replace: "'", "’" %}
-      {% if post.url == page.url %}<span class="drawer-essay-card drawer-essay-card--current">{% else %}<a href="{{ post.url }}" class="drawer-essay-card-link"><span class="drawer-essay-card">{% endif %}
-        <span class="drawer-essay-card-text">
-          <span class="drawer-essay-card-title">{{ display_title }}</span>
-          <span class="drawer-essay-card-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
-        </span>
-      {% if post.url == page.url %}</span>{% else %}</span></a>{% endif %}
-      {% endfor %}
+    <div class="drawer-section-links">
+      <a href="/notes/">Notes</a>
     </div>
-    <a href="/series/#the-corner" class="drawer-more drawer-subsection-link">All in The Corner <span aria-hidden="true">&rarr;</span></a>
 
-    <div class="drawer-essay-cards">
-      {% for post in on_posts limit: 3 %}
-      {% assign display_title = post.title | replace: "'", "’" %}
-      {% if post.url == page.url %}<span class="drawer-essay-card drawer-essay-card--current">{% else %}<a href="{{ post.url }}" class="drawer-essay-card-link"><span class="drawer-essay-card">{% endif %}
-        <span class="drawer-essay-card-text">
-          <span class="drawer-essay-card-title">{{ display_title }}</span>
-          <span class="drawer-essay-card-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
-        </span>
-      {% if post.url == page.url %}</span>{% else %}</span></a>{% endif %}
-      {% endfor %}
+    <details class="drawer-section">
+      <summary class="drawer-label">Series</summary>
+      {% assign corner_posts = site.posts | where: "series", "cafe-series" | sort: "series_order" %}
+      {% assign on_posts = site.posts | where: "series", "on-series" | sort: "series_order" %}
+      <div class="drawer-essay-cards">
+        {% for post in corner_posts limit: 3 %}
+        {% assign display_title = post.title | replace: "'", "’" %}
+        {% if post.url == page.url %}<span class="drawer-essay-card drawer-essay-card--current">{% else %}<a href="{{ post.url }}" class="drawer-essay-card-link"><span class="drawer-essay-card">{% endif %}
+          <span class="drawer-essay-card-text">
+            <span class="drawer-essay-card-title">{{ display_title }}</span>
+            <span class="drawer-essay-card-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
+          </span>
+        {% if post.url == page.url %}</span>{% else %}</span></a>{% endif %}
+        {% endfor %}
+      </div>
+      <a href="/series/#the-corner" class="drawer-more drawer-subsection-link">All in The Corner <span aria-hidden="true">&rarr;</span></a>
+
+      <div class="drawer-essay-cards">
+        {% for post in on_posts limit: 3 %}
+        {% assign display_title = post.title | replace: "'", "’" %}
+        {% if post.url == page.url %}<span class="drawer-essay-card drawer-essay-card--current">{% else %}<a href="{{ post.url }}" class="drawer-essay-card-link"><span class="drawer-essay-card">{% endif %}
+          <span class="drawer-essay-card-text">
+            <span class="drawer-essay-card-title">{{ display_title }}</span>
+            <span class="drawer-essay-card-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
+          </span>
+        {% if post.url == page.url %}</span>{% else %}</span></a>{% endif %}
+        {% endfor %}
+      </div>
+      <a href="/series/#the-on-series" class="drawer-more drawer-subsection-link">All in The On Series <span aria-hidden="true">&rarr;</span></a>
+    </details>
+
+    <details class="drawer-section">
+      <summary class="drawer-label">Book</summary>
+      <a href="/book/" class="drawer-more drawer-subsection-link drawer-subsection-link--first">The Fragments <span aria-hidden="true">&rarr;</span></a>
+      {% assign fragments_posts = site.posts | where: "series", "fragments" | sort: "series_order" %}
+      <div class="drawer-essay-cards">
+        {% for post in fragments_posts limit: 3 %}
+        {% assign display_title = post.title | replace: "'", "’" %}
+        {% if post.url == page.url %}<span class="drawer-essay-card drawer-essay-card--current">{% else %}<a href="{{ post.url }}" class="drawer-essay-card-link"><span class="drawer-essay-card">{% endif %}
+          <span class="drawer-essay-card-text">
+            <span class="drawer-essay-card-title">{{ display_title }}</span>
+            <span class="drawer-essay-card-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
+          </span>
+        {% if post.url == page.url %}</span>{% else %}</span></a>{% endif %}
+        {% endfor %}
+      </div>
+      <a href="/book/#safaks-arc" class="drawer-more drawer-subsection-link">All in Şafak’s Arc <span aria-hidden="true">&rarr;</span></a>
+    </details>
+
+    <details class="drawer-section">
+      <summary class="drawer-label">All</summary>
+      <div class="drawer-essay-cards">
+        {% for post in drawer_fiction limit: 3 %}
+        {% assign display_title = post.title | replace: "'", "’" %}
+        {% comment %} Story cards (The Notice) link to the story itself, not the redirect stub. {% endcomment %}
+        {% if post.story_card %}{% assign _card_url = post.story_url | default: "/story/1/" %}{% else %}{% assign _card_url = post.url %}{% endif %}
+        {% if _card_url == page.url %}<span class="drawer-essay-card drawer-essay-card--current">{% else %}<a href="{{ _card_url }}" class="drawer-essay-card-link"><span class="drawer-essay-card">{% endif %}
+          <span class="drawer-essay-card-text">
+            <span class="drawer-essay-card-title">{{ display_title }}</span>
+            <span class="drawer-essay-card-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
+          </span>
+        {% if _card_url == page.url %}</span>{% else %}</span></a>{% endif %}
+        {% endfor %}
+      </div>
+      <a href="/all-work/#short-fiction" class="drawer-more drawer-subsection-link">All in Short Fiction <span aria-hidden="true">&rarr;</span></a>
+
+      <div class="drawer-essay-cards">
+        {% for post in drawer_essays limit: 3 %}
+        {% assign display_title = post.title | replace: "'", "’" %}
+        {% if post.url == page.url %}<span class="drawer-essay-card drawer-essay-card--current">{% else %}<a href="{{ post.url }}" class="drawer-essay-card-link"><span class="drawer-essay-card">{% endif %}
+          <span class="drawer-essay-card-text">
+            <span class="drawer-essay-card-title">{{ display_title }}</span>
+            <span class="drawer-essay-card-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
+          </span>
+        {% if post.url == page.url %}</span>{% else %}</span></a>{% endif %}
+        {% endfor %}
+      </div>
+      <a href="/all-work/#essays" class="drawer-more drawer-subsection-link">All in Essays <span aria-hidden="true">&rarr;</span></a>
+    </details>
+
+    <div class="drawer-section-links">
+      <a href="/word/">Words</a>
     </div>
-    <a href="/series/#the-on-series" class="drawer-more drawer-subsection-link">All in The On Series <span aria-hidden="true">&rarr;</span></a>
-  </details>
 
-  <details class="drawer-section">
-    <summary class="drawer-label">Book</summary>
-    <a href="/book/" class="drawer-more drawer-subsection-link drawer-subsection-link--first">The Fragments <span aria-hidden="true">&rarr;</span></a>
-    {% assign fragments_posts = site.posts | where: "series", "fragments" | sort: "series_order" %}
-    <div class="drawer-essay-cards">
-      {% for post in fragments_posts limit: 3 %}
-      {% assign display_title = post.title | replace: "'", "’" %}
-      {% if post.url == page.url %}<span class="drawer-essay-card drawer-essay-card--current">{% else %}<a href="{{ post.url }}" class="drawer-essay-card-link"><span class="drawer-essay-card">{% endif %}
-        <span class="drawer-essay-card-text">
-          <span class="drawer-essay-card-title">{{ display_title }}</span>
-          <span class="drawer-essay-card-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
-        </span>
-      {% if post.url == page.url %}</span>{% else %}</span></a>{% endif %}
-      {% endfor %}
+    <div class="drawer-section-links">
+      <a href="/tools/">Instruments</a>
     </div>
-    <a href="/book/#safaks-arc" class="drawer-more drawer-subsection-link">All in Şafak’s Arc <span aria-hidden="true">&rarr;</span></a>
-  </details>
 
-  <details class="drawer-section">
-    <summary class="drawer-label">All</summary>
-    <div class="drawer-essay-cards">
-      {% for post in drawer_fiction limit: 3 %}
-      {% assign display_title = post.title | replace: "'", "’" %}
-      {% comment %} Story cards (The Notice) link to the story itself, not the redirect stub. {% endcomment %}
-      {% if post.story_card %}{% assign _card_url = post.story_url | default: "/story/1/" %}{% else %}{% assign _card_url = post.url %}{% endif %}
-      {% if _card_url == page.url %}<span class="drawer-essay-card drawer-essay-card--current">{% else %}<a href="{{ _card_url }}" class="drawer-essay-card-link"><span class="drawer-essay-card">{% endif %}
-        <span class="drawer-essay-card-text">
-          <span class="drawer-essay-card-title">{{ display_title }}</span>
-          <span class="drawer-essay-card-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
-        </span>
-      {% if _card_url == page.url %}</span>{% else %}</span></a>{% endif %}
-      {% endfor %}
+    <div class="drawer-section-links">
+      <a href="/moris/">Moris</a>
     </div>
-    <a href="/all-work/#short-fiction" class="drawer-more drawer-subsection-link">All in Short Fiction <span aria-hidden="true">&rarr;</span></a>
 
-    <div class="drawer-essay-cards">
-      {% for post in drawer_essays limit: 3 %}
-      {% assign display_title = post.title | replace: "'", "’" %}
-      {% if post.url == page.url %}<span class="drawer-essay-card drawer-essay-card--current">{% else %}<a href="{{ post.url }}" class="drawer-essay-card-link"><span class="drawer-essay-card">{% endif %}
-        <span class="drawer-essay-card-text">
-          <span class="drawer-essay-card-title">{{ display_title }}</span>
-          <span class="drawer-essay-card-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
-        </span>
-      {% if post.url == page.url %}</span>{% else %}</span></a>{% endif %}
-      {% endfor %}
+    <div class="drawer-section-links">
+      <a href="/about/">About</a>
     </div>
-    <a href="/all-work/#essays" class="drawer-more drawer-subsection-link">All in Essays <span aria-hidden="true">&rarr;</span></a>
-  </details>
-
-  <div class="drawer-section-links">
-    <a href="/word/">Words</a>
-  </div>
-
-  <div class="drawer-section-links">
-    <a href="/tools/">Instruments</a>
-  </div>
-
-  <div class="drawer-section-links">
-    <a href="/moris/">Moris</a>
-  </div>
-
-  <div class="drawer-section-links">
-    <a href="/about/">About</a>
   </div>
 </div>

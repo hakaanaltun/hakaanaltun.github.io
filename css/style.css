@@ -683,11 +683,15 @@ header .hamburger-btn:focus-visible { outline-color: var(--footer-text); }
   --chrome-deep: color-mix(in srgb, var(--petrol) 74%, black);
   position: fixed; top: 0; left: 0; bottom: 0; z-index: 210;
   width: 320px; max-width: min(88vw, 420px); height: 100dvh;
-  padding: 24px 16px env(safe-area-inset-bottom, 24px);
   background: var(--drawer-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
   border-right: 1px solid var(--rule); box-shadow: 4px 0 24px rgba(47, 43, 39, 0.08);
-  display: flex; flex-direction: column; gap: 10px; overflow-y: auto; overscroll-behavior: contain;
-  -webkit-overflow-scrolling: touch; scroll-behavior: smooth;
+  /* The frame, not the scroller. The panel used to scroll as one box, which
+     is fine on a screen tall enough to hold it and wrong on one that is not:
+     the close button and the brand are painted at the top of the scrolled
+     content, so on a phone held sideways they left with it, and the band
+     behind them slid up the panel. The head is a fixed row now and
+     .drawer-body does the scrolling — see there. */
+  display: flex; flex-direction: column; overflow: hidden;
   transform: translateX(-100%);
   /* The closed drawer is only pushed off-screen, so its links stayed in the
      tab order behind aria-hidden="true" — a keyboard reader tabbed into a
@@ -709,6 +713,31 @@ header .hamburger-btn:focus-visible { outline-color: var(--footer-text); }
   backdrop-filter: blur(14px) saturate(120%); -webkit-backdrop-filter: blur(14px) saturate(120%);
   z-index: -1;
 }
+/* The head: the way out and the name, and neither of them moves. Its height
+   is the masthead's — site-nav.js sets --drawer-logo-mb from the measured
+   header — so .site-drawer::before paints behind exactly this row and the
+   panel's band lines up with the one beside it. */
+.drawer-head { position: relative; flex: 0 0 auto; padding: 24px 16px 0; }
+
+/* Everything a reader can go to, and the one box they can type in. This is
+   the panel's scroller: min-height: 0 is what lets a flex item shorter than
+   its content exist at all, and without it the list would push the head off
+   the top of a short screen instead of scrolling under it. */
+.drawer-body {
+  flex: 1 1 auto; min-height: 0;
+  display: flex; flex-direction: column; gap: 10px;
+  /* 10px at the top is the gap the panel's own `gap: 10px` used to put
+     between the brand and the field, back when the two were siblings — the
+     rhythm down the list is unchanged from it.
+
+     And a scrolling list needs a floor to come to rest on, which the panel's
+     padding used to give it. env() reports 0 on a phone with no home bar, so
+     the 20px is added rather than offered as a fallback. */
+  padding: 10px 16px calc(env(safe-area-inset-bottom, 0px) + 20px);
+  overflow-y: auto; overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch; scroll-behavior: smooth;
+}
+
 .drawer-close { position: absolute; top: 16px; right: 16px; z-index: 2; color: var(--footer-text); }
 .drawer-close svg { width: 18px; height: 18px; }
 
@@ -722,7 +751,7 @@ header .hamburger-btn:focus-visible { outline-color: var(--footer-text); }
 .site-drawer a { color: var(--petrol); padding: 4px 0; font-size: 16px; }
 .site-drawer a:hover, .site-drawer a:active { opacity: var(--select-dim); }
 
-.site-drawer > a, .site-drawer nav a, .site-drawer ul a { display: block; width: 100%; text-align: center; }
+.site-drawer > a, .drawer-body > a, .site-drawer nav a, .site-drawer ul a { display: block; width: 100%; text-align: center; }
 
 summary.drawer-label { display: flex; justify-content: center; align-items: center; position: relative; width: 100%; padding-right: 0; gap: 10px; cursor: pointer; list-style: none; }
 summary.drawer-label::-webkit-details-marker { display: none; }
@@ -770,6 +799,55 @@ a.drawer-label--link:focus-visible { outline: 2px solid var(--petrol); outline-o
   .site-drawer { width: 280px; max-width: 76vw; }
   .drawer-essay-card-title { font-size: 1rem; }
   .drawer-essay-card-subtitle { font-size: 0.76rem; }
+}
+
+/* A short phone upright — 620px and under, which is where the list first
+   runs past the screen in portrait: at 568px About sat 72px below it. The
+   head stays as it is, because the masthead is right beside the panel at
+   this orientation and the band should still match it. Closing up the
+   rhythm of the list is enough on its own. */
+@media (orientation: portrait) and (max-height: 620px) {
+  .drawer-body { gap: 6px; }
+  .drawer-label { margin-top: 12px; }
+  .drawer-section-links { gap: 8px; margin: 6px 0 0; }
+}
+
+/* A phone held sideways: 320 to 430px of height, against a panel carrying a
+   brand, a field and nine destinations. The panel measured 606px, so five of
+   the nine sat below the fold with nothing to say they were there — it did
+   scroll, but a list cut off at the screen's edge, under a head that
+   scrolled away with it, reads as a menu missing its links, and that is how
+   it was reported.
+
+   The head gives up two of the three things that made it 115px tall here.
+   The tagline goes: it is on the page behind the panel and in every footer,
+   and at this height repeating it costs a destination. And the band stops
+   matching the masthead's 92px, which is a quarter of the screen spent on a
+   name — the head paints its own instead and ends where the brand does. The
+   list then runs on a tighter rhythm, which brings the head to 52px and all
+   nine names above the fold from 390px of height up. Shorter than that they
+   still scroll, now under a head that stays where it is. */
+@media (orientation: landscape) and (max-height: 500px) {
+  /* The band is the head's own background now rather than a pseudo-element
+     sized from --head-band, so it ends where the head does. Same paint as
+     the ::before it stands in for — see .site-drawer::before above. */
+  .site-drawer::before { display: none; }
+  .drawer-head {
+    padding: 12px 16px 10px;
+    background: var(--surface-chrome);
+    border-bottom: 1px solid var(--header-border);
+  }
+  .drawer-logo-link .brand-sub { display: none; }
+  /* Overrides var(--drawer-logo-mb), which site-nav.js writes inline on
+     :root: the variable is still the masthead's height, and the band has
+     stopped following it. */
+  .drawer-logo-wrap { margin-bottom: 0; }
+  .drawer-close { top: 10px; }
+
+  .drawer-body { gap: 4px; padding-top: 4px; padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 14px); }
+  .drawer-label { margin-top: 10px; }
+  .drawer-section-links { gap: 6px; margin: 4px 0 0; }
+  .drawer-section-links a { padding: 2px 0; }
 }
 
 /* ==========================================================================
@@ -2010,6 +2088,28 @@ html[data-theme="sky"] .footer-strip { border-top: 0; }
   }
 }
 
+/* A phone lying down is the exception the width rule above cannot see: it is
+   568–932px wide and 320–430px tall, so it takes the wrap meant for a narrow
+   screen and pays for it in the dimension it has least of — a strip 129px
+   tall on a 375px screen, with a search bar spanning the whole of it. From
+   600px the row holds all three again: the bar keeps its own width (16rem,
+   see .site-search-form--footer in search.css) and gives up the rest, which
+   is what it does at every width above 768px too. 600 is where what is left
+   for the bar stops being able to hold its own placeholder — under that the
+   strip wraps as it does in portrait, and the bar's cap is what keeps it off
+   the far edge.
+
+   24px of gutter rather than the page's 40 — that is what .footer-inner
+   already uses in landscape, so the strip lines up with the footer under it,
+   and the room buys the row its third item. */
+@media (min-width: 600px) and (max-width: 767px) and (orientation: landscape) {
+  .footer-strip-inner {
+    flex-wrap: nowrap;
+    row-gap: 0;
+    padding: 12px 24px;
+  }
+}
+
 /* The three text links stay one horizontal row at every width. */
 .footer-contact-links {
   display: flex;
@@ -2245,10 +2345,12 @@ html[data-theme="sky"] .footer-strip { border-top: 0; }
   padding: 44px var(--pad) 40px;
 }
 
-/* Narrow landscape phones: the links and icons still share one right-aligned
-   row under the bar — only the type shrinks so they fit beside each other.
-   (Portrait gets the dropdown layout below instead.) */
-@media (max-width: 480px) and (orientation: landscape) {
+/* Landscape phones: the type shrinks a notch so the links sit beside the
+   icons and the bar without any of the three having to give up the row.
+   Below 600px the row is too narrow to hold them even then, and the strip
+   wraps as it does in portrait — with the bar held to its cap rather than
+   run out to the far edge. (Portrait gets the dropdown layout below.) */
+@media (max-width: 767px) and (orientation: landscape) {
   .footer-contact-links {
     font-size: 0.85rem;
   }
