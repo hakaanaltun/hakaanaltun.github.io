@@ -34,7 +34,7 @@
         </button>
 
         <div class="footer-actions" id="footer-actions-menu">
-          <a href="/search/" class="footer-icon-btn"{% if page.url == "/search/" %} aria-current="page"{% endif %} aria-label="Search">
+          <a href="/search/" class="footer-icon-btn"{% if page.url == "/search/" %} aria-current="page"{% endif %} aria-label="Search" data-label="Search">
             <svg
               viewBox="0 0 24 24"
               fill="none"
@@ -49,7 +49,7 @@
             </svg>
           </a>
 
-          <a href="/tools/" class="footer-icon-btn" aria-label="Instruments">
+          <a href="/tools/" class="footer-icon-btn" aria-label="Instruments" data-label="Instruments">
             <svg
               viewBox="0 0 24 24"
               fill="none"
@@ -72,6 +72,7 @@
             id="theme-toggle"
             type="button"
             aria-label="Choose a theme"
+            data-label="Theme"
             aria-haspopup="true"
             aria-expanded="false"
             aria-controls="theme-menu"
@@ -147,6 +148,7 @@
             class="footer-icon-btn footer-share-btn"
             type="button"
             aria-label="Share this page"
+          data-label="Share"
           >
             <svg
               viewBox="0 0 24 24"

@@ -2017,12 +2017,14 @@ html[data-theme="sky"] .footer-strip { border-top: 0; }
   color: var(--footer-strip-ink);
   cursor: pointer;
   text-decoration: none;
-  transition: var(--select-ease);
 }
 
-/* Same band, same answer — these sit inline with the links above them. */
-.footer-icon-btn:hover,
-.footer-icon-btn:active {
+/* Same band, same answer — these sit inline with the links above them. The
+   dim sits on the glyph rather than the whole button: the button now also
+   carries the word above it, and a parent at 0.78 would have taken that
+   down with it. The icon is all a reader sees move, as before. */
+.footer-icon-btn:hover svg,
+.footer-icon-btn:active svg {
   opacity: var(--select-dim);
 }
 
@@ -2035,6 +2037,65 @@ html[data-theme="sky"] .footer-strip { border-top: 0; }
 .footer-icon-btn svg {
   width: 17px;
   height: 17px;
+  transition: var(--select-ease);
+}
+
+/* A word above the icon, on hover or on keyboard focus. The strip is a row
+   of unlabelled glyphs, and until now the only name any of them had was the
+   aria-label a screen reader reads out. It comes from data-label rather than
+   title: the OS tooltip arrives a second late in a grey box no palette here
+   would own, and title would be read out on top of the aria-label besides.
+   Purely decorative, so ::after carries it and nothing is announced twice.
+   It opens upward for the reason the theme menu does — there is no page
+   below this band. */
+.footer-icon-btn[data-label] {
+  position: relative;
+}
+
+.footer-icon-btn[data-label]::after {
+  content: attr(data-label);
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 60;
+  padding: 3px 9px;
+  /* The menu's own vocabulary at a smaller size: these open into the same
+     space, a few pixels apart, and two grounds there would read as two. */
+  background: var(--paper);
+  border: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
+  border-radius: 8px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+  color: var(--ink);
+  font-family: 'EB Garamond', Georgia, serif;
+  font-style: italic;
+  font-size: 0.88rem;
+  line-height: 1.3;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: var(--select-ease);
+}
+
+/* A touch screen has no hover, and a tap must not leave a word stranded on
+   the band with nothing to dismiss it. Keyboard focus shows it everywhere. */
+@media (hover: hover) {
+  .footer-icon-btn[data-label]:hover::after {
+    opacity: 1;
+  }
+}
+
+.footer-icon-btn[data-label]:focus-visible::after {
+  opacity: 1;
+}
+
+/* The theme menu opens into exactly this space; the two together read as
+   one broken thing, so the word stands down while the menu is up. Matched
+   on the same class and one attribute as the rules above so it can win on
+   source order — named by its own class it scored a point lower and the
+   hover rule simply outranked it. */
+.footer-icon-btn[data-label][aria-expanded="true"]::after {
+  opacity: 0;
 }
 
 /* The chevron that collapses the icon controls into a dropdown exists only
@@ -2196,6 +2257,11 @@ html[data-theme="sky"] .footer-strip { border-top: 0; }
 
   .footer-actions-wrap.open .footer-actions {
     display: flex;
+  }
+
+  /* Stacked in the dropdown, a word would sit on the icon above it. */
+  .footer-actions .footer-icon-btn[data-label]::after {
+    content: none;
   }
 
   /* Inside the dropdown the strip's foot is no longer below the button, so
