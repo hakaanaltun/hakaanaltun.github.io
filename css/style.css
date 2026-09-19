@@ -661,16 +661,22 @@ header .hamburger-btn:focus-visible { outline-color: var(--footer-text); }
   .header-nav-bar { display: none; }
 }
 
-/* Brand + tagline kept consistent across header, drawer and footer on mobile. */
+/* Brand + tagline kept consistent across the header and the footer on mobile.
+
+   The drawer used to be named here too, on all three lines. It was never
+   reached: .drawer-logo-link .brand-main and .brand-sub are declared in the
+   drawer's own section below, at the same specificity and later in the file,
+   so the panel's brand stayed at 1.3rem and its tagline at 1.0rem however
+   narrow the screen got. The drawer takes its own step now, at the width
+   where it actually needs one — see the brand block in section 4. */
 @media (max-width: 600px) {
-  .brand-main, .footer-brand, .drawer-logo-link .brand-main { font-size: 1.05rem; }
-  .brand-sub, .footer-tagline, .drawer-logo-link .brand-sub { font-size: 0.82rem; }
-  .drawer-logo-link .brand-sub { white-space: nowrap; max-width: none; }
+  .brand-main, .footer-brand { font-size: 1.05rem; }
+  .brand-sub, .footer-tagline { font-size: 0.82rem; }
 }
 
 @media (max-width: 420px) {
-  .brand-main, .footer-brand, .drawer-logo-link .brand-main { font-size: 0.95rem; }
-  .brand-sub, .footer-tagline, .drawer-logo-link .brand-sub { font-size: 0.75rem; }
+  .brand-main, .footer-brand { font-size: 0.95rem; }
+  .brand-sub, .footer-tagline { font-size: 0.75rem; }
 }
 
 /* ========================================================================== 
@@ -814,6 +820,42 @@ a.drawer-label--link:focus-visible { outline: 2px solid var(--petrol); outline-o
   .site-drawer { width: 280px; max-width: 76vw; }
   .drawer-essay-card-title { font-size: 1rem; }
   .drawer-essay-card-subtitle { font-size: 0.76rem; }
+}
+
+/* The narrow phones. The panel is 76vw here, so its head narrows with the
+   screen while the brand — one nowrap line — does not, and the close button
+   holds the last 30px of that row whatever else happens. The two met below
+   about 335px of viewport: at 320 the name ran 6px under the cross, and at
+   280 it ran 21px under it.
+
+   Two steps, the same two the masthead and the footer take (section 3), and
+   they are placed where the clearance is rather than at the site's widths:
+   from 369px the panel is at its 280px cap and the name clears the cross by
+   12px, so above the step nothing needs to change and the panel keeps the
+   larger brand it has always had. Below it the steps hold 17px and 15px.
+
+   The tagline steps with the name. It has room of its own either way — it
+   sits under the cross, not beside it, and wraps at 26ch — but a title set
+   smaller than the line beneath it is not a title, and at one step the two
+   would have crossed over.
+
+   Below the second step the panel keeps shrinking at 0.76 of the screen
+   while the cross stays 30px, so the name has to come down faster than the
+   screen does or it catches up with the cross again: a flat 0.95rem leaves
+   1px at 280 and is back under the cross by 14px at 240. calc() is that
+   rate — it holds about 9px between them at any width — and min() keeps it
+   from ever growing past the step. The tagline is then set as a share of the name rather than a
+   size of its own, so the two cannot cross over however narrow it gets;
+   0.79 is the ratio the step itself uses. */
+@media (max-width: 380px) {
+  .drawer-logo-link .brand-main { font-size: 1.05rem; }
+  .drawer-logo-link .brand-sub { font-size: 0.82rem; }
+}
+
+@media (max-width: 340px) {
+  .drawer-logo-wrap { --drawer-brand-size: min(0.95rem, calc(9.7vw - 14px)); }
+  .drawer-logo-link .brand-main { font-size: var(--drawer-brand-size); }
+  .drawer-logo-link .brand-sub { font-size: calc(var(--drawer-brand-size) * 0.79); }
 }
 
 /* A short phone upright — 620px and under, which is where the list first
