@@ -10,7 +10,14 @@
   color: var(--ink);
   background: var(--paper);
 }
-.site-search-form:focus-within { outline: 2px solid currentColor; outline-offset: 3px; }
+/* The ring is --petrol at a 1px offset, like every other focus ring on the
+   site, and not the detached 2px of --ink it used to be. That mattered once
+   the search page started placing the caret in the field on arrival: a ring
+   a reader did not ask for is the first thing they see, and the old one read
+   as a black slab across a quiet page. Hugging the border it reads as what
+   it is — a field with the caret in it — and a keyboard reader still gets an
+   unmistakable ring. */
+.site-search-form:focus-within { outline: 2px solid var(--petrol); outline-offset: 1px; }
 .site-search-form input {
   flex: 1;
   min-width: 0;
@@ -43,29 +50,27 @@
 }
 .site-search-form button svg { width: 20px; height: 20px; }
 .site-search-form button:hover { opacity: var(--select-dim); }
-.site-search-form button:focus-visible { outline: 2px solid currentColor; outline-offset: -4px; }
-.footer-strip-inner {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto auto;
-  gap: 16px;
-}
-.footer-contact-links { justify-self: end; }
-.site-search-form--footer {
-  max-width: 13rem;
+.site-search-form button:focus-visible { outline: 2px solid var(--petrol); outline-offset: -4px; }
+/* The drawer's variant. The field sits under the brand, above the list of
+   places, and is the only box on the panel you can type into — which is the
+   point: a link says where to go, a field says what you can do. It posts to
+   /search/, where site-search.js takes over with live results.
+
+   The strip at the foot of the page keeps a plain icon instead (see
+   .footer-actions in style.css): a second field down there would have had
+   to fight the contact links for the one row that band is allowed. */
+.site-search-form--drawer {
+  max-width: none;
   margin: 0;
-  min-width: 0;
-  background: transparent;
-  color: var(--footer-strip-ink);
 }
-.site-search-form--footer input { padding: 4px 9px; }
-.site-search-form--footer input::placeholder { color: var(--footer-strip-ink); }
-.site-search-form--footer button { flex-basis: 36px; min-height: 36px; padding: 8px; }
-.site-search-form--footer button svg { width: 17px; height: 17px; }
-@media (max-width: 767px) {
-  .footer-strip-inner { grid-template-columns: minmax(0, 1fr) auto; gap: 8px; }
-  .site-search-form--footer { grid-column: 1 / -1; }
-  .footer-contact-links { justify-self: start; }
-}
+.site-search-form--drawer input { padding: 7px 10px; }
+.site-search-form--drawer button { flex-basis: 40px; min-height: 40px; }
+.site-search-form--drawer button svg { width: 18px; height: 18px; }
+/* Home used to sit directly beneath the brand and carried a tightened top
+   margin for it (.drawer-logo-wrap + a.drawer-label--link in style.css).
+   The field is that neighbour now, so the same tightening moves here and
+   the rhythm down the panel is unchanged. */
+.site-search-form--drawer + a.drawer-label--link { margin-top: 10px; }
 .search-page { max-width: 760px; }
 .search-status { margin: 1.5rem 0; color: var(--vizon); font-size: 1rem; }
 .search-results { list-style: none; margin: 0; padding: 0; }

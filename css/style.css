@@ -2144,9 +2144,9 @@ html[data-theme="sky"] .footer-strip { border-top: 0; }
 }
 
 /* Phone portrait: the whole strip stays one right-aligned row — links first,
-   chevron at the far right beside them. The icon controls (theme, clock,
-   share) move into a dropdown that opens under the chevron, stacked in that
-   order. */
+   chevron at the far right beside them. The icon controls (search,
+   instruments, theme, share) move into a dropdown that opens under the
+   chevron, stacked in that order. */
 @media (max-width: 767px) and (orientation: portrait) {
   .footer-strip-inner {
     gap: 8px;

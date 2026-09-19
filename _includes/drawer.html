@@ -13,11 +13,12 @@
     </a>
   </div>
 
-  <a href="/" class="drawer-label drawer-label--link">Home</a>
+  {%- comment -%} A field, not a link: the menu is where a reader goes
+  looking, and a box you can type into says so plainly. It posts to /search/,
+  where the results come live as you type. {%- endcomment -%}
+  {% include search-form.html id="drawer-search" modifier="drawer" %}
 
-  <div class="drawer-section-links">
-    <a href="{{ "/search/" | relative_url }}"{% if page.url == "/search/" %} aria-current="page"{% endif %}>Search</a>
-  </div>
+  <a href="/" class="drawer-label drawer-label--link">Home</a>
 
   <div class="drawer-section-links">
     <a href="/notes/">Notes</a>
