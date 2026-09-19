@@ -6,8 +6,23 @@
       It spent a release as one of four unlabelled icons at the far right —
       and on a phone portrait inside the dropdown behind the chevron, two
       taps from a reader who had already gone looking for it. A bar names
-      itself without being opened. {%- endcomment -%}
+      itself without being opened.
+
+      Everywhere but /search/. The strip is the band of elsewhere — the feed,
+      the two addresses, the instruments, the wardrobe, the share sheet — and
+      on the search page the bar would be the one thing on it pointing at the
+      page under the reader's feet. The icon it replaced said as much with
+      aria-current="page". The page's own field is also the better of the
+      two: site-search.js binds that one, so it answers live as you type,
+      while this one posts and reloads. Offering the weaker copy of a control
+      at the moment the real one is on screen is not a second chance, it is a
+      second box. A long list does put that field out of view — 73 results
+      for "the" run 12,632px — but the header is sticky and comes back on any
+      upward scroll, with the drawer and its field behind the hamburger.
+      {%- endcomment -%}
+      {% unless page.url == "/search/" %}
       {% include search-form.html id="footer-search" modifier="footer" %}
+      {% endunless %}
 
       <nav class="footer-contact-links" aria-label="Find me">
         <a href="/feed.xml">RSS</a>

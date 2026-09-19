@@ -77,7 +77,8 @@
    /search/, where site-search.js takes over with live results.
 
    The strip at the foot of the page carries the same field now (see
-   --footer below), so a reader who never opens the menu still meets one. */
+   --footer below), so a reader who never opens the menu still meets one —
+   on every page but /search/, where the page is already the field. */
 .site-search-form--drawer {
   max-width: none;
   margin: 0;
