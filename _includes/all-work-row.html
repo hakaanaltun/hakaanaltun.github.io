@@ -32,10 +32,14 @@ list itself — the rows carry no numbers. {% endcomment %}
     </span>
     <span class="work-side">
       <time class="work-date" datetime="{{ include.post.date | date: '%Y-%m-%d' }}">{{ include.post.date | date: "%b %-d, %Y" }}</time>
+      {% comment %} hide_tag: for a list that is already one series, where the
+      tag only repeats the heading above it. {% endcomment %}
+      {% unless include.hide_tag %}
       {% if include.post.series == "on-series" %}<span class="work-tag">The On Series</span>
       {% elsif include.post.series == "fragments" %}<span class="work-tag">Şafak’s Arc</span>
       {% elsif include.post.series == "cafe-series" %}<span class="work-tag">The Corner</span>
       {% elsif include.post.story_card %}<span class="work-tag">In choices</span>{% endif %}
+      {% endunless %}
       {% if include.post.read_time %}<span class="work-read">{{ include.post.read_time }}</span>{% endif %}
       {% if include.post.notes_read_time %}<span class="work-read">{{ include.post.notes_read_time }}</span>{% endif %}
     </span>
