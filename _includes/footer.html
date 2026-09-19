@@ -2,6 +2,13 @@
   {% unless page.series == "story" %}
   <div class="footer-strip">
     <div class="footer-strip-inner">
+      {%- comment -%} Search leads the strip as a field rather than a glyph.
+      It spent a release as one of four unlabelled icons at the far right —
+      and on a phone portrait inside the dropdown behind the chevron, two
+      taps from a reader who had already gone looking for it. A bar names
+      itself without being opened. {%- endcomment -%}
+      {% include search-form.html id="footer-search" modifier="footer" %}
+
       <nav class="footer-contact-links" aria-label="Find me">
         <a href="/feed.xml">RSS</a>
         <span class="footer-dot" aria-hidden="true">·</span>
@@ -34,21 +41,6 @@
         </button>
 
         <div class="footer-actions" id="footer-actions-menu">
-          <a href="/search/" class="footer-icon-btn"{% if page.url == "/search/" %} aria-current="page"{% endif %} aria-label="Search" data-label="Search">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <circle cx="10.5" cy="10.5" r="6.5"/>
-              <path d="m16 16 5 5"/>
-            </svg>
-          </a>
-
           <a href="/tools/" class="footer-icon-btn" aria-label="Instruments" data-label="Instruments">
             <svg
               viewBox="0 0 24 24"

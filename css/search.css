@@ -76,9 +76,8 @@
    point: a link says where to go, a field says what you can do. It posts to
    /search/, where site-search.js takes over with live results.
 
-   The strip at the foot of the page keeps a plain icon instead (see
-   .footer-actions in style.css): a second field down there would have had
-   to fight the contact links for the one row that band is allowed. */
+   The strip at the foot of the page carries the same field now (see
+   --footer below), so a reader who never opens the menu still meets one. */
 .site-search-form--drawer {
   max-width: none;
   margin: 0;
@@ -91,6 +90,57 @@
    The field is that neighbour now, so the same tightening moves here and
    the rhythm down the panel is unchanged. */
 .site-search-form--drawer + a.drawer-label--link { margin-top: 10px; }
+
+/* The strip's variant — the bar at the head of the page's foot. Search was a
+   glyph in that band among three others, with no name until it was hovered;
+   a field carries its own. The auto right margin is what holds it left: the
+   strip is justified to its end, so the contact links and the icon controls
+   stay exactly where they were and only the free space between moves.
+
+   Narrower than the page's own field on purpose. The strip is one row, and
+   past about 18rem the bar starts taking the room the links need. It is also
+   the one item on that row left able to shrink, so a wider palette or a
+   longer address is paid for here rather than by breaking the row. Below
+   768px it stops sharing altogether and takes a row of its own, full width —
+   see .footer-strip-inner in style.css, which does the wrapping.
+
+   It keeps --paper rather than the band, for the reason the theme menu does:
+   in every light palette the two are the same colour and the border does all
+   the work, and in Dark, Midnight and Follow the sky the band is the darkest
+   surface on the page, where a field darker again would read as a hole. */
+.site-search-form--footer {
+  flex: 0 1 18rem;
+  max-width: 18rem;
+  margin: 0 auto 0 0;
+}
+
+/* Sized to sit level with the 36px icon buttons beside it: the input's own
+   line box sets the height, and the button is kept under it so it cannot
+   stretch the band's one row. */
+.site-search-form--footer input {
+  padding: 6px 10px;
+  font-size: 0.95rem;
+}
+
+.site-search-form--footer button {
+  flex-basis: 36px;
+  min-height: 32px;
+}
+
+.site-search-form--footer button svg { width: 16px; height: 16px; }
+
+/* On its own row there is no row left to protect, so the submit goes back to
+   a comfortable target — this is the width where a reader is on a phone. */
+@media (max-width: 767px) {
+  .site-search-form--footer {
+    flex: 1 1 100%;
+    max-width: none;
+    margin: 0;
+  }
+
+  .site-search-form--footer button { min-height: 38px; }
+}
+
 .search-page { max-width: 760px; }
 .search-status { margin: 1.5rem 0; color: var(--vizon); font-size: 1rem; }
 .search-results { list-style: none; margin: 0; padding: 0; }
