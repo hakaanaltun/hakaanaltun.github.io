@@ -86,20 +86,19 @@
 .site-search-form--drawer input { padding: 7px 10px; }
 .site-search-form--drawer button { flex-basis: 40px; min-height: 40px; }
 .site-search-form--drawer button svg { width: 18px; height: 18px; }
-/* Home used to sit directly beneath the brand and carried a tightened top
-   margin for it (.drawer-logo-wrap + a.drawer-label--link in style.css).
-   The field is that neighbour now, so the same tightening moves here and
-   the rhythm down the panel is unchanged. */
-.site-search-form--drawer + a.drawer-label--link { margin-top: 10px; }
+/* The field is the first item on the list and is spaced like one: the gap
+   under it is .drawer-body's --drawer-row-gap, the same as between any two
+   names below it. It used to carry a margin of its own here, which was one
+   of the three sources that made the panel's spacing uneven — see
+   .drawer-body in style.css.
 
-/* A phone held sideways has room for the field but none to spare above and
+   A phone held sideways has room for the field but none to spare above and
    below it: the panel is 320–430px tall and the list under it is nine names
-   long. See the landscape drawer block in style.css, which sets the rest of
-   that rhythm — this half lives here because the form's own rules do. */
+   long. The rest of that rhythm is the landscape drawer block in style.css;
+   this half lives here because the form's own rules do. */
 @media (orientation: landscape) and (max-height: 500px) {
   .site-search-form--drawer input { padding: 5px 10px; }
   .site-search-form--drawer button { flex-basis: 36px; min-height: 34px; }
-  .site-search-form--drawer + a.drawer-label--link { margin-top: 6px; }
 }
 
 /* The strip's variant — the bar at the head of the page's foot. Search was a

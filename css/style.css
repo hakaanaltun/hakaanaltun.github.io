@@ -724,16 +724,28 @@ header .hamburger-btn:focus-visible { outline-color: var(--footer-text); }
    its content exist at all, and without it the list would push the head off
    the top of a short screen instead of scrolling under it. */
 .drawer-body {
-  flex: 1 1 auto; min-height: 0;
-  display: flex; flex-direction: column; gap: 10px;
-  /* 10px at the top is the gap the panel's own `gap: 10px` used to put
-     between the brand and the field, back when the two were siblings — the
-     rhythm down the list is unchanged from it.
+  /* THE LIST'S RHYTHM LIVES HERE AND NOWHERE ELSE. Every name on the panel —
+     Home, the three sections, the five plain links — is the same kind of row,
+     so it gets the same box: --drawer-row-pad above and below its line, and
+     --drawer-row-gap between one row and the next. A breakpoint that wants
+     the list closer together changes these two numbers and nothing else.
 
-     And a scrolling list needs a floor to come to rest on, which the panel's
+     It used to come from three places at once: this gap, a 20px margin-top
+     on .drawer-label, and 10px/4px on .drawer-section-links. A flex item
+     does not collapse its children's margins out, so the three stacked
+     differently at every junction and the list read as unevenly spaced —
+     20px under the field, 24px between the plain links, 30px between the
+     sections and 34px going into the first of them. */
+  --drawer-row-gap: 24px;
+  --drawer-row-pad: 4px;
+
+  flex: 1 1 auto; min-height: 0;
+  display: flex; flex-direction: column; gap: var(--drawer-row-gap);
+  /* A scrolling list needs a floor to come to rest on, which the panel's own
      padding used to give it. env() reports 0 on a phone with no home bar, so
-     the 20px is added rather than offered as a fallback. */
-  padding: 10px 16px calc(env(safe-area-inset-bottom, 0px) + 20px);
+     the 20px is added rather than offered as a fallback. The top is the row
+     padding's own, so the field sits level with the rows under it. */
+  padding: var(--drawer-row-pad) 16px calc(env(safe-area-inset-bottom, 0px) + 20px);
   overflow-y: auto; overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch; scroll-behavior: smooth;
 }
@@ -746,7 +758,11 @@ header .hamburger-btn:focus-visible { outline-color: var(--footer-text); }
 .drawer-logo-link .brand-main { font-size: 1.3rem; color: var(--footer-text); white-space: nowrap; text-align: center; }
 .drawer-logo-link .brand-sub { font-size: 1.0rem; color: var(--footer-muted); margin-top: 4px; white-space: normal; line-height: 1.2; max-width: 26ch; text-align: center; }
 
-.drawer-label { display: block; margin-top: 20px; font-size: 13px; color: var(--petrol); text-transform: uppercase; letter-spacing: 0.09em; text-align: center; }
+/* A row on the list. line-height and padding are the same here as on
+   .drawer-section-links a below, so Home, a section name and a plain link
+   are the same height and their text sits the same distance inside the
+   box — which is what makes one gap between them read as one gap. */
+.drawer-label { display: block; padding: var(--drawer-row-pad) 0; font-size: 13px; line-height: 1.2; color: var(--petrol); text-transform: uppercase; letter-spacing: 0.09em; text-align: center; }
 
 .site-drawer a { color: var(--petrol); padding: 4px 0; font-size: 16px; }
 .site-drawer a:hover, .site-drawer a:active { opacity: var(--select-dim); }
@@ -761,15 +777,14 @@ summary.drawer-label::after { content: ""; position: absolute; right: 0; top: 50
    itself is the same dim as everything else. */
 summary.drawer-label { transition: var(--select-ease); }
 summary.drawer-label:hover { opacity: var(--select-dim); }
-a.drawer-label--link { display: flex; justify-content: center; align-items: center; font-size: 13px; padding: 0; text-decoration: none; transition: var(--select-ease); }
+a.drawer-label--link { display: flex; justify-content: center; align-items: center; font-size: 13px; padding: var(--drawer-row-pad) 0; text-decoration: none; transition: var(--select-ease); }
 a.drawer-label--link:hover, a.drawer-label--link:active { opacity: var(--select-dim); }
 a.drawer-label--link:focus-visible { outline: 2px solid var(--petrol); outline-offset: 3px; border-radius: 4px; }
-.drawer-logo-wrap + a.drawer-label--link { margin-top: 10px; }
 .drawer-section[open] > .drawer-essay-cards, .drawer-section[open] > .drawer-more, .drawer-section[open] > .drawer-section-links { animation: drawerReveal 0.25s ease; }
 @keyframes drawerReveal { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
 
-.drawer-section-links { display: grid; grid-template-columns: 1fr; gap: 10px; margin: 10px 0 4px; }
-.drawer-section-links a { display: block; padding: 4px 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; font-size: 13px; line-height: 1.2; color: var(--petrol); text-transform: uppercase; letter-spacing: 0.09em; text-align: center; transition: var(--select-ease); }
+.drawer-section-links { display: grid; grid-template-columns: 1fr; gap: 10px; margin: 0; }
+.drawer-section-links a { display: block; padding: var(--drawer-row-pad) 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; font-size: 13px; line-height: 1.2; color: var(--petrol); text-transform: uppercase; letter-spacing: 0.09em; text-align: center; transition: var(--select-ease); }
 .drawer-section-links a:hover, .drawer-section-links a:active { opacity: var(--select-dim); }
 .drawer-section-links a:focus-visible { outline: 2px solid var(--petrol); outline-offset: 3px; border-radius: 4px; }
 
@@ -807,9 +822,10 @@ a.drawer-label--link:focus-visible { outline: 2px solid var(--petrol); outline-o
    this orientation and the band should still match it. Closing up the
    rhythm of the list is enough on its own. */
 @media (orientation: portrait) and (max-height: 620px) {
-  .drawer-body { gap: 6px; }
-  .drawer-label { margin-top: 12px; }
-  .drawer-section-links { gap: 8px; margin: 6px 0 0; }
+  .drawer-body {
+    --drawer-row-gap: 16px;
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 14px);
+  }
 }
 
 /* A phone held sideways: 320 to 430px of height, against a panel carrying a
@@ -825,7 +841,7 @@ a.drawer-label--link:focus-visible { outline: 2px solid var(--petrol); outline-o
    matching the masthead's 92px, which is a quarter of the screen spent on a
    name — the head paints its own instead and ends where the brand does. The
    list then runs on a tighter rhythm, which brings the head to 52px and all
-   nine names above the fold from 390px of height up. Shorter than that they
+   nine names above the fold from 375px of height up. Shorter than that they
    still scroll, now under a head that stays where it is. */
 @media (orientation: landscape) and (max-height: 500px) {
   /* The band is the head's own background now rather than a pseudo-element
@@ -844,10 +860,11 @@ a.drawer-label--link:focus-visible { outline: 2px solid var(--petrol); outline-o
   .drawer-logo-wrap { margin-bottom: 0; }
   .drawer-close { top: 10px; }
 
-  .drawer-body { gap: 4px; padding-top: 4px; padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 14px); }
-  .drawer-label { margin-top: 10px; }
-  .drawer-section-links { gap: 6px; margin: 4px 0 0; }
-  .drawer-section-links a { padding: 2px 0; }
+  .drawer-body {
+    --drawer-row-gap: 10px;
+    --drawer-row-pad: 2px;
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 14px);
+  }
 }
 
 /* ==========================================================================
