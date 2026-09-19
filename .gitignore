@@ -1,5 +1,19 @@
 _site/
-vendor/
+/vendor/
 .jekyll-cache/
 .jekyll-metadata
 node_modules/
+
+# The Reader's working copy of PDF.js: 201 files, 7.3 MB, unpacked from
+# scripts/vendor/pdfjs-6.3.289.zip by scripts/vendor_pdfjs.py on every build.
+# The zip is what the repository owns and what a version bump replaces; this
+# is only what it becomes on disk.
+#
+# It used to be covered by a bare `vendor/` above, which matches a directory
+# of that name at any depth — so js/vendor/ and scripts/vendor/ were ignored
+# too, and the four files that live in them are tracked only because they
+# were added before the line reached them. Anything added beside them since
+# would have been passed over in silence. The slash keeps that line to
+# Bundler's own vendor/bundle, and this one names the tree that really is
+# generated.
+js/vendor/pdfjs/

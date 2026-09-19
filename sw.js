@@ -54,7 +54,7 @@ var TOOL_ASSETS = [
   "/css/style.css",   /* the catalogue page's stylesheet */
   "/css/fonts.css",
   "/css/palettes.css",   /* the /themes/ wardrobe; the catalogue shell links it */
-  "/css/search.css",   /* the drawer's search field, which every shell carries */
+  "/css/search.css",   /* the drawer's and the strip's search fields, which every shell carries */
   /* /tools/ uses the site's default shell; keep its navigation and theme
      controls functional offline as well as its content and styles. */
   "/js/site-nav.js",
