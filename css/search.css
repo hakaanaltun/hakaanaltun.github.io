@@ -92,6 +92,16 @@
    the rhythm down the panel is unchanged. */
 .site-search-form--drawer + a.drawer-label--link { margin-top: 10px; }
 
+/* A phone held sideways has room for the field but none to spare above and
+   below it: the panel is 320–430px tall and the list under it is nine names
+   long. See the landscape drawer block in style.css, which sets the rest of
+   that rhythm — this half lives here because the form's own rules do. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .site-search-form--drawer input { padding: 5px 10px; }
+  .site-search-form--drawer button { flex-basis: 36px; min-height: 34px; }
+  .site-search-form--drawer + a.drawer-label--link { margin-top: 6px; }
+}
+
 /* The strip's variant — the bar at the head of the page's foot. Search was a
    glyph in that band among three others, with no name until it was hovered;
    a field carries its own. The auto right margin is what holds it left: the
@@ -140,6 +150,29 @@
   }
 
   .site-search-form--footer button { min-height: 38px; }
+}
+
+/* Except lying down. 768px is a width rule, and a phone in landscape is
+   568–932px of width against 320–430px of height: it fails that rule on the
+   one dimension it has plenty of, and spends the extra row on the one it
+   does not. A bar running the full 740px of a phone's long edge is not a
+   field a reader is any likelier to find — it is a 600px placeholder with an
+   icon at the far end of it — and the row it was wrapped out of was wide
+   enough to have held it.
+
+   So the growth goes and the cap comes back, and .footer-strip-inner
+   (style.css) puts the three of them back on one row from 600px of width up.
+   Under that the strip still wraps, and the cap is what the bar keeps: even
+   on its own row it stops well short of the far edge, which is the whole
+   complaint. */
+@media (max-width: 767px) and (orientation: landscape) {
+  .site-search-form--footer {
+    flex: 0 1 16rem;
+    max-width: 16rem;
+    margin: 0 auto 0 0;
+  }
+
+  .site-search-form--footer button { min-height: 34px; }
 }
 
 .search-page { max-width: 760px; }

@@ -212,8 +212,12 @@
     var h = siteHeader.offsetHeight;
     root.style.setProperty('--head-band', h + 'px');
     if (drawerLogo) {
-      var logoBottom = drawerLogo.offsetTop + drawerLogo.offsetHeight;
-      root.style.setProperty('--drawer-logo-mb', Math.max(16, h - logoBottom + 6) + 'px');
+      /* Measured against the drawer, not against whatever happens to be the
+         logo's offsetParent: the brand sits inside .drawer-head now, and a
+         positioned wrapper would have made offsetTop count from there and
+         quietly drop the head's own padding out of the sum. */
+      var logoBottom = drawerLogo.getBoundingClientRect().bottom - drawer.getBoundingClientRect().top;
+      root.style.setProperty('--drawer-logo-mb', Math.max(16, Math.round(h - logoBottom + 6)) + 'px');
     }
   }
 
