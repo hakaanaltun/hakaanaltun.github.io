@@ -31,6 +31,7 @@ const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
     await wait(0);
   };
   assert.equal(links()[0].textContent, 'The Reader');
+  assert(!document.getElementById('search-results').textContent.includes('&mdash;'));
   await submit('word counter');
   assert.equal(links()[0].textContent, 'The Counter');
   await submit('ŞAFAK');

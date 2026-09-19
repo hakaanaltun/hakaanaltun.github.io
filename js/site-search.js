@@ -10,9 +10,12 @@
   var indexPromise;
   var revision = 0;
   var timer;
+  var decoder = document.createElement('textarea');
 
   function plain(text) {
-    return String(text || '');
+    // A textarea decodes entities as text, without creating active elements.
+    decoder.innerHTML = String(text || '');
+    return decoder.value;
   }
 
   function normalize(text) {
