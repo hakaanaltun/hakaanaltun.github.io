@@ -44,6 +44,18 @@
     var lastPage = null;
     var wrap = document.createElement("div");
     wrap.className = "pdf-reader";
+    // Touch screens cannot discover hover controls. Keep actual buttons visible
+    // there, including tablets with an optional mouse or trackpad attached.
+    var touchMedia = window.matchMedia ? window.matchMedia("(any-pointer: coarse), (hover: none)") : null;
+    function syncTouchNav(){
+      wrap.classList.toggle("pdf-touch-nav", !!(touchMedia && touchMedia.matches));
+      scheduleSideNav();
+    }
+    if(touchMedia){
+      wrap.classList.toggle("pdf-touch-nav", touchMedia.matches);
+      if(touchMedia.addEventListener) touchMedia.addEventListener("change", syncTouchNav);
+      else if(touchMedia.addListener) touchMedia.addListener(syncTouchNav);
+    }
     wrap.innerHTML = '<div class="pdf-toolbar" role="group" aria-label="PDF pages and zoom">' +
       '<button type="button" class="shelf-pill" data-pdf="prev" aria-label="Previous page">←</button>' +
       '<label class="pdf-page-label">Page <input data-pdf="page" type="number" min="1" inputmode="numeric" aria-label="Page number"></label>' +
@@ -242,6 +254,10 @@
       destroy:function(){
         dead = true; generation++; cancel(); observer.disconnect(); clearTimeout(resizeTimer);
         hideSideNav(); cancelAnimationFrame(navFrame);
+        if(touchMedia){
+          if(touchMedia.removeEventListener) touchMedia.removeEventListener("change", syncTouchNav);
+          else if(touchMedia.removeListener) touchMedia.removeListener(syncTouchNav);
+        }
         document.removeEventListener("pointermove", moveNearSide);
         document.removeEventListener("click", tapSide);
         document.removeEventListener("keydown", navKey);

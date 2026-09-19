@@ -52,7 +52,7 @@ layout: null
 
 <link rel="stylesheet" href="/css/fonts.css?v=20260710-1">
 
-<link rel="stylesheet" href="/css/reader-pdf.css?v=20260909-2">
+<link rel="stylesheet" href="/css/reader-pdf.css?v=20260919-1">
 <style>
   :root{
     --paper: #FFFFFF;
@@ -292,7 +292,7 @@ layout: null
   /* fullscreen focus: only the chrome retires; the page and its text remain */
   body.immersive .chrome{ opacity:0; pointer-events:none; }
   body.immersive.show-chrome .chrome{ opacity:1; pointer-events:auto; }
-  body.immersive .notes{ display:none; }
+  body.immersive .notes, body.reading .notes{ display:none; }
 
   /* notes — reading matter under the paper */
   /* land clear of the sticky chrome when arriving via the notes cue */
@@ -475,7 +475,7 @@ layout: null
 
 <script src="/js/vendor/marked-18.0.11.umd.js"></script>
 <script src="/js/reader-markdown.js?v=20260906-1"></script>
-<script src="/js/reader-pdf.js?v=20260909-4"></script>
+<script src="/js/reader-pdf.js?v=20260919-1"></script>
 <script>
 (function(){
   "use strict";

@@ -5,10 +5,14 @@ const path = require('node:path');
 const {JSDOM} = require('jsdom');
 const root = path.join(__dirname, '..');
 const tick = () => new Promise(resolve => setTimeout(resolve, 25));
-function setup(){
+function setup(touch=false){
   const dom = new JSDOM(fs.readFileSync(path.join(root, 'read/index.html'), 'utf8').replace(/\{%[\s\S]*?%\}/g,''), {url:'https://hakanaltun.io/read/',runScripts:'outside-only',pretendToBeVisual:true});
   const w = dom.window;
   w.ResizeObserver = class{observe(){} disconnect(){}};
+  w.matchMedia = () => ({matches:touch,addEventListener(){},removeEventListener(){}});
+  const pdfStyle = w.document.createElement('style');
+  pdfStyle.textContent = fs.readFileSync(path.join(root,'css/reader-pdf.css'),'utf8');
+  w.document.head.appendChild(pdfStyle);
   w.scrollTo = () => {};
   w.HTMLElement.prototype.scrollIntoView = () => {};
   w.HTMLCanvasElement.prototype.getContext = () => ({});
@@ -120,6 +124,28 @@ async function main(){
   w.document.body.dispatchEvent(new w.MouseEvent('pointermove',{bubbles:true,clientX:190,clientY:300}));
   dom.window.close();
 
+  // A tablet must expose clickable controls immediately, without an edge tap
+  // or a mouse event. A text selection must not block an explicit arrow tap.
+  const tablet = setup(true), t = tablet.window;
+  const touchViewer = t.OLAE_PDF.mount(prepared,t.document.querySelector('#reading'),1,()=>{});
+  await tick();
+  const touchPrev = t.document.querySelector('.pdf-side-prev');
+  const touchNext = t.document.querySelector('.pdf-side-next');
+  assert(t.document.querySelector('.pdf-reader').classList.contains('pdf-touch-nav'));
+  assert.equal(t.getComputedStyle(touchNext).pointerEvents,'auto');
+  assert(Number(t.getComputedStyle(touchNext).opacity)>0);
+  assert(touchPrev.disabled);
+  const selectionRange = t.document.createRange();
+  selectionRange.selectNodeContents(t.document.querySelector('.pdf-status'));
+  t.getSelection().addRange(selectionRange);
+  touchNext.click();await tick();assert.equal(touchViewer.page(),2);
+  touchPrev.click();await tick();assert.equal(touchViewer.page(),1);
+  t.document.body.dispatchEvent(new t.MouseEvent('click',{bubbles:true,clientX:500,clientY:950}));
+  assert.equal(t.getComputedStyle(touchNext).pointerEvents,'auto');
+  assert(Number(t.getComputedStyle(touchNext).opacity)>0,'arrows survive a tap away');
+  touchViewer.destroy();assert.equal(t.document.querySelector('.pdf-side-nav'),null);
+  tablet.window.close();
+
   const second = setup(), v = second.window;
   let pdfPage = 2, clearCount=0, reject=false, deferred;
   v.OLAE_PDF = {
@@ -138,7 +164,9 @@ async function main(){
     input.dispatchEvent(new v.Event('change'));
     return file;
   }
+  assert.notEqual(v.getComputedStyle(v.document.querySelector('#notes')).display,'none');
   open('book.PDF');await tick();assert(v.document.body.classList.contains('reading-pdf'));
+  assert.equal(v.getComputedStyle(v.document.querySelector('#notes')).display,'none','PDF hides the explanatory footer');
   pdfPage=3;v.dispatchEvent(new v.Event('beforeunload'));
   // jsdom has no viewport layout; use scroll's delayed save with dimensions.
   v.document.documentElement.getBoundingClientRect=()=>({width:360});
@@ -150,7 +178,10 @@ async function main(){
   assert.equal(v.document.body.classList.contains('reading-pdf'),false);
   assert.equal(v.document.querySelector('#reading p').textContent,'A readable paragraph.');
   assert(clearCount>=2);
+  assert.equal(v.getComputedStyle(v.document.querySelector('#notes')).display,'none','plain text also hides the explanatory footer');
+  v.document.body.classList.remove('reading');
+  assert.notEqual(v.getComputedStyle(v.document.querySelector('#notes')).display,'none','empty state restores the footer');
   second.window.close();
-  console.log('PDF controls, side arrows, reveal/hide timer, keyboard, rendering, bookmarks, zoomed sideways scrolling and PDF → TXT race: passed');
+  console.log('PDF controls, touch arrows, reading footer, reveal/hide timer, keyboard, rendering, bookmarks, zoomed sideways scrolling and PDF → TXT race: passed');
 }
 main().catch(e=>{console.error(e);process.exitCode=1;});
