@@ -1,6 +1,6 @@
-<form class="site-search-form{% if include.header %} site-search-form--header{% endif %}" role="search" action="{{ '/search/' | relative_url }}" method="get">
+<form class="site-search-form{% if include.footer %} site-search-form--footer{% endif %}" role="search" action="{{ '/search/' | relative_url }}" method="get">
   <label class="visually-hidden" for="{{ include.id }}">Search the site</label>
-  <input id="{{ include.id }}" name="q" type="search" placeholder="Search the site" maxlength="200" autocomplete="off" enterkeyhint="search"{% unless include.header %} aria-describedby="search-status"{% endunless %}>
+  <input id="{{ include.id }}" name="q" type="search" placeholder="Search the site" maxlength="200" autocomplete="off" enterkeyhint="search"{% unless include.footer %} aria-describedby="search-status"{% endunless %}>
   <button type="submit" aria-label="Search">
     <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg>
   </button>

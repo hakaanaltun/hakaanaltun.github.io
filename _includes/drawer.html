@@ -16,6 +16,10 @@
   <a href="/" class="drawer-label drawer-label--link">Home</a>
 
   <div class="drawer-section-links">
+    <a href="{{ "/search/" | relative_url }}"{% if page.url == "/search/" %} aria-current="page"{% endif %}>Search</a>
+  </div>
+
+  <div class="drawer-section-links">
     <a href="/notes/">Notes</a>
   </div>
 

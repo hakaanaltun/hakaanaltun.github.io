@@ -2,6 +2,7 @@
   {% unless page.series == "story" %}
   <div class="footer-strip">
     <div class="footer-strip-inner">
+      {% include search-form.html id="footer-search" footer=true %}
       <nav class="footer-contact-links" aria-label="Find me">
         <a href="/feed.xml">RSS</a>
         <span class="footer-dot" aria-hidden="true">·</span>
