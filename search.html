@@ -1,0 +1,19 @@
+---
+layout: default
+permalink: /search/
+title: "Search"
+description: "Find writing, instruments, notes, and words on the site."
+noindex: true
+sitemap: false
+---
+<div class="section-page search-page" data-search-index="{{ '/search-index.json' | relative_url }}">
+  <div class="section-page-head">
+    <h1 class="section-page-title">Search</h1>
+    <p class="section-page-subtitle">Find writing, instruments, notes, and words.</p>
+  </div>
+  {% include search-form.html id="site-search" %}
+  <p id="search-status" class="search-status" role="status" aria-live="polite">Search by title or by a word you remember.</p>
+  <ul id="search-results" class="search-results" aria-label="Search results"></ul>
+  <noscript><p>Search needs JavaScript. You can also browse <a href="/all-work/">all the writing</a>, <a href="/tools/">instruments</a>, <a href="/notes/">notes</a>, and <a href="/word/">Words with Stories</a>.</p></noscript>
+</div>
+<script src="{{ '/js/site-search.js' | relative_url }}?v=20260919-1" defer></script>

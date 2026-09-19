@@ -1,0 +1,44 @@
+---
+layout: null
+permalink: /search-index.json
+sitemap: false
+---
+[
+{%- assign comma = false -%}
+{%- for post in site.posts -%}
+  {%- if post.published != false -%}
+  {%- if post.noindex != true or post.story_card -%}
+    {%- if comma -%},{%- endif -%}{%- assign comma = true -%}
+    {%- if post.fiction -%}{%- assign kind = "Short fiction" -%}{%- else -%}{%- assign kind = "Essay" -%}{%- endif -%}
+    {"title":{{ post.title | search_text | jsonify }},"url":{{ post.story_url | default: post.url | relative_url | jsonify }},"kind":{{ kind | jsonify }},"description":{{ post.description | search_text | jsonify }},"text":{% if post.story_card %}{{ post.excerpt | markdownify | search_text | jsonify }}{% else %}{{ post.content | markdownify | search_text | jsonify }}{% endif %}}
+  {%- endif -%}
+  {%- endif -%}
+{%- endfor -%}
+{%- for word in site.words -%}
+  {%- unless word.noindex or word.published == false -%}
+    {%- if comma -%},{%- endif -%}{%- assign comma = true -%}
+    {"title":{{ word.title | search_text | jsonify }},"url":{{ word.url | relative_url | jsonify }},"kind":"Word story","description":{{ word.description | search_text | jsonify }},"text":{{ word.content | markdownify | search_text | jsonify }}}
+  {%- endunless -%}
+{%- endfor -%}
+{%- for tool in site.data.tools -%}
+  {%- if comma -%},{%- endif -%}{%- assign comma = true -%}
+  {%- assign tool_url = '/' | append: tool.slug | append: '/' -%}
+  {"title":{{ tool.name | jsonify }},"url":{{ tool_url | relative_url | jsonify }},"kind":"Instrument","description":{{ tool.card | search_text | jsonify }},"text":{{ tool.listname | search_text | jsonify }}}
+{%- endfor -%}
+{%- for note in site.data.notes -%}
+  {%- unless note.draft -%}
+    {%- if comma -%},{%- endif -%}{%- assign comma = true -%}
+    {%- assign note_text = note.body | markdownify | search_text -%}
+    {%- assign note_url = '/notes/#' | append: note.id -%}
+    {"title":{{ note_text | truncate: 80 | jsonify }},"url":{{ note_url | relative_url | jsonify }},"kind":"Note","description":{{ note_text | truncate: 200 | jsonify }},"text":{{ note_text | jsonify }}}
+  {%- endunless -%}
+{%- endfor -%}
+{%- for entry in site.pages -%}
+  {%- if entry.layout == 'default' or entry.layout == 'home' or entry.layout == 'section-list' -%}
+    {%- unless entry.noindex or entry.published == false or entry.url == '/404.html' -%}
+      {%- if comma -%},{%- endif -%}{%- assign comma = true -%}
+      {"title":{{ entry.title | default: site.title | search_text | jsonify }},"url":{{ entry.url | relative_url | jsonify }},"kind":"Page","description":{{ entry.description | default: site.description | search_text | jsonify }},"text":""}
+    {%- endunless -%}
+  {%- endif -%}
+{%- endfor -%}
+]

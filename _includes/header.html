@@ -30,4 +30,5 @@
       <a href="/about/"{% if _nav_here == "/about/" %} aria-current="page"{% endif %}>About</a>
     </div>
   </nav>
+  {% unless page.url == "/search/" %}{% include search-form.html id="header-search" header=true %}{% endunless %}
 </header>

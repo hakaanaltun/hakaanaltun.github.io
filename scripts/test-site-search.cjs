@@ -1,0 +1,69 @@
+/* Check the real Jekyll index and the browser search together. */
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const { JSDOM } = require('jsdom');
+const index = JSON.parse(fs.readFileSync('_site/search-index.json', 'utf8'));
+const script = fs.readFileSync('js/site-search.js', 'utf8');
+const html = fs.readFileSync('_site/search/index.html', 'utf8');
+const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+(async () => {
+  assert(index.length > 60, 'Index should include writing, words, instruments and sections');
+  assert.equal(new Set(index.map(entry => entry.url)).size, index.length, 'Canonical URLs must be unique');
+  assert(index.every(entry => entry.url.startsWith('/') && !entry.url.startsWith('//')));
+  assert.equal(index.find(entry => entry.title === 'The Notice').url, '/story/1/');
+  assert(!index.some(entry => entry.url === '/search/' || entry.url === '/404.html'));
+  assert(!index.find(entry => entry.title === 'Measured').text.includes('.measured-scene'));
+  const dom = new JSDOM(html, { url: 'https://hakanaltun.io/search/?q=reader', runScripts: 'outside-only' });
+  let fetches = 0;
+  dom.window.fetch = async () => {
+    fetches++;
+    return { ok: true, json: async () => index };
+  };
+  dom.window.eval(script);
+  await wait(0);
+  const document = dom.window.document;
+  const input = document.getElementById('site-search');
+  const links = () => [...document.querySelectorAll('#search-results h2 a')];
+  const submit = async query => {
+    input.value = query;
+    input.form.dispatchEvent(new dom.window.Event('submit', { bubbles: true, cancelable: true }));
+    await wait(0);
+  };
+  assert.equal(links()[0].textContent, 'The Reader');
+  await submit('word counter');
+  assert.equal(links()[0].textContent, 'The Counter');
+  await submit('ŞAFAK');
+  const accented = links().map(link => link.href);
+  assert(accented.length);
+  await submit('safak');
+  assert.deepEqual(links().map(link => link.href), accented);
+  await submit('quarantine');
+  assert.equal(links()[0].getAttribute('href'), '/word/quarantine/');
+  await submit('Umberto Eco');
+  assert(links().some(link => link.getAttribute('href') === '/notes/#queen-loana-opening-lines'));
+  await submit('demolition');
+  assert(links().some(link => link.getAttribute('href') === '/story/1/'));
+  await submit('fourth-floor elevator');
+  assert(links().some(link => link.textContent === 'Measured'));
+  await submit('<img src=x onerror=alert(1)>');
+  assert.equal(links().length, 0);
+  assert(!document.querySelector('#search-status img'));
+  await submit('   ');
+  assert.equal(links().length, 0);
+  assert(!dom.window.location.search);
+  assert.equal(fetches, 1, 'Reuse the index while changing searches');
+  dom.window.close();
+
+  const offline = new JSDOM(html, { url: 'https://hakanaltun.io/search/?q=reader', runScripts: 'outside-only' });
+  offline.window.fetch = async () => { throw new Error('Offline'); };
+  offline.window.eval(script);
+  await wait(0);
+  assert(offline.window.document.getElementById('search-status').textContent.includes('could not load'));
+  offline.window.fetch = async () => ({ ok: true, json: async () => index });
+  offline.window.document.getElementById('site-search').form.dispatchEvent(new offline.window.Event('submit', { cancelable: true }));
+  await wait(0);
+  assert(offline.window.document.querySelector('#search-results a'));
+  offline.window.close();
+  console.log('Site search: generated index, ranking, text matches, Turkish letters, safe output and retry passed.');
+})().catch(error => { console.error(error); process.exitCode = 1; });
