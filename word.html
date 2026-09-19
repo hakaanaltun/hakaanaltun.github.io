@@ -112,10 +112,11 @@ description: "Short pieces on English words that kept something from where they 
      do not fit one line on a phone, and a row that has to be swiped hides
      exactly the letters it exists to offer.
 
-     flex-direction and padding are set rather than left alone: the site
-     styles bare `nav` for the masthead — a column with its own padding — and
-     this is the other kind of nav, so it says so instead of inheriting a
-     header's shape and coming out as one letter per line. */
+     flex-direction and padding are set rather than left alone: they were
+     written when the site styled a bare `nav` for the masthead — a column
+     with its own padding — which this row inherited and came out of as one
+     letter per line. That rule is scoped to header > nav now, so the two
+     lines stay only as a plain statement of what this nav is. */
   .word-alphabet {
     display: flex;
     flex-direction: row;

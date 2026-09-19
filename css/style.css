@@ -551,7 +551,18 @@ header {
 header.header-hidden { transform: translateY(-100%); }
 body.drawer-open header { z-index: 50; }
 
-nav { display: flex; flex-direction: column; gap: var(--head-gap); padding: var(--head-pad-top) 0 var(--head-pad-bottom); }
+/* The masthead's own nav, and only it. This was a bare `nav`, which is not
+   the masthead — it is every nav on the page, and it handed each one a
+   header's shape: a flex column, the header's gap, the header's padding.
+   Three of them already answered it, each in its own file: .work-jump and
+   .word-alphabet set flex-direction and padding back by hand, .story-renav
+   sets display: block, and the comments at each said why. The fourth,
+   .footer-contact-links, set display and direction but never the padding, so
+   the strip's one row carried 42px of the header's air inside it and the
+   band stood 98px tall for a 36px row. Scoped here, the three workarounds
+   are free to stay as plain statements of what those navs are, and the strip
+   is back to the padding it declares. */
+header > nav { display: flex; flex-direction: column; gap: var(--head-gap); padding: var(--head-pad-top) 0 var(--head-pad-bottom); }
 
 .nav-top-row { display: flex; align-items: center; justify-content: center; gap: 20px; position: relative; }
 .nav-home { display: flex; flex-direction: column; align-items: center; text-align: center; line-height: 1.1; padding-bottom: 2px; transition: var(--select-ease); }
@@ -1696,7 +1707,9 @@ html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
 .all-work-group-sub + .all-work-group-count { margin-top: 6px; }
 
 /* Quiet jump row under the page head — the page's sections, one glance.
-   flex-direction: row overrides the global header `nav { flex-direction: column }`.
+   flex-direction: row is now only saying what this row is; it was written to
+   override a bare `nav { flex-direction: column }`, since scoped to the
+   masthead (see header > nav).
    It carries three names on /all-work/ now, so the labels are nowrap and the
    row may wrap between them: left to shrink, a flex item breaks its own text
    instead, and "Şafak's Arc" came apart over two lines with the separator
@@ -1969,7 +1982,14 @@ html[data-theme="sky"] .footer-strip { border-top: 0; }
 .footer-strip-inner {
   max-width: 980px;
   margin: 0 auto;
-  padding: 14px var(--pad);
+  /* 20px, where it read 14. The band never stood on that number: a bare
+     `nav` rule was handing .footer-contact-links the masthead's own 22px and
+     20px as well (see header > nav), so the strip carried 42px of air it did
+     not declare — 34px on a short landscape screen, where --head-pad shrinks
+     — and stood 98px tall for a 36px row. With the bleed gone 14px left the
+     field almost touching both edges of the band. This is the same band, a
+     little tighter than it has been, and now the number says so. */
+  padding: 20px var(--pad);
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
@@ -1986,6 +2006,7 @@ html[data-theme="sky"] .footer-strip { border-top: 0; }
 @media (max-width: 767px) {
   .footer-strip-inner {
     flex-wrap: wrap;
+    row-gap: 12px;
   }
 }
 
@@ -2239,9 +2260,11 @@ html[data-theme="sky"] .footer-strip { border-top: 0; }
    chevron, stacked in that order — search is the bar above and no longer
    among them. */
 @media (max-width: 767px) and (orientation: portrait) {
+  /* 12px down the strip, 8px across it: the row gap separates the bar from
+     the links under it, the column gap only sets the chevron beside them. */
   .footer-strip-inner {
-    gap: 8px;
-    padding: 12px var(--pad);
+    gap: 12px 8px;
+    padding: 16px var(--pad);
   }
 
   .footer-contact-links {
@@ -2408,8 +2431,10 @@ html[data-theme="sky"] .footer-strip { border-top: 0; }
    a single choice. It sits just under the hidden-door box. The link fades in
    when the reader reaches the end of the page (see post.html) and then stays —
    finishing the ending is what earns the way back. */
-/* display:block overrides the global `nav { display:flex }` above — otherwise
-   the nav becomes a flex column that stretches the link to the full row width. */
+/* display:block was written to override a bare `nav { display:flex }`, which
+   made this nav a flex column and stretched the link to the full row width.
+   That rule is the masthead's alone now (see header > nav); the line stays
+   because block is what this nav is. */
 .story-renav { display: block; text-align: center; margin-top: 46px; padding: 18px 0; }
 /* Transparent by design: only the words "Back to the beginning." are the click
    target. inline-block so the box hugs the text — never the whole row. */
