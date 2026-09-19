@@ -1684,12 +1684,25 @@ html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
   font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic;
   font-weight: 500; font-size: var(--type-group); color: var(--petrol-deep);
 }
+/* A band may name the work its pieces belong to, between the heading and the
+   count. Set like .book-arc-lead, a size down: this is a band head, not a
+   page head. */
+.all-work-group-sub {
+  margin-top: 8px; font-family: 'EB Garamond', Georgia, serif; font-style: italic;
+  font-size: 1rem; line-height: 1.4; color: var(--vizon);
+}
 .all-work-group-count { margin-top: 3px; font-style: italic; font-size: 0.85rem; letter-spacing: 0.04em; color: var(--vizon); }
+/* The count sits tight under a heading; under this line it needs its own air. */
+.all-work-group-sub + .all-work-group-count { margin-top: 6px; }
 
-/* Quiet jump row under the page head — two sections, one glance.
-   flex-direction: row overrides the global header `nav { flex-direction: column }`. */
-.work-jump { display: flex; flex-direction: row; justify-content: center; align-items: baseline; gap: 14px; margin: -8px 0 44px; padding: 0; font-size: 0.82rem; letter-spacing: 0.14em; text-transform: uppercase; }
-.work-jump a { color: var(--petrol-deep); border-bottom: 1px solid transparent; padding-bottom: 2px; }
+/* Quiet jump row under the page head — the page's sections, one glance.
+   flex-direction: row overrides the global header `nav { flex-direction: column }`.
+   It carries three names on /all-work/ now, so the labels are nowrap and the
+   row may wrap between them: left to shrink, a flex item breaks its own text
+   instead, and "Şafak's Arc" came apart over two lines with the separator
+   stranded on the first. */
+.work-jump { display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: baseline; gap: 6px 14px; margin: -8px 0 44px; padding: 0; font-size: 0.82rem; letter-spacing: 0.14em; text-transform: uppercase; }
+.work-jump a { color: var(--petrol-deep); border-bottom: 1px solid transparent; padding-bottom: 2px; white-space: nowrap; }
 .work-jump a:hover, .work-jump a:focus-visible { color: var(--petrol-deep); border-bottom-color: color-mix(in srgb, var(--petrol-deep) 55%, transparent); outline: none; }
 .work-jump-sep { color: var(--rule-strong); }
 
@@ -1759,7 +1772,10 @@ html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
   .work-title { font-size: 1.18rem; }
   .all-work-band:not(:first-of-type) { margin-top: 40px; padding-top: 40px; }
   .series-band:not(:first-of-type) { margin-top: 40px; padding-top: 52px; }
-  .work-jump { margin-bottom: 34px; }
+  /* Three uppercase names at 0.82rem and 0.14em do not fit a phone. Tightened
+     they hold one line down to the narrowest screens; below that the wrap
+     above catches them. */
+  .work-jump { margin-bottom: 34px; gap: 6px 9px; font-size: 0.7rem; letter-spacing: 0.06em; }
 }
 
 /* Şafak's Arc block on the Book page */
