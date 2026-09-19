@@ -38,7 +38,7 @@ function harness({offline=false,seed=new Map()}={}){
     clients:{claim:async()=>{}},
     location:{origin:'https://hakanaltun.io'}
   };
-  const deleted={known:['olae-tools-v29','olae-tools-v30','other-cache-v1'],calls:[]};
+  const deleted={known:['olae-tools-v30','olae-tools-v31','other-cache-v1'],calls:[]};
   scope.self=scope;
   vm.createContext(scope);
   vm.runInContext(fs.readFileSync(built,'utf8'),scope);
@@ -72,7 +72,7 @@ async function main(){
   {
     const h=harness();
     let waited;h.fire('activate',{waitUntil(p){waited=p;}});await waited;
-    assert.deepEqual(h.deleted.calls,['olae-tools-v29'],'and leaves other caches alone');
+    assert.deepEqual(h.deleted.calls,['olae-tools-v30'],'and leaves other caches alone');
   }
 
   // A PDF.js file is not precached, but it is kept the first time it is used.

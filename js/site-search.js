@@ -134,4 +134,10 @@
   });
   input.value = (new URLSearchParams(window.location.search).get('q') || '').slice(0, 200);
   search();
+
+  /* The page exists to be typed into, and readers arrive at it from an icon
+     in the footer strip — so an empty field takes the caret. Arriving with a
+     query (the drawer's field, a shared link) the results are already on
+     screen, and focus would only put a keyboard in front of them. */
+  if (!input.value) input.focus({ preventScroll: true });
 })();

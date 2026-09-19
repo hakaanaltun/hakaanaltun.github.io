@@ -33,7 +33,7 @@
    on a reader's machine — that copy self-heals on its second load. */
 "use strict";
 
-var CACHE = "olae-tools-v30";
+var CACHE = "olae-tools-v31";
 
 var TOOL_PAGES = [
   "/tools/",   /* the catalogue itself, so "all of them" works offline */
@@ -54,6 +54,7 @@ var TOOL_ASSETS = [
   "/css/style.css",   /* the catalogue page's stylesheet */
   "/css/fonts.css",
   "/css/palettes.css",   /* the /themes/ wardrobe; the catalogue shell links it */
+  "/css/search.css",   /* the drawer's search field, which every shell carries */
   /* /tools/ uses the site's default shell; keep its navigation and theme
      controls functional offline as well as its content and styles. */
   "/js/site-nav.js",
