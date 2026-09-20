@@ -20,7 +20,7 @@ Greek <span lang="grc">*ostrakon*</span>, a potsherd: a piece of broken
 pottery.{% include word-cite.html n="1" %}
 
 An Athenian who wanted a man banished for ten years scratched his name on a
-sherd and handed it in. Broken pottery was everywhere and cost nothing, which
+sherd and handed it in. Broken pottery was everywhere, which
 is why the vote was taken on it.{% include word-cite.html n="1,2" %}
 
 Thousands of those sherds have come out of the Agora and the Kerameikos, names
