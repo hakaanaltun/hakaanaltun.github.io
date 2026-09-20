@@ -1,4 +1,8 @@
-# The Trivia section: one entry per quiz, in the order the index lists them.
+# The Trivia section: one entry per quiz, in the order the index lists them,
+# which is alphabetical by name. Nothing in the templates sorts this file, so
+# a new quiz goes in its alphabetical place by hand: with a quiz per country
+# there is no other order that stays fair as the list grows, and the one the
+# quizzes happened to be written in only tells a reader which came first.
 #
 # The split of names is deliberate and mirrors the words/word one in
 # _config.yml. This file IS the section — site.data.trivia — because the
@@ -25,3 +29,8 @@
   name: "Japanese Culture"
   card: "Food, history, traditions, art, literature, film, games, and sport."
   about: "Japanese culture"
+
+- slug: turkiye
+  name: "Turkish Culture"
+  card: "Food, places, history from the Göktürks to the Republic, language, craft, and the arts."
+  about: "Turkish culture"

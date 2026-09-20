@@ -161,7 +161,14 @@ layout: home
 
 <section id="trivia" class="home-instruments" aria-label="Trivia">
   {% include section-header.html title="Trivia" subtitle="" %}
-  <p class="home-instruments-line">Culture quizzes in rounds, with a note behind every answer. Start with {% for quiz in site.data.trivia %}<a href="/trivia/{{ quiz.slug }}/">{{ quiz.name }}</a>{% unless forloop.last %}{% if forloop.rindex == 2 %} or {% else %}, {% endif %}{% endunless %}{% endfor %}.</p>
+  {%- comment -%}
+    No list of the quizzes by name here. It read as a recommendation of
+    whichever one happened to be written first, and the sentence would have to
+    be rewritten for its commas every time a quiz is added. The count comes
+    from _data/trivia.yml so it cannot fall behind; which one to play is a
+    choice /trivia/ is better placed to offer, in alphabetical order.
+  {%- endcomment -%}
+  <p class="home-instruments-line">Culture quizzes played in rounds, with a note behind every answer&mdash;{{ site.data.trivia | size }} of them so far.</p>
   <a class="home-instruments-all" href="/trivia/">See the quizzes <span aria-hidden="true">&rarr;</span></a>
 </section>
 
