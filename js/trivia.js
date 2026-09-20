@@ -242,6 +242,21 @@
     }
   }
 
+  /* The note under an answer is the part worth reading, and on a phone it
+     lands below the fold: the choices fill the screen, and the note and the
+     Next button open underneath it. Bring them up. block: "nearest" does
+     nothing when they are already in view, so a wide screen never moves. */
+  function revealAnswer() {
+    var actions = questionPanel.querySelector('.trivia-actions--question');
+    if (!actions || !actions.scrollIntoView) return;
+    var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    try {
+      actions.scrollIntoView({ block: 'nearest', behavior: still ? 'auto' : 'smooth' });
+    } catch (error) {
+      actions.scrollIntoView(false);
+    }
+  }
+
   function currentQuestion() {
     if (!state || state.position >= state.order.length) return null;
     return questions[state.order[state.position]];
@@ -320,6 +335,7 @@
     state.pending = { selected: selected };
     saveState();
     showAnswered(selected);
+    revealAnswer();
   }
 
   function renderQuestion() {

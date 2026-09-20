@@ -277,8 +277,13 @@
   opacity: 0.58;
 }
 
+/* Only enough reserve to keep the block from collapsing. Sizing it to the
+   answer's note was right while the notes were a line long; they carry the
+   quiz's real content now, and holding nine phone lines of ground empty
+   under every unanswered question costs more than the shift it saves. The
+   choices sit above this and never move either way. */
 .trivia-feedback {
-  min-height: 3.1em;
+  min-height: 1.6em;
   margin-top: 18px;
   font-family: 'EB Garamond', Georgia, serif;
   font-size: 1rem;
@@ -406,10 +411,6 @@
 }
 
 @media (max-width: 600px) {
-  .trivia-feedback {
-    min-height: 4.7em;
-  }
-
   .trivia-panel {
     padding-top: 28px;
     padding-bottom: 30px;

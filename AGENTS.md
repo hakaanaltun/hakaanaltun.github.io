@@ -31,14 +31,17 @@ This repository is a **Jekyll 4 static site** ("On Life & Everything", a persona
 
 ## Trivia editorial standard
 
-`Trivia` is quizzes, not a question dump. Adding one is three files and is
-described in `_data/trivia.yml`; this is what belongs inside them.
+`Trivia` is quizzes. Adding one is three files and is described in
+`_data/trivia.yml`; this is what belongs inside them.
 
-- A question earns its place through its **note**, not its difficulty. The note
-  is the only thing a reader keeps, so it must tell them something the question
-  did not: the tower has been Elizabeth Tower since 2012; the settlement the
-  Romans called Aquae Sulis. A note that restates the answer in other words
-  should be rewritten or the question dropped.
+- **A question earns its place through its note.** Difficulty is worth little
+  on its own. The note is the only part a reader keeps, so it has to hand them
+  something the question withheld: that Big Ben cracked in its first months and
+  the crack is what gives the chime its tone; that the Romans knew Bath as
+  Aquae Sulis, after a local goddess they folded into their own Minerva. Two or
+  three sentences is the usual length. A note that says the answer again in
+  other words should be rewritten, and a question that cannot carry one should
+  be dropped.
 - Every claim must be sourced before it is written down. Prefer museums,
   universities, dictionaries with etymological scholarship, archives, national
   institutions, and the governing body of a sport for its own rules. Where a
@@ -67,6 +70,12 @@ described in `_data/trivia.yml`; this is what belongs inside them.
   neighbour, not in a round of its own.
 - Order the rounds so the quiz opens on the easiest ground and does not end on
   the narrowest.
-- Keep the prose plain, as everywhere else here. A question is a question; it
-  does not need a joke, a wink, or a flourish. The reader should remember the
-  answer, not the phrasing.
+- Keep the prose plain, as everywhere else here, and let the content do the
+  work. The reader should come away remembering what the note told them, with
+  the sentences having stayed out of the way. In particular:
+  - Write complete sentences. A fragment used for effect is still a fragment.
+  - Avoid the three-part list written for cadence. An inventory that happens to
+    have three items in it is fine, since that is the content counting itself.
+  - Avoid the "X, not Y" and "X rather than Y" shapes. Say the thing that is
+    true and move on.
+  - A question is a question. It has no need of a joke or a wink.
