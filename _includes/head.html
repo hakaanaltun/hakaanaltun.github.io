@@ -130,7 +130,7 @@ the story pages ("The Notice"), which share one card. {% endcomment %}
 }
 </script>
 
-<link rel="stylesheet" href="/css/style.css?v=20260919-7">
+<link rel="stylesheet" href="/css/style.css?v=20260920-1">
 <link rel="stylesheet" href="/css/palettes.css?v=20260905-2">
 
 {% elsif page.layout == "home" %}
@@ -335,6 +335,9 @@ the Turkish glyphs live in the -ext file and can wait. {% endcomment %}
 
 <link rel="stylesheet" href="/css/let-it-snow.css?v=20260911-3">
 <link rel="stylesheet" href="{{ "/css/search.css" | relative_url }}?v=20260919-7">
+{% if page.trivia %}
+<link rel="stylesheet" href="/css/trivia.css?v=20260920-1">
+{% endif %}
 
 {% if page.layout == "post" and page.series != "story" %}
 <link rel="stylesheet" href="/css/puzzle-mode.css?v=20260912-1">

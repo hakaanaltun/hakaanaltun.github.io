@@ -456,7 +456,7 @@ body.series-tools       { --sec-h: 178; --sec-c: 0.050; --sec-ld: 0.800; --sec-c
     --petrol-deep: color-mix(in srgb, var(--petrol) 74%, black);
   }
 
-  html:not([data-theme]) body.is-home :is(#story-doorway, #start-here, #notes, #instruments) {
+  html:not([data-theme]) body.is-home :is(#story-doorway, #start-here, #notes, #trivia, #instruments) {
     --petrol: var(--sec-accent, #4A554F);
     --petrol-deep: color-mix(in srgb, var(--petrol) 74%, black);
   }
@@ -467,7 +467,7 @@ html[data-theme="light"] body.is-home :is(#quotes, #latest, #further-back, #word
   --petrol-deep: color-mix(in srgb, var(--petrol) 74%, black);
 }
 
-html[data-theme="light"] body.is-home :is(#story-doorway, #start-here, #notes, #instruments) {
+html[data-theme="light"] body.is-home :is(#story-doorway, #start-here, #notes, #trivia, #instruments) {
   --petrol: var(--sec-accent, #4A554F);
   --petrol-deep: color-mix(in srgb, var(--petrol) 74%, black);
 }
@@ -2848,7 +2848,7 @@ html[data-theme="sky"] .footer-strip { border-top: 0; }
    the Tonight line than the section it closes. 48px matches this section's
    own top, so the strip closes on the measure it opened with and the rule
    below reads as the section's own edge. */
-#instruments { padding-top: 48px; padding-bottom: 48px; text-align: center; }
+#trivia, #instruments { padding-top: 48px; padding-bottom: 48px; text-align: center; }
 .home-instruments-line {
   font-family: 'EB Garamond', Georgia, serif;
   font-size: 1.02rem; line-height: 1.7; color: var(--vizon);

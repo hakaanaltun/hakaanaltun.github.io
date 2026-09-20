@@ -1,0 +1,371 @@
+/* Trivia
+   A quiet game surface inside the site's existing type and palette system.
+   The choices stay typographic and ruled rather than becoming bright game
+   cards, so the quiz feels like part of the site rather than an embedded app. */
+
+.trivia-index-page,
+.trivia-quiz-page {
+  max-width: 52rem;
+}
+
+.trivia-index-list {
+  max-width: 38rem;
+  margin: 0 auto;
+  border-top: 1px solid var(--rule);
+}
+
+.trivia-index-card {
+  display: grid;
+  gap: 8px;
+  padding: 28px 4px 30px;
+  border-bottom: 1px solid var(--rule);
+  color: inherit;
+  text-decoration: none;
+  transition: var(--select-ease);
+}
+
+.trivia-index-card:hover,
+.trivia-index-card:active {
+  opacity: var(--select-dim);
+}
+
+.trivia-index-card:focus-visible {
+  outline: 2px solid var(--petrol);
+  outline-offset: 5px;
+  border-radius: 6px;
+}
+
+.trivia-index-meta,
+.trivia-round-kicker {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--vizon);
+}
+
+.trivia-index-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  line-height: 1.08;
+  color: var(--petrol-deep);
+}
+
+.trivia-index-copy {
+  max-width: 48ch;
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 1.04rem;
+  line-height: 1.55;
+  color: var(--vizon);
+}
+
+.trivia-index-go {
+  margin-top: 5px;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-size: 1.14rem;
+  color: var(--petrol);
+}
+
+.trivia-shell {
+  max-width: 42rem;
+  margin: 0 auto;
+}
+
+.trivia-panel {
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  padding: 34px 4px 36px;
+}
+
+.trivia-panel-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(1.7rem, 3vw, 2.2rem);
+  line-height: 1.1;
+  color: var(--petrol-deep);
+}
+
+.trivia-intro-copy,
+.trivia-resume-copy,
+.trivia-result-copy,
+.trivia-round-score {
+  margin-top: 12px;
+  max-width: 54ch;
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 1.04rem;
+  line-height: 1.6;
+  color: var(--vizon);
+}
+
+.trivia-resume-copy {
+  color: var(--petrol-deep);
+}
+
+.trivia-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.trivia-button {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 9px 16px;
+  border: 1px solid var(--rule);
+  border-radius: 7px;
+  background: transparent;
+  color: var(--petrol-deep);
+  font: inherit;
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 1rem;
+  line-height: 1.2;
+  text-decoration: none;
+  cursor: pointer;
+  transition: var(--select-ease), border-color 0.2s ease;
+}
+
+.trivia-button:hover,
+.trivia-button:active {
+  opacity: var(--select-dim);
+  border-color: var(--petrol);
+}
+
+.trivia-button:focus-visible {
+  outline: 2px solid var(--petrol);
+  outline-offset: 3px;
+}
+
+.trivia-button--primary {
+  border-color: color-mix(in srgb, var(--petrol) 58%, var(--rule));
+  color: var(--petrol-deep);
+}
+
+.trivia-button--quiet {
+  color: var(--vizon);
+}
+
+.trivia-status {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 0.88rem;
+  color: var(--vizon);
+}
+
+.trivia-progress {
+  height: 2px;
+  margin: 12px 0 30px;
+  background: var(--rule);
+  overflow: hidden;
+}
+
+.trivia-progress span {
+  display: block;
+  width: 0;
+  height: 100%;
+  background: var(--petrol);
+  transition: width 0.25s ease;
+}
+
+.trivia-question-text {
+  max-width: 31ch;
+  margin-bottom: 24px;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 500;
+  font-size: clamp(1.55rem, 2.7vw, 2rem);
+  line-height: 1.25;
+  color: var(--petrol-deep);
+}
+
+.trivia-choices {
+  display: grid;
+  gap: 8px;
+}
+
+.trivia-choice {
+  appearance: none;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 11px 13px;
+  border: 1px solid var(--rule);
+  border-radius: 7px;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.2s ease, opacity 0.2s ease;
+}
+
+.trivia-choice:hover:not(:disabled),
+.trivia-choice:active:not(:disabled) {
+  border-color: var(--petrol);
+}
+
+.trivia-choice:focus-visible {
+  outline: 2px solid var(--petrol);
+  outline-offset: 2px;
+}
+
+.trivia-choice:disabled {
+  cursor: default;
+}
+
+.trivia-choice-number {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 0.84rem;
+  color: var(--vizon);
+}
+
+.trivia-choice-text {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 1.04rem;
+  line-height: 1.35;
+}
+
+.trivia-choice-mark {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-style: italic;
+  font-size: 0.82rem;
+  color: var(--vizon);
+  white-space: nowrap;
+}
+
+.trivia-choice.is-correct {
+  border-color: var(--petrol);
+  color: var(--petrol-deep);
+}
+
+.trivia-choice.is-selected-wrong {
+  opacity: 0.58;
+}
+
+.trivia-feedback {
+  min-height: 1.6em;
+  margin-top: 18px;
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--vizon);
+}
+
+.trivia-actions--question {
+  justify-content: flex-end;
+  margin-top: 18px;
+}
+
+.trivia-round-panel,
+.trivia-result-panel {
+  text-align: center;
+}
+
+.trivia-round-panel .trivia-panel-title,
+.trivia-result-panel .trivia-result-score,
+.trivia-round-panel .trivia-round-score,
+.trivia-result-panel .trivia-result-copy {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.trivia-round-panel .trivia-actions,
+.trivia-result-panel .trivia-actions {
+  justify-content: center;
+}
+
+.trivia-result-score {
+  margin-top: 4px;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(2.4rem, 6vw, 4rem);
+  line-height: 1;
+  color: var(--petrol-deep);
+}
+
+.trivia-review {
+  margin-top: 40px;
+  padding-top: 28px;
+  border-top: 1px solid var(--rule);
+  text-align: left;
+}
+
+.trivia-review-title {
+  margin-bottom: 12px;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: 1.45rem;
+  color: var(--petrol-deep);
+}
+
+.trivia-review-list {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.trivia-review-list li {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--rule);
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 0.98rem;
+  line-height: 1.5;
+  color: var(--vizon);
+}
+
+.trivia-review-question {
+  display: block;
+  color: var(--petrol-deep);
+}
+
+.trivia-review-answer {
+  display: block;
+  margin-top: 3px;
+  font-style: italic;
+}
+
+.trivia-keyboard-note {
+  margin: 18px auto 0;
+  text-align: center;
+  font-family: 'EB Garamond', Georgia, serif;
+  font-style: italic;
+  font-size: 0.88rem;
+  color: var(--vizon);
+}
+
+@media (max-width: 600px) {
+  .trivia-panel {
+    padding-top: 28px;
+    padding-bottom: 30px;
+  }
+
+  .trivia-status {
+    font-size: 0.82rem;
+  }
+
+  .trivia-choice {
+    grid-template-columns: 1.6rem minmax(0, 1fr);
+    gap: 8px;
+    padding: 12px 10px;
+  }
+
+  .trivia-choice-mark {
+    grid-column: 2;
+    justify-self: start;
+    margin-top: -4px;
+  }
+
+  .trivia-keyboard-note {
+    display: none;
+  }
+}

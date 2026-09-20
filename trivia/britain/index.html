@@ -1,0 +1,74 @@
+---
+layout: default
+permalink: /trivia/britain/
+title: "British Culture Trivia"
+seo_title: "British Culture Quiz — 50 Questions · On Life & Everything"
+description: "A 50-question British culture quiz covering history, literature, food, sport, television, landmarks, traditions, and everyday culture."
+trivia: true
+---
+
+<div class="section-page trivia-quiz-page">
+  <div class="section-page-head">
+    <h1 class="section-page-title">British Culture</h1>
+    <p class="section-page-subtitle">50 questions · five rounds</p>
+  </div>
+
+  <div
+    id="trivia-app"
+    class="trivia-shell"
+    data-storage-key="ole-trivia-britain-v1"
+    data-quiz-name="British Culture"
+  >
+    <section class="trivia-panel" id="trivia-intro" aria-labelledby="trivia-intro-title">
+      <h2 class="trivia-panel-title" id="trivia-intro-title">Ready?</h2>
+      <p class="trivia-intro-copy">Ten questions at a time. The questions are shuffled for each new game, and your progress is kept on this device.</p>
+      <p class="trivia-resume-copy" id="trivia-resume-copy" hidden></p>
+      <div class="trivia-actions">
+        <button class="trivia-button trivia-button--primary" id="trivia-start" type="button">Start</button>
+        <button class="trivia-button trivia-button--quiet" id="trivia-reset-intro" type="button" hidden>Start over</button>
+      </div>
+    </section>
+
+    <section class="trivia-panel" id="trivia-question" hidden aria-labelledby="trivia-question-text">
+      <div class="trivia-status">
+        <span id="trivia-round-label">Round 1 of 5</span>
+        <span id="trivia-counter">Question 1 of 50</span>
+      </div>
+      <div class="trivia-progress" aria-hidden="true"><span id="trivia-progress-bar"></span></div>
+      <h2 class="trivia-question-text" id="trivia-question-text"></h2>
+      <div class="trivia-choices" id="trivia-choices" role="group" aria-labelledby="trivia-question-text"></div>
+      <p class="trivia-feedback" id="trivia-feedback" aria-live="polite"></p>
+      <div class="trivia-actions trivia-actions--question">
+        <button class="trivia-button trivia-button--primary" id="trivia-next" type="button" hidden>Next</button>
+      </div>
+    </section>
+
+    <section class="trivia-panel trivia-round-panel" id="trivia-round" hidden aria-labelledby="trivia-round-title">
+      <p class="trivia-round-kicker" id="trivia-round-kicker">Round complete</p>
+      <h2 class="trivia-panel-title" id="trivia-round-title"></h2>
+      <p class="trivia-round-score" id="trivia-round-score"></p>
+      <div class="trivia-actions">
+        <button class="trivia-button trivia-button--primary" id="trivia-continue" type="button">Next round</button>
+      </div>
+    </section>
+
+    <section class="trivia-panel trivia-result-panel" id="trivia-result" hidden aria-labelledby="trivia-result-title">
+      <p class="trivia-round-kicker">Finished</p>
+      <h2 class="trivia-result-score" id="trivia-result-title"></h2>
+      <p class="trivia-result-copy" id="trivia-result-copy"></p>
+      <div class="trivia-actions">
+        <button class="trivia-button trivia-button--primary" id="trivia-play-again" type="button">Play again</button>
+        <a class="trivia-button trivia-button--quiet" href="/trivia/">All quizzes</a>
+      </div>
+      <div class="trivia-review" id="trivia-review" hidden>
+        <h3 class="trivia-review-title">Questions to revisit</h3>
+        <ol class="trivia-review-list" id="trivia-review-list"></ol>
+      </div>
+    </section>
+  </div>
+
+  <p class="trivia-keyboard-note">On a keyboard, the number keys 1–4 choose an answer.</p>
+</div>
+
+<script id="trivia-data" type="application/json">{{ site.data.trivia.britain | jsonify }}</script>
+<script src="/js/trivia.js?v=20260920-1" defer></script>

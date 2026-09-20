@@ -159,6 +159,12 @@ layout: home
 
 {% include words-with-stories-home.html %}
 
+<section id="trivia" class="home-instruments" aria-label="Trivia">
+  {% include section-header.html title="Trivia" subtitle="" %}
+  <p class="home-instruments-line">Fifty questions at a time. Start with <a href="/trivia/britain/">British culture</a>.</p>
+  <a class="home-instruments-all" href="/trivia/">See the quizzes <span aria-hidden="true">&rarr;</span></a>
+</section>
+
 <section id="instruments" class="home-instruments" aria-label="Instruments">
   {% include section-header.html title="Instruments" subtitle="" %}
   <p class="home-instruments-line">A <a href="/clock/">fullscreen clock</a>, a <a href="/write/">blank page to write on</a>, a <a href="/prompt/">teleprompter</a>, <a href="/noise/">noise and rain</a>, <a href="/twilight/">&#304;stanbul&rsquo;s twilight</a>&mdash;{{ site.data.tools | size }} instruments for work, calm, and focus.</p>
