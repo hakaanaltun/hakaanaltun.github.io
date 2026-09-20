@@ -47,9 +47,13 @@
      versions of this gesture at three different distances, and the movement
      was the loudest thing on a page set in Garamond.
      0.78 is the footer logo's own value; the header's 0.8 rounds into it.
-     Links inside running prose are the deliberate exception — see
-     .home-instruments-line, where a dim would push the link behind the
-     sentence it sits in, so the underline reveal stays.
+     Links inside running prose answer the same way. The one that did not —
+     .home-instruments-line, which revealed its links with an underline on
+     hover — was the last underline on the homepage, and it worked by keeping
+     the links invisible until a pointer found them. They carry --petrol at
+     rest now, which is what lets the dim read on them as it does everywhere
+     else: a link already distinct from its sentence recedes when pressed
+     rather than disappearing into it.
 
      Hover and :active only, never :focus-visible. A pointer hover lasts as
      long as the pointer is there; keyboard focus sits on an element while
@@ -2872,13 +2876,17 @@ html[data-theme="sky"] .footer-strip { border-top: 0; }
   font-size: 1.02rem; line-height: 1.7; color: var(--vizon);
   max-width: 600px; margin: 0 auto; padding: 0 24px;
 }
+/* Named in the sentence and coloured like every other link on the page, so
+   the strip answers a hover with the site's one gesture — see --select-dim.
+   These were the homepage's last underline, and the only links on it that a
+   reader could not see until the pointer happened to cross one. */
 .home-instruments-line a {
-  color: var(--vizon); text-decoration: none;
-  border-bottom: 1px solid transparent;
-  transition: color 0.2s ease, border-color 0.2s ease;
+  color: var(--petrol); text-decoration: none;
+  transition: var(--select-ease);
 }
 .home-instruments-line a:hover,
-.home-instruments-line a:focus-visible { color: var(--petrol); border-bottom-color: var(--petrol); }
+.home-instruments-line a:active { opacity: var(--select-dim); }
+.home-instruments-line a:focus-visible { outline: 2px solid var(--petrol); outline-offset: 3px; border-radius: 4px; }
 .home-instruments-all,
 .home-notes-all,
 .home-words-all {
