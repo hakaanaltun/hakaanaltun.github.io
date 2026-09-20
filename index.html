@@ -161,7 +161,7 @@ layout: home
 
 <section id="trivia" class="home-instruments" aria-label="Trivia">
   {% include section-header.html title="Trivia" subtitle="" %}
-  <p class="home-instruments-line">Fifty questions at a time. Start with <a href="/trivia/britain/">British culture</a>.</p>
+  <p class="home-instruments-line">Culture quizzes in rounds, with a note behind every answer. Start with {% for quiz in site.data.trivia %}<a href="/trivia/{{ quiz.slug }}/">{{ quiz.name }}</a>{% unless forloop.last %}{% if forloop.rindex == 2 %} or {% else %}, {% endif %}{% endunless %}{% endfor %}.</p>
   <a class="home-instruments-all" href="/trivia/">See the quizzes <span aria-hidden="true">&rarr;</span></a>
 </section>
 
