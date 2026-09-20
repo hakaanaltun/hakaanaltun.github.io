@@ -47,9 +47,13 @@
      versions of this gesture at three different distances, and the movement
      was the loudest thing on a page set in Garamond.
      0.78 is the footer logo's own value; the header's 0.8 rounds into it.
-     Links inside running prose are the deliberate exception — see
-     .home-instruments-line, where a dim would push the link behind the
-     sentence it sits in, so the underline reveal stays.
+     Links inside running prose answer the same way. The one that did not —
+     .home-instruments-line, which revealed its links with an underline on
+     hover — was the last underline on the homepage, and it worked by keeping
+     the links invisible until a pointer found them. They carry --petrol at
+     rest now, which is what lets the dim read on them as it does everywhere
+     else: a link already distinct from its sentence recedes when pressed
+     rather than disappearing into it.
 
      Hover and :active only, never :focus-visible. A pointer hover lasts as
      long as the pointer is there; keyboard focus sits on an element while
@@ -429,15 +433,22 @@ body.series-fragments   { --sec-h: 262; --sec-c: 0.075; --sec-ld: 0.820; --sec-c
 body.series-moris       { --sec-h: 118; --sec-c: 0.058; --sec-ld: 0.840; --sec-cd: 0.055; }
 /* The fiction */
 body.series-story       { --sec-h:  54; --sec-c: 0.054; --sec-ld: 0.770; --sec-cd: 0.060; }
-/* The site's own furniture — the front door, the person, the instruments,
-   the quizzes. Made things you use rather than read; the homepage bands for
-   Trivia and Instruments already answer in this teal, and the section pages
-   follow them here. */
+/* The site's own furniture — the front door, the person, the instruments.
+   Made things you use rather than read; the homepage bands for Trivia and
+   Instruments answer in this teal, and these section pages follow them. */
 body.is-home,
 body.series-home,
 body.series-about,
-body.series-trivia,
 body.series-tools       { --sec-h: 178; --sec-c: 0.050; --sec-ld: 0.800; --sec-cd: 0.048; }
+/* The quizzes, which have left the furniture for the writing's rose. A quiz
+   is read as much as it is used — fifty questions and fifty notes — and it
+   is worth more to the section to have a colour of its own than to share the
+   teal with About and the instruments. These are deliberately the writing's
+   own numbers rather than a sixth voice standing near it: a second, slightly
+   different red would blunt both, and no page has to hold the two at once.
+   The homepage keeps its rhythm untouched below, as it does for Words with
+   Stories, whose rose is borrowed per element rather than per band. */
+body.series-trivia      { --sec-h:  12; --sec-c: 0.068; --sec-ld: 0.700; --sec-cd: 0.078; }
 
 /* --------------------------------------------------------------------------
    Homepage accent rhythm — the light path only
@@ -2865,13 +2876,17 @@ html[data-theme="sky"] .footer-strip { border-top: 0; }
   font-size: 1.02rem; line-height: 1.7; color: var(--vizon);
   max-width: 600px; margin: 0 auto; padding: 0 24px;
 }
+/* Named in the sentence and coloured like every other link on the page, so
+   the strip answers a hover with the site's one gesture — see --select-dim.
+   These were the homepage's last underline, and the only links on it that a
+   reader could not see until the pointer happened to cross one. */
 .home-instruments-line a {
-  color: var(--vizon); text-decoration: none;
-  border-bottom: 1px solid transparent;
-  transition: color 0.2s ease, border-color 0.2s ease;
+  color: var(--petrol); text-decoration: none;
+  transition: var(--select-ease);
 }
 .home-instruments-line a:hover,
-.home-instruments-line a:focus-visible { color: var(--petrol); border-bottom-color: var(--petrol); }
+.home-instruments-line a:active { opacity: var(--select-dim); }
+.home-instruments-line a:focus-visible { outline: 2px solid var(--petrol); outline-offset: 3px; border-radius: 4px; }
 .home-instruments-all,
 .home-notes-all,
 .home-words-all {
