@@ -541,28 +541,34 @@ a { color: inherit; text-decoration: none; transition: color 0.2s ease, border-c
 /* --------------------------------------------------------------------------
    The typographic layer
 
-   Four settings the browser will apply for free once it is asked, and which
-   a site made of long Garamond paragraphs feels more than most. Nothing here
-   changes a colour, a size or a measure; it only changes where lines break.
+   Settings the browser applies for free once it is asked. They change where
+   lines break and leave colour, size and measure alone. What each is worth
+   on these pages was measured, and the measurement is written beside it.
 
-   text-wrap: pretty — the browser looks at the whole paragraph before
-   choosing its breaks, so the last line is no longer a single orphaned word.
-   text-wrap: balance — the same for short runs, evening the lines of a title
-   instead of leaving a long first line over a one-word second.
+   text-wrap: pretty — the browser weighs the whole paragraph before choosing
+   its breaks. Counted across ten essay and word pages: paragraphs ending on
+   a single stranded word fell from 95 to 90 at 1400px, and from 84 to 73 at
+   720px. Small, free, and worth most on the narrow measure.
 
-   hanging-punctuation puts an opening quote in the margin so the first letter
-   of the line, not the mark, sits on the left edge. Safari honours it today
-   and the rest ignore it; the mark simply stays where it already was.
+   text-wrap: balance — the same idea for a short run like a title. Of nine
+   titles on those pages, three wrap to a second line, and all three broke
+   the same way with it on. It is here for the longer titles still to come,
+   which is a thinner reason than the line above has, written down so it can
+   be revisited.
 
-   hyphens are asked for only on a phone, where a 1.12rem serif in a column
-   this narrow leaves a rag deep enough to read as a hole in the page. On a
-   wide measure the rag is fine and hyphens would be noise. <html lang="en">
-   is what tells the browser which dictionary to break by.
+   hanging-punctuation puts an opening quote out in the margin so the letter
+   sits on the left edge. Safari honours it; Chromium's CSS.supports answers
+   false. One line, and the right thing where it lands.
 
-   Two things deliberately left out. text-rendering: optimizeLegibility asks
-   for kerning and ligatures that browsers already apply to these fonts, and
-   brings its own bugs. widows and orphans apply only where text is broken
-   into pages or columns, which this site does not do on screen.
+   hyphens: auto was taken out. Measured at phone width, the line count came
+   back identical with it on and off — 2409 either way. Either the machine
+   lacks a dictionary or the setting was already idle, and the measurement
+   separates the two no better than a guess would. It returns when somebody
+   has watched it work on a real phone.
+
+   text-rendering: optimizeLegibility asks for kerning and ligatures these
+   fonts already receive, and brings its own bugs. widows and orphans belong
+   to text broken into pages or columns, which is a print concern here.
    -------------------------------------------------------------------------- */
 :root { hanging-punctuation: first last; }
 
@@ -580,76 +586,6 @@ h1, h2, h3,
 .word-story-title,
 .essay-title-block h1 { text-wrap: balance; }
 
-@media (max-width: 600px) {
-  .essay-body p,
-  .word-story-body p { hyphens: auto; }
-}
-
-/* --------------------------------------------------------------------------
-   The link preview — js/link-preview.js
-
-   A small card that says where a link goes, shown while the reader holds
-   still over it. It is placed on the document rather than beside the link so
-   nothing it does can reflow the sentence it came from, and it sits above
-   the header but below the drawer, which is the one thing that should be
-   able to cover it.
-
-   It exists only where there is a real pointer; the script does not run
-   otherwise, so none of this is ever painted on a phone.
-   -------------------------------------------------------------------------- */
-.link-preview {
-  position: absolute;
-  z-index: 900;
-  width: min(22rem, calc(100vw - 24px));
-  padding: 14px 16px 15px;
-  background: var(--paper);
-  border: 1px solid var(--rule);
-  border-radius: 8px;
-  box-shadow: 0 8px 28px rgb(0 0 0 / 12%);
-  font-family: 'EB Garamond', Georgia, serif;
-  pointer-events: none;
-  opacity: 0;
-  transform: translateY(3px);
-  transition: opacity 0.16s ease, transform 0.16s ease;
-}
-
-.link-preview.is-open { opacity: 1; transform: none; }
-/* Asked for less motion: it arrives, it does not travel. */
-.link-preview.is-still { transition: none; transform: none; }
-
-.link-preview-kind {
-  display: block;
-  font-size: 0.68rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--vizon);
-  margin-bottom: 5px;
-}
-
-.link-preview-title {
-  display: block;
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-style: italic;
-  font-size: 1.32rem;
-  line-height: 1.2;
-  color: var(--petrol-deep);
-}
-
-.link-preview-description {
-  display: block;
-  margin-top: 7px;
-  font-size: 0.92rem;
-  line-height: 1.5;
-  color: var(--ink-soft);
-  /* Three lines is enough to say what a thing is; a description long enough
-     to need a fourth is a page, not a preview. */
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.link-preview-description[hidden] { display: none; }
 
 .container { display: flex; flex-direction: column; flex: 1 0 auto; width: 100%; max-width: 1040px; margin: 0 auto; padding: 0 var(--pad); position: relative; }
 .skip-link { position: absolute; left: -9999px; top: 0; z-index: 2000; background: var(--petrol); color: var(--paper); padding: 10px 16px; border-radius: 0 0 6px 0; font-size: 0.95rem; }

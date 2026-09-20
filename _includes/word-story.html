@@ -25,8 +25,6 @@
     max-width: 42rem;
     margin: 0 auto;
     padding: 76px 24px 72px;
-    /* The frame the margin notes are placed against. */
-    position: relative;
   }
 
   .word-story-series {
@@ -105,62 +103,6 @@
     outline: 2px solid var(--petrol);
     outline-offset: 2px;
     border-radius: 2px;
-  }
-
-  /* The same source, out in the margin beside the line that earned it.
-
-     It is placed rather than flowed: left pins it to the far edge of the
-     page column, and with top left alone the note takes the vertical
-     position it would have had inline — which is the line it belongs to.
-     The column it lands in is outside .container, which does not clip, so
-     the only real constraint is the viewport, and the query below is what
-     keeps the note inside it: the page is 42rem centred, so a 13rem note
-     2.5rem clear of it needs about 1200px of window before it has room.
-     Under that it is not rendered, the story keeps the whole measure, and
-     the Sources block at the foot is the answer — as it was everywhere
-     before this existed.
-
-     Nothing here moves the story: the note is out of flow, and the column
-     it uses was white space. */
-  .word-sidenote { display: none; }
-
-  @media (min-width: 1250px) {
-    .word-sidenote {
-      display: block;
-      position: absolute;
-      left: 100%;
-      margin-left: 2.5rem;
-      width: 13rem;
-      font-family: 'EB Garamond', Georgia, serif;
-      font-size: 0.86rem;
-      font-style: normal;
-      line-height: 1.5;
-      text-align: left;
-      color: var(--vizon);
-      /* The note is set beside a line of 1.72 line-height prose; this lifts
-         its first line to sit on the same optical line as the marker. */
-      margin-top: -0.3em;
-    }
-
-    .word-sidenote-item { display: block; margin-bottom: 0.7em; }
-    .word-sidenote-item:last-child { margin-bottom: 0; }
-
-    /* A class that sets display outranks the browser's own rule for the
-       hidden attribute, so the repeats the script marks have to be hidden
-       here or they stay on the page — unplaced, and on top of the note
-       below them. */
-    .word-sidenote[hidden],
-    .word-sidenote-item[hidden] { display: none; }
-
-    .word-sidenote-number {
-      margin-right: 0.4em;
-      font-size: 0.8em;
-      vertical-align: super;
-      line-height: 0;
-      color: var(--petrol);
-    }
-
-    .word-sidenote-where { display: block; font-style: italic; }
   }
 
   .word-story-sources li { position: relative; padding-left: 1.35rem; }
@@ -368,81 +310,6 @@
 </article>
 
 <script>
-/* The margin notes are placed by CSS, each at the line that cites it, which
-   is right until two citations fall close enough together for their notes to
-   collide. Measured across the collection, they do: about one note in six
-   overlapped the one above it, because a word story is short and its
-   citations are not spread out.
-
-   So the notes are walked once after layout and any that would land on top
-   of the one above are pushed down until they clear it. A pushed note is no
-   longer exactly beside its own line — there is no arrangement where it can
-   be and also not overlap — but it stays below it, in order, and readable,
-   which the overlap was not. The nudge is a transform so the CSS that lifts
-   a note onto its marker's optical line is left intact.
-
-   Below the width where the notes are shown at all this does nothing, and
-   with no JavaScript the notes simply stay where CSS put them. */
-(function() {
-  var notes = Array.prototype.slice.call(document.querySelectorAll('.word-sidenote'));
-  if (notes.length < 2) return;
-
-  var GAP = 14;
-  var frame = 0;
-
-  /* A word that leans on one source twice used to print it twice, a few
-     lines apart, in identical type — the margin saying the same thing to
-     the same reader. A source is shown out here once, where it is first
-     leaned on, and a later marker for it still goes to the Sources block
-     the way every marker does. */
-  (function dropRepeats() {
-    var seen = {};
-    notes.forEach(function(note) {
-      var items = Array.prototype.slice.call(note.querySelectorAll('.word-sidenote-item'));
-      var kept = 0;
-      items.forEach(function(item) {
-        var key = item.textContent.replace(/\s+/g, ' ').trim();
-        if (seen[key]) { item.hidden = true; return; }
-        seen[key] = true;
-        kept++;
-      });
-      if (!kept) note.hidden = true;
-    });
-    notes = notes.filter(function(note) { return !note.hidden; });
-  })();
-
-  if (notes.length < 2) return;
-
-  function place() {
-    frame = 0;
-    notes.forEach(function(note) { note.style.transform = ''; });
-    if (window.getComputedStyle(notes[0]).display === 'none') return;
-
-    var previousBottom = null;
-    notes.forEach(function(note) {
-      var box = note.getBoundingClientRect();
-      if (previousBottom !== null && box.top < previousBottom + GAP) {
-        var push = previousBottom + GAP - box.top;
-        note.style.transform = 'translateY(' + Math.round(push) + 'px)';
-        previousBottom = box.top + push + box.height;
-      } else {
-        previousBottom = box.bottom;
-      }
-    });
-  }
-
-  function schedule() {
-    if (frame) return;
-    frame = window.requestAnimationFrame(place);
-  }
-
-  schedule();
-  window.addEventListener('resize', schedule, { passive: true });
-  /* The measure changes when the real face replaces the fallback, and every
-     note moves with it. */
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(schedule);
-})();
-
 (function() {
   var nav = Array.prototype.slice.call(document.querySelectorAll('.word-story-nav'));
   if (!nav.length) return;

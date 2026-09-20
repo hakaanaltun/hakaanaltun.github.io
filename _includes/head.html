@@ -317,17 +317,22 @@ that are say so without moving out of this branch. {% endcomment %}
 
 {% endif %}
 
-{% comment %} Feed discovery belongs on every page, not just the homepage:
-this is what puts the "subscribe" affordance in a reader's browser or
-extension when they land on an essay from search. {% endcomment %}
+{% comment %} Feed discovery, and all of it, on every page.
+
+This is how somebody subscribes in practice: they hand their reader the
+address of the site, the reader fetches whatever page that resolves to and
+reads these three lines. Declaring all three everywhere means a reader who
+typed hakanaltun.io, or who landed on an essay from a search, is offered the
+whole of what there is to follow.
+
+Order is the decision here. A reader that shows a choice shows all three; a
+reader that takes the first takes /feed.xml, which is what subscribing to
+the site means. The titles are what appear in that chooser, so each one
+names its part. /feeds/ is the same three for a person. {% endcomment %}
 <link rel="alternate" type="application/rss+xml" title="On Life &amp; Everything" href="/feed.xml">
-{%- comment -%} And, where a section keeps a feed of its own, that one too,
-so the reader's browser offers the part of the site they are standing in
-rather than only the whole of it. Declared after the site feed, which stays
-first and therefore stays the default. {%- endcomment -%}
-{% if page.collection == "words" or page.url == "/word/" %}<link rel="alternate" type="application/rss+xml" title="Words with Stories &mdash; On Life &amp; Everything" href="/word/feed.xml">
-{% elsif page.url == "/notes/" %}<link rel="alternate" type="application/rss+xml" title="Notes &mdash; On Life &amp; Everything" href="/notes/feed.xml">
-{% endif %}
+<link rel="alternate" type="application/rss+xml" title="Words with Stories &mdash; On Life &amp; Everything" href="/word/feed.xml">
+<link rel="alternate" type="application/rss+xml" title="Notes &mdash; On Life &amp; Everything" href="/notes/feed.xml">
+
 {% comment %} Fonts are self-hosted (see /fonts/ and css/fonts.css) — no
 render-blocking third-party request. Preload the body face for faster LCP. {% endcomment %}
 <link rel="preload" href="/fonts/eb-garamond-latin.woff2" as="font" type="font/woff2" crossorigin>
