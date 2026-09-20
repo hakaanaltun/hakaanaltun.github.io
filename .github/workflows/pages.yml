@@ -4,6 +4,12 @@ on:
   push:
     branches:
       - main
+  # A pull request gets the same build the deploy would get, so a change is
+  # known to render before it is merged. The list used to cover only the code
+  # and the templates, which meant a pull request that touched nothing but
+  # content — a word story, a post, a quiz — ran no build at all and was
+  # merged on trust. Content is where most changes here actually happen, so
+  # it is on the list too.
   pull_request:
     paths:
       - 'read/**'
@@ -11,7 +17,13 @@ on:
       - 'css/**'
       - '_layouts/**'
       - '_includes/**'
+      - '_plugins/**'
       - 'scripts/**'
+      - '_words/**'
+      - '_posts/**'
+      - '_data/**'
+      - '*.html'
+      - '_config.yml'
       - 'package.json'
       - 'package-lock.json'
       - '.github/workflows/pages.yml'
