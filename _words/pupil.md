@@ -24,10 +24,8 @@ is a tiny figure of you in their eye, about doll-sized. Greek did the same
 thing with <span lang="grc">*korē*</span>, girl, which meant both the doll and
 the pupil.{% include word-cite.html n="1" %}
 
-The schoolchild is the same Latin root by another road.
-<span lang="la">*Pupillus*</span> and <span lang="la">*pupilla*</span> also
+The schoolchild comes from the same Latin root by another road. <span lang="la">*Pupillus*</span> and <span lang="la">*pupilla*</span> also
 meant an orphan or a minor in someone's care, and the English *pupil* began as
-that legal sense before it meant anyone being
-taught.{% include word-cite.html n="1,2" %}
+that legal sense before it meant anyone being taught.{% include word-cite.html n="1,2" %}
 
 *The doctor checked his pupils.*

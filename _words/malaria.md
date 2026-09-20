@@ -26,8 +26,7 @@ The parasite was identified in 1880 and the mosquito was shown to carry it
 before the century was out. The air had nothing to do with
 it.{% include word-cite.html n="2" %}
 
-The name did not change with the theory. A disease we now understand is still
-called after an idea about air that nobody
-holds.{% include word-cite.html n="1" %}
+The name did not change with the theory. We understand the disease now, and it
+is still called after an idea about air that nobody believes.{% include word-cite.html n="1" %}
 
 *Malaria is still one of the world's deadliest diseases.*

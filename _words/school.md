@@ -29,7 +29,7 @@ Latin kept some of that width. <span lang="la">*Schola*</span> could mean
 leisure for learning, a lecture, a debate, or a place of
 learning.{% include word-cite.html n="1,2" %}
 
-What came through into English is the narrowest of those: a building, a
-register and a timetable.{% include word-cite.html n="1" %}
+English took the narrowest of those senses: a building, a register and a
+timetable.{% include word-cite.html n="1" %}
 
 *She teaches at a school in the city.*

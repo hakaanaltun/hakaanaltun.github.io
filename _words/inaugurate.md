@@ -20,9 +20,9 @@ The word comes from the Latin <span lang="la">*inaugurare*</span>, built on
 <span lang="la">*augur*</span>.{% include word-cite.html n="1,2" %}
 
 An augur was a Roman priest who read the will of the gods in birds: how they
-flew, how they fed, what they called. The job was not to say what would happen
-but to find out whether the gods approved of a thing being started at
-all.{% include word-cite.html n="1,2" %}
+flew, how they fed, what they called. The job was to find out whether the gods
+approved of a thing being started at all. It was not a way of predicting what
+would happen.{% include word-cite.html n="1,2" %}
 
 So a man was inaugurated — installed once the birds had been consulted and the
 answer was yes. Nothing of consequence was begun without

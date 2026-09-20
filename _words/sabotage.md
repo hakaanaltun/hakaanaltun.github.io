@@ -29,7 +29,7 @@ The likelier route is duller and stays inside the language. French
 from there to work clumsily, and from there to botch a job on
 purpose.{% include word-cite.html n="1,2" %}
 
-The clog is in the word either way. What nobody can show is that one was ever
-thrown into a machine.{% include word-cite.html n="2" %}
+The clog is in the word either way. Nobody can show that one was ever thrown
+into a machine.{% include word-cite.html n="2" %}
 
 *The line was shut down by sabotage.*

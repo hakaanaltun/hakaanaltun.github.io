@@ -30,8 +30,7 @@ them a garden of paradise so they would kill on command. Farhad Daftary's work
 on those accounts traces them to European invention and rumour rather than to
 anything recorded at Alamut.{% include word-cite.html n="1,2" %}
 
-The legend is what crossed into English, and the word came with it. The drug is
-still in the name, and it is the one part of the story nobody has been able to
-show.{% include word-cite.html n="1,2" %}
+The legend crossed into English and took the word with it. The drug is still in
+the name, and nobody has been able to show it was ever there.{% include word-cite.html n="1,2" %}
 
 *He was killed by an assassin.*

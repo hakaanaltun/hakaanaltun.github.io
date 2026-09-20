@@ -23,8 +23,8 @@ It reached English in the 1550s by a long route, through Turkic into Russian
 and Polish and on westward. The *h* at the front appears to have been picked up
 in Polish.{% include word-cite.html n="1" %}
 
-What travelled with it was the Golden Horde and the armies of the steppe, seen
-from outside and at a distance. By the 1610s the word was being used for any
+It travelled with the Golden Horde and the armies of the steppe, seen from
+outside and at a distance. By the 1610s the word was being used for any
 uncivilised gang.{% include word-cite.html n="1" %}
 
 An ordu is an organised thing, with a chain of command and a place for
