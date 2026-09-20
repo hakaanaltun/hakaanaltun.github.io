@@ -32,8 +32,7 @@ remembered sight or a tune from home. They stopped eating and sleeping. It was
 taken seriously enough to be treated, and seriously enough to be written down
 as a cause of death.{% include word-cite.html n="3" %}
 
-The word softened as the illness stopped being one. What it kept is the ache.
-The <span lang="grc">*algos*</span> is half of
-it.{% include word-cite.html n="1,2" %}
+The word softened as the illness stopped being one. The ache stayed. The <span lang="grc">*algos*</span> is
+half the word.{% include word-cite.html n="1,2" %}
 
 *A wave of nostalgia for the nineties.*

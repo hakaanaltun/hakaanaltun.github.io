@@ -29,6 +29,6 @@ statutes used *lunatic* as a legal category into the twentieth century, and it
 was the Mental Treatment Act of 1930 that turned lunatics, officially, into
 patients.{% include word-cite.html n="2" %}
 
-Nobody who says it now means the moon by it.
+Nobody who uses the word now is thinking about the moon.
 
 *Some lunatic overtook us on the bend.*

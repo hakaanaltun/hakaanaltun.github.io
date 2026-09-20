@@ -32,7 +32,6 @@ English in the sixteenth century it could still mean the surgical setting of a
 fracture, and in Spanish an <span lang="es">*algebrista*</span> was a
 bone-setter.{% include word-cite.html n="3" %}
 
-The same book gave the other word. *Algorithm* is what became of the author's
-name.{% include word-cite.html n="1" %}
+The same book gave the other word. *Algorithm* came out of the author's name.{% include word-cite.html n="1" %}
 
 *He teaches algebra to first-year students.*

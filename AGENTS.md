@@ -14,6 +14,34 @@ This repository is a **Jekyll 4 static site** ("On Life & Everything", a persona
 - `_config.yml` sets `future: true`, so posts dated in the future still render — expected for this repo.
 - The production Pages workflow uses Ruby 3.3; the VM uses the apt-provided Ruby 3.2, which builds the site fine.
 
+## Starting a session
+
+Every session starts cold and remembers nothing of the last one, so what was
+learned the hard way is written down here instead.
+
+- **Build the working branch from `main`, before writing anything.** Branch
+  names are reused across sessions here, so a branch that looks ready to
+  continue may be carrying a pull request that was merged days ago. New
+  commits stacked on merged history produce a pull request nobody can read.
+  `git fetch origin main && git checkout -B <branch> origin/main`.
+- **A merge can land while you are still pushing, and nothing will say so.**
+  This happened twice in one session: a prose fix was pushed after its pull
+  request had already been merged, so it sat on the branch and never reached
+  the site — and it was only caught later, by chance. Before opening anything
+  new, check that the last commit you pushed is an ancestor of `origin/main`
+  (`git merge-base --is-ancestor <sha> origin/main`) and carry over whatever
+  is not. Ask to be told when a pull request is merged; it is cheaper than
+  finding out.
+- **This site is read as pages, not as diffs.** Its author reviews a change by
+  looking at it, which for a long time meant merging first and looking after.
+  Build the site and hand over the rendered pages — the ones that changed and
+  the index they sit in — before asking for a merge. A description of a
+  paragraph is not a substitute for the paragraph.
+- **Say what changed, not why each word changed.** A pull request description
+  names the work and its shape; the line-by-line reasoning behind an edit
+  belongs in the conversation, not in a public description that outlives it.
+  "The prose was simplified" is the right altitude.
+
 ## Words with Stories editorial standard
 
 `Words with Stories` is a deliberately small, curated collection, not a general etymology dictionary. A term should be added only when its story earns its place.

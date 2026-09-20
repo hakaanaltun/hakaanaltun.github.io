@@ -25,10 +25,10 @@ had provisions for what to do when two of them
 disagreed.{% include word-cite.html n="1,2" %}
 
 The water fell away as the word moved through French into English in the later
-sixteenth century, and what was left was the competition, mostly over love or
-honour rather than irrigation.{% include word-cite.html n="1,2" %}
+sixteenth century. The competition stayed, mostly over love or honour rather
+than irrigation.{% include word-cite.html n="1,2" %}
 
-The shape of the old sense is still there. A rival is not simply an opponent
-but someone drawing on the same supply.{% include word-cite.html n="1,2" %}
+The shape of the old sense is still there. A rival is an opponent who draws on
+the same supply you do.{% include word-cite.html n="1,2" %}
 
 *He was her closest rival.*

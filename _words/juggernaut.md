@@ -31,6 +31,6 @@ procession up as a scene of heathen horror, in support of the case for
 Christian missions, and that is the book the English word came
 through.{% include word-cite.html n="2" %}
 
-What English kept was the crushing.{% include word-cite.html n="1,2" %}
+English kept the crushing and left the rest behind.{% include word-cite.html n="1,2" %}
 
 *The company became a juggernaut.*
