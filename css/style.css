@@ -1393,6 +1393,17 @@ body.moris-lightbox-open { overflow: hidden; }
 .essay-body { padding-bottom: 48px; }
 .essay-body p { margin-bottom: 24px; color: var(--ink-soft); line-height: 1.85; }
 .essay-body p:last-child { margin-bottom: 0; }
+
+/* .piece-note — a standing line about the piece rather than a line of it:
+   where else it lives, what it belongs to. It sits above the first paragraph
+   and has to read as quieter than the prose, so it takes --vizon and the
+   smaller size the date line uses, with a rule under it to close it off.
+   The site's own italic is left to the sentence: the note marks a title,
+   and italicising the whole line would leave nothing for the title to be.
+   The selector carries .essay-body because `.essay-body p` sets the prose
+   colour and spacing and would otherwise outrank a lone class. */
+.essay-body p.piece-note { color: var(--vizon); font-size: 0.94rem; line-height: 1.6; margin-bottom: 28px; padding-bottom: 20px; border-bottom: 1px solid var(--rule); }
+.essay-body p.piece-note em { font-style: italic; }
 .essay-body h2 { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: 28px; color: var(--petrol); margin: 40px 0 16px; padding-top: 20px; border-top: 1px solid var(--rule); text-align: center; }
 .essay-body h3 { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: 24px; color: var(--petrol); margin: 32px 0 12px; text-align: center; }
 .essay-body blockquote { border-left: 2px solid var(--petrol); padding: 12px 0 12px 20px; margin: 28px 0; font-style: italic; font-size: 21px; color: var(--vizon); }
