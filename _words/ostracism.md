@@ -27,8 +27,7 @@ Thousands of those sherds have come out of the Agora and the Kerameikos, names
 still legible on them, most of them from refuse
 dumps.{% include word-cite.html n="2" %}
 
-The procedure ended and the word kept only the exclusion. What it no longer
-carries is the object: a piece of rubbish with a name scratched on
-it.{% include word-cite.html n="1" %}
+The procedure ended and the word kept only the exclusion. The object dropped
+out of it: a piece of rubbish with a name scratched on it.{% include word-cite.html n="1" %}
 
 *He faced ostracism from the whole village.*

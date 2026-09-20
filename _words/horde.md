@@ -28,7 +28,7 @@ from outside and at a distance. By the 1610s the word was being used for any
 uncivilised gang.{% include word-cite.html n="1" %}
 
 An ordu is an organised thing, with a chain of command and a place for
-everything. A horde is a rabble. The word went west and ended up meaning the
-opposite of what it set out as.{% include word-cite.html n="1,2" %}
+everything. A horde is a rabble. The word travelled west and ended up meaning
+the opposite of what it started as.{% include word-cite.html n="1,2" %}
 
 *A horde of tourists filled the square.*
