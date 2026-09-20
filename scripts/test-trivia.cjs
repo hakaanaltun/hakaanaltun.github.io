@@ -56,6 +56,11 @@ function build({ seed = 1, questions = null, storage = null } = {}) {
   if (storage) {
     w.localStorage.setItem(d.getElementById('trivia-app').dataset.storageKey, storage);
   }
+  const scrolled = [];
+  w.Element.prototype.scrollIntoView = function (options) {
+    scrolled.push({ el: this, options: options });
+  };
+
   w.Math.random = seeded(seed);
   w.eval(source);
 
@@ -70,7 +75,7 @@ function build({ seed = 1, questions = null, storage = null } = {}) {
   };
 
   return {
-    w, d, id, visible, choices, key,
+    w, d, id, visible, choices, key, scrolled,
     bank: JSON.parse(d.getElementById('trivia-data').textContent),
     stored: () => JSON.parse(w.localStorage.getItem(d.getElementById('trivia-app').dataset.storageKey)),
     text: (name) => id(name).textContent,
@@ -425,6 +430,32 @@ function main() {
     assert.equal(alsoGone('trivia-result'), false);
     assert.equal(alsoGone('trivia-retry-missed'), false);
     assert.equal(alsoGone('trivia-question'), true);
+  }
+
+  // --- The note is brought into view, and only when it is new --------------
+  //
+  // On a phone the choices fill the screen and the note opens underneath it,
+  // off the bottom, with Next below that. The note is the part worth reading.
+  {
+    const kit = build({ seed: 47 });
+    kit.start();
+    kit.scrolled.length = 0;
+
+    answer(kit, 'wrong');
+    const moves = kit.scrolled.filter((s) => s.el.classList.contains('trivia-actions--question'));
+    assert.equal(moves.length, 1, 'answering brings the note and Next up');
+    // "nearest" so a screen that already shows them does not move at all.
+    assert.equal(moves[0].options.block, 'nearest');
+
+    // Coming back to a question already answered must not move the page by
+    // itself — that is the reader's reload, not their answer.
+    const saved = kit.w.localStorage.getItem(kit.d.getElementById('trivia-app').dataset.storageKey);
+    const resumed = build({ seed: 47, storage: saved });
+    resumed.start();
+    assert.equal(resumed.stored().pending !== null, true, 'the answer came back with it');
+    assert.equal(
+      resumed.scrolled.filter((s) => s.el.classList.contains('trivia-actions--question')).length,
+      0);
   }
 
   console.log('test-trivia: ok');
