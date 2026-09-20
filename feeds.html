@@ -1,0 +1,94 @@
+---
+layout: default
+permalink: /feeds/
+title: Feeds
+seo_title: "Feeds: following the site in your own reader — On Life &amp; Everything"
+series: default
+description: "Three feeds — the writing, Words with Stories, and Notes — for anyone who would rather read this in their own reader."
+---
+
+<div class="section-page feeds-page">
+  <div class="section-page-head">
+    <h1 class="section-page-title">Feeds</h1>
+    <p class="section-page-subtitle">For reading this in your own reader. It fetches the pages on whatever schedule it keeps, and everything about that stays on your side.</p>
+  </div>
+
+  <p class="feeds-lede">Most readers need only the address of the site &mdash; <span class="feeds-domain">hakanaltun.io</span> &mdash; and will offer all three of these. The exact addresses are below for the readers that ask to have one typed in.</p>
+
+  <ul class="feeds-list" role="list">
+    <li class="feeds-item">
+      <a class="feeds-name" href="/feed.xml">The writing</a>
+      <p class="feeds-what">Essays and short fiction, as they are published. {{ site.posts | size }} pieces so far.</p>
+      <p class="feeds-url">hakanaltun.io/feed.xml</p>
+    </li>
+    <li class="feeds-item">
+      <a class="feeds-name" href="/word/feed.xml">Words with Stories</a>
+      <p class="feeds-what">One word at a time, and what it kept from where it has been. {{ site.words | size }} of them.</p>
+      <p class="feeds-url">hakanaltun.io/word/feed.xml</p>
+    </li>
+    <li class="feeds-item">
+      <a class="feeds-name" href="/notes/feed.xml">Notes</a>
+      <p class="feeds-what">Short things, out loud. Half-thoughts, dated.</p>
+      <p class="feeds-url">hakanaltun.io/notes/feed.xml</p>
+    </li>
+  </ul>
+</div>
+
+<style>
+  .feeds-page { max-width: 42rem; }
+
+  .feeds-lede {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--ink-soft);
+    margin: 0 0 40px;
+  }
+
+  .feeds-domain { font-style: italic; color: var(--ink); white-space: nowrap; }
+
+  .feeds-list { list-style: none; margin: 0; padding: 0; }
+
+  .feeds-item {
+    padding: 22px 0;
+    border-top: 1px solid var(--rule);
+  }
+
+  .feeds-item:last-of-type { border-bottom: 1px solid var(--rule); }
+
+  .feeds-name {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-style: italic;
+    font-size: 1.7rem;
+    line-height: 1.1;
+    color: var(--petrol);
+    transition: var(--select-ease);
+  }
+
+  .feeds-name:hover, .feeds-name:active { opacity: var(--select-dim); }
+  .feeds-name:focus-visible { outline: 2px solid var(--petrol); outline-offset: 4px; border-radius: 4px; }
+
+  .feeds-what {
+    margin: 8px 0 0;
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 1rem;
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+
+  /* The address as plain text, selected whole by one click, for a reader
+     that asks to have one typed in. */
+  .feeds-url {
+    margin: 6px 0 0;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.82rem;
+    letter-spacing: 0.01em;
+    color: var(--vizon);
+    user-select: all;
+  }
+
+  @media (max-width: 560px) {
+    .feeds-name { font-size: 1.45rem; }
+    .feeds-url { font-size: 0.76rem; }
+  }
+</style>

@@ -541,41 +541,34 @@ a { color: inherit; text-decoration: none; transition: color 0.2s ease, border-c
 /* --------------------------------------------------------------------------
    The typographic layer
 
-   Settings the browser applies for free once it is asked. Nothing here
-   changes a colour, a size or a measure; it only changes where lines break.
-   What each one is actually worth on this site was measured rather than
-   assumed, because the first version of this comment claimed more than the
-   pages could show.
+   Settings the browser applies for free once it is asked. They change where
+   lines break and leave colour, size and measure alone. What each is worth
+   on these pages was measured, and the measurement is written beside it.
 
    text-wrap: pretty — the browser weighs the whole paragraph before choosing
-   its breaks, so fewer paragraphs end on a single stranded word. Counted
-   across ten essay and word pages: 95 such endings became 90 at 1400px, and
-   84 became 73 at 720px. Real, small, and free. It earns its place on the
-   narrow measure more than the wide one.
+   its breaks. Counted across ten essay and word pages: paragraphs ending on
+   a single stranded word fell from 95 to 90 at 1400px, and from 84 to 73 at
+   720px. Small, free, and worth most on the narrow measure.
 
-   text-wrap: balance — the same idea for a short run like a title. On these
-   pages it changed nothing: of nine titles, three wrap to a second line and
-   none of the three broke differently with it on. It is kept for the titles
-   still to come rather than for any it has helped so far, which is a weaker
-   reason than the line above has, and is written down so it can be revisited.
+   text-wrap: balance — the same idea for a short run like a title. Of nine
+   titles on those pages, three wrap to a second line, and all three broke
+   the same way with it on. It is here for the longer titles still to come,
+   which is a thinner reason than the line above has, written down so it can
+   be revisited.
 
-   hanging-punctuation would put an opening quote out in the margin so the
-   letter, not the mark, sits on the left edge. Chromium does not support it
-   at all — CSS.supports says so — and Safari does. It is one line that does
-   nothing for most readers and the right thing for some.
+   hanging-punctuation puts an opening quote out in the margin so the letter
+   sits on the left edge. Safari honours it; Chromium's CSS.supports answers
+   false. One line, and the right thing where it lands.
 
-   hyphens: auto was here and was taken out. On a phone-width viewport it
-   changed the line count by nothing at all, which means either that it was
-   hyphenating nothing or that the test machine has no dictionary to
-   hyphenate by — and there is no way to tell which from here. A setting that
-   cannot be shown to work, and which would put hyphens through literary
-   prose if it did, does not stay on trust. It comes back when somebody has
-   watched it work on a real phone.
+   hyphens: auto was taken out. Measured at phone width, the line count came
+   back identical with it on and off — 2409 either way. Either the machine
+   lacks a dictionary or the setting was already idle, and the measurement
+   separates the two no better than a guess would. It returns when somebody
+   has watched it work on a real phone.
 
-   Two more left out. text-rendering: optimizeLegibility asks for kerning and
-   ligatures that browsers already apply to these fonts, and brings its own
-   bugs. widows and orphans apply only where text is broken into pages or
-   columns, which this site does not do on screen.
+   text-rendering: optimizeLegibility asks for kerning and ligatures these
+   fonts already receive, and brings its own bugs. widows and orphans belong
+   to text broken into pages or columns, which is a print concern here.
    -------------------------------------------------------------------------- */
 :root { hanging-punctuation: first last; }
 
