@@ -1,0 +1,42 @@
+---
+layout: null
+permalink: /word/feed.xml
+sitemap: false
+---
+{%- comment -%}
+  The feed for Words with Stories, and the reason there is a second feed at
+  all: /feed.xml carries the writing and nothing else, and it also feeds
+  Goodreads, whose pinned block is arranged around the posts. Dropping fifty
+  word stories into it would have rearranged that block and buried the
+  writing under the collection in every reader at once.
+
+  So each section that keeps its own run of dated entries keeps its own feed,
+  and a reader follows the part they came for. Trivia has none: a quiz
+  carries no date, and a feed with nothing to sort by is a list, not a feed.
+
+  The story is sent whole, sources and all. The cite markers stay as they are
+  — their #source-N targets resolve against the item's link, so a reader who
+  taps one arrives at the source on the page it belongs to.
+{%- endcomment -%}
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Words with Stories &#8212; On Life &amp; Everything</title>
+    <description>A small collection of words whose older meaning still shows through the modern one. Every story sourced.</description>
+    <link>{{ '/word/' | absolute_url }}</link>
+    <atom:link href="{{ '/word/feed.xml' | absolute_url }}" rel="self" type="application/rss+xml" />
+    <language>en</language>
+    <lastBuildDate>{{ site.time | date_to_rfc822 }}</lastBuildDate>
+    {% assign feed_words = site.words | sort: "date" | reverse %}
+    {% for word in feed_words %}
+    <item>
+      <title>{{ word.word | xml_escape }}</title>
+      <description>{{ word.description | xml_escape }}</description>
+      <link>{{ word.url | absolute_url }}</link>
+      <guid isPermaLink="true">{{ word.url | absolute_url }}</guid>
+      <pubDate>{{ word.date | date_to_rfc822 }}</pubDate>
+      <content:encoded><![CDATA[{{ word.content }}{% if word.sources %}<h2>Sources</h2><ol>{% for source in word.sources %}<li><a href="{{ source.url }}">{{ source.title }}</a>{% if source.where %} &#8212; {{ source.where }}{% endif %}</li>{% endfor %}</ol>{% endif %}]]></content:encoded>
+    </item>
+    {% endfor %}
+  </channel>
+</rss>

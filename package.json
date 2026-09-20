@@ -4,7 +4,7 @@
   "private": true,
   "description": "DOM-level checks for the instruments that run in the browser. Every scripts/test-*.cjs and test-*.mjs file belongs in the test chain below: a check that is written and then left out of it is a check nobody runs. Run `bundle exec jekyll build` first: the service-worker and trivia checks read the rendered _site/. Development only, and scripts/ is excluded from the Jekyll build, so none of this is published.",
   "scripts": {
-    "test": "node scripts/test-pdfjs.mjs && node scripts/test-reader-pdf.cjs && node scripts/test-reader-markdown.cjs && node scripts/test-let-it-snow.cjs && node scripts/test-rain-read.cjs && node scripts/test-puzzle-mode.cjs && node scripts/test-guess-word.cjs && node scripts/test-book-compress.cjs && node scripts/test-desk-embed.cjs && node scripts/test-instrument-safety.cjs && node scripts/test-service-worker.cjs && node scripts/test-site-search.cjs && node scripts/test-trivia.cjs"
+    "test": "node scripts/test-pdfjs.mjs && node scripts/test-reader-pdf.cjs && node scripts/test-reader-markdown.cjs && node scripts/test-let-it-snow.cjs && node scripts/test-rain-read.cjs && node scripts/test-puzzle-mode.cjs && node scripts/test-guess-word.cjs && node scripts/test-book-compress.cjs && node scripts/test-desk-embed.cjs && node scripts/test-instrument-safety.cjs && node scripts/test-service-worker.cjs && node scripts/test-site-search.cjs && node scripts/test-trivia.cjs && node scripts/test-word-sidenotes.cjs"
   },
   "devDependencies": {
     "jsdom": "^30.0.1"

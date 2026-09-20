@@ -15,6 +15,18 @@ description: "Short things, out loud. Half-thoughts, dated."
     --notes-shadow-alpha: 0.11;
   }
 
+  .notes-feed {
+    margin-top: 40px;
+    font-family: 'EB Garamond', Georgia, serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--vizon);
+  }
+
+  .notes-feed a { color: var(--petrol); transition: var(--select-ease); }
+  .notes-feed a:hover, .notes-feed a:active { opacity: var(--select-dim); }
+  .notes-feed a:focus-visible { outline: 2px solid var(--petrol); outline-offset: 3px; border-radius: 3px; }
+
   .notes-list {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     column-gap: 3rem;
@@ -126,6 +138,14 @@ description: "Short things, out loud. Half-thoughts, dated."
     </li>
     {% endfor %}
   </ol>
+
+  {%- comment -%}
+    The section's own feed, in the same place and the same voice as the one
+    at the foot of /word/: offered where the reading ends, not announced
+    before it starts. The pinned note is not in the feed — see notes-feed.xml
+    for why.
+  {%- endcomment -%}
+  <p class="notes-feed"><a href="/notes/feed.xml">The notes, as they arrive</a></p>
 </section>
 
 <script>
