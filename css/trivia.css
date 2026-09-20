@@ -131,6 +131,15 @@
   transition: var(--select-ease), border-color 0.2s ease;
 }
 
+/* display on a class outranks the browser's own [hidden] rule, so the
+   buttons this quiz hides — Next before an answer, Start over on a first
+   visit, the second look before there is anything to look at again — were
+   drawn at full size and could be pressed for nothing. Hand [hidden] back
+   the last word. */
+.trivia-button[hidden] {
+  display: none;
+}
+
 .trivia-button:hover,
 .trivia-button:active {
   opacity: var(--select-dim);
@@ -162,7 +171,7 @@
 
 .trivia-progress {
   height: 2px;
-  margin: 12px 0 30px;
+  margin: 12px 0 22px;
   background: var(--rule);
   overflow: hidden;
 }
@@ -173,6 +182,19 @@
   height: 100%;
   background: var(--petrol);
   transition: width 0.25s ease;
+}
+
+.trivia-question-category {
+  margin-bottom: 8px;
+}
+
+/* Headings take focus when the panel behind them changes, so the new
+   question is announced rather than replaced in silence. They are reached
+   only that way — never by Tab — so the ring would be noise. */
+.trivia-question-text:focus,
+.trivia-result-score:focus,
+.trivia-round-panel .trivia-panel-title:focus {
+  outline: none;
 }
 
 .trivia-question-text {
@@ -208,8 +230,8 @@
   transition: border-color 0.2s ease, opacity 0.2s ease;
 }
 
-.trivia-choice:hover:not(:disabled),
-.trivia-choice:active:not(:disabled) {
+.trivia-choice:hover:not([aria-disabled="true"]),
+.trivia-choice:active:not([aria-disabled="true"]) {
   border-color: var(--petrol);
 }
 
@@ -218,7 +240,11 @@
   outline-offset: 2px;
 }
 
-.trivia-choice:disabled {
+/* An answered choice stays in the tab order and stays readable; it simply
+   stops responding. Using the disabled attribute here pulled the pressed
+   button out of the tab order mid-press, which dropped a keyboard reader
+   back to the top of the document after every answer. */
+.trivia-choice[aria-disabled="true"] {
   cursor: default;
 }
 
@@ -252,7 +278,7 @@
 }
 
 .trivia-feedback {
-  min-height: 1.6em;
+  min-height: 3.1em;
   margin-top: 18px;
   font-family: 'EB Garamond', Georgia, serif;
   font-size: 1rem;
@@ -262,6 +288,7 @@
 
 .trivia-actions--question {
   justify-content: flex-end;
+  min-height: 42px;
   margin-top: 18px;
 }
 
@@ -291,6 +318,37 @@
   font-size: clamp(2.4rem, 6vw, 4rem);
   line-height: 1;
   color: var(--petrol-deep);
+}
+
+.trivia-breakdown {
+  max-width: 24rem;
+  margin: 32px auto 0;
+  padding: 0;
+  border-top: 1px solid var(--rule);
+  list-style: none;
+  text-align: left;
+}
+
+.trivia-breakdown li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 2px;
+  border-bottom: 1px solid var(--rule);
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.trivia-breakdown-name {
+  color: var(--vizon);
+}
+
+.trivia-breakdown-score {
+  color: var(--petrol-deep);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 
 .trivia-review {
@@ -343,7 +401,15 @@
   color: var(--vizon);
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .trivia-progress span { transition: none; }
+}
+
 @media (max-width: 600px) {
+  .trivia-feedback {
+    min-height: 4.7em;
+  }
+
   .trivia-panel {
     padding-top: 28px;
     padding-bottom: 30px;

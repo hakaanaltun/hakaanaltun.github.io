@@ -1,24 +1,55 @@
 ---
 layout: default
 permalink: /trivia/
+series: trivia
 title: "Trivia"
-seo_title: "Trivia — Culture quizzes · On Life & Everything"
-description: "Fifty-question culture quizzes on places, history, books, food, sport, television, music, and everyday life."
+seo_title: "Trivia — Culture quizzes · On Life &amp; Everything"
+description: "Culture quizzes on places, history, books, food, sport, television, music, and everyday life. Fifty questions each, in rounds, with a note behind every answer."
 trivia: true
 ---
+
+{%- comment -%}
+  The list reads _data/trivia.yml, and the question count under each title is
+  counted from the bank rather than written down, so a card can never claim a
+  number the quiz does not have.
+{%- endcomment -%}
 
 <div class="section-page trivia-index-page">
   <div class="section-page-head">
     <h1 class="section-page-title">Trivia</h1>
-    <p class="section-page-subtitle">One place at a time. Fifty questions each.</p>
+    <p class="section-page-subtitle">One subject at a time, and a note behind every answer.</p>
   </div>
 
   <div class="trivia-index-list">
-    <a class="trivia-index-card" href="/trivia/britain/">
-      <span class="trivia-index-meta">50 questions</span>
-      <span class="trivia-index-title">British Culture</span>
-      <span class="trivia-index-copy">History, literature, food, sport, television, places, and everyday culture.</span>
+    {% for quiz in site.data.trivia %}
+    {%- assign bank = site.data.quizzes[quiz.slug] -%}
+    {%- assign rounds = bank | map: "category" | compact | uniq -%}
+    <a class="trivia-index-card" href="/trivia/{{ quiz.slug }}/">
+      <span class="trivia-index-meta">{{ bank | size }} questions{% if rounds.size > 0 %} &middot; {{ rounds.size }} rounds{% endif %}</span>
+      <span class="trivia-index-title">{{ quiz.name }}</span>
+      <span class="trivia-index-copy">{{ quiz.card }}</span>
       <span class="trivia-index-go">Play <span aria-hidden="true">&rarr;</span></span>
     </a>
+    {% endfor %}
   </div>
 </div>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "@id": "{{ page.url | absolute_url }}#page",
+  "name": "Trivia",
+  "url": "{{ page.url | absolute_url }}",
+  "description": {{ page.description | jsonify }},
+  "inLanguage": "en",
+  "author": { "@type": "Person", "name": "Hakan Altun", "url": "{{ site.url }}/" },
+  "mainEntity": {
+    "@type": "ItemList",
+    "itemListElement": [
+      {% for quiz in site.data.trivia %}{ "@type": "ListItem", "position": {{ forloop.index }}, "name": {{ quiz.name | jsonify }}, "url": "{{ site.url }}/trivia/{{ quiz.slug }}/" }{% unless forloop.last %},
+      {% endunless %}{% endfor %}
+    ]
+  }
+}
+</script>

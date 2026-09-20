@@ -1,5 +1,6 @@
 [
   {
+    "category": "Places & landmarks",
     "question": "What does “Big Ben” technically refer to?",
     "choices": [
       "The Great Bell",
@@ -11,6 +12,7 @@
     "note": "Big Ben is the nickname of the Great Bell. The tower itself has been called Elizabeth Tower since 2012."
   },
   {
+    "category": "Places & landmarks",
     "question": "What is the usual nickname for the London Underground?",
     "choices": [
       "The Loop",
@@ -22,6 +24,7 @@
     "note": "Londoners have called the Underground “the Tube” for well over a century."
   },
   {
+    "category": "Places & landmarks",
     "question": "Which English city is famous for its Roman baths?",
     "choices": [
       "York",
@@ -33,6 +36,7 @@
     "note": "Bath grew around hot springs used by the Romans, who called the settlement Aquae Sulis."
   },
   {
+    "category": "Places & landmarks",
     "question": "Where is the Giant’s Causeway?",
     "choices": [
       "Wales",
@@ -44,6 +48,7 @@
     "note": "The basalt columns of the Giant’s Causeway are on the north coast of County Antrim in Northern Ireland."
   },
   {
+    "category": "Places & landmarks",
     "question": "In which English county is Stonehenge?",
     "choices": [
       "Kent",
@@ -55,6 +60,7 @@
     "note": "Stonehenge stands on Salisbury Plain in Wiltshire."
   },
   {
+    "category": "Places & landmarks",
     "question": "Loch Ness is in which part of the UK?",
     "choices": [
       "Scotland",
@@ -66,6 +72,7 @@
     "note": "Loch Ness is a long freshwater loch in the Scottish Highlands."
   },
   {
+    "category": "Places & landmarks",
     "question": "10 Downing Street is most closely associated with which office?",
     "choices": [
       "The monarch",
@@ -77,17 +84,7 @@
     "note": "10 Downing Street is the official residence and office of the UK prime minister."
   },
   {
-    "question": "The people often called “Beefeaters” at the Tower of London are officially known as what?",
-    "choices": [
-      "King’s Guards",
-      "Yeoman Warders",
-      "Chelsea Pensioners",
-      "Royal Archers"
-    ],
-    "answer": 1,
-    "note": "“Beefeater” is the familiar nickname for the Yeoman Warders of His Majesty’s Royal Palace and Fortress the Tower of London."
-  },
-  {
+    "category": "Places & landmarks",
     "question": "Robin Hood is traditionally associated with which forest?",
     "choices": [
       "Epping Forest",
@@ -99,182 +96,7 @@
     "note": "The Robin Hood legends are especially associated with Sherwood Forest in Nottinghamshire."
   },
   {
-    "question": "In Arthurian legend, whose sword is Excalibur?",
-    "choices": [
-      "Merlin’s",
-      "Lancelot’s",
-      "King Arthur’s",
-      "Gawain’s"
-    ],
-    "answer": 2,
-    "note": "Excalibur is King Arthur’s famous sword in the Arthurian tradition."
-  },
-  {
-    "question": "In what year was the Battle of Hastings?",
-    "choices": [
-      "1066",
-      "1215",
-      "1415",
-      "1485"
-    ],
-    "answer": 0,
-    "note": "The Battle of Hastings was fought in 1066 and led to the Norman conquest of England."
-  },
-  {
-    "question": "Who defeated Harold II at the Battle of Hastings?",
-    "choices": [
-      "Alfred the Great",
-      "William, Duke of Normandy",
-      "Henry Tudor",
-      "Cnut"
-    ],
-    "answer": 1,
-    "note": "William, Duke of Normandy, won the battle and became William I, commonly called William the Conqueror."
-  },
-  {
-    "question": "In which year was Magna Carta first sealed?",
-    "choices": [
-      "1066",
-      "1215",
-      "1534",
-      "1689"
-    ],
-    "answer": 1,
-    "note": "King John sealed Magna Carta at Runnymede in 1215."
-  },
-  {
-    "question": "The Gunpowder Plot took place in which year?",
-    "choices": [
-      "1485",
-      "1558",
-      "1605",
-      "1666"
-    ],
-    "answer": 2,
-    "note": "The plot to blow up Parliament was uncovered in 1605."
-  },
-  {
-    "question": "What was Guy Fawkes found guarding beneath the House of Lords?",
-    "choices": [
-      "A cache of swords",
-      "Barrels of gunpowder",
-      "A printing press",
-      "A tunnel to the Thames"
-    ],
-    "answer": 1,
-    "note": "Fawkes was discovered with the gunpowder prepared for the plot, which is why his name became so closely tied to it."
-  },
-  {
-    "question": "Which two houses fought the Wars of the Roses?",
-    "choices": [
-      "Lancaster and York",
-      "Stuart and Tudor",
-      "Wessex and Mercia",
-      "Windsor and Hanover"
-    ],
-    "answer": 0,
-    "note": "The dynastic conflict is conventionally associated with the houses of Lancaster and York."
-  },
-  {
-    "question": "How many wives did Henry VIII have?",
-    "choices": [
-      "Four",
-      "Five",
-      "Six",
-      "Seven"
-    ],
-    "answer": 2,
-    "note": "Henry VIII had six wives: Catherine of Aragon, Anne Boleyn, Jane Seymour, Anne of Cleves, Catherine Howard, and Catherine Parr."
-  },
-  {
-    "question": "Who was the mother of Elizabeth I?",
-    "choices": [
-      "Catherine of Aragon",
-      "Anne Boleyn",
-      "Jane Seymour",
-      "Catherine Parr"
-    ],
-    "answer": 1,
-    "note": "Elizabeth I was the daughter of Henry VIII and Anne Boleyn."
-  },
-  {
-    "question": "Which Scottish king became James I of England after Elizabeth I died?",
-    "choices": [
-      "James IV",
-      "James V",
-      "James VI",
-      "James VII"
-    ],
-    "answer": 2,
-    "note": "James VI of Scotland also became James I of England in 1603, joining the crowns under one monarch."
-  },
-  {
-    "question": "In what year did the Great Fire of London begin?",
-    "choices": [
-      "1605",
-      "1649",
-      "1666",
-      "1688"
-    ],
-    "answer": 2,
-    "note": "The Great Fire began in September 1666 and burned through much of the old City of London."
-  },
-  {
-    "question": "In the famous story of King Cnut and the tide, what is the king trying to demonstrate?",
-    "choices": [
-      "That he can command nature",
-      "That royal power has limits",
-      "That the sea belongs to the crown",
-      "That England needs a navy"
-    ],
-    "answer": 1,
-    "note": "In the traditional account, Cnut’s failed command to the tide is used to show the limits of earthly royal power and rebuke flattering courtiers."
-  },
-  {
-    "question": "Which monarch gave her name to the Victorian era?",
-    "choices": [
-      "Queen Anne",
-      "Queen Victoria",
-      "Elizabeth I",
-      "Mary II"
-    ],
-    "answer": 1,
-    "note": "Queen Victoria reigned from 1837 to 1901, and the period is commonly called the Victorian era."
-  },
-  {
-    "question": "Bonfire Night is observed on which date?",
-    "choices": [
-      "31 October",
-      "5 November",
-      "11 November",
-      "26 December"
-    ],
-    "answer": 1,
-    "note": "Bonfire Night, also called Guy Fawkes Night, is held on 5 November."
-  },
-  {
-    "question": "Boxing Day falls on which date?",
-    "choices": [
-      "24 December",
-      "25 December",
-      "26 December",
-      "31 December"
-    ],
-    "answer": 2,
-    "note": "Boxing Day is 26 December in the UK and several other countries."
-  },
-  {
-    "question": "Pancake Day in Britain is another name for what?",
-    "choices": [
-      "Ash Wednesday",
-      "Shrove Tuesday",
-      "Maundy Thursday",
-      "Michaelmas"
-    ],
-    "answer": 1,
-    "note": "Pancake Day is the common British name for Shrove Tuesday, the day before Ash Wednesday."
-  },
-  {
+    "category": "Places & landmarks",
     "question": "Which theatre is most closely associated with Shakespeare’s company in London?",
     "choices": [
       "The Old Vic",
@@ -286,106 +108,8 @@
     "note": "Shakespeare’s company performed at the Globe Theatre, first built on the south bank of the Thames in 1599."
   },
   {
-    "question": "Who wrote Pride and Prejudice?",
-    "choices": [
-      "George Eliot",
-      "Jane Austen",
-      "Charlotte Brontë",
-      "Virginia Woolf"
-    ],
-    "answer": 1,
-    "note": "Jane Austen’s Pride and Prejudice was published in 1813."
-  },
-  {
-    "question": "Ebenezer Scrooge appears in which Dickens work?",
-    "choices": [
-      "Oliver Twist",
-      "Bleak House",
-      "A Christmas Carol",
-      "Great Expectations"
-    ],
-    "answer": 2,
-    "note": "Scrooge is the central character of Charles Dickens’s A Christmas Carol."
-  },
-  {
-    "question": "Who created Sherlock Holmes?",
-    "choices": [
-      "Wilkie Collins",
-      "Arthur Conan Doyle",
-      "G. K. Chesterton",
-      "H. G. Wells"
-    ],
-    "answer": 1,
-    "note": "Arthur Conan Doyle introduced Sherlock Holmes in A Study in Scarlet in 1887."
-  },
-  {
-    "question": "Hercule Poirot was created by whom?",
-    "choices": [
-      "Dorothy L. Sayers",
-      "Agatha Christie",
-      "P. D. James",
-      "Ngaio Marsh"
-    ],
-    "answer": 1,
-    "note": "Agatha Christie created the Belgian detective Hercule Poirot."
-  },
-  {
-    "question": "Who wrote The Woman in White?",
-    "choices": [
-      "Thomas Hardy",
-      "Wilkie Collins",
-      "George Gissing",
-      "Anthony Trollope"
-    ],
-    "answer": 1,
-    "note": "Wilkie Collins published The Woman in White in serial form beginning in 1859."
-  },
-  {
-    "question": "Who wrote Nineteen Eighty-Four?",
-    "choices": [
-      "Aldous Huxley",
-      "George Orwell",
-      "Evelyn Waugh",
-      "Graham Greene"
-    ],
-    "answer": 1,
-    "note": "George Orwell’s dystopian novel Nineteen Eighty-Four was published in 1949."
-  },
-  {
-    "question": "Who created James Bond?",
-    "choices": [
-      "John le Carré",
-      "Ian Fleming",
-      "Len Deighton",
-      "Alistair MacLean"
-    ],
-    "answer": 1,
-    "note": "Ian Fleming introduced James Bond in the 1953 novel Casino Royale."
-  },
-  {
-    "question": "Who plays Mr Bean?",
-    "choices": [
-      "Hugh Laurie",
-      "Rowan Atkinson",
-      "Stephen Fry",
-      "Rik Mayall"
-    ],
-    "answer": 1,
-    "note": "Rowan Atkinson created and plays the largely silent comic character Mr Bean."
-  },
-  {
-    "question": "In Doctor Who, what does TARDIS stand for?",
-    "choices": [
-      "Time And Relative Dimension In Space",
-      "Travel Across Real Dimensions In Space",
-      "Time And Reality Device In Space",
-      "Temporal And Relative Distance In Space"
-    ],
-    "answer": 0,
-    "note": "TARDIS stands for Time And Relative Dimension In Space."
-  },
-  {
-    "question": "At which London railway station is Paddington Bear found when he arrives in Britain?",
+    "category": "Places & landmarks",
+    "question": "The Brown family meet a bear at a London railway station and name him after it. Which station?",
     "choices": [
       "Victoria",
       "Waterloo",
@@ -393,31 +117,10 @@
       "King’s Cross"
     ],
     "answer": 2,
-    "note": "The Brown family first meets him at Paddington station, which is where he gets his name."
+    "note": "The Browns first meet him at Paddington station, which is where he gets his name."
   },
   {
-    "question": "What was Monty Python’s television sketch show called?",
-    "choices": [
-      "The Goon Show",
-      "Monty Python’s Flying Circus",
-      "Not the Nine O’Clock News",
-      "The Frost Report"
-    ],
-    "answer": 1,
-    "note": "Monty Python’s Flying Circus first aired on the BBC in 1969."
-  },
-  {
-    "question": "The theatrical term “Pinter pause” takes its name from which playwright?",
-    "choices": [
-      "Tom Stoppard",
-      "Harold Pinter",
-      "Alan Bennett",
-      "John Osborne"
-    ],
-    "answer": 1,
-    "note": "The phrase refers to the distinctive use of pauses and silences associated with Harold Pinter’s plays."
-  },
-  {
+    "category": "Places & landmarks",
     "question": "Which city is most closely associated with the Beatles’ beginnings?",
     "choices": [
       "Manchester",
@@ -429,6 +132,343 @@
     "note": "The Beatles formed in Liverpool, and the city remains central to the band’s history."
   },
   {
+    "category": "History",
+    "question": "In what year was the Battle of Hastings?",
+    "choices": [
+      "1066",
+      "1215",
+      "1415",
+      "1485"
+    ],
+    "answer": 0,
+    "note": "The Battle of Hastings was fought in 1066 and led to the Norman conquest of England."
+  },
+  {
+    "category": "History",
+    "question": "Who defeated Harold II at the Battle of Hastings?",
+    "choices": [
+      "Alfred the Great",
+      "William, Duke of Normandy",
+      "Henry Tudor",
+      "Cnut"
+    ],
+    "answer": 1,
+    "note": "William, Duke of Normandy, won the battle and became William I, commonly called William the Conqueror."
+  },
+  {
+    "category": "History",
+    "question": "In which year was Magna Carta first sealed?",
+    "choices": [
+      "1066",
+      "1215",
+      "1534",
+      "1689"
+    ],
+    "answer": 1,
+    "note": "King John sealed Magna Carta at Runnymede in 1215."
+  },
+  {
+    "category": "History",
+    "question": "The Gunpowder Plot took place in which year?",
+    "choices": [
+      "1485",
+      "1558",
+      "1605",
+      "1666"
+    ],
+    "answer": 2,
+    "note": "The plot to blow up Parliament was uncovered in 1605."
+  },
+  {
+    "category": "History",
+    "question": "What was Guy Fawkes found guarding beneath the House of Lords?",
+    "choices": [
+      "A cache of swords",
+      "Barrels of gunpowder",
+      "A printing press",
+      "A tunnel to the Thames"
+    ],
+    "answer": 1,
+    "note": "Fawkes was discovered with the gunpowder prepared for the plot, which is why his name became so closely tied to it."
+  },
+  {
+    "category": "History",
+    "question": "Which two houses fought the Wars of the Roses?",
+    "choices": [
+      "Lancaster and York",
+      "Stuart and Tudor",
+      "Wessex and Mercia",
+      "Windsor and Hanover"
+    ],
+    "answer": 0,
+    "note": "The dynastic conflict is conventionally associated with the houses of Lancaster and York."
+  },
+  {
+    "category": "History",
+    "question": "How many wives did Henry VIII have?",
+    "choices": [
+      "Four",
+      "Five",
+      "Six",
+      "Seven"
+    ],
+    "answer": 2,
+    "note": "Henry VIII had six wives: Catherine of Aragon, Anne Boleyn, Jane Seymour, Anne of Cleves, Catherine Howard, and Catherine Parr."
+  },
+  {
+    "category": "History",
+    "question": "Who was the mother of Elizabeth I?",
+    "choices": [
+      "Catherine of Aragon",
+      "Anne Boleyn",
+      "Jane Seymour",
+      "Catherine Parr"
+    ],
+    "answer": 1,
+    "note": "Elizabeth I was the daughter of Henry VIII and Anne Boleyn."
+  },
+  {
+    "category": "History",
+    "question": "Which Scottish king became James I of England after Elizabeth I died?",
+    "choices": [
+      "James IV",
+      "James V",
+      "James VI",
+      "James VII"
+    ],
+    "answer": 2,
+    "note": "James VI of Scotland also became James I of England in 1603, joining the crowns under one monarch."
+  },
+  {
+    "category": "History",
+    "question": "In what year did the Great Fire of London begin?",
+    "choices": [
+      "1605",
+      "1649",
+      "1666",
+      "1688"
+    ],
+    "answer": 2,
+    "note": "The Great Fire began in September 1666 and burned through much of the old City of London."
+  },
+  {
+    "category": "History",
+    "question": "Which monarch gave her name to the Victorian era?",
+    "choices": [
+      "Queen Anne",
+      "Queen Victoria",
+      "Elizabeth I",
+      "Mary II"
+    ],
+    "answer": 1,
+    "note": "Queen Victoria reigned from 1837 to 1901, and the period is commonly called the Victorian era."
+  },
+  {
+    "category": "Legend & custom",
+    "question": "The people often called “Beefeaters” at the Tower of London are officially known as what?",
+    "choices": [
+      "King’s Guards",
+      "Yeoman Warders",
+      "Chelsea Pensioners",
+      "Royal Archers"
+    ],
+    "answer": 1,
+    "note": "“Beefeater” is the familiar nickname for the Yeoman Warders of His Majesty’s Royal Palace and Fortress the Tower of London."
+  },
+  {
+    "category": "Legend & custom",
+    "question": "In Arthurian legend, whose sword is Excalibur?",
+    "choices": [
+      "Merlin’s",
+      "Lancelot’s",
+      "King Arthur’s",
+      "Gawain’s"
+    ],
+    "answer": 2,
+    "note": "Excalibur is King Arthur’s famous sword in the Arthurian tradition."
+  },
+  {
+    "category": "Legend & custom",
+    "question": "In the famous story of King Cnut and the tide, what is the king trying to demonstrate?",
+    "choices": [
+      "That he can command nature",
+      "That royal power has limits",
+      "That the sea belongs to the crown",
+      "That England needs a navy"
+    ],
+    "answer": 1,
+    "note": "In the traditional account, Cnut’s failed command to the tide is used to show the limits of earthly royal power and rebuke flattering courtiers."
+  },
+  {
+    "category": "Legend & custom",
+    "question": "Bonfire Night is observed on which date?",
+    "choices": [
+      "31 October",
+      "5 November",
+      "11 November",
+      "26 December"
+    ],
+    "answer": 1,
+    "note": "Bonfire Night, also called Guy Fawkes Night, is held on 5 November."
+  },
+  {
+    "category": "Legend & custom",
+    "question": "Boxing Day falls on which date?",
+    "choices": [
+      "24 December",
+      "25 December",
+      "26 December",
+      "31 December"
+    ],
+    "answer": 2,
+    "note": "Boxing Day is 26 December in the UK and several other countries."
+  },
+  {
+    "category": "Legend & custom",
+    "question": "Pancake Day in Britain is another name for what?",
+    "choices": [
+      "Ash Wednesday",
+      "Shrove Tuesday",
+      "Maundy Thursday",
+      "Michaelmas"
+    ],
+    "answer": 1,
+    "note": "Pancake Day is the common British name for Shrove Tuesday, the day before Ash Wednesday."
+  },
+  {
+    "category": "Books, stage & screen",
+    "question": "Who wrote Pride and Prejudice?",
+    "choices": [
+      "George Eliot",
+      "Jane Austen",
+      "Charlotte Brontë",
+      "Virginia Woolf"
+    ],
+    "answer": 1,
+    "note": "Jane Austen’s Pride and Prejudice was published in 1813."
+  },
+  {
+    "category": "Books, stage & screen",
+    "question": "Ebenezer Scrooge appears in which Dickens work?",
+    "choices": [
+      "Oliver Twist",
+      "Bleak House",
+      "A Christmas Carol",
+      "Great Expectations"
+    ],
+    "answer": 2,
+    "note": "Scrooge is the central character of Charles Dickens’s A Christmas Carol."
+  },
+  {
+    "category": "Books, stage & screen",
+    "question": "Who created Sherlock Holmes?",
+    "choices": [
+      "Wilkie Collins",
+      "Arthur Conan Doyle",
+      "G. K. Chesterton",
+      "H. G. Wells"
+    ],
+    "answer": 1,
+    "note": "Arthur Conan Doyle introduced Sherlock Holmes in A Study in Scarlet in 1887."
+  },
+  {
+    "category": "Books, stage & screen",
+    "question": "Hercule Poirot was created by whom?",
+    "choices": [
+      "Dorothy L. Sayers",
+      "Agatha Christie",
+      "P. D. James",
+      "Ngaio Marsh"
+    ],
+    "answer": 1,
+    "note": "Agatha Christie created the Belgian detective Hercule Poirot."
+  },
+  {
+    "category": "Books, stage & screen",
+    "question": "Who wrote The Woman in White?",
+    "choices": [
+      "Thomas Hardy",
+      "Wilkie Collins",
+      "George Gissing",
+      "Anthony Trollope"
+    ],
+    "answer": 1,
+    "note": "Wilkie Collins published The Woman in White in serial form beginning in 1859."
+  },
+  {
+    "category": "Books, stage & screen",
+    "question": "Who wrote Nineteen Eighty-Four?",
+    "choices": [
+      "Aldous Huxley",
+      "George Orwell",
+      "Evelyn Waugh",
+      "Graham Greene"
+    ],
+    "answer": 1,
+    "note": "George Orwell’s dystopian novel Nineteen Eighty-Four was published in 1949."
+  },
+  {
+    "category": "Books, stage & screen",
+    "question": "Who created James Bond?",
+    "choices": [
+      "John le Carré",
+      "Ian Fleming",
+      "Len Deighton",
+      "Alistair MacLean"
+    ],
+    "answer": 1,
+    "note": "Ian Fleming introduced James Bond in the 1953 novel Casino Royale."
+  },
+  {
+    "category": "Books, stage & screen",
+    "question": "Who plays Mr Bean?",
+    "choices": [
+      "Hugh Laurie",
+      "Rowan Atkinson",
+      "Stephen Fry",
+      "Rik Mayall"
+    ],
+    "answer": 1,
+    "note": "Rowan Atkinson created and plays the largely silent comic character Mr Bean."
+  },
+  {
+    "category": "Books, stage & screen",
+    "question": "In Doctor Who, what does TARDIS stand for?",
+    "choices": [
+      "Time And Relative Dimension In Space",
+      "Travel Across Real Dimensions In Space",
+      "Time And Reality Device In Space",
+      "Temporal And Relative Distance In Space"
+    ],
+    "answer": 0,
+    "note": "TARDIS stands for Time And Relative Dimension In Space."
+  },
+  {
+    "category": "Books, stage & screen",
+    "question": "What was Monty Python’s television sketch show called?",
+    "choices": [
+      "The Goon Show",
+      "Monty Python’s Flying Circus",
+      "Not the Nine O’Clock News",
+      "The Frost Report"
+    ],
+    "answer": 1,
+    "note": "Monty Python’s Flying Circus first aired on the BBC in 1969."
+  },
+  {
+    "category": "Books, stage & screen",
+    "question": "The theatrical term “Pinter pause” takes its name from which playwright?",
+    "choices": [
+      "Tom Stoppard",
+      "Harold Pinter",
+      "Alan Bennett",
+      "John Osborne"
+    ],
+    "answer": 1,
+    "note": "The phrase refers to the distinctive use of pauses and silences associated with Harold Pinter’s plays."
+  },
+  {
+    "category": "Books, stage & screen",
     "question": "Doctor Who was first broadcast on the BBC in which decade?",
     "choices": [
       "1950s",
@@ -440,6 +480,7 @@
     "note": "The first episode of Doctor Who was broadcast on 23 November 1963."
   },
   {
+    "category": "Food & sport",
     "question": "In “bangers and mash,” what are the bangers?",
     "choices": [
       "Sausages",
@@ -451,6 +492,7 @@
     "note": "Bangers and mash is a dish of sausages served with mashed potatoes, often with gravy and onions."
   },
   {
+    "category": "Food & sport",
     "question": "Traditional shepherd’s pie is made with which meat?",
     "choices": [
       "Beef",
@@ -462,6 +504,7 @@
     "note": "Shepherd’s pie traditionally uses lamb or mutton. The beef version is usually called cottage pie."
   },
   {
+    "category": "Food & sport",
     "question": "Haggis is especially associated with which country?",
     "choices": [
       "Wales",
@@ -473,6 +516,7 @@
     "note": "Haggis is strongly associated with Scottish cuisine and with Burns Night suppers."
   },
   {
+    "category": "Food & sport",
     "question": "What is inside the sausage-meat coating of a Scotch egg?",
     "choices": [
       "A boiled egg",
@@ -484,6 +528,7 @@
     "note": "A Scotch egg consists of a cooked egg wrapped in sausage meat and coated in breadcrumbs."
   },
   {
+    "category": "Food & sport",
     "question": "A traditional cream tea usually includes scones with what?",
     "choices": [
       "Custard and treacle",
@@ -495,6 +540,7 @@
     "note": "Scones, clotted cream, and jam are the core of a cream tea; Devon and Cornwall famously differ over which topping goes on first."
   },
   {
+    "category": "Food & sport",
     "question": "Which of these would be least typical on a full English breakfast?",
     "choices": [
       "Bacon",
@@ -506,6 +552,7 @@
     "note": "A full English commonly includes items such as eggs, bacon, sausages, beans, tomatoes, mushrooms, and toast; a croissant belongs to a different breakfast tradition."
   },
   {
+    "category": "Food & sport",
     "question": "Which food is famously associated with spectators at Wimbledon?",
     "choices": [
       "Pork pies",
@@ -517,6 +564,7 @@
     "note": "Strawberries and cream are one of Wimbledon’s best-known traditions."
   },
   {
+    "category": "Food & sport",
     "question": "Under the modern Laws of Cricket, how many legal deliveries are in an over?",
     "choices": [
       "Four",
@@ -528,6 +576,7 @@
     "note": "An over consists of six legal deliveries."
   },
   {
+    "category": "Food & sport",
     "question": "The annual Boat Race is traditionally contested by which two universities?",
     "choices": [
       "Durham and York",
@@ -539,6 +588,7 @@
     "note": "The Boat Race is the long-running rowing contest between Oxford and Cambridge."
   },
   {
+    "category": "Food & sport",
     "question": "The Ashes is a cricket series between England and which country?",
     "choices": [
       "India",

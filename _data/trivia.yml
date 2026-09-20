@@ -1,0 +1,22 @@
+# The Trivia section: one entry per quiz, in the order the index lists them.
+#
+# The split of names is deliberate and mirrors the words/word one in
+# _config.yml. This file IS the section — site.data.trivia — because the
+# section is served from /trivia/ and every template, stylesheet and body
+# class already carries that name. The question banks live apart, under
+# site.data.quizzes.<slug>, because a data directory named trivia/ would
+# collide with this file: Jekyll sanitises both to the same key and the
+# directory would be read first and then silently overwritten.
+#
+# Adding a quiz is three things and nothing else:
+#   1. _data/quizzes/<slug>.json   — the questions
+#   2. an entry here               — the card on /trivia/ and the homepage
+#   3. trivia/<slug>/index.html    — front matter only; no markup
+#
+# card: the line under the title on /trivia/. Say what the quiz covers, not
+# how good it is. The question count is read from the JSON, never written here.
+
+- slug: britain
+  name: "British Culture"
+  card: "History, literature, food, sport, television, places, and everyday culture."
+  about: "British culture"

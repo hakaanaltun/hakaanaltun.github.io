@@ -429,10 +429,14 @@ body.series-fragments   { --sec-h: 262; --sec-c: 0.075; --sec-ld: 0.820; --sec-c
 body.series-moris       { --sec-h: 118; --sec-c: 0.058; --sec-ld: 0.840; --sec-cd: 0.055; }
 /* The fiction */
 body.series-story       { --sec-h:  54; --sec-c: 0.054; --sec-ld: 0.770; --sec-cd: 0.060; }
-/* The site's own furniture — the front door, the person, the instruments */
+/* The site's own furniture — the front door, the person, the instruments,
+   the quizzes. Made things you use rather than read; the homepage bands for
+   Trivia and Instruments already answer in this teal, and the section pages
+   follow them here. */
 body.is-home,
 body.series-home,
 body.series-about,
+body.series-trivia,
 body.series-tools       { --sec-h: 178; --sec-c: 0.050; --sec-ld: 0.800; --sec-cd: 0.048; }
 
 /* --------------------------------------------------------------------------
