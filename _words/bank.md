@@ -24,8 +24,4 @@ The trade travelled from Italy to France and England and the word went with it.
 The marble hall and the application on a phone both started as a table in a
 market.{% include word-cite.html n="2" %}
 
-*Bankrupt* is built from the same table: Italian
-<span lang="it">*banca rotta*</span>, a broken
-bench.{% include word-cite.html n="1" %}
-
 *The bank refused the loan.*
