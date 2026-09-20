@@ -22,7 +22,7 @@ book.{% include word-cite.html n="1,2" %}
 He built it from the Greek <span lang="grc">*ou*</span>, not, and
 <span lang="grc">*topos*</span>, place: no place. The joke is that it is a
 syllable away from <span lang="grc">*eu-topos*</span>, good place, and More
-points at it himself — an addendum to the book has a verse saying the island
+points at it himself—an addendum to the book has a verse saying the island
 ought rightly to be called Eutopia, the place of
 happiness.{% include word-cite.html n="1,2" %}
 

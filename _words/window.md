@@ -22,14 +22,14 @@ A window is a hole in a wall with glass in it. The word is the Old Norse
 eye.{% include word-cite.html n="1,2" %}
 
 It came into English in the early thirteenth century and named what there was
-then — an unglazed opening, often in a roof, that let in the weather along with
+then—an unglazed opening, often in a roof, that let in the weather along with
 the light. The wind is in the name because the wind came
 in.{% include word-cite.html n="1" %}
 
 Old English had its own words for it:
 <span lang="ang">*eagþyrl*</span>, eye-hole, and
 <span lang="ang">*eagduru*</span>, eye-door. Both were replaced, but everyone
-involved had seen the same thing in it — an eye in a
+involved had seen the same thing in it—an eye in a
 wall.{% include word-cite.html n="1" %}
 
 *She opened the window.*

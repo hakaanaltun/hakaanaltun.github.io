@@ -21,8 +21,8 @@ Melancholy is a settled, quiet sadness. The word is the Greek
 <span lang="grc">*kholē*</span>, bile.{% include word-cite.html n="1,2" %}
 
 It began as a diagnosis. In the medicine that ran from Hippocrates through
-Galen and on into the eighteenth century, the body held four humours — blood,
-phlegm, yellow bile and black bile — and the mixture of them made a person's
+Galen and on into the eighteenth century, the body held four humours—blood,
+phlegm, yellow bile and black bile—and the mixture of them made a person's
 temperament. Too much black bile made you
 melancholy.{% include word-cite.html n="1,2" %}
 

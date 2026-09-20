@@ -20,7 +20,7 @@ description: "Zero goes back to the Arabic sifr, empty. The same word entered Eu
 
 Zero is nothing, written down. The word goes back to the Arabic
 <span lang="ar">*sifr*</span>, empty, which was itself used to render the
-Sanskrit <span lang="sa">*śūnya*</span>, empty — the name Indian
+Sanskrit <span lang="sa">*śūnya*</span>, empty—the name Indian
 mathematicians gave the mark that held an empty
 place.{% include word-cite.html n="1,3" %}
 

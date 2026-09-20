@@ -25,7 +25,7 @@ said there was what anyone might say, so
 then of no particular importance.{% include word-cite.html n="1" %}
 
 The medieval university used the same word for the first three of the seven
-liberal arts — grammar, rhetoric and logic — the ones taken before the other
+liberal arts—grammar, rhetoric and logic—the ones taken before the other
 four. To be *trivial* was to belong to that first
 stage.{% include word-cite.html n="1,2" %}
 

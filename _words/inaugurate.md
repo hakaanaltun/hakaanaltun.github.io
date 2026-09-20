@@ -24,7 +24,7 @@ flew, how they fed, what they called. The job was to find out whether the gods
 approved of a thing being started at all. It was not a way of predicting what
 would happen.{% include word-cite.html n="1,2" %}
 
-So a man was inaugurated — installed once the birds had been consulted and the
+So a man was inaugurated—installed once the birds had been consulted and the
 answer was yes. Nothing of consequence was begun without
 it.{% include word-cite.html n="2" %}
 
