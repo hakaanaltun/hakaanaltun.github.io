@@ -221,6 +221,7 @@ body {
     --band-hero: #201F1B;
     --petrol: var(--sec-accent-dark, #D8C48C);
     --petrol-deep: color-mix(in srgb, var(--sec-accent-dark, #D8C48C) 72%, #FFFFFF);
+    --writing-accent: oklch(0.700 0.078 12);
   }
 }
 html[data-theme="dark"] {
@@ -259,6 +260,7 @@ html[data-theme="dark"] body {
   --band-hero: #201F1B;
   --petrol: var(--sec-accent-dark, #D8C48C);
   --petrol-deep: color-mix(in srgb, var(--sec-accent-dark, #D8C48C) 72%, #FFFFFF);
+  --writing-accent: oklch(0.700 0.078 12);
 }
 
 /* ==========================================================================
@@ -316,6 +318,7 @@ html[data-theme="midnight"] body {
   /* Restore Midnight's original single gold voice across every section. */
   --petrol: #C6B98F;
   --petrol-deep: #DCD1AC;
+  --writing-accent: #C6B98F;
 }
 
 /* ==========================================================================
@@ -354,6 +357,7 @@ html[data-theme="sky"] body {
                            var(--sec-cd, 0.048) var(--sec-h, 178));
   --petrol: var(--sec-accent-dark);
   --petrol-deep: color-mix(in srgb, var(--sec-accent-dark) 72%, #FFFFFF);
+  --writing-accent: oklch(max(0.700, var(--sky-ld-floor, 0.62)) 0.078 12);
 }
 
 
@@ -407,6 +411,9 @@ html[data-theme="sky"] body {
 body {
   --sec-accent:      oklch(var(--sec-l)          var(--sec-c,  0.050) var(--sec-h, 178));
   --sec-accent-dark: oklch(var(--sec-ld, 0.800)  var(--sec-cd, 0.048) var(--sec-h, 178));
+  /* The homepage can borrow the writing voice without changing the colour of
+     the section it sits in. This is the same accent used by essay titles. */
+  --writing-accent: oklch(var(--sec-l) 0.068 12);
 }
 
 /*                          hue    day chroma    night L + chroma */
@@ -434,7 +441,7 @@ body.series-tools       { --sec-h: 178; --sec-c: 0.050; --sec-ld: 0.800; --sec-c
    Slate at the hero source, then petrol and slate alternating down the page.
    Every homepage section is named in one of the two lists below, in page
    order: quotes, story-doorway, latest, start-here, further-back, notes,
-   words-with-stories, instruments, tonight. Backgrounds are untouched — only
+   words-with-stories, trivia, instruments, tonight. Backgrounds are untouched — only
    the accent tokens change, so each section's headings, links, labels, focus
    rings, selection and divider glows all answer in the same colour.
 
@@ -451,23 +458,23 @@ body.series-tools       { --sec-h: 178; --sec-c: 0.050; --sec-ld: 0.800; --sec-c
    to keep the colours of its neighbours.
    -------------------------------------------------------------------------- */
 @media (prefers-color-scheme: light) {
-  html:not([data-theme]) body.is-home :is(#quotes, #latest, #further-back, #words-with-stories, #tonight) {
+  html:not([data-theme]) body.is-home :is(#quotes, #latest, #further-back, #words-with-stories, #instruments) {
     --petrol: oklch(var(--sec-l) var(--sec-c-invitation, 0.062) var(--sec-h-invitation, 239));
     --petrol-deep: color-mix(in srgb, var(--petrol) 74%, black);
   }
 
-  html:not([data-theme]) body.is-home :is(#story-doorway, #start-here, #notes, #trivia, #instruments) {
+  html:not([data-theme]) body.is-home :is(#story-doorway, #start-here, #notes, #trivia, #tonight) {
     --petrol: var(--sec-accent, #4A554F);
     --petrol-deep: color-mix(in srgb, var(--petrol) 74%, black);
   }
 }
 
-html[data-theme="light"] body.is-home :is(#quotes, #latest, #further-back, #words-with-stories, #tonight) {
+html[data-theme="light"] body.is-home :is(#quotes, #latest, #further-back, #words-with-stories, #instruments) {
   --petrol: oklch(var(--sec-l) var(--sec-c-invitation, 0.062) var(--sec-h-invitation, 239));
   --petrol-deep: color-mix(in srgb, var(--petrol) 74%, black);
 }
 
-html[data-theme="light"] body.is-home :is(#story-doorway, #start-here, #notes, #trivia, #instruments) {
+html[data-theme="light"] body.is-home :is(#story-doorway, #start-here, #notes, #trivia, #tonight) {
   --petrol: var(--sec-accent, #4A554F);
   --petrol-deep: color-mix(in srgb, var(--petrol) 74%, black);
 }
