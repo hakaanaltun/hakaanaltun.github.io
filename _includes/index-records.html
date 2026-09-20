@@ -1,0 +1,67 @@
+{%- comment -%}
+  Every addressable thing on the site, as JSON records — the posts, the word
+  stories, the instruments, the quizzes, the notes and the standing pages, in
+  that order.
+
+  Two files read this, and that is why it is an include rather than a loop
+  written twice. /search-index.json needs the body of each record to search
+  it. /link-preview.json needs only enough to show what is behind a link,
+  and the bodies are what make the search index 114KB compressed, which is
+  not a thing to fetch because a reader paused over a link. Same records,
+  one of them carrying its text:
+
+      {% include index-records.html body="true" %}
+
+  Anything else — omitted, or any other value — leaves "text" out.
+
+  Add a section here and both files learn about it in the same build.
+{%- endcomment -%}
+{%- assign with_body = false -%}
+{%- if include.body == "true" -%}{%- assign with_body = true -%}{%- endif -%}
+{%- assign comma = false -%}
+{%- for post in site.posts -%}
+  {%- if post.published != false -%}
+  {%- if post.noindex != true or post.story_card -%}
+    {%- if comma -%},{%- endif -%}{%- assign comma = true -%}
+    {%- if post.fiction -%}{%- assign kind = "Short fiction" -%}{%- else -%}{%- assign kind = "Essay" -%}{%- endif -%}
+    {"title":{{ post.title | search_text | jsonify }},"url":{{ post.story_url | default: post.url | relative_url | jsonify }},"kind":{{ kind | jsonify }},"description":{{ post.description | search_text | jsonify }}{% if with_body %},"text":{% if post.story_card %}{{ post.excerpt | markdownify | search_text | jsonify }}{% else %}{{ post.content | markdownify | search_text | jsonify }}{% endif %}{% endif %}}
+  {%- endif -%}
+  {%- endif -%}
+{%- endfor -%}
+{%- for word in site.words -%}
+  {%- unless word.noindex or word.published == false -%}
+    {%- if comma -%},{%- endif -%}{%- assign comma = true -%}
+    {"title":{{ word.title | search_text | jsonify }},"url":{{ word.url | relative_url | jsonify }},"kind":"Word story","description":{{ word.description | search_text | jsonify }}{% if with_body %},"text":{{ word.content | markdownify | search_text | jsonify }}{% endif %}}
+  {%- endunless -%}
+{%- endfor -%}
+{%- for tool in site.data.tools -%}
+  {%- if comma -%},{%- endif -%}{%- assign comma = true -%}
+  {%- assign tool_url = '/' | append: tool.slug | append: '/' -%}
+  {"title":{{ tool.name | jsonify }},"url":{{ tool_url | relative_url | jsonify }},"kind":"Instrument","description":{{ tool.card | search_text | jsonify }}{% if with_body %},"text":{{ tool.listname | search_text | jsonify }}{% endif %}}
+{%- endfor -%}
+{%- comment -%} The quizzes, read from the same manifest the section reads,
+so a new one is searchable the moment it is listed. Their pages carry the
+trivia-quiz layout rather than default, so the page loop below never sees
+them. {%- endcomment -%}
+{%- for quiz in site.data.trivia -%}
+  {%- if comma -%},{%- endif -%}{%- assign comma = true -%}
+  {%- assign quiz_url = '/trivia/' | append: quiz.slug | append: '/' -%}
+  {%- assign subjects = site.data.quizzes[quiz.slug] | map: "category" | compact | uniq | join: ", " -%}
+  {"title":{{ quiz.name | jsonify }},"url":{{ quiz_url | relative_url | jsonify }},"kind":"Quiz","description":{{ quiz.card | search_text | jsonify }}{% if with_body %},"text":{{ subjects | search_text | jsonify }}{% endif %}}
+{%- endfor -%}
+{%- for note in site.data.notes -%}
+  {%- unless note.draft -%}
+    {%- if comma -%},{%- endif -%}{%- assign comma = true -%}
+    {%- assign note_text = note.body | markdownify | search_text -%}
+    {%- assign note_url = '/notes/#' | append: note.id -%}
+    {"title":{{ note_text | truncate: 80 | jsonify }},"url":{{ note_url | relative_url | jsonify }},"kind":"Note","description":{{ note_text | truncate: 200 | jsonify }}{% if with_body %},"text":{{ note_text | jsonify }}{% endif %}}
+  {%- endunless -%}
+{%- endfor -%}
+{%- for entry in site.pages -%}
+  {%- if entry.layout == 'default' or entry.layout == 'home' or entry.layout == 'section-list' -%}
+    {%- unless entry.noindex or entry.published == false or entry.url == '/404.html' -%}
+      {%- if comma -%},{%- endif -%}{%- assign comma = true -%}
+      {"title":{{ entry.title | default: site.title | search_text | jsonify }},"url":{{ entry.url | relative_url | jsonify }},"kind":"Page","description":{{ entry.description | default: site.description | search_text | jsonify }}{% if with_body %},"text":""{% endif %}}
+    {%- endunless -%}
+  {%- endif -%}
+{%- endfor -%}

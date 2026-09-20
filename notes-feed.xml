@@ -1,0 +1,39 @@
+---
+layout: null
+permalink: /notes/feed.xml
+sitemap: false
+---
+{%- comment -%}
+  The feed for Notes. It reads _data/notes.yml under the same two rules the
+  page and the homepage strip already follow: a draft is not published, and a
+  pinned note stands outside the run. The pin is a position on /notes/, not a
+  date, so a feed — which is nothing but a run in date order — leaves it out
+  rather than pretending it arrived whenever its date says.
+
+  A note has no title of its own. Rather than invent one, the item is titled
+  by its date, which is what the page shows above it too.
+{%- endcomment -%}
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Notes &#8212; On Life &amp; Everything</title>
+    <description>{{ site.data.notes | where_exp: "n", "n.draft != true" | size | append: " short things, out loud. Half-thoughts, dated." | xml_escape }}</description>
+    <link>{{ '/notes/' | absolute_url }}</link>
+    <atom:link href="{{ '/notes/feed.xml' | absolute_url }}" rel="self" type="application/rss+xml" />
+    <language>en</language>
+    <lastBuildDate>{{ site.time | date_to_rfc822 }}</lastBuildDate>
+    {% assign feed_notes = site.data.notes | where_exp: "n", "n.draft != true" | where_exp: "n", "n.pinned != true" | sort: "date" | reverse %}
+    {% for note in feed_notes %}
+    {% assign note_anchor = note.id | default: note.date %}
+    {% assign note_link = '/notes/' | absolute_url | append: '#' | append: note_anchor %}
+    <item>
+      <title>{{ note.date | date: "%B %-d, %Y" }}</title>
+      <description>{{ note.body | markdownify | strip_html | normalize_whitespace | truncatewords: 40 | xml_escape }}</description>
+      <link>{{ note_link }}</link>
+      <guid isPermaLink="false">{{ note_link }}</guid>
+      <pubDate>{{ note.date | date_to_rfc822 }}</pubDate>
+      <content:encoded><![CDATA[{{ note.body | markdownify }}]]></content:encoded>
+    </item>
+    {% endfor %}
+  </channel>
+</rss>

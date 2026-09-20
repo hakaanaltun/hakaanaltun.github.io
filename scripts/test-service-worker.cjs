@@ -8,6 +8,16 @@ const vm=require('node:vm');
 const built=path.join(__dirname,'../_site/sw.js');
 assert.ok(fs.existsSync(built),'Build the site first: bundle exec jekyll build');
 
+/* The worker's current cache name, read from the worker rather than written
+   down here. Bumping CACHE is the ordinary way to ship a change to the
+   offline shell, and a test that names a version fails on every one of them
+   — which says nothing about the rule it meant to check: retire our own old
+   caches, leave anyone else's alone. Two older versions are seeded below so
+   that rule is still tested with something to retire. */
+const CURRENT=(fs.readFileSync(built,'utf8').match(/var CACHE\s*=\s*"([^"]+)"/)||[])[1];
+assert.ok(CURRENT,'could not find CACHE in the rendered worker');
+const RETIRED=['olae-tools-v0','olae-tools-v1'];
+
 function harness({offline=false,seed=new Map()}={}){
   const cache={store:new Map(seed)};
   cache.match=async k=>cache.store.get(String(k));
@@ -38,7 +48,7 @@ function harness({offline=false,seed=new Map()}={}){
     clients:{claim:async()=>{}},
     location:{origin:'https://hakanaltun.io'}
   };
-  const deleted={known:['olae-tools-v30','olae-tools-v31','other-cache-v1'],calls:[]};
+  const deleted={known:[...RETIRED,CURRENT,'other-cache-v1'],calls:[]};
   scope.self=scope;
   vm.createContext(scope);
   vm.runInContext(fs.readFileSync(built,'utf8'),scope);
@@ -72,7 +82,7 @@ async function main(){
   {
     const h=harness();
     let waited;h.fire('activate',{waitUntil(p){waited=p;}});await waited;
-    assert.deepEqual(h.deleted.calls,['olae-tools-v30'],'and leaves other caches alone');
+    assert.deepEqual(h.deleted.calls,RETIRED,'retires our own old versions and leaves other caches alone');
   }
 
   // A PDF.js file is not precached, but it is kept the first time it is used.

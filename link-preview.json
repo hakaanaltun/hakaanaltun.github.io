@@ -1,0 +1,16 @@
+---
+layout: null
+permalink: /link-preview.json
+sitemap: false
+---
+{%- comment -%}
+  What js/link-preview.js shows when a reader holds still over a link to
+  somewhere else on the site: the title, what kind of thing it is, and the
+  sentence the page already uses to describe itself. No bodies — those are
+  what make the search index large, and this one is fetched because somebody
+  paused, not because they asked for anything.
+
+  Same records and the same order as /search-index.json, from the same
+  include, so a section cannot be in one and missing from the other.
+{%- endcomment -%}
+[{% include index-records.html %}]

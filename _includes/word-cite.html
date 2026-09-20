@@ -10,6 +10,17 @@
 
   The markers carry an aria-label, because a screen reader reading "one" out
   of the middle of a sentence is noise; "Source 1" is the thing meant.
+
+  Each marker also carries the source itself, for the margin. On a wide
+  enough screen the note sits out in the white space beside the line that
+  earned it, so the reader can see who says so without leaving the sentence;
+  below that width it is not rendered at all and the Sources block at the
+  foot of the page is the only answer, exactly as it has always been.
+
+  The margin copy is aria-hidden and holds no link. It says nothing the
+  marker and the Sources block do not already say properly, and a link inside
+  hidden content is focusable without being readable — the worst of both. The
+  way to the source stays the numbered marker.
 {%- endcomment -%}
 {%- assign cite_numbers = include.n | split: "," -%}
-<sup class="word-cite">{% for cite_number in cite_numbers %}<a href="#source-{{ cite_number | strip }}" aria-label="Source {{ cite_number | strip }}">{{ cite_number | strip }}</a>{% endfor %}</sup>
+<sup class="word-cite">{% for cite_number in cite_numbers %}<a href="#source-{{ cite_number | strip }}" aria-label="Source {{ cite_number | strip }}">{{ cite_number | strip }}</a>{% endfor %}</sup>{%- if page.sources -%}<span class="word-sidenote" aria-hidden="true">{%- for cite_number in cite_numbers -%}{%- assign source_index = cite_number | strip | minus: 1 -%}{%- assign cited = page.sources[source_index] -%}{%- if cited -%}<span class="word-sidenote-item"><span class="word-sidenote-number">{{ cite_number | strip }}</span>{{ cited.title }}{%- if cited.where -%}<span class="word-sidenote-where">{{ cited.where }}</span>{%- endif -%}</span>{%- endif -%}{%- endfor -%}</span>{%- endif -%}

@@ -102,10 +102,29 @@ description: "Short pieces on English words that kept something from where they 
   </ul>
 </section>
   {% endif %}
+
+  {%- comment -%}
+    The section's own feed, offered where the section ends rather than
+    announced anywhere earlier. A reader who wants the words as they arrive
+    finds it here; everyone else scrolls past a line of small italic.
+  {%- endcomment -%}
+  <p class="word-index-feed"><a href="/word/feed.xml">The words, as they arrive</a></p>
 </div>
 
 <style>
   .word-index-page { max-width: 46rem; }
+
+  .word-index-feed {
+    margin-top: 44px;
+    font-family: 'EB Garamond', Georgia, serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--vizon);
+  }
+
+  .word-index-feed a { color: var(--petrol); transition: var(--select-ease); }
+  .word-index-feed a:hover, .word-index-feed a:active { opacity: var(--select-dim); }
+  .word-index-feed a:focus-visible { outline: 2px solid var(--petrol); outline-offset: 3px; border-radius: 3px; }
 
   /* The row sits at the list's own width so its ends line up with the rows
      below it, and wraps rather than scrolling: 26 letters at a readable size
