@@ -71,11 +71,4 @@ This repository is a **Jekyll 4 static site** ("On Life & Everything", a persona
 - Order the rounds so the quiz opens on the easiest ground and does not end on
   the narrowest.
 - Keep the prose plain, as everywhere else here, and let the content do the
-  work. The reader should come away remembering what the note told them, with
-  the sentences having stayed out of the way. In particular:
-  - Write complete sentences. A fragment used for effect is still a fragment.
-  - Avoid the three-part list written for cadence. An inventory that happens to
-    have three items in it is fine, since that is the content counting itself.
-  - Avoid the "X, not Y" and "X rather than Y" shapes. Say the thing that is
-    true and move on.
-  - A question is a question. It has no need of a joke or a wink.
+  work.
