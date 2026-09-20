@@ -585,6 +585,72 @@ h1, h2, h3,
   .word-story-body p { hyphens: auto; }
 }
 
+/* --------------------------------------------------------------------------
+   The link preview — js/link-preview.js
+
+   A small card that says where a link goes, shown while the reader holds
+   still over it. It is placed on the document rather than beside the link so
+   nothing it does can reflow the sentence it came from, and it sits above
+   the header but below the drawer, which is the one thing that should be
+   able to cover it.
+
+   It exists only where there is a real pointer; the script does not run
+   otherwise, so none of this is ever painted on a phone.
+   -------------------------------------------------------------------------- */
+.link-preview {
+  position: absolute;
+  z-index: 900;
+  width: min(22rem, calc(100vw - 24px));
+  padding: 14px 16px 15px;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  box-shadow: 0 8px 28px rgb(0 0 0 / 12%);
+  font-family: 'EB Garamond', Georgia, serif;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(3px);
+  transition: opacity 0.16s ease, transform 0.16s ease;
+}
+
+.link-preview.is-open { opacity: 1; transform: none; }
+/* Asked for less motion: it arrives, it does not travel. */
+.link-preview.is-still { transition: none; transform: none; }
+
+.link-preview-kind {
+  display: block;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--vizon);
+  margin-bottom: 5px;
+}
+
+.link-preview-title {
+  display: block;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-size: 1.32rem;
+  line-height: 1.2;
+  color: var(--petrol-deep);
+}
+
+.link-preview-description {
+  display: block;
+  margin-top: 7px;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  /* Three lines is enough to say what a thing is; a description long enough
+     to need a fourth is a page, not a preview. */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.link-preview-description[hidden] { display: none; }
+
 .container { display: flex; flex-direction: column; flex: 1 0 auto; width: 100%; max-width: 1040px; margin: 0 auto; padding: 0 var(--pad); position: relative; }
 .skip-link { position: absolute; left: -9999px; top: 0; z-index: 2000; background: var(--petrol); color: var(--paper); padding: 10px 16px; border-radius: 0 0 6px 0; font-size: 0.95rem; }
 .skip-link:focus { left: 0; }
