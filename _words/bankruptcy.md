@@ -28,10 +28,9 @@ for the table a money dealer worked at, and it is the same word that gave us
 *bank*. <span lang="it">*Rotta*</span> is broken, from the Latin
 <span lang="la">*rumpere*</span>.{% include word-cite.html n="2" %}
 
-The breaking is the part that gets told. The story is that when a dealer could
-not meet his debts his table was broken in front of him and that was the end of
-his trade. Samuel Johnson retold it in his dictionary of
-1755.{% include word-cite.html n="2,3" %}
+The breaking is the story. A dealer who could not meet his debts had his table
+broken in front of him, and that was the end of his trade. Samuel Johnson retold
+it in his dictionary of 1755.{% include word-cite.html n="2,3" %}
 
 Nobody has produced evidence that it happened. The reading the dictionaries
 settle on is that <span lang="it">*rotta*</span> is figurative here, in the way
