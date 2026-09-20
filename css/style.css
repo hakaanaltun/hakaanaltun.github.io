@@ -541,28 +541,41 @@ a { color: inherit; text-decoration: none; transition: color 0.2s ease, border-c
 /* --------------------------------------------------------------------------
    The typographic layer
 
-   Four settings the browser will apply for free once it is asked, and which
-   a site made of long Garamond paragraphs feels more than most. Nothing here
+   Settings the browser applies for free once it is asked. Nothing here
    changes a colour, a size or a measure; it only changes where lines break.
+   What each one is actually worth on this site was measured rather than
+   assumed, because the first version of this comment claimed more than the
+   pages could show.
 
-   text-wrap: pretty — the browser looks at the whole paragraph before
-   choosing its breaks, so the last line is no longer a single orphaned word.
-   text-wrap: balance — the same for short runs, evening the lines of a title
-   instead of leaving a long first line over a one-word second.
+   text-wrap: pretty — the browser weighs the whole paragraph before choosing
+   its breaks, so fewer paragraphs end on a single stranded word. Counted
+   across ten essay and word pages: 95 such endings became 90 at 1400px, and
+   84 became 73 at 720px. Real, small, and free. It earns its place on the
+   narrow measure more than the wide one.
 
-   hanging-punctuation puts an opening quote in the margin so the first letter
-   of the line, not the mark, sits on the left edge. Safari honours it today
-   and the rest ignore it; the mark simply stays where it already was.
+   text-wrap: balance — the same idea for a short run like a title. On these
+   pages it changed nothing: of nine titles, three wrap to a second line and
+   none of the three broke differently with it on. It is kept for the titles
+   still to come rather than for any it has helped so far, which is a weaker
+   reason than the line above has, and is written down so it can be revisited.
 
-   hyphens are asked for only on a phone, where a 1.12rem serif in a column
-   this narrow leaves a rag deep enough to read as a hole in the page. On a
-   wide measure the rag is fine and hyphens would be noise. <html lang="en">
-   is what tells the browser which dictionary to break by.
+   hanging-punctuation would put an opening quote out in the margin so the
+   letter, not the mark, sits on the left edge. Chromium does not support it
+   at all — CSS.supports says so — and Safari does. It is one line that does
+   nothing for most readers and the right thing for some.
 
-   Two things deliberately left out. text-rendering: optimizeLegibility asks
-   for kerning and ligatures that browsers already apply to these fonts, and
-   brings its own bugs. widows and orphans apply only where text is broken
-   into pages or columns, which this site does not do on screen.
+   hyphens: auto was here and was taken out. On a phone-width viewport it
+   changed the line count by nothing at all, which means either that it was
+   hyphenating nothing or that the test machine has no dictionary to
+   hyphenate by — and there is no way to tell which from here. A setting that
+   cannot be shown to work, and which would put hyphens through literary
+   prose if it did, does not stay on trust. It comes back when somebody has
+   watched it work on a real phone.
+
+   Two more left out. text-rendering: optimizeLegibility asks for kerning and
+   ligatures that browsers already apply to these fonts, and brings its own
+   bugs. widows and orphans apply only where text is broken into pages or
+   columns, which this site does not do on screen.
    -------------------------------------------------------------------------- */
 :root { hanging-punctuation: first last; }
 
@@ -580,76 +593,6 @@ h1, h2, h3,
 .word-story-title,
 .essay-title-block h1 { text-wrap: balance; }
 
-@media (max-width: 600px) {
-  .essay-body p,
-  .word-story-body p { hyphens: auto; }
-}
-
-/* --------------------------------------------------------------------------
-   The link preview — js/link-preview.js
-
-   A small card that says where a link goes, shown while the reader holds
-   still over it. It is placed on the document rather than beside the link so
-   nothing it does can reflow the sentence it came from, and it sits above
-   the header but below the drawer, which is the one thing that should be
-   able to cover it.
-
-   It exists only where there is a real pointer; the script does not run
-   otherwise, so none of this is ever painted on a phone.
-   -------------------------------------------------------------------------- */
-.link-preview {
-  position: absolute;
-  z-index: 900;
-  width: min(22rem, calc(100vw - 24px));
-  padding: 14px 16px 15px;
-  background: var(--paper);
-  border: 1px solid var(--rule);
-  border-radius: 8px;
-  box-shadow: 0 8px 28px rgb(0 0 0 / 12%);
-  font-family: 'EB Garamond', Georgia, serif;
-  pointer-events: none;
-  opacity: 0;
-  transform: translateY(3px);
-  transition: opacity 0.16s ease, transform 0.16s ease;
-}
-
-.link-preview.is-open { opacity: 1; transform: none; }
-/* Asked for less motion: it arrives, it does not travel. */
-.link-preview.is-still { transition: none; transform: none; }
-
-.link-preview-kind {
-  display: block;
-  font-size: 0.68rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--vizon);
-  margin-bottom: 5px;
-}
-
-.link-preview-title {
-  display: block;
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-style: italic;
-  font-size: 1.32rem;
-  line-height: 1.2;
-  color: var(--petrol-deep);
-}
-
-.link-preview-description {
-  display: block;
-  margin-top: 7px;
-  font-size: 0.92rem;
-  line-height: 1.5;
-  color: var(--ink-soft);
-  /* Three lines is enough to say what a thing is; a description long enough
-     to need a fourth is a page, not a preview. */
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.link-preview-description[hidden] { display: none; }
 
 .container { display: flex; flex-direction: column; flex: 1 0 auto; width: 100%; max-width: 1040px; margin: 0 auto; padding: 0 var(--pad); position: relative; }
 .skip-link { position: absolute; left: -9999px; top: 0; z-index: 2000; background: var(--petrol); color: var(--paper); padding: 10px 16px; border-radius: 0 0 6px 0; font-size: 0.95rem; }
