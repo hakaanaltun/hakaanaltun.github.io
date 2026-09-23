@@ -1,6 +1,5 @@
-{% comment %} One work as an index row. Used by /all-work/, /series/ and the
-Şafak's Arc block on /book/. Series pages keep reading order through the
-list itself — the rows carry no numbers. {% endcomment %}
+{% comment %} One work as an index row. Used by /all-work/ and /series/. Series pages keep
+reading order through the list itself — the rows carry no numbers. {% endcomment %}
 <li class="work-row">
   {% assign display_title = include.post.title | replace: "'", "’" %}
   {% comment %} Story cards point at the story itself, never at the redirect stub. {% endcomment %}
@@ -36,7 +35,6 @@ list itself — the rows carry no numbers. {% endcomment %}
       tag only repeats the heading above it. {% endcomment %}
       {% unless include.hide_tag %}
       {% if include.post.series == "on-series" %}<span class="work-tag">The On Series</span>
-      {% elsif include.post.series == "fragments" %}<span class="work-tag">Şafak’s Arc</span>
       {% elsif include.post.series == "cafe-series" %}<span class="work-tag">The Corner</span>
       {% elsif include.post.story_card %}<span class="work-tag">In choices</span>{% endif %}
       {% endunless %}
