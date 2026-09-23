@@ -621,7 +621,7 @@ header {
 header.header-hidden { transform: translateY(-100%); }
 body.drawer-open header { z-index: 50; }
 /* Book part titles follow the masthead's scroll direction, beneath it. */
-.book-part-header { top: var(--head-band); z-index: 99; }
+.book-part-header { top: calc(var(--head-band) - 2px); z-index: 99; }
 .book-part-header.header-hidden { transform: translateY(calc(-100% - var(--head-band))); }
 
 /* The masthead's own nav, and only it. This was a bare `nav`, which is not
@@ -2053,9 +2053,10 @@ html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
 
 /* Full book parts use the essay column without pretending to be dated posts. */
 .book-part { padding-bottom: 64px; }
-.book-part-header { padding-bottom: 22px; }
+.book-part-header { padding: 18px 0 20px; gap: 2px; }
+.book-part-header h1 { font-size: clamp(1.75rem, 3vw, 2.4rem); margin-bottom: 0; }
 .book-part-kicker {
-  margin: 0 0 6px; font-family: 'EB Garamond', Georgia, serif;
+  margin: 0; font-family: 'EB Garamond', Georgia, serif;
   font-style: italic; font-size: .98rem; color: var(--vizon); text-align: center;
 }
 .book-part-kicker a { color: inherit; text-decoration: none; }
@@ -2077,7 +2078,7 @@ html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
 .book-part-contents a:focus-visible {
   outline: 2px solid var(--petrol); outline-offset: 3px; border-radius: 2px;
 }
-.book-chapter { scroll-margin-top: 84px; }
+.book-chapter { scroll-margin-top: 112px; }
 .book-part-body .book-chapter:first-child h2 { margin-top: 0; }
 .book-part-body p.divider {
   margin: 42px 0; text-align: center; letter-spacing: .35em;
