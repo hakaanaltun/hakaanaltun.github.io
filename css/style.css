@@ -2065,13 +2065,13 @@ html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
    details keeps the chapter links available even without JavaScript. */
 .book-chapters {
   position: fixed; top: clamp(140px, 22vh, 210px); right: 0; z-index: 150;
-  width: 36px; font-family: 'EB Garamond', Georgia, serif;
+  width: 44px; font-family: 'EB Garamond', Georgia, serif;
 }
-.book-chapters[open] { width: min(356px, 100vw); }
+.book-chapters[open] { width: min(364px, 100vw); }
 .book-chapters > summary {
   position: absolute; top: 28px; right: 0;
   display: flex; align-items: center; justify-content: center;
-  width: 36px; height: 116px; padding: 12px 7px;
+  width: 44px; height: 116px; padding: 12px 7px;
   writing-mode: vertical-rl; text-orientation: mixed;
   list-style: none; cursor: pointer;
   background: var(--surface-chrome); color: var(--footer-text);
@@ -2086,7 +2086,7 @@ html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
 }
 .book-chapters-frame {
   height: min(36rem, calc(100dvh - clamp(140px, 22vh, 210px) - 16px));
-  margin-left: 36px; padding: 24px 24px 28px;
+  margin-left: 44px; padding: 24px 24px 28px;
   overflow-y: auto; overscroll-behavior: contain;
   background: var(--bg); border: 1px solid var(--rule);
   box-shadow: -12px 14px 30px rgba(0, 0, 0, .14);
