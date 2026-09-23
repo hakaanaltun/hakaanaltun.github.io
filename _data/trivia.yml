@@ -20,6 +20,11 @@
 # card: the line under the title on /trivia/. Say what the quiz covers, not
 # how good it is. The question count is read from the JSON, never written here.
 
+- slug: america
+  name: "American Culture"
+  card: "Food, places, history, music, books, film, sport, and everyday culture."
+  about: "American culture"
+
 - slug: britain
   name: "British Culture"
   card: "History, literature, food, sport, television, places, and everyday culture."
