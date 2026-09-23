@@ -10,7 +10,7 @@
 :root {
   --pad: 40px;
 
-  /* Shared piece-card grid — Latest, series lists, Şafak's Arc, Further back */
+  /* Shared piece-card grid — Latest, series lists, Further back */
   --card-grid-max: 900px;
   --card-grid-gap: 32px;
   --card-grid-gap-md: 26px;
@@ -426,9 +426,8 @@ body.series-default,
 body.series-series,
 body.series-on-series,
 body.series-cafe-series { --sec-h:  12; --sec-c: 0.068; --sec-ld: 0.700; --sec-cd: 0.078; }
-/* The book, and the fragments that belong to it */
-body.series-book,
-body.series-fragments   { --sec-h: 262; --sec-c: 0.075; --sec-ld: 0.820; --sec-cd: 0.058; }
+/* The book */
+body.series-book        { --sec-h: 262; --sec-c: 0.075; --sec-ld: 0.820; --sec-cd: 0.058; }
 /* The quotes */
 body.series-moris       { --sec-h: 118; --sec-c: 0.058; --sec-ld: 0.840; --sec-cd: 0.055; }
 /* The fiction */
@@ -1470,7 +1469,7 @@ body.moris-lightbox-open { overflow: hidden; }
 .essay-body ul, .essay-body ol { margin: 0 0 24px 24px; color: var(--ink-soft); }
 .essay-body li { margin-bottom: 8px; }
 
-.series-nav, .fragments-nav, .cafe-nav { margin-top: 0; padding: 24px 0; border: 0; background: transparent; }
+.series-nav, .cafe-nav { margin-top: 0; padding: 24px 0; border: 0; background: transparent; }
 .series-nav-title { font-size: 13px; letter-spacing: 0.08em; margin-bottom: 14px; line-height: 1.4; font-style: italic; text-align: left; }
 .series-nav-title-on { color: var(--petrol); font-style: italic; }
 .series-nav-title-sub { color: var(--ink-soft); font-style: italic; }
@@ -1929,10 +1928,8 @@ html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
    flex-direction: row is now only saying what this row is; it was written to
    override a bare `nav { flex-direction: column }`, since scoped to the
    masthead (see header > nav).
-   It carries three names on /all-work/ now, so the labels are nowrap and the
-   row may wrap between them: left to shrink, a flex item breaks its own text
-   instead, and "Şafak's Arc" came apart over two lines with the separator
-   stranded on the first. */
+   It carries several names on /all-work/, so the labels are nowrap and the
+   row may wrap between them instead of breaking a label across lines. */
 .work-jump { display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: baseline; gap: 6px 14px; margin: -8px 0 44px; padding: 0; font-size: 0.82rem; letter-spacing: 0.14em; text-transform: uppercase; }
 .work-jump a { color: var(--petrol-deep); border-bottom: 1px solid transparent; padding-bottom: 2px; white-space: nowrap; }
 .work-jump a:hover, .work-jump a:focus-visible { color: var(--petrol-deep); border-bottom-color: color-mix(in srgb, var(--petrol-deep) 55%, transparent); outline: none; }
