@@ -12,10 +12,8 @@
   /* Filter out current essay */
   var pool = ALL_ESSAYS.filter(function (e) { return e.href !== current; });
 
-  /* Quiet recommendation filter:
-     - the five early pieces stay public but are not suggested
-     - The Cove is a coda to The Anxiety, so it is reached through the arc, not suggested cold */
-  var notSuggested = ['say-hello', 'ai-enough', 'defense-mechanisms', 'jung-shadow', 'unfinished-things', 'the-cove'];
+  /* Quiet recommendation filter: the five early pieces stay public but are not suggested. */
+  var notSuggested = ['say-hello', 'ai-enough', 'defense-mechanisms', 'jung-shadow', 'unfinished-things'];
   pool = pool.filter(function (e) {
     var slug = (e.href || '').replace(/\.html$/, '');
     return notSuggested.indexOf(slug) === -1;
