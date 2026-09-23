@@ -620,6 +620,9 @@ header {
 }
 header.header-hidden { transform: translateY(-100%); }
 body.drawer-open header { z-index: 50; }
+/* Book part titles follow the masthead's scroll direction, beneath it. */
+.book-part-header { top: var(--head-band); z-index: 99; }
+.book-part-header.header-hidden { transform: translateY(calc(-100% - var(--head-band))); }
 
 /* The masthead's own nav, and only it. This was a bare `nav`, which is not
    the masthead — it is every nav on the page, and it handed each one a
@@ -2041,6 +2044,12 @@ html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
   font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic;
   font-size: 1.35rem; line-height: 1.15; color: var(--petrol);
 }
+.book-reading-note {
+  max-width: 640px; margin: 24px auto 0;
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 1.1rem; line-height: 1.62; color: var(--vizon);
+}
+.book-reading-note a { color: var(--petrol); text-underline-offset: 3px; }
 
 /* Full book parts use the essay column without pretending to be dated posts. */
 .book-part { padding-bottom: 64px; }

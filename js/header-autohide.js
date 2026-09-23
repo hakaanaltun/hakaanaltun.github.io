@@ -4,6 +4,7 @@
 
   var header = document.getElementById('site-header');
   if (!header) return;
+  var bookBand = document.querySelector('.book-part-header');
 
   var scrollRoot = document.scrollingElement || document.documentElement;
   var lastScrollY = getScrollY();
@@ -34,6 +35,7 @@
 
   function setHidden(shouldHide) {
     header.classList.toggle('header-hidden', shouldHide);
+    if (bookBand) bookBand.classList.toggle('header-hidden', shouldHide);
     travel = 0;
   }
 
@@ -115,6 +117,13 @@
      bring it back so the focused control is actually visible. */
   header.addEventListener('focusin', function () {
     if (header.classList.contains('header-hidden')) {
+      revealHeader();
+      lastScrollY = getScrollY();
+    }
+  });
+
+  if (bookBand) bookBand.addEventListener('focusin', function () {
+    if (bookBand.classList.contains('header-hidden')) {
       revealHeader();
       lastScrollY = getScrollY();
     }
