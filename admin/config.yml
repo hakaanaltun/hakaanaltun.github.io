@@ -62,7 +62,6 @@ collections:
         required: false
         options:
           - { label: "The On Series", value: "on-series" }
-          - { label: "Şafak's Arc", value: "fragments" }
           - { label: "The Corner", value: "cafe-series" }
         hint: "Leave empty for standalone pieces"
       - { label: Series order, name: series_order, widget: number, required: false, value_type: int }
