@@ -13,20 +13,9 @@ description: "Short fiction, essays, and the book."
 {% assign fiction = "" | split: "" %}
 {% comment %} Story cards (e.g. The Notice) are listed here under Short Fiction;
 all-work-row.html sends them to post.story_url instead of the redirect stub. {% endcomment %}
-{% comment %} The book's pieces are fiction: true like the rest, but they
-belong to The Fragments rather than to short fiction, and they are about to be
-many. They take a band of their own instead of swelling a heading that would
-then misname them. It is called Book, plainly, while the chapters are still
-arriving — The Fragments and Şafak's Arc are both names worth revisiting once
-it is clear what the band holds — and it sits last on the page: once the book
-is done that band stops moving, while the two above it keep taking new work,
-and the page should open on what is still growing. {% endcomment %}
-{% assign arc = site.posts | where: "series", "fragments" | sort: "series_order" %}
 {% for post in all_posts %}
   {% assign post_arr = "" | split: "" | push: post %}
-  {% if post.series == "fragments" %}
-    {% comment %} Counted in arc above, in reading order rather than by date. {% endcomment %}
-  {% elsif post.fiction %}
+  {% if post.fiction %}
     {% assign fiction = fiction | concat: post_arr %}
   {% else %}
     {% assign essays = essays | concat: post_arr %}
@@ -91,16 +80,28 @@ placed where its newest post falls in the date-sorted list. {% endcomment %}
   <section id="book" class="all-work-band" aria-label="Book">
     <div class="all-work-group-head">
       <h2 class="all-work-group-title">Book</h2>
-      {%- comment -%} The heading stays plain while the chapters arrive; this
-      line says which work they are, without committing the band to a name
-      that is still moving. {%- endcomment -%}
-      <p class="all-work-group-sub">The Fragments—Şafak’s Arc</p>
-      <p class="all-work-group-count">{{ arc | size }} pieces</p>
+      <p class="all-work-group-sub">The Fragments</p>
+      <p class="all-work-group-count">2 parts online</p>
     </div>
     <ul class="work-index">
-      {% for post in arc %}
-        {% include all-work-row.html post=post hide_tag=true %}
-      {% endfor %}
+      <li class="work-row">
+        <a href="/book/part-one/" class="work-row-link">
+          <span class="work-main">
+            <span class="work-title">Part I · The Question</span>
+            <span class="work-excerpt">From Point Zero to The Shape of Absence.</span>
+          </span>
+          <span class="work-side"><span class="work-tag">The Fragments</span></span>
+        </a>
+      </li>
+      <li class="work-row">
+        <a href="/book/part-two/" class="work-row-link">
+          <span class="work-main">
+            <span class="work-title">Part II · The Fragile Archive</span>
+            <span class="work-excerpt">From Moris to Handled.</span>
+          </span>
+          <span class="work-side"><span class="work-tag">The Fragments</span></span>
+        </a>
+      </li>
     </ul>
   </section>
 </div>
