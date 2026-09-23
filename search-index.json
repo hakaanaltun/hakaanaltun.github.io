@@ -47,7 +47,7 @@ them. {%- endcomment -%}
   {%- if entry.layout == 'default' or entry.layout == 'home' or entry.layout == 'section-list' -%}
     {%- unless entry.noindex or entry.published == false or entry.url == '/404.html' -%}
       {%- if comma -%},{%- endif -%}{%- assign comma = true -%}
-      {"title":{{ entry.title | default: site.title | search_text | jsonify }},"url":{{ entry.url | relative_url | jsonify }},"kind":"Page","description":{{ entry.description | default: site.description | search_text | jsonify }},"text":""}
+      {"title":{{ entry.title | default: site.title | search_text | jsonify }},"url":{{ entry.url | relative_url | jsonify }},"kind":"Page","description":{{ entry.description | default: site.description | search_text | jsonify }},"text":{% if entry.book_part %}{{ entry.content | markdownify | search_text | jsonify }}{% else %}""{% endif %}}
     {%- endunless -%}
   {%- endif -%}
 {%- endfor -%}
