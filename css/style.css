@@ -2010,64 +2010,91 @@ html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
   .work-jump { margin-bottom: 34px; gap: 6px 9px; font-size: 0.7rem; letter-spacing: 0.06em; }
 }
 
-/* Şafak's Arc block on the Book page */
-.book-arc { margin-top: 56px; padding-top: 48px; }
-.book-arc-head { text-align: center; max-width: 640px; margin: 0 auto 36px; }
-.book-arc-title {
-  font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic;
-  font-weight: 500; font-size: var(--type-group); color: var(--petrol-deep);
+/* Reading links on the Book page */
+.book-reading { margin-top: 56px; padding-top: 48px; }
+.book-reading-head { text-align: center; max-width: 640px; margin: 0 auto 30px; }
+.book-reading-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic; font-weight: 500; font-size: var(--type-group);
+  color: var(--petrol-deep);
 }
-.book-arc-intro {
-  font-family: 'EB Garamond', Georgia, serif; font-size: 1.1rem;
-  line-height: 1.62; color: var(--vizon); margin-top: 12px;
+.book-reading-intro {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 1.1rem; line-height: 1.62; color: var(--vizon); margin-top: 12px;
 }
-.book-arc-intro em { font-style: italic; color: var(--petrol); }
-.book-arc-lead {
+.book-reading-links {
+  max-width: 640px; margin: 0 auto;
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px;
+}
+.book-reading-link {
+  display: flex; flex-direction: column; gap: 5px;
+  padding: 18px 20px; border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule); text-decoration: none;
+  transition: var(--select-ease);
+}
+.book-reading-link:hover, .book-reading-link:active { opacity: var(--select-dim); }
+.book-reading-link:focus-visible {
+  outline: 2px solid var(--petrol); outline-offset: 4px; border-radius: 2px;
+}
+.book-reading-part {
   font-family: 'EB Garamond', Georgia, serif; font-style: italic;
-  font-size: 1.05rem; color: var(--vizon); margin-top: 10px;
+  font-size: .92rem; color: var(--vizon);
 }
-/* "Begin with The Poise" — a link inside a sentence, and colour was the only
-   thing marking it, and colour was not enough in any of the fourteen looks.
-   Against the sentence around it the link measures 1.00:1 in the day palettes
-   — same luminance, different hue, so the difference disappears entirely for
-   a reader who cannot separate those hues — 1.60:1 in Dark, and 1.00:1 again
-   in Midnight, where the accent and the body text resolve to one value. Only
-   Dark was loud enough for axe to catch; the identical-colour cases it passes,
-   having no colour difference to call insufficient. A rule under the words says it
-   in every one of the fourteen looks, without asking the palette to carry the
-   job on its own.
+.book-reading-name {
+  font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic;
+  font-size: 1.35rem; line-height: 1.15; color: var(--petrol);
+}
 
-   80%, not the 45-55% the hover rules elsewhere use: a hover tint may be
-   faint because it is transient, but this rule is the thing that says "link"
-   at rest, so it has to clear 3:1 against the paper. Measured across all
-   fourteen looks, 72% is where the palest of the twelve day palettes crosses
-   that line and 80% leaves room for one to be retuned without silently
-   dropping under it — worst case 3.60:1, against 2.27:1 before. */
-.book-arc-lead a.book-arc-fragment-link {
-  color: var(--petrol);
-  text-decoration: none;
-  border-bottom: 1px solid color-mix(in srgb, var(--petrol) 80%, transparent);
-  transition: color 0.2s ease, border-color 0.2s ease;
+/* Full book parts use the essay column without pretending to be dated posts. */
+.book-part { padding-bottom: 64px; }
+.book-part-header { padding-bottom: 22px; }
+.book-part-kicker {
+  margin: 0 0 6px; font-family: 'EB Garamond', Georgia, serif;
+  font-style: italic; font-size: .98rem; color: var(--vizon); text-align: center;
 }
-.book-arc-lead a.book-arc-fragment-link:hover {
-  color: var(--petrol-deep);
-  border-bottom-color: var(--petrol-deep);
+.book-part-kicker a { color: inherit; text-decoration: none; }
+.book-part-kicker a:hover { color: var(--petrol); }
+.book-part-contents {
+  max-width: 640px; margin: 0 auto 46px; padding: 22px 0;
+  border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
 }
-/* This rule used to end on outline: none, leaving a keyboard reader the same
-   colour shift a mouse gets and no ring at all. 2px of --petrol is what the
-   tools list and the story doorway already use. */
-.book-arc-lead a.book-arc-fragment-link:focus-visible {
-  color: var(--petrol-deep);
-  border-bottom-color: var(--petrol-deep);
-  outline: 2px solid var(--petrol);
-  outline-offset: 3px;
-  border-radius: 2px;
+.book-part-contents ol {
+  margin: 0; padding: 0; list-style: none;
+  columns: 2; column-gap: 32px;
 }
+.book-part-contents li { break-inside: avoid; margin: 0 0 7px; }
+.book-part-contents a {
+  color: var(--vizon); text-decoration: none; font-style: italic;
+  transition: var(--select-ease);
+}
+.book-part-contents a:hover, .book-part-contents a:active { color: var(--petrol); }
+.book-part-contents a:focus-visible {
+  outline: 2px solid var(--petrol); outline-offset: 3px; border-radius: 2px;
+}
+.book-chapter { scroll-margin-top: 84px; }
+.book-part-body .book-chapter:first-child h2 { margin-top: 0; }
+.book-part-body p.divider {
+  margin: 42px 0; text-align: center; letter-spacing: .35em;
+  color: var(--vizon); line-height: 1;
+}
+.book-part-next {
+  max-width: 640px; margin: 8px auto 0; padding-top: 28px;
+  border-top: 1px solid var(--rule); text-align: right;
+}
+.book-part-next a {
+  color: var(--petrol); font-family: 'EB Garamond', Georgia, serif;
+  font-style: italic; text-decoration: none;
+}
+.book-part-next a:hover, .book-part-next a:active { opacity: var(--select-dim); }
+.book-part-next a:focus-visible {
+  outline: 2px solid var(--petrol); outline-offset: 4px; border-radius: 2px;
+}
+
 @media (max-width: 600px) {
-  /* The 2.2rem override that used to sit here is gone for the same reason it
-     is gone from .section-title and .section-page-title: it sat above the
-     shared clamp's 2.1rem floor, so the title grew as the screen shrank. */
-  .book-arc { margin-top: 40px; padding-top: 36px; }
+  .book-reading { margin-top: 40px; padding-top: 36px; }
+  .book-reading-links { grid-template-columns: 1fr; }
+  .book-part-contents ol { columns: 1; }
+  .book-part-next { text-align: left; }
 }
 
 /* ========================================================================== 
