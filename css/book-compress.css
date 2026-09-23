@@ -56,11 +56,9 @@
   outline: 2px solid var(--petrol);
   outline-offset: 5px;
 }
-/* The dot is the break between the hero and the arc, so the animated rule that
-   every other section carries is off underneath it. Two marks doing one job,
-   forty pixels apart on a phone, is what read as a mistake. The class is set by
-   the script, so a page without the dot keeps the rule it has always had. */
-.book-compress-on #safaks-arc::before { content: none; }
+/* The dot is the break between the hero and the online-reading section, so the
+   animated rule underneath it stays off. */
+.book-compress-on #read-online::before { content: none; }
 
 /* The scene stands on the page's own paper rather than a fixed white, so the
    fragments keep the contrast they were written with. Washing to white turned
