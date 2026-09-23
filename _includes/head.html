@@ -317,6 +317,86 @@ that are say so without moving out of this branch. {% endcomment %}
 
 {% endif %}
 
+{% comment %} A word story, described for machines.
+
+Same gap as the book below: these pages are layout: default and so miss the
+post branch's Article. They are the pages a stranger is most likely to
+arrive at — somebody asking why a quarantine is called that — and until now
+they said nothing about themselves.
+
+The shape follows what the page is. The story is an Article, and what it is
+about is a DefinedTerm belonging to Words with Stories, so the collection
+reads as a collection rather than fifty loose pages. The sources become
+citations, which is the part worth publishing: the editorial standard here
+is that every story is sourced, and this is that standard stated in the
+form a crawler reads.
+
+The DefinedTermSet and the Person are written into each page's graph rather
+than referenced away, so every entry stands on its own; the @ids match, so
+fifty pages resolve to one collection and one author. {% endcomment %}
+{% if page.collection == "words" %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "@id": "{{ page.url | absolute_url }}#story",
+      "headline": {{ page.word | jsonify }},
+      "description": {{ page.description | jsonify }},
+      "url": "{{ page.url | absolute_url }}",
+      "mainEntityOfPage": "{{ page.url | absolute_url }}",
+      "datePublished": "{{ page.date | date_to_xmlschema }}",
+      "dateModified": "{{ page.last_modified_at | default: page.date | date_to_xmlschema }}",
+      "author": { "@id": "{{ site.url }}/#hakan" },
+      "publisher": { "@id": "{{ site.url }}/#hakan" },
+      "inLanguage": "en",
+      "isAccessibleForFree": true,
+      "about": { "@id": "{{ page.url | absolute_url }}#term" }{% if page.sources %},
+      "citation": [{% for source in page.sources %}
+        {
+          "@type": "CreativeWork",
+          "name": {{ source.title | jsonify }}{% if source.where %},
+          "publisher": { "@type": "Organization", "name": {{ source.where | jsonify }} }{% endif %},
+          "url": {{ source.url | jsonify }}
+        }{% unless forloop.last %},{% endunless %}{% endfor %}
+      ]{% endif %}
+    },
+    {
+      "@type": "DefinedTerm",
+      "@id": "{{ page.url | absolute_url }}#term",
+      "name": {{ page.word | jsonify }},
+      "description": {{ page.description | jsonify }},
+      "url": "{{ page.url | absolute_url }}",
+      "inDefinedTermSet": { "@id": "{{ site.url }}/word/#words-with-stories" }
+    },
+    {
+      "@type": "DefinedTermSet",
+      "@id": "{{ site.url }}/word/#words-with-stories",
+      "name": "Words with Stories",
+      "url": "{{ '/word/' | absolute_url }}",
+      "description": "Words that kept something from where they have been.",
+      "inLanguage": "en"
+    },
+    {
+      "@type": "Person",
+      "@id": "{{ site.url }}/#hakan",
+      "name": "Hakan Altun",
+      "url": "{{ site.url }}/",
+      "image": "{{ site.url }}/profile.jpg",
+      "jobTitle": "Lecturer",
+      "worksFor": {
+        "@type": "CollegeOrUniversity",
+        "name": "Yeditepe University",
+        "url": "https://www.yeditepe.edu.tr/"
+      },
+      "knowsLanguage": ["tr", "en"]
+    }
+  ]
+}
+</script>
+{% endif %}
+
 {% comment %} The Fragments, described for machines.
 
 The essays carry Article and ShortStory from the post branch above, which
