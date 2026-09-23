@@ -41,16 +41,19 @@ accessible name and the tooltip, where they cost the page nothing. {% endcomment
 <link rel="stylesheet" href="/css/book-compress.css?v=20260911-2">
 <script src="/js/book-compress.js?v=20260911-4" defer></script>
 
-<section id="safaks-arc" class="book-arc" aria-label="Şafak’s Arc">
-  <div class="book-arc-head">
-    <h2 class="book-arc-title">Şafak’s Arc</h2>
-    <p class="book-arc-intro">These pieces belong to the world of <em>The Fragments</em>. They can be read alone, but together they trace Şafak before and around the book.</p>
-    <p class="book-arc-lead">Read a fragment. Begin with <a href="/pieces/the-poise.html" class="book-arc-fragment-link">The Poise</a>.</p>
+<section id="read-online" class="book-reading" aria-label="Read The Fragments online">
+  <div class="book-reading-head">
+    <h2 class="book-reading-title">Read online</h2>
+    <p class="book-reading-intro">Part I and Part II are available here in full.</p>
   </div>
-  {% assign fragments = site.posts | where: "series", "fragments" | sort: "series_order" %}
-  <ul class="work-index">
-    {% for post in fragments %}
-      {% include all-work-row.html post=post %}
-    {% endfor %}
-  </ul>
+  <div class="book-reading-links">
+    <a href="/book/part-one/" class="book-reading-link">
+      <span class="book-reading-part">Part I</span>
+      <span class="book-reading-name">The Question</span>
+    </a>
+    <a href="/book/part-two/" class="book-reading-link">
+      <span class="book-reading-part">Part II</span>
+      <span class="book-reading-name">The Fragile Archive</span>
+    </a>
+  </div>
 </section>
