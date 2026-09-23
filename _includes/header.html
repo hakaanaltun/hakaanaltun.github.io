@@ -22,7 +22,7 @@
       <a href="/"{% if _nav_here == "/" %} aria-current="page"{% endif %}>Home</a>
       <a href="/notes/"{% if _nav_here == "/notes/" %} aria-current="page"{% endif %}>Notes</a>
       <a href="/series/"{% if _nav_here == "/series/" %} aria-current="page"{% endif %}>Series</a>
-      <a href="/book/"{% if _nav_here == "/book/" %} aria-current="page"{% endif %}>Book</a>
+      <a href="/book/"{% if _nav_here contains "/book/" %} aria-current="page"{% endif %}>Book</a>
       <a href="/all-work/"{% if _nav_here == "/all-work/" %} aria-current="page"{% endif %}>All</a>
       <a href="/word/"{% if _nav_here == "/word/" %} aria-current="page"{% endif %}>Words</a>
       <a href="/trivia/"{% if _nav_here contains "/trivia/" %} aria-current="page"{% endif %}>Trivia</a>
