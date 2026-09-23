@@ -2061,18 +2061,46 @@ html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
 }
 .book-part-kicker a { color: inherit; text-decoration: none; }
 .book-part-kicker a:hover { color: var(--petrol); }
-.book-part-contents {
-  max-width: 640px; margin: 0 auto 46px; padding: 22px 0;
-  border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
+/* The book's contents live in a narrow panel at the right edge. Native
+   details keeps the chapter links available even without JavaScript. */
+.book-chapters {
+  position: fixed; top: clamp(140px, 22vh, 210px); right: 0; z-index: 150;
+  width: 36px; font-family: 'EB Garamond', Georgia, serif;
 }
-.book-part-contents ol {
-  margin: 0; padding: 0; list-style: none;
-  columns: 2; column-gap: 32px;
+.book-chapters[open] { width: min(356px, 100vw); }
+.book-chapters > summary {
+  position: absolute; top: 28px; right: 0;
+  display: flex; align-items: center; justify-content: center;
+  width: 36px; height: 116px; padding: 12px 7px;
+  writing-mode: vertical-rl; text-orientation: mixed;
+  list-style: none; cursor: pointer;
+  background: var(--surface-chrome); color: var(--footer-text);
+  border-radius: 4px 0 0 4px;
+  font-size: .9rem; letter-spacing: .04em;
 }
-.book-part-contents li { break-inside: avoid; margin: 0 0 7px; }
+.book-chapters > summary::-webkit-details-marker { display: none; }
+.book-chapters[open] > summary { left: 0; right: auto; }
+.book-chapters > summary:hover { opacity: var(--select-dim); }
+.book-chapters > summary:focus-visible {
+  outline: 2px solid var(--petrol); outline-offset: -4px;
+}
+.book-chapters-frame {
+  height: min(36rem, calc(100dvh - clamp(140px, 22vh, 210px) - 16px));
+  margin-left: 36px; padding: 24px 24px 28px;
+  overflow-y: auto; overscroll-behavior: contain;
+  background: var(--bg); border: 1px solid var(--rule);
+  box-shadow: -12px 14px 30px rgba(0, 0, 0, .14);
+}
+.book-chapters-heading {
+  margin: 0 0 18px; font-size: 1.1rem; font-style: italic;
+  color: var(--petrol); line-height: 1.25;
+}
+.book-part-contents ol { margin: 0; padding: 0; list-style: none; }
+.book-part-contents li { border-top: 1px solid var(--rule); }
 .book-part-contents a {
-  color: var(--vizon); text-decoration: none; font-style: italic;
-  transition: var(--select-ease);
+  display: block; padding: 9px 0;
+  color: var(--vizon); text-decoration: none; font-size: 1rem;
+  font-style: italic; line-height: 1.35; transition: var(--select-ease);
 }
 .book-part-contents a:hover, .book-part-contents a:active { color: var(--petrol); }
 .book-part-contents a:focus-visible {
@@ -2100,7 +2128,6 @@ html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
 @media (max-width: 600px) {
   .book-reading { margin-top: 40px; padding-top: 36px; }
   .book-reading-links { grid-template-columns: 1fr; }
-  .book-part-contents ol { columns: 1; }
   .book-part-next { text-align: left; }
 }
 
