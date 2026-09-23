@@ -46,7 +46,7 @@ var m=document.querySelector('meta[name="theme-color"][data-light]');if(m&&C[n])
 {% if page.layout == "post" %}
 {% assign _post_desc = page.description | default: site.description %}
 {% assign _post_og_desc = page.og_description | default: page.description | default: site.description %}
-{% if page.series == "fragments" or page.series == "story" or page.fiction %}{% assign _schema_type = "ShortStory" %}{% else %}{% assign _schema_type = "Article" %}{% endif %}
+{% if page.series == "story" or page.fiction %}{% assign _schema_type = "ShortStory" %}{% else %}{% assign _schema_type = "Article" %}{% endif %}
 
 {% comment %} Posts were the one page type whose <title> was the bare
 headline — "Handled", "Michi", "Measured" — with nothing in a search
@@ -108,7 +108,7 @@ the story pages ("The Notice"), which share one card. {% endcomment %}
       "publisher": { "@id": "{{ site.url }}/#hakan" },
       "copyrightHolder": { "@id": "{{ site.url }}/#hakan" },
       {% if page.image %}"image": "{{ page.image | absolute_url }}",{% elsif page.og_image %}"image": "{{ page.og_image | absolute_url }}",{% endif %}
-      {% if page.series == "fragments" %}"isPartOf": {"@type":"CreativeWorkSeries","name":"Şafak's Arc from The Fragments"},{% elsif page.series == "on-series" %}"isPartOf": {"@type":"CreativeWorkSeries","name":"The On Series"},{% endif %}
+      {% if page.series == "on-series" %}"isPartOf": {"@type":"CreativeWorkSeries","name":"The On Series"},{% endif %}
       {% if _schema_type == "ShortStory" %}"genre": "Fiction",{% endif %}
       "inLanguage": "en"
     },
