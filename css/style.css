@@ -2053,7 +2053,7 @@ html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
 
 /* Full book parts use the essay column without pretending to be dated posts. */
 .book-part { padding-bottom: 64px; }
-.book-part-header { padding: 18px 0 8px; gap: 2px; }
+.book-part-header { padding: 18px 0 14px; gap: 2px; }
 .book-part-header h1 { font-size: clamp(1.75rem, 3vw, 2.4rem); margin-bottom: 0; }
 .book-part-kicker {
   margin: 0; font-family: 'EB Garamond', Georgia, serif;
@@ -2118,21 +2118,15 @@ html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
 .book-chapters-other a:focus-visible {
   outline: 2px solid var(--petrol); outline-offset: 3px;
 }
-.book-part-opening-band {
-  margin-left: calc(50% - 50vw);
-  margin-right: calc(50% - 50vw);
-  padding: 2px 20px 24px;
-  background: var(--surface-chrome);
-}
 .book-part-opening {
-  margin: 0; text-align: center;
+  margin: 5px 0 0; text-align: center;
   font-family: 'EB Garamond', Georgia, serif; font-size: 1.02rem;
   line-height: 1.45; color: var(--footer-text); opacity: .78;
 }
 .book-part-opening em { font-style: italic; }
 .book-chapter h2[id] { scroll-margin-top: 120px; }
 .book-part-body .book-chapter:first-child h2 { margin-top: 0; }
-.book-part-question .book-part-body { padding-top: 36px; }
+.book-part-question .book-part-body { padding-top: 14px; }
 .book-part-question .book-part-body .book-chapter:first-child h2 {
   margin-top: 0; padding-top: 0; border-top: 0;
 }
