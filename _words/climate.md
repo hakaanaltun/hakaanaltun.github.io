@@ -27,7 +27,6 @@ sun's rays. Places at similar latitudes received the noon sun at a similar
 angle, and were placed in the same zone.{% include word-cite.html n="1,2" %}
 
 Weather came to define the word more fully. Rain, wind, altitude, and local
-geography also matter to a place's climate. The older angle remains in its
-history.{% include word-cite.html n="2" %}
+geography also matter to a place's climate.{% include word-cite.html n="2" %}
 
 *The island has a mild climate.*

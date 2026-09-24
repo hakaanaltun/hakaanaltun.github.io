@@ -15,14 +15,14 @@ description: "Horace Walpole coined serendipity in a letter of 1754, after a sto
 Serendipity is finding something valuable without setting out to find it.
 
 In a letter dated January 28, 1754, Horace Walpole described a discovery he
-had made while looking through an old book. He had found the significance of
-a Venetian coat of arms in a painting. He had opened the book for something
-else. He needed a word for the kind of discovery he had made.{% include word-cite.html n="1" %}
+had made while looking through an old book at random. He had found the
+significance of a Venetian coat of arms in a painting. He called this kind of
+discovery *serendipity*.{% include word-cite.html n="1" %}
 
 He remembered *The Three Princes of Serendip*. As the princes traveled, they
 found things they had not set out to find, using both chance and their own
-judgment. Serendip was an old name for Sri Lanka. Walpole called this way of
-finding things *serendipity*.{% include word-cite.html n="1" %}
+judgment. Serendip was an old name for Sri Lanka. Walpole took the name from
+the story.{% include word-cite.html n="1" %}
 
 Walpole's word held both parts of the story. The princes came upon things by
 accident, then worked out what they had found. A lucky find could be missed by

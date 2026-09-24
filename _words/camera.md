@@ -26,8 +26,7 @@ chamber.{% include word-cite.html n="1" %}
 
 In a <span lang="la">*camera obscura*</span>, a darkened room or box, light
 enters through a small opening or lens. An image of the outside appears on
-the surface opposite. It can be viewed or traced there, but the room itself
-does not make a photograph.{% include word-cite.html n="2" %}
+the surface opposite. It can be viewed or traced onto paper.{% include word-cite.html n="2" %}
 
 Some versions were large enough to enter; others were boxes an artist could
 take outside. The image could be traced onto paper. Later, photographic
@@ -35,6 +34,6 @@ materials made it possible to preserve the image instead of drawing it by
 hand.{% include word-cite.html n="4" %}
 
 When photography developed, the shortened name went to the device that
-recorded the image. The room became something you could carry.{% include word-cite.html n="3,4" %}
+recorded the image.{% include word-cite.html n="3,4" %}
 
 *He left his camera on the table.*

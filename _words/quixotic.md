@@ -26,8 +26,6 @@ decides an enchanter must have turned the giants into windmills.{% include word-
 
 His name first became a word for a person like him, *a Quixote*, and then an
 adjective. *Quixotic* can admire someone's commitment to a noble aim while
-questioning whether the aim can be reached. It can also describe the moment
-someone's idea of the world stops them from seeing what is in front of
-them.{% include word-cite.html n="1,2" %}
+questioning whether the aim can be reached.{% include word-cite.html n="1" %}
 
 *The plan to restore every abandoned house was quixotic.*

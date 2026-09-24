@@ -23,7 +23,4 @@ its tendon suggesting a tail. The comparison is easy to test on an arm, though
 the dictionaries describe the reason for the name as probable rather than
 certain.{% include word-cite.html n="2" %}
 
-The animal has disappeared from the usual meaning. It is still there in the
-word we use for the movement.
-
 *The muscle in his arm tightened.*

@@ -19,7 +19,4 @@ In Latin, <span lang="la">*lens*</span> meant a lentil. A lens that curves
 outward on both sides has much the same shape as the seed. That resemblance
 gave the piece of glass its name.{% include word-cite.html n="1" %}
 
-The word now belongs to the eye, cameras, and other devices that focus light.
-The first comparison was with a seed.
-
 *She changed the lens on her camera.*
