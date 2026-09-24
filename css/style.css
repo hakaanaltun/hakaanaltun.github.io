@@ -2053,14 +2053,15 @@ html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
 
 /* Full book parts use the essay column without pretending to be dated posts. */
 .book-part { padding-bottom: 64px; }
-.book-part-header { padding: 18px 0 14px; gap: 2px; }
+.book-part-header { padding: 18px 0 26px; gap: 2px; }
 .book-part-header h1 { font-size: clamp(1.75rem, 3vw, 2.4rem); margin-bottom: 0; }
 .book-part-kicker {
   margin: 0; font-family: 'EB Garamond', Georgia, serif;
-  font-style: italic; font-size: .98rem; color: var(--vizon); text-align: center;
+  font-style: italic; font-size: .98rem; color: var(--footer-text); opacity: .6;
+  text-align: center;
 }
 .book-part-kicker a { color: inherit; text-decoration: none; }
-.book-part-kicker a:hover { color: var(--petrol); }
+.book-part-kicker a:hover { opacity: var(--select-dim); }
 /* The book's contents live in a narrow panel at the right edge. Native
    details keeps the chapter links available even without JavaScript. */
 .book-chapters {
@@ -2069,7 +2070,12 @@ html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
 }
 .book-chapters[open] { width: min(364px, 100vw); }
 .book-chapters > summary {
-  position: absolute; top: 28px; right: 0;
+  /* The panel opens where it always has, but the closed tab hangs just
+     below the title band rather than across its edge. --book-band is the
+     band's measured height (header-autohide.js); the fallback is Part I's
+     on a desktop. */
+  position: absolute; right: 0;
+  top: max(28px, calc(var(--head-band) + var(--book-band, 146px) + 16px - clamp(140px, 22vh, 210px)));
   display: flex; align-items: center; justify-content: center;
   width: 44px; height: 116px; padding: 12px 7px;
   writing-mode: vertical-rl; text-orientation: mixed;
@@ -2125,9 +2131,12 @@ html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
 }
 .book-part-opening em { font-style: italic; }
 .book-chapter h2[id] { scroll-margin-top: 120px; }
-.book-part-body .book-chapter:first-child h2 { margin-top: 0; }
-.book-part-question .book-part-body { padding-top: 14px; }
-.book-part-question .book-part-body .book-chapter:first-child h2 {
+/* A chapter is a <section>, and the site-wide section rule gives each one
+   100px of air above its title. Between chapters that is the pause; above
+   the first it pushed the opening chapter far below its title band. */
+.book-part-body { padding-top: 40px; }
+.book-part-body .book-chapter:first-child { padding-top: 0; }
+.book-part-body .book-chapter:first-child h2 {
   margin-top: 0; padding-top: 0; border-top: 0;
 }
 .book-part-body p.divider {
