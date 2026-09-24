@@ -6,6 +6,16 @@
   if (!header) return;
   var bookBand = document.querySelector('.book-part-header');
 
+  /* The book's Chapters tab hangs below the title band, whose height moves
+     with the width, the title's wrapping and the fonts as they load. */
+  if (bookBand) {
+    var syncBookBand = function () {
+      document.documentElement.style.setProperty('--book-band', bookBand.offsetHeight + 'px');
+    };
+    syncBookBand();
+    if (window.ResizeObserver) new ResizeObserver(syncBookBand).observe(bookBand);
+  }
+
   var scrollRoot = document.scrollingElement || document.documentElement;
   var lastScrollY = getScrollY();
   var lastTouchY = null;
