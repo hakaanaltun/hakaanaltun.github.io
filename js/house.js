@@ -289,10 +289,10 @@
      he sits in the frame, since the photographs are upright and the
      dialog's frame is wide. */
   var MORIS = {
-    sill: { place: 'At the window', line: 'He is on the windowsill, in the morning sun.', photo: 'moris-09', focus: '50% 62%', alt: 'Moris on his burgundy mat by the balcony door, watching the street through the screen' },
-    shelf: { place: 'On the bookshelf', line: 'He is on top of the bookshelf, where nobody can reach him.', photo: 'moris-04', focus: '50% 8%', alt: 'Moris keeping watch from the top of the kitchen cabinets' },
-    cushion: { place: 'On his cushion', line: 'He is back on his cushion.', photo: 'moris-10', focus: '50% 42%', alt: 'Moris tucked into a loaf in the middle of the rug, keeping an eye on the camera' },
-    asleep: { place: 'On his cushion', line: 'He is asleep.', photo: 'moris-05', focus: '50% 46%', alt: 'Moris asleep on the bench by the window, the sun going down behind him' }
+    sill: { place: 'At the window', line: 'He is on his cushion by the balcony door, watching the birds.', photo: 'moris-09', focus: '50% 62%', alt: 'Moris on his burgundy cushion by the balcony door, watching the birds through the screen' },
+    shelf: { place: 'On the bookshelf', line: 'He is on top of the fridge, where he can see the whole house.', photo: 'moris-04', focus: '50% 8%', alt: 'Moris on top of the fridge, looking out over the house' },
+    cushion: { place: 'On his cushion', line: 'He is on the rug.', photo: 'moris-10', focus: '50% 42%', alt: 'Moris tucked into a loaf in the middle of the rug, keeping an eye on the camera' },
+    asleep: { place: 'On his cushion', line: 'He is asleep by the window as the sun goes down.', photo: 'moris-05', focus: '50% 46%', alt: 'Moris asleep on the bench by the window, the sun going down behind him' }
   };
   function renderMoris(box) {
     box.appendChild(document.getElementById('house-moris').content.cloneNode(true));
