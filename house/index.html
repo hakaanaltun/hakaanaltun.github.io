@@ -15,7 +15,7 @@ description: "Come in, look around, and keep something you find. A room at On Li
   "Today" is İstanbul's day and the light is İstanbul's light: the house is
   there, and every reader sees the same room on the same day.
 {%- endcomment -%}
-<link rel="stylesheet" href="/css/house.css?v=20260925-8">
+<link rel="stylesheet" href="/css/house.css?v=20260925-9">
 
 <div class="house" id="house" data-catalog="/house/catalog.json?v={{ site.time | date: '%Y%m%d%H%M' }}">
   <div class="house-heading">
@@ -69,6 +69,7 @@ description: "Come in, look around, and keep something you find. A room at On Li
       <button class="house-hotspot house-hotspot--moris" data-open="moris" type="button"><span class="house-pin" aria-hidden="true">5</span><span class="house-hotspot-name">Moris</span></button>
       <button class="house-hotspot house-hotspot--lamp" data-lamp type="button" aria-pressed="false"><span class="house-pin" aria-hidden="true">6</span><span class="house-hotspot-name">The lamp</span></button>
       <button class="house-hotspot house-hotspot--drawer" id="drawer" data-open="drawer" type="button"><span class="house-pin" aria-hidden="true">7</span><span class="house-hotspot-name">Your drawer</span></button>
+      <a class="house-hotspot house-hotspot--clock" href="/clock/"><span class="house-pin" aria-hidden="true">8</span><span class="house-hotspot-name">The Clock <span aria-hidden="true">&rarr;</span></span></a>
     </div>
     {%- comment -%} On a phone or a tablet the room is too small to carry its labels, so
     the picture keeps only the numbers and the names are listed under it.
@@ -82,6 +83,7 @@ description: "Come in, look around, and keep something you find. A room at On Li
       <li><button type="button" tabindex="-1" data-open="moris"><span class="house-pin">5</span>Moris</button></li>
       <li><button type="button" tabindex="-1" data-lamp><span class="house-pin">6</span>The lamp</button></li>
       <li><button type="button" tabindex="-1" data-open="drawer"><span class="house-pin">7</span>Your drawer</button></li>
+      <li><a href="/clock/" tabindex="-1"><span class="house-pin">8</span>The Clock</a></li>
     </ol>
     <div class="house-room-footer"><a href="#house-entrance" id="house-leave">&larr; Back to the door</a><a href="/write/">Sit down and write <span aria-hidden="true">&rarr;</span></a></div>
   </section>
