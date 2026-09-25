@@ -154,6 +154,12 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   a.click('.house-hotspot--lamp');
   assert.notEqual(a.q('#house-scene').dataset.lamp, lampWas);
   assert.equal(typeof a.stored().lamp, 'boolean');
+  // A touch anywhere else in the room leaves the lamp alone.
+  const lampNow = a.q('#house-scene').dataset.lamp;
+  a.click('#house-scene');
+  a.q('.house-room-art').dispatchEvent(new a.w.MouseEvent('click', { bubbles: true }));
+  assert.equal(a.q('#house-scene').dataset.lamp, lampNow, 'the room is not the lamp');
+  assert.equal(a.q('#house-scene').getAttribute('aria-pressed'), null);
   a.click('[data-open="window"]');
   assert.match(a.q('#house-dialog-content').textContent, /in İstanbul\./);
   assert.match(a.q('#house-dialog-content').textContent, /Sunset/);
