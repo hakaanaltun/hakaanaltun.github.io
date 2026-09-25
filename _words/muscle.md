@@ -11,7 +11,7 @@ sources:
     url: "https://www.ahdictionary.com/word/search.html?q=muscle"
   - title: "Words with Remarkable Origins"
     where: "Merriam-Webster"
-    url: "https://www.merriam-webster.com/wordplay/top-10-words-with-remarkable-origins-vol-1/avocado"
+    url: "https://www.merriam-webster.com/wordplay/top-10-words-with-remarkable-origins-vol-1/muscle"
 description: "Muscle comes from Latin musculus, little mouse. A flexing muscle may have suggested an animal moving under the skin."
 ---
 
@@ -20,7 +20,6 @@ A muscle contracts to move part of the body. Its name comes from the Latin
 
 The likely image is a muscle moving under the skin when someone flexes, with
 its tendon suggesting a tail. The comparison is easy to test on an arm, though
-the dictionaries describe the reason for the name as probable rather than
-certain.{% include word-cite.html n="2" %}
+the reason for the name is given as probable rather than certain.{% include word-cite.html n="2" %}
 
 *The muscle in his arm tightened.*

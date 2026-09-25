@@ -29,7 +29,6 @@ they kept finding things they had not set out to find, by chance and by their
 own good sense.{% include word-cite.html n="1,2" %}
 
 Walpole's word held both parts of the story: the accident, and the judgment to
-see what the accident had brought.{% include word-cite.html n="1,2" %} A lucky
-find could pass unnoticed by someone who did not know what they were looking at.
+see what the accident had brought.{% include word-cite.html n="1,2" %}
 
 *Finding that letter in the archive was pure serendipity.*
