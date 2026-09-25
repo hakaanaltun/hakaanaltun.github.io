@@ -37,7 +37,8 @@
     <circle cx="450" cy="146" r="2.5" fill="currentColor"/>
   </g>
   <!-- Window and distant rooftops. The sky, the sun and the moon follow
-       İstanbul's own: js/house.js moves the sun and draws the moon's phase. -->
+       İstanbul's own: js/house.js moves the sun, and draws the moon in its
+       phase while it is above the horizon. -->
   <g class="house-line">
     <path class="house-window-trim" d="M675 264V129a102 102 0 0 1 204 0v135Z"/>
     <path fill="url(#house-sky)" d="M686 252V129a91 91 0 0 1 182 0v123Z"/>

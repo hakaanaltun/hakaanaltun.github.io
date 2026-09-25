@@ -91,7 +91,10 @@
 .house-scene[data-hour="night"] { --sky-top: #25384a; --sky-bottom: #506575; }
 .house-scene[data-hour="night"] .house-stars { opacity: 1; }
 .house-scene[data-hour="night"] .house-sun { opacity: 0; }
-.house-scene[data-hour="night"] .house-moon { opacity: 1; }
+.house-scene[data-moon="up"] .house-moon { opacity: 1; }
+/* By day the moon is pale against the blue and its dark part is lost. */
+.house-scene[data-hour="day"] .house-moon-disc, .house-scene[data-hour="morning"] .house-moon-disc { opacity: 0; }
+.house-scene[data-hour="day"] .house-moon-lit, .house-scene[data-hour="morning"] .house-moon-lit { fill: #f7f5ee; opacity: .6; }
 .house-scene[data-hour="night"] .house-light-beam { opacity: .06; }
 /* Rain or snow at the window: the sky clouds over and the sun, the moon and
    the stars go behind it. */

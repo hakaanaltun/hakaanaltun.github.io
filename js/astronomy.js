@@ -94,6 +94,53 @@
     return 0;
   }
 
+  /* ---- the moon's altitude: the Astronomical Almanac's low-precision
+     lunar position (±0.3° in longitude, ±0.2° in latitude), then the
+     parallax, which lowers the moon by up to a degree as seen from the
+     ground. Returned for the moon's centre, as seen from lat/lng. ---- */
+  function moonAltitude(now, lat, lng){
+    var d = (now.getTime() / 86400000) - 10957.5;        /* days since J2000 */
+    var T = d / 36525;
+    var s = function(a, b){ return Math.sin((a + b * T) * RAD); };
+    var c = function(a, b){ return Math.cos((a + b * T) * RAD); };
+    var lon = (218.32 + 481267.881 * T
+      + 6.29 * s(135.0, 477198.87) - 1.27 * s(259.3, -413335.36)
+      + 0.66 * s(235.7, 890534.22) + 0.21 * s(269.9, 954397.74)
+      - 0.19 * s(357.5, 35999.05) - 0.11 * s(186.5, 966404.03)) * RAD;
+    var lat2 = (5.13 * s(93.3, 483202.02) + 0.28 * s(228.2, 960400.89)
+      - 0.28 * s(318.3, 6003.15) - 0.17 * s(217.6, -407332.21)) * RAD;
+    var par = 0.9508 + 0.0518 * c(135.0, 477198.87) + 0.0095 * c(259.3, -413335.36)
+      + 0.0078 * c(235.7, 890534.22) + 0.0028 * c(269.9, 954397.74);
+    var e = (23.439 - 0.00000036 * d) * RAD;
+    var x = Math.cos(lat2) * Math.cos(lon);
+    var y = Math.cos(e) * Math.cos(lat2) * Math.sin(lon) - Math.sin(e) * Math.sin(lat2);
+    var z = Math.sin(e) * Math.cos(lat2) * Math.sin(lon) + Math.cos(e) * Math.sin(lat2);
+    var dec = Math.asin(z);
+    var RAh = (Math.atan2(y, x) / RAD) / 15;
+    var GMST = ((18.697374558 + 24.06570982441908 * d) % 24 + 24) % 24;
+    var lst = ((GMST + lng / 15) % 24 + 24) % 24;
+    var H = ((lst - RAh) * 15 + 540) % 360 - 180;
+    var latR = lat * RAD;
+    var h = Math.asin(Math.sin(latR) * Math.sin(dec) + Math.cos(latR) * Math.cos(dec) * Math.cos(H * RAD)) / RAD;
+    return h - par * Math.cos(h * RAD);
+  }
+  /* The moon is up once its top edge clears the horizon: the centre is
+     then about 0.83° below it, refraction lifting what lies just under. */
+  var MOON_HORIZON = -0.833;
+  /* When the moon next crosses the horizon after `now`, looked for in
+     five-minute steps across a day and a bit (it rises about 50 minutes
+     later each day, so one always falls inside). → Date, or null. */
+  function moonCrossing(now, lat, lng){
+    var step = 5 * 60000, t = now.getTime();
+    var a = moonAltitude(now, lat, lng) - MOON_HORIZON;
+    for(var i = 1; i <= 26 * 12; i++){
+      var b = moonAltitude(new Date(t + step), lat, lng) - MOON_HORIZON;
+      if((a > 0) !== (b > 0)) return new Date(t + step * a / (a - b));
+      t += step; a = b;
+    }
+    return null;
+  }
+
   /* ---- solstices & equinoxes: Meeus, Astronomical Algorithms ch. 27 ----
      Mean JDE polynomial for the years 1000–3000, then 24 periodic terms.
      Accuracy is a small fraction of an hour — plenty for a calendar page. */
@@ -136,6 +183,9 @@
     MOON_EDGES: MOON_EDGES,
     lunation: lunation,
     moonPhaseIndex: moonPhaseIndex,
+    moonAltitude: moonAltitude,
+    MOON_HORIZON: MOON_HORIZON,
+    moonCrossing: moonCrossing,
     turningPoint: turningPoint
   };
 })();

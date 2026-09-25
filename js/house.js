@@ -282,6 +282,8 @@
     fact('Sunrise', sky.sunrise && clock(sky.sunrise));
     fact('Sunset', sky.sunset && clock(sky.sunset));
     fact('The moon', sky.moon);
+    var crossing = sky.moon && window.OLAE_ASTRO.moonCrossing(new Date(), LAT, LNG);
+    fact(sky.moonUp ? 'Moonset' : 'Moonrise', crossing && clock(crossing));
     if (!facts.children.length) facts.remove();
   }
 
@@ -380,6 +382,10 @@
   /* --- The sky, the lamp and the cat ------------------------------------ */
 
   var SUN = { morning: [720, 198], day: [838, 124], evening: [838, 202] };
+  /* The moon hangs across the window from the sun, so the lit side of a
+     crescent faces it. It is only there while it is above İstanbul's
+     horizon, by day as well as by night. */
+  var MOON = { morning: [838, 124], day: [742, 112], evening: [742, 112], night: [838, 124] };
   var PLACES = { sill: 'translate(-41 -226)', shelf: 'translate(-610 -359)', cushion: '' };
   var PHASES = ['new moon', 'waxing crescent', 'first quarter', 'waxing gibbous', 'full moon', 'waning gibbous', 'last quarter', 'waning crescent'];
 
@@ -408,6 +414,7 @@
       var lit = Math.round((1 - Math.cos(2 * Math.PI * sky.age / A.SYNODIC)) / 2 * 100);
       var phase = PHASES[A.moonPhaseIndex(sky.age)];
       sky.moon = phase.charAt(0).toUpperCase() + phase.slice(1) + ', ' + lit + '% lit';
+      sky.moonUp = A.moonAltitude(now, LAT, LNG) > A.MOON_HORIZON;
     } else {
       sky.period = hour >= 6 && hour < 10 ? 'morning' : hour >= 10 && hour < 17 ? 'day' : hour >= 17 && hour < 21 ? 'evening' : 'night';
     }
@@ -455,7 +462,13 @@
     document.getElementById('house-clock').textContent = '· ' + clock(now);
     var sun = scene.querySelector('.house-sun');
     if (SUN[sky.period]) { sun.setAttribute('cx', SUN[sky.period][0]); sun.setAttribute('cy', SUN[sky.period][1]); }
-    if (sky.age !== undefined) scene.querySelector('.house-moon-lit').setAttribute('d', moonPath(sky.age, 838, 124, 17));
+    if (sky.moonUp) {
+      var at = MOON[sky.period];
+      var disc = scene.querySelector('.house-moon-disc');
+      disc.setAttribute('cx', at[0]); disc.setAttribute('cy', at[1]);
+      scene.querySelector('.house-moon-lit').setAttribute('d', moonPath(sky.age, at[0], at[1], 17));
+      scene.dataset.moon = 'up';
+    } else delete scene.dataset.moon;
     // Mornings at the window, days out of reach, evenings and nights at home.
     var place = { morning: 'sill', day: 'shelf', evening: 'cushion', night: 'cushion' }[sky.period];
     scene.dataset.moris = place;
