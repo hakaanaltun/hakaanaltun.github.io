@@ -464,7 +464,7 @@
     var lamp = KEEP.read().lamp;
     var on = lamp === null ? sky.period === 'night' || sky.period === 'evening' : lamp;
     scene.dataset.lamp = on ? 'on' : 'off';
-    root.querySelectorAll('[data-lamp]').forEach(function (button) { button.setAttribute('aria-pressed', String(on)); });
+    root.querySelectorAll('button[data-lamp]').forEach(function (button) { button.setAttribute('aria-pressed', String(on)); });
   }
 
   /* --- Weather at the window ------------------------------------------
@@ -778,7 +778,9 @@
   root.addEventListener('click', function (event) {
     var trigger = event.target.closest('[data-open]');
     if (trigger) { openObject(trigger.getAttribute('data-open'), trigger); return; }
-    if (event.target.closest('[data-lamp]')) {
+    // Only the lamp's own buttons: the scene carries data-lamp too, as the
+    // lamp's state, and a touch anywhere in the room is not a hand on the lamp.
+    if (event.target.closest('button[data-lamp]')) {
       var on = scene.dataset.lamp !== 'on';
       KEEP.update(function (state) { state.lamp = on; });
       paint();
