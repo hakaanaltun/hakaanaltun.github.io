@@ -1,5 +1,28 @@
 # AGENTS.md
 
+## What this is for
+
+The aim is never money. The question behind this site is why the things that
+would be good for people have not been made: why people have been steered,
+why settling for less came to be accepted, why money came before feeling. The
+large companies grew with people without caring about them, and they grew
+because there was no alternative. This site goes the other way. It grows by
+caring about the people who come to it, not by going out to reach them.
+
+What that asks of every change:
+
+- **Give the reader something, and take nothing they did not choose to
+  give.** No tracking, no engagement tricks, nothing that pulls a reader back
+  or holds them longer than they meant to stay. What a reader keeps stays
+  with them: the drawer lives in their own browser. The one thing the site
+  asks for, an email address for new pieces, waits quietly at the end of an
+  essay and is theirs to give.
+- **Never ask a reader to settle for less.** A half-made page, a drawing that
+  does not work, a description that is not true: each tells the reader they
+  were not worth the care. If something cannot be made well, it waits.
+- **The test is the reader's first look.** Someone who opens a page should be
+  drawn into it, not left wondering what this nonsense is.
+
 ## Cursor Cloud specific instructions
 
 This repository is a **Jekyll 4 static site** ("On Life & Everything", a personal blog) that is deployed to GitHub Pages via `.github/workflows/pages.yml`. Ruby, RubyGems, and Bundler 4.0.13 are pre-installed in the Cloud VM, and the startup update script runs `bundle install` (gems install into the git-ignored `vendor/bundle/`, configured by `.bundle/config`).
@@ -42,6 +65,33 @@ learned the hard way is written down here instead.
   names the work and its shape; the line-by-line reasoning behind an edit
   belongs in the conversation, not in a public description that outlives it.
   "The prose was simplified" is the right altitude.
+
+## Before showing anything
+
+What went wrong on the day The House opened, so that it does not go wrong
+again.
+
+- **Look at it before anyone else does.** Passing checks say a page works, not
+  that it looks right. Build the site, open the page in a browser and look at
+  every state it has: each hour of The House, a phone, the dark themes. A
+  drawing can only be judged by looking at it. A Moris drawn from coordinates
+  and never rendered reached the author, and it was not a cat.
+- **Say "I can't" at the start.** Some things cannot be done well from here,
+  and a likeness drawn by writing SVG coordinates is one of them. Say so
+  before trying, not after the author has seen the attempt.
+- **Describe a photograph from the photograph.** Look at it before writing its
+  alt text or a line under it, and ask the author about whatever the picture
+  cannot settle: where he is, what he is looking at. A line written for the
+  drawn room was put under a photograph of somewhere else.
+- **Report only what you have reproduced.** A problem named before it is
+  confirmed costs trust twice, once when it is said and again when it is taken
+  back. That day a header "covering" the room turned out to be a scrolled
+  page, and "broken" photographs were only missing from a local build.
+- **`/images/480/` and `/images/960/` are made at deploy** by
+  `scripts/generate_image_variants.py` in `.github/workflows/pages.yml`. A
+  local build has only the variants that are committed, so an image missing
+  locally may be fine on the site. Check the live address before calling it
+  broken.
 
 ## Punctuation
 
