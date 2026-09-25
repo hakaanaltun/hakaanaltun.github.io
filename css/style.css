@@ -2053,6 +2053,13 @@ html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
 
 /* Full book parts use the essay column without pretending to be dated posts. */
 .book-part { padding-bottom: 64px; }
+/* The title band's height, which places both the closed Chapters tab and
+   where a chapter comes to rest. header-autohide.js measures the band and
+   writes the real height on the article; these are its desktop heights
+   until then, or without script. Part II has no opening line under its
+   title, so its band is shorter. */
+.book-part { --book-band: 146px; }
+.book-part:not(:has(.book-part-opening)) { --book-band: 115px; }
 .book-part-header { padding: 18px 0 26px; gap: 2px; }
 .book-part-header h1 { font-size: clamp(1.75rem, 3vw, 2.4rem); margin-bottom: 0; }
 .book-part-kicker {
@@ -2071,11 +2078,9 @@ html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
 .book-chapters[open] { width: min(364px, 100vw); }
 .book-chapters > summary {
   /* The panel opens where it always has, but the closed tab hangs just
-     below the title band rather than across its edge. --book-band is the
-     band's measured height (header-autohide.js); the fallback is Part I's
-     on a desktop. */
+     below the title band rather than across its edge. */
   position: absolute; right: 0;
-  top: max(28px, calc(var(--head-band) + var(--book-band, 146px) + 16px - clamp(140px, 22vh, 210px)));
+  top: max(28px, calc(var(--head-band) + var(--book-band) + 16px - clamp(140px, 22vh, 210px)));
   display: flex; align-items: center; justify-content: center;
   width: 44px; height: 116px; padding: 12px 7px;
   writing-mode: vertical-rl; text-orientation: mixed;
@@ -2130,7 +2135,11 @@ html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
   line-height: 1.45; color: var(--footer-text); opacity: .78;
 }
 .book-part-opening em { font-style: italic; }
-.book-chapter h2[id] { scroll-margin-top: 120px; }
+/* html's scroll-padding-top clears the masthead. The title band hangs
+   beneath it and comes back with it when the reader jumps to an earlier
+   chapter, so a chapter adds the band's height too, and lands with its rule
+   24px clear of the band. */
+.book-chapter h2[id] { scroll-margin-top: calc(var(--book-band) + 14px); }
 /* A chapter is a <section>, and the site-wide section rule gives each one
    100px of air above its title. Between chapters that is the pause; above
    the first it pushed the opening chapter far below its title band. */

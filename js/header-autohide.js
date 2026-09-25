@@ -6,11 +6,13 @@
   if (!header) return;
   var bookBand = document.querySelector('.book-part-header');
 
-  /* The book's Chapters tab hangs below the title band, whose height moves
-     with the width, the title's wrapping and the fonts as they load. */
+  /* The book's Chapters tab hangs below the title band, and each chapter
+     comes to rest below it, so both need its height, which moves with the
+     width, the title's wrapping and the fonts as they load. It is written on
+     the article, where it overrides the stylesheet's first guess. */
   if (bookBand) {
     var syncBookBand = function () {
-      document.documentElement.style.setProperty('--book-band', bookBand.offsetHeight + 'px');
+      bookBand.parentNode.style.setProperty('--book-band', bookBand.offsetHeight + 'px');
     };
     syncBookBand();
     if (window.ResizeObserver) new ResizeObserver(syncBookBand).observe(bookBand);
