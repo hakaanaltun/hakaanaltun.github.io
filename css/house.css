@@ -112,10 +112,10 @@
 .house-scene[data-lamp="on"] .house-dusk { fill: url(#house-lamplight); }
 .house-scene[data-hour="evening"] .house-dusk { opacity: .2; }
 .house-scene[data-hour="night"] .house-dusk { opacity: .5; }
-.house-hotspot { position: absolute; display: flex; align-items: center; gap: 7px; transform: translate(-50%, -50%); min-height: 44px; padding: 6px 12px 6px 7px; border: 1px solid #b7ab94; border-radius: 3px; background: #fcf7e9; color: #443f34 !important; font-size: 15px !important; line-height: 1.2; white-space: nowrap; box-shadow: 0 2px 8px #30291a12; transition: background .18s; }
+.house-hotspot { position: absolute; display: flex; align-items: center; gap: 6px; transform: translate(-50%, -50%); min-height: 36px; padding: 4px 10px 4px 6px; border: 1px solid #b7ab94; border-radius: 3px; background: #fcf7e9; color: #443f34 !important; font-size: 14px !important; line-height: 1.2; white-space: nowrap; box-shadow: 0 2px 8px #30291a12; transition: background .18s; }
 .house-hotspot:hover { background: #fffdf7; border-color: #716553; }
 .house-hotspot:focus-visible { outline-color: #443f34 !important; }
-.house-pin { width: 19px; height: 19px; display: grid; place-items: center; border: 1px solid #cbbd9f; border-radius: 50%; font-size: 11px; }
+.house-pin { width: 17px; height: 17px; display: grid; place-items: center; border: 1px solid #cbbd9f; border-radius: 50%; font-size: 10px; }
 /* Each name sits beside its thing, on bare wall or floor, so it never covers
    what it names. */
 .house-hotspot--books { left: 20%; top: 82%; }
@@ -127,8 +127,12 @@
 .house-scene[data-moris="shelf"] .house-hotspot--moris { left: 23%; top: 7%; }
 .house-hotspot--lamp { left: 56%; top: 44%; }
 .house-hotspot--drawer { left: 56%; top: 78%; }
-/* The one name that leaves the room: the wall clock opens The Clock. */
-.house-hotspot--clock { left: 43%; top: 10%; text-decoration: none; }
+/* The names that leave the room, for the instruments that belong to its
+   things: the wall clock, the bookshelf and the desk. */
+.house-hotspot--clock, .house-hotspot--reader, .house-hotspot--desk { text-decoration: none; }
+.house-hotspot--clock { left: 43%; top: 10%; }
+.house-hotspot--reader { left: 20%; top: 90%; }
+.house-hotspot--desk { left: 41%; top: 91%; }
 .house-objects { display: none; }
 .house-room-footer { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; border-bottom: 1px solid var(--rule-strong); padding: 20px 0; font-size: 16px; }
 .house-room-footer a { color: var(--ink-soft); text-decoration: none; }
@@ -203,6 +207,8 @@ html[data-theme="dark"] .house-scene[data-hour="night"] .house-dusk, html[data-t
   .house-hotspot--drawer { left: 48%; top: 70%; }
   .house-hotspot--moris { left: 84%; top: 78%; }
   .house-hotspot--clock { left: 48%; top: 27%; }
+  .house-hotspot--reader { left: 27%; top: 63%; }
+  .house-hotspot--desk { left: 69%; top: 71%; }
   .house-scene[data-moris="sill"] .house-hotspot--moris { left: 79.7%; top: 36%; }
   .house-scene[data-moris="shelf"] .house-hotspot--moris { left: 22.8%; top: 15%; }
   .house-objects { display: grid; grid-template-columns: 1fr 1fr; gap: 0 14px; list-style: none; margin: 14px 0 0; padding: 0; }
