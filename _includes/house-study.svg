@@ -65,7 +65,7 @@
   <g class="house-line house-moris">
     <path class="house-cat" d="M793 482q-3-45 39-48 32-2 42 27l14-5q16 16-5 25Z"/><path class="house-cat" d="M789 465l-3-34 16 12 16-10 1 34q-12 14-30-2Z"/><path d="M858 463q30 24-15 20" stroke="#777365" stroke-width="3"/>
     <path class="house-cat-eyes house-cat-eyes--shut" d="M793 457l6 1M807 458l6-2" stroke-width="2"/>
-    <g class="house-cat-eyes--open" stroke="none"><ellipse cx="796" cy="457" rx="3.2" ry="2.2"/><ellipse cx="810" cy="456.5" rx="3.2" ry="2.2"/></g>
+    <g class="house-cat-eyes--open" stroke="none"><ellipse cx="796" cy="457" rx="3.2" ry="2.2"/><ellipse cx="810" cy="456.5" rx="3.2" ry="2.2"/><ellipse class="house-cat-pupil" cx="796" cy="457" rx=".6" ry="2"/><ellipse class="house-cat-pupil" cx="810" cy="456.5" rx=".6" ry="2"/></g>
   </g>
   <!-- Plant beside the window. -->
   <g class="house-line"><path class="house-pot" d="M924 456h45l-6 33h-33Z"/><path d="M945 456V381M945 425l-18-22M945 405l15-25"/><path class="house-leaf" d="M944 405q-32-2-25-34 25 7 25 34ZM946 424q32-9 30-34-26 5-30 34ZM945 389q-20-12-9-38 22 16 9 38Z"/></g>
