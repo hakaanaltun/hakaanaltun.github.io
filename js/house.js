@@ -1,142 +1,369 @@
-/* An optional entrance to the site. Only canonical item IDs are stored;
-   all drawer text and links come from the current rendered templates. */
+/* The House: one room so far. The picture is in house/index.html; this puts
+   things in it.
+
+   What changes by the day (the word cards, the question on the wall, the
+   two lines on the shelf) comes from /house/catalog.json and follows
+   İstanbul's calendar, so every reader finds the same room on the same day
+   and a different one tomorrow. What changes by the hour (the sky in the
+   window, the lamp, where Moris is) follows İstanbul's sun, through
+   js/astronomy.js. The drawer belongs to js/keep.js, which the rest of the
+   site keeps things through too; the room only opens it. */
 (function () {
   'use strict';
   var root = document.getElementById('house');
-  if (!root) return;
-  var STORAGE = 'olae-house-v1';
+  var KEEP = window.OLAE_KEEP;
+  if (!root || !KEEP) return;
   var dialog = document.getElementById('house-dialog');
   if (typeof dialog.showModal !== 'function') {
-    document.getElementById('house-enter').href = '/all-work/';
-    document.getElementById('house-enter').textContent = 'Visit the writing →';
+    var enter = document.getElementById('house-enter');
+    enter.href = '/all-work/';
+    enter.textContent = 'Visit the writing →';
     return;
   }
+
+  var TZ = 'Europe/Istanbul';
+  var LAT = 41.015;
+  var LNG = 28.979;
   var content = document.getElementById('house-dialog-content');
   var scene = document.getElementById('house-scene');
-  var lamp = document.getElementById('house-lamp');
   var status = document.getElementById('house-status');
   var dialogStatus = document.getElementById('house-dialog-status');
   var entrance = document.getElementById('house-entrance');
   var study = document.getElementById('study');
+  var catalog = null;           // null while it loads, false if it could not
+  var index = Object.create(null);
+  var waiting = [];
   var activeObject = '';
   var opener = null;
-  var storageWorks = true;
-  var catalog = Object.create(null);
-  var answered = null;
   var labels = {
     books: ['By the wall', 'The bookshelf'],
     words: ['On the desk', 'Word cards'],
     question: ['Pinned to the wall', 'A question for you'],
     window: ['Outside', 'Through the window'],
-    moris: ['On the cushion', 'Moris'],
+    moris: ['On his cushion', 'Moris'],
     drawer: ['Yours to keep', 'Your drawer']
   };
-  root.querySelectorAll('template').forEach(function (template) {
-    template.content.querySelectorAll('[data-house-item]').forEach(function (item) {
-      var source = item.querySelector('[data-source]');
-      catalog[item.dataset.houseItem] = {
-        title: item.querySelector('h3').textContent,
-        quote: item.querySelector('[data-quote]').textContent,
-        kind: item.dataset.kind,
-        href: source.getAttribute('href')
-      };
-    });
-  });
-  function readState() {
-    try {
-      var value = JSON.parse(localStorage.getItem(STORAGE) || '{}');
-      if (!value || typeof value !== 'object') value = {};
-      return {
-        kept: Array.isArray(value.kept) ? value.kept.filter(function (id, i, list) {
-          return typeof id === 'string' && Object.prototype.hasOwnProperty.call(catalog, id) && list.indexOf(id) === i;
-        }) : [],
-        lamp: typeof value.lamp === 'boolean' ? value.lamp : null
-      };
-    } catch (e) {
-      // Malformed JSON can be replaced on the next save; inaccessible
-      // storage is detected separately by the write probe below.
-      return { kept: [], lamp: null };
+
+  /* --- İstanbul's day and hour ----------------------------------------- */
+
+  function parts(date, options) {
+    var out = {};
+    new Intl.DateTimeFormat('en-GB', Object.assign({ timeZone: TZ }, options)).formatToParts(date)
+      .forEach(function (p) { out[p.type] = p.value; });
+    return out;
+  }
+  function today() {
+    var p = parts(new Date(), { year: 'numeric', month: '2-digit', day: '2-digit' });
+    return p.year + '-' + p.month + '-' + p.day;
+  }
+  function clock(date) {
+    var p = parts(date, { hour: '2-digit', minute: '2-digit', hourCycle: 'h23' });
+    return p.hour + ':' + p.minute;
+  }
+  function dayNumber(day) {
+    var p = day.split('-');
+    return Math.round(Date.UTC(+p[0], +p[1] - 1, +p[2]) / 86400000);
+  }
+
+  /* A fixed shuffle of the list, the same for everyone, walked a step a day:
+     nothing comes round again until everything else has had its day. A new
+     entry reshuffles the walk, which is no loss. */
+  function seeded(seed) {
+    return function () {
+      seed = (seed + 0x6D2B79F5) | 0;
+      var t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+  function todays(list, salt, count) {
+    var n = list.length;
+    if (!n) return [];
+    var order = list.map(function (_, i) { return i; });
+    var random = seeded(salt);
+    for (var i = n - 1; i > 0; i--) {
+      var j = Math.floor(random() * (i + 1));
+      var t = order[i]; order[i] = order[j]; order[j] = t;
     }
+    var start = (dayNumber(today()) * count) % n;
+    var picked = [];
+    for (var k = 0; k < Math.min(count, n); k++) picked.push(list[order[(start + k) % n]]);
+    return picked;
   }
-  var state = readState();
-  try {
-    localStorage.setItem(STORAGE + '-probe', '1');
-    localStorage.removeItem(STORAGE + '-probe');
-  } catch (e) { storageWorks = false; }
-  function persist() {
-    try {
-      localStorage.setItem(STORAGE, JSON.stringify(state));
-      storageWorks = true;
-    } catch (e) { storageWorks = false; }
+
+  /* --- The catalog ------------------------------------------------------ */
+
+  function lineItem(line) {
+    return {
+      id: KEEP.textId(line.text),
+      kind: line.book ? 'The Fragments' : line.fiction ? 'A story' : 'An essay',
+      title: line.source,
+      quote: line.text,
+      href: line.url
+    };
   }
-  function storageNote() {
-    return storageWorks ? 'Saved in this browser. Your drawer stays here when you come back. Clearing browser data empties it.' : 'Your browser cannot save this drawer. You can use it until you leave this page.';
+  function wordItem(w) { return { id: w.id, kind: 'A word', title: w.word, quote: w.description, href: w.url }; }
+  function questionItem(q) { return { id: q.id, kind: q.quiz, title: q.question, quote: q.note, href: q.url }; }
+
+  function whenCatalog(fn) { if (catalog !== null) fn(); else waiting.push(fn); }
+  function arrived(data) {
+    catalog = data && Array.isArray(data.words) ? data : false;
+    if (catalog) {
+      catalog.words.forEach(function (w) { index[w.id] = wordItem(w); });
+      catalog.questions.forEach(function (q) { index[q.id] = questionItem(q); });
+      catalog.lines.forEach(function (l) { var item = lineItem(l); index[item.id] = item; });
+    }
+    var run = waiting;
+    waiting = [];
+    run.forEach(function (fn) { fn(); });
   }
-  function announce(message) {
-    status.textContent = message;
-    dialogStatus.textContent = message;
+  if (typeof fetch === 'function') {
+    fetch(root.getAttribute('data-catalog'))
+      .then(function (response) { if (!response.ok) throw new Error(response.status); return response.json(); })
+      .then(arrived, function () { arrived(false); });
+  } else {
+    arrived(false);
   }
-  function syncKept() {
-    root.querySelectorAll('[data-kept-count]').forEach(function (count) { count.textContent = state.kept.length; });
-    content.querySelectorAll('[data-keep]').forEach(function (button) {
-      if (!button.dataset.originalLabel) button.dataset.originalLabel = button.textContent;
-      var kept = state.kept.indexOf(button.dataset.keep) !== -1;
-      button.setAttribute('aria-pressed', String(kept));
-      button.textContent = kept ? 'In your drawer ✓' : button.dataset.originalLabel;
-    });
+
+  /* A kept thing shows its current words where the catalog still knows it,
+     and what was kept where it does not. Only the words are taken: the kind
+     and address a reader kept it under stay. */
+  function current(item) {
+    var known = index[item.id];
+    if (!known) return item;
+    return { id: item.id, kind: item.kind || known.kind, title: known.title, quote: known.quote || item.quote, href: known.href, at: item.at };
   }
+
+  /* --- Small builders ---------------------------------------------------- */
+
   function element(tag, className, text) {
     var node = document.createElement(tag);
     if (className) node.className = className;
     if (text) node.textContent = text;
     return node;
   }
-  function renderDrawer() {
-    content.replaceChildren();
-    content.appendChild(element('p', 'house-drawer-note', storageNote()));
-    if (!state.kept.length) {
-      var empty = element('div', 'house-empty-drawer');
-      empty.appendChild(element('p', '', 'Nothing here yet. Pick up a word card, read a line from the bookshelf, or try the question on the wall.'));
-      content.appendChild(empty);
-      return;
-    }
-    state.kept.forEach(function (id) {
-      var item = catalog[id];
+  function keepButton(item, label) {
+    var button = element('button', 'house-keep', label);
+    button.type = 'button';
+    button.setAttribute('data-keep-button', '');
+    button.setAttribute('data-keep-item', JSON.stringify(item));
+    return button;
+  }
+  function actions(href, linkText, item, keepLabel) {
+    var row = element('div', 'house-item-actions');
+    var link = element('a', '', linkText);
+    link.href = href;
+    row.appendChild(link);
+    if (item) row.appendChild(keepButton(item, keepLabel));
+    return row;
+  }
+  function more(href, text) {
+    var link = element('a', 'house-more', text);
+    link.href = href;
+    return link;
+  }
+  function unreachable(box, href, text) {
+    box.appendChild(element('p', 'house-object-intro', 'This could not be brought in just now. Try again in a moment.'));
+    box.appendChild(more(href, text));
+  }
+  function announce(message) {
+    status.textContent = message;
+    dialogStatus.textContent = message;
+  }
+
+  /* --- The objects ------------------------------------------------------- */
+
+  function renderBooks(box) {
+    if (!catalog) return unreachable(box, '/all-work/', 'All the writing →');
+    box.appendChild(element('p', 'house-object-intro', 'Two lines on the shelf today: one from the book, one from the pieces.'));
+    var book = todays(catalog.lines.filter(function (l) { return l.book; }), 37, 1)[0];
+    var piece = todays(catalog.lines.filter(function (l) { return !l.book; }), 41, 1)[0];
+    [book, piece].forEach(function (line) {
+      if (!line) return;
+      var item = lineItem(line);
       var article = element('article', 'house-item');
       article.appendChild(element('p', 'house-item-kind', item.kind));
-      article.appendChild(element('h3', '', item.title));
-      article.appendChild(element('p', '', item.quote));
-      var actions = element('div', 'house-item-actions');
-      var link = element('a', '', 'Go to the page →');
-      link.href = item.href;
-      actions.appendChild(link);
-      var remove = element('button', '', 'Remove');
-      remove.type = 'button';
-      remove.dataset.remove = id;
-      remove.setAttribute('aria-label', 'Remove ' + item.title + ' from your drawer');
-      actions.appendChild(remove);
-      article.appendChild(actions);
-      content.appendChild(article);
+      article.appendChild(element('h3', '', line.source));
+      article.appendChild(element('blockquote', '', line.text));
+      article.appendChild(actions(line.url, line.book ? 'Read the chapter →' : 'Read the piece →', item, 'Keep this line'));
+      box.appendChild(article);
     });
+    box.appendChild(more('/all-work/', 'All the writing →'));
   }
-  function showAnswer(button, announceResult) {
+
+  function renderWords(box) {
+    if (!catalog) return unreachable(box, '/word/', 'All the words →');
+    box.appendChild(element('p', 'house-object-intro', 'Three cards on the desk today. Turn one over; there’s a story behind each word.'));
+    todays(catalog.words, 11, 3).forEach(function (w) {
+      var article = element('article', 'house-item house-word-card');
+      article.appendChild(element('p', 'house-item-kind', w.pos));
+      article.appendChild(element('h3', '', w.word));
+      var details = element('details');
+      var summary = element('summary', '', 'Turn the card over ');
+      summary.appendChild(element('span', '', '↻')).setAttribute('aria-hidden', 'true');
+      details.appendChild(summary);
+      details.appendChild(element('p', '', w.description));
+      article.appendChild(details);
+      article.appendChild(actions(w.url, 'Read its story →', wordItem(w), 'Keep this word'));
+      box.appendChild(article);
+    });
+    box.appendChild(more('/word/', 'All the words →'));
+  }
+
+  function renderQuestion(box) {
+    if (!catalog) return unreachable(box, '/trivia/', 'All the quizzes →');
+    var q = todays(catalog.questions, 23, 1)[0];
+    var article = element('article', 'house-item house-question');
+    article.appendChild(element('p', 'house-item-kind', 'Today, from ' + q.quiz));
+    article.appendChild(element('h3', '', q.question));
+    var answers = element('div', 'house-answers');
+    answers.setAttribute('role', 'group');
+    answers.setAttribute('aria-label', 'Choose an answer');
+    // Like the quizzes, a fixed order of choices would give the answer away.
+    var order = q.choices.map(function (_, i) { return i; });
+    for (var i = order.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = order[i]; order[i] = order[j]; order[j] = t;
+    }
+    order.forEach(function (at) {
+      var button = element('button', '', q.choices[at]);
+      button.type = 'button';
+      button.setAttribute('data-answer', at === q.answer ? 'correct' : 'other');
+      answers.appendChild(button);
+    });
+    article.appendChild(answers);
+    var after = element('div', 'house-answer-note');
+    after.hidden = true;
+    var result = element('p', 'house-answer-result');
+    after.appendChild(result);
+    after.appendChild(element('p', '', q.note));
+    after.appendChild(actions(q.url, 'Play a full round →', questionItem(q), 'Keep this note'));
+    article.appendChild(after);
+    box.appendChild(article);
+    article.setAttribute('data-question', q.id);
+    // The answer stays answered for the rest of İstanbul's day.
+    var saved = KEEP.read().answered;
+    if (saved && saved.day === today() && saved.id === q.id) {
+      var chosen = Array.prototype.find.call(answers.children, function (b) { return b.textContent === saved.choice; });
+      if (chosen) showAnswer(chosen, false);
+    }
+  }
+
+  function showAnswer(button, moveFocus) {
     var correct = content.querySelector('[data-answer="correct"]');
-    var result = button === correct ? 'That’s right.' : 'The answer is ' + correct.textContent + '.';
     content.querySelectorAll('[data-answer]').forEach(function (choice) {
       choice.disabled = true;
       if (choice === correct) choice.dataset.result = 'correct';
       else if (choice === button) choice.dataset.result = 'chosen';
     });
-    content.querySelector('.house-answer-note').hidden = false;
-    content.querySelector('.house-answer-result').textContent = result;
-    if (announceResult) {
-      // The disabled answer no longer takes focus. Put it on the newly
-      // revealed note, making the full explanation available to a reader.
-      var note = content.querySelector('.house-answer-note');
+    var note = content.querySelector('.house-answer-note');
+    note.hidden = false;
+    content.querySelector('.house-answer-result').textContent = button === correct ? 'That’s right.' : 'The answer is ' + correct.textContent + '.';
+    if (moveFocus) {
+      // The disabled answer no longer takes focus; the note is what to read.
       note.tabIndex = -1;
       note.focus({ preventScroll: true });
     }
   }
+
+  function renderWindow(box) {
+    box.appendChild(document.getElementById('house-window').content.cloneNode(true));
+    var sky = skyNow(new Date());
+    box.querySelector('[data-sky-line]').textContent = {
+      morning: 'It is morning in İstanbul.', day: 'It is day in İstanbul.',
+      evening: 'It is evening in İstanbul.', night: 'It is night in İstanbul.'
+    }[sky.period] + ' The light in this window is the light there.';
+    var facts = box.querySelector('[data-sky-facts]');
+    function fact(term, value) {
+      if (!value) return;
+      facts.appendChild(element('dt', '', term));
+      facts.appendChild(element('dd', '', value));
+    }
+    fact('Sunrise', sky.sunrise && clock(sky.sunrise));
+    fact('Sunset', sky.sunset && clock(sky.sunset));
+    fact('The moon', sky.moon);
+    if (!facts.children.length) facts.remove();
+  }
+
+  /* Each place has the photograph that shows him there. `focus` is where he
+     sits in the frame, since the photographs are upright and the room's
+     frame is wide. */
+  var MORIS = {
+    sill: { place: 'At the window', line: 'He is at the window, watching the street.', photo: 'moris-09', focus: '50% 62%', alt: 'Moris on a burgundy mat by the balcony door, looking out' },
+    shelf: { place: 'On the bookshelf', line: 'He is on top of the bookshelf, where nobody can reach him.', photo: 'moris-04', focus: '50% 8%', alt: 'Moris on top of the kitchen cabinets, looking down' },
+    cushion: { place: 'On his cushion', line: 'He is back on his cushion.', photo: 'moris-10', focus: '50% 42%', alt: 'Moris tucked into a loaf on the rug' },
+    asleep: { place: 'On his cushion', line: 'He is asleep.', photo: 'moris-05', focus: '50% 46%', alt: 'Moris asleep on a bench by the window as the sun goes down' }
+  };
+  function renderMoris(box) {
+    box.appendChild(document.getElementById('house-moris').content.cloneNode(true));
+    var where = scene.dataset.hour === 'night' ? 'asleep' : scene.dataset.moris;
+    var about = MORIS[where] || MORIS.cushion;
+    document.getElementById('house-dialog-place').textContent = about.place;
+    var photo = box.querySelector('[data-moris-photo]');
+    photo.src = '/images/960/' + about.photo + '.webp';
+    photo.alt = about.alt;
+    photo.style.objectPosition = about.focus;
+    box.querySelector('[data-moris-line]').textContent = about.line;
+    box.querySelector('[data-moris-quote]').hidden = where !== 'asleep';
+  }
+
+  function storageNote() {
+    return KEEP.works()
+      ? 'Kept in this browser, and nowhere else. You can put things here from anywhere on the site. Clearing your browser’s data empties it.'
+      : 'This browser cannot save your drawer. What you put here stays until you leave the page.';
+  }
+
+  function renderDrawer(box) {
+    var kept = KEEP.read().kept.map(current).reverse();
+    box.appendChild(element('p', 'house-drawer-note', storageNote()));
+    if (!kept.length) {
+      var empty = element('div', 'house-empty-drawer');
+      empty.appendChild(element('p', '', 'Nothing here yet. Pick up a word card, read a line from the bookshelf, or try the question on the wall. On a word’s page, after a quiz answer, or when you select a line in an essay or the book, there is a way to keep it too.'));
+      box.appendChild(empty);
+      return;
+    }
+    var tools = element('div', 'house-drawer-tools');
+    [['text', 'Download as text'], ['print', 'Print or save as PDF']].forEach(function (pair) {
+      var button = element('button', '', pair[1]);
+      button.type = 'button';
+      button.setAttribute('data-export', pair[0]);
+      tools.appendChild(button);
+    });
+    box.appendChild(tools);
+    kept.forEach(function (item) {
+      var article = element('article', 'house-item');
+      article.appendChild(element('p', 'house-item-kind', item.kind));
+      article.appendChild(element('h3', item.id.indexOf('word-') === 0 ? 'is-word' : '', item.title));
+      if (item.quote) article.appendChild(element(item.id.indexOf('text-') === 0 ? 'blockquote' : 'p', '', item.quote));
+      var row = actions(item.href, 'Go to the page →');
+      var share = element('button', '', 'Share as a card');
+      share.type = 'button';
+      share.setAttribute('data-share', item.id);
+      row.appendChild(share);
+      var remove = element('button', '', 'Remove');
+      remove.type = 'button';
+      remove.setAttribute('data-remove', item.id);
+      remove.setAttribute('aria-label', 'Remove ' + item.title + ' from your drawer');
+      row.appendChild(remove);
+      article.appendChild(row);
+      box.appendChild(article);
+    });
+  }
+
+  var renderers = { books: renderBooks, words: renderWords, question: renderQuestion, window: renderWindow, moris: renderMoris, drawer: renderDrawer };
+  var needsCatalog = { books: true, words: true, question: true };
+
+  function fill(name) {
+    content.replaceChildren();
+    if (needsCatalog[name] && catalog === null) {
+      content.appendChild(element('p', 'house-object-intro', 'One moment…'));
+      whenCatalog(function () { if (dialog.open && activeObject === name) fill(name); });
+      return;
+    }
+    renderers[name](content);
+    KEEP.sync(content);
+  }
+
   function openObject(name, button) {
     if (!labels[name]) return;
     activeObject = name;
@@ -144,86 +371,352 @@
     document.getElementById('house-dialog-place').textContent = labels[name][0];
     document.getElementById('house-dialog-title').textContent = labels[name][1];
     dialogStatus.textContent = '';
-    if (name === 'drawer') renderDrawer();
-    else {
-      content.replaceChildren(document.getElementById('house-' + name).content.cloneNode(true));
-      if (name === 'question') {
-        // Match the quizzes: neither the source position nor a fixed order
-        // should give the answer away. Retain an answered card this visit.
-        var answers = content.querySelector('.house-answers');
-        var choices = Array.from(answers.children);
-        for (var i = choices.length - 1; i > 0; i--) {
-          var j = Math.floor(Math.random() * (i + 1));
-          var tmp = choices[i]; choices[i] = choices[j]; choices[j] = tmp;
-        }
-        choices.forEach(function (choice) { answers.appendChild(choice); });
-        if (answered !== null) showAnswer(choices.find(function (choice) { return choice.textContent === answered; }), false);
-      }
-    }
-    syncKept();
-    dialog.showModal();
+    fill(name);
+    if (!dialog.open) dialog.showModal();
     dialog.scrollTop = 0;
     document.getElementById('house-close').focus({ preventScroll: true });
   }
+
+  /* --- The sky, the lamp and the cat ------------------------------------ */
+
+  var SUN = { morning: [720, 198], day: [838, 124], evening: [838, 202] };
+  var PLACES = { sill: 'translate(-41 -226)', shelf: 'translate(-610 -359)', cushion: '' };
+  var PHASES = ['new moon', 'waxing crescent', 'first quarter', 'waxing gibbous', 'full moon', 'waning gibbous', 'last quarter', 'waning crescent'];
+
+  function skyNow(now) {
+    var A = window.OLAE_ASTRO;
+    var hour = +clock(now).slice(0, 2);
+    var sky = { hour: hour };
+    if (A) {
+      var height = A.sunAltitude(now, LAT, LNG);
+      var soon = A.sunAltitude(new Date(now.getTime() + 20 * 60000), LAT, LNG);
+      sky.period = height < -6 ? 'night' : height < 12 ? (soon > height ? 'morning' : 'evening') : 'day';
+      var p = parts(now, { year: 'numeric', month: 'numeric', day: 'numeric' });
+      var y = +p.year, mo = +p.month - 1, d = +p.day;
+      var day = { n: Math.round((Date.UTC(y, mo, d) - Date.UTC(y, 0, 0)) / 86400000), y: y, mo: mo, d: d };
+      sky.sunrise = A.sunEvent(day, true, 90.833, LAT, LNG, TZ);
+      sky.sunset = A.sunEvent(day, false, 90.833, LAT, LNG, TZ);
+      var lunation = A.lunation(now);
+      sky.age = (lunation - Math.floor(lunation)) * A.SYNODIC;
+      var lit = Math.round((1 - Math.cos(2 * Math.PI * sky.age / A.SYNODIC)) / 2 * 100);
+      var phase = PHASES[A.moonPhaseIndex(sky.age)];
+      sky.moon = phase.charAt(0).toUpperCase() + phase.slice(1) + ', ' + lit + '% lit';
+    } else {
+      sky.period = hour >= 6 && hour < 10 ? 'morning' : hour >= 10 && hour < 17 ? 'day' : hour >= 17 && hour < 21 ? 'evening' : 'night';
+    }
+    return sky;
+  }
+
+  /* The lit part of the moon: the bright limb, then back along the
+     terminator, an ellipse as wide as the phase leaves it. Seen from
+     İstanbul a waxing moon is lit on the right. */
+  function moonPath(age, cx, cy, r) {
+    var cycle = age / window.OLAE_ASTRO.SYNODIC;
+    var lit = (1 - Math.cos(2 * Math.PI * cycle)) / 2;
+    var waxing = cycle < 0.5;
+    var gibbous = lit > 0.5;
+    var rx = (r * Math.abs(1 - 2 * lit)).toFixed(2);
+    var outer = waxing ? 1 : 0;
+    var inner = waxing === gibbous ? 1 : 0;
+    return 'M' + cx + ' ' + (cy - r) + 'A' + r + ' ' + r + ' 0 0 ' + outer + ' ' + cx + ' ' + (cy + r) +
+      'A' + rx + ' ' + r + ' 0 0 ' + inner + ' ' + cx + ' ' + (cy - r) + 'Z';
+  }
+
+  function paint() {
+    var now = new Date();
+    var sky = skyNow(now);
+    var name = { morning: 'Morning', day: sky.hour < 12 ? 'Morning' : 'Afternoon', evening: 'Evening', night: 'Night' }[sky.period];
+    scene.dataset.hour = sky.period;
+    document.getElementById('house-hour').textContent = name + ' in İstanbul';
+    document.getElementById('house-clock').textContent = '· ' + clock(now);
+    var sun = scene.querySelector('.house-sun');
+    if (SUN[sky.period]) { sun.setAttribute('cx', SUN[sky.period][0]); sun.setAttribute('cy', SUN[sky.period][1]); }
+    if (sky.age !== undefined) scene.querySelector('.house-moon-lit').setAttribute('d', moonPath(sky.age, 838, 124, 17));
+    // Mornings at the window, days out of reach, evenings and nights at home.
+    var place = { morning: 'sill', day: 'shelf', evening: 'cushion', night: 'cushion' }[sky.period];
+    scene.dataset.moris = place;
+    var cat = scene.querySelector('.house-moris');
+    if (PLACES[place]) cat.setAttribute('transform', PLACES[place]); else cat.removeAttribute('transform');
+    var lamp = KEEP.read().lamp;
+    var on = lamp === null ? sky.period === 'night' || sky.period === 'evening' : lamp;
+    scene.dataset.lamp = on ? 'on' : 'off';
+    root.querySelectorAll('[data-lamp]').forEach(function (button) { button.setAttribute('aria-pressed', String(on)); });
+  }
+
+  /* --- Since the last visit ---------------------------------------------
+     The house remembers what the site held on a reader's last day here and
+     says, at the door, what has come since. It is worked out once a day, so
+     the note is still there if the page is opened again the same day. */
+
+  function arrivals() {
+    if (!catalog) return;
+    var things = [].concat(
+      catalog.pieces.map(function (p) { return { id: p.id, label: p.fiction ? 'A new story' : 'A new essay', title: p.title, url: p.url }; }),
+      catalog.words.map(function (w) { return { id: w.id, label: 'A new word', title: w.word, url: w.url }; }),
+      catalog.notes.map(function (n) { return { id: n.id, label: 'A new note', title: longDate(n.date), url: n.url }; }),
+      catalog.quizzes.map(function (q) { return { id: q.id, label: 'A new quiz', title: q.title, url: q.url }; })
+    );
+    var ids = things.map(function (t) { return t.id; });
+    var day = today();
+    var returning = false;
+    var fresh = [];
+    KEEP.update(function (state) {
+      if (!state.seen) { state.seen = { day: day, known: ids, fresh: [] }; return; }
+      returning = true;
+      if (state.seen.day !== day) {
+        var known = Object.create(null);
+        state.seen.known.forEach(function (id) { known[id] = true; });
+        state.seen = { day: day, known: ids, fresh: ids.filter(function (id) { return !known[id]; }) };
+      }
+      fresh = state.seen.fresh;
+    });
+    if (returning) document.getElementById('house-welcome').textContent = 'Welcome back.';
+    var shown = things.filter(function (t) { return fresh.indexOf(t.id) !== -1; });
+    if (!shown.length) return;
+    var list = document.getElementById('house-since-list');
+    list.replaceChildren();
+    shown.slice(0, 6).forEach(function (t) {
+      var li = element('li', '', t.label + ': ');
+      var link = element('a', '', t.title);
+      link.href = t.url;
+      li.appendChild(link);
+      list.appendChild(li);
+    });
+    if (shown.length > 6) list.appendChild(element('li', '', 'and ' + (shown.length - 6) + ' more.'));
+    document.getElementById('house-since').hidden = false;
+  }
+
+  function longDate(value) {
+    var p = String(value).split('-');
+    if (p.length !== 3) return value;
+    return new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', timeZone: 'UTC' }).format(new Date(Date.UTC(+p[0], +p[1] - 1, +p[2])));
+  }
+
+  /* --- Taking things out of the drawer ---------------------------------- */
+
+  function download(blob, name) {
+    if (!window.URL || !URL.createObjectURL) return false;
+    var url = URL.createObjectURL(blob);
+    var link = element('a');
+    link.href = url;
+    link.download = name;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+    return true;
+  }
+
+  function quoted(item) { return item.id.indexOf('text-') === 0 ? '“' + item.quote + '”' : item.quote; }
+
+  function exportText() {
+    var lines = ['Your drawer', 'On Life & Everything · hakanaltun.io', 'Saved ' + longDate(today()), ''];
+    KEEP.read().kept.map(current).forEach(function (item) {
+      lines.push([item.kind, item.title].filter(Boolean).join(' · '));
+      if (item.quote) lines.push(quoted(item));
+      lines.push(location.origin + item.href, '');
+    });
+    var saved = download(new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' }), 'your-drawer.txt');
+    announce(saved ? 'Your drawer is saved to your downloads as a text file.' : 'This browser cannot save a file from here.');
+  }
+
+  function printDrawer() {
+    var old = document.querySelector('.house-print');
+    if (old) old.remove();
+    var sheet = element('section', 'house-print');
+    sheet.appendChild(element('h1', '', 'Your drawer'));
+    var from = element('p', 'house-print-from', 'On Life ');
+    from.appendChild(element('span', 'amp', '&'));
+    from.appendChild(document.createTextNode(' Everything · hakanaltun.io · ' + longDate(today())));
+    sheet.appendChild(from);
+    KEEP.read().kept.map(current).forEach(function (item) {
+      var article = element('article');
+      article.appendChild(element('p', 'house-item-kind', item.kind));
+      article.appendChild(element('h2', item.id.indexOf('word-') === 0 ? 'is-word' : '', item.title));
+      if (item.quote) article.appendChild(element('p', '', quoted(item)));
+      article.appendChild(element('p', 'house-print-address', location.host + item.href));
+      sheet.appendChild(article);
+    });
+    document.body.appendChild(sheet);
+    document.documentElement.classList.add('house-printing');
+    window.addEventListener('afterprint', function done() {
+      document.documentElement.classList.remove('house-printing');
+      window.removeEventListener('afterprint', done);
+    });
+    // A modal dialog prints over the page, so the drawer closes first.
+    dialog.close();
+    if (typeof window.print === 'function') window.print();
+  }
+
+  /* A card for one kept thing, to send or save as a picture. The paper, ink
+     and type are the site's, set down in the light palette whatever the
+     page is showing. */
+  function wrap(ctx, words, width) {
+    var lines = [];
+    var line = '';
+    words.split(/\s+/).forEach(function (word) {
+      var next = line ? line + ' ' + word : word;
+      if (line && ctx.measureText(next).width > width) { lines.push(line); line = word; } else line = next;
+    });
+    if (line) lines.push(line);
+    return lines;
+  }
+  function drawCard(item) {
+    var W = 1080, H = 1350, M = 112;
+    var canvas = element('canvas');
+    canvas.width = W;
+    canvas.height = H;
+    var ctx = canvas.getContext && canvas.getContext('2d');
+    if (!ctx || !canvas.toBlob) return Promise.reject(new Error('no canvas'));
+    var fonts = document.fonts && document.fonts.load ? Promise.all([
+      document.fonts.load('500 64px "Cormorant Garamond"'),
+      document.fonts.load('italic 500 64px "Cormorant Garamond"'),
+      document.fonts.load('400 40px "EB Garamond"')
+    ]).catch(function () {}) : Promise.resolve();
+    return fonts.then(function () {
+      var width = W - 2 * M;
+      ctx.fillStyle = '#FDFCF8';
+      ctx.fillRect(0, 0, W, H);
+      ctx.strokeStyle = '#D6CDB6';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(48, 48, W - 96, H - 96);
+      var y = M + 44;
+      ctx.fillStyle = '#6D665B';
+      ctx.font = '400 28px "EB Garamond", Georgia, serif';
+      if ('letterSpacing' in ctx) ctx.letterSpacing = '4px';
+      ctx.fillText((item.kind || '').toUpperCase(), M, y);
+      if ('letterSpacing' in ctx) ctx.letterSpacing = '0px';
+      var word = item.id.indexOf('word-') === 0;
+      var size = word ? 104 : 62;
+      ctx.fillStyle = '#262320';
+      ctx.font = (word ? 'italic ' : '') + '500 ' + size + 'px "Cormorant Garamond", Georgia, serif';
+      y += size * 1.35;
+      wrap(ctx, item.title, width).slice(0, 4).forEach(function (line) { ctx.fillText(line, M, y); y += size * 1.12; });
+      y += 34;
+      // The words take the largest size that fits, and sit in the middle
+      // of the room left for them, so a short line is not lost at the top.
+      var bottom = H - M - 150;
+      var body = item.quote ? quoted(item) : '';
+      var face = item.id.indexOf('text-') === 0 ? 'italic 400 ' : '400 ';
+      var fit = 60;
+      var lines = [];
+      for (;;) {
+        ctx.font = face + fit + 'px "EB Garamond", Georgia, serif';
+        lines = wrap(ctx, body, width);
+        if (y + lines.length * fit * 1.5 <= bottom || fit <= 28) break;
+        fit -= 2;
+      }
+      var room = Math.max(0, Math.floor((bottom - y) / (fit * 1.5)));
+      if (lines.length > room) { lines = lines.slice(0, room); if (room) lines[room - 1] = lines[room - 1].replace(/\s*\S*$/, '') + ' …'; }
+      y += Math.max(0, (bottom - y - lines.length * fit * 1.5) / 2);
+      ctx.fillStyle = '#3A342C';
+      lines.forEach(function (line) { y += fit * 1.5; ctx.fillText(line, M, y); });
+      ctx.fillStyle = '#4A554F';
+      ctx.font = 'italic 500 46px "Cormorant Garamond", Georgia, serif';
+      ctx.fillText('On Life & Everything', M, H - M - 34);
+      ctx.fillStyle = '#6D665B';
+      ctx.font = '400 28px "EB Garamond", Georgia, serif';
+      ctx.fillText('hakanaltun.io', M, H - M + 10);
+      return new Promise(function (resolve) { canvas.toBlob(resolve, 'image/png'); });
+    });
+  }
+  function share(id) {
+    var item = KEEP.read().kept.map(current).find(function (k) { return k.id === id; });
+    if (!item) return;
+    announce('Making the card…');
+    drawCard(item).then(function (blob) {
+      if (!blob) throw new Error('no image');
+      var name = 'on-life-and-everything-' + (item.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40) || 'card') + '.png';
+      var file = typeof File === 'function' ? new File([blob], name, { type: 'image/png' }) : null;
+      if (file && navigator.canShare && navigator.canShare({ files: [file] })) {
+        return navigator.share({ files: [file], title: item.title })
+          .then(function () { announce('The card is on its way.'); }, function () { announce(''); });
+      }
+      announce(download(blob, name) ? 'The card is saved to your downloads.' : 'This browser cannot save the card.');
+    }).catch(function () { announce('This browser cannot draw the card.'); });
+  }
+
+  /* --- Moving about ------------------------------------------------------ */
+
   function setView(focus) {
-    var inside = location.hash === '#study';
+    var hash = location.hash;
+    var inside = hash === '#study' || hash === '#drawer';
     entrance.hidden = inside;
     study.hidden = !inside;
+    if (hash === '#drawer') {
+      if (!dialog.open) openObject('drawer', document.getElementById('drawer'));
+      return;
+    }
     if (focus) {
       var target = inside ? document.getElementById('house-room-title') : document.getElementById('house-enter');
       target.focus({ preventScroll: true });
       root.scrollIntoView({ block: 'start', behavior: 'instant' });
     }
   }
-  function paintTime() {
-    var date = new Date();
-    var hour = date.getHours();
-    var period = hour >= 6 && hour < 10 ? 'morning' : hour >= 10 && hour < 17 ? 'day' : hour >= 17 && hour < 21 ? 'evening' : 'night';
-    var name = { morning: 'Morning', day: hour < 12 ? 'Morning' : 'Afternoon', evening: 'Evening', night: 'Night' }[period];
-    scene.dataset.hour = period;
-    document.getElementById('house-hour').textContent = name + ' · your time';
-    var on = state.lamp === null ? period === 'night' || period === 'evening' : state.lamp;
-    scene.dataset.lamp = on ? 'on' : 'off';
-    lamp.setAttribute('aria-pressed', String(on));
-    lamp.setAttribute('aria-label', on ? 'Turn off the lamp' : 'Turn on the lamp');
+
+  function syncCount() {
+    var count = KEEP.read().kept.length;
+    root.querySelectorAll('[data-kept-count]').forEach(function (node) { node.textContent = count; });
   }
+
   root.addEventListener('click', function (event) {
     var trigger = event.target.closest('[data-open]');
-    if (trigger) { openObject(trigger.dataset.open, trigger); return; }
-    var keep = event.target.closest('[data-keep]');
-    if (keep && catalog[keep.dataset.keep]) {
-      var id = keep.dataset.keep;
-      var index = state.kept.indexOf(id);
-      if (index === -1) state.kept.push(id); else state.kept.splice(index, 1);
-      persist(); syncKept();
-      announce((index === -1 ? 'Put in your drawer.' : 'Taken out of your drawer.') + (storageWorks ? '' : ' Kept only until you leave this page.'));
+    if (trigger) { openObject(trigger.getAttribute('data-open'), trigger); return; }
+    if (event.target.closest('[data-lamp]')) {
+      var on = scene.dataset.lamp !== 'on';
+      KEEP.update(function (state) { state.lamp = on; });
+      paint();
+      announce(on ? 'The lamp is on.' : 'The lamp is off.');
+      return;
+    }
+    var answer = event.target.closest('[data-answer]');
+    if (answer && !answer.disabled) {
+      var id = answer.closest('[data-question]').getAttribute('data-question');
+      KEEP.update(function (state) { state.answered = { day: today(), id: id, choice: answer.textContent }; });
+      showAnswer(answer, true);
       return;
     }
     var remove = event.target.closest('[data-remove]');
     if (remove) {
-      var removeButtons = Array.from(content.querySelectorAll('[data-remove]'));
-      var position = removeButtons.indexOf(remove);
-      state.kept = state.kept.filter(function (id) { return id !== remove.dataset.remove; });
-      persist(); renderDrawer(); syncKept();
-      var remaining = content.querySelectorAll('[data-remove]');
-      (remaining[Math.min(position, remaining.length - 1)] || document.getElementById('house-close')).focus({ preventScroll: true });
+      var position = Array.prototype.indexOf.call(content.querySelectorAll('[data-remove]'), remove);
+      KEEP.remove(remove.getAttribute('data-remove'));
+      var left = content.querySelectorAll('[data-remove]');
+      (left[Math.min(position, left.length - 1)] || document.getElementById('house-close')).focus({ preventScroll: true });
       announce('Taken out of your drawer.');
       return;
     }
-    var answer = event.target.closest('[data-answer]');
-    if (answer && !answer.disabled) { answered = answer.textContent; showAnswer(answer, true); }
+    var shareButton = event.target.closest('[data-share]');
+    if (shareButton) { share(shareButton.getAttribute('data-share')); return; }
+    var exporter = event.target.closest('[data-export]');
+    if (exporter) {
+      if (exporter.getAttribute('data-export') === 'print') printDrawer(); else exportText();
+    }
   });
-  lamp.addEventListener('click', function () {
-    state.lamp = lamp.getAttribute('aria-pressed') !== 'true';
-    persist(); paintTime(); announce(state.lamp ? 'The lamp is on.' : 'The lamp is off.');
+
+  /* Whatever changes the drawer (a keep here, a removal, another tab) comes
+     through one place. */
+  KEEP.subscribe(function () {
+    syncCount();
+    paint();
+    if (dialog.open && activeObject === 'drawer') {
+      content.replaceChildren();
+      renderDrawer(content);
+    } else {
+      KEEP.sync(content);
+    }
   });
+
   document.getElementById('house-close').addEventListener('click', function () { dialog.close(); });
   dialog.addEventListener('click', function (event) {
     if (event.target !== dialog) return;
     var rect = dialog.getBoundingClientRect();
     if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) dialog.close();
   });
-  dialog.addEventListener('close', function () { if (opener && !opener.hidden) opener.focus({ preventScroll: true }); });
+  dialog.addEventListener('close', function () {
+    activeObject = '';
+    if (location.hash === '#drawer') history.replaceState(null, '', '#study');
+    if (opener && !opener.hidden) opener.focus({ preventScroll: true });
+  });
   ['house-enter', 'house-leave'].forEach(function (id) {
     document.getElementById(id).addEventListener('click', function (event) {
       event.preventDefault();
@@ -231,16 +724,18 @@
       setView(true);
     });
   });
-  window.addEventListener('hashchange', function () { if (dialog.open) dialog.close(); setView(true); });
-  window.addEventListener('storage', function (event) {
-    if (event.key !== STORAGE && event.key !== null) return;
-    state = readState(); syncKept(); paintTime();
-    if (dialog.open && activeObject === 'drawer') renderDrawer();
+  window.addEventListener('hashchange', function () {
+    if (dialog.open && location.hash !== '#drawer') dialog.close();
+    setView(true);
   });
-  document.addEventListener('visibilitychange', function () { if (!document.hidden) paintTime(); });
-  window.setInterval(paintTime, 60000);
-  root.querySelectorAll('.house-js').forEach(function (item) { item.hidden = false; });
-  if (state.kept.length) document.getElementById('house-welcome').textContent = 'Welcome back.';
-  if (!storageWorks) status.textContent = storageNote();
-  syncKept(); paintTime(); setView(false);
+  document.addEventListener('visibilitychange', function () { if (!document.hidden) paint(); });
+  window.setInterval(paint, 60000);
+
+  root.querySelectorAll('.house-js').forEach(function (node) { node.hidden = false; });
+  if (KEEP.read().kept.length) document.getElementById('house-welcome').textContent = 'Welcome back.';
+  if (!KEEP.works()) status.textContent = storageNote();
+  syncCount();
+  paint();
+  setView(false);
+  whenCatalog(arrivals);
 })();

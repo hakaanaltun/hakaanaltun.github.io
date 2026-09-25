@@ -24,13 +24,15 @@
   </g>
   <!-- Framed sketch. -->
   <g class="house-line"><path class="house-paper" d="M390 96H510V196H390Z"/><path class="house-faint" d="M398 104H502V188H398Z"/><path d="M409 170l24-31 25 22 20-40 14 49"/><circle cx="433" cy="123" r="8"/></g>
-  <!-- Window and distant rooftops. -->
+  <!-- Window and distant rooftops. The sky, the sun and the moon follow
+       İstanbul's own: js/house.js moves the sun and draws the moon's phase. -->
   <g class="house-line">
     <path class="house-window-trim" d="M675 264V129a102 102 0 0 1 204 0v135Z"/>
     <path fill="url(#house-sky)" d="M686 252V129a91 91 0 0 1 182 0v123Z"/>
     <g clip-path="url(#house-window-clip)" stroke="none">
-      <circle class="house-sun" cx="823" cy="96" r="20"/>
+      <circle class="house-sun" cx="838" cy="124" r="20"/>
       <g class="house-stars" fill="#f6e5b9"><circle cx="707" cy="94" r="1.8"/><circle cx="750" cy="60" r="1.5"/><circle cx="835" cy="151" r="1.5"/><circle cx="757" cy="171" r="1.5"/></g>
+      <g class="house-moon"><circle class="house-moon-disc" cx="838" cy="124" r="17"/><path class="house-moon-lit" d=""/></g>
       <path class="house-rooftops" d="M681 250V213h15v-17l22-15 24 15v15h13v-28h17v-14h5v14h14v32h19v-15h12v-13l24-12 28 12v70Z"/>
     </g>
     <path d="M777 38V253M686 145H868"/><path class="house-window-trim" d="M665 259H889V271H665Z"/>
@@ -56,8 +58,15 @@
   <ellipse class="house-lamp-glow" fill="url(#house-glow)" cx="625" cy="372" rx="160" ry="110"/>
   <!-- A question card on the wall. -->
   <g class="house-line"><path class="house-paper" d="M356 260l48-4 5 66-48 4Z"/><circle cx="381" cy="265" r="2"/><text x="382" y="304" text-anchor="middle" class="house-question-mark">?</text></g>
-  <!-- Moris on a cushion. -->
-  <g class="house-line"><ellipse class="house-cushion" cx="842" cy="488" rx="75" ry="19"/><path class="house-cat" d="M793 482q-3-45 39-48 32-2 42 27l14-5q16 16-5 25Z"/><path class="house-cat" d="M789 465l-3-34 16 12 16-10 1 34q-12 14-30-2Z"/><path d="M858 463q30 24-15 20" stroke="#777365" stroke-width="3"/><path class="house-cat-eyes" d="M793 457l6 1M807 458l6-2" stroke-width="2"/></g>
+  <!-- The cushion stays where it is; Moris does not. By İstanbul's hour he is
+       at the window, on top of the bookshelf, or back here. js/house.js
+       moves the group; his eyes close at night. -->
+  <g class="house-line"><ellipse class="house-cushion" cx="842" cy="488" rx="75" ry="19"/></g>
+  <g class="house-line house-moris">
+    <path class="house-cat" d="M793 482q-3-45 39-48 32-2 42 27l14-5q16 16-5 25Z"/><path class="house-cat" d="M789 465l-3-34 16 12 16-10 1 34q-12 14-30-2Z"/><path d="M858 463q30 24-15 20" stroke="#777365" stroke-width="3"/>
+    <path class="house-cat-eyes house-cat-eyes--shut" d="M793 457l6 1M807 458l6-2" stroke-width="2"/>
+    <g class="house-cat-eyes--open" stroke="none"><ellipse cx="796" cy="457" rx="3.2" ry="2.2"/><ellipse cx="810" cy="456.5" rx="3.2" ry="2.2"/></g>
+  </g>
   <!-- Plant beside the window. -->
   <g class="house-line"><path class="house-pot" d="M924 456h45l-6 33h-33Z"/><path d="M945 456V381M945 425l-18-22M945 405l15-25"/><path class="house-leaf" d="M944 405q-32-2-25-34 25 7 25 34ZM946 424q32-9 30-34-26 5-30 34ZM945 389q-20-12-9-38 22 16 9 38Z"/></g>
 </svg>

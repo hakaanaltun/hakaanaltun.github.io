@@ -32,6 +32,18 @@
     '<button type="button" class="reader-translate-button">Türkçe</button>';
   document.body.appendChild(popup);
 
+  /* On a piece that lets a reader keep a passage (js/keep.js), the same
+     selection can go into the drawer: one prompt, two things to do with it. */
+  var keep = window.OLAE_KEEP && article.hasAttribute('data-keep-passage') ? window.OLAE_KEEP : null;
+  var keepButton = null;
+  if (keep) {
+    keepButton = document.createElement('button');
+    keepButton.type = 'button';
+    keepButton.className = 'reader-translate-button reader-translate-keep';
+    keepButton.textContent = 'Keep';
+    popup.appendChild(keepButton);
+  }
+
   var sourceEl = popup.querySelector('.reader-translate-source');
   var resultEl = popup.querySelector('.reader-translate-result');
   var translateButton = popup.querySelector('.reader-translate-button');
@@ -55,6 +67,7 @@
       '.reader-translate-button{display:inline-flex;align-items:center;margin-top:8px;padding:5px 10px;border:1px solid color-mix(in srgb,var(--petrol,#4a554f) 34%,transparent);border-radius:999px;background:transparent;color:var(--petrol,#4a554f);font-family:"EB Garamond",Georgia,serif;font-size:.92rem;font-style:italic;line-height:1.2;cursor:pointer;transition:var(--select-ease,opacity .2s ease);}',
       '.reader-translate-button:hover,.reader-translate-button:active{opacity:var(--select-dim,.78);}',
       '.reader-translate-button[disabled]{cursor:default;opacity:.62;}',
+      '.reader-translate-keep{margin-left:8px;}',
       '.reader-translate.is-loading .reader-translate-button::after{content:"";width:10px;height:10px;margin-left:7px;border:1px solid currentColor;border-right-color:transparent;border-radius:50%;animation:reader-translate-spin .65s linear infinite;}',
       '@keyframes reader-translate-spin{to{transform:rotate(360deg);}}',
       '@media (max-width:640px){.reader-translate{left:14px!important;right:14px!important;bottom:14px!important;top:auto!important;width:auto;max-height:min(44vh,300px);overflow:auto;padding:14px 15px 13px;border-radius:14px;}.reader-translate-source{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;}.reader-translate-result{font-size:1.08rem;}}',
@@ -118,7 +131,8 @@
     return {
       text: text,
       context: contextFor(range, text),
-      rect: rect
+      rect: rect,
+      range: range
     };
   }
 
@@ -311,5 +325,12 @@
   }, { passive: true });
 
   translateButton.addEventListener('click', translateCurrent);
+  if (keepButton) {
+    keepButton.addEventListener('click', function () {
+      if (!current) return;
+      keep.keepPassage(keep.passageFor(current.range), keepButton);
+      hidePopup();
+    });
+  }
   closeButton.addEventListener('click', hidePopup);
 })();

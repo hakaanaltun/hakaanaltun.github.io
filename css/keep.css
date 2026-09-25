@@ -1,0 +1,56 @@
+/* The drawer's controls outside The House (js/keep.js): the button on a word,
+   the toast that says where a thing went, and the prompt over a selection on
+   the book pages. Quiet on purpose: keeping is an aside to reading. */
+html:not(.keep-ready) .keep-js { display: none !important; }
+
+.keep-row { margin: 40px 0 0; }
+
+.keep-button,
+.keep-prompt button {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 6px 16px;
+  border: 1px solid color-mix(in srgb, var(--petrol) 34%, transparent);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--petrol);
+  font: italic 400 1rem/1.2 'EB Garamond', Georgia, serif;
+  cursor: pointer;
+  transition: var(--select-ease, opacity .2s ease);
+}
+.keep-button:hover,
+.keep-button:active,
+.keep-prompt button:hover { opacity: var(--select-dim, .78); }
+.keep-button:focus-visible,
+.keep-prompt button:focus-visible,
+.keep-toast a:focus-visible { outline: 2px solid var(--petrol); outline-offset: 3px; }
+.keep-button[aria-pressed="true"] { color: var(--vizon); border-color: var(--rule-strong); }
+
+.keep-toast,
+.keep-prompt {
+  position: fixed;
+  z-index: 130;
+  left: 50%;
+  bottom: max(18px, env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  box-sizing: border-box;
+  max-width: min(440px, calc(100vw - 28px));
+}
+.keep-toast {
+  width: max-content;
+  padding: 11px 18px;
+  border: 1px solid var(--rule-strong);
+  border-radius: 12px;
+  background: var(--paper);
+  color: var(--ink-soft);
+  box-shadow: 0 12px 34px rgba(0, 0, 0, .16);
+  font: 400 1rem/1.45 'EB Garamond', Georgia, serif;
+}
+.keep-toast a { color: var(--petrol); text-underline-offset: 3px; white-space: nowrap; }
+.keep-prompt button { background: var(--paper); box-shadow: 0 10px 28px rgba(0, 0, 0, .16); }
+.keep-toast[hidden],
+.keep-prompt[hidden] { display: none; }
+
+@media print { .keep-toast, .keep-prompt, .keep-row { display: none !important; } }

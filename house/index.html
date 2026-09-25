@@ -2,13 +2,24 @@
 layout: default
 title: "The House"
 permalink: /house/
-description: "Come in, look around, and keep something you find. A room at On Life & Everything."
+house: true
+description: "Come in, look around, and keep something you find. A room at On Life & Everything that changes every day."
 ---
-<link rel="stylesheet" href="/css/house.css?v=20260925-1">
+{%- comment -%}
+  The House. The room is drawn here; what is in it comes from
+  /house/catalog.json (house/catalog.json), which js/house.js reads to put
+  out the day's words, question and lines. Everything a reader keeps goes
+  through js/keep.js, which the other pages use too, so the drawer is the
+  same drawer wherever a thing was kept.
 
-<div class="house" id="house">
+  "Today" is İstanbul's day and the light is İstanbul's light: the house is
+  there, and every reader sees the same room on the same day.
+{%- endcomment -%}
+<link rel="stylesheet" href="/css/house.css?v=20260925-2">
+
+<div class="house" id="house" data-catalog="/house/catalog.json?v={{ site.time | date: '%Y%m%d%H%M' }}">
   <div class="house-heading">
-    <div><p class="house-eyebrow">On Life &amp; Everything</p><h1>The House</h1></div>
+    <div><p class="house-eyebrow">On Life <span class="amp">&amp;</span> Everything</p><h1>The House</h1></div>
     <button class="house-drawer-toggle house-js" type="button" data-open="drawer" hidden>
       <svg viewBox="0 0 28 22" aria-hidden="true"><path d="M2 3h24v16H2zM2 7h24M11 12h6"/></svg>
       Your drawer <span data-kept-count>0</span>
@@ -18,13 +29,13 @@ description: "Come in, look around, and keep something you find. A room at On Li
   <section class="house-entrance" id="house-entrance" aria-labelledby="house-welcome">
     <div class="house-door-picture" aria-hidden="true">
       <svg viewBox="0 0 400 450" fill="none">
+        <text class="door-name" x="195" y="27" text-anchor="middle">ON LIFE <tspan class="door-amp">&amp;</tspan> EVERYTHING</text>
         <path class="door-wall" d="M28 413H372M71 413V41H319V413M86 413V56H304V413"/>
         <path class="door-slab" d="M100 413V70H290V413Z"/>
         <path class="door-panels" d="M118 91H272V211H118ZM118 235H272V389H118Z"/>
         <path class="door-light" d="M100 413V70L170 96V413Z"/>
         <path class="door-wall" d="M140 246v24M140 248l10 3M87 421H313"/>
         <path class="door-mat" d="M114 429H281L305 445H92Z"/>
-        <text x="195" y="145" text-anchor="middle">ON LIFE</text><text x="195" y="169" text-anchor="middle">&amp; EVERYTHING</text>
         <circle cx="347" cy="212" r="7" class="door-bell"/>
         <path class="door-wall" d="M342 205V190H352V205"/>
       </svg>
@@ -33,7 +44,11 @@ description: "Come in, look around, and keep something you find. A room at On Li
       <p class="house-eyebrow">The door is open</p>
       <h2 id="house-welcome">Come in.</h2>
       <p>There are books on the shelf, a few things on the desk, and a cat who has already made himself at home.</p>
-      <p>Look around. If something stays with you, put it in your drawer.</p>
+      <p>The shelf and the desk change every day. If something stays with you, put it in your drawer.</p>
+      <div class="house-since" id="house-since" hidden>
+        <p class="house-eyebrow">Since you were last here</p>
+        <ul id="house-since-list"></ul>
+      </div>
       <a class="house-enter" href="#study" id="house-enter">Enter the study <span aria-hidden="true">&rarr;</span></a>
       <p class="house-entry-note">One room so far.</p>
     </div>
@@ -42,19 +57,32 @@ description: "Come in, look around, and keep something you find. A room at On Li
   <section class="house-study" id="study" aria-labelledby="house-room-title" hidden>
     <div class="house-room-bar">
       <div><p class="house-eyebrow">Room 01</p><h2 id="house-room-title" tabindex="-1">The study</h2></div>
-      <p class="house-time"><span class="house-time-dot" aria-hidden="true"></span><span id="house-hour">The light outside</span></p>
+      <p class="house-time"><span class="house-time-dot" aria-hidden="true"></span><span><span id="house-hour">İstanbul</span> <span id="house-clock"></span></span></p>
     </div>
     <p class="house-instruction">Choose something in the room.</p>
-    <div class="house-scene" id="house-scene" data-hour="day">
+    <div class="house-scene" id="house-scene" data-hour="day" data-moris="cushion">
       {% include house-study.svg %}
-      <button class="house-hotspot house-hotspot--books" data-open="books" type="button"><span class="house-pin" aria-hidden="true">1</span><span>Bookshelf</span></button>
-      <button class="house-hotspot house-hotspot--words" data-open="words" type="button"><span class="house-pin" aria-hidden="true">2</span><span>Word cards</span></button>
-      <button class="house-hotspot house-hotspot--question" data-open="question" type="button"><span class="house-pin" aria-hidden="true">3</span><span>A question</span></button>
-      <button class="house-hotspot house-hotspot--window" data-open="window" type="button"><span class="house-pin" aria-hidden="true">4</span><span>The window</span></button>
-      <button class="house-hotspot house-hotspot--moris" data-open="moris" type="button"><span class="house-pin" aria-hidden="true">5</span><span>Moris</span></button>
-      <button class="house-hotspot house-hotspot--lamp" id="house-lamp" type="button" aria-pressed="false"><span class="house-pin" aria-hidden="true">6</span><span>The lamp</span></button>
-      <button class="house-hotspot house-hotspot--drawer" data-open="drawer" type="button"><span class="house-pin" aria-hidden="true">7</span><span>Your drawer</span></button>
+      <button class="house-hotspot house-hotspot--books" data-open="books" type="button"><span class="house-pin" aria-hidden="true">1</span><span class="house-hotspot-name">Bookshelf</span></button>
+      <button class="house-hotspot house-hotspot--words" data-open="words" type="button"><span class="house-pin" aria-hidden="true">2</span><span class="house-hotspot-name">Word cards</span></button>
+      <button class="house-hotspot house-hotspot--question" data-open="question" type="button"><span class="house-pin" aria-hidden="true">3</span><span class="house-hotspot-name">A question</span></button>
+      <button class="house-hotspot house-hotspot--window" data-open="window" type="button"><span class="house-pin" aria-hidden="true">4</span><span class="house-hotspot-name">The window</span></button>
+      <button class="house-hotspot house-hotspot--moris" data-open="moris" type="button"><span class="house-pin" aria-hidden="true">5</span><span class="house-hotspot-name">Moris</span></button>
+      <button class="house-hotspot house-hotspot--lamp" data-lamp type="button" aria-pressed="false"><span class="house-pin" aria-hidden="true">6</span><span class="house-hotspot-name">The lamp</span></button>
+      <button class="house-hotspot house-hotspot--drawer" id="drawer" data-open="drawer" type="button"><span class="house-pin" aria-hidden="true">7</span><span class="house-hotspot-name">Your drawer</span></button>
     </div>
+    {%- comment -%} On a phone the room is too small to carry its labels, so
+    the picture keeps only the numbers and the names are listed under it.
+    The list repeats the buttons above for the eye; a screen reader already
+    has them, with their names, so it is hidden from one. {%- endcomment %}
+    <ol class="house-objects" aria-hidden="true">
+      <li><button type="button" tabindex="-1" data-open="books"><span class="house-pin">1</span>Bookshelf</button></li>
+      <li><button type="button" tabindex="-1" data-open="words"><span class="house-pin">2</span>Word cards</button></li>
+      <li><button type="button" tabindex="-1" data-open="question"><span class="house-pin">3</span>A question</button></li>
+      <li><button type="button" tabindex="-1" data-open="window"><span class="house-pin">4</span>The window</button></li>
+      <li><button type="button" tabindex="-1" data-open="moris"><span class="house-pin">5</span>Moris</button></li>
+      <li><button type="button" tabindex="-1" data-lamp><span class="house-pin">6</span>The lamp</button></li>
+      <li><button type="button" tabindex="-1" data-open="drawer"><span class="house-pin">7</span>Your drawer</button></li>
+    </ol>
     <div class="house-room-footer"><a href="#house-entrance" id="house-leave">&larr; Back to the door</a><a href="/write/">Sit down and write <span aria-hidden="true">&rarr;</span></a></div>
   </section>
 
@@ -65,65 +93,21 @@ description: "Come in, look around, and keep something you find. A room at On Li
     <div class="house-dialog-head"><p class="house-eyebrow" id="house-dialog-place"></p><button class="house-close" type="button" id="house-close" aria-label="Close and return to the room">&times;</button></div>
     <h2 id="house-dialog-title"></h2>
     <div id="house-dialog-content"></div>
-    <p class="house-dialog-status" id="house-dialog-status" role="status" aria-live="polite"></p>
+    <p class="house-dialog-status" id="house-dialog-status" role="status" aria-live="polite" data-keep-status></p>
   </dialog>
 
-  <template id="house-books">
-    <p class="house-object-intro">A few things to read while you’re here.</p>
-    <article class="house-item" data-house-item="book-fragments" data-kind="From the book">
-      <p class="house-item-kind">The Fragments</p><h3>Point Zero</h3>
-      <blockquote data-quote>First there was Symmetry.</blockquote>
-      <p>The opening of the book.</p>
-      <div class="house-item-actions"><a data-source href="/book/part-one/#point-zero">Open the book &rarr;</a><button type="button" data-keep="book-fragments" aria-pressed="false">Keep this line</button></div>
-    </article>
-    {% assign house_post = site.posts | where: "slug", "on-lying" | first %}
-    <article class="house-item" data-house-item="essay-on-lying" data-kind="From an essay">
-      <p class="house-item-kind">An essay</p><h3>{{ house_post.title }}</h3>
-      <blockquote data-quote>A lie is an environment.</blockquote>
-      <p>{{ house_post.read_time }} read</p>
-      <div class="house-item-actions"><a data-source href="{{ house_post.url }}">Read the essay &rarr;</a><button type="button" data-keep="essay-on-lying" aria-pressed="false">Keep this line</button></div>
-    </article>
-    <a class="house-more" href="/all-work/">All the writing &rarr;</a>
-  </template>
-
-  <template id="house-words">
-    <p class="house-object-intro">Turn over a card. There’s a story behind the word.</p>
-    {% assign house_words = "serendipity,museum,window" | split: "," %}
-    {% for house_word in house_words %}
-    {% assign entry = site.words | where: "word", house_word | first %}
-    {% if entry %}
-    <article class="house-item house-word-card" data-house-item="word-{{ house_word }}" data-kind="A word">
-      <p class="house-item-kind">{{ entry.pos }}</p><h3>{{ entry.word }}</h3>
-      <details><summary>Turn the card over <span aria-hidden="true">↻</span></summary><p data-quote>{{ entry.description }}</p></details>
-      <div class="house-item-actions"><a data-source href="{{ entry.url }}">Read its story &rarr;</a><button type="button" data-keep="word-{{ house_word }}" aria-pressed="false">Keep this word</button></div>
-    </article>
-    {% endif %}
-    {% endfor %}
-    <a class="house-more" href="/word/">All the words &rarr;</a>
-  </template>
-
-  <template id="house-question">
-    {% assign question = site.data.quizzes.britain | first %}
-    <article class="house-item house-question" data-house-item="trivia-big-ben" data-kind="Something learned">
-      <p class="house-item-kind">From British Culture</p><h3>{{ question.question }}</h3>
-      <div class="house-answers" role="group" aria-label="Choose an answer">
-        {% for choice in question.choices %}<button type="button" data-answer="{% if forloop.index0 == question.answer %}correct{% else %}other{% endif %}">{{ choice }}</button>{% endfor %}
-      </div>
-      <div class="house-answer-note" hidden><p class="house-answer-result" role="status"></p><p data-quote>{{ question.note }}</p>
-        <div class="house-item-actions"><a data-source href="/trivia/britain/">Play a full round &rarr;</a><button type="button" data-keep="trivia-big-ben" aria-pressed="false">Keep this discovery</button></div>
-      </div>
-    </article>
-  </template>
-
   <template id="house-window">
-    <p class="house-object-intro">The light in this window follows the time on your device.</p>
-    <div class="house-window-links"><a href="/moon/"><span>The Moon</span><p>See the moon’s current phase.</p></a><a href="/twilight/"><span>İstanbul’s Twilight</span><p>Watch the sky over İstanbul.</p></a><a href="/noise/"><span>The Noise</span><p>Put on some rain while you stay.</p></a></div>
+    <p class="house-object-intro" data-sky-line></p>
+    <dl class="house-sky-facts" data-sky-facts></dl>
+    <div class="house-window-links"><a href="/moon/"><span>The Moon</span><p>The moon’s phase tonight, drawn as it hangs in the sky.</p></a><a href="/twilight/"><span>İstanbul’s Twilight</span><p>Sunrise, sunset and the light in between.</p></a><a href="/noise/"><span>The Noise</span><p>Put on some rain while you stay.</p></a></div>
   </template>
 
   <template id="house-moris">
-    <img class="house-moris-photo" src="/images/960/moris-12.webp" alt="Moris, a black cat, looking into the camera" width="600" height="600" loading="lazy">
-    <p>He got here before you.</p>
+    <img class="house-moris-photo" data-moris-photo src="/images/960/moris-10.webp" alt="Moris tucked into a loaf on the rug" width="600" height="800" loading="lazy">
+    <p data-moris-line>He got here before you.</p>
+    <blockquote class="house-moris-quote" data-moris-quote hidden><p>Every now and then, his soft paws twitch; he is probably chasing a bird in his dream that he will never catch.</p><cite>The Fragments</cite></blockquote>
     <a class="house-more" href="/moris/">Spend a little time with Moris &rarr;</a>
   </template>
 </div>
-<script src="/js/house.js?v=20260925-1" defer></script>
+<script src="/js/astronomy.js?v=20260720-1" defer></script>
+<script src="/js/house.js?v=20260925-2" defer></script>

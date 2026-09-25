@@ -38,6 +38,9 @@
   var choices = document.getElementById('trivia-choices');
   var feedback = document.getElementById('trivia-feedback');
   var nextButton = document.getElementById('trivia-next');
+  var keepButton = document.getElementById('trivia-keep');
+  var quizSlug = app.getAttribute('data-quiz') || '';
+  var quizName = app.getAttribute('data-quiz-name') || '';
 
   var roundKicker = document.getElementById('trivia-round-kicker');
   var roundTitle = document.getElementById('trivia-round-title');
@@ -305,6 +308,20 @@
       feedback.textContent = 'Answer: ' + q.choices[q.answer] + '. ' + q.note;
     }
 
+    /* The note is what a reader keeps, so it can go into the drawer in The
+       House. js/keep.js does the keeping; the id is the question's own. */
+    if (keepButton && window.OLAE_KEEP && q.id && quizSlug) {
+      keepButton.setAttribute('data-keep-item', JSON.stringify({
+        id: 'trivia-' + quizSlug + '-' + q.id,
+        kind: quizName,
+        title: q.question,
+        quote: q.note,
+        href: location.pathname
+      }));
+      window.OLAE_KEEP.sync(keepButton.parentNode);
+      keepButton.hidden = false;
+    }
+
     var nextPosition = state.position + 1;
     if (nextPosition >= state.order.length) {
       nextButton.textContent = 'See result';
@@ -363,6 +380,7 @@
     choices.innerHTML = '';
     feedback.textContent = '';
     nextButton.hidden = true;
+    if (keepButton) keepButton.hidden = true;
 
     arrangement.forEach(function (original, slot) {
       var button = document.createElement('button');

@@ -306,6 +306,14 @@
   {% endif %}
 
   {%- comment -%}
+    Into the reader's drawer in The House (js/keep.js), by the word's file
+    name, so a rewritten story is still the same word kept.
+  {%- endcomment -%}
+  {%- assign word_slug = page.url | split: "/" | last -%}
+  {%- capture keep_item -%}{"id":{{ "word-" | append: word_slug | jsonify }},"kind":"A word","title":{{ page.word | jsonify }},"quote":{{ page.description | jsonify }},"href":{{ page.url | jsonify }}}{%- endcapture %}
+  <p class="keep-row keep-js"><button type="button" class="keep-button" data-keep-button data-keep-item="{{ keep_item | escape }}">Keep this word</button></p>
+
+  {%- comment -%}
     The arrows are the quiet way through the series and they fade. This one
     does not, and on a touch screen it is the only route to the full list.
   {%- endcomment -%}
