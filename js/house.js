@@ -285,14 +285,14 @@
     if (!facts.children.length) facts.remove();
   }
 
-  /* Each place has the photograph that shows him there. `focus` is where he
-     sits in the frame, since the photographs are upright and the room's
-     frame is wide. */
+  /* Each place has the photograph its drawing was made from. `focus` is
+     where he sits in the frame, since the photographs are upright and the
+     dialog's frame is wide. */
   var MORIS = {
-    sill: { place: 'At the window', line: 'He is at the window, watching the street.', photo: 'moris-09', focus: '50% 62%', alt: 'Moris on a burgundy mat by the balcony door, looking out' },
-    shelf: { place: 'On the bookshelf', line: 'He is on top of the bookshelf, where nobody can reach him.', photo: 'moris-04', focus: '50% 8%', alt: 'Moris on top of the kitchen cabinets, looking down' },
+    sill: { place: 'At the window', line: 'He is on the windowsill, looking back at the room.', photo: 'moris-01', focus: '50% 12%', alt: 'Moris sitting on the table, looking back over his shoulder' },
+    shelf: { place: 'On the bookshelf', line: 'He is on top of the bookshelf, where nobody can reach him.', photo: 'moris-11', focus: '50% 40%', alt: 'Moris lying along the top of a chair, looking at the camera' },
     cushion: { place: 'On his cushion', line: 'He is back on his cushion.', photo: 'moris-10', focus: '50% 42%', alt: 'Moris tucked into a loaf on the rug' },
-    asleep: { place: 'On his cushion', line: 'He is asleep.', photo: 'moris-05', focus: '50% 46%', alt: 'Moris asleep on a bench by the window as the sun goes down' }
+    asleep: { place: 'On his cushion', line: 'He is asleep.', photo: 'moris-05', focus: '50% 46%', alt: 'Moris curled up on a bench by the window as the sun goes down' }
   };
   function renderMoris(box) {
     box.appendChild(document.getElementById('house-moris').content.cloneNode(true));
@@ -380,7 +380,6 @@
   /* --- The sky, the lamp and the cat ------------------------------------ */
 
   var SUN = { morning: [720, 198], day: [838, 124], evening: [838, 202] };
-  var PLACES = { sill: 'translate(-41 -226)', shelf: 'translate(-610 -359)', cushion: '' };
   var PHASES = ['new moon', 'waxing crescent', 'first quarter', 'waxing gibbous', 'full moon', 'waning gibbous', 'last quarter', 'waning crescent'];
 
   function skyNow(now) {
@@ -388,14 +387,21 @@
     var hour = +clock(now).slice(0, 2);
     var sky = { hour: hour };
     if (A) {
-      var height = A.sunAltitude(now, LAT, LNG);
-      var soon = A.sunAltitude(new Date(now.getTime() + 20 * 60000), LAT, LNG);
-      sky.period = height < -6 ? 'night' : height < 12 ? (soon > height ? 'morning' : 'evening') : 'day';
       var p = parts(now, { year: 'numeric', month: 'numeric', day: 'numeric' });
       var y = +p.year, mo = +p.month - 1, d = +p.day;
       var day = { n: Math.round((Date.UTC(y, mo, d) - Date.UTC(y, 0, 0)) / 86400000), y: y, mo: mo, d: d };
       sky.sunrise = A.sunEvent(day, true, 90.833, LAT, LNG, TZ);
       sky.sunset = A.sunEvent(day, false, 90.833, LAT, LNG, TZ);
+      var dawn = A.sunEvent(day, true, 96, LAT, LNG, TZ);
+      var dusk = A.sunEvent(day, false, 96, LAT, LNG, TZ);
+      /* Hung on the day's own sunrise and sunset, so a winter morning is as
+         long as a summer one: morning runs from first light to two and a
+         half hours after sunrise, evening from an hour and a half before
+         sunset to last light. */
+      var t = now.getTime();
+      sky.period = !dawn || !dusk || t < dawn.getTime() || t > dusk.getTime() ? 'night'
+        : t < sky.sunrise.getTime() + 150 * 60000 ? 'morning'
+        : t > sky.sunset.getTime() - 90 * 60000 ? 'evening' : 'day';
       var lunation = A.lunation(now);
       sky.age = (lunation - Math.floor(lunation)) * A.SYNODIC;
       var lit = Math.round((1 - Math.cos(2 * Math.PI * sky.age / A.SYNODIC)) / 2 * 100);
@@ -435,8 +441,6 @@
     // Mornings at the window, days out of reach, evenings and nights at home.
     var place = { morning: 'sill', day: 'shelf', evening: 'cushion', night: 'cushion' }[sky.period];
     scene.dataset.moris = place;
-    var cat = scene.querySelector('.house-moris');
-    if (PLACES[place]) cat.setAttribute('transform', PLACES[place]); else cat.removeAttribute('transform');
     var lamp = KEEP.read().lamp;
     var on = lamp === null ? sky.period === 'night' || sky.period === 'evening' : lamp;
     scene.dataset.lamp = on ? 'on' : 'off';
