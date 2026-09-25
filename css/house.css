@@ -200,17 +200,17 @@ html[data-theme="dark"] .house-scene[data-hour="night"] .house-dusk, html[data-t
   .house-hotspot .house-pin { width: 24px; height: 24px; background: #fcf7e9; border-color: #716553; font-size: 12px; box-shadow: 0 1px 5px #30291a33; }
   .house-hotspot-name { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
   .house-hotspot--books { left: 18%; top: 50%; }
-  .house-hotspot--question { left: 38%; top: 45%; }
+  .house-hotspot--question { left: 40.5%; top: 38%; }
   .house-hotspot--window { left: 77.7%; top: 14%; }
-  .house-hotspot--lamp { left: 65.8%; top: 46%; }
+  .house-hotspot--lamp { left: 57.5%; top: 43%; }
   .house-hotspot--words { left: 57%; top: 60%; }
   .house-hotspot--drawer { left: 48%; top: 70%; }
-  .house-hotspot--moris { left: 84%; top: 78%; }
+  .house-hotspot--moris { left: 84%; top: 84%; }
   .house-hotspot--clock { left: 48%; top: 27%; }
   .house-hotspot--reader { left: 26%; top: 46%; }
   .house-hotspot--desk { left: 72.5%; top: 59%; }
-  .house-scene[data-moris="sill"] .house-hotspot--moris { left: 79.7%; top: 36%; }
-  .house-scene[data-moris="shelf"] .house-hotspot--moris { left: 22.8%; top: 15%; }
+  .house-scene[data-moris="sill"] .house-hotspot--moris { left: 80%; top: 44%; }
+  .house-scene[data-moris="shelf"] .house-hotspot--moris { left: 33%; top: 14%; }
   .house-objects { display: grid; grid-template-columns: 1fr 1fr; gap: 0 14px; list-style: none; margin: 14px 0 0; padding: 0; }
   .house-objects button, .house-objects a { display: flex; color: inherit; text-decoration: none; align-items: center; gap: 9px; width: 100%; min-height: 44px; padding: 6px 0; border: 0; border-bottom: 1px solid var(--rule); background: none; text-align: left; font-size: 16px; }
   .house-objects .house-pin { flex: none; width: 22px; height: 22px; font-size: 11px; }
