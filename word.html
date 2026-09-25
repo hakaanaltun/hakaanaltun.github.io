@@ -43,7 +43,7 @@ description: "Short pieces on English words that kept something from where they 
     hidden from screen readers, which have the links and need no scenery.
   {%- endcomment -%}
   {% if filled_count > 1 %}
-  <nav class="word-alphabet" aria-label="Jump to a letter">
+  <nav class="word-alphabet" id="word-alphabet" aria-label="Jump to a letter">
     {% for letter in alphabet %}
       {% if filled contains letter %}
       <a class="word-alphabet-letter" href="#letter-{{ letter | downcase }}">{{ letter }}</a>
@@ -66,7 +66,7 @@ description: "Short pieces on English words that kept something from where they 
   {% for letter in alphabet %}
     {% if filled contains letter %}
 <section class="word-group" aria-labelledby="letter-{{ letter | downcase }}">
-  <h2 class="word-group-letter" id="letter-{{ letter | downcase }}">{{ letter }}</h2>
+  <h2 class="word-group-letter" id="letter-{{ letter | downcase }}">{% if filled_count > 1 %}<a class="word-group-jump" href="#word-alphabet" aria-label="{{ letter }}, choose another letter">{{ letter }}</a>{% else %}{{ letter }}{% endif %}</h2>
   <ul class="word-index" role="list">
       {% for item in words %}
         {% assign initial = item.word | slice: 0 | upcase %}
@@ -86,7 +86,7 @@ description: "Short pieces on English words that kept something from where they 
 
   {% if filled contains "#" %}
 <section class="word-group" aria-labelledby="letter-other">
-  <h2 class="word-group-letter" id="letter-other">#</h2>
+  <h2 class="word-group-letter" id="letter-other"><a class="word-group-jump" href="#word-alphabet" aria-label="Other, choose another letter">#</a></h2>
   <ul class="word-index" role="list">
     {% for item in words %}
       {% assign initial = item.word | slice: 0 | upcase %}
@@ -101,6 +101,26 @@ description: "Short pieces on English words that kept something from where they 
     {% endfor %}
   </ul>
 </section>
+  {% endif %}
+
+  {%- comment -%}
+    The same alphabet again, in a small box that opens under whichever group
+    letter was clicked, so a long list can be crossed from the middle of it
+    instead of from the top. Without script the box never shows and each
+    group letter is a plain link back up to the row, which does the same job
+    one scroll slower.
+  {%- endcomment -%}
+  {% if filled_count > 1 %}
+  <div class="word-jump" id="word-jump" role="dialog" aria-label="Jump to a letter" hidden>
+    {% for letter in alphabet %}
+      {% if filled contains letter %}
+      <a class="word-jump-letter" href="#letter-{{ letter | downcase }}">{{ letter }}</a>
+      {% else %}
+      <span class="word-jump-letter word-jump-letter--empty" aria-hidden="true">{{ letter }}</span>
+      {% endif %}
+    {% endfor %}
+    {% if filled contains "#" %}<a class="word-jump-letter" href="#letter-other">#</a>{% endif %}
+  </div>
   {% endif %}
 
   {%- comment -%}
@@ -224,6 +244,85 @@ description: "Short pieces on English words that kept something from where they 
     color: var(--vizon);
   }
 
+  /* The group letter is also the way back to the alphabet, so it takes the
+     accent the letters in the row have, and a target big enough to tap
+     without changing the height the heading already had. */
+  .word-group { position: relative; }
+
+  .word-group-jump {
+    display: inline-block;
+    min-width: 32px;
+    padding: 8px 10px 8px 0;
+    margin: -8px 0;
+    color: var(--petrol);
+    text-decoration: none;
+    transition: var(--select-ease);
+  }
+
+  .word-group-jump:hover,
+  .word-group-jump:active,
+  .word-group-jump[aria-expanded="true"] { opacity: var(--select-dim); }
+
+  .word-group-jump:focus-visible {
+    outline: 2px solid var(--petrol);
+    outline-offset: 1px;
+    border-radius: 3px;
+  }
+
+  /* Same ground, border and shadow as the footer's dropdown, so the site has
+     one kind of small box. Seven across makes four even rows of the 26, and
+     a 36px cell keeps every letter a comfortable tap on a phone. */
+  .word-jump {
+    position: absolute;
+    z-index: 40;
+    display: grid;
+    grid-template-columns: repeat(7, 36px);
+    gap: 2px;
+    padding: 8px;
+    background: var(--paper);
+    border: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
+    border-radius: 12px;
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.22);
+  }
+
+  .word-jump[hidden] { display: none; }
+
+  .word-jump-letter {
+    display: grid;
+    place-items: center;
+    height: 36px;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-style: italic;
+    font-size: 1.15rem;
+    line-height: 1;
+    text-decoration: none;
+    border-radius: 6px;
+  }
+
+  a.word-jump-letter {
+    color: var(--petrol);
+    transition: var(--select-ease);
+  }
+
+  a.word-jump-letter:hover,
+  a.word-jump-letter:active { opacity: var(--select-dim); }
+
+  a.word-jump-letter:focus-visible {
+    outline: 2px solid var(--petrol);
+    outline-offset: -2px;
+  }
+
+  /* The letter the reader is already in, marked so they can see where they
+     stand in the alphabet. */
+  a.word-jump-letter[aria-current="true"] {
+    background: color-mix(in srgb, var(--petrol) 12%, transparent);
+  }
+
+  .word-jump-letter--empty {
+    color: var(--vizon);
+    opacity: 0.32;
+  }
+
   /* Bounded top and bottom, hairlines in --rule: the same shape as the
      .work-index rows on /series/ and /all-work/, narrower because a word and
      four words of teaser do not need 860px. */
@@ -294,3 +393,71 @@ description: "Short pieces on English words that kept something from where they 
     .word-index-teaser { text-align: left; }
   }
 </style>
+
+<script>
+(() => {
+  const box = document.getElementById('word-jump');
+  if (!box) return;
+  const triggers = Array.from(document.querySelectorAll('.word-group-jump'));
+  let openTrigger = null;
+
+  triggers.forEach(trigger => {
+    trigger.setAttribute('role', 'button');
+    trigger.setAttribute('aria-haspopup', 'dialog');
+    trigger.setAttribute('aria-controls', 'word-jump');
+    trigger.setAttribute('aria-expanded', 'false');
+  });
+
+  function close(returnFocus) {
+    if (!openTrigger) return;
+    box.hidden = true;
+    openTrigger.setAttribute('aria-expanded', 'false');
+    if (returnFocus) openTrigger.focus();
+    openTrigger = null;
+  }
+
+  function open(trigger) {
+    const heading = trigger.closest('.word-group-letter');
+    const group = trigger.closest('.word-group');
+    const here = '#' + heading.id;
+
+    box.querySelectorAll('a').forEach(link => {
+      if (link.getAttribute('href') === here) link.setAttribute('aria-current', 'true');
+      else link.removeAttribute('aria-current');
+    });
+
+    // Opened inside the group, just under its letter, so it scrolls with the
+    // list rather than floating over a part of the page it no longer names.
+    group.appendChild(box);
+    box.style.top = (heading.offsetTop + heading.offsetHeight + 6) + 'px';
+    box.style.left = heading.offsetLeft + 'px';
+    box.hidden = false;
+    trigger.setAttribute('aria-expanded', 'true');
+    openTrigger = trigger;
+
+    (box.querySelector('a[aria-current]') || box.querySelector('a')).focus({ preventScroll: true });
+  }
+
+  document.addEventListener('click', event => {
+    const trigger = event.target.closest('.word-group-jump');
+    if (trigger) {
+      event.preventDefault();
+      const again = trigger === openTrigger;
+      close(false);
+      if (!again) open(trigger);
+      return;
+    }
+    if (event.target.closest('.word-jump-letter')) { close(false); return; }
+    if (openTrigger && !box.contains(event.target)) close(false);
+  });
+
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && openTrigger) close(true);
+  });
+
+  // Tabbing out of the box closes it, as a menu would.
+  box.addEventListener('focusout', event => {
+    if (openTrigger && !box.contains(event.relatedTarget) && event.relatedTarget !== openTrigger) close(false);
+  });
+})();
+</script>
