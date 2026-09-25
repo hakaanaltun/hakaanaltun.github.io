@@ -1,0 +1,225 @@
+# _data/lines.yml — single lines from the book and the pieces.
+#
+# Two readers, one list: the quote at the top of the homepage, which shows
+# them all, and the bookshelf in The House (/house/), which puts one line
+# from the book and one from the pieces out each day. The House leaves out
+# lines from the pieces in _data/unsuggested.yml, as every picker does.
+#
+# A line from The Fragments names its chapter and the chapter's address:
+#   chapter  the chapter title, as the book prints it
+#   url      /book/part-…/#chapter-id
+# A line from a piece names the piece; the title and address are read from
+# the post itself, so a renamed piece needs nothing changed here:
+#   piece    the post's `slug`
+#
+# text is the line as it stands on the page. \n breaks it where the page does.
+
+- text: "I had no memory because memory needs an after, and there was no after."
+  chapter: "Point Zero"
+  url: /book/part-one/#point-zero
+
+- text: "The light should have taken me too. It did not."
+  chapter: "The First Disobedience"
+  url: /book/part-one/#the-first-disobedience
+
+- text: "The dark filled with small fires, each one a holding."
+  chapter: "A Nostalgia Named Gravity"
+  url: /book/part-one/#a-nostalgia-named-gravity
+
+- text: "The light came from inside us. Each photon we gave to the dark was a piece of us."
+  chapter: "The Traitor Within"
+  url: /book/part-one/#the-traitor-within
+
+- text: "Then, one afternoon, two molecules met in the water and did not let go."
+  chapter: "The First Mortal"
+  url: /book/part-one/#the-first-mortal
+
+- text: "The dust of dead stars shredding the dust of dead stars."
+  chapter: "Mud and Blood"
+  url: /book/part-one/#mud-and-blood
+
+- text: "I had seen them every night of my life. I had never seen them."
+  chapter: "The Kept Fire"
+  url: /book/part-one/#the-kept-fire
+
+- text: "A hand found my shoulder. It rested there, already at home. I touched the hand. The hand did not move away."
+  chapter: "Before the Word"
+  url: /book/part-one/#before-the-word
+
+- text: "The face was still the face. And yet it was somewhere else."
+  chapter: "The Shape of Absence"
+  url: /book/part-one/#the-shape-of-absence
+
+- text: "On the fourth, I took a breath. The void blinked, made a small sound, and sat down on my blanket."
+  chapter: "Moris"
+  url: /book/part-two/#moris
+
+- text: "The sparrow has personally insulted him."
+  chapter: "Gölgem"
+  url: /book/part-two/#golgem
+
+- text: "His heart was going so fast I could not count it. A continuous trembling, a small engine."
+  chapter: "A Small Apocalypse"
+  url: /book/part-two/#a-small-apocalypse
+
+- text: "My tea has gone cold. I register it as a minor betrayal."
+  chapter: "The Kitchen"
+  url: /book/part-two/#the-kitchen
+
+- text: "The students change, and so does the spirit of the time. The subjects don’t have to."
+  chapter: "The Curse"
+  url: /book/part-two/#the-curse
+
+- text: "I had seen that movement from behind a desk. For a second, a classroom returned around him."
+  chapter: "You Can Finish It"
+  url: /book/part-two/#you-can-finish-it
+
+- text: "For a while, I called it growth."
+  chapter: "None of Us Are"
+  url: /book/part-two/#none-of-us-are
+
+- text: "Şafak walked out of the building into the afternoon sun, lighter than he’d been in months."
+  chapter: "Şafak"
+  url: /book/part-two/#safak
+
+- text: "Report card: perfect. Superman: in the bag."
+  chapter: "The Joy"
+  url: /book/part-two/#the-joy
+
+- text: "In the hallway at home she reached up to unwind it and there was nothing there."
+  chapter: "The Turn"
+  url: /book/part-two/#the-turn
+
+- text: "The car didn’t need me to watch anything. But my hands still floated near the wheel."
+  chapter: "The Road"
+  url: /book/part-two/#the-road
+
+- text: "And that night in that kitchen I made a decision that wasn’t mine to make."
+  chapter: "The Anxiety"
+  url: /book/part-two/#the-anxiety
+
+- text: "I sat there until the stars came out. The car, parked behind me in the dark, waited for a command I no longer knew how to give."
+  chapter: "The Cove"
+  url: /book/part-two/#the-cove
+
+- text: "It was ten minutes. She took twenty."
+  chapter: "The Ease"
+  url: /book/part-two/#the-ease
+
+- text: "He stood at the sink. He looked at the clean glass. He reached out and tightened the faucet handle, though no water was dripping."
+  chapter: "Handled"
+  url: /book/part-two/#handled
+
+- text: "New ideas need empty spaces to pass through."
+  piece: best-ideas
+
+- text: "We think it’s working the least when actually it’s working the hardest."
+  piece: best-ideas
+
+- text: "My friend’s life is a map. My own life is a forest."
+  piece: empathy-paradox
+
+- text: "I just need a silence that doesn’t ask questions."
+  piece: empathy-paradox
+
+- text: "Fear is not stupid. Fear is the most intelligent thing inside us."
+  piece: love-or-fear
+
+- text: "Love is the only thing I have ever done that felt like it was actually mine."
+  piece: love-or-fear
+
+- text: "Some unfinished things are noise. Others are a compass."
+  piece: unfinished-things
+
+- text: "We spend the first twenty years of our lives deciding what to lock away in that baggage."
+  piece: jung-shadow
+
+- text: "The system I’d built to keep pain out was keeping everything else out too."
+  piece: defense-mechanisms
+
+- text: "No, stop. I want to feel this myself."
+  piece: ai-enough
+
+- text: "Even being scolded can feel better than indifferent silence."
+  piece: say-hello
+
+- text: "A lie carries no physical weight and still expands like a black hole."
+  piece: on-lying
+
+- text: "Honesty was always available. Most of us knew that."
+  piece: on-lying
+
+- text: "The moment perception becomes uncomfortable is the moment it might be getting accurate."
+  piece: on-perceiving
+
+- text: "The buildings we never question are the ones we should."
+  piece: on-perceiving
+
+- text: "Everyone moved toward the stage.\nThe seats emptied behind them."
+  piece: on-looking
+
+- text: "It’s hard to obsess over who’s watching when you’ve just been watching someone else."
+  piece: on-looking
+
+- text: "The debt sits untouched in the archive. You just stop trying to collect it."
+  piece: on-forgiveness
+
+- text: "To truly forgive, you need the towering arrogance of a god."
+  piece: on-forgiveness
+
+- text: "The danger of surrender lay in who you became inside the disarray."
+  piece: on-keeping
+
+- text: "Back then nothing had to be enough."
+  piece: on-longing
+
+- text: "You see with what you have learned. What you have learned is your prison."
+  piece: on-longing
+
+- text: "The best of what’s possible, he tells himself, taking the keys."
+  piece: collateral
+
+- text: "The word sits between them. Collateral. Neither of them touches it."
+  piece: collateral
+
+- text: "I made coffee. Very quietly. Like a thief in my own life."
+  piece: the-cost
+
+- text: "She said this almost irritably, as if love had once again failed to choose a side."
+  piece: the-cost
+
+- text: "When good cheese comes to your feet, be suspicious."
+  piece: lets-have-some-cheese
+
+- text: "Give a man a nickname and you no longer have to meet him."
+  piece: lets-have-some-cheese
+
+- text: "She was a foreigner, and so she was allowed to stare."
+  piece: written-in-ink
+
+- text: "The handle of the chef’s knife wears down to the shape of Mara’s grip."
+  piece: thinking-is-for-after
+
+- text: "We will ask about the bottles tomorrow."
+  piece: thinking-is-for-after
+
+- text: "She left it unsealed."
+  piece: michi
+
+- text: "The paper disappeared under the stone except for one pale edge."
+  piece: michi
+
+- text: "I knew he was lying. I wanted him to lie better."
+  piece: the-lines-between-us
+
+- text: "I did not cry. I have always been good at that."
+  piece: the-lines-between-us
+
+- text: "There was dust on the new leaves."
+  piece: the-notice
+
+- text: "The invitations had arrived in December, and they had arrived for two people."
+  piece: it-was-not-a-question
+
+- text: "She had come with a word and did not use it."
+  piece: it-was-not-a-question

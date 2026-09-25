@@ -2,77 +2,18 @@
     (function(){
       'use strict';
 
+      /* The lines live in _data/lines.yml, which The House's bookshelf also
+         reads. s is the chapter or piece, u its address, b marks the book. */
       var heroQuotes = [
-        {"s":"Point Zero","t":"I had no memory because memory needs an after, and there was no after.","u":"/book/part-one/#point-zero","b":true},
-        {"s":"The First Disobedience","t":"The light should have taken me too. It did not.","u":"/book/part-one/#the-first-disobedience","b":true},
-        {"s":"A Nostalgia Named Gravity","t":"The dark filled with small fires, each one a holding.","u":"/book/part-one/#a-nostalgia-named-gravity","b":true},
-        {"s":"The Traitor Within","t":"The light came from inside us. Each photon we gave to the dark was a piece of us.","u":"/book/part-one/#the-traitor-within","b":true},
-        {"s":"The First Mortal","t":"Then, one afternoon, two molecules met in the water and did not let go.","u":"/book/part-one/#the-first-mortal","b":true},
-        {"s":"Mud and Blood","t":"The dust of dead stars shredding the dust of dead stars.","u":"/book/part-one/#mud-and-blood","b":true},
-        {"s":"The Kept Fire","t":"I had seen them every night of my life. I had never seen them.","u":"/book/part-one/#the-kept-fire","b":true},
-        {"s":"Before the Word","t":"A hand found my shoulder. It rested there, already at home. I touched the hand. The hand did not move away.","u":"/book/part-one/#before-the-word","b":true},
-        {"s":"The Shape of Absence","t":"The face was still the face. And yet it was somewhere else.","u":"/book/part-one/#the-shape-of-absence","b":true},
-        {"s":"Moris","t":"On the fourth, I took a breath. The void blinked, made a small sound, and sat down on my blanket.","u":"/book/part-two/#moris","b":true},
-        {"s":"Gölgem","t":"The sparrow has personally insulted him.","u":"/book/part-two/#golgem","b":true},
-        {"s":"A Small Apocalypse","t":"His heart was going so fast I could not count it. A continuous trembling, a small engine.","u":"/book/part-two/#a-small-apocalypse","b":true},
-        {"s":"The Kitchen","t":"My tea has gone cold. I register it as a minor betrayal.","u":"/book/part-two/#the-kitchen","b":true},
-        {"s":"The Curse","t":"The students change, and so does the spirit of the time. The subjects don’t have to.","u":"/book/part-two/#the-curse","b":true},
-        {"s":"You Can Finish It","t":"I had seen that movement from behind a desk. For a second, a classroom returned around him.","u":"/book/part-two/#you-can-finish-it","b":true},
-        {"s":"None of Us Are","t":"For a while, I called it growth.","u":"/book/part-two/#none-of-us-are","b":true},
-        {"s":"Şafak","t":"Şafak walked out of the building into the afternoon sun, lighter than he’d been in months.","u":"/book/part-two/#safak","b":true},
-        {"s":"The Joy","t":"Report card: perfect. Superman: in the bag.","u":"/book/part-two/#the-joy","b":true},
-        {"s":"The Turn","t":"In the hallway at home she reached up to unwind it and there was nothing there.","u":"/book/part-two/#the-turn","b":true},
-        {"s":"The Road","t":"The car didn’t need me to watch anything. But my hands still floated near the wheel.","u":"/book/part-two/#the-road","b":true},
-        {"s":"The Anxiety","t":"And that night in that kitchen I made a decision that wasn’t mine to make.","u":"/book/part-two/#the-anxiety","b":true},
-        {"s":"The Cove","t":"I sat there until the stars came out. The car, parked behind me in the dark, waited for a command I no longer knew how to give.","u":"/book/part-two/#the-cove","b":true},
-        {"s":"The Ease","t":"It was ten minutes. She took twenty.","u":"/book/part-two/#the-ease","b":true},
-        {"s":"Handled","t":"He stood at the sink. He looked at the clean glass. He reached out and tightened the faucet handle, though no water was dripping.","u":"/book/part-two/#handled","b":true},
-        {s:'The Best Ideas Come When You Let Go',t:'New ideas need empty spaces to pass through.'},
-        {s:'The Best Ideas Come When You Let Go',t:'We think it’s working the least when actually it’s working the hardest.'},
-        {s:'The Empathy Paradox',t:'My friend’s life is a map. My own life is a forest.'},
-        {s:'The Empathy Paradox',t:'I just need a silence that doesn’t ask questions.'},
-        {s:'It Is Either from Love or Fear',t:'Fear is not stupid. Fear is the most intelligent thing inside us.'},
-        {s:'It Is Either from Love or Fear',t:'Love is the only thing I have ever done that felt like it was actually mine.'},
-        {s:'Why Do Unfinished Things Haunt Us?',t:'Some unfinished things are noise. Others are a compass.'},
-        {s:'Jung’s Golden Shadow',t:'We spend the first twenty years of our lives deciding what to lock away in that baggage.'},
-        {s:'Our Defense Mechanisms',t:'The system I’d built to keep pain out was keeping everything else out too.'},
-        {s:'Will AI Be Enough for Us?',t:'No, stop. I want to feel this myself.'},
-        {s:'Why Do We Say Hello?',t:'Even being scolded can feel better than indifferent silence.'},
-        {s:'On Lying',t:'A lie carries no physical weight and still expands like a black hole.'},
-        {s:'On Lying',t:'Honesty was always available. Most of us knew that.'},
-        {s:'On Perceiving',t:'The moment perception becomes uncomfortable is the moment it might be getting accurate.'},
-        {s:'On Perceiving',t:'The buildings we never question are the ones we should.'},
-        {s:'On Looking',t:'Everyone moved toward the stage.\nThe seats emptied behind them.'},
-        {s:'On Looking',t:'It’s hard to obsess over who’s watching when you’ve just been watching someone else.'},
-        {s:'On Forgiveness',t:'The debt sits untouched in the archive. You just stop trying to collect it.'},
-        {s:'On Forgiveness',t:'To truly forgive, you need the towering arrogance of a god.'},
-        {s:'On Keeping',t:'The danger of surrender lay in who you became inside the disarray.'},
-        {s:'On Longing',t:'Back then nothing had to be enough.'},
-        {s:'On Longing',t:'You see with what you have learned. What you have learned is your prison.'},
-        {s:'Collateral',t:'The best of what’s possible, he tells himself, taking the keys.'},
-        {s:'Collateral',t:'The word sits between them. Collateral. Neither of them touches it.'},
-        {s:'The Cost',t:'I made coffee. Very quietly. Like a thief in my own life.'},
-        {s:'The Cost',t:'She said this almost irritably, as if love had once again failed to choose a side.'},
-        {s:'Let\'s Have Some Cheese',t:'When good cheese comes to your feet, be suspicious.'},
-        {s:'Let\'s Have Some Cheese',t:'Give a man a nickname and you no longer have to meet him.'},
-        {s:'Written in Ink',t:'She was a foreigner, and so she was allowed to stare.'},
-        {s:'Thinking Is for After',t:'The handle of the chef’s knife wears down to the shape of Mara’s grip.'},
-        {s:'Thinking Is for After',t:'We will ask about the bottles tomorrow.'},
-        {s:'Michi',t:'She left it unsealed.'},
-        {s:'Michi',t:'The paper disappeared under the stone except for one pale edge.'},
-        {s:'The Lines Between Us',t:'I knew he was lying. I wanted him to lie better.'},
-        {s:'The Lines Between Us',t:'I did not cry. I have always been good at that.'},
-        {s:'The Notice',t:'There was dust on the new leaves.'},
-        {s:'It Was Not a Question',t:'The invitations had arrived in December, and they had arrived for two people.'},
-        {s:'It Was Not a Question',t:'She had come with a word and did not use it.'},
+        {%- for line in site.data.lines -%}
+        {%- if line.chapter -%}
+        {"s":{{ line.chapter | jsonify }},"t":{{ line.text | jsonify }},"u":{{ line.url | jsonify }},"b":true}
+        {%- else -%}
+        {%- assign line_post = site.posts | where: "slug", line.piece | first -%}
+        {"s":{{ line_post.title | replace: "'", "’" | jsonify }},"t":{{ line.text | jsonify }},"u":{{ line_post.story_url | default: line_post.url | relative_url | jsonify }}}
+        {%- endif -%}{%- unless forloop.last -%},{%- endunless %}
+        {%- endfor %}
       ];
-
-      /* Resolve attribution titles to Jekyll's canonical destinations. */
-      var quoteSources = {
-        {% for post in site.posts %}
-        {{ post.title | replace: "'", "’" | jsonify }}: {{ post.story_url | default: post.url | relative_url | jsonify }}{% unless forloop.last %},{% endunless %}
-        {% endfor %}
-      };
 
       var hq = document.getElementById('hero-quote');
       var qs = document.getElementById('hero-quote-source');
@@ -113,7 +54,7 @@
         var title = document.createElement('i');
         var label = pick.b ? pick.s + ' · The Fragments' : pick.s;
         title.textContent = label;
-        var url = pick.u || quoteSources[pick.s.replace(/'/g, '’')];
+        var url = pick.u;
         if(url){
           var link = document.createElement('a');
           link.href = url;
