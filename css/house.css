@@ -93,6 +93,16 @@
 .house-scene[data-hour="night"] .house-sun { opacity: 0; }
 .house-scene[data-hour="night"] .house-moon { opacity: 1; }
 .house-scene[data-hour="night"] .house-light-beam { opacity: .06; }
+/* Rain or snow at the window: the sky clouds over and the sun, the moon and
+   the stars go behind it. */
+.house-weather line { stroke: #eef2f3; stroke-linecap: round; }
+.house-weather circle { fill: #fbfaf5; }
+.house-window-snow { fill: #f6f5ef; }
+.house-scene[data-weather] { --sky-top: #9aa3a7; --sky-bottom: #c6cac6; }
+.house-scene[data-weather][data-hour="evening"] { --sky-top: #7f7c88; --sky-bottom: #ae9f98; }
+.house-scene[data-weather][data-hour="night"] { --sky-top: #1d2833; --sky-bottom: #3a4751; }
+.house-scene[data-weather] .house-sun, .house-scene[data-weather] .house-moon, .house-scene[data-weather] .house-stars { opacity: 0; }
+.house-scene[data-weather] .house-light-beam { opacity: .06; }
 /* The room itself darkens after sunset, a little in the evening and more at
    night, and the lamp keeps its own circle of light. */
 .house-dusk { fill: #1c2633; opacity: 0; mix-blend-mode: multiply; pointer-events: none; transition: opacity .5s ease; }

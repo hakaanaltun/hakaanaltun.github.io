@@ -46,6 +46,9 @@
       <g class="house-stars" fill="#f6e5b9"><circle cx="707" cy="94" r="1.8"/><circle cx="750" cy="60" r="1.5"/><circle cx="835" cy="151" r="1.5"/><circle cx="757" cy="171" r="1.5"/></g>
       <g class="house-moon"><circle class="house-moon-disc" cx="838" cy="124" r="17"/><path class="house-moon-lit" d=""/></g>
       <path class="house-rooftops" d="M681 250V213h15v-17l22-15 24 15v15h13v-28h17v-14h5v14h14v32h19v-15h12v-13l24-12 28 12v70Z"/>
+      <!-- The footer's rain and snow fall here, behind the glass. -->
+      <g class="house-weather"></g>
+      <path class="house-window-snow" d=""/>
     </g>
     <path d="M777 38V253M686 145H868"/><path class="house-window-trim" d="M665 259H889V271H665Z"/>
     <path class="house-light-beam" stroke="none" d="M687 272L435 474 673 494 868 272Z"/>

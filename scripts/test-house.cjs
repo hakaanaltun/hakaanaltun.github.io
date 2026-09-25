@@ -22,7 +22,8 @@ const scripts = {
   astronomy: read(root, 'js', 'astronomy.js'),
   house: read(root, 'js', 'house.js'),
   trivia: read(root, 'js', 'trivia.js'),
-  translate: read(root, 'js', 'reader-translate.js')
+  translate: read(root, 'js', 'reader-translate.js'),
+  snow: read(root, 'js', 'let-it-snow.js')
 };
 const catalogText = read(site, 'house', 'catalog.json');
 const catalog = JSON.parse(catalogText);
@@ -330,5 +331,30 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.equal(essayPassage.href, essay.url);
   p.dom.window.close();
 
-  console.log('House: catalog and addresses, daily room, keeping from the room and from words, quizzes, the book and essays, legacy and hostile records, blocked storage, arrivals, #drawer, and export passed.');
+  // The footer's weather falls outside the window here, not over the page.
+  // The House runs before the weather does, as it does in the page, and
+  // offers the window once the page has loaded.
+  p = house();
+  await tick();
+  p.w.matchMedia = () => ({ matches: false });
+  p.w.eval(scripts.snow);
+  p.w.document.dispatchEvent(new p.w.Event('DOMContentLoaded'));
+  p.click('#let-it-rain');
+  assert.equal(p.q('canvas.snowfall'), null, 'no rain over the page');
+  assert.equal(p.q('#house-scene').dataset.weather, 'rain');
+  assert.ok(p.w.document.querySelectorAll('.house-weather line').length > 0, 'rain at the window');
+  assert.equal(p.q('#let-it-rain').getAttribute('aria-pressed'), 'true');
+  assert.equal(p.q('#house-status').textContent, 'Light rain at the study window.');
+  p.click('#let-it-snow');
+  assert.equal(p.q('#house-scene').dataset.weather, 'snow', 'snow takes over from rain');
+  assert.equal(p.w.document.querySelectorAll('.house-weather line').length, 0);
+  assert.ok(p.w.document.querySelectorAll('.house-weather circle').length > 0);
+  p.click('#let-it-snow');
+  p.click('#let-it-snow');
+  assert.equal(p.q('#house-scene').dataset.weather, undefined, 'and the sky clears');
+  assert.equal(p.w.document.querySelectorAll('.house-weather *').length, 0);
+  assert.equal(p.q('canvas.snowfall'), null);
+  p.dom.window.close();
+
+  console.log('House: catalog and addresses, daily room, keeping from the room and from words, quizzes, the book and essays, legacy and hostile records, blocked storage, arrivals, #drawer, export, and weather at the window passed.');
 })().catch((error) => { console.error(error); process.exit(1); });
