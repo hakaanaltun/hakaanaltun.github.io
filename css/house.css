@@ -123,7 +123,7 @@
 .house-hotspot--question { left: 40%; top: 34%; }
 .house-hotspot--window { left: 59%; top: 19%; }
 .house-hotspot--moris { left: 84%; top: 83%; }
-.house-scene[data-moris="sill"] .house-hotspot--moris { left: 80%; top: 46%; }
+.house-scene[data-moris="sill"] .house-hotspot--moris { left: 80%; top: 44.5%; }
 .house-scene[data-moris="shelf"] .house-hotspot--moris { left: 23%; top: 7%; }
 .house-hotspot--lamp { left: 56%; top: 44%; }
 .house-hotspot--drawer { left: 56%; top: 78%; }
@@ -131,8 +131,8 @@
    things: the wall clock, the bookshelf and the desk. */
 .house-hotspot--clock, .house-hotspot--reader, .house-hotspot--desk { text-decoration: none; }
 .house-hotspot--clock { left: 43%; top: 10%; }
-.house-hotspot--reader { left: 20%; top: 90%; }
-.house-hotspot--desk { left: 41%; top: 91%; }
+.house-hotspot--reader { left: 23.5%; top: 45%; }
+.house-hotspot--desk { left: 77%; top: 55%; }
 .house-objects { display: none; }
 .house-room-footer { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; border-bottom: 1px solid var(--rule-strong); padding: 20px 0; font-size: 16px; }
 .house-room-footer a { color: var(--ink-soft); text-decoration: none; }
@@ -207,8 +207,8 @@ html[data-theme="dark"] .house-scene[data-hour="night"] .house-dusk, html[data-t
   .house-hotspot--drawer { left: 48%; top: 70%; }
   .house-hotspot--moris { left: 84%; top: 78%; }
   .house-hotspot--clock { left: 48%; top: 27%; }
-  .house-hotspot--reader { left: 27%; top: 63%; }
-  .house-hotspot--desk { left: 69%; top: 71%; }
+  .house-hotspot--reader { left: 26%; top: 46%; }
+  .house-hotspot--desk { left: 74%; top: 56%; }
   .house-scene[data-moris="sill"] .house-hotspot--moris { left: 79.7%; top: 36%; }
   .house-scene[data-moris="shelf"] .house-hotspot--moris { left: 22.8%; top: 15%; }
   .house-objects { display: grid; grid-template-columns: 1fr 1fr; gap: 0 14px; list-style: none; margin: 14px 0 0; padding: 0; }
