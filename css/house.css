@@ -73,6 +73,10 @@
 .house-cat-eyes { stroke: #b3aa80; }
 .house-cat-eyes--open { fill: #8cc46e; display: none; }
 .house-cat-pupil { fill: #1d1e1c; }
+/* In the evening the room is dim and his pupils open wide: the eye goes dark,
+   somewhere between black and green, and the slit is gone. */
+.house-scene[data-hour="evening"] .house-cat-eyes--open { fill: #45603a; }
+.house-scene[data-hour="evening"] .house-cat-pupil { display: none; }
 .house-scene:not([data-hour="night"]) .house-cat-eyes--open { display: inline; }
 .house-scene:not([data-hour="night"]) .house-cat-eyes--shut { display: none; }
 .house-lampshade { fill: var(--room-cream); }
