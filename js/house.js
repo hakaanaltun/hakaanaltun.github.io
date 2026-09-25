@@ -285,14 +285,14 @@
     if (!facts.children.length) facts.remove();
   }
 
-  /* Each place has the photograph its drawing was made from. `focus` is
-     where he sits in the frame, since the photographs are upright and the
-     dialog's frame is wide. */
+  /* Each place has the photograph its drawing was made from, described as
+     the Moris page describes it. `focus` is where he sits in the frame,
+     since the photographs are upright and the dialog's frame is wide. */
   var MORIS = {
-    sill: { place: 'At the window', line: 'He is on the windowsill, looking back at the room.', photo: 'moris-01', focus: '50% 12%', alt: 'Moris sitting on the table, looking back over his shoulder' },
-    shelf: { place: 'On the bookshelf', line: 'He is on top of the bookshelf, where nobody can reach him.', photo: 'moris-11', focus: '50% 40%', alt: 'Moris lying along the top of a chair, looking at the camera' },
-    cushion: { place: 'On his cushion', line: 'He is back on his cushion.', photo: 'moris-10', focus: '50% 42%', alt: 'Moris tucked into a loaf on the rug' },
-    asleep: { place: 'On his cushion', line: 'He is asleep.', photo: 'moris-05', focus: '50% 46%', alt: 'Moris curled up on a bench by the window as the sun goes down' }
+    sill: { place: 'At the window', line: 'He is on the windowsill, looking back at the room.', photo: 'moris-01', focus: '50% 12%', alt: 'Moris on the table, looking back over his shoulder as if he had heard his name' },
+    shelf: { place: 'On the bookshelf', line: 'He is on top of the bookshelf, where nobody can reach him.', photo: 'moris-11', focus: '50% 40%', alt: 'Moris lounging on the dining table as if it were his, looking down at the camera' },
+    cushion: { place: 'On his cushion', line: 'He is back on his cushion.', photo: 'moris-10', focus: '50% 42%', alt: 'Moris tucked into a loaf in the middle of the rug, keeping an eye on the camera' },
+    asleep: { place: 'On his cushion', line: 'He is asleep.', photo: 'moris-05', focus: '50% 46%', alt: 'Moris asleep on the bench by the window, the sun going down behind him' }
   };
   function renderMoris(box) {
     box.appendChild(document.getElementById('house-moris').content.cloneNode(true));
