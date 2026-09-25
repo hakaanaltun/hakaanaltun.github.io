@@ -5,6 +5,9 @@
   is all this needs: the pages that would want mapping to a parent tab
   (/the-corner/, /the-on-series/) are redirect stubs that never render this
   header at all.
+
+  There is no Home in the strip: the name above it is the way home, and
+  "Home" beside "The House" read as the same word twice.
 {%- endcomment -%}
 {%- assign _nav_here = page.url -%}
 <header id="site-header">
@@ -19,7 +22,6 @@
       </a>
     </div>
     <div class="header-nav-bar">
-      <a href="/"{% if _nav_here == "/" %} aria-current="page"{% endif %}>Home</a>
       <a href="/house/"{% if _nav_here == "/house/" %} aria-current="page"{% endif %}>The House</a>
       <a href="/notes/"{% if _nav_here == "/notes/" %} aria-current="page"{% endif %}>Notes</a>
       <a href="/series/"{% if _nav_here == "/series/" %} aria-current="page"{% endif %}>Series</a>

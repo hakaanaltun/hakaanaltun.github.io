@@ -429,6 +429,23 @@
       'A' + rx + ' ' + r + ' 0 0 ' + inner + ' ' + cx + ' ' + (cy - r) + 'Z';
   }
 
+  /* The wall clock keeps the reader's own time, so it reads the computer's
+     clock as it is and asks nothing about İstanbul. */
+  function wallClock() {
+    var now = new Date();
+    var minutes = now.getMinutes();
+    var turn = function (hand, degrees) {
+      scene.querySelector(hand).setAttribute('transform', 'rotate(' + degrees + ' 450 146)');
+    };
+    turn('.house-clock-hour', (now.getHours() % 12 + minutes / 60) * 30);
+    turn('.house-clock-minute', minutes * 6);
+  }
+  // On the minute, not a minute after the page happened to open.
+  function keepTime() {
+    wallClock();
+    window.setTimeout(keepTime, 60000 - Date.now() % 60000 + 50);
+  }
+
   function paint() {
     var now = new Date();
     var sky = skyNow(now);
@@ -448,6 +465,98 @@
     var on = lamp === null ? sky.period === 'night' || sky.period === 'evening' : lamp;
     scene.dataset.lamp = on ? 'on' : 'off';
     root.querySelectorAll('[data-lamp]').forEach(function (button) { button.setAttribute('aria-pressed', String(on)); });
+  }
+
+  /* --- Weather at the window ------------------------------------------
+     On this page the footer's rain and snow fall outside the window rather
+     than over the whole page: js/let-it-snow.js hands them over, and keeps
+     its buttons and their labels as they are everywhere else. */
+
+  var GLASS = { left: 686, right: 868, top: 38, bottom: 252 };
+  var weather = { kind: null, level: 0, drops: [], frame: 0, last: 0, snow: 0 };
+  var weatherLayer = scene.querySelector('.house-weather');
+  var windowSnow = scene.querySelector('.house-window-snow');
+  var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function makeDrop(anywhere) {
+    var rain = weather.kind === 'rain', heavy = weather.level === 2, depth = Math.random();
+    var drop = { depth: depth, phase: Math.random() * 6.3 };
+    drop.speed = rain ? (170 + depth * 150) * (heavy ? 1.4 : 1) : (11 + depth * 15) * (heavy ? 1.7 : 1);
+    drop.node = document.createElementNS('http://www.w3.org/2000/svg', rain ? 'line' : 'circle');
+    if (rain) drop.node.setAttribute('stroke-width', (0.6 + depth * 0.8).toFixed(2));
+    else drop.node.setAttribute('r', ((0.9 + depth * 1.4) * (heavy ? 1.25 : 1)).toFixed(2));
+    drop.node.setAttribute('opacity', ((rain ? 0.35 : 0.55) + depth * 0.4).toFixed(2));
+    weatherLayer.appendChild(drop.node);
+    placeDrop(drop, anywhere);
+    return drop;
+  }
+  // Rain leans with the wind, so it starts a little to the left of the glass.
+  function placeDrop(drop, anywhere) {
+    drop.x = GLASS.left - 30 + Math.random() * (GLASS.right - GLASS.left + 30);
+    drop.y = anywhere ? GLASS.top + Math.random() * (GLASS.bottom - GLASS.top) : GLASS.top - 10 - Math.random() * 30;
+  }
+  function drawDrop(drop, rain) {
+    if (rain) {
+      var length = 9 + drop.depth * 9;
+      drop.node.setAttribute('x1', drop.x.toFixed(1));
+      drop.node.setAttribute('y1', drop.y.toFixed(1));
+      drop.node.setAttribute('x2', (drop.x - length * 0.14).toFixed(1));
+      drop.node.setAttribute('y2', (drop.y - length).toFixed(1));
+    } else {
+      drop.node.setAttribute('cx', drop.x.toFixed(1));
+      drop.node.setAttribute('cy', drop.y.toFixed(1));
+    }
+  }
+  /* Snow gathers along the foot of the glass while it falls, deeper in a
+     heavy fall, and melts away once it stops. */
+  function drawWindowSnow() {
+    var h = weather.snow, base = GLASS.bottom;
+    windowSnow.setAttribute('d', h < 0.2 ? '' : 'M' + GLASS.left + ' ' + base + 'V' + (base - h).toFixed(1) +
+      'Q' + (GLASS.left + 45) + ' ' + (base - h * 1.5).toFixed(1) + ' ' + (GLASS.left + 91) + ' ' + (base - h).toFixed(1) +
+      'T' + GLASS.right + ' ' + (base - h).toFixed(1) + 'V' + base + 'Z');
+  }
+  function weatherStep(now) {
+    weather.frame = 0;
+    var seconds = weather.last ? Math.min(0.05, (now - weather.last) / 1000) : 0;
+    weather.last = now;
+    var rain = weather.kind === 'rain';
+    weather.drops.forEach(function (drop) {
+      drop.y += drop.speed * seconds;
+      drop.x += rain ? drop.speed * 0.14 * seconds : Math.sin(now / 1100 + drop.phase) * 9 * seconds;
+      if (drop.y > GLASS.bottom - (rain ? 0 : weather.snow) + (rain ? 18 : 2)) placeDrop(drop, false);
+      drawDrop(drop, rain);
+    });
+    var deepest = weather.kind === 'snow' ? (weather.level === 2 ? 14 : 6) : 0;
+    weather.snow = weather.snow < deepest ? Math.min(deepest, weather.snow + seconds * (weather.level === 2 ? 0.12 : 0.05))
+      : Math.max(deepest, weather.snow - seconds * 2);
+    drawWindowSnow();
+    if (weather.drops.length || weather.snow > 0) weather.frame = window.requestAnimationFrame(weatherStep);
+    else weather.last = 0;
+  }
+  function windowWeather(kind, level) {
+    weather.drops.forEach(function (drop) { drop.node.remove(); });
+    weather.drops = [];
+    weather.kind = kind;
+    weather.level = level;
+    if (kind) scene.dataset.weather = kind; else delete scene.dataset.weather;
+    var count = kind ? (kind === 'rain' ? (level === 2 ? 75 : 30) : (level === 2 ? 60 : 32)) : 0;
+    if (still) count = Math.round(count * 0.45);
+    for (var i = 0; i < count; i++) weather.drops.push(makeDrop(true));
+    if (!weather.frame) weather.frame = window.requestAnimationFrame(weatherStep);
+    announce(!kind ? 'The sky clears.' : (level === 2 ? 'Heavy ' : 'Light ') + kind + ' at the study window.');
+    // The buttons are at the foot of the page and the window may be out of
+    // sight above them, so the room is brought up to show where it is falling.
+    if (kind && !study.hidden) {
+      var box = scene.getBoundingClientRect();
+      var glassTop = box.top + box.height * GLASS.top / 650;
+      var glassBottom = box.top + box.height * GLASS.bottom / 650;
+      if (glassTop < 0 || glassBottom > window.innerHeight) scene.scrollIntoView({ block: 'center', behavior: still ? 'auto' : 'smooth' });
+    }
+  }
+  // js/let-it-snow.js runs after this script, so the window is offered to it
+  // once the page has finished loading as well as now.
+  function offerWindow() {
+    if (window.OLAE_WEATHER && window.OLAE_WEATHER.place) window.OLAE_WEATHER.place(windowWeather);
   }
 
   /* --- Since the last visit ---------------------------------------------
@@ -735,7 +844,7 @@
     if (dialog.open && location.hash !== '#drawer') dialog.close();
     setView(true);
   });
-  document.addEventListener('visibilitychange', function () { if (!document.hidden) paint(); });
+  document.addEventListener('visibilitychange', function () { if (!document.hidden) { paint(); wallClock(); } });
   window.setInterval(paint, 60000);
 
   root.querySelectorAll('.house-js').forEach(function (node) { node.hidden = false; });
@@ -743,6 +852,9 @@
   if (!KEEP.works()) status.textContent = storageNote();
   syncCount();
   paint();
+  keepTime();
   setView(false);
   whenCatalog(arrivals);
+  offerWindow();
+  document.addEventListener('DOMContentLoaded', offerWindow);
 })();

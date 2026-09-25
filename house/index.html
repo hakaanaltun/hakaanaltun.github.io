@@ -15,7 +15,7 @@ description: "Come in, look around, and keep something you find. A room at On Li
   "Today" is İstanbul's day and the light is İstanbul's light: the house is
   there, and every reader sees the same room on the same day.
 {%- endcomment -%}
-<link rel="stylesheet" href="/css/house.css?v=20260925-6">
+<link rel="stylesheet" href="/css/house.css?v=20260925-8">
 
 <div class="house" id="house" data-catalog="/house/catalog.json?v={{ site.time | date: '%Y%m%d%H%M' }}">
   <div class="house-heading">
@@ -70,7 +70,7 @@ description: "Come in, look around, and keep something you find. A room at On Li
       <button class="house-hotspot house-hotspot--lamp" data-lamp type="button" aria-pressed="false"><span class="house-pin" aria-hidden="true">6</span><span class="house-hotspot-name">The lamp</span></button>
       <button class="house-hotspot house-hotspot--drawer" id="drawer" data-open="drawer" type="button"><span class="house-pin" aria-hidden="true">7</span><span class="house-hotspot-name">Your drawer</span></button>
     </div>
-    {%- comment -%} On a phone the room is too small to carry its labels, so
+    {%- comment -%} On a phone or a tablet the room is too small to carry its labels, so
     the picture keeps only the numbers and the names are listed under it.
     The list repeats the buttons above for the eye; a screen reader already
     has them, with their names, so it is hidden from one. {%- endcomment %}
@@ -110,4 +110,4 @@ description: "Come in, look around, and keep something you find. A room at On Li
   </template>
 </div>
 <script src="/js/astronomy.js?v=20260720-1" defer></script>
-<script src="/js/house.js?v=20260925-3" defer></script>
+<script src="/js/house.js?v=20260925-5" defer></script>

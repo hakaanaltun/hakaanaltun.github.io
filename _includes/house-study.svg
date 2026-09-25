@@ -3,6 +3,10 @@
     <linearGradient id="house-sky" x2="0" y2="1"><stop class="house-sky-top"/><stop offset="1" class="house-sky-bottom"/></linearGradient>
     <radialGradient id="house-glow"><stop stop-color="#edc878" stop-opacity=".4"/><stop offset="1" stop-color="#edc878" stop-opacity="0"/></radialGradient>
     <pattern id="house-grain" width="9" height="9" patternUnits="userSpaceOnUse"><circle cx="1" cy="2" r=".5" fill="currentColor" opacity=".08"/><circle cx="6" cy="7" r=".4" fill="currentColor" opacity=".05"/></pattern>
+    <!-- The dark of the evening and the night. It falls on the room, not on
+         the window, and when the lamp is on it leaves the desk in its light. -->
+    <radialGradient id="house-lamplight" cx="640" cy="365" r="360" gradientUnits="userSpaceOnUse"><stop stop-color="#1c2633" stop-opacity="0"/><stop offset=".3" stop-color="#1c2633" stop-opacity=".3"/><stop offset="1" stop-color="#1c2633"/></radialGradient>
+    <mask id="house-dusk-mask"><path fill="#fff" d="M0 0H1000V650H0Z"/><path fill="#000" d="M686 252V129a91 91 0 0 1 182 0v123Z"/></mask>
     <clipPath id="house-window-clip"><path d="M686 252V129A91 91 0 0 1 868 129V252Z"/></clipPath>
   </defs>
   <path class="house-wall" d="M0 0H1000V650H0Z"/>
@@ -22,8 +26,16 @@
     <path class="house-paper" d="M243 305h39v35h-39z"/><path d="M251 316h23M253 322h19"/>
     <path class="house-wood" d="M69 126H326V137H69Z"/>
   </g>
-  <!-- Framed sketch. -->
-  <g class="house-line"><path class="house-paper" d="M390 96H510V196H390Z"/><path class="house-faint" d="M398 104H502V188H398Z"/><path d="M409 170l24-31 25 22 20-40 14 49"/><circle cx="433" cy="123" r="8"/></g>
+  <!-- A clock on the wall. It keeps the reader's own time, wherever they
+       are; the window keeps İstanbul's. js/house.js turns the hands. -->
+  <g class="house-line house-wall-clock">
+    <circle class="house-wood" cx="450" cy="146" r="42"/><circle class="house-paper" cx="450" cy="146" r="35"/>
+    <path d="M450 116v6M480 146h-6M450 176v-6M420 146h6" stroke-width="2"/>
+    <path class="house-faint" d="M465 120l-2 3.5M476 131l-3.5 2M476 161l-3.5-2M465 172l-2-3.5M435 172l2-3.5M424 161l3.5-2M424 131l3.5 2M435 120l2 3.5"/>
+    <line class="house-clock-hour" x1="450" y1="149" x2="450" y2="129" stroke-width="3"/>
+    <line class="house-clock-minute" x1="450" y1="150" x2="450" y2="121" stroke-width="2"/>
+    <circle cx="450" cy="146" r="2.5" fill="currentColor"/>
+  </g>
   <!-- Window and distant rooftops. The sky, the sun and the moon follow
        İstanbul's own: js/house.js moves the sun and draws the moon's phase. -->
   <g class="house-line">
@@ -34,6 +46,9 @@
       <g class="house-stars" fill="#f6e5b9"><circle cx="707" cy="94" r="1.8"/><circle cx="750" cy="60" r="1.5"/><circle cx="835" cy="151" r="1.5"/><circle cx="757" cy="171" r="1.5"/></g>
       <g class="house-moon"><circle class="house-moon-disc" cx="838" cy="124" r="17"/><path class="house-moon-lit" d=""/></g>
       <path class="house-rooftops" d="M681 250V213h15v-17l22-15 24 15v15h13v-28h17v-14h5v14h14v32h19v-15h12v-13l24-12 28 12v70Z"/>
+      <!-- The footer's rain and snow fall here, behind the glass. -->
+      <g class="house-weather"></g>
+      <path class="house-window-snow" d=""/>
     </g>
     <path d="M777 38V253M686 145H868"/><path class="house-window-trim" d="M665 259H889V271H665Z"/>
     <path class="house-light-beam" stroke="none" d="M687 272L435 474 673 494 868 272Z"/>
@@ -69,4 +84,5 @@
   </g>
   <!-- Plant beside the window. -->
   <g class="house-line"><path class="house-pot" d="M924 456h45l-6 33h-33Z"/><path d="M945 456V381M945 425l-18-22M945 405l15-25"/><path class="house-leaf" d="M944 405q-32-2-25-34 25 7 25 34ZM946 424q32-9 30-34-26 5-30 34ZM945 389q-20-12-9-38 22 16 9 38Z"/></g>
+  <path class="house-dusk" mask="url(#house-dusk-mask)" d="M0 0H1000V650H0Z"/>
 </svg>

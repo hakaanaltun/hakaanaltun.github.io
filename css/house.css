@@ -93,18 +93,36 @@
 .house-scene[data-hour="night"] .house-sun { opacity: 0; }
 .house-scene[data-hour="night"] .house-moon { opacity: 1; }
 .house-scene[data-hour="night"] .house-light-beam { opacity: .06; }
+/* Rain or snow at the window: the sky clouds over and the sun, the moon and
+   the stars go behind it. */
+.house-weather line { stroke: #eef2f3; stroke-linecap: round; }
+.house-weather circle { fill: #fbfaf5; }
+.house-window-snow { fill: #f6f5ef; }
+.house-scene[data-weather] { --sky-top: #9aa3a7; --sky-bottom: #c6cac6; }
+.house-scene[data-weather][data-hour="evening"] { --sky-top: #7f7c88; --sky-bottom: #ae9f98; }
+.house-scene[data-weather][data-hour="night"] { --sky-top: #1d2833; --sky-bottom: #3a4751; }
+.house-scene[data-weather] .house-sun, .house-scene[data-weather] .house-moon, .house-scene[data-weather] .house-stars { opacity: 0; }
+.house-scene[data-weather] .house-light-beam { opacity: .06; }
+/* The room itself darkens after sunset, a little in the evening and more at
+   night, and the lamp keeps its own circle of light. */
+.house-dusk { fill: #1c2633; opacity: 0; mix-blend-mode: multiply; pointer-events: none; transition: opacity .5s ease; }
+.house-scene[data-lamp="on"] .house-dusk { fill: url(#house-lamplight); }
+.house-scene[data-hour="evening"] .house-dusk { opacity: .2; }
+.house-scene[data-hour="night"] .house-dusk { opacity: .5; }
 .house-hotspot { position: absolute; display: flex; align-items: center; gap: 7px; transform: translate(-50%, -50%); min-height: 44px; padding: 6px 12px 6px 7px; border: 1px solid #b7ab94; border-radius: 3px; background: #fcf7e9; color: #443f34 !important; font-size: 15px !important; line-height: 1.2; white-space: nowrap; box-shadow: 0 2px 8px #30291a12; transition: background .18s; }
 .house-hotspot:hover { background: #fffdf7; border-color: #716553; }
 .house-hotspot:focus-visible { outline-color: #443f34 !important; }
 .house-pin { width: 19px; height: 19px; display: grid; place-items: center; border: 1px solid #cbbd9f; border-radius: 50%; font-size: 11px; }
-.house-hotspot--books { left: 20%; top: 55%; }
+/* Each name sits beside its thing, on bare wall or floor, so it never covers
+   what it names. */
+.house-hotspot--books { left: 20%; top: 82%; }
 .house-hotspot--words { left: 52%; top: 64%; }
 .house-hotspot--question { left: 40%; top: 34%; }
-.house-hotspot--window { left: 77.7%; top: 12%; }
+.house-hotspot--window { left: 59%; top: 19%; }
 .house-hotspot--moris { left: 84%; top: 83%; }
 .house-scene[data-moris="sill"] .house-hotspot--moris { left: 80%; top: 46%; }
 .house-scene[data-moris="shelf"] .house-hotspot--moris { left: 23%; top: 7%; }
-.house-hotspot--lamp { left: 65.8%; top: 40%; }
+.house-hotspot--lamp { left: 56%; top: 44%; }
 .house-hotspot--drawer { left: 56%; top: 78%; }
 .house-objects { display: none; }
 .house-room-footer { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; border-bottom: 1px solid var(--rule-strong); padding: 20px 0; font-size: 16px; }
@@ -161,25 +179,13 @@ html:has(.house-dialog[open]) { overflow: hidden; }
 @keyframes house-arrive { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 html[data-theme="dark"] .house-scene, html[data-theme="midnight"] .house-scene { --room-wall: #363b3b; --room-floor: #3f403a; --room-line: #a89e89; --room-wood: #666452; --room-back: #444942; --room-paper: #b5ae96; --room-cream: #9c9174; --room-blue: #617e84; --room-olive: #687b64; --room-rust: #9e7564; }
 html[data-theme="sky"] .house-scene { --room-wall: color-mix(in srgb, var(--paper) 88%, #a8997f); --room-floor: color-mix(in srgb, var(--paper) 76%, #9b8d6f); --room-line: var(--vizon); --room-wood: color-mix(in srgb, var(--paper) 50%, #a8997f); --room-back: color-mix(in srgb, var(--paper) 75%, #a8997f); }
+html[data-theme="dark"] .house-scene[data-hour="evening"] .house-dusk, html[data-theme="midnight"] .house-scene[data-hour="evening"] .house-dusk { opacity: .1; }
+html[data-theme="dark"] .house-scene[data-hour="night"] .house-dusk, html[data-theme="midnight"] .house-scene[data-hour="night"] .house-dusk { opacity: .3; }
+@media (prefers-color-scheme: dark) { html:not([data-theme]) .house-scene[data-hour="evening"] .house-dusk { opacity: .1; } html:not([data-theme]) .house-scene[data-hour="night"] .house-dusk { opacity: .3; } }
 @media (prefers-color-scheme: dark) { html:not([data-theme]) .house-scene { --room-wall: #363b3b; --room-floor: #3f403a; --room-line: #a89e89; --room-wood: #666452; --room-back: #444942; --room-paper: #b5ae96; --room-cream: #9c9174; --room-blue: #617e84; --room-olive: #687b64; --room-rust: #9e7564; } }
-@media (max-width: 620px) {
-  .house { margin-inline: calc(-1 * var(--pad)); padding: 36px 18px 24px; }
-  .house-heading { gap: 8px; padding-bottom: 22px; }
-  .house-heading .house-eyebrow { font-size: 10px; letter-spacing: .1em; }
-  .house h1 { font-size: 46px; }
-  .house-drawer-toggle { gap: 6px; font-size: 14px !important; }
-  .house-drawer-toggle svg { display: none; }
-  .house-entrance { grid-template-columns: 1fr; gap: 0; padding: 20px 12px 32px; min-height: 0; }
-  .house-door-picture { width: 180px; }
-  .house-welcome { max-width: 340px; margin: 20px auto 0; }
-  .house-welcome h2 { margin: 6px 0 16px; }
-  .house-welcome > p:not(.house-eyebrow):not(.house-entry-note) { font-size: 18px; }
-  .house-room-bar { align-items: center; }
-  .house-room-bar h2 { font-size: 31px; }
-  .house-time { max-width: 58%; font-size: 13px; text-align: right; }
-  /* The picture runs edge to edge and keeps only its numbers; the names are
-     in the list under it. */
-  .house-scene { margin-inline: -18px; border-inline: 0; }
+/* Below a wide screen the names no longer fit beside their things, so the
+   picture keeps only its numbers and the names are listed under it. */
+@media (max-width: 860px) {
   .house-hotspot { justify-content: center; min-width: 44px; min-height: 44px; padding: 0; border: 0; background: none; box-shadow: none; }
   .house-hotspot:hover { background: none; }
   .house-hotspot .house-pin { width: 24px; height: 24px; background: #fcf7e9; border-color: #716553; font-size: 12px; box-shadow: 0 1px 5px #30291a33; }
@@ -197,6 +203,24 @@ html[data-theme="sky"] .house-scene { --room-wall: color-mix(in srgb, var(--pape
   .house-objects button { display: flex; align-items: center; gap: 9px; width: 100%; min-height: 44px; padding: 6px 0; border: 0; border-bottom: 1px solid var(--rule); background: none; text-align: left; font-size: 16px; }
   .house-objects .house-pin { flex: none; width: 22px; height: 22px; font-size: 11px; }
   .house-objects [data-lamp][aria-pressed="true"]::after { content: "on"; margin-left: auto; color: var(--vizon); font-size: 14px; }
+}
+@media (max-width: 620px) {
+  .house { margin-inline: calc(-1 * var(--pad)); padding: 36px 18px 24px; }
+  .house-heading { gap: 8px; padding-bottom: 22px; }
+  .house-heading .house-eyebrow { font-size: 10px; letter-spacing: .1em; }
+  .house h1 { font-size: 46px; }
+  .house-drawer-toggle { gap: 6px; font-size: 14px !important; }
+  .house-drawer-toggle svg { display: none; }
+  .house-entrance { grid-template-columns: 1fr; gap: 0; padding: 20px 12px 32px; min-height: 0; }
+  .house-door-picture { width: 180px; }
+  .house-welcome { max-width: 340px; margin: 20px auto 0; }
+  .house-welcome h2 { margin: 6px 0 16px; }
+  .house-welcome > p:not(.house-eyebrow):not(.house-entry-note) { font-size: 18px; }
+  .house-room-bar { align-items: center; }
+  .house-room-bar h2 { font-size: 31px; }
+  .house-time { max-width: 58%; font-size: 13px; text-align: right; }
+  /* The picture runs edge to edge. */
+  .house-scene { margin-inline: -18px; border-inline: 0; }
   .house-room-footer { font-size: 14px; }
   .house-dialog { padding: 16px 22px 24px; max-height: 90dvh; }
   .house-dialog h2 { font-size: 35px; }

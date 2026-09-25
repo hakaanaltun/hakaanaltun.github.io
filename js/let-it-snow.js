@@ -156,7 +156,7 @@
      and not two. What leaves is the weather itself, never the steps taken to
      reach it: setWeather holds the announcement while it stops one kind and
      starts another, since a moment of clear sky nobody saw is not news. */
-  var watchers=[], announced='', settling=0;
+  var watchers=[], announced='', settling=0, place=null;
   function announce(){
     if(settling) return;
     var now=(active?mode:'none')+':'+(active?intensity:0);
@@ -184,6 +184,17 @@
      — leaves as one piece of news, because that is what it was. */
   function setWeather(kind,level){
     level=level===2?2:level>=1?1:0;
+    /* A page that has somewhere of its own for the weather — The House has a
+       window — is handed it instead, and the page itself stays dry. The
+       footer's buttons, their labels and the watchers work as they always
+       do; only the picture is somewhere else. */
+    if(place){
+      active=level>0;
+      if(active){mode=kind;intensity=level;}
+      updateButtons();
+      try{place(active?mode:null,active?intensity:0);}catch(e){}
+      return;
+    }
     settling++;
     if(!level){ if(active)stop(); }
     else{
@@ -618,7 +629,13 @@
   window.OLAE_WEATHER={
     state:function(){return {kind:active?mode:null,level:active?intensity:0};},
     set:setWeather,
-    watch:function(fn){if(typeof fn==='function')watchers.push(fn);}
+    watch:function(fn){if(typeof fn==='function')watchers.push(fn);},
+    /* Where the weather falls on this page, if not over the whole of it. */
+    place:function(fn){
+      if(typeof fn!=='function')return;
+      if(active && !place)setWeather(mode,0);
+      place=fn;
+    }
   };
   button.addEventListener('click',function(){cycle('snow');});
   if(rainButton){
