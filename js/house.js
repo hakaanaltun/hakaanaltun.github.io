@@ -285,14 +285,14 @@
     if (!facts.children.length) facts.remove();
   }
 
-  /* Each place has the photograph its drawing was made from, described as
-     the Moris page describes it. `focus` is where he sits in the frame,
-     since the photographs are upright and the dialog's frame is wide. */
+  /* Each place has a photograph of him somewhere like it. `focus` is where
+     he sits in the frame, since the photographs are upright and the
+     dialog's frame is wide. */
   var MORIS = {
-    sill: { place: 'At the window', line: 'He is on the windowsill, looking back at the room.', photo: 'moris-01', focus: '50% 12%', alt: 'Moris on the table, looking back over his shoulder as if he had heard his name' },
-    shelf: { place: 'On the bookshelf', line: 'He is on top of the bookshelf, where nobody can reach him.', photo: 'moris-11', focus: '50% 40%', alt: 'Moris lounging on the dining table as if it were his, looking down at the camera' },
-    cushion: { place: 'On his cushion', line: 'He is back on his cushion.', photo: 'moris-10', focus: '50% 42%', alt: 'Moris tucked into a loaf in the middle of the rug, keeping an eye on the camera' },
-    asleep: { place: 'On his cushion', line: 'He is asleep.', photo: 'moris-05', focus: '50% 46%', alt: 'Moris asleep on the bench by the window, the sun going down behind him' }
+    sill: { place: 'At the window', line: 'He is on his cushion by the balcony door, watching the birds.', photo: 'moris-09', focus: '50% 62%', alt: 'Moris on his burgundy cushion by the balcony door, watching the birds through the screen' },
+    shelf: { place: 'On the bookshelf', line: 'He is on top of the fridge, where he can see the whole house.', photo: 'moris-04', focus: '50% 8%', alt: 'Moris on top of the fridge, looking out over the house' },
+    cushion: { place: 'On his cushion', line: 'He is on the rug.', photo: 'moris-10', focus: '50% 42%', alt: 'Moris tucked into a loaf in the middle of the rug, keeping an eye on the camera' },
+    asleep: { place: 'On his cushion', line: 'He is asleep by the window as the sun goes down.', photo: 'moris-05', focus: '50% 46%', alt: 'Moris asleep on the bench by the window, the sun going down behind him' }
   };
   function renderMoris(box) {
     box.appendChild(document.getElementById('house-moris').content.cloneNode(true));
@@ -380,6 +380,7 @@
   /* --- The sky, the lamp and the cat ------------------------------------ */
 
   var SUN = { morning: [720, 198], day: [838, 124], evening: [838, 202] };
+  var PLACES = { sill: 'translate(-41 -226)', shelf: 'translate(-610 -359)', cushion: '' };
   var PHASES = ['new moon', 'waxing crescent', 'first quarter', 'waxing gibbous', 'full moon', 'waning gibbous', 'last quarter', 'waning crescent'];
 
   function skyNow(now) {
@@ -441,6 +442,8 @@
     // Mornings at the window, days out of reach, evenings and nights at home.
     var place = { morning: 'sill', day: 'shelf', evening: 'cushion', night: 'cushion' }[sky.period];
     scene.dataset.moris = place;
+    var cat = scene.querySelector('.house-moris');
+    if (PLACES[place]) cat.setAttribute('transform', PLACES[place]); else cat.removeAttribute('transform');
     var lamp = KEEP.read().lamp;
     var on = lamp === null ? sky.period === 'night' || sky.period === 'evening' : lamp;
     scene.dataset.lamp = on ? 'on' : 'off';
