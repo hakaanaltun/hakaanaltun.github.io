@@ -1,0 +1,158 @@
+/* The House is scoped to its own room. It shares the site's paper, ink,
+   and type; the illustration has a separate palette for its objects. */
+.house { max-width: 1080px; margin: 0 auto; padding: 62px 30px 38px; color: var(--ink); }
+.house [hidden] { display: none !important; }
+.house-study { padding: 0; }
+.house > section::before { content: none; }
+.house button, .house a { -webkit-tap-highlight-color: transparent; }
+.house button { font: inherit; color: inherit; cursor: pointer; }
+.house button:focus-visible, .house a:focus-visible, .house summary:focus-visible { outline: 2px solid var(--ink); outline-offset: 5px; }
+.house-heading { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 0 0 28px; border-bottom: 1px solid var(--rule-strong); }
+.house-eyebrow { font: 12px/1.5 'EB Garamond', Georgia, serif; letter-spacing: .14em; text-transform: uppercase; color: var(--vizon); margin: 0 0 9px; }
+.house h1 { font: 500 clamp(48px, 6vw, 72px)/1 'Cormorant Garamond', Georgia, serif; margin: 0; }
+.house-drawer-toggle { display: flex; align-items: center; gap: 10px; padding: 12px 0 12px 10px; background: none; border: 0; font-size: 17px !important; }
+.house-drawer-toggle svg { width: 26px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.3; }
+.house-drawer-toggle [data-kept-count] { min-width: 23px; height: 23px; display: grid; place-items: center; border: 1px solid var(--rule-strong); border-radius: 50%; font-size: 13px; }
+.house-entrance { display: grid; grid-template-columns: 1fr 1fr; gap: 8%; align-items: center; min-height: 530px; padding: 30px 7% 40px; }
+.house-door-picture { max-width: 350px; width: 100%; justify-self: center; }
+.house-door-picture svg { width: 100%; display: block; }
+.door-wall, .door-panels { stroke: var(--vizon); stroke-width: 1.2; }
+.door-slab { fill: var(--surface-soft); stroke: var(--vizon); stroke-width: 1.5; }
+.door-panels { opacity: .5; }
+.door-light { fill: var(--paper); stroke: var(--vizon); stroke-width: 1.4; }
+.door-mat { fill: var(--rule); stroke: var(--vizon); }
+.door-bell { fill: #b5985a; stroke: var(--vizon); }
+.house-door-picture text { font: 11px 'EB Garamond', Georgia, serif; letter-spacing: 2px; fill: var(--vizon); }
+.house-welcome h2 { font: 500 clamp(40px, 5vw, 60px)/1.1 'Cormorant Garamond', Georgia, serif; margin: 14px 0 24px; }
+.house-welcome > p:not(.house-eyebrow):not(.house-entry-note) { font-size: 19px; line-height: 1.6; max-width: 320px; margin: 0 0 15px; }
+.house-enter { display: inline-flex; align-items: center; gap: 38px; margin-top: 16px; padding: 13px 0; border-bottom: 1px solid var(--ink-soft); text-decoration: none; color: var(--ink); font-size: 21px; }
+.house-enter:hover { opacity: .78; }
+.house-entry-note { margin: 18px 0 0; color: var(--vizon); font-size: 14px; }
+.house-room-bar { display: flex; align-items: end; justify-content: space-between; gap: 16px; padding-top: 28px; }
+.house-room-bar h2 { margin: 0; font: 500 36px/1.1 'Cormorant Garamond', Georgia, serif; }
+.house-time { display: flex; align-items: center; gap: 8px; font-size: 15px; color: var(--vizon); margin: 0 0 3px; }
+.house-time-dot { width: 6px; height: 6px; background: #a18349; border-radius: 50%; }
+.house-instruction { margin: 10px 0 18px; font-size: 16px; color: var(--vizon); }
+.house-scene { position: relative; overflow: hidden; border: 1px solid var(--rule-strong); isolation: isolate; --room-wall: #eee9db; --room-floor: #e0d6c0; --room-line: #6c6555; --room-wood: #c7b799; --room-paper: #fbf6e8; --room-back: #ded4bf; --room-cream: #ded2af; --room-blue: #6e8386; --room-olive: #8b967a; --room-rust: #b27d66; --sky-top: #a2bcca; --sky-bottom: #dbe2d3; }
+.house-room-art { width: 100%; height: auto; display: block; color: var(--room-line); }
+.house-wall { fill: var(--room-wall); }
+.house-floor { fill: var(--room-floor); }
+.house-line { stroke: var(--room-line); stroke-width: 1.7; stroke-linejoin: round; stroke-linecap: round; }
+.house-faint { opacity: .42; stroke-width: 1.1; }
+.house-wood, .house-chair, .house-window-trim { fill: var(--room-wood); }
+.house-shelf-back, .house-desk-front { fill: var(--room-back); }
+.house-book-olive, .house-leaf { fill: var(--room-olive); }
+.house-book-blue { fill: var(--room-blue); }
+.house-book-rust, .house-pot { fill: var(--room-rust); }
+.house-book-cream, .house-cup { fill: var(--room-cream); }
+.house-paper, .house-word-paper { fill: var(--room-paper); }
+.house-sky-top { stop-color: var(--sky-top); }
+.house-sky-bottom { stop-color: var(--sky-bottom); }
+.house-sun { fill: #f5e2a6; }
+.house-rooftops { fill: #6a7e7d; opacity: .45; }
+.house-stars { opacity: 0; }
+.house-light-beam { fill: #fbefc7; opacity: .22; }
+.house-rug { fill: #a79d82; opacity: .28; }
+.house-cushion { fill: #b5a987; }
+.house-cat { fill: #343534; stroke: #343534; }
+.house-cat-eyes { stroke: #b3aa80; }
+.house-lampshade { fill: var(--room-cream); }
+.house-lamp-bulb { fill: var(--room-line); }
+.house-lamp-glow { opacity: 0; pointer-events: none; transition: opacity 500ms ease; }
+.house-scene[data-lamp="on"] .house-lamp-glow { opacity: 1; }
+.house-scene[data-lamp="on"] .house-lampshade { fill: #dbc18b; }
+.house-scene[data-lamp="on"] .house-lamp-bulb { fill: #ffe4a3; stroke: #aa8847; }
+.house-question-mark { font: italic 34px 'Cormorant Garamond', Georgia, serif; fill: var(--room-line); stroke: none; }
+.house-scene[data-hour="evening"] { --sky-top: #958fa6; --sky-bottom: #e1b396; }
+.house-scene[data-hour="morning"] { --sky-top: #c7c3b4; --sky-bottom: #ecd5ac; }
+.house-scene[data-hour="night"] { --sky-top: #25384a; --sky-bottom: #506575; }
+.house-scene[data-hour="night"] .house-stars { opacity: 1; }
+.house-scene[data-hour="night"] .house-sun { fill: #e7e2c9; r: 14px; }
+.house-scene[data-hour="night"] .house-light-beam { opacity: .06; }
+.house-hotspot { position: absolute; display: flex; align-items: center; gap: 7px; transform: translate(-50%, -50%); min-height: 44px; padding: 6px 12px 6px 7px; border: 1px solid #b7ab94; border-radius: 3px; background: #fcf7e9; color: #443f34 !important; font-size: 15px !important; line-height: 1.2; white-space: nowrap; box-shadow: 0 2px 8px #30291a12; transition: background .18s; }
+.house-hotspot:hover { background: #fffdf7; border-color: #716553; }
+.house-hotspot:focus-visible { outline-color: #443f34 !important; }
+.house-pin { width: 19px; height: 19px; display: grid; place-items: center; border: 1px solid #cbbd9f; border-radius: 50%; font-size: 11px; }
+.house-hotspot--books { left: 20%; top: 55%; }
+.house-hotspot--words { left: 52%; top: 64%; }
+.house-hotspot--question { left: 40%; top: 34%; }
+.house-hotspot--window { left: 78%; top: 30%; }
+.house-hotspot--moris { left: 84%; top: 83%; }
+.house-hotspot--lamp { left: 65.8%; top: 40%; }
+.house-hotspot--drawer { left: 56%; top: 78%; }
+.house-room-footer { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; border-bottom: 1px solid var(--rule-strong); padding: 20px 0; font-size: 16px; }
+.house-room-footer a { color: var(--ink-soft); text-decoration: none; }
+.house-room-footer a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.house-status { min-height: 1.5em; font-size: 15px; color: var(--vizon); margin: 18px 0 0; }
+.house-dialog { background: var(--paper); color: var(--ink); border: 1px solid var(--rule-strong); width: min(580px, calc(100% - 32px)); max-height: 86vh; max-height: 86dvh; margin: auto; padding: 22px 32px 28px; box-sizing: border-box; border-radius: 3px; box-shadow: 0 16px 80px #0003; overscroll-behavior: contain; }
+.house-dialog::backdrop { background: #201e19a6; }
+html:has(.house-dialog[open]) { overflow: hidden; }
+.house-dialog[open] { animation: house-arrive .2s ease-out; }
+.house-dialog-head { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+.house-dialog-head .house-eyebrow { margin: 0; }
+.house-close { border: 0; background: none; font: 28px/1 Georgia, serif !important; width: 44px; height: 44px; margin-right: -12px; }
+.house-dialog h2 { font: 500 40px/1.1 'Cormorant Garamond', Georgia, serif; margin: 10px 0 20px; }
+.house-dialog h3 { font: 500 29px/1.2 'Cormorant Garamond', Georgia, serif; margin: 0 0 16px; }
+.house-dialog p, .house-dialog blockquote { font-size: 18px; line-height: 1.6; }
+.house-object-intro { color: var(--ink-soft); margin: 0 0 24px; }
+.house-item { padding: 24px 0; border-top: 1px solid var(--rule-strong); }
+.house-item-kind { font-size: 12px !important; text-transform: uppercase; letter-spacing: .1em; color: var(--vizon); margin: 0 0 8px; }
+.house-item blockquote { margin: 10px 0; padding: 0; border: 0; font-style: italic; }
+.house-item-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 12px 24px; margin-top: 18px; font-size: 16px; }
+.house-dialog a { color: var(--petrol); text-decoration: underline; text-underline-offset: 4px; }
+.house-item-actions button { padding: 9px 12px; min-height: 44px; border: 1px solid var(--rule-strong); border-radius: 2px; background: var(--surface-soft); font-size: 15px; }
+.house-item-actions button[aria-pressed="true"] { border-color: var(--vizon); }
+.house-more { display: inline-block; margin: 16px 0 0; padding: 8px 0; font-size: 17px; }
+.house-word-card summary { cursor: pointer; padding: 8px 0; color: var(--vizon); min-height: 44px; box-sizing: border-box; }
+.house-word-card details[open] summary { margin-bottom: 8px; }
+.house-word-card details p { margin-top: 0; }
+.house-word-card h3 { font-style: italic; font-size: 36px; }
+.house-answers { display: grid; gap: 10px; margin: 24px 0; }
+.house-answers button { padding: 13px 16px; text-align: left; background: var(--surface-soft); border: 1px solid var(--rule-strong); border-radius: 2px; font-size: 18px; }
+.house-answers button:disabled { opacity: 1; cursor: default; color: var(--vizon); }
+.house-answers button[data-result="correct"] { border: 2px solid var(--petrol); color: var(--ink); }
+.house-answers button[data-result="chosen"] { border-style: dashed; }
+.house-answer-result { font-style: italic; }
+.house-answer-note { padding-top: 6px; }
+.house-window-links a { display: block; padding: 18px 0; border-top: 1px solid var(--rule-strong); text-decoration: none; }
+.house-window-links span { font: 500 28px 'Cormorant Garamond', Georgia, serif; }
+.house-window-links p { color: var(--vizon); margin: 6px 0 0; }
+.house-moris-photo { width: 100%; height: 280px; object-fit: cover; object-position: center; border-radius: 2px; }
+.house-drawer-note, .house-dialog-status { color: var(--vizon); font-size: 15px !important; }
+.house-dialog-status:empty { display: none; }
+.house-empty-drawer { border: 1px dashed var(--rule-strong); padding: 28px 24px; margin: 24px 0; }
+.house-empty-drawer p { margin: 0; }
+@keyframes house-arrive { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+html[data-theme="dark"] .house-scene, html[data-theme="midnight"] .house-scene { --room-wall: #363b3b; --room-floor: #3f403a; --room-line: #a89e89; --room-wood: #666452; --room-back: #444942; --room-paper: #b5ae96; --room-cream: #9c9174; --room-blue: #617e84; --room-olive: #687b64; --room-rust: #9e7564; }
+html[data-theme="sky"] .house-scene { --room-wall: color-mix(in srgb, var(--paper) 88%, #a8997f); --room-floor: color-mix(in srgb, var(--paper) 76%, #9b8d6f); --room-line: var(--vizon); --room-wood: color-mix(in srgb, var(--paper) 50%, #a8997f); --room-back: color-mix(in srgb, var(--paper) 75%, #a8997f); }
+@media (prefers-color-scheme: dark) { html:not([data-theme]) .house-scene { --room-wall: #363b3b; --room-floor: #3f403a; --room-line: #a89e89; --room-wood: #666452; --room-back: #444942; --room-paper: #b5ae96; --room-cream: #9c9174; --room-blue: #617e84; --room-olive: #687b64; --room-rust: #9e7564; } }
+@media (max-width: 620px) {
+  .house { margin-inline: calc(-1 * var(--pad)); padding: 36px 18px 24px; }
+  .house-heading { gap: 8px; padding-bottom: 22px; }
+  .house-heading .house-eyebrow { font-size: 10px; letter-spacing: .1em; }
+  .house h1 { font-size: 46px; }
+  .house-drawer-toggle { gap: 6px; font-size: 14px !important; }
+  .house-drawer-toggle svg { display: none; }
+  .house-entrance { grid-template-columns: 1fr; gap: 0; padding: 20px 12px 32px; min-height: 0; }
+  .house-door-picture { width: 180px; }
+  .house-welcome { max-width: 340px; margin: 20px auto 0; }
+  .house-welcome h2 { margin: 6px 0 16px; }
+  .house-welcome > p:not(.house-eyebrow):not(.house-entry-note) { font-size: 18px; }
+  .house-room-bar { align-items: center; }
+  .house-room-bar h2 { font-size: 31px; }
+  .house-time { max-width: 130px; font-size: 13px; }
+  .house-hotspot { flex-direction: column; gap: 2px; min-width: 44px; min-height: 44px; padding: 5px; font-size: 11px !important; line-height: 1; border-radius: 3px; }
+  .house-pin { width: 15px; height: 15px; font-size: 10px; }
+  .house-hotspot--books { left: 18%; top: 50%; }
+  .house-hotspot--question { left: 41%; top: 25%; }
+  .house-hotspot--window { left: 83%; top: 25%; }
+  .house-hotspot--lamp { left: 65%; top: 47%; }
+  .house-hotspot--words { left: 40%; top: 61%; }
+  .house-hotspot--drawer { left: 55%; top: 86%; }
+  .house-hotspot--moris { left: 86%; top: 82%; }
+  .house-room-footer { font-size: 14px; }
+  .house-dialog { padding: 16px 22px 24px; max-height: 90dvh; }
+  .house-dialog h2 { font-size: 35px; }
+  .house-moris-photo { height: 240px; }
+}
+@media (prefers-reduced-motion: reduce) { .house *, .house *::before, .house *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }

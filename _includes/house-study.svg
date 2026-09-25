@@ -1,0 +1,63 @@
+<svg class="house-room-art" viewBox="0 0 1000 650" fill="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="house-sky" x2="0" y2="1"><stop class="house-sky-top"/><stop offset="1" class="house-sky-bottom"/></linearGradient>
+    <radialGradient id="house-glow"><stop stop-color="#edc878" stop-opacity=".4"/><stop offset="1" stop-color="#edc878" stop-opacity="0"/></radialGradient>
+    <pattern id="house-grain" width="9" height="9" patternUnits="userSpaceOnUse"><circle cx="1" cy="2" r=".5" fill="currentColor" opacity=".08"/><circle cx="6" cy="7" r=".4" fill="currentColor" opacity=".05"/></pattern>
+    <clipPath id="house-window-clip"><path d="M686 252V129A91 91 0 0 1 868 129V252Z"/></clipPath>
+  </defs>
+  <path class="house-wall" d="M0 0H1000V650H0Z"/>
+  <path class="house-floor" d="M0 470H1000V650H0Z"/>
+  <path fill="url(#house-grain)" d="M0 0H1000V650H0Z"/>
+  <g class="house-line house-faint"><path d="M0 470H1000M0 478H1000M0 535H1000M0 606H1000M80 478L30 650M293 478L275 650M520 478L535 650M741 478L789 650M913 478L995 650M44 535h55M335 606h95M833 535h45"/></g>
+  <!-- The tall bookshelf. Its books and shelves are drawn in the page, so
+       the scene remains crisp at every screen size and in every palette. -->
+  <g class="house-line">
+    <path class="house-wood" d="M81 133H316V476H81Z"/><path class="house-shelf-back" d="M96 148H301V460H96Z"/>
+    <path d="M96 239H301M96 247H301M96 342H301M96 350H301M86 476V490M310 476V490"/>
+    <path class="house-book-olive" d="M111 166h22v72h-22zM234 269h17v72h-17zM110 379h24v80h-24z"/>
+    <path class="house-book-blue" d="M137 177h17v61h-17zM105 266h30v75h-30zM246 385h22v74h-22z"/>
+    <path class="house-book-rust" d="M163 161h26v77h-26zM263 176l20-4 15 62-20 4zM165 278h20v63h-20zM199 370h25v89h-25z"/>
+    <path class="house-book-cream" d="M194 175h17v63h-17zM215 163h21v75h-21zM140 271h18v70h-18zM192 300l17-5 13 42-17 5zM143 393h37v13h-37zM140 410h44v15h-44zM140 430h48v28h-48z"/>
+    <path class="house-faint" d="M117 181h10M117 187h10M170 176h12M170 218h12M221 179h9M112 278h16M112 284h16M204 391h15M204 398h15M252 441h10"/>
+    <path class="house-paper" d="M243 305h39v35h-39z"/><path d="M251 316h23M253 322h19"/>
+    <path class="house-wood" d="M69 126H326V137H69Z"/>
+  </g>
+  <!-- Framed sketch. -->
+  <g class="house-line"><path class="house-paper" d="M390 96H510V196H390Z"/><path class="house-faint" d="M398 104H502V188H398Z"/><path d="M409 170l24-31 25 22 20-40 14 49"/><circle cx="433" cy="123" r="8"/></g>
+  <!-- Window and distant rooftops. -->
+  <g class="house-line">
+    <path class="house-window-trim" d="M675 264V129a102 102 0 0 1 204 0v135Z"/>
+    <path fill="url(#house-sky)" d="M686 252V129a91 91 0 0 1 182 0v123Z"/>
+    <g clip-path="url(#house-window-clip)" stroke="none">
+      <circle class="house-sun" cx="823" cy="96" r="20"/>
+      <g class="house-stars" fill="#f6e5b9"><circle cx="707" cy="94" r="1.8"/><circle cx="750" cy="60" r="1.5"/><circle cx="835" cy="151" r="1.5"/><circle cx="757" cy="171" r="1.5"/></g>
+      <path class="house-rooftops" d="M681 250V213h15v-17l22-15 24 15v15h13v-28h17v-14h5v14h14v32h19v-15h12v-13l24-12 28 12v70Z"/>
+    </g>
+    <path d="M777 38V253M686 145H868"/><path class="house-window-trim" d="M665 259H889V271H665Z"/>
+    <path class="house-light-beam" stroke="none" d="M687 272L435 474 673 494 868 272Z"/>
+  </g>
+  <!-- Rug and chair behind the desk. -->
+  <ellipse class="house-rug" cx="593" cy="553" rx="245" ry="48"/>
+  <ellipse class="house-line house-faint" cx="593" cy="553" rx="225" ry="35"/>
+  <g class="house-line"><path class="house-chair" d="M466 421V346q0-28 28-28h64q28 0 28 28v75Z"/><path d="M480 345V407M498 338V407M518 336V407M538 337V407M558 343V407"/><path class="house-chair" d="M459 458H591V476H459Z"/><path d="M471 476l-7 76M579 476l9 76"/></g>
+  <!-- Desk, papers, cup, and lamp. -->
+  <g class="house-line">
+    <path class="house-wood" d="M373 416H746V435H373Z"/><path class="house-wood" d="M388 435H403V550H388ZM718 435H733V550H718Z"/>
+    <path class="house-desk-front" d="M407 435H713V476H407Z"/><path d="M558 435V476"/><path d="M465 452h30M622 452h30" stroke-width="3"/>
+    <path class="house-paper" d="M432 391l71-10 49 22-69 11Z"/><path class="house-faint" d="M450 392l47-6M462 397l43-6M476 403l36-6"/>
+    <path class="house-word-paper" d="M558 398l51-11 31 13-53 13Z"/><path d="M573 399l30-6"/>
+    <path class="house-cup" d="M405 382h26v25q-13 9-26 0Z"/><path d="M431 387q19-4 14 10-3 7-14 3"/>
+    <path class="house-steam house-faint" d="M414 374q-8-8 0-14t0-13M424 372q-6-7 0-13"/>
+    <path class="house-book-blue" d="M618 412h61v-10h-61z"/><path class="house-book-cream" d="M623 401h57v-9h-57z"/>
+    <path d="M689 392V327L662 303M674 405h36" stroke-width="3"/>
+    <path class="house-lampshade" d="M638 275h40l17 47h-75Z"/>
+    <ellipse class="house-lamp-bulb" cx="657" cy="322" rx="23" ry="4"/>
+  </g>
+  <ellipse class="house-lamp-glow" fill="url(#house-glow)" cx="625" cy="372" rx="160" ry="110"/>
+  <!-- A question card on the wall. -->
+  <g class="house-line"><path class="house-paper" d="M356 260l48-4 5 66-48 4Z"/><circle cx="381" cy="265" r="2"/><text x="382" y="304" text-anchor="middle" class="house-question-mark">?</text></g>
+  <!-- Moris on a cushion. -->
+  <g class="house-line"><ellipse class="house-cushion" cx="842" cy="488" rx="75" ry="19"/><path class="house-cat" d="M793 482q-3-45 39-48 32-2 42 27l14-5q16 16-5 25Z"/><path class="house-cat" d="M789 465l-3-34 16 12 16-10 1 34q-12 14-30-2Z"/><path d="M858 463q30 24-15 20" stroke="#777365" stroke-width="3"/><path class="house-cat-eyes" d="M793 457l6 1M807 458l6-2" stroke-width="2"/></g>
+  <!-- Plant beside the window. -->
+  <g class="house-line"><path class="house-pot" d="M924 456h45l-6 33h-33Z"/><path d="M945 456V381M945 425l-18-22M945 405l15-25"/><path class="house-leaf" d="M944 405q-32-2-25-34 25 7 25 34ZM946 424q32-9 30-34-26 5-30 34ZM945 389q-20-12-9-38 22 16 9 38Z"/></g>
+</svg>
