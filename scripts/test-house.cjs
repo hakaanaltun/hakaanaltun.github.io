@@ -164,7 +164,15 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.match(a.q('#house-dialog-content').textContent, /in İstanbul\./);
   assert.match(a.q('#house-dialog-content').textContent, /Sunset/);
   assert.match(a.q('#house-dialog-content').textContent, /% lit/);
+  assert.match(a.q('#house-dialog-content').textContent, /Moon(rise|set)\d\d:\d\d/);
   a.click('#house-close');
+  // The moon is in the window only while it is above İstanbul's horizon.
+  // Altitudes from PyEphem, airless, for the moon's centre.
+  const A = a.w.OLAE_ASTRO;
+  for (const [at, altitude] of [['2026-10-03T05:30Z', 63.59], ['2026-10-07T20:30Z', -41.59], ['2026-09-25T16:10Z', 9.48]]) {
+    assert.ok(Math.abs(A.moonAltitude(new Date(at), 41.015, 28.979) - altitude) < 0.5, 'the moon at ' + at);
+  }
+  assert.equal(a.q('#house-scene').dataset.moon === 'up', A.moonAltitude(new Date(), 41.015, 28.979) > A.MOON_HORIZON);
   a.click('[data-open="moris"]');
   assert.match(a.q('[data-moris-photo]').getAttribute('src'), /^\/images\/960\/moris-\d\d\.webp$/);
   a.click('#house-close');
@@ -362,5 +370,5 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.equal(p.q('canvas.snowfall'), null);
   p.dom.window.close();
 
-  console.log('House: catalog and addresses, daily room, keeping from the room and from words, quizzes, the book and essays, legacy and hostile records, blocked storage, arrivals, #drawer, export, and weather at the window passed.');
+  console.log('House: catalog and addresses, daily room, keeping from the room and from words, quizzes, the book and essays, legacy and hostile records, blocked storage, arrivals, #drawer, export, the moon, and weather at the window passed.');
 })().catch((error) => { console.error(error); process.exit(1); });

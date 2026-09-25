@@ -91,7 +91,10 @@
 .house-scene[data-hour="night"] { --sky-top: #25384a; --sky-bottom: #506575; }
 .house-scene[data-hour="night"] .house-stars { opacity: 1; }
 .house-scene[data-hour="night"] .house-sun { opacity: 0; }
-.house-scene[data-hour="night"] .house-moon { opacity: 1; }
+.house-scene[data-moon="up"] .house-moon { opacity: 1; }
+/* By day the moon is pale against the blue and its dark part is lost. */
+.house-scene[data-hour="day"] .house-moon-disc, .house-scene[data-hour="morning"] .house-moon-disc { opacity: 0; }
+.house-scene[data-hour="day"] .house-moon-lit, .house-scene[data-hour="morning"] .house-moon-lit { fill: #f7f5ee; opacity: .6; }
 .house-scene[data-hour="night"] .house-light-beam { opacity: .06; }
 /* Rain or snow at the window: the sky clouds over and the sun, the moon and
    the stars go behind it. */
@@ -124,6 +127,8 @@
 .house-scene[data-moris="shelf"] .house-hotspot--moris { left: 23%; top: 7%; }
 .house-hotspot--lamp { left: 56%; top: 44%; }
 .house-hotspot--drawer { left: 56%; top: 78%; }
+/* The one name that leaves the room: the wall clock opens The Clock. */
+.house-hotspot--clock { left: 43%; top: 10%; text-decoration: none; }
 .house-objects { display: none; }
 .house-room-footer { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; border-bottom: 1px solid var(--rule-strong); padding: 20px 0; font-size: 16px; }
 .house-room-footer a { color: var(--ink-soft); text-decoration: none; }
@@ -197,10 +202,11 @@ html[data-theme="dark"] .house-scene[data-hour="night"] .house-dusk, html[data-t
   .house-hotspot--words { left: 57%; top: 60%; }
   .house-hotspot--drawer { left: 48%; top: 70%; }
   .house-hotspot--moris { left: 84%; top: 78%; }
+  .house-hotspot--clock { left: 48%; top: 27%; }
   .house-scene[data-moris="sill"] .house-hotspot--moris { left: 79.7%; top: 36%; }
   .house-scene[data-moris="shelf"] .house-hotspot--moris { left: 22.8%; top: 15%; }
   .house-objects { display: grid; grid-template-columns: 1fr 1fr; gap: 0 14px; list-style: none; margin: 14px 0 0; padding: 0; }
-  .house-objects button { display: flex; align-items: center; gap: 9px; width: 100%; min-height: 44px; padding: 6px 0; border: 0; border-bottom: 1px solid var(--rule); background: none; text-align: left; font-size: 16px; }
+  .house-objects button, .house-objects a { display: flex; color: inherit; text-decoration: none; align-items: center; gap: 9px; width: 100%; min-height: 44px; padding: 6px 0; border: 0; border-bottom: 1px solid var(--rule); background: none; text-align: left; font-size: 16px; }
   .house-objects .house-pin { flex: none; width: 22px; height: 22px; font-size: 11px; }
   .house-objects [data-lamp][aria-pressed="true"]::after { content: "on"; margin-left: auto; color: var(--vizon); font-size: 14px; }
 }
