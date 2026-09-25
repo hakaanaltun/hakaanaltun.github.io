@@ -42,6 +42,14 @@ learned the hard way is written down here instead.
   belongs in the conversation, not in a public description that outlives it.
   "The prose was simplified" is the right altitude.
 
+## Punctuation
+
+- **Em dashes are closed up: word—word, not word — word.** The essays are
+  written that way, and new text in quizzes, word stories and notes follows
+  them. Leave the spaced dash in page titles (" — On Life & Everything" and
+  the instrument names) alone; that separator is deliberate and explained in
+  `_includes/head.html`.
+
 ## Words with Stories editorial standard
 
 `Words with Stories` is a deliberately small, curated collection, not a general etymology dictionary. A term should be added only when its story earns its place.
