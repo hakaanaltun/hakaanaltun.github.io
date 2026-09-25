@@ -297,7 +297,7 @@
       {% for source in page.sources %}
       <li id="source-{{ forloop.index }}">
         <span class="word-source-number" aria-hidden="true">{{ forloop.index }}</span>
-        <a href="{{ source.url }}" target="_blank" rel="noopener">{{ source.title }}</a>
+        <a href="{{ source.url }}" target="_blank" rel="noopener">{{ source.title | escape | replace: "&amp;", '<span class="amp">&amp;</span>' }}</a>
         {% if source.where %}<span class="word-story-source-where">{{ source.where | escape | replace: "&amp;", '<span class="amp">&amp;</span>' }}</span>{% endif %}
       </li>
       {% endfor %}

@@ -42,16 +42,22 @@ description: "Short pieces on English words that kept something from where they 
     as a whole, and a reader can see at a glance where the gaps are. They are
     hidden from screen readers, which have the links and need no scenery.
   {%- endcomment -%}
-  {% if filled_count > 1 %}
-  <nav class="word-alphabet" id="word-alphabet" aria-label="Jump to a letter">
+  {%- comment -%}
+    Written once and set down twice: here, and again in the box further down.
+  {%- endcomment -%}
+  {% capture letters %}
     {% for letter in alphabet %}
       {% if filled contains letter %}
-      <a class="word-alphabet-letter" href="#letter-{{ letter | downcase }}">{{ letter }}</a>
+      <a class="word-letter" href="#letter-{{ letter | downcase }}">{{ letter }}</a>
       {% else %}
-      <span class="word-alphabet-letter word-alphabet-letter--empty" aria-hidden="true">{{ letter }}</span>
+      <span class="word-letter word-letter--empty" aria-hidden="true">{{ letter }}</span>
       {% endif %}
     {% endfor %}
-    {% if filled contains "#" %}<a class="word-alphabet-letter" href="#letter-other">#</a>{% endif %}
+    {% if filled contains "#" %}<a class="word-letter" href="#letter-other">#</a>{% endif %}
+  {% endcapture %}
+  {% if filled_count > 1 %}
+  <nav class="word-alphabet" id="word-alphabet" aria-label="Jump to a letter">
+    {{ letters }}
   </nav>
   {% endif %}
 
@@ -66,7 +72,7 @@ description: "Short pieces on English words that kept something from where they 
   {% for letter in alphabet %}
     {% if filled contains letter %}
 <section class="word-group" aria-labelledby="letter-{{ letter | downcase }}">
-  <h2 class="word-group-letter" id="letter-{{ letter | downcase }}">{% if filled_count > 1 %}<a class="word-group-jump" href="#word-alphabet" aria-label="{{ letter }}, choose another letter">{{ letter }}</a>{% else %}{{ letter }}{% endif %}</h2>
+  <h2 class="word-group-letter" id="letter-{{ letter | downcase }}">{% if filled_count > 1 %}<a class="word-group-jump" href="#word-alphabet" aria-describedby="word-jump-hint">{{ letter }}</a>{% else %}{{ letter }}{% endif %}</h2>
   <ul class="word-index" role="list">
       {% for item in words %}
         {% assign initial = item.word | slice: 0 | upcase %}
@@ -86,7 +92,7 @@ description: "Short pieces on English words that kept something from where they 
 
   {% if filled contains "#" %}
 <section class="word-group" aria-labelledby="letter-other">
-  <h2 class="word-group-letter" id="letter-other"><a class="word-group-jump" href="#word-alphabet" aria-label="Other, choose another letter">#</a></h2>
+  <h2 class="word-group-letter" id="letter-other">{% if filled_count > 1 %}<a class="word-group-jump" href="#word-alphabet" aria-describedby="word-jump-hint">#</a>{% else %}#{% endif %}</h2>
   <ul class="word-index" role="list">
     {% for item in words %}
       {% assign initial = item.word | slice: 0 | upcase %}
@@ -109,17 +115,16 @@ description: "Short pieces on English words that kept something from where they 
     instead of from the top. Without script the box never shows and each
     group letter is a plain link back up to the row, which does the same job
     one scroll slower.
+
+    What a group letter does is said as its description, not its name. The
+    link's name is the heading's name, and the heading's is the section's, so
+    a name that explained the link would be read out as every heading and
+    every region on the page.
   {%- endcomment -%}
   {% if filled_count > 1 %}
+  <span id="word-jump-hint" hidden>Choose another letter</span>
   <div class="word-jump" id="word-jump" role="dialog" aria-label="Jump to a letter" hidden>
-    {% for letter in alphabet %}
-      {% if filled contains letter %}
-      <a class="word-jump-letter" href="#letter-{{ letter | downcase }}">{{ letter }}</a>
-      {% else %}
-      <span class="word-jump-letter word-jump-letter--empty" aria-hidden="true">{{ letter }}</span>
-      {% endif %}
-    {% endfor %}
-    {% if filled contains "#" %}<a class="word-jump-letter" href="#letter-other">#</a>{% endif %}
+    {{ letters }}
   </div>
   {% endif %}
 
@@ -167,31 +172,42 @@ description: "Short pieces on English words that kept something from where they 
     margin: 0 auto 40px;
   }
 
-  .word-alphabet-letter {
+  /* One letter, in the row and in the box alike; each place sets its size. */
+  .word-letter {
     display: grid;
     place-items: center;
-    min-width: 30px;
-    min-height: 32px;
-    padding: 0 2px;
     font-family: 'Cormorant Garamond', Georgia, serif;
     font-style: italic;
-    font-size: 1.12rem;
     line-height: 1;
     text-decoration: none;
-    border-radius: 5px;
   }
 
-  a.word-alphabet-letter {
+  a.word-letter {
     color: var(--petrol);
     transition: var(--select-ease);
   }
 
-  a.word-alphabet-letter:hover,
-  a.word-alphabet-letter:active { opacity: var(--select-dim); }
+  a.word-letter:hover,
+  a.word-letter:active { opacity: var(--select-dim); }
 
-  a.word-alphabet-letter:focus-visible {
+  a.word-letter:focus-visible {
     outline: 2px solid var(--petrol);
     outline-offset: 1px;
+  }
+
+  /* A letter with nothing behind it is scenery, not a target: quiet enough
+     that the eye passes over it and goes to the ones that lead somewhere. */
+  .word-letter--empty {
+    color: var(--vizon);
+    opacity: 0.32;
+  }
+
+  .word-alphabet .word-letter {
+    min-width: 30px;
+    min-height: 32px;
+    padding: 0 2px;
+    font-size: 1.12rem;
+    border-radius: 5px;
   }
 
   /* Once there is room for all 27 on one line, they spread to the width of
@@ -210,17 +226,10 @@ description: "Short pieces on English words that kept something from where they 
        glyphs 9px wide with dead gaps between, so a click aimed at M lands on
        nothing. Each letter takes a share of the row and the whole row is
        live, with the glyph centred in its own. */
-    .word-alphabet-letter {
+    .word-alphabet .word-letter {
       flex: 1 1 0;
       min-width: 0;
     }
-  }
-
-  /* A letter with nothing behind it is scenery, not a target: quiet enough
-     that the eye passes over it and goes to the ones that lead somewhere. */
-  .word-alphabet-letter--empty {
-    color: var(--vizon);
-    opacity: 0.32;
   }
 
   /* Bare `section` carries the homepage band padding (100px / 90px). These
@@ -247,8 +256,6 @@ description: "Short pieces on English words that kept something from where they 
   /* The group letter is also the way back to the alphabet, so it takes the
      accent the letters in the row have, and a target big enough to tap
      without changing the height the heading already had. */
-  .word-group { position: relative; }
-
   .word-group-jump {
     display: inline-block;
     min-width: 32px;
@@ -271,7 +278,8 @@ description: "Short pieces on English words that kept something from where they 
 
   /* Same ground, border and shadow as the footer's dropdown, so the site has
      one kind of small box. Seven across makes four even rows of the 26, and
-     a 36px cell keeps every letter a comfortable tap on a phone. */
+     a 36px cell keeps every letter a comfortable tap on a phone. It is placed
+     against its group, which the site-wide section rule already positions. */
   .word-jump {
     position: absolute;
     z-index: 40;
@@ -287,40 +295,18 @@ description: "Short pieces on English words that kept something from where they 
 
   .word-jump[hidden] { display: none; }
 
-  .word-jump-letter {
-    display: grid;
-    place-items: center;
+  .word-jump .word-letter {
     height: 36px;
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-style: italic;
     font-size: 1.15rem;
-    line-height: 1;
-    text-decoration: none;
     border-radius: 6px;
   }
 
-  a.word-jump-letter {
-    color: var(--petrol);
-    transition: var(--select-ease);
-  }
-
-  a.word-jump-letter:hover,
-  a.word-jump-letter:active { opacity: var(--select-dim); }
-
-  a.word-jump-letter:focus-visible {
-    outline: 2px solid var(--petrol);
-    outline-offset: -2px;
-  }
+  .word-jump a.word-letter:focus-visible { outline-offset: -2px; }
 
   /* The letter the reader is already in, marked so they can see where they
      stand in the alphabet. */
-  a.word-jump-letter[aria-current="true"] {
+  .word-jump a.word-letter[aria-current="true"] {
     background: color-mix(in srgb, var(--petrol) 12%, transparent);
-  }
-
-  .word-jump-letter--empty {
-    color: var(--vizon);
-    opacity: 0.32;
   }
 
   /* Bounded top and bottom, hairlines in --rule: the same shape as the
@@ -432,6 +418,12 @@ description: "Short pieces on English words that kept something from where they 
     box.style.top = (heading.offsetTop + heading.offsetHeight + 6) + 'px';
     box.style.left = heading.offsetLeft + 'px';
     box.hidden = false;
+
+    // On the narrowest phones the box is wider than the room to the right of
+    // the letter, so it is drawn back inside the page's own margin.
+    const spill = box.getBoundingClientRect().right - (document.documentElement.clientWidth - 16);
+    if (spill > 0) box.style.left = (heading.offsetLeft - spill) + 'px';
+
     trigger.setAttribute('aria-expanded', 'true');
     openTrigger = trigger;
 
@@ -442,17 +434,37 @@ description: "Short pieces on English words that kept something from where they 
     const trigger = event.target.closest('.word-group-jump');
     if (trigger) {
       event.preventDefault();
-      const again = trigger === openTrigger;
+      if (trigger === openTrigger) { close(true); return; }
       close(false);
-      if (!again) open(trigger);
+      open(trigger);
       return;
     }
-    if (event.target.closest('.word-jump-letter')) { close(false); return; }
+    if (box.contains(event.target) && event.target.closest('a')) { close(false); return; }
     if (openTrigger && !box.contains(event.target)) close(false);
   });
 
   document.addEventListener('keydown', event => {
-    if (event.key === 'Escape' && openTrigger) close(true);
+    if (event.key === 'Escape' && openTrigger) { close(true); return; }
+
+    // The group letter is announced as a button, so it answers to Space as a
+    // button does. A link on its own answers only to Enter, and Space would
+    // scroll the page instead.
+    const trigger = event.key === ' ' && event.target.closest && event.target.closest('.word-group-jump');
+    if (trigger) {
+      event.preventDefault();
+      if (!event.repeat) trigger.click();
+    }
+  });
+
+  // A press inside the box, or on the letter that opened it, keeps focus where
+  // it is. Safari gives a clicked link no focus, so without this the press
+  // would drop focus to the page, the box would close on the way down, and
+  // the click it was made for would land on whatever lay beneath.
+  box.addEventListener('mousedown', event => event.preventDefault());
+  triggers.forEach(trigger => {
+    trigger.addEventListener('mousedown', event => {
+      if (trigger === openTrigger) event.preventDefault();
+    });
   });
 
   // Tabbing out of the box closes it, as a menu would.
