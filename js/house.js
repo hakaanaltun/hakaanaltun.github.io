@@ -429,6 +429,23 @@
       'A' + rx + ' ' + r + ' 0 0 ' + inner + ' ' + cx + ' ' + (cy - r) + 'Z';
   }
 
+  /* The wall clock keeps the reader's own time, so it reads the computer's
+     clock as it is and asks nothing about İstanbul. */
+  function wallClock() {
+    var now = new Date();
+    var minutes = now.getMinutes();
+    var turn = function (hand, degrees) {
+      scene.querySelector(hand).setAttribute('transform', 'rotate(' + degrees + ' 450 146)');
+    };
+    turn('.house-clock-hour', (now.getHours() % 12 + minutes / 60) * 30);
+    turn('.house-clock-minute', minutes * 6);
+  }
+  // On the minute, not a minute after the page happened to open.
+  function keepTime() {
+    wallClock();
+    window.setTimeout(keepTime, 60000 - Date.now() % 60000 + 50);
+  }
+
   function paint() {
     var now = new Date();
     var sky = skyNow(now);
@@ -735,7 +752,7 @@
     if (dialog.open && location.hash !== '#drawer') dialog.close();
     setView(true);
   });
-  document.addEventListener('visibilitychange', function () { if (!document.hidden) paint(); });
+  document.addEventListener('visibilitychange', function () { if (!document.hidden) { paint(); wallClock(); } });
   window.setInterval(paint, 60000);
 
   root.querySelectorAll('.house-js').forEach(function (node) { node.hidden = false; });
@@ -743,6 +760,7 @@
   if (!KEEP.works()) status.textContent = storageNote();
   syncCount();
   paint();
+  keepTime();
   setView(false);
   whenCatalog(arrivals);
 })();
