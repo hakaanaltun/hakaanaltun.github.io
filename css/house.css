@@ -118,7 +118,7 @@
 .house-pin { width: 17px; height: 17px; display: grid; place-items: center; border: 1px solid #cbbd9f; border-radius: 50%; font-size: 10px; }
 /* Each name sits beside its thing, on bare wall or floor, so it never covers
    what it names. */
-.house-hotspot--books { left: 20%; top: 82%; }
+.house-hotspot--books { left: 20%; top: 79%; }
 .house-hotspot--words { left: 52%; top: 64%; }
 .house-hotspot--question { left: 40%; top: 34%; }
 .house-hotspot--window { left: 59%; top: 19%; }
@@ -199,7 +199,7 @@ html[data-theme="dark"] .house-scene[data-hour="night"] .house-dusk, html[data-t
   .house-hotspot:hover { background: none; }
   .house-hotspot .house-pin { width: 24px; height: 24px; background: #fcf7e9; border-color: #716553; font-size: 12px; box-shadow: 0 1px 5px #30291a33; }
   .house-hotspot-name { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
-  .house-hotspot--books { left: 18%; top: 50%; }
+  .house-hotspot--books { left: 18%; top: 80%; }
   .house-hotspot--question { left: 40.5%; top: 38%; }
   .house-hotspot--window { left: 77.7%; top: 14%; }
   .house-hotspot--lamp { left: 57.5%; top: 43%; }
