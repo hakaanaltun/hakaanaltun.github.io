@@ -25,8 +25,9 @@ reading order through the list itself — the rows carry no numbers. {% endcomme
       {% comment %} The lede is the piece's own opening — sentences from the
       text, not written copy. normalize_whitespace keeps a space where
       paragraphs join. Story cards use their front-matter excerpt (also taken
-      from the text). {% endcomment %}
-      {% if include.post.story_card %}{% assign _lede = include.post.excerpt %}{% else %}{% assign _lede = include.post.content | strip_html | normalize_whitespace | truncatewords: 44 %}{% endif %}
+      from the text), and so does a piece whose opening is not prose, like
+      Measured's reading links (card_excerpt, as on the home cards). {% endcomment %}
+      {% if include.post.card_excerpt %}{% assign _lede = include.post.card_excerpt | strip_html | normalize_whitespace %}{% elsif include.post.story_card %}{% assign _lede = include.post.excerpt %}{% else %}{% assign _lede = include.post.content | strip_html | normalize_whitespace | truncatewords: 44 %}{% endif %}
       {% if _lede and _lede != "" %}<span class="work-excerpt">{{ _lede }}</span>{% endif %}
     </span>
     <span class="work-side">
