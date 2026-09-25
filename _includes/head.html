@@ -130,7 +130,7 @@ the story pages ("The Notice"), which share one card. {% endcomment %}
 }
 </script>
 
-<link rel="stylesheet" href="/css/style.css?v=20260925-1">
+<link rel="stylesheet" href="/css/style.css?v=20260925-2">
 <link rel="stylesheet" href="/css/palettes.css?v=20260905-2">
 
 {% elsif page.layout == "home" %}
@@ -274,7 +274,7 @@ the story pages ("The Notice"), which share one card. {% endcomment %}
 }
 </script>
 
-<link rel="stylesheet" href="/css/style.css?v=20260925-1">
+<link rel="stylesheet" href="/css/style.css?v=20260925-2">
 <link rel="stylesheet" href="/css/palettes.css?v=20260905-2">
 
 {% else %}
@@ -312,7 +312,7 @@ that are say so without moving out of this branch. {% endcomment %}
 <meta name="twitter:image" content="https://hakanaltun.io/og-image-on-card.png?v=20260729-2">
 <meta name="twitter:image:alt" content="{{ page.title | escape }} — On Life &amp; Everything">
 
-<link rel="stylesheet" href="/css/style.css?v=20260925-1">
+<link rel="stylesheet" href="/css/style.css?v=20260925-2">
 <link rel="stylesheet" href="/css/palettes.css?v=20260905-2">
 
 {% endif %}
@@ -507,6 +507,16 @@ the Turkish glyphs live in the -ext file and can wait. {% endcomment %}
 <link rel="stylesheet" href="{{ "/css/search.css" | relative_url }}?v=20260919-7">
 {% if page.trivia %}
 <link rel="stylesheet" href="/css/trivia.css?v=20260920-3">
+{% endif %}
+{% comment %} The drawer (js/keep.js): the pages a reader can keep something
+from, and The House, where it opens. In the head, so it has run before any
+page script that asks it for something. {% endcomment %}
+{% assign _keep = false %}
+{% if page.layout == "post" and page.series != "story" %}{% assign _keep = true %}{% endif %}
+{% if page.layout == "word" or page.trivia or page.book_part or page.house %}{% assign _keep = true %}{% endif %}
+{% if _keep %}
+<link rel="stylesheet" href="/css/keep.css?v=20260925-1">
+<script src="/js/keep.js?v=20260925-1" defer></script>
 {% endif %}
 
 {% if page.layout == "post" and page.series != "story" %}

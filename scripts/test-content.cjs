@@ -68,12 +68,21 @@ for (const file of list('_data/quizzes', '.json')) {
 
   let unsourced = 0;
   const seen = new Set();
+  const ids = new Set();
   bank.forEach((q, i) => {
     const where = `${file} #${i + 1}`;
     if (!q.question) return problem(where, 'no question');
     const label = `${where} “${q.question.slice(0, 50)}”`;
     if (seen.has(q.question)) problem(label, 'asked twice in this bank');
     seen.add(q.question);
+    /* Readers keep questions in their drawer by this id, so it outlives any
+       rewording or reordering. A new question gets a new one. */
+    if (typeof q.id !== 'string' || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(q.id)) {
+      problem(label, 'needs an "id": lowercase letters, digits and hyphens');
+    } else if (ids.has(q.id)) {
+      problem(label, `id “${q.id}” is used twice in this bank`);
+    }
+    ids.add(q.id);
     if (!q.category) problem(label, 'no category; a category is a round');
     if (!Array.isArray(q.choices) || q.choices.length !== 4) {
       problem(label, 'needs exactly four choices');

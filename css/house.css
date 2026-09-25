@@ -22,18 +22,28 @@
 .door-light { fill: var(--paper); stroke: var(--vizon); stroke-width: 1.4; }
 .door-mat { fill: var(--rule); stroke: var(--vizon); }
 .door-bell { fill: #b5985a; stroke: var(--vizon); }
-.house-door-picture text { font: 11px 'EB Garamond', Georgia, serif; letter-spacing: 2px; fill: var(--vizon); }
+.door-name { font: 11px 'EB Garamond', Georgia, serif; letter-spacing: 2px; fill: var(--vizon); }
+/* The site's ampersand is the display italic, as in the masthead. */
+.house .amp, .house-print .amp { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; }
+.house-eyebrow .amp { font-size: 1.2em; line-height: 1; }
+.door-amp { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 14px; letter-spacing: 0; }
 .house-welcome h2 { font: 500 clamp(40px, 5vw, 60px)/1.1 'Cormorant Garamond', Georgia, serif; margin: 14px 0 24px; }
 .house-welcome > p:not(.house-eyebrow):not(.house-entry-note) { font-size: 19px; line-height: 1.6; max-width: 320px; margin: 0 0 15px; }
 .house-enter { display: inline-flex; align-items: center; gap: 38px; margin-top: 16px; padding: 13px 0; border-bottom: 1px solid var(--ink-soft); text-decoration: none; color: var(--ink); font-size: 21px; }
 .house-enter:hover { opacity: .78; }
 .house-entry-note { margin: 18px 0 0; color: var(--vizon); font-size: 14px; }
+.house-since { max-width: 340px; margin: 22px 0 6px; padding: 16px 0 4px; border-top: 1px solid var(--rule-strong); }
+.house-since ul { list-style: none; margin: 0; padding: 0; }
+.house-since li { margin: 0 0 8px; font-size: 16px; line-height: 1.45; color: var(--ink-soft); }
+.house-since a { color: var(--petrol); text-underline-offset: 3px; }
 .house-room-bar { display: flex; align-items: end; justify-content: space-between; gap: 16px; padding-top: 28px; }
 .house-room-bar h2 { margin: 0; font: 500 36px/1.1 'Cormorant Garamond', Georgia, serif; }
 .house-time { display: flex; align-items: center; gap: 8px; font-size: 15px; color: var(--vizon); margin: 0 0 3px; }
-.house-time-dot { width: 6px; height: 6px; background: #a18349; border-radius: 50%; }
+.house-time-dot { flex: none; width: 6px; height: 6px; background: #a18349; border-radius: 50%; }
+/* The hour and the clock break apart, never inside either. */
+#house-hour, #house-clock { display: inline-block; white-space: nowrap; }
 .house-instruction { margin: 10px 0 18px; font-size: 16px; color: var(--vizon); }
-.house-scene { position: relative; overflow: hidden; border: 1px solid var(--rule-strong); isolation: isolate; --room-wall: #eee9db; --room-floor: #e0d6c0; --room-line: #6c6555; --room-wood: #c7b799; --room-paper: #fbf6e8; --room-back: #ded4bf; --room-cream: #ded2af; --room-blue: #6e8386; --room-olive: #8b967a; --room-rust: #b27d66; --sky-top: #a2bcca; --sky-bottom: #dbe2d3; }
+.house-scene { position: relative; overflow: hidden; border: 1px solid var(--rule-strong); isolation: isolate; --room-wall: #eee9db; --room-floor: #e0d6c0; --room-line: #6c6555; --room-wood: #c7b799; --room-paper: #fbf6e8; --room-back: #ded4bf; --room-cream: #ded2af; --room-blue: #6e8386; --room-olive: #8b967a; --room-rust: #b27d66; --sky-top: #a2bcca; --sky-bottom: #dbe2d3; --moris-fur: #2a2b2d; --moris-rim: #1c1d1f; }
 .house-room-art { width: 100%; height: auto; display: block; color: var(--room-line); }
 .house-wall { fill: var(--room-wall); }
 .house-floor { fill: var(--room-floor); }
@@ -49,13 +59,32 @@
 .house-sky-top { stop-color: var(--sky-top); }
 .house-sky-bottom { stop-color: var(--sky-bottom); }
 .house-sun { fill: #f5e2a6; }
+.house-scene[data-hour="morning"] .house-sun { fill: #f6dca0; }
+.house-scene[data-hour="evening"] .house-sun { fill: #f0bf8a; }
+.house-moon { opacity: 0; }
+.house-moon-disc { fill: #fff; opacity: .1; }
+.house-moon-lit { fill: #efe6c8; }
 .house-rooftops { fill: #6a7e7d; opacity: .45; }
 .house-stars { opacity: 0; }
 .house-light-beam { fill: #fbefc7; opacity: .22; }
 .house-rug { fill: #a79d82; opacity: .28; }
 .house-cushion { fill: #b5a987; }
-.house-cat { fill: #343534; stroke: #343534; }
-.house-cat-eyes { stroke: #b3aa80; }
+/* Moris, drawn from his photographs: black, short-coated, with yellow-green
+   eyes. One pose shows at a time, by the place and hour on the scene. */
+.moris { display: none; }
+.house-scene[data-moris="sill"] .moris--sill,
+.house-scene[data-moris="shelf"] .moris--shelf,
+.house-scene[data-moris="cushion"]:not([data-hour="night"]) .moris--cushion,
+.house-scene[data-moris="cushion"][data-hour="night"] .moris--asleep { display: inline; }
+.moris-fur { fill: var(--moris-fur); stroke: var(--moris-rim); stroke-width: 1; stroke-linejoin: round; }
+.moris-tail { fill: none; stroke: var(--moris-fur); stroke-width: 6.5; stroke-linecap: round; }
+.moris-sheen { fill: none; stroke: #505358; stroke-width: 1.4; stroke-linecap: round; opacity: .7; }
+.moris-ear { fill: #54494c; }
+.moris-eye { fill: #c2c878; stroke: #878c48; stroke-width: .4; }
+.moris-pupil { fill: #141414; }
+.moris-nose { fill: #161617; stroke: #4c4748; stroke-width: .5; }
+.moris-whisker { fill: none; stroke: #cfcabb; stroke-width: .5; stroke-linecap: round; opacity: .55; }
+.moris-lid { fill: none; stroke: #8a8578; stroke-width: 1; stroke-linecap: round; }
 .house-lampshade { fill: var(--room-cream); }
 .house-lamp-bulb { fill: var(--room-line); }
 .house-lamp-glow { opacity: 0; pointer-events: none; transition: opacity 500ms ease; }
@@ -67,7 +96,8 @@
 .house-scene[data-hour="morning"] { --sky-top: #c7c3b4; --sky-bottom: #ecd5ac; }
 .house-scene[data-hour="night"] { --sky-top: #25384a; --sky-bottom: #506575; }
 .house-scene[data-hour="night"] .house-stars { opacity: 1; }
-.house-scene[data-hour="night"] .house-sun { fill: #e7e2c9; r: 14px; }
+.house-scene[data-hour="night"] .house-sun { opacity: 0; }
+.house-scene[data-hour="night"] .house-moon { opacity: 1; }
 .house-scene[data-hour="night"] .house-light-beam { opacity: .06; }
 .house-hotspot { position: absolute; display: flex; align-items: center; gap: 7px; transform: translate(-50%, -50%); min-height: 44px; padding: 6px 12px 6px 7px; border: 1px solid #b7ab94; border-radius: 3px; background: #fcf7e9; color: #443f34 !important; font-size: 15px !important; line-height: 1.2; white-space: nowrap; box-shadow: 0 2px 8px #30291a12; transition: background .18s; }
 .house-hotspot:hover { background: #fffdf7; border-color: #716553; }
@@ -76,10 +106,13 @@
 .house-hotspot--books { left: 20%; top: 55%; }
 .house-hotspot--words { left: 52%; top: 64%; }
 .house-hotspot--question { left: 40%; top: 34%; }
-.house-hotspot--window { left: 78%; top: 30%; }
+.house-hotspot--window { left: 77.7%; top: 12%; }
 .house-hotspot--moris { left: 84%; top: 83%; }
+.house-scene[data-moris="sill"] .house-hotspot--moris { left: 80.5%; top: 46%; }
+.house-scene[data-moris="shelf"] .house-hotspot--moris { left: 21.5%; top: 6%; }
 .house-hotspot--lamp { left: 65.8%; top: 40%; }
 .house-hotspot--drawer { left: 56%; top: 78%; }
+.house-objects { display: none; }
 .house-room-footer { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; border-bottom: 1px solid var(--rule-strong); padding: 20px 0; font-size: 16px; }
 .house-room-footer a { color: var(--ink-soft); text-decoration: none; }
 .house-room-footer a:hover { text-decoration: underline; text-underline-offset: 4px; }
@@ -97,11 +130,20 @@ html:has(.house-dialog[open]) { overflow: hidden; }
 .house-object-intro { color: var(--ink-soft); margin: 0 0 24px; }
 .house-item { padding: 24px 0; border-top: 1px solid var(--rule-strong); }
 .house-item-kind { font-size: 12px !important; text-transform: uppercase; letter-spacing: .1em; color: var(--vizon); margin: 0 0 8px; }
-.house-item blockquote { margin: 10px 0; padding: 0; border: 0; font-style: italic; }
+.house-item blockquote { margin: 10px 0; padding: 0; border: 0; font-style: italic; white-space: pre-line; }
+.house-dialog h3.is-word { font-style: italic; font-size: 36px; }
 .house-item-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 12px 24px; margin-top: 18px; font-size: 16px; }
 .house-dialog a { color: var(--petrol); text-decoration: underline; text-underline-offset: 4px; }
 .house-item-actions button { padding: 9px 12px; min-height: 44px; border: 1px solid var(--rule-strong); border-radius: 2px; background: var(--surface-soft); font-size: 15px; }
-.house-item-actions button[aria-pressed="true"] { border-color: var(--vizon); }
+.house-item-actions button[aria-pressed="true"] { border-color: var(--vizon); color: var(--vizon); }
+.house-drawer-tools { display: flex; flex-wrap: wrap; gap: 10px 14px; margin: 4px 0 22px; }
+.house-drawer-tools button { padding: 9px 14px; min-height: 44px; border: 1px solid var(--rule-strong); border-radius: 2px; background: none; font-size: 15px; color: var(--ink-soft); }
+.house-sky-facts { display: grid; grid-template-columns: auto 1fr; gap: 6px 22px; margin: 0 0 26px; font-size: 17px; }
+.house-sky-facts dt { color: var(--vizon); }
+.house-sky-facts dd { margin: 0; }
+.house-moris-quote { margin: 4px 0 18px; padding: 0 0 0 16px; border-left: 2px solid var(--rule-strong); }
+.house-moris-quote p { margin: 0 0 6px; font-style: italic; }
+.house-moris-quote cite { font-style: normal; font-size: 15px; color: var(--vizon); }
 .house-more { display: inline-block; margin: 16px 0 0; padding: 8px 0; font-size: 17px; }
 .house-word-card summary { cursor: pointer; padding: 8px 0; color: var(--vizon); min-height: 44px; box-sizing: border-box; }
 .house-word-card details[open] summary { margin-bottom: 8px; }
@@ -117,15 +159,15 @@ html:has(.house-dialog[open]) { overflow: hidden; }
 .house-window-links a { display: block; padding: 18px 0; border-top: 1px solid var(--rule-strong); text-decoration: none; }
 .house-window-links span { font: 500 28px 'Cormorant Garamond', Georgia, serif; }
 .house-window-links p { color: var(--vizon); margin: 6px 0 0; }
-.house-moris-photo { width: 100%; height: 280px; object-fit: cover; object-position: center; border-radius: 2px; }
+.house-moris-photo { width: 100%; height: 320px; object-fit: cover; object-position: center; border-radius: 2px; }
 .house-drawer-note, .house-dialog-status { color: var(--vizon); font-size: 15px !important; }
 .house-dialog-status:empty { display: none; }
 .house-empty-drawer { border: 1px dashed var(--rule-strong); padding: 28px 24px; margin: 24px 0; }
 .house-empty-drawer p { margin: 0; }
 @keyframes house-arrive { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-html[data-theme="dark"] .house-scene, html[data-theme="midnight"] .house-scene { --room-wall: #363b3b; --room-floor: #3f403a; --room-line: #a89e89; --room-wood: #666452; --room-back: #444942; --room-paper: #b5ae96; --room-cream: #9c9174; --room-blue: #617e84; --room-olive: #687b64; --room-rust: #9e7564; }
+html[data-theme="dark"] .house-scene, html[data-theme="midnight"] .house-scene { --room-wall: #363b3b; --room-floor: #3f403a; --room-line: #a89e89; --room-wood: #666452; --room-back: #444942; --room-paper: #b5ae96; --room-cream: #9c9174; --room-blue: #617e84; --room-olive: #687b64; --room-rust: #9e7564; --moris-fur: #202123; --moris-rim: #6c685e; }
 html[data-theme="sky"] .house-scene { --room-wall: color-mix(in srgb, var(--paper) 88%, #a8997f); --room-floor: color-mix(in srgb, var(--paper) 76%, #9b8d6f); --room-line: var(--vizon); --room-wood: color-mix(in srgb, var(--paper) 50%, #a8997f); --room-back: color-mix(in srgb, var(--paper) 75%, #a8997f); }
-@media (prefers-color-scheme: dark) { html:not([data-theme]) .house-scene { --room-wall: #363b3b; --room-floor: #3f403a; --room-line: #a89e89; --room-wood: #666452; --room-back: #444942; --room-paper: #b5ae96; --room-cream: #9c9174; --room-blue: #617e84; --room-olive: #687b64; --room-rust: #9e7564; } }
+@media (prefers-color-scheme: dark) { html:not([data-theme]) .house-scene { --room-wall: #363b3b; --room-floor: #3f403a; --room-line: #a89e89; --room-wood: #666452; --room-back: #444942; --room-paper: #b5ae96; --room-cream: #9c9174; --room-blue: #617e84; --room-olive: #687b64; --room-rust: #9e7564; --moris-fur: #202123; --moris-rim: #6c685e; } }
 @media (max-width: 620px) {
   .house { margin-inline: calc(-1 * var(--pad)); padding: 36px 18px 24px; }
   .house-heading { gap: 8px; padding-bottom: 22px; }
@@ -140,19 +182,46 @@ html[data-theme="sky"] .house-scene { --room-wall: color-mix(in srgb, var(--pape
   .house-welcome > p:not(.house-eyebrow):not(.house-entry-note) { font-size: 18px; }
   .house-room-bar { align-items: center; }
   .house-room-bar h2 { font-size: 31px; }
-  .house-time { max-width: 130px; font-size: 13px; }
-  .house-hotspot { flex-direction: column; gap: 2px; min-width: 44px; min-height: 44px; padding: 5px; font-size: 11px !important; line-height: 1; border-radius: 3px; }
-  .house-pin { width: 15px; height: 15px; font-size: 10px; }
+  .house-time { max-width: 58%; font-size: 13px; text-align: right; }
+  /* The picture runs edge to edge and keeps only its numbers; the names are
+     in the list under it. */
+  .house-scene { margin-inline: -18px; border-inline: 0; }
+  .house-hotspot { justify-content: center; min-width: 44px; min-height: 44px; padding: 0; border: 0; background: none; box-shadow: none; }
+  .house-hotspot:hover { background: none; }
+  .house-hotspot .house-pin { width: 24px; height: 24px; background: #fcf7e9; border-color: #716553; font-size: 12px; box-shadow: 0 1px 5px #30291a33; }
+  .house-hotspot-name { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
   .house-hotspot--books { left: 18%; top: 50%; }
-  .house-hotspot--question { left: 41%; top: 25%; }
-  .house-hotspot--window { left: 83%; top: 25%; }
-  .house-hotspot--lamp { left: 65%; top: 47%; }
-  .house-hotspot--words { left: 40%; top: 61%; }
-  .house-hotspot--drawer { left: 55%; top: 86%; }
-  .house-hotspot--moris { left: 86%; top: 82%; }
+  .house-hotspot--question { left: 38%; top: 45%; }
+  .house-hotspot--window { left: 77.7%; top: 14%; }
+  .house-hotspot--lamp { left: 65.8%; top: 46%; }
+  .house-hotspot--words { left: 57%; top: 60%; }
+  .house-hotspot--drawer { left: 48%; top: 70%; }
+  .house-hotspot--moris { left: 84%; top: 78%; }
+  .house-scene[data-moris="sill"] .house-hotspot--moris { left: 81%; top: 46%; }
+  .house-scene[data-moris="shelf"] .house-hotspot--moris { left: 29%; top: 12%; }
+  .house-objects { display: grid; grid-template-columns: 1fr 1fr; gap: 0 14px; list-style: none; margin: 14px 0 0; padding: 0; }
+  .house-objects button { display: flex; align-items: center; gap: 9px; width: 100%; min-height: 44px; padding: 6px 0; border: 0; border-bottom: 1px solid var(--rule); background: none; text-align: left; font-size: 16px; }
+  .house-objects .house-pin { flex: none; width: 22px; height: 22px; font-size: 11px; }
+  .house-objects [data-lamp][aria-pressed="true"]::after { content: "on"; margin-left: auto; color: var(--vizon); font-size: 14px; }
   .house-room-footer { font-size: 14px; }
   .house-dialog { padding: 16px 22px 24px; max-height: 90dvh; }
   .house-dialog h2 { font-size: 35px; }
-  .house-moris-photo { height: 240px; }
+  .house-moris-photo { height: 260px; }
 }
 @media (prefers-reduced-motion: reduce) { .house *, .house *::before, .house *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+
+/* Printing the drawer: js/house.js sets the sheet down at the end of the
+   page and marks the document, and only the sheet is printed. */
+.house-print { display: none; }
+@media print {
+  html.house-printing body { margin: 0; padding: 0; }
+  html.house-printing body > *:not(.house-print) { display: none !important; }
+  html.house-printing .house-print { display: block; color: #262320; font: 12pt/1.5 'EB Garamond', Georgia, serif; }
+  .house-print h1 { font: 500 30pt/1.1 'Cormorant Garamond', Georgia, serif; margin: 0 0 4pt; }
+  .house-print-from { margin: 0 0 24pt; color: #6D665B; }
+  .house-print article { padding: 12pt 0; border-top: 1px solid #D6CDB6; break-inside: avoid; }
+  .house-print h2 { font: 500 18pt/1.2 'Cormorant Garamond', Georgia, serif; margin: 0 0 6pt; }
+  .house-print h2.is-word { font-style: italic; }
+  .house-print .house-item-kind { font-size: 8pt !important; letter-spacing: .12em; text-transform: uppercase; color: #6D665B; margin: 0 0 4pt; }
+  .house-print-address { color: #6D665B; font-size: 10pt; }
+}

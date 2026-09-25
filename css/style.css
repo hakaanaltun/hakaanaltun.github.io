@@ -666,10 +666,11 @@ header .hamburger-btn:focus-visible { outline-color: var(--footer-text); }
    a horizontal scroll strip instead — the links that don't fit sit
    off-screen and slide into view. JS-driven edge fades (fade-l/r/lr, set in
    site-nav.js) signal the hidden links, and the drawer always carries the
-   full list. */
+   full list. The gap was 52px for ten links; with The House as the
+   eleventh, 40px keeps the row on one line from 1024px up. */
 .header-nav-bar {
   width: 100%; max-width: 100%; display: flex; flex-wrap: wrap; justify-content: center;
-  gap: 52px; margin-top: 0; padding-right: 0;
+  gap: 40px; margin-top: 0; padding-right: 0;
   overflow: visible; white-space: normal;
   -webkit-mask-image: none; mask-image: none;
 }

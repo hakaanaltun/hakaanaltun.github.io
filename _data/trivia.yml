@@ -17,6 +17,11 @@
 #   2. an entry here               — the card on /trivia/ and the homepage
 #   3. trivia/<slug>/index.html    — front matter only; no markup
 #
+# Every question in a bank carries an "id", unique within the bank. Readers
+# keep questions in their drawer in The House by it, so it stays with the
+# question through rewording and reordering; never reuse one, and give a
+# question that replaces another a new one. scripts/test-content.cjs checks.
+#
 # card: the line under the title on /trivia/. Say what the quiz covers, not
 # how good it is. The question count is read from the JSON, never written here.
 

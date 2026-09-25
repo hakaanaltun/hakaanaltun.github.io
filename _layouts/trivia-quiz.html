@@ -28,6 +28,7 @@ layout: default
     id="trivia-app"
     class="trivia-shell"
     data-storage-key="ole-trivia-{{ page.quiz }}-v2"
+    data-quiz="{{ page.quiz }}"
     data-quiz-name="{{ meta.name | default: page.title | escape }}"
   >
     <section class="trivia-panel" id="trivia-intro" aria-labelledby="trivia-intro-title">
@@ -56,6 +57,9 @@ layout: default
       <div class="trivia-choices" id="trivia-choices" role="group" aria-labelledby="trivia-question-text"></div>
       <p class="trivia-feedback" id="trivia-feedback" aria-live="polite"></p>
       <div class="trivia-actions trivia-actions--question">
+        {%- comment -%} Into the reader's drawer in The House (js/keep.js),
+        by the question's id in its bank. {%- endcomment %}
+        <button class="trivia-button trivia-button--quiet" id="trivia-keep" type="button" data-keep-button hidden>Keep this note</button>
         <button class="trivia-button trivia-button--primary" id="trivia-next" type="button" hidden>Next</button>
       </div>
     </section>
@@ -93,7 +97,7 @@ layout: default
 </div>
 
 <script id="trivia-data" type="application/json">{{ quiz | jsonify }}</script>
-<script src="/js/trivia.js?v=20260920-3" defer></script>
+<script src="/js/trivia.js?v=20260925-1" defer></script>
 
 <script type="application/ld+json">
 {

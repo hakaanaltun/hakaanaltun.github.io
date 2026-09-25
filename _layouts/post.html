@@ -40,7 +40,10 @@ leave the document without an h1 — give screen readers one. {% endcomment %}
   <div class="essay-cover fade-in fade-in-delay"><img src="{{ cover_image }}" srcset="{{ cover480 }} 480w, {{ cover960 }} 960w, {{ cover_image }} 1600w" sizes="(max-width: 840px) calc(100vw - 80px), 760px" alt="{{ page.cover_alt | default: page.title | escape }}" fetchpriority="high" decoding="async"></div>
   {% endif %}
 {% endunless %}
-<article class="essay-body fade-in fade-in-delay">
+{% comment %} data-keep-passage: a reader can select a line or two and keep
+it in their drawer (js/keep.js). Not in the branching story, whose pages are
+turns of one piece rather than pieces. {% endcomment %}
+<article class="essay-body fade-in fade-in-delay"{% unless page.series == "story" %} data-keep-passage data-keep-kind="{% if page.fiction %}A story{% else %}An essay{% endif %}" data-keep-title="{{ page.title | replace: "'", "’" | escape }}"{% endunless %}>
 {{ content }}
 </article>
 {% comment %} The moon that was over the piece, where its night ends. Renders

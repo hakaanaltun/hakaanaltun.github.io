@@ -1,0 +1,67 @@
+---
+layout: null
+permalink: /house/catalog.json
+sitemap: false
+---
+{%- comment -%}
+  Everything The House can put out or keep, read by js/house.js. It is built
+  from the same files as the rest of the site, so nothing is written twice:
+  the words from _words/, the questions from _data/quizzes/, the lines from
+  _data/lines.yml, the pieces from _posts/ and the notes from _data/notes.yml.
+
+  Every entry carries the id a reader's drawer knows it by. Words go by their
+  file name and questions by the id in their bank, so neither changes when
+  the text around it does; pieces, notes and quizzes are listed so the door
+  can say what has arrived since a reader's last visit.
+{%- endcomment -%}
+{%- assign skip = site.data.unsuggested | map: "slug" -%}
+{
+"words": [
+{%- for w in site.words -%}
+{%- assign w_slug = w.url | split: "/" | last -%}
+{"id":{{ "word-" | append: w_slug | jsonify }},"word":{{ w.word | jsonify }},"pos":{{ w.pos | jsonify }},"teaser":{{ w.teaser | jsonify }},"description":{{ w.description | jsonify }},"url":{{ w.url | jsonify }}}{% unless forloop.last %},{% endunless %}
+{%- endfor -%}
+],
+"questions": [
+{%- assign q_first = true -%}
+{%- for quiz in site.data.trivia -%}
+{%- assign bank = site.data.quizzes[quiz.slug] -%}
+{%- for q in bank -%}
+{%- unless q_first %},{% endunless -%}{%- assign q_first = false -%}
+{"id":{{ "trivia-" | append: quiz.slug | append: "-" | append: q.id | jsonify }},"quiz":{{ quiz.name | jsonify }},"url":{{ "/trivia/" | append: quiz.slug | append: "/" | jsonify }},"question":{{ q.question | jsonify }},"choices":{{ q.choices | jsonify }},"answer":{{ q.answer }},"note":{{ q.note | jsonify }}}
+{%- endfor -%}
+{%- endfor -%}
+],
+"lines": [
+{%- assign l_first = true -%}
+{%- for line in site.data.lines -%}
+{%- if line.chapter -%}
+{%- unless l_first %},{% endunless -%}{%- assign l_first = false -%}
+{"text":{{ line.text | jsonify }},"source":{{ line.chapter | jsonify }},"url":{{ line.url | jsonify }},"book":true}
+{%- elsif skip contains line.piece -%}
+{%- else -%}
+{%- assign line_post = site.posts | where: "slug", line.piece | first -%}
+{%- unless l_first %},{% endunless -%}{%- assign l_first = false -%}
+{"text":{{ line.text | jsonify }},"source":{{ line_post.title | replace: "'", "’" | jsonify }},"url":{{ line_post.story_url | default: line_post.url | jsonify }},"book":false,"fiction":{% if line_post.fiction %}true{% else %}false{% endif %}}
+{%- endif -%}
+{%- endfor -%}
+],
+"pieces": [
+{%- assign pieces = site.posts | where_exp: "p", "p.published != false" -%}
+{%- for p in pieces -%}
+{"id":{{ "piece-" | append: p.slug | jsonify }},"title":{{ p.title | replace: "'", "’" | jsonify }},"url":{{ p.story_url | default: p.url | jsonify }},"fiction":{% if p.fiction %}true{% else %}false{% endif %}}{% unless forloop.last %},{% endunless %}
+{%- endfor -%}
+],
+"notes": [
+{%- assign notes = site.data.notes | where_exp: "n", "n.draft != true" -%}
+{%- for n in notes -%}
+{%- assign n_anchor = n.id | default: n.date -%}
+{"id":{{ "note-" | append: n_anchor | jsonify }},"date":{{ n.date | jsonify }},"text":{{ n.body | markdownify | strip_html | strip_newlines | truncatewords: 12 | jsonify }},"url":{{ "/notes/#" | append: n_anchor | jsonify }}}{% unless forloop.last %},{% endunless %}
+{%- endfor -%}
+],
+"quizzes": [
+{%- for quiz in site.data.trivia -%}
+{"id":{{ "quiz-" | append: quiz.slug | jsonify }},"title":{{ quiz.name | jsonify }},"url":{{ "/trivia/" | append: quiz.slug | append: "/" | jsonify }}}{% unless forloop.last %},{% endunless %}
+{%- endfor -%}
+]
+}
