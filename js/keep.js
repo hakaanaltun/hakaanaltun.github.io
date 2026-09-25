@@ -154,12 +154,12 @@
     var dialog = from && from.closest && from.closest('dialog[open]');
     var inside = dialog && dialog.querySelector('[data-keep-status]');
     if (inside) { inside.textContent = message.text; return; }
-    toast(message);
+    toast(message, from);
   }
 
   var toastBox = null;
   var toastTimer = 0;
-  function toast(message) {
+  function toast(message, from) {
     if (!toastBox) {
       toastBox = document.createElement('div');
       toastBox.className = 'keep-toast';
@@ -176,6 +176,14 @@
       toastBox.appendChild(link);
     }
     toastBox.hidden = false;
+    // Over the button just pressed it would hide what the button now says,
+    // and on a quiz the Next beside it; there it goes to the top instead.
+    toastBox.classList.remove('keep-toast--top');
+    if (from && from.matches && from.matches('[data-keep-button]')) {
+      var pressed = from.getBoundingClientRect();
+      var box = toastBox.getBoundingClientRect();
+      if (pressed.bottom > box.top - 8 && pressed.top < box.bottom + 8) toastBox.classList.add('keep-toast--top');
+    }
     clearTimeout(toastTimer);
     toastTimer = setTimeout(function () {
       if (!toastBox.matches(':focus-within')) toastBox.hidden = true;

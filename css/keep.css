@@ -49,6 +49,7 @@ html:not(.keep-ready) .keep-js { display: none !important; }
   font: 400 1rem/1.45 'EB Garamond', Georgia, serif;
 }
 .keep-toast a { color: var(--petrol); text-underline-offset: 3px; white-space: nowrap; }
+.keep-toast--top { top: max(18px, env(safe-area-inset-top)); bottom: auto; }
 .keep-prompt button { background: var(--paper); box-shadow: 0 10px 28px rgba(0, 0, 0, .16); }
 .keep-toast[hidden],
 .keep-prompt[hidden] { display: none; }
