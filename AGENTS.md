@@ -107,5 +107,8 @@ learned the hard way is written down here instead.
   neighbour, not in a round of its own.
 - Order the rounds so the quiz opens on the easiest ground and does not end on
   the narrowest.
+- Every question also carries an `id`, unique in its bank. Readers keep
+  questions in their drawer in The House by it, so it stays put when a
+  question is reworded or moved; a new question gets a new id.
 - Keep the prose plain, as everywhere else here, and let the content do the
   work.
