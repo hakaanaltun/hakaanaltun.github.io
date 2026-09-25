@@ -161,8 +161,7 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   a.click('[data-open="moris"]');
   assert.match(a.q('[data-moris-photo]').getAttribute('src'), /^\/images\/960\/moris-\d\d\.webp$/);
   a.click('#house-close');
-  // Moris is drawn in each of his places, and each has its photograph.
-  for (const place of ['sill', 'shelf', 'cushion', 'asleep']) assert.ok(a.q('.house-scene .moris--' + place), 'Moris drawn: ' + place);
+  // Each of Moris's places has its photograph.
   for (const [, photo] of scripts.house.matchAll(/photo: '(moris-\d\d)'/g)) {
     assert.ok(fs.existsSync(path.join(root, 'images', photo + '.webp')), 'Missing photograph: ' + photo);
   }

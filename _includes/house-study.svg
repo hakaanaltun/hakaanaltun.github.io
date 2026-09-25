@@ -58,68 +58,14 @@
   <ellipse class="house-lamp-glow" fill="url(#house-glow)" cx="625" cy="372" rx="160" ry="110"/>
   <!-- A question card on the wall. -->
   <g class="house-line"><path class="house-paper" d="M356 260l48-4 5 66-48 4Z"/><circle cx="381" cy="265" r="2"/><text x="382" y="304" text-anchor="middle" class="house-question-mark">?</text></g>
-  <!-- The cushion stays where it is; Moris does not. He is drawn from his
-       photographs (/moris/) in the four places he keeps: sitting on the sill
-       with his back to the room, along the top of the bookshelf, a loaf on
-       his cushion, and curled up asleep on it. css/house.css shows the one
-       that fits İstanbul's hour, which js/house.js writes on the scene. -->
+  <!-- The cushion stays where it is; Moris does not. By İstanbul's hour he is
+       at the window, on top of the bookshelf, or back here. js/house.js
+       moves the group; his eyes close at night. -->
   <g class="house-line"><ellipse class="house-cushion" cx="842" cy="488" rx="75" ry="19"/></g>
-  <g class="house-moris">
-    <!-- Mornings: sitting on the sill with his back to the room, looking round. -->
-    <g class="moris moris--sill" transform="translate(770 259)">
-      <path class="moris-tail" d="M-20-1C-27 5-27 16-22 27C-20 32-16 34-14 31"/>
-      <path class="moris-fur" d="M-24 0C-31-6-32-24-25-40C-21-50-16-60-11-68C-6-74 8-74 12-67C17-58 22-46 26-34C30-20 30-6 24 0Z"/>
-      <path class="moris-sheen" d="M-21-7C-25-18-22-30-14-36M1-67C-1-50-1-26 3-6"/>
-      <path class="moris-fur" d="M-11-86Q-14-99-12-105Q-5-100-2-93ZM6-93Q11-100 18-104Q18-97 15-86Z"/>
-      <path class="moris-ear" d="M-10-89Q-12-97-11-100Q-6-97-4-93ZM8.5-93Q12-97 16.5-100Q16.5-95 14.5-89Z"/>
-      <path class="moris-fur" d="M-13-80C-14-89-6-94 2-94C10-94 18-89 17-80C16-72 10-67 2-67C-6-67-12-72-13-80Z"/>
-      <path class="moris-sheen" d="M-5-91.5C0-93.5 6-93.5 10-91.5"/>
-      <path class="moris-eye" d="M-7.3-81Q-3.5-85-.3-81Q-3.5-78-7.3-81ZM4.5-81Q8-85 11.7-81Q8-78 4.5-81Z"/>
-      <path class="moris-pupil" d="M-3.7-83.6Q-2.9-81-3.7-78.4Q-4.5-81-3.7-83.6ZM8-83.6Q8.8-81 8-78.4Q7.2-81 8-83.6Z"/>
-      <path class="moris-nose" d="M1-75.8H3.8L2.4-74Z"/>
-      <path class="moris-whisker" d="M-1-73.5L-16-76M-1-72L-17-72M6-73.5L21-76M6-72L22-72"/>
-    </g>
-    <!-- Days: along the top of the bookshelf, a paw over the edge. -->
-    <g class="moris moris--shelf" transform="translate(185 126)">
-      <path class="moris-tail" d="M-48-4C-58 0-60 12-57 30"/>
-      <path class="moris-fur" d="M-52 0C-56-10-52-22-38-25C-24-28-2-25 12-26C22-27 30-24 32-14C33-8 32-3 30 0Z"/>
-      <path class="moris-sheen" d="M-40-21C-24-25-2-23 12-23M-44-3C-46-13-36-18-28-12"/>
-      <path class="moris-fur" d="M20-3C20 4 20 9 21.5 12.5C23 15 27.5 15 27.5 11.5C27.5 7 27 2 27-3ZM30-2.5C37-3.5 43-1.5 42 1.5C39 2.8 34 2.8 30 2Z"/>
-      <path class="moris-fur" d="M25-39Q22-52 24-58Q31-53 33-46ZM39-46Q42-53 49-58Q51-52 47-39Z"/>
-      <path class="moris-ear" d="M26-42Q24.5-50 25.5-53.5Q29.5-50.5 31-46.5ZM41-46.5Q43-50.5 47.5-53.5Q48.5-50 46.5-42Z"/>
-      <path class="moris-fur" d="M23-32C22-41 29-46 36-46C43-46 50-41 49-32C48-24 43-19 36-19C29-19 24-24 23-32Z"/>
-      <path class="moris-sheen" d="M29.5-43.5C34-45.5 39-45.5 43-43.5"/>
-      <path class="moris-eye" d="M27.3-33Q31-37 34.7-33Q31-30 27.3-33ZM37.8-33Q41.5-37 45.2-33Q41.5-30 37.8-33Z"/>
-      <path class="moris-pupil" d="M31-35.6Q31.8-33 31-30.4Q30.2-33 31-35.6ZM41.5-35.6Q42.3-33 41.5-30.4Q40.7-33 41.5-35.6Z"/>
-      <path class="moris-nose" d="M34.9-27.6H37.7L36.3-25.8Z"/>
-      <path class="moris-whisker" d="M33-25L18-27.5M33-23.5L17-23.5M40-25L55-27.5M40-23.5L56-23.5"/>
-    </g>
-    <!-- Evenings: a loaf on his cushion, watching the room. -->
-    <g class="moris moris--cushion" transform="translate(842 486)">
-      <path class="moris-fur" d="M-36 0C-40-16-32-32-14-35C-5-37 5-37 14-35C32-32 40-16 36 0Z"/>
-      <path class="moris-sheen" d="M-27-27C-20-32-14-34-9-35M22-31C30-26 34-16 34-6"/>
-      <path class="moris-tail" d="M32-5C42-1 36 5 24 4C14 3.5 6 3 0 3"/>
-      <path class="moris-fur" d="M-14-41Q-18-55-16-61Q-8-56-4-48ZM4-48Q8-56 16-61Q18-55 14-41Z"/>
-      <path class="moris-ear" d="M-13-45Q-15-53-14.5-56.5Q-10-53.5-7-49ZM7-49Q10-53.5 14.5-56.5Q15-53 13-45Z"/>
-      <path class="moris-fur" d="M-16-34C-17-44-9-49 0-49C9-49 17-44 16-34C15-25 9-20 0-20C-9-20-15-25-16-34Z"/>
-      <path class="moris-sheen" d="M-7-46.5C-2.5-48.5 2.5-48.5 7-46.5"/>
-      <path class="moris-eye" d="M-10.5-35Q-6.5-39-2.5-35Q-6.5-32-10.5-35ZM2.5-35Q6.5-39 10.5-35Q6.5-32 2.5-35Z"/>
-      <path class="moris-pupil" d="M-6.5-37.7Q-5.7-35-6.5-32.3Q-7.3-35-6.5-37.7ZM6.5-37.7Q7.3-35 6.5-32.3Q5.7-35 6.5-37.7Z"/>
-      <path class="moris-nose" d="M-1.5-29.3H1.5L0-27.4Z"/>
-      <path class="moris-whisker" d="M-4-27L-21-30M-4-25.5L-22-25.5M-4-24L-20-21M4-27L21-30M4-25.5L22-25.5M4-24L20-21"/>
-    </g>
-    <!-- Nights: curled up asleep, his tail round to his nose. -->
-    <g class="moris moris--asleep" transform="translate(842 486)">
-      <path class="moris-fur" d="M-40 0C-44-20-24-40 4-40C32-40 50-24 46 0Z"/>
-      <path class="moris-sheen" d="M0-37.5C18-38.5 34-32 42-18"/>
-      <path class="moris-fur" d="M-31-18Q-38-28-37-33Q-30-30-26-24ZM-15-24Q-10-31-4-33Q-4-26-7-18Z"/>
-      <path class="moris-ear" d="M-31.5-21Q-35-28-34.5-30Q-30.5-28-28-24.5ZM-12.5-24.5Q-9.5-28.5-6-30Q-6-26-8-21.5Z"/>
-      <path class="moris-fur" d="M-34-12C-35-20-28-25-20-25C-12-25-5-20-6-12C-7-5-13-1-20-1C-27-1-33-5-34-12Z"/>
-      <path class="moris-lid" d="M-27-13Q-24.5-11-22-13M-18-13Q-15.5-11-13-13"/>
-      <path class="moris-nose" d="M-21.3-7.8H-18.7L-20-6.2Z"/>
-      <path class="moris-tail" d="M42-3C36 5 8 6-8 3"/>
-      <path class="moris-whisker" d="M-22-6L-36-8M-22-4.5L-35-3M-18-6L-4-8M-18-4.5L-5-3"/>
-    </g>
+  <g class="house-line house-moris">
+    <path class="house-cat" d="M793 482q-3-45 39-48 32-2 42 27l14-5q16 16-5 25Z"/><path class="house-cat" d="M789 465l-3-34 16 12 16-10 1 34q-12 14-30-2Z"/><path d="M858 463q30 24-15 20" stroke="#777365" stroke-width="3"/>
+    <path class="house-cat-eyes house-cat-eyes--shut" d="M793 457l6 1M807 458l6-2" stroke-width="2"/>
+    <g class="house-cat-eyes--open" stroke="none"><ellipse cx="796" cy="457" rx="3.2" ry="2.2"/><ellipse cx="810" cy="456.5" rx="3.2" ry="2.2"/></g>
   </g>
   <!-- Plant beside the window. -->
   <g class="house-line"><path class="house-pot" d="M924 456h45l-6 33h-33Z"/><path d="M945 456V381M945 425l-18-22M945 405l15-25"/><path class="house-leaf" d="M944 405q-32-2-25-34 25 7 25 34ZM946 424q32-9 30-34-26 5-30 34ZM945 389q-20-12-9-38 22 16 9 38Z"/></g>
