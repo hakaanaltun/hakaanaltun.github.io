@@ -71,7 +71,7 @@
 .house-cushion { fill: #b5a987; }
 .house-cat { fill: #343534; stroke: #343534; }
 .house-cat-eyes { stroke: #b3aa80; }
-.house-cat-eyes--open { fill: #c9b86a; display: none; }
+.house-cat-eyes--open { fill: #8cc46e; display: none; }
 .house-scene:not([data-hour="night"]) .house-cat-eyes--open { display: inline; }
 .house-scene:not([data-hour="night"]) .house-cat-eyes--shut { display: none; }
 .house-lampshade { fill: var(--room-cream); }
