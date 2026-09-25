@@ -1924,6 +1924,12 @@ html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
   margin-top: 8px; font-family: 'EB Garamond', Georgia, serif; font-style: italic;
   font-size: 1rem; line-height: 1.4; color: var(--vizon);
 }
+/* The Book band names the novel; the name opens its page, in the petrol the
+   site's other links to it wear (.start-here-link). */
+.all-work-group-sub a { color: var(--petrol); transition: var(--select-ease); }
+.all-work-group-sub a:hover,
+.all-work-group-sub a:active { opacity: var(--select-dim); }
+.all-work-group-sub a:focus-visible { outline: 2px solid var(--petrol); outline-offset: 3px; border-radius: 4px; }
 .all-work-group-count { margin-top: 3px; font-style: italic; font-size: 0.85rem; letter-spacing: 0.04em; color: var(--vizon); }
 /* The count sits tight under a heading; under this line it needs its own air. */
 .all-work-group-sub + .all-work-group-count { margin-top: 6px; }
