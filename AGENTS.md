@@ -7,7 +7,8 @@ This repository is a **Jekyll 4 static site** ("On Life & Everything", a persona
 ### Running the site (dev)
 - Serve with live reload: `bundle exec jekyll serve --host 0.0.0.0 --port 4000` (open http://localhost:4000/). Run it in a long-lived tmux session, not a one-shot background process.
 - Build only: `bundle exec jekyll build` (output goes to the git-ignored `_site/`).
-- There is no separate lint or test suite; `bundle exec jekyll build` completing without errors is the effective build/lint check.
+- Checks: `python3 scripts/vendor_pdfjs.py` once (the PDF checks need the bundled PDF.js), `bundle exec jekyll build`, then `npm ci && npm test`: the same chain CI runs on every pull request, and several checks read the built `_site/`. `scripts/test-content.cjs` holds the editorial rules a script can hold: quiz bank structure and rounds, word-story footnotes numbered in first-cited order, closed-up em dashes, and links inside the site. It lists every problem it finds at once.
+- `npm run links` fetches every cited source address; it runs weekly from `.github/workflows/links.yml` rather than on pull requests, because it depends on other sites being up. Only a page that is gone fails it.
 
 ### Non-obvious notes
 - URLs are "pretty": source files like `about.html` / `archive.html` are served at `/about/` and `/archive/` (trailing slash), NOT `/about.html`. Posts use the permalink pattern `/pieces/:slug.html` (set in `_config.yml`).
