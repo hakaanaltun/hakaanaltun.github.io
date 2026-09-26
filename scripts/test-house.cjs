@@ -174,11 +174,14 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   }
   assert.equal(a.q('#house-scene').dataset.moon === 'up', A.moonAltitude(new Date(), 41.015, 28.979) > A.MOON_HORIZON);
   a.click('[data-open="moris"]');
-  assert.match(a.q('[data-moris-photo]').getAttribute('src'), /^\/images\/960\/moris-\d\d\.webp$/);
+  assert.match(a.q('[data-moris-photo]').getAttribute('src'), /^\/images\/960\/moris-\d\d\.(?:webp|jpg)$/);
   a.click('#house-close');
-  // Each of Moris's places has its photograph.
-  for (const [, photo] of scripts.house.matchAll(/photo: '(moris-\d\d)'/g)) {
-    assert.ok(fs.existsSync(path.join(root, 'images', photo + '.webp')), 'Missing photograph: ' + photo);
+  // Each of Moris's places has its source photograph. WebP remains the
+  // default, but a hand-uploaded JPG is allowed when the room entry names it.
+  for (const match of scripts.house.matchAll(/photo: '(moris-\d\d)'(?:, ext: '(jpg|webp)')?/g)) {
+    const photo = match[1];
+    const ext = match[2] || 'webp';
+    assert.ok(fs.existsSync(path.join(root, 'images', photo + '.' + ext)), 'Missing photograph: ' + photo + '.' + ext);
   }
 
   // Another tab changes the drawer; this one follows.
