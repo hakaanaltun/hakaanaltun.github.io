@@ -292,7 +292,7 @@
      dialog's frame is wide. */
   var MORIS = {
     sill: { place: 'At the window', line: 'He is on his cushion by the balcony door, watching the birds.', photo: 'moris-09', focus: '50% 62%', alt: 'Moris on his burgundy cushion by the balcony door, watching the birds through the screen' },
-    shelf: { place: 'On the bookshelf', line: 'He is on top of the bookshelf, where he can see the whole room.', photo: 'moris-13', ext: 'jpg', focus: '50% 8%', alt: 'Moris standing on top of the white bookshelf beside a ball' },
+    shelf: { place: 'On the bookshelf', line: 'He is sometimes on top of the bookshelf, inspecting the room. Sometimes he is somewhere else.', photo: 'moris-13', focus: '50% 38%', alt: 'Moris on top of a dark bookshelf beside a lamp, inspecting the room' },
     cushion: { place: 'On his cushion', line: 'He is on the rug.', photo: 'moris-10', focus: '50% 42%', alt: 'Moris tucked into a loaf in the middle of the rug, keeping an eye on the camera' },
     asleep: { place: 'On his cushion', line: 'He is asleep by the window as the sun goes down.', photo: 'moris-05', focus: '50% 46%', alt: 'Moris asleep on the bench by the window, the sun going down behind him' }
   };
@@ -302,7 +302,7 @@
     var about = MORIS[where] || MORIS.cushion;
     document.getElementById('house-dialog-place').textContent = about.place;
     var photo = box.querySelector('[data-moris-photo]');
-    photo.src = '/images/960/' + about.photo + '.' + (about.ext || 'webp');
+    photo.src = '/images/960/' + about.photo + '.webp';
     photo.alt = about.alt;
     photo.style.objectPosition = about.focus;
     box.querySelector('[data-moris-line]').textContent = about.line;
