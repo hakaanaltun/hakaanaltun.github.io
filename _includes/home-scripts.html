@@ -178,9 +178,9 @@
 <script src="/js/astronomy.js?v=20260925-1"></script>
 <script>
 /* Tonight — the closing line: the moon plus the sun where the visitor's
-   browser clock says they are. The same 77-city time-zone table resolves
-   the site's sky theme and /twilight/; unknown zones keep their own clock
-   and use the theme's nominal equatorial fallback. */
+   browser clock says they are. The same city time-zone table resolves the
+   site's sky theme and /twilight/; unknown zones keep their own clock and
+   use the theme's nominal equatorial fallback. */
 (function(){
   'use strict';
   var strip = document.getElementById('tonight');
@@ -204,7 +204,7 @@
   var TZ = place && place.tz ? place.tz : 'Europe/Istanbul';
   var ZONE_NAMES = {
     "": "",
-{% for c in site.data.cities %}{% unless c.alias %}    "{{ c.tz }}":"{{ c.name }}",{% for z in c.also %}"{{ z }}":"{{ c.name }}",{% endfor %}
+{% for c in site.data.cities %}{% unless c.alias %}    {{ c.tz | jsonify }}:{{ c.name | jsonify }},{% for z in c.also %}{{ z | jsonify }}:{{ c.name | jsonify }},{% endfor %}
 {% endunless %}{% endfor %}  };
   var placeName = Object.prototype.hasOwnProperty.call(ZONE_NAMES, TZ) ? ZONE_NAMES[TZ] : "";
 
