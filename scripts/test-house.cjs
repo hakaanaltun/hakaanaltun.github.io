@@ -176,12 +176,13 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   a.click('[data-open="moris"]');
   assert.match(a.q('[data-moris-photo]').getAttribute('src'), /^\/images\/960\/moris-\d\d\.webp$/);
   a.click('#house-close');
-  // Each of Moris's places has its source photograph. WebP remains the
-  // default, but a hand-uploaded JPG is allowed when the room entry names it.
-  for (const match of scripts.house.matchAll(/photo: '(moris-\d\d)'(?:, sourceExt: '(png|jpg|webp)')?/g)) {
-    const photo = match[1];
-    const ext = match[2] || 'webp';
-    assert.ok(fs.existsSync(path.join(root, 'images', photo + '.' + ext)), 'Missing photograph: ' + photo + '.' + ext);
+  // Each of Moris's places has a source photograph. The source may be
+  // PNG/JPG/WebP, while the House always serves the generated 960px WebP.
+  for (const [, photo] of scripts.house.matchAll(/photo: '(moris-\d\d)'/g)) {
+    const sourceExists = ['webp', 'jpg', 'jpeg', 'png'].some(function(ext){
+      return fs.existsSync(path.join(root, 'images', photo + '.' + ext));
+    });
+    assert.ok(sourceExists, 'Missing source photograph: ' + photo);
     assert.ok(fs.existsSync(path.join(root, 'images', '960', photo + '.webp')), 'Missing display photograph: ' + photo + '.webp');
   }
 
