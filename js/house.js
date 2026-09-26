@@ -470,8 +470,9 @@
       scene.querySelector('.house-moon-lit').setAttribute('d', moonPath(sky.age, at[0], at[1], 17));
       scene.dataset.moon = 'up';
     } else delete scene.dataset.moon;
-    // Mornings at the window, days out of reach, evenings and nights at home.
-    var place = { morning: 'sill', day: 'shelf', evening: 'cushion', night: 'cushion' }[sky.period];
+    // Mornings at the window, days on the rug, evenings up on the bookshelf
+    // (its photograph is lamplit), nights asleep at home.
+    var place = { morning: 'sill', day: 'cushion', evening: 'shelf', night: 'cushion' }[sky.period];
     scene.dataset.moris = place;
     var cat = scene.querySelector('.house-moris');
     if (PLACES[place]) cat.setAttribute('transform', PLACES[place]); else cat.removeAttribute('transform');
