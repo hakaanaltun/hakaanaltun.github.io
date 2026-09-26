@@ -287,18 +287,18 @@
     if (!facts.children.length) facts.remove();
   }
 
-  /* Each place has a photograph of him somewhere like it. `focus` is where
-     he sits in the frame, since the photographs are upright and the
-     dialog's frame is wide. */
+  /* Each place has a photograph of him somewhere like it, taken in its own
+     light. `focus` is where he sits in the frame, since the photographs are
+     upright and the dialog's frame is wide. */
   var MORIS = {
-    sill: { place: 'At the window', line: 'He is on his cushion by the balcony door, watching the birds.', photo: 'moris-09', focus: '50% 62%', alt: 'Moris on his burgundy cushion by the balcony door, watching the birds through the screen' },
+    cushion: { place: 'On his cushion', line: 'He is on his cushion by the balcony door, watching the birds.', photo: 'moris-09', focus: '50% 62%', alt: 'Moris on his burgundy cushion by the balcony door, watching the birds through the screen' },
+    sill: { place: 'At the window', line: 'He is asleep by the window as the sun goes down.', photo: 'moris-05', focus: '50% 46%', alt: 'Moris asleep on the bench by the window, the sun going down behind him' },
     shelf: { place: 'On the bookshelf', line: 'He is sometimes on top of the bookshelf, inspecting the room. Sometimes he is somewhere else.', photo: 'moris-13', version: '20260926-1', focus: '50% 38%', alt: 'Moris on top of a dark bookshelf beside a lamp, inspecting the room' },
-    cushion: { place: 'On his cushion', line: 'He is on the rug.', photo: 'moris-10', focus: '50% 42%', alt: 'Moris tucked into a loaf in the middle of the rug, keeping an eye on the camera' },
-    asleep: { place: 'On his cushion', line: 'He is asleep by the window as the sun goes down.', photo: 'moris-05', focus: '50% 46%', alt: 'Moris asleep on the bench by the window, the sun going down behind him' }
+    rug: { place: 'On the rug', line: 'He is on the rug.', photo: 'moris-10', focus: '50% 42%', alt: 'Moris tucked into a loaf in the middle of the rug, keeping an eye on the camera' }
   };
   function renderMoris(box) {
     box.appendChild(document.getElementById('house-moris').content.cloneNode(true));
-    var where = scene.dataset.hour === 'night' ? 'asleep' : scene.dataset.moris;
+    var where = scene.dataset.moris;
     var about = MORIS[where] || MORIS.cushion;
     document.getElementById('house-dialog-place').textContent = about.place;
     var photo = box.querySelector('[data-moris-photo]');
@@ -306,7 +306,7 @@
     photo.alt = about.alt;
     photo.style.objectPosition = about.focus;
     box.querySelector('[data-moris-line]').textContent = about.line;
-    box.querySelector('[data-moris-quote]').hidden = where !== 'asleep';
+    box.querySelector('[data-moris-quote]').hidden = where !== 'sill';
   }
 
   function storageNote() {
@@ -386,7 +386,7 @@
      crescent faces it. It is only there while it is above İstanbul's
      horizon, by day as well as by night. */
   var MOON = { morning: [838, 124], day: [742, 112], evening: [742, 112], night: [838, 124] };
-  var PLACES = { sill: 'translate(-41 -226)', shelf: 'translate(-610 -359)', cushion: '' };
+  var PLACES = { sill: 'translate(-41 -226)', shelf: 'translate(-610 -359)', rug: 'translate(-40 100)', cushion: '' };
   var PHASES = ['new moon', 'waxing crescent', 'first quarter', 'waxing gibbous', 'full moon', 'waning gibbous', 'last quarter', 'waning crescent'];
 
   function skyNow(now) {
@@ -419,6 +419,16 @@
       sky.period = hour >= 6 && hour < 10 ? 'morning' : hour >= 10 && hour < 17 ? 'day' : hour >= 17 && hour < 21 ? 'evening' : 'night';
     }
     return sky;
+  }
+
+  /* Where Moris is goes by the light each of his photographs was taken in:
+     on his cushion through the morning and the day, asleep at the window as
+     the sun goes down, up on the bookshelf once the lamps are on, and out on
+     the carpet after midnight. */
+  function morisPlace(sky, now) {
+    if (sky.period === 'morning' || sky.period === 'day') return 'cushion';
+    if (sky.period === 'evening') return (sky.sunset ? now < sky.sunset : sky.hour < 19) ? 'sill' : 'shelf';
+    return sky.hour >= 12 ? 'shelf' : 'rug';
   }
 
   /* The lit part of the moon: the bright limb, then back along the
@@ -470,9 +480,7 @@
       scene.querySelector('.house-moon-lit').setAttribute('d', moonPath(sky.age, at[0], at[1], 17));
       scene.dataset.moon = 'up';
     } else delete scene.dataset.moon;
-    // Mornings at the window, days on the rug, evenings up on the bookshelf
-    // (its photograph is lamplit), nights asleep at home.
-    var place = { morning: 'sill', day: 'cushion', evening: 'shelf', night: 'cushion' }[sky.period];
+    var place = morisPlace(sky, now);
     scene.dataset.moris = place;
     var cat = scene.querySelector('.house-moris');
     if (PLACES[place]) cat.setAttribute('transform', PLACES[place]); else cat.removeAttribute('transform');
