@@ -292,7 +292,7 @@
      dialog's frame is wide. */
   var MORIS = {
     sill: { place: 'At the window', line: 'He is on his cushion by the balcony door, watching the birds.', photo: 'moris-09', focus: '50% 62%', alt: 'Moris on his burgundy cushion by the balcony door, watching the birds through the screen' },
-    shelf: { place: 'On the bookshelf', line: 'He is on top of the bookshelf, where he can see the whole room.', photo: 'moris-13-source', focus: '50% 8%', alt: 'Moris standing on top of the white bookshelf beside a ball' },
+    shelf: { place: 'On the bookshelf', line: 'He is on top of the bookshelf, where he can see the whole room.', photo: 'moris-13', focus: '50% 8%', alt: 'Moris standing on top of the white bookshelf beside a ball' },
     cushion: { place: 'On his cushion', line: 'He is on the rug.', photo: 'moris-10', focus: '50% 42%', alt: 'Moris tucked into a loaf in the middle of the rug, keeping an eye on the camera' },
     asleep: { place: 'On his cushion', line: 'He is asleep by the window as the sun goes down.', photo: 'moris-05', focus: '50% 46%', alt: 'Moris asleep on the bench by the window, the sun going down behind him' }
   };
