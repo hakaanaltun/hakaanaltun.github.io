@@ -2,6 +2,7 @@
   <defs>
     <linearGradient id="house-sky" x2="0" y2="1"><stop class="house-sky-top"/><stop offset="1" class="house-sky-bottom"/></linearGradient>
     <radialGradient id="house-glow"><stop stop-color="#edc878" stop-opacity=".4"/><stop offset="1" stop-color="#edc878" stop-opacity="0"/></radialGradient>
+    <pattern id="house-weave" width="7" height="5" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.3" fill="none" stroke="currentColor" stroke-width=".5" opacity=".14"/><circle cx="5.5" cy="4.5" r="1.3" fill="none" stroke="currentColor" stroke-width=".5" opacity=".1"/></pattern>
     <pattern id="house-grain" width="9" height="9" patternUnits="userSpaceOnUse"><circle cx="1" cy="2" r=".5" fill="currentColor" opacity=".08"/><circle cx="6" cy="7" r=".4" fill="currentColor" opacity=".05"/></pattern>
     <!-- The dark of the evening and the night. It falls on the room, not on
          the window, and when the lamp is on it leaves the desk in its light. -->
@@ -54,9 +55,11 @@
     <path d="M777 38V253M686 145H868"/><path class="house-window-trim" d="M665 259H889V271H665Z"/>
     <path class="house-light-beam" stroke="none" d="M687 272L435 474 673 494 868 272Z"/>
   </g>
-  <!-- Rug and chair behind the desk. -->
-  <ellipse class="house-rug" cx="593" cy="553" rx="245" ry="48"/>
-  <ellipse class="house-line house-faint" cx="593" cy="553" rx="225" ry="35"/>
+  <!-- The carpet, wide enough for the desk, the chair and a cat. -->
+  <path class="house-carpet" d="M318 498H872L930 630H290Z"/>
+  <path fill="url(#house-weave)" d="M318 498H872L930 630H290Z"/>
+  <path class="house-line house-faint" d="M334 507H858L906 621H314Z"/>
+  <!-- Chair behind the desk. -->
   <g class="house-line"><path class="house-chair" d="M466 421V346q0-28 28-28h64q28 0 28 28v75Z"/><path d="M480 345V407M498 338V407M518 336V407M538 337V407M558 343V407"/><path class="house-chair" d="M459 458H591V476H459Z"/><path d="M471 476l-7 76M579 476l9 76"/></g>
   <!-- Desk, papers, cup, and lamp. -->
   <g class="house-line">
@@ -74,10 +77,10 @@
   <ellipse class="house-lamp-glow" fill="url(#house-glow)" cx="625" cy="372" rx="160" ry="110"/>
   <!-- A question card on the wall. -->
   <g class="house-line"><path class="house-paper" d="M356 260l48-4 5 66-48 4Z"/><circle cx="381" cy="265" r="2"/><text x="382" y="304" text-anchor="middle" class="house-question-mark">?</text></g>
-  <!-- The cushion stays where it is; Moris does not. By İstanbul's hour he is
-       at the window, on top of the bookshelf, or back here. js/house.js
-       moves the group; his eyes close at night. -->
-  <g class="house-line"><ellipse class="house-cushion" cx="842" cy="488" rx="75" ry="19"/></g>
+  <!-- His burgundy cushion stays where it is; Moris does not. By İstanbul's
+       hour he is here, asleep at the window, on top of the bookshelf, or out
+       on the carpet. js/house.js moves the group; his eyes close at the window. -->
+  <g class="house-line"><path class="house-cushion" d="M780 473H904Q914 473 916 481L920 496Q922 504 912 504H772Q762 504 764 496L768 481Q770 473 780 473Z"/><path class="house-cushion-trim" d="M783 477H901Q908 477 910 483L913 494Q914 500 907 500H777Q770 500 771 494L774 483Q776 477 783 477Z"/></g>
   <g class="house-line house-moris">
     <path class="house-cat" d="M793 482q-3-45 39-48 32-2 42 27l14-5q16 16-5 25Z"/><path class="house-cat" d="M789 465l-3-34 16 12 16-10 1 34q-12 14-30-2Z"/><path d="M858 463q30 24-15 20" stroke="#777365" stroke-width="3"/>
     <path class="house-cat-eyes house-cat-eyes--shut" d="M793 457l6 1M807 458l6-2" stroke-width="2"/>

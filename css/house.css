@@ -43,7 +43,7 @@
 /* The hour and the clock break apart, never inside either. */
 #house-hour, #house-clock { display: inline-block; white-space: nowrap; }
 .house-instruction { margin: 10px 0 18px; font-size: 16px; color: var(--vizon); }
-.house-scene { position: relative; overflow: hidden; border: 1px solid var(--rule-strong); isolation: isolate; --room-wall: #eee9db; --room-floor: #e0d6c0; --room-line: #6c6555; --room-wood: #c7b799; --room-paper: #fbf6e8; --room-back: #ded4bf; --room-cream: #ded2af; --room-blue: #6e8386; --room-olive: #8b967a; --room-rust: #b27d66; --sky-top: #a2bcca; --sky-bottom: #dbe2d3; }
+.house-scene { position: relative; overflow: hidden; border: 1px solid var(--rule-strong); isolation: isolate; --room-wall: #eee9db; --room-floor: #e0d6c0; --room-line: #6c6555; --room-wood: #c7b799; --room-paper: #fbf6e8; --room-back: #ded4bf; --room-cream: #ded2af; --room-blue: #6e8386; --room-olive: #8b967a; --room-rust: #b27d66; --room-burgundy: #8e4552; --room-gold: #cda955; --room-carpet: #d3c7a8; --sky-top: #a2bcca; --sky-bottom: #dbe2d3; }
 .house-room-art { width: 100%; height: auto; display: block; color: var(--room-line); }
 .house-wall { fill: var(--room-wall); }
 .house-floor { fill: var(--room-floor); }
@@ -67,18 +67,20 @@
 .house-rooftops { fill: #6a7e7d; opacity: .45; }
 .house-stars { opacity: 0; }
 .house-light-beam { fill: #fbefc7; opacity: .22; }
-.house-rug { fill: #a79d82; opacity: .28; }
-.house-cushion { fill: #b5a987; }
+.house-carpet { fill: var(--room-carpet); }
+.house-cushion { fill: var(--room-burgundy); }
+.house-cushion-trim { fill: none; stroke: var(--room-gold); stroke-width: 2.4; }
 .house-cat { fill: #343534; stroke: #343534; }
 .house-cat-eyes { stroke: #b3aa80; }
 .house-cat-eyes--open { fill: #8cc46e; display: none; }
 .house-cat-pupil { fill: #1d1e1c; }
-/* In the evening the room is dim and his pupils open wide: the eye goes dark,
-   somewhere between black and green, and the slit is gone. */
-.house-scene[data-hour="evening"] .house-cat-eyes--open { fill: #45603a; }
-.house-scene[data-hour="evening"] .house-cat-pupil { display: none; }
-.house-scene:not([data-hour="night"]) .house-cat-eyes--open { display: inline; }
-.house-scene:not([data-hour="night"]) .house-cat-eyes--shut { display: none; }
+/* In the evening and at night the room is dim and his pupils open wide: the
+   eye goes dark, somewhere between black and green, and the slit is gone. He
+   only closes them at the window, asleep as the sun goes down. */
+.house-scene[data-hour="evening"] .house-cat-eyes--open, .house-scene[data-hour="night"] .house-cat-eyes--open { fill: #45603a; }
+.house-scene[data-hour="evening"] .house-cat-pupil, .house-scene[data-hour="night"] .house-cat-pupil { display: none; }
+.house-scene:not([data-moris="sill"]) .house-cat-eyes--open { display: inline; }
+.house-scene:not([data-moris="sill"]) .house-cat-eyes--shut { display: none; }
 .house-lampshade { fill: var(--room-cream); }
 .house-lamp-bulb { fill: var(--room-line); }
 .house-lamp-glow { opacity: 0; pointer-events: none; transition: opacity 500ms ease; }
@@ -125,6 +127,7 @@
 .house-hotspot--moris { left: 84%; top: 83%; }
 .house-scene[data-moris="sill"] .house-hotspot--moris { left: 80%; top: 46%; }
 .house-scene[data-moris="shelf"] .house-hotspot--moris { left: 23%; top: 7%; }
+.house-scene[data-moris="rug"] .house-hotspot--moris { left: 80%; top: 95%; }
 .house-hotspot--lamp { left: 56%; top: 44%; }
 .house-hotspot--drawer { left: 56%; top: 78%; }
 /* The names that leave the room, for the instruments that belong to its
@@ -188,12 +191,12 @@ html:has(.house-dialog[open]) { overflow: hidden; }
 .house-empty-drawer { border: 1px dashed var(--rule-strong); padding: 28px 24px; margin: 24px 0; }
 .house-empty-drawer p { margin: 0; }
 @keyframes house-arrive { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-html[data-theme="dark"] .house-scene, html[data-theme="midnight"] .house-scene { --room-wall: #363b3b; --room-floor: #3f403a; --room-line: #a89e89; --room-wood: #666452; --room-back: #444942; --room-paper: #b5ae96; --room-cream: #9c9174; --room-blue: #617e84; --room-olive: #687b64; --room-rust: #9e7564; }
-html[data-theme="sky"] .house-scene { --room-wall: color-mix(in srgb, var(--paper) 88%, #a8997f); --room-floor: color-mix(in srgb, var(--paper) 76%, #9b8d6f); --room-line: var(--vizon); --room-wood: color-mix(in srgb, var(--paper) 50%, #a8997f); --room-back: color-mix(in srgb, var(--paper) 75%, #a8997f); }
+html[data-theme="dark"] .house-scene, html[data-theme="midnight"] .house-scene { --room-wall: #363b3b; --room-floor: #3f403a; --room-line: #a89e89; --room-wood: #666452; --room-back: #444942; --room-paper: #b5ae96; --room-cream: #9c9174; --room-blue: #617e84; --room-olive: #687b64; --room-rust: #9e7564; --room-burgundy: #7a4650; --room-gold: #a48c55; --room-carpet: #4a4a41; }
+html[data-theme="sky"] .house-scene { --room-wall: color-mix(in srgb, var(--paper) 88%, #a8997f); --room-floor: color-mix(in srgb, var(--paper) 76%, #9b8d6f); --room-line: var(--vizon); --room-wood: color-mix(in srgb, var(--paper) 50%, #a8997f); --room-back: color-mix(in srgb, var(--paper) 75%, #a8997f); --room-carpet: color-mix(in srgb, var(--paper) 64%, #9b8d6f); }
 html[data-theme="dark"] .house-scene[data-hour="evening"] .house-dusk, html[data-theme="midnight"] .house-scene[data-hour="evening"] .house-dusk { opacity: .1; }
 html[data-theme="dark"] .house-scene[data-hour="night"] .house-dusk, html[data-theme="midnight"] .house-scene[data-hour="night"] .house-dusk { opacity: .3; }
 @media (prefers-color-scheme: dark) { html:not([data-theme]) .house-scene[data-hour="evening"] .house-dusk { opacity: .1; } html:not([data-theme]) .house-scene[data-hour="night"] .house-dusk { opacity: .3; } }
-@media (prefers-color-scheme: dark) { html:not([data-theme]) .house-scene { --room-wall: #363b3b; --room-floor: #3f403a; --room-line: #a89e89; --room-wood: #666452; --room-back: #444942; --room-paper: #b5ae96; --room-cream: #9c9174; --room-blue: #617e84; --room-olive: #687b64; --room-rust: #9e7564; } }
+@media (prefers-color-scheme: dark) { html:not([data-theme]) .house-scene { --room-wall: #363b3b; --room-floor: #3f403a; --room-line: #a89e89; --room-wood: #666452; --room-back: #444942; --room-paper: #b5ae96; --room-cream: #9c9174; --room-blue: #617e84; --room-olive: #687b64; --room-rust: #9e7564; --room-burgundy: #7a4650; --room-gold: #a48c55; --room-carpet: #4a4a41; } }
 /* Below a wide screen the names no longer fit beside their things, so the
    picture keeps only its numbers and the names are listed under it. */
 @media (max-width: 860px) {
@@ -213,6 +216,7 @@ html[data-theme="dark"] .house-scene[data-hour="night"] .house-dusk, html[data-t
   .house-hotspot--desk { left: 72.5%; top: 59%; }
   .house-scene[data-moris="sill"] .house-hotspot--moris { left: 80%; top: 44%; }
   .house-scene[data-moris="shelf"] .house-hotspot--moris { left: 33%; top: 14%; }
+  .house-scene[data-moris="rug"] .house-hotspot--moris { left: 88%; top: 84%; }
   .house-objects { display: grid; grid-template-columns: 1fr 1fr; gap: 0 14px; list-style: none; margin: 14px 0 0; padding: 0; }
   .house-objects button, .house-objects a { display: flex; color: inherit; text-decoration: none; align-items: center; gap: 9px; width: 100%; min-height: 44px; padding: 6px 0; border: 0; border-bottom: 1px solid var(--rule); background: none; text-align: left; font-size: 16px; }
   .house-objects .house-pin { flex: none; width: 22px; height: 22px; font-size: 11px; }

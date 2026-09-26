@@ -81,7 +81,7 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.equal(a.q('#study').hidden, false);
   assert.equal(a.w.location.hash, '#study');
   assert.match(a.q('#house-hour').textContent, /in İstanbul$/);
-  assert.ok(['sill', 'shelf', 'cushion'].includes(a.q('#house-scene').dataset.moris));
+  assert.ok(['sill', 'shelf', 'cushion', 'rug'].includes(a.q('#house-scene').dataset.moris));
 
   a.click('[data-open="words"]');
   assert.equal(a.q('#house-dialog').open, true);
