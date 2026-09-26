@@ -181,6 +181,8 @@ html:has(.house-dialog[open]) { overflow: hidden; }
 .house-window-links span { font: 500 28px 'Cormorant Garamond', Georgia, serif; }
 .house-window-links p { color: var(--vizon); margin: 6px 0 0; }
 .house-moris-photo { width: 100%; height: 320px; object-fit: cover; object-position: center; border-radius: 2px; }
+/* The bookshelf photograph is taller than the others. Give it more of its original frame so it needs less vertical crop. */
+.house-moris-photo[src$="/moris-13.webp"] { height: 380px; }
 .house-drawer-note, .house-dialog-status { color: var(--vizon); font-size: 15px !important; }
 .house-dialog-status:empty { display: none; }
 .house-empty-drawer { border: 1px dashed var(--rule-strong); padding: 28px 24px; margin: 24px 0; }
@@ -237,6 +239,7 @@ html[data-theme="dark"] .house-scene[data-hour="night"] .house-dusk, html[data-t
   .house-dialog { padding: 16px 22px 24px; max-height: 90dvh; }
   .house-dialog h2 { font-size: 35px; }
   .house-moris-photo { height: 260px; }
+  .house-moris-photo[src$="/moris-13.webp"] { height: 310px; }
 }
 @media (prefers-reduced-motion: reduce) { .house *, .house *::before, .house *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
 
