@@ -174,7 +174,7 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   }
   assert.equal(a.q('#house-scene').dataset.moon === 'up', A.moonAltitude(new Date(), 41.015, 28.979) > A.MOON_HORIZON);
   a.click('[data-open="moris"]');
-  assert.match(a.q('[data-moris-photo]').getAttribute('src'), /^\/images\/960\/moris-\d\d\.webp$/);
+  assert.match(a.q('[data-moris-photo]').getAttribute('src'), /^\/images\/960\/moris-\d\d\.webp(?:\?v=[\w-]+)?$/);
   a.click('#house-close');
   // Each of Moris's places has a source photograph. The source may be
   // PNG/JPG/WebP, while the House always serves the generated 960px WebP.
