@@ -28,8 +28,9 @@
 {% if page.book_part %}<script src="/js/book-chapters.js?v=20260923-1" defer></script>{% endif %}
 {% comment %} The Notice is a branching story under /story/ rather than an ordinary
 post URL. Keep translation available on every branch explicitly instead of
-relying only on the post-layout check. {% endcomment %}
-{% if page.layout == "post" or page.series == "story" %}
+relying only on the post-layout check. The book's parts read the same way, and
+their Keep button sits beside Türkçe as it does on an essay. {% endcomment %}
+{% if page.layout == "post" or page.series == "story" or page.book_part %}
 <script src="/js/reader-translate.js?v=20260925-1" defer></script>
 {% endif %}
 {% comment %} Story pages ("The Notice", series: story) carry no nav or
