@@ -177,9 +177,10 @@
 
 <script src="/js/astronomy.js?v=20260925-1"></script>
 <script>
-/* Tonight — the closing line: the moon and İstanbul's sun, computed by
-   js/astronomy.js — the same arithmetic as /moon/ and /twilight/, so all
-   three always agree. */
+/* Tonight — the closing line: the moon plus the sun where the visitor's
+   browser clock says they are. The same 77-city time-zone table resolves
+   the site's sky theme and /twilight/; unknown zones keep their own clock
+   and use the theme's nominal equatorial fallback. */
 (function(){
   'use strict';
   var strip = document.getElementById('tonight');
@@ -197,7 +198,16 @@
   var phase = names[ASTRO.moonPhaseIndex(age)];
   moonEl.textContent = phase + ', ' + illum + '% lit';
 
-  var LAT = 41.015, LNG = 28.979, TZ = 'Europe/Istanbul';
+  var place = window.OLAE_SKY && window.OLAE_SKY.pickCity ? window.OLAE_SKY.pickCity() : null;
+  var LAT = place ? place.lat : 41.015;
+  var LNG = place ? place.lng : 28.979;
+  var TZ = place && place.tz ? place.tz : 'Europe/Istanbul';
+  var ZONE_NAMES = {
+    "": "",
+{% for c in site.data.cities %}{% unless c.alias %}    "{{ c.tz }}":"{{ c.name }}",{% for z in c.also %}"{{ z }}":"{{ c.name }}",{% endfor %}
+{% endunless %}{% endfor %}  };
+  var placeName = Object.prototype.hasOwnProperty.call(ZONE_NAMES, TZ) ? ZONE_NAMES[TZ] : "";
+
   function sunEvent(dayShift, rising){
     var s = new Date(now.getTime() + ASTRO.tzOffsetMs(TZ, now) + dayShift * 86400000);
     var y = s.getUTCFullYear(), mo = s.getUTCMonth(), d = s.getUTCDate();
@@ -205,12 +215,13 @@
     return ASTRO.sunEvent({ n: n, y: y, mo: mo, d: d }, rising, 90.833, LAT, LNG, TZ);
   }
   var fmtTime = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: TZ });
+  var where = placeName ? ' in ' + placeName : '';
   var sunset = sunEvent(0, false);
   if(sunset && now < sunset){
-    sunEl.textContent = 'sunset ' + fmtTime.format(sunset) + ' in İstanbul';
+    sunEl.textContent = 'sunset ' + fmtTime.format(sunset) + where;
   } else {
     var sunrise = sunEvent(1, true);
-    if(sunrise) sunEl.textContent = 'sunrise ' + fmtTime.format(sunrise) + ' in İstanbul';
+    if(sunrise) sunEl.textContent = 'sunrise ' + fmtTime.format(sunrise) + where;
   }
   if(moonEl.textContent && sunEl.textContent) strip.hidden = false;
 })();

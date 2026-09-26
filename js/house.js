@@ -436,15 +436,16 @@
       'A' + rx + ' ' + r + ' 0 0 ' + inner + ' ' + cx + ' ' + (cy - r) + 'Z';
   }
 
-  /* The wall clock keeps the reader's own time, so it reads the computer's
-     clock as it is and asks nothing about İstanbul. */
+  /* The wall clock belongs to the room, so it keeps İstanbul time just like
+     the light, the window and the digital time above the study. */
   function wallClock() {
     var now = new Date();
-    var minutes = now.getMinutes();
+    var p = parts(now, { hour: '2-digit', minute: '2-digit', hourCycle: 'h23' });
+    var hours = +p.hour, minutes = +p.minute;
     var turn = function (hand, degrees) {
       scene.querySelector(hand).setAttribute('transform', 'rotate(' + degrees + ' 450 146)');
     };
-    turn('.house-clock-hour', (now.getHours() % 12 + minutes / 60) * 30);
+    turn('.house-clock-hour', (hours % 12 + minutes / 60) * 30);
     turn('.house-clock-minute', minutes * 6);
   }
   // On the minute, not a minute after the page happened to open.
