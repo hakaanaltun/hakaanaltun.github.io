@@ -31,6 +31,13 @@ SAVE_OPTS = {
     ".png": {"optimize": True},
 }
 
+# A few source photographs are intentionally kept in their original format in
+# the repository while the live site uses WebP. The mapping is explicit so the
+# normal image pipeline stays unchanged for every other image.
+WEBP_DERIVATIVES = {
+    Path("images/moris-13.png"): Path("moris-13.webp"),
+}
+
 
 def variant_dirs():
     return {IMAGES_DIR / str(w) for w in TARGET_WIDTHS}
@@ -70,6 +77,25 @@ def main() -> int:
     for src in source_images():
         for width in TARGET_WIDTHS:
             counts[make_variant(src, width)] += 1
+
+    # Generate explicitly requested WebP derivatives after the normal variants.
+    # If the source is already at or below a target width, WebP is still
+    # encoded so the browser-facing path and format stay consistent.
+    for src, rel_dest in WEBP_DERIVATIVES.items():
+        if not src.exists():
+            continue
+        with Image.open(src) as im:
+            im = im.convert("RGB")
+            for width in TARGET_WIDTHS:
+                dest = IMAGES_DIR / str(width) / rel_dest
+                dest.parent.mkdir(parents=True, exist_ok=True)
+                if im.width > width:
+                    ratio = width / im.width
+                    out = im.resize((width, max(1, round(im.height * ratio))), Image.LANCZOS)
+                else:
+                    out = im.copy()
+                out.save(dest, format="WEBP", quality=90, method=6)
+
     print(
         f"variants: {counts['resized']} resized, "
         f"{counts['copied']} copied as-is, {counts['kept']} already present"
