@@ -52,7 +52,7 @@ layout: null
 
 <link rel="stylesheet" href="/css/fonts.css?v=20260710-1">
 
-<link rel="stylesheet" href="/css/reader-pdf.css?v=20260919-1">
+<link rel="stylesheet" href="/css/reader-pdf.css?v=20260926-1">
 <style>
   :root{
     --paper: #FFFFFF;
@@ -75,12 +75,13 @@ layout: null
     --paper:#191712; --ink:#E7E1D6; --muted:#9C948A; --line:#2B2721;
     color-scheme: dark;
   }
-  /* theme toggle icons: moon in light, sun in dark */
-  :root{ --icon-sun:none; --icon-moon:block; }
+  /* theme toggle icons: moon in light, sun in dark, horizon while following the sky */
+  :root{ --icon-sun:none; --icon-moon:block; --icon-sky:none; }
   @media (prefers-color-scheme: dark){
     html:not([data-theme="light"]){ --icon-sun:block; --icon-moon:none; }
   }
   html[data-theme="dark"]{ --icon-sun:block; --icon-moon:none; }
+  html[data-theme="sky"]{ --icon-sun:none; --icon-moon:none; --icon-sky:block; color-scheme:dark; }
 
   *{ box-sizing:border-box; margin:0; padding:0; }
   html.smooth-scroll{ scroll-behavior:smooth; }
@@ -151,6 +152,7 @@ layout: null
   .icon-btn svg{ width:16px; height:16px; }
   .theme-btn .icon-sun{ display:var(--icon-sun); }
   .theme-btn .icon-moon{ display:var(--icon-moon); }
+  .theme-btn .icon-sky{ display:var(--icon-sky); }
 
   .sheet{ width:100%; max-width:680px; margin:0 auto; padding:8vh 26px 24vh; flex:1; }
 
@@ -368,7 +370,7 @@ layout: null
           <line x1="4" y1="17" x2="12" y2="17"/>
         </svg>
       </button>
-      <button class="icon-btn theme-btn" id="themeBtn" type="button" title="Light / dark" aria-label="Switch theme">
+      <button class="icon-btn theme-btn" id="themeBtn" type="button" title="Light / dark / follow the sky" aria-label="Switch theme: light, dark, or follow the sky">
         <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
         </svg>
@@ -378,6 +380,9 @@ layout: null
           <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
           <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
           <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+        <svg class="icon-sky" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 16h18M6 13a6 6 0 0 1 12 0M12 2v3M3 6l2 2m14 0 2-2"/>
         </svg>
       </button>
       <button class="icon-btn" id="fsBtn" type="button" title="Fullscreen" aria-label="Fullscreen">&#10530;</button>
@@ -1752,18 +1757,6 @@ layout: null
     if(f) openFile(f);
   });
 
-  /* ---- theme ---- */
-  $("#themeBtn").addEventListener("click", function(){
-    var root = document.documentElement;
-    var currentTheme = root.getAttribute("data-theme");
-    var next;
-    if(currentTheme === "dark") next = "light";
-    else if(currentTheme === "light") next = "dark";
-    else next = window.matchMedia("(prefers-color-scheme: dark)").matches ? "light" : "dark";
-    root.setAttribute("data-theme", next);
-    try{ localStorage.setItem("olae-page-theme", next); }catch(e){}
-  });
-
   /* ---- fullscreen (webkit-prefixed + CSS fallback, as on /clock/) ---- */
   var docEl = document.documentElement, fakeFs = false;
   function nativeFsElement(){ return document.fullscreenElement || document.webkitFullscreenElement || null; }
@@ -1984,25 +1977,39 @@ layout: null
   }
   function syncLightRow(){
     var cur = document.documentElement.getAttribute("data-theme");
+    var onSky = cur === "sky";
     lightBtns.forEach(function(b){ b.setAttribute("aria-pressed", String(b.getAttribute("data-light") === cur)); });
-    $("#skyCity").textContent = cur === "sky" ? "Following the sky" : "";
+    $("#skyCity").textContent = onSky ? "Following the sky" : "";
+    $("#themeBtn").setAttribute("aria-label", onSky
+      ? "Switch theme: Following the sky"
+      : "Switch theme: light, dark, or follow the sky");
+    $("#themeBtn").setAttribute("title", onSky
+      ? "Following the sky"
+      : "Light / dark / follow the sky");
+  }
+  function applyLight(v){
+    if(v === "sky"){
+      document.documentElement.setAttribute("data-theme", "sky");
+      startSky();
+    } else {
+      stopSky();
+      document.documentElement.setAttribute("data-theme", v);
+    }
+    try{ localStorage.setItem("olae-page-theme", v); }catch(e){}
+    syncLightRow();
+  }
+  function nextLight(cur){
+    if(cur === "dark") return "sky";
+    if(cur === "sky") return "light";
+    if(cur === "light") return "dark";
+    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "light" : "dark";
   }
   lightBtns.forEach(function(b){
-    b.addEventListener("click", function(){
-      var v = b.getAttribute("data-light");
-      if(v === "sky"){
-        document.documentElement.setAttribute("data-theme", "sky");
-        startSky();
-      } else {
-        stopSky();
-        document.documentElement.setAttribute("data-theme", v);
-      }
-      try{ localStorage.setItem("olae-page-theme", v); }catch(e){}
-      syncLightRow();
-    });
+    b.addEventListener("click", function(){ applyLight(b.getAttribute("data-light")); });
   });
-  /* the corner theme button keeps its old habits; leaving the sky is one of them */
-  $("#themeBtn").addEventListener("click", function(){ stopSky(); syncLightRow(); });
+  $("#themeBtn").addEventListener("click", function(){
+    applyLight(nextLight(document.documentElement.getAttribute("data-theme")));
+  });
   document.addEventListener("visibilitychange", function(){
     if(!document.hidden && skyT) skyPaint();
   });

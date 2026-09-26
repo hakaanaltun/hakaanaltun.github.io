@@ -1,7 +1,7 @@
 body.reading-pdf .sheet{max-width:1040px;padding:20px 18px 12vh;min-width:0;}
 body.reading-pdf #typeRow{display:none;}
 .pdf-reader{font-size:1rem;line-height:1.4;scroll-margin-top:var(--pdf-chrome-height,76px);}
-.pdf-toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;position:sticky;top:var(--pdf-chrome-height,76px);z-index:1;background:var(--paper);padding:10px 0;border-bottom:1px solid var(--line);}
+.pdf-toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;background:var(--paper);padding:10px 0;border-bottom:1px solid var(--line);}
 .pdf-toolbar button{min-width:40px;min-height:40px;}
 .pdf-toolbar button:disabled{opacity:.4;cursor:default;}
 .pdf-toolbar input,.pdf-toolbar select{font:inherit;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:6px;min-height:40px;padding:5px 8px;}
