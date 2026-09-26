@@ -29,9 +29,10 @@
      half of /noise/'s default rain loudness. */
   var LEVELS = [0, 0.13, 0.19];
   var LABELS = ['read with rain', 'heavier rain', 'stop the rain'];
-  var TITLES = ['Rain behind the reading — heard and seen',
+  var TITLES = ['Rain behind the reading—heard and seen',
                 'Light rain. Click for heavy rain',
                 'Heavy rain. Click to stop it'];
+  btn.title = TITLES[0];
   var ctx = null, master = null, rain = null, stopT = null;
   var level = 0, buffers = {};
 
