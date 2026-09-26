@@ -93,6 +93,30 @@ again.
   locally may be fine on the site. Check the live address before calling it
   broken.
 
+## Time, place and sky
+
+The site has two deliberate ideas of place. Do not collapse them into one.
+
+- **The general site follows the visitor's sky.** The Follow the Sky theme,
+  `/twilight/`, and the homepage Tonight line read the browser-reported IANA
+  time zone and resolve it through `_data/cities.yml`. No location permission
+  is requested. If the zone is unknown, keep the existing nominal-equatorial
+  fallback rather than pretending to know the visitor's latitude.
+- **The House is in İstanbul.** Its calendar day, light, sunrise and sunset,
+  moon visibility, room period, Moris's movement, wall clock, and any future
+  outdoor space such as the balcony all use İstanbul time and coordinates
+  (`Europe/Istanbul`, 41.015, 28.979). A visitor enters that place; the House
+  does not move to the visitor.
+- A link from The House to Twilight must preserve that place explicitly:
+  `/twilight/?city=istanbul`. A normal site link to `/twilight/` should stay
+  visitor-local and should not be labelled “İstanbul's Twilight.”
+- Keep labels honest about which clock they describe. General site copy may say
+  “today's twilight” or name the resolved city. House copy may say
+  “İstanbul's Twilight” because the House deliberately stays there.
+- The moon's phase itself is global at a given instant, but whether the moon is
+  above the House's horizon is an İstanbul calculation. Do not confuse phase
+  with local visibility.
+
 ## Punctuation
 
 - **Em dashes are closed up: word—word, not word — word.** The essays are
