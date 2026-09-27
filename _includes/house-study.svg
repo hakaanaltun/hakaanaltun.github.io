@@ -37,6 +37,14 @@
     <line class="house-clock-minute" x1="450" y1="150" x2="450" y2="121" stroke-width="2"/>
     <circle cx="450" cy="146" r="2.5" fill="currentColor"/>
   </g>
+  <!-- The photograph opens the family farmhouse. Its named link is in the room. -->
+  <a href="/farm-house/" tabindex="-1" aria-hidden="true">
+    <g class="house-line">
+      <path class="house-wood" d="M527 185H643V271H527Z"/>
+      <path class="house-paper" d="M532 190H638V266H532Z"/>
+      <image href="/farm-house/assets/exterior.webp" x="535" y="193" width="100" height="67" preserveAspectRatio="xMidYMid meet"/>
+    </g>
+  </a>
   <!-- Window and distant rooftops. The sky, the sun and the moon follow
        İstanbul's own: js/house.js moves the sun, and draws the moon in its
        phase while it is above the horizon. -->
