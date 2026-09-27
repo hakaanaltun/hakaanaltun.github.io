@@ -62,7 +62,7 @@ function page({essay=false,width=300,random=0,pathname,search=false}={}){
 // Away from an essay, nothing of an essay's is offered.
 for(let r=0;r<1;r+=0.05){
   const p=page({random:r});
-  assert.match(p.input.placeholder,/^(Search, or try|Try) “.+”$/);
+  assert.match(p.input.placeholder,/^Search, or [a-z][a-z’ ]+$/,'the offer is named as a thing to do, not quoted as words to type');
   assert.doesNotMatch(p.input.placeholder,/puzzle mode|read with rain|guess the word|translate a line|keep a line/);
   assert.doesNotMatch(p.input.placeholder,/share/,'sharing is left to whoever wants to share');
   assert.doesNotMatch(p.input.placeholder,/farm house/,'the photograph in The House is the suggested way to the farm');
@@ -87,7 +87,7 @@ for(let r=0;r<1;r+=0.05){
   assert.equal(p.suggestion().hidden,true);
   p.input.focus();
   assert.equal(p.suggestion().hidden,false);
-  assert.equal(p.suggestion().textContent,'Try “let it snow”');
+  assert.equal(p.suggestion().textContent,'Let it snow');
   p.suggestion().focus();
   assert.equal(p.suggestion().hidden,false,'moving focus to the button keeps it usable');
   p.suggestion().click();
@@ -97,7 +97,7 @@ for(let r=0;r<1;r+=0.05){
   p.type('moon');
   assert.equal(p.suggestion().hidden,true);
   p.type('let it r');
-  assert.equal(p.suggestion().textContent,'Try “let it rain”');
+  assert.equal(p.suggestion().textContent,'Let it rain');
   assert.equal(p.suggestion().hidden,false);
   p.key('Escape');
   assert.equal(p.suggestion().hidden,true);
@@ -117,7 +117,7 @@ for(let r=0;r<1;r+=0.05){
 {
   const home=page({pathname:'/house/'});
   home.input.focus();home.type('visit');
-  assert.equal(home.suggestion().textContent,'Try “visit the farm house”');
+  assert.equal(home.suggestion().textContent,'Visit the farm house');
   const other=page();
   other.input.focus();other.type('visit');
   assert.equal(other.suggestion().hidden,true);
@@ -126,7 +126,7 @@ for(let r=0;r<1;r+=0.05){
   assert.equal(other.suggestion().hidden,true);
   assert.equal(other.submit('visit the farm house'),false);
   other.type('take');
-  assert.equal(other.suggestion().textContent,'Try “take a quiz”');
+  assert.equal(other.suggestion().textContent,'Take a quiz');
   const quiz=page({pathname:'/trivia/american/'});
   quiz.input.focus();quiz.type('take');
   assert.equal(quiz.suggestion().hidden,true);
@@ -135,7 +135,7 @@ for(let r=0;r<1;r+=0.05){
 // An empty submission never performs an unexpected action.
 {
   const p=page({random:0.1});
-  assert.equal(p.input.placeholder,'Search, or try “let it snow”');
+  assert.equal(p.input.placeholder,'Search, or let it snow');
   assert.equal(p.submit(''),false,'even an empty field keeps the search action');
   assert.equal(p.weather(),null);
   p.input.focus();
@@ -181,27 +181,25 @@ for(let r=0;r<1;r+=0.05){
 // On an essay its own things are offered, and done.
 {
   const p=page({essay:true,random:0});
-  assert.equal(p.input.placeholder,'Search, or try “read with rain”');
+  assert.equal(p.input.placeholder,'Search, or read with rain');
   p.input.focus();
   p.suggestion().click();
   assert.equal(p.clicks['essay-rain'],1);
-  p.type('puzzle mode');
+  p.type('open puzzle mode');
   p.suggestion().click();
   assert.equal(p.clicks['essay-puzzle'],1);
-  p.type('puzzle mode');
+  p.type('open puzzle mode');
   assert.equal(p.suggestion().hidden,true,'what is already on is not offered again');
 }
 
-// A narrow field shortens the offer, and one too narrow for it offers only
-// to search; an empty search there does nothing new.
+// A field too narrow for the offer only offers to search; an empty search
+// there does nothing new.
 {
-  /* 196px of line in 210px of field: it would fit, but not beside the room
-     the browser keeps for its clear button, so it is shortened. */
-  const tight=page({random:0.1,width:230});
-  assert.equal(tight.input.placeholder,'Try “let it snow”');
-  const shorter=page({random:0.1,width:200});
-  assert.equal(shorter.input.placeholder,'Try “let it snow”');
-  const narrow=page({random:0.1,width:120});
+  const fits=page({random:0.1,width:230});
+  assert.equal(fits.input.placeholder,'Search, or let it snow');
+  /* 154px of line in 180px of field: it would fit, but not beside the room
+     the browser keeps for its clear button. */
+  const narrow=page({random:0.1,width:200});
   assert.equal(narrow.input.placeholder,'Search the site');
   assert.equal(narrow.submit(''),false,'nothing unseen runs from an empty field');
   assert.equal(narrow.weather(),null);

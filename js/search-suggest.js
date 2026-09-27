@@ -103,7 +103,7 @@
       can: function () { var b = shown('essay-rain'); return b && b.getAttribute('aria-pressed') !== 'true'; },
       run: press('essay-rain'),
       done: 'Rain behind the essay. The button under its title stops it.' },
-    { kind: 'page', say: 'puzzle mode',
+    { kind: 'page', say: 'open puzzle mode',
       can: function () { var b = shown('essay-puzzle'); return b && b.getAttribute('aria-pressed') !== 'true'; },
       run: press('essay-puzzle', 'center') },
     { kind: 'page', say: 'guess the word',
@@ -132,7 +132,7 @@
       can: function () { return shown('theme-toggle') && theme() !== 'sky'; },
       run: function () { setTheme('sky'); }, stay: true,
       done: 'The page now follows the sky. Themes are at the foot of the page.' },
-    { kind: 'site', say: 'midnight',
+    { kind: 'site', say: 'make it midnight',
       can: function () { return shown('theme-toggle') && theme() !== 'midnight'; },
       run: function () { setTheme('midnight'); }, stay: true,
       done: 'Midnight. Themes are at the foot of the page.' },
@@ -164,8 +164,8 @@
     ['breathe', 'breathe'],
     ['twilight', 'see today’s twilight'],
     ['moon', 'see tonight’s moon'],
-    ['season', 'the next solstice'],
-    ['days', 'days between dates']
+    ['season', 'see the next solstice'],
+    ['days', 'count days']
   ].forEach(function (tool) {
     COMMANDS.push({ kind: 'instrument', say: tool[1],
       can: function () { return here !== '/' + tool[0] + '/'; },
@@ -255,10 +255,11 @@
     saidTimer = setTimeout(function () { said.hidden = true; }, 6000);
   }
 
-  /* What each field says, as long as it fits. The menu's field is narrower
-     than the footer's, and a suggestion cut off mid-word is not one; there
-     the shorter form is used, and failing that the field only offers to
-     search. Its focused suggestion button can wrap the complete offer. */
+  /* What each field says, as long as it fits: search, or the thing to do,
+     named as a thing to do and not as words to type, since typing it and
+     pressing Enter searches for it. The menu's field is narrower than the
+     footer's, and a suggestion cut off mid-word is not one; there the field
+     only offers to search, and its focused button still makes the offer. */
   var offered = null;
   var ruler = document.createElement('canvas').getContext('2d');
   function fits(input, text) {
@@ -268,17 +269,15 @@
     ruler.font = style.font;
     /* Less the clear button's place, which Chromium and Safari keep inside
        the field even while it is empty (22px, see search.css), and a little
-       more: a closing quote is the first thing to go. */
+       more, so the line never runs up against it. */
     return ruler.measureText(text).width <= room - 30;
   }
   function fit(input) {
     if (!offered) { input.placeholder = 'Search the site'; input.shows = null; return; }
-    var long = 'Search, or try “' + offered.say + '”';
-    var short = 'Try “' + offered.say + '”';
-    var roomy = fits(input, long);
+    var both = 'Search, or ' + offered.say;
+    var roomy = fits(input, both);
     if (roomy === null) return;
-    if (roomy) { input.placeholder = long; input.shows = offered; }
-    else if (fits(input, short)) { input.placeholder = short; input.shows = offered; }
+    if (roomy) { input.placeholder = both; input.shows = offered; }
     else { input.placeholder = 'Search the site'; input.shows = null; }
     if (input.form.contains(document.activeElement)) input.placeholder = 'Search the site';
   }
@@ -356,7 +355,9 @@
       suggested = input.value.trim() ? (pending || exact(input.value)) : usable(offered);
       suggestion.hidden = dismissed || !form.contains(document.activeElement) || !suggested;
       if (suggestion.hidden) return;
-      suggestion.textContent = 'Try “' + suggested.say + '”';
+      /* A button's label, not a query in quotes: "Try 'let it snow'" read
+         as something to search for. */
+      suggestion.textContent = suggested.say.charAt(0).toUpperCase() + suggested.say.slice(1);
       var box = form.getBoundingClientRect();
       var viewport = window.visualViewport;
       var bottom = viewport ? viewport.offsetTop + viewport.height : window.innerHeight;
