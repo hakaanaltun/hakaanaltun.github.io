@@ -59,6 +59,7 @@ for(let r=0;r<1;r+=0.05){
   const p=page({random:r});
   assert.match(p.input.placeholder,/^(Search, or try|Try) “.+”$/);
   assert.doesNotMatch(p.input.placeholder,/puzzle mode|read with rain|guess the word|translate a line|keep a line/);
+  assert.doesNotMatch(p.input.placeholder,/share/,'sharing is left to whoever wants to share');
 }
 
 // With the field empty, the search button does the thing on offer.

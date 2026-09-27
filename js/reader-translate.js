@@ -41,6 +41,9 @@
     keepButton.type = 'button';
     keepButton.className = 'reader-translate-button reader-translate-keep';
     keepButton.textContent = 'Keep';
+    /* "Keep" alone does not say where to. The drawer answers after the
+       press; this answers before it, for whoever hovers first. */
+    keepButton.title = 'Put it in your drawer, in The House';
     popup.appendChild(keepButton);
   }
 
