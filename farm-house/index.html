@@ -63,7 +63,9 @@ permalink: /farm-house/
     h2{font-size:29px;line-height:1.18;letter-spacing:-.025em;font-weight:400;margin:0 0 23px}
     .detail-body p{font-size:17px;line-height:1.65;margin:0 0 16px}
     .detail-actions{display:flex;flex-wrap:wrap;gap:12px 25px;align-items:center;margin-top:8px}
-    .detail-actions button{font:11px var(--sans);letter-spacing:.03em;background:none;border:0;border-bottom:1px solid #929c84;padding:9px 0;text-align:left}
+    .detail-actions button,.detail-actions a{font:11px var(--sans);letter-spacing:.03em;background:none;border:0;border-bottom:1px solid #929c84;padding:9px 0;text-align:left}
+    .detail-actions a{color:var(--quiet);text-decoration:none}
+    .detail-actions a:focus-visible{outline:2px solid var(--olive);outline-offset:6px}
     .detail-actions button.secondary{border-bottom-color:transparent;color:var(--quiet)}
     .letter-view .detail-layout{grid-template-columns:1fr}.letter-view .detail-image{display:none}
     .letter-view .detail-text{padding:60px 70px 48px}.letter-view{max-width:620px}
@@ -146,7 +148,7 @@ permalink: /farm-house/
   (() => {
     'use strict';
     const $ = id => document.getElementById(id);
-    const sceneAssets = { exterior:'assets/exterior.webp', hall:'assets/hall.webp', upstairs:'assets/upstairs.webp' };
+    const sceneAssets = { exterior:'assets/exterior.webp', hall:'assets/hall.webp', upstairs:'assets/upstairs.webp', kitchen:'assets/kitchen.webp', garden:'assets/garden.webp' };
     const state = { scene: 'intro', visitedUpstairs: false, bed: false, walnuts: false, letter: false, hints: false, detail: null };
     const scenes = {
       exterior: {
@@ -155,7 +157,8 @@ permalink: /farm-house/
         caption:()=>'Flowers grow along the veranda.',
         spots:[
           {id:'door',label:'Enter the house',box:[46,40,11,25],go:'hall'},
-          {id:'veranda',label:'The veranda',box:[62,48,18,17],detail:'veranda'}
+          {id:'veranda',label:'The veranda',box:[62,48,18,17],detail:'veranda'},
+          {id:'garden',label:'Walk into the garden',box:[32,70,36,27],go:'garden'}
         ]
       },
       hall: {
@@ -164,7 +167,26 @@ permalink: /farm-house/
         caption:()=>state.visitedUpstairs?'The stairs are behind you now.':'Everyone who came here went upstairs before they left.',
         spots:[
           {id:'stairs',label:'Go upstairs',box:[12,10,29,80],go:'upstairs'},
-          {id:'kitchen',label:'The kitchen',box:[79,17,19,59],detail:'kitchen'}
+          {id:'kitchen',label:'Enter the kitchen',box:[79,17,19,59],go:'kitchen'}
+        ]
+      },
+      kitchen: {
+        image:'kitchen',name:'The kitchen',back:'hall',backLabel:'← The entrance',
+        alt:'Inside the kitchen seen from the hall. The metal kettle stands to the left of the same window. A folded list lies on the wooden table beside a bowl of pears.',
+        caption:()=>'A folded list lies on the table.',
+        spots:[
+          {id:'kettle',label:'The kettle',box:[35,33,7,13],detail:'kettle'},
+          {id:'shopping-list',label:'The shopping list',box:[71,63,12,10],detail:'shoppingList'}
+        ]
+      },
+      garden: {
+        image:'garden',name:'The garden',back:'exterior',backLabel:'← The veranda',
+        alt:'The same farmhouse beyond the stone path. A European robin is perched on a low wall to the left. Pink hydrangeas grow in the foreground on the right.',
+        caption:()=>'The stone path leads back to the veranda.',
+        spots:[
+          {id:'house',label:'Back to the veranda',box:[45,31,14,22],go:'exterior'},
+          {id:'robin',label:'The robin',box:[11,62,11,16],detail:'robin'},
+          {id:'hydrangea',label:'The hydrangea',box:[73,56,25,31],detail:'hydrangea'}
         ]
       },
       upstairs: {
@@ -181,7 +203,10 @@ permalink: /farm-house/
     };
     const details = {
       veranda:{kicker:'Outside',title:'The veranda.',image:'exterior',position:'73% 60%',zoom:'280%',alt:'The veranda table and chairs beside flowering plants.',body:['The family uses the house in summer.','Their belongings are still here.'],actions:[['Look around','close']]},
-      kitchen:{kicker:'Downstairs',title:'The kitchen.',image:'hall',position:'100% 52%',zoom:'350%',alt:'The kitchen table beside the window.',body:['The kettle is beside the window.','The chairs are pulled up to the table.'],actions:[['Back to the entrance','close']]},
+      kettle:{kicker:'By the window',title:'The kettle.',image:'kitchen',position:'37% 40%',zoom:'440%',alt:'The metal kettle with its black handle, beside the window.',body:['The kettle stands beside a row of glasses.'],actions:[['Back to the kitchen','close']]},
+      shoppingList:{kicker:'On the table',title:'The shopping list.',image:'kitchen',position:'79% 67%',zoom:'440%',alt:'A small folded shopping list on the wooden kitchen table.',body:['Beside “walnuts”, someone has written “for upstairs”.'],actions:[['Back to the kitchen','close']]},
+      robin:{kicker:'Erithacus rubecula',title:'A European robin.',image:'garden',position:'14% 74%',zoom:'600%',alt:'A European robin perched on the low stone wall, with an orange breast and brown back.',body:['Both males and females have an orange-red breast.','Robins often follow gardeners, picking up worms and grubs from newly turned soil.'],actions:[['Back to the garden','close']],source:{label:'RSPB bird guide',url:'https://www.rspb.org.uk/birds-and-wildlife/robin'}},
+      hydrangea:{kicker:'Hydrangea macrophylla',title:'A mophead hydrangea.',image:'garden',position:'100% 73%',zoom:'260%',alt:'Rounded pink hydrangea flower heads above broad green leaves.',body:['Mophead hydrangeas have rounded flower heads that last through much of the summer.','The large heads are clusters of small flowers.'],actions:[['Back to the garden','close']],source:{label:'RHS plant guide',url:'https://www.rhs.org.uk/plants/hydrangea/shrubby/growing-guide'}},
       window:{kicker:'Upstairs',title:'The garden.',image:'upstairs',position:'0% 10%',zoom:'280%',alt:'The green garden seen through the upstairs window.',body:['She watched the garden from her bed.','She kept up with the work on the farm.'],actions:[['Back to the room','close']]},
       bed:{kicker:'By the window',title:'Her bed.',image:'upstairs',position:'11% 56%',zoom:'220%',alt:'The grandmother’s neatly made bed by the window.',body:['This was the upstairs sitting room. Her bed stood here, beside the window.','She had been bedridden for as long as Doğu could remember. Everyone who visited came up to see her.'],actions:[['Back to the room','close']]},
       walnuts:{kicker:'On the bedside table',title:'A small handful.',image:'upstairs',position:'43% 35%',zoom:'550%',alt:'A small dish of walnuts on the wooden bedside table.',body:['She ate a handful of walnuts every evening.','She always told everyone else to eat them too.'],actions:[['Back to the room','close']]},
@@ -189,7 +214,7 @@ permalink: /farm-house/
       letter:{kicker:'What he found',title:'The letter.',plain:true,body:['It had arrived about forty years earlier, from the branch of the family that had stayed behind when the others left for Türkiye.','Doğu could not read the language. He made a copy and asked online whether someone could translate it.'],actions:[['Read about the translation','translation'],['Back to the room','close']]},
       translation:{kicker:'The search',title:'The translation.',plain:true,body:['Someone translated it. The letter gave him enough to begin looking for the family who had written it.','No one ever learned why his grandmother had kept the letter, or why she never spoke about it.'],actions:[['Look at the room again','return-after-letter']]}
     };
-    for(const key of ['exterior','hall','upstairs']){const img = new Image();img.src=sceneAssets[key];}
+    for(const src of Object.values(sceneAssets)){const img = new Image();img.src=src;}
     function closeDetail(){if($('detail').open)$('detail').close();state.detail=null;refreshCaption();}
     function refreshCaption(){if(scenes[state.scene])$('caption').textContent=scenes[state.scene].caption();}
     function showScene(name,focus=true){
@@ -221,12 +246,16 @@ permalink: /farm-house/
       if(key==='bed')state.bed=true;if(key==='walnuts')state.walnuts=true;if(key==='translation')state.letter=true;
       $('detail').classList.toggle('letter-view',!!item.plain);
       $('detail-kicker').textContent=item.kicker;$('detail-title').textContent=item.title;
+      $('close-detail').setAttribute('aria-label','Close and return to '+(scenes[state.scene]?.name.toLowerCase()||'the house'));
       $('detail-body').replaceChildren(...item.body.map(text=>{const p=document.createElement('p');p.textContent=text;return p;}));
       const illustration=$('detail-image');illustration.style.backgroundImage=item.image?'url("'+sceneAssets[item.image]+'")':'none';illustration.style.backgroundPosition=item.position||'center';illustration.style.backgroundSize=item.zoom||'cover';illustration.setAttribute('aria-label',item.alt||'');
       $('detail-actions').replaceChildren(...item.actions.map(([label,action],index)=>{
         const b=document.createElement('button');b.type='button';b.textContent=label;if(index)b.className='secondary';
         b.addEventListener('click',()=>{if(action==='close'||action==='return-after-letter'){closeDetail();}else{openDetail(action);}});return b;
       }));
+      if(item.source){
+        const source=document.createElement('a');source.href=item.source.url;source.textContent=item.source.label;source.target='_blank';source.rel='noopener noreferrer';source.setAttribute('aria-label',item.source.label+' (opens in a new tab)');$('detail-actions').append(source);
+      }
       if(!$('detail').open)$('detail').showModal();
       $('detail-title').focus({preventScroll:true});
     }
