@@ -10,17 +10,26 @@
   var narrow = window.matchMedia('(max-width:700px)');
   var dark = window.matchMedia('(prefers-color-scheme:dark)');
   var order = ['read','write'], ratio = 50, focused = null, panels = {};
-  /* A narrow screen always stacks the panes; a wider one may choose to. */
-  var stackChosen = false;
+  /* A narrow screen always stacks the panes. A wider one stacks them when it
+     stands upright and sets them side by side when it lies on its side, until
+     the reader chooses otherwise; each way of holding it keeps its own choice. */
+  var upright = window.matchMedia('(orientation:portrait)');
+  var stackChosen = { portrait:null, landscape:null };
   var stackBtn = document.getElementById('stack'), swapBtn = document.getElementById('swap');
-  function stacked(){ return narrow.matches || stackChosen; }
+  function holding(){ return upright.matches ? 'portrait' : 'landscape'; }
+  function stacked(){
+    var chosen = stackChosen[holding()];
+    return narrow.matches || (chosen === null ? upright.matches : chosen);
+  }
   function valid(slug){ return Object.prototype.hasOwnProperty.call(TOOLS, slug); }
   try{
     var saved = JSON.parse(localStorage.getItem(KEY));
     if(saved && Array.isArray(saved.order) && saved.order.length === 2 &&
        saved.order.every(valid) && saved.order[0] !== saved.order[1]) order = saved.order;
     if(saved && typeof saved.ratio === 'number' && isFinite(saved.ratio)) ratio = Math.max(25, Math.min(75, saved.ratio));
-    if(saved && saved.stacked === true) stackChosen = true;
+    if(saved && saved.stacked && typeof saved.stacked === 'object') ['portrait','landscape'].forEach(function(way){
+      if(typeof saved.stacked[way] === 'boolean') stackChosen[way] = saved.stacked[way];
+    });
   }catch(e){}
   function remember(){
     try{ localStorage.setItem(KEY, JSON.stringify({order:order, ratio:ratio, stacked:stackChosen})); }catch(e){}
@@ -137,8 +146,8 @@
     swapBtn.hidden = !!focused;
     swapBtn.textContent = stacked() ? 'Swap places' : 'Swap sides';
     stackBtn.hidden = !!focused || narrow.matches;
-    stackBtn.textContent = stackChosen ? 'Side by side' : 'One above the other';
-    stackBtn.title = stackChosen ? 'Set the panes side by side' : 'Set one pane above the other';
+    stackBtn.textContent = stacked() ? 'Side by side' : 'One above the other';
+    stackBtn.title = stacked() ? 'Set the panes side by side' : 'Set one pane above the other';
     document.getElementById('balance').hidden = !!focused;
     setRatio(ratio);
   }
@@ -150,8 +159,8 @@
   window.OLAE_DESK = { restore:restore };
   restoreBtn.addEventListener('click', restore);
   stackBtn.addEventListener('click', function(){
-    stackChosen = !stackChosen; render(); remember();
-    announce(stackChosen ? 'One pane above the other.' : 'The panes side by side.');
+    stackChosen[holding()] = !stacked(); render(); remember();
+    announce(stacked() ? 'One pane above the other.' : 'The panes side by side.');
   });
   swapBtn.addEventListener('click', function(){
     order.reverse(); render(); remember(); announce('The panes have changed places.');
@@ -211,6 +220,7 @@
   });
   document.addEventListener('visibilitychange', function(){ if(document.hidden) saveAll(); });
   narrow.addEventListener('change', function(){ endDrag(); render(); });
+  upright.addEventListener('change', function(){ endDrag(); render(); });
   dark.addEventListener('change', paintAll);
   new MutationObserver(paintAll).observe(document.documentElement, {attributes:true, attributeFilter:['style','data-theme']});
   render(); paintAll();
