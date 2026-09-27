@@ -23,6 +23,36 @@ What that asks of every change:
 - **The test is the reader's first look.** Someone who opens a page should be
   drawn into it, not left wondering what this nonsense is.
 
+## The Farm House
+
+The Farm House is a growing fictional world where visitors can spend time
+and feel close to nature. Its existing family story unfolds gradually.
+Wandering and observing should be worthwhile on their own.
+
+- Let the story develop through occasional discoveries and small traces in
+  the rooms. Give each addition time to settle. Preserve the unanswered
+  questions in the existing story, including why the grandmother kept the
+  letter and remained silent about it.
+- Grow the house and its surroundings as connected places. The garden can
+  lead to woodland paths and a river; rooms can hold traces of the past.
+  Introduce the animals kept on the farm as well as wildlife in the forest.
+  Plants and birds are part of the world visitors can learn to recognize.
+- Let the natural world change with the seasons, including which birds are
+  present. Keep species and seasonal appearances plausible for the setting,
+  and verify natural-history information with reliable sources.
+- **Visual continuity is a primary requirement.** Use established images as
+  spatial references for every new view. Preserve the layout of rooms and
+  the positions of doors, windows and furniture. Keep exterior landmarks
+  and paths in consistent locations, with views that agree across scenes.
+  A kitchen glimpsed from the hall must remain that kitchen when entered.
+- Compare connected scenes side by side and inspect the transition in the
+  browser. Check recognizable objects as well as the overall architecture.
+  Keep lighting and seasonal details consistent within a visit. Resolve
+  contradictions before extending that part of the world.
+- Expand in small, coherent steps. Write plain prose with correct
+  punctuation; avoid ornate phrasing, rhetorical triples and unnecessary
+  negative examples. Fictional details should fit the established story.
+
 ## Cursor Cloud specific instructions
 
 This repository is a **Jekyll 4 static site** ("On Life & Everything", a personal blog) that is deployed to GitHub Pages via `.github/workflows/pages.yml`. Ruby, RubyGems, and Bundler 4.0.13 are pre-installed in the Cloud VM, and the startup update script runs `bundle install` (gems install into the git-ignored `vendor/bundle/`, configured by `.bundle/config`).
