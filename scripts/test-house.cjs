@@ -375,5 +375,38 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.equal(p.q('canvas.snowfall'), null);
   p.dom.window.close();
 
-  console.log('House: catalog and addresses, daily room, keeping from the room and from words, quizzes, the book and essays, legacy and hostile records, blocked storage, arrivals, #drawer, export, the moon, and weather at the window passed.');
+  // The pointer's trail, here and at the Farm House. A mouse lays one canvas
+  // over the page that nothing can land on; a finger, a reader who asked for
+  // less motion, and a pointer over an open dialog get none.
+  assert.match(read(site, 'farm-house', 'index.html'), /<script src="\/js\/cursor-trail\.js/, 'the Farm House leaves a trail');
+  assert.match(read(site, 'house', 'index.html'), /<script src="\/js\/cursor-trail\.js/, 'so does The House');
+  const trail = (reduce) => {
+    const t = page('house/index.html', 'https://hakanaltun.io/house/');
+    t.w.matchMedia = () => ({ matches: reduce });
+    t.w.requestAnimationFrame = () => 0;
+    t.w.HTMLCanvasElement.prototype.getContext = () => ({});
+    t.w.eval(read(root, 'js', 'cursor-trail.js'));
+    t.move = (pointerType, on = t.q('#house-scene')) => on.dispatchEvent(new t.w.PointerEvent('pointermove', { pointerType, clientX: 40, clientY: 40, bubbles: true }));
+    return t;
+  };
+  let t = trail(false);
+  t.move('touch');
+  t.move('pen');
+  assert.equal(t.q('canvas.cursor-trail'), null, 'no trail behind a finger or a pen');
+  t.q('#house-dialog').setAttribute('open', '');
+  t.move('mouse', t.q('#house-dialog-title'));
+  assert.equal(t.q('canvas.cursor-trail'), null, 'none under an open dialog');
+  t.q('#house-dialog').removeAttribute('open');
+  t.move('mouse');
+  t.move('mouse');
+  assert.equal(t.w.document.querySelectorAll('canvas.cursor-trail').length, 1, 'one canvas behind a mouse');
+  assert.equal(t.q('canvas.cursor-trail').style.pointerEvents, 'none', 'that nothing can land on');
+  assert.equal(t.q('canvas.cursor-trail').getAttribute('aria-hidden'), 'true');
+  t.dom.window.close();
+  t = trail(true);
+  t.move('mouse');
+  assert.equal(t.q('canvas.cursor-trail'), null, 'and none for a reader who asked for less motion');
+  t.dom.window.close();
+
+  console.log('House: catalog and addresses, daily room, keeping from the room and from words, quizzes, the book and essays, legacy and hostile records, blocked storage, arrivals, #drawer, export, the moon, weather at the window, and the pointer\'s trail passed.');
 })().catch((error) => { console.error(error); process.exit(1); });

@@ -197,6 +197,12 @@ html[data-theme="dark"] .house-scene[data-hour="evening"] .house-dusk, html[data
 html[data-theme="dark"] .house-scene[data-hour="night"] .house-dusk, html[data-theme="midnight"] .house-scene[data-hour="night"] .house-dusk { opacity: .3; }
 @media (prefers-color-scheme: dark) { html:not([data-theme]) .house-scene[data-hour="evening"] .house-dusk { opacity: .1; } html:not([data-theme]) .house-scene[data-hour="night"] .house-dusk { opacity: .3; } }
 @media (prefers-color-scheme: dark) { html:not([data-theme]) .house-scene { --room-wall: #363b3b; --room-floor: #3f403a; --room-line: #a89e89; --room-wood: #666452; --room-back: #444942; --room-paper: #b5ae96; --room-cream: #9c9174; --room-blue: #617e84; --room-olive: #687b64; --room-rust: #9e7564; --room-burgundy: #7a4650; --room-gold: #a48c55; --room-carpet: #4a4a41; } }
+/* The trail the pointer leaves (js/cursor-trail.js). On paper it is a deeper
+   gold, since a pale one is lost there. On dark ground it is a lit gold whose
+   specks brighten where they cross: the dark themes, and the room at night. */
+:root { --trail: #a9853a; }
+html[data-theme="dark"], html[data-theme="midnight"], html[data-theme="sky"], .house-scene[data-hour="night"] { --trail: #d9b865; --trail-glow: 1; }
+@media (prefers-color-scheme: dark) { html:not([data-theme]) { --trail: #d9b865; --trail-glow: 1; } }
 /* Below a wide screen the names no longer fit beside their things, so the
    picture keeps only its numbers and the names are listed under it. */
 @media (max-width: 860px) {

@@ -10,7 +10,7 @@ permalink: /farm-house/
   <meta name="color-scheme" content="light">
   <title>The Farm House</title>
   <style>
-    :root{--paper:#eeeae0;--ink:#373b32;--quiet:#676b5e;--line:#c9cabc;--olive:#58634c;--serif:Georgia,'Times New Roman',serif;--sans:Arial,Helvetica,sans-serif}
+    :root{--paper:#eeeae0;--ink:#373b32;--quiet:#676b5e;--line:#c9cabc;--olive:#58634c;--serif:Georgia,'Times New Roman',serif;--sans:Arial,Helvetica,sans-serif;--trail:#a9853a}
     *{box-sizing:border-box} [hidden]{display:none!important}
     html{min-height:100%;background:var(--paper)}
     body{margin:0;color:var(--ink);font-family:var(--serif);-webkit-font-smoothing:antialiased}
@@ -36,6 +36,8 @@ permalink: /farm-house/
     .begin:hover{border-color:var(--ink)}
     .visit{width:100%;max-width:1440px;padding:0 0 12px}
     .frame{width:min(100%,calc((100svh - 235px)*1.5));margin:auto;position:relative;background:#454737;isolation:isolate;aspect-ratio:3/2;box-shadow:0 5px 28px #3d423212;overflow:hidden}
+    /* The pointer's trail (/js/cursor-trail.js): a deep gold on the paper, a lit one over the photographs. */
+    .frame,.photograph img,.ending-photo img{--trail:#f4cf6a;--trail-glow:1}
     .scene-img{display:block;width:100%;height:100%;object-fit:contain;position:absolute;inset:0;user-select:none}
     .scene-img.arrive{animation:arrive .65s ease both}
     @keyframes arrive{from{opacity:.25}to{opacity:1}}
@@ -243,5 +245,6 @@ permalink: /farm-house/
     showScene('intro',false);
   })();
   </script>
+  <script src="/js/cursor-trail.js?v=20260927-1" defer></script>
 </body>
 </html>
