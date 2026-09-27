@@ -16,6 +16,16 @@ description: "Come in, look around, and keep something you find. A room at On Li
   there, and every reader sees the same room on the same day.
 {%- endcomment -%}
 <link rel="stylesheet" href="/css/house.css?v=20260926-12">
+<style>
+  .house-hotspot--books { left: 20%; top: 30%; }
+  .house-hotspot--reader { left: 20%; top: 79%; }
+  .house-hotspot--farm-house { left: 38%; top: 68.5%; text-decoration: none; }
+  @media (max-width: 860px) {
+    .house-hotspot--books { left: 20%; top: 30%; }
+    .house-hotspot--reader { left: 18%; top: 80%; }
+    .house-hotspot--farm-house { left: 35%; top: 66%; }
+  }
+</style>
 
 <div class="house" id="house" data-catalog="/house/catalog.json?v={{ site.time | date: '%Y%m%d%H%M' }}">
   <div class="house-heading">
@@ -71,8 +81,8 @@ description: "Come in, look around, and keep something you find. A room at On Li
       <button class="house-hotspot house-hotspot--drawer" id="drawer" data-open="drawer" type="button"><span class="house-pin" aria-hidden="true">7</span><span class="house-hotspot-name">Your drawer</span></button>
       <a class="house-hotspot house-hotspot--clock" href="/clock/"><span class="house-pin" aria-hidden="true">8</span><span class="house-hotspot-name">The Clock <span aria-hidden="true">&rarr;</span></span></a>
       <a class="house-hotspot house-hotspot--reader" href="/read/"><span class="house-pin" aria-hidden="true">9</span><span class="house-hotspot-name">The Reader <span aria-hidden="true">&rarr;</span></span></a>
-      <a class="house-hotspot" href="/farm-house/" style="left:58.4%;top:24.8%;text-decoration:none"><span class="house-pin" aria-hidden="true">11</span><span class="house-hotspot-name">The Farm House <span aria-hidden="true">&rarr;</span></span></a>
       <a class="house-hotspot house-hotspot--desk" href="/desk/"><span class="house-pin" aria-hidden="true">10</span><span class="house-hotspot-name">The Desk <span aria-hidden="true">&rarr;</span></span></a>
+      <a class="house-hotspot house-hotspot--farm-house" href="/farm-house/"><span class="house-pin" aria-hidden="true">11</span><span class="house-hotspot-name">The Farm House <span aria-hidden="true">&rarr;</span></span></a>
     </div>
     {%- comment -%} On a phone or a tablet the room is too small to carry its labels, so
     the picture keeps only the numbers and the names are listed under it.

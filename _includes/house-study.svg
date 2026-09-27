@@ -26,6 +26,13 @@
     <path class="house-faint" d="M117 181h10M117 187h10M170 176h12M170 218h12M221 179h9M112 278h16M112 284h16M204 391h15M204 398h15M252 441h10"/>
     <path class="house-paper" d="M243 305h39v35h-39z"/><path d="M251 316h23M253 322h19"/>
     <path class="house-wood" d="M69 126H326V137H69Z"/>
+    <!-- A small Polaroid rests on the third shelf. -->
+    <a href="/farm-house/" tabindex="-1" aria-hidden="true">
+      <g transform="rotate(-5 270 458)" stroke-width=".8">
+        <path class="house-paper" d="M248 403H291V458H248Z"/>
+        <image href="/farm-house/assets/exterior.webp" x="252" y="407" width="35" height="35" preserveAspectRatio="xMidYMid slice"/>
+      </g>
+    </a>
   </g>
   <!-- A clock on the wall. It keeps the reader's own time, wherever they
        are; the window keeps İstanbul's. js/house.js turns the hands. -->
@@ -37,14 +44,6 @@
     <line class="house-clock-minute" x1="450" y1="150" x2="450" y2="121" stroke-width="2"/>
     <circle cx="450" cy="146" r="2.5" fill="currentColor"/>
   </g>
-  <!-- The photograph opens the family farmhouse. Its named link is in the room. -->
-  <a href="/farm-house/" tabindex="-1" aria-hidden="true">
-    <g class="house-line">
-      <path class="house-wood" d="M527 185H643V271H527Z"/>
-      <path class="house-paper" d="M532 190H638V266H532Z"/>
-      <image href="/farm-house/assets/exterior.webp" x="535" y="193" width="100" height="67" preserveAspectRatio="xMidYMid meet"/>
-    </g>
-  </a>
   <!-- Window and distant rooftops. The sky, the sun and the moon follow
        İstanbul's own: js/house.js moves the sun, and draws the moon in its
        phase while it is above the horizon. -->
