@@ -42,7 +42,7 @@ layout: null
 }
 </script>
 <link rel="stylesheet" href="/css/fonts.css?v=20260710-1">
-<link rel="stylesheet" href="/css/desk.css?v=20260905-1">
+<link rel="stylesheet" href="/css/desk.css?v=20260927-1">
 {% include page-sky.html %}
 </head>
 <body>
@@ -68,6 +68,7 @@ layout: null
     <div class="desk-controls" aria-label="Desk controls">
       <button id="swap" type="button" title="Swap panes">Swap sides</button>
       <button id="balance" type="button" title="Make both panes the same size">Equal space</button>
+      <button id="stack" type="button" title="Set one pane above the other">One above the other</button>
       <button id="restore" type="button" hidden>Restore split view</button>
     </div>
   </div>
@@ -84,7 +85,7 @@ layout: null
     <h2>About the desk</h2>
     <p>Open a PDF, EPUB, Word, Markdown or plain text file on one side and make notes on the other. Or keep a drawing beside your words. The Reader, The Page and The Draw share a desk, with the same shelves and tools they have on their own.</p>
     <h3>How do I arrange it?</h3>
-    <p>Choose an instrument above either pane. Drag the line between them to change the space, or use its arrow keys. Swap sides exchanges the two; the expand button gives one instrument the whole desk. On a narrow screen the panes sit one above the other.</p>
+    <p>Choose an instrument above either pane. Drag the line between them to change the space, or use its arrow keys. Swap sides exchanges the two; the expand button gives one instrument the whole desk. One above the other turns the split on its side, which suits a tablet held upright; Side by side turns it back, and the desk remembers which you chose. On a narrow screen the panes always sit one above the other.</p>
     <h3>What happens when I switch instruments?</h3>
     <p>Your open file, notes and drawing stay here while this desk is open. Choose an instrument again to return to it. Choosing the instrument on the other side swaps the two. Sound stops when its instrument is put away.</p>
     <h3>Where is my work saved?</h3>
@@ -97,7 +98,7 @@ layout: null
   </div>
 </footer>
 {% include page-sky-toggle.html %}
-<script src="/js/desk.js?v=20260906-3"></script>
+<script src="/js/desk.js?v=20260927-1"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){});}</script>
 </body>
 </html>

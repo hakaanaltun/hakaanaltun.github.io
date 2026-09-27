@@ -48,6 +48,13 @@ h1{margin:0;font:italic 1.9rem/1.1 var(--display);font-weight:400}
 .workspace.resizing{user-select:none;cursor:col-resize}.workspace.resizing iframe{pointer-events:none}
 .workspace[data-focus]{grid-template-columns:minmax(0,1fr)}
 .workspace[data-focus] .panel{grid-column:1;grid-row:1}
+/* one above the other: always on a narrow screen, and by choice on a wider one */
+.workspace.stacked{grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,var(--first)) 14px minmax(0,1fr);min-height:720px}
+.workspace.stacked .panel[data-slot="0"]{grid-column:1;grid-row:1}.workspace.stacked .panel[data-slot="1"]{grid-column:1;grid-row:3}
+.workspace.stacked .divider{grid-column:1;grid-row:2;border:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);cursor:row-resize}.workspace.stacked .divider span{width:36px;height:2px}
+.workspace.stacked.resizing{cursor:row-resize}
+.workspace.stacked[data-focus]{grid-template-rows:minmax(0,1fr);min-height:440px}
+.workspace.stacked[data-focus] .panel{grid-row:1}
 .desk-foot{display:flex;justify-content:space-between;gap:16px;padding:12px 28px 18px;font-style:italic;font-size:.85rem;color:var(--muted)}
 .desk-foot a{text-decoration:none}
 .notes{border-top:1px solid var(--line);padding:60px 26px 100px}
@@ -61,11 +68,7 @@ h1{margin:0;font:italic 1.9rem/1.1 var(--display);font-weight:400}
 @media(max-width:700px){
  .chrome{padding:12px 14px;grid-template-columns:1fr auto}.masthead{grid-column:1/-1;grid-row:1}.tools-link,.actions{grid-row:2}
  .desk-heading{padding:16px;align-items:flex-start;gap:12px}.desk-title{display:block}.desk-title p{margin-top:4px;font-size:.9rem}.desk-controls{gap:12px;flex-wrap:wrap;justify-content:flex-end}
- .workspace{margin:0 12px;grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,var(--first)) 14px minmax(0,1fr);height:calc(100dvh - 230px);min-height:720px}
- .panel[data-slot="0"]{grid-column:1;grid-row:1}.panel[data-slot="1"]{grid-column:1;grid-row:3}
- .divider{grid-column:1;grid-row:2;border:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);cursor:row-resize}.divider span{width:36px;height:2px}
- .workspace.resizing{cursor:row-resize}
- .workspace[data-focus]{grid-template-rows:minmax(0,1fr);min-height:440px}
+ .workspace{margin:0 12px;height:calc(100dvh - 230px)}
  .desk-foot{padding-left:18px;padding-right:18px}
 }
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
