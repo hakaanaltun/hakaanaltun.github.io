@@ -375,11 +375,10 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.equal(p.q('canvas.snowfall'), null);
   p.dom.window.close();
 
-  // The pointer's trail, here and at the Farm House. A mouse lays one canvas
-  // over the page that nothing can land on; a finger, a reader who asked for
-  // less motion, and a pointer over an open dialog get none.
-  assert.match(read(site, 'farm-house', 'index.html'), /<script src="\/js\/cursor-trail\.js/, 'the Farm House leaves a trail');
-  assert.match(read(site, 'house', 'index.html'), /<script src="\/js\/cursor-trail\.js/, 'so does The House');
+  // The pointer's trail. A mouse lays one canvas over the page that nothing
+  // can land on; a finger, a reader who asked for less motion, and a pointer
+  // over an open dialog get none.
+  assert.match(read(site, 'house', 'index.html'), /<script src="\/js\/cursor-trail\.js/, 'The House leaves a trail');
   const trail = (reduce) => {
     const t = page('house/index.html', 'https://hakanaltun.io/house/');
     t.w.matchMedia = () => ({ matches: reduce });

@@ -1,5 +1,5 @@
-/* A short trail of gold behind the pointer, on the pages that are places to
-   walk around in rather than to read: The House and the Farm House.
+/* A short trail of gold behind the pointer in The House, a place to walk
+   around in rather than to read.
 
    It follows a mouse only. A finger has no pointer to follow, and a reader
    who has asked for less motion gets none. The trail is drawn on one canvas
@@ -7,7 +7,8 @@
    stops drawing as soon as the last speck has faded, so a still pointer
    costs nothing.
 
-   The colour is the page's to choose: whatever is under the pointer sets
+   The colour is the page's to choose, so another page can take the trail
+   up without touching this file: whatever is under the pointer sets
    --trail, a colour, and --trail-glow: 1 where the ground is dark enough for
    the specks to add light to each other rather than ink. Without either the
    trail is a middling gold. */
