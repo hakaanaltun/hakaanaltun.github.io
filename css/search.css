@@ -184,3 +184,38 @@
 .search-results h2 a:hover { text-decoration-color: currentColor; }
 .search-results p { margin: 0; color: var(--ink-soft); font-size: 1rem; line-height: 1.5; overflow-wrap: anywhere; }
 
+
+/* The rest of a command, shown faintly after what has been typed of it
+   (js/search-suggest.js). The typed part is laid out again, invisibly, so the
+   rest starts exactly where the caret is. */
+.site-search-form--suggests { position: relative; }
+.search-ghost {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  white-space: pre;
+  pointer-events: none;
+  overflow: hidden;
+}
+.search-ghost[hidden] { display: none; }
+.search-ghost-typed { visibility: hidden; }
+.search-ghost-rest { opacity: .45; }
+
+/* What a command did, and where its own control is. */
+.search-said {
+  position: fixed;
+  z-index: 130;
+  box-sizing: border-box;
+  width: max-content;
+  max-width: min(440px, calc(100vw - 28px));
+  margin: 0;
+  padding: 11px 18px;
+  border: 1px solid var(--rule-strong);
+  border-radius: 12px;
+  background: var(--paper);
+  color: var(--ink-soft);
+  box-shadow: 0 12px 34px rgba(0, 0, 0, .16);
+  font: 400 1rem/1.45 'EB Garamond', Georgia, serif;
+}
+.search-said[hidden] { display: none; }
+@media print { .search-said { display: none !important; } }

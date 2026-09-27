@@ -50,6 +50,9 @@ their Keep button sits beside Türkçe as it does on an essay. {% endcomment %}
 {% if page.layout == "home" %}
 {% include home-scripts.html %}
 {% endif %}
+{% comment %} Last of the page's scripts: it offers only what the ones above
+have made available on this page. {% endcomment %}
+<script src="/js/search-suggest.js?v=20260927-2" defer></script>
 <script>
 /* Enable CSS smooth scrolling only after the browser has completed its
    initial scroll restoration. Applying scroll-behavior: smooth to the root
