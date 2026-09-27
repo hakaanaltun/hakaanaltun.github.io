@@ -10,15 +10,29 @@
   var narrow = window.matchMedia('(max-width:700px)');
   var dark = window.matchMedia('(prefers-color-scheme:dark)');
   var order = ['read','write'], ratio = 50, focused = null, panels = {};
+  /* A narrow screen always stacks the panes. A wider one stacks them when it
+     stands upright and sets them side by side when it lies on its side, until
+     the reader chooses otherwise; each way of holding it keeps its own choice. */
+  var upright = window.matchMedia('(orientation:portrait)');
+  var stackChosen = { portrait:null, landscape:null };
+  var stackBtn = document.getElementById('stack'), swapBtn = document.getElementById('swap');
+  function holding(){ return upright.matches ? 'portrait' : 'landscape'; }
+  function stacked(){
+    var chosen = stackChosen[holding()];
+    return narrow.matches || (chosen === null ? upright.matches : chosen);
+  }
   function valid(slug){ return Object.prototype.hasOwnProperty.call(TOOLS, slug); }
   try{
     var saved = JSON.parse(localStorage.getItem(KEY));
     if(saved && Array.isArray(saved.order) && saved.order.length === 2 &&
        saved.order.every(valid) && saved.order[0] !== saved.order[1]) order = saved.order;
     if(saved && typeof saved.ratio === 'number' && isFinite(saved.ratio)) ratio = Math.max(25, Math.min(75, saved.ratio));
+    if(saved && saved.stacked && typeof saved.stacked === 'object') ['portrait','landscape'].forEach(function(way){
+      if(typeof saved.stacked[way] === 'boolean') stackChosen[way] = saved.stacked[way];
+    });
   }catch(e){}
   function remember(){
-    try{ localStorage.setItem(KEY, JSON.stringify({order:order, ratio:ratio})); }catch(e){}
+    try{ localStorage.setItem(KEY, JSON.stringify({order:order, ratio:ratio, stacked:stackChosen})); }catch(e){}
   }
   function announce(text){ status.textContent = text; }
   function embed(panel){
@@ -41,7 +55,7 @@
     ratio = Math.max(25, Math.min(75, next));
     workspace.style.setProperty('--first', 'calc((100% - 14px) * ' + ratio/100 + ')');
     divider.setAttribute('aria-valuenow', String(Math.round(ratio)));
-    divider.setAttribute('aria-valuetext', Math.round(ratio) + '% ' + (narrow.matches ? 'above' : 'on the left'));
+    divider.setAttribute('aria-valuetext', Math.round(ratio) + '% ' + (stacked() ? 'above' : 'on the left'));
   }
   function make(slug){
     if(panels[slug]) return;
@@ -117,7 +131,7 @@
       panel.el.hidden = !active;
       panel.el.dataset.slot = String(slot);
       panel.select.value = slug;
-      var side = narrow.matches ? (slot === 0 ? 'top' : 'bottom') : (slot === 0 ? 'left' : 'right');
+      var side = stacked() ? (slot === 0 ? 'top' : 'bottom') : (slot === 0 ? 'left' : 'right');
       panel.select.setAttribute('aria-label', 'Instrument in ' + side + ' pane');
       var label = focused === slug ? 'Restore split view' : 'Expand ' + side + ' pane';
       panel.expand.setAttribute('aria-label', label); panel.expand.title = label;
@@ -126,9 +140,14 @@
       if(active && api) api.setActive(true);
     });
     divider.hidden = !!focused;
-    divider.setAttribute('aria-orientation', narrow.matches ? 'horizontal' : 'vertical');
+    workspace.classList.toggle('stacked', stacked());
+    divider.setAttribute('aria-orientation', stacked() ? 'horizontal' : 'vertical');
     restoreBtn.hidden = !focused;
-    document.getElementById('swap').hidden = !!focused;
+    swapBtn.hidden = !!focused;
+    swapBtn.textContent = stacked() ? 'Swap places' : 'Swap sides';
+    stackBtn.hidden = !!focused || narrow.matches;
+    stackBtn.textContent = stacked() ? 'Side by side' : 'One above the other';
+    stackBtn.title = stacked() ? 'Set the panes side by side' : 'Set one pane above the other';
     document.getElementById('balance').hidden = !!focused;
     setRatio(ratio);
   }
@@ -139,7 +158,11 @@
   }
   window.OLAE_DESK = { restore:restore };
   restoreBtn.addEventListener('click', restore);
-  document.getElementById('swap').addEventListener('click', function(){
+  stackBtn.addEventListener('click', function(){
+    stackChosen[holding()] = !stacked(); render(); remember();
+    announce(stacked() ? 'One pane above the other.' : 'The panes side by side.');
+  });
+  swapBtn.addEventListener('click', function(){
     order.reverse(); render(); remember(); announce('The panes have changed places.');
   });
   document.getElementById('balance').addEventListener('click', function(){ setRatio(50); remember(); announce('Equal space for both panes.'); });
@@ -152,8 +175,8 @@
   divider.addEventListener('pointermove', function(e){
     if(e.pointerId !== dragging) return;
     var r = workspace.getBoundingClientRect();
-    var size = narrow.matches ? r.height : r.width;
-    var distance = narrow.matches ? e.clientY-r.top : e.clientX-r.left;
+    var size = stacked() ? r.height : r.width;
+    var distance = stacked() ? e.clientY-r.top : e.clientX-r.left;
     setRatio(100 * (distance-7) / (size-14));
   });
   function endDrag(){
@@ -197,6 +220,7 @@
   });
   document.addEventListener('visibilitychange', function(){ if(document.hidden) saveAll(); });
   narrow.addEventListener('change', function(){ endDrag(); render(); });
+  upright.addEventListener('change', function(){ endDrag(); render(); });
   dark.addEventListener('change', paintAll);
   new MutationObserver(paintAll).observe(document.documentElement, {attributes:true, attributeFilter:['style','data-theme']});
   render(); paintAll();
