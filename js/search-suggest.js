@@ -51,42 +51,132 @@
   function go(path) {
     return function () { location.href = path; };
   }
+  function press(id, where) {
+    return function () {
+      var button = shown(id);
+      button.click();
+      if (where) button.scrollIntoView({ block: where });
+    };
+  }
   var here = location.pathname;
 
+  /* Translating and keeping start from a selection, which a field cannot
+     make for the reader; so the command makes one, the first sentence of
+     the piece, and the box that any selection brings up comes up for it. */
+  var article = document.querySelector('.essay-body');
+  function firstSentence() {
+    var walker = document.createTreeWalker(article, NodeFilter.SHOW_TEXT, {
+      acceptNode: function (node) {
+        return node.parentElement.closest('p') && /\S/.test(node.nodeValue) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP;
+      }
+    });
+    var node = walker.nextNode();
+    if (!node) return null;
+    var text = node.nodeValue;
+    var start = text.search(/\S/);
+    var stop = text.slice(start).search(/[.!?](\s|$)/);
+    var range = document.createRange();
+    range.setStart(node, start);
+    range.setEnd(node, stop === -1 ? text.length : start + stop + 1);
+    return range;
+  }
+  function selectFirstLine() {
+    var range = firstSentence();
+    if (!range) return;
+    var block = range.startContainer.parentElement.closest('p');
+    if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
+    block.scrollIntoView({ block: 'center', behavior: 'instant' });
+    /* After the scroll has settled: a scroll closes the box. */
+    setTimeout(function () {
+      var selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(range);
+    }, 250);
+  }
+  function selectable() {
+    return article && window.getSelection && document.querySelector('.reader-translate') && firstSentence();
+  }
+
+  /* Three kinds, drawn from in turn so that the page's own things come up
+     most and the eighteen instruments do not drown the rest: what this page
+     can do, what every page can do, and the instruments. */
   var COMMANDS = [
-    { say: 'let it snow',
+    { kind: 'page', say: 'read with rain',
+      can: function () { var b = shown('essay-rain'); return b && b.getAttribute('aria-pressed') !== 'true'; },
+      run: press('essay-rain'),
+      done: 'Rain behind the essay. The button under its title stops it.' },
+    { kind: 'page', say: 'puzzle mode',
+      can: function () { var b = shown('essay-puzzle'); return b && b.getAttribute('aria-pressed') !== 'true'; },
+      run: press('essay-puzzle', 'center') },
+    { kind: 'page', say: 'guess the word',
+      can: function () { return shown('essay-guess'); },
+      run: press('essay-guess', 'center') },
+    { kind: 'page', say: 'translate a line',
+      can: selectable,
+      run: selectFirstLine, top: true,
+      done: 'Select any line and the same box offers it in Turkish.' },
+    { kind: 'page', say: 'keep a line',
+      can: function () { return window.OLAE_KEEP && article && article.hasAttribute('data-keep-passage') && selectable(); },
+      run: selectFirstLine, top: true,
+      done: 'Select any line, and Keep puts it in your drawer in The House.' },
+    { kind: 'page', say: 'compress everything',
+      can: function () { return shown('book-compress'); },
+      run: press('book-compress') },
+    { kind: 'site', say: 'let it snow',
       can: function () { return shown('let-it-snow') && !(window.OLAE_WEATHER && window.OLAE_WEATHER.state().kind === 'snow'); },
       run: function () { weather('snow'); },
       done: 'Snowing. The snowflake at the foot of the page stops it.' },
-    { say: 'let it rain',
+    { kind: 'site', say: 'let it rain',
       can: function () { return shown('let-it-rain') && !(window.OLAE_WEATHER && window.OLAE_WEATHER.state().kind === 'rain'); },
       run: function () { weather('rain'); },
       done: 'Raining. The drop at the foot of the page stops it.' },
-    { say: 'read with rain',
-      can: function () { var b = shown('essay-rain'); return b && b.getAttribute('aria-pressed') !== 'true'; },
-      run: function () { shown('essay-rain').click(); },
-      done: 'Rain behind the essay. The button under its title stops it.' },
-    { say: 'puzzle mode',
-      can: function () { var b = shown('essay-puzzle'); return b && b.getAttribute('aria-pressed') !== 'true'; },
-      run: function () { var b = shown('essay-puzzle'); b.click(); b.scrollIntoView({ block: 'center' }); } },
-    { say: 'follow the sky',
+    { kind: 'site', say: 'follow the sky',
       can: function () { return shown('theme-toggle') && theme() !== 'sky'; },
-      run: function () { setTheme('sky'); },
+      run: function () { setTheme('sky'); }, stay: true,
       done: 'The page now follows the sky. Themes are at the foot of the page.' },
-    { say: 'midnight',
+    { kind: 'site', say: 'midnight',
       can: function () { return shown('theme-toggle') && theme() !== 'midnight'; },
-      run: function () { setTheme('midnight'); },
+      run: function () { setTheme('midnight'); }, stay: true,
       done: 'Midnight. Themes are at the foot of the page.' },
-    { say: 'enter the house',
+    { kind: 'site', say: 'share this page',
+      can: function () { return document.querySelector('.footer-share-btn'); },
+      run: function () { document.querySelector('.footer-share-btn').click(); },
+      done: navigator.share ? '' : 'The address is copied. The share button is at the foot of the page.' },
+    { kind: 'site', say: 'enter the house',
       can: function () { return here !== '/house/'; },
       run: go('/house/#study') },
-    { say: 'visit the farm house',
+    { kind: 'site', say: 'visit the farm house',
       can: function () { return here !== '/farm-house/'; },
       run: go('/farm-house/') }
   ];
+  /* The instruments, each by what it is for. */
+  [
+    ['write', 'write on a blank page'],
+    ['draw', 'draw something'],
+    ['words', 'count words'],
+    ['marks', 'copy an em dash'],
+    ['clean', 'clean pasted text'],
+    ['list', 'sort a list'],
+    ['lots', 'draw names'],
+    ['diff', 'compare two texts'],
+    ['desk', 'sit at the desk'],
+    ['read', 'read a file'],
+    ['clock', 'start a pomodoro'],
+    ['prompt', 'open a teleprompter'],
+    ['noise', 'play some noise'],
+    ['breathe', 'breathe'],
+    ['twilight', 'see today’s twilight'],
+    ['moon', 'see tonight’s moon'],
+    ['season', 'the next solstice'],
+    ['days', 'days between dates']
+  ].forEach(function (tool) {
+    COMMANDS.push({ kind: 'instrument', say: tool[1],
+      can: function () { return here !== '/' + tool[0] + '/'; },
+      run: go('/' + tool[0] + '/') });
+  });
 
   function plain(text) {
-    return String(text || '').toLowerCase().replace(/[^a-z ]+/g, ' ').replace(/\s+/g, ' ').trim();
+    return String(text || '').toLowerCase().replace(/[\u2019']/g, '').replace(/[^a-z ]+/g, ' ').replace(/\s+/g, ' ').trim();
   }
   function available() {
     return COMMANDS.filter(function (c) { try { return !!c.can(); } catch (e) { return false; } });
@@ -94,14 +184,14 @@
   function exact(text) {
     var said = plain(text);
     if (!said) return null;
-    return available().filter(function (c) { return c.say === said; })[0] || null;
+    return available().filter(function (c) { return plain(c.say) === said; })[0] || null;
   }
   /* The command a typed start is heading for. Three letters at least: "le"
      is the start of too many searches to put words in a reader's mouth.
      Where two share a start, as the snow and the rain do, the one the field
      is already offering goes first, and otherwise the first in the list. */
   function completion(text) {
-    var typed = text.toLowerCase();
+    var typed = text.toLowerCase().replace(/'/g, '\u2019');
     if (typed.replace(/\s/g, '').length < 3) return null;
     var matches = available().filter(function (c) { return c.say.indexOf(typed) === 0 && c.say !== typed; });
     if (offered && matches.indexOf(offered) !== -1) return offered;
@@ -112,14 +202,19 @@
   function pick() {
     var list = available();
     if (!list.length) return null;
-    /* An essay's own things first: they are what the reader is looking at. */
-    var own = list.filter(function (c) { return c.say === 'puzzle mode' || c.say === 'read with rain'; });
-    if (own.length && Math.random() < 0.5) list = own;
     var last = null;
     try { last = sessionStorage.getItem(LAST); } catch (e) {}
     var fresh = list.filter(function (c) { return c.say !== last; });
     if (fresh.length) list = fresh;
-    var chosen = list[Math.floor(Math.random() * list.length)];
+    function of(kind) { return list.filter(function (c) { return c.kind === kind; }); }
+    /* Half the time the page's own, when it has any; the rest split between
+       what every page can do and the instruments. */
+    var roll = Math.random();
+    var pool = of('page').length && roll < 0.5 ? of('page')
+      : of('site').length && (roll < 0.8 || !of('instrument').length) ? of('site')
+      : of('instrument');
+    if (!pool.length) pool = list;
+    var chosen = pool[Math.floor(Math.random() * pool.length)];
     try { sessionStorage.setItem(LAST, chosen.say); } catch (e) {}
     return chosen;
   }
@@ -129,7 +224,7 @@
   /* Over the field it came from, where the reader is looking. At the foot of
      the window it would sit on the very snowflake it points to. A field that
      has gone (the menu closes behind its command) leaves it at the foot. */
-  function tell(text, form) {
+  function tell(text, form, top) {
     if (!said) {
       said = document.createElement('p');
       said.className = 'search-said';
@@ -144,7 +239,14 @@
     var width = said.offsetWidth;
     said.style.top = '';
     said.style.bottom = '';
-    if (!box || !box.width || !form.offsetParent) {
+    /* At the foot too when the command has moved the page away from the
+       field, as the ones that show part of an essay do. */
+    if (top) {
+      /* The box a selection brings up sits under the line, or on a phone at
+         the foot of the window; this goes where it cannot cover it. */
+      said.style.left = Math.max(14, (room - width) / 2) + 'px';
+      said.style.top = 'max(18px, env(safe-area-inset-top))';
+    } else if (!box || !box.width || !form.offsetParent || box.bottom < 0 || box.top > window.innerHeight) {
       said.style.left = Math.max(14, (room - width) / 2) + 'px';
       said.style.bottom = 'max(18px, env(safe-area-inset-bottom))';
     } else {
@@ -200,10 +302,10 @@
     var close = input.closest('#site-drawer') && document.getElementById('site-drawer-close');
     if (close && document.getElementById('site-drawer').classList.contains('open')) close.click();
     command.run();
-    if (command.done) tell(command.done, close ? null : input.form);
+    if (command.done) tell(command.done, close ? null : input.form, command.top);
     /* The theme menu hands focus to its own button when it closes; a reader
        who was in the footer's field stays in it. */
-    if (!close && document.activeElement !== input && input.offsetParent) input.focus({ preventScroll: true });
+    if (command.stay && !close && document.activeElement !== input && input.offsetParent) input.focus({ preventScroll: true });
     offer();
   }
 
