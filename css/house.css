@@ -197,22 +197,25 @@ html[data-theme="dark"] .house-scene[data-hour="evening"] .house-dusk, html[data
 html[data-theme="dark"] .house-scene[data-hour="night"] .house-dusk, html[data-theme="midnight"] .house-scene[data-hour="night"] .house-dusk { opacity: .3; }
 @media (prefers-color-scheme: dark) { html:not([data-theme]) .house-scene[data-hour="evening"] .house-dusk { opacity: .1; } html:not([data-theme]) .house-scene[data-hour="night"] .house-dusk { opacity: .3; } }
 @media (prefers-color-scheme: dark) { html:not([data-theme]) .house-scene { --room-wall: #363b3b; --room-floor: #3f403a; --room-line: #a89e89; --room-wood: #666452; --room-back: #444942; --room-paper: #b5ae96; --room-cream: #9c9174; --room-blue: #617e84; --room-olive: #687b64; --room-rust: #9e7564; --room-burgundy: #7a4650; --room-gold: #a48c55; --room-carpet: #4a4a41; } }
-/* The trail the pointer leaves (js/cursor-trail.js). On paper it is a deeper
-   gold, since a pale one is lost there. On dark ground it is a lit gold whose
-   specks brighten where they cross: the dark themes, and the room at night. */
-:root { --trail: #a9853a; }
-html[data-theme="dark"], html[data-theme="midnight"], html[data-theme="sky"], .house-scene[data-hour="night"] { --trail: #d9b865; --trail-glow: 1; }
-@media (prefers-color-scheme: dark) { html:not([data-theme]) { --trail: #d9b865; --trail-glow: 1; } }
-/* In the room the pointer itself is a speck of the trail's gold, with a dark
-   rim so it stays in sight on paper and at night alike, and it opens into a
-   ring over anything that can be chosen. In the dialog and in a search field
-   the ordinary pointer comes back: that is where a reader reads and types. A
-   reader who has asked their system for more contrast, or for its own
-   colours, keeps their own pointer, and so does a browser that cannot say
-   whether they have. */
+/* The trail the pointer leaves (js/cursor-trail.js), and the pointer itself,
+   a speck a little larger than the trail's own at its head. On paper both are
+   a deeper gold, since a pale one is lost there. On dark ground they are a lit
+   gold, and the trail's specks brighten where they cross: the dark themes,
+   and the room at night. */
+:root { --trail: #a9853a; --house-speck: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Ccircle cx='5' cy='5' r='3.5' fill='%23a9853a'/%3E%3C/svg%3E") 5 5, auto; }
+html[data-theme="dark"], html[data-theme="midnight"], html[data-theme="sky"], .house-scene[data-hour="night"] { --trail: #d9b865; --trail-glow: 1; --house-speck: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Ccircle cx='5' cy='5' r='3.5' fill='%23e6c46c'/%3E%3C/svg%3E") 5 5, auto; }
+@media (prefers-color-scheme: dark) { html:not([data-theme]) { --trail: #d9b865; --trail-glow: 1; --house-speck: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Ccircle cx='5' cy='5' r='3.5' fill='%23e6c46c'/%3E%3C/svg%3E") 5 5, auto; } }
+/* Over anything that can be chosen the speck opens into a ring, drawn in both
+   golds so it holds on the cream labels and on dark ground alike. In the
+   dialog and in a search field the ordinary pointer comes back: that is where
+   a reader reads and types. A reader who has asked their system for more
+   contrast, or for its own colours, keeps their own pointer, and so does a
+   browser that cannot say whether they have. The room sets the speck again
+   because a pointer inherits the gold of the page around the room, not the
+   room's own. */
 @media (prefers-contrast: no-preference) and (forced-colors: none) {
-  body { --house-speck: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22'%3E%3Cdefs%3E%3CradialGradient id='h'%3E%3Cstop offset='0' stop-color='%23e6c46c' stop-opacity='.55'/%3E%3Cstop offset='1' stop-color='%23e6c46c' stop-opacity='0'/%3E%3C/radialGradient%3E%3C/defs%3E%3Ccircle cx='11' cy='11' r='11' fill='url(%23h)'/%3E%3Ccircle cx='11' cy='11' r='4.8' fill='%23e6c46c' stroke='%23352d1f' stroke-width='1.1'/%3E%3C/svg%3E") 11 11, auto; cursor: var(--house-speck); }
-  body :is(a[href], button, summary, label, [role="button"]):not(dialog *) { cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30'%3E%3Ccircle cx='15' cy='15' r='11' fill='none' stroke='%23352d1f' stroke-width='3.4' stroke-opacity='.8'/%3E%3Ccircle cx='15' cy='15' r='11' fill='none' stroke='%23e6c46c' stroke-width='1.7'/%3E%3Ccircle cx='15' cy='15' r='2.8' fill='%23e6c46c' stroke='%23352d1f' stroke-width='1'/%3E%3C/svg%3E") 15 15, pointer; }
+  body, .house-scene { cursor: var(--house-speck); }
+  body :is(a[href], button, summary, label, [role="button"]):not(dialog *) { cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Ccircle cx='10' cy='10' r='7.5' fill='none' stroke='%23a9853a' stroke-width='2.4'/%3E%3Ccircle cx='10' cy='10' r='7.5' fill='none' stroke='%23e6c46c' stroke-width='1'/%3E%3Ccircle cx='10' cy='10' r='2' fill='%23e6c46c' stroke='%23a9853a' stroke-width='.9'/%3E%3C/svg%3E") 10 10, pointer; }
   body button:disabled:not(dialog *) { cursor: var(--house-speck); }
   body :is(input, textarea) { cursor: text; }
   dialog { cursor: auto; }
