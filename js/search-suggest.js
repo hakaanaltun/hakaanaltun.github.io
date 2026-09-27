@@ -6,15 +6,12 @@
 
    How it is asked is the whole design, because the field is still a search
    field first:
-   - Tapping or clicking it only focuses it, as always. Whatever is typed is
-     searched, as always.
-   - With the field empty, Enter or the search button does the thing the
-     placeholder offers. An empty search had nothing to find, so no search is
-     lost to this.
-   - Typed in full, a command is done where the reader is, not searched for.
-     Typed in part, the rest of it shows faintly after the caret, and → takes
-     it. Tab is left alone: it moves between controls, and a field that kept
-     it would trap anyone who navigates by keyboard.
+   - Focusing the field reveals one button for its suggestion. Typing an
+     ordinary query keeps searching; typing a command can complete it.
+   - Enter in the field and the search button always search, even when the
+     query spells a command. Only the separate suggestion button runs it.
+   - Typed in part, the rest of a command shows faintly after the caret, and
+     → takes it. Tab keeps moving between controls.
 
    Only what the page can do is offered: puzzle mode and read-with-rain exist
    under an essay and nowhere else, so each command asks the page first. It
@@ -24,8 +21,9 @@
    page from repeating it. */
 (function () {
   'use strict';
-  var forms = document.querySelectorAll('.site-search-form--footer, .site-search-form--drawer');
+  var forms = document.querySelectorAll('.site-search-form');
   if (!forms.length) return;
+  var refreshers = [];
 
   function shown(id) {
     var el = document.getElementById(id);
@@ -142,8 +140,11 @@
       can: function () { return here !== '/house/'; },
       run: go('/house/#study') },
     { kind: 'site', say: 'visit the farm house',
-      can: function () { return here !== '/farm-house/'; },
-      run: go('/farm-house/') }
+      can: function () { return here === '/house/'; },
+      run: go('/farm-house/') },
+    { kind: 'site', say: 'take a quiz',
+      can: function () { return here.indexOf('/trivia/') !== 0; },
+      run: go('/trivia/') }
   ];
   /* The instruments, each by what it is for. */
   [
@@ -257,7 +258,7 @@
   /* What each field says, as long as it fits. The menu's field is narrower
      than the footer's, and a suggestion cut off mid-word is not one; there
      the shorter form is used, and failing that the field only offers to
-     search, and an empty search does nothing new. */
+     search. Its focused suggestion button can wrap the complete offer. */
   var offered = null;
   var ruler = document.createElement('canvas').getContext('2d');
   function fits(input, text) {
@@ -279,6 +280,7 @@
     if (roomy) { input.placeholder = long; input.shows = offered; }
     else if (fits(input, short)) { input.placeholder = short; input.shows = offered; }
     else { input.placeholder = 'Search the site'; input.shows = null; }
+    if (input.form.contains(document.activeElement)) input.placeholder = 'Search the site';
   }
   function offer() {
     offered = pick();
@@ -286,6 +288,7 @@
       var input = form.querySelector('input[type="search"]');
       if (input) fit(input);
     });
+    refreshers.forEach(function (refresh) { refresh(); });
   }
   function usable(command) {
     try { return command && command.can() ? command : null; } catch (e) { return null; }
@@ -331,19 +334,70 @@
     }
     function refresh() {
       pending = input.value && input.selectionStart === input.value.length ? completion(input.value) : null;
-      if (!pending || fits(input, pending.say) === false) { ghost.hidden = true; pending = null; return; }
+      if (!pending || document.activeElement !== input || fits(input, pending.say) === false) { ghost.hidden = true; return; }
       place();
       typedPart.textContent = input.value;
       restPart.textContent = pending.say.slice(input.value.length);
       ghost.hidden = false;
     }
     ghost.hidden = true;
-    input.addEventListener('input', refresh);
+
+    /* A single real button makes the offer usable by touch as well as by
+       keyboard. It stays out of the layout until the form has focus. */
+    var suggestion = document.createElement('button');
+    suggestion.type = 'button';
+    suggestion.className = 'search-suggestion';
+    suggestion.hidden = true;
+    form.insertBefore(suggestion, form.querySelector('button[type="submit"]'));
+    var suggested = null;
+    var dismissed = false;
+    function refreshSuggestion() {
+      refresh();
+      suggested = input.value.trim() ? (pending || exact(input.value)) : usable(offered);
+      suggestion.hidden = dismissed || !form.contains(document.activeElement) || !suggested;
+      if (suggestion.hidden) return;
+      suggestion.textContent = 'Try “' + suggested.say + '”';
+      var box = form.getBoundingClientRect();
+      var viewport = window.visualViewport;
+      var bottom = viewport ? viewport.offsetTop + viewport.height : window.innerHeight;
+      suggestion.classList.toggle('search-suggestion--above', box.bottom + suggestion.offsetHeight + 8 > bottom && box.top > suggestion.offsetHeight + 8);
+    }
+    refreshers.push(refreshSuggestion);
+    input.addEventListener('input', function () { dismissed = false; refreshSuggestion(); });
     input.addEventListener('blur', function () { ghost.hidden = true; });
-    input.addEventListener('focus', refresh);
+    form.addEventListener('focusin', function () { dismissed = false; fit(input); refreshSuggestion(); });
+    form.addEventListener('focusout', function () {
+      setTimeout(function () {
+        if (!form.contains(document.activeElement)) { suggestion.hidden = true; ghost.hidden = true; fit(input); }
+      }, 0);
+    });
+    /* Keep a touch or mouse press from blurring the field before its click,
+       including browsers that do not focus buttons on pointer interaction. */
+    suggestion.addEventListener('pointerdown', function (event) {
+      if (event.button === 0) event.preventDefault();
+    });
+    suggestion.addEventListener('click', function () {
+      var command = usable(suggested);
+      if (!command) return;
+      /* Do not leave keyboard focus on the button that is about to vanish. */
+      input.focus({ preventScroll: true });
+      run(command, input);
+      dismissed = true;
+      suggestion.hidden = true;
+    });
+    form.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape' && !suggestion.hidden) {
+        event.preventDefault();
+        event.stopPropagation();
+        input.focus({ preventScroll: true });
+        dismissed = true;
+        suggestion.hidden = true;
+        ghost.hidden = true;
+      }
+    });
     /* The menu's field has no width until the menu opens, and every field
        changes width when the window does. */
-    if (typeof ResizeObserver !== 'undefined') new ResizeObserver(function () { fit(input); }).observe(input);
+    if (typeof ResizeObserver !== 'undefined') new ResizeObserver(function () { fit(input); refreshSuggestion(); }).observe(input);
 
     input.addEventListener('keydown', function (event) {
       if (event.key !== 'ArrowRight' || event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
@@ -352,15 +406,12 @@
       if (!take) return;
       event.preventDefault();
       input.value = take.say;
-      refresh();
+      input.dispatchEvent(new Event('input'));
     });
+  });
 
-    form.addEventListener('submit', function (event) {
-      var command = input.value.trim() ? exact(input.value) : usable(input.shows);
-      if (!command) return;
-      event.preventDefault();
-      run(command, input);
-    });
+  if (window.visualViewport) window.visualViewport.addEventListener('resize', function () {
+    refreshers.forEach(function (refresh) { refresh(); });
   });
 
   /* Loaded after the scripts that unhide the page's own controls, which run
