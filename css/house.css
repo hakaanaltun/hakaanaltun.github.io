@@ -193,6 +193,9 @@ html:has(.house-dialog[open]) { overflow: hidden; }
 @keyframes house-arrive { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 html[data-theme="dark"] .house-scene, html[data-theme="midnight"] .house-scene { --room-wall: #363b3b; --room-floor: #3f403a; --room-line: #a89e89; --room-wood: #666452; --room-back: #444942; --room-paper: #b5ae96; --room-cream: #9c9174; --room-blue: #617e84; --room-olive: #687b64; --room-rust: #9e7564; --room-burgundy: #7a4650; --room-gold: #a48c55; --room-carpet: #4a4a41; }
 html[data-theme="sky"] .house-scene { --room-wall: color-mix(in srgb, var(--paper) 88%, #a8997f); --room-floor: color-mix(in srgb, var(--paper) 76%, #9b8d6f); --room-line: var(--vizon); --room-wood: color-mix(in srgb, var(--paper) 50%, #a8997f); --room-back: color-mix(in srgb, var(--paper) 75%, #a8997f); --room-carpet: color-mix(in srgb, var(--paper) 64%, #9b8d6f); }
+/* A pale dial needs its own ink when sky text turns light after sunset. */
+html[data-theme="sky"] .house-wall-clock { stroke: #514839; color: #514839; }
+html[data-theme="sky"] .house-wall-clock .house-faint { opacity: .8; }
 html[data-theme="dark"] .house-scene[data-hour="evening"] .house-dusk, html[data-theme="midnight"] .house-scene[data-hour="evening"] .house-dusk { opacity: .1; }
 html[data-theme="dark"] .house-scene[data-hour="night"] .house-dusk, html[data-theme="midnight"] .house-scene[data-hour="night"] .house-dusk { opacity: .3; }
 @media (prefers-color-scheme: dark) { html:not([data-theme]) .house-scene[data-hour="evening"] .house-dusk { opacity: .1; } html:not([data-theme]) .house-scene[data-hour="night"] .house-dusk { opacity: .3; } }
