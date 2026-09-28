@@ -42,7 +42,7 @@ permalink: /farm-house/
     .hotspots{position:absolute;inset:0}
     .hotspot{position:absolute;border:0;background:transparent;padding:0;min-width:44px;min-height:44px;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent}
     .hotspot::before{content:'';width:5px;height:5px;background:#fcf9ee;border-radius:50%;box-shadow:0 0 0 1px #252a3266;opacity:0;transition:opacity .2s;position:absolute;left:50%;top:50%}
-    .hotspot-label{position:absolute;left:var(--label-x,50%);top:var(--label-y,50%);white-space:nowrap;opacity:0;transform:translate(-50%,-50%);transition:opacity .2s;padding:6px 9px;background:#f4f0e7c4;color:#353c2e;font:11px var(--sans);border-radius:2px;pointer-events:none}
+    .hotspot-label{position:absolute;left:var(--label-x,50%);top:var(--label-y,50%);white-space:nowrap;opacity:0;transform:translate(-50%,-50%);transition:opacity .2s;padding:6px 9px;background:rgb(244 240 231 / 95%);color:#353c2e;font:11px var(--sans);border-radius:2px;pointer-events:none}
     .hotspot:focus-visible .hotspot-label,.show-places .hotspot-label{opacity:1;pointer-events:auto}
     @media(hover:hover){.hotspot:hover .hotspot-label{opacity:1;pointer-events:auto}}
     .hotspot-number,.place-number{display:none}
@@ -161,7 +161,7 @@ permalink: /farm-house/
   (() => {
     'use strict';
     const $ = id => document.getElementById(id);
-    const sceneAssets = { exterior:'assets/exterior.webp', hall:'assets/hall.webp', upstairs:'assets/upstairs.webp', kitchen:'assets/kitchen.webp', garden:'assets/garden.webp', stableYard:'assets/stable-yard-outside.webp', stable:'assets/stable-two-horses.webp' };
+    const sceneAssets = { exterior:'assets/exterior.webp', hall:'assets/hall.webp', upstairs:'assets/upstairs.webp', kitchen:'assets/kitchen.webp', garden:'assets/garden-matched.webp', stableYard:'assets/stable-yard-outside.webp', stable:'assets/stable-two-horses.webp' };
     const state = { scene: 'intro', visitedUpstairs: false, bed: false, walnuts: false, letter: false, hints: false, detail: null };
     const scenes = {
       exterior: {
