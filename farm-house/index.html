@@ -51,6 +51,8 @@ permalink: /farm-house/
     .scene-controls{display:flex;justify-content:space-between;align-items:center;gap:24px;margin-top:15px}
     .scene-controls .text-button{font-size:11px}
     .scene-number{font:10px var(--sans);letter-spacing:.16em;color:var(--quiet)}
+    .horse-list{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 22px;margin:14px 0 0;padding:0;list-style:none}
+    .horse-list button{min-height:44px}
     .footer{max-width:1440px;width:100%;margin:0 auto;display:flex;justify-content:space-between;gap:20px;padding:18px 0 22px;font:10px var(--sans);letter-spacing:.1em;color:var(--quiet)}
     .footer button,.footer a{font:inherit;color:inherit;background:none;border:0;padding:0;letter-spacing:inherit;text-decoration:underline;text-underline-offset:4px}
     .object-dialog{margin:auto;border:0;padding:0;width:min(800px,calc(100vw - 40px));max-height:calc(100svh - 50px);background:var(--paper);color:var(--ink);box-shadow:0 20px 100px #14190f60;overflow:auto}
@@ -107,6 +109,7 @@ permalink: /farm-house/
         </div>
         <div class="scene-under">
           <p class="scene-caption" id="caption" tabindex="-1" aria-live="polite"></p>
+          <ul class="horse-list" id="horse-list" aria-label="Meet the horses" hidden></ul>
           <div class="scene-controls">
             <button class="text-button" id="back">← The photograph</button>
             <span class="scene-number" id="scene-name"></span>
@@ -148,7 +151,7 @@ permalink: /farm-house/
   (() => {
     'use strict';
     const $ = id => document.getElementById(id);
-    const sceneAssets = { exterior:'assets/exterior.webp', hall:'assets/hall.webp', upstairs:'assets/upstairs.webp', kitchen:'assets/kitchen.webp', garden:'assets/garden.webp' };
+    const sceneAssets = { exterior:'assets/exterior.webp', hall:'assets/hall.webp', upstairs:'assets/upstairs.webp', kitchen:'assets/kitchen.webp', garden:'assets/garden.webp', stableYard:'assets/stable-yard.webp', stable:'assets/stable.webp' };
     const state = { scene: 'intro', visitedUpstairs: false, bed: false, walnuts: false, letter: false, hints: false, detail: null };
     const scenes = {
       exterior: {
@@ -185,8 +188,27 @@ permalink: /farm-house/
         caption:()=>'The stone path leads back to the veranda.',
         spots:[
           {id:'house',label:'Back to the veranda',box:[45,31,14,22],go:'exterior'},
+          {id:'stable-path',label:'Follow the path to the stable',box:[1,39,20,19],go:'stableYard'},
           {id:'robin',label:'The robin',box:[11,62,11,16],detail:'robin'},
           {id:'hydrangea',label:'The hydrangea',box:[73,56,25,31],detail:'hydrangea'}
+        ]
+      },
+      stableYard: {
+        image:'stableYard',name:'Outside the stable',back:'garden',backLabel:'← The garden',
+        alt:'Beyond the garden, a pale plaster stable with a tiled roof and open timber doors. A stone path leads into the central aisle, with olive trees around the building.',
+        caption:()=>'The stable doors are open.',
+        spots:[{id:'stable-door',label:'Enter the stable',box:[46,34,22,31],go:'stable'}]
+      },
+      stable: {
+        image:'stable',name:'The stable',back:'stableYard',backLabel:'← Outside the stable',
+        alt:'Five horses look over wooden stall doors. On the left are a white Lipizzan, a bay Arabian and a chestnut Quarter Horse. On the right are a black Friesian and a golden chestnut Haflinger. The central aisle opens onto olive trees.',
+        caption:()=>'Five horses look out into the aisle. Choose one to meet.',
+        spots:[
+          {id:'pamuk',label:'Pamuk · Lipizzan',box:[3,18,18,31],detail:'pamuk'},
+          {id:'doru',label:'Doru · Arabian',box:[24,30,10,21],detail:'doru'},
+          {id:'tarcin',label:'Tarçın · Quarter Horse',box:[35,40,7,13],detail:'tarcin'},
+          {id:'gece',label:'Gece · Friesian',box:[82,15,16,34],detail:'gece'},
+          {id:'bal',label:'Bal · Haflinger',box:[69,32,12,20],detail:'bal'}
         ]
       },
       upstairs: {
@@ -202,6 +224,11 @@ permalink: /farm-house/
       }
     };
     const details = {
+      pamuk:{kicker:'Lipizzan',title:'Pamuk.',image:'stable',position:'5% 30%',zoom:'380%',alt:'Pamuk, the white Lipizzan, with a gray muzzle and curved neck.',body:['Pamuk stands in the first stall on the left. His pale coat catches the light from the open doors.','Lipizzans are closely associated with the Spanish Riding School in Vienna, where their training develops the movements of classical dressage. Their compact bodies and strong hindquarters help them perform demanding exercises.','The breed once came in a much wider range of colors. The school still keeps a brown Lipizzan, following a tradition that considers one lucky.'],actions:[['Back to the horses','close']],source:{label:'Spanish Riding School',url:'https://www.srs.at/en/lipizzaner/lipizzaners'}},
+      gece:{kicker:'Friesian',title:'Gece.',image:'stable',position:'100% 30%',zoom:'380%',alt:'Gece, the black Friesian, with a long wavy mane.',body:['Gece is in the first stall on the right. His black mane falls in waves along his neck.','The Friesian comes from Friesland in the Netherlands. The breed is recognizable by its black coat, abundant mane and upright, arched neck. Its lifted steps are particularly striking in harness or in a dressage arena.','Friesians have taken on different kinds of work over their history. Riding and driving both remain part of the breed’s life.'],actions:[['Back to the horses','close']],source:{label:'Royal Friesian Studbook',url:'https://www.kfps-presenteert.nl/en/friesian-horses/'}},
+      doru:{kicker:'Arabian',title:'Doru.',image:'stable',position:'28% 38%',zoom:'540%',alt:'Doru, the brown Arabian with a black mane and a refined face.',body:['Doru looks out from the middle stall on the left. His brown coat and black mane are a combination called bay.','Arabian horses were bred by Bedouin communities on the Arabian Peninsula. Long journeys helped shape a breed known for endurance, which remains one of its strengths in equestrian sport.','Look at the shape of his head. A fine muzzle and a gently concave profile are characteristic of the breed. Arabians also tend to carry their tails high when moving.'],actions:[['Back to the horses','close']],source:{label:'Arabian Horse Association',url:'https://www.arabianhorses.org/discover/arabian-horses/'}},
+      tarcin:{kicker:'American Quarter Horse',title:'Tarçın.',image:'stable',position:'36% 46%',zoom:'760%',alt:'Tarçın, the red-brown chestnut Quarter Horse, at the far end of the left-hand stalls.',body:['Tarçın has the far stall on the left. His coat is a warm reddish brown, with a mane of a similar color.','The Quarter Horse takes its name from short races over a quarter of a mile. Speed over that distance helped establish the breed’s reputation.','Its muscular build and agility also proved useful on cattle ranches. Quarter Horses became valued for working with cattle as well as racing, and today they are ridden in many different disciplines.'],actions:[['Back to the horses','close']],source:{label:'Ohio Quarter Horse Association',url:'https://www.oqha.com/what-is-a-quarter-horse'}},
+      bal:{kicker:'Haflinger',title:'Bal.',image:'stable',position:'77% 42%',zoom:'520%',alt:'Bal, a golden chestnut Haflinger with a pale flaxen mane.',body:['Bal stands behind Gece on the right. His golden chestnut coat and pale mane make him easy to recognize.','The Haflinger developed in the Tyrolean mountains. These horses carried supplies to remote farms and helped with work on steep fields. Their smaller, sturdy build suited those surroundings.','The breed’s recorded ancestry goes back to a stallion named Folie, born in 1874. Haflingers are now used widely for leisure riding and driving.'],actions:[['Back to the horses','close']],source:{label:'Tyrolean Haflinger Breeding Association',url:'https://www.haflinger-tirol.com/en/haflinger-breeding-association/history-of-the-haflinger-breed.html'}},
       veranda:{kicker:'Outside',title:'The veranda.',image:'exterior',position:'73% 60%',zoom:'280%',alt:'The veranda table and chairs beside flowering plants.',body:['The family uses the house in summer.','Their belongings are still here.'],actions:[['Look around','close']]},
       kettle:{kicker:'By the window',title:'The kettle.',image:'kitchen',position:'37% 40%',zoom:'440%',alt:'The metal kettle with its black handle, beside the window.',body:['The kettle stands beside a row of glasses.'],actions:[['Back to the kitchen','close']]},
       shoppingList:{kicker:'On the table',title:'The shopping list.',image:'kitchen',position:'79% 67%',zoom:'440%',alt:'A small folded shopping list on the wooden kitchen table.',body:['Beside “walnuts”, someone has written “for upstairs”.'],actions:[['Back to the kitchen','close']]},
@@ -224,6 +251,13 @@ permalink: /farm-house/
       if(name==='upstairs')state.visitedUpstairs=true;
       $('intro').hidden=name!=='intro';$('visit').hidden=!scenes[name];$('ending').hidden=name!=='ending';
       $('leave').hidden=!scenes[name];
+      $('horse-list').hidden=name!=='stable';
+      $('horse-list').replaceChildren();
+      if(name==='stable')for(const spot of scenes.stable.spots){
+        const li=document.createElement('li');const button=document.createElement('button');
+        button.type='button';button.className='text-button';button.textContent=spot.label;
+        button.addEventListener('click',()=>openDetail(spot.detail));li.append(button);$('horse-list').append(li);
+      }
       $('location').textContent=scenes[name]?.name||(name==='ending'?'After the visit':'A first visit');
       if(scenes[name]){
         const scene=scenes[name];
