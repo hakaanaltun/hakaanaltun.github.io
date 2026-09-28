@@ -50,6 +50,9 @@ Wandering and observing should be worthwhile on their own.
   the positions of doors, windows and furniture. Keep exterior landmarks
   and paths in consistent locations, with views that agree across scenes.
   A kitchen glimpsed from the hall must remain that kitchen when entered.
+- The window beside the grandmother's bed looks across the grounds on the
+  house's left, toward the stable and field. Its view includes part of the
+  stable roof among olive trees, with cultivated land beyond.
 - Compare connected scenes side by side and inspect the transition in the
   browser. Check recognizable objects as well as the overall architecture.
   Keep lighting and seasonal details consistent within a visit. Resolve
