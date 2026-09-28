@@ -37,6 +37,11 @@ Wandering and observing should be worthwhile on their own.
   lead to woodland paths and a river; rooms can hold traces of the past.
   Introduce the animals kept on the farm as well as wildlife in the forest.
   Plants and birds are part of the world visitors can learn to recognize.
+- Complete the spring/summer setting first. For now, keep new scenes bright,
+  sunlit and suggestive of spring or summer; autumn and winter views can follow.
+  Keep the lighting photographic and natural across scenes. Preserve believable
+  differences between direct sun, veranda shade and window-lit interiors; avoid
+  exaggerated yellow casts, glowing highlights and uniformly bright shadows.
 - Let the natural world change with the seasons, including which birds are
   present. Keep species and seasonal appearances plausible for the setting,
   and verify natural-history information with reliable sources.
