@@ -42,8 +42,10 @@ permalink: /farm-house/
     .hotspots{position:absolute;inset:0}
     .hotspot{position:absolute;border:0;background:transparent;padding:0;min-width:44px;min-height:44px;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent}
     .hotspot::before{content:'';width:5px;height:5px;background:#fcf9ee;border-radius:50%;box-shadow:0 0 0 1px #252a3266;opacity:0;transition:opacity .2s;position:absolute;left:50%;top:50%}
-    .hotspot span{white-space:nowrap;opacity:0;transform:translateY(7px);transition:opacity .2s,transform .2s;padding:9px 13px;background:#f4f0e7f2;color:#353c2e;font:12px var(--sans);box-shadow:0 3px 13px #1e251522;pointer-events:none}
-    .hotspot:hover span,.hotspot:focus-visible span,.show-places .hotspot span{opacity:1;transform:translateY(0)}
+    .hotspot-label{position:absolute;left:var(--label-x,50%);top:var(--label-y,50%);white-space:nowrap;opacity:0;transform:translate(-50%,-50%);transition:opacity .2s;padding:6px 9px;background:#f4f0e7c4;color:#353c2e;font:11px var(--sans);border-radius:2px;pointer-events:none}
+    .hotspot:focus-visible .hotspot-label,.show-places .hotspot-label{opacity:1;pointer-events:auto}
+    @media(hover:hover){.hotspot:hover .hotspot-label{opacity:1;pointer-events:auto}}
+    .hotspot-number,.place-number{display:none}
     .hotspot:focus-visible{outline-color:#faf8ed;outline-offset:-4px}
     .hotspots:hover .hotspot::before{opacity:.65}.hotspot:hover::before,.show-places .hotspot::before{opacity:0}
     .scene-under{max-width:960px;min-height:92px;margin:auto;padding:22px 0 6px;text-align:center}
@@ -53,6 +55,14 @@ permalink: /farm-house/
     .scene-number{font:10px var(--sans);letter-spacing:.16em;color:var(--quiet)}
     .horse-list{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 22px;margin:14px 0 0;padding:0;list-style:none}
     .horse-list button{min-height:44px}
+    .horse-list:not(.has-horses),.horse-list li:not([data-horse]){display:none}
+    @media(max-width:860px){
+      .hotspot-label{display:none}
+      .show-places .hotspot-number{display:grid;place-items:center;width:20px;height:20px;border:1px solid #fcf9eeb3;border-radius:50%;background:#353c2e80;color:#fffdf5;font:10px var(--sans);pointer-events:none}
+      .visit.show-places .horse-list{display:flex;gap:2px 20px}
+      .visit.show-places .horse-list li{display:block}
+      .visit.show-places .place-number{display:inline;margin-right:6px;font-size:10px}
+    }
     .footer{max-width:1440px;width:100%;margin:0 auto;display:flex;justify-content:space-between;gap:20px;padding:18px 0 22px;font:10px var(--sans);letter-spacing:.1em;color:var(--quiet)}
     .footer button,.footer a{font:inherit;color:inherit;background:none;border:0;padding:0;letter-spacing:inherit;text-decoration:underline;text-underline-offset:4px}
     .object-dialog{margin:auto;border:0;padding:0;width:min(800px,calc(100vw - 40px));max-height:calc(100svh - 50px);background:var(--paper);color:var(--ink);box-shadow:0 20px 100px #14190f60;overflow:auto}
@@ -79,7 +89,7 @@ permalink: /farm-house/
     .ending .text-button{margin-left:28px}
     .about{padding:55px 45px 38px;max-width:520px}.about p{font:15px/1.7 var(--sans)}
     .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-    @media(hover:none){.hotspot::before{opacity:.85}.hotspot span{font-size:11px;padding:8px 10px}.show-places .hotspot::before{opacity:0}}
+    @media(hover:none){.hotspot::before{opacity:.85}.show-places .hotspot::before{opacity:0}}
     @media(max-width:650px){.shell{padding:0 17px}.masthead{height:72px}.brand{font-size:17px}.mast-right{gap:16px}.location{font-size:9px;letter-spacing:.12em}.intro{padding:25px 0 32px}.intro h1{margin-bottom:34px}.intro-copy{font-size:17px;margin-top:35px}.frame{width:100%;overflow:visible}.scene-img{position:relative}.scene-caption{font-size:17px;padding:0 9px}.scene-under{padding-top:26px;min-height:145px}.visit{padding:20px 0}.scene-controls{gap:14px;margin-top:20px}.detail-layout{grid-template-columns:1fr}.detail-image{min-height:200px;max-height:230px;background-position:var(--detail-mobile-position,var(--detail-position,center));background-size:var(--detail-mobile-zoom,var(--detail-zoom,cover))}.detail-text{padding:34px 27px 30px}.detail-text .eyebrow{margin-bottom:12px}.close{background:var(--paper);border-radius:50%;z-index:2}.letter-view .detail-text{padding:55px 29px 32px}.footer{font-size:9px;line-height:1.5}.ending h1{font-size:34px}.ending p{font-size:18px}.about{padding:50px 27px 30px}}
     @media(prefers-reduced-motion:reduce){*,*::before{animation:none!important;transition:none!important}}
     @media(max-width:450px){.brand{white-space:nowrap}.mast-right .location{display:none}.mast-right .text-button{white-space:nowrap}.masthead{gap:12px}}
@@ -109,7 +119,7 @@ permalink: /farm-house/
         </div>
         <div class="scene-under">
           <p class="scene-caption" id="caption" tabindex="-1" aria-live="polite"></p>
-          <ul class="horse-list" id="horse-list" aria-label="Meet the horses" hidden></ul>
+          <ul class="horse-list" id="horse-list" aria-label="Places to explore"></ul>
           <div class="scene-controls">
             <button class="text-button" id="back">← The photograph</button>
             <span class="scene-number" id="scene-name"></span>
@@ -144,14 +154,14 @@ permalink: /farm-house/
     <button class="close" id="close-about" aria-label="Close">×</button>
     <p class="eyebrow">The Farm House</p>
     <h2 id="about-title">Explore the house.</h2>
-    <p>Click an object to look more closely. Use “Show places to look” to reveal the available objects. You can also use Tab and Enter; Escape closes a detail.</p>
+    <p>Click an object to look more closely. Use “Show places to look” to reveal the available objects. On a smaller screen, match the numbers in the scene to the names below it. You can also use Tab and Enter; Escape closes a detail.</p>
   </dialog>
   <noscript><p>This visit needs JavaScript to move between rooms.</p></noscript>
   <script>
   (() => {
     'use strict';
     const $ = id => document.getElementById(id);
-    const sceneAssets = { exterior:'assets/exterior.webp', hall:'assets/hall.webp', upstairs:'assets/upstairs.webp', kitchen:'assets/kitchen.webp', garden:'assets/garden.webp', stableYard:'assets/stable-yard.webp', stable:'assets/stable.webp' };
+    const sceneAssets = { exterior:'assets/exterior.webp', hall:'assets/hall.webp', upstairs:'assets/upstairs.webp', kitchen:'assets/kitchen.webp', garden:'assets/garden.webp', stableYard:'assets/stable-yard-outside.webp', stable:'assets/stable-two-horses.webp' };
     const state = { scene: 'intro', visitedUpstairs: false, bed: false, walnuts: false, letter: false, hints: false, detail: null };
     const scenes = {
       exterior: {
@@ -159,9 +169,9 @@ permalink: /farm-house/
         alt:'A two-story family farmhouse with a wooden front door, flowering veranda, and green garden.',
         caption:()=>'Flowers grow along the veranda.',
         spots:[
-          {id:'door',label:'Enter the house',box:[46,40,11,25],go:'hall'},
-          {id:'veranda',label:'The veranda',box:[62,48,18,17],detail:'veranda'},
-          {id:'garden',label:'Walk into the garden',box:[32,70,36,27],go:'garden'}
+          {id:'door',label:'Enter the house',box:[46,40,11,25],labelAt:[51,68],go:'hall'},
+          {id:'veranda',label:'The veranda',box:[62,48,18,17],labelAt:[76,70],detail:'veranda'},
+          {id:'garden',label:'Walk into the garden',box:[32,70,36,27],labelAt:[50,91],go:'garden'}
         ]
       },
       hall: {
@@ -169,8 +179,8 @@ permalink: /farm-house/
         alt:'From the entrance: the timber staircase is immediately on the left; the kitchen opens on the right.',
         caption:()=>state.visitedUpstairs?'The stairs are behind you now.':'Everyone who came here went upstairs before they left.',
         spots:[
-          {id:'stairs',label:'Go upstairs',box:[12,10,29,80],go:'upstairs'},
-          {id:'kitchen',label:'Enter the kitchen',box:[79,17,19,59],go:'kitchen'}
+          {id:'stairs',label:'Go upstairs',box:[12,10,29,80],labelAt:[12,34],go:'upstairs'},
+          {id:'kitchen',label:'Enter the kitchen',box:[79,17,19,59],labelAt:[88,84],go:'kitchen'}
         ]
       },
       kitchen: {
@@ -178,8 +188,8 @@ permalink: /farm-house/
         alt:'Inside the kitchen seen from the hall. The metal kettle stands to the left of the same window. A folded list lies on the wooden table beside a bowl of pears.',
         caption:()=>'A folded list lies on the table.',
         spots:[
-          {id:'kettle',label:'The kettle',box:[35,33,7,13],detail:'kettle'},
-          {id:'shopping-list',label:'The shopping list',box:[71,63,12,10],detail:'shoppingList'}
+          {id:'kettle',label:'The kettle',box:[35,33,7,13],labelAt:[46,33],detail:'kettle'},
+          {id:'shopping-list',label:'The shopping list',box:[71,63,12,10],labelAt:[68,77],detail:'shoppingList'}
         ]
       },
       garden: {
@@ -187,28 +197,30 @@ permalink: /farm-house/
         alt:'The same farmhouse beyond the stone path. A European robin is perched on a low wall to the left. Pink hydrangeas grow in the foreground on the right.',
         caption:()=>'The stone path leads back to the veranda.',
         spots:[
-          {id:'house',label:'Back to the veranda',box:[45,31,14,22],go:'exterior'},
-          {id:'stable-path',label:'The stable',box:[1,39,20,19],go:'stableYard'},
-          {id:'robin',label:'The robin',box:[11,62,11,16],detail:'robin'},
-          {id:'hydrangea',label:'The hydrangea',box:[73,56,25,31],detail:'hydrangea'}
+          {id:'house',label:'Back to the veranda',box:[45,31,14,22],labelAt:[52,57],go:'exterior'},
+          {id:'stable-path',label:'The stable',box:[1,39,20,19],labelAt:[11,55],go:'stableYard'},
+          {id:'robin',label:'The robin',box:[11,62,11,16],labelAt:[28,72],detail:'robin'},
+          {id:'hydrangea',label:'The hydrangea',box:[73,56,25,31],labelAt:[72,91],detail:'hydrangea'}
         ]
       },
       stableYard: {
         image:'stableYard',name:'Outside the stable',back:'garden',backLabel:'← The garden',
-        alt:'Beyond the garden, a pale plaster stable with a tiled roof and open timber doors. A stone path leads into the central aisle, with olive trees around the building.',
-        caption:()=>'The stable doors are open.',
-        spots:[{id:'stable-door',label:'Enter the stable',box:[46,34,22,31],go:'stable'}]
+        alt:'Three horses stand in front of the same stable, all visible from head to hoof. Pamuk, the white Lipizzan, stands on the left; Bal, the smaller golden chestnut Haflinger, is beside him; Gece, the black Friesian, stands on the right. The path between them leads to the open doors.',
+        caption:()=>'Pamuk, Bal and Gece are outside. The stable doors are open.',
+        spots:[
+          {id:'pamuk',label:'Pamuk · Lipizzan',box:[3,32,27,49],labelAt:[18,87],detail:'pamuk',horse:true},
+          {id:'bal',label:'Bal · Haflinger',box:[28,40,18,39],labelAt:[38,84],detail:'bal',horse:true},
+          {id:'gece',label:'Gece · Friesian',box:[70,30,28,51],labelAt:[83,87],detail:'gece',horse:true},
+          {id:'stable-door',label:'Enter the stable',box:[48,35,20,29],labelAt:[57,70],go:'stable'}
+        ]
       },
       stable: {
         image:'stable',name:'The stable',back:'stableYard',backLabel:'← Outside the stable',
-        alt:'Five horses look over wooden stall doors. On the left are a white Lipizzan, a bay Arabian and a chestnut Quarter Horse. On the right are a black Friesian and a golden chestnut Haflinger. The central aisle opens onto olive trees.',
-        caption:()=>'Five horses look out into the aisle. Choose one to meet.',
+        alt:'Doru, the bay Arabian, and Tarçın, the chestnut Quarter Horse, look over stall doors on the left. The near-left stall and the stalls on the right are empty. The central aisle opens onto olive trees.',
+        caption:()=>'Doru and Tarçın are in their stalls on the left.',
         spots:[
-          {id:'pamuk',label:'Pamuk · Lipizzan',box:[3,18,18,31],detail:'pamuk'},
-          {id:'doru',label:'Doru · Arabian',box:[24,30,10,21],detail:'doru'},
-          {id:'tarcin',label:'Tarçın · Quarter Horse',box:[35,40,7,13],detail:'tarcin'},
-          {id:'gece',label:'Gece · Friesian',box:[82,15,16,34],detail:'gece'},
-          {id:'bal',label:'Bal · Haflinger',box:[69,32,12,20],detail:'bal'}
+          {id:'doru',label:'Doru · Arabian',box:[24,30,10,21],labelAt:[19,57],detail:'doru',horse:true},
+          {id:'tarcin',label:'Tarçın · Quarter Horse',box:[35,40,7,13],labelAt:[46,72],detail:'tarcin',horse:true}
         ]
       },
       upstairs: {
@@ -216,19 +228,19 @@ permalink: /farm-house/
         alt:'A shared sitting room. Her bed stands on the left by the garden window. Walnuts sit on the bedside table. A closed wooden chest stands opposite, on the right.',
         caption:()=>state.letter?'The chest is only a few steps from her bed.':state.bed?'From here, she could see the garden.':'The stairs open straight into the sitting room.',
         spots:[
-          {id:'window',label:'The garden',box:[1,1,19,33],detail:'window'},
-          {id:'bed',label:'The bed',box:[3,30,34,43],detail:'bed'},
-          {id:'walnuts',label:'The walnuts',box:[39,31,9,13],detail:'walnuts'},
-          {id:'chest',label:'The chest',box:[78,45,21,41],detail:'chest'}
+          {id:'window',label:'The garden',box:[1,1,19,33],labelAt:[29,23],detail:'window'},
+          {id:'bed',label:'The bed',box:[3,30,34,43],labelAt:[40,60],detail:'bed'},
+          {id:'walnuts',label:'The walnuts',box:[39,31,9,13],labelAt:[51,32],detail:'walnuts'},
+          {id:'chest',label:'The chest',box:[78,45,21,41],labelAt:[70,78],detail:'chest'}
         ]
       }
     };
     const details = {
-      pamuk:{kicker:'Lipizzan',title:'Pamuk.',image:'stable',position:'5% 30%',mobilePosition:'5% 24%',mobileZoom:'260%',zoom:'380%',alt:'Pamuk, the white Lipizzan, with a gray muzzle and curved neck.',body:['Pamuk stands in the first stall on the left. His pale coat catches the light from the open doors.','Lipizzans are closely associated with the Spanish Riding School in Vienna, where their training develops the movements of classical dressage. Their compact bodies and strong hindquarters help them perform demanding exercises.','The breed once came in a much wider range of colors. The school still keeps a brown Lipizzan, following a tradition that considers one lucky.'],actions:[['Back to the horses','close']],source:{label:'Spanish Riding School',url:'https://www.srs.at/en/lipizzaner/lipizzaners'}},
-      gece:{kicker:'Friesian',title:'Gece.',image:'stable',position:'100% 30%',mobilePosition:'100% 20%',mobileZoom:'260%',zoom:'380%',alt:'Gece, the black Friesian, with a long wavy mane.',body:['Gece is in the first stall on the right. His black mane falls in waves along his neck.','The Friesian comes from Friesland in the Netherlands. The breed is recognizable by its black coat, abundant mane and upright, arched neck. Its lifted steps are particularly striking in harness or in a dressage arena.','Friesians have taken on different kinds of work over their history. Riding and driving both remain part of the breed’s life.'],actions:[['Back to the horses','close']],source:{label:'Royal Friesian Studbook',url:'https://www.kfps-presenteert.nl/en/friesian-horses/'}},
+      pamuk:{kicker:'Lipizzan',title:'Pamuk.',image:'stableYard',position:'0% 60%',mobilePosition:'7% 60%',mobileZoom:'160%',zoom:'300%',alt:'Pamuk, the white Lipizzan, with a gray muzzle and curved neck.',body:['Pamuk stands on the left of the stable yard. His pale coat catches the afternoon light.','Lipizzans are closely associated with the Spanish Riding School in Vienna, where their training develops the movements of classical dressage. Their compact bodies and strong hindquarters help them perform demanding exercises.','The breed once came in a much wider range of colors. The school still keeps a brown Lipizzan, following a tradition that considers one lucky.'],actions:[['Back to the horses','close']],source:{label:'Spanish Riding School',url:'https://www.srs.at/en/lipizzaner/lipizzaners'}},
+      gece:{kicker:'Friesian',title:'Gece.',image:'stableYard',position:'100% 60%',mobilePosition:'100% 58%',mobileZoom:'160%',zoom:'300%',alt:'Gece, the black Friesian, with a long wavy mane.',body:['Gece stands to the right of the open stable doors. His black mane falls in waves along his neck.','The Friesian comes from Friesland in the Netherlands. The breed is recognizable by its black coat, abundant mane and upright, arched neck. Its lifted steps are particularly striking in harness or in a dressage arena.','Friesians have taken on different kinds of work over their history. Riding and driving both remain part of the breed’s life.'],actions:[['Back to the horses','close']],source:{label:'Royal Friesian Studbook',url:'https://www.kfps-presenteert.nl/en/friesian-horses/'}},
       doru:{kicker:'Arabian',title:'Doru.',image:'stable',position:'28% 38%',mobilePosition:'28% 37%',mobileZoom:'440%',zoom:'540%',alt:'Doru, the brown Arabian with a black mane and a refined face.',body:['Doru looks out from the middle stall on the left. His brown coat and black mane are a combination called bay.','Arabian horses were bred by Bedouin communities on the Arabian Peninsula. Long journeys helped shape a breed known for endurance, which remains one of its strengths in equestrian sport.','Look at the shape of his head. A fine muzzle and a gently concave profile are characteristic of the breed. Arabians also tend to carry their tails high when moving.'],actions:[['Back to the horses','close']],source:{label:'Arabian Horse Association',url:'https://www.arabianhorses.org/discover/arabian-horses/'}},
       tarcin:{kicker:'American Quarter Horse',title:'Tarçın.',image:'stable',position:'36% 46%',mobilePosition:'36% 44%',mobileZoom:'650%',zoom:'760%',alt:'Tarçın, the red-brown chestnut Quarter Horse, at the far end of the left-hand stalls.',body:['Tarçın has the far stall on the left. His coat is a warm reddish brown, with a mane of a similar color.','The Quarter Horse takes its name from short races over a quarter of a mile. Speed over that distance helped establish the breed’s reputation.','Its muscular build and agility also proved useful on cattle ranches. Quarter Horses became valued for working with cattle as well as racing, and today they are ridden in many different disciplines.'],actions:[['Back to the horses','close']],source:{label:'Ohio Quarter Horse Association',url:'https://www.oqha.com/what-is-a-quarter-horse'}},
-      bal:{kicker:'Haflinger',title:'Bal.',image:'stable',position:'77% 42%',mobilePosition:'77% 38%',mobileZoom:'420%',zoom:'520%',alt:'Bal, a golden chestnut Haflinger with a pale flaxen mane.',body:['Bal stands behind Gece on the right. His golden chestnut coat and pale mane make him easy to recognize.','The Haflinger developed in the Tyrolean mountains. These horses carried supplies to remote farms and helped with work on steep fields. Their smaller, sturdy build suited those surroundings.','The breed’s recorded ancestry goes back to a stallion named Folie, born in 1874. Haflingers are now used widely for leisure riding and driving.'],actions:[['Back to the horses','close']],source:{label:'Tyrolean Haflinger Breeding Association',url:'https://www.haflinger-tirol.com/en/haflinger-breeding-association/history-of-the-haflinger-breed.html'}},
+      bal:{kicker:'Haflinger',title:'Bal.',image:'stableYard',position:'35% 70%',mobilePosition:'32% 65%',mobileZoom:'210%',zoom:'420%',alt:'Bal, a golden chestnut Haflinger with a pale flaxen mane.',body:['Bal stands beside Pamuk in the yard. His golden chestnut coat and pale mane make him easy to recognize.','The Haflinger developed in the Tyrolean mountains. These horses carried supplies to remote farms and helped with work on steep fields. Their smaller, sturdy build suited those surroundings.','The breed’s recorded ancestry goes back to a stallion named Folie, born in 1874. Haflingers are now used widely for leisure riding and driving.'],actions:[['Back to the horses','close']],source:{label:'Tyrolean Haflinger Breeding Association',url:'https://www.haflinger-tirol.com/en/haflinger-breeding-association/history-of-the-haflinger-breed.html'}},
       veranda:{kicker:'Outside',title:'The veranda.',image:'exterior',position:'73% 60%',zoom:'280%',alt:'The veranda table and chairs beside flowering plants.',body:['The family uses the house in summer.','Their belongings are still here.'],actions:[['Look around','close']]},
       kettle:{kicker:'By the window',title:'The kettle.',image:'kitchen',position:'37% 40%',zoom:'440%',alt:'The metal kettle with its black handle, beside the window.',body:['The kettle stands beside a row of glasses.'],actions:[['Back to the kitchen','close']]},
       shoppingList:{kicker:'On the table',title:'The shopping list.',image:'kitchen',position:'79% 67%',zoom:'440%',alt:'A small folded shopping list on the wooden kitchen table.',body:['Beside “walnuts”, someone has written “for upstairs”.'],actions:[['Back to the kitchen','close']]},
@@ -251,12 +263,15 @@ permalink: /farm-house/
       if(name==='upstairs')state.visitedUpstairs=true;
       $('intro').hidden=name!=='intro';$('visit').hidden=!scenes[name];$('ending').hidden=name!=='ending';
       $('leave').hidden=!scenes[name];
-      $('horse-list').hidden=name!=='stable';
       $('horse-list').replaceChildren();
-      if(name==='stable')for(const spot of scenes.stable.spots){
+      $('horse-list').classList.toggle('has-horses',!!scenes[name]?.spots.some(spot=>spot.horse));
+      if(scenes[name])for(const [index,spot] of scenes[name].spots.entries()){
         const li=document.createElement('li');const button=document.createElement('button');
-        button.type='button';button.className='text-button';button.textContent=spot.label;
-        button.addEventListener('click',()=>openDetail(spot.detail));li.append(button);$('horse-list').append(li);
+        if(spot.horse)li.dataset.horse='';
+        button.type='button';button.className='text-button';button.dataset.place=spot.id;
+        const number=document.createElement('span');number.className='place-number';number.textContent=index+1;number.setAttribute('aria-hidden','true');
+        button.append(number,document.createTextNode(spot.label));
+        button.addEventListener('click',()=>spot.go?showScene(spot.go):openDetail(spot.detail));li.append(button);$('horse-list').append(li);
       }
       $('location').textContent=scenes[name]?.name||(name==='ending'?'After the visit':'A first visit');
       if(scenes[name]){
@@ -264,13 +279,15 @@ permalink: /farm-house/
         const img=$('scene-image');img.classList.remove('arrive');img.src=sceneAssets[scene.image];img.alt=scene.alt;
         void img.offsetWidth;img.classList.add('arrive');
         $('hotspots').replaceChildren();
-        for(const spot of scene.spots){
+        for(const [index,spot] of scene.spots.entries()){
           const button=document.createElement('button');button.type='button';button.className='hotspot';button.dataset.object=spot.id;button.setAttribute('aria-label',spot.label);
           const [x,y,w,h]=spot.box;Object.assign(button.style,{left:x+'%',top:y+'%',width:w+'%',height:h+'%'});
-          const label=document.createElement('span');label.textContent=spot.label;button.append(label);
+          if(spot.labelAt){button.style.setProperty('--label-x',((spot.labelAt[0]-x)/w*100)+'%');button.style.setProperty('--label-y',((spot.labelAt[1]-y)/h*100)+'%');}
+          const label=document.createElement('span');label.className='hotspot-label';label.textContent=spot.label;button.append(label);
+          const number=document.createElement('span');number.className='hotspot-number';number.textContent=index+1;number.setAttribute('aria-hidden','true');button.append(number);
           button.addEventListener('click',()=>spot.go?showScene(spot.go):openDetail(spot.detail));$('hotspots').append(button);
         }
-        $('frame').classList.toggle('show-places',state.hints);$('back').textContent=scene.backLabel;$('scene-name').textContent=scene.name.toUpperCase();refreshCaption();
+        $('frame').classList.toggle('show-places',state.hints);$('visit').classList.toggle('show-places',state.hints);$('back').textContent=scene.backLabel;$('scene-name').textContent=scene.name.toUpperCase();refreshCaption();
         if(focus)$('caption').focus({preventScroll:true});
       }else if(focus){$(name==='intro'?'intro-title':'ending-title').focus({preventScroll:true});}
     }
@@ -297,7 +314,7 @@ permalink: /farm-house/
     $('photo').onclick=$('begin').onclick=()=>showScene('exterior');
     $('home').onclick=()=>showScene('intro');$('leave').onclick=leave;
     $('back').onclick=()=>showScene(scenes[state.scene]?.back||'intro');
-    $('places').onclick=()=>{state.hints=!state.hints;$('frame').classList.toggle('show-places',state.hints);$('places').setAttribute('aria-pressed',String(state.hints));$('places').textContent=state.hints?'Hide places to look':'Show places to look';};
+    $('places').onclick=()=>{state.hints=!state.hints;$('frame').classList.toggle('show-places',state.hints);$('visit').classList.toggle('show-places',state.hints);$('places').setAttribute('aria-pressed',String(state.hints));$('places').textContent=state.hints?'Hide places to look':'Show places to look';};
     $('close-detail').onclick=closeDetail;
     $('detail').addEventListener('close',()=>{state.detail=null;refreshCaption();});
     $('detail').addEventListener('click',event=>{if(event.target===$('detail')){const r=$('detail').getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)closeDetail();}});
