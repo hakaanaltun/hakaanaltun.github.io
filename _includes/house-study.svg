@@ -93,7 +93,7 @@
   <g class="house-line" transform="translate(-61.5 .9)"><path class="house-pot" d="M924 456h45l-6 33h-33Z"/><path d="M945 456V381M945 425l-18-22M945 405l15-25"/><path class="house-leaf" d="M944 405q-32-2-25-34 25 7 25 34ZM946 424q32-9 30-34-26 5-30 34ZM945 389q-20-12-9-38 22 16 9 38Z"/></g>
   <!-- His burgundy cushion, on the floor close under the window, between
        the desk and the plant. -->
-  <g transform="translate(75.83 65.1) scale(.7902)"><g class="house-line"><path class="house-cushion" d="M780 473H904Q914 473 916 481L920 496Q922 504 912 504H772Q762 504 764 496L768 481Q770 473 780 473Z"/><path class="house-cushion-trim" d="M783 477H901Q908 477 910 483L913 494Q914 500 907 500H777Q770 500 771 494L774 483Q776 477 783 477Z"/></g></g>
+  <g transform="translate(97.83 65.1) scale(.7902)"><g class="house-line"><path class="house-cushion" d="M780 473H904Q914 473 916 481L920 496Q922 504 912 504H772Q762 504 764 496L768 481Q770 473 780 473Z"/><path class="house-cushion-trim" d="M783 477H901Q908 477 910 483L913 494Q914 500 907 500H777Q770 500 771 494L774 483Q776 477 783 477Z"/></g></g>
   <!-- Chair behind the desk. -->
   <g class="house-line"><path class="house-chair" d="M448 420V333q0-17 17-17h53q17 0 17 17v87Z"/><path d="M463 334V410M477 331V410M491 330V410M505 331V410M519 334V410"/><path d="M448 456V500M535 456V500M442 456V533M539 456V533"/></g>
   <!-- Desk, papers, cup, and lamp. -->
@@ -123,7 +123,7 @@
        on top of the bookshelf, or out on the carpet. js/house.js moves him;
        his eyes close at the window. -->
   <g transform="translate(8.9 43.7) scale(.898)">
-    <g class="house-line house-moris" transform="translate(85.2 23.83) scale(.88)">
+    <g class="house-line house-moris" transform="translate(109.7 23.83) scale(.88)">
       <path class="house-cat" d="M793 482q-3-45 39-48 32-2 42 27l14-5q16 16-5 25Z"/><path class="house-cat" d="M789 465l-3-34 16 12 16-10 1 34q-12 14-30-2Z"/><path d="M858 463q30 24-15 20" stroke="#777365" stroke-width="3"/>
       <path class="house-cat-eyes house-cat-eyes--shut" d="M793 457l6 1M807 458l6-2" stroke-width="2"/>
       <g class="house-cat-eyes--open" stroke="none"><ellipse cx="796" cy="457" rx="3.2" ry="2.2"/><ellipse cx="810" cy="456.5" rx="3.2" ry="2.2"/><ellipse class="house-cat-pupil" cx="796" cy="457" rx=".6" ry="2"/><ellipse class="house-cat-pupil" cx="810" cy="456.5" rx=".6" ry="2"/></g>
