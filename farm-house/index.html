@@ -128,7 +128,7 @@ permalink: /farm-house/
         </div>
       </section>
       <section class="ending" id="ending" hidden aria-labelledby="ending-title">
-        <div class="ending-photo"><img src="assets/upstairs-painted.webp" width="1536" height="1024" alt="An oil-painted view of the upstairs room, with her bed beside the window."></div>
+        <div class="ending-photo"><img src="assets/upstairs-watercolor.webp" width="1536" height="1024" alt="A watercolor of the upstairs room, with her bed beside the window."></div>
         <p class="eyebrow">After the visit</p>
         <h1 id="ending-title" tabindex="-1">The upstairs room.</h1>
         <p>Everyone who came to the house<br>went upstairs before they left.</p>
@@ -161,7 +161,7 @@ permalink: /farm-house/
   (() => {
     'use strict';
     const $ = id => document.getElementById(id);
-    const sceneAssets = { exterior:'assets/exterior-painted.webp', hall:'assets/hall-painted.webp', upstairs:'assets/upstairs-painted.webp', kitchen:'assets/kitchen-painted.webp', garden:'assets/garden-painted.webp', stableYard:'assets/stable-yard-painted.webp', stable:'assets/stable-painted.webp' };
+    const sceneAssets = { exterior:'assets/exterior-painted.webp', hall:'assets/hall-painted.webp', upstairs:'assets/upstairs-watercolor.webp', kitchen:'assets/kitchen-painted.webp', garden:'assets/garden-painted.webp', stableYard:'assets/stable-yard-painted.webp', stable:'assets/stable-painted.webp' };
     const state = { scene: 'intro', visitedUpstairs: false, bed: false, walnuts: false, letter: false, hints: false, detail: null };
     const scenes = {
       exterior: {
@@ -225,13 +225,13 @@ permalink: /farm-house/
       },
       upstairs: {
         image:'upstairs',name:'The upstairs room',back:'hall',backLabel:'← Downstairs',
-        alt:'An oil-painted shared sitting room. Her bed stands on the left by a window overlooking the stable and a field. Walnuts sit on the bedside table. A closed wooden chest stands opposite, on the right.',
+        alt:'A watercolor of the shared sitting room. Her bed stands on the left by a window overlooking the stable and a field. Walnuts sit on the bedside table. A closed wooden chest stands opposite, on the right.',
         caption:()=>state.letter?'The chest is only a few steps from her bed.':state.bed?'From here, she could see the stable and the field.':'The stairs open straight into the sitting room.',
         spots:[
-          {id:'window',label:'The farm',box:[1,1,19,33],labelAt:[29,23],detail:'window'},
-          {id:'bed',label:'The bed',box:[3,30,34,43],labelAt:[40,60],detail:'bed'},
-          {id:'walnuts',label:'The walnuts',box:[39,31,9,13],labelAt:[51,32],detail:'walnuts'},
-          {id:'chest',label:'The chest',box:[78,45,21,41],labelAt:[70,78],detail:'chest'}
+          {id:'window',label:'The farm',box:[1,1,18,39],labelAt:[29,23],detail:'window'},
+          {id:'bed',label:'The bed',box:[1,29,41,44],labelAt:[40,60],detail:'bed'},
+          {id:'walnuts',label:'The walnuts',box:[43,36,6,7],labelAt:[54,34],detail:'walnuts'},
+          {id:'chest',label:'The chest',box:[79,53,21,40],labelAt:[70,78],detail:'chest'}
         ]
       }
     };
@@ -248,7 +248,7 @@ permalink: /farm-house/
       hydrangea:{kicker:'Hydrangea macrophylla',title:'A mophead hydrangea.',image:'garden',position:'100% 73%',zoom:'260%',alt:'Rounded pink hydrangea flower heads above broad green leaves.',body:['Mophead hydrangeas have rounded flower heads that last through much of the summer.','The large heads are clusters of small flowers.'],actions:[['Back to the garden','close']],source:{label:'RHS plant guide',url:'https://www.rhs.org.uk/plants/hydrangea/shrubby/growing-guide'}},
       window:{kicker:'Upstairs',title:'The farm.',image:'upstairs',position:'0% 10%',zoom:'280%',alt:'Part of the stable roof and a cultivated field beyond olive trees, seen through the upstairs window.',body:['She could see the stable and the field from her bed.','She kept up with the work on the farm.'],actions:[['Back to the room','close']]},
       bed:{kicker:'By the window',title:'Her bed.',image:'upstairs',position:'11% 56%',zoom:'220%',alt:'The grandmother’s neatly made bed by the window.',body:['This was the upstairs sitting room. Her bed stood here, beside the window.','She had been bedridden for as long as Doğu could remember. Everyone who visited came up to see her.'],actions:[['Back to the room','close']]},
-      walnuts:{kicker:'On the bedside table',title:'A small handful.',image:'upstairs',position:'43% 35%',zoom:'550%',alt:'A small dish of walnuts on the wooden bedside table.',body:['She ate a handful of walnuts every evening.','She always told everyone else to eat them too.'],actions:[['Back to the room','close']]},
+      walnuts:{kicker:'On the bedside table',title:'A small handful.',image:'upstairs',position:'44% 37%',zoom:'550%',alt:'A small dish of walnuts on the wooden bedside table.',body:['She ate a handful of walnuts every evening.','She always told everyone else to eat them too.'],actions:[['Back to the room','close']]},
       chest:{kicker:'Across the room',title:'The chest.',image:'upstairs',position:'100% 67%',zoom:'220%',alt:'The old wooden chest opposite her bed.',body:['After she died, Doğu went through her belongings.','At the bottom of this chest, he found a letter.'],actions:[['What he found','letter'],['Back to the room','close']]},
       letter:{kicker:'What he found',title:'The letter.',plain:true,body:['It had arrived about forty years earlier, from the branch of the family that had stayed behind when the others left for Türkiye.','Doğu could not read the language. He made a copy and asked online whether someone could translate it.'],actions:[['Read about the translation','translation'],['Back to the room','close']]},
       translation:{kicker:'The search',title:'The translation.',plain:true,body:['Someone translated it. The letter gave him enough to begin looking for the family who had written it.','No one ever learned why his grandmother had kept the letter, or why she never spoke about it.'],actions:[['Look at the room again','return-after-letter']]}
