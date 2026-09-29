@@ -161,7 +161,7 @@ permalink: /farm-house/
   (() => {
     'use strict';
     const $ = id => document.getElementById(id);
-    const sceneAssets = { exterior:'assets/exterior-painted.webp', hall:'assets/hall-painted.webp', upstairs:'assets/upstairs-painted.webp', kitchen:'assets/kitchen-painted.webp', garden:'assets/garden-daylight.webp', stableYard:'assets/stable-yard-outside.webp', stable:'assets/stable-two-horses.webp' };
+    const sceneAssets = { exterior:'assets/exterior-painted.webp', hall:'assets/hall-painted.webp', upstairs:'assets/upstairs-painted.webp', kitchen:'assets/kitchen-painted.webp', garden:'assets/garden-painted.webp', stableYard:'assets/stable-yard-outside.webp', stable:'assets/stable-two-horses.webp' };
     const state = { scene: 'intro', visitedUpstairs: false, bed: false, walnuts: false, letter: false, hints: false, detail: null };
     const scenes = {
       exterior: {
@@ -194,7 +194,7 @@ permalink: /farm-house/
       },
       garden: {
         image:'garden',name:'The garden',back:'exterior',backLabel:'← The veranda',
-        alt:'The same farmhouse beyond the stone path. A European robin is perched on a low wall to the left. Pink hydrangeas grow in the foreground on the right.',
+        alt:'An oil-painted view of the same farmhouse beyond the stone path. A European robin is perched on a low wall to the left. Pink hydrangeas grow in the foreground on the right.',
         caption:()=>'The stone path leads back to the veranda.',
         spots:[
           {id:'house',label:'Back to the veranda',box:[45,31,14,22],labelAt:[52,57],go:'exterior'},
