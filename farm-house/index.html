@@ -161,7 +161,7 @@ permalink: /farm-house/
   (() => {
     'use strict';
     const $ = id => document.getElementById(id);
-    const sceneAssets = { exterior:'assets/exterior-daylight.webp', hall:'assets/hall.webp', upstairs:'assets/upstairs-painted.webp', kitchen:'assets/kitchen.webp', garden:'assets/garden-daylight.webp', stableYard:'assets/stable-yard-outside.webp', stable:'assets/stable-two-horses.webp' };
+    const sceneAssets = { exterior:'assets/exterior-daylight.webp', hall:'assets/hall-painted.webp', upstairs:'assets/upstairs-painted.webp', kitchen:'assets/kitchen-painted.webp', garden:'assets/garden-daylight.webp', stableYard:'assets/stable-yard-outside.webp', stable:'assets/stable-two-horses.webp' };
     const state = { scene: 'intro', visitedUpstairs: false, bed: false, walnuts: false, letter: false, hints: false, detail: null };
     const scenes = {
       exterior: {
@@ -176,7 +176,7 @@ permalink: /farm-house/
       },
       hall: {
         image:'hall',name:'The entrance',back:'exterior',backLabel:'← The veranda',
-        alt:'From the entrance: the timber staircase is immediately on the left; the kitchen opens on the right.',
+        alt:'An oil-painted view from the entrance: the timber staircase is immediately on the left; the kitchen opens on the right.',
         caption:()=>state.visitedUpstairs?'The stairs are behind you now.':'Everyone who came here went upstairs before they left.',
         spots:[
           {id:'stairs',label:'Go upstairs',box:[12,10,29,80],labelAt:[12,34],go:'upstairs'},
@@ -185,7 +185,7 @@ permalink: /farm-house/
       },
       kitchen: {
         image:'kitchen',name:'The kitchen',back:'hall',backLabel:'← The entrance',
-        alt:'Inside the kitchen seen from the hall. The metal kettle stands to the left of the same window. A folded list lies on the wooden table beside a bowl of pears.',
+        alt:'An oil-painted view inside the kitchen seen from the hall. The metal kettle stands to the left of the same window. A folded list lies on the wooden table beside a bowl of pears.',
         caption:()=>'A folded list lies on the table.',
         spots:[
           {id:'kettle',label:'The kettle',box:[35,33,7,13],labelAt:[46,33],detail:'kettle'},
