@@ -128,7 +128,7 @@ permalink: /farm-house/
         </div>
       </section>
       <section class="ending" id="ending" hidden aria-labelledby="ending-title">
-        <div class="ending-photo"><img src="assets/upstairs-farm-view.webp" width="1536" height="1024" alt="The upstairs room, with her bed beside the window."></div>
+        <div class="ending-photo"><img src="assets/upstairs-painted.webp" width="1536" height="1024" alt="An oil-painted view of the upstairs room, with her bed beside the window."></div>
         <p class="eyebrow">After the visit</p>
         <h1 id="ending-title" tabindex="-1">The upstairs room.</h1>
         <p>Everyone who came to the house<br>went upstairs before they left.</p>
@@ -161,7 +161,7 @@ permalink: /farm-house/
   (() => {
     'use strict';
     const $ = id => document.getElementById(id);
-    const sceneAssets = { exterior:'assets/exterior-daylight.webp', hall:'assets/hall.webp', upstairs:'assets/upstairs-farm-view.webp', kitchen:'assets/kitchen.webp', garden:'assets/garden-daylight.webp', stableYard:'assets/stable-yard-outside.webp', stable:'assets/stable-two-horses.webp' };
+    const sceneAssets = { exterior:'assets/exterior-daylight.webp', hall:'assets/hall.webp', upstairs:'assets/upstairs-painted.webp', kitchen:'assets/kitchen.webp', garden:'assets/garden-daylight.webp', stableYard:'assets/stable-yard-outside.webp', stable:'assets/stable-two-horses.webp' };
     const state = { scene: 'intro', visitedUpstairs: false, bed: false, walnuts: false, letter: false, hints: false, detail: null };
     const scenes = {
       exterior: {
@@ -225,7 +225,7 @@ permalink: /farm-house/
       },
       upstairs: {
         image:'upstairs',name:'The upstairs room',back:'hall',backLabel:'← Downstairs',
-        alt:'A shared sitting room. Her bed stands on the left by a window overlooking the stable and a field. Walnuts sit on the bedside table. A closed wooden chest stands opposite, on the right.',
+        alt:'An oil-painted shared sitting room. Her bed stands on the left by a window overlooking the stable and a field. Walnuts sit on the bedside table. A closed wooden chest stands opposite, on the right.',
         caption:()=>state.letter?'The chest is only a few steps from her bed.':state.bed?'From here, she could see the stable and the field.':'The stairs open straight into the sitting room.',
         spots:[
           {id:'window',label:'The farm',box:[1,1,19,33],labelAt:[29,23],detail:'window'},
