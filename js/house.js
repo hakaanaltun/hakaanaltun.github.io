@@ -381,12 +381,15 @@
 
   /* --- The sky, the lamp and the cat ------------------------------------ */
 
-  var SUN = { morning: [720, 198], day: [838, 124], evening: [838, 202] };
+  var SUN = { morning: [640, 235], day: [770, 205], evening: [775, 280] };
   /* The moon hangs across the window from the sun, so the lit side of a
      crescent faces it. It is only there while it is above İstanbul's
      horizon, by day as well as by night. */
-  var MOON = { morning: [838, 124], day: [742, 112], evening: [742, 112], night: [838, 124] };
-  var PLACES = { sill: 'translate(-41 -226)', shelf: 'translate(-610 -359)', rug: 'translate(-40 100)', cushion: '' };
+  var MOON = { morning: [770, 205], day: [628, 205], evening: [628, 205], night: [770, 205] };
+  /* From his cushion to each of his other places. The room is drawn in
+     perspective, so he is smaller up at the window and on the bookshelf,
+     and larger out on the carpet, near the front of the room. */
+  var PLACES = { sill: 'translate(25.7 -107) scale(.891)', shelf: 'translate(-478.8 -311.3) scale(.924)', rug: 'translate(-711.1 -82.2) scale(1.467)', cushion: '' };
   var PHASES = ['new moon', 'waxing crescent', 'first quarter', 'waxing gibbous', 'full moon', 'waning gibbous', 'last quarter', 'waning crescent'];
 
   function skyNow(now) {
@@ -495,7 +498,7 @@
      than over the whole page: js/let-it-snow.js hands them over, and keeps
      its buttons and their labels as they are everywhere else. */
 
-  var GLASS = { left: 686, right: 868, top: 38, bottom: 252 };
+  var GLASS = { left: 560, right: 826, top: 108, bottom: 321 };
   var weather = { kind: null, level: 0, drops: [], frame: 0, last: 0, snow: 0 };
   var weatherLayer = scene.querySelector('.house-weather');
   var windowSnow = scene.querySelector('.house-window-snow');
@@ -570,10 +573,8 @@
     // The buttons are at the foot of the page and the window may be out of
     // sight above them, so the room is brought up to show where it is falling.
     if (kind && !study.hidden) {
-      var box = scene.getBoundingClientRect();
-      var glassTop = box.top + box.height * GLASS.top / 650;
-      var glassBottom = box.top + box.height * GLASS.bottom / 650;
-      if (glassTop < 0 || glassBottom > window.innerHeight) scene.scrollIntoView({ block: 'center', behavior: still ? 'auto' : 'smooth' });
+      var glass = scene.querySelector('.house-glass').getBoundingClientRect();
+      if (glass.top < 0 || glass.bottom > window.innerHeight) scene.scrollIntoView({ block: 'center', behavior: still ? 'auto' : 'smooth' });
     }
   }
   // js/let-it-snow.js runs after this script, so the window is offered to it

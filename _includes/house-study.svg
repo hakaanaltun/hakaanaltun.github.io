@@ -6,17 +6,25 @@
     <pattern id="house-grain" width="9" height="9" patternUnits="userSpaceOnUse"><circle cx="1" cy="2" r=".5" fill="currentColor" opacity=".08"/><circle cx="6" cy="7" r=".4" fill="currentColor" opacity=".05"/></pattern>
     <!-- The dark of the evening and the night. It falls on the room, not on
          the window, and when the lamp is on it leaves the desk in its light. -->
-    <radialGradient id="house-lamplight" cx="640" cy="365" r="360" gradientUnits="userSpaceOnUse"><stop stop-color="#1c2633" stop-opacity="0"/><stop offset=".3" stop-color="#1c2633" stop-opacity=".3"/><stop offset="1" stop-color="#1c2633"/></radialGradient>
-    <mask id="house-dusk-mask"><path fill="#fff" d="M0 0H1000V650H0Z"/><path fill="#000" d="M686 252V129a91 91 0 0 1 182 0v123Z"/></mask>
-    <clipPath id="house-window-clip"><path d="M686 252V129A91 91 0 0 1 868 129V252Z"/></clipPath>
+    <radialGradient id="house-lamplight" cx="575" cy="360" r="360" gradientUnits="userSpaceOnUse"><stop stop-color="#1c2633" stop-opacity="0"/><stop offset=".3" stop-color="#1c2633" stop-opacity=".3"/><stop offset="1" stop-color="#1c2633"/></radialGradient>
+    <mask id="house-dusk-mask"><path fill="#fff" d="M0 0H1000V650H0Z"/><path fill="#000" d="M566 114H690V158H566ZM696 114H820V158H696ZM571 169H685V321H571ZM701 169H815V321H701Z"/><path fill="#fff" d="M569 259h40l17 47h-75ZM617 306h6v26h-6ZM560 108H826V131H560ZM816.5 131h3v114h-3Z"/></mask>
+    <clipPath id="house-window-clip"><path d="M560 108H826V332H560Z"/></clipPath>
   </defs>
+  <!-- The room is drawn in one-point perspective from someone standing in
+       the doorway: every line that runs into the room meets at 500 222. -->
   <path class="house-wall" d="M0 0H1000V650H0Z"/>
-  <path class="house-floor" d="M0 470H1000V650H0Z"/>
+  <path class="house-shade" d="M0 0H1000V4L860 65H140L0 4ZM0 4L140 65V452.4L0 541.5ZM1000 4L860 65V452.4L1000 541.5Z"/>
+  <path class="house-floor" d="M0 541.5L140 452.4H860L1000 541.5V650H0Z"/>
   <path fill="url(#house-grain)" d="M0 0H1000V650H0Z"/>
-  <g class="house-line house-faint"><path d="M0 470H1000M0 478H1000M0 535H1000M0 606H1000M80 478L30 650M293 478L275 650M520 478L535 650M741 478L789 650M913 478L995 650M44 535h55M335 606h95M833 535h45"/></g>
+  <g class="house-line">
+    <path d="M140 65V452.4M860 65V452.4M0 4L140 65H860L1000 4M0 541.5L140 452.4H860L1000 541.5"/>
+    <path class="house-faint" d="M0 20L140 76.6H860L1000 20M0 522L140 438H860L1000 522"/>
+    <!-- Floorboards, and the ends of a few of them. -->
+    <path class="house-faint" d="M200 452.4L0 606M260 452.4L54.2 650M320 452.4L165.6 650M380 452.4L277.1 650M440 452.4L388.5 650M500 452.4V650M560 452.4L611.5 650M620 452.4L722.9 650M680 452.4L834.4 650M740 452.4L945.8 650M800 452.4L1000 606M81.4 489.9H151.2M83.3 542H166.7M0 619.2H86.2M184.2 525.2H263.2M227.3 483.8H295.5M750 542H833.3M900 606H1000M905.4 533.4H986.5"/>
+  </g>
   <!-- The tall bookshelf. Its books and shelves are drawn in the page, so
        the scene remains crisp at every screen size and in every palette. -->
-  <g class="house-line">
+  <g class="house-line" transform="translate(90 57) scale(.85)">
     <path class="house-wood" d="M81 133H316V476H81Z"/><path class="house-shelf-back" d="M96 148H301V460H96Z"/>
     <path d="M96 239H301M96 247H301M96 342H301M96 350H301M86 476V490M310 476V490"/>
     <path class="house-book-olive" d="M111 166h22v72h-22zM234 269h17v72h-17zM110 379h24v80h-24z"/>
@@ -34,9 +42,10 @@
       </g>
     </a>
   </g>
-  <!-- A clock on the wall. It keeps the reader's own time, wherever they
-       are; the window keeps İstanbul's. js/house.js turns the hands. -->
-  <g class="house-line house-wall-clock">
+  <g class="house-line"><path class="house-wood" d="M358.6 170L370.4 174.3V441.5L358.6 461.6ZM367.1 164.1L378.3 169V177.1L367.1 173.5Z"/></g>
+  <!-- A clock on the wall. It keeps İstanbul's time, like the window;
+       js/house.js turns the hands. -->
+  <g class="house-line house-wall-clock" transform="translate(99 30.3) scale(.82)">
     <circle class="house-wood" cx="450" cy="146" r="42"/><circle class="house-paper" cx="450" cy="146" r="35"/>
     <path d="M450 116v6M480 146h-6M450 176v-6M420 146h6" stroke-width="2"/>
     <path class="house-faint" d="M465 120l-2 3.5M476 131l-3.5 2M476 161l-3.5-2M465 172l-2-3.5M435 172l2-3.5M424 161l3.5-2M424 131l3.5 2M435 120l2 3.5"/>
@@ -44,56 +53,83 @@
     <line class="house-clock-minute" x1="450" y1="150" x2="450" y2="121" stroke-width="2"/>
     <circle cx="450" cy="146" r="2.5" fill="currentColor"/>
   </g>
+  <!-- A question card on the wall. -->
+  <g class="house-line" transform="translate(92.9 17.65) scale(.85)"><path class="house-paper" d="M356 260l48-4 5 66-48 4Z"/><circle cx="381" cy="265" r="2"/><text x="382" y="304" text-anchor="middle" class="house-question-mark">?</text></g>
   <!-- Window and distant rooftops. The sky, the sun and the moon follow
        İstanbul's own: js/house.js moves the sun, and draws the moon in its
-       phase while it is above the horizon. -->
+       phase while it is above the horizon. Two casements open under a
+       fixed top light. -->
   <g class="house-line">
-    <path class="house-window-trim" d="M675 264V129a102 102 0 0 1 204 0v135Z"/>
-    <path fill="url(#house-sky)" d="M686 252V129a91 91 0 0 1 182 0v123Z"/>
+    <path class="house-window-trim" d="M548 96H838V338H548Z"/>
+    <path class="house-glass" fill="url(#house-sky)" d="M560 108H826V332H560Z"/>
     <g clip-path="url(#house-window-clip)" stroke="none">
-      <circle class="house-sun" cx="838" cy="124" r="20"/>
-      <g class="house-stars" fill="#f6e5b9"><circle cx="707" cy="94" r="1.8"/><circle cx="750" cy="60" r="1.5"/><circle cx="835" cy="151" r="1.5"/><circle cx="757" cy="171" r="1.5"/></g>
-      <g class="house-moon"><circle class="house-moon-disc" cx="838" cy="124" r="17"/><path class="house-moon-lit" d=""/></g>
-      <path class="house-rooftops" d="M681 250V213h15v-17l22-15 24 15v15h13v-28h17v-14h5v14h14v32h19v-15h12v-13l24-12 28 12v70Z"/>
+      <circle class="house-sun" cx="770" cy="205" r="20"/>
+      <g class="house-stars" fill="#f6e5b9"><circle cx="590" cy="135" r="1.8"/><circle cx="650" cy="128" r="1.5"/><circle cx="760" cy="140" r="1.5"/><circle cx="800" cy="186" r="1.3"/><circle cx="724" cy="232" r="1.5"/><circle cx="600" cy="192" r="1.4"/></g>
+      <g class="house-moon"><circle class="house-moon-disc" cx="770" cy="205" r="17"/><path class="house-moon-lit" d=""/></g>
+      <path class="house-rooftops" d="M558 334V292h18v-16l22-14 23 14v14h14v-26h17v-13h5v13h14v31h18v-14h12v-12l24-12 27 12v24h16v-20l18-10 18 10v8h24V334Z"/>
       <!-- The footer's rain and snow fall here, behind the glass. -->
       <g class="house-weather"></g>
       <path class="house-window-snow" d=""/>
     </g>
-    <path d="M777 38V253M686 145H868"/><path class="house-window-trim" d="M665 259H889V271H665Z"/>
-    <path class="house-light-beam" stroke="none" d="M687 272L435 474 673 494 868 272Z"/>
+    <path class="house-window-trim" fill-rule="evenodd" d="M560 108H826V332H560ZM566 114V158H690V114ZM696 114V158H820V114ZM566 164V326H690V164ZM696 164V326H820V164Z"/>
+    <path class="house-window-trim" fill-rule="evenodd" d="M566 164H690V326H566ZM571 169V321H685V169ZM696 164H820V326H696ZM701 169V321H815V169Z"/>
+    <path class="house-paper" d="M685.6 235h3.8v11h-3.8Z"/><path d="M687.5 241v16" stroke-width="2.4"/>
+    <!-- A venetian blind, drawn all the way up. -->
+    <path class="house-paper" d="M560 108H826V127H560Z"/><path class="house-faint" d="M562 114H824M562 118H824M562 122H824"/><path class="house-window-trim" d="M561 127H825V131H561Z"/>
+    <path d="M818 131V236" stroke-width="1"/><path class="house-paper" d="M816 236h4l1 8h-6Z" stroke-width="1"/>
+    <path class="house-window-trim" d="M540 332H842L856.3 336.6H541.7ZM541.7 336.6H856.3V343.3H541.7Z"/>
   </g>
   <!-- The carpet, wide enough for the desk, the chair and a cat. -->
-  <path class="house-carpet" d="M318 498H872L930 630H290Z"/>
-  <path fill="url(#house-weave)" d="M318 498H872L930 630H290Z"/>
-  <path class="house-line house-faint" d="M334 507H858L906 621H314Z"/>
+  <path class="house-carpet" d="M290.7 489.9H709.3L821.4 633.4H178.6Z"/>
+  <path fill="url(#house-weave)" d="M290.7 489.9H709.3L821.4 633.4H178.6Z"/>
+  <path class="house-line house-faint" d="M302.9 496.3H697.1L785.5 619.2H214.5Z"/>
+  <!-- The sun through the window, laid on the floor pane by pane. It
+       leans with the sun in the morning and the evening. -->
+  <g class="house-light-beam">
+    <path d="M546.7 483.4H676L662 531.5H508.8ZM694.1 483.4H823.5L836.6 531.5H683.5Z"/>
+    <path d="M498.8 535.7H667.6L662.8 553.6H484.3ZM675.8 535.7H844.6L849.9 553.6H671.4Z"/>
+  </g>
+  <!-- Plant in the corner beside the window. -->
+  <g class="house-line" transform="translate(-61.5 .9)"><path class="house-pot" d="M924 456h45l-6 33h-33Z"/><path d="M945 456V381M945 425l-18-22M945 405l15-25"/><path class="house-leaf" d="M944 405q-32-2-25-34 25 7 25 34ZM946 424q32-9 30-34-26 5-30 34ZM945 389q-20-12-9-38 22 16 9 38Z"/></g>
+  <!-- His burgundy cushion, on the floor in front of the window, between
+       the desk and the plant. -->
+  <g transform="translate(8.9 43.7) scale(.898)"><g class="house-line"><path class="house-cushion" d="M780 473H904Q914 473 916 481L920 496Q922 504 912 504H772Q762 504 764 496L768 481Q770 473 780 473Z"/><path class="house-cushion-trim" d="M783 477H901Q908 477 910 483L913 494Q914 500 907 500H777Q770 500 771 494L774 483Q776 477 783 477Z"/></g></g>
   <!-- Chair behind the desk. -->
-  <g class="house-line"><path class="house-chair" d="M466 421V346q0-28 28-28h64q28 0 28 28v75Z"/><path d="M480 345V407M498 338V407M518 336V407M538 337V407M558 343V407"/><path class="house-chair" d="M459 458H591V476H459Z"/><path d="M471 476l-7 76M579 476l9 76"/></g>
+  <g class="house-line"><path class="house-chair" d="M448 420V333q0-17 17-17h53q17 0 17 17v87Z"/><path d="M463 334V410M477 331V410M491 330V410M505 331V410M519 334V410"/><path d="M448 456V500M535 456V500M442 456V533M539 456V533"/></g>
   <!-- Desk, papers, cup, and lamp. -->
   <g class="house-line">
-    <path class="house-wood" d="M373 416H746V435H373Z"/><path class="house-wood" d="M388 435H403V550H388ZM718 435H733V550H718Z"/>
-    <path class="house-desk-front" d="M407 435H713V476H407Z"/><path d="M558 435V476"/><path d="M465 452h30M622 452h30" stroke-width="3"/>
-    <path class="house-paper" d="M432 391l71-10 49 22-69 11Z"/><path class="house-faint" d="M450 392l47-6M462 397l43-6M476 403l36-6"/>
-    <path class="house-word-paper" d="M558 398l51-11 31 13-53 13Z"/><path d="M573 399l30-6"/>
-    <path class="house-cup" d="M405 382h26v25q-13 9-26 0Z"/><path d="M431 387q19-4 14 10-3 7-14 3"/>
-    <path class="house-steam house-faint" d="M414 374q-8-8 0-14t0-13M424 372q-6-7 0-13"/>
-    <path class="house-book-blue" d="M618 412h61v-10h-61z"/><path class="house-book-cream" d="M623 401h57v-9h-57z"/>
-    <path d="M689 392V327L662 303M674 405h36" stroke-width="3"/>
-    <path class="house-lampshade" d="M638 275h40l17 47h-75Z"/>
-    <ellipse class="house-lamp-bulb" cx="657" cy="322" rx="23" ry="4"/>
+    <path class="house-wood" d="M365.4 456H374.7V521.2H365.4ZM625.3 456H634.6V521.2H625.3Z"/>
+    <path class="house-wood" d="M331.2 411H668.8L640.3 379.1H359.7ZM331.2 411H668.8V420H331.2Z"/>
+    <path class="house-desk-front" d="M349.3 420H650.8V456H349.3Z"/><path d="M500 420V456"/><path d="M410 438h30M560 438h30" stroke-width="3"/>
+    <path class="house-wood" d="M338 420H349.3V582H338ZM650.8 420H662V582H650.8Z"/>
+    <path class="house-paper" d="M486.9 405.8L552.8 407L553 393.3L491.9 392.4Z"/><path class="house-faint" d="M495.7 402.5L543.2 403.3M497.9 399.4L544.5 400.1M500 396.3L531.2 396.8"/>
+    <path class="house-cup" d="M375 372h26v25q-13 9-26 0Z"/><path d="M401 377q19-4 14 10-3 7-14 3"/>
+    <path class="house-steam house-faint" d="M384 364q-8-8 0-14t0-13M394 362q-6-7 0-13"/>
+    <path d="M620 389V311L593 287M602 389h36" stroke-width="3"/>
+    <path class="house-book-blue" d="M555.7 402H607.1V392.4H555.7Z"/><path class="house-book-cream" d="M559.6 391.3H604.4V382.8H559.6ZM559.6 382.8H604.4L598.5 373.8H556.3Z"/>
+    <!-- The day's word cards, propped up where they can be read. -->
+    <path class="house-word-paper" d="M437.3 403.6H480.5L480.9 372.8H438.4Z"/>
+    <path class="house-word-paper" d="M430.2 405.3H473.8L474.3 374.1H431.4Z"/><path d="M438 386h28"/><path class="house-faint" d="M441 393h22"/>
+    <path class="house-lampshade" d="M569 259h40l17 47h-75Z"/>
+    <ellipse class="house-lamp-bulb" cx="588" cy="306" rx="23" ry="4"/>
   </g>
-  <ellipse class="house-lamp-glow" fill="url(#house-glow)" cx="625" cy="372" rx="160" ry="110"/>
-  <!-- A question card on the wall. -->
-  <g class="house-line"><path class="house-paper" d="M356 260l48-4 5 66-48 4Z"/><circle cx="381" cy="265" r="2"/><text x="382" y="304" text-anchor="middle" class="house-question-mark">?</text></g>
-  <!-- His burgundy cushion stays where it is; Moris does not. By İstanbul's
-       hour he is here, asleep at the window, on top of the bookshelf, or out
-       on the carpet. js/house.js moves the group; his eyes close at the window. -->
-  <g class="house-line"><path class="house-cushion" d="M780 473H904Q914 473 916 481L920 496Q922 504 912 504H772Q762 504 764 496L768 481Q770 473 780 473Z"/><path class="house-cushion-trim" d="M783 477H901Q908 477 910 483L913 494Q914 500 907 500H777Q770 500 771 494L774 483Q776 477 783 477Z"/></g>
-  <g class="house-line house-moris">
-    <path class="house-cat" d="M793 482q-3-45 39-48 32-2 42 27l14-5q16 16-5 25Z"/><path class="house-cat" d="M789 465l-3-34 16 12 16-10 1 34q-12 14-30-2Z"/><path d="M858 463q30 24-15 20" stroke="#777365" stroke-width="3"/>
-    <path class="house-cat-eyes house-cat-eyes--shut" d="M793 457l6 1M807 458l6-2" stroke-width="2"/>
-    <g class="house-cat-eyes--open" stroke="none"><ellipse cx="796" cy="457" rx="3.2" ry="2.2"/><ellipse cx="810" cy="456.5" rx="3.2" ry="2.2"/><ellipse class="house-cat-pupil" cx="796" cy="457" rx=".6" ry="2"/><ellipse class="house-cat-pupil" cx="810" cy="456.5" rx=".6" ry="2"/></g>
+  <ellipse class="house-lamp-glow" fill="url(#house-glow)" cx="560" cy="356" rx="160" ry="110"/>
+  <!-- His burgundy cushion stays where it is, in front of the window;
+       Moris does not. By İstanbul's hour he is on it, asleep at the window,
+       on top of the bookshelf, or out on the carpet. js/house.js moves him;
+       his eyes close at the window. -->
+  <g transform="translate(8.9 43.7) scale(.898)">
+    <g class="house-line house-moris">
+      <path class="house-cat" d="M793 482q-3-45 39-48 32-2 42 27l14-5q16 16-5 25Z"/><path class="house-cat" d="M789 465l-3-34 16 12 16-10 1 34q-12 14-30-2Z"/><path d="M858 463q30 24-15 20" stroke="#777365" stroke-width="3"/>
+      <path class="house-cat-eyes house-cat-eyes--shut" d="M793 457l6 1M807 458l6-2" stroke-width="2"/>
+      <g class="house-cat-eyes--open" stroke="none"><ellipse cx="796" cy="457" rx="3.2" ry="2.2"/><ellipse cx="810" cy="456.5" rx="3.2" ry="2.2"/><ellipse class="house-cat-pupil" cx="796" cy="457" rx=".6" ry="2"/><ellipse class="house-cat-pupil" cx="810" cy="456.5" rx=".6" ry="2"/></g>
+    </g>
   </g>
-  <!-- Plant beside the window. -->
-  <g class="house-line"><path class="house-pot" d="M924 456h45l-6 33h-33Z"/><path d="M945 456V381M945 425l-18-22M945 405l15-25"/><path class="house-leaf" d="M944 405q-32-2-25-34 25 7 25 34ZM946 424q32-9 30-34-26 5-30 34ZM945 389q-20-12-9-38 22 16 9 38Z"/></g>
+  <!-- The door we came in by, open beside us. -->
+  <g class="house-line">
+    <path class="house-shelf-back" d="M0 0H76.2L88.3 11.7V650H0Z"/><path class="house-shade" stroke="none" d="M0 0H76.2L88.3 11.7V650H0Z"/>
+    <path class="house-faint" d="M0 37.5L61.9 74.6V575.7L10.3 650"/>
+    <ellipse class="house-shelf-back" cx="77" cy="582" rx="3.5" ry="8"/><circle class="house-wood" cx="74" cy="582" r="5.5"/>
+  </g>
   <path class="house-dusk" mask="url(#house-dusk-mask)" d="M0 0H1000V650H0Z"/>
 </svg>
