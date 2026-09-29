@@ -98,30 +98,30 @@ permalink: /farm-house/
 <body>
   <div class="shell">
     <header class="masthead">
-      <button class="brand" id="home" aria-label="Return to the photograph">The Farm House</button>
+      <button class="brand" id="home" aria-label="Return to the picture">The Farm House</button>
       <div class="mast-right"><span class="location" id="location">A first visit</span><button class="text-button" id="leave" hidden>Leave the Farm House</button></div>
     </header>
     <main>
       <section class="intro" id="intro" aria-labelledby="intro-title">
         <p class="eyebrow">From The House</p>
         <h1 id="intro-title" tabindex="-1">The Farm House</h1>
-        <button class="photograph" id="photo" aria-label="Enter the photograph of the farm house">
-          <img src="assets/exterior-daylight.webp" width="1536" height="1024" alt="A cared-for two-story farmhouse, with flowers on the veranda and a path through a green garden.">
+        <button class="photograph" id="photo" aria-label="Enter the picture of the farm house">
+          <img src="assets/exterior-painted.webp" width="1536" height="1024" alt="An oil-painted view of a cared-for two-story farmhouse, with flowers on the veranda and a path through a green garden.">
           <span class="photo-inscription">The house in summer.</span>
         </button>
         <p class="intro-copy">The family still comes here in summer.<br>Today, no one is home.</p>
-        <button class="begin" id="begin">Step inside the photograph &nbsp;→</button>
+        <button class="begin" id="begin">Step inside the picture &nbsp;→</button>
       </section>
       <section class="visit" id="visit" aria-label="Explore the house" hidden>
         <div class="frame" id="frame">
-          <img class="scene-img" id="scene-image" src="assets/exterior-daylight.webp" width="1536" height="1024" alt="">
+          <img class="scene-img" id="scene-image" src="assets/exterior-painted.webp" width="1536" height="1024" alt="">
           <div class="hotspots" id="hotspots"></div>
         </div>
         <div class="scene-under">
           <p class="scene-caption" id="caption" tabindex="-1" aria-live="polite"></p>
           <ul class="horse-list" id="horse-list" aria-label="Places to explore"></ul>
           <div class="scene-controls">
-            <button class="text-button" id="back">← The photograph</button>
+            <button class="text-button" id="back">← The picture</button>
             <span class="scene-number" id="scene-name"></span>
             <button class="text-button" id="places" aria-pressed="false">Show places to look</button>
           </div>
@@ -133,7 +133,7 @@ permalink: /farm-house/
         <h1 id="ending-title" tabindex="-1">The upstairs room.</h1>
         <p>Everyone who came to the house<br>went upstairs before they left.</p>
         <button class="begin" id="return-room">Stay a little longer &nbsp;→</button>
-        <button class="text-button" id="return-photo">The photograph</button>
+        <button class="text-button" id="return-photo">The picture</button>
       </section>
     </main>
     <footer class="footer"><a href="/house/#study">← The House</a><button id="about-button">How to explore</button></footer>
@@ -161,12 +161,12 @@ permalink: /farm-house/
   (() => {
     'use strict';
     const $ = id => document.getElementById(id);
-    const sceneAssets = { exterior:'assets/exterior-daylight.webp', hall:'assets/hall-painted.webp', upstairs:'assets/upstairs-painted.webp', kitchen:'assets/kitchen-painted.webp', garden:'assets/garden-daylight.webp', stableYard:'assets/stable-yard-outside.webp', stable:'assets/stable-two-horses.webp' };
+    const sceneAssets = { exterior:'assets/exterior-painted.webp', hall:'assets/hall-painted.webp', upstairs:'assets/upstairs-painted.webp', kitchen:'assets/kitchen-painted.webp', garden:'assets/garden-daylight.webp', stableYard:'assets/stable-yard-outside.webp', stable:'assets/stable-two-horses.webp' };
     const state = { scene: 'intro', visitedUpstairs: false, bed: false, walnuts: false, letter: false, hints: false, detail: null };
     const scenes = {
       exterior: {
-        image:'exterior', name:'The veranda', back:'intro', backLabel:'← The photograph',
-        alt:'A two-story family farmhouse with a wooden front door, flowering veranda, and green garden.',
+        image:'exterior', name:'The veranda', back:'intro', backLabel:'← The picture',
+        alt:'An oil-painted two-story family farmhouse with a wooden front door, flowering veranda, and green garden.',
         caption:()=>'Flowers grow along the veranda.',
         spots:[
           {id:'door',label:'Enter the house',box:[46,40,11,25],labelAt:[51,68],go:'hall'},
