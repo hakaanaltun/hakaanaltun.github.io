@@ -91,9 +91,9 @@
   </g>
   <!-- Plant in the corner beside the window. -->
   <g class="house-line" transform="translate(-61.5 .9)"><path class="house-pot" d="M924 456h45l-6 33h-33Z"/><path d="M945 456V381M945 425l-18-22M945 405l15-25"/><path class="house-leaf" d="M944 405q-32-2-25-34 25 7 25 34ZM946 424q32-9 30-34-26 5-30 34ZM945 389q-20-12-9-38 22 16 9 38Z"/></g>
-  <!-- His burgundy cushion, on the floor in front of the window, between
+  <!-- His burgundy cushion, on the floor close under the window, between
        the desk and the plant. -->
-  <g transform="translate(8.9 43.7) scale(.898)"><g class="house-line"><path class="house-cushion" d="M780 473H904Q914 473 916 481L920 496Q922 504 912 504H772Q762 504 764 496L768 481Q770 473 780 473Z"/><path class="house-cushion-trim" d="M783 477H901Q908 477 910 483L913 494Q914 500 907 500H777Q770 500 771 494L774 483Q776 477 783 477Z"/></g></g>
+  <g transform="translate(67.83 65.1) scale(.7902)"><g class="house-line"><path class="house-cushion" d="M780 473H904Q914 473 916 481L920 496Q922 504 912 504H772Q762 504 764 496L768 481Q770 473 780 473Z"/><path class="house-cushion-trim" d="M783 477H901Q908 477 910 483L913 494Q914 500 907 500H777Q770 500 771 494L774 483Q776 477 783 477Z"/></g></g>
   <!-- Chair behind the desk. -->
   <g class="house-line"><path class="house-chair" d="M448 420V333q0-17 17-17h53q17 0 17 17v87Z"/><path d="M463 334V410M477 331V410M491 330V410M505 331V410M519 334V410"/><path d="M448 456V500M535 456V500M442 456V533M539 456V533"/></g>
   <!-- Desk, papers, cup, and lamp. -->
@@ -106,7 +106,10 @@
     <path class="house-cup" d="M375 372h26v25q-13 9-26 0Z"/><path d="M401 377q19-4 14 10-3 7-14 3"/>
     <path class="house-steam house-faint" d="M384 364q-8-8 0-14t0-13M394 362q-6-7 0-13"/>
     <path d="M620 389V311L593 287M602 389h36" stroke-width="3"/>
-    <path class="house-book-blue" d="M555.7 402H607.1V392.4H555.7Z"/><path class="house-book-cream" d="M559.6 391.3H604.4V382.8H559.6ZM559.6 382.8H604.4L598.5 373.8H556.3Z"/>
+    <!-- An e-reader standing under the lamp. -->
+    <path class="house-ereader" d="M565.5 364H592.5Q595 364 595 366.5V401.5Q595 404 592.5 404H564.5Q562 404 562 401.5V366.5Q562 364 565.5 364Z"/>
+    <path class="house-ereader-screen" d="M566 368.5H591V397H566Z" stroke-width=".8"/>
+    <path class="house-faint" d="M569 373H588M569 377H588M569 381H588M569 385H588M569 389H588M569 393H581"/>
     <!-- The day's word cards, propped up where they can be read. -->
     <path class="house-word-paper" d="M437.3 403.6H480.5L480.9 372.8H438.4Z"/>
     <path class="house-word-paper" d="M430.2 405.3H473.8L474.3 374.1H431.4Z"/><path d="M438 386h28"/><path class="house-faint" d="M441 393h22"/>
@@ -114,12 +117,12 @@
     <ellipse class="house-lamp-bulb" cx="588" cy="306" rx="23" ry="4"/>
   </g>
   <ellipse class="house-lamp-glow" fill="url(#house-glow)" cx="560" cy="356" rx="160" ry="110"/>
-  <!-- His burgundy cushion stays where it is, in front of the window;
+  <!-- His burgundy cushion stays where it is, close under the window;
        Moris does not. By İstanbul's hour he is on it, asleep at the window,
        on top of the bookshelf, or out on the carpet. js/house.js moves him;
        his eyes close at the window. -->
   <g transform="translate(8.9 43.7) scale(.898)">
-    <g class="house-line house-moris">
+    <g class="house-line house-moris" transform="translate(65.63 23.83) scale(.88)">
       <path class="house-cat" d="M793 482q-3-45 39-48 32-2 42 27l14-5q16 16-5 25Z"/><path class="house-cat" d="M789 465l-3-34 16 12 16-10 1 34q-12 14-30-2Z"/><path d="M858 463q30 24-15 20" stroke="#777365" stroke-width="3"/>
       <path class="house-cat-eyes house-cat-eyes--shut" d="M793 457l6 1M807 458l6-2" stroke-width="2"/>
       <g class="house-cat-eyes--open" stroke="none"><ellipse cx="796" cy="457" rx="3.2" ry="2.2"/><ellipse cx="810" cy="456.5" rx="3.2" ry="2.2"/><ellipse class="house-cat-pupil" cx="796" cy="457" rx=".6" ry="2"/><ellipse class="house-cat-pupil" cx="810" cy="456.5" rx=".6" ry="2"/></g>

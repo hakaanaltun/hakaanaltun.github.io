@@ -389,7 +389,7 @@
   /* From his cushion to each of his other places. The room is drawn in
      perspective, so he is smaller up at the window and on the bookshelf,
      and larger out on the carpet, near the front of the room. */
-  var PLACES = { sill: 'translate(25.7 -107) scale(.891)', shelf: 'translate(-478.8 -311.3) scale(.924)', rug: 'translate(-711.1 -82.2) scale(1.467)', cushion: '' };
+  var PLACES = { sill: 'translate(25.7 -107) scale(.891)', shelf: 'translate(-478.8 -311.3) scale(.924)', rug: 'translate(-711.1 -82.2) scale(1.467)', cushion: 'translate(65.63 23.83) scale(.88)' };
   var PHASES = ['new moon', 'waxing crescent', 'first quarter', 'waxing gibbous', 'full moon', 'waning gibbous', 'last quarter', 'waning crescent'];
 
   function skyNow(now) {
@@ -565,7 +565,7 @@
     weather.kind = kind;
     weather.level = level;
     if (kind) scene.dataset.weather = kind; else delete scene.dataset.weather;
-    var count = kind ? (kind === 'rain' ? (level === 2 ? 75 : 30) : (level === 2 ? 60 : 32)) : 0;
+    var count = kind ? (kind === 'rain' ? (level === 2 ? 190 : 85) : (level === 2 ? 160 : 85)) : 0;
     if (still) count = Math.round(count * 0.45);
     for (var i = 0; i < count; i++) weather.drops.push(makeDrop(true));
     if (!weather.frame) weather.frame = window.requestAnimationFrame(weatherStep);
