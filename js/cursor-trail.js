@@ -10,10 +10,8 @@
    The colour is the page's to choose, so another page can take the trail
    up without touching this file: whatever is under the pointer sets
    --trail, a colour, and --trail-glow: 1 where the ground is dark enough for
-   the specks to add light to each other rather than ink. On pale ground, where
-   a light speck would be lost, --trail-aura gives each one a faint surround of
-   a deeper colour to stand out from. Without any of them the trail is a
-   middling gold. */
+   the specks to add light to each other rather than ink. Without either the
+   trail is a middling gold. */
 (function () {
   'use strict';
   if (!window.matchMedia || !window.requestAnimationFrame) return;
@@ -23,7 +21,7 @@
   var STEP = 3;         // px of travel between specks
   var GOLD = '#b99545';
   var canvas, ctx, ratio = 1, specks = [], last = null, running = false;
-  var ground = { node: null, read: 0, colour: GOLD, glow: false, aura: '' };
+  var ground = { node: null, read: 0, colour: GOLD, glow: false };
 
   function setup() {
     var c = document.createElement('canvas');
@@ -55,7 +53,6 @@
     ground.read = now;
     ground.colour = style.getPropertyValue('--trail').trim() || GOLD;
     ground.glow = style.getPropertyValue('--trail-glow').trim() === '1';
-    ground.aura = style.getPropertyValue('--trail-aura').trim();
     return ground;
   }
 
@@ -75,8 +72,7 @@
       born: at,
       life: thrown ? 600 + Math.random() * 400 : 800 + Math.random() * 400,
       colour: ground.colour,
-      glow: ground.glow,
-      aura: ground.aura
+      glow: ground.glow
     });
   }
 
@@ -151,7 +147,6 @@
         // A lit speck carries a soft halo; where the halos overlap, at the
         // head of the trail, they add up to a light of their own.
         var alpha = Math.pow(left, 1.3);
-        if (!s.glow && s.aura) { ctx.globalAlpha = alpha * 0.35; ctx.drawImage(halo(s.aura), x - r * 3, y - r * 3, r * 6, r * 6); }
         if (s.glow) { ctx.globalAlpha = alpha * 0.45; ctx.drawImage(halo(s.colour), x - r * 4, y - r * 4, r * 8, r * 8); }
         ctx.globalAlpha = alpha;
         dot(x, y, r);
