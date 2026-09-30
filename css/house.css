@@ -205,13 +205,13 @@ html[data-theme="dark"] .house-scene[data-hour="night"] .house-dusk, html[data-t
 @media (prefers-color-scheme: dark) { html:not([data-theme]) .house-scene[data-hour="evening"] .house-dusk { opacity: .1; } html:not([data-theme]) .house-scene[data-hour="night"] .house-dusk { opacity: .3; } }
 @media (prefers-color-scheme: dark) { html:not([data-theme]) .house-scene { --room-wall: #363b3b; --room-floor: #3f403a; --room-line: #a89e89; --room-wood: #666452; --room-back: #444942; --room-paper: #b5ae96; --room-cream: #9c9174; --room-blue: #617e84; --room-olive: #687b64; --room-rust: #9e7564; --room-burgundy: #7a4650; --room-gold: #a48c55; --room-carpet: #4a4a41; --room-sunlight: .2; } }
 /* The trail the pointer leaves (js/cursor-trail.js), and the pointer itself,
-   a speck a little larger than the trail's own at its head. On paper both are
-   a deeper gold, since a pale one is lost there. On dark ground they are a lit
-   gold, and the trail's specks brighten where they cross: the dark themes,
-   and the room at night. */
-:root { --trail: #a9853a; --house-speck: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Ccircle cx='5' cy='5' r='3.5' fill='%23a9853a'/%3E%3C/svg%3E") 5 5, auto; }
-html[data-theme="dark"], html[data-theme="midnight"], html[data-theme="sky"], .house-scene[data-hour="night"] { --trail: #d9b865; --trail-glow: 1; --house-speck: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Ccircle cx='5' cy='5' r='3.5' fill='%23e6c46c'/%3E%3C/svg%3E") 5 5, auto; }
-@media (prefers-color-scheme: dark) { html:not([data-theme]) { --trail: #d9b865; --trail-glow: 1; --house-speck: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Ccircle cx='5' cy='5' r='3.5' fill='%23e6c46c'/%3E%3C/svg%3E") 5 5, auto; } }
+   a speck a little larger than the trail's own at its head, both a golden
+   yellow. On paper it is a deeper one, since a pale one is lost there. On dark
+   ground it is a lit one, and the trail's specks brighten where they cross:
+   the dark themes, and the room at night. */
+:root { --trail: #dea612; --house-speck: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Ccircle cx='5' cy='5' r='3.5' fill='%23dea612'/%3E%3C/svg%3E") 5 5, auto; }
+html[data-theme="dark"], html[data-theme="midnight"], html[data-theme="sky"], .house-scene[data-hour="night"] { --trail: #ffc73a; --trail-glow: 1; --house-speck: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Ccircle cx='5' cy='5' r='3.5' fill='%23ffd04f'/%3E%3C/svg%3E") 5 5, auto; }
+@media (prefers-color-scheme: dark) { html:not([data-theme]) { --trail: #ffc73a; --trail-glow: 1; --house-speck: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Ccircle cx='5' cy='5' r='3.5' fill='%23ffd04f'/%3E%3C/svg%3E") 5 5, auto; } }
 /* Over anything that can be chosen the speck opens into a ring, drawn in both
    golds so it holds on the cream labels and on dark ground alike. In the
    dialog and in a search field the ordinary pointer comes back: that is where
@@ -222,7 +222,7 @@ html[data-theme="dark"], html[data-theme="midnight"], html[data-theme="sky"], .h
    room's own. */
 @media (prefers-contrast: no-preference) and (forced-colors: none) {
   body, .house-scene { cursor: var(--house-speck); }
-  body :is(a[href], button, summary, label, [role="button"]):not(dialog *) { cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Ccircle cx='10' cy='10' r='7.5' fill='none' stroke='%23a9853a' stroke-width='2.4'/%3E%3Ccircle cx='10' cy='10' r='7.5' fill='none' stroke='%23e6c46c' stroke-width='1'/%3E%3Ccircle cx='10' cy='10' r='2' fill='%23e6c46c' stroke='%23a9853a' stroke-width='.9'/%3E%3C/svg%3E") 10 10, pointer; }
+  body :is(a[href], button, summary, label, [role="button"]):not(dialog *) { cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Ccircle cx='10' cy='10' r='7.5' fill='none' stroke='%23dea612' stroke-width='2.4'/%3E%3Ccircle cx='10' cy='10' r='7.5' fill='none' stroke='%23ffd04f' stroke-width='1'/%3E%3Ccircle cx='10' cy='10' r='2' fill='%23ffd04f' stroke='%23dea612' stroke-width='.9'/%3E%3C/svg%3E") 10 10, pointer; }
   body button:disabled:not(dialog *) { cursor: var(--house-speck); }
   body :is(input, textarea) { cursor: text; }
   dialog { cursor: auto; }
