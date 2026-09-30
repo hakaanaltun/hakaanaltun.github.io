@@ -175,9 +175,6 @@ html:has(.house-dialog[open]) { overflow: hidden; }
 .house-sky-facts { display: grid; grid-template-columns: auto 1fr; gap: 6px 22px; margin: 0 0 26px; font-size: 17px; }
 .house-sky-facts dt { color: var(--vizon); }
 .house-sky-facts dd { margin: 0; }
-.house-moris-quote { margin: 4px 0 18px; padding: 0 0 0 16px; border-left: 2px solid var(--rule-strong); }
-.house-moris-quote p { margin: 0 0 6px; font-style: italic; }
-.house-moris-quote cite { font-style: normal; font-size: 15px; color: var(--vizon); }
 .house-more { display: inline-block; margin: 16px 0 0; padding: 8px 0; font-size: 17px; }
 .house-word-card summary { cursor: pointer; padding: 8px 0; color: var(--vizon); min-height: 44px; box-sizing: border-box; }
 .house-word-card details[open] summary { margin-bottom: 8px; }
@@ -193,9 +190,6 @@ html:has(.house-dialog[open]) { overflow: hidden; }
 .house-window-links a { display: block; padding: 18px 0; border-top: 1px solid var(--rule-strong); text-decoration: none; }
 .house-window-links span { font: 500 28px 'Cormorant Garamond', Georgia, serif; }
 .house-window-links p { color: var(--vizon); margin: 6px 0 0; }
-.house-moris-photo { width: 100%; height: 320px; object-fit: cover; object-position: center; border-radius: 2px; }
-/* The bookshelf photograph is taller than the others. Give it more of its original frame so it needs less vertical crop. */
-.house-moris-photo[src*="/moris-13.webp"] { height: 380px; }
 .house-drawer-note, .house-dialog-status { color: var(--vizon); font-size: 15px !important; }
 .house-dialog-status:empty { display: none; }
 .house-empty-drawer { border: 1px dashed var(--rule-strong); padding: 28px 24px; margin: 24px 0; }
@@ -279,8 +273,6 @@ html[data-theme="dark"], html[data-theme="midnight"], html[data-theme="sky"], .h
   .house-room-footer { font-size: 14px; }
   .house-dialog { padding: 16px 22px 24px; max-height: 90dvh; }
   .house-dialog h2 { font-size: 35px; }
-  .house-moris-photo { height: 260px; }
-  .house-moris-photo[src*="/moris-13.webp"] { height: 310px; }
 }
 @media (prefers-reduced-motion: reduce) { .house *, .house *::before, .house *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
 
