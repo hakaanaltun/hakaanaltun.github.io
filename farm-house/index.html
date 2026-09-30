@@ -106,7 +106,7 @@ permalink: /farm-house/
         <p class="eyebrow">From The House</p>
         <h1 id="intro-title" tabindex="-1">The Farm House</h1>
         <button class="photograph" id="photo" aria-label="Enter the picture of the farm house">
-          <img src="assets/exterior-watercolor.webp" width="1536" height="1024" alt="A watercolor view of a cared-for two-story farmhouse, with flowers on the veranda and a path through a green garden.">
+          <img src="assets/exterior-watercolor.webp?v=20260930-finished" width="1536" height="1024" alt="A watercolor view of a cared-for two-story farmhouse, with flowers on the veranda and a path through a green garden.">
           <span class="photo-inscription">The house in summer.</span>
         </button>
         <p class="intro-copy">The family still comes here in summer.<br>Today, no one is home.</p>
@@ -114,7 +114,7 @@ permalink: /farm-house/
       </section>
       <section class="visit" id="visit" aria-label="Explore the house" hidden>
         <div class="frame" id="frame">
-          <img class="scene-img" id="scene-image" src="assets/exterior-watercolor.webp" width="1536" height="1024" alt="">
+          <img class="scene-img" id="scene-image" src="assets/exterior-watercolor.webp?v=20260930-finished" width="1536" height="1024" alt="">
           <div class="hotspots" id="hotspots"></div>
         </div>
         <div class="scene-under">
@@ -128,7 +128,7 @@ permalink: /farm-house/
         </div>
       </section>
       <section class="ending" id="ending" hidden aria-labelledby="ending-title">
-        <div class="ending-photo"><img src="assets/upstairs-watercolor.webp" width="1536" height="1024" alt="A watercolor of the upstairs room, with her bed beside the window."></div>
+        <div class="ending-photo"><img src="assets/upstairs-watercolor.webp?v=20260930-finished" width="1536" height="1024" alt="A watercolor of the upstairs room, with her bed beside the window."></div>
         <p class="eyebrow">After the visit</p>
         <h1 id="ending-title" tabindex="-1">The upstairs room.</h1>
         <p>Everyone who came to the house<br>went upstairs before they left.</p>
@@ -162,7 +162,7 @@ permalink: /farm-house/
     'use strict';
     const $ = id => document.getElementById(id);
     // The finished watercolor set, with an intermediate finish for the upstairs room.
-    const sceneAssets = { exterior:'assets/exterior-watercolor.webp', hall:'assets/hall-watercolor.webp', upstairs:'assets/upstairs-watercolor.webp', kitchen:'assets/kitchen-watercolor.webp', garden:'assets/garden-watercolor.webp', stableYard:'assets/stable-yard-watercolor.webp', stable:'assets/stable-watercolor.webp' };
+    const sceneAssets = { exterior:'assets/exterior-watercolor.webp?v=20260930-finished', hall:'assets/hall-watercolor.webp?v=20260930-finished', upstairs:'assets/upstairs-watercolor.webp?v=20260930-finished', kitchen:'assets/kitchen-watercolor.webp?v=20260930-finished', garden:'assets/garden-watercolor.webp?v=20260930-finished', stableYard:'assets/stable-yard-watercolor.webp?v=20260930-finished', stable:'assets/stable-watercolor.webp?v=20260930-finished' };
     const state = { scene: 'intro', visitedUpstairs: false, bed: false, walnuts: false, letter: false, hints: false, detail: null };
     const scenes = {
       exterior: {
