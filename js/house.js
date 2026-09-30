@@ -288,9 +288,9 @@
   }
 
   var MORIS = {
-    cushion: { place: 'On his cushion', line: 'He is on his cushion by the balcony door, watching the birds.' },
+    cushion: { place: 'On his cushion', line: 'He is resting on his cushion below the window.' },
     sill: { place: 'At the window', line: 'He is asleep by the window as the sun goes down.' },
-    shelf: { place: 'On the bookshelf', line: 'He is sometimes on top of the bookshelf, inspecting the room. Sometimes he is somewhere else.' },
+    shelf: { place: 'On the bookshelf', line: 'He is on top of the bookshelf, inspecting the room.' },
     rug: { place: 'On the rug', line: 'He is on the rug.' }
   };
   function renderMoris(box) {
