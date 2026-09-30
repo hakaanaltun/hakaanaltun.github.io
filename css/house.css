@@ -175,9 +175,6 @@ html:has(.house-dialog[open]) { overflow: hidden; }
 .house-sky-facts { display: grid; grid-template-columns: auto 1fr; gap: 6px 22px; margin: 0 0 26px; font-size: 17px; }
 .house-sky-facts dt { color: var(--vizon); }
 .house-sky-facts dd { margin: 0; }
-.house-moris-quote { margin: 4px 0 18px; padding: 0 0 0 16px; border-left: 2px solid var(--rule-strong); }
-.house-moris-quote p { margin: 0 0 6px; font-style: italic; }
-.house-moris-quote cite { font-style: normal; font-size: 15px; color: var(--vizon); }
 .house-more { display: inline-block; margin: 16px 0 0; padding: 8px 0; font-size: 17px; }
 .house-word-card summary { cursor: pointer; padding: 8px 0; color: var(--vizon); min-height: 44px; box-sizing: border-box; }
 .house-word-card details[open] summary { margin-bottom: 8px; }

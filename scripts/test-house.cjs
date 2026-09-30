@@ -175,7 +175,8 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.equal(a.q('#house-scene').dataset.moon === 'up', A.moonAltitude(new Date(), 41.015, 28.979) > A.MOON_HORIZON);
   a.click('[data-open="moris"]');
   // Moris is told, not shown: what he is doing now, and the way to his album.
-  assert.equal(a.q('#house-dialog-content img'), null);
+  // The line from The Fragments stays under the album's cover.
+  assert.equal(a.q('#house-dialog-content img, #house-dialog-content blockquote'), null);
   assert.match(a.q('[data-moris-line]').textContent, /^He /);
   assert.equal(a.q('#house-dialog-content a.house-more').getAttribute('href'), '/moris/');
   a.click('#house-close');

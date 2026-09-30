@@ -299,7 +299,6 @@
     var about = MORIS[where] || MORIS.cushion;
     document.getElementById('house-dialog-place').textContent = about.place;
     box.querySelector('[data-moris-line]').textContent = about.line;
-    box.querySelector('[data-moris-quote]').hidden = where !== 'sill';
   }
 
   function storageNote() {
