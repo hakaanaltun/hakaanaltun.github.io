@@ -106,7 +106,7 @@ permalink: /farm-house/
         <p class="eyebrow">From The House</p>
         <h1 id="intro-title" tabindex="-1">The Farm House</h1>
         <button class="photograph" id="photo" aria-label="Enter the picture of the farm house">
-          <img src="assets/exterior-painted.webp" width="1536" height="1024" alt="An oil-painted view of a cared-for two-story farmhouse, with flowers on the veranda and a path through a green garden.">
+          <img src="assets/exterior-watercolor.webp" width="1536" height="1024" alt="A watercolor view of a cared-for two-story farmhouse, with flowers on the veranda and a path through a green garden.">
           <span class="photo-inscription">The house in summer.</span>
         </button>
         <p class="intro-copy">The family still comes here in summer.<br>Today, no one is home.</p>
@@ -114,7 +114,7 @@ permalink: /farm-house/
       </section>
       <section class="visit" id="visit" aria-label="Explore the house" hidden>
         <div class="frame" id="frame">
-          <img class="scene-img" id="scene-image" src="assets/exterior-painted.webp" width="1536" height="1024" alt="">
+          <img class="scene-img" id="scene-image" src="assets/exterior-watercolor.webp" width="1536" height="1024" alt="">
           <div class="hotspots" id="hotspots"></div>
         </div>
         <div class="scene-under">
@@ -161,12 +161,13 @@ permalink: /farm-house/
   (() => {
     'use strict';
     const $ = id => document.getElementById(id);
-    const sceneAssets = { exterior:'assets/exterior-painted.webp', hall:'assets/hall-painted.webp', upstairs:'assets/upstairs-watercolor.webp', kitchen:'assets/kitchen-painted.webp', garden:'assets/garden-painted.webp', stableYard:'assets/stable-yard-painted.webp', stable:'assets/stable-painted.webp' };
+    // The published upstairs watercolor is the style anchor for every scene.
+    const sceneAssets = { exterior:'assets/exterior-watercolor.webp', hall:'assets/hall-watercolor.webp', upstairs:'assets/upstairs-watercolor.webp', kitchen:'assets/kitchen-watercolor.webp', garden:'assets/garden-watercolor.webp', stableYard:'assets/stable-yard-watercolor.webp', stable:'assets/stable-watercolor.webp' };
     const state = { scene: 'intro', visitedUpstairs: false, bed: false, walnuts: false, letter: false, hints: false, detail: null };
     const scenes = {
       exterior: {
         image:'exterior', name:'The veranda', back:'intro', backLabel:'← The picture',
-        alt:'An oil-painted two-story family farmhouse with a wooden front door, flowering veranda, and green garden.',
+        alt:'A watercolor of a two-story family farmhouse with a wooden front door, flowering veranda, and green garden.',
         caption:()=>'Flowers grow along the veranda.',
         spots:[
           {id:'door',label:'Enter the house',box:[46,40,11,25],labelAt:[51,68],go:'hall'},
@@ -176,7 +177,7 @@ permalink: /farm-house/
       },
       hall: {
         image:'hall',name:'The entrance',back:'exterior',backLabel:'← The veranda',
-        alt:'An oil-painted view from the entrance: the timber staircase is immediately on the left; the kitchen opens on the right.',
+        alt:'A watercolor view from the entrance: the timber staircase is immediately on the left; the kitchen opens on the right.',
         caption:()=>state.visitedUpstairs?'The stairs are behind you now.':'Everyone who came here went upstairs before they left.',
         spots:[
           {id:'stairs',label:'Go upstairs',box:[12,10,29,80],labelAt:[12,34],go:'upstairs'},
@@ -185,27 +186,27 @@ permalink: /farm-house/
       },
       kitchen: {
         image:'kitchen',name:'The kitchen',back:'hall',backLabel:'← The entrance',
-        alt:'An oil-painted view inside the kitchen seen from the hall. The metal kettle stands to the left of the same window. A folded list lies on the wooden table beside a bowl of pears.',
+        alt:'A watercolor view inside the kitchen seen from the hall. The metal kettle stands to the left of the same window. A folded list lies on the wooden table beside a bowl of pears.',
         caption:()=>'A folded list lies on the table.',
         spots:[
           {id:'kettle',label:'The kettle',box:[35,33,7,13],labelAt:[46,33],detail:'kettle'},
-          {id:'shopping-list',label:'The shopping list',box:[71,63,12,10],labelAt:[68,77],detail:'shoppingList'}
+          {id:'shopping-list',label:'The shopping list',box:[76,68,13,7],labelAt:[71,80],detail:'shoppingList'}
         ]
       },
       garden: {
         image:'garden',name:'The garden',back:'exterior',backLabel:'← The veranda',
-        alt:'An oil-painted view of the same farmhouse beyond the stone path. A European robin is perched on a low wall to the left. Pink hydrangeas grow in the foreground on the right.',
+        alt:'A watercolor view of the same farmhouse beyond the stone path. A European robin is perched on a low wall to the left. Pink hydrangeas grow in the foreground on the right.',
         caption:()=>'The stone path leads back to the veranda.',
         spots:[
           {id:'house',label:'Back to the veranda',box:[45,31,14,22],labelAt:[52,57],go:'exterior'},
           {id:'stable-path',label:'The stable',box:[1,39,20,19],labelAt:[11,55],go:'stableYard'},
-          {id:'robin',label:'The robin',box:[11,62,11,16],labelAt:[28,72],detail:'robin'},
+          {id:'robin',label:'The robin',box:[7,61,14,15],labelAt:[28,72],detail:'robin'},
           {id:'hydrangea',label:'The hydrangea',box:[73,56,25,31],labelAt:[72,91],detail:'hydrangea'}
         ]
       },
       stableYard: {
         image:'stableYard',name:'Outside the stable',back:'garden',backLabel:'← The garden',
-        alt:'Three realistically rendered horses stand in an oil-painted stable yard, in front of the same stable, all visible from head to hoof. Pamuk, the white Lipizzan, stands on the left; Bal, the smaller golden chestnut Haflinger, is beside him; Gece, the black Friesian, stands on the right. The path between them leads to the open doors.',
+        alt:'Three horses stand in a watercolor of the stable yard, in front of the same stable, all visible from head to hoof. Pamuk, the white Lipizzan, stands on the left; Bal, the smaller golden chestnut Haflinger, is beside him; Gece, the black Friesian, stands on the right. The path between them leads to the open doors.',
         caption:()=>'Pamuk, Bal and Gece are outside. The stable doors are open.',
         spots:[
           {id:'pamuk',label:'Pamuk · Lipizzan',box:[3,32,27,49],labelAt:[18,87],detail:'pamuk',horse:true},
@@ -216,11 +217,11 @@ permalink: /farm-house/
       },
       stable: {
         image:'stable',name:'The stable',back:'stableYard',backLabel:'← Outside the stable',
-        alt:'In an oil-painted stable interior, Doru, the realistically rendered bay Arabian, and Tarçın, the chestnut Quarter Horse, look over stall doors on the left. The near-left stall and the stalls on the right are empty. The central aisle opens onto olive trees.',
+        alt:'In a watercolor of the stable interior, Doru, the bay Arabian, and Tarçın, the chestnut Quarter Horse, look over stall doors on the left. The near-left stall and the stalls on the right are empty. The central aisle opens onto olive trees.',
         caption:()=>'Doru and Tarçın are in their stalls on the left.',
         spots:[
-          {id:'doru',label:'Doru · Arabian',box:[24,30,10,21],labelAt:[19,57],detail:'doru',horse:true},
-          {id:'tarcin',label:'Tarçın · Quarter Horse',box:[35,40,7,13],labelAt:[46,72],detail:'tarcin',horse:true}
+          {id:'doru',label:'Doru · Arabian',box:[13,26,20,26],labelAt:[19,57],detail:'doru',horse:true},
+          {id:'tarcin',label:'Tarçın · Quarter Horse',box:[34,38,9,15],labelAt:[46,72],detail:'tarcin',horse:true}
         ]
       },
       upstairs: {
@@ -238,13 +239,13 @@ permalink: /farm-house/
     const details = {
       pamuk:{kicker:'Lipizzan',title:'Pamuk.',image:'stableYard',position:'0% 60%',mobilePosition:'7% 60%',mobileZoom:'160%',zoom:'300%',alt:'Pamuk, the white Lipizzan, with a gray muzzle and curved neck.',body:['Pamuk stands on the left of the stable yard. His pale coat catches the afternoon light.','Lipizzans are closely associated with the Spanish Riding School in Vienna, where their training develops the movements of classical dressage. Their compact bodies and strong hindquarters help them perform demanding exercises.','The breed once came in a much wider range of colors. The school still keeps a brown Lipizzan, following a tradition that considers one lucky.'],actions:[['Back to the horses','close']],source:{label:'Spanish Riding School',url:'https://www.srs.at/en/lipizzaner/lipizzaners'}},
       gece:{kicker:'Friesian',title:'Gece.',image:'stableYard',position:'100% 60%',mobilePosition:'100% 58%',mobileZoom:'160%',zoom:'300%',alt:'Gece, the black Friesian, with a long wavy mane.',body:['Gece stands to the right of the open stable doors. His black mane falls in waves along his neck.','The Friesian comes from Friesland in the Netherlands. The breed is recognizable by its black coat, abundant mane and upright, arched neck. Its lifted steps are particularly striking in harness or in a dressage arena.','Friesians have taken on different kinds of work over their history. Riding and driving both remain part of the breed’s life.'],actions:[['Back to the horses','close']],source:{label:'Royal Friesian Studbook',url:'https://www.kfps-presenteert.nl/en/friesian-horses/'}},
-      doru:{kicker:'Arabian',title:'Doru.',image:'stable',position:'28% 38%',mobilePosition:'28% 37%',mobileZoom:'440%',zoom:'540%',alt:'Doru, the brown Arabian with a black mane and a refined face.',body:['Doru looks out from the middle stall on the left. His brown coat and black mane are a combination called bay.','Arabian horses were bred by Bedouin communities on the Arabian Peninsula. Long journeys helped shape a breed known for endurance, which remains one of its strengths in equestrian sport.','Look at the shape of his head. A fine muzzle and a gently concave profile are characteristic of the breed. Arabians also tend to carry their tails high when moving.'],actions:[['Back to the horses','close']],source:{label:'Arabian Horse Association',url:'https://www.arabianhorses.org/discover/arabian-horses/'}},
-      tarcin:{kicker:'American Quarter Horse',title:'Tarçın.',image:'stable',position:'36% 46%',mobilePosition:'36% 44%',mobileZoom:'650%',zoom:'760%',alt:'Tarçın, the red-brown chestnut Quarter Horse, at the far end of the left-hand stalls.',body:['Tarçın has the far stall on the left. His coat is a warm reddish brown, with a mane of a similar color.','The Quarter Horse takes its name from short races over a quarter of a mile. Speed over that distance helped establish the breed’s reputation.','Its muscular build and agility also proved useful on cattle ranches. Quarter Horses became valued for working with cattle as well as racing, and today they are ridden in many different disciplines.'],actions:[['Back to the horses','close']],source:{label:'Ohio Quarter Horse Association',url:'https://www.oqha.com/what-is-a-quarter-horse'}},
+      doru:{kicker:'Arabian',title:'Doru.',image:'stable',position:'17% 38%',mobilePosition:'17% 37%',mobileZoom:'440%',zoom:'540%',alt:'Doru, the brown Arabian with a black mane and a refined face.',body:['Doru looks out from the middle stall on the left. His brown coat and black mane are a combination called bay.','Arabian horses were bred by Bedouin communities on the Arabian Peninsula. Long journeys helped shape a breed known for endurance, which remains one of its strengths in equestrian sport.','Look at the shape of his head. A fine muzzle and a gently concave profile are characteristic of the breed. Arabians also tend to carry their tails high when moving.'],actions:[['Back to the horses','close']],source:{label:'Arabian Horse Association',url:'https://www.arabianhorses.org/discover/arabian-horses/'}},
+      tarcin:{kicker:'American Quarter Horse',title:'Tarçın.',image:'stable',position:'37% 46%',mobilePosition:'37% 44%',mobileZoom:'650%',zoom:'760%',alt:'Tarçın, the red-brown chestnut Quarter Horse, at the far end of the left-hand stalls.',body:['Tarçın has the far stall on the left. His coat is a warm reddish brown, with a mane of a similar color.','The Quarter Horse takes its name from short races over a quarter of a mile. Speed over that distance helped establish the breed’s reputation.','Its muscular build and agility also proved useful on cattle ranches. Quarter Horses became valued for working with cattle as well as racing, and today they are ridden in many different disciplines.'],actions:[['Back to the horses','close']],source:{label:'Ohio Quarter Horse Association',url:'https://www.oqha.com/what-is-a-quarter-horse'}},
       bal:{kicker:'Haflinger',title:'Bal.',image:'stableYard',position:'35% 70%',mobilePosition:'32% 65%',mobileZoom:'210%',zoom:'420%',alt:'Bal, a golden chestnut Haflinger with a pale flaxen mane.',body:['Bal stands beside Pamuk in the yard. His golden chestnut coat and pale mane make him easy to recognize.','The Haflinger developed in the Tyrolean mountains. These horses carried supplies to remote farms and helped with work on steep fields. Their smaller, sturdy build suited those surroundings.','The breed’s recorded ancestry goes back to a stallion named Folie, born in 1874. Haflingers are now used widely for leisure riding and driving.'],actions:[['Back to the horses','close']],source:{label:'Tyrolean Haflinger Breeding Association',url:'https://www.haflinger-tirol.com/en/haflinger-breeding-association/history-of-the-haflinger-breed.html'}},
       veranda:{kicker:'Outside',title:'The veranda.',image:'exterior',position:'73% 60%',zoom:'280%',alt:'The veranda table and chairs beside flowering plants.',body:['The family uses the house in summer.','Their belongings are still here.'],actions:[['Look around','close']]},
       kettle:{kicker:'By the window',title:'The kettle.',image:'kitchen',position:'37% 40%',zoom:'440%',alt:'The metal kettle with its black handle, beside the window.',body:['The kettle stands beside a row of glasses.'],actions:[['Back to the kitchen','close']]},
-      shoppingList:{kicker:'On the table',title:'The shopping list.',image:'kitchen',position:'79% 67%',zoom:'440%',alt:'A small folded shopping list on the wooden kitchen table.',body:['Beside “walnuts”, someone has written “for upstairs”.'],actions:[['Back to the kitchen','close']]},
-      robin:{kicker:'Erithacus rubecula',title:'A European robin.',image:'garden',position:'14% 74%',zoom:'600%',alt:'A European robin perched on the low stone wall, with an orange breast and brown back.',body:['Both males and females have an orange-red breast.','Robins often follow gardeners, picking up worms and grubs from newly turned soil.'],actions:[['Back to the garden','close']],source:{label:'RSPB bird guide',url:'https://www.rspb.org.uk/birds-and-wildlife/robin'}},
+      shoppingList:{kicker:'On the table',title:'The shopping list.',image:'kitchen',position:'92% 84%',mobilePosition:'92% 79%',zoom:'440%',alt:'A small folded shopping list on the wooden kitchen table.',body:['Beside “walnuts”, someone has written “for upstairs”.'],actions:[['Back to the kitchen','close']]},
+      robin:{kicker:'Erithacus rubecula',title:'A European robin.',image:'garden',position:'7% 76%',zoom:'500%',alt:'A European robin perched on the low stone wall, with an orange breast and brown back.',body:['Both males and females have an orange-red breast.','Robins often follow gardeners, picking up worms and grubs from newly turned soil.'],actions:[['Back to the garden','close']],source:{label:'RSPB bird guide',url:'https://www.rspb.org.uk/birds-and-wildlife/robin'}},
       hydrangea:{kicker:'Hydrangea macrophylla',title:'A mophead hydrangea.',image:'garden',position:'100% 73%',zoom:'260%',alt:'Rounded pink hydrangea flower heads above broad green leaves.',body:['Mophead hydrangeas have rounded flower heads that last through much of the summer.','The large heads are clusters of small flowers.'],actions:[['Back to the garden','close']],source:{label:'RHS plant guide',url:'https://www.rhs.org.uk/plants/hydrangea/shrubby/growing-guide'}},
       window:{kicker:'Upstairs',title:'The farm.',image:'upstairs',position:'0% 10%',zoom:'280%',alt:'Part of the stable roof and a cultivated field beyond olive trees, seen through the upstairs window.',body:['She could see the stable and the field from her bed.','She kept up with the work on the farm.'],actions:[['Back to the room','close']]},
       bed:{kicker:'By the window',title:'Her bed.',image:'upstairs',position:'11% 56%',zoom:'220%',alt:'The grandmother’s neatly made bed by the window.',body:['This was the upstairs sitting room. Her bed stood here, beside the window.','She had been bedridden for as long as Doğu could remember. Everyone who visited came up to see her.'],actions:[['Back to the room','close']]},
