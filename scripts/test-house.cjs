@@ -174,17 +174,11 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   }
   assert.equal(a.q('#house-scene').dataset.moon === 'up', A.moonAltitude(new Date(), 41.015, 28.979) > A.MOON_HORIZON);
   a.click('[data-open="moris"]');
-  assert.match(a.q('[data-moris-photo]').getAttribute('src'), /^\/images\/960\/moris-\d\d\.webp(?:\?v=[\w-]+)?$/);
+  // Moris is told, not shown: what he is doing now, and the way to his album.
+  assert.equal(a.q('#house-dialog-content img'), null);
+  assert.match(a.q('[data-moris-line]').textContent, /^He /);
+  assert.equal(a.q('#house-dialog-content a.house-more').getAttribute('href'), '/moris/');
   a.click('#house-close');
-  // Each of Moris's places has a source photograph. The source may be
-  // PNG/JPG/WebP, while the House always serves the generated 960px WebP.
-  for (const [, photo] of scripts.house.matchAll(/photo: '(moris-\d\d)'/g)) {
-    const sourceExists = ['webp', 'jpg', 'jpeg', 'png'].some(function(ext){
-      return fs.existsSync(path.join(root, 'images', photo + '.' + ext));
-    });
-    assert.ok(sourceExists, 'Missing source photograph: ' + photo);
-    assert.ok(fs.existsSync(path.join(root, 'images', '960', photo + '.webp')), 'Missing display photograph: ' + photo + '.webp');
-  }
 
   // Another tab changes the drawer; this one follows.
   a.click('[data-open="drawer"]');
