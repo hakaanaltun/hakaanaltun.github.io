@@ -127,7 +127,7 @@
   var rainButton=document.getElementById('let-it-rain');
   var canvas, context, bank, bankContext, flakes=[], drift;
   var active=false, frame=0, fadeTimer=0, lastTime=0, bankAge=0;
-  var mode='snow', intensity=1, splashes=[], beads=[], strikes=0, sprites=null;
+  var mode='snow', intensity=1, splashes=[];
   var mist=null, misted=null, haze=null, hazeContext=null, MIST_LIFE=1.1;
   var width=0,height=0,density=1,ground=0;
   var geometryDirty=true, bankDirty=true, observer;
@@ -309,7 +309,6 @@
         context.strokeStyle='rgba(226,241,253,'+(drop.alpha*.85)+')';context.stroke();
       }
     }
-    paintGlass(dt,wind,swell*1.45,heavy,motion);
     /* A splash is water off the ground, so it goes wherever the ground goes:
        scroll the end of the page out of the window mid-splash and the rings
        leave with it rather than hanging on at the foot of the glass. */
@@ -356,83 +355,6 @@
     }
     return {x:x,age:0,lifetime:.34+Math.random()*.3,
       reach:5+thickness*5,beads:beads};
-  }
-  /* A drop on the glass is a soft round shape drawn many times a frame, so
-     it is painted once here and then only stamped. */
-  function sprite(paint){
-    var c=document.createElement('canvas'), g=c.getContext('2d');
-    c.width=c.height=64;
-    if(g)paint(g);
-    return c;
-  }
-  function soft(g,x,y,radius,stops){
-    var shade=g.createRadialGradient(x,y,0,x,y,radius);
-    for(var i=0;i<stops.length;i++)shade.addColorStop(stops[i][0],stops[i][1]);
-    g.fillStyle=shade;g.fillRect(0,0,64,64);
-  }
-  function makeSprites(){
-    return {
-      /* A drop on a pane is clear water with a darker rim where it bends the
-         light, a brighter pool low inside it, and a glint on its upper edge.
-         The rim carries it on pale paper and the light on dark. */
-      bead:sprite(function(g){
-        soft(g,32,32,30,[[0,'rgba(214,230,243,.22)'],[.7,'rgba(176,202,223,.3)'],
-          [.88,'rgba(64,94,122,.8)'],[1,'rgba(64,94,122,0)']]);
-        soft(g,32,42,17,[[0,'rgba(244,250,255,.7)'],[1,'rgba(244,250,255,0)']]);
-        soft(g,23,21,9,[[0,'rgba(255,255,255,1)'],[.5,'rgba(255,255,255,.7)'],[1,'rgba(255,255,255,0)']]);
-      })
-    };
-  }
-  /* Now and then the wind puts a drop on the glass itself. It lands as a
-     splat, throws a little spray the way the wind is blowing, draws in to a
-     bead and is gone in a second or two; a big one runs a short way down
-     first. More of them come as a gust swells and fewer in the lulls, and
-     never so many that the glass is anything but a window. */
-  function makeBead(wind,heavy){
-    var r=(heavy?3.5:3)+Math.random()*(heavy?5:4), lean=wind<0?-1:1, spray=[];
-    for(var i=0,n=1+Math.floor(Math.random()*3);i<n;i++){
-      spray.push({dx:lean*r*(1.4+Math.random()*2.2),dy:r*(Math.random()*2-.6),r:.8+Math.random()*1.1});
-    }
-    return {x:Math.random()*width,y:Math.random()*height*.92,r:r,age:0,
-      life:1.4+Math.random()*(heavy?1.8:1.4),
-      // A wind-driven drop lands long, leaning the way it was carried.
-      stretch:Math.min(.45,Math.abs(wind)/120),lean:lean,spray:spray,
-      run:!reduce.matches && r>(heavy?6.5:5.8) && Math.random()<.65 ? .25+Math.random()*.35 : -1,
-      fall:0,from:0};
-  }
-  function paintGlass(dt,wind,reach,heavy,motion){
-    if(!sprites)sprites=makeSprites();
-    var gust=Math.min(1,Math.abs(wind)/Math.max(1,reach));
-    strikes+=dt*(heavy?6:2.2)*(.35+gust*1.3)*(reduce.matches?.45:1);
-    while(strikes>=1){strikes--;if(beads.length<(heavy?40:16))beads.push(makeBead(wind,heavy));}
-    for(var i=beads.length-1;i>=0;i--){
-      var bead=beads[i];bead.age+=dt;
-      if(bead.age>=bead.life){beads.splice(i,1);continue;}
-      var age=bead.age, left=1-age/bead.life;
-      // The splat: wide and faint on impact, a bead seventy milliseconds on.
-      var splat=age<.07?1-age/.07:0, r=bead.r*(1+.6*splat);
-      var fade=Math.min(1,left/.45)*(1-.45*splat);
-      if(bead.run>=0 && age>bead.run){
-        if(!bead.fall)bead.from={x:bead.x,y:bead.y};
-        bead.fall=Math.min(150,bead.fall+300*dt*motion);
-        bead.y+=bead.fall*dt*motion;bead.x+=bead.lean*bead.fall*.06*dt*motion;
-        // A running drop leaves a thin wet line behind it as it goes.
-        context.globalAlpha=fade*.5;
-        context.beginPath();context.moveTo(bead.from.x,bead.from.y);context.lineTo(bead.x,bead.y-bead.r*.5);
-        context.lineWidth=bead.r*.45;context.strokeStyle='rgba(120,150,176,.6)';context.stroke();
-      }
-      context.globalAlpha=fade;
-      var wide=r*(1+bead.stretch*splat);
-      context.drawImage(sprites.bead,bead.x-wide-bead.lean*bead.stretch*splat*r,bead.y-r,wide*2,r*2);
-      if(age<.45){
-        context.globalAlpha=fade*(1-age/.45);
-        for(var s=0;s<bead.spray.length;s++){
-          var dot=bead.spray[s];
-          context.drawImage(sprites.bead,bead.x+dot.dx-dot.r*1.2,bead.y+dot.dy-dot.r*1.2,dot.r*2.4,dot.r*2.4);
-        }
-      }
-    }
-    context.globalAlpha=1;
   }
   /* What a wipe leaves for a moment on the glass it cleared: the hand's
      warmth, fogging it, then lifting in about a second. Each column keeps
@@ -689,7 +611,7 @@
     if(canvas) canvas.remove();
     if(canvas) canvas.width=canvas.height=1;
     if(bank) bank.width=bank.height=1;
-    canvas=context=bank=bankContext=null;flakes=[];splashes=[];beads=[];strikes=0;drift=mist=misted=null;
+    canvas=context=bank=bankContext=null;flakes=[];splashes=[];drift=mist=misted=null;
     if(haze)haze.width=haze.height=1;haze=hazeContext=null;
     trails=Object.create(null);touching=Object.create(null);
   }
