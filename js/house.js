@@ -719,15 +719,26 @@
       ctx.fillText((item.kind || '').toUpperCase(), M, y);
       if ('letterSpacing' in ctx) ctx.letterSpacing = '0px';
       var word = item.id.indexOf('word-') === 0;
+      // A long question steps down in size until it fits in four lines,
+      // so it is read to its end. Only a title too long even then is cut,
+      // and the cut is marked.
       var size = word ? 104 : 62;
+      var floor = word ? 72 : 44;
+      var heading = [];
+      for (;;) {
+        ctx.font = (word ? 'italic ' : '') + '500 ' + size + 'px "Cormorant Garamond", Georgia, serif';
+        heading = wrap(ctx, item.title, width);
+        if (heading.length <= 4 || size <= floor) break;
+        size -= 2;
+      }
+      if (heading.length > 4) { heading = heading.slice(0, 4); heading[3] = heading[3].replace(/\s*\S*$/, '') + ' …'; }
       ctx.fillStyle = '#262320';
-      ctx.font = (word ? 'italic ' : '') + '500 ' + size + 'px "Cormorant Garamond", Georgia, serif';
       y += size * 1.35;
-      wrap(ctx, item.title, width).slice(0, 4).forEach(function (line) { ctx.fillText(line, M, y); y += size * 1.12; });
+      heading.forEach(function (line) { ctx.fillText(line, M, y); y += size * 1.12; });
       y += 34;
       // The words take the largest size that fits, and sit in the middle
       // of the room left for them, so a short line is not lost at the top.
-      var bottom = H - M - 150;
+      var bottom = H - M - 160;
       var body = item.quote ? quoted(item) : '';
       var face = item.id.indexOf('text-') === 0 ? 'italic 400 ' : '400 ';
       var fit = 60;
@@ -743,12 +754,15 @@
       y += Math.max(0, (bottom - y - lines.length * fit * 1.5) / 2);
       ctx.fillStyle = '#3A342C';
       lines.forEach(function (line) { y += fit * 1.5; ctx.fillText(line, M, y); });
-      ctx.fillStyle = '#4A554F';
-      ctx.font = 'italic 500 46px "Cormorant Garamond", Georgia, serif';
-      ctx.fillText('On Life & Everything', M, H - M - 34);
+      // The sign-off is the header's logo, name over line, in the light
+      // palette's colours and at the same proportions.
+      ctx.textAlign = 'center';
+      ctx.fillStyle = '#373F3A';
+      ctx.font = 'italic 400 46px "Cormorant Garamond", Georgia, serif';
+      ctx.fillText('On Life & Everything', W / 2, H - M - 42);
       ctx.fillStyle = '#6D665B';
-      ctx.font = '400 28px "EB Garamond", Georgia, serif';
-      ctx.fillText('hakanaltun.io', M, H - M + 10);
+      ctx.font = 'italic 400 32px "Cormorant Garamond", Georgia, serif';
+      ctx.fillText('Essays, short fiction, and other writing.', W / 2, H - M + 10);
       return new Promise(function (resolve) { canvas.toBlob(resolve, 'image/png'); });
     });
   }
@@ -760,8 +774,13 @@
       if (!blob) throw new Error('no image');
       var name = 'on-life-and-everything-' + (item.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40) || 'card') + '.png';
       var file = typeof File === 'function' ? new File([blob], name, { type: 'image/png' }) : null;
-      if (file && navigator.canShare && navigator.canShare({ files: [file] })) {
-        return navigator.share({ files: [file], title: item.title })
+      // The card is a picture and holds no link, so the page's address goes
+      // with it as text. Where a browser will not send the two together, the
+      // card goes alone.
+      var data = { files: [file], title: item.title, text: location.origin + item.href };
+      if (file && navigator.canShare && !navigator.canShare(data)) data = { files: [file], title: item.title };
+      if (file && navigator.canShare && navigator.canShare(data)) {
+        return navigator.share(data)
           .then(function () { announce('The card is on its way.'); }, function () { announce(''); });
       }
       announce(download(blob, name) ? 'The card is saved to your downloads.' : 'This browser cannot save the card.');
