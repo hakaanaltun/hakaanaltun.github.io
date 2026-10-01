@@ -71,8 +71,7 @@ function check(reduced,width){
     // Only the drift's own outline has points in it; a flake is a bare arc.
     fill(){if(pen.length>2)bankPath=pen.slice();},
     stroke(){strokes++;},arc(){arcs++;},ellipse(){ripples++;},
-    createLinearGradient(x,y){bankTop=y;return {addColorStop(){}};},
-    createRadialGradient(){return {addColorStop(){}};}};
+    createLinearGradient(x,y){bankTop=y;return {addColorStop(){}};}};
   // How deep the snow lies at a given fraction across the window.
   const depthAt=(fraction,ground)=>{
     let best=null;
@@ -228,24 +227,20 @@ function check(reduced,width){
   rainButton.click();
   assert.equal(button.getAttribute('aria-pressed'),'false');assert.equal(rainButton.getAttribute('aria-pressed'),'true');
   assert.equal(frames.size,1);assert.equal(timers.size,0);assert.equal(w.document.querySelectorAll('canvas').length,1);
-  const previousArcs=arcs,previousStrokes=strokes,previousDraws=draws;
+  const previousArcs=arcs,previousStrokes=strokes;
   for(let i=0;i<500;i++){
-    const previousRipples=ripples,oldStrokes=strokes,oldDraws=draws;
+    const previousRipples=ripples,oldStrokes=strokes;
     paint(50000+i*80);
     assert.equal(frames.size,1);assert(ripples-previousRipples<=40);assert(strokes-oldStrokes<=150);
-    // A drop on the glass is a bead and up to three flecks of spray.
-    assert(draws-oldDraws<=16*4,'a few drops on the glass at a time, not a sheet of them');
   }
   assert(strokes>previousStrokes);assert.equal(arcs,previousArcs);
-  assert(draws>previousDraws,'now and then the wind puts a drop on the glass itself');
   rainButton.click();assert.equal(rainButton.dataset.weatherLevel,'2');assert.match(rainButton.title,/Heavy rain/);
   assert.equal(frames.size,1);assert.equal(timers.size,0);
   const lightStrokes=strokes;paint(115000);
   assert(strokes-lightStrokes>particleCount*2);assert(strokes-lightStrokes<=1020);
   for(let i=1;i<300;i++){
-    const previousRipples=ripples,oldStrokes=strokes,oldDraws=draws;paint(115000+i*80);
+    const previousRipples=ripples,oldStrokes=strokes;paint(115000+i*80);
     assert.equal(frames.size,1);assert(ripples-previousRipples<=90);assert(strokes-oldStrokes<=1020);
-    assert(draws-oldDraws<=40*4);
   }
   /* Rain falls to the ground, and the ground is the end of the page rather
      than the foot of the window. Read from the middle of a long one and the
@@ -321,7 +316,7 @@ function scrollCost(footerTop){
   };
   const all=w.Element.prototype.querySelectorAll;
   w.Element.prototype.querySelectorAll=function(){queries++;return all.apply(this,arguments);};
-  const ctx={setTransform(){},clearRect(){},drawImage(){},beginPath(){},moveTo(){},lineTo(){},closePath(){},fill(){},stroke(){},save(){},restore(){},fillRect(){},arc(){},ellipse(){},createLinearGradient(){return{addColorStop(){}};},createRadialGradient(){return{addColorStop(){}};}};
+  const ctx={setTransform(){},clearRect(){},drawImage(){},beginPath(){},moveTo(){},lineTo(){},closePath(){},fill(){},stroke(){},save(){},restore(){},fillRect(){},arc(){},ellipse(){},createLinearGradient(){return{addColorStop(){}};}};
   w.HTMLCanvasElement.prototype.getContext=()=>ctx;
   w.eval(fs.readFileSync(path.join(root,'js/let-it-snow.js'),'utf8'));
   w.document.getElementById('let-it-snow').click();
@@ -336,4 +331,4 @@ assert.equal(away.rects,0,'a scrolled frame reads no layout at all');
 assert.equal(away.queries,0,'and matches no selectors');
 assert.equal(near.rects,0,'the same with the footer in view: the snow is on the window');
 assert.equal(near.queries,0);
-console.log('Weather checks passed: three-stage cycles, one shared sky for the footer and the essays, preserved snow, drift that covers the page and is wiped to the depth of the hand along a whole stroke by mouse or by finger, several fingers at once, a page that still scrolls under heavy snow, snow banked into berms rather than deleted, cut walls that stand and fill in, rain/splash limits, drops on the glass, a wipe that fogs and clears, exclusive switching, mobile bounds, reduced motion, unbroken heavy rain, free scrolling and cleanup.');
+console.log('Weather checks passed: three-stage cycles, one shared sky for the footer and the essays, preserved snow, drift that covers the page and is wiped to the depth of the hand along a whole stroke by mouse or by finger, several fingers at once, a page that still scrolls under heavy snow, snow banked into berms rather than deleted, cut walls that stand and fill in, rain/splash limits, a wipe that fogs and clears, exclusive switching, mobile bounds, reduced motion, unbroken heavy rain, free scrolling and cleanup.');
