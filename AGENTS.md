@@ -29,6 +29,19 @@ The Farm House is a growing fictional world where visitors can spend time
 and feel close to nature. Its existing family story unfolds gradually.
 Wandering and observing should be worthwhile on their own.
 
+- **The visual set is fixed.** The seven loose watercolor illustrations restored
+  on 1 October 2026 are the canonical set: `exterior-watercolor.webp`,
+  `hall-watercolor.webp`, `kitchen-watercolor.webp`, `garden-watercolor.webp`,
+  `stable-yard-watercolor.webp`, `stable-watercolor.webp` and
+  `upstairs-watercolor.webp`, all in `farm-house/assets/`. These are the exact
+  images from commit `d48a4fc`; the upstairs image also appears at the story's
+  ending. Keep their finish and style unless the author explicitly requests a
+  change. The original upstairs watercolor is the style reference for new
+  scenes: broad brush marks, transparent washes, a limited value range,
+  visible pencil, occasional unfinished edges and exposed white paper. Use
+  existing scenes for objects, placement, relative scale and camera angle;
+  paint new scenes from scratch in this language. Preserve important objects
+  and avoid inventing decoration or copying a former render's surface detail.
 - Let the story develop through occasional discoveries and small traces in
   the rooms. Give each addition time to settle. Preserve the unanswered
   questions in the existing story, including why the grandmother kept the
@@ -39,7 +52,7 @@ Wandering and observing should be worthwhile on their own.
   Plants and birds are part of the world visitors can learn to recognize.
 - Complete the spring/summer setting first. For now, keep new scenes bright,
   sunlit and suggestive of spring or summer; autumn and winter views can follow.
-  Keep the lighting photographic and natural across scenes. Preserve believable
+  Keep the light natural in the watercolor scenes. Preserve believable
   differences between direct sun, veranda shade and window-lit interiors; avoid
   exaggerated yellow casts, glowing highlights and uniformly bright shadows.
 - Let the natural world change with the seasons, including which birds are
