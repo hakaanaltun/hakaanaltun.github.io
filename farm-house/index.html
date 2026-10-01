@@ -106,7 +106,7 @@ permalink: /farm-house/
         <p class="eyebrow">From The House</p>
         <h1 id="intro-title" tabindex="-1">The Farm House</h1>
         <button class="photograph" id="photo" aria-label="Enter the picture of the farm house">
-          <img src="assets/exterior-watercolor.webp?v=20260930-finished" width="1536" height="1024" alt="A watercolor view of a cared-for two-story farmhouse, with flowers on the veranda and a path through a green garden.">
+          <img src="assets/exterior-watercolor.webp?v=20261001-loose" width="1536" height="1024" alt="A watercolor view of a cared-for two-story farmhouse, with flowers on the veranda and a path through a green garden.">
           <span class="photo-inscription">The house in summer.</span>
         </button>
         <p class="intro-copy">The family still comes here in summer.<br>Today, no one is home.</p>
@@ -114,7 +114,7 @@ permalink: /farm-house/
       </section>
       <section class="visit" id="visit" aria-label="Explore the house" hidden>
         <div class="frame" id="frame">
-          <img class="scene-img" id="scene-image" src="assets/exterior-watercolor.webp?v=20260930-finished" width="1536" height="1024" alt="">
+          <img class="scene-img" id="scene-image" src="assets/exterior-watercolor.webp?v=20261001-loose" width="1536" height="1024" alt="">
           <div class="hotspots" id="hotspots"></div>
         </div>
         <div class="scene-under">
@@ -128,7 +128,7 @@ permalink: /farm-house/
         </div>
       </section>
       <section class="ending" id="ending" hidden aria-labelledby="ending-title">
-        <div class="ending-photo"><img src="assets/upstairs-watercolor.webp?v=20260930-finished" width="1536" height="1024" alt="A watercolor of the upstairs room, with her bed beside the window."></div>
+        <div class="ending-photo"><img src="assets/upstairs-watercolor.webp?v=20261001-loose" width="1536" height="1024" alt="A watercolor of the upstairs room, with her bed beside the window."></div>
         <p class="eyebrow">After the visit</p>
         <h1 id="ending-title" tabindex="-1">The upstairs room.</h1>
         <p>Everyone who came to the house<br>went upstairs before they left.</p>
@@ -161,8 +161,8 @@ permalink: /farm-house/
   (() => {
     'use strict';
     const $ = id => document.getElementById(id);
-    // The finished watercolor set, with an intermediate finish for the upstairs room.
-    const sceneAssets = { exterior:'assets/exterior-watercolor.webp?v=20260930-finished', hall:'assets/hall-watercolor.webp?v=20260930-finished', upstairs:'assets/upstairs-watercolor.webp?v=20260930-finished', kitchen:'assets/kitchen-watercolor.webp?v=20260930-finished', garden:'assets/garden-watercolor.webp?v=20260930-finished', stableYard:'assets/stable-yard-watercolor.webp?v=20260930-finished', stable:'assets/stable-watercolor.webp?v=20260930-finished' };
+    // The loose watercolor set uses the original upstairs painting as its style anchor.
+    const sceneAssets = { exterior:'assets/exterior-watercolor.webp?v=20261001-loose', hall:'assets/hall-watercolor.webp?v=20261001-loose', upstairs:'assets/upstairs-watercolor.webp?v=20261001-loose', kitchen:'assets/kitchen-watercolor.webp?v=20261001-loose', garden:'assets/garden-watercolor.webp?v=20261001-loose', stableYard:'assets/stable-yard-watercolor.webp?v=20261001-loose', stable:'assets/stable-watercolor.webp?v=20261001-loose' };
     const state = { scene: 'intro', visitedUpstairs: false, bed: false, walnuts: false, letter: false, hints: false, detail: null };
     const scenes = {
       exterior: {
@@ -245,7 +245,7 @@ permalink: /farm-house/
       veranda:{kicker:'Outside',title:'The veranda.',image:'exterior',position:'73% 60%',zoom:'280%',alt:'The veranda table and chairs beside flowering plants.',body:['The family uses the house in summer.','Their belongings are still here.'],actions:[['Look around','close']]},
       kettle:{kicker:'By the window',title:'The kettle.',image:'kitchen',position:'37% 40%',zoom:'440%',alt:'The metal kettle with its black handle, beside the window.',body:['The kettle stands beside a row of glasses.'],actions:[['Back to the kitchen','close']]},
       shoppingList:{kicker:'On the table',title:'The shopping list.',image:'kitchen',position:'92% 84%',mobilePosition:'92% 79%',zoom:'440%',alt:'A small folded shopping list on the wooden kitchen table.',body:['Beside “walnuts”, someone has written “for upstairs”.'],actions:[['Back to the kitchen','close']]},
-      robin:{kicker:'Erithacus rubecula',title:'A European robin.',image:'garden',position:'7% 76%',zoom:'440%',alt:'A European robin perched on the low stone wall, with an orange breast and brown back.',body:['Both males and females have an orange-red breast.','Robins often follow gardeners, picking up worms and grubs from newly turned soil.'],actions:[['Back to the garden','close']],source:{label:'RSPB bird guide',url:'https://www.rspb.org.uk/birds-and-wildlife/robin'}},
+      robin:{kicker:'Erithacus rubecula',title:'A European robin.',image:'garden',position:'7% 76%',zoom:'500%',alt:'A European robin perched on the low stone wall, with an orange breast and brown back.',body:['Both males and females have an orange-red breast.','Robins often follow gardeners, picking up worms and grubs from newly turned soil.'],actions:[['Back to the garden','close']],source:{label:'RSPB bird guide',url:'https://www.rspb.org.uk/birds-and-wildlife/robin'}},
       hydrangea:{kicker:'Hydrangea macrophylla',title:'A mophead hydrangea.',image:'garden',position:'100% 73%',zoom:'260%',alt:'Rounded pink hydrangea flower heads above broad green leaves.',body:['Mophead hydrangeas have rounded flower heads that last through much of the summer.','The large heads are clusters of small flowers.'],actions:[['Back to the garden','close']],source:{label:'RHS plant guide',url:'https://www.rhs.org.uk/plants/hydrangea/shrubby/growing-guide'}},
       window:{kicker:'Upstairs',title:'The farm.',image:'upstairs',position:'0% 10%',zoom:'280%',alt:'Part of the stable roof and a cultivated field beyond olive trees, seen through the upstairs window.',body:['She could see the stable and the field from her bed.','She kept up with the work on the farm.'],actions:[['Back to the room','close']]},
       bed:{kicker:'By the window',title:'Her bed.',image:'upstairs',position:'11% 56%',zoom:'220%',alt:'The grandmother’s neatly made bed by the window.',body:['This was the upstairs sitting room. Her bed stood here, beside the window.','She had been bedridden for as long as Doğu could remember. Everyone who visited came up to see her.'],actions:[['Back to the room','close']]},
