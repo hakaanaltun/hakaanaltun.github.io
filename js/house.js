@@ -738,22 +738,29 @@
       y += 34;
       // The words take the largest size that fits, and sit in the middle
       // of the room left for them, so a short line is not lost at the top.
+      // The site's address comes right after them, where a reader's eye
+      // goes next: the name alone does not find the site in a search.
       var bottom = H - M - 160;
       var body = item.quote ? quoted(item) : '';
       var face = item.id.indexOf('text-') === 0 ? 'italic 400 ' : '400 ';
       var fit = 60;
       var lines = [];
+      var under = 0;
       for (;;) {
         ctx.font = face + fit + 'px "EB Garamond", Georgia, serif';
         lines = wrap(ctx, body, width);
-        if (y + lines.length * fit * 1.5 <= bottom || fit <= 28) break;
+        under = Math.round(fit * 0.75) + 36;
+        if (y + lines.length * fit * 1.5 + under <= bottom || fit <= 28) break;
         fit -= 2;
       }
-      var room = Math.max(0, Math.floor((bottom - y) / (fit * 1.5)));
+      var room = Math.max(0, Math.floor((bottom - under - y) / (fit * 1.5)));
       if (lines.length > room) { lines = lines.slice(0, room); if (room) lines[room - 1] = lines[room - 1].replace(/\s*\S*$/, '') + ' …'; }
-      y += Math.max(0, (bottom - y - lines.length * fit * 1.5) / 2);
+      y += Math.max(0, (bottom - y - lines.length * fit * 1.5 - under) / 2);
       ctx.fillStyle = '#3A342C';
       lines.forEach(function (line) { y += fit * 1.5; ctx.fillText(line, M, y); });
+      ctx.fillStyle = '#6D665B';
+      ctx.font = '400 28px "EB Garamond", Georgia, serif';
+      ctx.fillText('hakanaltun.io', M, y + under);
       // The sign-off is the header's logo, name over line, in the light
       // palette's colours and at the same proportions.
       ctx.textAlign = 'center';
@@ -774,8 +781,8 @@
       if (!blob) throw new Error('no image');
       var name = 'on-life-and-everything-' + (item.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40) || 'card') + '.png';
       var file = typeof File === 'function' ? new File([blob], name, { type: 'image/png' }) : null;
-      // The card is a picture and holds no link, so the page's address goes
-      // with it as text. Where a browser will not send the two together, the
+      // The card is a picture and holds no link, so the page's own address
+      // goes with it as text. Where a browser will not send the two together, the
       // card goes alone.
       var data = { files: [file], title: item.title, text: location.origin + item.href };
       if (file && navigator.canShare && !navigator.canShare(data)) data = { files: [file], title: item.title };
