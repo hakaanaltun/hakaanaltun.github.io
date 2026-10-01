@@ -725,30 +725,47 @@
       y += size * 1.35;
       wrap(ctx, item.title, width).slice(0, 4).forEach(function (line) { ctx.fillText(line, M, y); y += size * 1.12; });
       y += 34;
-      // The words take the largest size that fits, and sit in the middle
-      // of the room left for them, so a short line is not lost at the top.
-      var bottom = H - M - 150;
+      // The page the words came from sits right under them. Should an
+      // address ever run too wide, the passage mark goes first, then all
+      // but the site's name.
+      var small = '400 28px "EB Garamond", Georgia, serif';
+      ctx.font = small;
+      var address = 'hakanaltun.io' + item.href;
+      if (ctx.measureText(address).width > width) address = address.replace(/#.*$/, '');
+      if (ctx.measureText(address).width > width) address = 'hakanaltun.io';
+      // The words take the largest size that fits, and sit with their
+      // address in the middle of the room left for them, so a short line is
+      // not lost at the top.
+      var bottom = H - M - 160;
       var body = item.quote ? quoted(item) : '';
       var face = item.id.indexOf('text-') === 0 ? 'italic 400 ' : '400 ';
       var fit = 60;
       var lines = [];
+      var under = 0;
       for (;;) {
         ctx.font = face + fit + 'px "EB Garamond", Georgia, serif';
         lines = wrap(ctx, body, width);
-        if (y + lines.length * fit * 1.5 <= bottom || fit <= 28) break;
+        under = Math.round(fit * 0.75) + 36;
+        if (y + lines.length * fit * 1.5 + under <= bottom || fit <= 28) break;
         fit -= 2;
       }
-      var room = Math.max(0, Math.floor((bottom - y) / (fit * 1.5)));
+      var room = Math.max(0, Math.floor((bottom - under - y) / (fit * 1.5)));
       if (lines.length > room) { lines = lines.slice(0, room); if (room) lines[room - 1] = lines[room - 1].replace(/\s*\S*$/, '') + ' …'; }
-      y += Math.max(0, (bottom - y - lines.length * fit * 1.5) / 2);
+      y += Math.max(0, (bottom - y - lines.length * fit * 1.5 - under) / 2);
       ctx.fillStyle = '#3A342C';
       lines.forEach(function (line) { y += fit * 1.5; ctx.fillText(line, M, y); });
-      ctx.fillStyle = '#4A554F';
-      ctx.font = 'italic 500 46px "Cormorant Garamond", Georgia, serif';
-      ctx.fillText('On Life & Everything', M, H - M - 34);
       ctx.fillStyle = '#6D665B';
-      ctx.font = '400 28px "EB Garamond", Georgia, serif';
-      ctx.fillText('hakanaltun.io', M, H - M + 10);
+      ctx.font = small;
+      ctx.fillText(address, M, y + under);
+      // The sign-off is the header's logo, name over line, in the light
+      // palette's colours and at the same proportions.
+      ctx.textAlign = 'center';
+      ctx.fillStyle = '#373F3A';
+      ctx.font = 'italic 400 46px "Cormorant Garamond", Georgia, serif';
+      ctx.fillText('On Life & Everything', W / 2, H - M - 42);
+      ctx.fillStyle = '#6D665B';
+      ctx.font = 'italic 400 32px "Cormorant Garamond", Georgia, serif';
+      ctx.fillText('Essays, short fiction, and other writing.', W / 2, H - M + 10);
       return new Promise(function (resolve) { canvas.toBlob(resolve, 'image/png'); });
     });
   }
