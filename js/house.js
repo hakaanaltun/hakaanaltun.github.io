@@ -715,8 +715,18 @@
       var y = M + 44;
       ctx.fillStyle = '#6D665B';
       ctx.font = '400 28px "EB Garamond", Georgia, serif';
+      // The site's address stands across from the kind, like a letterhead:
+      // the name alone does not find the site in a search. A kind too long
+      // to share the line sends it under the words instead.
       if ('letterSpacing' in ctx) ctx.letterSpacing = '4px';
-      ctx.fillText((item.kind || '').toUpperCase(), M, y);
+      var kind = (item.kind || '').toUpperCase();
+      ctx.fillText(kind, M, y);
+      var aside = ctx.measureText(kind).width + 48 + ctx.measureText('HAKANALTUN.IO').width <= width;
+      if (aside) {
+        ctx.textAlign = 'right';
+        ctx.fillText('HAKANALTUN.IO', W - M, y);
+        ctx.textAlign = 'left';
+      }
       if ('letterSpacing' in ctx) ctx.letterSpacing = '0px';
       var word = item.id.indexOf('word-') === 0;
       // A long question steps down in size until it fits in four lines,
@@ -738,8 +748,6 @@
       y += 34;
       // The words take the largest size that fits, and sit in the middle
       // of the room left for them, so a short line is not lost at the top.
-      // The site's address comes right after them, where a reader's eye
-      // goes next: the name alone does not find the site in a search.
       var bottom = H - M - 160;
       var body = item.quote ? quoted(item) : '';
       var face = item.id.indexOf('text-') === 0 ? 'italic 400 ' : '400 ';
@@ -749,7 +757,7 @@
       for (;;) {
         ctx.font = face + fit + 'px "EB Garamond", Georgia, serif';
         lines = wrap(ctx, body, width);
-        under = Math.round(fit * 0.75) + 36;
+        under = aside ? 0 : Math.round(fit * 0.75) + 36;
         if (y + lines.length * fit * 1.5 + under <= bottom || fit <= 28) break;
         fit -= 2;
       }
@@ -758,9 +766,11 @@
       y += Math.max(0, (bottom - y - lines.length * fit * 1.5 - under) / 2);
       ctx.fillStyle = '#3A342C';
       lines.forEach(function (line) { y += fit * 1.5; ctx.fillText(line, M, y); });
-      ctx.fillStyle = '#6D665B';
-      ctx.font = '400 28px "EB Garamond", Georgia, serif';
-      ctx.fillText('hakanaltun.io', M, y + under);
+      if (!aside) {
+        ctx.fillStyle = '#6D665B';
+        ctx.font = '400 28px "EB Garamond", Georgia, serif';
+        ctx.fillText('hakanaltun.io', M, y + under);
+      }
       // The sign-off is the header's logo, name over line, in the light
       // palette's colours and at the same proportions.
       ctx.textAlign = 'center';
