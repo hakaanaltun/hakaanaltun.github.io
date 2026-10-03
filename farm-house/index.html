@@ -65,6 +65,8 @@ permalink: /farm-house/
     }
     .footer{max-width:1440px;width:100%;margin:0 auto;display:flex;justify-content:space-between;gap:20px;padding:18px 0 22px;font:10px var(--sans);letter-spacing:.1em;color:var(--quiet)}
     .footer button,.footer a{font:inherit;color:inherit;background:none;border:0;padding:0;letter-spacing:inherit;text-decoration:underline;text-underline-offset:4px}
+    .footer .sound-toggle{font:italic 13px/1 var(--serif);letter-spacing:.02em;text-decoration:none;padding:3px 6px;margin:-3px 0;transition:color .2s}
+    .footer .sound-toggle:hover,.footer .sound-toggle[aria-pressed="true"]{color:var(--olive)}
     .object-dialog{margin:auto;border:0;padding:0;width:min(800px,calc(100vw - 40px));max-height:calc(100svh - 50px);background:var(--paper);color:var(--ink);box-shadow:0 20px 100px #14190f60;overflow:auto}
     .object-dialog::backdrop{background:#151d1bd6;backdrop-filter:blur(4px)}
     .detail-layout{display:grid;grid-template-columns:43% 57%;min-height:350px}
@@ -136,7 +138,7 @@ permalink: /farm-house/
         <button class="text-button" id="return-photo">The picture</button>
       </section>
     </main>
-    <footer class="footer"><a href="/house/#study">← The House</a><button id="about-button">How to explore</button></footer>
+    <footer class="footer"><a href="/house/#study">← The House</a><button type="button" class="sound-toggle" id="farm-sound" aria-pressed="false" hidden>listen to the farm</button><button id="about-button">How to explore</button></footer>
   </div>
   <dialog class="object-dialog" id="detail" aria-labelledby="detail-title">
     <div class="detail-layout">
@@ -157,12 +159,18 @@ permalink: /farm-house/
     <p>Click an object to look more closely. Use “Show places to look” to reveal the available objects. On a smaller screen, match the numbers in the scene to the names below it. You can also use Tab and Enter; Escape closes a detail.</p>
   </dialog>
   <noscript><p>This visit needs JavaScript to move between rooms.</p></noscript>
+  {% include sky-ramp.html %}
+  <script src="/js/rain-engine.js?v=20260911-1"></script>
+  <script src="/js/farm-sound-engine.js?v=20261003-2"></script>
+  <script src="/js/farm-sound.js?v=20261003-2"></script>
   <script>
   (() => {
     'use strict';
     const $ = id => document.getElementById(id);
     // The loose watercolor set uses the original upstairs painting as its style anchor.
     const sceneAssets = { exterior:'assets/exterior-watercolor.webp?v=20261001-loose', hall:'assets/hall-watercolor.webp?v=20261001-loose', upstairs:'assets/upstairs-watercolor.webp?v=20261001-loose', kitchen:'assets/kitchen-watercolor.webp?v=20261001-loose', garden:'assets/garden-watercolor.webp?v=20261001-loose', stableYard:'assets/stable-yard-watercolor.webp?v=20261001-loose', stable:'assets/stable-watercolor.webp?v=20261001-loose' };
+    // In these rooms the farm's sound is heard through the walls.
+    const indoors = new Set(['hall','kitchen','upstairs','stable']);
     const state = { scene: 'intro', visitedUpstairs: false, bed: false, walnuts: false, letter: false, hints: false, detail: null };
     const scenes = {
       exterior: {
@@ -261,6 +269,7 @@ permalink: /farm-house/
       closeDetail();
       if(!['intro','ending',...Object.keys(scenes)].includes(name))name='intro';
       state.scene=name;
+      window.OLAE_FARM_SOUND?.setIndoors(indoors.has(name));
       if(name==='upstairs')state.visitedUpstairs=true;
       $('intro').hidden=name!=='intro';$('visit').hidden=!scenes[name];$('ending').hidden=name!=='ending';
       $('leave').hidden=!scenes[name];

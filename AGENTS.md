@@ -74,6 +74,55 @@ Wandering and observing should be worthwhile on their own.
   punctuation; avoid ornate phrasing, rhetorical triples and unnecessary
   negative examples. Fictional details should fit the established story.
 
+### Sound
+
+The Farm House has an optional sound layer. It is off until the visitor
+turns it on with "listen to the farm" in the footer. The choice is kept in
+their browser (`olae-farm-sound`); sound left on waits for their first
+click, because browsers start audio only from one. Every start and stop
+fades over a second or two, and a hidden tab fades out and suspends the
+audio until it returns.
+
+- **The time of day.** Morning is sparse birdsong; midday a soft wind, with
+  a distant horse every minute or two; evening crickets; night fewer
+  crickets, slower and quieter. The birds and crickets are not any one
+  species, and nothing on the page names them.
+- **Indoors and out.** Outdoors the sound is low. In the rooms it is lower
+  still and low-passed, as if heard through the walls. The rooms are the
+  hall, the kitchen, upstairs and the stable aisle, listed in the page's
+  `indoors` set; a new room must be added there.
+- **No creaks.** Synthesised floorboard creaks were tried in October 2026
+  and taken out at the author's request. Do not add them back unless the
+  author asks.
+- **Whose time.** Unlike The House, which stays in İstanbul, the farm's
+  sound follows the visitor's own sky: the browser's time zone gives a city
+  through `window.OLAE_SKY` (`_includes/sky-ramp.html`), as Follow the sky
+  does, and the sun's height decides. Night is the sun below −12°, or
+  climbing but still below −6°; morning lasts while it climbs to half its
+  noon height; evening starts once it sinks below 10° (or below 30% of the
+  noon height on a short day). No location is ever asked for. Without
+  `OLAE_SKY` the clock decides: morning 05–10, midday 10–18, evening
+  18–22, night after that.
+- **Testing.** `?hour=19` (any value from 0 to 23.99) stands the clock at
+  that time today, so each part of the day can be heard at any moment. The
+  sky still decides, so which hour is evening moves with the season: in
+  İstanbul in early October, 8 is morning, 13 midday, 19 evening and 23
+  night. It works only on the live site, so a change is heard there after
+  merging; before that, publish a private preview of the built page. Never
+  link to it.
+- **Where things are.** `js/farm-sound-engine.js` makes the sounds and
+  nothing else, like `js/rain-engine.js`, whose pink noise it borrows for
+  the wind. `js/farm-sound.js` holds the toggle and the scheduling, and
+  near its top the levels: `LEVEL` for indoors and out, `HOUR_LEVEL` for
+  each part of the day (the birds were raised a little and the wind
+  lowered after the author listened). The balance inside a part, such as
+  the wind against the horse, is set in the engine. Bump the `?v=` on a
+  script's tag in `farm-house/index.html` when it changes.
+  `scripts/test-farm-sound.cjs` checks the behaviour; only listening can
+  check the sound, so listen on a phone before changing a level or a
+  voice. Neither script is precached by `sw.js`; if that changes, bump its
+  `CACHE`.
+
 ## Cursor Cloud specific instructions
 
 This repository is a **Jekyll 4 static site** ("On Life & Everything", a personal blog) that is deployed to GitHub Pages via `.github/workflows/pages.yml`. Ruby, RubyGems, and Bundler 4.0.13 are pre-installed in the Cloud VM, and the startup update script runs `bundle install` (gems install into the git-ignored `vendor/bundle/`, configured by `.bundle/config`).
