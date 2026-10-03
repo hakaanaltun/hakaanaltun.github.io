@@ -1,0 +1,49 @@
+.book-resume {
+  max-width: 640px;
+  margin: 0 auto 28px;
+  padding: 16px 0;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  font: 400 1rem/1.5 'EB Garamond', Georgia, serif;
+  text-align: left;
+  color: var(--vizon);
+}
+.book-resume[hidden] { display: none; }
+.book-resume-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--petrol);
+  text-decoration: none;
+}
+.book-resume-link svg { flex: none; }
+.book-resume-place { margin: 5px 0 0; color: var(--ink-soft); }
+.book-resume-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 16px;
+  margin-top: 4px;
+  font-size: .85rem;
+}
+.book-resume-foot button {
+  appearance: none;
+  padding: 8px 0;
+  border: 0;
+  background: transparent;
+  color: var(--petrol);
+  font: inherit;
+  cursor: pointer;
+}
+.book-resume-link:hover,
+.book-resume-foot button:hover { opacity: var(--select-dim); }
+.book-resume-link:focus-visible,
+.book-resume-foot button:focus-visible {
+  outline: 2px solid var(--petrol);
+  outline-offset: 3px;
+}
+.book-resume--panel { margin: 0 0 20px; font-size: .95rem; }
+.book-part > .book-resume { width: calc(100% - 48px); margin-top: 24px; margin-bottom: 0; }
+/* Prose receives screen-reader focus on resume without a button outline. */
+.book-part-body .book-resume-target:focus { outline: none; }
+@media print { .book-resume { display: none !important; } }
