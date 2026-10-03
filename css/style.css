@@ -3103,9 +3103,9 @@ html[data-theme="sky"] .footer-strip { border-top: 0; }
   text-align: left;
   color: var(--ink-soft);
 }
+/* One choice under another, as in the quizzes themselves. */
 .home-daily-trivia-choices {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
   max-width: 620px;
   margin: 0 auto;
@@ -3187,11 +3187,6 @@ html[data-theme="sky"] .footer-strip { border-top: 0; }
   outline: 2px solid var(--petrol);
   outline-offset: 3px;
   border-radius: 4px;
-}
-@media (max-width: 600px) {
-  .home-daily-trivia-choices {
-    grid-template-columns: 1fr;
-  }
 }
 
 /* --- Notes --------------------------------------------------------------- */
