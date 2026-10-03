@@ -5,19 +5,7 @@
    Nothing is recorded and nothing is loaded; the wind is cut from
    rain-engine's pink noise buffer.
 
-   Two kinds of sound live here.
-
-   THE CREAK is one wooden creak, made fresh every time it is asked for:
-   creak(ctx, out, when, kind, level). Everything that creaks goes through
-   that one call, and what the creak is made of is decided by one line,
-   `var creakSource = synthCreak;` below. To play a recording instead, put a
-   short file in farm-house/assets/ and change that line to
-     var creakSource = recordedCreak("/farm-house/assets/creak.m4a");
-   Nothing else changes: the caller still asks for a creak, the recording is
-   fetched once and played at a slightly different speed and level each
-   time.
-
-   THE HOURS are four quiet beds, one for each part of the day:
+   Four quiet beds live here, one for each part of the day:
      morning   sparse birdsong
      midday    soft wind, and now and then a distant horse
      evening   crickets
@@ -52,165 +40,11 @@
      the work on a phone. The context resamples them as they play. */
   var SR = 22050;
 
-  /* A two-pole resonator (the constant-peak band-pass from the Audio EQ
-     Cookbook), run over a block of samples and added into `out`. */
-  function resonate(src, out, f, q, gain){
-    var w = 2 * Math.PI * f / SR, alpha = Math.sin(w) / (2 * q), a0 = 1 + alpha;
-    var b0 = alpha / a0, a1 = -2 * Math.cos(w) / a0, a2 = (1 - alpha) / a0;
-    var x1 = 0, x2 = 0, y1 = 0, y2 = 0;
-    for(var i = 0; i < src.length; i++){
-      var x = src[i];
-      var y = b0 * (x - x2) - a1 * y1 - a2 * y2;
-      x2 = x1; x1 = x; y2 = y1; y1 = y;
-      out[i] += y * gain;
-    }
-  }
-  function peakOf(data){
-    var p = 0;
-    for(var i = 0; i < data.length; i++){ var a = Math.abs(data[i]); if(a > p) p = a; }
-    return p;
-  }
   function toBuffer(ctx, data){
     var buf = ctx.createBuffer(1, data.length, SR);
     buf.getChannelData(0).set(data);
     return buf;
   }
-
-  /* ================= THE CREAK =================
-     Wood creaks by stick-slip: two surfaces catch and let go many times a
-     second, and each release knocks the board into ringing. So a creak here
-     is a train of small, irregular knocks, rung through a handful of the
-     board's resonances. The rate of the train is what the ear hears as the
-     creak's pitch; its unevenness is the grain. Every creak draws its own
-     rate and contour, length, roughness and wood, so no two are alike.
-
-     'step' is a foot coming down on an old floorboard: a soft low knock,
-     then a short creak as the board takes the weight. 'settle' is the
-     house on its own: a groan, a slow tick, or a thinner squeak, sometimes
-     broken into pieces. */
-  var CONTOURS = [
-    function(x){ return x; },
-    function(x){ return x * x; },
-    function(x){ return 1 - (1 - x) * (1 - x); },
-    function(x){ return Math.sin(Math.PI * x); }
-  ];
-  function synthCreak(ctx, kind){
-    var step = kind === "step";
-    var voice = step ? "groan" : pick(["groan", "groan", "tick", "tick", "squeak"]);
-    var dur = step ? rand(0.22, 0.5)
-            : voice === "tick" ? rand(0.5, 1.3)
-            : voice === "squeak" ? rand(0.25, 0.6)
-            : rand(0.4, 1.1);
-    var rate0 = voice === "tick" ? rand(9, 22) : voice === "squeak" ? rand(85, 150) : rand(28, 75);
-    var rate1 = rate0 * rand(0.6, 1.7);
-    var contour = pick(CONTOURS);
-    var jitter = voice === "tick" ? 0.35 : rand(0.08, 0.22);
-    var wobHz = rand(2, 6), wobDepth = rand(0, 0.15);
-    var attack = rand(0.03, 0.12), release = rand(0.08, 0.25);
-    /* the foot lands a moment before the board answers it */
-    var lead = step ? rand(0.02, 0.06) : 0;
-    var len = Math.ceil((lead + dur + 0.3) * SR);
-    var knocks = new Float32Array(len);
-
-    /* a broken creak lets go for a few hundredths of a second, once or twice */
-    var gaps = [];
-    if(voice === "groan" && !step && Math.random() < 0.4){
-      for(var g = 1 + Math.floor(Math.random() * 2); g > 0; g--){
-        var at = rand(0.2, 0.75) * dur;
-        gaps.push([at, at + rand(0.03, 0.09)]);
-      }
-    }
-    function inGap(t){
-      for(var i = 0; i < gaps.length; i++){ if(t > gaps[i][0] && t < gaps[i][1]) return true; }
-      return false;
-    }
-
-    var t = rand(0, 0.01);
-    while(t < dur){
-      var x = t / dur;
-      var env = Math.min(1, t / attack) * Math.min(1, (dur - t) / release);
-      var rate = (rate0 + (rate1 - rate0) * contour(x)) * (1 + wobDepth * Math.sin(2 * Math.PI * wobHz * t));
-      if(!inGap(t)){
-        var amp = env * rand(0.5, 1);
-        var i0 = Math.floor((lead + t) * SR);
-        knocks[i0] += amp;
-        /* a few samples of friction after each release */
-        var scratch = 4 + Math.floor(Math.random() * 10);
-        for(var k = 1; k < scratch && i0 + k < len; k++){
-          knocks[i0 + k] += amp * 0.35 * (Math.random() * 2 - 1) * (1 - k / scratch);
-        }
-      }
-      t += (1 / Math.max(rate, 4)) * (1 + jitter * (Math.random() * 2 - 1));
-    }
-
-    /* the board: a low body and three higher modes, none of them harmonic */
-    var base = voice === "squeak" ? rand(480, 820) : step ? rand(150, 280) : rand(190, 420);
-    var out = new Float32Array(len);
-    resonate(knocks, out, base, rand(7, 13), 1);
-    resonate(knocks, out, base * rand(2.1, 2.7), rand(9, 16), 0.7);
-    resonate(knocks, out, base * rand(3.6, 4.6), rand(10, 18), 0.45);
-    resonate(knocks, out, base * rand(5.8, 7.5), rand(10, 18), 0.25);
-
-    /* soften the top: old wood, heard across a room */
-    var a = 1 - Math.exp(-2 * Math.PI * rand(2800, 4200) / SR), y = 0, i;
-    for(i = 0; i < len; i++){ y += a * (out[i] - y); out[i] = y; }
-    var p = peakOf(out) || 1;
-    for(i = 0; i < len; i++) out[i] /= p;
-
-    /* the foot itself: a short, damped knock low in the floor */
-    if(step){
-      var f = rand(70, 120), tau = rand(0.03, 0.06), thud = rand(0.45, 0.7);
-      var n = Math.min(len, Math.ceil(tau * 6 * SR));
-      for(i = 0; i < n; i++){
-        var s = i / SR;
-        out[i] += thud * Math.min(1, s / 0.003) * Math.exp(-s / tau) * Math.sin(2 * Math.PI * f * s);
-      }
-      p = peakOf(out);
-      if(p > 1) for(i = 0; i < len; i++) out[i] /= p;
-    }
-    return toBuffer(ctx, out);
-  }
-
-  /* A recorded creak, for the day there is one: a short file, fetched and
-     decoded once. Until it has arrived a creak asked for is not heard. */
-  function recordedCreak(url){
-    var buffer = null, asked = false;
-    function load(ctx){
-      if(asked) return;
-      asked = true;
-      fetch(url).then(function(r){ return r.arrayBuffer(); }).then(function(data){
-        return new Promise(function(ok, fail){ ctx.decodeAudioData(data, ok, fail); });
-      }).then(function(b){ buffer = b; }, function(){});
-    }
-    function source(ctx){ load(ctx); return buffer; }
-    source.warm = load;
-    return source;
-  }
-
-  /* THE ONE LINE. Whatever makes the creak is chosen here; see the top. */
-  var creakSource = synthCreak;
-
-  /* Fetch anything the creak needs before the first one is asked for. */
-  function warm(ctx){ if(creakSource.warm) creakSource.warm(ctx); }
-
-  /* Play a creak at `when`, a little to one side, at about `level`. The
-     speed varies by a few per cent each time, which is what keeps a
-     recording from sounding like the same board twice. */
-  function creak(ctx, out, when, kind, level){
-    var buf = creakSource(ctx, kind);
-    if(!buf) return;
-    var src = ctx.createBufferSource();
-    src.buffer = buf;
-    src.playbackRate.value = rand(0.9, 1.1);
-    var g = ctx.createGain();
-    g.gain.value = level * rand(0.7, 1);
-    src.connect(g);
-    var p = place(ctx, g, out, rand(-0.35, 0.35));
-    src.onended = done([src, g, p].filter(Boolean));
-    src.start(when);
-  }
-
-  /* ================= THE HOURS ================= */
 
   /* ---- birds: three of them, at different distances and on different
      sides, each keeping to its own kind of phrase and its own pitch, so
@@ -308,20 +142,23 @@
 
   /* ---- wind: pink noise in a low band, swelled by two slow waves whose
      sum does not repeat within a visit, and the same noise higher up for
-     the leaves, which answer the gusts more than the air does ---- */
+     the leaves, which answer the gusts more than the air does. The whole
+     of it sits under one level, kept well below the horse. ---- */
   function wind(ctx, out, buffers){
+    var level = ctx.createGain(); level.gain.value = 0.6;
+    level.connect(out);
     var air = ctx.createBufferSource();
     air.buffer = buffers.pink; air.loop = true;
     var hp = ctx.createBiquadFilter(); hp.type = "highpass"; hp.frequency.value = 140; hp.Q.value = -3;
     var lp = ctx.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = 650; lp.Q.value = -3;
     var body = ctx.createGain(); body.gain.value = 0.55;
-    air.connect(hp); hp.connect(lp); lp.connect(body); body.connect(out);
+    air.connect(hp); hp.connect(lp); lp.connect(body); body.connect(level);
 
     var rustle = ctx.createBufferSource();
     rustle.buffer = buffers.pink; rustle.loop = true;
     var bp = ctx.createBiquadFilter(); bp.type = "bandpass"; bp.frequency.value = 2600; bp.Q.value = 0.8;
     var leaves = ctx.createGain(); leaves.gain.value = 0.09;
-    rustle.connect(bp); bp.connect(leaves); leaves.connect(out);
+    rustle.connect(bp); bp.connect(leaves); leaves.connect(level);
 
     var slow = ctx.createOscillator(); slow.frequency.value = rand(0.04, 0.06);
     var quick = ctx.createOscillator(); quick.frequency.value = rand(0.09, 0.13);
@@ -338,7 +175,7 @@
     return {
       stop: function(){
         [air, rustle, slow, quick].forEach(function(n){ try{ n.stop(); }catch(e){} });
-        done([air, hp, lp, body, rustle, bp, leaves, slow, quick].concat(links))();
+        done([air, hp, lp, body, rustle, bp, leaves, slow, quick, level].concat(links))();
       }
     };
   }
@@ -499,5 +336,5 @@
     };
   }
 
-  window.OLAE_FARM_ENGINE = { creak: creak, warm: warm, hour: hour };
+  window.OLAE_FARM_ENGINE = { hour: hour };
 })();

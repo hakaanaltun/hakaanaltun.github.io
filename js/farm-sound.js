@@ -2,15 +2,11 @@
    with the small "listen to the farm" button in the footer, and remembered
    in their own browser after that.
 
-   Two layers, both made by js/farm-sound-engine.js:
-   - the creak. Moving into a room (the hall, the kitchen, upstairs, the
-     stable aisle) is a foot on an old floorboard; staying in one, the
-     house creaks on its own every 25 to 70 seconds, quietly, never the
-     same creak twice. Outdoors there is no creak.
-   - the hour, underneath. Morning is sparse birdsong, midday a soft wind
-     and now and then a horse across the field, evening crickets, night
-     fewer and quieter crickets. Outdoors it is low; in the rooms it is
-     lower still and muffled, as if heard through the walls.
+   What plays is the hour, made by js/farm-sound-engine.js. Morning is
+   sparse birdsong, midday a soft wind and now and then a horse across the
+   field, evening crickets, night fewer and quieter crickets. Outdoors it is
+   low; in the rooms (the hall, the kitchen, upstairs, the stable aisle) it
+   is lower still and muffled, as if heard through the walls.
 
    The hour is the visitor's own, worked out the way the site's Follow the
    sky works it out: the browser's time zone gives a city from
@@ -24,7 +20,7 @@
 
    Every start and stop is a fade; a hidden tab fades out and suspends the
    audio, and fades back in when the tab returns. The page tells this file
-   where the visitor is through OLAE_FARM_SOUND.scene(name, indoor). */
+   whether the visitor is indoors through OLAE_FARM_SOUND.setIndoors(). */
 (function () {
   'use strict';
   var btn = document.getElementById('farm-sound');
@@ -34,22 +30,20 @@
   btn.hidden = false;
 
   var KEY = 'olae-farm-sound';
-  /* Levels, all in one place. The ambience outdoors sits a little under the
-     essays' "read with rain"; indoors it is lower again and loses its top.
-     Creaks peak well below full scale, the settling ones at half a step. */
-  var LEVEL = { outdoor: 0.22, indoor: 0.12, wallHz: 2000, openHz: 18000, step: 0.16, settle: 0.08 };
-  var HOUR_LEVEL = { morning: 1, midday: 1, evening: 1, night: 0.55 };
+  /* Levels. The bed outdoors sits a little under the essays' "read with
+     rain"; indoors it is lower again and loses its top. Each part of the
+     day has its own level on top; the balance inside a part (the wind
+     against the horse, one cricket against another) is the engine's. */
+  var LEVEL = { outdoor: 0.22, indoor: 0.12, wallHz: 2000, openHz: 18000 };
+  var HOUR_LEVEL = { morning: 1.25, midday: 1, evening: 1, night: 0.55 };
   var FADE = 1.5, HIDE_FADE = 1, ROOM_FADE = 1.2, HOUR_FADE = 6;
-  var CREAK_GAP = [25, 70];
   var TITLES = {
-    off: 'Quiet sound: the floorboards inside, and the time of day outside',
+    off: 'Quiet sound: the farm at this time of day',
     morning: 'Morning: birdsong. Click to stop the sound',
     midday: 'Midday: wind, and a horse now and then. Click to stop the sound',
     evening: 'Evening: crickets. Click to stop the sound',
     night: 'Night: crickets, quieter. Click to stop the sound'
   };
-
-  function rand(a, b) { return a + Math.random() * (b - a); }
 
   /* ---- the time of day ---- */
   var forced = (function () {
@@ -117,18 +111,17 @@
     } catch (e) {}
   }
 
-  /* ---- the graph: creaks and the hour meet in one master, so a single
-     fade starts or stops everything; the hour passes through the wall ---- */
-  var ctx = null, master = null, creaks = null, wall = null, amb = null, buffers = {};
-  var place = { name: 'intro', indoor: false };
+  /* ---- the graph: the hour passes through the wall into one master, so a
+     single fade starts or stops everything ---- */
+  var ctx = null, master = null, wall = null, amb = null, buffers = {};
+  var indoor = false;
   var hour = null, bed = null, fading = [];
-  var nextCreak = null, tickT = null, hourT = null, stopT = null;
+  var tickT = null, hourT = null, stopT = null;
 
   function graph() {
     if (ctx) return;
     ctx = new AC();
     master = ctx.createGain(); master.gain.value = 0; master.connect(ctx.destination);
-    creaks = ctx.createGain(); creaks.connect(master);
     wall = ctx.createBiquadFilter(); wall.type = 'lowpass'; wall.Q.value = -3; wall.connect(master);
     amb = ctx.createGain(); amb.connect(wall);
   }
@@ -141,8 +134,8 @@
   }
   /* Indoors or out: the hour's level and how much of its top gets through. */
   function walls(seconds) {
-    ramp(amb.gain, place.indoor ? LEVEL.indoor : LEVEL.outdoor, seconds);
-    ramp(wall.frequency, place.indoor ? LEVEL.wallHz : LEVEL.openHz, seconds);
+    ramp(amb.gain, indoor ? LEVEL.indoor : LEVEL.outdoor, seconds);
+    ramp(wall.frequency, indoor ? LEVEL.wallHz : LEVEL.openHz, seconds);
   }
 
   function checkHour() {
@@ -172,10 +165,6 @@
     var until = ctx.currentTime + 0.6;
     if (bed) bed.tick(until);
     fading.forEach(function (b) { b.tick(until); });
-    if (place.indoor && nextCreak !== null && nextCreak < until) {
-      ENGINE.creak(ctx, creaks, Math.max(nextCreak, ctx.currentTime + 0.05), 'settle', LEVEL.settle);
-      nextCreak += rand(CREAK_GAP[0], CREAK_GAP[1]);
-    }
   }
 
   function start() {
@@ -186,9 +175,7 @@
       var p = ctx.resume();
       if (p && p.catch) p.catch(function () {});
     }
-    ENGINE.warm(ctx);
     walls(0);
-    if (place.indoor && nextCreak === null) nextCreak = ctx.currentTime + rand(CREAK_GAP[0], CREAK_GAP[1]);
     checkHour();
     ramp(master.gain, 1, FADE);
     if (!tickT) tickT = setInterval(tick, 200);
@@ -207,7 +194,7 @@
       if (!wanted) {
         if (bed) bed.stop();
         fading.forEach(function (b) { b.stop(); });
-        bed = null; fading = []; hour = null; nextCreak = null;
+        bed = null; fading = []; hour = null;
       }
       try { if (silentEl) silentEl.pause(); } catch (e) {}
       var p = ctx.suspend();
@@ -242,21 +229,14 @@
     else start();
   });
 
+  /* Going in or out: the walls close or open over a second or so. Before
+     the sound starts, this is only remembered for when it does. */
   window.OLAE_FARM_SOUND = {
-    scene: function (name, indoor) {
-      var was = place;
-      place = { name: name, indoor: !!indoor };
-      if (!playing()) {
-        if (!place.indoor) nextCreak = null;
-        return;
-      }
-      if (was.indoor !== place.indoor) walls(ROOM_FADE);
-      if (!place.indoor) { nextCreak = null; return; }
-      if (name !== was.name) {
-        /* a footstep as the visitor comes in, then the room on its own */
-        ENGINE.creak(ctx, creaks, ctx.currentTime + rand(0.1, 0.25), 'step', LEVEL.step);
-        nextCreak = ctx.currentTime + rand(CREAK_GAP[0], CREAK_GAP[1]);
-      }
+    setIndoors: function (now) {
+      now = !!now;
+      if (now === indoor) return;
+      indoor = now;
+      if (playing()) walls(ROOM_FADE);
     }
   };
   paint();

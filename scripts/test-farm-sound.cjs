@@ -1,10 +1,9 @@
 /* The Farm House, heard. Runs the built page (Jekyll's output, so the sky
    the sound reads is the one _data/cities.yml renders) against a Web Audio
    stub that remembers what was scheduled: off until asked, remembered or
-   not, fades rather than cuts, a creak on coming indoors and the house
-   creaking on its own after that, the outdoors muffled through the walls,
-   the part of the day from the visitor's sky, ?hour for testing, and the
-   one-line swap to a recorded creak that AGENTS.md promises.
+   not, fades rather than cuts, the hour muffled through the walls indoors
+   and open again outside, the part of the day from the visitor's sky, and
+   ?hour for testing. Nothing creaks: the creaks were tried and taken out.
    Run `bundle exec jekyll build` first; node scripts/test-farm-sound.cjs */
 'use strict';
 process.env.TZ = 'Europe/Istanbul';
@@ -20,7 +19,6 @@ if (!fs.existsSync(built)) {
   process.exit(1);
 }
 const html = fs.readFileSync(built, 'utf8');
-const engineSource = fs.readFileSync(path.join(root, 'js', 'farm-sound-engine.js'), 'utf8');
 
 /* The page's scripts in the order it runs them: inline ones as written,
    the others read from the repository by their path. */
@@ -33,7 +31,7 @@ assert.ok(scripts.some((s) => s.includes('OLAE_FARM_ENGINE =')), 'the page loads
 const NOW = Date.UTC(2026, 9, 3, 10, 0, 0);
 
 function audioStub(w) {
-  const log = { contexts: [], sources: [], silentPlays: 0, silentPauses: 0 };
+  const log = { contexts: [], silentPlays: 0, silentPauses: 0 };
   function param(value) {
     return {
       value, ramps: [],
@@ -53,22 +51,17 @@ function audioStub(w) {
     this.resume = () => { ctx.state = 'running'; return Promise.resolve(); };
     this.suspend = () => { ctx.state = 'suspended'; return Promise.resolve(); };
     /* every gain and filter is kept, in the order made: the page makes its
-       master first, then the creaks' bus, the wall, and the hour's bus */
+       master first, then the wall, then the hour's bus behind it */
     this.gains = []; this.filters = [];
     this.createGain = () => { const g = node({ gain: param(1) }); ctx.gains.push(g); return g; };
     this.createBiquadFilter = () => { const f = node({ type: '', frequency: param(350), Q: param(1) }); ctx.filters.push(f); return f; };
     this.createOscillator = () => node({ type: 'sine', frequency: param(440) });
     this.createStereoPanner = () => node({ pan: param(0) });
-    this.createBufferSource = () => {
-      const s = node({ buffer: null, loop: false, onended: null, playbackRate: param(1) });
-      s.start = (when) => { s.when = when; log.sources.push(s); };
-      return s;
-    };
+    this.createBufferSource = () => node({ buffer: null, loop: false, onended: null, playbackRate: param(1) });
     this.createBuffer = (channels, length, rate) => {
       const data = new Float32Array(length);
       return { length, sampleRate: rate, duration: length / rate, getChannelData: () => data };
     };
-    this.decodeAudioData = (data, ok) => ok({ recorded: true, duration: 0.6 });
   };
   w.Audio = function () {
     this.setAttribute = () => {};
@@ -88,7 +81,7 @@ function page({ hour, stored, blocked = false, sky = true } = {}) {
   w.HTMLDialogElement.prototype.close = function () { this.open = false; };
   const timers = new Map(), intervals = new Map();
   let id = 0;
-  w.setTimeout = (fn, ms) => { timers.set(++id, fn); return id; };
+  w.setTimeout = (fn) => { timers.set(++id, fn); return id; };
   w.clearTimeout = (i) => timers.delete(i);
   w.setInterval = (fn, ms) => { intervals.set(++id, { fn, ms }); return id; };
   w.clearInterval = (i) => intervals.delete(i);
@@ -96,26 +89,19 @@ function page({ hour, stored, blocked = false, sky = true } = {}) {
   if (stored !== undefined) w.localStorage.setItem('olae-farm-sound', stored);
   if (blocked) Object.defineProperty(w, 'localStorage', { get() { throw new w.DOMException('Denied', 'SecurityError'); } });
   const audio = audioStub(w);
-  const creaks = [];
   scripts.forEach((s) => {
     if (!sky && s.includes('window.OLAE_SKY =')) return;
     w.eval(s);
-    /* the engine is shared by reference, so a spy on it sees every creak */
-    if (s.includes('OLAE_FARM_ENGINE =')) {
-      const real = w.OLAE_FARM_ENGINE.creak;
-      w.OLAE_FARM_ENGINE.creak = (ctx, out, when, kind, level) => { creaks.push({ when, kind, level }); real(ctx, out, when, kind, level); };
-    }
   });
   const q = (s) => w.document.querySelector(s);
   const click = (s) => { const n = typeof s === 'string' ? q(s) : s; assert.ok(n, String(s)); n.click(); };
   const ctx = () => audio.contexts[0];
   const runTimers = () => { const all = [...timers.values()]; timers.clear(); all.forEach((fn) => fn()); };
-  const tick = () => [...intervals.values()].filter((i) => i.ms < 1000).forEach((i) => i.fn());
   const hide = (hidden) => {
     Object.defineProperty(w.document, 'hidden', { value: hidden, configurable: true });
     w.document.dispatchEvent(new w.Event('visibilitychange'));
   };
-  return { w, q, click, audio, creaks, ctx, runTimers, tick, hide, intervals };
+  return { w, q, click, audio, ctx, runTimers, hide, intervals };
 }
 
 /* ---- off by default; one quiet toggle in the footer ---- */
@@ -131,9 +117,10 @@ function page({ hour, stored, blocked = false, sky = true } = {}) {
   p.click('[data-object="door"]');
   assert.equal(p.audio.contexts.length, 0, 'walking the house makes no sound while it is off');
   assert.equal(p.w.localStorage.getItem('olae-farm-sound'), null, 'nothing is stored until the visitor chooses');
+  assert.deepEqual(Object.keys(p.w.OLAE_FARM_ENGINE), ['hour'], 'the engine makes the hours and nothing else: no creaks');
 }
 
-/* ---- turning it on: a fade in, the iOS unlock, the choice remembered ---- */
+/* ---- turning it on: the iOS unlock, the hour named, the choice remembered ---- */
 {
   const p = page({ hour: 13 });
   p.click('#begin');
@@ -147,7 +134,6 @@ function page({ hour, stored, blocked = false, sky = true } = {}) {
   assert.equal(btn.getAttribute('aria-pressed'), 'true');
   assert.match(btn.title, /^Midday/, '?hour=13 on an October day in İstanbul is midday');
   assert.equal(p.w.localStorage.getItem('olae-farm-sound'), 'on');
-  assert.equal(p.creaks.length, 0, 'the veranda does not creak');
 }
 
 /* ---- fades, a hidden tab, and turning it off ---- */
@@ -190,82 +176,38 @@ function page({ hour, stored, blocked = false, sky = true } = {}) {
   assert.equal(ctx.state, 'suspended', 'a tab coming back does not restart sound that was turned off');
 }
 
-/* ---- creaks: one on coming indoors, then the room on its own ---- */
+/* ---- indoors the hour comes through the walls; outside it is open ---- */
 {
   const p = page({ hour: 19 });
   p.click('#begin');
   p.click('#farm-sound');
   const ctx = p.ctx();
-  const wall = ctx.filters[0];
+  const wall = ctx.filters[0], bus = ctx.gains[1];
   assert.ok(wall.frequency.value > 10000, 'outdoors the wall lets everything through');
+  const outside = bus.gain.value;
 
   ctx.currentTime = 5;
   p.click('[data-object="door"]');
-  assert.equal(p.creaks.length, 1, 'stepping into the hall creaks once');
-  assert.equal(p.creaks[0].kind, 'step');
-  assert.ok(p.creaks[0].when > 5 && p.creaks[0].when < 5.5, 'as the foot comes down');
   const shut = wall.frequency.last();
   assert.equal(shut[0], 'ramp');
   assert.ok(shut[1] <= 2500, 'indoors the hour is muffled');
   assert.ok(shut[2] - 5 >= 1 && shut[2] - 5 <= 2, 'over a second or so, not at once');
-  const step = p.audio.sources.find((s) => s.buffer && s.buffer.sampleRate === 22050);
-  assert.ok(step, 'the creak is synthesised into a buffer and played');
+  assert.ok(bus.gain.value < outside, 'and quieter');
 
-  /* the house on its own: nothing for 25 seconds, then one creak within 70 */
-  let first = null;
-  for (let t = 5; t <= 80; t += 0.2) {
-    ctx.currentTime = t;
-    p.tick();
-    if (p.creaks.length > 1 && first === null) first = p.creaks[1];
-  }
-  assert.ok(first, 'a room left alone creaks on its own');
-  assert.equal(first.kind, 'settle');
-  assert.ok(first.when - 5 >= 25 && first.when - 5 <= 70.6, `after 25 to 70 seconds (${(first.when - 5).toFixed(1)})`);
-  assert.ok(first.level < p.creaks[0].level, 'and more quietly than a footstep');
-
-  /* many visits: the gaps vary, all within 25–70 s */
-  const gaps = [];
-  for (let t = 80; t <= 2000; t += 0.25) { ctx.currentTime = t; p.tick(); }
-  const settles = p.creaks.filter((c) => c.kind === 'settle').map((c) => c.when);
-  for (let i = 1; i < settles.length; i++) gaps.push(settles[i] - settles[i - 1]);
-  assert.ok(gaps.length >= 20, 'the house keeps creaking while the visitor stays');
-  assert.ok(gaps.every((g) => g >= 24.9 && g <= 70.6), 'every gap is between 25 and 70 seconds');
-  assert.ok(Math.max(...gaps) - Math.min(...gaps) > 15, 'and the gaps are not a loop');
-
-  const before = p.creaks.length;
+  const steps = wall.frequency.ramps.length;
   p.click('[data-object="kitchen"]');
-  assert.equal(p.creaks.length, before + 1, 'the kitchen is another step on the boards');
+  assert.equal(wall.frequency.ramps.length, steps, 'room to room, nothing changes');
+
+  ctx.currentTime = 20;
   p.click('#back'); p.click('#back');
-  const after = p.creaks.length;
   assert.equal(p.q('#scene-name').textContent, 'THE VERANDA');
   const open = wall.frequency.last();
   assert.ok(open[1] > 10000, 'back outdoors the wall opens again');
-  for (let t = 2000; t <= 2200; t += 0.25) { ctx.currentTime = t; p.tick(); }
-  assert.equal(p.creaks.length, after, 'and the veranda never creaks');
-}
+  assert.equal(bus.gain.value, outside, 'at the outdoor level');
 
-/* ---- the creak buffers are never the same twice ---- */
-{
-  const w = new JSDOM('', { runScripts: 'outside-only' }).window;
-  audioStub(w);
-  w.OLAE_RAIN = {};
-  w.eval(engineSource);
-  const ctx = new w.AudioContext();
-  const made = [];
-  ctx.createBufferSource = () => {
-    const s = { connect() {}, disconnect() {}, playbackRate: { value: 1 }, start() { made.push(s.buffer); } };
-    return s;
-  };
-  for (let i = 0; i < 12; i++) w.OLAE_FARM_ENGINE.creak(ctx, { connect() {} }, 0, i % 3 ? 'settle' : 'step', 0.1);
-  const lengths = new Set(made.map((b) => b.length));
-  assert.ok(lengths.size >= 10, 'twelve creaks, twelve lengths');
-  for (const b of made) {
-    const d = b.getChannelData(0);
-    let peak = 0;
-    for (const x of d) peak = Math.max(peak, Math.abs(x));
-    assert.ok(peak > 0.5 && peak <= 1.0001, 'each creak is normalised, never clipped');
-    assert.ok(d.length / b.sampleRate < 2, 'and short');
-  }
+  p.click('[data-object="door"]');
+  p.click('#leave');
+  assert.ok(wall.frequency.last()[1] > 10000, 'leaving the house is heard from outside');
 }
 
 /* ---- the part of the day: the visitor's sky, or ?hour= for testing ---- */
@@ -292,9 +234,17 @@ for (const [hour, part] of [[7, 'Morning'], [12, 'Midday'], [20, 'Evening'], [23
   assert.equal(p.audio.contexts.length, 0, 'but no audio starts before the visitor does anything');
   p.click('#begin');
   assert.equal(p.ctx().state, 'running', 'the first click brings it in');
-  p.ctx().currentTime = 3;
   p.click('[data-object="door"]');
-  assert.equal(p.creaks.length, 1, 'and the hall creaks');
+  assert.ok(p.ctx().filters[0].frequency.last()[1] <= 2500, 'and the hall is heard through its walls');
+}
+{
+  const p = page({ hour: 19 });
+  p.click('#begin');
+  p.click('[data-object="door"]');
+  p.click('#farm-sound');
+  const wall = p.ctx().filters[0];
+  assert.ok(wall.frequency.value <= 2500, 'sound turned on in a room starts muffled');
+  assert.equal(wall.frequency.ramps.filter((r) => r[0] === 'ramp').length, 0, 'at once, with no sweep from outside');
 }
 {
   const p = page({ hour: 19, stored: 'on' });
@@ -310,8 +260,6 @@ for (const [hour, part] of [[7, 'Morning'], [12, 'Midday'], [20, 'Evening'], [23
   p.click('#begin');
   p.click('#farm-sound');
   assert.equal(p.ctx().state, 'running', 'and the toggle still works');
-  p.click('[data-object="door"]');
-  assert.equal(p.creaks.length, 1);
   p.click('#farm-sound');
   assert.equal(p.q('#farm-sound').textContent, 'listen to the farm');
 }
@@ -330,33 +278,4 @@ for (const [hour, part] of [[7, 'Morning'], [12, 'Midday'], [20, 'Evening'], [23
   assert.equal(w.document.getElementById('scene-name').textContent, 'THE ENTRANCE', 'and the visit goes on');
 }
 
-/* ---- the one-line swap to a recorded creak ---- */
-{
-  const line = /^(\s*)var creakSource = synthCreak;\s*$/m;
-  assert.equal(engineSource.split('\n').filter((l) => line.test(l)).length, 1, 'the creak is chosen on exactly one line');
-  const swapped = engineSource.replace(line, '$1var creakSource = recordedCreak("/farm-house/assets/creak.m4a");');
-  const w = new JSDOM('', { runScripts: 'outside-only' }).window;
-  audioStub(w);
-  w.OLAE_RAIN = {};
-  const asked = [];
-  w.fetch = (url) => { asked.push(url); return Promise.resolve({ arrayBuffer: () => Promise.resolve(new ArrayBuffer(8)) }); };
-  w.eval(swapped);
-  const ctx = new w.AudioContext();
-  const played = [];
-  ctx.createBufferSource = () => {
-    const s = { connect() {}, disconnect() {}, playbackRate: { value: 1 }, start() { played.push(s); } };
-    return s;
-  };
-  w.OLAE_FARM_ENGINE.creak(ctx, { connect() {} }, 0, 'step', 0.1);
-  assert.equal(played.length, 0, 'until the file has arrived, a creak is simply not heard');
-  w.OLAE_FARM_ENGINE.warm(ctx);
-  setTimeout(() => {
-    assert.deepEqual(asked, ['/farm-house/assets/creak.m4a'], 'the file is fetched once');
-    w.OLAE_FARM_ENGINE.creak(ctx, { connect() {} }, 1, 'settle', 0.1);
-    w.OLAE_FARM_ENGINE.creak(ctx, { connect() {} }, 2, 'step', 0.1);
-    assert.equal(played.length, 2, 'then every creak is the recording');
-    assert.ok(played.every((s) => s.buffer && s.buffer.recorded));
-    assert.ok(played.some((s) => s.playbackRate.value !== 1), 'played at a slightly different speed each time');
-    console.log('Farm sound passed: off by default and remembered, fades in, out and across a hidden tab, a creak on coming indoors and every 25–70 s after, the hour muffled indoors, the part of the day from the sky or ?hour, and the one-line swap to a recording.');
-  }, 20);
-}
+console.log('Farm sound passed: off by default and remembered, fades in, out and across a hidden tab, the hour muffled indoors and open outside, no creaks, and the part of the day from the sky or ?hour.');
