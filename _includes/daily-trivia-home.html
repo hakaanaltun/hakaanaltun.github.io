@@ -1,0 +1,17 @@
+{%- comment -%}
+  One question for the visitor's local calendar day. The question is chosen
+  from the existing country quiz banks. The fallback remains useful if
+  JavaScript or the data request is unavailable.
+{%- endcomment -%}
+<div id="home-daily-trivia" class="home-daily-trivia" data-source="/trivia/questions.json">
+  <p id="home-daily-trivia-fallback" class="home-instruments-line">Culture quizzes played in rounds, with a note behind every answer&mdash;{{ site.data.trivia | size }} of them so far.</p>
+
+  <div id="home-daily-trivia-game" hidden>
+    <p class="home-daily-trivia-meta">Today&rsquo;s question &middot; <span id="home-daily-trivia-quiz"></span></p>
+    <h3 class="home-daily-trivia-question" id="home-daily-trivia-question" tabindex="-1"></h3>
+    <div class="home-daily-trivia-choices" id="home-daily-trivia-choices" role="group" aria-labelledby="home-daily-trivia-question"></div>
+    <p class="home-daily-trivia-feedback" id="home-daily-trivia-feedback" aria-live="polite"></p>
+    <a class="home-daily-trivia-more" id="home-daily-trivia-more" href="/trivia/" hidden></a>
+  </div>
+</div>
+<script src="/js/home-daily-trivia.js?v=20261003-1" defer></script>

@@ -3073,6 +3073,119 @@ html[data-theme="sky"] .footer-strip { border-top: 0; }
 .home-notes-all:focus-visible,
 .home-words-all:focus-visible { outline: 2px solid var(--petrol); outline-offset: 3px; border-radius: 4px; }
 
+
+/* One question for the visitor's calendar day. This is a small taste of
+   Trivia: answer once, read the note, then move into the full quiz if wanted. */
+.home-daily-trivia {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+.home-daily-trivia-meta {
+  margin-bottom: 11px;
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 0.76rem;
+  line-height: 1.3;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--vizon);
+}
+.home-daily-trivia-question {
+  max-width: 30ch;
+  margin: 0 auto 20px;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(1.35rem, 2.3vw, 1.72rem);
+  line-height: 1.24;
+  color: var(--petrol-deep);
+}
+.home-daily-trivia-choices {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  max-width: 620px;
+  margin: 0 auto;
+}
+.home-daily-trivia-choice {
+  appearance: none;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 48px;
+  padding: 10px 12px;
+  border: 1px solid var(--rule);
+  border-radius: 7px;
+  background: transparent;
+  color: var(--ink-soft);
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 0.98rem;
+  line-height: 1.3;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.2s ease, opacity 0.2s ease;
+}
+.home-daily-trivia-choice:hover:not([aria-disabled="true"]),
+.home-daily-trivia-choice:active:not([aria-disabled="true"]) {
+  border-color: var(--petrol);
+}
+.home-daily-trivia-choice:focus-visible {
+  outline: 2px solid var(--petrol);
+  outline-offset: 2px;
+}
+.home-daily-trivia-choice[aria-disabled="true"] {
+  cursor: default;
+}
+.home-daily-trivia-choice.is-correct {
+  border-color: var(--petrol);
+  color: var(--petrol-deep);
+}
+.home-daily-trivia-choice.is-selected-wrong {
+  opacity: 0.56;
+}
+.home-daily-trivia-mark {
+  font-style: italic;
+  font-size: 0.78rem;
+  color: var(--vizon);
+  white-space: nowrap;
+}
+.home-daily-trivia-feedback {
+  max-width: 600px;
+  min-height: 1.5em;
+  margin: 17px auto 0;
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 0.98rem;
+  line-height: 1.55;
+  text-align: left;
+  color: var(--vizon);
+}
+.home-daily-trivia-more {
+  display: inline-block;
+  margin-top: 12px;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-size: 1.02rem;
+  color: var(--petrol);
+  text-decoration: none;
+  transition: var(--select-ease);
+}
+.home-daily-trivia-more:hover,
+.home-daily-trivia-more:active {
+  opacity: var(--select-dim);
+}
+.home-daily-trivia-more:focus-visible {
+  outline: 2px solid var(--petrol);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+@media (max-width: 600px) {
+  .home-daily-trivia-choices {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* --- Notes --------------------------------------------------------------- */
 /* The notes are pinned paper: each one is a square-ish card on the wall of
    /notes/, tacked up rather than ruled off from its neighbours.

@@ -1,0 +1,15 @@
+---
+layout: null
+permalink: /trivia/questions.json
+sitemap: false
+---
+[
+{%- assign first = true -%}
+{%- for quiz in site.data.trivia -%}
+{%- assign bank = site.data.quizzes[quiz.slug] -%}
+{%- for q in bank -%}
+{%- unless first %},{% endunless -%}{%- assign first = false -%}
+{"id":{{ q.id | jsonify }},"slug":{{ quiz.slug | jsonify }},"quiz":{{ quiz.name | jsonify }},"category":{{ q.category | jsonify }},"url":{{ "/trivia/" | append: quiz.slug | append: "/" | jsonify }},"question":{{ q.question | jsonify }},"choices":{{ q.choices | jsonify }},"answer":{{ q.answer }},"note":{{ q.note | jsonify }}}
+{%- endfor -%}
+{%- endfor -%}
+]
