@@ -31,12 +31,10 @@ SAVE_OPTS = {
     ".png": {"optimize": True},
 }
 
-# A few source photographs are intentionally kept in their original format in
-# the repository while the live site uses WebP. The mapping is explicit so the
-# normal image pipeline stays unchanged for every other image.
-WEBP_DERIVATIVES = {
-    Path("images/moris-13.png"): Path("moris-13.webp"),
-}
+# A source photograph can be kept in its original format in the repository
+# while the live site uses WebP. The mapping is explicit so the normal image
+# pipeline stays unchanged for every other image. None needs it at present.
+WEBP_DERIVATIVES = {}
 
 
 def variant_dirs():
