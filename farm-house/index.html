@@ -164,8 +164,8 @@ permalink: /farm-house/
   <noscript><p>This visit needs JavaScript to move between rooms.</p></noscript>
   {% include sky-ramp.html %}
   <script src="/js/rain-engine.js?v=20260911-1"></script>
-  <script src="/js/farm-sound-engine.js?v=20261003-2"></script>
-  <script src="/js/farm-sound.js?v=20261003-2"></script>
+  <script src="/js/farm-sound-engine.js?v=20261005-2"></script>
+  <script src="/js/farm-sound.js?v=20261005-2"></script>
   <script>
   (() => {
     'use strict';
@@ -273,6 +273,7 @@ permalink: /farm-house/
       if(!['intro','ending',...Object.keys(scenes)].includes(name))name='intro';
       state.scene=name;
       window.OLAE_FARM_SOUND?.setIndoors(indoors.has(name));
+      window.OLAE_FARM_SOUND?.setPlace(name);
       if(name==='upstairs')state.visitedUpstairs=true;
       $('intro').hidden=name!=='intro';$('visit').hidden=!scenes[name];$('ending').hidden=name!=='ending';
       $('leave').hidden=!scenes[name];
