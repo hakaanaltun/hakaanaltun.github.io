@@ -3,12 +3,13 @@
    in their own browser after that.
 
    What plays is the hour, made by js/farm-sound-engine.js. Morning is
-   sparse birdsong, midday a soft wind, evening crickets, night fewer and
-   quieter crickets. Outdoors it is low; in the rooms (the hall, the
-   kitchen, upstairs, the stable aisle) it is lower still and muffled, as if
-   heard through the walls. The horses are heard only near them: faintly in
-   the garden, close by in the stable yard and in the stable, where they
-   share the room and come through no wall.
+   sparse birdsong and a dove, midday a soft wind with cicadas, evening
+   crickets, night fewer and quieter crickets and an owl. Outdoors it is
+   low; in the rooms (the hall, the kitchen, upstairs, the stable aisle) it
+   is lower still and muffled, as if heard through the walls. The horses
+   are heard only near them: faintly in the garden, close by in the stable
+   yard and in the stable, where they share the room and come through no
+   wall. Bees cross the garden by day.
 
    The hour is the visitor's own, worked out the way the site's Follow the
    sky works it out: the browser's time zone gives a city from
@@ -37,16 +38,16 @@
      rain"; indoors it is lower again and loses its top. Each part of the
      day has its own level on top; the balance inside a part (one cricket
      against another, one horse against the next) is the engine's. `near`
-     is the level of a place's own sound, the horses. */
+     is the level of a place's own sound, the horses and the bees. */
   var LEVEL = { outdoor: 0.22, indoor: 0.12, near: 0.22, wallHz: 2000, openHz: 18000 };
   var HOUR_LEVEL = { morning: 1.25, midday: 1, evening: 1, night: 0.55 };
   var FADE = 1.5, HIDE_FADE = 1, ROOM_FADE = 1.2, HOUR_FADE = 6;
   var TITLES = {
     off: 'Quiet sound: the farm at this time of day',
-    morning: 'Morning: birdsong. Click to stop the sound',
-    midday: 'Midday: a soft wind. Click to stop the sound',
+    morning: 'Morning: birdsong and a dove. Click to stop the sound',
+    midday: 'Midday: a soft wind and cicadas. Click to stop the sound',
     evening: 'Evening: crickets. Click to stop the sound',
-    night: 'Night: crickets, quieter. Click to stop the sound'
+    night: 'Night: crickets and an owl. Click to stop the sound'
   };
 
   /* ---- the time of day ---- */
@@ -161,6 +162,7 @@
     var first = !bed;
     hour = now;
     if (bed) retire(bed, HOUR_FADE);
+    if (spot && spot.setHour) spot.setHour(hour);
     bed = ENGINE.hour(ctx, amb, buffers, hour);
     /* the first bed rides in on the master's own fade */
     ramp(bed.out.gain, HOUR_LEVEL[hour], first ? 0 : HOUR_FADE);
@@ -172,7 +174,7 @@
   function arrive(seconds) {
     if (spot && spot.name === where) return;
     if (spot) retire(spot, seconds);
-    spot = ENGINE.place(ctx, close, buffers, where);
+    spot = ENGINE.place(ctx, close, buffers, where, hour);
     if (spot) ramp(spot.out.gain, 1, seconds);
   }
 

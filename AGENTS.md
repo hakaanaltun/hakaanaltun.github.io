@@ -83,10 +83,15 @@ click, because browsers start audio only from one. Every start and stop
 fades over a second or two, and a hidden tab fades out and suspends the
 audio until it returns.
 
-- **The time of day.** Morning is sparse birdsong; midday a soft wind;
-  evening crickets; night fewer crickets, slower and quieter. The birds
-  and crickets are not any one species, and nothing on the page names
-  them.
+- **The time of day.** Morning is sparse birdsong and a collared dove;
+  midday a soft wind, with cicadas in waves and the dove now and then;
+  evening crickets; night fewer crickets, slower and quieter, and a scops
+  owl. The small birds and the crickets are not any one species. The dove,
+  the owl and the cicadas are; the author asked for them in October 2026.
+  Nothing on the page names a species.
+- **Summer.** The time of day is the visitor's, but the season is the
+  picture's: summer, like the scenes. The scops owl and the cicadas are
+  summer sounds, and they go when autumn or winter scenes come.
 - **Indoors and out.** Outdoors the sound is low. In the rooms it is lower
   still and low-passed, as if heard through the walls. The rooms are the
   hall, the kitchen, upstairs and the stable aisle, listed in the page's
@@ -96,7 +101,9 @@ audio until it returns.
   stable, where they share the room and are not muffled. They snort, blow
   and shift a hoof now and then, each from where it stands in the picture.
   A whinny made from oscillators was tried first and taken out in October
-  2026; it did not sound like a horse.
+  2026; it did not sound like a horse. Bees cross the garden in the
+  morning and at midday; they belong to the garden's own sound, which is
+  told when the part of the day changes.
 - **No creaks.** Synthesised floorboard creaks were tried in October 2026
   and taken out at the author's request. Do not add them back unless the
   author asks.

@@ -238,6 +238,20 @@ function page({ hour, stored, blocked = false, sky = true } = {}) {
   assert.ok(gin[2] - 5 >= 1 && gin[2] - 5 <= 2, 'over a second or so');
   const close = garden.out.to[0];
   assert.ok(close !== wall && close.to[0] === master, "a place's own sound goes to the master beside the wall");
+  /* the bees are the only voice drawn with oscillators in a place */
+  let oscillators = 0;
+  const makeOsc = ctx.createOscillator;
+  ctx.createOscillator = () => { oscillators++; return makeOsc(); };
+  garden.tick(ctx.currentTime + 120);
+  assert.ok(oscillators > 0, 'bees cross the garden by day');
+  oscillators = 0;
+  garden.setHour('evening');
+  garden.tick(ctx.currentTime + 600);
+  assert.equal(oscillators, 0, 'and are gone by evening');
+  garden.setHour('midday');
+  garden.tick(ctx.currentTime + 700);
+  assert.ok(oscillators > 0, 'and back the next day');
+  ctx.createOscillator = makeOsc;
 
   ctx.currentTime = 10;
   p.click('[data-object="stable-path"]');
@@ -245,6 +259,13 @@ function page({ hour, stored, blocked = false, sky = true } = {}) {
   assert.equal(yard.name, 'stableYard');
   assert.ok(yard.sound, 'the stable yard hears them close by');
   assert.deepEqual(garden.out.gain.last().slice(0, 2), ['ramp', 0], 'and the garden fades as the yard comes in');
+
+  let yardOscillators = 0;
+  const makeOsc2 = ctx.createOscillator;
+  ctx.createOscillator = () => { yardOscillators++; return makeOsc2(); };
+  yard.sound.tick(ctx.currentTime + 600);
+  ctx.createOscillator = makeOsc2;
+  assert.equal(yardOscillators, 0, 'no bees by the stable');
 
   p.click('[data-object="stable-door"]');
   const stable = made[made.length - 1];
@@ -285,6 +306,33 @@ function page({ hour, stored, blocked = false, sky = true } = {}) {
   p.runTimers();
   p.click('[data-object="stable-door"]');
   assert.equal(made.length, 1, 'with the sound off, walking on makes nothing');
+}
+
+/* ---- every bed plays for ten minutes and lets go cleanly; the dove,
+   the cicadas and the owl keep to their parts of the day ---- */
+{
+  const p = page({ hour: 13 });
+  p.click('#begin');
+  p.click('#farm-sound');
+  const ctx = p.ctx();
+  for (const name of ['morning', 'midday', 'evening', 'night']) {
+    let sources = 0;
+    const make = ctx.createBufferSource;
+    ctx.createBufferSource = () => { sources++; return make(); };
+    const bed = p.w.OLAE_FARM_ENGINE.hour(ctx, ctx.createGain(), {}, name);
+    bed.tick(ctx.currentTime + 600);
+    bed.stop();
+    ctx.createBufferSource = make;
+    assert.ok(sources > 0, `the ${name} bed is heard`);
+  }
+  const titles = {};
+  for (const [hour, part] of [[8, 'morning'], [13, 'midday'], [19, 'evening'], [23, 'night']]) {
+    titles[part] = page({ hour, stored: 'on' }).q('#farm-sound').title;
+  }
+  assert.match(titles.morning, /dove/);
+  assert.match(titles.midday, /cicadas/);
+  assert.match(titles.night, /owl/);
+  assert.doesNotMatch(titles.evening, /owl|cicadas|dove/, 'the evening is the crickets');
 }
 
 /* ---- the part of the day: the visitor's sky, or ?hour= for testing ---- */
@@ -355,4 +403,4 @@ for (const [hour, part] of [[7, 'Morning'], [12, 'Midday'], [20, 'Evening'], [23
   assert.equal(w.document.getElementById('scene-name').textContent, 'THE ENTRANCE', 'and the visit goes on');
 }
 
-console.log('Farm sound passed: off by default and remembered, fades in, out and across a hidden tab, the hour muffled indoors and open outside, the horses only near them, no creaks, and the part of the day from the sky or ?hour.');
+console.log('Farm sound passed: off by default and remembered, fades in, out and across a hidden tab, the hour muffled indoors and open outside, the horses only near them, bees by day in the garden, a dove, cicadas and an owl in their hours, no creaks, and the part of the day from the sky or ?hour.');

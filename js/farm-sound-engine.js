@@ -6,10 +6,10 @@
    rain-engine's pink noise buffer.
 
    Four quiet beds live here, one for each part of the day:
-     morning   sparse birdsong
-     midday    soft wind
+     morning   sparse birdsong, and a collared dove
+     midday    soft wind, cicadas in waves, the dove now and then
      evening   crickets
-     night     fewer crickets, slower, and a tree cricket
+     night     fewer crickets, slower, a tree cricket, and a scops owl
    hour(ctx, out, buffers, name) builds one and returns
    { out, tick(until), stop() }: `out` is the bed's own gain, made at 0 so
    the caller can fade it in; tick() schedules the bed's next events up to
@@ -17,8 +17,9 @@
    it.
 
    Some places also have a sound of their own, heard only there: the
-   horses, in the garden from afar, in the stable yard and in the stable.
-   place(ctx, out, buffers, name) builds it in the same shape, or returns
+   horses, in the garden from afar, in the stable yard and in the stable,
+   and the bees in the garden by day. place(ctx, out, buffers, name, hour)
+   builds it in the same shape, with setHour(name) besides, or returns
    null for a place without one. */
 (function(){
   "use strict";
@@ -41,8 +42,8 @@
   }
 
   /* Buffers drawn here are made at a lower rate than the context's own:
-     nothing in them is above six kilohertz, and half the samples is half
-     the work on a phone. The context resamples them as they play. */
+     nothing in them needs to reach ten kilohertz, and half the samples is
+     half the work on a phone. The context resamples them as they play. */
   var SR = 22050;
 
   function toBuffer(ctx, data){
@@ -264,6 +265,226 @@
     };
   }
 
+  /* A buffer that has been drawn is played the same way everywhere: once,
+     at a time, into a node, a hair faster or slower than drawn. */
+  function playBuffer(ctx, buffer, into, when, rate){
+    var src = ctx.createBufferSource();
+    src.buffer = buffer;
+    src.playbackRate.value = rate || 1;
+    src.connect(into);
+    src.onended = done([src]);
+    src.start(when);
+    return src;
+  }
+  function normalise(ctx, data){
+    var peak = 0, i;
+    for(i = 0; i < data.length; i++) peak = Math.max(peak, Math.abs(data[i]));
+    for(i = 0; i < data.length; i++) data[i] /= peak;
+    return toBuffer(ctx, data);
+  }
+
+  /* ---- a scops owl, the night's one whistle. A male repeats a single
+     soft note, about a quarter to a third of a second long and near
+     1.3 kHz, up to some twenty-six times a minute, and each bird keeps
+     its own pitch (Mikkola & Mikkola, Ornis Hungarica, 2015). He sings in
+     long runs with rests between. A summer visitor: the farm is painted in
+     summer, so he is there. ---- */
+  function owlNote(ctx, f, length){
+    var len = Math.ceil(length * SR), data = new Float32Array(len), phase = 0;
+    for(var i = 0; i < len; i++){
+      var s = i / SR, x = s / length;
+      /* a slight rise into the note and a slighter fall out of it */
+      var bend = x < 0.25 ? 0.94 + 0.24 * x : 1 - 0.04 * (x - 0.25);
+      phase += 2 * Math.PI * f * bend / SR;
+      var env = Math.min(1, s / 0.05, (length - s) / 0.09);
+      data[i] = env * env * (1 - 0.25 * x) * (Math.sin(phase) + 0.07 * Math.sin(2 * phase) + 0.03 * (Math.random() * 2 - 1));
+    }
+    return normalise(ctx, data);
+  }
+  function owl(ctx, out){
+    var g = ctx.createGain(); g.gain.value = 0.22;
+    var pan = place(ctx, g, out, rand(-0.7, 0.7));
+    var note = owlNote(ctx, rand(1200, 1450), rand(0.24, 0.34));
+    var every = rand(2.3, 3.1), next = ctx.currentTime + rand(3, 12);
+    var left = 20 + Math.floor(Math.random() * 60);
+    return {
+      tick: function(until){
+        while(next < until){
+          playBuffer(ctx, note, g, next, rand(0.995, 1.005));
+          next += every * rand(0.96, 1.04);
+          if(--left <= 0){
+            next += rand(20, 90);
+            left = 20 + Math.floor(Math.random() * 60);
+          }
+        }
+      },
+      stop: function(){ done([g, pan].filter(Boolean))(); }
+    };
+  }
+
+  /* ---- a collared dove: three notes, the middle one long and stressed,
+     each rising and then falling, all between about 400 and 650 Hz. A song
+     repeats the phrase about twice in three seconds, several times over
+     (Verboom & Heij, Juno memo 202003, 2020). It sings more in the
+     morning; at midday less often. ---- */
+  function cooBuffer(ctx, p){
+    /* [start, length, low, high, end, loudness] for each note */
+    var notes = [[0, 0.2, 470, 560, 500, 1], [0.3, 0.55, 500, 610, 520, 0.85], [0.95, 0.26, 520, 540, 430, 0.7]];
+    var length = 1.25, len = Math.ceil(length * SR), data = new Float32Array(len), phase = 0;
+    notes.forEach(function(n){
+      var from = Math.floor(n[0] * SR), count = Math.floor(n[1] * SR);
+      for(var i = 0; i < count && from + i < len; i++){
+        var x = i / count, s = i / SR;
+        var f = (x < 0.4 ? n[2] + (n[3] - n[2]) * x / 0.4 : n[3] + (n[4] - n[3]) * (x - 0.4) / 0.6) * p;
+        phase += 2 * Math.PI * f / SR;
+        var env = Math.min(1, s / 0.04, (n[1] - s) / 0.08);
+        env = n[5] * Math.sin(Math.PI / 2 * Math.max(0, env));
+        /* a little of the octave and the twelfth, so the hoot carries on a
+           phone's small speaker as well */
+        data[from + i] = env * (Math.sin(phase) + 0.3 * Math.sin(2 * phase) + 0.08 * Math.sin(3 * phase));
+      }
+    });
+    return normalise(ctx, data);
+  }
+  function dove(ctx, out, often){
+    var g = ctx.createGain(); g.gain.value = 0.2;
+    var pan = place(ctx, g, out, rand(-0.8, 0.8));
+    var coo = cooBuffer(ctx, rand(0.94, 1.06));
+    var rest = often ? [25, 70] : [50, 140];
+    var next = ctx.currentTime + rand(often ? 4 : 10, often ? 20 : 45);
+    var left = 3 + Math.floor(Math.random() * 7);
+    return {
+      tick: function(until){
+        while(next < until){
+          playBuffer(ctx, coo, g, next, rand(0.99, 1.01));
+          next += rand(1.45, 1.65);
+          if(--left <= 0){
+            next += rand(rest[0], rest[1]);
+            left = 3 + Math.floor(Math.random() * 7);
+          }
+        }
+      },
+      stop: function(){ done([g, pan].filter(Boolean))(); }
+    };
+  }
+
+  /* ---- cicadas in the olive trees at midday. The song here follows
+     Cicada orni, a common cicada of Mediterranean olive groves: echemes of
+     about 0.08 s, each a few groups of pulses, some five a second, peaking
+     near 4.8 kHz, from males that sing through the hot hours of summer
+     days, often in chorus (Pinto-Juma et al., Zoological Studies, 2005).
+     Heard from a little way off, they come in waves. ---- */
+  function cicadaBuffer(ctx, fc, length){
+    var len = Math.ceil(length * SR), data = new Float32Array(len);
+    var at = 0;
+    while(at < length - 0.15){
+      /* one echeme: a few groups of rapid clicks, each click a short ring
+         at the body's pitch */
+      var echeme = rand(0.06, 0.1), groups = 3 + Math.floor(Math.random() * 2);
+      for(var k = 0; k < groups; k++){
+        var gStart = at + k * echeme / groups;
+        for(var c = 0; c < 6; c++){
+          var start = Math.floor((gStart + c * 0.0028) * SR), amp = 1 - c * 0.08;
+          for(var i = 0; i < 0.003 * SR && start + i < len; i++){
+            var s = i / SR;
+            data[start + i] += amp * Math.exp(-s / 0.0012) * (Math.sin(2 * Math.PI * fc * s) + 0.5 * (Math.random() * 2 - 1));
+          }
+        }
+      }
+      at += echeme + rand(0.1, 0.18);
+    }
+    return normalise(ctx, data);
+  }
+  function cicadas(ctx, out){
+    var voices = [0, 1, 2].map(function(i){
+      var g = ctx.createGain(); g.gain.value = [0.2, 0.14, 0.09][i];
+      return { gain: g, pan: place(ctx, g, out, rand(-0.9, 0.9)),
+               buffer: cicadaBuffer(ctx, rand(4400, 5200), rand(2.6, 3.4)),
+               next: ctx.currentTime + rand(2, 25) };
+    });
+    function chorus(v, t){
+      var length = rand(10, 30), rise = rand(1.5, 3), fall = rand(1, 2);
+      var src = ctx.createBufferSource(), env = ctx.createGain();
+      src.buffer = v.buffer; src.loop = true;
+      src.playbackRate.value = rand(0.98, 1.02);
+      env.gain.setValueAtTime(0, t);
+      env.gain.linearRampToValueAtTime(1, t + rise);
+      env.gain.setValueAtTime(1, t + length - fall);
+      env.gain.linearRampToValueAtTime(0, t + length);
+      src.connect(env); env.connect(v.gain);
+      src.onended = done([src, env]);
+      src.start(t, rand(0, v.buffer.duration)); src.stop(t + length + 0.05);
+      return length;
+    }
+    return {
+      tick: function(until){
+        voices.forEach(function(v){
+          while(v.next < until) v.next += chorus(v, v.next) + rand(10, 40);
+        });
+      },
+      stop: function(){
+        voices.forEach(function(v){ done([v.gain, v.pan].filter(Boolean))(); });
+      }
+    };
+  }
+
+  /* ---- bees in the garden, by day: one at a time crossing in front of
+     the hydrangeas and the lavender, now and then a bumblebee. A honeybee
+     beats its wings about 234 times a second (Clark et al., J Exp Biol,
+     2017); a bumblebee's flight buzz is lower, near 140 Hz (Pritchard &
+     Vallejo-Marín, J Exp Biol, 2020). As one passes, its tone rises a
+     little on the way in and falls on the way out. ---- */
+  function beePass(ctx, out, t){
+    var bumble = Math.random() < 0.25;
+    var f = bumble ? rand(135, 170) : rand(220, 250), length = rand(1.6, 4);
+    var mid = t + length * rand(0.35, 0.65), end = t + length;
+    var o = ctx.createOscillator(); o.type = "sawtooth";
+    o.frequency.setValueAtTime(f * 1.02, t);
+    o.frequency.linearRampToValueAtTime(f * 1.015, mid - 0.15);
+    o.frequency.linearRampToValueAtTime(f * 0.985, mid + 0.15);
+    o.frequency.linearRampToValueAtTime(f * 0.98, end);
+    /* the wings never quite hold one speed */
+    var wobble = ctx.createOscillator(), depth = ctx.createGain();
+    wobble.frequency.value = rand(5, 11); depth.gain.value = f * 0.012;
+    wobble.connect(depth); depth.connect(o.frequency);
+    var tone = ctx.createBiquadFilter(); tone.type = "lowpass"; tone.frequency.value = bumble ? 1400 : 2200; tone.Q.value = 0.5;
+    var env = ctx.createGain(), peak = (bumble ? 0.28 : 0.2) * rand(0.6, 1);
+    env.gain.setValueAtTime(0, t);
+    env.gain.linearRampToValueAtTime(peak * 0.25, t + length * 0.15);
+    env.gain.linearRampToValueAtTime(peak, mid);
+    env.gain.linearRampToValueAtTime(peak * 0.2, end - length * 0.1);
+    env.gain.linearRampToValueAtTime(0, end);
+    o.connect(tone); tone.connect(env);
+    var nodes = [o, wobble, depth, tone, env];
+    if(ctx.createStereoPanner){
+      var p = ctx.createStereoPanner(), side = pick([-1, 1]);
+      p.pan.setValueAtTime(side * rand(0.5, 0.9), t);
+      p.pan.linearRampToValueAtTime(-side * rand(0.2, 0.8), end);
+      env.connect(p); p.connect(out); nodes.push(p);
+    } else env.connect(out);
+    o.onended = done(nodes);
+    [o, wobble].forEach(function(n){ n.start(t); n.stop(end + 0.05); });
+  }
+  function bees(ctx, out, hour){
+    var day = false, next = 0;
+    function setHour(name){
+      var was = day;
+      day = name === "morning" || name === "midday";
+      if(day && !was) next = ctx.currentTime + rand(3, 10);
+    }
+    setHour(hour);
+    return {
+      setHour: setHour,
+      tick: function(until){
+        while(day && next < until){
+          beePass(ctx, out, next);
+          next += rand(6, 18);
+        }
+      },
+      stop: function(){}
+    };
+  }
+
   /* ---- the horses, heard only near them. A snort is "a more or less
      pulsed broad-band sound of forceful exhalation through the nostrils,
      produced mouth closed", and horses give more of them when at ease, out
@@ -349,13 +570,11 @@
     /* one of them is heard soon after arriving */
     pick(herd).breath = now + rand(spot.first[0], spot.first[1]);
     function play(h, buffer, when, level){
-      var src = ctx.createBufferSource(), g = ctx.createGain();
-      src.buffer = buffer;
-      src.playbackRate.value = rand(0.95, 1.05);
+      var g = ctx.createGain();
       g.gain.value = level;
-      src.connect(g); g.connect(h.input);
+      g.connect(h.input);
+      var src = playBuffer(ctx, buffer, g, when, rand(0.95, 1.05));
       src.onended = done([src, g]);
-      src.start(when);
     }
     return {
       tick: function(until){
@@ -380,19 +599,23 @@
   }
   /* The sound of a place, for the places that have one of their own. It
      is heard as it is, without the walls: in the stable the horses share
-     the room. Returns null where there is nothing. */
-  function placeSound(ctx, out, buffers, name){
+     the room. The garden also has its bees, which keep to the day; the
+     caller passes the part of the day and tells it when that changes.
+     Returns null where there is nothing. */
+  function placeSound(ctx, out, buffers, name, hourName){
     var spot = PLACES[name];
     if(!spot) return null;
     var bus = ctx.createGain();
     bus.gain.value = 0;
     bus.connect(out);
-    var herd = horses(ctx, bus, spot);
+    var parts = [horses(ctx, bus, spot)];
+    if(name === "garden") parts.push(bees(ctx, bus, hourName));
     return {
       name: name, out: bus,
-      tick: herd.tick,
+      tick: function(until){ parts.forEach(function(p){ p.tick(until); }); },
+      setHour: function(h){ parts.forEach(function(p){ if(p.setHour) p.setHour(h); }); },
       stop: function(){
-        herd.stop();
+        parts.forEach(function(p){ p.stop(); });
         try{ bus.disconnect(); }catch(e){}
       }
     };
@@ -404,9 +627,10 @@
     var bed = ctx.createGain();
     bed.gain.value = 0;
     bed.connect(out);
-    var parts = name === "morning" ? [birds(ctx, bed)]
-              : name === "midday" ? [wind(ctx, bed, buffers)]
-              : [crickets(ctx, bed, name === "night")];
+    var parts = name === "morning" ? [birds(ctx, bed), dove(ctx, bed, true)]
+              : name === "midday" ? [wind(ctx, bed, buffers), cicadas(ctx, bed), dove(ctx, bed, false)]
+              : name === "evening" ? [crickets(ctx, bed, false)]
+              : [crickets(ctx, bed, true), owl(ctx, bed)];
     return {
       out: bed,
       tick: function(until){ parts.forEach(function(p){ if(p.tick) p.tick(until); }); },
