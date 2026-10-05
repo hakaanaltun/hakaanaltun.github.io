@@ -7,14 +7,19 @@
 
    Four quiet beds live here, one for each part of the day:
      morning   sparse birdsong
-     midday    soft wind, and now and then a distant horse
+     midday    soft wind
      evening   crickets
      night     fewer crickets, slower, and a tree cricket
    hour(ctx, out, buffers, name) builds one and returns
    { out, tick(until), stop() }: `out` is the bed's own gain, made at 0 so
    the caller can fade it in; tick() schedules the bed's next events up to
    an audio time, and is called every fraction of a second by whoever plays
-   it. */
+   it.
+
+   Some places also have a sound of their own, heard only there: the
+   horses, in the garden from afar, in the stable yard and in the stable.
+   place(ctx, out, buffers, name) builds it in the same shape, or returns
+   null for a place without one. */
 (function(){
   "use strict";
 
@@ -143,7 +148,7 @@
   /* ---- wind: pink noise in a low band, swelled by two slow waves whose
      sum does not repeat within a visit, and the same noise higher up for
      the leaves, which answer the gusts more than the air does. The whole
-     of it sits under one level, kept well below the horse. ---- */
+     of it sits under one level, kept low. ---- */
   function wind(ctx, out, buffers){
     var level = ctx.createGain(); level.gain.value = 0.6;
     level.connect(out);
@@ -177,64 +182,6 @@
         [air, rustle, slow, quick].forEach(function(n){ try{ n.stop(); }catch(e){} });
         done([air, hp, lp, body, rustle, bp, leaves, slow, quick, level].concat(links))();
       }
-    };
-  }
-
-  /* ---- a distant horse: a whinny across the field every minute or two.
-     A whinny carries two voices at once, a lower one near 400 Hz and a
-     whistle near 1.5 kHz, both shaken harder towards the end (Briefer et
-     al., Scientific Reports, 2015). Heard from far off, the top is gone. */
-  function whinny(ctx, out, t){
-    var dur = rand(1.1, 1.6), end = t + dur;
-    var low = ctx.createOscillator(), high = ctx.createOscillator();
-    low.type = "sawtooth"; high.type = "sine";
-    var f0 = rand(420, 560), g0 = rand(1400, 1700);
-    low.frequency.setValueAtTime(f0, t);
-    low.frequency.linearRampToValueAtTime(f0 * rand(1.15, 1.3), t + 0.12);
-    low.frequency.exponentialRampToValueAtTime(rand(260, 330), end);
-    high.frequency.setValueAtTime(g0, t);
-    high.frequency.linearRampToValueAtTime(g0 * 1.12, t + 0.15);
-    high.frequency.exponentialRampToValueAtTime(rand(900, 1150), end);
-
-    /* the shake: about ten times a second, deepening as the call falls */
-    var shake = ctx.createOscillator(); shake.frequency.value = rand(8.5, 11.5);
-    var lowShake = ctx.createGain(), highShake = ctx.createGain(), ampShake = ctx.createGain();
-    lowShake.gain.setValueAtTime(f0 * 0.02, t); lowShake.gain.linearRampToValueAtTime(40, end);
-    highShake.gain.setValueAtTime(30, t); highShake.gain.linearRampToValueAtTime(120, end);
-    ampShake.gain.setValueAtTime(0, t); ampShake.gain.linearRampToValueAtTime(0.35, end);
-    shake.connect(lowShake); lowShake.connect(low.frequency);
-    shake.connect(highShake); highShake.connect(high.frequency);
-
-    var lowTone = ctx.createBiquadFilter(); lowTone.type = "lowpass"; lowTone.frequency.value = 1800;
-    var lowMix = ctx.createGain(); lowMix.gain.value = 0.5;
-    var highMix = ctx.createGain(); highMix.gain.value = 0.2;
-    var pulse = ctx.createGain(); pulse.gain.value = 0.65;
-    shake.connect(ampShake); ampShake.connect(pulse.gain);
-    var env = ctx.createGain();
-    env.gain.setValueAtTime(0, t);
-    env.gain.linearRampToValueAtTime(1, t + 0.06);
-    env.gain.linearRampToValueAtTime(0.8, t + dur * 0.6);
-    env.gain.linearRampToValueAtTime(0, end);
-    var far = ctx.createBiquadFilter(); far.type = "lowpass"; far.frequency.value = rand(1300, 1700); far.Q.value = -3;
-    var level = ctx.createGain(); level.gain.value = rand(0.3, 0.45);
-    low.connect(lowTone); lowTone.connect(lowMix); lowMix.connect(pulse);
-    high.connect(highMix); highMix.connect(pulse);
-    pulse.connect(env); env.connect(far); far.connect(level);
-    var pan = place(ctx, level, out, pick([-1, 1]) * rand(0.4, 0.8));
-    low.onended = done([low, high, shake, lowShake, highShake, ampShake, lowTone, lowMix,
-                        highMix, pulse, env, far, level, pan].filter(Boolean));
-    [low, high, shake].forEach(function(o){ o.start(t); o.stop(end + 0.05); });
-  }
-  function horse(ctx, out){
-    var next = ctx.currentTime + rand(12, 35);
-    return {
-      tick: function(until){
-        while(next < until){
-          whinny(ctx, out, next);
-          next += rand(50, 120);
-        }
-      },
-      stop: function(){}
     };
   }
 
@@ -317,6 +264,140 @@
     };
   }
 
+  /* ---- the horses, heard only near them. A snort is "a more or less
+     pulsed broad-band sound of forceful exhalation through the nostrils,
+     produced mouth closed", and horses give more of them when at ease, out
+     at pasture or feeding (Stomp et al., PLOS ONE, 2018). A blow is the
+     same breath, shorter and without the flutter. Between them a horse
+     shifts its weight: a hoof lifted and set down on the yard's earth, or
+     in the straw of a stall. A whinny drawn from oscillators was tried
+     first and taken out; it did not sound like a horse. ---- */
+  function breathBuffer(ctx, length, flutter, depth){
+    var len = Math.ceil(length * SR), data = new Float32Array(len);
+    var phase = 0, rate = flutter, dark = 0, peak = 0;
+    for(var i = 0; i < len; i++){
+      var s = i / SR, x = s / length;
+      /* a quick push, then a long fall as the air runs out */
+      var env = Math.min(1, s / 0.03) * Math.pow(1 - x, 1.4);
+      /* the nostrils flap a little slower and less evenly as it falls,
+         and stop before the breath does */
+      rate += (flutter * (1 - 0.3 * x) * rand(0.6, 1.4) - rate) * 0.01;
+      phase = (phase + rate / SR) % 1;
+      var flap = Math.pow(1 - phase, 3);
+      var d = depth * Math.min(1, x * 6) * Math.min(1, (1 - x) / 0.3);
+      /* the breath itself is a darkened noise, not a hiss */
+      dark += (Math.random() * 2 - 1 - dark) * 0.35;
+      var v = env * (dark * (1 - d + d * 1.8 * flap) + d * 0.5 * (flap - 0.25));
+      data[i] = v;
+      peak = Math.max(peak, Math.abs(v));
+    }
+    for(i = 0; i < len; i++) data[i] /= peak;
+    return toBuffer(ctx, data);
+  }
+  /* A hoof set down: a short knock that drops in pitch, a little grit,
+     and in a stall the straw giving under it. */
+  function hoofBuffer(ctx, size, straw){
+    var length = straw ? rand(0.35, 0.5) : rand(0.16, 0.22);
+    var len = Math.ceil(length * SR), data = new Float32Array(len);
+    var f = rand(120, 170) / size, phase = 0, grit = 0, peak = 0;
+    for(var i = 0; i < len; i++){
+      var s = i / SR;
+      phase += 2 * Math.PI * f * (1 + Math.exp(-s / 0.012)) / SR;
+      var knock = Math.sin(phase) * Math.exp(-s / (straw ? 0.03 : 0.045)) * (straw ? 0.6 : 1);
+      grit += (Math.random() * 2 - 1 - grit) * 0.5;
+      var v = knock + grit * Math.exp(-s / 0.01) * 0.5;
+      if(straw && s > 0.01){
+        var crackle = Math.random() < 0.12 ? 1 : 0.15;
+        v += (Math.random() * 2 - 1) * crackle * 0.35 * Math.exp(-(s - 0.01) / 0.12);
+      }
+      data[i] = v;
+      peak = Math.max(peak, Math.abs(v));
+    }
+    for(i = 0; i < len; i++) data[i] /= peak;
+    return toBuffer(ctx, data);
+  }
+  /* Where each horse stands in the picture, so the sound agrees with it.
+     In the garden the stable is off to the left and only a snort carries;
+     in the yard Pamuk and Bal are on the left and Gece on the right; in
+     the stable Doru and Tarçın look out from the left-hand stalls, Tarçın
+     further back. `size` sets the voice: the Haflinger's is the lightest,
+     the Friesian's the deepest. */
+  var PLACES = {
+    garden: { tone: 1300, hooves: false, first: [6, 14], horses: [
+      { pan: -0.75, size: 1.05, level: 0.3 }, { pan: -0.6, size: 0.95, level: 0.22 } ] },
+    stableYard: { tone: 5000, hooves: true, first: [2, 6], horses: [
+      { pan: -0.6, size: 1, level: 0.4 }, { pan: -0.25, size: 0.85, level: 0.36 },
+      { pan: 0.6, size: 1.2, level: 0.45 } ] },
+    stable: { tone: 4000, hooves: true, straw: true, first: [2, 6], horses: [
+      { pan: -0.6, size: 1, level: 0.45 }, { pan: -0.3, size: 1.05, level: 0.28 } ] }
+  };
+  function horses(ctx, out, spot){
+    var now = ctx.currentTime;
+    var herd = spot.horses.map(function(h){
+      var g = ctx.createGain(); g.gain.value = h.level;
+      var tone = ctx.createBiquadFilter(); tone.type = "lowpass"; tone.frequency.value = spot.tone; tone.Q.value = -3;
+      tone.connect(g);
+      var flutter = rand(28, 38) / h.size;
+      return {
+        input: tone, gain: g, pan: place(ctx, g, out, h.pan),
+        snorts: [0, 1, 2].map(function(){ return breathBuffer(ctx, rand(0.6, 1.1) * h.size, flutter * rand(0.9, 1.1), rand(0.6, 0.85)); }),
+        blow: breathBuffer(ctx, rand(0.3, 0.45) * h.size, flutter, 0.1),
+        hooves: spot.hooves ? [0, 1, 2].map(function(){ return hoofBuffer(ctx, h.size, spot.straw); }) : null,
+        breath: now + rand(12, 45), step: now + rand(6, 30)
+      };
+    });
+    /* one of them is heard soon after arriving */
+    pick(herd).breath = now + rand(spot.first[0], spot.first[1]);
+    function play(h, buffer, when, level){
+      var src = ctx.createBufferSource(), g = ctx.createGain();
+      src.buffer = buffer;
+      src.playbackRate.value = rand(0.95, 1.05);
+      g.gain.value = level;
+      src.connect(g); g.connect(h.input);
+      src.onended = done([src, g]);
+      src.start(when);
+    }
+    return {
+      tick: function(until){
+        herd.forEach(function(h){
+          while(h.breath < until){
+            if(Math.random() < 0.7) play(h, pick(h.snorts), h.breath, rand(0.75, 1));
+            else play(h, h.blow, h.breath, rand(0.5, 0.75));
+            h.breath += rand(40, 100);
+          }
+          while(h.hooves && h.step < until){
+            /* a shift of weight: one hoof, sometimes a second after it */
+            play(h, pick(h.hooves), h.step, rand(0.6, 0.9));
+            if(Math.random() < 0.5) play(h, pick(h.hooves), h.step + rand(0.3, 0.7), rand(0.35, 0.6));
+            h.step += rand(25, 70);
+          }
+        });
+      },
+      stop: function(){
+        herd.forEach(function(h){ done([h.input, h.gain, h.pan].filter(Boolean))(); });
+      }
+    };
+  }
+  /* The sound of a place, for the places that have one of their own. It
+     is heard as it is, without the walls: in the stable the horses share
+     the room. Returns null where there is nothing. */
+  function placeSound(ctx, out, buffers, name){
+    var spot = PLACES[name];
+    if(!spot) return null;
+    var bus = ctx.createGain();
+    bus.gain.value = 0;
+    bus.connect(out);
+    var herd = horses(ctx, bus, spot);
+    return {
+      name: name, out: bus,
+      tick: herd.tick,
+      stop: function(){
+        herd.stop();
+        try{ bus.disconnect(); }catch(e){}
+      }
+    };
+  }
+
   /* ---- one bed per part of the day ---- */
   function hour(ctx, out, buffers, name){
     if(name === "midday" && !buffers.pink) buffers.pink = window.OLAE_RAIN.makeNoiseBuffer(ctx, "pink");
@@ -324,7 +405,7 @@
     bed.gain.value = 0;
     bed.connect(out);
     var parts = name === "morning" ? [birds(ctx, bed)]
-              : name === "midday" ? [wind(ctx, bed, buffers), horse(ctx, bed)]
+              : name === "midday" ? [wind(ctx, bed, buffers)]
               : [crickets(ctx, bed, name === "night")];
     return {
       out: bed,
@@ -336,5 +417,5 @@
     };
   }
 
-  window.OLAE_FARM_ENGINE = { hour: hour };
+  window.OLAE_FARM_ENGINE = { hour: hour, place: placeSound };
 })();

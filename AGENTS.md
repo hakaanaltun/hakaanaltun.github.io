@@ -83,14 +83,20 @@ click, because browsers start audio only from one. Every start and stop
 fades over a second or two, and a hidden tab fades out and suspends the
 audio until it returns.
 
-- **The time of day.** Morning is sparse birdsong; midday a soft wind, with
-  a distant horse every minute or two; evening crickets; night fewer
-  crickets, slower and quieter. The birds and crickets are not any one
-  species, and nothing on the page names them.
+- **The time of day.** Morning is sparse birdsong; midday a soft wind;
+  evening crickets; night fewer crickets, slower and quieter. The birds
+  and crickets are not any one species, and nothing on the page names
+  them.
 - **Indoors and out.** Outdoors the sound is low. In the rooms it is lower
   still and low-passed, as if heard through the walls. The rooms are the
   hall, the kitchen, upstairs and the stable aisle, listed in the page's
   `indoors` set; a new room must be added there.
+- **The horses are heard only near them**, at the author's request: faintly
+  from the left in the garden, close by in the stable yard, and in the
+  stable, where they share the room and are not muffled. They snort, blow
+  and shift a hoof now and then, each from where it stands in the picture.
+  A whinny made from oscillators was tried first and taken out in October
+  2026; it did not sound like a horse.
 - **No creaks.** Synthesised floorboard creaks were tried in October 2026
   and taken out at the author's request. Do not add them back unless the
   author asks.
@@ -113,10 +119,12 @@ audio until it returns.
 - **Where things are.** `js/farm-sound-engine.js` makes the sounds and
   nothing else, like `js/rain-engine.js`, whose pink noise it borrows for
   the wind. `js/farm-sound.js` holds the toggle and the scheduling, and
-  near its top the levels: `LEVEL` for indoors and out, `HOUR_LEVEL` for
-  each part of the day (the birds were raised a little and the wind
-  lowered after the author listened). The balance inside a part, such as
-  the wind against the horse, is set in the engine. Bump the `?v=` on a
+  near its top the levels: `LEVEL` for indoors, outdoors and a place's own
+  sound (`near`), `HOUR_LEVEL` for each part of the day (the birds were
+  raised a little and the wind lowered after the author listened).
+  The balance inside a part, such as one cricket against another, is set
+  in the engine; so are the places that have a sound of their own and
+  where each horse stands, in its `PLACES`. Bump the `?v=` on a
   script's tag in `farm-house/index.html` when it changes.
   `scripts/test-farm-sound.cjs` checks the behaviour; only listening can
   check the sound, so listen on a phone before changing a level or a
