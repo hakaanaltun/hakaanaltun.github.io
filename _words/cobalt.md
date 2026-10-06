@@ -24,7 +24,7 @@ In Saxony, miners tried smelting what they believed was silver-bearing
 ore. When it failed to yield the silver they expected, they blamed
 goblins for bewitching it. Some cobalt ores also contained arsenic, which
 could be released as poisonous fumes during processing. The material was
-dangerous as well as disappointing.{% include word-cite.html n="2,1" %}
+dangerous as well as disappointing.{% include word-cite.html n="1,2" %}
 
 In the eighteenth century, the Swedish chemist Georg Brandt investigated
 a similar ore and identified a previously unrecognized metal. The
