@@ -233,7 +233,7 @@
       var button = element('button');
       button.type = 'button';
       button.setAttribute('data-answer', at === q.answer ? 'correct' : 'other');
-      button.appendChild(element('span', 'house-answer-letter', 'ABCDEFGHI'.charAt(slot)));
+      button.appendChild(element('span', 'house-answer-letter', 'ABCDEFGHI'.charAt(slot) + '.'));
       button.appendChild(element('span', 'house-answer-text', q.choices[at]));
       answers.appendChild(button);
     });
