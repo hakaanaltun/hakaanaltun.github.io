@@ -304,6 +304,32 @@
     var crossing = sky.moon && window.OLAE_ASTRO.moonCrossing(new Date(), LAT, LNG);
     fact(sky.moonUp ? 'Moonset' : 'Moonrise', crossing && clock(crossing));
     if (!facts.children.length) facts.remove();
+    /* After sunset, the planets that are up over İstanbul, as The Stars
+       finds them. Their ephemeris is fetched the first time it is wanted. */
+    var dark = sky.period === 'night' || (sky.period === 'evening' && sky.sunset && new Date() > sky.sunset);
+    if (dark && facts.isConnected) loadSky().then(function () {
+      var M = window.OLAE_SKYMAP;
+      var up = M.planets(new Date(), LAT, LNG).filter(function (p) { return p.alt > 5; }).slice(0, 2);
+      if (up.length && facts.isConnected) fact('Planets', up.map(function (p) { return p.body + ' ' + M.where(p.alt, p.az); }).join(', '));
+    }).catch(function () {});
+  }
+
+  /* The sky map's scripts, listed in house/index.html from _data/sky_scripts.yml. */
+  var skyLoading = null;
+  function loadSky() {
+    if (window.OLAE_SKYMAP && window.Astronomy) return Promise.resolve();
+    var list = window.OLAE_SKY_SCRIPTS;
+    if (!list) return Promise.reject(new Error('No sky scripts'));
+    if (!skyLoading) skyLoading = [list.engine, list.map].reduce(function (chain, src) {
+      return chain.then(function () {
+        return new Promise(function (resolve, reject) {
+          var script = document.createElement('script');
+          script.src = src; script.onload = resolve; script.onerror = reject;
+          document.head.appendChild(script);
+        });
+      });
+    }, Promise.resolve()).catch(function (error) { skyLoading = null; throw error; });
+    return skyLoading;
   }
 
   var MORIS = {

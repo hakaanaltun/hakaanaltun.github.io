@@ -33,7 +33,7 @@
    on a reader's machine — that copy self-heals on its second load. */
 "use strict";
 
-var CACHE = "olae-tools-v34";
+var CACHE = "olae-tools-v35";
 
 var TOOL_PAGES = [
   "/tools/",   /* the catalogue itself, so "all of them" works offline */
@@ -69,6 +69,7 @@ var TOOL_ASSETS = [
   "/css/window-sky.css",
   "/js/sky-instruments.js",
   "/js/bright-stars.js",
+  "/js/sky-map.js",
   "/js/vendor/astronomy-engine-2.1.19.min.js",
   "/fonts/cormorant-garamond-italic-latin-ext.woff2",
   "/fonts/cormorant-garamond-italic-latin.woff2",

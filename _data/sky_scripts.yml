@@ -1,0 +1,7 @@
+# The scripts behind the sky map, in the order they load: The Stars puts
+# them on its page, the homepage's Tonight and the window in The House
+# fetch them when they are wanted. A change to one of these files gets a
+# new ?v= here, once, and every reader of the list follows.
+engine: /js/vendor/astronomy-engine-2.1.19.min.js
+stars: /js/bright-stars.js?v=20261007-2
+map: /js/sky-map.js?v=20261007-1

@@ -18,7 +18,7 @@ function page(slug,{city='istanbul',zone='Europe/Istanbul',instant=FIXED}={}){
   w.setInterval=()=>0;
   w.document.querySelectorAll('script:not([src])').forEach(s=>{if(s.textContent.includes('OLAE_OBSERVER'))w.eval(s.textContent);});
   w.eval(source('js/astronomy.js'));
-  if(slug==='stars'){w.eval(source('js/vendor/astronomy-engine-2.1.19.min.js'));w.eval(source('js/bright-stars.js'));}
+  if(slug==='stars'){w.eval(source('js/vendor/astronomy-engine-2.1.19.min.js'));w.eval(source('js/bright-stars.js'));w.eval(source('js/sky-map.js'));}
   w.eval(source('js/sky-instruments.js'));
   return {dom,w,q:id=>w.document.getElementById(id)};
 }

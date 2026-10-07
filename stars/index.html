@@ -76,9 +76,10 @@ layout: null
 <footer class="notes"><h2>What is above you</h2><p>The map opens at your current time and follows your clock. To see the sky later, move the slider; it reaches a day ahead, through the night. Press Now to return to the live sky.</p><p>The map shows the stars down to magnitude 4.5, the figures of the constellations, the moon in its phase and the five planets visible to the unaided eye. Only what is above the horizon is drawn. The list names the constellations whose brightest star is high enough to find, with that star to look for.</p><p>Two variable stars are left off the map because their brightness changes by many magnitudes over a year: Mira in Cetus and Chi Cygni. So is T Coronae Borealis: the catalogue gives it the brightness of its outburst in 1866, and it is usually far too faint to see.</p><p>Daylight, clouds, moonlight and city lights affect what you can see. Near the horizon, buildings and hills may hide an object. A planet close to the sun can be lost in its glare even after sunset.</p><p>Your device’s time zone chooses a nearby city. You can change it above. Star positions come from the <a href="https://cdsarc.cds.unistra.fr/viz-bin/cat/V/50">Yale Bright Star Catalogue</a>, adjusted for the date, and star names from the <a href="https://iauarchive.eso.org/public/themes/naming_stars/">International Astronomical Union</a>. The constellation figures are those of <a href="https://github.com/ofrohn/d3-celestial">d3-celestial</a>, drawn after the IAU and Sky &amp; Telescope charts. The moon, the planets and the coordinate transformations use <a href="https://github.com/cosinekitty/astronomy">Astronomy Engine</a>. Everything runs in your browser.</p>{% include tool-links.html slug="stars" %}</footer>
 {% include window-observer.html %}
 <script src="/js/astronomy.js?v=20261007-1"></script>
-<script src="/js/vendor/astronomy-engine-2.1.19.min.js"></script>
-<script src="/js/bright-stars.js?v=20261007-2"></script>
-<script src="/js/sky-instruments.js?v=20261007-3"></script>
+<script src="{{ site.data.sky_scripts.engine }}"></script>
+<script src="{{ site.data.sky_scripts.stars }}"></script>
+<script src="{{ site.data.sky_scripts.map }}"></script>
+<script src="/js/sky-instruments.js?v=20261007-4"></script>
 <script>if("serviceWorker" in navigator){navigator.serviceWorker.register("/sw.js").catch(function(){});}</script>
 </body>
 </html>
