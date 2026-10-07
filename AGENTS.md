@@ -349,15 +349,30 @@ accuracy and plain prose to this section as well.
   proposed, not that it has been confirmed. If an anecdote is retained
   without a verifiable source, say that explicitly and do not present it
   as an established fact.
-- **When there is a separate story, open with "How do we know this?"**
-  Explain the observations, evidence and interpretations that let us
-  understand what the picture shows. The history of its first drawing may
-  belong here when it helps. Possible openings include the seismic evidence
-  for Earth's interior, early microscope observations of cells, or changing
-  fossil reconstructions of Iguanodon. Verify and source the particular
-  claims before using any example. Keep observation, inference and artistic
-  reconstruction clear; speculation follows the evidence, marked as such.
-  The black-hole story already follows this approach.
+- **The reader should see more when they return to the picture.**
+  Judge every explanation and separate story by this: after reading it,
+  does the reader notice or understand more in the picture? Clickable
+  explanations open its details; a separate story connects them. Let the
+  subject determine the story's length.
+- **Let the subject choose its story and its opening.** "How do we know
+  this?" is one useful way in: the observations, evidence and interpretations
+  that let us understand what is shown. The history of its first drawing
+  may belong here when it helps. Possible openings include the seismic
+  evidence for Earth's interior, early microscope observations of cells,
+  or changing fossil reconstructions of Iguanodon. The black-hole story
+  already follows this approach. Other subjects may carry their stories
+  through their lives, changes or relationships:
+
+  - A bird may have a migration journey, a story behind its name, or a
+    meaning people have given it.
+  - A nebula may be understood through its formation and the changes ahead
+    of it, with the picture's details opening parts of that process.
+  - A cat may lead to its history of living with people, or to the reason
+    behind a behaviour shown in the picture.
+
+  Verify and source the particular claims before using any example. Keep
+  observation, inference and artistic reconstruction clear; speculation
+  follows the evidence, marked as such.
 - **The painting stands as a sheet on a light, quiet page.**
   `--picture-paper` in `css/pictures.css` is `#f8f7f2`, a shade under the
   site's own light paper; the image keeps its edges, as it does on the
