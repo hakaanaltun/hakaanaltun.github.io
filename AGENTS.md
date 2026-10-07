@@ -368,6 +368,25 @@ accuracy and plain prose to this section as well.
   fails when a section is missing from the lists or two neighbours share a
   colour.
 
+## The site's header and footer
+
+- **Every page that is read or browsed carries them**: the homepage, The
+  House, the writing, the word pages, the section indexes (Words, Pictures,
+  Trivia, Instruments), Moris and About. They come from
+  `_layouts/default.html`, and a new page of this kind uses it.
+- **A place that fills the window has its own quiet frame instead**: the
+  Farm House, each picture in Pictures with Stories and each instrument. The
+  frame gives a way back and the place's own controls, and leaves the rest
+  of the window to the picture or the tool. The author settled this in
+  October 2026: do not add the site's header and footer to these places, and
+  keep their frames as they are.
+- **The way back leads to where the place was entered.** An instrument
+  leads to the instruments and a picture to Pictures with Stories. The Farm
+  House is entered through the Polaroid on a shelf in The House's study, so
+  its "← The House" returns to the study (`/house/#study`). Do not give its
+  frame the site's name as a link to the homepage; the visitor leaves the
+  farm by the room they came from.
+
 ## Interface details
 
 - **A disclosure uses the site's chevron**, the one in the drawer and on a
