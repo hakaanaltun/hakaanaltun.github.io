@@ -24,8 +24,12 @@
     crop.style.setProperty('--detail-position', note.dataset.position);
     crop.style.setProperty('--detail-zoom', note.dataset.zoom);
     crop.setAttribute('aria-label', note.dataset.alt);
-    dialog.scrollTop = 0;
     dialog.showModal();
+    // Only an open dialog can be scrolled, so the reset comes after showing
+    // it. Before, a phone reader who had scrolled down to "Back to the
+    // picture" met every later detail scrolled the same way, its close view
+    // pushed up out of sight.
+    dialog.scrollTop = 0;
     title.focus({ preventScroll: true });
   }
   document.querySelectorAll('[data-detail]').forEach(function (trigger) {
