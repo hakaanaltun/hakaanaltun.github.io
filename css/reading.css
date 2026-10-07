@@ -4,19 +4,22 @@
    pills for a choice, a bordered italic button for an action. */
 .reading-options[hidden] { display: none; }
 .reading-options { width: 100%; }
+/* The words sit on the header's centre line with the date and "read with
+   rain" above them; the chevron hangs just outside, so it does not pull them
+   off it. */
 .reading-options > summary {
-  display: flex; align-items: center; gap: 7px; width: fit-content; margin: 0 auto;
+  display: block; position: relative; width: fit-content; margin: 0 auto;
   list-style: none; cursor: pointer; padding: 2px 6px;
   font-family: 'EB Garamond', Georgia, serif; font-style: italic; font-size: 0.92rem; letter-spacing: 0.03em;
   color: var(--vizon); transition: color 0.2s ease;
 }
 .reading-options > summary::-webkit-details-marker { display: none; }
 .reading-options > summary::after {
-  content: ""; width: 5px; height: 5px; flex-shrink: 0;
+  content: ""; position: absolute; left: 100%; top: 50%; width: 5px; height: 5px;
   border-right: 1px solid currentColor; border-bottom: 1px solid currentColor;
-  transform: translateY(-2px) rotate(45deg); transition: transform 0.25s ease;
+  transform: translateY(-4.5px) rotate(45deg); transition: transform 0.25s ease;
 }
-.reading-options[open] > summary::after { transform: translateY(1px) rotate(-135deg); }
+.reading-options[open] > summary::after { transform: translateY(-1.5px) rotate(-135deg); }
 .reading-options > summary:hover, .reading-options[open] > summary { color: var(--petrol); }
 .reading-options > summary:focus-visible { outline: 2px solid var(--petrol); outline-offset: 2px; }
 .reading-panel {
