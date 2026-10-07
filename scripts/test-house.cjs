@@ -109,6 +109,8 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   const drawerText = a.q('#house-dialog-content').textContent;
   assert.match(drawerText, new RegExp(firstWord.title));
   assert.match(a.q('#house-dialog-content').textContent, /Download as text/);
+  const exports = () => Array.from(a.w.document.querySelectorAll('#house-dialog-content [data-export]'), (b) => b.getAttribute('data-export'));
+  assert.deepEqual(exports(), ['backup', 'restore', 'text', 'print']);
   // Newest first.
   assert.equal(a.q('#house-dialog-content .house-item .house-item-kind').textContent, 'The Fragments');
 
@@ -280,6 +282,9 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   a.click('#house-close');
   a.click('[data-open="drawer"]');
   assert.match(a.q('#house-dialog-content').textContent, /cannot save/);
+  // What is here for this visit can still leave as a backup, but a browser
+  // that cannot keep the drawer is not offered a restore it cannot finish.
+  assert.deepEqual(Array.from(a.w.document.querySelectorAll('#house-dialog-content [data-export]'), (b) => b.getAttribute('data-export')), ['backup', 'text', 'print']);
   a.dom.window.close();
 
   // --- Since the last visit --------------------------------------------------
@@ -312,6 +317,9 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.equal(a.q('#study').hidden, false);
   assert.equal(a.q('#house-dialog').open, true);
   assert.equal(a.q('#house-dialog-title').textContent, 'Your drawer');
+  // An empty drawer offers only what can be done with it: bringing one in.
+  assert.deepEqual(Array.from(a.w.document.querySelectorAll('#house-dialog-content [data-export]'), (b) => b.getAttribute('data-export')), ['restore']);
+  assert.match(a.q('#house-dialog-content').textContent, /Nothing here yet[\s\S]*restore it here/);
   a.click('#house-close');
   assert.equal(a.w.location.hash, '#study');
   a.dom.window.close();
@@ -442,5 +450,5 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.equal(t.q('canvas.cursor-trail'), null, 'and none for a reader who asked for less motion');
   t.dom.window.close();
 
-  console.log('House: catalog and addresses, daily room, keeping from the room and from words, quizzes, the book and essays, legacy and hostile records, blocked storage, arrivals, #drawer, export, the moon, the planets after dark, weather at the window, and the pointer\'s trail passed.');
+  console.log('House: catalog and addresses, daily room, keeping from the room and from words, quizzes, the book and essays, legacy and hostile records, blocked storage, arrivals, #drawer, export and backup offered only where they work, the moon, the planets after dark, weather at the window, and the pointer\'s trail passed.');
 })().catch((error) => { console.error(error); process.exit(1); });
