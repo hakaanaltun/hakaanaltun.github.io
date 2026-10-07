@@ -28,6 +28,7 @@ on:
       - '_posts/**'
       - '_data/**'
       - '*.html'
+      - 'AGENTS.md'
       - '_config.yml'
       - 'package.json'
       - 'package-lock.json'
