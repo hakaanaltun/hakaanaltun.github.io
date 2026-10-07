@@ -1,4 +1,4 @@
-/* "Read with rain": one button, one sky. The essay header drives both the
+/* "Read with rain": one button, one sky. The reading menu drives both the
    sound (js/rain-engine.js) and the picture (js/let-it-snow.js), and the
    footer's droplet stays the silent picture it has always been.
    Run with Node 22+ from the repository root: node scripts/test-rain-read.cjs */
@@ -10,9 +10,9 @@ const root=path.join(__dirname,'..');
 const source=name=>fs.readFileSync(path.join(root,name),'utf8');
 const liquid=html=>html.replace(/\{%[\s\S]*?%\}/g,'');
 
-/* A page is the essay header's two buttons and the real footer, so the ids
+/* A page is the reading menu's rain button and the real footer, so the ids
    these scripts reach for are the ids the site actually ships. */
-const essayButtons=liquid(source('_layouts/post.html'))
+const essayButtons=liquid(source('_includes/reading-options.html'))
   .match(/<button[^>]*id="essay-rain"[\s\S]*?<\/button>/)[0];
 const page='<main id="main">'+essayButtons+'</main>'+liquid(source('_includes/footer.html'));
 

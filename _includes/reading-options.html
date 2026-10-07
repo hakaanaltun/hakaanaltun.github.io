@@ -15,6 +15,9 @@
     <div class="reading-actions">
       <button type="button" id="reading-reset">Reset reading settings</button>
       <button type="button" id="reading-print">Print or save as PDF</button>
+      {% comment %} /noise/'s synthesized rain, quietly behind the essay.
+      js/rain-read.js unhides the button where Web Audio exists. {% endcomment %}
+      <button type="button" class="essay-rain" id="essay-rain" aria-pressed="false" hidden>read with rain</button>
     </div>
     <p class="reading-status" id="reading-settings-status" role="status"></p>
     <section class="reading-listen" id="reading-listen" aria-label="Listen to this piece" hidden>
