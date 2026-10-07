@@ -1,5 +1,7 @@
-/* Pictures use the Farm House's quiet frame, optional hints and close view. */
-.picture-page { --picture-paper:#eeeae0; --picture-ink:#373b32; --picture-quiet:#676b5e; --picture-line:#c9cabc; --picture-accent:#58634c; margin:0; color:var(--picture-ink); background:var(--picture-paper); font-family:'EB Garamond',Georgia,serif; -webkit-font-smoothing:antialiased; }
+/* Pictures use the Farm House's quiet frame, optional hints and close view.
+   The page is the painting's own paper, the median of its edges, so the
+   torn edge of the wash meets paper rather than a lighter rectangle. */
+.picture-page { --picture-paper:#eee2cd; --picture-ink:#373b32; --picture-quiet:#676b5e; --picture-line:#c9cabc; --picture-accent:#58634c; margin:0; color:var(--picture-ink); background:var(--picture-paper); font-family:'EB Garamond',Georgia,serif; -webkit-font-smoothing:antialiased; }
 .picture-page *, .picture-index * { box-sizing:border-box; }
 .picture-page [hidden] { display:none!important; }
 .picture-page button { font:inherit; color:inherit; cursor:pointer; }
@@ -16,13 +18,28 @@
 .picture-intro p { margin:0; }
 .picture-frame { position:relative; width:min(100%,1080px,max(500px,calc((100svh - 300px)*1.5))); margin:auto; isolation:isolate; }
 .picture-image { display:block; width:100%; height:auto; user-select:none; }
+/* The paper's own grain still varies along the edge, so the last few
+   percent fade out instead of ending in a straight line. Only here, where
+   the page is the paper: on the section's index the page follows the
+   reader's theme, and a fade into a dark page reads as a blur. */
+.picture-image {
+  -webkit-mask-image:linear-gradient(to right,transparent,#000 2.5%,#000 97.5%,transparent),linear-gradient(to bottom,transparent,#000 3.5%,#000 96.5%,transparent);
+  -webkit-mask-composite:source-in;
+  mask-image:linear-gradient(to right,transparent,#000 2.5%,#000 97.5%,transparent),linear-gradient(to bottom,transparent,#000 3.5%,#000 96.5%,transparent);
+  mask-composite:intersect;
+}
 .picture-hotspots { position:absolute; inset:0; }
 .picture-hotspot { position:absolute; left:var(--spot-x); top:var(--spot-y); transform:translate(-50%,-50%); width:64px; height:64px; min-width:44px; min-height:44px; border:0; border-radius:50%; background:transparent; padding:0; display:grid; place-items:center; -webkit-tap-highlight-color:transparent; }
-.picture-hotspot::before { content:''; width:5px; height:5px; background:#fcf9ee; border-radius:50%; box-shadow:0 0 0 1px #252a3280; opacity:0; transition:opacity .2s; }
+/* The places show as faint dots from the first look, on every screen, so a
+   reader sees that the picture opens before finding it by chance. */
+.picture-hotspot::before { content:''; width:5px; height:5px; background:#fcf9ee; border-radius:50%; box-shadow:0 0 0 1px #252a3280; opacity:.55; transition:opacity .2s; }
 .picture-hotspot-label { position:absolute; white-space:nowrap; opacity:0; transition:opacity .2s; padding:6px 9px; background:rgb(244 240 231 / 95%); color:#353c2e; font:11px Arial,Helvetica,sans-serif; border-radius:2px; pointer-events:none; }
 .picture-hotspot-number, .picture-choice-number { display:none; }
 .picture-hotspot:focus-visible { outline-color:#faf8ed!important; outline-offset:-4px!important; }
 .picture-hotspot:focus-visible .picture-hotspot-label, .show-places .picture-hotspot-label { opacity:1; }
+/* A label sits on its place, unless that covers the thing it names: a thin
+   line such as the ring keeps its label beside it. */
+.picture-hotspot[data-label-side="right"] .picture-hotspot-label { left:calc(100% - 6px); }
 .picture-under { max-width:960px; margin:auto; padding:18px 0 6px; text-align:center; }
 .picture-caption { font-size:18px; line-height:1.5; margin:0; }
 .picture-controls { display:flex; justify-content:space-between; align-items:center; gap:24px; margin-top:15px; }
@@ -32,7 +49,13 @@
 .picture-ready .picture-notes { display:none; }
 .picture-notes, .picture-about { max-width:760px; margin:28px auto 0; }
 .picture-note, .picture-about { border-top:1px solid var(--picture-line); padding:16px 0; }
-.picture-note summary, .picture-about summary { cursor:pointer; font-size:17px; color:var(--picture-quiet); }
+.picture-note summary, .picture-about summary { cursor:pointer; font-size:17px; color:var(--picture-quiet); list-style:none; display:flex; align-items:center; gap:9px; }
+/* The site's own chevron rather than the browser's triangle, as in the
+   drawer and on a piece's reading options. */
+.picture-note summary::-webkit-details-marker, .picture-about summary::-webkit-details-marker { display:none; }
+.picture-note summary::after, .picture-about summary::after { content:''; width:6px; height:6px; flex-shrink:0; border-right:1px solid currentColor; border-bottom:1px solid currentColor; transform:translateY(-2px) rotate(45deg); transition:transform .25s ease; }
+.picture-note[open] > summary::after, .picture-about[open] > summary::after { transform:translateY(1px) rotate(-135deg); }
+.picture-note summary:hover, .picture-about summary:hover { color:var(--picture-ink); }
 .picture-about { margin-top:26px; }
 .picture-about :is(p,li) { font-size:17px; line-height:1.65; }
 .picture-about ul { padding-left:20px; }
@@ -95,4 +118,4 @@
   .picture-story { margin-top:38px; padding-top:28px; }
   .picture-story-part p { font-size:19px; }
 }
-@media(prefers-reduced-motion:reduce) { .picture-page *, .picture-page *::before { transition:none!important; } }
+@media(prefers-reduced-motion:reduce) { .picture-page *, .picture-page *::before, .picture-page *::after { transition:none!important; } }

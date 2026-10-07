@@ -14,8 +14,8 @@
   <meta property="og:image" content="{{ page.image | absolute_url }}">
   <meta property="og:url" content="{{ page.url | absolute_url }}">
   <link rel="stylesheet" href="/css/fonts.css?v=20260710-2">
-  <link rel="stylesheet" href="/css/pictures.css?v=20261007-2">
-  <script src="/js/pictures.js?v=20261007-1" defer></script>
+  <link rel="stylesheet" href="/css/pictures.css?v=20261007-3">
+  <script src="/js/pictures.js?v=20261007-2" defer></script>
 </head>
 <body class="picture-page">
   <a class="picture-skip" href="#picture-main">Skip to the picture</a>
@@ -32,7 +32,7 @@
           <img class="picture-image" src="{{ page.image }}" width="{{ page.image_width }}" height="{{ page.image_height }}" alt="{{ page.alt | escape }}" fetchpriority="high" decoding="async">
           <div class="picture-hotspots" aria-label="Details in the picture">
             {% for detail in page.details %}
-            <button type="button" class="picture-hotspot" data-detail="{{ detail.id }}" style="--spot-x:{{ detail.x }}%;--spot-y:{{ detail.y }}%" aria-label="{{ detail.label | escape }}" aria-haspopup="dialog" hidden>
+            <button type="button" class="picture-hotspot" data-detail="{{ detail.id }}" style="--spot-x:{{ detail.x }}%;--spot-y:{{ detail.y }}%"{% if detail.label_side %} data-label-side="{{ detail.label_side }}"{% endif %} aria-label="{{ detail.label | escape }}" aria-haspopup="dialog" hidden>
               <span class="picture-hotspot-label">{{ detail.label }}</span>
               <span class="picture-hotspot-number" aria-hidden="true">{{ forloop.index }}</span>
             </button>

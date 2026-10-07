@@ -338,6 +338,41 @@ accuracy and plain prose to this section as well.
   A sourced account of a theory is evidence that it was proposed, not that
   it has been confirmed. If an anecdote is retained without a verifiable
   source, say that explicitly and do not present it as an established fact.
+- **The story opens with the picture's own history**: who first worked out
+  or showed what it shows, and how. Speculation the subject invites comes
+  after that, marked as such.
+- **The picture's page is its own paper.** `--picture-paper` in
+  `css/pictures.css` is the median colour of the painting's edges, and the
+  image's last few percent fade into it, so no lighter rectangle frames the
+  torn edge of the wash. Elsewhere, on the section's index and the homepage,
+  the page follows the reader's theme, so the picture stands as a plain card
+  without the fade; a fade into a dark page reads as a blur.
+- **Places show as faint dots from the first look**, on every screen. A
+  label sits on its place unless that covers the thing it names, such as a
+  thin line; `label_side: right` in the picture's front matter puts it
+  beside it.
+- **A close view opens at the top of its dialog.** Reset the scroll after
+  `showModal()`, never before it: a closed dialog cannot be scrolled. Open
+  every detail on a phone as well as a desk, one after another, and check
+  that each close view shows what its text names.
+- The homepage shows one picture, chosen at random, under Words with
+  Stories (`_includes/pictures-with-stories-home.html`).
+
+## The homepage
+
+- **Slate and green take turns down the page.** Every homepage section is
+  named in one of the two accent lists in `css/style.css` ("Homepage accent
+  rhythm"). A new section takes the colour its place calls for, and every
+  section after it moves to the other list. `scripts/test-pictures.cjs`
+  fails when a section is missing from the lists or two neighbours share a
+  colour.
+
+## Interface details
+
+- **A disclosure uses the site's chevron**, the one in the drawer and on a
+  piece's reading options, never the browser's triangle. Its words sit where
+  the layout puts them; the chevron hangs beside them and does not pull them
+  off their line.
 
 ## Trivia editorial standard
 

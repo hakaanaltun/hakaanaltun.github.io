@@ -30,6 +30,12 @@ function page(modals) {
     assert.ok(part.querySelector('p').textContent.trim());
     assert.ok(part.querySelector('.picture-story-sources a'), 'each part of the story has its sources beneath it');
   }
+  // A label that would cover a thin line sits beside it.
+  assert.equal(d.querySelector('.picture-hotspot[data-detail="photon-ring"]').dataset.labelSide, 'right');
+  // The story opens with the picture's own history: Luminet, then the EHT.
+  const parts = [...d.querySelectorAll('.picture-story-part p')].map(p => p.textContent);
+  assert.match(parts[0], /Luminet/);
+  assert.match(parts[1], /Event Horizon Telescope/);
   const index = JSON.parse(fs.readFileSync(path.join(root, '_site/search-index.json'), 'utf8'));
   assert.ok(index.find(item => item.url === '/pictures/black-hole/').text.includes('Luminet'));
   dom.window.close();
@@ -45,8 +51,15 @@ function page(modals) {
   assert.equal(controls.getAttribute('aria-pressed'), 'true');
   controls.click();
   assert.equal(controls.getAttribute('aria-pressed'), 'false');
+  // The close view is at the top of the dialog every time it opens: the
+  // reset has to happen while the dialog is open, or a phone reader who
+  // scrolled down to leave meets the next detail scrolled the same way.
+  const resets = [];
+  Object.defineProperty(dialog, 'scrollTop', { configurable: true, get() { return 0; }, set(value) { resets.push([value, dialog.open]); } });
   for (const trigger of d.querySelectorAll('[data-detail]')) {
+    resets.length = 0;
     trigger.click();
+    assert.deepEqual(resets.at(-1), [0, true], 'the dialog is scrolled to its top once it is open');
     const note = d.getElementById('note-' + trigger.dataset.detail);
     assert.equal(dialog.open, true);
     assert.equal(dialog.querySelector('h2').textContent, note.querySelector('h2').textContent);
@@ -63,4 +76,22 @@ function page(modals) {
   assert.equal(d.activeElement.id, 'picture-how');
   dom.window.close();
 }
-console.log('Picture checks passed: sourced fallback reading, optional hints, every detail and named crop, modal return focus and exploration help.');
+// The homepage carries the section under Words with Stories, and every
+// homepage section sits in the accent rhythm in style.css, slate and green
+// taking turns down the page. A section added without its colour, or one that
+// leaves two neighbours the same, fails here.
+{
+  const home = new JSDOM(fs.readFileSync(path.join(root, '_site/index.html'), 'utf8')).window.document;
+  const order = [...home.querySelectorAll('main section[id]')].filter(s => !s.parentElement.closest('section')).map(s => s.id);
+  assert.equal(order[order.indexOf('words-with-stories') + 1], 'pictures-with-stories', 'Pictures with Stories follows Words with Stories');
+  assert.ok(home.querySelector('#pictures-with-stories a.home-picture-card[href="/pictures/black-hole/"] img'));
+  const css = fs.readFileSync(path.join(root, 'css/style.css'), 'utf8');
+  const list = colour => (css.match(new RegExp('html\\[data-theme="light"\\] body\\.is-home :is\\(([^)]*)\\) \\{\\s*--petrol: ' + colour)) || [])[1];
+  const slate = list('oklch').split(',').map(s => s.trim().slice(1));
+  const green = list('var\\(--sec-accent').split(',').map(s => s.trim().slice(1));
+  order.forEach((id, i) => {
+    assert.ok(slate.includes(id) !== green.includes(id), id + ' is in exactly one colour list');
+    assert.equal(slate.includes(id), i % 2 === 0, id + ' takes its turn in the rhythm');
+  });
+}
+console.log('Picture checks passed: sourced fallback reading, optional hints, a label beside the thin ring, the story opening on the picture\'s history, every detail and named crop opened at the top, modal return focus and exploration help, and the homepage section in its turn of the accent rhythm.');
