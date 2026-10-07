@@ -279,6 +279,27 @@ The site has two deliberate ideas of place. Do not collapse them into one.
 - Keep the prose plain and unshowy. Sentences should carry the content rather than compete with it. Avoid polished, aphoristic endings or lines written mainly to sound quotable. The reader should remember the story more than the sentence.
 - The part-of-speech label must match the specific sense being explained on the page. Do not list every part of speech the spelling can have; label the entry as the reader encounters it in that story and example.
 
+## Pictures with Stories editorial standard
+
+`Pictures with Stories` is planned for later development: detailed, realistic
+watercolour illustrations whose areas can be opened to learn about what is
+shown. Apply the `Words with Stories` standards for curation, sourcing,
+accuracy and plain prose to this section as well.
+
+- Every clickable explanation must be sourced. Verify its factual claims
+  before writing, and link to sources that support those claims. Prefer
+  museums, universities, academic publications, archives and official
+  institutions; use multiple sources when useful.
+- Choose subjects whose visible details have a story worth explaining. Each
+  explanation should help the reader understand the part of the picture they
+  opened. Let the subject determine the number of areas.
+- Keep the illustration accurate enough to support its explanations.
+  Distinguish observed features from reconstructions and artistic choices
+  where that distinction matters.
+- If a claim is disputed or cannot be confirmed, explain the uncertainty or
+  leave it out. Keep the prose plain and unshowy, following the same writing
+  rules as `Words with Stories`.
+
 ## Trivia editorial standard
 
 `Trivia` is quizzes. Adding one is three files and is described in
