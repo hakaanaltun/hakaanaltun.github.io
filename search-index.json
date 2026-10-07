@@ -20,6 +20,13 @@ sitemap: false
     {"title":{{ word.title | search_text | jsonify }},"url":{{ word.url | relative_url | jsonify }},"kind":"Word story","description":{{ word.description | search_text | jsonify }},"text":{{ word.content | markdownify | search_text | jsonify }}}
   {%- endunless -%}
 {%- endfor -%}
+{%- for picture in site.pictures -%}
+  {%- unless picture.noindex or picture.published == false -%}
+    {%- if comma -%},{%- endif -%}{%- assign comma = true -%}
+    {%- capture picture_text -%}{% for detail in picture.details %}{{ detail.kicker }} {{ detail.title }} {{ detail.body | join: " " }} {% endfor %}{%- endcapture -%}
+    {"title":{{ picture.title | search_text | jsonify }},"url":{{ picture.url | relative_url | jsonify }},"kind":"Picture story","description":{{ picture.description | search_text | jsonify }},"text":{{ picture_text | search_text | jsonify }}}
+  {%- endunless -%}
+{%- endfor -%}
 {%- for tool in site.data.tools -%}
   {%- if comma -%},{%- endif -%}{%- assign comma = true -%}
   {%- assign tool_url = '/' | append: tool.slug | append: '/' -%}

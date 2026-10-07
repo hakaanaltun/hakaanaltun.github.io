@@ -1,0 +1,23 @@
+---
+layout: default
+permalink: /pictures/
+title: "Pictures with Stories"
+description: "Watercolor pictures to explore, with the stories behind their details."
+---
+<link rel="stylesheet" href="/css/pictures.css?v=20261007-1">
+<div class="section-page picture-index">
+  <div class="section-page-head">
+    <h1 class="section-page-title">Pictures with Stories</h1>
+    <p class="section-page-subtitle">Pictures to explore, one detail at a time.</p>
+  </div>
+  <div class="picture-catalogue">
+    {% assign pictures = site.pictures | sort_natural: "title" %}
+    {% for picture in pictures %}
+    <a class="picture-card" href="{{ picture.url }}">
+      <img src="{{ picture.image }}" width="{{ picture.image_width }}" height="{{ picture.image_height }}" alt="{{ picture.alt | escape }}" decoding="async">
+      <h2>{{ picture.title }}</h2>
+      <p>{{ picture.teaser }}</p>
+    </a>
+    {% endfor %}
+  </div>
+</div>
