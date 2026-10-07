@@ -309,6 +309,14 @@ watercolour illustrations whose areas can be opened to learn about what is
 shown. Apply the `Words with Stories` standards for curation, sourcing,
 accuracy and plain prose to this section as well.
 
+- **Keep the current catalogue structure for now.** The future direction is
+  to group pictures into subject sections: astronomy or cosmology (nebulae,
+  quasars and black holes), birds (individual species), cats, and other
+  subjects as the collection grows. These are examples; the final grouping
+  can be settled later. Leave the current page layout and navigation in
+  place until that reorganization. Every group follows the same drawing,
+  storytelling and sourcing standards.
+
 - Follow The Farm House's watercolor language: broad brush strokes,
   transparent washes, a limited value range, visible pencil, occasional
   unfinished edges and exposed paper. Paint from scientific or historical
