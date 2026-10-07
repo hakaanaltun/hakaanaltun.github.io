@@ -69,5 +69,10 @@ have made available on this page. {% endcomment %}
   }
 })();
 </script>
+{%- comment -%} The visit counter sends the address's query with each visit,
+and on /search/ that query is what the reader searched for. It stays with
+them: the search page is not counted. {%- endcomment -%}
+{% unless page.url == "/search/" %}
 <script data-goatcounter="https://hakanaltun.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+{%- endunless %}
 </body></html>

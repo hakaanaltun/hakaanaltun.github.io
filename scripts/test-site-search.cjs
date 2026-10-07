@@ -14,6 +14,9 @@ const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
   assert.equal(index.find(entry => entry.title === 'The Notice').url, '/story/1/');
   assert(!index.some(entry => entry.url === '/search/' || entry.url === '/404.html'));
   assert(!index.find(entry => entry.title === 'Measured').text.includes('.measured-scene'));
+  // The visit counter sends the address's query, which here is the search.
+  assert(!html.includes('goatcounter'), 'the search page loads no visit counter');
+  assert(fs.readFileSync('_site/about/index.html', 'utf8').includes('goatcounter'), 'other pages keep the visit counter');
   const dom = new JSDOM(html, { url: 'https://hakanaltun.io/search/?q=reader', runScripts: 'outside-only' });
   let fetches = 0;
   dom.window.fetch = async () => {
@@ -66,5 +69,5 @@ const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
   await wait(0);
   assert(offline.window.document.querySelector('#search-results a'));
   offline.window.close();
-  console.log('Site search: generated index, ranking, text matches, Turkish letters, safe output and retry passed.');
+  console.log('Site search: generated index, ranking, text matches, Turkish letters, safe output, retry and no visit counter on the search page passed.');
 })().catch(error => { console.error(error); process.exitCode = 1; });

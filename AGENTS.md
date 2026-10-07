@@ -17,7 +17,14 @@ What that asks of every change:
   with them: the drawer lives in their own browser. The one thing the site
   asks for, an email address for new pieces, waits quietly at the end of an
   essay and is theirs to give.
-  The existing GoatCounter script is an exception, used to learn the site's total visit count.
+  The one exception is a visit counter. GoatCounter
+  (`_layouts/default.html`) counts visits to the pages that carry the
+  site's header; the Farm House, the pictures and the instruments are not
+  counted. It sets no cookies and keeps only totals: visits per page, the
+  pages and sites visitors came from, and their country, language,
+  browser, system and screen width. The author looks at it once a week.
+  It is not loaded on the search page, so what a reader searches for stays
+  with them. Add no other counter or analytics.
 - **Never ask a reader to settle for less.** A half-made page, a drawing that
   does not work, a description that is not true: each tells the reader they
   were not worth the care. If something cannot be made well, it waits.
