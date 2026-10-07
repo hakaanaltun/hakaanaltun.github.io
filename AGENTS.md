@@ -323,24 +323,56 @@ accuracy and plain prose to this section as well.
   before writing, and link to sources that support those claims. Prefer
   museums, universities, academic publications, archives and official
   institutions; use multiple sources when useful.
-- Choose subjects whose visible details have a story worth explaining. Each
-  explanation should help the reader understand the part of the picture they
-  opened. Let the subject determine the number of areas.
+- **The clickable details carry the picture's stories.** Every picture
+  must have sourced details with stories worth telling. Each explanation
+  should help the reader understand the part they opened and change how
+  they see it. Let the subject determine the number of areas.
+- **Choose the subject through its details first.** Ask whether there are
+  enough story-worthy details to earn the picture's place; this is required.
+  Then ask whether there is an interesting account of how we came to know
+  what it shows. Such an account gives a candidate priority, but remains
+  optional. Give a clear one-sentence answer to: "Why this picture rather
+  than hundreds of others?" If the details cannot justify it, let it wait.
 - Keep the illustration accurate enough to support its explanations.
   Distinguish observed features from reconstructions and artistic choices
   where that distinction matters.
 - If a claim is disputed or cannot be confirmed, explain the uncertainty or
   leave it out. Keep the prose plain and unshowy, following the same writing
   rules as `Words with Stories`.
-- A picture may also have a story below it. Source each part as carefully as
-  the clickable explanations. For scientific subjects, identify speculative
-  ideas as such and distinguish mathematical predictions from observations.
-  A sourced account of a theory is evidence that it was proposed, not that
-  it has been confirmed. If an anecdote is retained without a verifiable
-  source, say that explicitly and do not present it as an established fact.
-- **The story opens with the picture's own history**: who first worked out
-  or showed what it shows, and how. Speculation the subject invites comes
-  after that, marked as such.
+- **A separate story below the picture is optional.** Include it only
+  when there is a worthwhile account to tell. Never add a long passage
+  merely to fill the page; leaving it out is better than forcing it.
+  Something that cannot be made well waits. Source each part as carefully
+  as the clickable explanations. For scientific subjects, identify
+  speculative ideas as such and distinguish mathematical predictions from
+  observations. A sourced account of a theory is evidence that it was
+  proposed, not that it has been confirmed. If an anecdote is retained
+  without a verifiable source, say that explicitly and do not present it
+  as an established fact.
+- **The reader should see more when they return to the picture.**
+  Judge every explanation and separate story by this: after reading it,
+  does the reader notice or understand more in the picture? Clickable
+  explanations open its details; a separate story connects them. Let the
+  subject determine the story's length.
+- **Let the subject choose its story and its opening.** "How do we know
+  this?" is one useful way in: the observations, evidence and interpretations
+  that let us understand what is shown. The history of its first drawing
+  may belong here when it helps. Possible openings include the seismic
+  evidence for Earth's interior, early microscope observations of cells,
+  or changing fossil reconstructions of Iguanodon. The black-hole story
+  already follows this approach. Other subjects may carry their stories
+  through their lives, changes or relationships:
+
+  - A bird may have a migration journey, a story behind its name, or a
+    meaning people have given it.
+  - A nebula may be understood through its formation and the changes ahead
+    of it, with the picture's details opening parts of that process.
+  - A cat may lead to its history of living with people, or to the reason
+    behind a behaviour shown in the picture.
+
+  Verify and source the particular claims before using any example. Keep
+  observation, inference and artistic reconstruction clear; speculation
+  follows the evidence, marked as such.
 - **The painting stands as a sheet on a light, quiet page.**
   `--picture-paper` in `css/pictures.css` is `#f8f7f2`, a shade under the
   site's own light paper; the image keeps its edges, as it does on the
