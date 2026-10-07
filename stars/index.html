@@ -1,0 +1,40 @@
+---
+layout: null
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Stars — Your Sky Now · On Life &amp; Everything</title>
+<meta name="description" content="Bright stars, constellations and planets above your horizon, calculated for your current time. A small sky map that follows your device's time zone.">
+<link rel="canonical" href="https://hakanaltun.io/stars/">
+<meta name="theme-color" content="#101720">
+<link rel="stylesheet" href="/css/fonts.css?v=20260710-1">
+<link rel="stylesheet" href="/css/window-sky.css?v=20261007-1">
+</head>
+<body data-sky-tool="stars">
+<nav class="chrome" aria-label="Site"><a class="back" href="/tools/">instruments</a><a class="brand" href="/">On Life &amp; Everything</a></nav>
+<main class="app">
+  <div class="heading">
+    <div><h1>The Stars</h1><p class="place" id="place">Reading your sky…</p></div>
+    <label class="city-control">Sky over <select id="city" aria-label="Choose a city"><option value="">Your time zone</option>{% for c in site.data.cities %}<option value="{{ c.slug }}">{{ c.name }}</option>{% endfor %}</select></label>
+  </div>
+  <p class="moment" id="moment"></p>
+  <div class="sky-controls"><button id="live" type="button" aria-pressed="true">Now</button><label for="hour">Look ahead <input id="hour" type="range" min="0" max="1439" step="1" aria-label="Time of day"><output id="chosen-time" for="hour"></output></label></div>
+  <p class="sky-notice" id="sky-notice"></p>
+  <div class="sky-layout">
+    <div><svg id="sky-map" class="sky-map" viewBox="0 0 600 600" role="img" aria-label="Bright stars and planets above the horizon"><title>Your sky now</title></svg><p class="caption">Look up. North is at the top, east on the left. The edge is the horizon; the center is directly overhead.</p></div>
+    <div class="sky-list"><section><h2>Planets</h2><div id="planets"></div></section><section><h2>Constellations</h2><div id="constellations"></div></section></div>
+  </div>
+</main>
+<noscript><p class="noscript">Turn on JavaScript to calculate your sky.</p></noscript>
+<footer class="notes"><h2>What is above you</h2><p>The map opens at your current time and follows your clock. To explore later today, move the time slider. Press Now to return to the live sky.</p><p>This is a selection of bright stars, down to magnitude 3, with the five planets visible to the unaided eye. Only objects above the horizon are drawn. The constellation list names the regions containing the highest bright stars, with a star to look for in each.</p><p>Daylight, clouds, moonlight and city lights affect what you can see. Near the horizon, buildings and hills may hide an object. A planet close to the sun can be lost in its glare even after sunset.</p><p>Your device’s time zone chooses a nearby city. You can change it above. Star positions come from the <a href="https://cdsarc.cds.unistra.fr/viz-bin/cat/V/50">Yale Bright Star Catalogue</a>; coordinates are adjusted for the date. Planet positions and coordinate transformations use <a href="https://github.com/cosinekitty/astronomy">Astronomy Engine</a>. Everything runs in your browser.</p>{% include tool-links.html slug="stars" %}</footer>
+{% include window-observer.html %}
+<script src="/js/astronomy.js?v=20261007-1"></script>
+<script src="/js/vendor/astronomy-engine-2.1.19.min.js"></script>
+<script src="/js/bright-stars.js?v=20261007-1"></script>
+<script src="/js/sky-instruments.js?v=20261007-1"></script>
+<script>if("serviceWorker" in navigator){navigator.serviceWorker.register("/sw.js").catch(function(){});}</script>
+</body>
+</html>
