@@ -17,7 +17,13 @@
 .picture-title { font:400 clamp(30px,4vw,44px)/1.15 'Cormorant Garamond',Georgia,serif; text-align:center; margin:6px 0 10px; }
 .picture-intro { font-size:18px; line-height:1.5; text-align:center; margin:0 auto 24px; max-width:620px; }
 .picture-intro p { margin:0; }
-.picture-frame { position:relative; width:min(100%,1080px,max(500px,calc((100svh - 300px)*1.5))); margin:auto; isolation:isolate; }
+/* The picture takes the height the window has left once the masthead, the
+   title, a two-line introduction, the caption and the link back to all
+   pictures are in view: about 322px, and the rest keeps that link off the
+   window's lower edge. The caption and the links under it keep to the
+   picture's width, so they sit beneath its edges. */
+.picture-visit { --picture-width:min(100%,1080px,max(500px,calc((100svh - 350px)*1.5))); }
+.picture-frame { position:relative; width:var(--picture-width); margin:auto; isolation:isolate; }
 .picture-image { display:block; width:100%; height:auto; border-radius:3px; user-select:none; }
 .picture-hotspots { position:absolute; inset:0; }
 .picture-hotspot { position:absolute; left:var(--spot-x); top:var(--spot-y); transform:translate(-50%,-50%); width:64px; height:64px; min-width:44px; min-height:44px; border:0; border-radius:50%; background:transparent; padding:0; display:grid; place-items:center; -webkit-tap-highlight-color:transparent; }
@@ -35,7 +41,7 @@
 /* A label sits on its place, unless that covers the thing it names: a thin
    line such as the ring keeps its label beside it. */
 .picture-hotspot[data-label-side="right"] .picture-hotspot-label { left:calc(100% - 6px); }
-.picture-under { max-width:960px; margin:auto; padding:18px 0 6px; text-align:center; }
+.picture-under { width:var(--picture-width); margin:auto; padding:18px 0 6px; text-align:center; }
 .picture-caption { font-size:18px; line-height:1.5; margin:0; }
 .picture-controls { display:flex; justify-content:space-between; align-items:center; gap:24px; margin-top:15px; }
 .picture-choices { list-style:none; display:flex; justify-content:center; flex-wrap:wrap; gap:2px 22px; margin:12px 0 0; padding:0; }
@@ -101,7 +107,7 @@
   .picture-masthead .picture-text-link { font-size:10px!important; max-width:95px; text-align:right; line-height:1.5; }
   .picture-title { margin-top:14px; }
   .picture-intro { font-size:17px; margin:0 auto 22px; max-width:320px; }
-  .picture-frame { width:100%; }
+  .picture-visit { --picture-width:100%; }
   .picture-caption { font-size:17px; }
   .picture-under { padding-top:22px; }
   .picture-detail-layout { grid-template-columns:1fr; }
