@@ -341,12 +341,12 @@ accuracy and plain prose to this section as well.
 - **The story opens with the picture's own history**: who first worked out
   or showed what it shows, and how. Speculation the subject invites comes
   after that, marked as such.
-- **The painting stands as a sheet on the site's light paper.**
-  `--picture-paper` in `css/pictures.css` is the site's own `#fdfcf8`, and
-  the image keeps its edges, as it does on the section's index and the
-  homepage. The painting's warm paper was tried as the page colour in
-  October 2026 and taken out at the author's request: over a whole page it
-  was too loud.
+- **The painting stands as a sheet on a light, quiet page.**
+  `--picture-paper` in `css/pictures.css` is `#f8f7f2`, a shade under the
+  site's own light paper; the image keeps its edges, as it does on the
+  section's index and the homepage. The painting's warm paper was tried as
+  the page colour in October 2026 and taken out at the author's request:
+  over a whole page it was too loud.
 - **Places show as faint dots from the first look**, on every screen. A
   label sits on its place unless that covers the thing it names, such as a
   thin line; `label_side: right` in the picture's front matter puts it

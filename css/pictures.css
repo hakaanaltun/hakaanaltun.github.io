@@ -1,7 +1,8 @@
 /* Pictures use the Farm House's quiet frame, optional hints and close view.
-   The page is the site's own light paper, so the painting stands on it as a
-   sheet, as it does on the homepage and the section's index. */
-.picture-page { --picture-paper:#fdfcf8; --picture-ink:#373b32; --picture-quiet:#676b5e; --picture-line:#c9cabc; --picture-accent:#58634c; margin:0; color:var(--picture-ink); background:var(--picture-paper); font-family:'EB Garamond',Georgia,serif; -webkit-font-smoothing:antialiased; }
+   The page is a shade under the site's own light paper, so the painting
+   stands on it as a sheet, as it does on the homepage and the section's
+   index, without the edge of the sheet looking stark. */
+.picture-page { --picture-paper:#f8f7f2; --picture-ink:#373b32; --picture-quiet:#676b5e; --picture-line:#c9cabc; --picture-accent:#58634c; margin:0; color:var(--picture-ink); background:var(--picture-paper); font-family:'EB Garamond',Georgia,serif; -webkit-font-smoothing:antialiased; }
 .picture-page *, .picture-index * { box-sizing:border-box; }
 .picture-page [hidden] { display:none!important; }
 .picture-page button { font:inherit; color:inherit; cursor:pointer; }
