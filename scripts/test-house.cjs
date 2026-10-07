@@ -139,7 +139,18 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   // Lettered A to D down the wall, whatever order the choices fell in.
   const answerButtons = Array.from(a.w.document.querySelectorAll('[data-answer]'));
   assert.deepEqual(answerButtons.map((b) => b.querySelector('.house-answer-letter').textContent), ['A', 'B', 'C', 'D']);
-  assert.deepEqual(answerButtons.map((b) => b.querySelector('.house-answer-text').textContent).sort(), [...question.choices].sort());
+  const wallOrder = answerButtons.map((b) => b.querySelector('.house-answer-text').textContent);
+  assert.deepEqual([...wallOrder].sort(), [...question.choices].sort());
+  // And the order is the day's, not the visit's: another visit today, with
+  // a different roll of the dice, finds the same choice under the same letter.
+  {
+    const again = house();
+    await tick();
+    again.w.Math.random = () => 0.999;
+    again.click('[data-open="question"]');
+    assert.deepEqual(Array.from(again.w.document.querySelectorAll('[data-answer] .house-answer-text'), (n) => n.textContent), wallOrder);
+    again.dom.window.close();
+  }
   const other = a.q('[data-answer="other"]');
   a.click(other);
   assert.equal(a.q('.house-answer-note').hidden, false);

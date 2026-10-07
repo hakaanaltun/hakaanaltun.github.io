@@ -220,9 +220,12 @@
     answers.setAttribute('role', 'group');
     answers.setAttribute('aria-label', 'Choose an answer');
     // Like the quizzes, a fixed order of choices would give the answer away.
+    // The shuffle is the day's, though, so the wall reads the same each time
+    // the room is opened until İstanbul's next morning, and B stays B.
     var order = q.choices.map(function (_, i) { return i; });
+    var random = seeded(dayNumber(today()) * 31 + 23);
     for (var i = order.length - 1; i > 0; i--) {
-      var j = Math.floor(Math.random() * (i + 1));
+      var j = Math.floor(random() * (i + 1));
       var t = order[i]; order[i] = order[j]; order[j] = t;
     }
     // Lettered by place on the screen, as in the quizzes.
@@ -252,8 +255,8 @@
     }
   }
 
-  // The choice's own words, without its letter: the letters move with the
-  // order, which is shuffled again on every visit.
+  // The choice's own words, without its letter. Answers are kept by their
+  // words, as they were before the choices had letters.
   function choiceText(button) {
     return button.querySelector('.house-answer-text').textContent;
   }
