@@ -1,42 +1,121 @@
-/* Reading controls, portable drawer data and the opt-in offline worker.
-   These exercise loss and recovery, rather than copying the implementation. */
+/* Reading options and the portable drawer. These exercise what a reader
+   does and what can go wrong, rather than copying the implementation. */
 'use strict';
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
-const vm = require('node:vm');
 const { JSDOM } = require('jsdom');
 const root = path.join(__dirname, '..');
 const read = p => fs.readFileSync(path.join(root, p), 'utf8');
-const panel = read('_includes/reading-options.html');
+const panel = read('_includes/reading-options.html').replace(/\{%[\s\S]*?%\}/g, '').replace(/\{\{[^}]*\}\}/g, '');
 const tick = () => new Promise(resolve => setTimeout(resolve, 0));
-function page() {
-  const dom = new JSDOM('<html lang="en"><body>' + panel + '<article data-reading-body><p>First paragraph, with a few words.</p><p>Second paragraph.</p></article></body></html>', { url: 'https://hakanaltun.io/pieces/on-lying.html', runScripts: 'outside-only' });
+function page(stored) {
+  const dom = new JSDOM('<html lang="en"><body>' + panel + '<article class="essay-body" data-reading-body><p>First paragraph, with a few words.</p><p>Second paragraph.</p></article></body></html>', { url: 'https://hakanaltun.io/pieces/on-lying.html', runScripts: 'outside-only' });
+  if (stored !== undefined) dom.window.localStorage.setItem('olae-reading-v1', stored);
   return { dom, w: dom.window, q: s => dom.window.document.querySelector(s) };
 }
 function run(w, name) { w.eval(read('js/' + name + '.js')); }
+const pressed = (q, choice) => [...q('#reading-options').querySelectorAll('[data-choice="' + choice + '"]')]
+  .filter(b => b.getAttribute('aria-pressed') === 'true').map(b => b.value);
 
 async function main() {
-  // Settings persist, validate old/malformed values, reset, and stay usable
-  // when storage is blocked.
+  // A reader who has chosen nothing gets the piece exactly as published:
+  // no attribute, no variable, nothing stored.
   {
     const { dom, w, q } = page();
-    w.localStorage.setItem('olae-reading-v1', JSON.stringify({ size: '1.3', spacing: '2.4', font: 'sans' }));
     run(w, 'reading-settings'); await tick();
+    const html = w.document.documentElement;
     assert.equal(q('#reading-options').hidden, false);
-    assert.equal(w.document.documentElement.style.getPropertyValue('--reading-scale'), '1.3');
-    assert.equal(q('#reading-font'), null);
-    assert.equal(w.document.documentElement.hasAttribute('data-reading-font'), false, 'old font preferences are ignored');
-    assert.equal(w.document.documentElement.style.getPropertyValue('--reading-spacing'), '2.4');
-    q('#reading-reset').click();
-    assert.deepEqual(JSON.parse(w.localStorage.getItem('olae-reading-v1')), { size: '1', spacing: '1.85' });
-    assert.equal(q('#reading-size').value, '1');
+    assert.equal(html.hasAttribute('data-reading-size'), false);
+    assert.equal(html.hasAttribute('data-reading-spacing'), false);
+    assert.equal(html.style.getPropertyValue('--reading-scale'), '');
+    assert.deepEqual(pressed(q, 'size'), ['1']);
+    assert.deepEqual(pressed(q, 'spacing'), ['1.85']);
+    assert.equal(w.localStorage.getItem('olae-reading-v1'), null);
+    dom.window.close();
+  }
+  // Every typography rule in reading.css waits for a reader's choice, so
+  // "original" can never drift from the published page.
+  {
+    const css = read('css/reading.css').replace(/\/\*[\s\S]*?\*\//g, '');
+    const rules = css.match(/[^{}]+\{[^{}]*\}/g) || [];
+    rules.filter(rule => /\.essay-body/.test(rule) && /(font-size|line-height)\s*:/.test(rule) && !/@media print|body\.is-post/.test(rule))
+      .forEach(rule => assert.match(rule.trim(), /^html\[data-reading-(size|spacing)\]/, 'ungated typography rule: ' + rule.trim()));
+  }
+  // A stored choice is applied before paint, a stale font choice is ignored,
+  // a choice is kept, and going back to "original" for both leaves nothing.
+  {
+    const { dom, w, q } = page(JSON.stringify({ size: '1.3', spacing: '2.4', font: 'sans' }));
+    run(w, 'reading-settings'); await tick();
+    const html = w.document.documentElement;
+    assert.equal(html.getAttribute('data-reading-size'), '1.3');
+    assert.equal(html.style.getPropertyValue('--reading-scale'), '1.3');
+    assert.equal(html.getAttribute('data-reading-spacing'), '2.4');
+    assert.equal(html.hasAttribute('data-reading-font'), false, 'old font preferences are ignored');
+    assert.deepEqual(pressed(q, 'size'), ['1.3']);
+    q('[data-choice="size"][value="1.15"]').click();
+    assert.equal(html.getAttribute('data-reading-size'), '1.15');
+    assert.deepEqual(pressed(q, 'size'), ['1.15']);
+    assert.deepEqual(JSON.parse(w.localStorage.getItem('olae-reading-v1')), { size: '1.15', spacing: '2.4' });
+    q('[data-choice="size"][value="1"]').click();
+    q('[data-choice="spacing"][value="1.85"]').click();
+    assert.equal(html.hasAttribute('data-reading-size'), false);
+    assert.equal(html.hasAttribute('data-reading-spacing'), false);
+    assert.equal(html.style.getPropertyValue('--reading-spacing'), '');
+    assert.equal(w.localStorage.getItem('olae-reading-v1'), null, 'nothing is left behind');
+    dom.window.close();
+  }
+  // Malformed storage falls back to the original.
+  {
+    const { dom, w, q } = page('{not json');
+    run(w, 'reading-settings'); await tick();
+    assert.equal(w.document.documentElement.hasAttribute('data-reading-size'), false);
+    assert.deepEqual(pressed(q, 'size'), ['1']);
+    dom.window.close();
+  }
+  // Blocked storage: the choice still applies here, and the note says it
+  // will not be kept.
+  {
+    const { dom, w, q } = page();
+    run(w, 'reading-settings'); await tick();
+    const kept = q('#reading-settings-status').textContent;
+    assert.match(kept, /Kept in this browser/);
     Object.defineProperty(w, 'localStorage', { get() { throw new w.DOMException('blocked', 'SecurityError'); } });
-    q('#reading-size').value = '1.15'; q('#reading-size').dispatchEvent(new w.Event('change'));
+    q('[data-choice="size"][value="1.15"]').click();
     assert.equal(w.document.documentElement.style.getPropertyValue('--reading-scale'), '1.15');
     assert.match(q('#reading-settings-status').textContent, /cannot keep/);
     dom.window.close();
   }
+  // Escape closes the menu and returns to its toggle, and is marked handled
+  // so puzzle mode does not act on the same key.
+  {
+    const { dom, w, q } = page();
+    run(w, 'reading-settings'); await tick();
+    const menu = q('#reading-options');
+    menu.open = true;
+    const button = q('[data-choice="spacing"][value="2.1"]');
+    button.focus();
+    const event = new w.KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true });
+    button.dispatchEvent(event);
+    assert.equal(menu.open, false);
+    assert.equal(event.defaultPrevented, true);
+    assert.equal(w.document.activeElement, menu.querySelector('summary'));
+    dom.window.close();
+  }
+  // Another tab's choice is followed here.
+  {
+    const { dom, w, q } = page();
+    run(w, 'reading-settings'); await tick();
+    w.localStorage.setItem('olae-reading-v1', JSON.stringify({ size: '1', spacing: '2.1' }));
+    w.dispatchEvent(new w.StorageEvent('storage', { key: 'olae-reading-v1' }));
+    assert.equal(w.document.documentElement.getAttribute('data-reading-spacing'), '2.1');
+    assert.deepEqual(pressed(q, 'spacing'), ['2.1']);
+    dom.window.close();
+  }
+  // Rain is not in the menu: rain that is falling has to show where it stops.
+  assert.equal(/essay-rain/.test(panel), false, 'read with rain stays under the title');
+  assert.match(read('_layouts/post.html'), /id="essay-rain"/);
+
   // A backup preserves the saved words and source, merges without erasing
   // existing records, and never restores another browser's House memories.
   {
@@ -66,109 +145,6 @@ async function main() {
     assert.equal(keep.has('text-fourth'), false);
     dom.window.close();
   }
-  // No sound at load; remote voices are excluded even if they are default.
-  // Pause/resume, speed changes and leaving invalidate cancelled callbacks.
-  {
-    const { dom, w, q } = page();
-    const spoken = []; let cancelled = 0;
-    const local = { name: 'Device English', voiceURI: 'local-en', lang: 'en-US', localService: true };
-    w.speechSynthesis = { getVoices: () => [{ name: 'Cloud', voiceURI: 'cloud', lang: 'en-US', localService: false, default: true }, local], cancel: () => cancelled++, speak: u => spoken.push(u), addEventListener() {} };
-    w.SpeechSynthesisUtterance = function (text) { this.text = text; };
-    run(w, 'reading-listen');
-    assert.equal(spoken.length, 0);
-    assert.equal(q('#reading-voice').options.length, 1);
-    q('#reading-play').click();
-    assert.equal(spoken[0].voice, local);
-    spoken[0].onboundary({ name: 'word', charIndex: 6 });
-    q('#reading-play').click();
-    assert.equal(q('#reading-play').textContent, 'Resume');
-    spoken[0].onend(); assert.equal(spoken.length, 1);
-    q('#reading-play').click(); assert.equal(spoken[1].text, 'paragraph, with a few words.');
-    q('#reading-speed').value = '1.3'; q('#reading-speed').dispatchEvent(new w.Event('change'));
-    assert.equal(spoken[2].rate, 1.3);
-    w.dispatchEvent(new w.Event('pagehide'));
-    assert.equal(q('#reading-play').textContent, 'Listen');
-    assert.ok(cancelled >= 4);
-    dom.window.close();
-    const other = page();
-    other.w.speechSynthesis = { getVoices: () => [{ ...local, localService: false }], cancel() {}, speak() { throw Error('remote speech'); }, addEventListener() {} };
-    other.w.SpeechSynthesisUtterance = function () {};
-    run(other.w, 'reading-listen'); other.q('#reading-play').click();
-    assert.match(other.q('#reading-listen-status').textContent, /No local English voice/);
-    other.dom.window.close();
-  }
-  // Use distinct named caches and native Response objects: a selection must
-  // survive activation, navigation, a shell version change and no network.
-  {
-    const built = read('_site/sw.js');
-    assert.ok(!built.includes('{%'), 'Build with Jekyll first');
-    const stores = new Map(); let offline = false, failAsset = false;
-    const origin = 'https://hakanaltun.io';
-    function cache(name) {
-      if (!stores.has(name)) stores.set(name, new Map());
-      const data = stores.get(name);
-      const key = raw => new URL(typeof raw === 'string' ? raw : raw.url, origin).href;
-      return {
-        match: async raw => { const r = data.get(key(raw)); return r && r.clone(); },
-        put: async (raw, response) => data.set(key(raw), response.clone()),
-        delete: async raw => data.delete(key(raw)),
-        keys: async () => [...data.keys()].map(url => ({ url })),
-        addAll: async urls => { for (const url of urls) data.set(key(url), new Response(url)); }
-      };
-    }
-    const events = {};
-    const scope = { URL, Headers, Response, Request, console,
-      location: { origin }, clients: { claim: async () => {} }, skipWaiting: async () => {},
-      addEventListener(type, callback) { events[type] = callback; },
-      caches: { open: async name => cache(name), keys: async () => [...stores.keys()], delete: async name => stores.delete(name) },
-      fetch: async raw => {
-        if (offline || failAsset && String(raw).includes('/css/reading.css')) throw Error('offline');
-        const url = typeof raw === 'string' ? raw : raw.url;
-        return new Response('network:' + url, { headers: { 'Content-Type': String(url).includes('/pieces/') ? 'text/html' : 'text/plain' } });
-      }
-    };
-    scope.self = scope; vm.createContext(scope); vm.runInContext(built, scope);
-    const send = async data => {
-      let reply, done;
-      events.message({ data, ports: [{ postMessage: r => { reply = r; } }], waitUntil: p => { done = p; } });
-      await done; return reply;
-    };
-    const request = async (pathname, mode = 'navigate') => {
-      let result;
-      events.fetch({ request: { method: 'GET', url: origin + pathname, mode }, respondWith: p => { result = p; } });
-      return result === undefined ? null : await result;
-    };
-    let done; events.install({ waitUntil: p => { done = p; } }); await done;
-    assert.equal(stores.has('olae-reading-pages-v1'), false, 'install selects no essays');
-    const urls = Array.from(scope.ESSAY_PAGES, p => p.url).slice(0, 2);
-    assert.equal(urls.length, 2);
-    const resources = ['/css/reading.css?v=reading-test', '/js/reading-settings.js?v=reading-test', '/fonts/eb-garamond-latin.woff2'];
-    assert.equal((await send({ type: 'SAVE_READING', url: urls[0], resources })).ok, true);
-    assert.equal((await send({ type: 'LIST_READING' })).pieces.length, 1);
-    await request(urls[1]);
-    assert.equal((await send({ type: 'LIST_READING' })).pieces.length, 1, 'visiting does not save');
-    stores.set('olae-tools-v0', new Map());
-    events.activate({ waitUntil: p => { done = p; } }); await done;
-    assert.equal(stores.has('olae-tools-v0'), false);
-    assert.equal(stores.has('olae-reading-pages-v1'), true);
-    offline = true;
-    assert.equal(await (await request(urls[0])).text(), 'network:' + urls[0]);
-    assert.equal(await (await request('/css/reading.css?v=reading-test', 'cors')).text(), 'network:/css/reading.css?v=reading-test');
-    assert.equal(await (await request('/not-saved/')).text(), '/offline/');
-    offline = false; failAsset = true;
-    assert.equal((await send({ type: 'SAVE_READING', url: urls[1], resources })).ok, false);
-    assert.equal((await send({ type: 'LIST_READING' })).pieces.length, 1, 'failed assets do not create a saved page');
-    failAsset = false;
-    assert.equal((await send({ type: 'SAVE_READING', url: 'https://other.test/pieces/no.html', resources })).ok, false);
-    assert.equal((await send({ type: 'SAVE_READING', url: urls[1], resources: ['https://other.test/script.js'] })).ok, false);
-    await send({ type: 'SAVE_READING', url: urls[1], resources });
-    offline = true;
-    await send({ type: 'REMOVE_READING', url: urls[0] });
-    assert.equal(stores.has('olae-reading-assets-v1'), true, 'remaining pieces keep their assets');
-    await send({ type: 'REMOVE_READING', url: urls[1] });
-    assert.equal((await send({ type: 'LIST_READING' })).pieces.length, 0);
-    assert.equal(stores.has('olae-reading-assets-v1'), false);
-  }
-  console.log('Reading checks passed: preferences, backup recovery, local-only speech and opt-in offline snapshots.');
+  console.log('Reading checks passed: the original untouched until a choice, choices kept and cleared, blocked and malformed storage, Escape, other tabs, rain under the title, and drawer backup recovery.');
 }
 main().catch(error => { console.error(error); process.exit(1); });

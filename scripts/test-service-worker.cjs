@@ -17,6 +17,10 @@ assert.ok(fs.existsSync(built),'Build the site first: bundle exec jekyll build')
 const CURRENT=(fs.readFileSync(built,'utf8').match(/var CACHE\s*=\s*"([^"]+)"/)||[])[1];
 assert.ok(CURRENT,'could not find CACHE in the rendered worker');
 const RETIRED=['olae-tools-v0','olae-tools-v1'];
+/* The offline copies of pieces this worker kept briefly in October 2026. The
+   feature is gone; readers who saved a piece still have these until the next
+   worker activates and clears them. */
+const OFFLINE_COPIES=['olae-reading-pages-v1','olae-reading-assets-v1'];
 
 function harness({offline=false,seed=new Map()}={}){
   const cache={store:new Map(seed)};
@@ -48,16 +52,16 @@ function harness({offline=false,seed=new Map()}={}){
     clients:{claim:async()=>{}},
     location:{origin:'https://hakanaltun.io'}
   };
-  const deleted={known:[...RETIRED,CURRENT,'other-cache-v1'],calls:[]};
+  const deleted={known:[...RETIRED,CURRENT,'other-cache-v1',...OFFLINE_COPIES],calls:[]};
   scope.self=scope;
   vm.createContext(scope);
   vm.runInContext(fs.readFileSync(built,'utf8'),scope);
   const fire=(type,event)=>scope.listeners[type].forEach(fn=>fn(event));
   return {scope,cache,network,deleted,fire};
 }
-async function request(h,url){
+async function request(h,url,mode){
   let responded=null;
-  h.fire('fetch',{request:{method:'GET',url},respondWith(p){responded=p;}});
+  h.fire('fetch',{request:{method:'GET',url,mode},respondWith(p){responded=p;}});
   return responded===null?null:await responded;
 }
 
@@ -78,11 +82,12 @@ async function main(){
     assert.ok(keys.length>25);
   }
 
-  // Activate retires our own old versions only.
+  // Activate retires our own old versions and the retired offline copies,
+  // and nothing else.
   {
     const h=harness();
     let waited;h.fire('activate',{waitUntil(p){waited=p;}});await waited;
-    assert.deepEqual(h.deleted.calls,RETIRED,'retires our own old versions and leaves other caches alone');
+    assert.deepEqual(h.deleted.calls,[...RETIRED,...OFFLINE_COPIES],'retires our own old caches and leaves other caches alone');
   }
 
   // A PDF.js file is not precached, but it is kept the first time it is used.
@@ -110,10 +115,10 @@ async function main(){
   {
     const h=harness();
     assert.equal(await request(h,'https://hakanaltun.io/pieces/an-essay.html'),null);
-    assert.equal((await request(h,'https://hakanaltun.io/js/puzzle-mode.js')).body,'https://hakanaltun.io/js/puzzle-mode.js');
-    assert.equal(h.cache.store.has('/js/puzzle-mode.js'),false,'unselected reading assets are passed through without being saved');
+    assert.equal(await request(h,'https://hakanaltun.io/pieces/an-essay.html','navigate'),null,'the worker does not stand in front of pages');
+    assert.equal(await request(h,'https://hakanaltun.io/js/puzzle-mode.js'),null);
     assert.equal(await request(h,'https://hakanaltun.io/js/vendor/pdfjs'),null,'the prefix must be a directory');
-    assert.equal(h.network.length,1);
+    assert.equal(h.network.length,0);
     // Cross-origin and non-GET stay untouched too.
     assert.equal(await request(h,'https://gc.zgo.at/count.js'),null);
     let responded=null;
@@ -132,6 +137,6 @@ async function main(){
     assert.equal(answer.body,'installed','an unseen stamp falls back to the installed copy');
   }
 
-  console.log('Service worker checks passed: precache contents, PDF.js cached on use not on install, offline reuse, pass-through and ?v= keying.');
+  console.log('Service worker checks passed: precache contents, PDF.js cached on use not on install, offline reuse, retired offline copies cleared, pass-through and ?v= keying.');
 }
 main().catch(error=>{console.error(error);process.exit(1);});

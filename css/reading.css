@@ -1,37 +1,64 @@
-/* Controls use the page's palette; typography changes only its prose. */
-.reading-options[hidden], .reading-panel [hidden], [data-offline-shelf][hidden] { display: none !important; }
-.reading-options { width: 100%; max-width: 620px; margin-top: 6px; color: var(--vizon); font-size: 1rem; }
-.reading-options > summary { width: fit-content; margin: 0 auto; cursor: pointer; font-style: italic; font-size: .92rem; padding: 5px 8px; }
-.reading-panel { margin-top: 12px; padding: 18px; border: 1px solid var(--rule); border-radius: 6px; text-align: left; }
-.reading-settings { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
-.reading-settings label { display: flex; flex-direction: column; gap: 5px; }
-.reading-panel select { max-width: 100%; min-height: 36px; border: 1px solid var(--rule); border-radius: 3px; padding: 4px 6px; color: var(--ink-soft); background: var(--paper); font: inherit; }
-.reading-panel button, .offline-list button { border: 0; background: transparent; color: var(--petrol); font: inherit; cursor: pointer; padding: 6px 0; text-decoration: underline; text-underline-offset: 3px; }
-.reading-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; margin-top: 10px; }
-.reading-actions label { display: flex; align-items: center; gap: 7px; }
-.reading-panel :is(button, select, summary):focus-visible, .offline-list button:focus-visible { outline: 2px solid var(--petrol); outline-offset: 3px; }
-.reading-status { font-size: .9rem; line-height: 1.5; margin: 6px 0 0; }
-.reading-status:empty { display: none; }
-.reading-listen, .reading-offline { margin: 14px 0 0; padding: 10px 0 0; border-top: 1px solid var(--rule); }
-.reading-panel section::before { content: none; }
-.reading-offline details { margin-top: 10px; }
-.reading-offline summary { cursor: pointer; }
-.offline-list { list-style: none; padding: 0; margin: 10px 0; }
-.offline-list li { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 8px 0; border-bottom: 1px solid var(--rule); }
-.offline-list a { color: var(--petrol); overflow-wrap: anywhere; }
-.offline-list button { font-size: .9rem; flex-shrink: 0; }
-.essay-body[data-reading-body] { font-size: calc(1em * var(--reading-scale, 1)); }
-.essay-body[data-reading-body] :is(p, li, blockquote) { line-height: var(--reading-spacing, 1.85); }
-.essay-body[data-reading-body] blockquote { font-size: 1.05em; }
+/* Reading options. The toggle is one of the essay header's quiet italic
+   lines, set like "read with rain" above it, with the chevron and the reveal
+   of the site's drawer. The panel keeps to the puzzle panel's vocabulary:
+   pills for a choice, a bordered italic button for an action. */
+.reading-options[hidden] { display: none; }
+.reading-options { width: 100%; }
+.reading-options > summary {
+  display: flex; align-items: center; gap: 7px; width: fit-content; margin: 0 auto;
+  list-style: none; cursor: pointer; padding: 2px 6px;
+  font-family: 'EB Garamond', Georgia, serif; font-style: italic; font-size: 0.92rem; letter-spacing: 0.03em;
+  color: var(--vizon); transition: color 0.2s ease;
+}
+.reading-options > summary::-webkit-details-marker { display: none; }
+.reading-options > summary::after {
+  content: ""; width: 5px; height: 5px; flex-shrink: 0;
+  border-right: 1px solid currentColor; border-bottom: 1px solid currentColor;
+  transform: translateY(-2px) rotate(45deg); transition: transform 0.25s ease;
+}
+.reading-options[open] > summary::after { transform: translateY(1px) rotate(-135deg); }
+.reading-options > summary:hover, .reading-options[open] > summary { color: var(--petrol); }
+.reading-options > summary:focus-visible { outline: 2px solid var(--petrol); outline-offset: 2px; }
+.reading-panel {
+  width: fit-content; max-width: 100%; margin: 10px auto 0; padding: 12px 16px;
+  border: 1px solid var(--rule); border-radius: 8px; background: var(--paper); text-align: left;
+}
+.reading-options[open] > .reading-panel { animation: drawerReveal 0.25s ease; }
+.reading-choice { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 6px; }
+.reading-choice + .reading-choice { margin-top: 4px; }
+.reading-choice-label { min-width: 6.6em; font: italic 0.9rem/1.4 'EB Garamond', Georgia, serif; color: var(--vizon); }
+.reading-choice button {
+  min-height: 36px; padding: 4px 10px; border: 1px solid transparent; border-radius: 999px;
+  background: transparent; color: var(--ink-soft); cursor: pointer;
+  font: italic 0.95rem/1.3 'EB Garamond', Georgia, serif;
+}
+.reading-choice button:hover { color: var(--petrol); }
+.reading-choice button[aria-pressed="true"] { border-color: var(--petrol); color: var(--petrol); }
+.reading-print {
+  display: block; margin-top: 12px; min-height: 40px; padding: 5px 10px;
+  border: 1px solid var(--rule); border-radius: 6px; background: transparent; color: var(--ink); cursor: pointer;
+  font: italic 1rem/1.4 'EB Garamond', Georgia, serif;
+}
+.reading-print:hover { border-color: var(--petrol); color: var(--petrol); }
+.reading-panel button:focus-visible { outline: 2px solid var(--petrol); outline-offset: 2px; }
+.reading-note { margin: 10px 0 0; font-size: 0.85rem; line-height: 1.5; color: var(--vizon); }
+@media (max-width: 480px) {
+  .reading-panel { padding: 12px 14px; }
+  /* The label takes its own line, so the three pills stay on one. */
+  .reading-choice-label { flex-basis: 100%; }
+  .reading-choice + .reading-choice { margin-top: 8px; }
+}
+
+/* What a choice changes. Each rule waits for its attribute, which
+   js/reading-settings.js sets only for a choice other than "original", so
+   until then the piece is exactly as published. The fixed sizes of headings,
+   quotations and the piece note follow --reading-scale in style.css. */
+html[data-reading-size] .essay-body[data-reading-body] { font-size: calc(1em * var(--reading-scale)); }
+html[data-reading-spacing] .essay-body[data-reading-body] :is(p, li, blockquote) { line-height: var(--reading-spacing); }
+
 .essay-print-byline { display: none; }
 .essay-puzzle-wrap { text-align: center; margin: 38px 0 0; }
 .essay-puzzle-wrap + .essay-guess-wrap { margin-top: 10px; }
-@media (max-width: 480px) {
-  .reading-settings { grid-template-columns: 1fr; gap: 10px; }
-  .reading-settings label { flex-direction: row; justify-content: space-between; align-items: center; }
-  .reading-settings select { width: 60%; }
-  .reading-panel { padding: 14px; }
-}
 @media print {
   @page { margin: 18mm; }
   html, body.is-post { background: white !important; color: black !important; }

@@ -102,7 +102,7 @@
     { kind: 'page', say: 'read with rain',
       can: function () { var b = shown('essay-rain'); return b && b.getAttribute('aria-pressed') !== 'true'; },
       run: press('essay-rain'),
-      done: 'Rain behind the essay. Stop it in Reading options under the title.' },
+      done: 'Rain behind the essay. The button under its title stops it.' },
     { kind: 'page', say: 'open puzzle mode',
       can: function () { var b = shown('essay-puzzle'); return b && b.getAttribute('aria-pressed') !== 'true'; },
       run: press('essay-puzzle') },

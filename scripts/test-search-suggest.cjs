@@ -11,13 +11,12 @@ const source=name=>fs.readFileSync(path.join(root,name),'utf8');
 const liquid=html=>html.replace(/\{%-?[\s\S]*?-?%\}/g,'').replace(/\{\{[^}]*\}\}/g,'');
 
 /* The real form, as the footer includes it, inside the real footer; and on an
-   essay its reading controls above it. */
+   essay its own buttons above it. */
 const form=source('_includes/search-form.html')
   .replace(/\{\{ include\.id \}\}/g,'footer-search')
   .replace(/\{% if include\.modifier %\}[^{]*\{\{ include\.modifier \}\}\{% endif %\}/,' site-search-form--footer');
 const footer=source('_includes/footer.html').replace(/\{% include search-form\.html[^%]*%\}/,form);
-const essayControls=source('_layouts/post.html')+source('_includes/reading-options.html');
-const essayButtons=(essayControls.match(/<button[^>]*id="essay-(?:rain|puzzle)"[\s\S]*?<\/button>/g)||[]).join('');
+const essayButtons=(source('_layouts/post.html').match(/<button[^>]*id="essay-(?:rain|puzzle)"[\s\S]*?<\/button>/g)||[]).join('');
 assert.equal((essayButtons.match(/<button/g)||[]).length,2,'The essay still offers read-with-rain and puzzle mode');
 
 const opened=[];

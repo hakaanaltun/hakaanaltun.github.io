@@ -12,6 +12,11 @@ layout: default
 <div class="essay-title-block"><h1>{{ page.title | replace: "'", "'" }}</h1></div>
 <p class="essay-date-line">{{ page.date | date: "%B %-d, %Y" }}</p>
 {% unless is_story %}
+{% comment %} "Read with rain" — /noise/'s synthesized rain, quietly behind
+the essay. js/rain-read.js unhides the button where Web Audio exists. It stays
+out here rather than in the menu below: rain that is falling has to show where
+it can be stopped. {% endcomment %}
+<button type="button" class="essay-rain" id="essay-rain" aria-pressed="false" hidden>read with rain</button>
 {% include reading-options.html %}
 {% endunless %}
 {% endif %}

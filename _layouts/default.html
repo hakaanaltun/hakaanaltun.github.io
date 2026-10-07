@@ -36,8 +36,6 @@ their Keep button sits beside Türkçe as it does on an essay. {% endcomment %}
 {% comment %} Story pages ("The Notice", series: story) carry no nav or
 "Keep reading" recommendations, so they skip the essay scripts entirely. {% endcomment %}
 {% if page.layout == "post" and page.series != "story" %}
-<script src="/js/reading-listen.js?v=20261007-1" defer></script>
-<script src="/js/reading-offline.js?v=20261007-1" defer></script>
 <script src="/js/rain-engine.js?v=20260911-1" defer></script>
 <script src="/js/rain-read.js?v=20260926-2" defer></script>
 <script src="/js/puzzle-mode.js?v=20261007-2" defer></script>
@@ -54,8 +52,7 @@ their Keep button sits beside Türkçe as it does on an essay. {% endcomment %}
 {% endif %}
 {% comment %} Last of the page's scripts: it offers only what the ones above
 have made available on this page. {% endcomment %}
-<script src="/js/search-suggest.js?v=20261007-1" defer></script>
-{% if page.offline_reading %}<script src="/js/reading-offline.js?v=20261007-1" defer></script>{% endif %}
+<script src="/js/search-suggest.js?v=20261007-2" defer></script>
 <script>
 /* Enable CSS smooth scrolling only after the browser has completed its
    initial scroll restoration. Applying scroll-behavior: smooth to the root
