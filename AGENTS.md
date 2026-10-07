@@ -380,12 +380,16 @@ accuracy and plain prose to this section as well.
   of the window to the picture or the tool. The author settled this in
   October 2026: do not add the site's header and footer to these places, and
   keep their frames as they are.
-- **The way back leads to where the place was entered.** An instrument
-  leads to the instruments and a picture to Pictures with Stories. The Farm
-  House is entered through the Polaroid on a shelf in The House's study, so
-  its "← The House" returns to the study (`/house/#study`). Do not give its
-  frame the site's name as a link to the homepage; the visitor leaves the
-  farm by the room they came from.
+- **The way back leads to the place's own section.** An instrument leads
+  to the instruments and a picture to Pictures with Stories. The clock, the
+  reader and the desk can also be opened from The House's study, and they
+  still lead to the instruments: a link back to The House would not make
+  sense on them, and the browser's back button already returns there.
+- **The Farm House belongs to The House.** It is entered only from there,
+  through the Polaroid on a shelf in the study, so its "← The House"
+  returns to the study (`/house/#study`). Do not give its frame the site's
+  name as a link to the homepage; the visitor leaves the farm by the room
+  they came from.
 
 ## Interface details
 
