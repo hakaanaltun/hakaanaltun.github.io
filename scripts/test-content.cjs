@@ -178,6 +178,15 @@ for (const file of list('_includes/book', '.html')) checkDashes(file, read(file)
 checkDashes('_data/notes.yml', read('_data/notes.yml').split('\n')
   .map((line) => (line.trim().startsWith('#') ? '' : line)).join('\n'));
 
+/* AGENTS.md is published as /colophon/. Its code spans quote titles and
+   commands as they are, so they are blanked like comments. A word hyphenated
+   across a line break would reach the page as two: "hand- balancing". */
+const agents = read('AGENTS.md');
+checkDashes('AGENTS.md', agents.replace(/`[^`\n]*`/g, (part) => part.replace(/[^\n]/g, '')));
+agents.split('\n').forEach((line, i) => {
+  if (/[A-Za-z]-$/.test(line)) problem(`AGENTS.md:${i + 1}`, `a word is split at the end of the line; keep it on one line: ${line.trim().slice(-40)}`);
+});
+
 // --- Links inside the site -------------------------------------------------
 
 /* Every link and image on the built site that points inside it must lead
