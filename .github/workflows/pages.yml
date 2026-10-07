@@ -99,6 +99,13 @@ jobs:
       - name: Run browser-tool checks
         run: npm test
 
+      # The stylesheets' comments are for whoever edits them next, not for a
+      # reader's browser. They stay in the repository and are taken out of
+      # the published copy only, after the checks, which read them. The step
+      # fails, and nothing is published, if any rule would change.
+      - name: Take the comments out of the published stylesheets
+        run: node scripts/strip-css-comments.cjs _site/css
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
 

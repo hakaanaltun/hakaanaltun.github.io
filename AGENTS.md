@@ -160,6 +160,8 @@ This repository is a **Jekyll 4 static site** ("On Life & Everything", a persona
 - URLs are "pretty": source files like `about.html` / `archive.html` are served at `/about/` and `/archive/` (trailing slash), NOT `/about.html`. Posts use the permalink pattern `/pieces/:slug.html` (set in `_config.yml`).
 - `_config.yml` sets `future: true`, so posts dated in the future still render — expected for this repo.
 - The production Pages workflow uses Ruby 3.3; the VM uses the apt-provided Ruby 3.2, which builds the site fine.
+- `style.css` and `palettes.css` are linked once, in `_includes/head.html`, for every page that uses the default layout. Bump the `?v=` there when either changes.
+- The published stylesheets carry no comments. The deploy runs `scripts/strip-css-comments.cjs` on `_site/css` after the checks and fails if any rule would change. Keep writing comments in `css/`; a local build keeps them. Styles inside a page's own `<style>` are not touched.
 
 ## Starting a session
 
