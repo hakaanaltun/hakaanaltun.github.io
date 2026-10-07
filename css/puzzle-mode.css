@@ -7,6 +7,9 @@
    it. The class stays as the button's name in the markup; the header centres
    it. */
 .puzzle-active{scroll-margin-top:8px;}
+/* Leaving puzzle mode from its panel puts focus on the prose itself, as the
+   skip link puts it on main; a ring round the whole piece would only shout. */
+.essay-body:focus{outline:none;}
 .puzzle-panel[hidden]{display:none;}
 .puzzle-panel{cursor:pointer;}
 .puzzle-panel{position:sticky;top:calc(var(--head-band,150px) + 8px);z-index:12;background:var(--paper);border:1px solid var(--rule);padding:12px 16px;margin:0 0 28px;border-radius:8px;scroll-margin-top:8px;}
