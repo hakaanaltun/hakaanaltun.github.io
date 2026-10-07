@@ -76,4 +76,22 @@ function page(modals) {
   assert.equal(d.activeElement.id, 'picture-how');
   dom.window.close();
 }
-console.log('Picture checks passed: sourced fallback reading, optional hints, a label beside the thin ring, the story opening on the picture\'s history, every detail and named crop opened at the top, modal return focus and exploration help.');
+// The homepage carries the section under Words with Stories, and every
+// homepage section sits in the accent rhythm in style.css, slate and green
+// taking turns down the page. A section added without its colour, or one that
+// leaves two neighbours the same, fails here.
+{
+  const home = new JSDOM(fs.readFileSync(path.join(root, '_site/index.html'), 'utf8')).window.document;
+  const order = [...home.querySelectorAll('main section[id]')].filter(s => !s.parentElement.closest('section')).map(s => s.id);
+  assert.equal(order[order.indexOf('words-with-stories') + 1], 'pictures-with-stories', 'Pictures with Stories follows Words with Stories');
+  assert.ok(home.querySelector('#pictures-with-stories a.home-picture-card[href="/pictures/black-hole/"] img'));
+  const css = fs.readFileSync(path.join(root, 'css/style.css'), 'utf8');
+  const list = colour => (css.match(new RegExp('html\\[data-theme="light"\\] body\\.is-home :is\\(([^)]*)\\) \\{\\s*--petrol: ' + colour)) || [])[1];
+  const slate = list('oklch').split(',').map(s => s.trim().slice(1));
+  const green = list('var\\(--sec-accent').split(',').map(s => s.trim().slice(1));
+  order.forEach((id, i) => {
+    assert.ok(slate.includes(id) !== green.includes(id), id + ' is in exactly one colour list');
+    assert.equal(slate.includes(id), i % 2 === 0, id + ' takes its turn in the rhythm');
+  });
+}
+console.log('Picture checks passed: sourced fallback reading, optional hints, a label beside the thin ring, the story opening on the picture\'s history, every detail and named crop opened at the top, modal return focus and exploration help, and the homepage section in its turn of the accent rhythm.');

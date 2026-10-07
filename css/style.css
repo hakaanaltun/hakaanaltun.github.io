@@ -455,7 +455,9 @@ body.series-trivia      { --sec-h:  12; --sec-c: 0.068; --sec-ld: 0.700; --sec-c
    Slate at the hero source, then petrol and slate alternating down the page.
    Every homepage section is named in one of the two lists below, in page
    order: quotes, story-doorway, latest, start-here, home-house, further-back,
-   notes, words-with-stories, trivia, instruments, tonight. Backgrounds are untouched — only
+   notes, words-with-stories, pictures-with-stories, trivia, instruments,
+   tonight. A new section takes the colour its place calls for, and every
+   section after it moves to the other list. Backgrounds are untouched — only
    the accent tokens change, so each section's headings, links, labels, focus
    rings, selection and divider glows all answer in the same colour.
 
@@ -472,23 +474,23 @@ body.series-trivia      { --sec-h:  12; --sec-c: 0.068; --sec-ld: 0.700; --sec-c
    to keep the colours of its neighbours.
    -------------------------------------------------------------------------- */
 @media (prefers-color-scheme: light) {
-  html:not([data-theme]) body.is-home :is(#quotes, #latest, #home-house, #notes, #trivia, #tonight) {
+  html:not([data-theme]) body.is-home :is(#quotes, #latest, #home-house, #notes, #pictures-with-stories, #instruments) {
     --petrol: oklch(var(--sec-l) var(--sec-c-invitation, 0.062) var(--sec-h-invitation, 239));
     --petrol-deep: color-mix(in srgb, var(--petrol) 74%, black);
   }
 
-  html:not([data-theme]) body.is-home :is(#story-doorway, #start-here, #further-back, #words-with-stories, #instruments) {
+  html:not([data-theme]) body.is-home :is(#story-doorway, #start-here, #further-back, #words-with-stories, #trivia, #tonight) {
     --petrol: var(--sec-accent, #4A554F);
     --petrol-deep: color-mix(in srgb, var(--petrol) 74%, black);
   }
 }
 
-html[data-theme="light"] body.is-home :is(#quotes, #latest, #home-house, #notes, #trivia, #tonight) {
+html[data-theme="light"] body.is-home :is(#quotes, #latest, #home-house, #notes, #pictures-with-stories, #instruments) {
   --petrol: oklch(var(--sec-l) var(--sec-c-invitation, 0.062) var(--sec-h-invitation, 239));
   --petrol-deep: color-mix(in srgb, var(--petrol) 74%, black);
 }
 
-html[data-theme="light"] body.is-home :is(#story-doorway, #start-here, #further-back, #words-with-stories, #instruments) {
+html[data-theme="light"] body.is-home :is(#story-doorway, #start-here, #further-back, #words-with-stories, #trivia, #tonight) {
   --petrol: var(--sec-accent, #4A554F);
   --petrol-deep: color-mix(in srgb, var(--petrol) 74%, black);
 }
@@ -3090,7 +3092,8 @@ html[data-theme="sky"] .footer-strip { border-top: 0; }
 .home-instruments-line a:focus-visible { outline: 2px solid var(--petrol); outline-offset: 3px; border-radius: 4px; }
 .home-instruments-all,
 .home-notes-all,
-.home-words-all {
+.home-words-all,
+.home-pictures-all {
   display: inline-block; margin-top: 18px;
   font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic;
   font-size: 1.2rem; color: var(--petrol); text-decoration: none;
@@ -3101,10 +3104,13 @@ html[data-theme="sky"] .footer-strip { border-top: 0; }
 .home-notes-all:hover,
 .home-notes-all:active,
 .home-words-all:hover,
-.home-words-all:active { opacity: var(--select-dim); }
+.home-words-all:active,
+.home-pictures-all:hover,
+.home-pictures-all:active { opacity: var(--select-dim); }
 .home-instruments-all:focus-visible,
 .home-notes-all:focus-visible,
-.home-words-all:focus-visible { outline: 2px solid var(--petrol); outline-offset: 3px; border-radius: 4px; }
+.home-words-all:focus-visible,
+.home-pictures-all:focus-visible { outline: 2px solid var(--petrol); outline-offset: 3px; border-radius: 4px; }
 
 
 /* One question for the visitor's calendar day. This is a small taste of
