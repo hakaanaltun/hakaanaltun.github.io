@@ -9,6 +9,11 @@ layout: default
 {% if is_story and page.permalink and page.permalink contains "/1/" %}{% assign is_first_story = true %}{% endif %}
 <div class="essay-header fade-in">
 {% if is_story == false or is_first_story %}
+{% unless is_story %}
+{% comment %} Paper only (css/reading.css): a printed piece opens with its kind
+on the left and the site's address on the right, both in capitals. {% endcomment %}
+<p class="print-head"><span>{% if page.fiction %}Short fiction{% else %}Essay{% endif %}</span><span>hakanaltun.io</span></p>
+{% endunless %}
 <div class="essay-title-block"><h1>{{ page.title | replace: "'", "'" }}</h1></div>
 <p class="essay-date-line">{{ page.date | date: "%B %-d, %Y" }}</p>
 {% unless is_story %}
@@ -48,6 +53,11 @@ turns of one piece rather than pieces. {% endcomment %}
 <article class="essay-body fade-in fade-in-delay"{% unless page.series == "story" %} data-reading-body data-keep-passage data-keep-kind="{% if page.fiction %}A story{% else %}An essay{% endif %}" data-keep-title="{{ page.title | replace: "'", "’" | escape }}"{% endunless %}>
 {{ content }}
 </article>
+{% unless is_story %}
+{% comment %} Paper only: a printed piece ends with the site's name and line,
+centred, as the footer has them. {% endcomment %}
+<div class="print-colophon"><p class="print-colophon-brand">On Life &amp; Everything</p><p class="print-colophon-line">Essays, short fiction, and other writing.</p></div>
+{% endunless %}
 {% comment %} The moon that was over the piece, where its night ends. Renders
 only where front matter sets one; see _includes/piece-moon.html. {% endcomment %}
 {% include piece-moon.html %}
