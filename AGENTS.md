@@ -350,7 +350,8 @@ accuracy and plain prose to this section as well.
 - **Places show as faint dots from the first look**, on every screen. A
   label sits on its place unless that covers the thing it names, such as a
   thin line; `label_side: right` in the picture's front matter puts it
-  beside it.
+  beside it. A label that shows opens its detail as the dot does; a hidden
+  one takes no clicks.
 - **A close view opens at the top of its dialog.** Reset the scroll after
   `showModal()`, never before it: a closed dialog cannot be scrolled. Open
   every detail on a phone as well as a desk, one after another, and check

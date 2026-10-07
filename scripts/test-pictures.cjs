@@ -32,6 +32,16 @@ function page(modals) {
   }
   // A label that would cover a thin line sits beside it.
   assert.equal(d.querySelector('.picture-hotspot[data-detail="photon-ring"]').dataset.labelSide, 'right');
+  // A label that shows opens its detail like the dot, which matters most for
+  // a label beside its place; a hidden one takes no clicks.
+  {
+    const css = fs.readFileSync(path.join(root, 'css/pictures.css'), 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
+    assert.match(css, /\.picture-hotspot-label \{[^}]*pointer-events:none/, 'a hidden label takes no clicks');
+    for (const shown of [/\.show-places \.picture-hotspot-label \{[^}]*\}/, /\.picture-hotspot:hover \.picture-hotspot-label \{[^}]*\}/, /\.picture-hotspot:focus-visible \.picture-hotspot-label,[^{]*\{[^}]*\}/]) {
+      const rule = css.match(shown);
+      assert.ok(rule && /opacity:1/.test(rule[0]) && /pointer-events:auto/.test(rule[0]), 'a shown label takes clicks: ' + shown);
+    }
+  }
   // The story opens with the picture's own history: Luminet, then the EHT.
   const parts = [...d.querySelectorAll('.picture-story-part p')].map(p => p.textContent);
   assert.match(parts[0], /Luminet/);
@@ -94,4 +104,4 @@ function page(modals) {
     assert.equal(slate.includes(id), i % 2 === 0, id + ' takes its turn in the rhythm');
   });
 }
-console.log('Picture checks passed: sourced fallback reading, optional hints, a label beside the thin ring, the story opening on the picture\'s history, every detail and named crop opened at the top, modal return focus and exploration help, and the homepage section in its turn of the accent rhythm.');
+console.log('Picture checks passed: sourced fallback reading, optional hints, a label beside the thin ring, labels that open their detail, the story opening on the picture\'s history, every detail and named crop opened at the top, modal return focus and exploration help, and the homepage section in its turn of the accent rhythm.');
