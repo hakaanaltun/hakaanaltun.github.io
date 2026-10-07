@@ -154,7 +154,7 @@
   listname: "The Sun — Solar Altitude & Direction Now"
   card: "Where the sun stands now: its height, compass direction, and today's path across your sky."
   line: "the sun’s height and direction"
-  related: [twilight, stars, moon]
+  related: [twilight, stars, season]
 
 - slug: stars
   name: The Stars
@@ -170,7 +170,7 @@
   listname: "The Moon — Moon Phase Today"
   card: "Tonight's moon: the current phase drawn as it hangs in the sky, its illumination and age, and the next full and new moon."
   line: "the phase of the moon"
-  related: [stars, sun, twilight]
+  related: [stars, twilight, days]
 
 - slug: season
   name: The Season

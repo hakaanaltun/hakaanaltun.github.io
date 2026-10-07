@@ -270,4 +270,33 @@
   }
   render();setInterval(function(){if(!document.hidden)render();},30000);
   document.addEventListener("visibilitychange",function(){if(!document.hidden)render();});
+
+  /* Fullscreen, as on /moon/: the notes step aside and the chrome waits
+     for the pointer. Where the browser refuses, the page goes immersive
+     on its own and Escape brings it back. */
+  var docEl=document.documentElement,fakeFs=false,chromeTimer;
+  function nativeFs(){return document.fullscreenElement||document.webkitFullscreenElement||null;}
+  function pokeChrome(){
+    document.body.classList.add("show-chrome");
+    clearTimeout(chromeTimer);
+    chromeTimer=setTimeout(function(){document.body.classList.remove("show-chrome");},2800);
+  }
+  function syncImmersive(){
+    var on=!!nativeFs()||fakeFs;
+    document.body.classList.toggle("immersive",on);
+    if(on)pokeChrome();
+  }
+  $("fsBtn").addEventListener("click",function(){
+    if(nativeFs()){var exit=document.exitFullscreen||document.webkitExitFullscreen;if(exit)try{exit.call(document);}catch(e){}return;}
+    if(fakeFs){fakeFs=false;syncImmersive();return;}
+    var enter=docEl.requestFullscreen||docEl.webkitRequestFullscreen,ok=false;
+    if(enter)try{var r=enter.call(docEl);ok=true;if(r&&r.catch)r.catch(function(){fakeFs=true;syncImmersive();});}catch(e){}
+    if(!ok){fakeFs=true;syncImmersive();}
+  });
+  document.addEventListener("fullscreenchange",syncImmersive);
+  document.addEventListener("webkitfullscreenchange",syncImmersive);
+  document.addEventListener("keydown",function(e){if(e.key==="Escape"&&fakeFs){fakeFs=false;syncImmersive();}});
+  ["mousemove","touchstart","keydown"].forEach(function(ev){
+    document.addEventListener(ev,function(){if(document.body.classList.contains("immersive"))pokeChrome();});
+  });
 })();

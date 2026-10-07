@@ -9,12 +9,56 @@ layout: null
 <title>The Sun — Solar Altitude &amp; Direction Now · On Life &amp; Everything</title>
 <meta name="description" content="Where the sun stands now: its height above the horizon, compass direction, and today's path across the sky. Follows your device's time zone.">
 <link rel="canonical" href="https://hakanaltun.io/sun/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="The Sun — Solar Altitude &amp; Direction Now">
+<meta property="og:description" content="Where the sun stands now: its height, compass direction and today's path across your sky—worked out in your browser.">
+<meta property="og:url" content="https://hakanaltun.io/sun/">
+<meta property="og:image" content="https://hakanaltun.io/images/og/sun.png?v=20261007-1">
+<meta property="og:image:alt" content="The Sun — where the sun stands now, worked out in your browser">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Sun — Solar Altitude &amp; Direction Now">
+<meta name="twitter:description" content="Where the sun stands now: its height, compass direction and today's path across your sky—worked out in your browser.">
+<meta name="twitter:image" content="https://hakanaltun.io/images/og/sun.png?v=20261007-1">
 <meta name="theme-color" content="#101720">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "@id": "https://hakanaltun.io/sun/#app",
+  "name": "The Sun — Solar Altitude & Direction Now",
+  "url": "https://hakanaltun.io/sun/",
+  "description": "Where the sun stands now: its height above the horizon, compass direction, and today's path across the sky, worked out in your browser for your time zone or a chosen city.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "browserRequirements": "Requires JavaScript",
+  "isAccessibleForFree": true,
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Hakan Altun",
+    "url": "https://hakanaltun.io/"
+  },
+  "inLanguage": "en"
+}
+</script>
 <link rel="stylesheet" href="/css/fonts.css?v=20260710-1">
-<link rel="stylesheet" href="/css/window-sky.css?v=20261007-2">
+<link rel="stylesheet" href="/css/window-sky.css?v=20261007-3">
 </head>
 <body data-sky-tool="sun">
-<nav class="chrome" aria-label="Site"><a class="back" href="/tools/">instruments</a><a class="brand" href="/">On Life &amp; Everything</a></nav>
+<div class="chrome" id="chrome">
+  <a class="tools-link" href="/tools/" aria-label="All the instruments">&larr;&#8202;instruments</a>
+  <a class="masthead" href="/" aria-label="On Life &amp; Everything — home">
+    <span class="home-brand">On Life &amp; Everything</span>
+    <span class="home-tagline">Essays, short fiction, and other writing.</span>
+  </a>
+  <button class="icon-btn" id="fsBtn" type="button" title="Fullscreen" aria-label="Fullscreen">&#10530;</button>
+</div>
 <main class="app">
   <div class="heading">
     <div><h1>The Sun</h1><p class="place" id="place">Reading your sky…</p></div>
@@ -33,7 +77,7 @@ layout: null
 <footer class="notes"><h2>Reading the sun</h2><p>A height of 0° is the horizon; 90° is directly overhead. The compass bearing runs clockwise from north, through east at 90° and south at 180°. A negative height puts the sun below the horizon.</p><p>Your device’s time zone chooses a nearby city. Its coordinates stand in for yours; you can choose another city above. All calculations run in your browser, with your current clock. The height describes the sun’s center without atmospheric refraction; sunrise and sunset allow for the apparent upper edge.</p><p>Positions are approximate. Buildings, hills and the atmosphere can change what you see near the horizon.</p>{% include tool-links.html slug="sun" %}</footer>
 {% include window-observer.html %}
 <script src="/js/astronomy.js?v=20261007-1"></script>
-<script src="/js/sky-instruments.js?v=20261007-2"></script>
+<script src="/js/sky-instruments.js?v=20261007-3"></script>
 <script>if("serviceWorker" in navigator){navigator.serviceWorker.register("/sw.js").catch(function(){});}</script>
 </body>
 </html>

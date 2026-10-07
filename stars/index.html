@@ -7,14 +7,58 @@ layout: null
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The Stars — Your Sky Now · On Life &amp; Everything</title>
-<meta name="description" content="Bright stars, constellations and planets above your horizon, calculated for your current time. A small sky map that follows your device's time zone.">
+<meta name="description" content="Bright stars, constellations, the moon and the planets above your horizon, calculated for your current time. A sky map that follows your device's time zone.">
 <link rel="canonical" href="https://hakanaltun.io/stars/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="The Stars — Your Sky Now">
+<meta property="og:description" content="Tonight's stars, constellations, moon and planets above your horizon—drawn in your browser.">
+<meta property="og:url" content="https://hakanaltun.io/stars/">
+<meta property="og:image" content="https://hakanaltun.io/images/og/stars.png?v=20261007-1">
+<meta property="og:image:alt" content="The Stars — tonight's stars and planets, drawn in your browser">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Stars — Your Sky Now">
+<meta name="twitter:description" content="Tonight's stars, constellations, moon and planets above your horizon—drawn in your browser.">
+<meta name="twitter:image" content="https://hakanaltun.io/images/og/stars.png?v=20261007-1">
 <meta name="theme-color" content="#101720">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "@id": "https://hakanaltun.io/stars/#app",
+  "name": "The Stars — Your Sky Now",
+  "url": "https://hakanaltun.io/stars/",
+  "description": "A map of the stars, constellation figures, the moon and the five bright planets above your horizon, drawn in your browser for your time zone or a chosen city.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "browserRequirements": "Requires JavaScript",
+  "isAccessibleForFree": true,
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Hakan Altun",
+    "url": "https://hakanaltun.io/"
+  },
+  "inLanguage": "en"
+}
+</script>
 <link rel="stylesheet" href="/css/fonts.css?v=20260710-1">
-<link rel="stylesheet" href="/css/window-sky.css?v=20261007-2">
+<link rel="stylesheet" href="/css/window-sky.css?v=20261007-3">
 </head>
 <body data-sky-tool="stars">
-<nav class="chrome" aria-label="Site"><a class="back" href="/tools/">instruments</a><a class="brand" href="/">On Life &amp; Everything</a></nav>
+<div class="chrome" id="chrome">
+  <a class="tools-link" href="/tools/" aria-label="All the instruments">&larr;&#8202;instruments</a>
+  <a class="masthead" href="/" aria-label="On Life &amp; Everything — home">
+    <span class="home-brand">On Life &amp; Everything</span>
+    <span class="home-tagline">Essays, short fiction, and other writing.</span>
+  </a>
+  <button class="icon-btn" id="fsBtn" type="button" title="Fullscreen" aria-label="Fullscreen">&#10530;</button>
+</div>
 <main class="app">
   <div class="heading">
     <div><h1>The Stars</h1><p class="place" id="place">Reading your sky…</p></div>
@@ -34,7 +78,7 @@ layout: null
 <script src="/js/astronomy.js?v=20261007-1"></script>
 <script src="/js/vendor/astronomy-engine-2.1.19.min.js"></script>
 <script src="/js/bright-stars.js?v=20261007-2"></script>
-<script src="/js/sky-instruments.js?v=20261007-2"></script>
+<script src="/js/sky-instruments.js?v=20261007-3"></script>
 <script>if("serviceWorker" in navigator){navigator.serviceWorker.register("/sw.js").catch(function(){});}</script>
 </body>
 </html>
