@@ -14,6 +14,7 @@ on:
     paths:
       - 'read/**'
       - 'farm-house/**'
+      - 'pictures/**'
       - 'sun/**'
       - 'stars/**'
       - 'js/**'
@@ -23,6 +24,7 @@ on:
       - '_plugins/**'
       - 'scripts/**'
       - '_words/**'
+      - '_pictures/**'
       - '_posts/**'
       - '_data/**'
       - '*.html'

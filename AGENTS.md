@@ -304,11 +304,21 @@ The site has two deliberate ideas of place. Do not collapse them into one.
 
 ## Pictures with Stories editorial standard
 
-`Pictures with Stories` is planned for later development: detailed, realistic
+`Pictures with Stories` uses detailed, realistic
 watercolour illustrations whose areas can be opened to learn about what is
 shown. Apply the `Words with Stories` standards for curation, sourcing,
 accuracy and plain prose to this section as well.
 
+- Follow The Farm House's watercolor language: broad brush strokes,
+  transparent washes, a limited value range, visible pencil, occasional
+  unfinished edges and exposed paper. Paint from scientific or historical
+  references when the subject calls for them; preserve the forms that an
+  explanation relies on. The Farm House's fixed scenes remain its own set.
+- Use The Farm House's way of exploring: quiet areas on the picture,
+  optional labels, numbered choices on a small screen, and a closer view
+  alongside each explanation. Provide keyboard access and a way back to the
+  picture. Sources sit below the explanation as links, with the full source
+  list below the picture.
 - Every clickable explanation must be sourced. Verify its factual claims
   before writing, and link to sources that support those claims. Prefer
   museums, universities, academic publications, archives and official
@@ -322,6 +332,12 @@ accuracy and plain prose to this section as well.
 - If a claim is disputed or cannot be confirmed, explain the uncertainty or
   leave it out. Keep the prose plain and unshowy, following the same writing
   rules as `Words with Stories`.
+- A picture may also have a story below it. Source each part as carefully as
+  the clickable explanations. For scientific subjects, identify speculative
+  ideas as such and distinguish mathematical predictions from observations.
+  A sourced account of a theory is evidence that it was proposed, not that
+  it has been confirmed. If an anecdote is retained without a verifiable
+  source, say that explicitly and do not present it as an established fact.
 
 ## Trivia editorial standard
 

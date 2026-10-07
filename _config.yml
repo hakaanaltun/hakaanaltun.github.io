@@ -28,6 +28,9 @@ collections:
   words:
     output: true
     permalink: /word/:name/
+  pictures:
+    output: true
+    permalink: /pictures/:name/
 
 exclude:
   - Gemfile

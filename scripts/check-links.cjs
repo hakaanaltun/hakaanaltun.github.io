@@ -1,6 +1,6 @@
 /* The sources behind the site, checked from outside: every web address a word
- * story, a quiz question, an essay or a note cites, fetched to see that it is
- * still there. Run weekly by .github/workflows/links.yml, and by hand with
+ * or picture story, a quiz question, an essay or a note cites, fetched to see
+ * that it is still there. Run weekly by .github/workflows/links.yml, and by hand with
  * `npm run links`.
  *
  * This is not part of `npm test`. It depends on other people's servers, and a
@@ -30,8 +30,10 @@ const add = (url, file) => {
   cited.get(clean).add(file);
 };
 
-for (const file of list('_words', '.md')) {
-  for (const m of read(file).matchAll(/^\s+url:\s*"?([^"\s]+)"?\s*$/gm)) add(m[1], file);
+for (const [dir, ext] of [['_words', '.md'], ['_pictures', '.html']]) {
+  for (const file of list(dir, ext)) {
+    for (const m of read(file).matchAll(/^\s+url:\s*"?([^"\s]+)"?\s*$/gm)) add(m[1], file);
+  }
 }
 for (const file of list('_data/quizzes', '.json')) {
   for (const q of JSON.parse(read(file))) for (const url of q.sources || []) add(url, file);
