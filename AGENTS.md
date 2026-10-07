@@ -17,6 +17,7 @@ What that asks of every change:
   with them: the drawer lives in their own browser. The one thing the site
   asks for, an email address for new pieces, waits quietly at the end of an
   essay and is theirs to give.
+  The existing GoatCounter script is an exception, used to learn the site's total visit count.
 - **Never ask a reader to settle for less.** A half-made page, a drawing that
   does not work, a description that is not true: each tells the reader they
   were not worth the care. If something cannot be made well, it waits.
