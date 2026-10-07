@@ -355,9 +355,18 @@
   function renderDrawer(box) {
     var kept = KEEP.read().kept.map(current).reverse();
     box.appendChild(element('p', 'house-drawer-note', storageNote()));
-    var tools = element('div', 'house-drawer-tools');
-    var choices = [['backup', 'Download your drawer'], ['restore', 'Restore your drawer']];
+    /* Only what can be done: an empty drawer has nothing to download, and a
+       browser that cannot keep the drawer cannot take a restored one. */
+    if (!kept.length) {
+      var empty = element('div', 'house-empty-drawer');
+      empty.appendChild(element('p', '', 'Nothing here yet. Pick up a word card, read a line from the bookshelf, or try the question on the wall. On a word’s page, after a quiz answer, or when you select a line in an essay or the book, there is a way to keep it too.'));
+      box.appendChild(empty);
+    }
+    var choices = kept.length ? [['backup', 'Download your drawer']] : [];
+    if (KEEP.works()) choices.push(['restore', 'Restore your drawer']);
     if (kept.length) choices = choices.concat([['text', 'Download as text'], ['print', 'Print or save as PDF']]);
+    if (!choices.length) return;
+    var tools = element('div', 'house-drawer-tools');
     choices.forEach(function (pair) {
       var button = element('button', '', pair[1]);
       button.type = 'button';
@@ -373,13 +382,11 @@
     file.addEventListener('change', function () { restoreDrawer(file.files && file.files[0]); });
     tools.appendChild(file);
     box.appendChild(tools);
-    box.appendChild(element('p', 'house-drawer-note', 'Download a backup to keep or move to another browser. Restoring adds its contents to your drawer.'));
     if (!kept.length) {
-      var empty = element('div', 'house-empty-drawer');
-      empty.appendChild(element('p', '', 'Nothing here yet. Pick up a word card, read a line from the bookshelf, or try the question on the wall. On a word’s page, after a quiz answer, or when you select a line in an essay or the book, there is a way to keep it too.'));
-      box.appendChild(empty);
+      box.appendChild(element('p', 'house-drawer-note', 'If you downloaded your drawer in another browser, you can restore it here.'));
       return;
     }
+    box.appendChild(element('p', 'house-drawer-note', 'Download a backup to keep or move to another browser.' + (KEEP.works() ? ' Restoring adds its contents to your drawer.' : '')));
     kept.forEach(function (item) {
       var article = element('article', 'house-item');
       article.appendChild(element('p', 'house-item-kind', item.kind));

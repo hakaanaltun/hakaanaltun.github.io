@@ -1471,6 +1471,11 @@ body.moris-lightbox-open { overflow: hidden; }
 .essay-cover--typographic .type-cover-label { font-size: 0.74rem; }
 
 .essay-body { padding-bottom: 48px; }
+/* --reading-scale is the text size a reader picks in reading options
+   (js/reading-settings.js), and it is set only when they pick one. The fixed
+   sizes below are multiplied by it, so a larger setting keeps headings,
+   quotations and the piece note in proportion to the prose. Unset, each of
+   them is exactly the number written. */
 .essay-body p { margin-bottom: 24px; color: var(--ink-soft); line-height: 1.85; }
 .essay-body p:last-child { margin-bottom: 0; }
 
@@ -1482,11 +1487,11 @@ body.moris-lightbox-open { overflow: hidden; }
    and italicising the whole line would leave nothing for the title to be.
    The selector carries .essay-body because `.essay-body p` sets the prose
    colour and spacing and would otherwise outrank a lone class. */
-.essay-body p.piece-note { color: var(--vizon); font-size: 0.94rem; line-height: 1.6; margin-bottom: 28px; padding-bottom: 20px; border-bottom: 1px solid var(--rule); }
+.essay-body p.piece-note { color: var(--vizon); font-size: calc(0.94rem * var(--reading-scale, 1)); line-height: 1.6; margin-bottom: 28px; padding-bottom: 20px; border-bottom: 1px solid var(--rule); }
 .essay-body p.piece-note em { font-style: italic; }
-.essay-body h2 { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: 28px; color: var(--petrol); margin: 40px 0 16px; padding-top: 20px; border-top: 1px solid var(--rule); text-align: center; }
-.essay-body h3 { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: 24px; color: var(--petrol); margin: 32px 0 12px; text-align: center; }
-.essay-body blockquote { border-left: 2px solid var(--petrol); padding: 12px 0 12px 20px; margin: 28px 0; font-style: italic; font-size: 21px; color: var(--vizon); }
+.essay-body h2 { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: calc(28px * var(--reading-scale, 1)); color: var(--petrol); margin: 40px 0 16px; padding-top: 20px; border-top: 1px solid var(--rule); text-align: center; }
+.essay-body h3 { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: calc(24px * var(--reading-scale, 1)); color: var(--petrol); margin: 32px 0 12px; text-align: center; }
+.essay-body blockquote { border-left: 2px solid var(--petrol); padding: 12px 0 12px 20px; margin: 28px 0; font-style: italic; font-size: calc(21px * var(--reading-scale, 1)); color: var(--vizon); }
 .essay-body em { font-style: italic; }
 .essay-body strong, .essay-body b { font-weight: 500; }
 .essay-body hr {
@@ -1633,8 +1638,8 @@ body.moris-lightbox-open { overflow: hidden; }
 
 @media (max-width: 768px) {
   .essay-header { padding: 36px 0 24px; }
-  .essay-body blockquote { font-size: 19px; }
-  .essay-body h2 { font-size: 20px; }
+  .essay-body blockquote { font-size: calc(19px * var(--reading-scale, 1)); }
+  .essay-body h2 { font-size: calc(20px * var(--reading-scale, 1)); }
   .essay-section-divider { margin: 36px 0; }
   .essay-body hr { margin: 36px 0; }
 }

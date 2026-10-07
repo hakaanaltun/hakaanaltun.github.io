@@ -33,18 +33,17 @@
    on a reader's machine — that copy self-heals on its second load. */
 "use strict";
 
-var CACHE = "olae-tools-v36";
+var CACHE = "olae-tools-v37";
 
-/* Reader-selected copies survive every replacement of the tool shell. */
-var READING_PAGES = 'olae-reading-pages-v1';
-var READING_ASSETS = 'olae-reading-assets-v1';
-var ESSAY_PAGES = [
-  {% for post in site.posts %}{% unless post.series == "story" %}{ url: {{ post.url | jsonify }}, title: {{ post.title | jsonify }} },{% endunless %}{% endfor %}
-];
+/* Briefly in October 2026 this worker also kept offline copies of
+   pieces a reader saved, under these two names, and stood in front of every
+   page to serve them. That was taken out: the worker is back to the tools,
+   and the copies are cleared here on activation rather than left on readers'
+   machines. "Print or save as PDF" on a piece is the way to keep one. */
+var RETIRED = ["olae-reading-pages-v1", "olae-reading-assets-v1"];
 
 var TOOL_PAGES = [
   "/tools/",   /* the catalogue itself, so "all of them" works offline */
-  "/offline/", /* the reader's saved shelf and navigation fallback */
   {% for tool in site.data.tools %}"/{{ tool.slug }}/"{% unless forloop.last %}, {% endunless %}{% endfor %}
 ];
 
@@ -61,10 +60,6 @@ var TOOL_ASSETS = [
   "/js/text-tool-clear.js",
   "/css/style.css",   /* the catalogue page's stylesheet */
   "/css/fonts.css",
-  "/css/reading.css",
-  "/js/reading-settings.js",
-  "/js/reading-listen.js",
-  "/js/reading-offline.js",
   "/css/palettes.css",   /* the /themes/ wardrobe; the catalogue shell links it */
   "/css/search.css",   /* the drawer's and the strip's search fields, which every shell carries */
   /* /tools/ uses the site's default shell; keep its navigation and theme
@@ -100,65 +95,6 @@ var PRECACHE = TOOL_PAGES.concat(TOOL_ASSETS);
    same shelf once fetched. */
 var PDFJS_ROOT = "/js/vendor/pdfjs/";
 
-function resourceKey(url) {
-  return url.searchParams.has('v') ? url.pathname + '?v=' + url.searchParams.get('v') : url.pathname;
-}
-function readingResource(url) {
-  return url.origin === self.location.origin &&
-    (/^\/(css|js|fonts|images)\//.test(url.pathname) && url.pathname.indexOf(PDFJS_ROOT) !== 0 && url.pathname !== PDFJS_ROOT.slice(0, -1) ||
-     /^\/(manifest\.json|favicon[^/]*|apple-touch-icon[^/]*|on-icon[^/]*)$/.test(url.pathname));
-}
-async function savedPieces() {
-  var cache = await caches.open(READING_PAGES);
-  var keys = await cache.keys();
-  return Promise.all(keys.map(async function (request) {
-    var url = new URL(request.url);
-    var response = await cache.match(request);
-    var known = ESSAY_PAGES.find(function (piece) { return piece.url === url.pathname; });
-    var title = known ? known.title : 'Saved piece';
-    try { title = decodeURIComponent(response.headers.get('X-Reading-Title') || '') || title; } catch (e) {}
-    return { url: url.pathname, title: title };
-  }));
-}
-var readingQueue = Promise.resolve();
-self.addEventListener('message', function (e) {
-  var data = e.data;
-  var port = e.ports && e.ports[0];
-  if (!port || !data || ['LIST_READING', 'SAVE_READING', 'REMOVE_READING'].indexOf(data.type) < 0) return;
-  readingQueue = readingQueue.catch(function () {}).then(async function () {
-    if (data.type !== 'LIST_READING') {
-      var url = new URL(data.url, self.location.origin);
-      if (url.origin !== self.location.origin || url.search || url.hash) throw new Error('invalid page');
-      var pages = await caches.open(READING_PAGES);
-      if (data.type === 'REMOVE_READING') {
-        await pages.delete(url.pathname);
-        if (!(await pages.keys()).length) await caches.delete(READING_ASSETS);
-      } else {
-        var piece = ESSAY_PAGES.find(function (p) { return p.url === url.pathname; });
-        if (!piece || !Array.isArray(data.resources) || data.resources.length > 100) throw new Error('invalid page');
-        var resources = Array.from(new Set(data.resources.map(function (raw) {
-          var asset = new URL(raw, self.location.origin);
-          if (!readingResource(asset)) throw new Error('invalid resource');
-          return resourceKey(asset);
-        })));
-        var response = await fetch(url.pathname, { cache: 'reload' });
-        if (!response.ok || !(response.headers.get('Content-Type') || '').includes('text/html')) throw new Error('page unavailable');
-        var assets = await caches.open(READING_ASSETS);
-        await Promise.all(resources.map(async function (key) {
-          var asset = await fetch(key, { cache: 'reload' });
-          if (!asset.ok) throw new Error('asset unavailable');
-          await assets.put(key, asset);
-        }));
-        var headers = new Headers(response.headers);
-        headers.set('X-Reading-Title', encodeURIComponent(piece.title));
-        await pages.put(url.pathname, new Response(response.body, { status: response.status, statusText: response.statusText, headers: headers }));
-      }
-    }
-    port.postMessage({ ok: true, pieces: await savedPieces() });
-  });
-  e.waitUntil(readingQueue.catch(function () { port.postMessage({ ok: false }); }));
-});
-
 self.addEventListener("install", function(e){
   e.waitUntil(
     caches.open(CACHE)
@@ -172,7 +108,7 @@ self.addEventListener("activate", function(e){
     caches.keys().then(function(keys){
       /* only retire our own old versions — a future site-level cache
          under another prefix must survive this worker's activation */
-      return Promise.all(keys.filter(function(k){ return k.indexOf("olae-tools-") === 0 && k !== CACHE; })
+      return Promise.all(keys.filter(function(k){ return (k.indexOf("olae-tools-") === 0 && k !== CACHE) || RETIRED.indexOf(k) !== -1; })
                              .map(function(k){ return caches.delete(k); }));
     }).then(function(){ return self.clients.claim(); })
   );
@@ -183,23 +119,7 @@ self.addEventListener("fetch", function(e){
   var url = new URL(e.request.url);
   if(url.origin !== self.location.origin) return;
   var onUse = url.pathname.lastIndexOf(PDFJS_ROOT, 0) === 0;
-  var isTool = PRECACHE.indexOf(url.pathname) !== -1;
-  if (!onUse && !isTool && (e.request.mode === 'navigate' || ESSAY_PAGES.some(function (piece) { return piece.url === url.pathname; }))) {
-    /* A visit does not write a page. The chosen offline copy is a snapshot. */
-    e.respondWith(fetch(e.request).catch(async function () {
-      var pages = await caches.open(READING_PAGES);
-      return await pages.match(url.pathname) || await (await caches.open(CACHE)).match('/offline/') || Response.error();
-    }));
-    return;
-  }
-  if (!onUse && !isTool) {
-    if (readingResource(url)) {
-      e.respondWith(fetch(e.request).catch(async function () {
-        return await (await caches.open(READING_ASSETS)).match(resourceKey(url)) || Response.error();
-      }));
-    }
-    return;
-  }
+  if(!onUse && PRECACHE.indexOf(url.pathname) === -1) return;
 
   /* The key carries ?v= when the request has one. Keying on the bare
      pathname threw the site's own cache-busting away: head.html stamps
@@ -222,9 +142,7 @@ self.addEventListener("fetch", function(e){
           return res;
         /* Offline and this version was never cached: the copy from the
            install, under the bare pathname, is the honest fallback. */
-        }).catch(async function(){
-          return hit || await (await caches.open(READING_ASSETS)).match(key) || c.match(url.pathname);
-        });
+        }).catch(function(){ return hit || c.match(url.pathname); });
         return hit || refresh;
       });
     })

@@ -141,6 +141,29 @@ function fresh(body,wide){
   page.window.eval(script);
   return page;
 }
+// The launch waits at the foot of the piece; opening it takes the reader up
+// to the head of the prose. The target is the article, not the panel: the
+// panel is sticky, so from the foot it already counts as in view and
+// scrolling to it went nowhere. Leaving from the panel keeps focus at the
+// head of the prose; leaving from the launch keeps it on the launch.
+{
+  const page=fresh('<article class="essay-body"><p>One sentence here. And another one.</p></article><div class="essay-puzzle-wrap"><button id="essay-puzzle" hidden>puzzle mode</button></div>');
+  const doc=page.window.document,launch=doc.getElementById('essay-puzzle'),article=doc.querySelector('article');
+  const scrolled=[];
+  page.window.HTMLElement.prototype.scrollIntoView=function(options){scrolled.push([this,options]);};
+  launch.focus();launch.click();
+  assert.equal(scrolled.length,1);
+  assert.equal(scrolled[0][0],article,'scrolls to the article, where the panel sits');
+  assert.equal(scrolled[0][1].block,'start');
+  doc.querySelector('.puzzle-panel .puzzle-action').click();
+  assert.equal(doc.activeElement,article,'leaving from the panel keeps focus at the head of the prose');
+  assert.equal(article.getAttribute('tabindex'),'-1');
+  launch.focus();
+  assert.equal(article.hasAttribute('tabindex'),false,'the article is focusable only while it holds focus');
+  launch.click();launch.focus();launch.click();
+  assert.equal(doc.activeElement,launch,'leaving from the launch keeps focus on it');
+  page.window.close();
+}
 // Measured's Turkish working plans stay intact in every puzzle scope.
 {
   const measured=fs.readFileSync(require('node:path').join(__dirname,'../_posts/2026-08-29-measured.html'),'utf8')
@@ -467,4 +490,4 @@ function fresh(body,wide){
   }
   page.window.close();
 }
-console.log('Puzzle mode checks passed: three scopes, isolated sentence boards, placement visibility with actual CSS, mode switching, comparison, tap/drag/swap/return, Escape, rail controls and exact restoration.');
+console.log('Puzzle mode checks passed: three scopes, isolated sentence boards, placement visibility with actual CSS, mode switching, comparison, tap/drag/swap/return, Escape, rail controls, opening from the foot at the head of the prose, and exact restoration.');

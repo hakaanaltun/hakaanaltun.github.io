@@ -134,6 +134,11 @@
     return found;
   }
   function restore(){
+    /* The launch waits at the foot of the piece. Left from there, focus stays
+       on it; left from the panel or with Escape, the reader is at the head of
+       the prose, so focus comes to rest there instead of at the foot, where
+       the next Tab would have thrown the page down to it. */
+    var fromLaunch=document.activeElement===launch;
     records.forEach(function(record){
       if(record.view && record.view!==record.original && record.view.parentNode)record.view.replaceWith(record.original);
     });
@@ -142,7 +147,9 @@
     if(panel)panel.remove();panel=message=null;
     phase='reading';article.classList.remove('puzzle-active');
     launch.textContent='puzzle mode';launch.setAttribute('aria-pressed','false');
-    launch.focus({preventScroll:true});
+    if(fromLaunch){launch.focus({preventScroll:true});return;}
+    article.tabIndex=-1;article.focus({preventScroll:true});
+    article.addEventListener('blur',function(){article.removeAttribute('tabindex');},{once:true});
   }
   function setPanel(){
     panel=el('div','puzzle-panel');panel.setAttribute('role','group');panel.setAttribute('aria-label','Puzzle controls');
@@ -424,7 +431,12 @@
     phase='open';article.classList.add('puzzle-active');
     launch.textContent='leave puzzle mode';launch.setAttribute('aria-pressed','true');
     setPanel();renderPreviews();
-    panel.scrollIntoView({block:'start',behavior:'instant'});
+    /* The launch is at the foot and the puzzle starts at the head, so opening
+       it takes the reader up to the first paragraph. The panel cannot be the
+       target: it is sticky, so seen from the foot it is already in view,
+       pinned under the header, and scrolling to it went nowhere. The article
+       is where the panel really sits. */
+    article.scrollIntoView({block:'start',behavior:'instant'});
     focusCue(article.querySelector('.puzzle-preview'));
   }
   function makeBoard(record,index){

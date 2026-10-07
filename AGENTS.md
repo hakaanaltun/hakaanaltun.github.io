@@ -256,6 +256,25 @@ The site has two deliberate ideas of place. Do not collapse them into one.
 - `scripts/test-window-sky.cjs` checks the star data, both instruments and
   Tonight.
 
+## Reading options
+
+- **"Original" is the published page.** Text size and line spacing change a
+  piece only after a reader picks something else: `js/reading-settings.js`
+  sets `data-reading-size` and `data-reading-spacing` on `<html>` for a
+  choice, and every rule in `css/reading.css` that changes the prose waits
+  for one. The fixed sizes of headings, quotations and the piece note in
+  `style.css` are multiplied by `--reading-scale`, so a larger setting keeps
+  them in proportion. `scripts/test-reading.cjs` fails on an ungated rule.
+- **"read with rain" stays under the title**, not in the menu: rain that is
+  falling has to show where it can be stopped.
+- **Puzzle mode waits at the foot of a piece** and opens at its head. Its
+  panel is sticky, so the scroll aims at the article, not at the panel.
+- **Listening and offline saving were tried and taken out** in October 2026.
+  Device voices are not on every device, and offline copies put the service
+  worker in front of every page. "Print or save as PDF" is the way to keep
+  a piece. Do not add them back unless the author asks; listening that works
+  for everyone would need recorded audio.
+
 ## Punctuation
 
 - **Em dashes are closed up: word—word, not word — word.** The essays are
