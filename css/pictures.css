@@ -1,7 +1,7 @@
 /* Pictures use the Farm House's quiet frame, optional hints and close view.
-   The page is the painting's own paper, the median of its edges, so the
-   torn edge of the wash meets paper rather than a lighter rectangle. */
-.picture-page { --picture-paper:#eee2cd; --picture-ink:#373b32; --picture-quiet:#676b5e; --picture-line:#c9cabc; --picture-accent:#58634c; margin:0; color:var(--picture-ink); background:var(--picture-paper); font-family:'EB Garamond',Georgia,serif; -webkit-font-smoothing:antialiased; }
+   The page is the site's own light paper, so the painting stands on it as a
+   sheet, as it does on the homepage and the section's index. */
+.picture-page { --picture-paper:#fdfcf8; --picture-ink:#373b32; --picture-quiet:#676b5e; --picture-line:#c9cabc; --picture-accent:#58634c; margin:0; color:var(--picture-ink); background:var(--picture-paper); font-family:'EB Garamond',Georgia,serif; -webkit-font-smoothing:antialiased; }
 .picture-page *, .picture-index * { box-sizing:border-box; }
 .picture-page [hidden] { display:none!important; }
 .picture-page button { font:inherit; color:inherit; cursor:pointer; }
@@ -17,17 +17,7 @@
 .picture-intro { font-size:18px; line-height:1.5; text-align:center; margin:0 auto 24px; max-width:620px; }
 .picture-intro p { margin:0; }
 .picture-frame { position:relative; width:min(100%,1080px,max(500px,calc((100svh - 300px)*1.5))); margin:auto; isolation:isolate; }
-.picture-image { display:block; width:100%; height:auto; user-select:none; }
-/* The paper's own grain still varies along the edge, so the last few
-   percent fade out instead of ending in a straight line. Only here, where
-   the page is the paper: on the section's index the page follows the
-   reader's theme, and a fade into a dark page reads as a blur. */
-.picture-image {
-  -webkit-mask-image:linear-gradient(to right,transparent,#000 2.5%,#000 97.5%,transparent),linear-gradient(to bottom,transparent,#000 3.5%,#000 96.5%,transparent);
-  -webkit-mask-composite:source-in;
-  mask-image:linear-gradient(to right,transparent,#000 2.5%,#000 97.5%,transparent),linear-gradient(to bottom,transparent,#000 3.5%,#000 96.5%,transparent);
-  mask-composite:intersect;
-}
+.picture-image { display:block; width:100%; height:auto; border-radius:3px; user-select:none; }
 .picture-hotspots { position:absolute; inset:0; }
 .picture-hotspot { position:absolute; left:var(--spot-x); top:var(--spot-y); transform:translate(-50%,-50%); width:64px; height:64px; min-width:44px; min-height:44px; border:0; border-radius:50%; background:transparent; padding:0; display:grid; place-items:center; -webkit-tap-highlight-color:transparent; }
 /* The places show as faint dots from the first look, on every screen, so a
