@@ -173,11 +173,19 @@ layout: home
   <a class="home-instruments-all" href="/tools/">See them all <span aria-hidden="true">&rarr;</span></a>
 </section>
 
-<section id="tonight" class="tonight-strip" aria-label="Tonight's sky" hidden>
-  <p class="tonight-line">
-    <span class="tonight-word">Tonight</span>
-    <a href="/twilight/" class="tonight-link" id="tonight-sun"></a>
-    <span class="tonight-sep" aria-hidden="true">·</span>
-    <a href="/moon/" class="tonight-link" id="tonight-moon"></a>
-  </p>
+<section id="tonight" class="home-tonight" aria-label="Tonight" hidden>
+  {% include section-header.html title="Tonight" subtitle="" %}
+  <p class="tonight-meta" id="tonight-meta"></p>
+  <div class="tonight-body">
+    <a class="tonight-map-link" id="tonight-map-link" href="/stars/" hidden>
+      <svg class="tonight-map" id="tonight-map" viewBox="0 0 600 600" role="img" aria-label="Tonight&rsquo;s sky"><title>Tonight&rsquo;s sky</title></svg>
+    </a>
+    <ul class="tonight-facts">
+      <li id="tonight-sun-row"><a class="tonight-row" href="/sun/"><span class="tonight-key">The sun</span><span class="tonight-value" id="tonight-sun"></span></a></li>
+      <li><a class="tonight-row" href="/moon/"><span class="tonight-key">The moon</span><span class="tonight-value" id="tonight-moon"></span></a></li>
+      <li id="tonight-planets-row" hidden><a class="tonight-row" href="/stars/"><span class="tonight-key">Planets</span><span class="tonight-value" id="tonight-planets"></span></a></li>
+      <li id="tonight-look-row" hidden><a class="tonight-row" href="/stars/"><span class="tonight-key">Look for</span><span class="tonight-value" id="tonight-look"></span></a></li>
+    </ul>
+  </div>
+  <a class="home-instruments-all" href="/stars/">See the whole sky <span aria-hidden="true">&rarr;</span></a>
 </section>

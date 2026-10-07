@@ -189,6 +189,23 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert(a.q('#house-dialog-content a[href="/sun/?city=istanbul"]'), 'the sun stays in İstanbul');
   assert(a.q('#house-dialog-content a[href="/stars/?city=istanbul"]'), 'the stars stay in İstanbul');
   a.click('#house-close');
+  // After dark the window names the planets that are up, from the
+  // ephemeris The Stars uses, loaded only when the window is opened.
+  for (const [at, planets] of [['2026-10-07T19:30:00Z', /PlanetsSaturn in the southeast/], ['2026-10-07T10:00:00Z', null]]) {
+    const n = page('house/index.html', 'https://hakanaltun.io/house/');
+    const NativeDate = n.w.Date;
+    n.w.Date = class extends NativeDate { constructor(...args) { super(...(args.length ? args : [at])); } static now() { return new NativeDate(at).getTime(); } };
+    n.w.eval(read(root, 'js', 'vendor', 'astronomy-engine-2.1.19.min.js'));
+    n.w.eval(read(root, 'js', 'sky-map.js'));
+    for (const name of ['keep', 'astronomy', 'house']) n.w.eval(scripts[name]);
+    await tick();
+    n.click('[data-open="window"]');
+    await tick();
+    const text = n.q('#house-dialog-content').textContent;
+    if (planets) assert.match(text, planets);
+    else assert.doesNotMatch(text, /Planets/, 'no planets by day');
+    n.dom.window.close();
+  }
   // The moon is in the window only while it is above İstanbul's horizon.
   // Altitudes from PyEphem, airless, for the moon's centre.
   const A = a.w.OLAE_ASTRO;
@@ -425,5 +442,5 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.equal(t.q('canvas.cursor-trail'), null, 'and none for a reader who asked for less motion');
   t.dom.window.close();
 
-  console.log('House: catalog and addresses, daily room, keeping from the room and from words, quizzes, the book and essays, legacy and hostile records, blocked storage, arrivals, #drawer, export, the moon, weather at the window, and the pointer\'s trail passed.');
+  console.log('House: catalog and addresses, daily room, keeping from the room and from words, quizzes, the book and essays, legacy and hostile records, blocked storage, arrivals, #drawer, export, the moon, the planets after dark, weather at the window, and the pointer\'s trail passed.');
 })().catch((error) => { console.error(error); process.exit(1); });

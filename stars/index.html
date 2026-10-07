@@ -7,34 +7,79 @@ layout: null
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The Stars — Your Sky Now · On Life &amp; Everything</title>
-<meta name="description" content="Bright stars, constellations and planets above your horizon, calculated for your current time. A small sky map that follows your device's time zone.">
+<meta name="description" content="Bright stars, constellations, the moon and the planets above your horizon, calculated for your current time. A sky map that follows your device's time zone.">
 <link rel="canonical" href="https://hakanaltun.io/stars/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="The Stars — Your Sky Now">
+<meta property="og:description" content="Tonight's stars, constellations, moon and planets above your horizon—drawn in your browser.">
+<meta property="og:url" content="https://hakanaltun.io/stars/">
+<meta property="og:image" content="https://hakanaltun.io/images/og/stars.png?v=20261007-1">
+<meta property="og:image:alt" content="The Stars — tonight's stars and planets, drawn in your browser">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Stars — Your Sky Now">
+<meta name="twitter:description" content="Tonight's stars, constellations, moon and planets above your horizon—drawn in your browser.">
+<meta name="twitter:image" content="https://hakanaltun.io/images/og/stars.png?v=20261007-1">
 <meta name="theme-color" content="#101720">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "@id": "https://hakanaltun.io/stars/#app",
+  "name": "The Stars — Your Sky Now",
+  "url": "https://hakanaltun.io/stars/",
+  "description": "A map of the stars, constellation figures, the moon and the five bright planets above your horizon, drawn in your browser for your time zone or a chosen city.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "browserRequirements": "Requires JavaScript",
+  "isAccessibleForFree": true,
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Hakan Altun",
+    "url": "https://hakanaltun.io/"
+  },
+  "inLanguage": "en"
+}
+</script>
 <link rel="stylesheet" href="/css/fonts.css?v=20260710-1">
-<link rel="stylesheet" href="/css/window-sky.css?v=20261007-1">
+<link rel="stylesheet" href="/css/window-sky.css?v=20261007-3">
 </head>
 <body data-sky-tool="stars">
-<nav class="chrome" aria-label="Site"><a class="back" href="/tools/">instruments</a><a class="brand" href="/">On Life &amp; Everything</a></nav>
+<div class="chrome" id="chrome">
+  <a class="tools-link" href="/tools/" aria-label="All the instruments">&larr;&#8202;instruments</a>
+  <a class="masthead" href="/" aria-label="On Life &amp; Everything — home">
+    <span class="home-brand">On Life &amp; Everything</span>
+    <span class="home-tagline">Essays, short fiction, and other writing.</span>
+  </a>
+  <button class="icon-btn" id="fsBtn" type="button" title="Fullscreen" aria-label="Fullscreen">&#10530;</button>
+</div>
 <main class="app">
   <div class="heading">
     <div><h1>The Stars</h1><p class="place" id="place">Reading your sky…</p></div>
     <label class="city-control">Sky over <select id="city" aria-label="Choose a city"><option value="">Your time zone</option>{% for c in site.data.cities %}<option value="{{ c.slug }}">{{ c.name }}</option>{% endfor %}</select></label>
   </div>
   <p class="moment" id="moment"></p>
-  <div class="sky-controls"><button id="live" type="button" aria-pressed="true">Now</button><label for="hour">Look ahead <input id="hour" type="range" min="0" max="1439" step="1" aria-label="Time of day"><output id="chosen-time" for="hour"></output></label></div>
+  <div class="sky-controls"><button id="live" type="button" aria-pressed="true">Now</button><label for="hour">Look ahead <input id="hour" type="range" min="0" max="1440" step="10" value="0" aria-label="Minutes from now"><output id="chosen-time" for="hour"></output></label></div>
   <p class="sky-notice" id="sky-notice"></p>
   <div class="sky-layout">
-    <div><svg id="sky-map" class="sky-map" viewBox="0 0 600 600" role="img" aria-label="Bright stars and planets above the horizon"><title>Your sky now</title></svg><p class="caption">Look up. North is at the top, east on the left. The edge is the horizon; the center is directly overhead.</p></div>
-    <div class="sky-list"><section><h2>Planets</h2><div id="planets"></div></section><section><h2>Constellations</h2><div id="constellations"></div></section></div>
+    <div><svg id="sky-map" class="sky-map" viewBox="0 0 600 600" role="img" aria-label="Stars and planets above the horizon"><title>Your sky now</title></svg><p class="caption">Look up. North is at the top, east on the left. The edge is the horizon; the center is directly overhead.</p></div>
+    <div class="sky-list"><section><h2>Moon and planets</h2><div id="planets"></div></section><section><h2>Constellations</h2><div id="constellations"></div></section></div>
   </div>
 </main>
 <noscript><p class="noscript">Turn on JavaScript to calculate your sky.</p></noscript>
-<footer class="notes"><h2>What is above you</h2><p>The map opens at your current time and follows your clock. To explore later today, move the time slider. Press Now to return to the live sky.</p><p>This is a selection of bright stars, down to magnitude 3, with the five planets visible to the unaided eye. Only objects above the horizon are drawn. The constellation list names the regions containing the highest bright stars, with a star to look for in each.</p><p>Daylight, clouds, moonlight and city lights affect what you can see. Near the horizon, buildings and hills may hide an object. A planet close to the sun can be lost in its glare even after sunset.</p><p>Your device’s time zone chooses a nearby city. You can change it above. Star positions come from the <a href="https://cdsarc.cds.unistra.fr/viz-bin/cat/V/50">Yale Bright Star Catalogue</a>; coordinates are adjusted for the date. Planet positions and coordinate transformations use <a href="https://github.com/cosinekitty/astronomy">Astronomy Engine</a>. Everything runs in your browser.</p>{% include tool-links.html slug="stars" %}</footer>
+<footer class="notes"><h2>What is above you</h2><p>The map opens at your current time and follows your clock. To see the sky later, move the slider; it reaches a day ahead, through the night. Press Now to return to the live sky.</p><p>The map shows the stars down to magnitude 4.5, the figures of the constellations, the moon in its phase and the five planets visible to the unaided eye. Only what is above the horizon is drawn. The list names the constellations whose brightest star is high enough to find, with that star to look for.</p><p>Two variable stars are left off the map because their brightness changes by many magnitudes over a year: Mira in Cetus and Chi Cygni. So is T Coronae Borealis: the catalogue gives it the brightness of its outburst in 1866, and it is usually far too faint to see.</p><p>Daylight, clouds, moonlight and city lights affect what you can see. Near the horizon, buildings and hills may hide an object. A planet close to the sun can be lost in its glare even after sunset.</p><p>Your device’s time zone chooses a nearby city. You can change it above. Star positions come from the <a href="https://cdsarc.cds.unistra.fr/viz-bin/cat/V/50">Yale Bright Star Catalogue</a>, adjusted for the date, and star names from the <a href="https://iauarchive.eso.org/public/themes/naming_stars/">International Astronomical Union</a>. The constellation figures are those of <a href="https://github.com/ofrohn/d3-celestial">d3-celestial</a>, drawn after the IAU and Sky &amp; Telescope charts. The moon, the planets and the coordinate transformations use <a href="https://github.com/cosinekitty/astronomy">Astronomy Engine</a>. Everything runs in your browser.</p>{% include tool-links.html slug="stars" %}</footer>
 {% include window-observer.html %}
 <script src="/js/astronomy.js?v=20261007-1"></script>
-<script src="/js/vendor/astronomy-engine-2.1.19.min.js"></script>
-<script src="/js/bright-stars.js?v=20261007-1"></script>
-<script src="/js/sky-instruments.js?v=20261007-1"></script>
+<script src="{{ site.data.sky_scripts.engine }}"></script>
+<script src="{{ site.data.sky_scripts.stars }}"></script>
+<script src="{{ site.data.sky_scripts.map }}"></script>
+<script src="/js/sky-instruments.js?v=20261007-4"></script>
 <script>if("serviceWorker" in navigator){navigator.serviceWorker.register("/sw.js").catch(function(){});}</script>
 </body>
 </html>

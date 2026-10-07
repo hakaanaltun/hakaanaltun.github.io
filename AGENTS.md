@@ -213,10 +213,11 @@ again.
 The site has two deliberate ideas of place. Do not collapse them into one.
 
 - **The general site follows the visitor's sky.** The Follow the Sky theme,
-  `/twilight/`, and the homepage Tonight line read the browser-reported IANA
-  time zone and resolve it through `_data/cities.yml`. No location permission
-  is requested. If the zone is unknown, keep the existing nominal-equatorial
-  fallback rather than pretending to know the visitor's latitude.
+  `/twilight/`, `/sun/`, `/stars/` and the homepage's Tonight read the
+  browser-reported IANA time zone and resolve it through `_data/cities.yml`.
+  No location permission is requested. If the zone is unknown, keep the
+  existing nominal-equatorial fallback rather than pretending to know the
+  visitor's latitude.
 - **The House is in İstanbul.** Its calendar day, light, sunrise and sunset,
   moon visibility, room period, Moris's movement, wall clock, and any future
   outdoor space such as the balcony all use İstanbul time and coordinates
@@ -231,6 +232,29 @@ The site has two deliberate ideas of place. Do not collapse them into one.
 - The moon's phase itself is global at a given instant, but whether the moon is
   above the House's horizon is an İstanbul calculation. Do not confuse phase
   with local visibility.
+- For an unknown zone, Tonight gives only the sun's times and the moon's
+  phase. A map or a compass direction would claim a place the site does not
+  know.
+
+## The Sun, The Stars and Tonight
+
+- **`js/bright-stars.js` is generated.** Change `scripts/build_sky_data.py`
+  and run it with the three pinned sources named at its top: the Bright Star
+  Catalogue, the IAU's catalogue of star names and d3-celestial's
+  constellation lines. Do not edit the data by hand. T Coronae Borealis is
+  left out, because the catalogue gives it the brightness of its 1866
+  outburst, and Mira and chi Cygni are not drawn, because their brightness
+  on a given night is unknown. The notes on `/stars/` say so.
+- **One sky, three places.** `js/sky-map.js` works out and draws the sky for
+  `/stars/`, the homepage's Tonight and the window in The House, so they
+  never disagree. Its scripts and their `?v=` are listed once, in
+  `_data/sky_scripts.yml`. The homepage fetches them when Tonight comes near;
+  The House only when its window is opened after dark.
+- The moon's phase name and percentage come from `js/astronomy.js`
+  everywhere, so The Moon, The House, Tonight and The Stars give the same
+  moon. Positions of the moon and planets come from Astronomy Engine.
+- `scripts/test-window-sky.cjs` checks the star data, both instruments and
+  Tonight.
 
 ## Punctuation
 

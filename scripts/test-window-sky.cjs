@@ -18,9 +18,34 @@ function page(slug,{city='istanbul',zone='Europe/Istanbul',instant=FIXED}={}){
   w.setInterval=()=>0;
   w.document.querySelectorAll('script:not([src])').forEach(s=>{if(s.textContent.includes('OLAE_OBSERVER'))w.eval(s.textContent);});
   w.eval(source('js/astronomy.js'));
-  if(slug==='stars'){w.eval(source('js/vendor/astronomy-engine-2.1.19.min.js'));w.eval(source('js/bright-stars.js'));}
+  if(slug==='stars'){w.eval(source('js/vendor/astronomy-engine-2.1.19.min.js'));w.eval(source('js/bright-stars.js'));w.eval(source('js/sky-map.js'));}
   w.eval(source('js/sky-instruments.js'));
   return {dom,w,q:id=>w.document.getElementById(id)};
+}
+const rows=(p,id)=>[...p.q(id).querySelectorAll('.object-row')].map(r=>r.textContent);
+const labels=p=>[...p.q('sky-map').querySelectorAll(':scope > text:not(.cardinal)')].map(t=>t.textContent);
+
+// The star data: proper designations, IAU names, nothing the sky does not show.
+{
+  const context={window:{}};vm.createContext(context);
+  vm.runInContext(source('js/bright-stars.js'),context);
+  const stars=context.window.OLAE_STARS,lines=context.window.OLAE_CONSTELLATION_LINES;
+  const byHr=new Map(stars.map(s=>[s[0],s]));
+  assert(stars.length>900,'stars to magnitude 4.5');
+  for(const s of stars){
+    assert(s.length===5||s.length===6,'row shape '+s[0]);
+    assert(s[1]>=0&&s[1]<24&&s[2]>=-90&&s[2]<=90,'position '+s[0]);
+    assert(s[3]===null||typeof s[3]==='number','magnitude '+s[0]);
+    assert.match(s[4],/^([α-ω][¹²³⁴⁵⁶⁷⁸⁹]*|\d+) [A-Z][A-Za-z]{2}$|^HR \d+$/,'designation '+s[4]);
+  }
+  for(const [hr,designation,name] of [[15,'α And','Alpheratz'],[936,'β Per','Algol'],[1791,'β Tau','Elnath'],[4915,'α² CVn','Cor Caroli'],[603,'γ¹ And','Almach'],[1903,'ε Ori','Alnilam']]){
+    assert.equal(byHr.get(hr)[4],designation);assert.equal(byHr.get(hr)[5],name);
+  }
+  assert(!byHr.has(5958),'T CrB is not a second-magnitude star');
+  assert(!byHr.has(7564),'chi Cyg is not drawn');
+  assert.equal(byHr.get(681)[3],null,'Mira stays only as a point on its line');
+  assert(Object.keys(lines).length===88&&lines.Ser.length===2,'every constellation, Serpens in two parts');
+  for(const chain of Object.values(lines).flat())for(const hr of chain)assert(byHr.has(hr),'line star '+hr);
 }
 // The device's zone chooses a city, and the current instant is the default.
 for(const [zone,name,time] of [['Europe/Istanbul','İstanbul','07:08'],['Europe/London','London','05:08'],['Australia/Sydney','Sydney','15:08']]){
@@ -38,20 +63,58 @@ for(const city of ['unlisted','__proto__','constructor']){
   assert(p.q('place').textContent.includes('nominal'));
   p.dom.window.close();
 }
+// The sun below the horizon reads with a minus sign, and the path below
+// is drawn as whole dashed runs either side of the day.
+{
+  const p=page('sun',{instant:'2026-10-07T20:30:00Z'});
+  assert(p.q('height').textContent.startsWith('−'),'a true minus');
+  assert([...p.q('sun-chart').querySelectorAll('text')].some(t=>t.textContent==='−90°'));
+  assert.equal(p.q('sun-chart').querySelectorAll('.sun-path.below').length,2);
+  assert.equal(p.q('sun-chart').querySelectorAll('.sun-path:not(.below)').length,1);
+  p.dom.window.close();
+}
 {
   const p=page('stars');
   assert.equal(p.q('live').getAttribute('aria-pressed'),'true');
   assert(p.q('moment').textContent.includes('07:08'));
-  assert.equal(Number(p.q('hour').value),428);
-  assert(p.q('sky-map').querySelectorAll('.star').length>0);
+  assert.equal(Number(p.q('hour').value),0);
+  assert(p.q('sky-map').querySelectorAll('.star').length>200);
+  assert(p.q('sky-map').querySelector('path.constellation').getAttribute('d').length>100,'the figures');
   assert(p.q('constellations').children.length>0);
-  p.q('hour').value=21*60;p.q('hour').dispatchEvent(new p.w.Event('input'));
-  assert(p.q('moment').textContent.includes('21:00'));
+  // The slider looks ahead from now, through midnight if need be.
+  p.q('hour').value=840;p.q('hour').dispatchEvent(new p.w.Event('input'));
+  assert(p.q('moment').textContent.includes('21:10'));
+  assert(p.q('moment').textContent.includes('in 14 h'));
   assert.equal(p.q('live').getAttribute('aria-pressed'),'false');
   assert(!p.q('sky-notice').textContent.includes('Daylight'));
-  p.q('hour').value=12*60;p.q('hour').dispatchEvent(new p.w.Event('input'));
+  p.q('hour').value=1200;p.q('hour').dispatchEvent(new p.w.Event('input'));
+  assert(p.q('moment').textContent.startsWith('October 8, 2026 · 03:10'),'tomorrow before dawn');
+  p.q('hour').value=300;p.q('hour').dispatchEvent(new p.w.Event('input'));
   assert(p.q('sky-notice').textContent.includes('Daylight'));
+  assert(p.q('sky-map').querySelector('.sun'),'the sun is drawn by day');
   p.q('live').click();assert(p.q('moment').textContent.includes('07:08'));
+  p.dom.window.close();
+}
+// Before dawn the waning moon is up in the east, lit on the side of the
+// sun below the eastern horizon: on a map seen from below, to the left.
+{
+  const p=page('stars',{instant:'2026-10-07T02:30:00Z'});
+  assert.match(rows(p,'planets')[0],/^The MoonWaning crescent, \d+% lit\d+° E/);
+  const turn=Number(p.q('sky-map').querySelector('.moon-lit').parentNode.getAttribute('transform').match(/rotate\((-?[\d.]+)\)/)[1]);
+  assert(Math.cos(turn*Math.PI/180)<-0.7,'lit toward the east, not '+turn);
+  assert(labels(p).includes('Moon'));
+  assert(!p.q('sky-map').querySelector('.sun'),'no sun at night');
+  assert(p.q('sky-notice').textContent.startsWith('Night'));
+  p.dom.window.close();
+}
+// At midday Mercury and Venus stand close together: every planet keeps its
+// label, and Boötes keeps its diaeresis.
+{
+  const p=page('stars',{instant:'2026-10-07T09:30:00Z'});
+  const planets=rows(p,'planets').map(r=>r.match(/^(The Moon|Mercury|Venus|Mars|Jupiter|Saturn)/)[1]).filter(n=>n!=='The Moon');
+  assert(planets.includes('Mercury')&&planets.includes('Venus'));
+  for(const planet of planets)assert(labels(p).includes(planet),planet+' is labelled');
+  assert(rows(p,'constellations').some(r=>r.startsWith('Boötes')));
   p.dom.window.close();
 }
 // A polar day and night give honest no-event labels and finite readings.
@@ -79,4 +142,50 @@ for(const month of [0,3,6,9])for(const hour of [0,6,12,18]){
   if(Math.abs(pos.altitude)<85)assert(Math.abs((pos.azimuth-h.azimuth+540)%360-180)<.3);
   assert.equal(A.sunAltitude(now,lat,lng),pos.altitude);
 }
-console.log('Window sky checks passed: visitor clock, city/fallback, live time and slider, daylight, polar events and solar bearings.');
+// The homepage's Tonight: the sun and the moon at once, then the map and
+// the planets from The Stars' own scripts, asked for only for a known city.
+async function home(zone,instant){
+  const dom=new JSDOM(fs.readFileSync(path.join(built,'index.html'),'utf8'),{url:'https://hakanaltun.io/',runScripts:'outside-only'});
+  const w=dom.window,NativeDate=w.Date,NativeIntl=w.Intl;
+  w.Date=class extends NativeDate{constructor(...args){super(...(args.length?args:[instant]));}static now(){return new NativeDate(instant).getTime();}};
+  w.Intl={DateTimeFormat:function(...args){const fmt=new NativeIntl.DateTimeFormat(...args);if(!args.length)fmt.resolvedOptions=()=>({timeZone:zone});return fmt;}};
+  const requested=[];
+  const append=w.document.head.appendChild.bind(w.document.head);
+  w.document.head.appendChild=el=>{if(el.tagName==='SCRIPT'){requested.push(el.getAttribute('src'));setTimeout(()=>el.onload(),0);return el;}return append(el);};
+  const inline=[...w.document.querySelectorAll('script:not([src])')].map(s=>s.textContent);
+  w.eval(inline.find(s=>s.includes('OLAE_SKY =')));
+  w.eval(source('js/astronomy.js'));
+  w.eval(source('js/vendor/astronomy-engine-2.1.19.min.js'));w.eval(source('js/bright-stars.js'));w.eval(source('js/sky-map.js'));
+  w.eval(inline.find(s=>s.includes('Tonight —')));
+  for(let i=0;i<5;i++)await new Promise(r=>setTimeout(r,0));
+  const q=id=>w.document.getElementById(id);
+  return {dom,q,requested,rows:[...w.document.querySelectorAll('.tonight-facts li:not([hidden])')].map(li=>li.textContent)};
+}
+(async()=>{
+  {
+    const h=await home('Europe/Istanbul','2026-10-07T19:30:00Z');
+    assert.equal(h.q('tonight').hidden,false);
+    assert.equal(h.q('tonight-meta').textContent,'The sky over İstanbul · now');
+    assert.deepEqual(h.rows,['The sunrises at 07:07','The moonwaning crescent, 14% lit; rises at 04:33','PlanetsSaturn in the southeast','Look forDeneb, in Cygnus, high in the west']);
+    assert.equal(h.q('tonight-map-link').hidden,false);
+    assert(h.q('tonight-map').querySelectorAll('.star').length>200,'the map');
+    const yml=source('_data/sky_scripts.yml');
+    assert.deepEqual(h.requested,['engine','stars','map'].map(k=>yml.match(new RegExp('^'+k+': (.+)$','m'))[1]),'The Stars\' own scripts, at their versions');
+    h.dom.window.close();
+  }
+  {
+    const h=await home('Europe/Istanbul','2026-10-07T07:30:00Z');
+    assert.equal(h.q('tonight-meta').textContent,'The sky over İstanbul · after dark, 19:40');
+    assert.equal(h.rows[0],'The sunsets at 18:37');
+    h.dom.window.close();
+  }
+  {
+    const h=await home('Atlantic/Azores','2026-10-07T19:30:00Z');
+    assert.equal(h.q('tonight-meta').textContent,'Times for your time zone');
+    assert.deepEqual(h.rows,['The sunrises at 05:44','The moonwaning crescent, 14% lit']);
+    assert.equal(h.q('tonight-map-link').hidden,true);
+    assert.deepEqual(h.requested,[],'no map without a place');
+    h.dom.window.close();
+  }
+  console.log('Window sky checks passed: star data and names, visitor clock, city/fallback, minus signs and dashed runs, a slider through the night, the moon toward the sun, every planet labelled, Tonight on the homepage, daylight, polar events and solar bearings.');
+})().catch(e=>{console.error(e);process.exit(1);});
