@@ -340,6 +340,18 @@ function main() {
     assert.equal(kit.blanks().length, 0);
   }
 
+  // A press on the strip keeps the box in focus, so nothing on the strip moves
+  // under the pointer and "read the original" works on the first press.
+  {
+    const kit = build();
+    kit.trigger.click();
+    kit.actions().forEach((button) => {
+      const down = new kit.w.MouseEvent('mousedown', { bubbles: true, cancelable: true });
+      button.dispatchEvent(down);
+      assert.equal(down.defaultPrevented, true, 'pressing "' + button.textContent + '" keeps the box in focus');
+    });
+  }
+
   // A second round starts clean rather than on top of the first.
   {
     const kit = build();

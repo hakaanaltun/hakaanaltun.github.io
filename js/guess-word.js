@@ -331,6 +331,13 @@
   function buildBar() {
     var el = document.createElement('div');
     el.className = 'guess-bar';
+    /* A press on the strip leaves the box in focus. Letting it go hid "show
+       the first letter" in the middle of the press, the centred strip
+       narrowed, and "read the original" slid out from under the pointer: the
+       press landed beside it and had to be made twice. */
+    el.addEventListener('mousedown', function (event) {
+      if (event.target.closest('button')) event.preventDefault();
+    });
     var count = document.createElement('span');
     count.className = 'guess-count';
     // Taken on pointerdown: a click lands after the box has already lost focus,
