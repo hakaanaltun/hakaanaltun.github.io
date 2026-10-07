@@ -34,6 +34,11 @@
 }
 .reading-choice button:hover { color: var(--petrol); }
 .reading-choice button[aria-pressed="true"] { border-color: var(--petrol); color: var(--petrol); }
+/* The prose's own size, inherited from the same parent as the essay body. */
+.reading-sample {
+  display: inline-flex; align-items: center; justify-content: center; min-width: 1.4em; height: 36px; margin-left: 6px;
+  font-family: 'EB Garamond', Georgia, serif; font-size: calc(1em * var(--reading-scale, 1)); line-height: 1; color: var(--ink-soft);
+}
 .reading-print {
   display: block; margin-top: 12px; min-height: 40px; padding: 5px 10px;
   border: 1px solid var(--rule); border-radius: 6px; background: transparent; color: var(--ink); cursor: pointer;
@@ -56,7 +61,7 @@
 html[data-reading-size] .essay-body[data-reading-body] { font-size: calc(1em * var(--reading-scale)); }
 html[data-reading-spacing] .essay-body[data-reading-body] :is(p, li, blockquote) { line-height: var(--reading-spacing); }
 
-.essay-print-byline { display: none; }
+.print-head, .print-colophon { display: none; }
 .essay-puzzle-wrap { text-align: center; margin: 38px 0 0; }
 .essay-puzzle-wrap + .essay-guess-wrap { margin-top: 10px; }
 @media print {
@@ -66,14 +71,24 @@ html[data-reading-spacing] .essay-body[data-reading-body] :is(p, li, blockquote)
   body.is-post .container { display: block; max-width: none; padding: 0; }
   body.is-post .container > :not(main), body.is-post .skip-link,
   body.is-post .essay-article > :not(.essay-card-wrapper),
-  body.is-post .essay-card-wrapper > :not(.essay-header):not(.essay-body),
-  body.is-post .essay-header > :not(.essay-title-block):not(.essay-date-line):not(.essay-print-byline),
+  body.is-post .essay-card-wrapper > :not(.essay-header):not(.essay-body):not(.print-colophon),
+  body.is-post .essay-header > :not(.essay-title-block):not(.essay-date-line):not(.print-head),
   body.is-post :is(.keep-toast, .keep-prompt, .reader-translate, .snow-overlay, .rain-overlay) { display: none !important; }
   body.is-post :is(.essay-card-wrapper, .essay-header, .essay-body) { opacity: 1 !important; transform: none !important; animation: none !important; max-width: none; }
   body.is-post .essay-header { padding: 0 0 20pt; }
   body.is-post .essay-header h1 { color: black; font-size: 24pt; }
   body.is-post .essay-date-line { color: black; }
-  body.is-post .essay-print-byline { display: block; color: black; font-size: 9pt; overflow-wrap: anywhere; }
+  /* The kind of piece on the left and the site's address on the right, in
+     small spaced capitals; the site's name and line at the end, centred, as
+     the footer has them. */
+  body.is-post .print-head {
+    display: flex; justify-content: space-between; gap: 12pt; align-self: stretch; margin: 0 0 30pt;
+    font: 8.5pt/1.2 'EB Garamond', Georgia, serif; letter-spacing: 0.16em; text-transform: uppercase; color: black;
+  }
+  body.is-post .print-colophon { display: block; margin: 42pt 0 0; text-align: center; color: black; break-inside: avoid; }
+  body.is-post .print-colophon p { margin: 0; color: black; }
+  body.is-post .print-colophon-brand { font: italic 15pt/1.1 'Cormorant Garamond', Georgia, serif; }
+  body.is-post .print-colophon .print-colophon-line { margin-top: 3pt; font: italic 9.5pt/1.3 'EB Garamond', Georgia, serif; }
   body.is-post .essay-body { padding: 0; }
   body.is-post .essay-body :is(p, li, blockquote, h2, h3) { color: black; orphans: 3; widows: 3; }
   body.is-post .essay-body :is(h2, h3) { break-after: avoid; }

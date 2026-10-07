@@ -116,6 +116,39 @@ async function main() {
   assert.equal(/essay-rain/.test(panel), false, 'read with rain stays under the title');
   assert.match(read('_layouts/post.html'), /id="essay-rain"/);
 
+  // The prose is usually out of sight under the cover, so a letter beside the
+  // sizes shows the chosen one: the prose's own size times --reading-scale.
+  {
+    const { dom, q } = page();
+    const sample = q('[aria-labelledby="reading-size-label"] .reading-sample');
+    assert.ok(sample, 'the sample letter sits with the text size choices');
+    assert.equal(sample.getAttribute('aria-hidden'), 'true', 'it is a picture of the size, not a control');
+    assert.match(read('css/reading.css'), /\.reading-sample\s*\{[^}]*font-size:\s*calc\(1em \* var\(--reading-scale, 1\)\)/);
+    dom.window.close();
+  }
+
+  // A printed piece opens with its kind and the site's address, and ends with
+  // the site's name and line. The old byline with the full address is gone.
+  {
+    const built = name => {
+      const file = path.join(root, '_site/pieces', name + '.html');
+      assert.ok(fs.existsSync(file), 'Build with Jekyll first');
+      return new JSDOM(fs.readFileSync(file, 'utf8')).window.document;
+    };
+    const head = doc => [...doc.querySelectorAll('.essay-header > .print-head > span')].map(s => s.textContent);
+    assert.deepEqual(head(built('on-lying')), ['Essay', 'hakanaltun.io']);
+    assert.deepEqual(head(built('measured')), ['Short fiction', 'hakanaltun.io']);
+    const doc = built('on-lying');
+    assert.equal(doc.querySelector('.essay-header').firstElementChild.className, 'print-head', 'the head comes before the title');
+    const colophon = doc.querySelector('.essay-card-wrapper > .print-colophon');
+    assert.ok(colophon && colophon.previousElementSibling.matches('.essay-body'), 'the colophon follows the prose');
+    assert.deepEqual([...colophon.querySelectorAll('p')].map(p => p.textContent), ['On Life & Everything', 'Essays, short fiction, and other writing.']);
+    assert.equal(doc.querySelector('.essay-print-byline'), null);
+    const print = read('css/reading.css');
+    assert.match(print, /\.essay-header > :not\(\.essay-title-block\):not\(\.essay-date-line\):not\(\.print-head\)/, 'print keeps the head');
+    assert.match(print, /\.essay-card-wrapper > :not\(\.essay-header\):not\(\.essay-body\):not\(\.print-colophon\)/, 'and the colophon');
+  }
+
   // A backup preserves the saved words and source, merges without erasing
   // existing records, and never restores another browser's House memories.
   {
@@ -145,6 +178,6 @@ async function main() {
     assert.equal(keep.has('text-fourth'), false);
     dom.window.close();
   }
-  console.log('Reading checks passed: the original untouched until a choice, choices kept and cleared, blocked and malformed storage, Escape, other tabs, rain under the title, and drawer backup recovery.');
+  console.log('Reading checks passed: the original untouched until a choice, choices kept and cleared, blocked and malformed storage, Escape, other tabs, rain under the title, the size sample, the printed head and colophon, and drawer backup recovery.');
 }
 main().catch(error => { console.error(error); process.exit(1); });

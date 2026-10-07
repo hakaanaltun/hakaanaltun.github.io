@@ -267,6 +267,10 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   them in proportion. `scripts/test-reading.cjs` fails on an ungated rule.
 - **"read with rain" stays under the title**, not in the menu: rain that is
   falling has to show where it can be stopped.
+- **A printed piece** opens with its kind (Essay or Short fiction) on the
+  left and HAKANALTUN.IO on the right, then the title and date, centred, and
+  ends with the footer's two lines, centred. Word pages have no print layout
+  of their own: The House's cards are how a word is printed or shared.
 - **Puzzle mode waits at the foot of a piece** and opens at its head. Its
   panel is sticky, so the scroll aims at the article, not at the panel.
 - **Listening and offline saving were tried and taken out** in October 2026.
