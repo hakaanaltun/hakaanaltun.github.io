@@ -155,6 +155,7 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   a.click(other);
   assert.equal(a.q('.house-answer-note').hidden, false);
   assert.equal(a.q('.house-answer-result').textContent, 'The answer is ' + question.choices[question.answer] + '.');
+  assert.equal(a.q('.house-answer-result em').textContent, question.choices[question.answer], 'the answer set apart from the line');
   assert.equal(a.stored().answered.id, qid);
   // The choice is kept by its words, not its letter, which moves with the
   // next visit's shuffle.

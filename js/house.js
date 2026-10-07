@@ -270,7 +270,14 @@
     });
     var note = content.querySelector('.house-answer-note');
     note.hidden = false;
-    content.querySelector('.house-answer-result').textContent = button === correct ? 'That’s right.' : 'The answer is ' + choiceText(correct) + '.';
+    var result = content.querySelector('.house-answer-result');
+    result.textContent = button === correct ? 'That’s right.' : 'The answer is ';
+    if (button !== correct) {
+      // Set apart from the italic line, so that "A boiled egg" cannot be
+      // read as the choice lettered A.
+      result.appendChild(element('em', '', choiceText(correct)));
+      result.appendChild(document.createTextNode('.'));
+    }
     if (moveFocus) {
       // The disabled answer no longer takes focus; the note is what to read.
       note.tabIndex = -1;

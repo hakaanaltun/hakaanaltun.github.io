@@ -128,9 +128,17 @@
           }
         });
 
-        feedback.textContent = original === q.answer
-          ? 'Correct. ' + q.note
-          : 'Answer: ' + q.choices[q.answer] + '. ' + q.note;
+        if (original === q.answer) {
+          feedback.textContent = 'Correct. ' + q.note;
+        } else {
+          // The answer in italics, so that "A boiled egg" cannot be read
+          // as the choice lettered A.
+          feedback.textContent = 'Answer: ';
+          var name = document.createElement('em');
+          name.textContent = q.choices[q.answer];
+          feedback.appendChild(name);
+          feedback.appendChild(document.createTextNode('. ' + q.note));
+        }
 
         more.href = q.url || '/trivia/';
         more.textContent = 'More ' + q.quiz + ' →';

@@ -309,7 +309,13 @@
     if (selected === q.answer) {
       feedback.textContent = 'Correct. ' + q.note;
     } else {
-      feedback.textContent = 'Answer: ' + q.choices[q.answer] + '. ' + q.note;
+      /* The answer in italics, so that "A boiled egg" cannot be read as
+         the choice lettered A. */
+      feedback.textContent = 'Answer: ';
+      var name = document.createElement('em');
+      name.textContent = q.choices[q.answer];
+      feedback.appendChild(name);
+      feedback.appendChild(document.createTextNode('. ' + q.note));
     }
 
     /* The note is what a reader keeps, so it can go into the drawer in The

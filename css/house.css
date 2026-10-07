@@ -187,6 +187,7 @@ html:has(.house-dialog[open]) { overflow: hidden; }
 .house-answers button[data-result="correct"] { border: 2px solid var(--petrol); color: var(--ink); }
 .house-answers button[data-result="chosen"] { border-style: dashed; }
 .house-answer-result { font-style: italic; }
+.house-answer-result em { font-style: normal; }
 .house-answer-note { padding-top: 6px; }
 .house-window-links a { display: block; padding: 18px 0; border-top: 1px solid var(--rule-strong); text-decoration: none; }
 .house-window-links span { font: 500 28px 'Cormorant Garamond', Georgia, serif; }

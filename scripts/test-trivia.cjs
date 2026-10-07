@@ -285,6 +285,10 @@ function main() {
     assert.deepEqual(
       [...kit.d.querySelectorAll('.trivia-choice-mark')].map((mark) => mark.textContent).sort(),
       ['Answer', 'Your answer']);
+    // The answer is named in italics, so "A boiled egg" is not read as A.
+    const first = kit.bank[kit.stored().order[0]];
+    assert.equal(kit.d.querySelector('#trivia-feedback em').textContent, first.choices[first.answer]);
+    assert.equal(kit.text('trivia-feedback'), 'Answer: ' + first.choices[first.answer] + '. ' + first.note);
     // Pressing another one afterwards changes nothing.
     const score = kit.stored().score;
     kit.choices()[(right + 2) % 4].click();
