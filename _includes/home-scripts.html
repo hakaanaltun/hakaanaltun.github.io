@@ -177,26 +177,21 @@
 
 <script src="/js/astronomy.js?v=20260925-1"></script>
 <script>
-/* Tonight — the closing line: the moon plus the sun where the visitor's
-   browser clock says they are. The same city time-zone table resolves the
-   site's sky theme and /twilight/; unknown zones keep their own clock and
-   use the theme's nominal equatorial fallback. */
+/* Tonight — the sky where the visitor's browser clock says they are. The
+   same city time-zone table resolves the site's sky theme, /twilight/ and
+   the window instruments. The sun and the moon come from js/astronomy.js
+   at once; the map, the planets and a star to look for need The Stars'
+   scripts, fetched only when the section comes near. An unknown zone keeps
+   its own clock and the theme's nominal equatorial fallback, and then only
+   the sun's times and the moon's phase are told: a map or a direction
+   would claim a place the page does not know. */
 (function(){
   'use strict';
-  var strip = document.getElementById('tonight');
-  var moonEl = document.getElementById('tonight-moon');
-  var sunEl = document.getElementById('tonight-sun');
-  if(!strip || !moonEl || !sunEl || !window.OLAE_ASTRO) return;
-  var ASTRO = window.OLAE_ASTRO;
-
+  var section = document.getElementById('tonight');
+  if(!section || !window.OLAE_ASTRO) return;
+  var A = window.OLAE_ASTRO;
+  var $ = function(id){ return document.getElementById(id); };
   var now = new Date();
-
-  var lun = ASTRO.lunation(now);
-  var age = (lun - Math.floor(lun)) * ASTRO.SYNODIC;
-  var illum = Math.round((1 - Math.cos(2 * Math.PI * age / ASTRO.SYNODIC)) / 2 * 100);
-  var names = ['new moon', 'waxing crescent', 'first quarter', 'waxing gibbous', 'full moon', 'waning gibbous', 'last quarter', 'waning crescent'];
-  var phase = names[ASTRO.moonPhaseIndex(age)];
-  moonEl.textContent = phase + ', ' + illum + '% lit';
 
   var place = window.OLAE_SKY && window.OLAE_SKY.pickCity ? window.OLAE_SKY.pickCity() : null;
   var LAT = place ? place.lat : 41.015;
@@ -207,22 +202,90 @@
 {% for c in site.data.cities %}{% unless c.alias %}    {{ c.tz | jsonify }}:{{ c.name | jsonify }},{% for z in c.also %}{{ z | jsonify }}:{{ c.name | jsonify }},{% endfor %}
 {% endunless %}{% endfor %}  };
   var placeName = Object.prototype.hasOwnProperty.call(ZONE_NAMES, TZ) ? ZONE_NAMES[TZ] : "";
+  var fmtTime = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: TZ });
 
+  /* The sun's next event: this morning's rise, this evening's set, or
+     tomorrow's rise once it has set. */
   function sunEvent(dayShift, rising){
-    var s = new Date(now.getTime() + ASTRO.tzOffsetMs(TZ, now) + dayShift * 86400000);
+    var s = new Date(now.getTime() + A.tzOffsetMs(TZ, now) + dayShift * 86400000);
     var y = s.getUTCFullYear(), mo = s.getUTCMonth(), d = s.getUTCDate();
     var n = Math.floor((Date.UTC(y, mo, d) - Date.UTC(y, 0, 0)) / 86400000);
-    return ASTRO.sunEvent({ n: n, y: y, mo: mo, d: d }, rising, 90.833, LAT, LNG, TZ);
+    return A.sunEvent({ n: n, y: y, mo: mo, d: d }, rising, 90.833, LAT, LNG, TZ);
   }
-  var fmtTime = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: TZ });
-  var where = placeName ? ' in ' + placeName : '';
-  var sunset = sunEvent(0, false);
-  if(sunset && now < sunset){
-    sunEl.textContent = 'sunset ' + fmtTime.format(sunset) + where;
-  } else {
-    var sunrise = sunEvent(1, true);
-    if(sunrise) sunEl.textContent = 'sunrise ' + fmtTime.format(sunrise) + where;
+  var rise = sunEvent(0, true), set = sunEvent(0, false), next = null;
+  if(rise && now < rise) next = 'rises at ' + fmtTime.format(rise);
+  else if(set && now < set) next = 'sets at ' + fmtTime.format(set);
+  else { var tomorrow = sunEvent(1, true); if(tomorrow) next = 'rises at ' + fmtTime.format(tomorrow); }
+  if(next) $('tonight-sun').textContent = next; else $('tonight-sun-row').remove();
+
+  var lun = A.lunation(now);
+  var age = (lun - Math.floor(lun)) * A.SYNODIC;
+  var illum = Math.round((1 - Math.cos(2 * Math.PI * age / A.SYNODIC)) / 2 * 100);
+  var names = ['new moon', 'waxing crescent', 'first quarter', 'waxing gibbous', 'full moon', 'waning gibbous', 'last quarter', 'waning crescent'];
+  var moon = names[A.moonPhaseIndex(age)] + ', ' + illum + '% lit';
+  if(placeName){
+    var up = A.moonAltitude(now, LAT, LNG) > A.MOON_HORIZON;
+    var crossing = A.moonCrossing(now, LAT, LNG);
+    if(crossing) moon += '; ' + (up ? 'sets' : 'rises') + ' at ' + fmtTime.format(crossing);
   }
-  if(moonEl.textContent && sunEl.textContent) strip.hidden = false;
+  $('tonight-moon').textContent = moon;
+  $('tonight-meta').textContent = placeName ? 'The sky over ' + placeName : 'Times for your time zone';
+  section.hidden = false;
+  if(!placeName) return;
+
+  /* The moment the map shows: now, if it is already dark; otherwise the
+     next time the sun is 12° down, when the bright stars are out; and in a
+     summer that never gets that dark, the darkest moment of the night. */
+  function moment(){
+    var alt = function(d){ return A.sunAltitude(d, LAT, LNG); };
+    if(alt(now) <= -12) return { at: now, words: 'now' };
+    var lowest = null;
+    for(var m = 10; m <= 1440; m += 10){
+      var d = new Date(now.getTime() + m * 60000), a = alt(d);
+      if(a <= -12) return { at: new Date(Math.round(d.getTime() / 300000) * 300000), words: 'after dark, ' };
+      if(!lowest || a < lowest.a) lowest = { d: d, a: a };
+    }
+    return { at: new Date(Math.round(lowest.d.getTime() / 300000) * 300000), words: 'at ' };
+  }
+  function draw(){
+    var M = window.OLAE_SKYMAP, when = moment();
+    var label = when.words === 'now' ? 'now' : when.words + fmtTime.format(when.at);
+    var s = M.sky(when.at, LAT, LNG);
+    var map = $('tonight-map');
+    M.draw(map, s, { fs: 30, k: 2, starLabels: 3, names: [], inside: true, title: 'The sky over ' + placeName + ', ' + label });
+    map.setAttribute('aria-label', 'The sky over ' + placeName + ', ' + label + ': ' + s.visible.length + ' stars' + (s.moon.alt > 0 ? ', the moon' : '') + ' and ' + s.planets.length + ' planets above the horizon');
+    $('tonight-meta').textContent = 'The sky over ' + placeName + ' · ' + label;
+    var planets = s.planets.filter(function(p){ return p.alt > 5; }).slice(0, 2);
+    if(planets.length){
+      $('tonight-planets').textContent = planets.map(function(p){ return p.body + ' ' + M.where(p.alt, p.az); }).join(', ');
+      $('tonight-planets-row').hidden = false;
+    }
+    var look = M.constellations(s, 6).filter(function(c){ return c.named; })[0];
+    if(look){
+      $('tonight-look').textContent = look.star + ', in ' + look.name + ', ' + M.where(look.alt, look.az);
+      $('tonight-look-row').hidden = false;
+    }
+    $('tonight-map-link').hidden = false;
+  }
+  var SCRIPTS = {{ site.data.sky_scripts | jsonify }}, started = false;
+  function start(){
+    if(started) return;
+    started = true;
+    [SCRIPTS.engine, SCRIPTS.stars, SCRIPTS.map].reduce(function(chain, src){
+      return chain.then(function(){
+        return new Promise(function(resolve, reject){
+          var script = document.createElement('script');
+          script.src = src; script.onload = resolve; script.onerror = reject;
+          document.head.appendChild(script);
+        });
+      });
+    }, Promise.resolve()).then(draw).catch(function(){});
+  }
+  if('IntersectionObserver' in window){
+    var watch = new IntersectionObserver(function(entries){
+      if(entries.some(function(e){ return e.isIntersecting; })){ watch.disconnect(); start(); }
+    }, { rootMargin: '600px 0px' });
+    watch.observe(section);
+  } else start();
 })();
 </script>

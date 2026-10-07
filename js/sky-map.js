@@ -91,7 +91,7 @@
     var E=window.Astronomy,regions=Object.create(null);
     s.visible.forEach(function(v){
       var con=v.s.con||(v.s.con=E.Constellation(v.s.ra,v.s.dec));
-      if(!regions[con.symbol]||v.s.mag<regions[con.symbol].mag)regions[con.symbol]={symbol:con.symbol,name:CON_NAMES[con.name]||con.name,star:v.s.name||v.s.designation,mag:v.s.mag,alt:v.alt,az:v.az};
+      if(!regions[con.symbol]||v.s.mag<regions[con.symbol].mag)regions[con.symbol]={symbol:con.symbol,name:CON_NAMES[con.name]||con.name,star:v.s.name||v.s.designation,named:!!v.s.name,mag:v.s.mag,alt:v.alt,az:v.az};
     });
     return Object.keys(regions).map(function(key){return regions[key];})
       .filter(function(c){return c.mag<=3&&c.alt>=10;}).sort(function(a,b){return b.alt-a.alt;}).slice(0,n);
@@ -100,7 +100,8 @@
 
   /* o: fs, the label size in map units; k, how much to enlarge the dots;
      starLabels, how many bright stars to name; names, constellations to
-     write on the map; title. */
+     write on the map; inside, to keep every label within the horizon, for
+     a map set on a page of another colour; title. */
   function draw(map,s,o){
     var fs=o.fs,k=o.k;
     map.replaceChildren();
@@ -140,7 +141,7 @@
       /* r 0 is a name for a region rather than a dot: centred on it first. */
       var spots=r?[[x+r+g,y-h/2,"start"],[x-r-g-w,y-h/2,"end"],[x-w/2,y-r-g-h,"middle"],[x-w/2,y+r+g,"middle"],[x+r,y-r-h,"start"],[x-r-w,y-r-h,"end"],[x+r,y+r,"start"],[x-r-w,y+r,"end"]]
         :[[x-w/2,y-h/2,"middle"],[x-w/2,y-h*1.6,"middle"],[x-w/2,y+h*.6,"middle"]];
-      function fits(b){return b.x>=2&&b.x+b.w<=598&&b.y>=2&&b.y+b.h<=598&&!boxes.some(function(o){return b.x<o.x+o.w&&b.x+b.w>o.x&&b.y<o.y+o.h&&b.y+b.h>o.y;});}
+      function fits(b){return b.x>=2&&b.x+b.w<=598&&b.y>=2&&b.y+b.h<=598&&(!o.inside||[[b.x,b.y],[b.x+b.w,b.y],[b.x,b.y+b.h],[b.x+b.w,b.y+b.h]].every(function(c){return Math.hypot(c[0]-CX,c[1]-CY)<=R-4;}))&&!boxes.some(function(o){return b.x<o.x+o.w&&b.x+b.w>o.x&&b.y<o.y+o.h&&b.y+b.h>o.y;});}
       var box=null;
       for(var j=0;j<spots.length&&!box;j++){var b={x:spots[j][0],y:spots[j][1],w:w,h:h,anchor:spots[j][2]};if(fits(b))box=b;}
       if(!box&&must)box={x:Math.max(2,Math.min(598-w,spots[0][0])),y:Math.max(2,Math.min(598-h,spots[0][1])),w:w,h:h,anchor:"start"};
