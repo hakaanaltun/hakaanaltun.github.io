@@ -518,9 +518,14 @@ page script that asks it for something. {% endcomment %}
 {% if page.layout == "word" or page.trivia or page.book_part or page.house %}{% assign _keep = true %}{% endif %}
 {% if _keep %}
 <link rel="stylesheet" href="/css/keep.css?v=20260925-2">
-<script src="/js/keep.js?v=20260925-2" defer></script>
+<script src="/js/keep.js?v=20261007-1" defer></script>
 {% endif %}
 
 {% if page.layout == "post" and page.series != "story" %}
 <link rel="stylesheet" href="/css/puzzle-mode.css?v=20260912-1">
+<link rel="stylesheet" href="/css/reading.css?v=20261007-2">
+<script src="/js/reading-settings.js?v=20261007-1"></script>
+{% endif %}
+{% if page.offline_reading %}
+<link rel="stylesheet" href="/css/reading.css?v=20261007-2">
 {% endif %}

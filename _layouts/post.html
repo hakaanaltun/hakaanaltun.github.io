@@ -12,10 +12,7 @@ layout: default
 <div class="essay-title-block"><h1>{{ page.title | replace: "'", "'" }}</h1></div>
 <p class="essay-date-line">{{ page.date | date: "%B %-d, %Y" }}</p>
 {% unless is_story %}
-{% comment %} "Read with rain" — /noise/'s synthesized rain, quietly behind
-the essay. js/rain-read.js unhides the button where Web Audio exists. {% endcomment %}
-<button type="button" class="essay-rain" id="essay-rain" aria-pressed="false" hidden>read with rain</button>
-<button type="button" class="essay-rain essay-puzzle-toggle" id="essay-puzzle" aria-pressed="false" hidden>puzzle mode</button>
+{% include reading-options.html %}
 {% endunless %}
 {% endif %}
 {% if is_story %}
@@ -43,12 +40,19 @@ leave the document without an h1 — give screen readers one. {% endcomment %}
 {% comment %} data-keep-passage: a reader can select a line or two and keep
 it in their drawer (js/keep.js). Not in the branching story, whose pages are
 turns of one piece rather than pieces. {% endcomment %}
-<article class="essay-body fade-in fade-in-delay"{% unless page.series == "story" %} data-keep-passage data-keep-kind="{% if page.fiction %}A story{% else %}An essay{% endif %}" data-keep-title="{{ page.title | replace: "'", "’" | escape }}"{% endunless %}>
+<article class="essay-body fade-in fade-in-delay"{% unless page.series == "story" %} data-reading-body data-keep-passage data-keep-kind="{% if page.fiction %}A story{% else %}An essay{% endif %}" data-keep-title="{{ page.title | replace: "'", "’" | escape }}"{% endunless %}>
 {{ content }}
 </article>
 {% comment %} The moon that was over the piece, where its night ends. Renders
 only where front matter sets one; see _includes/piece-moon.html. {% endcomment %}
 {% include piece-moon.html %}
+{% unless is_story %}
+{% comment %} Puzzle mode waits at the foot of the piece, after the first read.
+Its controls still open at the start of the prose when the reader chooses it. {% endcomment %}
+<div class="essay-puzzle-wrap">
+  <button type="button" class="essay-rain essay-puzzle-toggle" id="essay-puzzle" aria-pressed="false" hidden>puzzle mode</button>
+</div>
+{% endunless %}
 {% comment %} "Guess the word" — a few of the essay's own words lifted out for a
 reader to put back. The list is _data/guesses.yml, approved by hand, keyed by
 slug; a piece with no entry offers nothing. It sits at the foot of the essay and

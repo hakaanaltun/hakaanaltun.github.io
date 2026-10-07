@@ -1,5 +1,6 @@
 ---
 layout: default
+offline_reading: true
 permalink: /tools/
 title: "Instruments"
 # "Tools" stays in the seo_title on purpose: it is the search term people
@@ -27,6 +28,7 @@ description: "Ad-free instruments kept here: a desk for reading, writing and dra
     {% endif %}{% endfor %}
   </div>
   {% endfor %}
+  {% include offline-shelf.html %}
 </section>
 
 <script type="application/ld+json">
