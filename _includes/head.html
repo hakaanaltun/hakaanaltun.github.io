@@ -130,9 +130,6 @@ the story pages ("The Notice"), which share one card. {% endcomment %}
 }
 </script>
 
-<link rel="stylesheet" href="/css/style.css?v=20261007-4">
-<link rel="stylesheet" href="/css/palettes.css?v=20260905-2">
-
 {% elsif page.layout == "home" %}
 
 <title>On Life &amp; Everything</title>
@@ -274,9 +271,6 @@ the story pages ("The Notice"), which share one card. {% endcomment %}
 }
 </script>
 
-<link rel="stylesheet" href="/css/style.css?v=20261007-4">
-<link rel="stylesheet" href="/css/palettes.css?v=20260905-2">
-
 {% else %}
 
 {% comment %} seo_title: an optional, more descriptive title for search
@@ -312,10 +306,12 @@ that are say so without moving out of this branch. {% endcomment %}
 <meta name="twitter:image" content="https://hakanaltun.io/og-image-on-card.png?v=20260729-2">
 <meta name="twitter:image:alt" content="{{ page.title | escape }} — On Life &amp; Everything">
 
+{% endif %}
+
+{% comment %} One stylesheet pair for every page, whichever branch above
+wrote its head, so each ?v= is changed in one place. {% endcomment %}
 <link rel="stylesheet" href="/css/style.css?v=20261007-4">
 <link rel="stylesheet" href="/css/palettes.css?v=20260905-2">
-
-{% endif %}
 
 {% comment %} A word story, described for machines.
 
