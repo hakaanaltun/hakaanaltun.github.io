@@ -138,7 +138,7 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   const question = catalog.questions.find((x) => x.id === qid);
   // Lettered A to D down the wall, whatever order the choices fell in.
   const answerButtons = Array.from(a.w.document.querySelectorAll('[data-answer]'));
-  assert.deepEqual(answerButtons.map((b) => b.querySelector('.house-answer-letter').textContent), ['A', 'B', 'C', 'D']);
+  assert.deepEqual(answerButtons.map((b) => b.querySelector('.house-answer-letter').textContent), ['A.', 'B.', 'C.', 'D.']);
   const wallOrder = answerButtons.map((b) => b.querySelector('.house-answer-text').textContent);
   assert.deepEqual([...wallOrder].sort(), [...question.choices].sort());
   // And the order is the day's, not the visit's: another visit today, with

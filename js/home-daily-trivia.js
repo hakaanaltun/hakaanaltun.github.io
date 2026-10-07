@@ -104,7 +104,7 @@
       // Lettered by place on the screen, as in the quizzes.
       var letter = document.createElement('span');
       letter.className = 'home-daily-trivia-letter';
-      letter.textContent = 'ABCDEFGHI'.charAt(slot);
+      letter.textContent = 'ABCDEFGHI'.charAt(slot) + '.';
       button.appendChild(letter);
 
       var label = document.createElement('span');

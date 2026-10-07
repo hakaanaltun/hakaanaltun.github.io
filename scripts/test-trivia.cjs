@@ -175,7 +175,7 @@ function main() {
     k2.choices().forEach((button, slot) => {
       assert.equal(button.querySelector('.trivia-choice-text').textContent,
         q.choices[state.arrangement[0][slot]]);
-      assert.equal(button.querySelector('.trivia-choice-letter').textContent, 'ABCD'.charAt(slot));
+      assert.equal(button.querySelector('.trivia-choice-letter').textContent, 'ABCD'.charAt(slot) + '.');
     });
   }
 

@@ -400,7 +400,7 @@
 
       var letter = document.createElement('span');
       letter.className = 'trivia-choice-letter';
-      letter.textContent = LETTERS.charAt(slot);
+      letter.textContent = LETTERS.charAt(slot) + '.';
 
       var label = document.createElement('span');
       label.className = 'trivia-choice-text';
