@@ -110,9 +110,10 @@ async function main(){
   {
     const h=harness();
     assert.equal(await request(h,'https://hakanaltun.io/pieces/an-essay.html'),null);
-    assert.equal(await request(h,'https://hakanaltun.io/js/puzzle-mode.js'),null);
+    assert.equal((await request(h,'https://hakanaltun.io/js/puzzle-mode.js')).body,'https://hakanaltun.io/js/puzzle-mode.js');
+    assert.equal(h.cache.store.has('/js/puzzle-mode.js'),false,'unselected reading assets are passed through without being saved');
     assert.equal(await request(h,'https://hakanaltun.io/js/vendor/pdfjs'),null,'the prefix must be a directory');
-    assert.equal(h.network.length,0);
+    assert.equal(h.network.length,1);
     // Cross-origin and non-GET stay untouched too.
     assert.equal(await request(h,'https://gc.zgo.at/count.js'),null);
     let responded=null;

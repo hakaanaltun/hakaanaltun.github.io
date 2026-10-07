@@ -146,6 +146,40 @@
     update(function (state) { state.kept = state.kept.filter(function (item) { return item.id !== id; }); });
   }
 
+  /* A portable copy contains only the things in the drawer. Restoring it
+     adds missing records and leaves the lamp and the House's memories alone.
+     Commit to storage before emitting, so a full or blocked store cannot
+     be mistaken for a successful restore. */
+  function backup() {
+    return { format: 'olae-drawer', version: 1, items: read().kept };
+  }
+  function restoreBackup(value) {
+    if (!value || value.format !== 'olae-drawer' || value.version !== 1 ||
+        !Array.isArray(value.items) || value.items.length > 5000) throw new Error('Invalid drawer backup.');
+    var items = value.items.map(function (entry) {
+      var item = clean(entry);
+      if (!item) throw new Error('Invalid drawer record.');
+      return item;
+    });
+    var state = read();
+    var ids = new Set(state.kept.map(function (item) { return item.id; }));
+    var added = 0;
+    items.forEach(function (item) {
+      if (ids.has(item.id)) return;
+      ids.add(item.id);
+      state.kept.push(item);
+      added++;
+    });
+    if (added) {
+      localStorage.setItem(KEY, JSON.stringify(state));
+      memory = null;
+      works = true;
+      emit();
+      sync();
+    }
+    return added;
+  }
+
   /* --- On the page ------------------------------------------------------ */
 
   function note(message, from) {
@@ -301,6 +335,8 @@
     has: has,
     toggle: toggle,
     remove: remove,
+    backup: backup,
+    restoreBackup: restoreBackup,
     clean: clean,
     textId: textId,
     sync: sync,

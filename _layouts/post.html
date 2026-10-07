@@ -16,6 +16,7 @@ layout: default
 the essay. js/rain-read.js unhides the button where Web Audio exists. {% endcomment %}
 <button type="button" class="essay-rain" id="essay-rain" aria-pressed="false" hidden>read with rain</button>
 <button type="button" class="essay-rain essay-puzzle-toggle" id="essay-puzzle" aria-pressed="false" hidden>puzzle mode</button>
+{% include reading-options.html %}
 {% endunless %}
 {% endif %}
 {% if is_story %}
@@ -43,7 +44,7 @@ leave the document without an h1 — give screen readers one. {% endcomment %}
 {% comment %} data-keep-passage: a reader can select a line or two and keep
 it in their drawer (js/keep.js). Not in the branching story, whose pages are
 turns of one piece rather than pieces. {% endcomment %}
-<article class="essay-body fade-in fade-in-delay"{% unless page.series == "story" %} data-keep-passage data-keep-kind="{% if page.fiction %}A story{% else %}An essay{% endif %}" data-keep-title="{{ page.title | replace: "'", "’" | escape }}"{% endunless %}>
+<article class="essay-body fade-in fade-in-delay"{% unless page.series == "story" %} data-reading-body data-keep-passage data-keep-kind="{% if page.fiction %}A story{% else %}An essay{% endif %}" data-keep-title="{{ page.title | replace: "'", "’" | escape }}"{% endunless %}>
 {{ content }}
 </article>
 {% comment %} The moon that was over the piece, where its night ends. Renders

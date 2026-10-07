@@ -355,20 +355,31 @@
   function renderDrawer(box) {
     var kept = KEEP.read().kept.map(current).reverse();
     box.appendChild(element('p', 'house-drawer-note', storageNote()));
+    var tools = element('div', 'house-drawer-tools');
+    var choices = [['backup', 'Download your drawer'], ['restore', 'Restore your drawer']];
+    if (kept.length) choices = choices.concat([['text', 'Download as text'], ['print', 'Print or save as PDF']]);
+    choices.forEach(function (pair) {
+      var button = element('button', '', pair[1]);
+      button.type = 'button';
+      button.setAttribute('data-export', pair[0]);
+      tools.appendChild(button);
+    });
+    var file = element('input');
+    file.type = 'file';
+    file.accept = '.json,application/json';
+    file.hidden = true;
+    file.setAttribute('data-drawer-file', '');
+    file.setAttribute('aria-label', 'Choose a drawer backup');
+    file.addEventListener('change', function () { restoreDrawer(file.files && file.files[0]); });
+    tools.appendChild(file);
+    box.appendChild(tools);
+    box.appendChild(element('p', 'house-drawer-note', 'Download a backup to keep or move to another browser. Restoring adds its contents to your drawer.'));
     if (!kept.length) {
       var empty = element('div', 'house-empty-drawer');
       empty.appendChild(element('p', '', 'Nothing here yet. Pick up a word card, read a line from the bookshelf, or try the question on the wall. On a word’s page, after a quiz answer, or when you select a line in an essay or the book, there is a way to keep it too.'));
       box.appendChild(empty);
       return;
     }
-    var tools = element('div', 'house-drawer-tools');
-    [['text', 'Download as text'], ['print', 'Print or save as PDF']].forEach(function (pair) {
-      var button = element('button', '', pair[1]);
-      button.type = 'button';
-      button.setAttribute('data-export', pair[0]);
-      tools.appendChild(button);
-    });
-    box.appendChild(tools);
     kept.forEach(function (item) {
       var article = element('article', 'house-item');
       article.appendChild(element('p', 'house-item-kind', item.kind));
@@ -697,6 +708,35 @@
     announce(saved ? 'Your drawer is saved to your downloads as a text file.' : 'This browser cannot save a file from here.');
   }
 
+  function exportBackup() {
+    var saved = download(new Blob([JSON.stringify(KEEP.backup(), null, 2)], { type: 'application/json;charset=utf-8' }), 'your-drawer.json');
+    announce(saved ? 'Your drawer backup is saved to your downloads.' : 'This browser cannot save a file from here.');
+  }
+  function restoreDrawer(file) {
+    if (!file) return;
+    if (file.size > 5 * 1024 * 1024) { announce('This backup is too large to restore.'); return; }
+    announce('Reading your drawer backup…');
+    var reader = new FileReader();
+    reader.onerror = function () { announce('This file could not be read. Your drawer is unchanged.'); };
+    reader.onload = function () {
+      try {
+        var value = JSON.parse(reader.result);
+        var added = KEEP.restoreBackup(value);
+        // A restore re-renders the dialog, so focus its new restore button.
+        var button = content.querySelector('[data-export="restore"]');
+        if (button) button.focus({ preventScroll: true });
+        announce(added ? added + (added === 1 ? ' item added to your drawer.' : ' items added to your drawer.') : 'Everything in this backup is already in your drawer.');
+      } catch (e) {
+        announce(e && /QuotaExceeded|Security/.test(e.name)
+          ? 'This browser could not save the restored items. Your drawer is unchanged.'
+          : 'This is not a valid drawer backup. Your drawer is unchanged.');
+      }
+      var input = content.querySelector('[data-drawer-file]');
+      if (input) input.value = '';
+    };
+    reader.readAsText(file);
+  }
+
   function printDrawer() {
     var old = document.querySelector('.house-print');
     if (old) old.remove();
@@ -904,7 +944,11 @@
     if (shareButton) { share(shareButton.getAttribute('data-share')); return; }
     var exporter = event.target.closest('[data-export]');
     if (exporter) {
-      if (exporter.getAttribute('data-export') === 'print') printDrawer(); else exportText();
+      var action = exporter.getAttribute('data-export');
+      if (action === 'print') printDrawer();
+      else if (action === 'backup') exportBackup();
+      else if (action === 'restore') content.querySelector('[data-drawer-file]').click();
+      else exportText();
     }
   });
 
