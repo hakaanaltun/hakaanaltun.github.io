@@ -146,7 +146,7 @@ audio until it returns.
   voice. Neither script is precached by `sw.js`; if that changes, bump its
   `CACHE`.
 
-## Cursor Cloud specific instructions
+## Working on the site
 
 This repository is a **Jekyll 4 static site** ("On Life & Everything", a personal blog) that is deployed to GitHub Pages via `.github/workflows/pages.yml`. Ruby, RubyGems, and Bundler 4.0.13 are pre-installed in the Cloud VM, and the startup update script runs `bundle install` (gems install into the git-ignored `vendor/bundle/`, configured by `.bundle/config`).
 
@@ -158,10 +158,11 @@ This repository is a **Jekyll 4 static site** ("On Life & Everything", a persona
 
 ### Non-obvious notes
 - URLs are "pretty": source files like `about.html` / `archive.html` are served at `/about/` and `/archive/` (trailing slash), NOT `/about.html`. Posts use the permalink pattern `/pieces/:slug.html` (set in `_config.yml`).
-- `_config.yml` sets `future: true`, so posts dated in the future still render — expected for this repo.
+- `_config.yml` sets `future: true`, so posts dated in the future still render, as expected for this repo.
 - The production Pages workflow uses Ruby 3.3; the VM uses the apt-provided Ruby 3.2, which builds the site fine.
 - `style.css` and `palettes.css` are linked once, in `_includes/head.html`, for every page that uses the default layout. Bump the `?v=` there when either changes.
 - The published stylesheets carry no comments. The deploy runs `scripts/strip-css-comments.cjs` on `_site/css` after the checks and fails if any rule would change. Keep writing comments in `css/`; a local build keeps them. Styles inside a page's own `<style>` are not touched.
+- **This file is published.** `/colophon/` is built from it on every deploy, under the author's introduction in `colophon.html`; `_plugins/agents_md.rb` reads it in without Liquid. Visitors read it as well as whoever works on the site, so it keeps the site's prose and punctuation. `scripts/test-content.cjs` checks its dashes, and that no word is split at the end of a line, which the page would show as two (`hand- balancing`).
 
 ## Starting a session
 
@@ -176,15 +177,15 @@ learned the hard way is written down here instead.
 - **A merge can land while you are still pushing, and nothing will say so.**
   This happened twice in one session: a prose fix was pushed after its pull
   request had already been merged, so it sat on the branch and never reached
-  the site — and it was only caught later, by chance. Before opening anything
+  the site—and it was only caught later, by chance. Before opening anything
   new, check that the last commit you pushed is an ancestor of `origin/main`
   (`git merge-base --is-ancestor <sha> origin/main`) and carry over whatever
   is not. Ask to be told when a pull request is merged; it is cheaper than
   finding out.
 - **This site is read as pages, not as diffs.** Its author reviews a change by
   looking at it, which for a long time meant merging first and looking after.
-  Build the site and hand over the rendered pages — the ones that changed and
-  the index they sit in — before asking for a merge. A description of a
+  Build the site and hand over the rendered pages—the ones that changed and
+  the index they sit in—before asking for a merge. A description of a
   paragraph is not a substitute for the paragraph.
 - **Say what changed, not why each word changed.** A pull request description
   names the work and its shape; the line-by-line reasoning behind an edit
@@ -291,9 +292,9 @@ The site has two deliberate ideas of place. Do not collapse them into one.
 
 ## Punctuation
 
-- **Em dashes are closed up: word—word, not word — word.** The essays are
+- **Em dashes are closed up: `word—word`, not `word — word`.** The essays are
   written that way, and new text in quizzes, word stories and notes follows
-  them. Leave the spaced dash in page titles (" — On Life & Everything" and
+  them. Leave the spaced dash in page titles (`Feeds — On Life & Everything` and
   the instrument names) alone; that separator is deliberate and explained in
   `_includes/head.html`.
 
@@ -487,14 +488,14 @@ accuracy and plain prose to this section as well.
   the station; ask it another way or ask something else.
 - All four choices must be real candidates to somebody who does not know. Three
   obviously wrong ones make the question an inventory check, not a question.
-  Distractors should be the same kind of thing as the answer — four monarchs,
-  four counties, four novelists — and of roughly the same length.
+  Distractors should be the same kind of thing as the answer—four monarchs,
+  four counties, four novelists—and of roughly the same length.
 - Write the right answer wherever it belongs in the list and think no further
   about it. The quiz shuffles both the questions and the choices for every
-  game, so a pattern in the file is not a pattern a reader can see, and hand-
-  balancing the positions only makes the file harder to read. This is worth
-  saying because the first bank drifted badly — 29 of its 50 answers were
-  written second — which is why the shuffle exists.
+  game, so a pattern in the file is not a pattern a reader can see, and
+  hand-balancing the positions only makes the file harder to read. This is worth
+  saying because the first bank drifted badly—29 of its 50 answers were
+  written second—which is why the shuffle exists.
 - A negative question ("least typical", "not") is allowed but should stay rare,
   and the negative must be unmissable in the wording.
 - Every question carries a `category`, and **a category is a round**: the bank

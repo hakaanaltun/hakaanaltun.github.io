@@ -1,0 +1,141 @@
+---
+layout: default
+permalink: /colophon/
+title: "The Colophon"
+series: about
+description: "A living record of the site’s editorial and technical rules."
+---
+{% comment %} Below the introduction, this page is AGENTS.md itself, read in
+by _plugins/agents_md.rb and rendered on every build. Change the rules there,
+not here. The marker splits kramdown's list of contents from the text so the
+list can sit in its own nav; toc_levels keeps it to the sections. {% endcomment %}
+{%- capture source -%}
+{::options toc_levels="2" /}
+* Contents
+{:toc}
+
+<!-- colophon-text -->
+
+{{ site.agents_md }}
+{%- endcapture -%}
+{%- assign parts = source | markdownify | split: "<!-- colophon-text -->" -%}
+
+<div class="section-page colophon-page">
+  <div class="section-page-head">
+    <h1 class="section-page-title">The Colophon</h1>
+  </div>
+
+  <p class="colophon-intro">This page is a living record of the site’s editorial and technical rules. They have taken shape over time through conversations with AI and the work of trying things out and taking things away. This document is the working guide to how this house is built and cared for. It continues to change with the site.</p>
+
+  <nav class="colophon-contents" aria-labelledby="colophon-contents-label">
+    <h2 id="colophon-contents-label" class="colophon-contents-label">Contents</h2>
+    {{ parts[0] }}
+  </nav>
+
+  <div class="colophon-text">
+    {{ parts[1] }}
+  </div>
+</div>
+
+<style>
+  .colophon-page { max-width: 44rem; }
+
+  .colophon-intro {
+    font-style: italic;
+    font-size: 1.12rem;
+    line-height: 1.65;
+    color: var(--ink-soft);
+    text-align: center;
+    text-wrap: pretty;
+    max-width: 36rem;
+    margin: -16px auto 44px;
+  }
+
+  .colophon-contents {
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    padding: 22px 0 24px;
+    margin: 0 0 12px;
+  }
+
+  .colophon-contents-label {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 0.78rem;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--vizon);
+    margin: 0 0 12px;
+  }
+
+  .colophon-contents ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    columns: 2;
+    column-gap: 32px;
+    font-size: 1rem;
+    line-height: 1.4;
+  }
+
+  .colophon-contents li { break-inside: avoid; padding: 4px 0; }
+  .colophon-contents a { color: var(--petrol-deep); }
+  .colophon-contents a:hover,
+  .colophon-contents a:focus-visible { text-decoration: underline; text-underline-offset: 3px; }
+
+  .colophon-text {
+    font-size: 1.04rem;
+    line-height: 1.7;
+    color: var(--ink-soft);
+  }
+
+  .colophon-text h2 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 1.85rem;
+    line-height: 1.15;
+    color: var(--petrol-deep);
+    margin: 56px 0 18px;
+  }
+
+  .colophon-text h3 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 1.4rem;
+    line-height: 1.2;
+    color: var(--petrol-deep);
+    margin: 36px 0 12px;
+  }
+
+  .colophon-text p,
+  .colophon-text ul,
+  .colophon-text ol { margin: 0 0 18px; text-wrap: pretty; }
+
+  .colophon-text ul,
+  .colophon-text ol { padding-left: 1.2em; }
+
+  .colophon-text li { margin-bottom: 10px; }
+  .colophon-text li::marker { color: var(--vizon); }
+  .colophon-text li > ul { margin: 10px 0 0; }
+
+  .colophon-text strong { font-weight: 600; color: var(--ink); }
+
+  .colophon-text code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.8em;
+    padding: 0.08em 0.32em;
+    border-radius: 3px;
+    background: color-mix(in srgb, var(--rule) 70%, transparent);
+    color: var(--ink);
+    overflow-wrap: anywhere;
+  }
+
+  @media (max-width: 600px) {
+    .colophon-intro { font-size: 1.04rem; margin-top: -24px; }
+    .colophon-contents ul { columns: 1; }
+    .colophon-text { font-size: 1rem; }
+    .colophon-text h2 { font-size: 1.6rem; margin-top: 44px; }
+  }
+</style>
