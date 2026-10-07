@@ -332,6 +332,12 @@ accuracy and plain prose to this section as well.
 - If a claim is disputed or cannot be confirmed, explain the uncertainty or
   leave it out. Keep the prose plain and unshowy, following the same writing
   rules as `Words with Stories`.
+- A picture may also have a story below it. Source each part as carefully as
+  the clickable explanations. For scientific subjects, identify speculative
+  ideas as such and distinguish mathematical predictions from observations.
+  A sourced account of a theory is evidence that it was proposed, not that
+  it has been confirmed. If an anecdote is retained without a verifiable
+  source, say that explicitly and do not present it as an established fact.
 
 ## Trivia editorial standard
 

@@ -26,6 +26,12 @@ function page(modals) {
     assert.ok(note && note.querySelector('article').textContent.trim());
     assert.equal(new URL(note.querySelector('.picture-detail-sources a').href).protocol, 'https:');
   }
+  for (const part of d.querySelectorAll('.picture-story-part')) {
+    assert.ok(part.querySelector('p').textContent.trim());
+    assert.ok(part.querySelector('.picture-story-sources a'), 'each part of the story has its sources beneath it');
+  }
+  const index = JSON.parse(fs.readFileSync(path.join(root, '_site/search-index.json'), 'utf8'));
+  assert.ok(index.find(item => item.url === '/pictures/black-hole/').text.includes('Luminet'));
   dom.window.close();
 }
 {

@@ -23,7 +23,7 @@ sitemap: false
 {%- for picture in site.pictures -%}
   {%- unless picture.noindex or picture.published == false -%}
     {%- if comma -%},{%- endif -%}{%- assign comma = true -%}
-    {%- capture picture_text -%}{% for detail in picture.details %}{{ detail.kicker }} {{ detail.title }} {{ detail.body | join: " " }} {% endfor %}{%- endcapture -%}
+    {%- capture picture_text -%}{% for detail in picture.details %}{{ detail.kicker }} {{ detail.title }} {{ detail.body | join: " " }} {% endfor %}{% for part in picture.story %}{{ part.body | join: " " }} {% endfor %}{%- endcapture -%}
     {"title":{{ picture.title | search_text | jsonify }},"url":{{ picture.url | relative_url | jsonify }},"kind":"Picture story","description":{{ picture.description | search_text | jsonify }},"text":{{ picture_text | search_text | jsonify }}}
   {%- endunless -%}
 {%- endfor -%}
