@@ -95,11 +95,17 @@
     feedback.textContent = '';
     more.hidden = true;
 
-    arrangement.forEach(function (original) {
+    arrangement.forEach(function (original, slot) {
       var button = document.createElement('button');
       button.type = 'button';
       button.className = 'home-daily-trivia-choice';
       button.setAttribute('data-original', String(original));
+
+      // Lettered by place on the screen, as in the quizzes.
+      var letter = document.createElement('span');
+      letter.className = 'home-daily-trivia-letter';
+      letter.textContent = 'ABCDEFGHI'.charAt(slot);
+      button.appendChild(letter);
 
       var label = document.createElement('span');
       label.textContent = q.choices[original];
@@ -122,9 +128,17 @@
           }
         });
 
-        feedback.textContent = original === q.answer
-          ? 'Correct. ' + q.note
-          : 'Answer: ' + q.choices[q.answer] + '. ' + q.note;
+        if (original === q.answer) {
+          feedback.textContent = 'Correct. ' + q.note;
+        } else {
+          // The answer in italics, so that "A boiled egg" cannot be read
+          // as the choice lettered A.
+          feedback.textContent = 'Answer: ';
+          var name = document.createElement('em');
+          name.textContent = q.choices[q.answer];
+          feedback.appendChild(name);
+          feedback.appendChild(document.createTextNode('. ' + q.note));
+        }
 
         more.href = q.url || '/trivia/';
         more.textContent = 'More ' + q.quiz + ' →';

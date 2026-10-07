@@ -136,16 +136,37 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   a.click('[data-open="question"]');
   const qid = a.q('[data-question]').getAttribute('data-question');
   const question = catalog.questions.find((x) => x.id === qid);
-  a.click('[data-answer="other"]');
+  // Lettered A to D down the wall, whatever order the choices fell in.
+  const answerButtons = Array.from(a.w.document.querySelectorAll('[data-answer]'));
+  assert.deepEqual(answerButtons.map((b) => b.querySelector('.house-answer-letter').textContent), ['A', 'B', 'C', 'D']);
+  const wallOrder = answerButtons.map((b) => b.querySelector('.house-answer-text').textContent);
+  assert.deepEqual([...wallOrder].sort(), [...question.choices].sort());
+  // And the order is the day's, not the visit's: another visit today, with
+  // a different roll of the dice, finds the same choice under the same letter.
+  {
+    const again = house();
+    await tick();
+    again.w.Math.random = () => 0.999;
+    again.click('[data-open="question"]');
+    assert.deepEqual(Array.from(again.w.document.querySelectorAll('[data-answer] .house-answer-text'), (n) => n.textContent), wallOrder);
+    again.dom.window.close();
+  }
+  const other = a.q('[data-answer="other"]');
+  a.click(other);
   assert.equal(a.q('.house-answer-note').hidden, false);
   assert.equal(a.q('.house-answer-result').textContent, 'The answer is ' + question.choices[question.answer] + '.');
+  assert.equal(a.q('.house-answer-result em').textContent, question.choices[question.answer], 'the answer set apart from the line');
   assert.equal(a.stored().answered.id, qid);
+  // The choice is kept by its words, not its letter, which moves with the
+  // next visit's shuffle.
+  assert.equal(a.stored().answered.choice, other.querySelector('.house-answer-text').textContent);
   a.click('.house-answer-note [data-keep-button]');
   assert.equal(a.stored().kept[0].id, qid);
   assert.equal(a.stored().kept[0].quote, question.note);
   a.click('#house-close');
   a.click('[data-open="question"]');
   assert.equal(a.q('.house-answer-note').hidden, false, 'still answered today');
+  assert.equal(a.q('[data-result="chosen"] .house-answer-text').textContent, a.stored().answered.choice, 'and the same choice is marked');
   assert.equal(a.q('.house-answer-note [data-keep-button]').getAttribute('aria-pressed'), 'true');
   a.click('#house-close');
 

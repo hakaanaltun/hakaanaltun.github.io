@@ -175,8 +175,30 @@ function main() {
     k2.choices().forEach((button, slot) => {
       assert.equal(button.querySelector('.trivia-choice-text').textContent,
         q.choices[state.arrangement[0][slot]]);
-      assert.equal(button.querySelector('.trivia-choice-number').textContent, String(slot + 1));
+      assert.equal(button.querySelector('.trivia-choice-letter').textContent, 'ABCD'.charAt(slot));
     });
+  }
+
+  // --- The letters on the choices are the keys that press them -------------
+  //
+  // A to D, in either case, by place on the screen. The digits the choices
+  // used to carry still work for anyone who learned them.
+  {
+    ['c', 'C', '3'].forEach((value) => {
+      const kit = build({ seed: 8 });
+      kit.start();
+      const pressed = kit.key(value);
+      assert.equal(pressed.defaultPrevented, true, value + ' answers');
+      assert.equal(kit.stored().pending.selected, kit.stored().arrangement[0][2], value + ' is the third choice');
+    });
+
+    // A letter with no choice behind it, or any other letter, does nothing.
+    const kit = build({ seed: 8 });
+    kit.start();
+    ['e', 'x', '5'].forEach((value) => {
+      assert.equal(kit.key(value).defaultPrevented, false, value + ' is left alone');
+    });
+    assert.equal(kit.stored().pending, null);
   }
 
   // --- A round is a subject, and it is as long as the subject is -----------
@@ -263,6 +285,10 @@ function main() {
     assert.deepEqual(
       [...kit.d.querySelectorAll('.trivia-choice-mark')].map((mark) => mark.textContent).sort(),
       ['Answer', 'Your answer']);
+    // The answer is named in italics, so "A boiled egg" is not read as A.
+    const first = kit.bank[kit.stored().order[0]];
+    assert.equal(kit.d.querySelector('#trivia-feedback em').textContent, first.choices[first.answer]);
+    assert.equal(kit.text('trivia-feedback'), 'Answer: ' + first.choices[first.answer] + '. ' + first.note);
     // Pressing another one afterwards changes nothing.
     const score = kit.stored().score;
     kit.choices()[(right + 2) % 4].click();
@@ -289,6 +315,9 @@ function main() {
     const typed = kit.key('1', { on: field });
     assert.equal(typed.defaultPrevented, false, 'the digit reaches the field');
     assert.equal(kit.stored().pending, null, 'and does not answer the question');
+    const lettered = kit.key('a', { on: field });
+    assert.equal(lettered.defaultPrevented, false, 'so does a letter');
+    assert.equal(kit.stored().pending, null);
 
     const chorded = kit.key('1', { ctrlKey: true });
     assert.equal(chorded.defaultPrevented, false);
