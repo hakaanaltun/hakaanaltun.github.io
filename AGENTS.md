@@ -373,13 +373,21 @@ accuracy and plain prose to this section as well.
 - **Every page that is read or browsed carries them**: the homepage, The
   House, the writing, the word pages, the section indexes (Words, Pictures,
   Trivia, Instruments), Moris and About. They come from
-  `_layouts/default.html`, and a new page of this kind uses it.
+  `_layouts/default.html`, and a new page of this kind uses it. The House
+  is entered like a room, but it keeps them: it does not fill the window,
+  what it holds (the shelf, the desk, the drawer) is read, and it is first
+  in the site's menu.
 - **A place that fills the window has its own quiet frame instead**: the
   Farm House, each picture in Pictures with Stories and each instrument. The
   frame gives a way back and the place's own controls, and leaves the rest
   of the window to the picture or the tool. The author settled this in
-  October 2026: do not add the site's header and footer to these places, and
-  keep their frames as they are.
+  October 2026: do not add the site's header and footer to these places.
+  Each frame keeps its own design; do not merge them into one. Fixing a
+  fault in a frame is fine.
+- **A new place takes its family's frame.** A new instrument takes the
+  instruments' bar and a new picture the picture layout. Woodland paths or
+  a river reached from the farm's garden are scenes of the Farm House and
+  keep its frame; they do not become pages of their own.
 - **The way back leads to the place's own section.** An instrument leads
   to the instruments and a picture to Pictures with Stories. The clock, the
   reader and the desk can also be opened from The House's study, and they
