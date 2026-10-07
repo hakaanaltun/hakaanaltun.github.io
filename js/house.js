@@ -225,10 +225,13 @@
       var j = Math.floor(Math.random() * (i + 1));
       var t = order[i]; order[i] = order[j]; order[j] = t;
     }
-    order.forEach(function (at) {
-      var button = element('button', '', q.choices[at]);
+    // Lettered by place on the screen, as in the quizzes.
+    order.forEach(function (at, slot) {
+      var button = element('button');
       button.type = 'button';
       button.setAttribute('data-answer', at === q.answer ? 'correct' : 'other');
+      button.appendChild(element('span', 'house-answer-letter', 'ABCDEFGHI'.charAt(slot)));
+      button.appendChild(element('span', 'house-answer-text', q.choices[at]));
       answers.appendChild(button);
     });
     article.appendChild(answers);
@@ -244,9 +247,15 @@
     // The answer stays answered for the rest of İstanbul's day.
     var saved = KEEP.read().answered;
     if (saved && saved.day === today() && saved.id === q.id) {
-      var chosen = Array.prototype.find.call(answers.children, function (b) { return b.textContent === saved.choice; });
+      var chosen = Array.prototype.find.call(answers.children, function (b) { return choiceText(b) === saved.choice; });
       if (chosen) showAnswer(chosen, false);
     }
+  }
+
+  // The choice's own words, without its letter: the letters move with the
+  // order, which is shuffled again on every visit.
+  function choiceText(button) {
+    return button.querySelector('.house-answer-text').textContent;
   }
 
   function showAnswer(button, moveFocus) {
@@ -258,7 +267,7 @@
     });
     var note = content.querySelector('.house-answer-note');
     note.hidden = false;
-    content.querySelector('.house-answer-result').textContent = button === correct ? 'That’s right.' : 'The answer is ' + correct.textContent + '.';
+    content.querySelector('.house-answer-result').textContent = button === correct ? 'That’s right.' : 'The answer is ' + choiceText(correct) + '.';
     if (moveFocus) {
       // The disabled answer no longer takes focus; the note is what to read.
       note.tabIndex = -1;
@@ -842,7 +851,7 @@
     var answer = event.target.closest('[data-answer]');
     if (answer && !answer.disabled) {
       var id = answer.closest('[data-question]').getAttribute('data-question');
-      KEEP.update(function (state) { state.answered = { day: today(), id: id, choice: answer.textContent }; });
+      KEEP.update(function (state) { state.answered = { day: today(), id: id, choice: choiceText(answer) }; });
       showAnswer(answer, true);
       return;
     }

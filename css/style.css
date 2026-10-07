@@ -3113,7 +3113,7 @@ html[data-theme="sky"] .footer-strip { border-top: 0; }
 .home-daily-trivia-choice {
   appearance: none;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: 1.4rem minmax(0, 1fr) auto;
   align-items: center;
   gap: 10px;
   width: 100%;
@@ -3147,6 +3147,10 @@ html[data-theme="sky"] .footer-strip { border-top: 0; }
 }
 .home-daily-trivia-choice.is-selected-wrong {
   opacity: 0.56;
+}
+.home-daily-trivia-letter {
+  font-size: 0.82rem;
+  color: var(--vizon);
 }
 .home-daily-trivia-mark {
   font-style: italic;

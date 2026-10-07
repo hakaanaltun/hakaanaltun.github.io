@@ -181,7 +181,8 @@ html:has(.house-dialog[open]) { overflow: hidden; }
 .house-word-card details p { margin-top: 0; }
 .house-word-card h3 { font-style: italic; font-size: 36px; }
 .house-answers { display: grid; gap: 10px; margin: 24px 0; }
-.house-answers button { padding: 13px 16px; text-align: left; background: var(--surface-soft); border: 1px solid var(--rule-strong); border-radius: 2px; font-size: 18px; }
+.house-answers button { display: grid; grid-template-columns: 1.6rem minmax(0, 1fr); align-items: baseline; gap: 8px; padding: 13px 16px; text-align: left; background: var(--surface-soft); border: 1px solid var(--rule-strong); border-radius: 2px; font-size: 18px; }
+.house-answer-letter { font-size: 15px; color: var(--vizon); }
 .house-answers button:disabled { opacity: 1; cursor: default; color: var(--vizon); }
 .house-answers button[data-result="correct"] { border: 2px solid var(--petrol); color: var(--ink); }
 .house-answers button[data-result="chosen"] { border-style: dashed; }

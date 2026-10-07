@@ -22,6 +22,10 @@
      A bank with no categories still plays: it falls back to rounds of ten. */
   var FALLBACK_ROUND_SIZE = 10;
 
+  /* The choices are lettered by their place on the screen, not in the bank,
+     so A is always the top one. The same letters key in an answer. */
+  var LETTERS = 'ABCDEFGHI';
+
   var intro = document.getElementById('trivia-intro');
   var questionPanel = document.getElementById('trivia-question');
   var roundPanel = document.getElementById('trivia-round');
@@ -388,15 +392,15 @@
       button.className = 'trivia-choice';
       button.setAttribute('data-choice', String(slot));
 
-      var number = document.createElement('span');
-      number.className = 'trivia-choice-number';
-      number.textContent = String(slot + 1);
+      var letter = document.createElement('span');
+      letter.className = 'trivia-choice-letter';
+      letter.textContent = LETTERS.charAt(slot);
 
       var label = document.createElement('span');
       label.className = 'trivia-choice-text';
       label.textContent = q.choices[original];
 
-      button.appendChild(number);
+      button.appendChild(letter);
       button.appendChild(label);
       button.addEventListener('click', function () {
         if (button.getAttribute('aria-disabled') === 'true') return;
@@ -635,8 +639,14 @@
     if (event.ctrlKey || event.metaKey || event.altKey) return;
     if (isTypingTarget(event.target)) return;
 
-    if (state && !questionPanel.hidden && !state.pending && /^[1-9]$/.test(event.key)) {
-      var button = choices.querySelector('[data-choice="' + (Number(event.key) - 1) + '"]');
+    /* The letters on the choices, and the numbers they replaced, which
+       keep working for anyone who learned them. */
+    var slot = -1;
+    if (/^[a-i]$/i.test(event.key)) slot = LETTERS.indexOf(event.key.toUpperCase());
+    else if (/^[1-9]$/.test(event.key)) slot = Number(event.key) - 1;
+
+    if (state && !questionPanel.hidden && !state.pending && slot >= 0) {
+      var button = choices.querySelector('[data-choice="' + slot + '"]');
       if (button) {
         event.preventDefault();
         focusSafely(button);
