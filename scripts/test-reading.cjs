@@ -25,9 +25,11 @@ async function main() {
     run(w, 'reading-settings'); await tick();
     assert.equal(q('#reading-options').hidden, false);
     assert.equal(w.document.documentElement.style.getPropertyValue('--reading-scale'), '1.3');
-    assert.equal(q('#reading-font').value, 'sans');
+    assert.equal(q('#reading-font'), null);
+    assert.equal(w.document.documentElement.hasAttribute('data-reading-font'), false, 'old font preferences are ignored');
+    assert.equal(w.document.documentElement.style.getPropertyValue('--reading-spacing'), '2.4');
     q('#reading-reset').click();
-    assert.equal(JSON.parse(w.localStorage.getItem('olae-reading-v1')).font, 'serif');
+    assert.deepEqual(JSON.parse(w.localStorage.getItem('olae-reading-v1')), { size: '1', spacing: '1.85' });
     assert.equal(q('#reading-size').value, '1');
     Object.defineProperty(w, 'localStorage', { get() { throw new w.DOMException('blocked', 'SecurityError'); } });
     q('#reading-size').value = '1.15'; q('#reading-size').dispatchEvent(new w.Event('change'));

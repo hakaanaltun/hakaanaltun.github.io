@@ -3,7 +3,7 @@
 .reading-options { width: 100%; max-width: 620px; margin-top: 6px; color: var(--vizon); font-size: 1rem; }
 .reading-options > summary { width: fit-content; margin: 0 auto; cursor: pointer; font-style: italic; font-size: .92rem; padding: 5px 8px; }
 .reading-panel { margin-top: 12px; padding: 18px; border: 1px solid var(--rule); border-radius: 6px; text-align: left; }
-.reading-settings { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.reading-settings { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
 .reading-settings label { display: flex; flex-direction: column; gap: 5px; }
 .reading-panel select { max-width: 100%; min-height: 36px; border: 1px solid var(--rule); border-radius: 3px; padding: 4px 6px; color: var(--ink-soft); background: var(--paper); font: inherit; }
 .reading-panel button, .offline-list button { border: 0; background: transparent; color: var(--petrol); font: inherit; cursor: pointer; padding: 6px 0; text-decoration: underline; text-underline-offset: 3px; }
@@ -23,7 +23,6 @@
 .essay-body[data-reading-body] { font-size: calc(1em * var(--reading-scale, 1)); }
 .essay-body[data-reading-body] :is(p, li, blockquote) { line-height: var(--reading-spacing, 1.85); }
 .essay-body[data-reading-body] blockquote { font-size: 1.05em; }
-html[data-reading-font="sans"] .essay-body[data-reading-body] { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
 .essay-print-byline { display: none; }
 .essay-puzzle-wrap { text-align: center; margin: 38px 0 0; }
 .essay-puzzle-wrap + .essay-guess-wrap { margin-top: 10px; }

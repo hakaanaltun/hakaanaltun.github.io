@@ -101,6 +101,8 @@
      puzzle, so it stays on the books and is simply not offered in the mode
      that cannot use it. */
   function eligible(node){
+    var language=node.closest('[lang]');
+    if(language && !/^en(?:-|$)/i.test(language.getAttribute('lang')))return null;
     if(node.closest('.puzzle-panel, .puzzle-board, .puzzle-preview'))return null;
     if(node.querySelector('p, li, blockquote, img, svg, video, audio, canvas, iframe, button, input, select, textarea, pre, code, math'))return null;
     var text=prose(node).trim();
