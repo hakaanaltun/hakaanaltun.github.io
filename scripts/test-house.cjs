@@ -186,6 +186,8 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.match(a.q('#house-dialog-content').textContent, /Sunset/);
   assert.match(a.q('#house-dialog-content').textContent, /% lit/);
   assert.match(a.q('#house-dialog-content').textContent, /Moon(rise|set)\d\d:\d\d/);
+  assert(a.q('#house-dialog-content a[href="/sun/?city=istanbul"]'), 'the sun stays in İstanbul');
+  assert(a.q('#house-dialog-content a[href="/stars/?city=istanbul"]'), 'the stars stay in İstanbul');
   a.click('#house-close');
   // The moon is in the window only while it is above İstanbul's horizon.
   // Altitudes from PyEphem, airless, for the moon's centre.

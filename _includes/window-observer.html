@@ -1,0 +1,21 @@
+{% comment %}The same places and fallback as Twilight. A city is an approximation
+from the device's zone; no location permission or network lookup is used.{% endcomment %}
+<script>
+(function(){
+  "use strict";
+  var cities = {
+{% for c in site.data.cities %}    {{ c.slug | jsonify }}: {name:{{ c.name | jsonify }},lat:{{ c.lat }},lng:{{ c.lng }},tz:{{ c.tz | jsonify }}},
+{% endfor %}  };
+  var zones = {
+{% for c in site.data.cities %}{% unless c.alias %}    {{ c.tz | jsonify }}: {{ c.slug | jsonify }},
+{% for z in c.also %}    {{ z | jsonify }}: {{ c.slug | jsonify }},
+{% endfor %}{% endunless %}{% endfor %}  };
+  var tz = "";
+  try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ""; } catch(e){}
+  var key = Object.prototype.hasOwnProperty.call(zones,tz) ? zones[tz] : "";
+  var requested = new URLSearchParams(location.search).get("city");
+  if(Object.prototype.hasOwnProperty.call(cities,requested)) key = requested;
+  window.OLAE_OBSERVER = { key:key, nominal:!key, cities:cities,
+    city:key ? cities[key] : {name:"Your time zone",lat:0,lng:-new Date().getTimezoneOffset()/4,tz:tz || undefined} };
+})();
+</script>

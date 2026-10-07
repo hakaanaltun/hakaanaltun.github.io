@@ -1,0 +1,39 @@
+---
+layout: null
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Sun — Solar Altitude &amp; Direction Now · On Life &amp; Everything</title>
+<meta name="description" content="Where the sun stands now: its height above the horizon, compass direction, and today's path across the sky. Follows your device's time zone.">
+<link rel="canonical" href="https://hakanaltun.io/sun/">
+<meta name="theme-color" content="#101720">
+<link rel="stylesheet" href="/css/fonts.css?v=20260710-1">
+<link rel="stylesheet" href="/css/window-sky.css?v=20261007-1">
+</head>
+<body data-sky-tool="sun">
+<nav class="chrome" aria-label="Site"><a class="back" href="/tools/">instruments</a><a class="brand" href="/">On Life &amp; Everything</a></nav>
+<main class="app">
+  <div class="heading">
+    <div><h1>The Sun</h1><p class="place" id="place">Reading your sky…</p></div>
+    <label class="city-control">Sky over <select id="city" aria-label="Choose a city"><option value="">Your time zone</option>{% for c in site.data.cities %}<option value="{{ c.slug }}">{{ c.name }}</option>{% endfor %}</select></label>
+  </div>
+  <p class="moment" id="moment"></p>
+  <div class="sun-reading"><div class="height" id="height">—<span>°</span></div><p class="status" id="sun-status">Height above the horizon</p></div>
+  <dl class="metrics"><div><dt>Direction</dt><dd id="direction">—</dd></div><div><dt>Sunrise</dt><dd id="sunrise">—</dd></div><div><dt>Sunset</dt><dd id="sunset">—</dd></div><div><dt>Daylight</dt><dd id="daylight">—</dd></div></dl>
+  <figure class="sun-plot">
+    <figcaption class="chart-head">Today’s path <span>Height above the horizon</span></figcaption>
+    <svg class="diagram" id="sun-chart" viewBox="0 0 820 260" role="img" aria-label="The sun's height through today's twenty-four hours"><title>The sun’s height throughout today</title></svg>
+    <p class="caption">The dot is now. The dashed part of the path lies below the horizon.</p>
+  </figure>
+</main>
+<noscript><p class="noscript">Turn on JavaScript to calculate the sun’s position.</p></noscript>
+<footer class="notes"><h2>Reading the sun</h2><p>A height of 0° is the horizon; 90° is directly overhead. The compass bearing runs clockwise from north, through east at 90° and south at 180°. A negative height puts the sun below the horizon.</p><p>Your device’s time zone chooses a nearby city. Its coordinates stand in for yours; you can choose another city above. All calculations run in your browser, with your current clock. The height describes the sun’s center without atmospheric refraction; sunrise and sunset allow for the apparent upper edge.</p><p>Positions are approximate. Buildings, hills and the atmosphere can change what you see near the horizon.</p>{% include tool-links.html slug="sun" %}</footer>
+{% include window-observer.html %}
+<script src="/js/astronomy.js?v=20261007-1"></script>
+<script src="/js/sky-instruments.js?v=20261007-1"></script>
+<script>if("serviceWorker" in navigator){navigator.serviceWorker.register("/sw.js").catch(function(){});}</script>
+</body>
+</html>

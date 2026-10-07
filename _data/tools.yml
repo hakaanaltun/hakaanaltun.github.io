@@ -145,8 +145,24 @@
   listname: "Twilight — Sunrise, Sunset & Civil Twilight Today"
   card: "The sky, kept in real time. Today's sunrise, sunset, civil twilight and day length; the page follows the color of the hour."
   line: "today&rsquo;s twilight"
-  related: [moon, season, days]
+  related: [sun, stars, moon]
   post: { url: "/book/part-two/#the-cove", title: "The Cove" }
+
+- slug: sun
+  name: The Sun
+  group: window
+  listname: "The Sun — Solar Altitude & Direction Now"
+  card: "Where the sun stands now: its height, compass direction, and today's path across your sky."
+  line: "the sun’s height and direction"
+  related: [twilight, stars, moon]
+
+- slug: stars
+  name: The Stars
+  group: window
+  listname: "The Stars — Bright Stars, Constellations & Planets Now"
+  card: "A map of the bright stars and planets above your horizon, with constellations to look for. Follows your clock."
+  line: "the stars above your horizon"
+  related: [sun, moon, twilight]
 
 - slug: moon
   name: The Moon
@@ -154,7 +170,7 @@
   listname: "The Moon — Moon Phase Today"
   card: "Tonight's moon: the current phase drawn as it hangs in the sky, its illumination and age, and the next full and new moon."
   line: "the phase of the moon"
-  related: [twilight, season, days]
+  related: [stars, sun, twilight]
 
 - slug: season
   name: The Season

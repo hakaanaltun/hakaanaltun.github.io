@@ -65,7 +65,7 @@
   }
 
   /* ---- current solar altitude (low-precision ephemeris, ±0.3°) ---- */
-  function sunAltitude(now, lat, lng){
+  function sunPosition(now, lat, lng){
     var d = (now.getTime() / 86400000) - 10957.5;        /* days since J2000 */
     var g = (357.529 + 0.98560028 * d) * RAD;
     var q = 280.459 + 0.98564736 * d;
@@ -78,7 +78,15 @@
     var lst = ((GMST + lng / 15) % 24 + 24) % 24;
     var H = ((lst - RAh) * 15 + 540) % 360 - 180;
     var latR = lat * RAD;
-    return Math.asin(Math.sin(latR) * sinDec + Math.cos(latR) * Math.cos(dec) * Math.cos(H * RAD)) / RAD;
+    var altitude = Math.asin(Math.sin(latR) * sinDec + Math.cos(latR) * Math.cos(dec) * Math.cos(H * RAD)) / RAD;
+    /* Bearing clockwise from north, including when the sun is below the
+       horizon. At the zenith the bearing is indeterminate. */
+    var azimuth = (Math.atan2(Math.sin(H * RAD),
+      Math.cos(H * RAD) * Math.sin(latR) - Math.tan(dec) * Math.cos(latR)) / RAD + 180) % 360;
+    return { altitude: altitude, azimuth: azimuth };
+  }
+  function sunAltitude(now, lat, lng){
+    return sunPosition(now, lat, lng).altitude;
   }
 
   /* ---- the moon: mean-cycle phase arithmetic ---- */
@@ -178,6 +186,7 @@
     dayOfYearLocal: dayOfYearLocal,
     sunEvent: sunEvent,
     sunAltitude: sunAltitude,
+    sunPosition: sunPosition,
     SYNODIC: SYNODIC,
     NEW_EPOCH: NEW_EPOCH,
     MOON_EDGES: MOON_EDGES,
