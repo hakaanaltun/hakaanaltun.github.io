@@ -3,13 +3,12 @@
 (function () {
   'use strict';
   var KEY = 'olae-reading-v1';
-  var DEFAULTS = { size: '1', spacing: '1.85', font: 'serif' };
+  var DEFAULTS = { size: '1', spacing: '1.85' };
   function clean(value) {
     value = value && typeof value === 'object' ? value : {};
     return {
       size: ['1', '1.15', '1.3'].indexOf(value.size) >= 0 ? value.size : DEFAULTS.size,
-      spacing: ['1.85', '2.1', '2.4'].indexOf(value.spacing) >= 0 ? value.spacing : DEFAULTS.spacing,
-      font: value.font === 'sans' ? 'sans' : 'serif'
+      spacing: ['1.85', '2.1', '2.4'].indexOf(value.spacing) >= 0 ? value.spacing : DEFAULTS.spacing
     };
   }
   var preferences = clean(null);
@@ -18,7 +17,6 @@
     var root = document.documentElement;
     root.style.setProperty('--reading-scale', preferences.size);
     root.style.setProperty('--reading-spacing', preferences.spacing);
-    root.setAttribute('data-reading-font', preferences.font);
   }
   apply();
   function start() {

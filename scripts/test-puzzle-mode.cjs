@@ -141,6 +141,22 @@ function fresh(body,wide){
   page.window.eval(script);
   return page;
 }
+// Measured's Turkish working plans stay intact in every puzzle scope.
+{
+  const measured=fs.readFileSync(require('node:path').join(__dirname,'../_posts/2026-08-29-measured.html'),'utf8')
+    .replace(/^---[\s\S]*?---\s*/,'').replace(/\{%[\s\S]*?%\}/g,'');
+  const page=fresh('<html lang="en"><body><button id="essay-puzzle" hidden>puzzle mode</button><article class="essay-body">'+measured+'</article></body></html>');
+  const doc=page.window.document,plan=doc.querySelector('[lang="tr"]'),original=plan.innerHTML;
+  doc.getElementById('essay-puzzle').click();
+  for(const unit of ['sentences','sentenceWords','words']){
+    doc.querySelector('[data-puzzle-unit="'+unit+'"]').click();
+    assert.equal(plan.innerHTML,original,'Turkish plans remain unchanged in '+unit+' mode');
+    assert.ok(doc.querySelectorAll('.puzzle-preview').length>0,'English prose is still offered');
+  }
+  doc.getElementById('essay-puzzle').click();
+  assert.equal(plan.innerHTML,original);
+  page.window.close();
+}
 // Abbreviations and decimals are not sentence endings.
 {
   const page=fresh('<button id="essay-puzzle" hidden>puzzle mode</button><article class="essay-body"><p>Dr. Aydın measured 3.14 metres. She wrote it down, e.g. in the margin. Then she left.</p></article>');
