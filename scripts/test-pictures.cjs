@@ -7,13 +7,14 @@ const { JSDOM } = require('jsdom');
 const root = path.join(__dirname, '..');
 const html = fs.readFileSync(path.join(root, '_site/pictures/black-hole/index.html'), 'utf8');
 const script = fs.readFileSync(path.join(root, 'js/pictures.js'), 'utf8');
-function page(modals) {
+function page(modals, setup) {
   const dom = new JSDOM(html, { url: 'https://hakanaltun.io/pictures/black-hole/', runScripts: 'outside-only', pretendToBeVisual: true });
   const w = dom.window;
   if (modals) {
     w.HTMLDialogElement.prototype.showModal = function () { this.open = true; };
     w.HTMLDialogElement.prototype.close = function () { this.open = false; this.dispatchEvent(new w.Event('close')); };
   } else { w.HTMLDialogElement.prototype.showModal = undefined; }
+  if (setup) setup(w);
   w.eval(script);
   return { dom, w, d: w.document };
 }
@@ -21,6 +22,7 @@ function page(modals) {
   const { dom, d } = page(false);
   assert.equal(d.body.classList.contains('picture-ready'), false);
   assert.equal(d.querySelector('#picture-places').hidden, true);
+  assert.equal(d.querySelector('#picture-fullscreen').hidden, true);
   for (const link of d.querySelectorAll('.picture-choices a')) {
     const note = d.querySelector(link.getAttribute('href'));
     assert.ok(note && note.querySelector('article').textContent.trim());
@@ -104,4 +106,81 @@ function page(modals) {
     assert.equal(slate.includes(id), i % 2 === 0, id + ' takes its turn in the rhythm');
   });
 }
-console.log('Picture checks passed: sourced fallback reading, optional hints, a label beside the thin ring, labels that open their detail, the story opening on the picture\'s history, every detail and named crop opened at the top, modal return focus and exploration help, and the homepage section in its turn of the accent rhythm.');
+async function fullscreenChecks() {
+  function setup(w, native) {
+    w.scrollTo = (x, y) => { w.restoredPosition = [x, y]; };
+    Object.defineProperties(w, { scrollX: { value: 0 }, scrollY: { value: 180 } });
+    const stage = w.document.querySelector('.picture-stage');
+    Object.defineProperties(stage, { clientWidth: { value: 900 }, clientHeight: { value: 500 } });
+    w.document.querySelector('.picture-story').setAttribute('inert', '');
+    if (!native) return;
+    let element = null;
+    Object.defineProperties(w.document, {
+      fullscreenEnabled: { value: true },
+      fullscreenElement: { get: () => element }
+    });
+    w.document.getElementById('picture-visit').requestFullscreen = () => {
+      if (native === 'reject') return Promise.reject(new Error('Full screen unavailable'));
+      element = w.document.getElementById('picture-visit');
+      w.document.dispatchEvent(new w.Event('fullscreenchange'));
+      return Promise.resolve();
+    };
+    w.document.exitFullscreen = () => {
+      element = null;
+      w.document.dispatchEvent(new w.Event('fullscreenchange'));
+      return Promise.resolve();
+    };
+  }
+  for (const native of [false, true, 'reject']) {
+    const { dom, d, w } = page(true, w => setup(w, native));
+    const visit = d.getElementById('picture-visit');
+    const control = d.getElementById('picture-fullscreen');
+    assert.equal(control.hidden, false);
+    assert.equal(visit.classList.contains('is-fullscreen'), false, 'full screen waits for the reader');
+    control.click();
+    await new Promise(resolve => setImmediate(resolve));
+    assert.equal(control.getAttribute('aria-pressed'), 'true');
+    assert.equal(control.disabled, false);
+    assert.equal(visit.getAttribute('aria-modal'), 'true');
+    assert.equal(d.activeElement, control);
+    assert.ok(d.querySelector('.picture-masthead').hasAttribute('inert'));
+    assert.equal(d.body.style.overflow, 'hidden');
+    assert.ok(visit.contains(d.getElementById('picture-detail')), 'explanations belong inside the fullscreen element');
+    const frame = d.querySelector('.picture-frame');
+    const image = d.querySelector('.picture-image');
+    assert.ok(parseFloat(frame.style.width) <= 900);
+    assert.ok(parseFloat(frame.style.width) * image.height / image.width <= 500, 'the entire sheet fits without cropping');
+    const trigger = visit.querySelector('[data-detail]');
+    trigger.click();
+    assert.equal(d.getElementById('picture-detail').open, true);
+    assert.ok(d.querySelector('#picture-detail-content .picture-detail-sources a'));
+    d.querySelector('#picture-return').click();
+    assert.equal(d.activeElement, trigger);
+    d.getElementById('picture-places').click();
+    if (native === true) {
+      await d.exitFullscreen(); // Escape or another browser-driven exit.
+    } else {
+      d.dispatchEvent(new w.KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true }));
+    }
+    await new Promise(resolve => setImmediate(resolve));
+    assert.equal(visit.classList.contains('is-fullscreen'), false);
+    assert.equal(visit.classList.contains('show-places'), true, 'the hint choice survives exit');
+    assert.equal(control.getAttribute('aria-pressed'), 'false');
+    assert.equal(visit.hasAttribute('aria-modal'), false);
+    assert.equal(d.querySelector('.picture-masthead').hasAttribute('inert'), false);
+    assert.equal(d.querySelector('.picture-story').hasAttribute('inert'), true, 'previously inert content stays inert');
+    assert.equal(d.body.style.overflow, '');
+    assert.equal(frame.style.width, '');
+    assert.deepEqual(w.restoredPosition, [0, 180]);
+    assert.equal(d.activeElement, control);
+    control.click();
+    await new Promise(resolve => setImmediate(resolve));
+    control.click(); // The explicit exit works as well as browser exit.
+    await new Promise(resolve => setImmediate(resolve));
+    assert.equal(control.getAttribute('aria-pressed'), 'false');
+    dom.window.close();
+  }
+}
+fullscreenChecks().then(() => {
+  console.log('Picture checks passed: sourced fallback reading, optional hints and full screen, native and window exits, rejected fullscreen requests, whole-sheet fit, retained hint choice, page position and return focus, every sourced detail and named crop opened at the top, story history, exploration help, and homepage accent rhythm.');
+}).catch(error => { console.error(error); process.exitCode = 1; });
