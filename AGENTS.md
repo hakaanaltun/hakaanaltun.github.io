@@ -358,6 +358,13 @@ accuracy and plain prose to this section as well.
   that each close view shows what its text names.
 - The homepage shows one picture, chosen at random, under Words with
   Stories (`_includes/pictures-with-stories-home.html`).
+- **Full screen is optional.** Each picture offers it through its own
+  control and keeps the whole sheet visible, with its proportions and
+  clickable places intact. Explanations remain available in full screen.
+  Keep an explicit exit and keyboard access; Escape closes an explanation
+  before leaving the picture, and exit returns focus and the page position.
+  If the browser cannot enter native full screen, fill its window instead.
+  Check both paths on a desk and a phone, including a change of orientation.
 
 ## The homepage
 

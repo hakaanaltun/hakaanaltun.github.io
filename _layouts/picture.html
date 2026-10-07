@@ -14,8 +14,8 @@
   <meta property="og:image" content="{{ page.image | absolute_url }}">
   <meta property="og:url" content="{{ page.url | absolute_url }}">
   <link rel="stylesheet" href="/css/fonts.css?v=20260710-2">
-  <link rel="stylesheet" href="/css/pictures.css?v=20261007-7">
-  <script src="/js/pictures.js?v=20261007-2" defer></script>
+  <link rel="stylesheet" href="/css/pictures.css?v=20261007-8">
+  <script src="/js/pictures.js?v=20261007-3" defer></script>
 </head>
 <body class="picture-page">
   <a class="picture-skip" href="#picture-main">Skip to the picture</a>
@@ -28,6 +28,7 @@
       <h1 class="picture-title">{{ page.title }}</h1>
       <div class="picture-intro">{{ content }}</div>
       <div class="picture-visit" id="picture-visit">
+        <div class="picture-stage">
         <div class="picture-frame">
           <img class="picture-image" src="{{ page.image }}" width="{{ page.image_width }}" height="{{ page.image_height }}" alt="{{ page.alt | escape }}" fetchpriority="high" decoding="async">
           <div class="picture-hotspots" aria-label="Details in the picture">
@@ -39,6 +40,7 @@
             {% endfor %}
           </div>
         </div>
+        </div>
         <div class="picture-under">
           <p class="picture-caption">{{ page.caption }}</p>
           <ol class="picture-choices" aria-label="Places to look">
@@ -48,9 +50,27 @@
           </ol>
           <div class="picture-controls">
             <a class="picture-text-link" href="/pictures/">← All pictures</a>
+            <button type="button" class="picture-text-link" id="picture-fullscreen" aria-controls="picture-visit" aria-pressed="false" hidden>Full screen</button>
             <button type="button" class="picture-text-link" id="picture-places" aria-pressed="false" hidden>Show places to look</button>
           </div>
         </div>
+        <dialog class="picture-dialog" id="picture-detail" aria-labelledby="picture-detail-title">
+          <div class="picture-detail-layout">
+            <div class="picture-detail-image" id="picture-detail-image" role="img" aria-label=""></div>
+            <div class="picture-detail-text">
+              <button type="button" class="picture-close" id="picture-close" aria-label="Close and return to the picture">×</button>
+              <div id="picture-detail-content"></div>
+              <button type="button" class="picture-text-link picture-return" id="picture-return">Back to the picture</button>
+            </div>
+          </div>
+        </dialog>
+        <dialog class="picture-dialog picture-how" id="picture-help" aria-labelledby="picture-help-title">
+          <button type="button" class="picture-close" id="picture-help-close" aria-label="Close">×</button>
+          <h2 id="picture-help-title">Look more closely.</h2>
+          <p>Click a part of the picture to open its explanation. “Show places to look” reveals the available details. On a small screen, match the numbers in the picture to the names beneath it.</p>
+          <p>“Full screen” gives the picture more room. Use “Exit full screen” or Escape to return to the page.</p>
+          <p>Tab moves between the details and Enter opens one. Escape closes an explanation first, then leaves full screen.</p>
+        </dialog>
       </div>
       <section class="picture-notes" aria-label="Details explained">
         {% for detail in page.details %}
@@ -89,21 +109,5 @@
     </main>
     <footer class="picture-footer"><a href="/pictures/">← Pictures with Stories</a><button type="button" id="picture-how" hidden>How to explore</button></footer>
   </div>
-  <dialog class="picture-dialog" id="picture-detail" aria-labelledby="picture-detail-title">
-    <div class="picture-detail-layout">
-      <div class="picture-detail-image" id="picture-detail-image" role="img" aria-label=""></div>
-      <div class="picture-detail-text">
-        <button type="button" class="picture-close" id="picture-close" aria-label="Close and return to the picture">×</button>
-        <div id="picture-detail-content"></div>
-        <button type="button" class="picture-text-link picture-return" id="picture-return">Back to the picture</button>
-      </div>
-    </div>
-  </dialog>
-  <dialog class="picture-dialog picture-how" id="picture-help" aria-labelledby="picture-help-title">
-    <button type="button" class="picture-close" id="picture-help-close" aria-label="Close">×</button>
-    <h2 id="picture-help-title">Look more closely.</h2>
-    <p>Click a part of the picture to open its explanation. “Show places to look” reveals the available details. On a small screen, match the numbers in the picture to the names beneath it.</p>
-    <p>Tab moves between the details and Enter opens one. Escape returns to the picture.</p>
-  </dialog>
 </body>
 </html>
