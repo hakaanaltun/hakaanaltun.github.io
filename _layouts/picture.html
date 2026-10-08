@@ -14,7 +14,7 @@
   <meta property="og:image" content="{{ page.image | absolute_url }}">
   <meta property="og:url" content="{{ page.url | absolute_url }}">
   <link rel="stylesheet" href="/css/fonts.css?v=20260710-2">
-  <link rel="stylesheet" href="/css/pictures.css?v=20261008-3">
+  <link rel="stylesheet" href="/css/pictures.css?v=20261008-4">
   <script src="/js/pictures.js?v=20261007-3" defer></script>
 </head>
 <body class="picture-page">
@@ -22,6 +22,7 @@
   <div class="picture-shell">
     <header class="picture-masthead">
       <a class="picture-brand" href="/pictures/">Pictures with Stories</a>
+      <a class="picture-text-link" href="/">On Life &amp; Everything</a>
     </header>
     <main id="picture-main" tabindex="-1">
       {% if page.category %}<p class="picture-category">{{ page.category | escape }}</p>{% endif %}
@@ -108,10 +109,7 @@
         <ul>{% for source in page.sources %}<li><a href="{{ source.url }}" target="_blank" rel="noopener noreferrer">{{ source.label }} <span class="picture-sr">(opens in a new tab)</span></a></li>{% endfor %}</ul>
       </details>
     </main>
-    <footer class="picture-footer">
-      <div class="picture-footer-links"><a href="/pictures/">← Pictures with Stories</a><button type="button" id="picture-how" hidden>How to explore</button></div>
-      <a class="picture-home-link" href="/" aria-label="On Life &amp; Everything home">On Life &amp; Everything</a>
-    </footer>
+    <footer class="picture-footer"><a href="/pictures/">← Pictures with Stories</a><button type="button" id="picture-how" hidden>How to explore</button></footer>
   </div>
 </body>
 </html>
