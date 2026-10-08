@@ -135,6 +135,18 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.match(a.q('#house-dialog-content').textContent, /Download as text/);
   const exports = () => Array.from(a.w.document.querySelectorAll('#house-dialog-content [data-export]'), (b) => b.getAttribute('data-export'));
   assert.deepEqual(exports(), ['backup', 'restore', 'text', 'print']);
+  // Opened from an iPhone's Home Screen, the house cannot print, so the
+  // drawer does not offer it.
+  Object.defineProperty(a.w.navigator, 'standalone', { value: true, configurable: true });
+  Object.defineProperty(a.w.navigator, 'maxTouchPoints', { value: 5, configurable: true });
+  a.click('#house-close');
+  a.click('[data-open="drawer"]');
+  assert.deepEqual(exports(), ['backup', 'restore', 'text']);
+  delete a.w.navigator.standalone;
+  delete a.w.navigator.maxTouchPoints;
+  a.click('#house-close');
+  a.click('[data-open="drawer"]');
+  assert.deepEqual(exports(), ['backup', 'restore', 'text', 'print']);
   // Newest first.
   assert.equal(a.q('#house-dialog-content .house-item .house-item-kind').textContent, 'The Fragments');
 
