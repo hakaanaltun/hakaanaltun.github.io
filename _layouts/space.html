@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>The Space · Pictures with Stories · On Life &amp; Everything</title>
+  <meta name="description" content="{{ page.description | escape }}">
+  <meta name="author" content="{{ site.author | escape }}">
+  <link rel="canonical" href="{{ page.url | absolute_url }}">
+  <link rel="icon" type="image/svg+xml" href="/on-icon.svg?v=20260729-2">
+  <link rel="stylesheet" href="/css/fonts.css?v=20260710-2">
+  <link rel="stylesheet" href="/css/pictures.css?v=20261008-9">
+  <link rel="stylesheet" href="/css/space.css?v=20261008-2">
+  <script src="/js/space.js?v=20261008-2" defer></script>
+</head>
+<body class="picture-page space-page">
+  <a class="picture-skip" href="#space-visit">Skip to the journey</a>
+  <div class="picture-shell">
+    <header class="picture-masthead">
+      <a class="picture-brand" href="/pictures/">Pictures with Stories</a>
+      <a class="picture-text-link" href="/">On Life &amp; Everything</a>
+    </header>
+    <main id="space-main">
+      <h1 class="picture-title">The Space</h1>
+      <div id="space-visit" tabindex="-1">
+        {% for scene in site.data.space.scenes %}
+        <section class="space-scene" id="{{ scene.id }}" aria-labelledby="title-{{ scene.id }}">
+          <h2 class="space-location" id="title-{{ scene.id }}" tabindex="-1">{{ scene.title }}</h2>
+          <div class="space-stage">
+            <div class="space-frame"{% if scene.image %} style="background-image:url('/pictures/space/assets/{{ scene.image }}');background-size:contain;background-position:center;background-repeat:no-repeat"{% endif %}>
+              <div class="space-worlds" role="group" aria-label="{{ scene.title | escape }}">
+                {% for spot in scene.spots %}
+                {% unless spot.person %}
+                {% if spot.to %}{% assign destination = '#' | append: spot.to %}{% else %}{% assign destination = '#space-note-' | append: spot.id %}{% endif %}
+                <a class="picture-hotspot space-object" href="{{ destination }}" style="--spot-x:{{ spot.x }}%;--spot-y:{{ spot.y }}%;--object-width:{{ spot.width }}%" aria-label="{{ spot.label | escape }}"{% unless spot.to %} data-space-detail="{{ spot.id }}"{% endunless %}>
+                  {% unless spot.marker_only %}<span class="space-object-image" style="background-image:url('/pictures/space/assets/{{ spot.image }}');background-size:{{ spot.image_size }};background-position:{{ spot.image_position }}" aria-hidden="true"></span>{% endunless %}
+                  <span class="picture-hotspot-label">{{ spot.label }}</span>
+                  <span class="picture-hotspot-number" aria-hidden="true">{{ forloop.index }}</span>
+                </a>
+                {% endunless %}
+                {% endfor %}
+                <a class="space-gate" href="#{{ scene.next }}" aria-label="{{ scene.next_label | escape }}"><span aria-hidden="true">{% if forloop.last %}↶{% else %}→{% endif %}</span></a>
+              </div>
+            </div>
+          </div>
+          <div class="space-under">
+            <p class="space-description">{{ scene.description }}</p>
+            {% if scene.image %}<p class="space-photo-caption"><a href="{{ scene.image_source }}" target="_blank" rel="noopener noreferrer">Original photograph · {{ scene.credit }}<span class="picture-sr"> (opens in a new tab)</span></a></p>{% endif %}
+            {% if scene.quote %}<figure class="space-quotation"><blockquote><p>{{ scene.quote | escape }}</p></blockquote><figcaption>— Carl Sagan, <a href="https://www.planetary.org/worlds/pale-blue-dot" target="_blank" rel="noopener noreferrer"><cite>Pale Blue Dot</cite>, 1994<span class="picture-sr"> (opens in a new tab)</span></a></figcaption></figure>{% endif %}
+            {% for spot in scene.spots %}{% if spot.person %}<a class="space-person" href="#space-note-{{ spot.id }}" data-space-detail="{{ spot.id }}"><img src="/pictures/space/assets/{{ spot.image }}" width="48" height="62" alt=""><span>{{ spot.label }}<small>Meet the scientist behind the idea →</small></span></a>{% endif %}{% endfor %}
+            <ol class="picture-choices" aria-label="Places to explore">
+              {% for spot in scene.spots %}
+              {% if spot.to %}{% assign destination = '#' | append: spot.to %}{% elsif spot.href %}{% assign destination = spot.href %}{% else %}{% assign destination = '#space-note-' | append: spot.id %}{% endif %}
+              <li><a href="{{ destination }}"{% unless spot.to or spot.href %} data-space-detail="{{ spot.id }}"{% endunless %}><span class="picture-choice-number" aria-hidden="true">{{ forloop.index }}</span>{{ spot.label }}</a></li>
+              {% endfor %}
+              <li><a href="#{{ scene.next }}">{{ scene.next_label }} →</a></li>
+            </ol>
+            <nav class="space-direction" aria-label="Travel from {{ scene.title | escape }}">
+              {% if scene.previous %}<a href="#{{ scene.previous }}" class="picture-text-link">← {{ scene.previous_label }}</a>{% else %}<span></span>{% endif %}
+              <a href="#{{ scene.next }}" class="picture-text-link space-forward">{{ scene.next_label }}{% unless forloop.last %} →{% endunless %}</a>
+            </nav>
+          </div>
+        </section>
+        {% endfor %}
+        <p class="space-scale-note">Spacecraft images · Sizes and distances adjusted for exploring.</p>
+        <div class="space-controls">
+          <a href="/pictures/" class="picture-text-link">← All pictures</a>
+          <div class="space-control-group">
+            <button type="button" id="space-fullscreen" class="picture-text-link" aria-pressed="false" hidden>Full screen</button>
+            <button type="button" id="space-places" class="picture-text-link" aria-pressed="false" hidden>Show places</button>
+          </div>
+        </div>
+        <dialog class="picture-dialog" id="space-detail" aria-labelledby="space-detail-title">
+          <div class="picture-detail-layout">
+            <div class="picture-detail-image" id="space-detail-image" role="img" aria-label=""></div>
+            <div class="picture-detail-text">
+              <button type="button" class="picture-close" id="space-close" aria-label="Close and return to the scene">×</button>
+              <div id="space-detail-content"></div>
+              <button type="button" class="picture-text-link picture-return" id="space-return">Back to the scene</button>
+            </div>
+          </div>
+        </dialog>
+      </div>
+      <div class="space-notes">
+        {% for scene in site.data.space.scenes %}{% for spot in scene.spots %}{% if spot.body %}
+        <details class="picture-note" id="space-note-{{ spot.id }}" data-image="/pictures/space/assets/{{ spot.image }}" data-position="{{ spot.image_position }}" data-size="{{ spot.image_size }}" data-alt="{{ spot.alt | escape }}">
+          <summary>{{ spot.label }}</summary>
+          <article>
+            <p class="picture-kicker">{{ spot.label }}</p>
+            <h2>{{ spot.title }}</h2>
+            <div class="picture-detail-body">{% for paragraph in spot.body %}<p>{{ paragraph | escape }}</p>{% endfor %}</div>
+            <p class="space-image-credit"><a href="{{ spot.image_source }}" target="_blank" rel="noopener noreferrer">Image · {{ spot.credit }}<span class="picture-sr"> (opens in a new tab)</span></a></p>
+            <div class="picture-detail-sources">{% for id in spot.sources %}{% for source in site.data.space.sources %}{% if source.id == id %}<a href="{{ source.url }}" target="_blank" rel="noopener noreferrer">{{ source.label }}<span class="picture-sr"> (opens in a new tab)</span></a>{% endif %}{% endfor %}{% endfor %}</div>
+          </article>
+        </details>
+        {% endif %}{% endfor %}{% endfor %}
+      </div>
+      <details class="picture-about space-about">
+        <summary>About this journey and its sources</summary>
+        <p>This first journey stays in the Solar System. It begins near Earth, visits the Sun and all eight planets, and introduces a few of the smaller worlds. The scenes combine spacecraft images taken at different times. Their sizes and distances are adjusted to make each place possible to explore. These are arranged views, not current positions or a view from one spacecraft.</p>
+        <p>The images are observations and photographic composites. Their processing is described beside each close view, including the monochrome visible-light view of the Sun and the rebalanced colors of Uranus and Neptune. The comet is shown on a separate visit near the Sun.</p>
+        <p>Uranus and Neptune images: Patrick Irwin/University of Oxford/NASA, licensed under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0<span class="picture-sr"> (opens in a new tab)</span></a>. The published comparison is resized; its lower views are shown as crops.</p>
+        <p>The asteroid belt and Kuiper Belt are regions with widely separated bodies. The route shows selected examples. The arrows make large jumps between visits. Pale Blue Dot is a look back at Earth from Voyager 1 in 1990, beyond Neptune's orbit. Its close view enlarges the original pixels.</p>
+        <p>The brief Carl Sagan quotation is from <cite>Pale Blue Dot</cite> (1994). Copyright © 1994 Carl Sagan; © 2006 Democritus Properties, LLC. The linked source hosts the longer passage. The portrait is a NASA montage.</p>
+        <ul>{% for source in site.data.space.sources %}<li><a href="{{ source.url }}" target="_blank" rel="noopener noreferrer">{{ source.label }}<span class="picture-sr"> (opens in a new tab)</span></a></li>{% endfor %}</ul>
+      </details>
+    </main>
+  </div>
+</body>
+</html>

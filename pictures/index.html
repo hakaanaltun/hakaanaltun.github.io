@@ -2,9 +2,10 @@
 layout: default
 permalink: /pictures/
 title: "Pictures with Stories"
-description: "Watercolor pictures to explore, with the stories behind their details."
+description: "Pictures to explore, with the science and stories behind their details."
 ---
 <link rel="stylesheet" href="/css/pictures.css?v=20261008-9">
+<link rel="stylesheet" href="/css/space.css?v=20261008-2">
 <div class="section-page picture-index">
   <div class="section-page-head">
     <h1 class="section-page-title">Pictures with Stories</h1>
@@ -14,6 +15,12 @@ description: "Watercolor pictures to explore, with the stories behind their deta
   {% for group in groups %}
   <section class="picture-category-section" aria-labelledby="picture-category-{{ group.name | default: 'Other pictures' | slugify }}">
     <h2 class="picture-category-title" id="picture-category-{{ group.name | default: 'Other pictures' | slugify }}">{{ group.name | default: 'Other pictures' | escape }}</h2>
+    {% if group.name == 'The Space' %}
+    <a class="picture-journey" href="/pictures/space/">
+      <img src="/pictures/space/assets/earth.webp" width="1600" height="900" alt="Earth's oceans and clouds in the Apollo 17 photograph." decoding="async">
+      <div><h3>Begin the journey</h3><p>Start near Earth and explore the Solar System.</p></div>
+    </a>
+    {% endif %}
     <div class="picture-catalogue">
       {% assign pictures = group.items | sort_natural: "title" %}
       {% for picture in pictures %}

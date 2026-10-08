@@ -385,12 +385,31 @@ watercolor illustrations whose areas can be opened to learn about what is
 shown. Apply the `Words with Stories` standards for curation, sourcing,
 accuracy and plain prose to this section as well.
 
-- **The catalogue is grouped by subject.** Astronomy begins with the
+- **The catalogue is grouped by subject.** The Space begins with the
   black hole and the quasar. Nebulae can follow, with birds, cats and other
   subject groups added as the collection grows. Each picture carries its
   group in its `category` field. Keep existing picture addresses stable
   when grouping them. Every group follows the same drawing, storytelling
   and sourcing standards.
+
+- **The Space begins inside the Solar System.** The author asked in
+  October 2026 to introduce every planet and the important smaller bodies
+  before traveling farther, using realistic images. `/pictures/space/`
+  has six connected photographic views, including Voyager 1’s Pale Blue Dot.
+  `_data/space.json` holds the route, all eight planets, sourced explanations
+  and image credits. The
+  page combines spacecraft observations from different dates, with sizes
+  and distances adjusted for exploring. State this visibly. Explain image
+  processing beside the close view, and preserve the rebalanced colors
+  of Uranus and Neptune. Keep the published comparison intact; CSS selects
+  its lower views. The comet is a separate visit near the Sun. The scene
+  stays in the URL hash, with no tracking or stored progress. A separate
+  story is optional. Extend the route beyond the Solar System, and grow
+  other subject worlds, only when requested. Existing picture addresses
+  remain stable. The Pale Blue Dot scene uses the original NASA photograph,
+  with a crop that enlarges its existing pixels, and a separate Carl Sagan
+  biography. Keep the quotation brief and credited; the complete copyrighted
+  passage needs written permission before it can be included.
 
 - Follow The Farm House's watercolor language: broad brush strokes,
   transparent washes, a limited value range, visible pencil, occasional
