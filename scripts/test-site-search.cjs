@@ -50,6 +50,16 @@ const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
   assert(links().some(link => link.getAttribute('href') === '/story/1/'));
   await submit('fourth-floor elevator');
   assert(links().some(link => link.textContent === 'Measured'));
+  /* Words copied from a page can carry the joiner the build puts before a
+     closed-up dash; the search drops it, and results show it. */
+  const dashed = index.find(entry => /\S—\S/.test(entry.text));
+  const phrase = dashed.text.match(/(\S+)—(\S+)/);
+  await submit(`${phrase[1]}—${phrase[2]}`);
+  const plainHits = links().map(link => link.href);
+  assert(plainHits.length, 'a phrase with a closed-up dash is found');
+  await submit(`${phrase[1]}\u2060—${phrase[2]}`);
+  assert.deepEqual(links().map(link => link.href), plainHits, 'the joiner in a pasted phrase is ignored');
+  assert(!/[^\s\u2060]—/.test(document.getElementById('search-results').textContent), 'results join their closed-up dashes');
   await submit('<img src=x onerror=alert(1)>');
   assert.equal(links().length, 0);
   assert(!document.querySelector('#search-status img'));
@@ -69,5 +79,5 @@ const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
   await wait(0);
   assert(offline.window.document.querySelector('#search-results a'));
   offline.window.close();
-  console.log('Site search: generated index, ranking, text matches, Turkish letters, safe output, retry and no visit counter on the search page passed.');
+  console.log('Site search: generated index, ranking, text matches, Turkish letters, pasted dash joiners, safe output, retry and no visit counter on the search page passed.');
 })().catch(error => { console.error(error); process.exitCode = 1; });

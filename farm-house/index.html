@@ -134,7 +134,7 @@ permalink: /farm-house/
         </div>
       </section>
       <section class="ending" id="ending" hidden aria-labelledby="ending-title">
-        <div class="ending-photo"><img src="assets/upstairs-watercolor.webp?v=20261001-loose" width="1536" height="1024" alt="A watercolor of the upstairs room, with her bed beside the window."></div>
+        <div class="ending-photo"><img src="assets/upstairs-watercolor.webp?v=20261001-loose" width="1536" height="1024" loading="lazy" alt="A watercolor of the upstairs room, with her bed beside the window."></div>
         <p class="eyebrow">After the visit</p>
         <h1 id="ending-title" tabindex="-1">The upstairs room.</h1>
         <p>Everyone who came to the house<br>went upstairs before they left.</p>
@@ -266,7 +266,16 @@ permalink: /farm-house/
       letter:{kicker:'What he found',title:'The letter.',plain:true,body:['It had arrived about forty years earlier, from the branch of the family that had stayed behind when the others left for Türkiye.','Doğu could not read the language. He made a copy and asked online whether someone could translate it.'],actions:[['Read about the translation','translation'],['Back to the room','close']]},
       translation:{kicker:'The search',title:'The translation.',plain:true,body:['Someone translated it. The letter gave him enough to begin looking for the family who had written it.','No one ever learned why his grandmother had kept the letter, or why she never spoke about it.'],actions:[['Look at the room again','return-after-letter']]}
     };
-    for(const src of Object.values(sceneAssets)){const img = new Image();img.src=src;}
+    // A scene's neighbours load while the visitor looks at it, so the next
+    // place is ready without the whole farm arriving with the first picture.
+    const preloaded = new Set(['exterior']);
+    function preloadAround(name){
+      for(const key of [scenes[name].back,...scenes[name].spots.map(spot=>spot.go)]){
+        const image=scenes[key]?.image;
+        if(!image||preloaded.has(image))continue;
+        preloaded.add(image);const img=new Image();img.src=sceneAssets[image];
+      }
+    }
     function closeDetail(){if($('detail').open)$('detail').close();state.detail=null;refreshCaption();}
     function refreshCaption(){if(scenes[state.scene])$('caption').textContent=scenes[state.scene].caption();}
     function showScene(name,focus=true){
@@ -292,7 +301,7 @@ permalink: /farm-house/
       if(scenes[name]){
         const scene=scenes[name];
         const img=$('scene-image');img.classList.remove('arrive');img.src=sceneAssets[scene.image];img.alt=scene.alt;
-        void img.offsetWidth;img.classList.add('arrive');
+        void img.offsetWidth;img.classList.add('arrive');preloadAround(name);
         $('hotspots').replaceChildren();
         for(const [index,spot] of scene.spots.entries()){
           const button=document.createElement('button');button.type='button';button.className='hotspot';button.dataset.object=spot.id;button.setAttribute('aria-label',spot.label);

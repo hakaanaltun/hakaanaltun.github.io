@@ -13,6 +13,11 @@
   var more = document.getElementById('home-daily-trivia-more');
   var source = root.getAttribute('data-source');
 
+  /* The build keeps a closed-up dash from opening a line on the published
+     page (_plugins/dash_join.rb); text set here is out of its reach, so the
+     same word joiner goes in as it is shown. */
+  function joinDashes(text) { return String(text).replace(/([^\s\u2060])\u2014/g, '$1\u2060\u2014'); }
+
   function pad(value) {
     return value < 10 ? '0' + value : String(value);
   }
@@ -90,7 +95,7 @@
     var answered = false;
 
     quizLabel.textContent = q.quiz;
-    questionText.textContent = q.question;
+    questionText.textContent = joinDashes(q.question);
     choices.innerHTML = '';
     feedback.textContent = '';
     more.hidden = true;
@@ -129,7 +134,7 @@
         });
 
         if (original === q.answer) {
-          feedback.textContent = 'Correct. ' + q.note;
+          feedback.textContent = 'Correct. ' + joinDashes(q.note);
         } else {
           // The answer in italics, so that "A boiled egg" cannot be read
           // as the choice lettered A.
@@ -137,7 +142,7 @@
           var name = document.createElement('em');
           name.textContent = q.choices[q.answer];
           feedback.appendChild(name);
-          feedback.appendChild(document.createTextNode('. ' + q.note));
+          feedback.appendChild(document.createTextNode('. ' + joinDashes(q.note)));
         }
 
         more.href = q.url || '/trivia/';

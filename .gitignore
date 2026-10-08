@@ -17,3 +17,8 @@ node_modules/
 # Bundler's own vendor/bundle, and this one names the tree that really is
 # generated.
 js/vendor/pdfjs/
+
+# The Pictures cards' downscales, made from each painting at deploy by
+# scripts/generate_image_variants.py and locally by the session hook.
+pictures/assets/480/
+pictures/assets/960/

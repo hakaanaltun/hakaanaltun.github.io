@@ -513,8 +513,8 @@ layout: null
     });
     var called = names.length - left;
     poolTitle.textContent = removeToggle.checked
-      ? "The pool—" + left + " of " + names.length
-      : "The pool—" + names.length + " names" + (called ? ", " + called + " drawn so far" : "");
+      ? "The pool\u2060—" + left + " of " + names.length
+      : "The pool\u2060—" + names.length + " names" + (called ? ", " + called + " drawn so far" : "");
   }
 
   /* ---- collapsing the list once it is made ---- */
@@ -620,7 +620,7 @@ layout: null
     updateHash();
     var url = location.href;
     function done(copied){
-      linkBtn.textContent = copied ? "Link copied—bookmark or share it" : "Copy failed—copy the address bar link";
+      linkBtn.textContent = copied ? "Link copied\u2060—bookmark or share it" : "Copy failed\u2060—copy the address bar link";
       clearTimeout(linkT);
       linkT = setTimeout(function(){ linkBtn.textContent = "Copy this pool as a link"; }, 2000);
     }
@@ -654,8 +654,8 @@ layout: null
     if(flicking) return;
     var names = pool();
     if(!names.length){
-      if(!parseNames().length){ setIdle("The list above is empty—paste some names first."); }
-      else{ setIdle("Every name has been drawn—restore the pool to begin again."); drawnBlock.classList.add("on"); }
+      if(!parseNames().length){ setIdle("The list above is empty\u2060—paste some names first."); }
+      else{ setIdle("Every name has been drawn\u2060—restore the pool to begin again."); drawnBlock.classList.add("on"); }
       return;
     }
     var name = names[randInt(names.length)];
@@ -698,7 +698,7 @@ layout: null
   function deal(){
     var names = parseNames();
     if(names.length < 2){
-      groupsNote.textContent = "Two names at least—paste the list above first.";
+      groupsNote.textContent = "Two names at least\u2060—paste the list above first.";
       groupsResult.innerHTML = "";
       return;
     }

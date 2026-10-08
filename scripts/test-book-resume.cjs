@@ -76,6 +76,23 @@ async function open(url, saved, blocked = false) {
   assert.equal(kit.saved(), null, 'Clearing must not immediately recreate the place');
   kit.close();
 
+  /* A place saved before the build joined closed-up dashes (the quote has a
+     plain dash) still finds its paragraph, which now carries the joiner. */
+  const partTwo = new JSDOM(fs.readFileSync(path.join(root, '_site/book/part-two/index.html'), 'utf8')).window.document;
+  const plain = el => el.textContent.replace(/\u2060/g, '').replace(/\s+/g, ' ').trim().slice(0, 180);
+  let joined = null;
+  for (const section of partTwo.querySelectorAll('.book-chapter')) {
+    const blocks = [...section.querySelectorAll('h2, p:not(.divider), blockquote')];
+    const index = blocks.findIndex(block => block.tagName === 'P' && block.textContent.replace(/\s+/g, ' ').trim().slice(0, 181).includes('\u2060'));
+    const heading = section.querySelector('h2[id]');
+    if (index > 0 && heading) { joined = { v: 1, path: '/book/part-two/', chapter: heading.id, title: plain(heading), paragraph: index, quote: plain(blocks[index]), offset: 0 }; break; }
+  }
+  assert(joined, 'Part Two has a paragraph with a joined dash near its start');
+  kit = await open(`https://hakanaltun.io/book/part-two/?resume=1#${joined.chapter}`, joined);
+  assert.equal(kit.d.activeElement.tagName, 'P', 'A place saved with a plain dash must land on its paragraph');
+  assert.equal(plain(kit.d.activeElement), joined.quote);
+  kit.close();
+
   for (const bad of ['{broken', { ...saved, path: '//example.com/' }, { ...saved, offset: 9 }, { ...saved, paragraph: -1 }]) {
     kit = await open('https://hakanaltun.io/book/', bad);
     assert.equal(kit.d.querySelector('[data-book-resume]').hidden, true);
@@ -85,5 +102,5 @@ async function open(url, saved, blocked = false) {
   kit.move();
   assert.equal(kit.d.querySelector('[data-book-resume-panel]').hidden, true, 'Failed storage must not claim a saved place');
   kit.close();
-  console.log('book-resume: persistence, resume, navigation, clearing and unavailable storage passed');
+  console.log('book-resume: persistence, resume, a place saved before the dash joiner, navigation, clearing and unavailable storage passed');
 })().catch(error => { console.error(error); process.exit(1); });

@@ -40,7 +40,9 @@
     });
   }
 
-  function text(element) { return element.textContent.replace(/\s+/g, ' ').trim().slice(0, 180); }
+  /* Without the word joiner the build puts before a closed-up dash, so a
+     place saved before it arrived still matches. */
+  function text(element) { return element.textContent.replace(/\u2060/g, '').replace(/\s+/g, ' ').trim().slice(0, 180); }
   function paragraphs(chapter) {
     return Array.prototype.slice.call(chapter.querySelectorAll('h2, p:not(.divider), blockquote'));
   }
