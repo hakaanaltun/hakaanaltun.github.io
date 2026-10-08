@@ -29,7 +29,7 @@ h1{margin:0;font:italic 1.9rem/1.1 var(--display);font-weight:400}
 .desk-title p{margin:0;color:var(--muted);font-style:italic}
 .desk-controls{display:flex;gap:18px}
 .desk-controls button{padding:6px 0;background:none;border:0;color:var(--muted);font-style:italic;font-size:.95rem;text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:4px}
-.desk-controls button:hover{color:var(--ink);text-decoration-color:var(--ink)}
+.desk-controls button{transition:opacity .2s ease}.desk-controls button:hover,.desk-controls button:active{opacity:.78}@media (prefers-contrast:more){.desk-controls button:hover,.desk-controls button:active{opacity:.95}}
 .workspace{--first:calc((100% - 14px)*.5);display:grid;grid-template-columns:minmax(0,var(--first)) 14px minmax(0,1fr);grid-template-rows:minmax(0,1fr);height:calc(100dvh - 185px);min-height:440px;margin:0 22px;border:1px solid var(--line);border-radius:10px;overflow:hidden}
 .panel{grid-row:1;min-width:0;min-height:0;display:flex;flex-direction:column;overflow:hidden}
 .panel[data-slot="0"]{grid-column:1}.panel[data-slot="1"]{grid-column:3}

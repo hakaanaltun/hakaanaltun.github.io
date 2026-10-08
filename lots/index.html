@@ -227,8 +227,10 @@ layout: null
     background:none; border:none; cursor:pointer; padding:0; margin-top:.8rem;
     font-family:var(--body); font-style:italic; font-size:1rem; color:var(--ink);
     text-decoration:underline; text-underline-offset:3px; text-decoration-color:var(--line);
+    transition:opacity .2s ease;
   }
-  .link-btn:hover{ text-decoration-color:var(--ink); }
+  .link-btn:hover, .link-btn:active{ opacity:.78; }
+  @media (prefers-contrast:more){ .link-btn:hover, .link-btn:active{ opacity:.95; } }
   .link-btn:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
 
   .seg{ display:flex; border:1px solid var(--line); border-radius:999px; overflow:hidden; }

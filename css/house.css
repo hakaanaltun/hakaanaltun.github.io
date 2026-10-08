@@ -148,8 +148,8 @@
 .house-hotspot--desk { left: 73.5%; top: 88.5%; }
 .house-objects { display: none; }
 .house-room-footer { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; border-bottom: 1px solid var(--rule-strong); padding: 20px 0; font-size: 16px; }
-.house-room-footer a { color: var(--ink-soft); text-decoration: none; }
-.house-room-footer a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.house-room-footer a { color: var(--ink-soft); text-decoration: none; transition: var(--select-ease); }
+.house-room-footer a:hover, .house-room-footer a:active { opacity: var(--select-dim); }
 .house-status { min-height: 1.5em; font-size: 15px; color: var(--vizon); margin: 18px 0 0; }
 .house-dialog { background: var(--paper); color: var(--ink); border: 1px solid var(--rule-strong); width: min(580px, calc(100% - 32px)); max-height: 86vh; max-height: 86dvh; margin: auto; padding: 22px 32px 28px; box-sizing: border-box; border-radius: 3px; box-shadow: 0 16px 80px #0003; overscroll-behavior: contain; }
 .house-dialog::backdrop { background: #201e19a6; }

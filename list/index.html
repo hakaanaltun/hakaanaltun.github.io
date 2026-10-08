@@ -201,10 +201,11 @@ layout: null
     display:none; margin-left:auto;
     font-family:var(--body); font-style:italic; font-size:.98rem;
     color:var(--muted); text-decoration:none; letter-spacing:.02em;
-    border-bottom:1px solid transparent; transition:color .2s, border-color .2s;
+    transition:opacity .2s ease;
   }
   .to-lots.on{ display:inline-block; }
-  .to-lots:hover{ color:var(--ink); border-bottom-color:var(--ink); }
+  .to-lots:hover, .to-lots:active{ opacity:.78; }
+  @media (prefers-contrast:more){ .to-lots:hover, .to-lots:active{ opacity:.95; } }
   .to-lots:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
 
   /* notes — reading matter under the instrument */
