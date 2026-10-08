@@ -51,6 +51,8 @@ Wandering and observing should be worthwhile on their own.
   existing scenes for objects, placement, relative scale and camera angle;
   paint new scenes from scratch in this language. Preserve important objects
   and avoid inventing decoration or copying a former render's surface detail.
+  Earlier renders are kept in `farm-house/retired/`, outside the published
+  site. They are not part of the set.
 - Let the story develop through occasional discoveries and small traces in
   the rooms. Give each addition time to settle. Preserve the unanswered
   questions in the existing story, including why the grandmother kept the
@@ -151,8 +153,10 @@ audio until it returns.
 
 This repository is a **Jekyll 4 static site** called "On Life & Everything",
 a personal blog deployed to GitHub Pages through `.github/workflows/pages.yml`.
-Ruby, RubyGems and Bundler 4.0.13 are preinstalled in the Cloud VM. The startup
-update script runs `bundle install`. Gems go into the git-ignored
+Ruby, RubyGems and Bundler 4.0.13 are preinstalled in the Cloud VM. At the
+start of a cloud session, `.claude/hooks/session-start.sh` installs the gems
+and the npm packages for the checks, restores the bundled PDF.js and makes
+the Pictures cards' downscales. Gems go into the git-ignored
 `vendor/bundle/`, as configured by `.bundle/config`.
 
 ### Running the site (dev)
@@ -162,14 +166,15 @@ update script runs `bundle install`. Gems go into the git-ignored
   http://localhost:4000/. Run it in a long-lived tmux session.
 - Build the site with `bundle exec jekyll build`. Output goes to the
   git-ignored `_site/`.
-- Run `python3 scripts/vendor_pdfjs.py` once to restore the bundled PDF.js
-  assets needed by the PDF checks. Then run `bundle exec jekyll build`,
-  followed by `npm ci && npm test`. CI runs the same checks on every pull
+- Run `bundle exec jekyll build`, followed by `npm test`. Outside a cloud
+  session, run `python3 scripts/vendor_pdfjs.py` and `npm ci` first; the
+  PDF checks need the bundled PDF.js. CI runs the same checks on every pull
   request. Several checks read the built `_site/`.
   `scripts/test-content.cjs` checks the editorial rules that can be tested
   in code. These cover quiz-bank structure and rounds, word-story footnotes
-  numbered in first-cited order, closed-up em dashes and links within the
-  site. It reports every problem it finds in one run.
+  numbered in first-cited order, closed-up em dashes, the word joiners the
+  build puts before them and links within the site. It reports every
+  problem it finds in one run.
 - `npm run links` fetches every cited source address. It runs weekly from
   `.github/workflows/links.yml`. Because it depends on other sites being up,
   it is kept out of pull-request checks. Only a page that is gone fails it.
@@ -191,12 +196,14 @@ update script runs `bundle install`. Gems go into the git-ignored
   runs `scripts/strip-css-comments.cjs` on `_site/css` and fails if any rule
   would change. Keep writing comments in `css/`, where a local build keeps
   them. Styles inside a page's own `<style>` remain untouched.
-- **This file is published.** Every deployment builds `/colophon/` from
-  it, beneath the author's introduction in `colophon.html`.
-  `_plugins/agents_md.rb` reads it without processing Liquid. Follow the
-  site's prose and punctuation rules here because visitors read it too.
-  `scripts/test-content.cjs` checks its dashes and words split across line
-  breaks. A split word would appear on the page as two (`hand- balancing`).
+- **This file is not published for now.** The Colophon (`colophon.html`)
+  showed it at `/colophon/` until the author took the page down on
+  8 October 2026, and `_config.yml` excludes both. `_plugins/agents_md.rb`
+  still reads it without processing Liquid, so taking those two lines out
+  brings the page back. Keep the site's prose and punctuation rules here,
+  so that it is ready to be read. `scripts/test-content.cjs` checks its
+  dashes and words split across line breaks. A split word would appear on
+  the page as two (`hand- balancing`).
 
 ## Starting a session
 
@@ -250,7 +257,9 @@ it does not go wrong again.
   `scripts/generate_image_variants.py` in `.github/workflows/pages.yml`. A
   local build has only the variants that are committed, so an image missing
   locally may be fine on the site. Check the live address before calling it
-  broken.
+  broken. The same script makes `/pictures/assets/480/` and `/960/` for the
+  Pictures cards on the index and the homepage. These are never committed,
+  and the session hook makes them for a local build.
 
 ## Time, place and sky
 
@@ -339,6 +348,9 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   convention. Keep the spaced separator in page titles, including
   `Feeds — On Life & Everything` and instrument names. That separator
   is deliberate and explained in `_includes/head.html`.
+- The build puts an invisible word joiner before each closed-up dash
+  (`_plugins/dash_join.rb`), so the dash stays with the word before it and
+  never opens a line. Write the plain dash in the sources.
 
 ## Words with Stories editorial standard
 
