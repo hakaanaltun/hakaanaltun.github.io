@@ -141,4 +141,5 @@
 .picture-category-section .picture-catalogue { margin-top:22px; }
 .picture-detail-sources a { display:block; margin-bottom:6px; }
 
-.picture-masthead .picture-text-link { font-family:'Cormorant Garamond',Georgia,serif!important; font-style:italic!important; }
+.picture-masthead .picture-text-link { font-family:'Cormorant Garamond',Georgia,serif!important; font-style:italic!important; font-size:14px!important; }
+@media(max-width:650px) { .picture-masthead .picture-text-link { font-size:12px!important; } }
