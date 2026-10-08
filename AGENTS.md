@@ -167,9 +167,11 @@ the Pictures cards' downscales. Gems go into the git-ignored
 - Build the site with `bundle exec jekyll build`. Output goes to the
   git-ignored `_site/`.
 - Run `bundle exec jekyll build`, followed by `npm test`. Outside a cloud
-  session, run `python3 scripts/vendor_pdfjs.py` and `npm ci` first; the
-  PDF checks need the bundled PDF.js. CI runs the same checks on every pull
-  request. Several checks read the built `_site/`.
+  session, run `python3 scripts/vendor_pdfjs.py`,
+  `python3 scripts/generate_image_variants.py --pictures-only` (it needs
+  Pillow) and `npm ci` first. The PDF checks need the bundled PDF.js, and
+  the Pictures cards need their downscales. CI runs the same checks on every
+  pull request. Several checks read the built `_site/`.
   `scripts/test-content.cjs` checks the editorial rules that can be tested
   in code. These cover quiz-bank structure and rounds, word-story footnotes
   numbered in first-cited order, closed-up em dashes, the word joiners the
@@ -258,8 +260,9 @@ it does not go wrong again.
   local build has only the variants that are committed, so an image missing
   locally may be fine on the site. Check the live address before calling it
   broken. The same script makes `/pictures/assets/480/` and `/960/` for the
-  Pictures cards on the index and the homepage. These are never committed,
-  and the session hook makes them for a local build.
+  Pictures cards on the index and the homepage. These are never committed.
+  In a cloud session the hook makes them for a local build; elsewhere, run
+  the script with `--pictures-only`.
 
 ## Time, place and sky
 
@@ -351,6 +354,13 @@ The site has two deliberate ideas of place. Do not collapse them into one.
 - The build puts an invisible word joiner before each closed-up dash
   (`_plugins/dash_join.rb`), so the dash stays with the word before it and
   never opens a line. Write the plain dash in the sources.
+- Text a script writes is out of the build's reach, so the script joins its
+  own dashes as it shows them: trivia notes, the homepage's question, The
+  House, search results, the series line and the instruments' messages. A
+  new script that writes prose does the same. What a script keeps or
+  compares drops the joiner (`js/keep.js`, `js/book-resume.js` and the
+  search), and a short script the build adds to every page takes it out of
+  anything a reader copies.
 
 ## Words with Stories editorial standard
 

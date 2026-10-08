@@ -26,6 +26,11 @@
      so A is always the top one. The same letters key in an answer. */
   var LETTERS = 'ABCDEFGHI';
 
+  /* The build keeps a closed-up dash from opening a line on the published
+     page (_plugins/dash_join.rb); text set here is out of its reach, so the
+     same word joiner goes in as it is shown. What is kept stays plain. */
+  function joinDashes(text) { return String(text).replace(/([^\s\u2060])\u2014/g, '$1\u2060\u2014'); }
+
   var intro = document.getElementById('trivia-intro');
   var questionPanel = document.getElementById('trivia-question');
   var roundPanel = document.getElementById('trivia-round');
@@ -307,7 +312,7 @@
     });
 
     if (selected === q.answer) {
-      feedback.textContent = 'Correct. ' + q.note;
+      feedback.textContent = 'Correct. ' + joinDashes(q.note);
     } else {
       /* The answer in italics, so that "A boiled egg" cannot be read as
          the choice lettered A. */
@@ -315,7 +320,7 @@
       var name = document.createElement('em');
       name.textContent = q.choices[q.answer];
       feedback.appendChild(name);
-      feedback.appendChild(document.createTextNode('. ' + q.note));
+      feedback.appendChild(document.createTextNode('. ' + joinDashes(q.note)));
     }
 
     /* The note is what a reader keeps, so it can go into the drawer in The
@@ -386,7 +391,7 @@
     questionCategory.textContent = round.name;
     questionCategory.hidden = !round.name;
 
-    questionText.textContent = q.question;
+    questionText.textContent = joinDashes(q.question);
     choices.innerHTML = '';
     feedback.textContent = '';
     nextButton.hidden = true;
@@ -511,11 +516,11 @@
       var item = document.createElement('li');
       var prompt = document.createElement('span');
       prompt.className = 'trivia-review-question';
-      prompt.textContent = q.question;
+      prompt.textContent = joinDashes(q.question);
 
       var answer = document.createElement('span');
       answer.className = 'trivia-review-answer';
-      answer.textContent = 'Answer: ' + q.choices[q.answer] + '. ' + q.note;
+      answer.textContent = joinDashes('Answer: ' + q.choices[q.answer] + '. ' + q.note);
 
       item.appendChild(prompt);
       item.appendChild(answer);

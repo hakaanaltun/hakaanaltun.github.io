@@ -18,8 +18,10 @@
     return decoder.value;
   }
 
+  /* Words copied from a page can carry the word joiner the build puts
+     before a closed-up dash; the index has none, so a search drops it. */
   function normalize(text) {
-    return text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
+    return text.replace(/\u2060/g, '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
       .replace(/ı/g, 'i').replace(/[’‘]/g, "'");
   }
 
@@ -62,10 +64,12 @@
     return (start ? '…' : '') + body.slice(start, start + 210) + (body.length > start + 210 ? '…' : '');
   }
 
+  /* The results join a closed-up dash to the word before it, as the
+     published pages do (_plugins/dash_join.rb). */
   function element(tag, className, text) {
     var node = document.createElement(tag);
     if (className) node.className = className;
-    node.textContent = text;
+    node.textContent = String(text).replace(/([^\s\u2060])\u2014/g, '$1\u2060\u2014');
     return node;
   }
 

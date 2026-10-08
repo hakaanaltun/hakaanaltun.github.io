@@ -419,6 +419,24 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.equal(p.w.OLAE_KEEP.passageFor(range).id, shelfId);
   p.dom.window.close();
 
+  // The build joins a closed-up dash to the word before it. A passage kept
+  // from that page has the id and words it had before, with a plain dash.
+  p = page('book/part-one/index.html', 'https://hakanaltun.io/book/part-one/', { run: ['keep'] });
+  const dashed = Array.from(p.w.document.querySelectorAll('.book-chapter p')).find((el) => {
+    const words = el.textContent.replace(/\s+/g, ' ').trim();
+    return words.includes('\u2060\u2014') && words.length <= 700;
+  });
+  assert.ok(dashed, 'the book has a paragraph with a joined dash');
+  range = p.w.document.createRange();
+  range.selectNodeContents(dashed);
+  const plainWords = dashed.textContent.replace(/\u2060/g, '').replace(/\s+/g, ' ').trim();
+  let fnv = 0x811c9dc5;
+  for (const ch of plainWords.toLowerCase()) { fnv ^= ch.charCodeAt(0); fnv = Math.imul(fnv, 0x01000193) >>> 0; }
+  const dashedPassage = p.w.OLAE_KEEP.passageFor(range);
+  assert.equal(dashedPassage.id, 'text-' + fnv.toString(36), 'the joiner does not change a passage\'s id');
+  assert.equal(dashedPassage.quote, plainWords, 'the drawer keeps the plain dash');
+  p.dom.window.close();
+
   const essay = catalog.pieces.find((x) => x.id === 'piece-on-lying');
   p = page(essay.url.slice(1), 'https://hakanaltun.io' + essay.url, { run: ['keep', 'translate'] });
   await tick();

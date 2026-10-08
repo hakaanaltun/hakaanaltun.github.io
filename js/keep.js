@@ -19,7 +19,9 @@
   var memory = null;
   var works = true;
 
-  function tidy(value) { return String(value || '').replace(/\s+/g, ' ').trim(); }
+  /* The word joiner the build puts before a closed-up dash is left out, so
+     a passage kept before it arrived is still the same passage. */
+  function tidy(value) { return String(value || '').replace(/\u2060/g, '').replace(/\s+/g, ' ').trim(); }
   function text(value, max) { return typeof value === 'string' ? tidy(value).slice(0, max) : ''; }
 
   /* FNV-1a, so the same words kept from two places are one thing. */

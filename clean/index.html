@@ -537,7 +537,7 @@ layout: null
     if(n.spaces)     parts.push(n.spaces === 1 ? "1 space" : n.spaces + " spaces");
     if(n.invisibles) parts.push(n.invisibles === 1 ? "1 invisible character" : n.invisibles + " invisible characters");
     if(n.blanks)     parts.push(n.blanks === 1 ? "1 blank-line run" : n.blanks + " blank-line runs");
-    report.textContent = parts.length ? parts.join(" · ") : "Nothing to change—the text is already clean.";
+    report.textContent = parts.length ? parts.join(" · ") : "Nothing to change\u2060—the text is already clean.";
   });
 
   undoBtn.addEventListener("click", function(){

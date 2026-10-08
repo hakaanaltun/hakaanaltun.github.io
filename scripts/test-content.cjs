@@ -194,19 +194,21 @@ agents.split('\n').forEach((line, i) => {
    em dash on a rendered page, so the dash stays with the word before it
    rather than opening a line. Scripts, styles, code, text fields, titles and
    attributes keep the plain dash: a joiner there would change what a script
-   reads or what a field holds. */
+   reads or what a field holds. Every page also ends with the plugin's short
+   script that takes the joiner out of what a reader copies. */
 const keptPlain = /<(script|style|pre|code|textarea|title)\b[\s\S]*?<\/\1\s*>/gi;
 const anyTag = /<(?:[^>"']|"[^"]*"|'[^']*')*>/g;
-const unjoined = /[^\s⁠](?:—|&mdash;|&#8212;|&#x2014;)/i;
+const unjoined = /[^\s\u2060](?:—|&mdash;|&#8212;|&#x2014;)/i;
 function checkJoinedDashes(file) {
   const where = path.relative(root, file);
   const html = fs.readFileSync(file, 'utf8');
+  if (/<\/body\s*>/i.test(html) && !html.includes('<script data-dash-copy>')) problem(where, 'no copy script from _plugins/dash_join.rb before </body>');
   for (const block of html.match(keptPlain) || []) {
-    if (block.includes('⁠')) problem(where, `a word joiner inside <${block.match(/^<(\w+)/)[1]}>, which should keep the plain dash`);
+    if (block.includes('\u2060')) problem(where, `a word joiner inside <${block.match(/^<(\w+)/)[1]}>, which should keep the plain dash`);
   }
   const text = html.replace(keptPlain, '').replace(/<!--[\s\S]*?-->/g, '');
   for (const tag of text.match(anyTag) || []) {
-    if (tag.includes('⁠')) problem(where, `a word joiner inside a tag: ${tag.slice(0, 60)}`);
+    if (tag.includes('\u2060')) problem(where, `a word joiner inside a tag: ${tag.slice(0, 60)}`);
   }
   for (const part of text.split(anyTag)) {
     const found = part.match(unjoined);

@@ -136,10 +136,15 @@
 
   /* --- Small builders ---------------------------------------------------- */
 
+  /* The build keeps a closed-up dash from opening a line on the published
+     page (_plugins/dash_join.rb); text set here is out of its reach, so the
+     same word joiner goes in as it is shown. What is kept stays plain. */
+  function joinDashes(text) { return String(text).replace(/([^\s\u2060])\u2014/g, '$1\u2060\u2014'); }
+
   function element(tag, className, text) {
     var node = document.createElement(tag);
     if (className) node.className = className;
-    if (text) node.textContent = text;
+    if (text) node.textContent = joinDashes(text);
     return node;
   }
   function keepButton(item, label) {
