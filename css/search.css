@@ -180,8 +180,8 @@
 .search-results li { margin: 0; padding: 1.3rem 0; border-top: 1px solid var(--rule); }
 .search-result-kind { color: var(--vizon); font-size: .85rem; }
 .search-results h2 { margin: .25rem 0 .4rem; font-size: 1.55rem; line-height: 1.25; font-weight: 500; }
-.search-results h2 a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--rule-strong); text-underline-offset: .2em; }
-.search-results h2 a:hover { text-decoration-color: currentColor; }
+.search-results h2 a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--rule-strong); text-underline-offset: .2em; transition: var(--select-ease); }
+.search-results h2 a:hover, .search-results h2 a:active { opacity: var(--select-dim); }
 .search-results p { margin: 0; color: var(--ink-soft); font-size: 1rem; line-height: 1.5; overflow-wrap: anywhere; }
 
 

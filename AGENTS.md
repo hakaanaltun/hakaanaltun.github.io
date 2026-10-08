@@ -515,10 +515,15 @@ accuracy and plain prose to this section as well.
   on its own, with no words, answers in its own way: Moris's gallery cover
   grows a little and the Farm House's photograph straightens.
   `scripts/test-hover.cjs` fails on any rule that dims a picture.
-- **The links in a picture's frame dim as the site's links do.** The
-  picture page loads its own stylesheet, so it carries `--select-dim`
-  itself. Its masthead, the controls under the picture and its footer dim
-  under a pointer; a pointer draws no line under them.
+- **A pointer draws no line.** A link answers a pointer by dimming. A
+  line under a link stays only when it is there at rest, as in the menu
+  strip, the story's choices and the 404 page, and it dims with the link.
+  Links in running text keep their underline. The frames and instruments
+  that load their own stylesheet carry the same dim themselves, with 0.95
+  for readers who ask for more contrast. Where a line used to show
+  keyboard focus, the link has an outline instead.
+  `scripts/test-hover.cjs` fails on a rule that draws a line under a
+  pointer outside running text.
 
 ## Trivia editorial standard
 

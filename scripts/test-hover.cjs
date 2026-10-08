@@ -1,8 +1,14 @@
-/* A picture never dims when it is chosen. When a link carries a picture and
+/* How a link answers a pointer. Two rules, both from AGENTS.md:
+
+   A picture never dims when it is chosen. When a link carries a picture and
    words, a pointer over it dims the words and leaves the picture at its full
    weight. This reads every built page that shows a picture, with the
    stylesheets that page loads, and fails on any rule that fades a picture on
-   :hover or :active, or fades an element that holds one. */
+   :hover or :active, or fades an element that holds one.
+
+   A pointer draws no line. A link dims; a line under it stays only when it
+   is there at rest, and dims with the link. Links in running text keep the
+   underline they have and may darken it, so those are named below. */
 'use strict';
 const fs = require('node:fs');
 const path = require('node:path');
@@ -97,6 +103,46 @@ for (const file of pages(site)) {
   check(doc, sheet('/css/style.css'), 'series and café thumbnails', problems);
 }
 
+// Links in running text: the essays' closing line, the notes under each
+// instrument and the text a reader opens in Read.
+const RUNNING_TEXT = ['.essay-afterward a', '.notes a', '.notes .places-list a', '#reading a[href]'];
+const LINE = /^(border-bottom|border-bottom-color|text-decoration|text-decoration-line|text-decoration-color)$/;
+function lineRules(css, where) {
+  csstree.walk(csstree.parse(css), {
+    visit: 'Rule',
+    enter(rule) {
+      if (rule.prelude.type !== 'SelectorList') return;
+      const selectors = [];
+      rule.prelude.children.forEach((selector) => {
+        const text = csstree.generate(selector);
+        if (/:(hover|active)\b/.test(text) && !RUNNING_TEXT.includes(subject(text))) selectors.push(text);
+      });
+      if (!selectors.length) return;
+      csstree.walk(rule.block, {
+        visit: 'Declaration',
+        enter(decl) {
+          const value = csstree.generate(decl.value).trim();
+          if (LINE.test(decl.property) && !/^(none|transparent|0)$/.test(value)) {
+            for (const selector of selectors) problems.push(`${where}: "${selector}" draws a line under a pointer`);
+          }
+        }
+      });
+    }
+  });
+}
+let styles = 0;
+for (const file of fs.readdirSync(path.join(site, 'css')).filter((name) => name.endsWith('.css'))) {
+  lineRules(fs.readFileSync(path.join(site, 'css', file), 'utf8'), 'css/' + file);
+  styles++;
+}
+for (const file of pages(site)) {
+  const html = fs.readFileSync(file, 'utf8');
+  for (const match of html.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/g)) {
+    lineRules(match[1], path.relative(site, file));
+    styles++;
+  }
+}
+
 assert.ok(checked > 0, 'no built page with a picture was found; run bundle exec jekyll build first');
 assert.deepEqual(problems, [], '\n' + problems.join('\n'));
-console.log(`hover: ${checked} pages with pictures, no picture dims when chosen`);
+console.log(`hover: ${checked} pages with pictures, no picture dims when chosen; ${styles} stylesheets, no line drawn under a pointer`);

@@ -206,9 +206,10 @@ layout: null
     background:none; border:none; cursor:pointer;
     font-family:var(--body); font-style:italic; font-size:1.02rem; letter-spacing:.02em;
     color:var(--ink); text-decoration:underline; text-underline-offset:3px;
-    text-decoration-color:var(--line); transition:text-decoration-color .2s;
+    text-decoration-color:var(--line); transition:opacity .2s ease;
   }
-  .empty button:hover{ text-decoration-color:var(--ink); }
+  .empty button:hover, .empty button:active{ opacity:.78; }
+  @media (prefers-contrast:more){ .empty button:hover, .empty button:active{ opacity:.95; } }
   .empty button:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
   body.reading .empty{ display:none; }
 

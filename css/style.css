@@ -681,11 +681,12 @@ header .hamburger-btn:focus-visible { outline-color: var(--footer-text); }
   border: none; border-radius: 0; background: transparent;
   font-size: 1.10rem; line-height: 1; color: var(--footer-muted); box-shadow: none;
   border-bottom: 2px solid rgba(237, 228, 207, 0.55);
-  transition: color 0.2s ease, border-color 0.2s ease;
+  transition: var(--select-ease);
   flex: 0 0 auto; white-space: nowrap;
 }
 .header-nav-bar a:hover,
-.header-nav-bar a:active { color: var(--footer-text); border-bottom-color: var(--footer-text); background: transparent; box-shadow: none; transform: none; }
+.header-nav-bar a:active { opacity: var(--select-dim); background: transparent; box-shadow: none; transform: none; }
+.header-nav-bar a:focus-visible { outline: 2px solid var(--footer-text); outline-offset: 4px; border-radius: 2px; }
 /* No visible current-page state here on purpose. The strip lists the
    site's sections, and a piece belongs to none of them — so on /pieces/*, which is
    most of the site, the indicator simply had nothing to mark. Appearing on
@@ -1305,8 +1306,9 @@ section.line-drawn::before,
 .book-retailers.fade-lr { -webkit-mask-image: linear-gradient(to right, transparent 0, #000 40px, #000 calc(100% - 40px), transparent 100%); mask-image: linear-gradient(to right, transparent 0, #000 40px, #000 calc(100% - 40px), transparent 100%); }
 .book-retailers.is-dragging { cursor: grabbing; user-select: none; }
 .book-retailers li { flex: 0 0 auto; }
-.book-retailers a { display: inline-block; white-space: nowrap; font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 1.12rem; line-height: 1.2; color: var(--petrol); border-bottom: 1px solid transparent; padding-bottom: 1px; transition: color 0.2s ease, border-color 0.2s ease; }
-.book-retailers a:hover, .book-retailers a:focus-visible { border-bottom-color: color-mix(in srgb, var(--petrol) 45%, transparent); outline: none; }
+.book-retailers a { display: inline-block; white-space: nowrap; font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 1.12rem; line-height: 1.2; color: var(--petrol); padding-bottom: 1px; transition: var(--select-ease); }
+.book-retailers a:hover, .book-retailers a:active { opacity: var(--select-dim); }
+.book-retailers a:focus-visible { outline: 2px solid var(--petrol); outline-offset: 3px; border-radius: 2px; }
 
 @media (max-width: 800px) {
   /* minmax(0, 1fr): the no-wrap retailer strip must not widen the column. */
@@ -1978,8 +1980,9 @@ html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
    It carries several names on /all-work/, so the labels are nowrap and the
    row may wrap between them instead of breaking a label across lines. */
 .work-jump { display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: baseline; gap: 6px 14px; margin: -8px 0 44px; padding: 0; font-size: 0.82rem; letter-spacing: 0.14em; text-transform: uppercase; }
-.work-jump a { color: var(--petrol-deep); border-bottom: 1px solid transparent; padding-bottom: 2px; white-space: nowrap; }
-.work-jump a:hover, .work-jump a:focus-visible { color: var(--petrol-deep); border-bottom-color: color-mix(in srgb, var(--petrol-deep) 55%, transparent); outline: none; }
+.work-jump a { color: var(--petrol-deep); padding-bottom: 2px; white-space: nowrap; transition: var(--select-ease); }
+.work-jump a:hover, .work-jump a:active { opacity: var(--select-dim); }
+.work-jump a:focus-visible { outline: 2px solid var(--petrol); outline-offset: 3px; border-radius: 2px; }
 .work-jump-sep { color: var(--rule-strong); }
 
 .work-index { list-style: none; margin: 0 auto; padding: 0; max-width: 860px; border-top: 1px solid var(--rule); }
@@ -2234,16 +2237,18 @@ html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
   color: var(--petrol);
   border-bottom: 1px solid color-mix(in srgb, var(--petrol) 45%, transparent);
   padding-bottom: 2px;
-  transition: color 0.2s ease, border-color 0.2s ease;
+  transition: var(--select-ease);
 }
-.notfound-offer-link:hover { color: var(--petrol-deep); border-bottom-color: var(--petrol-deep); }
+.notfound-offer-link:hover, .notfound-offer-link:active { opacity: var(--select-dim); }
 .notfound-offer-link:focus-visible { outline: 2px solid var(--petrol); outline-offset: 4px; border-radius: 2px; }
 .notfound-offer-subtitle { display: block; font-family: 'EB Garamond', Georgia, serif; font-style: italic; font-size: 0.95rem; line-height: 1.4; color: var(--vizon); margin-top: 6px; border: 0; }
 .notfound-title { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: clamp(2.6rem, 5vw, 3.6rem); line-height: 1.02; letter-spacing: -0.01em; color: var(--petrol); }
 .notfound-text { font-family: 'EB Garamond', Georgia, serif; font-size: clamp(1.1rem, 1.6vw, 1.3rem); line-height: 1.5; color: var(--vizon); margin-top: 18px; }
 .notfound-links { margin-top: 28px; font-size: 1.05rem; }
 .notfound-links a { color: var(--petrol); border-bottom: 1px solid var(--rule-strong); padding-bottom: 1px; }
-.notfound-links a:hover { color: var(--petrol-deep); border-color: var(--petrol-deep); }
+.notfound-links a { transition: var(--select-ease); }
+.notfound-links a:hover, .notfound-links a:active { opacity: var(--select-dim); }
+.notfound-links a:focus-visible { outline: 2px solid var(--petrol); outline-offset: 3px; border-radius: 2px; }
 .notfound-sep { color: var(--rule-strong); margin: 0 14px; }
 
 .fade-in { opacity: 0; transform: translateY(12px); animation: fadeUp 0.6s ease forwards; }
@@ -2806,12 +2811,16 @@ html[data-theme="sky"] .footer-strip { border-top: 0; }
   text-decoration: none;
   border-bottom: 1px solid color-mix(in srgb, var(--petrol) 35%, transparent);
   padding-bottom: 1px;
-  transition: border-color 0.2s ease, opacity 0.2s ease;
+  transition: var(--select-ease);
 }
 .story-choice a:hover,
+.story-choice a:active {
+  opacity: var(--select-dim);
+}
 .story-choice a:focus-visible {
-  border-bottom-color: var(--petrol);
-  outline: none;
+  outline: 2px solid var(--petrol);
+  outline-offset: 4px;
+  border-radius: 2px;
 }
 
 /* Re-entry: a hushed "back to the beginning" on the three ending pages only.
@@ -2837,17 +2846,22 @@ html[data-theme="sky"] .footer-strip { border-top: 0; }
   border-bottom: 1px solid color-mix(in srgb, var(--petrol) 35%, transparent);
   padding-bottom: 1px;
   opacity: 0;
-  transition: border-color 0.2s ease, color 0.2s ease, opacity 0.6s ease;
+  transition: opacity 0.6s ease;
   pointer-events: none;
 }
 .story-renav-link.is-visible {
   opacity: 1;
   pointer-events: auto;
 }
-.story-renav-link:hover,
+.story-renav-link.is-visible:hover,
+.story-renav-link.is-visible:active {
+  opacity: var(--select-dim);
+  transition-duration: 0.2s;
+}
 .story-renav-link:focus-visible {
-  border-bottom-color: var(--petrol);
-  outline: none;
+  outline: 2px solid var(--petrol);
+  outline-offset: 4px;
+  border-radius: 2px;
 }
 
 /* Hidden-door input box: last element on each ending, quiet. A small gray

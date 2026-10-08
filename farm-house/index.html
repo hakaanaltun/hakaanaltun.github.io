@@ -21,8 +21,9 @@ permalink: /farm-house/
     .brand{background:none;border:0;padding:8px 0;font-size:19px;letter-spacing:.02em;text-align:left}
     .mast-right{display:flex;align-items:center;gap:28px}
     .location{font:10px var(--sans);text-transform:uppercase;letter-spacing:.19em;color:var(--quiet)}
-    .text-button{border:0;border-bottom:1px solid transparent;background:none;padding:7px 0;font:12px var(--sans);color:var(--quiet)}
-    .text-button:hover{border-bottom-color:currentColor;color:var(--ink)}
+    .text-button{border:0;background:none;padding:7px 0;font:12px var(--sans);color:var(--quiet);transition:opacity .2s ease}
+    .text-button:hover,.text-button:active{opacity:.78}
+    @media (prefers-contrast:more){.text-button:hover,.text-button:active{opacity:.95}}
     main{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:0}
     .intro{width:100%;display:flex;flex-direction:column;align-items:center;text-align:center;padding:22px 0 38px}
     .eyebrow{font:10px var(--sans);text-transform:uppercase;letter-spacing:.24em;color:var(--quiet);margin:0 0 22px}

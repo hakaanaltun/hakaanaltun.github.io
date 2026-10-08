@@ -184,8 +184,10 @@ layout: null
     background:none; border:none; cursor:pointer; padding:4px 2px;
     font-family:var(--body); font-style:italic; font-size:.9rem; color:var(--muted);
     text-decoration:underline; text-underline-offset:3px; text-decoration-color:var(--line);
+    transition:opacity .2s ease;
   }
-  .textbtn:hover{ color:var(--ink); text-decoration-color:var(--ink); }
+  .textbtn:hover, .textbtn:active{ opacity:.78; }
+  @media (prefers-contrast:more){ .textbtn:hover, .textbtn:active{ opacity:.95; } }
 
   /* readability — a block that appears once there is enough text */
   .readability{ max-width:680px; margin:0 auto; padding:0 26px 8vh; text-align:center; }
