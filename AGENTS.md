@@ -362,13 +362,12 @@ watercolor illustrations whose areas can be opened to learn about what is
 shown. Apply the `Words with Stories` standards for curation, sourcing,
 accuracy and plain prose to this section as well.
 
-- **Keep the current catalogue structure for now.** The future direction is
-  to group pictures into subject sections: astronomy or cosmology (nebulae,
-  quasars and black holes), birds (individual species), cats, and other
-  subjects as the collection grows. These are examples; the final grouping
-  can be settled later. Leave the current page layout and navigation in
-  place until that reorganization. Every group follows the same drawing,
-  storytelling and sourcing standards.
+- **The catalogue is grouped by subject.** Astronomy begins with the
+  black hole and the quasar. Nebulae can follow, with birds, cats and other
+  subject groups added as the collection grows. Each picture carries its
+  group in its `category` field. Keep existing picture addresses stable
+  when grouping them. Every group follows the same drawing, storytelling
+  and sourcing standards.
 
 - Follow The Farm House's watercolor language: broad brush strokes,
   transparent washes, a limited value range, visible pencil, occasional
@@ -556,3 +555,4 @@ in `_data/trivia.yml`. These rules govern what belongs inside them.
   question is reworded or moved; a new question gets a new id.
 - Keep the prose plain, as everywhere else here, and let the content do the
   work.
+

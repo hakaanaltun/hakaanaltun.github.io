@@ -97,7 +97,7 @@
 .picture-catalogue { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr)); gap:36px; max-width:960px; margin:36px auto 0; }
 .picture-card { display:block; width:min(100%,640px); margin:auto; color:var(--ink); text-decoration:none; text-align:center; transition:var(--select-ease); }
 .picture-card img { display:block; width:100%; height:auto; border-radius:3px; }
-.picture-card h2 { margin:20px 0 7px; font-family:'Cormorant Garamond',Georgia,serif; font-size:30px; font-weight:500; color:var(--petrol); }
+.picture-card :is(h2,h3) { margin:20px 0 7px; font-family:'Cormorant Garamond',Georgia,serif; font-size:30px; font-weight:500; color:var(--petrol); }
 .picture-card p { margin:0; font-size:18px; color:var(--vizon); }
 /* Chosen as a word is on Words with Stories: the card dims, with no rule under the title. */
 .picture-card:hover,.picture-card:active { opacity:var(--select-dim); }
@@ -132,3 +132,11 @@
   .picture-story-part p { font-size:19px; }
 }
 @media(prefers-reduced-motion:reduce) { .picture-page *, .picture-page *::before, .picture-page *::after { transition:none!important; } }
+
+
+/* Subject groups grow with the collection and keep each picture address. */
+.picture-category { text-align:center; margin:0 0 10px; font:12px/1.5 Arial,Helvetica,sans-serif; letter-spacing:.08em; color:var(--picture-quiet); }
+.picture-category-section { max-width:960px; margin:36px auto 0; }
+.picture-category-title { margin:0; font:500 28px/1.2 'Cormorant Garamond',Georgia,serif; color:var(--petrol); }
+.picture-category-section .picture-catalogue { margin-top:22px; }
+.picture-detail-sources a { display:block; margin-bottom:6px; }
