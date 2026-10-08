@@ -508,6 +508,17 @@ accuracy and plain prose to this section as well.
   and on a piece's reading options. Its words sit where
   the layout puts them; the chevron hangs beside them and does not pull them
   off their line.
+- **A picture never dims when it is chosen.** When a link carries a
+  picture and words, a pointer over it dims only the words, by
+  `--select-dim`. The picture keeps its full weight and is still part of
+  the link. A faded picture reads as unavailable. A picture that is a link
+  on its own, with no words, answers in its own way: Moris's gallery cover
+  grows a little and the Farm House's photograph straightens.
+  `scripts/test-hover.cjs` fails on any rule that dims a picture.
+- **The links in a picture's frame dim as the site's links do.** The
+  picture page loads its own stylesheet, so it carries `--select-dim`
+  itself. Its masthead, the controls under the picture and its footer dim
+  under a pointer; a pointer draws no line under them.
 
 ## Trivia editorial standard
 

@@ -36,7 +36,6 @@
     color: inherit;
     text-decoration: none;
     text-align: center;
-    transition: var(--select-ease);
   }
 
   .home-picture-card.is-active {
@@ -46,8 +45,14 @@
     gap: 7px;
   }
 
-  .home-picture-card:hover,
-  .home-picture-card:active {
+  /* The painting holds still; only the words under it dim. */
+  .home-picture-title,
+  .home-picture-teaser {
+    transition: var(--select-ease);
+  }
+
+  .home-picture-card:hover :is(.home-picture-title, .home-picture-teaser),
+  .home-picture-card:active :is(.home-picture-title, .home-picture-teaser) {
     opacity: var(--select-dim);
   }
 

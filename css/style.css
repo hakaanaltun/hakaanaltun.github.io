@@ -1516,8 +1516,10 @@ body.moris-lightbox-open { overflow: hidden; }
 .series-nav-cards::-webkit-scrollbar { height: 3px; }
 .series-nav-cards::-webkit-scrollbar-track { background: transparent; }
 .series-nav-cards::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 2px; }
-.series-thumb-link { display: block; flex: 0 0 auto; scroll-snap-align: start; transition: var(--select-ease); }
-.series-thumb-link:hover, .series-thumb-link:active { opacity: var(--select-dim); }
+.series-thumb-link { display: block; flex: 0 0 auto; scroll-snap-align: start; }
+/* The picture holds still; only the label under it dims. */
+.series-thumb-link .series-thumb-label { transition: var(--select-ease); }
+.series-thumb-link:hover .series-thumb-label, .series-thumb-link:active .series-thumb-label { opacity: var(--select-dim); }
 .series-thumb-card { width: 80px; display: flex; flex-direction: column; gap: 5px; }
 .series-thumb-card img { width: 80px; height: 58px; object-fit: cover; border-radius: 8px; border: 0; display: block; overflow: hidden; }
 .series-thumb-img-placeholder { width: 80px; height: 58px; border-radius: 8px; border: 0; background: var(--rule); overflow: hidden; }
