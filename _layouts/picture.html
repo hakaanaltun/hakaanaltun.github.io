@@ -14,7 +14,7 @@
   <meta property="og:image" content="{{ page.image | absolute_url }}">
   <meta property="og:url" content="{{ page.url | absolute_url }}">
   <link rel="stylesheet" href="/css/fonts.css?v=20260710-2">
-  <link rel="stylesheet" href="/css/pictures.css?v=20261008-1">
+  <link rel="stylesheet" href="/css/pictures.css?v=20261008-2">
   <script src="/js/pictures.js?v=20261007-3" defer></script>
 </head>
 <body class="picture-page">
@@ -25,6 +25,7 @@
       <a class="picture-text-link" href="/">On Life &amp; Everything</a>
     </header>
     <main id="picture-main" tabindex="-1">
+      {% if page.category %}<p class="picture-category">{{ page.category | escape }}</p>{% endif %}
       <h1 class="picture-title">{{ page.title }}</h1>
       <div class="picture-intro">{{ content }}</div>
       <div class="picture-visit" id="picture-visit">
@@ -82,6 +83,7 @@
             <div class="picture-detail-body">{% for paragraph in detail.body %}<p>{{ paragraph | escape }}</p>{% endfor %}</div>
             <div class="picture-detail-sources">
               {% for source in page.sources %}{% if source.id == detail.source %}<a href="{{ source.url }}" target="_blank" rel="noopener noreferrer">{{ source.label }} <span class="picture-sr">(opens in a new tab)</span></a>{% endif %}{% endfor %}
+              {% for source_id in detail.sources %}{% for source in page.sources %}{% if source.id == source_id %}<a href="{{ source.url }}" target="_blank" rel="noopener noreferrer">{{ source.label }} <span class="picture-sr">(opens in a new tab)</span></a>{% endif %}{% endfor %}{% endfor %}
             </div>
           </article>
         </details>
@@ -111,3 +113,4 @@
   </div>
 </body>
 </html>
+
