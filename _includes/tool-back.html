@@ -1,0 +1,11 @@
+<a class="tools-link" href="/tools/" aria-label="All the instruments">&larr;&#8202;instruments</a>
+<script data-tool-return>
+(function(){
+  'use strict';
+  if(new URLSearchParams(window.location.search).get('from') !== 'house') return;
+  var back = document.querySelector('.tools-link');
+  back.href = '/house/#study';
+  back.textContent = '\u2190\u200aThe House';
+  back.setAttribute('aria-label', 'Back to The House study');
+})();
+</script>

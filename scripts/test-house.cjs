@@ -54,6 +54,30 @@ function page(file, url, { saved, blocked = false, run = [] } = {}) {
 const house = (options = {}) => page('house/index.html', options.url || 'https://hakanaltun.io/house/', { ...options, run: ['keep', 'astronomy', 'house'] });
 
 (async () => {
+  // Every instrument keeps the return destination tied to this visit's URL.
+  const toolSlugs = [...read(root, '_data', 'tools.yml').matchAll(/^- slug: (\S+)/gm)].map(m => m[1]);
+  for (const slug of toolSlugs) {
+    for (const from of ['', '?from=house', '?from=elsewhere']) {
+      const p = page(slug + '/index.html', 'https://hakanaltun.io/' + slug + '/' + from);
+      p.w.eval(p.q('script[data-tool-return]').textContent);
+      const back = p.q('.tools-link');
+      const fromHouse = from === '?from=house';
+      assert.equal(back.getAttribute('href'), fromHouse ? '/house/#study' : '/tools/', slug + from);
+      assert.equal(back.textContent.trim(), fromHouse ? '←\u200aThe House' : '←\u200ainstruments');
+      assert.equal(back.getAttribute('aria-label'), fromHouse ? 'Back to The House study' : 'All the instruments');
+      p.dom.window.close();
+    }
+  }
+  const room = new JSDOM(read(site, 'house/index.html'));
+  const roomLinks = [...room.window.document.querySelectorAll('a'), ...room.window.document.querySelector('#house-window').content.querySelectorAll('a')];
+  for (const link of roomLinks) {
+    const url = new URL(link.getAttribute('href'), 'https://hakanaltun.io');
+    if (!toolSlugs.some(slug => url.pathname === '/' + slug + '/')) continue;
+    assert.equal(url.searchParams.get('from'), 'house', url.href);
+    assert.ok(url.searchParams.get('v'), 'a House visit loads the current instrument page');
+  }
+  room.window.close();
+
   // --- The catalog --------------------------------------------------------
   for (const key of ['words', 'questions', 'lines', 'pieces', 'notes', 'quizzes']) {
     assert.ok(catalog[key].length > 0, `catalog has ${key}`);
@@ -188,8 +212,12 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.match(a.q('#house-dialog-content').textContent, /Sunset/);
   assert.match(a.q('#house-dialog-content').textContent, /% lit/);
   assert.match(a.q('#house-dialog-content').textContent, /Moon(rise|set)\d\d:\d\d/);
-  assert(a.q('#house-dialog-content a[href="/sun/?city=istanbul"]'), 'the sun stays in İstanbul');
-  assert(a.q('#house-dialog-content a[href="/stars/?city=istanbul"]'), 'the stars stay in İstanbul');
+  for (const slug of ['sun', 'stars', 'twilight']) {
+    const link = a.q('#house-dialog-content a[href^="/' + slug + '/?"]');
+    const url = new URL(link.href);
+    assert.equal(url.searchParams.get('city'), 'istanbul', slug + ' stays in İstanbul');
+    assert.equal(url.searchParams.get('from'), 'house', slug + ' returns to The House');
+  }
   a.click('#house-close');
   // After dark the window names the planets that are up, from the
   // ephemeris The Stars uses, loaded only when the window is opened.

@@ -320,7 +320,7 @@ layout: null
   <main class="app">
 
   <div class="chrome" id="chrome">
-    <a class="tools-link" href="/tools/" aria-label="All the instruments">&larr;&#8202;instruments</a>
+    {% include tool-back.html %}
     <div class="tabs" role="tablist" aria-label="View">
       <button class="tab" id="tab-clock" role="tab" data-panel="clock" aria-controls="clock" aria-selected="true" tabindex="0">Clock</button>
       <button class="tab" id="tab-countdown" role="tab" data-panel="countdown" aria-controls="countdown" aria-selected="false" tabindex="-1">Countdown</button>
