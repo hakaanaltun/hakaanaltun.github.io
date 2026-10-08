@@ -36,6 +36,8 @@ exclude:
   # Keep the working guide and the retired Colophon out of the published site.
   - AGENTS.md
   - colophon.html
+  # Earlier Farm House renders, kept in the repository but not published.
+  - farm-house/retired
   - Gemfile
   - Gemfile.lock
   - README.md
