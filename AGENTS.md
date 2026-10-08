@@ -358,9 +358,10 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   own dashes as it shows them: trivia notes, the homepage's question, The
   House, search results, the series line and the instruments' messages. A
   new script that writes prose does the same. What a script keeps or
-  compares drops the joiner (`js/keep.js`, `js/book-resume.js` and the
-  search), and a short script the build adds to every page takes it out of
-  anything a reader copies.
+  compares drops the joiner (`js/keep.js`, `js/book-resume.js`,
+  `js/reader-translate.js` and the search). A short script the build adds
+  to every page keeps it out of anything a reader copies and leaves the
+  rest of the copy to the browser.
 
 ## Words with Stories editorial standard
 

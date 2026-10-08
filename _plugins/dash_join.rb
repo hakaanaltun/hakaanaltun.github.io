@@ -13,9 +13,9 @@
 #
 # Scripts that write text (trivia notes, The House, search results, the
 # instruments' messages) join their own dashes as they show them. On every
-# page a short script at the end of <body> takes the joiner back out of
-# anything a reader copies, so a phrase pasted into a search or a message
-# is the plain text; text fields and editable areas copy as they are.
+# page a short script at the end of <body> keeps the joiner out of anything
+# a reader copies, so a phrase pasted into a search or a message is the
+# plain text; text fields and editable areas copy as they are.
 require "strscan"
 
 module DashJoin
@@ -50,14 +50,18 @@ module DashJoin
     out
   end
 
+  # The browser's own copy keeps links absolute and lists, styles and alt
+  # text as they are, so the script lets it run: it takes the joiners out of
+  # the selected text one by one, which keeps the selection where it was,
+  # and puts them back once the copy is made.
   COPY_SCRIPT = <<~JS.gsub(/\n\s*/, "").freeze
-    <script data-dash-copy>document.addEventListener("copy",function(e){
+    <script data-dash-copy>document.addEventListener("copy",function(){
     var a=document.activeElement;if(a&&(/^(INPUT|TEXTAREA)$/.test(a.tagName)||a.isContentEditable))return;
-    var s=window.getSelection(),t=String(s);if(t.indexOf("\\u2060")<0||!e.clipboardData)return;
-    var d=document.createElement("div");for(var i=0;i<s.rangeCount;i++)d.appendChild(s.getRangeAt(i).cloneContents());
-    e.clipboardData.setData("text/plain",t.replace(/\\u2060/g,""));
-    e.clipboardData.setData("text/html",d.innerHTML.replace(/\\u2060/g,""));
-    e.preventDefault();});</script>
+    var s=window.getSelection(),taken=[];if(!s.rangeCount||String(s).indexOf("\\u2060")<0)return;
+    for(var i=0;i<s.rangeCount;i++){var r=s.getRangeAt(i),c=r.commonAncestorContainer,
+    w=document.createTreeWalker(c.nodeType===3?c.parentNode:c,4),n;
+    while((n=w.nextNode()))if(r.intersectsNode(n))for(var k=n.data.lastIndexOf("\\u2060");k>=0;k=k?n.data.lastIndexOf("\\u2060",k-1):-1){n.deleteData(k,1);taken.push([n,k]);}}
+    setTimeout(function(){for(var j=taken.length-1;j>=0;j--)taken[j][0].insertData(taken[j][1],"\\u2060");},0);});</script>
   JS
 
   def self.clean_copies(html)
