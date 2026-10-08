@@ -33,6 +33,9 @@ collections:
     permalink: /pictures/:name/
 
 exclude:
+  # Keep the working guide and the retired Colophon out of the published site.
+  - AGENTS.md
+  - colophon.html
   - Gemfile
   - Gemfile.lock
   - README.md
