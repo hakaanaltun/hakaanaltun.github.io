@@ -76,7 +76,7 @@
 .picture-story-part p { font-size:20px; line-height:1.7; margin:0 0 14px; }
 .picture-story-sources { display:flex; flex-direction:column; align-items:flex-start; gap:6px; }
 .picture-story-sources a { font:11px/1.6 Arial,Helvetica,sans-serif; color:var(--picture-quiet); text-underline-offset:4px; }
-.picture-footer { max-width:1440px; width:100%; margin:0 auto; display:flex; justify-content:space-between; gap:20px; padding:22px 0; color:var(--picture-quiet); font:11px Arial,Helvetica,sans-serif; }
+.picture-footer { max-width:1440px; width:100%; margin:0 auto; display:flex; flex-direction:column; gap:20px; padding:22px 0; color:var(--picture-quiet); font:11px Arial,Helvetica,sans-serif; }
 .picture-footer a,.picture-footer button { font:inherit; color:inherit; border:0; background:none; padding:4px 0; text-decoration:underline; text-underline-offset:4px; }
 .picture-dialog { margin:auto; border:0; padding:0; width:min(840px,calc(100vw - 40px)); max-height:calc(100svh - 50px); background:var(--picture-paper); color:var(--picture-ink); box-shadow:0 20px 100px #14190f60; overflow:auto; }
 .picture-dialog::backdrop { background:#151d1bd6; backdrop-filter:blur(4px); }
@@ -140,3 +140,7 @@
 .picture-category-title { margin:0; font:500 28px/1.2 'Cormorant Garamond',Georgia,serif; color:var(--petrol); }
 .picture-category-section .picture-catalogue { margin-top:22px; }
 .picture-detail-sources a { display:block; margin-bottom:6px; }
+
+.picture-footer-links { display:flex; justify-content:space-between; align-items:center; gap:20px; }
+.picture-footer .picture-home-link { align-self:center; padding:12px 0 4px; font:italic clamp(1.35rem,1.7vw,1.5rem)/1.05 'Cormorant Garamond',Georgia,serif; color:var(--picture-quiet); text-decoration:none; transition:opacity .2s; }
+.picture-footer .picture-home-link:hover, .picture-footer .picture-home-link:active { opacity:.78; }
