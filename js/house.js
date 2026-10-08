@@ -364,7 +364,9 @@
     }
     var choices = kept.length ? [['backup', 'Download your drawer']] : [];
     if (KEEP.works()) choices.push(['restore', 'Restore your drawer']);
-    if (kept.length) choices = choices.concat([['text', 'Download as text'], ['print', 'Print or save as PDF']]);
+    if (kept.length) choices.push(['text', 'Download as text']);
+    // Opened from an iPhone's or iPad's Home Screen, the house cannot print.
+    if (kept.length && !(window.navigator.standalone === true && navigator.maxTouchPoints > 0)) choices.push(['print', 'Print or save as PDF']);
     if (!choices.length) return;
     var tools = element('div', 'house-drawer-tools');
     choices.forEach(function (pair) {

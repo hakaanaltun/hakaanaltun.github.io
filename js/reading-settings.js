@@ -63,7 +63,17 @@
         save();
       });
     });
-    document.getElementById('reading-print').addEventListener('click', function () { if (typeof window.print === 'function') window.print(); });
+    /* Opened from an iPhone's or iPad's Home Screen, the site runs without
+       Safari around it, and there window.print() opens nothing. The button
+       would do nothing, so the panel says where printing works instead. A
+       Mac's web app has no touch points and keeps the button. */
+    var printButton = document.getElementById('reading-print');
+    if (window.navigator.standalone === true && navigator.maxTouchPoints > 0) {
+      printButton.remove();
+      document.getElementById('reading-print-elsewhere').hidden = false;
+    } else {
+      printButton.addEventListener('click', function () { if (typeof window.print === 'function') window.print(); });
+    }
     window.addEventListener('beforeprint', function () {
       var puzzle = document.getElementById('essay-puzzle');
       if (puzzle && puzzle.getAttribute('aria-pressed') === 'true') puzzle.click();

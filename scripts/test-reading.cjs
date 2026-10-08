@@ -112,6 +112,28 @@ async function main() {
     assert.deepEqual(pressed(q, 'spacing'), ['2.1']);
     dom.window.close();
   }
+  // The print button prints. Opened from an iPhone's Home Screen, where
+  // printing opens nothing, the panel says where it works instead; a Mac's
+  // web app, with no touch points, keeps the button.
+  for (const [standalone, touchPoints, prints] of [[undefined, 0, true], [true, 5, false], [true, 0, true]]) {
+    const { dom, w, q } = page();
+    Object.defineProperty(w.navigator, 'standalone', { value: standalone, configurable: true });
+    Object.defineProperty(w.navigator, 'maxTouchPoints', { value: touchPoints, configurable: true });
+    let printed = 0;
+    w.print = () => { printed += 1; };
+    run(w, 'reading-settings'); await tick();
+    const elsewhere = q('#reading-print-elsewhere');
+    if (prints) {
+      q('#reading-print').click();
+      assert.equal(printed, 1, 'the button prints');
+      assert.equal(elsewhere.hidden, true);
+    } else {
+      assert.equal(q('#reading-print'), null, 'no button that does nothing');
+      assert.equal(elsewhere.hidden, false);
+      assert.match(elsewhere.textContent, /open it in Safari/);
+    }
+    dom.window.close();
+  }
   // Rain is not in the menu: rain that is falling has to show where it stops.
   assert.equal(/essay-rain/.test(panel), false, 'read with rain stays under the title');
   assert.match(read('_layouts/post.html'), /id="essay-rain"/);

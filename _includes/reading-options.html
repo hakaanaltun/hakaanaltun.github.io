@@ -25,5 +25,8 @@ panels a piece can open look alike. {% endcomment %}
     </div>
     <button type="button" class="reading-print" id="reading-print">Print or save as PDF</button>
     <p class="reading-note" id="reading-settings-status" role="status">Kept in this browser, and nowhere else.</p>
+    {% comment %} Shown instead of the button where it cannot print: the
+    site opened from an iPhone's Home Screen. {% endcomment %}
+    <p class="reading-note" id="reading-print-elsewhere" hidden>To print this piece or save it as a PDF, open it in Safari.</p>
   </div>
 </details>
