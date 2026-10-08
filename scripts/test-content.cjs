@@ -178,14 +178,41 @@ for (const file of list('_includes/book', '.html')) checkDashes(file, read(file)
 checkDashes('_data/notes.yml', read('_data/notes.yml').split('\n')
   .map((line) => (line.trim().startsWith('#') ? '' : line)).join('\n'));
 
-/* AGENTS.md is published as /colophon/. Its code spans quote titles and
-   commands as they are, so they are blanked like comments. A word hyphenated
-   across a line break would reach the page as two: "hand- balancing". */
+/* AGENTS.md was published as /colophon/ and may be again. Its code spans
+   quote titles and commands as they are, so they are blanked like comments.
+   A word hyphenated across a line break would reach the page as two:
+   "hand- balancing". */
 const agents = read('AGENTS.md');
 checkDashes('AGENTS.md', agents.replace(/`[^`\n]*`/g, (part) => part.replace(/[^\n]/g, '')));
 agents.split('\n').forEach((line, i) => {
   if (/[A-Za-z]-$/.test(line)) problem(`AGENTS.md:${i + 1}`, `a word is split at the end of the line; keep it on one line: ${line.trim().slice(-40)}`);
 });
+
+// --- Dashes on the built pages ---------------------------------------------
+
+/* _plugins/dash_join.rb puts a word joiner (U+2060) before every closed-up
+   em dash on a rendered page, so the dash stays with the word before it
+   rather than opening a line. Scripts, styles, code, text fields, titles and
+   attributes keep the plain dash: a joiner there would change what a script
+   reads or what a field holds. */
+const keptPlain = /<(script|style|pre|code|textarea|title)\b[\s\S]*?<\/\1\s*>/gi;
+const anyTag = /<(?:[^>"']|"[^"]*"|'[^']*')*>/g;
+const unjoined = /[^\s⁠](?:—|&mdash;|&#8212;|&#x2014;)/i;
+function checkJoinedDashes(file) {
+  const where = path.relative(root, file);
+  const html = fs.readFileSync(file, 'utf8');
+  for (const block of html.match(keptPlain) || []) {
+    if (block.includes('⁠')) problem(where, `a word joiner inside <${block.match(/^<(\w+)/)[1]}>, which should keep the plain dash`);
+  }
+  const text = html.replace(keptPlain, '').replace(/<!--[\s\S]*?-->/g, '');
+  for (const tag of text.match(anyTag) || []) {
+    if (tag.includes('⁠')) problem(where, `a word joiner inside a tag: ${tag.slice(0, 60)}`);
+  }
+  for (const part of text.split(anyTag)) {
+    const found = part.match(unjoined);
+    if (found) problem(where, `an em dash without its word joiner: ${part.slice(Math.max(0, found.index - 30), found.index + 20).trim()}`);
+  }
+}
 
 // --- Links inside the site -------------------------------------------------
 
@@ -220,6 +247,7 @@ function resolve(urlPath) {
 const unescape = (s) => s.replace(/&amp;/g, '&').replace(/&#39;/g, "'").replace(/&quot;/g, '"');
 
 for (const file of htmlFiles(site)) {
+  checkJoinedDashes(file);
   const where = path.relative(root, file);
   const html = fs.readFileSync(file, 'utf8')
     .replace(/<script\b[\s\S]*?<\/script>/g, '')
@@ -248,5 +276,5 @@ if (problems.size) {
   for (const [line, times] of problems) console.error(`  ${line}${times > 1 ? ` (${times} times)` : ''}`);
   process.exitCode = 1;
 } else {
-  console.log('Content checks passed: quiz banks, word footnotes, closed-up dashes and links inside the site.');
+  console.log('Content checks passed: quiz banks, word footnotes, closed-up dashes, their word joiners on the built pages and links inside the site.');
 }
