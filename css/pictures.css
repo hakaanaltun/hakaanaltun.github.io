@@ -140,9 +140,14 @@
 @media(prefers-reduced-motion:reduce) { .picture-page *, .picture-page *::before, .picture-page *::after { transition:none!important; } }
 
 
-/* Subject groups grow with the collection and keep each picture address. */
+/* Subject groups grow with the collection and keep each picture address.
+   A group is a <section>, so it sets aside the homepage's section padding
+   and divider; the first one sits under the heading as the Words and
+   Instruments lists do. */
 .picture-category { text-align:center; margin:0 0 10px; font:12px/1.5 Arial,Helvetica,sans-serif; letter-spacing:.08em; color:var(--picture-quiet); }
-.picture-category-section { max-width:960px; margin:36px auto 0; }
+.picture-category-section { max-width:960px; margin:36px auto 0; padding:0; }
+.picture-category-section:first-of-type { margin-top:0; }
+.picture-category-section::before { content:none; }
 .picture-category-title { margin:0; font:500 28px/1.2 'Cormorant Garamond',Georgia,serif; color:var(--petrol); }
 .picture-category-section .picture-catalogue { margin-top:22px; }
 .picture-detail-sources a { display:block; margin-bottom:6px; }

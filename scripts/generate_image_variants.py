@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Generate /images/480/ and /images/960/ downscales at build time.
+"""Generate /images/480/ and /images/960/ downscales at build time, and the
+same for the paintings in /pictures/assets/.
 
 The card templates (piece-card.html, all-work-row.html, more-essays.js) build
 srcsets by path substitution — /images/x.webp -> /images/480/x.webp — and
@@ -13,6 +14,13 @@ Rules (matching the original manual pipeline):
   - a variant already present in the repo is left untouched (committed
     variants win, so hand-tuned crops survive)
   - directory structure under images/ is mirrored (e.g. images/moris/...)
+
+The paintings in pictures/assets/ get /pictures/assets/480/ and /960/ for
+the cards on the Pictures index and the homepage. Their variants are never
+committed (.gitignore), and one older than its painting is made again, so a
+repainted picture never shows its old card. `--pictures-only` makes just
+these, for a local build: the session hook runs it so the cards show, and
+it leaves images/ alone, where a local run would add untracked variants.
 """
 
 import shutil
@@ -22,6 +30,7 @@ from pathlib import Path
 from PIL import Image
 
 IMAGES_DIR = Path("images")
+PICTURES_DIR = Path("pictures/assets")
 TARGET_WIDTHS = (480, 960)
 EXTENSIONS = {".webp", ".jpg", ".jpeg", ".png"}
 SAVE_OPTS = {
@@ -37,13 +46,13 @@ SAVE_OPTS = {
 WEBP_DERIVATIVES = {}
 
 
-def variant_dirs():
-    return {IMAGES_DIR / str(w) for w in TARGET_WIDTHS}
+def variant_dirs(root: Path):
+    return {root / str(w) for w in TARGET_WIDTHS}
 
 
-def source_images():
-    skip = variant_dirs()
-    for path in sorted(IMAGES_DIR.rglob("*")):
+def source_images(root: Path):
+    skip = variant_dirs(root)
+    for path in sorted(root.rglob("*")):
         if not path.is_file() or path.suffix.lower() not in EXTENSIONS:
             continue
         if any(d in path.parents for d in skip):
@@ -51,9 +60,10 @@ def source_images():
         yield path
 
 
-def make_variant(src: Path, width: int) -> str:
-    dest = IMAGES_DIR / str(width) / src.relative_to(IMAGES_DIR)
-    if dest.exists():
+def make_variant(src: Path, width: int, root: Path = IMAGES_DIR,
+                 refresh: bool = False) -> str:
+    dest = root / str(width) / src.relative_to(root)
+    if dest.exists() and not (refresh and dest.stat().st_mtime < src.stat().st_mtime):
         return "kept"
     dest.parent.mkdir(parents=True, exist_ok=True)
     with Image.open(src) as im:
@@ -72,14 +82,19 @@ def main() -> int:
         print("images/ not found — run from the repo root", file=sys.stderr)
         return 1
     counts = {"kept": 0, "copied": 0, "resized": 0}
-    for src in source_images():
+    pictures_only = "--pictures-only" in sys.argv[1:]
+    for src in ([] if pictures_only else source_images(IMAGES_DIR)):
         for width in TARGET_WIDTHS:
             counts[make_variant(src, width)] += 1
+    if PICTURES_DIR.is_dir():
+        for src in source_images(PICTURES_DIR):
+            for width in TARGET_WIDTHS:
+                counts[make_variant(src, width, PICTURES_DIR, refresh=True)] += 1
 
     # Generate explicitly requested WebP derivatives after the normal variants.
     # If the source is already at or below a target width, WebP is still
     # encoded so the browser-facing path and format stay consistent.
-    for src, rel_dest in WEBP_DERIVATIVES.items():
+    for src, rel_dest in ({} if pictures_only else WEBP_DERIVATIVES).items():
         if not src.exists():
             continue
         with Image.open(src) as im:
