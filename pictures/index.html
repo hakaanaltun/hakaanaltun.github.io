@@ -4,7 +4,7 @@ permalink: /pictures/
 title: "Pictures with Stories"
 description: "Watercolor pictures to explore, with the stories behind their details."
 ---
-<link rel="stylesheet" href="/css/pictures.css?v=20261008-8">
+<link rel="stylesheet" href="/css/pictures.css?v=20261008-9">
 <div class="section-page picture-index">
   <div class="section-page-head">
     <h1 class="section-page-title">Pictures with Stories</h1>
@@ -18,8 +18,8 @@ description: "Watercolor pictures to explore, with the stories behind their deta
       {% assign pictures = group.items | sort_natural: "title" %}
       {% for picture in pictures %}
       <a class="picture-card" href="{{ picture.url }}">
-        {%- comment -%} The card takes the painting's downscales, made at deploy by scripts/generate_image_variants.py. {%- endcomment -%}
-        <img src="{{ picture.image }}" srcset="{{ picture.image | replace: '/pictures/assets/', '/pictures/assets/480/' }} 480w, {{ picture.image | replace: '/pictures/assets/', '/pictures/assets/960/' }} 960w" sizes="(min-width: 1040px) 462px, (min-width: 680px) 640px, 100vw" width="{{ picture.image_width }}" height="{{ picture.image_height }}" alt="{{ picture.alt | escape }}" decoding="async">
+        {%- comment -%} The card takes the painting's downscales, made at deploy by scripts/generate_image_variants.py. A group's cards sit two to a row on a wide screen; a group of one fills the row at its 640px limit. {%- endcomment -%}
+        <img src="{{ picture.image }}" srcset="{{ picture.image | replace: '/pictures/assets/', '/pictures/assets/480/' }} 480w, {{ picture.image | replace: '/pictures/assets/', '/pictures/assets/960/' }} 960w" sizes="{% if pictures.size == 1 %}(min-width: 680px) 640px, 100vw{% else %}(min-width: 1040px) 462px, (min-width: 680px) 640px, 100vw{% endif %}" width="{{ picture.image_width }}" height="{{ picture.image_height }}" alt="{{ picture.alt | escape }}" decoding="async">
         <h3>{{ picture.title }}</h3>
         <p>{{ picture.teaser }}</p>
       </a>
