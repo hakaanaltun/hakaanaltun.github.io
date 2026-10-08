@@ -69,9 +69,9 @@ description: "Come in, look around, and keep something you find. A room at On Li
       <button class="house-hotspot house-hotspot--moris" data-open="moris" type="button"><span class="house-pin" aria-hidden="true">5</span><span class="house-hotspot-name">Moris</span></button>
       <button class="house-hotspot house-hotspot--lamp" data-lamp type="button" aria-pressed="false"><span class="house-pin" aria-hidden="true">6</span><span class="house-hotspot-name">The lamp</span></button>
       <button class="house-hotspot house-hotspot--drawer" id="drawer" data-open="drawer" type="button"><span class="house-pin" aria-hidden="true">7</span><span class="house-hotspot-name">Your drawer</span></button>
-      <a class="house-hotspot house-hotspot--clock" href="/clock/"><span class="house-pin" aria-hidden="true">8</span><span class="house-hotspot-name">The Clock <span aria-hidden="true">&rarr;</span></span></a>
-      <a class="house-hotspot house-hotspot--reader" href="/read/"><span class="house-pin" aria-hidden="true">9</span><span class="house-hotspot-name">The Reader <span aria-hidden="true">&rarr;</span></span></a>
-      <a class="house-hotspot house-hotspot--desk" href="/desk/"><span class="house-pin" aria-hidden="true">10</span><span class="house-hotspot-name">The Desk <span aria-hidden="true">&rarr;</span></span></a>
+      <a class="house-hotspot house-hotspot--clock" href="/clock/?from=house&amp;v=20261008-1"><span class="house-pin" aria-hidden="true">8</span><span class="house-hotspot-name">The Clock <span aria-hidden="true">&rarr;</span></span></a>
+      <a class="house-hotspot house-hotspot--reader" href="/read/?from=house&amp;v=20261008-1"><span class="house-pin" aria-hidden="true">9</span><span class="house-hotspot-name">The Reader <span aria-hidden="true">&rarr;</span></span></a>
+      <a class="house-hotspot house-hotspot--desk" href="/desk/?from=house&amp;v=20261008-1"><span class="house-pin" aria-hidden="true">10</span><span class="house-hotspot-name">The Desk <span aria-hidden="true">&rarr;</span></span></a>
       <a class="house-hotspot house-hotspot--farm-house" href="/farm-house/"><span class="house-pin" aria-hidden="true">11</span><span class="house-hotspot-name">The Farm House <span aria-hidden="true">&rarr;</span></span></a>
     </div>
     {%- comment -%} On a phone or a tablet the room is too small to carry its labels, so
@@ -86,12 +86,12 @@ description: "Come in, look around, and keep something you find. A room at On Li
       <li><button type="button" tabindex="-1" data-open="moris"><span class="house-pin">5</span>Moris</button></li>
       <li><button type="button" tabindex="-1" data-lamp><span class="house-pin">6</span>The lamp</button></li>
       <li><button type="button" tabindex="-1" data-open="drawer"><span class="house-pin">7</span>Your drawer</button></li>
-      <li><a href="/clock/" tabindex="-1"><span class="house-pin">8</span>The Clock</a></li>
-      <li><a href="/read/" tabindex="-1"><span class="house-pin">9</span>The Reader</a></li>
-      <li><a href="/desk/" tabindex="-1"><span class="house-pin">10</span>The Desk</a></li>
+      <li><a href="/clock/?from=house&amp;v=20261008-1" tabindex="-1"><span class="house-pin">8</span>The Clock</a></li>
+      <li><a href="/read/?from=house&amp;v=20261008-1" tabindex="-1"><span class="house-pin">9</span>The Reader</a></li>
+      <li><a href="/desk/?from=house&amp;v=20261008-1" tabindex="-1"><span class="house-pin">10</span>The Desk</a></li>
       <li><a href="/farm-house/" tabindex="-1"><span class="house-pin">11</span>The Farm House</a></li>
     </ol>
-    <div class="house-room-footer"><a href="#house-entrance" id="house-leave">&larr; Back to the door</a><a href="/write/">Sit down and write <span aria-hidden="true">&rarr;</span></a></div>
+    <div class="house-room-footer"><a href="#house-entrance" id="house-leave">&larr; Back to the door</a><a href="/write/?from=house&amp;v=20261008-1">Sit down and write <span aria-hidden="true">&rarr;</span></a></div>
   </section>
 
   <noscript><p>The room needs JavaScript to open its objects. You can still visit the <a href="/all-work/">bookshelf</a>, <a href="/word/">words</a>, <a href="/trivia/">quizzes</a>, and <a href="/moris/">Moris</a>.</p></noscript>
@@ -107,7 +107,7 @@ description: "Come in, look around, and keep something you find. A room at On Li
   <template id="house-window">
     <p class="house-object-intro" data-sky-line></p>
     <dl class="house-sky-facts" data-sky-facts></dl>
-    <div class="house-window-links"><a href="/sun/?city=istanbul"><span>The Sun</span><p>The sun’s height and direction over İstanbul now.</p></a><a href="/moon/"><span>The Moon</span><p>The moon’s phase tonight, drawn as it hangs in the sky.</p></a><a href="/stars/?city=istanbul"><span>The Stars</span><p>The stars and bright planets above İstanbul now.</p></a><a href="/twilight/?city=istanbul"><span>İstanbul’s Twilight</span><p>Sunrise, sunset and the light in between.</p></a><a href="/noise/"><span>The Noise</span><p>Put on some rain while you stay.</p></a></div>
+    <div class="house-window-links"><a href="/sun/?city=istanbul&amp;from=house&amp;v=20261008-1"><span>The Sun</span><p>The sun’s height and direction over İstanbul now.</p></a><a href="/moon/?from=house&amp;v=20261008-1"><span>The Moon</span><p>The moon’s phase tonight, drawn as it hangs in the sky.</p></a><a href="/stars/?city=istanbul&amp;from=house&amp;v=20261008-1"><span>The Stars</span><p>The stars and bright planets above İstanbul now.</p></a><a href="/twilight/?city=istanbul&amp;from=house&amp;v=20261008-1"><span>İstanbul’s Twilight</span><p>Sunrise, sunset and the light in between.</p></a><a href="/noise/?from=house&amp;v=20261008-1"><span>The Noise</span><p>Put on some rain while you stay.</p></a></div>
   </template>
 
   <template id="house-moris">

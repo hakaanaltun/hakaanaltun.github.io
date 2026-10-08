@@ -489,11 +489,14 @@ accuracy and plain prose to this section as well.
   instruments' bar and a new picture the picture layout. Woodland paths or
   a river reached from the farm's garden are scenes of the Farm House and
   keep its frame; they do not become pages of their own.
-- **The way back leads to the place's own section.** An instrument leads
-  to the instruments and a picture to Pictures with Stories. The clock, the
-  reader and the desk can also be opened from The House's study, and they
-  still lead to the instruments: a link back to The House would not make
-  sense on them, and the browser's back button already returns there.
+- **The way back follows how an instrument was opened.** A link from The
+  House to an instrument carries `from=house`, preserving any other query
+  parameters. Its back link says "The House" and returns to `/house/#study`.
+  Other entries keep the link to Instruments. `_includes/tool-back.html`
+  provides this behavior on every instrument. Keep the origin in the URL so
+  reloading preserves it and separate visits stay independent. House links
+  also carry `v` to load updated pages through the service worker's cache.
+  A picture returns to Pictures with Stories.
 - **The Farm House belongs to The House.** It is entered only from there,
   through the Polaroid on a shelf in the study, so its "← The House"
   returns to the study (`/house/#study`). Do not give its frame the site's
