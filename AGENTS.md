@@ -406,6 +406,12 @@ accuracy and plain prose to this section as well.
   and viewpoints are arranged for exploration, explained below the picture.
   This is an illustrative journey rather than a live sky or a flight path.
   All eight planets remain the intended next scope after this small trial.
+  Finish the Earth vicinity, Earth and Moon as one coherent section before
+  expanding to Mars. The opening view should leave ample space around a
+  smaller Earth so arrival at its closer view is unmistakable. Choose the
+  sourced details before painting a new scene. Preserve recognizable forms
+  and reserve named landmarks for features verified against references.
+  Name labels follow the Farm House's hover, focus and optional hint behavior.
   Pale Blue Dot and the Sagan passage can follow after the visual language
   is settled. The full copyrighted passage still needs written permission.
   Preserve stable picture addresses, keyboard access, reduced motion,
