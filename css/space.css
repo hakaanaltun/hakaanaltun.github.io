@@ -8,7 +8,7 @@
 .journey-scene.arrive { animation:journey-arrive .65s ease both; }
 @keyframes journey-arrive { from { opacity:.3; transform:scale(.985); } to { opacity:1; transform:scale(1); } }
 .journey-destination { position:absolute; left:var(--spot-x); top:var(--spot-y); width:var(--world-width); height:var(--world-height); min-width:44px; min-height:44px; transform:translate(-50%,-50%); border-radius:50%; -webkit-tap-highlight-color:transparent; }
-.journey-painted-world { position:absolute; left:var(--spot-x); top:var(--spot-y); width:var(--paint-width); aspect-ratio:1; transform:translate(-50%,-50%); border-radius:50%; pointer-events:none; background-repeat:no-repeat; }
+.journey-painted-world { position:absolute; left:var(--spot-x); top:var(--spot-y); width:var(--paint-width); aspect-ratio:var(--paint-ratio,1); transform:translate(-50%,-50%); border-radius:50%; pointer-events:none; background-repeat:no-repeat; }
 .journey-destination:focus-visible { outline:2px solid #fffdf5!important; outline-offset:-4px!important; }
 .journey-label { z-index:2; }
 /* The painting has no permanent markers; labels reveal its interactive areas. */

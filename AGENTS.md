@@ -410,8 +410,9 @@ accuracy and plain prose to this section as well.
   world ("← The Moon", "Jupiter →"). The author asked for the way on on
   9 October 2026, so the next world never has to be found by touching it.
   A scene's `back` and `next` in the front matter set them.
-  The journey covers Earth's vicinity, a closer Earth view, the Moon, Mars and
-  Jupiter, including the ISS near Earth and Io and Europa beside Jupiter. Keep recognizable geography, lunar markings, lighting,
+  The journey covers Earth's vicinity, a closer Earth view, the Moon, Mars,
+  Jupiter and Saturn, including the ISS near Earth, Io and Europa beside Jupiter,
+  and Titan and Enceladus beside Saturn. Keep recognizable geography, lunar markings, lighting,
   paper and brushwork consistent across connected views. Sizes, distances
   and viewpoints are arranged for exploration, explained below the picture.
   This is an illustrative journey rather than a live sky or a flight path.
@@ -427,9 +428,13 @@ accuracy and plain prose to this section as well.
   In the approved Moon and Jupiter scenes, fine detail covers the whole
   globe. From Saturn on, keep detail selective, as the black hole does:
   gather it where a label points and leave the rest of the globe in broad
-  washes. Saturn already has an account of how we came to know it. Galileo
-  saw its rings in 1610 without recognizing them, and Christiaan Huygens
-  explained them as a ring in the 1650s. Verify the details before writing.
+  washes. Saturn’s sourced ring note follows Galileo’s unresolved view in 1610
+  and Huygens’s ring explanation, published in 1659. The other notes cover
+  Saturn’s rotation, the Cassini Division, Titan’s haze and methane rain,
+  and Enceladus’s ice and subsurface ocean. The moons are enlarged separately
+  and their visible markings simplified, as the illustration note explains.
+  An oval crop preserves Saturn’s rings in the small destination at Jupiter;
+  `paint_ratio` controls this without changing existing round destinations.
   Earth vicinity, Earth and Moon were approved as one coherent section before
   extending to Mars. The Moon’s small Mars destination reuses a crop of the
   Mars painting, preserving the approved lunar scene. Mars has sourced labels

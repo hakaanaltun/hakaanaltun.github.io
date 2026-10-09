@@ -3,22 +3,23 @@ layout: space
 permalink: /pictures/space/
 title: Through the Solar System
 category: Space
-description: Explore Earth, the Moon, Mars and Jupiter through connected watercolor scenes, with information
+description: Explore Earth, the Moon, Mars, Jupiter and Saturn through connected watercolor scenes, with information
   about their visible features and NASA, ESA and NOAA sources.
-teaser: From Earth and the Moon to Mars and Jupiter.
+teaser: From Earth and the Moon to Mars, Jupiter and Saturn.
 image: /pictures/space/assets/earth-vicinity-v2-watercolor.webp
 image_width: 1536
 image_height: 1024
 alt: A wide watercolor view of Earth, a small gray Moon and the International Space Station, separated by indigo
   space.
 caption: Touch a world to go there. Its name opens information.
-illustration_note: Five connected watercolor scenes lead from Earth’s vicinity to Earth, the Moon, Mars and Jupiter.
-  Recognizable worlds and the direction of sunlight continue across the views. These are scientific illustrations
-  with simplified features. Sizes, distances and viewpoints are arranged for exploration; they do not show a live
-  sky, an exact surface map or a spacecraft flight path. The ISS is enlarged so its structure can be seen. Martian
-  relief is emphasized to make the volcanoes and canyon visible. Io and Europa are enlarged separately to show
-  their surfaces; their sizes and separations are not to scale. Jupiter’s cloud patterns are an interpretation
-  of a changing atmosphere.
+illustration_note: Six connected watercolor scenes lead from Earth’s vicinity to Earth, the Moon, Mars, Jupiter
+  and Saturn. Recognizable worlds and the direction of sunlight continue across the views. These are scientific
+  illustrations with simplified features. Sizes, distances and viewpoints are arranged for exploration; they do
+  not show a live sky, an exact surface map or a spacecraft flight path. The ISS is enlarged so its structure can
+  be seen. Martian relief is emphasized to make the volcanoes and canyon visible. Io, Europa, Titan and Enceladus
+  are enlarged separately to show their surfaces; their sizes and separations are not to scale. Jupiter’s cloud
+  patterns are an interpretation of a changing atmosphere. Saturn’s ring structure and Enceladus’s fractures are
+  simplified; the moon views are not surface maps.
 scenes:
 - id: vicinity
   name: Earth vicinity
@@ -222,13 +223,14 @@ scenes:
 - id: jupiter
   name: Near Jupiter
   image: /pictures/space/assets/near-jupiter-watercolor.webp
-  alt: Watercolor Jupiter with cream and brown cloud bands and an orange-red oval storm below its equator.
-    Ochre-yellow Io is to the left, and pale fractured Europa is below it. A tiny Mars at upper left offers a return.
-  caption: Near Jupiter. Explore the cloud bands and storm, or look more closely at Io and Europa.
+  alt: Watercolor Jupiter with cream and brown cloud bands and an orange-red oval storm below its equator. Ochre-yellow
+    Io is to the left, and pale fractured Europa is below it. A tiny Mars at upper left offers a return. A small
+    ringed Saturn at upper right marks the next destination.
+  caption: Near Jupiter. Explore the cloud bands and moons, or continue to Saturn.
   back: mars
   back_label: Mars
-  next: ''
-  next_label: ''
+  next: saturn
+  next_label: Saturn
   spots:
   - label: Jupiter
     x: 64
@@ -272,6 +274,77 @@ scenes:
     paint_width: 2.2
     paint_position: 69.2% 37.9%
     paint_zoom: 179% auto
+  - label: Saturn
+    x: 83
+    y: 14
+    detail: saturn
+    primary: true
+    go: saturn
+    width: 7
+    height: 5.8
+    label_x: 86.5
+    label_y: 14
+    label_edge: right
+    paint_image: /pictures/space/assets/near-saturn-watercolor.webp
+    paint_width: 7
+    paint_ratio: 2.2
+    paint_clip: polygon(0 55%, 25% 25%, 35% 0, 100% 0, 100% 100%, 0 100%)
+    paint_position: 100% 43%
+    paint_zoom: 112% auto
+- id: saturn
+  name: Near Saturn
+  image: /pictures/space/assets/near-saturn-watercolor.webp
+  alt: Watercolor Saturn with pale cloud bands and tilted rings. A dark division separates the bright inner ring
+    from the grayer outer ring. Hazy orange Titan is at upper left, icy Enceladus below it, and a tiny striped Jupiter
+    above them offers a return.
+  caption: Near Saturn. Explore the rings and the moons Titan and Enceladus.
+  back: jupiter
+  back_label: Jupiter
+  next: ''
+  next_label: ''
+  spots:
+  - label: Saturn
+    x: 56
+    y: 31
+    detail: saturn
+    primary: true
+  - label: Rings
+    x: 79
+    y: 49
+    detail: saturn-rings
+    primary: false
+  - label: Cassini Division
+    x: 29
+    y: 61
+    detail: cassini-division
+    primary: false
+    label_side: right
+    label_gap: 4
+  - label: Titan
+    x: 14.6
+    y: 29.3
+    detail: titan
+    primary: true
+  - label: Enceladus
+    x: 18.2
+    y: 77
+    detail: enceladus
+    primary: true
+  - label: Jupiter
+    x: 12
+    y: 13
+    detail: jupiter
+    primary: true
+    go: jupiter
+    width: 2.6
+    height: 3.9
+    label_x: 13.3
+    label_y: 13
+    label_edge: right
+    paint_image: /pictures/space/assets/near-jupiter-watercolor.webp
+    paint_width: 2.6
+    paint_position: 77.81% 42.35%
+    paint_zoom: 201% auto
 sources:
 - id: earth
   label: NASA Science · Earth facts
@@ -354,6 +427,33 @@ sources:
 - id: europa-facts
   label: NASA Science · Europa facts
   url: https://science.nasa.gov/jupiter/jupiter-moons/europa/europa-facts/
+- id: saturn-facts
+  label: NASA Science · Saturn facts
+  url: https://science.nasa.gov/saturn/facts/
+- id: saturn-shape
+  label: ESA · Saturn’s rotation and shape
+  url: https://www.esa.int/Science_Exploration/Space_Science/Cassini-Huygens/Facts_about_Saturn
+- id: saturn-history
+  label: 'ESA · The moon and ring: Huygens and Saturn'
+  url: https://www.esa.int/esapub/br/br211/br211.pdf
+- id: saturn-ring-material
+  label: ESA · Saturn’s rings
+  url: https://www.esa.int/Science_Exploration/Space_Science/Cassini-Huygens/Saturn_s_rings
+- id: cassini-division-material
+  label: NASA · Voyager sees ringlets in the Cassini Division
+  url: https://science.nasa.gov/photojournal/saturns-b-rings/
+- id: cassini-division-mimas
+  label: NASA · The Great Divide
+  url: https://www.nasa.gov/image-article/great-divide/
+- id: titan-facts
+  label: NASA Science · Titan facts
+  url: https://science.nasa.gov/saturn/moons/titan/facts/
+- id: huygens-landing
+  label: ESA · Cassini-Huygens overview
+  url: https://www.esa.int/Science_Exploration/Space_Science/Cassini-Huygens/Cassini-Huygens_overview
+- id: enceladus-ocean
+  label: NASA · Cassini at Enceladus
+  url: https://science.nasa.gov/mission/cassini/science/enceladus/
 details:
 - id: earth
   label: Earth
@@ -659,5 +759,99 @@ details:
   image: /pictures/space/assets/near-jupiter-watercolor.webp
   position: 23.45% 82.39%
   zoom: 640% auto
+- id: saturn
+  label: Saturn
+  kicker: Saturn
+  title: A short day, a long year.
+  body:
+  - Saturn is the sixth planet from the Sun and the second largest. Its pale globe is made mostly of hydrogen and
+    helium. The soft bands in the painting represent clouds above deeper layers of gas and liquid, with no solid
+    surface where a visitor could stand.
+  - 'The planet turns once in about eleven hours. That rapid rotation gives it an equatorial bulge and visibly flattened
+    poles. A year passes much more slowly: Saturn takes about 29 Earth years to complete one orbit of the Sun.'
+  - Its tilted axis also gives it seasons. Each lasts for years, changing how sunlight falls across the planet and
+    its rings.
+  sources:
+  - saturn-facts
+  - saturn-shape
+  image: /pictures/space/assets/near-saturn-watercolor.webp
+  position: 61.73% 39.63%
+  zoom: 220% auto
+  alt: Saturn’s pale cloud-covered globe, with its rings crossing the foreground.
+- id: saturn-rings
+  label: Rings
+  kicker: Saturn · Rings
+  title: The shape that puzzled Galileo.
+  body:
+  - When Galileo turned his telescope toward Saturn in 1610, he saw a central body with two smaller shapes beside
+    it. The instrument could not resolve the rings. Other observers drew handles, and at times the side features
+    seemed to vanish as the rings turned edge-on to Earth.
+  - In the 1650s, Christiaan Huygens worked out that a thin, flat ring surrounded the planet without touching it.
+    He published the explanation in Systema Saturnium in 1659.
+  - We now know that the rings contain countless separate particles, mostly water ice. Each follows its own orbit
+    around Saturn. From a distance those moving pieces form the broad, continuous-looking bands in the painting.
+  sources:
+  - saturn-history
+  - saturn-ring-material
+  image: /pictures/space/assets/near-saturn-watercolor.webp
+  position: 86.00% 47.94%
+  zoom: 360% auto
+  alt: The bright foreground of Saturn’s rings, with darker bands beside it.
+- id: cassini-division
+  label: Cassini Division
+  kicker: Saturn · Cassini Division
+  title: What the dark band contains.
+  body:
+  - The dark lane separates the bright B ring from the outer A ring. Called the Cassini Division, it is roughly
+    4,800 kilometers wide. Voyager’s close views revealed distinct ringlets inside the region that looks like a
+    gap from Earth.
+  - The moon Mimas helps shape its inner boundary. Near the outer edge of the B ring, particles complete about two
+    orbits for each orbit of Mimas. The moon’s repeated gravitational tugs build up, helping maintain the sharp
+    edge.
+  - The dark band in this painting simplifies that fine structure. Looking closer with a spacecraft turns an apparently
+    empty strip into another part of the ring system.
+  sources:
+  - cassini-division-material
+  - cassini-division-mimas
+  image: /pictures/space/assets/near-saturn-watercolor.webp
+  position: 25.30% 64.04%
+  zoom: 650% auto
+  alt: A close view of the dark Cassini Division beside the bright B ring.
+- id: titan
+  label: Titan
+  kicker: Saturn’s moons · Titan
+  title: Rain beneath an orange haze.
+  body:
+  - Titan’s orange haze hides the surface beneath a dense atmosphere made mostly of nitrogen. High above the ground,
+    sunlight and energetic particles break apart nitrogen and methane molecules. Their fragments recombine into
+    compounds that help form the haze.
+  - Below it, methane and ethane collect in lakes and seas. Methane can fall as rain and flow through channels.
+    At Titan’s bitterly cold temperatures, water ice forms hard ground while these other substances can remain liquid.
+  - On January 14, 2005, ESA’s Huygens probe descended through the atmosphere and landed. The moon that looks featureless
+    in visible light became a landscape that a camera could show from the ground.
+  sources:
+  - titan-facts
+  - huygens-landing
+  image: /pictures/space/assets/near-saturn-watercolor.webp
+  position: 6.37% 21.13%
+  zoom: 530% auto
+  alt: A hazy orange Titan with no visible surface markings.
+- id: enceladus
+  label: Enceladus
+  kicker: Saturn’s moons · Enceladus
+  title: An ocean that sends samples into space.
+  body:
+  - Enceladus is only about 500 kilometers across. Its bright ice reflects much of the sunlight that reaches it.
+    Near the south pole, long fractures release jets of water vapor and icy particles into space.
+  - Cassini flew through the plume and sampled material from within the moon. Measurements of gravity and the moon’s
+    slight wobble also support a global ocean beneath the frozen shell.
+  - Some of the expelled ice falls back onto Enceladus, refreshing its bright surface. Some escapes into Saturn’s
+    faint E ring, beyond the main rings shown here. The pale moon and the surrounding ring system exchange material.
+  sources:
+  - enceladus-ocean
+  image: /pictures/space/assets/near-saturn-watercolor.webp
+  position: 13.96% 82.79%
+  zoom: 850% auto
+  alt: A small white Enceladus with blue-gray fractures in its lower icy surface.
 ---
 <p>Begin near Earth. Follow the worlds into their closer views.</p>

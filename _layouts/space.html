@@ -14,7 +14,7 @@
   <meta property="og:url" content="{{ page.url | absolute_url }}">
   <link rel="stylesheet" href="/css/fonts.css?v=20260710-2">
   <link rel="stylesheet" href="/css/pictures.css?v=20261008-9">
-  <link rel="stylesheet" href="/css/space.css?v=20261009-10">
+  <link rel="stylesheet" href="/css/space.css?v=20261009-11">
   <script src="/js/pictures.js?v=20261009-1" defer></script>
   <script src="/js/space.js?v=20261009-3" defer></script>
 </head>
@@ -39,7 +39,7 @@
               {% for spot in scene.spots %}
               {%- comment -%} Inside a sentence a name keeps a lower-case "the": "Travel to the Moon", "Read about the Moon". {%- endcomment -%}
               {% assign label_start = spot.label | slice: 0, 4 %}{% if label_start == 'The ' %}{% assign travel_name = spot.label | replace_first: 'The ', 'the ' %}{% else %}{% assign travel_name = spot.label %}{% endif %}
-              {% if spot.paint_image %}<span class="journey-painted-world" aria-hidden="true" style="--spot-x:{{ spot.x }}%;--spot-y:{{ spot.y }}%;--paint-width:{{ spot.paint_width }}%;background-image:url('{{ spot.paint_image }}');background-position:{{ spot.paint_position }};background-size:{{ spot.paint_zoom }}"></span>{% endif %}
+              {% if spot.paint_image %}<span class="journey-painted-world" aria-hidden="true" style="--spot-x:{{ spot.x }}%;--spot-y:{{ spot.y }}%;--paint-width:{{ spot.paint_width }}%;{% if spot.paint_ratio %}--paint-ratio:{{ spot.paint_ratio }};{% endif %}{% if spot.paint_clip %}clip-path:{{ spot.paint_clip }};{% endif %}background-image:url('{{ spot.paint_image }}');background-position:{{ spot.paint_position }};background-size:{{ spot.paint_zoom }}"></span>{% endif %}
               {% if spot.go %}<a class="journey-destination" href="#scene-{{ spot.go }}" data-travel="{{ spot.go }}" style="--spot-x:{{ spot.x }}%;--spot-y:{{ spot.y }}%;--world-width:{{ spot.width }}%;--world-height:{{ spot.height }}%" aria-label="Travel to {{ travel_name | escape }}"><span class="picture-sr">Travel to {{ travel_name }}</span></a>{% endif %}
               {% if spot.detail %}<button type="button" class="picture-hotspot journey-label" data-detail="{{ spot.detail }}"{% if spot.primary %} data-primary="true"{% endif %}{% if spot.label_edge %} data-label-edge="{{ spot.label_edge }}"{% endif %}{% if spot.label_side %} data-label-side="{{ spot.label_side }}"{% endif %}{% if spot.label_gap %} data-label-gap{% endif %} style="--spot-x:{{ spot.label_x | default: spot.x }}%;--spot-y:{{ spot.label_y | default: spot.y }}%{% if spot.label_gap %};--label-gap:{{ spot.label_gap }}cqw{% endif %}" aria-label="Read about {{ travel_name | escape }}" hidden><span class="picture-hotspot-label">{{ spot.label }}</span><span class="picture-hotspot-number" aria-hidden="true">{{ forloop.index }}</span></button>{% endif %}
               {% endfor %}
