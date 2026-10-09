@@ -419,6 +419,9 @@ accuracy and plain prose to this section as well.
   sourced details before painting a new scene. Preserve recognizable forms
   and reserve named landmarks for features verified against references.
   Name labels follow the Farm House's hover, focus and optional hint behavior.
+  Place markers on unobtrusive parts of small subjects, such as an ISS solar
+  wing, so their defining structure remains visible. A smaller visible dot
+  keeps the full touch target. Check marker placement in every scene.
   Pale Blue Dot and the Sagan passage can follow after the visual language
   is settled. The full copyrighted passage still needs written permission.
   Preserve stable picture addresses, keyboard access, reduced motion,
