@@ -14,9 +14,9 @@
   <meta property="og:url" content="{{ page.url | absolute_url }}">
   <link rel="stylesheet" href="/css/fonts.css?v=20260710-2">
   <link rel="stylesheet" href="/css/pictures.css?v=20261008-9">
-  <link rel="stylesheet" href="/css/space.css?v=20261009-9">
+  <link rel="stylesheet" href="/css/space.css?v=20261009-10">
   <script src="/js/pictures.js?v=20261009-1" defer></script>
-  <script src="/js/space.js?v=20261009-2" defer></script>
+  <script src="/js/space.js?v=20261009-3" defer></script>
 </head>
 <body class="picture-page space-watercolor">
   <a class="picture-skip" href="#picture-main">Skip to the picture</a>
@@ -33,7 +33,7 @@
         <div class="picture-stage">
         <div class="picture-frame" id="journey-frame">
           {% for scene in page.scenes %}
-          <section class="journey-scene{% if forloop.first %} is-current{% endif %}" id="scene-{{ scene.id }}" data-scene="{{ scene.id }}" data-caption="{{ scene.caption | escape }}" data-name="{{ scene.name | escape }}" data-back="{{ scene.back }}" data-back-label="{{ scene.back_label | escape }}" aria-label="{{ scene.name | escape }}">
+          <section class="journey-scene{% if forloop.first %} is-current{% endif %}" id="scene-{{ scene.id }}" data-scene="{{ scene.id }}" data-caption="{{ scene.caption | escape }}" data-name="{{ scene.name | escape }}" data-back="{{ scene.back }}" data-back-label="{{ scene.back_label | escape }}" data-next="{{ scene.next }}" data-next-label="{{ scene.next_label | escape }}" aria-label="{{ scene.name | escape }}">
             <img class="picture-image" src="{{ scene.image }}" width="1536" height="1024" alt="{{ scene.alt | escape }}"{% if forloop.first %} fetchpriority="high"{% else %} loading="lazy"{% endif %} decoding="async">
             <div class="picture-hotspots" aria-label="Travel destinations and information labels">
               {% for spot in scene.spots %}
@@ -56,7 +56,7 @@
             {% for spot in scene.spots %}<li><span class="picture-choice-number" aria-hidden="true">{{ forloop.index }}</span>{% if spot.detail %}<a href="#note-{{ spot.detail }}" data-detail="{{ spot.detail }}">{{ spot.label }}</a>{% endif %}{% if spot.go %}<a class="journey-choice-travel" href="#scene-{{ spot.go }}" data-travel="{{ spot.go }}"><span class="picture-sr">{{ spot.label }}: </span>go there <span aria-hidden="true">→</span></a>{% endif %}</li>{% endfor %}
           </ol>
           {% endfor %}
-          <nav class="journey-navigation" aria-label="Return to the previous scene" hidden><a href="#scene-vicinity" id="journey-back" class="picture-text-link">Earth vicinity</a></nav>
+          <nav class="journey-navigation" aria-label="Previous and next scenes" hidden><a href="#scene-vicinity" id="journey-back" class="picture-text-link">Earth vicinity</a><a href="#scene-earth" id="journey-next" class="picture-text-link">Earth</a></nav>
           <div class="picture-controls">
             <a class="picture-text-link" href="/pictures/">← All pictures</a>
             <button type="button" class="picture-text-link" id="picture-fullscreen" aria-controls="picture-visit" aria-pressed="false" hidden>Full screen</button>
@@ -76,7 +76,7 @@
         <dialog class="picture-dialog picture-how" id="picture-help" aria-labelledby="picture-help-title">
           <button type="button" class="picture-close" id="picture-help-close" aria-label="Close">×</button>
           <h2 id="picture-help-title">Look more closely.</h2>
-          <p>Touch a world to go there. Its name label opens information. Other labels reveal details in the scene. “Show places to look” keeps all the labels visible and shows a list of destinations and details. You can return through the picture or use the link beneath it.</p>
+          <p>Touch a world to go there. Its name label opens information. Other labels reveal details in the scene. “Show places to look” keeps all the labels visible and shows a list of destinations and details. You can travel through the picture or use the links beneath it, back to the previous world or on to the next.</p>
           <p>“Full screen” gives the picture more room. Use “Exit full screen” or Escape to return to the page.</p>
           <p>Tab moves between the details and Enter opens one. Escape closes an explanation first, then leaves full screen.</p>
         </dialog>

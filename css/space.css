@@ -37,7 +37,7 @@
 }
 .space-watercolor .picture-under { padding-top:12px; }
 .space-watercolor .picture-caption { min-height:27px; }
-.journey-navigation { display:flex; justify-content:center; align-items:center; margin-top:3px; }
+.journey-navigation { display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:0 40px; margin-top:3px; }
 .journey-navigation .picture-text-link { min-height:44px; font:18px/1.4 'EB Garamond',Georgia,serif!important; }
 .space-watercolor .picture-controls { padding-top:3px; }
 .space-watercolor .picture-choices { margin:8px 0; justify-content:center; }
