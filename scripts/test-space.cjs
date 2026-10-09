@@ -12,11 +12,11 @@ function page(modal=true,hash='') {
  return {dom,w,d};
 }
 (async()=>{
- const ids=['earth','oceans','atmosphere','iss','moon','maria','craters'];
+ const ids=['earth','oceans','atmosphere','iss','moon','maria','craters','mars','olympus','valles','polar-cap'];
  {
   const {dom,d}=page(false);
   assert.equal(d.body.classList.contains('picture-ready'),false);
-  assert.equal(d.querySelectorAll('[data-scene]').length,3);
+  assert.equal(d.querySelectorAll('[data-scene]').length,4);
   for(const id of ids)assert.ok(d.querySelector('#note-'+id+' a[href^="https://"]'));
   dom.window.close();
  }
@@ -44,12 +44,27 @@ function page(modal=true,hash='') {
    assert.ok(d.getElementById('picture-detail-image').style.backgroundImage.includes('near-moon'));
    d.getElementById('picture-return').click();
   }
+  d.querySelector('#scene-moon .journey-destination[data-travel="mars"]').click();
+  assert.equal(frame.dataset.view,'mars');
+  for(const id of ['mars','olympus','valles','polar-cap']) {
+   const trigger=d.querySelector('#scene-mars [data-detail="'+id+'"]');trigger.click();
+   assert.equal(dialog.open,true);assert.equal(dialog.scrollTop,0);assert.equal(frame.dataset.view,'mars');
+   assert.ok(d.getElementById('picture-detail-image').style.backgroundImage.includes('near-mars'));
+   assert.ok(d.querySelector('#picture-detail-content a[href^="https://"]'));
+   dialog.scrollTop=200;d.getElementById('picture-return').click();assert.equal(d.activeElement,trigger);
+  }
+  w.history.back();await new Promise(r=>setTimeout(r,25));assert.equal(frame.dataset.view,'moon');
+  w.history.forward();await new Promise(r=>setTimeout(r,25));assert.equal(frame.dataset.view,'mars');
+  d.getElementById('journey-back').click();assert.equal(frame.dataset.view,'moon');
+  d.querySelector('#scene-moon .journey-destination[data-travel="mars"]').click();
+  d.querySelector('#scene-mars .journey-destination[data-travel="earth"]').click();assert.equal(frame.dataset.view,'earth');
+  d.querySelector('#scene-earth .journey-destination[data-travel="moon"]').click();
   w.history.back();await new Promise(r=>setTimeout(r,25));assert.equal(frame.dataset.view,'earth');
   w.history.forward();await new Promise(r=>setTimeout(r,25));assert.equal(frame.dataset.view,'moon');
   d.querySelector('#scene-moon .journey-destination[data-travel="earth"]').click();assert.equal(frame.dataset.view,'earth');
   d.getElementById('journey-back').click();assert.equal(frame.dataset.view,'vicinity');
   dom.window.close();
  }
- for(const id of ['earth','moon']){const {dom,d}=page(true,'#scene-'+id);assert.equal(d.getElementById('journey-frame').dataset.view,id);dom.window.close();}
+ for(const id of ['earth','moon','mars']){const {dom,d}=page(true,'#scene-'+id);assert.equal(d.getElementById('journey-frame').dataset.view,id);dom.window.close();}
  console.log('Connected space scenes passed: separate travel and information, scene-specific crops, sourced fallback, return routes, fresh notes, focus and history.');
 })().catch(e=>{console.error(e);process.exitCode=1});

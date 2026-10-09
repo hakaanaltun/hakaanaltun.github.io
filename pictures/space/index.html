@@ -2,20 +2,20 @@
 layout: space
 permalink: /pictures/space/
 title: The Space
-category: Earth & the Moon
-description: A watercolor journey through connected views of Earth and the Moon, with separate information labels
-  and NASA and NOAA sources.
+category: The Solar System
+description: A watercolor journey through connected views of Earth, the Moon and Mars, with separate information
+  labels and NASA, ESA and NOAA sources.
 image: /pictures/space/assets/earth-vicinity-v2-watercolor.webp
 image_width: 1536
 image_height: 1024
 alt: A wide watercolor view of Earth, a small gray Moon and the International Space Station, separated by indigo
   space.
 caption: Touch a world to go there. Its name opens information.
-illustration_note: Three connected watercolor scenes begin near Earth and lead to a closer Earth view and the
-  Moon. The same worlds, geographic orientation and direction of sunlight continue across the views. These are
-  scientific illustrations with simplified features. Sizes, distances and viewpoints are arranged for exploration;
-  they do not show a live sky, an exact surface map or a spacecraft flight path. The ISS is enlarged so its structure
-  can be seen.
+illustration_note: Four connected watercolor scenes lead from Earth’s vicinity to Earth, the Moon and Mars.
+  Recognizable worlds and the direction of sunlight continue across the views. These are scientific illustrations
+  with simplified features. Sizes, distances and viewpoints are arranged for exploration; they do not show a live
+  sky, an exact surface map or a spacecraft flight path. The ISS is enlarged so its structure can be seen. Martian
+  relief is emphasized to make the volcanoes and canyon visible.
 scenes:
 - id: vicinity
   name: Earth vicinity
@@ -102,8 +102,8 @@ scenes:
   name: Near the Moon
   image: /pictures/space/assets/near-moon-v2-watercolor.webp
   alt: A large watercolor Moon with dark lava plains and lighter cratered highlands, with a small blue Earth to
-    the left.
-  caption: Near the Moon. Explore the dark plains and craters, or return to Earth.
+    the left. A tiny rust-colored Mars to the upper right marks the next destination.
+  caption: Near the Moon. Explore the plains and craters, continue to Mars, or return to Earth.
   back: earth
   back_label: Earth
   spots:
@@ -134,6 +134,61 @@ scenes:
     height: 12.4
     label_x: 19.7
     label_y: 42
+  - label: Mars
+    x: 83
+    y: 15
+    detail: mars
+    primary: true
+    go: mars
+    width: 2
+    height: 3
+    label_x: 83
+    label_y: 29
+    paint_image: /pictures/space/assets/near-mars-watercolor.webp
+    paint_width: 2
+    paint_position: 69.2% 37.9%
+    paint_zoom: 179% auto
+- id: mars
+  name: Near Mars
+  image: /pictures/space/assets/near-mars-watercolor.webp
+  alt: Watercolor Mars with a broad Olympus Mons at upper left, smaller Tharsis volcanoes, a branching canyon
+    across its lower middle and a pale north polar cap. A small blue Earth is visible to the left.
+  caption: Near Mars. Look at the volcano, canyon and polar ice, or return to Earth.
+  back: moon
+  back_label: The Moon
+  spots:
+  - label: Mars
+    x: 58.5
+    y: 48
+    detail: mars
+    primary: true
+    label_x: 63
+    label_y: 35
+  - label: Olympus Mons
+    x: 42
+    y: 34
+    detail: olympus
+    primary: false
+  - label: Valles Marineris
+    x: 63.2
+    y: 54.5
+    detail: valles
+    primary: false
+  - label: North polar cap
+    x: 59.8
+    y: 8.3
+    detail: polar-cap
+    primary: false
+  - label: Earth
+    x: 17.5
+    y: 27.3
+    detail: earth
+    primary: true
+    go: earth
+    width: 8
+    height: 12
+    label_x: 17.5
+    label_y: 41
 sources:
 - id: earth
   label: NASA Science · Earth facts
@@ -168,6 +223,33 @@ sources:
 - id: weathering
   label: NASA Earth Observatory · Fresh craters on the Moon and Earth
   url: https://science.nasa.gov/earth/earth-observatory/fresh-craters-on-the-moon-and-earth-39769/
+- id: mars-color
+  label: ESA · Why is Mars red?
+  url: https://www.esa.int/ESA_Multimedia/Images/2025/02/Why_is_Mars_red
+- id: olympus-flows
+  label: ESA · Lava flows on Olympus Mons
+  url: https://www.esa.int/Science_Exploration/Space_Science/Mars_Express/At_the_foot_of_the_Red_Planet_s_giant_volcano
+- id: olympus-caldera
+  label: ESA · The summit calderas of Olympus Mons
+  url: https://www.esa.int/Science_Exploration/Space_Science/Mars_Express/Olympus_Mons_caldera_in_perspective
+- id: mars-scale
+  label: NASA/JPL · Mars at a glance
+  url: https://www.jpl.nasa.gov/news/press_kits/insight/landing/facts/mars-at-a-glance/
+- id: valles-geology
+  label: ESA · The geology of Valles Marineris
+  url: https://www.esa.int/Science_Exploration/Space_Science/Mars_Express/Mars_Express_peers_into_Mars_Grand_Canyon
+- id: valles-history
+  label: ESA · The formation of the canyon system
+  url: https://www.esa.int/Science_Exploration/Space_Science/The_Solar_System_s_grandest_canyon
+- id: polar-seasons
+  label: NASA · Seasonal changes in the north polar cap
+  url: https://science.nasa.gov/photojournal/seasonal-changes-in-mars-north-polar-ice-cap/
+- id: polar-layers
+  label: NASA · Layers in the north polar cap
+  url: https://science.nasa.gov/photojournal/north-polar-cap-layers-and-ledges/
+- id: mars-map
+  label: NASA · Mars Global Surveyor topographic maps
+  url: https://science.nasa.gov/photojournal/maps-of-mars-global-topography/
 details:
 - id: earth
   label: Earth
@@ -304,5 +386,78 @@ details:
   position: 71.60% 72.50%
   zoom: 450% auto
   alt: A crop of the lighter cratered lunar highlands.
+- id: mars
+  label: Mars
+  kicker: Mars · The red surface
+  title: Rust carried across a planet.
+  body:
+  - Mars owes much of its reddish color to oxidized iron minerals in its dust. Over billions of years, erosion
+    broke down iron-bearing material, and winds spread the fine grains across the planet.
+  - That dust also holds clues to earlier conditions. A 2025 study compared spacecraft observations with laboratory-made
+    Mars dust and found a close match with ferrihydrite, a water-bearing form of iron oxide.
+  - Ferrihydrite commonly forms in cool water. The result suggests that some of the material responsible for Mars’s
+    familiar color formed during a much wetter period, before being carried across the surface.
+  sources:
+  - mars-color
+  image: /pictures/space/assets/near-mars-watercolor.webp
+  position: 72.67% 15.60%
+  zoom: 160% auto
+  alt: Watercolor Mars with rust-colored plains and darker mineral terrain.
+- id: olympus
+  label: Olympus Mons
+  kicker: Mars · Olympus Mons
+  title: A mountain built by flowing lava.
+  body:
+  - The broad rise to the left of the other volcanoes is Olympus Mons. About 600 kilometers across, this shield
+    volcano was built by overlapping lava flows. Its slopes are gentle, with a steep scarp around the outer edge.
+  - The depressions at its summit are calderas. As underground magma chambers emptied, the ground above collapsed.
+    Later eruptions and collapses produced overlapping depressions.
+  - Orbital images let scientists read the order of events. A lava flow that covers another must be younger. The
+    mountain preserves many such crossings, so its surface records repeated episodes of building and collapse.
+  sources:
+  - olympus-flows
+  - olympus-caldera
+  - mars-scale
+  image: /pictures/space/assets/near-mars-watercolor.webp
+  position: 38.77% 27.90%
+  zoom: 650% auto
+  alt: The broad shield of Olympus Mons and its summit caldera, interpreted in watercolor.
+- id: valles
+  label: Valles Marineris
+  kicker: Mars · Valles Marineris
+  title: A canyon opened by a stretching crust.
+  body:
+  - The long broken band across the lower part of the globe is Valles Marineris, a canyon system about 4,000 kilometers
+    long. Its connected troughs extend east from the Tharsis volcanic region.
+  - Scientists think the crust stretched and fractured as the neighboring volcanic plateau rose. Parts of the
+    ground dropped, opening deep troughs. Erosion later widened and reshaped them.
+  - Some canyon walls have collapsed in enormous landslides. Orbital images show debris spread below the slopes,
+    together with layers and dark deposits on the canyon floor. The outline we see brings together several processes
+    acting over a long time.
+  sources:
+  - valles-geology
+  - valles-history
+  image: /pictures/space/assets/near-mars-watercolor.webp
+  position: 71.00% 60.00%
+  zoom: 300% auto
+  alt: Branching troughs of Valles Marineris crossing the Martian surface.
+- id: polar-cap
+  label: North polar cap
+  kicker: Mars · The north polar cap
+  title: Ice that changes with the seasons.
+  body:
+  - The pale patch near the northern limb marks the north polar cap. A core of water ice persists through the
+    northern summer. In winter, a wider seasonal covering of carbon dioxide frost and ice grows around it.
+  - As sunlight returns, carbon dioxide ice changes directly into gas, a process called sublimation. The bright
+    area retreats and exposes darker terrain, including a ring of sand dunes.
+  - At the edges, spacecraft have photographed layers containing different mixtures of ice and dust. These deposits
+    preserve changes in the Martian climate. The small white patch in this view is the top of a much longer record.
+  sources:
+  - polar-seasons
+  - polar-layers
+  image: /pictures/space/assets/near-mars-watercolor.webp
+  position: 61.33% 1.43%
+  zoom: 850% auto
+  alt: A small white polar cap near the northern limb of watercolor Mars.
 ---
 <p>Begin near Earth. Follow the worlds into their closer views.</p>

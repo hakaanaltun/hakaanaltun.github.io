@@ -400,8 +400,8 @@ accuracy and plain prose to this section as well.
   Touching a world's body travels to its scene; touching its separate name
   label opens sourced information. A scene can carry several detail labels.
   Show only destinations available from the current scene, with a way back.
-  The first trial covers Earth's vicinity, a closer Earth view and the Moon,
-  including the ISS. Keep recognizable geography, lunar markings, lighting,
+  The journey covers Earth's vicinity, a closer Earth view, the Moon and Mars,
+  including the ISS near Earth. Keep recognizable geography, lunar markings, lighting,
   paper and brushwork consistent across connected views. Sizes, distances
   and viewpoints are arranged for exploration, explained below the picture.
   This is an illustrative journey rather than a live sky or a flight path.
@@ -413,8 +413,11 @@ accuracy and plain prose to this section as well.
   breathing room around Earth in the closer scene. Use the approved new
   scenes to preserve geography and lighting when extending the journey.
   All eight planets remain the intended next scope after this small trial.
-  Finish the Earth vicinity, Earth and Moon as one coherent section before
-  expanding to Mars. The opening view should leave ample space around a
+  Earth vicinity, Earth and Moon were approved as one coherent section before
+  extending to Mars. The Moon’s small Mars destination reuses a crop of the
+  Mars painting, preserving the approved lunar scene. Mars has sourced labels
+  for its iron-bearing dust, Olympus Mons, Valles Marineris and north polar
+  ice. Its painting emphasizes relief; the illustration note explains this. The opening view should leave ample space around a
   smaller Earth so arrival at its closer view is unmistakable. Choose the
   sourced details before painting a new scene. Preserve recognizable forms
   and reserve named landmarks for features verified against references.
