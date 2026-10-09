@@ -422,13 +422,14 @@ accuracy and plain prose to this section as well.
   sourced details before painting a new scene. Preserve recognizable forms
   and reserve named landmarks for features verified against references.
   Name labels follow the Farm House's hover, focus and optional hint behavior.
-  Place markers on unobtrusive parts of small subjects, such as an ISS solar
-  wing, so their defining structure remains visible. A smaller visible dot
-  keeps the full touch target. Check marker placement in every scene.
+  The Space and the Farm House have no permanent white dots. Labels appear
+  on hover or keyboard focus; Show places to look keeps names visible on
+  every screen, including phones. Preserve full touch targets and keep
+  labels close to their subjects without covering nearby travel targets.
   Pale Blue Dot and the Sagan passage can follow after the visual language
   is settled. The full copyrighted passage still needs written permission.
   Preserve stable picture addresses, keyboard access, reduced motion,
-  optional numbered hints, native fallback reading, and fullscreen.
+  optional visible labels, native fallback reading, and fullscreen.
 
 - Follow The Farm House's watercolor language: broad brush strokes,
   transparent washes, a limited value range, visible pencil, occasional
@@ -500,9 +501,9 @@ accuracy and plain prose to this section as well.
   section's index and the homepage. The painting's warm paper was tried as
   the page color in October 2026 and taken out at the author's request:
   over a whole page it was too loud.
-- **Places show as faint dots from the first look.** This applies on
-  every screen. A
-  label sits on its place unless that covers the thing it names, such as a
+- **Standalone pictures show faint dots from the first look.** The Space
+  journey and Farm House use hover, focus and optional visible labels without
+  permanent dots, as requested on 9 October 2026. A label sits on its place unless that covers the thing it names, such as a
   thin line; `label_side: right` in the picture's front matter puts it
   beside it. A label that shows opens its detail as the dot does; a hidden
   one takes no clicks.
