@@ -4,22 +4,22 @@ permalink: /pictures/space/
 title: The Space
 category: Earth & the Moon
 description: A watercolor journey through connected views of Earth and the Moon, with separate information labels
-  and NASA sources.
-image: /pictures/space/assets/earth-vicinity-wide-watercolor.webp
+  and NASA and NOAA sources.
+image: /pictures/space/assets/earth-vicinity-v2-watercolor.webp
 image_width: 1536
 image_height: 1024
 alt: A wide watercolor view of Earth, a small gray Moon and the International Space Station, separated by indigo
   space.
 caption: Touch a world to go there. Its name opens information.
-illustration_note: Three connected watercolor scenes begin near Earth and lead to a closer Earth view and the Moon.
-  The same worlds, geographic orientation and direction of sunlight continue across the views. These are scientific
-  illustrations with simplified features. Sizes, distances and viewpoints are arranged for exploration; they do
-  not show a live sky, an exact surface map or a spacecraft flight path. The ISS is enlarged so its structure can
-  be seen.
+illustration_note: Three connected watercolor scenes begin near Earth and lead to a closer Earth view and the
+  Moon. The same worlds, geographic orientation and direction of sunlight continue across the views. These are
+  scientific illustrations with simplified features. Sizes, distances and viewpoints are arranged for exploration;
+  they do not show a live sky, an exact surface map or a spacecraft flight path. The ISS is enlarged so its structure
+  can be seen.
 scenes:
 - id: vicinity
   name: Earth vicinity
-  image: /pictures/space/assets/earth-vicinity-wide-watercolor.webp
+  image: /pictures/space/assets/earth-vicinity-v2-watercolor.webp
   alt: A wide watercolor view of Earth, a small gray Moon and the International Space Station, separated by indigo
     space.
   caption: Touch a world to go there. Its name opens information.
@@ -27,78 +27,80 @@ scenes:
   back_label: ''
   spots:
   - label: Earth
-    x: 37.6
-    y: 49.1
+    x: 44
+    y: 49.5
     detail: earth
     primary: true
     go: earth
-    width: 19
-    height: 28.3
-    label_x: 37.6
+    width: 12
+    height: 18
+    label_x: 44
     label_y: 62
   - label: The Moon
-    x: 71.1
-    y: 33.9
+    x: 72.4
+    y: 29
     detail: moon
     primary: true
     go: moon
-    width: 4.7
-    height: 7
-    label_x: 71.1
-    label_y: 48
+    width: 3.4
+    height: 5.1
+    label_x: 72.4
+    label_y: 39
   - label: ISS
-    x: 64.5
-    y: 64.5
+    x: 50.6
+    y: 46.6
     detail: iss
     primary: true
-    label_x: 64.5
-    label_y: 64.5
+    label_x: 50.6
+    label_y: 46.6
+    label_side: right
 - id: earth
   name: Near Earth
-  image: /pictures/space/assets/near-earth-watercolor.webp
-  alt: A closer watercolor view of Earth with Africa, blue oceans and cloud bands. The Moon and space station remain
-    visible.
+  image: /pictures/space/assets/near-earth-v2-watercolor.webp
+  alt: A closer watercolor view of Earth with Africa, blue oceans and cloud bands. The Moon and space station
+    remain visible.
   caption: Near Earth. Look at the oceans and atmosphere, or continue to the Moon.
   back: vicinity
   back_label: Earth vicinity
   spots:
   - label: Earth
-    x: 36.5
-    y: 47.5
+    x: 38
+    y: 49.6
     detail: earth
     primary: true
-    label_x: 36.5
-    label_y: 24
+    label_x: 39
+    label_y: 49
   - label: Oceans
-    x: 22
-    y: 57
+    x: 26
+    y: 47
     detail: oceans
     primary: false
   - label: Atmosphere
-    x: 11
-    y: 33
+    x: 20.6
+    y: 41
     detail: atmosphere
     primary: false
   - label: The Moon
-    x: 85.7
-    y: 29
+    x: 77.1
+    y: 26.5
     detail: moon
     primary: true
     go: moon
-    width: 12
-    height: 18
-    label_x: 85.7
-    label_y: 42
+    width: 6.2
+    height: 9.2
+    label_x: 77.1
+    label_y: 40
   - label: ISS
-    x: 80.5
-    y: 67
+    x: 56.3
+    y: 44.3
     detail: iss
     primary: true
-    label_x: 80.5
-    label_y: 82
+    label_x: 56.3
+    label_y: 44.3
+    label_side: right
 - id: moon
   name: Near the Moon
-  image: /pictures/space/assets/near-moon-watercolor.webp
+  image: /pictures/space/assets/near-moon-v2-watercolor.webp
   alt: A large watercolor Moon with dark lava plains and lighter cratered highlands, with a small blue Earth to
     the left.
   caption: Near the Moon. Explore the dark plains and craters, or return to Earth.
@@ -106,32 +108,32 @@ scenes:
   back_label: Earth
   spots:
   - label: The Moon
-    x: 61
-    y: 50
+    x: 58.7
+    y: 50.6
     detail: moon
     primary: true
-    label_x: 61
-    label_y: 19
+    label_x: 60
+    label_y: 25
   - label: Lava plains
-    x: 53
-    y: 35
+    x: 49
+    y: 32
     detail: maria
     primary: false
   - label: Craters
-    x: 66
-    y: 77
+    x: 67
+    y: 64
     detail: craters
     primary: false
   - label: Earth
-    x: 16
-    y: 26.5
+    x: 19.7
+    y: 29.3
     detail: earth
     primary: true
     go: earth
-    width: 15
-    height: 22
-    label_x: 16
-    label_y: 43
+    width: 8.3
+    height: 12.4
+    label_x: 19.7
+    label_y: 42
 sources:
 - id: earth
   label: NASA Science · Earth facts
@@ -145,6 +147,27 @@ sources:
 - id: iss
   label: NASA · International Space Station facts and figures
   url: https://www.nasa.gov/international-space-station/space-station-facts-and-figures/
+- id: ridge
+  label: NOAA Ocean Exploration · The mid-ocean ridge
+  url: https://oceanexplorer.noaa.gov/ocean-fact/mid-ocean-ridge/
+- id: atmosphere
+  label: NASA Science · The layers of Earth’s atmosphere
+  url: https://science.nasa.gov/earth/earth-atmosphere/earths-atmosphere-a-multi-layered-cake/
+- id: microgravity
+  label: NASA · What is microgravity?
+  url: https://www.nasa.gov/centers-and-facilities/glenn/what-is-microgravity/
+- id: locking
+  label: NASA Science · Tidal locking
+  url: https://science.nasa.gov/moon/tidal-locking/
+- id: phases
+  label: NASA Science · Moon phases and the far side
+  url: https://science.nasa.gov/moon/top-moon-questions/
+- id: craters
+  label: NASA Science · Lunar craters
+  url: https://science.nasa.gov/moon/lunar-craters/
+- id: weathering
+  label: NASA Earth Observatory · Fresh craters on the Moon and Earth
+  url: https://science.nasa.gov/earth/earth-observatory/fresh-craters-on-the-moon-and-earth-39769/
 details:
 - id: earth
   label: Earth
@@ -157,104 +180,129 @@ details:
     of Earth, with Africa facing us.
   sources:
   - earth
-  image: /pictures/space/assets/near-earth-watercolor.webp
-  position: 15.73% 22.50%
-  zoom: 165% auto
+  image: /pictures/space/assets/near-earth-v2-watercolor.webp
+  position: 30.00% 49.00%
+  zoom: 250% auto
   alt: Watercolor Earth with Africa, oceans and clouds.
 - id: oceans
   label: Oceans
   kicker: Earth · Oceans
-  title: Most of our mountains are out of sight.
+  title: Mountains beneath the Atlantic.
   body:
-  - Oceans cover about 71% of Earth’s surface and hold about 97% of its water. The blue wash reaches much farther
-    than the painted land.
-  - Much of the planet’s geology is hidden beneath that water. Most of Earth’s volcanoes are underwater. Its longest
-    mountain range runs along the ocean floor; NASA describes it as four times longer than the Andes, Rockies and
-    Himalayas combined.
+  - The blue water west of Africa is the Atlantic Ocean. Beneath it runs the Mid-Atlantic Ridge, part of a mountain
+    system that extends for nearly 65,000 kilometers around Earth. More than 90% of that system lies underwater.
+  - Along the ridge, tectonic plates move apart. Molten rock rises into the opening and cools into new ocean crust.
+    The Mid-Atlantic Ridge spreads at roughly two to five centimeters a year, gradually adding seafloor between
+    the continents.
+  - Oceans cover about 71% of Earth. Much of the ground beneath them is hidden from this view, including the volcanic
+    ridges where the surface is being made.
   sources:
+  - ridge
   - earth
-  image: /pictures/space/assets/near-earth-watercolor.webp
-  position: 10.33% 62.53%
-  zoom: 340% auto
+  image: /pictures/space/assets/near-earth-v2-watercolor.webp
+  position: 21.25% 47.86%
+  zoom: 500% auto
   alt: A closer crop of the blue ocean beside Africa.
 - id: atmosphere
   label: Atmosphere
   kicker: Earth · Atmosphere
-  title: A thin edge with a large effect.
+  title: Most weather fits into a shallow layer.
   body:
-  - The pale blue edge suggests Earth’s atmosphere. Near the surface, it is about 78% nitrogen and 21% oxygen, with
-    small amounts of other gases.
-  - The atmosphere shapes weather and climate. It also protects the surface from many incoming meteoroids, which
-    burn up before reaching the ground. The painted rim is emphasized so it remains visible.
+  - Follow the pale blue curve around Earth. The atmosphere becomes thinner with height, gradually fading into
+    space. Most familiar weather takes place near the bottom, in the troposphere, whose average height is only
+    about 12 kilometers. It reaches higher over the equator and is shallower over the poles.
+  - The white cloud bands belong mainly to this lowest layer. Above them, the stratosphere contains the ozone
+    layer, which absorbs harmful ultraviolet radiation from the Sun.
+  - Farther up, the International Space Station travels through the extremely thin air of the thermosphere. The
+    visible blue edge gives us a sense of the atmosphere, while its outer reaches extend well beyond that narrow
+    band.
   sources:
-  - earth
-  image: /pictures/space/assets/near-earth-watercolor.webp
-  position: 2.43% 24.50%
-  zoom: 450% auto
+  - atmosphere
+  image: /pictures/space/assets/near-earth-v2-watercolor.webp
+  position: 15.85% 39.21%
+  zoom: 650% auto
   alt: A crop of Earth’s curved edge and its subtle blue atmospheric rim.
 - id: iss
   label: ISS
   kicker: Earth orbit · International Space Station
   title: Sixteen sunrises in a day.
   body:
-  - The International Space Station circles Earth about once every 90 minutes. In 24 hours, that brings about 16
-    sunrises and sunsets.
-  - The long rectangular wings are solar arrays that supply electrical power. The connected modules hold living
-    and working spaces. Astronauts exercise for at least two hours a day to reduce the loss of muscle and bone in
-    microgravity.
-  - The station is enlarged in these scenes so its structure can be recognized. Its drawing simplifies the hardware.
+  - The station’s rectangular solar wings supply electrical power to its living and working spaces. This small
+    outpost circles Earth about once every 90 minutes, giving its crew roughly 16 sunrises and sunsets in 24 hours.
+  - Inside, a released object floats beside an astronaut because both are falling with the station. Earth’s gravity
+    keeps pulling them inward, while their sideways motion carries them around the planet. This continuous free
+    fall produces the condition called microgravity.
+  - Bodies adapt to that environment. Muscles and bones do less work supporting a person’s weight, so astronauts
+    exercise for at least two hours a day to help limit the resulting losses.
   sources:
   - iss
-  image: /pictures/space/assets/near-earth-watercolor.webp
-  position: 90.67% 77.20%
-  zoom: 400% auto
+  - microgravity
+  image: /pictures/space/assets/near-earth-v2-watercolor.webp
+  position: 56.93% 43.40%
+  zoom: 1100% auto
   alt: Watercolor space station with rectangular solar arrays and connected modules.
 - id: moon
   label: The Moon
   kicker: The Moon
-  title: One face, seen from Earth.
+  title: Why one face keeps returning.
   body:
-  - The Moon takes the same amount of time to turn once on its axis as it does to orbit Earth. This synchronous
-    rotation keeps roughly the same face turned toward us.
-  - Its average distance from Earth is about 384,400 kilometers. About 30 Earth-sized planets could fit into that
-    gap. The scenes compress the distance to keep both worlds within reach.
+  - The familiar dark and light regions stay on the side of the Moon that faces Earth. The Moon turns once on
+    its axis in the same time that it completes one orbit around us. This is synchronous rotation, also called
+    tidal locking.
+  - Over time, Earth’s gravity deformed the rotating Moon. Friction within the changing shape dissipated energy
+    and slowed its spin until rotation and orbit became synchronized.
+  - Sunlight still moves across both hemispheres. The far side has day and night, just as the near side does.
+    The phases we see show how much of the sunlit half is facing us. Across the real gap between Earth and the
+    Moon, about 30 Earth-sized planets would fit.
   sources:
+  - locking
+  - phases
   - moon
-  image: /pictures/space/assets/near-moon-watercolor.webp
-  position: 79.33% 50.00%
-  zoom: 160% auto
+  image: /pictures/space/assets/near-moon-v2-watercolor.webp
+  position: 68.94% 53.17%
+  zoom: 185% auto
   alt: A closer view of the watercolor Moon’s near side.
 - id: maria
   label: Lava plains
   kicker: The Moon · Maria
-  title: The seas are cooled lava.
+  title: The dark plains were once lava.
   body:
-  - The dark patches are called maria, the Latin word for seas. They are broad plains of basalt left by ancient
-    lava flows that filled impact basins.
-  - Basalt reflects less sunlight than the rocks of the brighter highlands, so these plains look darker. The Moon
-    produces no light of its own; we see reflected sunlight. These differences in reflectivity make the familiar
-    pattern on its face.
+  - Look at the broad dark areas between the lighter highlands. They are called maria, Latin for seas. Ancient
+    lava spread into large impact basins and cooled into plains of basalt.
+  - Basalt reflects less sunlight than the rocks in the surrounding highlands. The difference in brightness tells
+    us something about the surface itself. These patches keep their character as the Sun moves across them, while
+    the line between lunar day and night changes with the phases.
+  - The Moon as a whole reflects only about a tenth of the sunlight that reaches it. Much of its surface is dark
+    gray. Its closeness to Earth allows that modest amount of reflected light to make a full Moon bright enough
+    to cast shadows.
   sources:
+  - moon
   - moonlight
-  image: /pictures/space/assets/near-moon-watercolor.webp
-  position: 54.30% 22.50%
-  zoom: 330% auto
+  image: /pictures/space/assets/near-moon-v2-watercolor.webp
+  position: 49.10% 23.90%
+  zoom: 450% auto
   alt: A close view of dark watercolor lunar plains beside lighter highlands.
 - id: craters
   label: Craters
   kicker: The Moon · Impacts
-  title: Billions of years of impacts.
+  title: An old surface keeps the impacts.
   body:
-  - Asteroids, meteoroids and comets have struck the Moon over billions of years. Its very sparse atmosphere offers
-    little protection from impacts.
-  - Many craters remain preserved for billions of years, recording the history of collisions in the inner Solar
-    System. Repeated impacts have also broken the surface into rocky debris and fine gray dust called regolith.
-    The watercolor suggests cratered terrain; individual marks are not a surveyed map.
+  - The round depressions in the highlands record collisions with objects traveling through space. The Moon’s
+    sparse atmosphere offers little protection, and a large impact can excavate a crater far wider than the object
+    that made it.
+  - On Earth, water and wind wear down craters, while plate tectonics reshapes and recycles the surface. Lunar
+    craters can remain recognizable for billions of years. Later impacts and the solar wind gradually alter them,
+    so even a relatively fresh-looking crater may be hundreds of millions of years old.
+  - The repeated bombardment also breaks rock into smaller fragments and fine dust. This loose covering is called
+    regolith. Both the craters and the material around them preserve evidence of the collisions that shaped the
+    Moon.
   sources:
+  - craters
+  - weathering
   - moon
-  image: /pictures/space/assets/near-moon-watercolor.webp
-  position: 72.96% 99.50%
-  zoom: 330% auto
+  image: /pictures/space/assets/near-moon-v2-watercolor.webp
+  position: 71.60% 72.50%
+  zoom: 450% auto
   alt: A crop of the lighter cratered lunar highlands.
 ---
 <p>Begin near Earth. Follow the worlds into their closer views.</p>

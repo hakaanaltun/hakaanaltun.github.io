@@ -405,6 +405,13 @@ accuracy and plain prose to this section as well.
   paper and brushwork consistent across connected views. Sizes, distances
   and viewpoints are arranged for exploration, explained below the picture.
   This is an illustrative journey rather than a live sky or a flight path.
+  For The Space, the existing black-hole and quasar paintings are the visual
+  references: layered pigment, rich neutral darks, selective detail and natural
+  watercolor edges. On 9 October 2026 the author chose a newly composed
+  Earth–Moon set made from scratch; the earlier Earth–Moon renders are not
+  style references. Keep the ISS tiny and close to Earth's limb, and leave
+  breathing room around Earth in the closer scene. Use the approved new
+  scenes to preserve geography and lighting when extending the journey.
   All eight planets remain the intended next scope after this small trial.
   Finish the Earth vicinity, Earth and Moon as one coherent section before
   expanding to Mars. The opening view should leave ample space around a
