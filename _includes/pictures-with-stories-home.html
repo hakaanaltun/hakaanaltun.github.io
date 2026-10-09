@@ -1,7 +1,8 @@
 {%- comment -%}
   One picture, picked at random on every load, as Words with Stories above
-  picks a word. Every picture is rendered and the script below shows one; the
-  first is shown without JavaScript. The picture is the painting on its own
+  picks a word. The journey through the Solar System is one of them, by its
+  opening scene. Every picture is rendered and the script below shows one;
+  the first is shown without JavaScript. The picture is the painting on its own
   paper, so it stands as a card on whatever page colour the reader's theme
   gives the homepage.
 {%- endcomment -%}
@@ -9,10 +10,11 @@
   {% include section-header.html title="Pictures with Stories" subtitle="" %}
 
   <div class="home-picture-stage">
-    {% assign home_pictures = site.pictures | sort_natural: "title" %}
+    {% assign journey = site.pages | where: "url", "/pictures/space/" %}
+    {% assign home_pictures = site.pictures | sort_natural: "title" | concat: journey %}
     {% for picture in home_pictures %}
     <a class="home-picture-card{% if forloop.first %} is-active{% endif %}" href="{{ picture.url }}">
-      <img src="{{ picture.image }}" srcset="{{ picture.image | replace: '/pictures/assets/', '/pictures/assets/480/' }} 480w, {{ picture.image | replace: '/pictures/assets/', '/pictures/assets/960/' }} 960w, {{ picture.image }} {{ picture.image_width }}w" sizes="(min-width: 600px) 520px, calc(100vw - 80px)" width="{{ picture.image_width }}" height="{{ picture.image_height }}" alt="{{ picture.alt | escape }}" loading="lazy" decoding="async">
+      <img src="{{ picture.image }}" srcset="{{ picture.image | replace: '/assets/', '/assets/480/' }} 480w, {{ picture.image | replace: '/assets/', '/assets/960/' }} 960w, {{ picture.image }} {{ picture.image_width }}w" sizes="(min-width: 600px) 520px, calc(100vw - 80px)" width="{{ picture.image_width }}" height="{{ picture.image_height }}" alt="{{ picture.alt | escape }}" loading="lazy" decoding="async">
       <span class="home-picture-title">{{ picture.title }}</span>
       <span class="home-picture-teaser">{{ picture.teaser }}</span>
     </a>

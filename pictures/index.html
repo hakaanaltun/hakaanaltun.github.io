@@ -5,7 +5,7 @@ title: "Pictures with Stories"
 description: "Pictures to explore, with the science and stories behind their details."
 ---
 <link rel="stylesheet" href="/css/pictures.css?v=20261008-9">
-<link rel="stylesheet" href="/css/space.css?v=20261009-8">
+<link rel="stylesheet" href="/css/space.css?v=20261009-9">
 <div class="section-page picture-index">
   <div class="section-page-head">
     <h1 class="section-page-title">Pictures with Stories</h1>
@@ -15,10 +15,10 @@ description: "Pictures to explore, with the science and stories behind their det
   {% for group in groups %}
   <section class="picture-category-section" aria-labelledby="picture-category-{{ group.name | default: 'Other pictures' | slugify }}">
     <h2 class="picture-category-title" id="picture-category-{{ group.name | default: 'Other pictures' | slugify }}">{{ group.name | default: 'Other pictures' | escape }}</h2>
-    {% if group.name == 'The Space' %}
+    {% if group.name == 'Space' %}
     <a class="picture-journey" href="/pictures/space/">
-      <img src="/pictures/space/assets/earth-vicinity-v2-watercolor.webp" width="1536" height="1024" alt="A watercolor of Earth, the Moon, and the International Space Station." decoding="async">
-      <div><h3>Begin the journey</h3><p>Travel from Earth and the Moon to Mars and Jupiter through connected watercolor scenes.</p></div>
+      <img src="/pictures/space/assets/earth-vicinity-v2-watercolor.webp" srcset="/pictures/space/assets/480/earth-vicinity-v2-watercolor.webp 480w, /pictures/space/assets/960/earth-vicinity-v2-watercolor.webp 960w, /pictures/space/assets/earth-vicinity-v2-watercolor.webp 1536w" sizes="(min-width: 1040px) 522px, (min-width: 651px) calc((100vw - 116px) * 0.565), calc(100vw - 80px)" width="1536" height="1024" alt="A watercolor of Earth, the Moon, and the International Space Station." decoding="async">
+      <div><h3>Through the Solar System</h3><p>Travel from Earth and the Moon to Mars and Jupiter in connected watercolor scenes.</p></div>
     </a>
     {% endif %}
     <div class="picture-catalogue">
@@ -26,7 +26,7 @@ description: "Pictures to explore, with the science and stories behind their det
       {% for picture in pictures %}
       <a class="picture-card" href="{{ picture.url }}">
         {%- comment -%} The card takes the painting's downscales, made at deploy by scripts/generate_image_variants.py. A group's cards sit two to a row on a wide screen; a group of one fills the row at its 640px limit. The painting itself stays the largest choice, for a sharp screen. The sizes follow the page: 40px of margin on each side, one column up to 640px, and two columns from 836px, when two 360px cards and their gap fit. {%- endcomment -%}
-        <img src="{{ picture.image }}" srcset="{{ picture.image | replace: '/pictures/assets/', '/pictures/assets/480/' }} 480w, {{ picture.image | replace: '/pictures/assets/', '/pictures/assets/960/' }} 960w, {{ picture.image }} {{ picture.image_width }}w" sizes="{% if pictures.size == 1 %}(min-width: 720px) 640px, calc(100vw - 80px){% else %}(min-width: 1040px) 462px, (min-width: 836px) calc((100vw - 116px) / 2), (min-width: 720px) 640px, calc(100vw - 80px){% endif %}" width="{{ picture.image_width }}" height="{{ picture.image_height }}" alt="{{ picture.alt | escape }}" decoding="async">
+        <img src="{{ picture.image }}" srcset="{{ picture.image | replace: '/assets/', '/assets/480/' }} 480w, {{ picture.image | replace: '/assets/', '/assets/960/' }} 960w, {{ picture.image }} {{ picture.image_width }}w" sizes="{% if pictures.size == 1 %}(min-width: 720px) 640px, calc(100vw - 80px){% else %}(min-width: 1040px) 462px, (min-width: 836px) calc((100vw - 116px) / 2), (min-width: 720px) 640px, calc(100vw - 80px){% endif %}" width="{{ picture.image_width }}" height="{{ picture.image_height }}" alt="{{ picture.alt | escape }}" decoding="async">
         <h3>{{ picture.title }}</h3>
         <p>{{ picture.teaser }}</p>
       </a>
