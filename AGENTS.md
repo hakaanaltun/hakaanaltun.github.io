@@ -400,8 +400,8 @@ accuracy and plain prose to this section as well.
   Touching a world's body travels to its scene; touching its separate name
   label opens sourced information. A scene can carry several detail labels.
   Show only destinations available from the current scene, with a way back.
-  The journey covers Earth's vicinity, a closer Earth view, the Moon and Mars,
-  including the ISS near Earth. Keep recognizable geography, lunar markings, lighting,
+  The journey covers Earth's vicinity, a closer Earth view, the Moon, Mars and
+  Jupiter, including the ISS near Earth and Io and Europa beside Jupiter. Keep recognizable geography, lunar markings, lighting,
   paper and brushwork consistent across connected views. Sizes, distances
   and viewpoints are arranged for exploration, explained below the picture.
   This is an illustrative journey rather than a live sky or a flight path.
@@ -417,7 +417,12 @@ accuracy and plain prose to this section as well.
   extending to Mars. The Moon’s small Mars destination reuses a crop of the
   Mars painting, preserving the approved lunar scene. Mars has sourced labels
   for its iron-bearing dust, Olympus Mons, Valles Marineris and north polar
-  ice. Its painting emphasizes relief; the illustration note explains this. The opening view should leave ample space around a
+  ice. Its painting emphasizes relief; the illustration note explains this.
+  Mars now leads to Jupiter, whose notes cover its interior, cloud bands,
+  Great Red Spot, Io and Europa. Both moons are enlarged independently for
+  their details, disclosed in the illustration note. Small cropped worlds
+  connect the scenes without repainting approved assets.
+  The opening view should leave ample space around a
   smaller Earth so arrival at its closer view is unmistakable. Choose the
   sourced details before painting a new scene. Preserve recognizable forms
   and reserve named landmarks for features verified against references.
@@ -591,6 +596,15 @@ accuracy and plain prose to this section as well.
 
 `Trivia` contains quizzes. Adding one requires three files, as described
 in `_data/trivia.yml`. These rules govern what belongs inside them.
+
+- **Answer illustrations can follow the current work.** On 9 October 2026,
+  students playing British Culture asked for pictures to help them understand
+  the explanations. After the ongoing projects are finished, try small
+  thumbnails beside revealed correct answers, beginning with British Culture.
+  A thumbnail may open a larger view. Show it after answering so it does not
+  give away the answer. Choose images only where they explain the subject;
+  every question does not need one. Verify image identity, source and reuse
+  permission. This is a future task, not part of the current Space expansion.
 
 - **A question earns its place through its note.** Difficulty is worth little
   on its own. The note is the only part a reader keeps, so it has to hand them

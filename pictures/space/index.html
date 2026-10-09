@@ -3,19 +3,21 @@ layout: space
 permalink: /pictures/space/
 title: The Space
 category: The Solar System
-description: A watercolor journey through connected views of Earth, the Moon and Mars, with separate information
-  labels and NASA, ESA and NOAA sources.
+description: Explore Earth, the Moon, Mars and Jupiter through connected watercolor scenes, with information
+  about their visible features and NASA, ESA and NOAA sources.
 image: /pictures/space/assets/earth-vicinity-v2-watercolor.webp
 image_width: 1536
 image_height: 1024
 alt: A wide watercolor view of Earth, a small gray Moon and the International Space Station, separated by indigo
   space.
 caption: Touch a world to go there. Its name opens information.
-illustration_note: Four connected watercolor scenes lead from Earth’s vicinity to Earth, the Moon and Mars.
+illustration_note: Five connected watercolor scenes lead from Earth’s vicinity to Earth, the Moon, Mars and Jupiter.
   Recognizable worlds and the direction of sunlight continue across the views. These are scientific illustrations
   with simplified features. Sizes, distances and viewpoints are arranged for exploration; they do not show a live
   sky, an exact surface map or a spacecraft flight path. The ISS is enlarged so its structure can be seen. Martian
-  relief is emphasized to make the volcanoes and canyon visible.
+  relief is emphasized to make the volcanoes and canyon visible. Io and Europa are enlarged separately to show
+  their surfaces; their sizes and separations are not to scale. Jupiter’s cloud patterns are an interpretation
+  of a changing atmosphere.
 scenes:
 - id: vicinity
   name: Earth vicinity
@@ -154,8 +156,9 @@ scenes:
   name: Near Mars
   image: /pictures/space/assets/near-mars-watercolor.webp
   alt: Watercolor Mars with a broad Olympus Mons at upper left, smaller Tharsis volcanoes, a branching canyon
-    across its lower middle and a pale north polar cap. A small blue Earth is visible to the left.
-  caption: Near Mars. Look at the volcano, canyon and polar ice, or return to Earth.
+    across its lower middle and a pale north polar cap. A small blue Earth is visible to the left, and a tiny
+    striped Jupiter at upper right marks the next destination.
+  caption: Near Mars. Explore its surface, continue to Jupiter, or return to Earth.
   back: moon
   back_label: The Moon
   spots:
@@ -192,6 +195,70 @@ scenes:
     label_x: 21.5
     label_y: 27.3
     label_edge: right
+  - label: Jupiter
+    x: 84
+    y: 13
+    detail: jupiter
+    primary: true
+    go: jupiter
+    width: 3
+    height: 4.5
+    label_x: 85.5
+    label_y: 13
+    label_edge: right
+    paint_image: /pictures/space/assets/near-jupiter-watercolor.webp
+    paint_width: 3
+    paint_position: 77.81% 42.35%
+    paint_zoom: 201% auto
+- id: jupiter
+  name: Near Jupiter
+  image: /pictures/space/assets/near-jupiter-watercolor.webp
+  alt: Watercolor Jupiter with cream and brown cloud bands and an orange-red oval storm below its equator.
+    Ochre-yellow Io is to the left, and pale fractured Europa is below it. A tiny Mars at upper left offers a return.
+  caption: Near Jupiter. Explore the cloud bands and storm, or look more closely at Io and Europa.
+  back: mars
+  back_label: Mars
+  spots:
+  - label: Jupiter
+    x: 64
+    y: 24
+    detail: jupiter
+    primary: true
+  - label: Cloud bands
+    x: 57
+    y: 40
+    detail: cloud-bands
+    primary: false
+  - label: Great Red Spot
+    x: 64.1
+    y: 62.7
+    detail: red-spot
+    primary: false
+  - label: Io
+    x: 19.3
+    y: 39.9
+    detail: io
+    primary: true
+  - label: Europa
+    x: 27.6
+    y: 74.8
+    detail: europa
+    primary: true
+  - label: Mars
+    x: 13
+    y: 14
+    detail: mars
+    primary: true
+    go: mars
+    width: 2.2
+    height: 3.3
+    label_x: 14.1
+    label_y: 14
+    label_edge: right
+    paint_image: /pictures/space/assets/near-mars-watercolor.webp
+    paint_width: 2.2
+    paint_position: 69.2% 37.9%
+    paint_zoom: 179% auto
 sources:
 - id: earth
   label: NASA Science · Earth facts
@@ -253,6 +320,27 @@ sources:
 - id: mars-map
   label: NASA · Mars Global Surveyor topographic maps
   url: https://science.nasa.gov/photojournal/maps-of-mars-global-topography/
+- id: jupiter-facts
+  label: NASA Science · Jupiter facts
+  url: https://science.nasa.gov/jupiter/jupiter-facts/
+- id: jupiter-jets
+  label: NASA · Juno measures the depth of Jupiter’s winds
+  url: https://science.nasa.gov/resource/nasas-juno-spacecraft-reveals-the-depth-of-jupiters-colored-bands/
+- id: red-spot-weather
+  label: NASA · The Great Red Spot’s weather
+  url: https://www.nasa.gov/centers-and-facilities/goddard/jupiters-great-red-spot-a-swirling-mystery/
+- id: red-spot-hubble
+  label: NASA · Hubble watches the storm change shape
+  url: https://science.nasa.gov/missions/hubble/nasas-hubble-watches-jupiters-great-red-spot-behave-like-a-stress-ball/
+- id: io-facts
+  label: NASA Science · Io facts
+  url: https://science.nasa.gov/jupiter/jupiter-moons/io/facts/
+- id: io-color
+  label: NASA · Io in natural color
+  url: https://science.nasa.gov/image-article/apod-2026-january-20-io-in-true-color/
+- id: europa-facts
+  label: NASA Science · Europa facts
+  url: https://science.nasa.gov/jupiter/jupiter-moons/europa/europa-facts/
 details:
 - id: earth
   label: Earth
@@ -462,5 +550,101 @@ details:
   position: 61.33% 1.43%
   zoom: 850% auto
   alt: A small white polar cap near the northern limb of watercolor Mars.
+- id: jupiter
+  label: Jupiter
+  kicker: Jupiter
+  title: A world with nowhere to land.
+  body:
+  - Jupiter is the fifth planet from the Sun and the largest in the solar system, about eleven times as wide
+    as Earth. The striped globe shows its upper clouds. Beneath them lies an enormous body made mostly of hydrogen
+    and helium.
+  - Pressure and temperature rise with depth, compressing hydrogen into liquid. There is no solid surface where
+    a spacecraft could land. Farther inside, the pressure is great enough for hydrogen to conduct electricity
+    like a metal.
+  - Juno’s measurements suggest that even the core has an indistinct boundary. Heavier material appears partly
+    mixed into the surrounding hydrogen, giving Jupiter what researchers call a dilute core.
+  sources:
+  - jupiter-facts
+  alt: Watercolor Jupiter with pale cloud zones, darker belts and the Great Red Spot.
+  image: /pictures/space/assets/near-jupiter-watercolor.webp
+  position: 81.41% 38.30%
+  zoom: 180% auto
+- id: cloud-bands
+  label: Cloud bands
+  kicker: Jupiter · Belts and zones
+  title: Winds that reach deep into Jupiter.
+  body:
+  - The pale stripes are called zones, and the darker stripes are belts. They follow Jupiter’s eastward and
+    westward winds. Along their boundaries, the clouds curl into smaller swirls and eddies.
+  - Juno measured tiny variations in Jupiter’s gravity to investigate how far these flows extend. The results
+    showed that the winds reach roughly 3,000 kilometers below the cloud tops, carrying a substantial part
+    of the planet’s atmosphere with them.
+  - Jupiter turns once in about ten hours. Its rapid rotation helps organize the winds into the long bands
+    visible here. Their familiar pattern is the outward sign of motion extending far below what a camera can
+    see.
+  sources:
+  - jupiter-jets
+  - jupiter-facts
+  alt: A close view of Jupiter’s alternating pale zones and darker turbulent cloud belts.
+  image: /pictures/space/assets/near-jupiter-watercolor.webp
+  position: 64.44% 35.22%
+  zoom: 420% auto
+- id: red-spot
+  label: Great Red Spot
+  kicker: Jupiter · The Great Red Spot
+  title: A storm that changes shape.
+  body:
+  - The rusty oval below Jupiter’s equator is the Great Red Spot. It is an anticyclone, a storm circulating
+    around a region of high pressure, held between two strong jet streams. Astronomers have monitored it for
+    more than 150 years.
+  - Hubble observations from December 2023 to March 2024 showed the storm stretching and squeezing over a roughly
+    90-day cycle. Its shape, brightness and motion changed together. Those observations did not establish what
+    caused the oscillation.
+  - The oval in the painting represents a changing weather system. Comparing images taken at different times
+    lets researchers follow its behavior, including the long-term shrinking recorded by Hubble.
+  sources:
+  - red-spot-weather
+  - red-spot-hubble
+  alt: Jupiter’s orange-red oval storm surrounded by folded cloud bands.
+  image: /pictures/space/assets/near-jupiter-watercolor.webp
+  position: 66.40% 66.16%
+  zoom: 700% auto
+- id: io
+  label: Io
+  kicker: Jupiter’s moons · Io
+  title: A moon heated by its orbit.
+  body:
+  - Io’s yellow and rusty surface carries sulfur-rich deposits and dark volcanic areas. Eruptions repeatedly
+    cover older ground, making this small rocky moon the most volcanically active world in the solar system.
+  - Jupiter pulls strongly on Io, while Europa and Ganymede repeatedly disturb its orbit. The resulting slightly
+    elliptical path makes Jupiter’s tidal pull vary. Io flexes as it travels, and this movement generates heat
+    inside the moon.
+  - That heat feeds volcanic activity. Fresh flows and deposits can cover impact craters, continually changing
+    the surface. The mottled colors in this view belong to a landscape that is being renewed.
+  sources:
+  - io-facts
+  - io-color
+  alt: Small ochre-yellow Io with rusty deposits and dark volcanic patches.
+  image: /pictures/space/assets/near-jupiter-watercolor.webp
+  position: 13.78% 36.98%
+  zoom: 660% auto
+- id: europa
+  label: Europa
+  kicker: Jupiter’s moons · Europa
+  title: Clues to an ocean under the ice.
+  body:
+  - The pale surface of Europa is water ice crossed by reddish-brown fractures. Its relatively small number
+    of impact craters suggests that the surface has been renewed over geological time.
+  - A particularly strong clue to what lies below came from the Galileo spacecraft. It measured a magnetic
+    response around Europa as Jupiter’s magnetic field swept past. Scientists interpret that response as evidence
+    for an electrically conducting layer beneath the ice, most plausibly a global ocean of salty water.
+  - The evidence for an ocean is strong, but the ocean itself has not been directly observed. The cracked shell
+    visible here is the boundary through which scientists investigate that hidden interior.
+  sources:
+  - europa-facts
+  alt: Pale icy Europa marked by fine reddish-brown crossing fractures.
+  image: /pictures/space/assets/near-jupiter-watercolor.webp
+  position: 23.45% 82.39%
+  zoom: 640% auto
 ---
 <p>Begin near Earth. Follow the worlds into their closer views.</p>

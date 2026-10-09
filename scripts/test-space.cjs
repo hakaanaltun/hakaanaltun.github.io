@@ -12,11 +12,11 @@ function page(modal=true,hash='') {
  return {dom,w,d};
 }
 (async()=>{
- const ids=['earth','oceans','atmosphere','iss','moon','maria','craters','mars','olympus','valles','polar-cap'];
+ const ids=['earth','oceans','atmosphere','iss','moon','maria','craters','mars','olympus','valles','polar-cap','jupiter','cloud-bands','red-spot','io','europa'];
  {
   const {dom,d}=page(false);
   assert.equal(d.body.classList.contains('picture-ready'),false);
-  assert.equal(d.querySelectorAll('[data-scene]').length,4);
+  assert.equal(d.querySelectorAll('[data-scene]').length,5);
   for(const id of ids)assert.ok(d.querySelector('#note-'+id+' a[href^="https://"]'));
   dom.window.close();
  }
@@ -65,6 +65,20 @@ function page(modal=true,hash='') {
   d.getElementById('journey-back').click();assert.equal(frame.dataset.view,'vicinity');
   dom.window.close();
  }
- for(const id of ['earth','moon','mars']){const {dom,d}=page(true,'#scene-'+id);assert.equal(d.getElementById('journey-frame').dataset.view,id);dom.window.close();}
+ {
+  const {dom,d}=page(true,'#scene-mars');const frame=d.getElementById('journey-frame'),dialog=d.getElementById('picture-detail');
+  d.querySelector('#scene-mars .journey-destination[data-travel="jupiter"]').click();assert.equal(frame.dataset.view,'jupiter');
+  for(const id of ['jupiter','cloud-bands','red-spot','io','europa']){
+   const trigger=d.querySelector('#scene-jupiter .journey-label[data-detail="'+id+'"]');trigger.click();
+   assert.equal(dialog.open,true);assert.equal(dialog.scrollTop,0);assert.equal(frame.dataset.view,'jupiter');
+   assert.ok(d.getElementById('picture-detail-image').style.backgroundImage.includes('near-jupiter'));
+   dialog.scrollTop=200;d.getElementById('picture-return').click();assert.equal(d.activeElement,trigger);
+  }
+  d.getElementById('journey-back').click();assert.equal(frame.dataset.view,'mars');
+  d.querySelector('#scene-mars .journey-destination[data-travel="jupiter"]').click();
+  d.querySelector('#scene-jupiter .journey-destination[data-travel="mars"]').click();assert.equal(frame.dataset.view,'mars');
+  dom.window.close();
+ }
+ for(const id of ['earth','moon','mars','jupiter']){const {dom,d}=page(true,'#scene-'+id);assert.equal(d.getElementById('journey-frame').dataset.view,id);dom.window.close();}
  console.log('Connected space scenes passed: separate travel and information, scene-specific crops, sourced fallback, return routes, fresh notes, focus and history.');
 })().catch(e=>{console.error(e);process.exitCode=1});

@@ -53,3 +53,37 @@ Mars materials: dusty rust, ochre and sienna surfaces with darker mineral terrai
 Lighting: sunlight from upper left, luminous restrained upper-left facing surface, gradually softer and darker lower-right surface. A full globe silhouette with painterly atmospheric softness but NO heavy glowing rim. Use reserved paper light and rich pigment darks to give dimensional depth without glossy 3D rendering.
 Finish: painterly realism with the layered depth and confident wash structure of the approved black-hole/quasar paintings; visible cold-press paper grain, genuine transparent glazing, selective detailed landforms inside broad washes, balanced warm planet and cool neutral space. No uniform micro-dabs, no evenly stippled or mosaic surface, no plastic gloss, cartoon, decorative glowing nebulas, contrived dripping paint, or geometric star symbols.
 Absolutely no text, labels, icons, UI, borders, logo, watermark, Moon, ISS, spacecraft, rockets or extra worlds. One image only.
+
+## Near Jupiter
+
+Saved asset: `pictures/space/assets/near-jupiter-watercolor.webp`
+
+Created with one built-in image_gen request, using the black-hole and quasar paintings as style references and near-Mars for light, paper and space. Source PNG: `/workspace/scratch/2ab1361d4cc4/generated_images/exec-cf4a4890-cdf9-40ab-ac93-e9a956d288a1.png`. The original 1536 × 1024 image was encoded as WebP at quality 93, with no retouching.
+
+This scene earns its place through the connections between visible clouds and deep winds, the Great Red Spot’s observed changes, Io’s tidal heating and Europa’s evidence for a hidden ocean. Primary NASA sources are linked beside each note. The ocean is described as an interpretation of strong evidence; no claim of directly observed water or detected life is made. The storm’s uncertain early history, an exact current size and a changing total moon count are omitted.
+
+Measured output: Jupiter center 63.96%, 48.05%, roughly 764 × 742 pixels; Io center 19.27%, 39.94%, diameter about 178 pixels; Europa center 27.6%, 74.8%, diameter about 191 pixels. All are larger than requested. Europa’s depiction is slightly larger than Io’s, so the illustration note states that the moons are enlarged independently and their sizes and separations are not to scale. The Great Red Spot is at 64.06%, 62.7%, approximately 24 degrees south in projection, about 130 pixels wide. Its internal rings and the cloud details are stylized; the page identifies the atmosphere as an interpretation.
+
+Jupiter’s label is over its upper clouds, cloud bands at 57%, 40%, and Great Red Spot at 64.1%, 62.7%. Each moon has its own note and close-up. A tiny crop of this Jupiter appears at 84%, 13% in the approved Mars scene. A tiny crop of the existing Mars painting at 13%, 14% offers a return from Jupiter; the navigation beneath the picture also returns to Mars. No permanent dot markers are used. Labels appear on hover or focus and remain visible with Show places to look.
+
+Final prompt:
+
+Use case: scientific-educational.
+Asset type: a fresh original scientific watercolor illustration, "Near Jupiter", for a website.
+Output: ONE landscape image, 1536 x 1024 pixels, no text.
+
+Use the three inspected watercolor references ONLY for visual language: layered transparent watercolor, warm ivory cold-press paper with rough natural margins, rich neutral navy/charcoal space, varying large washes with selective fine detail. Black-hole and quasar references are style only: do not include their objects, jets, accretion disks or bright nebulas. Near-Mars reference supplies upper-left sunlight, paper and deep navy space ONLY: do not include Mars, Earth, Martian terrain, its composition or dense stars. This must be a fresh, more spacious composition.
+
+Composition in full-image coordinates:
+Jupiter is the main body at center x62%, y51% (952,522px). Entire globe and silhouette visible with generous dark space around it. North up and rotation axis vertical, near-equatorial view. Slightly oblate: equatorial diameter about 710px, polar diameter about 666px (65% of image HEIGHT). Globe should extend approximately x597 to1307px and y189 to855px. DO NOT enlarge to fill nearly all image height.
+Natural subdued ivory/cream atmospheric zones and ochre/tan/brown belts run roughly HORIZONTAL around the curved globe, with delicate turbulent eddies along belt boundaries. The surface is gaseous cloud bands with no terrain, craters, continents or oceans. A modest orange/rust Great Red Spot lies on visible front hemisphere at 22 degrees SOUTH latitude, centered near x62%,y63% (952,646px). East-west elongated oval with subtle swirling structure, about85px wide (12% of globe width). This is a cloud storm embedded in a southern belt, not an eye, crater, protrusion, or giant patch. No visible rings.
+
+Exactly TWO separate enlarged moons in left-hand space:
+Io center x18%,y41% (276,420px), diameter about92px (9% image height). Natural warm pale yellow/ochre world, rusty sulfur deposits, scattered dark irregular volcanic patches. Smooth active resurfaced surface, not a lunar impact-crater carpet. No water. Fine selective watercolor detail distinguishes deposits from volcanic patches.
+Europa center x25%,y76% (384,778px), diameter about82px (8% image height). Pale ivory water-ice crust with delicate fine reddish-brown crossing fractures and subtle mottling. No exposed ocean, blue land, huge chasms or dramatic plume. Fine selective watercolor detail makes fractures visibly different from Io's deposits.
+
+Lighting: soft sunlight from upper left outside the picture, no visible Sun disk. Jupiter and both moons have consistent upper-left illumination and shading toward right/lower-right. Light is integrated into translucent hand-painted pigments; avoid plastic rendered spheres.
+Backdrop: rich dark neutral navy and charcoal transparent watercolor washes, subtle varied pooling and granulation, sparse very faint stars. Reserve clear dark negative space centered x13%,y14% (200,143px), free of any object or conspicuous star, for a later tiny return link which is NOT part of this image. Warm ivory cold-press paper visible in an irregular narrow natural unpainted margin on all sides, no artificial drips.
+Visual finish: convincing painterly layered watercolor, large quiet washes contrasting with intentional fine detail, naturally uneven pigment edges, restrained scientific beauty. Not cartoon, not photorealistic CGI, not an oil painting. Original interpretation, do not copy a scientific photograph composition.
+
+Hard exclusions: exactly Jupiter + Io + Europa only. No Mars, Earth, extra worlds, spacecraft, visible rings, labels, text, icons, UI, white hotspot markers, decorative bright nebulae, dense starfield, imposed drips, uniform microscopic dabs, terrain on Jupiter, or dramatic Europa plumes.
