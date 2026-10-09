@@ -16,7 +16,8 @@ Rules (matching the original manual pipeline):
   - directory structure under images/ is mirrored (e.g. images/moris/...)
 
 The paintings in pictures/assets/ get /pictures/assets/480/ and /960/ for
-the cards on the Pictures index and the homepage. Their variants are never
+the cards on the Pictures index and the homepage, and the journey's scenes in
+pictures/space/assets/ get theirs for its card in both places. Their variants are never
 committed (.gitignore), and one older than its painting is made again, so a
 repainted picture never shows its old card. `--pictures-only` makes just
 these, for a local build: the session hook runs it so the cards show, and
@@ -30,7 +31,7 @@ from pathlib import Path
 from PIL import Image
 
 IMAGES_DIR = Path("images")
-PICTURES_DIR = Path("pictures/assets")
+PICTURES_DIRS = (Path("pictures/assets"), Path("pictures/space/assets"))
 TARGET_WIDTHS = (480, 960)
 EXTENSIONS = {".webp", ".jpg", ".jpeg", ".png"}
 SAVE_OPTS = {
@@ -86,10 +87,12 @@ def main() -> int:
     for src in ([] if pictures_only else source_images(IMAGES_DIR)):
         for width in TARGET_WIDTHS:
             counts[make_variant(src, width)] += 1
-    if PICTURES_DIR.is_dir():
-        for src in source_images(PICTURES_DIR):
+    for pictures_dir in PICTURES_DIRS:
+        if not pictures_dir.is_dir():
+            continue
+        for src in source_images(pictures_dir):
             for width in TARGET_WIDTHS:
-                counts[make_variant(src, width, PICTURES_DIR, refresh=True)] += 1
+                counts[make_variant(src, width, pictures_dir, refresh=True)] += 1
 
     # Generate explicitly requested WebP derivatives after the normal variants.
     # If the source is already at or below a target width, WebP is still

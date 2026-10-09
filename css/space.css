@@ -3,7 +3,7 @@
 .space-watercolor .picture-intro { margin-bottom:18px; }
 .space-watercolor .picture-visit { --picture-width:min(100%,1080px,max(420px,calc((100svh - 380px)*1.5))); }
 .space-watercolor .picture-frame { background:var(--picture-paper); }
-.journey-scene { position:relative; }
+.journey-scene { position:relative; container-type:inline-size; }
 .picture-ready .journey-scene:not(.is-current) { display:none; }
 .journey-scene.arrive { animation:journey-arrive .65s ease both; }
 @keyframes journey-arrive { from { opacity:.3; transform:scale(.985); } to { opacity:1; transform:scale(1); } }
@@ -19,7 +19,7 @@
 /* Keep small-world labels by the limb; extend their touch targets outward. */
 .journey-label[data-label-edge="right"] { transform:translate(2px,-50%); }
 .journey-label[data-label-edge="right"] .picture-hotspot-label { left:0; }
-.journey-label[data-primary] .picture-hotspot-label { opacity:0; pointer-events:none; font:16px/1.2 'EB Garamond',Georgia,serif; padding:5px 9px; background:rgb(244 240 231 / 86%); }
+.journey-label[data-primary] .picture-hotspot-label { opacity:0; pointer-events:none; }
 .journey-label[data-primary]:focus-visible .picture-hotspot-label,
 .journey-destination:focus-visible + .journey-label .picture-hotspot-label,
 .show-places .journey-label[data-primary] .picture-hotspot-label { opacity:1; pointer-events:auto; }
@@ -27,7 +27,14 @@
  .journey-label[data-primary]:hover .picture-hotspot-label,
  .journey-destination:hover + .journey-label .picture-hotspot-label { opacity:1; pointer-events:auto; }
 }
-.journey-label:not([data-primary]) .picture-hotspot-label { font-size:14px; }
+/* Worlds and their details share one label, set as the Farm House and the
+   standalone pictures set theirs, a little larger for the scenes. */
+.journey-label .picture-hotspot-label { font-size:14px; }
+/* A label beside a broad subject, such as the Great Red Spot, keeps clear of
+   it at every width: its gap is a share of the painting's width. */
+@supports (width:1cqw) {
+ .journey-label[data-label-gap] .picture-hotspot-label { left:calc(50% + var(--label-gap)); }
+}
 .space-watercolor .picture-under { padding-top:12px; }
 .space-watercolor .picture-caption { min-height:27px; }
 .journey-navigation { display:flex; justify-content:center; align-items:center; margin-top:3px; }
@@ -36,6 +43,8 @@
 .space-watercolor .picture-choices { margin:8px 0; justify-content:center; }
 .space-watercolor .picture-choices li { display:flex; align-items:center; gap:10px; }
 .space-watercolor .picture-choices a { min-height:44px; display:inline-flex; align-items:center; }
+/* "go there" belongs to the name before it and is quieter than a name. */
+.space-watercolor .picture-choices .journey-choice-travel { gap:5px; font-size:14px; color:var(--picture-quiet); white-space:nowrap; }
 .picture-ready .show-places .journey-choices { display:flex; }
 .space-watercolor .picture-detail-sources { display:flex; flex-direction:column; align-items:flex-start; gap:8px; }
 .space-watercolor .picture-detail-image { background-color:var(--picture-paper); aspect-ratio:1; min-height:0; max-height:none; width:100%; align-self:center; }

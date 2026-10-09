@@ -97,6 +97,8 @@ function page(modals, setup) {
   const order = [...home.querySelectorAll('main section[id]')].filter(s => !s.parentElement.closest('section')).map(s => s.id);
   assert.equal(order[order.indexOf('words-with-stories') + 1], 'pictures-with-stories', 'Pictures with Stories follows Words with Stories');
   assert.ok(home.querySelector('#pictures-with-stories a.home-picture-card[href="/pictures/black-hole/"] img'));
+  // The journey takes its turn too, with the downscales its card needs.
+  assert.ok(home.querySelector('#pictures-with-stories a.home-picture-card[href="/pictures/space/"] img[srcset*="/pictures/space/assets/480/"]'));
   const css = fs.readFileSync(path.join(root, 'css/style.css'), 'utf8');
   const list = colour => (css.match(new RegExp('html\\[data-theme="light"\\] body\\.is-home :is\\(([^)]*)\\) \\{\\s*--petrol: ' + colour)) || [])[1];
   const slate = list('oklch').split(',').map(s => s.trim().slice(1));

@@ -14,7 +14,7 @@
   <meta property="og:url" content="{{ page.url | absolute_url }}">
   <link rel="stylesheet" href="/css/fonts.css?v=20260710-2">
   <link rel="stylesheet" href="/css/pictures.css?v=20261008-9">
-  <link rel="stylesheet" href="/css/space.css?v=20261009-8">
+  <link rel="stylesheet" href="/css/space.css?v=20261009-9">
   <script src="/js/pictures.js?v=20261009-1" defer></script>
   <script src="/js/space.js?v=20261009-2" defer></script>
 </head>
@@ -37,9 +37,11 @@
             <img class="picture-image" src="{{ scene.image }}" width="1536" height="1024" alt="{{ scene.alt | escape }}"{% if forloop.first %} fetchpriority="high"{% else %} loading="lazy"{% endif %} decoding="async">
             <div class="picture-hotspots" aria-label="Travel destinations and information labels">
               {% for spot in scene.spots %}
+              {%- comment -%} Inside a sentence a name keeps a lower-case "the": "Travel to the Moon", "Read about the Moon". {%- endcomment -%}
+              {% assign label_start = spot.label | slice: 0, 4 %}{% if label_start == 'The ' %}{% assign travel_name = spot.label | replace_first: 'The ', 'the ' %}{% else %}{% assign travel_name = spot.label %}{% endif %}
               {% if spot.paint_image %}<span class="journey-painted-world" aria-hidden="true" style="--spot-x:{{ spot.x }}%;--spot-y:{{ spot.y }}%;--paint-width:{{ spot.paint_width }}%;background-image:url('{{ spot.paint_image }}');background-position:{{ spot.paint_position }};background-size:{{ spot.paint_zoom }}"></span>{% endif %}
-              {% if spot.go %}<a class="journey-destination" href="#scene-{{ spot.go }}" data-travel="{{ spot.go }}" style="--spot-x:{{ spot.x }}%;--spot-y:{{ spot.y }}%;--world-width:{{ spot.width }}%;--world-height:{{ spot.height }}%" aria-label="Travel to {{ spot.label | escape }}"><span class="picture-sr">Travel to {{ spot.label }}</span></a>{% endif %}
-              {% if spot.detail %}<button type="button" class="picture-hotspot journey-label" data-detail="{{ spot.detail }}"{% if spot.primary %} data-primary="true"{% endif %}{% if spot.label_edge %} data-label-edge="{{ spot.label_edge }}"{% endif %}{% if spot.label_side %} data-label-side="{{ spot.label_side }}"{% endif %} style="--spot-x:{{ spot.label_x | default: spot.x }}%;--spot-y:{{ spot.label_y | default: spot.y }}%" aria-label="Read about {{ spot.label | escape }}" hidden><span class="picture-hotspot-label">{{ spot.label }}</span><span class="picture-hotspot-number" aria-hidden="true">{{ forloop.index }}</span></button>{% endif %}
+              {% if spot.go %}<a class="journey-destination" href="#scene-{{ spot.go }}" data-travel="{{ spot.go }}" style="--spot-x:{{ spot.x }}%;--spot-y:{{ spot.y }}%;--world-width:{{ spot.width }}%;--world-height:{{ spot.height }}%" aria-label="Travel to {{ travel_name | escape }}"><span class="picture-sr">Travel to {{ travel_name }}</span></a>{% endif %}
+              {% if spot.detail %}<button type="button" class="picture-hotspot journey-label" data-detail="{{ spot.detail }}"{% if spot.primary %} data-primary="true"{% endif %}{% if spot.label_edge %} data-label-edge="{{ spot.label_edge }}"{% endif %}{% if spot.label_side %} data-label-side="{{ spot.label_side }}"{% endif %}{% if spot.label_gap %} data-label-gap{% endif %} style="--spot-x:{{ spot.label_x | default: spot.x }}%;--spot-y:{{ spot.label_y | default: spot.y }}%{% if spot.label_gap %};--label-gap:{{ spot.label_gap }}cqw{% endif %}" aria-label="Read about {{ travel_name | escape }}" hidden><span class="picture-hotspot-label">{{ spot.label }}</span><span class="picture-hotspot-number" aria-hidden="true">{{ forloop.index }}</span></button>{% endif %}
               {% endfor %}
             </div>
           </section>
@@ -50,7 +52,8 @@
           <p class="picture-caption" id="journey-caption" aria-live="polite">{{ page.caption }}</p>
           {% for scene in page.scenes %}
           <ol class="picture-choices journey-choices" data-choices="{{ scene.id }}" aria-label="Places in {{ scene.name | escape }}">
-            {% for spot in scene.spots %}<li><span class="picture-choice-number" aria-hidden="true">{{ forloop.index }}</span>{% if spot.go %}<a href="#scene-{{ spot.go }}" data-travel="{{ spot.go }}">Travel to {{ spot.label }}</a>{% endif %}{% if spot.detail %}<a href="#note-{{ spot.detail }}" data-detail="{{ spot.detail }}">{{ spot.label }}</a>{% endif %}</li>{% endfor %}
+            {%- comment -%} A world that can be visited is named once: its name opens the information, and "go there" travels. {%- endcomment -%}
+            {% for spot in scene.spots %}<li><span class="picture-choice-number" aria-hidden="true">{{ forloop.index }}</span>{% if spot.detail %}<a href="#note-{{ spot.detail }}" data-detail="{{ spot.detail }}">{{ spot.label }}</a>{% endif %}{% if spot.go %}<a class="journey-choice-travel" href="#scene-{{ spot.go }}" data-travel="{{ spot.go }}"><span class="picture-sr">{{ spot.label }}: </span>go there <span aria-hidden="true">→</span></a>{% endif %}</li>{% endfor %}
           </ol>
           {% endfor %}
           <nav class="journey-navigation" aria-label="Return to the previous scene" hidden><a href="#scene-vicinity" id="journey-back" class="picture-text-link">Earth vicinity</a></nav>

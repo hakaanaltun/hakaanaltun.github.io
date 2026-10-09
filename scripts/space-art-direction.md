@@ -1,6 +1,6 @@
-# The Space art direction
+# Space journey art direction
 
-The author selected this newly composed set on 9 October 2026. Generated with the built-in image_gen tool. The existing black-hole and quasar watercolors supply the painting language. The earlier Earth–Moon renders and their recolored trials were excluded from the final references. New connected views use the fresh Earth scene for world identity and light only.
+The author selected this newly composed set on 9 October 2026. Generated with the built-in image_gen tool. The existing black-hole and quasar watercolors supply the painting language. The earlier Earth–Moon renders and their recolored trials were excluded from the final references; they are kept in `pictures/space/retired/`, outside the published site. New connected views use the fresh Earth scene for world identity and light only.
 
 Three assets are 1536 × 1024. Only WebP encoding (quality 93) was applied after generation. Their source PNGs remain unmodified. The opening Earth is about 180 pixels across; the closer Earth is about 555 pixels across and has breathing room. The ISS is tiny and adjacent to Earth's limb in both views. Positions and sizes are illustrative; these are not spacecraft views or surveyed maps. Final hotspot positions are measured from the paintings, not assumed from the prompts.
 
@@ -64,7 +64,7 @@ This scene earns its place through the connections between visible clouds and de
 
 Measured output: Jupiter center 63.96%, 48.05%, roughly 764 × 742 pixels; Io center 19.27%, 39.94%, diameter about 178 pixels; Europa center 27.6%, 74.8%, diameter about 191 pixels. All are larger than requested. Europa’s depiction is slightly larger than Io’s, so the illustration note states that the moons are enlarged independently and their sizes and separations are not to scale. The Great Red Spot is at 64.06%, 62.7%, approximately 24 degrees south in projection, about 130 pixels wide. Its internal rings and the cloud details are stylized; the page identifies the atmosphere as an interpretation.
 
-Jupiter’s label is over its upper clouds, cloud bands at 57%, 40%, and Great Red Spot at 64.1%, 62.7%. Each moon has its own note and close-up. A tiny crop of this Jupiter appears at 84%, 13% in the approved Mars scene. A tiny crop of the existing Mars painting at 13%, 14% offers a return from Jupiter; the navigation beneath the picture also returns to Mars. No permanent dot markers are used. Labels appear on hover or focus and remain visible with Show places to look.
+Jupiter’s label is over its upper clouds, cloud bands at 57%, 40%, and Great Red Spot at 64.1%, 62.7%. The storm’s label sits to its right, 5.5% of the painting’s width from its center, so it stays clear of the oval at every size. Each moon has its own note and close-up. A tiny crop of this Jupiter appears at 84%, 13% in the approved Mars scene. A tiny crop of the existing Mars painting at 13%, 14% offers a return from Jupiter; the navigation beneath the picture also returns to Mars. No permanent dot markers are used. Labels appear on hover or focus and remain visible with Show places to look.
 
 Final prompt:
 

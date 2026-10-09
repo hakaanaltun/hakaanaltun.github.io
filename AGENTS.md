@@ -260,7 +260,9 @@ it does not go wrong again.
   local build has only the variants that are committed, so an image missing
   locally may be fine on the site. Check the live address before calling it
   broken. The same script makes `/pictures/assets/480/` and `/960/` for the
-  Pictures cards on the index and the homepage. These are never committed.
+  Pictures cards on the index and the homepage, and
+  `/pictures/space/assets/480/` and `/960/` for the journey's card in both
+  places. These are never committed.
   In a cloud session the hook makes them for a local build; elsewhere, run
   the script with `--pictures-only`.
 
@@ -385,17 +387,21 @@ watercolor illustrations whose areas can be opened to learn about what is
 shown. Apply the `Words with Stories` standards for curation, sourcing,
 accuracy and plain prose to this section as well.
 
-- **The catalogue is grouped by subject.** The Space begins with the
-  black hole and the quasar. Nebulae can follow, with birds, cats and other
-  subject groups added as the collection grows. Each picture carries its
+- **The catalogue is grouped by subject.** Space holds the black hole,
+  the quasar and the journey through the Solar System. Nebulae can follow,
+  with birds, cats and other subject groups added as the collection grows.
+  The group was called "The Space" until 9 October 2026, when the author
+  renamed it. In English, space in the astronomical sense takes no article,
+  and "the space" reads as a particular room or area. Each picture carries its
   group in its `category` field. Keep existing picture addresses stable
   when grouping them. Every group follows the same drawing, storytelling
   and sourcing standards.
 
-- **The Space is a sourced watercolor journey.** In October 2026 the
-  author clarified that realistic means scientifically grounded watercolor,
-  like the black hole, rather than spacecraft photographs. The first trial
-  at `/pictures/space/` begins near Earth and opens connected watercolor
+- **Through the Solar System is a sourced watercolor journey.** In
+  October 2026 the author clarified that realistic means scientifically
+  grounded watercolor, like the black hole, rather than spacecraft
+  photographs. The journey keeps its first address, `/pictures/space/`. It
+  begins near Earth and opens connected watercolor
   scenes, following the Farm House's garden-to-veranda-to-room structure.
   Touching a world's body travels to its scene; touching its separate name
   label opens sourced information. A scene can carry several detail labels.
@@ -405,14 +411,21 @@ accuracy and plain prose to this section as well.
   paper and brushwork consistent across connected views. Sizes, distances
   and viewpoints are arranged for exploration, explained below the picture.
   This is an illustrative journey rather than a live sky or a flight path.
-  For The Space, the existing black-hole and quasar paintings are the visual
+  For the journey, the existing black-hole and quasar paintings are the visual
   references: layered pigment, rich neutral darks, selective detail and natural
   watercolor edges. On 9 October 2026 the author chose a newly composed
   Earth–Moon set made from scratch; the earlier Earth–Moon renders are not
-  style references. Keep the ISS tiny and close to Earth's limb, and leave
+  style references. They are kept in `pictures/space/retired/`, outside the
+  published site. Keep the ISS tiny and close to Earth's limb, and leave
   breathing room around Earth in the closer scene. Use the approved new
   scenes to preserve geography and lighting when extending the journey.
   All eight planets remain the intended next scope after this small trial.
+  In the approved Moon and Jupiter scenes, fine detail covers the whole
+  globe. From Saturn on, keep detail selective, as the black hole does:
+  gather it where a label points and leave the rest of the globe in broad
+  washes. Saturn already has an account of how we came to know it. Galileo
+  saw its rings in 1610 without recognizing them, and Christiaan Huygens
+  explained them as a ring in the 1650s. Verify the details before writing.
   Earth vicinity, Earth and Moon were approved as one coherent section before
   extending to Mars. The Moon’s small Mars destination reuses a crop of the
   Mars painting, preserving the approved lunar scene. Mars has sourced labels
@@ -427,10 +440,15 @@ accuracy and plain prose to this section as well.
   sourced details before painting a new scene. Preserve recognizable forms
   and reserve named landmarks for features verified against references.
   Name labels follow the Farm House's hover, focus and optional hint behavior.
-  The Space and the Farm House have no permanent white dots. Labels appear
+  The journey and the Farm House have no permanent white dots. Labels appear
   on hover or keyboard focus; Show places to look keeps names visible on
   every screen, including phones. Preserve full touch targets and keep
   labels close to their subjects without covering nearby travel targets.
+  Worlds and details share one label style, the small sans-serif of the
+  Farm House and the standalone pictures; they differ only in when their
+  labels appear. In the list beneath a scene, a world that can be visited
+  is named once and followed by "go there". Inside a sentence, a name keeps
+  a lower-case article: "Travel to the Moon".
   Pale Blue Dot and the Sagan passage can follow after the visual language
   is settled. The full copyrighted passage still needs written permission.
   Preserve stable picture addresses, keyboard access, reduced motion,
@@ -500,24 +518,55 @@ accuracy and plain prose to this section as well.
   Verify and source the particular claims before using any example. Keep
   observation, inference and artistic reconstruction clear; speculation
   follows the evidence, marked as such.
+- **Three candidates are waiting their turn.** Each has a one-sentence
+  answer to "Why this picture?" Each claim below still needs a primary
+  source before anything is painted or written.
+
+  - The white stork. In 1822 a stork reached Klütz in northern Germany
+    with an African spear through its neck. It showed where storks spend
+    the winter, at a time when some people believed birds hibernated. The
+    bird is kept in the University of Rostock's zoological collection.
+    Storks soar on rising warm air, which forms poorly over the sea, so
+    many cross between Europe and Asia over the Bosphorus. That gives the
+    picture a place in İstanbul.
+  - The Crab Nebula. It is one of the few nebulae whose birth people wrote
+    down: Chinese astronomers recorded a new star in 1054. Charles Messier
+    came across it in 1758 while looking for a comet, and it became the
+    first entry in his catalogue. The pulsar at its center was found in
+    1968. A 1978 paper in Nature proposed that an account by the physician
+    Ibn Butlān describes the same star, and later work placed it in
+    Constantinople; a 2024 reassessment questions that connection. If the
+    İstanbul thread is used, present it as disputed.
+  - A cat. It would connect to Moris and to İstanbul's street cats.
+    Possible details include its vertical pupils, the shine of its eyes at
+    night, its whiskers and the slow blink. Verify the research behind each
+    one.
+- **Pictures and Words can point to each other.** Five word stories touch
+  the sky: *consider*, *desire*, *disaster*, *influence* and *lunatic*.
+  When an explanation shows what a word still carries, link to its page,
+  such as the Moon to *lunatic*. The link between *desire* and the stars
+  is uncertain, and its page says so.
 - **The painting stands as a sheet on a light, quiet page.**
   `--picture-paper` in `css/pictures.css` is `#f8f7f2`, a shade under the
   site's own light paper; the image keeps its edges, as it does on the
   section's index and the homepage. The painting's warm paper was tried as
   the page color in October 2026 and taken out at the author's request:
   over a whole page it was too loud.
-- **Standalone pictures show faint dots from the first look.** The Space
+- **Standalone pictures show faint dots from the first look.** The
   journey and Farm House use hover, focus and optional visible labels without
   permanent dots, as requested on 9 October 2026. A label sits on its place unless that covers the thing it names, such as a
   thin line; `label_side: right` in the picture's front matter puts it
-  beside it. A label that shows opens its detail as the dot does; a hidden
+  beside it. A broad subject in the journey, such as the Great Red Spot,
+  also takes a `label_gap`, a share of the painting's width, so its label
+  stays clear of it at every size. A label that shows opens its detail as the dot does; a hidden
   one takes no clicks.
 - **A close view opens at the top of its dialog.** Reset the scroll after
   `showModal()`. A closed dialog cannot be scrolled. Open
   every detail on a phone as well as a desk, one after another, and check
   that each close view shows what its text names.
 - The homepage shows one picture, chosen at random, under Words with
-  Stories (`_includes/pictures-with-stories-home.html`).
+  Stories (`_includes/pictures-with-stories-home.html`). The journey
+  through the Solar System takes its turn with its opening scene.
 - **Full screen is optional.** Each picture offers it through its own
   control and keeps the whole sheet visible, with its proportions and
   clickable places intact. Explanations remain available in full screen.
