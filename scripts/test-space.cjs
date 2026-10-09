@@ -1,63 +1,55 @@
-/* Exercise the reader's travel, not a sequence of swapped illustrations. */
 'use strict';
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
 const {JSDOM}=require('jsdom');
 const root=path.join(__dirname,'..');
 const html=fs.readFileSync(path.join(root,'_site/pictures/space/index.html'),'utf8');
-const pictures=fs.readFileSync(path.join(root,'js/pictures.js'),'utf8');
-const camera=fs.readFileSync(path.join(root,'js/space.js'),'utf8');
 function page(modal=true,hash='') {
  const dom=new JSDOM(html,{url:'https://hakanaltun.io/pictures/space/'+hash,runScripts:'outside-only',pretendToBeVisual:true});
- const w=dom.window,d=w.document;
- w.scrollTo=()=>{};
+ const w=dom.window,d=w.document;w.scrollTo=()=>{};
  w.HTMLDialogElement.prototype.showModal=modal?function(){this.open=true}:undefined;
  w.HTMLDialogElement.prototype.close=function(){this.open=false;this.dispatchEvent(new w.Event('close'))};
- const frame=d.getElementById('journey-frame');
- Object.defineProperties(frame,{clientWidth:{value:900},clientHeight:{value:600}});
- w.eval(pictures);w.eval(camera);
- return {dom,w,d,frame};
+ w.eval(fs.readFileSync(path.join(root,'js/pictures.js'),'utf8'));w.eval(fs.readFileSync(path.join(root,'js/space.js'),'utf8'));
+ return {dom,w,d};
 }
 (async()=>{
+ const ids=['earth','oceans','atmosphere','iss','moon','maria','craters'];
  {
   const {dom,d}=page(false);
   assert.equal(d.body.classList.contains('picture-ready'),false);
-  for(const id of ['earth','moon','mars']) {
-   const note=d.getElementById('note-'+id);
-   assert.ok(note.querySelector('.picture-detail-body').textContent.trim());
-   assert.ok(note.querySelector('a[href^="https://science.nasa.gov/"]'));
-  }
-  assert.equal(d.querySelector('.journey-navigation').hidden,true);
+  assert.equal(d.querySelectorAll('[data-scene]').length,3);
+  for(const id of ids)assert.ok(d.querySelector('#note-'+id+' a[href^="https://"]'));
   dom.window.close();
  }
  {
-  const {dom,w,d,frame}=page();
-  const image=d.querySelector('.picture-image'),canvas=d.getElementById('journey-canvas');
-  const source=image.src;
-  assert.equal(frame.dataset.view,'overview');
-  for(const id of ['earth','moon','mars']) {
-   d.getElementById('journey-next').click();
-   assert.equal(frame.dataset.view,id);
-   assert.equal(w.location.hash,'#note-'+id);
-   assert.equal(d.querySelector('.picture-image'),image,'the same painted image remains mounted');
-   assert.equal(image.src,source);
-   assert.notEqual(canvas.style.transform,'translate(0px,0px) scale(1)');
-   assert.equal(canvas.querySelectorAll('[data-travel]:not([hidden])').length,1);
-   d.getElementById('journey-read').click();
-   const dialog=d.getElementById('picture-detail');
-   assert.equal(dialog.open,true);
-   assert.equal(dialog.scrollTop,0);
-   assert.equal(dialog.querySelector('h2').textContent,d.querySelector('#note-'+id+' h2').textContent);
-   dialog.scrollTop=200;d.getElementById('picture-return').click();
-   assert.equal(d.activeElement,d.getElementById('journey-read'));
+  const {dom,w,d}=page();const frame=d.getElementById('journey-frame'),dialog=d.getElementById('picture-detail');
+  assert.equal(frame.dataset.view,'vicinity');
+  // The label opens information without travelling; its larger sibling travels.
+  d.querySelector('#scene-vicinity .journey-label[data-detail="earth"]').click();
+  assert.equal(dialog.open,true);assert.equal(frame.dataset.view,'vicinity');d.getElementById('picture-return').click();
+  d.querySelector('#scene-vicinity .journey-destination[data-travel="earth"]').click();
+  assert.equal(frame.dataset.view,'earth');assert.equal(dialog.open,false);
+  assert.equal(d.getElementById('scene-vicinity').inert,true);
+  assert.ok(d.querySelector('#scene-earth img').src.includes('near-earth'));
+  for(const id of ['earth','oceans','atmosphere','iss']) {
+   const trigger=d.querySelector('#scene-earth [data-detail="'+id+'"]');trigger.click();
+   assert.equal(dialog.open,true);assert.equal(dialog.scrollTop,0);
+   assert.ok(d.getElementById('picture-detail-image').style.backgroundImage.includes('near-earth'));
+   dialog.scrollTop=200;d.getElementById('picture-return').click();assert.equal(d.activeElement,trigger);
   }
-  w.history.back();await new Promise(r=>setTimeout(r,25));assert.equal(frame.dataset.view,'moon');
-  w.history.forward();await new Promise(r=>setTimeout(r,25));assert.equal(frame.dataset.view,'mars');
-  d.getElementById('journey-next').click();assert.equal(frame.dataset.view,'overview');
-  assert.equal(canvas.querySelectorAll('[data-travel]:not([hidden])').length,3);
+  d.querySelector('#scene-earth .journey-destination[data-travel="moon"]').click();
+  assert.equal(frame.dataset.view,'moon');
+  assert.equal(d.querySelectorAll('.journey-scene.is-current').length,1);
+  for(const id of ['moon','maria','craters']) {
+   d.querySelector('#scene-moon [data-detail="'+id+'"]').click();assert.equal(dialog.open,true);
+   assert.ok(d.getElementById('picture-detail-image').style.backgroundImage.includes('near-moon'));
+   d.getElementById('picture-return').click();
+  }
+  w.history.back();await new Promise(r=>setTimeout(r,25));assert.equal(frame.dataset.view,'earth');
+  w.history.forward();await new Promise(r=>setTimeout(r,25));assert.equal(frame.dataset.view,'moon');
+  d.querySelector('#scene-moon .journey-destination[data-travel="earth"]').click();assert.equal(frame.dataset.view,'earth');
+  d.getElementById('journey-back').click();assert.equal(frame.dataset.view,'vicinity');
   dom.window.close();
  }
- {
-  const {dom,frame}=page(true,'#note-mars');assert.equal(frame.dataset.view,'mars');dom.window.close();
- }
- console.log('Watercolor journey passed: one unchanged painting, three viewpoints, sourced fallback, continuous camera, fresh notes, return focus, shared addresses and browser history.');
+ for(const id of ['earth','moon']){const {dom,d}=page(true,'#scene-'+id);assert.equal(d.getElementById('journey-frame').dataset.view,id);dom.window.close();}
+ console.log('Connected space scenes passed: separate travel and information, scene-specific crops, sourced fallback, return routes, fresh notes, focus and history.');
 })().catch(e=>{console.error(e);process.exitCode=1});

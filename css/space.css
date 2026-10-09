@@ -1,21 +1,31 @@
-/* The same watercolor stays mounted while the camera moves through it. */
+/* Each frame opens a connected watercolor, as rooms do in the Farm House. */
 .space-watercolor .picture-title { margin:0 0 14px; }
 .space-watercolor .picture-intro { margin-bottom:18px; }
-.space-watercolor .picture-visit { --picture-width:min(100%,1080px,max(420px,calc((100svh - 470px)*1.5))); }
-.space-watercolor .picture-frame { overflow:hidden; aspect-ratio:3/2; background:var(--picture-paper); }
-#journey-canvas { width:100%; height:100%; transform-origin:0 0; transition:transform 1.6s cubic-bezier(.22,.7,.25,1); will-change:transform; }
-#journey-canvas .picture-image { width:100%; height:100%; object-fit:contain; }
-#journey-canvas .picture-hotspot { transform:translate(-50%,-50%) scale(var(--marker-scale,1)); }
+.space-watercolor .picture-visit { --picture-width:min(100%,1080px,max(420px,calc((100svh - 380px)*1.5))); }
+.space-watercolor .picture-frame { background:var(--picture-paper); }
+.journey-scene { position:relative; }
+.picture-ready .journey-scene:not(.is-current) { display:none; }
+.journey-scene.arrive { animation:journey-arrive .65s ease both; }
+@keyframes journey-arrive { from { opacity:.3; transform:scale(.985); } to { opacity:1; transform:scale(1); } }
+.journey-destination { position:absolute; left:var(--spot-x); top:var(--spot-y); width:var(--world-width); height:var(--world-height); min-width:44px; min-height:44px; transform:translate(-50%,-50%); border-radius:50%; -webkit-tap-highlight-color:transparent; }
+.journey-destination:focus-visible { outline:2px solid #fffdf5!important; outline-offset:-4px!important; }
+.journey-label { z-index:2; }
+/* The name is a distinct information target, visible on every screen.
+   The larger painted body around it remains the travel target. */
+.journey-label[data-primary] { width:auto; height:auto; min-width:44px; min-height:44px; border-radius:2px; }
+.journey-label[data-primary]::before { display:none; }
+.journey-label[data-primary] .picture-hotspot-label { position:relative; opacity:1; pointer-events:auto; display:block; font:16px/1.2 'EB Garamond',Georgia,serif; padding:5px 9px; background:rgb(244 240 231 / 86%); }
+.journey-label[data-primary] .picture-hotspot-number { display:none!important; }
+.journey-label:not([data-primary]) .picture-hotspot-label { font-size:14px; }
 .space-watercolor .picture-under { padding-top:12px; }
 .space-watercolor .picture-caption { min-height:27px; }
-.space-watercolor .journey-read { font:18px/1.4 'EB Garamond',Georgia,serif!important; min-height:44px; }
-.journey-navigation { display:flex; justify-content:space-between; align-items:center; gap:24px; }
-.journey-navigation .picture-text-link { min-height:44px; font:19px/1.4 'EB Garamond',Georgia,serif!important; }
-#journey-next { text-align:right; }
-.journey-scale { margin:3px 0 8px; font-size:13px; color:var(--picture-quiet); }
+.journey-navigation { display:flex; justify-content:center; align-items:center; margin-top:3px; }
+.journey-navigation .picture-text-link { min-height:44px; font:18px/1.4 'EB Garamond',Georgia,serif!important; }
 .space-watercolor .picture-controls { padding-top:3px; }
 .space-watercolor .picture-choices { margin:8px 0; justify-content:center; }
+.space-watercolor .picture-choices li { display:flex; align-items:center; gap:10px; }
 .space-watercolor .picture-choices a { min-height:44px; display:inline-flex; align-items:center; }
+.picture-ready .show-places .journey-choices { display:flex; }
 .space-watercolor .picture-detail-image { background-color:var(--picture-paper); aspect-ratio:1; min-height:0; max-height:none; width:100%; align-self:center; }
 .picture-journey { display:grid; grid-template-columns:minmax(0,1.3fr) minmax(0,1fr); align-items:center; gap:36px; max-width:960px; margin:22px auto 32px; text-decoration:none; color:var(--ink); }
 .picture-journey img { width:100%; height:auto; display:block; border-radius:3px; }
@@ -31,4 +41,4 @@
  .space-watercolor .picture-intro { margin-bottom:18px; }
  .picture-journey { grid-template-columns:1fr; gap:18px; text-align:center; }
 }
-@media(prefers-reduced-motion:reduce) { #journey-canvas { transition:none; } }
+@media(prefers-reduced-motion:reduce) { .journey-scene.arrive { animation:none; } }

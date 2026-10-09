@@ -395,11 +395,17 @@ accuracy and plain prose to this section as well.
 - **The Space is a sourced watercolor journey.** In October 2026 the
   author clarified that realistic means scientifically grounded watercolor,
   like the black hole, rather than spacecraft photographs. The first trial
-  at `/pictures/space/` is Earth–Moon–Mars within one continuous painting.
-  Move the camera through that same image instead of replacing it with
-  separate scenes. Explain the artistic arrangement of sizes and distances.
-  Keep the scientific text sourced, with no invented story. All eight
-  planets remain the intended next scope after this small visual trial.
+  at `/pictures/space/` begins near Earth and opens connected watercolor
+  scenes, following the Farm House's garden-to-veranda-to-room structure.
+  Touching a world's body travels to its scene; touching its separate name
+  label opens sourced information. A scene can carry several detail labels.
+  Show only destinations available from the current scene, with a way back.
+  The first trial covers Earth's vicinity, a closer Earth view and the Moon,
+  including the ISS. Keep recognizable geography, lunar markings, lighting,
+  paper and brushwork consistent across connected views. Sizes, distances
+  and viewpoints are arranged for exploration, explained below the picture.
+  This is an illustrative journey rather than a live sky or a flight path.
+  All eight planets remain the intended next scope after this small trial.
   Pale Blue Dot and the Sagan passage can follow after the visual language
   is settled. The full copyrighted passage still needs written permission.
   Preserve stable picture addresses, keyboard access, reduced motion,

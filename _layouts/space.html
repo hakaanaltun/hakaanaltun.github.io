@@ -14,9 +14,9 @@
   <meta property="og:url" content="{{ page.url | absolute_url }}">
   <link rel="stylesheet" href="/css/fonts.css?v=20260710-2">
   <link rel="stylesheet" href="/css/pictures.css?v=20261008-9">
-  <link rel="stylesheet" href="/css/space.css?v=20261009-1">
-  <script src="/js/pictures.js?v=20261007-3" defer></script>
-  <script src="/js/space.js?v=20261009-1" defer></script>
+  <link rel="stylesheet" href="/css/space.css?v=20261009-2">
+  <script src="/js/pictures.js?v=20261009-1" defer></script>
+  <script src="/js/space.js?v=20261009-2" defer></script>
 </head>
 <body class="picture-page space-watercolor">
   <a class="picture-skip" href="#picture-main">Skip to the picture</a>
@@ -32,32 +32,27 @@
       <div class="picture-visit" id="picture-visit">
         <div class="picture-stage">
         <div class="picture-frame" id="journey-frame">
-          <div id="journey-canvas">
-          <img class="picture-image" src="{{ page.image }}" width="{{ page.image_width }}" height="{{ page.image_height }}" alt="{{ page.alt | escape }}" fetchpriority="high" decoding="async">
-          <div class="picture-hotspots" aria-label="Details in the picture">
-            {% for detail in page.details %}
-            <button type="button" class="picture-hotspot" data-travel="{{ detail.id }}" data-x="{{ detail.x }}" data-y="{{ detail.y }}" data-scale="{{ detail.scale }}" data-heading="{{ detail.heading }}" style="--spot-x:{{ detail.x }}%;--spot-y:{{ detail.y }}%"{% if detail.label_side %} data-label-side="{{ detail.label_side }}"{% endif %} aria-label="{{ detail.label | escape }}" hidden>
-              <span class="picture-hotspot-label">{{ detail.label }}</span>
-              <span class="picture-hotspot-number" aria-hidden="true">{{ forloop.index }}</span>
-            </button>
-            {% endfor %}
-          </div>
-          </div>
+          {% for scene in page.scenes %}
+          <section class="journey-scene{% if forloop.first %} is-current{% endif %}" id="scene-{{ scene.id }}" data-scene="{{ scene.id }}" data-caption="{{ scene.caption | escape }}" data-name="{{ scene.name | escape }}" data-back="{{ scene.back }}" data-back-label="{{ scene.back_label | escape }}" aria-label="{{ scene.name | escape }}">
+            <img class="picture-image" src="{{ scene.image }}" width="1536" height="1024" alt="{{ scene.alt | escape }}"{% if forloop.first %} fetchpriority="high"{% else %} loading="lazy"{% endif %} decoding="async">
+            <div class="picture-hotspots" aria-label="Travel destinations and information labels">
+              {% for spot in scene.spots %}
+              {% if spot.go %}<a class="journey-destination" href="#scene-{{ spot.go }}" data-travel="{{ spot.go }}" style="--spot-x:{{ spot.x }}%;--spot-y:{{ spot.y }}%;--world-width:{{ spot.width }}%;--world-height:{{ spot.height }}%" aria-label="Travel to {{ spot.label | escape }}"><span class="picture-sr">Travel to {{ spot.label }}</span></a>{% endif %}
+              {% if spot.detail %}<button type="button" class="picture-hotspot journey-label" data-detail="{{ spot.detail }}"{% if spot.primary %} data-primary="true"{% endif %} style="--spot-x:{{ spot.label_x | default: spot.x }}%;--spot-y:{{ spot.label_y | default: spot.y }}%" aria-label="Read about {{ spot.label | escape }}" hidden><span class="picture-hotspot-label">{{ spot.label }}</span><span class="picture-hotspot-number" aria-hidden="true">{{ forloop.index }}</span></button>{% endif %}
+              {% endfor %}
+            </div>
+          </section>
+          {% endfor %}
         </div>
         </div>
         <div class="picture-under">
           <p class="picture-caption" id="journey-caption" aria-live="polite">{{ page.caption }}</p>
-          <button class="picture-text-link journey-read" id="journey-read" data-detail="earth" hidden>About Earth</button>
-          <ol class="picture-choices" aria-label="Places to look">
-            {% for detail in page.details %}
-            <li><a href="#note-{{ detail.id }}" data-travel="{{ detail.id }}"><span class="picture-choice-number" aria-hidden="true">{{ forloop.index }}</span>{{ detail.label }}</a></li>
-            {% endfor %}
+          {% for scene in page.scenes %}
+          <ol class="picture-choices journey-choices" data-choices="{{ scene.id }}" aria-label="Places in {{ scene.name | escape }}">
+            {% for spot in scene.spots %}<li><span class="picture-choice-number" aria-hidden="true">{{ forloop.index }}</span>{% if spot.go %}<a href="#scene-{{ spot.go }}" data-travel="{{ spot.go }}">Travel to {{ spot.label }}</a>{% endif %}{% if spot.detail %}<a href="#note-{{ spot.detail }}" data-detail="{{ spot.detail }}">{{ spot.label }}</a>{% endif %}</li>{% endfor %}
           </ol>
-          <nav class="journey-navigation" aria-label="Travel through the painting" hidden>
-            <a href="#picture-main" id="journey-back" class="picture-text-link">Whole picture</a>
-            <a href="#note-earth" id="journey-next" class="picture-text-link">Begin the journey →</a>
-          </nav>
-          <p class="journey-scale">Watercolor study · Sizes and distances arranged for exploring.</p>
+          {% endfor %}
+          <nav class="journey-navigation" aria-label="Return to the previous scene" hidden><a href="#scene-vicinity" id="journey-back" class="picture-text-link">Earth vicinity</a></nav>
           <div class="picture-controls">
             <a class="picture-text-link" href="/pictures/">← All pictures</a>
             <button type="button" class="picture-text-link" id="picture-fullscreen" aria-controls="picture-visit" aria-pressed="false" hidden>Full screen</button>
@@ -77,14 +72,14 @@
         <dialog class="picture-dialog picture-how" id="picture-help" aria-labelledby="picture-help-title">
           <button type="button" class="picture-close" id="picture-help-close" aria-label="Close">×</button>
           <h2 id="picture-help-title">Look more closely.</h2>
-          <p>Touch a world to travel toward it inside the painting. Touch it again, or choose “About”, to read its sourced explanation. Use the arrows to continue, or “Whole picture” to return. Click a part of the picture to open its explanation. “Show places to look” reveals the available details. On a small screen, match the numbers in the picture to the names beneath it.</p>
+          <p>Touch a world to go there. Its name label opens information. Other labels reveal details in the scene. “Show places to look” reveals all the labels and a list of destinations and details. You can return through the picture or use the link beneath it.</p>
           <p>“Full screen” gives the picture more room. Use “Exit full screen” or Escape to return to the page.</p>
           <p>Tab moves between the details and Enter opens one. Escape closes an explanation first, then leaves full screen.</p>
         </dialog>
       </div>
       <section class="picture-notes" aria-label="Details explained">
         {% for detail in page.details %}
-        <details class="picture-note" id="note-{{ detail.id }}" data-position="{{ detail.position }}" data-zoom="{{ detail.zoom }}" data-alt="{{ detail.alt | escape }}">
+        <details class="picture-note" id="note-{{ detail.id }}" data-position="{{ detail.position }}" data-zoom="{{ detail.zoom }}" data-alt="{{ detail.alt | escape }}" data-image="{{ detail.image }}">
           <summary>{{ detail.label }}</summary>
           <article>
             <p class="picture-kicker">{{ detail.kicker }}</p>
