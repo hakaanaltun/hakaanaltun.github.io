@@ -392,24 +392,18 @@ accuracy and plain prose to this section as well.
   when grouping them. Every group follows the same drawing, storytelling
   and sourcing standards.
 
-- **The Space begins inside the Solar System.** The author asked in
-  October 2026 to introduce every planet and the important smaller bodies
-  before traveling farther, using realistic images. `/pictures/space/`
-  has six connected photographic views, including Voyager 1’s Pale Blue Dot.
-  `_data/space.json` holds the route, all eight planets, sourced explanations
-  and image credits. The
-  page combines spacecraft observations from different dates, with sizes
-  and distances adjusted for exploring. State this visibly. Explain image
-  processing beside the close view, and preserve the rebalanced colors
-  of Uranus and Neptune. Keep the published comparison intact; CSS selects
-  its lower views. The comet is a separate visit near the Sun. The scene
-  stays in the URL hash, with no tracking or stored progress. A separate
-  story is optional. Extend the route beyond the Solar System, and grow
-  other subject worlds, only when requested. Existing picture addresses
-  remain stable. The Pale Blue Dot scene uses the original NASA photograph,
-  with a crop that enlarges its existing pixels, and a separate Carl Sagan
-  biography. Keep the quotation brief and credited; the complete copyrighted
-  passage needs written permission before it can be included.
+- **The Space is a sourced watercolor journey.** In October 2026 the
+  author clarified that realistic means scientifically grounded watercolor,
+  like the black hole, rather than spacecraft photographs. The first trial
+  at `/pictures/space/` is Earth–Moon–Mars within one continuous painting.
+  Move the camera through that same image instead of replacing it with
+  separate scenes. Explain the artistic arrangement of sizes and distances.
+  Keep the scientific text sourced, with no invented story. All eight
+  planets remain the intended next scope after this small visual trial.
+  Pale Blue Dot and the Sagan passage can follow after the visual language
+  is settled. The full copyrighted passage still needs written permission.
+  Preserve stable picture addresses, keyboard access, reduced motion,
+  optional numbered hints, native fallback reading, and fullscreen.
 
 - Follow The Farm House's watercolor language: broad brush strokes,
   transparent washes, a limited value range, visible pencil, occasional

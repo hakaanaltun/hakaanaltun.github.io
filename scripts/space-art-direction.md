@@ -1,0 +1,11 @@
+# The Space watercolor study
+
+Asset: `pictures/space/assets/watercolor-journey.webp` (1536 × 1024).
+Generated with the built-in image-generation tool, then encoded as WebP.
+The painting is a qualitative interpretation, with arranged sizes and distances.
+NASA references and factual explanations are linked in `pictures/space/index.html`.
+The black-hole watercolor provided the visual direction.
+
+## Generation prompt
+
+Use case: scientific-educational. Asset type: one continuous landscape watercolor painting for an explorable astronomy website. Paint ONE coherent 3:2 landscape on warm ivory cold-pressed paper. Match a serious astronomy watercolor: broad transparent washes, dark indigo and charcoal space, visible pigment granulation and pencil, soft ragged painted edges and exposed ivory paper around the outer border, sparse tiny stars. Three scientifically recognizable worlds distributed through this single painted space. Earth centered at 25% from left and 57% from top, diameter about 30% of image width: correctly curved globe with blue oceans, recognizable Africa and the Arabian Peninsula, white cloud swirls, natural muted colors and subtle shadow. The Moon centered at 55% from left and 43% from top, diameter about 10% of image width: spherical gray Moon with recognizable dark basalt maria, lighter cratered highlands, natural uneven craters, no atmosphere. Mars centered at 81% from left and 30% from top, diameter about 13% of image width: rounded rusty ochre globe with subdued dark surface markings and a small light polar cap, natural planetary surface, no clouds of fantasy colors. These sizes and separations are an artistic arrangement for exploration, not a scale diagram. Lighting from upper left consistently across the three globes. Empty painted space connects them so a camera can pan and zoom within the same painting. Preserve the watercolor character even in surface detail. Calm, beautiful, adult and scientifically grounded, similar in spirit to a serious watercolor of a black hole. No panels, borders between objects, labels, letters, numbers, arrows, paths, orbital rings, spaceships, people, galaxies, fantasy nebulae, anthropomorphic faces, cartoon outlines, digital 3D gloss, photorealism, logos, or watermark. High resolution.

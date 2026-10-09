@@ -1,65 +1,22 @@
-/* The journey keeps the picture family's paper and four-corner frame. */
-.space-page .picture-shell { padding-bottom:20px; }
-.space-page .picture-title { margin:0 0 8px; }
-.space-page #space-main { max-width:1440px; margin:0 auto; }
-.space-page #space-visit { --space-width:min(100%,1200px,max(420px,calc((100svh - 400px)*1.5))); }
-.space-scene { margin:0 0 48px; }
-.space-ready .space-scene { margin:0; }
-.space-page .space-location { margin:0 0 16px; text-align:center; font:italic 22px/1.3 'Cormorant Garamond',Georgia,serif; color:var(--picture-quiet); }
-.space-frame { width:var(--space-width); aspect-ratio:3/2; margin:auto; position:relative; isolation:isolate; overflow:hidden; background:#000; border-radius:2px; }
-.space-worlds { position:absolute; inset:0; }
-.space-page .space-object { width:var(--object-width); height:auto; aspect-ratio:1; display:grid; min-width:44px; min-height:44px; }
-.space-object-image { position:absolute; inset:0; display:block; background-color:#000; background-repeat:no-repeat; pointer-events:none; }
-.space-page .space-object::before { position:absolute; z-index:1; }
-.space-page .space-object .picture-hotspot-label,.space-page .space-object .picture-hotspot-number { z-index:2; }
-.space-gate { position:absolute; right:3%; top:7%; width:44px; height:44px; display:grid; place-items:center; color:#fcf9ee!important; border:1px solid #fcf9ee70; border-radius:50%; text-decoration:none; background:#000; font:24px/1 Georgia,serif; transition:var(--select-ease); }
-.space-gate:hover,.space-gate:active { opacity:var(--select-dim); }
-.space-gate:focus-visible { outline-color:#fcf9ee!important; }
-.space-description { text-align:center; font-size:18px; line-height:1.45; margin:0 0 6px; }
-.space-photo-caption { text-align:center; font-size:12px; line-height:1.4; color:var(--picture-quiet); margin:0 0 8px; }
-.space-photo-caption a { color:inherit; text-underline-offset:3px; }
-.space-quotation { text-align:center; margin:16px 0 10px; }
-.space-quotation blockquote { margin:0; font:italic 22px/1.35 'Cormorant Garamond',Georgia,serif; }
-.space-quotation p { margin:0; }
-.space-quotation figcaption { margin-top:6px; font-size:14px; color:var(--picture-quiet); }
-.space-quotation a { color:inherit; text-underline-offset:3px; }
-.space-person { display:flex; align-items:center; justify-content:center; gap:12px; width:fit-content; max-width:100%; margin:14px auto; color:var(--picture-ink); text-decoration:none; font-size:19px; }
-.space-person img { width:48px; height:62px; object-fit:cover; border-radius:2px; }
-.space-person small { display:block; font-size:14px; color:var(--picture-quiet); }
-.space-person span { transition:var(--select-ease); }
-.space-person:hover span,.space-person:active span { opacity:var(--select-dim); }
-.space-person:focus-visible { outline:2px solid var(--picture-accent); outline-offset:5px; }
-.space-page #pale-blue-dot .space-frame { width:min(var(--space-width),max(300px,calc((100svh - 610px)*1.5))); }
-.space-scale-note { text-align:center; color:var(--picture-quiet); font-size:14px; line-height:1.5; margin:4px 0 0; }
-.space-image-credit { font-size:13px; line-height:1.5; color:var(--picture-quiet); margin:8px 0 16px; }
-.space-image-credit a { text-underline-offset:3px; }
-.space-page .picture-detail-image { background-color:#000; min-height:0; aspect-ratio:1; width:100%; align-self:center; }
-.space-under { width:var(--space-width); margin:auto; padding-top:12px; }
-.space-direction { display:flex; align-items:center; justify-content:space-between; gap:20px; min-height:44px; }
-.space-page .space-direction .picture-text-link { font:20px/1.3 'Cormorant Garamond',Georgia,serif!important; color:var(--picture-ink); }
-.space-page .space-forward { text-align:right; }
-.space-controls { max-width:1200px; width:100%; margin:8px auto 0; display:flex; justify-content:space-between; align-items:center; gap:20px; }
-.space-control-group { display:flex; gap:24px; }
-.space-page .picture-text-link { font-size:14px!important; min-height:44px; display:inline-flex; align-items:center; }
-.space-page .picture-hotspot { text-decoration:none; }
-.space-page .picture-hotspot-label { font-size:14px; }
-.space-page .space-travel-spot::before { width:8px; height:8px; background:#fcf9ee; box-shadow:0 0 0 3px #fcf9ee22,0 0 0 1px #252a3280; }
-.space-notes,.space-about { max-width:680px; margin:32px auto 0; }
-.space-ready .space-notes { display:none; }
-.space-ready .picture-choices { display:none; }
-.space-ready.show-places .picture-choices { display:flex; }
-.space-page .picture-choices { gap:4px 22px; }
-.space-page .picture-choices a { min-height:44px; display:inline-flex; align-items:center; font-size:16px; }
-.space-page .picture-detail-sources a { font-size:13px; }
-.space-page .picture-kicker { font-size:12px; }
-.space-ready .space-frame { animation:space-arrive .5s ease both; }
-@keyframes space-arrive { from { opacity:.35; transform:scale(.98); } to { opacity:1; transform:scale(1); } }
-#space-visit.is-fullscreen { position:fixed; inset:0; z-index:10000; width:100%; height:100%; background:var(--picture-paper); padding:16px 28px; display:flex; flex-direction:column; justify-content:center; overflow:auto; }
-#space-visit.is-fullscreen .space-scene { min-height:0; display:flex; flex-direction:column; flex:1; }
-#space-visit.is-fullscreen .space-stage { display:flex; align-items:center; justify-content:center; flex:1 1 0; min-height:0; }
-.space-page #space-visit.is-fullscreen .space-frame { width:min(100%,var(--fullscreen-frame-width,100%)); flex-shrink:0; }
-#space-visit.is-fullscreen .space-under { width:min(100%,1200px); }
-#space-visit.is-fullscreen .space-controls { margin:0 auto; flex-shrink:0; }
+/* The same watercolor stays mounted while the camera moves through it. */
+.space-watercolor .picture-title { margin:0 0 14px; }
+.space-watercolor .picture-intro { margin-bottom:18px; }
+.space-watercolor .picture-visit { --picture-width:min(100%,1080px,max(420px,calc((100svh - 470px)*1.5))); }
+.space-watercolor .picture-frame { overflow:hidden; aspect-ratio:3/2; background:var(--picture-paper); }
+#journey-canvas { width:100%; height:100%; transform-origin:0 0; transition:transform 1.6s cubic-bezier(.22,.7,.25,1); will-change:transform; }
+#journey-canvas .picture-image { width:100%; height:100%; object-fit:contain; }
+#journey-canvas .picture-hotspot { transform:translate(-50%,-50%) scale(var(--marker-scale,1)); }
+.space-watercolor .picture-under { padding-top:12px; }
+.space-watercolor .picture-caption { min-height:27px; }
+.space-watercolor .journey-read { font:18px/1.4 'EB Garamond',Georgia,serif!important; min-height:44px; }
+.journey-navigation { display:flex; justify-content:space-between; align-items:center; gap:24px; }
+.journey-navigation .picture-text-link { min-height:44px; font:19px/1.4 'EB Garamond',Georgia,serif!important; }
+#journey-next { text-align:right; }
+.journey-scale { margin:3px 0 8px; font-size:13px; color:var(--picture-quiet); }
+.space-watercolor .picture-controls { padding-top:3px; }
+.space-watercolor .picture-choices { margin:8px 0; justify-content:center; }
+.space-watercolor .picture-choices a { min-height:44px; display:inline-flex; align-items:center; }
+.space-watercolor .picture-detail-image { background-color:var(--picture-paper); aspect-ratio:1; min-height:0; max-height:none; width:100%; align-self:center; }
 .picture-journey { display:grid; grid-template-columns:minmax(0,1.3fr) minmax(0,1fr); align-items:center; gap:36px; max-width:960px; margin:22px auto 32px; text-decoration:none; color:var(--ink); }
 .picture-journey img { width:100%; height:auto; display:block; border-radius:3px; }
 .picture-journey h3 { margin:0 0 10px; font:400 32px/1.2 'Cormorant Garamond',Georgia,serif; color:var(--petrol); }
@@ -67,32 +24,11 @@
 .picture-journey :is(h3,p) { transition:var(--select-ease); }
 .picture-journey:hover :is(h3,p),.picture-journey:active :is(h3,p) { opacity:var(--select-dim); }
 .picture-journey:focus-visible { outline:2px solid var(--petrol); outline-offset:6px; }
-@media(max-width:860px) {
-  .space-page #space-visit { --space-width:100%; }
-  .space-ready.show-places .picture-hotspot-number { position:absolute; display:grid; place-items:center; width:24px; height:24px; border:1px solid #fcf9eeb3; border-radius:50%; background:#353c2eaa; color:#fffdf5; font:12px Arial,Helvetica,sans-serif; }
-  .space-ready.show-places .picture-choice-number { display:inline; margin-right:7px; }
-}
+@media(max-width:860px) { .space-watercolor .picture-visit { --picture-width:100%; } }
 @media(max-width:650px) {
-  .space-page .picture-shell { padding:0 17px 18px; }
-  .space-page .picture-masthead .picture-text-link { font-size:14px!important; max-width:130px; }
-  .space-page .picture-masthead { height:76px; }
-  .space-page .picture-title { margin:10px 0 8px; }
-  .space-page .space-location { margin-bottom:22px; font-size:21px; }
-  .space-under { padding-top:12px; }
-  .space-direction { gap:12px; }
-  .space-page .space-direction .picture-text-link { font-size:18px!important; }
-  .space-control-group { gap:14px; }
-  .space-controls { flex-wrap:wrap; margin-top:10px; }
-  .space-about { margin-top:30px; }
-  #space-visit.is-fullscreen { padding:12px 17px; }
-  .space-page .picture-detail-image { max-height:none; }
-  .picture-journey { grid-template-columns:1fr; gap:18px; text-align:center; }
+ .space-watercolor .picture-title { margin-top:12px; }
+ .space-watercolor .picture-under { padding-top:14px; }
+ .space-watercolor .picture-intro { margin-bottom:18px; }
+ .picture-journey { grid-template-columns:1fr; gap:18px; text-align:center; }
 }
-@media(min-width:651px) and (max-height:600px) {
-  #space-visit.is-fullscreen .space-scene { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); grid-template-rows:auto minmax(0,1fr); gap:0 22px; }
-  #space-visit.is-fullscreen .space-location { grid-column:1/-1; margin-bottom:10px; }
-  #space-visit.is-fullscreen .space-under { padding:0 5px; max-height:100%; overflow:auto; align-self:center; }
-  #space-visit.is-fullscreen .space-stage { height:100%; }
-  #space-visit.is-fullscreen .space-quotation { margin:10px 0; }
-}
-@media(prefers-reduced-motion:reduce) { .space-ready .space-frame { animation:none; } }
+@media(prefers-reduced-motion:reduce) { #journey-canvas { transition:none; } }
