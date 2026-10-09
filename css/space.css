@@ -43,8 +43,6 @@
 .space-watercolor .picture-choices { margin:8px 0; justify-content:center; }
 .space-watercolor .picture-choices li { display:flex; align-items:center; gap:10px; }
 .space-watercolor .picture-choices a { min-height:44px; display:inline-flex; align-items:center; }
-/* "go there" belongs to the name before it and is quieter than a name. */
-.space-watercolor .picture-choices .journey-choice-travel { gap:5px; font-size:14px; color:var(--picture-quiet); white-space:nowrap; }
 .picture-ready .show-places .journey-choices { display:flex; }
 .space-watercolor .picture-detail-sources { display:flex; flex-direction:column; align-items:flex-start; gap:8px; }
 .space-watercolor .picture-detail-image { background-color:var(--picture-paper); aspect-ratio:1; min-height:0; max-height:none; width:100%; align-self:center; }

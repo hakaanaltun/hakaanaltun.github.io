@@ -446,9 +446,12 @@ accuracy and plain prose to this section as well.
   labels close to their subjects without covering nearby travel targets.
   Worlds and details share one label style, the small sans-serif of the
   Farm House and the standalone pictures; they differ only in when their
-  labels appear. In the list beneath a scene, a world that can be visited
-  is named once and followed by "go there". Inside a sentence, a name keeps
-  a lower-case article: "Travel to the Moon".
+  labels appear. The list beneath a scene names each place once, and the
+  name opens its information, as the label does. Travel is in the picture:
+  touching a world goes there, and the link beneath the picture returns.
+  The author asked for this on 9 October 2026, after a trial with a separate
+  "go there" beside each world. Inside a sentence, a name keeps a
+  lower-case article: "Travel to the Moon".
   Pale Blue Dot and the Sagan passage can follow after the visual language
   is settled. The full copyrighted passage still needs written permission.
   Preserve stable picture addresses, keyboard access, reduced motion,

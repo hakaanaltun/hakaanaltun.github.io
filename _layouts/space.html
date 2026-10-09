@@ -52,8 +52,8 @@
           <p class="picture-caption" id="journey-caption" aria-live="polite">{{ page.caption }}</p>
           {% for scene in page.scenes %}
           <ol class="picture-choices journey-choices" data-choices="{{ scene.id }}" aria-label="Places in {{ scene.name | escape }}">
-            {%- comment -%} A world that can be visited is named once: its name opens the information, and "go there" travels. {%- endcomment -%}
-            {% for spot in scene.spots %}<li><span class="picture-choice-number" aria-hidden="true">{{ forloop.index }}</span>{% if spot.detail %}<a href="#note-{{ spot.detail }}" data-detail="{{ spot.detail }}">{{ spot.label }}</a>{% endif %}{% if spot.go %}<a class="journey-choice-travel" href="#scene-{{ spot.go }}" data-travel="{{ spot.go }}"><span class="picture-sr">{{ spot.label }}: </span>go there <span aria-hidden="true">→</span></a>{% endif %}</li>{% endfor %}
+            {%- comment -%} Each place is named once and opens its information, as its label does. Travel is in the picture: a world is touched to go there. {%- endcomment -%}
+            {% for spot in scene.spots %}{% if spot.detail %}<li><span class="picture-choice-number" aria-hidden="true">{{ forloop.index }}</span><a href="#note-{{ spot.detail }}" data-detail="{{ spot.detail }}">{{ spot.label }}</a></li>{% endif %}{% endfor %}
           </ol>
           {% endfor %}
           <nav class="journey-navigation" aria-label="Return to the previous scene" hidden><a href="#scene-vicinity" id="journey-back" class="picture-text-link">Earth vicinity</a></nav>
@@ -76,7 +76,7 @@
         <dialog class="picture-dialog picture-how" id="picture-help" aria-labelledby="picture-help-title">
           <button type="button" class="picture-close" id="picture-help-close" aria-label="Close">×</button>
           <h2 id="picture-help-title">Look more closely.</h2>
-          <p>Touch a world to go there. Its name label opens information. Other labels reveal details in the scene. “Show places to look” keeps all the labels visible and shows a list of destinations and details. You can return through the picture or use the link beneath it.</p>
+          <p>Touch a world to go there. Its name label opens information. Other labels reveal details in the scene. “Show places to look” keeps all the labels visible and lists them beneath the picture. You can return through the picture or use the link beneath it.</p>
           <p>“Full screen” gives the picture more room. Use “Exit full screen” or Escape to return to the page.</p>
           <p>Tab moves between the details and Enter opens one. Escape closes an explanation first, then leaves full screen.</p>
         </dialog>

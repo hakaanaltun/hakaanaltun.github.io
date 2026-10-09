@@ -18,9 +18,9 @@ function page(modal=true,hash='') {
   assert.equal(d.body.classList.contains('picture-ready'),false);
   assert.equal(d.querySelectorAll('[data-scene]').length,5);
   for(const id of ids)assert.ok(d.querySelector('#note-'+id+' a[href^="https://"]'));
-  // A world that can be visited is named once in its list; "go there" travels.
-  for(const li of d.querySelectorAll('.journey-choices li'))assert.ok(li.querySelectorAll('[data-detail]').length<=1&&!/Travel to/.test(li.textContent));
-  assert.equal(d.querySelectorAll('.journey-choices .journey-choice-travel').length,d.querySelectorAll('.journey-destination').length);
+  // Each place is named once in its list and opens its information; travel is in the picture.
+  for(const li of d.querySelectorAll('.journey-choices li')){const links=li.querySelectorAll('a');assert.equal(links.length,1);assert.ok(links[0].dataset.detail);}
+  assert.equal(d.querySelectorAll('.journey-choices [data-travel]').length,0);
   // Inside a sentence a name keeps a lower-case "the".
   for(const el of d.querySelectorAll('[aria-label]'))assert.doesNotMatch(el.getAttribute('aria-label'),/ The /);
   // The Great Red Spot's label sits beside the storm, clear of it at every width.
