@@ -116,7 +116,7 @@
     title.id = 'picture-detail-title';
     title.tabIndex = -1;
     content.replaceChildren(article);
-    crop.style.backgroundImage = 'url("' + image.getAttribute('src') + '")';
+    crop.style.backgroundImage = 'url("' + (note.dataset.image || image.getAttribute('src')) + '")';
     crop.style.setProperty('--detail-position', note.dataset.position);
     crop.style.setProperty('--detail-zoom', note.dataset.zoom);
     crop.setAttribute('aria-label', note.dataset.alt);

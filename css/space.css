@@ -1,0 +1,71 @@
+/* Each frame opens a connected watercolor, as rooms do in the Farm House. */
+.space-watercolor .picture-title { margin:0 0 14px; }
+.space-watercolor .picture-intro { margin-bottom:18px; }
+.space-watercolor .picture-visit { --picture-width:min(100%,1080px,max(420px,calc((100svh - 380px)*1.5))); }
+.space-watercolor .picture-frame { background:var(--picture-paper); }
+.journey-scene { position:relative; }
+.picture-ready .journey-scene:not(.is-current) { display:none; }
+.journey-scene.arrive { animation:journey-arrive .65s ease both; }
+@keyframes journey-arrive { from { opacity:.3; transform:scale(.985); } to { opacity:1; transform:scale(1); } }
+.journey-destination { position:absolute; left:var(--spot-x); top:var(--spot-y); width:var(--world-width); height:var(--world-height); min-width:44px; min-height:44px; transform:translate(-50%,-50%); border-radius:50%; -webkit-tap-highlight-color:transparent; }
+.journey-painted-world { position:absolute; left:var(--spot-x); top:var(--spot-y); width:var(--paint-width); aspect-ratio:1; transform:translate(-50%,-50%); border-radius:50%; pointer-events:none; background-repeat:no-repeat; }
+.journey-destination:focus-visible { outline:2px solid #fffdf5!important; outline-offset:-4px!important; }
+.journey-label { z-index:2; }
+/* The painting has no permanent markers; labels reveal its interactive areas. */
+.space-watercolor .picture-hotspot::before { content:none; }
+/* Names appear on hover, keyboard focus or the optional hints, as in
+   the Farm House. The painted body and information label stay separate. */
+.journey-label[data-primary] { width:44px; height:44px; border-radius:2px; }
+/* Keep small-world labels by the limb; extend their touch targets outward. */
+.journey-label[data-label-edge="right"] { transform:translate(2px,-50%); }
+.journey-label[data-label-edge="right"] .picture-hotspot-label { left:0; }
+.journey-label[data-primary] .picture-hotspot-label { opacity:0; pointer-events:none; font:16px/1.2 'EB Garamond',Georgia,serif; padding:5px 9px; background:rgb(244 240 231 / 86%); }
+.journey-label[data-primary]:focus-visible .picture-hotspot-label,
+.journey-destination:focus-visible + .journey-label .picture-hotspot-label,
+.show-places .journey-label[data-primary] .picture-hotspot-label { opacity:1; pointer-events:auto; }
+@media(hover:hover) {
+ .journey-label[data-primary]:hover .picture-hotspot-label,
+ .journey-destination:hover + .journey-label .picture-hotspot-label { opacity:1; pointer-events:auto; }
+}
+.journey-label:not([data-primary]) .picture-hotspot-label { font-size:14px; }
+.space-watercolor .picture-under { padding-top:12px; }
+.space-watercolor .picture-caption { min-height:27px; }
+.journey-navigation { display:flex; justify-content:center; align-items:center; margin-top:3px; }
+.journey-navigation .picture-text-link { min-height:44px; font:18px/1.4 'EB Garamond',Georgia,serif!important; }
+.space-watercolor .picture-controls { padding-top:3px; }
+.space-watercolor .picture-choices { margin:8px 0; justify-content:center; }
+.space-watercolor .picture-choices li { display:flex; align-items:center; gap:10px; }
+.space-watercolor .picture-choices a { min-height:44px; display:inline-flex; align-items:center; }
+.picture-ready .show-places .journey-choices { display:flex; }
+.space-watercolor .picture-detail-sources { display:flex; flex-direction:column; align-items:flex-start; gap:8px; }
+.space-watercolor .picture-detail-image { background-color:var(--picture-paper); aspect-ratio:1; min-height:0; max-height:none; width:100%; align-self:center; }
+.picture-journey { display:grid; grid-template-columns:minmax(0,1.3fr) minmax(0,1fr); align-items:center; gap:36px; max-width:960px; margin:22px auto 32px; text-decoration:none; color:var(--ink); }
+.picture-journey img { width:100%; height:auto; display:block; border-radius:3px; }
+.picture-journey h3 { margin:0 0 10px; font:400 32px/1.2 'Cormorant Garamond',Georgia,serif; color:var(--petrol); }
+.picture-journey p { margin:0; font-size:19px; color:var(--vizon); }
+.picture-journey :is(h3,p) { transition:var(--select-ease); }
+.picture-journey:hover :is(h3,p),.picture-journey:active :is(h3,p) { opacity:var(--select-dim); }
+.picture-journey:focus-visible { outline:2px solid var(--petrol); outline-offset:6px; }
+@media(max-width:860px) {
+ .space-watercolor .picture-visit { --picture-width:100%; }
+ .space-watercolor .journey-label .picture-hotspot-label { display:block; width:max-content; max-width:100px; white-space:normal; text-align:center; font-size:14px; line-height:1.2; padding:4px 6px; }
+ .space-watercolor .picture-hotspot-number,.space-watercolor .picture-choice-number { display:none; }
+}
+@media(max-width:650px) {
+ /* Spread simultaneous labels without moving their exploration targets. */
+ .space-watercolor .show-places .journey-label .picture-hotspot-label { transform:translate(var(--hint-x,0px),var(--hint-y,0px)); }
+ #scene-vicinity [data-detail="moon"],#scene-earth [data-detail="moon"],#scene-moon [data-detail="moon"] { --hint-y:-20px; }
+ #scene-earth [data-detail="atmosphere"] { --hint-y:-14px; }
+ #scene-earth [data-detail="oceans"] { --hint-x:-15px; --hint-y:20px; }
+ #scene-earth [data-detail="earth"] { --hint-x:15px; --hint-y:10px; }
+ #scene-moon [data-detail="earth"] { --hint-y:-25px; }
+ #scene-mars [data-detail="earth"] { --hint-y:-25px; }
+ #scene-mars [data-detail="mars"] { --hint-x:12px; }
+ #scene-mars [data-detail="valles"] { --hint-y:8px; }
+
+ .space-watercolor .picture-title { margin-top:12px; }
+ .space-watercolor .picture-under { padding-top:14px; }
+ .space-watercolor .picture-intro { margin-bottom:18px; }
+ .picture-journey { grid-template-columns:1fr; gap:18px; text-align:center; }
+}
+@media(prefers-reduced-motion:reduce) { .journey-scene.arrive { animation:none; } }

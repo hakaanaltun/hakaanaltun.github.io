@@ -385,12 +385,56 @@ watercolor illustrations whose areas can be opened to learn about what is
 shown. Apply the `Words with Stories` standards for curation, sourcing,
 accuracy and plain prose to this section as well.
 
-- **The catalogue is grouped by subject.** Astronomy begins with the
+- **The catalogue is grouped by subject.** The Space begins with the
   black hole and the quasar. Nebulae can follow, with birds, cats and other
   subject groups added as the collection grows. Each picture carries its
   group in its `category` field. Keep existing picture addresses stable
   when grouping them. Every group follows the same drawing, storytelling
   and sourcing standards.
+
+- **The Space is a sourced watercolor journey.** In October 2026 the
+  author clarified that realistic means scientifically grounded watercolor,
+  like the black hole, rather than spacecraft photographs. The first trial
+  at `/pictures/space/` begins near Earth and opens connected watercolor
+  scenes, following the Farm House's garden-to-veranda-to-room structure.
+  Touching a world's body travels to its scene; touching its separate name
+  label opens sourced information. A scene can carry several detail labels.
+  Show only destinations available from the current scene, with a way back.
+  The journey covers Earth's vicinity, a closer Earth view, the Moon, Mars and
+  Jupiter, including the ISS near Earth and Io and Europa beside Jupiter. Keep recognizable geography, lunar markings, lighting,
+  paper and brushwork consistent across connected views. Sizes, distances
+  and viewpoints are arranged for exploration, explained below the picture.
+  This is an illustrative journey rather than a live sky or a flight path.
+  For The Space, the existing black-hole and quasar paintings are the visual
+  references: layered pigment, rich neutral darks, selective detail and natural
+  watercolor edges. On 9 October 2026 the author chose a newly composed
+  Earth–Moon set made from scratch; the earlier Earth–Moon renders are not
+  style references. Keep the ISS tiny and close to Earth's limb, and leave
+  breathing room around Earth in the closer scene. Use the approved new
+  scenes to preserve geography and lighting when extending the journey.
+  All eight planets remain the intended next scope after this small trial.
+  Earth vicinity, Earth and Moon were approved as one coherent section before
+  extending to Mars. The Moon’s small Mars destination reuses a crop of the
+  Mars painting, preserving the approved lunar scene. Mars has sourced labels
+  for its iron-bearing dust, Olympus Mons, Valles Marineris and north polar
+  ice. Its painting emphasizes relief; the illustration note explains this.
+  Mars now leads to Jupiter, whose notes cover its interior, cloud bands,
+  Great Red Spot, Io and Europa. Both moons are enlarged independently for
+  their details, disclosed in the illustration note. Small cropped worlds
+  connect the scenes without repainting approved assets.
+  The opening view should leave ample space around a
+  smaller Earth so arrival at its closer view is unmistakable. Choose the
+  sourced details before painting a new scene. Preserve recognizable forms
+  and reserve named landmarks for features verified against references.
+  Name labels follow the Farm House's hover, focus and optional hint behavior.
+  The Space and the Farm House have no permanent white dots. Labels appear
+  on hover or keyboard focus; Show places to look keeps names visible on
+  every screen, including phones. Preserve full touch targets and keep
+  labels close to their subjects without covering nearby travel targets.
+  Pale Blue Dot and the Sagan passage can follow after the visual language
+  is settled. The full copyrighted passage still needs written permission.
+  Preserve stable picture addresses, keyboard access, reduced motion,
+  optional visible labels, native fallback reading, and fullscreen.
 
 - Follow The Farm House's watercolor language: broad brush strokes,
   transparent washes, a limited value range, visible pencil, occasional
@@ -462,9 +506,9 @@ accuracy and plain prose to this section as well.
   section's index and the homepage. The painting's warm paper was tried as
   the page color in October 2026 and taken out at the author's request:
   over a whole page it was too loud.
-- **Places show as faint dots from the first look.** This applies on
-  every screen. A
-  label sits on its place unless that covers the thing it names, such as a
+- **Standalone pictures show faint dots from the first look.** The Space
+  journey and Farm House use hover, focus and optional visible labels without
+  permanent dots, as requested on 9 October 2026. A label sits on its place unless that covers the thing it names, such as a
   thin line; `label_side: right` in the picture's front matter puts it
   beside it. A label that shows opens its detail as the dot does; a hidden
   one takes no clicks.
@@ -552,6 +596,15 @@ accuracy and plain prose to this section as well.
 
 `Trivia` contains quizzes. Adding one requires three files, as described
 in `_data/trivia.yml`. These rules govern what belongs inside them.
+
+- **Answer illustrations can follow the current work.** On 9 October 2026,
+  students playing British Culture asked for pictures to help them understand
+  the explanations. After the ongoing projects are finished, try small
+  thumbnails beside revealed correct answers, beginning with British Culture.
+  A thumbnail may open a larger view. Show it after answering so it does not
+  give away the answer. Choose images only where they explain the subject;
+  every question does not need one. Verify image identity, source and reuse
+  permission. This is a future task, not part of the current Space expansion.
 
 - **A question earns its place through its note.** Difficulty is worth little
   on its own. The note is the only part a reader keeps, so it has to hand them
