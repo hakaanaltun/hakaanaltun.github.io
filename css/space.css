@@ -10,12 +10,17 @@
 .journey-destination { position:absolute; left:var(--spot-x); top:var(--spot-y); width:var(--world-width); height:var(--world-height); min-width:44px; min-height:44px; transform:translate(-50%,-50%); border-radius:50%; -webkit-tap-highlight-color:transparent; }
 .journey-destination:focus-visible { outline:2px solid #fffdf5!important; outline-offset:-4px!important; }
 .journey-label { z-index:2; }
-/* The name is a distinct information target, visible on every screen.
-   The larger painted body around it remains the travel target. */
-.journey-label[data-primary] { width:auto; height:auto; min-width:44px; min-height:44px; border-radius:2px; }
-.journey-label[data-primary]::before { display:none; }
-.journey-label[data-primary] .picture-hotspot-label { position:relative; opacity:1; pointer-events:auto; display:block; font:16px/1.2 'EB Garamond',Georgia,serif; padding:5px 9px; background:rgb(244 240 231 / 86%); }
-.journey-label[data-primary] .picture-hotspot-number { display:none!important; }
+/* Names appear on hover, keyboard focus or the optional hints, as in
+   the Farm House. The painted body and information label stay separate. */
+.journey-label[data-primary] { width:44px; height:44px; border-radius:2px; }
+.journey-label[data-primary] .picture-hotspot-label { opacity:0; pointer-events:none; font:16px/1.2 'EB Garamond',Georgia,serif; padding:5px 9px; background:rgb(244 240 231 / 86%); }
+.journey-label[data-primary]:focus-visible .picture-hotspot-label,
+.journey-destination:focus-visible + .journey-label .picture-hotspot-label,
+.show-places .journey-label[data-primary] .picture-hotspot-label { opacity:1; pointer-events:auto; }
+@media(hover:hover) {
+ .journey-label[data-primary]:hover .picture-hotspot-label,
+ .journey-destination:hover + .journey-label .picture-hotspot-label { opacity:1; pointer-events:auto; }
+}
 .journey-label:not([data-primary]) .picture-hotspot-label { font-size:14px; }
 .space-watercolor .picture-under { padding-top:12px; }
 .space-watercolor .picture-caption { min-height:27px; }
