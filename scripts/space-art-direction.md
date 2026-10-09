@@ -40,7 +40,7 @@ The painting emphasizes relief, especially Olympus Mons and Valles Marineris. Th
 
 Marker anchors were measured from the output: Olympus 42%, 34% on the flank, leaving the caldera visible; Valles 63.2%, 54.5%; north polar cap 59.8%, 8.3%; Earth travel target 17.5%, 27.3%. The Mars overview marker sits at 63%, 35% on quiet terrain. Information crops use their own focal centers.
 
-A small circular display crop of this same Mars painting appears at 83%, 15% in the Moon scene, at 2% frame width. It adds the travel destination without repainting the approved Moon asset. Its name marker is offset to 83%, 29%, leaving the tiny world visible. The travel hit area retains the 44-pixel minimum. Mars returns to the Moon through the scene navigation and to Earth through the painted Earth.
+A small circular display crop of this same Mars painting appears at 83%, 15% in the Moon scene, at 2% frame width. It adds the travel destination without repainting the approved Moon asset. Its name marker is anchored at the right limb (84%, 15%) with a six-pixel visible gap. Its 44-pixel information target extends outward, leaving the painted center available for travel. The Earth markers in the Moon and Mars scenes follow the same arrangement. Mars returns to the Moon through the scene navigation and to Earth through the painted Earth.
 
 Final prompt:
 

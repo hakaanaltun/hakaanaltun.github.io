@@ -16,6 +16,11 @@
 /* Names appear on hover, keyboard focus or the optional hints, as in
    the Farm House. The painted body and information label stay separate. */
 .journey-label[data-primary] { width:44px; height:44px; border-radius:2px; }
+/* Keep small-world markers by the limb; extend their touch targets outward. */
+.journey-label[data-label-edge="right"] { transform:translate(2px,-50%); }
+.journey-label[data-label-edge="right"]::before { position:absolute; left:4px; top:calc(50% - 2.5px); }
+.journey-label[data-label-edge="right"] .picture-hotspot-label { left:0; }
+.journey-label[data-label-edge="right"] .picture-hotspot-number { left:-4.5px; }
 .journey-label[data-primary] .picture-hotspot-label { opacity:0; pointer-events:none; font:16px/1.2 'EB Garamond',Georgia,serif; padding:5px 9px; background:rgb(244 240 231 / 86%); }
 .journey-label[data-primary]:focus-visible .picture-hotspot-label,
 .journey-destination:focus-visible + .journey-label .picture-hotspot-label,
