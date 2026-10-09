@@ -30,6 +30,16 @@ function page(modal=true,hash='') {
  {
   const {dom,w,d}=page();const frame=d.getElementById('journey-frame'),dialog=d.getElementById('picture-detail');
   assert.equal(frame.dataset.view,'vicinity');
+  // Beneath the picture the way on is named beside the way back, so the next
+  // world never has to be found by touching it.
+  const back=d.getElementById('journey-back'),next=d.getElementById('journey-next');
+  assert.equal(back.hidden,true);assert.equal(next.hidden,false);assert.equal(next.getAttribute('href'),'#scene-earth');assert.match(next.textContent,/Earth/);
+  for(const [from,to] of [['vicinity','earth'],['earth','moon'],['moon','mars'],['mars','jupiter']]){
+   assert.equal(frame.dataset.view,from);next.click();assert.equal(frame.dataset.view,to);assert.equal(back.hidden,false);
+  }
+  assert.equal(next.hidden,true,'the last world has no way on');
+  w.history.back();await new Promise(r=>setTimeout(r,25));assert.equal(frame.dataset.view,'mars');assert.equal(next.hidden,false);
+  w.history.go(-3);await new Promise(r=>setTimeout(r,25));assert.equal(frame.dataset.view,'vicinity');
   // The label opens information without travelling; its larger sibling travels.
   d.querySelector('#scene-vicinity .journey-label[data-detail="earth"]').click();
   assert.equal(dialog.open,true);assert.equal(frame.dataset.view,'vicinity');d.getElementById('picture-return').click();
@@ -87,5 +97,5 @@ function page(modal=true,hash='') {
   dom.window.close();
  }
  for(const id of ['earth','moon','mars','jupiter']){const {dom,d}=page(true,'#scene-'+id);assert.equal(d.getElementById('journey-frame').dataset.view,id);dom.window.close();}
- console.log('Connected space scenes passed: separate travel and information, scene-specific crops, sourced fallback, return routes, fresh notes, focus and history.');
+ console.log('Connected space scenes passed: separate travel and information, scene-specific crops, sourced fallback, the way back and the way on, fresh notes, focus and history.');
 })().catch(e=>{console.error(e);process.exitCode=1});

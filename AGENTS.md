@@ -405,7 +405,11 @@ accuracy and plain prose to this section as well.
   scenes, following the Farm House's garden-to-veranda-to-room structure.
   Touching a world's body travels to its scene; touching its separate name
   label opens sourced information. A scene can carry several detail labels.
-  Show only destinations available from the current scene, with a way back.
+  Show only destinations available from the current scene. Beneath the
+  picture, the way back and the way on sit together, each named for its
+  world ("← The Moon", "Jupiter →"). The author asked for the way on on
+  9 October 2026, so the next world never has to be found by touching it.
+  A scene's `back` and `next` in the front matter set them.
   The journey covers Earth's vicinity, a closer Earth view, the Moon, Mars and
   Jupiter, including the ISS near Earth and Io and Europa beside Jupiter. Keep recognizable geography, lunar markings, lighting,
   paper and brushwork consistent across connected views. Sizes, distances
