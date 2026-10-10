@@ -31,7 +31,7 @@
     var ratio = (image.naturalWidth || image.width) / (image.naturalHeight || image.height);
     frame.style.width = Math.min(stage.clientWidth, stage.clientHeight * ratio) + 'px';
   }
-  function startScreen(mode) {
+  function startScreen(mode, arriving) {
     if (screenMode) return;
     screenMode = mode;
     fullscreen.disabled = false;
@@ -53,7 +53,7 @@
     fullscreen.setAttribute('aria-pressed', 'true');
     fullscreen.textContent = 'Exit full screen';
     fitPicture();
-    fullscreen.focus({ preventScroll: true });
+    if (!arriving) fullscreen.focus({ preventScroll: true });
   }
   function endScreen() {
     if (!screenMode) return;
@@ -67,7 +67,7 @@
     fullscreen.setAttribute('aria-pressed', 'false');
     fullscreen.textContent = 'Full screen';
     if (!dialog.open && !help.open) fullscreen.focus({ preventScroll: true });
-    window.scrollTo(pagePosition.x, pagePosition.y);
+    if (pagePosition) window.scrollTo(pagePosition.x, pagePosition.y);
   }
   function leaveScreen() {
     if (document.fullscreenElement === visit && typeof document.exitFullscreen === 'function') {
@@ -156,17 +156,45 @@
     });
   }
   backdrop(dialog); backdrop(help);
-  places.hidden = false;
-  places.addEventListener('click', function () {
-    var show = visit.classList.toggle('show-places');
+  function showPlaces(show) {
+    visit.classList.toggle('show-places', show);
     places.setAttribute('aria-pressed', String(show));
     places.textContent = show ? 'Hide places to look' : 'Show places to look';
     fitPicture();
-  });
+  }
+  places.hidden = false;
+  places.addEventListener('click', function () { showPlaces(!visit.classList.contains('show-places')); });
   var how = document.getElementById('picture-how');
   how.hidden = false;
   how.addEventListener('click', function () { help.showModal(); });
   document.getElementById('picture-help-close').addEventListener('click', function () { help.close(); });
   help.addEventListener('close', function () { how.focus({ preventScroll: true }); });
+  // The way from one picture to another, such as Mercury to the Sun, keeps
+  // full screen and the places to look. A browser ends its own full screen
+  // whenever a page opens and starts it again only from a tap, so the next
+  // picture fills the window instead, as it does in a browser without full
+  // screen. The address carries the choice for the click and loses it on
+  // arrival; the layouts keep such a page hidden until it is ready.
+  document.addEventListener('click', function (event) {
+    var link = event.target.closest('a[href]');
+    if (!link || !visit.contains(link) || event.defaultPrevented || event.button || event.ctrlKey || event.metaKey || event.altKey || event.shiftKey) return;
+    var shown = visit.classList.contains('show-places');
+    if (!screenMode && !shown) return;
+    var url = new URL(link.href);
+    if (url.origin !== location.origin || url.pathname.indexOf('/pictures/') !== 0 || url.pathname === '/pictures/' || url.pathname === location.pathname) return;
+    if (screenMode) url.searchParams.set('screen', 'full');
+    if (shown) url.searchParams.set('places', 'shown');
+    var plain = link.getAttribute('href');
+    link.href = url.href;
+    setTimeout(function () { link.setAttribute('href', plain); });
+  });
+  var arrival = new URLSearchParams(location.search);
+  if (arrival.has('screen') || arrival.has('places')) {
+    if (arrival.get('places') === 'shown') showPlaces(true);
+    if (arrival.get('screen') === 'full') { pagePosition = null; startScreen('window', true); }
+    arrival.delete('screen');
+    arrival.delete('places');
+    history.replaceState(history.state, '', location.pathname + (arrival.toString() ? '?' + arrival : '') + location.hash);
+  }
   document.body.classList.add('picture-ready');
 })();

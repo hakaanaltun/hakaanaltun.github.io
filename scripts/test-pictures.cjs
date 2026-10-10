@@ -148,8 +148,56 @@ function page(modals, setup) {
     d.getElementById('picture-return').click();
     assert.equal(d.activeElement, trigger);
   }
-  const catalogue = fs.readFileSync(path.join(root, '_site/pictures/index.html'), 'utf8');
-  assert.ok(catalogue.includes('href="/pictures/sun/"'));
+  const catalogue = new JSDOM(fs.readFileSync(path.join(root, '_site/pictures/index.html'), 'utf8')).window.document;
+  const space = catalogue.getElementById('picture-category-space').closest('section');
+  assert.equal(space.querySelector('.picture-journey').getAttribute('href'), '/pictures/space/');
+  assert.equal(space.querySelector('.picture-card').getAttribute('href'), '/pictures/sun/', 'the Sun comes right after the journey that leads to it');
+  dom.window.close();
+}
+// A picture opened from another in full screen fills the window at once, with
+// the places to look if they were shown. The address loses both, and leaving
+// full screen keeps the page where it is. The way back carries them again,
+// and the way to all pictures does not.
+async function arrivalChecks() {
+  const sunHtml = fs.readFileSync(path.join(root, '_site/pictures/sun/index.html'), 'utf8');
+  const dom = new JSDOM(sunHtml, { url: 'https://hakanaltun.io/pictures/sun/?screen=full&places=shown', runScripts: 'outside-only', pretendToBeVisual: true });
+  const w = dom.window, d = w.document;
+  w.scrollTo = (x, y) => { w.restoredPosition = [x, y]; };
+  w.HTMLDialogElement.prototype.showModal = function () { this.open = true; };
+  w.HTMLDialogElement.prototype.close = function () { this.open = false; this.dispatchEvent(new w.Event('close')); };
+  w.eval(script);
+  const visit = d.getElementById('picture-visit');
+  assert.equal(visit.classList.contains('is-fullscreen'), true);
+  assert.equal(visit.classList.contains('show-places'), true);
+  assert.equal(d.getElementById('picture-places').getAttribute('aria-pressed'), 'true');
+  assert.equal(d.getElementById('picture-fullscreen').textContent, 'Exit full screen');
+  assert.ok(d.querySelector('.picture-masthead').hasAttribute('inert'));
+  assert.equal(w.location.href, 'https://hakanaltun.io/pictures/sun/');
+  assert.equal(d.activeElement, d.body, 'arrival leaves focus with the page');
+  let carried = null;
+  w.addEventListener('click', event => { carried = event.target.getAttribute('href'); event.preventDefault(); });
+  const mercury = d.querySelector('a[href="/pictures/space/#scene-mercury"]');
+  mercury.click();
+  assert.equal(carried, 'https://hakanaltun.io/pictures/space/?screen=full&places=shown#scene-mercury');
+  await new Promise(resolve => setTimeout(resolve, 0));
+  assert.equal(mercury.getAttribute('href'), '/pictures/space/#scene-mercury', 'the link keeps its own address');
+  d.querySelector('.picture-controls a[href="/pictures/"]').click();
+  assert.equal(carried, '/pictures/');
+  d.getElementById('picture-fullscreen').click();
+  assert.equal(visit.classList.contains('is-fullscreen'), false);
+  assert.equal(w.restoredPosition, undefined);
+  d.getElementById('picture-places').click();
+  mercury.click();
+  assert.equal(carried, '/pictures/space/#scene-mercury', 'a plain view carries nothing');
+  dom.window.close();
+}
+// If the script never comes, the layout's guard still shows the page.
+{
+  const sunHtml = fs.readFileSync(path.join(root, '_site/pictures/sun/index.html'), 'utf8');
+  const dom = new JSDOM(sunHtml, { url: 'https://hakanaltun.io/pictures/sun/?screen=full', runScripts: 'dangerously' });
+  assert.equal(dom.window.document.documentElement.hasAttribute('data-picture-arriving'), true);
+  dom.window.document.dispatchEvent(new dom.window.Event('DOMContentLoaded'));
+  assert.equal(dom.window.document.documentElement.hasAttribute('data-picture-arriving'), false);
   dom.window.close();
 }
 async function fullscreenChecks() {
@@ -236,6 +284,6 @@ async function fullscreenChecks() {
     dom.window.close();
   }
 }
-fullscreenChecks().then(() => {
-  console.log('Picture checks passed: sourced fallback reading, optional hints and full screen, native and window exits, rejected fullscreen requests, whole-sheet fit, retained hint choice, page position and return focus, every sourced detail and named crop opened at the top, story history, exploration help, and homepage accent rhythm.');
+fullscreenChecks().then(arrivalChecks).then(() => {
+  console.log('Picture checks passed: sourced fallback reading, optional hints and full screen, native and window exits, rejected fullscreen requests, whole-sheet fit, retained hint choice, page position and return focus, every sourced detail and named crop opened at the top, story history, exploration help, full screen and places carried between pictures, the Sun after the journey, and homepage accent rhythm.');
 }).catch(error => { console.error(error); process.exitCode = 1; });

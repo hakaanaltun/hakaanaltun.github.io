@@ -182,5 +182,21 @@ function page(modal=true,hash='') {
   dom.window.close();
  }
  for(const id of ['earth','moon','mars','jupiter','saturn','uranus','neptune','pluto','venus','mercury']){const {dom,d}=page(true,'#scene-'+id);assert.equal(d.getElementById('journey-frame').dataset.view,id);dom.window.close();}
- console.log('Connected space scenes passed: separate travel and information, scene-specific crops, sourced fallback, the way back and the way on, fresh notes, focus and history.');
+ // Full screen and the places to look go along to the Sun's page and come back
+ // with the way to Mercury; the address loses them on arrival.
+ {
+  const {dom,w,d}=page(true,'?screen=full&places=shown#scene-mercury');const visit=d.getElementById('picture-visit');
+  assert.equal(d.getElementById('journey-frame').dataset.view,'mercury');
+  assert.equal(visit.classList.contains('is-fullscreen'),true);assert.equal(visit.classList.contains('show-places'),true);
+  assert.equal(w.location.pathname+w.location.search+w.location.hash,'/pictures/space/#scene-mercury');
+  let carried=null;w.addEventListener('click',e=>{const link=e.target.closest('a');if(link){carried=link.getAttribute('href');e.preventDefault();}});
+  for(const link of [d.querySelector('#scene-mercury .journey-destination[href="/pictures/sun/"]'),d.getElementById('journey-next')]){
+   link.click();assert.equal(carried,'https://hakanaltun.io/pictures/sun/?screen=full&places=shown');
+   await new Promise(r=>setTimeout(r,0));assert.equal(link.getAttribute('href'),'/pictures/sun/','the link keeps its own address');
+  }
+  // Travel inside the journey stays in the page.
+  d.getElementById('journey-back').click();assert.equal(d.getElementById('journey-frame').dataset.view,'venus');assert.equal(visit.classList.contains('is-fullscreen'),true);
+  dom.window.close();
+ }
+ console.log('Connected space scenes passed: separate travel and information, scene-specific crops, sourced fallback, the way back and the way on, fresh notes, focus and history, and full screen carried to the Sun and back.');
 })().catch(e=>{console.error(e);process.exitCode=1});

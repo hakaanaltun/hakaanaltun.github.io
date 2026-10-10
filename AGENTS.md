@@ -514,6 +514,9 @@ accuracy and plain prose to this section as well.
   Touching its body opens The Sun’s
   page; its label opens a short explanation ending with "Go to The Sun".
   The Sun page links back to Mercury and keeps the picture family’s frame.
+  On the Pictures index it comes right after the journey’s card, as the
+  author asked on 10 October 2026: a picture with a `journey_url` leads
+  its group.
   Its composite view combines photospheric spots, a prominence and an enhanced
   corona; the page explains the observing methods and artistic colors. The
   story follows rotation, Cecilia Payne’s composition work, fusion, the
@@ -682,6 +685,14 @@ accuracy and plain prose to this section as well.
   its height available. Pointer use hides focus outlines without moving focus;
   keyboard use restores them. Check both fullscreen paths on a desk and a
   phone, including a change of orientation.
+  The way from one picture to another, such as Mercury to the Sun and back,
+  keeps full screen, as the author asked on 10 October 2026, and the places
+  to look. A browser ends its own full screen whenever a page opens
+  and starts it again only from a tap, so the next picture fills the window
+  instead. For that click `js/pictures.js` adds `screen=full` and
+  `places=shown` to the address. The arriving page removes them, and its
+  layout keeps it hidden until the picture fills the window, so it never
+  shows first as an ordinary page.
 
 ## The homepage
 

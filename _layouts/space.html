@@ -13,9 +13,17 @@
   <meta property="og:description" content="{{ page.description | escape }}">
   <meta property="og:url" content="{{ page.url | absolute_url }}">
   <link rel="stylesheet" href="/css/fonts.css?v=20260710-2">
-  <link rel="stylesheet" href="/css/pictures.css?v=20261010-1">
+  <link rel="stylesheet" href="/css/pictures.css?v=20261010-2">
   <link rel="stylesheet" href="/css/space.css?v=20261010-2">
-  <script src="/js/pictures.js?v=20261010-1" defer></script>
+  <script src="/js/pictures.js?v=20261010-2" defer></script>
+  <script>
+    // A picture opened from another in full screen waits for pictures.js to
+    // fill the window with it, so it never shows first as a page.
+    if (/[?&]screen=full(&|$)/.test(location.search)) {
+      document.documentElement.setAttribute('data-picture-arriving', '');
+      document.addEventListener('DOMContentLoaded', function () { document.documentElement.removeAttribute('data-picture-arriving'); });
+    }
+  </script>
   <script src="/js/space.js?v=20261010-2" defer></script>
 </head>
 <body class="picture-page space-watercolor">
