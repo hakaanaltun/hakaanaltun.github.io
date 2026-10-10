@@ -8,6 +8,7 @@
 .picture-page button { font:inherit; color:inherit; cursor:pointer; }
 .picture-page a { color:inherit; }
 .picture-page :is(button,a,summary):focus-visible { outline:2px solid var(--picture-accent); outline-offset:5px; }
+.picture-page :focus:not(:focus-visible), .picture-page[data-picture-pointer] :focus { outline:none!important; }
 .picture-shell { min-height:100svh; display:flex; flex-direction:column; padding:0 36px; }
 .picture-masthead { height:88px; max-width:1440px; width:100%; margin:auto; display:flex; align-items:center; justify-content:space-between; gap:20px; }
 .picture-brand { font-size:21px; letter-spacing:.02em; text-decoration:none; }
@@ -32,14 +33,12 @@
 .picture-image { display:block; width:100%; height:auto; border-radius:3px; user-select:none; }
 .picture-hotspots { position:absolute; inset:0; }
 .picture-hotspot { position:absolute; left:var(--spot-x); top:var(--spot-y); transform:translate(-50%,-50%); width:64px; height:64px; min-width:44px; min-height:44px; border:0; border-radius:50%; background:transparent; padding:0; display:grid; place-items:center; -webkit-tap-highlight-color:transparent; }
-/* The places show as faint dots from the first look, on every screen, so a
-   reader sees that the picture opens before finding it by chance. */
-.picture-hotspot::before { content:''; width:5px; height:5px; background:#fcf9ee; border-radius:50%; box-shadow:0 0 0 1px #252a3280; opacity:.55; transition:opacity .2s; }
+/* Quiet exploration areas, as in the Farm House: no permanent dots. */
 .picture-hotspot-label { position:absolute; white-space:nowrap; opacity:0; transition:opacity .2s; padding:6px 9px; background:rgb(244 240 231 / 95%); color:#353c2e; font:11px Arial,Helvetica,sans-serif; border-radius:2px; pointer-events:none; }
 .picture-hotspot-number, .picture-choice-number { display:none; }
 .picture-hotspot:focus-visible { outline-color:#faf8ed!important; outline-offset:-4px!important; }
 /* A label that shows is part of its place: a click on its words opens the
-   detail as a click on the dot does. Hidden, it takes no clicks, so the
+   detail as a click on its place does. Hidden, it takes no clicks, so the
    place is no larger than it looks. */
 .picture-hotspot:focus-visible .picture-hotspot-label, .show-places .picture-hotspot-label { opacity:1; pointer-events:auto; }
 .picture-hotspot:focus-visible { z-index:1; }
@@ -52,7 +51,7 @@
 /* Full screen is a reader's choice. Keep the sheet whole and the controls
    outside it; the stage is measured to fit its actual proportions. */
 .picture-visit.is-fullscreen { position:fixed; inset:0; z-index:20; width:100%; height:100dvh; display:flex; flex-direction:column; padding:max(20px,env(safe-area-inset-top)) max(24px,env(safe-area-inset-right)) max(16px,env(safe-area-inset-bottom)) max(24px,env(safe-area-inset-left)); background:var(--picture-paper); }
-.is-fullscreen .picture-stage { flex:1; min-height:0; display:flex; align-items:center; justify-content:center; }
+.is-fullscreen .picture-stage { flex:1; min-width:0; min-height:0; display:flex; align-items:center; justify-content:center; }
 .is-fullscreen .picture-frame { flex:none; margin:0; }
 .is-fullscreen .picture-under { flex:none; width:100%; max-height:40%; margin:0; padding:12px 0 0; overflow:auto; display:flex; flex-direction:column; }
 .is-fullscreen .picture-caption, .is-fullscreen .picture-controls > a { display:none; }
@@ -108,16 +107,15 @@
 .picture-card :is(h2,h3,p) { transition:var(--select-ease); }
 .picture-card:hover :is(h2,h3,p), .picture-card:active :is(h2,h3,p) { opacity:var(--select-dim); }
 .picture-card:focus-visible { outline:2px solid var(--petrol); outline-offset:6px; border-radius:6px; }
-@media(hover:hover) { .picture-hotspot:hover { z-index:1; } .picture-hotspot:hover .picture-hotspot-label { opacity:1; pointer-events:auto; } .picture-hotspots:hover .picture-hotspot::before { opacity:.7; } .picture-hotspot:hover::before,.show-places .picture-hotspot::before { opacity:0; } }
-@media(hover:none) { .picture-hotspot::before { opacity:.85; } .show-places .picture-hotspot::before { opacity:0; } }
+@media(hover:hover) { .picture-hotspot:hover { z-index:1; } .picture-hotspot:hover .picture-hotspot-label { opacity:1; pointer-events:auto; } }
 @media(max-width:860px) {
   .picture-hotspot { width:44px; height:44px; }
-  .picture-hotspot-label { display:none; }
-  .show-places .picture-hotspot-number { position:absolute; display:grid; place-items:center; width:22px; height:22px; border:1px solid #fcf9eeb3; border-radius:50%; background:#353c2e80; color:#fffdf5; font:11px Arial,Helvetica,sans-serif; pointer-events:none; }
+  .picture-hotspot-label { width:max-content; max-width:100px; white-space:normal; text-align:center; line-height:1.2; padding:5px 6px; }
   .picture-ready .show-places .picture-choices { display:flex; }
-  .show-places .picture-choice-number { display:inline; margin-right:6px; font:11px Arial,Helvetica,sans-serif; }
 }
 @media(max-width:650px) {
+  .picture-hotspot-label { max-width:90px; }
+  .show-places .picture-hotspot-label { transform:translate(var(--hint-x,0px),var(--hint-y,0px)); }
   .picture-visit.is-fullscreen { padding:max(12px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(8px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left)); }
   .picture-shell { padding:0 17px; }
   .picture-masthead { height:72px; gap:14px; }
@@ -136,6 +134,14 @@
   .picture-footer { font-size:10px; }
   .picture-story { margin-top:38px; padding-top:28px; }
   .picture-story-part p { font-size:19px; }
+}
+/* On a short landscape screen, controls beside the sheet leave its full
+   height available. Long hint lists scroll independently of the painting. */
+@media(orientation:landscape) and (max-height:500px) {
+  .picture-visit.is-fullscreen { flex-direction:row; gap:12px; padding:max(8px,env(safe-area-inset-top)) max(8px,env(safe-area-inset-right)) max(8px,env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left)); }
+  .picture-visit.is-fullscreen .picture-under { flex:0 0 clamp(128px,20vw,176px); width:auto; height:100%; max-height:100%; padding:0 6px; }
+  .is-fullscreen .picture-controls { flex-direction:column; flex-shrink:0; gap:4px; }
+  .is-fullscreen .picture-choices { flex-direction:column; flex-wrap:nowrap; align-items:center; }
 }
 @media(prefers-reduced-motion:reduce) { .picture-page *, .picture-page *::before, .picture-page *::after { transition:none!important; } }
 

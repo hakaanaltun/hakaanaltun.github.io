@@ -2,6 +2,14 @@
    readable if JavaScript or modal dialogs are unavailable. No saved state. */
 (function () {
   'use strict';
+  // Keep focus in place for keyboard and assistive navigation. A touch or
+  // mouse selection should not leave a ring after a dialog returns focus.
+  document.addEventListener('pointerdown', function () {
+    document.body.setAttribute('data-picture-pointer', '');
+  }, true);
+  document.addEventListener('keydown', function (event) {
+    if (!event.altKey && !event.ctrlKey && !event.metaKey) document.body.removeAttribute('data-picture-pointer');
+  }, true);
   var dialog = document.getElementById('picture-detail');
   if (!dialog || typeof dialog.showModal !== 'function') return;
   var visit = document.getElementById('picture-visit');
@@ -105,6 +113,7 @@
     }
   });
   window.addEventListener('resize', fitPicture);
+  if (window.visualViewport) window.visualViewport.addEventListener('resize', fitPicture);
   image.addEventListener('load', fitPicture);
   if (typeof ResizeObserver === 'function') new ResizeObserver(fitPicture).observe(stage);
   function openDetail(id, trigger) {

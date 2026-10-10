@@ -34,7 +34,7 @@ function page(modals, setup) {
   }
   // A label that would cover a thin line sits beside it.
   assert.equal(d.querySelector('.picture-hotspot[data-detail="photon-ring"]').dataset.labelSide, 'right');
-  // A label that shows opens its detail like the dot, which matters most for
+  // A label that shows opens its detail like its area, which matters most for
   // a label beside its place; a hidden one takes no clicks.
   {
     const css = fs.readFileSync(path.join(root, 'css/pictures.css'), 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
@@ -50,6 +50,24 @@ function page(modals, setup) {
   assert.match(parts[1], /Event Horizon Telescope/);
   const index = JSON.parse(fs.readFileSync(path.join(root, '_site/search-index.json'), 'utf8'));
   assert.ok(index.find(item => item.url === '/pictures/black-hole/').text.includes('Luminet'));
+  dom.window.close();
+}
+// Pointer selection leaves the focus position intact, including after a
+// modal closes. Switching back to the keyboard restores visible focus.
+{
+  const { dom, d, w } = page(true);
+  const trigger = d.querySelector('[data-detail]');
+  trigger.dispatchEvent(new w.Event('pointerdown', { bubbles: true }));
+  trigger.click();
+  d.querySelector('#picture-return').click();
+  assert.equal(d.activeElement, trigger);
+  assert.ok(d.body.hasAttribute('data-picture-pointer'));
+  d.dispatchEvent(new w.KeyboardEvent('keydown', { key: 'Tab', bubbles: true }));
+  assert.equal(d.body.hasAttribute('data-picture-pointer'), false);
+  trigger.click();
+  d.querySelector('#picture-return').click();
+  assert.equal(d.activeElement, trigger);
+  assert.equal(d.body.hasAttribute('data-picture-pointer'), false);
   dom.window.close();
 }
 {
@@ -113,7 +131,9 @@ async function fullscreenChecks() {
     w.scrollTo = (x, y) => { w.restoredPosition = [x, y]; };
     Object.defineProperties(w, { scrollX: { value: 0 }, scrollY: { value: 180 } });
     const stage = w.document.querySelector('.picture-stage');
-    Object.defineProperties(stage, { clientWidth: { value: 900 }, clientHeight: { value: 500 } });
+    w.stageSize = { width: 900, height: 500 };
+    Object.defineProperties(stage, { clientWidth: { get: () => w.stageSize.width }, clientHeight: { get: () => w.stageSize.height } });
+    w.visualViewport = new w.EventTarget();
     w.document.querySelector('.picture-story').setAttribute('inert', '');
     if (!native) return;
     let element = null;
@@ -152,6 +172,13 @@ async function fullscreenChecks() {
     const image = d.querySelector('.picture-image');
     assert.ok(parseFloat(frame.style.width) <= 900);
     assert.ok(parseFloat(frame.style.width) * image.height / image.width <= 500, 'the entire sheet fits without cropping');
+    // Rotate to a short landscape stage, then back. Also cover the visual
+    // viewport resize from mobile browser chrome without a window resize.
+    for (const [width, height, target] of [[600, 350, w], [600, 300, w.visualViewport], [360, 620, w]]) {
+      w.stageSize = { width, height };
+      target.dispatchEvent(new w.Event('resize'));
+      assert.equal(parseFloat(frame.style.width), Math.min(width, height * image.width / image.height));
+    }
     const trigger = visit.querySelector('[data-detail]');
     trigger.click();
     assert.equal(d.getElementById('picture-detail').open, true);

@@ -511,7 +511,7 @@ accuracy and plain prose to this section as well.
   sourced details before painting a new scene. Preserve recognizable forms
   and reserve named landmarks for features verified against references.
   Name labels follow the Farm House's hover, focus and optional hint behavior.
-  The journey and the Farm House have no permanent white dots. Labels appear
+  The pictures, the journey and the Farm House have no permanent white dots. Labels appear
   on hover or keyboard focus; Show places to look keeps names visible on
   every screen, including phones. Preserve full touch targets and keep
   labels close to their subjects without covering nearby travel targets.
@@ -534,7 +534,7 @@ accuracy and plain prose to this section as well.
   references when the subject calls for them; preserve the forms that an
   explanation relies on. The Farm House's fixed scenes remain its own set.
 - Use The Farm House's way of exploring: quiet areas on the picture,
-  optional labels, numbered choices on a small screen, and a closer view
+  optional labels, named choices on a small screen, and a closer view
   alongside each explanation. Provide keyboard access and a way back to the
   picture. Sources sit below the explanation as links, with the full source
   list below the picture.
@@ -626,13 +626,14 @@ accuracy and plain prose to this section as well.
   section's index and the homepage. The painting's warm paper was tried as
   the page color in October 2026 and taken out at the author's request:
   over a whole page it was too loud.
-- **Standalone pictures show faint dots from the first look.** The
-  journey and Farm House use hover, focus and optional visible labels without
-  permanent dots, as requested on 9 October 2026. A label sits on its place unless that covers the thing it names, such as a
+- **All pictures use labels without permanent dots.** On 10 October 2026
+  the author extended the journey and Farm House behavior to the black hole
+  and quasar. Hover and keyboard focus reveal labels; Show places to look
+  keeps their names visible on phones as well as larger screens. A label sits on its place unless that covers the thing it names, such as a
   thin line; `label_side: right` in the picture's front matter puts it
   beside it. A broad subject in the journey, such as the Great Red Spot,
   also takes a `label_gap`, a share of the painting's width, so its label
-  stays clear of it at every size. A label that shows opens its detail as the dot does; a hidden
+  stays clear of it at every size. A label that shows opens its detail as its exploration area does; a hidden
   one takes no clicks.
 - **A close view opens at the top of its dialog.** Reset the scroll after
   `showModal()`. A closed dialog cannot be scrolled. Open
@@ -647,7 +648,10 @@ accuracy and plain prose to this section as well.
   Keep an explicit exit and keyboard access; Escape closes an explanation
   before leaving the picture, and exit returns focus and the page position.
   If the browser cannot enter native full screen, fill its window instead.
-  Check both paths on a desk and a phone, including a change of orientation.
+  On short landscape screens the controls sit beside the painting to leave
+  its height available. Pointer use hides focus outlines without moving focus;
+  keyboard use restores them. Check both fullscreen paths on a desk and a
+  phone, including a change of orientation.
 
 ## The homepage
 

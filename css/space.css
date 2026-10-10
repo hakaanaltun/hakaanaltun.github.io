@@ -11,8 +11,6 @@
 .journey-painted-world { position:absolute; left:var(--spot-x); top:var(--spot-y); width:var(--paint-width); aspect-ratio:var(--paint-ratio,1); transform:translate(-50%,-50%); border-radius:50%; pointer-events:none; background-repeat:no-repeat; }
 .journey-destination:focus-visible { outline:2px solid #fffdf5!important; outline-offset:-4px!important; }
 .journey-label { z-index:2; }
-/* The painting has no permanent markers; labels reveal its interactive areas. */
-.space-watercolor .picture-hotspot::before { content:none; }
 /* Names appear on hover, keyboard focus or the optional hints, as in
    the Farm House. The painted body and information label stay separate. */
 .journey-label[data-primary] { width:44px; height:44px; border-radius:2px; }
@@ -78,3 +76,6 @@
  .picture-journey { grid-template-columns:1fr; gap:18px; text-align:center; }
 }
 @media(prefers-reduced-motion:reduce) { .journey-scene.arrive { animation:none; } }
+@media(orientation:landscape) and (max-height:500px) {
+ .is-fullscreen .journey-navigation { flex-direction:column; flex-shrink:0; gap:0; margin-top:8px; }
+}
