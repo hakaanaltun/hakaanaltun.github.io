@@ -26,7 +26,7 @@ reading order through the list itself — the rows carry no numbers. {% endcomme
       text, not written copy. normalize_whitespace keeps a space where
       paragraphs join. Story cards use their front-matter excerpt (also taken
       from the text), and so does a piece whose opening is not prose, like
-      Measured's reading links (card_excerpt, as on the home cards). {% endcomment %}
+      Measured's first scene heading (card_excerpt, as on the home cards). {% endcomment %}
       {% if include.post.card_excerpt %}{% assign _lede = include.post.card_excerpt | strip_html | normalize_whitespace %}{% elsif include.post.story_card %}{% assign _lede = include.post.excerpt %}{% else %}{% assign _lede = include.post.content | strip_html | normalize_whitespace | truncatewords: 44 %}{% endif %}
       {% if _lede and _lede != "" %}<span class="work-excerpt">{{ _lede }}</span>{% endif %}
     </span>
@@ -40,7 +40,6 @@ reading order through the list itself — the rows carry no numbers. {% endcomme
       {% elsif include.post.story_card %}<span class="work-tag">In choices</span>{% endif %}
       {% endunless %}
       {% if include.post.read_time %}<span class="work-read">{{ include.post.read_time }}</span>{% endif %}
-      {% if include.post.notes_read_time %}<span class="work-read">{{ include.post.notes_read_time }}</span>{% endif %}
     </span>
   </a>
 </li>
