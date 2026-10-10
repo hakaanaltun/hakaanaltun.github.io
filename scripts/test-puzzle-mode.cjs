@@ -164,11 +164,15 @@ function fresh(body,wide){
   assert.equal(doc.activeElement,launch,'leaving from the launch keeps focus on it');
   page.window.close();
 }
-// Measured's Turkish working plans stay intact in every puzzle scope.
+// A passage in another language stays intact in every puzzle scope. Measured's
+// working plan, in Turkish, has its own page now, where puzzle mode is not
+// offered, so it stands here beside the piece's English scenes.
 {
-  const measured=fs.readFileSync(require('node:path').join(__dirname,'../_posts/2026-08-29-measured.html'),'utf8')
+  const source=name=>fs.readFileSync(require('node:path').join(__dirname,'..',name),'utf8')
     .replace(/^---[\s\S]*?---\s*/,'').replace(/\{%[\s\S]*?%\}/g,'');
-  const page=fresh('<html lang="en"><body><button id="essay-puzzle" hidden>puzzle mode</button><article class="essay-body">'+measured+'</article></body></html>');
+  const measured=source('_posts/2026-08-29-measured.html');
+  const turkish=new JSDOM(source('pieces/measured-notes.html')).window.document.querySelector('.measured-plan[lang="tr"]').outerHTML;
+  const page=fresh('<html lang="en"><body><button id="essay-puzzle" hidden>puzzle mode</button><article class="essay-body">'+measured+turkish+'</article></body></html>');
   const doc=page.window.document,plan=doc.querySelector('[lang="tr"]'),original=plan.innerHTML;
   doc.getElementById('essay-puzzle').click();
   for(const unit of ['sentences','sentenceWords','words']){
