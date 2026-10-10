@@ -585,6 +585,10 @@ accuracy and plain prose to this section as well.
   what it shows. Such an account gives a candidate priority, but remains
   optional. Give a clear one-sentence answer to: "Why this picture rather
   than hundreds of others?" If the details cannot justify it, let it wait.
+- Describe what an illustration shows without attributing its painting to
+  "we". Use the subject directly or wording such as "shown here". The AI
+  disclosure in Notes covers these pictures; do not repeat it in their
+  source sections.
 - Keep the illustration accurate enough to support its explanations.
   Distinguish observed features from reconstructions and artistic choices
   where that distinction matters.
