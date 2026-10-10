@@ -79,7 +79,7 @@ async function main() {
     const { dom, w, q } = page();
     run(w, 'reading-settings'); await tick();
     const kept = q('#reading-settings-status').textContent;
-    assert.match(kept, /Kept in this browser/);
+    assert.match(kept, /text size and line spacing are kept in this browser/);
     Object.defineProperty(w, 'localStorage', { get() { throw new w.DOMException('blocked', 'SecurityError'); } });
     q('[data-choice="size"][value="1.15"]').click();
     assert.equal(w.document.documentElement.style.getPropertyValue('--reading-scale'), '1.15');
@@ -169,6 +169,9 @@ async function main() {
     const print = read('css/reading.css');
     assert.match(print, /\.essay-header > :not\(\.essay-title-block\):not\(\.essay-date-line\):not\(\.print-head\)/, 'print keeps the head');
     assert.match(print, /\.essay-card-wrapper > :not\(\.essay-header\):not\(\.essay-body\):not\(\.print-colophon\)/, 'and the colophon');
+    // Rounded up to whole pages, the piece's height ends at the foot of its
+    // last page, and the colophon stands just above it.
+    assert.match(print, /\.print-colophon \{[^}]*position: absolute;[^}]*top: calc\(round\(up, 100% \+ 64pt, 100vh\) - 40pt\)/, 'the colophon stands at the foot of the last page');
   }
 
   // A backup preserves the saved words and source, merges without erasing
