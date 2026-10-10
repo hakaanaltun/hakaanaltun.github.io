@@ -1,5 +1,43 @@
 # Space journey art direction
 
+## Venus, 10 October 2026
+
+Built-in image_gen, one generation. Final asset: `pictures/space/assets/near-venus-watercolor.webp` (1536 × 1024, WebP quality 93). Source PNG: `/workspace/scratch/2ab1361d4cc4/generated_images/exec-2fc549ee-9a39-45ad-b22f-2f90b6692b5a.png`. Only WebP encoding was applied. Black hole and quasar supplied watercolor technique; Pluto supplied continuity of light, dark pigment and paper. NASA PIA23791 guided the broad opaque cloud patterns, with its orange/ultraviolet color composite treated as a pattern reference rather than exact human-eye color. NASA/JPL’s Magellan mission illustration supplied the spacecraft silhouette.
+
+This scene earns its place through the different rates of the solid planet and its atmosphere, the telescope evidence for its solar orbit, and the radar observations that reveal the hidden ground. Sources were selected before painting. The 243-day sidereal rotation is distinguished from the roughly 117-day solar day. Galileo’s observations are described as evidence against the traditional Ptolemaic arrangement, with Tycho’s compatible alternative acknowledged. Magellan’s archived 1991 images and modeling support the eruption interpretation published in 2023.
+
+Measured output: Venus is centered at about 58.3%, 46.4%, approximately 800 pixels across. Magellan’s silhouette spans roughly 187 × 333 pixels, centered near 18.2%, 60%. Both are larger than requested. Magellan is independently enlarged and identified as a historical portrait; its mission ended in 1994. Cloud contrast and the chosen illumination are illustrative. No surface geography appears through the cloud cover.
+
+Five notes cover Venus’s climate, acid clouds and superrotation, slow backward rotation, phases, and Magellan’s radar mapping. Name and detail labels retain hover, keyboard focus and Show behavior with no permanent dots. Magellan’s label sits beside its body, clear of the dish. A small crop of Venus at 85%, 14% extends Pluto’s approved painting; a Pluto crop at 15%, 14% provides the return. The caption explicitly turns the journey inward. This is an arranged exploration route, not a spacecraft trajectory.
+
+Scientific references:
+- https://science.nasa.gov/venus/venus-facts/
+- https://nssdc.gsfc.nasa.gov/planetary/factsheet/venusfact.html
+- https://science.nasa.gov/resource/newly-processed-views-of-venus-from-mariner-10/
+- https://www.esa.int/Science_Exploration/Space_Science/Venus_Express/Venus_comes_to_life_at_wavelengths_invisible_to_human_eyes
+- https://catalogue.museogalileo.it/indepth/PhasesVenus.html
+- https://science.nasa.gov/mission/magellan/
+- https://www.jpl.nasa.gov/missions/magellan/
+- https://www.jpl.nasa.gov/news/nasas-magellan-data-reveals-volcanic-activity-on-venus/
+
+Reference downloads used only in the prompt:
+- `/workspace/scratch/2ab1361d4cc4/venus-references/venus-mariner10.jpg` from https://assets.science.nasa.gov/content/dam/science/psd/solar/2023/09/p/i/a/2/PIA23791.jpg
+- `/workspace/scratch/2ab1361d4cc4/venus-references/magellan-jpl.jpg` from https://d2pn8kiwq2w21t.cloudfront.net/images/missionswebmagellan_DhDxJZ2.width-1280.jpg
+
+The painting and all five calculated dialog crops were inspected. Jekyll and the existing interaction checks cover the new route, sourced notes, history and return focus. Real browser/phone/fullscreen visual verification remains unavailable because the managed Sites workflow requires the absent control-browser skill.
+
+Final prompt:
+
+```text
+Use case: scientific-educational watercolor illustration.
+Create ONE NEW 1536 x 1024 landscape watercolor painting for the connected journey "Near Venus".
+Reference roles: 1 black hole and 2 quasar are watercolor TECHNIQUE ONLY: layered transparent pigment, neutral indigo-charcoal darks, broad variable brush strokes, selective detail, warm ivory cold-press paper, irregular unfinished sheet margins. Reference 3 NASA PIA23791 is a scientific reference for Venus's opaque cloud veil and broad cloud swirls; its orange/ultraviolet composite is NOT exact human-eye color. Reference 4 NASA/JPL Magellan mission illustration is an anatomy reference for the spacecraft, especially its big dish, compact golden bus and exactly two deployed solar panels. Reference 5 near Pluto is continuity of paper, background and lighting only. Do not copy Pluto, Charon or their terrain.
+Composition: One full circular Venus globe, center x65%, y49%, diameter approximately 64% IMAGE HEIGHT (655px), with generous quiet dark space around it. Lit from upper left. A gently curved day-night terminator shades the RIGHT limb, suggesting a gibbous phase, with the whole sphere subtly present; no thick glowing atmospheric halo. Opaque pale ivory and very restrained cream-yellow clouds completely cover the planet. Broad quiet transparent washes over most of the globe; a few soft sweeping cloud streaks near the middle and lower-left for exploration, faint warm-gray accents. Cloud contrast slightly strengthened for education, but never dramatic turbulent marble. No visible ground, continents, craters, mountains, volcanoes, oceans, holes in clouds, Saturn bands, bright orange or red planet.
+A small Magellan spacecraft at x22%, y65%, approximately 13% IMAGE WIDTH across its whole silhouette and 20% IMAGE HEIGHT tall, independently enlarged for recognition, separate from Venus with breathing room. Interpret reference4 as watercolor, preserving its basic engineering silhouette: one large pale dish antenna mounted on compact golden insulated bus, exactly TWO flat rectangular gray-blue solar panels extending on opposite sides along one axis, sparse fine struts and small narrow antenna beside the main dish. Turn the craft so the dish faces toward Venus on the right. Do not attach its launch rocket, do not make an ISS, Hubble, Voyager or generic satellite. Simplify small mechanical details; natural translucent pigment, no photoreal collage or metallic CGI. It is a historical mission portrait, not an actual present-day spacecraft.
+Neutral dark indigo and charcoal space, broad layered washes, a few tiny faint irregular stars. Narrow irregular warm ivory paper perimeter, pigment pooling and occasional drybrush only where needed, varying brush size. Keep positions x15%,y14% and x85%,y14% empty for later navigation crops, NOT painted now.
+Exactly Venus and Magellan, no other worlds or moons. No text, labels, white hotspot dots, diagrams, paths, arrows, icons, spacecraft trails, glowing nebulae, cartoon faces, oil impasto, glossy 3D, photographic surface or uniform all-over tiny texture. The image must read as an original watercolor painting in the same family as the two style references.
+```
+
 ## Pluto, 10 October 2026
 
 Built-in image_gen, one generation. Final asset: `pictures/space/assets/near-pluto-watercolor.webp` (1536 × 1024, WebP quality 93). Source PNG: `/workspace/scratch/2ab1361d4cc4/generated_images/exec-3f04bdc9-e8c2-42d7-ae21-2f52f704f1ad.png`. Only WebP encoding was applied. Black hole and quasar supplied watercolor technique. NASA’s 2018 refined natural-color Pluto and Charon views from New Horizons supplied broad geography and color. Sources: https://science.nasa.gov/resource/true-colors-of-pluto/ and https://science.nasa.gov/resource/true-colors-of-charon/ .

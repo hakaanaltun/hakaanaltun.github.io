@@ -12,11 +12,11 @@ function page(modal=true,hash='') {
  return {dom,w,d};
 }
 (async()=>{
- const ids=['earth','oceans','atmosphere','iss','moon','maria','craters','mars','olympus','valles','polar-cap','jupiter','cloud-bands','red-spot','io','europa','saturn','saturn-rings','cassini-division','titan','enceladus','uranus','uranus-tilt','uranus-rings','miranda','neptune','neptune-color','dark-spot','triton','triton-streaks','pluto','sputnik-planitia','charon','charon-pole'];
+ const ids=['earth','oceans','atmosphere','iss','moon','maria','craters','mars','olympus','valles','polar-cap','jupiter','cloud-bands','red-spot','io','europa','saturn','saturn-rings','cassini-division','titan','enceladus','uranus','uranus-tilt','uranus-rings','miranda','neptune','neptune-color','dark-spot','triton','triton-streaks','pluto','sputnik-planitia','charon','charon-pole','venus','venus-clouds','venus-spin','venus-phases','magellan'];
  {
   const {dom,d}=page(false);
   assert.equal(d.body.classList.contains('picture-ready'),false);
-  assert.equal(d.querySelectorAll('[data-scene]').length,9);
+  assert.equal(d.querySelectorAll('[data-scene]').length,10);
   for(const id of ids)assert.ok(d.querySelector('#note-'+id+' a[href^="https://"]'));
   // A world that can be visited is named once in its list; "go there" travels.
   for(const li of d.querySelectorAll('.journey-choices li'))assert.ok(li.querySelectorAll('[data-detail]').length<=1&&!/Travel to/.test(li.textContent));
@@ -34,12 +34,12 @@ function page(modal=true,hash='') {
   // world never has to be found by touching it.
   const back=d.getElementById('journey-back'),next=d.getElementById('journey-next');
   assert.equal(back.hidden,true);assert.equal(next.hidden,false);assert.equal(next.getAttribute('href'),'#scene-earth');assert.match(next.textContent,/Earth/);
-  for(const [from,to] of [['vicinity','earth'],['earth','moon'],['moon','mars'],['mars','jupiter'],['jupiter','saturn'],['saturn','uranus'],['uranus','neptune'],['neptune','pluto']]){
+  for(const [from,to] of [['vicinity','earth'],['earth','moon'],['moon','mars'],['mars','jupiter'],['jupiter','saturn'],['saturn','uranus'],['uranus','neptune'],['neptune','pluto'],['pluto','venus']]){
    assert.equal(frame.dataset.view,from);next.click();assert.equal(frame.dataset.view,to);assert.equal(back.hidden,false);
   }
   assert.equal(next.hidden,true,'the last world has no way on');
-  w.history.back();await new Promise(r=>setTimeout(r,25));assert.equal(frame.dataset.view,'neptune');assert.equal(next.hidden,false);
-  w.history.go(-7);await new Promise(r=>setTimeout(r,25));assert.equal(frame.dataset.view,'vicinity');
+  w.history.back();await new Promise(r=>setTimeout(r,25));assert.equal(frame.dataset.view,'pluto');assert.equal(next.hidden,false);
+  w.history.go(-8);await new Promise(r=>setTimeout(r,25));assert.equal(frame.dataset.view,'vicinity');
   // The label opens information without travelling; its larger sibling travels.
   d.querySelector('#scene-vicinity .journey-label[data-detail="earth"]').click();
   assert.equal(dialog.open,true);assert.equal(frame.dataset.view,'vicinity');d.getElementById('picture-return').click();
@@ -144,6 +144,19 @@ function page(modal=true,hash='') {
   d.querySelector('#scene-pluto .journey-destination[data-travel="neptune"]').click();assert.equal(frame.dataset.view,'neptune');
   dom.window.close();
  }
- for(const id of ['earth','moon','mars','jupiter','saturn','uranus','neptune','pluto']){const {dom,d}=page(true,'#scene-'+id);assert.equal(d.getElementById('journey-frame').dataset.view,id);dom.window.close();}
+ {
+  const {dom,d}=page(true,'#scene-pluto');const frame=d.getElementById('journey-frame'),dialog=d.getElementById('picture-detail');
+  d.querySelector('#scene-pluto .journey-destination[data-travel="venus"]').click();assert.equal(frame.dataset.view,'venus');
+  for(const id of ['venus','venus-clouds','venus-spin','venus-phases','magellan']){
+   const trigger=d.querySelector('#scene-venus .journey-label[data-detail="'+id+'"]');trigger.click();
+   assert.equal(dialog.open,true);assert.equal(dialog.scrollTop,0);assert.equal(frame.dataset.view,'venus');
+   assert.ok(d.getElementById('picture-detail-image').style.backgroundImage.includes('near-venus'));
+   assert.ok(d.querySelector('#picture-detail-content a[href^="https://"]'));
+   dialog.scrollTop=200;d.getElementById('picture-return').click();assert.equal(d.activeElement,trigger);
+  }
+  d.querySelector('#scene-venus .journey-destination[data-travel="pluto"]').click();assert.equal(frame.dataset.view,'pluto');
+  dom.window.close();
+ }
+ for(const id of ['earth','moon','mars','jupiter','saturn','uranus','neptune','pluto','venus']){const {dom,d}=page(true,'#scene-'+id);assert.equal(d.getElementById('journey-frame').dataset.view,id);dom.window.close();}
  console.log('Connected space scenes passed: separate travel and information, scene-specific crops, sourced fallback, the way back and the way on, fresh notes, focus and history.');
 })().catch(e=>{console.error(e);process.exitCode=1});
