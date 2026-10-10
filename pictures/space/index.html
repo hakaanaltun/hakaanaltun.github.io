@@ -3,22 +3,29 @@ layout: space
 permalink: /pictures/space/
 title: Through the Solar System
 category: Space
-description: Explore Earth, the Moon, Mars and Jupiter through connected watercolor scenes, with information
-  about their visible features and NASA, ESA and NOAA sources.
-teaser: From Earth and the Moon to Mars and Jupiter.
+description: Explore Earth, the Moon and the worlds from Mars to Pluto through connected watercolor scenes, with
+  sourced information about their visible features.
+teaser: A watercolor journey from Earth to Pluto.
 image: /pictures/space/assets/earth-vicinity-v2-watercolor.webp
 image_width: 1536
 image_height: 1024
 alt: A wide watercolor view of Earth, a small gray Moon and the International Space Station, separated by indigo
   space.
 caption: Touch a world to go there. Its name opens information.
-illustration_note: Five connected watercolor scenes lead from Earth’s vicinity to Earth, the Moon, Mars and Jupiter.
-  Recognizable worlds and the direction of sunlight continue across the views. These are scientific illustrations
-  with simplified features. Sizes, distances and viewpoints are arranged for exploration; they do not show a live
-  sky, an exact surface map or a spacecraft flight path. The ISS is enlarged so its structure can be seen. Martian
-  relief is emphasized to make the volcanoes and canyon visible. Io and Europa are enlarged separately to show
-  their surfaces; their sizes and separations are not to scale. Jupiter’s cloud patterns are an interpretation
-  of a changing atmosphere.
+illustration_note: Nine connected watercolor scenes lead from Earth’s vicinity to Earth, the Moon, Mars, Jupiter,
+  Saturn, Uranus, Neptune and Pluto. Recognizable worlds and the direction of sunlight continue across the views.
+  These are scientific illustrations with simplified features. Sizes, distances and viewpoints are arranged for
+  exploration; they do not show a live sky, an exact surface map or a spacecraft flight path. The ISS is enlarged
+  so its structure can be seen. Martian relief is emphasized to make the volcanoes and canyon visible. Io, Europa,
+  Titan, Enceladus, Miranda and Triton are enlarged separately to show their surfaces; their sizes and separations
+  are not to scale. Jupiter’s cloud patterns are an interpretation of a changing atmosphere. Saturn’s ring structure
+  and Enceladus’s fractures are simplified; the moon views are not surface maps. Uranus’s faint rings are shown
+  with enhanced contrast, and Miranda’s terrain is simplified from Voyager images. The direction of its rings suggests
+  Uranus’s orientation; this view does not measure its tilt against an orbital plane. Neptune’s weather features
+  recall Voyager 2’s 1989 observations, with contrast strengthened for exploration. The Great Dark Spot shown here
+  later disappeared. Triton’s terrain and colors are interpreted from a Voyager mosaic; its small dark streaks represent
+  windblown deposits. Pluto and Charon are separately arranged portraits of the hemispheres photographed by New
+  Horizons in 2015. Their terrain is simplified, and their sizes and separation in the painting are illustrative.
 scenes:
 - id: vicinity
   name: Earth vicinity
@@ -222,13 +229,14 @@ scenes:
 - id: jupiter
   name: Near Jupiter
   image: /pictures/space/assets/near-jupiter-watercolor.webp
-  alt: Watercolor Jupiter with cream and brown cloud bands and an orange-red oval storm below its equator.
-    Ochre-yellow Io is to the left, and pale fractured Europa is below it. A tiny Mars at upper left offers a return.
-  caption: Near Jupiter. Explore the cloud bands and storm, or look more closely at Io and Europa.
+  alt: Watercolor Jupiter with cream and brown cloud bands and an orange-red oval storm below its equator. Ochre-yellow
+    Io is to the left, and pale fractured Europa is below it. A tiny Mars at upper left offers a return. A small
+    ringed Saturn at upper right marks the next destination.
+  caption: Near Jupiter. Explore the cloud bands and moons, or continue to Saturn.
   back: mars
   back_label: Mars
-  next: ''
-  next_label: ''
+  next: saturn
+  next_label: Saturn
   spots:
   - label: Jupiter
     x: 64
@@ -272,6 +280,278 @@ scenes:
     paint_width: 2.2
     paint_position: 69.2% 37.9%
     paint_zoom: 179% auto
+  - label: Saturn
+    x: 83
+    y: 14
+    detail: saturn
+    primary: true
+    go: saturn
+    width: 7
+    height: 5.8
+    label_x: 86.5
+    label_y: 14
+    label_edge: right
+    paint_image: /pictures/space/assets/near-saturn-watercolor.webp
+    paint_width: 7
+    paint_ratio: 2.2
+    paint_clip: polygon(0 55%, 25% 25%, 35% 0, 100% 0, 100% 100%, 0 100%)
+    paint_position: 100% 43%
+    paint_zoom: 112% auto
+- id: saturn
+  name: Near Saturn
+  image: /pictures/space/assets/near-saturn-watercolor.webp
+  alt: Watercolor Saturn with pale cloud bands and tilted rings. A dark division separates the bright inner ring
+    from the grayer outer ring. Hazy orange Titan is at upper left, icy Enceladus below it, and a tiny striped Jupiter
+    above them offers a return. A small blue-green Uranus at upper right marks the next destination.
+  caption: Near Saturn. Explore the rings and moons, or continue to Uranus.
+  back: jupiter
+  back_label: Jupiter
+  next: uranus
+  next_label: Uranus
+  spots:
+  - label: Saturn
+    x: 56
+    y: 31
+    detail: saturn
+    primary: true
+  - label: Rings
+    x: 79
+    y: 49
+    detail: saturn-rings
+    primary: false
+  - label: Cassini Division
+    x: 29
+    y: 61
+    detail: cassini-division
+    primary: false
+    label_side: right
+    label_gap: 4
+  - label: Titan
+    x: 14.6
+    y: 29.3
+    detail: titan
+    primary: true
+  - label: Enceladus
+    x: 18.2
+    y: 77
+    detail: enceladus
+    primary: true
+  - label: Jupiter
+    x: 12
+    y: 13
+    detail: jupiter
+    primary: true
+    go: jupiter
+    width: 2.6
+    height: 3.9
+    label_x: 13.3
+    label_y: 13
+    label_edge: right
+    paint_image: /pictures/space/assets/near-jupiter-watercolor.webp
+    paint_width: 2.6
+    paint_position: 77.81% 42.35%
+    paint_zoom: 201% auto
+  - label: Uranus
+    x: 84
+    y: 14
+    detail: uranus
+    primary: true
+    go: uranus
+    width: 3.2
+    height: 4.8
+    label_x: 85.6
+    label_y: 14
+    label_edge: right
+    paint_image: /pictures/space/assets/near-uranus-watercolor.webp
+    paint_width: 3.2
+    paint_position: 80.85% 40.74%
+    paint_zoom: 215% auto
+- id: uranus
+  name: Near Uranus
+  image: /pictures/space/assets/near-uranus-watercolor.webp
+  alt: A pale blue-green watercolor Uranus with narrow rings slanting steeply from lower left to upper right. Small
+    gray Miranda at lower left has cratered terrain, an angled bright marking and a grooved lower region. A tiny
+    ringed Saturn at upper left offers a return. A small pale blue Neptune at upper left, beside Saturn, leads onward.
+  caption: Near Uranus. Explore its rings and Miranda, or continue to Neptune.
+  back: saturn
+  back_label: Saturn
+  next: neptune
+  next_label: Neptune
+  spots:
+  - label: Uranus
+    x: 61
+    y: 37
+    detail: uranus
+    primary: true
+  - label: Sideways spin
+    x: 73
+    y: 62
+    detail: uranus-tilt
+    primary: false
+  - label: Rings
+    x: 51
+    y: 82
+    detail: uranus-rings
+    primary: false
+    label_side: right
+    label_gap: 3
+  - label: Miranda
+    x: 20.4
+    y: 70.8
+    detail: miranda
+    primary: true
+  - label: Saturn
+    x: 15
+    y: 14
+    detail: saturn
+    primary: true
+    go: saturn
+    width: 7
+    height: 5.8
+    label_x: 18.5
+    label_y: 14
+    label_edge: right
+    paint_image: /pictures/space/assets/near-saturn-watercolor.webp
+    paint_width: 7
+    paint_ratio: 2.2
+    paint_clip: polygon(0 55%, 25% 25%, 35% 0, 100% 0, 100% 100%, 0 100%)
+    paint_position: 100% 43%
+    paint_zoom: 112% auto
+  - label: Neptune
+    x: 33
+    y: 14
+    detail: neptune
+    primary: true
+    go: neptune
+    width: 3.2
+    height: 4.8
+    label_x: 34.6
+    label_y: 14
+    label_edge: right
+    paint_image: /pictures/space/assets/near-neptune-watercolor.webp
+    paint_width: 3.2
+    paint_position: 77.02% 37.65%
+    paint_zoom: 190% auto
+- id: neptune
+  name: Near Neptune
+  image: /pictures/space/assets/near-neptune-watercolor.webp
+  alt: A pale blue-green watercolor Neptune with soft cloud bands and the dark oval storm seen by Voyager 2 in 1989.
+    Triton at lower left has muted gray terrain above pale pinkish polar ice with small dark streaks. A tiny Uranus
+    at upper left offers a return. A small ivory-and-brown Pluto at upper right leads onward.
+  caption: Near Neptune. Explore its atmosphere and Triton, or continue to Pluto.
+  back: uranus
+  back_label: Uranus
+  next: pluto
+  next_label: Pluto
+  spots:
+  - label: Neptune
+    x: 76
+    y: 43
+    detail: neptune
+    primary: true
+  - label: Blue-green light
+    x: 57
+    y: 27
+    detail: neptune-color
+    primary: false
+  - label: Great Dark Spot
+    x: 59
+    y: 56
+    detail: dark-spot
+    primary: false
+    label_side: right
+    label_gap: 6
+  - label: Triton
+    x: 20
+    y: 60
+    detail: triton
+    primary: true
+  - label: Dark streaks
+    x: 19
+    y: 77
+    detail: triton-streaks
+    primary: false
+    label_side: right
+    label_gap: 3
+  - label: Uranus
+    x: 15
+    y: 14
+    detail: uranus
+    primary: true
+    go: uranus
+    width: 3.2
+    height: 4.8
+    label_x: 16.6
+    label_y: 14
+    label_edge: right
+    paint_image: /pictures/space/assets/near-uranus-watercolor.webp
+    paint_width: 3.2
+    paint_position: 80.85% 40.74%
+    paint_zoom: 215% auto
+  - label: Pluto
+    x: 85
+    y: 14
+    detail: pluto
+    primary: true
+    go: pluto
+    width: 2.4
+    height: 3.6
+    label_x: 86.2
+    label_y: 14
+    label_edge: right
+    paint_image: /pictures/space/assets/near-pluto-watercolor.webp
+    paint_width: 2.4
+    paint_position: 70.30% 22.00%
+    paint_zoom: 175% auto
+- id: pluto
+  name: Near Pluto
+  image: /pictures/space/assets/near-pluto-watercolor.webp
+  alt: Watercolor Pluto has pale northern terrain, a broad brown region at lower left and an irregular bright heart
+    on its right side. Smaller gray Charon at lower left has a muted reddish-brown northern cap and a band of chasms.
+    A tiny blue-green Neptune at upper left offers a return.
+  caption: Near Pluto. Explore its bright nitrogen-ice plain and the connection with Charon.
+  back: neptune
+  back_label: Neptune
+  next: ''
+  next_label: ''
+  spots:
+  - label: Pluto
+    x: 58
+    y: 24
+    detail: pluto
+    primary: true
+  - label: Sputnik Planitia
+    x: 64
+    y: 49
+    detail: sputnik-planitia
+    primary: false
+  - label: Charon
+    x: 19
+    y: 74
+    detail: charon
+    primary: true
+  - label: Reddish pole
+    x: 19.6
+    y: 54
+    detail: charon-pole
+    primary: false
+    label_side: right
+    label_gap: 3
+  - label: Neptune
+    x: 15
+    y: 14
+    detail: neptune
+    primary: true
+    go: neptune
+    width: 3.2
+    height: 4.8
+    label_x: 16.6
+    label_y: 14
+    label_edge: right
+    paint_image: /pictures/space/assets/near-neptune-watercolor.webp
+    paint_width: 3.2
+    paint_position: 77.02% 37.65%
+    paint_zoom: 190% auto
 sources:
 - id: earth
   label: NASA Science · Earth facts
@@ -354,6 +634,96 @@ sources:
 - id: europa-facts
   label: NASA Science · Europa facts
   url: https://science.nasa.gov/jupiter/jupiter-moons/europa/europa-facts/
+- id: saturn-facts
+  label: NASA Science · Saturn facts
+  url: https://science.nasa.gov/saturn/facts/
+- id: saturn-shape
+  label: ESA · Saturn’s rotation and shape
+  url: https://www.esa.int/Science_Exploration/Space_Science/Cassini-Huygens/Facts_about_Saturn
+- id: saturn-history
+  label: 'ESA · The moon and ring: Huygens and Saturn'
+  url: https://www.esa.int/esapub/br/br211/br211.pdf
+- id: saturn-ring-material
+  label: ESA · Saturn’s rings
+  url: https://www.esa.int/Science_Exploration/Space_Science/Cassini-Huygens/Saturn_s_rings
+- id: cassini-division-material
+  label: NASA · Voyager sees ringlets in the Cassini Division
+  url: https://science.nasa.gov/photojournal/saturns-b-rings/
+- id: cassini-division-mimas
+  label: NASA · The Great Divide
+  url: https://www.nasa.gov/image-article/great-divide/
+- id: titan-facts
+  label: NASA Science · Titan facts
+  url: https://science.nasa.gov/saturn/moons/titan/facts/
+- id: huygens-landing
+  label: ESA · Cassini-Huygens overview
+  url: https://www.esa.int/Science_Exploration/Space_Science/Cassini-Huygens/Cassini-Huygens_overview
+- id: enceladus-ocean
+  label: NASA · Cassini at Enceladus
+  url: https://science.nasa.gov/mission/cassini/science/enceladus/
+- id: uranus-facts
+  label: NASA Science · Uranus facts
+  url: https://science.nasa.gov/uranus/facts/
+- id: uranus-exploration
+  label: NASA · Exploring Uranus
+  url: https://science.nasa.gov/uranus/exploration/
+- id: uranus-ring-discovery
+  label: ESA · The discovery of Uranus’s rings
+  url: https://www.esa.int/Science_Exploration/Space_Science/10_March
+- id: miranda-facts
+  label: NASA Science · Miranda
+  url: https://science.nasa.gov/uranus/moons/miranda/
+- id: miranda-terrain
+  label: NASA/JPL/USGS · Voyager’s south polar view of Miranda
+  url: https://science.nasa.gov/photojournal/south-polar-view-of-miranda/
+- id: neptune-facts
+  label: NASA Science · Neptune facts and discovery
+  url: https://science.nasa.gov/neptune/neptune-facts/
+- id: ice-giant-colors
+  label: University of Oxford · The colors of Neptune and Uranus
+  url: https://www.ox.ac.uk/news/2024-01-05-new-images-reveal-what-neptune-and-uranus-really-look-0
+- id: neptune-storms
+  label: NASA · Hubble follows Neptune’s changing storms
+  url: https://science.nasa.gov/missions/hubble/hubble-tracks-the-lifecycle-of-giant-storms-on-neptune/
+- id: neptune-voyager-clouds
+  label: NASA/JPL · Neptune’s Great Dark Spot and Scooter
+  url: https://science.nasa.gov/photojournal/neptune-great-dark-spot-and-scooter/
+- id: triton-facts
+  label: NASA Science · Triton
+  url: https://science.nasa.gov/neptune/moons/triton/
+- id: triton-mosaic
+  label: NASA/JPL/USGS · Voyager’s global color mosaic of Triton
+  url: https://science.nasa.gov/photojournal/global-color-mosaic-of-triton/
+- id: triton-plumes
+  label: NASA/JPL · Triton’s plumes in Voyager images
+  url: https://science.nasa.gov/photojournal/tritons-volcanic-plumes/
+- id: pluto-facts
+  label: NASA Science · Pluto facts
+  url: https://science.nasa.gov/dwarf-planets/pluto/facts/
+- id: pluto-definition
+  label: IAU · The 2006 definitions of planets and dwarf planets
+  url: https://www.iau.org/IAU/Iau/News/PR2006/iau-2006-general-assembly-resolution-votes.aspx
+- id: pluto-colors
+  label: NASA/New Horizons · Pluto in natural color
+  url: https://science.nasa.gov/resource/true-colors-of-pluto/
+- id: sputnik-convection
+  label: NASA · Convection in Pluto’s nitrogen ice
+  url: https://www.nasa.gov/solar-system/plutos-heart-like-a-cosmic-lava-lamp/
+- id: sputnik-terrain
+  label: NASA · Surface patterns in Pluto’s bright plain
+  url: https://www.nasa.gov/image-article/intricate-surface-patterns-revealed-plutos-sputnik-planum/
+- id: charon-facts
+  label: NASA Science · Charon and its discovery
+  url: https://science.nasa.gov/dwarf-planets/pluto/moons/charon/
+- id: charon-colors
+  label: NASA/New Horizons · Charon in natural color
+  url: https://science.nasa.gov/resource/true-colors-of-charon/
+- id: charon-polar-model
+  label: Grundy and colleagues · A model for Charon’s red poles
+  url: https://ntrs.nasa.gov/citations/20170003179
+- id: charon-polar-chemistry
+  label: NASA · How Pluto may supply Charon’s reddish material
+  url: https://www.nasa.gov/missions/pluto-paints-its-largest-moon-red/
 details:
 - id: earth
   label: Earth
@@ -659,5 +1029,347 @@ details:
   image: /pictures/space/assets/near-jupiter-watercolor.webp
   position: 23.45% 82.39%
   zoom: 640% auto
+- id: saturn
+  label: Saturn
+  kicker: Saturn
+  title: A short day, a long year.
+  body:
+  - Saturn is the sixth planet from the Sun and the second largest. Its pale globe is made mostly of hydrogen and
+    helium. The soft bands in the painting represent clouds above deeper layers of gas and liquid, with no solid
+    surface where a visitor could stand.
+  - 'The planet turns once in about eleven hours. That rapid rotation gives it an equatorial bulge and visibly flattened
+    poles. A year passes much more slowly: Saturn takes about 29 Earth years to complete one orbit of the Sun.'
+  - Its tilted axis also gives it seasons. Each lasts for years, changing how sunlight falls across the planet and
+    its rings.
+  sources:
+  - saturn-facts
+  - saturn-shape
+  image: /pictures/space/assets/near-saturn-watercolor.webp
+  position: 61.73% 39.63%
+  zoom: 220% auto
+  alt: Saturn’s pale cloud-covered globe, with its rings crossing the foreground.
+- id: saturn-rings
+  label: Rings
+  kicker: Saturn · Rings
+  title: The shape that puzzled Galileo.
+  body:
+  - When Galileo turned his telescope toward Saturn in 1610, he saw a central body with two smaller shapes beside
+    it. The instrument could not resolve the rings. Other observers drew handles, and at times the side features
+    seemed to vanish as the rings turned edge-on to Earth.
+  - In the 1650s, Christiaan Huygens worked out that a thin, flat ring surrounded the planet without touching it.
+    He published the explanation in Systema Saturnium in 1659.
+  - We now know that the rings contain countless separate particles, mostly water ice. Each follows its own orbit
+    around Saturn. From a distance those moving pieces form the broad, continuous-looking bands in the painting.
+  sources:
+  - saturn-history
+  - saturn-ring-material
+  image: /pictures/space/assets/near-saturn-watercolor.webp
+  position: 86.00% 47.94%
+  zoom: 360% auto
+  alt: The bright foreground of Saturn’s rings, with darker bands beside it.
+- id: cassini-division
+  label: Cassini Division
+  kicker: Saturn · Cassini Division
+  title: What the dark band contains.
+  body:
+  - The dark lane separates the bright B ring from the outer A ring. Called the Cassini Division, it is roughly
+    4,800 kilometers wide. Voyager’s close views revealed distinct ringlets inside the region that looks like a
+    gap from Earth.
+  - The moon Mimas helps shape its inner boundary. Near the outer edge of the B ring, particles complete about two
+    orbits for each orbit of Mimas. The moon’s repeated gravitational tugs build up, helping maintain the sharp
+    edge.
+  - The dark band in this painting simplifies that fine structure. Looking closer with a spacecraft turns an apparently
+    empty strip into another part of the ring system.
+  sources:
+  - cassini-division-material
+  - cassini-division-mimas
+  image: /pictures/space/assets/near-saturn-watercolor.webp
+  position: 25.30% 64.04%
+  zoom: 650% auto
+  alt: A close view of the dark Cassini Division beside the bright B ring.
+- id: titan
+  label: Titan
+  kicker: Saturn’s moons · Titan
+  title: Rain beneath an orange haze.
+  body:
+  - Titan’s orange haze hides the surface beneath a dense atmosphere made mostly of nitrogen. High above the ground,
+    sunlight and energetic particles break apart nitrogen and methane molecules. Their fragments recombine into
+    compounds that help form the haze.
+  - Below it, methane and ethane collect in lakes and seas. Methane can fall as rain and flow through channels.
+    At Titan’s bitterly cold temperatures, water ice forms hard ground while these other substances can remain liquid.
+  - On January 14, 2005, ESA’s Huygens probe descended through the atmosphere and landed. The moon that looks featureless
+    in visible light became a landscape that a camera could show from the ground.
+  sources:
+  - titan-facts
+  - huygens-landing
+  image: /pictures/space/assets/near-saturn-watercolor.webp
+  position: 6.37% 21.13%
+  zoom: 530% auto
+  alt: A hazy orange Titan with no visible surface markings.
+- id: enceladus
+  label: Enceladus
+  kicker: Saturn’s moons · Enceladus
+  title: An ocean that sends samples into space.
+  body:
+  - Enceladus is only about 500 kilometers across. Its bright ice reflects much of the sunlight that reaches it.
+    Near the south pole, long fractures release jets of water vapor and icy particles into space.
+  - Cassini flew through the plume and sampled material from within the moon. Measurements of gravity and the moon’s
+    slight wobble also support a global ocean beneath the frozen shell.
+  - Some of the expelled ice falls back onto Enceladus, refreshing its bright surface. Some escapes into Saturn’s
+    faint E ring, beyond the main rings shown here. The pale moon and the surrounding ring system exchange material.
+  sources:
+  - enceladus-ocean
+  image: /pictures/space/assets/near-saturn-watercolor.webp
+  position: 13.96% 82.79%
+  zoom: 850% auto
+  alt: A small white Enceladus with blue-gray fractures in its lower icy surface.
+- id: uranus
+  label: Uranus
+  kicker: Uranus
+  title: The color of an ice giant.
+  body:
+  - Uranus is the seventh planet from the Sun. Its atmosphere contains mostly hydrogen and helium, with a small
+    amount of methane. Methane absorbs red light from the sunlight passing through the atmosphere, giving the planet
+    its blue-green appearance.
+  - The name ice giant refers to materials such as water, ammonia and methane in its interior. Models include hot,
+    dense fluids beneath the atmosphere. There is no solid surface on which a spacecraft could land.
+  - Voyager 2 passed Uranus on January 24, 1986. Much of our close-range knowledge of the planet and its moons comes
+    from that brief encounter.
+  sources:
+  - uranus-facts
+  - uranus-exploration
+  image: /pictures/space/assets/near-uranus-watercolor.webp
+  position: 80.85% 40.74%
+  zoom: 215% auto
+  alt: The pale blue-green globe of Uranus, with narrow rings crossing its foreground.
+- id: uranus-tilt
+  label: Sideways spin
+  kicker: Uranus · Rotation
+  title: Seasons on a tilted world.
+  body:
+  - Uranus is tipped almost onto its side. Its rotation axis is tilted about 98 degrees, measured from a line perpendicular
+    to its orbit. The rings lie close to its equatorial plane and share the planet’s unusual orientation.
+  - A rotation takes about seventeen hours, while one journey around the Sun takes 84 Earth years. During that long
+    year, the poles experience extended periods of continuous daylight and darkness, producing extreme seasonal
+    changes.
+  - A large collision early in the planet’s history is one proposed explanation for the tilt. The cause has not
+    been established.
+  sources:
+  - uranus-facts
+  image: /pictures/space/assets/near-uranus-watercolor.webp
+  position: 84.64% 71.01%
+  zoom: 335% auto
+  alt: Uranus’s curved limb and the steeply slanting rings that follow its equatorial plane.
+- id: uranus-rings
+  label: Rings
+  kicker: Uranus · Rings
+  title: Found in a star’s interrupted light.
+  body:
+  - On March 10, 1977, astronomers watched Uranus pass in front of a distant star. They expected the event to reveal
+    information about the planet’s atmosphere. Before the star disappeared behind Uranus, its light briefly faded
+    several times. Similar dips followed after it reappeared.
+  - The interruptions came from narrow rings crossing the line of sight. The repeating pattern revealed material
+    on both sides of the planet, even though the rings themselves were difficult to distinguish in its glare.
+  - Voyager 2 later examined the ring system at close range. The few ring traces in this watercolor have stronger
+    contrast so their shape can be explored.
+  sources:
+  - uranus-ring-discovery
+  - uranus-exploration
+  image: /pictures/space/assets/near-uranus-watercolor.webp
+  position: 50.73% 92.34%
+  zoom: 560% auto
+  alt: A close view of Uranus’s narrow rings curving beyond the blue-green globe.
+- id: miranda
+  label: Miranda
+  kicker: Uranus’s moons · Miranda
+  title: Different histories on one small moon.
+  body:
+  - Miranda is only about 500 kilometers across, yet its surface holds sharply different kinds of terrain. In Voyager
+    2’s images, heavily cratered ground meets regions of grooves and ridges along abrupt boundaries.
+  - The angled bright marking and the banded lower region in this painting follow features in a Voyager mosaic.
+    The older cratered areas and younger, reshaped terrain show that the moon has experienced different episodes
+    of geological activity. How those changes happened remains uncertain.
+  - Gerard Kuiper discovered Miranda in 1948. Its name comes from Prospero’s daughter in Shakespeare’s The Tempest,
+    one of several literary names among Uranus’s moons.
+  sources:
+  - miranda-facts
+  - miranda-terrain
+  image: /pictures/space/assets/near-uranus-watercolor.webp
+  position: 12.61% 80.25%
+  zoom: 480% auto
+  alt: Miranda’s cratered left side, bright angled marking and grooved lower terrain, interpreted from Voyager images.
+- id: neptune
+  label: Neptune
+  kicker: Neptune
+  title: A planet found through another planet’s orbit.
+  body:
+  - Uranus did not follow quite the orbit astronomers had calculated. Urbain Le Verrier investigated whether the
+    gravity of an unseen planet could account for the difference and calculated where that planet might be.
+  - He sent his prediction to Johann Gottfried Galle in Berlin. In 1846, Galle found Neptune on the first night
+    of searching. The journey from Uranus to Neptune follows a connection that helped astronomers discover the outer
+    planet.
+  - Neptune is the eighth planet from the Sun, about thirty times farther out than Earth. One orbit takes roughly
+    165 Earth years. Its visible globe is atmosphere; this ice giant has no solid surface on which to land.
+  sources:
+  - neptune-facts
+  image: /pictures/space/assets/near-neptune-watercolor.webp
+  position: 77.02% 37.65%
+  zoom: 190% auto
+  alt: Neptune’s pale blue-green globe, with soft bands and a dark southern storm.
+- id: neptune-color
+  label: Blue-green light
+  kicker: Neptune · Color
+  title: Why the familiar blue was too strong.
+  body:
+  - Neptune and Uranus both have a blue-green appearance. Methane in their atmospheres absorbs red light. The deep
+    royal blue familiar from many Neptune pictures owes much to how the spacecraft images were processed.
+  - Voyager cameras recorded separate images through different filters. Combining them required choices about color
+    balance and contrast. Stronger contrast helped reveal Neptune’s clouds, but some widely circulated versions
+    made the planet look much bluer.
+  - A 2024 study used telescope spectra to rebalance the images. It found that the two planets are much closer in
+    color, with Neptune slightly bluer. The restrained color in this painting follows that result; its cloud contrast
+    remains illustrative.
+  sources:
+  - ice-giant-colors
+  - neptune-facts
+  image: /pictures/space/assets/near-neptune-watercolor.webp
+  position: 62.46% 15.71%
+  zoom: 360% auto
+  alt: Subtle blue-green washes and pale cloud bands in Neptune’s northern atmosphere.
+- id: dark-spot
+  label: Great Dark Spot
+  kicker: Neptune · Weather in 1989
+  title: A storm that disappeared.
+  body:
+  - Voyager 2 photographed the Great Dark Spot in Neptune’s southern hemisphere in 1989. The dark oval and thin
+    bright clouds beside it in this painting recall that encounter. The white clouds contain methane ice.
+  - When Hubble observed Neptune in 1994, that spot had vanished. Later observations recorded other dark storms
+    appearing and changing. A picture of Neptune captures weather at a particular time.
+  - By comparing repeated images, astronomers can follow the storms’ growth and motion. The oval here belongs to
+    the Voyager era; its outline and neighboring clouds are simplified from those observations.
+  sources:
+  - neptune-storms
+  - neptune-voyager-clouds
+  image: /pictures/space/assets/near-neptune-watercolor.webp
+  position: 61.14% 58.43%
+  zoom: 520% auto
+  alt: The dark oval of the 1989 Great Dark Spot with thin bright companion clouds.
+- id: triton
+  label: Triton
+  kicker: Neptune’s moons · Triton
+  title: An orbit that points to capture.
+  body:
+  - Triton travels around Neptune in the opposite direction to the planet’s rotation. It is the only large moon
+    in the solar system with this kind of retrograde orbit. That unusual motion is a major clue to its past.
+  - Scientists think Neptune captured Triton from a separate orbit around the Sun. A former home among the icy bodies
+    of the Kuiper Belt would help explain its similarities to Pluto. Capture is an interpretation of the evidence.
+  - About 2,700 kilometers across, Triton has an icy surface and a thin atmosphere made mostly of nitrogen. The
+    broad pale southern region in this view follows the polar cap photographed by Voyager 2. The moon is enlarged
+    here so its surface can be explored.
+  sources:
+  - triton-facts
+  - triton-mosaic
+  image: /pictures/space/assets/near-neptune-watercolor.webp
+  position: 9.73% 78.32%
+  zoom: 400% auto
+  alt: Triton’s muted gray upper terrain and broad pale southern polar region.
+- id: triton-streaks
+  label: Dark streaks
+  kicker: Triton · Polar ice
+  title: Traces carried by the wind.
+  body:
+  - The small dark marks on Triton’s pale southern ice represent deposits seen in Voyager images. Scientists interpret
+    many of these streaks as fine material carried downwind from geyser-like plumes.
+  - In 1989, Voyager 2 photographed active plumes rising about eight kilometers above Triton. Their dark particles
+    spread sideways through the thin atmosphere. The streaks on the ground preserve another part of that activity.
+  - One proposed mechanism involves sunlight warming material beneath nitrogen ice. Trapped gas builds pressure
+    and escapes through openings, carrying particles with it. The driving mechanism remains under investigation.
+    The watercolor shows simplified deposits; the plumes themselves are too small to resolve at this scale.
+  sources:
+  - triton-mosaic
+  - triton-plumes
+  image: /pictures/space/assets/near-neptune-watercolor.webp
+  position: 15.57% 82.40%
+  zoom: 900% auto
+  alt: Fine dark streaks across Triton’s pale pinkish southern ice.
+- id: pluto
+  label: Pluto
+  kicker: Pluto · A dwarf planet
+  title: A world among the Kuiper Belt’s icy bodies.
+  body:
+  - Pluto belongs to the Kuiper Belt, a region of icy bodies beyond Neptune. After its discovery in 1930, it was
+    counted as the ninth planet for more than seventy years.
+  - In 2006, the International Astronomical Union classified it as a dwarf planet. Pluto circles the Sun and its
+    gravity has made it nearly round. It does not meet the additional planetary criterion of having cleared its
+    orbital neighborhood.
+  - New Horizons flew past in July 2015, revealing a landscape of glaciers and mountains. This view follows the
+    hemisphere seen during that encounter, including the broad bright region named Tombaugh Regio, often called
+    Pluto’s heart.
+  sources:
+  - pluto-facts
+  - pluto-definition
+  - pluto-colors
+  image: /pictures/space/assets/near-pluto-watercolor.webp
+  position: 70.30% 22.00%
+  zoom: 175% auto
+  alt: Pluto’s pale and brown terrain surrounding its irregular bright heart-shaped region.
+- id: sputnik-planitia
+  label: Sputnik Planitia
+  kicker: Pluto · Sputnik Planitia
+  title: Ice that slowly renews its surface.
+  body:
+  - The smooth left lobe of Pluto’s bright heart is Sputnik Planitia. Nitrogen ice fills this broad basin. Its pale
+    surface contrasts with the darker, rougher terrain along its western edge.
+  - New Horizons photographed broad cells across parts of the plain. Scientists compared their shapes with computer
+    models and found that slow convection in solid nitrogen ice could produce the pattern. Warmer ice rises from
+    below, spreads and cools, then sinks near the cell boundaries.
+  - This movement can replace older surface material and help explain why the plain has so few impact craters. The
+    painting keeps the basin mostly smooth; its delicate markings suggest the much finer patterns visible in spacecraft
+    images.
+  sources:
+  - sputnik-convection
+  - sputnik-terrain
+  - pluto-facts
+  image: /pictures/space/assets/near-pluto-watercolor.webp
+  position: 69.02% 49.85%
+  zoom: 430% auto
+  alt: The pale nitrogen-ice plain of Sputnik Planitia and its irregular western boundary.
+- id: charon
+  label: Charon
+  kicker: Pluto’s moons · Charon
+  title: The moon first seen as a moving bulge.
+  body:
+  - In 1978, James Christy noticed that some telescope images of Pluto looked stretched. The bulge changed position
+    in a repeating cycle. Archived images showed it too, and further observations confirmed a large moon.
+  - Charon is about half Pluto’s diameter. The two worlds keep the same faces toward each other, a state called
+    mutual tidal locking. Charon’s orbit and each world’s rotation take about 6.4 Earth days.
+  - From a place on Pluto facing Charon, the moon stays in the same part of the sky. The two globe portraits here
+    show terrain photographed by New Horizons, arranged separately for exploration.
+  sources:
+  - charon-facts
+  - charon-colors
+  image: /pictures/space/assets/near-pluto-watercolor.webp
+  position: 9.20% 79.16%
+  zoom: 385% auto
+  alt: Gray Charon with a reddish northern cap and broken chasms across the lower middle.
+- id: charon-pole
+  label: Reddish pole
+  kicker: Charon · The northern polar region
+  title: Material that may have come from Pluto.
+  body:
+  - Charon is mostly gray, but its northern polar region has a reddish-brown tint. New Horizons images and models
+    of the moon’s long seasons led researchers to an explanation involving its companion.
+  - In this model, methane escaping from Pluto reaches Charon and freezes at the winter pole. Radiation alters the
+    trapped material into heavier compounds. When sunlight returns, much of the methane escapes again, while less
+    volatile products remain.
+  - Further irradiation can produce reddish organic material called tholins. The model agrees with the observed
+    color pattern; it reconstructs a process that the spacecraft could not watch over an entire seasonal cycle.
+  sources:
+  - charon-polar-model
+  - charon-polar-chemistry
+  image: /pictures/space/assets/near-pluto-watercolor.webp
+  position: 15.55% 55.59%
+  zoom: 850% auto
+  alt: Charon’s muted reddish-brown polar region blending into its gray icy surface.
 ---
 <p>Begin near Earth. Follow the worlds into their closer views.</p>
