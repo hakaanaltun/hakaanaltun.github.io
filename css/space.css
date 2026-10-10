@@ -17,6 +17,8 @@
 /* Keep small-world labels by the limb; extend their touch targets outward. */
 .journey-label[data-label-edge="right"] { transform:translate(2px,-50%); }
 .journey-label[data-label-edge="right"] .picture-hotspot-label { left:0; }
+.journey-label[data-label-edge="left"] { transform:translate(calc(-100% - 2px),-50%); }
+.journey-label[data-label-edge="left"] .picture-hotspot-label { right:0; }
 .journey-label[data-primary] .picture-hotspot-label { opacity:0; pointer-events:none; }
 .journey-label[data-primary]:focus-visible .picture-hotspot-label,
 .journey-destination:focus-visible + .journey-label .picture-hotspot-label,

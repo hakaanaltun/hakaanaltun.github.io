@@ -3,8 +3,8 @@ layout: space
 permalink: /pictures/space/
 title: Through the Solar System
 category: Space
-description: Explore Earth, the Moon and the worlds from Mars to Pluto, then return to Venus through connected
-  watercolor scenes with sourced information.
+description: Explore all eight planets, the Moon and Pluto through connected watercolor scenes, with a visit
+  to the Sun and sourced explanations.
 teaser: A watercolor journey through the Solar System.
 image: /pictures/space/assets/earth-vicinity-v2-watercolor.webp
 image_width: 1536
@@ -12,9 +12,9 @@ image_height: 1024
 alt: A wide watercolor view of Earth, a small gray Moon and the International Space Station, separated by indigo
   space.
 caption: Touch a world to go there. Its name opens information.
-illustration_note: Ten connected watercolor scenes lead from Earth’s vicinity to Earth, the Moon, Mars, Jupiter,
-  Saturn, Uranus, Neptune and Pluto, then return inward to Venus. Recognizable worlds and the direction of sunlight
-  continue across the views.
+illustration_note: Eleven connected watercolor scenes begin near Earth. One branch leads inward through Venus
+  and Mercury to a separate picture of the Sun. Another leads through the Moon and Mars to Jupiter, Saturn, Uranus,
+  Neptune and Pluto. Recognizable worlds continue across the views.
   These are scientific illustrations with simplified features. Sizes, distances and viewpoints are arranged for
   exploration; they do not show a live sky, an exact surface map or a spacecraft flight path. The ISS is enlarged
   so its structure can be seen. Martian relief is emphasized to make the volcanoes and canyon visible. Io, Europa,
@@ -30,7 +30,10 @@ illustration_note: Ten connected watercolor scenes lead from Earth’s vicinity 
   Venus’s cloud contrast is strengthened to suggest patterns studied in ultraviolet images; its pale color is
   an interpretation. The clouds hide its surface. Its illumination is a chosen view, rather than its current phase
   from Earth. Magellan is an enlarged historical portrait, with its engineering details simplified. The mission
-  ended in 1994; the spacecraft is not still orbiting Venus.
+  ended in 1994; the spacecraft is not still orbiting Venus. Mercury’s broad terrain follows a MESSENGER view,
+  with craters and rays simplified. Its polar label points to the region where shadowed craters can preserve ice;
+  individual ice deposits are not visible in this whole-globe painting. The small Sun is a navigation portrait,
+  not its angular size or position in Mercury’s sky.
 scenes:
 - id: vicinity
   name: Earth vicinity
@@ -74,9 +77,9 @@ scenes:
 - id: earth
   name: Near Earth
   image: /pictures/space/assets/near-earth-v2-watercolor.webp
-  alt: A closer watercolor view of Earth with Africa, blue oceans and cloud bands. The Moon and space station
-    remain visible.
-  caption: Near Earth. Look at the oceans and atmosphere, or continue to the Moon.
+  alt: A closer watercolor view of Earth with Africa, blue oceans and cloud bands. The Moon and space station remain
+    visible. A small cream-colored Venus at upper left leads toward the inner planets.
+  caption: Near Earth. Visit the Moon and continue outward, or turn inward to Venus and Mercury.
   back: vicinity
   back_label: Earth vicinity
   next: moon
@@ -117,6 +120,23 @@ scenes:
     label_x: 58.1
     label_y: 45.3
     label_side: right
+  - label: Venus
+    x: 15
+    y: 14
+    detail: venus
+    primary: true
+    go: venus
+    width: 3.2
+    height: 4.800000000000001
+    label_x: 16.6
+    label_y: 14
+    label_edge: right
+    paint_image: /pictures/space/assets/near-venus-watercolor.webp
+    paint_width: 3.2
+    paint_position: 69.20% 24.00%
+    paint_zoom: 175% auto
+  branch: venus
+  branch_label: Venus · toward the Sun
 - id: moon
   name: Near the Moon
   image: /pictures/space/assets/near-moon-v2-watercolor.webp
@@ -513,13 +533,12 @@ scenes:
   image: /pictures/space/assets/near-pluto-watercolor.webp
   alt: Watercolor Pluto has pale northern terrain, a broad brown region at lower left and an irregular bright heart
     on its right side. Smaller gray Charon at lower left has a muted reddish-brown northern cap and a band of chasms.
-    A tiny blue-green Neptune at upper left offers a return. A small cream-colored Venus at upper right leads back
-    toward the inner planets.
-  caption: Near Pluto. Explore its ice and Charon, then return inward to Venus.
+    A tiny blue-green Neptune at upper left offers a return.
+  caption: Near Pluto. Explore its ice and Charon, or return to Neptune.
   back: neptune
   back_label: Neptune
-  next: venus
-  next_label: Venus
+  next: ''
+  next_label: ''
   spots:
   - label: Pluto
     x: 58
@@ -558,32 +577,17 @@ scenes:
     paint_width: 3.2
     paint_position: 77.02% 37.65%
     paint_zoom: 190% auto
-  - label: Venus
-    x: 85
-    y: 14
-    detail: venus
-    primary: true
-    go: venus
-    width: 3.2
-    height: 4.8
-    label_x: 86.6
-    label_y: 14
-    label_edge: right
-    paint_image: /pictures/space/assets/near-venus-watercolor.webp
-    paint_width: 3.2
-    paint_position: 69.20% 24.00%
-    paint_zoom: 175% auto
 - id: venus
   name: Near Venus
   image: /pictures/space/assets/near-venus-watercolor.webp
-  alt: A pale cream watercolor Venus covered by sweeping opaque clouds, with its right limb in shadow. A small
-    Magellan spacecraft to the left has a dish antenna, a golden body and two gray-blue solar panels. A tiny Pluto
-    at upper left offers a return to the previous scene.
-  caption: Near Venus. Explore its clouds, changing light and the spacecraft that mapped the surface beneath them.
-  back: pluto
-  back_label: Pluto
-  next: ''
-  next_label: ''
+  alt: A pale cream watercolor Venus covered by sweeping opaque clouds, with its right limb in shadow. A small Magellan
+    spacecraft to the left has a dish antenna, a golden body and two gray-blue solar panels. A small blue Earth
+    at upper left offers a return, and gray Mercury at upper right leads closer to the Sun.
+  caption: Near Venus. Explore the clouds and Magellan, continue inward to Mercury, or return to Earth.
+  back: earth
+  back_label: Earth
+  next: mercury
+  next_label: Mercury
   spots:
   - label: Venus
     x: 58
@@ -614,22 +618,112 @@ scenes:
     label_y: 60
     label_side: right
     label_gap: 7
-  - label: Pluto
+  - label: Earth
     x: 15
     y: 14
-    detail: pluto
+    detail: earth
     primary: true
-    go: pluto
-    width: 2.4
-    height: 3.6
-    label_x: 16.2
+    go: earth
+    width: 3.2
+    height: 4.800000000000001
+    label_x: 16.6
     label_y: 14
     label_edge: right
-    paint_image: /pictures/space/assets/near-pluto-watercolor.webp
-    paint_width: 2.4
-    paint_position: 70.30% 22.00%
+    paint_image: /pictures/space/assets/near-earth-v2-watercolor.webp
+    paint_width: 3.2
+    paint_position: 28.75% 49.25%
+    paint_zoom: 260% auto
+  - label: Mercury
+    x: 85
+    y: 14
+    detail: mercury
+    primary: true
+    go: mercury
+    width: 3.2
+    height: 4.800000000000001
+    label_x: 83.4
+    label_y: 14
+    label_edge: left
+    paint_image: /pictures/space/assets/near-mercury-watercolor.webp
+    paint_width: 3.2
+    paint_position: 51.45% 47.65%
+    paint_zoom: 210% auto
+- id: mercury
+  name: Near Mercury
+  image: /pictures/space/assets/near-mercury-watercolor.webp
+  alt: A gray-brown watercolor Mercury, lit from the upper right, has a dark left limb, pale crater rays and the
+    broad Caloris basin in its upper-right hemisphere. Small Venus at upper left offers a return; the Sun at upper
+    right opens its own picture.
+  caption: Near Mercury. Explore the innermost planet, open the Sun’s picture, or return to Venus.
+  back: venus
+  back_label: Venus
+  next: ''
+  next_label: The Sun
+  next_href: /pictures/sun/
+  spots:
+  - label: Mercury
+    x: 52
+    y: 69
+    detail: mercury
+    primary: true
+  - label: Caloris Basin
+    x: 61
+    y: 32
+    detail: caloris
+  - label: A long day
+    x: 35
+    y: 48
+    detail: mercury-day
+  - label: Polar shadows
+    x: 51
+    y: 17
+    detail: mercury-ice
+  - label: Venus
+    x: 15
+    y: 14
+    detail: venus
+    primary: true
+    go: venus
+    width: 3.2
+    height: 4.800000000000001
+    label_x: 16.6
+    label_y: 14
+    label_edge: right
+    paint_image: /pictures/space/assets/near-venus-watercolor.webp
+    paint_width: 3.2
+    paint_position: 69.20% 24.00%
     paint_zoom: 175% auto
+  - label: The Sun
+    x: 85
+    y: 16
+    detail: sun
+    primary: true
+    width: 6
+    height: 9.0
+    label_x: 82
+    label_y: 16
+    label_edge: left
+    paint_image: /pictures/assets/sun-watercolor.webp
+    paint_width: 6
+    paint_position: 48.8% 49.0%
+    paint_zoom: 165% auto
+    href: /pictures/sun/
 sources:
+- id: mercury-facts
+  label: NASA Science · Mercury Facts
+  url: https://science.nasa.gov/mercury/facts/
+- id: mercury-view
+  label: NASA Science · Mercury’s Subtle Colors
+  url: https://science.nasa.gov/resource/mercurys-subtle-colors/
+- id: caloris
+  label: NASA Science · Mercury’s Caloris Basin
+  url: https://science.nasa.gov/resource/mercurys-caloris-basin/
+- id: mercury-ice
+  label: NASA/JPL · New Mercury Water Ice Evidence
+  url: https://www.jpl.nasa.gov/news/nasa-spacecraft-finds-new-mercury-water-ice-evidence/
+- id: sun-facts
+  label: NASA Science · Sun Facts
+  url: https://science.nasa.gov/sun/facts/
 - id: venus-facts
   label: NASA Science · Venus facts
   url: https://science.nasa.gov/venus/venus-facts/
@@ -1570,5 +1664,94 @@ details:
   position: 8.70% 65.20%
   zoom: 430% auto
   alt: Magellan’s large pale dish antenna, compact golden body and two extended gray-blue solar panels.
+- id: mercury
+  label: Mercury
+  kicker: The innermost planet
+  title: A small world with a marked surface.
+  body:
+  - Mercury is the smallest of the eight planets, only a little larger than our Moon. It orbits closest to the Sun.
+    Its gray-brown surface records impacts, with bright streaks spreading from some younger craters.
+  - Those rays are crushed rock thrown out during impacts. Freshly exposed material reflects more light. The broad
+    pale area higher on the globe is Caloris, a much older impact basin.
+  - Sunlit ground can reach about 430°C, while nighttime temperatures can fall to about −180°C. Mercury’s extremely
+    thin exosphere cannot hold heat the way a substantial atmosphere can. Venus remains the hotter planet.
+  sources:
+  - mercury-facts
+  - mercury-view
+  image: /pictures/space/assets/near-mercury-watercolor.webp
+  position: 51.45% 47.65%
+  zoom: 210% auto
+  alt: Mercury’s gray-brown globe, with bright crater rays and a shaded left limb.
+- id: caloris
+  label: Caloris Basin
+  kicker: An impact and later lava
+  title: A basin filled after the collision.
+  body:
+  - The broad pale patch near the upper right represents Caloris Basin, roughly 1,500 kilometers across. An enormous
+    impact excavated it, and lava later flooded its floor.
+  - Smaller impacts then punched through those volcanic plains. Some excavated darker material from below. The basin
+    holds a sequence of events that geologists can read from which features cut through others.
+  - MESSENGER’s color images help distinguish surface materials. Some published views enhance those differences
+    strongly. Here the broad shapes follow the spacecraft view, with a restrained gray-brown palette and simplified
+    terrain.
+  sources:
+  - caloris
+  - mercury-view
+  image: /pictures/space/assets/near-mercury-watercolor.webp
+  position: 66.0% 24.4%
+  zoom: 320% auto
+  alt: A pale broad basin with a broken rim and smaller craters in Mercury’s upper-right hemisphere.
+- id: mercury-day
+  label: A long day
+  kicker: Orbit and rotation
+  title: One solar day lasts two Mercury years.
+  body:
+  - Mercury circles the Sun in about 88 Earth days and turns once on its axis in about 59. Together, these motions
+    make a complete sunrise-to-sunrise cycle last about 176 Earth days.
+  - Its speed also changes along its elongated orbit. Near the closest approach to the Sun, the Sun’s apparent movement
+    can briefly reverse. From some places, a sunrise can be followed by a sunset and another sunrise.
+  - The shaded edge in the painting is the boundary between day and night in this chosen view. It does not divide
+    a permanently lit face from a permanently dark one.
+  sources:
+  - mercury-facts
+  image: /pictures/space/assets/near-mercury-watercolor.webp
+  position: 26% 47%
+  zoom: 320% auto
+  alt: Cratered terrain along Mercury’s boundary between sunlight and shadow.
+- id: mercury-ice
+  label: Polar shadows
+  kicker: Ice near the Sun
+  title: Some crater floors never receive sunlight.
+  body:
+  - Near Mercury’s poles, parts of deep craters remain in permanent shadow. These cold places can preserve water
+    ice even while sunlit ground elsewhere becomes extremely hot.
+  - Earth-based radar first found unusually reflective polar deposits. MESSENGER added measurements of hydrogen
+    and models of the temperatures, providing strong evidence for water ice. Some deposits are covered by a darker
+    insulating layer.
+  - This label marks the polar region. The painting cannot show the individual deposits hidden inside those small,
+    shadowed craters; there is no broad white ice cap.
+  sources:
+  - mercury-ice
+  image: /pictures/space/assets/near-mercury-watercolor.webp
+  position: 51.5% 3%
+  zoom: 300% auto
+  alt: Mercury’s northern limb, with small crater marks fading into the dark background.
+- id: sun
+  label: The Sun
+  kicker: Our star
+  title: The light reaches every world here.
+  body:
+  - The Sun’s gravity keeps the planets in orbit. Deep inside it, hydrogen fuses into helium, releasing the energy
+    that eventually leaves as sunlight.
+  - Open its picture to explore the visible surface, dark sunspots and the atmosphere above them, with the story
+    of how observations helped explain what we see.
+  sources:
+  - sun-facts
+  image: /pictures/assets/sun-watercolor.webp
+  position: 48.8% 49.0%
+  zoom: 165% auto
+  alt: A golden watercolor Sun with dark spots, an arched prominence and a faint corona.
+  link: /pictures/sun/
+  link_label: Go to The Sun
 ---
 <p>Begin near Earth. Follow the worlds into their closer views.</p>

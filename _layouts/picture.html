@@ -53,6 +53,7 @@
             <button type="button" class="picture-text-link" id="picture-fullscreen" aria-controls="picture-visit" aria-pressed="false" hidden>Full screen</button>
             <button type="button" class="picture-text-link" id="picture-places" aria-pressed="false" hidden>Show places to look</button>
           </div>
+          {% if page.journey_url %}<p><a class="picture-text-link" href="{{ page.journey_url }}">{{ page.journey_label | escape }}</a></p>{% endif %}
         </div>
         <dialog class="picture-dialog" id="picture-detail" aria-labelledby="picture-detail-title">
           <div class="picture-detail-layout">

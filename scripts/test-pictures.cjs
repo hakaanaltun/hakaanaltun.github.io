@@ -126,6 +126,32 @@ function page(modals, setup) {
     assert.equal(slate.includes(id), i % 2 === 0, id + ' takes its turn in the rhythm');
   });
 }
+// The Sun is a standalone picture with sourced reading and a route back to Mercury.
+{
+  const sunHtml = fs.readFileSync(path.join(root, '_site/pictures/sun/index.html'), 'utf8');
+  const dom = new JSDOM(sunHtml, { url: 'https://hakanaltun.io/pictures/sun/', runScripts: 'outside-only', pretendToBeVisual: true });
+  const w = dom.window, d = w.document;
+  assert.ok(d.querySelector('a[href="/pictures/space/#scene-mercury"]'));
+  assert.equal(d.querySelector('link[rel="canonical"]').href, 'https://hakanaltun.io/pictures/sun/');
+  for (const part of d.querySelectorAll('.picture-story-part')) assert.ok(part.querySelector('.picture-story-sources a'));
+  for (const note of d.querySelectorAll('.picture-note')) assert.ok(note.querySelector('.picture-detail-sources a'));
+  w.HTMLDialogElement.prototype.showModal = function () { this.open = true; };
+  w.HTMLDialogElement.prototype.close = function () { this.open = false; this.dispatchEvent(new w.Event('close')); };
+  w.eval(script);
+  for (const trigger of d.querySelectorAll('.picture-hotspot')) {
+    trigger.click();
+    assert.equal(d.getElementById('picture-detail').open, true);
+    assert.equal(d.getElementById('picture-detail').scrollTop, 0);
+    assert.ok(d.getElementById('picture-detail-image').style.backgroundImage.includes('sun-watercolor'));
+    assert.ok(d.querySelector('#picture-detail-content .picture-detail-sources a'));
+    d.getElementById('picture-detail').scrollTop = 200;
+    d.getElementById('picture-return').click();
+    assert.equal(d.activeElement, trigger);
+  }
+  const catalogue = fs.readFileSync(path.join(root, '_site/pictures/index.html'), 'utf8');
+  assert.ok(catalogue.includes('href="/pictures/sun/"'));
+  dom.window.close();
+}
 async function fullscreenChecks() {
   function setup(w, native) {
     w.scrollTo = (x, y) => { w.restoredPosition = [x, y]; };
