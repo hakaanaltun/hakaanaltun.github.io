@@ -411,8 +411,8 @@ accuracy and plain prose to this section as well.
   9 October 2026, so the next world never has to be found by touching it.
   A scene's `back` and `next` in the front matter set them.
   The journey covers Earth's vicinity, a closer Earth view, the Moon, Mars,
-  Jupiter and Saturn, including the ISS near Earth, Io and Europa beside Jupiter,
-  and Titan and Enceladus beside Saturn. Keep recognizable geography, lunar markings, lighting,
+  Jupiter, Saturn and Uranus, including the ISS near Earth, Io and Europa beside
+  Jupiter, Titan and Enceladus beside Saturn, and Miranda beside Uranus. Keep recognizable geography, lunar markings, lighting,
   paper and brushwork consistent across connected views. Sizes, distances
   and viewpoints are arranged for exploration, explained below the picture.
   This is an illustrative journey rather than a live sky or a flight path.
@@ -435,6 +435,12 @@ accuracy and plain prose to this section as well.
   and their visible markings simplified, as the illustration note explains.
   An oval crop preserves Saturn’s rings in the small destination at Jupiter;
   `paint_ratio` controls this without changing existing round destinations.
+  Uranus adds its atmospheric color, sideways rotation, the 1977 discovery
+  of its rings through stellar occultation, and Miranda’s varied terrain and
+  literary name. Miranda follows the large terrain divisions in NASA’s Voyager
+  mosaic PIA01490. Its scale and terrain are illustrative; Uranus’s faint
+  rings have enhanced contrast, disclosed below the painting. The angle of
+  the rings on the page is a chosen view, not a measurement of axial tilt.
   Earth vicinity, Earth and Moon were approved as one coherent section before
   extending to Mars. The Moon’s small Mars destination reuses a crop of the
   Mars painting, preserving the approved lunar scene. Mars has sourced labels

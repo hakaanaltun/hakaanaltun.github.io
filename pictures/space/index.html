@@ -3,23 +3,25 @@ layout: space
 permalink: /pictures/space/
 title: Through the Solar System
 category: Space
-description: Explore Earth, the Moon, Mars, Jupiter and Saturn through connected watercolor scenes, with information
-  about their visible features and NASA, ESA and NOAA sources.
-teaser: From Earth and the Moon to Mars, Jupiter and Saturn.
+description: Explore Earth, the Moon and the planets from Mars to Uranus through connected watercolor scenes, with
+  information about their visible features and NASA, ESA and NOAA sources.
+teaser: A watercolor journey from Earth to Uranus.
 image: /pictures/space/assets/earth-vicinity-v2-watercolor.webp
 image_width: 1536
 image_height: 1024
 alt: A wide watercolor view of Earth, a small gray Moon and the International Space Station, separated by indigo
   space.
 caption: Touch a world to go there. Its name opens information.
-illustration_note: Six connected watercolor scenes lead from Earth’s vicinity to Earth, the Moon, Mars, Jupiter
-  and Saturn. Recognizable worlds and the direction of sunlight continue across the views. These are scientific
+illustration_note: Seven connected watercolor scenes lead from Earth’s vicinity to Earth, the Moon, Mars, Jupiter,
+  Saturn and Uranus. Recognizable worlds and the direction of sunlight continue across the views. These are scientific
   illustrations with simplified features. Sizes, distances and viewpoints are arranged for exploration; they do
   not show a live sky, an exact surface map or a spacecraft flight path. The ISS is enlarged so its structure can
-  be seen. Martian relief is emphasized to make the volcanoes and canyon visible. Io, Europa, Titan and Enceladus
-  are enlarged separately to show their surfaces; their sizes and separations are not to scale. Jupiter’s cloud
-  patterns are an interpretation of a changing atmosphere. Saturn’s ring structure and Enceladus’s fractures are
-  simplified; the moon views are not surface maps.
+  be seen. Martian relief is emphasized to make the volcanoes and canyon visible. Io, Europa, Titan, Enceladus and
+  Miranda are enlarged separately to show their surfaces; their sizes and separations are not to scale. Jupiter’s
+  cloud patterns are an interpretation of a changing atmosphere. Saturn’s ring structure and Enceladus’s fractures
+  are simplified; the moon views are not surface maps. Uranus’s faint rings are shown with enhanced contrast, and
+  Miranda’s terrain is simplified from Voyager images. The direction of its rings suggests Uranus’s orientation;
+  this view does not measure its tilt against an orbital plane.
 scenes:
 - id: vicinity
   name: Earth vicinity
@@ -296,12 +298,12 @@ scenes:
   image: /pictures/space/assets/near-saturn-watercolor.webp
   alt: Watercolor Saturn with pale cloud bands and tilted rings. A dark division separates the bright inner ring
     from the grayer outer ring. Hazy orange Titan is at upper left, icy Enceladus below it, and a tiny striped Jupiter
-    above them offers a return.
-  caption: Near Saturn. Explore the rings and the moons Titan and Enceladus.
+    above them offers a return. A small blue-green Uranus at upper right marks the next destination.
+  caption: Near Saturn. Explore the rings and moons, or continue to Uranus.
   back: jupiter
   back_label: Jupiter
-  next: ''
-  next_label: ''
+  next: uranus
+  next_label: Uranus
   spots:
   - label: Saturn
     x: 56
@@ -345,6 +347,72 @@ scenes:
     paint_width: 2.6
     paint_position: 77.81% 42.35%
     paint_zoom: 201% auto
+  - label: Uranus
+    x: 84
+    y: 14
+    detail: uranus
+    primary: true
+    go: uranus
+    width: 3.2
+    height: 4.8
+    label_x: 85.6
+    label_y: 14
+    label_edge: right
+    paint_image: /pictures/space/assets/near-uranus-watercolor.webp
+    paint_width: 3.2
+    paint_position: 80.85% 40.74%
+    paint_zoom: 215% auto
+- id: uranus
+  name: Near Uranus
+  image: /pictures/space/assets/near-uranus-watercolor.webp
+  alt: A pale blue-green watercolor Uranus with narrow rings slanting steeply from lower left to upper right. Small
+    gray Miranda at lower left has cratered terrain, an angled bright marking and a grooved lower region. A tiny
+    ringed Saturn at upper left offers a return.
+  caption: Near Uranus. Explore its color, sideways spin and faint rings, or look more closely at Miranda.
+  back: saturn
+  back_label: Saturn
+  next: ''
+  next_label: ''
+  spots:
+  - label: Uranus
+    x: 61
+    y: 37
+    detail: uranus
+    primary: true
+  - label: Sideways spin
+    x: 73
+    y: 62
+    detail: uranus-tilt
+    primary: false
+  - label: Rings
+    x: 51
+    y: 82
+    detail: uranus-rings
+    primary: false
+    label_side: right
+    label_gap: 3
+  - label: Miranda
+    x: 20.4
+    y: 70.8
+    detail: miranda
+    primary: true
+  - label: Saturn
+    x: 15
+    y: 14
+    detail: saturn
+    primary: true
+    go: saturn
+    width: 7
+    height: 5.8
+    label_x: 18.5
+    label_y: 14
+    label_edge: right
+    paint_image: /pictures/space/assets/near-saturn-watercolor.webp
+    paint_width: 7
+    paint_ratio: 2.2
+    paint_clip: polygon(0 55%, 25% 25%, 35% 0, 100% 0, 100% 100%, 0 100%)
+    paint_position: 100% 43%
+    paint_zoom: 112% auto
 sources:
 - id: earth
   label: NASA Science · Earth facts
@@ -454,6 +522,21 @@ sources:
 - id: enceladus-ocean
   label: NASA · Cassini at Enceladus
   url: https://science.nasa.gov/mission/cassini/science/enceladus/
+- id: uranus-facts
+  label: NASA Science · Uranus facts
+  url: https://science.nasa.gov/uranus/facts/
+- id: uranus-exploration
+  label: NASA · Exploring Uranus
+  url: https://science.nasa.gov/uranus/exploration/
+- id: uranus-ring-discovery
+  label: ESA · The discovery of Uranus’s rings
+  url: https://www.esa.int/Science_Exploration/Space_Science/10_March
+- id: miranda-facts
+  label: NASA Science · Miranda
+  url: https://science.nasa.gov/uranus/moons/miranda/
+- id: miranda-terrain
+  label: NASA/JPL/USGS · Voyager’s south polar view of Miranda
+  url: https://science.nasa.gov/photojournal/south-polar-view-of-miranda/
 details:
 - id: earth
   label: Earth
@@ -853,5 +936,80 @@ details:
   position: 13.96% 82.79%
   zoom: 850% auto
   alt: A small white Enceladus with blue-gray fractures in its lower icy surface.
+- id: uranus
+  label: Uranus
+  kicker: Uranus
+  title: The color of an ice giant.
+  body:
+  - Uranus is the seventh planet from the Sun. Its atmosphere contains mostly hydrogen and helium, with a small
+    amount of methane. Methane absorbs red light from the sunlight passing through the atmosphere, giving the planet
+    its blue-green appearance.
+  - The name ice giant refers to materials such as water, ammonia and methane in its interior. Models include hot,
+    dense fluids beneath the atmosphere. There is no solid surface on which a spacecraft could land.
+  - Voyager 2 passed Uranus on January 24, 1986. Much of our close-range knowledge of the planet and its moons comes
+    from that brief encounter.
+  sources:
+  - uranus-facts
+  - uranus-exploration
+  image: /pictures/space/assets/near-uranus-watercolor.webp
+  position: 80.85% 40.74%
+  zoom: 215% auto
+  alt: The pale blue-green globe of Uranus, with narrow rings crossing its foreground.
+- id: uranus-tilt
+  label: Sideways spin
+  kicker: Uranus · Rotation
+  title: Seasons on a tilted world.
+  body:
+  - Uranus is tipped almost onto its side. Its rotation axis is tilted about 98 degrees, measured from a line perpendicular
+    to its orbit. The rings lie close to its equatorial plane and share the planet’s unusual orientation.
+  - A rotation takes about seventeen hours, while one journey around the Sun takes 84 Earth years. During that long
+    year, the poles experience extended periods of continuous daylight and darkness, producing extreme seasonal
+    changes.
+  - A large collision early in the planet’s history is one proposed explanation for the tilt. The cause has not
+    been established.
+  sources:
+  - uranus-facts
+  image: /pictures/space/assets/near-uranus-watercolor.webp
+  position: 84.64% 71.01%
+  zoom: 335% auto
+  alt: Uranus’s curved limb and the steeply slanting rings that follow its equatorial plane.
+- id: uranus-rings
+  label: Rings
+  kicker: Uranus · Rings
+  title: Found in a star’s interrupted light.
+  body:
+  - On March 10, 1977, astronomers watched Uranus pass in front of a distant star. They expected the event to reveal
+    information about the planet’s atmosphere. Before the star disappeared behind Uranus, its light briefly faded
+    several times. Similar dips followed after it reappeared.
+  - The interruptions came from narrow rings crossing the line of sight. The repeating pattern revealed material
+    on both sides of the planet, even though the rings themselves were difficult to distinguish in its glare.
+  - Voyager 2 later examined the ring system at close range. The few ring traces in this watercolor have stronger
+    contrast so their shape can be explored.
+  sources:
+  - uranus-ring-discovery
+  - uranus-exploration
+  image: /pictures/space/assets/near-uranus-watercolor.webp
+  position: 50.73% 92.34%
+  zoom: 560% auto
+  alt: A close view of Uranus’s narrow rings curving beyond the blue-green globe.
+- id: miranda
+  label: Miranda
+  kicker: Uranus’s moons · Miranda
+  title: Different histories on one small moon.
+  body:
+  - Miranda is only about 500 kilometers across, yet its surface holds sharply different kinds of terrain. In Voyager
+    2’s images, heavily cratered ground meets regions of grooves and ridges along abrupt boundaries.
+  - The angled bright marking and the banded lower region in this painting follow features in a Voyager mosaic.
+    The older cratered areas and younger, reshaped terrain show that the moon has experienced different episodes
+    of geological activity. How those changes happened remains uncertain.
+  - Gerard Kuiper discovered Miranda in 1948. Its name comes from Prospero’s daughter in Shakespeare’s The Tempest,
+    one of several literary names among Uranus’s moons.
+  sources:
+  - miranda-facts
+  - miranda-terrain
+  image: /pictures/space/assets/near-uranus-watercolor.webp
+  position: 12.61% 80.25%
+  zoom: 480% auto
+  alt: Miranda’s cratered left side, bright angled marking and grooved lower terrain, interpreted from Voyager images.
 ---
 <p>Begin near Earth. Follow the worlds into their closer views.</p>
