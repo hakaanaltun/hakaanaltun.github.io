@@ -1,8 +1,8 @@
 /* The drawer's controls outside The House (js/keep.js): the button on a word,
    the toast that says where a thing went, the prompt over a selection on
    the book pages, the panel and note under a kept passage, and the mark a
-   kept passage carries on its page. Quiet on purpose: keeping is an aside
-   to reading. */
+   highlight leaves on its page. Quiet on purpose: keeping is an aside to
+   reading. */
 html:not(.keep-ready) .keep-js { display: none !important; }
 
 .keep-row { margin: 40px 0 0; }
@@ -57,7 +57,7 @@ html:not(.keep-ready) .keep-js { display: none !important; }
 .keep-toast[hidden],
 .keep-prompt[hidden] { display: none; }
 
-/* A kept passage, marked on its page for the reader who kept it. A wash of
+/* A highlight, marked on its page for the reader who made it. A wash of
    the dark themes' gold, lighter than a selection so the two never look
    alike, and gone on paper. */
 :root { --kept-mark: rgba(216, 196, 140, .38); }
@@ -69,9 +69,11 @@ html[data-theme="sky"] { --kept-mark: rgba(216, 196, 140, .2); }
 html[data-theme="midnight"] { --kept-mark: rgba(198, 185, 143, .26); }
 ::highlight(olae-kept) { background-color: var(--kept-mark); }
 
+/* Under the translation prompt (120), so a new selection is never hidden
+   behind it, and over the site's header (100). */
 .keep-panel {
   position: fixed;
-  z-index: 130;
+  z-index: 119;
   left: 50%;
   bottom: max(18px, env(safe-area-inset-bottom));
   transform: translateX(-50%);

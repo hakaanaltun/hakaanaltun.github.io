@@ -33,11 +33,13 @@
   document.body.appendChild(popup);
 
   /* On a piece that lets a reader keep a passage (js/keep.js), the same
-     selection can go into the drawer, or have a note written on it first:
-     one prompt, three things to do with it. */
+     selection can go into the drawer, have a note written on it first, or
+     be highlighted on the page: one prompt, four things to do with it.
+     Over a highlight, Highlight becomes Remove highlight. */
   var keep = window.OLAE_KEEP && article.hasAttribute('data-keep-passage') ? window.OLAE_KEEP : null;
   var keepButton = null;
   var noteButton = null;
+  var markButton = null;
   if (keep) {
     keepButton = document.createElement('button');
     keepButton.type = 'button';
@@ -53,6 +55,13 @@
     noteButton.textContent = 'Note';
     noteButton.title = 'Write a note on it, then keep it if you like';
     popup.appendChild(noteButton);
+    if (keep.canHighlight()) {
+      markButton = document.createElement('button');
+      markButton.type = 'button';
+      markButton.className = 'reader-translate-button reader-translate-keep';
+      markButton.textContent = 'Highlight';
+      popup.appendChild(markButton);
+    }
   }
 
   var sourceEl = popup.querySelector('.reader-translate-source');
@@ -169,6 +178,7 @@
     translateButton.disabled = false;
     translateButton.dataset.done = 'false';
     translateButton.textContent = 'Türkçe';
+    if (markButton) markButton.textContent = keep.isHighlighted(data.range) ? 'Remove highlight' : 'Highlight';
     popup.hidden = false;
     positionPopup(data.rect);
     requestAnimationFrame(function () { popup.classList.add('is-visible'); });
@@ -347,6 +357,13 @@
       keep.notePassage(keep.passageFor(current.range), noteButton);
       hidePopup();
     });
+    if (markButton) {
+      markButton.addEventListener('click', function () {
+        if (!current) return;
+        keep.highlightSelection(current.range, markButton);
+        hidePopup();
+      });
+    }
   }
   closeButton.addEventListener('click', hidePopup);
 })();
