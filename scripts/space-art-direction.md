@@ -1,5 +1,28 @@
 # Space journey art direction
 
+## Arrokoth in the Kuiper Belt, 11 October 2026
+
+Built-in imagegen produced one new painting, 1536 × 1024. Only WebP encoding (quality 93) was applied afterward. Final asset: `pictures/space/assets/kuiper-belt-watercolor.webp`. Source PNG: `/workspace/scratch/2ab1361d4cc4/generated_images/exec-57ba59b7-3dd7-4510-84dd-00fb13f242cc.png`.
+
+The black-hole and quasar paintings supplied the visual language. NASA/JHUAPL/SwRI's enhanced-color Arrokoth composite supplied the outline and broad surface features: `https://science.nasa.gov/resource/enhanced-color-composite-image-of-kuiper-belt-object-arrokoth-2014-mu69/`, image `https://assets.science.nasa.gov/content/dam/science/psd/solar/2023/09/m/mu69_med.jpg`. All references were inspected before generation. The painting keeps the smaller lobe on the left, the larger flattened lobe on the right, and the pale curved neck between them. The enhanced-color data guide a muted reddish palette; the illustration note discloses its interpretation, simplified terrain and legible lighting.
+
+Arrokoth earns its place through the evidence for gentle assembly preserved by the joined lobes, and the surface chemistry measured during New Horizons' 2019 flyby. The four notes cover its Kuiper Belt setting, the spacecraft encounter, the merger interpretation and reflected-light measurements. Sources were chosen before painting. NASA's general facts page and the primary 2020 composition paper differ over water-ice detection; follow Grundy and colleagues' explicit statement that water ice was not detected. The published color note uses methanol and distinguishes inferred organic chemistry from evidence of life. Do not turn the gentle-merger model into an observed event.
+
+The whole body occupies approximately x348–1244 and y195–804. Its center is near 51.8%, 48.8%; the neck label points near 47%, 47%, with its name offset to the right. The surface label is at 65%, 64%. The regional note occupies clear space at 15%, 43%. An oval crop with ratio 1.4 keeps both lobes visible in Pluto's small destination at upper right. Pluto's existing portrait provides the return at upper left of the new scene. Sizes and positions are illustrative, not a view of Pluto from Arrokoth. Existing approved paintings are unchanged.
+
+The new scene follows Pluto and remains the outward route's last stop until Voyager is ready. Both body travel and named navigation links are covered by the route tests, along with sourced notes, image crops and return focus. Final art and calculated close views were visually inspected. Browser QA is unavailable because control-browser is absent in this managed environment; actual mobile and fullscreen appearance remain unverified.
+
+Final prompt:
+
+```text
+Use case: scientific-educational.
+Create one entirely new 1536 x 1024 landscape watercolor for a connected Solar System journey: a close portrait of Arrokoth, deep in the Kuiper Belt.
+Reference 1 is NASA New Horizons' enhanced-color Arrokoth composite, SHAPE AND TERRAIN ONLY. References 2 and 3, the black hole and quasar, are STYLE ONLY: broad transparent washes, confident varied brushwork, warm ivory paper, layered neutral indigo-charcoal, irregular unfinished painted edges.
+Subject and composition: Arrokoth alone, centered around (915,540), spanning approximately 850 pixels wide and 580 pixels high, wholly inside the sheet. Keep the exact recognizable broad silhouette of reference 1, smaller rounded flattened lobe on the LEFT, larger flattened irregular lobe on the RIGHT and slightly lower, joined at a narrow neck. A modest curved pale band marks the neck, colored pale dusty peach rather than bright white. On the smaller left lobe retain the broad shallow shadowed depression seen in the reference, without inventing sharp mountain rims. On the larger right lobe suggest broad soft-edged surface divisions with a few faint brighter seams. Use the same viewing angle as the reference. These are flattened bodies, not two perfect spheres or potatoes, and there is no gap between them.
+Restrained reddish-brown, muted terracotta and dusty rose pigment, with gently lit lower-left-facing surfaces and subdued upper edges following the NASA reference. Overall lighting made legible for an illustration. No fluorescent red or emitted glow. Most of the object is broad quiet wash; selected drybrush only around the neck and a few outline changes. Preserve the smooth appearance and very sparse depressions: no all-over crater field or mechanically repeated texture.
+Background: spacious neutral deep indigo watercolor space, with sparse tiny dim stars and broken translucent washes. No visible rubble belt, no asteroid swarm, no nearby invented worlds, no orbit lines, diagram or spacecraft. Leave dark negative space at upper left (15%,14%) for a Pluto navigation portrait added later, and at (24%,43%) for a region label. Keep a quiet upper-right corner for a future destination. Approximately 30px naturally irregular ivory paper margin on all sides. No lettering, white interface dots, labels, markers, frame or watermark. The image must feel painted in the same set as the black-hole and quasar references, not a spacecraft photograph with a paper filter, CGI, cartoon, or uniformly detailed digital rendering.
+```
+
 ## The asteroid belt, 10 October 2026
 
 Built-in imagegen produced one new 1536 × 1024 painting. Only WebP encoding (quality 93) was applied afterward. Final asset: `pictures/space/assets/asteroid-belt-watercolor.webp`. Source PNG: `/workspace/scratch/2ab1361d4cc4/generated_images/exec-1f227c47-eff9-49af-ba15-ea535bf27ff8.png`.

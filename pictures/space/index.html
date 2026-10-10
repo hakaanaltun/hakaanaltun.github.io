@@ -12,9 +12,9 @@ image_height: 1024
 alt: A wide watercolor view of Earth, a small gray Moon and the International Space Station, separated by indigo
   space.
 caption: Touch a world to go there. Its name opens information.
-illustration_note: Twelve connected watercolor scenes begin near Earth. One branch leads inward through Venus
+illustration_note: Thirteen connected watercolor scenes begin near Earth. One branch leads inward through Venus
   and Mercury to a separate picture of the Sun. Another leads through the Moon and Mars into the asteroid belt, then to Jupiter, Saturn, Uranus,
-  Neptune and Pluto. Recognizable worlds continue across the views.
+  Neptune and Pluto, then to Arrokoth in the Kuiper Belt. Recognizable worlds continue across the views.
   These are scientific illustrations with simplified features. Sizes, distances and viewpoints are arranged for
   exploration; they do not show a live sky, an exact surface map or a spacecraft flight path. The ISS is enlarged
   so its structure can be seen. Martian relief is emphasized to make the volcanoes and canyon visible. Io, Europa,
@@ -35,7 +35,10 @@ illustration_note: Twelve connected watercolor scenes begin near Earth. One bran
   individual ice deposits are not visible in this whole-globe painting. The small Sun is a navigation portrait,
   not its angular size or position in Mercury’s sky. Ceres and Vesta are separate enlarged portraits based on
   Dawn images; their sizes and separation are illustrative. Craters and grooves are simplified. The small pale
-  patches in Occator represent reflective salt deposits.
+  patches in Occator represent reflective salt deposits. Arrokoth’s outline and broad markings follow a
+  New Horizons composite from its 2019 flyby. Surface features are simplified, and the reddish watercolor palette
+  interprets enhanced-color data. Its lighting is made legible for exploration. The small Pluto is a navigation
+  portrait; its size and position do not show a view of Pluto from Arrokoth.
 scenes:
 - id: vicinity
   name: Earth vicinity
@@ -599,12 +602,13 @@ scenes:
   image: /pictures/space/assets/near-pluto-watercolor.webp
   alt: Watercolor Pluto has pale northern terrain, a broad brown region at lower left and an irregular bright heart
     on its right side. Smaller gray Charon at lower left has a muted reddish-brown northern cap and a band of chasms.
-    A tiny blue-green Neptune at upper left offers a return.
-  caption: Near Pluto. Explore its ice and Charon, or return to Neptune.
+    A tiny blue-green Neptune at upper left offers a return. A small reddish, two-lobed Arrokoth at upper right
+    marks the next destination.
+  caption: Near Pluto. Explore its ice and Charon, or continue through the Kuiper Belt to Arrokoth.
   back: neptune
   back_label: Neptune
-  next: ''
-  next_label: ''
+  next: kuiper-belt
+  next_label: The Kuiper Belt
   spots:
   - label: Pluto
     x: 58
@@ -643,6 +647,71 @@ scenes:
     paint_width: 3.2
     paint_position: 77.02% 37.65%
     paint_zoom: 190% auto
+  - label: Arrokoth
+    x: 86
+    y: 14
+    detail: arrokoth
+    primary: true
+    go: kuiper-belt
+    width: 4.5
+    height: 4.82
+    label_x: 83.75
+    label_y: 14
+    label_edge: left
+    paint_image: /pictures/space/assets/kuiper-belt-watercolor.webp
+    paint_width: 4.5
+    paint_ratio: 1.4
+    paint_position: 55.4% 45.8%
+    paint_zoom: 150% auto
+- id: kuiper-belt
+  name: In the Kuiper Belt
+  image: /pictures/space/assets/kuiper-belt-watercolor.webp
+  alt: Watercolor Arrokoth has a smaller rounded lobe at left and a larger flattened lobe at right, joined by a
+    narrow pale neck. Broad reddish-brown surface patches sit against dark indigo space. A tiny Pluto at upper left
+    offers a return.
+  caption: In the Kuiper Belt. Explore Arrokoth’s joined lobes and reddish surface, or return to Pluto.
+  back: pluto
+  back_label: Pluto
+  next: ''
+  next_label: ''
+  spots:
+  - label: Arrokoth
+    x: 64
+    y: 36
+    detail: arrokoth
+    primary: true
+  - label: The neck
+    x: 47
+    y: 47
+    detail: arrokoth-neck
+    primary: false
+    label_side: right
+    label_gap: 3
+  - label: Reddish surface
+    x: 65
+    y: 64
+    detail: arrokoth-color
+    primary: false
+  - label: The Kuiper Belt
+    x: 15
+    y: 43
+    detail: kuiper-belt
+    primary: false
+  - label: Pluto
+    x: 15
+    y: 14
+    detail: pluto
+    primary: true
+    go: pluto
+    width: 2.4
+    height: 3.6
+    label_x: 16.2
+    label_y: 14
+    label_edge: right
+    paint_image: /pictures/space/assets/near-pluto-watercolor.webp
+    paint_width: 2.4
+    paint_position: 70.30% 22.00%
+    paint_zoom: 175% auto
 - id: venus
   name: Near Venus
   image: /pictures/space/assets/near-venus-watercolor.webp
@@ -775,6 +844,24 @@ scenes:
     paint_zoom: 165% auto
     href: /pictures/sun/
 sources:
+- id: kuiper-facts
+  label: NASA Science · Kuiper Belt facts
+  url: https://science.nasa.gov/solar-system/kuiper-belt/facts/
+- id: arrokoth-facts
+  label: NASA Science · Arrokoth facts
+  url: https://science.nasa.gov/solar-system/kuiper-belt/arrokoth-2014-mu69/facts/
+- id: new-horizons
+  label: NASA Science · New Horizons
+  url: https://science.nasa.gov/mission/new-horizons/
+- id: arrokoth-formation
+  label: NASA Ames · Arrokoth revealed
+  url: https://www.nasa.gov/missions/new-horizons/arrokoth-revealed-a-first-in-depth-look-at-a-pristine-world/
+- id: arrokoth-composition
+  label: Grundy and colleagues · Color, composition, and thermal environment of Arrokoth (Science, 2020)
+  url: https://ntrs.nasa.gov/citations/20210019446
+- id: arrokoth-view
+  label: NASA/JHUAPL/SwRI · Enhanced-color composite of Arrokoth
+  url: https://science.nasa.gov/resource/enhanced-color-composite-image-of-kuiper-belt-object-arrokoth-2014-mu69/
 - id: asteroid-facts
   label: NASA Science · Asteroid facts
   url: https://science.nasa.gov/solar-system/asteroids/facts/
@@ -1922,5 +2009,86 @@ details:
   position: 10.4% 82.2%
   zoom: 300% auto
   alt: Vesta’s irregular gray globe, with adjoining upper craters and grooves across its lower terrain.
+- id: kuiper-belt
+  label: The Kuiper Belt
+  kicker: Beyond Neptune
+  title: Pluto belongs to a much larger population.
+  body:
+  - The main Kuiper Belt stretches from near Neptune’s orbit, about 30 times Earth’s distance from the Sun, to roughly
+    50 times that distance. It contains icy remnants of the material from which the planets formed. Pluto is one
+    of its members.
+  - The objects’ orbits preserve clues to their history. Pluto follows a repeating rhythm with Neptune, completing
+    two orbits while Neptune completes three. Arrokoth belongs to the cold classical population, whose relatively
+    round, lightly tilted orbits have been less disturbed.
+  - Here “cold” describes the motion of those orbits. Arrokoth’s quiet orbital history helps explain why it can
+    preserve evidence from the Solar System’s beginnings. The painting opens a close view of one small member of
+    this enormous region.
+  sources:
+  - kuiper-facts
+  - arrokoth-facts
+  image: /pictures/space/assets/kuiper-belt-watercolor.webp
+  position: 54.8% 30.8%
+  zoom: 160% auto
+  alt: Arrokoth’s joined lobes surrounded by dark space.
+- id: arrokoth
+  label: Arrokoth
+  kicker: A small world reached by New Horizons
+  title: The next close encounter after Pluto.
+  body:
+  - Arrokoth is about 35 kilometers long and follows an orbit roughly 45 times Earth’s distance from the Sun. Its
+    two joined lobes were revealed during New Horizons’ flyby on January 1, 2019.
+  - The same spacecraft had flown past Pluto on July 14, 2015. It continued into the Kuiper Belt and sent back images
+    of this much smaller world. Views from different angles helped researchers reconstruct its three-dimensional
+    shape, including the flattened larger lobe.
+  - This painting follows a composite of the flyby images. Its broad outline and pale neck are recognizable features;
+    the watercolor simplifies the surface and interprets the enhanced color.
+  sources:
+  - arrokoth-facts
+  - new-horizons
+  - arrokoth-view
+  image: /pictures/space/assets/kuiper-belt-watercolor.webp
+  position: 54.8% 30.8%
+  zoom: 160% auto
+  alt: A smaller left lobe and a larger flattened right lobe joined into one reddish body.
+- id: arrokoth-neck
+  label: The neck
+  kicker: How small worlds came together
+  title: The joined lobes record a gentle merger.
+  body:
+  - 'The pale curved strip lies at the narrow connection between Arrokoth’s lobes. Together, the two parts form
+    a contact binary: bodies that came together and remained joined.'
+  - Their flattened shapes and closely aligned axes support a gentle merger. Researchers interpret these features
+    as evidence that the two lobes formed within the same collapsing cloud of particles, then approached each other
+    slowly.
+  - The encounter itself was not observed. This account comes from comparing the surviving shape with models of
+    how small bodies assemble. The relatively intact lobes make Arrokoth a useful record of an early stage in planet
+    formation.
+  sources:
+  - arrokoth-formation
+  - arrokoth-facts
+  image: /pictures/space/assets/kuiper-belt-watercolor.webp
+  position: 46.4% 43.3%
+  zoom: 400% auto
+  alt: A pale curved band follows the narrow junction between Arrokoth’s reddish lobes.
+- id: arrokoth-color
+  label: Reddish surface
+  kicker: Chemistry in reflected light
+  title: The color carries clues to surface chemistry.
+  body:
+  - New Horizons measured the wavelengths of light reflected by Arrokoth. Its spectrum contains signatures of frozen
+    methanol. The surface is reddish across both lobes, with modest local differences.
+  - Researchers interpret the red color as evidence of complex organic material, probably altered or produced as
+    radiation acts on simpler molecules. The exact mixture remains uncertain. In chemistry, “organic” refers to
+    carbon-containing compounds; the term alone makes no claim about life.
+  - The painting’s muted reddish-brown washes interpret the spacecraft’s enhanced-color composite. Their brightness
+    helps reveal the shape. Arrokoth reflects only a small fraction of the sunlight that reaches it.
+  sources:
+  - arrokoth-composition
+  - arrokoth-view
+  - arrokoth-facts
+  image: /pictures/space/assets/kuiper-belt-watercolor.webp
+  position: 71% 54%
+  zoom: 300% auto
+  alt: Broad muted reddish-brown patches and faint pale seams on Arrokoth’s larger lobe.
 ---
 <p>Begin near Earth. Follow the worlds into their closer views.</p>
