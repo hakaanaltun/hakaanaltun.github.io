@@ -493,6 +493,15 @@ accuracy and plain prose to this section as well.
   transfer of material from Pluto to Charon’s reddish pole. Natural-color
   New Horizons views guide both globe portraits. They show separately
   arranged encounter hemispheres, with illustrative sizes and separation.
+  Pluto now leads to Arrokoth in the Kuiper Belt. Its outline and broad
+  markings follow New Horizons’ 2019 enhanced-color composite; the palette,
+  simplified terrain and illustrative lighting are disclosed. Four sourced
+  notes cover the Kuiper Belt, the flyby, the gentle-merger interpretation
+  and surface chemistry. Use the primary spectroscopy paper for composition:
+  methanol was detected, while water ice was not detected in that analysis.
+  The pale neck label sits beside the junction. An oval crop carries both
+  lobes into Pluto’s destination portrait, with the label toward the frame’s
+  center. Return travel leads to Pluto. Voyager and Pale Blue Dot remain next.
   Venus branches inward from Earth. Its opaque cloud cover has
   restrained contrast informed by Mariner 10 and ultraviolet observations;
   no surface terrain is visible. Magellan is an enlarged historical portrait,
