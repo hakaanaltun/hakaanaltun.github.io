@@ -127,11 +127,11 @@
 
   /* A kept thing shows its current words where the catalog still knows it,
      and what was kept where it does not. Only the words are taken: the kind
-     and address a reader kept it under stay. */
+     and address a reader kept it under stay, and so does the reader's note. */
   function current(item) {
     var known = index[item.id];
     if (!known) return item;
-    return { id: item.id, kind: item.kind || known.kind, title: known.title, quote: known.quote || item.quote, href: known.href, at: item.at };
+    return { id: item.id, kind: item.kind || known.kind, title: known.title, quote: known.quote || item.quote, href: known.href, at: item.at, note: item.note };
   }
 
   /* --- Small builders ---------------------------------------------------- */
@@ -399,7 +399,18 @@
       article.appendChild(element('p', 'house-item-kind', item.kind));
       article.appendChild(element('h3', item.id.indexOf('word-') === 0 ? 'is-word' : '', item.title));
       if (item.quote) article.appendChild(element(item.id.indexOf('text-') === 0 ? 'blockquote' : 'p', '', item.quote));
+      if (item.note) {
+        var noted = element('div', 'house-item-note');
+        noted.appendChild(element('p', 'house-item-kind', 'Your note'));
+        noted.appendChild(element('p', 'house-note-text', item.note));
+        article.appendChild(noted);
+      }
       var row = actions(item.href, 'Go to the page →');
+      var write = element('button', '', item.note ? 'Edit the note' : 'Add a note');
+      write.type = 'button';
+      write.setAttribute('data-note', item.id);
+      row.appendChild(write);
+      // The card is for sending, so it carries what was kept and never the note.
       var share = element('button', '', 'Share as a card');
       share.type = 'button';
       share.setAttribute('data-share', item.id);
@@ -714,9 +725,7 @@
   function exportText() {
     var lines = ['Your drawer', 'On Life & Everything · hakanaltun.io', 'Saved ' + longDate(today()), ''];
     KEEP.read().kept.map(current).forEach(function (item) {
-      lines.push([item.kind, item.title].filter(Boolean).join(' · '));
-      if (item.quote) lines.push(quoted(item));
-      lines.push(location.origin + item.href, '');
+      lines.push(KEEP.plain(item), '');
     });
     var saved = download(new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' }), 'your-drawer.txt');
     announce(saved ? 'Your drawer is saved to your downloads as a text file.' : 'This browser cannot save a file from here.');
@@ -739,7 +748,7 @@
         // A restore re-renders the dialog, so focus its new restore button.
         var button = content.querySelector('[data-export="restore"]');
         if (button) button.focus({ preventScroll: true });
-        announce(added ? added + (added === 1 ? ' item added to your drawer.' : ' items added to your drawer.') : 'Everything in this backup is already in your drawer.');
+        announce(restored(added));
       } catch (e) {
         announce(e && /QuotaExceeded|Security/.test(e.name)
           ? 'This browser could not save the restored items. Your drawer is unchanged.'
@@ -749,6 +758,13 @@
       if (input) input.value = '';
     };
     reader.readAsText(file);
+  }
+
+  function restored(added) {
+    var items = added.items ? added.items + (added.items === 1 ? ' item' : ' items') : '';
+    var notes = added.notes ? added.notes + (added.notes === 1 ? ' note' : ' notes') : '';
+    if (!items && !notes) return 'Everything in this backup is already in your drawer.';
+    return [items, notes].filter(Boolean).join(' and ') + ' added to your drawer.';
   }
 
   function printDrawer() {
@@ -765,6 +781,10 @@
       article.appendChild(element('p', 'house-item-kind', item.kind));
       article.appendChild(element('h2', item.id.indexOf('word-') === 0 ? 'is-word' : '', item.title));
       if (item.quote) article.appendChild(element('p', '', quoted(item)));
+      if (item.note) {
+        article.appendChild(element('p', 'house-item-kind', 'Your note'));
+        article.appendChild(element('p', 'house-print-note', item.note));
+      }
       article.appendChild(element('p', 'house-print-address', location.host + item.href));
       sheet.appendChild(article);
     });
@@ -945,8 +965,23 @@
       showAnswer(answer, true);
       return;
     }
+    var write = event.target.closest('[data-note]');
+    if (write) { openNote(write); return; }
     var remove = event.target.closest('[data-remove]');
     if (remove) {
+      // A note is the reader's own writing, so taking it out asks twice.
+      var kept = KEEP.find(remove.getAttribute('data-remove'));
+      if (kept && kept.note && remove.getAttribute('data-armed') !== 'true') {
+        remove.setAttribute('data-armed', 'true');
+        remove.textContent = 'Remove it and the note';
+        announce('Your note would go with it.');
+        remove.addEventListener('blur', function disarm() {
+          remove.removeAttribute('data-armed');
+          remove.textContent = 'Remove';
+          remove.removeEventListener('blur', disarm);
+        });
+        return;
+      }
       var position = Array.prototype.indexOf.call(content.querySelectorAll('[data-remove]'), remove);
       KEEP.remove(remove.getAttribute('data-remove'));
       var left = content.querySelectorAll('[data-remove]');
@@ -965,6 +1000,27 @@
       else exportText();
     }
   });
+
+  /* A note is written in place, under the thing it belongs to. Done
+     redraws the drawer, and focus comes back to the note's own button. */
+  function openNote(button) {
+    var id = button.getAttribute('data-note');
+    var article = button.closest('.house-item');
+    if (!article || article.querySelector('.keep-note')) return;
+    var shown = article.querySelector('.house-item-note');
+    if (shown) shown.remove();
+    var editor = KEEP.noteEditor(id, {
+      describe: function () { var item = KEEP.find(id); return item && current(item); },
+      onDone: function (words) {
+        var again = content.querySelector('[data-note="' + id + '"]');
+        if (again) again.focus({ preventScroll: true });
+        announce(words ? 'Your note is in your drawer.' : 'No note on this one.');
+      }
+    });
+    article.insertBefore(editor, article.querySelector('.house-item-actions'));
+    button.hidden = true;
+    editor.focusNote();
+  }
 
   /* Whatever changes the drawer (a keep here, a removal, another tab) comes
      through one place. */
