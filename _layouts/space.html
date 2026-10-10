@@ -123,7 +123,6 @@
       <details class="picture-about">
         <summary>About this picture and its sources</summary>
         <p>{{ page.illustration_note }}</p>
-        <p>The illustration was made with help from AI, using the references below for the scientific features.</p>
         <ul>{% for source in page.sources %}<li><a href="{{ source.url }}" target="_blank" rel="noopener noreferrer">{{ source.label }} <span class="picture-sr">(opens in a new tab)</span></a></li>{% endfor %}</ul>
       </details>
     </main>
