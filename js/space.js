@@ -9,6 +9,7 @@
  var caption = document.getElementById('journey-caption');
  var back = document.getElementById('journey-back');
  var next = document.getElementById('journey-next');
+ var branch = document.getElementById('journey-branch');
  var nav = document.querySelector('.journey-navigation');
  var current = null;
  var loaded = new Set();
@@ -34,10 +35,13 @@
   back.href = '#scene-' + scene.dataset.back;
   back.textContent = '← ' + scene.dataset.backLabel;
   back.hidden = !scene.dataset.back;
-  next.href = '#scene-' + scene.dataset.next;
+  next.href = scene.dataset.nextHref || '#scene-' + scene.dataset.next;
   next.textContent = scene.dataset.nextLabel + ' →';
-  next.hidden = !scene.dataset.next;
-  nav.hidden = back.hidden && next.hidden;
+  next.hidden = !scene.dataset.next && !scene.dataset.nextHref;
+  branch.href = '#scene-' + scene.dataset.branch;
+  branch.textContent = scene.dataset.branchLabel + ' →';
+  branch.hidden = !scene.dataset.branch;
+  nav.hidden = back.hidden && next.hidden && branch.hidden;
   document.querySelectorAll('[data-choices]').forEach(function (list) { list.hidden = list.dataset.choices !== scene.dataset.scene; });
   // Keep the next scene ready while the visitor looks at this one.
   scene.querySelectorAll('[data-travel]').forEach(function (link) {
@@ -60,9 +64,10 @@
    event.preventDefault(); travel(link.dataset.travel);
   });
  });
- [back, next].forEach(function (link) {
+ [back, next, branch].forEach(function (link) {
   link.addEventListener('click', function (event) {
    if (event.ctrlKey || event.metaKey || event.altKey || event.shiftKey) return;
+   if (!link.getAttribute('href').startsWith('#scene-')) return;
    event.preventDefault(); travel(link.hash.replace('#scene-', ''));
   });
  });

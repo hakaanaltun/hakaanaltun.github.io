@@ -1,5 +1,52 @@
 # Space journey art direction
 
+## Mercury and the Sun, 10 October 2026
+
+Built-in image_gen produced two new paintings. Mercury used one generation; the Sun used one generation and a targeted correction to remove unrealistically large honeycomb-like granules. Only WebP encoding (quality 93) was applied afterward. Final assets are `pictures/space/assets/near-mercury-watercolor.webp` and `pictures/assets/sun-watercolor.webp`, both 1536 × 1024.
+
+Mercury source PNG: `/workspace/scratch/2ab1361d4cc4/generated_images/exec-01e3f150-eaf8-4fff-a1aa-f27570924603.png`. Sun initial PNG: `/workspace/scratch/2ab1361d4cc4/generated_images/exec-0b6ec727-a1e7-4871-ac4a-d3d920e81292.png`; final PNG: `/workspace/scratch/2ab1361d4cc4/generated_images/exec-fa404ca3-1db3-405c-a08c-6690dfac6d37.png`.
+
+The black-hole watercolor supplied the painting language. NASA’s MESSENGER departure view supplied Mercury’s broad terrain arrangement, including Caloris in the upper-right quadrant. The scientific reference is `https://science.nasa.gov/resource/mercurys-subtle-colors/`, image `https://assets.science.nasa.gov/content/dam/science/psd/solar/2023/09/m/MercurySubtleColors1200w.jpg`. Its infrared-containing color composite is used for geography, not literal visible color. The painting uses restrained gray-brown pigment and illumination from upper right. Globe center is approximately 50.7%, 49.1%, diameter about 690 pixels. Caloris is near 61%, 32%. Craters and rays are simplified. The polar note describes evidence for ice without inventing a visible polar cap or claiming to resolve deposits.
+
+Mercury earns its place through the impact-and-lava sequence in Caloris, the difference between rotation and a solar day, and the evidence for polar ice so near the Sun. NASA’s Mercury Facts, Caloris Basin and JPL’s November 2012 ice report support those details. Sources were selected before generation.
+
+The Sun earns a separate picture through the visible consequences of plasma motion and magnetic fields, with a story connecting observations to the star’s composition, energy source and atmosphere. Four labels open the photosphere, sunspots, prominence and corona. The five-part story follows rotation, Cecilia Payne’s 1925 thesis, fusion, the corona’s once-unidentified spectral lines and Parker Solar Probe’s April 2021 passage. The page links NASA Marshall solar physics, NASA Science, the National Solar Observatory and Harvard–Smithsonian’s Wolbach Library alongside the relevant explanations.
+
+The Sun is explicitly a composite of observing methods, not a single ordinary-telescope view. Warm pigment colors and strengthened coronal visibility are disclosed. Its visible light is white. Surface brushwork is not a resolved granulation map. The globe is centered around 49.5%, 49.3%, about 715 pixels across; spots are around 43%, 38%, the prominence near 69%, 27%, and the right coronal streamers near 79%, 47%. Final art and calculated close views were inspected.
+
+The author corrected the route during this work: Venus must branch from Earth rather than follow Pluto. Earth now offers the inward Venus–Mercury branch and the existing outward Moon–Mars path. Venus and Mercury are reused as circular destination crops without repainting approved scenes. Mercury’s small Sun and named forward link open `/pictures/sun/`; its name opens a brief explanation with “Go to The Sun”. The standalone picture returns to Mercury. New right-edge destinations use labels on their left to keep names within the phone frame. No permanent dots were added.
+
+Browser QA is unavailable in this managed environment because control-browser is absent. Static crop inspection and the repository’s Jekyll/DOM checks support this change; actual phone and fullscreen appearance still need visual review.
+
+Final Mercury prompt:
+
+```text
+Use case: scientific-educational.
+Create a new finished 1536 x 1024 landscape watercolor illustration for a connected Solar System journey.
+Reference 1 is STYLE ONLY: the black-hole painting's layered transparent washes, deep neutral indigo-charcoal, ivory paper, irregular painted edges and selective detail. Reference 2 is scientific GEOGRAPHY ONLY: NASA MESSENGER Mercury departure view from January 2008; translate its large surface features into watercolor, not photographic texture.
+Paint only Mercury, one complete globe centered at x54%, y53%, diameter about 720 pixels. Follow the reference hemisphere, north up, the broad subtle pale circular Caloris basin in the UPPER RIGHT quarter of the globe. This basin is an old shallow lava-filled depression with a broken rim and a few small superposed craters, not a giant fresh deep hole. Sparse pale crater rays near the center and lower right, selective small impact craters along the shaded left transition, a quiet broad gray-brown wash over most of the globe. No blue seas, Earth continents, lunar maria or orange Mars color. Right and upper-right lit, shading softly to dark at left as in the scientific reference. No thick atmosphere or luminous blue rim. The north polar limb has small subdued shadowed crater marks, no white polar cap or exposed ice.
+The black-hole reference supplies the painterly medium, not the subject: strong large wet-on-wet shapes, granulating pigment, edges that break into warm ivory paper. Retain an approximately 35px irregular paper margin on all sides. Sparse very tiny stars in a quiet dark wash. Leave clear dark space around x15%,y14% and x86%,y16% for later navigation worlds. No Sun or Venus painted now; no spacecraft, diagram, orbit lines, text, labels, white markers, border or watermark. No uniform carpet of microcraters, no CGI, no photographic texture or glossy rendering. Keep the large planet wholly inside the frame, with breathing space and restrained gray-brown colors.
+```
+
+Initial Sun prompt:
+
+```text
+Use case: scientific-educational.
+Create one new finished 1536 x 1024 landscape watercolor for a standalone illustrated essay called The Sun. No lettering.
+Reference image is STYLE ONLY: black-hole-watercolor, for rich transparent layered pigment, selective detail, natural unfinished paint edges on warm ivory paper. Do not reproduce the black hole or its disk.
+Subject: full round Sun centered at (768,512), diameter approximately 650 pixels, surrounded by a faint wide asymmetrical silvery ivory corona into deep neutral indigo-charcoal space. Keep all principal streamers and the entire Sun inside the sheet with generous room. Natural paper margin approximately 35px. This is an educational composite combining photospheric sunspots, a prominence normally isolated with hydrogen-alpha filters, and the faint corona made visible at eclipses. Render their physical forms carefully; their visibility together and warm pigment palette are artistic choices, not a single naked-eye view.
+The photosphere is pale luminous ivory and muted warm ochre, subtly darker toward its whole limb, with broad fluid watercolor washes. NO planetary night side: the Sun emits its own light. Include one compact sunspot group above and left of center around (670,425): two small charcoal umbrae with softer ochre-brown penumbrae. A few fainter small spots may flank them. No craters or black-hole void.
+Suggest granulation selectively in a small lower-central patch around (755,665), tiny irregular light cells divided by thin softer dusky lanes, receding into broad undetailed washes elsewhere. Not giant cracks, fiery lava continents or all-over orange mottling.
+At the upper-right limb around (1040,320), show one delicate low rose-rust arch of solar prominence, threaded irregular plasma supported in an arch rising only modestly above the edge and connecting back at two footpoints. No enormous explosion, flame tongue or rigid neon hoop. Rest of the limb quiet.
+Corona: extremely soft thin gray-ivory strands and a few broader tapered streamers fading toward left and right, markedly fainter than the luminous disk. Uneven radial extent, no perfect concentric rings, no starburst spikes, no accretion disk. Almost no background stars. Quiet light, fine drybrush confined to sunspots, the small granulation patch and prominence. All else broad transparent pigment and paper. Scientifically grounded painting, not cartoon, vector, polished CGI or a photo with a paper filter. No spacecraft, planets, labels, markers, scales or watermark.
+```
+
+Final Sun correction:
+
+```text
+Edit this watercolor with one targeted scientific correction. Preserve the Sun's entire composition, size, location, paper, color, sunspot group, upper-right prominence, corona and dark background. Remove the conspicuous large honeycomb cells in the lower-central disk. They are much too large for actual solar granulation at this whole-Sun scale. Replace that patch with quiet broad pale ochre and ivory watercolor washes matching the surrounding photosphere, with only extremely fine faint unresolved pigment flecks, NO individually outlined cells, mesh, cracks or honeycomb. Keep the rest unchanged. Output 1536 x 1024.
+```
+
 ## Venus, 10 October 2026
 
 Built-in image_gen, one generation. Final asset: `pictures/space/assets/near-venus-watercolor.webp` (1536 × 1024, WebP quality 93). Source PNG: `/workspace/scratch/2ab1361d4cc4/generated_images/exec-2fc549ee-9a39-45ad-b22f-2f90b6692b5a.png`. Only WebP encoding was applied. Black hole and quasar supplied watercolor technique; Pluto supplied continuity of light, dark pigment and paper. NASA PIA23791 guided the broad opaque cloud patterns, with its orange/ultraviolet color composite treated as a pattern reference rather than exact human-eye color. NASA/JPL’s Magellan mission illustration supplied the spacecraft silhouette.
