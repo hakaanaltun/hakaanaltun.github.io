@@ -327,7 +327,7 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   to show where it can be stopped.
 - **A printed piece** opens with its kind (Essay or Short fiction) on the
   left and HAKANALTUN.IO on the right, then the title and date, centered, and
-  ends with the footer's two lines, centered. Word pages have no print layout
+  ends with the footer's two lines, centered at the foot of the last page. Word pages have no print layout
   of their own: The House's cards are how a word is printed or shared.
 - **Puzzle mode waits at the foot of a piece** and opens at its head. Its
   panel is sticky, so the scroll aims at the article beneath it.
