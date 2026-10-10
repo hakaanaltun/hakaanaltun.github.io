@@ -328,8 +328,12 @@ The site has two deliberate ideas of place. Do not collapse them into one.
 - **A kept passage is marked on its page, and anything kept can carry a
   note.** The author asked for both on 10 October 2026. Keeping a passage
   opens a small panel at the foot of the window (`js/keep.js`) with "Add a
-  note", "Take out" and the way to the drawer; touching a marked passage
-  opens it again. The note is stored with the thing it belongs to, goes
+  note", "Take out" and the way to the drawer. Note, beside Keep, lets a
+  reader write first: nothing is kept until "Keep with the note", and
+  closing a note that is not kept asks once more. Touching a marked
+  passage opens a small box beside it with the note, "Hide marks" and
+  "Take out". Hidden marks stay hidden on every page until the reader
+  shows them again from the drawer or from the panel after a keep. The note is stored with the thing it belongs to, goes
   into a backup, the text download and the printed drawer, and stays off a
   shared card. Under the note, Copy takes the note with what was kept and
   its link, and a link to The Page (`/write/`) sits beside it, so a reader

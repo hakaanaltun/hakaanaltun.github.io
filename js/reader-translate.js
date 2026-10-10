@@ -33,9 +33,11 @@
   document.body.appendChild(popup);
 
   /* On a piece that lets a reader keep a passage (js/keep.js), the same
-     selection can go into the drawer: one prompt, two things to do with it. */
+     selection can go into the drawer, or have a note written on it first:
+     one prompt, three things to do with it. */
   var keep = window.OLAE_KEEP && article.hasAttribute('data-keep-passage') ? window.OLAE_KEEP : null;
   var keepButton = null;
+  var noteButton = null;
   if (keep) {
     keepButton = document.createElement('button');
     keepButton.type = 'button';
@@ -45,6 +47,12 @@
        press; this answers before it, for whoever hovers first. */
     keepButton.title = 'Put it in your drawer, in The House';
     popup.appendChild(keepButton);
+    noteButton = document.createElement('button');
+    noteButton.type = 'button';
+    noteButton.className = 'reader-translate-button reader-translate-keep';
+    noteButton.textContent = 'Note';
+    noteButton.title = 'Write a note on it, then keep it if you like';
+    popup.appendChild(noteButton);
   }
 
   var sourceEl = popup.querySelector('.reader-translate-source');
@@ -332,6 +340,11 @@
     keepButton.addEventListener('click', function () {
       if (!current) return;
       keep.keepPassage(keep.passageFor(current.range), keepButton);
+      hidePopup();
+    });
+    noteButton.addEventListener('click', function () {
+      if (!current) return;
+      keep.notePassage(keep.passageFor(current.range), noteButton);
       hidePopup();
     });
   }

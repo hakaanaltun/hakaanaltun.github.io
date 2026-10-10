@@ -394,6 +394,18 @@
       return;
     }
     box.appendChild(element('p', 'house-drawer-note', 'Download a backup to keep or move to another browser.' + (KEEP.works() ? ' Restoring adds its contents to your drawer.' : '')));
+    // Passages are marked on their pages for the reader who kept them;
+    // the marks can be hidden here or from the box by a mark.
+    if (kept.some(function (item) { return item.id.indexOf('text-') === 0; }) || !KEEP.marksShown()) {
+      var shown = KEEP.marksShown();
+      var marks = element('p', 'house-drawer-marks', shown ? 'The passages you kept are marked on their pages.' : 'The passages you kept are not marked on their pages.');
+      var toggle = element('button', '', shown ? 'Hide the marks' : 'Show the marks');
+      toggle.type = 'button';
+      toggle.setAttribute('data-marks', '');
+      marks.appendChild(document.createTextNode(' '));
+      marks.appendChild(toggle);
+      box.appendChild(marks);
+    }
     kept.forEach(function (item) {
       var article = element('article', 'house-item');
       article.appendChild(element('p', 'house-item-kind', item.kind));
@@ -967,6 +979,14 @@
     }
     var write = event.target.closest('[data-note]');
     if (write) { openNote(write); return; }
+    if (event.target.closest('[data-marks]')) {
+      var show = !KEEP.marksShown();
+      KEEP.setMarks(show);
+      var again = content.querySelector('[data-marks]');
+      if (again) again.focus({ preventScroll: true });
+      announce(show ? 'Marks shown on the pages.' : 'Marks hidden. What you kept stays in your drawer.');
+      return;
+    }
     var remove = event.target.closest('[data-remove]');
     if (remove) {
       // A note is the reader's own writing, so taking it out asks twice.

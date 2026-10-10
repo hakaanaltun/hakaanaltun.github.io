@@ -417,6 +417,7 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.equal(passage.href, '/book/part-one/#point-zero');
   assert.match(passage.quote, /memory needs an after/);
   assert.ok(p.q('.keep-prompt'), 'the book pages bring their own prompt');
+  assert.deepEqual(Array.from(p.w.document.querySelectorAll('.keep-prompt button'), (b) => b.textContent), ['Keep this passage', 'Add a note'], 'with a note beside Keep');
   p.w.OLAE_KEEP.keepPassage(passage);
   assert.equal(p.stored().kept[0].href, '/book/part-one/#point-zero');
   p.dom.window.close();
@@ -527,9 +528,47 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.equal(panel.hidden, true, 'a touch outside the mark opens nothing');
   touchAt(20, 120);
   await wait(300);
-  assert.equal(panel.hidden, false, 'a touch on the mark opens the panel');
+  assert.equal(panel.hidden, false, 'a touch on the mark opens the small box');
+  assert.ok(panel.classList.contains('keep-panel--near'), 'beside the passage');
   assert.equal(p.q('.keep-panel-said').textContent, 'In your drawer.');
-  assert.equal(p.q('.keep-panel .keep-note-text').value, 'Read this again.');
+  assert.equal(p.q('.keep-panel-note').hidden, false);
+  assert.equal(p.q('.keep-panel-note').textContent, 'Read this again.', 'it shows the note');
+  assert.equal(p.q('.keep-panel .keep-note-text'), null, 'without opening it for writing');
+  assert.equal(p.q('[data-panel-marks]').hidden, false);
+  assert.equal(p.q('[data-panel-marks]').textContent, 'Hide marks');
+  assert.equal(p.q('.keep-panel-actions a').hidden, true, 'the small box keeps to the passage');
+  p.click('[data-panel-note]');
+  assert.equal(p.q('.keep-panel .keep-note-text').value, 'Read this again.', 'Your note opens it');
+  assert.ok(!panel.classList.contains('keep-panel--near'), 'and the note is written at the foot of the window');
+  assert.equal(p.q('.keep-panel-note').hidden, true);
+  // Hiding the marks keeps what was kept.
+  p.w.document.dispatchEvent(new p.w.KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+  touchAt(20, 120);
+  await wait(300);
+  p.click('[data-panel-marks]');
+  assert.deepEqual(marked(p.w), [], 'Hide marks takes the marks away');
+  assert.equal(p.stored().marks, false, 'and remembers it');
+  assert.equal(p.stored().kept.length, 1, 'what was kept stays');
+  assert.equal(p.q('.keep-panel-said').textContent, 'Marks hidden. What you kept stays in your drawer.');
+  assert.equal(p.q('[data-panel-marks]').textContent, 'Show marks', 'and can bring them straight back');
+  p.w.document.dispatchEvent(new p.w.KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+  touchAt(20, 120);
+  await wait(300);
+  assert.equal(panel.hidden, true, 'a hidden mark opens nothing');
+  p.w.OLAE_KEEP.keepPassage(kept1);
+  assert.equal(p.q('.keep-panel-said').textContent, 'Already in your drawer.');
+  p.w.OLAE_KEEP.toggle({ id: 'text-another', kind: 'An essay', title: 'On Lying', quote: 'Another line, kept while the marks are hidden.', href: essay.url });
+  p.w.OLAE_KEEP.openPanel('text-another', 'kept');
+  assert.equal(p.q('.keep-panel-said').textContent, 'Kept in your drawer. Marks are hidden on the pages.');
+  assert.equal(p.q('[data-panel-marks]').textContent, 'Show marks');
+  p.click('[data-panel-marks]');
+  assert.deepEqual(marked(p.w), [kept1.quote], 'Show marks brings them back');
+  assert.equal('marks' in p.stored(), false);
+  assert.equal(p.q('[data-panel-marks]').hidden, true, 'after a keep, the panel offers the marks only while they are hidden');
+  p.w.OLAE_KEEP.remove('text-another');
+  p.w.document.dispatchEvent(new p.w.KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+  touchAt(20, 120);
+  await wait(300);
   // A passage with a note asks twice before it goes.
   p.click('[data-panel-out]');
   assert.equal(p.stored().kept.length, 1, 'not on the first press');
@@ -543,6 +582,62 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   p.w.OLAE_KEEP.keepPassage(kept1);
   p.click('[data-panel-out]');
   assert.equal(p.stored().kept.length, 0);
+  // Note, beside Keep: the note comes first, and nothing is kept until the
+  // reader keeps it.
+  const noteInPrompt = Array.from(p.w.document.querySelectorAll('.reader-translate button')).find((b) => b.textContent === 'Note');
+  assert.ok(noteInPrompt, 'the translation prompt carries Note beside Keep');
+  range = p.w.document.createRange();
+  range.selectNodeContents(essayParagraphs[1]);
+  const kept2 = p.w.OLAE_KEEP.passageFor(range);
+  p.w.OLAE_KEEP.notePassage(kept2);
+  assert.equal(panel.hidden, false);
+  assert.equal(p.stored().kept.length, 0, 'nothing is kept yet');
+  assert.equal(p.q('.keep-panel-quote').hidden, false, 'the passage is shown above the note');
+  assert.equal(p.q('.keep-panel-quote').textContent.replace(/\u2060/g, ''), kept2.quote);
+  assert.equal(p.q('.keep-panel-actions').hidden, true);
+  const draftArea = p.q('.keep-panel .keep-note-text');
+  assert.equal(p.w.document.activeElement, draftArea, 'the note is ready to write');
+  assert.equal(p.q('.keep-panel .keep-note-done').textContent, 'Keep with the note');
+  draftArea.value = 'First thought.';
+  draftArea.dispatchEvent(new p.w.Event('input', { bubbles: true }));
+  await wait(450);
+  p.w.dispatchEvent(new p.w.Event('pagehide'));
+  assert.equal(p.stored().kept.length, 0, 'writing keeps nothing on its own');
+  assert.deepEqual(marked(p.w), []);
+  p.click('.keep-panel .keep-note-copy');
+  await tick();
+  assert.match(copied, /^An essay · On Lying\n“[\s\S]*”\nNote: First thought\.\nhttps:/, 'Copy works before keeping');
+  // Closing an unkept note asks once more.
+  p.click('.keep-panel-close');
+  assert.equal(panel.hidden, false, 'not on the first Close');
+  assert.equal(p.q('.keep-panel-said').textContent, 'Your note is not kept yet. Close again to let it go.');
+  p.w.document.dispatchEvent(new p.w.MouseEvent('pointerdown', { bubbles: true }));
+  assert.equal(panel.hidden, false, 'nor on a touch elsewhere');
+  draftArea.value = 'First thought, and a second.';
+  draftArea.dispatchEvent(new p.w.Event('input', { bubbles: true }));
+  p.click('.keep-panel .keep-note-done');
+  assert.equal(p.stored().kept.length, 1, 'Keep with the note keeps both');
+  assert.equal(p.stored().kept[0].id, kept2.id);
+  assert.equal(p.stored().kept[0].note, 'First thought, and a second.');
+  assert.equal(p.q('.keep-panel-said').textContent, 'Kept in your drawer, with your note.');
+  assert.equal(p.q('[data-panel-note]').textContent, 'Your note');
+  assert.deepEqual(marked(p.w), [kept2.quote], 'and the passage is marked');
+  // A note begun and let go leaves nothing behind.
+  p.w.OLAE_KEEP.remove(kept2.id);
+  p.w.OLAE_KEEP.notePassage(kept2);
+  p.q('.keep-panel .keep-note-text').value = 'Not this time.';
+  p.q('.keep-panel .keep-note-text').dispatchEvent(new p.w.Event('input', { bubbles: true }));
+  p.click('.keep-panel-close');
+  p.click('.keep-panel-close');
+  assert.equal(panel.hidden, true, 'closed on the second Close');
+  assert.equal(p.stored().kept.length, 0);
+  // Note on words already kept opens their note.
+  p.w.OLAE_KEEP.toggle(Object.assign({}, kept2, { note: 'Kept before.' }));
+  p.w.OLAE_KEEP.notePassage(kept2);
+  assert.equal(p.q('.keep-panel-said').textContent, 'Already in your drawer.');
+  assert.equal(p.q('.keep-panel .keep-note-text').value, 'Kept before.');
+  assert.equal(p.w.document.activeElement, p.q('.keep-panel .keep-note-text'));
+  p.w.OLAE_KEEP.remove(kept2.id);
   // A passage from another page, or words the page no longer has, are not marked.
   p.w.OLAE_KEEP.toggle({ id: 'text-elsewhere', kind: 'An essay', title: 'Elsewhere', quote: kept1.quote, href: '/pieces/elsewhere.html' });
   p.w.OLAE_KEEP.toggle({ id: 'text-reworded', kind: 'An essay', title: 'On Lying', quote: 'Words this essay has never held at all.', href: essay.url });
@@ -587,6 +682,13 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   a = house({ saved: JSON.stringify({ v: 2, kept: [bare, noted] }) });
   await tick();
   a.click('[data-open="drawer"]');
+  assert.equal(a.q('.house-drawer-marks').firstChild.textContent, 'The passages you kept are marked on their pages.');
+  a.click('[data-marks]');
+  assert.equal(a.stored().marks, false, 'the drawer can hide the marks');
+  assert.equal(a.q('[data-marks]').textContent, 'Show the marks');
+  assert.equal(a.w.document.activeElement, a.q('[data-marks]'));
+  a.click('[data-marks]');
+  assert.equal('marks' in a.stored(), false, 'and show them again');
   const notedItem = a.q('[data-note="text-noted"]').closest('.house-item');
   assert.equal(notedItem.querySelector('.house-note-text').textContent, 'First line.\nSecond line.', 'the drawer shows the note under what was kept');
   assert.equal(a.q('[data-note="text-noted"]').textContent, 'Edit the note');
@@ -697,5 +799,5 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.equal(t.q('canvas.cursor-trail'), null, 'and none for a reader who asked for less motion');
   t.dom.window.close();
 
-  console.log('House: catalog and addresses, daily room, keeping from the room and from words, quizzes, the book and essays, the kept passage\'s panel, note, copy and mark, notes in the drawer, legacy and hostile records, blocked storage, arrivals, #drawer, export and backup offered only where they work, the moon, the planets after dark, weather at the window, and the pointer\'s trail passed.');
+  console.log('House: catalog and addresses, daily room, keeping from the room and from words, quizzes, the book and essays, the kept passage\'s panel, note, copy and mark, the small box by a mark, hidden marks, a note written before keeping, notes in the drawer, legacy and hostile records, blocked storage, arrivals, #drawer, export and backup offered only where they work, the moon, the planets after dark, weather at the window, and the pointer\'s trail passed.');
 })().catch((error) => { console.error(error); process.exit(1); });
