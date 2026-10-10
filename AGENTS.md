@@ -463,7 +463,7 @@ accuracy and plain prose to this section as well.
   published site. Keep the ISS tiny and close to Earth's limb, and leave
   breathing room around Earth in the closer scene. Use the approved new
   scenes to preserve geography and lighting when extending the journey.
-  All eight planets remain the intended next scope after this small trial.
+  All eight planets now belong to the journey.
   In the approved Moon and Jupiter scenes, fine detail covers the whole
   globe. From Saturn on, keep detail selective, as the black hole does:
   gather it where a label points and leave the rest of the globe in broad
@@ -535,7 +535,13 @@ accuracy and plain prose to this section as well.
   Mars painting, preserving the approved lunar scene. Mars has sourced labels
   for its iron-bearing dust, Olympus Mons, Valles Marineris and north polar
   ice. Its painting emphasizes relief; the illustration note explains this.
-  Mars now leads to Jupiter, whose notes cover its interior, cloud bands,
+  Mars now leads into the asteroid belt, with separate close portraits of
+  Ceres and Vesta. Dawn images guide their terrain. The notes explain the
+  belt’s empty space, Ceres’s discovery, Occator’s reflective salts and the
+  evidence linking meteorites on Earth to Vesta. The portraits are enlarged
+  separately; their separation is illustrative. Keep the salt label beside
+  its deposits. Ceres’s small portrait connects Mars and Jupiter in both
+  directions. Jupiter’s notes cover its interior, cloud bands,
   Great Red Spot, Io and Europa. Both moons are enlarged independently for
   their details, disclosed in the illustration note. Small cropped worlds
   connect the scenes without repainting approved assets.

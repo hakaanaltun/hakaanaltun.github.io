@@ -1,5 +1,31 @@
 # Space journey art direction
 
+## The asteroid belt, 10 October 2026
+
+Built-in imagegen produced one new 1536 × 1024 painting. Only WebP encoding (quality 93) was applied afterward. Final asset: `pictures/space/assets/asteroid-belt-watercolor.webp`. Source PNG: `/workspace/scratch/2ab1361d4cc4/generated_images/exec-1f227c47-eff9-49af-ba15-ea535bf27ff8.png`.
+
+The black-hole and quasar paintings supplied the watercolor language. NASA Dawn's Ceres projection PIA21906 supplied geography: `https://science.nasa.gov/resource/high-resolution-ceres-view/`. The Dawn mosaic PIA15678 supplied Vesta's shape and terrain: `https://www.jpl.nasa.gov/images/pia15678-full-view-of-vesta/`. Both scientific references were inspected before generation. They are not literal color or texture targets.
+
+This stop earns its place through the belt's mostly empty space, the briny-water evidence behind Occator's reflective salts, and the connection between Vesta and meteorites studied on Earth. NASA's asteroid facts, Dawn FAQ, Ceres facts, Dawn Vesta science and JPL's 2020 brine report support the four notes. Sources were selected before painting.
+
+Ceres and Vesta are separate enlarged portraits, with illustrative sizes and separation, disclosed in the caption and illustration note. Their craters and grooves are simplified. Ceres is centered near 67.9%, 45.7%, about 700 pixels across. Occator is near 66%, 48.2%; the label sits beside the salt patches. Vesta is centered near 23.6%, 66.1%, about 460 by 345 pixels. No exposed ocean or emitted light is claimed for the bright deposits. The science text distinguishes measured composition and gravity from the inferred deep reservoir.
+
+Mars now leads to this scene, then Jupiter. Reciprocal Ceres navigation portraits reuse the same globe crop. Existing approved paintings are unchanged. Mars and Jupiter portraits occupy quiet upper corners of the new scene. All new labels follow the existing hover, keyboard and Show behavior without permanent dots.
+
+Final art and calculated detail crops were inspected. Browser QA is unavailable in this managed environment because control-browser is absent. Jekyll and the repository's DOM checks cover the route and notes; actual phone and fullscreen appearance remain unverified.
+
+Final prompt:
+
+```text
+Use case: scientific-educational watercolor.
+Create ONE entirely new 1536 x 1024 landscape painting for an illustrated Solar System journey, showing separately arranged close portraits of Ceres and Vesta in the asteroid belt.
+References 1 and 2, black hole and quasar, are STYLE ONLY: layered transparent pigment, broad confident washes, selective detail, neutral indigo-charcoal space, warm ivory paper and natural unfinished edges. Reference 3 is NASA Dawn Ceres projection PIA21906, GEOGRAPHY ONLY. Reference 4 is NASA Dawn Vesta mosaic PIA15678, SHAPE AND TERRAIN ONLY. Translate observed broad forms into watercolor. No photographic texture.
+Ceres: full round gray-brown globe centered near (1020,520), diameter about 620 pixels. Preserve reference 3's broad arrangement, with Occator crater centered on the visible disk. Occator is only about one tenth the globe's diameter, a shallow polygonal-rimmed impact crater. Its floor contains a small irregular bright central salt deposit and a few smaller pale flecks immediately to its right. These are reflected-light patches lying flat on the terrain, not glowing lights or white round interface markers. The central deposit spans only about 1.6% of the globe's diameter. Keep its size restrained. Suggest the large crater chain in the upper-right hemisphere and a few lower craters, leaving most of the surface in quiet broad muted gray-taupe washes. No lunar maria, Mercury ray stars, white polar cap, visible ocean or atmospheric glow.
+Vesta: separate smaller irregular oblate gray rocky body, centered near (335,700), about 260 pixels wide by 220 pixels high. Faithfully follow reference 4's rounded but uneven outline, three adjoining craters toward the upper left, lightly grooved lower terrain, and uneven south-polar region at the bottom. Select only those broad forms; no giant spiky mountain or broken floating fragments. Clearly smaller than Ceres. Both bodies lit from upper left, softly shaded at right, though the globe portraits are independently arranged views and their separation is illustrative.
+Space dominates the left and top: large uneven dark transparent washes and only sparse tiny subdued stars. The asteroid belt is mostly empty space. Paint exactly these two worlds, NO swarms of boulders, dense rubble ribbon, orbit rings, extra asteroids, spacecraft, planets, text, labels, white dots, watermark or diagrams. Keep quiet dark areas near (15%,14%) and (86%,14%) for navigation thumbnails added in the site, and around (25%,35%) for an information label about the empty belt.
+Maintain a naturally irregular approximately 30px unpainted warm ivory margin, same paper tone as references. Broad brush marks and pigment overlaps should be obvious. Fine drybrush only around Occator and a few selected crater rims. Avoid all-over equal micro-detail, mechanical pitting, glossy CGI, cartoon shading, or uniform fake grain. No border frame. The whole Ceres and Vesta silhouettes must remain within the picture with ample dark space between them.
+```
+
 ## Mercury and the Sun, 10 October 2026
 
 Built-in image_gen produced two new paintings. Mercury used one generation; the Sun used one generation and a targeted correction to remove unrealistically large honeycomb-like granules. Only WebP encoding (quality 93) was applied afterward. Final assets are `pictures/space/assets/near-mercury-watercolor.webp` and `pictures/assets/sun-watercolor.webp`, both 1536 × 1024.

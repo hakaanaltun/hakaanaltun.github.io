@@ -12,8 +12,8 @@ image_height: 1024
 alt: A wide watercolor view of Earth, a small gray Moon and the International Space Station, separated by indigo
   space.
 caption: Touch a world to go there. Its name opens information.
-illustration_note: Eleven connected watercolor scenes begin near Earth. One branch leads inward through Venus
-  and Mercury to a separate picture of the Sun. Another leads through the Moon and Mars to Jupiter, Saturn, Uranus,
+illustration_note: Twelve connected watercolor scenes begin near Earth. One branch leads inward through Venus
+  and Mercury to a separate picture of the Sun. Another leads through the Moon and Mars into the asteroid belt, then to Jupiter, Saturn, Uranus,
   Neptune and Pluto. Recognizable worlds continue across the views.
   These are scientific illustrations with simplified features. Sizes, distances and viewpoints are arranged for
   exploration; they do not show a live sky, an exact surface map or a spacecraft flight path. The ISS is enlarged
@@ -33,7 +33,9 @@ illustration_note: Eleven connected watercolor scenes begin near Earth. One bran
   ended in 1994; the spacecraft is not still orbiting Venus. Mercury’s broad terrain follows a MESSENGER view,
   with craters and rays simplified. Its polar label points to the region where shadowed craters can preserve ice;
   individual ice deposits are not visible in this whole-globe painting. The small Sun is a navigation portrait,
-  not its angular size or position in Mercury’s sky.
+  not its angular size or position in Mercury’s sky. Ceres and Vesta are separate enlarged portraits based on
+  Dawn images; their sizes and separation are illustrative. Craters and grooves are simplified. The small pale
+  patches in Occator represent reflective salt deposits.
 scenes:
 - id: vicinity
   name: Earth vicinity
@@ -194,14 +196,14 @@ scenes:
 - id: mars
   name: Near Mars
   image: /pictures/space/assets/near-mars-watercolor.webp
-  alt: Watercolor Mars with a broad Olympus Mons at upper left, smaller Tharsis volcanoes, a branching canyon
-    across its lower middle and a pale north polar cap. A small blue Earth is visible to the left, and a tiny
-    striped Jupiter at upper right marks the next destination.
-  caption: Near Mars. Explore its surface, continue to Jupiter, or return to Earth.
+  alt: Watercolor Mars with a broad Olympus Mons at upper left, smaller Tharsis volcanoes, a branching canyon across
+    its lower middle and a pale north polar cap. A small blue Earth is visible to the left, and a tiny gray Ceres
+    at upper right marks the next destination.
+  caption: Near Mars. Explore its surface, continue into the asteroid belt, or return to Earth.
   back: moon
   back_label: The Moon
-  next: jupiter
-  next_label: Jupiter
+  next: asteroid-belt
+  next_label: The asteroid belt
   spots:
   - label: Mars
     x: 58.5
@@ -236,17 +238,81 @@ scenes:
     label_x: 21.5
     label_y: 27.3
     label_edge: right
-  - label: Jupiter
+  - label: Ceres
     x: 84
     y: 13
+    detail: ceres
+    primary: true
+    go: asteroid-belt
+    width: 3
+    height: 4.5
+    label_x: 82.5
+    label_y: 13
+    label_edge: left
+    paint_image: /pictures/space/assets/asteroid-belt-watercolor.webp
+    paint_width: 3
+    paint_position: 84.95% 33.97%
+    paint_zoom: 205% auto
+- id: asteroid-belt
+  name: In the asteroid belt
+  image: /pictures/space/assets/asteroid-belt-watercolor.webp
+  alt: Separate watercolor close views of round gray-brown Ceres at right and smaller, irregular Vesta at lower
+    left. Pale salt deposits mark a crater near the center of Ceres. Small Mars and Jupiter portraits in the upper
+    corners connect the journey.
+  caption: In the asteroid belt. Explore separate close views of Ceres and Vesta, then continue to Jupiter.
+  back: mars
+  back_label: Mars
+  next: jupiter
+  next_label: Jupiter
+  spots:
+  - label: Ceres
+    x: 68
+    y: 28
+    detail: ceres
+    primary: true
+  - label: Bright salts
+    x: 66
+    y: 48.2
+    detail: occator
+    primary: false
+    label_side: right
+    label_gap: 3
+  - label: Vesta
+    x: 23.6
+    y: 66.1
+    detail: vesta
+    primary: true
+  - label: The asteroid belt
+    x: 25
+    y: 35
+    detail: asteroid-belt
+    primary: false
+  - label: Mars
+    x: 15
+    y: 14
+    detail: mars
+    primary: true
+    go: mars
+    width: 2.2
+    height: 3.3
+    label_x: 16.1
+    label_y: 14
+    label_edge: right
+    paint_image: /pictures/space/assets/near-mars-watercolor.webp
+    paint_width: 2.2
+    paint_position: 69.2% 37.9%
+    paint_zoom: 179% auto
+  - label: Jupiter
+    x: 87
+    y: 12
     detail: jupiter
     primary: true
     go: jupiter
     width: 3
     height: 4.5
     label_x: 85.5
-    label_y: 13
-    label_edge: right
+    label_y: 12
+    label_edge: left
     paint_image: /pictures/space/assets/near-jupiter-watercolor.webp
     paint_width: 3
     paint_position: 77.81% 42.35%
@@ -255,11 +321,11 @@ scenes:
   name: Near Jupiter
   image: /pictures/space/assets/near-jupiter-watercolor.webp
   alt: Watercolor Jupiter with cream and brown cloud bands and an orange-red oval storm below its equator. Ochre-yellow
-    Io is to the left, and pale fractured Europa is below it. A tiny Mars at upper left offers a return. A small
+    Io is to the left, and pale fractured Europa is below it. A tiny Ceres at upper left offers a return. A small
     ringed Saturn at upper right marks the next destination.
   caption: Near Jupiter. Explore the cloud bands and moons, or continue to Saturn.
-  back: mars
-  back_label: Mars
+  back: asteroid-belt
+  back_label: The asteroid belt
   next: saturn
   next_label: Saturn
   spots:
@@ -290,21 +356,21 @@ scenes:
     y: 74.8
     detail: europa
     primary: true
-  - label: Mars
+  - label: Ceres
     x: 13
     y: 14
-    detail: mars
+    detail: ceres
     primary: true
-    go: mars
+    go: asteroid-belt
     width: 2.2
     height: 3.3
     label_x: 14.1
     label_y: 14
     label_edge: right
-    paint_image: /pictures/space/assets/near-mars-watercolor.webp
+    paint_image: /pictures/space/assets/asteroid-belt-watercolor.webp
     paint_width: 2.2
-    paint_position: 69.2% 37.9%
-    paint_zoom: 179% auto
+    paint_position: 84.95% 33.97%
+    paint_zoom: 205% auto
   - label: Saturn
     x: 83
     y: 14
@@ -709,6 +775,30 @@ scenes:
     paint_zoom: 165% auto
     href: /pictures/sun/
 sources:
+- id: asteroid-facts
+  label: NASA Science · Asteroid facts
+  url: https://science.nasa.gov/solar-system/asteroids/facts/
+- id: dawn-faq
+  label: NASA Science · Dawn frequently asked questions
+  url: https://science.nasa.gov/mission/dawn/faq/
+- id: ceres-facts
+  label: NASA Science · Ceres facts
+  url: https://science.nasa.gov/dwarf-planets/ceres/facts/
+- id: ceres-view
+  label: NASA/JPL · High-resolution Ceres view
+  url: https://science.nasa.gov/resource/high-resolution-ceres-view/
+- id: ceres-salts
+  label: NASA/JPL · Bright areas on Ceres come from salty water below
+  url: https://www.jpl.nasa.gov/news/mystery-solved-bright-areas-on-ceres-come-from-salty-water-below/
+- id: occator-view
+  label: NASA/JPL · Occator Crater and Ceres’ brightest spots
+  url: https://science.nasa.gov/photojournal/occator-crater-and-ceres-brightest-spots/
+- id: vesta-science
+  label: NASA Science · Dawn at Vesta
+  url: https://science.nasa.gov/mission/dawn/science/vesta/
+- id: vesta-view
+  label: NASA/JPL · Full view of Vesta
+  url: https://www.jpl.nasa.gov/images/pia15678-full-view-of-vesta/
 - id: mercury-facts
   label: NASA Science · Mercury Facts
   url: https://science.nasa.gov/mercury/facts/
@@ -1753,5 +1843,84 @@ details:
   alt: A golden watercolor Sun with dark spots, an arched prominence and a faint corona.
   link: /pictures/sun/
   link_label: Go to The Sun
+- id: asteroid-belt
+  label: The asteroid belt
+  kicker: Between Mars and Jupiter
+  title: Most of the belt is empty space.
+  body:
+  - The main asteroid belt lies between the orbits of Mars and Jupiter. Its worlds follow their own paths around
+    the Sun, usually separated by enormous stretches of space. A spacecraft can cross the region with little chance
+    of passing close to an asteroid.
+  - These bodies preserve material from the early Solar System. As Jupiter grew, its gravity disturbed motion in
+    this region, helping prevent a planet from assembling and making collisions more destructive. Those collisions
+    have continued to reshape the belt.
+  - Ceres and Vesta appear together here as separate enlarged portraits. Their spacing in the painting helps exploration;
+    it does not show how close they are in space.
+  sources:
+  - asteroid-facts
+  - dawn-faq
+  image: /pictures/space/assets/asteroid-belt-watercolor.webp
+  position: 50% 50%
+  zoom: 150% auto
+  alt: Ceres and Vesta in separately enlarged views, with dark space between them.
+- id: ceres
+  label: Ceres
+  kicker: A dwarf planet in the belt
+  title: A point of light became a world.
+  body:
+  - Giuseppe Piazzi discovered Ceres in 1801. It is the largest body in the asteroid belt, about 950 kilometers
+    across, and is classified as a dwarf planet.
+  - Dawn entered orbit in 2015. Its close views turned a distant point into a cratered landscape. The painting follows
+    the broad arrangement in a Dawn view centered on Occator, the crater with the small pale deposits.
+  - Those bright patches became one of the mission’s most revealing clues. Open their label to see how measurements
+    of reflected light and gravity helped scientists investigate what lies beneath the surface.
+  sources:
+  - ceres-facts
+  - ceres-view
+  - ceres-salts
+  image: /pictures/space/assets/asteroid-belt-watercolor.webp
+  position: 84.95% 33.97%
+  zoom: 205% auto
+  alt: Ceres’ round cratered globe, with small bright deposits near its center.
+- id: occator
+  label: Bright salts
+  kicker: Occator Crater
+  title: Salt records the movement of water.
+  body:
+  - Occator is about 92 kilometers wide. Its brightest deposits contain sodium carbonate, a salt. Briny liquid reached
+    the surface; as the water was lost to space, reflective minerals remained.
+  - Dawn measured the composition of the deposits from reflected light. Later close passes also revealed variations
+    in gravity. Together with geological models, the observations indicate that some brine came from a deep reservoir
+    below the crater.
+  - The pale patches in this close view represent those deposits. They shine by reflecting sunlight. Their shapes
+    are simplified, and the reservoir itself is hidden beneath the ground.
+  sources:
+  - occator-view
+  - ceres-salts
+  image: /pictures/space/assets/asteroid-belt-watercolor.webp
+  position: 69.2% 47.6%
+  zoom: 600% auto
+  alt: Occator’s rim surrounds a small pale central deposit and smaller bright patches beside it.
+- id: vesta
+  label: Vesta
+  kicker: A history carried to Earth
+  title: Some meteorites bring pieces of this world.
+  body:
+  - Vesta’s uneven outline and grooved terrain bear traces of enormous impacts. Two overlapping basins occupy its
+    southern region. The younger one, Rheasilvia, is roughly 500 kilometers across, comparable to Vesta’s own size.
+  - Dawn’s measurements connected this distant surface with rocks already held in laboratories on Earth. The spacecraft
+    found a close match between Vesta’s mineral composition and a group of meteorites called howardites, eucrites
+    and diogenites. The evidence strongly supports Vesta as their source.
+  - Impacts can eject fragments into space. Some eventually cross Earth’s orbit and survive the fall through its
+    atmosphere. These samples let researchers study parts of Vesta directly, alongside the spacecraft observations.
+  - The painting follows the broad outline and crater arrangement in a Dawn mosaic. Its southern relief and grooves
+    are simplified.
+  sources:
+  - vesta-science
+  - vesta-view
+  image: /pictures/space/assets/asteroid-belt-watercolor.webp
+  position: 10.4% 82.2%
+  zoom: 300% auto
+  alt: Vesta’s irregular gray globe, with adjoining upper craters and grooves across its lower terrain.
 ---
 <p>Begin near Earth. Follow the worlds into their closer views.</p>
