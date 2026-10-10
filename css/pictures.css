@@ -10,6 +10,9 @@
 .picture-page :is(button,a,summary):focus-visible { outline:2px solid var(--picture-accent); outline-offset:5px; }
 .picture-page :focus:not(:focus-visible), .picture-page[data-picture-pointer] :focus { outline:none!important; }
 .picture-shell { min-height:100svh; display:flex; flex-direction:column; padding:0 36px; }
+/* Set by the layouts for a picture opened from another in full screen,
+   until pictures.js has filled the window with it. */
+[data-picture-arriving] .picture-shell { visibility:hidden; }
 .picture-masthead { height:88px; max-width:1440px; width:100%; margin:auto; display:flex; align-items:center; justify-content:space-between; gap:20px; }
 .picture-brand { font-size:21px; letter-spacing:.02em; text-decoration:none; }
 .picture-text-link { border:0; background:none; padding:7px 0; font:12px Arial,Helvetica,sans-serif!important; color:var(--picture-quiet); text-decoration:none; }

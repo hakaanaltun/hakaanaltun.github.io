@@ -4,7 +4,7 @@ permalink: /pictures/
 title: "Pictures with Stories"
 description: "Pictures to explore, with the science and stories behind their details."
 ---
-<link rel="stylesheet" href="/css/pictures.css?v=20261010-1">
+<link rel="stylesheet" href="/css/pictures.css?v=20261010-2">
 <link rel="stylesheet" href="/css/space.css?v=20261010-1">
 <div class="section-page picture-index">
   <div class="section-page-head">
@@ -23,6 +23,10 @@ description: "Pictures to explore, with the science and stories behind their det
     {% endif %}
     <div class="picture-catalogue">
       {% assign pictures = group.items | sort_natural: "title" %}
+      {%- comment -%} A picture the journey leads to, such as the Sun, comes right after the journey's card. {%- endcomment -%}
+      {% assign led = pictures | where_exp: "picture", "picture.journey_url" %}
+      {% assign others = pictures | where_exp: "picture", "picture.journey_url == nil" %}
+      {% assign pictures = led | concat: others %}
       {% for picture in pictures %}
       <a class="picture-card" href="{{ picture.url }}">
         {%- comment -%} The card takes the painting's downscales, made at deploy by scripts/generate_image_variants.py. A group's cards sit two to a row on a wide screen; a group of one fills the row at its 640px limit. The painting itself stays the largest choice, for a sharp screen. The sizes follow the page: 40px of margin on each side, one column up to 640px, and two columns from 836px, when two 360px cards and their gap fit. {%- endcomment -%}
