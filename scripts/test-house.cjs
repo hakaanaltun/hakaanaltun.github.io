@@ -28,8 +28,16 @@ const scripts = {
 const catalogText = read(site, 'house', 'catalog.json');
 const catalog = JSON.parse(catalogText);
 const tick = () => new Promise((resolve) => setTimeout(resolve, 0));
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+// jsdom draws nothing, so the Custom Highlight API is stood in for: the
+// marks a page sets are kept where a check can read them.
+const highlights = (w) => {
+  w.CSS = Object.assign(w.CSS || {}, { highlights: new Map() });
+  w.Highlight = class { constructor() { this.ranges = []; } add(range) { this.ranges.push(range); } };
+};
+const marked = (w) => { const h = w.CSS.highlights.get('olae-kept'); return h ? h.ranges.map((r) => r.toString().replace(/\u2060/g, '').replace(/\s+/g, ' ').trim()) : []; };
 
-function page(file, url, { saved, blocked = false, run = [] } = {}) {
+function page(file, url, { saved, blocked = false, run = [], before } = {}) {
   const dom = new JSDOM(read(site, file), { url, runScripts: 'outside-only', pretendToBeVisual: true });
   const w = dom.window;
   w.HTMLElement.prototype.scrollIntoView = function () {};
@@ -45,6 +53,7 @@ function page(file, url, { saved, blocked = false, run = [] } = {}) {
     : { ok: false, json: () => Promise.resolve({}) });
   if (saved !== undefined) w.localStorage.setItem(KEY, saved);
   if (blocked) Object.defineProperty(w, 'localStorage', { get() { throw new w.DOMException('Denied', 'SecurityError'); } });
+  if (before) before(w);
   for (const name of run) w.eval(scripts[name]);
   const q = (s) => w.document.querySelector(s);
   const click = (s) => { const node = typeof s === 'string' ? q(s) : s; assert.ok(node, String(s)); node.click(); };
@@ -57,14 +66,20 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   // Every instrument keeps the return destination tied to this visit's URL.
   const toolSlugs = [...read(root, '_data', 'tools.yml').matchAll(/^- slug: (\S+)/gm)].map(m => m[1]);
   for (const slug of toolSlugs) {
-    for (const from of ['', '?from=house', '?from=elsewhere']) {
+    const ways = {
+      '': ['/tools/', '←\u200ainstruments', 'All the instruments'],
+      '?from=house': ['/house/#study', '←\u200aThe House', 'Back to The House study'],
+      '?from=drawer&v=1': ['/house/#drawer', '←\u200ayour drawer', 'Back to your drawer'],
+      '?from=elsewhere': ['/tools/', '←\u200ainstruments', 'All the instruments'],
+      '?from=constructor': ['/tools/', '←\u200ainstruments', 'All the instruments']
+    };
+    for (const [from, [href, words, label]] of Object.entries(ways)) {
       const p = page(slug + '/index.html', 'https://hakanaltun.io/' + slug + '/' + from);
       p.w.eval(p.q('script[data-tool-return]').textContent);
       const back = p.q('.tools-link');
-      const fromHouse = from === '?from=house';
-      assert.equal(back.getAttribute('href'), fromHouse ? '/house/#study' : '/tools/', slug + from);
-      assert.equal(back.textContent.trim(), fromHouse ? '←\u200aThe House' : '←\u200ainstruments');
-      assert.equal(back.getAttribute('aria-label'), fromHouse ? 'Back to The House study' : 'All the instruments');
+      assert.equal(back.getAttribute('href'), href, slug + from);
+      assert.equal(back.textContent.trim(), words);
+      assert.equal(back.getAttribute('aria-label'), label);
       p.dom.window.close();
     }
   }
@@ -451,6 +466,180 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.equal(essayPassage.href, essay.url);
   p.dom.window.close();
 
+  // --- A kept passage on its page: the panel, a note, the mark --------------
+  p = page(essay.url.slice(1), 'https://hakanaltun.io' + essay.url, { run: ['keep', 'translate'], before: highlights });
+  await tick();
+  let copied = '';
+  Object.defineProperty(p.w.navigator, 'clipboard', { value: { writeText: (words) => { copied = words; return Promise.resolve(); } }, configurable: true });
+  const essayParagraphs = Array.from(p.w.document.querySelectorAll('.essay-body p')).filter((el) => el.textContent.trim().length > 40);
+  range = p.w.document.createRange();
+  range.selectNodeContents(essayParagraphs[0]);
+  const kept1 = p.w.OLAE_KEEP.passageFor(range);
+  assert.deepEqual(marked(p.w), [], 'nothing marked before anything is kept');
+  p.w.OLAE_KEEP.keepPassage(kept1);
+  const panel = p.q('.keep-panel');
+  assert.ok(panel && !panel.hidden, 'keeping a passage opens the panel');
+  assert.equal(p.q('.keep-panel-said').textContent, 'Kept in your drawer.');
+  assert.equal(p.q('[data-panel-note]').textContent, 'Add a note');
+  assert.equal(p.q('.keep-panel-actions a').getAttribute('href'), '/house/#drawer');
+  assert.equal(p.q('.keep-toast'), null, 'the panel says it, not a toast');
+  assert.deepEqual(marked(p.w), [kept1.quote], 'and the passage is marked where it stands');
+  p.click('[data-panel-note]');
+  const area = p.q('.keep-panel .keep-note-text');
+  assert.ok(area, 'Add a note opens the note');
+  assert.equal(p.w.document.activeElement, area);
+  assert.equal(p.q('.keep-panel label').getAttribute('for'), area.id);
+  assert.equal(area.maxLength, 2000);
+  area.value = 'Read this again\nafter the exam.';
+  area.dispatchEvent(new p.w.Event('input', { bubbles: true }));
+  await wait(450);
+  assert.equal(p.stored().kept[0].note, 'Read this again\nafter the exam.', 'the note is saved as it is written');
+  p.click('.keep-panel .keep-note-copy');
+  await tick();
+  assert.equal(copied, 'An essay · On Lying\n“' + kept1.quote + '”\nNote: Read this again\nafter the exam.\nhttps://hakanaltun.io' + essay.url, 'Copy takes the passage, the note and the page\'s link');
+  assert.equal(p.q('.keep-panel .keep-note-said').textContent, 'Copied, with its link.');
+  const pageLink = new URL(p.q('.keep-panel .keep-note-page').getAttribute('href'), 'https://hakanaltun.io');
+  assert.equal(pageLink.pathname, '/write/', 'The Page is beside Copy, to write at length');
+  assert.equal(pageLink.searchParams.get('from'), 'drawer', 'and its way back leads to the drawer');
+  assert.ok(pageLink.searchParams.get('v'), 'loading The Page as it is now');
+  assert.equal(p.q('.keep-panel .keep-note-page').textContent, 'Write more on The Page →');
+  area.value = 'Read this again.';
+  area.dispatchEvent(new p.w.Event('input', { bubbles: true }));
+  p.click('.keep-panel .keep-note-done');
+  assert.equal(p.stored().kept[0].note, 'Read this again.', 'Done saves without waiting');
+  assert.equal(p.q('.keep-panel .keep-note'), null);
+  assert.equal(p.q('.keep-panel-said').textContent, 'Your note is in your drawer.');
+  assert.equal(p.q('[data-panel-note]').textContent, 'Your note');
+  // Keeping the same words again finds them, note and all.
+  p.w.OLAE_KEEP.keepPassage(kept1);
+  assert.equal(p.q('.keep-panel-said').textContent, 'Already in your drawer.');
+  assert.equal(p.q('.keep-panel .keep-note-text').value, 'Read this again.', 'with its note open');
+  assert.notEqual(p.w.document.activeElement, p.q('.keep-panel .keep-note-text'), 'but not focused, so no keyboard rises');
+  p.w.document.dispatchEvent(new p.w.KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+  assert.equal(panel.hidden, true, 'Escape closes the panel');
+  // Touching the mark opens the panel; a touch elsewhere does not.
+  p.w.Range.prototype.getClientRects = function () {
+    return this.toString().includes(kept1.quote.slice(0, 30)) ? [{ left: 0, right: 600, top: 100, bottom: 160 }] : [];
+  };
+  const touchAt = (x, y, on = essayParagraphs[0]) => on.dispatchEvent(new p.w.MouseEvent('click', { bubbles: true, clientX: x, clientY: y }));
+  touchAt(20, 400);
+  await wait(300);
+  assert.equal(panel.hidden, true, 'a touch outside the mark opens nothing');
+  touchAt(20, 120);
+  await wait(300);
+  assert.equal(panel.hidden, false, 'a touch on the mark opens the panel');
+  assert.equal(p.q('.keep-panel-said').textContent, 'In your drawer.');
+  assert.equal(p.q('.keep-panel .keep-note-text').value, 'Read this again.');
+  // A passage with a note asks twice before it goes.
+  p.click('[data-panel-out]');
+  assert.equal(p.stored().kept.length, 1, 'not on the first press');
+  assert.equal(p.q('[data-panel-out]').textContent, 'Take it out with the note');
+  assert.equal(p.q('.keep-panel-said').textContent, 'Your note would go with it.');
+  p.click('[data-panel-out]');
+  assert.equal(p.stored().kept.length, 0, 'gone on the second');
+  assert.equal(p.q('.keep-panel-said').textContent, 'Taken out of your drawer.');
+  assert.deepEqual(marked(p.w), [], 'and its mark goes with it');
+  // One without a note goes at once.
+  p.w.OLAE_KEEP.keepPassage(kept1);
+  p.click('[data-panel-out]');
+  assert.equal(p.stored().kept.length, 0);
+  // A passage from another page, or words the page no longer has, are not marked.
+  p.w.OLAE_KEEP.toggle({ id: 'text-elsewhere', kind: 'An essay', title: 'Elsewhere', quote: kept1.quote, href: '/pieces/elsewhere.html' });
+  p.w.OLAE_KEEP.toggle({ id: 'text-reworded', kind: 'An essay', title: 'On Lying', quote: 'Words this essay has never held at all.', href: essay.url });
+  assert.deepEqual(marked(p.w), []);
+  p.dom.window.close();
+
+  // Spacing and the dash's word joiner do not hide a passage from its mark,
+  // and a marked passage is found again after the page puts it back.
+  p = page('book/part-one/index.html', 'https://hakanaltun.io/book/part-one/', { run: ['keep'], before: highlights });
+  await tick();
+  const dashedHere = Array.from(p.w.document.querySelectorAll('.book-chapter p')).find((el) => el.textContent === dashed.textContent);
+  assert.ok(dashedHere && dashedHere.ownerDocument === p.w.document);
+  range = p.w.document.createRange();
+  range.selectNodeContents(dashedHere);
+  const bookPassage = p.w.OLAE_KEEP.passageFor(range);
+  p.w.OLAE_KEEP.keepPassage(bookPassage);
+  assert.deepEqual(marked(p.w), [bookPassage.quote], 'a passage with a joined dash is marked');
+  const markBefore = p.w.CSS.highlights.get('olae-kept').ranges[0];
+  assert.equal(markBefore.startContainer.parentElement.closest('p'), dashedHere);
+  const putBack = dashedHere.cloneNode(true);
+  dashedHere.replaceWith(putBack);
+  assert.equal(markBefore.collapsed, true, 'lifting the paragraph out collapses the old mark');
+  await wait(250);
+  const markAfter = p.w.CSS.highlights.get('olae-kept').ranges[0];
+  assert.equal(markAfter.startContainer.parentElement.closest('p'), putBack, 'and the mark is found again on the paragraph put back');
+  assert.deepEqual(marked(p.w), [bookPassage.quote]);
+  p.dom.window.close();
+
+  // Without the Custom Highlight API nothing is marked, and keeping still works.
+  p = page(essay.url.slice(1), 'https://hakanaltun.io' + essay.url, { run: ['keep', 'translate'], before: (w) => { delete w.Highlight; } });
+  await tick();
+  range = p.w.document.createRange();
+  range.selectNodeContents(p.q('.essay-body p'));
+  p.w.OLAE_KEEP.keepPassage(p.w.OLAE_KEEP.passageFor(range));
+  assert.equal(p.q('.keep-panel').hidden, false);
+  assert.equal(p.stored().kept.length, 1);
+  p.dom.window.close();
+
+  // --- A note in the drawer --------------------------------------------------
+  const noted = { id: 'text-noted', kind: 'An essay', title: 'On Lying', quote: 'A lie is an environment.', href: '/pieces/on-lying.html', note: 'First line.\nSecond line.' };
+  const bare = { id: 'word-serendipity', kind: 'A word', title: 'serendipity', quote: '', href: '/word/serendipity/' };
+  a = house({ saved: JSON.stringify({ v: 2, kept: [bare, noted] }) });
+  await tick();
+  a.click('[data-open="drawer"]');
+  const notedItem = a.q('[data-note="text-noted"]').closest('.house-item');
+  assert.equal(notedItem.querySelector('.house-note-text').textContent, 'First line.\nSecond line.', 'the drawer shows the note under what was kept');
+  assert.equal(a.q('[data-note="text-noted"]').textContent, 'Edit the note');
+  assert.equal(a.q('[data-note="word-serendipity"]').textContent, 'Add a note', 'anything in the drawer can take one');
+  a.click('[data-note="word-serendipity"]');
+  const drawerArea = a.q('#house-dialog-content .keep-note-text');
+  assert.equal(a.w.document.activeElement, drawerArea);
+  const toPage = new URL(a.q('#house-dialog-content .keep-note-page').getAttribute('href'), 'https://hakanaltun.io');
+  assert.equal(toPage.pathname, '/write/');
+  assert.equal(toPage.searchParams.get('from'), 'drawer', 'from the drawer, The Page returns to the drawer');
+  assert.ok(toPage.searchParams.get('v'), 'and loads the current page');
+  drawerArea.value = 'Walpole, 1754.';
+  drawerArea.dispatchEvent(new a.w.Event('input', { bubbles: true }));
+  a.click('#house-dialog-content .keep-note-done');
+  assert.equal(a.stored().kept.find((k) => k.id === 'word-serendipity').note, 'Walpole, 1754.');
+  assert.match(a.q('[data-note="word-serendipity"]').closest('.house-item').textContent, /Walpole, 1754\./, 'the drawer is drawn again with the note');
+  assert.equal(a.w.document.activeElement, a.q('[data-note="word-serendipity"]'), 'focus comes back to the note\'s button');
+  // A note left open when the drawer closes keeps what was written, and
+  // never writes it back over a newer note.
+  a.click('[data-note="word-serendipity"]');
+  let left = a.q('#house-dialog-content .keep-note-text');
+  left.value = 'Older words.';
+  left.dispatchEvent(new a.w.Event('input', { bubbles: true }));
+  left.dispatchEvent(new a.w.Event('blur'));
+  a.click('#house-close');
+  assert.equal(a.stored().kept.find((k) => k.id === 'word-serendipity').note, 'Older words.');
+  a.click('[data-open="drawer"]');
+  a.click('[data-note="word-serendipity"]');
+  left = a.q('#house-dialog-content .keep-note-text');
+  left.value = 'Newer words.';
+  left.dispatchEvent(new a.w.Event('input', { bubbles: true }));
+  a.click('#house-dialog-content .keep-note-done');
+  a.w.dispatchEvent(new a.w.Event('pagehide'));
+  assert.equal(a.stored().kept.find((k) => k.id === 'word-serendipity').note, 'Newer words.', 'an editor that has left writes nothing more');
+  a.click('[data-note="word-serendipity"]');
+  a.q('#house-dialog-content .keep-note-text').value = 'Walpole, 1754.';
+  a.q('#house-dialog-content .keep-note-text').dispatchEvent(new a.w.Event('input', { bubbles: true }));
+  a.click('#house-dialog-content .keep-note-done');
+  blob = null;
+  a.w.URL.createObjectURL = (b) => { blob = b; return 'blob:x'; };
+  a.w.URL.revokeObjectURL = () => {};
+  a.w.HTMLAnchorElement.prototype.click = function () {};
+  a.click('[data-export="text"]');
+  assert.match(await blob.text(), /“A lie is an environment\.”\nNote: First line\.\nSecond line\.\nhttps:\/\/hakanaltun\.io\/pieces\/on-lying\.html/, 'the text download carries the note');
+  const removeNoted = a.q('[data-remove="text-noted"]');
+  a.click(removeNoted);
+  assert.equal(a.stored().kept.length, 2, 'a thing with a note asks twice');
+  assert.equal(removeNoted.textContent, 'Remove it and the note');
+  assert.match(a.q('#house-dialog-status').textContent, /Your note would go with it/);
+  a.click(removeNoted);
+  assert.equal(a.stored().kept.length, 1);
+  a.dom.window.close();
+
   // The footer's weather falls outside the window here, not over the page.
   // The House runs before the weather does, as it does in the page, and
   // offers the window once the page has loaded.
@@ -508,5 +697,5 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.equal(t.q('canvas.cursor-trail'), null, 'and none for a reader who asked for less motion');
   t.dom.window.close();
 
-  console.log('House: catalog and addresses, daily room, keeping from the room and from words, quizzes, the book and essays, legacy and hostile records, blocked storage, arrivals, #drawer, export and backup offered only where they work, the moon, the planets after dark, weather at the window, and the pointer\'s trail passed.');
+  console.log('House: catalog and addresses, daily room, keeping from the room and from words, quizzes, the book and essays, the kept passage\'s panel, note, copy and mark, notes in the drawer, legacy and hostile records, blocked storage, arrivals, #drawer, export and backup offered only where they work, the moon, the planets after dark, weather at the window, and the pointer\'s trail passed.');
 })().catch((error) => { console.error(error); process.exit(1); });

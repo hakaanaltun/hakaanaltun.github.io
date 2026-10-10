@@ -2,10 +2,20 @@
 <script data-tool-return>
 (function(){
   'use strict';
-  if(new URLSearchParams(window.location.search).get('from') !== 'house') return;
+  /* The House opens an instrument with from=house; a note in the drawer
+     opens The Page with from=drawer. Either way the way back goes where
+     the reader came from. */
+  var from = new URLSearchParams(window.location.search).get('from');
+  if(from !== 'house' && from !== 'drawer') return;
   var back = document.querySelector('.tools-link');
-  back.href = '/house/#study';
-  back.textContent = '\u2190\u200aThe House';
-  back.setAttribute('aria-label', 'Back to The House study');
+  if(from === 'house'){
+    back.href = '/house/#study';
+    back.textContent = '← The House';
+    back.setAttribute('aria-label', 'Back to The House study');
+  } else {
+    back.href = '/house/#drawer';
+    back.textContent = '← your drawer';
+    back.setAttribute('aria-label', 'Back to your drawer');
+  }
 })();
 </script>

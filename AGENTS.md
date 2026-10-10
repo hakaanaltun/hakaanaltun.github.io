@@ -325,9 +325,25 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   them in proportion. `scripts/test-reading.cjs` fails on an ungated rule.
 - **"read with rain" stays under the title.** Rain that is falling has
   to show where it can be stopped.
+- **A kept passage is marked on its page, and anything kept can carry a
+  note.** The author asked for both on 10 October 2026. Keeping a passage
+  opens a small panel at the foot of the window (`js/keep.js`) with "Add a
+  note", "Take out" and the way to the drawer; touching a marked passage
+  opens it again. The note is stored with the thing it belongs to, goes
+  into a backup, the text download and the printed drawer, and stays off a
+  shared card. Under the note, Copy takes the note with what was kept and
+  its link, and a link to The Page (`/write/`) sits beside it, so a reader
+  who wants to write at length can paste them there. That link carries
+  `from=drawer`, so The Page's way back says "your drawer" and returns to
+  it. Taking out
+  something with a note asks twice. The mark is drawn with the CSS Custom
+  Highlight API, so the page's text is never wrapped or changed; a browser
+  without it marks nothing, and paper never shows it. A passage is found
+  by its words, so one whose words have since changed loses its mark and
+  stays in the drawer.
 - **A printed piece** opens with its kind (Essay or Short fiction) on the
   left and HAKANALTUN.IO on the right, then the title and date, centered, and
-  ends with the footer's two lines, centered. Word pages have no print layout
+  ends with the footer's two lines, centered at the foot of the last page. Word pages have no print layout
   of their own: The House's cards are how a word is printed or shared.
 - **Puzzle mode waits at the foot of a piece** and opens at its head. Its
   panel is sticky, so the scroll aims at the article beneath it.
@@ -411,8 +427,9 @@ accuracy and plain prose to this section as well.
   9 October 2026, so the next world never has to be found by touching it.
   A scene's `back` and `next` in the front matter set them.
   The journey covers Earth's vicinity, a closer Earth view, the Moon, Mars,
-  Jupiter, Saturn and Uranus, including the ISS near Earth, Io and Europa beside
-  Jupiter, Titan and Enceladus beside Saturn, and Miranda beside Uranus. Keep recognizable geography, lunar markings, lighting,
+  Jupiter, Saturn, Uranus, Neptune and Pluto, including the ISS near Earth,
+  Io and Europa beside Jupiter, Titan and Enceladus beside Saturn, Miranda
+  beside Uranus, Triton beside Neptune, and Charon beside Pluto. Keep recognizable geography, lunar markings, lighting,
   paper and brushwork consistent across connected views. Sizes, distances
   and viewpoints are arranged for exploration, explained below the picture.
   This is an illustrative journey rather than a live sky or a flight path.
@@ -449,6 +466,23 @@ accuracy and plain prose to this section as well.
   mosaic PIA00317. Its enlargement and simplified deposits are disclosed.
   The next destination in the Uranus scene sits in clear upper-left space,
   away from the rings at upper right.
+  Pluto adds its dwarf-planet classification, Sputnik Planitia’s nitrogen-ice
+  convection, Charon’s discovery and mutual tidal locking, and the modeled
+  transfer of material from Pluto to Charon’s reddish pole. Natural-color
+  New Horizons views guide both globe portraits. They show separately
+  arranged encounter hemispheres, with illustrative sizes and separation.
+  Mercury and Venus remain to be added before the eight-planet scope is complete.
+  On 10 October 2026 the author set the remaining route. The Sun will have
+  its own full-page picture and sourced story, like the black hole and quasar.
+  Mercury’s scene will show a small Sun. Touching its body opens The Sun’s
+  page; its label opens a short explanation ending with "Go to The Sun".
+  Complete all eight planets and selected important Solar System features
+  before closing the journey with Voyager 1 and Voyager 2. Explain their
+  positions and what crossing the heliopause means without claiming that
+  they have passed every definition of the Solar System’s boundary.
+  More distant objects are outside this journey’s agreed ending. After this
+  work, build the Amazon rainforest exploration, then return to The Fragments
+  for its final revision. The general AI note in Notes covers these pictures.
   Earth vicinity, Earth and Moon were approved as one coherent section before
   extending to Mars. The Moon’s small Mars destination reuses a crop of the
   Mars painting, preserving the approved lunar scene. Mars has sourced labels
@@ -633,6 +667,8 @@ accuracy and plain prose to this section as well.
 - **The way back follows how an instrument was opened.** A link from The
   House to an instrument carries `from=house`, preserving any other query
   parameters. Its back link says "The House" and returns to `/house/#study`.
+  The link to The Page beside a note carries `from=drawer`, and its back
+  link says "your drawer" and returns to `/house/#drawer`.
   Other entries keep the link to Instruments. `_includes/tool-back.html`
   provides this behavior on every instrument. Keep the origin in the URL so
   reloading preserves it and separate visits stay independent. House links

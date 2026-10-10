@@ -76,14 +76,14 @@ html[data-reading-spacing] .essay-body[data-reading-body] :is(p, li, blockquote)
   body.is-post .essay-article > :not(.essay-card-wrapper),
   body.is-post .essay-card-wrapper > :not(.essay-header):not(.essay-body):not(.print-colophon),
   body.is-post .essay-header > :not(.essay-title-block):not(.essay-date-line):not(.print-head),
-  body.is-post :is(.keep-toast, .keep-prompt, .reader-translate, .snow-overlay, .rain-overlay) { display: none !important; }
+  body.is-post :is(.keep-toast, .keep-prompt, .keep-panel, .reader-translate, .snow-overlay, .rain-overlay) { display: none !important; }
   body.is-post :is(.essay-card-wrapper, .essay-header, .essay-body) { opacity: 1 !important; transform: none !important; animation: none !important; max-width: none; }
   body.is-post .essay-header { padding: 0 0 20pt; }
   body.is-post .essay-header h1 { color: black; font-size: 24pt; }
   body.is-post .essay-date-line { color: black; }
   /* The kind of piece on the left and the site's address on the right, in
-     small spaced capitals; the site's name and line at the end, centred, as
-     the footer has them. */
+     small spaced capitals; the site's name and line at the foot of the last
+     page, centred, as the footer has them. */
   body.is-post .print-head {
     display: flex; justify-content: space-between; gap: 12pt; align-self: stretch; margin: 0 0 30pt;
     font: 8.5pt/1.2 'EB Garamond', Georgia, serif; letter-spacing: 0.16em; text-transform: uppercase; color: black;
@@ -92,6 +92,18 @@ html[data-reading-spacing] .essay-body[data-reading-body] :is(p, li, blockquote)
   body.is-post .print-colophon p { margin: 0; color: black; }
   body.is-post .print-colophon-brand { font: italic 15pt/1.1 'Cormorant Garamond', Georgia, serif; }
   body.is-post .print-colophon .print-colophon-line { margin-top: 3pt; font: italic 9.5pt/1.3 'EB Garamond', Georgia, serif; }
+  /* The two lines stand at the foot of the last page. The piece's height,
+     rounded up to whole pages (100vh is a page in print), ends at the foot
+     of the last one; the colophon is set just above that line, at least
+     24pt below the prose. Where round() is missing, the lines follow the
+     prose as before. */
+  @supports (top: round(up, 1%, 1vh)) {
+    body.is-post .essay-card-wrapper { position: relative; }
+    body.is-post .print-colophon {
+      position: absolute; left: 0; right: 0; top: calc(round(up, 100% + 64pt, 100vh) - 40pt);
+      display: flex; flex-direction: column; justify-content: flex-end; height: 40pt; margin: 0;
+    }
+  }
   body.is-post .essay-body { padding: 0; }
   body.is-post .essay-body :is(p, li, blockquote, h2, h3) { color: black; orphans: 3; widows: 3; }
   body.is-post .essay-body :is(h2, h3) { break-after: avoid; }

@@ -3,27 +3,29 @@ layout: space
 permalink: /pictures/space/
 title: Through the Solar System
 category: Space
-description: Explore Earth, the Moon and the planets from Mars to Neptune through connected watercolor scenes, with
+description: Explore Earth, the Moon and the worlds from Mars to Pluto through connected watercolor scenes, with
   sourced information about their visible features.
-teaser: A watercolor journey from Earth to Neptune.
+teaser: A watercolor journey from Earth to Pluto.
 image: /pictures/space/assets/earth-vicinity-v2-watercolor.webp
 image_width: 1536
 image_height: 1024
 alt: A wide watercolor view of Earth, a small gray Moon and the International Space Station, separated by indigo
   space.
 caption: Touch a world to go there. Its name opens information.
-illustration_note: Eight connected watercolor scenes lead from Earth’s vicinity to Earth, the Moon, Mars, Jupiter,
-  Saturn, Uranus and Neptune. Recognizable worlds and the direction of sunlight continue across the views. These
-  are scientific illustrations with simplified features. Sizes, distances and viewpoints are arranged for exploration;
-  they do not show a live sky, an exact surface map or a spacecraft flight path. The ISS is enlarged so its structure
-  can be seen. Martian relief is emphasized to make the volcanoes and canyon visible. Io, Europa, Titan, Enceladus,
-  Miranda and Triton are enlarged separately to show their surfaces; their sizes and separations are not to scale.
-  Jupiter’s cloud patterns are an interpretation of a changing atmosphere. Saturn’s ring structure and Enceladus’s
-  fractures are simplified; the moon views are not surface maps. Uranus’s faint rings are shown with enhanced contrast,
-  and Miranda’s terrain is simplified from Voyager images. The direction of its rings suggests Uranus’s orientation;
-  this view does not measure its tilt against an orbital plane. Neptune’s weather features recall Voyager 2’s 1989
-  observations, with contrast strengthened for exploration. The Great Dark Spot shown here later disappeared. Triton’s
-  terrain and colors are interpreted from a Voyager mosaic; its small dark streaks represent windblown deposits.
+illustration_note: Nine connected watercolor scenes lead from Earth’s vicinity to Earth, the Moon, Mars, Jupiter,
+  Saturn, Uranus, Neptune and Pluto. Recognizable worlds and the direction of sunlight continue across the views.
+  These are scientific illustrations with simplified features. Sizes, distances and viewpoints are arranged for
+  exploration; they do not show a live sky, an exact surface map or a spacecraft flight path. The ISS is enlarged
+  so its structure can be seen. Martian relief is emphasized to make the volcanoes and canyon visible. Io, Europa,
+  Titan, Enceladus, Miranda and Triton are enlarged separately to show their surfaces; their sizes and separations
+  are not to scale. Jupiter’s cloud patterns are an interpretation of a changing atmosphere. Saturn’s ring structure
+  and Enceladus’s fractures are simplified; the moon views are not surface maps. Uranus’s faint rings are shown
+  with enhanced contrast, and Miranda’s terrain is simplified from Voyager images. The direction of its rings suggests
+  Uranus’s orientation; this view does not measure its tilt against an orbital plane. Neptune’s weather features
+  recall Voyager 2’s 1989 observations, with contrast strengthened for exploration. The Great Dark Spot shown here
+  later disappeared. Triton’s terrain and colors are interpreted from a Voyager mosaic; its small dark streaks represent
+  windblown deposits. Pluto and Charon are separately arranged portraits of the hemispheres photographed by New
+  Horizons in 2015. Their terrain is simplified, and their sizes and separation in the painting are illustrative.
 scenes:
 - id: vicinity
   name: Earth vicinity
@@ -435,12 +437,12 @@ scenes:
   image: /pictures/space/assets/near-neptune-watercolor.webp
   alt: A pale blue-green watercolor Neptune with soft cloud bands and the dark oval storm seen by Voyager 2 in 1989.
     Triton at lower left has muted gray terrain above pale pinkish polar ice with small dark streaks. A tiny Uranus
-    at upper left offers a return.
-  caption: Near Neptune. Explore its changing atmosphere and Triton’s icy surface.
+    at upper left offers a return. A small ivory-and-brown Pluto at upper right leads onward.
+  caption: Near Neptune. Explore its atmosphere and Triton, or continue to Pluto.
   back: uranus
   back_label: Uranus
-  next: ''
-  next_label: ''
+  next: pluto
+  next_label: Pluto
   spots:
   - label: Neptune
     x: 76
@@ -486,6 +488,70 @@ scenes:
     paint_width: 3.2
     paint_position: 80.85% 40.74%
     paint_zoom: 215% auto
+  - label: Pluto
+    x: 85
+    y: 14
+    detail: pluto
+    primary: true
+    go: pluto
+    width: 2.4
+    height: 3.6
+    label_x: 86.2
+    label_y: 14
+    label_edge: right
+    paint_image: /pictures/space/assets/near-pluto-watercolor.webp
+    paint_width: 2.4
+    paint_position: 70.30% 22.00%
+    paint_zoom: 175% auto
+- id: pluto
+  name: Near Pluto
+  image: /pictures/space/assets/near-pluto-watercolor.webp
+  alt: Watercolor Pluto has pale northern terrain, a broad brown region at lower left and an irregular bright heart
+    on its right side. Smaller gray Charon at lower left has a muted reddish-brown northern cap and a band of chasms.
+    A tiny blue-green Neptune at upper left offers a return.
+  caption: Near Pluto. Explore its bright nitrogen-ice plain and the connection with Charon.
+  back: neptune
+  back_label: Neptune
+  next: ''
+  next_label: ''
+  spots:
+  - label: Pluto
+    x: 58
+    y: 24
+    detail: pluto
+    primary: true
+  - label: Sputnik Planitia
+    x: 64
+    y: 49
+    detail: sputnik-planitia
+    primary: false
+  - label: Charon
+    x: 19
+    y: 74
+    detail: charon
+    primary: true
+  - label: Reddish pole
+    x: 19.6
+    y: 54
+    detail: charon-pole
+    primary: false
+    label_side: right
+    label_gap: 3
+  - label: Neptune
+    x: 15
+    y: 14
+    detail: neptune
+    primary: true
+    go: neptune
+    width: 3.2
+    height: 4.8
+    label_x: 16.6
+    label_y: 14
+    label_edge: right
+    paint_image: /pictures/space/assets/near-neptune-watercolor.webp
+    paint_width: 3.2
+    paint_position: 77.02% 37.65%
+    paint_zoom: 190% auto
 sources:
 - id: earth
   label: NASA Science · Earth facts
@@ -631,6 +697,33 @@ sources:
 - id: triton-plumes
   label: NASA/JPL · Triton’s plumes in Voyager images
   url: https://science.nasa.gov/photojournal/tritons-volcanic-plumes/
+- id: pluto-facts
+  label: NASA Science · Pluto facts
+  url: https://science.nasa.gov/dwarf-planets/pluto/facts/
+- id: pluto-definition
+  label: IAU · The 2006 definitions of planets and dwarf planets
+  url: https://www.iau.org/IAU/Iau/News/PR2006/iau-2006-general-assembly-resolution-votes.aspx
+- id: pluto-colors
+  label: NASA/New Horizons · Pluto in natural color
+  url: https://science.nasa.gov/resource/true-colors-of-pluto/
+- id: sputnik-convection
+  label: NASA · Convection in Pluto’s nitrogen ice
+  url: https://www.nasa.gov/solar-system/plutos-heart-like-a-cosmic-lava-lamp/
+- id: sputnik-terrain
+  label: NASA · Surface patterns in Pluto’s bright plain
+  url: https://www.nasa.gov/image-article/intricate-surface-patterns-revealed-plutos-sputnik-planum/
+- id: charon-facts
+  label: NASA Science · Charon and its discovery
+  url: https://science.nasa.gov/dwarf-planets/pluto/moons/charon/
+- id: charon-colors
+  label: NASA/New Horizons · Charon in natural color
+  url: https://science.nasa.gov/resource/true-colors-of-charon/
+- id: charon-polar-model
+  label: Grundy and colleagues · A model for Charon’s red poles
+  url: https://ntrs.nasa.gov/citations/20170003179
+- id: charon-polar-chemistry
+  label: NASA · How Pluto may supply Charon’s reddish material
+  url: https://www.nasa.gov/missions/pluto-paints-its-largest-moon-red/
 details:
 - id: earth
   label: Earth
@@ -1199,5 +1292,84 @@ details:
   position: 15.57% 82.40%
   zoom: 900% auto
   alt: Fine dark streaks across Triton’s pale pinkish southern ice.
+- id: pluto
+  label: Pluto
+  kicker: Pluto · A dwarf planet
+  title: A world among the Kuiper Belt’s icy bodies.
+  body:
+  - Pluto belongs to the Kuiper Belt, a region of icy bodies beyond Neptune. After its discovery in 1930, it was
+    counted as the ninth planet for more than seventy years.
+  - In 2006, the International Astronomical Union classified it as a dwarf planet. Pluto circles the Sun and its
+    gravity has made it nearly round. It does not meet the additional planetary criterion of having cleared its
+    orbital neighborhood.
+  - New Horizons flew past in July 2015, revealing a landscape of glaciers and mountains. This view follows the
+    hemisphere seen during that encounter, including the broad bright region named Tombaugh Regio, often called
+    Pluto’s heart.
+  sources:
+  - pluto-facts
+  - pluto-definition
+  - pluto-colors
+  image: /pictures/space/assets/near-pluto-watercolor.webp
+  position: 70.30% 22.00%
+  zoom: 175% auto
+  alt: Pluto’s pale and brown terrain surrounding its irregular bright heart-shaped region.
+- id: sputnik-planitia
+  label: Sputnik Planitia
+  kicker: Pluto · Sputnik Planitia
+  title: Ice that slowly renews its surface.
+  body:
+  - The smooth left lobe of Pluto’s bright heart is Sputnik Planitia. Nitrogen ice fills this broad basin. Its pale
+    surface contrasts with the darker, rougher terrain along its western edge.
+  - New Horizons photographed broad cells across parts of the plain. Scientists compared their shapes with computer
+    models and found that slow convection in solid nitrogen ice could produce the pattern. Warmer ice rises from
+    below, spreads and cools, then sinks near the cell boundaries.
+  - This movement can replace older surface material and help explain why the plain has so few impact craters. The
+    painting keeps the basin mostly smooth; its delicate markings suggest the much finer patterns visible in spacecraft
+    images.
+  sources:
+  - sputnik-convection
+  - sputnik-terrain
+  - pluto-facts
+  image: /pictures/space/assets/near-pluto-watercolor.webp
+  position: 69.02% 49.85%
+  zoom: 430% auto
+  alt: The pale nitrogen-ice plain of Sputnik Planitia and its irregular western boundary.
+- id: charon
+  label: Charon
+  kicker: Pluto’s moons · Charon
+  title: The moon first seen as a moving bulge.
+  body:
+  - In 1978, James Christy noticed that some telescope images of Pluto looked stretched. The bulge changed position
+    in a repeating cycle. Archived images showed it too, and further observations confirmed a large moon.
+  - Charon is about half Pluto’s diameter. The two worlds keep the same faces toward each other, a state called
+    mutual tidal locking. Charon’s orbit and each world’s rotation take about 6.4 Earth days.
+  - From a place on Pluto facing Charon, the moon stays in the same part of the sky. The two globe portraits here
+    show terrain photographed by New Horizons, arranged separately for exploration.
+  sources:
+  - charon-facts
+  - charon-colors
+  image: /pictures/space/assets/near-pluto-watercolor.webp
+  position: 9.20% 79.16%
+  zoom: 385% auto
+  alt: Gray Charon with a reddish northern cap and broken chasms across the lower middle.
+- id: charon-pole
+  label: Reddish pole
+  kicker: Charon · The northern polar region
+  title: Material that may have come from Pluto.
+  body:
+  - Charon is mostly gray, but its northern polar region has a reddish-brown tint. New Horizons images and models
+    of the moon’s long seasons led researchers to an explanation involving its companion.
+  - In this model, methane escaping from Pluto reaches Charon and freezes at the winter pole. Radiation alters the
+    trapped material into heavier compounds. When sunlight returns, much of the methane escapes again, while less
+    volatile products remain.
+  - Further irradiation can produce reddish organic material called tholins. The model agrees with the observed
+    color pattern; it reconstructs a process that the spacecraft could not watch over an entire seasonal cycle.
+  sources:
+  - charon-polar-model
+  - charon-polar-chemistry
+  image: /pictures/space/assets/near-pluto-watercolor.webp
+  position: 15.55% 55.59%
+  zoom: 850% auto
+  alt: Charon’s muted reddish-brown polar region blending into its gray icy surface.
 ---
 <p>Begin near Earth. Follow the worlds into their closer views.</p>
