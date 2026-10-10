@@ -248,12 +248,23 @@ function resolve(urlPath) {
 }
 const unescape = (s) => s.replace(/&amp;/g, '&').replace(/&#39;/g, "'").replace(/&quot;/g, '"');
 
+/* An old address (/essays/, /pieces/ for a part of the book) moves on at
+   once to where its page is now. It has to go there in one step: when a page
+   moves again, every address that pointed at it is changed to the new place. */
+const movesOn = (html) => html.match(/http-equiv="refresh" content="0; *url=([^"]+)"/)?.[1];
+
 for (const file of htmlFiles(site)) {
   checkJoinedDashes(file);
   const where = path.relative(root, file);
   const html = fs.readFileSync(file, 'utf8')
     .replace(/<script\b[\s\S]*?<\/script>/g, '')
     .replace(/<!--[\s\S]*?-->/g, '');
+  const next = movesOn(html);
+  if (next?.startsWith('/')) {
+    const target = resolve(next.split('#')[0].split('?')[0]);
+    const after = target && movesOn(fs.readFileSync(target, 'utf8'));
+    if (after) problem(where, `moves on to ${next}, which moves on again to ${after}`);
+  }
   for (const match of html.matchAll(/\s(?:href|src)=(?:"([^"]*)"|'([^']*)')/g)) {
     const link = unescape(match[1] ?? match[2]);
     if (!link || /^(?:[a-z]+:|\/\/|\{\{)/i.test(link)) continue;

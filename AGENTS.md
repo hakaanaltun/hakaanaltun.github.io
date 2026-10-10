@@ -187,6 +187,14 @@ the Pictures cards' downscales. Gems go into the git-ignored
   `archive.html` are served at `/about/` and `/archive/`, with trailing
   slashes. Posts use the permalink pattern `/pieces/:slug.html`, set in
   `_config.yml`.
+- **Old addresses send the reader on.** Pieces were served at
+  `/essays/<slug>.html` until 30 May 2026, and search engines still list
+  some of them. Each has a small page in `essays/`, in the same form as
+  `pieces/handled.html`: `sitemap: false`, `noindex,follow`, an immediate
+  refresh and a canonical link. `/essays/` leads to Writing, and `/writing/`
+  and `/instruments/`, the menu's own names, lead to Writing and
+  Instruments. When a page moves, point every old address at its new place.
+  `scripts/test-content.cjs` fails on an address that moves on twice.
 - `_config.yml` sets `future: true`, so posts dated in the future render
   as intended.
 - The production Pages workflow uses Ruby 3.3. The VM's apt-provided Ruby
