@@ -441,6 +441,14 @@ accuracy and plain prose to this section as well.
   mosaic PIA01490. Its scale and terrain are illustrative; Uranus’s faint
   rings have enhanced contrast, disclosed below the painting. The angle of
   the rings on the page is a chosen view, not a measurement of axial tilt.
+  Neptune follows Uranus with its discovery through orbital predictions,
+  its revised blue-green color, the 1989 Great Dark Spot, and Triton’s
+  retrograde orbit and polar streaks. Oxford’s 2024 color reconstruction
+  guides the restrained palette. The storm is explicitly historical; Hubble
+  found it had disappeared in 1994. Triton’s broad terrain follows Voyager
+  mosaic PIA00317. Its enlargement and simplified deposits are disclosed.
+  The next destination in the Uranus scene sits in clear upper-left space,
+  away from the rings at upper right.
   Earth vicinity, Earth and Moon were approved as one coherent section before
   extending to Mars. The Moon’s small Mars destination reuses a crop of the
   Mars painting, preserving the approved lunar scene. Mars has sourced labels
