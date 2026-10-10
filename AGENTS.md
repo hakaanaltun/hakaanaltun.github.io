@@ -325,6 +325,22 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   them in proportion. `scripts/test-reading.cjs` fails on an ungated rule.
 - **"read with rain" stays under the title.** Rain that is falling has
   to show where it can be stopped.
+- **A kept passage is marked on its page, and anything kept can carry a
+  note.** The author asked for both on 10 October 2026. Keeping a passage
+  opens a small panel at the foot of the window (`js/keep.js`) with "Add a
+  note", "Take out" and the way to the drawer; touching a marked passage
+  opens it again. The note is stored with the thing it belongs to, goes
+  into a backup, the text download and the printed drawer, and stays off a
+  shared card. Under the note, Copy takes the note with what was kept and
+  its link, and a link to The Page (`/write/`) sits beside it, so a reader
+  who wants to write at length can paste them there. That link carries
+  `from=drawer`, so The Page's way back says "your drawer" and returns to
+  it. Taking out
+  something with a note asks twice. The mark is drawn with the CSS Custom
+  Highlight API, so the page's text is never wrapped or changed; a browser
+  without it marks nothing, and paper never shows it. A passage is found
+  by its words, so one whose words have since changed loses its mark and
+  stays in the drawer.
 - **A printed piece** opens with its kind (Essay or Short fiction) on the
   left and HAKANALTUN.IO on the right, then the title and date, centered, and
   ends with the footer's two lines, centered at the foot of the last page. Word pages have no print layout
@@ -614,6 +630,8 @@ accuracy and plain prose to this section as well.
 - **The way back follows how an instrument was opened.** A link from The
   House to an instrument carries `from=house`, preserving any other query
   parameters. Its back link says "The House" and returns to `/house/#study`.
+  The link to The Page beside a note carries `from=drawer`, and its back
+  link says "your drawer" and returns to `/house/#drawer`.
   Other entries keep the link to Instruments. `_includes/tool-back.html`
   provides this behavior on every instrument. Keep the origin in the URL so
   reloading preserves it and separate visits stay independent. House links

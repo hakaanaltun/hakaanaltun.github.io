@@ -166,6 +166,12 @@ html:has(.house-dialog[open]) { overflow: hidden; }
 .house-item-kind { font-size: 12px !important; text-transform: uppercase; letter-spacing: .1em; color: var(--vizon); margin: 0 0 8px; }
 .house-item blockquote { margin: 10px 0; padding: 0; border: 0; font-style: italic; white-space: pre-line; }
 .house-dialog h3.is-word { font-style: italic; font-size: 36px; }
+.house-item-note { margin: 14px 0 0; }
+.house-item-note .house-item-kind { margin: 0 0 4px; }
+.house-dialog .house-note-text { margin: 0; white-space: pre-line; }
+.house-item .keep-note { margin: 16px 0 0; }
+.house-dialog .keep-note-hint, .house-dialog .keep-note-said { font-size: 15px; line-height: 1.45; }
+.house-item .keep-note-foot button { padding: 9px 14px; min-height: 44px; border: 1px solid var(--rule-strong); border-radius: 2px; background: var(--surface-soft); font-size: 15px; font-style: normal; color: var(--ink); }
 .house-item-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 12px 24px; margin-top: 18px; font-size: 16px; }
 .house-dialog a { color: var(--petrol); text-decoration: underline; text-underline-offset: 4px; }
 .house-item-actions button { padding: 9px 12px; min-height: 44px; border: 1px solid var(--rule-strong); border-radius: 2px; background: var(--surface-soft); font-size: 15px; }
@@ -291,4 +297,5 @@ html[data-theme="dark"], html[data-theme="midnight"], html[data-theme="sky"], .h
   .house-print h2.is-word { font-style: italic; }
   .house-print .house-item-kind { font-size: 8pt !important; letter-spacing: .12em; text-transform: uppercase; color: #6D665B; margin: 0 0 4pt; }
   .house-print-address { color: #6D665B; font-size: 10pt; }
+  .house-print-note { white-space: pre-line; }
 }

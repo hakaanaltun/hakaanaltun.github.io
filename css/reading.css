@@ -76,7 +76,7 @@ html[data-reading-spacing] .essay-body[data-reading-body] :is(p, li, blockquote)
   body.is-post .essay-article > :not(.essay-card-wrapper),
   body.is-post .essay-card-wrapper > :not(.essay-header):not(.essay-body):not(.print-colophon),
   body.is-post .essay-header > :not(.essay-title-block):not(.essay-date-line):not(.print-head),
-  body.is-post :is(.keep-toast, .keep-prompt, .reader-translate, .snow-overlay, .rain-overlay) { display: none !important; }
+  body.is-post :is(.keep-toast, .keep-prompt, .keep-panel, .reader-translate, .snow-overlay, .rain-overlay) { display: none !important; }
   body.is-post :is(.essay-card-wrapper, .essay-header, .essay-body) { opacity: 1 !important; transform: none !important; animation: none !important; max-width: none; }
   body.is-post .essay-header { padding: 0 0 20pt; }
   body.is-post .essay-header h1 { color: black; font-size: 24pt; }

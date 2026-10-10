@@ -174,8 +174,9 @@ async function main() {
     assert.match(print, /\.print-colophon \{[^}]*position: absolute;[^}]*top: calc\(round\(up, 100% \+ 64pt, 100vh\) - 40pt\)/, 'the colophon stands at the foot of the last page');
   }
 
-  // A backup preserves the saved words and source, merges without erasing
-  // existing records, and never restores another browser's House memories.
+  // A backup preserves the saved words, source and note, merges without
+  // erasing existing records or notes, and never restores another browser's
+  // House memories.
   {
     const { dom, w } = page(); run(w, 'keep'); await tick();
     const keep = w.OLAE_KEEP;
@@ -184,8 +185,8 @@ async function main() {
     keep.remove('text-first');
     keep.toggle({ id: 'text-second', title: 'Second', quote: 'Already here.', href: '/pieces/second.html' });
     keep.update(s => { s.lamp = true; });
-    assert.equal(keep.restoreBackup(copy), 1);
-    assert.equal(keep.restoreBackup(copy), 0);
+    assert.deepEqual({ ...keep.restoreBackup(copy) }, { items: 1, notes: 0 });
+    assert.deepEqual({ ...keep.restoreBackup(copy) }, { items: 0, notes: 0 });
     assert.equal(keep.read().kept.length, 2);
     assert.equal(keep.read().lamp, true);
     assert.equal(keep.read().kept[1].quote, 'The exact saved line.');
@@ -194,7 +195,7 @@ async function main() {
     assert.throws(() => keep.restoreBackup({ format: 'olae-drawer', version: 1, items: [null] }));
     assert.equal(JSON.stringify(keep.read()), before);
     const malicious = { format: 'olae-drawer', version: 1, items: [{ id: 'text-third', title: '<img onerror="bad()">', quote: '<script>bad()</script>', href: 'javascript:bad()' }] };
-    assert.equal(keep.restoreBackup(malicious), 1);
+    assert.deepEqual({ ...keep.restoreBackup(malicious) }, { items: 1, notes: 0 });
     assert.equal(keep.read().kept[2].href, '/');
     const stored = w.localStorage.getItem('olae-house-v1');
     w.Storage.prototype.setItem = () => { throw new w.DOMException('full', 'QuotaExceededError'); };
@@ -203,6 +204,30 @@ async function main() {
     assert.equal(keep.has('text-fourth'), false);
     dom.window.close();
   }
-  console.log('Reading checks passed: the original untouched until a choice, choices kept and cleared, blocked and malformed storage, Escape, other tabs, rain under the title, the size sample, the printed head and colophon, and drawer backup recovery.');
+  {
+    const { dom, w } = page(); run(w, 'keep'); await tick();
+    const keep = w.OLAE_KEEP;
+    keep.toggle({ id: 'text-noted', title: 'Noted', quote: 'A line worth a note.', href: '/pieces/noted.html' });
+    keep.toggle({ id: 'text-plain', title: 'Plain', quote: 'A line without one.', href: '/pieces/plain.html' });
+    assert.equal(keep.setNote('text-noted', '  First thought.\r\n\r\n\r\n\r\nSecond   \n'), true);
+    assert.equal(keep.find('text-noted').note, 'First thought.\n\nSecond', 'line breaks kept, empty runs closed up');
+    keep.setNote('text-plain', 'Mine.');
+    const copy = JSON.parse(JSON.stringify(keep.backup()));
+    assert.equal(copy.items.find(i => i.id === 'text-noted').note, 'First thought.\n\nSecond', 'the backup carries the note');
+    keep.setNote('text-noted', '');
+    assert.equal('note' in keep.find('text-noted'), false, 'an emptied note is gone');
+    keep.setNote('text-plain', 'Written since.');
+    assert.deepEqual({ ...keep.restoreBackup(copy) }, { items: 0, notes: 1 });
+    assert.equal(keep.find('text-noted').note, 'First thought.\n\nSecond', 'a missing note comes back');
+    assert.equal(keep.find('text-plain').note, 'Written since.', 'a note already here is not overwritten');
+    assert.equal(keep.setNote('text-gone', 'x'), false);
+    keep.toggle({ id: 'text-long', title: 'Long', quote: 'Long.', href: '/pieces/long.html', note: 'x'.repeat(5000) });
+    assert.equal(keep.find('text-long').note.length, 2000, 'a note is held to its length');
+    keep.toggle({ id: 'text-odd', title: 'Odd', quote: 'Odd.', href: '/pieces/odd.html', note: { evil: true } });
+    assert.equal('note' in keep.find('text-odd'), false, 'a note is text or nothing');
+    assert.equal(keep.plain(keep.find('text-plain')), 'Plain\n“A line without one.”\nNote: Written since.\n' + w.location.origin + '/pieces/plain.html');
+    dom.window.close();
+  }
+  console.log('Reading checks passed: the original untouched until a choice, choices kept and cleared, blocked and malformed storage, Escape, other tabs, rain under the title, the size sample, the printed head and colophon, and drawer backup recovery with notes.');
 }
 main().catch(error => { console.error(error); process.exit(1); });
