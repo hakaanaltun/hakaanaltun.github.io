@@ -75,6 +75,10 @@
     };
     var note = noteText(item.note);
     if (note) out.note = note;
+    // A highlight is marked on its page; one made by Highlight alone is
+    // not otherwise kept (see highlight() below).
+    if (item.mark === true) out.mark = true;
+    if (item.keep === false) out.keep = false;
     return out;
   }
 
@@ -94,6 +98,8 @@
       });
     }
     if (typeof value.lamp === 'boolean') state.lamp = value.lamp;
+    // Marks on the pages are shown unless the reader hid them.
+    if (value.marks === false) state.marks = false;
     var seen = value.seen;
     if (seen && typeof seen === 'object' && typeof seen.day === 'string') {
       state.seen = { day: seen.day.slice(0, 10), known: strings(seen.known), fresh: strings(seen.fresh) };
@@ -165,6 +171,45 @@
     var found = null;
     read().kept.forEach(function (item) { if (item.id === id) found = item; });
     return found;
+  }
+
+  /* A highlight is a passage marked on its page. It lives in the drawer
+     like anything kept, flagged mark, so a backup carries it and the
+     drawer lists it. One made by Highlight alone also carries keep: false,
+     so clearing it leaves nothing behind; a highlight on something kept or
+     written about only loses its mark. Keep or a note makes it kept. */
+  function highlight(raw) {
+    var item = clean(raw);
+    if (!item) return false;
+    update(function (state) {
+      var known = null;
+      state.kept.forEach(function (k) { if (k.id === item.id) known = k; });
+      if (known) known.mark = true;
+      else {
+        item.mark = true;
+        item.keep = false;
+        item.at = Date.now();
+        state.kept.push(item);
+      }
+      // A new highlight is meant to be seen, so hidden highlights return.
+      delete state.marks;
+    });
+    return true;
+  }
+  function unhighlight(id) {
+    update(function (state) {
+      state.kept = state.kept.filter(function (item) {
+        if (item.id !== id) return true;
+        if (item.keep === false && !item.note) return false;
+        delete item.mark;
+        return true;
+      });
+    });
+  }
+  function hold(id) {
+    update(function (state) {
+      state.kept.forEach(function (item) { if (item.id === id) delete item.keep; });
+    });
   }
 
   /* While a note is being written it is saved quietly, so a page that
@@ -320,10 +365,10 @@
      A container marked data-keep-passage lets a reader select a few lines
      and keep them. Book pages name the chapter from the section the words
      sit in. On essay pages the selection already opens the translation
-     prompt, and js/reader-translate.js puts a Keep button beside Türkçe
-     through passageFor(); anywhere else a small prompt of our own appears.
-     Either way the passage is then marked on the page, and a panel offers
-     a note. */
+     prompt, and js/reader-translate.js puts Keep, Note and Highlight
+     beside Türkçe through passageFor(); anywhere else a small prompt of
+     our own appears. Keeping and writing a note leave the page as it is;
+     only Highlight marks it. */
 
   function passageFor(range) {
     if (!range) return null;
@@ -348,39 +393,72 @@
 
   function keepPassage(item, from) {
     if (!item) { note({ text: 'Select a sentence or two to keep.' }, from); return; }
-    var already = has(item.id);
-    if (!already) toggle(item);
-    // The selection goes, so the mark it leaves is what the reader sees.
+    var known = find(item.id);
+    if (!known) toggle(item);
+    else if (known.keep === false) hold(item.id);
+    clearSelection();
+    openPanel(item.id, known && known.keep !== false ? 'already' : 'kept', from);
+  }
+
+  /* Highlight, beside Keep: marks the selected passage on its page, or,
+     pressed over a highlight, clears it. */
+  function highlightSelection(range, from) {
+    var over = range ? marksIn(range) : [];
+    var item = over.length ? null : passageFor(range);
+    clearSelection();
+    if (panel && !panel.hidden && !part('.keep-note')) closePanel(false);
+    if (over.length) {
+      over.forEach(function (mark) { unhighlight(mark.id); });
+      note({ text: 'Highlight removed.' }, from);
+      return;
+    }
+    if (!item) { note({ text: 'Select a sentence or two to highlight.' }, from); return; }
+    highlight(item);
+    note({ text: works ? 'Highlighted. It stays in this browser.' : 'Highlighted until you leave the page. This browser cannot save it.' }, from);
+  }
+
+  /* The selection goes, so the mark it leaves is what the reader sees. */
+  function clearSelection() {
     var selection = window.getSelection && window.getSelection();
     if (selection && !selection.isCollapsed && selection.anchorNode && selection.anchorNode.parentElement &&
         selection.anchorNode.parentElement.closest('[data-keep-passage]')) selection.removeAllRanges();
-    openPanel(item.id, already ? 'already' : 'kept', from);
   }
 
   var prompt = null;
   var current = null;
+  var currentRange = null;
   function ownPrompt() {
     prompt = document.createElement('div');
     prompt.className = 'keep-prompt';
     prompt.hidden = true;
-    var button = document.createElement('button');
-    button.type = 'button';
-    button.textContent = 'Keep this passage';
-    // Pressing the button must not clear the selection it is about.
-    button.addEventListener('pointerdown', function (event) { event.preventDefault(); });
-    button.addEventListener('click', function () {
-      keepPassage(current, button);
-      prompt.hidden = true;
+    var marker = null;
+    [['Keep this passage', function (from) { keepPassage(current, from); }],
+     ['Add a note', function (from) { notePassage(current, from); }],
+     ['Highlight', function (from) { highlightSelection(currentRange, from); }]].forEach(function (pair, i) {
+      if (i === 2 && !canMark()) return;
+      var button = document.createElement('button');
+      button.type = 'button';
+      button.textContent = pair[0];
+      // Pressing the button must not clear the selection it is about.
+      button.addEventListener('pointerdown', function (event) { event.preventDefault(); });
+      button.addEventListener('click', function () {
+        pair[1](button);
+        prompt.hidden = true;
+      });
+      prompt.appendChild(button);
+      if (i === 2) marker = button;
     });
-    prompt.appendChild(button);
     document.body.appendChild(prompt);
     var timer = 0;
     document.addEventListener('selectionchange', function () {
       clearTimeout(timer);
       timer = setTimeout(function () {
         var selection = window.getSelection();
-        current = selection && selection.rangeCount && !selection.isCollapsed ? passageFor(selection.getRangeAt(0)) : null;
-        prompt.hidden = !current;
+        currentRange = selection && selection.rangeCount && !selection.isCollapsed ? selection.getRangeAt(0).cloneRange() : null;
+        current = currentRange ? passageFor(currentRange) : null;
+        var lit = isHighlighted(currentRange);
+        if (marker) marker.textContent = lit ? 'Remove highlight' : 'Highlight';
+        prompt.hidden = !current && !lit;
       }, 120);
     });
   }
@@ -396,8 +474,12 @@
   var flushes = [];
   function flushNotes() { flushes.forEach(function (fn) { fn(); }); }
 
+  /* With options.draft, the thing is not in the drawer yet: nothing is
+     saved as the reader writes, and the last button keeps the thing and
+     its note together. */
   function noteEditor(id, options) {
     options = options || {};
+    var draft = options.draft ? clean(options.draft) : null;
     var n = ++editors;
     var box = document.createElement('div');
     box.className = 'keep-note';
@@ -411,7 +493,7 @@
     area.rows = 4;
     area.maxLength = MAX_NOTE;
     area.spellcheck = true;
-    var kept = find(id);
+    var kept = draft ? null : find(id);
     area.value = kept && kept.note ? kept.note : '';
     var foot = document.createElement('div');
     foot.className = 'keep-note-foot';
@@ -422,7 +504,7 @@
     var done = document.createElement('button');
     done.type = 'button';
     done.className = 'keep-note-done';
-    done.textContent = 'Done';
+    done.textContent = draft ? 'Keep with the note' : 'Done';
     var page = document.createElement('a');
     page.className = 'keep-note-page';
     page.href = pageHref();
@@ -435,9 +517,11 @@
     foot.appendChild(done);
     var hint = document.createElement('p');
     hint.className = 'keep-note-hint';
-    hint.textContent = works
-      ? 'Your note stays in this browser with what you kept. To write at length, copy both and paste them on The Page.'
-      : 'This browser cannot save your note. Copy it before you leave.';
+    hint.textContent = !works
+      ? 'This browser cannot save your note. Copy it before you leave.'
+      : draft
+        ? 'Nothing is kept until you keep it. To write at length, copy your note and paste it on The Page.'
+        : 'Your note stays in this browser with what you kept. To write at length, copy both and paste them on The Page.';
     var said = document.createElement('p');
     said.className = 'keep-note-said';
     said.setAttribute('role', 'status');
@@ -455,6 +539,7 @@
     var dirty = false;
     function save() {
       clearTimeout(timer);
+      if (draft) return;
       if (dirty && !gone && !setNote(id, area.value, true)) gone = true;
       dirty = false;
       if (!area.isConnected) flushes = flushes.filter(function (fn) { return fn !== save; });
@@ -470,10 +555,10 @@
       left();
     });
     area.addEventListener('blur', save);
-    flushes.push(save);
+    if (!draft) flushes.push(save);
     copy.addEventListener('click', function () {
       save();
-      var item = (options.describe && options.describe()) || find(id);
+      var item = draft || (options.describe && options.describe()) || find(id);
       if (!item) { said.textContent = 'This is no longer in your drawer.'; return; }
       var words = plain(Object.assign({}, item, { note: noteText(area.value) }));
       copyText(words).then(function () {
@@ -483,6 +568,15 @@
       });
     });
     function finish() {
+      if (draft) {
+        var words = noteText(area.value);
+        var item = clean(Object.assign({}, draft, { note: words }));
+        draft = null;
+        if (has(item.id)) { setNote(item.id, words, true); hold(item.id); }
+        else toggle(item);
+        if (options.onDone) options.onDone(words);
+        return;
+      }
       save();
       flushes = flushes.filter(function (fn) { return fn !== save; });
       if (!gone) setNote(id, area.value);
@@ -490,6 +584,8 @@
     }
     done.addEventListener('click', finish);
     box.focusNote = function () { area.focus(); };
+    box.isDraft = function () { return !!draft; };
+    box.hasText = function () { return noteText(area.value) !== ''; };
     box.finish = finish;
     box.save = save;
     return box;
@@ -522,80 +618,128 @@
     });
   }
 
-  /* --- The panel under a kept passage ------------------------------------
-     Keeping a passage, or touching one already kept, opens a small panel
-     at the foot of the window: what happened, a note, and a way to take the
-     passage out again. A note is the reader's own writing, so taking out a
-     passage that has one asks a second time. */
+  /* --- The panel by a kept passage ----------------------------------------
+     There are three ways in. Keeping a passage opens a panel at the foot of
+     the window: what happened, a note, and a way to take the passage out.
+     Note, beside Keep, opens the same panel with the note first, and
+     nothing is kept until the reader keeps it. Touching a marked passage
+     opens a smaller box beside it, with the note, a way to hide the marks
+     and a way to take the passage out. A note is the reader's own writing,
+     so taking out a passage that has one, or closing a note that is not
+     kept yet, asks a second time. */
 
   var panel = null;
   var panelId = '';
+  var panelMode = '';
   var panelTimer = 0;
   var panelFrom = null;
+  var panelNear = null;
+
+  /* Text a script shows is out of the build's reach, so its closed-up
+     dashes are joined here, as the build joins them on the page. */
+  function joinDashes(value) { return String(value).replace(/([^\s⁠])—/g, '$1⁠—'); }
+
+  function make(tag, className, words) {
+    var node = document.createElement(tag);
+    if (className) node.className = className;
+    if (words) node.textContent = words;
+    return node;
+  }
+  function part(selector) { return panel.querySelector(selector); }
+  function narrow() { return !!(window.matchMedia && window.matchMedia('(max-width: 640px)').matches); }
 
   function buildPanel() {
-    panel = document.createElement('section');
-    panel.className = 'keep-panel';
+    panel = make('section', 'keep-panel');
     panel.hidden = true;
     panel.setAttribute('aria-label', 'A kept passage');
-    var head = document.createElement('div');
-    head.className = 'keep-panel-head';
-    var said = document.createElement('p');
-    said.className = 'keep-panel-said';
+    var head = make('div', 'keep-panel-head');
+    var said = make('p', 'keep-panel-said');
     said.setAttribute('role', 'status');
-    var close = document.createElement('button');
+    var close = make('button', 'keep-panel-close', '×');
     close.type = 'button';
-    close.className = 'keep-panel-close';
     close.setAttribute('aria-label', 'Close');
-    close.textContent = '×';
     head.appendChild(said);
     head.appendChild(close);
-    var row = document.createElement('div');
-    row.className = 'keep-panel-actions';
-    var noteButton = document.createElement('button');
-    noteButton.type = 'button';
-    noteButton.setAttribute('data-panel-note', '');
-    var out = document.createElement('button');
-    out.type = 'button';
-    out.setAttribute('data-panel-out', '');
-    var drawer = document.createElement('a');
+    var quote = make('blockquote', 'keep-panel-quote');
+    quote.hidden = true;
+    var shown = make('p', 'keep-panel-note');
+    shown.hidden = true;
+    var row = make('div', 'keep-panel-actions');
+    ['data-panel-note', 'data-panel-out', 'data-panel-marks'].forEach(function (name) {
+      var button = make('button');
+      button.type = 'button';
+      button.setAttribute(name, '');
+      row.appendChild(button);
+    });
+    var drawer = make('a', '', 'Open your drawer →');
     drawer.href = '/house/#drawer';
-    drawer.textContent = 'Open your drawer →';
-    row.appendChild(noteButton);
-    row.appendChild(out);
     row.appendChild(drawer);
     panel.appendChild(head);
+    panel.appendChild(quote);
+    panel.appendChild(shown);
     panel.appendChild(row);
     document.body.appendChild(panel);
 
     close.addEventListener('click', function () { closePanel(true); });
-    noteButton.addEventListener('click', function () { showEditor(true); });
+    part('[data-panel-note]').addEventListener('click', function () { showEditor(true); });
+    part('[data-panel-marks]').addEventListener('click', function () {
+      var on = !marksShown();
+      setMarks(on);
+      said.textContent = on ? 'Highlights shown on every page.' : 'Highlights hidden on every page.';
+      labelPanel();
+      placePanel();
+      hideLater(6000);
+    });
+    var out = part('[data-panel-out]');
     out.addEventListener('click', function () {
-      var editor = panel.querySelector('.keep-note');
+      var editor = part('.keep-note');
       if (editor) editor.save();
       var item = find(panelId);
       if (!item) { closePanel(true); return; }
+      // In the box by a highlight, this clears the highlight. A note, or a
+      // keep, stays in the drawer.
+      if (panelMode === 'touched') {
+        unhighlight(panelId);
+        said.textContent = 'Highlight removed.';
+        shown.hidden = true;
+        row.hidden = true;
+        close.focus();
+        hideLater(4000);
+        return;
+      }
       if (item.note && out.getAttribute('data-armed') !== 'true') {
         out.setAttribute('data-armed', 'true');
         out.textContent = 'Take it out with the note';
         said.textContent = 'Your note would go with it.';
         return;
       }
-      if (editor) { flushes = flushes.filter(function (fn) { return fn !== editor.save; }); editor.remove(); }
+      dropEditor();
       remove(panelId);
       said.textContent = 'Taken out of your drawer.';
+      shown.hidden = true;
       row.hidden = true;
       close.focus();
       hideLater(4000);
     });
     out.addEventListener('blur', disarm);
+    // Writing again after a first Close means the reader is not done.
+    panel.addEventListener('input', function () { panel.removeAttribute('data-leaving'); });
     document.addEventListener('keydown', function (event) {
       if (event.key === 'Escape' && !panel.hidden) closePanel(true);
     });
     document.addEventListener('pointerdown', function (event) {
       if (panel.hidden || panel.contains(event.target)) return;
-      if (!panel.querySelector('.keep-note')) closePanel(false);
+      if (!part('.keep-note')) closePanel(false);
     });
+    document.addEventListener('selectionchange', function () {
+      if (!panel.hidden && !part('.keep-note') && selectingPassage()) closePanel(false);
+    });
+    // The small box stands by its passage, so it goes when the page moves,
+    // as the translation prompt does.
+    window.addEventListener('scroll', function () {
+      if (!panel.hidden && panelNear && !part('.keep-note') && !narrow()) closePanel(false);
+    }, { passive: true });
+    window.addEventListener('resize', placePanel);
     if (window.visualViewport) {
       window.visualViewport.addEventListener('resize', placePanel);
       window.visualViewport.addEventListener('scroll', placePanel);
@@ -603,27 +747,53 @@
   }
 
   function disarm() {
-    var out = panel && panel.querySelector('[data-panel-out]');
+    var out = panel && part('[data-panel-out]');
     if (!out) return;
     out.removeAttribute('data-armed');
-    out.textContent = 'Take out';
+    out.textContent = panelMode === 'touched' ? 'Remove highlight' : 'Take out';
   }
 
-  /* On a phone the keyboard rises over the foot of the window; the panel
-     rises with it, so the note being written stays in view. */
+  function dropEditor() {
+    var editor = panel && part('.keep-note');
+    if (!editor) return;
+    editor.save();
+    flushes = flushes.filter(function (fn) { return fn !== editor.save; });
+    editor.remove();
+  }
+
+  /* The small box sits under the line that was touched, or over it when
+     there is no room below; on a phone it sits at the foot of the window,
+     like everything else here. There the keyboard rises over the foot of
+     the window, and the panel rises with it, so the note being written
+     stays in view. */
   function placePanel() {
     if (!panel || panel.hidden) return;
+    var style = panel.style;
+    if (panelNear && !narrow()) {
+      var width = Math.min(420, window.innerWidth - 28);
+      style.width = width + 'px';
+      style.left = Math.max(14, Math.min(panelNear.x - width / 2, window.innerWidth - width - 14)) + 'px';
+      style.transform = 'none';
+      style.bottom = 'auto';
+      style.maxHeight = '';
+      var height = panel.offsetHeight || 120;
+      var top = panelNear.bottom + 10;
+      if (top + height > window.innerHeight - 10) top = panelNear.top - height - 10;
+      style.top = Math.max(10, Math.min(top, window.innerHeight - height - 10)) + 'px';
+      return;
+    }
+    style.width = style.left = style.top = style.transform = '';
     var view = window.visualViewport;
     var lift = view ? Math.max(0, window.innerHeight - view.height - view.offsetTop) : 0;
-    panel.style.bottom = lift > 40 ? (lift + 10) + 'px' : '';
-    panel.style.maxHeight = view ? Math.max(160, view.height - 28) + 'px' : '';
+    style.bottom = lift > 40 ? (lift + 10) + 'px' : '';
+    style.maxHeight = view ? Math.max(160, view.height - 28) + 'px' : '';
   }
 
   function hideLater(wait) {
     clearTimeout(panelTimer);
     panelTimer = setTimeout(function check() {
       if (!panel || panel.hidden) return;
-      if (panel.querySelector('.keep-note') || panel.matches(':focus-within, :hover')) {
+      if (part('.keep-note') || panel.matches(':focus-within, :hover')) {
         panelTimer = setTimeout(check, 2000);
         return;
       }
@@ -631,23 +801,27 @@
     }, wait);
   }
 
+  /* A note is written at the foot of the window, wherever the panel was. */
   function showEditor(focus) {
     var item = find(panelId);
     if (!item) return;
-    var old = panel.querySelector('.keep-note');
+    var old = part('.keep-note');
     if (old) { if (focus) old.focusNote(); return; }
+    panelNear = null;
+    panel.classList.remove('keep-panel--near');
+    part('.keep-panel-note').hidden = true;
     var editor = noteEditor(panelId, {
       onDone: function (words) {
         editor.remove();
-        var said = panel.querySelector('.keep-panel-said');
-        said.textContent = words ? 'Your note is in your drawer.' : 'In your drawer, without a note.';
+        part('.keep-panel-said').textContent = words ? 'Your note is in your drawer.' : 'In your drawer, without a note.';
         labelPanel();
-        panel.querySelector('[data-panel-note]').focus();
+        part('.keep-panel-note').hidden = true;
+        part('[data-panel-note]').focus();
         hideLater(5000);
       }
     });
-    panel.querySelector('.keep-panel-actions').before(editor);
-    panel.querySelector('[data-panel-note]').hidden = true;
+    part('.keep-panel-actions').before(editor);
+    part('[data-panel-note]').hidden = true;
     clearTimeout(panelTimer);
     placePanel();
     if (focus) editor.focusNote();
@@ -655,57 +829,128 @@
 
   function labelPanel() {
     var item = find(panelId);
-    var noteButton = panel.querySelector('[data-panel-note]');
+    var noteButton = part('[data-panel-note]');
     noteButton.hidden = false;
     noteButton.textContent = item && item.note ? 'Your note' : 'Add a note';
+    // The box by a highlight offers to hide them all, and to show them
+    // again straight after.
+    var marksButton = part('[data-panel-marks]');
+    marksButton.hidden = panelMode !== 'touched' || !canMark();
+    marksButton.textContent = marksShown() ? 'Hide highlights' : 'Show highlights';
     disarm();
-    panel.querySelector('.keep-panel-actions a').hidden = !works || location.pathname === '/house/';
+    part('.keep-panel-actions a').hidden = panelMode === 'touched' || !works || location.pathname === '/house/';
+    var preview = part('.keep-panel-note');
+    preview.hidden = !(panelMode === 'touched' && item && item.note);
+    preview.textContent = item && item.note ? joinDashes(item.note) : '';
+  }
+
+  /* A new selection in a piece is the reader moving on: a panel with
+     nothing being written, and the line a toast says, make way for the
+     prompt over the selection. */
+  function selectingPassage() {
+    var selection = window.getSelection && window.getSelection();
+    var node = selection && !selection.isCollapsed && selection.anchorNode;
+    var element = node && (node.nodeType === 1 ? node : node.parentElement);
+    return !!(element && element.closest('[data-keep-passage]'));
+  }
+
+  function startPanel(mode, from, near) {
+    if (!panel) buildPanel();
+    dropEditor();
+    if (toastBox) toastBox.hidden = true;
+    clearTimeout(panelTimer);
+    panelMode = mode;
+    panelFrom = from && from.isConnected !== false ? from : null;
+    panelNear = near || null;
+    panel.classList.toggle('keep-panel--near', !!panelNear);
+    panel.removeAttribute('data-leaving');
+    part('.keep-panel-quote').hidden = true;
+    part('.keep-panel-actions').hidden = false;
   }
 
   /* how: 'kept' just now, 'already' kept before, or 'touched' on the page. */
-  function openPanel(id, how, from) {
+  function openPanel(id, how, from, near) {
     var item = find(id);
     if (!item) return;
-    if (!panel) buildPanel();
-    var editor = panel.querySelector('.keep-note');
-    if (editor) { editor.save(); flushes = flushes.filter(function (fn) { return fn !== editor.save; }); editor.remove(); }
-    if (toastBox) toastBox.hidden = true;
+    startPanel(how, from, how === 'touched' ? near : null);
     panelId = id;
-    panelFrom = from && from.isConnected !== false ? from : null;
-    panel.querySelector('.keep-panel-actions').hidden = false;
-    var said = how === 'kept' ? saidOnKeep(true).text : how === 'already' ? 'Already in your drawer.' : 'In your drawer.';
+    var said = how === 'kept' ? saidOnKeep(true).text : how === 'already' ? 'Already in your drawer.' : 'Highlighted.';
     if (!works && how !== 'kept') said += ' This browser cannot save it, so it stays only until you leave the page.';
-    panel.querySelector('.keep-panel-said').textContent = said;
+    part('.keep-panel-said').textContent = said;
     labelPanel();
     panel.hidden = false;
     placePanel();
-    // A note is what a reader touches a kept passage to find, so it opens
-    // with the panel, unfocused, so a phone's keyboard stays down.
-    if (item.note && how !== 'kept') showEditor(false);
-    else hideLater(8000);
+    // Kept before with a note, the note is what the reader is after; it
+    // opens unfocused, so a phone's keyboard stays down.
+    if (item.note && how === 'already') showEditor(false);
+    else hideLater(how === 'touched' ? 6000 : 8000);
+  }
+
+  /* Note, beside Keep: the note comes first, and the passage goes into the
+     drawer with it only when the reader keeps it. */
+  function notePassage(item, from) {
+    if (!item) { note({ text: 'Select a sentence or two to write about.' }, from); return; }
+    clearSelection();
+    var known = find(item.id);
+    if (known && known.keep !== false) { openPanel(item.id, 'already', from); showEditor(true); return; }
+    startPanel('draft', from, null);
+    panelId = '';
+    part('.keep-panel-said').textContent = 'A note on this passage.';
+    var quote = part('.keep-panel-quote');
+    quote.textContent = joinDashes(item.quote);
+    quote.hidden = false;
+    part('.keep-panel-note').hidden = true;
+    part('.keep-panel-actions').hidden = true;
+    var editor = noteEditor(item.id, {
+      draft: item,
+      onDone: function (words) {
+        editor.remove();
+        quote.hidden = true;
+        panelId = item.id;
+        panelMode = 'kept';
+        part('.keep-panel-said').textContent = works ? (words ? 'Kept in your drawer, with your note.' : 'Kept in your drawer.') : saidOnKeep(true).text;
+        part('.keep-panel-actions').hidden = false;
+        labelPanel();
+        part('[data-panel-note]').focus();
+        hideLater(6000);
+      }
+    });
+    part('.keep-panel-actions').before(editor);
+    panel.hidden = false;
+    placePanel();
+    editor.focusNote();
   }
 
   function closePanel(restore) {
     if (!panel || panel.hidden) return;
+    var editor = part('.keep-note');
+    if (editor && editor.isDraft() && editor.hasText() && panel.getAttribute('data-leaving') !== 'true') {
+      panel.setAttribute('data-leaving', 'true');
+      part('.keep-panel-said').textContent = 'Your note is not kept yet. Close again to let it go.';
+      return;
+    }
     clearTimeout(panelTimer);
-    var editor = panel.querySelector('.keep-note');
-    if (editor) { editor.save(); flushes = flushes.filter(function (fn) { return fn !== editor.save; }); editor.remove(); }
+    dropEditor();
     var hadFocus = panel.matches(':focus-within');
     panel.hidden = true;
+    panel.removeAttribute('data-leaving');
     panelId = '';
+    panelMode = '';
+    panelNear = null;
     if (restore && hadFocus && panelFrom && panelFrom.isConnected && !panelFrom.closest('[hidden]')) panelFrom.focus({ preventScroll: true });
   }
 
   window.addEventListener('pagehide', flushNotes);
   document.addEventListener('visibilitychange', function () { if (document.hidden) flushNotes(); });
 
-  /* --- Marks on the page -------------------------------------------------
-     A passage kept from this page is marked where it stands, for this
+  /* --- Highlights on the page --------------------------------------------
+     A passage highlighted on this page is marked where it stands, for this
      reader only. The marks are drawn with the CSS Custom Highlight API, so
      the page's own text is never wrapped or changed, and where a browser
-     lacks it nothing is marked. A passage is found by its words with the
-     spaces and the dash's word joiner left out, so a passage whose words
-     have since changed is no longer marked but stays in the drawer. */
+     lacks it there is no Highlight to offer. A passage is found by its
+     words with the spaces and the dash's word joiner left out, so a passage
+     whose words have since changed is no longer marked but stays in the
+     drawer. */
 
   var MARK = 'olae-kept';
   var IGNORED = /[\s⁠­​]/;
@@ -752,9 +997,17 @@
     return item.id.indexOf('text-') === 0 && item.quote && item.href.split('#')[0] === location.pathname;
   }
 
+  function marksShown() { return read().marks !== false; }
+  function setMarks(on) {
+    update(function (state) {
+      if (on) delete state.marks;
+      else state.marks = false;
+    });
+  }
+
   function paintMarks() {
     marks = [];
-    var kept = read().kept.filter(onThisPage);
+    var kept = marksShown() ? read().kept.filter(function (item) { return item.mark === true && onThisPage(item); }) : [];
     if (kept.length) {
       var flats = Array.prototype.map.call(document.querySelectorAll('[data-keep-passage]'), flatten);
       kept.forEach(function (item) {
@@ -771,6 +1024,7 @@
     CSS.highlights.set(MARK, highlight);
   }
 
+  /* The mark under a point, and the line of it that was touched. */
   function markAt(x, y) {
     var hit = null;
     marks.forEach(function (mark) {
@@ -778,11 +1032,22 @@
       var rects = mark.range.getClientRects();
       for (var i = 0; i < rects.length; i++) {
         var r = rects[i];
-        if (x >= r.left && x <= r.right && y >= r.top && y <= r.bottom) { hit = mark; return; }
+        if (x >= r.left && x <= r.right && y >= r.top && y <= r.bottom) { hit = { mark: mark, line: r }; return; }
       }
     });
     return hit;
   }
+
+  /* The highlights a selection touches, so Highlight can clear them. */
+  function overlaps(a, b) {
+    try {
+      return a.compareBoundaryPoints(Range.START_TO_END, b) > 0 && a.compareBoundaryPoints(Range.END_TO_START, b) < 0;
+    } catch (e) { return false; }
+  }
+  function marksIn(range) {
+    return marks.filter(function (mark) { return !mark.range.collapsed && overlaps(mark.range, range); });
+  }
+  function isHighlighted(range) { return !!range && marksIn(range).length > 0; }
 
   function watchMarks() {
     if (!canMark()) return;
@@ -805,15 +1070,16 @@
       var target = event.target;
       if (!target.closest || !target.closest('[data-keep-passage]')) return;
       if (target.closest('a, button, input, textarea, select, summary, label')) return;
-      var mark = markAt(event.clientX, event.clientY);
-      if (!mark) return;
+      var hit = markAt(event.clientX, event.clientY);
+      if (!hit) return;
+      var near = { x: event.clientX, top: hit.line.top, bottom: hit.line.bottom };
       // A second click selects a word for the translation prompt; wait to
       // see whether one comes.
       clearTimeout(touch);
       touch = setTimeout(function () {
         var selection = window.getSelection();
         if (selection && !selection.isCollapsed) return;
-        openPanel(mark.id, 'touched', null);
+        openPanel(hit.mark.id, 'touched', null, near);
       }, 260);
     });
   }
@@ -841,7 +1107,15 @@
     noteEditor: noteEditor,
     passageFor: passageFor,
     keepPassage: keepPassage,
+    notePassage: notePassage,
+    highlight: highlight,
+    unhighlight: unhighlight,
+    highlightSelection: highlightSelection,
+    isHighlighted: isHighlighted,
+    canHighlight: canMark,
     openPanel: openPanel,
+    marksShown: marksShown,
+    setMarks: setMarks,
     works: function () { return works; },
     subscribe: function (fn) { listeners.push(fn); }
   };
@@ -851,7 +1125,12 @@
     document.documentElement.classList.add('keep-ready');
     sync();
     if (document.querySelector('[data-keep-passage]') && window.getSelection && !document.querySelector('.reader-translate')) ownPrompt();
-    if (document.querySelector('[data-keep-passage]')) watchMarks();
+    if (document.querySelector('[data-keep-passage]')) {
+      watchMarks();
+      document.addEventListener('selectionchange', function () {
+        if (toastBox && !toastBox.hidden && selectingPassage()) toastBox.hidden = true;
+      });
+    }
   }
   // After every deferred script, so the translation prompt, if the page has
   // one, is already there to be found.

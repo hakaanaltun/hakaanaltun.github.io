@@ -166,6 +166,8 @@ html:has(.house-dialog[open]) { overflow: hidden; }
 .house-item-kind { font-size: 12px !important; text-transform: uppercase; letter-spacing: .1em; color: var(--vizon); margin: 0 0 8px; }
 .house-item blockquote { margin: 10px 0; padding: 0; border: 0; font-style: italic; white-space: pre-line; }
 .house-dialog h3.is-word { font-style: italic; font-size: 36px; }
+.house-dialog .house-drawer-marks { margin: 0 0 22px; color: var(--vizon); font-size: 15px; line-height: 1.6; }
+.house-drawer-marks button { margin-left: 4px; padding: 6px 12px; min-height: 40px; border: 1px solid var(--rule-strong); border-radius: 2px; background: none; color: var(--ink-soft); font-size: 15px; }
 .house-item-note { margin: 14px 0 0; }
 .house-item-note .house-item-kind { margin: 0 0 4px; }
 .house-dialog .house-note-text { margin: 0; white-space: pre-line; }

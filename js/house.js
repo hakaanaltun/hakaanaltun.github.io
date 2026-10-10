@@ -127,11 +127,12 @@
 
   /* A kept thing shows its current words where the catalog still knows it,
      and what was kept where it does not. Only the words are taken: the kind
-     and address a reader kept it under stay, and so does the reader's note. */
+     and address a reader kept it under stay, and so do the reader's note
+     and highlight. */
   function current(item) {
     var known = index[item.id];
     if (!known) return item;
-    return { id: item.id, kind: item.kind || known.kind, title: known.title, quote: known.quote || item.quote, href: known.href, at: item.at, note: item.note };
+    return { id: item.id, kind: item.kind || known.kind, title: known.title, quote: known.quote || item.quote, href: known.href, at: item.at, note: item.note, mark: item.mark, keep: item.keep };
   }
 
   /* --- Small builders ---------------------------------------------------- */
@@ -394,9 +395,21 @@
       return;
     }
     box.appendChild(element('p', 'house-drawer-note', 'Download a backup to keep or move to another browser.' + (KEEP.works() ? ' Restoring adds its contents to your drawer.' : '')));
+    // Highlights are shown on their pages for the reader who made them;
+    // they can be hidden here or from the box by a highlight.
+    if (kept.some(function (item) { return item.mark; }) || !KEEP.marksShown()) {
+      var shown = KEEP.marksShown();
+      var marks = element('p', 'house-drawer-marks', shown ? 'Your highlights are shown on their pages.' : 'Your highlights are hidden on their pages.');
+      var toggle = element('button', '', shown ? 'Hide them' : 'Show them');
+      toggle.type = 'button';
+      toggle.setAttribute('data-marks', '');
+      marks.appendChild(document.createTextNode(' '));
+      marks.appendChild(toggle);
+      box.appendChild(marks);
+    }
     kept.forEach(function (item) {
       var article = element('article', 'house-item');
-      article.appendChild(element('p', 'house-item-kind', item.kind));
+      article.appendChild(element('p', 'house-item-kind', item.mark ? [item.kind, 'Highlighted'].filter(Boolean).join(' · ') : item.kind));
       article.appendChild(element('h3', item.id.indexOf('word-') === 0 ? 'is-word' : '', item.title));
       if (item.quote) article.appendChild(element(item.id.indexOf('text-') === 0 ? 'blockquote' : 'p', '', item.quote));
       if (item.note) {
@@ -967,6 +980,14 @@
     }
     var write = event.target.closest('[data-note]');
     if (write) { openNote(write); return; }
+    if (event.target.closest('[data-marks]')) {
+      var show = !KEEP.marksShown();
+      KEEP.setMarks(show);
+      var again = content.querySelector('[data-marks]');
+      if (again) again.focus({ preventScroll: true });
+      announce(show ? 'Highlights shown on every page.' : 'Highlights hidden on every page.');
+      return;
+    }
     var remove = event.target.closest('[data-remove]');
     if (remove) {
       // A note is the reader's own writing, so taking it out asks twice.

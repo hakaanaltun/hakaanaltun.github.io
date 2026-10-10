@@ -325,22 +325,36 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   them in proportion. `scripts/test-reading.cjs` fails on an ungated rule.
 - **"read with rain" stays under the title.** Rain that is falling has
   to show where it can be stopped.
-- **A kept passage is marked on its page, and anything kept can carry a
-  note.** The author asked for both on 10 October 2026. Keeping a passage
-  opens a small panel at the foot of the window (`js/keep.js`) with "Add a
-  note", "Take out" and the way to the drawer; touching a marked passage
-  opens it again. The note is stored with the thing it belongs to, goes
-  into a backup, the text download and the printed drawer, and stays off a
-  shared card. Under the note, Copy takes the note with what was kept and
-  its link, and a link to The Page (`/write/`) sits beside it, so a reader
-  who wants to write at length can paste them there. That link carries
-  `from=drawer`, so The Page's way back says "your drawer" and returns to
-  it. Taking out
-  something with a note asks twice. The mark is drawn with the CSS Custom
-  Highlight API, so the page's text is never wrapped or changed; a browser
-  without it marks nothing, and paper never shows it. A passage is found
-  by its words, so one whose words have since changed loses its mark and
-  stays in the drawer.
+- **A selected passage can be kept, written about or highlighted, and
+  only Highlight marks the page.** The author asked for notes and
+  highlights on 10 October 2026, and asked that selecting, translating,
+  keeping or writing a note never mark a passage by itself. The prompt
+  over a selection offers Türkçe, Keep, Note and Highlight (`js/keep.js`,
+  `js/reader-translate.js`).
+  - Keep puts the passage in the drawer and opens a small panel at the
+    foot of the window with "Add a note", "Take out" and the way to the
+    drawer. Note lets a reader write first: nothing is kept until "Keep
+    with the note", and closing a note that is not kept asks once more.
+  - Highlight marks the passage on its page; over a highlight it reads
+    "Remove highlight" and clears it. A highlight is listed in the drawer
+    as Highlighted. One made by Highlight alone leaves the drawer when it
+    is cleared; a highlight on something kept or written about only loses
+    its mark. Touching a highlight opens a small box beside it with the
+    note, "Remove highlight" and "Hide highlights". Hidden highlights stay
+    hidden on every page until the reader shows them again from that box,
+    from the drawer or by making a new highlight.
+  - The note is stored with the thing it belongs to, goes into a backup,
+    the text download and the printed drawer, and stays off a shared card.
+    Under the note, Copy takes the note with what was kept and its link,
+    and a link to The Page (`/write/`) sits beside it, so a reader who
+    wants to write at length can paste them there. That link carries
+    `from=drawer`, so The Page's way back says "your drawer" and returns
+    to it. Taking out something with a note asks twice.
+  - The mark is drawn with the CSS Custom Highlight API, so the page's
+    text is never wrapped or changed. A browser without it is not offered
+    Highlight, and paper never shows a mark. A passage is found by its
+    words, so one whose words have since changed loses its mark and stays
+    in the drawer.
 - **A printed piece** opens with its kind (Essay or Short fiction) on the
   left and HAKANALTUN.IO on the right, then the title and date, centered, and
   ends with the footer's two lines, centered at the foot of the last page. Word pages have no print layout
