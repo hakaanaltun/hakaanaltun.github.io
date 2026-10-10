@@ -449,7 +449,7 @@ accuracy and plain prose to this section as well.
   9 October 2026, so the next world never has to be found by touching it.
   A scene's `back` and `next` in the front matter set them.
   The journey covers Earth's vicinity, a closer Earth view, the Moon, Mars,
-  Jupiter, Saturn, Uranus, Neptune and Pluto, including the ISS near Earth,
+  Jupiter, Saturn, Uranus, Neptune, Pluto and Venus, including the ISS near Earth,
   Io and Europa beside Jupiter, Titan and Enceladus beside Saturn, Miranda
   beside Uranus, Triton beside Neptune, and Charon beside Pluto. Keep recognizable geography, lunar markings, lighting,
   paper and brushwork consistent across connected views. Sizes, distances
@@ -493,7 +493,15 @@ accuracy and plain prose to this section as well.
   transfer of material from Pluto to Charon’s reddish pole. Natural-color
   New Horizons views guide both globe portraits. They show separately
   arranged encounter hemispheres, with illustrative sizes and separation.
-  Mercury and Venus remain to be added before the eight-planet scope is complete.
+  Venus returns the journey inward after Pluto. Its opaque cloud cover has
+  restrained contrast informed by Mariner 10 and ultraviolet observations;
+  no surface terrain is visible. Magellan is an enlarged historical portrait,
+  with its dish and two solar panels simplified from NASA/JPL’s mission image.
+  The notes distinguish the 243-day rotation period from the 117-day solar day,
+  and explain that Venus’s phases supported its solar orbit while also fitting
+  Tycho’s alternative. Magellan’s radar maps and evidence of a 1991 eruption
+  connect the visible spacecraft with the hidden ground. Mercury remains to
+  be added before the eight-planet scope is complete.
   On 10 October 2026 the author set the remaining route. The Sun will have
   its own full-page picture and sourced story, like the black hole and quasar.
   Mercury’s scene will show a small Sun. Touching its body opens The Sun’s

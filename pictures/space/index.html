@@ -3,17 +3,18 @@ layout: space
 permalink: /pictures/space/
 title: Through the Solar System
 category: Space
-description: Explore Earth, the Moon and the worlds from Mars to Pluto through connected watercolor scenes, with
-  sourced information about their visible features.
-teaser: A watercolor journey from Earth to Pluto.
+description: Explore Earth, the Moon and the worlds from Mars to Pluto, then return to Venus through connected
+  watercolor scenes with sourced information.
+teaser: A watercolor journey through the Solar System.
 image: /pictures/space/assets/earth-vicinity-v2-watercolor.webp
 image_width: 1536
 image_height: 1024
 alt: A wide watercolor view of Earth, a small gray Moon and the International Space Station, separated by indigo
   space.
 caption: Touch a world to go there. Its name opens information.
-illustration_note: Nine connected watercolor scenes lead from Earth’s vicinity to Earth, the Moon, Mars, Jupiter,
-  Saturn, Uranus, Neptune and Pluto. Recognizable worlds and the direction of sunlight continue across the views.
+illustration_note: Ten connected watercolor scenes lead from Earth’s vicinity to Earth, the Moon, Mars, Jupiter,
+  Saturn, Uranus, Neptune and Pluto, then return inward to Venus. Recognizable worlds and the direction of sunlight
+  continue across the views.
   These are scientific illustrations with simplified features. Sizes, distances and viewpoints are arranged for
   exploration; they do not show a live sky, an exact surface map or a spacecraft flight path. The ISS is enlarged
   so its structure can be seen. Martian relief is emphasized to make the volcanoes and canyon visible. Io, Europa,
@@ -26,6 +27,10 @@ illustration_note: Nine connected watercolor scenes lead from Earth’s vicinity
   later disappeared. Triton’s terrain and colors are interpreted from a Voyager mosaic; its small dark streaks represent
   windblown deposits. Pluto and Charon are separately arranged portraits of the hemispheres photographed by New
   Horizons in 2015. Their terrain is simplified, and their sizes and separation in the painting are illustrative.
+  Venus’s cloud contrast is strengthened to suggest patterns studied in ultraviolet images; its pale color is
+  an interpretation. The clouds hide its surface. Its illumination is a chosen view, rather than its current phase
+  from Earth. Magellan is an enlarged historical portrait, with its engineering details simplified. The mission
+  ended in 1994; the spacecraft is not still orbiting Venus.
 scenes:
 - id: vicinity
   name: Earth vicinity
@@ -508,12 +513,13 @@ scenes:
   image: /pictures/space/assets/near-pluto-watercolor.webp
   alt: Watercolor Pluto has pale northern terrain, a broad brown region at lower left and an irregular bright heart
     on its right side. Smaller gray Charon at lower left has a muted reddish-brown northern cap and a band of chasms.
-    A tiny blue-green Neptune at upper left offers a return.
-  caption: Near Pluto. Explore its bright nitrogen-ice plain and the connection with Charon.
+    A tiny blue-green Neptune at upper left offers a return. A small cream-colored Venus at upper right leads back
+    toward the inner planets.
+  caption: Near Pluto. Explore its ice and Charon, then return inward to Venus.
   back: neptune
   back_label: Neptune
-  next: ''
-  next_label: ''
+  next: venus
+  next_label: Venus
   spots:
   - label: Pluto
     x: 58
@@ -552,7 +558,102 @@ scenes:
     paint_width: 3.2
     paint_position: 77.02% 37.65%
     paint_zoom: 190% auto
+  - label: Venus
+    x: 85
+    y: 14
+    detail: venus
+    primary: true
+    go: venus
+    width: 3.2
+    height: 4.8
+    label_x: 86.6
+    label_y: 14
+    label_edge: right
+    paint_image: /pictures/space/assets/near-venus-watercolor.webp
+    paint_width: 3.2
+    paint_position: 69.20% 24.00%
+    paint_zoom: 175% auto
+- id: venus
+  name: Near Venus
+  image: /pictures/space/assets/near-venus-watercolor.webp
+  alt: A pale cream watercolor Venus covered by sweeping opaque clouds, with its right limb in shadow. A small
+    Magellan spacecraft to the left has a dish antenna, a golden body and two gray-blue solar panels. A tiny Pluto
+    at upper left offers a return to the previous scene.
+  caption: Near Venus. Explore its clouds, changing light and the spacecraft that mapped the surface beneath them.
+  back: pluto
+  back_label: Pluto
+  next: ''
+  next_label: ''
+  spots:
+  - label: Venus
+    x: 58
+    y: 25
+    detail: venus
+    primary: true
+  - label: Acid clouds
+    x: 53
+    y: 49
+    detail: venus-clouds
+    primary: false
+  - label: Slow spin
+    x: 57
+    y: 72
+    detail: venus-spin
+    primary: false
+  - label: Phases
+    x: 78
+    y: 53
+    detail: venus-phases
+    primary: false
+  - label: Magellan
+    x: 18.2
+    y: 60
+    detail: magellan
+    primary: true
+    label_x: 18.2
+    label_y: 60
+    label_side: right
+    label_gap: 7
+  - label: Pluto
+    x: 15
+    y: 14
+    detail: pluto
+    primary: true
+    go: pluto
+    width: 2.4
+    height: 3.6
+    label_x: 16.2
+    label_y: 14
+    label_edge: right
+    paint_image: /pictures/space/assets/near-pluto-watercolor.webp
+    paint_width: 2.4
+    paint_position: 70.30% 22.00%
+    paint_zoom: 175% auto
 sources:
+- id: venus-facts
+  label: NASA Science · Venus facts
+  url: https://science.nasa.gov/venus/venus-facts/
+- id: venus-measurements
+  label: NASA Goddard · Venus fact sheet
+  url: https://nssdc.gsfc.nasa.gov/planetary/factsheet/venusfact.html
+- id: venus-cloud-view
+  label: NASA/JPL · Newly processed Mariner 10 views of Venus
+  url: https://science.nasa.gov/resource/newly-processed-views-of-venus-from-mariner-10/
+- id: venus-wavelengths
+  label: ESA · Venus at wavelengths invisible to human eyes
+  url: https://www.esa.int/Science_Exploration/Space_Science/Venus_Express/Venus_comes_to_life_at_wavelengths_invisible_to_human_eyes
+- id: venus-phases-history
+  label: Museo Galileo · The phases of Venus
+  url: https://catalogue.museogalileo.it/indepth/PhasesVenus.html
+- id: magellan-mission
+  label: NASA Science · Magellan
+  url: https://science.nasa.gov/mission/magellan/
+- id: magellan-portrait
+  label: NASA/JPL · Magellan mission and spacecraft
+  url: https://www.jpl.nasa.gov/missions/magellan/
+- id: venus-volcanism
+  label: NASA/JPL · Volcanic activity in Magellan’s archived images
+  url: https://www.jpl.nasa.gov/news/nasas-magellan-data-reveals-volcanic-activity-on-venus/
 - id: earth
   label: NASA Science · Earth facts
   url: https://science.nasa.gov/earth/facts/
@@ -1371,5 +1472,103 @@ details:
   position: 15.55% 55.59%
   zoom: 850% auto
   alt: Charon’s muted reddish-brown polar region blending into its gray icy surface.
+- id: venus
+  label: Venus
+  kicker: Venus · Beneath the cloud cover
+  title: A familiar size, a very different climate.
+  body:
+  - Venus is the second planet from the Sun. At about 12,100 kilometers across, it is only a little smaller than
+    Earth. Both are rocky worlds, but their atmospheres have followed very different histories.
+  - Venus’s thick atmosphere is mostly carbon dioxide. It traps enough heat to make the surface about 465°C,
+    hotter than Mercury’s average surface despite being farther from the Sun. Surface pressure is roughly ninety
+    times the pressure at sea level on Earth.
+  - The pale globe here shows the cloud cover. The rocky ground and its extreme conditions are hidden beneath it.
+  sources:
+  - venus-facts
+  - venus-measurements
+  image: /pictures/space/assets/near-venus-watercolor.webp
+  position: 69.20% 24.00%
+  zoom: 175% auto
+  alt: Venus’s pale opaque cloud cover with its right limb in shadow.
+- id: venus-clouds
+  label: Acid clouds
+  kicker: Venus · Atmosphere
+  title: Clouds that circle faster than the world below.
+  body:
+  - Venus’s clouds contain tiny droplets of sulfuric acid. They reflect much of the sunlight that reaches them,
+    helping Venus appear so bright in Earth’s sky. In visible light, the cloud cover looks nearly featureless.
+  - Ultraviolet images reveal sweeping patterns. The upper clouds can circle the planet in roughly four to five
+    Earth days, while the solid world takes about 243 days to turn once. This fast atmospheric circulation is
+    called superrotation.
+  - The streaks in this painting suggest those moving clouds, with their contrast strengthened for exploration.
+    They mark an atmosphere that keeps changing; no surface geography is visible through them.
+  sources:
+  - venus-cloud-view
+  - venus-wavelengths
+  - venus-facts
+  image: /pictures/space/assets/near-venus-watercolor.webp
+  position: 49.38% 45.91%
+  zoom: 420% auto
+  alt: Soft ivory and pale cream streaks sweeping across Venus’s opaque cloud layer.
+- id: venus-spin
+  label: Slow spin
+  kicker: Venus · Rotation
+  title: Two different ways to count a day.
+  body:
+  - Venus takes about 243 Earth days to rotate once relative to the distant stars. Its year, one orbit of the
+    Sun, lasts about 225 Earth days. The planet completes an orbit before it finishes that single turn.
+  - It also turns in the opposite direction to most planets. If the Sun could be seen from the surface, it would
+    rise in the west and set in the east.
+  - A solar day measures the interval from one noon to the next. Venus’s slow backward rotation combines with
+    its orbital motion to make that interval about 117 Earth days. The rotation period and the solar day measure
+    different things.
+  sources:
+  - venus-measurements
+  - venus-facts
+  image: /pictures/space/assets/near-venus-watercolor.webp
+  position: 58.40% 81.40%
+  zoom: 260% auto
+  alt: The lower part of Venus’s cloud-covered globe, with light fading toward the right.
+- id: venus-phases
+  label: Phases
+  kicker: Venus · Galileo’s telescope
+  title: Changing light helped reveal an orbit.
+  body:
+  - Sunlight illuminates half of Venus. From Earth, we see different portions of that sunlit half as the two
+    planets move around the Sun. Through a telescope, Venus changes from a thin crescent to a nearly full disk,
+    growing smaller in apparent size as it moves farther away.
+  - Galileo began observing these phases in 1610. The nearly full phases contradicted the traditional Ptolemaic
+    arrangement, which kept Venus between Earth and the Sun and could produce only a narrow range of crescents.
+  - The observations supported an orbit around the Sun. Tycho Brahe’s alternative system also accommodated them,
+    so the phases alone did not settle every question about Earth’s motion. The light and shadow here are a
+    chosen view, rather than Venus’s current appearance from Earth.
+  sources:
+  - venus-phases-history
+  image: /pictures/space/assets/near-venus-watercolor.webp
+  position: 85.47% 51.19%
+  zoom: 300% auto
+  alt: Venus’s cloudy right limb fading from pale reflected sunlight into shadow.
+- id: magellan
+  label: Magellan
+  kicker: Venus · Radar exploration
+  title: A way to map the ground beneath the clouds.
+  body:
+  - Magellan reached Venus in 1990. Its large dish sent radar signals through the cloud cover and received their
+    echoes from the ground. The measurements revealed mountains, lava plains and craters beneath the opaque
+    atmosphere. By the end of its third mapping cycle, the mission had covered about 98 percent of the surface.
+  - The spacecraft was built partly from spare hardware left over from earlier missions. It ended its work in
+    1994, when controllers sent it into the atmosphere. The small spacecraft in this painting recalls that
+    historical mission and is enlarged so its structure can be seen.
+  - Its images kept yielding discoveries. In a study published in 2023, researchers compared observations from
+    February and October 1991 and found a vent near Maat Mons had changed shape and doubled in area. Modeling
+    supported a volcanic eruption as the cause.
+  sources:
+  - magellan-mission
+  - magellan-portrait
+  - venus-volcanism
+  image: /pictures/space/assets/near-venus-watercolor.webp
+  position: 8.70% 65.20%
+  zoom: 430% auto
+  alt: Magellan’s large pale dish antenna, compact golden body and two extended gray-blue solar panels.
 ---
 <p>Begin near Earth. Follow the worlds into their closer views.</p>
