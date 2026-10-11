@@ -98,6 +98,12 @@
     <path class="house-door-glass" d="M924 175.1L974 169.5V412.5L924 392.5Z"/>
     <path d="M967 332.9l-9.5 3.2" stroke-width="2.6"/><circle class="house-window-trim" cx="967" cy="332.9" r="2.2"/>
   </g>
+  <!-- The switch for the balcony's lamp, on the wall just left of the door,
+       a little higher than its handle. -->
+  <g class="house-line">
+    <path class="house-paper" d="M897 286.9L903 287.9V302.4L897 301.2Z" stroke-width="1"/>
+    <path class="house-switch-rocker" d="M898.6 290.4L901.4 290.9V298.9L898.6 298.4Z" stroke-width=".7"/>
+  </g>
   <!-- Plant in the corner beside the window. -->
   <g class="house-line" transform="translate(-61.5 .9)"><path class="house-pot" d="M924 456h45l-6 33h-33Z"/><path d="M945 456V381M945 425l-18-22M945 405l15-25"/><path class="house-leaf" d="M944 405q-32-2-25-34 25 7 25 34ZM946 424q32-9 30-34-26 5-30 34ZM945 389q-20-12-9-38 22 16 9 38Z"/></g>
   <!-- His burgundy cushion, on the floor close under the window, between

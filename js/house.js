@@ -812,7 +812,8 @@
     if (PLACES[place]) cat.setAttribute('transform', PLACES[place]); else cat.removeAttribute('transform');
     /* Each lamp is on in the evening and at night until the reader turns it
        off, and off by day until they turn it on; the drawer remembers the
-       choice. The study's lamp shows on the balcony only through the door. */
+       choice. The balcony's lamp has its switch in the study, beside the
+       door, and each room's lamp shows in the other through the door's glass. */
     var kept = KEEP.read();
     var dusk = sky.period === 'night' || sky.period === 'evening';
     var on = kept.lamp === null ? dusk : kept.lamp;
@@ -821,6 +822,7 @@
     root.querySelectorAll('button[data-lamp]').forEach(function (button) { button.setAttribute('aria-pressed', String(on)); });
     var porch = kept.balconyLamp === null ? dusk : kept.balconyLamp;
     balconyScene.dataset.balconyLamp = porch ? 'on' : 'off';
+    scene.dataset.balconyLamp = balconyScene.dataset.balconyLamp;
     root.querySelectorAll('button[data-balcony-lamp]').forEach(function (button) { button.setAttribute('aria-pressed', String(porch)); });
   }
 

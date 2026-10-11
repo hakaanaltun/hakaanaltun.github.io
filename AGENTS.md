@@ -361,7 +361,11 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   the evening and at night until the reader puts it out, and off by day
   until they light it. Their choice is kept in the drawer's record as
   `balconyLamp`, apart from the study's lamp. Its light reaches only the
-  near side of the pine, and only after sunset.
+  near side of the pine, and only after sunset. Its switch is in the study,
+  on the wall just left of the balcony door, a little higher than the
+  handle; the author asked for it on 11 October 2026. The globe on the
+  balcony also answers a touch. After sunset each room's lamp shows in the
+  other through the glass of the door.
 - **Its sound comes next.** The balcony will have a sound of its own, like
   the farm's, but following İstanbul's real calendar rather than a fixed
   summer. Check each bird and its season against reliable sources before it
@@ -893,7 +897,11 @@ accuracy and plain prose to this section as well.
   and size in `--ax`, `--ay`, `--aw` and `--ah` in `css/house.css`, and its
   name stands beside it at `--lx`, `--ly`, so that the names never cover
   one another when they all show. Everything that could be chosen before
-  can still be chosen.
+  can still be chosen. A small thing inside a larger one, such as the lamp
+  against the window or the e-reader on the desk, stands a layer above it
+  (`--z`), and a place under the pointer rises only within its own layer.
+  A pointer that crossed the window once could not reach the lamp.
+  `scripts/test-house.cjs` fails on a small place left below a larger one.
 - **A disclosure uses the site's chevron.** It is the one in the drawer
   and on a piece's reading options. Its words sit where
   the layout puts them; the chevron hangs beside them and does not pull them
