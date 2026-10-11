@@ -37,6 +37,26 @@ function page(modal=true,hash='') {
   dom.window.close();
  }
  {
+  // The outgoing dark image stays opaque while the next scene loads;
+  // only after load does it fade, never exposing the pale page beneath.
+  const {dom,w,d}=page();
+  const old=d.getElementById('scene-vicinity'), nextScene=d.getElementById('scene-earth');
+  const image=nextScene.querySelector('img');
+  Object.defineProperty(image,'complete',{value:false,configurable:true});
+  d.getElementById('journey-next').click();
+  assert.ok(old.classList.contains('is-leaving'));
+  assert.ok(!old.classList.contains('is-fading'),'old painting remains fully opaque until the next loads');
+  assert.ok(nextScene.classList.contains('is-current'));
+  image.dispatchEvent(new w.Event('load'));
+  assert.ok(old.classList.contains('is-fading'),'fade begins after new picture loads');
+  old.dispatchEvent(new w.Event('transitionend'));
+  assert.ok(!old.classList.contains('is-leaving'),'old picture is removed after crossfade');
+  const css=fs.readFileSync(path.join(root,'css/space.css'),'utf8');
+  assert.match(css,/\.journey-scene\.is-leaving\.is-fading\s*\{\s*opacity:0/);
+  assert.doesNotMatch(css,/keyframes journey-arrive/,'the old fade-through-background is gone');
+  dom.window.close();
+ }
+ {
   const {dom,w,d}=page();const frame=d.getElementById('journey-frame'),dialog=d.getElementById('picture-detail');
   assert.equal(frame.dataset.view,'vicinity');
   // Beneath the picture the way on is named beside the way back, so the next
