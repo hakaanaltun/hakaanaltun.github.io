@@ -1,5 +1,67 @@
 # Space journey art direction
 
+## Separate Voyager scenes, 11 October 2026
+
+The author asked for each Voyager to be alone, with a deep-space passage between the pictures. The route is now Kuiper Belt → Voyager 2 → Deep space → Voyager 1. Do not reunite the spacecraft in one scene or place the Kuiper Belt between them. Named navigation provides the passage; no spacecraft thumbnails appear together in the empty scene. The journey changes viewpoint between different trajectories. The author subsequently emphasized consistency with the planetary scenes: no transition has a fixed distance scale. The dated distance stays in an optional note, and the caption describes changing direction.
+
+Built-in imagegen made three final 1536 × 1024 images. Voyager 1 is an edit removing the small spacecraft from the rejected combined study while preserving the large craft. Voyager 2 and deep space are separate generated scenes. All were inspected. Only WebP format encoding (quality 93, method 6) followed generation; no retouching was applied.
+
+- `pictures/space/assets/voyager-1-watercolor.webp`, source `generated_images/exec-5ab7b596-37a7-4f2d-babd-dcc37e48a9db.png`.
+- `pictures/space/assets/voyager-2-watercolor.webp`, source `generated_images/exec-bcd6758c-9a84-4bce-a686-b3eb2ce3e84d.png`.
+- `pictures/space/assets/deep-space-watercolor.webp`, source `generated_images/exec-7b305f2a-11ba-4993-bc9b-4bb1a876c714.png`.
+
+NASA/JPL model PIA14111 remains the hardware reference. The Voyager 1 dish, record and RTG labels retain their inspected locations. Voyager 2’s dish label is at 61%, 40%; its deep-space passage occupies empty space at 20%, 44%. Both scenes preserve the familiar hover/focus labels and Show control without permanent dots.
+
+The sixth note explains separation. Simultaneous geometric heliocentric vectors from NASA/JPL Horizons at 2026-10-11 00:00 TDB give 204.536464 AU, 30.5982195 billion km, or 28.3513 light-hours between the craft. Published figures are rounded to 30.6 billion km and 28.4 hours and explicitly dated. Solar distances round to 144 AU and 172 AU. Parameters, vectors and calculation are recorded in `scripts/voyager-separation.json`. The main Kuiper Belt occupies approximately 30–50 AU from the Sun. No live position counter or drawn heliopause wall is used.
+
+Sources for the routes, hardware, crossings and record remain NASA/JPL. Follow the dated 2018 crossing announcement for Voyager 2’s November 5 date. The evergreen mission table has a November 25 typo. Browser QA is unavailable because control-browser is absent in this managed environment; actual mobile and fullscreen appearance remain unverified. Pale Blue Dot remains next.
+
+Final prompts (built-in mode):
+
+### Voyager 1
+
+```text
+Use case: precise-object-edit. Edit the attached 1536x1024 watercolor into a scene of VOYAGER 1 ALONE. Remove ONLY the entire small spacecraft at the LOWER LEFT, including all its thin antenna rods, booms, dish, gold circle and body. Fill that region seamlessly with the same restrained deep indigo watercolor space and sparse dim stars. Preserve the large right-hand Voyager EXACTLY in its original position, scale, silhouette, engineering geometry, gold record location, three RTGs, calibration target, dish, and all booms and thin rods. Preserve the original paper edge and watercolor style. Do not add any other craft, planet, text, label or graphic. The remaining spacecraft must be alone, with spacious empty dark watercolor to its left.
+```
+
+### Voyager 2
+
+```text
+Use case: scientific-educational. New 1536x1024 landscape watercolor of VOYAGER 2 ALONE, for a connected educational space journey. First image is NASA/JPL's Voyager model, engineering geometry reference. Second is watercolor STYLE ONLY: layered indigo-charcoal washes, ivory paper irregular margins, spare warm muted details. Do not copy its two-spacecraft composition. Exactly ONE craft, a modest medium-size portrait occupying approximately x400–1110,y260–820 including all booms, with dish centered near (780,480), equipment body near (770,620). Wide quiet dark space around it, sparse dim distant stars, no bright nebula or nearby objects. Use the same engineering angle as NASA reference, not mirrored: one broad elliptical pale dish above a dark equipment bus, small gold circular record cover on visible left bus face, narrow lattice magnetometer boom to upper left, science boom to right, SHORT separate boom with THREE end-to-end finned RTGs down left, single gray optical calibration target below bus, two very thin whip antennas downward. Keep the craft and all rods entirely within frame. No solar panels, wings, flames, extra dish. Reflective gray-ivory and charcoal with restrained ochre, broad painted strokes rather than CGI. Keep background darker and quieter than reference painting to give scale and solitude. No text, interface marks, dots, logos, navigation portraits, other spacecraft, planets or boundary walls.
+```
+
+### Deep space
+
+```text
+Use case: scientific-educational. Paint a new 1536x1024 landscape watercolor of deep space as a quiet transition between two distant Voyager spacecraft scenes. Attached image is STYLE reference only. Match its broad transparent indigo-charcoal washes, natural pigment pooling, occasional drybrush, and irregular warm ivory exposed paper margin. The entire composition is immense quiet dark space: spacious nearly black indigo center, sparse tiny low-contrast stars, restrained subtle cloudy watercolor variation toward the edges. Much quieter than the reference. Absolutely NO spacecraft anywhere, no planets, Sun, asteroids, Kuiper Belt ring, nebula, bright band, horizon, tunnel, explosion, path, orbit or visible heliopause bubble/wall. Stars are distant points, no identifiable constellation map. No text, interface white dots, labels or arrows. Let the unoccupied space carry a sense of a long passage.
+```
+
+## Superseded combined Voyager study, 11 October 2026
+
+Built-in imagegen produced one new 1536 × 1024 painting. Only WebP encoding (quality 93) was applied afterward. Rejected before publication: both spacecraft in one composition weakened the sense of their real separation. The combined image is not part of the published assets. Source PNG: `/workspace/scratch/2ab1361d4cc4/generated_images/exec-716e6ecb-50ad-47af-a597-c362c97e99df.png`.
+
+NASA/JPL model PIA14111 supplied the engineering geometry: `https://science.nasa.gov/photojournal/model-of-voyager-artist-concept/`, image `https://assets.science.nasa.gov/content/dam/science/psd/photojournal/pia/pia14/pia14111/PIA14111.jpg`. It was inspected before generation. The black-hole and quasar paintings supplied watercolor style. The dish, bus, record location, science boom, magnetometer boom, three RTGs and calibration target follow the reference with simplified hardware. The faint antenna rods are retained. No solar arrays, rocket exhaust or visible heliopause wall were added.
+
+The scene earns its place through the different planetary routes, the measurements that identified the heliopause crossings, and the physical record of Earth carried by both spacecraft. Sources were selected before generation. NASA's general Voyager 2 mission table has a November 25 typo; its December 2018 crossing announcement supports November 5, 2018. The old FAQ still includes pre-crossing language. Use the dated announcement for that event and avoid stale statements about active instruments or current distances. The Oort Cloud is explicitly an inferred reservoir, and the heliopause is distinguished from the Sun's gravitational reach.
+
+Voyager 1 is the large right-hand portrait; Voyager 2 is the smaller lower-left portrait. Their hardware is the same basic design. Separate sizes and positions are explained in both the caption and illustration note, so the painting does not imply nearby spacecraft or formation flight. Neither visited Arrokoth; the connection is an exploration route through chapters. A cropped spacecraft at upper right of Arrokoth opens the scene, and its small Arrokoth portrait returns to the Kuiper Belt.
+
+The large dish label is at 64%, 40%; Voyager 2's label is at 19%, 73%. The record location is near 57.4%, 57.4%, with the label offset to the right of the gold circle. The power units are near 49.2%, 66%. The heliopause note occupies empty left-middle space at 22%, 38%. Close crops were calculated and inspected for both spacecraft, the record location and the power boom. The record itself is protected by a cover; no readable engravings are invented at this scale. NASA's linked greetings collection includes Turkish.
+
+Five notes and reciprocal navigation extend the route. Pale Blue Dot remains the next addition; there is no unfinished destination link. Browser QA is unavailable because control-browser is absent in this managed environment. Static art inspection and Jekyll/DOM checks support the change; actual phone and fullscreen appearance remain unverified.
+
+Final prompt:
+
+```text
+Use case: scientific-educational.
+Create one new 1536 x 1024 landscape watercolor for a connected Solar System journey, showing TWO separate portrait studies of the identical Voyager spacecraft, arranged for learning rather than as nearby objects.
+Reference 1 is NASA/JPL's Voyager model PIA14111, ENGINEERING GEOMETRY ONLY. Follow the spacecraft's recognizable construction and viewing angle faithfully. References 2 and 3, black hole and quasar watercolors, are STYLE ONLY: broad layered transparent washes, selective drybrush, deep neutral indigo-charcoal, warm ivory paper, natural irregular paint edges. No CGI or photographic texture.
+Composition: a large Voyager 1 portrait on the RIGHT, all its booms contained approximately inside x560–1450, y150–860. A separate smaller Voyager 2 portrait in the lower LEFT, entire craft inside x110–480, y590–870. Both share the same basic hardware geometry and reference viewing angle. Their sizes and placement are independent educational enlargements; do not draw paths or imply formation flight. Large dark spaces separate the portraits.
+For each Voyager preserve the broad elliptical high-gain dish above the dark ten-sided equipment bus, the modest antenna feed supported above the dish, and the small muted golden circular record cover fixed to the visible left-facing side of the bus. The record is on the bus, below the dish, not floating. Preserve the long narrow lattice magnetometer boom extending diagonally UP LEFT, the science-instrument boom extending RIGHT with compact dark instrument housings, and the SHORT separate power boom extending DOWN LEFT bearing THREE modest cylindrical finned RTGs arranged end to end. Two very thin whip antennas extend down/left as in the reference, kept faint. The flat gray calibration target is a small single panel below the bus. No solar arrays. No extra giant dishes, antenna forests, wings or flames. Keep engineering forms simplified but distinct; never substitute solar panels for the RTGs.
+Large craft must be readable, especially its muted gold record cover and three RTGs. Reflective ivory-gray dish with soft charcoal shadows, black and gray equipment body with restrained ochre metallic details. Gentle light from upper left; no colored glow or emitted beams. Thin structures handled with spare drybrush, while the background remains broad watercolor wash.
+Space: sparse tiny dim stars, generous dark wash. Quiet top left around x15%,y14% reserved for an Arrokoth navigation thumbnail, empty left-middle around x22%,y38% for a note about interstellar space, quiet upper right for a future destination. Do not paint a heliopause wall, plasma bubble, orbit map, planets, Sun, rings, comet trails, other craft, text, labels, white interface dots, logos or watermark. Approximate 30px naturally irregular unpainted ivory margin. Everything fits inside the paper, including booms. Preserve the same painterly family as the style references; broad pigment pooling and varied strokes, no uniform microdetail or artificial paper-grain filter.
+```
+
 ## Arrokoth in the Kuiper Belt, 11 October 2026
 
 Built-in imagegen produced one new painting, 1536 × 1024. Only WebP encoding (quality 93) was applied afterward. Final asset: `pictures/space/assets/kuiper-belt-watercolor.webp`. Source PNG: `/workspace/scratch/2ab1361d4cc4/generated_images/exec-57ba59b7-3dd7-4510-84dd-00fb13f242cc.png`.

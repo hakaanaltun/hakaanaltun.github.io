@@ -501,7 +501,24 @@ accuracy and plain prose to this section as well.
   methanol was detected, while water ice was not detected in that analysis.
   The pale neck label sits beside the junction. An oval crop carries both
   lobes into Pluto’s destination portrait, with the label toward the frame’s
-  center. Return travel leads to Pluto. Voyager and Pale Blue Dot remain next.
+  center. Return travel leads to Pluto.
+  The Kuiper Belt now leads to Voyager 2, then a separate deep-space scene,
+  then Voyager 1. On 11 October the author rejected both craft in one painting:
+  each must be alone, with an intervening passage through space. The author
+  also noted that planetary transitions do not use a distance scale. Keep
+  that rule throughout: a passage changes viewpoint, and its length never
+  measures the gap. Keep this separation. The Kuiper Belt lies earlier in the journey, nearer
+  the Sun; do not move it between the spacecraft. Hardware follows NASA/JPL
+  model PIA14111 with simplified details. Neither Voyager visited Arrokoth.
+  Six notes cover the different routes, their separation, the heliopause, the
+  Golden Record and RTG power. The separation note uses a dated Horizons
+  calculation recorded in `scripts/voyager-separation.json`, rather than a live
+  distance counter. Keep the record label beside its small cover.
+  The heliopause is distinguished from the Sun’s gravitational reach and the
+  inferred Oort Cloud. Use the 2018 crossing announcement for Voyager 2’s
+  November 5 date; its general mission table contains a November 25 typo,
+  and older FAQ text still predates the crossing. Avoid undated claims about
+  current distances, instrument status or power. Pale Blue Dot remains next.
   Venus branches inward from Earth. Its opaque cloud cover has
   restrained contrast informed by Mariner 10 and ultraviolet observations;
   no surface terrain is visible. Magellan is an enlarged historical portrait,
