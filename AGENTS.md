@@ -540,8 +540,9 @@ accuracy and plain prose to this section as well.
   where the inner branch to Venus begins. The portrait is a navigation link,
   disclosed in the illustration note. The author also asked for both Voyager
   paintings to be repainted so that they no longer repeat one view, along
-  with Venus's lighting and Arrokoth's volume. The requests, their prompts
-  and the coordinates to update afterward are in
+  with Venus's lighting and Arrokoth's volume, and for a way into the
+  deep-space passage that can be seen in each Voyager painting. The
+  requests, their prompts and the coordinates to update afterward are in
   `scripts/space-art-direction.md`.
   Venus branches inward from Earth. Its opaque cloud cover has
   restrained contrast informed by Mariner 10 and ultraviolet observations;
