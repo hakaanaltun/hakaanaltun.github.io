@@ -10,7 +10,12 @@
   <div class="home-word-stage">
     {% assign featured_count = 0 %}
     {% for item in site.words %}
-    {% assign listed = false %}{% for group in site.data.word_collections %}{% if group.words contains item.slug or group.words contains item.word %}{% assign listed = true %}{% endif %}{% endfor %}
+    {% assign listed = false %}
+    {% for group in site.data.word_collections %}
+      {% if group.words contains item.word %}
+        {% assign listed = true %}
+      {% endif %}
+    {% endfor %}
     {% if listed %}{% assign featured_count = featured_count | plus: 1 %}
     <a class="home-word-card{% if featured_count == 1 %} is-active{% endif %}"
        href="{{ item.url }}"
