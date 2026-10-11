@@ -572,6 +572,14 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   for (const button of n.w.document.querySelectorAll('button[data-balcony-lamp]')) assert.equal(button.getAttribute('aria-pressed'), 'false');
   assert.equal(n.q('#house-scene').dataset.lamp, 'on', 'the study lamp is its own');
   assert.equal(n.q('#house-scene').dataset.balconyLamp, 'off', 'the study sees it through the door');
+  // An unlit globe stays dark under a hand.
+  n.click('.house-hotspot--balcony-lamp');
+  assert.equal(n.q('#house-balcony-scene').dataset.balconyLamp, 'off', 'no flicker while the lamp is off');
+  assert.equal(n.q('#house-balcony-scene').dataset.flicker, undefined);
+  assert.equal(n.q('#house-status').textContent, 'Its switch is on the wall by the door.');
+  await wait(400);
+  assert.equal(n.q('#house-balcony-scene').dataset.balconyLamp, 'off');
+  assert.equal(n.stored().balconyLamp, false);
   n.click('.house-hotspot--balcony-switch');
   assert.equal(n.q('#house-balcony-scene').dataset.balconyLamp, 'on');
   assert.equal(n.q('#house-scene').dataset.balconyLamp, 'on');
