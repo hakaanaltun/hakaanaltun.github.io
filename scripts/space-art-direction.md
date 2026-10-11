@@ -1,5 +1,11 @@
 # Space journey art direction
 
+## Voyager’s message and look back, 11 October 2026
+
+The author chose to keep Sagan and Pale Blue Dot within the Voyager scenes. The record note now explains its pulsar address and the historical radio-message debate. NASA’s FAQ quotes Sagan’s Murmurs of Earth account of Martin Ryle’s objection to Arecibo; it provides no basis for saying Sagan persuaded the other scientists or established safety. Use it only for this attributed historical argument, not the stale mission-status passages elsewhere on the page.
+
+Pale Blue Dot opens from the instrument cluster on Voyager 1 at 90%, 45%, with the label extending left. Its crop uses 100% 48% at 350% zoom and the existing painting. NASA’s photograph is linked inside the note. No new image or standalone destination was created, and no extended quotation was reproduced. Sources: NASA’s Golden Record Cover, Voyager FAQ and Voyager 1’s Pale Blue Dot pages. The route still closes at Voyager 1.
+
 ## Separate Voyager scenes, 11 October 2026
 
 The author asked for each Voyager to be alone, with a deep-space passage between the pictures. The route is now Kuiper Belt → Voyager 2 → Deep space → Voyager 1. Do not reunite the spacecraft in one scene or place the Kuiper Belt between them. Named navigation provides the passage; no spacecraft thumbnails appear together in the empty scene. The journey changes viewpoint between different trajectories. The author subsequently emphasized consistency with the planetary scenes: no transition has a fixed distance scale. The dated distance stays in an optional note, and the caption describes changing direction.

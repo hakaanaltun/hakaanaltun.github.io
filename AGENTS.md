@@ -510,15 +510,23 @@ accuracy and plain prose to this section as well.
   measures the gap. Keep this separation. The Kuiper Belt lies earlier in the journey, nearer
   the Sun; do not move it between the spacecraft. Hardware follows NASA/JPL
   model PIA14111 with simplified details. Neither Voyager visited Arrokoth.
-  Six notes cover the different routes, their separation, the heliopause, the
-  Golden Record and RTG power. The separation note uses a dated Horizons
+  Seven notes cover the different routes, their separation, the heliopause,
+  the Golden Record, RTG power and Pale Blue Dot. The separation note uses a dated Horizons
   calculation recorded in `scripts/voyager-separation.json`, rather than a live
   distance counter. Keep the record label beside its small cover.
   The heliopause is distinguished from the Sun’s gravitational reach and the
   inferred Oort Cloud. Use the 2018 crossing announcement for Voyager 2’s
   November 5 date; its general mission table contains a November 25 typo,
   and older FAQ text still predates the crossing. Avoid undated claims about
-  current distances, instrument status or power. Pale Blue Dot remains next.
+  current distances, instrument status or power. On 11 October the author
+  chose to keep Carl Sagan and Pale Blue Dot within the Voyager material.
+  The Golden Record note includes its contents, the pulsar address and Sagan’s
+  argument about radio broadcasts. NASA quotes that argument from his account
+  of Martin Ryle’s objection to the earlier Arecibo transmission. It does not
+  establish that he persuaded Ryle or proved contact safe. Preserve that
+  distinction. A label on Voyager 1’s instrument assembly opens Pale Blue Dot,
+  with NASA’s photograph linked from the note. No separate Sagan scene or
+  Pale Blue Dot destination is needed.
   Venus branches inward from Earth. Its opaque cloud cover has
   restrained contrast informed by Mariner 10 and ultraviolet observations;
   no surface terrain is visible. Magellan is an enlarged historical portrait,
@@ -588,8 +596,9 @@ accuracy and plain prose to this section as well.
   beneath it, carrying the same name, traveled there. The author kept it
   on 9 October 2026 after trying the list without it. Inside a sentence, a
   name keeps a lower-case article: "Travel to the Moon".
-  Pale Blue Dot and the Sagan passage can follow after the visual language
-  is settled. The full copyrighted passage still needs written permission.
+  Pale Blue Dot is now explained through Voyager 1, with Sagan’s role in the
+  photo and the Golden Record. The full copyrighted passage would still need
+  written permission if the author later chooses to include it.
   Preserve stable picture addresses, keyboard access, reduced motion,
   optional visible labels, native fallback reading, and fullscreen.
 
