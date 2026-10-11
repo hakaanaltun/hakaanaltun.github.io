@@ -1,0 +1,36 @@
+{% assign collection = site.data.word_collections | where: "id", page.collection_id | first %}
+{% if collection %}
+<div class="section-page word-index-page">
+  <div class="section-page-head">
+    <p><a href="/word/" class="word-collection-back">← Words with Stories</a></p>
+    <h1 class="section-page-title">{{ collection.title }}</h1>
+    <p class="section-page-subtitle">{{ collection.teaser }}</p>
+  </div>
+  <p class="word-collection-introduction">{{ collection.introduction }}</p>
+  <ol class="word-collection-entries">
+  {% for slug in collection.words %}
+    {% assign item = site.words | where: "slug", slug | first %}
+    {% unless item %}{% assign item = site.words | where: "word", slug | first %}{% endunless %}
+    {% if item %}
+    <li><a href="{{ item.url }}"><span class="word-collection-word">{{ item.word }} <small>({{ item.pos }})</small></span><span class="word-collection-teaser">{{ item.teaser }}</span></a></li>
+    {% endif %}
+  {% endfor %}
+  </ol>
+  <p class="word-collection-back-bottom"><a href="/word/">All collections →</a></p>
+</div>
+<style>
+.word-index-page { max-width: 46rem; }
+.word-collection-back { color:var(--petrol); text-decoration:none; font:italic 1rem 'EB Garamond',Georgia,serif; }
+.word-collection-introduction { max-width: 36rem; margin:0 auto 40px; font:1.19rem/1.7 'EB Garamond',Georgia,serif; }
+.word-collection-entries { max-width:36rem; padding:0; margin:auto; list-style:none; border-top:1px solid var(--rule); }
+.word-collection-entries li { border-bottom:1px solid var(--rule); }
+.word-collection-entries li a { padding:20px 2px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:6px 22px; text-decoration:none; align-items:baseline; }
+.word-collection-entries li a:hover,.word-collection-entries li a:focus-visible { opacity:var(--select-dim); }
+.word-collection-word { color:var(--petrol-deep); font:italic 500 clamp(1.6rem,3vw,2rem)/1.15 'Cormorant Garamond',Georgia,serif; }
+.word-collection-word small { font-size:.53em;color:var(--vizon); }
+.word-collection-teaser { color:var(--vizon);font:italic 1rem 'EB Garamond',Georgia,serif; }
+.word-collection-back-bottom { max-width:36rem;margin:36px auto 0; }
+.word-collection-back-bottom a { color:var(--petrol);text-decoration:none;font-style:italic; }
+</style>
+
+{% endif %}

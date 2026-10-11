@@ -8,14 +8,23 @@
   {% include section-header.html title="Words with Stories" subtitle="" %}
 
   <div class="home-word-stage">
+    {% assign featured_count = 0 %}
     {% for item in site.words %}
-    <a class="home-word-card{% if forloop.first %} is-active{% endif %}"
+    {% assign listed = false %}
+    {% for group in site.data.word_collections %}
+      {% if group.words contains item.word %}
+        {% assign listed = true %}
+      {% endif %}
+    {% endfor %}
+    {% if listed %}{% assign featured_count = featured_count | plus: 1 %}
+    <a class="home-word-card{% if featured_count == 1 %} is-active{% endif %}"
        href="{{ item.url }}"
-       data-word-index="{{ forloop.index0 }}"
+       data-word-index="{{ featured_count | minus: 1 }}"
        aria-label="{{ item.word }} ({{ item.pos }}), {{ item.teaser }}">
       <span class="home-word-line">{{ item.word }} ({{ item.pos }})</span>
       <span class="home-word-teaser">{{ item.teaser }}</span>
     </a>
+    {% endif %}
     {% endfor %}
   </div>
 
@@ -24,7 +33,7 @@
     — two of those on one page read as a template rather than a voice. This
     is the phrase the story pages already use for the same door.
   {%- endcomment -%}
-  <a class="home-words-all" href="/word/">All the words <span aria-hidden="true">&rarr;</span></a>
+  <a class="home-words-all" href="/word/">Explore the collections <span aria-hidden="true">&rarr;</span></a>
 </section>
 
 <style>
