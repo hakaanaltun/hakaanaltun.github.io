@@ -130,6 +130,9 @@
     crop.style.setProperty('--detail-zoom', note.dataset.zoom);
     crop.setAttribute('aria-label', note.dataset.alt);
     dialog.showModal();
+    // A note taller than the window marks itself, so the close view can wait
+    // at the top beside the title rather than centered out of sight.
+    dialog.classList.toggle('is-long', dialog.scrollHeight > dialog.clientHeight + 1);
     // Only an open dialog can be scrolled, so the reset comes after showing
     // it. Before, a phone reader who had scrolled down to "Back to the
     // picture" met every later detail scrolled the same way, its close view

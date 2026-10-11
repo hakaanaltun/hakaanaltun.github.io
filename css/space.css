@@ -48,6 +48,10 @@
 .picture-ready .show-places .journey-choices { display:flex; }
 .space-watercolor .picture-detail-sources { display:flex; flex-direction:column; align-items:flex-start; gap:8px; }
 .space-watercolor .picture-detail-image { background-color:var(--picture-paper); aspect-ratio:1; min-height:0; max-height:none; width:100%; align-self:center; }
+/* A note longer than the window keeps its close view at the top beside the
+   title, and in view while the text scrolls, instead of centered below the
+   fold. */
+.space-watercolor .picture-dialog.is-long .picture-detail-image { align-self:start; position:sticky; top:0; }
 .picture-journey { display:grid; grid-template-columns:minmax(0,1.3fr) minmax(0,1fr); align-items:center; gap:36px; max-width:960px; margin:22px auto 32px; text-decoration:none; color:var(--ink); }
 .picture-journey img { width:100%; height:auto; display:block; border-radius:3px; }
 .picture-journey h3 { margin:0 0 10px; font:400 32px/1.2 'Cormorant Garamond',Georgia,serif; color:var(--petrol); }
@@ -60,18 +64,16 @@
  .space-watercolor .journey-label .picture-hotspot-label { display:block; width:max-content; max-width:100px; white-space:normal; text-align:center; font-size:14px; line-height:1.2; padding:4px 6px; }
  .space-watercolor .picture-hotspot-number,.space-watercolor .picture-choice-number { display:none; }
 }
+/* Spread simultaneous labels without moving their exploration targets. The
+   offsets follow the painting's own width rather than the window's: a short
+   laptop screen or a phone held sideways shows the painting as narrow as a
+   phone does. Each scene sets them as hint_x and hint_y beside the spot, as
+   the standalone pictures do, so a new scene brings its own. */
+@container (max-width:650px) {
+ .journey-label .picture-hotspot-label { display:block; width:max-content; max-width:100px; white-space:normal; text-align:center; line-height:1.2; padding:4px 6px; }
+ .show-places .journey-label .picture-hotspot-label { transform:translate(var(--hint-x,0px),var(--hint-y,0px)); }
+}
 @media(max-width:650px) {
- /* Spread simultaneous labels without moving their exploration targets. */
- .space-watercolor .show-places .journey-label .picture-hotspot-label { transform:translate(var(--hint-x,0px),var(--hint-y,0px)); }
- #scene-vicinity [data-detail="moon"],#scene-earth [data-detail="moon"],#scene-moon [data-detail="moon"] { --hint-y:-20px; }
- #scene-earth [data-detail="atmosphere"] { --hint-y:-14px; }
- #scene-earth [data-detail="oceans"] { --hint-x:-15px; --hint-y:20px; }
- #scene-earth [data-detail="earth"] { --hint-x:15px; --hint-y:10px; }
- #scene-moon [data-detail="earth"] { --hint-y:-25px; }
- #scene-mars [data-detail="earth"] { --hint-y:-25px; }
- #scene-mars [data-detail="mars"] { --hint-x:12px; }
- #scene-mars [data-detail="valles"] { --hint-y:8px; }
-
  .space-watercolor .picture-title { margin-top:12px; }
  .space-watercolor .picture-under { padding-top:14px; }
  .space-watercolor .picture-intro { margin-bottom:18px; }

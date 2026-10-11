@@ -1,5 +1,70 @@
 # Space journey art direction
 
+## Return to Earth, phone labels and requested repaints, 11 October 2026
+
+The route no longer closes at Voyager 1. Its way on beneath the picture and a small Earth portrait at 85%, 14% lead back to Earth's closer scene, where the inner branch to Venus begins. The portrait reuses the crop of `near-earth-v2-watercolor.webp` that Venus's scene already uses (3.2% wide, 28.75% 49.25%, 260%). It is a navigation link, disclosed in the illustration note, and no painting changed.
+
+Crowded labels on narrow paintings now take `hint_x` and `hint_y` beside each spot, as the standalone pictures do. The offsets apply through a container query whenever the painting is 650 pixels wide or less: phones, phones held sideways in full screen, and short laptop screens such as 1280 × 720 and 1366 × 768, where the painting is only 510–580 pixels wide. They were found by measuring every scene with Show places to look on, at 320–600 pixels and on those laptop and landscape sizes, and checked by eye. Nothing overlaps from 360 pixels up. At 320 pixels two small touches remain, on Mars and Neptune. The Great Red Spot's label moves below and beside the storm, clear of the red oval. The Kuiper Belt's region label moved to empty space at 18.5%, 68%, off Arrokoth's lobe.
+
+### Requested repaints
+
+The author reviewed the journey on 11 October 2026 and asked for these paintings to be redone with image generation. Each keeps its file name, 1536 × 1024, WebP at quality 93 (method 6), with no retouching after generation. The black-hole and quasar paintings (`pictures/assets/black-hole-watercolor.webp`, `pictures/assets/quasar-watercolor.webp`) are the style references: broad layered transparent washes, selective drybrush, deep neutral indigo-charcoal, warm ivory paper and natural irregular edges. Leave the soft, bleeding ivory paper margin seen in the Uranus, Neptune and Venus scenes (about 30 pixels) rather than a hard torn edge. No text, labels, white interface dots, arrows, logos or watermark. Ask for the pixel positions of the named parts with each delivery, so labels and close views can be placed from measurements.
+
+1. **Voyager 2 and Voyager 1 as two different views.** The two paintings repeat one pose, one angle and one framing, so the reader meets the same picture twice with an empty passage between them. Both spacecraft are the same design, so the difference has to come from the viewpoint. Both also read as rendered metal on a watercolor ground; the hardware should be painted in the same washes as the space around it.
+2. **Venus lit from the right.** In Venus's scene the way inward (Mercury, then the Sun) is at upper right, and Mercury's scene is lit from the Sun at its upper right, but Venus is lit from the left. Light from the right makes the inner branch agree with itself.
+3. **Arrokoth with volume.** The two lobes read as flat cut-out discs, with a pale halo where the smaller lobe overlaps the larger. They should read as two flattened, rounded bodies joined at a neck.
+4. **Optional, only if the author wants it: the Mars and Jupiter margins.** These approved scenes have a tighter torn paper edge and a denser, speckled star field than the others. Only the margin and background would change; the planets must stay exactly where they are, because the Moon, asteroid-belt and Saturn scenes reuse crops of them.
+
+New scenes, including the Amazon rainforest, should settle one style reference first and vary the camera from scene to scene; the outer planets repeat one layout (a large globe at right, a moon at left, two small worlds in the top corners).
+
+#### Prompt: Voyager 2
+
+```text
+Use case: scientific-educational. Repaint VOYAGER 2 ALONE as a new 1536x1024 landscape watercolor for a connected educational journey through the Solar System. Reference 1 is NASA/JPL's Voyager model PIA14111, ENGINEERING GEOMETRY ONLY: follow its construction faithfully but NOT its viewing angle. References 2 and 3 (black hole and quasar watercolors) are STYLE ONLY: broad layered transparent washes, selective drybrush, deep neutral indigo-charcoal space, warm ivory paper with a soft irregular bleeding margin of about 30 px. Paint the spacecraft itself in the same transparent washes and drybrush as the space around it, with no CGI, no glossy rendered metal and no hard specular highlights.
+Viewpoint: a three-quarter view from the front side and slightly below, the high-gain dish seen as a tilted ellipse facing the upper LEFT, back toward where the journey came from; the craft placed center-right, occupying roughly x520-1250, y220-840 including all booms. This view must clearly differ from a frontal view of the dish and from a view from behind.
+Hardware to keep recognizable: one broad pale high-gain dish above the dark ten-sided equipment bus; the small muted gold circular record cover fixed on a visible face of the bus, below the dish; the long narrow lattice magnetometer boom; the science boom carrying the compact instrument platform with its cameras; the SHORT separate boom with THREE finned RTGs end to end; the small gray calibration panel; two very thin whip antennas, kept faint. No solar panels, wings, flames or extra dishes.
+Keep quiet dark space at the upper left around x230,y145 (a small navigation portrait goes there) and at left-middle around x300,y450 (an interface area). Sparse tiny dim stars, no nebula band brighter than the craft, no planets, Sun, other spacecraft, paths or heliopause wall.
+After painting, report pixel coordinates for: dish center, gold record cover, RTG group center, instrument platform.
+```
+
+#### Prompt: Voyager 1
+
+```text
+Use case: scientific-educational. Repaint VOYAGER 1 ALONE as a new 1536x1024 landscape watercolor for the last scene of a connected educational journey through the Solar System. Reference 1 is NASA/JPL's Voyager model PIA14111, ENGINEERING GEOMETRY ONLY. References 2 and 3 (black hole and quasar watercolors) are STYLE ONLY: broad layered transparent washes, selective drybrush, deep neutral indigo-charcoal space, warm ivory paper with a soft irregular bleeding margin of about 30 px. Paint the spacecraft in the same transparent washes and drybrush as the space around it, with no CGI, glossy metal or hard specular highlights.
+Viewpoint: a three-quarter view from behind and slightly above, as if the viewer travels with the spacecraft and looks back with it. Voyager's high-gain dish is kept pointed at Earth, so here it is turned away from the viewer toward the upper RIGHT, where a small portrait of Earth will sit; the back of the dish faces the viewer. It must look clearly different from a frontal view of the dish and from a side view seen from below. Place the craft near the center, roughly x430-1150, y260-880 including all booms.
+In this view these must be clearly visible: the small muted gold circular record cover on a face of the bus; the SHORT boom with THREE finned RTGs end to end; the science boom with the compact instrument platform that carried the cameras; the long narrow lattice magnetometer boom; the small gray calibration panel; two very thin faint whip antennas. No solar panels, wings, flames or extra dishes.
+Keep the upper RIGHT corner around x1305,y145 quiet and dark (a small navigation portrait of Earth goes there) and the left-middle around x230,y450 quiet (an interface area). Sparse tiny dim stars and one restrained soft band of distant light are allowed. No Sun, planets, Earth, other spacecraft, paths or heliopause wall.
+After painting, report pixel coordinates for: dish center, gold record cover, RTG group center, instrument platform.
+```
+
+#### Prompt: Venus relit
+
+```text
+Use case: precise-object-edit. Edit the attached 1536x1024 watercolor of Venus (pictures/space/assets/near-venus-watercolor.webp). Change ONLY the direction of the light on Venus: the sunlit side must face the RIGHT and upper right, with the soft terminator and shadowed limb on the LEFT side of the globe. Keep Venus exactly in place and size (center about x890,y475, diameter about 790 px), keep its pale cream color and the broad sweeping cloud pattern, and show no surface terrain. Keep the Magellan spacecraft at left, the space, stars and the soft ivory paper margin unchanged. Keep the upper-left corner around x230,y145 and the upper-right corner around x1305,y145 quiet and dark (small navigation portraits go there). Restrained contrast, transparent watercolor washes, no glow, no text or marks.
+```
+
+#### Prompt: Arrokoth with volume
+
+```text
+Use case: scientific-educational. Repaint Arrokoth in the Kuiper Belt as a new 1536x1024 landscape watercolor. Reference 1 is NASA/JHUAPL/SwRI's 2019 enhanced-color composite of Arrokoth, for the OUTLINE AND BROAD MARKINGS ONLY. Reference 2 is the current painting (pictures/space/assets/kuiper-belt-watercolor.webp), for PLACEMENT AND SCALE ONLY. References 3 and 4 (black hole and quasar watercolors) are STYLE ONLY.
+Keep the body exactly where it is now: whole body inside x348-1244, y195-804; the smaller lobe on the LEFT, the larger flattened lobe on the RIGHT, and the pale curved neck between them near x720,y480. Give both lobes real volume: two flattened, rounded bodies with soft form shadows and one consistent light direction from the upper left, sitting in space, with no flat cut-out look and no pale halo where the lobes meet. Muted reddish palette interpreting enhanced-color data, simplified terrain, transparent watercolor washes and drybrush.
+Keep quiet dark space at the upper left around x230,y145 and the upper right around x1305,y145 (small navigation portraits go there) and at the lower left around x285,y695 (an interface area). Sparse dim stars, a soft ivory paper margin of about 30 px, no text, labels or marks, no other bodies.
+```
+
+#### Prompt: Mars and Jupiter margins (optional)
+
+```text
+Use case: precise-object-edit. Edit the attached 1536x1024 watercolor. Change ONLY the paper margin and the background space: replace the hard torn paper edge with a soft, irregular bleeding watercolor margin of about 30 px of warm ivory paper, like the attached Uranus scene, and calm the densely speckled star field into sparse tiny dim stars in broad indigo-charcoal washes. Do NOT move, resize, recolor or repaint the planet or any small world in the picture; every pixel of them must stay where it is. No text or marks.
+```
+
+#### After the new paintings arrive
+
+- Voyager 2: re-measure and update the scene's spots (dish label, the left-middle interface area, the Arrokoth portrait's quiet corner), the `voyager-2` close view, and the crop of its portrait in deep space (`paint_position` 76% 62%, 200%).
+- Voyager 1: update the `voyager-1`, `golden-record`, `voyager-power` and `pale-blue-dot` labels and close views (now 64%, 40%; 57.4%, 57.4%; 49.2%, 66%; 90%, 45%), the Deep space area (now at 18%, 40%; the prompt keeps 15%, 44% clear), the crop of its portrait in deep space (`paint_position` 80% 62%, 200%), and both alt texts. Check that the Earth portrait still sits in clear space.
+- Venus: three alt texts describe the right limb in shadow and must be rewritten. The Phases label and its close view sit on the right limb and should move to the new terminator, clear of Magellan. The small Venus in Earth's scene is a crop of this painting and will change with it.
+- Arrokoth: if the body stays in place, only the close views need checking. The small Arrokoth in Pluto's and Voyager 2's scenes is a crop of this painting.
+- In every case, run the label measurement with Show places to look at 360 pixels and on 1366 × 768, open every close view on a phone and a desk, and compare connected scenes side by side.
+
 ## Voyager’s message and look back, 11 October 2026
 
 The author chose to keep Sagan and Pale Blue Dot within the Voyager scenes. The record note explains the pulsar address and the argument the author remembered about advanced civilizations overcoming aggression. Its primary source is Sagan and Newman, “The Solipsist Approach to Extraterrestrial Intelligence,” Quarterly Journal of the Royal Astronomical Society 24 (1983), pp. 113–121, specifically p. 120. The NASA ADS scan was downloaded and that page inspected directly. It supports the survival argument, not a claim that Sagan persuaded a meeting of scientists to approve the Golden Record. The final text states its 1983 date and preserves uncertainty. An initial draft using Sagan’s separate Arecibo argument was replaced before publication when the author clarified the memory. Source: https://articles.adsabs.harvard.edu/pdf/1983QJRAS..24..113S .
