@@ -476,6 +476,7 @@ The site has two deliberate ideas of place. Do not collapse them into one.
 
 ## Words with Stories collections
 
+- **Keep the complete alphabetical index alongside the collections.** The earlier A–Z layout lives at `/word/alphabetical/`, linked near the end of `/word/` as “All the words in alphabetical order.” It includes every existing entry, including words not yet assigned to a collection. Keep each word's URL unchanged and the alphabet jump navigation intact; collection reading arrows remain thematic.
 - The public `/word/` index is organized into eight curated thematic collections in `_data/word_collections.yml`. Each group has a narrative introduction and an intentional reading order, rendered by `_includes/word-collection.html` on `/word/<group>/` pages. A word may belong to only one primary group.
 - Existing individual `/word/<slug>/` URLs and all source citations remain unchanged. Arrows on grouped stories stay within their own group, and the label above the word returns to its collection.
 - A word outside every group remains available by its URL and in site search, but waits off the public Words index, homepage random-card selection and Words RSS feed until there is a meaningful group for it.
