@@ -520,11 +520,14 @@ accuracy and plain prose to this section as well.
   and older FAQ text still predates the crossing. Avoid undated claims about
   current distances, instrument status or power. On 11 October the author
   chose to keep Carl Sagan and Pale Blue Dot within the Voyager material.
-  The Golden Record note includes its contents, the pulsar address and Sagan’s
-  argument about radio broadcasts. NASA quotes that argument from his account
-  of Martin Ryle’s objection to the earlier Arecibo transmission. It does not
-  establish that he persuaded Ryle or proved contact safe. Preserve that
-  distinction. A label on Voyager 1’s instrument assembly opens Pale Blue Dot,
+  The Golden Record note includes its contents, the pulsar address and the
+  survival argument in Sagan and William Newman’s 1983 paper, page 120:
+  long-lived technological civilizations may have had to control aggression
+  to avoid self-destruction. Present it as their reasoning, with uncertainty
+  preserved. The author recalled a story that Sagan persuaded colleagues
+  using this argument; that specific meeting and outcome remain unverified.
+  Do not substitute his separate Arecibo radio-broadcast argument for this
+  idea. A label on Voyager 1’s instrument assembly opens Pale Blue Dot,
   with NASA’s photograph linked from the note. No separate Sagan scene or
   Pale Blue Dot destination is needed.
   Venus branches inward from Earth. Its opaque cloud cover has

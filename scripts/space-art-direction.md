@@ -2,9 +2,9 @@
 
 ## Voyager’s message and look back, 11 October 2026
 
-The author chose to keep Sagan and Pale Blue Dot within the Voyager scenes. The record note now explains its pulsar address and the historical radio-message debate. NASA’s FAQ quotes Sagan’s Murmurs of Earth account of Martin Ryle’s objection to Arecibo; it provides no basis for saying Sagan persuaded the other scientists or established safety. Use it only for this attributed historical argument, not the stale mission-status passages elsewhere on the page.
+The author chose to keep Sagan and Pale Blue Dot within the Voyager scenes. The record note explains the pulsar address and the argument the author remembered about advanced civilizations overcoming aggression. Its primary source is Sagan and Newman, “The Solipsist Approach to Extraterrestrial Intelligence,” Quarterly Journal of the Royal Astronomical Society 24 (1983), pp. 113–121, specifically p. 120. The NASA ADS scan was downloaded and that page inspected directly. It supports the survival argument, not a claim that Sagan persuaded a meeting of scientists to approve the Golden Record. The final text states its 1983 date and preserves uncertainty. An initial draft using Sagan’s separate Arecibo argument was replaced before publication when the author clarified the memory. Source: https://articles.adsabs.harvard.edu/pdf/1983QJRAS..24..113S .
 
-Pale Blue Dot opens from the instrument cluster on Voyager 1 at 90%, 45%, with the label extending left. Its crop uses 100% 48% at 350% zoom and the existing painting. NASA’s photograph is linked inside the note. No new image or standalone destination was created, and no extended quotation was reproduced. Sources: NASA’s Golden Record Cover, Voyager FAQ and Voyager 1’s Pale Blue Dot pages. The route still closes at Voyager 1.
+Pale Blue Dot opens from the instrument cluster on Voyager 1 at 90%, 45%, with the label extending left. Its crop uses 100% 48% at 350% zoom and the existing painting. NASA’s photograph is linked inside the note. No new image or standalone destination was created, and no extended quotation was reproduced. Sources: NASA’s Golden Record Cover and Voyager 1’s Pale Blue Dot pages, plus Sagan and Newman’s paper. The route still closes at Voyager 1.
 
 ## Separate Voyager scenes, 11 October 2026
 
