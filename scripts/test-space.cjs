@@ -185,10 +185,18 @@ function page(modal=true,hash='') {
    }
    if(scene!=='voyager-1')d.getElementById('journey-next').click();
   }
-  // The spacecraft occupy different paintings, with no neighboring-craft thumbnails in the passage.
+  // Each spacecraft keeps its own painting; the passage has two small navigation portraits.
   assert.notEqual(d.querySelector('#scene-voyager-1 img').src,d.querySelector('#scene-voyager-2 img').src);
-  assert.equal(d.querySelectorAll('#scene-deep-space .journey-painted-world').length,0);
+  assert.equal(d.querySelectorAll('#scene-deep-space .journey-painted-world').length,2);
   d.querySelector('#scene-voyager-1 .journey-destination[data-travel="deep-space"]').click();assert.equal(frame.dataset.view,'deep-space');
+  for(const id of ['voyager-2','voyager-1']){
+   const label=d.querySelector('#scene-deep-space .journey-label[data-detail="'+id+'"]');label.click();
+   assert.equal(dialog.open,true);assert.equal(frame.dataset.view,'deep-space');
+   assert.ok(d.getElementById('picture-detail-image').style.backgroundImage.includes(id+'-watercolor'));
+   d.getElementById('picture-return').click();assert.equal(d.activeElement,label);
+   d.querySelector('#scene-deep-space .journey-destination[data-travel="'+id+'"]').click();assert.equal(frame.dataset.view,id);
+   d.getElementById(id==='voyager-2'?'journey-next':'journey-back').click();assert.equal(frame.dataset.view,'deep-space');
+  }
   d.getElementById('journey-back').click();assert.equal(frame.dataset.view,'voyager-2');
   d.querySelector('#scene-voyager-2 .journey-destination[data-travel="deep-space"]').click();assert.equal(frame.dataset.view,'deep-space');
   d.getElementById('journey-back').click();
