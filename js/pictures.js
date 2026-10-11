@@ -35,7 +35,7 @@
   // Keep the painting at the center when an illustration page first opens.
   // Do not override reload/back-forward restoration or fragment links.
   function centerPainting() {
-    if (!screenMode && !location.hash) frame.scrollIntoView({ block: 'center', behavior: 'instant' });
+    if (!screenMode && !location.hash && frame.scrollIntoView) frame.scrollIntoView({ block: 'center', behavior: 'instant' });
   }
   if (!location.hash) window.addEventListener('load', function () {
     var entries = performance.getEntriesByType && performance.getEntriesByType('navigation');
