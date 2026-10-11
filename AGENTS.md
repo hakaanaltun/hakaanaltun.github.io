@@ -364,9 +364,10 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   near side of the pine, and only after sunset. Its switch is out on the
   balcony, on the wall beside the door to the study, a little higher than
   the handle. The author first had it put in the study and moved it out
-  on 11 October 2026. A touch on the globe changes nothing: as a small
-  joke, its light goes and comes back once or twice in well under a
-  second, and the status line points to the switch. After sunset each
+  on 11 October 2026. A touch on the globe changes nothing. While it is
+  lit, as a small joke, its light goes and comes back once or twice in
+  well under a second; the author asked that an unlit globe stay dark. The
+  status line points to the switch either way. After sunset each
   room's lamp shows in the other through the glass of the door.
 - **Its sound comes next.** The balcony will have a sound of its own, like
   the farm's, but following İstanbul's real calendar rather than a fixed

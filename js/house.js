@@ -1240,17 +1240,15 @@
     root.querySelectorAll('[data-kept-count]').forEach(function (node) { node.textContent = count; });
   }
 
-  /* A hand on the balcony's globe changes nothing; the light only goes and
-     comes back once or twice, in well under a second, as a loose bulb's
-     would. Nothing is kept, and a reader who asks for less motion is
-     spared it. */
+  /* A hand on the balcony's globe changes nothing. While it is lit, the
+     light only goes and comes back once or twice, in well under a second,
+     as a loose bulb's would; an unlit globe stays dark. Nothing is kept,
+     and a reader who asks for less motion is spared it. */
   var FLICKER = [80, 60, 140];
   var flickering = 0;
   function flicker() {
-    if (still) return false;
     if (flickering) return true;
-    var steady = balconyScene.dataset.balconyLamp;
-    var other = steady === 'on' ? 'off' : 'on';
+    if (still || balconyScene.dataset.balconyLamp !== 'on') return false;
     balconyScene.dataset.flicker = '';
     var step = 0;
     (function next() {
@@ -1262,7 +1260,7 @@
         flickering = 0;
         return;
       }
-      balconyScene.dataset.balconyLamp = step % 2 ? steady : other;
+      balconyScene.dataset.balconyLamp = step % 2 ? 'on' : 'off';
       flickering = window.setTimeout(next, FLICKER[step++]);
     })();
     return true;
