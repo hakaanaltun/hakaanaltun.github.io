@@ -53,7 +53,7 @@
   if (focus) {
    caption.focus({ preventScroll: true });
    // The new scene opens where its picture can be seen.
-   if (!document.getElementById('picture-visit').classList.contains('is-fullscreen'))
+   if (!document.getElementById('picture-visit').classList.contains('is-fullscreen') && frame.scrollIntoView)
     frame.scrollIntoView({ block: 'center', behavior: 'instant' });
   }
  }
