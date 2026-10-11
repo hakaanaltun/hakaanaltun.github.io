@@ -474,6 +474,14 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   to every page keeps it out of anything a reader copies and leaves the
   rest of the copy to the browser.
 
+## Words with Stories collections
+
+- The public `/word/` index is organized into eight curated thematic collections in `_data/word_collections.yml`. Each group has a narrative introduction and an intentional reading order, rendered by `_includes/word-collection.html` on `/word/<group>/` pages. A word may belong to only one primary group.
+- Existing individual `/word/<slug>/` URLs and all source citations remain unchanged. Arrows on grouped stories stay within their own group, and the label above the word returns to its collection.
+- A word outside every group remains available by its URL and in site search, but waits off the public Words index, homepage random-card selection and Words RSS feed until there is a meaningful group for it.
+- Group stories must remain sourced and accurate. Shared themes do not establish shared etymology. Review both the individual story and its relationship to the group's introduction before assigning a word.
+- Preserve the restrained typography and accessible ordinary links. Do not create empty or token groups merely to publish another word.
+
 ## Words with Stories editorial standard
 
 `Words with Stories` is a deliberately small, curated collection. A term should be added only when its story earns its place.
