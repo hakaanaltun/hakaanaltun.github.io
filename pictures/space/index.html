@@ -156,10 +156,10 @@ scenes:
     label_x: 16.6
     label_y: 14
     label_edge: right
-    paint_image: /pictures/space/assets/near-venus-watercolor.webp
+    paint_image: /pictures/space/assets/venus-earth-portrait.webp
     paint_width: 3.2
-    paint_position: 69.20% 24.00%
-    paint_zoom: 175% auto
+    paint_position: 50% 50%
+    paint_zoom: 100% auto
   branch: venus
   branch_label: Venus · toward the Sun
 - id: moon
@@ -767,13 +767,14 @@ scenes:
     label_edge: left
     paint_image: /pictures/space/assets/voyager-2-watercolor.webp
     paint_width: 4.2
-    paint_position: 76% 62%
-    paint_zoom: 200% auto
+    paint_position: 74% 57%
+    paint_zoom: 260% auto
 - id: voyager-2
   name: Near Voyager 2
   image: /pictures/space/assets/voyager-2-watercolor.webp
-  alt: Voyager 2 alone in a wide field of dark watercolor space, its pale dish and slender booms surrounded by
-    distant stars. A small Arrokoth portrait offers a return to the Kuiper Belt.
+  alt: Voyager 2 seen obliquely from the front and slightly below, its pale dish facing upper left above a dark
+    equipment body. Three finned power units and slender booms extend into indigo watercolor space. A small
+    Arrokoth portrait offers a return to the Kuiper Belt.
   caption: Voyager 2. Beyond Neptune, its route turned south of the planets’ orbital plane. Continue into deep space.
   back: kuiper-belt
   back_label: The Kuiper Belt
@@ -781,13 +782,13 @@ scenes:
   next_label: Deep space
   spots:
   - label: Voyager 2
-    x: 61
-    y: 40
+    x: 64.1
+    y: 47
     detail: voyager-2
     primary: true
   - label: Deep space
-    x: 20
-    y: 44
+    x: 85
+    y: 14
     detail: voyager-distance
     go: deep-space
     width: 12
@@ -842,8 +843,8 @@ scenes:
     label_edge: right
     paint_image: /pictures/space/assets/voyager-2-watercolor.webp
     paint_width: 4.8
-    paint_position: 76% 62%
-    paint_zoom: 200% auto
+    paint_position: 74% 57%
+    paint_zoom: 260% auto
   - label: Voyager 1
     x: 85
     y: 20
@@ -857,14 +858,14 @@ scenes:
     label_edge: left
     paint_image: /pictures/space/assets/voyager-1-watercolor.webp
     paint_width: 4.8
-    paint_position: 80% 62%
-    paint_zoom: 200% auto
+    paint_position: 56% 40%
+    paint_zoom: 260% auto
 - id: voyager-1
   name: Near Voyager 1
   image: /pictures/space/assets/voyager-1-watercolor.webp
-  alt: Voyager 1 alone at right in deep watercolor space, with a broad pale dish, dark equipment body,
-    small gold record cover and slender instrument booms. The space to its left is empty of other craft. A small
-    Earth portrait at upper right leads back home.
+  alt: Voyager 1 seen from behind and above, with the rear of its pale dish facing the viewer and its open side
+    turned toward upper right. A gold record cover sits on the dark equipment body, three finned power units
+    extend right and the camera platform extends left. A small Earth portrait at upper right leads back home.
   caption: Voyager 1. Explore the message it carries and the story of Pale Blue Dot, then return to Earth.
   back: deep-space
   back_label: Deep space
@@ -872,32 +873,33 @@ scenes:
   next_label: Earth
   spots:
   - label: Voyager 1
-    x: 64
-    y: 40
+    x: 56.3
+    y: 36.6
     detail: voyager-1
     primary: true
-    hint_y: -20
+    hint_y: -15
   - label: Golden Record
-    x: 57.4
-    y: 57.4
+    x: 53
+    y: 48.8
     detail: golden-record
-    label_side: right
-    label_gap: 1.5
-    hint_x: 15
-    hint_y: 15
+    label_edge: left
+    hint_x: 0
+    hint_y: 25
   - label: Pale Blue Dot
-    x: 90
-    y: 45
+    x: 39
+    y: 40.5
     detail: pale-blue-dot
     label_edge: left
   - label: Power source
-    x: 49.2
-    y: 66
+    x: 64.1
+    y: 53
     detail: voyager-power
-    hint_x: -10
+    label_side: right
+    label_gap: 2
+    hint_y: 15
   - label: Deep space
-    x: 18
-    y: 40
+    x: 15
+    y: 14
     detail: voyager-distance
     go: deep-space
     width: 12
@@ -920,7 +922,7 @@ scenes:
 - id: venus
   name: Near Venus
   image: /pictures/space/assets/near-venus-watercolor.webp
-  alt: A pale cream watercolor Venus covered by sweeping opaque clouds, with its right limb in shadow. A small Magellan
+  alt: A pale cream watercolor Venus covered by sweeping opaque clouds, lit from the upper right with its left limb in shadow. A small Magellan
     spacecraft to the left has a dish antenna, a golden body and two gray-blue solar panels. A small blue Earth
     at upper left offers a return, and gray Mercury at upper right leads closer to the Sun.
   caption: Near Venus. Explore the clouds and Magellan, continue inward to Mercury, or return to Earth.
@@ -947,8 +949,9 @@ scenes:
     primary: false
     hint_y: 5
   - label: Phases
-    x: 78
-    y: 53
+    x: 37
+    y: 45
+    label_edge: left
     detail: venus-phases
     primary: false
   - label: Magellan
@@ -2013,7 +2016,7 @@ details:
   image: /pictures/space/assets/near-venus-watercolor.webp
   position: 69.20% 24.00%
   zoom: 175% auto
-  alt: Venus’s pale opaque cloud cover with its right limb in shadow.
+  alt: Venus’s pale opaque cloud cover with its left limb in shadow.
 - id: venus-clouds
   label: Acid clouds
   kicker: Venus · Atmosphere
@@ -2052,7 +2055,7 @@ details:
   image: /pictures/space/assets/near-venus-watercolor.webp
   position: 58.40% 81.40%
   zoom: 260% auto
-  alt: The lower part of Venus’s cloud-covered globe, with light fading toward the right.
+  alt: The lower part of Venus’s cloud-covered globe, with light fading toward the left.
 - id: venus-phases
   label: Phases
   kicker: Venus · Galileo’s telescope
@@ -2069,9 +2072,9 @@ details:
   sources:
   - venus-phases-history
   image: /pictures/space/assets/near-venus-watercolor.webp
-  position: 85.47% 51.19%
+  position: 31% 40%
   zoom: 300% auto
-  alt: Venus’s cloudy right limb fading from pale reflected sunlight into shadow.
+  alt: Venus’s cloudy left limb fading from pale reflected sunlight into shadow.
 - id: magellan
   label: Magellan
   kicker: Venus · Radar exploration
@@ -2361,9 +2364,9 @@ details:
   - voyager-routes
   - voyager-hardware
   image: /pictures/space/assets/voyager-1-watercolor.webp
-  position: 81% 55%
-  zoom: 180% auto
-  alt: Voyager 1’s pale dish above its dark equipment body and instrument boom.
+  position: 56% 40%
+  zoom: 260% auto
+  alt: The rear of Voyager 1’s pale dish above its dark equipment body, with the camera platform at left.
 - id: voyager-2
   label: Voyager 2
   kicker: The longer planetary tour
@@ -2382,9 +2385,9 @@ details:
   - voyager-2
   - voyager-routes
   image: /pictures/space/assets/voyager-2-watercolor.webp
-  position: 75% 55%
-  zoom: 180% auto
-  alt: Voyager 2 alone, with its dish and long instrument booms.
+  position: 74% 57%
+  zoom: 260% auto
+  alt: Voyager 2’s tilted pale dish, dark equipment body and instrument platform, seen from the front and below.
 - id: heliopause
   label: Beyond the solar wind
   kicker: A boundary in the surrounding particles
@@ -2438,9 +2441,9 @@ details:
   - record-cover
   - sagan-newman
   image: /pictures/space/assets/voyager-1-watercolor.webp
-  position: 59.12% 59.87%
-  zoom: 600% auto
-  alt: A small gold circle on the left-facing side of Voyager’s dark equipment body.
+  position: 53.6% 48.4%
+  zoom: 1000% auto
+  alt: The small circular gold record cover on a visible face of Voyager 1’s dark equipment body.
 - id: voyager-power
   label: Power source
   kicker: Electricity far from the Sun
@@ -2457,9 +2460,9 @@ details:
   - voyager-hardware
   - voyager-model
   image: /pictures/space/assets/voyager-1-watercolor.webp
-  position: 48.98% 70.83%
-  zoom: 600% auto
-  alt: Three finned power units mounted along Voyager’s short downward-left boom.
+  position: 67% 54%
+  zoom: 700% auto
+  alt: Three finned power units arranged end to end along Voyager 1’s short rightward boom.
 - id: pale-blue-dot
   label: Pale Blue Dot
   kicker: Voyager 1 looks back
@@ -2477,9 +2480,9 @@ details:
   sources:
   - pale-blue-dot
   image: /pictures/space/assets/voyager-1-watercolor.webp
-  position: 100% 48%
-  zoom: 350% auto
-  alt: The instrument assembly at the end of Voyager 1’s boom, which carried its cameras.
+  position: 37% 37%
+  zoom: 600% auto
+  alt: The camera apertures on the instrument platform at the end of Voyager 1’s leftward science boom.
   link: https://science.nasa.gov/mission/voyager/voyager-1s-pale-blue-dot/
   link_label: See Pale Blue Dot at NASA
 - id: voyager-distance
