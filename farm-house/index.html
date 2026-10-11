@@ -311,8 +311,17 @@ permalink: /farm-house/
         }
         $('frame').classList.toggle('show-places',state.hints);$('visit').classList.toggle('show-places',state.hints);$('back').textContent=scene.backLabel;$('scene-name').textContent=scene.name.toUpperCase();refreshCaption();
         positionLabels();
-        if(focus)$('caption').focus({preventScroll:true});
-      }else if(focus){$(name==='intro'?'intro-title':'ending-title').focus({preventScroll:true});}
+        if(focus){
+          $('caption').focus({preventScroll:true});
+          // Every room opens on the painting, even after a visitor has
+          // scrolled through the explanation beneath the previous scene.
+          $('frame').scrollIntoView({block:'center',behavior:'instant'});
+        }
+      }else if(focus){
+        $(name==='intro'?'intro-title':'ending-title').focus({preventScroll:true});
+        // Returning to the photograph or the ending keeps the image in view.
+        $(name==='intro'?'photo':'ending-photo').scrollIntoView({block:'center',behavior:'instant'});
+      }
     }
     // Label locations follow the image, including when touch targets grow to 44px.
     function positionLabels(){
