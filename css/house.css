@@ -107,6 +107,23 @@
 .house-scene--balcony:not([data-moris="balcony"]) .house-moris { display: none; }
 .house-tea-glass { fill: #fffdf6; fill-opacity: .25; }
 .house-balcony-snow { fill: #f6f5ef; }
+/* The pine outside the balcony keeps the sky's light: greener by day, warm
+   and dim in the evening, dark at night, greyer under cloud. */
+.house-pine-trunk { fill: #6c5446; }
+.house-pine-branch { stroke: #5b473b; }
+.house-pine-tuft { fill: #4a5a42; }
+.house-pine-light { fill: #66765a; }
+.house-pine-snow { fill: #f7f6f0; }
+.house-scene[data-hour="morning"] .house-pine-tuft { fill: #535c41; }
+.house-scene[data-hour="morning"] .house-pine-light { fill: #7a7f5a; }
+.house-scene[data-hour="evening"] .house-pine-tuft { fill: #45473f; }
+.house-scene[data-hour="evening"] .house-pine-light { fill: #6b6352; }
+.house-scene[data-hour="evening"] .house-pine-trunk { fill: #5a473d; }
+.house-scene[data-hour="night"] .house-pine-tuft { fill: #1e2a2d; }
+.house-scene[data-hour="night"] .house-pine-light { fill: #273639; }
+.house-scene[data-hour="night"] .house-pine-trunk, .house-scene[data-hour="night"] .house-pine-branch { fill: #22292b; stroke: #22292b; }
+.house-scene[data-weather]:not([data-hour="night"]) .house-pine-tuft { fill: #4a554d; }
+.house-scene[data-weather]:not([data-hour="night"]) .house-pine-light { fill: #5d6961; }
 .house-sky-stars circle { fill: #f6e5b9; }
 .house-sky-stars .is-planet { fill: #fbe7b6; }
 .house-sky-stars { opacity: 0; }

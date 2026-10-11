@@ -831,6 +831,8 @@
       box: { left: 232.5, right: 767.5, top: 99.6, bottom: 379.4 }, drift: { left: 232.5, right: 767.5, base: 379.4 }, where: ' over the city.' }
   };
   var view = VIEWS.study;
+  // The pine outside the balcony holds the snow on its tufts as it falls.
+  var pineSnow = balconyScene.querySelector('.house-pine-snow');
   var weather = { kind: null, level: 0, drops: [], frame: 0, last: 0, snow: 0 };
   var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -887,6 +889,7 @@
     weather.snow = weather.snow < deepest ? Math.min(deepest, weather.snow + seconds * (weather.level === 2 ? 0.12 : 0.05))
       : Math.max(deepest, weather.snow - seconds * 2);
     drawWindowSnow();
+    pineSnow.setAttribute('opacity', Math.min(1, weather.snow / 4).toFixed(2));
     if (weather.drops.length || weather.snow > 0) weather.frame = window.requestAnimationFrame(weatherStep);
     else weather.last = 0;
   }

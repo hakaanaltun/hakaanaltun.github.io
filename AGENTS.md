@@ -317,6 +317,12 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   coordinates with the horizon at its eye level, and the window and the
   balcony both include it, so they cannot disagree. The Islands' outlines
   are general, and no island is named.
+- **A pine stands just outside, to the right.** The author asked for it on
+  11 October 2026, for the birds it will bring and for snow and rain. Its
+  crown fills the right-hand side of the view from below the parapet to a
+  little under the top of the glass. It stands beyond what the study window
+  can see, so the window's view stays as it was. Snow settles on its tufts
+  while it falls and melts after.
 - **The sky is İstanbul's, at this moment.** On the balcony the sun, the moon
   and the brightest stars and planets are drawn at their own bearing and
   height, with east at the left wall and west at the right, from the sea's
