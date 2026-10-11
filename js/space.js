@@ -13,6 +13,44 @@
  var nav = document.querySelector('.journey-navigation');
  var current = null;
  var loaded = new Set();
+ var leaving = null;
+ var transitionId = 0;
+ var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+ function clearLeaving() {
+  if (!leaving) return;
+  leaving.classList.remove('is-leaving', 'is-fading');
+  leaving = null;
+ }
+ function crossfade(oldScene, newScene) {
+  var visible = leaving || oldScene;
+  transitionId++;
+  var id = transitionId;
+  clearLeaving();
+  if (!visible || visible === newScene || still) return;
+  leaving = visible;
+  leaving.classList.add('is-leaving');
+  var picture = newScene.querySelector('img');
+  picture.loading = 'eager';
+  function fade() {
+   if (id !== transitionId || leaving !== visible) return;
+   // The outgoing scene stays opaque until the new bitmap is ready.
+   void visible.offsetWidth;
+   visible.classList.add('is-fading');
+   var done = function () { if (id === transitionId) clearLeaving(); };
+   visible.addEventListener('transitionend', done, { once:true });
+   window.setTimeout(done, 750);
+  }
+  function ready() {
+   if (id !== transitionId) return;
+   if (picture.decode && picture.naturalWidth) picture.decode().then(fade, fade);
+   else fade();
+  }
+  if (picture.complete) ready();
+  else {
+   picture.addEventListener('load', ready, { once:true });
+   picture.addEventListener('error', ready, { once:true });
+  }
+ }
  function selected() {
   var id = location.hash.replace('#scene-', '');
   return scenes.find(function (scene) { return scene.dataset.scene === id; }) || scenes[0];
@@ -22,12 +60,11 @@
   if (scene === current) return;
   var detail = document.getElementById('picture-detail');
   if (detail.open) detail.close();
+  var previous = current;
+  crossfade(previous, scene);
   scenes.forEach(function (item) { item.classList.toggle('is-current', item === scene); item.inert = item !== scene; });
   current = scene;
   frame.dataset.view = scene.dataset.scene;
-  scene.classList.remove('arrive');
-  void scene.offsetWidth;
-  scene.classList.add('arrive');
   caption.textContent = scene.dataset.caption;
   caption.tabIndex = -1;
   // The way back and the way on sit together beneath the picture, so the
