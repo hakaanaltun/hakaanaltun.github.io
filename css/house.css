@@ -90,7 +90,7 @@
 .house-scene--balcony[data-lamp="on"]:is([data-hour="evening"], [data-hour="night"]) .house-door-glass { fill: #d9bf8c; }
 /* After sunset the balcony's lamp shows in the study through the same glass,
    dimmer than the study's lamp, being one globe out in the open. Its switch
-   is on the study wall beside the door. */
+   is out on the balcony, on the wall beside the door. */
 #house-scene[data-balcony-lamp="on"][data-hour="evening"] .house-door-glass { fill: #d8c39b; }
 #house-scene[data-balcony-lamp="on"][data-hour="night"] .house-door-glass { fill: #a28c66; }
 .house-switch-rocker { fill: var(--room-cream); }
@@ -201,6 +201,8 @@
 .house-balcony-lamp-globe { fill: #f3efe4; }
 .house-balcony-lamp-glow, .house-balcony-pine-glow { opacity: 0; pointer-events: none; transition: opacity 500ms ease; }
 .house-balcony-pine-glow { mix-blend-mode: screen; }
+/* A hand on the globe only makes it flicker, for a moment and at once. */
+.house-scene--balcony[data-flicker] :is(.house-balcony-lamp-glow, .house-balcony-pine-glow) { transition: none; }
 .house-scene--balcony[data-balcony-lamp="on"] .house-balcony-lamp-globe { fill: #ffe4a3; stroke: #aa8847; }
 .house-scene--balcony[data-balcony-lamp="on"] .house-balcony-lamp-glow { opacity: .3; }
 .house-scene--balcony[data-balcony-lamp="on"][data-hour="evening"] .house-balcony-lamp-glow { opacity: .7; }
@@ -226,7 +228,7 @@
 .house-scene { container-type: inline-size; }
 .house-hotspot { position: absolute; z-index: var(--z, 1); left: calc(var(--ax) * 1%); top: calc(var(--ay) * 1%); width: calc(var(--aw) * 1%); height: calc(var(--ah) * 1%); min-width: 44px; min-height: 44px; transform: translate(-50%, -50%); padding: 0; border: 0; border-radius: 3px; background: none; color: #443f34 !important; text-decoration: none; }
 .house-hotspot--words, .house-hotspot--question, .house-hotspot--moris, .house-hotspot--lamp, .house-hotspot--drawer, .house-hotspot--clock, .house-hotspot--reader, .house-hotspot--farm-house,
-.house-hotspot--balcony-reader, .house-hotspot--page, .house-hotspot--balcony-moris, .house-hotspot--sun, .house-hotspot--moon, .house-hotspot--balcony-lamp, .house-hotspot--switch { --z: 3; }
+.house-hotspot--balcony-reader, .house-hotspot--page, .house-hotspot--balcony-moris, .house-hotspot--sun, .house-hotspot--moon, .house-hotspot--balcony-lamp, .house-hotspot--balcony-switch { --z: 3; }
 .house-label { position: absolute; left: calc(50% + (var(--lx) - var(--ax)) * 1cqw); top: calc(50% + (var(--ly) - var(--ay)) * .65cqw); transform: translate(-50%, -50%); display: flex; align-items: center; gap: 5px; min-height: 24px; padding: 2px 8px; border: 1px solid #b7ab94; border-radius: 3px; background: #fcf7e9; font-size: 11.5px; line-height: 1.2; white-space: nowrap; box-shadow: 0 2px 6px #30291a12; opacity: 0; pointer-events: none; transition: opacity .18s; }
 .house-label .house-pin { display: none; }
 .house-hotspot:focus-visible { z-index: calc(var(--z, 1) + 1); outline: 2px solid #443f34; outline-offset: 2px; }
@@ -253,10 +255,6 @@
 .house-hotspot--reader { --ax: 58; --ay: 61.2; --aw: 6; --ah: 3.7; --lx: 58; --ly: 64.9; }
 .house-hotspot--farm-house { --ax: 31.9; --ay: 65; --aw: 4.4; --ah: 8.5; --lx: 31.9; --ly: 59.6; }
 .house-hotspot--desk { --ax: 50; --ay: 61.5; --aw: 33.8; --ah: 6.3; --lx: 66; --ly: 61.2; }
-/* The switch for the balcony's lamp is on the wall beside the door. On a
-   small screen its place stays narrow, so that it never covers the door's
-   glass. */
-.house-hotspot--switch { --ax: 90; --ay: 45.3; --aw: 3; --ah: 5; --lx: 89.6; --ly: 40.2; }
 .house-hotspot--balcony { --ax: 95; --ay: 51.8; --aw: 7; --ah: 60; --lx: 93.8; --ly: 20.3; }
 /* While Moris is out on the balcony he is not in the study. */
 #house-scene[data-moris="balcony"] .house-moris, #house-scene[data-moris="balcony"] .house-hotspot--moris { display: none; }
@@ -266,6 +264,9 @@
 .house-hotspot--page { --ax: 50; --ay: 70.5; --aw: 12.4; --ah: 8.5; --lx: 50; --ly: 63.4; }
 .house-hotspot--balcony-moris { --ax: 25.5; --ay: 88.5; --aw: 10; --ah: 7.5; --lx: 25.5; --ly: 81.5; }
 .house-hotspot--balcony-lamp { --ax: 79.45; --ay: 31.5; --aw: 5.1; --ah: 6.6; --lx: 79.4; --ly: 26.6; }
+/* The lamp's switch is on the wall beside the door. On a small screen its
+   place stays narrow, so that it never covers the door's glass. */
+.house-hotspot--balcony-switch { --ax: 14.4; --ay: 58; --aw: 3; --ah: 5; --lx: 21.5; --ly: 58; }
 .house-scene--balcony:not([data-moris="balcony"]) .house-hotspot--balcony-moris { display: none; }
 /* The breath is taken over the view, the stars are the night's sky. */
 .house-hotspot--breath { --ax: 50; --ay: 51.1; --aw: 53.5; --ah: 14.5; --lx: 60; --ly: 52; }
@@ -389,7 +390,9 @@ html[data-theme="dark"], html[data-theme="midnight"], html[data-theme="sky"], .h
   .house-hotspot--window { --lx: 69.3; --ly: 20.9; }
   .house-hotspot--lamp { --lx: 58.8; --ly: 43.4; }
   .house-hotspot--words { --lx: 45.5; --ly: 52.6; }
-  .house-hotspot--drawer { --lx: 56; --ly: 73.8; }
+  /* Grown to a finger's height, the drawer's place would reach up over the
+     word cards and the desk; it keeps to the drawer front instead. */
+  .house-hotspot--drawer { --ay: 69.5; --lx: 56; --ly: 73.8; min-height: 30px; }
   .house-hotspot--moris { --lx: 77.3; --ly: 73.4; }
   .house-hotspot--clock { --lx: 49.3; --ly: 26.9; }
   .house-hotspot--reader { --lx: 58; --ly: 61.2; }
@@ -398,14 +401,14 @@ html[data-theme="dark"], html[data-theme="midnight"], html[data-theme="sky"], .h
   .house-scene[data-moris="sill"] .house-hotspot--moris { --lx: 70; --ly: 40.3; }
   .house-scene[data-moris="shelf"] .house-hotspot--moris { --lx: 35; --ly: 19.2; }
   .house-scene[data-moris="rug"] .house-hotspot--moris { --lx: 58; --ly: 90.8; }
-  .house-hotspot--balcony { --lx: 95.3; --ly: 58.5; }
-  .house-hotspot--switch { --ax: 88.8; --lx: 88.8; --ly: 45.3; min-width: 24px; }
+  .house-hotspot--balcony { --lx: 94.5; --ly: 44.6; }
   .house-hotspot--study-door { --lx: 6; --ly: 50.8; }
   .house-hotspot--balcony-reader { --lx: 38; --ly: 76; }
   .house-hotspot--page { --lx: 48.5; --ly: 68.5; }
   .house-hotspot--breath { --lx: 50; --ly: 51; }
   .house-hotspot--balcony-moris { --lx: 25.5; --ly: 88; }
   .house-hotspot--balcony-lamp { --lx: 85.5; --ly: 31.5; }
+  .house-hotspot--balcony-switch { --ax: 15.5; --lx: 15.5; min-width: 24px; }
   .house-hotspot--stars { --lx: 33; --ly: 22; }
   /* No pointer to tell a place from its name here: the sun and the moon
      open what is said about them, and the way to their pictures is in it. */

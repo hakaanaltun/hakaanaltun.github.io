@@ -78,6 +78,12 @@
     <path class="house-faint" d="M0 591.8L105.3 527.2V636.1"/>
     <path d="M95.5 409.1l-12.5-3.4" stroke-width="3"/><circle class="house-window-trim" cx="95.5" cy="409.1" r="2.6"/>
   </g>
+  <!-- The switch for the lamp, on the wall beside the door, a little higher
+       than its handle. -->
+  <g class="house-line">
+    <path class="house-paper" d="M140 367.9L147.2 366.3V385.7L140 387.7Z" stroke-width="1"/>
+    <path class="house-switch-rocker" d="M142.4 371.7L144.8 371.2V382.1L142.4 382.7Z" stroke-width=".7"/>
+  </g>
   <!-- A glass globe lamp on the right-hand wall, by the pine, with a
        yellow light when it is on. -->
   <g class="house-line">

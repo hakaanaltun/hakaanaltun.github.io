@@ -132,8 +132,11 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
       }
     }
   }
-  // The balcony's lamp has its switch on the study wall beside the door.
-  assert.ok(doc.querySelector('#house-scene .house-hotspot--switch[data-balcony-lamp]'), 'the switch in the study');
+  // The balcony's lamp has its switch on the balcony wall beside the door;
+  // the globe itself is no switch.
+  assert.ok(doc.querySelector('#house-balcony-scene .house-hotspot--balcony-switch[data-balcony-lamp]'), 'the switch beside the door');
+  assert.equal(doc.querySelectorAll('#house-scene [data-balcony-lamp], #study .house-objects [data-balcony-lamp]').length, 0, 'no switch for it in the study');
+  assert.ok(!doc.querySelector('.house-hotspot--balcony-lamp').hasAttribute('data-balcony-lamp'));
   room.window.close();
 
   // --- The catalog --------------------------------------------------------
@@ -552,22 +555,28 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   // The balcony's lamp is on after dark until the reader puts it out, and
   // the drawer's record remembers which they chose.
   assert.equal(n.q('#house-balcony-scene').dataset.balconyLamp, 'on');
-  assert.equal(n.q('.house-hotspot--balcony-lamp').getAttribute('aria-pressed'), 'true');
+  assert.equal(n.q('.house-hotspot--balcony-switch').getAttribute('aria-pressed'), 'true');
+  // A hand on the globe only makes it flicker, and keeps nothing.
   n.click('.house-hotspot--balcony-lamp');
+  assert.equal(n.q('#house-balcony-scene').dataset.balconyLamp, 'off', 'the light goes for a moment');
+  assert.equal(n.q('#house-status').textContent, 'The lamp flickers. Its switch is on the wall by the door.');
+  await wait(400);
+  assert.equal(n.q('#house-balcony-scene').dataset.balconyLamp, 'on', 'and comes back within a second');
+  assert.equal(n.q('#house-balcony-scene').dataset.flicker, undefined);
+  assert.equal(n.stored().balconyLamp, null, 'the globe is no switch');
+  // Its switch is on the wall beside the door.
+  n.click('.house-hotspot--balcony-switch');
   assert.equal(n.q('#house-balcony-scene').dataset.balconyLamp, 'off');
   assert.equal(n.stored().balconyLamp, false);
   assert.equal(n.q('#house-status').textContent, 'The balcony lamp is off.');
   for (const button of n.w.document.querySelectorAll('button[data-balcony-lamp]')) assert.equal(button.getAttribute('aria-pressed'), 'false');
   assert.equal(n.q('#house-scene').dataset.lamp, 'on', 'the study lamp is its own');
   assert.equal(n.q('#house-scene').dataset.balconyLamp, 'off', 'the study sees it through the door');
-  // Its switch is in the study, on the wall beside the door.
-  n.click('.house-hotspot--switch');
+  n.click('.house-hotspot--balcony-switch');
   assert.equal(n.q('#house-balcony-scene').dataset.balconyLamp, 'on');
   assert.equal(n.q('#house-scene').dataset.balconyLamp, 'on');
   assert.equal(n.stored().balconyLamp, true);
   assert.equal(n.q('#house-status').textContent, 'The balcony lamp is on.');
-  assert.equal(n.q('.house-hotspot--switch').getAttribute('aria-pressed'), 'true');
-  assert.equal(n.q('.house-hotspot--balcony-lamp').getAttribute('aria-pressed'), 'true');
   n.dom.window.close();
   // The names stay shown until the reader hides them, after The Page or on
   // another visit.
