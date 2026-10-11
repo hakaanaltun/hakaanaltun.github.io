@@ -71,7 +71,13 @@
    event.preventDefault(); travel(link.hash.replace('#scene-', ''));
   });
  });
- window.addEventListener('hashchange', function () { show(true); });
- window.addEventListener('popstate', function () { show(true); });
+ // A browser's Back can blur the caption after the scene has changed, so
+ // focus returns to it whenever it is left on the page itself.
+ function arrive() {
+  show(true);
+  if (document.activeElement === document.body) caption.focus({ preventScroll: true });
+ }
+ window.addEventListener('hashchange', arrive);
+ window.addEventListener('popstate', arrive);
  show(false);
 })();

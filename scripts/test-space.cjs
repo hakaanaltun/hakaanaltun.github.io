@@ -233,6 +233,18 @@ function page(modal=true,hash='') {
   d.querySelector('#scene-voyager-1 .journey-label[data-detail="golden-record"]').click();assert.equal(dialog.classList.contains('is-long'),true);
   d.getElementById('picture-return').click();tall=false;
   d.querySelector('#scene-voyager-1 .journey-label[data-detail="voyager-power"]').click();assert.equal(dialog.classList.contains('is-long'),false);
+  // The close view waits at the top only beside the text. On a phone it sits above the text and must scroll away with it.
+  const css=fs.readFileSync(path.join(root,'css/space.css'),'utf8');
+  const sticky=css.indexOf('.picture-dialog.is-long .picture-detail-image');
+  assert.ok(sticky>0);assert.match(css.slice(css.lastIndexOf('@media',sticky),sticky),/^@media\(min-width:651px\) \{[^}]*$/);
+  dom.window.close();
+ }
+ {
+  // A browser's Back can blur the caption after the scene changes; focus comes back to it.
+  const {dom,w,d}=page(true,'#scene-voyager-1');const caption=d.getElementById('journey-caption');
+  d.getElementById('journey-next').click();assert.equal(d.activeElement,caption);
+  caption.blur();assert.equal(d.activeElement,d.body);
+  w.dispatchEvent(new w.HashChangeEvent('hashchange'));assert.equal(d.activeElement,caption);
   dom.window.close();
  }
  {
@@ -289,5 +301,5 @@ function page(modal=true,hash='') {
   d.getElementById('journey-back').click();assert.equal(d.getElementById('journey-frame').dataset.view,'venus');assert.equal(visit.classList.contains('is-fullscreen'),true);
   dom.window.close();
  }
- console.log('Connected space scenes passed: separate travel and information, scene-specific crops, sourced fallback, the way back and the way on, the way home from Voyager 1, phone offsets beside their spots, long notes, fresh notes, focus and history, and full screen carried to the Sun and back.');
+ console.log('Connected space scenes passed: separate travel and information, scene-specific crops, sourced fallback, the way back and the way on, the way home from Voyager 1, phone offsets beside their spots, long notes beside the text only, focus after Back, fresh notes, focus and history, and full screen carried to the Sun and back.');
 })().catch(e=>{console.error(e);process.exitCode=1});

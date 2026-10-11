@@ -606,7 +606,7 @@ accuracy and plain prose to this section as well.
   labels close to their subjects without covering nearby travel targets.
   When names crowd a narrow painting, a spot's `hint_x` and `hint_y` move
   its label by a few pixels and leave its place where it is, as in the
-  standalone pictures. They apply whenever the painting is 650 pixels wide
+  standalone pictures. They apply whenever the painting is 700 pixels wide
   or less, which includes short laptop screens and phones held sideways as
   well as phones. With Show places to look on, check every scene of a
   changed section at 360 pixels wide and on a 1366 × 768 screen.
