@@ -886,9 +886,10 @@ accuracy and plain prose to this section as well.
   shows beside it. "Show places to look" shows every name in both rooms
   until the reader hides them again; on a phone it shows the numbers on the
   picture and the list of names under it. The author asked on 11 October
-  2026 that the reader's browser remember the choice
-  (`olae-house-places`), so the names are still there after The Page or on
-  another visit. Each place covers its thing, with its centre
+  2026 that the reader's browser remember the choice (`olae-places`), so
+  the names are still there after The Page or on another visit. The Farm
+  House and Pictures with Stories share the same choice: names shown in one
+  are shown in all of them until the reader hides them. Each place covers its thing, with its centre
   and size in `--ax`, `--ay`, `--aw` and `--ah` in `css/house.css`, and its
   name stands beside it at `--lx`, `--ly`, so that the names never cover
   one another when they all show. Everything that could be chosen before

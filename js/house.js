@@ -1234,8 +1234,9 @@
   /* The places in the pictures are quiet until a pointer or the keyboard
      finds them; "Show places to look" shows every name, in both rooms, until
      the reader hides them again. Their browser remembers the choice, so the
-     names are still there after The Page or another visit. */
-  var PLACES_KEY = 'olae-house-places';
+     names are still there after The Page or another visit; the same choice
+     holds in the Farm House and the pictures. */
+  var PLACES_KEY = 'olae-places';
   function showPlaces(show) {
     root.classList.toggle('show-places', show);
     root.querySelectorAll('[data-places]').forEach(function (button) {

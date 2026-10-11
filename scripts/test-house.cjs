@@ -417,7 +417,7 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.equal(n.q('#house-balcony-scene').dataset.balconyLamp, 'off', 'the balcony lamp is off by day');
   n.click('#study [data-places]');
   assert.ok(n.q('#house').classList.contains('show-places'));
-  assert.equal(n.w.localStorage.getItem('olae-house-places'), 'shown', 'the browser remembers it');
+  assert.equal(n.w.localStorage.getItem('olae-places'), 'shown', 'the browser remembers it');
   for (const button of n.w.document.querySelectorAll('[data-places]')) {
     assert.equal(button.getAttribute('aria-pressed'), 'true');
     assert.equal(button.textContent, 'Hide places to look');
@@ -432,7 +432,7 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.equal(n.q('#balcony [data-house-clock]').textContent, '· 10:00');
   n.click('#balcony [data-places]');
   assert.equal(n.q('#house').classList.contains('show-places'), false, 'and quiet again');
-  assert.equal(n.w.localStorage.getItem('olae-house-places'), null, 'until it is asked for again');
+  assert.equal(n.w.localStorage.getItem('olae-places'), null, 'until it is asked for again');
   const scene = n.q('#house-balcony-scene');
   assert.equal(scene.dataset.moris, 'cushion', 'the glass folded away while Moris is inside');
   assert.equal(n.q('#balcony [data-moris-item]').hidden, true);
@@ -535,7 +535,7 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   n.dom.window.close();
   // The names stay shown until the reader hides them, after The Page or on
   // another visit.
-  n = houseAt('2026-10-16T21:00:00+03:00', 'https://hakanaltun.io/house/#balcony', false, (w) => w.localStorage.setItem('olae-house-places', 'shown'));
+  n = houseAt('2026-10-16T21:00:00+03:00', 'https://hakanaltun.io/house/#balcony', false, (w) => w.localStorage.setItem('olae-places', 'shown'));
   await tick();
   assert.ok(n.q('#house').classList.contains('show-places'));
   assert.equal(n.q('#balcony [data-places]').getAttribute('aria-pressed'), 'true');

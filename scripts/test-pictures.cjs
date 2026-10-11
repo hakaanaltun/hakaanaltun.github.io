@@ -79,8 +79,10 @@ function page(modals, setup) {
   controls.click();
   assert.equal(d.querySelector('#picture-visit').classList.contains('show-places'), true);
   assert.equal(controls.getAttribute('aria-pressed'), 'true');
+  assert.equal(dom.window.localStorage.getItem('olae-places'), 'shown', 'the browser remembers the names');
   controls.click();
   assert.equal(controls.getAttribute('aria-pressed'), 'false');
+  assert.equal(dom.window.localStorage.getItem('olae-places'), null, 'until they are hidden');
   // The close view is at the top of the dialog every time it opens: the
   // reset has to happen while the dialog is open, or a phone reader who
   // scrolled down to leave meets the next detail scrolled the same way.
@@ -191,6 +193,19 @@ async function arrivalChecks() {
   assert.equal(carried, '/pictures/space/#scene-mercury', 'a plain view carries nothing');
   dom.window.close();
 }
+// Names shown in The House, the Farm House or another picture are shown here
+// too, and a browser that blocks storage still shows them for the picture.
+{
+  let { dom, d } = page(true, (w) => w.localStorage.setItem('olae-places', 'shown'));
+  assert.equal(d.querySelector('#picture-visit').classList.contains('show-places'), true);
+  assert.equal(d.querySelector('#picture-places').getAttribute('aria-pressed'), 'true');
+  assert.equal(d.querySelector('#picture-places').textContent, 'Hide places to look');
+  dom.window.close();
+  ({ dom, d } = page(true, (w) => Object.defineProperty(w, 'localStorage', { get() { throw new w.DOMException('Denied', 'SecurityError'); } })));
+  d.querySelector('#picture-places').click();
+  assert.equal(d.querySelector('#picture-visit').classList.contains('show-places'), true);
+  dom.window.close();
+}
 // If the script never comes, the layout's guard still shows the page.
 {
   const sunHtml = fs.readFileSync(path.join(root, '_site/pictures/sun/index.html'), 'utf8');
@@ -285,5 +300,5 @@ async function fullscreenChecks() {
   }
 }
 fullscreenChecks().then(arrivalChecks).then(() => {
-  console.log('Picture checks passed: sourced fallback reading, optional hints and full screen, native and window exits, rejected fullscreen requests, whole-sheet fit, retained hint choice, page position and return focus, every sourced detail and named crop opened at the top, story history, exploration help, full screen and places carried between pictures, the Sun after the journey, and homepage accent rhythm.');
+  console.log('Picture checks passed: sourced fallback reading, optional hints and full screen, native and window exits, rejected fullscreen requests, whole-sheet fit, retained hint choice, remembered places to look, page position and return focus, every sourced detail and named crop opened at the top, story history, exploration help, full screen and places carried between pictures, the Sun after the journey, and homepage accent rhythm.');
 }).catch(error => { console.error(error); process.exitCode = 1; });

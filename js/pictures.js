@@ -165,12 +165,23 @@
     });
   }
   backdrop(dialog); backdrop(help);
+  /* "Show places to look" stays on until the reader hides the names. Their
+     browser remembers it, and the same choice holds in The House and the
+     Farm House. */
+  var PLACES_KEY = 'olae-places';
   function showPlaces(show) {
     visit.classList.toggle('show-places', show);
     places.setAttribute('aria-pressed', String(show));
     places.textContent = show ? 'Hide places to look' : 'Show places to look';
     fitPicture();
+    try {
+      if (show) localStorage.setItem(PLACES_KEY, 'shown');
+      else localStorage.removeItem(PLACES_KEY);
+    } catch (e) { /* storage blocked: the names stay for this picture */ }
   }
+  try {
+    if (localStorage.getItem(PLACES_KEY) === 'shown') showPlaces(true);
+  } catch (e) { /* storage blocked: the names start hidden */ }
   places.hidden = false;
   places.addEventListener('click', function () { showPlaces(!visit.classList.contains('show-places')); });
   var how = document.getElementById('picture-how');
@@ -183,7 +194,8 @@
   // whenever a page opens and starts it again only from a tap, so the next
   // picture fills the window instead, as it does in a browser without full
   // screen. The address carries the choice for the click and loses it on
-  // arrival; the layouts keep such a page hidden until it is ready.
+  // arrival, so the places travel even where storage is blocked; the
+  // layouts keep such a page hidden until it is ready.
   document.addEventListener('click', function (event) {
     var link = event.target.closest('a[href]');
     if (!link || !visit.contains(link) || event.defaultPrevented || event.button || event.ctrlKey || event.metaKey || event.altKey || event.shiftKey) return;

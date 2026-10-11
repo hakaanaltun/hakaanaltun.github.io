@@ -75,7 +75,7 @@ function audioStub(w) {
   return log;
 }
 
-function page({ hour, stored, blocked = false, sky = true } = {}) {
+function page({ hour, stored, blocked = false, sky = true, before } = {}) {
   const url = 'https://hakanaltun.io/farm-house/' + (hour === undefined ? '' : '?hour=' + hour);
   const dom = new JSDOM(html, { url, runScripts: 'outside-only', pretendToBeVisual: true });
   const w = dom.window;
@@ -92,6 +92,7 @@ function page({ hour, stored, blocked = false, sky = true } = {}) {
   Object.defineProperty(w.navigator, 'geolocation', { get() { throw new Error('the sound asked for a location'); } });
   if (stored !== undefined) w.localStorage.setItem('olae-farm-sound', stored);
   if (blocked) Object.defineProperty(w, 'localStorage', { get() { throw new w.DOMException('Denied', 'SecurityError'); } });
+  if (before) before(w);
   const audio = audioStub(w);
   scripts.forEach((s) => {
     if (!sky && s.includes('window.OLAE_SKY =')) return;
@@ -403,4 +404,25 @@ for (const [hour, part] of [[7, 'Morning'], [12, 'Midday'], [20, 'Evening'], [23
   assert.equal(w.document.getElementById('scene-name').textContent, 'THE ENTRANCE', 'and the visit goes on');
 }
 
-console.log('Farm sound passed: off by default and remembered, fades in, out and across a hidden tab, the hour muffled indoors and open outside, the horses only near them, bees by day in the garden, a dove, cicadas and an owl in their hours, no creaks, and the part of the day from the sky or ?hour.');
+/* ---- the places to look, remembered with The House's and the pictures' ---- */
+{
+  let p = page();
+  p.click('#begin');
+  assert.equal(p.q('#visit').classList.contains('show-places'), false, 'the names are quiet at first');
+  p.click('#places');
+  assert.equal(p.q('#visit').classList.contains('show-places'), true);
+  assert.equal(p.w.localStorage.getItem('olae-places'), 'shown', 'the browser remembers them');
+  p.click('#places');
+  assert.equal(p.w.localStorage.getItem('olae-places'), null, 'until they are hidden');
+  p = page({ before: (w) => w.localStorage.setItem('olae-places', 'shown') });
+  p.click('#begin');
+  assert.equal(p.q('#visit').classList.contains('show-places'), true, 'names shown elsewhere are shown here');
+  assert.equal(p.q('#places').getAttribute('aria-pressed'), 'true');
+  assert.equal(p.q('#places').textContent, 'Hide places to look');
+  p = page({ blocked: true });
+  p.click('#begin');
+  p.click('#places');
+  assert.equal(p.q('#visit').classList.contains('show-places'), true, 'blocked storage still shows them for the visit');
+}
+
+console.log('Farm sound passed: off by default and remembered, fades in, out and across a hidden tab, the hour muffled indoors and open outside, the horses only near them, bees by day in the garden, a dove, cicadas and an owl in their hours, no creaks, and the part of the day from the sky or ?hour. The places to look are remembered.');
