@@ -10,9 +10,9 @@
    goes: into a backup, the text download and the printed drawer, but not
    onto a shared card.
 
-   The same record holds The House's other small memories: the lamp, the
-   question answered today, and what the site held at the last visit. One
-   key, so clearing it clears all of it. */
+   The same record holds The House's other small memories: the study's lamp
+   and the balcony's, the question answered today, and what the site held at
+   the last visit. One key, so clearing it clears all of it. */
 (function () {
   'use strict';
   var KEY = 'olae-house-v1';
@@ -87,7 +87,7 @@
   }
 
   function normalize(value) {
-    var state = { v: 2, kept: [], lamp: null, seen: null, answered: null };
+    var state = { v: 2, kept: [], lamp: null, balconyLamp: null, seen: null, answered: null };
     if (!value || typeof value !== 'object' || Array.isArray(value)) return state;
     if (Array.isArray(value.kept)) {
       value.kept.forEach(function (entry) {
@@ -98,6 +98,7 @@
       });
     }
     if (typeof value.lamp === 'boolean') state.lamp = value.lamp;
+    if (typeof value.balconyLamp === 'boolean') state.balconyLamp = value.balconyLamp;
     // Marks on the pages are shown unless the reader hid them.
     if (value.marks === false) state.marks = false;
     var seen = value.seen;
@@ -244,7 +245,7 @@
 
   /* A portable copy contains only the things in the drawer. Restoring it
      adds missing records, and a note to a record that has none, and leaves
-     the lamp, the House's memories and every note already here alone.
+     the lamps, the House's memories and every note already here alone.
      Commit to storage before emitting, so a full or blocked store cannot
      be mistaken for a successful restore. */
   function backup() {

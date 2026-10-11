@@ -327,9 +327,10 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
     { id: 'Bad Id', title: 'no' },
     { id: 'text-ghi' }
   ];
-  a = house({ saved: JSON.stringify({ v: 2, kept, lamp: 'on', seen: 'x', answered: 5 }) });
+  a = house({ saved: JSON.stringify({ v: 2, kept, lamp: 'on', balconyLamp: 'on', seen: 'x', answered: 5 }) });
   await tick();
   assert.equal(a.q('[data-kept-count]').textContent, '3');
+  assert.equal(a.stored().balconyLamp, null, 'a lamp is on or off, nothing else');
   a.click('[data-open="drawer"]');
   text = a.q('#house-dialog-content').textContent;
   assert.match(text, /A word the site no longer has/, 'a thing whose page has gone stays in the drawer');
@@ -357,6 +358,9 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   // What is here for this visit can still leave as a backup, but a browser
   // that cannot keep the drawer is not offered a restore it cannot finish.
   assert.deepEqual(Array.from(a.w.document.querySelectorAll('#house-dialog-content [data-export]'), (b) => b.getAttribute('data-export')), ['backup', 'text', 'print']);
+  a.click('#house-close');
+  a.click('#study [data-places]');
+  assert.ok(a.q('#house').classList.contains('show-places'), 'the places show for this visit');
   a.dom.window.close();
 
   // --- Since the last visit --------------------------------------------------
@@ -385,8 +389,8 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
 
   // --- The sky in the window and over the balcony ---------------------------
   // İstanbul's sun and moon at a given moment, as the page sees them.
-  const houseAt = (when, url = 'https://hakanaltun.io/house/#study', sky = false) => {
-    const n = page('house/index.html', url);
+  const houseAt = (when, url = 'https://hakanaltun.io/house/#study', sky = false, before) => {
+    const n = page('house/index.html', url, { before });
     const NativeDate = n.w.Date;
     n.w.Date = class extends NativeDate { constructor(...args) { super(...(args.length ? args : [when])); } static now() { return new NativeDate(when).getTime(); } };
     if (sky) for (const file of [['vendor', 'astronomy-engine-2.1.19.min.js'], ['bright-stars.js'], ['sky-map.js']]) n.w.eval(read(root, 'js', ...file));
@@ -410,8 +414,10 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.equal(n.q('#house-scene').dataset.moris, 'cushion');
   assert.equal(n.q('#balcony').hidden, true);
   // The places are quiet until asked for, in both rooms at once.
+  assert.equal(n.q('#house-balcony-scene').dataset.balconyLamp, 'off', 'the balcony lamp is off by day');
   n.click('#study [data-places]');
   assert.ok(n.q('#house').classList.contains('show-places'));
+  assert.equal(n.w.localStorage.getItem('olae-house-places'), 'shown', 'the browser remembers it');
   for (const button of n.w.document.querySelectorAll('[data-places]')) {
     assert.equal(button.getAttribute('aria-pressed'), 'true');
     assert.equal(button.textContent, 'Hide places to look');
@@ -426,6 +432,7 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.equal(n.q('#balcony [data-house-clock]').textContent, '· 10:00');
   n.click('#balcony [data-places]');
   assert.equal(n.q('#house').classList.contains('show-places'), false, 'and quiet again');
+  assert.equal(n.w.localStorage.getItem('olae-house-places'), null, 'until it is asked for again');
   const scene = n.q('#house-balcony-scene');
   assert.equal(scene.dataset.moris, 'cushion', 'the glass folded away while Moris is inside');
   assert.equal(n.q('#balcony [data-moris-item]').hidden, true);
@@ -515,6 +522,24 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.match(said, /Sunrise07:\d\d/);
   assert.deepEqual(dialogLinks(n), ['/stars/?city=istanbul&from=balcony&v=20261011-1', '/moon/?from=balcony&v=20261011-1']);
   n.click('#house-close');
+  // The balcony's lamp is on after dark until the reader puts it out, and
+  // the drawer's record remembers which they chose.
+  assert.equal(n.q('#house-balcony-scene').dataset.balconyLamp, 'on');
+  assert.equal(n.q('.house-hotspot--balcony-lamp').getAttribute('aria-pressed'), 'true');
+  n.click('.house-hotspot--balcony-lamp');
+  assert.equal(n.q('#house-balcony-scene').dataset.balconyLamp, 'off');
+  assert.equal(n.stored().balconyLamp, false);
+  assert.equal(n.q('#house-status').textContent, 'The balcony lamp is off.');
+  for (const button of n.w.document.querySelectorAll('button[data-balcony-lamp]')) assert.equal(button.getAttribute('aria-pressed'), 'false');
+  assert.equal(n.q('#house-scene').dataset.lamp, 'on', 'the study lamp is its own');
+  n.dom.window.close();
+  // The names stay shown until the reader hides them, after The Page or on
+  // another visit.
+  n = houseAt('2026-10-16T21:00:00+03:00', 'https://hakanaltun.io/house/#balcony', false, (w) => w.localStorage.setItem('olae-house-places', 'shown'));
+  await tick();
+  assert.ok(n.q('#house').classList.contains('show-places'));
+  assert.equal(n.q('#balcony [data-places]').getAttribute('aria-pressed'), 'true');
+  assert.equal(n.q('#balcony [data-places]').textContent, 'Hide places to look');
   n.dom.window.close();
 
   // A summer's early morning: the sun is up but still behind the house, in
@@ -1012,5 +1037,5 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.equal(t.q('canvas.cursor-trail'), null, 'and none for a reader who asked for less motion');
   t.dom.window.close();
 
-  console.log('House: catalog and addresses, daily room, keeping from the room and from words, quizzes, the book and essays, the kept passage\'s panel, note and copy, Highlight and its clearing, the small box by a highlight, hidden highlights, a note written before keeping, notes in the drawer, legacy and hostile records, blocked storage, arrivals, #drawer, export and backup offered only where they work, the moon, the planets after dark, weather at the window, the balcony, its glass and its sky, quiet places and Show places to look, the ways back to the study and the balcony, and the pointer\'s trail passed.');
+  console.log('House: catalog and addresses, daily room, keeping from the room and from words, quizzes, the book and essays, the kept passage\'s panel, note and copy, Highlight and its clearing, the small box by a highlight, hidden highlights, a note written before keeping, notes in the drawer, legacy and hostile records, blocked storage, arrivals, #drawer, export and backup offered only where they work, the moon, the planets after dark, weather at the window, the balcony, its glass, its sky and its lamp, quiet places and a remembered Show places to look, the ways back to the study and the balcony, and the pointer\'s trail passed.');
 })().catch((error) => { console.error(error); process.exit(1); });
