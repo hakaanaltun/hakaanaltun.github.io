@@ -68,7 +68,8 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   for (const slug of toolSlugs) {
     const ways = {
       '': ['/tools/', '←\u200ainstruments', 'All the instruments'],
-      '?from=house': ['/house/#study', '←\u200aThe House', 'Back to The House study'],
+      '?from=house': ['/house/#study', '←\u200athe study', 'Back to The House study'],
+      '?from=balcony&v=1': ['/house/#balcony', '←\u200athe balcony', 'Back to The House balcony'],
       '?from=drawer&v=1': ['/house/#drawer', '←\u200ayour drawer', 'Back to your drawer'],
       '?from=elsewhere': ['/tools/', '←\u200ainstruments', 'All the instruments'],
       '?from=constructor': ['/tools/', '←\u200ainstruments', 'All the instruments']
@@ -83,14 +84,29 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
       p.dom.window.close();
     }
   }
+  // An instrument opened in the study leads back to the study, and one opened
+  // on the balcony, or from its sky, back to the balcony.
   const room = new JSDOM(read(site, 'house/index.html'));
-  const roomLinks = [...room.window.document.querySelectorAll('a'), ...room.window.document.querySelector('#house-window').content.querySelectorAll('a')];
-  for (const link of roomLinks) {
-    const url = new URL(link.getAttribute('href'), 'https://hakanaltun.io');
-    if (!toolSlugs.some(slug => url.pathname === '/' + slug + '/')) continue;
-    assert.equal(url.searchParams.get('from'), 'house', url.href);
-    assert.ok(url.searchParams.get('v'), 'a House visit loads the current instrument page');
+  const doc = room.window.document;
+  const inside = (id) => [...doc.querySelectorAll('#' + id + ' a'), ...[].concat(...(id === 'study' ? ['house-window'] : ['house-sun', 'house-moon', 'house-stars']).map((t) => [...doc.getElementById(t).content.querySelectorAll('a')]))];
+  let instruments = 0;
+  for (const [id, from] of [['study', 'house'], ['balcony', 'balcony']]) {
+    for (const link of inside(id)) {
+      const url = new URL(link.getAttribute('href'), 'https://hakanaltun.io');
+      if (!toolSlugs.some(slug => url.pathname === '/' + slug + '/')) continue;
+      instruments++;
+      assert.equal(url.searchParams.get('from'), from, url.href);
+      assert.ok(url.searchParams.get('v'), 'a House visit loads the current instrument page');
+    }
   }
+  assert.ok(instruments >= 14, 'the study and the balcony both lead to instruments');
+  for (const slug of ['breathe', 'read', 'write']) assert.ok(doc.querySelector('#balcony a[href^="/' + slug + '/?from=balcony"]'), 'the balcony offers ' + slug);
+  // Every place in both rooms has its name, and nothing in the picture
+  // shows until a pointer, the keyboard or "Show places to look" asks.
+  for (const spot of doc.querySelectorAll('.house-scene .house-hotspot')) {
+    assert.ok(spot.querySelector(':scope > .house-label > .house-hotspot-name'), 'a named place: ' + spot.className);
+  }
+  assert.equal(doc.querySelectorAll('[data-places]').length, 2, 'Show places to look, in each room');
   room.window.close();
 
   // --- The catalog --------------------------------------------------------
@@ -120,7 +136,7 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.equal(a.q('#study').hidden, false);
   assert.equal(a.w.location.hash, '#study');
   assert.match(a.q('#house-hour').textContent, /in İstanbul$/);
-  assert.ok(['sill', 'shelf', 'cushion', 'rug'].includes(a.q('#house-scene').dataset.moris));
+  assert.ok(['sill', 'shelf', 'cushion', 'rug', 'balcony'].includes(a.q('#house-scene').dataset.moris));
 
   a.click('[data-open="words"]');
   assert.equal(a.q('#house-dialog').open, true);
@@ -263,13 +279,14 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
     else assert.doesNotMatch(text, /Planets/, 'no planets by day');
     n.dom.window.close();
   }
-  // The moon is in the window only while it is above İstanbul's horizon.
-  // Altitudes from PyEphem, airless, for the moon's centre.
+  // The moon's height: altitudes from PyEphem, airless, for its centre.
+  // Its bearing from Astronomy Engine.
   const A = a.w.OLAE_ASTRO;
-  for (const [at, altitude] of [['2026-10-03T05:30Z', 63.59], ['2026-10-07T20:30Z', -41.59], ['2026-09-25T16:10Z', 9.48]]) {
+  for (const [at, altitude, azimuth] of [['2026-10-03T05:30Z', 63.59, 247.1], ['2026-10-07T20:30Z', -41.59, 15.7], ['2026-09-25T16:10Z', 9.48, 102.4]]) {
+    const moon = A.moonPosition(new Date(at), 41.015, 28.979);
     assert.ok(Math.abs(A.moonAltitude(new Date(at), 41.015, 28.979) - altitude) < 0.5, 'the moon at ' + at);
+    assert.ok(Math.abs(moon.azimuth - azimuth) < 0.5, 'the moon\'s bearing at ' + at);
   }
-  assert.equal(a.q('#house-scene').dataset.moon === 'up', A.moonAltitude(new Date(), 41.015, 28.979) > A.MOON_HORIZON);
   a.click('[data-open="moris"]');
   // Moris is told, not shown: what he is doing now, and the way to his album.
   // The line from The Fragments stays under the album's cover.
@@ -365,6 +382,159 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.equal(a.q('#house-since').hidden, true, 'a first visit has nothing to report');
   assert.equal(a.q('#house-welcome').textContent, 'Come in.');
   a.dom.window.close();
+
+  // --- The sky in the window and over the balcony ---------------------------
+  // İstanbul's sun and moon at a given moment, as the page sees them.
+  const houseAt = (when, url = 'https://hakanaltun.io/house/#study', sky = false) => {
+    const n = page('house/index.html', url);
+    const NativeDate = n.w.Date;
+    n.w.Date = class extends NativeDate { constructor(...args) { super(...(args.length ? args : [when])); } static now() { return new NativeDate(when).getTime(); } };
+    if (sky) for (const file of [['vendor', 'astronomy-engine-2.1.19.min.js'], ['bright-stars.js'], ['sky-map.js']]) n.w.eval(read(root, 'js', ...file));
+    for (const name of ['keep', 'astronomy', 'house']) n.w.eval(scripts[name]);
+    return n;
+  };
+  const shown = (n, s) => !n.q(s).hidden;
+  const spot = (n, s) => ({ x: +n.q(s).getAttribute('cx'), y: +n.q(s).getAttribute('cy') });
+  const words = (n) => n.q('#house-dialog-content').textContent.replace(/\s+/g, ' ').trim();
+  const dialogLinks = (n) => Array.from(n.w.document.querySelectorAll('#house-dialog-content a'), (l) => l.getAttribute('href'));
+
+  // A morning in October: the sun is low in the southeast, so it stands in
+  // the window's left casement and to the left over the balcony, and the
+  // moon, a day from new, is lost in its light. Moris is on his cushion, the
+  // door to the balcony is shut and its glass is folded away.
+  let n = houseAt('2026-10-11T10:00:00+03:00');
+  await tick();
+  assert.equal(n.q('#house-scene').dataset.sun, 'in');
+  assert.equal(spot(n, '#house-scene .house-sun').x, 628, 'the left casement while the sun is in the east');
+  assert.equal(n.q('#house-scene').dataset.moon, undefined, 'a moon lost in the sun is not drawn');
+  assert.equal(n.q('#house-scene').dataset.moris, 'cushion');
+  assert.equal(n.q('#balcony').hidden, true);
+  // The places are quiet until asked for, in both rooms at once.
+  n.click('#study [data-places]');
+  assert.ok(n.q('#house').classList.contains('show-places'));
+  for (const button of n.w.document.querySelectorAll('[data-places]')) {
+    assert.equal(button.getAttribute('aria-pressed'), 'true');
+    assert.equal(button.textContent, 'Hide places to look');
+  }
+  n.click('.house-hotspot--balcony');
+  assert.equal(n.w.location.hash, '#balcony');
+  assert.equal(n.q('#balcony').hidden, false, 'out through the door');
+  assert.equal(n.q('#study').hidden, true);
+  assert.equal(n.q('#house-entrance').hidden, true);
+  assert.equal(n.w.document.activeElement, n.q('#house-balcony-title'));
+  assert.equal(n.q('#balcony [data-house-hour]').textContent, 'Morning in İstanbul');
+  assert.equal(n.q('#balcony [data-house-clock]').textContent, '· 10:00');
+  n.click('#balcony [data-places]');
+  assert.equal(n.q('#house').classList.contains('show-places'), false, 'and quiet again');
+  const scene = n.q('#house-balcony-scene');
+  assert.equal(scene.dataset.moris, 'cushion', 'the glass folded away while Moris is inside');
+  assert.equal(n.q('#balcony [data-moris-item]').hidden, true);
+  assert.equal(scene.dataset.sun, 'in');
+  assert.ok(shown(n, '.house-hotspot--sun') && shown(n, '.house-sky-travel--sun'));
+  assert.equal(n.q('.house-sky-travel--sun').nextElementSibling, n.q('.house-hotspot--sun'), 'the sun itself, then its name');
+  assert.ok(spot(n, '#house-balcony-scene .house-sun').x < 500 && spot(n, '#house-balcony-scene .house-sun').y < 285, 'the sun to the left, above the sea');
+  assert.equal(n.q('.house-sky-travel--sun').getAttribute('href'), '/pictures/sun/?from=balcony', 'the sun leads to its picture');
+  assert.ok(!shown(n, '.house-hotspot--moon') && !shown(n, '.house-hotspot--stars'));
+  n.click('.house-hotspot--sun');
+  let said = words(n);
+  assert.equal(n.q('#house-dialog-title').textContent, 'The sun');
+  assert.match(said, /^The sun is in the southeast\./);
+  assert.match(said, /Height28°/);
+  assert.match(said, /DirectionSoutheast, 130°/);
+  assert.match(said, /Sunrise07:1\dSunset18:3\dDay length11 h \d+ m/);
+  assert.deepEqual(dialogLinks(n), ['/pictures/sun/?from=balcony', '/sun/?city=istanbul&from=balcony&v=20261011-1', '/twilight/?city=istanbul&from=balcony&v=20261011-1'], 'the painted Sun, The Sun and Twilight');
+  n.click('#house-close');
+  assert.equal(n.w.document.activeElement, n.q('.house-hotspot--sun'));
+  // The weather goes out with the reader, and comes back in.
+  n.w.matchMedia = () => ({ matches: false });
+  n.w.eval(scripts.snow);
+  n.w.document.dispatchEvent(new n.w.Event('DOMContentLoaded'));
+  n.click('#let-it-rain');
+  assert.equal(scene.dataset.weather, 'rain');
+  assert.equal(n.q('#house-scene').dataset.weather, 'rain', 'the same sky from the window');
+  assert.ok(n.w.document.querySelectorAll('#house-balcony-scene .house-weather line').length > 0, 'rain over the city');
+  assert.equal(n.w.document.querySelectorAll('#house-scene .house-weather line').length, 0);
+  assert.equal(n.q('#house-status').textContent, 'Light rain over the city.');
+  n.click('.house-hotspot--study-door');
+  assert.equal(n.w.location.hash, '#study');
+  assert.equal(n.q('#study').hidden, false, 'back in through the door');
+  assert.equal(n.q('#balcony').hidden, true);
+  assert.ok(n.w.document.querySelectorAll('#house-scene .house-weather line').length > 0, 'the rain at the study window again');
+  assert.equal(n.w.document.querySelectorAll('#house-balcony-scene .house-weather *').length, 0);
+  n.dom.window.close();
+
+  // The afternoon: Moris has gone out to the balcony, and its glass is shut.
+  n = houseAt('2026-10-11T14:30:00+03:00', 'https://hakanaltun.io/house/#balcony');
+  await tick();
+  assert.equal(n.q('#house-scene').dataset.moris, 'balcony');
+  assert.equal(n.q('#house-balcony-scene').dataset.moris, 'balcony', 'the glass closed while he is out there');
+  assert.equal(n.q('#balcony [data-moris-item]').hidden, false);
+  assert.equal(n.q('#study .house-objects [data-open="moris"]').parentNode.hidden, true, 'not in the study meanwhile');
+  n.click('.house-hotspot--balcony-moris');
+  assert.equal(n.q('#house-dialog-place').textContent, 'On the balcony');
+  assert.match(n.q('[data-moris-line]').textContent, /^He is out on the balcony for the afternoon/);
+  n.click('#house-close');
+  n.dom.window.close();
+
+  // A night with a young moon: no sun, the moon low in the southwest, in the
+  // window's right casement and to the right over the balcony, and the
+  // stars, the brightest of them, drawn from the catalogue The Stars uses.
+  n = houseAt('2026-10-16T21:00:00+03:00', 'https://hakanaltun.io/house/#balcony', true);
+  await tick();
+  assert.equal(n.q('#balcony').hidden, false, 'the balcony by its address');
+  assert.equal(n.q('#house-scene').dataset.moon, 'up');
+  assert.equal(spot(n, '#house-scene .house-moon-disc').x, 758, 'the right casement while the moon is in the west');
+  assert.equal(n.q('#house-balcony-scene').dataset.sun, 'down');
+  assert.ok(!shown(n, '.house-hotspot--sun') && !shown(n, '.house-sky-travel--sun'));
+  assert.ok(shown(n, '.house-hotspot--moon') && shown(n, '.house-hotspot--stars'));
+  assert.ok(spot(n, '#house-balcony-scene .house-moon-disc').x > 500, 'the moon to the right');
+  assert.equal(n.q('.house-sky-travel--moon').getAttribute('href'), '/pictures/space/?from=balcony#scene-moon', 'the moon leads to the Moon on the journey');
+  await tick();
+  const stars = n.w.document.querySelectorAll('#house-balcony-scene .house-sky-stars circle');
+  assert.ok(stars.length >= 3 && stars.length < 40, 'a few bright stars and planets: ' + stars.length);
+  assert.ok(n.q('#house-balcony-scene .house-sky-stars .is-planet'), 'Saturn among them');
+  n.click('.house-hotspot--moon');
+  said = words(n);
+  assert.match(said, /^The moon is low in the southwest\./);
+  assert.match(said, /PhaseWaxing crescent, \d+% lit/);
+  assert.match(said, /Moonset21:\d\d/);
+  assert.deepEqual(dialogLinks(n), ['/pictures/space/?from=balcony#scene-moon', '/moon/?from=balcony&v=20261011-1', '/word/lunatic/'], 'the painted Moon, The Moon and lunatic');
+  n.click('#house-close');
+  n.click('.house-hotspot--stars');
+  await tick();
+  said = words(n);
+  assert.match(said, /PlanetsSaturn in the southeast/);
+  assert.match(said, /Bright stars[A-Z]/);
+  assert.match(said, /Sunrise07:\d\d/);
+  assert.deepEqual(dialogLinks(n), ['/stars/?city=istanbul&from=balcony&v=20261011-1', '/moon/?from=balcony&v=20261011-1']);
+  n.click('#house-close');
+  n.dom.window.close();
+
+  // A summer's early morning: the sun is up but still behind the house, in
+  // the northeast. The window has no sun in it; on the balcony its name waits
+  // at the left edge of the view.
+  n = houseAt('2026-06-21T06:30:00+03:00', 'https://hakanaltun.io/house/#balcony');
+  await tick();
+  assert.equal(n.q('#house-scene').dataset.sun, 'behind');
+  assert.equal(n.q('#house-balcony-scene').dataset.sun, 'behind');
+  assert.ok(shown(n, '.house-hotspot--sun') && !shown(n, '.house-sky-travel--sun'));
+  assert.equal(n.q('.house-hotspot--sun').dataset.side, 'edge-right');
+  n.click('.house-hotspot--sun');
+  assert.match(words(n), /^The sun is low in the northeast\. It is behind the house, so the balcony does not see it now\./);
+  n.dom.window.close();
+
+  // A picture opened from the balcony leads back there.
+  for (const [file, address] of [['pictures/sun/index.html', 'https://hakanaltun.io/pictures/sun/?from=balcony'], ['pictures/space/index.html', 'https://hakanaltun.io/pictures/space/?from=balcony#scene-moon'], ['pictures/sun/index.html', 'https://hakanaltun.io/pictures/sun/']]) {
+    const pic = page(file, address);
+    pic.w.eval(read(root, 'js', 'pictures.js'));
+    const way = pic.q('.picture-footer a');
+    const balconyWay = address.includes('from=balcony');
+    assert.equal(way.getAttribute('href'), balconyWay ? '/house/#balcony' : '/pictures/');
+    assert.equal(way.textContent, balconyWay ? '← the balcony' : '← Pictures with Stories');
+    pic.dom.window.close();
+  }
+  // The Farm House, entered from the study's shelf, leads back to the study.
+  assert.match(read(site, 'farm-house', 'index.html'), /<a href="\/house\/#study">← the study<\/a>/);
 
   // --- The drawer by its address -------------------------------------------------
   a = house({ url: 'https://hakanaltun.io/house/#drawer' });
@@ -835,5 +1005,5 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.equal(t.q('canvas.cursor-trail'), null, 'and none for a reader who asked for less motion');
   t.dom.window.close();
 
-  console.log('House: catalog and addresses, daily room, keeping from the room and from words, quizzes, the book and essays, the kept passage\'s panel, note and copy, Highlight and its clearing, the small box by a highlight, hidden highlights, a note written before keeping, notes in the drawer, legacy and hostile records, blocked storage, arrivals, #drawer, export and backup offered only where they work, the moon, the planets after dark, weather at the window, and the pointer\'s trail passed.');
+  console.log('House: catalog and addresses, daily room, keeping from the room and from words, quizzes, the book and essays, the kept passage\'s panel, note and copy, Highlight and its clearing, the small box by a highlight, hidden highlights, a note written before keeping, notes in the drawer, legacy and hostile records, blocked storage, arrivals, #drawer, export and backup offered only where they work, the moon, the planets after dark, weather at the window, the balcony, its glass and its sky, quiet places and Show places to look, the ways back to the study and the balcony, and the pointer\'s trail passed.');
 })().catch((error) => { console.error(error); process.exit(1); });

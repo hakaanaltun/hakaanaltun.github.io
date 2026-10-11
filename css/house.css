@@ -43,6 +43,12 @@
 /* The hour and the clock break apart, never inside either. */
 #house-hour, #house-clock { display: inline-block; white-space: nowrap; }
 .house-instruction { margin: 10px 0 18px; font-size: 16px; color: var(--vizon); }
+.house-instruction-row { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 0 18px; margin: 10px 0 12px; }
+.house-instruction-row .house-instruction { margin: 0; }
+/* "Show places to look", as under the pictures: the names of every place
+   in both rooms, for as long as the reader keeps them. */
+.house-places { min-height: 44px; padding: 0; border: 0; background: none; color: var(--vizon); font-size: 15px !important; transition: var(--select-ease); }
+.house-places:hover, .house-places:active { opacity: var(--select-dim); }
 .house-scene { position: relative; overflow: hidden; border: 1px solid var(--rule-strong); isolation: isolate; --room-wall: #eee9db; --room-floor: #e0d6c0; --room-line: #6c6555; --room-wood: #c7b799; --room-paper: #fbf6e8; --room-back: #ded4bf; --room-cream: #ded2af; --room-blue: #6e8386; --room-olive: #8b967a; --room-rust: #b27d66; --room-burgundy: #8e4552; --room-gold: #cda955; --room-carpet: #d3c7a8; --room-sunlight: .7; --sky-top: #a2bcca; --sky-bottom: #dbe2d3; }
 .house-room-art { width: 100%; height: auto; display: block; color: var(--room-line); }
 .house-wall { fill: var(--room-wall); }
@@ -65,6 +71,46 @@
 .house-moon-disc { fill: #fff; opacity: .1; }
 .house-moon-lit { fill: #efe6c8; }
 .house-rooftops { fill: #6a7e7d; opacity: .45; }
+/* The sea and the Islands take the sky's colour through a thin wash, so
+   they follow the hour and the weather with it. */
+.house-islands { fill: #4a5e66; opacity: .38; }
+.house-sea { fill: #285775; opacity: .34; }
+.house-sea-light { stroke: #f7f4ea; stroke-width: 1.2; stroke-linecap: round; opacity: .55; }
+.house-scene[data-hour="night"] .house-sea-light, .house-scene[data-weather] .house-sea-light { opacity: .1; }
+/* The balcony door: from the study its glass shows the light outside, and
+   from the balcony the study's own light. */
+.house-door-panel { fill: var(--room-back); }
+.house-door-glass { fill: #e3e4dc; }
+.house-scene[data-hour="morning"] .house-door-glass { fill: #ebe1cd; }
+.house-scene[data-hour="evening"] .house-door-glass { fill: #cdbcb0; }
+.house-scene[data-hour="night"] .house-door-glass { fill: #39444e; }
+.house-scene--balcony .house-door-glass, .house-scene--balcony[data-hour="morning"] .house-door-glass { fill: #cfc6b1; }
+.house-scene--balcony[data-hour="evening"] .house-door-glass { fill: #a99f8b; }
+.house-scene--balcony[data-hour="night"] .house-door-glass { fill: #2e3439; }
+.house-scene--balcony[data-lamp="on"]:is([data-hour="evening"], [data-hour="night"]) .house-door-glass { fill: #d9bf8c; }
+.house-parapet-shade { fill: #3b3223; opacity: .08; }
+.house-coping { fill: var(--room-paper); }
+.house-soil { fill: #6b5a45; }
+.house-olive-wood { color: #776a55; }
+.house-olive-leaf { color: var(--room-olive); }
+.house-olive-leaf--light { color: #aab19b; }
+.house-tea { fill: #9a3f22; }
+/* The glass of the balcony: closed while Moris is out there, and folded
+   away to the right while he is indoors. */
+.house-glass-profile { fill: #b9b5aa; }
+.house-glass-joint { stroke: #8f8a7e; }
+.house-glass-pane { fill: #eef3f1; fill-opacity: .35; stroke: #8f8a7e; }
+.house-glass-light { stroke: #fff; opacity: .5; stroke-linecap: round; }
+.house-glass-tint { fill: #f2f6f4; opacity: .1; }
+.house-scene[data-hour="night"] .house-glass-light { opacity: .12; }
+.house-scene--balcony[data-moris="balcony"] .house-glass-open, .house-scene--balcony:not([data-moris="balcony"]) .house-glass-closed { display: none; }
+.house-scene--balcony:not([data-moris="balcony"]) .house-moris { display: none; }
+.house-tea-glass { fill: #fffdf6; fill-opacity: .25; }
+.house-balcony-snow { fill: #f6f5ef; }
+.house-sky-stars circle { fill: #f6e5b9; }
+.house-sky-stars .is-planet { fill: #fbe7b6; }
+.house-sky-stars { opacity: 0; }
+.house-scene[data-hour="night"] .house-sky-stars { opacity: 1; }
 .house-stars { opacity: 0; }
 /* The side walls and the ceiling turn a little away from the light. */
 .house-shade { fill: #3b3223; opacity: .07; }
@@ -107,6 +153,9 @@
 .house-scene[data-hour="day"] .house-moon-disc, .house-scene[data-hour="morning"] .house-moon-disc { opacity: 0; }
 .house-scene[data-hour="day"] .house-moon-lit, .house-scene[data-hour="morning"] .house-moon-lit { fill: #f7f5ee; opacity: .6; }
 .house-scene[data-hour="night"] .house-light-beam { opacity: 0; }
+/* Below the horizon or behind the house the sun is not seen, and lays no
+   light on the floor. */
+.house-scene:not([data-sun="in"]) .house-sun, .house-scene:not([data-sun="in"]) .house-light-beam { opacity: 0; }
 /* Rain or snow at the window: the sky clouds over and the sun, the moon and
    the stars go behind it. */
 .house-weather line { stroke: #eef2f3; stroke-linecap: round; }
@@ -121,31 +170,78 @@
    night, and the lamp keeps its own circle of light. */
 .house-dusk { fill: #1c2633; opacity: 0; mix-blend-mode: multiply; pointer-events: none; transition: opacity .5s ease; }
 .house-scene[data-lamp="on"] .house-dusk { fill: url(#house-lamplight); }
+/* The study's lamp lights the study; out on the balcony it shows only
+   through the glass of the door. */
+.house-scene--balcony[data-lamp="on"] .house-dusk { fill: #1c2633; }
 .house-scene[data-hour="evening"] .house-dusk { opacity: .2; }
 .house-scene[data-hour="night"] .house-dusk { opacity: .5; }
-.house-hotspot { position: absolute; display: flex; align-items: center; gap: 5px; transform: translate(-50%, -50%); min-height: 24px; padding: 2px 7px 2px 3px; border: 1px solid #b7ab94; border-radius: 3px; background: #fcf7e9; color: #443f34 !important; font-size: 11.5px !important; line-height: 1.2; white-space: nowrap; box-shadow: 0 2px 6px #30291a12; transition: background .18s; }
-.house-hotspot:hover { background: #fffdf7; border-color: #716553; }
-.house-hotspot:focus-visible { outline-color: #443f34 !important; }
+/* Quiet places, as in the pictures: nothing marks a thing until a pointer
+   or the keyboard comes to it, and then its name shows beside it. "Show
+   places to look" shows every name. Each place covers its thing: --ax and
+   --ay are its centre and --aw and --ah its size, in hundredths of the
+   picture; its name stands at --lx, --ly, beside the thing so that it
+   never covers what it names. A name that shows is part of its place and
+   opens what the place opens; hidden, it takes no clicks. */
+.house-scene { container-type: inline-size; }
+.house-hotspot { position: absolute; z-index: 1; left: calc(var(--ax) * 1%); top: calc(var(--ay) * 1%); width: calc(var(--aw) * 1%); height: calc(var(--ah) * 1%); min-width: 44px; min-height: 44px; transform: translate(-50%, -50%); padding: 0; border: 0; border-radius: 3px; background: none; color: #443f34 !important; text-decoration: none; }
+.house-hotspot--words, .house-hotspot--question, .house-hotspot--moris, .house-hotspot--lamp, .house-hotspot--drawer, .house-hotspot--clock, .house-hotspot--reader, .house-hotspot--farm-house,
+.house-hotspot--balcony-reader, .house-hotspot--page, .house-hotspot--balcony-moris, .house-hotspot--sun, .house-hotspot--moon { z-index: 2; }
+.house-label { position: absolute; left: calc(50% + (var(--lx) - var(--ax)) * 1cqw); top: calc(50% + (var(--ly) - var(--ay)) * .65cqw); transform: translate(-50%, -50%); display: flex; align-items: center; gap: 5px; min-height: 24px; padding: 2px 8px; border: 1px solid #b7ab94; border-radius: 3px; background: #fcf7e9; font-size: 11.5px; line-height: 1.2; white-space: nowrap; box-shadow: 0 2px 6px #30291a12; opacity: 0; pointer-events: none; transition: opacity .18s; }
+.house-label .house-pin { display: none; }
+.house-hotspot:focus-visible { z-index: 4; outline: 2px solid #443f34; outline-offset: 2px; }
+.house-hotspot:focus-visible .house-label, .house.show-places .house-label { opacity: 1; pointer-events: auto; }
+@media (hover: hover) {
+  .house-hotspot:hover { z-index: 4; }
+  .house-hotspot:hover .house-label { opacity: 1; pointer-events: auto; }
+}
 .house-pin { width: 14px; height: 14px; display: grid; place-items: center; border: 1px solid #cbbd9f; border-radius: 50%; font-size: 9px; }
-/* Each name sits beside its thing, on bare wall or floor, so it never covers
-   what it names. */
-.house-hotspot--books { left: 25.9%; top: 40.5%; }
-.house-hotspot--words { left: 45.8%; top: 53.1%; }
-.house-hotspot--question { left: 42.2%; top: 32.6%; }
-.house-hotspot--window { left: 90.5%; top: 30.8%; }
-.house-hotspot--moris { left: 77.3%; top: 74.2%; }
-.house-scene[data-moris="sill"] .house-hotspot--moris { left: 80%; top: 54.8%; }
-.house-scene[data-moris="shelf"] .house-hotspot--moris { left: 27.2%; top: 15.4%; }
-.house-scene[data-moris="rug"] .house-hotspot--moris { left: 59%; top: 92.3%; }
-.house-hotspot--lamp { left: 49.6%; top: 43.8%; }
-.house-hotspot--drawer { left: 56%; top: 75.4%; }
-/* The names that leave the room, for the instruments that belong to its
-   things: the wall clock, the bookshelf and the desk. */
-.house-hotspot--clock, .house-hotspot--reader, .house-hotspot--desk, .house-hotspot--farm-house { text-decoration: none; }
-.house-hotspot--clock { left: 46.8%; top: 14.3%; }
-.house-hotspot--reader { left: 66.6%; top: 62.1%; }
-.house-hotspot--farm-house { left: 20.3%; top: 65.4%; }
-.house-hotspot--desk { left: 73.5%; top: 88.5%; }
+/* The study. */
+.house-hotspot--books { --ax: 25.9; --ay: 48.8; --aw: 20; --ah: 47.1; --lx: 25.9; --ly: 40.5; }
+.house-hotspot--words { --ax: 45.55; --ay: 59.85; --aw: 6.1; --ah: 6.5; --lx: 45.8; --ly: 53.1; }
+.house-hotspot--question { --ax: 41.8; --ay: 40.8; --aw: 5; --ah: 9.8; --lx: 42.2; --ly: 32.6; }
+.house-hotspot--window { --ax: 69.3; --ay: 33.8; --aw: 29; --ah: 38; --lx: 69.3; --ly: 12.3; }
+.house-hotspot--moris { --ax: 77; --ay: 66.5; --aw: 11; --ah: 10; --lx: 77.3; --ly: 74.2; }
+.house-scene[data-moris="sill"] .house-hotspot--moris { --ax: 70.5; --ay: 48.5; --aw: 10; --ah: 8; --lx: 80; --ly: 54.8; }
+.house-scene[data-moris="shelf"] .house-hotspot--moris { --ax: 28; --ay: 22; --aw: 10.8; --ah: 8.3; --lx: 27.2; --ly: 15.4; }
+.house-scene[data-moris="rug"] .house-hotspot--moris { --ax: 48.3; --ay: 88.2; --aw: 16.6; --ah: 12.6; --lx: 59; --ly: 92.3; }
+.house-hotspot--lamp { --ax: 58.8; --ay: 43.6; --aw: 8; --ah: 8.8; --lx: 49.6; --ly: 43.8; }
+.house-hotspot--drawer { --ax: 50; --ay: 67.4; --aw: 30.2; --ah: 5.5; --lx: 56; --ly: 75.4; }
+/* The places that leave the room, for the instruments that belong to its
+   things: the wall clock, the e-reader and the desk. */
+.house-hotspot--clock { --ax: 46.8; --ay: 23.1; --aw: 7.2; --ah: 11.1; --lx: 46.8; --ly: 14.3; }
+.house-hotspot--reader { --ax: 58; --ay: 61.2; --aw: 6; --ah: 3.7; --lx: 66.6; --ly: 62.1; }
+.house-hotspot--farm-house { --ax: 31.9; --ay: 65; --aw: 4.4; --ah: 8.5; --lx: 20.3; --ly: 65.4; }
+.house-hotspot--desk { --ax: 50; --ay: 61.5; --aw: 33.8; --ah: 6.3; --lx: 73.5; --ly: 88.5; }
+.house-hotspot--balcony { --ax: 95; --ay: 51.8; --aw: 7; --ah: 60; --lx: 93.8; --ly: 14.6; }
+/* While Moris is out on the balcony he is not in the study. */
+#house-scene[data-moris="balcony"] .house-moris, #house-scene[data-moris="balcony"] .house-hotspot--moris { display: none; }
+/* The balcony. */
+.house-hotspot--study-door { --ax: 6.6; --ay: 59.4; --aw: 13.2; --ah: 81.2; --lx: 8.5; --ly: 10.8; }
+.house-hotspot--balcony-reader { --ax: 37; --ay: 77; --aw: 11; --ah: 30; --lx: 25.5; --ly: 67.7; }
+.house-hotspot--page { --ax: 50; --ay: 70.5; --aw: 12.4; --ah: 8.5; --lx: 50; --ly: 63.4; }
+.house-hotspot--balcony-moris { --ax: 25.5; --ay: 88.5; --aw: 10; --ah: 7.5; --lx: 25.5; --ly: 81.5; }
+.house-scene--balcony:not([data-moris="balcony"]) .house-hotspot--balcony-moris { display: none; }
+/* The breath is taken over the view, the stars are the night's sky. */
+.house-hotspot--breath { --ax: 50; --ay: 51.1; --aw: 53.5; --ah: 14.5; --lx: 60; --ly: 52; }
+.house-hotspot--stars { --ax: 50; --ay: 29.6; --aw: 53.5; --ah: 28.4; --lx: 33; --ly: 21.5; }
+/* The sun's and the moon's names follow them across the sky, beside them
+   on the side toward the middle, or at the edge of the view while they are
+   behind the house. js/house.js sets --sky-x, --sky-y and --sky-r in
+   hundredths of the picture. */
+.house-hotspot--sun, .house-hotspot--moon { --aw: 4.4; --ah: 6.8; --ay: var(--sky-y); --ly: var(--sky-y); --ax: calc(var(--sky-x) + var(--sky-r) + 4.6); --lx: var(--ax); }
+.house-hotspot--sun[data-side="left"], .house-hotspot--moon[data-side="left"] { --ax: calc(var(--sky-x) - var(--sky-r) - 4.6); }
+.house-hotspot--sun[data-side="edge-right"], .house-hotspot--moon[data-side="edge-right"] { --ax: calc(var(--sky-x) + 4); }
+.house-hotspot--sun[data-side="edge-left"], .house-hotspot--moon[data-side="edge-left"] { --ax: calc(var(--sky-x) - 4); }
+/* The sun and the moon themselves lead on to their pictures, as the worlds
+   do on the journey through the Solar System. Under a pointer or the
+   keyboard they say so, and their names show beside them. */
+.house-sky-travel { position: absolute; z-index: 3; left: calc(var(--sky-x) * 1%); top: calc(var(--sky-y) * 1%); width: 5%; aspect-ratio: 1; min-width: 44px; transform: translate(-50%, -50%); border-radius: 50%; text-decoration: none; }
+.house-sky-travel-name { position: absolute; left: 50%; bottom: calc(100% + 4px); transform: translateX(-50%); padding: 3px 8px; border: 1px solid #b7ab94; border-radius: 3px; background: #fcf7e9; color: #443f34; font-size: 11.5px; line-height: 1.2; white-space: nowrap; box-shadow: 0 2px 6px #30291a12; opacity: 0; pointer-events: none; transition: opacity .18s; }
+.house-sky-travel:focus-visible .house-sky-travel-name, .house-sky-travel:focus-visible + .house-hotspot .house-label { opacity: 1; }
+@media (hover: hover) {
+  .house-sky-travel:hover .house-sky-travel-name, .house-sky-travel:hover + .house-hotspot .house-label { opacity: 1; }
+}
+.house-sky-note { color: var(--vizon); font-size: 15px !important; line-height: 1.5 !important; margin: -8px 0 22px; }
 .house-objects { display: none; }
 .house-room-footer { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; border-bottom: 1px solid var(--rule-strong); padding: 20px 0; font-size: 16px; }
 .house-room-footer a { color: var(--ink-soft); text-decoration: none; transition: var(--select-ease); }
@@ -239,24 +335,36 @@ html[data-theme="dark"], html[data-theme="midnight"], html[data-theme="sky"], .h
 /* Below a wide screen the names no longer fit beside their things, so the
    picture keeps only its numbers and the names are listed under it. */
 @media (max-width: 860px) {
-  .house-hotspot { justify-content: center; min-width: 44px; min-height: 44px; padding: 0; border: 0; background: none; box-shadow: none; }
-  .house-hotspot:hover { background: none; }
-  .house-hotspot .house-pin { width: 24px; height: 24px; background: #fcf7e9; border-color: #716553; font-size: 12px; box-shadow: 0 1px 5px #30291a33; }
+  .house-label { padding: 0; border: 0; background: none; box-shadow: none; }
+  .house-label .house-pin { display: grid; width: 24px; height: 24px; background: #fcf7e9; border-color: #716553; font-size: 12px; box-shadow: 0 1px 5px #30291a33; }
   .house-hotspot-name { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
-  .house-hotspot--books { left: 24%; top: 33.1%; }
-  .house-hotspot--question { left: 47%; top: 40.3%; }
-  .house-hotspot--window { left: 69.3%; top: 20.9%; }
-  .house-hotspot--lamp { left: 58.8%; top: 43.4%; }
-  .house-hotspot--words { left: 45.5%; top: 52.6%; }
-  .house-hotspot--drawer { left: 56%; top: 73.8%; }
-  .house-hotspot--moris { left: 77.3%; top: 73.4%; }
-  .house-hotspot--clock { left: 49.3%; top: 26.9%; }
-  .house-hotspot--reader { left: 58%; top: 61.2%; }
-  .house-hotspot--farm-house { left: 21.8%; top: 65.4%; }
-  .house-hotspot--desk { left: 65.5%; top: 67.4%; }
-  .house-scene[data-moris="sill"] .house-hotspot--moris { left: 70%; top: 40.3%; }
-  .house-scene[data-moris="shelf"] .house-hotspot--moris { left: 35%; top: 19.2%; }
-  .house-scene[data-moris="rug"] .house-hotspot--moris { left: 58%; top: 90.8%; }
+  .house-hotspot--books { --lx: 24; --ly: 33.1; }
+  .house-hotspot--question { --lx: 47; --ly: 40.3; }
+  .house-hotspot--window { --lx: 69.3; --ly: 20.9; }
+  .house-hotspot--lamp { --lx: 58.8; --ly: 43.4; }
+  .house-hotspot--words { --lx: 45.5; --ly: 52.6; }
+  .house-hotspot--drawer { --lx: 56; --ly: 73.8; }
+  .house-hotspot--moris { --lx: 77.3; --ly: 73.4; }
+  .house-hotspot--clock { --lx: 49.3; --ly: 26.9; }
+  .house-hotspot--reader { --lx: 58; --ly: 61.2; }
+  .house-hotspot--farm-house { --lx: 21.8; --ly: 65.4; }
+  .house-hotspot--desk { --lx: 65.5; --ly: 67.4; }
+  .house-scene[data-moris="sill"] .house-hotspot--moris { --lx: 70; --ly: 40.3; }
+  .house-scene[data-moris="shelf"] .house-hotspot--moris { --lx: 35; --ly: 19.2; }
+  .house-scene[data-moris="rug"] .house-hotspot--moris { --lx: 58; --ly: 90.8; }
+  .house-hotspot--balcony { --lx: 94.5; --ly: 44.6; }
+  .house-hotspot--study-door { --lx: 6; --ly: 50.8; }
+  .house-hotspot--balcony-reader { --lx: 38; --ly: 76; }
+  .house-hotspot--page { --lx: 48.5; --ly: 68.5; }
+  .house-hotspot--breath { --lx: 50; --ly: 51; }
+  .house-hotspot--balcony-moris { --lx: 25.5; --ly: 88; }
+  .house-hotspot--stars { --lx: 33; --ly: 22; }
+  /* No pointer to tell a place from its name here: the sun and the moon
+     open what is said about them, and the way to their pictures is in it. */
+  .house-hotspot--sun, .house-hotspot--moon { --ax: var(--sky-x); --lx: calc(var(--sky-x) + var(--sky-r) + 3.6); }
+  .house-hotspot--sun[data-side="left"], .house-hotspot--moon[data-side="left"] { --ax: var(--sky-x); --lx: calc(var(--sky-x) - var(--sky-r) - 3.6); }
+  .house-sky-travel { display: none; }
+  .house:not(.show-places) .house-objects { display: none; }
   .house-objects { display: grid; grid-template-columns: 1fr 1fr; gap: 0 14px; list-style: none; margin: 14px 0 0; padding: 0; }
   .house-objects button, .house-objects a { display: flex; color: inherit; text-decoration: none; align-items: center; gap: 9px; width: 100%; min-height: 44px; padding: 6px 0; border: 0; border-bottom: 1px solid var(--rule); background: none; text-align: left; font-size: 16px; }
   .house-objects .house-pin { flex: none; width: 22px; height: 22px; font-size: 11px; }
