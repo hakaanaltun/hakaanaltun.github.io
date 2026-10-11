@@ -49,6 +49,10 @@ function page(modal=true,hash='') {
   assert.ok(nextScene.classList.contains('is-current'));
   image.dispatchEvent(new w.Event('load'));
   assert.ok(old.classList.contains('is-fading'),'fade begins after new picture loads');
+  // A label fading inside the old scene, under the pointer that chose the
+  // way on, does not cut the fade short.
+  old.querySelector('.picture-hotspot-label').dispatchEvent(new w.Event('transitionend',{bubbles:true}));
+  assert.ok(old.classList.contains('is-leaving'),'the old painting keeps fading while a label inside it fades');
   old.dispatchEvent(new w.Event('transitionend'));
   assert.ok(!old.classList.contains('is-leaving'),'old picture is removed after crossfade');
   const css=fs.readFileSync(path.join(root,'css/space.css'),'utf8');
