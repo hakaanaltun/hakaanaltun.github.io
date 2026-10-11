@@ -1,0 +1,32 @@
+{
+  "source": "https://ssd.jpl.nasa.gov/api/horizons.api",
+  "epoch": "2026-10-11 00:00 TDB",
+  "parameters": {
+    "CENTER": "500@10",
+    "EPHEM_TYPE": "VECTORS",
+    "START_TIME": "2026-10-11",
+    "STOP_TIME": "2026-10-12",
+    "STEP_SIZE": "1 d",
+    "OUT_UNITS": "AU-D",
+    "VEC_TABLE": "2",
+    "CSV_FORMAT": "YES",
+    "VEC_CORR": "NONE",
+    "REF_PLANE": "ECLIPTIC"
+  },
+  "vectors_au": {
+    "Voyager 1 (-31)": [
+      -32.17497713563448,
+      -136.9032101384524,
+      99.05201647330695
+    ],
+    "Voyager 2 (-32)": [
+      39.91454896586514,
+      -105.5182931565459,
+      -89.76867216456677
+    ]
+  },
+  "method": "Euclidean norm of the difference of simultaneous geometric heliocentric position vectors. 1 AU = 149597870.7 km; c = 299792.458 km/s.",
+  "separation_au": 204.5364643411556,
+  "separation_km": 30598219545.943356,
+  "light_hours": 28.351298381991683
+}

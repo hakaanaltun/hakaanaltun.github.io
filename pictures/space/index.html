@@ -12,9 +12,10 @@ image_height: 1024
 alt: A wide watercolor view of Earth, a small gray Moon and the International Space Station, separated by indigo
   space.
 caption: Touch a world to go there. Its name opens information.
-illustration_note: Thirteen connected watercolor scenes begin near Earth. One branch leads inward through Venus
+illustration_note: Sixteen connected watercolor scenes begin near Earth. One branch leads inward through Venus
   and Mercury to a separate picture of the Sun. Another leads through the Moon and Mars into the asteroid belt, then to Jupiter, Saturn, Uranus,
-  Neptune and Pluto, then to Arrokoth in the Kuiper Belt. Recognizable worlds continue across the views.
+  Neptune and Pluto, then to Arrokoth in the Kuiper Belt and the Voyagers beyond the heliopause. Recognizable worlds
+  continue across the views.
   These are scientific illustrations with simplified features. Sizes, distances and viewpoints are arranged for
   exploration; they do not show a live sky, an exact surface map or a spacecraft flight path. The ISS is enlarged
   so its structure can be seen. Martian relief is emphasized to make the volcanoes and canyon visible. Io, Europa,
@@ -38,7 +39,12 @@ illustration_note: Thirteen connected watercolor scenes begin near Earth. One br
   patches in Occator represent reflective salt deposits. Arrokoth’s outline and broad markings follow a
   New Horizons composite from its 2019 flyby. Surface features are simplified, and the reddish watercolor palette
   interprets enhanced-color data. Its lighting is made legible for exploration. The small Pluto is a navigation
-  portrait; its size and position do not show a view of Pluto from Arrokoth.
+  portrait; its size and position do not show a view of Pluto from Arrokoth. Each Voyager has its own scene,
+  separated by a quiet passage through deep space. The spacecraft travel in different directions; the passage
+  changes the journey’s viewpoint. As throughout the journey, scene transitions do not measure distance or trace a flight path. Hardware is simplified from a NASA/JPL model. Neither spacecraft visited Arrokoth; the link
+  connects chapters of this journey. The heliopause is a boundary measured through particles and fields, with
+  no visible wall in the painting. The gold circle marks the record’s mounting location; its cover engravings
+  are too small to show here.
 scenes:
 - id: vicinity
   name: Earth vicinity
@@ -668,12 +674,12 @@ scenes:
   image: /pictures/space/assets/kuiper-belt-watercolor.webp
   alt: Watercolor Arrokoth has a smaller rounded lobe at left and a larger flattened lobe at right, joined by a
     narrow pale neck. Broad reddish-brown surface patches sit against dark indigo space. A tiny Pluto at upper left
-    offers a return.
-  caption: In the Kuiper Belt. Explore Arrokoth’s joined lobes and reddish surface, or return to Pluto.
+    offers a return. A small Voyager spacecraft portrait at upper right opens the next scene.
+  caption: In the Kuiper Belt. Explore Arrokoth, then continue to Voyager 2 beyond the heliopause.
   back: pluto
   back_label: Pluto
-  next: ''
-  next_label: ''
+  next: voyager-2
+  next_label: Voyager 2
   spots:
   - label: Arrokoth
     x: 64
@@ -712,6 +718,113 @@ scenes:
     paint_width: 2.4
     paint_position: 70.30% 22.00%
     paint_zoom: 175% auto
+  - label: Voyager 2
+    x: 86
+    y: 14
+    detail: voyager-2
+    primary: true
+    go: voyager-2
+    width: 4.2
+    height: 6.3
+    label_x: 83.9
+    label_y: 14
+    label_edge: left
+    paint_image: /pictures/space/assets/voyager-2-watercolor.webp
+    paint_width: 4.2
+    paint_position: 76% 62%
+    paint_zoom: 200% auto
+- id: voyager-2
+  name: Near Voyager 2
+  image: /pictures/space/assets/voyager-2-watercolor.webp
+  alt: Voyager 2 alone in a wide field of dark watercolor space, its pale dish and slender booms surrounded by
+    distant stars. A small Arrokoth portrait offers a return to the Kuiper Belt.
+  caption: Voyager 2. Beyond Neptune, its route turned south of the planets’ orbital plane. Continue into deep space.
+  back: kuiper-belt
+  back_label: The Kuiper Belt
+  next: deep-space
+  next_label: Deep space
+  spots:
+  - label: Voyager 2
+    x: 61
+    y: 40
+    detail: voyager-2
+    primary: true
+  - label: Deep space
+    x: 20
+    y: 44
+    detail: voyager-distance
+    go: deep-space
+    width: 12
+    height: 18
+  - label: Arrokoth
+    x: 15
+    y: 14
+    detail: arrokoth
+    primary: true
+    go: kuiper-belt
+    width: 4.5
+    height: 4.82
+    label_x: 17.25
+    label_y: 14
+    label_edge: right
+    paint_image: /pictures/space/assets/kuiper-belt-watercolor.webp
+    paint_width: 4.5
+    paint_ratio: 1.4
+    paint_position: 55.4% 45.8%
+    paint_zoom: 150% auto
+- id: deep-space
+  name: Deep space
+  image: /pictures/space/assets/deep-space-watercolor.webp
+  alt: A wide, quiet indigo watercolor field with sparse distant stars and exposed ivory paper at its edges.
+    No spacecraft or nearby worlds are visible.
+  caption: Deep space. Leave Voyager 2’s path and turn toward Voyager 1, traveling in another direction.
+  back: voyager-2
+  back_label: Voyager 2
+  next: voyager-1
+  next_label: Voyager 1
+  spots:
+  - label: Between the Voyagers
+    x: 50
+    y: 48
+    detail: voyager-distance
+    primary: true
+  - label: Beyond the solar wind
+    x: 29
+    y: 65
+    detail: heliopause
+- id: voyager-1
+  name: Near Voyager 1
+  image: /pictures/space/assets/voyager-1-watercolor.webp
+  alt: Voyager 1 alone at right in deep watercolor space, with a broad pale dish, dark equipment body,
+    small gold record cover and slender instrument booms. The space to its left is empty of other craft.
+  caption: Voyager 1. Its route left Saturn northward. Look closely at the record and the power source it carries.
+  back: deep-space
+  back_label: Deep space
+  next: ''
+  next_label: ''
+  spots:
+  - label: Voyager 1
+    x: 64
+    y: 40
+    detail: voyager-1
+    primary: true
+  - label: Golden Record
+    x: 57.4
+    y: 57.4
+    detail: golden-record
+    label_side: right
+    label_gap: 1.5
+  - label: Power source
+    x: 49.2
+    y: 66
+    detail: voyager-power
+  - label: Deep space
+    x: 18
+    y: 40
+    detail: voyager-distance
+    go: deep-space
+    width: 12
+    height: 18
 - id: venus
   name: Near Venus
   image: /pictures/space/assets/near-venus-watercolor.webp
@@ -844,6 +957,39 @@ scenes:
     paint_zoom: 165% auto
     href: /pictures/sun/
 sources:
+- id: voyager-positions
+  label: NASA/JPL · Horizons spacecraft positions
+  url: https://ssd.jpl.nasa.gov/horizons/
+- id: voyager-1
+  label: NASA Science · Voyager 1
+  url: https://science.nasa.gov/mission/voyager/voyager-1/
+- id: voyager-2
+  label: NASA Science · Voyager 2
+  url: https://science.nasa.gov/mission/voyager/voyager-2/
+- id: voyager-routes
+  label: NASA Science · Voyager mission fact sheet
+  url: https://science.nasa.gov/mission/voyager/fact-sheet/
+- id: voyager-hardware
+  label: NASA Science · Voyager instruments and spacecraft
+  url: https://science.nasa.gov/mission/voyager/instruments/
+- id: voyager-model
+  label: NASA/JPL · Model of Voyager, PIA14111
+  url: https://science.nasa.gov/photojournal/model-of-voyager-artist-concept/
+- id: voyager-boundary
+  label: NASA · Voyager 2 enters interstellar space (2018)
+  url: https://science.nasa.gov/missions/voyager-program/nasas-voyager-2-probe-enters-interstellar-space/
+- id: oort-cloud
+  label: NASA Science · Oort Cloud facts
+  url: https://science.nasa.gov/solar-system/oort-cloud/facts/
+- id: golden-record
+  label: NASA Science · Golden Record overview
+  url: https://science.nasa.gov/mission/voyager/voyager-golden-record-overview/
+- id: record-contents
+  label: NASA Science · Golden Record contents
+  url: https://science.nasa.gov/mission/voyager/golden-record-contents/
+- id: record-greetings
+  label: NASA Science · Greetings in 55 languages
+  url: https://science.nasa.gov/mission/voyager/golden-record-contents/greetings/
 - id: kuiper-facts
   label: NASA Science · Kuiper Belt facts
   url: https://science.nasa.gov/solar-system/kuiper-belt/facts/
@@ -2090,5 +2236,133 @@ details:
   position: 71% 54%
   zoom: 300% auto
   alt: Broad muted reddish-brown patches and faint pale seams on Arrokoth’s larger lobe.
+- id: voyager-1
+  label: Voyager 1
+  kicker: A turn at Saturn
+  title: Titan helped determine the route.
+  body:
+  - Voyager 1 launched on September 5, 1977, after Voyager 2. Its faster route carried it past Jupiter in 1979 and
+    Saturn in 1980.
+  - At Saturn, a close encounter with Titan was a priority. The chosen path took Voyager 1 north of the plane in
+    which most planets orbit. Its planetary tour ended there, while Voyager 2 continued toward Uranus and Neptune.
+  - The broad dish in the painting is its 3.7-meter high-gain antenna. The spacecraft’s attitude-control system
+    keeps it pointed toward Earth so radio signals can carry observations home and commands back out.
+  - The two spacecraft have the same basic design. Each has its own scene in this journey, with a passage through
+    deep space between them.
+  sources:
+  - voyager-1
+  - voyager-routes
+  - voyager-hardware
+  image: /pictures/space/assets/voyager-1-watercolor.webp
+  position: 81% 55%
+  zoom: 180% auto
+  alt: Voyager 1’s pale dish above its dark equipment body and instrument boom.
+- id: voyager-2
+  label: Voyager 2
+  kicker: The longer planetary tour
+  title: One spacecraft visited all four giant planets.
+  body:
+  - Voyager 2 launched on August 20, 1977. It passed Jupiter in 1979, Saturn in 1981, Uranus in 1986 and Neptune
+    in 1989.
+  - The planets’ arrangement allowed a sequence of gravity assists. Each encounter changed the spacecraft’s motion
+    relative to the Sun and set up the next destination. At Saturn, its path preserved the onward route to Uranus.
+  - Voyager 2 supplied the close views of Neptune and Triton that inform their paintings in this journey. After
+    the Neptune encounter, it headed south of the planets’ orbital plane, taking a different path into interstellar
+    space from Voyager 1.
+  - Voyager 2 appears alone here. Voyager 1 is far away in another direction; the journey passes through a separate
+    deep-space scene before reaching it.
+  sources:
+  - voyager-2
+  - voyager-routes
+  image: /pictures/space/assets/voyager-2-watercolor.webp
+  position: 75% 55%
+  zoom: 180% auto
+  alt: Voyager 2 alone, with its dish and long instrument booms.
+- id: heliopause
+  label: Beyond the solar wind
+  kicker: A boundary in the surrounding particles
+  title: Interstellar space begins beyond the heliopause.
+  body:
+  - The solar wind is a flow of charged particles from the Sun. It forms a large surrounding region called the heliosphere.
+    At its outer boundary, the heliopause, the outward solar wind meets the interstellar environment.
+  - Voyager 1 crossed this boundary on August 25, 2012. Voyager 2 crossed on November 5, 2018. Scientists identified
+    the transitions through instrument measurements. At Voyager 2, the measured solar-wind flow dropped sharply,
+    alongside changes in energetic particles.
+  - The Sun’s gravity reaches much farther. The Oort Cloud is a proposed distant reservoir of icy bodies, inferred
+    from comet orbits, well beyond either Voyager. Crossing the heliopause therefore marks a change in the surrounding
+    plasma; it does not put a spacecraft beyond every boundary used for the Solar System.
+  - There is no visible wall here. The dark background leaves the boundary to its measurements.
+  sources:
+  - voyager-1
+  - voyager-boundary
+  - oort-cloud
+  image: /pictures/space/assets/deep-space-watercolor.webp
+  position: 30% 35%
+  zoom: 150% auto
+  alt: Sparse distant stars in dark watercolor space, with no visible boundary wall.
+- id: golden-record
+  label: Golden Record
+  kicker: A message carried on both spacecraft
+  title: Sounds and pictures from Earth travel with them.
+  body:
+  - Each Voyager carries a 30-centimeter gold-plated copper record beneath a protective aluminum cover. The small
+    gold circle on the equipment body marks its location in this painting.
+  - A committee chaired by Carl Sagan selected the contents. Alongside music and natural sounds, the records hold
+    greetings in 55 languages, including Turkish, and 115 encoded images. Linda Salzman Sagan organized the spoken
+    greetings.
+  - The cover supplies symbolic instructions for playing the record and reconstructing its images. A cartridge and
+    needle travel with it. Hearing the message would require someone to encounter the spacecraft and work out how
+    to read it.
+  - NASA’s linked collection lets you explore the sounds and greetings that were chosen.
+  sources:
+  - golden-record
+  - record-contents
+  - record-greetings
+  image: /pictures/space/assets/voyager-1-watercolor.webp
+  position: 59.12% 59.87%
+  zoom: 600% auto
+  alt: A small gold circle on the left-facing side of Voyager’s dark equipment body.
+- id: voyager-power
+  label: Power source
+  kicker: Electricity far from the Sun
+  title: The spacecraft carry their own source of heat.
+  body:
+  - The three finned units on the short boom are radioisotope thermoelectric generators, or RTGs. Radioactive decay
+    of plutonium-238 produces heat; thermoelectric converters turn part of that heat into electricity.
+  - This supplies power far from the Sun. As the generators’ electrical output declines over the years, engineers
+    reduce the spacecraft’s power demands by switching off selected equipment.
+  - The three units are arranged end to end, with their shapes simplified here. The flat gray panel beneath the
+    equipment body is an optical calibration target. It gives instruments a surface of known brightness and color
+    to check their measurements.
+  sources:
+  - voyager-hardware
+  - voyager-model
+  image: /pictures/space/assets/voyager-1-watercolor.webp
+  position: 48.98% 70.83%
+  zoom: 600% auto
+  alt: Three finned power units mounted along Voyager’s short downward-left boom.
+- id: voyager-distance
+  label: Between the Voyagers
+  kicker: Two paths far apart
+  title: Light would need more than a day to cross the gap.
+  body:
+  - On October 11, 2026, the Voyagers were about 30.6 billion kilometers apart. Light would take about 28.4 hours
+    to cover that distance. These rounded figures are calculated from NASA/JPL Horizons positions for that date.
+  - Voyager 1 travels north of the plane in which most planets orbit; Voyager 2 travels south of it. They cannot
+    appear as neighboring spacecraft in a close view. This quiet scene changes the viewpoint from one path to the other.
+  - The main Kuiper Belt lies about 30 to 50 astronomical units from the Sun. On the same date, Voyager 2 was about
+    144 astronomical units from the Sun and Voyager 1 about 172. One astronomical unit is roughly the Earth–Sun distance.
+    The belt belongs earlier in the journey, closer to the Sun.
+  - The stars here are distant background lights. Their painted arrangement conveys space without marking a measured
+    route or the precise view from either spacecraft. Here, as between the planets, a scene transition has no fixed
+    distance scale.
+  sources:
+  - voyager-positions
+  - voyager-routes
+  - kuiper-facts
+  image: /pictures/space/assets/deep-space-watercolor.webp
+  position: 50% 50%
+  zoom: 110% auto
+  alt: A quiet field of dark watercolor and sparse distant stars between the two spacecraft scenes.
 ---
 <p>Begin near Earth. Follow the worlds into their closer views.</p>
