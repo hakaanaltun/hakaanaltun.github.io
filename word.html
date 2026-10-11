@@ -20,6 +20,7 @@ description: "Collections of connected English word histories, each with its own
     </section>
   {% endfor %}
   </div>
+  <p class="word-index-alphabetical"><a href="/word/alphabetical/">All the words in alphabetical order <span aria-hidden="true">→</span></a></p>
   <p class="word-index-feed"><a href="/word/feed.xml">The words, as they arrive</a></p>
 </div>
 <style>
@@ -35,6 +36,10 @@ description: "Collections of connected English word histories, each with its own
 .word-collection-card .word-collection-preview { margin-bottom: 0; color: var(--vizon); font-style: italic; }
 .word-collection-preview a { color: var(--petrol); text-decoration: none; }
 .word-collection-preview a:hover,.word-collection-preview a:focus-visible { opacity: var(--select-dim); }
-.word-index-feed { max-width: 36rem; margin: 44px auto 0; font: italic 1rem 'EB Garamond',Georgia,serif; }
+.word-index-alphabetical { max-width: 36rem; margin: 36px auto 0; font: italic 1.12rem 'EB Garamond',Georgia,serif; }
+.word-index-alphabetical a { color: var(--petrol); text-decoration: none; transition: var(--select-ease); }
+.word-index-alphabetical a:hover,.word-index-alphabetical a:active { opacity: var(--select-dim); }
+.word-index-alphabetical a:focus-visible { outline: 2px solid var(--petrol); outline-offset: 3px; border-radius: 3px; }
+.word-index-feed { max-width: 36rem; margin: 26px auto 0; font: italic 1rem 'EB Garamond',Georgia,serif; }
 .word-index-feed a { color: var(--petrol); }
 </style>
