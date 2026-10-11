@@ -507,7 +507,12 @@ accuracy and plain prose to this section as well.
   each must be alone, with an intervening passage through space. The author
   also noted that planetary transitions do not use a distance scale. Keep
   that rule throughout: a passage changes viewpoint, and its length never
-  measures the gap. Keep this separation. The Kuiper Belt lies earlier in the journey, nearer
+  measures the gap. Keep this separation. The author later added two small
+  navigation portraits within deep space: Voyager 2 at upper left returns,
+  Voyager 1 at upper right continues. Reuse crops of their own paintings.
+  These are destinations in the interface, with body travel and separate
+  information labels, not a view of neighboring spacecraft.
+  The Kuiper Belt lies earlier in the journey, nearer
   the Sun; do not move it between the spacecraft. Hardware follows NASA/JPL
   model PIA14111 with simplified details. Neither Voyager visited Arrokoth.
   Seven notes cover the different routes, their separation, the heliopause,
