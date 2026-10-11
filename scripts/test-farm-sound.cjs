@@ -125,6 +125,30 @@ function page({ hour, stored, blocked = false, sky = true, before } = {}) {
   assert.deepEqual(Object.keys(p.w.OLAE_FARM_ENGINE), ['hour', 'place'], 'the engine makes the hours and the places and nothing else: no creaks');
 }
 
+/* A new watercolor waits behind the old one until its bitmap loads. */
+{
+  let loaded = false;
+  const p = page({ before(w) {
+    const img = w.document.getElementById('scene-image');
+    const first = img.getAttribute('src');
+    Object.defineProperties(img, {
+      complete: { configurable:true, get() { return this.getAttribute('src') === first || loaded; } },
+      naturalWidth: { configurable:true, get() { return this.complete ? 1536 : 0; } }
+    });
+  }});
+  p.click('#begin');
+  p.click('[data-object="door"]');
+  const old = p.q('#frame .scene-outgoing');
+  assert.ok(old, 'the outgoing watercolor remains above the next one');
+  assert.equal(old.classList.contains('is-fading'), false, 'it remains opaque while loading');
+  loaded = true;
+  p.q('#scene-image').dispatchEvent(new p.w.Event('load'));
+  assert.ok(old.classList.contains('is-fading'), 'the old scene recedes when the next bitmap is ready');
+  old.dispatchEvent(new p.w.Event('transitionend'));
+  assert.equal(p.q('#frame .scene-outgoing'), null, 'the overlay is removed when the fade ends');
+  assert.equal(p.q('#frame .hotspots').children.length > 0, true, 'scene destinations remain usable');
+}
+
 /* ---- turning it on: the iOS unlock, the hour named, the choice remembered ---- */
 {
   const p = page({ hour: 13 });
