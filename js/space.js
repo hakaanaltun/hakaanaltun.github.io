@@ -88,7 +88,7 @@
  // A linked scene is shown at the painting, while reloads keep their position.
  if (location.hash.startsWith('#scene-')) window.addEventListener('load', function () {
   var entries = performance.getEntriesByType && performance.getEntriesByType('navigation');
-  if ((!entries || !entries[0] || entries[0].type === 'navigate') && !document.getElementById('picture-visit').classList.contains('is-fullscreen'))
+  if ((!entries || !entries[0] || entries[0].type === 'navigate') && !document.getElementById('picture-visit').classList.contains('is-fullscreen') && frame.scrollIntoView)
    frame.scrollIntoView({ block: 'center', behavior: 'instant' });
  }, { once: true });
 })();
