@@ -535,6 +535,14 @@ accuracy and plain prose to this section as well.
   idea. A label on Voyager 1’s instrument assembly opens Pale Blue Dot,
   with NASA’s photograph linked from the note. No separate Sagan scene or
   Pale Blue Dot destination is needed.
+  On 11 October 2026 the author asked for a way home at the end. Voyager 1's
+  way on and a small Earth portrait at its upper right lead back to Earth,
+  where the inner branch to Venus begins. The portrait is a navigation link,
+  disclosed in the illustration note. The author also asked for both Voyager
+  paintings to be repainted so that they no longer repeat one view, along
+  with Venus's lighting and Arrokoth's volume. The requests, their prompts
+  and the coordinates to update afterward are in
+  `scripts/space-art-direction.md`.
   Venus branches inward from Earth. Its opaque cloud cover has
   restrained contrast informed by Mariner 10 and ultraviolet observations;
   no surface terrain is visible. Magellan is an enlarged historical portrait,
@@ -596,6 +604,12 @@ accuracy and plain prose to this section as well.
   on hover or keyboard focus; Show places to look keeps names visible on
   every screen, including phones. Preserve full touch targets and keep
   labels close to their subjects without covering nearby travel targets.
+  When names crowd a narrow painting, a spot's `hint_x` and `hint_y` move
+  its label by a few pixels and leave its place where it is, as in the
+  standalone pictures. They apply whenever the painting is 650 pixels wide
+  or less, which includes short laptop screens and phones held sideways as
+  well as phones. With Show places to look on, check every scene of a
+  changed section at 360 pixels wide and on a 1366 × 768 screen.
   Worlds and details share one label style, the small sans-serif of the
   Farm House and the standalone pictures; they differ only in when their
   labels appear. In the list beneath a scene, a world that can be visited

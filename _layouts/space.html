@@ -12,10 +12,11 @@
   <meta property="og:title" content="{{ page.title | escape }} · Pictures with Stories">
   <meta property="og:description" content="{{ page.description | escape }}">
   <meta property="og:url" content="{{ page.url | absolute_url }}">
+  <meta property="og:image" content="{{ page.image | absolute_url }}">
   <link rel="stylesheet" href="/css/fonts.css?v=20260710-2">
   <link rel="stylesheet" href="/css/pictures.css?v=20261010-2">
-  <link rel="stylesheet" href="/css/space.css?v=20261010-2">
-  <script src="/js/pictures.js?v=20261010-2" defer></script>
+  <link rel="stylesheet" href="/css/space.css?v=20261011-1">
+  <script src="/js/pictures.js?v=20261011-1" defer></script>
   <script>
     // A picture opened from another in full screen waits for pictures.js to
     // fill the window with it, so it never shows first as a page.
@@ -50,7 +51,7 @@
               {% if spot.paint_image %}<span class="journey-painted-world" aria-hidden="true" style="--spot-x:{{ spot.x }}%;--spot-y:{{ spot.y }}%;--paint-width:{{ spot.paint_width }}%;{% if spot.paint_ratio %}--paint-ratio:{{ spot.paint_ratio }};{% endif %}{% if spot.paint_clip %}clip-path:{{ spot.paint_clip }};{% endif %}background-image:url('{{ spot.paint_image }}');background-position:{{ spot.paint_position }};background-size:{{ spot.paint_zoom }}"></span>{% endif %}
               {% if spot.go %}<a class="journey-destination" href="#scene-{{ spot.go }}" data-travel="{{ spot.go }}" style="--spot-x:{{ spot.x }}%;--spot-y:{{ spot.y }}%;--world-width:{{ spot.width }}%;--world-height:{{ spot.height }}%" aria-label="Travel to {{ travel_name | escape }}"><span class="picture-sr">Travel to {{ travel_name }}</span></a>{% endif %}
               {% if spot.href %}<a class="journey-destination" href="{{ spot.href }}" style="--spot-x:{{ spot.x }}%;--spot-y:{{ spot.y }}%;--world-width:{{ spot.width }}%;--world-height:{{ spot.height }}%" aria-label="Travel to {{ travel_name | escape }}"><span class="picture-sr">Travel to {{ travel_name }}</span></a>{% endif %}
-              {% if spot.detail %}<button type="button" class="picture-hotspot journey-label" data-detail="{{ spot.detail }}"{% if spot.primary %} data-primary="true"{% endif %}{% if spot.label_edge %} data-label-edge="{{ spot.label_edge }}"{% endif %}{% if spot.label_side %} data-label-side="{{ spot.label_side }}"{% endif %}{% if spot.label_gap %} data-label-gap{% endif %} style="--spot-x:{{ spot.label_x | default: spot.x }}%;--spot-y:{{ spot.label_y | default: spot.y }}%{% if spot.label_gap %};--label-gap:{{ spot.label_gap }}cqw{% endif %}" aria-label="Read about {{ travel_name | escape }}" hidden><span class="picture-hotspot-label">{{ spot.label }}</span><span class="picture-hotspot-number" aria-hidden="true">{{ forloop.index }}</span></button>{% endif %}
+              {% if spot.detail %}<button type="button" class="picture-hotspot journey-label" data-detail="{{ spot.detail }}"{% if spot.primary %} data-primary="true"{% endif %}{% if spot.label_edge %} data-label-edge="{{ spot.label_edge }}"{% endif %}{% if spot.label_side %} data-label-side="{{ spot.label_side }}"{% endif %}{% if spot.label_gap %} data-label-gap{% endif %} style="--spot-x:{{ spot.label_x | default: spot.x }}%;--spot-y:{{ spot.label_y | default: spot.y }}%{% if spot.label_gap %};--label-gap:{{ spot.label_gap }}cqw{% endif %}{% if spot.hint_x %};--hint-x:{{ spot.hint_x }}px{% endif %}{% if spot.hint_y %};--hint-y:{{ spot.hint_y }}px{% endif %}" aria-label="Read about {{ travel_name | escape }}" hidden><span class="picture-hotspot-label">{{ spot.label }}</span><span class="picture-hotspot-number" aria-hidden="true">{{ forloop.index }}</span></button>{% endif %}
               {% endfor %}
             </div>
           </section>
@@ -122,7 +123,7 @@
       {% endif %}
       <details class="picture-about">
         <summary>About this picture and its sources</summary>
-        <p>{{ page.illustration_note }}</p>
+        {% for paragraph in page.illustration_note %}<p>{{ paragraph }}</p>{% endfor %}
         <ul>{% for source in page.sources %}<li><a href="{{ source.url }}" target="_blank" rel="noopener noreferrer">{{ source.label }} <span class="picture-sr">(opens in a new tab)</span></a></li>{% endfor %}</ul>
       </details>
     </main>
