@@ -38,9 +38,11 @@ permalink: /farm-house/
     .visit{width:100%;max-width:1440px;padding:0 0 12px}
     .frame{width:min(100%,max(300px,calc((100svh - var(--frame-room,250px))*1.5)));margin:auto;position:relative;background:#454737;isolation:isolate;aspect-ratio:3/2;box-shadow:0 5px 28px #3d423212;overflow:hidden}
     .scene-img{display:block;width:100%;height:100%;object-fit:contain;position:absolute;inset:0;user-select:none}
-    .scene-img.arrive{animation:arrive .65s ease both}
-    @keyframes arrive{from{opacity:.25}to{opacity:1}}
-    .hotspots{position:absolute;inset:0}
+    /* The previous watercolor waits above the next until the new image
+       loads, then fades away without exposing the dark frame between them. */
+    .scene-img.scene-outgoing{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;opacity:1;transition:opacity .58s cubic-bezier(.4,0,.2,1)}
+    .scene-img.scene-outgoing.is-fading{opacity:0}
+    .hotspots{position:absolute;inset:0;z-index:2}
     .hotspot{position:absolute;border:0;background:transparent;padding:0;min-width:44px;min-height:44px;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent}
     .hotspot-label{position:absolute;left:var(--label-x,50%);top:var(--label-y,50%);white-space:nowrap;opacity:0;transform:translate(-50%,-50%);transition:opacity .2s;padding:6px 9px;background:rgb(244 240 231 / 95%);color:#353c2e;font:11px var(--sans);border-radius:2px;pointer-events:none}
     .hotspot:focus-visible .hotspot-label,.show-places .hotspot-label{opacity:1;pointer-events:auto}
@@ -273,6 +275,39 @@ permalink: /farm-house/
         preloaded.add(image);const img=new Image();img.src=sceneAssets[image];
       }
     }
+    let outgoingPhoto=null, photoTransition=0;
+    const reduceMotion=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function changePhoto(src,alt){
+      const img=$('scene-image');
+      const visible=outgoingPhoto||img;
+      const id=++photoTransition;
+      if(outgoingPhoto){outgoingPhoto.remove();outgoingPhoto=null;}
+      if(img.getAttribute('src')===src){img.alt=alt;return;}
+      // Hold the previous, already painted bitmap while the new one loads.
+      if(!reduceMotion&&visible.complete&&visible.naturalWidth){
+        const old=visible.cloneNode(false);
+        old.removeAttribute('id');old.className='scene-img scene-outgoing';
+        old.alt='';old.setAttribute('aria-hidden','true');
+        img.after(old);outgoingPhoto=old;
+        const finish=()=>{if(id===photoTransition&&outgoingPhoto===old){old.remove();outgoingPhoto=null;}};
+        const fade=()=>{
+          if(id!==photoTransition)return;
+          void old.offsetWidth;
+          old.classList.add('is-fading');
+          old.addEventListener('transitionend',finish,{once:true});
+          window.setTimeout(finish,750);
+        };
+        const ready=()=>{
+          if(id!==photoTransition)return;
+          if(img.decode&&img.naturalWidth)img.decode().then(fade,fade);
+          else fade();
+        };
+        img.addEventListener('load',ready,{once:true});
+        img.addEventListener('error',ready,{once:true});
+        img.src=src;img.alt=alt;
+        if(img.complete)ready();
+      }else{img.src=src;img.alt=alt;}
+    }
     function closeDetail(){if($('detail').open)$('detail').close();state.detail=null;refreshCaption();}
     function refreshCaption(){if(scenes[state.scene])$('caption').textContent=scenes[state.scene].caption();}
     function showScene(name,focus=true){
@@ -297,8 +332,8 @@ permalink: /farm-house/
       $('location').textContent=scenes[name]?.name||(name==='ending'?'After the visit':'A first visit');
       if(scenes[name]){
         const scene=scenes[name];
-        const img=$('scene-image');img.classList.remove('arrive');img.src=sceneAssets[scene.image];img.alt=scene.alt;
-        void img.offsetWidth;img.classList.add('arrive');preloadAround(name);
+        changePhoto(sceneAssets[scene.image],scene.alt);
+        preloadAround(name);
         $('hotspots').replaceChildren();
         for(const [index,spot] of scene.spots.entries()){
           const button=document.createElement('button');button.type='button';button.className='hotspot';button.dataset.object=spot.id;button.setAttribute('aria-label',spot.label);
