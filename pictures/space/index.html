@@ -797,7 +797,7 @@ scenes:
   image: /pictures/space/assets/voyager-1-watercolor.webp
   alt: Voyager 1 alone at right in deep watercolor space, with a broad pale dish, dark equipment body,
     small gold record cover and slender instrument booms. The space to its left is empty of other craft.
-  caption: Voyager 1. Its route left Saturn northward. Look closely at the record and the power source it carries.
+  caption: Voyager 1. Explore the message it carries, then look back toward Earth through the story of Pale Blue Dot.
   back: deep-space
   back_label: Deep space
   next: ''
@@ -814,6 +814,11 @@ scenes:
     detail: golden-record
     label_side: right
     label_gap: 1.5
+  - label: Pale Blue Dot
+    x: 90
+    y: 45
+    detail: pale-blue-dot
+    label_edge: left
   - label: Power source
     x: 49.2
     y: 66
@@ -957,6 +962,15 @@ scenes:
     paint_zoom: 165% auto
     href: /pictures/sun/
 sources:
+- id: record-cover
+  label: NASA Science · Reading the Golden Record cover
+  url: https://science.nasa.gov/mission/voyager/golden-record-cover/
+- id: sagan-newman
+  label: Sagan and Newman · The Solipsist Approach to Extraterrestrial Intelligence (1983), p. 120
+  url: https://articles.adsabs.harvard.edu/pdf/1983QJRAS..24..113S
+- id: pale-blue-dot
+  label: NASA Science · Voyager 1’s Pale Blue Dot
+  url: https://science.nasa.gov/mission/voyager/voyager-1s-pale-blue-dot/
 - id: voyager-positions
   label: NASA/JPL · Horizons spacecraft positions
   url: https://ssd.jpl.nasa.gov/horizons/
@@ -2307,17 +2321,29 @@ details:
   body:
   - Each Voyager carries a 30-centimeter gold-plated copper record beneath a protective aluminum cover. The small
     gold circle on the equipment body marks its location in this painting.
-  - A committee chaired by Carl Sagan selected the contents. Alongside music and natural sounds, the records hold
+  - Planetary scientist Carl Sagan of Cornell University chaired the committee that selected the contents. Alongside music and natural sounds, the records hold
     greetings in 55 languages, including Turkish, and 115 encoded images. Linda Salzman Sagan organized the spoken
     greetings.
   - The cover supplies symbolic instructions for playing the record and reconstructing its images. A cartridge and
     needle travel with it. Hearing the message would require someone to encounter the spacecraft and work out how
     to read it.
+  - The cover also gives a return address. A map places the Sun relative to 14 pulsars, with their pulse periods
+    providing identifying marks. This design had already traveled aboard Pioneer 10 and 11. A reader who could
+    decipher it would have a way to locate the Solar System.
+  - A return address also raises a harder question. Could being found put us in danger?
+  - In a 1983 paper, Sagan and William Newman argued that civilizations developing weapons powerful enough to
+    destroy themselves would need to learn to control their aggression to survive. They reasoned that societies
+    lasting long enough to spread through the galaxy would therefore be among the least likely to practice
+    violent imperialism.
+  - This was an argument about how civilizations might survive. It gives a basis for Sagan’s optimism while
+    leaving the intentions of any unknown civilization uncertain.
   - NASA’s linked collection lets you explore the sounds and greetings that were chosen.
   sources:
   - golden-record
   - record-contents
   - record-greetings
+  - record-cover
+  - sagan-newman
   image: /pictures/space/assets/voyager-1-watercolor.webp
   position: 59.12% 59.87%
   zoom: 600% auto
@@ -2341,6 +2367,28 @@ details:
   position: 48.98% 70.83%
   zoom: 600% auto
   alt: Three finned power units mounted along Voyager’s short downward-left boom.
+- id: pale-blue-dot
+  label: Pale Blue Dot
+  kicker: Voyager 1 looks back
+  title: The camera turned toward home.
+  body:
+  - Carl Sagan was also a member of Voyager’s imaging team. In 1981 he proposed photographing Earth from far away,
+    hoping that the view would help people recognize the vulnerability of their shared home.
+  - On February 14, 1990, Voyager 1 photographed Earth from about six billion kilometers from the Sun. It was part
+    of a final series of images of the Solar System. Voyager 1 was already beyond Neptune’s orbit; Voyager 2 had
+    made the close encounter with Neptune the previous year.
+  - Earth appears as a tiny speck within scattered sunlight. The image became known as Pale Blue Dot and inspired
+    the title of Sagan’s later book. Voyager 1’s cameras were switched off shortly after the Earth images.
+  - The instrument assembly shown here carried the cameras. NASA’s page below shows the photograph and explains
+    how the team made it.
+  sources:
+  - pale-blue-dot
+  image: /pictures/space/assets/voyager-1-watercolor.webp
+  position: 100% 48%
+  zoom: 350% auto
+  alt: The instrument assembly at the end of Voyager 1’s boom, which carried its cameras.
+  link: https://science.nasa.gov/mission/voyager/voyager-1s-pale-blue-dot/
+  link_label: See Pale Blue Dot at NASA
 - id: voyager-distance
   label: Between the Voyagers
   kicker: Two paths far apart

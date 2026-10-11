@@ -12,7 +12,7 @@ function page(modal=true,hash='') {
  return {dom,w,d};
 }
 (async()=>{
- const ids=['earth','oceans','atmosphere','iss','moon','maria','craters','mars','olympus','valles','polar-cap','jupiter','cloud-bands','red-spot','io','europa','saturn','saturn-rings','cassini-division','titan','enceladus','uranus','uranus-tilt','uranus-rings','miranda','neptune','neptune-color','dark-spot','triton','triton-streaks','pluto','sputnik-planitia','charon','charon-pole','venus','venus-clouds','venus-spin','venus-phases','magellan','mercury','caloris','mercury-day','mercury-ice','sun','asteroid-belt','ceres','occator','vesta','kuiper-belt','arrokoth','arrokoth-neck','arrokoth-color','voyager-1','voyager-2','heliopause','golden-record','voyager-power','voyager-distance'];
+ const ids=['earth','oceans','atmosphere','iss','moon','maria','craters','mars','olympus','valles','polar-cap','jupiter','cloud-bands','red-spot','io','europa','saturn','saturn-rings','cassini-division','titan','enceladus','uranus','uranus-tilt','uranus-rings','miranda','neptune','neptune-color','dark-spot','triton','triton-streaks','pluto','sputnik-planitia','charon','charon-pole','venus','venus-clouds','venus-spin','venus-phases','magellan','mercury','caloris','mercury-day','mercury-ice','sun','asteroid-belt','ceres','occator','vesta','kuiper-belt','arrokoth','arrokoth-neck','arrokoth-color','voyager-1','voyager-2','heliopause','golden-record','voyager-power','pale-blue-dot','voyager-distance'];
  {
   const {dom,d}=page(false);
   assert.equal(d.body.classList.contains('picture-ready'),false);
@@ -173,7 +173,7 @@ function page(modal=true,hash='') {
  {
   const {dom,d}=page(true,'#scene-kuiper-belt');const frame=d.getElementById('journey-frame'),dialog=d.getElementById('picture-detail');
   d.querySelector('#scene-kuiper-belt .journey-destination[data-travel="voyager-2"]').click();assert.equal(frame.dataset.view,'voyager-2');
-  const scenes=[['voyager-2',['voyager-2']],['deep-space',['voyager-distance','heliopause']],['voyager-1',['voyager-1','golden-record','voyager-power']]];
+  const scenes=[['voyager-2',['voyager-2']],['deep-space',['voyager-distance','heliopause']],['voyager-1',['voyager-1','golden-record','voyager-power','pale-blue-dot']]];
   for(const [scene,notes] of scenes){
    assert.equal(frame.dataset.view,scene);
    for(const id of notes){
