@@ -50,7 +50,12 @@
    loaded.add(next.dataset.scene);
    next.querySelector('img').loading = 'eager';
   });
-  if (focus) caption.focus({ preventScroll: true });
+  if (focus) {
+   caption.focus({ preventScroll: true });
+   // The new scene opens where its picture can be seen.
+   if (!document.getElementById('picture-visit').classList.contains('is-fullscreen') && frame.scrollIntoView)
+    frame.scrollIntoView({ block: 'center', behavior: 'instant' });
+  }
  }
  function travel(id) {
   if (!scenes.some(function (scene) { return scene.dataset.scene === id; })) return;
@@ -80,4 +85,10 @@
  window.addEventListener('hashchange', arrive);
  window.addEventListener('popstate', arrive);
  show(false);
+ // A linked scene is shown at the painting, while reloads keep their position.
+ if (location.hash.startsWith('#scene-')) window.addEventListener('load', function () {
+  var entries = performance.getEntriesByType && performance.getEntriesByType('navigation');
+  if ((!entries || !entries[0] || entries[0].type === 'navigate') && !document.getElementById('picture-visit').classList.contains('is-fullscreen') && frame.scrollIntoView)
+   frame.scrollIntoView({ block: 'center', behavior: 'instant' });
+ }, { once: true });
 })();
