@@ -812,8 +812,9 @@
     if (PLACES[place]) cat.setAttribute('transform', PLACES[place]); else cat.removeAttribute('transform');
     /* Each lamp is on in the evening and at night until the reader turns it
        off, and off by day until they turn it on; the drawer remembers the
-       choice. The balcony's lamp has its switch in the study, beside the
-       door, and each room's lamp shows in the other through the door's glass. */
+       choice. The balcony's lamp has its switch on the balcony wall beside
+       the door, and each room's lamp shows in the other through the door's
+       glass. */
     var kept = KEEP.read();
     var dusk = sky.period === 'night' || sky.period === 'evening';
     var on = kept.lamp === null ? dusk : kept.lamp;
@@ -1239,6 +1240,34 @@
     root.querySelectorAll('[data-kept-count]').forEach(function (node) { node.textContent = count; });
   }
 
+  /* A hand on the balcony's globe changes nothing; the light only goes and
+     comes back once or twice, in well under a second, as a loose bulb's
+     would. Nothing is kept, and a reader who asks for less motion is
+     spared it. */
+  var FLICKER = [80, 60, 140];
+  var flickering = 0;
+  function flicker() {
+    if (still) return false;
+    if (flickering) return true;
+    var steady = balconyScene.dataset.balconyLamp;
+    var other = steady === 'on' ? 'off' : 'on';
+    balconyScene.dataset.flicker = '';
+    var step = 0;
+    (function next() {
+      if (step === FLICKER.length) {
+        // The lamp as it really is, settled before its light may ease again.
+        paint();
+        void balconyScene.getBoundingClientRect();
+        delete balconyScene.dataset.flicker;
+        flickering = 0;
+        return;
+      }
+      balconyScene.dataset.balconyLamp = step % 2 ? steady : other;
+      flickering = window.setTimeout(next, FLICKER[step++]);
+    })();
+    return true;
+  }
+
   /* The places in the pictures are quiet until a pointer or the keyboard
      finds them; "Show places to look" shows every name, in both rooms, until
      the reader hides them again. Their browser remembers the choice, so the
@@ -1286,6 +1315,10 @@
       KEEP.update(function (state) { state.balconyLamp = lit; });
       paint();
       announce(lit ? 'The balcony lamp is on.' : 'The balcony lamp is off.');
+      return;
+    }
+    if (event.target.closest('button[data-balcony-globe]')) {
+      announce((flicker() ? 'The lamp flickers. ' : '') + 'Its switch is on the wall by the door.');
       return;
     }
     var answer = event.target.closest('[data-answer]');
