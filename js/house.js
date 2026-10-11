@@ -1,13 +1,14 @@
-/* The House: one room so far. The picture is in house/index.html; this puts
-   things in it.
+/* The House: the study and the balcony beside it. The pictures are in
+   house/index.html; this puts things in them.
 
    What changes by the day (the word cards, the question on the wall, the
    two lines on the shelf) comes from /house/catalog.json and follows
    İstanbul's calendar, so every reader finds the same room on the same day
    and a different one tomorrow. What changes by the hour (the sky in the
-   window, the lamp, where Moris is) follows İstanbul's sun, through
-   js/astronomy.js. The drawer belongs to js/keep.js, which the rest of the
-   site keeps things through too; the room only opens it. */
+   window and over the balcony, the lamp, where Moris is) follows İstanbul's
+   sun and moon, through js/astronomy.js. The drawer belongs to js/keep.js,
+   which the rest of the site keeps things through too; the room only opens
+   it. */
 (function () {
   'use strict';
   var root = document.getElementById('house');
@@ -30,6 +31,8 @@
   var dialogStatus = document.getElementById('house-dialog-status');
   var entrance = document.getElementById('house-entrance');
   var study = document.getElementById('study');
+  var balcony = document.getElementById('balcony');
+  var balconyScene = document.getElementById('house-balcony-scene');
   var catalog = null;           // null while it loads, false if it could not
   var index = Object.create(null);
   var waiting = [];
@@ -41,7 +44,10 @@
     question: ['Pinned to the wall', 'A question for you'],
     window: ['Outside', 'Through the window'],
     moris: ['On his cushion', 'Moris'],
-    drawer: ['Yours to keep', 'Your drawer']
+    drawer: ['Yours to keep', 'Your drawer'],
+    sun: ['In the sky', 'The sun'],
+    moon: ['In the sky', 'The moon'],
+    stars: ['In the sky', 'The stars']
   };
 
   /* --- İstanbul's day and hour ----------------------------------------- */
@@ -320,26 +326,124 @@
     }).catch(function () {});
   }
 
-  /* The sky map's scripts, listed in house/index.html from _data/sky_scripts.yml. */
-  var skyLoading = null;
-  function loadSky() {
-    if (window.OLAE_SKYMAP && window.Astronomy) return Promise.resolve();
+  /* The sky map's scripts, listed in house/index.html from _data/sky_scripts.yml.
+     The window needs only the planets; the balcony draws the stars too. */
+  var skyScripts = Object.create(null);
+  function loadScript(src) {
+    if (!skyScripts[src]) {
+      skyScripts[src] = new Promise(function (resolve, reject) {
+        var script = document.createElement('script');
+        script.src = src; script.onload = resolve; script.onerror = reject;
+        document.head.appendChild(script);
+      }).catch(function (error) { delete skyScripts[src]; throw error; });
+    }
+    return skyScripts[src];
+  }
+  function loadSky(withStars) {
+    if (window.OLAE_SKYMAP && window.Astronomy && (!withStars || window.OLAE_STARS)) return Promise.resolve();
     var list = window.OLAE_SKY_SCRIPTS;
     if (!list) return Promise.reject(new Error('No sky scripts'));
-    if (!skyLoading) skyLoading = [list.engine, list.map].reduce(function (chain, src) {
-      return chain.then(function () {
-        return new Promise(function (resolve, reject) {
-          var script = document.createElement('script');
-          script.src = src; script.onload = resolve; script.onerror = reject;
-          document.head.appendChild(script);
-        });
-      });
-    }, Promise.resolve()).catch(function (error) { skyLoading = null; throw error; });
-    return skyLoading;
+    var order = withStars ? [list.engine, list.stars, list.map] : [list.engine, list.map];
+    return order.reduce(function (chain, src) {
+      return chain.then(function () { return loadScript(src); });
+    }, Promise.resolve());
+  }
+
+  /* --- The sky over the balcony -----------------------------------------
+     The sun, the moon and the stars as they stand over İstanbul now, in
+     words, with the ways on to the pages about them. */
+
+  var COMPASS = ['north', 'northeast', 'east', 'southeast', 'south', 'southwest', 'west', 'northwest'];
+  // The words of The Stars and the window: "low in the east", "high in the south".
+  function where(alt, az) {
+    if (alt >= 80) return 'overhead';
+    return (alt < 15 ? 'low in the ' : alt >= 60 ? 'high in the ' : 'in the ') + COMPASS[Math.round(az / 45) % 8];
+  }
+  function bearing(az) {
+    var name = COMPASS[Math.round(az / 45) % 8];
+    return name.charAt(0).toUpperCase() + name.slice(1) + ', ' + Math.round(az) % 360 + '°';
+  }
+  function duration(ms) {
+    var m = Math.round(ms / 60000), h = Math.floor(m / 60);
+    m %= 60;
+    return h > 0 ? h + ' h' + (m > 0 ? ' ' + m + ' m' : '') : m + ' m';
+  }
+  // The balcony looks the same way as the study window, toward the south;
+  // what stands behind the house is not seen from either.
+  function inFront(az) { return az >= 90 && az <= 270; }
+  function skyDialog(box, id) {
+    box.appendChild(document.getElementById(id).content.cloneNode(true));
+    var facts = box.querySelector('[data-sky-facts]');
+    return function fact(term, value) {
+      if (!value) return;
+      facts.appendChild(element('dt', '', term));
+      facts.appendChild(element('dd', '', value));
+    };
+  }
+  function nextSunrise(now) {
+    var A = window.OLAE_ASTRO;
+    for (var ahead = 0; ahead < 3; ahead++) {
+      var p = parts(new Date(now.getTime() + ahead * 86400000), { year: 'numeric', month: 'numeric', day: 'numeric' });
+      var y = +p.year, mo = +p.month - 1, d = +p.day;
+      var rise = A.sunEvent({ n: Math.round((Date.UTC(y, mo, d) - Date.UTC(y, 0, 0)) / 86400000), y: y, mo: mo, d: d }, true, 90.833, LAT, LNG, TZ);
+      if (rise && rise > now) return rise;
+    }
+    return null;
+  }
+
+  function renderSun(box) {
+    var fact = skyDialog(box, 'house-sun');
+    var now = new Date(), sky = skyNow(now), sun = sky.sun;
+    var line = box.querySelector('[data-sky-line]');
+    if (!sun || sun.alt <= -0.833) {
+      line.textContent = 'The sun is below İstanbul’s horizon.';
+    } else {
+      line.textContent = 'The sun is ' + where(sun.alt, sun.az) + '.' + (inFront(sun.az) ? '' : ' It is behind the house, so the balcony does not see it now.');
+      fact('Height', Math.round(sun.alt) + '°');
+      fact('Direction', bearing(sun.az));
+    }
+    fact('Sunrise', sky.sunrise && clock(sky.sunrise));
+    fact('Sunset', sky.sunset && clock(sky.sunset));
+    fact('Day length', sky.sunrise && sky.sunset && duration(sky.sunset - sky.sunrise));
+  }
+
+  function renderMoon(box) {
+    var fact = skyDialog(box, 'house-moon');
+    var now = new Date(), sky = skyNow(now), moon = sky.moonAt;
+    var line = box.querySelector('[data-sky-line]');
+    if (!sky.moonUp) {
+      line.textContent = 'The moon is below İstanbul’s horizon.';
+    } else {
+      line.textContent = 'The moon is ' + where(moon.alt, moon.az) + '.' + (inFront(moon.az) ? '' : ' It is behind the house, so the balcony does not see it now.');
+    }
+    fact('Phase', sky.moon);
+    if (sky.moonUp) {
+      fact('Height', Math.round(moon.alt) + '°');
+      fact('Direction', bearing(moon.az));
+    }
+    var crossing = sky.moon && window.OLAE_ASTRO.moonCrossing(now, LAT, LNG);
+    fact(sky.moonUp ? 'Moonset' : 'Moonrise', crossing && clock(crossing));
+  }
+
+  function renderStars(box) {
+    var fact = skyDialog(box, 'house-stars');
+    var now = new Date();
+    var rise = window.OLAE_ASTRO && nextSunrise(now);
+    loadSky(true).then(function () {
+      if (!box.isConnected) return;
+      var M = window.OLAE_SKYMAP, s = M.sky(new Date(), LAT, LNG);
+      var planets = s.planets.filter(function (p) { return p.alt > 5 && !p.glare; }).slice(0, 3);
+      if (planets.length) fact('Planets', planets.map(function (p) { return p.body + ' ' + M.where(p.alt, p.az); }).join(', '));
+      var named = s.visible.filter(function (v) { return v.s.name && v.s.mag <= 1.5 && v.alt >= 10 && inFront(v.az); }).slice(0, 3);
+      if (named.length) fact('Bright stars', named.map(function (v) { return v.s.name + ' ' + M.where(v.alt, v.az); }).join(', '));
+      fact('Sunrise', rise && clock(rise));
+    }, function () { fact('Sunrise', rise && clock(rise)); });
   }
 
   var MORIS = {
     cushion: { place: 'On his cushion', line: 'He is resting on his cushion below the window.' },
+    balcony: { place: 'On the balcony', line: 'He is out on the balcony for the middle of the day, behind the closed glass.' },
+    'balcony-late': { place: 'On the balcony', line: 'He is out on the balcony again until the sun is low, behind the closed glass.' },
     sill: { place: 'At the window', line: 'He is asleep by the window as the sun goes down.' },
     shelf: { place: 'On the bookshelf', line: 'He is on top of the bookshelf, inspecting the room.' },
     rug: { place: 'On the rug', line: 'He is on the rug.' }
@@ -347,6 +451,8 @@
   function renderMoris(box) {
     box.appendChild(document.getElementById('house-moris').content.cloneNode(true));
     var where = scene.dataset.moris;
+    // Out on the balcony twice a day: the second time is the late afternoon's.
+    if (where === 'balcony' && skyNow(new Date()).hour >= 14) where = 'balcony-late';
     var about = MORIS[where] || MORIS.cushion;
     document.getElementById('house-dialog-place').textContent = about.place;
     box.querySelector('[data-moris-line]').textContent = about.line;
@@ -438,7 +544,7 @@
     });
   }
 
-  var renderers = { books: renderBooks, words: renderWords, question: renderQuestion, window: renderWindow, moris: renderMoris, drawer: renderDrawer };
+  var renderers = { books: renderBooks, words: renderWords, question: renderQuestion, window: renderWindow, moris: renderMoris, drawer: renderDrawer, sun: renderSun, moon: renderMoon, stars: renderStars };
   var needsCatalog = { books: true, words: true, question: true };
 
   function fill(name) {
@@ -467,16 +573,32 @@
 
   /* --- The sky, the lamp and the cat ------------------------------------ */
 
-  var SUN = { morning: [640, 235], day: [770, 205], evening: [775, 280] };
-  /* The moon hangs across the window from the sun, so the lit side of a
-     crescent faces it. It is only there while it is above İstanbul's
-     horizon, by day as well as by night. */
-  var MOON = { morning: [770, 205], day: [628, 205], evening: [628, 205], night: [770, 205] };
+  /* In the window the sun and the moon stand in the casement on their side
+     of the sky, the left while they are in the east and the right in the
+     west, and sink behind the sea and the Islands as they set. They are
+     there while they are above İstanbul's horizon and in front of the
+     house, by day as well as by night. Sharing a casement, the one further
+     east keeps to its left. */
+  var CASEMENT = { east: 628, west: 758 };
+  /* Over the balcony the sky is drawn whole between its walls: east at the
+     left, west at the right, and from the horizon at the sea up to the
+     ceiling, so the sun, the moon and the stars are where they stand. */
+  var OPEN = { left: 262.5, right: 737.5, horizon: 285, top: 125 };
+  function skyPoint(alt, az) {
+    return { x: OPEN.left + (az - 90) / 180 * (OPEN.right - OPEN.left), y: OPEN.horizon - alt / 90 * (OPEN.horizon - OPEN.top) };
+  }
   /* From his cushion to each of his other places. The room is drawn in
      perspective, so he is smaller up at the window and on the bookshelf,
      and larger out on the carpet, near the front of the room. */
   var PLACES = { sill: 'translate(25.7 -107) scale(.891)', shelf: 'translate(-478.8 -311.3) scale(.924)', rug: 'translate(-711.1 -82.2) scale(1.467)', cushion: 'translate(109.7 23.83) scale(.88)' };
   var PHASES = ['new moon', 'waxing crescent', 'first quarter', 'waxing gibbous', 'full moon', 'waning gibbous', 'last quarter', 'waning crescent'];
+
+  // How far apart two things in the sky are, in degrees.
+  function apart(a, b) {
+    var r = Math.PI / 180;
+    var c = Math.sin(a.alt * r) * Math.sin(b.alt * r) + Math.cos(a.alt * r) * Math.cos(b.alt * r) * Math.cos((a.az - b.az) * r);
+    return Math.acos(Math.max(-1, Math.min(1, c))) / r;
+  }
 
   function skyNow(now) {
     var A = window.OLAE_ASTRO;
@@ -503,7 +625,12 @@
       var lit = Math.round((1 - Math.cos(2 * Math.PI * sky.age / A.SYNODIC)) / 2 * 100);
       var phase = PHASES[A.moonPhaseIndex(sky.age)];
       sky.moon = phase.charAt(0).toUpperCase() + phase.slice(1) + ', ' + lit + '% lit';
-      sky.moonUp = A.moonAltitude(now, LAT, LNG) > A.MOON_HORIZON;
+      var sun = A.sunPosition(now, LAT, LNG), moon = A.moonPosition(now, LAT, LNG);
+      sky.sun = { alt: sun.altitude, az: sun.azimuth };
+      sky.moonAt = { alt: moon.altitude, az: moon.azimuth };
+      sky.moonUp = moon.altitude > A.MOON_HORIZON;
+      // Within a day or two of the new moon it is lost in the sun's light.
+      sky.moonSeen = sky.moonUp && lit >= 3 && apart(sky.sun, sky.moonAt) >= 12;
     } else {
       sky.period = hour >= 6 && hour < 10 ? 'morning' : hour >= 10 && hour < 17 ? 'day' : hour >= 17 && hour < 21 ? 'evening' : 'night';
     }
@@ -511,10 +638,16 @@
   }
 
   /* Where Moris is goes by İstanbul's light: on his cushion through the
-     morning and the day, asleep at the window as the sun goes down, up on
-     the bookshelf once the lamps are on, and out on the carpet after
-     midnight. */
+     morning, out on the balcony for the middle of the day, from noon to
+     two, back on his cushion, out on the balcony again from two hours
+     before sunset until half an hour before it, asleep at the window as the
+     sun goes down, up on the bookshelf once the lamps are on, and out on
+     the carpet after midnight. The balcony's glass is closed while he is
+     out there. */
+  var MINUTE = 60000;
   function morisPlace(sky, now) {
+    var late = sky.sunset ? now >= sky.sunset - 120 * MINUTE && now < sky.sunset - 30 * MINUTE : sky.hour >= 16 && sky.hour < 18;
+    if ((sky.period === 'day' && sky.hour >= 12 && sky.hour < 14) || late) return 'balcony';
     if (sky.period === 'morning' || sky.period === 'day') return 'cushion';
     if (sky.period === 'evening') return (sky.sunset ? now < sky.sunset : sky.hour < 19) ? 'sill' : 'shelf';
     return sky.hour >= 12 ? 'shelf' : 'rug';
@@ -553,41 +686,154 @@
     window.setTimeout(keepTime, 60000 - Date.now() % 60000 + 50);
   }
 
+  // Where the sun is for a picture: in front of the house, behind it, or down.
+  function sunState(sky) {
+    if (!sky.sun) return sky.period === 'night' ? 'down' : 'in';
+    return sky.sun.alt <= -0.833 ? 'down' : inFront(sky.sun.az) ? 'in' : 'behind';
+  }
+  function placeMoon(target, age, x, y, r) {
+    var disc = target.querySelector('.house-moon-disc');
+    disc.setAttribute('cx', x); disc.setAttribute('cy', y); disc.setAttribute('r', r);
+    target.querySelector('.house-moon-lit').setAttribute('d', moonPath(age, x, y, r));
+  }
+
+  function paintWindow(sky) {
+    var sunIn = sunState(sky) === 'in';
+    var moonIn = sky.moonSeen && inFront(sky.moonAt.az);
+    var bodies = [];
+    if (sunIn) bodies.push({ name: 'sun', az: sky.sun.az, low: sky.sun.alt < 4 });
+    if (moonIn) bodies.push({ name: 'moon', az: sky.moonAt.az, low: sky.moonAt.alt < 4 });
+    bodies.forEach(function (b) {
+      b.side = b.az < 180 ? 'east' : 'west';
+      b.x = CASEMENT[b.side];
+    });
+    if (bodies.length === 2 && bodies[0].side === bodies[1].side) {
+      bodies.sort(function (a, b) { return a.az - b.az; });
+      bodies[0].x -= 25; bodies[1].x += 25;
+    }
+    scene.dataset.sun = sunState(sky);
+    bodies.forEach(function (b) {
+      if (b.name === 'sun') {
+        var sun = scene.querySelector('.house-sun');
+        sun.setAttribute('cx', b.x); sun.setAttribute('cy', b.low ? 213 : 196);
+      } else placeMoon(scene, sky.age, b.x, b.low ? 214 : 198, 17);
+    });
+    if (moonIn) scene.dataset.moon = 'up'; else delete scene.dataset.moon;
+  }
+
+  /* A name in the balcony's sky sits beside what it names, on the side
+     toward the middle; out of sight behind the house it waits at the edge
+     of the view on that body's side. */
+  function placeSkyName(name, alt, az, r) {
+    var hotspot = balconyScene.querySelector('.house-hotspot--' + name);
+    var travel = balconyScene.querySelector('.house-sky-travel--' + name);
+    var item = balcony.querySelector('[data-sky-item="' + name + '"]');
+    var shown = alt !== null;
+    hotspot.hidden = !shown;
+    if (item) item.hidden = !shown;
+    if (travel) travel.hidden = !shown || !inFront(az);
+    if (!shown) return null;
+    var at = skyPoint(alt, Math.min(270, Math.max(90, az)));
+    var side = inFront(az) ? (at.x < 560 ? 'right' : 'left') : (az < 90 ? 'right' : 'left');
+    hotspot.dataset.side = inFront(az) ? side : 'edge-' + side;
+    hotspot.style.setProperty('--sky-x', (at.x / 10).toFixed(2));
+    hotspot.style.setProperty('--sky-y', (at.y / 6.5).toFixed(2));
+    hotspot.style.setProperty('--sky-r', (r / 10).toFixed(2));
+    if (travel) {
+      travel.style.setProperty('--sky-x', (at.x / 10).toFixed(2));
+      travel.style.setProperty('--sky-y', (at.y / 6.5).toFixed(2));
+    }
+    return at;
+  }
+
+  function paintBalcony(sky) {
+    var state = sunState(sky);
+    balconyScene.dataset.sun = state;
+    var sunAt = placeSkyName('sun', state === 'down' || !sky.sun ? null : sky.sun.alt, sky.sun ? sky.sun.az : 180, 15);
+    if (sunAt && state === 'in') {
+      var sun = balconyScene.querySelector('.house-sun');
+      sun.setAttribute('cx', sunAt.x.toFixed(1)); sun.setAttribute('cy', sunAt.y.toFixed(1));
+    }
+    var moonAt = placeSkyName('moon', sky.moonSeen ? sky.moonAt.alt : null, sky.moonAt ? sky.moonAt.az : 180, 13);
+    if (moonAt && inFront(sky.moonAt.az)) {
+      placeMoon(balconyScene, sky.age, +moonAt.x.toFixed(1), +moonAt.y.toFixed(1), 13);
+      balconyScene.dataset.moon = 'up';
+    } else delete balconyScene.dataset.moon;
+    var dark = sky.period === 'night';
+    balconyScene.querySelector('.house-hotspot--stars').hidden = !dark;
+    balcony.querySelector('[data-sky-item="stars"]').hidden = !dark;
+    if (dark && !balcony.hidden) paintStars();
+  }
+
+  /* The stars over the balcony: in the city's light only the brightest
+     show, with the planets, each where it stands now. Their catalogue and
+     ephemeris come the first time the balcony is dark. */
+  function paintStars() {
+    loadSky(true).then(function () {
+      var M = window.OLAE_SKYMAP, s = M.sky(new Date(), LAT, LNG);
+      var layer = balconyScene.querySelector('.house-sky-stars');
+      layer.replaceChildren();
+      function dot(alt, az, r, planet) {
+        var at = skyPoint(alt, az);
+        var c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        c.setAttribute('cx', at.x.toFixed(1)); c.setAttribute('cy', at.y.toFixed(1)); c.setAttribute('r', r);
+        if (planet) c.setAttribute('class', 'is-planet');
+        layer.appendChild(c);
+      }
+      s.visible.forEach(function (v) {
+        if (v.s.mag <= 2 && v.alt > 1 && inFront(v.az)) dot(v.alt, v.az, Math.max(0.9, 2.1 - v.s.mag * 0.55).toFixed(2), false);
+      });
+      s.planets.forEach(function (p) {
+        if (p.alt > 1 && !p.glare && inFront(p.az)) dot(p.alt, p.az, 2.3, true);
+      });
+    }).catch(function () {});
+  }
+
   function paint() {
     var now = new Date();
     var sky = skyNow(now);
     var name = { morning: 'Morning', day: sky.hour < 12 ? 'Morning' : 'Afternoon', evening: 'Evening', night: 'Night' }[sky.period];
     scene.dataset.hour = sky.period;
+    balconyScene.dataset.hour = sky.period;
     document.getElementById('house-hour').textContent = name + ' in İstanbul';
     document.getElementById('house-clock').textContent = '· ' + clock(now);
-    var sun = scene.querySelector('.house-sun');
-    if (SUN[sky.period]) { sun.setAttribute('cx', SUN[sky.period][0]); sun.setAttribute('cy', SUN[sky.period][1]); }
-    if (sky.moonUp) {
-      var at = MOON[sky.period];
-      var disc = scene.querySelector('.house-moon-disc');
-      disc.setAttribute('cx', at[0]); disc.setAttribute('cy', at[1]);
-      scene.querySelector('.house-moon-lit').setAttribute('d', moonPath(sky.age, at[0], at[1], 17));
-      scene.dataset.moon = 'up';
-    } else delete scene.dataset.moon;
+    balcony.querySelector('[data-house-hour]').textContent = name + ' in İstanbul';
+    balcony.querySelector('[data-house-clock]').textContent = '· ' + clock(now);
+    if (sky.sun) {
+      paintWindow(sky);
+      paintBalcony(sky);
+    }
     var place = morisPlace(sky, now);
     scene.dataset.moris = place;
+    balconyScene.dataset.moris = place;
+    balcony.querySelector('[data-moris-item]').hidden = place !== 'balcony';
+    study.querySelector('.house-objects [data-open="moris"]').parentNode.hidden = place === 'balcony';
     var cat = scene.querySelector('.house-moris');
     if (PLACES[place]) cat.setAttribute('transform', PLACES[place]); else cat.removeAttribute('transform');
     var lamp = KEEP.read().lamp;
     var on = lamp === null ? sky.period === 'night' || sky.period === 'evening' : lamp;
     scene.dataset.lamp = on ? 'on' : 'off';
+    balconyScene.dataset.lamp = scene.dataset.lamp;
     root.querySelectorAll('button[data-lamp]').forEach(function (button) { button.setAttribute('aria-pressed', String(on)); });
   }
 
   /* --- Weather at the window ------------------------------------------
      On this page the footer's rain and snow fall outside the window rather
      than over the whole page: js/let-it-snow.js hands them over, and keeps
-     its buttons and their labels as they are everywhere else. */
+     its buttons and their labels as they are everywhere else. On the
+     balcony they fall beyond the parapet, and the snow gathers along the
+     foot of the glass. */
 
-  var GLASS = { left: 560, right: 826, top: 108, bottom: 321 };
+  var VIEWS = {
+    study: { scene: scene, layer: scene.querySelector('.house-weather'), snow: scene.querySelector('.house-window-snow'),
+      box: { left: 560, right: 826, top: 108, bottom: 321 }, drift: { left: 560, right: 826, base: 321 }, where: ' at the study window.' },
+    balcony: { scene: balconyScene, layer: balconyScene.querySelector('.house-weather'), snow: balconyScene.querySelector('.house-balcony-snow'),
+      box: { left: 232.5, right: 767.5, top: 99.6, bottom: 379.4 }, drift: { left: 232.5, right: 767.5, base: 379.4 }, where: ' over the city.' }
+  };
+  var view = VIEWS.study;
+  // The pine outside the balcony holds the snow on its tufts as it falls.
+  var pineSnow = balconyScene.querySelector('.house-pine-snow');
   var weather = { kind: null, level: 0, drops: [], frame: 0, last: 0, snow: 0 };
-  var weatherLayer = scene.querySelector('.house-weather');
-  var windowSnow = scene.querySelector('.house-window-snow');
   var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   function makeDrop(anywhere) {
@@ -598,14 +844,15 @@
     if (rain) drop.node.setAttribute('stroke-width', (0.6 + depth * 0.8).toFixed(2));
     else drop.node.setAttribute('r', ((0.9 + depth * 1.4) * (heavy ? 1.25 : 1)).toFixed(2));
     drop.node.setAttribute('opacity', ((rain ? 0.35 : 0.55) + depth * 0.4).toFixed(2));
-    weatherLayer.appendChild(drop.node);
+    view.layer.appendChild(drop.node);
     placeDrop(drop, anywhere);
     return drop;
   }
   // Rain leans with the wind, so it starts a little to the left of the glass.
   function placeDrop(drop, anywhere) {
-    drop.x = GLASS.left - 30 + Math.random() * (GLASS.right - GLASS.left + 30);
-    drop.y = anywhere ? GLASS.top + Math.random() * (GLASS.bottom - GLASS.top) : GLASS.top - 10 - Math.random() * 30;
+    var box = view.box;
+    drop.x = box.left - 30 + Math.random() * (box.right - box.left + 30);
+    drop.y = anywhere ? box.top + Math.random() * (box.bottom - box.top) : box.top - 10 - Math.random() * 30;
   }
   function drawDrop(drop, rain) {
     if (rain) {
@@ -622,10 +869,10 @@
   /* Snow gathers along the foot of the glass while it falls, deeper in a
      heavy fall, and melts away once it stops. */
   function drawWindowSnow() {
-    var h = weather.snow, base = GLASS.bottom;
-    windowSnow.setAttribute('d', h < 0.2 ? '' : 'M' + GLASS.left + ' ' + base + 'V' + (base - h).toFixed(1) +
-      'Q' + (GLASS.left + 45) + ' ' + (base - h * 1.5).toFixed(1) + ' ' + (GLASS.left + 91) + ' ' + (base - h).toFixed(1) +
-      'T' + GLASS.right + ' ' + (base - h).toFixed(1) + 'V' + base + 'Z');
+    var h = weather.snow, d = view.drift, base = d.base;
+    view.snow.setAttribute('d', h < 0.2 ? '' : 'M' + d.left + ' ' + base + 'V' + (base - h).toFixed(1) +
+      'Q' + (d.left + 45) + ' ' + (base - h * 1.5).toFixed(1) + ' ' + (d.left + 91) + ' ' + (base - h).toFixed(1) +
+      'T' + d.right + ' ' + (base - h).toFixed(1) + 'V' + base + 'Z');
   }
   function weatherStep(now) {
     weather.frame = 0;
@@ -635,33 +882,47 @@
     weather.drops.forEach(function (drop) {
       drop.y += drop.speed * seconds;
       drop.x += rain ? drop.speed * 0.14 * seconds : Math.sin(now / 1100 + drop.phase) * 9 * seconds;
-      if (drop.y > GLASS.bottom - (rain ? 0 : weather.snow) + (rain ? 18 : 2)) placeDrop(drop, false);
+      if (drop.y > view.box.bottom - (rain ? 0 : weather.snow) + (rain ? 18 : 2)) placeDrop(drop, false);
       drawDrop(drop, rain);
     });
     var deepest = weather.kind === 'snow' ? (weather.level === 2 ? 14 : 6) : 0;
     weather.snow = weather.snow < deepest ? Math.min(deepest, weather.snow + seconds * (weather.level === 2 ? 0.12 : 0.05))
       : Math.max(deepest, weather.snow - seconds * 2);
     drawWindowSnow();
+    pineSnow.setAttribute('opacity', Math.min(1, weather.snow / 4).toFixed(2));
     if (weather.drops.length || weather.snow > 0) weather.frame = window.requestAnimationFrame(weatherStep);
     else weather.last = 0;
   }
-  function windowWeather(kind, level) {
+  function seedWeather() {
     weather.drops.forEach(function (drop) { drop.node.remove(); });
     weather.drops = [];
-    weather.kind = kind;
-    weather.level = level;
-    if (kind) scene.dataset.weather = kind; else delete scene.dataset.weather;
+    var kind = weather.kind, level = weather.level;
     var count = kind ? (kind === 'rain' ? (level === 2 ? 190 : 85) : (level === 2 ? 160 : 85)) : 0;
     if (still) count = Math.round(count * 0.45);
     for (var i = 0; i < count; i++) weather.drops.push(makeDrop(true));
     if (!weather.frame) weather.frame = window.requestAnimationFrame(weatherStep);
-    announce(!kind ? 'The sky clears.' : (level === 2 ? 'Heavy ' : 'Light ') + kind + ' at the study window.');
-    // The buttons are at the foot of the page and the window may be out of
+  }
+  function windowWeather(kind, level) {
+    weather.kind = kind;
+    weather.level = level;
+    [scene, balconyScene].forEach(function (s) { if (kind) s.dataset.weather = kind; else delete s.dataset.weather; });
+    seedWeather();
+    announce(!kind ? 'The sky clears.' : (level === 2 ? 'Heavy ' : 'Light ') + kind + view.where);
+    // The buttons are at the foot of the page and the sky may be out of
     // sight above them, so the room is brought up to show where it is falling.
-    if (kind && !study.hidden) {
-      var glass = scene.querySelector('.house-glass').getBoundingClientRect();
-      if (glass.top < 0 || glass.bottom > window.innerHeight) scene.scrollIntoView({ block: 'center', behavior: still ? 'auto' : 'smooth' });
+    var section = view === VIEWS.study ? study : balcony;
+    if (kind && !section.hidden) {
+      var sky = view === VIEWS.study ? scene.querySelector('.house-glass').getBoundingClientRect() : balconyScene.getBoundingClientRect();
+      if (sky.top < 0 || sky.bottom > window.innerHeight) view.scene.scrollIntoView({ block: 'center', behavior: still ? 'auto' : 'smooth' });
     }
+  }
+  // Going out to the balcony, or back in, takes the weather along.
+  function weatherFollows(next) {
+    if (next === view) return;
+    view.snow.setAttribute('d', '');
+    view = next;
+    seedWeather();
+    drawWindowSnow();
   }
   // js/let-it-snow.js runs after this script, so the window is offered to it
   // once the page has finished loading as well as now.
@@ -941,14 +1202,18 @@
   function setView(focus) {
     var hash = location.hash;
     var inside = hash === '#study' || hash === '#drawer';
-    entrance.hidden = inside;
+    var outside = hash === '#balcony';
+    entrance.hidden = inside || outside;
     study.hidden = !inside;
+    balcony.hidden = !outside;
+    weatherFollows(outside ? VIEWS.balcony : VIEWS.study);
+    if (outside) paint();
     if (hash === '#drawer') {
       if (!dialog.open) openObject('drawer', document.getElementById('drawer'));
       return;
     }
     if (focus) {
-      var target = inside ? document.getElementById('house-room-title') : document.getElementById('house-enter');
+      var target = document.getElementById(outside ? 'house-balcony-title' : inside ? 'house-room-title' : 'house-enter');
       target.focus({ preventScroll: true });
       root.scrollIntoView({ block: 'start', behavior: 'instant' });
     }
@@ -959,9 +1224,29 @@
     root.querySelectorAll('[data-kept-count]').forEach(function (node) { node.textContent = count; });
   }
 
+  /* The places in the pictures are quiet until a pointer or the keyboard
+     finds them; "Show places to look" shows every name, in both rooms, for
+     the rest of the visit. */
+  function showPlaces(show) {
+    root.classList.toggle('show-places', show);
+    root.querySelectorAll('[data-places]').forEach(function (button) {
+      button.setAttribute('aria-pressed', String(show));
+      button.textContent = show ? 'Hide places to look' : 'Show places to look';
+    });
+  }
+
   root.addEventListener('click', function (event) {
+    if (event.target.closest('[data-places]')) { showPlaces(!root.classList.contains('show-places')); return; }
     var trigger = event.target.closest('[data-open]');
     if (trigger) { openObject(trigger.getAttribute('data-open'), trigger); return; }
+    // Out through the glass door to the balcony, and back in.
+    var go = event.target.closest('[data-go]');
+    if (go) {
+      event.preventDefault();
+      history.pushState(null, '', go.getAttribute('href'));
+      setView(true);
+      return;
+    }
     // Only the lamp's own buttons: the scene carries data-lamp too, as the
     // lamp's state, and a touch anywhere in the room is not a hand on the lamp.
     if (event.target.closest('button[data-lamp]')) {

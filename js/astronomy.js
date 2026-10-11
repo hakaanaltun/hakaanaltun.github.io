@@ -102,11 +102,12 @@
     return 0;
   }
 
-  /* ---- the moon's altitude: the Astronomical Almanac's low-precision
+  /* ---- the moon's place: the Astronomical Almanac's low-precision
      lunar position (±0.3° in longitude, ±0.2° in latitude), then the
      parallax, which lowers the moon by up to a degree as seen from the
-     ground. Returned for the moon's centre, as seen from lat/lng. ---- */
-  function moonAltitude(now, lat, lng){
+     ground. Returned for the moon's centre, as seen from lat/lng, with its
+     bearing clockwise from north, which the parallax leaves alone. ---- */
+  function moonPosition(now, lat, lng){
     var d = (now.getTime() / 86400000) - 10957.5;        /* days since J2000 */
     var T = d / 36525;
     var s = function(a, b){ return Math.sin((a + b * T) * RAD); };
@@ -130,7 +131,12 @@
     var H = ((lst - RAh) * 15 + 540) % 360 - 180;
     var latR = lat * RAD;
     var h = Math.asin(Math.sin(latR) * Math.sin(dec) + Math.cos(latR) * Math.cos(dec) * Math.cos(H * RAD)) / RAD;
-    return h - par * Math.cos(h * RAD);
+    var azimuth = (Math.atan2(Math.sin(H * RAD),
+      Math.cos(H * RAD) * Math.sin(latR) - Math.tan(dec) * Math.cos(latR)) / RAD + 180) % 360;
+    return { altitude: h - par * Math.cos(h * RAD), azimuth: azimuth };
+  }
+  function moonAltitude(now, lat, lng){
+    return moonPosition(now, lat, lng).altitude;
   }
   /* The moon is up once its top edge clears the horizon: the centre is
      then about 0.83° below it, refraction lifting what lies just under. */
@@ -193,6 +199,7 @@
     lunation: lunation,
     moonPhaseIndex: moonPhaseIndex,
     moonAltitude: moonAltitude,
+    moonPosition: moonPosition,
     MOON_HORIZON: MOON_HORIZON,
     moonCrossing: moonCrossing,
     turningPoint: turningPoint

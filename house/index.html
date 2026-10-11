@@ -15,7 +15,7 @@ description: "Come in, look around, and keep something you find. A room at On Li
   "Today" is İstanbul's day and the light is İstanbul's light: the house is
   there, and every reader sees the same room on the same day.
 {%- endcomment -%}
-<link rel="stylesheet" href="/css/house.css?v=20261010-2">
+<link rel="stylesheet" href="/css/house.css?v=20261011-1">
 
 <div class="house" id="house" data-catalog="/house/catalog.json?v={{ site.time | date: '%Y%m%d%H%M' }}">
   <div class="house-heading">
@@ -50,7 +50,7 @@ description: "Come in, look around, and keep something you find. A room at On Li
         <ul id="house-since-list"></ul>
       </div>
       <a class="house-enter" href="#study" id="house-enter">Enter the study <span aria-hidden="true">&rarr;</span></a>
-      <p class="house-entry-note">One room so far.</p>
+      <p class="house-entry-note">A room and a balcony so far.</p>
     </div>
   </section>
 
@@ -59,25 +59,28 @@ description: "Come in, look around, and keep something you find. A room at On Li
       <div><p class="house-eyebrow">Room 01</p><h2 id="house-room-title" tabindex="-1">The study</h2></div>
       <p class="house-time"><span class="house-time-dot" aria-hidden="true"></span><span><span id="house-hour">İstanbul</span> <span id="house-clock"></span></span></p>
     </div>
-    <p class="house-instruction">Choose something in the room.</p>
+    <div class="house-instruction-row"><p class="house-instruction">Choose something in the room.</p><button class="house-places house-js" type="button" aria-pressed="false" data-places hidden>Show places to look</button></div>
     <div class="house-scene" id="house-scene" data-hour="day" data-moris="cushion">
       {% include house-study.svg %}
-      <button class="house-hotspot house-hotspot--books" data-open="books" type="button"><span class="house-pin" aria-hidden="true">1</span><span class="house-hotspot-name">Bookshelf</span></button>
-      <button class="house-hotspot house-hotspot--words" data-open="words" type="button"><span class="house-pin" aria-hidden="true">2</span><span class="house-hotspot-name">Word cards</span></button>
-      <button class="house-hotspot house-hotspot--question" data-open="question" type="button"><span class="house-pin" aria-hidden="true">3</span><span class="house-hotspot-name">A question</span></button>
-      <button class="house-hotspot house-hotspot--window" data-open="window" type="button"><span class="house-pin" aria-hidden="true">4</span><span class="house-hotspot-name">The window</span></button>
-      <button class="house-hotspot house-hotspot--moris" data-open="moris" type="button"><span class="house-pin" aria-hidden="true">5</span><span class="house-hotspot-name">Moris</span></button>
-      <button class="house-hotspot house-hotspot--lamp" data-lamp type="button" aria-pressed="false"><span class="house-pin" aria-hidden="true">6</span><span class="house-hotspot-name">The lamp</span></button>
-      <button class="house-hotspot house-hotspot--drawer" id="drawer" data-open="drawer" type="button"><span class="house-pin" aria-hidden="true">7</span><span class="house-hotspot-name">Your drawer</span></button>
-      <a class="house-hotspot house-hotspot--clock" href="/clock/?from=house&amp;v=20261008-1"><span class="house-pin" aria-hidden="true">8</span><span class="house-hotspot-name">The Clock <span aria-hidden="true">&rarr;</span></span></a>
-      <a class="house-hotspot house-hotspot--reader" href="/read/?from=house&amp;v=20261008-1"><span class="house-pin" aria-hidden="true">9</span><span class="house-hotspot-name">The Reader <span aria-hidden="true">&rarr;</span></span></a>
-      <a class="house-hotspot house-hotspot--desk" href="/desk/?from=house&amp;v=20261008-1"><span class="house-pin" aria-hidden="true">10</span><span class="house-hotspot-name">The Desk <span aria-hidden="true">&rarr;</span></span></a>
-      <a class="house-hotspot house-hotspot--farm-house" href="/farm-house/"><span class="house-pin" aria-hidden="true">11</span><span class="house-hotspot-name">The Farm House <span aria-hidden="true">&rarr;</span></span></a>
+      <button class="house-hotspot house-hotspot--books" data-open="books" type="button"><span class="house-label"><span class="house-pin" aria-hidden="true">1</span><span class="house-hotspot-name">Bookshelf</span></span></button>
+      <button class="house-hotspot house-hotspot--words" data-open="words" type="button"><span class="house-label"><span class="house-pin" aria-hidden="true">2</span><span class="house-hotspot-name">Word cards</span></span></button>
+      <button class="house-hotspot house-hotspot--question" data-open="question" type="button"><span class="house-label"><span class="house-pin" aria-hidden="true">3</span><span class="house-hotspot-name">A question</span></span></button>
+      <button class="house-hotspot house-hotspot--window" data-open="window" type="button"><span class="house-label"><span class="house-pin" aria-hidden="true">4</span><span class="house-hotspot-name">The window</span></span></button>
+      <button class="house-hotspot house-hotspot--moris" data-open="moris" type="button"><span class="house-label"><span class="house-pin" aria-hidden="true">5</span><span class="house-hotspot-name">Moris</span></span></button>
+      <button class="house-hotspot house-hotspot--lamp" data-lamp type="button" aria-pressed="false"><span class="house-label"><span class="house-pin" aria-hidden="true">6</span><span class="house-hotspot-name">The lamp</span></span></button>
+      <button class="house-hotspot house-hotspot--drawer" id="drawer" data-open="drawer" type="button"><span class="house-label"><span class="house-pin" aria-hidden="true">7</span><span class="house-hotspot-name">Your drawer</span></span></button>
+      <a class="house-hotspot house-hotspot--clock" href="/clock/?from=house&amp;v=20261008-1"><span class="house-label"><span class="house-pin" aria-hidden="true">8</span><span class="house-hotspot-name">The Clock <span aria-hidden="true">&rarr;</span></span></span></a>
+      <a class="house-hotspot house-hotspot--reader" href="/read/?from=house&amp;v=20261008-1"><span class="house-label"><span class="house-pin" aria-hidden="true">9</span><span class="house-hotspot-name">The Reader <span aria-hidden="true">&rarr;</span></span></span></a>
+      <a class="house-hotspot house-hotspot--desk" href="/desk/?from=house&amp;v=20261008-1"><span class="house-label"><span class="house-pin" aria-hidden="true">10</span><span class="house-hotspot-name">The Desk <span aria-hidden="true">&rarr;</span></span></span></a>
+      <a class="house-hotspot house-hotspot--farm-house" href="/farm-house/"><span class="house-label"><span class="house-pin" aria-hidden="true">11</span><span class="house-hotspot-name">The Farm House <span aria-hidden="true">&rarr;</span></span></span></a>
+      <a class="house-hotspot house-hotspot--balcony" href="#balcony" data-go="balcony"><span class="house-label"><span class="house-pin" aria-hidden="true">12</span><span class="house-hotspot-name">The balcony <span aria-hidden="true">&rarr;</span></span></span></a>
     </div>
-    {%- comment -%} On a phone or a tablet the room is too small to carry its labels, so
-    the picture keeps only the numbers and the names are listed under it.
-    The list repeats the buttons above for the eye; a screen reader already
-    has them, with their names, so it is hidden from one. {%- endcomment %}
+    {%- comment -%} The places in the picture are quiet: a name shows under a pointer or
+    the keyboard, and "Show places to look" shows them all. On a phone or a
+    tablet the room is too small to carry the names, so the picture shows
+    only their numbers and the names are listed under it. The list repeats
+    the places above for the eye; a screen reader already has them, with
+    their names, so it is hidden from one. {%- endcomment %}
     <ol class="house-objects" aria-hidden="true">
       <li><button type="button" tabindex="-1" data-open="books"><span class="house-pin">1</span>Bookshelf</button></li>
       <li><button type="button" tabindex="-1" data-open="words"><span class="house-pin">2</span>Word cards</button></li>
@@ -90,8 +93,48 @@ description: "Come in, look around, and keep something you find. A room at On Li
       <li><a href="/read/?from=house&amp;v=20261008-1" tabindex="-1"><span class="house-pin">9</span>The Reader</a></li>
       <li><a href="/desk/?from=house&amp;v=20261008-1" tabindex="-1"><span class="house-pin">10</span>The Desk</a></li>
       <li><a href="/farm-house/" tabindex="-1"><span class="house-pin">11</span>The Farm House</a></li>
+      <li><a href="#balcony" tabindex="-1" data-go="balcony"><span class="house-pin">12</span>The balcony</a></li>
     </ol>
     <div class="house-room-footer"><a href="#house-entrance" id="house-leave">&larr; Back to the door</a><a href="/write/?from=house&amp;v=20261008-1">Sit down and write <span aria-hidden="true">&rarr;</span></a></div>
+  </section>
+
+  {%- comment -%} The balcony, through the glass door in the study's right-hand wall.
+  It looks the same way as the study window, over the roofs to a strip of
+  sea and the Islands. The sun, the moon and the stars are İstanbul's, drawn
+  where they stand now; js/house.js keeps them there. The balcony is glazed:
+  Moris comes out only in the afternoon, with the glass closed, and while
+  he is indoors the glass is folded away and the door is shut.
+  {%- endcomment %}
+  <section class="house-study house-balcony" id="balcony" aria-labelledby="house-balcony-title" hidden>
+    <div class="house-room-bar">
+      <div><p class="house-eyebrow">Outside</p><h2 id="house-balcony-title" tabindex="-1">The balcony</h2></div>
+      <p class="house-time"><span class="house-time-dot" aria-hidden="true"></span><span><span data-house-hour>İstanbul</span> <span data-house-clock></span></span></p>
+    </div>
+    <div class="house-instruction-row"><p class="house-instruction">Choose something on the balcony or in the sky.</p><button class="house-places house-js" type="button" aria-pressed="false" data-places hidden>Show places to look</button></div>
+    <div class="house-scene house-scene--balcony" id="house-balcony-scene" data-hour="day">
+      {% include house-balcony.svg %}
+      <a class="house-sky-travel house-sky-travel--sun" href="/pictures/sun/?from=balcony" hidden><span class="house-sky-travel-name">Travel to the Sun <span aria-hidden="true">&rarr;</span></span></a>
+      <button class="house-hotspot house-hotspot--sun" data-open="sun" type="button" hidden><span class="house-label"><span class="house-pin" aria-hidden="true">1</span><span class="house-hotspot-name">The sun</span></span></button>
+      <a class="house-sky-travel house-sky-travel--moon" href="/pictures/space/?from=balcony#scene-moon" hidden><span class="house-sky-travel-name">Travel to the Moon <span aria-hidden="true">&rarr;</span></span></a>
+      <button class="house-hotspot house-hotspot--moon" data-open="moon" type="button" hidden><span class="house-label"><span class="house-pin" aria-hidden="true">2</span><span class="house-hotspot-name">The moon</span></span></button>
+      <button class="house-hotspot house-hotspot--stars" data-open="stars" type="button" hidden><span class="house-label"><span class="house-pin" aria-hidden="true">3</span><span class="house-hotspot-name">The stars</span></span></button>
+      <a class="house-hotspot house-hotspot--breath" href="/breathe/?from=balcony&amp;v=20261011-1"><span class="house-label"><span class="house-pin" aria-hidden="true">4</span><span class="house-hotspot-name">The Breath <span aria-hidden="true">&rarr;</span></span></span></a>
+      <a class="house-hotspot house-hotspot--balcony-reader" href="/read/?from=balcony&amp;v=20261011-1"><span class="house-label"><span class="house-pin" aria-hidden="true">5</span><span class="house-hotspot-name">The Reader <span aria-hidden="true">&rarr;</span></span></span></a>
+      <a class="house-hotspot house-hotspot--page" href="/write/?from=balcony&amp;v=20261011-1"><span class="house-label"><span class="house-pin" aria-hidden="true">6</span><span class="house-hotspot-name">The Page <span aria-hidden="true">&rarr;</span></span></span></a>
+      <a class="house-hotspot house-hotspot--study-door" href="#study" data-go="study"><span class="house-label"><span class="house-pin" aria-hidden="true">7</span><span class="house-hotspot-name">The study</span></span></a>
+      <button class="house-hotspot house-hotspot--balcony-moris" data-open="moris" type="button"><span class="house-label"><span class="house-pin" aria-hidden="true">8</span><span class="house-hotspot-name">Moris</span></span></button>
+    </div>
+    <ol class="house-objects" aria-hidden="true">
+      <li data-sky-item="sun" hidden><button type="button" tabindex="-1" data-open="sun"><span class="house-pin">1</span>The sun</button></li>
+      <li data-sky-item="moon" hidden><button type="button" tabindex="-1" data-open="moon"><span class="house-pin">2</span>The moon</button></li>
+      <li data-sky-item="stars" hidden><button type="button" tabindex="-1" data-open="stars"><span class="house-pin">3</span>The stars</button></li>
+      <li><a href="/breathe/?from=balcony&amp;v=20261011-1" tabindex="-1"><span class="house-pin">4</span>The Breath</a></li>
+      <li><a href="/read/?from=balcony&amp;v=20261011-1" tabindex="-1"><span class="house-pin">5</span>The Reader</a></li>
+      <li><a href="/write/?from=balcony&amp;v=20261011-1" tabindex="-1"><span class="house-pin">6</span>The Page</a></li>
+      <li><a href="#study" tabindex="-1" data-go="study"><span class="house-pin">7</span>The study</a></li>
+      <li data-moris-item hidden><button type="button" tabindex="-1" data-open="moris"><span class="house-pin">8</span>Moris</button></li>
+    </ol>
+    <div class="house-room-footer"><a href="#study" data-go="study">&larr; Back to the study</a></div>
   </section>
 
   <noscript><p>The room needs JavaScript to open its objects. You can still visit the <a href="/all-work/">bookshelf</a>, <a href="/word/">words</a>, <a href="/trivia/">quizzes</a>, and <a href="/moris/">Moris</a>.</p></noscript>
@@ -110,12 +153,35 @@ description: "Come in, look around, and keep something you find. A room at On Li
     <div class="house-window-links"><a href="/sun/?city=istanbul&amp;from=house&amp;v=20261008-1"><span>The Sun</span><p>The sun’s height and direction over İstanbul now.</p></a><a href="/moon/?from=house&amp;v=20261008-1"><span>The Moon</span><p>The moon’s phase tonight, drawn as it hangs in the sky.</p></a><a href="/stars/?city=istanbul&amp;from=house&amp;v=20261008-1"><span>The Stars</span><p>The stars and bright planets above İstanbul now.</p></a><a href="/twilight/?city=istanbul&amp;from=house&amp;v=20261008-1"><span>İstanbul’s Twilight</span><p>Sunrise, sunset and the light in between.</p></a><a href="/noise/?from=house&amp;v=20261008-1"><span>The Noise</span><p>Put on some rain while you stay.</p></a></div>
   </template>
 
+  {%- comment -%} The sky over the balcony. The sun and the moon lead on to their pictures
+  in Pictures with Stories as well as to the instruments; js/house.js puts
+  in the line and the facts for the moment. {%- endcomment %}
+  <template id="house-sun">
+    <p class="house-object-intro" data-sky-line></p>
+    <dl class="house-sky-facts" data-sky-facts></dl>
+    <p class="house-sky-note">On the balcony the sun and the moon are drawn where they stand now, with east to the left and west to the right.</p>
+    <div class="house-window-links"><a href="/pictures/sun/?from=balcony"><span>The Sun in Pictures with Stories</span><p>A watercolor of its surface, its spots, a prominence and the corona, with the stories behind them.</p></a><a href="/sun/?city=istanbul&amp;from=balcony&amp;v=20261011-1"><span>The Sun</span><p>Its height and direction over İstanbul now, and its path today.</p></a><a href="/twilight/?city=istanbul&amp;from=balcony&amp;v=20261011-1"><span>İstanbul’s Twilight</span><p>Sunrise, sunset and the light in between.</p></a></div>
+  </template>
+
+  <template id="house-moon">
+    <p class="house-object-intro" data-sky-line></p>
+    <dl class="house-sky-facts" data-sky-facts></dl>
+    <p class="house-sky-note">On the balcony the sun and the moon are drawn where they stand now, with east to the left and west to the right.</p>
+    <div class="house-window-links"><a href="/pictures/space/?from=balcony#scene-moon"><span>The Moon in Through the Solar System</span><p>A watercolor of the Moon on the journey through the Solar System, with its lava plains and craters.</p></a><a href="/moon/?from=balcony&amp;v=20261011-1"><span>The Moon</span><p>The moon’s phase tonight, drawn as it hangs in the sky.</p></a><a href="/word/lunatic/"><span><em>lunatic</em></span><p>Why an old word for madness still carries the moon.</p></a></div>
+  </template>
+
+  <template id="house-stars">
+    <p class="house-object-intro">It is dark over İstanbul. The city’s light leaves only the brightest stars and the planets.</p>
+    <dl class="house-sky-facts" data-sky-facts></dl>
+    <div class="house-window-links"><a href="/stars/?city=istanbul&amp;from=balcony&amp;v=20261011-1"><span>The Stars</span><p>The stars and bright planets above İstanbul now.</p></a><a href="/moon/?from=balcony&amp;v=20261011-1"><span>The Moon</span><p>The moon’s phase tonight, drawn as it hangs in the sky.</p></a></div>
+  </template>
+
   <template id="house-moris">
     <p data-moris-line>He got here before you.</p>
     <a class="house-more" href="/moris/">Spend a little time with Moris &rarr;</a>
   </template>
 </div>
 <script>window.OLAE_SKY_SCRIPTS = {{ site.data.sky_scripts | jsonify }};</script>
-<script src="/js/astronomy.js?v=20260925-1" defer></script>
-<script src="/js/house.js?v=20261010-3" defer></script>
+<script src="/js/astronomy.js?v=20261011-1" defer></script>
+<script src="/js/house.js?v=20261011-1" defer></script>
 <script src="/js/cursor-trail.js?v=20260930-2" defer></script>

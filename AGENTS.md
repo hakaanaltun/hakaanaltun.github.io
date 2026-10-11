@@ -285,8 +285,8 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   existing nominal-equatorial fallback rather than pretending to know the
   visitor's latitude.
 - **The House is in İstanbul.** Its calendar day, light, sunrise and sunset,
-  moon visibility, room period, Moris's movement, wall clock, and any future
-  outdoor space such as the balcony all use İstanbul time and coordinates
+  moon visibility, room period, Moris's movement, wall clock, and the
+  balcony with its sky all use İstanbul time and coordinates
   (`Europe/Istanbul`, 41.015, 28.979). A visitor enters that place; the House
   does not move to the visitor.
 - A link from The House to Twilight must preserve that place explicitly:
@@ -302,6 +302,64 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   phase. A map or a compass direction would claim a place the site does not
   know.
 
+## The balcony
+
+- **The House has a balcony beside the study.** The author asked for it on
+  11 October 2026. Its glass door is in the study's right-hand wall, beyond
+  the plant. The balcony is set into the house, so it looks the same way as
+  the study window. `_includes/house-balcony.svg` draws it in the study's
+  line style, in one-point perspective toward the horizon at 500, 285.
+- **Both views look over the same place.** The house is close to the shore.
+  Over the neighbourhood's roofs there is a strip of sea, and the Islands
+  lie on the horizon, part of them behind taller blocks to the left. The
+  author chose the Islands over a strip of the Bosphorus.
+  `_includes/house-view.svg` draws the view once, in the window's
+  coordinates with the horizon at its eye level, and the window and the
+  balcony both include it, so they cannot disagree. The Islands' outlines
+  are general, and no island is named.
+- **A pine stands just outside, to the right.** The author asked for it on
+  11 October 2026, for the birds it will bring and for snow and rain. Its
+  crown fills the right-hand side of the view from below the parapet to a
+  little under the top of the glass. It stands beyond what the study window
+  can see, so the window's view stays as it was. Snow settles on its tufts
+  while it falls and melts after.
+- **The sky is İstanbul's, at this moment.** On the balcony the sun, the moon
+  and the brightest stars and planets are drawn at their own bearing and
+  height, with east at the left wall and west at the right, from the sea's
+  horizon up to the ceiling. Their dialogs give the exact height and
+  direction. A body behind the house is not drawn, and its name waits at the
+  edge on its side. Within a day or two of the new moon the moon is lost in
+  the sun's light and is not drawn. In the study window the sun and the
+  moon stand in the casement on their side of the sky, the left one in the
+  east and the right one in the west. Their places come from
+  `js/astronomy.js`, and the stars and planets from `js/sky-map.js`, loaded
+  once the balcony is dark.
+- **The sun and the moon lead on, as worlds do on the journey.** Touching
+  the sun travels to The Sun in Pictures with Stories, and touching the moon
+  to the Moon on the journey through the Solar System. Their names open
+  what is true of them now, with The Sun, İstanbul's Twilight, The Moon and
+  *lunatic*. A phone has no pointer to tell the body from its name, so there
+  the sun and the moon open their dialogs, whose first link is the picture.
+- **The balcony is glazed.** Folding glass panels stand on the parapet up to
+  the ceiling. Moris goes out to the balcony twice a day, as the author
+  asked: from noon to two, and again from two hours before sunset until half
+  an hour before it. In between he is on his cushion, and as the sun goes
+  down he is asleep at the window. The glass is closed while he is out
+  there; while he is indoors the door is shut and the glass is folded away
+  to the right. The author settled this on 11 October 2026: a cat is never
+  shown on a balcony that is not safe for him. Do not draw Moris on the
+  balcony with the glass open.
+- **What is on the balcony.** Two chairs face each other across a small round
+  table, as the author asked. A book lies on one chair, and a notebook, a
+  pen and a glass of tea are on the table. A small olive grows in a pot
+  tucked into the corner, against the wall and the parapet. The book is The Reader, the notebook The Page and the view The
+  Breath; the author chose these three for the balcony. A link from the
+  balcony carries `from=balcony`.
+- **Its sound comes next.** The balcony will have a sound of its own, like
+  the farm's, but following İstanbul's real calendar rather than a fixed
+  summer. Check each bird and its season against reliable sources before it
+  is heard.
+
 ## The Sun, The Stars and Tonight
 
 - **`js/bright-stars.js` is generated.** Change `scripts/build_sky_data.py`
@@ -312,13 +370,15 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   outburst, and Mira and chi Cygni are not drawn, because their brightness
   on a given night is unknown. The notes on `/stars/` say so.
 - **One sky calculation serves three places.** `js/sky-map.js` works out and draws the sky for
-  `/stars/`, the homepage's Tonight and the window in The House, so they
-  never disagree. Its scripts and their `?v=` are listed once, in
-  `_data/sky_scripts.yml`. The homepage fetches them when Tonight comes near;
-  The House only when its window is opened after dark.
+  `/stars/`, the homepage's Tonight and The House, so they never disagree.
+  Its scripts and their `?v=` are listed once, in `_data/sky_scripts.yml`.
+  The homepage fetches them when Tonight comes near; The House only when its
+  window is opened after dark, or when its balcony is dark.
 - The moon's phase name and percentage come from `js/astronomy.js`
   everywhere, so The Moon, The House, Tonight and The Stars give the same
-  moon. Positions of the moon and planets come from Astronomy Engine.
+  moon. Positions of the moon and planets come from Astronomy Engine. The
+  House draws the sun and the moon from `js/astronomy.js`, whose moon is
+  checked against Astronomy Engine in `scripts/test-house.cjs`.
 - `scripts/test-window-sky.cjs` checks the star data, both instruments and
   Tonight.
 
@@ -791,24 +851,38 @@ accuracy and plain prose to this section as well.
   instruments' bar and a new picture the picture layout. Woodland paths or
   a river reached from the farm's garden are scenes of the Farm House and
   keep its frame; they do not become pages of their own.
-- **The way back follows how an instrument was opened.** A link from The
-  House to an instrument carries `from=house`, preserving any other query
-  parameters. Its back link says "The House" and returns to `/house/#study`.
-  The link to The Page beside a note carries `from=drawer`, and its back
-  link says "your drawer" and returns to `/house/#drawer`.
+- **The way back follows how an instrument was opened.** A link from the
+  study to an instrument carries `from=house`, preserving any other query
+  parameters. Its back link says "the study" and returns to `/house/#study`.
+  A link from the balcony carries `from=balcony`; its back link says "the
+  balcony" and returns to `/house/#balcony`. The author asked on 11 October
+  2026 that the way back name the room it returns to. The link to The Page
+  beside a note carries `from=drawer`, and its back link says "your drawer"
+  and returns to `/house/#drawer`.
   Other entries keep the link to Instruments. `_includes/tool-back.html`
   provides this behavior on every instrument. Keep the origin in the URL so
   reloading preserves it and separate visits stay independent. House links
   also carry `v` to load updated pages through the service worker's cache.
-  A picture returns to Pictures with Stories.
+  A picture returns to Pictures with Stories, or to the balcony when its sky
+  opened it with `from=balcony` (`js/pictures.js`).
 - **The Farm House belongs to The House.** It is entered only from there,
-  through the Polaroid on a shelf in the study, so its "← The House"
+  through the Polaroid on a shelf in the study, so its "← the study"
   returns to the study (`/house/#study`). Do not give its frame the site's
   name as a link to the homepage; the visitor leaves the farm by the room
   they came from.
 
 ## Interface details
 
+- **The House's places are quiet, as in the pictures.** The author asked for
+  this on 11 October 2026. Nothing marks a thing in the study or on the
+  balcony until a pointer or the keyboard comes to it, and then its name
+  shows beside it. "Show places to look" shows every name in both rooms for
+  the rest of the visit; on a phone it shows the numbers on the picture and
+  the list of names under it. Each place covers its thing, with its centre
+  and size in `--ax`, `--ay`, `--aw` and `--ah` in `css/house.css`, and its
+  name stands beside it at `--lx`, `--ly`, so that the names never cover
+  one another when they all show. Everything that could be chosen before
+  can still be chosen.
 - **A disclosure uses the site's chevron.** It is the one in the drawer
   and on a piece's reading options. Its words sit where
   the layout puts them; the chevron hangs beside them and does not pull them

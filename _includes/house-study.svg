@@ -7,7 +7,8 @@
     <!-- The dark of the evening and the night. It falls on the room, not on
          the window, and when the lamp is on it leaves the desk in its light. -->
     <radialGradient id="house-lamplight" cx="575" cy="360" r="360" gradientUnits="userSpaceOnUse"><stop stop-color="#1c2633" stop-opacity="0"/><stop offset=".3" stop-color="#1c2633" stop-opacity=".3"/><stop offset="1" stop-color="#1c2633"/></radialGradient>
-    <mask id="house-dusk-mask"><path fill="#fff" d="M0 0H1000V650H0Z"/><path fill="#000" d="M566 114H690V158H566ZM696 114H820V158H696ZM571 169H685V321H571ZM701 169H815V321H701Z"/><path fill="#fff" d="M569 259h40l17 47h-75ZM617 306h6v26h-6ZM560 108H826V131H560ZM816.5 131h3v114h-3Z"/></mask>
+    <mask id="house-dusk-mask"><path fill="#fff" d="M0 0H1000V650H0Z"/><path fill="#000" d="M566 114H690V158H566ZM696 114H820V158H696ZM571 169H685V321H571ZM701 169H815V321H701ZM924 175.1L974 169.5V412.5L924 392.5Z"/><path fill="#fff" d="M569 259h40l17 47h-75ZM617 306h6v26h-6ZM560 108H826V131H560ZM816.5 131h3v114h-3Z"/></mask>
+    <linearGradient id="house-sky-under" gradientUnits="userSpaceOnUse" x2="0" y1="108" y2="332"><stop class="house-sky-top"/><stop offset="1" class="house-sky-bottom"/></linearGradient>
     <clipPath id="house-window-clip"><path d="M560 108H826V332H560Z"/></clipPath>
   </defs>
   <!-- The room is drawn in one-point perspective from someone standing in
@@ -55,18 +56,19 @@
   </g>
   <!-- A question card on the wall. -->
   <g class="house-line" transform="translate(92.9 17.65) scale(.85)"><path class="house-paper" d="M356 260l48-4 5 66-48 4Z"/><circle cx="381" cy="265" r="2"/><text x="382" y="304" text-anchor="middle" class="house-question-mark">?</text></g>
-  <!-- Window and distant rooftops. The sky, the sun and the moon follow
-       İstanbul's own: js/house.js moves the sun, and draws the moon in its
-       phase while it is above the horizon. Two casements open under a
-       fixed top light. -->
+  <!-- The window, and the roofs, the sea and the Islands beyond it. The
+       sky, the sun and the moon follow İstanbul's own: js/house.js puts the
+       sun and the moon in the casement on their side of the sky, east on the
+       left, west on the right, while they are above the horizon and in front
+       of the house. Two casements open under a fixed top light. -->
   <g class="house-line">
     <path class="house-window-trim" d="M548 96H838V338H548Z"/>
     <path class="house-glass" fill="url(#house-sky)" d="M560 108H826V332H560Z"/>
     <g clip-path="url(#house-window-clip)" stroke="none">
       <circle class="house-sun" cx="770" cy="205" r="20"/>
-      <g class="house-stars" fill="#f6e5b9"><circle cx="590" cy="135" r="1.8"/><circle cx="650" cy="128" r="1.5"/><circle cx="760" cy="140" r="1.5"/><circle cx="800" cy="186" r="1.3"/><circle cx="724" cy="232" r="1.5"/><circle cx="600" cy="192" r="1.4"/></g>
+      <g class="house-stars" fill="#f6e5b9"><circle cx="590" cy="135" r="1.8"/><circle cx="650" cy="128" r="1.5"/><circle cx="760" cy="140" r="1.5"/><circle cx="800" cy="186" r="1.3"/><circle cx="722" cy="204" r="1.5"/><circle cx="600" cy="192" r="1.4"/></g>
       <g class="house-moon"><circle class="house-moon-disc" cx="770" cy="205" r="17"/><path class="house-moon-lit" d=""/></g>
-      <path class="house-rooftops" d="M558 334V292h18v-16l22-14 23 14v14h14v-26h17v-13h5v13h14v31h18v-14h12v-12l24-12 27 12v24h16v-20l18-10 18 10v8h24V334Z"/>
+      {% include house-view.svg sky="house-sky-under" %}
       <!-- The footer's rain and snow fall here, behind the glass. -->
       <g class="house-weather"></g>
       <path class="house-window-snow" d=""/>
@@ -88,6 +90,13 @@
   <g class="house-light-beam">
     <path d="M546.7 483.4H676L662 531.5H508.8ZM694.1 483.4H823.5L836.6 531.5H683.5Z"/>
     <path d="M498.8 535.7H667.6L662.8 553.6H484.3ZM675.8 535.7H844.6L849.9 553.6H671.4Z"/>
+  </g>
+  <!-- The glass door out to the balcony, in the right-hand wall, closed. -->
+  <g class="house-line">
+    <path class="house-window-trim" d="M915 153.8L985 142.3V532L915 487.4Z"/>
+    <path class="house-door-panel" d="M921 164.1L977 156.4V514.1L921 480Z"/>
+    <path class="house-door-glass" d="M924 175.1L974 169.5V412.5L924 392.5Z"/>
+    <path d="M967 332.9l-9.5 3.2" stroke-width="2.6"/><circle class="house-window-trim" cx="967" cy="332.9" r="2.2"/>
   </g>
   <!-- Plant in the corner beside the window. -->
   <g class="house-line" transform="translate(-61.5 .9)"><path class="house-pot" d="M924 456h45l-6 33h-33Z"/><path d="M945 456V381M945 425l-18-22M945 405l15-25"/><path class="house-leaf" d="M944 405q-32-2-25-34 25 7 25 34ZM946 424q32-9 30-34-26 5-30 34ZM945 389q-20-12-9-38 22 16 9 38Z"/></g>
