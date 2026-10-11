@@ -297,8 +297,10 @@ permalink: /farm-house/
           old.addEventListener('transitionend',finish,{once:true});
           window.setTimeout(finish,750);
         };
+        let readyOnce=false;
         const ready=()=>{
-          if(id!==photoTransition)return;
+          if(id!==photoTransition||readyOnce)return;
+          readyOnce=true;
           if(img.decode&&img.naturalWidth)img.decode().then(fade,fade);
           else fade();
         };
@@ -350,12 +352,13 @@ permalink: /farm-house/
           $('caption').focus({preventScroll:true});
           // Every room opens on the painting, even after a visitor has
           // scrolled through the explanation beneath the previous scene.
-          $('frame').scrollIntoView({block:'center',behavior:'instant'});
+          if($('frame').scrollIntoView)$('frame').scrollIntoView({block:'center',behavior:'instant'});
         }
       }else if(focus){
         $(name==='intro'?'intro-title':'ending-title').focus({preventScroll:true});
         // Returning to the photograph or the ending keeps the image in view.
-        (name==='intro'?$('photo'):document.querySelector('.ending-photo')).scrollIntoView({block:'center',behavior:'instant'});
+        const picture=name==='intro'?$('photo'):document.querySelector('.ending-photo');
+        if(picture.scrollIntoView)picture.scrollIntoView({block:'center',behavior:'instant'});
       }
     }
     // Label locations follow the image, including when touch targets grow to 44px.
