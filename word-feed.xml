@@ -29,7 +29,12 @@ sitemap: false
     <lastBuildDate>{{ site.time | date_to_rfc822 }}</lastBuildDate>
     {% assign feed_words = site.words | sort: "date" | reverse %}
     {% for word in feed_words %}
-    {% assign listed = false %}{% for group in site.data.word_collections %}{% if group.words contains word.slug or group.words contains word.word %}{% assign listed = true %}{% endif %}{% endfor %}
+    {% assign listed = false %}
+    {% for group in site.data.word_collections %}
+      {% if group.words contains word.word %}
+        {% assign listed = true %}
+      {% endif %}
+    {% endfor %}
     {% if listed %}
     <item>
       <title>{{ word.word | xml_escape }}</title>
