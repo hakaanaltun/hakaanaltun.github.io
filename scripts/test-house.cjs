@@ -463,18 +463,25 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.equal(n.w.document.querySelectorAll('#house-balcony-scene .house-weather *').length, 0);
   n.dom.window.close();
 
-  // The afternoon: Moris has gone out to the balcony, and its glass is shut.
-  n = houseAt('2026-10-11T14:30:00+03:00', 'https://hakanaltun.io/house/#balcony');
-  await tick();
-  assert.equal(n.q('#house-scene').dataset.moris, 'balcony');
-  assert.equal(n.q('#house-balcony-scene').dataset.moris, 'balcony', 'the glass closed while he is out there');
-  assert.equal(n.q('#balcony [data-moris-item]').hidden, false);
-  assert.equal(n.q('#study .house-objects [data-open="moris"]').parentNode.hidden, true, 'not in the study meanwhile');
-  n.click('.house-hotspot--balcony-moris');
-  assert.equal(n.q('#house-dialog-place').textContent, 'On the balcony');
-  assert.match(n.q('[data-moris-line]').textContent, /^He is out on the balcony for the afternoon/);
-  n.click('#house-close');
-  n.dom.window.close();
+  // Moris goes out to the balcony twice a day, and its glass is shut while
+  // he is there: from noon to two, and from two hours before sunset (18:31
+  // that day) until half an hour before it. Between them he is on his
+  // cushion, and as the sun goes down he is asleep at the window.
+  for (const [hour, place, line] of [['13:00', 'balcony', /^He is out on the balcony for the middle of the day/], ['14:30', 'cushion', null], ['17:00', 'balcony', /^He is out on the balcony again until the sun is low/], ['18:10', 'sill', null]]) {
+    n = houseAt('2026-10-11T' + hour + ':00+03:00', 'https://hakanaltun.io/house/#balcony');
+    await tick();
+    assert.equal(n.q('#house-scene').dataset.moris, place, 'Moris at ' + hour);
+    assert.equal(n.q('#house-balcony-scene').dataset.moris, place, 'the glass closed only while he is out there');
+    assert.equal(n.q('#balcony [data-moris-item]').hidden, place !== 'balcony');
+    assert.equal(n.q('#study .house-objects [data-open="moris"]').parentNode.hidden, place === 'balcony', 'not in the study meanwhile');
+    if (line) {
+      n.click('.house-hotspot--balcony-moris');
+      assert.equal(n.q('#house-dialog-place').textContent, 'On the balcony');
+      assert.match(n.q('[data-moris-line]').textContent, line);
+      n.click('#house-close');
+    }
+    n.dom.window.close();
+  }
 
   // A night with a young moon: no sun, the moon low in the southwest, in the
   // window's right casement and to the right over the balcony, and the

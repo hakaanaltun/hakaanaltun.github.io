@@ -442,7 +442,8 @@
 
   var MORIS = {
     cushion: { place: 'On his cushion', line: 'He is resting on his cushion below the window.' },
-    balcony: { place: 'On the balcony', line: 'He is out on the balcony for the afternoon, behind the closed glass.' },
+    balcony: { place: 'On the balcony', line: 'He is out on the balcony for the middle of the day, behind the closed glass.' },
+    'balcony-late': { place: 'On the balcony', line: 'He is out on the balcony again until the sun is low, behind the closed glass.' },
     sill: { place: 'At the window', line: 'He is asleep by the window as the sun goes down.' },
     shelf: { place: 'On the bookshelf', line: 'He is on top of the bookshelf, inspecting the room.' },
     rug: { place: 'On the rug', line: 'He is on the rug.' }
@@ -450,6 +451,8 @@
   function renderMoris(box) {
     box.appendChild(document.getElementById('house-moris').content.cloneNode(true));
     var where = scene.dataset.moris;
+    // Out on the balcony twice a day: the second time is the late afternoon's.
+    if (where === 'balcony' && skyNow(new Date()).hour >= 14) where = 'balcony-late';
     var about = MORIS[where] || MORIS.cushion;
     document.getElementById('house-dialog-place').textContent = about.place;
     box.querySelector('[data-moris-line]').textContent = about.line;
@@ -635,13 +638,17 @@
   }
 
   /* Where Moris is goes by İstanbul's light: on his cushion through the
-     morning, out on the balcony in the afternoon, asleep at the window as
-     the sun goes down, up on the bookshelf once the lamps are on, and out
-     on the carpet after midnight. The balcony's glass is closed while he is
+     morning, out on the balcony for the middle of the day, from noon to
+     two, back on his cushion, out on the balcony again from two hours
+     before sunset until half an hour before it, asleep at the window as the
+     sun goes down, up on the bookshelf once the lamps are on, and out on
+     the carpet after midnight. The balcony's glass is closed while he is
      out there. */
+  var MINUTE = 60000;
   function morisPlace(sky, now) {
-    if (sky.period === 'morning') return 'cushion';
-    if (sky.period === 'day') return sky.hour < 12 ? 'cushion' : 'balcony';
+    var late = sky.sunset ? now >= sky.sunset - 120 * MINUTE && now < sky.sunset - 30 * MINUTE : sky.hour >= 16 && sky.hour < 18;
+    if ((sky.period === 'day' && sky.hour >= 12 && sky.hour < 14) || late) return 'balcony';
+    if (sky.period === 'morning' || sky.period === 'day') return 'cushion';
     if (sky.period === 'evening') return (sky.sunset ? now < sky.sunset : sky.hour < 19) ? 'sill' : 'shelf';
     return sky.hour >= 12 ? 'shelf' : 'rug';
   }

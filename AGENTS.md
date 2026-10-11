@@ -335,15 +335,18 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   *lunatic*. A phone has no pointer to tell the body from its name, so there
   the sun and the moon open their dialogs, whose first link is the picture.
 - **The balcony is glazed.** Folding glass panels stand on the parapet up to
-  the ceiling. Moris goes out to the balcony in the afternoon, and the glass
-  is closed while he is there. While he is indoors the door is shut and the
-  glass is folded away to the right. The author settled this on 11 October
-  2026: a cat is never shown on a balcony that is not safe for him. Do not
-  draw Moris on the balcony with the glass open.
+  the ceiling. Moris goes out to the balcony twice a day, as the author
+  asked: from noon to two, and again from two hours before sunset until half
+  an hour before it. In between he is on his cushion, and as the sun goes
+  down he is asleep at the window. The glass is closed while he is out
+  there; while he is indoors the door is shut and the glass is folded away
+  to the right. The author settled this on 11 October 2026: a cat is never
+  shown on a balcony that is not safe for him. Do not draw Moris on the
+  balcony with the glass open.
 - **What is on the balcony.** Two chairs face each other across a small round
   table, as the author asked. A book lies on one chair, and a notebook, a
-  pen and a glass of tea are on the table. A small olive grows in a pot in
-  the corner. The book is The Reader, the notebook The Page and the view The
+  pen and a glass of tea are on the table. A small olive grows in a pot
+  tucked into the corner, against the wall and the parapet. The book is The Reader, the notebook The Page and the view The
   Breath; the author chose these three for the balcony. A link from the
   balcony carries `from=balcony`.
 - **Its sound comes next.** The balcony will have a sound of its own, like
