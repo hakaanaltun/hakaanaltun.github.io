@@ -1208,6 +1208,11 @@
 
   /* --- Moving about ------------------------------------------------------ */
 
+  function centerPicture() {
+    var currentScene = location.hash === '#balcony' ? balconyScene : location.hash === '#study' ? scene : null;
+    if (currentScene) currentScene.scrollIntoView({ block: 'center', behavior: 'instant' });
+  }
+
   function setView(focus) {
     var hash = location.hash;
     var inside = hash === '#study' || hash === '#drawer';
@@ -1224,7 +1229,8 @@
     if (focus) {
       var target = document.getElementById(outside ? 'house-balcony-title' : inside ? 'house-room-title' : 'house-enter');
       target.focus({ preventScroll: true });
-      root.scrollIntoView({ block: 'start', behavior: 'instant' });
+      if (inside || outside) centerPicture();
+      else root.scrollIntoView({ block: 'start', behavior: 'instant' });
     }
   }
 
@@ -1399,6 +1405,14 @@
   paint();
   keepTime();
   setView(false);
+  // On a fresh visit through a room link, land on its picture rather than
+  // the heading. Leave browser history and reload scroll restoration alone.
+  if (location.hash === '#study' || location.hash === '#balcony') {
+    window.addEventListener('load', function () {
+      var entries = window.performance && performance.getEntriesByType && performance.getEntriesByType('navigation');
+      if (!entries || !entries[0] || entries[0].type === 'navigate') centerPicture();
+    }, { once: true });
+  }
   whenCatalog(arrivals);
   offerWindow();
   document.addEventListener('DOMContentLoaded', offerWindow);
