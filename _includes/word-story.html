@@ -170,6 +170,15 @@
   /* the ampersand the site uses — the display italic, as in the header logo */
   .word-story-sources .amp { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; }
 
+  .word-story-related { max-width: 36rem; margin-top: 34px; padding-top: 20px; border-top: 1px solid var(--rule); }
+  .word-story-related h2 { font: 400 .78rem 'EB Garamond',Georgia,serif; color: var(--vizon); letter-spacing: .14em; text-transform: uppercase; margin: 0 0 16px; }
+  .word-story-related ul { list-style: none; padding: 0; margin: 0; }
+  .word-story-related li + li { margin-top: 16px; }
+  .word-story-related a { color: var(--petrol); font: italic 1.2rem 'Cormorant Garamond',Georgia,serif; text-decoration: none; transition: var(--select-ease); }
+  .word-story-related a:hover, .word-story-related a:active { opacity: var(--select-dim); }
+  .word-story-related a:focus-visible { outline: 2px solid var(--petrol); outline-offset: 3px; border-radius: 3px; }
+  .word-story-related p { margin: 4px 0 0; color: var(--vizon); font: 1rem/1.5 'EB Garamond',Georgia,serif; }
+
   .word-story-all {
     display: inline-block;
     margin-top: 44px;
@@ -300,6 +309,26 @@
         <a href="{{ source.url }}" target="_blank" rel="noopener">{{ source.title | escape | replace: "&amp;", '<span class="amp">&amp;</span>' }}</a>
         {% if source.where %}<span class="word-story-source-where">{{ source.where | escape | replace: "&amp;", '<span class="amp">&amp;</span>' }}</span>{% endif %}
       </li>
+      {% endfor %}
+    </ul>
+  </aside>
+  {% endif %}
+
+  {%- comment -%}
+    Only substantive, qualified links. These are connections between stories,
+    not an assertion of a shared linguistic root or a required reading route.
+    No connections are shown when none has been verified.
+  {%- endcomment -%}
+  {% assign story_bridges = site.data.word_bridges | where: "word", page.word | first %}
+  {% if story_bridges and story_bridges.links %}
+  <aside class="word-story-related" aria-label="Connections to other word stories">
+    <h2>Connections</h2>
+    <ul>
+      {% for link in story_bridges.links %}
+        {% assign related_word = site.words | where: "word", link.to | first %}
+        {% if related_word %}
+        <li><a href="{{ related_word.url }}">{{ related_word.word }}</a><p>{{ link.note }}</p></li>
+        {% endif %}
       {% endfor %}
     </ul>
   </aside>
