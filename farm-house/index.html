@@ -320,7 +320,7 @@ permalink: /farm-house/
       }else if(focus){
         $(name==='intro'?'intro-title':'ending-title').focus({preventScroll:true});
         // Returning to the photograph or the ending keeps the image in view.
-        $(name==='intro'?'photo':'ending-photo').scrollIntoView({block:'center',behavior:'instant'});
+        (name==='intro'?$('photo'):document.querySelector('.ending-photo')).scrollIntoView({block:'center',behavior:'instant'});
       }
     }
     // Label locations follow the image, including when touch targets grow to 44px.
