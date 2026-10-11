@@ -107,6 +107,33 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
     assert.ok(spot.querySelector(':scope > .house-label > .house-hotspot-name'), 'a named place: ' + spot.className);
   }
   assert.equal(doc.querySelectorAll('[data-places]').length, 2, 'Show places to look, in each room');
+  // A small thing inside a larger one, such as the lamp against the window,
+  // stays above it even while the larger one is under the pointer, which
+  // once kept the lamp out of reach for a pointer that crossed the window.
+  const houseCss = read(root, 'css', 'house.css');
+  assert.ok(houseCss.includes('.house-hotspot:hover { z-index: calc(var(--z, 1) + 1); }'), 'a place under the pointer rises one layer');
+  assert.ok(houseCss.includes('.house-hotspot:focus-visible { z-index: calc(var(--z, 1) + 1);'), 'and under the keyboard');
+  const layer = {};
+  for (const [, selectors, z] of houseCss.matchAll(/([^{}]+)\{ --z: (\d+); \}/g)) {
+    for (const name of selectors.match(/\.house-hotspot--[\w-]+/g)) layer[name.slice(16)] = +z;
+  }
+  const boxes = [];
+  for (const [, at, name, rule] of houseCss.matchAll(/^(?:\.house-scene\[data-moris="(\w+)"\] )?\.house-hotspot--([\w-]+) \{ ([^}]*--ax: [\d.]+;[^}]*)\}$/gm)) {
+    const v = (key) => +rule.match(new RegExp('--' + key + ': ([\\d.]+)'))[1];
+    const spot = doc.querySelector('.house-hotspot--' + name);
+    boxes.push({ name: name + (at ? ' (' + at + ')' : ''), z: layer[name] || 1, room: spot.closest('section').id, x: v('ax'), y: v('ay'), w: v('aw'), h: v('ah') });
+  }
+  assert.ok(boxes.length >= 20, 'the places and their sizes: ' + boxes.length);
+  for (const small of boxes) {
+    for (const large of boxes) {
+      if (small === large || small.room !== large.room || small.w * small.h >= large.w * large.h) continue;
+      if (Math.abs(small.x - large.x) < large.w / 2 && Math.abs(small.y - large.y) < large.h / 2) {
+        assert.ok(small.z > large.z + 1, small.name + ' stays above ' + large.name + ' under the pointer');
+      }
+    }
+  }
+  // The balcony's lamp has its switch on the study wall beside the door.
+  assert.ok(doc.querySelector('#house-scene .house-hotspot--switch[data-balcony-lamp]'), 'the switch in the study');
   room.window.close();
 
   // --- The catalog --------------------------------------------------------
@@ -532,6 +559,15 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.equal(n.q('#house-status').textContent, 'The balcony lamp is off.');
   for (const button of n.w.document.querySelectorAll('button[data-balcony-lamp]')) assert.equal(button.getAttribute('aria-pressed'), 'false');
   assert.equal(n.q('#house-scene').dataset.lamp, 'on', 'the study lamp is its own');
+  assert.equal(n.q('#house-scene').dataset.balconyLamp, 'off', 'the study sees it through the door');
+  // Its switch is in the study, on the wall beside the door.
+  n.click('.house-hotspot--switch');
+  assert.equal(n.q('#house-balcony-scene').dataset.balconyLamp, 'on');
+  assert.equal(n.q('#house-scene').dataset.balconyLamp, 'on');
+  assert.equal(n.stored().balconyLamp, true);
+  assert.equal(n.q('#house-status').textContent, 'The balcony lamp is on.');
+  assert.equal(n.q('.house-hotspot--switch').getAttribute('aria-pressed'), 'true');
+  assert.equal(n.q('.house-hotspot--balcony-lamp').getAttribute('aria-pressed'), 'true');
   n.dom.window.close();
   // The names stay shown until the reader hides them, after The Page or on
   // another visit.
