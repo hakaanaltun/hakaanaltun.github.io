@@ -810,11 +810,18 @@
     study.querySelector('.house-objects [data-open="moris"]').parentNode.hidden = place === 'balcony';
     var cat = scene.querySelector('.house-moris');
     if (PLACES[place]) cat.setAttribute('transform', PLACES[place]); else cat.removeAttribute('transform');
-    var lamp = KEEP.read().lamp;
-    var on = lamp === null ? sky.period === 'night' || sky.period === 'evening' : lamp;
+    /* Each lamp is on in the evening and at night until the reader turns it
+       off, and off by day until they turn it on; the drawer remembers the
+       choice. The study's lamp shows on the balcony only through the door. */
+    var kept = KEEP.read();
+    var dusk = sky.period === 'night' || sky.period === 'evening';
+    var on = kept.lamp === null ? dusk : kept.lamp;
     scene.dataset.lamp = on ? 'on' : 'off';
     balconyScene.dataset.lamp = scene.dataset.lamp;
     root.querySelectorAll('button[data-lamp]').forEach(function (button) { button.setAttribute('aria-pressed', String(on)); });
+    var porch = kept.balconyLamp === null ? dusk : kept.balconyLamp;
+    balconyScene.dataset.balconyLamp = porch ? 'on' : 'off';
+    root.querySelectorAll('button[data-balcony-lamp]').forEach(function (button) { button.setAttribute('aria-pressed', String(porch)); });
   }
 
   /* --- Weather at the window ------------------------------------------
@@ -1225,15 +1232,25 @@
   }
 
   /* The places in the pictures are quiet until a pointer or the keyboard
-     finds them; "Show places to look" shows every name, in both rooms, for
-     the rest of the visit. */
+     finds them; "Show places to look" shows every name, in both rooms, until
+     the reader hides them again. Their browser remembers the choice, so the
+     names are still there after The Page or another visit; the same choice
+     holds in the Farm House and the pictures. */
+  var PLACES_KEY = 'olae-places';
   function showPlaces(show) {
     root.classList.toggle('show-places', show);
     root.querySelectorAll('[data-places]').forEach(function (button) {
       button.setAttribute('aria-pressed', String(show));
       button.textContent = show ? 'Hide places to look' : 'Show places to look';
     });
+    try {
+      if (show) localStorage.setItem(PLACES_KEY, 'shown');
+      else localStorage.removeItem(PLACES_KEY);
+    } catch (e) { /* storage blocked: the names stay for this visit */ }
   }
+  try {
+    if (localStorage.getItem(PLACES_KEY) === 'shown') showPlaces(true);
+  } catch (e) { /* storage blocked: the names start hidden */ }
 
   root.addEventListener('click', function (event) {
     if (event.target.closest('[data-places]')) { showPlaces(!root.classList.contains('show-places')); return; }
@@ -1254,6 +1271,13 @@
       KEEP.update(function (state) { state.lamp = on; });
       paint();
       announce(on ? 'The lamp is on.' : 'The lamp is off.');
+      return;
+    }
+    if (event.target.closest('button[data-balcony-lamp]')) {
+      var lit = balconyScene.dataset.balconyLamp !== 'on';
+      KEEP.update(function (state) { state.balconyLamp = lit; });
+      paint();
+      announce(lit ? 'The balcony lamp is on.' : 'The balcony lamp is off.');
       return;
     }
     var answer = event.target.closest('[data-answer]');

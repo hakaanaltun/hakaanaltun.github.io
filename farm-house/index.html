@@ -347,7 +347,10 @@ permalink: /farm-house/
     $('photo').onclick=$('begin').onclick=()=>showScene('exterior');
     $('home').onclick=()=>showScene('intro');$('leave').onclick=leave;
     $('back').onclick=()=>showScene(scenes[state.scene]?.back||'intro');
-    $('places').onclick=()=>{state.hints=!state.hints;$('frame').classList.toggle('show-places',state.hints);$('visit').classList.toggle('show-places',state.hints);$('places').setAttribute('aria-pressed',String(state.hints));$('places').textContent=state.hints?'Hide places to look':'Show places to look';};
+    // "Show places to look" stays on until the visitor hides the names; their browser remembers it, as The House and the pictures do.
+    function showPlaces(show){state.hints=show;$('frame').classList.toggle('show-places',show);$('visit').classList.toggle('show-places',show);$('places').setAttribute('aria-pressed',String(show));$('places').textContent=show?'Hide places to look':'Show places to look';try{if(show)localStorage.setItem('olae-places','shown');else localStorage.removeItem('olae-places');}catch(e){}}
+    $('places').onclick=()=>showPlaces(!state.hints);
+    try{if(localStorage.getItem('olae-places')==='shown')showPlaces(true);}catch(e){}
     $('close-detail').onclick=closeDetail;
     $('detail').addEventListener('close',()=>{state.detail=null;refreshCaption();});
     $('detail').addEventListener('click',event=>{if(event.target===$('detail')){const r=$('detail').getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)closeDetail();}});

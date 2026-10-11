@@ -15,7 +15,7 @@ description: "Come in, look around, and keep something you find. A room at On Li
   "Today" is İstanbul's day and the light is İstanbul's light: the house is
   there, and every reader sees the same room on the same day.
 {%- endcomment -%}
-<link rel="stylesheet" href="/css/house.css?v=20261011-1">
+<link rel="stylesheet" href="/css/house.css?v=20261011-2">
 
 <div class="house" id="house" data-catalog="/house/catalog.json?v={{ site.time | date: '%Y%m%d%H%M' }}">
   <div class="house-heading">
@@ -122,6 +122,7 @@ description: "Come in, look around, and keep something you find. A room at On Li
       <a class="house-hotspot house-hotspot--balcony-reader" href="/read/?from=balcony&amp;v=20261011-1"><span class="house-label"><span class="house-pin" aria-hidden="true">5</span><span class="house-hotspot-name">The Reader <span aria-hidden="true">&rarr;</span></span></span></a>
       <a class="house-hotspot house-hotspot--page" href="/write/?from=balcony&amp;v=20261011-1"><span class="house-label"><span class="house-pin" aria-hidden="true">6</span><span class="house-hotspot-name">The Page <span aria-hidden="true">&rarr;</span></span></span></a>
       <a class="house-hotspot house-hotspot--study-door" href="#study" data-go="study"><span class="house-label"><span class="house-pin" aria-hidden="true">7</span><span class="house-hotspot-name">The study</span></span></a>
+      <button class="house-hotspot house-hotspot--balcony-lamp" data-balcony-lamp type="button" aria-pressed="false"><span class="house-label"><span class="house-pin" aria-hidden="true">9</span><span class="house-hotspot-name">The lamp</span></span></button>
       <button class="house-hotspot house-hotspot--balcony-moris" data-open="moris" type="button"><span class="house-label"><span class="house-pin" aria-hidden="true">8</span><span class="house-hotspot-name">Moris</span></span></button>
     </div>
     <ol class="house-objects" aria-hidden="true">
@@ -133,6 +134,7 @@ description: "Come in, look around, and keep something you find. A room at On Li
       <li><a href="/write/?from=balcony&amp;v=20261011-1" tabindex="-1"><span class="house-pin">6</span>The Page</a></li>
       <li><a href="#study" tabindex="-1" data-go="study"><span class="house-pin">7</span>The study</a></li>
       <li data-moris-item hidden><button type="button" tabindex="-1" data-open="moris"><span class="house-pin">8</span>Moris</button></li>
+      <li><button type="button" tabindex="-1" data-balcony-lamp><span class="house-pin">9</span>The lamp</button></li>
     </ol>
     <div class="house-room-footer"><a href="#study" data-go="study">&larr; Back to the study</a></div>
   </section>
@@ -183,5 +185,5 @@ description: "Come in, look around, and keep something you find. A room at On Li
 </div>
 <script>window.OLAE_SKY_SCRIPTS = {{ site.data.sky_scripts | jsonify }};</script>
 <script src="/js/astronomy.js?v=20261011-1" defer></script>
-<script src="/js/house.js?v=20261011-1" defer></script>
+<script src="/js/house.js?v=20261011-2" defer></script>
 <script src="/js/cursor-trail.js?v=20260930-2" defer></script>

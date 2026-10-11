@@ -355,6 +355,13 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   tucked into the corner, against the wall and the parapet. The book is The Reader, the notebook The Page and the view The
   Breath; the author chose these three for the balcony. A link from the
   balcony carries `from=balcony`.
+- **A lamp hangs on the right-hand wall.** The author asked for it on
+  11 October 2026: a glass globe with a yellow light, on the wall beside
+  the pine so that it lights the tree as well as the balcony. It is on in
+  the evening and at night until the reader puts it out, and off by day
+  until they light it. Their choice is kept in the drawer's record as
+  `balconyLamp`, apart from the study's lamp. Its light reaches only the
+  near side of the pine, and only after sunset.
 - **Its sound comes next.** The balcony will have a sound of its own, like
   the farm's, but following İstanbul's real calendar rather than a fixed
   summer. Check each bird and its season against reliable sources before it
@@ -876,9 +883,13 @@ accuracy and plain prose to this section as well.
 - **The House's places are quiet, as in the pictures.** The author asked for
   this on 11 October 2026. Nothing marks a thing in the study or on the
   balcony until a pointer or the keyboard comes to it, and then its name
-  shows beside it. "Show places to look" shows every name in both rooms for
-  the rest of the visit; on a phone it shows the numbers on the picture and
-  the list of names under it. Each place covers its thing, with its centre
+  shows beside it. "Show places to look" shows every name in both rooms
+  until the reader hides them again; on a phone it shows the numbers on the
+  picture and the list of names under it. The author asked on 11 October
+  2026 that the reader's browser remember the choice (`olae-places`), so
+  the names are still there after The Page or on another visit. The Farm
+  House and Pictures with Stories share the same choice: names shown in one
+  are shown in all of them until the reader hides them. Each place covers its thing, with its centre
   and size in `--ax`, `--ay`, `--aw` and `--ah` in `css/house.css`, and its
   name stands beside it at `--lx`, `--ly`, so that the names never cover
   one another when they all show. Everything that could be chosen before
