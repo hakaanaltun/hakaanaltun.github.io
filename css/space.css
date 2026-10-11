@@ -50,8 +50,11 @@
 .space-watercolor .picture-detail-image { background-color:var(--picture-paper); aspect-ratio:1; min-height:0; max-height:none; width:100%; align-self:center; }
 /* A note longer than the window keeps its close view at the top beside the
    title, and in view while the text scrolls, instead of centered below the
-   fold. */
-.space-watercolor .picture-dialog.is-long .picture-detail-image { align-self:start; position:sticky; top:0; }
+   fold. Only beside the text: on a phone the view sits above the text in one
+   column and scrolls away with it. */
+@media(min-width:651px) {
+ .space-watercolor .picture-dialog.is-long .picture-detail-image { align-self:start; position:sticky; top:0; max-height:calc(100svh - 50px); }
+}
 .picture-journey { display:grid; grid-template-columns:minmax(0,1.3fr) minmax(0,1fr); align-items:center; gap:36px; max-width:960px; margin:22px auto 32px; text-decoration:none; color:var(--ink); }
 .picture-journey img { width:100%; height:auto; display:block; border-radius:3px; }
 .picture-journey h3 { margin:0 0 10px; font:400 32px/1.2 'Cormorant Garamond',Georgia,serif; color:var(--petrol); }
@@ -66,10 +69,10 @@
 }
 /* Spread simultaneous labels without moving their exploration targets. The
    offsets follow the painting's own width rather than the window's: a short
-   laptop screen or a phone held sideways shows the painting as narrow as a
-   phone does. Each scene sets them as hint_x and hint_y beside the spot, as
+   laptop screen or a phone held sideways shows the painting nearly as narrow
+   as a phone does, and names wrap and crowd until it is about 700px wide. Each scene sets them as hint_x and hint_y beside the spot, as
    the standalone pictures do, so a new scene brings its own. */
-@container (max-width:650px) {
+@container (max-width:700px) {
  .journey-label .picture-hotspot-label { display:block; width:max-content; max-width:100px; white-space:normal; text-align:center; line-height:1.2; padding:4px 6px; }
  .show-places .journey-label .picture-hotspot-label { transform:translate(var(--hint-x,0px),var(--hint-y,0px)); }
 }
