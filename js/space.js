@@ -36,8 +36,14 @@
    // The outgoing scene stays opaque until the new bitmap is ready.
    void visible.offsetWidth;
    visible.classList.add('is-fading');
-   var done = function () { if (id === transitionId) clearLeaving(); };
-   visible.addEventListener('transitionend', done, { once:true });
+   // Only the scene's own fade ends it. A label fading out inside it, as
+   // one does when the pointer that chose the way on leaves it, does not.
+   var done = function (event) {
+    if (event && event.target !== visible) return;
+    visible.removeEventListener('transitionend', done);
+    if (id === transitionId) clearLeaving();
+   };
+   visible.addEventListener('transitionend', done);
    window.setTimeout(done, 750);
   }
   function ready() {
