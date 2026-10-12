@@ -334,8 +334,7 @@ The site has two deliberate ideas of place. Do not collapse them into one.
 - **The sky is İstanbul's, at this moment.** On the balcony the sun, the
   moon and the brightest stars and planets are drawn at their own bearing
   and height across the front glass, with east at the left wall and west at
-  the corner on the right, from the sea's horizon up to the ceiling. Their
-  dialogs give the exact height and direction. A body behind the house is
+  the corner on the right, from the sea's horizon up to the ceiling. A body behind the house is
   not drawn, and its name waits at the edge on its side. Within a day or two
   of the new moon the moon is lost in the sun's light and is not drawn. In
   the study window the sun and the moon stand in the casement on their side
@@ -344,8 +343,23 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   `js/sky-map.js`, loaded once the balcony is dark.
 - **Only the balcony's sun and moon lead to their pictures.** Each body
   and its name share one link on every screen. The study window has no
-  Sun or Moon travel links. The balcony's Sun opens Pictures with Stories
-  and its Moon opens the Moon scene in the Solar System journey.
+  Sun or Moon travel links, and the author decided on 12 October 2026 to
+  keep it so: the window is for looking out, the balcony for going out.
+  The balcony's Sun opens Pictures with Stories and its Moon opens the
+  Moon scene in the Solar System journey.
+- **They lead on only while the glass is open.** The author asked for this
+  on 12 October 2026. While Moris is out on the balcony the glass is
+  closed, the arrows go from the two names, and a touch on either opens a
+  small box that says where it stands over İstanbul, gives the sunset or
+  the moon's phase, and says that the glass is closed while Moris is out
+  and that the way on opens when he goes back in. A way that is shut has
+  to say so; it must never look broken.
+- **The way back to the balcony stays for the whole journey.** A reader
+  who came from the balcony keeps "← the balcony" at the foot of every
+  picture they go on to, outside the painting: `js/pictures.js` carries
+  `from` on every link to another picture, as it carries full screen and
+  the places to look. Inside the Solar System journey the address keeps it
+  already, since its scenes share one page.
 - **The House follows İstanbul's weather.** `js/house-weather.js` fetches
   Open-Meteo's current model data for the House's fixed coordinates every
   fifteen minutes while the tab is visible. It requests no visitor location.

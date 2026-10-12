@@ -208,15 +208,20 @@
   // screen. The address carries the choice for the click and loses it on
   // arrival, so the places travel even where storage is blocked; the
   // layouts keep such a page hidden until it is ready.
+  // A reader who came out from The House keeps the way back to that room
+  // on every picture they go on to, so `from` travels with the click too.
   document.addEventListener('click', function (event) {
     var link = event.target.closest('a[href]');
-    if (!link || !visit.contains(link) || event.defaultPrevented || event.button || event.ctrlKey || event.metaKey || event.altKey || event.shiftKey) return;
-    var shown = visit.classList.contains('show-places');
-    if (!screenMode && !shown) return;
+    if (!link || event.defaultPrevented || event.button || event.ctrlKey || event.metaKey || event.altKey || event.shiftKey) return;
     var url = new URL(link.href);
     if (url.origin !== location.origin || url.pathname.indexOf('/pictures/') !== 0 || url.pathname === '/pictures/' || url.pathname === location.pathname) return;
-    if (screenMode) url.searchParams.set('screen', 'full');
+    var shown = visit.contains(link) && visit.classList.contains('show-places');
+    var full = visit.contains(link) && screenMode;
+    var room = (houseFrom === 'balcony' || houseFrom === 'house') && !url.searchParams.has('from');
+    if (!full && !shown && !room) return;
+    if (full) url.searchParams.set('screen', 'full');
     if (shown) url.searchParams.set('places', 'shown');
+    if (room) url.searchParams.set('from', houseFrom);
     var plain = link.getAttribute('href');
     link.href = url.href;
     setTimeout(function () { link.setAttribute('href', plain); });
