@@ -1,13 +1,14 @@
 <svg class="house-room-art" viewBox="0 0 1000 650" fill="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <linearGradient id="house-sky" x2="0" y2="1"><stop class="house-sky-top"/><stop offset="1" class="house-sky-bottom"/></linearGradient>
+    <linearGradient id="house-shade-lit" gradientUnits="userSpaceOnUse" x2="0" y1="259" y2="310"><stop stop-color="#d6b97c"/><stop offset=".6" stop-color="#e5ca8e"/><stop offset="1" stop-color="#f5e0a4"/></linearGradient>
     <radialGradient id="house-glow"><stop stop-color="#edc878" stop-opacity=".4"/><stop offset="1" stop-color="#edc878" stop-opacity="0"/></radialGradient>
     <pattern id="house-weave" width="7" height="5" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.3" fill="none" stroke="currentColor" stroke-width=".5" opacity=".14"/><circle cx="5.5" cy="4.5" r="1.3" fill="none" stroke="currentColor" stroke-width=".5" opacity=".1"/></pattern>
     <pattern id="house-grain" width="9" height="9" patternUnits="userSpaceOnUse"><circle cx="1" cy="2" r=".5" fill="currentColor" opacity=".08"/><circle cx="6" cy="7" r=".4" fill="currentColor" opacity=".05"/></pattern>
     <!-- The dark of the evening and the night. It falls on the room, not on
          the window, and when the lamp is on it leaves the desk in its light. -->
     <radialGradient id="house-lamplight" cx="575" cy="360" r="360" gradientUnits="userSpaceOnUse"><stop stop-color="#1c2633" stop-opacity="0"/><stop offset=".3" stop-color="#1c2633" stop-opacity=".3"/><stop offset="1" stop-color="#1c2633"/></radialGradient>
-    <mask id="house-dusk-mask"><path fill="#fff" d="M0 0H1000V650H0Z"/><path fill="#000" d="M566 114H690V158H566ZM696 114H820V158H696ZM571 169H685V321H571ZM701 169H815V321H701Z"/><path class="house-door-shut" fill="#000" d="M924 175.1L974 169.5V412.5L924 392.5Z"/><path class="house-door-open" fill="#000" d="M944.8 164.1L977 159.9V272H944.8Z"/><path fill="#fff" d="M569 259h40l17 47h-75ZM617 306h6v26h-6ZM560 108H826V131H560ZM816.5 131h3v114h-3Z"/></mask>
+    <mask id="house-dusk-mask"><path fill="#fff" d="M0 0H1000V650H0Z"/><path fill="#000" d="M566 114H690V158H566ZM696 114H820V158H696ZM571 169H685V321H571ZM701 169H815V321H701Z"/><path class="house-door-shut" fill="#000" d="M924 175.1L974 169.5V412.5L924 392.5Z"/><path class="house-door-open" fill="#000" d="M944.8 164.1L977 159.9V272H944.8Z"/><path fill="#fff" d="M569 259H609L626 306Q588.5 314 551 306ZM617 306h6v26h-6ZM560 108H826V131H560ZM816.5 131h3v114h-3Z"/></mask>
     <linearGradient id="house-sky-under" gradientUnits="userSpaceOnUse" x2="0" y1="108" y2="332"><stop class="house-sky-top"/><stop offset="1" class="house-sky-bottom"/></linearGradient>
     <!-- The same sky, for the view drawn at three-fifths its size: the window's
          top and bottom, 108 and 332, are 32 and 405 in the view's own lines. -->
@@ -164,8 +165,11 @@
     <!-- The day's word cards, propped up where they can be read. -->
     <path class="house-word-paper" d="M437.3 403.6H480.5L480.9 372.8H438.4Z"/>
     <path class="house-word-paper" d="M430.2 405.3H473.8L474.3 374.1H431.4Z"/><path d="M438 386h28"/><path class="house-faint" d="M441 393h22"/>
-    <path class="house-lampshade" d="M569 259h40l17 47h-75Z"/>
-    <ellipse class="house-lamp-bulb" cx="588" cy="306" rx="23" ry="4"/>
+    <!-- The lamp stands below eye level, so its shade is seen from a little
+         above: the rim along its foot curves down toward us, and the bulb
+         and the opening it shines through are out of sight inside. Lit, the
+         shade glows most toward its foot, nearest the bulb. -->
+    <path class="house-lampshade" d="M569 259H609L626 306Q588.5 314 551 306Z"/>
   </g>
   <ellipse class="house-lamp-glow" fill="url(#house-glow)" cx="560" cy="356" rx="160" ry="110"/>
   <!-- His burgundy cushion stays where it is, close under the window;

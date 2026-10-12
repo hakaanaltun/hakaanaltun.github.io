@@ -45,6 +45,7 @@
     window: ['Outside', 'Through the window'],
     moris: ['On his cushion', 'Moris'],
     drawer: ['Yours to keep', 'Your drawer'],
+    notebook: ['On the table', 'The notebook'],
     stars: ['In the sky', 'The stars'],
     sun: ['In the sky', 'The sun'],
     moon: ['In the sky', 'The moon']
@@ -421,8 +422,8 @@
 
   var MORIS = {
     cushion: { place: 'On his cushion', line: 'He is resting on his cushion below the window.' },
-    balcony: { place: 'On the balcony', line: 'He is asleep on a chair out on the balcony for the middle of the day, behind the closed glass.' },
-    'balcony-late': { place: 'On the balcony', line: 'He is out on the balcony again until the sun is low, lying by the closed glass and looking out.' },
+    balcony: { place: 'On the balcony', line: 'He is asleep on a chair out on the balcony for the middle of the day.' },
+    'balcony-late': { place: 'On the balcony', line: 'He is out on the balcony again until the sun is low, lying by the glass and looking out.' },
     sill: { place: 'At the window', line: 'He is asleep by the window as the sun goes down.' },
     shelf: { place: 'On the bookshelf', line: 'He is on top of the bookshelf, inspecting the room.' },
     rug: { place: 'On the rug', line: 'He is on the rug.' }
@@ -435,6 +436,56 @@
     var about = MORIS[where] || MORIS.cushion;
     document.getElementById('house-dialog-place').textContent = about.place;
     box.querySelector('[data-moris-line]').textContent = about.line;
+  }
+
+  /* The notebook on the balcony's table. What is written stays on its page,
+     in the drawer's record, until the reader keeps it as a note in the
+     drawer or goes on to The Page with it, as every note on the site can
+     (KEEP.toPage): there it is added after whatever is already written,
+     and The Page opens at its end. */
+  function renderNotebook(box) {
+    box.appendChild(document.getElementById('house-notebook').content.cloneNode(true));
+    var area = box.querySelector('[data-notebook-text]');
+    var page = box.querySelector('[data-notebook-page]');
+    area.value = KEEP.notebook();
+    box.querySelector('[data-notebook-hint]').textContent = KEEP.works()
+      ? 'The notebook keeps your words in this browser until you put them in your drawer. Write at length on The Page takes them there, after anything already written.'
+      : 'This browser cannot save your note. What you write here stays until you leave the page.';
+    var timer = 0;
+    function save() {
+      clearTimeout(timer);
+      KEEP.setNotebook(area.value);
+    }
+    area.addEventListener('input', function () {
+      clearTimeout(timer);
+      timer = setTimeout(save, 300);
+    });
+    area.addEventListener('blur', save);
+    box.querySelector('[data-notebook-keep]').addEventListener('click', function () {
+      var words = area.value.trim();
+      if (!words) {
+        announce('Write something first.');
+        area.focus();
+        return;
+      }
+      clearTimeout(timer);
+      KEEP.toggle({ id: 'notebook-' + Date.now().toString(36), kind: 'The notebook', title: 'On the balcony, ' + longDate(today()), quote: '', href: '/house/#balcony', note: words });
+      area.value = '';
+      KEEP.setNotebook('');
+      announce('Your note is in your drawer.');
+      area.focus();
+    });
+    page.addEventListener('click', function (event) {
+      var words = area.value.trim();
+      if (!words) return;
+      clearTimeout(timer);
+      if (!KEEP.toPage(words, page)) {
+        event.preventDefault();
+        announce('This browser cannot take your note to The Page. Select it and copy it by hand.');
+        return;
+      }
+      KEEP.setNotebook('');
+    });
   }
 
   function storageNote() {
@@ -450,7 +501,7 @@
        browser that cannot keep the drawer cannot take a restored one. */
     if (!kept.length) {
       var empty = element('div', 'house-empty-drawer');
-      empty.appendChild(element('p', '', 'Nothing here yet. Pick up a word card, read a line from the bookshelf, or try the question on the wall. On a word’s page, after a quiz answer, or when you select a line in an essay or the book, there is a way to keep it too.'));
+      empty.appendChild(element('p', '', 'Nothing here yet. Pick up a word card, read a line from the bookshelf, try the question on the wall, or write in the notebook on the balcony. On a word’s page, after a quiz answer, or when you select a line in an essay or the book, there is a way to keep it too.'));
       box.appendChild(empty);
     }
     var choices = kept.length ? [['backup', 'Download your drawer']] : [];
@@ -503,16 +554,21 @@
         noted.appendChild(element('p', 'house-note-text', item.note));
         article.appendChild(noted);
       }
-      var row = actions(item.href, 'Go to the page →');
+      // A note from the balcony's notebook belongs to the balcony.
+      var fromNotebook = item.id.indexOf('notebook-') === 0;
+      var row = actions(item.href, fromNotebook ? 'Go to the balcony →' : 'Go to the page →');
       var write = element('button', '', item.note ? 'Edit the note' : 'Add a note');
       write.type = 'button';
       write.setAttribute('data-note', item.id);
       row.appendChild(write);
-      // The card is for sending, so it carries what was kept and never the note.
-      var share = element('button', '', 'Share as a card');
-      share.type = 'button';
-      share.setAttribute('data-share', item.id);
-      row.appendChild(share);
+      // The card is for sending, so it carries what was kept and never the
+      // note. A page from the notebook is all note, so it has no card.
+      if (!fromNotebook) {
+        var share = element('button', '', 'Share as a card');
+        share.type = 'button';
+        share.setAttribute('data-share', item.id);
+        row.appendChild(share);
+      }
       var remove = element('button', '', 'Remove');
       remove.type = 'button';
       remove.setAttribute('data-remove', item.id);
@@ -523,7 +579,7 @@
     });
   }
 
-  var renderers = { books: renderBooks, words: renderWords, question: renderQuestion, window: renderWindow, moris: renderMoris, drawer: renderDrawer, stars: renderStars, sun: renderBody('sun'), moon: renderBody('moon') };
+  var renderers = { books: renderBooks, words: renderWords, question: renderQuestion, window: renderWindow, moris: renderMoris, notebook: renderNotebook, drawer: renderDrawer, stars: renderStars, sun: renderBody('sun'), moon: renderBody('moon') };
   var needsCatalog = { books: true, words: true, question: true };
 
   function fill(name) {

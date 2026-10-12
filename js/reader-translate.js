@@ -1,12 +1,16 @@
-/* Selection translation for essay/story reading pages.
+/* Selection translation for the reading pages: the pieces and the story, the
+   book, the word stories and the quizzes.
    A reader selects English text, gets a small on-page prompt, and can ask for
    Turkish without leaving the page. The Cloudflare Worker receives the selected
    span plus nearby prose as context; context is never displayed or translated. */
 (function () {
   'use strict';
 
-  var article = document.querySelector('.essay-body');
-  if (!article || !window.getSelection || !window.fetch) return;
+  /* The prose a selection can come from: a piece's body, and anything a
+     reader can keep a passage from (js/keep.js), such as a word's story or
+     a quiz's questions and notes. A selection stays inside one of them. */
+  var AREAS = '.essay-body, [data-keep-passage]';
+  if (!document.querySelector(AREAS) || !window.getSelection || !window.fetch) return;
 
   var ENDPOINT = 'https://translate.hakanaltunn.workers.dev/';
   var MAX_TEXT = 500;
@@ -36,7 +40,7 @@
      selection can go into the drawer, have a note written on it first, or
      be highlighted on the page: one prompt, four things to do with it.
      Over a highlight, Highlight becomes Remove highlight. */
-  var keep = window.OLAE_KEEP && article.hasAttribute('data-keep-passage') ? window.OLAE_KEEP : null;
+  var keep = window.OLAE_KEEP && document.querySelector('[data-keep-passage]') ? window.OLAE_KEEP : null;
   var keepButton = null;
   var noteButton = null;
   var markButton = null;
@@ -88,6 +92,7 @@
       '.reader-translate-button:hover,.reader-translate-button:active{opacity:var(--select-dim,.78);}',
       '.reader-translate-button[disabled]{cursor:default;opacity:.62;}',
       '.reader-translate-keep{margin-left:8px;}',
+      '.reader-translate-button[hidden]{display:none;}',
       '.reader-translate.is-loading .reader-translate-button::after{content:"";width:10px;height:10px;margin-left:7px;border:1px solid currentColor;border-right-color:transparent;border-radius:50%;animation:reader-translate-spin .65s linear infinite;}',
       '@keyframes reader-translate-spin{to{transform:rotate(360deg);}}',
       '@media (max-width:640px){.reader-translate{left:14px!important;right:14px!important;bottom:14px!important;top:auto!important;width:auto;max-height:min(44vh,300px);overflow:auto;padding:14px 15px 13px;border-radius:14px;}.reader-translate-source{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;}.reader-translate-result{font-size:1.08rem;}}',
@@ -105,21 +110,35 @@
     return node && (node.nodeType === 1 ? node : node.parentElement);
   }
 
-  function insideArticle(node) {
+  function areaOf(node) {
     var el = nodeElement(node);
-    return !!(el && article.contains(el));
+    return el ? el.closest(AREAS) : null;
+  }
+
+  function insideArticle(node) {
+    return !!areaOf(node);
   }
 
   function nearestBlock(node) {
     var el = nodeElement(node);
     if (!el) return null;
-    return el.closest('p, li, blockquote, h2, h3, h4, figcaption') || article;
+    return el.closest('p, li, blockquote, h2, h3, h4, figcaption') || areaOf(el);
+  }
+
+  /* A word story's source numbers are links beside the sentence, so they
+     are left out of what is shown and translated. */
+  function selectedText(selection, range) {
+    var el = nodeElement(range.commonAncestorContainer);
+    if (!el || !el.querySelector('.word-cite')) return selection.toString();
+    var copy = range.cloneContents();
+    copy.querySelectorAll('.word-cite').forEach(function (cite) { cite.remove(); });
+    return copy.textContent;
   }
 
   function contextFor(range, selected) {
     var startBlock = nearestBlock(range.startContainer);
     var endBlock = nearestBlock(range.endContainer);
-    var block = startBlock === endBlock ? startBlock : article;
+    var block = startBlock === endBlock ? startBlock : areaOf(range.startContainer);
     var text = normalizeText(block && block.textContent);
     if (!text) return selected;
     if (text.length <= MAX_CONTEXT) return text;
@@ -139,12 +158,13 @@
   function selectionData() {
     var selection = window.getSelection();
     if (!selection || selection.rangeCount === 0 || selection.isCollapsed) return null;
-    if (!insideArticle(selection.anchorNode) || !insideArticle(selection.focusNode)) return null;
-
-    var text = normalizeText(selection.toString());
-    if (!text || text.length > MAX_TEXT) return null;
+    var area = areaOf(selection.anchorNode);
+    if (!area || areaOf(selection.focusNode) !== area) return null;
 
     var range = selection.getRangeAt(0).cloneRange();
+    var text = normalizeText(selectedText(selection, range));
+    if (!text || text.length > MAX_TEXT) return null;
+
     var rect = range.getBoundingClientRect();
     if (!rect || (!rect.width && !rect.height)) return null;
 
@@ -152,7 +172,8 @@
       text: text,
       context: contextFor(range, text),
       rect: rect,
-      range: range
+      range: range,
+      keeps: !!keep && area.hasAttribute('data-keep-passage')
     };
   }
 
@@ -178,6 +199,8 @@
     translateButton.disabled = false;
     translateButton.dataset.done = 'false';
     translateButton.textContent = 'Türkçe';
+    // Keep, Note and Highlight belong to prose that can be kept.
+    [keepButton, noteButton, markButton].forEach(function (button) { if (button) button.hidden = !data.keeps; });
     if (markButton) markButton.textContent = keep.isHighlighted(data.range) ? 'Remove highlight' : 'Highlight';
     popup.hidden = false;
     positionPopup(data.rect);

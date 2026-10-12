@@ -432,11 +432,24 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   would have covered either the view or the plant.
 - **What is on the balcony.** Two chairs face each other across a small
   round table, as the author asked. A book lies on one chair, and a
-  notebook, a pen and a glass of tea are on the table. A small olive grows
-  in a pot tucked into the right-hand corner, where the parapet turns. The
-  book is The Reader, the notebook The Page and the view The Breath; the
-  author chose these three for the balcony. A link from the balcony carries
+  notebook with a pencil on it and a glass of tea are on the table. A small
+  olive grows in a pot tucked into the right-hand corner, where the parapet
+  turns. The view is The Breath. A link from the balcony carries
   `from=balcony`.
+- **The notebook takes a note.** On 12 October 2026 the author took The
+  Reader and The Page off the balcony and asked for the notebook to open a
+  page to write on instead. What is written there stays in the notebook,
+  in the drawer's record as `notebook`, until the reader keeps it or takes
+  it on. "Keep in your drawer" makes it a note in the drawer, under The
+  notebook, and it leads back to the balcony and has no card. "Write at
+  length on The Page" carries the words to The Page, as every note on the
+  site does (see Reading options). With nothing written it is only the
+  way to The Page.
+- **The study's lamp is seen from above.** It stands below eye level, so
+  the rim along the foot of its shade curves down toward the viewer and the
+  opening the light comes through is out of sight. Until 12 October 2026
+  that opening was drawn as an ellipse, which read as a shadow while the
+  lamp was off. Lit, the shade glows most toward its foot.
 - **Tea and coffee take turns.** The balcony's tea glass and saucer appear
   during the House's morning and evening periods, following İstanbul's sky.
   During those periods the study's coffee cup, handle and steam are absent.
@@ -502,6 +515,13 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   keeping or writing a note never mark a passage by itself. The prompt
   over a selection offers Türkçe, Keep, Note and Highlight (`js/keep.js`,
   `js/reader-translate.js`).
+  - On 12 October 2026 the author asked for the same prompt on a word's
+    story and on a quiz's questions and notes. Every container marked
+    `data-keep-passage` has it. A passage from a word story is kept under
+    Words with Stories and named by its word, and its source numbers are
+    left out. One from a quiz is kept under the quiz's name and named by
+    the question it belongs to, which `js/trivia.js` sets as
+    `data-keep-title`.
   - Keep puts the passage in the drawer and opens a small panel at the
     foot of the window with "Add a note", "Take out" and the way to the
     drawer. Note lets a reader write first: nothing is kept until "Keep
@@ -516,11 +536,14 @@ The site has two deliberate ideas of place. Do not collapse them into one.
     from the drawer or by making a new highlight.
   - The note is stored with the thing it belongs to, goes into a backup,
     the text download and the printed drawer, and stays off a shared card.
-    Under the note, Copy takes the note with what was kept and its link,
-    and a link to The Page (`/write/`) sits beside it, so a reader who
-    wants to write at length can paste them there. That link carries
-    `from=drawer`, so The Page's way back says "your drawer" and returns
-    to it. Taking out something with a note asks twice.
+    Under the note, "Write at length on The Page" takes the note there
+    with what was kept and its link, after whatever The Page already
+    holds, and The Page opens at their end (`at=end`). The author asked
+    on 12 October 2026 that every note do this, as the balcony's notebook
+    does (`toPage` in `js/keep.js`); the Copy button that stood beside it
+    was taken out then. The link carries `from=drawer`, so The Page's way back
+    says "your drawer" and returns to it. Taking out something with a note
+    asks twice.
   - The mark is drawn with the CSS Custom Highlight API, so the page's
     text is never wrapped or changed. A browser without it is not offered
     Highlight, and paper never shows a mark. A passage is found by its

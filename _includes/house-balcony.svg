@@ -116,7 +116,8 @@
     <circle class="house-balcony-lamp-globe" cx="216.7" cy="211.3" r="14.4" stroke-width="1.2"/>
   </g>
   <!-- Two chairs facing each other, a book left on one, and a small round
-       table between them with a notebook, a pen and a glass of tea. -->
+       table between them with a notebook, a pencil lying on it, and a glass
+       of tea. -->
   <g class="house-line">
     <path d="M325.9 523.3L321.8 610.3M404.7 523.3L408.8 610.3M419.6 486L423.1 559.4M353.2 486L349.7 559.4" stroke-width="2.6"/>
     <path class="house-chair" d="M319.9 519.5L407.9 519.5L407.9 525.8L319.9 525.8Z"/>
@@ -139,7 +140,7 @@
     <path class="house-wood" d="M559.7 454.2L557.6 450.3L554.3 446.7L549.8 443.5L544.4 440.6L538.2 438.1L531.3 436L523.9 434.4L516.2 433.2L508.1 432.5L500 432.3L491.9 432.5L483.8 433.2L476.1 434.4L468.7 436L461.8 438.1L455.6 440.6L450.2 443.5L445.7 446.7L442.4 450.3L440.3 454.2L439.6 458.2L440.5 462.3L443 466.4L447.1 470.3L452.8 474L460.1 477.3L468.8 480L478.5 482L489.1 483.2L500 483.7L510.9 483.2L521.5 482L531.2 480L539.9 477.3L547.2 474L552.9 470.3L557 466.4L559.5 462.3L560.4 458.2Z"/>
     <path class="house-paper" d="M471.4 470.5L505.3 466.6L494.3 448L463.7 451.2Z" stroke-width="1"/>
     <path class="house-book-blue" d="M472.3 468.1L504 464.5L493.6 446.9L464.9 449.9Z" stroke-width="1"/>
-    <path d="M465.2 465.4L503.9 448.6" stroke-width="2.2"/>
+    <g class="house-pencil" stroke-width=".7"><path class="house-pencil-lead" d="M465.2 465.4L466.6 464.1L467.1 465.2Z"/><path class="house-pencil-wood" d="M466.6 464.1L470.6 461.2L471.9 464.3L467.1 465.2Z"/><path class="house-pencil-body" d="M470.6 461.2L498.5 449.1L499.8 452.2L471.9 464.3Z"/><path class="house-pencil-ferrule" d="M498.4 449L501 447.9L502.4 451.2L499.9 452.3Z"/><path class="house-pencil-eraser" d="M501 448L502.5 447.4Q503.6 446.9 504.3 448.4Q505 450 503.9 450.5L502.4 451.1Z"/></g>
     <g class="house-tea-service">
     <path class="house-paper" d="M539.2 446.6L538.7 445.5L537.5 444.4L535.8 443.5L533.7 442.7L531.3 442.2L528.7 441.8L526 441.7L523.3 441.8L520.8 442.2L518.6 442.7L516.7 443.5L515.4 444.4L514.6 445.5L514.4 446.6L514.8 447.7L515.8 448.8L517.4 449.7L519.5 450.6L522 451.2L524.8 451.6L527.7 451.7L530.5 451.6L533.1 451.2L535.4 450.6L537.2 449.7L538.5 448.8L539.2 447.7Z" stroke-width="1"/>
     <path class="house-tea" stroke="none" d="M523 444.7Q521.6 439.1 523.7 434.3L529.9 434.3Q532 439.1 530.6 444.7Z"/>

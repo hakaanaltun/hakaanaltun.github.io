@@ -178,8 +178,11 @@ html[data-theme="midnight"] { --kept-mark: rgba(198, 185, 143, .26); }
   resize: vertical;
 }
 .keep-note-text:focus-visible { outline: 2px solid var(--petrol); outline-offset: 1px; }
-.keep-note-foot { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-top: 10px; }
-.keep-note-start { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; min-width: 0; }
+/* The way on to The Page, and the button that closes the note. Where the
+   two do not fit side by side, the button goes under it, still at the
+   right. */
+.keep-note-foot { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px 14px; margin-top: 10px; }
+.keep-note-done { flex: none; margin-left: auto; white-space: nowrap; }
 .keep-note-page { color: var(--petrol); text-underline-offset: 3px; transition: var(--select-ease, opacity .2s ease); }
 .keep-note-page:hover { opacity: var(--select-dim, .78); }
 .keep-note-page:focus-visible { outline: 2px solid var(--petrol); outline-offset: 2px; }

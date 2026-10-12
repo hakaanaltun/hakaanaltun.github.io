@@ -290,7 +290,12 @@
   <a class="word-story-series" href="{% if story_group %}/word/{{ story_group.id }}/{% else %}/word/{% endif %}">{% if story_group %}{{ story_group.title }}{% else %}Words with Stories{% endif %}</a>
   {% if story_group %}<p class="word-story-context">{{ story_group.teaser }}</p>{% endif %}
   <h1 class="word-story-title">{{ page.word }} <span class="word-story-pos">({{ page.pos }})</span></h1>
-  <div class="word-story-body">
+  {%- comment -%}
+    A reader can select a line of the story and translate it, keep it,
+    write a note on it or highlight it, as in a piece (js/reader-translate.js,
+    js/keep.js). The source numbers are left out of what is kept.
+  {%- endcomment %}
+  <div class="word-story-body" data-keep-passage data-keep-kind="Words with Stories" data-keep-title="{{ page.word | escape }}">
     {{ content }}
   </div>
   {%- comment -%}

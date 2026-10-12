@@ -11,8 +11,9 @@
    onto a shared card.
 
    The same record holds The House's other small memories: the study's lamp
-   and the balcony's, the question answered today, and what the site held at
-   the last visit. One key, so clearing it clears all of it. */
+   and the balcony's, the question answered today, the page being written in
+   the balcony's notebook, and what the site held at the last visit. One key,
+   so clearing it clears all of it. */
 (function () {
   'use strict';
   var KEY = 'olae-house-v1';
@@ -99,6 +100,8 @@
     }
     if (typeof value.lamp === 'boolean') state.lamp = value.lamp;
     if (typeof value.balconyLamp === 'boolean') state.balconyLamp = value.balconyLamp;
+    var page = noteText(value.notebook);
+    if (page) state.notebook = page;
     // Marks on the pages are shown unless the reader hid them.
     if (value.marks === false) state.marks = false;
     var seen = value.seen;
@@ -233,7 +236,19 @@
     return true;
   }
 
-  /* One kept thing as plain text: for the copy beside a note and for the
+  /* The balcony's notebook holds the page being written until the reader
+     keeps it or takes it to The Page. It is saved quietly as the reader
+     writes, like a note, and stays out of a backup with the lamps. */
+  function notebook() { return read().notebook || ''; }
+  function setNotebook(value) {
+    var state = read();
+    var page = noteText(value);
+    if (page) state.notebook = page;
+    else delete state.notebook;
+    write(state);
+  }
+
+  /* One kept thing as plain text: for The Page beside a note and for the
      drawer's text download. */
   function plain(item) {
     var lines = [[item.kind, item.title].filter(Boolean).join(' · ')];
@@ -364,12 +379,24 @@
 
   /* --- Passages --------------------------------------------------------
      A container marked data-keep-passage lets a reader select a few lines
-     and keep them. Book pages name the chapter from the section the words
-     sit in. On essay pages the selection already opens the translation
+     and keep them: a piece, the book, a word's story, a quiz's questions
+     and notes. Book pages name the chapter from the section the words sit
+     in; elsewhere the nearest data-keep-title names it, so a quiz names
+     the question a note answers. The selection opens the translation
      prompt, and js/reader-translate.js puts Keep, Note and Highlight
-     beside Türkçe through passageFor(); anywhere else a small prompt of
-     our own appears. Keeping and writing a note leave the page as it is;
-     only Highlight marks it. */
+     beside Türkçe through passageFor(); a page without it has a small
+     prompt of our own. Keeping and writing a note leave the page as it
+     is; only Highlight marks it. */
+
+  /* A word story's source numbers are links beside the sentence, not
+     words in it, so a kept passage leaves them out and a highlight is
+     found again without them. */
+  var UNKEPT = 'script, style, .word-cite';
+  function passageText(range) {
+    var copy = range.cloneContents();
+    copy.querySelectorAll(UNKEPT).forEach(function (node) { node.remove(); });
+    return copy.textContent;
+  }
 
   function passageFor(range) {
     if (!range) return null;
@@ -377,11 +404,13 @@
     var element = node.nodeType === 1 ? node : node.parentElement;
     var holder = element && element.closest('[data-keep-passage]');
     if (!holder) return null;
-    var words = tidy(range.toString());
+    var words = tidy(passageText(range));
     if (words.length < MIN_PASSAGE || words.length > MAX_QUOTE) return null;
     var chapter = element.closest('.book-chapter');
     var heading = chapter && chapter.querySelector('h2[id]');
-    var title = heading ? heading.textContent : holder.getAttribute('data-keep-title');
+    var titled = element.closest('[data-keep-title]');
+    if (!titled || !holder.contains(titled)) titled = holder;
+    var title = heading ? heading.textContent : titled.getAttribute('data-keep-title');
     var href = location.pathname + (heading ? '#' + heading.id : '');
     return clean({
       id: textId(words),
@@ -467,9 +496,35 @@
   /* --- A note ------------------------------------------------------------
      The same small editor serves a passage on its page and anything in the
      drawer. It saves as the reader writes, so nothing waits on a button;
-     Done closes it. For a reader who wants to write at length, Copy takes
-     the note with what was kept and its address, and The Page (/write/)
-     is beside it to paste them into. */
+     Done closes it. For a reader who wants to write at length, "Write at
+     length on The Page" takes the note there with what it is about and its
+     address, as the balcony's notebook takes its page. */
+
+  /* The Page keeps its writing under olae-page-v1 (write/index.html). What
+     is taken there goes after whatever is already written, and The Page
+     opens at its end (at=end). Words already at its end are not added a
+     second time. Returns false when this browser cannot save them there. */
+  var PAGE_KEY = 'olae-page-v1';
+  function toPage(words, link) {
+    words = String(words || '').trim();
+    if (!words) return true;
+    var before = '';
+    try {
+      var saved = JSON.parse(localStorage.getItem(PAGE_KEY) || 'null');
+      if (saved && typeof saved.text === 'string') before = saved.text.replace(/\s+$/, '');
+    } catch (e) { /* unreadable: The Page starts empty too */ }
+    if (before.slice(-words.length) !== words) {
+      try {
+        localStorage.setItem(PAGE_KEY, JSON.stringify({ text: before ? before + '\n\n' + words : words, at: Date.now() }));
+      } catch (e) { return false; }
+    }
+    if (link) {
+      var url = new URL(link.getAttribute('href'), location.href);
+      url.searchParams.set('at', 'end');
+      link.setAttribute('href', url.pathname + url.search);
+    }
+    return true;
+  }
 
   var editors = 0;
   var flushes = [];
@@ -498,10 +553,6 @@
     area.value = kept && kept.note ? kept.note : '';
     var foot = document.createElement('div');
     foot.className = 'keep-note-foot';
-    var copy = document.createElement('button');
-    copy.type = 'button';
-    copy.className = 'keep-note-copy';
-    copy.textContent = 'Copy';
     var done = document.createElement('button');
     done.type = 'button';
     done.className = 'keep-note-done';
@@ -509,20 +560,17 @@
     var page = document.createElement('a');
     page.className = 'keep-note-page';
     page.href = pageHref();
-    page.textContent = 'Write more on The Page →';
-    var start = document.createElement('span');
-    start.className = 'keep-note-start';
-    start.appendChild(copy);
-    start.appendChild(page);
-    foot.appendChild(start);
+    // The Page and its arrow stay together when the line breaks.
+    page.textContent = 'Write at length on The\u00a0Page\u00a0→';
+    foot.appendChild(page);
     foot.appendChild(done);
     var hint = document.createElement('p');
     hint.className = 'keep-note-hint';
     hint.textContent = !works
-      ? 'This browser cannot save your note. Copy it before you leave.'
+      ? 'This browser cannot save your note. Select it and copy it before you leave.'
       : draft
-        ? 'Nothing is kept until you keep it. To write at length, copy your note and paste it on The Page.'
-        : 'Your note stays in this browser with what you kept. To write at length, copy both and paste them on The Page.';
+        ? 'Nothing is kept until you keep it. Write at length on The Page takes your note there with the passage, after anything already written.'
+        : 'Your note stays in this browser with what you kept. Write at length on The Page takes both there, after anything already written.';
     var said = document.createElement('p');
     said.className = 'keep-note-said';
     said.setAttribute('role', 'status');
@@ -557,16 +605,18 @@
     });
     area.addEventListener('blur', save);
     if (!draft) flushes.push(save);
-    copy.addEventListener('click', function () {
+    function described() {
       save();
       var item = draft || (options.describe && options.describe()) || find(id);
-      if (!item) { said.textContent = 'This is no longer in your drawer.'; return; }
-      var words = plain(Object.assign({}, item, { note: noteText(area.value) }));
-      copyText(words).then(function () {
-        said.textContent = 'Copied, with its link.';
-      }, function () {
-        said.textContent = 'This browser would not copy it. Select your note and copy it by hand.';
-      });
+      return item ? plain(Object.assign({}, item, { note: noteText(area.value) })) : null;
+    }
+    page.addEventListener('click', function (event) {
+      var words = described();
+      if (!words) { event.preventDefault(); said.textContent = 'This is no longer in your drawer.'; return; }
+      if (!toPage(words, page)) {
+        event.preventDefault();
+        said.textContent = 'This browser cannot take your note to The Page. Select it and copy it by hand.';
+      }
     });
     function finish() {
       if (draft) {
@@ -596,28 +646,7 @@
      drawer, as The House's own links lead back to the study
      (_includes/tool-back.html). The v loads The Page as it is now rather
      than a service worker's older copy; it moves when that way back does. */
-  function pageHref() { return '/write/?from=drawer&v=20261010-1'; }
-
-  function copyText(words) {
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      return navigator.clipboard.writeText(words).catch(function () { return oldCopy(words); });
-    }
-    return oldCopy(words);
-  }
-  function oldCopy(words) {
-    return new Promise(function (resolve, reject) {
-      var spare = document.createElement('textarea');
-      spare.value = words;
-      spare.setAttribute('readonly', '');
-      spare.style.cssText = 'position:fixed;top:0;left:0;opacity:0;pointer-events:none;';
-      document.body.appendChild(spare);
-      spare.select();
-      var copied = false;
-      try { copied = document.execCommand('copy'); } catch (e) { copied = false; }
-      spare.remove();
-      if (copied) resolve(); else reject(new Error('copy'));
-    });
-  }
+  function pageHref() { return '/write/?from=drawer&v=20261012-1'; }
 
   /* --- The panel by a kept passage ----------------------------------------
      There are three ways in. Keeping a passage opens a panel at the foot of
@@ -968,7 +997,7 @@
     var walker = document.createTreeWalker(holder, NodeFilter.SHOW_TEXT);
     for (var node = walker.nextNode(); node; node = walker.nextNode()) {
       var parent = node.parentElement;
-      if (parent && parent.closest('script, style')) continue;
+      if (parent && parent.closest(UNKEPT)) continue;
       var data = node.data;
       for (var i = 0; i < data.length; i++) {
         var c = data.charAt(i);
@@ -1104,6 +1133,9 @@
     sync: sync,
     find: find,
     setNote: setNote,
+    notebook: notebook,
+    setNotebook: setNotebook,
+    toPage: toPage,
     plain: plain,
     noteEditor: noteEditor,
     passageFor: passageFor,
