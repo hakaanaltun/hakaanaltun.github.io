@@ -119,7 +119,7 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
     for (const name of selectors.match(/\.house-hotspot--[\w-]+/g)) layer[name.slice(16)] = +z;
   }
   const boxes = [];
-  for (const [, at, name, rule] of houseCss.matchAll(/^(?:\.house-scene\[data-moris="(\w+)"\] )?\.house-hotspot--([\w-]+) \{ ([^}]*--ax: [\d.]+;[^}]*)\}$/gm)) {
+  for (const [, at, name, rule] of houseCss.matchAll(/^(?:\.house-scene\[data-moris(?:-spot)?="(\w+)"\] )?\.house-hotspot--([\w-]+) \{ ([^}]*--ax: [\d.]+;[^}]*)\}$/gm)) {
     const v = (key) => +rule.match(new RegExp('--' + key + ': ([\\d.]+)'))[1];
     const spot = doc.querySelector('.house-hotspot--' + name);
     boxes.push({ name: name + (at ? ' (' + at + ')' : ''), z: layer[name] || 1, room: spot.closest('section').id, x: v('ax'), y: v('ay'), w: v('aw'), h: v('ah') });
@@ -133,6 +133,12 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
       }
     }
   }
+  // The door between the rooms is drawn shut and open in both of them, and
+  // stands open only while Moris is out on the balcony.
+  for (const id of ['#house-scene', '#house-balcony-scene']) {
+    assert.ok(doc.querySelector(id + ' g.house-door-shut') && doc.querySelector(id + ' g.house-door-open'), 'the door shut and open in ' + id);
+  }
+  assert.ok(houseCss.includes('.house-scene[data-moris="balcony"] .house-door-shut, .house-scene:not([data-moris="balcony"]) .house-door-open { display: none; }'), 'open only while he is out');
   // The balcony's lamp has its switch on the balcony wall beside the door;
   // the globe itself is no switch.
   assert.ok(doc.querySelector('#house-balcony-scene .house-hotspot--balcony-switch[data-balcony-lamp]'), 'the switch beside the door');
@@ -503,15 +509,18 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.equal(n.w.document.querySelectorAll('#house-balcony-scene .house-weather *').length, 0);
   n.dom.window.close();
 
-  // Moris goes out to the balcony twice a day, and its glass is shut while
-  // he is there: from noon to two, and from two hours before sunset (18:31
-  // that day) until half an hour before it. Between them he is on his
-  // cushion, and as the sun goes down he is asleep at the window.
-  for (const [hour, place, line] of [['13:00', 'balcony', /^He is out on the balcony for the middle of the day/], ['14:30', 'cushion', null], ['17:00', 'balcony', /^He is out on the balcony again until the sun is low/], ['18:10', 'sill', null]]) {
+  // Moris goes out to the balcony twice a day, and its glass is shut and its
+  // door open while he is there: from noon to two, asleep on the empty
+  // chair, and from two hours before sunset (18:31 that day) until half an
+  // hour before it, lying by the glass. Between them he is on his cushion,
+  // the door is shut, and as the sun goes down he is asleep at the window.
+  for (const [hour, place, spot, line] of [['13:00', 'balcony', 'chair', /^He is asleep on a chair out on the balcony for the middle of the day/], ['14:30', 'cushion', undefined, null], ['17:00', 'balcony', 'glass', /^He is out on the balcony again until the sun is low, lying by the closed glass/], ['18:10', 'sill', undefined, null]]) {
     n = houseAt('2026-10-11T' + hour + ':00+03:00', 'https://hakanaltun.io/house/#balcony');
     await tick();
     assert.equal(n.q('#house-scene').dataset.moris, place, 'Moris at ' + hour);
-    assert.equal(n.q('#house-balcony-scene').dataset.moris, place, 'the glass closed only while he is out there');
+    assert.equal(n.q('#house-balcony-scene').dataset.moris, place, 'the glass closed and the door open only while he is out there');
+    assert.equal(n.q('#house-balcony-scene').dataset.morisSpot, spot, 'on the chair at midday and by the glass later');
+    if (spot) assert.equal(n.q('#house-balcony-scene .house-moris').getAttribute('transform'), spot === 'chair' ? 'translate(-15.2 129.9) scale(.76)' : 'translate(1012.7 29.3) scale(-.735 .735)');
     assert.equal(n.q('#balcony [data-moris-item]').hidden, place !== 'balcony');
     assert.equal(n.q('#study .house-objects [data-open="moris"]').parentNode.hidden, place === 'balcony', 'not in the study meanwhile');
     if (line) {
@@ -1165,6 +1174,6 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.equal(t.q('canvas.cursor-trail'), null, 'and none for a reader who asked for less motion');
   t.dom.window.close();
 
-  console.log('House: catalog and addresses, daily room, keeping from the room and from words, quizzes, the book and essays, the kept passage\'s panel, note and copy, Highlight and its clearing, the small box by a highlight, hidden highlights, a note written before keeping, notes in the drawer, legacy and hostile records, blocked storage, arrivals, #drawer, export and backup offered only where they work, the moon, the planets after dark, weather at the window, the balcony, its glass, its sky and its lamp, quiet places and a remembered Show places to look, the ways back to the study and the balcony, and the pointer\'s trail passed.');
+  console.log('House: catalog and addresses, daily room, keeping from the room and from words, quizzes, the book and essays, the kept passage\'s panel, note and copy, Highlight and its clearing, the small box by a highlight, hidden highlights, a note written before keeping, notes in the drawer, legacy and hostile records, blocked storage, arrivals, #drawer, export and backup offered only where they work, the moon, the planets after dark, weather at the window, the balcony, its glass, its door, its sky and its lamp, Moris on the chair and by the glass, quiet places and a remembered Show places to look, the ways back to the study and the balcony, and the pointer\'s trail passed.');
 })().catch((error) => { console.error(error); process.exit(1); });
 

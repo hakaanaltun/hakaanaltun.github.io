@@ -397,8 +397,8 @@
 
   var MORIS = {
     cushion: { place: 'On his cushion', line: 'He is resting on his cushion below the window.' },
-    balcony: { place: 'On the balcony', line: 'He is out on the balcony for the middle of the day, behind the closed glass.' },
-    'balcony-late': { place: 'On the balcony', line: 'He is out on the balcony again until the sun is low, behind the closed glass.' },
+    balcony: { place: 'On the balcony', line: 'He is asleep on a chair out on the balcony for the middle of the day, behind the closed glass.' },
+    'balcony-late': { place: 'On the balcony', line: 'He is out on the balcony again until the sun is low, lying by the closed glass and looking out.' },
     sill: { place: 'At the window', line: 'He is asleep by the window as the sun goes down.' },
     shelf: { place: 'On the bookshelf', line: 'He is on top of the bookshelf, inspecting the room.' },
     rug: { place: 'On the rug', line: 'He is on the rug.' }
@@ -406,8 +406,8 @@
   function renderMoris(box) {
     box.appendChild(document.getElementById('house-moris').content.cloneNode(true));
     var where = scene.dataset.moris;
-    // Out on the balcony twice a day: the second time is the late afternoon's.
-    if (where === 'balcony' && skyNow(new Date()).hour >= 14) where = 'balcony-late';
+    // Out on the balcony twice a day: the second time he is by the glass.
+    if (where === 'balcony' && balconyScene.dataset.morisSpot === 'glass') where = 'balcony-late';
     var about = MORIS[where] || MORIS.cushion;
     document.getElementById('house-dialog-place').textContent = about.place;
     box.querySelector('[data-moris-line]').textContent = about.line;
@@ -535,9 +535,10 @@
      house, by day as well as by night. Sharing a casement, the one further
      east keeps to its left. */
   var CASEMENT = { east: 628, west: 758 };
-  /* Over the balcony the sky is drawn whole between its walls: east at the
-     left, west at the right, and from the horizon at the sea up to the
-     ceiling, so the sun, the moon and the stars are where they stand. */
+  /* Over the balcony the sky is drawn whole across its front glass: east
+     at the wall on the left, west at the corner on the right, and from the
+     horizon at the sea up to the ceiling, so the sun, the moon and the
+     stars are where they stand. */
   var OPEN = { left: 262.5, right: 737.5, horizon: 285, top: 125 };
   function skyPoint(alt, az) {
     return { x: OPEN.left + (az - 90) / 180 * (OPEN.right - OPEN.left), y: OPEN.horizon - alt / 90 * (OPEN.horizon - OPEN.top) };
@@ -546,6 +547,10 @@
      perspective, so he is smaller up at the window and on the bookshelf,
      and larger out on the carpet, near the front of the room. */
   var PLACES = { sill: 'translate(25.7 -107) scale(.891)', shelf: 'translate(-478.8 -311.3) scale(.924)', rug: 'translate(-711.1 -82.2) scale(1.467)', cushion: 'translate(109.7 23.83) scale(.88)' };
+  /* Out on the balcony he sleeps on the empty chair through the middle of
+     the day, and in the late afternoon lies on the coping by the glass,
+     turned toward the room. */
+  var BALCONY_SPOTS = { chair: 'translate(-15.2 129.9) scale(.76)', glass: 'translate(1012.7 29.3) scale(-.735 .735)' };
   var PHASES = ['new moon', 'waxing crescent', 'first quarter', 'waxing gibbous', 'full moon', 'waning gibbous', 'last quarter', 'waning crescent'];
 
   // How far apart two things in the sky are, in degrees.
@@ -597,8 +602,9 @@
      two, back on his cushion, out on the balcony again from two hours
      before sunset until half an hour before it, asleep at the window as the
      sun goes down, up on the bookshelf once the lamps are on, and out on
-     the carpet after midnight. The balcony's glass is closed while he is
-     out there. */
+     the carpet after midnight. The balcony's glass is closed and its door
+     stands open while he is out there; while he is indoors the door is shut
+     and the glass is folded away. */
   var MINUTE = 60000;
   function morisPlace(sky, now) {
     var late = sky.sunset ? now >= sky.sunset - 120 * MINUTE && now < sky.sunset - 30 * MINUTE : sky.hour >= 16 && sky.hour < 18;
@@ -755,6 +761,11 @@
     var place = morisPlace(sky, now);
     scene.dataset.moris = place;
     balconyScene.dataset.moris = place;
+    var spot = place === 'balcony' ? (sky.hour >= 14 ? 'glass' : 'chair') : null;
+    if (spot) {
+      balconyScene.dataset.morisSpot = spot;
+      balconyScene.querySelector('.house-moris').setAttribute('transform', BALCONY_SPOTS[spot]);
+    } else delete balconyScene.dataset.morisSpot;
     balcony.querySelector('[data-moris-item]').hidden = place !== 'balcony';
     study.querySelector('.house-objects [data-open="moris"]').parentNode.hidden = place === 'balcony';
     var cat = scene.querySelector('.house-moris');
@@ -780,15 +791,18 @@
      On this page the footer's rain and snow fall outside the window rather
      than over the whole page: js/let-it-snow.js hands them over, and keeps
      its buttons and their labels as they are everywhere else. On the
-     balcony they fall beyond the parapet, and the snow gathers along the
-     foot of the glass. When the footer's weather stops, the rooms follow
-     İstanbul's weather again. */
+     balcony they fall beyond the parapet and past the glass at its side,
+     and the snow gathers along the foot of the glass at the front and at
+     the side. When the footer's weather stops, the rooms follow İstanbul's
+     weather again. The balcony's glass takes in more of the sky than the
+     window, so more falls there and the fall is as thick. */
 
   var VIEWS = {
     study: { scene: scene, layer: scene.querySelector('.house-weather'), snow: scene.querySelector('.house-window-snow'),
       box: { left: 560, right: 826, top: 108, bottom: 321 }, drift: { left: 560, right: 826, base: 321 }, where: ' at the study window.' },
     balcony: { scene: balconyScene, layer: balconyScene.querySelector('.house-weather'), snow: balconyScene.querySelector('.house-balcony-snow'),
-      box: { left: 232.5, right: 767.5, top: 99.6, bottom: 379.4 }, drift: { left: 232.5, right: 767.5, base: 379.4 }, where: ' over the city.' }
+      box: { left: 232.5, right: 1000, top: 0, bottom: 474 }, more: 2,
+      drift: { left: 232.5, right: 767.5, base: 379.4, side: { right: 1000, base: 461.4, grow: 1.87 } }, where: ' over the city.' }
   };
   var view = VIEWS.study;
   // The pine outside the balcony holds the snow on its tufts as it falls.
@@ -829,10 +843,17 @@
   /* Snow gathers along the foot of the glass while it falls, deeper in a
      heavy fall, and melts away once it stops. */
   function drawWindowSnow() {
-    var h = weather.snow, d = view.drift, base = d.base;
-    view.snow.setAttribute('d', h < 0.2 ? '' : 'M' + d.left + ' ' + base + 'V' + (base - h).toFixed(1) +
+    var h = weather.snow, d = view.drift, base = d.base, side = d.side;
+    if (h < 0.2) { view.snow.setAttribute('d', ''); return; }
+    var path = 'M' + d.left + ' ' + base + 'V' + (base - h).toFixed(1) +
       'Q' + (d.left + 45) + ' ' + (base - h * 1.5).toFixed(1) + ' ' + (d.left + 91) + ' ' + (base - h).toFixed(1) +
-      'T' + d.right + ' ' + (base - h).toFixed(1) + 'V' + base + 'Z');
+      'T' + d.right + ' ' + (base - h).toFixed(1) + 'V' + base + 'Z';
+    if (side) {
+      var near = side.base - h * side.grow;
+      path += 'M' + d.right + ' ' + base + 'L' + side.right + ' ' + side.base + 'V' + near.toFixed(1) +
+        'Q' + (d.right + side.right) / 2 + ' ' + ((near + base - h) / 2 - h * 0.7).toFixed(1) + ' ' + d.right + ' ' + (base - h).toFixed(1) + 'Z';
+    }
+    view.snow.setAttribute('d', path);
   }
   function weatherStep(now) {
     weather.frame = 0;
@@ -857,7 +878,7 @@
     weather.drops.forEach(function (drop) { drop.node.remove(); });
     weather.drops = [];
     var kind = weather.kind, level = weather.level;
-    var count = kind ? (kind === 'rain' ? (level === 2 ? 190 : 85) : (level === 2 ? 160 : 85)) : 0;
+    var count = kind ? (kind === 'rain' ? (level === 2 ? 190 : 85) : (level === 2 ? 160 : 85)) * (view.more || 1) : 0;
     if (still) count = Math.round(count * 0.45);
     for (var i = 0; i < count; i++) weather.drops.push(makeDrop(true));
     if (!weather.frame) weather.frame = window.requestAnimationFrame(weatherStep);
