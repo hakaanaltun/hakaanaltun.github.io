@@ -306,9 +306,13 @@ The site has two deliberate ideas of place. Do not collapse them into one.
 
 - **The House has a balcony beside the study.** The author asked for it on
   11 October 2026. Its glass door is in the study's right-hand wall, beyond
-  the plant. The balcony is set into the house, so it looks the same way as
-  the study window. `_includes/house-balcony.svg` draws it in the study's
-  line style, in one-point perspective toward the horizon at 500, 285.
+  the plant. The balcony is set into the corner of the house, so it looks
+  the same way as the study window. Its right-hand side is glass above the
+  parapet, like its front. The author asked for this on 12 October 2026,
+  when the wall there made the balcony feel a little stifling. The wall on
+  the left, with the door, is the house's own. `_includes/house-balcony.svg`
+  draws it in the study's line style, in one-point perspective toward the
+  horizon at 500, 285.
 - **Both views look over the same place.** The house is close to the shore.
   Over the neighbourhood's roofs there is a strip of sea, and the Islands
   lie on the horizon, part of them behind taller blocks to the left. The
@@ -316,24 +320,28 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   `_includes/house-view.svg` draws the view once, in the window's
   coordinates with the horizon at its eye level, and the window and the
   balcony both include it, so they cannot disagree. The Islands' outlines
-  are general, and no island is named.
+  are general, and no island is named. Through the side glass the roofs and
+  the strip of sea go on to the west, beyond the window's sight.
 - **A pine stands just outside, to the right.** The author asked for it on
   11 October 2026, for the birds it will bring and for snow and rain. Its
   crown fills the right-hand side of the view from below the parapet to a
-  little under the top of the glass. It stands beyond what the study window
-  can see, so the window's view stays as it was. Snow settles on its tufts
-  while it falls and melts after.
-- **The sky is İstanbul's, at this moment.** On the balcony the sun, the moon
-  and the brightest stars and planets are drawn at their own bearing and
-  height, with east at the left wall and west at the right, from the sea's
-  horizon up to the ceiling. Their dialogs give the exact height and
-  direction. A body behind the house is not drawn, and its name waits at the
-  edge on its side. Within a day or two of the new moon the moon is lost in
-  the sun's light and is not drawn. In the study window the sun and the
-  moon stand in the casement on their side of the sky, the left one in the
-  east and the right one in the west. Their places come from
-  `js/astronomy.js`, and the stars and planets from `js/sky-map.js`, loaded
-  once the balcony is dark.
+  little under the top of the glass, and it is seen through both the front
+  and the side glass. Its crown narrows toward the top on both sides of the
+  trunk. Its right-hand half was hidden by the wall until the side became
+  glass, and it was redrawn then to match the left. It stands beyond what
+  the study window can see, so the window's view stays as it was. Snow
+  settles on its tufts while it falls and melts after.
+- **The sky is İstanbul's, at this moment.** On the balcony the sun, the
+  moon and the brightest stars and planets are drawn at their own bearing
+  and height across the front glass, with east at the left wall and west at
+  the corner on the right, from the sea's horizon up to the ceiling. Their
+  dialogs give the exact height and direction. A body behind the house is
+  not drawn, and its name waits at the edge on its side. Within a day or two
+  of the new moon the moon is lost in the sun's light and is not drawn. In
+  the study window the sun and the moon stand in the casement on their side
+  of the sky, the left one in the east and the right one in the west. Their
+  places come from `js/astronomy.js`, and the stars and planets from
+  `js/sky-map.js`, loaded once the balcony is dark.
 - **Only the balcony's sun and moon lead to their pictures.** Each body
   and its name share one link on every screen. The study window has no
   Sun or Moon travel links. The balcony's Sun opens Pictures with Stories
@@ -364,39 +372,42 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   Automatic weather never scrolls the page or starts audio. Reduced motion
   keeps precipitation still and does not cycle the passing clouds.
 - **The balcony is glazed.** Folding glass panels stand on the parapet up to
-  the ceiling. Moris goes out to the balcony twice a day, as the author
-  asked: from noon to two, and again from two hours before sunset until half
-  an hour before it. In between he is on his cushion, and as the sun goes
-  down he is asleep at the window. The glass is closed while he is out
-  there; while he is indoors the door is shut and the glass is folded away
-  to the right. The author settled this on 11 October 2026: a cat is never
-  shown on a balcony that is not safe for him. Do not draw Moris on the
-  balcony with the glass open.
-- **What is on the balcony.** Two chairs face each other across a small round
-  table, as the author asked. A book lies on one chair, and a notebook, a
-  pen and a glass of tea are on the table. A small olive grows in a pot
-  tucked into the corner, against the wall and the parapet. The book is The Reader, the notebook The Page and the view The
-  Breath; the author chose these three for the balcony. A link from the
-  balcony carries `from=balcony`.
+  the ceiling, along the front and the right-hand side. Moris goes out to
+  the balcony twice a day, as the author asked: from noon to two, and again
+  from two hours before sunset until half an hour before it. In between he
+  is on his cushion, and as the sun goes down he is asleep at the window.
+  The glass is closed while he is out there; while he is indoors the door is
+  shut and the glass is folded away into the right-hand corner. The author
+  settled this on 11 October 2026: a cat is never shown on a balcony that is
+  not safe for him. Do not draw Moris on the balcony with the glass open.
+- **What is on the balcony.** Two chairs face each other across a small
+  round table, as the author asked. A book lies on one chair, and a
+  notebook, a pen and a glass of tea are on the table. A small olive grows
+  in a pot tucked into the right-hand corner, where the parapet turns. The
+  book is The Reader, the notebook The Page and the view The Breath; the
+  author chose these three for the balcony. A link from the balcony carries
+  `from=balcony`.
 - **Tea and coffee take turns.** The balcony's tea glass and saucer appear
   during the House's morning and evening periods, following İstanbul's sky.
   During those periods the study's coffee cup, handle and steam are absent.
   During the day and night periods the coffee is present and the tea is
   absent. Both rooms use the same `data-hour` value, including while open.
-- **A lamp hangs on the right-hand wall.** The author asked for it on
-  11 October 2026: a glass globe with a yellow light, on the wall beside
-  the pine so that it lights the tree as well as the balcony. It is on in
-  the evening and at night until the reader puts it out, and off by day
-  until they light it. Their choice is kept in the drawer's record as
-  `balconyLamp`, apart from the study's lamp. Its light reaches only the
-  near side of the pine, and only after sunset. Its switch is out on the
-  balcony, on the wall beside the door to the study, a little higher than
-  the handle. The author first had it put in the study and moved it out
-  on 11 October 2026. A touch on the globe changes nothing. While it is
-  lit, as a small joke, its light goes and comes back once or twice in
-  well under a second; the author asked that an unlit globe stay dark. The
-  status line points to the switch either way. After sunset each
-  room's lamp shows in the other through the glass of the door.
+- **A lamp hangs on the left-hand wall.** The author asked for it on
+  11 October 2026: a glass globe with a yellow light. It hung first on the
+  right-hand wall beside the pine; when that wall became glass on
+  12 October 2026 it moved to the left-hand wall, near the front glass,
+  where it lights the chair with the book. It is on in the evening and at
+  night until the reader puts it out, and off by day until they light it.
+  Their choice is kept in the drawer's record as `balconyLamp`, apart from
+  the study's lamp. A little of its light reaches the near side of the pine,
+  and only after sunset. Its switch is out on the balcony, on the same wall
+  beside the door to the study, a little higher than the handle. The author
+  first had the switch put in the study and moved it out on 11 October 2026.
+  A touch on the globe changes nothing. While it is lit, as a small joke,
+  its light goes and comes back once or twice in well under a second; the
+  author asked that an unlit globe stay dark. The status line points to the
+  switch either way. After sunset each room's lamp shows in the other
+  through the glass of the door.
 - **Its sound comes next.** The balcony will have a sound of its own, like
   the farm's, but following İstanbul's real calendar rather than a fixed
   summer. Check each bird and its season against reliable sources before it

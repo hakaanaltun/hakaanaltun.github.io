@@ -220,8 +220,9 @@
 .house-scene[data-lamp="on"] .house-dusk { fill: url(#house-lamplight); }
 /* The study's lamp lights the study; out on the balcony it shows only
    through the glass of the door. The balcony has a lamp of its own, a
-   glass globe on the right-hand wall, with a yellow light that reaches the
-   near side of the pine after sunset. */
+   glass globe on the left-hand wall, with a yellow light on the chair with
+   the book that reaches a little across to the near side of the pine after
+   sunset. */
 .house-scene--balcony[data-lamp="on"] .house-dusk { fill: #1c2633; }
 .house-balcony-lamp-globe { fill: #f3efe4; }
 .house-balcony-lamp-glow, .house-balcony-pine-glow { opacity: 0; pointer-events: none; transition: opacity 500ms ease; }
@@ -288,7 +289,7 @@
 .house-hotspot--balcony-reader { --ax: 37; --ay: 77; --aw: 11; --ah: 30; --lx: 25.5; --ly: 67.7; }
 .house-hotspot--page { --ax: 50; --ay: 70.5; --aw: 12.4; --ah: 8.5; --lx: 50; --ly: 63.4; }
 .house-hotspot--balcony-moris { --ax: 25.5; --ay: 88.5; --aw: 10; --ah: 7.5; --lx: 25.5; --ly: 81.5; }
-.house-hotspot--balcony-lamp { --ax: 79.45; --ay: 31.5; --aw: 5.1; --ah: 6.6; --lx: 79.4; --ly: 26.6; }
+.house-hotspot--balcony-lamp { --ax: 20.55; --ay: 31.5; --aw: 5.1; --ah: 6.6; --lx: 20.6; --ly: 26.6; }
 /* The lamp's switch is on the wall beside the door. On a small screen its
    place stays narrow, so that it never covers the door's glass. */
 .house-hotspot--balcony-switch { --ax: 14.4; --ay: 58; --aw: 3; --ah: 5; --lx: 21.5; --ly: 58; }
@@ -420,7 +421,7 @@ html[data-theme="dark"], html[data-theme="midnight"], html[data-theme="sky"], .h
   .house-hotspot--page { --lx: 48.5; --ly: 68.5; }
   .house-hotspot--breath { --lx: 50; --ly: 51; }
   .house-hotspot--balcony-moris { --lx: 25.5; --ly: 88; }
-  .house-hotspot--balcony-lamp { --lx: 85.5; --ly: 31.5; }
+  .house-hotspot--balcony-lamp { --lx: 20.6; --ly: 22.5; }
   .house-hotspot--balcony-switch { --ax: 15.5; --lx: 15.5; min-width: 24px; }
   .house-hotspot--stars { --lx: 33; --ly: 22; }
   .house:not(.show-places) .house-objects { display: none; }
