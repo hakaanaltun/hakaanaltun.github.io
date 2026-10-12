@@ -21,6 +21,7 @@ const scripts = {
   keep: read(root, 'js', 'keep.js'),
   astronomy: read(root, 'js', 'astronomy.js'),
   house: read(root, 'js', 'house.js'),
+  weather: read(root, 'js', 'house-weather.js'),
   trivia: read(root, 'js', 'trivia.js'),
   translate: read(root, 'js', 'reader-translate.js'),
   snow: read(root, 'js', 'let-it-snow.js')
@@ -60,7 +61,7 @@ function page(file, url, { saved, blocked = false, run = [], before } = {}) {
   const stored = () => JSON.parse(w.localStorage.getItem(KEY));
   return { dom, w, q, click, stored };
 }
-const house = (options = {}) => page('house/index.html', options.url || 'https://hakanaltun.io/house/', { ...options, run: ['keep', 'astronomy', 'house'] });
+const house = (options = {}) => page('house/index.html', options.url || 'https://hakanaltun.io/house/', { ...options, run: ['keep', 'astronomy', 'weather', 'house'] });
 
 (async () => {
   // Every instrument keeps the return destination tied to this visit's URL.
@@ -467,13 +468,15 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.equal(scene.dataset.moris, 'cushion', 'the glass folded away while Moris is inside');
   assert.equal(n.q('#balcony [data-moris-item]').hidden, true);
   assert.equal(scene.dataset.sun, 'in');
-  assert.ok(shown(n, '.house-hotspot--sun') && shown(n, '.house-hotspot--window-sun'));
-  assert.equal(n.q('.house-hotspot--window-sun').getAttribute('href'), '/pictures/sun/?from=house');
+  assert.ok(shown(n, '.house-hotspot--sun'));
   assert.ok(spot(n, '#house-balcony-scene .house-sun').x < 500 && spot(n, '#house-balcony-scene .house-sun').y < 285, 'the sun to the left, above the sea');
   assert.equal(n.q('.house-hotspot--sun').getAttribute('href'), '/pictures/sun/?from=balcony', 'the sun leads to its picture');
   assert.ok(!shown(n, '.house-hotspot--moon') && !shown(n, '.house-hotspot--stars'));
+  assert.equal(n.q('.house-hotspot--window-sun'), null, 'no picture travel from the study window');
+  assert.equal(n.q('.house-hotspot--window-moon'), null);
+  assert.equal(n.q('#house-window').content.querySelector('a[href^="/pictures/"]'), null);
   let said;
-  for (const selector of ['.house-hotspot--sun', '#balcony [data-sky-item="sun"] a', '.house-hotspot--window-sun']) {
+  for (const selector of ['.house-hotspot--sun', '#balcony [data-sky-item="sun"] a']) {
     const link = n.q(selector);
     assert.equal(link.tagName, 'A');
     assert.equal(link.hasAttribute('data-open'), false);
@@ -528,7 +531,7 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.equal(n.q('#house-scene').dataset.moon, 'up');
   assert.equal(spot(n, '#house-scene .house-moon-disc').x, 758, 'the right casement while the moon is in the west');
   assert.equal(n.q('#house-balcony-scene').dataset.sun, 'down');
-  assert.ok(!shown(n, '.house-hotspot--sun') && !shown(n, '.house-hotspot--window-sun'));
+  assert.ok(!shown(n, '.house-hotspot--sun'));
   assert.ok(shown(n, '.house-hotspot--moon') && shown(n, '.house-hotspot--stars'));
   assert.ok(spot(n, '#house-balcony-scene .house-moon-disc').x > 500, 'the moon to the right');
   assert.equal(n.q('.house-hotspot--moon').getAttribute('href'), '/pictures/space/?from=balcony#scene-moon', 'the moon leads to the Moon on the journey');
@@ -536,9 +539,7 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   const stars = n.w.document.querySelectorAll('#house-balcony-scene .house-sky-stars circle');
   assert.ok(stars.length >= 3 && stars.length < 40, 'a few bright stars and planets: ' + stars.length);
   assert.ok(n.q('#house-balcony-scene .house-sky-stars .is-planet'), 'Saturn among them');
-  assert.equal(n.q('.house-hotspot--window-moon').getAttribute('href'), '/pictures/space/?from=house#scene-moon');
-  assert.ok(shown(n, '.house-hotspot--window-moon'));
-  for (const selector of ['.house-hotspot--moon', '#balcony [data-sky-item="moon"] a', '.house-hotspot--window-moon']) {
+  for (const selector of ['.house-hotspot--moon', '#balcony [data-sky-item="moon"] a']) {
     const link = n.q(selector);
     assert.equal(link.tagName, 'A');
     link.addEventListener('click', event => event.preventDefault(), { once: true });
@@ -603,7 +604,7 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   await tick();
   assert.equal(n.q('#house-scene').dataset.sun, 'behind');
   assert.equal(n.q('#house-balcony-scene').dataset.sun, 'behind');
-  assert.ok(shown(n, '.house-hotspot--sun') && !shown(n, '.house-hotspot--window-sun'));
+  assert.ok(shown(n, '.house-hotspot--sun'));
   assert.equal(n.q('.house-hotspot--sun').dataset.side, 'edge-right');
   assert.equal(n.q('.house-hotspot--sun').getAttribute('href'), '/pictures/sun/?from=balcony');
   n.dom.window.close();
@@ -1032,6 +1033,35 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   a.click(removeNoted);
   assert.equal(a.stored().kept.length, 1);
   a.dom.window.close();
+
+  // Automatic weather affects both views without moving the reader or
+  // claiming a manual choice. Manual controls can override it and resume.
+  const city = page('house/index.html', 'https://hakanaltun.io/house/#study', { run: ['keep', 'astronomy'] });
+  let cityWeather;
+  city.w.OLAE_ISTANBUL_WEATHER = { start: fn => { cityWeather = fn; } };
+  city.w.eval(scripts.house);
+  let moved = 0;
+  city.w.HTMLElement.prototype.scrollIntoView = () => { moved++; };
+  cityWeather({ available: true, summary: 'Rain', kind: 'rain', level: 1, clouded: true });
+  assert.equal(city.q('#house-scene').dataset.weather, 'rain');
+  assert.equal(city.q('#house-balcony-scene').dataset.weather, 'rain');
+  assert.equal(city.q('#house-scene').dataset.clouded, '');
+  assert.equal(city.q('#balcony').dataset.skyObscured, 'true');
+  assert.equal(city.q('#house-weather-follow').hidden, true);
+  assert.equal(moved, 0, 'automatic showers never scroll');
+  city.w.eval(scripts.snow);
+  city.w.document.dispatchEvent(new city.w.Event('DOMContentLoaded'));
+  city.click('#let-it-snow');
+  cityWeather({ available: true, summary: 'Clear', kind: null, level: 0, clouded: false });
+  assert.equal(city.q('#house-scene').dataset.weather, 'snow', 'a manual choice survives weather updates');
+  city.click('#house-weather-follow');
+  assert.equal(city.q('#house-scene').dataset.weather, undefined);
+  assert.equal(city.q('#house-scene').dataset.clouded, undefined);
+  assert.equal(city.q('#balcony').dataset.skyObscured, 'false');
+  assert.equal(city.q('#house-weather-follow').hidden, true);
+  cityWeather({ available: false, kind: null, level: 0, clouded: false });
+  assert.match(city.q('#house-weather-summary').textContent, /unavailable/);
+  city.dom.window.close();
 
   // The footer's weather falls outside the window here, not over the page.
   // The House runs before the weather does, as it does in the page, and
