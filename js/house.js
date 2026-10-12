@@ -423,7 +423,7 @@
   var MORIS = {
     cushion: { place: 'On his cushion', line: 'He is resting on his cushion below the window.' },
     balcony: { place: 'On the balcony', line: 'He is asleep on a chair out on the balcony for the middle of the day, behind the closed glass.' },
-    'balcony-late': { place: 'On the balcony', line: 'He is out on the balcony again until the sun is low, lying by the closed glass and looking out.' },
+    'balcony-late': { place: 'On the balcony', line: 'He is out on the balcony again until the sun is low, lying by the glass and looking out.' },
     sill: { place: 'At the window', line: 'He is asleep by the window as the sun goes down.' },
     shelf: { place: 'On the bookshelf', line: 'He is on top of the bookshelf, inspecting the room.' },
     rug: { place: 'On the rug', line: 'He is on the rug.' }
