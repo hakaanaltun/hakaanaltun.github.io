@@ -439,14 +439,15 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   const words = (n) => n.q('#house-dialog-content').textContent.replace(/\s+/g, ' ').trim();
   const dialogLinks = (n) => Array.from(n.w.document.querySelectorAll('#house-dialog-content a'), (l) => l.getAttribute('href'));
 
-  // A morning in October: the sun is low in the southeast, so it stands in
-  // the window's left casement and to the left over the balcony, and the
+  // A morning in October: the sun is low in the southeast, to the left over
+  // the balcony and, in the window, just where it stands there, so out of
+  // the window's sight to the left. The
   // moon, a day from new, is lost in its light. Moris is on his cushion, the
   // door to the balcony is shut and its glass is folded away.
   let n = houseAt('2026-10-11T10:00:00+03:00');
   await tick();
   assert.equal(n.q('#house-scene').dataset.sun, 'in');
-  assert.equal(spot(n, '#house-scene .house-sun').x, 628, 'the left casement while the sun is in the east');
+  assert.ok(spot(n, '#house-scene .house-sun').x < 560, 'beyond the window on the left while the sun is in the southeast');
   assert.equal(n.q('#house-scene').dataset.moon, undefined, 'a moon lost in the sun is not drawn');
   assert.equal(n.q('#house-scene').dataset.moris, 'cushion');
   assert.equal(n.q('#balcony').hidden, true);
@@ -549,13 +550,16 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   n.dom.window.close();
 
   // A night with a young moon: no sun, the moon low in the southwest, in the
-  // window's right casement and to the right over the balcony, and the
+  // window where it stands over the balcony, and the
   // stars, the brightest of them, drawn from the catalogue The Stars uses.
   n = houseAt('2026-10-16T21:00:00+03:00', 'https://hakanaltun.io/house/#balcony', true);
   await tick();
   assert.equal(n.q('#balcony').hidden, false, 'the balcony by its address');
   assert.equal(n.q('#house-scene').dataset.moon, 'up');
-  assert.equal(spot(n, '#house-scene .house-moon-disc').x, 758, 'the right casement while the moon is in the west');
+  const windowMoon = spot(n, '#house-scene .house-moon-disc'), balconyMoon = spot(n, '#house-balcony-scene .house-moon-disc');
+  assert.ok(windowMoon.x > 560 && windowMoon.x < 826, 'in the window while the moon is in the southwest');
+  assert.equal(windowMoon.x, balconyMoon.x, 'over the same place in both rooms');
+  assert.equal(Math.round((balconyMoon.y - windowMoon.y) * 10) / 10, 63, 'the window\'s horizon 63 above the balcony\'s');
   assert.equal(n.q('#house-balcony-scene').dataset.sun, 'down');
   assert.ok(!shown(n, '.house-hotspot--sun'));
   assert.ok(shown(n, '.house-hotspot--moon') && shown(n, '.house-hotspot--stars'));

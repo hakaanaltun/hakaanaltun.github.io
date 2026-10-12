@@ -552,13 +552,14 @@
 
   /* --- The sky, the lamp and the cat ------------------------------------ */
 
-  /* In the window the sun and the moon stand in the casement on their side
-     of the sky, the left while they are in the east and the right in the
-     west, and sink behind the sea and the Islands as they set. They are
-     there while they are above İstanbul's horizon and in front of the
-     house, by day as well as by night. Sharing a casement, the one further
-     east keeps to its left. */
-  var CASEMENT = { east: 628, west: 758 };
+  /* The window and the balcony look out over the same view at the same
+     size: the balcony draws it with its horizon at 285, the window with
+     its horizon at 222. So the sun and the moon stand in the window just
+     where they stand over the balcony, 63 higher, and show in it only
+     while they are in the window's part of the sky, from the
+     south-southwest toward the west. The author asked for this on
+     12 October 2026; until then each stood in the casement on its side. */
+  var WINDOW_LIFT = 285 - 222;
   /* Over the balcony the sky is drawn whole across its front glass: east
      at the wall on the left, west at the corner on the right, and from the
      horizon at the sea up to the ceiling, so the sun, the moon and the
@@ -685,24 +686,16 @@
   function paintWindow(sky) {
     var sunIn = sunState(sky) === 'in';
     var moonIn = sky.moonSeen && inFront(sky.moonAt.az);
-    var bodies = [];
-    if (sunIn) bodies.push({ name: 'sun', az: sky.sun.az, low: sky.sun.alt < 4 });
-    if (moonIn) bodies.push({ name: 'moon', az: sky.moonAt.az, low: sky.moonAt.alt < 4 });
-    bodies.forEach(function (b) {
-      b.side = b.az < 180 ? 'east' : 'west';
-      b.x = CASEMENT[b.side];
-    });
-    if (bodies.length === 2 && bodies[0].side === bodies[1].side) {
-      bodies.sort(function (a, b) { return a.az - b.az; });
-      bodies[0].x -= 25; bodies[1].x += 25;
-    }
     scene.dataset.sun = sunState(sky);
-    bodies.forEach(function (b) {
-      if (b.name === 'sun') {
-        var sun = scene.querySelector('.house-sun');
-        sun.setAttribute('cx', b.x); sun.setAttribute('cy', b.low ? 213 : 196);
-      } else placeMoon(scene, sky.age, b.x, b.low ? 214 : 198, 17);
-    });
+    if (sunIn) {
+      var at = skyPoint(sky.sun.alt, sky.sun.az);
+      var sun = scene.querySelector('.house-sun');
+      sun.setAttribute('cx', at.x.toFixed(1)); sun.setAttribute('cy', (at.y - WINDOW_LIFT).toFixed(1));
+    }
+    if (moonIn) {
+      var m = skyPoint(sky.moonAt.alt, sky.moonAt.az);
+      placeMoon(scene, sky.age, +m.x.toFixed(1), +(m.y - WINDOW_LIFT).toFixed(1), 13);
+    }
     if (moonIn) scene.dataset.moon = 'up'; else delete scene.dataset.moon;
   }
 
