@@ -18,6 +18,12 @@ for (let t = 0; t < 18 * M; t += M / 4) {
   assert.deepEqual([weather.sample(snow, base + t).kind, weather.sample(snow, base + t).clouded], ['snow', true], 'snow without a pause at ' + t / M + ' min');
 }
 assert.equal(weather.sample(current({ weather_code: 65 }), base).level, 2);
+// İstanbul's temperature in whole degrees; a report without one keeps its sky.
+assert.equal(weather.sample(current({ temperature_2m: 17.6 }), base).temperature, 18);
+assert.ok(Object.is(weather.sample(current({ temperature_2m: -0.4 }), base).temperature, 0), 'never a minus zero');
+assert.equal(weather.sample(current({ temperature_2m: -2.6 }), base).temperature, -3);
+assert.equal(weather.sample(current(), base).temperature, null);
+assert.equal(weather.sample(current({ temperature_2m: null, weather_code: 3 }), base).clouded, true);
 for (const code of [3, 45, 48]) assert.equal(weather.sample(current({ weather_code: code }), base + 8 * M).clouded, true);
 assert.equal(weather.sample(current({ cloud_cover: 60 }), base).clouded, true);
 assert.equal(weather.sample(current({ cloud_cover: 60 }), base + 8 * M).clouded, false);
@@ -38,6 +44,7 @@ async function run() {
     fetch: (url, options) => {
       calls++;
       assert.match(url, /latitude=41.015&longitude=28.979/);
+      assert.match(url, /current=temperature_2m,/);
       assert.equal(options.credentials, 'omit');
       assert.equal(options.referrerPolicy, 'no-referrer');
       if (hold) return new Promise(() => {});
@@ -69,6 +76,6 @@ async function run() {
   deadline(); await settle();
   assert.equal(values.at(-1).available, false, 'a hanging endpoint times out');
   stop(); assert.equal(interval, null); assert.equal(listeners.visibilitychange, undefined);
-  console.log('House weather: conditions, unbroken rain and snow, clouds, reduced motion, checking until the first answer, cache, refresh, hidden tabs, outages and timeout passed.');
+  console.log('House weather: conditions, temperature, unbroken rain and snow, clouds, reduced motion, checking until the first answer, cache, refresh, hidden tabs, outages and timeout passed.');
 }
 run().catch(error => { console.error(error); process.exitCode = 1; });

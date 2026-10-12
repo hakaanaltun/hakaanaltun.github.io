@@ -460,7 +460,8 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.equal(n.q('#house-entrance').hidden, true);
   assert.equal(n.w.document.activeElement, n.q('#house-balcony-title'));
   assert.equal(n.q('#balcony [data-house-hour]').textContent, 'Morning in İstanbul');
-  assert.equal(n.q('#balcony [data-house-clock]').textContent, '· 10:00');
+  assert.equal(n.q('#balcony [data-house-clock]').textContent, '10:00');
+  assert.equal(n.q('#balcony .house-time').textContent.replace(/\s+/g, ' ').trim(), 'Morning in İstanbul · 10:00', 'no temperature before a report');
   n.click('#balcony [data-places]');
   assert.equal(n.q('#house').classList.contains('show-places'), false, 'and quiet again');
   assert.equal(n.w.localStorage.getItem('olae-places'), null, 'until it is asked for again');
@@ -1043,7 +1044,11 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.equal(city.q('#house-weather-summary').textContent, 'Checking İstanbul’s weather…');
   let moved = 0;
   city.w.HTMLElement.prototype.scrollIntoView = () => { moved++; };
-  cityWeather({ available: true, summary: 'Rain', kind: 'rain', level: 1, clouded: true });
+  const degrees = () => ['#study', '#balcony'].map(room => { const t = city.q(room + ' [data-house-temperature]'); return t.hidden ? null : t.textContent; });
+  assert.deepEqual(degrees(), [null, null], 'no temperature before a report');
+  cityWeather({ available: true, summary: 'Rain', kind: 'rain', level: 1, clouded: true, temperature: 9 });
+  assert.deepEqual(degrees(), ['·\u00a09°C', '·\u00a09°C'], 'İstanbul’s temperature beside the time in both rooms');
+  assert.equal(city.q('#house-weather-summary').textContent, 'Rain in İstanbul. ', 'and in that one place only');
   // The first report replaces the opening sky without its slow fades, so
   // rain never falls from a sunny sky; passing cloud keeps them.
   assert.ok(read(root, 'css', 'house.css').includes('.house-scene[data-sky-instant] :is(.house-sun, .house-moon, .house-stars, .house-sky-stars, .house-light-beam, .house-sky-top, .house-sky-bottom) { transition: none; }'));
@@ -1058,8 +1063,9 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   city.w.eval(scripts.snow);
   city.w.document.dispatchEvent(new city.w.Event('DOMContentLoaded'));
   city.click('#let-it-snow');
-  cityWeather({ available: true, summary: 'Clear', kind: null, level: 0, clouded: false });
+  cityWeather({ available: true, summary: 'Clear', kind: null, level: 0, clouded: false, temperature: -2 });
   assert.equal(city.q('#house-scene').dataset.weather, 'snow', 'a manual choice survives weather updates');
+  assert.deepEqual(degrees(), ['·\u00a0−2°C', '·\u00a0−2°C'], 'the temperature stays İstanbul’s, with a minus sign');
   cityWeather({ available: true, summary: 'Overcast', kind: null, level: 0, clouded: true });
   city.click('#house-weather-follow');
   assert.equal(city.q('#house-scene').dataset.weather, undefined);
@@ -1068,11 +1074,23 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.equal(city.q('#house-weather-follow').hidden, true);
   assert.equal(city.q('#house-weather-summary').textContent, 'Overcast in İstanbul. ');
   assert.equal(city.q('#house-status').textContent, 'The House follows İstanbul’s weather again.', 'not a clearing sky under cloud');
+  // Stopping the footer's weather returns to the city at once, not to a
+  // clear sky chosen by nobody.
+  for (const step of ['light', 'heavy', 'off']) city.click('#let-it-rain');
+  assert.equal(city.q('#let-it-rain').getAttribute('aria-pressed'), 'false');
+  assert.equal(city.q('#house-scene').dataset.weather, undefined);
+  assert.equal(city.q('#house-scene').dataset.clouded, '', 'under İstanbul’s cloud again');
+  assert.equal(city.q('#balcony').dataset.skyObscured, 'true');
+  assert.equal(city.q('#house-weather-summary').textContent, 'Overcast in İstanbul. ');
+  assert.equal(city.q('#house-weather-follow').hidden, true);
+  assert.equal(city.q('#house-status').textContent, 'The House follows İstanbul’s weather again.');
   cityWeather({ available: true, summary: 'Clear', kind: null, level: 0, clouded: false });
   assert.equal(city.q('#house-scene').dataset.clouded, undefined);
   assert.equal(city.q('#balcony').dataset.skyObscured, 'false');
-  cityWeather({ available: false, kind: null, level: 0, clouded: false });
+  assert.deepEqual(degrees(), [null, null], 'a report without a temperature shows none');
+  cityWeather({ available: false, kind: null, level: 0, clouded: false, temperature: 12 });
   assert.match(city.q('#house-weather-summary').textContent, /unavailable/);
+  assert.deepEqual(degrees(), [null, null], 'nor does unavailable weather');
   await tick();
   city.dom.window.close();
   // Following İstanbul again before its first report still says it is checking.

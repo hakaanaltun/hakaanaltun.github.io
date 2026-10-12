@@ -354,10 +354,15 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   slowly. The first report replaces the sky the page opened with at once, so
   rain never falls while the sun is still fading. Both rooms share the
   weather. Covered bodies have no invisible travel targets. The footer's
-  manual rain and snow override this for the visit; Follow İstanbul weather
-  returns to the city. Automatic weather never scrolls the page or starts
-  audio. Reduced motion keeps precipitation still and does not cycle the
-  passing clouds.
+  manual rain and snow override this for the visit. Stopping them, or Follow
+  İstanbul weather, returns the rooms to the city at once; until 12 October
+  2026 stopping them left a clear sky. İstanbul's temperature, in whole
+  degrees with a minus sign below zero, stands after the time in both rooms'
+  bars and nowhere else, as the author asked that day. It stays İstanbul's
+  while a reader's own weather falls. On a phone the time and the
+  temperature form the bar's second line, so the room's name keeps to one.
+  Automatic weather never scrolls the page or starts audio. Reduced motion
+  keeps precipitation still and does not cycle the passing clouds.
 - **The balcony is glazed.** Folding glass panels stand on the parapet up to
   the ceiling. Moris goes out to the balcony twice a day, as the author
   asked: from noon to two, and again from two hours before sunset until half

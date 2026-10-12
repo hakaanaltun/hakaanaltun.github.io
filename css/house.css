@@ -40,8 +40,9 @@
 .house-room-bar h2 { margin: 0; font: 500 36px/1.1 'Cormorant Garamond', Georgia, serif; }
 .house-time { display: flex; align-items: center; gap: 8px; font-size: 15px; color: var(--vizon); margin: 0 0 3px; }
 .house-time-dot { flex: none; width: 6px; height: 6px; background: #a18349; border-radius: 50%; }
-/* The hour and the clock break apart, never inside either. */
-#house-hour, #house-clock { display: inline-block; white-space: nowrap; }
+/* The hour and the time, with İstanbul's temperature beside it, break
+   apart and never inside either. On a phone they stand on two lines. */
+#house-hour, [data-house-hour], .house-time-now { display: inline-block; white-space: nowrap; }
 .house-instruction { margin: 10px 0 18px; font-size: 16px; color: var(--vizon); }
 .house-instruction-row { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 0 18px; margin: 10px 0 12px; }
 .house-instruction-row .house-instruction { margin: 0; }
@@ -443,6 +444,8 @@ html[data-theme="dark"], html[data-theme="midnight"], html[data-theme="sky"], .h
   .house-room-bar { align-items: center; }
   .house-room-bar h2 { font-size: 31px; }
   .house-time { max-width: 58%; font-size: 13px; text-align: right; }
+  .house-time-now { display: block; }
+  .house-time-sep { display: none; }
   /* The picture runs edge to edge. */
   .house-scene { margin-inline: -18px; border-inline: 0; }
   .house-room-footer { font-size: 14px; }

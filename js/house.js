@@ -745,9 +745,9 @@
     scene.dataset.hour = sky.period;
     balconyScene.dataset.hour = sky.period;
     document.getElementById('house-hour').textContent = name + ' in İstanbul';
-    document.getElementById('house-clock').textContent = '· ' + clock(now);
+    document.getElementById('house-clock').textContent = clock(now);
     balcony.querySelector('[data-house-hour]').textContent = name + ' in İstanbul';
-    balcony.querySelector('[data-house-clock]').textContent = '· ' + clock(now);
+    balcony.querySelector('[data-house-clock]').textContent = clock(now);
     if (sky.sun) {
       paintWindow(sky);
       paintBalcony(sky);
@@ -781,7 +781,8 @@
      than over the whole page: js/let-it-snow.js hands them over, and keeps
      its buttons and their labels as they are everywhere else. On the
      balcony they fall beyond the parapet, and the snow gathers along the
-     foot of the glass. */
+     foot of the glass. When the footer's weather stops, the rooms follow
+     İstanbul's weather again. */
 
   var VIEWS = {
     study: { scene: scene, layer: scene.querySelector('.house-weather'), snow: scene.querySelector('.house-window-snow'),
@@ -865,52 +866,63 @@
   var weatherSummary = document.getElementById('house-weather-summary');
   var checking = weatherSummary.textContent;
   var followWeather = document.getElementById('house-weather-follow');
+  var temperatures = root.querySelectorAll('[data-house-temperature]');
+  // İstanbul's sky in both rooms; before its first report, the sky the page
+  // opened with.
+  function showWeather(value, instant) {
+    var kind = value ? value.kind : null, level = value ? value.level : 0, clouded = !!(value && value.clouded);
+    if (instant) [scene, balconyScene].forEach(function (s) { s.dataset.skyInstant = ''; });
+    weatherSummary.textContent = !value ? checking : value.available ? value.summary + ' in İstanbul. ' : 'İstanbul weather is unavailable. ';
+    [scene, balconyScene].forEach(function (s) {
+      if (clouded) s.dataset.clouded = ''; else delete s.dataset.clouded;
+    });
+    balconyScene.dataset.skyObscured = String(clouded || !!kind);
+    balcony.dataset.skyObscured = String(clouded || !!kind);
+    if (weather.kind !== kind || weather.level !== level) windowWeather(kind, level, true);
+    if (instant) {
+      scene.getBoundingClientRect();
+      [scene, balconyScene].forEach(function (s) { delete s.dataset.skyInstant; });
+    }
+  }
   function applyLiveWeather(value) {
     // The first report replaces the sky the page opened with at once, so
     // rain never starts to fall while the sun is still fading.
     var first = !liveWeather;
     liveWeather = value;
-    if (manualWeather) return;
-    if (first) [scene, balconyScene].forEach(function (s) { s.dataset.skyInstant = ''; });
-    weatherSummary.textContent = value.available ? value.summary + ' in İstanbul. ' : 'İstanbul weather is unavailable. ';
-    [scene, balconyScene].forEach(function (s) {
-      if (value.clouded) s.dataset.clouded = ''; else delete s.dataset.clouded;
-    });
-    var obscured = value.clouded || !!value.kind;
-    balconyScene.dataset.skyObscured = String(obscured);
-    balcony.dataset.skyObscured = String(obscured);
-    if (weather.kind !== value.kind || weather.level !== value.level) windowWeather(value.kind, value.level, true);
-    if (first) {
-      scene.getBoundingClientRect();
-      [scene, balconyScene].forEach(function (s) { delete s.dataset.skyInstant; });
-    }
+    // İstanbul's temperature stands beside its time, whoever chose the weather.
+    var degrees = value.available && value.temperature != null ? (value.temperature < 0 ? '−' + -value.temperature : value.temperature) + '°C' : '';
+    temperatures.forEach(function (node) { node.textContent = degrees && '· ' + degrees; node.hidden = !degrees; });
+    if (!manualWeather) showWeather(value, first);
+  }
+  // Stopping the footer's weather hands the rooms back to İstanbul at once.
+  function followCity() {
+    manualWeather = false; followWeather.hidden = true;
+    showWeather(liveWeather);
+    announce('The House follows İstanbul’s weather again.');
   }
   followWeather.addEventListener('click', function () {
-    // Reset the footer's manual state before handing control back to the city.
-    if (window.OLAE_WEATHER) window.OLAE_WEATHER.set('rain', 0);
-    manualWeather = false; followWeather.hidden = true;
-    if (liveWeather) applyLiveWeather(liveWeather); else weatherSummary.textContent = checking;
-    // The reset above announced a clearing sky, which İstanbul's may not be.
-    announce('The House follows İstanbul’s weather again.');
+    // Resetting the footer's buttons stops their weather, which follows the city.
+    if (window.OLAE_WEATHER) window.OLAE_WEATHER.set('rain', 0); else followCity();
   });
   function windowWeather(kind, level, automatic) {
+    if (!automatic && !kind) { followCity(); return; }
     if (!automatic) {
       manualWeather = true; followWeather.hidden = false;
       weatherSummary.textContent = 'Weather chosen by you. ';
       [scene, balconyScene].forEach(function (s) { delete s.dataset.clouded; });
-      balconyScene.dataset.skyObscured = String(!!kind);
-      balcony.dataset.skyObscured = String(!!kind);
+      balconyScene.dataset.skyObscured = 'true';
+      balcony.dataset.skyObscured = 'true';
     }
     weather.kind = kind;
     weather.level = level;
     [scene, balconyScene].forEach(function (s) { if (kind) s.dataset.weather = kind; else delete s.dataset.weather; });
     seedWeather();
     if (automatic) return;
-    announce(!kind ? 'The sky clears.' : (level === 2 ? 'Heavy ' : 'Light ') + kind + view.where);
+    announce((level === 2 ? 'Heavy ' : 'Light ') + kind + view.where);
     // The buttons are at the foot of the page and the sky may be out of
     // sight above them, so the room is brought up to show where it is falling.
     var section = view === VIEWS.study ? study : balcony;
-    if (kind && !section.hidden) {
+    if (!section.hidden) {
       var sky = view === VIEWS.study ? scene.querySelector('.house-glass').getBoundingClientRect() : balconyScene.getBoundingClientRect();
       if (sky.top < 0 || sky.bottom > window.innerHeight) view.scene.scrollIntoView({ block: 'center', behavior: still ? 'auto' : 'smooth' });
     }

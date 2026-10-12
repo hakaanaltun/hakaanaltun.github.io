@@ -4,8 +4,8 @@
 (function (root) {
   'use strict';
   var MINUTE = 60000, REFRESH = 15 * MINUTE, MAX_AGE = 90 * MINUTE;
-  var URL = 'https://api.open-meteo.com/v1/forecast?latitude=41.015&longitude=28.979&current=precipitation,rain,showers,snowfall,weather_code,cloud_cover&timeformat=unixtime&timezone=Europe%2FIstanbul';
-  var KEY = 'olae-istanbul-weather-v1';
+  var URL = 'https://api.open-meteo.com/v1/forecast?latitude=41.015&longitude=28.979&current=temperature_2m,precipitation,rain,showers,snowfall,weather_code,cloud_cover&timeformat=unixtime&timezone=Europe%2FIstanbul';
+  var KEY = 'olae-istanbul-weather-v2';
   function parse(data, now) {
     var c = data && data.current;
     if (!c || !['time', 'precipitation', 'rain', 'showers', 'snowfall', 'weather_code', 'cloud_cover'].every(function (k) { return typeof c[k] === 'number' && Number.isFinite(c[k]); })) return null;
@@ -23,7 +23,10 @@
     // Rain, snow and overcast keep the sky closed; broken cloud crosses in
     // slow nine-minute spells.
     var clouded = wet || cover >= 90 || (cover >= 25 && (still ? cover >= 50 : now % (9 * MINUTE) < cover / 100 * 9 * MINUTE));
-    return { available: true, kind: wet ? (snow ? 'snow' : 'rain') : null, level: wet ? (heavy ? 2 : 1) : 0, clouded: clouded,
+    // The temperature is shown in whole degrees, and a report without one
+    // still has its sky.
+    var temperature = typeof c.temperature_2m === 'number' && Number.isFinite(c.temperature_2m) ? Math.round(c.temperature_2m) + 0 : null;
+    return { available: true, kind: wet ? (snow ? 'snow' : 'rain') : null, level: wet ? (heavy ? 2 : 1) : 0, clouded: clouded, temperature: temperature,
       summary: fog ? 'Fog' : wet ? (snow ? 'Snow' : 'Rain') : cover >= 90 ? 'Overcast' : cover >= 25 ? 'Partly cloudy' : 'Clear', time: c.time };
   }
   function start(onChange, env) {
