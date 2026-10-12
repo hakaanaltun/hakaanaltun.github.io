@@ -15,7 +15,7 @@ description: "Come in, look around, and keep something you find. A room at On Li
   "Today" is İstanbul's day and the light is İstanbul's light: the house is
   there, and every reader sees the same room on the same day.
 {%- endcomment -%}
-<link rel="stylesheet" href="/css/house.css?v=20261012-3">
+<link rel="stylesheet" href="/css/house.css?v=20261012-4">
 
 <div class="house" id="house" data-catalog="/house/catalog.json?v={{ site.time | date: '%Y%m%d%H%M' }}">
   <div class="house-heading">
@@ -142,7 +142,7 @@ description: "Come in, look around, and keep something you find. A room at On Li
   </section>
 
   <noscript><p>The room needs JavaScript to open its objects. You can still visit the <a href="/all-work/">bookshelf</a>, <a href="/word/">words</a>, <a href="/trivia/">quizzes</a>, and <a href="/moris/">Moris</a>.</p></noscript>
-  <p class="house-weather-note"><span id="house-weather-summary">Checking İstanbul’s weather…</span> <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Open-Meteo</a>. <span title="Weather model data; the timing of showers and passing clouds is illustrated.">Weather shown as an illustration.</span> <button type="button" id="house-weather-follow" hidden>Follow İstanbul weather</button></p>
+  <p class="house-weather-note"><span id="house-weather-summary">Checking İstanbul’s weather…</span> <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Open-Meteo</a>. <span title="Weather model data; the passing clouds are illustrated.">Weather shown as an illustration.</span> <button type="button" id="house-weather-follow" hidden>Follow İstanbul weather</button></p>
   <p class="house-status" id="house-status" role="status" aria-live="polite"></p>
 
   <dialog class="house-dialog" id="house-dialog" aria-labelledby="house-dialog-title">
@@ -171,7 +171,7 @@ description: "Come in, look around, and keep something you find. A room at On Li
 </div>
 <script>window.OLAE_SKY_SCRIPTS = {{ site.data.sky_scripts | jsonify }};</script>
 <script src="/js/astronomy.js?v=20261011-1" defer></script>
-<script src="/js/house-weather.js?v=20261012-1" defer></script>
-<script src="/js/house.js?v=20261012-2" defer></script>
+<script src="/js/house-weather.js?v=20261012-2" defer></script>
+<script src="/js/house.js?v=20261012-3" defer></script>
 <script src="/js/cursor-trail.js?v=20260930-2" defer></script>
 

@@ -11,10 +11,12 @@ assert.equal(weather.parse({ current: current({ time: (base + 16 * M) / 1000 }) 
 assert.equal(weather.sample(current(), base).kind, null);
 assert.equal(weather.sample(current(), base).clouded, false);
 const rain = current({ rain: 0.2, precipitation: 0.2, weather_code: 61, cloud_cover: 80 });
-assert.equal(weather.sample(rain, base).kind, 'rain');
-assert.equal(weather.sample(rain, base + 5 * M).kind, null, 'rain takes a dry pause');
-assert.equal(weather.sample(rain, base + 6 * M).kind, 'rain', 'rain returns');
-assert.equal(weather.sample(current({ snowfall: 0.3, weather_code: 71 }), base).kind, 'snow');
+const snow = current({ snowfall: 0.3, precipitation: 0.3, weather_code: 71, cloud_cover: 80 });
+// Rain and snow fall for as long as the report has them, under a closed sky.
+for (let t = 0; t < 18 * M; t += M / 4) {
+  assert.deepEqual([weather.sample(rain, base + t).kind, weather.sample(rain, base + t).clouded], ['rain', true], 'rain without a pause at ' + t / M + ' min');
+  assert.deepEqual([weather.sample(snow, base + t).kind, weather.sample(snow, base + t).clouded], ['snow', true], 'snow without a pause at ' + t / M + ' min');
+}
 assert.equal(weather.sample(current({ weather_code: 65 }), base).level, 2);
 for (const code of [3, 45, 48]) assert.equal(weather.sample(current({ weather_code: code }), base + 8 * M).clouded, true);
 assert.equal(weather.sample(current({ cloud_cover: 60 }), base).clouded, true);
@@ -45,6 +47,7 @@ async function run() {
   };
   const settle = () => new Promise(resolve => setImmediate(resolve));
   let stop = weather.start(value => values.push(value), env);
+  assert.equal(values.length, 0, 'nothing is said before the first answer');
   await settle();
   assert.equal(calls, 1);
   assert.equal(values.at(-1).clouded, true);
@@ -60,10 +63,12 @@ async function run() {
   assert.equal(values.at(-1).available, false, 'stale weather is never replayed');
   stop();
   fail = false; hold = true; cache.clear();
+  const said = values.length;
   stop = weather.start(value => values.push(value), env);
-  await settle(); deadline(); await settle();
+  await settle(); assert.equal(values.length, said, 'still checking while the request hangs');
+  deadline(); await settle();
   assert.equal(values.at(-1).available, false, 'a hanging endpoint times out');
   stop(); assert.equal(interval, null); assert.equal(listeners.visibilitychange, undefined);
-  console.log('House weather: conditions, rain pauses, clouds, reduced motion, cache, refresh, hidden tabs, outages and timeout passed.');
+  console.log('House weather: conditions, unbroken rain and snow, clouds, reduced motion, checking until the first answer, cache, refresh, hidden tabs, outages and timeout passed.');
 }
 run().catch(error => { console.error(error); process.exitCode = 1; });

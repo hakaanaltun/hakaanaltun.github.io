@@ -342,17 +342,22 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   Open-Meteo's current model data for the House's fixed coordinates every
   fifteen minutes while the tab is visible. It requests no visitor location.
   A short session cache avoids a new request on each return; data older than
-  ninety minutes are rejected. An outage leaves the astronomical sky alone
-  and the page says that weather is unavailable. Open-Meteo is credited on
-  the page. Its model data guide the illustration; showers and passing
-  clouds do not claim to reproduce the timing of rain outside.
-  Rainy conditions bring showers separated by dry pauses. Overcast and fog
-  hide the sun, moon and stars; broken cloud covers and reveals them slowly.
-  Both rooms share the weather. Covered bodies have no invisible travel
-  targets. The footer's manual rain and snow override this for the visit;
-  Follow İstanbul weather returns to the city. Automatic weather never
-  scrolls the page or starts audio. Reduced motion keeps precipitation
-  still and does not cycle the passing clouds.
+  ninety minutes are rejected. Until the first answer the page says it is
+  checking. An outage leaves the astronomical sky alone and the page says
+  that weather is unavailable. Open-Meteo is credited on the page. Its model
+  data guide the illustration; passing clouds do not claim to reproduce the
+  sky outside. Rain and snow fall without a pause for as long as the data
+  report them, as the author asked on 12 October 2026, so the line under the
+  rooms always agrees with the picture. Snow settles on the pine and along
+  the glass while it falls and melts once İstanbul's snow ends. Overcast and
+  fog hide the sun, moon and stars; broken cloud covers and reveals them
+  slowly. The first report replaces the sky the page opened with at once, so
+  rain never falls while the sun is still fading. Both rooms share the
+  weather. Covered bodies have no invisible travel targets. The footer's
+  manual rain and snow override this for the visit; Follow İstanbul weather
+  returns to the city. Automatic weather never scrolls the page or starts
+  audio. Reduced motion keeps precipitation still and does not cycle the
+  passing clouds.
 - **The balcony is glazed.** Folding glass panels stand on the parapet up to
   the ceiling. Moris goes out to the balcony twice a day, as the author
   asked: from noon to two, and again from two hours before sunset until half

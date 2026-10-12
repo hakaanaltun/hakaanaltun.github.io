@@ -863,10 +863,15 @@
   }
   var liveWeather = null, manualWeather = false;
   var weatherSummary = document.getElementById('house-weather-summary');
+  var checking = weatherSummary.textContent;
   var followWeather = document.getElementById('house-weather-follow');
   function applyLiveWeather(value) {
+    // The first report replaces the sky the page opened with at once, so
+    // rain never starts to fall while the sun is still fading.
+    var first = !liveWeather;
     liveWeather = value;
     if (manualWeather) return;
+    if (first) [scene, balconyScene].forEach(function (s) { s.dataset.skyInstant = ''; });
     weatherSummary.textContent = value.available ? value.summary + ' in İstanbul. ' : 'İstanbul weather is unavailable. ';
     [scene, balconyScene].forEach(function (s) {
       if (value.clouded) s.dataset.clouded = ''; else delete s.dataset.clouded;
@@ -875,12 +880,18 @@
     balconyScene.dataset.skyObscured = String(obscured);
     balcony.dataset.skyObscured = String(obscured);
     if (weather.kind !== value.kind || weather.level !== value.level) windowWeather(value.kind, value.level, true);
+    if (first) {
+      scene.getBoundingClientRect();
+      [scene, balconyScene].forEach(function (s) { delete s.dataset.skyInstant; });
+    }
   }
   followWeather.addEventListener('click', function () {
     // Reset the footer's manual state before handing control back to the city.
     if (window.OLAE_WEATHER) window.OLAE_WEATHER.set('rain', 0);
     manualWeather = false; followWeather.hidden = true;
-    applyLiveWeather(liveWeather || { available: false, kind: null, level: 0, clouded: false });
+    if (liveWeather) applyLiveWeather(liveWeather); else weatherSummary.textContent = checking;
+    // The reset above announced a clearing sky, which İstanbul's may not be.
+    announce('The House follows İstanbul’s weather again.');
   });
   function windowWeather(kind, level, automatic) {
     if (!automatic) {
