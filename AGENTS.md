@@ -423,16 +423,21 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   the plant that stands beside it. It stands a little off the wall, turned
   twelve degrees toward the room, as the author asked on 12 October 2026. Its handle is on the other side, toward
   the front of the house, in both rooms; until 12 October 2026 the study
-  drew it on the hinge side. In the open doorway each room shows the other
-  in that room's own light, as the door's glass does when it is shut. From
-  the balcony the study's wall, floor and plant show through it, and from
-  the study the glass on the balcony's far side, with the sky and the
-  strip of sea to the west over its parapet, and its floor. That far side
+  drew it on the hinge side. The door is wood below and clear glass above.
+  The author asked for this on 12 October 2026, when its glass was a plain
+  tint and neither room could be seen from the other while it was shut.
+  The handle stands on the wood beside the glass. Through the glass, as
+  through the open doorway, each room shows the other in that room's own
+  light. From the balcony the study's wall, floor and plant show through
+  it, and from the study the sky and the strip of sea to the west over the
+  balcony's parapet, and its floor. While the door is open Moris is out,
+  so the balcony's glass is closed and shows on its far side. That far side
   runs into the picture like the study's own right-hand wall, so the
   parapet's coping and its foot meet at 500, 222; until 12 October 2026
   they were drawn level and the glass as a plain tint, and the doorway
-  looked like a flat panel. Only the sky in the doorway is cut out of the
-  dusk mask; the parapet and the floor darken with the room. In the study
+  looked like a flat panel. Only the sky is cut out of the study's dusk
+  mask; the parapet and the floor darken with the room, and after sunset
+  the balcony's lamp lights them through the shut door's glass. In the study
   the open leaf falls almost wholly outside the picture, so two brass
   hinges on the jamb nearest us show where it turned; the author chose
   this on 12 October 2026 over standing the leaf at a right angle, which
