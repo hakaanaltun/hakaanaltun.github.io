@@ -306,7 +306,7 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.equal(a.stored().kept.length, 0);
   assert.equal(a.stored().notebook, 'The ferry lights.\nWrite about the islands, and the gulls.');
   assert.equal(notebookSaid(), 'Taken out of your drawer. The page stays in the notebook.');
-  assert.deepEqual(notebookButtons(), ['Keep in your drawer']);
+  assert.deepEqual(notebookButtons(), ['Keep in your drawer', 'Open your drawer']);
   assert.equal(a.q('#house-dialog-content [data-notebook-label]').textContent, 'Write a note');
   // Kept again, then a new page.
   a.click('[data-notebook-keep]');
@@ -314,8 +314,33 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   a.click('[data-notebook-fresh]');
   assert.equal(notebookText().value, '');
   assert.equal(notebookSaid(), '');
-  assert.deepEqual(notebookButtons(), ['Keep in your drawer']);
+  assert.deepEqual(notebookButtons(), ['Keep in your drawer', 'Open your drawer'], 'the drawer is open to a new page too');
   assert.equal(a.stored().kept[0].note, 'The ferry lights.\nWrite about the islands, and the gulls.', 'the kept page stays in the drawer');
+  // While a new page is written, the earlier ones can be read and changed
+  // in the drawer, and the way back finds the new page waiting.
+  write('A second page.');
+  a.click('[data-notebook-drawer]');
+  assert.equal(a.q('#house-dialog-title').textContent, 'Your drawer');
+  assert.equal(a.q('#house-dialog-content .house-back').textContent, '← Back to the notebook');
+  a.click('#house-dialog-content [data-note^="notebook-"]');
+  const earlier = a.q('#house-dialog-content .keep-note-text');
+  earlier.value = 'The first page, changed.';
+  earlier.dispatchEvent(new a.w.Event('input', { bubbles: true }));
+  a.click('#house-dialog-content .keep-note-done');
+  assert.equal(a.stored().kept[0].note, 'The first page, changed.');
+  a.click('#house-dialog-content .house-back');
+  assert.equal(a.q('#house-dialog-title').textContent, 'The notebook');
+  assert.equal(notebookText().value, 'A second page.', 'the page being written waits');
+  a.click('#house-close');
+  // The drawer opened any other way has no way back to the notebook, and
+  // a page's "Go to the balcony" on the balcony closes the box.
+  a.click('.house-drawer-toggle');
+  assert.equal(a.q('#house-dialog-content .house-back'), null);
+  a.click('#house-dialog-content .house-item-actions a');
+  assert.equal(a.q('#house-dialog').open, false, 'already on the balcony, the box closes');
+  a.click('.house-hotspot--notebook');
+  write('');
+  await wait(350);
   a.click('[data-notebook-keep]');
   assert.equal(notebookSaid(), 'Write something first.');
   assert.equal(a.stored().kept.length, 1, 'an empty page is not kept');
@@ -1068,7 +1093,11 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.equal(p.stored().kept.length, 0, 'nothing is kept yet');
   assert.equal(p.q('.keep-panel-quote').hidden, false, 'the passage is shown above the note');
   assert.equal(p.q('.keep-panel-quote').textContent.replace(/⁠/g, ''), kept2.quote);
-  assert.equal(p.q('.keep-panel-actions').hidden, true);
+  // The drawer is a link away while the note is written, and the note
+  // waits for the reader in this tab while they look there.
+  const shownActions = () => Array.from(p.w.document.querySelectorAll('.keep-panel-actions > *')).filter((el) => !el.hidden).map((el) => el.textContent);
+  assert.equal(p.q('.keep-panel-actions').hidden, false);
+  assert.deepEqual(shownActions(), ['Open your drawer →'], 'only the way to the drawer beside an unkept note');
   const draftArea = p.q('.keep-panel .keep-note-text');
   assert.equal(p.w.document.activeElement, draftArea, 'the note is ready to write');
   assert.equal(p.q('.keep-panel .keep-note-done').textContent, 'Keep with the note');
@@ -1077,6 +1106,27 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   await wait(450);
   p.w.dispatchEvent(new p.w.Event('pagehide'));
   assert.equal(p.stored().kept.length, 0, 'writing keeps nothing on its own');
+  const heldNote = p.w.sessionStorage.getItem('olae-note-draft');
+  assert.deepEqual(JSON.parse(heldNote), { path: essay.url, item: JSON.parse(JSON.stringify(kept2)), note: 'First thought.' }, 'the unkept note is held for this tab');
+  {
+    // Back on the page, the panel opens with it again, unfocused.
+    const again = page(essay.url.slice(1), 'https://hakanaltun.io' + essay.url, { run: ['keep', 'translate'], before: (w) => { highlights(w); w.sessionStorage.setItem('olae-note-draft', heldNote); } });
+    await tick();
+    assert.equal(again.q('.keep-panel').hidden, false, 'the note waits on its page');
+    assert.equal(again.q('.keep-panel-said').textContent, 'Your note on this passage, not kept yet.');
+    assert.equal(again.q('.keep-panel .keep-note-text').value, 'First thought.');
+    assert.equal(again.q('.keep-panel-quote').textContent.replace(/\u2060/g, ''), kept2.quote);
+    assert.notEqual(again.w.document.activeElement, again.q('.keep-panel .keep-note-text'), 'unfocused, so no keyboard rises');
+    assert.equal(again.stored(), null, 'and still nothing is kept');
+    again.dom.window.close();
+  }
+  {
+    // Held for another page, it waits there and not here.
+    const elsewhere = page(essay.url.slice(1), 'https://hakanaltun.io' + essay.url, { run: ['keep', 'translate'], before: (w) => { highlights(w); w.sessionStorage.setItem('olae-note-draft', heldNote.replace(essay.url, '/pieces/elsewhere.html')); } });
+    await tick();
+    assert.ok(!elsewhere.q('.keep-panel') || elsewhere.q('.keep-panel').hidden);
+    elsewhere.dom.window.close();
+  }
   p.w.localStorage.removeItem('olae-page-v1');
   const stayOnPiece = (event) => event.preventDefault();
   p.w.document.addEventListener('click', stayOnPiece);
@@ -1095,15 +1145,19 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.equal(p.stored().kept.length, 1, 'Keep with the note keeps both');
   assert.equal(itemOf(kept2.id).note, 'First thought, and a second.');
   assert.equal(p.q('.keep-panel-said').textContent, 'Kept in your drawer, with your note.');
+  assert.deepEqual(shownActions(), ['Your note', 'Take out', 'Open your drawer →'], 'kept, the panel offers all three again');
+  assert.equal(p.w.sessionStorage.getItem('olae-note-draft'), null, 'a kept note no longer waits');
   assert.deepEqual(marked(p.w), [], 'and leaves the page unmarked');
   p.w.OLAE_KEEP.remove(kept2.id);
   K.notePassage(kept2);
   p.q('.keep-panel .keep-note-text').value = 'Not this time.';
   p.q('.keep-panel .keep-note-text').dispatchEvent(new p.w.Event('input', { bubbles: true }));
+  assert.ok(p.w.sessionStorage.getItem('olae-note-draft'));
   p.click('.keep-panel-close');
   p.click('.keep-panel-close');
   assert.equal(panel.hidden, true, 'closed on the second Close');
   assert.equal(p.stored().kept.length, 0, 'a note let go leaves nothing behind');
+  assert.equal(p.w.sessionStorage.getItem('olae-note-draft'), null, 'nor waits anywhere');
   // A note or a keep on a highlight makes it kept, and it stays highlighted.
   K.highlightSelection(rangeOf(essayParagraphs[1]));
   K.notePassage(kept2);

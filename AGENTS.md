@@ -444,11 +444,14 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   notebook, and it leads back to the balcony and has no card. The kept
   page stays open in the notebook for the rest of the visit, under "Kept
   in your drawer.", and what is changed there is changed in the drawer.
-  "Open your drawer", "A new page" and "Take out" stand where Keep was, as
-  the panel by a kept passage offers the drawer and Take out; taken out,
-  the words stay in the notebook. The author asked for this on 12 October
-  2026, when a kept note vanished from the notebook with only a line at
-  its foot. "Write at length on The Page" carries the words to The Page,
+  "A new page" and "Take out" stand where Keep was, as the panel by a kept
+  passage offers Take out; taken out, the words stay in the notebook. The
+  author asked for this on 12 October 2026, when a kept note vanished from
+  the notebook with only a line at its foot. "Open your drawer" is there
+  from the start, as the author asked the same day, so the earlier notes
+  can be read and changed while a new one is written. The drawer opens in
+  the same box with "← Back to the notebook", and the page being written
+  waits there. "Write at length on The Page" carries the words to The Page,
   as every note on the site does (see Reading options). With nothing
   written it is only the way to The Page.
 - **The study's lamp is seen from above.** It stands below eye level, so
@@ -532,6 +535,11 @@ The site has two deliberate ideas of place. Do not collapse them into one.
     foot of the window with "Add a note", "Take out" and the way to the
     drawer. Note lets a reader write first: nothing is kept until "Keep
     with the note", and closing a note that is not kept asks once more.
+    The way to the drawer stays beside a note that is not kept yet, so the
+    earlier notes can be read while a new one is written, as the author
+    asked on 12 October 2026. The note waits in the tab's session storage
+    (`olae-note-draft`), and the panel opens with it again when the reader
+    comes back to the page. Keeping it or letting it go clears it.
   - Highlight marks the passage on its page; over a highlight it reads
     "Remove highlight" and clears it. A highlight is listed in the drawer
     as Highlighted. One made by Highlight alone leaves the drawer when it

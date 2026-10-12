@@ -387,6 +387,9 @@ html:has(.house-dialog[open]) { overflow: hidden; }
 /* What the notebook has just done, under its buttons where the eye is. */
 .house-dialog .house-notebook-said { margin: 12px 0 -4px; color: var(--ink); font-size: 17px; }
 .house-notebook-said:empty { display: none; }
+/* The way back from the drawer to the notebook it was opened from. */
+.house-back { display: inline-block; margin: 0 0 16px; padding: 8px 0; min-height: 44px; border: 0; background: none; color: var(--petrol) !important; font-size: 17px !important; text-decoration: underline; text-underline-offset: 4px; transition: var(--select-ease, opacity .2s ease); }
+.house-back:hover { opacity: var(--select-dim, .78); }
 @keyframes house-arrive { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 html[data-theme="dark"] .house-scene, html[data-theme="midnight"] .house-scene { --room-wall: #363b3b; --room-floor: #3f403a; --room-line: #a89e89; --room-wood: #666452; --room-back: #444942; --room-paper: #b5ae96; --room-cream: #9c9174; --room-blue: #617e84; --room-olive: #687b64; --room-rust: #9e7564; --room-burgundy: #7a4650; --room-gold: #a48c55; --room-carpet: #4a4a41; --room-sunlight: .2; }
 html[data-theme="sky"] .house-scene { --room-wall: color-mix(in srgb, var(--paper) 88%, #a8997f); --room-floor: color-mix(in srgb, var(--paper) 76%, #9b8d6f); --room-line: var(--vizon); --room-wood: color-mix(in srgb, var(--paper) 50%, #a8997f); --room-back: color-mix(in srgb, var(--paper) 75%, #a8997f); --room-carpet: color-mix(in srgb, var(--paper) 64%, #9b8d6f); }
