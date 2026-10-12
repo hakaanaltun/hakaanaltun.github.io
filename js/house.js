@@ -440,17 +440,16 @@
 
   /* The notebook on the balcony's table. What is written stays on its page,
      in the drawer's record, until the reader keeps it as a note in the
-     drawer or goes on to The Page with it. There it is added after whatever
-     is already written, and The Page opens at its end. The Page keeps its
-     writing under olae-page-v1 (write/index.html). */
-  var PAGE_KEY = 'olae-page-v1';
+     drawer or goes on to The Page with it, as every note on the site can
+     (KEEP.toPage): there it is added after whatever is already written,
+     and The Page opens at its end. */
   function renderNotebook(box) {
     box.appendChild(document.getElementById('house-notebook').content.cloneNode(true));
     var area = box.querySelector('[data-notebook-text]');
     var page = box.querySelector('[data-notebook-page]');
     area.value = KEEP.notebook();
     box.querySelector('[data-notebook-hint]').textContent = KEEP.works()
-      ? 'The notebook keeps your words in this browser until you put them in your drawer. If you go on to The Page, they go with you and are added after anything already written there.'
+      ? 'The notebook keeps your words in this browser until you put them in your drawer. Write at length on The Page takes them there, after anything already written.'
       : 'This browser cannot save your note. What you write here stays until you leave the page.';
     var timer = 0;
     function save() {
@@ -480,19 +479,12 @@
       var words = area.value.trim();
       if (!words) return;
       clearTimeout(timer);
-      try {
-        var saved = JSON.parse(localStorage.getItem(PAGE_KEY) || 'null');
-        var before = saved && typeof saved.text === 'string' ? saved.text.replace(/\s+$/, '') : '';
-        localStorage.setItem(PAGE_KEY, JSON.stringify({ text: before ? before + '\n\n' + words : words, at: Date.now() }));
-      } catch (e) {
+      if (!KEEP.toPage(words, page)) {
         event.preventDefault();
-        announce('This browser cannot take your note to The Page. Copy it from here first.');
+        announce('This browser cannot take your note to The Page. Select it and copy it by hand.');
         return;
       }
       KEEP.setNotebook('');
-      var url = new URL(page.getAttribute('href'), location.href);
-      url.searchParams.set('at', 'end');
-      page.setAttribute('href', url.pathname + url.search);
     });
   }
 

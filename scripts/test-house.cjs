@@ -880,8 +880,6 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   // --- A passage on its page: Keep, a note, Highlight ---------------------
   p = page(essay.url.slice(1), 'https://hakanaltun.io' + essay.url, { run: ['keep', 'translate'], before: highlights });
   await tick();
-  let copied = '';
-  Object.defineProperty(p.w.navigator, 'clipboard', { value: { writeText: (words) => { copied = words; return Promise.resolve(); } }, configurable: true });
   const K = p.w.OLAE_KEEP;
   const essayParagraphs = Array.from(p.w.document.querySelectorAll('.essay-body p')).filter((el) => el.textContent.trim().length > 40);
   const rangeOf = (el) => { const r = p.w.document.createRange(); r.selectNodeContents(el); return r; };
@@ -908,15 +906,22 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   area.dispatchEvent(new p.w.Event('input', { bubbles: true }));
   await wait(450);
   assert.equal(itemOf(kept1.id).note, 'Read this again\nafter the exam.', 'the note is saved as it is written');
-  p.click('.keep-panel .keep-note-copy');
-  await tick();
-  assert.equal(copied, 'An essay · On Lying\n“' + kept1.quote + '”\nNote: Read this again\nafter the exam.\nhttps://hakanaltun.io' + essay.url, 'Copy takes the passage, the note and the page\'s link');
-  assert.equal(p.q('.keep-panel .keep-note-said').textContent, 'Copied, with its link.');
+  assert.equal(p.q('.keep-panel .keep-note-copy'), null, 'no Copy: The Page takes the note');
   const pageLink = new URL(p.q('.keep-panel .keep-note-page').getAttribute('href'), 'https://hakanaltun.io');
-  assert.equal(pageLink.pathname, '/write/', 'The Page is beside Copy, to write at length');
+  assert.equal(pageLink.pathname, '/write/', 'The Page is beside the note, to write at length');
   assert.equal(pageLink.searchParams.get('from'), 'drawer', 'and its way back leads to the drawer');
   assert.ok(pageLink.searchParams.get('v'), 'loading The Page as it is now');
-  assert.equal(p.q('.keep-panel .keep-note-page').textContent, 'Write more on The Page →');
+  assert.equal(p.q('.keep-panel .keep-note-page').textContent.replace(/\u00a0/g, ' '), 'Write at length on The Page →');
+  // Taken on to The Page, the note goes with the passage and its link,
+  // after whatever is written there, and only once.
+  p.w.localStorage.setItem('olae-page-v1', JSON.stringify({ text: 'My draft.\n', at: 1 }));
+  const stayHere = (event) => event.preventDefault();
+  p.w.document.addEventListener('click', stayHere);
+  p.click('.keep-panel .keep-note-page');
+  p.click('.keep-panel .keep-note-page');
+  p.w.document.removeEventListener('click', stayHere);
+  assert.equal(JSON.parse(p.w.localStorage.getItem('olae-page-v1')).text, 'My draft.\n\nAn essay · On Lying\n“' + kept1.quote + '”\nNote: Read this again\nafter the exam.\nhttps://hakanaltun.io' + essay.url, 'The Page takes the passage, the note and the page\'s link, after its own writing');
+  assert.equal(new URL(p.q('.keep-panel .keep-note-page').getAttribute('href'), 'https://hakanaltun.io').searchParams.get('at'), 'end', 'and opens at its end');
   area.value = 'Read this again.';
   area.dispatchEvent(new p.w.Event('input', { bubbles: true }));
   p.click('.keep-panel .keep-note-done');
@@ -1035,9 +1040,13 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   await wait(450);
   p.w.dispatchEvent(new p.w.Event('pagehide'));
   assert.equal(p.stored().kept.length, 0, 'writing keeps nothing on its own');
-  p.click('.keep-panel .keep-note-copy');
-  await tick();
-  assert.match(copied, /^An essay · On Lying\n“[\s\S]*”\nNote: First thought\.\nhttps:/, 'Copy works before keeping');
+  p.w.localStorage.removeItem('olae-page-v1');
+  const stayOnPiece = (event) => event.preventDefault();
+  p.w.document.addEventListener('click', stayOnPiece);
+  p.click('.keep-panel .keep-note-page');
+  p.w.document.removeEventListener('click', stayOnPiece);
+  assert.match(JSON.parse(p.w.localStorage.getItem('olae-page-v1')).text, /^An essay · On Lying\n“[\s\S]*”\nNote: First thought\.\nhttps:/, 'The Page takes a note before it is kept');
+  assert.equal(p.stored().kept.length, 0, 'and taking it there keeps nothing');
   p.click('.keep-panel-close');
   assert.equal(panel.hidden, false, 'closing an unkept note asks once more');
   assert.equal(p.q('.keep-panel-said').textContent, 'Your note is not kept yet. Close again to let it go.');
@@ -1146,6 +1155,12 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.equal(toPage.pathname, '/write/');
   assert.equal(toPage.searchParams.get('from'), 'drawer', 'from the drawer, The Page returns to the drawer');
   assert.ok(toPage.searchParams.get('v'), 'and loads the current page');
+  // The drawer's notes go on to The Page as every note does.
+  const stayInDrawer = (event) => event.preventDefault();
+  a.w.document.addEventListener('click', stayInDrawer);
+  a.click('#house-dialog-content .keep-note-page');
+  a.w.document.removeEventListener('click', stayInDrawer);
+  assert.equal(JSON.parse(a.w.localStorage.getItem('olae-page-v1')).text, 'A word · serendipity\n' + word.description + '\nhttps://hakanaltun.io/word/serendipity/', 'the word goes on to The Page, as the House tells it now');
   drawerArea.value = 'Walpole, 1754.';
   drawerArea.dispatchEvent(new a.w.Event('input', { bubbles: true }));
   a.click('#house-dialog-content .keep-note-done');

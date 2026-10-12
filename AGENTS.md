@@ -442,9 +442,9 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   in the drawer's record as `notebook`, until the reader keeps it or takes
   it on. "Keep in your drawer" makes it a note in the drawer, under The
   notebook, and it leads back to the balcony and has no card. "Write at
-  length on The Page" carries the words to The Page, after whatever is
-  written there, and The Page opens at their end (`at=end`). With nothing
-  written it is only the way to The Page.
+  length on The Page" carries the words to The Page, as every note on the
+  site does (see Reading options). With nothing written it is only the
+  way to The Page.
 - **The study's lamp is seen from above.** It stands below eye level, so
   the rim along the foot of its shade curves down toward the viewer and the
   opening the light comes through is out of sight. Until 12 October 2026
@@ -536,11 +536,14 @@ The site has two deliberate ideas of place. Do not collapse them into one.
     from the drawer or by making a new highlight.
   - The note is stored with the thing it belongs to, goes into a backup,
     the text download and the printed drawer, and stays off a shared card.
-    Under the note, Copy takes the note with what was kept and its link,
-    and a link to The Page (`/write/`) sits beside it, so a reader who
-    wants to write at length can paste them there. That link carries
-    `from=drawer`, so The Page's way back says "your drawer" and returns
-    to it. Taking out something with a note asks twice.
+    Under the note, "Write at length on The Page" takes the note there
+    with what was kept and its link, after whatever The Page already
+    holds, and The Page opens at their end (`at=end`). The author asked
+    on 12 October 2026 that every note do this, as the balcony's notebook
+    does (`toPage` in `js/keep.js`); the Copy button that stood beside it
+    was taken out then. The link carries `from=drawer`, so The Page's way back
+    says "your drawer" and returns to it. Taking out something with a note
+    asks twice.
   - The mark is drawn with the CSS Custom Highlight API, so the page's
     text is never wrapped or changed. A browser without it is not offered
     Highlight, and paper never shows a mark. A passage is found by its
