@@ -397,7 +397,11 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   parapet's coping and its foot meet at 500, 222; until 12 October 2026
   they were drawn level and the glass as a plain tint, and the doorway
   looked like a flat panel. Only the sky in the doorway is cut out of the
-  dusk mask; the parapet and the floor darken with the room.
+  dusk mask; the parapet and the floor darken with the room. In the study
+  the open leaf falls almost wholly outside the picture, so two brass
+  hinges on the jamb nearest us show where it turned; the author chose
+  this on 12 October 2026 over standing the leaf at a right angle, which
+  would have covered either the view or the plant.
 - **What is on the balcony.** Two chairs face each other across a small
   round table, as the author asked. A book lies on one chair, and a
   notebook, a pen and a glass of tea are on the table. A small olive grows

@@ -125,6 +125,10 @@
       <path class="house-window-trim" d="M921 480L977 514.1V498.6L944.8 480Z"/>
       <path class="house-door-panel" d="M987 155L1000 153.2V528.5L987 520.6Z"/>
       <path class="house-door-leaf-glass" d="M990 167.8L1000 166.7V423L990 418.9Z"/>
+      <path class="house-door-glint" d="M992 268L999 251"/>
+      <!-- Its two hinges, on the jamb nearest us: the leaf has swung on
+           them through the doorway and lies back against the wall. -->
+      <path class="house-door-hinge" stroke-width="1" d="M984.6 195.5h3.6v17h-3.6ZM984.6 452h3.6v17h-3.6Z"/>
     </g>
   </g>
   <!-- Plant in the corner beside the window. -->
