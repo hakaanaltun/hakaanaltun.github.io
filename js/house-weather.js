@@ -1,5 +1,6 @@
-/* İstanbul's modelled current weather, from Open-Meteo. The short showers
-   and passing clouds are an illustration of those conditions, not radar. */
+/* İstanbul's modelled current weather, from Open-Meteo. Rain and snow fall
+   for as long as the report has them; the passing clouds are an
+   illustration of broken cloud, not radar. */
 (function (root) {
   'use strict';
   var MINUTE = 60000, REFRESH = 15 * MINUTE, MAX_AGE = 90 * MINUTE;
@@ -17,13 +18,12 @@
     var snow = c.snowfall > 0 || [71, 73, 75, 77, 85, 86].indexOf(code) !== -1;
     var wet = snow || c.precipitation > 0 || [51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82, 95, 96, 99].indexOf(code) !== -1;
     var heavy = [65, 67, 75, 82, 86, 95, 96, 99].indexOf(code) !== -1 || c.precipitation >= 1;
-    // A six-minute spell has a dry pause, even in rainy conditions.
-    var falling = wet && (still || now % (6 * MINUTE) < (heavy ? 0.8 : 0.6) * 6 * MINUTE);
     var fog = code === 45 || code === 48;
-    var cover = Math.max(c.cloud_cover, code === 3 || fog ? 100 : wet ? 75 : 0);
-    // Overcast stays closed; broken cloud crosses in slow nine-minute spells.
-    var clouded = falling || cover >= 90 || (cover >= 25 && (still ? cover >= 50 : now % (9 * MINUTE) < cover / 100 * 9 * MINUTE));
-    return { available: true, kind: falling ? (snow ? 'snow' : 'rain') : null, level: falling ? (heavy ? 2 : 1) : 0, clouded: clouded,
+    var cover = Math.max(c.cloud_cover, code === 3 || fog ? 100 : 0);
+    // Rain, snow and overcast keep the sky closed; broken cloud crosses in
+    // slow nine-minute spells.
+    var clouded = wet || cover >= 90 || (cover >= 25 && (still ? cover >= 50 : now % (9 * MINUTE) < cover / 100 * 9 * MINUTE));
+    return { available: true, kind: wet ? (snow ? 'snow' : 'rain') : null, level: wet ? (heavy ? 2 : 1) : 0, clouded: clouded,
       summary: fog ? 'Fog' : wet ? (snow ? 'Snow' : 'Rain') : cover >= 90 ? 'Overcast' : cover >= 25 ? 'Partly cloudy' : 'Clear', time: c.time };
   }
   function start(onChange, env) {
