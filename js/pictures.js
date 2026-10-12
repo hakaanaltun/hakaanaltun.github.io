@@ -10,11 +10,14 @@
   document.addEventListener('keydown', function (event) {
     if (!event.altKey && !event.ctrlKey && !event.metaKey) document.body.removeAttribute('data-picture-pointer');
   }, true);
-  // A picture opened from the balcony of The House, the Sun from the sun in
-  // its sky or the Moon from the moon, leads back there.
-  if (new URLSearchParams(location.search).get('from') === 'balcony') {
+  // A picture opened from The House leads back to the room it came from.
+  var houseFrom = new URLSearchParams(location.search).get('from');
+  if (houseFrom === 'balcony' || houseFrom === 'house') {
     var home = document.querySelector('.picture-footer a');
-    if (home) { home.href = '/house/#balcony'; home.textContent = '← the balcony'; }
+    if (home) {
+      var room = houseFrom === 'balcony' ? 'balcony' : 'study';
+      home.href = '/house/#' + room; home.textContent = '← the ' + room;
+    }
   }
   var dialog = document.getElementById('picture-detail');
   if (!dialog || typeof dialog.showModal !== 'function') return;
@@ -228,3 +231,4 @@
   }
   document.body.classList.add('picture-ready');
 })();
+

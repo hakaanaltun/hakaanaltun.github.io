@@ -334,12 +334,13 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   east and the right one in the west. Their places come from
   `js/astronomy.js`, and the stars and planets from `js/sky-map.js`, loaded
   once the balcony is dark.
-- **The sun and the moon lead on, as worlds do on the journey.** Touching
-  the sun travels to The Sun in Pictures with Stories, and touching the moon
-  to the Moon on the journey through the Solar System. Their names open
-  what is true of them now, with The Sun, İstanbul's Twilight, The Moon and
-  *lunatic*. A phone has no pointer to tell the body from its name, so there
-  the sun and the moon open their dialogs, whose first link is the picture.
+- **The sun and the moon lead directly to their pictures.** In both the
+  study window and the balcony, each body and its name share one link.
+  The sun opens The Sun in Pictures with Stories; the moon opens the Moon
+  on the journey through the Solar System. This also applies to phones and
+  the balcony's list of places. There is no intervening sky dialog. A
+  picture opened from the study returns there with `from=house`; one opened
+  from the balcony returns there with `from=balcony`.
 - **The balcony is glazed.** Folding glass panels stand on the parapet up to
   the ceiling. Moris goes out to the balcony twice a day, as the author
   asked: from noon to two, and again from two hours before sunset until half
@@ -995,4 +996,5 @@ in `_data/trivia.yml`. These rules govern what belongs inside them.
   question is reworded or moved; a new question gets a new id.
 - Keep the prose plain, as everywhere else here, and let the content do the
   work.
+
 

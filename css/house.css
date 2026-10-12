@@ -271,23 +271,14 @@
 /* The breath is taken over the view, the stars are the night's sky. */
 .house-hotspot--breath { --ax: 50; --ay: 51.1; --aw: 53.5; --ah: 14.5; --lx: 60; --ly: 52; }
 .house-hotspot--stars { --ax: 50; --ay: 29.6; --aw: 53.5; --ah: 28.4; --lx: 33; --ly: 21.5; }
-/* The sun's and the moon's names follow them across the sky, beside them
-   on the side toward the middle, or at the edge of the view while they are
-   behind the house. js/house.js sets --sky-x, --sky-y and --sky-r in
-   hundredths of the picture. */
-.house-hotspot--sun, .house-hotspot--moon { --aw: 4.4; --ah: 6.8; --ay: var(--sky-y); --ly: var(--sky-y); --ax: calc(var(--sky-x) + var(--sky-r) + 4.6); --lx: var(--ax); }
-.house-hotspot--sun[data-side="left"], .house-hotspot--moon[data-side="left"] { --ax: calc(var(--sky-x) - var(--sky-r) - 4.6); }
-.house-hotspot--sun[data-side="edge-right"], .house-hotspot--moon[data-side="edge-right"] { --ax: calc(var(--sky-x) + 4); }
-.house-hotspot--sun[data-side="edge-left"], .house-hotspot--moon[data-side="edge-left"] { --ax: calc(var(--sky-x) - 4); }
-/* The sun and the moon themselves lead on to their pictures, as the worlds
-   do on the journey through the Solar System. Under a pointer or the
-   keyboard they say so, and their names show beside them. */
-.house-sky-travel { position: absolute; z-index: 4; left: calc(var(--sky-x) * 1%); top: calc(var(--sky-y) * 1%); width: 5%; aspect-ratio: 1; min-width: 44px; transform: translate(-50%, -50%); border-radius: 50%; text-decoration: none; }
-.house-sky-travel-name { position: absolute; left: 50%; bottom: calc(100% + 4px); transform: translateX(-50%); padding: 3px 8px; border: 1px solid #b7ab94; border-radius: 3px; background: #fcf7e9; color: #443f34; font-size: 11.5px; line-height: 1.2; white-space: nowrap; box-shadow: 0 2px 6px #30291a12; opacity: 0; pointer-events: none; transition: opacity .18s; }
-.house-sky-travel:focus-visible .house-sky-travel-name, .house-sky-travel:focus-visible + .house-hotspot .house-label { opacity: 1; }
-@media (hover: hover) {
-  .house-sky-travel:hover .house-sky-travel-name, .house-sky-travel:hover + .house-hotspot .house-label { opacity: 1; }
-}
+/* Each body and its name share one link, on every screen. */
+.house-hotspot--sun, .house-hotspot--moon { --aw: 4.4; --ah: 6.8; --ay: var(--sky-y); --ly: var(--sky-y); --ax: var(--sky-x); --lx: calc(var(--sky-x) + var(--sky-r) + 4.6); }
+.house-hotspot--sun[data-side="left"], .house-hotspot--moon[data-side="left"] { --lx: calc(var(--sky-x) - var(--sky-r) - 4.6); }
+.house-hotspot--sun[data-side="edge-right"], .house-hotspot--moon[data-side="edge-right"] { --ax: calc(var(--sky-x) + 4); --lx: var(--ax); }
+.house-hotspot--sun[data-side="edge-left"], .house-hotspot--moon[data-side="edge-left"] { --ax: calc(var(--sky-x) - 4); --lx: var(--ax); }
+/* The window's small sky links stay above the window's own place. */
+.house-hotspot--window-sun, .house-hotspot--window-moon { --z: 3; }
+.house-hotspot--window-sun, .house-hotspot--window-moon { --aw: 4.4; --ah: 6.8; --lx: var(--ax); --ly: calc(var(--ay) - 6); }
 .house-sky-note { color: var(--vizon); font-size: 15px !important; line-height: 1.5 !important; margin: -8px 0 22px; }
 .house-objects { display: none; }
 .house-room-footer { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; border-bottom: 1px solid var(--rule-strong); padding: 20px 0; font-size: 16px; }
@@ -410,11 +401,7 @@ html[data-theme="dark"], html[data-theme="midnight"], html[data-theme="sky"], .h
   .house-hotspot--balcony-lamp { --lx: 85.5; --ly: 31.5; }
   .house-hotspot--balcony-switch { --ax: 15.5; --lx: 15.5; min-width: 24px; }
   .house-hotspot--stars { --lx: 33; --ly: 22; }
-  /* No pointer to tell a place from its name here: the sun and the moon
-     open what is said about them, and the way to their pictures is in it. */
-  .house-hotspot--sun, .house-hotspot--moon { --ax: var(--sky-x); --lx: calc(var(--sky-x) + var(--sky-r) + 3.6); }
-  .house-hotspot--sun[data-side="left"], .house-hotspot--moon[data-side="left"] { --ax: var(--sky-x); --lx: calc(var(--sky-x) - var(--sky-r) - 3.6); }
-  .house-sky-travel { display: none; }
+  .house-hotspot--window-sun, .house-hotspot--window-moon { min-width: 0; }
   .house:not(.show-places) .house-objects { display: none; }
   .house-objects { display: grid; grid-template-columns: 1fr 1fr; gap: 0 14px; list-style: none; margin: 14px 0 0; padding: 0; }
   .house-objects button, .house-objects a { display: flex; color: inherit; text-decoration: none; align-items: center; gap: 9px; width: 100%; min-height: 44px; padding: 6px 0; border: 0; border-bottom: 1px solid var(--rule); background: none; text-align: left; font-size: 16px; }
@@ -460,3 +447,4 @@ html[data-theme="dark"], html[data-theme="midnight"], html[data-theme="sky"], .h
   .house-print-address { color: #6D665B; font-size: 10pt; }
   .house-print-note { white-space: pre-line; }
 }
+
