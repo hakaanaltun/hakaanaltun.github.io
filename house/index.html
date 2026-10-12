@@ -15,7 +15,7 @@ description: "Come in, look around, and keep something you find. A room at On Li
   "Today" is İstanbul's day and the light is İstanbul's light: the house is
   there, and every reader sees the same room on the same day.
 {%- endcomment -%}
-<link rel="stylesheet" href="/css/house.css?v=20261012-13">
+<link rel="stylesheet" href="/css/house.css?v=20261012-14">
 
 <div class="house" id="house" data-catalog="/house/catalog.json?v={{ site.time | date: '%Y%m%d%H%M' }}">
   <div class="house-heading">
@@ -138,11 +138,22 @@ description: "Come in, look around, and keep something you find. A room at On Li
       <li data-moris-item hidden><button type="button" tabindex="-1" data-open="moris"><span class="house-pin">8</span>Moris</button></li>
       <li><button type="button" tabindex="-1" data-balcony-globe><span class="house-pin">9</span>The lamp</button></li>
     </ol>
-    <div class="house-room-footer"><a href="#study" data-go="study">&larr; Back to the study</a></div>
+    {%- comment -%} What is heard out here, once the reader asks for it
+    (js/house-sound.js): İstanbul's gulls, birds, insects and ferries in
+    their hours and seasons, and the rain. The button stands under the
+    picture for as long as the reader is on the balcony, so the sound can
+    always be stopped where it is heard. {%- endcomment %}
+    <div class="house-room-footer"><a href="#study" data-go="study">&larr; Back to the study</a><button class="house-listen" type="button" id="house-listen" aria-pressed="false" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path class="house-listen-speaker" d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path class="house-listen-waves" d="M15.5 9a4.5 4.5 0 0 1 0 6M18 6.5a8 8 0 0 1 0 11"/></svg><span data-listen-label>Listen outside</span></button></div>
   </section>
 
   <noscript><p>The room needs JavaScript to open its objects. You can still visit the <a href="/all-work/">bookshelf</a>, <a href="/word/">words</a>, <a href="/trivia/">quizzes</a>, and <a href="/moris/">Moris</a>.</p></noscript>
-  <p class="house-weather-note"><span id="house-weather-summary">Checking İstanbul’s weather…</span> <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Open-Meteo</a>. <span title="Weather model data; the passing clouds are illustrated.">Weather shown as an illustration.</span> <button type="button" id="house-weather-follow" hidden>Follow İstanbul weather</button></p>
+  {%- comment -%} The footer's snow and rain, again just under the rooms where
+  they fall: the same signs, names and steps, and a touch here presses the
+  footer's own button (js/house.js), so the page has one sky. The footer's
+  buttons are at the foot of the page, far below the balcony. This line
+  shows once that sky is there. {%- endcomment %}
+  <p class="house-weather-note"><span id="house-weather-summary">Checking İstanbul’s weather…</span> <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Open-Meteo</a>. <span title="Weather model data; the passing clouds are illustrated.">Weather shown as an illustration.</span></p>
+  <p class="house-weather-choice" id="house-weather-choice" hidden><button class="house-weather-icon" type="button" data-weather-choice="snow" aria-label="Let it snow" aria-pressed="false" title="Let it snow"><span aria-hidden="true">&#10052;&#65038;</span></button><button class="house-weather-icon" type="button" data-weather-choice="rain" aria-label="Let it rain" aria-pressed="false" title="Let it rain"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c-2.5 4-7 7.5-7 12a7 7 0 0 0 14 0c0-4.5-4.5-8-7-12z"/></svg></button><button type="button" id="house-weather-follow" hidden>Follow İstanbul weather</button></p>
   <p class="house-status" id="house-status" role="status" aria-live="polite"></p>
 
   <dialog class="house-dialog" id="house-dialog" aria-labelledby="house-dialog-title">
@@ -194,6 +205,9 @@ description: "Come in, look around, and keep something you find. A room at On Li
 <script>window.OLAE_SKY_SCRIPTS = {{ site.data.sky_scripts | jsonify }};</script>
 <script src="/js/astronomy.js?v=20261011-1" defer></script>
 <script src="/js/house-weather.js?v=20261012-3" defer></script>
-<script src="/js/house.js?v=20261012-13" defer></script>
+<script src="/js/rain-engine.js?v=20260911-1" defer></script>
+<script src="/js/balcony-sound-engine.js?v=20261012-1" defer></script>
+<script src="/js/house-sound.js?v=20261012-1" defer></script>
+<script src="/js/house.js?v=20261012-14" defer></script>
 <script src="/js/cursor-trail.js?v=20260930-2" defer></script>
 

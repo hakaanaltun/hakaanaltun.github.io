@@ -232,7 +232,23 @@
 #balcony[data-sky-obscured="true"] [data-sky-item] { display: none; }
 .house-weather-note { color: var(--vizon); font-size: 14px; line-height: 1.6; margin: 16px 0 0; }
 .house-weather-note a { color: inherit; }
-.house-weather-note button { font: inherit; color: inherit; background: none; border: 0; text-decoration: underline; cursor: pointer; padding: 0; }
+/* The footer's snow and rain a little under the rooms where they fall, with
+   the footer's signs and the footer's answer to a pointer (css/let-it-snow.css):
+   faint at rest, full when pointed at or falling. The 44px squares stand a
+   little into the margin so that the signs line up with the words above. */
+.house-weather-choice { display: flex; flex-wrap: wrap; align-items: center; gap: 0 2px; margin: 4px 0 0 -14px; }
+.house-weather-choice .house-weather-icon { display: inline-grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 0; background: transparent; color: var(--vizon); font: 400 1.1rem/1 Georgia, serif; opacity: .75; transition: opacity .2s ease, color .2s ease; touch-action: manipulation; }
+.house-weather-icon svg { width: 16px; height: 16px; }
+.house-weather-choice .house-weather-icon:hover, .house-weather-choice .house-weather-icon[aria-pressed="true"] { opacity: 1; color: var(--ink); }
+.house-weather-choice .house-weather-icon:focus-visible { opacity: 1; outline: 1px solid currentColor; outline-offset: 2px; border-radius: 50%; }
+#house-weather-follow { min-height: 44px; margin-left: 12px; padding: 0; border: 0; background: none; color: var(--vizon); font-size: 15px; transition: var(--select-ease); }
+#house-weather-follow:hover, #house-weather-follow:active { opacity: var(--select-dim); }
+/* The balcony's sound, beside the way back under its picture, where the
+   rain it plays is falling. */
+.house-room-footer .house-listen { display: inline-flex; align-items: center; gap: 7px; padding: 0; border: 0; background: none; color: var(--ink-soft); transition: var(--select-ease); }
+.house-room-footer .house-listen:hover, .house-room-footer .house-listen:active { opacity: var(--select-dim); }
+.house-listen svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.house-listen[aria-pressed="false"] .house-listen-waves { opacity: .35; }
 @media (prefers-reduced-motion: reduce) {
   .house-scene :is(.house-sun, .house-moon, .house-stars, .house-sky-stars, .house-light-beam), .house-sky-top, .house-sky-bottom { transition: none; }
 }

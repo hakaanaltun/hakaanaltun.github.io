@@ -391,12 +391,19 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   weather. Covered bodies have no invisible travel targets. The footer's
   manual rain and snow override this for the visit. Stopping them, or Follow
   İstanbul weather, returns the rooms to the city at once; until 12 October
-  2026 stopping them left a clear sky. İstanbul's temperature, in whole
+  2026 stopping them left a clear sky. The same two buttons stand again just
+  under both rooms, before Follow İstanbul weather, as the author asked on
+  12 October 2026: the footer's snowflake and drop, with its names and its
+  steps, and a touch there presses the footer's own button, so the two never
+  disagree. A reader who has used them by the rooms knows them at the foot
+  of every other page. They are not shown at the door, where there is no
+  sky. İstanbul's temperature, in whole
   degrees with a minus sign below zero, stands after the time in both rooms'
   bars and nowhere else, as the author asked that day. It stays İstanbul's
   while a reader's own weather falls. On a phone the time and the
   temperature form the bar's second line, so the room's name keeps to one.
-  Automatic weather never scrolls the page or starts audio. Reduced motion
+  Automatic weather never scrolls the page, and it starts no audio the
+  reader has not asked for (see the balcony's sound below). Reduced motion
   keeps precipitation still and does not cycle the passing clouds.
 - **The balcony is glazed.** Folding glass panels stand on the parapet up to
   the ceiling, along the front and the right-hand side. Moris goes out to
@@ -480,10 +487,47 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   author asked that an unlit globe stay dark. The status line points to the
   switch either way. After sunset each room's lamp shows in the other
   through the glass of the door.
-- **Its sound comes next.** The balcony will have a sound of its own, like
-  the farm's, but following İstanbul's real calendar rather than a fixed
-  summer. Check each bird and its season against reliable sources before it
-  is heard.
+- **The balcony is heard.** The author asked for this on 12 October 2026.
+  "Listen outside" stands under the balcony's picture, beside the way back
+  to the study, for as long as the reader is out there. The sound is off
+  until the reader asks for it. Their browser remembers the choice
+  (`olae-balcony-sound`), and sound left on waits for their first touch,
+  click or key. Nothing is heard in the study, as the author asked. The
+  author also asked that the way to stop the sound always be in plain
+  sight, so the same button reads "Stop the sound" wherever it can be
+  heard. Elsewhere on the site the footer's rain and snow stay silent:
+  sound comes only where a reader asks for it by name, as on the essays,
+  the farm and the balcony.
+- **What is heard is İstanbul's, at this hour and in this month.** The
+  House's hour and İstanbul's temperature decide, never the visitor's. A
+  low hush of the city and the sea is always there. The gulls call by day
+  and now and then at night: the gulls that live in Türkiye do not migrate
+  (Bilim ve Teknik, July 2016), and in cities they nest on rooftops (Bilim
+  Çocuk). Small birds chirp on the roofs by day, busiest from March to June
+  and quietest in July and August (RSPB). Field crickets sing on warm
+  evenings from May to July, only above 13 °C; tree crickets sing on warm
+  evenings and nights from July to October, more slowly and with longer
+  rests as it cools. A ferry's horn sounds now and then between seven in
+  the morning and midnight, while the ferries run: one prolonged blast of
+  four to six seconds (COLREGS, Rule 32), its pitch within the range Annex
+  III gives a ship's whistle. The small birds, the gulls and the insects
+  are not any one species, and nothing on the page names one. The sources
+  for each voice are beside it in `js/balcony-sound-engine.js`.
+- **Rain and snow.** Rain, İstanbul's or the reader's, is the essays' rain
+  from `js/rain-engine.js`, and the birds and the insects fall quiet in
+  it. With the glass folded away everything is clear. While Moris is out
+  and the glass is closed, everything, the rain with it, is quieter and
+  loses its top, as the author asked. Snow falls without a sound and
+  hushes the rest.
+- **Two scripts make it.** `js/balcony-sound-engine.js` makes the sounds
+  and nothing else, as `js/farm-sound-engine.js` does for the farm.
+  `js/house-sound.js` holds the button, chooses the voices by the hour,
+  the month, the temperature and the weather, and sets the levels near its
+  top. Only listening can check them, so listen on a phone before changing
+  a level or a voice. `scripts/test-house-sound.cjs` checks the behavior.
+  Bump the `?v=` on a script's tag in `house/index.html` when it changes.
+  A new voice, a bird above all, is checked with its season against
+  reliable sources before it is heard.
 
 ## The Sun, The Stars and Tonight
 
