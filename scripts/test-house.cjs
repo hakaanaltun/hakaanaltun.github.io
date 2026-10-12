@@ -1392,6 +1392,92 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.equal(p.q('canvas.snowfall'), null);
   p.dom.window.close();
 
+  // The footer's snow and rain stand again under both rooms, and a touch
+  // there presses the footer's own button: the same signs, names and steps.
+  p = house();
+  await tick();
+  const choice = p.q('#house-weather-choice');
+  assert.equal(choice.hidden, true, 'not before the sky is there');
+  p.w.matchMedia = () => ({ matches: false });
+  p.w.eval(scripts.snow);
+  p.w.document.dispatchEvent(new p.w.Event('DOMContentLoaded'));
+  assert.equal(choice.hidden, true, 'nor at the door, where there is no sky');
+  const icon = (kind) => p.q('#house-weather-choice [data-weather-choice="' + kind + '"]');
+  const twins = () => ['snow', 'rain'].forEach((kind) => ['aria-label', 'aria-pressed', 'title'].forEach((name) =>
+    assert.equal(icon(kind).getAttribute(name), p.q('#let-it-' + kind).getAttribute(name), kind + ': ' + name + ' as in the footer')));
+  assert.equal(icon('snow').textContent, p.q('#let-it-snow').textContent, 'the footer’s snowflake');
+  assert.equal(icon('rain').querySelector('path').getAttribute('d'), p.q('#let-it-rain path').getAttribute('d'), 'and its drop');
+  p.click('#house-enter');
+  assert.equal(choice.hidden, false, 'under the study');
+  twins();
+  for (const [step, title] of [['rain', 'Light rain. Click for heavy rain'], ['rain', 'Heavy rain. Click to stop the rain'], [undefined, 'Let it rain']]) {
+    p.click(icon('rain'));
+    assert.equal(icon('rain').title, title);
+    twins();
+    assert.equal(p.q('#house-scene').dataset.weather, step);
+  }
+  assert.equal(p.q('canvas.snowfall'), null, 'the page itself stays dry');
+  p.click('#let-it-snow');
+  twins();
+  assert.equal(icon('snow').getAttribute('aria-pressed'), 'true', 'what the footer chooses shows here too');
+  assert.equal(p.q('#house-weather-follow').hidden, false);
+  p.click('.house-hotspot--balcony');
+  assert.equal(choice.hidden, false, 'under the balcony');
+  p.click('#house-weather-follow');
+  twins();
+  assert.equal(icon('snow').getAttribute('aria-pressed'), 'false', 'following İstanbul again lets the choice go');
+  p.click('.house-hotspot--study-door');
+  p.click('#house-leave');
+  assert.equal(choice.hidden, true, 'back at the door');
+  await tick();
+  p.dom.window.close();
+
+  // The balcony's sound is told where the reader is, İstanbul's hour,
+  // month, temperature and weather, and whether the glass is shut. It is
+  // heard out there and not in the study; js/house-sound.js and
+  // scripts/test-house-sound.cjs do the rest.
+  const heard = [];
+  let liveRain;
+  const listening = (w) => {
+    w.OLAE_HOUSE_SOUND = { update: (state) => heard.push(state) };
+    w.OLAE_ISTANBUL_WEATHER = { start: (fn) => { liveRain = fn; } };
+  };
+  const lastHeard = () => ({ ...heard[heard.length - 1] });
+  let s = houseAt('2026-10-11T13:00:00+03:00', 'https://hakanaltun.io/house/#study', false, listening);
+  assert.deepEqual(lastHeard(), { outside: false, glass: 'closed', weather: null, level: 0, period: 'day', hour: 13, month: 10, temp: null },
+    'in the study at one on an October afternoon, with Moris out and the glass shut');
+  s.w.matchMedia = () => ({ matches: false });
+  s.w.eval(scripts.snow);
+  s.w.document.dispatchEvent(new s.w.Event('DOMContentLoaded'));
+  s.click('#let-it-rain');
+  assert.equal(lastHeard().weather, 'rain', 'rain at the study window');
+  assert.equal(lastHeard().outside, false);
+  s.click('.house-hotspot--balcony');
+  assert.equal(lastHeard().outside, true, 'and out on the balcony');
+  s.click('#let-it-rain');
+  assert.equal(lastHeard().level, 2);
+  s.click('#house-weather-choice [data-weather-choice="snow"]');
+  assert.equal(lastHeard().weather, 'snow');
+  s.click('#house-weather-follow');
+  liveRain({ available: true, summary: 'Rain', kind: 'rain', level: 1, clouded: true, temperature: 9 });
+  assert.deepEqual([lastHeard().weather, lastHeard().level, lastHeard().temp], ['rain', 1, 9], 'İstanbul’s own rain and temperature are heard too');
+  liveRain({ available: true, summary: 'Rain', kind: 'rain', level: 1, clouded: true, temperature: 8 });
+  assert.equal(lastHeard().temp, 8, 'a new temperature is passed on');
+  liveRain({ available: false, kind: null, level: 0, clouded: false, temperature: 12 });
+  assert.equal(lastHeard().temp, null, 'unavailable weather gives no temperature');
+  s.click('.house-hotspot--study-door');
+  assert.equal(lastHeard().outside, false, 'back in the study');
+  await tick();
+  s.dom.window.close();
+  s = houseAt('2026-10-11T14:30:00+03:00', 'https://hakanaltun.io/house/#balcony', false, listening);
+  assert.deepEqual([lastHeard().outside, lastHeard().glass], [true, 'open'], 'at half past two Moris is in and the glass is folded away');
+  await tick();
+  s.dom.window.close();
+  s = houseAt('2026-10-11T23:30:00+03:00', 'https://hakanaltun.io/house/#balcony', false, listening);
+  assert.deepEqual([lastHeard().period, lastHeard().hour], ['night', 23], 'İstanbul’s night');
+  await tick();
+  s.dom.window.close();
+
   // The pointer's trail. A mouse lays one canvas over the page that nothing
   // can land on; a finger, a reader who asked for less motion, and a pointer
   // over an open dialog get none.
@@ -1424,6 +1510,6 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.equal(t.q('canvas.cursor-trail'), null, 'and none for a reader who asked for less motion');
   t.dom.window.close();
 
-  console.log('House: catalog and addresses, daily room, keeping from the room and from words, quizzes, the book and essays, the passage prompt on word stories and quiz notes, the kept passage\'s panel, its note and the way on to The Page, Highlight and its clearing, the small box by a highlight, hidden highlights, a note written before keeping, notes in the drawer, legacy and hostile records, blocked storage, arrivals, #drawer, export and backup offered only where they work, the moon, the planets after dark, weather at the window, the balcony, its glass, its door, its sky and its lamp, its notebook, a kept page left open in it, and the way on to The Page, Moris on the chair and by the glass, quiet places and a remembered Show places to look, the ways back to the study and the balcony, and the pointer\'s trail passed.');
+  console.log('House: catalog and addresses, daily room, keeping from the room and from words, quizzes, the book and essays, the passage prompt on word stories and quiz notes, the kept passage\'s panel, its note and the way on to The Page, Highlight and its clearing, the small box by a highlight, hidden highlights, a note written before keeping, notes in the drawer, legacy and hostile records, blocked storage, arrivals, #drawer, export and backup offered only where they work, the moon, the planets after dark, weather at the window, the footer\'s snow and rain under both rooms, what the balcony\'s sound is told, the balcony, its glass, its door, its sky and its lamp, its notebook, a kept page left open in it, and the way on to The Page, Moris on the chair and by the glass, quiet places and a remembered Show places to look, the ways back to the study and the balcony, and the pointer\'s trail passed.');
 })().catch((error) => { console.error(error); process.exit(1); });
 

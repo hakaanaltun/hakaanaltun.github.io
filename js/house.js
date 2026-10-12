@@ -895,6 +895,7 @@
     var name = { morning: 'Morning', day: sky.hour < 12 ? 'Morning' : 'Afternoon', evening: 'Evening', night: 'Night' }[sky.period];
     scene.dataset.hour = sky.period;
     balconyScene.dataset.hour = sky.period;
+    heardSky = { period: sky.period, hour: sky.hour, month: +parts(now, { month: 'numeric' }).month };
     document.getElementById('house-hour').textContent = name + ' in İstanbul';
     document.getElementById('house-clock').textContent = clock(now);
     balcony.querySelector('[data-house-hour]').textContent = name + ' in İstanbul';
@@ -933,6 +934,7 @@
     balconyScene.dataset.balconyLamp = porch ? 'on' : 'off';
     scene.dataset.balconyLamp = balconyScene.dataset.balconyLamp;
     root.querySelectorAll('button[data-balcony-lamp]').forEach(function (button) { button.setAttribute('aria-pressed', String(porch)); });
+    hear();
   }
 
   /* --- Weather at the window ------------------------------------------
@@ -1062,12 +1064,36 @@
     var degrees = value.available && value.temperature != null ? (value.temperature < 0 ? '−' + -value.temperature : value.temperature) + '°C' : '';
     temperatures.forEach(function (node) { node.textContent = degrees && '· ' + degrees; node.hidden = !degrees; });
     if (!manualWeather) showWeather(value, first);
+    hear();
   }
   // Stopping the footer's weather hands the rooms back to İstanbul at once.
   function followCity() {
     manualWeather = false; followWeather.hidden = true;
     showWeather(liveWeather);
+    paintChoices();
     announce('The House follows İstanbul’s weather again.');
+  }
+  /* The snow and the rain under the rooms are the footer's two buttons
+     again, with the same signs, names and steps: light, heavy, then off,
+     which hands the rooms back to İstanbul. A touch here presses the
+     footer's own button, and these take its names after every change, so
+     the two can never disagree. A reader who has used them out here knows
+     them at the foot of every other page. */
+  var choices = document.getElementById('house-weather-choice');
+  var offered = false;
+  // Under both rooms, where the weather falls; at the door there is no sky.
+  function showChoices() {
+    choices.hidden = !offered || (study.hidden && balcony.hidden);
+  }
+  function footerButton(button) {
+    return document.getElementById('let-it-' + button.getAttribute('data-weather-choice'));
+  }
+  function paintChoices() {
+    choices.querySelectorAll('[data-weather-choice]').forEach(function (button) {
+      var twin = footerButton(button);
+      if (!twin) return;
+      ['aria-label', 'aria-pressed', 'title'].forEach(function (name) { button.setAttribute(name, twin.getAttribute(name)); });
+    });
   }
   followWeather.addEventListener('click', function () {
     // Resetting the footer's buttons stops their weather, which follows the city.
@@ -1086,6 +1112,8 @@
     weather.level = level;
     [scene, balconyScene].forEach(function (s) { if (kind) s.dataset.weather = kind; else delete s.dataset.weather; });
     seedWeather();
+    hear();
+    paintChoices();
     if (automatic) return;
     announce((level === 2 ? 'Heavy ' : 'Light ') + kind + view.where);
     // The buttons are at the foot of the page and the sky may be out of
@@ -1107,7 +1135,26 @@
   // js/let-it-snow.js runs after this script, so the window is offered to it
   // once the page has finished loading as well as now.
   function offerWindow() {
-    if (window.OLAE_WEATHER && window.OLAE_WEATHER.place) window.OLAE_WEATHER.place(windowWeather);
+    if (window.OLAE_WEATHER && window.OLAE_WEATHER.place) {
+      window.OLAE_WEATHER.place(windowWeather);
+      offered = !!document.getElementById('let-it-snow') && !!document.getElementById('let-it-rain');
+      showChoices();
+      paintChoices();
+    }
+  }
+  /* The balcony's sound (js/house-sound.js) is told where the reader is,
+     İstanbul's hour, month, temperature and weather, and whether the glass
+     is closed. It is heard out on the balcony and not in the study. */
+  var heardSky = { period: 'day', hour: 12, month: 1 };
+  function hear() {
+    if (!window.OLAE_HOUSE_SOUND || !weather) return;
+    var temp = liveWeather && liveWeather.available && typeof liveWeather.temperature === 'number' ? liveWeather.temperature : null;
+    window.OLAE_HOUSE_SOUND.update({
+      outside: !balcony.hidden,
+      glass: balconyScene.dataset.moris === 'balcony' ? 'closed' : 'open',
+      weather: weather.kind, level: weather.level,
+      period: heardSky.period, hour: heardSky.hour, month: heardSky.month, temp: temp
+    });
   }
 
   /* --- Since the last visit ---------------------------------------------
@@ -1392,6 +1439,8 @@
     study.hidden = !inside;
     balcony.hidden = !outside;
     weatherFollows(outside ? VIEWS.balcony : VIEWS.study);
+    showChoices();
+    hear();
     if (outside) paint();
     if (hash === '#drawer') {
       if (!dialog.open) openObject('drawer', document.getElementById('drawer'));
@@ -1459,6 +1508,12 @@
 
   root.addEventListener('click', function (event) {
     if (event.target.closest('[data-places]')) { showPlaces(!root.classList.contains('show-places')); return; }
+    var choice = event.target.closest('button[data-weather-choice]');
+    if (choice) {
+      var twin = footerButton(choice);
+      if (twin) twin.click();
+      return;
+    }
     // A link in the box to the room the reader is already in, such as a
     // notebook page's "Go to the balcony" on the balcony, closes the box.
     var here = event.target.closest('#house-dialog a[href]');
