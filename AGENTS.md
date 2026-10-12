@@ -441,10 +441,16 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   page to write on instead. What is written there stays in the notebook,
   in the drawer's record as `notebook`, until the reader keeps it or takes
   it on. "Keep in your drawer" makes it a note in the drawer, under The
-  notebook, and it leads back to the balcony and has no card. "Write at
-  length on The Page" carries the words to The Page, as every note on the
-  site does (see Reading options). With nothing written it is only the
-  way to The Page.
+  notebook, and it leads back to the balcony and has no card. The kept
+  page stays open in the notebook for the rest of the visit, under "Kept
+  in your drawer.", and what is changed there is changed in the drawer.
+  "Open your drawer", "A new page" and "Take out" stand where Keep was, as
+  the panel by a kept passage offers the drawer and Take out; taken out,
+  the words stay in the notebook. The author asked for this on 12 October
+  2026, when a kept note vanished from the notebook with only a line at
+  its foot. "Write at length on The Page" carries the words to The Page,
+  as every note on the site does (see Reading options). With nothing
+  written it is only the way to The Page.
 - **The study's lamp is seen from above.** It stands below eye level, so
   the rim along the foot of its shade curves down toward the viewer and the
   opening the light comes through is out of sight. Until 12 October 2026

@@ -442,49 +442,108 @@
      in the drawer's record, until the reader keeps it as a note in the
      drawer or goes on to The Page with it, as every note on the site can
      (KEEP.toPage): there it is added after whatever is already written,
-     and The Page opens at its end. */
+     and The Page opens at its end. A kept page stays open in the notebook
+     for the rest of the visit, saying so, and what is changed there is
+     changed in the drawer. "Open your drawer", "A new page" and "Take out"
+     stand where Keep was, as the panel by a kept passage offers the drawer
+     and Take out (js/keep.js); taken out, the words stay in the notebook.
+     The author asked for this on 12 October 2026, when a kept note
+     vanished from the notebook with only a line at its foot. */
+  var notebookKept = '';
   function renderNotebook(box) {
     box.appendChild(document.getElementById('house-notebook').content.cloneNode(true));
     var area = box.querySelector('[data-notebook-text]');
     var page = box.querySelector('[data-notebook-page]');
-    area.value = KEEP.notebook();
-    box.querySelector('[data-notebook-hint]').textContent = KEEP.works()
-      ? 'The notebook keeps your words in this browser until you put them in your drawer. Write at length on The Page takes them there, after anything already written.'
-      : 'This browser cannot save your note. What you write here stays until you leave the page.';
+    var keep = box.querySelector('[data-notebook-keep]');
+    var drawer = box.querySelector('[data-notebook-drawer]');
+    var fresh = box.querySelector('[data-notebook-fresh]');
+    var out = box.querySelector('[data-notebook-out]');
+    var said = box.querySelector('[data-notebook-said]');
+    var hint = box.querySelector('[data-notebook-hint]');
+    var label = box.querySelector('[data-notebook-label]');
+    var kept = notebookKept ? KEEP.find(notebookKept) : null;
+    if (!kept) notebookKept = '';
+    area.value = kept ? kept.note || '' : KEEP.notebook();
+    function show() {
+      keep.hidden = !!notebookKept;
+      drawer.hidden = fresh.hidden = out.hidden = !notebookKept;
+      // Kept, it is named as a note is in the drawer and the panel.
+      label.textContent = notebookKept ? 'Your note' : 'Write a note';
+      hint.textContent = !KEEP.works()
+        ? 'This browser cannot save your note. What you write here stays until you leave the page.'
+        : notebookKept
+          ? 'What you change here is changed in your drawer too. Write at length on The Page takes the note there, after anything already written.'
+          : 'The notebook keeps your words in this browser until you put them in your drawer. Write at length on The Page takes them there, after anything already written.';
+    }
+    show();
     var timer = 0;
+    // A kept page saves to its note in the drawer; the page being written,
+    // to the notebook. A kept page taken out of the drawer meanwhile goes
+    // back to being the notebook's own.
     function save() {
       clearTimeout(timer);
+      if (notebookKept && KEEP.setNote(notebookKept, area.value, true)) return;
+      if (notebookKept) { notebookKept = ''; show(); }
       KEEP.setNotebook(area.value);
     }
     area.addEventListener('input', function () {
       clearTimeout(timer);
       timer = setTimeout(save, 300);
+      // "Write something first" has been answered.
+      if (!notebookKept) said.textContent = '';
     });
     area.addEventListener('blur', save);
-    box.querySelector('[data-notebook-keep]').addEventListener('click', function () {
+    keep.addEventListener('click', function () {
       var words = area.value.trim();
       if (!words) {
-        announce('Write something first.');
+        said.textContent = 'Write something first.';
         area.focus();
         return;
       }
       clearTimeout(timer);
-      KEEP.toggle({ id: 'notebook-' + Date.now().toString(36), kind: 'The notebook', title: 'On the balcony, ' + longDate(today()), quote: '', href: '/house/#balcony', note: words });
+      notebookKept = 'notebook-' + Date.now().toString(36);
+      KEEP.toggle({ id: notebookKept, kind: 'The notebook', title: 'On the balcony, ' + longDate(today()), quote: '', href: '/house/#balcony', note: words });
+      KEEP.setNotebook('');
+      said.textContent = 'Kept in your drawer.';
+      show();
+      // Keep has gone, so the focus goes to what stands in its place.
+      drawer.focus({ preventScroll: true });
+    });
+    drawer.addEventListener('click', function () {
+      save();
+      // The drawer opens in the same box, and closing it returns to the
+      // notebook's place on the balcony.
+      openObject('drawer', opener);
+    });
+    out.addEventListener('click', function () {
+      save();
+      if (notebookKept) KEEP.remove(notebookKept);
+      notebookKept = '';
+      KEEP.setNotebook(area.value);
+      said.textContent = 'Taken out of your drawer. The page stays in the notebook.';
+      show();
+      keep.focus({ preventScroll: true });
+    });
+    fresh.addEventListener('click', function () {
+      save();
+      notebookKept = '';
       area.value = '';
       KEEP.setNotebook('');
-      announce('Your note is in your drawer.');
+      said.textContent = '';
+      show();
       area.focus();
     });
     page.addEventListener('click', function (event) {
       var words = area.value.trim();
       if (!words) return;
-      clearTimeout(timer);
+      save();
       if (!KEEP.toPage(words, page)) {
         event.preventDefault();
-        announce('This browser cannot take your note to The Page. Select it and copy it by hand.');
+        said.textContent = 'This browser cannot take your note to The Page. Select it and copy it by hand.';
         return;
       }
-      KEEP.setNotebook('');
+      // A kept page stays in the drawer; the notebook's own page goes on.
+      if (!notebookKept) KEEP.setNotebook('');
     });
   }
 
