@@ -200,6 +200,8 @@
 .house-scene:is([data-clouded], [data-weather]) :is(.house-sun, .house-moon, .house-stars, .house-sky-stars, .house-light-beam) { opacity: 0; }
 .house-scene :is(.house-sun, .house-moon, .house-stars, .house-sky-stars, .house-light-beam) { transition: opacity 12s ease; }
 .house-sky-top, .house-sky-bottom { transition: stop-color 12s ease; }
+/* The first report from İstanbul replaces the sky the page opened with. */
+.house-scene[data-sky-instant] :is(.house-sun, .house-moon, .house-stars, .house-sky-stars, .house-light-beam, .house-sky-top, .house-sky-bottom) { transition: none; }
 .house-scene[data-clouded] .house-sea-light { opacity: .1; }
 .house-scene[data-clouded]:not([data-hour="night"]) .house-pine-tuft { fill: #4a554d; }
 .house-scene[data-clouded]:not([data-hour="night"]) .house-pine-light { fill: #5d6961; }

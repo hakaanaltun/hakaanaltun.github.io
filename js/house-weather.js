@@ -27,7 +27,7 @@
       summary: fog ? 'Fog' : wet ? (snow ? 'Snow' : 'Rain') : cover >= 90 ? 'Overcast' : cover >= 25 ? 'Partly cloudy' : 'Clear', time: c.time };
   }
   function start(onChange, env) {
-    var w = env || root, doc = w.document, current = null, lastFetch = 0, inFlight = false, stopped = false;
+    var w = env || root, doc = w.document, current = null, lastFetch = 0, inFlight = false, stopped = false, answered = false;
     var still = w.matchMedia && w.matchMedia('(prefers-reduced-motion: reduce)').matches;
     function now() { return w.Date.now(); }
     try {
@@ -37,7 +37,8 @@
         if (current) lastFetch = cached.saved;
       }
     } catch (e) { /* A blocked or invalid cache is optional. */ }
-    function emit() { if (!stopped) onChange(sample(current, now(), still)); }
+    // Until the first answer arrives, the page still says it is checking.
+    function emit() { if (!stopped && (current || answered)) onChange(sample(current, now(), still)); }
     function refresh() {
       if (stopped || doc.hidden || inFlight || (lastFetch && now() - lastFetch < REFRESH)) return;
       lastFetch = now(); inFlight = true;
@@ -55,7 +56,7 @@
         current = next;
         try { w.sessionStorage.setItem(KEY, JSON.stringify({ saved: now(), data: data })); } catch (e) { /* optional */ }
       }).catch(function () { /* A recent result can bridge a brief outage. */ }).finally(function () {
-        w.clearTimeout(timeout); inFlight = false; emit();
+        w.clearTimeout(timeout); inFlight = false; answered = true; emit();
       });
     }
     function tick() { if (!doc.hidden) { emit(); refresh(); } }

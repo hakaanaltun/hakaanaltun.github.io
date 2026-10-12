@@ -1040,9 +1040,14 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   let cityWeather;
   city.w.OLAE_ISTANBUL_WEATHER = { start: fn => { cityWeather = fn; } };
   city.w.eval(scripts.house);
+  assert.equal(city.q('#house-weather-summary').textContent, 'Checking İstanbul’s weather…');
   let moved = 0;
   city.w.HTMLElement.prototype.scrollIntoView = () => { moved++; };
   cityWeather({ available: true, summary: 'Rain', kind: 'rain', level: 1, clouded: true });
+  // The first report replaces the opening sky without its slow fades, so
+  // rain never falls from a sunny sky; passing cloud keeps them.
+  assert.ok(read(root, 'css', 'house.css').includes('.house-scene[data-sky-instant] :is(.house-sun, .house-moon, .house-stars, .house-sky-stars, .house-light-beam, .house-sky-top, .house-sky-bottom) { transition: none; }'));
+  assert.equal(city.q('#house-scene').dataset.skyInstant, undefined, 'and only for that report');
   assert.equal(city.q('#house-scene').dataset.weather, 'rain');
   assert.equal(city.q('#house-balcony-scene').dataset.weather, 'rain');
   assert.equal(city.q('#house-scene').dataset.clouded, '');
@@ -1055,15 +1060,35 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   city.click('#let-it-snow');
   cityWeather({ available: true, summary: 'Clear', kind: null, level: 0, clouded: false });
   assert.equal(city.q('#house-scene').dataset.weather, 'snow', 'a manual choice survives weather updates');
+  cityWeather({ available: true, summary: 'Overcast', kind: null, level: 0, clouded: true });
   city.click('#house-weather-follow');
   assert.equal(city.q('#house-scene').dataset.weather, undefined);
+  assert.equal(city.q('#house-scene').dataset.clouded, '');
+  assert.equal(city.q('#balcony').dataset.skyObscured, 'true');
+  assert.equal(city.q('#house-weather-follow').hidden, true);
+  assert.equal(city.q('#house-weather-summary').textContent, 'Overcast in İstanbul. ');
+  assert.equal(city.q('#house-status').textContent, 'The House follows İstanbul’s weather again.', 'not a clearing sky under cloud');
+  cityWeather({ available: true, summary: 'Clear', kind: null, level: 0, clouded: false });
   assert.equal(city.q('#house-scene').dataset.clouded, undefined);
   assert.equal(city.q('#balcony').dataset.skyObscured, 'false');
-  assert.equal(city.q('#house-weather-follow').hidden, true);
   cityWeather({ available: false, kind: null, level: 0, clouded: false });
   assert.match(city.q('#house-weather-summary').textContent, /unavailable/);
   await tick();
   city.dom.window.close();
+  // Following İstanbul again before its first report still says it is checking.
+  const early = page('house/index.html', 'https://hakanaltun.io/house/#study', { run: ['keep', 'astronomy'] });
+  early.w.OLAE_ISTANBUL_WEATHER = { start: () => {} };
+  early.w.matchMedia = () => ({ matches: false });
+  early.w.eval(scripts.house);
+  early.w.eval(scripts.snow);
+  early.w.document.dispatchEvent(new early.w.Event('DOMContentLoaded'));
+  early.click('#let-it-snow');
+  assert.equal(early.q('#house-weather-summary').textContent, 'Weather chosen by you. ');
+  early.click('#house-weather-follow');
+  assert.equal(early.q('#house-weather-summary').textContent, 'Checking İstanbul’s weather…');
+  assert.equal(early.q('#house-scene').dataset.weather, undefined);
+  await tick();
+  early.dom.window.close();
 
   // The footer's weather falls outside the window here, not over the page.
   // The House runs before the weather does, as it does in the page, and

@@ -45,6 +45,7 @@ async function run() {
   };
   const settle = () => new Promise(resolve => setImmediate(resolve));
   let stop = weather.start(value => values.push(value), env);
+  assert.equal(values.length, 0, 'nothing is said before the first answer');
   await settle();
   assert.equal(calls, 1);
   assert.equal(values.at(-1).clouded, true);
@@ -60,10 +61,12 @@ async function run() {
   assert.equal(values.at(-1).available, false, 'stale weather is never replayed');
   stop();
   fail = false; hold = true; cache.clear();
+  const said = values.length;
   stop = weather.start(value => values.push(value), env);
-  await settle(); deadline(); await settle();
+  await settle(); assert.equal(values.length, said, 'still checking while the request hangs');
+  deadline(); await settle();
   assert.equal(values.at(-1).available, false, 'a hanging endpoint times out');
   stop(); assert.equal(interval, null); assert.equal(listeners.visibilitychange, undefined);
-  console.log('House weather: conditions, rain pauses, clouds, reduced motion, cache, refresh, hidden tabs, outages and timeout passed.');
+  console.log('House weather: conditions, rain pauses, clouds, reduced motion, checking until the first answer, cache, refresh, hidden tabs, outages and timeout passed.');
 }
 run().catch(error => { console.error(error); process.exitCode = 1; });
