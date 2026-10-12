@@ -16,11 +16,12 @@ illustration_note:
 - Sixteen connected watercolor scenes begin near Earth. One branch leads inward through Venus and Mercury to a
   separate picture of the Sun. Another leads through the Moon and Mars into the asteroid belt, then to Jupiter,
   Saturn, Uranus, Neptune and Pluto, then to Arrokoth in the Kuiper Belt and the Voyagers beyond the heliopause.
-  Voyager 1 leads back to Earth. Recognizable worlds continue across the views.
+  Both Voyagers continue outward. Voyager 1 also offers a separate look back toward Earth. Recognizable worlds
+  continue across the views.
 - These are scientific illustrations with simplified features. Sizes, distances and viewpoints are arranged for
   exploration; they do not show a live sky, an exact surface map or a spacecraft flight path. The ISS is
   enlarged so its structure can be seen.
-- Martian relief is emphasized to make the volcanoes and canyon visible. Ceres and Vesta are separate enlarged
+- Martian relief is simplified to keep its broad shield volcanoes and branching canyon legible. Ceres and Vesta are separate enlarged
   portraits based on Dawn images; their sizes and separation are illustrative. Craters and grooves are
   simplified. The small pale patches in Occator represent reflective salt deposits.
 - Io, Europa, Titan, Enceladus, Miranda and Triton are enlarged separately to show their surfaces; their sizes
@@ -45,7 +46,7 @@ illustration_note:
   journey. The heliopause is a boundary measured through particles and fields, with no visible wall in the
   painting. The gold circle marks the record’s mounting location; its cover engravings are too small to show
   here. The small Earth beside Voyager 1 is a navigation portrait; its size and position do not show a view of
-  Earth from the spacecraft.
+  Earth from the spacecraft. Both dishes point homeward while the spacecraft continue outward.
 - Venus’s cloud contrast is strengthened to suggest patterns studied in ultraviolet images; its pale color is an
   interpretation. The clouds hide its surface. Its illumination is a chosen view, rather than its current phase
   from Earth. Magellan is an enlarged historical portrait, with its engineering details simplified. The mission
@@ -563,9 +564,7 @@ scenes:
 - id: neptune
   name: Near Neptune
   image: /pictures/space/assets/near-neptune-watercolor.webp
-  alt: A pale blue-green watercolor Neptune with soft cloud bands and the dark oval storm seen by Voyager 2 in 1989.
-    Triton at lower left has muted gray terrain above pale pinkish polar ice with small dark streaks. A tiny Uranus
-    at upper left offers a return. A small ivory-and-brown Pluto at upper right leads onward.
+  alt: A pale blue-green watercolor Neptune with soft cloud bands and the dark oval storm seen by Voyager 2 in 1989. Triton at lower left has subtly textured gray terrain above an irregular pale pinkish polar cap with short dark streaks. A tiny Uranus at upper left offers a return. A small ivory-and-brown Pluto at upper right leads onward.
   caption: Near Neptune. Explore its atmosphere and Triton, or continue to Pluto.
   back: uranus
   back_label: Uranus
@@ -706,9 +705,7 @@ scenes:
 - id: kuiper-belt
   name: In the Kuiper Belt
   image: /pictures/space/assets/kuiper-belt-watercolor.webp
-  alt: Watercolor Arrokoth has a smaller rounded lobe at left and a larger flattened lobe at right, joined by a
-    narrow pale neck. Broad reddish-brown surface patches sit against dark indigo space. A tiny Pluto at upper left
-    offers a return. A small Voyager spacecraft portrait at upper right opens the next scene.
+  alt: Watercolor Arrokoth has two flattened, irregular reddish lobes, smaller at left and larger at right, gently joined by a pale narrow neck. Soft shading gives their low rounded edges depth. A tiny Pluto at upper left offers a return, and a Voyager portrait at upper right opens the next scene.
   caption: In the Kuiper Belt. Explore Arrokoth, then continue to Voyager 2 beyond the heliopause.
   back: pluto
   back_label: Pluto
@@ -722,8 +719,8 @@ scenes:
     primary: true
     hint_y: -10
   - label: The neck
-    x: 47
-    y: 47
+    x: 46
+    y: 46
     detail: arrokoth-neck
     primary: false
     label_side: right
@@ -767,34 +764,28 @@ scenes:
     label_edge: left
     paint_image: /pictures/space/assets/voyager-2-watercolor.webp
     paint_width: 4.2
-    paint_position: 74% 57%
-    paint_zoom: 260% auto
+    paint_position: 32.4% 47.4%
+    paint_zoom: 220% auto
 - id: voyager-2
   name: Near Voyager 2
   image: /pictures/space/assets/voyager-2-watercolor.webp
-  alt: Voyager 2 seen obliquely from the front and slightly below, its pale dish facing upper left above a dark
-    equipment body. Three finned power units and slender booms extend into indigo watercolor space. A small
-    Arrokoth portrait offers a return to the Kuiper Belt.
-  caption: Voyager 2. Beyond Neptune, its route turned south of the planets’ orbital plane. Continue into deep space.
+  alt: Voyager 2 seen obliquely from the front and below. Its pale dish points back toward the upper left, while its dark equipment body, three finned power units and camera boom stand against indigo space. The right side opens toward deep space; a small Arrokoth portrait at upper left links back through the journey.
+  caption: Voyager 2 continues outward, south of the planets’ orbital plane, while its antenna stays pointed back toward Earth. Continue into deep space.
   back: kuiper-belt
   back_label: The Kuiper Belt
   next: deep-space
   next_label: Deep space
   spots:
   - label: Voyager 2
-    x: 64.1
-    y: 47
+    x: 38
+    y: 39
     detail: voyager-2
     primary: true
   - label: Deep space
-    x: 50
+    x: 76
     y: 14
-    label_x: 70
-    label_edge: right
-    detail: voyager-distance
     go: deep-space
-    width: 64
-    height: 21
+    travel_label: true
   - label: Arrokoth
     x: 15
     y: 14
@@ -816,7 +807,7 @@ scenes:
   image: /pictures/space/assets/deep-space-watercolor.webp
   alt: A wide, quiet indigo watercolor field with sparse distant stars and exposed ivory paper at its edges.
     Small navigation portraits of Voyager 2 at upper left and Voyager 1 at upper right open their separate scenes.
-  caption: Deep space. Leave Voyager 2’s path and turn toward Voyager 1, traveling in another direction.
+  caption: Deep space. Explore the Voyagers’ separate paths. Both spacecraft keep traveling outward, far from Earth and far from each other.
   back: voyager-2
   back_label: Voyager 2
   next: voyager-1
@@ -845,8 +836,8 @@ scenes:
     label_edge: right
     paint_image: /pictures/space/assets/voyager-2-watercolor.webp
     paint_width: 4.8
-    paint_position: 74% 57%
-    paint_zoom: 260% auto
+    paint_position: 32.4% 47.4%
+    paint_zoom: 220% auto
   - label: Voyager 1
     x: 85
     y: 20
@@ -860,65 +851,60 @@ scenes:
     label_edge: left
     paint_image: /pictures/space/assets/voyager-1-watercolor.webp
     paint_width: 4.8
-    paint_position: 56% 40%
+    paint_position: 49.2% 36.8%
     paint_zoom: 260% auto
 - id: voyager-1
   name: Near Voyager 1
   image: /pictures/space/assets/voyager-1-watercolor.webp
-  alt: Voyager 1 seen from behind and above, with the rear of its pale dish facing the viewer and its open side
-    turned toward upper right. A gold record cover sits on the dark equipment body, three finned power units
-    extend right and the camera platform extends left. A small Earth portrait at upper right leads back home.
-  caption: Voyager 1. Explore the message it carries and the story of Pale Blue Dot, then return to Earth.
-  back: deep-space
-  back_label: Deep space
-  next: earth
-  next_label: Earth
+  alt: Voyager 1 seen from behind its pale dish, whose open side points back toward the small Earth portrait at upper left. The dark equipment body and gold record cover face the viewer, with three power units to the right and the camera platform to the left. Open space ahead at right leads into deep space.
+  caption: Voyager 1 keeps traveling outward, with Earth behind it and its antenna turned homeward. Continue into deep space, or look back toward Earth.
+  back: earth
+  back_label: Earth
+  next: deep-space
+  next_label: Deep space
   spots:
   - label: Voyager 1
-    x: 56.3
-    y: 36.6
+    x: 49
+    y: 35.5
     detail: voyager-1
     primary: true
     hint_y: -15
   - label: Golden Record
-    x: 53
-    y: 48.8
+    x: 49.7
+    y: 51
     detail: golden-record
     label_edge: left
     hint_x: 0
     hint_y: 25
   - label: Pale Blue Dot
-    x: 39
+    x: 30.8
     y: 40.5
     detail: pale-blue-dot
     label_edge: left
+    hint_x: 8
   - label: Power source
-    x: 64.1
-    y: 53
+    x: 63.5
+    y: 56.3
     detail: voyager-power
     label_side: right
     label_gap: 2
     hint_y: 15
   - label: Deep space
-    x: 50
+    x: 76
     y: 14
-    label_x: 30
-    label_edge: left
-    detail: voyager-distance
     go: deep-space
-    width: 64
-    height: 21
+    travel_label: true
   - label: Earth
-    x: 85
+    x: 15
     y: 14
     detail: earth
     primary: true
     go: earth
     width: 3.2
     height: 4.8
-    label_x: 83.4
+    label_x: 16.6
     label_y: 14
-    label_edge: left
+    label_edge: right
     paint_image: /pictures/space/assets/near-earth-v2-watercolor.webp
     paint_width: 3.2
     paint_position: 28.75% 49.25%
@@ -2327,7 +2313,7 @@ details:
   - arrokoth-formation
   - arrokoth-facts
   image: /pictures/space/assets/kuiper-belt-watercolor.webp
-  position: 46.4% 43.3%
+  position: 44.7% 43.7%
   zoom: 400% auto
   alt: A pale curved band follows the narrow junction between Arrokoth’s reddish lobes.
 - id: arrokoth-color
@@ -2368,9 +2354,9 @@ details:
   - voyager-routes
   - voyager-hardware
   image: /pictures/space/assets/voyager-1-watercolor.webp
-  position: 56% 40%
+  position: 49.2% 36.8%
   zoom: 260% auto
-  alt: The rear of Voyager 1’s pale dish above its dark equipment body, with the camera platform at left.
+  alt: The ribbed back of Voyager 1’s dish, aimed toward Earth at upper left, above the equipment body and gold record cover.
 - id: voyager-2
   label: Voyager 2
   kicker: The longer planetary tour
@@ -2389,8 +2375,8 @@ details:
   - voyager-2
   - voyager-routes
   image: /pictures/space/assets/voyager-2-watercolor.webp
-  position: 74% 57%
-  zoom: 260% auto
+  position: 32.4% 47.4%
+  zoom: 220% auto
   alt: Voyager 2’s tilted pale dish, dark equipment body and instrument platform, seen from the front and below.
 - id: heliopause
   label: Beyond the solar wind
@@ -2445,7 +2431,7 @@ details:
   - record-cover
   - sagan-newman
   image: /pictures/space/assets/voyager-1-watercolor.webp
-  position: 53.6% 48.4%
+  position: 49.6% 51.1%
   zoom: 1000% auto
   alt: The small circular gold record cover on a visible face of Voyager 1’s dark equipment body.
 - id: voyager-power
@@ -2464,7 +2450,7 @@ details:
   - voyager-hardware
   - voyager-model
   image: /pictures/space/assets/voyager-1-watercolor.webp
-  position: 67% 54%
+  position: 65.8% 58.0%
   zoom: 700% auto
   alt: Three finned power units arranged end to end along Voyager 1’s short rightward boom.
 - id: pale-blue-dot
@@ -2484,7 +2470,7 @@ details:
   sources:
   - pale-blue-dot
   image: /pictures/space/assets/voyager-1-watercolor.webp
-  position: 37% 37%
+  position: 27.1% 37.3%
   zoom: 600% auto
   alt: The camera apertures on the instrument platform at the end of Voyager 1’s leftward science boom.
   link: https://science.nasa.gov/mission/voyager/voyager-1s-pale-blue-dot/
@@ -2514,3 +2500,4 @@ details:
   alt: A quiet field of dark watercolor and sparse distant stars between the two spacecraft scenes.
 ---
 <p>Begin near Earth. Follow the worlds into their closer views.</p>
+
