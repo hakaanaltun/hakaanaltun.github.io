@@ -22,7 +22,7 @@ function page(modal=true,hash='') {
   assert.ok(d.querySelector('meta[property="og:image"]').content.endsWith('/pictures/space/assets/earth-vicinity-v2-watercolor.webp'));
   // The note on the picture and its sources reads as paragraphs.
   assert.ok(d.querySelectorAll('.picture-about > p').length>=6);
-  assert.match(d.querySelector('.picture-about').textContent,/Voyager 1 leads back to Earth/);
+  assert.match(d.querySelector('.picture-about').textContent,/Both Voyagers continue outward/);
   // Phone offsets for crowded labels live beside each spot, not in the stylesheet.
   const oceans=d.querySelector('#scene-earth .journey-label[data-detail="oceans"]').getAttribute('style');
   assert.match(oceans,/--hint-x:-15px/);assert.match(oceans,/--hint-y:20px/);
@@ -70,8 +70,9 @@ function page(modal=true,hash='') {
   for(const [from,to] of [['vicinity','earth'],['earth','moon'],['moon','mars'],['mars','asteroid-belt'],['asteroid-belt','jupiter'],['jupiter','saturn'],['saturn','uranus'],['uranus','neptune'],['neptune','pluto'],['pluto','kuiper-belt'],['kuiper-belt','voyager-2'],['voyager-2','deep-space'],['deep-space','voyager-1']]){
    assert.equal(frame.dataset.view,from);next.click();assert.equal(frame.dataset.view,to);assert.equal(back.hidden,false);
   }
-  // The journey's last world leads home, to Earth, where the inner branch begins.
-  assert.equal(next.hidden,false,'Voyager 1 has a way home');assert.equal(next.getAttribute('href'),'#scene-earth');assert.match(next.textContent,/^Earth/);
+  // Voyager 1 continues outward; Earth remains available behind it.
+  assert.equal(next.hidden,false);assert.equal(next.getAttribute('href'),'#scene-deep-space');assert.match(next.textContent,/^Deep space/);
+  assert.equal(back.getAttribute('href'),'#scene-earth');
   w.history.back();await new Promise(r=>setTimeout(r,25));assert.equal(frame.dataset.view,'deep-space');assert.equal(next.hidden,false);
   w.history.go(-12);await new Promise(r=>setTimeout(r,25));assert.equal(frame.dataset.view,'vicinity');
   // The label opens information without travelling; its larger sibling travels.
@@ -229,7 +230,7 @@ function page(modal=true,hash='') {
    assert.ok(d.getElementById('picture-detail-image').style.backgroundImage.includes(id+'-watercolor'));
    d.getElementById('picture-return').click();assert.equal(d.activeElement,label);
    d.querySelector('#scene-deep-space .journey-destination[data-travel="'+id+'"]').click();assert.equal(frame.dataset.view,id);
-   d.getElementById(id==='voyager-2'?'journey-next':'journey-back').click();assert.equal(frame.dataset.view,'deep-space');
+   d.getElementById('journey-next').click();assert.equal(frame.dataset.view,'deep-space');
   }
   d.getElementById('journey-back').click();assert.equal(frame.dataset.view,'voyager-2');
   d.querySelector('#scene-voyager-2 .journey-destination[data-travel="deep-space"]').click();assert.equal(frame.dataset.view,'deep-space');
@@ -238,16 +239,33 @@ function page(modal=true,hash='') {
   dom.window.close();
  }
  {
-  // From Voyager 1 the way on and a small Earth portrait both lead home.
+  // From Voyager 1 the back link and small Earth portrait lead home; forward leads outward.
   const {dom,w,d}=page(true,'#scene-voyager-1');const frame=d.getElementById('journey-frame'),next=d.getElementById('journey-next');
-  assert.match(d.getElementById('journey-caption').textContent,/return to Earth/);
-  assert.equal(next.hidden,false);next.click();assert.equal(frame.dataset.view,'earth');
+  assert.match(d.getElementById('journey-caption').textContent,/Earth behind it/);
+  assert.equal(next.hidden,false);next.click();assert.equal(frame.dataset.view,'deep-space');
+  w.history.back();await new Promise(r=>setTimeout(r,25));assert.equal(frame.dataset.view,'voyager-1');
+  d.getElementById('journey-back').click();assert.equal(frame.dataset.view,'earth');
   assert.equal(d.getElementById('journey-branch').hidden,false,'home again, the inner branch is offered');
   w.history.back();await new Promise(r=>setTimeout(r,25));assert.equal(frame.dataset.view,'voyager-1');
   const home=d.querySelector('#scene-voyager-1 .journey-destination[data-travel="earth"]');
   assert.ok(home);assert.ok(d.querySelector('#scene-voyager-1 .journey-painted-world').getAttribute('style').includes('near-earth'));
   home.click();assert.equal(frame.dataset.view,'earth');
   dom.window.close();
+ }
+ {
+  // A spacecraft's arrow and Deep space name are one link, never a modal.
+  for(const id of ['voyager-1','voyager-2'])for(const part of ['span[aria-hidden]','span:not([aria-hidden])']){
+   const {dom,d}=page(true,'#scene-'+id);
+   const link=d.querySelector('#scene-'+id+' .journey-travel-link');
+   assert.ok(link);assert.equal(link.getAttribute('href'),'#scene-deep-space');
+   assert.equal(d.querySelector('#scene-'+id+' .journey-label[data-detail="voyager-distance"]'),null);
+   const label=link.querySelector('.picture-hotspot-label');
+   assert.match(label.textContent,/→\s*Deep space/);
+   label.querySelector(part).click();
+   assert.equal(d.getElementById('journey-frame').dataset.view,'deep-space');
+   assert.equal(d.getElementById('picture-detail').open,false);
+   dom.window.close();
+  }
  }
  {
   // A note taller than the window keeps its close view at the top; a short one stays centered.
@@ -327,3 +345,4 @@ function page(modal=true,hash='') {
  }
  console.log('Connected space scenes passed: separate travel and information, scene-specific crops, sourced fallback, the way back and the way on, the way home from Voyager 1, phone offsets beside their spots, long notes beside the text only, focus after Back, fresh notes, focus and history, and full screen carried to the Sun and back.');
 })().catch(e=>{console.error(e);process.exitCode=1});
+
