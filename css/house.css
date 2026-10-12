@@ -101,8 +101,10 @@
    glass, parapet and floor. */
 .house-scene[data-moris="balcony"] .house-door-shut, .house-scene:not([data-moris="balcony"]) .house-door-open { display: none; }
 .house-door-floor, .house-door-head { fill: #3b3223; opacity: .16; }
-.house-door-parapet { fill: #3b3223; opacity: .1; }
-.house-door-coping { fill: #fff; fill-opacity: .35; }
+.house-door-parapet { fill: var(--room-wall); }
+.house-door-floor-plane { fill: var(--room-floor); }
+.house-door-coping { fill: var(--room-paper); }
+.house-door-glint { stroke: #fff; stroke-width: 1.2; opacity: .5; }
 .house-door-leaf-glass { fill: var(--room-wall); }
 .house-switch-rocker { fill: var(--room-cream); }
 .house-parapet-shade { fill: #3b3223; opacity: .08; }

@@ -391,7 +391,13 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   drew it on the hinge side. In the open doorway each room shows the other
   in that room's own light, as the door's glass does when it is shut. From
   the balcony the study's wall, floor and plant show through it, and from
-  the study the balcony's glass, parapet and floor.
+  the study the glass on the balcony's far side, with the sky and the
+  strip of sea to the west over its parapet, and its floor. That far side
+  runs into the picture like the study's own right-hand wall, so the
+  parapet's coping and its foot meet at 500, 222; until 12 October 2026
+  they were drawn level and the glass as a plain tint, and the doorway
+  looked like a flat panel. Only the sky in the doorway is cut out of the
+  dusk mask; the parapet and the floor darken with the room.
 - **What is on the balcony.** Two chairs face each other across a small
   round table, as the author asked. A book lies on one chair, and a
   notebook, a pen and a glass of tea are on the table. A small olive grows
