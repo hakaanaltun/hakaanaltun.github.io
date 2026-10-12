@@ -272,20 +272,57 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.match(fromNotebook.title, /^On the balcony, \d{1,2} [A-Z][a-z]+$/);
   assert.equal(fromNotebook.note, 'The ferry lights.\nWrite about the islands.');
   assert.equal(fromNotebook.href, '/house/#balcony');
-  assert.equal(a.stored().notebook, undefined, 'a kept note leaves the notebook');
-  assert.equal(notebookText().value, '');
-  assert.equal(a.q('#house-dialog-status').textContent, 'Your note is in your drawer.');
+  assert.equal(a.stored().notebook, undefined, 'a kept page is no longer the notebook\'s own');
+  // It says so where the reader is looking, and stays open to be changed,
+  // with the drawer, a new page and Take out where Keep was.
+  const notebookSaid = () => a.q('#house-dialog-content [data-notebook-said]').textContent;
+  const notebookButtons = () => Array.from(a.w.document.querySelectorAll('#house-dialog-content .house-item-actions button')).filter((b) => !b.hidden).map((b) => b.textContent);
+  assert.equal(notebookSaid(), 'Kept in your drawer.');
+  assert.equal(a.q('#house-dialog-content [data-notebook-label]').textContent, 'Your note', 'named as a note is in the drawer');
+  assert.equal(notebookText().value, 'The ferry lights.\nWrite about the islands.', 'the kept page stays in the notebook');
+  assert.deepEqual(notebookButtons(), ['Open your drawer', 'A new page', 'Take out']);
+  assert.equal(a.w.document.activeElement, a.q('[data-notebook-drawer]'), 'focus goes where Keep was');
   assert.equal(a.q('[data-kept-count]').textContent, '1');
-  a.click('[data-notebook-keep]');
-  assert.equal(a.q('#house-dialog-status').textContent, 'Write something first.');
-  assert.equal(a.stored().kept.length, 1, 'an empty page is not kept');
-  // In the drawer it belongs to the balcony, and being all note it has no card.
+  write('The ferry lights.\nWrite about the islands, and the gulls.');
+  await wait(350);
+  assert.equal(a.stored().kept[0].note, 'The ferry lights.\nWrite about the islands, and the gulls.', 'a change here is a change in the drawer');
+  assert.equal(a.stored().notebook, undefined);
   a.click('#house-close');
-  a.click('.house-drawer-toggle');
+  a.click('.house-hotspot--notebook');
+  assert.equal(notebookText().value, 'The ferry lights.\nWrite about the islands, and the gulls.', 'opened again in the same visit, it is still that page');
+  assert.deepEqual(notebookButtons(), ['Open your drawer', 'A new page', 'Take out']);
+  // The drawer opens in the same box. There the note belongs to the
+  // balcony, and being all note it has no card.
+  a.click('[data-notebook-drawer]');
+  assert.equal(a.q('#house-dialog-title').textContent, 'Your drawer');
   const keptNote = a.q('#house-dialog-content .house-item');
   assert.equal(keptNote.querySelector('.house-item-actions a').textContent, 'Go to the balcony →');
   assert.equal(keptNote.querySelector('[data-share]'), null);
-  assert.equal(keptNote.querySelector('.house-note-text').textContent, 'The ferry lights.\nWrite about the islands.');
+  assert.equal(keptNote.querySelector('.house-note-text').textContent, 'The ferry lights.\nWrite about the islands, and the gulls.');
+  a.click('#house-close');
+  // Taken out, the words stay in the notebook and Keep is back.
+  a.click('.house-hotspot--notebook');
+  a.click('[data-notebook-out]');
+  assert.equal(a.stored().kept.length, 0);
+  assert.equal(a.stored().notebook, 'The ferry lights.\nWrite about the islands, and the gulls.');
+  assert.equal(notebookSaid(), 'Taken out of your drawer. The page stays in the notebook.');
+  assert.deepEqual(notebookButtons(), ['Keep in your drawer']);
+  assert.equal(a.q('#house-dialog-content [data-notebook-label]').textContent, 'Write a note');
+  // Kept again, then a new page.
+  a.click('[data-notebook-keep]');
+  assert.equal(a.stored().kept.length, 1);
+  a.click('[data-notebook-fresh]');
+  assert.equal(notebookText().value, '');
+  assert.equal(notebookSaid(), '');
+  assert.deepEqual(notebookButtons(), ['Keep in your drawer']);
+  assert.equal(a.stored().kept[0].note, 'The ferry lights.\nWrite about the islands, and the gulls.', 'the kept page stays in the drawer');
+  a.click('[data-notebook-keep]');
+  assert.equal(notebookSaid(), 'Write something first.');
+  assert.equal(a.stored().kept.length, 1, 'an empty page is not kept');
+  write('A');
+  assert.equal(notebookSaid(), '', 'the warning goes once there is writing');
+  write('');
+  await wait(350);
   a.click('#house-close');
   // jsdom cannot open The Page, so the link goes nowhere once the House is done with it.
   a.w.document.addEventListener('click', (event) => event.preventDefault());
@@ -1333,6 +1370,6 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.equal(t.q('canvas.cursor-trail'), null, 'and none for a reader who asked for less motion');
   t.dom.window.close();
 
-  console.log('House: catalog and addresses, daily room, keeping from the room and from words, quizzes, the book and essays, the passage prompt on word stories and quiz notes, the kept passage\'s panel, note and copy, Highlight and its clearing, the small box by a highlight, hidden highlights, a note written before keeping, notes in the drawer, legacy and hostile records, blocked storage, arrivals, #drawer, export and backup offered only where they work, the moon, the planets after dark, weather at the window, the balcony, its glass, its door, its sky and its lamp, its notebook and the way on to The Page, Moris on the chair and by the glass, quiet places and a remembered Show places to look, the ways back to the study and the balcony, and the pointer\'s trail passed.');
+  console.log('House: catalog and addresses, daily room, keeping from the room and from words, quizzes, the book and essays, the passage prompt on word stories and quiz notes, the kept passage\'s panel, its note and the way on to The Page, Highlight and its clearing, the small box by a highlight, hidden highlights, a note written before keeping, notes in the drawer, legacy and hostile records, blocked storage, arrivals, #drawer, export and backup offered only where they work, the moon, the planets after dark, weather at the window, the balcony, its glass, its door, its sky and its lamp, its notebook, a kept page left open in it, and the way on to The Page, Moris on the chair and by the glass, quiet places and a remembered Show places to look, the ways back to the study and the balcony, and the pointer\'s trail passed.');
 })().catch((error) => { console.error(error); process.exit(1); });
 

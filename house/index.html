@@ -15,7 +15,7 @@ description: "Come in, look around, and keep something you find. A room at On Li
   "Today" is İstanbul's day and the light is İstanbul's light: the house is
   there, and every reader sees the same room on the same day.
 {%- endcomment -%}
-<link rel="stylesheet" href="/css/house.css?v=20261012-11">
+<link rel="stylesheet" href="/css/house.css?v=20261012-12">
 
 <div class="house" id="house" data-catalog="/house/catalog.json?v={{ site.time | date: '%Y%m%d%H%M' }}">
   <div class="house-heading">
@@ -166,13 +166,20 @@ description: "Come in, look around, and keep something you find. A room at On Li
 
   {%- comment -%} The notebook on the balcony's table. js/house.js keeps the page
   being written in the drawer's record until the reader keeps it, and takes
-  it on to The Page, after whatever is written there, when they go. {%- endcomment %}
+  it on to The Page, after whatever is written there, when they go. A kept
+  page stays open in the notebook, and what is changed there is changed in
+  the drawer; the drawer, a new page and a way to take it out again stand
+  where Keep was, as they do in the panel by a kept passage. {%- endcomment %}
   <template id="house-notebook">
     <p class="house-object-intro">A notebook and a pencil, left on the table for whoever sits out here.</p>
-    <label class="keep-note-label" for="house-notebook-text">Write a note</label>
+    <label class="keep-note-label" for="house-notebook-text" data-notebook-label>Write a note</label>
     <textarea class="keep-note-text" id="house-notebook-text" rows="6" maxlength="2000" spellcheck="true" data-notebook-text></textarea>
+    <p class="house-notebook-said" role="status" data-notebook-said></p>
     <div class="house-item-actions">
       <button class="house-keep" type="button" data-notebook-keep>Keep in your drawer</button>
+      <button type="button" data-notebook-drawer hidden>Open your drawer</button>
+      <button type="button" data-notebook-fresh hidden>A new page</button>
+      <button type="button" data-notebook-out hidden>Take out</button>
       <a href="/write/?from=balcony&amp;v=20261012-1" data-notebook-page>Write at length on The&nbsp;Page&nbsp;<span aria-hidden="true">&rarr;</span></a>
     </div>
     <p class="house-drawer-note house-notebook-hint" data-notebook-hint></p>
@@ -186,6 +193,6 @@ description: "Come in, look around, and keep something you find. A room at On Li
 <script>window.OLAE_SKY_SCRIPTS = {{ site.data.sky_scripts | jsonify }};</script>
 <script src="/js/astronomy.js?v=20261011-1" defer></script>
 <script src="/js/house-weather.js?v=20261012-3" defer></script>
-<script src="/js/house.js?v=20261012-11" defer></script>
+<script src="/js/house.js?v=20261012-12" defer></script>
 <script src="/js/cursor-trail.js?v=20260930-2" defer></script>
 
