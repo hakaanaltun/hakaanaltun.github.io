@@ -112,8 +112,10 @@
     <path class="house-desk-front" d="M349.3 420H650.8V456H349.3Z"/><path d="M500 420V456"/><path d="M410 438h30M560 438h30" stroke-width="3"/>
     <path class="house-wood" d="M338 420H349.3V582H338ZM650.8 420H662V582H650.8Z"/>
     <path class="house-paper" d="M486.9 405.8L552.8 407L553 393.3L491.9 392.4Z"/><path class="house-faint" d="M495.7 402.5L543.2 403.3M497.9 399.4L544.5 400.1M500 396.3L531.2 396.8"/>
+    <g class="house-coffee-service">
     <path class="house-cup" d="M375 372h26v25q-13 9-26 0Z"/><path d="M401 377q19-4 14 10-3 7-14 3"/>
     <path class="house-steam house-faint" d="M384 364q-8-8 0-14t0-13M394 362q-6-7 0-13"/>
+    </g>
     <path d="M620 389V311L593 287M602 389h36" stroke-width="3"/>
     <!-- An e-reader lying on the desk under the lamp. -->
     <path class="house-ereader" d="M558 404H604V406.5H558Z"/>
@@ -146,3 +148,4 @@
   </g>
   <path class="house-dusk" mask="url(#house-dusk-mask)" d="M0 0H1000V650H0Z"/>
 </svg>
+

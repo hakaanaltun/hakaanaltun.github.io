@@ -101,6 +101,13 @@
 .house-olive-leaf { color: var(--room-olive); }
 .house-olive-leaf--light { color: #aab19b; }
 .house-tea { fill: #9a3f22; }
+/* Tea on the balcony in the morning and evening; coffee in the study
+   during the other periods. Both rooms share the same İstanbul sky. */
+.house-tea-service { display: none; }
+.house-scene[data-hour="morning"] .house-tea-service,
+.house-scene[data-hour="evening"] .house-tea-service { display: inline; }
+.house-scene[data-hour="morning"] .house-coffee-service,
+.house-scene[data-hour="evening"] .house-coffee-service { display: none; }
 /* The glass of the balcony: closed while Moris is out there, and folded
    away to the right while he is indoors. */
 .house-glass-profile { fill: #b9b5aa; }

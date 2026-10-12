@@ -117,9 +117,11 @@
     <path class="house-paper" d="M471.4 470.5L505.3 466.6L494.3 448L463.7 451.2Z" stroke-width="1"/>
     <path class="house-book-blue" d="M472.3 468.1L504 464.5L493.6 446.9L464.9 449.9Z" stroke-width="1"/>
     <path d="M465.2 465.4L503.9 448.6" stroke-width="2.2"/>
+    <g class="house-tea-service">
     <path class="house-paper" d="M539.2 446.6L538.7 445.5L537.5 444.4L535.8 443.5L533.7 442.7L531.3 442.2L528.7 441.8L526 441.7L523.3 441.8L520.8 442.2L518.6 442.7L516.7 443.5L515.4 444.4L514.6 445.5L514.4 446.6L514.8 447.7L515.8 448.8L517.4 449.7L519.5 450.6L522 451.2L524.8 451.6L527.7 451.7L530.5 451.6L533.1 451.2L535.4 450.6L537.2 449.7L538.5 448.8L539.2 447.7Z" stroke-width="1"/>
     <path class="house-tea" stroke="none" d="M523 444.7Q521.6 439.1 523.7 434.3L529.9 434.3Q532 439.1 530.6 444.7Z"/>
     <path class="house-tea-glass" d="M522.6 445.4Q521.1 439.1 523.7 433.4Q524.5 429.5 521.8 426.7L531.8 426.7Q529.1 429.5 529.9 433.4Q532.5 439.1 531 445.4Z" stroke-width="1"/>
+    </g>
   </g>
   <!-- Moris comes out here in the afternoon, once the glass is closed, and
        lies on the floor by the door. He is the study's Moris, turned to face
@@ -142,3 +144,4 @@
   <ellipse class="house-balcony-lamp-glow" fill="url(#house-balcony-glow)" cx="783.3" cy="211.3" rx="90" ry="80"/>
   <path class="house-dusk" mask="url(#house-balcony-dusk-mask)" d="M0 0H1000V650H0Z"/>
 </svg>
+
