@@ -14,7 +14,7 @@
     <radialGradient id="house-balcony-lamplight" cx="257" cy="330" r="460" gradientUnits="userSpaceOnUse"><stop stop-color="#1c2633" stop-opacity="0"/><stop offset=".3" stop-color="#1c2633" stop-opacity=".3"/><stop offset="1" stop-color="#1c2633"/></radialGradient>
     <radialGradient id="house-balcony-pinelight" cx="216.7" cy="211.3" r="560" gradientUnits="userSpaceOnUse"><stop offset=".55" stop-color="#e3c852" stop-opacity=".22"/><stop offset=".8" stop-color="#e3c852" stop-opacity=".08"/><stop offset="1" stop-color="#e3c852" stop-opacity="0"/></radialGradient>
     <clipPath id="house-balcony-pine-clip"><use href="#house-pine-tufts"/><use href="#house-pine-lights"/><use href="#house-pine-trunk"/></clipPath>
-    <mask id="house-balcony-dusk-mask"><path fill="#fff" d="M0 0H1000V650H0Z"/><path fill="#000" d="M232.5 99.6H767.5V379.4H232.5ZM767.5 99.6L911.2 0H1000V461.4L767.5 379.4Z"/><use href="#house-olive-trunk" color="#fff"/><use href="#house-olive-branches" color="#fff"/><use href="#house-olive-leaves" color="#fff"/><use href="#house-olive-leaves-light" color="#fff"/><path class="house-glass-closed" stroke="#fff" stroke-width="2.4" d="M333.8 375.4L333.8 102.6M335.8 375.4L335.8 102.6M443.9 375.4L443.9 102.6M445.9 375.4L445.9 102.6M554.1 375.4L554.1 102.6M556.1 375.4L556.1 102.6M664.2 375.4L664.2 102.6M666.2 375.4L666.2 102.6M868.7 409.6L868.7 33.6M871.2 410.4L871.2 31.9"/><path class="house-glass-open" fill="#fff" d="M739.8 375.4L770.3 375.4L770.3 102.6L739.8 102.6ZM767.5 375.4L778.2 379L778.2 95.3L767.5 102.6Z"/><path fill="#fff" d="M224.7 102.6L767.5 102.6L767.5 94.1L224.7 94.1ZM224.7 383L767.5 383L767.5 375.4L224.7 375.4ZM767.5 94.1L1061.8 -115.9L1061.8 -98L767.5 102.6ZM767.5 375.4L1061.8 474.8L1061.8 490.8L767.5 383Z"/><path fill="#000" d="M0 156.2L105.3 183.3V515.1L0 576.4Z"/></mask>
+    <mask id="house-balcony-dusk-mask"><path fill="#fff" d="M0 0H1000V650H0Z"/><path fill="#000" d="M232.5 99.6H767.5V379.4H232.5ZM767.5 99.6L911.2 0H1000V461.4L767.5 379.4Z"/><use href="#house-olive-trunk" color="#fff"/><use href="#house-olive-branches" color="#fff"/><use href="#house-olive-leaves" color="#fff"/><use href="#house-olive-leaves-light" color="#fff"/><path class="house-glass-closed" stroke="#fff" stroke-width="2.4" d="M333.8 375.4L333.8 102.6M335.8 375.4L335.8 102.6M443.9 375.4L443.9 102.6M445.9 375.4L445.9 102.6M554.1 375.4L554.1 102.6M556.1 375.4L556.1 102.6M664.2 375.4L664.2 102.6M666.2 375.4L666.2 102.6M868.7 409.6L868.7 33.6M871.2 410.4L871.2 31.9"/><path class="house-glass-open" fill="#fff" d="M739.8 375.4L770.3 375.4L770.3 102.6L739.8 102.6ZM767.5 375.4L778.2 379L778.2 95.3L767.5 102.6Z"/><path fill="#fff" d="M224.7 102.6L767.5 102.6L767.5 94.1L224.7 94.1ZM224.7 383L767.5 383L767.5 375.4L224.7 375.4ZM767.5 94.1L1061.8 -115.9L1061.8 -98L767.5 102.6ZM767.5 375.4L1061.8 474.8L1061.8 490.8L767.5 383Z"/><path class="house-door-shut" fill="#000" d="M0 156.2L105.3 183.3V515.1L0 576.4Z"/><path class="house-door-open" fill="#000" d="M0 155.9L81 176.9V637.6L0 705.7Z"/><g class="house-door-open" transform="translate(-1232.3 -41.3) scale(1.37)" fill="#fff" stroke="#fff"><path d="M924 456h45l-6 33h-33Z"/><path d="M945 456V381M945 425l-18-22M945 405l15-25" stroke-width="2"/><path d="M944 405q-32-2-25-34 25 7 25 34ZM946 424q32-9 30-34-26 5-30 34ZM945 389q-20-12-9-38 22 16 9 38Z"/></g></mask>
   </defs>
   <!-- The balcony is set into the corner of the house beside the study,
        and looks the same way as the study window. Its front and its
@@ -78,13 +78,28 @@
     <path class="house-glass-profile" d="M767.5 375.4L1061.8 474.8L1061.8 490.8L767.5 383Z" stroke-width="1.1"/>
     <path d="M208.8 565.5H791.2"/>
   </g>
-  <!-- The glass door back into the study, closed behind us. -->
+  <!-- The glass door back into the study. It opens into the study, hinged
+       on the side nearest us, and folds back against the study's wall. It
+       is shut while Moris is indoors; while he is out here it stands open,
+       and the study shows through the doorway: its wall and floor in its
+       own light, and the plant that stands beside the door. -->
   <g class="house-line">
     <path class="house-window-trim" d="M0 122.4L131.9 165.3V639.6L0 766.6Z"/>
-    <path class="house-door-panel" d="M0 143.9L116.8 176.9V637.6L0 745.1Z"/>
-    <path class="house-door-glass" d="M0 156.2L105.3 183.3V515.1L0 576.4Z"/>
-    <path class="house-faint" d="M0 591.8L105.3 527.2V636.1"/>
-    <path d="M95.5 409.1l-12.5-3.4" stroke-width="3"/><circle class="house-window-trim" cx="95.5" cy="409.1" r="2.6"/>
+    <g class="house-door-shut">
+      <path class="house-door-panel" d="M0 143.9L116.8 176.9V637.6L0 745.1Z"/>
+      <path class="house-door-glass" d="M0 156.2L105.3 183.3V515.1L0 576.4Z"/>
+      <path class="house-faint" d="M0 591.8L105.3 527.2V636.1"/>
+      <path d="M95.5 409.1l-12.5-3.4" stroke-width="3"/><circle class="house-window-trim" cx="95.5" cy="409.1" r="2.6"/>
+    </g>
+    <g class="house-door-open">
+      <path class="house-door-glass" stroke="none" d="M0 155.9L81 176.9V637.6L0 705.7Z"/>
+      <path class="house-door-glass" stroke="none" d="M0 560.1H81V637.6L0 705.7Z"/><path class="house-door-floor" stroke="none" d="M0 560.1H81V637.6L0 705.7Z"/>
+      <path class="house-faint" d="M0 560.1H81M0 541.4H81M40 560.1L0 584"/>
+      <g transform="translate(-1232.3 -41.3) scale(1.37)"><path class="house-pot" d="M924 456h45l-6 33h-33Z" stroke-width="1.25"/><path d="M945 456V381M945 425l-18-22M945 405l15-25" stroke-width="1.25"/><path class="house-leaf" d="M944 405q-32-2-25-34 25 7 25 34ZM946 424q32-9 30-34-26 5-30 34ZM945 389q-20-12-9-38 22 16 9 38Z" stroke-width="1.25"/></g>
+      <path class="house-wall" d="M81 176.9H116.8V637.6H81Z"/><path class="house-shade" stroke="none" d="M81 176.9H116.8V637.6H81Z"/>
+      <path class="house-wall" d="M0 143.9L116.8 176.9H81L0 155.9Z"/><path class="house-door-head" stroke="none" d="M0 143.9L116.8 176.9H81L0 155.9Z"/>
+      <path class="house-window-trim" d="M116.8 637.6L0 745.1V705.7L81 637.6Z"/>
+    </g>
   </g>
   <!-- The switch for the lamp, on the wall beside the door, a little higher
        than its handle. -->
@@ -131,10 +146,12 @@
     <path class="house-tea-glass" d="M522.6 445.4Q521.1 439.1 523.7 433.4Q524.5 429.5 521.8 426.7L531.8 426.7Q529.1 429.5 529.9 433.4Q532.5 439.1 531 445.4Z" stroke-width="1"/>
     </g>
   </g>
-  <!-- Moris comes out here in the afternoon, once the glass is closed, and
-       lies on the floor by the door. He is the study's Moris, turned to face
-       the room; js/house.js shows him only while he is out here. -->
-  <g class="house-line house-moris" transform="translate(973.25 185.75) scale(-.85 .85)">
+  <!-- Moris comes out here twice a day, once the glass is closed. Through
+       the middle of the day he sleeps on the empty chair; in the late
+       afternoon he lies on the coping by the glass, looking out. He is the
+       study's Moris; js/house.js shows him only while he is out here and
+       moves him between the two. -->
+  <g class="house-line house-moris" transform="translate(-15.2 129.9) scale(.76)">
     <path class="house-cat" d="M793 482q-3-45 39-48 32-2 42 27l14-5q16 16-5 25Z"/><path class="house-cat" d="M789 465l-3-34 16 12 16-10 1 34q-12 14-30-2Z"/><path d="M858 463q30 24-15 20" stroke="#777365" stroke-width="3"/>
     <path class="house-cat-eyes house-cat-eyes--shut" d="M793 457l6 1M807 458l6-2" stroke-width="2"/>
     <g class="house-cat-eyes--open" stroke="none"><ellipse cx="796" cy="457" rx="3.2" ry="2.2"/><ellipse cx="810" cy="456.5" rx="3.2" ry="2.2"/><ellipse class="house-cat-pupil" cx="796" cy="457" rx=".6" ry="2"/><ellipse class="house-cat-pupil" cx="810" cy="456.5" rx=".6" ry="2"/></g>

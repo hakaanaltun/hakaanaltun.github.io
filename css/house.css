@@ -94,6 +94,16 @@
    is out on the balcony, on the wall beside the door. */
 #house-scene[data-balcony-lamp="on"][data-hour="evening"] .house-door-glass { fill: #d8c39b; }
 #house-scene[data-balcony-lamp="on"][data-hour="night"] .house-door-glass { fill: #a28c66; }
+/* The door stands open while Moris is out on the balcony and is shut while
+   he is indoors. In the doorway each room shows the other in that room's
+   own light, the same light its glass shows when it is shut: the study's
+   wall, floor and plant from the balcony, and from the study the balcony's
+   glass, parapet and floor. */
+.house-scene[data-moris="balcony"] .house-door-shut, .house-scene:not([data-moris="balcony"]) .house-door-open { display: none; }
+.house-door-floor, .house-door-head { fill: #3b3223; opacity: .16; }
+.house-door-parapet { fill: #3b3223; opacity: .1; }
+.house-door-coping { fill: #fff; fill-opacity: .35; }
+.house-door-leaf-glass { fill: var(--room-wall); }
 .house-switch-rocker { fill: var(--room-cream); }
 .house-parapet-shade { fill: #3b3223; opacity: .08; }
 .house-coping { fill: var(--room-paper); }
@@ -165,6 +175,8 @@
 .house-scene[data-hour="evening"] .house-cat-pupil, .house-scene[data-hour="night"] .house-cat-pupil { display: none; }
 .house-scene:not([data-moris="sill"]) .house-cat-eyes--open { display: inline; }
 .house-scene:not([data-moris="sill"]) .house-cat-eyes--shut { display: none; }
+.house-scene--balcony[data-moris-spot="chair"] .house-cat-eyes--open { display: none; }
+.house-scene--balcony[data-moris-spot="chair"] .house-cat-eyes--shut { display: inline; }
 .house-ereader { fill: #3e3f3b; }
 .house-ereader-screen { fill: var(--room-paper); }
 .house-lampshade { fill: var(--room-cream); }
@@ -288,7 +300,8 @@
 .house-hotspot--study-door { --ax: 6.6; --ay: 59.4; --aw: 13.2; --ah: 81.2; --lx: 8.5; --ly: 10.8; }
 .house-hotspot--balcony-reader { --ax: 37; --ay: 77; --aw: 11; --ah: 30; --lx: 25.5; --ly: 67.7; }
 .house-hotspot--page { --ax: 50; --ay: 70.5; --aw: 12.4; --ah: 8.5; --lx: 50; --ly: 63.4; }
-.house-hotspot--balcony-moris { --ax: 25.5; --ay: 88.5; --aw: 10; --ah: 7.5; --lx: 25.5; --ly: 81.5; }
+.house-hotspot--balcony-moris { --ax: 62.4; --ay: 73.4; --aw: 9; --ah: 7.5; --lx: 62.4; --ly: 66.5; }
+.house-scene[data-moris-spot="glass"] .house-hotspot--balcony-moris { --ax: 39.75; --ay: 56.2; --aw: 8.5; --ah: 7; --lx: 39.75; --ly: 49.5; }
 .house-hotspot--balcony-lamp { --ax: 20.55; --ay: 31.5; --aw: 5.1; --ah: 6.6; --lx: 20.6; --ly: 26.6; }
 /* The lamp's switch is on the wall beside the door. On a small screen its
    place stays narrow, so that it never covers the door's glass. */
@@ -420,7 +433,8 @@ html[data-theme="dark"], html[data-theme="midnight"], html[data-theme="sky"], .h
   .house-hotspot--balcony-reader { --lx: 38; --ly: 76; }
   .house-hotspot--page { --lx: 48.5; --ly: 68.5; }
   .house-hotspot--breath { --lx: 50; --ly: 51; }
-  .house-hotspot--balcony-moris { --lx: 25.5; --ly: 88; }
+  .house-hotspot--balcony-moris { --lx: 62.4; --ly: 65.5; }
+  .house-scene[data-moris-spot="glass"] .house-hotspot--balcony-moris { --lx: 39.75; --ly: 48.5; }
   .house-hotspot--balcony-lamp { --lx: 20.6; --ly: 22.5; }
   .house-hotspot--balcony-switch { --ax: 15.5; --lx: 15.5; min-width: 24px; }
   .house-hotspot--stars { --lx: 33; --ly: 22; }

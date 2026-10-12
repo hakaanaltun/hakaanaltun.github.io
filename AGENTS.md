@@ -374,12 +374,24 @@ The site has two deliberate ideas of place. Do not collapse them into one.
 - **The balcony is glazed.** Folding glass panels stand on the parapet up to
   the ceiling, along the front and the right-hand side. Moris goes out to
   the balcony twice a day, as the author asked: from noon to two, and again
-  from two hours before sunset until half an hour before it. In between he
-  is on his cushion, and as the sun goes down he is asleep at the window.
-  The glass is closed while he is out there; while he is indoors the door is
-  shut and the glass is folded away into the right-hand corner. The author
-  settled this on 11 October 2026: a cat is never shown on a balcony that is
-  not safe for him. Do not draw Moris on the balcony with the glass open.
+  from two hours before sunset until half an hour before it. At midday he
+  sleeps on the empty chair, and in the late afternoon he lies on the coping
+  by the glass, looking out; the author asked for both on 12 October 2026.
+  In between he is on his cushion, and as the sun goes down he is asleep at
+  the window. While he is out there the glass is closed and the door to the
+  study stands open; while he is indoors the door is shut and the glass is
+  folded away into the right-hand corner. The author settled the glass on
+  11 October 2026 and the door on 12 October 2026: a cat is never shown on a
+  balcony that is not safe for him. Do not draw Moris on the balcony with
+  the glass open.
+- **The door opens into the study.** It is hinged on the side nearest the
+  study's entrance and folds back flat against the study's wall, clear of
+  the plant that stands beside it. Its handle is on the other side, toward
+  the front of the house, in both rooms; until 12 October 2026 the study
+  drew it on the hinge side. In the open doorway each room shows the other
+  in that room's own light, as the door's glass does when it is shut. From
+  the balcony the study's wall, floor and plant show through it, and from
+  the study the balcony's glass, parapet and floor.
 - **What is on the balcony.** Two chairs face each other across a small
   round table, as the author asked. A book lies on one chair, and a
   notebook, a pen and a glass of tea are on the table. A small olive grows
