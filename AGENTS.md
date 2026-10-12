@@ -507,7 +507,11 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   and quietest in July and August (RSPB). Field crickets sing on warm
   evenings from May to July, only above 13 °C; tree crickets sing on warm
   evenings and nights from July to October, more slowly and with longer
-  rests as it cools. A ferry's horn sounds now and then between seven in
+  rests as it cools. The insects sing in spells with long silences
+  between, as the author asked on 12 October 2026, when they had sung
+  without a pause: on a cool October night about a fifth of the time, on
+  a warm summer night about a third. `scripts/test-house-sound.cjs` holds
+  them to it. A ferry's horn sounds now and then between seven in
   the morning and midnight, while the ferries run: one prolonged blast of
   four to six seconds (COLREGS, Rule 32), its pitch within the range Annex
   III gives a ship's whistle. The small birds, the gulls and the insects

@@ -65,7 +65,7 @@ function audioStub(w) {
     this.createGain = () => { const g = node({ gain: param(1) }); ctx.gains.push(g); return g; };
     this.createBiquadFilter = () => { const f = node({ type: '', frequency: param(350), Q: param(1) }); ctx.filters.push(f); return f; };
     this.createOscillator = () => node({ type: 'sine', frequency: param(440) });
-    this.createBufferSource = () => { const s = node({ buffer: null, loop: false, onended: null, playbackRate: param(1) }); ctx.sources.push(s); return s; };
+    this.createBufferSource = () => { const s = node({ buffer: null, loop: false, onended: null, playbackRate: param(1), start(t) { this.at = t || 0; } }); ctx.sources.push(s); return s; };
     this.createBuffer = (channels, length, rate) => {
       const data = new Float32Array(length);
       return { length, sampleRate: rate, duration: length / rate, getChannelData: () => data };
@@ -319,6 +319,35 @@ const to = (param) => param.last().slice(0, 2);
   p.dom.window.close();
 }
 
+/* ---- the insects sing in spells, with long silences between ----
+   The author asked for this on 12 October 2026, when they sang without a
+   pause. Over ten minutes, averaged over a few runs: how much of the time
+   a chirp or a trill starts, and the longest silence. */
+{
+  const p = page();
+  const listen = (name, temp) => {
+    const runs = [];
+    for (let k = 0; k < 8; k++) {
+      const ctx = new p.w.AudioContext();
+      const v = p.w.OLAE_BALCONY_ENGINE[name](ctx, ctx.destination, {}, { temp });
+      v.tick(600);
+      const sung = new Set(ctx.sources.filter((s) => s.at !== undefined && s.at < 600).map((s) => Math.floor(s.at)));
+      let longest = 0, quiet = 0;
+      for (let t = 0; t < 600; t++) { quiet = sung.has(t) ? 0 : quiet + 1; longest = Math.max(longest, quiet); }
+      runs.push({ share: sung.size / 600, longest });
+      v.stop();
+    }
+    return { share: runs.reduce((a, r) => a + r.share, 0) / runs.length, longest: Math.min(...runs.map((r) => r.longest)) };
+  };
+  const cool = listen('treeCrickets', 16), warm = listen('treeCrickets', 22), field = listen('crickets', 22);
+  assert.ok(cool.share < 0.3, 'on a cool October night the tree crickets sing a fifth of the time or so: ' + cool.share.toFixed(2));
+  assert.ok(cool.longest >= 45, 'with long silences between: ' + cool.longest + ' s');
+  assert.ok(warm.share < 0.45 && warm.share > cool.share, 'more on a warm night, still with rests: ' + warm.share.toFixed(2));
+  assert.ok(field.share < 0.5, 'field crickets too: ' + field.share.toFixed(2));
+  assert.ok(field.longest >= 20);
+  p.dom.window.close();
+}
+
 /* ---- storage that cannot be reached, and no Web Audio ---- */
 {
   const p = page({ blocked: true });
@@ -337,4 +366,4 @@ const to = (param) => param.last().slice(0, 2);
   p.dom.window.close();
 }
 
-console.log('Balcony sound passed: off by default and remembered, the button under the balcony while the reader is there, İstanbul’s hour, month and temperature choosing the birds, gulls, insects and ferries, the rain louder with the glass open than through it, snow hushing the rest, silence in the study, fades, a hidden tab, a first touch before any audio, and blocked storage.');
+console.log('Balcony sound passed: off by default and remembered, the button under the balcony while the reader is there, İstanbul’s hour, month and temperature choosing the birds, gulls, insects and ferries, the insects in spells with long silences, the rain louder with the glass open than through it, snow hushing the rest, silence in the study, fades, a hidden tab, a first touch before any audio, and blocked storage.');
