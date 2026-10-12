@@ -1049,6 +1049,7 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.equal(city.q('#balcony').dataset.skyObscured, 'true');
   assert.equal(city.q('#house-weather-follow').hidden, true);
   assert.equal(moved, 0, 'automatic showers never scroll');
+  city.w.matchMedia = () => ({ matches: false });
   city.w.eval(scripts.snow);
   city.w.document.dispatchEvent(new city.w.Event('DOMContentLoaded'));
   city.click('#let-it-snow');
