@@ -356,6 +356,11 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   tucked into the corner, against the wall and the parapet. The book is The Reader, the notebook The Page and the view The
   Breath; the author chose these three for the balcony. A link from the
   balcony carries `from=balcony`.
+- **Tea and coffee take turns.** The balcony's tea glass and saucer appear
+  during the House's morning and evening periods, following İstanbul's sky.
+  During those periods the study's coffee cup, handle and steam are absent.
+  During the day and night periods the coffee is present and the tea is
+  absent. Both rooms use the same `data-hour` value, including while open.
 - **A lamp hangs on the right-hand wall.** The author asked for it on
   11 October 2026: a glass globe with a yellow light, on the wall beside
   the pine so that it lights the tree as well as the balcony. It is on in
