@@ -604,7 +604,7 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   // chair, and from two hours before sunset (18:31 that day) until half an
   // hour before it, lying by the glass. Between them he is on his cushion,
   // the door is shut, and as the sun goes down he is asleep at the window.
-  for (const [hour, place, spot, line] of [['13:00', 'balcony', 'chair', /^He is asleep on a chair out on the balcony for the middle of the day/], ['14:30', 'cushion', undefined, null], ['17:00', 'balcony', 'glass', /^He is out on the balcony again until the sun is low, lying by the glass and looking out\.$/], ['18:10', 'sill', undefined, null]]) {
+  for (const [hour, place, spot, line] of [['13:00', 'balcony', 'chair', /^He is asleep on a chair out on the balcony for the middle of the day\.$/], ['14:30', 'cushion', undefined, null], ['17:00', 'balcony', 'glass', /^He is out on the balcony again until the sun is low, lying by the glass and looking out\.$/], ['18:10', 'sill', undefined, null]]) {
     n = houseAt('2026-10-11T' + hour + ':00+03:00', 'https://hakanaltun.io/house/#balcony');
     await tick();
     assert.equal(n.q('#house-scene').dataset.moris, place, 'Moris at ' + hour);
