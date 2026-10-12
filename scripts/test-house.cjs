@@ -781,6 +781,41 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.equal(p.q('#trivia-keep').hidden, true);
   p.dom.window.close();
 
+  // A word's story and a quiz's questions and notes have a piece's prompt:
+  // Türkçe, Keep, Note and Highlight. The author asked for it on 12 October 2026.
+  const promptButtons = () => Array.from(p.w.document.querySelectorAll('.reader-translate button:not(.reader-translate-close)'), (b) => b.textContent);
+  p = page('word/quarantine/index.html', 'https://hakanaltun.io/word/quarantine/', { run: ['keep', 'translate'], before: highlights });
+  await tick();
+  assert.deepEqual(promptButtons(), ['Türkçe', 'Keep', 'Note', 'Highlight'], 'a word story has the prompt');
+  assert.equal(p.q('.keep-prompt'), null, 'and no second prompt of its own');
+  const cited = Array.from(p.w.document.querySelectorAll('.word-story-body p')).find((el) => el.querySelector('.word-cite'));
+  let storyRange = p.w.document.createRange();
+  storyRange.selectNodeContents(cited);
+  const fromStory = p.w.OLAE_KEEP.passageFor(storyRange);
+  assert.equal(fromStory.kind, 'Words with Stories');
+  assert.equal(fromStory.title, 'quarantine');
+  assert.equal(fromStory.href, '/word/quarantine/');
+  const uncited = cited.cloneNode(true);
+  uncited.querySelectorAll('.word-cite').forEach((cite) => cite.remove());
+  assert.equal(fromStory.quote, uncited.textContent.replace(/\u2060/g, '').replace(/\s+/g, ' ').trim(), 'the source numbers are left out of what is kept');
+  p.w.OLAE_KEEP.highlight(fromStory);
+  assert.deepEqual(marked(p.w), [fromStory.quote], 'and the highlight is found without them');
+  p.dom.window.close();
+
+  p = page('trivia/britain/index.html', 'https://hakanaltun.io/trivia/britain/', { run: ['keep', 'trivia', 'translate'], before: highlights });
+  await tick();
+  assert.deepEqual(promptButtons(), ['Türkçe', 'Keep', 'Note', 'Highlight'], 'a quiz has the prompt');
+  p.click('#trivia-start');
+  p.click('.trivia-choice');
+  const answered = p.q('#trivia-question-text').textContent.replace(/\u2060/g, '');
+  const noteRange = p.w.document.createRange();
+  noteRange.selectNodeContents(p.q('#trivia-feedback'));
+  const fromNote = p.w.OLAE_KEEP.passageFor(noteRange);
+  assert.equal(fromNote.kind, 'British Culture');
+  assert.equal(fromNote.title, answered, 'a passage from a note is named by its question');
+  assert.equal(fromNote.href, '/trivia/britain/');
+  p.dom.window.close();
+
   p = page('book/part-one/index.html', 'https://hakanaltun.io/book/part-one/', { run: ['keep'] });
   await tick();
   const opening = Array.from(p.w.document.querySelectorAll('#point-zero ~ p')).find((el) => el.textContent.includes('memory needs an after'));
@@ -1283,6 +1318,6 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.equal(t.q('canvas.cursor-trail'), null, 'and none for a reader who asked for less motion');
   t.dom.window.close();
 
-  console.log('House: catalog and addresses, daily room, keeping from the room and from words, quizzes, the book and essays, the kept passage\'s panel, note and copy, Highlight and its clearing, the small box by a highlight, hidden highlights, a note written before keeping, notes in the drawer, legacy and hostile records, blocked storage, arrivals, #drawer, export and backup offered only where they work, the moon, the planets after dark, weather at the window, the balcony, its glass, its door, its sky and its lamp, its notebook and the way on to The Page, Moris on the chair and by the glass, quiet places and a remembered Show places to look, the ways back to the study and the balcony, and the pointer\'s trail passed.');
+  console.log('House: catalog and addresses, daily room, keeping from the room and from words, quizzes, the book and essays, the passage prompt on word stories and quiz notes, the kept passage\'s panel, note and copy, Highlight and its clearing, the small box by a highlight, hidden highlights, a note written before keeping, notes in the drawer, legacy and hostile records, blocked storage, arrivals, #drawer, export and backup offered only where they work, the moon, the planets after dark, weather at the window, the balcony, its glass, its door, its sky and its lamp, its notebook and the way on to The Page, Moris on the chair and by the glass, quiet places and a remembered Show places to look, the ways back to the study and the balcony, and the pointer\'s trail passed.');
 })().catch((error) => { console.error(error); process.exit(1); });
 

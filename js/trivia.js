@@ -392,6 +392,9 @@
     questionCategory.hidden = !round.name;
 
     questionText.textContent = joinDashes(q.question);
+    // A passage kept from the question or its note is named by the question
+    // (js/keep.js).
+    questionPanel.setAttribute('data-keep-title', q.question);
     choices.innerHTML = '';
     feedback.textContent = '';
     nextButton.hidden = true;
@@ -514,6 +517,7 @@
       if (!q) return;
 
       var item = document.createElement('li');
+      item.setAttribute('data-keep-title', q.question);
       var prompt = document.createElement('span');
       prompt.className = 'trivia-review-question';
       prompt.textContent = joinDashes(q.question);
@@ -523,6 +527,8 @@
       answer.textContent = joinDashes('Answer: ' + q.choices[q.answer] + '. ' + q.note);
 
       item.appendChild(prompt);
+      // A space between the two, so a passage selected across them keeps it.
+      item.appendChild(document.createTextNode(' '));
       item.appendChild(answer);
       reviewList.appendChild(item);
     });

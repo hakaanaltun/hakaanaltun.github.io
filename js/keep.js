@@ -379,12 +379,24 @@
 
   /* --- Passages --------------------------------------------------------
      A container marked data-keep-passage lets a reader select a few lines
-     and keep them. Book pages name the chapter from the section the words
-     sit in. On essay pages the selection already opens the translation
+     and keep them: a piece, the book, a word's story, a quiz's questions
+     and notes. Book pages name the chapter from the section the words sit
+     in; elsewhere the nearest data-keep-title names it, so a quiz names
+     the question a note answers. The selection opens the translation
      prompt, and js/reader-translate.js puts Keep, Note and Highlight
-     beside Türkçe through passageFor(); anywhere else a small prompt of
-     our own appears. Keeping and writing a note leave the page as it is;
-     only Highlight marks it. */
+     beside Türkçe through passageFor(); a page without it has a small
+     prompt of our own. Keeping and writing a note leave the page as it
+     is; only Highlight marks it. */
+
+  /* A word story's source numbers are links beside the sentence, not
+     words in it, so a kept passage leaves them out and a highlight is
+     found again without them. */
+  var UNKEPT = 'script, style, .word-cite';
+  function passageText(range) {
+    var copy = range.cloneContents();
+    copy.querySelectorAll(UNKEPT).forEach(function (node) { node.remove(); });
+    return copy.textContent;
+  }
 
   function passageFor(range) {
     if (!range) return null;
@@ -392,11 +404,13 @@
     var element = node.nodeType === 1 ? node : node.parentElement;
     var holder = element && element.closest('[data-keep-passage]');
     if (!holder) return null;
-    var words = tidy(range.toString());
+    var words = tidy(passageText(range));
     if (words.length < MIN_PASSAGE || words.length > MAX_QUOTE) return null;
     var chapter = element.closest('.book-chapter');
     var heading = chapter && chapter.querySelector('h2[id]');
-    var title = heading ? heading.textContent : holder.getAttribute('data-keep-title');
+    var titled = element.closest('[data-keep-title]');
+    if (!titled || !holder.contains(titled)) titled = holder;
+    var title = heading ? heading.textContent : titled.getAttribute('data-keep-title');
     var href = location.pathname + (heading ? '#' + heading.id : '');
     return clean({
       id: textId(words),
@@ -983,7 +997,7 @@
     var walker = document.createTreeWalker(holder, NodeFilter.SHOW_TEXT);
     for (var node = walker.nextNode(); node; node = walker.nextNode()) {
       var parent = node.parentElement;
-      if (parent && parent.closest('script, style')) continue;
+      if (parent && parent.closest(UNKEPT)) continue;
       var data = node.data;
       for (var i = 0; i < data.length; i++) {
         var c = data.charAt(i);

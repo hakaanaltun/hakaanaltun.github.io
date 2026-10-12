@@ -41,7 +41,11 @@ layout: default
       </div>
     </section>
 
-    <section class="trivia-panel" id="trivia-question" hidden aria-labelledby="trivia-question-text">
+    {%- comment -%} A reader can select a line of a question or its note and
+    translate it, keep it, write a note on it or highlight it, as in a piece
+    (js/reader-translate.js, js/keep.js). js/trivia.js names each passage by
+    the question it belongs to. {%- endcomment %}
+    <section class="trivia-panel" id="trivia-question" hidden aria-labelledby="trivia-question-text" data-keep-passage data-keep-kind="{{ meta.name | default: page.title | escape }}" data-keep-title="{{ meta.name | default: page.title | escape }}">
       <div class="trivia-status">
         <span id="trivia-round-label"></span>
         <span id="trivia-counter"></span>
@@ -86,7 +90,7 @@ layout: default
         <a class="trivia-button trivia-button--quiet" href="/trivia/">All quizzes</a>
       </div>
 
-      <div class="trivia-review" id="trivia-review" hidden>
+      <div class="trivia-review" id="trivia-review" hidden data-keep-passage data-keep-kind="{{ meta.name | default: page.title | escape }}" data-keep-title="{{ meta.name | default: page.title | escape }}">
         <h3 class="trivia-review-title">Questions to revisit</h3>
         <ol class="trivia-review-list" id="trivia-review-list"></ol>
       </div>
@@ -97,7 +101,7 @@ layout: default
 </div>
 
 <script id="trivia-data" type="application/json">{{ quiz | jsonify }}</script>
-<script src="/js/trivia.js?v=20261008-1" defer></script>
+<script src="/js/trivia.js?v=20261012-1" defer></script>
 
 <script type="application/ld+json">
 {

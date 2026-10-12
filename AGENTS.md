@@ -515,6 +515,13 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   keeping or writing a note never mark a passage by itself. The prompt
   over a selection offers Türkçe, Keep, Note and Highlight (`js/keep.js`,
   `js/reader-translate.js`).
+  - On 12 October 2026 the author asked for the same prompt on a word's
+    story and on a quiz's questions and notes. Every container marked
+    `data-keep-passage` has it. A passage from a word story is kept under
+    Words with Stories and named by its word, and its source numbers are
+    left out. One from a quiz is kept under the quiz's name and named by
+    the question it belongs to, which `js/trivia.js` sets as
+    `data-keep-title`.
   - Keep puts the passage in the drawer and opens a small panel at the
     foot of the window with "Add a note", "Take out" and the way to the
     drawer. Note lets a reader write first: nothing is kept until "Keep
