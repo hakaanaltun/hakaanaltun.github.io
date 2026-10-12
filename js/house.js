@@ -444,11 +444,14 @@
      (KEEP.toPage): there it is added after whatever is already written,
      and The Page opens at its end. A kept page stays open in the notebook
      for the rest of the visit, saying so, and what is changed there is
-     changed in the drawer. "Open your drawer", "A new page" and "Take out"
-     stand where Keep was, as the panel by a kept passage offers the drawer
-     and Take out (js/keep.js); taken out, the words stay in the notebook.
-     The author asked for this on 12 October 2026, when a kept note
-     vanished from the notebook with only a line at its foot. */
+     changed in the drawer. "A new page" and "Take out" stand where Keep
+     was, as the panel by a kept passage offers Take out (js/keep.js);
+     taken out, the words stay in the notebook. The author asked for this
+     on 12 October 2026, when a kept note vanished from the notebook with
+     only a line at its foot. "Open your drawer" is there from the start,
+     so the earlier notes can be read and changed while a new one is
+     written; the drawer leads back to the notebook, where the page being
+     written waits. */
   var notebookKept = '';
   function renderNotebook(box) {
     box.appendChild(document.getElementById('house-notebook').content.cloneNode(true));
@@ -466,14 +469,14 @@
     area.value = kept ? kept.note || '' : KEEP.notebook();
     function show() {
       keep.hidden = !!notebookKept;
-      drawer.hidden = fresh.hidden = out.hidden = !notebookKept;
+      fresh.hidden = out.hidden = !notebookKept;
       // Kept, it is named as a note is in the drawer and the panel.
       label.textContent = notebookKept ? 'Your note' : 'Write a note';
       hint.textContent = !KEEP.works()
         ? 'This browser cannot save your note. What you write here stays until you leave the page.'
         : notebookKept
           ? 'What you change here is changed in your drawer too. Write at length on The Page takes the note there, after anything already written.'
-          : 'The notebook keeps your words in this browser until you put them in your drawer. Write at length on The Page takes them there, after anything already written.';
+          : 'The notebook keeps your words in this browser until you put them in your drawer, where your earlier notes are. Write at length on The Page takes them there, after anything already written.';
     }
     show();
     var timer = 0;
@@ -511,9 +514,9 @@
     });
     drawer.addEventListener('click', function () {
       save();
-      // The drawer opens in the same box, and closing it returns to the
-      // notebook's place on the balcony.
-      openObject('drawer', opener);
+      // The drawer opens in the same box, with a way back to the notebook,
+      // and closing it returns to the notebook's place on the balcony.
+      openObject('drawer', opener, 'notebook');
     });
     out.addEventListener('click', function () {
       save();
@@ -555,6 +558,12 @@
 
   function renderDrawer(box) {
     var kept = KEEP.read().kept.map(current).reverse();
+    if (backTo === 'notebook') {
+      var back = element('button', 'house-back', '← Back to the notebook');
+      back.type = 'button';
+      back.addEventListener('click', function () { openObject('notebook', opener); });
+      box.appendChild(back);
+    }
     box.appendChild(element('p', 'house-drawer-note', storageNote()));
     /* Only what can be done: an empty drawer has nothing to download, and a
        browser that cannot keep the drawer cannot take a restored one. */
@@ -652,10 +661,14 @@
     KEEP.sync(content);
   }
 
-  function openObject(name, button) {
+  /* back names the object the box was opened from, when it can lead back
+     to it: the drawer opened from the notebook offers the way back. */
+  var backTo = '';
+  function openObject(name, button, back) {
     if (!labels[name]) return;
     activeObject = name;
     opener = button;
+    backTo = back || '';
     document.getElementById('house-dialog-place').textContent = labels[name][0];
     document.getElementById('house-dialog-title').textContent = labels[name][1];
     dialogStatus.textContent = '';
@@ -1446,6 +1459,14 @@
 
   root.addEventListener('click', function (event) {
     if (event.target.closest('[data-places]')) { showPlaces(!root.classList.contains('show-places')); return; }
+    // A link in the box to the room the reader is already in, such as a
+    // notebook page's "Go to the balcony" on the balcony, closes the box.
+    var here = event.target.closest('#house-dialog a[href]');
+    if (here && here.pathname === location.pathname && here.hash && here.hash === location.hash) {
+      event.preventDefault();
+      dialog.close();
+      return;
+    }
     // The sun and the moon wait behind the closed glass while Moris is out.
     var body = event.target.closest('.house-hotspot--sun, .house-hotspot--moon, [data-sky-item="sun"] a, [data-sky-item="moon"] a');
     if (body && balconyScene.dataset.moris === 'balcony') {
@@ -1577,6 +1598,7 @@
   });
   dialog.addEventListener('close', function () {
     activeObject = '';
+    backTo = '';
     if (location.hash === '#drawer') history.replaceState(null, '', '#study');
     if (opener && !opener.hidden) opener.focus({ preventScroll: true });
   });
