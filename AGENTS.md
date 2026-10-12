@@ -317,9 +317,12 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   Over the neighbourhood's roofs there is a strip of sea, and the Islands
   lie on the horizon, part of them behind taller blocks to the left. The
   author chose the Islands over a strip of the Bosphorus.
-  `_includes/house-view.svg` draws the view once, in the window's
-  coordinates with the horizon at its eye level, and the window and the
-  balcony both include it, so they cannot disagree. The Islands' outlines
+  `_includes/house-view.svg` draws the view once, with the horizon at
+  222, and the window and the balcony both include it at three-fifths of
+  that size, the window with its horizon at 222 and the balcony at 285, so
+  they cannot disagree and the roofs come up to the sea in both. Until
+  12 October 2026 the window drew it at full size, and its roofs sat well
+  below the sea. The Islands' outlines
   are general, and no island is named. Through the side glass the roofs and
   the strip of sea go on to the west, beyond the window's sight.
 - **A pine stands just outside, to the right.** The author asked for it on
@@ -337,8 +340,12 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   the corner on the right, from the sea's horizon up to the ceiling. A body behind the house is
   not drawn, and its name waits at the edge on its side. Within a day or two
   of the new moon the moon is lost in the sun's light and is not drawn. In
-  the study window the sun and the moon stand in the casement on their side
-  of the sky, the left one in the east and the right one in the west. Their
+  the study window the sun and the moon stand just where they stand over
+  the balcony, 63 higher, because both rooms show the view at one size.
+  They are in the window only from the south-southwest toward the west; a
+  morning sun is out of its sight to the left. The author asked for this
+  on 12 October 2026, when the window's sun stood high in its casement
+  while the balcony's sat low over the sea. Their
   places come from `js/astronomy.js`, and the stars and planets from
   `js/sky-map.js`, loaded once the balcony is dark.
 - **Only the balcony's sun and moon lead to their pictures.** Each body
@@ -399,8 +406,9 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   balcony that is not safe for him. Do not draw Moris on the balcony with
   the glass open.
 - **The door opens into the study.** It is hinged on the side nearest the
-  study's entrance and folds back flat against the study's wall, clear of
-  the plant that stands beside it. Its handle is on the other side, toward
+  study's entrance and folds back almost to the study's wall, clear of
+  the plant that stands beside it. It stands a little off the wall, turned
+  twelve degrees toward the room, as the author asked on 12 October 2026. Its handle is on the other side, toward
   the front of the house, in both rooms; until 12 October 2026 the study
   drew it on the hinge side. In the open doorway each room shows the other
   in that room's own light, as the door's glass does when it is shut. From
