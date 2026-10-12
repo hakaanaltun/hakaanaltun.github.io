@@ -106,6 +106,8 @@
 .house-door-coping { fill: var(--room-paper); }
 .house-door-glint { stroke: #fff; stroke-width: 1.2; opacity: .5; }
 .house-door-leaf-glass { fill: var(--room-wall); }
+/* While Moris is out the glass is closed, and the sun and the moon lead nowhere: their arrows go. */
+.house-scene--balcony[data-moris="balcony"] :is(.house-hotspot--sun, .house-hotspot--moon) .house-hotspot-name [aria-hidden] { display: none; }
 .house-door-hinge { fill: #b5985a; }
 .house-switch-rocker { fill: var(--room-cream); }
 .house-parapet-shade { fill: #3b3223; opacity: .08; }

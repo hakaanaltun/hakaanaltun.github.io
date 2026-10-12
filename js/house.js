@@ -45,7 +45,9 @@
     window: ['Outside', 'Through the window'],
     moris: ['On his cushion', 'Moris'],
     drawer: ['Yours to keep', 'Your drawer'],
-    stars: ['In the sky', 'The stars']
+    stars: ['In the sky', 'The stars'],
+    sun: ['In the sky', 'The sun'],
+    moon: ['In the sky', 'The moon']
   };
 
   /* --- İstanbul's day and hour ----------------------------------------- */
@@ -395,6 +397,28 @@
     }, function () { fact('Sunrise', rise && clock(rise)); });
   }
 
+  /* The sun and the moon lead on to their pictures only while the
+     balcony's glass is open. While Moris is out here the glass is closed,
+     and a touch on either says where it stands and why the way is shut. */
+  function renderBody(name) {
+    return function (box) {
+      var sky = skyNow(new Date());
+      var at = name === 'sun' ? sky.sun : sky.moonAt;
+      var title = name === 'sun' ? 'The sun' : 'The moon';
+      box.appendChild(element('p', 'house-object-intro', title + (at ? ' is ' + where(at.alt, at.az) : ' is up') + ' over İstanbul.'));
+      var facts = element('dl', 'house-sky-facts');
+      function fact(term, value) {
+        if (!value) return;
+        facts.appendChild(element('dt', '', term));
+        facts.appendChild(element('dd', '', value));
+      }
+      if (name === 'sun') fact('Sunset', sky.sunset && clock(sky.sunset));
+      else fact('Phase', sky.moon);
+      if (facts.children.length) box.appendChild(facts);
+      box.appendChild(element('p', '', 'The glass is closed while Moris is out here. When he goes back in, you can go on to the ' + name + '.'));
+    };
+  }
+
   var MORIS = {
     cushion: { place: 'On his cushion', line: 'He is resting on his cushion below the window.' },
     balcony: { place: 'On the balcony', line: 'He is asleep on a chair out on the balcony for the middle of the day, behind the closed glass.' },
@@ -499,7 +523,7 @@
     });
   }
 
-  var renderers = { books: renderBooks, words: renderWords, question: renderQuestion, window: renderWindow, moris: renderMoris, drawer: renderDrawer, stars: renderStars };
+  var renderers = { books: renderBooks, words: renderWords, question: renderQuestion, window: renderWindow, moris: renderMoris, drawer: renderDrawer, stars: renderStars, sun: renderBody('sun'), moon: renderBody('moon') };
   var needsCatalog = { books: true, words: true, question: true };
 
   function fill(name) {
@@ -767,6 +791,9 @@
       balconyScene.querySelector('.house-moris').setAttribute('transform', BALCONY_SPOTS[spot]);
     } else delete balconyScene.dataset.morisSpot;
     balcony.querySelector('[data-moris-item]').hidden = place !== 'balcony';
+    balcony.querySelectorAll('.house-hotspot--sun, .house-hotspot--moon, [data-sky-item="sun"] a, [data-sky-item="moon"] a').forEach(function (link) {
+      if (place === 'balcony') link.setAttribute('aria-haspopup', 'dialog'); else link.removeAttribute('aria-haspopup');
+    });
     study.querySelector('.house-objects [data-open="moris"]').parentNode.hidden = place === 'balcony';
     var cat = scene.querySelector('.house-moris');
     if (PLACES[place]) cat.setAttribute('transform', PLACES[place]); else cat.removeAttribute('transform');
@@ -1311,6 +1338,14 @@
 
   root.addEventListener('click', function (event) {
     if (event.target.closest('[data-places]')) { showPlaces(!root.classList.contains('show-places')); return; }
+    // The sun and the moon wait behind the closed glass while Moris is out.
+    var body = event.target.closest('.house-hotspot--sun, .house-hotspot--moon, [data-sky-item="sun"] a, [data-sky-item="moon"] a');
+    if (body && balconyScene.dataset.moris === 'balcony') {
+      event.preventDefault();
+      var item = body.closest('[data-sky-item]');
+      openObject(item ? item.getAttribute('data-sky-item') : body.classList.contains('house-hotspot--sun') ? 'sun' : 'moon', body);
+      return;
+    }
     var trigger = event.target.closest('[data-open]');
     if (trigger) { openObject(trigger.getAttribute('data-open'), trigger); return; }
     // Out through the glass door to the balcony, and back in.

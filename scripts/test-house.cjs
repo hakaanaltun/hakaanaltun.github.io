@@ -535,6 +535,20 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   // A night with a young moon: no sun, the moon low in the southwest, in the
   // window's right casement and to the right over the balcony, and the
   // stars, the brightest of them, drawn from the catalogue The Stars uses.
+  // While Moris is out the glass is closed: the sun says where it stands
+  // and why the way on is shut, and leads nowhere until he goes back in.
+  n = houseAt('2026-10-12T12:30:00+03:00', 'https://hakanaltun.io/house/#balcony', true);
+  await tick();
+  assert.equal(n.q('#house-balcony-scene').dataset.moris, 'balcony', 'Moris out at midday');
+  assert.ok(shown(n, '.house-hotspot--sun'));
+  for (const selector of ['.house-hotspot--sun', '#balcony [data-sky-item="sun"] a']) {
+    const link = n.q(selector);
+    assert.equal(link.getAttribute('aria-haspopup'), 'dialog');
+    n.click(link);
+    assert.equal(n.q('#house-dialog').open, true, 'the closed glass opens a box instead of the picture');
+    assert.match(n.q('#house-dialog-content').textContent, /The glass is closed while Moris is out here/);
+    n.click('#house-close');
+  }
   n = houseAt('2026-10-16T21:00:00+03:00', 'https://hakanaltun.io/house/#balcony', true);
   await tick();
   assert.equal(n.q('#balcony').hidden, false, 'the balcony by its address');
