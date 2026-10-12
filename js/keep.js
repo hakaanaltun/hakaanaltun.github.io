@@ -11,8 +11,9 @@
    onto a shared card.
 
    The same record holds The House's other small memories: the study's lamp
-   and the balcony's, the question answered today, and what the site held at
-   the last visit. One key, so clearing it clears all of it. */
+   and the balcony's, the question answered today, the page being written in
+   the balcony's notebook, and what the site held at the last visit. One key,
+   so clearing it clears all of it. */
 (function () {
   'use strict';
   var KEY = 'olae-house-v1';
@@ -99,6 +100,8 @@
     }
     if (typeof value.lamp === 'boolean') state.lamp = value.lamp;
     if (typeof value.balconyLamp === 'boolean') state.balconyLamp = value.balconyLamp;
+    var page = noteText(value.notebook);
+    if (page) state.notebook = page;
     // Marks on the pages are shown unless the reader hid them.
     if (value.marks === false) state.marks = false;
     var seen = value.seen;
@@ -231,6 +234,18 @@
     write(state);
     if (!quiet) emit();
     return true;
+  }
+
+  /* The balcony's notebook holds the page being written until the reader
+     keeps it or takes it to The Page. It is saved quietly as the reader
+     writes, like a note, and stays out of a backup with the lamps. */
+  function notebook() { return read().notebook || ''; }
+  function setNotebook(value) {
+    var state = read();
+    var page = noteText(value);
+    if (page) state.notebook = page;
+    else delete state.notebook;
+    write(state);
   }
 
   /* One kept thing as plain text: for the copy beside a note and for the
@@ -1104,6 +1119,8 @@
     sync: sync,
     find: find,
     setNote: setNote,
+    notebook: notebook,
+    setNotebook: setNotebook,
     plain: plain,
     noteEditor: noteEditor,
     passageFor: passageFor,

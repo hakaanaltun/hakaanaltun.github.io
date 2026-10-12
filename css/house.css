@@ -63,6 +63,13 @@
 .house-book-rust, .house-pot { fill: var(--room-rust); }
 .house-book-cream, .house-cup { fill: var(--room-cream); }
 .house-paper, .house-word-paper { fill: var(--room-paper); }
+/* The pencil on the balcony's notebook: a yellow body, the shaved wood and
+   the lead at its point, and a little eraser in its band. */
+.house-pencil-body { fill: var(--room-gold); }
+.house-pencil-wood { fill: var(--room-cream); }
+.house-pencil-lead { fill: var(--room-line); }
+.house-pencil-ferrule { fill: color-mix(in srgb, var(--room-line) 45%, var(--room-wall)); }
+.house-pencil-eraser { fill: var(--room-rust); }
 .house-sky-top { stop-color: var(--sky-top); }
 .house-sky-bottom { stop-color: var(--sky-bottom); }
 .house-sun { fill: #f5e2a6; }
@@ -185,11 +192,9 @@
 .house-ereader { fill: #3e3f3b; }
 .house-ereader-screen { fill: var(--room-paper); }
 .house-lampshade { fill: var(--room-cream); }
-.house-lamp-bulb { fill: var(--room-line); }
 .house-lamp-glow { opacity: 0; pointer-events: none; transition: opacity 500ms ease; }
 .house-scene[data-lamp="on"] .house-lamp-glow { opacity: 1; }
-.house-scene[data-lamp="on"] .house-lampshade { fill: #dbc18b; }
-.house-scene[data-lamp="on"] .house-lamp-bulb { fill: #ffe4a3; stroke: #aa8847; }
+.house-scene[data-lamp="on"] .house-lampshade { fill: url(#house-shade-lit); }
 .house-question-mark { font: italic 34px 'Cormorant Garamond', Georgia, serif; fill: var(--room-line); stroke: none; }
 .house-scene[data-hour="evening"] { --sky-top: #958fa6; --sky-bottom: #e1b396; }
 .house-scene[data-hour="morning"] { --sky-top: #c7c3b4; --sky-bottom: #ecd5ac; }
@@ -271,7 +276,7 @@
 .house-scene { container-type: inline-size; }
 .house-hotspot { position: absolute; z-index: var(--z, 1); left: calc(var(--ax) * 1%); top: calc(var(--ay) * 1%); width: calc(var(--aw) * 1%); height: calc(var(--ah) * 1%); min-width: 44px; min-height: 44px; transform: translate(-50%, -50%); padding: 0; border: 0; border-radius: 3px; background: none; color: #443f34 !important; text-decoration: none; }
 .house-hotspot--words, .house-hotspot--question, .house-hotspot--moris, .house-hotspot--lamp, .house-hotspot--drawer, .house-hotspot--clock, .house-hotspot--reader, .house-hotspot--farm-house,
-.house-hotspot--balcony-reader, .house-hotspot--page, .house-hotspot--balcony-moris, .house-hotspot--sun, .house-hotspot--moon, .house-hotspot--balcony-lamp, .house-hotspot--balcony-switch { --z: 3; }
+.house-hotspot--notebook, .house-hotspot--balcony-moris, .house-hotspot--sun, .house-hotspot--moon, .house-hotspot--balcony-lamp, .house-hotspot--balcony-switch { --z: 3; }
 .house-label { position: absolute; left: calc(50% + (var(--lx) - var(--ax)) * 1cqw); top: calc(50% + (var(--ly) - var(--ay)) * .65cqw); transform: translate(-50%, -50%); display: flex; align-items: center; gap: 5px; min-height: 24px; padding: 2px 8px; border: 1px solid #b7ab94; border-radius: 3px; background: #fcf7e9; font-size: 11.5px; line-height: 1.2; white-space: nowrap; box-shadow: 0 2px 6px #30291a12; opacity: 0; pointer-events: none; transition: opacity .18s; }
 .house-label .house-pin { display: none; }
 .house-hotspot:focus-visible { z-index: calc(var(--z, 1) + 1); outline: 2px solid #443f34; outline-offset: 2px; }
@@ -303,8 +308,7 @@
 #house-scene[data-moris="balcony"] .house-moris, #house-scene[data-moris="balcony"] .house-hotspot--moris { display: none; }
 /* The balcony. */
 .house-hotspot--study-door { --ax: 6.6; --ay: 59.4; --aw: 13.2; --ah: 81.2; --lx: 8.5; --ly: 10.8; }
-.house-hotspot--balcony-reader { --ax: 37; --ay: 77; --aw: 11; --ah: 30; --lx: 25.5; --ly: 67.7; }
-.house-hotspot--page { --ax: 50; --ay: 70.5; --aw: 12.4; --ah: 8.5; --lx: 50; --ly: 63.4; }
+.house-hotspot--notebook { --ax: 50; --ay: 70.5; --aw: 12.4; --ah: 8.5; --lx: 50; --ly: 63.4; }
 .house-hotspot--balcony-moris { --ax: 62.4; --ay: 73.4; --aw: 9; --ah: 7.5; --lx: 62.4; --ly: 66.5; }
 .house-scene[data-moris-spot="glass"] .house-hotspot--balcony-moris { --ax: 39.75; --ay: 56.2; --aw: 8.5; --ah: 7; --lx: 39.75; --ly: 49.5; }
 .house-hotspot--balcony-lamp { --ax: 20.55; --ay: 31.5; --aw: 5.1; --ah: 6.6; --lx: 20.6; --ly: 26.6; }
@@ -379,6 +383,7 @@ html:has(.house-dialog[open]) { overflow: hidden; }
 .house-dialog-status:empty { display: none; }
 .house-empty-drawer { border: 1px dashed var(--rule-strong); padding: 28px 24px; margin: 24px 0; }
 .house-empty-drawer p { margin: 0; }
+.house-notebook-hint { margin: 18px 0 0; }
 @keyframes house-arrive { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 html[data-theme="dark"] .house-scene, html[data-theme="midnight"] .house-scene { --room-wall: #363b3b; --room-floor: #3f403a; --room-line: #a89e89; --room-wood: #666452; --room-back: #444942; --room-paper: #b5ae96; --room-cream: #9c9174; --room-blue: #617e84; --room-olive: #687b64; --room-rust: #9e7564; --room-burgundy: #7a4650; --room-gold: #a48c55; --room-carpet: #4a4a41; --room-sunlight: .2; }
 html[data-theme="sky"] .house-scene { --room-wall: color-mix(in srgb, var(--paper) 88%, #a8997f); --room-floor: color-mix(in srgb, var(--paper) 76%, #9b8d6f); --room-line: var(--vizon); --room-wood: color-mix(in srgb, var(--paper) 50%, #a8997f); --room-back: color-mix(in srgb, var(--paper) 75%, #a8997f); --room-carpet: color-mix(in srgb, var(--paper) 64%, #9b8d6f); }
@@ -435,8 +440,9 @@ html[data-theme="dark"], html[data-theme="midnight"], html[data-theme="sky"], .h
   .house-scene[data-moris="rug"] .house-hotspot--moris { --lx: 58; --ly: 90.8; }
   .house-hotspot--balcony { --lx: 94.5; --ly: 44.6; }
   .house-hotspot--study-door { --lx: 6; --ly: 50.8; }
-  .house-hotspot--balcony-reader { --lx: 38; --ly: 76; }
-  .house-hotspot--page { --lx: 48.5; --ly: 68.5; }
+  /* Its number waits on the parapet just above the table, clear of the
+     notebook itself. */
+  .house-hotspot--notebook { --lx: 50; --ly: 62; }
   .house-hotspot--breath { --lx: 50; --ly: 51; }
   .house-hotspot--balcony-moris { --lx: 62.4; --ly: 65.5; }
   .house-scene[data-moris-spot="glass"] .house-hotspot--balcony-moris { --lx: 39.75; --ly: 48.5; }

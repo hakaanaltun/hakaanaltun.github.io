@@ -15,7 +15,7 @@ description: "Come in, look around, and keep something you find. A room at On Li
   "Today" is İstanbul's day and the light is İstanbul's light: the house is
   there, and every reader sees the same room on the same day.
 {%- endcomment -%}
-<link rel="stylesheet" href="/css/house.css?v=20261012-10">
+<link rel="stylesheet" href="/css/house.css?v=20261012-11">
 
 <div class="house" id="house" data-catalog="/house/catalog.json?v={{ site.time | date: '%Y%m%d%H%M' }}">
   <div class="house-heading">
@@ -106,7 +106,8 @@ description: "Come in, look around, and keep something you find. A room at On Li
   with the glass closed and the door to the study open; while he is
   indoors the glass is folded away and the door is shut. The lamp on the left-hand wall has its
   switch on the same wall, beside the door; the globe itself only flickers
-  under a hand.
+  under a hand. The notebook on the table opens a page to write on; what is
+  written there can go into the drawer, or on to The Page.
   {%- endcomment %}
   <section class="house-study house-balcony" id="balcony" aria-labelledby="house-balcony-title" hidden>
     <div class="house-room-bar">
@@ -120,24 +121,22 @@ description: "Come in, look around, and keep something you find. A room at On Li
       <a class="house-hotspot house-hotspot--moon" href="/pictures/space/?from=balcony#scene-moon" hidden><span class="house-label"><span class="house-pin" aria-hidden="true">2</span><span class="house-hotspot-name">The moon <span aria-hidden="true">&rarr;</span></span></span></a>
       <button class="house-hotspot house-hotspot--stars" data-open="stars" type="button" hidden><span class="house-label"><span class="house-pin" aria-hidden="true">3</span><span class="house-hotspot-name">The stars</span></span></button>
       <a class="house-hotspot house-hotspot--breath" href="/breathe/?from=balcony&amp;v=20261011-1"><span class="house-label"><span class="house-pin" aria-hidden="true">4</span><span class="house-hotspot-name">The Breath <span aria-hidden="true">&rarr;</span></span></span></a>
-      <a class="house-hotspot house-hotspot--balcony-reader" href="/read/?from=balcony&amp;v=20261011-1"><span class="house-label"><span class="house-pin" aria-hidden="true">5</span><span class="house-hotspot-name">The Reader <span aria-hidden="true">&rarr;</span></span></span></a>
-      <a class="house-hotspot house-hotspot--page" href="/write/?from=balcony&amp;v=20261011-1"><span class="house-label"><span class="house-pin" aria-hidden="true">6</span><span class="house-hotspot-name">The Page <span aria-hidden="true">&rarr;</span></span></span></a>
-      <a class="house-hotspot house-hotspot--study-door" href="#study" data-go="study"><span class="house-label"><span class="house-pin" aria-hidden="true">7</span><span class="house-hotspot-name">The study</span></span></a>
-      <button class="house-hotspot house-hotspot--balcony-switch" data-balcony-lamp type="button" aria-pressed="false"><span class="house-label"><span class="house-pin" aria-hidden="true">8</span><span class="house-hotspot-name">The light switch</span></span></button>
-      <button class="house-hotspot house-hotspot--balcony-moris" data-open="moris" type="button"><span class="house-label"><span class="house-pin" aria-hidden="true">9</span><span class="house-hotspot-name">Moris</span></span></button>
-      <button class="house-hotspot house-hotspot--balcony-lamp" data-balcony-globe type="button"><span class="house-label"><span class="house-pin" aria-hidden="true">10</span><span class="house-hotspot-name">The lamp</span></span></button>
+      <button class="house-hotspot house-hotspot--notebook" data-open="notebook" type="button"><span class="house-label"><span class="house-pin" aria-hidden="true">5</span><span class="house-hotspot-name">The notebook</span></span></button>
+      <a class="house-hotspot house-hotspot--study-door" href="#study" data-go="study"><span class="house-label"><span class="house-pin" aria-hidden="true">6</span><span class="house-hotspot-name">The study</span></span></a>
+      <button class="house-hotspot house-hotspot--balcony-switch" data-balcony-lamp type="button" aria-pressed="false"><span class="house-label"><span class="house-pin" aria-hidden="true">7</span><span class="house-hotspot-name">The light switch</span></span></button>
+      <button class="house-hotspot house-hotspot--balcony-moris" data-open="moris" type="button"><span class="house-label"><span class="house-pin" aria-hidden="true">8</span><span class="house-hotspot-name">Moris</span></span></button>
+      <button class="house-hotspot house-hotspot--balcony-lamp" data-balcony-globe type="button"><span class="house-label"><span class="house-pin" aria-hidden="true">9</span><span class="house-hotspot-name">The lamp</span></span></button>
     </div>
     <ol class="house-objects" aria-hidden="true">
       <li data-sky-item="sun" hidden><a href="/pictures/sun/?from=balcony" tabindex="-1"><span class="house-pin">1</span>The sun</a></li>
       <li data-sky-item="moon" hidden><a href="/pictures/space/?from=balcony#scene-moon" tabindex="-1"><span class="house-pin">2</span>The moon</a></li>
       <li data-sky-item="stars" hidden><button type="button" tabindex="-1" data-open="stars"><span class="house-pin">3</span>The stars</button></li>
       <li><a href="/breathe/?from=balcony&amp;v=20261011-1" tabindex="-1"><span class="house-pin">4</span>The Breath</a></li>
-      <li><a href="/read/?from=balcony&amp;v=20261011-1" tabindex="-1"><span class="house-pin">5</span>The Reader</a></li>
-      <li><a href="/write/?from=balcony&amp;v=20261011-1" tabindex="-1"><span class="house-pin">6</span>The Page</a></li>
-      <li><a href="#study" tabindex="-1" data-go="study"><span class="house-pin">7</span>The study</a></li>
-      <li><button type="button" tabindex="-1" data-balcony-lamp><span class="house-pin">8</span>The light switch</button></li>
-      <li data-moris-item hidden><button type="button" tabindex="-1" data-open="moris"><span class="house-pin">9</span>Moris</button></li>
-      <li><button type="button" tabindex="-1" data-balcony-globe><span class="house-pin">10</span>The lamp</button></li>
+      <li><button type="button" tabindex="-1" data-open="notebook"><span class="house-pin">5</span>The notebook</button></li>
+      <li><a href="#study" tabindex="-1" data-go="study"><span class="house-pin">6</span>The study</a></li>
+      <li><button type="button" tabindex="-1" data-balcony-lamp><span class="house-pin">7</span>The light switch</button></li>
+      <li data-moris-item hidden><button type="button" tabindex="-1" data-open="moris"><span class="house-pin">8</span>Moris</button></li>
+      <li><button type="button" tabindex="-1" data-balcony-globe><span class="house-pin">9</span>The lamp</button></li>
     </ol>
     <div class="house-room-footer"><a href="#study" data-go="study">&larr; Back to the study</a></div>
   </section>
@@ -165,6 +164,20 @@ description: "Come in, look around, and keep something you find. A room at On Li
     <div class="house-window-links"><a href="/stars/?city=istanbul&amp;from=balcony&amp;v=20261011-1"><span>The Stars</span><p>The stars and bright planets above İstanbul now.</p></a><a href="/moon/?from=balcony&amp;v=20261011-1"><span>The Moon</span><p>The moon’s phase tonight, drawn as it hangs in the sky.</p></a></div>
   </template>
 
+  {%- comment -%} The notebook on the balcony's table. js/house.js keeps the page
+  being written in the drawer's record until the reader keeps it, and takes
+  it on to The Page, after whatever is written there, when they go. {%- endcomment %}
+  <template id="house-notebook">
+    <p class="house-object-intro">A notebook and a pencil, left on the table for whoever sits out here.</p>
+    <label class="keep-note-label" for="house-notebook-text">Write a note</label>
+    <textarea class="keep-note-text" id="house-notebook-text" rows="6" maxlength="2000" spellcheck="true" data-notebook-text></textarea>
+    <div class="house-item-actions">
+      <button class="house-keep" type="button" data-notebook-keep>Keep in your drawer</button>
+      <a href="/write/?from=balcony&amp;v=20261012-1" data-notebook-page>Write at length on The Page <span aria-hidden="true">&rarr;</span></a>
+    </div>
+    <p class="house-drawer-note house-notebook-hint" data-notebook-hint></p>
+  </template>
+
   <template id="house-moris">
     <p data-moris-line>He got here before you.</p>
     <a class="house-more" href="/moris/">Spend a little time with Moris &rarr;</a>
@@ -173,6 +186,6 @@ description: "Come in, look around, and keep something you find. A room at On Li
 <script>window.OLAE_SKY_SCRIPTS = {{ site.data.sky_scripts | jsonify }};</script>
 <script src="/js/astronomy.js?v=20261011-1" defer></script>
 <script src="/js/house-weather.js?v=20261012-3" defer></script>
-<script src="/js/house.js?v=20261012-8" defer></script>
+<script src="/js/house.js?v=20261012-9" defer></script>
 <script src="/js/cursor-trail.js?v=20260930-2" defer></script>
 

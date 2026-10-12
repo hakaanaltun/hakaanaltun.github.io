@@ -432,11 +432,24 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   would have covered either the view or the plant.
 - **What is on the balcony.** Two chairs face each other across a small
   round table, as the author asked. A book lies on one chair, and a
-  notebook, a pen and a glass of tea are on the table. A small olive grows
-  in a pot tucked into the right-hand corner, where the parapet turns. The
-  book is The Reader, the notebook The Page and the view The Breath; the
-  author chose these three for the balcony. A link from the balcony carries
+  notebook with a pencil on it and a glass of tea are on the table. A small
+  olive grows in a pot tucked into the right-hand corner, where the parapet
+  turns. The view is The Breath. A link from the balcony carries
   `from=balcony`.
+- **The notebook takes a note.** On 12 October 2026 the author took The
+  Reader and The Page off the balcony and asked for the notebook to open a
+  page to write on instead. What is written there stays in the notebook,
+  in the drawer's record as `notebook`, until the reader keeps it or takes
+  it on. "Keep in your drawer" makes it a note in the drawer, under The
+  notebook, and it leads back to the balcony and has no card. "Write at
+  length on The Page" carries the words to The Page, after whatever is
+  written there, and The Page opens at their end (`at=end`). With nothing
+  written it is only the way to The Page.
+- **The study's lamp is seen from above.** It stands below eye level, so
+  the rim along the foot of its shade curves down toward the viewer and the
+  opening the light comes through is out of sight. Until 12 October 2026
+  that opening was drawn as an ellipse, which read as a shadow while the
+  lamp was off. Lit, the shade glows most toward its foot.
 - **Tea and coffee take turns.** The balcony's tea glass and saucer appear
   during the House's morning and evening periods, following İstanbul's sky.
   During those periods the study's coffee cup, handle and steam are absent.

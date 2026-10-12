@@ -762,6 +762,21 @@ layout: null
   /* ---- init ---- */
   grow(); count();
   window.addEventListener("resize", grow);
+  /* The House's balcony notebook brings its words here with at=end, after
+     whatever the page already held, so the page opens at its end with the
+     caret after them. */
+  if(!window.OLAE_DESK_EMBED && new URLSearchParams(window.location.search).get("at") === "end"){
+    /* the page's own notes follow the writing, so the scroll stops with the
+       last lines a little above the middle of the screen */
+    var toEnd = function(){
+      var bottom = ta.getBoundingClientRect().bottom + (window.pageYOffset || 0);
+      window.scrollTo(0, Math.max(0, bottom - window.innerHeight * 0.6));
+    };
+    ta.setSelectionRange(ta.value.length, ta.value.length);
+    try{ ta.focus({ preventScroll: true }); }catch(e){ ta.focus(); }
+    toEnd();
+    window.addEventListener("load", toEnd);
+  }
   if(window.OLAE_DESK_EMBED) window.OLAE_DESK_EMBED.register({
     save: saveNow,
     unsaved: window.OLAE_STORAGE.isUnsaved,
