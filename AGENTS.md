@@ -233,6 +233,12 @@ learned the hard way is written down here instead.
   (`git merge-base --is-ancestor <sha> origin/main`) and carry over whatever
   is not. Ask to be told when a pull request is merged; it is cheaper than
   finding out.
+- **Every test closes the windows it opens.** A jsdom window left open
+  keeps its timers running, and the checks then never finish. On
+  12 October 2026 one such check held the deploy queue for over an hour,
+  and two merges waited behind it. The build now stops after twenty
+  minutes, and pull-request checks have a queue of their own, so they can
+  no longer push a waiting deploy out.
 - **This site is read as pages.** Its author reviews a change by
   looking at it, which for a long time meant merging first and looking after.
   Build the site and hand over the rendered pages that changed and
