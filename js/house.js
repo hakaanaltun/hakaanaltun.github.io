@@ -666,15 +666,8 @@
       bodies.sort(function (a, b) { return a.az - b.az; });
       bodies[0].x -= 25; bodies[1].x += 25;
     }
-    scene.querySelector('.house-hotspot--window-sun').hidden = !sunIn;
-    scene.querySelector('.house-hotspot--window-moon').hidden = !moonIn;
-    study.querySelector('[data-window-sky-item="sun"]').hidden = !sunIn;
-    study.querySelector('[data-window-sky-item="moon"]').hidden = !moonIn;
     scene.dataset.sun = sunState(sky);
     bodies.forEach(function (b) {
-      var link = scene.querySelector('.house-hotspot--window-' + b.name);
-      link.style.setProperty('--ax', b.x / 10);
-      link.style.setProperty('--ay', (b.low ? (b.name === 'sun' ? 213 : 214) : (b.name === 'sun' ? 196 : 198)) / 6.5);
       if (b.name === 'sun') {
         var sun = scene.querySelector('.house-sun');
         sun.setAttribute('cx', b.x); sun.setAttribute('cy', b.low ? 213 : 196);
@@ -856,7 +849,7 @@
       : Math.max(deepest, weather.snow - seconds * 2);
     drawWindowSnow();
     pineSnow.setAttribute('opacity', Math.min(1, weather.snow / 4).toFixed(2));
-    if (weather.drops.length || weather.snow > 0) weather.frame = window.requestAnimationFrame(weatherStep);
+    if (!still && (weather.drops.length || weather.snow > 0)) weather.frame = window.requestAnimationFrame(weatherStep);
     else weather.last = 0;
   }
   function seedWeather() {
@@ -868,11 +861,40 @@
     for (var i = 0; i < count; i++) weather.drops.push(makeDrop(true));
     if (!weather.frame) weather.frame = window.requestAnimationFrame(weatherStep);
   }
-  function windowWeather(kind, level) {
+  var liveWeather = null, manualWeather = false;
+  var weatherSummary = document.getElementById('house-weather-summary');
+  var followWeather = document.getElementById('house-weather-follow');
+  function applyLiveWeather(value) {
+    liveWeather = value;
+    if (manualWeather) return;
+    weatherSummary.textContent = value.available ? value.summary + ' in İstanbul. ' : 'İstanbul weather is unavailable. ';
+    [scene, balconyScene].forEach(function (s) {
+      if (value.clouded) s.dataset.clouded = ''; else delete s.dataset.clouded;
+    });
+    var obscured = value.clouded || !!value.kind;
+    balconyScene.dataset.skyObscured = String(obscured);
+    balcony.dataset.skyObscured = String(obscured);
+    if (weather.kind !== value.kind || weather.level !== value.level) windowWeather(value.kind, value.level, true);
+  }
+  followWeather.addEventListener('click', function () {
+    // Reset the footer's manual state before handing control back to the city.
+    if (window.OLAE_WEATHER) window.OLAE_WEATHER.set('rain', 0);
+    manualWeather = false; followWeather.hidden = true;
+    applyLiveWeather(liveWeather || { available: false, kind: null, level: 0, clouded: false });
+  });
+  function windowWeather(kind, level, automatic) {
+    if (!automatic) {
+      manualWeather = true; followWeather.hidden = false;
+      weatherSummary.textContent = 'Weather chosen by you. ';
+      [scene, balconyScene].forEach(function (s) { delete s.dataset.clouded; });
+      balconyScene.dataset.skyObscured = String(!!kind);
+      balcony.dataset.skyObscured = String(!!kind);
+    }
     weather.kind = kind;
     weather.level = level;
     [scene, balconyScene].forEach(function (s) { if (kind) s.dataset.weather = kind; else delete s.dataset.weather; });
     seedWeather();
+    if (automatic) return;
     announce(!kind ? 'The sky clears.' : (level === 2 ? 'Heavy ' : 'Light ') + kind + view.where);
     // The buttons are at the foot of the page and the sky may be out of
     // sight above them, so the room is brought up to show where it is falling.
@@ -1402,6 +1424,7 @@
   }
   whenCatalog(arrivals);
   offerWindow();
+  if (window.OLAE_ISTANBUL_WEATHER) window.OLAE_ISTANBUL_WEATHER.start(applyLiveWeather);
   document.addEventListener('DOMContentLoaded', offerWindow);
 })();
 

@@ -334,13 +334,25 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   east and the right one in the west. Their places come from
   `js/astronomy.js`, and the stars and planets from `js/sky-map.js`, loaded
   once the balcony is dark.
-- **The sun and the moon lead directly to their pictures.** In both the
-  study window and the balcony, each body and its name share one link.
-  The sun opens The Sun in Pictures with Stories; the moon opens the Moon
-  on the journey through the Solar System. This also applies to phones and
-  the balcony's list of places. There is no intervening sky dialog. A
-  picture opened from the study returns there with `from=house`; one opened
-  from the balcony returns there with `from=balcony`.
+- **Only the balcony's sun and moon lead to their pictures.** Each body
+  and its name share one link on every screen. The study window has no
+  Sun or Moon travel links. The balcony's Sun opens Pictures with Stories
+  and its Moon opens the Moon scene in the Solar System journey.
+- **The House follows İstanbul's weather.** `js/house-weather.js` fetches
+  Open-Meteo's current model data for the House's fixed coordinates every
+  fifteen minutes while the tab is visible. It requests no visitor location.
+  A short session cache avoids a new request on each return; data older than
+  ninety minutes are rejected. An outage leaves the astronomical sky alone
+  and the page says that weather is unavailable. Open-Meteo is credited on
+  the page. Its model data guide the illustration; showers and passing
+  clouds do not claim to reproduce the timing of rain outside.
+  Rainy conditions bring showers separated by dry pauses. Overcast and fog
+  hide the sun, moon and stars; broken cloud covers and reveals them slowly.
+  Both rooms share the weather. Covered bodies have no invisible travel
+  targets. The footer's manual rain and snow override this for the visit;
+  Follow İstanbul weather returns to the city. Automatic weather never
+  scrolls the page or starts audio. Reduced motion keeps precipitation
+  still and does not cycle the passing clouds.
 - **The balcony is glazed.** Folding glass panels stand on the parapet up to
   the ceiling. Moris goes out to the balcony twice a day, as the author
   asked: from noon to two, and again from two hours before sunset until half

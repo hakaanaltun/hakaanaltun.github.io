@@ -191,11 +191,26 @@
 .house-weather line { stroke: #eef2f3; stroke-linecap: round; }
 .house-weather circle { fill: #fbfaf5; }
 .house-window-snow { fill: #f6f5ef; }
-.house-scene[data-weather] { --sky-top: #9aa3a7; --sky-bottom: #c6cac6; }
-.house-scene[data-weather][data-hour="evening"] { --sky-top: #7f7c88; --sky-bottom: #ae9f98; }
-.house-scene[data-weather][data-hour="night"] { --sky-top: #1d2833; --sky-bottom: #3a4751; }
+.house-scene[data-weather], .house-scene[data-clouded] { --sky-top: #9aa3a7; --sky-bottom: #c6cac6; }
+.house-scene[data-weather][data-hour="evening"], .house-scene[data-clouded][data-hour="evening"] { --sky-top: #7f7c88; --sky-bottom: #ae9f98; }
+.house-scene[data-weather][data-hour="night"], .house-scene[data-clouded][data-hour="night"] { --sky-top: #1d2833; --sky-bottom: #3a4751; }
 .house-scene[data-weather] .house-sun, .house-scene[data-weather] .house-moon, .house-scene[data-weather] .house-stars { opacity: 0; }
 .house-scene[data-weather] .house-light-beam { opacity: 0; }
+/* Clouds and rain cover the bodies and their places together. */
+.house-scene:is([data-clouded], [data-weather]) :is(.house-sun, .house-moon, .house-stars, .house-sky-stars, .house-light-beam) { opacity: 0; }
+.house-scene :is(.house-sun, .house-moon, .house-stars, .house-sky-stars, .house-light-beam) { transition: opacity 12s ease; }
+.house-sky-top, .house-sky-bottom { transition: stop-color 12s ease; }
+.house-scene[data-clouded] .house-sea-light { opacity: .1; }
+.house-scene[data-clouded]:not([data-hour="night"]) .house-pine-tuft { fill: #4a554d; }
+.house-scene[data-clouded]:not([data-hour="night"]) .house-pine-light { fill: #5d6961; }
+#balcony[data-sky-obscured="true"] :is(.house-hotspot--sun, .house-hotspot--moon, .house-hotspot--stars) { visibility: hidden; }
+#balcony[data-sky-obscured="true"] [data-sky-item] { display: none; }
+.house-weather-note { color: var(--vizon); font-size: 14px; line-height: 1.6; margin: 16px 0 0; }
+.house-weather-note a { color: inherit; }
+.house-weather-note button { font: inherit; color: inherit; background: none; border: 0; text-decoration: underline; cursor: pointer; padding: 0; }
+@media (prefers-reduced-motion: reduce) {
+  .house-scene :is(.house-sun, .house-moon, .house-stars, .house-sky-stars, .house-light-beam), .house-sky-top, .house-sky-bottom { transition: none; }
+}
 /* The room itself darkens after sunset, a little in the evening and more at
    night, and the lamp keeps its own circle of light. */
 .house-dusk { fill: #1c2633; opacity: 0; mix-blend-mode: multiply; pointer-events: none; transition: opacity .5s ease; }
@@ -283,9 +298,6 @@
 .house-hotspot--sun[data-side="left"], .house-hotspot--moon[data-side="left"] { --lx: calc(var(--sky-x) - var(--sky-r) - 4.6); }
 .house-hotspot--sun[data-side="edge-right"], .house-hotspot--moon[data-side="edge-right"] { --ax: calc(var(--sky-x) + 4); --lx: var(--ax); }
 .house-hotspot--sun[data-side="edge-left"], .house-hotspot--moon[data-side="edge-left"] { --ax: calc(var(--sky-x) - 4); --lx: var(--ax); }
-/* The window's small sky links stay above the window's own place. */
-.house-hotspot--window-sun, .house-hotspot--window-moon { --z: 3; }
-.house-hotspot--window-sun, .house-hotspot--window-moon { --aw: 4.4; --ah: 6.8; --lx: var(--ax); --ly: calc(var(--ay) - 6); }
 .house-sky-note { color: var(--vizon); font-size: 15px !important; line-height: 1.5 !important; margin: -8px 0 22px; }
 .house-objects { display: none; }
 .house-room-footer { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; border-bottom: 1px solid var(--rule-strong); padding: 20px 0; font-size: 16px; }
@@ -408,7 +420,6 @@ html[data-theme="dark"], html[data-theme="midnight"], html[data-theme="sky"], .h
   .house-hotspot--balcony-lamp { --lx: 85.5; --ly: 31.5; }
   .house-hotspot--balcony-switch { --ax: 15.5; --lx: 15.5; min-width: 24px; }
   .house-hotspot--stars { --lx: 33; --ly: 22; }
-  .house-hotspot--window-sun, .house-hotspot--window-moon { min-width: 0; }
   .house:not(.show-places) .house-objects { display: none; }
   .house-objects { display: grid; grid-template-columns: 1fr 1fr; gap: 0 14px; list-style: none; margin: 14px 0 0; padding: 0; }
   .house-objects button, .house-objects a { display: flex; color: inherit; text-decoration: none; align-items: center; gap: 9px; width: 100%; min-height: 44px; padding: 6px 0; border: 0; border-bottom: 1px solid var(--rule); background: none; text-align: left; font-size: 16px; }
