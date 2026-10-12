@@ -273,15 +273,21 @@
     if(temp === null || temp === undefined) return 1.1;
     return Math.max(1, Math.min(1.8, 1 + (22 - temp) * 0.08));
   }
+  /* Out here the insects sing in spells, with long silences between, so
+     that they are heard now and then rather than all the time; the author
+     asked for this on 12 October 2026, when they sang without a pause. A
+     second singer starts well after the first, so the two seldom sing
+     together. */
+  function spell(from, to){ return from + Math.floor(Math.random() * (to - from + 1)); }
   function crickets(ctx, out, buffers, options){
     var level = bus(ctx, out), slow = coolness(options && options.temp);
-    var voices = [0.35, 0.2, 0.11].map(function(l){
-      var g = ctx.createGain(); g.gain.value = l;
+    var voices = [[0.35, 1, 6], [0.18, 15, 45]].map(function(s){
+      var g = ctx.createGain(); g.gain.value = s[0];
       return {
         buffer: chirpPulses(ctx, rand(4400, 4900), pick([3, 4, 4, 5]), rand(0.016, 0.021), rand(0.031, 0.036)),
         gain: g, pan: place(ctx, g, level, rand(-0.8, 0.8)),
-        every: rand(0.32, 0.45), next: ctx.currentTime + rand(0, 2),
-        left: 15 + Math.floor(Math.random() * 55)
+        every: rand(0.32, 0.45), next: ctx.currentTime + rand(s[1], s[2]),
+        left: spell(12, 35)
       };
     });
     return {
@@ -292,8 +298,8 @@
             playBuffer(ctx, v.buffer, v.gain, v.next, rand(0.995, 1.005));
             v.next += v.every * slow * rand(0.96, 1.04);
             if(--v.left <= 0){
-              v.next += rand(1.5, 7) * slow;
-              v.left = 15 + Math.floor(Math.random() * 55);
+              v.next += rand(20, 60) * slow;
+              v.left = spell(12, 35);
             }
           }
         });
@@ -331,12 +337,12 @@
       v.drawn = slow;
       v.trill = trillBuffer(ctx, v.fc, v.length, v.rate / slow);
     }
-    var voices = [0.3, 0.16].map(function(l){
-      var g = ctx.createGain(); g.gain.value = l;
+    var voices = [[0.3, 2, 10], [0.16, 30, 90]].map(function(s){
+      var g = ctx.createGain(); g.gain.value = s[0];
       var v = {
         fc: rand(2500, 2800), length: rand(0.3, 0.7), rate: rand(38, 48),
         gain: g, pan: place(ctx, g, level, rand(-0.7, 0.7)),
-        next: ctx.currentTime + rand(0.5, 4), left: 20 + Math.floor(Math.random() * 60)
+        next: ctx.currentTime + rand(s[1], s[2]), left: spell(6, 16)
       };
       draw(v);
       return v;
@@ -350,9 +356,9 @@
             playBuffer(ctx, v.trill, v.gain, v.next, rand(0.995, 1.005));
             v.next += rand(0.95, 1.05) * slow;
             if(--v.left <= 0){
-              /* the cooler the night, the longer the rest */
-              v.next += rand(3, 12) * slow * slow * slow;
-              v.left = 20 + Math.floor(Math.random() * 60);
+              /* the cooler the night, the longer the silence */
+              v.next += rand(30, 90) * slow * slow;
+              v.left = spell(6, 16);
             }
           }
         });
