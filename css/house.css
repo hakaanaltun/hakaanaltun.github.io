@@ -85,27 +85,27 @@
 .house-sea { fill: #285775; opacity: .34; }
 .house-sea-light { stroke: #f7f4ea; stroke-width: 1.2; stroke-linecap: round; opacity: .55; }
 .house-scene[data-hour="night"] .house-sea-light, .house-scene[data-weather] .house-sea-light { opacity: .1; }
-/* The balcony door: from the study its glass shows the light outside, and
-   from the balcony the study's own light. */
+/* The balcony door: wood below and clear glass above, with a little of
+   the light on its glass. From the balcony the study shows through it in
+   the study's own light. */
 .house-door-panel { fill: var(--room-back); }
-.house-door-glass { fill: #e3e4dc; transition: fill .5s ease; }
-.house-scene[data-hour="morning"] .house-door-glass { fill: #ebe1cd; }
-.house-scene[data-hour="evening"] .house-door-glass { fill: #cdbcb0; }
-.house-scene[data-hour="night"] .house-door-glass { fill: #39444e; }
-.house-scene--balcony .house-door-glass, .house-scene--balcony[data-hour="morning"] .house-door-glass { fill: #cfc6b1; }
+.house-door-pane { fill: #f2f6f4; fill-opacity: .12; }
+.house-door-glass { fill: #cfc6b1; transition: fill .5s ease; }
 .house-scene--balcony[data-hour="evening"] .house-door-glass { fill: #a99f8b; }
 .house-scene--balcony[data-hour="night"] .house-door-glass { fill: #2e3439; }
 .house-scene--balcony[data-lamp="on"]:is([data-hour="evening"], [data-hour="night"]) .house-door-glass { fill: #d9bf8c; }
-/* After sunset the balcony's lamp shows in the study through the same glass,
+/* After sunset the balcony's lamp lights the balcony beyond the glass,
    dimmer than the study's lamp, being one globe out in the open. Its switch
    is out on the balcony, on the wall beside the door. */
-#house-scene[data-balcony-lamp="on"][data-hour="evening"] .house-door-glass { fill: #d8c39b; }
-#house-scene[data-balcony-lamp="on"][data-hour="night"] .house-door-glass { fill: #a28c66; }
+.house-door-lamp { display: none; }
+#house-scene[data-balcony-lamp="on"]:is([data-hour="evening"], [data-hour="night"]) .house-door-lamp { display: inline; }
+.house-door-lamplight { fill: #d8c39b; mix-blend-mode: multiply; }
+#house-scene[data-hour="night"] .house-door-lamplight { fill: #a28c66; }
 /* The door stands open while Moris is out on the balcony and is shut while
-   he is indoors. In the doorway each room shows the other in that room's
-   own light, the same light its glass shows when it is shut: the study's
+   he is indoors. Through the doorway, and through the glass when the door
+   is shut, each room shows the other in that room's own light: the study's
    wall, floor and plant from the balcony, and from the study the balcony's
-   glass, parapet and floor. */
+   parapet and floor, with its glass closed while Moris is out there. */
 .house-scene[data-moris="balcony"] .house-door-shut, .house-scene:not([data-moris="balcony"]) .house-door-open { display: none; }
 .house-door-floor, .house-door-head { fill: #3b3223; opacity: .16; }
 .house-door-parapet { fill: var(--room-wall); }
@@ -415,6 +415,11 @@ html[data-theme="sky"] .house-wall-clock .house-faint { opacity: .8; }
 html[data-theme="dark"] .house-scene[data-hour="evening"] .house-dusk, html[data-theme="midnight"] .house-scene[data-hour="evening"] .house-dusk { opacity: .1; }
 html[data-theme="dark"] .house-scene[data-hour="night"] .house-dusk, html[data-theme="midnight"] .house-scene[data-hour="night"] .house-dusk { opacity: .3; }
 @media (prefers-color-scheme: dark) { html:not([data-theme]) .house-scene[data-hour="evening"] .house-dusk { opacity: .1; } html:not([data-theme]) .house-scene[data-hour="night"] .house-dusk { opacity: .3; } }
+/* On the dark rooms the balcony's lamp lightens what shows through the
+   door's glass instead of tinting it. */
+html[data-theme="dark"] .house-door-lamplight, html[data-theme="midnight"] .house-door-lamplight { fill: #806c45; mix-blend-mode: screen; }
+html[data-theme="dark"] #house-scene[data-hour="night"] .house-door-lamplight, html[data-theme="midnight"] #house-scene[data-hour="night"] .house-door-lamplight { fill: #534022; }
+@media (prefers-color-scheme: dark) { html:not([data-theme]) .house-door-lamplight { fill: #806c45; mix-blend-mode: screen; } html:not([data-theme]) #house-scene[data-hour="night"] .house-door-lamplight { fill: #534022; } }
 @media (prefers-color-scheme: dark) { html:not([data-theme]) .house-scene { --room-wall: #363b3b; --room-floor: #3f403a; --room-line: #a89e89; --room-wood: #666452; --room-back: #444942; --room-paper: #b5ae96; --room-cream: #9c9174; --room-blue: #617e84; --room-olive: #687b64; --room-rust: #9e7564; --room-burgundy: #7a4650; --room-gold: #a48c55; --room-carpet: #4a4a41; --room-sunlight: .2; } }
 /* The trail the pointer leaves (js/cursor-trail.js), and the pointer itself,
    a speck a little larger than the trail's own at its head, both a light
