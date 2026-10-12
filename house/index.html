@@ -15,7 +15,7 @@ description: "Come in, look around, and keep something you find. A room at On Li
   "Today" is İstanbul's day and the light is İstanbul's light: the house is
   there, and every reader sees the same room on the same day.
 {%- endcomment -%}
-<link rel="stylesheet" href="/css/house.css?v=20261011-4">
+<link rel="stylesheet" href="/css/house.css?v=20261012-1">
 
 <div class="house" id="house" data-catalog="/house/catalog.json?v={{ site.time | date: '%Y%m%d%H%M' }}">
   <div class="house-heading">
@@ -65,6 +65,8 @@ description: "Come in, look around, and keep something you find. A room at On Li
       <button class="house-hotspot house-hotspot--books" data-open="books" type="button"><span class="house-label"><span class="house-pin" aria-hidden="true">1</span><span class="house-hotspot-name">Bookshelf</span></span></button>
       <button class="house-hotspot house-hotspot--words" data-open="words" type="button"><span class="house-label"><span class="house-pin" aria-hidden="true">2</span><span class="house-hotspot-name">Word cards</span></span></button>
       <button class="house-hotspot house-hotspot--question" data-open="question" type="button"><span class="house-label"><span class="house-pin" aria-hidden="true">3</span><span class="house-hotspot-name">A question</span></span></button>
+      <a class="house-hotspot house-hotspot--window-sun" href="/pictures/sun/?from=house" hidden><span class="house-label"><span class="house-pin" aria-hidden="true">13</span><span class="house-hotspot-name">The sun <span aria-hidden="true">&rarr;</span></span></span></a>
+      <a class="house-hotspot house-hotspot--window-moon" href="/pictures/space/?from=house#scene-moon" hidden><span class="house-label"><span class="house-pin" aria-hidden="true">14</span><span class="house-hotspot-name">The moon <span aria-hidden="true">&rarr;</span></span></span></a>
       <button class="house-hotspot house-hotspot--window" data-open="window" type="button"><span class="house-label"><span class="house-pin" aria-hidden="true">4</span><span class="house-hotspot-name">The window</span></span></button>
       <button class="house-hotspot house-hotspot--moris" data-open="moris" type="button"><span class="house-label"><span class="house-pin" aria-hidden="true">5</span><span class="house-hotspot-name">Moris</span></span></button>
       <button class="house-hotspot house-hotspot--lamp" data-lamp type="button" aria-pressed="false"><span class="house-label"><span class="house-pin" aria-hidden="true">6</span><span class="house-hotspot-name">The lamp</span></span></button>
@@ -94,6 +96,8 @@ description: "Come in, look around, and keep something you find. A room at On Li
       <li><a href="/desk/?from=house&amp;v=20261008-1" tabindex="-1"><span class="house-pin">10</span>The Desk</a></li>
       <li><a href="/farm-house/" tabindex="-1"><span class="house-pin">11</span>The Farm House</a></li>
       <li><a href="#balcony" tabindex="-1" data-go="balcony"><span class="house-pin">12</span>The balcony</a></li>
+      <li data-window-sky-item="sun" hidden><a href="/pictures/sun/?from=house" tabindex="-1"><span class="house-pin">13</span>The sun</a></li>
+      <li data-window-sky-item="moon" hidden><a href="/pictures/space/?from=house#scene-moon" tabindex="-1"><span class="house-pin">14</span>The moon</a></li>
     </ol>
     <div class="house-room-footer"><a href="#house-entrance" id="house-leave">&larr; Back to the door</a><a href="/write/?from=house&amp;v=20261008-1">Sit down and write <span aria-hidden="true">&rarr;</span></a></div>
   </section>
@@ -115,10 +119,8 @@ description: "Come in, look around, and keep something you find. A room at On Li
     <div class="house-instruction-row"><p class="house-instruction">Choose something on the balcony or in the sky.</p><button class="house-places house-js" type="button" aria-pressed="false" data-places hidden>Show places to look</button></div>
     <div class="house-scene house-scene--balcony" id="house-balcony-scene" data-hour="day">
       {% include house-balcony.svg %}
-      <a class="house-sky-travel house-sky-travel--sun" href="/pictures/sun/?from=balcony" hidden><span class="house-sky-travel-name">Travel to the Sun <span aria-hidden="true">&rarr;</span></span></a>
-      <button class="house-hotspot house-hotspot--sun" data-open="sun" type="button" hidden><span class="house-label"><span class="house-pin" aria-hidden="true">1</span><span class="house-hotspot-name">The sun</span></span></button>
-      <a class="house-sky-travel house-sky-travel--moon" href="/pictures/space/?from=balcony#scene-moon" hidden><span class="house-sky-travel-name">Travel to the Moon <span aria-hidden="true">&rarr;</span></span></a>
-      <button class="house-hotspot house-hotspot--moon" data-open="moon" type="button" hidden><span class="house-label"><span class="house-pin" aria-hidden="true">2</span><span class="house-hotspot-name">The moon</span></span></button>
+      <a class="house-hotspot house-hotspot--sun" href="/pictures/sun/?from=balcony" hidden><span class="house-label"><span class="house-pin" aria-hidden="true">1</span><span class="house-hotspot-name">The sun <span aria-hidden="true">&rarr;</span></span></span></a>
+      <a class="house-hotspot house-hotspot--moon" href="/pictures/space/?from=balcony#scene-moon" hidden><span class="house-label"><span class="house-pin" aria-hidden="true">2</span><span class="house-hotspot-name">The moon <span aria-hidden="true">&rarr;</span></span></span></a>
       <button class="house-hotspot house-hotspot--stars" data-open="stars" type="button" hidden><span class="house-label"><span class="house-pin" aria-hidden="true">3</span><span class="house-hotspot-name">The stars</span></span></button>
       <a class="house-hotspot house-hotspot--breath" href="/breathe/?from=balcony&amp;v=20261011-1"><span class="house-label"><span class="house-pin" aria-hidden="true">4</span><span class="house-hotspot-name">The Breath <span aria-hidden="true">&rarr;</span></span></span></a>
       <a class="house-hotspot house-hotspot--balcony-reader" href="/read/?from=balcony&amp;v=20261011-1"><span class="house-label"><span class="house-pin" aria-hidden="true">5</span><span class="house-hotspot-name">The Reader <span aria-hidden="true">&rarr;</span></span></span></a>
@@ -129,8 +131,8 @@ description: "Come in, look around, and keep something you find. A room at On Li
       <button class="house-hotspot house-hotspot--balcony-lamp" data-balcony-globe type="button"><span class="house-label"><span class="house-pin" aria-hidden="true">10</span><span class="house-hotspot-name">The lamp</span></span></button>
     </div>
     <ol class="house-objects" aria-hidden="true">
-      <li data-sky-item="sun" hidden><button type="button" tabindex="-1" data-open="sun"><span class="house-pin">1</span>The sun</button></li>
-      <li data-sky-item="moon" hidden><button type="button" tabindex="-1" data-open="moon"><span class="house-pin">2</span>The moon</button></li>
+      <li data-sky-item="sun" hidden><a href="/pictures/sun/?from=balcony" tabindex="-1"><span class="house-pin">1</span>The sun</a></li>
+      <li data-sky-item="moon" hidden><a href="/pictures/space/?from=balcony#scene-moon" tabindex="-1"><span class="house-pin">2</span>The moon</a></li>
       <li data-sky-item="stars" hidden><button type="button" tabindex="-1" data-open="stars"><span class="house-pin">3</span>The stars</button></li>
       <li><a href="/breathe/?from=balcony&amp;v=20261011-1" tabindex="-1"><span class="house-pin">4</span>The Breath</a></li>
       <li><a href="/read/?from=balcony&amp;v=20261011-1" tabindex="-1"><span class="house-pin">5</span>The Reader</a></li>
@@ -156,24 +158,7 @@ description: "Come in, look around, and keep something you find. A room at On Li
   <template id="house-window">
     <p class="house-object-intro" data-sky-line></p>
     <dl class="house-sky-facts" data-sky-facts></dl>
-    <div class="house-window-links"><a href="/sun/?city=istanbul&amp;from=house&amp;v=20261008-1"><span>The Sun</span><p>The sun’s height and direction over İstanbul now.</p></a><a href="/moon/?from=house&amp;v=20261008-1"><span>The Moon</span><p>The moon’s phase tonight, drawn as it hangs in the sky.</p></a><a href="/stars/?city=istanbul&amp;from=house&amp;v=20261008-1"><span>The Stars</span><p>The stars and bright planets above İstanbul now.</p></a><a href="/twilight/?city=istanbul&amp;from=house&amp;v=20261008-1"><span>İstanbul’s Twilight</span><p>Sunrise, sunset and the light in between.</p></a><a href="/noise/?from=house&amp;v=20261008-1"><span>The Noise</span><p>Put on some rain while you stay.</p></a></div>
-  </template>
-
-  {%- comment -%} The sky over the balcony. The sun and the moon lead on to their pictures
-  in Pictures with Stories as well as to the instruments; js/house.js puts
-  in the line and the facts for the moment. {%- endcomment %}
-  <template id="house-sun">
-    <p class="house-object-intro" data-sky-line></p>
-    <dl class="house-sky-facts" data-sky-facts></dl>
-    <p class="house-sky-note">On the balcony the sun and the moon are drawn where they stand now, with east to the left and west to the right.</p>
-    <div class="house-window-links"><a href="/pictures/sun/?from=balcony"><span>The Sun in Pictures with Stories</span><p>A watercolor of its surface, its spots, a prominence and the corona, with the stories behind them.</p></a><a href="/sun/?city=istanbul&amp;from=balcony&amp;v=20261011-1"><span>The Sun</span><p>Its height and direction over İstanbul now, and its path today.</p></a><a href="/twilight/?city=istanbul&amp;from=balcony&amp;v=20261011-1"><span>İstanbul’s Twilight</span><p>Sunrise, sunset and the light in between.</p></a></div>
-  </template>
-
-  <template id="house-moon">
-    <p class="house-object-intro" data-sky-line></p>
-    <dl class="house-sky-facts" data-sky-facts></dl>
-    <p class="house-sky-note">On the balcony the sun and the moon are drawn where they stand now, with east to the left and west to the right.</p>
-    <div class="house-window-links"><a href="/pictures/space/?from=balcony#scene-moon"><span>The Moon in Through the Solar System</span><p>A watercolor of the Moon on the journey through the Solar System, with its lava plains and craters.</p></a><a href="/moon/?from=balcony&amp;v=20261011-1"><span>The Moon</span><p>The moon’s phase tonight, drawn as it hangs in the sky.</p></a><a href="/word/lunatic/"><span><em>lunatic</em></span><p>Why an old word for madness still carries the moon.</p></a></div>
+    <div class="house-window-links"><a href="/pictures/sun/?from=house"><span>The Sun</span><p>Travel to the Sun in Pictures with Stories.</p></a><a href="/pictures/space/?from=house#scene-moon"><span>The Moon</span><p>Travel to the Moon in Through the Solar System.</p></a><a href="/stars/?city=istanbul&amp;from=house&amp;v=20261008-1"><span>The Stars</span><p>The stars and bright planets above İstanbul now.</p></a><a href="/twilight/?city=istanbul&amp;from=house&amp;v=20261008-1"><span>İstanbul’s Twilight</span><p>Sunrise, sunset and the light in between.</p></a><a href="/noise/?from=house&amp;v=20261008-1"><span>The Noise</span><p>Put on some rain while you stay.</p></a></div>
   </template>
 
   <template id="house-stars">
@@ -189,5 +174,6 @@ description: "Come in, look around, and keep something you find. A room at On Li
 </div>
 <script>window.OLAE_SKY_SCRIPTS = {{ site.data.sky_scripts | jsonify }};</script>
 <script src="/js/astronomy.js?v=20261011-1" defer></script>
-<script src="/js/house.js?v=20261011-6" defer></script>
+<script src="/js/house.js?v=20261012-1" defer></script>
 <script src="/js/cursor-trail.js?v=20260930-2" defer></script>
+

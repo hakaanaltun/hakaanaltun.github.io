@@ -45,8 +45,6 @@
     window: ['Outside', 'Through the window'],
     moris: ['On his cushion', 'Moris'],
     drawer: ['Yours to keep', 'Your drawer'],
-    sun: ['In the sky', 'The sun'],
-    moon: ['In the sky', 'The moon'],
     stars: ['In the sky', 'The stars']
   };
 
@@ -359,15 +357,6 @@
     if (alt >= 80) return 'overhead';
     return (alt < 15 ? 'low in the ' : alt >= 60 ? 'high in the ' : 'in the ') + COMPASS[Math.round(az / 45) % 8];
   }
-  function bearing(az) {
-    var name = COMPASS[Math.round(az / 45) % 8];
-    return name.charAt(0).toUpperCase() + name.slice(1) + ', ' + Math.round(az) % 360 + '°';
-  }
-  function duration(ms) {
-    var m = Math.round(ms / 60000), h = Math.floor(m / 60);
-    m %= 60;
-    return h > 0 ? h + ' h' + (m > 0 ? ' ' + m + ' m' : '') : m + ' m';
-  }
   // The balcony looks the same way as the study window, toward the south;
   // what stands behind the house is not seen from either.
   function inFront(az) { return az >= 90 && az <= 270; }
@@ -389,40 +378,6 @@
       if (rise && rise > now) return rise;
     }
     return null;
-  }
-
-  function renderSun(box) {
-    var fact = skyDialog(box, 'house-sun');
-    var now = new Date(), sky = skyNow(now), sun = sky.sun;
-    var line = box.querySelector('[data-sky-line]');
-    if (!sun || sun.alt <= -0.833) {
-      line.textContent = 'The sun is below İstanbul’s horizon.';
-    } else {
-      line.textContent = 'The sun is ' + where(sun.alt, sun.az) + '.' + (inFront(sun.az) ? '' : ' It is behind the house, so the balcony does not see it now.');
-      fact('Height', Math.round(sun.alt) + '°');
-      fact('Direction', bearing(sun.az));
-    }
-    fact('Sunrise', sky.sunrise && clock(sky.sunrise));
-    fact('Sunset', sky.sunset && clock(sky.sunset));
-    fact('Day length', sky.sunrise && sky.sunset && duration(sky.sunset - sky.sunrise));
-  }
-
-  function renderMoon(box) {
-    var fact = skyDialog(box, 'house-moon');
-    var now = new Date(), sky = skyNow(now), moon = sky.moonAt;
-    var line = box.querySelector('[data-sky-line]');
-    if (!sky.moonUp) {
-      line.textContent = 'The moon is below İstanbul’s horizon.';
-    } else {
-      line.textContent = 'The moon is ' + where(moon.alt, moon.az) + '.' + (inFront(moon.az) ? '' : ' It is behind the house, so the balcony does not see it now.');
-    }
-    fact('Phase', sky.moon);
-    if (sky.moonUp) {
-      fact('Height', Math.round(moon.alt) + '°');
-      fact('Direction', bearing(moon.az));
-    }
-    var crossing = sky.moon && window.OLAE_ASTRO.moonCrossing(now, LAT, LNG);
-    fact(sky.moonUp ? 'Moonset' : 'Moonrise', crossing && clock(crossing));
   }
 
   function renderStars(box) {
@@ -544,7 +499,7 @@
     });
   }
 
-  var renderers = { books: renderBooks, words: renderWords, question: renderQuestion, window: renderWindow, moris: renderMoris, drawer: renderDrawer, sun: renderSun, moon: renderMoon, stars: renderStars };
+  var renderers = { books: renderBooks, words: renderWords, question: renderQuestion, window: renderWindow, moris: renderMoris, drawer: renderDrawer, stars: renderStars };
   var needsCatalog = { books: true, words: true, question: true };
 
   function fill(name) {
@@ -711,8 +666,15 @@
       bodies.sort(function (a, b) { return a.az - b.az; });
       bodies[0].x -= 25; bodies[1].x += 25;
     }
+    scene.querySelector('.house-hotspot--window-sun').hidden = !sunIn;
+    scene.querySelector('.house-hotspot--window-moon').hidden = !moonIn;
+    study.querySelector('[data-window-sky-item="sun"]').hidden = !sunIn;
+    study.querySelector('[data-window-sky-item="moon"]').hidden = !moonIn;
     scene.dataset.sun = sunState(sky);
     bodies.forEach(function (b) {
+      var link = scene.querySelector('.house-hotspot--window-' + b.name);
+      link.style.setProperty('--ax', b.x / 10);
+      link.style.setProperty('--ay', (b.low ? (b.name === 'sun' ? 213 : 214) : (b.name === 'sun' ? 196 : 198)) / 6.5);
       if (b.name === 'sun') {
         var sun = scene.querySelector('.house-sun');
         sun.setAttribute('cx', b.x); sun.setAttribute('cy', b.low ? 213 : 196);
@@ -726,12 +688,10 @@
      of the view on that body's side. */
   function placeSkyName(name, alt, az, r) {
     var hotspot = balconyScene.querySelector('.house-hotspot--' + name);
-    var travel = balconyScene.querySelector('.house-sky-travel--' + name);
     var item = balcony.querySelector('[data-sky-item="' + name + '"]');
     var shown = alt !== null;
     hotspot.hidden = !shown;
     if (item) item.hidden = !shown;
-    if (travel) travel.hidden = !shown || !inFront(az);
     if (!shown) return null;
     var at = skyPoint(alt, Math.min(270, Math.max(90, az)));
     var side = inFront(az) ? (at.x < 560 ? 'right' : 'left') : (az < 90 ? 'right' : 'left');
@@ -739,10 +699,6 @@
     hotspot.style.setProperty('--sky-x', (at.x / 10).toFixed(2));
     hotspot.style.setProperty('--sky-y', (at.y / 6.5).toFixed(2));
     hotspot.style.setProperty('--sky-r', (r / 10).toFixed(2));
-    if (travel) {
-      travel.style.setProperty('--sky-x', (at.x / 10).toFixed(2));
-      travel.style.setProperty('--sky-y', (at.y / 6.5).toFixed(2));
-    }
     return at;
   }
 
@@ -1448,3 +1404,4 @@
   offerWindow();
   document.addEventListener('DOMContentLoaded', offerWindow);
 })();
+
