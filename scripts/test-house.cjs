@@ -1062,6 +1062,7 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.equal(city.q('#house-weather-follow').hidden, true);
   cityWeather({ available: false, kind: null, level: 0, clouded: false });
   assert.match(city.q('#house-weather-summary').textContent, /unavailable/);
+  await tick();
   city.dom.window.close();
 
   // The footer's weather falls outside the window here, not over the page.
