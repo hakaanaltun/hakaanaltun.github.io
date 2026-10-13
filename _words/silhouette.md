@@ -25,14 +25,9 @@ became attached to inexpensive profile portraits. Other explanations refer
 to his short time in office, so the precise reason for the association
 remains uncertain.{% include word-cite.html n="1,2" %}
 
-The portraits themselves had practical advantages. A likeness could be
-cut from paper or painted quickly, cost relatively little, and travel
-easily in a letter. In eighteenth- and nineteenth-century America, artists
-worked from city studios or took their services to smaller towns. Some
-used a tracing device to capture and reduce the sitter's profile.{% include word-cite.html n="2" %}
-
+A likeness of this kind could be cut from paper or painted quickly, cost
+relatively little, and travel easily in a letter.{% include word-cite.html n="2" %}
 Photography later offered another affordable way to keep a likeness, and
-silhouette portraits became less fashionable. The word continued to serve
-whenever a person or object appeared as a dark outline.{% include word-cite.html n="1,2" %}
+silhouette portraits became less fashionable.{% include word-cite.html n="1,2" %}
 
 *She recognized his silhouette at the window.*

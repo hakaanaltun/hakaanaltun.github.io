@@ -33,9 +33,8 @@ N. A. M. Rodger suggested that eating while working at his desk might
 explain the association instead. That remains a suggestion
 too.{% include word-cite.html n="2" %}
 
-The English name has a much firmer history than the famous card game.
-Gibbon's entry shows it in use before Grosley's visit. We can date that
-written record; the meal that first attached the earl's title to the food
-is harder to recover.{% include word-cite.html n="1,2" %}
+Gibbon's entry shows the name in use before Grosley's visit. The meal that
+first attached the earl's title to the food is harder to
+recover.{% include word-cite.html n="1,2" %}
 
 *He packed a cheese sandwich for the journey.*

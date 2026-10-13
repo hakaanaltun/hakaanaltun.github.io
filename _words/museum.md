@@ -25,10 +25,9 @@ A museum keeps and studies objects and makes them available to visitors. Its
 name goes back to the Greek <span lang="grc">*Mouseion*</span>, a place
 connected with the Muses.{% include word-cite.html n="1,2" %}
 
-In antiquity, such a place could be a shrine. The name could also belong to
-a school or a place of study. The Museum at Alexandria housed scholars who
-worked and discussed ideas there. They had a common dining hall and places
-to walk and talk.{% include word-cite.html n="2" %} The city's famous library
+In antiquity, such a place could be a shrine, a school or a place of
+study. The Museum at Alexandria housed scholars who worked there, with a
+common dining hall and places to walk and talk.{% include word-cite.html n="2" %} The city's famous library
 was closely tied to it, though sources differ on whether it was part of the
 Museum or a separate institution.{% include word-cite.html n="2,3" %}
 
