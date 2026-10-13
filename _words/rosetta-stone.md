@@ -25,13 +25,9 @@ compare a known text with writing they could not yet read.{% include word-cite.h
 
 Thomas Young made important early advances. In 1822, the French scholar
 Jean-François Champollion made the decisive breakthrough and showed that
-hieroglyphs could record the sounds of the Egyptian language. The old writing
-began to speak again.{% include word-cite.html n="1" %}
+hieroglyphs could record the sounds of the Egyptian language.{% include word-cite.html n="1" %}
 
-The name outlived the stone. A *Rosetta stone* is now anything that provides
-the crucial key to understanding something that had resisted explanation.
-
-There is a replica in the National Cryptologic Museum beside the headquarters
-of the NSA. It is difficult to imagine a more appropriate place for it.{% include word-cite.html n="2" %}
+A replica stands in the NSA's National Cryptologic Museum, in an exhibit on
+the work of the agency's language analysts.{% include word-cite.html n="2" %}
 
 *The new evidence proved to be a Rosetta stone.*
