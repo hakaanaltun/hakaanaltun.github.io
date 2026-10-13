@@ -51,7 +51,7 @@ function checkDashes(where, text) {
 /* The British bank was written before notes had to carry sources, and most of
    its questions still have none. It may not gain any more; lower this as they
    are sourced, and remove it once it reaches zero. */
-const UNSOURCED_ALLOWED = { britain: 41 };
+const UNSOURCED_ALLOWED = { britain: 36 };
 
 const escapeRegExp = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 

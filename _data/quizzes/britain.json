@@ -28,7 +28,7 @@
   {
     "id": "bath",
     "category": "Places & landmarks",
-    "question": "Which English city is famous for its Roman baths?",
+    "question": "Which English city stands over the only hot springs in Britain?",
     "choices": [
       "York",
       "Bath",
@@ -36,7 +36,11 @@
       "Brighton"
     ],
     "answer": 1,
-    "note": "The Romans called the town Aquae Sulis, after Sulis, a local goddess whom they treated as a version of their own Minerva. The hot springs under it still rise at around 46°C and deliver more than a million litres a day. They are the only hot springs in Britain."
+    "note": "The Romans called the town Aquae Sulis, after Sulis, a local goddess whom they treated as a version of their own Minerva. The hot springs under it still rise at around 46°C and deliver more than a million litres a day.",
+    "sources": [
+      "https://earthwise.bgs.ac.uk/index.php/Geology_of_the_Bath_area:_Applied_geology:_hydrogeology",
+      "https://whc.unesco.org/en/list/428/"
+    ]
   },
   {
     "id": "northern-ireland",
@@ -282,7 +286,7 @@
   {
     "id": "queen-victoria",
     "category": "History",
-    "question": "Which monarch gave her name to the Victorian era?",
+    "question": "Which British monarch became Empress of India in 1877?",
     "choices": [
       "Queen Anne",
       "Queen Victoria",
@@ -290,7 +294,10 @@
       "Mary II"
     ],
     "answer": 1,
-    "note": "Victoria came to the throne in 1837 at eighteen and reigned until 1901, longer than any British monarch before her. She withdrew from public life for years after Prince Albert died in 1861, and her long mourning shaped much of how the era is now remembered."
+    "note": "Victoria came to the throne in 1837 at eighteen and reigned until 1901, longer than any British monarch before her. She withdrew from public life for years after Prince Albert died in 1861, and her long mourning shaped much of how the era is now remembered.",
+    "sources": [
+      "https://www.royal.uk/queen-victoria"
+    ]
   },
   {
     "id": "yeoman-warders",
@@ -312,7 +319,7 @@
   {
     "id": "king-arthurs",
     "category": "Legend & custom",
-    "question": "In Arthurian legend, whose sword is Excalibur?",
+    "question": "In the medieval romances, whose sword is Excalibur?",
     "choices": [
       "Merlin’s",
       "Lancelot’s",
@@ -320,7 +327,11 @@
       "Gawain’s"
     ],
     "answer": 2,
-    "note": "Excalibur is King Arthur’s sword in the medieval romances, although the stories disagree about where it came from. In some accounts it is the sword he pulls from the stone, and in others the Lady of the Lake hands it to him after that first sword breaks."
+    "note": "Excalibur is King Arthur’s sword in the medieval romances, although the stories disagree about where it came from. In some accounts it is the sword he pulls from the stone, and in others the Lady of the Lake hands it to him after that first sword breaks.",
+    "sources": [
+      "https://www.britannica.com/topic/Excalibur",
+      "https://d.lib.rochester.edu/camelot/theme/Excalibur-and-sword-in-the-stone"
+    ]
   },
   {
     "id": "famous-story-king",
@@ -501,7 +512,7 @@
   {
     "id": "monty-pythons-flying",
     "category": "Books, stage & screen",
-    "question": "What was Monty Python’s television sketch show called?",
+    "question": "In which comedy series did the Dead Parrot sketch first appear?",
     "choices": [
       "The Goon Show",
       "Monty Python’s Flying Circus",
@@ -509,12 +520,15 @@
       "The Frost Report"
     ],
     "answer": 1,
-    "note": "Monty Python’s Flying Circus began on the BBC in October 1969, late at night and with almost no promotion. The team often let a sketch drift to a close without a punchline, which broke sharply with the sketch shows around them."
+    "note": "Monty Python’s Flying Circus began on the BBC in October 1969, late at night and with almost no promotion. The team often let a sketch drift to a close without a punchline, which broke sharply with the sketch shows around them.",
+    "sources": [
+      "https://www.bfi.org.uk/lists/monty-python-10-funniest-sketches"
+    ]
   },
   {
     "id": "harold-pinter",
     "category": "Books, stage & screen",
-    "question": "The theatrical term “Pinter pause” takes its name from which playwright?",
+    "question": "Which playwright wrote The Birthday Party and The Caretaker?",
     "choices": [
       "Tom Stoppard",
       "Harold Pinter",
@@ -522,7 +536,11 @@
       "John Osborne"
     ],
     "answer": 1,
-    "note": "A Pinter pause is a silence written into the script, where what the characters avoid saying carries the weight of the scene. He marked them so precisely that actors treat his “pause” and his longer “silence” as separate instructions. Pinter won the Nobel Prize in Literature in 2005."
+    "note": "A Pinter pause is a silence written into the script, where what the characters avoid saying carries the weight of the scene. He marked them so precisely that actors treat his “pause” and his longer “silence” as separate instructions. Pinter won the Nobel Prize in Literature in 2005.",
+    "sources": [
+      "https://www.nobelprize.org/prizes/literature/2005/pinter/bibliography/",
+      "https://www.nobelprize.org/prizes/literature/2005/pinter/facts/"
+    ]
   },
   {
     "id": "doctor-broadcast-bbc",
