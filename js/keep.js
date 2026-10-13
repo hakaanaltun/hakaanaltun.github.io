@@ -10,6 +10,10 @@
    goes: into a backup, the text download and the printed drawer, but not
    onto a shared card.
 
+   The Page and The Draw put what is on them here too: a page whole, as
+   text, and a drawing as a picture, which waits in this browser's
+   IndexedDB beside the record (see Work from the instruments, below).
+
    The same record holds The House's other small memories: the study's lamp
    and the balcony's, the question answered today, the page being written in
    the balcony's notebook, and what the site held at the last visit. One key,
@@ -19,6 +23,8 @@
   var KEY = 'olae-house-v1';
   var MAX_QUOTE = 700;
   var MAX_NOTE = 2000;
+  // A page from The Page, about thirty thousand words.
+  var MAX_TEXT = 200000;
   var MIN_PASSAGE = 12;
   var listeners = [];
   var memory = null;
@@ -76,6 +82,8 @@
     };
     var note = noteText(item.note);
     if (note) out.note = note;
+    // A page is kept as it was written, line for line.
+    if (typeof item.text === 'string' && item.text.trim()) out.text = item.text.replace(/\r\n?/g, '\n').slice(0, MAX_TEXT);
     // A highlight is marked on its page; one made by Highlight alone is
     // not otherwise kept (see highlight() below).
     if (item.mark === true) out.mark = true;
@@ -169,6 +177,10 @@
 
   function remove(id) {
     update(function (state) { state.kept = state.kept.filter(function (item) { return item.id !== id; }); });
+    // A drawing's picture goes with it, through the store The House reads
+    // (window.OLAE_KEEP.files), so one stood in for in a check is the one
+    // used.
+    if (workOf(id) === 'drawing') window.OLAE_KEEP.files.remove(id).catch(function () {});
   }
 
   function find(id) {
@@ -249,14 +261,152 @@
   }
 
   /* One kept thing as plain text: for The Page beside a note and for the
-     drawer's text download. */
+     drawer's text download. A page or a drawing of the reader's own lives
+     here and nowhere on the site, so it carries no address. */
   function plain(item) {
     var lines = [[item.kind, item.title].filter(Boolean).join(' · ')];
+    var work = workOf(item.id);
+    if (item.text) lines.push(item.text);
+    else if (work === 'drawing') lines.push('A drawing, kept in your drawer as a picture.');
     if (item.quote) lines.push(item.id.indexOf('text-') === 0 ? '“' + item.quote + '”' : item.quote);
     if (item.note) lines.push('Note: ' + item.note);
-    lines.push(location.origin + item.href);
+    if (!work) lines.push(location.origin + item.href);
     return lines.join('\n');
   }
+
+  /* --- Work from the instruments ----------------------------------------
+     The Page and The Draw keep what is on them when the reader asks: a
+     page whole, as text, and a drawing as a picture, kept below under the
+     same id. Each instrument remembers which thing it was kept as, so
+     keeping again brings that one up to date rather than adding another.
+
+     A page or a picture can be large. If storage has no room for it, the
+     drawer stays as it was and the instrument says so. It does not go on
+     in memory, as it does when storage cannot be reached at all: that
+     would put everything else in the drawer at risk. In a browser that
+     cannot keep the drawer, nothing is kept, since the drawer is on
+     another page. Returns 'kept', 'updated' or 'same', or why it could
+     not: 'unsaved', 'long' or 'full'. */
+  function workOf(id) {
+    id = String(id || '');
+    return id.indexOf('page-') === 0 ? 'page' : id.indexOf('drawing-') === 0 ? 'drawing' : '';
+  }
+  function storeWork(raw) {
+    if (!works) return 'unsaved';
+    if (raw && typeof raw.text === 'string' && raw.text.length > MAX_TEXT) return 'long';
+    var item = clean(raw);
+    if (!item || !workOf(item.id)) return 'unsaved';
+    var state = read();
+    var at = state.kept.findIndex(function (k) { return k.id === item.id; });
+    var result = 'kept';
+    item.at = Date.now();
+    if (at !== -1) {
+      var known = state.kept[at];
+      if (item.text && known.text === item.text) return 'same';
+      if (known.note) item.note = known.note;
+      state.kept[at] = item;
+      result = 'updated';
+    } else {
+      state.kept.push(item);
+    }
+    try {
+      localStorage.setItem(KEY, JSON.stringify(state));
+    } catch (e) {
+      return 'full';
+    }
+    memory = null;
+    emit();
+    sync();
+    return result;
+  }
+
+  /* A drawing's picture is too large for the record, so it waits in
+     IndexedDB under the record's id, with the moment it was put there.
+     The record says what it is; the picture is fetched only where it is
+     shown or taken away. The House clears away a picture whose record has
+     gone, but not one put there in the last minute, which may be a drawing
+     on its way in from The Draw in another tab. */
+  var FILES = 'olae-drawer-files';
+  function filesOpen() {
+    return new Promise(function (resolve, reject) {
+      var request;
+      try { request = window.indexedDB.open(FILES, 1); } catch (e) { reject(e); return; }
+      request.onupgradeneeded = function () { request.result.createObjectStore('files'); };
+      request.onsuccess = function () { resolve(request.result); };
+      request.onerror = function () { reject(request.error); };
+      request.onblocked = function () { reject(new Error('The picture store is blocked.')); };
+    });
+  }
+  function filesDo(mode, act) {
+    return filesOpen().then(function (db) {
+      return new Promise(function (resolve, reject) {
+        var done = false;
+        var tx = db.transaction('files', mode);
+        var request = act(tx.objectStore('files'));
+        tx.oncomplete = function () { done = true; db.close(); resolve(request ? request.result : undefined); };
+        tx.onerror = tx.onabort = function () {
+          if (done) return;
+          done = true;
+          db.close();
+          reject(tx.error || new Error('The picture could not be stored.'));
+        };
+      });
+    });
+  }
+  // As bytes, not a Blob, which some browsers once could not store.
+  function bytesOf(blob) {
+    if (blob.arrayBuffer) return blob.arrayBuffer();
+    return new Promise(function (resolve, reject) {
+      var reader = new FileReader();
+      reader.onload = function () { resolve(reader.result); };
+      reader.onerror = function () { reject(reader.error); };
+      reader.readAsArrayBuffer(blob);
+    });
+  }
+  var files = {
+    works: function () { try { return !!window.indexedDB; } catch (e) { return false; } },
+    put: function (id, blob) {
+      return bytesOf(blob).then(function (data) {
+        return filesDo('readwrite', function (store) { return store.put({ type: blob.type || 'image/png', data: data, at: Date.now() }, id); });
+      });
+    },
+    get: function (id) {
+      return filesDo('readonly', function (store) { return store.get(id); }).then(function (value) {
+        return value && value.data ? new Blob([value.data], { type: value.type || 'image/png' }) : null;
+      });
+    },
+    remove: function (id) {
+      return filesDo('readwrite', function (store) { return store.delete(id); });
+    },
+    /* Only a store that is there is opened, so the drawer never makes one
+       for a reader who has kept no drawing. A browser that cannot list its
+       stores looks only when a drawing is in the drawer. */
+    tidy: function () {
+      var kept = {};
+      var drawings = false;
+      read().kept.forEach(function (item) {
+        kept[item.id] = true;
+        if (workOf(item.id) === 'drawing') drawings = true;
+      });
+      var settled = Date.now() - 60000;
+      var there = window.indexedDB && window.indexedDB.databases
+        ? window.indexedDB.databases().then(function (list) { return list.some(function (db) { return db.name === FILES; }); })
+        : Promise.resolve(drawings);
+      return there.then(function (yes) {
+        if (!yes) return null;
+        return filesDo('readwrite', function (store) {
+          var request = store.openCursor();
+          request.onsuccess = function () {
+            var cursor = request.result;
+            if (!cursor) return;
+            if (!kept[cursor.key] && !(cursor.value && cursor.value.at > settled)) cursor.delete();
+            cursor.continue();
+          };
+          return null;
+        });
+      });
+    }
+  };
 
   /* A portable copy contains only the things in the drawer. Restoring it
      adds missing records, and a note to a record that has none, and leaves
@@ -509,13 +659,19 @@
     words = String(words || '').trim();
     if (!words) return true;
     var before = '';
+    var saved = null;
     try {
-      var saved = JSON.parse(localStorage.getItem(PAGE_KEY) || 'null');
+      saved = JSON.parse(localStorage.getItem(PAGE_KEY) || 'null');
       if (saved && typeof saved.text === 'string') before = saved.text.replace(/\s+$/, '');
     } catch (e) { /* unreadable: The Page starts empty too */ }
     if (before.slice(-words.length) !== words) {
+      // What else The Page keeps with its words, such as the drawer copy
+      // it was kept as, stays.
+      var page = saved && typeof saved === 'object' && !Array.isArray(saved) ? saved : {};
+      page.text = before ? before + '\n\n' + words : words;
+      page.at = Date.now();
       try {
-        localStorage.setItem(PAGE_KEY, JSON.stringify({ text: before ? before + '\n\n' + words : words, at: Date.now() }));
+        localStorage.setItem(PAGE_KEY, JSON.stringify(page));
       } catch (e) { return false; }
     }
     if (link) {
@@ -1171,6 +1327,9 @@
     setNotebook: setNotebook,
     toPage: toPage,
     plain: plain,
+    workOf: workOf,
+    storeWork: storeWork,
+    files: files,
     noteEditor: noteEditor,
     passageFor: passageFor,
     keepPassage: keepPassage,

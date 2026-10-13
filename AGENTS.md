@@ -1098,6 +1098,43 @@ accuracy and plain prose to this section as well.
   name as a link to the homepage; the visitor leaves the farm by the room
   they came from.
 
+## The instruments and the drawer
+
+- **What an instrument can download, it can also keep.** The author asked
+  on 13 October 2026 for "Keep in your drawer" and "Open your drawer"
+  beside every download among the instruments. The Page and The Draw are
+  the two that download. A drawer button stands beside each download and
+  opens a small box with both; the download itself stays one click. The
+  Desk carries them inside its panes, and there the drawer opens in the
+  whole window.
+- **A page is kept whole, as text, and a drawing as a picture.** A page
+  goes into the drawer's record under a `page-` id, up to 200,000
+  characters. A drawing's PNG, the one the download gives, waits in this
+  browser's IndexedDB (`olae-drawer-files`) under its record's `drawing-`
+  id. If storage has no room, the drawer stays as it was and the
+  instrument says so; it never goes on in memory, which would put the rest
+  of the drawer at risk. Taking a drawing out takes its picture, and The
+  House clears away a picture whose record has gone.
+- **Keeping again brings the same copy up to date.** Each instrument
+  remembers the copy it was kept as, in its own record (`kept`). An
+  emptied page, or a drawing cleared or undone to nothing, lets go of it,
+  and the next is kept on its own. Undo after Clear on The Page takes hold
+  of it again.
+- **In the drawer** a page shows its opening, with the whole page under
+  the site's chevron, and a drawing shows its picture. Each has "Download
+  as text" or "Download as PNG", named after the day it was kept, and
+  Remove, which asks twice because the work is the reader's own. Neither
+  has a note or a card. The backup carries the pictures beside the
+  records (`pictures`), and the text download and the printed drawer carry
+  the whole page.
+- **The way back names the instrument.** "Open your drawer" carries
+  `from=page`, `from=draw` or `from=desk`, and the drawer then begins with
+  "← Back to The Page", The Draw or The Desk.
+- On a phone The Draw's masthead takes its own line, as The Page's does,
+  so the third button never crowds it. `sw.js` precaches `js/keep.js` for
+  the instruments, and `scripts/test-instrument-drawer.cjs` checks all of
+  this.
+
 ## Interface details
 
 - **The House's places are quiet, as in the pictures.** The author asked for

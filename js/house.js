@@ -561,6 +561,89 @@
       : 'This browser cannot save your drawer. What you put here stays until you leave the page.';
   }
 
+  /* The Page, The Draw and The Desk open the drawer with from= in the
+     address, so it offers the way back to them, as the drawer opened from
+     the notebook does. */
+  var CAME_FROM = { page: ['/write/', '← Back to The Page'], draw: ['/draw/', '← Back to The Draw'], desk: ['/desk/', '← Back to The Desk'] };
+  var cameFrom = CAME_FROM[new URLSearchParams(location.search).get('from')] || null;
+
+  /* A page from The Page shows its opening, and the whole page a touch
+     away. It is the reader's own writing, kept line for line. */
+  var OPENING = { chars: 360, lines: 6 };
+  function showPage(article, item) {
+    var text = (item.text || '').replace(/\s+$/, '');
+    var lines = text.split('\n');
+    // Whole lines while they fit; a first line too long for the opening is
+    // cut at a word, and only then does it end in an ellipsis.
+    var opening = '';
+    var cut = false;
+    for (var i = 0; i < lines.length && i < OPENING.lines; i++) {
+      var next = i ? opening + '\n' + lines[i] : lines[i];
+      if (next.length > OPENING.chars) {
+        if (!opening.trim()) {
+          var at = lines[i].lastIndexOf(' ', OPENING.chars);
+          opening = lines[i].slice(0, at > OPENING.chars / 2 ? at : OPENING.chars);
+          cut = true;
+        }
+        break;
+      }
+      opening = next;
+    }
+    opening = opening.replace(/\s+$/, '');
+    var whole = opening.length >= text.length;
+    var first = element('p', 'house-page-text', whole ? text : cut ? opening + '…' : opening);
+    article.appendChild(first);
+    if (!whole) {
+      var details = element('details', 'house-page-whole');
+      details.appendChild(element('summary', '', 'The whole page'));
+      details.appendChild(element('p', 'house-page-text', text));
+      details.addEventListener('toggle', function () { first.hidden = details.open; });
+      article.appendChild(details);
+    }
+    var count = (text.match(/\S+/g) || []).length;
+    article.appendChild(element('p', 'house-page-count', count === 1 ? '1 word' : count.toLocaleString('en-GB') + ' words'));
+  }
+
+  /* A drawing from The Draw is a picture in this browser's IndexedDB
+     (js/keep.js). It is fetched once while the House is open, and kept
+     here for the drawer, its download and the printed drawer; a drawing
+     kept again is fetched afresh, and one not found is looked for again
+     the next time. */
+  var pictures = {};
+  function pictureOf(item) {
+    var known = pictures[item.id];
+    if (known && known.at === item.at) return known.ready;
+    if (known && known.url) URL.revokeObjectURL(known.url);
+    var entry = { at: item.at, blob: null, url: '' };
+    function missing() {
+      if (pictures[item.id] === entry) delete pictures[item.id];
+      return null;
+    }
+    entry.ready = KEEP.files.get(item.id).then(function (blob) {
+      if (!blob) return missing();
+      entry.blob = blob;
+      entry.url = URL.createObjectURL(blob);
+      return entry;
+    }, missing);
+    pictures[item.id] = entry;
+    return entry.ready;
+  }
+  function showDrawing(article, item) {
+    var frame = element('div', 'house-drawing');
+    article.appendChild(frame);
+    pictureOf(item).then(function (entry) {
+      if (!entry) {
+        frame.appendChild(element('p', 'house-drawer-note', 'The picture is no longer in this browser.'));
+        return;
+      }
+      var image = element('img');
+      image.alt = 'Your drawing';
+      image.src = entry.url;
+      frame.appendChild(image);
+    });
+  }
+
+  var tidied = false;
   function renderDrawer(box) {
     var kept = KEEP.read().kept.map(current).reverse();
     if (backTo === 'notebook') {
@@ -568,13 +651,22 @@
       back.type = 'button';
       back.addEventListener('click', function () { openObject('notebook', opener); });
       box.appendChild(back);
+    } else if (cameFrom) {
+      var way = element('a', 'house-back', cameFrom[1]);
+      way.href = cameFrom[0];
+      box.appendChild(way);
+    }
+    // A picture whose drawing has left the drawer goes too, once a visit.
+    if (!tidied) {
+      tidied = true;
+      KEEP.files.tidy().catch(function () {});
     }
     box.appendChild(element('p', 'house-drawer-note', storageNote()));
     /* Only what can be done: an empty drawer has nothing to download, and a
        browser that cannot keep the drawer cannot take a restored one. */
     if (!kept.length) {
       var empty = element('div', 'house-empty-drawer');
-      empty.appendChild(element('p', '', 'Nothing here yet. Pick up a word card, read a line from the bookshelf, try the question on the wall, or write in the notebook on the balcony. On a word’s page, after a quiz answer, or when you select a line in an essay or the book, there is a way to keep it too.'));
+      empty.appendChild(element('p', '', 'Nothing here yet. Pick up a word card, read a line from the bookshelf, try the question on the wall, or write in the notebook on the balcony. On a word’s page, after a quiz answer, or when you select a line in an essay or the book, there is a way to keep it too. The Page and The Draw keep your writing and your drawings here as well.'));
       box.appendChild(empty);
     }
     var choices = kept.length ? [['backup', 'Download your drawer']] : [];
@@ -618,9 +710,29 @@
     }
     kept.forEach(function (item) {
       var article = element('article', 'house-item');
+      var work = KEEP.workOf(item.id);
       article.appendChild(element('p', 'house-item-kind', item.mark ? [item.kind, 'Highlighted'].filter(Boolean).join(' · ') : item.kind));
       article.appendChild(element('h3', item.id.indexOf('word-') === 0 ? 'is-word' : '', item.title));
+      if (work === 'page') showPage(article, item);
+      else if (work === 'drawing') showDrawing(article, item);
       if (item.quote) article.appendChild(element(item.id.indexOf('text-') === 0 ? 'blockquote' : 'p', '', item.quote));
+      if (work) {
+        // A page or a drawing is the reader's own work: it is taken away
+        // as the instrument gives it, and has no note and no card.
+        var taken = element('div', 'house-item-actions');
+        var take = element('button', '', work === 'page' ? 'Download as text' : 'Download as PNG');
+        take.type = 'button';
+        take.setAttribute('data-take', item.id);
+        taken.appendChild(take);
+        var out = element('button', '', 'Remove');
+        out.type = 'button';
+        out.setAttribute('data-remove', item.id);
+        out.setAttribute('aria-label', 'Remove ' + item.title + ' from your drawer');
+        taken.appendChild(out);
+        article.appendChild(taken);
+        box.appendChild(article);
+        return;
+      }
       if (item.note) {
         var noted = element('div', 'house-item-note');
         noted.appendChild(element('p', 'house-item-kind', 'Your note'));
@@ -1237,31 +1349,106 @@
     announce(saved ? 'Your drawer is saved to your downloads as a text file.' : 'This browser cannot save a file from here.');
   }
 
+  /* A page or a drawing kept from an instrument is taken away as the
+     instrument gives it: a page as text, a drawing as its PNG, each named
+     after the day it was kept. */
+  function takeWork(id) {
+    var item = KEEP.find(id);
+    if (!item) return;
+    var day = new Date(item.at || Date.now()).toISOString().slice(0, 10);
+    if (KEEP.workOf(id) === 'page') {
+      var saved = download(new Blob([item.text || ''], { type: 'text/plain;charset=utf-8' }), 'page-' + day + '.txt');
+      announce(saved ? 'The page is saved to your downloads as a text file.' : 'This browser cannot save a file from here.');
+      return;
+    }
+    pictureOf(item).then(function (entry) {
+      if (!entry) { announce('The picture is no longer in this browser.'); return; }
+      announce(download(entry.blob, 'draw-' + day + '.png') ? 'The drawing is saved to your downloads.' : 'This browser cannot save a file from here.');
+    });
+  }
+
+  /* The backup carries each drawing's picture beside its record, so a
+     drawer moved to another browser takes its drawings with it. */
+  function asDataUrl(blob) {
+    return new Promise(function (resolve, reject) {
+      var reader = new FileReader();
+      reader.onload = function () { resolve(reader.result); };
+      reader.onerror = function () { reject(reader.error); };
+      reader.readAsDataURL(blob);
+    });
+  }
+  function fromDataUrl(value) {
+    var m = /^data:(image\/png);base64,([A-Za-z0-9+\/=]+)$/.exec(typeof value === 'string' ? value : '');
+    if (!m) return null;
+    var bytes = atob(m[2]);
+    var data = new Uint8Array(bytes.length);
+    for (var i = 0; i < bytes.length; i++) data[i] = bytes.charCodeAt(i);
+    return new Blob([data], { type: m[1] });
+  }
   function exportBackup() {
-    var saved = download(new Blob([JSON.stringify(KEEP.backup(), null, 2)], { type: 'application/json;charset=utf-8' }), 'your-drawer.json');
-    announce(saved ? 'Your drawer backup is saved to your downloads.' : 'This browser cannot save a file from here.');
+    var value = KEEP.backup();
+    var drawings = value.items.filter(function (item) { return KEEP.workOf(item.id) === 'drawing'; });
+    var gathered = drawings.map(function (item) {
+      return pictureOf(item).then(function (entry) {
+        return entry ? asDataUrl(entry.blob).then(function (url) { return [item.id, url]; }) : null;
+      }).catch(function () { return null; });
+    });
+    Promise.all(gathered).then(function (pairs) {
+      pairs = pairs.filter(Boolean);
+      if (pairs.length) {
+        value.pictures = {};
+        pairs.forEach(function (pair) { value.pictures[pair[0]] = pair[1]; });
+      }
+      var saved = download(new Blob([JSON.stringify(value, null, 2)], { type: 'application/json;charset=utf-8' }), 'your-drawer.json');
+      announce(saved ? 'Your drawer backup is saved to your downloads.' : 'This browser cannot save a file from here.');
+    });
+  }
+  /* Pictures go in before their records, so a restored drawing is never
+     shown without one. A picture already here is left alone, as a note
+     already here is. */
+  function restorePictures(value) {
+    var given = value && value.pictures && typeof value.pictures === 'object' ? value.pictures : null;
+    if (!given || !Array.isArray(value.items)) return Promise.resolve();
+    var here = {};
+    KEEP.read().kept.forEach(function (item) { here[item.id] = true; });
+    return Promise.all(value.items.map(function (item) {
+      var id = item && typeof item.id === 'string' ? item.id : '';
+      if (KEEP.workOf(id) !== 'drawing' || !Object.prototype.hasOwnProperty.call(given, id)) return null;
+      var blob = fromDataUrl(given[id]);
+      if (!blob) return null;
+      return KEEP.files.get(id).then(function (known) {
+        if (!known || !here[id]) return KEEP.files.put(id, blob);
+      }).catch(function () {});
+    }));
   }
   function restoreDrawer(file) {
     if (!file) return;
-    if (file.size > 5 * 1024 * 1024) { announce('This backup is too large to restore.'); return; }
+    if (file.size > 50 * 1024 * 1024) { announce('This backup is too large to restore.'); return; }
     announce('Reading your drawer backup…');
     var reader = new FileReader();
     reader.onerror = function () { announce('This file could not be read. Your drawer is unchanged.'); };
     reader.onload = function () {
-      try {
-        var value = JSON.parse(reader.result);
-        var added = KEEP.restoreBackup(value);
-        // A restore re-renders the dialog, so focus its new restore button.
-        var button = content.querySelector('[data-export="restore"]');
-        if (button) button.focus({ preventScroll: true });
-        announce(restored(added));
-      } catch (e) {
-        announce(e && /QuotaExceeded|Security/.test(e.name)
-          ? 'This browser could not save the restored items. Your drawer is unchanged.'
-          : 'This is not a valid drawer backup. Your drawer is unchanged.');
+      function finish(e) {
+        if (e) {
+          announce(e && /QuotaExceeded|Security/.test(e.name)
+            ? 'This browser could not save the restored items. Your drawer is unchanged.'
+            : 'This is not a valid drawer backup. Your drawer is unchanged.');
+        }
+        var input = content.querySelector('[data-drawer-file]');
+        if (input) input.value = '';
       }
-      var input = content.querySelector('[data-drawer-file]');
-      if (input) input.value = '';
+      var value;
+      try { value = JSON.parse(reader.result); } catch (e) { finish(e); return; }
+      restorePictures(value).then(function () {
+        try {
+          var added = KEEP.restoreBackup(value);
+          // A restore re-renders the dialog, so focus its new restore button.
+          var button = content.querySelector('[data-export="restore"]');
+          if (button) button.focus({ preventScroll: true });
+          announce(restored(added));
+          finish(null);
+        } catch (e) { finish(e); }
+      });
     };
     reader.readAsText(file);
   }
@@ -1283,15 +1470,26 @@
     from.appendChild(document.createTextNode(' Everything · hakanaltun.io · ' + longDate(today())));
     sheet.appendChild(from);
     KEEP.read().kept.map(current).forEach(function (item) {
-      var article = element('article');
+      var work = KEEP.workOf(item.id);
+      var article = element('article', work === 'page' ? 'is-page' : '');
       article.appendChild(element('p', 'house-item-kind', item.kind));
       article.appendChild(element('h2', item.id.indexOf('word-') === 0 ? 'is-word' : '', item.title));
+      if (item.text) article.appendChild(element('p', 'house-print-page', item.text));
+      // A drawing prints as the drawer shows it; one not fetched yet prints
+      // by its name.
+      var picture = work === 'drawing' && pictures[item.id];
+      if (picture && picture.url) {
+        var image = element('img', 'house-print-drawing');
+        image.alt = 'Your drawing';
+        image.src = picture.url;
+        article.appendChild(image);
+      }
       if (item.quote) article.appendChild(element('p', '', quoted(item)));
       if (item.note) {
         article.appendChild(element('p', 'house-item-kind', 'Your note'));
         article.appendChild(element('p', 'house-print-note', item.note));
       }
-      article.appendChild(element('p', 'house-print-address', location.host + item.href));
+      if (!work) article.appendChild(element('p', 'house-print-address', location.host + item.href));
       sheet.appendChild(article);
     });
     document.body.appendChild(sheet);
@@ -1582,14 +1780,20 @@
       announce(show ? 'Highlights shown on every page.' : 'Highlights hidden on every page.');
       return;
     }
+    var take = event.target.closest('[data-take]');
+    if (take) { takeWork(take.getAttribute('data-take')); return; }
     var remove = event.target.closest('[data-remove]');
     if (remove) {
-      // A note is the reader's own writing, so taking it out asks twice.
+      // A note is the reader's own writing, and so are a page and a
+      // drawing, so taking one out asks twice.
       var kept = KEEP.find(remove.getAttribute('data-remove'));
-      if (kept && kept.note && remove.getAttribute('data-armed') !== 'true') {
+      var own = kept && KEEP.workOf(kept.id);
+      if (kept && (kept.note || own) && remove.getAttribute('data-armed') !== 'true') {
         remove.setAttribute('data-armed', 'true');
-        remove.textContent = 'Remove it and the note';
-        announce('Your note would go with it.');
+        remove.textContent = own ? 'Remove it for good' : 'Remove it and the note';
+        announce(own === 'page' ? 'The page would leave your drawer. Download it first to keep a copy.'
+          : own ? 'The drawing would leave your drawer. Download it first to keep a copy.'
+          : 'Your note would go with it.');
         remove.addEventListener('blur', function disarm() {
           remove.removeAttribute('data-armed');
           remove.textContent = 'Remove';

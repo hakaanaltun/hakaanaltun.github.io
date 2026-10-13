@@ -373,6 +373,18 @@ html:has(.house-dialog[open]) { overflow: hidden; }
 .house-dialog a { color: var(--petrol); text-decoration: underline; text-underline-offset: 4px; }
 .house-item-actions button { padding: 9px 12px; min-height: 44px; border: 1px solid var(--rule-strong); border-radius: 2px; background: var(--surface-soft); font-size: 15px; }
 .house-item-actions button[aria-pressed="true"] { border-color: var(--vizon); color: var(--vizon); }
+/* A page from The Page and a drawing from The Draw: the reader's own work,
+   shown as it was made. */
+.house-dialog .house-page-text { margin: 10px 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.house-dialog .house-page-count { margin: 6px 0 0; color: var(--vizon); font-size: 15px; }
+.house-page-whole summary { cursor: pointer; display: inline-flex; align-items: center; gap: 9px; min-height: 44px; color: var(--vizon); font-size: 16px; list-style: none; }
+.house-page-whole summary::-webkit-details-marker { display: none; }
+.house-page-whole summary::after { content: ''; width: 6px; height: 6px; flex-shrink: 0; border-right: 1px solid currentColor; border-bottom: 1px solid currentColor; transform: translateY(-2px) rotate(45deg); transition: transform .25s ease; }
+.house-page-whole[open] > summary::after { transform: translateY(1px) rotate(-135deg); }
+.house-page-whole[open] summary { margin-bottom: 4px; }
+.house-drawing { margin: 12px 0 0; }
+.house-drawing img { display: block; max-width: 100%; max-height: 320px; height: auto; border: 1px solid var(--rule-strong); background: #fff; }
+.house-drawing .house-drawer-note { margin: 0; }
 .house-drawer-tools { display: flex; flex-wrap: wrap; gap: 10px 14px; margin: 4px 0 22px; }
 .house-drawer-tools button { padding: 9px 14px; min-height: 44px; border: 1px solid var(--rule-strong); border-radius: 2px; background: none; font-size: 15px; color: var(--ink-soft); }
 .house-sky-facts { display: grid; grid-template-columns: auto 1fr; gap: 6px 22px; margin: 0 0 26px; font-size: 17px; }
@@ -522,5 +534,8 @@ html[data-theme="dark"], html[data-theme="midnight"], html[data-theme="sky"], .h
   .house-print .house-item-kind { font-size: 8pt !important; letter-spacing: .12em; text-transform: uppercase; color: #6D665B; margin: 0 0 4pt; }
   .house-print-address { color: #6D665B; font-size: 10pt; }
   .house-print-note { white-space: pre-line; }
+  .house-print article.is-page { break-inside: auto; }
+  .house-print-page { white-space: pre-wrap; overflow-wrap: anywhere; }
+  .house-print-drawing { display: block; max-width: 100%; max-height: 16cm; margin: 4pt 0 8pt; border: 1px solid #D6CDB6; }
 }
 
