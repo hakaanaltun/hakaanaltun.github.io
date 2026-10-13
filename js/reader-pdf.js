@@ -225,7 +225,17 @@
       pageNumber = Math.max(1, Math.min(doc.numPages, Math.round(value)));
       scroller.scrollLeft = 0;
       draw(); onPage();
-      wrap.scrollIntoView({block:"start", behavior:"instant"});
+      toTop(wrap);
+    }
+    /* The page's head comes to the top of this window, below its chrome.
+       scrollIntoView would also scroll every page around this one, so inside
+       a pane of The Desk a turned page moved the whole desk; only this
+       window is scrolled. */
+    function toTop(element){
+      var margin = parseFloat(getComputedStyle(element).scrollMarginTop) || 0;
+      var top = element.getBoundingClientRect().top + (window.pageYOffset || document.documentElement.scrollTop || 0) - margin;
+      try{ window.scrollTo({top:Math.max(0, top), left:window.pageXOffset || 0, behavior:"instant"}); }
+      catch(e){ window.scrollTo(window.pageXOffset || 0, Math.max(0, top)); }
     }
     prev.addEventListener("click", function(){ go(pageNumber - 1); });
     next.addEventListener("click", function(){ go(pageNumber + 1); });

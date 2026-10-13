@@ -1098,6 +1098,25 @@ accuracy and plain prose to this section as well.
   name as a link to the homepage; the visitor leaves the farm by the room
   they came from.
 
+## The instruments' notes
+
+- **The notes wait folded until the reader asks.** The author asked on
+  13 October 2026: the notes and questions help on a first visit and
+  distract while an instrument is in use. `_includes/tool-notes.html`,
+  inside every instrument's notes, folds them and lets "notes & questions"
+  open and fold them again; an instrument without that cue is given one
+  where its notes begin. They are folded with `hidden="until-found"` where
+  the browser knows it, so find in page still reaches them, and a link to
+  `#notes` opens them. Each visit starts with them folded.
+- **Never in full screen.** In full screen, native or an instrument's own
+  `body.immersive`, the notes and the cue are gone, so nothing can scroll
+  down to them. The include marks a native full screen with
+  `html.tool-full`. `scripts/test-tool-notes.cjs` checks every instrument.
+- **The Page makes its own room.** The notes used to give room below the
+  writing. Now `body.room-below` does, while typewriter scrolling is on
+  and after arriving with `at=end`, so the last line can still come to the
+  middle of the screen; a blank page does not scroll.
+
 ## The Desk
 
 - **Both places can hold the same instrument.** The author asked on
@@ -1116,6 +1135,12 @@ accuracy and plain prose to this section as well.
   the desk always had, so nothing kept before is lost. PDF zoom and the
   page shown live in each pane. The resizing, the controls and the phone
   layout are as they were. `scripts/test-desk.cjs` checks the desk.
+- **A pane scrolls only itself.** `scrollIntoView` inside a pane also
+  scrolls The Desk around it: in full screen a PDF page turned with the
+  arrows moved the whole desk and brought its notes into view, as the
+  author found on 13 October 2026. The Reader's page turns and its
+  contents scroll their own window (`toTop` in `js/reader-pdf.js`). Use
+  `window.scrollTo` inside an instrument, never `scrollIntoView`.
 
 ## The instruments and the drawer
 

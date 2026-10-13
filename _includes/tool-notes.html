@@ -1,0 +1,119 @@
+{% comment %}
+  tool-notes.html — the notes and questions under an instrument, folded away
+  until the reader asks for them, and never there in full screen.
+  Usage: inside the instrument's <footer class="notes" id="notes">, before
+  {% include tool-links.html %}.
+
+  The author asked for this on 13 October 2026: the notes help on a first
+  visit and distract while the instrument is in use. "notes & questions"
+  opens them and folds them again; an instrument without that cue is given
+  one where its notes would begin. hidden="until-found" keeps them findable:
+  a browser's find in page, or a link to #notes, opens them. Where a browser
+  does not know until-found, they are simply hidden until asked for.
+
+  In full screen, native or an instrument's own (body.immersive), the notes
+  and the cue are gone, so the page cannot be scrolled down to them. Inside
+  The Desk they are hidden already (_includes/desk-embed.html).
+{% endcomment %}
+<style>
+  .notes[hidden]:not([hidden="until-found"]){ display:none; }
+  /* until-found, where the browser knows it, keeps the box and skips its
+     contents; with no padding or rule it takes no room */
+  .notes[hidden="until-found"]{ padding:0 !important; border:0 !important; margin:0 !important; }
+  .notes-open-row{ display:flex; justify-content:center; padding:4px 16px 18px; }
+  .notes-open{
+    background:none; border:0; padding:6px 4px; cursor:pointer;
+    font-family:var(--body, 'EB Garamond', Georgia, serif); font-style:italic; font-size:.85rem;
+    letter-spacing:.03em; color:var(--muted); transition:color .2s, opacity .2s;
+  }
+  .notes-open:hover{ color:var(--ink); }
+  .notes-open:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
+  .notes-open .amp, .notes-cue .amp{ font-family:var(--display, 'Cormorant Garamond', Georgia, serif); font-style:italic; }
+  html.tool-full .notes, html.tool-full .notes-toggle, html.tool-full .notes-open-row,
+  body.immersive .notes, body.immersive .notes-toggle, body.immersive .notes-open-row,
+  html.in-desk .notes-open-row{ display:none !important; }
+  @media (prefers-reduced-motion:reduce){ .notes-open{ transition:none; } }
+</style>
+<script data-tool-notes>
+(function(){
+  'use strict';
+  var script = document.currentScript;
+  var notes = script && script.closest('.notes');
+  if(!notes) return;
+  var root = document.documentElement;
+  if(!notes.id) notes.id = 'notes';
+  notes.setAttribute('tabindex', '-1');
+
+  /* The cue the instrument has, or one made for it where its notes begin. */
+  var cues = Array.prototype.slice.call(document.querySelectorAll('.notes-cue, a[href="#notes"]')).filter(function(cue){
+    return !notes.contains(cue);
+  });
+  if(!cues.length){
+    var row = document.createElement('p');
+    row.className = 'notes-open-row';
+    var made = document.createElement('button');
+    made.type = 'button';
+    made.className = 'notes-open';
+    row.appendChild(made);
+    notes.parentNode.insertBefore(row, notes);
+    cues = [made];
+  }
+  var LABEL = 'notes <span class="amp">&amp;</span> questions';
+  function label(open){
+    cues.forEach(function(cue){
+      cue.classList.add('notes-toggle');
+      cue.setAttribute('aria-controls', notes.id);
+      cue.setAttribute('aria-expanded', String(open));
+      cue.innerHTML = LABEL + (open ? ' &uarr;' : ' &darr;');
+    });
+  }
+
+  function isOpen(){ return !notes.hasAttribute('hidden'); }
+  var findable = 'onbeforematch' in notes;
+  function fold(){
+    if(findable) notes.setAttribute('hidden', 'until-found');
+    else notes.hidden = true;
+    label(false);
+  }
+  function open(scroll){
+    notes.removeAttribute('hidden');
+    label(true);
+    if(scroll){
+      notes.scrollIntoView({ block:'start' });
+      try{ notes.focus({ preventScroll:true }); }catch(e){}
+    }
+  }
+
+  /* A link straight to the notes, or to something in them, opens them. */
+  function wanted(){
+    var id = decodeURIComponent(location.hash.slice(1));
+    if(!id) return false;
+    var target = document.getElementById(id);
+    return !!target && (target === notes || notes.contains(target));
+  }
+  if(wanted()) open(false); else fold();
+  window.addEventListener('hashchange', function(){ if(wanted() && !isOpen()) open(true); });
+  // Find in page opens them by itself; the cue follows.
+  notes.addEventListener('beforematch', function(){ label(true); });
+
+  cues.forEach(function(cue){
+    cue.addEventListener('click', function(event){
+      event.preventDefault();
+      if(isOpen()) fold(); else open(true);
+    });
+  });
+
+  /* Full screen, native or an instrument's own, puts the notes away. */
+  function full(){
+    var on = !!(document.fullscreenElement || document.webkitFullscreenElement) ||
+      !!(document.body && document.body.classList.contains('immersive'));
+    root.classList.toggle('tool-full', on);
+  }
+  document.addEventListener('fullscreenchange', full);
+  document.addEventListener('webkitfullscreenchange', full);
+  if(window.MutationObserver){
+    new MutationObserver(full).observe(document.body || root, { attributes:true, attributeFilter:['class'] });
+  }
+  full();
+})();
+</script>
