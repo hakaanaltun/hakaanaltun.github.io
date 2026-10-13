@@ -22,17 +22,11 @@ agriculture was already a metaphor in Roman writing. Cicero used
 
 English borrowed *culture* in the fifteenth century for the working of land.
 By about 1500, it could also describe the development of the mind through
-education. A person could be cultivated, with learning understood as
-something that required care and time to grow.{% include word-cite.html n="2" %}
+education.{% include word-cite.html n="2" %}
 
-The word later acquired broader meanings. In the nineteenth century it was
-used for intellectual and artistic life, and for the shared customs and
-achievements of a people. These senses are now so familiar that the farming
-behind the word can be easy to miss.{% include word-cite.html n="2" %}
-
-Laboratory usage preserves another branch of that history. Growing
-microorganisms in a suitable environment came to be called a *culture* too.
-The connection is still cultivation, applied to a different kind of
-growth.{% include word-cite.html n="2" %}
+In the nineteenth century it came to mean intellectual and artistic life,
+and the shared customs and achievements of a people. In a laboratory,
+microorganisms grown in a suitable environment are also called a
+*culture*.{% include word-cite.html n="2" %}
 
 *Food is an important part of the region's culture.*

@@ -23,11 +23,10 @@ The name appeared in a 1964 paper by Isabel Joy Bear and Richard Thomas,
 researchers at Australia's CSIRO. Their article, *Nature of Argillaceous
 Odour*, was published in *Nature* on March 7.{% include word-cite.html n="2" %}
 
-They had been investigating a smell familiar to people long before it had
-this scientific name. Indian perfumers had already captured an earthy
-scent in sandalwood oil. Bear and Thomas approached it through mineral
-chemistry. By steam-distilling rocks that had been exposed to warm, dry
-conditions, they obtained a yellowish oil associated with the odor.
-Moisture helped release it from the materials that held it.{% include word-cite.html n="1" %}
+The smell was familiar long before it had a scientific name. Indian
+perfumers had already captured an earthy scent in sandalwood oil. By
+steam-distilling rocks that had been exposed to warm, dry conditions, Bear
+and Thomas obtained a yellowish oil associated with the odor, which moisture
+helped release.{% include word-cite.html n="1" %}
 
 *Petrichor drifted through the open window when the rain began.*
