@@ -84,6 +84,11 @@ Wandering and observing should be worthwhile on their own.
   contradictions before extending that part of the world.
 - Expand in small, coherent steps. Write plain prose with correct
   punctuation, following the editorial rules below. Fictional details should fit the established story.
+- **The farm is set in the site's type.** Its prose is EB Garamond and its
+  titles Cormorant Garamond, from `css/fonts.css`, as in The House and the
+  pictures; its small labels keep the sans-serif they share with the
+  pictures. Until 13 October 2026 the page used Georgia, and the author
+  asked for it to match the rest of the site.
 
 ### Sound
 
