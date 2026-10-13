@@ -83,8 +83,8 @@
   button.setAttribute('aria-expanded', 'false');
   button.setAttribute('aria-controls', 'drawerPop');
   button.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
-    '<rect x="3" y="4" width="18" height="16" rx="2"/><line x1="3" y1="12" x2="21" y2="12"/>' +
-    '<line x1="10" y1="8" x2="14" y2="8"/><line x1="10" y1="16" x2="14" y2="16"/></svg>';
+    '<rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="12" x2="21" y2="12"/>' +
+    '<line x1="10" y1="7.5" x2="14" y2="7.5"/><line x1="10" y1="16.5" x2="14" y2="16.5"/></svg>';
   var before = work.before && document.getElementById(work.before);
   actions.insertBefore(button, before && before.parentNode === actions ? before : actions.firstChild);
 

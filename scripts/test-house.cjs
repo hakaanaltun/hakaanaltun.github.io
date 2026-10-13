@@ -1516,7 +1516,7 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
     assert.equal(footer.getAttribute('aria-label'), 'Your drawer');
     const instruments = o.q('footer a[href="/tools/"]');
     assert.equal(instruments.nextElementSibling, footer, 'the drawer stands beside the instruments');
-    assert.ok(instruments.querySelector('svg rect') && instruments.querySelector('svg g circle'), 'and the instruments carry their tools in a frame');
+    assert.equal(instruments.querySelectorAll('svg rect').length, 4, 'and the instruments keep their four squares');
     assert.deepEqual([...o.w.document.querySelectorAll('#footer-actions-menu > *')].map((el) => el.matches('.theme-menu-wrap') ? 'theme' : el.matches('[href="/tools/"]') ? 'instruments' : el.matches('[data-open-drawer]') ? 'drawer' : el.matches('.footer-share-btn') ? 'share' : el.tagName),
       ['theme', 'instruments', 'drawer', 'share'], 'the theme first, then the instruments and the drawer, and sharing last');
     footer.focus();
