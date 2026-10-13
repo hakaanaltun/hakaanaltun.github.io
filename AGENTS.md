@@ -836,7 +836,14 @@ accuracy and plain prose to this section as well.
   corona; the page explains the observing methods and artistic colors. The
   story follows rotation, Cecilia Payne’s composition work, fusion, the
   corona’s spectrum and Parker Solar Probe. Do not describe the brush texture
-  as resolved solar granules. Small destinations at the right edge can use
+  as resolved solar granules. On 13 October 2026 the author asked for the
+  Sun's four notes to be told as the journey's notes are, each with how its
+  part came to be seen or understood: Fraunhofer's dark lines for the
+  photosphere, Hale's magnetic fields and Schwabe's cycle for the spots,
+  the helium line of 1868 for the prominence and Lyot's coronagraph for the
+  corona. The illustration note below the picture carries what the painting
+  combines or strengthens; a note repeats it only when its explanation
+  depends on it. Small destinations at the right edge can use
   `label_edge: left` to keep their labels inside a phone’s picture.
   Complete all eight planets and selected important Solar System features
   before closing the journey with Voyager 1 and Voyager 2. Explain their
