@@ -237,6 +237,9 @@ layout: null
   }
 </style>
 {% include page-sky.html %}
+<link rel="stylesheet" href="/css/tool-drawer.css?v=20261013-1">
+<script src="/js/keep.js?v=20261013-2" defer></script>
+<script src="/js/tool-drawer.js?v=20261013-1" defer></script>
 </head>
 <body>
 
@@ -336,6 +339,9 @@ layout: null
 
       <h3>Where does my text go?</h3>
       <p>It is cleaned in this browser and sent nowhere; the page keeps the text in local storage so it is still there if the tab closes. Clearing the browser&rsquo;s site data clears it too.</p>
+
+      <h3>Can I keep the cleaned text?</h3>
+      <p>Yes. The drawer button at the top keeps a copy of the text in your drawer in <a href="/house/">The House</a>, in this browser, to read, download or bring back here with Open in The Clean. The text that was here then goes into the drawer, so nothing is lost.</p>
 
       {% include tool-links.html slug="clean" %}
     </div>
@@ -616,6 +622,20 @@ layout: null
   /* ---- init ---- */
   grow(); syncTr();
   window.addEventListener("resize", grow);
+
+  /* ---- the drawer: the text kept in The House (js/tool-drawer.js) ---- */
+  window.OLAE_TOOL_WORK = {
+    slug: "clean", prefix: "clean", kind: "The Clean", noun: "text",
+    title: function(date){ return "Text kept on " + date; },
+    note: "Your drawer is in The House. It keeps a copy of this text in this browser, to read, download or bring back here whenever you like.",
+    empty: "There is no text to keep yet.",
+    work: function(){ return ta.value.trim() ? { text: ta.value } : null; },
+    open: function(record){
+      ta.value = record.text || "";
+      ta.dispatchEvent(new Event("input", { bubbles: true }));
+      saveNow();
+    }
+  };
 })();
 </script>
 {% include page-sky-toggle.html %}

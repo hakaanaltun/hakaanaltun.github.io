@@ -33,7 +33,7 @@
    on a reader's machine — that copy self-heals on its second load. */
 "use strict";
 
-var CACHE = "olae-tools-v37";
+var CACHE = "olae-tools-v38";
 
 /* Briefly in October 2026 this worker also kept offline copies of
    pieces a reader saved, under these two names, and stood in front of every
@@ -58,6 +58,10 @@ var TOOL_ASSETS = [
   "/js/list-lots-clear.js",
   "/js/list-trim.js",
   "/js/text-tool-clear.js",
+  "/js/keep.js",   /* the instruments keep their work in the drawer */
+  "/css/keep.css",   /* and The Reader its passages */
+  "/js/tool-drawer.js",
+  "/css/tool-drawer.css",
   "/css/style.css",   /* the catalogue page's stylesheet */
   "/css/fonts.css",
   "/css/palettes.css",   /* the /themes/ wardrobe; the catalogue shell links it */

@@ -244,6 +244,9 @@ layout: null
   }
 </style>
 {% include page-sky.html %}
+<link rel="stylesheet" href="/css/tool-drawer.css?v=20261013-1">
+<script src="/js/keep.js?v=20261013-2" defer></script>
+<script src="/js/tool-drawer.js?v=20261013-1" defer></script>
 </head>
 <body>
 
@@ -351,6 +354,9 @@ layout: null
 
       <h3>Where does my list go?</h3>
       <p>Nowhere. Everything happens in this browser; the page keeps the list in local storage on your device so it is still there if the tab closes. Clearing the browser&rsquo;s site data clears it too.</p>
+
+      <h3>Can I keep a list?</h3>
+      <p>Yes. The drawer button at the top keeps a copy of the list in your drawer in <a href="/house/">The House</a>, in this browser, and Open in The List brings it back here; the list that was here goes into the drawer, so nothing is lost. Keep it again after changing it and the copy there is brought up to date.</p>
 
       {% include tool-links.html slug="list" %}
     </div>
@@ -566,6 +572,23 @@ layout: null
   /* ---- init ---- */
   grow(); syncTr(); refresh();
   window.addEventListener("resize", grow);
+
+  /* ---- the drawer: the list kept in The House (js/tool-drawer.js) ---- */
+  window.OLAE_TOOL_WORK = {
+    slug: "list", prefix: "list", kind: "The List", noun: "list",
+    title: function(date){
+      var n = realLines().length;
+      return (n === 1 ? "A list of one" : "A list of " + n) + ", " + date;
+    },
+    note: "Your drawer is in The House. It keeps a copy of this list in this browser, to read, download or bring back here whenever you like.",
+    empty: "There is no list to keep yet.",
+    work: function(){ return ta.value.trim() ? { text: ta.value } : null; },
+    open: function(record){
+      ta.value = record.text || "";
+      ta.dispatchEvent(new Event("input", { bubbles: true }));
+      saveNow();
+    }
+  };
 })();
 </script>
 {% include page-sky-toggle.html %}

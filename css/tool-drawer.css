@@ -1,0 +1,41 @@
+/* The drawer's box on the instruments (js/tool-drawer.js): a small sheet
+   under the top bar, beside the instrument's own buttons. It takes each
+   instrument's own tokens, so it follows its light and dark. */
+.tool-drawer{
+  position:absolute; top:calc(100% + 8px); right:22px; z-index:5;
+  width:min(300px, calc(100vw - 28px)); padding:16px 18px;
+  background:var(--paper); color:var(--ink);
+  border:1px solid var(--line); border-radius:12px;
+  box-shadow:0 12px 34px rgba(0,0,0,.14);
+  font-family:var(--body); text-align:left;
+}
+.tool-drawer[hidden]{ display:none; }
+.tool-drawer-row{ display:flex; flex-wrap:wrap; align-items:center; gap:10px 16px; }
+.tool-drawer-keep{
+  background:none; border:1px solid var(--line); color:var(--ink);
+  font-family:var(--body); font-size:.92rem; letter-spacing:.02em;
+  padding:6px 14px; border-radius:999px; cursor:pointer;
+  transition:border-color .2s, opacity .2s;
+}
+.tool-drawer-keep:hover{ border-color:var(--muted); }
+.tool-drawer-keep:disabled{ cursor:default; color:var(--muted); }
+.tool-drawer-keep:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
+.tool-drawer-open{
+  font-style:italic; font-size:.95rem; color:var(--ink); white-space:nowrap;
+  text-decoration:underline; text-underline-offset:3px; text-decoration-color:var(--line);
+  transition:opacity .2s;
+}
+.tool-drawer-open:hover{ opacity:.78; }
+@media (prefers-contrast: more){ .tool-drawer-open:hover{ opacity:.95; } }
+.tool-drawer-open:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
+.tool-drawer-said{ margin:.75rem 0 0; color:var(--ink); font-size:.95rem; line-height:1.45; }
+.tool-drawer-said:empty{ display:none; }
+.tool-drawer-note{ margin:.75rem 0 0; font-style:italic; color:var(--muted); font-size:.85rem; line-height:1.45; letter-spacing:.02em; }
+/* until js/tool-drawer.js is there, and where it could not keep anything */
+.tool-drawer-btn[hidden]{ display:none; }
+@media (max-width:600px){
+  .tool-drawer{ right:14px; }
+}
+@media (prefers-reduced-motion:reduce){
+  .tool-drawer-keep, .tool-drawer-open{ transition:none; }
+}

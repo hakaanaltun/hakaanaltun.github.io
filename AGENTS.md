@@ -1098,6 +1098,88 @@ accuracy and plain prose to this section as well.
   name as a link to the homepage; the visitor leaves the farm by the room
   they came from.
 
+## The Desk
+
+- **Both places can hold the same instrument.** The author asked on
+  13 October 2026 for Reader beside Reader above all, so that a paper and
+  another source, or one PDF at two pages, can be read side by side; Page
+  beside Page and Draw beside Draw came with it. `js/desk.js` holds
+  instances, `read:1` and `read:2`, and choosing an instrument brings it
+  to that place without touching the other. An instance put away stays
+  alive while the desk is open, and choosing its instrument again in that
+  place returns to it. The layout keeps the instances (`order`); a layout
+  that named instruments alone, as before, reads as their first instances.
+- **Neither moves the other.** A second instance is opened with `pane=2`,
+  and `_includes/desk-embed.html` gives it `OLAE_DESK_EMBED.key()`, which
+  adds `-2` to every key it keeps: The Reader's places and type size, The
+  Page's notes and The Draw's drawing. The first instance keeps the keys
+  the desk always had, so nothing kept before is lost. PDF zoom and the
+  page shown live in each pane. The resizing, the controls and the phone
+  layout are as they were. `scripts/test-desk.cjs` checks the desk.
+
+## The instruments and the drawer
+
+- **Every instrument that holds work can keep it.** The author asked on
+  13 October 2026 for "Keep in your drawer" and "Open your drawer" beside
+  every download, and then for the same on The Prompter, The Lots, The
+  List, The Clean and The Diff. `js/tool-drawer.js` and
+  `css/tool-drawer.css` put a drawer button among the instrument's own
+  buttons, beside the download where there is one, and a small box under
+  it with both. The download stays one click. The instrument says what it
+  holds in `window.OLAE_TOOL_WORK`, described at the top of the script.
+  Inside The Desk the drawer opens in the whole window.
+- **What is kept.** The Page keeps its page, The Prompter its script, The
+  List and The Clean their text, The Lots its names, one to a line, or,
+  while groups are shown, each group under its name. The Diff keeps its
+  comparison as plain text, removed words in `[- -]` and added words in
+  `{+ +}`, with both drafts after it, and the drafts apart as well
+  (`drafts`). Each goes into the drawer's record whole, up to 200,000
+  characters, under an id that begins with its own word (`WORKS` in
+  `js/keep.js`). The Draw keeps the PNG its download gives, in this
+  browser's IndexedDB (`olae-drawer-files`) under its record's `drawing-`
+  id. If storage has no room, the drawer stays as it was and the
+  instrument says so; it never goes on in memory, which would put the rest
+  of the drawer at risk. Taking a drawing out takes its picture, and The
+  House clears away a picture whose record has gone.
+- **Keeping again brings the same copy up to date.** The script remembers
+  the copy each instrument was kept as (`olae-tool-kept`), one entry for
+  each instrument and each place on The Desk. An emptied instrument lets
+  go of it, and the next thing is kept on its own; Undo after Clear takes
+  hold of it again. A list that arrives on The Lots in a shared link is
+  not the kept copy.
+- **Back from the drawer.** "Continue on The Page" and "Open in The
+  Prompter", The Lots, The List, The Clean and The Diff lead to
+  `?from=drawer&open=<id>`, and the instrument takes the kept thing back.
+  What was there goes into the drawer first, unless it is there already as
+  it is, so nothing is lost. It goes into the copy it was kept as, unless
+  that is the very copy coming back; then it is kept on its own, since a
+  page written over without being emptied is still linked to its copy.
+  If the drawer has no room for it, nothing changes. The Lots puts back
+  its groups as they were. A drawing stays in the drawer, since its
+  strokes are not kept.
+- **In the drawer** text shows its opening, with the whole of it under the
+  site's chevron, and a drawing shows its picture. Each has its way back,
+  "Download as text" or "Download as PNG", named after the day it was
+  kept, and Remove, which asks twice because the work is the reader's own.
+  None has a note or a card. The backup carries the pictures beside the
+  records (`pictures`), and the text download and the printed drawer carry
+  the whole text.
+- **The Reader keeps passages.** Its text (`#reading`) carries
+  `data-keep-passage`, so a selection there offers Keep, Note and
+  Highlight, as on the essays, in the Reader's own colours. A passage is
+  kept under The Reader and named by the file's title. A highlight is
+  found again by its words when the same file is opened again. Only the
+  passages the reader chooses are kept; the file itself never is. A
+  passage from the reader's own file has no address and no card, and the
+  drawer leads to "Open The Reader".
+- **The way back names the instrument.** "Open your drawer" carries
+  `from=` with the instrument's address, or `from=desk`, and the drawer
+  then begins with "← Back to The Page", The Lots, The Reader or The Desk.
+- On a phone the masthead of The Draw and The Lots takes its own line, as
+  The Page's does, so their third button never crowds it. `sw.js`
+  precaches the drawer's scripts and styles for the instruments, and
+  `scripts/test-instrument-drawer.cjs` checks all of this.
+
 ## Interface details
 
 - **The House's places are quiet, as in the pictures.** The author asked for

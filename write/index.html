@@ -374,6 +374,12 @@ layout: null
     .tools-link{ grid-column:1; grid-row:2; }
     .actions{ grid-column:2; grid-row:2; }
   }
+  /* five buttons and the way back share the second row of the narrowest
+     phones */
+  @media (max-width:370px){
+    .actions{ gap:5px; }
+    .icon-btn{ width:35px; height:35px; }
+  }
 
   @media (prefers-reduced-motion:reduce){
     *{ transition:none !important; }
@@ -381,6 +387,9 @@ layout: null
 </style>
 {% include page-sky.html %}
 {% include desk-embed.html %}
+<link rel="stylesheet" href="/css/tool-drawer.css?v=20261013-1">
+<script src="/js/keep.js?v=20261013-2" defer></script>
+<script src="/js/tool-drawer.js?v=20261013-1" defer></script>
 </head>
 <body>
 
@@ -581,6 +590,9 @@ layout: null
       <h3>Can I save my writing as a file?</h3>
       <p>The download button in the top right saves the page as a plain .txt file named after today&rsquo;s date.</p>
 
+      <h3>Can I keep it in my drawer?</h3>
+      <p>Yes. The drawer button beside the download keeps a copy of the page in your drawer in <a href="/house/">The House</a>, in this browser. Keep it again after more writing and the copy there is brought up to date; once the page is cleared, the next one is kept on its own. In the drawer the page can be read whole, downloaded as a text file, printed with everything else you kept, or brought back here with Continue on The Page; what is on the page then goes into the drawer, so nothing is lost.</p>
+
       <h3>Can I write in fullscreen?</h3>
       <p>Yes. The fullscreen button clears away everything but the paper, with the word count for company; moving the mouse brings the controls back.</p>
 
@@ -658,7 +670,7 @@ layout: null
 (function(){
   "use strict";
   var $ = function(s){ return document.querySelector(s); };
-  var LS = window.OLAE_DESK_EMBED ? "olae-desk-page-v1" : "olae-page-v1";
+  var LS = window.OLAE_DESK_EMBED ? window.OLAE_DESK_EMBED.key("olae-desk-page-v1") : "olae-page-v1";
   var ta = $("#page"), wordEl = $("#wordCount"), savedEl = $("#savedNote");
 
   /* ---- restore ---- */
@@ -721,6 +733,24 @@ layout: null
     a.remove();
     setTimeout(function(){ URL.revokeObjectURL(a.href); }, 1000);
   });
+
+  /* ---- the drawer: a copy of the page in The House ----
+     js/tool-drawer.js puts the drawer's button beside the download and
+     keeps the page there as it is now; the drawer's "Continue on The Page"
+     brings a kept page back here. */
+  window.OLAE_TOOL_WORK = {
+    slug: "write", prefix: "page", kind: "The Page", noun: "page",
+    title: function(date){ return "Written on " + date; },
+    note: "Your drawer is in The House. It keeps a copy of this page in this browser, to read or download whenever you like.",
+    empty: "There is nothing on the page to keep yet.",
+    before: "dlBtn", download: true,
+    work: function(){ return ta.value.trim() ? { text: ta.value } : null; },
+    open: function(record){
+      ta.value = record.text || "";
+      ta.dispatchEvent(new Event("input", { bubbles: true }));
+      saveNow();
+    }
+  };
 
   /* ---- fullscreen (webkit-prefixed + CSS fallback, as on /clock/) ---- */
   var docEl = document.documentElement, fakeFs = false;

@@ -228,6 +228,9 @@ layout: null
   }
 </style>
 {% include page-sky.html %}
+<link rel="stylesheet" href="/css/tool-drawer.css?v=20261013-1">
+<script src="/js/keep.js?v=20261013-2" defer></script>
+<script src="/js/tool-drawer.js?v=20261013-1" defer></script>
 </head>
 <body>
 
@@ -310,6 +313,9 @@ layout: null
 
       <h3>Can I compare drafts of an essay or story?</h3>
       <p>Yes&mdash;that is what the page is for. Paste the earlier draft on the left and the later one on the right, and the result shows the revision as a reader would see it.</p>
+
+      <h3>Can I keep a comparison?</h3>
+      <p>Yes. The drawer button at the top keeps the comparison in your drawer in <a href="/house/">The House</a>, in this browser, as plain text: removed words set in [- -], added words in {+ +}, and both drafts after them. Open in The Diff brings the two drafts back here; the drafts that were here go into the drawer, so nothing is lost.</p>
 
       {% include tool-links.html slug="diff" %}
     </div>
@@ -555,6 +561,61 @@ layout: null
   /* light, dark and the sky: _includes/page-sky-toggle.html, at the foot of
      the page, so the three states are written once for all the instruments
      that carry this button. */
+
+  /* ---- the drawer: a comparison kept in The House (js/tool-drawer.js) ----
+     The comparison is kept as plain text, removed words set in [- -] and
+     added ones in {+ +}, with both drafts after it; the drafts are kept
+     apart as well, so Open in The Diff can put them back. */
+  function plainComparison(){
+    var a = taA.value, b = taB.value, glue = mode === "chars" ? "" : " ";
+    var ops = diffTexts(a, b, mode);
+    var paras = [[]], buf = [], bufOp = null, added = 0, removed = 0, kept = 0;
+    function flush(){
+      if(bufOp !== null && buf.length){
+        var text = buf.join(glue);
+        paras[paras.length - 1].push(bufOp === 0 ? text : bufOp === -1 ? "[-" + text + "-]" : "{+" + text + "+}");
+      }
+      buf = []; bufOp = null;
+    }
+    ops.forEach(function(o){
+      if(o[1] === BREAK){
+        flush();
+        if(o[0] === -1) paras[paras.length - 1].push("[-\u00b6-]");
+        paras.push([]);
+        return;
+      }
+      if(o[0] === 0) kept++; else if(o[0] === -1) removed++; else added++;
+      if(bufOp !== o[0]) flush();
+      bufOp = o[0];
+      buf.push(o[1]);
+    });
+    flush();
+    var body = paras.filter(function(p){ return p.length; }).map(function(p){ return p.join(glue); }).join("\n\n");
+    var unit = mode === "chars" ? "characters" : "words";
+    return [
+      added + " " + unitName(added, mode) + " added \u00b7 " + removed + " " + unitName(removed, mode) + " removed \u00b7 " + kept + " unchanged",
+      "Removed " + unit + " are set in [- -], added " + unit + " in {+ +}.",
+      "", body, "", "Before", "", a, "", "After", "", b
+    ].join("\n");
+  }
+  window.OLAE_TOOL_WORK = {
+    slug: "diff", prefix: "diff", kind: "The Diff", noun: "comparison",
+    title: function(date){ return "Compared on " + date; },
+    note: "Your drawer is in The House. It keeps this comparison and both drafts in this browser, to read, download or bring back here whenever you like.",
+    empty: "There are no drafts to keep yet.",
+    work: function(){
+      if(!taA.value.trim() && !taB.value.trim()) return null;
+      return { text: plainComparison(), drafts: [taA.value, taB.value] };
+    },
+    open: function(record){
+      var drafts = record.drafts || ["", ""];
+      taA.value = drafts[0];
+      taB.value = drafts[1];
+      [taA, taB].forEach(function(ta){ ta.dispatchEvent(new Event("input", { bubbles: true })); });
+      saveNow();
+      compare();
+    }
+  };
 })();
 </script>
 {% include page-sky-toggle.html %}

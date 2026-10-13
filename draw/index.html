@@ -93,7 +93,7 @@ layout: null
   body.immersive .notes-cue{ opacity:0; pointer-events:none; }
 
   .chrome{
-    position:relative; z-index:2; background:var(--paper);
+    position:relative; z-index:4; background:var(--paper);
     display:grid; grid-template-columns:1fr auto 1fr; align-items:center; column-gap:10px;
     padding:14px 22px; border-bottom:1px solid var(--line);
     transition:opacity .4s ease, border-color .4s ease;
@@ -229,11 +229,23 @@ layout: null
     .corner{ display:none; }
   }
 
+  /* the drawer's button crowds the top row on narrow screens: below this
+     width the masthead takes its own line, as on The Page */
+  @media (max-width:520px){
+    .chrome{ grid-template-columns:1fr auto; row-gap:10px; }
+    .masthead{ grid-column:1 / -1; grid-row:1; }
+    .tools-link{ grid-column:1; grid-row:2; }
+    .actions{ grid-column:2; grid-row:2; }
+  }
+
   @media (prefers-reduced-motion:reduce){
     *{ transition:none !important; }
   }
 </style>
 {% include desk-embed.html %}
+<link rel="stylesheet" href="/css/tool-drawer.css?v=20261013-1">
+<script src="/js/keep.js?v=20261013-2" defer></script>
+<script src="/js/tool-drawer.js?v=20261013-1" defer></script>
 </head>
 <body>
 
@@ -314,6 +326,9 @@ layout: null
       <h3>Can I save my drawing as an image?</h3>
       <p>The download button in the top right saves the page as a PNG named after today&rsquo;s date, rendered at double resolution so it stays crisp.</p>
 
+      <h3>Can I keep it in my drawer?</h3>
+      <p>Yes. The drawer button beside the download keeps the drawing in your drawer in <a href="/house/">The House</a>, as a picture, in this browser. Keep it again after more drawing and the picture there is brought up to date; after Clear, the next drawing is kept on its own. From the drawer it can be downloaded as a PNG, the same one the download button gives.</p>
+
       {% include tool-links.html slug="draw" %}
     </div>
   </footer>
@@ -322,7 +337,7 @@ layout: null
 (function(){
   "use strict";
   var $ = function(s){ return document.querySelector(s); };
-  var LS = window.OLAE_DESK_EMBED ? "olae-desk-draw-v1" : "olae-draw-v1";
+  var LS = window.OLAE_DESK_EMBED ? window.OLAE_DESK_EMBED.key("olae-desk-draw-v1") : "olae-draw-v1";
 
   var INKS = { ink:"#2F2B27", petrol:"#1D4354", teal:"#1A494D", amber:"#E6A15C", paper:"#FFFFFF" };
   var WIDTHS = { fine:2, regular:4.5, broad:9 };
@@ -534,8 +549,9 @@ layout: null
   });
 
   /* ---- download as PNG, named after today (as The Page's txt) ---- */
-  $("#dlBtn").addEventListener("click", function(){
-    if(!strokes.length) return;
+  /* the page at double resolution, so it stays crisp; the drawer keeps the
+     same picture */
+  function picture(){
     var r = canvas.getBoundingClientRect(), scale = 2;
     var off = document.createElement("canvas");
     off.width = Math.round(r.width * scale);
@@ -545,6 +561,11 @@ layout: null
     oc.fillStyle = INKS.paper;
     oc.fillRect(0, 0, r.width, r.height);
     for(var i = 0; i < strokes.length; i++) drawStroke(oc, strokes[i]);
+    return off;
+  }
+  $("#dlBtn").addEventListener("click", function(){
+    if(!strokes.length) return;
+    var off = picture();
     var name = "draw-" + new Date().toISOString().slice(0, 10) + ".png";
     if(off.toBlob){
       off.toBlob(function(blob){
@@ -564,6 +585,38 @@ layout: null
       document.body.appendChild(a); a.click(); a.remove();
     }
   });
+
+  /* ---- the drawer: the drawing as a picture in The House ----
+     js/tool-drawer.js puts the drawer's button beside the download and
+     keeps the drawing there as the PNG the download gives. The strokes'
+     signature tells it whether the drawing changed since it was kept. */
+  function signature(){
+    var s = JSON.stringify(strokes), hash = 0x811c9dc5;
+    for(var i = 0; i < s.length; i++){
+      hash ^= s.charCodeAt(i);
+      hash = Math.imul(hash, 0x01000193) >>> 0;
+    }
+    return s.length.toString(36) + "-" + hash.toString(36);
+  }
+  window.OLAE_TOOL_WORK = {
+    slug: "draw", prefix: "drawing", kind: "The Draw", noun: "drawing", pictures: true,
+    title: function(date){ return "Drawn on " + date; },
+    note: "Your drawer is in The House. It keeps this drawing as a picture in this browser, to look at or download whenever you like.",
+    empty: "There is nothing on the page to keep yet.",
+    before: "dlBtn", download: true,
+    work: function(){
+      if(!strokes.length) return null;
+      return {
+        sign: signature,
+        picture: function(){
+          var off = picture();
+          return new Promise(function(resolve){
+            if(off.toBlob) off.toBlob(resolve, "image/png"); else resolve(null);
+          });
+        }
+      };
+    }
+  };
 
   /* ---- fullscreen (webkit-prefixed + CSS fallback, as on /write/) ---- */
   var docEl = document.documentElement, fakeFs = false;
