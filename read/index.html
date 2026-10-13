@@ -343,9 +343,16 @@ layout: null
   @media (prefers-reduced-motion:reduce){
     *{ transition:none !important; }
   }
+
+  /* A passage selected in the text can be kept, written about or
+     highlighted (js/keep.js). Its prompt and panel (css/keep.css) speak the
+     site's colours; here they take the Reader's own, in every light. */
+  :root{ --petrol:var(--ink); --ink-soft:var(--ink); --rule-strong:var(--line); --vizon:var(--muted); --surface-soft:var(--paper); }
 </style>
 {% include page-sky.html %}
 {% include desk-embed.html %}
+<link rel="stylesheet" href="/css/keep.css?v=20261012-1">
+<script src="/js/keep.js?v=20261013-2" defer></script>
 </head>
 <body>
 
@@ -398,7 +405,7 @@ layout: null
       <p id="emptyLine" role="status" aria-live="polite" aria-atomic="true">Bring a file. It stays on your device; nothing is sent anywhere.</p>
       <button type="button" id="emptyOpen">Open a file</button>
     </div>
-    <article id="reading" aria-label="The text"></article>
+    <article id="reading" aria-label="The text" data-keep-passage data-keep-kind="The Reader" data-keep-from="read"></article>
   </div>
 
   <a class="notes-cue" href="#notes">notes <span class="amp">&amp;</span> questions &darr;</a>
@@ -462,7 +469,10 @@ layout: null
       <p>No. The file is read in the browser and never leaves your device&mdash;there is no server on the other end of this page, no account, and nothing is sent anywhere.</p>
 
       <h3>Does the page keep my file?</h3>
-      <p>No. The text itself is never stored; when you leave, it is gone from the page. The only thing remembered is where you stopped&mdash;a bookmark, kept on your device, so that opening the same file again returns you to your place.</p>
+      <p>No. The text itself is never stored; when you leave, it is gone from the page. The only thing remembered is where you stopped&mdash;a bookmark, kept on your device, so that opening the same file again returns you to your place&mdash;and any passage you choose to keep.</p>
+
+      <h3>Can I keep a passage?</h3>
+      <p>Yes. Select a sentence or two and a small prompt offers to keep it, to write a note about it, or to highlight it. What you keep goes into your drawer in <a href="/house/">The House</a>, in this browser, under the file&rsquo;s name. A highlight is found again by its words, so it is there when you open the same file another day. Only the passages you choose are kept; the rest of the file never is.</p>
 
       <h3>Which formats can it read?</h3>
       <p>Plain text, Markdown, PDF, EPUB and Word. PDFs retain their original layout, including scanned pages. Text can be selected when the PDF contains a text layer; scanned images have no selectable text. Password-protected PDFs need to be unlocked before opening here. A .txt file arrives in UTF-8 or the older Turkish encoding, which the page tells apart on its own so no character arrives broken; an EPUB or a Word .docx is unpacked and set in the page&rsquo;s own type in the browser&mdash;no reader app, no library. Markdown (.md or .markdown) keeps headings, emphasis, quotations, lists, tables and code in the same quiet column, with headings in the contents menu. Raw HTML appears as text; images appear as their descriptions.</p>
@@ -503,7 +513,7 @@ layout: null
   var current = null;                 /* { key } while a file is open */
 
   /* ---- the bookmark ledger (positions only — never the text) ---- */
-  var POS_LS = window.OLAE_DESK_EMBED ? "olae-desk-read-pos" : "olae-read-pos", POS_MAX = 20;
+  var POS_LS = window.OLAE_DESK_EMBED ? window.OLAE_DESK_EMBED.key("olae-desk-read-pos") : "olae-read-pos", POS_MAX = 20;
   function posLoad(){
     try{
       var v = JSON.parse(localStorage.getItem(POS_LS));
@@ -1929,7 +1939,8 @@ layout: null
   });
 
   /* ================= 2 · type — four sizes, the middle the page's own ================= */
-  var SIZE_LS = "olae-read-size";
+  /* a second Reader on the desk keeps its own size */
+  var SIZE_LS = window.OLAE_DESK_EMBED ? window.OLAE_DESK_EMBED.key("olae-read-size") : "olae-read-size";
   var sizeBtns = Array.prototype.slice.call(document.querySelectorAll("#shelf .shelf-pill[data-size]"));
   function applySize(v){
     document.body.setAttribute("data-size", v);

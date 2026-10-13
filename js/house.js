@@ -561,16 +561,30 @@
       : 'This browser cannot save your drawer. What you put here stays until you leave the page.';
   }
 
-  /* The Page, The Draw and The Desk open the drawer with from= in the
-     address, so it offers the way back to them, as the drawer opened from
-     the notebook does. */
-  var CAME_FROM = { page: ['/write/', '← Back to The Page'], draw: ['/draw/', '← Back to The Draw'], desk: ['/desk/', '← Back to The Desk'] };
-  var cameFrom = CAME_FROM[new URLSearchParams(location.search).get('from')] || null;
+  /* An instrument opens the drawer with from= in the address, so it offers
+     the way back, as the drawer opened from the notebook does. */
+  var INSTRUMENTS = { write: 'The Page', draw: 'The Draw', desk: 'The Desk', read: 'The Reader', prompt: 'The Prompter', lots: 'The Lots', list: 'The List', clean: 'The Clean', diff: 'The Diff' };
+  var cameFromSlug = new URLSearchParams(location.search).get('from');
+  var cameFrom = Object.prototype.hasOwnProperty.call(INSTRUMENTS, cameFromSlug || '') ? ['/' + cameFromSlug + '/', '← Back to ' + INSTRUMENTS[cameFromSlug]] : null;
 
-  /* A page from The Page shows its opening, and the whole page a touch
-     away. It is the reader's own writing, kept line for line. */
+  /* The way from a kept thing back into its instrument, which puts it
+     there (js/tool-drawer.js). The v loads the instrument as it is now
+     rather than a service worker's older copy. */
+  var BACK_TO = 'v=20261013-1';
+  function backInto(item) {
+    var work = KEEP.WORKS[KEEP.workOf(item.id)];
+    if (!work || work.slug === 'draw') return null;
+    var link = element('a', '', work.slug === 'write' ? 'Continue on The\u00a0Page\u00a0→' : 'Open in ' + work.kind.replace(' ', '\u00a0') + '\u00a0→');
+    link.href = '/' + work.slug + '/?from=drawer&open=' + encodeURIComponent(item.id) + '&' + BACK_TO;
+    return link;
+  }
+
+  /* A page, a script, a list or a comparison shows its opening, and the
+     whole of it a touch away. It is the reader's own, kept line for line. */
   var OPENING = { chars: 360, lines: 6 };
-  function showPage(article, item) {
+  var COUNTED = { page: true, script: true, clean: true };
+  function showText(article, item) {
+    var work = KEEP.workOf(item.id);
     var text = (item.text || '').replace(/\s+$/, '');
     var lines = text.split('\n');
     // Whole lines while they fit; a first line too long for the opening is
@@ -595,11 +609,12 @@
     article.appendChild(first);
     if (!whole) {
       var details = element('details', 'house-page-whole');
-      details.appendChild(element('summary', '', 'The whole page'));
+      details.appendChild(element('summary', '', 'The whole ' + KEEP.WORKS[work].noun));
       details.appendChild(element('p', 'house-page-text', text));
       details.addEventListener('toggle', function () { first.hidden = details.open; });
       article.appendChild(details);
     }
+    if (!COUNTED[work]) return;
     var count = (text.match(/\S+/g) || []).length;
     article.appendChild(element('p', 'house-page-count', count === 1 ? '1 word' : count.toLocaleString('en-GB') + ' words'));
   }
@@ -666,7 +681,7 @@
        browser that cannot keep the drawer cannot take a restored one. */
     if (!kept.length) {
       var empty = element('div', 'house-empty-drawer');
-      empty.appendChild(element('p', '', 'Nothing here yet. Pick up a word card, read a line from the bookshelf, try the question on the wall, or write in the notebook on the balcony. On a word’s page, after a quiz answer, or when you select a line in an essay or the book, there is a way to keep it too. The Page and The Draw keep your writing and your drawings here as well.'));
+      empty.appendChild(element('p', '', 'Nothing here yet. Pick up a word card, read a line from the bookshelf, try the question on the wall, or write in the notebook on the balcony. On a word’s page, after a quiz answer, or when you select a line in an essay or the book, there is a way to keep it too. What you write, draw or make on the instruments can be kept here as well.'));
       box.appendChild(empty);
     }
     var choices = kept.length ? [['backup', 'Download your drawer']] : [];
@@ -713,14 +728,17 @@
       var work = KEEP.workOf(item.id);
       article.appendChild(element('p', 'house-item-kind', item.mark ? [item.kind, 'Highlighted'].filter(Boolean).join(' · ') : item.kind));
       article.appendChild(element('h3', item.id.indexOf('word-') === 0 ? 'is-word' : '', item.title));
-      if (work === 'page') showPage(article, item);
-      else if (work === 'drawing') showDrawing(article, item);
+      if (work === 'drawing') showDrawing(article, item);
+      else if (work) showText(article, item);
       if (item.quote) article.appendChild(element(item.id.indexOf('text-') === 0 ? 'blockquote' : 'p', '', item.quote));
       if (work) {
-        // A page or a drawing is the reader's own work: it is taken away
-        // as the instrument gives it, and has no note and no card.
+        // Something made on an instrument is the reader's own work: it is
+        // taken away as text or as the PNG The Draw gives, it can go back
+        // into its instrument, and it has no note and no card.
         var taken = element('div', 'house-item-actions');
-        var take = element('button', '', work === 'page' ? 'Download as text' : 'Download as PNG');
+        var back = backInto(item);
+        if (back) taken.appendChild(back);
+        var take = element('button', '', work === 'drawing' ? 'Download as PNG' : 'Download as text');
         take.type = 'button';
         take.setAttribute('data-take', item.id);
         taken.appendChild(take);
@@ -739,16 +757,18 @@
         noted.appendChild(element('p', 'house-note-text', item.note));
         article.appendChild(noted);
       }
-      // A note from the balcony's notebook belongs to the balcony.
+      // A note from the balcony's notebook belongs to the balcony, and a
+      // passage from The Reader to the reader's own file.
       var fromNotebook = item.id.indexOf('notebook-') === 0;
-      var row = actions(item.href, fromNotebook ? 'Go to the balcony →' : 'Go to the page →');
+      var fromReader = KEEP.fromReader(item);
+      var row = actions(fromReader ? '/read/?from=drawer&' + BACK_TO : item.href, fromNotebook ? 'Go to the balcony →' : fromReader ? 'Open The Reader →' : 'Go to the page →');
       var write = element('button', '', item.note ? 'Edit the note' : 'Add a note');
       write.type = 'button';
       write.setAttribute('data-note', item.id);
       row.appendChild(write);
       // The card is for sending, so it carries what was kept and never the
       // note. A page from the notebook is all note, so it has no card.
-      if (!fromNotebook) {
+      if (!fromNotebook && !fromReader) {
         var share = element('button', '', 'Share as a card');
         share.type = 'button';
         share.setAttribute('data-share', item.id);
@@ -1356,9 +1376,10 @@
     var item = KEEP.find(id);
     if (!item) return;
     var day = new Date(item.at || Date.now()).toISOString().slice(0, 10);
-    if (KEEP.workOf(id) === 'page') {
-      var saved = download(new Blob([item.text || ''], { type: 'text/plain;charset=utf-8' }), 'page-' + day + '.txt');
-      announce(saved ? 'The page is saved to your downloads as a text file.' : 'This browser cannot save a file from here.');
+    var work = KEEP.workOf(id);
+    if (work !== 'drawing') {
+      var saved = download(new Blob([item.text || ''], { type: 'text/plain;charset=utf-8' }), work + '-' + day + '.txt');
+      announce(saved ? 'The ' + KEEP.WORKS[work].noun + ' is saved to your downloads as a text file.' : 'This browser cannot save a file from here.');
       return;
     }
     pictureOf(item).then(function (entry) {
@@ -1471,7 +1492,7 @@
     sheet.appendChild(from);
     KEEP.read().kept.map(current).forEach(function (item) {
       var work = KEEP.workOf(item.id);
-      var article = element('article', work === 'page' ? 'is-page' : '');
+      var article = element('article', work && work !== 'drawing' ? 'is-page' : '');
       article.appendChild(element('p', 'house-item-kind', item.kind));
       article.appendChild(element('h2', item.id.indexOf('word-') === 0 ? 'is-word' : '', item.title));
       if (item.text) article.appendChild(element('p', 'house-print-page', item.text));
@@ -1489,7 +1510,7 @@
         article.appendChild(element('p', 'house-item-kind', 'Your note'));
         article.appendChild(element('p', 'house-print-note', item.note));
       }
-      if (!work) article.appendChild(element('p', 'house-print-address', location.host + item.href));
+      if (!work && !KEEP.fromReader(item)) article.appendChild(element('p', 'house-print-address', location.host + item.href));
       sheet.appendChild(article);
     });
     document.body.appendChild(sheet);
@@ -1791,9 +1812,7 @@
       if (kept && (kept.note || own) && remove.getAttribute('data-armed') !== 'true') {
         remove.setAttribute('data-armed', 'true');
         remove.textContent = own ? 'Remove it for good' : 'Remove it and the note';
-        announce(own === 'page' ? 'The page would leave your drawer. Download it first to keep a copy.'
-          : own ? 'The drawing would leave your drawer. Download it first to keep a copy.'
-          : 'Your note would go with it.');
+        announce(own ? 'The ' + KEEP.WORKS[own].noun + ' would leave your drawer. Download it first to keep a copy.' : 'Your note would go with it.');
         remove.addEventListener('blur', function disarm() {
           remove.removeAttribute('data-armed');
           remove.textContent = 'Remove';

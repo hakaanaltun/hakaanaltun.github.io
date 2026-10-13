@@ -36,7 +36,8 @@ async function integration(embedded){
   const dom = new JSDOM(html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/g,''), {url:'https://hakanaltun.io/read/', runScripts:'outside-only'});
   const w = dom.window, d = w.document;
   w.TextDecoder = TextDecoder; w.requestAnimationFrame = fn => fn(); w.scrollTo = () => {};
-  if(embedded) w.OLAE_DESK_EMBED = {register(){}};
+  // The first place on the desk, as _includes/desk-embed.html describes it.
+  if(embedded) w.OLAE_DESK_EMBED = {pane:1, key:base => base, register(){}};
   w.eval(source('js/vendor/marked-18.0.11.umd.js')); w.eval(source('js/reader-markdown.js'));
   const main = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(x => x[1]).find(x => x.includes('function openFile(file)'));
   let finished;

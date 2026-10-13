@@ -10,9 +10,10 @@
    goes: into a backup, the text download and the printed drawer, but not
    onto a shared card.
 
-   The Page and The Draw put what is on them here too: a page whole, as
-   text, and a drawing as a picture, which waits in this browser's
-   IndexedDB beside the record (see Work from the instruments, below).
+   The instruments put what is on them here too (js/tool-drawer.js): a
+   page, a script, a list or a comparison whole, as text, and a drawing as
+   a picture, which waits in this browser's IndexedDB beside the record
+   (see Work from the instruments, below).
 
    The same record holds The House's other small memories: the study's lamp
    and the balcony's, the question answered today, the page being written in
@@ -84,6 +85,11 @@
     if (note) out.note = note;
     // A page is kept as it was written, line for line.
     if (typeof item.text === 'string' && item.text.trim()) out.text = item.text.replace(/\r\n?/g, '\n').slice(0, MAX_TEXT);
+    // The two drafts a comparison from The Diff was made of.
+    if (Array.isArray(item.drafts) && item.drafts.length === 2 && item.drafts.every(function (d) { return typeof d === 'string'; }) &&
+        item.drafts[0].length + item.drafts[1].length <= MAX_TEXT) {
+      out.drafts = item.drafts.map(function (d) { return d.replace(/\r\n?/g, '\n'); });
+    }
     // A highlight is marked on its page; one made by Highlight alone is
     // not otherwise kept (see highlight() below).
     if (item.mark === true) out.mark = true;
@@ -270,15 +276,21 @@
     else if (work === 'drawing') lines.push('A drawing, kept in your drawer as a picture.');
     if (item.quote) lines.push(item.id.indexOf('text-') === 0 ? '“' + item.quote + '”' : item.quote);
     if (item.note) lines.push('Note: ' + item.note);
-    if (!work) lines.push(location.origin + item.href);
+    if (!work && !fromReader(item)) lines.push(location.origin + item.href);
     return lines.join('\n');
+  }
+  /* A passage from The Reader comes from the reader's own file, which lives
+     nowhere on the site: it has no address to give and no card to send. */
+  function fromReader(item) {
+    return !!item && String(item.href).indexOf('/read/') === 0;
   }
 
   /* --- Work from the instruments ----------------------------------------
-     The Page and The Draw keep what is on them when the reader asks: a
-     page whole, as text, and a drawing as a picture, kept below under the
-     same id. Each instrument remembers which thing it was kept as, so
-     keeping again brings that one up to date rather than adding another.
+     The instruments keep what is on them when the reader asks
+     (js/tool-drawer.js): text whole, and a drawing as a picture, kept
+     below under the same id. Each instrument remembers which thing it was
+     kept as, so keeping again brings that one up to date rather than
+     adding another.
 
      A page or a picture can be large. If storage has no room for it, the
      drawer stays as it was and the instrument says so. It does not go on
@@ -287,13 +299,24 @@
      cannot keep the drawer, nothing is kept, since the drawer is on
      another page. Returns 'kept', 'updated' or 'same', or why it could
      not: 'unsaved', 'long' or 'full'. */
+  // Each instrument's kept things begin with its own word.
+  var WORKS = {
+    page: { slug: 'write', kind: 'The Page', noun: 'page' },
+    drawing: { slug: 'draw', kind: 'The Draw', noun: 'drawing' },
+    script: { slug: 'prompt', kind: 'The Prompter', noun: 'script' },
+    lots: { slug: 'lots', kind: 'The Lots', noun: 'list' },
+    list: { slug: 'list', kind: 'The List', noun: 'list' },
+    clean: { slug: 'clean', kind: 'The Clean', noun: 'text' },
+    diff: { slug: 'diff', kind: 'The Diff', noun: 'comparison' }
+  };
   function workOf(id) {
-    id = String(id || '');
-    return id.indexOf('page-') === 0 ? 'page' : id.indexOf('drawing-') === 0 ? 'drawing' : '';
+    var m = /^([a-z]+)-/.exec(String(id || ''));
+    return m && Object.prototype.hasOwnProperty.call(WORKS, m[1]) ? m[1] : '';
   }
   function storeWork(raw) {
     if (!works) return 'unsaved';
     if (raw && typeof raw.text === 'string' && raw.text.length > MAX_TEXT) return 'long';
+    if (raw && Array.isArray(raw.drafts) && raw.drafts.join('').length > MAX_TEXT) return 'long';
     var item = clean(raw);
     if (!item || !workOf(item.id)) return 'unsaved';
     var state = read();
@@ -471,7 +494,7 @@
     toastBox.replaceChildren(document.createTextNode(message.text));
     if (message.link && location.pathname !== '/house/') {
       var link = document.createElement('a');
-      link.href = '/house/#drawer';
+      toDrawer(link);
       link.textContent = 'Open your drawer →';
       toastBox.appendChild(document.createTextNode(' '));
       toastBox.appendChild(link);
@@ -716,6 +739,7 @@
     var page = document.createElement('a');
     page.className = 'keep-note-page';
     page.href = pageHref();
+    outward(page);
     // The Page and its arrow stay together when the line breaks.
     page.textContent = 'Write at length on The\u00a0Page\u00a0→';
     foot.appendChild(page);
@@ -803,7 +827,21 @@
      drawer, as The House's own links lead back to the study
      (_includes/tool-back.html). The v loads The Page as it is now rather
      than a service worker's older copy; it moves when that way back does. */
-  function pageHref() { return '/write/?from=drawer&v=20261012-1'; }
+  function pageHref() { return '/write/?from=drawer&v=20261013-1'; }
+
+  /* A page whose passages carry data-keep-from, The Reader, opens the
+     drawer with the way back to it. Inside The Desk the drawer and The Page
+     open in the whole window, not in the pane. */
+  function toDrawer(link) {
+    var from = window.OLAE_DESK_EMBED ? 'desk' : '';
+    var holder = document.querySelector('[data-keep-passage][data-keep-from]');
+    if (!from && holder) from = holder.getAttribute('data-keep-from');
+    link.href = '/house/' + (from ? '?from=' + encodeURIComponent(from) : '') + '#drawer';
+    outward(link);
+  }
+  function outward(link) {
+    if (window.OLAE_DESK_EMBED) link.target = '_top';
+  }
 
   /* --- The panel by a kept passage ----------------------------------------
      There are three ways in. Keeping a passage opens a panel at the foot of
@@ -859,7 +897,7 @@
       row.appendChild(button);
     });
     var drawer = make('a', '', 'Open your drawer →');
-    drawer.href = '/house/#drawer';
+    toDrawer(drawer);
     row.appendChild(drawer);
     panel.appendChild(head);
     panel.appendChild(quote);
@@ -1328,6 +1366,8 @@
     toPage: toPage,
     plain: plain,
     workOf: workOf,
+    WORKS: WORKS,
+    fromReader: fromReader,
     storeWork: storeWork,
     files: files,
     noteEditor: noteEditor,

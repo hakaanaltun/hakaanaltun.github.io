@@ -316,11 +316,23 @@ layout: null
     .groups-result{ grid-template-columns:repeat(auto-fill, minmax(140px, 1fr)); gap:16px; }
   }
 
+  /* the drawer's button crowds the top row on narrow screens: below this
+     width the masthead takes its own line, as on The Page and The Draw */
+  @media (max-width:520px){
+    .chrome{ grid-template-columns:1fr auto; row-gap:10px; }
+    .masthead{ grid-column:1 / -1; grid-row:1; }
+    .tools-link{ grid-column:1; grid-row:2; }
+    .actions{ grid-column:2; grid-row:2; }
+  }
+
   @media (prefers-reduced-motion:reduce){
     *{ transition:none !important; }
   }
 </style>
 {% include page-sky.html %}
+<link rel="stylesheet" href="/css/tool-drawer.css?v=20261013-1">
+<script src="/js/keep.js?v=20261013-2" defer></script>
+<script src="/js/tool-drawer.js?v=20261013-1" defer></script>
 </head>
 <body>
 
@@ -429,6 +441,9 @@ layout: null
 
       <h3>Where does my class list go?</h3>
       <p>It is kept in this browser&rsquo;s local storage and sent nowhere, so the list is waiting when you return for the next session. Clearing the browser&rsquo;s site data clears the list too. A copied link carries the list inside the address itself, so it travels to another device without any server involved.</p>
+
+      <h3>Can I keep a class list?</h3>
+      <p>Yes. The drawer button at the top keeps the list in your drawer in <a href="/house/">The House</a>, in this browser, with its groups when they are shown. Keep one for each class, and Open in The Lots brings a list back here with its groups as they were; the list that was here goes into the drawer, so nothing is lost.</p>
 
       {% include tool-links.html slug="lots" %}
     </div>
@@ -574,6 +589,11 @@ layout: null
     if(typeof remove === "boolean") removeToggle.checked = remove;
   }
   var fromLink = readHash();
+  /* A list that arrives in a link, other than the one this page last held,
+     is not the copy kept in the drawer (js/tool-drawer.js). */
+  var lastHeld = null;
+  try{ var held = JSON.parse(localStorage.getItem(LS)); if(held && typeof held.text === "string") lastHeld = held.text; }catch(e){}
+  var arrived = !!fromLink && fromLink.t !== lastHeld;
   if(fromLink){
     applyState(fromLink.t, fromLink.d, fromLink.r);
     setCollapsed(parseNames().length > 0);
@@ -589,7 +609,12 @@ layout: null
   window.addEventListener("hashchange", function(){
     var o = readHash();
     if(!o) return;
+    var before = ta.value;
     applyState(o.t, o.d, o.r);
+    /* a new list over one that was here lets go of its kept copy; Undo
+       after Clear comes this way too, over an empty list, and takes hold
+       of it again */
+    if(before.trim() && ta.value !== before && window.OLAE_TOOL_DRAWER) window.OLAE_TOOL_DRAWER.letGo();
     renderCount(); renderDrawn(); renderPool();
     setCollapsed(parseNames().length > 0);
     setIdle("Press draw and a name appears here.");
@@ -709,29 +734,49 @@ layout: null
     var k = groupMode === "size" ? Math.max(1, Math.floor(names.length / n))
                                  : Math.min(n, names.length);
     shuffle(names);
-    var base = Math.floor(names.length / k), extra = names.length % k, at = 0;
-    groupsResult.innerHTML = "";
+    var base = Math.floor(names.length / k), extra = names.length % k, at = 0, groups = [];
     for(var g = 0; g < k; g++){
       var size = base + (g < extra ? 1 : 0);
+      groups.push(names.slice(at, at + size));
+      at += size;
+    }
+    showGroups(groups);
+    setCollapsed(true);
+    save();
+  }
+  function showGroups(groups){
+    groupsResult.innerHTML = "";
+    var count = 0;
+    groups.forEach(function(members, g){
       var sec = document.createElement("section");
       sec.className = "group";
       var h = document.createElement("h3");
       h.textContent = "Group " + (g + 1);
       sec.appendChild(h);
       var ul = document.createElement("ul");
-      names.slice(at, at + size).forEach(function(name){
+      members.forEach(function(name){
         var li = document.createElement("li");
         li.textContent = name;
         ul.appendChild(li);
       });
-      at += size;
+      count += members.length;
       sec.appendChild(ul);
       groupsResult.appendChild(sec);
-    }
-    groupsNote.textContent = names.length + " names in " + (k === 1 ? "1 group" : k + " groups");
+    });
+    groupsNote.textContent = count + " names in " + (groups.length === 1 ? "1 group" : groups.length + " groups");
     dealBtn.textContent = "Reshuffle";
-    setCollapsed(true);
-    save();
+  }
+  /* the groups on the page, while they still hold the list as it is */
+  function shownGroups(){
+    var groups = Array.prototype.map.call(groupsResult.querySelectorAll(".group"), function(sec){
+      return Array.prototype.map.call(sec.querySelectorAll("li"), function(li){ return li.textContent; });
+    });
+    var names = parseNames(), all = [];
+    groups.forEach(function(members){ all = all.concat(members); });
+    if(!groups.length || all.length !== names.length) return null;
+    var listed = {};
+    names.forEach(function(n){ listed[n] = true; });
+    return all.every(function(n){ return listed[n]; }) ? groups : null;
   }
   dealBtn.addEventListener("click", deal);
 
@@ -775,6 +820,49 @@ layout: null
   ["mousemove","touchstart"].forEach(function(ev){
     document.addEventListener(ev, function(){ if(document.body.classList.contains("immersive")) pokeChrome(); });
   });
+
+  /* ---- the drawer: the list, and its groups, kept in The House ----
+     js/tool-drawer.js keeps the names one to a line, or, while groups are
+     shown, each group under its name; Open in The Lots puts back the list
+     and the groups as they were. */
+  var GROUP = /^Group \d+$/;
+  window.OLAE_TOOL_WORK = {
+    slug: "lots", prefix: "lots", kind: "The Lots", noun: "list",
+    title: function(date){
+      var n = parseNames().length, groups = shownGroups();
+      return (n === 1 ? "1 name" : n + " names") +
+        (groups ? " in " + (groups.length === 1 ? "1 group" : groups.length + " groups") : "") + ", " + date;
+    },
+    note: "Your drawer is in The House. It keeps this list, with its groups if they are shown, in this browser, to read, download or bring back here whenever you like.",
+    empty: "There are no names to keep yet.",
+    fresh: arrived,
+    work: function(){
+      var names = parseNames();
+      if(!names.length) return null;
+      var groups = shownGroups();
+      if(!groups) return { text: names.join("\n") };
+      return { text: groups.map(function(members, g){ return ["Group " + (g + 1)].concat(members).join("\n"); }).join("\n\n") };
+    },
+    open: function(record){
+      var lines = String(record.text || "").split("\n"), groups = [], names = [];
+      lines.forEach(function(line){
+        var name = line.trim();
+        if(GROUP.test(name)){ groups.push([]); return; }
+        if(!name) return;
+        names.push(name);
+        if(groups.length) groups[groups.length - 1].push(name);
+      });
+      applyState(names.join("\n"), [], removeToggle.checked);
+      renderCount(); renderDrawn(); renderPool();
+      setIdle("Press draw and a name appears here.");
+      groupsResult.innerHTML = "";
+      groupsNote.textContent = "";
+      dealBtn.textContent = "Divide";
+      if(groups.length && groups.every(function(m){ return m.length; })) showGroups(groups);
+      setCollapsed(names.length > 0);
+      save();
+    }
+  };
 
   /* ---- init ---- */
   renderCount();

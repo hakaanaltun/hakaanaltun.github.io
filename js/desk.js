@@ -1,15 +1,21 @@
-/* One live instance per instrument. Moving or hiding a pane never reloads it. */
+/* Each place on the desk holds a live instance of an instrument. Both places
+   can hold the same one, Reader beside Reader, so an instrument can have two
+   instances, named read:1 and read:2. The second keeps its own place, notes
+   or drawing (pane=2, _includes/desk-embed.html), so neither moves the other.
+   An instance put away stays alive until the desk is closed, and choosing its
+   instrument again in that place returns to it. Moving or hiding a pane never
+   reloads it. */
 (function(){
   'use strict';
   var TOOLS = { read:'The Reader', write:'The Page', draw:'The Draw' };
-  var KEY = 'olae-desk-layout-v1', VERSION = '20260906-markdown-1';
+  var KEY = 'olae-desk-layout-v1', VERSION = '20261013-1';
   var workspace = document.getElementById('workspace');
   var divider = document.getElementById('divider');
   var status = document.getElementById('desk-status');
   var restoreBtn = document.getElementById('restore');
   var narrow = window.matchMedia('(max-width:700px)');
   var dark = window.matchMedia('(prefers-color-scheme:dark)');
-  var order = ['read','write'], ratio = 50, focused = null, panels = {};
+  var order = ['read:1','write:1'], ratio = 50, focused = null, panels = {};
   /* A narrow screen always stacks the panes. A wider one stacks them when it
      stands upright and sets them side by side when it lies on its side, until
      the reader chooses otherwise; each way of holding it keeps its own choice. */
@@ -22,10 +28,21 @@
     return narrow.matches || (chosen === null ? upright.matches : chosen);
   }
   function valid(slug){ return Object.prototype.hasOwnProperty.call(TOOLS, slug); }
+  function slugOf(id){ return String(id).split(':')[0]; }
+  function nth(id){ return Number(String(id).split(':')[1]) || 1; }
+  /* an instance of the instrument for one place, never the one in the other */
+  function instance(slug, other){ return other === slug + ':1' ? slug + ':2' : slug + ':1'; }
   try{
     var saved = JSON.parse(localStorage.getItem(KEY));
-    if(saved && Array.isArray(saved.order) && saved.order.length === 2 &&
-       saved.order.every(valid) && saved.order[0] !== saved.order[1]) order = saved.order;
+    /* Until October 2026 the order named instruments alone, read and write;
+       those are their first instances. */
+    if(saved && Array.isArray(saved.order) && saved.order.length === 2 && saved.order.every(function(id){
+      return typeof id === 'string' && /^[a-z]+(?::[12])?$/.test(id) && valid(slugOf(id));
+    })){
+      var first = slugOf(saved.order[0]) + ':' + nth(saved.order[0]);
+      var second = slugOf(saved.order[1]) + ':' + nth(saved.order[1]);
+      order = [first, second === first ? instance(slugOf(second), first) : second];
+    }
     if(saved && typeof saved.ratio === 'number' && isFinite(saved.ratio)) ratio = Math.max(25, Math.min(75, saved.ratio));
     if(saved && saved.stacked && typeof saved.stacked === 'object') ['portrait','landscape'].forEach(function(way){
       if(typeof saved.stacked[way] === 'boolean') stackChosen[way] = saved.stacked[way];
@@ -48,7 +65,7 @@
     if(api) api.setTheme(t.name, t.tokens);
   }
   function paintAll(){
-    Object.keys(panels).forEach(function(slug){ paint(panels[slug]); });
+    Object.keys(panels).forEach(function(id){ paint(panels[id]); });
     document.querySelector('meta[name="theme-color"]').setAttribute('content', theme().tokens['--paper'].trim());
   }
   function setRatio(next){
@@ -57,11 +74,11 @@
     divider.setAttribute('aria-valuenow', String(Math.round(ratio)));
     divider.setAttribute('aria-valuetext', Math.round(ratio) + '% ' + (stacked() ? 'above' : 'on the left'));
   }
-  function make(slug){
-    if(panels[slug]) return;
+  function make(id){
+    if(panels[id]) return;
+    var slug = slugOf(id), n = nth(id);
     var el = document.createElement('section');
-    el.className = 'panel'; el.id = 'panel-' + slug;
-    el.setAttribute('aria-label', TOOLS[slug] + ' pane');
+    el.className = 'panel'; el.id = 'panel-' + slug + (n > 1 ? '-' + n : '');
     var bar = document.createElement('div'); bar.className = 'panel-bar';
     var select = document.createElement('select');
     Object.keys(TOOLS).forEach(function(key){
@@ -79,8 +96,8 @@
     var frame = document.createElement('iframe');
     frame.title = TOOLS[slug] + ' on the desk';
     frame.setAttribute('allow','clipboard-write; fullscreen');
-    var panel = { el:el, select:select, expand:expand, frame:frame, loading:loading, ready:false, timer:null };
-    panels[slug] = panel;
+    var panel = { id:id, slug:slug, el:el, select:select, expand:expand, frame:frame, loading:loading, ready:false, timer:null };
+    panels[id] = panel;
     function slow(){
       message.textContent = 'This instrument has not opened yet. Check your connection and try again.';
       retry.hidden = false;
@@ -89,7 +106,7 @@
       panel.ready = false; loading.hidden = false; retry.hidden = true;
       message.textContent = 'Opening ' + TOOLS[slug] + '…';
       clearTimeout(panel.timer); panel.timer = setTimeout(slow, 20000);
-      frame.src = '/' + slug + '/?desk=1&v=' + VERSION;
+      frame.src = '/' + slug + '/?desk=1' + (n > 1 ? '&pane=' + n : '') + '&v=' + VERSION;
     }
     frame.addEventListener('load', function(){
       clearTimeout(panel.timer);
@@ -99,19 +116,21 @@
       paint(panel); api.setActive(!el.hidden);
     });
     retry.addEventListener('click', load);
+    /* The instrument chosen comes to this place; the other place keeps
+       what it has, even when it is the same instrument. */
     select.addEventListener('change', function(){
-      var slot = order.indexOf(slug), next = select.value;
-      if(slot < 0 || !valid(next)) return;
-      var other = order.indexOf(next);
-      if(other >= 0) order[other] = slug;
-      order[slot] = next;
-      if(focused === slug) focused = next;
+      var slot = order.indexOf(id), next = select.value;
+      if(slot < 0 || !valid(next) || next === slug) return;
+      var target = instance(next, order[1 - slot]);
+      order[slot] = target;
+      if(focused === id) focused = target;
       render(); remember();
-      panels[next].select.focus();
-      announce(TOOLS[order[0]] + ' and ' + TOOLS[order[1]] + ' on the desk.');
+      panels[target].select.focus();
+      var a = slugOf(order[0]), b = slugOf(order[1]);
+      announce(a === b ? TOOLS[a] + ' on both sides of the desk.' : TOOLS[a] + ' and ' + TOOLS[b] + ' on the desk.');
     });
     expand.addEventListener('click', function(){
-      focused = focused === slug ? null : slug;
+      focused = focused === id ? null : id;
       render();
       announce(focused ? TOOLS[slug] + ' fills the desk.' : 'Both panes restored.');
     });
@@ -122,23 +141,25 @@
   function render(){
     order.forEach(make);
     if(focused) workspace.setAttribute('data-focus', focused); else workspace.removeAttribute('data-focus');
-    Object.keys(panels).forEach(function(slug){
-      var panel = panels[slug], slot = order.indexOf(slug);
-      var active = slot >= 0 && (!focused || focused === slug);
+    Object.keys(panels).forEach(function(id){
+      var panel = panels[id], slot = order.indexOf(id);
+      var active = slot >= 0 && (!focused || focused === id);
       var api = embed(panel);
       /* Save the bookmark while the frame still has its original dimensions. */
       if(!active && api) api.setActive(false);
       panel.el.hidden = !active;
       panel.el.dataset.slot = String(slot);
-      panel.select.value = slug;
+      panel.select.value = panel.slug;
       var side = stacked() ? (slot === 0 ? 'top' : 'bottom') : (slot === 0 ? 'left' : 'right');
+      panel.el.setAttribute('aria-label', TOOLS[panel.slug] + (slot >= 0 ? ', ' + side + ' pane' : ''));
       panel.select.setAttribute('aria-label', 'Instrument in ' + side + ' pane');
-      var label = focused === slug ? 'Restore split view' : 'Expand ' + side + ' pane';
+      var label = focused === id ? 'Restore split view' : 'Expand ' + side + ' pane';
       panel.expand.setAttribute('aria-label', label); panel.expand.title = label;
-      panel.expand.setAttribute('aria-pressed', String(focused === slug));
-      panel.expand.textContent = focused === slug ? '↙' : '⤢';
+      panel.expand.setAttribute('aria-pressed', String(focused === id));
+      panel.expand.textContent = focused === id ? '↙' : '⤢';
       if(active && api) api.setActive(true);
     });
+    divider.setAttribute('aria-controls', order.map(function(id){ return panels[id].el.id; }).join(' '));
     divider.hidden = !!focused;
     workspace.classList.toggle('stacked', stacked());
     divider.setAttribute('aria-orientation', stacked() ? 'horizontal' : 'vertical');
@@ -153,8 +174,8 @@
   }
   function restore(){
     if(!focused) return;
-    var slug = focused; focused = null; render();
-    panels[slug].expand.focus(); announce('Both panes restored.');
+    var id = focused; focused = null; render();
+    panels[id].expand.focus(); announce('Both panes restored.');
   }
   window.OLAE_DESK = { restore:restore };
   restoreBtn.addEventListener('click', restore);
@@ -209,8 +230,8 @@
   });
   function saveAll(){
     var failed = false;
-    Object.keys(panels).forEach(function(slug){
-      var api = embed(panels[slug]);
+    Object.keys(panels).forEach(function(id){
+      var api = embed(panels[id]);
       if(api){ api.save(); failed = api.unsaved() || failed; }
     });
     return failed;

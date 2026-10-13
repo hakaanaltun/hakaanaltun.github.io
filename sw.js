@@ -58,7 +58,10 @@ var TOOL_ASSETS = [
   "/js/list-lots-clear.js",
   "/js/list-trim.js",
   "/js/text-tool-clear.js",
-  "/js/keep.js",   /* The Page and The Draw keep their work in the drawer */
+  "/js/keep.js",   /* the instruments keep their work in the drawer */
+  "/css/keep.css",   /* and The Reader its passages */
+  "/js/tool-drawer.js",
+  "/css/tool-drawer.css",
   "/css/style.css",   /* the catalogue page's stylesheet */
   "/css/fonts.css",
   "/css/palettes.css",   /* the /themes/ wardrobe; the catalogue shell links it */
