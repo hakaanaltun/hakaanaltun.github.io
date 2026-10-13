@@ -843,7 +843,14 @@ accuracy and plain prose to this section as well.
   the helium line of 1868 for the prominence and Lyot's coronagraph for the
   corona. The illustration note below the picture carries what the painting
   combines or strengthens; a note repeats it only when its explanation
-  depends on it. Small destinations at the right edge can use
+  depends on it. The same day the black hole's notes took that form too:
+  Cygnus X-1 for the disk, the 1919 eclipse for the bent light,
+  Schwarzschild's solution for the shadow and the brighter side of M87's
+  ring. The quasar's faint jet gained the apparent faster-than-light motion
+  measured in 3C 279, and Earth's note in the journey gained the Blue
+  Marble. The black hole's story lost its paragraph on wormholes, which did
+  not help a reader see the picture, and is now titled "Drawn before it
+  was seen". Small destinations at the right edge can use
   `label_edge: left` to keep their labels inside a phone’s picture.
   Complete all eight planets and selected important Solar System features
   before closing the journey with Voyager 1 and Voyager 2. Explain their
