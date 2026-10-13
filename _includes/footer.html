@@ -56,50 +56,9 @@
         </button>
 
         <div class="footer-actions" id="footer-actions-menu">
-          {%- comment -%} The instruments' sign is a pair of compasses, with the grip
-          on top as a real pair has, so that it does not read as a letter.
-          The author chose it on 13 October 2026 over a viewfinder, which
-          read as a camera, and a hand compass, which is a browser's sign.
-          Until then it was four squares, which read as any app's grid.
-          {%- endcomment %}
-          <a href="/tools/" class="footer-icon-btn" aria-label="Instruments" data-label="Instruments">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <path d="M12 1v1.6"/>
-              <circle cx="12" cy="4.6" r="2"/>
-              <path d="M10.9 6.3 5 21"/>
-              <path d="M13.1 6.3 19 21"/>
-            </svg>
-          </a>
-
-          {%- comment -%} The reader's drawer, beside the instruments that can keep
-          their work in it. It opens over this page (js/site-nav.js); without
-          the script it leads to the drawer in The House. Its sign is the
-          one the instruments' own drawer button carries. {%- endcomment %}
-          <a href="/house/#drawer" class="footer-icon-btn" data-open-drawer aria-label="Your drawer" data-label="Your drawer">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <rect x="3" y="4" width="18" height="16" rx="2"/>
-              <line x1="3" y1="12" x2="21" y2="12"/>
-              <line x1="10" y1="8" x2="14" y2="8"/>
-              <line x1="10" y1="16" x2="14" y2="16"/>
-            </svg>
-          </a>
-
+          {%- comment -%} The theme first, then the two places a reader goes to, the
+          instruments and their drawer side by side, and sharing last. The
+          author asked for this order on 13 October 2026. {%- endcomment %}
           <div class="theme-menu-wrap">
           <button
             class="footer-icon-btn footer-theme-toggle"
@@ -177,6 +136,53 @@
             </a>
           </div>
           </div>
+
+          {%- comment -%} The instruments' sign is a pencil, a ruler and a pair of
+          compasses side by side in a thin frame, the tools a little heavier
+          than the frame. The author asked for it on 13 October 2026, after a
+          pair of compasses alone felt chosen rather than natural; it stands
+          as tall as the drawer beside it. {%- endcomment %}
+          <a href="/tools/" class="footer-icon-btn" aria-label="Instruments" data-label="Instruments">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <rect x="3" y="4" width="18" height="16" rx="2" stroke-width="1.25"/>
+              <g stroke-width="1.5">
+                <path d="M6.3 16.5V10.4L7.4 8 8.5 10.4V16.5Z"/>
+                <path d="M11 16.5V7.5h2.2v9"/>
+                <path d="M11 10.5h1M11 13.5h1"/>
+                <circle cx="17.3" cy="8.6" r=".9"/>
+                <path d="M16.9 9.4 16 16.5M17.7 9.4 18.6 16.5"/>
+              </g>
+            </svg>
+          </a>
+
+          {%- comment -%} The reader's drawer, beside the instruments that can keep
+          their work in it. It opens over this page (js/site-nav.js); without
+          the script it leads to the drawer in The House. Its sign is the
+          one the instruments' own drawer button carries. {%- endcomment %}
+          <a href="/house/#drawer" class="footer-icon-btn" data-open-drawer aria-label="Your drawer" data-label="Your drawer">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <rect x="3" y="4" width="18" height="16" rx="2"/>
+              <line x1="3" y1="12" x2="21" y2="12"/>
+              <line x1="10" y1="8" x2="14" y2="8"/>
+              <line x1="10" y1="16" x2="14" y2="16"/>
+            </svg>
+          </a>
 
           <button
             class="footer-icon-btn footer-share-btn"

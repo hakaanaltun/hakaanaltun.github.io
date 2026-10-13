@@ -2730,7 +2730,10 @@ html[data-theme="sky"] .footer-strip { border-top: 0; }
     position: absolute;
     top: calc(100% + 6px);
     right: 0;
-    z-index: 40;
+    /* Above the snow and rain buttons at the foot of the footer
+       (css/let-it-snow.css, 41), which showed through the theme menu
+       opened from here. */
+    z-index: 42;
     flex-direction: column;
     gap: 2px;
     padding: 5px;
