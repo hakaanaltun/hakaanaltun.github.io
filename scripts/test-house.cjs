@@ -161,6 +161,15 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   const skipped = fs.readFileSync(path.join(root, '_data', 'unsuggested.yml'), 'utf8').match(/slug: (\S+)/g).map((s) => s.slice(6));
   const skippedTitles = catalog.pieces.filter((p) => skipped.includes(p.id.slice(6))).map((p) => p.title);
   assert.ok(catalog.lines.every((l) => l.book || !skippedTitles.includes(l.source)), 'the shelf leaves out unsuggested pieces');
+  // Every word is listed, for the drawer, but only a word in a collection is
+  // marked collected; the desk and the door take only those.
+  const collections = fs.readFileSync(path.join(root, '_data', 'word_collections.yml'), 'utf8');
+  const grouped = [].concat(...Array.from(collections.matchAll(/^\s*words: \[([^\]]*)\]/gm), (m) => m[1].split(',').map((s) => s.trim())));
+  assert.ok(grouped.length > 0, 'the collections list their words');
+  for (const w of catalog.words) {
+    assert.equal(w.collected, grouped.includes(w.id.slice(5)), `${w.word} is marked collected only when a collection holds it`);
+  }
+  assert.ok(catalog.words.some((w) => !w.collected), 'a word outside every collection is still listed for the drawer');
 
   // Every address the room can hand out resolves on the built site.
   const addresses = [].concat(...['words', 'questions', 'lines', 'pieces', 'notes', 'quizzes'].map((k) => catalog[k].map((x) => x.url)));
@@ -185,6 +194,7 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   const cards = a.w.document.querySelectorAll('#house-dialog-content .house-word-card');
   assert.equal(cards.length, 3, 'three cards on the desk');
   const todaysWords = Array.from(cards, (c) => c.querySelector('h3').textContent);
+  assert.ok(todaysWords.every((t) => catalog.words.find((w) => w.word === t).collected), 'the desk puts out only collected words');
   const firstCard = a.q('#house-dialog-content [data-keep-button]');
   const firstWord = JSON.parse(firstCard.getAttribute('data-keep-item'));
   a.click(firstCard);
@@ -553,9 +563,11 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
 
   // --- Since the last visit --------------------------------------------------
   const allIds = [].concat(...['pieces', 'words', 'notes', 'quizzes'].map((k) => catalog[k].map((x) => x.id)));
-  const newWord = catalog.words[catalog.words.length - 1];
+  const newWord = catalog.words.filter((w) => w.collected).pop();
+  const waitingWord = catalog.words.find((w) => !w.collected);
   const newPiece = catalog.pieces[0];
-  const known = allIds.filter((id) => id !== newWord.id && id !== newPiece.id);
+  // The word waiting for a collection is unknown too, and is not announced.
+  const known = allIds.filter((id) => id !== newWord.id && id !== newPiece.id && id !== waitingWord.id);
   a = house({ saved: JSON.stringify({ kept: [], seen: { day: '2000-01-01', known, fresh: [] } }) });
   await tick();
   assert.equal(a.q('#house-since').hidden, false);

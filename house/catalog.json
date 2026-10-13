@@ -13,13 +13,21 @@ sitemap: false
   file name and questions by the id in their bank, so neither changes when
   the text around it does; pieces, notes and quizzes are listed so the door
   can say what has arrived since a reader's last visit.
+
+  Every word is listed, so a word kept in a drawer still shows its current
+  story, but only a word in one of the collections is marked "collected".
+  The desk's cards and the door's "A new word" take only those, as the
+  homepage does: a word outside every collection waits off the curated
+  places until there is a group for it (_data/word_collections.yml).
 {%- endcomment -%}
 {%- assign skip = site.data.unsuggested | map: "slug" -%}
+{%- assign collected = "" | split: "" -%}
+{%- for group in site.data.word_collections -%}{%- assign collected = collected | concat: group.words -%}{%- endfor -%}
 {
 "words": [
 {%- for w in site.words -%}
 {%- assign w_slug = w.url | split: "/" | last -%}
-{"id":{{ "word-" | append: w_slug | jsonify }},"word":{{ w.word | jsonify }},"pos":{{ w.pos | jsonify }},"teaser":{{ w.teaser | jsonify }},"description":{{ w.description | jsonify }},"url":{{ w.url | jsonify }}}{% unless forloop.last %},{% endunless %}
+{"id":{{ "word-" | append: w_slug | jsonify }},"word":{{ w.word | jsonify }},"pos":{{ w.pos | jsonify }},"teaser":{{ w.teaser | jsonify }},"description":{{ w.description | jsonify }},"url":{{ w.url | jsonify }},"collected":{% if collected contains w_slug or collected contains w.word %}true{% else %}false{% endif %}}{% unless forloop.last %},{% endunless %}
 {%- endfor -%}
 ],
 "questions": [
