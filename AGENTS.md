@@ -1109,13 +1109,12 @@ accuracy and plain prose to this section as well.
   opens the drawer over the page; without the script it leads to
   `/house/#drawer`. The author asked for this on 13 October 2026, when the
   drawer had come to matter across the site, and asked the same day for
-  the instruments a sign that says what they are for. It is a pencil, a
-  ruler and a pair of compasses side by side in a thin frame, as tall as
-  the drawer beside it, in place of four squares. A viewfinder round a
-  point in focus read as a camera, a hand compass is a browser's sign, a
-  pair of compasses alone felt chosen rather than natural, and a basket
-  reads as a shop's. The controls run in this order, as the author asked
-  the same day: the theme, the instruments, the drawer, and sharing.
+  the instruments a sign that says what they are for. A viewfinder round a
+  point in focus read as a camera, a pair of compasses felt chosen rather
+  than natural, and a pencil, a ruler and compasses in a frame could not
+  be seen from a distance, so the instruments kept their four squares.
+  The controls run in this order, as the author asked the same day: the
+  theme, the instruments, the drawer, and sharing.
 - **The Farm House belongs to The House.** It is entered only from there,
   through the Polaroid on a shelf in the study, so its "← the study"
   returns to the study (`/house/#study`). Do not give its frame the site's
