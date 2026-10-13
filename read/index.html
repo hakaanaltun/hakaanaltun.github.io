@@ -483,6 +483,7 @@ layout: null
       <h3>What is on the shelf?</h3>
       <p>A few small things, kept behind the lines button in the corner: the table of contents when the file carries one, rain and brown noise to read inside, four sizes of type for flowing text, and the light&mdash;light, dark, or following the sky. PDF page navigation and zoom appear above the page. Close the panel and return to reading.</p>
 
+      {% include tool-notes.html %}
       {% include tool-links.html slug="read" %}
     </div>
   </footer>
@@ -491,7 +492,7 @@ layout: null
 
 <script src="/js/vendor/marked-18.0.11.umd.js"></script>
 <script src="/js/reader-markdown.js?v=20260906-1"></script>
-<script src="/js/reader-pdf.js?v=20260919-1"></script>
+<script src="/js/reader-pdf.js?v=20261013-1"></script>
 <script>
 (function(){
   "use strict";
@@ -969,7 +970,11 @@ layout: null
         if(hit) t = hit;
       }catch(e){}
     }
-    t.scrollIntoView();
+    /* Only this window scrolls: scrollIntoView would also scroll The Desk
+       around a Reader in one of its panes. */
+    var margin = parseFloat(getComputedStyle(t).scrollMarginTop) || 0;
+    var top = t.getBoundingClientRect().top + (window.pageYOffset || document.documentElement.scrollTop || 0) - margin;
+    window.scrollTo(window.pageXOffset || 0, Math.max(0, top));
   }
   article.addEventListener("click", function(e){
     var a = e.target.closest ? e.target.closest("a[data-sec]") : null;

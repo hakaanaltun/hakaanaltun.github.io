@@ -153,6 +153,9 @@ layout: null
   .theme-btn .icon-sky{ display:var(--icon-sky); }
 
   .sheet{ width:100%; max-width:680px; margin:0 auto; padding:8vh 26px 24vh; flex:1; }
+  /* room below the writing, so its last line can come to the middle of the
+     screen: while typewriter scrolling is on, and after arriving at the end */
+  body.room-below .sheet{ padding-bottom:60vh; }
   textarea{
     display:block; width:100%; min-height:52vh;
     border:0; background:transparent; color:var(--ink);
@@ -617,6 +620,7 @@ layout: null
       <h3>Does the shelf send anything anywhere?</h3>
       <p>No. The timer keeps time inside the page and never asks to send notifications, the rain and the noise are synthesized live in your browser&mdash;no recordings, nothing streamed&mdash;and the sky is computed from the clock and your time zone. Like the page itself, the shelf never lets your writing leave your device.</p>
 
+      {% include tool-notes.html %}
       {% include tool-links.html slug="write" %}
     </div>
   </footer>
@@ -796,8 +800,10 @@ layout: null
      whatever the page already held, so the page opens at its end with the
      caret after them. */
   if(!window.OLAE_DESK_EMBED && new URLSearchParams(window.location.search).get("at") === "end"){
-    /* the page's own notes follow the writing, so the scroll stops with the
-       last lines a little above the middle of the screen */
+    /* the notes wait folded (_includes/tool-notes.html), so the page makes
+       room below the writing itself, and the scroll stops with the last
+       lines a little above the middle of the screen */
+    document.body.classList.add("room-below", "at-end");
     var toEnd = function(){
       var bottom = ta.getBoundingClientRect().bottom + (window.pageYOffset || 0);
       window.scrollTo(0, Math.max(0, bottom - window.innerHeight * 0.6));
@@ -1367,6 +1373,9 @@ layout: null
   var twBtns = Array.prototype.slice.call(document.querySelectorAll("#shelf .shelf-pill[data-typewriter]"));
   function setTypewriter(on){
     typewriterOn = on;
+    /* the line being written can come to the middle even at the end of a
+       draft, with the notes folded and in full screen */
+    document.body.classList.toggle("room-below", on || document.body.classList.contains("at-end"));
     twBtns.forEach(function(b){ b.setAttribute("aria-pressed", String(b.getAttribute("data-typewriter") === (on ? "on" : "off"))); });
     try{ localStorage.setItem("olae-page-typewriter", on ? "on" : "off"); }catch(e){}
     if(on) centerCaret();
