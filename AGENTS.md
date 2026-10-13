@@ -1105,7 +1105,8 @@ accuracy and plain prose to this section as well.
   House as it opens. The chevron waits for the script; without it The
   House is the plain link it was.
 - **The footer carries the drawer.** Its icon, the same chest the
-  instruments' own drawer button shows, stands beside the instruments' and
+  instruments' own drawer button shows, as tall as the instruments' four
+  squares, stands beside the instruments' and
   opens the drawer over the page; without the script it leads to
   `/house/#drawer`. The author asked for this on 13 October 2026, when the
   drawer had come to matter across the site, and asked the same day for
