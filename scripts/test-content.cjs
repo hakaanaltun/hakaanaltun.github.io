@@ -284,10 +284,43 @@ for (const file of htmlFiles(site)) {
   }
 }
 
+// --- Pictures inside links -------------------------------------------------
+
+/* A link names its destination with its own words: a card's title, its
+   date, its teaser. A picture inside such a link has an empty alt, or a
+   screen reader reads the whole description of the cover before the title,
+   in every list of links. The description stays where the picture is the
+   subject, on the piece or the picture's own page. A link with no words of
+   its own still needs its picture's alt to name it. The scripts that build
+   cards are held to the same rule. */
+const visibleWords = (html) => html
+  .replace(/<img\b[^>]*>/gi, '')
+  .replace(/<[^>]*\baria-hidden="true"[^>]*>[\s\S]*?<\/[^>]+>/gi, '')
+  .replace(/<[^>]+>/g, '')
+  .replace(/&[a-z#0-9]+;/gi, ' ')
+  .trim();
+for (const file of htmlFiles(site)) {
+  const where = path.relative(root, file);
+  const html = fs.readFileSync(file, 'utf8')
+    .replace(/<script\b[\s\S]*?<\/script>/g, '')
+    .replace(/<template\b[\s\S]*?<\/template>/g, '');
+  for (const [link] of html.matchAll(/<a\b[^>]*>[\s\S]*?<\/a>/gi)) {
+    if (!/<img\b/i.test(link) || /^<a\b[^>]*\baria-label=/i.test(link) || !visibleWords(link)) continue;
+    for (const [img] of link.matchAll(/<img\b[^>]*>/gi)) {
+      if (!/\balt=""/.test(img)) problem(where, `a picture inside a link with its own words keeps an alt; give it alt="": ${img.slice(0, 90)}`);
+    }
+  }
+}
+for (const file of ['js/more-essays.js', 'js/series-nav.js', 'js/cafe-nav.js']) {
+  for (const [img] of read(file).matchAll(/<img\b[^>]*>/g)) {
+    if (!/\balt=""/.test(img)) problem(file, `a card's picture keeps an alt; its link has its own words, so give it alt="": ${img.slice(0, 90)}`);
+  }
+}
+
 if (problems.size) {
   console.error(`Content checks found ${problems.size} problem${problems.size === 1 ? '' : 's'}:\n`);
   for (const [line, times] of problems) console.error(`  ${line}${times > 1 ? ` (${times} times)` : ''}`);
   process.exitCode = 1;
 } else {
-  console.log('Content checks passed: quiz banks, word footnotes, closed-up dashes, their word joiners on the built pages and links inside the site.');
+  console.log('Content checks passed: quiz banks, word footnotes, closed-up dashes, their word joiners on the built pages, links inside the site and pictures inside links.');
 }

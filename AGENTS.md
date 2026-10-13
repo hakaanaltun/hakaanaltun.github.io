@@ -1116,6 +1116,16 @@ accuracy and plain prose to this section as well.
   on its own, with no words, answers in its own way: Moris's gallery cover
   grows a little and the Farm House's photograph straightens.
   `scripts/test-hover.cjs` fails on any rule that dims a picture.
+- **A picture inside a card is named by the card's words.** When a link
+  carries a picture and words of its own, such as a title, a date or a
+  teaser, the picture has `alt=""`. Otherwise a screen reader reads the
+  whole description of the cover before the title, in every list of links.
+  The description stays on the page where the picture is the subject: the
+  piece's cover and the painting on its own page. A link with no words of
+  its own still takes its picture's alt as its name. The author asked for
+  this across the site on 13 October 2026. `scripts/test-content.cjs` holds
+  the built pages and the scripts that build cards (`js/more-essays.js`,
+  `js/series-nav.js`, `js/cafe-nav.js`) to it.
 - **A pointer draws no line.** A link answers a pointer by dimming. A
   line under a link stays only when it is there at rest, as in the menu
   strip, the story's choices and the 404 page, and it dims with the link.

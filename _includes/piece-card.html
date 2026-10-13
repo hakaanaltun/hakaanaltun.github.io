@@ -25,7 +25,7 @@
       <span class="piece-thumb-wrap">
         <img src="{{ img480 }}" srcset="{{ img480 }} 480w, {{ img960 }} 960w"
              sizes="{% if include.featured %}(max-width: 600px) calc(100vw - 80px), (max-width: 900px) 92vw, 590px{% else %}(max-width: 600px) calc(100vw - 80px), (max-width: 900px) 45vw, 280px{% endif %}"
-             alt="{{ include.post.cover_alt | default: include.post.title }}" class="piece-thumb" loading="lazy">
+             alt="" class="piece-thumb" loading="lazy">
       </span>
       {% elsif include.post.story_card %}
       {% comment %} Imageless story fallback: a quiet doorframe. {% endcomment %}
