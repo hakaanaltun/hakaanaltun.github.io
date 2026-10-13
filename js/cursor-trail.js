@@ -11,7 +11,8 @@
    up without touching this file: whatever is under the pointer sets
    --trail, a colour, and --trail-glow: 1 where the ground is dark enough for
    the specks to add light to each other rather than ink. Without either the
-   trail is a middling gold. */
+   trail is a middling gold. --trail: none leaves no trail over that part of
+   the page, as at The House's door. */
 (function () {
   'use strict';
   if (!window.matchMedia || !window.requestAnimationFrame) return;
@@ -81,9 +82,9 @@
     var target = event.target;
     // A dialog stands above the canvas; nothing drawn under it would show.
     if (target && target.closest && target.closest('dialog[open]')) { last = null; return; }
-    if (!canvas && !setup()) { document.removeEventListener('pointermove', move); return; }
     var now = performance.now();
-    colourAt(target, now);
+    if (colourAt(target, now).colour === 'none') { last = null; return; }
+    if (!canvas && !setup()) { document.removeEventListener('pointermove', move); return; }
     var points = event.getCoalescedEvents ? event.getCoalescedEvents() : [];
     if (!points.length) points = [event];
     for (var i = 0; i < points.length; i++) {

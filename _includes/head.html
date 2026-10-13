@@ -310,7 +310,7 @@ that are say so without moving out of this branch. {% endcomment %}
 
 {% comment %} One stylesheet pair for every page, whichever branch above
 wrote its head, so each ?v= is changed in one place. {% endcomment %}
-<link rel="stylesheet" href="/css/style.css?v=20261008-2">
+<link rel="stylesheet" href="/css/style.css?v=20261013-1">
 <link rel="stylesheet" href="/css/palettes.css?v=20260905-2">
 
 {% comment %} A word story, described for machines.
@@ -513,8 +513,8 @@ page script that asks it for something. {% endcomment %}
 {% if page.layout == "post" and page.series != "story" %}{% assign _keep = true %}{% endif %}
 {% if page.layout == "word" or page.trivia or page.book_part or page.house %}{% assign _keep = true %}{% endif %}
 {% if _keep %}
-<link rel="stylesheet" href="/css/keep.css?v=20261012-1">
-<script src="/js/keep.js?v=20261013-2" defer></script>
+<link rel="stylesheet" href="{{ site.data.drawer_assets.keep_css }}">
+<script src="{{ site.data.drawer_assets.keep_js }}" defer></script>
 {% endif %}
 
 {% if page.layout == "post" and page.series != "story" %}

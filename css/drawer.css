@@ -1,0 +1,94 @@
+/* The drawer's box (js/drawer.js): the same box in The House, where the
+   study's things open in it too, and over any other page, where the site's
+   menu and footer open the drawer. It shares the site's paper, ink and
+   type, and follows the reader's theme. */
+/* Over another page the box stands on its own, outside the House's room,
+   so it carries what the room would have given it. :where() keeps these
+   below every other rule, here and in css/house.css, whichever file comes
+   first. */
+.house-dialog [hidden] { display: none !important; }
+:where(.house-dialog) button { font: inherit; color: inherit; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+:where(.house-dialog) :is(button, a, summary):focus-visible { outline: 2px solid var(--ink); outline-offset: 5px; }
+.house-dialog { background: var(--paper); color: var(--ink); border: 1px solid var(--rule-strong); width: min(580px, calc(100% - 32px)); max-height: 86vh; max-height: 86dvh; margin: auto; padding: 22px 32px 28px; box-sizing: border-box; border-radius: 3px; box-shadow: 0 16px 80px #0003; overscroll-behavior: contain; }
+.house-dialog::backdrop { background: #201e19a6; }
+html:has(.house-dialog[open]) { overflow: hidden; }
+.house-dialog[open] { animation: house-arrive .2s ease-out; }
+.house-dialog-head { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+.house-dialog-head .house-eyebrow { margin: 0; }
+.house-close { border: 0; background: none; font: 28px/1 Georgia, serif !important; width: 44px; height: 44px; margin-right: -12px; }
+.house-dialog h2 { font: 500 40px/1.1 'Cormorant Garamond', Georgia, serif; margin: 10px 0 20px; }
+.house-dialog h3 { font: 500 29px/1.2 'Cormorant Garamond', Georgia, serif; margin: 0 0 16px; }
+.house-dialog p, .house-dialog blockquote { font-size: 18px; line-height: 1.6; }
+.house-item { padding: 24px 0; border-top: 1px solid var(--rule-strong); }
+.house-item-kind { font-size: 12px !important; text-transform: uppercase; letter-spacing: .1em; color: var(--vizon); margin: 0 0 8px; }
+.house-item blockquote { margin: 10px 0; padding: 0; border: 0; font-style: italic; white-space: pre-line; }
+.house-dialog h3.is-word { font-style: italic; font-size: 36px; }
+.house-dialog .house-drawer-marks { margin: 0 0 22px; color: var(--vizon); font-size: 15px; line-height: 1.6; }
+.house-drawer-marks button { margin-left: 4px; padding: 6px 12px; min-height: 40px; border: 1px solid var(--rule-strong); border-radius: 2px; background: none; color: var(--ink-soft); font-size: 15px; }
+.house-item-note { margin: 14px 0 0; }
+.house-item-note .house-item-kind { margin: 0 0 4px; }
+.house-dialog .house-note-text { margin: 0; white-space: pre-line; }
+.house-item .keep-note { margin: 16px 0 0; }
+.house-dialog .keep-note-hint, .house-dialog .keep-note-said { font-size: 15px; line-height: 1.45; }
+.house-item .keep-note-foot button { padding: 9px 14px; min-height: 44px; border: 1px solid var(--rule-strong); border-radius: 2px; background: var(--surface-soft); font-size: 15px; font-style: normal; color: var(--ink); }
+.house-item-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 12px 24px; margin-top: 18px; font-size: 16px; }
+.house-dialog a { color: var(--petrol); text-decoration: underline; text-underline-offset: 4px; }
+.house-item-actions button { padding: 9px 12px; min-height: 44px; border: 1px solid var(--rule-strong); border-radius: 2px; background: var(--surface-soft); font-size: 15px; }
+.house-item-actions button[aria-pressed="true"] { border-color: var(--vizon); color: var(--vizon); }
+/* A page from The Page and a drawing from The Draw: the reader's own work,
+   shown as it was made. */
+.house-dialog .house-page-text { margin: 10px 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.house-dialog .house-page-count { margin: 6px 0 0; color: var(--vizon); font-size: 15px; }
+.house-page-whole summary { cursor: pointer; display: inline-flex; align-items: center; gap: 9px; min-height: 44px; color: var(--vizon); font-size: 16px; list-style: none; }
+.house-page-whole summary::-webkit-details-marker { display: none; }
+.house-page-whole summary::after { content: ''; width: 6px; height: 6px; flex-shrink: 0; border-right: 1px solid currentColor; border-bottom: 1px solid currentColor; transform: translateY(-2px) rotate(45deg); transition: transform .25s ease; }
+.house-page-whole[open] > summary::after { transform: translateY(1px) rotate(-135deg); }
+.house-page-whole[open] summary { margin-bottom: 4px; }
+.house-drawing { margin: 12px 0 0; }
+.house-drawing img { display: block; max-width: 100%; max-height: 320px; height: auto; border: 1px solid var(--rule-strong); background: #fff; }
+.house-drawing .house-drawer-note { margin: 0; }
+.house-drawer-tools { display: flex; flex-wrap: wrap; gap: 10px 14px; margin: 4px 0 22px; }
+.house-drawer-tools button { padding: 9px 14px; min-height: 44px; border: 1px solid var(--rule-strong); border-radius: 2px; background: none; font-size: 15px; color: var(--ink-soft); }
+.house-drawer-note, .house-dialog-status { color: var(--vizon); font-size: 15px !important; }
+.house-dialog-status:empty { display: none; }
+.house-empty-drawer { border: 1px dashed var(--rule-strong); padding: 28px 24px; margin: 24px 0; }
+.house-empty-drawer p { margin: 0; }
+/* The way back from the drawer to the notebook it was opened from. */
+.house-back { display: inline-block; margin: 0 0 16px; padding: 8px 0; min-height: 44px; border: 0; background: none; color: var(--petrol) !important; font-size: 17px !important; text-decoration: underline; text-underline-offset: 4px; transition: var(--select-ease, opacity .2s ease); }
+.house-back:hover { opacity: var(--select-dim, .78); }
+@keyframes house-arrive { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+/* The label over the drawer's name, as The House sets it in this box. */
+.drawer-dialog .house-eyebrow { font-family: 'EB Garamond', Georgia, serif; letter-spacing: .14em; text-transform: uppercase; color: var(--vizon); margin: 0; }
+.drawer-dialog p { margin: 0 0 1em; }
+.drawer-dialog blockquote::before, .drawer-dialog blockquote::after { content: none; }
+/* The way to the House, where the drawer is kept, at its foot. */
+.drawer-dialog .drawer-dialog-home { margin: 22px 0 0; padding-top: 18px; border-top: 1px solid var(--rule-strong); font-size: 16px; }
+@media (max-width: 620px) {
+  .house-dialog { padding: 16px 22px 24px; max-height: 90dvh; }
+  .house-dialog h2 { font-size: 35px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .house-dialog[open] { animation: none; }
+  .house-dialog *, .house-dialog *::before, .house-dialog *::after { transition: none !important; }
+}
+
+/* Printing the drawer: js/drawer.js sets the sheet down at the end of the
+   page and marks the document, and only the sheet is printed. */
+.house-print { display: none; }
+.house-print .amp { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; }
+@media print {
+  html.house-printing body { margin: 0; padding: 0; }
+  html.house-printing body > *:not(.house-print) { display: none !important; }
+  html.house-printing .house-print { display: block; color: #262320; font: 12pt/1.5 'EB Garamond', Georgia, serif; }
+  .house-print h1 { font: 500 30pt/1.1 'Cormorant Garamond', Georgia, serif; margin: 0 0 4pt; }
+  .house-print-from { margin: 0 0 24pt; color: #6D665B; }
+  .house-print article { padding: 12pt 0; border-top: 1px solid #D6CDB6; break-inside: avoid; }
+  .house-print h2 { font: 500 18pt/1.2 'Cormorant Garamond', Georgia, serif; margin: 0 0 6pt; }
+  .house-print h2.is-word { font-style: italic; }
+  .house-print .house-item-kind { font-size: 8pt !important; letter-spacing: .12em; text-transform: uppercase; color: #6D665B; margin: 0 0 4pt; }
+  .house-print-address { color: #6D665B; font-size: 10pt; }
+  .house-print-note { white-space: pre-line; }
+  .house-print article.is-page { break-inside: auto; }
+  .house-print-page { white-space: pre-wrap; overflow-wrap: anywhere; }
+  .house-print-drawing { display: block; max-width: 100%; max-height: 16cm; margin: 4pt 0 8pt; border: 1px solid #D6CDB6; }
+}

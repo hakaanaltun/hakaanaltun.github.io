@@ -24,7 +24,7 @@
 .door-bell { fill: #b5985a; stroke: var(--vizon); }
 .door-name { font: 11px 'EB Garamond', Georgia, serif; letter-spacing: 2px; fill: var(--vizon); }
 /* The site's ampersand is the display italic, as in the masthead. */
-.house .amp, .house-print .amp { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; }
+.house .amp { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; }
 .house-eyebrow .amp { font-size: 1.2em; line-height: 1; }
 .door-amp { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 14px; letter-spacing: 0; }
 .house-welcome h2 { font: 500 clamp(40px, 5vw, 60px)/1.1 'Cormorant Garamond', Georgia, serif; margin: 14px 0 24px; }
@@ -259,8 +259,7 @@
 /* The study's lamp lights the study; out on the balcony it shows only
    through the glass of the door. The balcony has a lamp of its own, a
    glass globe on the left-hand wall, with a yellow light on the chair with
-   the book that reaches a little across to the near side of the pine after
-   sunset. */
+   the book that reaches out to the near side of the pine after sunset. */
 .house-scene--balcony[data-lamp="on"] .house-dusk { fill: #1c2633; }
 .house-balcony-lamp-globe { fill: #f3efe4; }
 .house-balcony-lamp-glow, .house-balcony-pine-glow { opacity: 0; pointer-events: none; transition: opacity 500ms ease; }
@@ -346,47 +345,7 @@
 .house-room-footer a { color: var(--ink-soft); text-decoration: none; transition: var(--select-ease); }
 .house-room-footer a:hover, .house-room-footer a:active { opacity: var(--select-dim); }
 .house-status { min-height: 1.5em; font-size: 15px; color: var(--vizon); margin: 18px 0 0; }
-.house-dialog { background: var(--paper); color: var(--ink); border: 1px solid var(--rule-strong); width: min(580px, calc(100% - 32px)); max-height: 86vh; max-height: 86dvh; margin: auto; padding: 22px 32px 28px; box-sizing: border-box; border-radius: 3px; box-shadow: 0 16px 80px #0003; overscroll-behavior: contain; }
-.house-dialog::backdrop { background: #201e19a6; }
-html:has(.house-dialog[open]) { overflow: hidden; }
-.house-dialog[open] { animation: house-arrive .2s ease-out; }
-.house-dialog-head { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
-.house-dialog-head .house-eyebrow { margin: 0; }
-.house-close { border: 0; background: none; font: 28px/1 Georgia, serif !important; width: 44px; height: 44px; margin-right: -12px; }
-.house-dialog h2 { font: 500 40px/1.1 'Cormorant Garamond', Georgia, serif; margin: 10px 0 20px; }
-.house-dialog h3 { font: 500 29px/1.2 'Cormorant Garamond', Georgia, serif; margin: 0 0 16px; }
-.house-dialog p, .house-dialog blockquote { font-size: 18px; line-height: 1.6; }
 .house-object-intro { color: var(--ink-soft); margin: 0 0 24px; }
-.house-item { padding: 24px 0; border-top: 1px solid var(--rule-strong); }
-.house-item-kind { font-size: 12px !important; text-transform: uppercase; letter-spacing: .1em; color: var(--vizon); margin: 0 0 8px; }
-.house-item blockquote { margin: 10px 0; padding: 0; border: 0; font-style: italic; white-space: pre-line; }
-.house-dialog h3.is-word { font-style: italic; font-size: 36px; }
-.house-dialog .house-drawer-marks { margin: 0 0 22px; color: var(--vizon); font-size: 15px; line-height: 1.6; }
-.house-drawer-marks button { margin-left: 4px; padding: 6px 12px; min-height: 40px; border: 1px solid var(--rule-strong); border-radius: 2px; background: none; color: var(--ink-soft); font-size: 15px; }
-.house-item-note { margin: 14px 0 0; }
-.house-item-note .house-item-kind { margin: 0 0 4px; }
-.house-dialog .house-note-text { margin: 0; white-space: pre-line; }
-.house-item .keep-note { margin: 16px 0 0; }
-.house-dialog .keep-note-hint, .house-dialog .keep-note-said { font-size: 15px; line-height: 1.45; }
-.house-item .keep-note-foot button { padding: 9px 14px; min-height: 44px; border: 1px solid var(--rule-strong); border-radius: 2px; background: var(--surface-soft); font-size: 15px; font-style: normal; color: var(--ink); }
-.house-item-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 12px 24px; margin-top: 18px; font-size: 16px; }
-.house-dialog a { color: var(--petrol); text-decoration: underline; text-underline-offset: 4px; }
-.house-item-actions button { padding: 9px 12px; min-height: 44px; border: 1px solid var(--rule-strong); border-radius: 2px; background: var(--surface-soft); font-size: 15px; }
-.house-item-actions button[aria-pressed="true"] { border-color: var(--vizon); color: var(--vizon); }
-/* A page from The Page and a drawing from The Draw: the reader's own work,
-   shown as it was made. */
-.house-dialog .house-page-text { margin: 10px 0; white-space: pre-wrap; overflow-wrap: anywhere; }
-.house-dialog .house-page-count { margin: 6px 0 0; color: var(--vizon); font-size: 15px; }
-.house-page-whole summary { cursor: pointer; display: inline-flex; align-items: center; gap: 9px; min-height: 44px; color: var(--vizon); font-size: 16px; list-style: none; }
-.house-page-whole summary::-webkit-details-marker { display: none; }
-.house-page-whole summary::after { content: ''; width: 6px; height: 6px; flex-shrink: 0; border-right: 1px solid currentColor; border-bottom: 1px solid currentColor; transform: translateY(-2px) rotate(45deg); transition: transform .25s ease; }
-.house-page-whole[open] > summary::after { transform: translateY(1px) rotate(-135deg); }
-.house-page-whole[open] summary { margin-bottom: 4px; }
-.house-drawing { margin: 12px 0 0; }
-.house-drawing img { display: block; max-width: 100%; max-height: 320px; height: auto; border: 1px solid var(--rule-strong); background: #fff; }
-.house-drawing .house-drawer-note { margin: 0; }
-.house-drawer-tools { display: flex; flex-wrap: wrap; gap: 10px 14px; margin: 4px 0 22px; }
-.house-drawer-tools button { padding: 9px 14px; min-height: 44px; border: 1px solid var(--rule-strong); border-radius: 2px; background: none; font-size: 15px; color: var(--ink-soft); }
 .house-sky-facts { display: grid; grid-template-columns: auto 1fr; gap: 6px 22px; margin: 0 0 26px; font-size: 17px; }
 .house-sky-facts dt { color: var(--vizon); }
 .house-sky-facts dd { margin: 0; }
@@ -407,18 +366,10 @@ html:has(.house-dialog[open]) { overflow: hidden; }
 .house-window-links a { display: block; padding: 18px 0; border-top: 1px solid var(--rule-strong); text-decoration: none; }
 .house-window-links span { font: 500 28px 'Cormorant Garamond', Georgia, serif; }
 .house-window-links p { color: var(--vizon); margin: 6px 0 0; }
-.house-drawer-note, .house-dialog-status { color: var(--vizon); font-size: 15px !important; }
-.house-dialog-status:empty { display: none; }
-.house-empty-drawer { border: 1px dashed var(--rule-strong); padding: 28px 24px; margin: 24px 0; }
-.house-empty-drawer p { margin: 0; }
 .house-notebook-hint { margin: 18px 0 0; }
 /* What the notebook has just done, under its buttons where the eye is. */
 .house-dialog .house-notebook-said { margin: 12px 0 -4px; color: var(--ink); font-size: 17px; }
 .house-notebook-said:empty { display: none; }
-/* The way back from the drawer to the notebook it was opened from. */
-.house-back { display: inline-block; margin: 0 0 16px; padding: 8px 0; min-height: 44px; border: 0; background: none; color: var(--petrol) !important; font-size: 17px !important; text-decoration: underline; text-underline-offset: 4px; transition: var(--select-ease, opacity .2s ease); }
-.house-back:hover { opacity: var(--select-dim, .78); }
-@keyframes house-arrive { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 html[data-theme="dark"] .house-scene, html[data-theme="midnight"] .house-scene { --room-wall: #363b3b; --room-floor: #3f403a; --room-line: #a89e89; --room-wood: #666452; --room-back: #444942; --room-paper: #b5ae96; --room-cream: #9c9174; --room-blue: #617e84; --room-olive: #687b64; --room-rust: #9e7564; --room-burgundy: #7a4650; --room-gold: #a48c55; --room-carpet: #4a4a41; --room-sunlight: .2; }
 html[data-theme="sky"] .house-scene { --room-wall: color-mix(in srgb, var(--paper) 88%, #a8997f); --room-floor: color-mix(in srgb, var(--paper) 76%, #9b8d6f); --room-line: var(--vizon); --room-wood: color-mix(in srgb, var(--paper) 50%, #a8997f); --room-back: color-mix(in srgb, var(--paper) 75%, #a8997f); --room-carpet: color-mix(in srgb, var(--paper) 64%, #9b8d6f); }
 /* A pale dial needs its own ink when sky text turns light after sunset. */
@@ -436,10 +387,14 @@ html[data-theme="dark"] #house-scene[data-hour="night"] .house-door-lamplight, h
 /* The trail the pointer leaves (js/cursor-trail.js), and the pointer itself,
    a speck a little larger than the trail's own at its head, both a light
    golden yellow. On dark ground they are lit, and the trail's specks brighten
-   where they cross: the dark themes, and the room at night. */
+   where they cross: the dark themes, and the room at night. They belong to
+   the rooms, the study and the balcony and any room after them; at the door
+   the pointer is the reader's own and leaves no trail. js/house.js marks the
+   page house-inside while a room is open. */
 :root { --trail: #ffcd38; --house-speck: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Ccircle cx='5' cy='5' r='3.5' fill='%23ffcd38'/%3E%3C/svg%3E") 5 5, auto; }
 html[data-theme="dark"], html[data-theme="midnight"], html[data-theme="sky"], .house-scene[data-hour="night"] { --trail: #ffc73a; --trail-glow: 1; --house-speck: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Ccircle cx='5' cy='5' r='3.5' fill='%23ffd04f'/%3E%3C/svg%3E") 5 5, auto; }
 @media (prefers-color-scheme: dark) { html:not([data-theme]) { --trail: #ffc73a; --trail-glow: 1; --house-speck: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Ccircle cx='5' cy='5' r='3.5' fill='%23ffd04f'/%3E%3C/svg%3E") 5 5, auto; } }
+html:not(.house-inside) { --trail: none; }
 /* Over anything that can be chosen the speck opens into a ring, drawn in both
    golds so it holds on the cream labels and on dark ground alike. In the
    dialog and in a search field the ordinary pointer comes back: that is where
@@ -449,11 +404,11 @@ html[data-theme="dark"], html[data-theme="midnight"], html[data-theme="sky"], .h
    because a pointer inherits the gold of the page around the room, not the
    room's own. */
 @media (prefers-contrast: no-preference) and (forced-colors: none) {
-  body, .house-scene { cursor: var(--house-speck); }
-  body :is(a[href], button, summary, label, [role="button"]):not(dialog *) { cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Ccircle cx='10' cy='10' r='7.5' fill='none' stroke='%23eca800' stroke-width='2.4'/%3E%3Ccircle cx='10' cy='10' r='7.5' fill='none' stroke='%23ffd75a' stroke-width='1'/%3E%3Ccircle cx='10' cy='10' r='2' fill='%23ffd75a' stroke='%23eca800' stroke-width='.9'/%3E%3C/svg%3E") 10 10, pointer; }
-  body button:disabled:not(dialog *) { cursor: var(--house-speck); }
-  body :is(input, textarea) { cursor: text; }
-  dialog { cursor: auto; }
+  .house-inside body, .house-inside .house-scene { cursor: var(--house-speck); }
+  .house-inside body :is(a[href], button, summary, label, [role="button"]):not(dialog *) { cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Ccircle cx='10' cy='10' r='7.5' fill='none' stroke='%23eca800' stroke-width='2.4'/%3E%3Ccircle cx='10' cy='10' r='7.5' fill='none' stroke='%23ffd75a' stroke-width='1'/%3E%3Ccircle cx='10' cy='10' r='2' fill='%23ffd75a' stroke='%23eca800' stroke-width='.9'/%3E%3C/svg%3E") 10 10, pointer; }
+  .house-inside body button:disabled:not(dialog *) { cursor: var(--house-speck); }
+  .house-inside body :is(input, textarea) { cursor: text; }
+  .house-inside dialog { cursor: auto; }
 }
 /* Below a wide screen the names no longer fit beside their things, so the
    picture keeps only its numbers and the names are listed under it. */
@@ -514,28 +469,5 @@ html[data-theme="dark"], html[data-theme="midnight"], html[data-theme="sky"], .h
   /* The picture runs edge to edge. */
   .house-scene { margin-inline: -18px; border-inline: 0; }
   .house-room-footer { font-size: 14px; }
-  .house-dialog { padding: 16px 22px 24px; max-height: 90dvh; }
-  .house-dialog h2 { font-size: 35px; }
 }
 @media (prefers-reduced-motion: reduce) { .house *, .house *::before, .house *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
-
-/* Printing the drawer: js/house.js sets the sheet down at the end of the
-   page and marks the document, and only the sheet is printed. */
-.house-print { display: none; }
-@media print {
-  html.house-printing body { margin: 0; padding: 0; }
-  html.house-printing body > *:not(.house-print) { display: none !important; }
-  html.house-printing .house-print { display: block; color: #262320; font: 12pt/1.5 'EB Garamond', Georgia, serif; }
-  .house-print h1 { font: 500 30pt/1.1 'Cormorant Garamond', Georgia, serif; margin: 0 0 4pt; }
-  .house-print-from { margin: 0 0 24pt; color: #6D665B; }
-  .house-print article { padding: 12pt 0; border-top: 1px solid #D6CDB6; break-inside: avoid; }
-  .house-print h2 { font: 500 18pt/1.2 'Cormorant Garamond', Georgia, serif; margin: 0 0 6pt; }
-  .house-print h2.is-word { font-style: italic; }
-  .house-print .house-item-kind { font-size: 8pt !important; letter-spacing: .12em; text-transform: uppercase; color: #6D665B; margin: 0 0 4pt; }
-  .house-print-address { color: #6D665B; font-size: 10pt; }
-  .house-print-note { white-space: pre-line; }
-  .house-print article.is-page { break-inside: auto; }
-  .house-print-page { white-space: pre-wrap; overflow-wrap: anywhere; }
-  .house-print-drawing { display: block; max-width: 100%; max-height: 16cm; margin: 4pt 0 8pt; border: 1px solid #D6CDB6; }
-}
-

@@ -358,9 +358,9 @@ const record = (id, fields) => Object.assign({ id, kind: 'The Page', title: 'Wri
 
   // --- The Prompter, The List and The Clean -------------------------------------
   const simple = [
-    { file: 'prompt', area: '#script', marker: 'var LS = "olae-prompt-v1"', prefix: 'script', kind: 'The Prompter', title: /^A script, /, text: 'Week 3\n\nGood morning.', empty: 'There is no script to keep yet.', key: 'olae-prompt-v1' },
-    { file: 'list', area: '#list', marker: 'var LS = "olae-list-v1"', prefix: 'list', kind: 'The List', title: /^A list of 3, /, text: 'pears\napples\nfigs', empty: 'There is no list to keep yet.', key: 'olae-list-v1' },
-    { file: 'clean', area: '#text', marker: 'var LS = "olae-clean-v1"', prefix: 'clean', kind: 'The Clean', title: /^Text kept on /, text: '“Quoted”—and done…', empty: 'There is no text to keep yet.', key: 'olae-clean-v1' }
+    { file: 'prompt', area: '#script', marker: ': "olae-prompt-v1";', prefix: 'script', kind: 'The Prompter', title: /^A script, /, text: 'Week 3\n\nGood morning.', empty: 'There is no script to keep yet.', key: 'olae-prompt-v1' },
+    { file: 'list', area: '#list', marker: ': "olae-list-v1";', prefix: 'list', kind: 'The List', title: /^A list of 3, /, text: 'pears\napples\nfigs', empty: 'There is no list to keep yet.', key: 'olae-list-v1' },
+    { file: 'clean', area: '#text', marker: ': "olae-clean-v1";', prefix: 'clean', kind: 'The Clean', title: /^Text kept on /, text: '“Quoted”—and done…', empty: 'There is no text to keep yet.', key: 'olae-clean-v1' }
   ];
   for (const tool of simple) {
     const url = 'https://hakanaltun.io/' + tool.file + '/';
@@ -389,7 +389,7 @@ const record = (id, fields) => Object.assign({ id, kind: 'The Page', title: 'Wri
   }
 
   // --- The Diff -----------------------------------------------------------------
-  let df = load('diff/index.html', 'https://hakanaltun.io/diff/', { scripts: [STORAGE, 'var LS = "olae-diff-v1"'] });
+  let df = load('diff/index.html', 'https://hakanaltun.io/diff/', { scripts: [STORAGE, ': "olae-diff-v1";'] });
   assert.equal(df.keep(), 'There are no drafts to keep yet.');
   type(df, '#beforeText', 'The rain came back today.');
   type(df, '#afterText', 'The rain came back this evening.');
@@ -404,7 +404,7 @@ const record = (id, fields) => Object.assign({ id, kind: 'The Page', title: 'Wri
   df.dom.window.close();
   df = load('diff/index.html', 'https://hakanaltun.io/diff/?from=drawer&open=' + comparison.id, {
     storage: { [KEY]: { v: 2, kept: [comparison] } },
-    scripts: [STORAGE, 'var LS = "olae-diff-v1"']
+    scripts: [STORAGE, ': "olae-diff-v1";']
   });
   assert.equal(df.q('#beforeText').value, 'The rain came back today.', 'Open in The Diff puts both drafts back');
   assert.equal(df.q('#afterText').value, 'The rain came back this evening.');
@@ -412,7 +412,7 @@ const record = (id, fields) => Object.assign({ id, kind: 'The Page', title: 'Wri
   df.dom.window.close();
 
   // --- The Lots -----------------------------------------------------------------
-  const lotsPage = (url, storage) => load('lots/index.html', url, { storage, scripts: [STORAGE, 'var LS = "olae-lots-v1"'] });
+  const lotsPage = (url, storage) => load('lots/index.html', url, { storage, scripts: [STORAGE, ': "olae-lots-v1";'] });
   let l = lotsPage('https://hakanaltun.io/lots/');
   assert.equal(l.keep(), 'There are no names to keep yet.');
   type(l, '#nameList', 'Ayşe\nAli\nMehmet\nZeynep\nCan\nElif');
@@ -506,7 +506,7 @@ const record = (id, fields) => Object.assign({ id, kind: 'The Page', title: 'Wri
     w.localStorage.setItem(KEY, JSON.stringify({ v: 2, kept: records }));
     w.eval(keepJs);
     w.OLAE_KEEP.files = memoryFiles(pictures);
-    for (const name of ['astronomy', 'house-weather', 'house']) w.eval(read(root, 'js', name + '.js'));
+    for (const name of ['astronomy', 'house-weather', 'drawer', 'house']) w.eval(read(root, 'js', name + '.js'));
     return { dom, w, q: (s) => w.document.querySelector(s), all: (s) => [...w.document.querySelectorAll(s)] };
   };
   for (const [from, words] of [['write', 'The Page'], ['lots', 'The Lots'], ['read', 'The Reader'], ['desk', 'The Desk']]) {
@@ -606,11 +606,13 @@ const record = (id, fields) => Object.assign({ id, kind: 'The Page', title: 'Wri
   rs.dom.window.close();
 
   // Every page loads the same scripts, and the instruments find them offline.
-  const pages = ['_includes/head.html', 'write/index.html', 'draw/index.html', 'prompt/index.html', 'list/index.html', 'clean/index.html', 'diff/index.html', 'lots/index.html', 'read/index.html'];
+  // The site's pages take theirs from _data/drawer_assets.yml.
+  assert.ok(read(root, '_includes', 'head.html').includes('{{ site.data.drawer_assets.keep_js }}'));
+  const pages = ['_data/drawer_assets.yml', 'write/index.html', 'draw/index.html', 'prompt/index.html', 'list/index.html', 'clean/index.html', 'diff/index.html', 'lots/index.html', 'read/index.html'];
   const versions = pages.map((file) => (read(root, file).match(/\/js\/keep\.js\?v=([\w-]+)/) || [])[1]);
   assert.equal(new Set(versions).size, 1, 'every page loads the same js/keep.js');
   const sw = read(root, 'sw.js');
-  for (const asset of ['"/js/keep.js"', '"/js/tool-drawer.js"', '"/css/tool-drawer.css"', '"/css/keep.css"']) assert.ok(sw.includes(asset), asset + ' is there offline');
+  for (const asset of ['"/js/keep.js"', '"/js/tool-drawer.js"', '"/css/tool-drawer.css"', '"/css/keep.css"', '"/js/drawer.js"', '"/css/drawer.css"']) assert.ok(sw.includes(asset), asset + ' is there offline');
 
   console.log('Instrument drawer checks passed: every instrument keeps, updates, lets go and refuses plainly, and comes back from the drawer without losing what was there; The Lots keeps its groups and The Reader its passages; the drawer shows, downloads, backs up and takes out their work.');
 })().catch((error) => { console.error(error); process.exit(1); });

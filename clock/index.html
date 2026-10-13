@@ -2,7 +2,7 @@
 layout: null
 ---
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-own-theme>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -314,6 +314,7 @@ layout: null
     *{ transition:none !important; }
   }
 </style>
+{% include desk-embed.html %}
 </head>
 <body>
 
@@ -452,7 +453,7 @@ layout: null
   "use strict";
   const $ = s => document.querySelector(s);
   const pad = n => String(n).padStart(2,"0");
-  const LS = "olae-clock-v1";
+  const LS = window.OLAE_DESK_EMBED ? window.OLAE_DESK_EMBED.key("olae-desk-clock-v1") : "olae-clock-v1";
   const RING_C = 2*Math.PI*92;
 
   const state = Object.assign({

@@ -22,7 +22,12 @@
       </a>
     </div>
     <div class="header-nav-bar">
-      <a href="/house/"{% if _nav_here == "/house/" %} aria-current="page"{% endif %}>The House</a>
+      {%- comment -%} The House has a small menu under it, on a pointer's hover
+      or the chevron: the way to its door, and the reader's drawer, which
+      opens over the page they are on (js/site-nav.js). The menu stands
+      outside the strip, which scrolls on a phone and would cut it off; the
+      chevron waits for the script. {%- endcomment %}
+      <span class="nav-house"><a href="/house/"{% if _nav_here == "/house/" %} aria-current="page"{% endif %}>The House</a><button class="nav-house-toggle" type="button" aria-expanded="false" aria-controls="nav-house-menu" aria-label="More of The House" hidden></button></span>
       <a href="/all-work/"{% if _nav_here == "/all-work/" %} aria-current="page"{% endif %}>Writing</a>
       <a href="/series/"{% if _nav_here == "/series/" %} aria-current="page"{% endif %}>Series</a>
       <a href="/book/"{% if _nav_here contains "/book/" %} aria-current="page"{% endif %}>Book</a>
@@ -33,6 +38,10 @@
       <a href="/tools/"{% if _nav_here == "/tools/" %} aria-current="page"{% endif %}>Instruments</a>
       <a href="/moris/"{% if _nav_here == "/moris/" %} aria-current="page"{% endif %}>Moris</a>
       <a href="/about/"{% if _nav_here == "/about/" %} aria-current="page"{% endif %}>About</a>
+    </div>
+    <div class="nav-house-menu" id="nav-house-menu" hidden>
+      <a href="/house/">To the door</a>
+      <a href="/house/#drawer" data-open-drawer>Your drawer</a>
     </div>
   </nav>
 </header>

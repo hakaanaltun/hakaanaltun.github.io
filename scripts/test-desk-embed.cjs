@@ -3,15 +3,15 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const vm = require('node:vm');
 const code = fs.readFileSync(require('node:path').join(__dirname, '../_includes/desk-embed.html'), 'utf8').match(/<script>([\s\S]*?)<\/script>/)[1];
-function setup(kind) {
+function setup(kind, bar = null, own = false) {
   const properties = {}, attributes = {}, classes = new Set();
   const location = { origin:'https://example.test', search:'?desk=1' };
-  const root = {classList:{add:v=>classes.add(v)}, style:{setProperty:(k,v)=>properties[k]=v}, setAttribute:(k,v)=>attributes[k]=v};
+  const root = {classList:{add:v=>classes.add(v), toggle:(v,on)=>on?classes.add(v):classes.delete(v)}, style:{setProperty:(k,v)=>properties[k]=v}, setAttribute:(k,v)=>attributes[k]=v, hasAttribute:k=>own && k==='data-own-theme'};
   const window = {parent:{location, OLAE_DESK:{restore(){}}}};
   if(kind === 'standalone') window.parent = window;
   if(kind === 'unrelated') delete window.parent.OLAE_DESK;
   if(kind === 'cross-origin') Object.defineProperty(window.parent,'location',{get(){throw new Error('SecurityError');}});
-  vm.runInNewContext(code, {window,location,document:{documentElement:root,addEventListener(){}},URLSearchParams,requestAnimationFrame:fn=>fn()});
+  vm.runInNewContext(code, {window,location,document:{documentElement:root,addEventListener(){},querySelector:s=>s==='.chrome'?bar:null},URLSearchParams,requestAnimationFrame:fn=>fn()});
   return {api:window.OLAE_DESK_EMBED,properties,attributes,classes};
 }
 for(const kind of ['standalone','unrelated','cross-origin']) assert.equal(setup(kind).api, undefined);
@@ -33,4 +33,14 @@ unsaved=true; assert.equal(s.api.unsaved(),true);
 s.api.setTheme('sky',{'--paper':'rgb(30,40,50)','--ink':'rgb(240,240,230)'});
 assert.equal(s.attributes['data-theme'],'sky');
 assert.equal(s.properties['--paper'],'rgb(30,40,50)');
-console.log('Desk embed checks passed: separate hooks, retained save guard, pane lifecycle, theme and embedding boundaries.');
+// A top bar with nothing left to show on the desk folds away; one with a
+// button of the instrument's own stays.
+const button = (shown) => ({ getClientRects: () => shown ? [{}] : [] });
+assert.ok(setup('desk', { querySelectorAll: () => [button(false), button(false)] }).classes.has('desk-bare'));
+assert.ok(!setup('desk', { querySelectorAll: () => [button(false), button(true)] }).classes.has('desk-bare'));
+// An instrument with a light of its own keeps it on the desk.
+const own = setup('desk', null, true);
+own.api.setTheme('light', {'--paper':'#fff'});
+assert.equal(own.attributes['data-theme'], undefined);
+assert.equal(own.properties['--paper'], undefined);
+console.log('Desk embed checks passed: separate hooks, retained save guard, pane lifecycle, theme, an instrument\'s own light, a bare top bar folded and embedding boundaries.');

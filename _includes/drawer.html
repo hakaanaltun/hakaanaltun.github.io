@@ -27,9 +27,15 @@
     where the results come live as you type. {%- endcomment -%}
     {% include search-form.html id="drawer-search" modifier="drawer" %}
 
-    <div class="drawer-section-links">
-      <a href="/house/">The House</a>
-    </div>
+    {%- comment -%} The House opens as the header's does: the way to its door,
+    and the reader's drawer over this page (js/site-nav.js). {%- endcomment %}
+    <details class="drawer-section drawer-house">
+      <summary class="drawer-label">The House</summary>
+      <div class="drawer-house-links">
+        <a href="/house/" class="drawer-more">To the door <span aria-hidden="true">&rarr;</span></a>
+        <a href="/house/#drawer" class="drawer-more" data-open-drawer>Your drawer</a>
+      </div>
+    </details>
 
     <details class="drawer-section">
       <summary class="drawer-label">Writing</summary>

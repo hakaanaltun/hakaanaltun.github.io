@@ -20,7 +20,11 @@ const KEY = 'olae-house-v1';
 const scripts = {
   keep: read(root, 'js', 'keep.js'),
   astronomy: read(root, 'js', 'astronomy.js'),
-  house: read(root, 'js', 'house.js'),
+  // The House lays its drawer out with js/drawer.js, which its page loads
+  // just before it.
+  house: read(root, 'js', 'drawer.js') + '\n;\n' + read(root, 'js', 'house.js'),
+  drawer: read(root, 'js', 'drawer.js'),
+  nav: read(root, 'js', 'site-nav.js'),
   weather: read(root, 'js', 'house-weather.js'),
   trivia: read(root, 'js', 'trivia.js'),
   translate: read(root, 'js', 'reader-translate.js'),
@@ -183,9 +187,11 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   // --- Keeping in the room -------------------------------------------------
   let a = house();
   await tick();
+  assert.equal(a.w.document.documentElement.classList.contains('house-inside'), false, 'the reader\'s own pointer at the door');
   a.click('#house-enter');
   assert.equal(a.q('#study').hidden, false);
   assert.equal(a.w.location.hash, '#study');
+  assert.ok(a.w.document.documentElement.classList.contains('house-inside'), 'the gold speck in the room');
   assert.match(a.q('#house-hour').textContent, /in İstanbul$/);
   assert.ok(['sill', 'shelf', 'cushion', 'rug', 'balcony'].includes(a.q('#house-scene').dataset.moris));
 
@@ -628,6 +634,7 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.equal(n.q('#balcony').hidden, false, 'out through the door');
   assert.equal(n.q('#study').hidden, true);
   assert.equal(n.q('#house-entrance').hidden, true);
+  assert.ok(n.w.document.documentElement.classList.contains('house-inside'), 'and on the balcony');
   assert.equal(n.w.document.activeElement, n.q('#house-balcony-title'));
   assert.equal(n.q('#balcony [data-house-hour]').textContent, 'Morning in İstanbul');
   assert.equal(n.q('#balcony [data-house-clock]').textContent, '10:00');
@@ -1490,6 +1497,97 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   await tick();
   s.dom.window.close();
 
+  // --- The drawer over any page -------------------------------------------
+  // The House's menu in the header, the site's menu and the footer open the
+  // reader's drawer over the page they are on, fetching what the page lacks
+  // of it the first time, and it closes back to that page.
+  {
+    const about = read(site, 'about', 'index.html');
+    const assets = JSON.parse(about.match(/window\.OLAE_DRAWER_ASSETS = (\{.*?\});/)[1]);
+    for (const key of ['keep_js', 'keep_css', 'drawer_js', 'drawer_css']) assert.ok(fs.existsSync(path.join(site, assets[key].split('?')[0])), 'the drawer has its ' + key);
+    assert.match(read(site, 'house', 'index.html'), new RegExp('<script src="' + assets.drawer_js.replace(/[?.]/g, '\\$&') + '" defer></script>\\s*<script src="/js/house\\.js'), 'The House loads the drawer just before itself');
+    const o = page('about/index.html', 'https://hakanaltun.io/about/', {
+      saved: JSON.stringify({ v: 2, kept: [{ id: 'word-quarantine', kind: 'A word', title: 'quarantine', quote: 'What was kept.', href: '/word/quarantine/', at: 1 }] })
+    });
+    o.w.OLAE_DRAWER_ASSETS = assets;
+    o.w.eval(scripts.nav);
+    const footer = o.q('footer a[data-open-drawer]');
+    assert.equal(footer.getAttribute('href'), '/house/#drawer', 'without the script, the footer leads to the drawer in The House');
+    assert.equal(footer.getAttribute('aria-label'), 'Your drawer');
+    const instruments = o.q('footer a[href="/tools/"]');
+    assert.equal(instruments.nextElementSibling, footer, 'the drawer stands beside the instruments');
+    assert.ok(instruments.querySelector('circle'), 'and the instruments carry the sign of a point in focus');
+    footer.focus();
+    footer.click();
+    const loaded = (src) => { const tag = o.q('head script[src="' + src + '"]'); assert.ok(tag, 'fetched ' + src); return tag; };
+    const style = (href) => { const tag = o.q('head link[href="' + href + '"]'); assert.ok(tag, 'fetched ' + href); tag.dispatchEvent(new o.w.Event('load')); };
+    style(assets.keep_css);
+    style(assets.drawer_css);
+    o.w.eval(scripts.keep);
+    loaded(assets.keep_js).dispatchEvent(new o.w.Event('load'));
+    await tick();
+    o.w.eval(scripts.drawer);
+    loaded(assets.drawer_js).dispatchEvent(new o.w.Event('load'));
+    await wait(20);
+    const overlay = o.q('#drawer-dialog');
+    assert.ok(overlay && overlay.open, 'the drawer opens over the page');
+    assert.equal(o.w.location.pathname, '/about/', 'and the page stays where it is');
+    assert.equal(overlay.querySelector('h2').textContent, 'Your drawer');
+    assert.equal(overlay.querySelectorAll('.house-item').length, 1);
+    assert.match(overlay.querySelector('.house-item').textContent, /quaranta/, 'with the current words of what was kept');
+    assert.equal(o.w.document.activeElement, overlay.querySelector('.house-close'));
+    overlay.querySelector('[data-note="word-quarantine"]').click();
+    const note = overlay.querySelector('.keep-note textarea');
+    assert.ok(note, 'a note is written in place over the page as in The House');
+    overlay.querySelector('.house-close').click();
+    assert.equal(overlay.open, false);
+    assert.equal(o.w.document.activeElement, footer, 'closing leaves the reader where they were');
+    // The House's own menu in the header.
+    const toggle = o.q('.nav-house-toggle');
+    const menu = o.q('#nav-house-menu');
+    assert.equal(toggle.hidden, false, 'the chevron shows once the script is there');
+    assert.equal(menu.hidden, true);
+    toggle.dispatchEvent(new o.w.MouseEvent('click', { bubbles: true, detail: 1 }));
+    assert.equal(menu.hidden, false, 'the chevron opens The House\'s menu');
+    assert.equal(toggle.getAttribute('aria-expanded'), 'true');
+    assert.deepEqual([...menu.querySelectorAll('a')].map((a) => [a.textContent, a.getAttribute('href')]), [['To the door', '/house/'], ['Your drawer', '/house/#drawer']]);
+    o.w.document.dispatchEvent(new o.w.KeyboardEvent('keydown', { key: 'Escape' }));
+    assert.equal(menu.hidden, true, 'Escape folds it');
+    toggle.dispatchEvent(new o.w.MouseEvent('click', { bubbles: true, detail: 1 }));
+    menu.querySelector('[data-open-drawer]').click();
+    await wait(20);
+    assert.equal(menu.hidden, true, 'the menu folds as the drawer opens');
+    assert.ok(overlay.open, 'its drawer opens over the page');
+    assert.equal(o.w.document.querySelectorAll('#drawer-dialog').length, 1, 'in the same box');
+    overlay.querySelector('.house-close').click();
+    assert.equal(o.w.document.activeElement, toggle, 'and gives focus back to the chevron');
+    // The site's menu has the same two under The House.
+    const side = o.q('#site-drawer .drawer-house');
+    assert.equal(side.tagName, 'DETAILS');
+    assert.deepEqual([...side.querySelectorAll('a')].map((a) => a.getAttribute('href')), ['/house/', '/house/#drawer']);
+    side.querySelector('[data-open-drawer]').click();
+    await wait(20);
+    assert.ok(overlay.open, 'the site\'s menu opens it too');
+    overlay.querySelector('.house-close').click();
+    o.dom.window.close();
+
+    // In The House the menu opens the room's own drawer over the door, and
+    // the door is still there when it closes.
+    const h = house();
+    await tick();
+    h.w.eval(scripts.nav);
+    h.q('.nav-house-toggle').dispatchEvent(new h.w.MouseEvent('click', { bubbles: true, detail: 1 }));
+    h.q('#nav-house-menu [data-open-drawer]').click();
+    assert.equal(h.q('#house-dialog').open, true);
+    assert.equal(h.q('#house-dialog-title').textContent, 'Your drawer');
+    assert.equal(h.q('#drawer-dialog'), null, 'The House uses its own box');
+    assert.equal(h.q('#house-entrance').hidden, false, 'over the door');
+    h.click('#house-close');
+    assert.equal(h.q('#house-entrance').hidden, false, 'which is still there');
+    assert.equal(h.w.location.hash, '');
+    h.dom.window.close();
+  }
+
   // The pointer's trail. A mouse lays one canvas over the page that nothing
   // can land on; a finger, a reader who asked for less motion, and a pointer
   // over an open dialog get none.
@@ -1517,11 +1615,18 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.equal(t.q('canvas.cursor-trail').style.pointerEvents, 'none', 'that nothing can land on');
   assert.equal(t.q('canvas.cursor-trail').getAttribute('aria-hidden'), 'true');
   t.dom.window.close();
+  // At the door the trail's colour is none (css/house.css), and it leaves none.
+  t = trail(false);
+  t.q('#house-entrance').style.setProperty('--trail', 'none');
+  t.move('mouse', t.q('#house-entrance'));
+  t.move('mouse', t.q('#house-entrance'));
+  assert.equal(t.q('canvas.cursor-trail'), null, 'none at the door');
+  t.dom.window.close();
   t = trail(true);
   t.move('mouse');
   assert.equal(t.q('canvas.cursor-trail'), null, 'and none for a reader who asked for less motion');
   t.dom.window.close();
 
-  console.log('House: catalog and addresses, daily room, keeping from the room and from words, quizzes, the book and essays, the passage prompt on word stories and quiz notes, the kept passage\'s panel, its note and the way on to The Page, Highlight and its clearing, the small box by a highlight, hidden highlights, a note written before keeping, notes in the drawer, legacy and hostile records, blocked storage, arrivals, #drawer, export and backup offered only where they work, the moon, the planets after dark, weather at the window, the footer\'s snow and rain under both rooms, what the balcony\'s sound is told, the balcony, its glass, its door, its sky and its lamp, its notebook, a kept page left open in it, and the way on to The Page, Moris on the chair and by the glass, quiet places and a remembered Show places to look, the ways back to the study and the balcony, and the pointer\'s trail passed.');
+  console.log('House: catalog and addresses, daily room, keeping from the room and from words, quizzes, the book and essays, the passage prompt on word stories and quiz notes, the kept passage\'s panel, its note and the way on to The Page, Highlight and its clearing, the small box by a highlight, hidden highlights, a note written before keeping, notes in the drawer, legacy and hostile records, blocked storage, arrivals, #drawer, export and backup offered only where they work, the moon, the planets after dark, weather at the window, the footer\'s snow and rain under both rooms, what the balcony\'s sound is told, the balcony, its glass, its door, its sky and its lamp, its notebook, a kept page left open in it, and the way on to The Page, Moris on the chair and by the glass, quiet places and a remembered Show places to look, the ways back to the study and the balcony, the pointer\'s trail, in the rooms only, and the drawer over any page from the header, the site\'s menu and the footer passed.');
 })().catch((error) => { console.error(error); process.exit(1); });
 

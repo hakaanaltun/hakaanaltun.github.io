@@ -26,6 +26,8 @@ function desk(saved) {
   // The frames stay empty here; the desk waits for them without a clock.
   w.setTimeout = () => 0;
   if (saved !== undefined) w.localStorage.setItem(KEY, JSON.stringify(saved));
+  // The page's own list of instruments, from _data/tools.yml.
+  w.eval(w.document.body.innerHTML.match(/(window\.OLAE_DESK_TOOLS = [\s\S]*?)<\/script>/)[1]);
   w.eval(deskJs);
   const shown = () => [...w.document.querySelectorAll('.panel')].filter((p) => !p.hidden).sort((a, b) => a.dataset.slot - b.dataset.slot);
   const choose = (slot, slug) => {
@@ -93,12 +95,34 @@ for (const bad of [{ order: ['read:3', 'write'] }, { order: ['desk', 'read'] }, 
   d.dom.window.close();
 }
 
+// Every instrument but the desk stands on it, on its shelf, and each can
+// stand beside itself.
+{
+  const slugs = [...fs.readFileSync(path.join(root, '_data', 'tools.yml'), 'utf8').matchAll(/^- slug: (\S+)/gm)].map((m) => m[1]).filter((slug) => slug !== 'desk');
+  d = desk();
+  const select = d.shown()[0].querySelector('select');
+  assert.deepEqual([...select.querySelectorAll('option')].map((o) => o.value).sort(), [...slugs].sort(), 'every instrument can be chosen');
+  assert.deepEqual([...select.querySelectorAll('optgroup')].map((g) => g.label), ['On the page', 'In the room', 'Out the window'], 'on the shelves of /tools/');
+  for (const slug of slugs) {
+    d.choose(0, slug);
+    d.choose(1, slug);
+    assert.deepEqual([...d.stored().order].sort(), [slug + ':1', slug + ':2'], slug + ' on both sides');
+    const second = d.w.document.getElementById('panel-' + slug + '-2');
+    assert.match(second.querySelector('iframe').getAttribute('src'), new RegExp('^/' + slug + '/\\?desk=1&pane=2&v='), slug + ' is told which is the second');
+    const page = fs.readFileSync(path.join(root, slug, 'index.html'), 'utf8');
+    assert.ok(page.includes('{% include desk-embed.html %}'), slug + ' can open on the desk');
+    const store = page.match(/(?:var|const) (?:LS|POS_LS) = ([^;]+);/);
+    if (store) assert.match(store[1], /OLAE_DESK_EMBED\.key\("olae-desk-/, slug + ' keeps its desk work apart, and a second one its own');
+  }
+  d.dom.window.close();
+}
+
 // Inside a frame, the second instance has keys of its own.
 const embed = fs.readFileSync(path.join(root, '_includes', 'desk-embed.html'), 'utf8').match(/<script>([\s\S]*?)<\/script>/)[1];
 function embedded(search) {
   const location = { origin: 'https://hakanaltun.io', search };
   const window = { parent: { location, OLAE_DESK: { restore() {} } } };
-  vm.runInNewContext(embed, { window, location, document: { documentElement: { classList: { add() {} }, style: { setProperty() {} }, setAttribute() {} }, addEventListener() {} }, URLSearchParams, requestAnimationFrame: (fn) => fn() });
+  vm.runInNewContext(embed, { window, location, document: { documentElement: { classList: { add() {} }, style: { setProperty() {} }, setAttribute() {} }, addEventListener() {}, querySelector: () => null }, URLSearchParams, requestAnimationFrame: (fn) => fn() });
   return window.OLAE_DESK_EMBED;
 }
 assert.equal(embedded('?desk=1').key('olae-desk-page-v1'), 'olae-desk-page-v1', 'the first instance keeps the keys the desk always had');
@@ -112,4 +136,4 @@ const uses = {
 for (const [file, call] of Object.entries(uses)) assert.ok(fs.readFileSync(path.join(root, file), 'utf8').includes(call), file + ' keeps its own work in a second instance');
 assert.ok(fs.readFileSync(path.join(root, 'read', 'index.html'), 'utf8').includes('OLAE_DESK_EMBED.key("olae-read-size")'), 'and a second Reader its own type size');
 
-console.log('Desk checks passed: the same instrument on both sides, second instances with their own keys, returning to an instance put away, swapping, and layouts kept before.');
+console.log('Desk checks passed: every instrument on its shelf and beside itself, the same instrument on both sides, second instances with their own keys, returning to an instance put away, swapping, and layouts kept before.');

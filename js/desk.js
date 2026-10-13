@@ -1,14 +1,20 @@
-/* Each place on the desk holds a live instance of an instrument. Both places
-   can hold the same one, Reader beside Reader, so an instrument can have two
-   instances, named read:1 and read:2. The second keeps its own place, notes
-   or drawing (pane=2, _includes/desk-embed.html), so neither moves the other.
-   An instance put away stays alive until the desk is closed, and choosing its
-   instrument again in that place returns to it. Moving or hiding a pane never
-   reloads it. */
+/* Each place on the desk holds a live instance of an instrument, any of
+   them (the page lists them from _data/tools.yml, in their shelves). Both
+   places can hold the same one, Reader beside Reader, so an instrument can
+   have two instances, named read:1 and read:2. The second keeps its own
+   place, notes, text or drawing (pane=2, _includes/desk-embed.html), so
+   neither moves the other. An instance put away stays alive until the desk
+   is closed, and choosing its instrument again in that place returns to it.
+   Moving or hiding a pane never reloads it. */
 (function(){
   'use strict';
-  var TOOLS = { read:'The Reader', write:'The Page', draw:'The Draw' };
-  var KEY = 'olae-desk-layout-v1', VERSION = '20261013-1';
+  var LIST = window.OLAE_DESK_TOOLS || [
+    { slug:'read', name:'The Reader' }, { slug:'write', name:'The Page' }, { slug:'draw', name:'The Draw' }
+  ];
+  var SHELVES = window.OLAE_DESK_SHELVES || [];
+  var TOOLS = {};
+  LIST.forEach(function(tool){ TOOLS[tool.slug] = tool.name; });
+  var KEY = 'olae-desk-layout-v1', VERSION = '20261013-2';
   var workspace = document.getElementById('workspace');
   var divider = document.getElementById('divider');
   var status = document.getElementById('desk-status');
@@ -81,9 +87,17 @@
     el.className = 'panel'; el.id = 'panel-' + slug + (n > 1 ? '-' + n : '');
     var bar = document.createElement('div'); bar.className = 'panel-bar';
     var select = document.createElement('select');
-    Object.keys(TOOLS).forEach(function(key){
-      var option = document.createElement('option'); option.value = key; option.textContent = TOOLS[key]; select.appendChild(option);
+    function option(tool){
+      var o = document.createElement('option'); o.value = tool.slug; o.textContent = tool.name; return o;
+    }
+    /* The instruments stand on their shelves, as on /tools/. */
+    var shelved = {};
+    SHELVES.forEach(function(shelf){
+      var group = document.createElement('optgroup'); group.label = shelf.title;
+      LIST.forEach(function(tool){ if(tool.group === shelf.key){ group.appendChild(option(tool)); shelved[tool.slug] = true; } });
+      if(group.children.length) select.appendChild(group);
     });
+    LIST.forEach(function(tool){ if(!shelved[tool.slug]) select.appendChild(option(tool)); });
     select.value = slug;
     var expand = document.createElement('button');
     expand.type = 'button'; expand.className = 'icon-btn'; expand.textContent = '⤢';

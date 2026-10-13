@@ -336,18 +336,21 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   below the sea. The Islands' outlines
   are general, and no island is named. Through the side glass the roofs and
   the strip of sea go on to the west, beyond the window's sight.
-- **A pine stands just outside, to the right.** The author asked for it on
-  11 October 2026, for the birds it will bring and for snow and rain. Its
-  crown fills the right-hand side of the view from below the parapet to a
-  little under the top of the glass, and it is seen through both the front
-  and the side glass. Its crown narrows toward the top on both sides of the
-  trunk. Its right-hand half was hidden by the wall until the side became
-  glass, and it was redrawn then to match the left. It stands beyond what
+- **A pine stands just outside, to the left.** The author asked for it on
+  11 October 2026, for the birds it will bring and for snow and rain. It
+  stood first on the right, and on 13 October 2026 the author asked for it
+  to move to the left of the balcony, behind the place on the coping where
+  Moris lies in the late afternoon. Its crown fills the left of the front
+  glass from below the parapet to a little under the top of the glass, and
+  narrows toward the top on both sides of the trunk. It stands beyond what
   the study window can see, so the window's view stays as it was. Its
   needles grow in rounded pads at the ends of its branches, tier above
-  tier, with the sky and the sea showing between them. It was redrawn so
-  on 13 October 2026; the star-shaped tufts drawn before read more as a
-  fir. Snow lies on the pads in cushions while it falls and melts after.
+  tier, with the sky and the sea showing between them; the star-shaped
+  tufts drawn before 13 October 2026 read more as a fir. Each pad is drawn
+  with its lit top and its snow after the pads behind it, so the pads in
+  front hide the branches and the trunk here and there. A fuller crown was
+  tried when it moved, and the author chose to keep it as sparse as it
+  was. Snow lies on the pads in cushions while it falls and melts after.
 - **The sky is İstanbul's, at this moment.** On the balcony the sun, the
   moon and the brightest stars and planets are drawn at their own bearing
   and height across the front glass, with east at the left wall and west at
@@ -1092,6 +1095,22 @@ accuracy and plain prose to this section as well.
   also carry `v` to load updated pages through the service worker's cache.
   A picture returns to Pictures with Stories, or to the balcony when its sky
   opened it with `from=balcony` (`js/pictures.js`).
+- **The House has a small menu in the header.** The author asked on
+  13 October 2026: a pointer over The House, or the chevron beside it,
+  opens "To the door", which goes to `/house/`, and "Your drawer", which
+  opens the reader's drawer over the page they are on. The site's menu
+  carries the same two under The House, which opens like its other
+  sections. The header's menu stands outside the strip, which scrolls on
+  a phone and would cut it off, and `js/site-nav.js` places it under The
+  House as it opens. The chevron waits for the script; without it The
+  House is the plain link it was.
+- **The footer carries the drawer.** Its icon, the same chest the
+  instruments' own drawer button shows, stands beside the instruments' and
+  opens the drawer over the page; without the script it leads to
+  `/house/#drawer`. The author asked for this on 13 October 2026, when the
+  drawer had come to matter across the site, and asked the same day for
+  the instruments a sign that says what they are for: a viewfinder's
+  corners round a point in focus, in place of four squares.
 - **The Farm House belongs to The House.** It is entered only from there,
   through the Polaroid on a shelf in the study, so its "← the study"
   returns to the study (`/house/#study`). Do not give its frame the site's
@@ -1119,28 +1138,60 @@ accuracy and plain prose to this section as well.
 
 ## The Desk
 
-- **Both places can hold the same instrument.** The author asked on
-  13 October 2026 for Reader beside Reader above all, so that a paper and
-  another source, or one PDF at two pages, can be read side by side; Page
-  beside Page and Draw beside Draw came with it. `js/desk.js` holds
-  instances, `read:1` and `read:2`, and choosing an instrument brings it
-  to that place without touching the other. An instance put away stays
-  alive while the desk is open, and choosing its instrument again in that
-  place returns to it. The layout keeps the instances (`order`); a layout
-  that named instruments alone, as before, reads as their first instances.
+- **Every instrument can stand on it, beside any other or itself.** The
+  author asked on 13 October 2026 for Reader beside Reader above all, so
+  that a paper and another source, or one PDF at two pages, can be read
+  side by side; Page beside Page and Draw beside Draw came with it, and
+  the same day the author asked for every instrument. The desk's page
+  lists them from `_data/tools.yml`, on the shelves of `/tools/`, so a new
+  instrument joins the desk with its entry there; it must include
+  `_includes/desk-embed.html` in its head. `js/desk.js` holds instances,
+  `read:1` and `read:2`, and choosing an instrument brings it to that
+  place without touching the other. An instance put away stays alive
+  while the desk is open, and choosing its instrument again in that place
+  returns to it. The layout keeps the instances (`order`); a layout that
+  named instruments alone, as before, reads as their first instances.
 - **Neither moves the other.** A second instance is opened with `pane=2`,
   and `_includes/desk-embed.html` gives it `OLAE_DESK_EMBED.key()`, which
-  adds `-2` to every key it keeps: The Reader's places and type size, The
-  Page's notes and The Draw's drawing. The first instance keeps the keys
-  the desk always had, so nothing kept before is lost. PDF zoom and the
-  page shown live in each pane. The resizing, the controls and the phone
-  layout are as they were. `scripts/test-desk.cjs` checks the desk.
+  adds `-2` to every key it keeps. On the desk an instrument keeps its work
+  under `olae-desk-<name>-v1`, apart from its own page, as The Page and The
+  Draw always did; The Reader keeps its places and type size. The first
+  instance keeps the keys the desk always had, so nothing kept before is
+  lost. PDF zoom and the page shown live in each pane. The resizing, the
+  controls and the phone layout are as they were.
+  `scripts/test-desk.cjs` checks the desk and every instrument on it.
+- **A pane put away stops its sound.** The Noise stops playing and a
+  running script on The Prompter stops; the work of every instrument that
+  keeps it through `_includes/storage-feedback.html` is saved as its pane
+  is put away. A clock keeps its time.
+- **On the desk an instrument shows its work.** Its name, its way back,
+  its theme and its full screen are the desk's. A top bar left with
+  nothing else to show folds away (`desk-bare`). The clock, The Noise, The
+  Breath and the sky instruments keep their own light on the desk
+  (`data-own-theme` on their `<html>`); the others follow the desk's.
 - **A pane scrolls only itself.** `scrollIntoView` inside a pane also
   scrolls The Desk around it: in full screen a PDF page turned with the
   arrows moved the whole desk and brought its notes into view, as the
   author found on 13 October 2026. The Reader's page turns and its
   contents scroll their own window (`toTop` in `js/reader-pdf.js`). Use
   `window.scrollTo` inside an instrument, never `scrollIntoView`.
+
+## The drawer over any page
+
+- **It opens where the reader is.** The header's and the menu's "Your
+  drawer" and the footer's icon open the drawer in a box over the page,
+  and closing it leaves the reader where they were. In The House it is the
+  room's own box, opened over the door or the room that is showing.
+  `js/drawer.js` lays the drawer out and holds what its buttons do, for
+  The House (`js/house.js` hands it its box and its ways back) and for
+  every other page, where it makes a box of its own with a line at its
+  foot to the study, where the drawer is kept. `css/drawer.css` styles both.
+- **What a page lacks is fetched once.** `_data/drawer_assets.yml` lists
+  the drawer's scripts and styles and their `?v=` once; `head.html` and
+  The House use it, and `js/site-nav.js` fetches whatever a page lacks the
+  first time the drawer is asked for there. A kept thing shows the
+  catalog's current words over any page, as in The House
+  (`/house/catalog.json`). `scripts/test-house.cjs` checks all of it.
 
 ## The instruments and the drawer
 
@@ -1228,6 +1279,12 @@ accuracy and plain prose to this section as well.
   On a phone a place grows to a finger's size, and the drawer's once
   reached up over the word cards so that they could hardly be touched;
   there it keeps to the drawer front.
+- **The gold speck is for the rooms.** In the study and on the balcony,
+  and in any room after them, the pointer is a gold speck and leaves a
+  trail (`js/cursor-trail.js`). At The House's door it is the reader's own
+  pointer and leaves none, as the author asked on 13 October 2026.
+  `js/house.js` marks the page `house-inside` while a room is open, and
+  `--trail: none` stops the trail over any part of a page.
 - **A disclosure uses the site's chevron.** It is the one in the drawer
   and on a piece's reading options. Its words sit where
   the layout puts them; the chevron hangs beside them and does not pull them
