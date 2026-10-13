@@ -343,8 +343,11 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   and the side glass. Its crown narrows toward the top on both sides of the
   trunk. Its right-hand half was hidden by the wall until the side became
   glass, and it was redrawn then to match the left. It stands beyond what
-  the study window can see, so the window's view stays as it was. Snow
-  settles on its tufts while it falls and melts after.
+  the study window can see, so the window's view stays as it was. Its
+  needles grow in rounded pads at the ends of its branches, tier above
+  tier, with the sky and the sea showing between them. It was redrawn so
+  on 13 October 2026; the star-shaped tufts drawn before read more as a
+  fir. Snow lies on the pads in cushions while it falls and melts after.
 - **The sky is İstanbul's, at this moment.** On the balcony the sun, the
   moon and the brightest stars and planets are drawn at their own bearing
   and height across the front glass, with east at the left wall and west at
