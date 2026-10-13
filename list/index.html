@@ -247,6 +247,7 @@ layout: null
 <link rel="stylesheet" href="/css/tool-drawer.css?v=20261013-1">
 <script src="/js/keep.js?v=20261013-2" defer></script>
 <script src="/js/tool-drawer.js?v=20261013-1" defer></script>
+{% include desk-embed.html %}
 </head>
 <body>
 
@@ -368,7 +369,7 @@ layout: null
 (function(){
   "use strict";
   var $ = function(s){ return document.querySelector(s); };
-  var LS = "olae-list-v1";
+  var LS = window.OLAE_DESK_EMBED ? window.OLAE_DESK_EMBED.key("olae-desk-list-v1") : "olae-list-v1";
 
   var ta = $("#list"), report = $("#report"), countLine = $("#countLine");
   var undoBtn = $("#undoBtn"), copyBtn = $("#copyBtn"), toLots = $("#toLots");

@@ -23,7 +23,7 @@ layout: null
   "@id": "https://hakanaltun.io/desk/#app",
   "name": "The Desk",
   "url": "https://hakanaltun.io/desk/",
-  "description": "A desk for reading, writing and drawing with two adjustable panes. Work stays on your device.",
+  "description": "A desk for any two instruments side by side, reading, writing and drawing among them, with two adjustable panes. Work stays on your device.",
   "applicationCategory": "UtilitiesApplication",
   "operatingSystem": "Any",
   "browserRequirements": "Requires JavaScript",
@@ -72,7 +72,7 @@ layout: null
       <button id="restore" type="button" hidden>Restore split view</button>
     </div>
   </div>
-  <noscript><p class="no-script">The Desk needs JavaScript. You can open <a href="/read/">The Reader</a>, <a href="/write/">The Page</a> and <a href="/draw/">The Draw</a> separately.</p></noscript>
+  <noscript><p class="no-script">The Desk needs JavaScript. You can open <a href="/read/">The Reader</a>, <a href="/write/">The Page</a>, <a href="/draw/">The Draw</a> and <a href="/tools/">the other instruments</a> separately.</p></noscript>
   <div class="workspace" id="workspace">
     <div id="divider" class="divider" role="separator" tabindex="0" aria-label="Resize panes" aria-orientation="vertical" aria-valuemin="25" aria-valuemax="75" aria-valuenow="50" aria-controls="panel-read panel-write" aria-describedby="resize-help"><span></span></div>
   </div>
@@ -83,15 +83,15 @@ layout: null
 <footer class="notes" id="notes">
   <div class="notes-inner">
     <h2>About the desk</h2>
-    <p>Open a PDF, EPUB, Word, Markdown or plain text file on one side and make notes on the other. Or keep a drawing beside your words. The Reader, The Page and The Draw share a desk, with the same shelves and tools they have on their own.</p>
+    <p>Open a PDF, EPUB, Word, Markdown or plain text file on one side and make notes on the other. Or keep a drawing beside your words, a clock beside your page, or rain beside whatever you are reading. Every instrument can stand on the desk, with the same shelves and tools it has on its own.</p>
     <h3>How do I arrange it?</h3>
     <p>Choose an instrument above either pane. Drag the line between them to change the space, or use its arrow keys. Swap sides exchanges the two; the expand button gives one instrument the whole desk. On a screen held upright the panes sit one above the other, and side by side when it is turned on its side. One above the other and Side by side change that, and the desk remembers the choice for each way of holding the screen. On a narrow screen the panes always sit one above the other.</p>
     <h3>What happens when I switch instruments?</h3>
-    <p>Your open file, notes and drawing stay here while this desk is open. Choose an instrument again to return to it. Sound stops when its instrument is put away.</p>
+    <p>Your open file, notes, text and drawing stay here while this desk is open. Choose an instrument again to return to it. Sound stops when its instrument is put away, and so does a running script on The Prompter.</p>
     <h3>Can both sides hold the same instrument?</h3>
-    <p>Yes. Two Readers can hold a paper and another source, or the same PDF open at two pages to compare them. There can be two Pages or two Draws as well. Each side keeps its own file, place, type size, notes and drawing, so turning a page on one side never moves the other. Swap sides exchanges them whole.</p>
+    <p>Yes, any of them. Two Readers can hold a paper and another source, or the same PDF open at two pages to compare them. There can be two Pages, two Draws, two clocks or two lists as well. Each side keeps its own file, place, type size, text and drawing, so turning a page on one side never moves the other. Swap sides exchanges them whole.</p>
     <h3>Where is my work saved?</h3>
-    <p>The desk keeps its own notes and drawing in this browser, separately from the standalone Page and Draw, and a second Page or Draw on the desk keeps its own. Your arrangement is remembered too. Download anything you want to keep: clearing this browser’s site data clears its saved work.</p>
+    <p>The desk keeps its own work in this browser, separately from the instruments on their own pages, and the second of two of the same kind keeps its own. Your arrangement is remembered too. Download anything you want to keep, or keep it in your drawer: clearing this browser’s site data clears its saved work.</p>
     <h3>Does it remember my open file?</h3>
     <p>The Reader keeps only your place. After closing or reloading the desk, open the file again to continue. Your document is read on your device and is never uploaded.</p>
     <h3>Can I use it offline?</h3>
@@ -101,7 +101,14 @@ layout: null
   </div>
 </footer>
 {% include page-sky-toggle.html %}
-<script src="/js/desk.js?v=20261013-1"></script>
+{%- comment -%} Every instrument but the desk itself can stand on it, on the
+shelves /tools/ puts them on. {%- endcomment %}
+{%- assign desk_tools = site.data.tools | where_exp: "tool", "tool.slug != 'desk'" %}
+<script>
+window.OLAE_DESK_TOOLS = [{% for tool in desk_tools %}{ "slug": {{ tool.slug | jsonify }}, "name": {{ tool.name | jsonify }}, "group": {{ tool.group | jsonify }} }{% unless forloop.last %}, {% endunless %}{% endfor %}];
+window.OLAE_DESK_SHELVES = [{% for shelf in site.data.shelves %}{ "key": {{ shelf.key | jsonify }}, "title": {{ shelf.title | jsonify }} }{% unless forloop.last %}, {% endunless %}{% endfor %}];
+</script>
+<script src="/js/desk.js?v=20261013-2"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){});}</script>
 </body>
 </html>

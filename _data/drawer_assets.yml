@@ -1,0 +1,10 @@
+# The drawer's scripts and styles. head.html puts keep.js and keep.css on
+# the pages a reader can keep something from, The House loads all four,
+# and js/site-nav.js fetches whatever a page lacks the first time a reader
+# opens their drawer over it from the site's menu or its footer. A change
+# to one of these files gets a new ?v= here, once. The instruments' own
+# pages list keep.js themselves.
+keep_js: /js/keep.js?v=20261013-2
+keep_css: /css/keep.css?v=20261012-1
+drawer_js: /js/drawer.js?v=20261013-1
+drawer_css: /css/drawer.css?v=20261013-1

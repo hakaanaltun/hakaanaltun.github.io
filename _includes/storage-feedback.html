@@ -39,6 +39,9 @@
     document.addEventListener("visibilitychange", function(){
       if(document.visibilityState === "hidden") saveNow();
     });
+    /* On The Desk the work is saved as its pane is put away, and the desk
+       asks before closing on work that could not be saved. */
+    if(window.OLAE_DESK_EMBED) window.OLAE_DESK_EMBED.register({ save: saveNow, unsaved: function(){ return failed; } });
   }
   window.OLAE_STORAGE = { save: save, guard: guard, isUnsaved: function(){ return failed; } };
 })();

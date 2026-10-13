@@ -2,7 +2,7 @@
 layout: null
 ---
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-own-theme>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -223,6 +223,7 @@ layout: null
     *{ transition:none !important; }
   }
 </style>
+{% include desk-embed.html %}
 </head>
 <body>
 
@@ -306,7 +307,7 @@ layout: null
 (function(){
   "use strict";
   var $ = function(s){ return document.querySelector(s); };
-  var LS = "olae-noise-v1";
+  var LS = window.OLAE_DESK_EMBED ? window.OLAE_DESK_EMBED.key("olae-desk-noise-v1") : "olae-noise-v1";
 
   var sound = "brown", playing = false;
   var ctx = null, master = null, active = null;
@@ -405,6 +406,8 @@ layout: null
     disarmTimer();
   }
   $("#playBtn").addEventListener("click", function(){ playing ? pause() : play(); });
+  /* On The Desk the sound stops when the pane is put away. */
+  if(window.OLAE_DESK_EMBED) window.OLAE_DESK_EMBED.register({ pause: function(){ if(playing) pause(); } });
 
   /* ---- choosing a sound ---- */
   var soundBtns = Array.prototype.slice.call(document.querySelectorAll(".choices button"));

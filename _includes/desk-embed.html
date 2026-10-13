@@ -25,8 +25,11 @@
       active = next;
       if(next && hooks.resize) requestAnimationFrame(hooks.resize);
     },
+    /* An instrument with a light of its own, as the clock and the sky
+       instruments have, keeps it on the desk (data-own-theme). */
     setTheme: function(theme, tokens){
       var root = document.documentElement;
+      if(root.hasAttribute('data-own-theme')) return;
       root.setAttribute('data-theme', theme);
       Object.keys(tokens).forEach(function(key){ root.style.setProperty(key, tokens[key]); });
       root.style.colorScheme = theme === 'light' ? 'light' : 'dark';
@@ -35,6 +38,17 @@
   document.addEventListener('keydown', function(e){
     if(e.key === 'Escape') window.parent.OLAE_DESK.restore();
   });
+  /* On the desk an instrument's name, its way back, its theme and its full
+     screen are the desk's. A top bar left with nothing else to show gives
+     its room to the instrument's work (desk-bare). */
+  function fold(){
+    var bar = document.querySelector('.chrome');
+    if(!bar) return;
+    var shown = Array.prototype.some.call(bar.querySelectorAll('a[href], button, select, input'), function(el){ return el.getClientRects().length > 0; });
+    document.documentElement.classList.toggle('desk-bare', !shown);
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function(){ requestAnimationFrame(fold); });
+  else requestAnimationFrame(fold);
 })();
 </script>
 <style>
@@ -43,6 +57,7 @@
   html.in-desk #fsBtn, html.in-desk #themeBtn,
   html.in-desk .shelf-row:has([data-light]){ display:none; }
   html.in-desk .chrome{ display:flex; justify-content:flex-end; padding:8px 16px; min-height:54px; }
+  html.in-desk.desk-bare .chrome{ display:none; }
   html.in-desk .actions{ gap:6px; }
   html.in-desk .sheet{ padding:30px 28px 80px; }
   html.in-desk .app{ padding-bottom:0; }

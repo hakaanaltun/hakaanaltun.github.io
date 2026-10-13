@@ -210,6 +210,7 @@ layout: null
   }
 </style>
 {% include page-sky.html %}
+{% include desk-embed.html %}
 </head>
 <body>
 
@@ -406,7 +407,7 @@ layout: null
 (function(){
   "use strict";
   var $ = function(s){ return document.querySelector(s); };
-  var LS = "olae-marks-v1";
+  var LS = window.OLAE_DESK_EMBED ? window.OLAE_DESK_EMBED.key("olae-desk-marks-v1") : "olae-marks-v1";
   var MAX_RECENT = 8;
 
   /* every mark on the page, char → its cell markup details */

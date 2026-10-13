@@ -1,4 +1,4 @@
-/* site-nav.js — Drawer, share button, and horizontal scrollers. Header autohide is handled by header-autohide.js. */
+/* site-nav.js — The site's menu (its drawer), The House's menu in the header, the reader's drawer over the page, the share button, and horizontal scrollers. Header autohide is handled by header-autohide.js. */
 (function () {
   'use strict';
 
@@ -182,6 +182,128 @@
   trackEdgeFades('#book .book-retailers');
   enableHorizontalScroller('.header-nav-bar');
   trackEdgeFades('.header-nav-bar');
+
+  /* ── Your drawer, over the page ──
+     "Your drawer" under The House in the header and in the site's menu,
+     and the drawer in the footer, open the reader's drawer over the page
+     they are on, and closing it leaves them there (js/drawer.js). In The
+     House it is the room's own drawer, opened over whichever room or door
+     is showing. What a page lacks of the drawer's scripts and styles
+     (_data/drawer_assets.yml) is fetched the first time it is asked for;
+     if that fails, the link goes on to the drawer in The House. */
+  var drawerLoading = null;
+  function addStyle(href) {
+    return new Promise(function (resolve) {
+      if (!href || document.querySelector('link[href^="' + href.split('?')[0] + '"]')) { resolve(); return; }
+      var link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = href;
+      link.onload = link.onerror = function () { resolve(); };
+      document.head.appendChild(link);
+    });
+  }
+  function addScript(src) {
+    return new Promise(function (resolve, reject) {
+      var script = document.createElement('script');
+      script.src = src;
+      script.onload = function () { resolve(); };
+      script.onerror = reject;
+      document.head.appendChild(script);
+    });
+  }
+  function loadDrawer() {
+    if (window.OLAE_DRAWER && window.OLAE_KEEP) return Promise.resolve();
+    if (drawerLoading) return drawerLoading;
+    var assets = window.OLAE_DRAWER_ASSETS || {};
+    var scripts = (window.OLAE_KEEP ? Promise.resolve() : addScript(assets.keep_js))
+      .then(function () { return window.OLAE_DRAWER ? null : addScript(assets.drawer_js); });
+    drawerLoading = Promise.all([addStyle(assets.keep_css), addStyle(assets.drawer_css), scripts]).then(function () {
+      if (!window.OLAE_DRAWER) throw new Error('No drawer');
+    });
+    drawerLoading.catch(function () { drawerLoading = null; });
+    return drawerLoading;
+  }
+  function openYourDrawer(link, from) {
+    if (window.OLAE_HOUSE && window.OLAE_HOUSE.openDrawer) { window.OLAE_HOUSE.openDrawer(from); return; }
+    loadDrawer().then(function () { window.OLAE_DRAWER.open(from); }, function () { location.href = link.href; });
+  }
+  document.addEventListener('click', function (e) {
+    var link = e.target.closest && e.target.closest('a[data-open-drawer]');
+    if (!link || e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    e.preventDefault();
+    // Focus comes back, once the drawer closes, to what is still there to
+    // hold it: the menu's button when the drawer was opened from a menu.
+    var from = link;
+    if (link.closest('#site-drawer')) from = document.querySelector('.hamburger-btn');
+    else if (link.closest('#nav-house-menu')) from = document.querySelector('.nav-house-toggle');
+    closeHouseMenu(false);
+    openYourDrawer(link, from);
+  });
+
+  /* ── The House's menu in the header ──
+     A pointer over The House opens it, and so does its chevron, which is
+     what a finger and the keyboard have. It stands outside the strip,
+     which scrolls on a phone and would cut it off, so it is placed under
+     The House each time it opens. */
+  var houseItem = document.querySelector('.nav-house');
+  var houseToggle = houseItem && houseItem.querySelector('.nav-house-toggle');
+  var houseMenu = document.getElementById('nav-house-menu');
+  var houseNav = houseMenu && houseMenu.parentNode;
+  var houseTimer = 0;
+  function placeHouseMenu() {
+    var at = houseItem.getBoundingClientRect(), box = houseNav.getBoundingClientRect();
+    var left = Math.max(8, Math.min(at.left - box.left - 10, box.width - houseMenu.offsetWidth - 8));
+    houseMenu.style.left = left + 'px';
+    houseMenu.style.top = (at.bottom - box.top + 6) + 'px';
+  }
+  function openHouseMenu(focusFirst) {
+    clearTimeout(houseTimer);
+    if (!houseMenu.hidden) { if (focusFirst) houseMenu.querySelector('a').focus(); return; }
+    houseMenu.hidden = false;
+    houseToggle.setAttribute('aria-expanded', 'true');
+    placeHouseMenu();
+    if (focusFirst) houseMenu.querySelector('a').focus();
+  }
+  function closeHouseMenu(back) {
+    clearTimeout(houseTimer);
+    if (!houseMenu || houseMenu.hidden) return;
+    houseMenu.hidden = true;
+    houseToggle.setAttribute('aria-expanded', 'false');
+    if (back) houseToggle.focus();
+  }
+  if (houseItem && houseToggle && houseMenu) {
+    houseToggle.hidden = false;
+    houseToggle.addEventListener('click', function (e) {
+      // A click that only follows the pointer's hover leaves it open.
+      if (!houseMenu.hidden && e.detail && houseItem.matches(':hover')) return;
+      if (houseMenu.hidden) openHouseMenu(e.detail === 0); else closeHouseMenu(false);
+    });
+    var hovering = window.matchMedia && window.matchMedia('(hover: hover)');
+    [houseItem, houseMenu].forEach(function (el) {
+      el.addEventListener('pointerenter', function (e) {
+        if (e.pointerType === 'mouse' && hovering && hovering.matches) openHouseMenu(false);
+      });
+      el.addEventListener('pointerleave', function (e) {
+        if (e.pointerType !== 'mouse') return;
+        clearTimeout(houseTimer);
+        houseTimer = setTimeout(function () {
+          if (!houseItem.matches(':hover') && !houseMenu.matches(':hover') && !houseMenu.contains(document.activeElement)) closeHouseMenu(false);
+        }, 220);
+      });
+    });
+    document.addEventListener('click', function (e) {
+      if (!houseMenu.hidden && !houseItem.contains(e.target) && !houseMenu.contains(e.target)) closeHouseMenu(false);
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !houseMenu.hidden) closeHouseMenu(houseMenu.contains(document.activeElement) || document.activeElement === houseToggle);
+    });
+    houseMenu.addEventListener('focusout', function (e) {
+      if (!houseMenu.contains(e.relatedTarget) && e.relatedTarget !== houseToggle) closeHouseMenu(false);
+    });
+    window.addEventListener('resize', function () { if (!houseMenu.hidden) placeHouseMenu(); });
+    var strip = houseItem.closest('.header-nav-bar');
+    if (strip) strip.addEventListener('scroll', function () { closeHouseMenu(false); }, { passive: true });
+  }
 
   /* ── Drawer elements ── */
   var toggleBtn = document.querySelector('.hamburger-btn');

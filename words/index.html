@@ -244,6 +244,7 @@ layout: null
   }
 </style>
 {% include page-sky.html %}
+{% include desk-embed.html %}
 </head>
 <body>
 
@@ -356,7 +357,7 @@ layout: null
 (function(){
   "use strict";
   var $ = function(s){ return document.querySelector(s); };
-  var LS = "olae-words-v1";
+  var LS = window.OLAE_DESK_EMBED ? window.OLAE_DESK_EMBED.key("olae-desk-words-v1") : "olae-words-v1";
   var ta = $("#text");
 
   /* ---- restore ---- */
