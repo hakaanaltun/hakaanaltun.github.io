@@ -112,6 +112,11 @@
   function wordItem(w) { return { id: w.id, kind: 'A word', title: w.word, quote: w.description, href: w.url }; }
   function questionItem(q) { return { id: q.id, kind: q.quiz, title: q.question, quote: q.note, href: q.url }; }
 
+  /* The desk and the door put out only the words in a collection; the
+     rest stay in the index above, so a word already kept still shows its
+     story in the drawer. */
+  function collectedWords() { return catalog.words.filter(function (w) { return w.collected; }); }
+
   function whenCatalog(fn) { if (catalog !== null) fn(); else waiting.push(fn); }
   function arrived(data) {
     catalog = data && Array.isArray(data.words) ? data : false;
@@ -207,7 +212,7 @@
   function renderWords(box) {
     if (!catalog) return unreachable(box, '/word/', 'All the words →');
     box.appendChild(element('p', 'house-object-intro', 'Three cards on the desk today. Turn one over; there’s a story behind each word.'));
-    todays(catalog.words, 11, 3).forEach(function (w) {
+    todays(collectedWords(), 11, 3).forEach(function (w) {
       var article = element('article', 'house-item house-word-card');
       article.appendChild(element('p', 'house-item-kind', w.pos));
       article.appendChild(element('h3', '', w.word));
@@ -1166,7 +1171,7 @@
     if (!catalog) return;
     var things = [].concat(
       catalog.pieces.map(function (p) { return { id: p.id, label: p.fiction ? 'A new story' : 'A new essay', title: p.title, url: p.url }; }),
-      catalog.words.map(function (w) { return { id: w.id, label: 'A new word', title: w.word, url: w.url }; }),
+      collectedWords().map(function (w) { return { id: w.id, label: 'A new word', title: w.word, url: w.url }; }),
       catalog.notes.map(function (n) { return { id: n.id, label: 'A new note', title: longDate(n.date), url: n.url }; }),
       catalog.quizzes.map(function (q) { return { id: q.id, label: 'A new quiz', title: q.title, url: q.url }; })
     );

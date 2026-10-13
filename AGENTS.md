@@ -661,7 +661,7 @@ The site has two deliberate ideas of place. Do not collapse them into one.
 - **Keep the complete alphabetical index alongside the collections.** The earlier A–Z layout lives at `/word/alphabetical/`, linked near the end of `/word/` as “All the words in alphabetical order.” It includes every existing entry, including words not yet assigned to a collection. Keep each word's URL unchanged and the alphabet jump navigation intact; collection reading arrows remain thematic.
 - The public `/word/` index is organized into eight curated thematic collections in `_data/word_collections.yml`. Each group has a plain introduction and an approximate historical order based on the older meanings, documented events or periods behind its words, rendered by `_includes/word-collection.html` on `/word/<group>/` pages. A word may belong to only one primary group.
 - Existing individual `/word/<slug>/` URLs and all source citations remain unchanged. Arrows on grouped stories stay within their own group, and the label above the word returns to its collection.
-- A word outside every group remains available by its URL, in site search and in the existing Words RSS feed, but waits off the curated Words index and homepage random-card selection until there is a meaningful group for it.
+- A word outside every group remains available by its URL, in site search and in the existing Words RSS feed, but waits off the curated Words index, the homepage random-card selection, The House's word cards and its "A new word" at the door until there is a meaningful group for it. The author asked on 13 October 2026 that The House follow the homepage here. The House's catalog still lists every word, marked `collected` or not, so a word a reader kept earlier keeps its current story in the drawer.
 - Group order is chronological in broad outline, not a ranking of precise first English attestations. The date of a root, a historical event and a word's modern sense may differ; never invent a definitive date to resolve overlaps. New words take their approximate place without creating a contrived beginning or ending to the group.
 - Optional connections live in `_data/word_bridges.yml` and appear after individual word sources. Use them only for grounded links, and state whether a link is an etymological relationship, a historical parallel or a shared theme. Do not imply shared word origins when there are none; unconnected entries are fine.
 - Group stories must remain sourced and accurate. Shared themes do not establish shared etymology. Review both the individual story and its relationship to the group's introduction before assigning a word.
@@ -836,7 +836,14 @@ accuracy and plain prose to this section as well.
   corona; the page explains the observing methods and artistic colors. The
   story follows rotation, Cecilia Payne’s composition work, fusion, the
   corona’s spectrum and Parker Solar Probe. Do not describe the brush texture
-  as resolved solar granules. Small destinations at the right edge can use
+  as resolved solar granules. On 13 October 2026 the author asked for the
+  Sun's four notes to be told as the journey's notes are, each with how its
+  part came to be seen or understood: Fraunhofer's dark lines for the
+  photosphere, Hale's magnetic fields and Schwabe's cycle for the spots,
+  the helium line of 1868 for the prominence and Lyot's coronagraph for the
+  corona. The illustration note below the picture carries what the painting
+  combines or strengthens; a note repeats it only when its explanation
+  depends on it. Small destinations at the right edge can use
   `label_edge: left` to keep their labels inside a phone’s picture.
   Complete all eight planets and selected important Solar System features
   before closing the journey with Voyager 1 and Voyager 2. Explain their

@@ -19,15 +19,39 @@ sources:
   - id: features
     label: "NASA Marshall · Photospheric Features"
     url: https://solarscience.msfc.nasa.gov/feature1.shtml
+  - id: fraunhofer
+    label: "Fraunhofer-Gesellschaft · Joseph von Fraunhofer"
+    url: https://www.fraunhofer.de/en/about-fraunhofer/profile-structure/chronicles/joseph-von-fraunhofer.html
+  - id: fraunhofer-lines
+    label: "American Meteorological Society · Fraunhofer lines"
+    url: https://glossary.ametsoc.org/wiki/Fraunhofer_lines
   - id: spots
     label: "National Solar Observatory · Sunspots and Active Regions"
     url: https://nso.edu/for-public/sun-science/sunspots-and-active-regions/
+  - id: hale
+    label: "High Altitude Observatory · George Ellery Hale"
+    url: https://www2.hao.ucar.edu/education/scientists/george-ellery-hale-1868-1938
+  - id: hale-1908
+    label: "The Astrophysical Journal · Hale, On the Probable Existence of a Magnetic Field in Sun-Spots (1908)"
+    url: https://articles.adsabs.harvard.edu/pdf/1908ApJ....28..315H
+  - id: schwabe
+    label: "High Altitude Observatory · Samuel Heinrich Schwabe"
+    url: https://www2.hao.ucar.edu/education/scientists/samuel-heinrich-schwabe-1789-1875
   - id: prominence
     label: "National Solar Observatory · Prominences and Filaments"
     url: https://nso.edu/for-public/sun-science/prominence-filaments/
+  - id: helium
+    label: "Royal Society of Chemistry · Helium"
+    url: https://periodic-table.rsc.org/element/2/helium
+  - id: lockyer
+    label: "Linda Hall Library · Norman Lockyer"
+    url: https://www.lindahall.org/about/news/scientist-of-the-day/norman-lockyer
   - id: corona
     label: "NASA Marshall · The Corona"
     url: https://solarscience.msfc.nasa.gov/corona.shtml
+  - id: lyot
+    label: "High Altitude Observatory · Bernard Lyot"
+    url: https://www2.hao.ucar.edu/education/scientists/bernard-lyot-1897-1952
   - id: layers
     label: "NASA Science · Layers of the Sun"
     url: https://science.nasa.gov/blogs/the-sun-spot/2023/09/26/layers-of-the-sun/
@@ -64,59 +88,59 @@ details:
   - id: photosphere
     label: "The visible surface"
     kicker: "Photosphere"
-    title: "The layer that gives us visible light."
+    title: "Its light is crossed by dark lines."
     x: 51
     y: 62
     position: "51.6% 80%"
     zoom: "270%"
     alt: "Broad pale gold and ivory washes on the Sun’s visible disk."
-    sources: [photosphere, features]
+    sources: [photosphere, features, fraunhofer, fraunhofer-lines, payne]
     body:
       - "Most of the visible light we receive from the Sun comes from its photosphere. This is a layer of gas, with no solid ground beneath the bright face we see."
       - "Near the disk’s edge, our line of sight passes obliquely through that layer. We see cooler, dimmer material higher up, making the limb appear darker than the center."
-      - "Close observations reveal granules, the tops of convection cells. Hot material rises in their bright centers, cools and sinks along darker edges. Individual granules are far too small to be mapped in this whole-Sun painting; its mottled brushwork is only a suggestion of an active surface."
+      - "The fall in temperature with height also leaves dark lines in sunlight. In 1814 Joseph von Fraunhofer, who headed a glassworks at Benediktbeuern, found hundreds of them while testing the quality of his lenses. Each line belongs to a particular kind of atom absorbing light in the cooler gas above, and the lines later showed what the Sun is made of."
   - id: sunspots
     label: "Sunspots"
     kicker: "Magnetism on the surface"
-    title: "Dark by comparison with their surroundings."
+    title: "Magnetic fields keep the spots cooler."
     x: 43
     y: 38
     position: "40.2% 26%"
     zoom: "340%"
     alt: "Dark sunspot centers surrounded by lighter brown, finely streaked penumbrae."
-    sources: [spots, features]
+    sources: [spots, features, hale, hale-1908, schwabe]
     body:
-      - "The dark centers are called umbrae. Lighter, streaked penumbrae surround them. Strong magnetic fields restrict the transport of heat toward the surface, so these areas become cooler than the nearby photosphere."
-      - "They still glow intensely. Their darkness comes from the contrast with the hotter material around them. Seen in ultraviolet or X-rays, the active regions above sunspots can be very bright because magnetic fields hold hot gas higher in the atmosphere."
-      - "The number of spots rises and falls over the roughly 11-year solar activity cycle. Their appearance helps scientists follow changes in the Sun’s magnetic activity."
+      - "The dark centers are called umbrae. Lighter, streaked penumbrae surround them. A sunspot still glows intensely and looks dark beside the hotter photosphere around it."
+      - "In 1908 George Ellery Hale, at the Mount Wilson Solar Observatory, found that some lines in the light of sunspots were split in two, as lines split in the laboratory beside a strong magnet. It showed that sunspots hold strong, concentrated magnetic fields. The fields restrict the flow of heat toward the surface, so the spots are cooler than their surroundings."
+      - "The number of spots rises and falls over a cycle of about 11 years. The pattern was found by Heinrich Schwabe, a pharmacist in Dessau, who watched the Sun on almost every clear day from 1825 while looking for a planet closer to it than Mercury. He reported it in 1843."
   - id: prominence
     label: "Prominence"
     kicker: "Plasma above the limb"
-    title: "Material held above the surface."
+    title: "A new element was found in its light."
     x: 69
     y: 27
     label_side: right
     position: "78% 8%"
     zoom: "310%"
     alt: "A delicate rose-colored arch extending above the Sun’s upper-right limb."
-    sources: [prominence, facts]
+    sources: [prominence, helium, lockyer, facts]
     body:
       - "The arch represents a prominence, relatively cool, dense plasma held in the hot corona by magnetic fields. Its shape follows the field that supports it."
-      - "Against the dark sky beyond the limb, this material appears bright. Seen against the solar disk, a similar structure can appear as a dark filament. The viewpoint changes its appearance."
-      - "Prominences may persist for days or longer, and some erupt. This painting shows a supported arch. Its visibility beside the bright photosphere combines different observing methods into one illustration."
+      - "In 1868 Pierre Janssen traveled to India to study a total eclipse and saw a new yellow line in the Sun’s spectrum. Later that year he and Norman Lockyer each found a way to observe prominences without an eclipse, and Lockyer recorded the same line in a prominence’s light, a little to one side of the yellow lines of sodium. The line pointed to a new element. It was named helium, from helios, the Greek word for the Sun, and was found on Earth in 1895."
+      - "Against the dark sky beyond the limb, this material appears bright. Seen against the solar disk, a similar structure can appear as a dark filament. Prominences may persist for days or longer, and some erupt. This painting shows a supported arch."
   - id: corona
     label: "The corona"
     kicker: "The outer atmosphere"
-    title: "A faint atmosphere at a higher temperature."
+    title: "It can now be seen without an eclipse."
     x: 79
     y: 47
     position: "89% 44%"
     zoom: "260%"
     alt: "Faint tapered streamers extending from the Sun’s bright right limb into dark space."
-    sources: [corona, facts, layers]
+    sources: [corona, lyot, facts, layers]
     body:
-      - "The wispy glow represents the corona. During a total solar eclipse, the Moon hides the much brighter photosphere and this outer atmosphere becomes visible around it. Instruments can also block the bright disk to study the surrounding gas."
-      - "The corona can reach temperatures of a million degrees Celsius or more, far above the photosphere. Explaining how energy heats it remains an active area of research."
-      - "Its streamers and loops change with the Sun’s magnetic activity. Some coronal material escapes into space as the solar wind. Here the faint light is strengthened so its structure can be explored beside the disk."
+      - "The wispy glow represents the corona. During a total solar eclipse, the Moon hides the much brighter photosphere and this outer atmosphere becomes visible around it."
+      - "Until 1931 the corona could be photographed only during an eclipse. Bernard Lyot designed an instrument that blocks the glare of the bright disk, the coronagraph, and on July 12, 1931, at the Pic du Midi Observatory, it gave the first photograph of the corona taken outside an eclipse. His studies of the corona’s faint spectral lines helped show that its gas is much hotter than had been thought."
+      - "The corona can reach temperatures of a million degrees Celsius or more, far above the photosphere. Explaining how energy heats it remains an active area of research. Its streamers and loops change with the Sun’s magnetic activity, and some coronal material escapes into space as the solar wind."
 ---
 <p>Explore the Sun’s surface and the atmosphere above it. Then follow the observations that helped us understand our nearest star.</p>
