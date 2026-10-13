@@ -1516,7 +1516,7 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
     assert.equal(footer.getAttribute('aria-label'), 'Your drawer');
     const instruments = o.q('footer a[href="/tools/"]');
     assert.equal(instruments.nextElementSibling, footer, 'the drawer stands beside the instruments');
-    assert.ok(instruments.querySelector('circle'), 'and the instruments carry the sign of a point in focus');
+    assert.equal(instruments.querySelectorAll('svg path').length, 3, 'and the instruments carry a pair of compasses, its grip and two legs');
     footer.focus();
     footer.click();
     const loaded = (src) => { const tag = o.q('head script[src="' + src + '"]'); assert.ok(tag, 'fetched ' + src); return tag; };

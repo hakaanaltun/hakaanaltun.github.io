@@ -1109,8 +1109,11 @@ accuracy and plain prose to this section as well.
   opens the drawer over the page; without the script it leads to
   `/house/#drawer`. The author asked for this on 13 October 2026, when the
   drawer had come to matter across the site, and asked the same day for
-  the instruments a sign that says what they are for: a viewfinder's
-  corners round a point in focus, in place of four squares.
+  the instruments a sign that says what they are for. Their sign is a pair
+  of compasses with its grip on top, in place of four squares; the grip
+  keeps it from reading as a letter at the footer's size. A viewfinder
+  round a point in focus read as a camera, and a hand compass is a
+  browser's sign, so the author chose the compasses.
 - **The Farm House belongs to The House.** It is entered only from there,
   through the Polaroid on a shelf in the study, so its "← the study"
   returns to the study (`/house/#study`). Do not give its frame the site's
