@@ -107,7 +107,7 @@ layout: home
           {% if card_image %}
           <span class="piece-thumb-wrap">
             <img src="{{ card_image | replace: '/images/', '/images/480/' | relative_url }}"
-                 alt="{{ post.cover_alt | default: post.title | escape }}"
+                 alt=""
                  class="piece-thumb" width="96" height="96" loading="lazy" decoding="async">
           </span>
           {% else %}

@@ -30,7 +30,7 @@
     var label = s.title.replace(/"/g, '&quot;');
 
     var inner = '<div class="series-thumb-card' + (isCurrent ? ' series-thumb-card--current' : '') + '">'
-      + (img ? '<img src="' + img + '" alt="' + label + '" loading="lazy">' : '<div class="series-thumb-img-placeholder"></div>')
+      + (img ? '<img src="' + img + '" alt="" loading="lazy">' : '<div class="series-thumb-img-placeholder"></div>')
       + '<span class="series-thumb-label">'
       + '<span class="series-thumb-num">' + (i + 1) + '</span>. ' + s.title
       /* The current card is a div, not a link, so nothing in the accessibility
