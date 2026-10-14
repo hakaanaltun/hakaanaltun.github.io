@@ -1173,6 +1173,11 @@
     if (currentScene) currentScene.scrollIntoView({ block: 'center', behavior: 'instant' });
   }
 
+  /* Going from the door to the study, out to the balcony or back, the
+     place that comes into view fades up from the paper, as the farm's
+     scenes do. A page that opens on a room shows it at once, and a reader
+     who asks for less motion is spared the fade. */
+  var shownView = null;
   function setView(focus) {
     var hash = location.hash;
     var inside = hash === '#study' || hash === '#drawer';
@@ -1180,6 +1185,11 @@
     entrance.hidden = inside || outside;
     study.hidden = !inside;
     balcony.hidden = !outside;
+    var showing = outside ? balcony : inside ? study : entrance;
+    if (shownView && showing !== shownView && !still && showing.animate) {
+      showing.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 450, easing: 'ease-out' });
+    }
+    shownView = showing;
     // The gold speck and its trail are for the rooms; at the door the
     // pointer is the reader's own (css/house.css).
     document.documentElement.classList.toggle('house-inside', inside || outside);

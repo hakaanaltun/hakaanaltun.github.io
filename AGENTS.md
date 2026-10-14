@@ -643,6 +643,13 @@ The site has two deliberate ideas of place. Do not collapse them into one.
     Highlight, and paper never shows a mark. A passage is found by its
     words, so one whose words have since changed loses its mark and stays
     in the drawer.
+- **A Turkish browser is told about Türkçe.** Where the browser's first
+  language is Turkish, a line inside a piece's reading options, and on a
+  quiz's first panel, says in Turkish that a selected sentence opens in
+  Turkish (`js/reader-translate.js`). It was added on 14 October 2026,
+  with the reading rather than in the search field, where nothing is
+  read. It stood first under the reading options, and the author asked
+  the same day for it to go inside them.
 - **A printed piece** opens with its kind (Essay or Short fiction) on the
   left and HAKANALTUN.IO on the right, then the title and date, centered, and
   ends with the footer's two lines, centered at the foot of the last page. Word pages have no print layout
@@ -727,6 +734,11 @@ accuracy and plain prose to this section as well.
   group in its `category` field. Keep existing picture addresses stable
   when grouping them. Every group follows the same drawing, storytelling
   and sourcing standards.
+
+- **The journey is to be made anew.** On 14 October 2026 the author said
+  that the journey's paintings and the journey itself will change
+  completely. Until the new one is finished it stays out of search; then
+  add it, as the Search section describes.
 
 - **Through the Solar System is a sourced watercolor journey.** In
   October 2026 the author clarified that realistic means scientifically
@@ -1077,6 +1089,27 @@ accuracy and plain prose to this section as well.
   section after it moves to the other list. `scripts/test-pictures.cjs`
   fails when a section is missing from the lists or two neighbors share a
   color.
+- **The House keeps its own line.** After "First time here?" and its three
+  doors, the homepage says "Another way in." and leads to The House.
+  Folding it into the three doors was considered on 14 October 2026, and
+  the author kept it as it is: the header and the site's menu already lead
+  there.
+
+## Search
+
+- **Some places stay out of search.** `search-index.json` gathers the
+  writing, the word stories, the standalone pictures, the instruments,
+  each quiz by its rounds, the notes and the pages in the site's frame.
+  On 14 October 2026 the author decided what stays out of it.
+  - Through the Solar System waits until its new paintings and journey
+    are finished. Then look at it again: a result for each scene, at
+    `/pictures/space/#scene-<id>`, which opens that scene, would take a
+    search for Jupiter or Voyager straight there.
+  - The Farm House stays out. It is entered only from the study, and its
+    story is found in the rooms.
+  - The quizzes' questions and notes stay out. A quiz shuffles its
+    questions, so a result could not lead to the one that matched, and
+    many notes give the answer away.
 
 ## The site's header and footer
 
@@ -1311,6 +1344,17 @@ accuracy and plain prose to this section as well.
   On a phone a place grows to a finger's size, and the drawer's once
   reached up over the word cards so that they could hardly be touched;
   there it keeps to the drawer front.
+- **A window is a native dialog.** The House's boxes, the drawer, the
+  farm's details, the pictures' close views and Moris's gallery open with
+  `showModal()`, so the page behind them is inert and Escape closes them.
+  Moris's gallery was the last to move, on 14 October 2026: until then
+  focus stayed on its cover, behind the dark, and Tab went on through the
+  page.
+- **The House's places fade into view.** Going from the door to the
+  study, out to the balcony and back, the place that comes into view fades
+  up from the paper, as the farm's scenes do. The author agreed to this on
+  14 October 2026. A page that opens on a room shows it at once, and
+  reduced motion keeps it still (`setView` in `js/house.js`).
 - **The gold speck is for the rooms.** In the study and on the balcony,
   and in any room after them, the pointer is a gold speck and leaves a
   trail (`js/cursor-trail.js`). At The House's door it is the reader's own
