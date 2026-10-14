@@ -442,6 +442,7 @@
      written; the drawer leads back to the notebook, where the page being
      written waits. */
   var notebookKept = '';
+  var notebookCheck = null;
   function renderNotebook(box) {
     box.appendChild(document.getElementById('house-notebook').content.cloneNode(true));
     var area = box.querySelector('[data-notebook-text]');
@@ -468,6 +469,17 @@
           : 'The notebook keeps your words in this browser until you put them in your drawer, where your earlier notes are. Write at length on The Page takes them there, after anything already written.';
     }
     show();
+    /* A kept page taken out of the drawer elsewhere, in another tab, goes
+       back to being the notebook's own at once, and the notebook says so. */
+    notebookCheck = function () {
+      if (!notebookKept || KEEP.find(notebookKept)) return;
+      var lost = document.activeElement === fresh || document.activeElement === out;
+      notebookKept = '';
+      KEEP.setNotebook(area.value);
+      said.textContent = 'Taken out of your drawer. The page stays in the notebook.';
+      show();
+      if (lost) keep.focus({ preventScroll: true });
+    };
     var timer = 0;
     // A kept page saves to its note in the drawer; the page being written,
     // to the notebook. A kept page taken out of the drawer meanwhile goes
@@ -708,8 +720,11 @@
     turn('.house-clock-hour', (hours % 12 + minutes / 60) * 30);
     turn('.house-clock-minute', minutes * 6);
   }
-  // On the minute, not a minute after the page happened to open.
+  /* On the minute, not a minute after the page happened to open. The wall
+     clock, the time in both rooms' bars, the sky and Moris all turn over
+     together, so the two clocks never disagree. */
   function keepTime() {
+    paint();
     wallClock();
     window.setTimeout(keepTime, 60000 - Date.now() % 60000 + 50);
   }
@@ -877,15 +892,40 @@
   var weather = { kind: null, level: 0, drops: [], frame: 0, last: 0, snow: 0 };
   var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  /* The drops are drawn in a few layers by depth, each one path, rather
+     than as an element apiece: a heavy fall on the balcony is hundreds of
+     drops, and moving each of them on every frame held a phone's page at
+     full load. The far layers are fainter and finer, and go first. */
+  var LAYERS = 6;
+  var layers = [];
+  function makeLayers() {
+    var rain = weather.kind === 'rain';
+    for (var i = 0; i < LAYERS; i++) {
+      var depth = (i + 0.5) / LAYERS;
+      var node = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      node.setAttribute('class', rain ? 'house-rain' : 'house-snowfall');
+      if (rain) node.setAttribute('stroke-width', (0.6 + depth * 0.8).toFixed(2));
+      node.setAttribute('opacity', ((rain ? 0.35 : 0.55) + depth * 0.4).toFixed(2));
+      view.layer.appendChild(node);
+      layers.push(node);
+    }
+  }
+  /* Each drop carries its own shape, drawn on from where it is: a rain
+     streak trailing back up into the wind, or a flake's circle from its
+     left edge. */
   function makeDrop(anywhere) {
     var rain = weather.kind === 'rain', heavy = weather.level === 2, depth = Math.random();
-    var drop = { depth: depth, phase: Math.random() * 6.3 };
+    var drop = { phase: Math.random() * 6.3, layer: Math.min(LAYERS - 1, Math.floor(depth * LAYERS)) };
     drop.speed = rain ? (170 + depth * 150) * (heavy ? 1.4 : 1) : (11 + depth * 15) * (heavy ? 1.7 : 1);
-    drop.node = document.createElementNS('http://www.w3.org/2000/svg', rain ? 'line' : 'circle');
-    if (rain) drop.node.setAttribute('stroke-width', (0.6 + depth * 0.8).toFixed(2));
-    else drop.node.setAttribute('r', ((0.9 + depth * 1.4) * (heavy ? 1.25 : 1)).toFixed(2));
-    drop.node.setAttribute('opacity', ((rain ? 0.35 : 0.55) + depth * 0.4).toFixed(2));
-    view.layer.appendChild(drop.node);
+    if (rain) {
+      var length = 9 + depth * 9;
+      drop.from = 0;
+      drop.shape = 'l' + (-length * 0.14).toFixed(1) + ' ' + (-length).toFixed(1);
+    } else {
+      var r = ((0.9 + depth * 1.4) * (heavy ? 1.25 : 1)).toFixed(2);
+      drop.from = +r;
+      drop.shape = 'a' + r + ' ' + r + ' 0 1 0 ' + 2 * r + ' 0a' + r + ' ' + r + ' 0 1 0 ' + -2 * r + ' 0';
+    }
     placeDrop(drop, anywhere);
     return drop;
   }
@@ -895,17 +935,13 @@
     drop.x = box.left - 30 + Math.random() * (box.right - box.left + 30);
     drop.y = anywhere ? box.top + Math.random() * (box.bottom - box.top) : box.top - 10 - Math.random() * 30;
   }
-  function drawDrop(drop, rain) {
-    if (rain) {
-      var length = 9 + drop.depth * 9;
-      drop.node.setAttribute('x1', drop.x.toFixed(1));
-      drop.node.setAttribute('y1', drop.y.toFixed(1));
-      drop.node.setAttribute('x2', (drop.x - length * 0.14).toFixed(1));
-      drop.node.setAttribute('y2', (drop.y - length).toFixed(1));
-    } else {
-      drop.node.setAttribute('cx', drop.x.toFixed(1));
-      drop.node.setAttribute('cy', drop.y.toFixed(1));
-    }
+  function drawDrops() {
+    var paths = [];
+    for (var i = 0; i < LAYERS; i++) paths.push('');
+    weather.drops.forEach(function (drop) {
+      paths[drop.layer] += 'M' + (drop.x - drop.from).toFixed(1) + ' ' + drop.y.toFixed(1) + drop.shape;
+    });
+    layers.forEach(function (node, i) { node.setAttribute('d', paths[i]); });
   }
   /* Snow gathers along the foot of the glass while it falls, deeper in a
      heavy fall, and melts away once it stops. */
@@ -931,8 +967,8 @@
       drop.y += drop.speed * seconds;
       drop.x += rain ? drop.speed * 0.14 * seconds : Math.sin(now / 1100 + drop.phase) * 9 * seconds;
       if (drop.y > view.box.bottom - (rain ? 0 : weather.snow) + (rain ? 18 : 2)) placeDrop(drop, false);
-      drawDrop(drop, rain);
     });
+    drawDrops();
     var deepest = weather.kind === 'snow' ? (weather.level === 2 ? 14 : 6) : 0;
     weather.snow = weather.snow < deepest ? Math.min(deepest, weather.snow + seconds * (weather.level === 2 ? 0.12 : 0.05))
       : Math.max(deepest, weather.snow - seconds * 2);
@@ -946,12 +982,15 @@
     else weather.last = 0;
   }
   function seedWeather() {
-    weather.drops.forEach(function (drop) { drop.node.remove(); });
+    layers.forEach(function (node) { node.remove(); });
+    layers = [];
     weather.drops = [];
     var kind = weather.kind, level = weather.level;
     var count = kind ? (kind === 'rain' ? (level === 2 ? 190 : 85) : (level === 2 ? 160 : 85)) * (view.more || 1) : 0;
     if (still) count = Math.round(count * 0.45);
+    if (kind) makeLayers();
     for (var i = 0; i < count; i++) weather.drops.push(makeDrop(true));
+    drawDrops();
     if (!weather.frame) weather.frame = window.requestAnimationFrame(weatherStep);
   }
   var liveWeather = null, manualWeather = false;
@@ -1283,6 +1322,7 @@
     if (dialog.open && activeObject === 'drawer') {
       renderDrawer(content);
     } else {
+      if (dialog.open && activeObject === 'notebook') notebookCheck();
       KEEP.sync(content);
     }
   });
@@ -1297,7 +1337,15 @@
     activeObject = '';
     backTo = '';
     if (location.hash === '#drawer') history.replaceState(null, '', '#study');
-    if (opener && !opener.hidden) opener.focus({ preventScroll: true });
+    /* The list under a room on a phone repeats the places for the eye and
+       is hidden from a screen reader, so the focus goes back to the same
+       place in the picture rather than into the list. */
+    var back = opener;
+    if (back && back.closest('[aria-hidden="true"]')) {
+      var room = back.closest('section');
+      back = room && room.querySelector('.house-hotspot[data-open="' + back.getAttribute('data-open') + '"]');
+    }
+    if (back && !back.hidden) back.focus({ preventScroll: true });
   });
   ['house-enter', 'house-leave'].forEach(function (id) {
     document.getElementById(id).addEventListener('click', function (event) {
@@ -1311,7 +1359,6 @@
     setView(true);
   });
   document.addEventListener('visibilitychange', function () { if (!document.hidden) { paint(); wallClock(); } });
-  window.setInterval(paint, 60000);
 
   /* The site's menu and footer open the drawer over whatever is showing,
      the door or a room, and leave it there when the drawer closes
@@ -1322,7 +1369,6 @@
   if (KEEP.read().kept.length) document.getElementById('house-welcome').textContent = 'Welcome back.';
   if (!KEEP.works()) status.textContent = DRAWER.storageNote();
   syncCount();
-  paint();
   keepTime();
   setView(false);
   // On a fresh visit through a room link, land on its picture rather than
