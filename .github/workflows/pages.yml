@@ -56,8 +56,13 @@ jobs:
     # hold the deploy queue for six hours, as one did on 12 October 2026.
     timeout-minutes: 20
     steps:
+      # Two commits, so that a pull request, checked out as its merge, has
+      # the base branch beside it: scripts/test-asset-versions.cjs compares
+      # the two for stylesheets and scripts that changed without a new ?v=.
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1

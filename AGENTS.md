@@ -207,6 +207,13 @@ the Pictures cards' downscales. Gems go into the git-ignored
 - `style.css` and `palettes.css` are linked once in `_includes/head.html`
   for every page that uses the default layout. Bump the `?v=` there when
   either changes.
+- **A changed stylesheet or script needs a new `?v=` everywhere it is
+  loaded.** `scripts/test-asset-versions.cjs` compares a pull request with
+  its base branch and fails on any page, include or `_data` list that
+  still loads a changed file in `css/` or `js/` under its old stamp. A
+  stylesheet whose rules are unchanged, with only its comments edited,
+  needs no bump. One was missed on 12 October 2026 and needed a pull
+  request of its own.
 - The published stylesheets carry no comments. After the checks, deployment
   runs `scripts/strip-css-comments.cjs` on `_site/css` and fails if any rule
   would change. Keep writing comments in `css/`, where a local build keeps

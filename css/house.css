@@ -211,8 +211,8 @@
 .house-scene:not([data-sun="in"]) .house-sun, .house-scene:not([data-sun="in"]) .house-light-beam { opacity: 0; }
 /* Rain or snow at the window: the sky clouds over and the sun, the moon and
    the stars go behind it. */
-.house-weather line { stroke: #eef2f3; stroke-linecap: round; }
-.house-weather circle { fill: #fbfaf5; }
+.house-weather .house-rain { fill: none; stroke: #eef2f3; stroke-linecap: round; }
+.house-weather .house-snowfall { fill: #fbfaf5; }
 .house-window-snow { fill: #f6f5ef; }
 .house-scene[data-weather], .house-scene[data-clouded] { --sky-top: #9aa3a7; --sky-bottom: #c6cac6; }
 .house-scene[data-weather][data-hour="evening"], .house-scene[data-clouded][data-hour="evening"] { --sky-top: #7f7c88; --sky-bottom: #ae9f98; }

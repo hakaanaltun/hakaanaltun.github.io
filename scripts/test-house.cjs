@@ -327,6 +327,20 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   // Kept again, then a new page.
   a.click('[data-notebook-keep]');
   assert.equal(a.stored().kept.length, 1);
+  // Taken out of the drawer in another tab, the kept page goes back to
+  // being the notebook's own at once, and the notebook says so.
+  const elsewhere = a.stored();
+  elsewhere.kept = [];
+  a.w.localStorage.setItem(KEY, JSON.stringify(elsewhere));
+  a.q('[data-notebook-out]').focus();
+  a.w.dispatchEvent(new a.w.StorageEvent('storage', { key: KEY }));
+  assert.equal(notebookSaid(), 'Taken out of your drawer. The page stays in the notebook.');
+  assert.deepEqual(notebookButtons(), ['Keep in your drawer', 'Open your drawer']);
+  assert.equal(a.q('#house-dialog-content [data-notebook-label]').textContent, 'Write a note');
+  assert.equal(a.stored().notebook, 'The ferry lights.\nWrite about the islands, and the gulls.', 'the words stay in the notebook');
+  assert.equal(a.w.document.activeElement, a.q('[data-notebook-keep]'), 'focus goes where Take out was');
+  a.click('[data-notebook-keep]');
+  assert.equal(a.stored().kept.length, 1);
   a.click('[data-notebook-fresh]');
   assert.equal(notebookText().value, '');
   assert.equal(notebookSaid(), '');
@@ -604,6 +618,8 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
     return n;
   };
   const shown = (n, s) => !n.q(s).hidden;
+  // Rain and snow fall as a few paths by depth, one drop to each move.
+  const drops = (n, s) => [...n.w.document.querySelectorAll(s)].reduce((sum, path) => sum + (path.getAttribute('d').match(/M/g) || []).length, 0);
   const spot = (n, s) => ({ x: +n.q(s).getAttribute('cx'), y: +n.q(s).getAttribute('cy') });
   const words = (n) => n.q('#house-dialog-content').textContent.replace(/\s+/g, ' ').trim();
   const dialogLinks = (n) => Array.from(n.w.document.querySelectorAll('#house-dialog-content a'), (l) => l.getAttribute('href'));
@@ -669,16 +685,61 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   n.click('#let-it-rain');
   assert.equal(scene.dataset.weather, 'rain');
   assert.equal(n.q('#house-scene').dataset.weather, 'rain', 'the same sky from the window');
-  assert.ok(n.w.document.querySelectorAll('#house-balcony-scene .house-weather line').length > 0, 'rain over the city');
-  assert.equal(n.w.document.querySelectorAll('#house-scene .house-weather line').length, 0);
+  assert.equal(n.w.document.querySelectorAll('#house-balcony-scene .house-weather .house-rain').length, 6, 'rain in six layers by depth');
+  assert.equal(drops(n, '#house-balcony-scene .house-weather .house-rain'), 170, 'rain over the city, twice the window\'s');
+  assert.equal(n.w.document.querySelectorAll('#house-scene .house-weather *').length, 0);
   assert.equal(n.q('#house-status').textContent, 'Light rain over the city.');
   n.click('.house-hotspot--study-door');
   assert.equal(n.w.location.hash, '#study');
   assert.equal(n.q('#study').hidden, false, 'back in through the door');
   assert.equal(n.q('#balcony').hidden, true);
-  assert.ok(n.w.document.querySelectorAll('#house-scene .house-weather line').length > 0, 'the rain at the study window again');
+  assert.equal(drops(n, '#house-scene .house-weather .house-rain'), 85, 'the rain at the study window again');
   assert.equal(n.w.document.querySelectorAll('#house-balcony-scene .house-weather *').length, 0);
   n.dom.window.close();
+
+  // The clocks turn over together, on the minute: the wall clock's hands
+  // and the time in both rooms' bars, whenever the page was opened.
+  {
+    let now = Date.parse('2026-10-11T10:00:45+03:00');
+    const minutes = [];
+    const c = page('house/index.html', 'https://hakanaltun.io/house/#study', {
+      before(w) {
+        const NativeDate = w.Date;
+        w.Date = class extends NativeDate { constructor(...args) { super(...(args.length ? args : [now])); } static now() { return now; } };
+        const later = w.setTimeout;
+        w.setTimeout = (fn, ms, ...rest) => ms > 1000 ? (minutes.push([fn, ms]), 0) : later(fn, ms, ...rest);
+      }
+    });
+    for (const name of ['keep', 'astronomy', 'house']) c.w.eval(scripts[name]);
+    await tick();
+    const hands = () => c.q('.house-clock-minute').getAttribute('transform');
+    assert.equal(c.q('#house-clock').textContent, '10:00');
+    assert.equal(hands(), 'rotate(0 450 146)');
+    assert.equal(minutes.length, 1);
+    assert.equal(minutes[0][1], 15050, 'the next turn waits for the minute');
+    now = Date.parse('2026-10-11T10:01:00.050+03:00');
+    minutes[0][0]();
+    assert.equal(c.q('#house-clock').textContent, '10:01', 'the time in the bar turns with the hands');
+    assert.equal(c.q('#balcony [data-house-clock]').textContent, '10:01');
+    assert.equal(hands(), 'rotate(6 450 146)');
+    assert.equal(minutes.length, 2);
+    c.dom.window.close();
+  }
+
+  // Opened from the list under a room on a phone, which a screen reader does
+  // not see, a box gives the focus back to the same place in the picture.
+  for (const [url, room, name] of [['https://hakanaltun.io/house/#study', '#study', 'books'], ['https://hakanaltun.io/house/#balcony', '#balcony', 'notebook']]) {
+    const f = house({ url });
+    await tick();
+    f.click(room + ' .house-objects [data-open="' + name + '"]');
+    assert.equal(f.q('#house-dialog').open, true);
+    f.click('#house-close');
+    assert.equal(f.w.document.activeElement, f.q(room + ' .house-hotspot[data-open="' + name + '"]'), 'focus back on the picture, not in the hidden list: ' + name);
+    f.click(room + ' .house-hotspot[data-open="' + name + '"]');
+    f.click('#house-close');
+    assert.equal(f.w.document.activeElement, f.q(room + ' .house-hotspot[data-open="' + name + '"]'), 'and from the picture, back where it was');
+    f.dom.window.close();
+  }
 
   // Moris goes out to the balcony twice a day, and its glass is shut and its
   // door open while he is there: from noon to two, asleep on the empty
@@ -1397,13 +1458,13 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   p.click('#let-it-rain');
   assert.equal(p.q('canvas.snowfall'), null, 'no rain over the page');
   assert.equal(p.q('#house-scene').dataset.weather, 'rain');
-  assert.ok(p.w.document.querySelectorAll('.house-weather line').length > 0, 'rain at the window');
+  assert.equal(drops(p, '.house-weather .house-rain'), 85, 'rain at the window');
   assert.equal(p.q('#let-it-rain').getAttribute('aria-pressed'), 'true');
   assert.equal(p.q('#house-status').textContent, 'Light rain at the study window.');
   p.click('#let-it-snow');
   assert.equal(p.q('#house-scene').dataset.weather, 'snow', 'snow takes over from rain');
-  assert.equal(p.w.document.querySelectorAll('.house-weather line').length, 0);
-  assert.ok(p.w.document.querySelectorAll('.house-weather circle').length > 0);
+  assert.equal(p.w.document.querySelectorAll('.house-weather .house-rain').length, 0);
+  assert.equal(drops(p, '.house-weather .house-snowfall'), 85);
   p.click('#let-it-snow');
   p.click('#let-it-snow');
   assert.equal(p.q('#house-scene').dataset.weather, undefined, 'and the sky clears');
