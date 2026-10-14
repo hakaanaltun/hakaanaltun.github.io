@@ -12,20 +12,26 @@ sources:
   - title: "Focus"
     where: "Online Etymology Dictionary"
     url: "https://www.etymonline.com/word/focus"
-description: "Focus comes from the Latin word for a hearth. The name entered geometry before it became a familiar word for sharpening an image or paying attention."
+  - title: "Earliest Known Uses of Some of the Words of Mathematics (F)"
+    where: "Jeff Miller, MacTutor History of Mathematics, University of St Andrews"
+    url: "https://mathshistory.st-andrews.ac.uk/Miller/mathword/f/"
+description: "Focus is the Latin word for a hearth. Kepler gave it to mathematics in 1604, probably after the point where a lens or a mirror gathers sunlight hot enough to start a fire."
 ---
 
 A focus is a point where light rays meet, or a place at which we direct
 our attention. In Latin, <span lang="la">*focus*</span> meant a
 hearth.{% include word-cite.html n="1,2" %}
 
-The mathematical use of *focus* developed in early modern studies of
-curves and optics. A hearth gathers warmth and light in one place,
-but an exact reason for the scientific choice of name is not established
-by the word’s origin alone.{% include word-cite.html n="1,2" %}
+Johannes Kepler gave the word to mathematics in 1604, in a book on the
+optical part of astronomy. He used it for the two points of an ellipse
+that are still called its foci.{% include word-cite.html n="3" %}
 
-The word later named the point at which a lens or mirror brings rays
-together. From there it reached photography and ordinary speech. We
-can focus a camera, and we can focus our minds.{% include word-cite.html n="1,2" %}
+The reason for a hearth is given as probable rather than certain. A
+lens or a curved mirror can gather sunlight onto one point and start a
+fire there.{% include word-cite.html n="1,2" %}
+
+From the point where rays meet, the word reached photography and
+ordinary speech. We can focus a camera, and we can focus our
+minds.{% include word-cite.html n="1,2" %}
 
 *She adjusted the focus until the lettering was clear.*
