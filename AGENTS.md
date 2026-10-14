@@ -812,7 +812,7 @@ accuracy and plain prose to this section as well.
   with NASA’s photograph linked from the note. No separate Sagan scene or
   Pale Blue Dot destination is needed.
   On 11 October 2026 the author asked for a way home at the end. Voyager 1's
-  way on and a small Earth portrait at its upper right lead back to Earth,
+  way back and a small Earth portrait at its upper left lead back to Earth,
   where the inner branch to Venus begins. The portrait is a navigation link,
   disclosed in the illustration note. The author also asked for both Voyager
   paintings to be repainted so that they no longer repeat one view, along
