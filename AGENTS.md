@@ -214,10 +214,13 @@ the Pictures cards' downscales. Gems go into the git-ignored
   stylesheet whose rules are unchanged, with only its comments edited,
   needs no bump. One was missed on 12 October 2026 and needed a pull
   request of its own.
-- The published stylesheets carry no comments. After the checks, deployment
-  runs `scripts/strip-css-comments.cjs` on `_site/css` and fails if any rule
-  would change. Keep writing comments in `css/`, where a local build keeps
-  them. Styles inside a page's own `<style>` remain untouched.
+- The published stylesheets and scripts carry no comments. After the
+  checks, deployment runs `scripts/strip-css-comments.cjs` on `_site/css`
+  and `scripts/strip-js-comments.cjs` on `_site/js`, and fails if any rule
+  or program would change. The scripts in `js/vendor/` keep theirs, with
+  their licences. Keep writing comments in `css/` and `js/`, where a local
+  build keeps them. Styles and scripts inside a page's own `<style>` and
+  `<script>` remain untouched.
 - **This file is not published for now.** The Colophon (`colophon.html`)
   showed it at `/colophon/` until the author took the page down on
   8 October 2026, and `_config.yml` excludes both. `_plugins/agents_md.rb`
