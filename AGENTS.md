@@ -1350,11 +1350,15 @@ accuracy and plain prose to this section as well.
   Moris's gallery was the last to move, on 14 October 2026: until then
   focus stayed on its cover, behind the dark, and Tab went on through the
   page.
-- **The House's places fade into view.** Going from the door to the
-  study, out to the balcony and back, the place that comes into view fades
-  up from the paper, as the farm's scenes do. The author agreed to this on
-  14 October 2026. A page that opens on a room shows it at once, and
-  reduced motion keeps it still (`setView` in `js/house.js`).
+- **The House's places fade into one another.** Leaving a room, for the
+  other room or the door, its picture stays over the place coming in and
+  fades away, as the farm's scenes do; from one room to the other it
+  stands over the new room's picture. From the door, which is paper
+  already, the room fades up from the paper. The author agreed to a fade
+  on 14 October 2026. Its first form faded every place up from the paper,
+  and at night the paper flashed white between the two dark rooms; the
+  author saw it the same day. A page that opens on a room shows it at
+  once, and reduced motion keeps it still (`setView` in `js/house.js`).
 - **The gold speck is for the rooms.** In the study and on the balcony,
   and in any room after them, the pointer is a gold speck and leaves a
   trail (`js/cursor-trail.js`). At The House's door it is the reader's own

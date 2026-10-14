@@ -1173,22 +1173,73 @@
     if (currentScene) currentScene.scrollIntoView({ block: 'center', behavior: 'instant' });
   }
 
-  /* Going from the door to the study, out to the balcony or back, the
-     place that comes into view fades up from the paper, as the farm's
-     scenes do. A page that opens on a room shows it at once, and a reader
-     who asks for less motion is spared the fade. */
+  /* Leaving a room, for the other room or the door, its picture stays over
+     the place coming in and fades away, as the farm's scenes do, so no bare
+     paper shows between two pictures; at night that paper flashed white.
+     The room is lifted out of the page while it fades: only its picture is
+     seen, nothing in it can be reached, and from one room to the other it
+     stands over the new room's picture. From the door, which is paper
+     already, the room fades up from the paper. A page that opens on a room
+     shows it at once, and a reader who asks for less motion is spared the
+     fade. */
   var shownView = null;
+  var leaving = null;
+  var LIFTED = ['position', 'top', 'left', 'width', 'margin', 'padding', 'box-sizing', 'z-index', 'visibility', 'pointer-events'];
+  function pictureOf(view) { return view.querySelector('.house-scene'); }
+  function settleLeaving() {
+    if (!leaving) return;
+    var gone = leaving;
+    leaving = null;
+    gone.animation.cancel();
+    LIFTED.forEach(function (property) { gone.view.style.removeProperty(property); });
+    gone.picture.style.removeProperty('visibility');
+    gone.view.inert = false;
+    gone.view.hidden = gone.view !== shownView;
+  }
+  // Measured while the place is still in the page, at its own size.
+  function measure(view) {
+    var picture = pictureOf(view);
+    return picture && { view: view, picture: picture, width: view.getBoundingClientRect().width, padding: getComputedStyle(view).padding, at: picture.getBoundingClientRect() };
+  }
+  function fadeAway(was) {
+    var view = was.view;
+    var picture = was.picture;
+    if (!view.animate) return;
+    view.hidden = false;
+    view.inert = true;
+    view.style.position = 'absolute';
+    view.style.top = '0px';
+    view.style.left = '0px';
+    view.style.margin = '0';
+    view.style.boxSizing = 'border-box';
+    view.style.width = was.width + 'px';
+    view.style.padding = was.padding;
+    view.style.zIndex = '2';
+    view.style.pointerEvents = 'none';
+    view.style.visibility = 'hidden';
+    picture.style.visibility = 'visible';
+    // From room to room the two pictures meet; on the way to the door the
+    // picture stays where the reader saw it.
+    var arriving = pictureOf(shownView);
+    var goal = arriving ? arriving.getBoundingClientRect() : was.at;
+    var now = picture.getBoundingClientRect();
+    view.style.top = (goal.top - now.top) + 'px';
+    view.style.left = (goal.left - now.left) + 'px';
+    leaving = { view: view, picture: picture, animation: view.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 580, easing: 'cubic-bezier(.4, 0, .2, 1)' }) };
+    leaving.animation.onfinish = settleLeaving;
+  }
+
   function setView(focus) {
+    settleLeaving();
     var hash = location.hash;
     var inside = hash === '#study' || hash === '#drawer';
     var outside = hash === '#balcony';
+    var showing = outside ? balcony : inside ? study : entrance;
+    var moving = shownView && showing !== shownView && !still;
+    var was = moving ? measure(shownView) : null;
     entrance.hidden = inside || outside;
     study.hidden = !inside;
     balcony.hidden = !outside;
-    var showing = outside ? balcony : inside ? study : entrance;
-    if (shownView && showing !== shownView && !still && showing.animate) {
-      showing.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 450, easing: 'ease-out' });
-    }
     shownView = showing;
     // The gold speck and its trail are for the rooms; at the door the
     // pointer is the reader's own (css/house.css).
@@ -1199,14 +1250,14 @@
     if (outside) paint();
     if (hash === '#drawer') {
       if (!dialog.open) openObject('drawer', document.getElementById('drawer'));
-      return;
-    }
-    if (focus) {
+    } else if (focus) {
       var target = document.getElementById(outside ? 'house-balcony-title' : inside ? 'house-room-title' : 'house-enter');
       target.focus({ preventScroll: true });
       if (inside || outside) centerPicture();
       else root.scrollIntoView({ block: 'start', behavior: 'instant' });
     }
+    if (was) fadeAway(was);
+    else if (moving && showing.animate) showing.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 450, easing: 'ease-out' });
   }
 
   function syncCount() {
