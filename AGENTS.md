@@ -613,7 +613,8 @@ The site has two deliberate ideas of place. Do not collapse them into one.
     `data-keep-title`.
   - Keep puts the passage in the drawer and opens a small panel at the
     foot of the window with "Add a note", "Take out" and the way to the
-    drawer. Note lets a reader write first: nothing is kept until "Keep
+    drawer, which opens the drawer over the page, as the header's does.
+    Note lets a reader write first: nothing is kept until "Keep
     with the note", and closing a note that is not kept asks once more.
     The way to the drawer stays beside a note that is not kept yet, so the
     earlier notes can be read while a new one is written, as the author
@@ -635,9 +636,11 @@ The site has two deliberate ideas of place. Do not collapse them into one.
     holds, and The Page opens at their end (`at=end`). The author asked
     on 12 October 2026 that every note do this, as the balcony's notebook
     does (`toPage` in `js/keep.js`); the Copy button that stood beside it
-    was taken out then. The link carries `from=drawer`, so The Page's way back
-    says "your drawer" and returns to it. Taking out something with a note
-    asks twice.
+    was taken out then. The link carries its way back (see The way back).
+    From the drawer, The Page's way back says "your drawer" and returns to
+    the drawer as it was. From a passage on a page it names the piece, the
+    word, the quiz, the book or The Reader and returns there. Taking out
+    something with a note asks twice.
   - The mark is drawn with the CSS Custom Highlight API, so the page's
     text is never wrapped or changed. A browser without it is not offered
     Highlight, and paper never shows a mark. A passage is found by its
@@ -1131,6 +1134,35 @@ accuracy and plain prose to this section as well.
     questions, so a result could not lead to the one that matched, and
     many notes give the answer away.
 
+## The way back
+
+- **Wherever a reader goes from, they can go back there.** The author
+  asked for this rule on 14 October 2026. A page, a box that opens over a
+  page and the balcony each lead back to the place the reader came from,
+  and that place is found as it was left: a box that was open is open
+  again, with its own way back still in it. A box that opens over a page
+  closes back to that page. A new way from one place to another carries
+  its way back, and the way back says where it goes.
+- **The address carries it.** A link that leaves a place carries `from=`,
+  which names the place, and, where the name alone cannot find it,
+  `back=` with its address on this site (`wayBack` in `js/keep.js`). The
+  instruments read both in `_includes/tool-back.html`, and the drawer in
+  The House reads them in `js/house.js`. An address on another site is
+  never followed. After many rounds between the same two places `back=`
+  would keep growing; past 1,500 characters it is left off, and the way
+  back goes to the place's usual address. A passage's holder names its
+  place with `data-keep-from`: `piece`, `word`, `quiz`, `book` or `read`.
+- **The drawer is found as it was.** Its address in The House names the
+  room it was open over (`in=balcony` or `in=door`; the study needs none)
+  and its own way back (`from=notebook`, or an instrument or a page with
+  its `back=`). On any other page `#drawer` opens the drawer over that
+  page, and closing it takes `#drawer` out of the address. Until
+  14 October 2026, when the author noticed it, every way back to the
+  drawer led to the study with no way on from there, and a drawer opened
+  from an instrument forgot the instrument's own way back.
+- `scripts/test-house.cjs` and `scripts/test-instrument-drawer.cjs` check
+  the ways back.
+
 ## The site's header and footer
 
 - **Every page that is read or browsed carries them.** This includes the homepage, The
@@ -1157,8 +1189,9 @@ accuracy and plain prose to this section as well.
   A link from the balcony carries `from=balcony`; its back link says "the
   balcony" and returns to `/house/#balcony`. The author asked on 11 October
   2026 that the way back name the room it returns to. The link to The Page
-  beside a note carries `from=drawer`, and its back link says "your drawer"
-  and returns to `/house/#drawer`.
+  beside a note in the drawer carries `from=drawer` with the drawer's
+  address, and its back link says "your drawer" and returns to the drawer
+  as it was. Beside a note on a page it names that page (see The way back).
   Other entries keep the link to Instruments. `_includes/tool-back.html`
   provides this behavior on every instrument. Keep the origin in the URL so
   reloading preserves it and separate visits stay independent. House links
@@ -1271,6 +1304,8 @@ accuracy and plain prose to this section as well.
   The House (`js/house.js` hands it its box and its ways back) and for
   every other page, where it makes a box of its own with a line at its
   foot to the study, where the drawer is kept. `css/drawer.css` styles both.
+  An address that ends in `#drawer` opens the drawer over its page; it is
+  the way back to the drawer from The Page or an instrument.
 - **What a page lacks is fetched once.** `_data/drawer_assets.yml` lists
   the drawer's scripts and styles and their `?v=` once; `head.html` and
   The House use it, and `js/site-nav.js` fetches whatever a page lacks the
@@ -1310,7 +1345,8 @@ accuracy and plain prose to this section as well.
   not the kept copy.
 - **Back from the drawer.** "Continue on The Page" and "Open in The
   Prompter", The Lots, The List, The Clean and The Diff lead to
-  `?from=drawer&open=<id>`, and the instrument takes the kept thing back.
+  `?from=drawer&open=<id>`, with the drawer's address in `back=`, and the
+  instrument takes the kept thing back.
   What was there goes into the drawer first, unless it is there already as
   it is, so nothing is lost. It goes into the copy it was kept as, unless
   that is the very copy coming back; then it is kept on its own, since a
@@ -1334,7 +1370,8 @@ accuracy and plain prose to this section as well.
   passage from the reader's own file has no address and no card, and the
   drawer leads to "Open The Reader".
 - **The way back names the instrument.** "Open your drawer" carries
-  `from=` with the instrument's address, or `from=desk`, and the drawer
+  `from=` with the instrument's name, or `from=desk`, and `back=` with
+  its own address, so the instrument's way back is kept too. The drawer
   then begins with "← Back to The Page", The Lots, The Reader or The Desk.
 - On a phone the masthead of The Draw and The Lots takes its own line, as
   The Page's does, so their third button never crowds it. `sw.js`

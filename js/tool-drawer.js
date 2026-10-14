@@ -99,7 +99,12 @@
   keep.id = 'keepBtn';
   var open = make('a', 'tool-drawer-open', 'Open your drawer →');
   open.id = 'drawerLink';
-  open.href = '/house/?from=' + (desk ? 'desk' : work.slug) + '#drawer';
+  /* The drawer offers the way back here, and back= keeps this
+     instrument's own way back (js/keep.js, wayBack). The address is taken
+     as the link is followed, since an instrument changes its own. */
+  function aim(){ open.href = '/house/?' + KEEP.wayBack(desk ? 'desk' : work.slug, KEEP.hereAddress()) + '#drawer'; }
+  aim();
+  open.addEventListener('click', aim);
   // Inside The Desk the drawer opens in the whole window.
   if(desk) open.target = '_top';
   row.appendChild(keep);

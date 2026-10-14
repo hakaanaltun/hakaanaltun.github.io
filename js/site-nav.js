@@ -239,6 +239,12 @@
     closeHouseMenu(false);
     openYourDrawer(link, from);
   });
+  /* An address that ends in #drawer opens the drawer over its page: it is
+     the way back from The Page or an instrument the drawer led to
+     (js/drawer.js). The House opens its own. */
+  if (location.hash === '#drawer' && location.pathname !== '/house/') {
+    loadDrawer().then(function () { window.OLAE_DRAWER.open(null); }, function () {});
+  }
 
   /* ── The House's menu in the header ──
      A pointer over The House opens it. A click or a tap on the name opens

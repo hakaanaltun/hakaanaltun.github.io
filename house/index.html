@@ -72,8 +72,8 @@ description: "Come in, look around, and keep something you find. A room at On Li
       <button class="house-hotspot house-hotspot--lamp" data-lamp type="button" aria-pressed="false"><span class="house-label"><span class="house-pin" aria-hidden="true">6</span><span class="house-hotspot-name">The lamp</span></span></button>
       <button class="house-hotspot house-hotspot--drawer" id="drawer" data-open="drawer" type="button"><span class="house-label"><span class="house-pin" aria-hidden="true">7</span><span class="house-hotspot-name">Your drawer</span></span></button>
       <a class="house-hotspot house-hotspot--clock" href="/clock/?from=house&amp;v=20261008-1"><span class="house-label"><span class="house-pin" aria-hidden="true">8</span><span class="house-hotspot-name">The Clock <span aria-hidden="true">&rarr;</span></span></span></a>
-      <a class="house-hotspot house-hotspot--reader" href="/read/?from=house&amp;v=20261008-1"><span class="house-label"><span class="house-pin" aria-hidden="true">9</span><span class="house-hotspot-name">The Reader <span aria-hidden="true">&rarr;</span></span></span></a>
-      <a class="house-hotspot house-hotspot--desk" href="/desk/?from=house&amp;v=20261008-1"><span class="house-label"><span class="house-pin" aria-hidden="true">10</span><span class="house-hotspot-name">The Desk <span aria-hidden="true">&rarr;</span></span></span></a>
+      <a class="house-hotspot house-hotspot--reader" href="/read/?from=house&amp;v=20261014-1"><span class="house-label"><span class="house-pin" aria-hidden="true">9</span><span class="house-hotspot-name">The Reader <span aria-hidden="true">&rarr;</span></span></span></a>
+      <a class="house-hotspot house-hotspot--desk" href="/desk/?from=house&amp;v=20261014-1"><span class="house-label"><span class="house-pin" aria-hidden="true">10</span><span class="house-hotspot-name">The Desk <span aria-hidden="true">&rarr;</span></span></span></a>
       <a class="house-hotspot house-hotspot--farm-house" href="/farm-house/"><span class="house-label"><span class="house-pin" aria-hidden="true">11</span><span class="house-hotspot-name">The Farm House <span aria-hidden="true">&rarr;</span></span></span></a>
       <a class="house-hotspot house-hotspot--balcony" href="#balcony" data-go="balcony"><span class="house-label"><span class="house-pin" aria-hidden="true">12</span><span class="house-hotspot-name">The balcony <span aria-hidden="true">&rarr;</span></span></span></a>
     </div>
@@ -92,12 +92,12 @@ description: "Come in, look around, and keep something you find. A room at On Li
       <li><button type="button" tabindex="-1" data-lamp><span class="house-pin">6</span>The lamp</button></li>
       <li><button type="button" tabindex="-1" data-open="drawer"><span class="house-pin">7</span>Your drawer</button></li>
       <li><a href="/clock/?from=house&amp;v=20261008-1" tabindex="-1"><span class="house-pin">8</span>The Clock</a></li>
-      <li><a href="/read/?from=house&amp;v=20261008-1" tabindex="-1"><span class="house-pin">9</span>The Reader</a></li>
-      <li><a href="/desk/?from=house&amp;v=20261008-1" tabindex="-1"><span class="house-pin">10</span>The Desk</a></li>
+      <li><a href="/read/?from=house&amp;v=20261014-1" tabindex="-1"><span class="house-pin">9</span>The Reader</a></li>
+      <li><a href="/desk/?from=house&amp;v=20261014-1" tabindex="-1"><span class="house-pin">10</span>The Desk</a></li>
       <li><a href="/farm-house/" tabindex="-1"><span class="house-pin">11</span>The Farm House</a></li>
       <li><a href="#balcony" tabindex="-1" data-go="balcony"><span class="house-pin">12</span>The balcony</a></li>
     </ol>
-    <div class="house-room-footer"><a href="#house-entrance" id="house-leave">&larr; Back to the door</a><a href="/write/?from=house&amp;v=20261008-1">Sit down and write <span aria-hidden="true">&rarr;</span></a></div>
+    <div class="house-room-footer"><a href="#house-entrance" id="house-leave">&larr; Back to the door</a><a href="/write/?from=house&amp;v=20261014-1">Sit down and write <span aria-hidden="true">&rarr;</span></a></div>
   </section>
 
   {%- comment -%} The balcony, through the glass door in the study's right-hand wall.
@@ -194,7 +194,7 @@ description: "Come in, look around, and keep something you find. A room at On Li
       <button type="button" data-notebook-drawer>Open your drawer</button>
       <button type="button" data-notebook-fresh hidden>A new page</button>
       <button type="button" data-notebook-out hidden>Take out</button>
-      <a href="/write/?from=balcony&amp;v=20261012-1" data-notebook-page>Write at length on The&nbsp;Page&nbsp;<span aria-hidden="true">&rarr;</span></a>
+      <a href="/write/?from=balcony&amp;v=20261014-1" data-notebook-page>Write at length on The&nbsp;Page&nbsp;<span aria-hidden="true">&rarr;</span></a>
     </div>
     <p class="house-drawer-note house-notebook-hint" data-notebook-hint></p>
   </template>
@@ -211,6 +211,6 @@ description: "Come in, look around, and keep something you find. A room at On Li
 <script src="/js/balcony-sound-engine.js?v=20261012-2" defer></script>
 <script src="/js/house-sound.js?v=20261012-1" defer></script>
 <script src="{{ site.data.drawer_assets.drawer_js }}" defer></script>
-<script src="/js/house.js?v=20261014-3" defer></script>
+<script src="/js/house.js?v=20261014-4" defer></script>
 <script src="/js/cursor-trail.js?v=20261013-1" defer></script>
 

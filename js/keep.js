@@ -711,7 +711,8 @@
 
   /* With options.draft, the thing is not in the drawer yet: nothing is
      saved as the reader writes, and the last button keeps the thing and
-     its note together. */
+     its note together. options.back gives the way back from The Page,
+     { from, address }; without it the way back is to this page. */
   function noteEditor(id, options) {
     options = options || {};
     var draft = options.draft ? clean(options.draft) : null;
@@ -738,7 +739,8 @@
     done.textContent = draft ? 'Keep with the note' : 'Done';
     var page = document.createElement('a');
     page.className = 'keep-note-page';
-    page.href = pageHref();
+    function way() { return options.back ? options.back() : { from: placeName(), address: hereAddress() }; }
+    page.href = pageHref(way());
     outward(page);
     // The Page and its arrow stay together when the line breaks.
     page.textContent = 'Write at length on The\u00a0Page\u00a0→';
@@ -792,6 +794,7 @@
       return item ? plain(Object.assign({}, item, { note: noteText(area.value) })) : null;
     }
     page.addEventListener('click', function (event) {
+      page.href = pageHref(way());
       var words = described();
       if (!words) { event.preventDefault(); said.textContent = 'This is no longer in your drawer.'; return; }
       if (!toPage(words, page)) {
@@ -823,20 +826,76 @@
     return box;
   }
 
-  /* The Page is opened with from=drawer, so its way back leads to the
-     drawer, as The House's own links lead back to the study
-     (_includes/tool-back.html). The v loads The Page as it is now rather
-     than a service worker's older copy; it moves when that way back does. */
-  function pageHref() { return '/write/?from=drawer&v=20261013-1'; }
-
-  /* A page whose passages carry data-keep-from, The Reader, opens the
-     drawer with the way back to it. Inside The Desk the drawer and The Page
-     open in the whole window, not in the pane. */
-  function toDrawer(link) {
-    var from = window.OLAE_DESK_EMBED ? 'desk' : '';
+  /* --- The way back ------------------------------------------------------
+     Wherever a reader goes from, they can go back there. A link from one
+     place to another carries from=, the name of the place it leaves, and
+     back=, that place's address on this site, and the way back is a link
+     to that address (_includes/tool-back.html on the instruments,
+     js/house.js in the drawer). The drawer's own address keeps its way
+     back, so a reader who goes on from it can still come all the way back.
+     After many rounds between the same places the address would go on
+     growing; past MAX_BACK it is left off, and the way back goes to the
+     place's usual address. */
+  var MAX_BACK = 1500;
+  function backAddress(value) {
+    if (typeof value !== 'string' || value.charAt(0) !== '/') return null;
+    try {
+      var url = new URL(value, location.origin);
+      return url.origin === location.origin ? url.pathname + url.search + url.hash : null;
+    } catch (e) { return null; }
+  }
+  /* The address of the page the reader is on, without what it asked for
+     only once: a kept thing to open (open=) and the end of The Page (at=).
+     Inside The Desk it is the desk's own address. */
+  function hereAddress() {
+    var place = location;
+    if (window.OLAE_DESK_EMBED) {
+      try { place = window.top.location; } catch (e) { /* the pane's own, then */ }
+    }
+    var params = new URLSearchParams(place.search);
+    params.delete('open');
+    params.delete('at');
+    var query = params.toString();
+    return place.pathname + (query ? '?' + query : '');
+  }
+  function wayBack(from, address) {
+    if (!from) return '';
+    var query = 'from=' + encodeURIComponent(from);
+    var back = backAddress(address);
+    if (back && encodeURIComponent(back).length <= MAX_BACK) query += '&back=' + encodeURIComponent(back);
+    return query;
+  }
+  /* The place a passage on this page is kept from, named by its holder's
+     data-keep-from: a piece, a word, a quiz, the book or The Reader. Inside
+     The Desk it is the desk. */
+  function placeName() {
+    if (window.OLAE_DESK_EMBED) return 'desk';
     var holder = document.querySelector('[data-keep-passage][data-keep-from]');
-    if (!from && holder) from = holder.getAttribute('data-keep-from');
-    link.href = '/house/' + (from ? '?from=' + encodeURIComponent(from) : '') + '#drawer';
+    return holder ? holder.getAttribute('data-keep-from') : '';
+  }
+
+  /* The Page is opened with the way back to where the note was written:
+     the drawer, or the page with the passage. The v loads The Page as it
+     is now rather than a service worker's older copy; it moves when that
+     way back does. */
+  function pageHref(way) {
+    var query = wayBack(way.from, way.address);
+    return '/write/?' + (query ? query + '&' : '') + 'v=20261014-1';
+  }
+
+  /* The way to the drawer opens it over the page the reader is on, where
+     the site's menu can (js/site-nav.js), and closing it leaves them there.
+     Elsewhere, on The Reader and inside The Desk, it goes to the drawer in
+     The House with the way back here. Inside The Desk the drawer and The
+     Page open in the whole window, not in the pane. */
+  function toDrawer(link) {
+    link.setAttribute('data-open-drawer', '');
+    function aim() {
+      var query = wayBack(placeName(), hereAddress());
+      link.href = '/house/' + (query ? '?' + query : '') + '#drawer';
+    }
+    aim();
+    link.addEventListener('click', aim);
     outward(link);
   }
   function outward(link) {
@@ -1364,6 +1423,9 @@
     notebook: notebook,
     setNotebook: setNotebook,
     toPage: toPage,
+    backAddress: backAddress,
+    hereAddress: hereAddress,
+    wayBack: wayBack,
     plain: plain,
     workOf: workOf,
     WORKS: WORKS,

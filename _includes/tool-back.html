@@ -2,24 +2,39 @@
 <script data-tool-return>
 (function(){
   'use strict';
-  /* The House opens an instrument with from=house, or from=balcony from
-     its balcony; a note in the drawer opens The Page with from=drawer.
-     Whichever it is, the way back goes where the reader came from. */
-  var from = new URLSearchParams(window.location.search).get('from');
-  if(from !== 'house' && from !== 'balcony' && from !== 'drawer') return;
-  var back = document.querySelector('.tools-link');
-  if(from === 'house'){
-    back.href = '/house/#study';
-    back.textContent = '← the study';
-    back.setAttribute('aria-label', 'Back to The House study');
-  } else if(from === 'balcony'){
-    back.href = '/house/#balcony';
-    back.textContent = '← the balcony';
-    back.setAttribute('aria-label', 'Back to The House balcony');
-  } else {
-    back.href = '/house/#drawer';
-    back.textContent = '← your drawer';
-    back.setAttribute('aria-label', 'Back to your drawer');
+  /* Wherever the reader came from, the way back goes there. The House
+     opens an instrument with from=house, or from=balcony from its balcony.
+     The drawer, and a note written on a page, open one with from= naming
+     the place and back= with its address (js/keep.js, wayBack), so the way
+     back returns to the drawer as it was, over the room or the page it was
+     open over, or to the piece, the word, the quiz, the book, The Reader or
+     The Desk the note was written on. A place that has no address of its
+     own needs back=; without it the way back is to the instruments. */
+  var PLACES = {
+    house: ['/house/#study', 'the study', 'Back to The House study'],
+    balcony: ['/house/#balcony', 'the balcony', 'Back to The House balcony'],
+    drawer: ['/house/#drawer', 'your drawer', 'Back to your drawer'],
+    piece: ['', 'the piece', 'Back to the piece'],
+    word: ['', 'the word', 'Back to the word'],
+    quiz: ['', 'the quiz', 'Back to the quiz'],
+    book: ['', 'the book', 'Back to the book'],
+    read: ['', 'The Reader', 'Back to The Reader'],
+    desk: ['', 'The Desk', 'Back to The Desk']
+  };
+  var params = new URLSearchParams(window.location.search);
+  var from = params.get('from');
+  if(!from || !Object.prototype.hasOwnProperty.call(PLACES, from)) return;
+  var place = PLACES[from], href = place[0], back = params.get('back');
+  if(back && back.charAt(0) === '/' && from !== 'house' && from !== 'balcony'){
+    try{
+      var url = new URL(back, window.location.origin);
+      if(url.origin === window.location.origin) href = url.pathname + url.search + url.hash;
+    }catch(e){}
   }
+  if(!href) return;
+  var link = document.querySelector('.tools-link');
+  link.href = href;
+  link.textContent = '← ' + place[1];
+  link.setAttribute('aria-label', place[2]);
 })();
 </script>

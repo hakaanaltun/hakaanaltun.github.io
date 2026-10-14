@@ -48,9 +48,10 @@ leave the document without an h1 — give screen readers one. {% endcomment %}
   {% endif %}
 {% endunless %}
 {% comment %} data-keep-passage: a reader can select a line or two and keep
-it in their drawer (js/keep.js). Not in the branching story, whose pages are
-turns of one piece rather than pieces. {% endcomment %}
-<article class="essay-body fade-in fade-in-delay"{% unless page.series == "story" %} data-reading-body data-keep-passage data-keep-kind="{% if page.fiction %}A story{% else %}An essay{% endif %}" data-keep-title="{{ page.title | replace: "'", "’" | escape }}"{% endunless %}>
+it in their drawer (js/keep.js). data-keep-from names the piece as the place
+a note's way back from The Page returns to. Not in the branching story, whose
+pages are turns of one piece rather than pieces. {% endcomment %}
+<article class="essay-body fade-in fade-in-delay"{% unless page.series == "story" %} data-reading-body data-keep-passage data-keep-from="piece" data-keep-kind="{% if page.fiction %}A story{% else %}An essay{% endif %}" data-keep-title="{{ page.title | replace: "'", "’" | escape }}"{% endunless %}>
 {{ content }}
 </article>
 {% unless is_story %}

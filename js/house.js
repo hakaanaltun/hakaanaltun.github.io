@@ -551,15 +551,24 @@
     });
   }
 
-  /* An instrument opens the drawer with from= in the address, so it offers
-     the way back, as the drawer opened from the notebook does. */
+  /* An instrument, or a page without the site's menu, opens the drawer
+     here with from= and back= in the address (js/keep.js, wayBack), so the
+     drawer offers the way back, as the drawer opened from the notebook
+     does. back= keeps the instrument's own way back. */
   var INSTRUMENTS = { write: 'The Page', draw: 'The Draw', desk: 'The Desk', read: 'The Reader', prompt: 'The Prompter', lots: 'The Lots', list: 'The List', clean: 'The Clean', diff: 'The Diff' };
-  var cameFromSlug = new URLSearchParams(location.search).get('from');
-  var cameFrom = Object.prototype.hasOwnProperty.call(INSTRUMENTS, cameFromSlug || '') ? ['/' + cameFromSlug + '/', '← Back to ' + INSTRUMENTS[cameFromSlug]] : null;
+  var PAGES = { piece: 'the piece', word: 'the word', quiz: 'the quiz', book: 'the book' };
+  var arrived = new URLSearchParams(location.search);
+  var cameFromSlug = arrived.get('from') || '';
+  var cameBack = KEEP.backAddress(arrived.get('back'));
+  var own = Object.prototype.hasOwnProperty;
+  var cameFrom = own.call(INSTRUMENTS, cameFromSlug) ? [cameBack || '/' + cameFromSlug + '/', '← Back to ' + INSTRUMENTS[cameFromSlug], cameFromSlug]
+    : own.call(PAGES, cameFromSlug) && cameBack ? [cameBack, '← Back to ' + PAGES[cameFromSlug], cameFromSlug] : null;
 
   /* The drawer itself is js/drawer.js's, the same drawer every page opens.
      The House gives it this box and the way back: to the notebook it was
-     opened from, or to the instrument that sent the reader here. */
+     opened from, or to the instrument or the page that sent the reader
+     here. It also gives the drawer's own address, which opens it again
+     over the same room with the same way back. */
   function renderDrawer(box) {
     var back = null;
     if (backTo === 'notebook') {
@@ -570,7 +579,27 @@
       back = element('a', 'house-back', cameFrom[1]);
       back.href = cameFrom[0];
     }
-    DRAWER.render(box, { dialog: dialog, back: back, current: current, announce: announce });
+    DRAWER.render(box, { dialog: dialog, back: back, address: drawerAddress, current: current, announce: announce });
+  }
+  /* The drawer's address names the room it is open over, in=balcony or
+     in=door (the study needs none), and its way back: the notebook, or
+     the instrument or page with its own address. */
+  function drawerAddress() {
+    var params = new URLSearchParams();
+    if (shownView === balcony) params.set('in', 'balcony');
+    else if (shownView === entrance) params.set('in', 'door');
+    if (backTo === 'notebook') params.set('from', 'notebook');
+    else if (cameFrom) {
+      params.set('from', cameFrom[2]);
+      params.set('back', cameFrom[0]);
+    }
+    var query = params.toString();
+    return '/house/' + (query ? '?' + query : '') + '#drawer';
+  }
+  /* The room an address with #drawer opens the drawer over. */
+  function drawerRoom() {
+    var room = new URLSearchParams(location.search).get('in');
+    return room === 'balcony' || room === 'door' ? room : 'study';
   }
 
   var renderers = { books: renderBooks, words: renderWords, question: renderQuestion, window: renderWindow, moris: renderMoris, notebook: renderNotebook, drawer: renderDrawer, stars: renderStars, sun: renderBody('sun'), moon: renderBody('moon') };
@@ -1232,8 +1261,9 @@
   function setView(focus) {
     settleLeaving();
     var hash = location.hash;
-    var inside = hash === '#study' || hash === '#drawer';
-    var outside = hash === '#balcony';
+    var over = hash === '#drawer' ? drawerRoom() : '';
+    var inside = hash === '#study' || over === 'study';
+    var outside = hash === '#balcony' || over === 'balcony';
     var showing = outside ? balcony : inside ? study : entrance;
     var moving = shownView && showing !== shownView && !still;
     var was = moving ? measure(shownView) : null;
@@ -1249,7 +1279,13 @@
     hear();
     if (outside) paint();
     if (hash === '#drawer') {
-      if (!dialog.open) openObject('drawer', document.getElementById('drawer'));
+      // Opened by its address, the drawer is over the room it names, with
+      // the way back to the notebook when the notebook opened it.
+      var notebook = over === 'balcony' && cameFromSlug === 'notebook';
+      var from = over === 'study' ? document.getElementById('drawer')
+        : notebook ? balcony.querySelector('.house-hotspot--notebook')
+        : document.getElementById(over === 'balcony' ? 'house-balcony-title' : 'house-enter');
+      if (!dialog.open) openObject('drawer', from, notebook ? 'notebook' : '');
     } else if (focus) {
       var target = document.getElementById(outside ? 'house-balcony-title' : inside ? 'house-room-title' : 'house-enter');
       target.focus({ preventScroll: true });
@@ -1397,7 +1433,15 @@
   dialog.addEventListener('close', function () {
     activeObject = '';
     backTo = '';
-    if (location.hash === '#drawer') history.replaceState(null, '', '#study');
+    // Closed, the drawer leaves the room it was open over, and the
+    // address no longer names it.
+    if (location.hash === '#drawer') {
+      var over = drawerRoom();
+      var left = new URLSearchParams(location.search);
+      left.delete('in');
+      var query = left.toString();
+      history.replaceState(null, '', location.pathname + (query ? '?' + query : '') + (over === 'door' ? '' : '#' + over));
+    }
     /* The list under a room on a phone repeats the places for the eye and
        is hidden from a screen reader, so the focus goes back to the same
        place in the picture rather than into the list. */
