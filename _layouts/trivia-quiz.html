@@ -35,9 +35,6 @@ layout: default
       <h2 class="trivia-panel-title" id="trivia-intro-title">Ready?</h2>
       <p class="trivia-intro-copy">{% if rounds.size > 0 %}{{ rounds.size }} rounds, one subject each.{% else %}Ten questions at a time.{% endif %} The questions and the answers are shuffled for each new game, and your progress is kept on this device.</p>
       <p class="trivia-resume-copy" id="trivia-resume-copy" hidden></p>
-      {%- comment %} As in a piece's reading options: for a browser whose
-      first language is Turkish (js/reader-translate.js). {% endcomment %}
-      <p class="translate-hint" data-translate-hint lang="tr" hidden>Türkçesini görmek için bir soruyu ya da notu seçin.</p>
       <div class="trivia-actions">
         <button class="trivia-button trivia-button--primary" id="trivia-start" type="button">Start</button>
         <button class="trivia-button trivia-button--quiet" id="trivia-reset-intro" type="button" hidden>Start over</button>

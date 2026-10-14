@@ -1494,9 +1494,6 @@ body.moris-lightbox-open { overflow: hidden; }
 .essay-rain { background: none; border: none; cursor: pointer; font-family: 'EB Garamond', Georgia, serif; font-style: italic; font-size: 0.92rem; letter-spacing: 0.03em; color: var(--vizon); padding: 2px 6px; margin-top: 2px; transition: color 0.2s ease; }
 .essay-rain:hover, .essay-rain[aria-pressed="true"] { color: var(--petrol); }
 .essay-rain:focus-visible { outline: 2px solid var(--petrol); outline-offset: 2px; }
-/* The line that tells a Turkish browser, before a quiz begins, what a
-   selection can do; a piece says it in its reading options. */
-.translate-hint { margin: 8px 0 0; font-family: 'EB Garamond', Georgia, serif; font-style: italic; font-size: 0.92rem; letter-spacing: 0.03em; color: var(--vizon); }
 
 /* The moon that was over a piece, under its last line. Small on purpose: it
    is the night the story happened, not a heading — a reader who wants to know

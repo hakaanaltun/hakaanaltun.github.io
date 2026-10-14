@@ -643,13 +643,33 @@ The site has two deliberate ideas of place. Do not collapse them into one.
     Highlight, and paper never shows a mark. A passage is found by its
     words, so one whose words have since changed loses its mark and stays
     in the drawer.
-- **A Turkish browser is told about Türkçe.** Where the browser's first
-  language is Turkish, a line inside a piece's reading options, and on a
-  quiz's first panel, says in Turkish that a selected sentence opens in
-  Turkish (`js/reader-translate.js`). It was added on 14 October 2026,
-  with the reading rather than in the search field, where nothing is
-  read. It stood first under the reading options, and the author asked
-  the same day for it to go inside them.
+- **Türkçe is found, not announced.** On 14 October 2026 a line in
+  Turkish told browsers set to Turkish, in a piece's reading options and
+  on a quiz's first panel, that a selected sentence opens in Turkish. The
+  author asked the same day for it to be taken out. The translation runs
+  on the free daily allowance of Cloudflare Workers AI, 10,000 Neurons a
+  day, through `translate.hakanaltunn.workers.dev`. Once the allowance is
+  used up, Cloudflare answers with error 3036 and the reader is told that
+  the daily limit has been reached. Something whose use is limited should not be put forward,
+  and a line for Turkish alone raises the question of why no other
+  language is offered. Türkçe stays in the prompt over a selection. Do not
+  add a line about it back unless the author asks.
+- **The translation worker is kept in `workers/translate.js`.** It is a
+  copy, added on 14 October 2026 so that a session can read it, and
+  Jekyll leaves the folder out of the site. The worker itself runs on
+  Cloudflare and is changed and deployed in its dashboard (Workers &
+  Pages, translate, Edit code); a change made on one side is copied to
+  the other, so the two stay the same. It answers pages on
+  `hakanaltun.io` and `www.hakanaltun.io`, takes up to 500 selected
+  characters with up to 1,500 characters of the text around them, and
+  asks Qwen 3.8 27B on Workers AI for Turkish. By an estimate made that
+  day, a translated sentence costs about 50 Neurons, so the free
+  allowance holds about 200 a day; the Workers AI page in the dashboard
+  shows the real figure. A script can
+  claim to come from the site, so the check on the origin keeps other
+  sites out but cannot stop someone using up the day's allowance. The
+  code holds no secret; the model is reached through the worker's `AI`
+  binding.
 - **A printed piece** opens with its kind (Essay or Short fiction) on the
   left and HAKANALTUN.IO on the right, then the title and date, centered, and
   ends with the footer's two lines, centered at the foot of the last page. Word pages have no print layout
@@ -1350,11 +1370,15 @@ accuracy and plain prose to this section as well.
   Moris's gallery was the last to move, on 14 October 2026: until then
   focus stayed on its cover, behind the dark, and Tab went on through the
   page.
-- **The House's places fade into view.** Going from the door to the
-  study, out to the balcony and back, the place that comes into view fades
-  up from the paper, as the farm's scenes do. The author agreed to this on
-  14 October 2026. A page that opens on a room shows it at once, and
-  reduced motion keeps it still (`setView` in `js/house.js`).
+- **The House's places fade into one another.** Leaving a room, for the
+  other room or the door, its picture stays over the place coming in and
+  fades away, as the farm's scenes do; from one room to the other it
+  stands over the new room's picture. From the door, which is paper
+  already, the room fades up from the paper. The author agreed to a fade
+  on 14 October 2026. Its first form faded every place up from the paper,
+  and at night the paper flashed white between the two dark rooms; the
+  author saw it the same day. A page that opens on a room shows it at
+  once, and reduced motion keeps it still (`setView` in `js/house.js`).
 - **The gold speck is for the rooms.** In the study and on the balcony,
   and in any room after them, the pointer is a gold speck and leaves a
   trail (`js/cursor-trail.js`). At The House's door it is the reader's own
