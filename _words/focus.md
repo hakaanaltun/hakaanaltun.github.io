@@ -6,9 +6,9 @@ pos: n.
 teaser: once a hearth
 date: 2026-10-14 18:10:01 +0300
 sources:
-  - title: "Focus, noun"
-    where: "Oxford English Dictionary"
-    url: "https://doi.org/10.1093/OED/2411416887"
+  - title: "Focus"
+    where: "The American Heritage Dictionary of the English Language"
+    url: "https://www.ahdictionary.com/word/search.html?q=focus"
   - title: "Focus"
     where: "Online Etymology Dictionary"
     url: "https://www.etymonline.com/word/focus"
@@ -19,10 +19,10 @@ A focus is a point where light rays meet, or a place at which we direct
 our attention. In Latin, <span lang="la">*focus*</span> meant a
 hearth.{% include word-cite.html n="1,2" %}
 
-Johannes Kepler used the word in geometry in 1604. He was discussing how
-light behaves around curved surfaces, but he did not explain his choice
-of name. The hearth may have suggested a source of light. That is a
-possibility, not a recorded explanation.{% include word-cite.html n="1" %}
+The mathematical use of *focus* developed in early modern studies of
+curves and optics. A hearth gathers warmth and light in one place,
+but an exact reason for the scientific choice of name is not established
+by the word’s origin alone.{% include word-cite.html n="1,2" %}
 
 The word later named the point at which a lens or mirror brings rays
 together. From there it reached photography and ordinary speech. We
