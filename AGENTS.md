@@ -643,13 +643,18 @@ The site has two deliberate ideas of place. Do not collapse them into one.
     Highlight, and paper never shows a mark. A passage is found by its
     words, so one whose words have since changed loses its mark and stays
     in the drawer.
-- **A Turkish browser is told about Türkçe.** Where the browser's first
-  language is Turkish, a line inside a piece's reading options, and on a
-  quiz's first panel, says in Turkish that a selected sentence opens in
-  Turkish (`js/reader-translate.js`). It was added on 14 October 2026,
-  with the reading rather than in the search field, where nothing is
-  read. It stood first under the reading options, and the author asked
-  the same day for it to go inside them.
+- **Türkçe is found, not announced.** On 14 October 2026 a line in
+  Turkish told browsers set to Turkish, in a piece's reading options and
+  on a quiz's first panel, that a selected sentence opens in Turkish. The
+  author asked the same day for it to be taken out. The translation runs
+  on the free daily allowance of Cloudflare Workers AI, 10,000 Neurons a
+  day, through `translate.hakanaltunn.workers.dev`, whose code is kept
+  outside this repository. Once the allowance is used up, Cloudflare
+  answers with error 3036 and the reader is told that the daily limit has
+  been reached. Something whose use is limited should not be put forward,
+  and a line for Turkish alone raises the question of why no other
+  language is offered. Türkçe stays in the prompt over a selection. Do not
+  add a line about it back unless the author asks.
 - **A printed piece** opens with its kind (Essay or Short fiction) on the
   left and HAKANALTUN.IO on the right, then the title and date, centered, and
   ends with the footer's two lines, centered at the foot of the last page. Word pages have no print layout
