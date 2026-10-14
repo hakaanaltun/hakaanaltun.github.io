@@ -253,6 +253,12 @@ learned the hard way is written down here instead.
   names the work and its shape; the line-by-line reasoning behind an edit
   belongs in the conversation. The public description outlives it.
   "The prose was simplified" is the right altitude.
+- **Hand the pull request over as soon as it is open.** Do not wait for
+  its checks to finish before telling the author. Their result shows on
+  the pull request, and a failing check shows at the merge button. Run
+  what can be run before pushing; if a check fails after the handover,
+  say so and fix it. The author asked for this on 14 October 2026, after
+  sessions kept stopping for minutes to watch the checks.
 
 ## Before showing anything
 
