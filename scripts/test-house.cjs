@@ -1555,6 +1555,36 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
     assert.deepEqual([...menu.querySelectorAll('a')].map((a) => [a.textContent, a.getAttribute('href')]), [['To the door', '/house/'], ['Your drawer', '/house/#drawer']]);
     o.w.document.dispatchEvent(new o.w.KeyboardEvent('keydown', { key: 'Escape' }));
     assert.equal(menu.hidden, true, 'Escape folds it');
+    // The name opens the menu too, and no longer goes to the door.
+    const name = o.q('.nav-house > a');
+    assert.equal(name.getAttribute('href'), '/house/', 'without the script, the name is the way to the door');
+    assert.equal(name.getAttribute('role'), 'button');
+    assert.equal(name.getAttribute('aria-controls'), 'nav-house-menu');
+    assert.equal(toggle.tabIndex, -1, 'the name is the one control for the keyboard');
+    const go = (init) => name.dispatchEvent(new o.w.MouseEvent('click', { bubbles: true, cancelable: true, ...init }));
+    assert.equal(go({ detail: 1 }), false, 'a click on The House does not go to the door');
+    assert.equal(menu.hidden, false, 'it opens the menu');
+    assert.equal(name.getAttribute('aria-expanded'), 'true');
+    assert.equal(toggle.getAttribute('aria-expanded'), 'true', 'and the chevron turns with it');
+    go({ detail: 1 });
+    assert.equal(menu.hidden, true, 'a second click folds it');
+    assert.equal(name.getAttribute('aria-expanded'), 'false');
+    // jsdom cannot follow the link, so the click is stopped once the menu
+    // has had its turn, and what it was left to do is read there.
+    let toDoor = null;
+    const seen = (e) => { toDoor = !e.defaultPrevented; e.preventDefault(); };
+    o.w.document.addEventListener('click', seen);
+    go({ detail: 1, ctrlKey: true });
+    o.w.document.removeEventListener('click', seen);
+    assert.equal(toDoor, true, 'a click for a new tab still goes to the door');
+    assert.equal(menu.hidden, true);
+    name.focus();
+    name.dispatchEvent(new o.w.KeyboardEvent('keydown', { key: ' ', bubbles: true, cancelable: true }));
+    assert.equal(menu.hidden, false, 'Space opens it from the keyboard');
+    assert.equal(o.w.document.activeElement, menu.querySelector('a'), 'at its first link');
+    o.w.document.dispatchEvent(new o.w.KeyboardEvent('keydown', { key: 'Escape' }));
+    assert.equal(menu.hidden, true);
+    assert.equal(o.w.document.activeElement, name, 'and Escape brings focus back to the name');
     toggle.dispatchEvent(new o.w.MouseEvent('click', { bubbles: true, detail: 1 }));
     menu.querySelector('[data-open-drawer]').click();
     await wait(20);
@@ -1562,7 +1592,7 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
     assert.ok(overlay.open, 'its drawer opens over the page');
     assert.equal(o.w.document.querySelectorAll('#drawer-dialog').length, 1, 'in the same box');
     overlay.querySelector('.house-close').click();
-    assert.equal(o.w.document.activeElement, toggle, 'and gives focus back to the chevron');
+    assert.equal(o.w.document.activeElement, name, 'and gives focus back to The House');
     // The site's menu has the same two under The House.
     const side = o.q('#site-drawer .drawer-house');
     assert.equal(side.tagName, 'DETAILS');

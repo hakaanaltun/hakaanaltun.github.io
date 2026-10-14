@@ -253,6 +253,12 @@ learned the hard way is written down here instead.
   names the work and its shape; the line-by-line reasoning behind an edit
   belongs in the conversation. The public description outlives it.
   "The prose was simplified" is the right altitude.
+- **Hand the pull request over as soon as it is open.** Do not wait for
+  its checks to finish before telling the author. Their result shows on
+  the pull request, and a failing check shows at the merge button. Run
+  what can be run before pushing; if a check fails after the handover,
+  say so and fix it. The author asked for this on 14 October 2026, after
+  sessions kept stopping for minutes to watch the checks.
 
 ## Before showing anything
 
@@ -1103,7 +1109,17 @@ accuracy and plain prose to this section as well.
   sections. The header's menu stands outside the strip, which scrolls on
   a phone and would cut it off, and `js/site-nav.js` places it under The
   House as it opens. The chevron waits for the script; without it The
-  House is the plain link it was.
+  House is the plain link it was. On 14 October 2026 the author asked
+  that a click on the name open the menu as the chevron does, and no
+  longer go to the door; "To the door" in the menu does that. A click
+  that opens a new tab still goes to the door. The name is the menu's
+  one control for the keyboard, so the chevron stays out of the tab
+  order, and focus comes back to the name.
+- **The arrow after a link in the site's menu hangs.** It stands 6px past
+  the last word and takes no room in the line, so every linked line sits
+  on the panel's centre with the section names and the cards. Counted in
+  the line, it pulled each one 11px to the left, and the author saw it
+  under The House, where "Your drawer" has no arrow.
 - **The footer carries the drawer.** Its icon, the same chest the
   instruments' own drawer button shows, as tall as the instruments' four
   squares, stands beside the instruments' and

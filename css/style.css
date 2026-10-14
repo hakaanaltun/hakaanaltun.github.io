@@ -927,6 +927,13 @@ a.drawer-label--link:focus-visible { outline: 2px solid var(--petrol); outline-o
 /* The gap used to open from 6px to 9px on hover, sliding the arrow away
    from the word — movement, and the only one left in the drawer. */
 .drawer-more:hover, .drawer-more:active { opacity: var(--select-dim); }
+/* The arrow hangs after the words, as the chevron does on a disclosure, so
+   the words sit on the panel's centre line with the section names and the
+   cards. Counted in the line, it pulled every linked line 11px to the left,
+   which showed most under The House, where "Your drawer" has no arrow and
+   sat centred beneath "To the door". Its box is empty and the -6px takes
+   back the gap; the arrow is drawn 6px past the last word. */
+.drawer-more > [aria-hidden="true"] { width: 0; margin-left: -6px; text-indent: 6px; white-space: nowrap; }
 .drawer-subsection-link {
   display: flex; justify-content: center; align-items: center;
   margin: 6px auto 10px;
