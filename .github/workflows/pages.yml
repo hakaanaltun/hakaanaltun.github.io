@@ -121,6 +121,12 @@ jobs:
       - name: Take the comments out of the published stylesheets
         run: node scripts/strip-css-comments.cjs _site/css
 
+      # The scripts' comments go the same way, from the site's own scripts
+      # only: js/vendor/ keeps its licences. The step fails, and nothing is
+      # published, if any program would read differently.
+      - name: Take the comments out of the published scripts
+        run: node scripts/strip-js-comments.cjs _site/js
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
 
