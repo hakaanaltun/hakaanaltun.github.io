@@ -76,6 +76,22 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
       '?from=house': ['/house/#study', '←\u200athe study', 'Back to The House study'],
       '?from=balcony&v=1': ['/house/#balcony', '←\u200athe balcony', 'Back to The House balcony'],
       '?from=drawer&v=1': ['/house/#drawer', '←\u200ayour drawer', 'Back to your drawer'],
+      // The drawer, and a note on a page, send their own address with back=,
+      // and the way back returns there.
+      '?from=drawer&back=%2Fhouse%2F%3Fin%3Dbalcony%23drawer&v=1': ['/house/?in=balcony#drawer', '←\u200ayour drawer', 'Back to your drawer'],
+      '?from=drawer&back=%2Fpieces%2Fon-lying.html%23drawer': ['/pieces/on-lying.html#drawer', '←\u200ayour drawer', 'Back to your drawer'],
+      '?from=piece&back=%2Fpieces%2Fon-lying.html': ['/pieces/on-lying.html', '←\u200athe piece', 'Back to the piece'],
+      '?from=word&back=%2Fword%2Fserendipity%2F': ['/word/serendipity/', '←\u200athe word', 'Back to the word'],
+      '?from=quiz&back=%2Ftrivia%2Fbritain%2F': ['/trivia/britain/', '←\u200athe quiz', 'Back to the quiz'],
+      '?from=book&back=%2Fpart-one%2F': ['/part-one/', '←\u200athe book', 'Back to the book'],
+      '?from=read&back=%2Fread%2F%3Ffrom%3Dhouse': ['/read/?from=house', '←\u200aThe Reader', 'Back to The Reader'],
+      // A page named without its address has nowhere to lead, and an address
+      // on another site is never followed.
+      '?from=piece': ['/tools/', '←\u200ainstruments', 'All the instruments'],
+      '?from=drawer&back=%2F%2Fexample.com%2F': ['/house/#drawer', '←\u200ayour drawer', 'Back to your drawer'],
+      '?from=drawer&back=https%3A%2F%2Fexample.com%2F': ['/house/#drawer', '←\u200ayour drawer', 'Back to your drawer'],
+      '?from=drawer&back=%2F%5Cexample.com%2F': ['/house/#drawer', '←\u200ayour drawer', 'Back to your drawer'],
+      '?from=balcony&back=%2Fpieces%2Fon-lying.html': ['/house/#balcony', '←\u200athe balcony', 'Back to The House balcony'],
       '?from=elsewhere': ['/tools/', '←\u200ainstruments', 'All the instruments'],
       '?from=constructor': ['/tools/', '←\u200ainstruments', 'All the instruments']
     };
@@ -901,6 +917,49 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   a.click('#house-close');
   assert.equal(a.w.location.hash, '#study');
   a.dom.window.close();
+  // The drawer's address names the room it was open over, and its own way
+  // back, so the way back to it from The Page finds it as it was.
+  a = house({ url: 'https://hakanaltun.io/house/?in=balcony#drawer' });
+  await tick();
+  assert.equal(a.q('#balcony').hidden, false, 'the drawer opens over the balcony it was open over');
+  assert.equal(a.q('#study').hidden, true);
+  assert.equal(a.q('#house-dialog').open, true);
+  assert.equal(a.q('#house-dialog-content .house-back'), null, 'opened from the menu, it has no way back but its close');
+  a.click('#house-close');
+  assert.equal(a.w.location.pathname + a.w.location.search + a.w.location.hash, '/house/#balcony', 'closed, it leaves the reader on the balcony');
+  a.dom.window.close();
+  a = house({ url: 'https://hakanaltun.io/house/?in=balcony&from=notebook#drawer' });
+  await tick();
+  assert.equal(a.q('#balcony').hidden, false);
+  assert.equal(a.q('#house-dialog-content .house-back').textContent, '← Back to the notebook', 'opened from the notebook, it leads back to it');
+  a.click('#house-dialog-content .house-back');
+  assert.equal(a.q('#house-dialog-title').textContent, 'The notebook');
+  a.dom.window.close();
+  a = house({ url: 'https://hakanaltun.io/house/?in=door#drawer' });
+  await tick();
+  assert.equal(a.q('#house-entrance').hidden, false, 'over the door, at the door');
+  a.click('#house-close');
+  assert.equal(a.w.location.pathname + a.w.location.search + a.w.location.hash, '/house/');
+  a.dom.window.close();
+  // From an instrument the way back keeps the instrument's own way back.
+  a = house({ url: 'https://hakanaltun.io/house/?from=write&back=%2Fwrite%2F%3Ffrom%3Dbalcony#drawer' });
+  await tick();
+  assert.equal(a.q('#house-dialog-content .house-back').textContent, '← Back to The Page');
+  assert.equal(a.q('#house-dialog-content .house-back').getAttribute('href'), '/write/?from=balcony');
+  a.dom.window.close();
+  a = house({ url: 'https://hakanaltun.io/house/?from=write#drawer' });
+  await tick();
+  assert.equal(a.q('#house-dialog-content .house-back').getAttribute('href'), '/write/', 'without back=, to the instrument itself');
+  a.dom.window.close();
+  a = house({ url: 'https://hakanaltun.io/house/?from=piece&back=%2Fpieces%2Fon-lying.html#drawer' });
+  await tick();
+  assert.equal(a.q('#house-dialog-content .house-back').textContent, '← Back to the piece');
+  assert.equal(a.q('#house-dialog-content .house-back').getAttribute('href'), '/pieces/on-lying.html');
+  a.dom.window.close();
+  a = house({ url: 'https://hakanaltun.io/house/?from=piece&back=%2F%2Fexample.com%2F#drawer' });
+  await tick();
+  assert.equal(a.q('#house-dialog-content .house-back'), null, 'an address on another site is never followed');
+  a.dom.window.close();
 
   // --- Keeping from the rest of the site ------------------------------------------
   const word = catalog.words.find((w) => w.id === 'word-serendipity');
@@ -911,7 +970,8 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.equal(p.stored().kept[0].id, 'word-serendipity');
   assert.equal(p.stored().kept[0].quote, word.description);
   assert.equal(wordButton.getAttribute('aria-pressed'), 'true');
-  assert.equal(p.q('.keep-toast a').getAttribute('href'), '/house/#drawer');
+  assert.equal(p.q('.keep-toast a').getAttribute('href'), '/house/?from=word&back=%2Fword%2Fserendipity%2F#drawer', 'without the site\'s menu, the drawer in The House leads back to the word');
+  assert.ok(p.q('.keep-toast a').hasAttribute('data-open-drawer'), 'with it, the drawer opens over the page');
   p.dom.window.close();
 
   p = page('trivia/britain/index.html', 'https://hakanaltun.io/trivia/britain/', { run: ['keep', 'trivia'] });
@@ -1040,7 +1100,8 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.equal(p.q('.keep-panel-said').textContent, 'Kept in your drawer.');
   assert.equal(p.q('[data-panel-note]').textContent, 'Add a note');
   assert.equal(p.q('[data-panel-marks]').hidden, true);
-  assert.equal(p.q('.keep-panel-actions a').getAttribute('href'), '/house/#drawer');
+  assert.equal(p.q('.keep-panel-actions a').getAttribute('href'), '/house/?from=piece&back=' + encodeURIComponent(essay.url) + '#drawer');
+  assert.ok(p.q('.keep-panel-actions a').hasAttribute('data-open-drawer'), 'the way to the drawer opens it over the page');
   assert.equal(p.q('.keep-toast'), null, 'the panel says it, not a toast');
   assert.deepEqual(marked(p.w), [], 'keeping leaves the page as it is');
   assert.equal('mark' in itemOf(kept1.id), false);
@@ -1057,7 +1118,8 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.equal(p.q('.keep-panel .keep-note-copy'), null, 'no Copy: The Page takes the note');
   const pageLink = new URL(p.q('.keep-panel .keep-note-page').getAttribute('href'), 'https://hakanaltun.io');
   assert.equal(pageLink.pathname, '/write/', 'The Page is beside the note, to write at length');
-  assert.equal(pageLink.searchParams.get('from'), 'drawer', 'and its way back leads to the drawer');
+  assert.equal(pageLink.searchParams.get('from'), 'piece', 'and its way back leads to the piece the note was written on');
+  assert.equal(pageLink.searchParams.get('back'), essay.url);
   assert.ok(pageLink.searchParams.get('v'), 'loading The Page as it is now');
   assert.equal(p.q('.keep-panel .keep-note-page').textContent.replace(/\u00a0/g, ' '), 'Write at length on The Page →');
   // Taken on to The Page, the note goes with the passage and its link,
@@ -1331,6 +1393,7 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   const toPage = new URL(a.q('#house-dialog-content .keep-note-page').getAttribute('href'), 'https://hakanaltun.io');
   assert.equal(toPage.pathname, '/write/');
   assert.equal(toPage.searchParams.get('from'), 'drawer', 'from the drawer, The Page returns to the drawer');
+  assert.equal(toPage.searchParams.get('back'), '/house/?in=door#drawer', 'as it was, over the room it was open over');
   assert.ok(toPage.searchParams.get('v'), 'and loads the current page');
   // The drawer's notes go on to The Page as every note does.
   const stayInDrawer = (event) => event.preventDefault();
@@ -1608,9 +1671,31 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
     overlay.querySelector('[data-note="word-quarantine"]').click();
     const note = overlay.querySelector('.keep-note textarea');
     assert.ok(note, 'a note is written in place over the page as in The House');
+    const notePage = new URL(overlay.querySelector('.keep-note-page').getAttribute('href'), 'https://hakanaltun.io');
+    assert.equal(notePage.searchParams.get('from'), 'drawer');
+    assert.equal(notePage.searchParams.get('back'), '/about/#drawer', 'The Page leads back to the drawer over this page');
     overlay.querySelector('.house-close').click();
     assert.equal(overlay.open, false);
     assert.equal(o.w.document.activeElement, footer, 'closing leaves the reader where they were');
+    // That address opens the drawer over the page again, and closed, the
+    // drawer leaves the page's address as it was.
+    {
+      const r = page('about/index.html', 'https://hakanaltun.io/about/#drawer');
+      r.w.OLAE_DRAWER_ASSETS = assets;
+      r.w.eval(scripts.nav);
+      for (const href of [assets.keep_css, assets.drawer_css]) r.q('head link[href="' + href + '"]').dispatchEvent(new r.w.Event('load'));
+      r.w.eval(scripts.keep);
+      r.q('head script[src="' + assets.keep_js + '"]').dispatchEvent(new r.w.Event('load'));
+      await tick();
+      r.w.eval(scripts.drawer);
+      r.q('head script[src="' + assets.drawer_js + '"]').dispatchEvent(new r.w.Event('load'));
+      await wait(20);
+      const again = r.q('#drawer-dialog');
+      assert.ok(again && again.open, '#drawer opens the drawer over the page');
+      again.querySelector('.house-close').click();
+      assert.equal(r.w.location.pathname + r.w.location.search + r.w.location.hash, '/about/', 'closed, the address no longer says it is open');
+      r.dom.window.close();
+    }
     // The House's own menu in the header.
     const toggle = o.q('.nav-house-toggle');
     const menu = o.q('#nav-house-menu');
@@ -1726,6 +1811,6 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.equal(t.q('canvas.cursor-trail'), null, 'and none for a reader who asked for less motion');
   t.dom.window.close();
 
-  console.log('House: catalog and addresses, daily room, keeping from the room and from words, quizzes, the book and essays, the passage prompt on word stories and quiz notes, the kept passage\'s panel, its note and the way on to The Page, Highlight and its clearing, the small box by a highlight, hidden highlights, a note written before keeping, notes in the drawer, legacy and hostile records, blocked storage, arrivals, #drawer, export and backup offered only where they work, the moon, the planets after dark, weather at the window, the footer\'s snow and rain under both rooms, what the balcony\'s sound is told, the balcony, its glass, its door, its sky and its lamp, its notebook, a kept page left open in it, and the way on to The Page, Moris on the chair and by the glass, quiet places and a remembered Show places to look, the ways back to the study and the balcony, the pointer\'s trail, in the rooms only, and the drawer over any page from the header, the site\'s menu and the footer passed.');
+  console.log('House: catalog and addresses, daily room, keeping from the room and from words, quizzes, the book and essays, the passage prompt on word stories and quiz notes, the kept passage\'s panel, its note and the way on to The Page, Highlight and its clearing, the small box by a highlight, hidden highlights, a note written before keeping, notes in the drawer, legacy and hostile records, blocked storage, arrivals, #drawer, export and backup offered only where they work, the moon, the planets after dark, weather at the window, the footer\'s snow and rain under both rooms, what the balcony\'s sound is told, the balcony, its glass, its door, its sky and its lamp, its notebook, a kept page left open in it, and the way on to The Page, Moris on the chair and by the glass, quiet places and a remembered Show places to look, the ways back to the study, the balcony, the drawer as it was and the page a note was written on, the pointer\'s trail, in the rooms only, and the drawer over any page from the header, the site\'s menu and the footer passed.');
 })().catch((error) => { console.error(error); process.exit(1); });
 

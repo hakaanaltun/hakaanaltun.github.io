@@ -91,7 +91,19 @@ const record = (id, fields) => Object.assign({ id, kind: 'The Page', title: 'Wri
   assert.equal(p.q('#drawerPop').hidden, true, 'its box waits closed');
   p.open();
   assert.equal(p.q('#drawerBtn').getAttribute('aria-expanded'), 'true');
-  assert.equal(p.q('#drawerLink').getAttribute('href'), '/house/?from=write#drawer', 'Open your drawer leads to the drawer, with the way back');
+  assert.equal(p.q('#drawerLink').getAttribute('href'), '/house/?from=write&back=%2Fwrite%2F#drawer', 'Open your drawer leads to the drawer, with the way back');
+  p.dom.window.close();
+  // The way back keeps The Page's own: opened from the balcony, the drawer
+  // leads back to The Page, and The Page to the balcony. What it asked for
+  // once, a kept thing to open or its end, is left out.
+  p = page({ url: 'https://hakanaltun.io/write/?from=balcony&v=1&at=end' });
+  p.open();
+  assert.equal(p.q('#drawerLink').getAttribute('href'), '/house/?from=write&back=' + encodeURIComponent('/write/?from=balcony&v=1') + '#drawer');
+  // The caret set at the end announces itself a moment later.
+  await settle();
+  p.dom.window.close();
+  p = page();
+  p.open();
   assert.equal(p.keep(), 'There is nothing on the page to keep yet.');
   assert.equal(p.kept().length, 0, 'an empty page keeps nothing');
 
@@ -172,7 +184,7 @@ const record = (id, fields) => Object.assign({ id, kind: 'The Page', title: 'Wri
       before: (w) => { w.OLAE_DESK_EMBED = { pane, key: (base) => (pane > 1 ? base + '-2' : base), register() {} }; }
     });
     assert.equal(p.q('#drawerLink').target, '_top');
-    assert.equal(p.q('#drawerLink').getAttribute('href'), '/house/?from=desk#drawer');
+    assert.equal(p.q('#drawerLink').getAttribute('href'), '/house/?from=desk&back=' + encodeURIComponent('/write/?desk=1' + (pane > 1 ? '&pane=2' : '')) + '#drawer');
     type(p, '#page', 'Notes beside a reading, ' + pane + '.');
     p.keep();
     assert.ok(p.links()['write@desk' + pane], 'the place on the desk remembers its copy');
@@ -300,7 +312,7 @@ const record = (id, fields) => Object.assign({ id, kind: 'The Page', title: 'Wri
   });
   let d = drawPage(memoryFiles(pictures));
   assert.ok(d.q('.actions #drawerBtn + #dlBtn'));
-  assert.equal(d.q('#drawerLink').getAttribute('href'), '/house/?from=draw#drawer');
+  assert.equal(d.q('#drawerLink').getAttribute('href'), '/house/?from=draw&back=%2Fdraw%2F#drawer');
   const stroke = (x) => {
     const canvas = d.q('#paper');
     const at = (type, dx) => canvas.dispatchEvent(new d.w.MouseEvent(type, { bubbles: true, clientX: x + dx, clientY: 40 + dx, button: 0 }));
@@ -466,7 +478,11 @@ const record = (id, fields) => Object.assign({ id, kind: 'The Page', title: 'Wri
   assert.equal(passage.title, 'notes-on-light.md', 'a passage is named by its file');
   assert.equal(passage.href, '/read/');
   r.w.OLAE_KEEP.keepPassage(passage, null);
-  assert.equal(r.q('.keep-panel a').getAttribute('href'), '/house/?from=read#drawer', 'its drawer leads back to The Reader');
+  assert.equal(r.q('.keep-panel a').getAttribute('href'), '/house/?from=read&back=%2Fread%2F#drawer', 'its drawer leads back to The Reader');
+  const readerNote = () => new URL(r.q('.keep-panel .keep-note-page').getAttribute('href'), 'https://hakanaltun.io');
+  r.q('[data-panel-note]').click();
+  assert.equal(readerNote().searchParams.get('from'), 'read', 'a note taken on to The Page leads back to The Reader');
+  assert.equal(readerNote().searchParams.get('back'), '/read/');
   assert.ok(read(root, 'read', 'index.html').includes('--petrol:var(--ink)'), 'the prompt and panel take the Reader\'s own colours');
   r.dom.window.close();
   r = readerPage('https://hakanaltun.io/read/?desk=1', (w) => { w.OLAE_DESK_EMBED = { pane: 1, key: (b) => b, register() {} }; });
@@ -474,7 +490,7 @@ const record = (id, fields) => Object.assign({ id, kind: 'The Page', title: 'Wri
   const inDesk = r.w.document.createRange();
   inDesk.selectNodeContents(r.q('#reading p'));
   r.w.OLAE_KEEP.keepPassage(r.w.OLAE_KEEP.passageFor(inDesk), null);
-  assert.equal(r.q('.keep-panel a').getAttribute('href'), '/house/?from=desk#drawer');
+  assert.equal(r.q('.keep-panel a').getAttribute('href'), '/house/?from=desk&back=' + encodeURIComponent('/read/?desk=1') + '#drawer');
   assert.equal(r.q('.keep-panel a').target, '_top', 'inside The Desk the drawer opens in the whole window');
   r.dom.window.close();
 
@@ -517,6 +533,17 @@ const record = (id, fields) => Object.assign({ id, kind: 'The Page', title: 'Wri
     assert.equal(back.getAttribute('href'), '/' + from + '/');
     way.dom.window.close();
   }
+  // back= keeps the instrument's own way back, and the drawer's ways on
+  // carry the drawer's address with its way back in it.
+  {
+    const way = housePage('https://hakanaltun.io/house/?from=write&back=' + encodeURIComponent('/write/?from=balcony&v=1') + '#drawer');
+    await settle();
+    assert.equal(way.q('#house-dialog-content .house-back').getAttribute('href'), '/write/?from=balcony&v=1');
+    const on = new URL(way.q('#house-dialog-content .house-item-actions a').getAttribute('href'), 'https://hakanaltun.io');
+    assert.equal(on.searchParams.get('from'), 'drawer');
+    assert.equal(on.searchParams.get('back'), '/house/?from=write&back=' + encodeURIComponent('/write/?from=balcony&v=1') + '#drawer');
+    way.dom.window.close();
+  }
   const h = housePage('https://hakanaltun.io/house/#drawer');
   await settle();
   assert.equal(h.q('#house-dialog-title').textContent, 'Your drawer');
@@ -537,6 +564,7 @@ const record = (id, fields) => Object.assign({ id, kind: 'The Page', title: 'Wri
   assert.equal(way(pageItem).pathname, '/write/');
   assert.equal(way(pageItem).searchParams.get('open'), 'page-a1', 'it goes back into The Page');
   assert.equal(way(pageItem).searchParams.get('from'), 'drawer', 'with the way back to the drawer');
+  assert.equal(way(pageItem).searchParams.get('back'), '/house/#drawer', 'as it was, over the study');
   assert.ok(way(pageItem).searchParams.get('v'), 'past an older copy the service worker may hold');
   const drawingItem = item('Drawn on 13 October 2026');
   assert.deepEqual(actionsOf(drawingItem), ['Download as PNG', 'Remove'], 'a drawing does not go back into The Draw');
@@ -552,6 +580,7 @@ const record = (id, fields) => Object.assign({ id, kind: 'The Page', title: 'Wri
   assert.deepEqual(actionsOf(readerItem), ['Open The Reader →', 'Add a note', 'Remove'], 'a passage from the reader\'s own file has no card');
   assert.equal(way(readerItem).pathname, '/read/');
   assert.equal(way(readerItem).searchParams.get('from'), 'drawer');
+  assert.equal(way(readerItem).searchParams.get('back'), '/house/#drawer');
 
   // Downloads give what the instrument gives.
   const saved = [];

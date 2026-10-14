@@ -15,8 +15,8 @@
   if (!KEEP) return;
 
   /* The drawer being shown: its box, the dialog round it, the way back,
-     and how it says what it has done. */
-  var here = { box: null, dialog: null, back: null, current: function (item) { return item; }, announce: function () {} };
+     its own address, and how it says what it has done. */
+  var here = { box: null, dialog: null, back: null, address: overlayAddress, current: function (item) { return item; }, announce: function () {} };
   function current(item) { return here.current(item); }
   function announce(message) { here.announce(message); }
 
@@ -92,14 +92,17 @@
   }
 
   /* The way from a kept thing back into its instrument, which puts it
-     there (js/tool-drawer.js). The v loads the instrument as it is now
-     rather than a service worker's older copy. */
-  var BACK_TO = 'v=20261013-1';
+     there (js/tool-drawer.js). It carries the drawer's address, so the
+     instrument's way back returns to the drawer as it was, over the room
+     or the page it was open over (js/keep.js, wayBack). The v loads the
+     instrument as it is now rather than a service worker's older copy. */
+  var BACK_TO = 'v=20261014-1';
+  function fromDrawer() { return KEEP.wayBack('drawer', here.address()); }
   function backInto(item) {
     var work = KEEP.WORKS[KEEP.workOf(item.id)];
     if (!work || work.slug === 'draw') return null;
     var link = element('a', '', work.slug === 'write' ? 'Continue on The\u00a0Page\u00a0→' : 'Open in ' + work.kind.replace(' ', '\u00a0') + '\u00a0→');
-    link.href = '/' + work.slug + '/?from=drawer&open=' + encodeURIComponent(item.id) + '&' + BACK_TO;
+    link.href = '/' + work.slug + '/?' + fromDrawer() + '&open=' + encodeURIComponent(item.id) + '&' + BACK_TO;
     return link;
   }
 
@@ -277,7 +280,7 @@
       // passage from The Reader to the reader's own file.
       var fromNotebook = item.id.indexOf('notebook-') === 0;
       var fromReader = KEEP.fromReader(item);
-      var row = actions(fromReader ? '/read/?from=drawer&' + BACK_TO : item.href, fromNotebook ? 'Go to the balcony →' : fromReader ? 'Open The Reader →' : 'Go to the page →');
+      var row = actions(fromReader ? '/read/?' + fromDrawer() + '&' + BACK_TO : item.href, fromNotebook ? 'Go to the balcony →' : fromReader ? 'Open The Reader →' : 'Go to the page →');
       var write = element('button', '', item.note ? 'Edit the note' : 'Add a note');
       write.type = 'button';
       write.setAttribute('data-note', item.id);
@@ -615,6 +618,7 @@
     if (shown) shown.remove();
     var editor = KEEP.noteEditor(id, {
       describe: function () { var item = KEEP.find(id); return item && current(item); },
+      back: function () { return { from: 'drawer', address: here.address() }; },
       onDone: function (words) {
         var again = here.box.querySelector('[data-note="' + id + '"]');
         if (again) again.focus({ preventScroll: true });
@@ -687,8 +691,10 @@
      render(box, options) lays the drawer out in box, and its buttons work
      from then on. options.dialog is the box's dialog, closed before the
      drawer is printed; options.back a link or button to put first, the way
-     back to where the drawer was opened from; options.current gives a kept
-     thing's current words; options.announce says what has been done. */
+     back to where the drawer was opened from; options.address gives the
+     drawer's own address, for the way back to it from where it leads;
+     options.current gives a kept thing's current words; options.announce
+     says what has been done. */
   var bound = typeof WeakSet === 'function' ? new WeakSet() : null;
   function render(box, options) {
     options = options || {};
@@ -696,6 +702,7 @@
       box: box,
       dialog: options.dialog || null,
       back: options.back || null,
+      address: options.address || overlayAddress,
       current: options.current || function (item) { return item; },
       announce: options.announce || function () {}
     };
@@ -715,6 +722,9 @@
      drawer in a box of the same kind, and closing it leaves the reader
      where they were. */
   var overlay = null, overlayIndex = null, catalogAsked = null, opener = null;
+  /* The address that opens the drawer over this page again: the way back
+     to it from The Page or an instrument it leads to (js/site-nav.js). */
+  function overlayAddress() { return location.pathname + location.search + '#drawer'; }
   function askCatalog() {
     if (catalogAsked) return catalogAsked;
     catalogAsked = typeof fetch !== 'function' ? Promise.resolve() : fetch('/house/catalog.json', { cache: 'no-cache' })
@@ -758,6 +768,9 @@
       if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) dialog.close();
     });
     dialog.addEventListener('close', function () {
+      // Closed, it leaves the page as it was, and an address that opened
+      // it no longer says it is open.
+      if (location.hash === '#drawer') history.replaceState(null, '', location.pathname + location.search);
       if (opener && opener.isConnected && !opener.hidden) opener.focus({ preventScroll: true });
       opener = null;
     });
