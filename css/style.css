@@ -1409,12 +1409,16 @@ section.line-drawn::before,
 }
 
 /* Moris lightbox */
-.moris-lightbox { position: fixed; inset: 0; z-index: 300; display: none; align-items: center; justify-content: center; background: rgba(22, 20, 18, 0.94); }
-.moris-lightbox.open { display: flex; }
+/* A native <dialog>: the browser's own box, margins and size limits give way
+   to the whole window. */
+.moris-lightbox { position: fixed; inset: 0; z-index: 300; display: none; align-items: center; justify-content: center; width: 100%; height: 100%; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; overflow: hidden; color: #FFFFFF; background: rgba(22, 20, 18, 0.94); }
+.moris-lightbox[open] { display: flex; }
+.moris-lightbox::backdrop { background: transparent; }
 .moris-lightbox figure { margin: 0; display: flex; align-items: center; justify-content: center; }
 .moris-lightbox img { max-width: min(92vw, 1000px); max-height: 82vh; object-fit: contain; border-radius: 6px; box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5); }
 .moris-lb-btn { position: absolute; display: flex; align-items: center; justify-content: center; width: 46px; height: 46px; padding: 0; border: none; border-radius: 50%; background: transparent; color: rgba(255, 255, 255, 0.75); cursor: pointer; transition: color 0.2s ease, background 0.2s ease; }
 .moris-lb-btn:hover, .moris-lb-btn:active, .moris-lb-btn:focus-visible { color: #FFFFFF; outline: none; }
+.moris-lb-btn:focus-visible { outline: 2px solid rgba(255, 255, 255, 0.85); outline-offset: -3px; }
 .moris-lb-btn svg { width: 26px; height: 26px; stroke: currentColor; stroke-width: 1.6; fill: none; stroke-linecap: round; stroke-linejoin: round; }
 .moris-lb-close { top: 16px; right: 16px; }
 .moris-lb-prev { left: 10px; top: 50%; transform: translateY(-50%); }
@@ -1490,6 +1494,9 @@ body.moris-lightbox-open { overflow: hidden; }
 .essay-rain { background: none; border: none; cursor: pointer; font-family: 'EB Garamond', Georgia, serif; font-style: italic; font-size: 0.92rem; letter-spacing: 0.03em; color: var(--vizon); padding: 2px 6px; margin-top: 2px; transition: color 0.2s ease; }
 .essay-rain:hover, .essay-rain[aria-pressed="true"] { color: var(--petrol); }
 .essay-rain:focus-visible { outline: 2px solid var(--petrol); outline-offset: 2px; }
+/* The line that tells a Turkish browser, before a quiz begins, what a
+   selection can do; a piece says it in its reading options. */
+.translate-hint { margin: 8px 0 0; font-family: 'EB Garamond', Georgia, serif; font-style: italic; font-size: 0.92rem; letter-spacing: 0.03em; color: var(--vizon); }
 
 /* The moon that was over a piece, under its last line. Small on purpose: it
    is the night the story happened, not a heading — a reader who wants to know

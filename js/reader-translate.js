@@ -12,6 +12,14 @@
   var AREAS = '.essay-body, [data-keep-passage]';
   if (!document.querySelector(AREAS) || !window.getSelection || !window.fetch) return;
 
+  /* A browser whose first language is Turkish is told, in a piece's
+     reading options and before a quiz begins, that a selected sentence
+     opens in Turkish. */
+  var language = (navigator.languages && navigator.languages[0]) || navigator.language || '';
+  if (/^tr\b/i.test(language)) {
+    document.querySelectorAll('[data-translate-hint]').forEach(function (hint) { hint.hidden = false; });
+  }
+
   var ENDPOINT = 'https://translate.hakanaltunn.workers.dev/';
   var MAX_TEXT = 500;
   var MAX_CONTEXT = 1500;

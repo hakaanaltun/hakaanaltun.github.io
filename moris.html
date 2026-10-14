@@ -24,7 +24,7 @@ description: "Moris is the silent presence behind the stories. The witness who b
   </div>
 </section>
 
-<div class="moris-lightbox" id="moris-lightbox" role="dialog" aria-modal="true" aria-label="Moris gallery">
+<dialog class="moris-lightbox" id="moris-lightbox" aria-label="Moris gallery">
   <figure><img id="moris-lb-img" src="" alt=""></figure>
   <button type="button" class="moris-lb-btn moris-lb-close" aria-label="Close gallery">
     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
@@ -36,7 +36,7 @@ description: "Moris is the silent presence behind the stories. The witness who b
     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polyline points="10,5 17,12 10,19"/></svg>
   </button>
   <span class="moris-lb-count" id="moris-lb-count"></span>
-</div>
+</dialog>
 
 <script>
 (function() {
@@ -60,10 +60,9 @@ description: "Moris is the silent presence behind the stories. The witness who b
   var box = document.getElementById('moris-lightbox');
   var img = document.getElementById('moris-lb-img');
   var count = document.getElementById('moris-lb-count');
-  if (!cover || !box) return;
+  if (!cover || !box || !box.showModal) return;
 
   var current = 0;
-  var isOpen = false;
 
   function preload(i) {
     var n = new Image();
@@ -79,19 +78,23 @@ description: "Moris is the silent presence behind the stories. The witness who b
     preload(current - 1);
   }
 
+  /* A native dialog, as in The House, the farm and the pictures:
+     showModal() makes the page behind it inert, so Tab stays among the
+     gallery's buttons, and Escape closes it without a handler of its own. */
   function open(i) {
     show(i);
-    box.classList.add('open');
+    box.showModal();
     document.body.classList.add('moris-lightbox-open');
-    isOpen = true;
   }
 
   function close() {
-    box.classList.remove('open');
-    document.body.classList.remove('moris-lightbox-open');
-    isOpen = false;
-    cover.focus();
+    box.close();
   }
+
+  box.addEventListener('close', function() {
+    document.body.classList.remove('moris-lightbox-open');
+    cover.focus();
+  });
 
   cover.addEventListener('click', function() { open(0); });
   box.querySelector('.moris-lb-close').addEventListener('click', close);
@@ -99,10 +102,8 @@ description: "Moris is the silent presence behind the stories. The witness who b
   box.querySelector('.moris-lb-next').addEventListener('click', function(e) { e.stopPropagation(); show(current + 1); });
   box.addEventListener('click', function(e) { if (e.target === box) close(); });
 
-  document.addEventListener('keydown', function(e) {
-    if (!isOpen) return;
-    if (e.key === 'Escape') close();
-    else if (e.key === 'ArrowLeft') show(current - 1);
+  box.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowLeft') show(current - 1);
     else if (e.key === 'ArrowRight') show(current + 1);
   });
 
