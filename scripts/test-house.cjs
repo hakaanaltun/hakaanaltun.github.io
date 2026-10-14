@@ -42,7 +42,7 @@ const highlights = (w) => {
 };
 const marked = (w) => { const h = w.CSS.highlights.get('olae-kept'); return h ? h.ranges.map((r) => r.toString().replace(/\u2060/g, '').replace(/\s+/g, ' ').trim()) : []; };
 
-function page(file, url, { saved, blocked = false, run = [], before } = {}) {
+function page(file, url, { saved, blocked = false, run = [], before, catalog: served } = {}) {
   const dom = new JSDOM(read(site, file), { url, runScripts: 'outside-only', pretendToBeVisual: true });
   const w = dom.window;
   w.HTMLElement.prototype.scrollIntoView = function () {};
@@ -54,7 +54,7 @@ function page(file, url, { saved, blocked = false, run = [], before } = {}) {
   };
   w.setInterval = () => 0;
   w.fetch = (address) => Promise.resolve(String(address).startsWith('/house/catalog.json')
-    ? { ok: true, json: () => Promise.resolve(JSON.parse(catalogText)) }
+    ? { ok: true, json: () => Promise.resolve(served ? JSON.parse(JSON.stringify(served)) : JSON.parse(catalogText)) }
     : { ok: false, json: () => Promise.resolve({}) });
   if (saved !== undefined) w.localStorage.setItem(KEY, saved);
   if (blocked) Object.defineProperty(w, 'localStorage', { get() { throw new w.DOMException('Denied', 'SecurityError'); } });
@@ -173,7 +173,10 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   for (const w of catalog.words) {
     assert.equal(w.collected, grouped.includes(w.id.slice(5)), `${w.word} is marked collected only when a collection holds it`);
   }
-  assert.ok(catalog.words.some((w) => !w.collected), 'a word outside every collection is still listed for the drawer');
+  // Whether or not any word waits outside the collections, every word is
+  // listed, so a word a reader kept is never lost from the drawer.
+  const wordFiles = fs.readdirSync(path.join(root, '_words')).filter((f) => f.endsWith('.md')).map((f) => 'word-' + f.slice(0, -3));
+  assert.deepEqual(catalog.words.map((w) => w.id).sort(), wordFiles.sort(), 'every word is listed for the drawer');
 
   // Every address the room can hand out resolves on the built site.
   const addresses = [].concat(...['words', 'questions', 'lines', 'pieces', 'notes', 'quizzes'].map((k) => catalog[k].map((x) => x.url)));
@@ -583,12 +586,15 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
 
   // --- Since the last visit --------------------------------------------------
   const allIds = [].concat(...['pieces', 'words', 'notes', 'quizzes'].map((k) => catalog[k].map((x) => x.id)));
-  const newWord = catalog.words.filter((w) => w.collected).pop();
-  const waitingWord = catalog.words.find((w) => !w.collected);
+  // A word waiting for a collection is unknown too, and is not announced.
+  // Every word may have a collection, so one is set aside here.
+  const waiting = JSON.parse(catalogText);
+  const waitingWord = waiting.words.find((w) => w.collected);
+  waitingWord.collected = false;
+  const newWord = waiting.words.filter((w) => w.collected).pop();
   const newPiece = catalog.pieces[0];
-  // The word waiting for a collection is unknown too, and is not announced.
   const known = allIds.filter((id) => id !== newWord.id && id !== newPiece.id && id !== waitingWord.id);
-  a = house({ saved: JSON.stringify({ kept: [], seen: { day: '2000-01-01', known, fresh: [] } }) });
+  a = house({ saved: JSON.stringify({ kept: [], seen: { day: '2000-01-01', known, fresh: [] } }), catalog: waiting });
   await tick();
   assert.equal(a.q('#house-since').hidden, false);
   assert.match(a.q('#house-since').textContent, new RegExp(newWord.word));

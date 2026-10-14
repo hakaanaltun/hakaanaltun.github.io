@@ -8,23 +8,30 @@ date: 2026-10-14 18:10:02 +0300
 sources:
   - title: "Anatomy"
     where: "The American Heritage Dictionary of the English Language"
-    url: "https://ahdictionary.com/word/search.html?q=anatomy"
-  - title: "Anatomy"
-    where: "Online Etymology Dictionary"
-    url: "https://www.etymonline.com/word/anatomy"
-description: "Anatomy comes from Greek anatomē, dissection or cutting up. A word for examining the body became the name for its structure."
+    url: "https://www.ahdictionary.com/word/search.html?q=anatomy"
+  - title: "Atom"
+    where: "The American Heritage Dictionary of the English Language"
+    url: "https://www.ahdictionary.com/word/search.html?q=atom"
+  - title: "Atomy"
+    where: "The American Heritage Dictionary of the English Language"
+    url: "https://www.ahdictionary.com/word/search.html?q=atomy"
+description: "Anatomy is Greek for a cutting up. The same root is in atom, what cannot be cut, and anatomy misheard once gave English atomy, a skeleton."
 ---
 
-Anatomy is the study of the structure of the body. Its name
-describes a way of finding that structure out.{% include word-cite.html n="1" %}
+Anatomy is the study of the structure of the body. The Greek
+<span lang="grc">*anatomē*</span>, from which it comes, meant
+dissection, literally a cutting up.{% include word-cite.html n="1" %}
 
-The Greek <span lang="grc">*anatomē*</span> meant dissection, literally
-a cutting up. The word passed through Latin and French into English.
-To study the arrangement of the body's parts, anatomists examined
-what lay beneath the surface.{% include word-cite.html n="1,2" %}
+The same Greek root for cutting is in *atom*. Greek
+<span lang="grc">*atomos*</span> meant indivisible, that which cannot be
+cut. Anatomy names the cutting of a body into its parts; an atom was
+named as something that could not be cut at all.{% include word-cite.html n="1,2" %}
 
-*Anatomy* can now mean the body's structure itself, and it can be
-used for the detailed examination of other things. The old
-meaning remains in the name of the science.{% include word-cite.html n="1" %}
+In older English, *an anatomy* was also heard as *an atomy*, and
+*atomy* became a word of its own for a skeleton, or for a person thin
+enough to look like one.{% include word-cite.html n="3" %}
+
+*Anatomy* can now mean the body's structure itself, and it can be used
+for the detailed examination of other things.{% include word-cite.html n="1" %}
 
 *The students studied the anatomy of the hand.*

@@ -9,9 +9,9 @@ sources:
   - title: "Parliament"
     where: "Online Etymology Dictionary"
     url: "https://www.etymonline.com/word/parliament"
-  - title: "The origins of Parliament"
-    where: "UK Parliament"
-    url: "https://www.parliament.uk/about/living-heritage/transformingsociety/electionsvoting/chartists/overview/originsofparliament/"
+  - title: "List of people summoned to the 1265 Parliament"
+    where: "The National Archives"
+    url: "https://www.nationalarchives.gov.uk/explore-the-collection/stories/list-of-people-summoned-to-the-1265-parliament/"
 description: "Parliament grew from an Old French word for speaking and discussion. The institution kept the name as assemblies changed."
 ---
 
@@ -23,9 +23,10 @@ or discussion, from <span lang="fro">*parler*</span>, to speak.
 English borrowed the word for formal gatherings in the Middle Ages.
 It came to mean an assembly summoned by a ruler.{% include word-cite.html n="1,2" %}
 
-The English Parliament developed from meetings where the king sought
-advice from powerful subjects. Representatives of towns and counties
-gradually joined such gatherings. The institution changed over
-centuries, and the old name stayed.{% include word-cite.html n="2" %}
+The English Parliament grew out of the great councils at which the king
+met the leading men of the kingdom. Knights from the counties had
+sometimes been summoned before, and in 1265 the towns were also asked to
+send burgesses. It gradually became established that people outside the
+aristocracy would be summoned.{% include word-cite.html n="2" %}
 
 *Parliament met again after the recess.*
