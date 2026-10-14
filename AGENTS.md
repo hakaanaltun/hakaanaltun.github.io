@@ -648,13 +648,28 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   on a quiz's first panel, that a selected sentence opens in Turkish. The
   author asked the same day for it to be taken out. The translation runs
   on the free daily allowance of Cloudflare Workers AI, 10,000 Neurons a
-  day, through `translate.hakanaltunn.workers.dev`, whose code is kept
-  outside this repository. Once the allowance is used up, Cloudflare
-  answers with error 3036 and the reader is told that the daily limit has
-  been reached. Something whose use is limited should not be put forward,
+  day, through `translate.hakanaltunn.workers.dev`. Once the allowance is
+  used up, Cloudflare answers with error 3036 and the reader is told that
+  the daily limit has been reached. Something whose use is limited should not be put forward,
   and a line for Turkish alone raises the question of why no other
   language is offered. Türkçe stays in the prompt over a selection. Do not
   add a line about it back unless the author asks.
+- **The translation worker is kept in `workers/translate.js`.** It is a
+  copy, added on 14 October 2026 so that a session can read it, and
+  Jekyll leaves the folder out of the site. The worker itself runs on
+  Cloudflare and is changed and deployed in its dashboard (Workers &
+  Pages, translate, Edit code); a change made on one side is copied to
+  the other, so the two stay the same. It answers pages on
+  `hakanaltun.io` and `www.hakanaltun.io`, takes up to 500 selected
+  characters with up to 1,500 characters of the text around them, and
+  asks Qwen 3.8 27B on Workers AI for Turkish. By an estimate made that
+  day, a translated sentence costs about 50 Neurons, so the free
+  allowance holds about 200 a day; the Workers AI page in the dashboard
+  shows the real figure. A script can
+  claim to come from the site, so the check on the origin keeps other
+  sites out but cannot stop someone using up the day's allowance. The
+  code holds no secret; the model is reached through the worker's `AI`
+  binding.
 - **A printed piece** opens with its kind (Essay or Short fiction) on the
   left and HAKANALTUN.IO on the right, then the title and date, centered, and
   ends with the footer's two lines, centered at the foot of the last page. Word pages have no print layout

@@ -40,6 +40,8 @@ exclude:
   - farm-house/retired
   # Earlier renders for the journey through the Solar System, likewise.
   - pictures/space/retired
+  # A copy of the translation worker, which runs on Cloudflare, not here.
+  - workers
   - Gemfile
   - Gemfile.lock
   - README.md
