@@ -1212,6 +1212,13 @@ accuracy and plain prose to this section as well.
   that opens a new tab still goes to the door. The name is the menu's
   one control for the keyboard, so the chevron stays out of the tab
   order, and focus comes back to the name.
+- **Series and Book are inside Writing.** The author took them out of the
+  header's strip on 15 October 2026, when the header felt crowded, and the
+  strip has nine links now. Writing's page has a section for each, after
+  Essays, and they lead to `/series/` and `/book/`, whose addresses stay as
+  they were. The site's menu keeps Series and Book as sections of their
+  own, since it carries the whole list. On their pages the strip marks
+  Writing as the section the reader is in.
 - **The arrow after a link in the site's menu hangs.** It stands 6px past
   the last word and takes no room in the line, so every linked line sits
   on the panel's centre with the section names and the cards. Counted in
@@ -1444,9 +1451,11 @@ accuracy and plain prose to this section as well.
   the built pages and the scripts that build cards (`js/more-essays.js`,
   `js/series-nav.js`, `js/cafe-nav.js`) to it.
 - **A pointer draws no line.** A link answers a pointer by dimming. A
-  line under a link stays only when it is there at rest, as in the menu
-  strip, the story's choices and the 404 page, and it dims with the link.
-  Links in running text keep their underline. The frames and instruments
+  line under a link stays only when it is there at rest, as in the story's
+  choices and the 404 page, and it dims with the link. Links in running
+  text keep their underline. The header's strip has no line at all: the
+  author took it out on 15 October 2026, when the header felt crowded with
+  it. The frames and instruments
   that load their own stylesheet carry the same dim themselves, with 0.95
   for readers who ask for more contrast. Where a line used to show
   keyboard focus, the link has an outline instead.

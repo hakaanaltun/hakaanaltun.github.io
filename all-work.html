@@ -50,6 +50,8 @@ placed where its newest post falls in the date-sorted list. {% endcomment %}
     <span class="work-jump-sep" aria-hidden="true">·</span>
     <a href="#essays">Essays</a>
     <span class="work-jump-sep" aria-hidden="true">·</span>
+    <a href="#series">Series</a>
+    <span class="work-jump-sep" aria-hidden="true">·</span>
     <a href="#book">Book</a>
   </nav>
 
@@ -74,6 +76,34 @@ placed where its newest post falls in the date-sorted list. {% endcomment %}
       {% for post in essays_ordered %}
         {% include all-work-row.html post=post %}
       {% endfor %}
+    </ul>
+  </section>
+
+  {% comment %} Series left the header's strip on 15 October 2026, so this is
+  where Writing leads to their page. The lines under the names are the
+  Series page's own. {% endcomment %}
+  <section id="series" class="all-work-band" aria-label="Series">
+    <div class="all-work-group-head">
+      <h2 class="all-work-group-title">Series</h2>
+      <p class="all-work-group-count">Writing that runs together—read one, or follow the whole thread.</p>
+    </div>
+    <ul class="work-index">
+      <li class="work-row">
+        <a href="/series/#the-corner" class="work-row-link">
+          <span class="work-main">
+            <span class="work-title">The Corner</span>
+            <span class="work-excerpt">Three stories from a corner that never emptied.</span>
+          </span>
+        </a>
+      </li>
+      <li class="work-row">
+        <a href="/series/#the-on-series" class="work-row-link">
+          <span class="work-main">
+            <span class="work-title">The On Series</span>
+            <span class="work-excerpt">Seven essays on what we build inside ourselves—and why.</span>
+          </span>
+        </a>
+      </li>
     </ul>
   </section>
 

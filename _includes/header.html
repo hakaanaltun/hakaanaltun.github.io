@@ -6,6 +6,11 @@
   (/the-corner/, /the-on-series/) are redirect stubs that never render this
   header at all.
 
+  Series and Book stood in the strip until 15 October 2026, when the author
+  folded them into Writing to quiet the header. Writing's page leads to both,
+  and the site's menu keeps them as sections of their own, so their pages
+  count as Writing here.
+
   There is no Home in the strip: the name above it is the way home, and
   "Home" beside "The House" read as the same word twice.
 {%- endcomment -%}
@@ -29,9 +34,7 @@
       phone and would cut it off. The chevron waits for the script, and
       without it the name is the plain link to the door. {%- endcomment %}
       <span class="nav-house"><a href="/house/"{% if _nav_here == "/house/" %} aria-current="page"{% endif %}>The House</a><button class="nav-house-toggle" type="button" aria-expanded="false" aria-controls="nav-house-menu" aria-label="More of The House" hidden></button></span>
-      <a href="/all-work/"{% if _nav_here == "/all-work/" %} aria-current="page"{% endif %}>Writing</a>
-      <a href="/series/"{% if _nav_here == "/series/" %} aria-current="page"{% endif %}>Series</a>
-      <a href="/book/"{% if _nav_here contains "/book/" %} aria-current="page"{% endif %}>Book</a>
+      <a href="/all-work/"{% if _nav_here == "/all-work/" or _nav_here == "/series/" or _nav_here contains "/book/" %} aria-current="page"{% endif %}>Writing</a>
       <a href="/notes/"{% if _nav_here == "/notes/" %} aria-current="page"{% endif %}>Notes</a>
       <a href="/word/"{% if _nav_here == "/word/" %} aria-current="page"{% endif %}>Words</a>
       <a href="/pictures/"{% if _nav_here contains "/pictures/" %} aria-current="page"{% endif %}>Pictures</a>
