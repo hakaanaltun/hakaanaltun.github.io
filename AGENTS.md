@@ -1219,6 +1219,12 @@ accuracy and plain prose to this section as well.
   they were. The site's menu keeps Series and Book as sections of their
   own, since it carries the whole list. On their pages the strip marks
   Writing as the section the reader is in.
+- **Writing's sections also stand at the right edge.** The author asked on
+  15 October 2026 for the book's Contents panel on Writing, so that Short
+  Fiction can be reached from the foot of the page. The row of section
+  names under the title stays. The panel is the book's own
+  (`.book-chapters` and `js/book-chapters.js`), and `side_contents: true`
+  in a page's front matter loads its script.
 - **The arrow after a link in the site's menu hangs.** It stands 6px past
   the last word and takes no room in the line, so every linked line sits
   on the panel's centre with the section names and the cards. Counted in

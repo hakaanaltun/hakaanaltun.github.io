@@ -2177,6 +2177,14 @@ html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
   width: 44px; font-family: 'EB Garamond', Georgia, serif;
 }
 .book-chapters[open] { width: min(364px, 100vw); }
+/* Writing borrows the panel for its sections. It has no title band, so the
+   closed tab hangs just below the masthead, and its four names would leave
+   most of the book's tall frame empty, so the frame ends where they do. */
+.work-contents { --book-band: 0px; }
+.work-contents .book-chapters-frame {
+  height: auto;
+  max-height: min(36rem, calc(100dvh - clamp(140px, 22vh, 210px) - 16px));
+}
 .book-chapters > summary {
   /* The panel opens where it always has, but the closed tab hangs just
      below the title band rather than across its edge. */
