@@ -718,6 +718,15 @@ The site has two deliberate ideas of place. Do not collapse them into one.
 - **Keep the complete alphabetical index alongside the collections.** The earlier A–Z layout lives at `/word/alphabetical/`, linked near the end of `/word/` as “All the words in alphabetical order.” It includes every existing entry, including words not yet assigned to a collection. Keep each word's URL unchanged and the alphabet jump navigation intact; collection reading arrows remain thematic.
 - The public `/word/` index is organized into twelve curated thematic collections in `_data/word_collections.yml`. Each group has a plain introduction and an approximate historical order based on the older meanings, documented events or periods behind its words, rendered by `_includes/word-collection.html` on `/word/<group>/` pages. A word may belong to only one primary group.
 - Existing individual `/word/<slug>/` URLs and all source citations remain unchanged. Arrows on grouped stories stay within their own group, and the label above the word returns to its collection.
+- **A word's page lists its collection at the right edge.** The author asked
+  on 15 October 2026 for the book's Contents panel on the word pages. Its
+  tab reads "Collection", and the frame lists the collection's words in
+  its order, with the word being read marked and not a link, and "All
+  collections" at its foot. When the list is longer than the frame, the
+  frame scrolls itself to the word being read. A word outside every group
+  has no panel. On a screen under 640px tall the middle of the right edge
+  reaches the tab, so the arrows go to the foot there, as they do under
+  840px wide (`_includes/word-story.html`).
 - A word outside every group remains available by its URL, in site search and in the existing Words RSS feed, but waits off the curated Words index, the homepage random-card selection, The House's word cards and its "A new word" at the door until there is a meaningful group for it. The author asked on 13 October 2026 that The House follow the homepage here. The House's catalog still lists every word, marked `collected` or not, so a word a reader kept earlier keeps its current story in the drawer.
 - Group order is chronological in broad outline, not a ranking of precise first English attestations. The date of a root, a historical event and a word's modern sense may differ; never invent a definitive date to resolve overlaps. New words take their approximate place without creating a contrived beginning or ending to the group.
 - Optional connections live in `_data/word_bridges.yml` and appear after individual word sources. Use them only for grounded links, and state whether a link is an etymological relationship, a historical parallel or a shared theme. Do not imply shared word origins when there are none; unconnected entries are fine.
@@ -1224,7 +1233,9 @@ accuracy and plain prose to this section as well.
   Fiction can be reached from the foot of the page. The row of section
   names under the title stays. The panel is the book's own
   (`.book-chapters` and `js/book-chapters.js`), and `side_contents: true`
-  in a page's front matter loads its script.
+  in a page's front matter loads its script. `.side-contents` hangs its tab
+  below the masthead and ends the frame where its list ends; a word's
+  collection uses it too (see Words with Stories collections).
 - **The arrow after a link in the site's menu hangs.** It stands 6px past
   the last word and takes no room in the line, so every linked line sits
   on the panel's centre with the section names and the cards. Counted in

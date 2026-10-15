@@ -28,7 +28,7 @@ this page, from the site's menu or the footer. {%- endcomment %}
 <script src="/js/theme.js?v=20260905-2" defer></script>
 <script src="/js/divider-lines.js?v=20260710-1" defer></script>
 <script src="/js/header-autohide.js?v=20260925-1" defer></script>
-{% if page.book_part or page.side_contents %}<script src="/js/book-chapters.js?v=20260923-1" defer></script>{% endif %}
+{% if page.book_part or page.side_contents or page.layout == "word" %}<script src="/js/book-chapters.js?v=20261015-1" defer></script>{% endif %}
 {% comment %} The Notice is a branching story under /story/ rather than an ordinary
 post URL. Keep translation available on every branch explicitly instead of
 relying only on the post-layout check. The book's parts read the same way, and
