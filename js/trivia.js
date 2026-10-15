@@ -23,7 +23,8 @@
   var FALLBACK_ROUND_SIZE = 10;
 
   /* The choices are lettered by their place on the screen, not in the bank,
-     so A is always the top one. The same letters key in an answer. */
+     so A is always the first one: the top one, or the top left when they
+     stand two by two. The same letters key in an answer. */
   var LETTERS = 'ABCDEFGHI';
 
   /* The build keeps a closed-up dash from opening a line on the published
@@ -278,6 +279,39 @@
     return state.arrangement[state.position];
   }
 
+  /* Four short choices stand two by two, A beside B and C under A with D
+     beside it, as the author asked on 15 October 2026. They pair only when
+     every one still fits on a single line in its half; if one would wrap,
+     all four stay one under another. A change of width or a font arriving
+     asks again. */
+  function pairChoices() {
+    var labels = choices.querySelectorAll('.trivia-choice-text');
+    choices.classList.remove('is-paired');
+    if (labels.length !== 4 || questionPanel.hidden) return;
+    choices.classList.add('is-paired');
+    for (var i = 0; i < labels.length; i += 1) {
+      var label = labels[i];
+      var line = parseFloat(window.getComputedStyle(label).lineHeight);
+      if (label.scrollWidth > label.clientWidth + 1 || (line > 0 && label.offsetHeight > line * 1.5)) {
+        choices.classList.remove('is-paired');
+        return;
+      }
+    }
+  }
+
+  var pairFrame = 0;
+  function pairSoon() {
+    if (pairFrame) return;
+    pairFrame = window.requestAnimationFrame(function () {
+      pairFrame = 0;
+      pairChoices();
+    });
+  }
+  window.addEventListener('resize', pairSoon);
+  if (document.fonts && document.fonts.addEventListener) {
+    document.fonts.addEventListener('loadingdone', pairSoon);
+  }
+
   function setProgress(done) {
     var percent = Math.max(0, Math.min(100, (done / state.order.length) * 100));
     progressBar.style.width = percent + '%';
@@ -422,6 +456,7 @@
       });
       choices.appendChild(button);
     });
+    pairChoices();
 
     if (state.pending && Number.isInteger(state.pending.selected)) {
       showAnswered(state.pending.selected);

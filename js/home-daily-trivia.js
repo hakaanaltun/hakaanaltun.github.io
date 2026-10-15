@@ -83,6 +83,33 @@
     });
   }
 
+  /* Four short choices stand two by two, A beside B and C beside D, as in
+     the quizzes (js/trivia.js): only when every one still fits on a single
+     line in its half. */
+  function pairChoices() {
+    var labels = choices.querySelectorAll('.home-daily-trivia-text');
+    choices.classList.remove('is-paired');
+    if (labels.length !== 4 || game.hidden) return;
+    choices.classList.add('is-paired');
+    for (var i = 0; i < labels.length; i += 1) {
+      var label = labels[i];
+      var line = parseFloat(window.getComputedStyle(label).lineHeight);
+      if (label.scrollWidth > label.clientWidth + 1 || (line > 0 && label.offsetHeight > line * 1.5)) {
+        choices.classList.remove('is-paired');
+        return;
+      }
+    }
+  }
+
+  var pairFrame = 0;
+  function pairSoon() {
+    if (pairFrame) return;
+    pairFrame = window.requestAnimationFrame(function () {
+      pairFrame = 0;
+      pairChoices();
+    });
+  }
+
   function mark(button, text) {
     var span = document.createElement('span');
     span.className = 'home-daily-trivia-mark';
@@ -113,6 +140,7 @@
       button.appendChild(letter);
 
       var label = document.createElement('span');
+      label.className = 'home-daily-trivia-text';
       label.textContent = q.choices[original];
       button.appendChild(label);
 
@@ -155,6 +183,11 @@
 
     fallback.hidden = true;
     game.hidden = false;
+    pairChoices();
+    window.addEventListener('resize', pairSoon);
+    if (document.fonts && document.fonts.addEventListener) {
+      document.fonts.addEventListener('loadingdone', pairSoon);
+    }
   }
 
   fetch(source, { credentials: 'same-origin' })

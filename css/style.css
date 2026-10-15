@@ -3244,12 +3244,30 @@ html[data-theme="sky"] .footer-strip { border-top: 0; }
   text-align: left;
   color: var(--ink-soft);
 }
-/* One choice under another, as in the quizzes themselves. */
+/* One choice under another, as in the quizzes themselves, or two by two
+   when all four are short: js/home-daily-trivia.js pairs them only when
+   each still fits on one line in its half, and a paired choice's mark goes
+   under its words. The words keep to the top, where the padding puts them
+   as the centre did, so a mark never drops a neighbour's words lower. */
 .home-daily-trivia-choices {
   display: grid;
   gap: 8px;
   max-width: 620px;
   margin: 0 auto;
+}
+.home-daily-trivia-choices.is-paired {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.home-daily-trivia-choices.is-paired .home-daily-trivia-choice {
+  grid-template-columns: 1.4rem minmax(0, 1fr);
+  align-content: start;
+  padding-top: 13px;
+  padding-bottom: 13px;
+}
+.home-daily-trivia-choices.is-paired .home-daily-trivia-mark {
+  grid-column: 2;
+  justify-self: start;
+  margin-top: -4px;
 }
 .home-daily-trivia-choice {
   appearance: none;

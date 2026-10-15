@@ -34,7 +34,7 @@ function seeded(seed) {
   };
 }
 
-function build({ seed = 1, questions = null, storage = null } = {}) {
+function build({ seed = 1, questions = null, storage = null, lines = null } = {}) {
   const dom = new JSDOM(page, {
     url: 'https://hakanaltun.io/trivia/britain/',
     runScripts: 'outside-only',
@@ -61,6 +61,20 @@ function build({ seed = 1, questions = null, storage = null } = {}) {
     scrolled.push({ el: this, options: options });
   };
 
+  /* jsdom lays nothing out, so a choice's words are given a height here:
+     lines(text) lines of 22px. Frames wait until the test lets them run. */
+  const frames = [];
+  if (lines) {
+    Object.defineProperty(w.HTMLElement.prototype, 'offsetHeight', {
+      get() { return this.classList.contains('trivia-choice-text') ? lines(this.textContent) * 22 : 0; }
+    });
+    const computed = w.getComputedStyle.bind(w);
+    w.getComputedStyle = (el, pseudo) => el.classList && el.classList.contains('trivia-choice-text')
+      ? { lineHeight: '22px' }
+      : computed(el, pseudo);
+    w.requestAnimationFrame = (fn) => frames.push(fn);
+  }
+
   w.Math.random = seeded(seed);
   w.eval(source);
 
@@ -76,6 +90,7 @@ function build({ seed = 1, questions = null, storage = null } = {}) {
 
   return {
     w, d, id, visible, choices, key, scrolled,
+    frame: () => frames.splice(0).forEach((fn) => fn()),
     bank: JSON.parse(d.getElementById('trivia-data').textContent),
     stored: () => JSON.parse(w.localStorage.getItem(d.getElementById('trivia-app').dataset.storageKey)),
     text: (name) => id(name).textContent,
@@ -485,6 +500,46 @@ function main() {
     assert.equal(
       resumed.scrolled.filter((s) => s.el.classList.contains('trivia-actions--question')).length,
       0);
+  }
+
+  // --- Four short choices stand two by two ---------------------------------
+  //
+  // A beside B, C under A and D beside it, but only when every choice still
+  // fits on one line in its half; one that wraps keeps all four in a column.
+  {
+    let longest = 12;
+    const kit = build({ seed: 53, lines: (text) => (text.length > longest ? 2 : 1) });
+    const paired = () => kit.id('trivia-choices').classList.contains('is-paired');
+    const fits = () => kit.choices().every((b) => b.querySelector('.trivia-choice-text').textContent.length <= longest);
+
+    kit.start();
+    const both = { true: 0, false: 0 };
+    let guard = 0;
+    while (kit.visible() !== 'trivia-result' && guard++ < 500) {
+      if (kit.visible() === 'trivia-round') { kit.keepGoing(); continue; }
+      assert.equal(paired(), fits(), 'paired exactly when all four fit: ' + kit.text('trivia-question-text'));
+      both[paired()] += 1;
+
+      answer(kit, 'wrong');
+      assert.equal(paired(), fits(), 'the marks of an answer leave the layout as it was');
+
+      // A change of width asks again, once its frame comes.
+      longest = 40;
+      kit.w.dispatchEvent(new kit.w.Event('resize'));
+      kit.frame();
+      assert.equal(paired(), fits());
+      longest = 12;
+      kit.w.dispatchEvent(new kit.w.Event('resize'));
+      kit.frame();
+
+      kit.next();
+    }
+    assert.ok(both.true > 0 && both.false > 0, 'the bank has short and long choices: ' + JSON.stringify(both));
+
+    // In the stylesheet, two columns only when paired.
+    const style = fs.readFileSync(path.join(root, 'css', 'trivia.css'), 'utf8');
+    assert.match(style, /\.trivia-choices\.is-paired\s*\{\s*grid-template-columns:\s*repeat\(2, minmax\(0, 1fr\)\);/);
+    kit.w.close();
   }
 
   console.log('test-trivia: ok');
