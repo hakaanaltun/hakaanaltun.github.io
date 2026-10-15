@@ -242,8 +242,10 @@
      66px and a little air either side, and the two stop colliding at about
      840px. Below that the arrows drop to the foot of the viewport. They used
      to move only at 600px, which left them grazing the last word of a line
-     on every tablet and half-width laptop window in between. */
-  @media (max-width: 839px) {
+     on every tablet and half-width laptop window in between. On a screen
+     under 640px tall the middle of the right edge reaches the collection's
+     tab, so the arrows go to the foot there as well. */
+  @media (max-width: 839px), (max-height: 639px) {
     .word-story-nav {
       top: auto;
       bottom: 16px;
@@ -290,6 +292,34 @@
   <a class="word-story-series" href="{% if story_group %}/word/{{ story_group.id }}/{% else %}/word/{% endif %}">{% if story_group %}{{ story_group.title }}{% else %}Words with Stories{% endif %}</a>
   {% if story_group %}<p class="word-story-context">{{ story_group.teaser }}</p>{% endif %}
   <h1 class="word-story-title">{{ page.word }} <span class="word-story-pos">({{ page.pos }})</span></h1>
+  {%- comment -%}
+    The words of the collection, in its order, in the book's own panel at
+    the right edge, as the author asked on 15 October 2026. The arrows lead
+    one word on or back; from here any word in the collection is one step
+    away. A word outside every collection has no panel.
+  {%- endcomment %}
+  {% if story_group %}
+  <details class="book-chapters side-contents">
+    <summary>Collection</summary>
+    <div class="book-chapters-frame">
+      <p class="book-chapters-heading">{{ story_group.title }}</p>
+      <nav class="book-part-contents" aria-label="Words in {{ story_group.title | escape }}">
+        <ol>
+          {% for slug in story_group.words %}
+            {% assign candidate = site.words | where: "slug", slug | first %}
+            {% unless candidate %}{% assign candidate = site.words | where: "word", slug | first %}{% endunless %}
+            {% if candidate %}
+          <li>{% if candidate.url == page.url %}<span aria-current="page">{{ candidate.word }}</span>{% else %}<a href="{{ candidate.url }}">{{ candidate.word }}</a>{% endif %}</li>
+            {% endif %}
+          {% endfor %}
+        </ol>
+      </nav>
+      <nav class="book-chapters-other" aria-label="Other collections">
+        <a href="/word/">All collections <span aria-hidden="true">→</span></a>
+      </nav>
+    </div>
+  </details>
+  {% endif %}
   {%- comment -%}
     A reader can select a line of the story and translate it, keep it,
     write a note on it or highlight it, as in a piece (js/reader-translate.js,

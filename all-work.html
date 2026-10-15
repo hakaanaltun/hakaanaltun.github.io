@@ -6,6 +6,8 @@ title: "Writing"
 # now wears a greyed dark peacock of its own).
 series: default
 description: "Short fiction, essays, and the book."
+# The book's Contents panel at the right edge, and its script.
+side_contents: true
 ---
 
 {% assign all_posts = site.posts | sort: "date" | reverse %}
@@ -54,6 +56,24 @@ placed where its newest post falls in the date-sorted list. {% endcomment %}
     <span class="work-jump-sep" aria-hidden="true">·</span>
     <a href="#book">Book</a>
   </nav>
+
+  {% comment %} The same sections stand in the book's own Contents panel at
+  the right edge, as the author asked on 15 October 2026, so Short Fiction
+  can be reached from the foot of the page as well. The row above stays. {% endcomment %}
+  <details class="book-chapters side-contents">
+    <summary>Contents</summary>
+    <div class="book-chapters-frame">
+      <p class="book-chapters-heading">Writing</p>
+      <nav class="book-part-contents" aria-label="Sections of Writing">
+        <ol>
+          <li><a href="#short-fiction">Short Fiction</a></li>
+          <li><a href="#essays">Essays</a></li>
+          <li><a href="#series">Series</a></li>
+          <li><a href="#book">Book</a></li>
+        </ol>
+      </nav>
+    </div>
+  </details>
 
   <section id="short-fiction" class="all-work-band" aria-label="Short Fiction">
     <div class="all-work-group-head">

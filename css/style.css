@@ -2177,6 +2177,20 @@ html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
   width: 44px; font-family: 'EB Garamond', Georgia, serif;
 }
 .book-chapters[open] { width: min(364px, 100vw); }
+/* Writing borrows the panel for its sections, and a word for the words of
+   its collection. Neither has a title band, so the closed tab hangs just
+   below the masthead, and a short list would leave most of the book's tall
+   frame empty, so the frame ends where the list does. */
+.side-contents { --book-band: 0px; }
+.side-contents .book-chapters-frame {
+  height: auto;
+  max-height: min(36rem, calc(100dvh - clamp(140px, 22vh, 210px) - 16px));
+}
+/* The word being read, in its place in the list and not a link. */
+.book-part-contents [aria-current="page"] {
+  display: block; padding: 9px 0;
+  color: var(--petrol); font-size: 1rem; font-style: italic; line-height: 1.35;
+}
 .book-chapters > summary {
   /* The panel opens where it always has, but the closed tab hangs just
      below the title band rather than across its edge. */
