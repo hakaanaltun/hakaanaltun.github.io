@@ -2240,9 +2240,12 @@ html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
   margin-top: 18px; padding-top: 16px;
   border-top: 1px solid var(--rule);
 }
+/* The size of the list above them. Inherited, they stood at 20px, larger
+   than the frame's own heading, and the author found them too large on
+   15 October 2026. */
 .book-chapters-other a {
   display: inline-block; color: var(--petrol); font-style: italic;
-  text-decoration: none; line-height: 1.4;
+  font-size: 1rem; text-decoration: none; line-height: 1.4;
 }
 .book-chapters-other a:hover, .book-chapters-other a:active { opacity: var(--select-dim); }
 .book-chapters-other a:focus-visible {
