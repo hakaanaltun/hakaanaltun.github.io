@@ -1236,6 +1236,11 @@ accuracy and plain prose to this section as well.
   be seen from a distance, so the instruments kept their four squares.
   The controls run in this order, as the author asked the same day: the
   theme, the instruments, the drawer, and sharing.
+- **Rain and snow stand above the site's name.** The footer's snowflake
+  and drop stand centred just above "On Life & Everything", as the author
+  asked on 15 October 2026; until then they stood under the credit line.
+  Their buttons keep their full 44px, and `.footer-bottom .footer-weather`
+  in `css/style.css` brings them close to the name.
 - **The Farm House belongs to The House.** It is entered only from there,
   through the Polaroid on a shelf in the study, so its "← the study"
   returns to the study (`/house/#study`). Do not give its frame the site's

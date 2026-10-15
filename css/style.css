@@ -2385,6 +2385,14 @@ footer {
   font-size: 0.95rem;
 }
 
+/* The snowflake and the drop stand just above the site's name, as the
+   author asked on 15 October 2026. Each 16px sign sits in a 44px button,
+   so the column's gap alone left them far from the name; the margins bring
+   them closer and keep the whole button for a finger. */
+.footer-bottom .footer-weather {
+  margin: -6px 0 -8px;
+}
+
 /* Utility strip above the footer proper — the search bar at the left, the
    contact links and icon controls together at the right. One row down to
    768px, where the bar takes a row of its own above them. In light it echoes
