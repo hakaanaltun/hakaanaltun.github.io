@@ -721,8 +721,10 @@ The site has two deliberate ideas of place. Do not collapse them into one.
 - **A word's page lists its collection at the right edge.** The author asked
   on 15 October 2026 for the book's Contents panel on the word pages. Its
   tab reads "Collection", and the frame lists the collection's words in
-  its order, with the word being read marked and not a link, and "All
-  collections" at its foot. When the list is longer than the frame, the
+  its order, with the word being read marked and not a link, and "The
+  collection" and "All collections" at its foot. The author asked for the
+  way to its own collection the same day, when the frame led only to all
+  of them. When the list is longer than the frame, the
   frame scrolls itself to the word being read. A word outside every group
   has no panel. On a screen under 640px tall the middle of the right edge
   reaches the tab, so the arrows go to the foot there, as they do under
@@ -1235,7 +1237,10 @@ accuracy and plain prose to this section as well.
   (`.book-chapters` and `js/book-chapters.js`), and `side_contents: true`
   in a page's front matter loads its script. `.side-contents` hangs its tab
   below the masthead and ends the frame where its list ends; a word's
-  collection uses it too (see Words with Stories collections).
+  collection uses it too (see Words with Stories collections). The author
+  asked the same day for it on Series, which has two series for now, so
+  that the page is ready when more come. A new series takes its place in
+  both the row and the panel.
 - **The arrow after a link in the site's menu hangs.** It stands 6px past
   the last word and takes no room in the line, so every linked line sits
   on the panel's centre with the section names and the cards. Counted in

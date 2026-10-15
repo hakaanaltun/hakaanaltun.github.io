@@ -4,6 +4,8 @@ permalink: /series/
 title: "Series"
 series: series
 description: "Ongoing series—The Corner and The On Series."
+# The book's Contents panel at the right edge, and its script.
+side_contents: true
 ---
 
 {% assign cafe_series = site.posts | where: "series", "cafe-series" | sort: "series_order" %}
@@ -20,6 +22,22 @@ description: "Ongoing series—The Corner and The On Series."
     <span class="work-jump-sep" aria-hidden="true">·</span>
     <a href="#the-on-series">The On Series</a>
   </nav>
+
+  {% comment %} The same series stand in the book's own Contents panel at the
+  right edge, as on Writing. The author asked for it on 15 October 2026, so
+  that the page is ready when more series come. The row above stays. {% endcomment %}
+  <details class="book-chapters side-contents">
+    <summary>Contents</summary>
+    <div class="book-chapters-frame">
+      <p class="book-chapters-heading">Series</p>
+      <nav class="book-part-contents" aria-label="Sections of Series">
+        <ol>
+          <li><a href="#the-corner">The Corner</a></li>
+          <li><a href="#the-on-series">The On Series</a></li>
+        </ol>
+      </nav>
+    </div>
+  </details>
 
   <section id="the-corner" class="series-band" aria-label="The Corner">
     <div class="all-work-group-head">
