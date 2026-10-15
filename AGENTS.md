@@ -1444,9 +1444,11 @@ accuracy and plain prose to this section as well.
   the built pages and the scripts that build cards (`js/more-essays.js`,
   `js/series-nav.js`, `js/cafe-nav.js`) to it.
 - **A pointer draws no line.** A link answers a pointer by dimming. A
-  line under a link stays only when it is there at rest, as in the menu
-  strip, the story's choices and the 404 page, and it dims with the link.
-  Links in running text keep their underline. The frames and instruments
+  line under a link stays only when it is there at rest, as in the story's
+  choices and the 404 page, and it dims with the link. Links in running
+  text keep their underline. The header's strip has no line at all: the
+  author took it out on 15 October 2026, when the header felt crowded with
+  it. The frames and instruments
   that load their own stylesheet carry the same dim themselves, with 0.95
   for readers who ask for more contrast. Where a line used to show
   keyboard focus, the link has an outline instead.
