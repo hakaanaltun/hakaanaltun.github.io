@@ -268,6 +268,29 @@
   white-space: nowrap;
 }
 
+/* Four short choices two by two: A beside B, C under A and D beside it.
+   js/trivia.js pairs them only when each still fits on one line in its
+   half. A paired choice has no room at its side for "Your answer", so the
+   mark goes under its words, as it does on a phone. The words keep to the
+   top, where the padding puts them as the centre put them before: a mark
+   under one choice would otherwise drop its neighbour's words lower. */
+.trivia-choices.is-paired {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.trivia-choices.is-paired .trivia-choice {
+  grid-template-columns: 2rem minmax(0, 1fr);
+  align-content: start;
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+
+.trivia-choices.is-paired .trivia-choice-mark {
+  grid-column: 2;
+  justify-self: start;
+  margin-top: -4px;
+}
+
 .trivia-choice.is-correct {
   border-color: var(--petrol);
   color: var(--petrol-deep);
@@ -424,6 +447,10 @@
     grid-template-columns: 1.6rem minmax(0, 1fr);
     gap: 8px;
     padding: 12px 10px;
+  }
+
+  .trivia-choices.is-paired .trivia-choice {
+    grid-template-columns: 1.6rem minmax(0, 1fr);
   }
 
   .trivia-choice-mark {
