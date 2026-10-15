@@ -2186,6 +2186,10 @@ html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
   height: auto;
   max-height: min(36rem, calc(100dvh - clamp(140px, 22vh, 210px) - 16px));
 }
+/* A word's panel leads to its own collection and to all of them, one
+   above the other. */
+.side-contents .book-chapters-other a { display: block; width: fit-content; }
+.side-contents .book-chapters-other a + a { margin-top: 10px; }
 /* The word being read, in its place in the list and not a link. */
 .book-part-contents [aria-current="page"] {
   display: block; padding: 9px 0;
