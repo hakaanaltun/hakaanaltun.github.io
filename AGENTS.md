@@ -689,8 +689,7 @@ The site has two deliberate ideas of place. Do not collapse them into one.
 
 - Write complete sentences. Use fragments only when they serve a clear
   purpose, including short interface labels and section headings.
-- State the intended point directly. Avoid the `not X, but Y` pattern and
-  unnecessary negative examples.
+- State the intended point directly. Avoid unnecessary negative examples.
 - Use a rhetorical group of three only when every part is needed. Keep
   necessary lists of technical items or factual details intact.
 - Keep the prose plain and use correct punctuation. Avoid ornate phrasing
