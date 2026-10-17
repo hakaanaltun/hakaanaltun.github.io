@@ -29,6 +29,8 @@ on:
       - '_data/**'
       - '*.html'
       - 'AGENTS.md'
+      - 'COLOPHON.md'
+      - '_agents/**'
       - '_config.yml'
       - 'package.json'
       - 'package-lock.json'

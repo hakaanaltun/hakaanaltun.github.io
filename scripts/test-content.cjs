@@ -1,4 +1,4 @@
-/* Content checks: the parts of the editorial rules in AGENTS.md that a
+/* Content checks: the parts of the editorial rules in COLOPHON.md that a
  * script can hold, so that they are held on every pull request rather than
  * only when someone remembers to look.
  *
@@ -178,15 +178,27 @@ for (const file of list('_includes/book', '.html')) checkDashes(file, read(file)
 checkDashes('_data/notes.yml', read('_data/notes.yml').split('\n')
   .map((line) => (line.trim().startsWith('#') ? '' : line)).join('\n'));
 
-/* AGENTS.md was published as /colophon/ and may be again. Its code spans
+/* COLOPHON.md was published as /colophon/ and may be again, and AGENTS.md
+   and the notes in _agents/ are kept in the same prose. Their code spans
    quote titles and commands as they are, so they are blanked like comments.
    A word hyphenated across a line break would reach the page as two:
-   "hand- balancing". */
-const agents = read('AGENTS.md');
-checkDashes('AGENTS.md', agents.replace(/`[^`\n]*`/g, (part) => part.replace(/[^\n]/g, '')));
-agents.split('\n').forEach((line, i) => {
-  if (/[A-Za-z]-$/.test(line)) problem(`AGENTS.md:${i + 1}`, `a word is split at the end of the line; keep it on one line: ${line.trim().slice(-40)}`);
-});
+   "hand- balancing". The colophon also keeps the site's curly marks: a
+   straight one outside a code span would reach the page as it is. */
+const notes = ['AGENTS.md', 'COLOPHON.md', ...list('_agents', '.md')];
+for (const file of notes) {
+  const text = read(file);
+  const blanked = text.replace(/`[^`\n]*`/g, (part) => part.replace(/[^\n]/g, ''));
+  checkDashes(file, blanked);
+  text.split('\n').forEach((line, i) => {
+    if (/[A-Za-z]-$/.test(line)) problem(`${file}:${i + 1}`, `a word is split at the end of the line; keep it on one line: ${line.trim().slice(-40)}`);
+  });
+  if (file === 'COLOPHON.md') {
+    blanked.split('\n').forEach((line, i) => {
+      if (/['"]/.test(line)) problem(`${file}:${i + 1}`, `a straight mark outside a code span; curl it: ${line.trim().slice(0, 80)}`);
+    });
+  }
+}
+if (!notes.includes('_agents/house.md')) problem('_agents/', 'the notes on The House are missing');
 
 // --- Dashes on the built pages ---------------------------------------------
 
