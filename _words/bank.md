@@ -3,7 +3,7 @@ word: bank
 title: "bank"
 seo_title: "bank, the bench a money-changer sat at &middot; On Life &amp; Everything"
 pos: n.
-teaser: a money-changer's bench
+teaser: a money-changer’s bench
 date: 2026-09-20 10:00:01 +0300
 sources:
   - title: "Bank"

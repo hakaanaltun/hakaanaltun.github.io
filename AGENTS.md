@@ -180,7 +180,7 @@ the Pictures cards' downscales. Gems go into the git-ignored
   `scripts/test-content.cjs` checks the editorial rules that can be tested
   in code. These cover quiz-bank structure and rounds, word-story footnotes
   numbered in first-cited order, closed-up em dashes, the word joiners the
-  build puts before them and links within the site. It reports every
+  build puts before them, links within the site and curly quotes. It reports every
   problem it finds in one run.
 - `npm run links` fetches every cited source address. It runs weekly from
   `.github/workflows/links.yml`. Because it depends on other sites being up,
@@ -711,6 +711,34 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   `js/reader-translate.js` and the search). A short script the build adds
   to every page keeps it out of anything a reader copies and leaves the
   rest of the copy to the browser.
+- **Quotation marks and apostrophes are curly.** Write ’ for an apostrophe,
+  in Turkish names too (İstanbul’daki), and ‘ ’ and “ ” for quotations,
+  in everything a reader sees: prose, titles, teasers, descriptions, source
+  titles, the data files and the text scripts write. The build curls only
+  what passes through Markdown, such as the body of a word story. HTML,
+  front matter, `_data` and scripts are shown as they are written, and
+  that is where straight marks have reached the page. Text that comes from elsewhere, such as an updated
+  chapter of the book, gets its curly marks back before it goes in. The
+  straight marks stay in code and addresses, around the value of an HTML
+  attribute, and where a page is about the straight marks themselves, as
+  The Marks and The Clean are. The author asked for this rule on
+  17 October 2026, and straight marks were then taken out of the word
+  teasers and descriptions, the instruments’ cards and descriptions, a few
+  source titles and one quiz. `scripts/test-content.cjs` fails on a
+  straight mark against a letter on a built page, in its titles, alt text,
+  labels and descriptions, and in the JSON the site’s scripts show. Text
+  written inside a script is out of its reach and is checked by eye.
+- **The site’s ampersand is Cormorant Garamond Italic,** the one in its
+  name. EB Garamond’s italic & is a joined “Et”, which reads as a mistake,
+  so `css/fonts.css` gives italic EB Garamond its & from Cormorant Garamond
+  Italic, and nothing else needs to be done in italic text. It was added on
+  17 October 2026, when “Seeing & Light” at the head of a word’s Collection
+  panel showed the “Et”, and it reached the quizzes’ notes as well. Roman
+  text keeps its own &. Where a roman & is set to match the name, as in
+  “notes & questions”, it is wrapped in `<span class="amp">&amp;</span>`
+  and the page’s styles give `.amp` the italic display face. A new italic
+  face on the site needs the same look at its &. The author asked for this
+  rule on 17 October 2026.
 
 ## Words with Stories collections
 

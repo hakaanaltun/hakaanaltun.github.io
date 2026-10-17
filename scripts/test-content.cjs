@@ -317,10 +317,63 @@ for (const file of ['js/more-essays.js', 'js/series-nav.js', 'js/cafe-nav.js']) 
   }
 }
 
+// --- Curly quotes on the built pages ---------------------------------------
+
+/* Quotation marks and apostrophes are curly in everything a reader sees:
+   the text, the titles, what a screen reader or a shared card reads, and
+   the JSON the site's scripts show. The build curls only Markdown, so a
+   straight mark written in HTML, front matter or _data reaches the page as
+   it is. The slip is a straight mark against a letter (doesn't, 'star').
+   One standing apart is left alone, so The Marks and The Clean can still
+   show the keyboard's marks, and 5'10" can be a height. Code, scripts,
+   styles and addresses keep their straight marks. Text written inside a
+   script is out of this check's reach. */
+const straight = /\p{L}['"]|['"]\p{L}/u;
+const plainMarks = (s) => s
+  .replace(/&#0*39;|&#x0*27;|&apos;/gi, "'")
+  .replace(/&#0*34;|&#x0*22;|&quot;/gi, '"')
+  .replace(/&amp;/g, '&');
+function checkCurly(where, what, text) {
+  const found = text.match(straight);
+  if (found) problem(where, `a straight mark in ${what}; write ’ ‘ ’ “ ”: ${text.slice(Math.max(0, found.index - 30), found.index + 20).trim()}`);
+}
+const readAloud = /\s(alt|title|aria-label|placeholder|data-keep-title)="([^"]*)"/g;
+const describes = /^<meta\b[^>]*\b(?:name|property)="(?:description|og:title|og:description|og:image:alt|twitter:title|twitter:description)"/i;
+const eachString = (value, visit) => {
+  if (typeof value === 'string') visit(value);
+  else if (value && typeof value === 'object') Object.values(value).forEach((part) => eachString(part, visit));
+};
+const proseIn = (value, visit) => eachString(value, (s) => {
+  if (!/^(?:[a-z]+:|\/|#)/i.test(s)) visit(plainMarks(s.replace(anyTag, ' ')));
+});
+for (const file of htmlFiles(site)) {
+  const where = path.relative(root, file);
+  const html = fs.readFileSync(file, 'utf8');
+  for (const [, json] of html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
+    try {
+      proseIn(JSON.parse(json), (s) => checkCurly(where, 'the description for search engines', s));
+    } catch (error) {
+      problem(where, `its description for search engines is not valid JSON: ${error.message}`);
+    }
+  }
+  const page = html
+    .replace(/<!--[\s\S]*?-->/g, '')
+    .replace(/<(script|style|pre|code|kbd|samp|textarea)\b[\s\S]*?<\/\1\s*>/gi, '');
+  for (const tag of page.match(anyTag) || []) {
+    for (const [, name, value] of tag.matchAll(readAloud)) checkCurly(where, `${name}="…"`, plainMarks(value));
+    if (describes.test(tag)) checkCurly(where, 'a description in <meta>', plainMarks(tag.match(/\scontent="([^"]*)"/)?.[1] || ''));
+  }
+  for (const part of page.split(anyTag)) checkCurly(where, 'the text', plainMarks(part));
+}
+for (const file of fs.readdirSync(site, { recursive: true }).filter((name) => name.endsWith('.json'))) {
+  if (/(?:^|\/)(?:vendor|pdfjs)\//.test(file)) continue;
+  proseIn(JSON.parse(fs.readFileSync(path.join(site, file), 'utf8')), (s) => checkCurly(`_site/${file}`, 'what a script shows', s));
+}
+
 if (problems.size) {
   console.error(`Content checks found ${problems.size} problem${problems.size === 1 ? '' : 's'}:\n`);
   for (const [line, times] of problems) console.error(`  ${line}${times > 1 ? ` (${times} times)` : ''}`);
   process.exitCode = 1;
 } else {
-  console.log('Content checks passed: quiz banks, word footnotes, closed-up dashes, their word joiners on the built pages, links inside the site and pictures inside links.');
+  console.log('Content checks passed: quiz banks, word footnotes, closed-up dashes, their word joiners on the built pages, links inside the site, pictures inside links and curly quotes.');
 }

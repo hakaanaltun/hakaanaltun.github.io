@@ -1,15 +1,15 @@
 ---
 word: dunce
 title: "dunce"
-seo_title: "dunce, a scholar's name became an insult &middot; On Life &amp; Everything"
+seo_title: "dunce, a scholar’s name became an insult &middot; On Life &amp; Everything"
 pos: n.
-teaser: a scholar's name became an insult
+teaser: a scholar’s name became an insult
 date: 2026-10-01 21:57:03 +0300
 sources:
   - title: "Dunce"
     where: "Merriam-Webster"
     url: "https://www.merriam-webster.com/dictionary/dunce"
-  - title: "1477 edition of Duns Scotus's Commentary on Lombard's Sentences"
+  - title: "1477 edition of Duns Scotus’s Commentary on Lombard’s Sentences"
     where: "University of Glasgow Library, Special Collections"
     url: "https://www.gla.ac.uk/myglasgow/library/files/special/exhibns/month/jan2008.html"
 description: "Dunce comes from the name of John Duns Scotus, a respected medieval thinker whose followers later became targets of academic ridicule."

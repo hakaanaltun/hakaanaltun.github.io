@@ -10,7 +10,7 @@ sources:
     where: "Online Etymology Dictionary"
     url: "https://www.etymonline.com/word/ballot"
   - title: "Ballot"
-    where: "Oxford Advanced Learner's Dictionary"
+    where: "Oxford Advanced Learner’s Dictionary"
     url: "https://www.oxfordlearnersdictionaries.com/us/definition/english/ballot_1"
 description: "Ballot comes from an Italian word for a small ball used in voting. The name survived when votes were recorded on paper."
 ---

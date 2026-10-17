@@ -18,7 +18,7 @@ sources:
   - title: "Titus Andronicus, Act 4, scene 2"
     where: "Folger Shakespeare Library"
     url: "https://www.folger.edu/explore/shakespeares-works/titus-andronicus/read/4/2/"
-description: "Gossip once meant a godparent or close companion. Shakespeare's plays preserve both the older sense and the later insult."
+description: "Gossip once meant a godparent or close companion. Shakespeare’s plays preserve both the older sense and the later insult."
 ---
 
 A gossip was once someone connected to a family through baptism. The Old

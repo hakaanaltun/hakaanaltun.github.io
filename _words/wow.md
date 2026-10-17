@@ -18,7 +18,7 @@ sources:
   - title: "The Wow Signal"
     where: "SETI Institute"
     url: "https://www.seti.org/research/seti-101/the-wow-signal"
-description: "Wow appears in early Scots writing. In 1977, Jerry Ehman's handwritten reaction to an unusual radio signal gave the Wow! signal its name."
+description: "Wow appears in early Scots writing. In 1977, Jerry Ehman’s handwritten reaction to an unusual radio signal gave the Wow! signal its name."
 ---
 
 *Wow* can sound very modern. The Dictionaries of the Scots Language records

@@ -1,9 +1,9 @@
 ---
 word: sandwich
 title: "sandwich"
-seo_title: "sandwich, an earl's name and a disputed card game &middot; On Life &amp; Everything"
+seo_title: "sandwich, an earl’s name and a disputed card game &middot; On Life &amp; Everything"
 pos: n.
-teaser: an earl's name at the lunch table
+teaser: an earl’s name at the lunch table
 date: 2026-10-06 18:40:02 +0300
 sources:
   - title: "Discover the History of the Sandwich"
@@ -12,7 +12,7 @@ sources:
   - title: "Sandwich"
     where: "Dave Wilton, Wordorigins.org"
     url: "https://www.wordorigins.org/big-list-entries/sandwich"
-description: "Sandwich takes its name from John Montagu, the fourth Earl of Sandwich. The familiar gambling story is uncertain; the word appears in Edward Gibbon's journal in 1762."
+description: "Sandwich takes its name from John Montagu, the fourth Earl of Sandwich. The familiar gambling story is uncertain; the word appears in Edward Gibbon’s journal in 1762."
 ---
 
 On November 24, 1762, Edward Gibbon recorded an evening at a London club

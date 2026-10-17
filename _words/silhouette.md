@@ -1,9 +1,9 @@
 ---
 word: silhouette
 title: "silhouette"
-seo_title: "silhouette, a minister's name in an outline &middot; On Life &amp; Everything"
+seo_title: "silhouette, a minister’s name in an outline &middot; On Life &amp; Everything"
 pos: n.
-teaser: a minister's name in an outline
+teaser: a minister’s name in an outline
 date: 2026-10-01 21:57:06 +0300
 sources:
   - title: "Silhouette"

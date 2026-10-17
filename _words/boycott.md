@@ -3,7 +3,7 @@ word: boycott
 title: "boycott"
 seo_title: "boycott, from Charles Boycott to a form of protest &middot; On Life &amp; Everything"
 pos: v.
-teaser: a man's name became an action
+teaser: a man’s name became an action
 date: 2026-09-13 19:16:00 +0300
 sources:
   - title: "Boycott"

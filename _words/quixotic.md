@@ -1,7 +1,7 @@
 ---
 word: quixotic
 title: "quixotic"
-seo_title: "quixotic, Don Quixote's name turned into an adjective &middot; On Life &amp; Everything"
+seo_title: "quixotic, Don Quixote’s name turned into an adjective &middot; On Life &amp; Everything"
 pos: adj.
 teaser: a character became a quality
 date: 2026-09-24 20:00:03 +0300
