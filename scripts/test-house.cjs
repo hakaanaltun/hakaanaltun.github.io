@@ -1055,11 +1055,19 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
 
   // The build joins a closed-up dash to the word before it. A passage kept
   // from that page has the id and words it had before, with a plain dash.
-  p = page('book/part-one/index.html', 'https://hakanaltun.io/book/part-one/', { run: ['keep'] });
-  const dashed = Array.from(p.w.document.querySelectorAll('.book-chapter p')).find((el) => {
-    const words = el.textContent.replace(/\s+/g, ' ').trim();
-    return words.includes('\u2060\u2014') && words.length <= 700;
-  });
+  // Part I has had no dashes since the text of 17 October 2026, so the
+  // paragraph is looked for in each part in turn.
+  let dashed;
+  let dashedPart;
+  for (const part of ['part-one', 'part-two']) {
+    p = page(`book/${part}/index.html`, `https://hakanaltun.io/book/${part}/`, { run: ['keep'] });
+    dashed = Array.from(p.w.document.querySelectorAll('.book-chapter p')).find((el) => {
+      const words = el.textContent.replace(/\s+/g, ' ').trim();
+      return words.includes('\u2060\u2014') && words.length <= 700;
+    });
+    if (dashed) { dashedPart = part; break; }
+    p.dom.window.close();
+  }
   assert.ok(dashed, 'the book has a paragraph with a joined dash');
   range = p.w.document.createRange();
   range.selectNodeContents(dashed);
@@ -1334,7 +1342,7 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
 
   // Spacing and the dash's word joiner do not hide a passage from its mark,
   // and a highlight is found again after the page puts it back.
-  p = page('book/part-one/index.html', 'https://hakanaltun.io/book/part-one/', { run: ['keep'], before: highlights });
+  p = page(`book/${dashedPart}/index.html`, `https://hakanaltun.io/book/${dashedPart}/`, { run: ['keep'], before: highlights });
   await tick();
   assert.deepEqual(Array.from(p.w.document.querySelectorAll('.keep-prompt button'), (b) => b.textContent), ['Keep this passage', 'Add a note', 'Highlight'], 'the book\'s own prompt offers Highlight where it can be drawn');
   const dashedHere = Array.from(p.w.document.querySelectorAll('.book-chapter p')).find((el) => el.textContent === dashed.textContent);
