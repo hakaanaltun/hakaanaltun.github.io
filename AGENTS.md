@@ -729,20 +729,21 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   labels and descriptions, and in the JSON the site’s scripts show. Text
   written inside a script is out of its reach and is checked by eye.
 - **The site’s ampersand is Cormorant Garamond Italic,** the one in its
-  name, wherever an & stands: in upright text and in italic, in capitals
-  and in running prose. `css/fonts.css` gives every & set in EB Garamond
-  or Cormorant Garamond, upright or italic, from Cormorant Garamond
-  Italic, so nothing needs to be done in the text. EB Garamond’s own
-  italic & is a joined “Et” that reads as a mistake, and its upright & has
-  another shape from the name’s. On 17 October 2026 the italic “Et” showed
-  in “Seeing & Light” at the head of a word’s Collection panel and in the
-  quizzes’ notes. Italic text was given the site’s & first. The upright &
-  was left as it was, and the author found it still standing in “SEEING &
-  LIGHT” above the word, so the rule now covers every &. An & in any
-  other face, such as the small sans-serif labels, is wrapped in
+  name, in titles, labels and italic text. Running prose set in upright EB
+  Garamond keeps EB Garamond’s own &. `css/fonts.css` gives italic EB
+  Garamond and upright Cormorant Garamond their & from Cormorant Garamond
+  Italic, so nothing needs to be done in italic text or in the display
+  face. EB Garamond’s own italic & is a joined “Et” that reads as a
+  mistake. In a paragraph the name’s & is lighter and smaller than the
+  upright letters around it, and there it usually stands inside someone
+  else’s name, such as Fortnum & Mason, so the prose keeps an & with the
+  weight of its letters. A title or label set in upright EB Garamond, such
+  as “SEEING & LIGHT” above a word, wraps its & in
   `<span class="amp">&amp;</span>`, and the page’s styles give `.amp` the
-  italic display face. A new face on the site gets the same & in
-  `css/fonts.css`. The author asked for this rule on 17 October 2026.
+  italic display face. The small sans-serif labels and the sources under a
+  word’s story do the same. A new face on the site gets the same
+  treatment in `css/fonts.css`. The author asked for the site’s & on
+  17 October 2026, and later that day for running prose to keep its own.
 
 ## Words with Stories collections
 
@@ -1491,8 +1492,11 @@ accuracy and plain prose to this section as well.
   `--select-dim`. The picture keeps its full weight and is still part of
   the link. A faded picture reads as unavailable. A picture that is a link
   on its own, with no words, answers in its own way: Moris's gallery cover
-  grows a little and the Farm House's photograph straightens.
-  `scripts/test-hover.cjs` fails on any rule that dims a picture.
+  grows a little, the Farm House's photograph straightens, and Tonight's
+  sky on the homepage draws a faint ring around itself. The sky dimmed
+  like a link until the author asked on 17 October 2026 for it to be
+  treated as a picture. `scripts/test-hover.cjs` fails on any rule that
+  dims a picture, a drawn one included.
 - **A picture inside a card is named by the card's words.** When a link
   carries a picture and words of its own, such as a title, a date or a
   teaser, the picture has `alt=""`. Otherwise a screen reader reads the

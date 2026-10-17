@@ -2,9 +2,11 @@
 
    A picture never dims when it is chosen. When a link carries a picture and
    words, a pointer over it dims the words and leaves the picture at its full
-   weight. This reads every built page that shows a picture, with the
-   stylesheets that page loads, and fails on any rule that fades a picture on
-   :hover or :active, or fades an element that holds one.
+   weight. A drawn picture, an svg with role="img" such as Tonight's sky,
+   counts as one; the small pin beside a note is an icon. This reads every
+   built page that shows a picture, with the stylesheets that page loads,
+   and fails on any rule that fades a picture on :hover or :active, or
+   fades an element that holds one.
 
    A pointer draws no line. A link dims; a line under it stays only when it
    is there at rest, and dims with the link. Links in running text keep the
@@ -29,6 +31,8 @@ function pages(dir) {
   }
   return found;
 }
+
+const PICTURE = 'img, picture, svg[role="img"]:not(.note-pin)';
 
 // Rules that fade something under a pointer, as [selector, where] pairs.
 function fadingRules(css, where) {
@@ -75,7 +79,7 @@ function check(doc, rules, page, problems) {
     let matched;
     try { matched = doc.querySelectorAll(subject(selector)); } catch { continue; }
     for (const el of matched) {
-      if (el.matches('img, picture') || el.querySelector('img, picture')) {
+      if (el.matches(PICTURE) || el.querySelector(PICTURE)) {
         problems.push(`${page}: "${selector}" (${where}) fades a picture`);
         break;
       }
@@ -87,7 +91,7 @@ const problems = [];
 let checked = 0;
 for (const file of pages(site)) {
   const html = fs.readFileSync(file, 'utf8');
-  if (!/<img\b/.test(html)) continue;
+  if (!/<img\b|<svg\b[^>]*role="img"/.test(html)) continue;
   const doc = new JSDOM(html).window.document;
   const rules = [];
   for (const link of doc.querySelectorAll('link[rel="stylesheet"][href^="/"]')) rules.push(...sheet(link.getAttribute('href')));

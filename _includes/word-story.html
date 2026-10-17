@@ -168,7 +168,7 @@
   }
 
   /* the ampersand the site uses — the display italic, as in the header logo */
-  .word-story-sources .amp { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; }
+  .word-story-series .amp, .word-story-sources .amp { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; }
 
   .word-story-related { max-width: 36rem; margin-top: 34px; padding-top: 20px; border-top: 1px solid var(--rule); }
   .word-story-related h2 { font: 400 .78rem 'EB Garamond',Georgia,serif; color: var(--vizon); letter-spacing: .14em; text-transform: uppercase; margin: 0 0 16px; }
@@ -289,7 +289,7 @@
 {% endif %}
 
 <article class="word-story-page">
-  <a class="word-story-series" href="{% if story_group %}/word/{{ story_group.id }}/{% else %}/word/{% endif %}">{% if story_group %}{{ story_group.title }}{% else %}Words with Stories{% endif %}</a>
+  <a class="word-story-series" href="{% if story_group %}/word/{{ story_group.id }}/{% else %}/word/{% endif %}">{% if story_group %}{{ story_group.title | escape | replace: "&amp;", '<span class="amp">&amp;</span>' }}{% else %}Words with Stories{% endif %}</a>
   {% if story_group %}<p class="word-story-context">{{ story_group.teaser }}</p>{% endif %}
   <h1 class="word-story-title">{{ page.word }} <span class="word-story-pos">({{ page.pos }})</span></h1>
   {%- comment -%}
