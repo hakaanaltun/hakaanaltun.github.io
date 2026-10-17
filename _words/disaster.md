@@ -9,7 +9,7 @@ sources:
   - title: "Disaster"
     where: "The American Heritage Dictionary of the English Language"
     url: "https://www.ahdictionary.com/word/search.html?q=disaster"
-  - title: "The Secret Histories of 'Catastrophe,' 'Debacle,' and More"
+  - title: "The Secret Histories of ‘Catastrophe,’ ‘Debacle,’ and More"
     where: "Merriam-Webster"
     url: "https://www.merriam-webster.com/wordplay/debacle-catastrophe-and-disaster-before-they-were-bad"
 description: "Disaster came through French from Italian disastro, built from a negative prefix and astro, star. One of its earliest senses concerned an unfavourable star or planet."

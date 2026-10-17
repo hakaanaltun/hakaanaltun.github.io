@@ -12,7 +12,7 @@ sources:
   - title: "Decimatio: Myth, Discipline, and Death in the Roman Republic"
     where: "Michael J. Taylor, Antichthon, Cambridge University Press (2022)"
     url: "https://www.cambridge.org/core/journals/antichthon/article/abs/decimatio-myth-discipline-and-death-in-the-roman-republic/504D6242E0621DE1B2CC0D32B92765E3"
-description: "Decimate once meant selecting one soldier in ten for punishment. The Roman practice was far less routine than the word's origin can make it sound."
+description: "Decimate once meant selecting one soldier in ten for punishment. The Roman practice was far less routine than the word’s origin can make it sound."
 ---
 
 To decimate a group is to kill or destroy a large part of it. The word holds

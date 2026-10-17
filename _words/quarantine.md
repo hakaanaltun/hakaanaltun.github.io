@@ -9,7 +9,7 @@ sources:
   - title: "Etymologia: Quarantine"
     where: "Emerging Infectious Diseases, CDC"
     url: "https://wwwnc.cdc.gov/eid/article/19/2/et-1902_article"
-  - title: "Mütareke Döneminde İstanbul'daki Rus Mültecilerin Yaşamı"
+  - title: "Mütareke Döneminde İstanbul’daki Rus Mültecilerin Yaşamı"
     where: "Atatürk Araştırma Merkezi Dergisi XXII, 64–66 (2006)"
     url: "https://atamdergi.gov.tr/tam-metin/159/tur"
   - title: "Constantinople/Istanbul as an Artistic Hub of the Émigrés from the former Russian Empire in 1919–1927"

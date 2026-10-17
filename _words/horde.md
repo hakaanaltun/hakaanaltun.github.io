@@ -3,7 +3,7 @@ word: horde
 title: "horde"
 seo_title: "horde, from a royal camp to a rabble &middot; On Life &amp; Everything"
 pos: n.
-teaser: once an army's camp
+teaser: once an army’s camp
 date: 2026-09-20 09:00:09 +0300
 sources:
   - title: "Horde"

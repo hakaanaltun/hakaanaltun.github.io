@@ -3,7 +3,7 @@ word: mentor
 title: "mentor"
 seo_title: "mentor, the guide who borrowed a name from the Odyssey &middot; On Life &amp; Everything"
 pos: n.
-teaser: a guide's name
+teaser: a guide’s name
 date: 2026-09-24 20:00:02 +0300
 sources:
   - title: "Mentor"

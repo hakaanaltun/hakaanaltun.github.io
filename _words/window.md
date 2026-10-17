@@ -3,7 +3,7 @@ word: window
 title: "window"
 seo_title: "window, the wind’s eye &middot; On Life &amp; Everything"
 pos: n.
-teaser: the wind's eye
+teaser: the wind’s eye
 date: 2026-09-20 10:00:13 +0300
 sources:
   - title: "Window"

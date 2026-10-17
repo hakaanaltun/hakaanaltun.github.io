@@ -83,7 +83,7 @@
       svg("path",{d:"M"+r.points.map(function(q){return x(q[0]).toFixed(1)+","+y(q[1]).toFixed(1);}).join(" L"),class:"sun-path"+(r.below?" below":"")},chart);
     });
     svg("circle",{cx:x(localMinute(now)),cy:y(pos.altitude),r:window.innerWidth<=650?12:6,class:"sun-marker"},chart);
-    chart.setAttribute("aria-label","Sun height "+signed(pos.altitude,1)+" degrees now; today's path in "+C.name);
+    chart.setAttribute("aria-label","Sun height "+signed(pos.altitude,1)+" degrees now; today’s path in "+C.name);
   }
 
   /* ---- The Stars: the map itself is js/sky-map.js ------------------- */

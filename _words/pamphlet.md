@@ -7,7 +7,7 @@ teaser: a poem gave its name to a format
 date: 2026-10-01 21:57:02 +0300
 sources:
   - title: "Pamphlet"
-    where: "Opening Artists' Books, University of Utah Library"
+    where: "Opening Artists’ Books, University of Utah Library"
     url: "https://oab.lib.utah.edu/artist_book_term/pamphlet/"
   - title: "Pamphlets in Early Modern England"
     where: "The Map of Early Modern London, University of Victoria"

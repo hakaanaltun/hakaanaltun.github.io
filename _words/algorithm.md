@@ -3,7 +3,7 @@ word: algorithm
 title: "algorithm"
 seo_title: "algorithm, from al-Khwarizmi’s name to a step-by-step method &middot; On Life &amp; Everything"
 pos: n.
-teaser: from a mathematician's name
+teaser: from a mathematician’s name
 date: 2026-09-20 06:00:01 +0300
 sources:
   - title: "Al-Khwarizmi"

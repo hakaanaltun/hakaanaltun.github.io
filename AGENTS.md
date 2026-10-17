@@ -180,7 +180,7 @@ the Pictures cards' downscales. Gems go into the git-ignored
   `scripts/test-content.cjs` checks the editorial rules that can be tested
   in code. These cover quiz-bank structure and rounds, word-story footnotes
   numbered in first-cited order, closed-up em dashes, the word joiners the
-  build puts before them and links within the site. It reports every
+  build puts before them, links within the site and curly quotes. It reports every
   problem it finds in one run.
 - `npm run links` fetches every cited source address. It runs weekly from
   `.github/workflows/links.yml`. Because it depends on other sites being up,
@@ -719,9 +719,15 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   front matter, `_data` and scripts are shown as they are written, and
   that is where straight marks have reached the page. Text that comes from elsewhere, such as an updated
   chapter of the book, gets its curly marks back before it goes in. The
-  straight marks stay in code, addresses and HTML attributes, and where a
-  page is about the straight marks themselves, as The Marks and The Clean
-  are. The author asked for this rule on 17 October 2026.
+  straight marks stay in code and addresses, around the value of an HTML
+  attribute, and where a page is about the straight marks themselves, as
+  The Marks and The Clean are. The author asked for this rule on
+  17 October 2026, and straight marks were then taken out of the word
+  teasers and descriptions, the instruments’ cards and descriptions, a few
+  source titles and one quiz. `scripts/test-content.cjs` fails on a
+  straight mark against a letter on a built page, in its titles, alt text,
+  labels and descriptions, and in the JSON the site’s scripts show. Text
+  written inside a script is out of its reach and is checked by eye.
 - **The site’s ampersand is Cormorant Garamond Italic,** the one in its
   name. EB Garamond’s italic & is a joined “Et”, which reads as a mistake,
   so `css/fonts.css` gives italic EB Garamond its & from Cormorant Garamond

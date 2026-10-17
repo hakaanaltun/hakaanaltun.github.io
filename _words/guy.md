@@ -3,7 +3,7 @@ word: guy
 title: "guy"
 seo_title: "guy, from Guy Fawkes to an everyday word for a person &middot; On Life &amp; Everything"
 pos: n.
-teaser: from a man's name to almost anyone
+teaser: from a man’s name to almost anyone
 date: 2026-09-13 19:18:00 +0300
 sources:
   - title: "Guy"
