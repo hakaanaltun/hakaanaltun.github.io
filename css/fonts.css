@@ -93,24 +93,17 @@
 
 /* ── The site's ampersand ──
 
-   Every & set in the site's two faces, upright or italic, is the one in the
-   site's name: Cormorant Garamond Italic. EB Garamond's own italic & is a
-   joined "Et" that reads as a mistake, and its upright one and Cormorant's
-   upright one are a different shape from the name's. A browser tries the
-   face declared last first for the characters it covers, so these stay at
-   the end of the file. */
+   The & in the site's name is Cormorant Garamond Italic. Italic text and the
+   display face take it: EB Garamond's own italic & is a joined "Et" that
+   reads as a mistake, and Cormorant's upright one is a different shape from
+   the name's. Upright EB Garamond, the face of running prose, keeps its own
+   &, which has the weight of the letters around it. A label set in upright
+   EB Garamond that should carry the name's & wraps it in .amp. A browser
+   tries the face declared last first for the characters it covers, so these
+   stay at the end of the file. */
 @font-face {
   font-family: 'EB Garamond';
   font-style: italic;
-  font-weight: 400 700;
-  font-display: swap;
-  src: url(/fonts/cormorant-garamond-italic-latin.woff2) format('woff2');
-  unicode-range: U+0026;
-}
-
-@font-face {
-  font-family: 'EB Garamond';
-  font-style: normal;
   font-weight: 400 700;
   font-display: swap;
   src: url(/fonts/cormorant-garamond-italic-latin.woff2) format('woff2');

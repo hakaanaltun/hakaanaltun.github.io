@@ -1244,9 +1244,12 @@ section.line-drawn::before,
   display: flex; align-items: center; justify-content: center; gap: 40px;
   max-width: 700px; margin: 0 auto; padding: 0 24px;
 }
-.tonight-map-link { flex: 0 0 240px; display: block; border-radius: 50%; transition: var(--select-ease); }
+.tonight-map-link { flex: 0 0 240px; display: block; border-radius: 50%; transition: box-shadow 0.2s ease; }
 .tonight-map-link[hidden], .tonight-facts [hidden] { display: none; }
-.tonight-map-link:hover, .tonight-map-link:active { opacity: var(--select-dim); }
+/* The sky is a picture, and a picture never dims when it is chosen. Under a
+   pointer a faint ring is drawn around the map instead, clear of the compass
+   letters, with the section's paper between them. */
+.tonight-map-link:hover, .tonight-map-link:active { box-shadow: 0 0 0 4px var(--paper), 0 0 0 5px color-mix(in srgb, var(--petrol) 45%, transparent); }
 .tonight-map-link:focus-visible { outline: 2px solid var(--petrol); outline-offset: 4px; }
 .tonight-map { display: block; width: 100%; height: auto; overflow: visible; }
 .tonight-facts { flex: 1 1 auto; max-width: 390px; list-style: none; margin: 0; padding: 0; text-align: left; }
