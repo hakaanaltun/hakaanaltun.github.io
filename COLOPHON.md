@@ -1,13 +1,6 @@
 # The Colophon
 
-## What this is for
-
-The question behind this site is why the things that
-would be good for people have not been made. It asks why people have been
-steered toward accepting less and why money came before feeling. The
-large companies grew with people without caring about them, and they grew
-because there was no alternative. This site goes the other way. It grows by
-caring about the people who come to it.
+## The first rules
 
 Every change has to answer to these rules.
 
@@ -24,9 +17,9 @@ Every change has to answer to these rules.
   screen width. The author looks at it once a week. It is not loaded on
   the search page, so what a reader searches for stays with them. Add no
   other counter or analytics.
-- **Never ask a reader to settle for less.** A half-made page or a drawing
-  that does not work tells the reader they were not worth the care.
-  A description that is not true does the same. If something cannot be made well, it waits.
+- **If something cannot be made well, it waits.** This holds for a
+  half-made page, a drawing that does not work and a description that is
+  not true.
 - **The test is the reader’s first look.** Someone who opens a page should be
   drawn into it. A page that leaves them wondering what this nonsense is
   has failed that test.
@@ -175,7 +168,7 @@ The site has two deliberate ideas of place. Do not collapse them into one.
 
 ## Words with Stories editorial standard
 
-`Words with Stories` is a deliberately small, curated collection. A term should be added only when its story earns its place.
+Words with Stories is a deliberately small, curated collection. A term should be added only when its story earns its place.
 
 - Prefer words or expressions in which an older meaning, image, object, belief, or event still leaves a visible trace in the modern term. Examples include *bosh* retaining Turkish *boş*, *quarantine* retaining forty, *nightmare* retaining the old *mare*, *influence* carrying the old idea of something flowing in from the stars, and *Rosetta stone* turning a historical object into a metaphor for a key to understanding.
 - The story should change how the reader sees the term. A merely correct etymology is not enough.
@@ -210,9 +203,9 @@ The site has two deliberate ideas of place. Do not collapse them into one.
 
 ## Pictures with Stories editorial standard
 
-`Pictures with Stories` uses detailed, realistic
+Pictures with Stories uses detailed, realistic
 watercolor illustrations whose areas can be opened to learn about what is
-shown. Apply the `Words with Stories` standards for curation, sourcing,
+shown. Apply the Words with Stories standards for curation, sourcing,
 accuracy and plain prose to this section as well.
 
 - **The catalogue is grouped by subject.** Space holds the black hole, the
@@ -257,7 +250,7 @@ accuracy and plain prose to this section as well.
   where that distinction matters.
 - If a claim is disputed or cannot be confirmed, explain the uncertainty or
   leave it out. Keep the prose plain and unshowy, following the same writing
-  rules as `Words with Stories`.
+  rules as Words with Stories.
 - **A separate story below the picture is optional.** Include it only
   when there is a worthwhile account to tell. Never add a long passage
   merely to fill the page; leaving it out is better than forcing it.
@@ -300,7 +293,7 @@ accuracy and plain prose to this section as well.
 
 ## Trivia editorial standard
 
-`Trivia` contains quizzes. These rules govern what belongs inside them.
+Trivia contains quizzes. These rules govern what belongs inside them.
 
 - **A question earns its place through its note.** Difficulty is worth little
   on its own. The note is the only part a reader keeps, so it has to hand them
