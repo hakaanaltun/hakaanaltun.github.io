@@ -12,7 +12,10 @@ rule written there.
 - **The journey is to be made anew.** On 14 October 2026 the author said
   that the journey's paintings and the journey itself will change
   completely. Until the new one is finished it stays out of search; then
-  add it, as the Search section of `_agents/site.md` describes.
+  add it, as the Search section of `_agents/site.md` describes. The
+  colophon's Pictures standard and the journey's notes below still
+  describe the watercolor journey; on 17 October 2026 the author decided
+  to look at them again once the new journey is finished.
 
 - **Through the Solar System is a sourced watercolor journey.** In
   October 2026 the author clarified that realistic means scientifically

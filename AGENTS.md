@@ -28,6 +28,11 @@ before a change that crosses the site.
   `?v=`, and nothing that gives away what The House, the farm or a quiz
   keeps for readers to find. The author asked for the colophon to be set
   apart this way on 17 October 2026.
+- **Let the decisions show the care.** State the rule and why it holds;
+  do not add lines saying that the site cares for its readers. The author
+  noted the same day that the colophon says this too often, when its
+  decisions and their keeping already show it, and that it is to be gone
+  over.
 - **How a rule is carried out goes in its area's file in `_agents/`.**
   Name the rule there with "(rule in `COLOPHON.md`)" and do not write it
   out again, so the two never disagree.
