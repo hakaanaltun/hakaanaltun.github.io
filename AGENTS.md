@@ -729,16 +729,20 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   labels and descriptions, and in the JSON the site’s scripts show. Text
   written inside a script is out of its reach and is checked by eye.
 - **The site’s ampersand is Cormorant Garamond Italic,** the one in its
-  name. EB Garamond’s italic & is a joined “Et”, which reads as a mistake,
-  so `css/fonts.css` gives italic EB Garamond its & from Cormorant Garamond
-  Italic, and nothing else needs to be done in italic text. It was added on
-  17 October 2026, when “Seeing & Light” at the head of a word’s Collection
-  panel showed the “Et”, and it reached the quizzes’ notes as well. Roman
-  text keeps its own &. Where a roman & is set to match the name, as in
-  “notes & questions”, it is wrapped in `<span class="amp">&amp;</span>`
-  and the page’s styles give `.amp` the italic display face. A new italic
-  face on the site needs the same look at its &. The author asked for this
-  rule on 17 October 2026.
+  name, wherever an & stands: in upright text and in italic, in capitals
+  and in running prose. `css/fonts.css` gives every & set in EB Garamond
+  or Cormorant Garamond, upright or italic, from Cormorant Garamond
+  Italic, so nothing needs to be done in the text. EB Garamond’s own
+  italic & is a joined “Et” that reads as a mistake, and its upright & has
+  another shape from the name’s. On 17 October 2026 the italic “Et” showed
+  in “Seeing & Light” at the head of a word’s Collection panel and in the
+  quizzes’ notes. Italic text was given the site’s & first. The upright &
+  was left as it was, and the author found it still standing in “SEEING &
+  LIGHT” above the word, so the rule now covers every &. An & in any
+  other face, such as the small sans-serif labels, is wrapped in
+  `<span class="amp">&amp;</span>`, and the page’s styles give `.amp` the
+  italic display face. A new face on the site gets the same & in
+  `css/fonts.css`. The author asked for this rule on 17 October 2026.
 
 ## Words with Stories collections
 
