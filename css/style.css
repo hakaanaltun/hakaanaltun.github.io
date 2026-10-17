@@ -2239,6 +2239,9 @@ html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
   margin: 42px 0; text-align: center; letter-spacing: .35em;
   color: var(--vizon); line-height: 1;
 }
+/* The ampersand in the book's notifications is the one in the site's name,
+   Cormorant Garamond Italic, as the printed book and the EPUB now set it. */
+.book-part-body .amp { font-family: 'Cormorant Garamond', 'EB Garamond', Georgia, serif; }
 .book-part-next {
   max-width: 640px; margin: 8px auto 0; padding-top: 28px;
   border-top: 1px solid var(--rule); text-align: right;
