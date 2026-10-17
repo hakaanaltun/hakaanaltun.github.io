@@ -13,6 +13,12 @@
 
   There is no Home in the strip: the name above it is the way home, and
   "Home" beside "The House" read as the same word twice.
+
+  The House is the plain way to its door. From 13 to 17 October 2026 it
+  opened a small menu with "To the door" and "Your drawer", so a reader
+  needed two clicks to reach it; the author took the menu out. The site's
+  menu keeps both under The House, and the footer's drawer opens the
+  drawer over any page.
 {%- endcomment -%}
 {%- assign _nav_here = page.url -%}
 <header id="site-header">
@@ -27,13 +33,7 @@
       </a>
     </div>
     <div class="header-nav-bar">
-      {%- comment -%} The House has a small menu under it, on a pointer's hover,
-      a click on the name or the chevron: the way to its door, and the
-      reader's drawer, which opens over the page they are on
-      (js/site-nav.js). The menu stands outside the strip, which scrolls on a
-      phone and would cut it off. The chevron waits for the script, and
-      without it the name is the plain link to the door. {%- endcomment %}
-      <span class="nav-house"><a href="/house/"{% if _nav_here == "/house/" %} aria-current="page"{% endif %}>The House</a><button class="nav-house-toggle" type="button" aria-expanded="false" aria-controls="nav-house-menu" aria-label="More of The House" hidden></button></span>
+      <a href="/house/"{% if _nav_here == "/house/" %} aria-current="page"{% endif %}>The House</a>
       <a href="/all-work/"{% if _nav_here == "/all-work/" or _nav_here == "/series/" or _nav_here contains "/book/" %} aria-current="page"{% endif %}>Writing</a>
       <a href="/notes/"{% if _nav_here == "/notes/" %} aria-current="page"{% endif %}>Notes</a>
       <a href="/word/"{% if _nav_here == "/word/" %} aria-current="page"{% endif %}>Words</a>
@@ -42,10 +42,6 @@
       <a href="/tools/"{% if _nav_here == "/tools/" %} aria-current="page"{% endif %}>Instruments</a>
       <a href="/moris/"{% if _nav_here == "/moris/" %} aria-current="page"{% endif %}>Moris</a>
       <a href="/about/"{% if _nav_here == "/about/" %} aria-current="page"{% endif %}>About</a>
-    </div>
-    <div class="nav-house-menu" id="nav-house-menu" hidden>
-      <a href="/house/">To the door</a>
-      <a href="/house/#drawer" data-open-drawer>Your drawer</a>
     </div>
   </nav>
 </header>
