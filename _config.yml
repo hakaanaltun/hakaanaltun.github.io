@@ -33,8 +33,10 @@ collections:
     permalink: /pictures/:name/
 
 exclude:
-  # Keep the working guide and the retired Colophon out of the published site.
+  # Keep the working guide, the colophon's text and the retired Colophon
+  # out of the published site. _agents/ is left out by its underscore.
   - AGENTS.md
+  - COLOPHON.md
   - colophon.html
   # Earlier Farm House renders, kept in the repository but not published.
   - farm-house/retired
