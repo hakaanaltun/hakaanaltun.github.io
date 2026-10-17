@@ -1628,9 +1628,9 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   s.dom.window.close();
 
   // --- The drawer over any page -------------------------------------------
-  // The House's menu in the header, the site's menu and the footer open the
-  // reader's drawer over the page they are on, fetching what the page lacks
-  // of it the first time, and it closes back to that page.
+  // The site's menu and the footer open the reader's drawer over the page
+  // they are on, fetching what the page lacks of it the first time, and it
+  // closes back to that page.
   {
     const about = read(site, 'about', 'index.html');
     const assets = JSON.parse(about.match(/window\.OLAE_DRAWER_ASSETS = (\{.*?\});/)[1]);
@@ -1696,72 +1696,40 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
       assert.equal(r.w.location.pathname + r.w.location.search + r.w.location.hash, '/about/', 'closed, the address no longer says it is open');
       r.dom.window.close();
     }
-    // The House's own menu in the header.
-    const toggle = o.q('.nav-house-toggle');
-    const menu = o.q('#nav-house-menu');
-    assert.equal(toggle.hidden, false, 'the chevron shows once the script is there');
-    assert.equal(menu.hidden, true);
-    toggle.dispatchEvent(new o.w.MouseEvent('click', { bubbles: true, detail: 1 }));
-    assert.equal(menu.hidden, false, 'the chevron opens The House\'s menu');
-    assert.equal(toggle.getAttribute('aria-expanded'), 'true');
-    assert.deepEqual([...menu.querySelectorAll('a')].map((a) => [a.textContent, a.getAttribute('href')]), [['To the door', '/house/'], ['Your drawer', '/house/#drawer']]);
-    o.w.document.dispatchEvent(new o.w.KeyboardEvent('keydown', { key: 'Escape' }));
-    assert.equal(menu.hidden, true, 'Escape folds it');
-    // The name opens the menu too, and no longer goes to the door.
-    const name = o.q('.nav-house > a');
-    assert.equal(name.getAttribute('href'), '/house/', 'without the script, the name is the way to the door');
-    assert.equal(name.getAttribute('role'), 'button');
-    assert.equal(name.getAttribute('aria-controls'), 'nav-house-menu');
-    assert.equal(toggle.tabIndex, -1, 'the name is the one control for the keyboard');
-    const go = (init) => name.dispatchEvent(new o.w.MouseEvent('click', { bubbles: true, cancelable: true, ...init }));
-    assert.equal(go({ detail: 1 }), false, 'a click on The House does not go to the door');
-    assert.equal(menu.hidden, false, 'it opens the menu');
-    assert.equal(name.getAttribute('aria-expanded'), 'true');
-    assert.equal(toggle.getAttribute('aria-expanded'), 'true', 'and the chevron turns with it');
-    go({ detail: 1 });
-    assert.equal(menu.hidden, true, 'a second click folds it');
-    assert.equal(name.getAttribute('aria-expanded'), 'false');
-    // jsdom cannot follow the link, so the click is stopped once the menu
-    // has had its turn, and what it was left to do is read there.
+    // The House in the header is the plain way to its door: no menu, and
+    // the header does not name the drawer.
+    const name = o.q('.header-nav-bar a[href="/house/"]');
+    assert.equal(name.textContent, 'The House');
+    assert.equal(name.getAttribute('role'), null, 'The House in the header is a link, not a menu\'s button');
+    assert.equal(o.q('#nav-house-menu'), null, 'with no menu under it');
+    assert.equal(o.q('#site-header [data-open-drawer]'), null, 'the header does not name the drawer');
+    // jsdom cannot follow the link, so the click is stopped once the page's
+    // own handlers have had their turn, and what it was left to do is read.
     let toDoor = null;
     const seen = (e) => { toDoor = !e.defaultPrevented; e.preventDefault(); };
     o.w.document.addEventListener('click', seen);
-    go({ detail: 1, ctrlKey: true });
+    name.dispatchEvent(new o.w.MouseEvent('click', { bubbles: true, cancelable: true, detail: 1 }));
     o.w.document.removeEventListener('click', seen);
-    assert.equal(toDoor, true, 'a click for a new tab still goes to the door');
-    assert.equal(menu.hidden, true);
-    name.focus();
-    name.dispatchEvent(new o.w.KeyboardEvent('keydown', { key: ' ', bubbles: true, cancelable: true }));
-    assert.equal(menu.hidden, false, 'Space opens it from the keyboard');
-    assert.equal(o.w.document.activeElement, menu.querySelector('a'), 'at its first link');
-    o.w.document.dispatchEvent(new o.w.KeyboardEvent('keydown', { key: 'Escape' }));
-    assert.equal(menu.hidden, true);
-    assert.equal(o.w.document.activeElement, name, 'and Escape brings focus back to the name');
-    toggle.dispatchEvent(new o.w.MouseEvent('click', { bubbles: true, detail: 1 }));
-    menu.querySelector('[data-open-drawer]').click();
-    await wait(20);
-    assert.equal(menu.hidden, true, 'the menu folds as the drawer opens');
-    assert.ok(overlay.open, 'its drawer opens over the page');
-    assert.equal(o.w.document.querySelectorAll('#drawer-dialog').length, 1, 'in the same box');
-    overlay.querySelector('.house-close').click();
-    assert.equal(o.w.document.activeElement, name, 'and gives focus back to The House');
-    // The site's menu has the same two under The House.
+    assert.equal(toDoor, true, 'a click on The House goes to the door');
+    // The site's menu keeps the way to the door and the drawer under The House.
     const side = o.q('#site-drawer .drawer-house');
     assert.equal(side.tagName, 'DETAILS');
     assert.deepEqual([...side.querySelectorAll('a')].map((a) => a.getAttribute('href')), ['/house/', '/house/#drawer']);
+    assert.equal(side.querySelector('[data-open-drawer]').textContent, 'Your drawer');
     side.querySelector('[data-open-drawer]').click();
     await wait(20);
-    assert.ok(overlay.open, 'the site\'s menu opens it too');
+    assert.ok(overlay.open, 'the site\'s menu opens it over the page');
+    assert.equal(o.w.document.querySelectorAll('#drawer-dialog').length, 1, 'in the same box');
     overlay.querySelector('.house-close').click();
+    assert.equal(o.w.document.activeElement, o.q('.hamburger-btn'), 'and gives focus back to the menu\'s button');
     o.dom.window.close();
 
-    // In The House the menu opens the room's own drawer over the door, and
-    // the door is still there when it closes.
+    // In The House the site's menu opens the room's own drawer over the
+    // door, and the door is still there when it closes.
     const h = house();
     await tick();
     h.w.eval(scripts.nav);
-    h.q('.nav-house-toggle').dispatchEvent(new h.w.MouseEvent('click', { bubbles: true, detail: 1 }));
-    h.q('#nav-house-menu [data-open-drawer]').click();
+    h.q('#site-drawer [data-open-drawer]').click();
     assert.equal(h.q('#house-dialog').open, true);
     assert.equal(h.q('#house-dialog-title').textContent, 'Your drawer');
     assert.equal(h.q('#drawer-dialog'), null, 'The House uses its own box');
@@ -1811,6 +1779,6 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.equal(t.q('canvas.cursor-trail'), null, 'and none for a reader who asked for less motion');
   t.dom.window.close();
 
-  console.log('House: catalog and addresses, daily room, keeping from the room and from words, quizzes, the book and essays, the passage prompt on word stories and quiz notes, the kept passage\'s panel, its note and the way on to The Page, Highlight and its clearing, the small box by a highlight, hidden highlights, a note written before keeping, notes in the drawer, legacy and hostile records, blocked storage, arrivals, #drawer, export and backup offered only where they work, the moon, the planets after dark, weather at the window, the footer\'s snow and rain under both rooms, what the balcony\'s sound is told, the balcony, its glass, its door, its sky and its lamp, its notebook, a kept page left open in it, and the way on to The Page, Moris on the chair and by the glass, quiet places and a remembered Show places to look, the ways back to the study, the balcony, the drawer as it was and the page a note was written on, the pointer\'s trail, in the rooms only, and the drawer over any page from the header, the site\'s menu and the footer passed.');
+  console.log('House: catalog and addresses, daily room, keeping from the room and from words, quizzes, the book and essays, the passage prompt on word stories and quiz notes, the kept passage\'s panel, its note and the way on to The Page, Highlight and its clearing, the small box by a highlight, hidden highlights, a note written before keeping, notes in the drawer, legacy and hostile records, blocked storage, arrivals, #drawer, export and backup offered only where they work, the moon, the planets after dark, weather at the window, the footer\'s snow and rain under both rooms, what the balcony\'s sound is told, the balcony, its glass, its door, its sky and its lamp, its notebook, a kept page left open in it, and the way on to The Page, Moris on the chair and by the glass, quiet places and a remembered Show places to look, the ways back to the study, the balcony, the drawer as it was and the page a note was written on, the pointer\'s trail, in the rooms only, and the drawer over any page from the site\'s menu and the footer, and The House in the header as a plain link passed.');
 })().catch((error) => { console.error(error); process.exit(1); });
 

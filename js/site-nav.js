@@ -1,4 +1,4 @@
-/* site-nav.js — The site's menu (its drawer), The House's menu in the header, the reader's drawer over the page, the share button, and horizontal scrollers. Header autohide is handled by header-autohide.js. */
+/* site-nav.js — The site's menu (its drawer), the reader's drawer over the page, the share button, and horizontal scrollers. Header autohide is handled by header-autohide.js. */
 (function () {
   'use strict';
 
@@ -184,11 +184,11 @@
   trackEdgeFades('.header-nav-bar');
 
   /* ── Your drawer, over the page ──
-     "Your drawer" under The House in the header and in the site's menu,
-     and the drawer in the footer, open the reader's drawer over the page
-     they are on, and closing it leaves them there (js/drawer.js). In The
-     House it is the room's own drawer, opened over whichever room or door
-     is showing. What a page lacks of the drawer's scripts and styles
+     "Your drawer" under The House in the site's menu, and the drawer in
+     the footer, open the reader's drawer over the page they are on, and
+     closing it leaves them there (js/drawer.js). In The House it is the
+     room's own drawer, opened over whichever room or door is showing. What
+     a page lacks of the drawer's scripts and styles
      (_data/drawer_assets.yml) is fetched the first time it is asked for;
      if that fails, the link goes on to the drawer in The House. */
   var drawerLoading = null;
@@ -232,11 +232,9 @@
     if (!link || e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
     e.preventDefault();
     // Focus comes back, once the drawer closes, to what is still there to
-    // hold it: the menu's button when the drawer was opened from a menu.
+    // hold it: the menu's button when the drawer was opened from the menu.
     var from = link;
     if (link.closest('#site-drawer')) from = document.querySelector('.hamburger-btn');
-    else if (link.closest('#nav-house-menu')) from = houseLink || document.querySelector('.nav-house-toggle');
-    closeHouseMenu(false);
     openYourDrawer(link, from);
   });
   /* An address that ends in #drawer opens the drawer over its page: it is
@@ -244,102 +242,6 @@
      (js/drawer.js). The House opens its own. */
   if (location.hash === '#drawer' && location.pathname !== '/house/') {
     loadDrawer().then(function () { window.OLAE_DRAWER.open(null); }, function () {});
-  }
-
-  /* ── The House's menu in the header ──
-     A pointer over The House opens it. A click or a tap on the name opens
-     it too, as the chevron does, and no longer goes to the door: "To the
-     door" in the menu does that (the author asked on 14 October 2026). A
-     click that opens a new tab or window still goes there. The name is the
-     menu's one control for the keyboard; the chevron beside it is a second
-     place to tap, out of the tab order. Without this script the name stays
-     the plain link to the door. The menu stands outside the strip, which
-     scrolls on a phone and would cut it off, so it is placed under The
-     House each time it opens. */
-  var houseItem = document.querySelector('.nav-house');
-  var houseLink = houseItem && houseItem.querySelector('a');
-  var houseToggle = houseItem && houseItem.querySelector('.nav-house-toggle');
-  var houseMenu = document.getElementById('nav-house-menu');
-  var houseNav = houseMenu && houseMenu.parentNode;
-  var houseTimer = 0;
-  // Whether a mouse's hover opened the menu: the click that follows it then
-  // leaves it open. A finger's tap leaves :hover on what it touched, so
-  // :hover itself cannot say this, and a second tap must fold the menu.
-  var houseByHover = false;
-  function setHouseExpanded(open) {
-    houseToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-    if (houseLink) houseLink.setAttribute('aria-expanded', open ? 'true' : 'false');
-  }
-  function placeHouseMenu() {
-    var at = houseItem.getBoundingClientRect(), box = houseNav.getBoundingClientRect();
-    var left = Math.max(8, Math.min(at.left - box.left - 10, box.width - houseMenu.offsetWidth - 8));
-    houseMenu.style.left = left + 'px';
-    houseMenu.style.top = (at.bottom - box.top + 6) + 'px';
-  }
-  function openHouseMenu(focusFirst, byHover) {
-    clearTimeout(houseTimer);
-    if (!houseMenu.hidden) { if (focusFirst) houseMenu.querySelector('a').focus(); return; }
-    houseByHover = !!byHover;
-    houseMenu.hidden = false;
-    setHouseExpanded(true);
-    placeHouseMenu();
-    if (focusFirst) houseMenu.querySelector('a').focus();
-  }
-  function closeHouseMenu(back) {
-    clearTimeout(houseTimer);
-    if (!houseMenu || houseMenu.hidden) return;
-    houseMenu.hidden = true;
-    setHouseExpanded(false);
-    if (back) (houseLink || houseToggle).focus();
-  }
-  function toggleHouseMenu(e) {
-    // A click that only follows the mouse's hover leaves it open.
-    if (!houseMenu.hidden && houseByHover && e.detail) { houseByHover = false; return; }
-    if (houseMenu.hidden) openHouseMenu(e.detail === 0); else closeHouseMenu(false);
-  }
-  if (houseItem && houseLink && houseToggle && houseMenu) {
-    houseToggle.hidden = false;
-    houseToggle.tabIndex = -1;
-    houseToggle.addEventListener('click', toggleHouseMenu);
-    houseLink.setAttribute('role', 'button');
-    houseLink.setAttribute('aria-controls', houseMenu.id);
-    houseLink.setAttribute('aria-expanded', 'false');
-    houseLink.addEventListener('click', function (e) {
-      if (e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-      e.preventDefault();
-      toggleHouseMenu(e);
-    });
-    // A button answers Space as well as Enter.
-    houseLink.addEventListener('keydown', function (e) {
-      if (e.key !== ' ' || e.repeat) return;
-      e.preventDefault();
-      houseLink.click();
-    });
-    var hovering = window.matchMedia && window.matchMedia('(hover: hover)');
-    [houseItem, houseMenu].forEach(function (el) {
-      el.addEventListener('pointerenter', function (e) {
-        if (e.pointerType === 'mouse' && hovering && hovering.matches) openHouseMenu(false, true);
-      });
-      el.addEventListener('pointerleave', function (e) {
-        if (e.pointerType !== 'mouse') return;
-        clearTimeout(houseTimer);
-        houseTimer = setTimeout(function () {
-          if (!houseItem.matches(':hover') && !houseMenu.matches(':hover') && !houseMenu.contains(document.activeElement)) closeHouseMenu(false);
-        }, 220);
-      });
-    });
-    document.addEventListener('click', function (e) {
-      if (!houseMenu.hidden && !houseItem.contains(e.target) && !houseMenu.contains(e.target)) closeHouseMenu(false);
-    });
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && !houseMenu.hidden) closeHouseMenu(houseMenu.contains(document.activeElement) || document.activeElement === houseLink || document.activeElement === houseToggle);
-    });
-    houseMenu.addEventListener('focusout', function (e) {
-      if (!houseMenu.contains(e.relatedTarget) && e.relatedTarget !== houseLink && e.relatedTarget !== houseToggle) closeHouseMenu(false);
-    });
-    window.addEventListener('resize', function () { if (!houseMenu.hidden) placeHouseMenu(); });
-    var strip = houseItem.closest('.header-nav-bar');
-    if (strip) strip.addEventListener('scroll', function () { closeHouseMenu(false); }, { passive: true });
   }
 
   /* ── Drawer elements ── */

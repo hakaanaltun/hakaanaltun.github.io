@@ -613,7 +613,7 @@ The site has two deliberate ideas of place. Do not collapse them into one.
     `data-keep-title`.
   - Keep puts the passage in the drawer and opens a small panel at the
     foot of the window with "Add a note", "Take out" and the way to the
-    drawer, which opens the drawer over the page, as the header's does.
+    drawer, which opens the drawer over the page, as the footer's does.
     Note lets a reader write first: nothing is kept until "Keep
     with the note", and closing a note that is not kept asks once more.
     The way to the drawer stays beside a note that is not kept yet, so the
@@ -1208,20 +1208,15 @@ accuracy and plain prose to this section as well.
   also carry `v` to load updated pages through the service worker's cache.
   A picture returns to Pictures with Stories, or to the balcony when its sky
   opened it with `from=balcony` (`js/pictures.js`).
-- **The House has a small menu in the header.** The author asked on
-  13 October 2026: a pointer over The House, or the chevron beside it,
-  opens "To the door", which goes to `/house/`, and "Your drawer", which
-  opens the reader's drawer over the page they are on. The site's menu
-  carries the same two under The House, which opens like its other
-  sections. The header's menu stands outside the strip, which scrolls on
-  a phone and would cut it off, and `js/site-nav.js` places it under The
-  House as it opens. The chevron waits for the script; without it The
-  House is the plain link it was. On 14 October 2026 the author asked
-  that a click on the name open the menu as the chevron does, and no
-  longer go to the door; "To the door" in the menu does that. A click
-  that opens a new tab still goes to the door. The name is the menu's
-  one control for the keyboard, so the chevron stays out of the tab
-  order, and focus comes back to the name.
+- **The House in the header goes straight to the door.** From
+  13 October 2026 a pointer over The House, a click on its name or the
+  chevron beside it opened a small menu with "To the door" and "Your
+  drawer". On 17 October 2026 the author took the menu out of the header,
+  since it made the way into The House two clicks. The site's menu keeps
+  both under The House, which opens like its other sections; it is the
+  one place the drawer is named on every page, and the footer's icon
+  opens it too. Do not put the drawer back in the header unless the
+  author asks.
 - **Series and Book are inside Writing.** The author took them out of the
   header's strip on 15 October 2026, when the header felt crowded, and the
   strip has nine links now. Writing's page has a section for each, after
@@ -1329,9 +1324,9 @@ accuracy and plain prose to this section as well.
 
 ## The drawer over any page
 
-- **It opens where the reader is.** The header's and the menu's "Your
-  drawer" and the footer's icon open the drawer in a box over the page,
-  and closing it leaves the reader where they were. In The House it is the
+- **It opens where the reader is.** The site's menu's "Your drawer" and
+  the footer's icon open the drawer in a box over the page, and closing
+  it leaves the reader where they were. In The House it is the
   room's own box, opened over the door or the room that is showing.
   `js/drawer.js` lays the drawer out and holds what its buttons do, for
   The House (`js/house.js` hands it its box and its ways back) and for
