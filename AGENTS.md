@@ -1,13 +1,6 @@
 # AGENTS.md
 
-## What this is for
-
-The question behind this site is why the things that
-would be good for people have not been made. It asks why people have been
-steered toward accepting less and why money came before feeling. The
-large companies grew with people without caring about them, and they grew
-because there was no alternative. This site goes the other way. It grows by
-caring about the people who come to it.
+## Where the rules are
 
 The rules every change answers to are in `COLOPHON.md`, written so that it
 could be published as the site's Colophon. Read it at the start of every
