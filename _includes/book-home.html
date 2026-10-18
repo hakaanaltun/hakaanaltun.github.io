@@ -1,0 +1,94 @@
+{%- comment -%}
+  The book on the homepage, between "Another way in." and Further back. The
+  book is newer than everything under Further back, so it stands after the
+  latest pieces and before the older ones. The author asked for it on
+  18 October 2026: the cover, the book's own description in full, the two
+  parts that can be read here, and one line on to the book's page. Where to
+  buy the book stays on that page; the homepage offers it to be read.
+
+  The description is the book page's own (book-description.html). Here each
+  paragraph is a panel and the reader moves through them, so the full text
+  takes the height of one paragraph. The next panel shows at the right edge
+  under a fade, which says there is more; ‹ › page through them for a mouse
+  that cannot scroll sideways. Without the script the row still scrolls and
+  the buttons stay hidden.
+{%- endcomment -%}
+<section id="home-book" class="home-book" aria-label="Book">
+  {% include section-header.html title="Book" subtitle="" %}
+  <div class="home-book-grid">
+    <div class="home-book-cover-wrap">
+      <img src="/images/cover.webp" srcset="/images/480/cover.webp 480w, /images/960/cover.webp 960w" sizes="(max-width: 800px) 150px, 200px" alt="The Fragments cover" class="home-book-cover" width="1000" height="1500" loading="lazy" decoding="async">
+    </div>
+    <div class="home-book-text">
+      <h3 class="home-book-title">The Fragments</h3>
+      <div class="home-book-window">
+        <div class="home-book-strip" id="home-book-strip" role="region" aria-label="About the book" tabindex="0">
+          {% include book-description.html %}
+        </div>
+      </div>
+      <div class="home-book-nav" id="home-book-nav" hidden>
+        <button class="home-book-btn" id="home-book-prev" type="button" aria-controls="home-book-strip" aria-label="Previous paragraph" disabled>&lsaquo;</button>
+        <button class="home-book-btn" id="home-book-next" type="button" aria-controls="home-book-strip" aria-label="Next paragraph">&rsaquo;</button>
+      </div>
+      <p class="home-book-intro">Part I and Part II are available here in full.</p>
+      <div class="book-reading-links home-book-parts">
+        <a href="/book/part-one/" class="book-reading-link">
+          <span class="book-reading-part">Part I</span>
+          <span class="book-reading-name">The Question</span>
+        </a>
+        <a href="/book/part-two/" class="book-reading-link">
+          <span class="book-reading-part">Part II</span>
+          <span class="book-reading-name">The Fragile Archive</span>
+        </a>
+      </div>
+    </div>
+  </div>
+  <a class="home-book-all" href="/book/">Part III, hardcover and ebook <span aria-hidden="true">&rarr;</span></a>
+  <script>
+  (function () {
+    var strip = document.getElementById('home-book-strip');
+    var nav = document.getElementById('home-book-nav');
+    var prev = document.getElementById('home-book-prev');
+    var next = document.getElementById('home-book-next');
+    if (!strip || !nav || !prev || !next) return;
+    var panels = Array.prototype.slice.call(strip.querySelectorAll(':scope > p'));
+    if (panels.length < 2) return;
+    var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function maxLeft() { return strip.scrollWidth - strip.clientWidth; }
+    /* Where each panel comes to rest: at the row's left edge. */
+    function stops() {
+      var max = maxLeft(), first = panels[0].offsetLeft;
+      return panels.map(function (p) { return Math.min(p.offsetLeft - first, max); });
+    }
+    function current() {
+      var x = strip.scrollLeft, s = stops(), best = 0;
+      for (var i = 1; i < s.length; i++) {
+        if (Math.abs(s[i] - x) < Math.abs(s[best] - x)) best = i;
+      }
+      return best;
+    }
+    function go(step) {
+      var s = stops();
+      var i = Math.max(0, Math.min(s.length - 1, current() + step));
+      strip.scrollTo({ left: s[i], behavior: still ? 'auto' : 'smooth' });
+    }
+    function update() {
+      var max = maxLeft(), x = strip.scrollLeft;
+      var atStart = x <= 1, atEnd = x >= max - 1;
+      prev.disabled = atStart;
+      next.disabled = atEnd;
+      /* The next paragraph shows at the right edge under a fade. The last
+         has nothing after it, so the fade goes with it. */
+      strip.classList.toggle('fade-r', max > 1 && !atEnd);
+    }
+
+    prev.addEventListener('click', function () { go(-1); });
+    next.addEventListener('click', function () { go(1); });
+    strip.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    nav.hidden = false;
+    update();
+  })();
+  </script>
+</section>

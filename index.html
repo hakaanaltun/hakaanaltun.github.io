@@ -56,6 +56,8 @@ layout: home
 
 {% include house-home.html %}
 
+{% include book-home.html %}
+
 <section id="further-back">
   {% include section-header.html title="Further back" subtitle="" %}
   {% assign all_posts = site.posts | sort: "date" | reverse %}
