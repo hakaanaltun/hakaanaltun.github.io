@@ -114,6 +114,16 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   Folding it into the three doors was considered on 14 October 2026, and
   the author kept it as it is: the header and the site's menu already lead
   there.
+- **The book stands between "Another way in." and Further back.** The
+  author asked for it on 18 October 2026. The book is newer than everything
+  under Further back, so it comes after the latest pieces and before the
+  older ones. It shows the cover, the book's description in full, the two
+  parts that can be read here and one line on to `/book/`
+  (`_includes/book-home.html`). The description is kept once, in
+  `_includes/book-description.html`, which the book's page uses too, so the
+  two never differ. Here each paragraph is a panel and the reader moves
+  through them, so the full text takes the height of one. Where to buy the
+  book stays on its own page: the homepage offers it to be read.
 
 ## Search
 
