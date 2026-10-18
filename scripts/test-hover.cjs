@@ -1,4 +1,4 @@
-/* How a link answers a pointer. Two rules, both from AGENTS.md:
+/* How a link answers a pointer. Two rules, both from COLOPHON.md:
 
    A picture never dims when it is chosen. When a link carries a picture and
    words, a pointer over it dims the words and leaves the picture at its full

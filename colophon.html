@@ -3,10 +3,10 @@ layout: default
 permalink: /colophon/
 title: "The Colophon"
 series: about
-description: "A living record of the site’s editorial and technical rules."
+description: "The guide every change to the site follows."
 ---
-{% comment %} Below the introduction, this page is AGENTS.md itself, read in
-by _plugins/agents_md.rb and rendered on every build. Change the rules there,
+{% comment %} Below the introduction, this page is COLOPHON.md itself, read in
+by _plugins/colophon_md.rb and rendered on every build. Change the rules there,
 not here. The marker splits kramdown's list of contents from the text so the
 list can sit in its own nav; toc_levels keeps it to the sections. {% endcomment %}
 {%- capture source -%}
@@ -16,7 +16,7 @@ list can sit in its own nav; toc_levels keeps it to the sections. {% endcomment 
 
 <!-- colophon-text -->
 
-{{ site.agents_md }}
+{{ site.colophon_md }}
 {%- endcapture -%}
 {%- assign parts = source | markdownify | split: "<!-- colophon-text -->" -%}
 
@@ -25,7 +25,7 @@ list can sit in its own nav; toc_levels keeps it to the sections. {% endcomment 
     <h1 class="section-page-title">The Colophon</h1>
   </div>
 
-  <p class="colophon-intro">This page is a living record of the site’s editorial and technical rules. They have taken shape over time through conversations with AI and the work of trying things out and taking things away. This document is the working guide to how this house is built and cared for. It continues to change with the site.</p>
+  <p class="colophon-intro">This page is the guide every change to the site follows. Its rules took shape while the site was being made with AI. Each working session begins by reading them, which is why they are written as instructions, and the dates mark when a rule was asked for or changed. The page changes with the site.</p>
 
   <nav class="colophon-contents" aria-labelledby="colophon-contents-label">
     <h2 id="colophon-contents-label" class="colophon-contents-label">Contents</h2>
