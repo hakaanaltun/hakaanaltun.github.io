@@ -157,10 +157,11 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   instruments that load their own stylesheet carry the same dim
   themselves, with 0.95 for readers who ask for more contrast.
   `scripts/test-hover.cjs` fails on a rule that draws a line under a
-  pointer outside running text. One note in running text has no line at
-  rest either: the two links in the note at the end of Part II (The
-  Notice and the email address), which the author asked to have without
-  one on 18 October 2026. They keep the accent and dim under a pointer.
+  pointer outside running text. The note about Part III has no line
+  under its links at rest either, on the book's page and at the end of
+  Part II. The book page's never had one; the author asked on
+  18 October 2026 for Part II's to match it. They keep the accent and dim
+  under a pointer.
 - **A window is a native dialog.** The House's boxes, the drawer, the
   farm's details, the pictures' close views and Moris's gallery open with
   `showModal()`, so the page behind them is inert and Escape closes them.
