@@ -4,7 +4,9 @@
 (function () {
   'use strict';
   var KEY = 'olae-book-place-v1';
-  var PARTS = { '/book/part-one/': 'Part I', '/book/part-two/': 'Part II' };
+  /* Part III lives at an address that is found rather than listed
+     (answer-key.html); a place kept there resumes like any other. */
+  var PARTS = { '/book/part-one/': 'Part I', '/book/part-two/': 'Part II', '/book/answer-key-7q4w/': 'Part III' };
   var widgets = Array.prototype.slice.call(document.querySelectorAll('[data-book-resume]'));
   if (!widgets.length) return;
   var body = document.querySelector('.book-part-body');

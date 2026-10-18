@@ -2345,6 +2345,15 @@ html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
   font-style: italic; text-decoration: none;
 }
 .book-part-next a:hover, .book-part-next a:active { opacity: var(--select-dim); }
+/* The end of Part II says where Part III is: behind the word at the end of
+   The Notice, or by email. Set like the book page's own note, above the
+   way back to the book. */
+.book-part-after {
+  margin: 0 0 22px; text-align: left;
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 1.1rem; line-height: 1.62; color: var(--vizon);
+}
+.book-part-next .book-part-after a { font-family: inherit; font-style: inherit; text-decoration: underline; text-underline-offset: 3px; }
 .book-part-next a:focus-visible {
   outline: 2px solid var(--petrol); outline-offset: 4px; border-radius: 2px;
 }

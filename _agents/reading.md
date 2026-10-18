@@ -130,3 +130,22 @@ rule written there.
   first time the drawer is asked for there. A kept thing shows the
   catalog's current words over any page, as in The House
   (`/house/catalog.json`). `scripts/test-house.cjs` checks all of it.
+
+## The book's Part III
+
+- **Part III is found, not listed.** The author asked for it on
+  18 October 2026. *The Answer Key* is at `/book/answer-key-7q4w/`
+  (`answer-key.html`, chapters in `_includes/book/fragment25.html` to
+  `fragment28.html`). The word at the end of The Notice opens
+  `/story/9r2m/` (`_includes/story/doorbox.html`), and one line at the foot
+  of that page leads on to Part III. The end of Part II and the book's page
+  say where the word is, and that Part III also comes by email to anyone
+  who would rather not look.
+- It stays out of search (`noindex`), the sitemap, the other parts'
+  contents panels, the site's menu and the book's lists on the homepage
+  and `/book/`. It is hidden, not locked: its address is in the site's own
+  pages for anyone who reads them, and the author knows this.
+- It reads like the other two parts: the reading place (`js/book-resume.js`
+  knows its address), the chapters panel, keeping and Türkçe.
+- The chapters were made from `The_Fragments_v79.md`, the text Part I and
+  Part II on the site already match.
