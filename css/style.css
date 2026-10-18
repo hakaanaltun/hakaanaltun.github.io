@@ -2353,7 +2353,10 @@ html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
   font-family: 'EB Garamond', Georgia, serif;
   font-size: 1.1rem; line-height: 1.62; color: var(--vizon);
 }
-.book-part-next .book-part-after a { font-family: inherit; font-style: inherit; text-decoration: underline; text-underline-offset: 3px; }
+/* No line under these two, at the author's asking on 18 October 2026: the
+   accent sets them apart from the note's grey, and they dim under a
+   pointer like the way back below them. */
+.book-part-next .book-part-after a { font-family: inherit; font-style: inherit; }
 .book-part-next a:focus-visible {
   outline: 2px solid var(--petrol); outline-offset: 4px; border-radius: 2px;
 }
