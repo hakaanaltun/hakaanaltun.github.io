@@ -203,13 +203,15 @@ Words with Stories is a deliberately small, curated collection. A term should be
 
 ## Pictures with Stories editorial standard
 
-Pictures with Stories uses detailed, realistic
-watercolor illustrations whose areas can be opened to learn about what is
-shown. Apply the Words with Stories standards for curation, sourcing,
+Pictures with Stories uses detailed illustrations whose areas can be opened
+to learn about what is shown. The Solar System journey combines realistic
+illustrations with credited spacecraft imagery, moving through connected
+views as the reader approaches each world. The black hole and quasar keep
+their watercolor illustrations. Apply the Words with Stories standards for curation, sourcing,
 accuracy and plain prose to this section as well.
 
 - **The catalogue is grouped by subject.** Space holds the black hole, the
-  quasar, the Sun and the journey through the Solar System. Nebulae can
+  quasar and the journey through the Solar System, including the Sun. Nebulae can
   follow, with birds, cats and other subject groups added as the
   collection grows. The group was called “The Space” until 9 October 2026,
   when the author renamed it. In English, space in the astronomical sense
@@ -217,7 +219,7 @@ accuracy and plain prose to this section as well.
   Every group follows the same drawing, storytelling and sourcing
   standards.
 
-- Follow The Farm House’s watercolor language: broad brush strokes,
+- For watercolor pictures, follow The Farm House’s watercolor language: broad brush strokes,
   transparent washes, a limited value range, visible pencil, occasional
   unfinished edges and exposed paper. Paint from scientific or historical
   references when the subject calls for them; preserve the forms that an

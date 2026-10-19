@@ -128,41 +128,26 @@ function page(modals, setup) {
     assert.equal(slate.includes(id), i % 2 === 0, id + ' takes its turn in the rhythm');
   });
 }
-// The Sun is a standalone picture with sourced reading and a route back to Mercury.
+// The Sun now opens directly in the journey; the other pictures retain their pages.
 {
-  const sunHtml = fs.readFileSync(path.join(root, '_site/pictures/sun/index.html'), 'utf8');
-  const dom = new JSDOM(sunHtml, { url: 'https://hakanaltun.io/pictures/sun/', runScripts: 'outside-only', pretendToBeVisual: true });
-  const w = dom.window, d = w.document;
-  assert.ok(d.querySelector('a[href="/pictures/space/#scene-mercury"]'));
-  assert.equal(d.querySelector('link[rel="canonical"]').href, 'https://hakanaltun.io/pictures/sun/');
-  for (const part of d.querySelectorAll('.picture-story-part')) assert.ok(part.querySelector('.picture-story-sources a'));
-  for (const note of d.querySelectorAll('.picture-note')) assert.ok(note.querySelector('.picture-detail-sources a'));
-  w.HTMLDialogElement.prototype.showModal = function () { this.open = true; };
-  w.HTMLDialogElement.prototype.close = function () { this.open = false; this.dispatchEvent(new w.Event('close')); };
-  w.eval(script);
-  for (const trigger of d.querySelectorAll('.picture-hotspot')) {
-    trigger.click();
-    assert.equal(d.getElementById('picture-detail').open, true);
-    assert.equal(d.getElementById('picture-detail').scrollTop, 0);
-    assert.ok(d.getElementById('picture-detail-image').style.backgroundImage.includes('sun-watercolor'));
-    assert.ok(d.querySelector('#picture-detail-content .picture-detail-sources a'));
-    d.getElementById('picture-detail').scrollTop = 200;
-    d.getElementById('picture-return').click();
-    assert.equal(d.activeElement, trigger);
-  }
-  const catalogue = new JSDOM(fs.readFileSync(path.join(root, '_site/pictures/index.html'), 'utf8')).window.document;
-  const space = catalogue.getElementById('picture-category-space').closest('section');
-  assert.equal(space.querySelector('.picture-journey').getAttribute('href'), '/pictures/space/');
-  assert.equal(space.querySelector('.picture-card').getAttribute('href'), '/pictures/sun/', 'the Sun comes right after the journey that leads to it');
-  dom.window.close();
+ const dom=new JSDOM(fs.readFileSync(path.join(root,'_site/pictures/sun/index.html'),'utf8'));
+ const d=dom.window.document;
+ assert.equal(d.querySelector('meta[http-equiv="refresh"]').content,'0; url=/pictures/space/#sun');
+ assert.equal(d.querySelector('link[rel="canonical"]').href,'https://hakanaltun.io/pictures/space/');
+ const catalogue=new JSDOM(fs.readFileSync(path.join(root,'_site/pictures/index.html'),'utf8'));
+ const space=catalogue.window.document.getElementById('picture-category-space').closest('section');
+ assert.equal(space.querySelector('.picture-journey').getAttribute('href'),'/pictures/space/');
+ assert.equal(space.querySelectorAll('.picture-card').length,2);
+ assert(!space.querySelector('a[href="/pictures/sun/"]'));
+ dom.window.close();catalogue.window.close();
 }
 // A picture opened from another in full screen fills the window at once, with
 // the places to look if they were shown. The address loses both, and leaving
 // full screen keeps the page where it is. The way back carries them again,
 // and the way to all pictures does not.
 async function arrivalChecks() {
-  const sunHtml = fs.readFileSync(path.join(root, '_site/pictures/sun/index.html'), 'utf8');
-  const dom = new JSDOM(sunHtml, { url: 'https://hakanaltun.io/pictures/sun/?screen=full&places=shown', runScripts: 'outside-only', pretendToBeVisual: true });
+  const sunHtml = fs.readFileSync(path.join(root, '_site/pictures/black-hole/index.html'), 'utf8');
+  const dom = new JSDOM(sunHtml, { url: 'https://hakanaltun.io/pictures/black-hole/?screen=full&places=shown', runScripts: 'outside-only', pretendToBeVisual: true });
   const w = dom.window, d = w.document;
   w.scrollTo = (x, y) => { w.restoredPosition = [x, y]; };
   w.HTMLDialogElement.prototype.showModal = function () { this.open = true; };
@@ -174,11 +159,11 @@ async function arrivalChecks() {
   assert.equal(d.getElementById('picture-places').getAttribute('aria-pressed'), 'true');
   assert.equal(d.getElementById('picture-fullscreen').textContent, 'Exit full screen');
   assert.ok(d.querySelector('.picture-masthead').hasAttribute('inert'));
-  assert.equal(w.location.href, 'https://hakanaltun.io/pictures/sun/');
+  assert.equal(w.location.href, 'https://hakanaltun.io/pictures/black-hole/');
   assert.equal(d.activeElement, d.body, 'arrival leaves focus with the page');
   let carried = null;
   w.addEventListener('click', event => { carried = event.target.getAttribute('href'); event.preventDefault(); });
-  const mercury = d.querySelector('a[href="/pictures/space/#scene-mercury"]');
+  const mercury = d.createElement('a'); mercury.href='/pictures/space/#scene-mercury'; visit.append(mercury);
   mercury.click();
   assert.equal(carried, 'https://hakanaltun.io/pictures/space/?screen=full&places=shown#scene-mercury');
   await new Promise(resolve => setTimeout(resolve, 0));
@@ -208,8 +193,8 @@ async function arrivalChecks() {
 }
 // If the script never comes, the layout's guard still shows the page.
 {
-  const sunHtml = fs.readFileSync(path.join(root, '_site/pictures/sun/index.html'), 'utf8');
-  const dom = new JSDOM(sunHtml, { url: 'https://hakanaltun.io/pictures/sun/?screen=full', runScripts: 'dangerously' });
+  const sunHtml = fs.readFileSync(path.join(root, '_site/pictures/black-hole/index.html'), 'utf8');
+  const dom = new JSDOM(sunHtml, { url: 'https://hakanaltun.io/pictures/black-hole/?screen=full', runScripts: 'dangerously' });
   assert.equal(dom.window.document.documentElement.hasAttribute('data-picture-arriving'), true);
   dom.window.document.dispatchEvent(new dom.window.Event('DOMContentLoaded'));
   assert.equal(dom.window.document.documentElement.hasAttribute('data-picture-arriving'), false);
@@ -300,5 +285,5 @@ async function fullscreenChecks() {
   }
 }
 fullscreenChecks().then(arrivalChecks).then(() => {
-  console.log('Picture checks passed: sourced fallback reading, optional hints and full screen, native and window exits, rejected fullscreen requests, whole-sheet fit, retained hint choice, remembered places to look, page position and return focus, every sourced detail and named crop opened at the top, story history, exploration help, full screen and places carried between pictures, the Sun after the journey, and homepage accent rhythm.');
+  console.log('Picture checks passed: sourced fallback reading, optional hints and full screen, native and window exits, rejected fullscreen requests, whole-sheet fit, retained hint choice, remembered places to look, page position and return focus, every sourced detail and named crop opened at the top, story history, exploration help, full screen and places carried between pictures, Sun redirect and the two watercolor cards, and homepage accent rhythm.');
 }).catch(error => { console.error(error); process.exitCode = 1; });

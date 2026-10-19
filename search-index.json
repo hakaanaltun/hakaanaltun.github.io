@@ -27,6 +27,10 @@ sitemap: false
     {"title":{{ picture.title | search_text | jsonify }},"url":{{ picture.url | relative_url | jsonify }},"kind":"Picture story","description":{{ picture.description | search_text | jsonify }},"text":{{ picture_text | search_text | jsonify }}}
   {%- endunless -%}
 {%- endfor -%}
+{%- for entry in site.data.space_search -%}
+  {%- if comma -%},{%- endif -%}{%- assign comma = true -%}
+  {{ entry | jsonify }}
+{%- endfor -%}
 {%- for tool in site.data.tools -%}
   {%- if comma -%},{%- endif -%}{%- assign comma = true -%}
   {%- assign tool_url = '/' | append: tool.slug | append: '/' -%}

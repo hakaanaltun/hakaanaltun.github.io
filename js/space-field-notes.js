@@ -1,0 +1,1549 @@
+/* Sourced field notes migrated from hakanaltun.io/pictures/space/. */
+const fieldNotes={
+"sun-photosphere":{
+  "label": "The visible surface",
+  "kicker": "Photosphere",
+  "title": "Its light is crossed by dark lines.",
+  "body": [
+    "Most of the visible light we receive from the Sun comes from its photosphere. This is a layer of gas, with no solid ground beneath the bright face we see.",
+    "Near the disk’s edge, our line of sight passes obliquely through that layer. We see cooler, dimmer material higher up, making the limb appear darker than the center.",
+    "The fall in temperature with height also leaves dark lines in sunlight. In 1814 Joseph von Fraunhofer, who headed a glassworks at Benediktbeuern, found hundreds of them while testing the quality of his lenses. Each line belongs to a particular kind of atom absorbing light in the cooler gas above, and the lines later showed what the Sun is made of."
+  ],
+  "sources": [
+    {
+      "id": "photosphere",
+      "label": "NASA Marshall · The Photosphere",
+      "url": "https://solarscience.msfc.nasa.gov/surface.shtml"
+    },
+    {
+      "id": "features",
+      "label": "NASA Marshall · Photospheric Features",
+      "url": "https://solarscience.msfc.nasa.gov/feature1.shtml"
+    },
+    {
+      "id": "fraunhofer",
+      "label": "Fraunhofer-Gesellschaft · Joseph von Fraunhofer",
+      "url": "https://www.fraunhofer.de/en/about-fraunhofer/profile-structure/chronicles/joseph-von-fraunhofer.html"
+    },
+    {
+      "id": "fraunhofer-lines",
+      "label": "American Meteorological Society · Fraunhofer lines",
+      "url": "https://glossary.ametsoc.org/wiki/Fraunhofer_lines"
+    },
+    {
+      "id": "payne",
+      "label": "Harvard–Smithsonian Wolbach Library · Cecilia Payne’s Doctoral Thesis",
+      "url": "https://library.cfa.harvard.edu/cecilia-payne-gaposchkin/education-and-doctoral-thesis"
+    }
+  ]
+},
+"sun-sunspots":{
+  "label": "Sunspots",
+  "kicker": "Magnetism on the surface",
+  "title": "Magnetic fields keep the spots cooler.",
+  "body": [
+    "The dark centers are called umbrae. Lighter, streaked penumbrae surround them. A sunspot still glows intensely and looks dark beside the hotter photosphere around it.",
+    "In 1908 George Ellery Hale, at the Mount Wilson Solar Observatory, found that some lines in the light of sunspots were split in two, as lines split in the laboratory beside a strong magnet. It showed that sunspots hold strong, concentrated magnetic fields. The fields restrict the flow of heat toward the surface, so the spots are cooler than their surroundings.",
+    "The number of spots rises and falls over a cycle of about 11 years. The pattern was found by Heinrich Schwabe, a pharmacist in Dessau, who watched the Sun on almost every clear day from 1825 while looking for a planet closer to it than Mercury. He reported it in 1843."
+  ],
+  "sources": [
+    {
+      "id": "spots",
+      "label": "National Solar Observatory · Sunspots and Active Regions",
+      "url": "https://nso.edu/for-public/sun-science/sunspots-and-active-regions/"
+    },
+    {
+      "id": "features",
+      "label": "NASA Marshall · Photospheric Features",
+      "url": "https://solarscience.msfc.nasa.gov/feature1.shtml"
+    },
+    {
+      "id": "hale",
+      "label": "High Altitude Observatory · George Ellery Hale",
+      "url": "https://www2.hao.ucar.edu/education/scientists/george-ellery-hale-1868-1938"
+    },
+    {
+      "id": "hale-1908",
+      "label": "The Astrophysical Journal · Hale, On the Probable Existence of a Magnetic Field in Sun-Spots (1908)",
+      "url": "https://articles.adsabs.harvard.edu/pdf/1908ApJ....28..315H"
+    },
+    {
+      "id": "schwabe",
+      "label": "High Altitude Observatory · Samuel Heinrich Schwabe",
+      "url": "https://www2.hao.ucar.edu/education/scientists/samuel-heinrich-schwabe-1789-1875"
+    }
+  ]
+},
+"sun-prominence":{
+  "label": "Prominence",
+  "kicker": "Plasma above the limb",
+  "title": "A new element was found in its light.",
+  "body": [
+    "A prominence is relatively cool, dense plasma held in the hot corona by magnetic fields. Its shape follows the field that supports it.",
+    "In 1868 Pierre Janssen traveled to India to study a total eclipse and saw a new yellow line in the Sun’s spectrum. Later that year he and Norman Lockyer each found a way to observe prominences without an eclipse, and Lockyer recorded the same line in a prominence’s light, a little to one side of the yellow lines of sodium. The line pointed to a new element. It was named helium, from helios, the Greek word for the Sun, and was found on Earth in 1895.",
+    "Against the dark sky beyond the limb, this material appears bright. Seen against the solar disk, a similar structure can appear as a dark filament. Prominences may persist for days or longer, and some erupt. The separate SDO image above records an erupting prominence on September 23, 2012, in extreme ultraviolet light. Its display color is assigned."
+  ],
+  "sources": [
+    {
+      "id": "prominence",
+      "label": "National Solar Observatory · Prominences and Filaments",
+      "url": "https://nso.edu/for-public/sun-science/prominence-filaments/"
+    },
+    {
+      "id": "helium",
+      "label": "Royal Society of Chemistry · Helium",
+      "url": "https://periodic-table.rsc.org/element/2/helium"
+    },
+    {
+      "id": "lockyer",
+      "label": "Linda Hall Library · Norman Lockyer",
+      "url": "https://www.lindahall.org/about/news/scientist-of-the-day/norman-lockyer"
+    },
+    {
+      "id": "facts",
+      "label": "NASA Science · Sun Facts",
+      "url": "https://science.nasa.gov/sun/facts/"
+    },
+    {
+      "id": "sdo-prominence",
+      "label": "NASA/Goddard SVS · September 23, 2012 prominence",
+      "url": "https://svs.gsfc.nasa.gov/4034/"
+    }
+  ]
+},
+"sun-corona":{
+  "label": "The corona",
+  "kicker": "The outer atmosphere",
+  "title": "It can now be seen without an eclipse.",
+  "body": [
+    "The corona is the Sun’s outer atmosphere. During a total solar eclipse, the Moon hides the much brighter photosphere and this outer atmosphere becomes visible around it. The separate SDO image above instead records extreme ultraviolet light at 171 angstroms, displayed in assigned color.",
+    "Until 1931 the corona could be photographed only during an eclipse. Bernard Lyot designed an instrument that blocks the glare of the bright disk, the coronagraph, and on July 12, 1931, at the Pic du Midi Observatory, it gave the first photograph of the corona taken outside an eclipse. His studies of the corona’s faint spectral lines helped show that its gas is much hotter than had been thought.",
+    "The corona can reach temperatures of a million degrees Celsius or more, far above the photosphere. Explaining how energy heats it remains an active area of research. Its streamers and loops change with the Sun’s magnetic activity, and some coronal material escapes into space as the solar wind."
+  ],
+  "sources": [
+    {
+      "id": "corona",
+      "label": "NASA Marshall · The Corona",
+      "url": "https://solarscience.msfc.nasa.gov/corona.shtml"
+    },
+    {
+      "id": "lyot",
+      "label": "High Altitude Observatory · Bernard Lyot",
+      "url": "https://www2.hao.ucar.edu/education/scientists/bernard-lyot-1897-1952"
+    },
+    {
+      "id": "facts",
+      "label": "NASA Science · Sun Facts",
+      "url": "https://science.nasa.gov/sun/facts/"
+    },
+    {
+      "id": "layers",
+      "label": "NASA Science · Layers of the Sun",
+      "url": "https://science.nasa.gov/blogs/the-sun-spot/2023/09/26/layers-of-the-sun/"
+    },
+    {
+      "id": "sdo-corona",
+      "label": "NASA/SDO · The Sun’s quiet corona",
+      "url": "https://www.nasa.gov/image-article/suns-quiet-corona/"
+    }
+  ]
+},
+"sun-story":{
+  "label": "What the light told us",
+  "kicker": "The Sun · A history of observations",
+  "title": "What the light told us",
+  "body": [
+    "The spots in this picture would move if we watched the Sun over successive days. Following sunspots across the disk gave astronomers a way to detect the Sun’s rotation. The movement also reveals that different parts turn at different rates. The equatorial region goes around faster than the poles. That is possible because the Sun is made of gas and plasma, with no rigid surface holding it to one pace.",
+    "Light also carries evidence of what a star contains. In her 1925 doctoral thesis, Cecilia Payne used stellar spectra and the physics of ionization to study the abundance of elements. Her results pointed to enormous quantities of hydrogen and helium. That challenged the prevailing idea that stars had a composition much like Earth’s. The astronomer Henry Norris Russell urged caution, and Payne qualified the conclusion in her thesis. Four years later, Russell’s own work supported it. The bright disk above is the visible layer of a star made mostly of those two elements.",
+    "The source of the light lies much deeper than the layer we can see. In the core, at about 15 million degrees Celsius, nuclear reactions fuse hydrogen into helium and release energy. Energy moves outward through the radiative zone and then the convection zone before reaching the photosphere. The visible surface shown here is about 5,500 degrees Celsius. It is the place from which much of the visible light escapes, far above the core that powers it.",
+    "The faint corona brought another surprise. Its spectrum contained bright lines that did not match known materials, so astronomers proposed an element called coronium. The explanation turned out to be extreme heat. At temperatures above a million degrees Celsius, atoms lose many of their electrons. Heavier elements, including iron, can still retain a few, and those highly ionized atoms produce the unfamiliar lines. The corona’s light comes from gas hotter than the visible surface beneath it. Separate observations in the atmosphere notes reveal it.",
+    "For a long time, the corona was studied from a distance. On April 28, 2021, Parker Solar Probe passed through a boundary where measurements showed that it had entered the magnetically dominated solar atmosphere. It sampled particles and magnetic fields directly. The phrase ‘touching the Sun’ describes that passage through the corona. There was no solid ground to land on. Farther out, escaping coronal material becomes the solar wind, carrying the Sun’s influence through the region we have been exploring."
+  ],
+  "sources": [
+    {
+      "id": "photosphere",
+      "label": "NASA Marshall · The Photosphere",
+      "url": "https://solarscience.msfc.nasa.gov/surface.shtml"
+    },
+    {
+      "id": "payne",
+      "label": "Harvard–Smithsonian Wolbach Library · Cecilia Payne’s Doctoral Thesis",
+      "url": "https://library.cfa.harvard.edu/cecilia-payne-gaposchkin/education-and-doctoral-thesis"
+    },
+    {
+      "id": "layers",
+      "label": "NASA Science · Layers of the Sun",
+      "url": "https://science.nasa.gov/blogs/the-sun-spot/2023/09/26/layers-of-the-sun/"
+    },
+    {
+      "id": "facts",
+      "label": "NASA Science · Sun Facts",
+      "url": "https://science.nasa.gov/sun/facts/"
+    },
+    {
+      "id": "corona",
+      "label": "NASA Marshall · The Corona",
+      "url": "https://solarscience.msfc.nasa.gov/corona.shtml"
+    },
+    {
+      "id": "parker",
+      "label": "NASA · Entering the Solar Atmosphere",
+      "url": "https://www.nasa.gov/solar-system/nasa-enters-the-solar-atmosphere-for-the-first-time-bringing-new-discoveries/"
+    }
+  ]
+},
+
+  "voyager-antenna": {
+  "label": "High-gain antenna",
+  "kicker": "A link with Earth",
+  "title": "The dish keeps the spacecraft in touch.",
+  "body": [
+    "Each Voyager carries a 3.7-meter high-gain antenna. The dish concentrates radio communication into a narrow direction, carrying scientific measurements toward Earth and receiving commands from the ground.",
+    "The attitude-control system maintains the spacecraft’s pointing. The dish is part of a spacecraft whose orientation must remain carefully controlled over enormous distances.",
+    "This close view follows NASA’s artist model of the shared Voyager design. Its lighting makes the hardware visible; it is not a photograph taken beside either spacecraft."
+  ],
+  "sources": [
+    {
+      "id": "voyager-hardware",
+      "label": "NASA Science · Voyager spacecraft and instruments",
+      "url": "https://science.nasa.gov/mission/voyager/instruments/"
+    },
+    {
+      "id": "voyager-model",
+      "label": "NASA/JPL-Caltech · Model of Voyager",
+      "url": "https://www.jpl.nasa.gov/images/pia14111-model-of-voyager-artist-concept/"
+    }
+  ]
+},
+  "earth": {
+    "label": "Earth",
+    "kicker": "Earth",
+    "title": "The ground, seen from space.",
+    "body": [
+      "Earth is the third planet from the Sun and the largest of the four rocky inner planets. Its English name comes from a Germanic word meaning “the ground.”",
+      "On December 7, 1972, the crew of Apollo 17, on their way to the Moon, photographed the Earth from the Mediterranean to the Antarctic ice cap, with almost the whole coastline of Africa in view. The photograph became known as the Blue Marble.",
+      "The Earth shown here faces the same way. Its ocean, land and cloud shapes are an interpretation rather than a copy of that photograph."
+    ],
+    "sources": [
+      {
+        "id": "earth",
+        "label": "NASA Science · Earth facts",
+        "url": "https://science.nasa.gov/earth/facts/"
+      },
+      {
+        "id": "blue-marble",
+        "label": "NASA Earth Observatory · The Blue Marble from Apollo 17",
+        "url": "https://eol.jsc.nasa.gov/Collections/EarthObservatory/articles/The_Blue_Marble_from_Apollo_17.htm"
+      }
+    ]
+  },
+  "oceans": {
+    "label": "Oceans",
+    "kicker": "Earth · Oceans",
+    "title": "Mountains beneath the Atlantic.",
+    "body": [
+      "The blue water west of Africa is the Atlantic Ocean. Beneath it runs the Mid-Atlantic Ridge, part of a mountain system that extends for nearly 65,000 kilometers around Earth. More than 90% of that system lies underwater.",
+      "Along the ridge, tectonic plates move apart. Molten rock rises into the opening and cools into new ocean crust. The Mid-Atlantic Ridge spreads at roughly two to five centimeters a year, gradually adding seafloor between the continents.",
+      "Oceans cover about 71% of Earth. Much of the ground beneath them is hidden from this view, including the volcanic ridges where new crust forms."
+    ],
+    "sources": [
+      {
+        "id": "ridge",
+        "label": "NOAA Ocean Exploration · The mid-ocean ridge",
+        "url": "https://oceanexplorer.noaa.gov/ocean-fact/mid-ocean-ridge/"
+      },
+      {
+        "id": "earth",
+        "label": "NASA Science · Earth facts",
+        "url": "https://science.nasa.gov/earth/facts/"
+      }
+    ]
+  },
+  "atmosphere": {
+    "label": "Atmosphere",
+    "kicker": "Earth · Atmosphere",
+    "title": "Most weather fits into a shallow layer.",
+    "body": [
+      "Follow the pale blue curve around Earth. The atmosphere becomes thinner with height, gradually fading into space. Most familiar weather takes place near the bottom, in the troposphere, whose average height is only about 12 kilometers. It reaches higher over the equator and is shallower over the poles.",
+      "The white cloud bands belong mainly to this lowest layer. Above them, the stratosphere contains the ozone layer, which absorbs harmful ultraviolet radiation from the Sun.",
+      "Farther up, the International Space Station travels through the extremely thin air of the thermosphere. The visible blue edge gives us a sense of the atmosphere, while its outer reaches extend well beyond that narrow band."
+    ],
+    "sources": [
+      {
+        "id": "atmosphere",
+        "label": "NASA Science · The layers of Earth’s atmosphere",
+        "url": "https://science.nasa.gov/earth/earth-atmosphere/earths-atmosphere-a-multi-layered-cake/"
+      }
+    ]
+  },
+  "iss": {
+    "label": "ISS",
+    "kicker": "Earth orbit · International Space Station",
+    "title": "Sixteen sunrises in a day.",
+    "body": [
+      "The station’s rectangular solar wings supply electrical power to its living and working spaces. This small outpost circles Earth about once every 90 minutes, giving its crew roughly 16 sunrises and sunsets in 24 hours.",
+      "Inside, a released object floats beside an astronaut because both are falling with the station. Earth’s gravity keeps pulling them inward, while their sideways motion carries them around the planet. This continuous free fall produces the condition called microgravity.",
+      "Bodies adapt to that environment. Muscles and bones do less work supporting a person’s weight, so astronauts exercise for at least two hours a day to help limit the resulting losses."
+    ],
+    "sources": [
+      {
+        "id": "iss",
+        "label": "NASA · International Space Station facts and figures",
+        "url": "https://www.nasa.gov/international-space-station/space-station-facts-and-figures/"
+      },
+      {
+        "id": "microgravity",
+        "label": "NASA · What is microgravity?",
+        "url": "https://www.nasa.gov/centers-and-facilities/glenn/what-is-microgravity/"
+      }
+    ]
+  },
+  "moon": {
+    "label": "The Moon",
+    "kicker": "The Moon",
+    "title": "Why one face keeps returning.",
+    "body": [
+      "The familiar dark and light regions stay on the side of the Moon that faces Earth. The Moon turns once on its axis in the same time that it completes one orbit around us. This is synchronous rotation, also called tidal locking.",
+      "Over time, Earth’s gravity deformed the rotating Moon. Friction within the changing shape dissipated energy and slowed its spin until rotation and orbit became synchronized.",
+      "Sunlight still moves across both hemispheres. The far side has day and night, just as the near side does. The phases we see show how much of the sunlit half is facing us. Across the real gap between Earth and the Moon, about 30 Earth-sized planets would fit."
+    ],
+    "sources": [
+      {
+        "id": "locking",
+        "label": "NASA Science · Tidal locking",
+        "url": "https://science.nasa.gov/moon/tidal-locking/"
+      },
+      {
+        "id": "phases",
+        "label": "NASA Science · Moon phases and the far side",
+        "url": "https://science.nasa.gov/moon/top-moon-questions/"
+      },
+      {
+        "id": "moon",
+        "label": "NASA Science · Moon facts",
+        "url": "https://science.nasa.gov/moon/facts/"
+      }
+    ]
+  },
+  "maria": {
+    "label": "Lava plains",
+    "kicker": "The Moon · Maria",
+    "title": "The dark plains were once lava.",
+    "body": [
+      "Look at the broad dark areas between the lighter highlands. These are maria, Latin for seas. Ancient lava spread into large impact basins and cooled into plains of basalt.",
+      "Basalt reflects less sunlight than the rocks in the surrounding highlands. The difference in brightness tells us something about the surface itself. These patches keep their character as the Sun moves across them, while the line between lunar day and night changes with the phases.",
+      "The Moon as a whole reflects only about a tenth of the sunlight that reaches it. Much of its surface is dark gray. Its closeness to Earth allows that modest amount of reflected light to make a full Moon bright enough to cast shadows."
+    ],
+    "sources": [
+      {
+        "id": "moon",
+        "label": "NASA Science · Moon facts",
+        "url": "https://science.nasa.gov/moon/facts/"
+      },
+      {
+        "id": "moonlight",
+        "label": "NASA Science · Moonlight",
+        "url": "https://science.nasa.gov/moon/moonlight/"
+      }
+    ]
+  },
+  "craters": {
+    "label": "Craters",
+    "kicker": "The Moon · Impacts",
+    "title": "An old surface keeps the impacts.",
+    "body": [
+      "The round depressions in the highlands record collisions with objects traveling through space. The Moon’s sparse atmosphere offers little protection, and a large impact can excavate a crater far wider than the object that made it.",
+      "On Earth, water and wind wear down craters, while plate tectonics reshapes and recycles the surface. Lunar craters can remain recognizable for billions of years. Later impacts and the solar wind gradually alter them, so even a relatively fresh-looking crater may be hundreds of millions of years old.",
+      "The repeated bombardment also breaks rock into smaller fragments and fine dust. This loose covering is regolith. Both the craters and the material around them preserve evidence of the collisions that shaped the Moon."
+    ],
+    "sources": [
+      {
+        "id": "craters",
+        "label": "NASA Science · Lunar craters",
+        "url": "https://science.nasa.gov/moon/lunar-craters/"
+      },
+      {
+        "id": "weathering",
+        "label": "NASA Earth Observatory · Fresh craters on the Moon and Earth",
+        "url": "https://science.nasa.gov/earth/earth-observatory/fresh-craters-on-the-moon-and-earth-39769/"
+      },
+      {
+        "id": "moon",
+        "label": "NASA Science · Moon facts",
+        "url": "https://science.nasa.gov/moon/facts/"
+      }
+    ]
+  },
+  "mars": {
+    "label": "Mars",
+    "kicker": "Mars · The red surface",
+    "title": "Rust carried across a planet.",
+    "body": [
+      "Mars owes much of its reddish color to oxidized iron minerals in its dust. Over billions of years, erosion broke down iron-bearing material, and winds spread the fine grains across the planet.",
+      "That dust also holds clues to earlier conditions. A 2025 study compared spacecraft observations with laboratory-made Mars dust and found a close match with ferrihydrite, a water-bearing form of iron oxide.",
+      "Ferrihydrite commonly forms in cool water. The result suggests that some of the material responsible for Mars’s familiar color formed during a much wetter period, before winds spread it across the surface."
+    ],
+    "sources": [
+      {
+        "id": "mars-color",
+        "label": "ESA · Why is Mars red?",
+        "url": "https://www.esa.int/ESA_Multimedia/Images/2025/02/Why_is_Mars_red"
+      }
+    ]
+  },
+  "olympus": {
+    "label": "Olympus Mons",
+    "kicker": "Mars · Olympus Mons",
+    "title": "A mountain built by flowing lava.",
+    "body": [
+      "The broad rise to the left of the other volcanoes is Olympus Mons. Overlapping lava flows built this shield volcano, which spans about 600 kilometers. Its slopes are gentle, with a steep scarp around the outer edge.",
+      "The depressions at its summit are calderas. As underground magma chambers emptied, the ground above collapsed. Later eruptions and collapses produced overlapping depressions.",
+      "Orbital images let scientists read the order of events. A lava flow that covers another must be younger. The mountain preserves many such crossings, so its surface records repeated episodes of building and collapse."
+    ],
+    "sources": [
+      {
+        "id": "olympus-flows",
+        "label": "ESA · Lava flows on Olympus Mons",
+        "url": "https://www.esa.int/Science_Exploration/Space_Science/Mars_Express/At_the_foot_of_the_Red_Planet_s_giant_volcano"
+      },
+      {
+        "id": "olympus-caldera",
+        "label": "ESA · The summit calderas of Olympus Mons",
+        "url": "https://www.esa.int/Science_Exploration/Space_Science/Mars_Express/Olympus_Mons_caldera_in_perspective"
+      },
+      {
+        "id": "mars-scale",
+        "label": "NASA/JPL · Mars at a glance",
+        "url": "https://www.jpl.nasa.gov/news/press_kits/insight/landing/facts/mars-at-a-glance/"
+      }
+    ]
+  },
+  "valles": {
+    "label": "Valles Marineris",
+    "kicker": "Mars · Valles Marineris",
+    "title": "A canyon opened by a stretching crust.",
+    "body": [
+      "The long broken band across the lower part of the globe is Valles Marineris, a canyon system about 4,000 kilometers long. Its connected troughs extend east from the Tharsis volcanic region.",
+      "Scientists think the crust stretched and fractured as the neighboring volcanic plateau rose. Parts of the ground dropped, opening deep troughs. Erosion later widened and reshaped them.",
+      "Some canyon walls have collapsed in enormous landslides. Orbital images show debris spread below the slopes, together with layers and dark deposits on the canyon floor. The outline we see brings together several processes acting over a long time."
+    ],
+    "sources": [
+      {
+        "id": "valles-geology",
+        "label": "ESA · The geology of Valles Marineris",
+        "url": "https://www.esa.int/Science_Exploration/Space_Science/Mars_Express/Mars_Express_peers_into_Mars_Grand_Canyon"
+      },
+      {
+        "id": "valles-history",
+        "label": "ESA · The formation of the canyon system",
+        "url": "https://www.esa.int/Science_Exploration/Space_Science/The_Solar_System_s_grandest_canyon"
+      }
+    ]
+  },
+  "polar-cap": {
+    "label": "North polar cap",
+    "kicker": "Mars · The north polar cap",
+    "title": "Ice that changes with the seasons.",
+    "body": [
+      "The pale patch near the northern limb marks the north polar cap. A core of water ice persists through the northern summer. In winter, a wider seasonal covering of carbon dioxide frost and ice grows around it.",
+      "As sunlight returns, carbon dioxide ice changes directly into gas, a process called sublimation. The bright area retreats and exposes darker terrain, including a ring of sand dunes.",
+      "At the edges, spacecraft have photographed layers containing different mixtures of ice and dust. These deposits preserve changes in the Martian climate. The small white patch in this view is the top of a much longer record."
+    ],
+    "sources": [
+      {
+        "id": "polar-seasons",
+        "label": "NASA · Seasonal changes in the north polar cap",
+        "url": "https://science.nasa.gov/photojournal/seasonal-changes-in-mars-north-polar-ice-cap/"
+      },
+      {
+        "id": "polar-layers",
+        "label": "NASA · Layers in the north polar cap",
+        "url": "https://science.nasa.gov/photojournal/north-polar-cap-layers-and-ledges/"
+      }
+    ]
+  },
+  "jupiter": {
+    "label": "Jupiter",
+    "kicker": "Jupiter",
+    "title": "A world with nowhere to land.",
+    "body": [
+      "Jupiter is the fifth planet from the Sun and the largest in the solar system, about eleven times as wide as Earth. The striped globe shows its upper clouds. Beneath them lies an enormous body made mostly of hydrogen and helium.",
+      "Pressure and temperature rise with depth, compressing hydrogen into liquid. There is no solid surface where a spacecraft could land. Farther inside, the pressure is great enough for hydrogen to conduct electricity like a metal.",
+      "Juno’s measurements suggest that even the core has an indistinct boundary. Heavier material appears partly mixed into the surrounding hydrogen, giving Jupiter what researchers call a dilute core."
+    ],
+    "sources": [
+      {
+        "id": "jupiter-facts",
+        "label": "NASA Science · Jupiter facts",
+        "url": "https://science.nasa.gov/jupiter/jupiter-facts/"
+      }
+    ]
+  },
+  "cloud-bands": {
+    "label": "Cloud bands",
+    "kicker": "Jupiter · Belts and zones",
+    "title": "Winds that reach deep into Jupiter.",
+    "body": [
+      "The pale stripes are zones; the darker stripes are belts. They follow Jupiter’s eastward and westward winds. Along their boundaries, the clouds curl into smaller swirls and eddies.",
+      "Juno measured tiny variations in Jupiter’s gravity to investigate how far these flows extend. The results showed that the winds reach roughly 3,000 kilometers below the cloud tops, carrying a substantial part of the planet’s atmosphere with them.",
+      "Jupiter turns once in about ten hours. Its rapid rotation helps organize the winds into the long bands visible here. Their familiar pattern is the outward sign of motion extending far below what a camera can see."
+    ],
+    "sources": [
+      {
+        "id": "jupiter-jets",
+        "label": "NASA · Juno measures the depth of Jupiter’s winds",
+        "url": "https://science.nasa.gov/resource/nasas-juno-spacecraft-reveals-the-depth-of-jupiters-colored-bands/"
+      },
+      {
+        "id": "jupiter-facts",
+        "label": "NASA Science · Jupiter facts",
+        "url": "https://science.nasa.gov/jupiter/jupiter-facts/"
+      }
+    ]
+  },
+  "red-spot": {
+    "label": "Great Red Spot",
+    "kicker": "Jupiter · The Great Red Spot",
+    "title": "A storm that changes shape.",
+    "body": [
+      "The rusty oval below Jupiter’s equator is the Great Red Spot. It is an anticyclone, a storm circulating around a region of high pressure, held between two strong jet streams. Astronomers have monitored it for more than 150 years.",
+      "Hubble observations from December 2023 to March 2024 showed the storm stretching and squeezing over a roughly 90-day cycle. Its shape, brightness and motion changed together. Those observations did not establish what caused the oscillation.",
+      "The oval in this Hubble image represents a changing weather system. Comparing images taken at different times lets researchers follow its behavior, including the long-term shrinking recorded by Hubble."
+    ],
+    "sources": [
+      {
+        "id": "red-spot-weather",
+        "label": "NASA · The Great Red Spot’s weather",
+        "url": "https://www.nasa.gov/centers-and-facilities/goddard/jupiters-great-red-spot-a-swirling-mystery/"
+      },
+      {
+        "id": "red-spot-hubble",
+        "label": "NASA · Hubble watches the storm change shape",
+        "url": "https://science.nasa.gov/missions/hubble/nasas-hubble-watches-jupiters-great-red-spot-behave-like-a-stress-ball/"
+      }
+    ]
+  },
+  "io": {
+    "label": "Io",
+    "kicker": "Jupiter’s moons · Io",
+    "title": "A moon heated by its orbit.",
+    "body": [
+      "Io’s yellow and rusty surface carries sulfur-rich deposits and dark volcanic areas. Eruptions repeatedly cover older ground, making this small rocky moon the most volcanically active world in the solar system.",
+      "Jupiter pulls strongly on Io, while Europa and Ganymede repeatedly disturb its orbit. The resulting slightly elliptical path makes Jupiter’s tidal pull vary. Io flexes as it travels, and this movement generates heat inside the moon.",
+      "That heat feeds volcanic activity. Fresh flows and deposits can cover impact craters, continually changing the surface. The mottled colors in this view belong to a landscape that volcanic activity continually renews."
+    ],
+    "sources": [
+      {
+        "id": "io-facts",
+        "label": "NASA Science · Io facts",
+        "url": "https://science.nasa.gov/jupiter/jupiter-moons/io/facts/"
+      },
+      {
+        "id": "io-color",
+        "label": "NASA · Io in natural color",
+        "url": "https://science.nasa.gov/image-article/apod-2026-january-20-io-in-true-color/"
+      }
+    ]
+  },
+  "europa": {
+    "label": "Europa",
+    "kicker": "Jupiter’s moons · Europa",
+    "title": "Clues to an ocean under the ice.",
+    "body": [
+      "The pale surface of Europa is water ice crossed by reddish-brown fractures. Its relatively small number of impact craters suggests that the surface has been renewed over geological time.",
+      "A particularly strong clue to what lies below came from the Galileo spacecraft. It measured a magnetic response around Europa as Jupiter’s magnetic field swept past. Scientists interpret that response as evidence for an electrically conducting layer beneath the ice, most plausibly a global ocean of salty water.",
+      "The evidence for an ocean is strong, but the ocean itself has not been directly observed. The cracked shell visible here is the boundary through which scientists investigate that hidden interior."
+    ],
+    "sources": [
+      {
+        "id": "europa-facts",
+        "label": "NASA Science · Europa facts",
+        "url": "https://science.nasa.gov/jupiter/jupiter-moons/europa/europa-facts/"
+      }
+    ]
+  },
+  "saturn": {
+    "label": "Saturn",
+    "kicker": "Saturn",
+    "title": "A short day, a long year.",
+    "body": [
+      "Saturn is the sixth planet from the Sun and the second largest. Hydrogen and helium make up most of the planet. The soft bands in the image show clouds above deeper layers of gas and liquid, with no solid surface where a visitor could stand.",
+      "The planet turns once in about eleven hours. That rapid rotation gives it an equatorial bulge and visibly flattened poles. A year passes much more slowly: Saturn takes about 29 Earth years to complete one orbit of the Sun.",
+      "Its tilted axis also gives it seasons. Each lasts for years, changing how sunlight falls across the planet and its rings."
+    ],
+    "sources": [
+      {
+        "id": "saturn-facts",
+        "label": "NASA Science · Saturn facts",
+        "url": "https://science.nasa.gov/saturn/facts/"
+      },
+      {
+        "id": "saturn-shape",
+        "label": "ESA · Saturn’s rotation and shape",
+        "url": "https://www.esa.int/Science_Exploration/Space_Science/Cassini-Huygens/Facts_about_Saturn"
+      }
+    ]
+  },
+  "saturn-rings": {
+    "label": "Rings",
+    "kicker": "Saturn · Rings",
+    "title": "The shape that puzzled Galileo.",
+    "body": [
+      "When Galileo turned his telescope toward Saturn in 1610, he saw a central body with two smaller shapes beside it. The instrument could not resolve the rings. Other observers drew handles, and at times the side features seemed to vanish as the rings turned edge-on to Earth.",
+      "In the 1650s, Christiaan Huygens worked out that a thin, flat ring surrounded the planet without touching it. He published the explanation in Systema Saturnium in 1659.",
+      "We now know that the rings contain countless separate particles, mostly water ice. Each follows its own orbit around Saturn. From a distance those moving pieces form the broad, continuous-looking bands in the image."
+    ],
+    "sources": [
+      {
+        "id": "saturn-history",
+        "label": "ESA · The moon and ring: Huygens and Saturn",
+        "url": "https://www.esa.int/esapub/br/br211/br211.pdf"
+      },
+      {
+        "id": "saturn-ring-material",
+        "label": "ESA · Saturn’s rings",
+        "url": "https://www.esa.int/Science_Exploration/Space_Science/Cassini-Huygens/Saturn_s_rings"
+      }
+    ]
+  },
+  "cassini-division": {
+    "label": "Cassini Division",
+    "kicker": "Saturn · Cassini Division",
+    "title": "What the dark band contains.",
+    "body": [
+      "The dark lane separates the bright B ring from the outer A ring. Called the Cassini Division, it is roughly 4,800 kilometers wide. Voyager’s close views revealed distinct ringlets inside the region that looks like a gap from Earth.",
+      "The moon Mimas helps shape its inner boundary. Near the outer edge of the B ring, particles complete about two orbits for each orbit of Mimas. The moon’s repeated gravitational tugs build up, helping maintain the sharp edge.",
+      "The dark band in this painting simplifies that fine structure. Looking closer with a spacecraft turns an apparently empty strip into another part of the ring system."
+    ],
+    "sources": [
+      {
+        "id": "cassini-division-material",
+        "label": "NASA · Voyager sees ringlets in the Cassini Division",
+        "url": "https://science.nasa.gov/photojournal/saturns-b-rings/"
+      },
+      {
+        "id": "cassini-division-mimas",
+        "label": "NASA · The Great Divide",
+        "url": "https://www.nasa.gov/image-article/great-divide/"
+      }
+    ]
+  },
+  "titan": {
+    "label": "Titan",
+    "kicker": "Saturn’s moons · Titan",
+    "title": "Rain beneath an orange haze.",
+    "body": [
+      "Titan’s orange haze hides the surface beneath a dense atmosphere made mostly of nitrogen. High above the ground, sunlight and energetic particles break apart nitrogen and methane molecules. Their fragments recombine into compounds that help form the haze.",
+      "Below it, methane and ethane collect in lakes and seas. Methane can fall as rain and flow through channels. At Titan’s bitterly cold temperatures, water ice forms hard ground while these other substances can remain liquid.",
+      "On January 14, 2005, ESA’s Huygens probe descended through the atmosphere and landed. The moon that looks featureless in visible light became a landscape that a camera could show from the ground."
+    ],
+    "sources": [
+      {
+        "id": "titan-facts",
+        "label": "NASA Science · Titan facts",
+        "url": "https://science.nasa.gov/saturn/moons/titan/facts/"
+      },
+      {
+        "id": "huygens-landing",
+        "label": "ESA · Cassini-Huygens overview",
+        "url": "https://www.esa.int/Science_Exploration/Space_Science/Cassini-Huygens/Cassini-Huygens_overview"
+      }
+    ]
+  },
+  "enceladus": {
+    "label": "Enceladus",
+    "kicker": "Saturn’s moons · Enceladus",
+    "title": "An ocean that sends samples into space.",
+    "body": [
+      "Enceladus is only about 500 kilometers across. Its bright ice reflects much of the sunlight that reaches it. Near the south pole, long fractures release jets of water vapor and icy particles into space.",
+      "Cassini flew through the plume and sampled material from within the moon. Measurements of gravity and the moon’s slight wobble also support a global ocean beneath the frozen shell.",
+      "Some of the expelled ice falls back onto Enceladus, refreshing its bright surface. Some escapes into Saturn’s faint E ring, beyond the main rings shown here. The pale moon and the surrounding ring system exchange material."
+    ],
+    "sources": [
+      {
+        "id": "enceladus-ocean",
+        "label": "NASA · Cassini at Enceladus",
+        "url": "https://science.nasa.gov/mission/cassini/science/enceladus/"
+      }
+    ]
+  },
+  "uranus": {
+    "label": "Uranus",
+    "kicker": "Uranus",
+    "title": "The color of an ice giant.",
+    "body": [
+      "Uranus is the seventh planet from the Sun. Its atmosphere contains mostly hydrogen and helium, with a small amount of methane. Methane absorbs red light from the sunlight passing through the atmosphere, giving the planet its blue-green appearance.",
+      "The name ice giant refers to materials such as water, ammonia and methane in its interior. Models include hot, dense fluids beneath the atmosphere. There is no solid surface on which a spacecraft could land.",
+      "Voyager 2 passed Uranus on January 24, 1986. Much of our close-range knowledge of the planet and its moons comes from that brief encounter."
+    ],
+    "sources": [
+      {
+        "id": "uranus-facts",
+        "label": "NASA Science · Uranus facts",
+        "url": "https://science.nasa.gov/uranus/facts/"
+      },
+      {
+        "id": "uranus-exploration",
+        "label": "NASA · Exploring Uranus",
+        "url": "https://science.nasa.gov/uranus/exploration/"
+      }
+    ]
+  },
+  "uranus-tilt": {
+    "label": "Sideways spin",
+    "kicker": "Uranus · Rotation",
+    "title": "Seasons on a tilted world.",
+    "body": [
+      "Uranus is tipped almost onto its side. Its rotation axis is tilted about 98 degrees, measured from a line perpendicular to its orbit. The rings lie close to its equatorial plane and share the planet’s unusual orientation.",
+      "A rotation takes about seventeen hours, while one journey around the Sun takes 84 Earth years. During that long year, the poles experience extended periods of continuous daylight and darkness, producing extreme seasonal changes.",
+      "A large collision early in the planet’s history is one proposed explanation for the tilt. The cause has not been established."
+    ],
+    "sources": [
+      {
+        "id": "uranus-facts",
+        "label": "NASA Science · Uranus facts",
+        "url": "https://science.nasa.gov/uranus/facts/"
+      }
+    ]
+  },
+  "uranus-rings": {
+    "label": "Rings",
+    "kicker": "Uranus · Rings",
+    "title": "Found in a star’s interrupted light.",
+    "body": [
+      "On March 10, 1977, astronomers watched Uranus pass in front of a distant star. They expected the event to reveal information about the planet’s atmosphere. Before the star disappeared behind Uranus, its light briefly faded several times. Similar dips followed after it reappeared.",
+      "The interruptions came from narrow rings crossing the line of sight. The repeating pattern revealed material on both sides of the planet, even though the rings themselves were difficult to distinguish in its glare.",
+      "Voyager 2 later examined the ring system at close range. Stronger contrast makes the few ring traces in this watercolor easier to explore."
+    ],
+    "sources": [
+      {
+        "id": "uranus-ring-discovery",
+        "label": "ESA · The discovery of Uranus’s rings",
+        "url": "https://www.esa.int/Science_Exploration/Space_Science/10_March"
+      },
+      {
+        "id": "uranus-exploration",
+        "label": "NASA · Exploring Uranus",
+        "url": "https://science.nasa.gov/uranus/exploration/"
+      }
+    ]
+  },
+  "miranda": {
+    "label": "Miranda",
+    "kicker": "Uranus’s moons · Miranda",
+    "title": "Different histories on one small moon.",
+    "body": [
+      "Miranda is only about 500 kilometers across, yet its surface holds sharply different kinds of terrain. In Voyager 2’s images, heavily cratered ground meets regions of grooves and ridges along abrupt boundaries.",
+      "The angled bright marking and the banded lower region in this Voyager mosaic. The older cratered areas and younger, reshaped terrain show that the moon has experienced different episodes of geological activity. How those changes happened remains uncertain.",
+      "Gerard Kuiper discovered Miranda in 1948. Its name comes from Prospero’s daughter in Shakespeare’s The Tempest, one of several literary names among Uranus’s moons."
+    ],
+    "sources": [
+      {
+        "id": "miranda-facts",
+        "label": "NASA Science · Miranda",
+        "url": "https://science.nasa.gov/uranus/moons/miranda/"
+      },
+      {
+        "id": "miranda-terrain",
+        "label": "NASA/JPL/USGS · Voyager’s south polar view of Miranda",
+        "url": "https://science.nasa.gov/photojournal/south-polar-view-of-miranda/"
+      }
+    ]
+  },
+  "neptune": {
+    "label": "Neptune",
+    "kicker": "Neptune",
+    "title": "A planet found through another planet’s orbit.",
+    "body": [
+      "Uranus did not follow quite the orbit astronomers had calculated. Urbain Le Verrier investigated whether the gravity of an unseen planet could account for the difference and calculated where that planet might be.",
+      "He sent his prediction to Johann Gottfried Galle in Berlin. In 1846, Galle found Neptune on the first night of searching. The journey from Uranus to Neptune follows a connection that helped astronomers discover the outer planet.",
+      "Neptune is the eighth planet from the Sun, about thirty times farther out than Earth. One orbit takes roughly 165 Earth years. Its visible globe is atmosphere; this ice giant has no solid surface on which to land."
+    ],
+    "sources": [
+      {
+        "id": "neptune-facts",
+        "label": "NASA Science · Neptune facts and discovery",
+        "url": "https://science.nasa.gov/neptune/neptune-facts/"
+      }
+    ]
+  },
+  "neptune-color": {
+    "label": "Blue-green light",
+    "kicker": "Neptune · Color",
+    "title": "Why the familiar blue was too strong.",
+    "body": [
+      "Neptune and Uranus both have a blue-green appearance. Methane in their atmospheres absorbs red light. The deep royal blue familiar from many Neptune pictures owes much to choices in processing the spacecraft images.",
+      "Voyager cameras recorded separate images through different filters. Combining them required choices about color balance and contrast. Stronger contrast helped reveal Neptune’s clouds, but some widely circulated versions made the planet look much bluer.",
+      "A 2024 study used telescope spectra to rebalance the images. It found that the two planets are much closer in color, with Neptune slightly bluer. This view uses the earlier Voyager color processing, whose stronger blue and contrast help reveal the clouds."
+    ],
+    "sources": [
+      {
+        "id": "ice-giant-colors",
+        "label": "University of Oxford · The colors of Neptune and Uranus",
+        "url": "https://www.ox.ac.uk/news/2024-01-05-new-images-reveal-what-neptune-and-uranus-really-look-0"
+      },
+      {
+        "id": "neptune-facts",
+        "label": "NASA Science · Neptune facts and discovery",
+        "url": "https://science.nasa.gov/neptune/neptune-facts/"
+      }
+    ]
+  },
+  "dark-spot": {
+    "label": "Great Dark Spot",
+    "kicker": "Neptune · Weather in 1989",
+    "title": "A storm that disappeared.",
+    "body": [
+      "Voyager 2 photographed the Great Dark Spot in Neptune’s southern hemisphere in 1989. The dark oval and thin bright clouds beside it in this image belong to that encounter. The white clouds contain methane ice.",
+      "When Hubble observed Neptune in 1994, that spot had vanished. Later observations recorded other dark storms appearing and changing. A picture of Neptune captures weather at a particular time.",
+      "By comparing repeated images, astronomers can follow the storms’ growth and motion. The oval here belongs to the Voyager era. It is not a view of Neptune’s present weather."
+    ],
+    "sources": [
+      {
+        "id": "neptune-storms",
+        "label": "NASA · Hubble follows Neptune’s changing storms",
+        "url": "https://science.nasa.gov/missions/hubble/hubble-tracks-the-lifecycle-of-giant-storms-on-neptune/"
+      },
+      {
+        "id": "neptune-voyager-clouds",
+        "label": "NASA/JPL · Neptune’s Great Dark Spot and Scooter",
+        "url": "https://science.nasa.gov/photojournal/neptune-great-dark-spot-and-scooter/"
+      }
+    ]
+  },
+  "triton": {
+    "label": "Triton",
+    "kicker": "Neptune’s moons · Triton",
+    "title": "An orbit that points to capture.",
+    "body": [
+      "Triton travels around Neptune in the opposite direction to the planet’s rotation. It is the only large moon in the solar system with this kind of retrograde orbit. That unusual motion is a major clue to its past.",
+      "Scientists think Neptune captured Triton from a separate orbit around the Sun. A former home among the icy bodies of the Kuiper Belt would help explain its similarities to Pluto. Capture is an interpretation of the evidence.",
+      "About 2,700 kilometers across, Triton has an icy surface and a thin atmosphere made mostly of nitrogen. The broad pale southern region in this view follows the polar cap photographed by Voyager 2. The moon is enlarged here so its surface can be explored."
+    ],
+    "sources": [
+      {
+        "id": "triton-facts",
+        "label": "NASA Science · Triton",
+        "url": "https://science.nasa.gov/neptune/moons/triton/"
+      },
+      {
+        "id": "triton-mosaic",
+        "label": "NASA/JPL/USGS · Voyager’s global color mosaic of Triton",
+        "url": "https://science.nasa.gov/photojournal/global-color-mosaic-of-triton/"
+      }
+    ]
+  },
+  "triton-streaks": {
+    "label": "Dark streaks",
+    "kicker": "Triton · Polar ice",
+    "title": "Traces carried by the wind.",
+    "body": [
+      "The small dark marks on Triton’s pale southern ice are deposits recorded in Voyager images. Scientists interpret many of these streaks as fine material carried downwind from geyser-like plumes.",
+      "In 1989, Voyager 2 photographed active plumes rising about eight kilometers above Triton. Their dark particles spread sideways through the thin atmosphere. The streaks on the ground preserve another part of that activity.",
+      "One proposed mechanism involves sunlight warming material beneath nitrogen ice. Trapped gas builds pressure and escapes through openings, carrying particles with it. The driving mechanism remains under investigation. This mosaic shows the surface deposits; active plumes are not resolved in this view."
+    ],
+    "sources": [
+      {
+        "id": "triton-mosaic",
+        "label": "NASA/JPL/USGS · Voyager’s global color mosaic of Triton",
+        "url": "https://science.nasa.gov/photojournal/global-color-mosaic-of-triton/"
+      },
+      {
+        "id": "triton-plumes",
+        "label": "NASA/JPL · Triton’s plumes in Voyager images",
+        "url": "https://science.nasa.gov/photojournal/tritons-volcanic-plumes/"
+      }
+    ]
+  },
+  "pluto": {
+    "label": "Pluto",
+    "kicker": "Pluto · A dwarf planet",
+    "title": "A world among the Kuiper Belt’s icy bodies.",
+    "body": [
+      "Pluto belongs to the Kuiper Belt, a region of icy bodies beyond Neptune. After its discovery in 1930, it was counted as the ninth planet for more than seventy years.",
+      "In 2006, the International Astronomical Union classified it as a dwarf planet. Pluto circles the Sun and its gravity has made it nearly round. It does not meet the additional planetary criterion of having cleared its orbital neighborhood.",
+      "New Horizons flew past in July 2015, revealing a landscape of glaciers and mountains. This view follows the hemisphere seen during that encounter, including the broad bright region named Tombaugh Regio, often called Pluto’s heart.",
+      "This New Horizons image combines blue, red and infrared observations from July 14, 2015. Its colors are enhanced to reveal differences across the surface. The camera stays on the same observation when you approach the bright plain."
+    ],
+    "sources": [
+      {
+        "id": "pluto-facts",
+        "label": "NASA Science · Pluto facts",
+        "url": "https://science.nasa.gov/dwarf-planets/pluto/facts/"
+      },
+      {
+        "id": "pluto-definition",
+        "label": "IAU · The 2006 definitions of planets and dwarf planets",
+        "url": "https://www.iau.org/IAU/Iau/News/PR2006/iau-2006-general-assembly-resolution-votes.aspx"
+      },
+      {
+        "id": "pluto-enhanced",
+        "label": "NASA/New Horizons · This enhanced-color view of Pluto",
+        "url": "https://science.nasa.gov/photojournal/the-rich-color-variations-of-pluto/"
+      }
+    ]
+  },
+  "sputnik-planitia": {
+    "label": "Sputnik Planitia",
+    "kicker": "Pluto · Sputnik Planitia",
+    "title": "Ice that slowly renews its surface.",
+    "body": [
+      "The smooth left lobe of Pluto’s bright heart is Sputnik Planitia. Nitrogen ice fills this broad basin. Its pale surface contrasts with the darker, rougher terrain along its western edge.",
+      "New Horizons photographed broad cells across parts of the plain. Scientists compared their shapes with computer models and found that slow convection in solid nitrogen ice could produce the pattern. Warmer ice rises from below, spreads and cools, then sinks near the cell boundaries.",
+      "This movement can replace older surface material and help explain why the plain has so few impact craters. The closer view uses the same New Horizons image as the whole globe; fine patterns become easier to distinguish as the native-resolution image loads."
+    ],
+    "sources": [
+      {
+        "id": "sputnik-convection",
+        "label": "NASA · Convection in Pluto’s nitrogen ice",
+        "url": "https://www.nasa.gov/solar-system/plutos-heart-like-a-cosmic-lava-lamp/"
+      },
+      {
+        "id": "sputnik-terrain",
+        "label": "NASA · Surface patterns in Pluto’s bright plain",
+        "url": "https://www.nasa.gov/image-article/intricate-surface-patterns-revealed-plutos-sputnik-planum/"
+      },
+      {
+        "id": "pluto-facts",
+        "label": "NASA Science · Pluto facts",
+        "url": "https://science.nasa.gov/dwarf-planets/pluto/facts/"
+      }
+    ]
+  },
+  "charon": {
+    "label": "Charon",
+    "kicker": "Pluto’s moons · Charon",
+    "title": "The moon first seen as a moving bulge.",
+    "body": [
+      "In 1978, James Christy noticed that some telescope images of Pluto looked stretched. The bulge changed position in a repeating cycle. Archived images showed it too, and further observations confirmed a large moon.",
+      "Charon is about half Pluto’s diameter. The two worlds keep the same faces toward each other, a state called mutual tidal locking. Charon’s orbit and each world’s rotation take about 6.4 Earth days.",
+      "From a place on Pluto facing Charon, the moon stays in the same part of the sky. The two globe portraits here show terrain photographed by New Horizons, arranged separately for exploration.",
+      "The image was taken on July 14, 2015. Its enhanced colors emphasize differences in surface properties, including the reddish northern polar region. Pluto and Charon remain in fixed places in this illustrative arrangement as you travel between them."
+    ],
+    "sources": [
+      {
+        "id": "charon-facts",
+        "label": "NASA Science · Charon and its discovery",
+        "url": "https://science.nasa.gov/dwarf-planets/pluto/moons/charon/"
+      },
+      {
+        "id": "charon-enhanced",
+        "label": "NASA/New Horizons · This enhanced-color view of Charon",
+        "url": "https://science.nasa.gov/photojournal/charon-in-enhanced-color/"
+      }
+    ]
+  },
+  "charon-pole": {
+    "label": "Reddish pole",
+    "kicker": "Charon · The northern polar region",
+    "title": "Material that may have come from Pluto.",
+    "body": [
+      "Charon is mostly gray, but its northern polar region has a reddish-brown tint. New Horizons images and models of the moon’s long seasons led researchers to an explanation involving its companion.",
+      "In this model, methane escaping from Pluto reaches Charon and freezes at the winter pole. Radiation alters the trapped material into heavier compounds. When sunlight returns, much of the methane escapes again, while less volatile products remain.",
+      "Further irradiation can produce reddish organic material called tholins. The model agrees with the observed color pattern; it reconstructs a process that the spacecraft could not watch over an entire seasonal cycle."
+    ],
+    "sources": [
+      {
+        "id": "charon-polar-model",
+        "label": "Grundy and colleagues · A model for Charon’s red poles",
+        "url": "https://ntrs.nasa.gov/citations/20170003179"
+      },
+      {
+        "id": "charon-polar-chemistry",
+        "label": "NASA · How Pluto may supply Charon’s reddish material",
+        "url": "https://www.nasa.gov/missions/pluto-paints-its-largest-moon-red/"
+      }
+    ]
+  },
+  "venus": {
+    "label": "Venus",
+    "kicker": "Venus · Beneath the cloud cover",
+    "title": "A familiar size, a very different climate.",
+    "body": [
+      "Venus is the second planet from the Sun. At about 12,100 kilometers across, it is only a little smaller than Earth. Both are rocky worlds, but their atmospheres have followed very different histories.",
+      "Venus’s thick atmosphere is mostly carbon dioxide. It traps enough heat to make the surface about 465°C, hotter than Mercury’s average surface despite being farther from the Sun. Surface pressure is roughly ninety times the pressure at sea level on Earth.",
+      "The pale globe here shows the cloud cover. The rocky ground and its extreme conditions are hidden beneath it."
+    ],
+    "sources": [
+      {
+        "id": "venus-facts",
+        "label": "NASA Science · Venus facts",
+        "url": "https://science.nasa.gov/venus/venus-facts/"
+      },
+      {
+        "id": "venus-measurements",
+        "label": "NASA Goddard · Venus fact sheet",
+        "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/venusfact.html"
+      }
+    ]
+  },
+  "venus-clouds": {
+    "label": "Acid clouds",
+    "kicker": "Venus · Atmosphere",
+    "title": "Clouds that circle faster than the world below.",
+    "body": [
+      "Venus’s clouds contain tiny droplets of sulfuric acid. They reflect much of the sunlight that reaches them, helping Venus appear so bright in Earth’s sky. In visible light, the cloud cover looks nearly featureless.",
+      "Ultraviolet images reveal sweeping patterns. The upper clouds can circle the planet in roughly four to five Earth days, while the solid world takes about 243 days to turn once. This fast atmospheric circulation is called superrotation.",
+      "This Mariner 10 composite combines orange and ultraviolet observations from February 1974. Its colors are assigned to reveal atmospheric differences. They mark an atmosphere that keeps changing; no surface geography is visible through them."
+    ],
+    "sources": [
+      {
+        "id": "venus-cloud-view",
+        "label": "NASA/JPL · Newly processed Mariner 10 views of Venus",
+        "url": "https://science.nasa.gov/resource/newly-processed-views-of-venus-from-mariner-10/"
+      },
+      {
+        "id": "venus-wavelengths",
+        "label": "ESA · Venus at wavelengths invisible to human eyes",
+        "url": "https://www.esa.int/Science_Exploration/Space_Science/Venus_Express/Venus_comes_to_life_at_wavelengths_invisible_to_human_eyes"
+      },
+      {
+        "id": "venus-facts",
+        "label": "NASA Science · Venus facts",
+        "url": "https://science.nasa.gov/venus/venus-facts/"
+      }
+    ]
+  },
+  "venus-spin": {
+    "label": "Slow spin",
+    "kicker": "Venus · Rotation",
+    "title": "Two different ways to count a day.",
+    "body": [
+      "Venus takes about 243 Earth days to rotate once relative to the distant stars. Its year, one orbit of the Sun, lasts about 225 Earth days. The planet completes an orbit before it finishes that single turn.",
+      "It also turns in the opposite direction to most planets. If the clouds allowed a view of the Sun from the surface, it would rise in the west and set in the east.",
+      "A solar day measures the interval from one noon to the next. Venus’s slow backward rotation combines with its orbital motion to make that interval about 117 Earth days. The rotation period and the solar day measure different things."
+    ],
+    "sources": [
+      {
+        "id": "venus-measurements",
+        "label": "NASA Goddard · Venus fact sheet",
+        "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/venusfact.html"
+      },
+      {
+        "id": "venus-facts",
+        "label": "NASA Science · Venus facts",
+        "url": "https://science.nasa.gov/venus/venus-facts/"
+      }
+    ]
+  },
+  "venus-phases": {
+    "label": "Phases",
+    "kicker": "Venus · Galileo’s telescope",
+    "title": "Changing light helped reveal an orbit.",
+    "body": [
+      "Sunlight illuminates half of Venus. From Earth, we see different portions of that sunlit half as the two planets move around the Sun. Through a telescope, Venus changes from a thin crescent to a nearly full disk, growing smaller in apparent size as it moves farther away.",
+      "Galileo began observing these phases in 1610. The nearly full phases contradicted the traditional Ptolemaic arrangement, which kept Venus between Earth and the Sun and could produce only a narrow range of crescents.",
+      "The observations supported an orbit around the Sun. Tycho Brahe’s alternative system also accommodated them, so the phases alone did not settle every question about Earth’s motion. The light and shadow here are a chosen view, rather than Venus’s current appearance from Earth."
+    ],
+    "sources": [
+      {
+        "id": "venus-phases-history",
+        "label": "Museo Galileo · The phases of Venus",
+        "url": "https://catalogue.museogalileo.it/indepth/PhasesVenus.html"
+      }
+    ]
+  },
+  "magellan": {
+    "label": "Magellan",
+    "kicker": "Venus · Radar exploration",
+    "title": "A way to map the ground beneath the clouds.",
+    "body": [
+      "Magellan reached Venus in 1990. Its large dish sent radar signals through the cloud cover and received their echoes from the ground. The measurements revealed mountains, lava plains and craters beneath the opaque atmosphere. By the end of its third mapping cycle, the mission had covered about 98 percent of the surface.",
+      "The spacecraft incorporated spare hardware left over from earlier missions. It ended its work in 1994, when controllers sent it into the atmosphere. The cloud view in this journey does not show Magellan; this note describes the mission that mapped the hidden ground.",
+      "Its images kept yielding discoveries. In a study published in 2023, researchers compared observations from February and October 1991 and found a vent near Maat Mons had changed shape and doubled in area. Modeling supported a volcanic eruption as the cause."
+    ],
+    "sources": [
+      {
+        "id": "magellan-mission",
+        "label": "NASA Science · Magellan",
+        "url": "https://science.nasa.gov/mission/magellan/"
+      },
+      {
+        "id": "magellan-portrait",
+        "label": "NASA/JPL · Magellan mission and spacecraft",
+        "url": "https://www.jpl.nasa.gov/missions/magellan/"
+      },
+      {
+        "id": "venus-volcanism",
+        "label": "NASA/JPL · Volcanic activity in Magellan’s archived images",
+        "url": "https://www.jpl.nasa.gov/news/nasas-magellan-data-reveals-volcanic-activity-on-venus/"
+      }
+    ]
+  },
+  "mercury": {
+    "label": "Mercury",
+    "kicker": "The innermost planet",
+    "title": "A small world with a marked surface.",
+    "body": [
+      "Mercury is the smallest of the eight planets, only a little larger than our Moon. It orbits closest to the Sun. Its gray-brown surface records impacts, with bright streaks spreading from some younger craters.",
+      "Those rays are crushed rock thrown out during impacts. Freshly exposed material reflects more light. The broad pale area higher on the globe is Caloris, a much older impact basin.",
+      "Sunlit ground can reach about 430°C, while nighttime temperatures can fall to about −180°C. Mercury’s extremely thin exosphere cannot hold heat the way a substantial atmosphere can. Venus remains the hotter planet."
+    ],
+    "sources": [
+      {
+        "id": "mercury-facts",
+        "label": "NASA Science · Mercury Facts",
+        "url": "https://science.nasa.gov/mercury/facts/"
+      },
+      {
+        "id": "mercury-view",
+        "label": "NASA Science · Mercury’s Subtle Colors",
+        "url": "https://science.nasa.gov/resource/mercurys-subtle-colors/"
+      }
+    ]
+  },
+  "caloris": {
+    "label": "Caloris Basin",
+    "kicker": "An impact and later lava",
+    "title": "A basin filled after the collision.",
+    "body": [
+      "The broad pale patch near the upper right represents Caloris Basin, roughly 1,500 kilometers across. An enormous impact excavated it, and lava later flooded its floor.",
+      "Smaller impacts then punched through those volcanic plains. Some excavated darker material from below. The basin holds a sequence of events that geologists can read from which features cut through others.",
+      "MESSENGER’s color images help distinguish surface materials. Some published views enhance those differences strongly. This MESSENGER mosaic uses infrared, far-red and violet observations in assigned color channels, revealing subtle compositional differences. The close view stays within that same mosaic."
+    ],
+    "sources": [
+      {
+        "id": "caloris",
+        "label": "NASA Science · Mercury’s Caloris Basin",
+        "url": "https://science.nasa.gov/resource/mercurys-caloris-basin/"
+      },
+      {
+        "id": "mercury-view",
+        "label": "NASA Science · Mercury’s Subtle Colors",
+        "url": "https://science.nasa.gov/resource/mercurys-subtle-colors/"
+      }
+    ]
+  },
+  "mercury-day": {
+    "label": "A long day",
+    "kicker": "Orbit and rotation",
+    "title": "One solar day lasts two Mercury years.",
+    "body": [
+      "Mercury circles the Sun in about 88 Earth days and turns once on its axis in about 59. Together, these motions make a complete sunrise-to-sunrise cycle last about 176 Earth days.",
+      "Its speed also changes along its elongated orbit. Near the closest approach to the Sun, the Sun’s apparent movement can briefly reverse. From some places, a sunrise can be followed by a sunset and another sunrise.",
+      "The shaded edge in this observation is the boundary between day and night in this chosen view. It does not divide a permanently lit face from a permanently dark one."
+    ],
+    "sources": [
+      {
+        "id": "mercury-facts",
+        "label": "NASA Science · Mercury Facts",
+        "url": "https://science.nasa.gov/mercury/facts/"
+      }
+    ]
+  },
+  "mercury-ice": {
+    "label": "Polar shadows",
+    "kicker": "Ice near the Sun",
+    "title": "Some crater floors never receive sunlight.",
+    "body": [
+      "Near Mercury’s poles, parts of deep craters remain in permanent shadow. These cold places can preserve water ice even while sunlit ground elsewhere becomes extremely hot.",
+      "Earth-based radar first found unusually reflective polar deposits. MESSENGER added measurements of hydrogen and models of the temperatures, providing strong evidence for water ice. A darker insulating layer covers some deposits.",
+      "This label marks the polar region. This observation does not resolve the individual deposits hidden inside those small, shadowed craters; there is no broad white ice cap."
+    ],
+    "sources": [
+      {
+        "id": "mercury-ice",
+        "label": "NASA/JPL · New Mercury Water Ice Evidence",
+        "url": "https://www.jpl.nasa.gov/news/nasa-spacecraft-finds-new-mercury-water-ice-evidence/"
+      }
+    ]
+  },
+  "sun": {
+    "label": "The Sun",
+    "kicker": "Our star",
+    "title": "The light reaches every world here.",
+    "body": [
+      "The Sun’s gravity keeps the planets in orbit. Deep inside it, hydrogen fuses into helium, releasing the energy that eventually leaves as sunlight.",
+      "Approach the disk to explore its visible surface and dark sunspots. Read “What the light told us” for the history of these observations, or open the atmosphere notes for separate views of prominences and the corona. The main view is an SDO/HMI visible-light observation from February 2011, with a display color added by NASA. Sunlight is white."
+    ],
+    "sources": [
+      {
+        "id": "sun-facts",
+        "label": "NASA Science · Sun Facts",
+        "url": "https://science.nasa.gov/sun/facts/"
+      }
+    ]
+  },
+  "asteroid-belt": {
+    "label": "The asteroid belt",
+    "kicker": "Between Mars and Jupiter",
+    "title": "Most of the belt is empty space.",
+    "body": [
+      "The main asteroid belt lies between the orbits of Mars and Jupiter. Its worlds follow their own paths around the Sun, usually separated by enormous stretches of space. A spacecraft can cross the region with little chance of passing close to an asteroid.",
+      "These bodies preserve material from the early Solar System. As Jupiter grew, its gravity disturbed motion in this region, helping prevent a planet from assembling and making collisions more destructive. Those collisions have continued to reshape the belt.",
+      "Ceres and Vesta appear together here as separate enlarged portraits. Their spacing in this arrangement helps exploration; it does not show how close they are in space."
+    ],
+    "sources": [
+      {
+        "id": "asteroid-facts",
+        "label": "NASA Science · Asteroid facts",
+        "url": "https://science.nasa.gov/solar-system/asteroids/facts/"
+      },
+      {
+        "id": "dawn-faq",
+        "label": "NASA Science · Dawn frequently asked questions",
+        "url": "https://science.nasa.gov/mission/dawn/faq/"
+      }
+    ]
+  },
+  "ceres": {
+    "label": "Ceres",
+    "kicker": "A dwarf planet in the belt",
+    "title": "A point of light became a world.",
+    "body": [
+      "Giuseppe Piazzi discovered Ceres in 1801. This dwarf planet is the largest body in the asteroid belt, about 950 kilometers across.",
+      "Dawn entered orbit in 2015. Its close views turned a distant point into a cratered landscape. This Dawn mosaic centers on Occator, the crater with the small pale deposits.",
+      "Those bright patches became one of the mission’s most revealing clues. Open their label to see how measurements of reflected light and gravity helped scientists investigate what lies beneath the surface."
+    ],
+    "sources": [
+      {
+        "id": "ceres-facts",
+        "label": "NASA Science · Ceres facts",
+        "url": "https://science.nasa.gov/dwarf-planets/ceres/facts/"
+      },
+      {
+        "id": "ceres-view",
+        "label": "NASA/JPL · High-resolution Ceres view",
+        "url": "https://science.nasa.gov/resource/high-resolution-ceres-view/"
+      },
+      {
+        "id": "ceres-salts",
+        "label": "NASA/JPL · Bright areas on Ceres come from salty water below",
+        "url": "https://www.jpl.nasa.gov/news/mystery-solved-bright-areas-on-ceres-come-from-salty-water-below/"
+      }
+    ]
+  },
+  "occator": {
+    "label": "Bright salts",
+    "kicker": "Occator Crater",
+    "title": "Salt records the movement of water.",
+    "body": [
+      "Occator is about 92 kilometers wide. Its brightest deposits contain sodium carbonate, a salt. Briny liquid reached the surface; as the water escaped into space, reflective minerals remained.",
+      "Dawn measured the composition of the deposits from reflected light. Later close passes also revealed variations in gravity. Together with geological models, the observations indicate that some brine came from a deep reservoir below the crater.",
+      "The pale patches in this close view are those deposits. They shine by reflecting sunlight. The reservoir itself is hidden beneath the ground."
+    ],
+    "sources": [
+      {
+        "id": "occator-view",
+        "label": "NASA/JPL · Occator Crater and Ceres’ brightest spots",
+        "url": "https://science.nasa.gov/photojournal/occator-crater-and-ceres-brightest-spots/"
+      },
+      {
+        "id": "ceres-salts",
+        "label": "NASA/JPL · Bright areas on Ceres come from salty water below",
+        "url": "https://www.jpl.nasa.gov/news/mystery-solved-bright-areas-on-ceres-come-from-salty-water-below/"
+      }
+    ]
+  },
+  "vesta": {
+    "label": "Vesta",
+    "kicker": "A history carried to Earth",
+    "title": "Some meteorites bring pieces of this world.",
+    "body": [
+      "Vesta’s uneven outline and grooved terrain bear traces of enormous impacts. Two overlapping basins occupy its southern region. The younger one, Rheasilvia, is roughly 500 kilometers across, comparable to Vesta’s own size.",
+      "Dawn’s measurements connected this distant surface with rocks already held in laboratories on Earth. The spacecraft found a close match between Vesta’s mineral composition and a group of meteorites called howardites, eucrites and diogenites. The evidence strongly supports Vesta as their source.",
+      "Impacts can eject fragments into space. Some eventually cross Earth’s orbit and survive the fall through its atmosphere. These samples let researchers study parts of Vesta directly, alongside the spacecraft observations.",
+      "This view uses a Dawn mosaic. Its southern relief and grooves record a history of immense impacts."
+    ],
+    "sources": [
+      {
+        "id": "vesta-science",
+        "label": "NASA Science · Dawn at Vesta",
+        "url": "https://science.nasa.gov/mission/dawn/science/vesta/"
+      },
+      {
+        "id": "vesta-view",
+        "label": "NASA/JPL · Full view of Vesta",
+        "url": "https://www.jpl.nasa.gov/images/pia15678-full-view-of-vesta/"
+      }
+    ]
+  },
+  "kuiper-belt": {
+    "label": "The Kuiper Belt",
+    "kicker": "Beyond Neptune",
+    "title": "Pluto belongs to a much larger population.",
+    "body": [
+      "The main Kuiper Belt stretches from near Neptune’s orbit, about 30 times Earth’s distance from the Sun, to roughly 50 times that distance. It contains icy remnants of the material from which the planets formed. Pluto is one of its members.",
+      "The objects’ orbits preserve clues to their history. Pluto follows a repeating rhythm with Neptune, completing two orbits while Neptune completes three. Arrokoth belongs to the cold classical population, whose relatively round, lightly tilted orbits have been less disturbed.",
+      "Here “cold” describes the motion of those orbits. Arrokoth’s quiet orbital history helps explain why it can preserve evidence from the Solar System’s beginnings. This view approaches one small member of this enormous region. The route compresses distances and does not represent the objects’ orbital positions."
+    ],
+    "sources": [
+      {
+        "id": "kuiper-facts",
+        "label": "NASA Science · Kuiper Belt facts",
+        "url": "https://science.nasa.gov/solar-system/kuiper-belt/facts/"
+      },
+      {
+        "id": "arrokoth-facts",
+        "label": "NASA Science · Arrokoth facts",
+        "url": "https://science.nasa.gov/solar-system/kuiper-belt/arrokoth-2014-mu69/facts/"
+      }
+    ]
+  },
+  "arrokoth": {
+    "label": "Arrokoth",
+    "kicker": "A small world reached by New Horizons",
+    "title": "The next close encounter after Pluto.",
+    "body": [
+      "Arrokoth is about 35 kilometers long and follows an orbit roughly 45 times Earth’s distance from the Sun. New Horizons revealed its two joined lobes during the flyby on January 1, 2019.",
+      "The same spacecraft had flown past Pluto on July 14, 2015. It continued into the Kuiper Belt and sent back images of this much smaller world. Views from different angles helped researchers reconstruct its three-dimensional shape, including the flattened larger lobe.",
+      "This New Horizons composite combines enhanced-color data with higher-resolution panchromatic imagery. The wide and close views use the same observation, preserving the outline, pale neck and surface features. Image credit: NASA/Johns Hopkins University Applied Physics Laboratory/Southwest Research Institute/Roman Tkachenko."
+    ],
+    "sources": [
+      {
+        "id": "arrokoth-facts",
+        "label": "NASA Science · Arrokoth facts",
+        "url": "https://science.nasa.gov/solar-system/kuiper-belt/arrokoth-2014-mu69/facts/"
+      },
+      {
+        "id": "new-horizons",
+        "label": "NASA Science · New Horizons",
+        "url": "https://science.nasa.gov/mission/new-horizons/"
+      },
+      {
+        "id": "arrokoth-view",
+        "label": "NASA/JHUAPL/SwRI · Enhanced-color composite of Arrokoth",
+        "url": "https://science.nasa.gov/resource/enhanced-color-composite-image-of-kuiper-belt-object-arrokoth-2014-mu69/"
+      }
+    ]
+  },
+  "arrokoth-neck": {
+    "label": "The neck",
+    "kicker": "How small worlds came together",
+    "title": "The joined lobes record a gentle merger.",
+    "body": [
+      "The pale curved strip lies at the narrow connection between Arrokoth’s lobes. Together, the two parts form a contact binary: bodies that came together and remained joined.",
+      "Their flattened shapes and closely aligned axes support a gentle merger. Researchers interpret these features as evidence that the two lobes formed within the same collapsing cloud of particles, then approached each other slowly.",
+      "The encounter itself was not observed. This account comes from comparing the surviving shape with models of how small bodies assemble. The relatively intact lobes make Arrokoth a useful record of an early stage in planet formation."
+    ],
+    "sources": [
+      {
+        "id": "arrokoth-formation",
+        "label": "NASA Ames · Arrokoth revealed",
+        "url": "https://www.nasa.gov/missions/new-horizons/arrokoth-revealed-a-first-in-depth-look-at-a-pristine-world/"
+      },
+      {
+        "id": "arrokoth-facts",
+        "label": "NASA Science · Arrokoth facts",
+        "url": "https://science.nasa.gov/solar-system/kuiper-belt/arrokoth-2014-mu69/facts/"
+      }
+    ]
+  },
+  "arrokoth-color": {
+    "label": "Reddish surface",
+    "kicker": "Chemistry in reflected light",
+    "title": "The color carries clues to surface chemistry.",
+    "body": [
+      "New Horizons measured the wavelengths of light reflected by Arrokoth. Its spectrum contains signatures of frozen methanol. The surface is reddish across both lobes, with modest local differences.",
+      "Researchers interpret the red color as evidence of complex organic material, probably altered or produced as radiation acts on simpler molecules. The exact mixture remains uncertain. In chemistry, “organic” refers to carbon-containing compounds; the term alone makes no claim about life.",
+      "This spacecraft composite uses enhanced color. Its brightness helps reveal the shape; the close view cannot identify individual molecules by sight. Arrokoth reflects only a small fraction of the sunlight that reaches it."
+    ],
+    "sources": [
+      {
+        "id": "arrokoth-composition",
+        "label": "Grundy and colleagues · Color, composition, and thermal environment of Arrokoth (Science, 2020)",
+        "url": "https://ntrs.nasa.gov/citations/20210019446"
+      },
+      {
+        "id": "arrokoth-view",
+        "label": "NASA/JHUAPL/SwRI · Enhanced-color composite of Arrokoth",
+        "url": "https://science.nasa.gov/resource/enhanced-color-composite-image-of-kuiper-belt-object-arrokoth-2014-mu69/"
+      },
+      {
+        "id": "arrokoth-facts",
+        "label": "NASA Science · Arrokoth facts",
+        "url": "https://science.nasa.gov/solar-system/kuiper-belt/arrokoth-2014-mu69/facts/"
+      }
+    ]
+  },
+  "voyager-1": {
+    "label": "Voyager 1",
+    "kicker": "A turn at Saturn",
+    "title": "Titan helped determine the route.",
+    "body": [
+      "Voyager 1 launched on September 5, 1977, after Voyager 2. Its faster route carried it past Jupiter in 1979 and Saturn in 1980.",
+      "At Saturn, a close encounter with Titan was a priority. The chosen path took Voyager 1 north of the plane in which most planets orbit. Its planetary tour ended there, while Voyager 2 continued toward Uranus and Neptune.",
+      "The broad dish in this NASA model is its 3.7-meter high-gain antenna. The spacecraft’s attitude-control system keeps it pointed toward Earth so radio signals can carry observations home and commands back out.",
+      "The two spacecraft have the same basic design. Both are shown using the same NASA model in separate regions of this journey. The camera crosses empty space between their paths; positions and distances are illustrative."
+    ],
+    "sources": [
+      {
+        "id": "voyager-1",
+        "label": "NASA Science · Voyager 1",
+        "url": "https://science.nasa.gov/mission/voyager/voyager-1/"
+      },
+      {
+        "id": "voyager-routes",
+        "label": "NASA Science · Voyager mission fact sheet",
+        "url": "https://science.nasa.gov/mission/voyager/fact-sheet/"
+      },
+      {
+        "id": "voyager-hardware",
+        "label": "NASA Science · Voyager instruments and spacecraft",
+        "url": "https://science.nasa.gov/mission/voyager/instruments/"
+      }
+    ]
+  },
+  "voyager-2": {
+    "label": "Voyager 2",
+    "kicker": "The longer planetary tour",
+    "title": "One spacecraft visited all four giant planets.",
+    "body": [
+      "Voyager 2 launched on August 20, 1977. It passed Jupiter in 1979, Saturn in 1981, Uranus in 1986 and Neptune in 1989.",
+      "The planets’ arrangement allowed a sequence of gravity assists. Each encounter changed the spacecraft’s motion relative to the Sun and set up the next destination. At Saturn, its path preserved the onward route to Uranus.",
+      "Voyager 2 supplied the close views of Neptune and Triton used in this journey. After the Neptune encounter, it headed south of the planets’ orbital plane, taking a different path into interstellar space from Voyager 1.",
+      "Voyager 2 appears alone here. Voyager 1 is far away in another direction; the camera travels through empty space before reaching it."
+    ],
+    "sources": [
+      {
+        "id": "voyager-2",
+        "label": "NASA Science · Voyager 2",
+        "url": "https://science.nasa.gov/mission/voyager/voyager-2/"
+      },
+      {
+        "id": "voyager-routes",
+        "label": "NASA Science · Voyager mission fact sheet",
+        "url": "https://science.nasa.gov/mission/voyager/fact-sheet/"
+      }
+    ]
+  },
+  "heliopause": {
+    "label": "Beyond the solar wind",
+    "kicker": "A boundary in the surrounding particles",
+    "title": "Interstellar space begins beyond the heliopause.",
+    "body": [
+      "The solar wind is a flow of charged particles from the Sun. It forms a large surrounding region called the heliosphere. At its outer boundary, the heliopause, the outward solar wind meets the interstellar environment.",
+      "Voyager 1 crossed this boundary on August 25, 2012. Voyager 2 crossed on November 5, 2018. Scientists identified the transitions through instrument measurements. At Voyager 2, the measured solar-wind flow dropped sharply, alongside changes in energetic particles.",
+      "The Sun’s gravity reaches much farther. The Oort Cloud is a proposed distant reservoir of icy bodies, inferred from comet orbits, well beyond either Voyager. Crossing the heliopause therefore marks a change in the surrounding plasma; it does not put a spacecraft beyond every boundary used for the Solar System.",
+      "There is no visible wall here. The dark background leaves the boundary to its measurements."
+    ],
+    "sources": [
+      {
+        "id": "voyager-1",
+        "label": "NASA Science · Voyager 1",
+        "url": "https://science.nasa.gov/mission/voyager/voyager-1/"
+      },
+      {
+        "id": "voyager-boundary",
+        "label": "NASA · Voyager 2 enters interstellar space (2018)",
+        "url": "https://science.nasa.gov/missions/voyager-program/nasas-voyager-2-probe-enters-interstellar-space/"
+      },
+      {
+        "id": "oort-cloud",
+        "label": "NASA Science · Oort Cloud facts",
+        "url": "https://science.nasa.gov/solar-system/oort-cloud/facts/"
+      }
+    ]
+  },
+  "golden-record": {
+    "label": "Golden Record",
+    "kicker": "A message carried on both spacecraft",
+    "title": "Sounds and pictures from Earth travel with them.",
+    "body": [
+      "Each Voyager carries a 30-centimeter gold-plated copper record beneath a protective aluminum cover. The small gold circle on the equipment body marks its location in this NASA model.",
+      "Planetary scientist Carl Sagan of Cornell University chaired the committee that selected the contents. Alongside music and natural sounds, the records hold greetings in 55 languages, including Turkish, and 115 encoded images. Linda Salzman Sagan organized the spoken greetings.",
+      "The cover supplies symbolic instructions for playing the record and reconstructing its images. A cartridge and needle travel with it. Hearing the message would require someone to encounter the spacecraft and work out how to read it.",
+      "The cover also gives a return address. A map places the Sun relative to 14 pulsars, with their pulse periods providing identifying marks. This design had already traveled aboard Pioneer 10 and 11. A reader who could decipher it would have a way to locate the Solar System.",
+      "A return address also raises a harder question. Could being found put us in danger?",
+      "In a 1983 paper, Sagan and William Newman argued that civilizations developing weapons powerful enough to destroy themselves would need to learn to control their aggression to survive. They reasoned that societies lasting long enough to spread through the galaxy would therefore be among the least likely to practice violent imperialism.",
+      "This was an argument about how civilizations might survive. It gives a basis for Sagan’s optimism while leaving the intentions of any unknown civilization uncertain.",
+      "NASA’s linked collection lets you explore the sounds and greetings the committee chose."
+    ],
+    "sources": [
+      {
+        "id": "golden-record",
+        "label": "NASA Science · Golden Record overview",
+        "url": "https://science.nasa.gov/mission/voyager/voyager-golden-record-overview/"
+      },
+      {
+        "id": "record-contents",
+        "label": "NASA Science · Golden Record contents",
+        "url": "https://science.nasa.gov/mission/voyager/golden-record-contents/"
+      },
+      {
+        "id": "record-greetings",
+        "label": "NASA Science · Greetings in 55 languages",
+        "url": "https://science.nasa.gov/mission/voyager/golden-record-contents/greetings/"
+      },
+      {
+        "id": "record-cover",
+        "label": "NASA Science · Reading the Golden Record cover",
+        "url": "https://science.nasa.gov/mission/voyager/golden-record-cover/"
+      },
+      {
+        "id": "sagan-newman",
+        "label": "Sagan and Newman · The Solipsist Approach to Extraterrestrial Intelligence (1983), p. 120",
+        "url": "https://articles.adsabs.harvard.edu/pdf/1983QJRAS..24..113S"
+      }
+    ]
+  },
+  "voyager-power": {
+    "label": "Power source",
+    "kicker": "Electricity far from the Sun",
+    "title": "The spacecraft carry their own source of heat.",
+    "body": [
+      "The three finned units on the short boom are radioisotope thermoelectric generators, or RTGs. Radioactive decay of plutonium-238 produces heat; thermoelectric converters turn part of that heat into electricity.",
+      "This supplies power far from the Sun. As the generators’ electrical output declines over the years, engineers reduce the spacecraft’s power demands by switching off selected equipment.",
+      "The three units sit end to end on their boom. The flat gray panel below and to the right of the equipment body is an optical calibration target. It gives instruments a surface of known brightness and color to check their measurements."
+    ],
+    "sources": [
+      {
+        "id": "voyager-hardware",
+        "label": "NASA Science · Voyager instruments and spacecraft",
+        "url": "https://science.nasa.gov/mission/voyager/instruments/"
+      },
+      {
+        "id": "voyager-model",
+        "label": "NASA/JPL · Model of Voyager, PIA14111",
+        "url": "https://science.nasa.gov/photojournal/model-of-voyager-artist-concept/"
+      }
+    ]
+  },
+  "pale-blue-dot": {
+    "label": "Pale Blue Dot",
+    "kicker": "Voyager 1 looks back",
+    "title": "The camera turned toward home.",
+    "body": [
+      "Carl Sagan was also a member of Voyager’s imaging team. In 1981 he proposed photographing Earth from far away, hoping that the view would help people recognize the vulnerability of their shared home.",
+      "On February 14, 1990, Voyager 1 photographed Earth from about six billion kilometers from the Sun. It was part of a final series of images of the Solar System. Voyager 1 was already beyond Neptune’s orbit; Voyager 2 had made the close encounter with Neptune the previous year.",
+      "Earth appears as a tiny speck within scattered sunlight. The image became known as Pale Blue Dot and inspired the title of Sagan’s later book. Voyager 1’s cameras were switched off shortly after the Earth images.",
+      "The photograph above is NASA’s 2020 reprocessing of the original observations. Earth occupied less than a camera pixel. The light band is sunlight scattered inside the camera optics; zooming magnifies the recorded image without revealing Earth’s surface."
+    ],
+    "sources": [
+      {
+        "id": "pale-blue-dot",
+        "label": "NASA Science · Voyager 1’s Pale Blue Dot",
+        "url": "https://science.nasa.gov/mission/voyager/voyager-1s-pale-blue-dot/"
+      },
+      {"id": "pale-blue-dot-revisited", "label": "NASA/JPL-Caltech \u00b7 Pale Blue Dot, reprocessed 2020", "url": "https://science.nasa.gov/photojournal/pale-blue-dot-revisited/"}
+    ]
+  },
+  "voyager-distance": {
+    "label": "Between the Voyagers",
+    "kicker": "Two paths far apart",
+    "title": "Light would need more than a day to cross the gap.",
+    "body": [
+      "On October 11, 2026, the Voyagers were about 30.6 billion kilometers apart. Light would take about 28.4 hours to cover that distance. These rounded figures come from calculations using NASA/JPL Horizons positions for that date.",
+      "Voyager 1 travels north of the plane in which most planets orbit; Voyager 2 travels south of it. They cannot appear as neighboring spacecraft in a close view. This quiet scene changes the viewpoint from one path to the other.",
+      "The main Kuiper Belt lies about 30 to 50 astronomical units from the Sun. On the same date, Voyager 2 was about 144 astronomical units from the Sun and Voyager 1 about 172. One astronomical unit is roughly the Earth–Sun distance. The belt belongs earlier in the journey, closer to the Sun.",
+      "The camera travels through empty space between the two spacecraft. Their displayed positions indicate separate directions without reproducing measured trajectories or a fixed distance scale."
+    ],
+    "sources": [
+      {
+        "id": "voyager-positions",
+        "label": "NASA/JPL · Horizons spacecraft positions",
+        "url": "https://ssd.jpl.nasa.gov/horizons/"
+      },
+      {
+        "id": "voyager-routes",
+        "label": "NASA Science · Voyager mission fact sheet",
+        "url": "https://science.nasa.gov/mission/voyager/fact-sheet/"
+      },
+      {
+        "id": "kuiper-facts",
+        "label": "NASA Science · Kuiper Belt facts",
+        "url": "https://science.nasa.gov/solar-system/kuiper-belt/facts/"
+      }
+    ]
+  }
+};

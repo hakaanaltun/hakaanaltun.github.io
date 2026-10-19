@@ -17,16 +17,12 @@ description: "Pictures to explore, with the science and stories behind their det
     <h2 class="picture-category-title" id="picture-category-{{ group.name | default: 'Other pictures' | slugify }}">{{ group.name | default: 'Other pictures' | escape }}</h2>
     {% if group.name == 'Space' %}
     <a class="picture-journey" href="/pictures/space/">
-      <img src="/pictures/space/assets/earth-vicinity-v2-watercolor.webp" srcset="/pictures/space/assets/480/earth-vicinity-v2-watercolor.webp 480w, /pictures/space/assets/960/earth-vicinity-v2-watercolor.webp 960w, /pictures/space/assets/earth-vicinity-v2-watercolor.webp 1536w" sizes="(min-width: 1040px) 522px, (min-width: 651px) calc((100vw - 116px) * 0.565), calc(100vw - 80px)" width="1536" height="1024" alt="" decoding="async">
-      <div><h3>Through the Solar System</h3><p>Travel from Earth and the Moon out past Pluto to the Voyagers, or in past Venus and Mercury to the Sun, in connected watercolor scenes.</p></div>
+      <img src="/pictures/space/assets/earth-cover.webp" srcset="/pictures/space/assets/480/earth-cover.webp 480w, /pictures/space/assets/960/earth-cover.webp 960w, /pictures/space/assets/earth-cover.webp 1672w" sizes="(min-width: 1040px) 522px, (min-width: 651px) calc((100vw - 116px) * 0.565), calc(100vw - 80px)" width="1672" height="941" alt="" decoding="async">
+      <div><h3>Through the Solar System</h3><p>Choose a world and move closer. Discover its details and the stories behind them.</p></div>
     </a>
     {% endif %}
     <div class="picture-catalogue">
       {% assign pictures = group.items | sort_natural: "title" %}
-      {%- comment -%} A picture the journey leads to, such as the Sun, comes right after the journey's card. {%- endcomment -%}
-      {% assign led = pictures | where_exp: "picture", "picture.journey_url" %}
-      {% assign others = pictures | where_exp: "picture", "picture.journey_url == nil" %}
-      {% assign pictures = led | concat: others %}
       {% for picture in pictures %}
       <a class="picture-card" href="{{ picture.url }}">
         {%- comment -%} The card takes the painting's downscales, made at deploy by scripts/generate_image_variants.py. A group's cards sit two to a row on a wide screen; a group of one fills the row at its 640px limit. The painting itself stays the largest choice, for a sharp screen. The sizes follow the page: 40px of margin on each side, one column up to 640px, and two columns from 836px, when two 360px cards and their gap fit. {%- endcomment -%}
