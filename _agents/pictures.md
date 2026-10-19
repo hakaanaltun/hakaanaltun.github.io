@@ -120,11 +120,20 @@ illustrations, not unmodified NASA images. The generation request preserved
 the dish, record, booms and camera position, removed the studio halo and
 lifted the darkest surfaces slightly. WebP sizes share the same composition.
 
-The existing full-resolution journey imagery is served from the owned public
-Pictures Space Site at `pictures-space-pilot-hakan.exacttulip1.chatgpt.site`.
-Keep that Site and its asset paths published while this release references it.
-`space-assets.json` records the source URLs and SHA-256 hashes for a future
-mirror. New Voyager assets and the catalogue cover are stored in this repo.
+The journey's imagery is served from the site itself, from
+`pictures/space/images/`. On 19 October 2026 it was copied byte for byte from
+the pilot site at `pictures-space-pilot-hakan.exacttulip1.chatgpt.site`, each
+file checked against the SHA-256 that `space-assets.json` records, so the
+journey no longer depends on that site staying published. Four of the copies
+were PNG files of 1.5 to 2.3 MB: `earth`, `moon`, `earth-atmosphere-detail`
+and `mars-master`. The page uses WebP copies of them at quality 92, about a
+tenth of the size, which took the opening view from about 4.5 MB to about
+1.8 MB. The PNG originals, and the earlier non-v12 Europa and Jupiter images
+that nothing loads, are kept in `pictures/space/retired/`. The folder is not
+one the image variant script reads, so no downscales are made for it.
+`scripts/test-space.cjs` fails if the journey loads anything from the pilot
+site again, or names an image that is not in the folder. New Voyager assets
+and the catalogue cover stay in `pictures/space/assets/`.
 
 The journey card uses `journey-cover-v2.webp` in the catalogue, homepage and
 sharing metadata. Its realistic Earth and Moon represent the immersive

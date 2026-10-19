@@ -194,9 +194,14 @@ run(fs.readFileSync('js/space-journey.js','utf8'));
  }
  // The five complete Sun notes replace the old picture's story and detail text in the reader.
  for(const [key,paragraphs] of [['sun-story',5],['sun-photosphere',3],['sun-sunspots',3],['sun-prominence',3],['sun-corona',3]]){run(`openInfo('${key}')`);assert.equal(element('sunTopics').hidden,false);assert.equal(element('infoText').children.length,paragraphs);assert(element('infoSources').children.length>=4)}
- element('sunProminence').onclick();assert.equal(element('solarFigure').hidden,false);assert.equal(element('solarObservation').src,'https://pictures-space-pilot-hakan.exacttulip1.chatgpt.site/assets/sun-prominence.webp');
+ element('sunProminence').onclick();assert.equal(element('solarFigure').hidden,false);assert.equal(element('solarObservation').src,'/pictures/space/images/sun-prominence.webp');
  element('sunStory').onclick();assert.equal(element('solarFigure').hidden,true);assert.equal(element('infoTitle').textContent,'What the light told us');run("openInfo('earth')");assert.equal(element('sunTopics').hidden,true);run('closeInfo()');
  for(const name of ['sun-detail','mercury-detail','venus-detail','sun-prominence','sun-corona'])assert(JSON.parse(fs.readFileSync('_agents/space-assets.json','utf8'))[name+'.webp']);
+ // Every image the journey loads is served from the site itself, and each one it names is there.
+ {const journeyJs=fs.readFileSync('js/space-journey.js','utf8');
+  for(const source of [html,journeyJs])assert(!/https?:\/\/[^"'\s]*chatgpt\.site/.test(source),'the journey loads nothing from the pilot site');
+  for(const m of (html+journeyJs).matchAll(/\/pictures\/space\/images\/([\w.-]+)/g))assert(fs.existsSync('pictures/space/images/'+m[1]),m[1]+' is in pictures/space/images');
+  for(const body of ['io','europa','saturn','titan','enceladus','uranus','miranda','neptune','triton','pluto','charon','arrokoth','sun','mercury','venus'])assert(fs.existsSync('pictures/space/images/'+body+(['europa','neptune','triton'].includes(body)?'-detail-v12.webp':'-detail.webp')),body+' has its close view');}
  // Keyboard arrows use the same route and respect open information panels.
  await run("go('mars')");events.keydown({key:'ArrowRight',target:{tagName:'BODY'},preventDefault(){}});await finish();assert.equal(run('current'),'ceres');run("openInfo('ceres')");events.keydown({key:'ArrowRight',target:{tagName:'BODY'},preventDefault(){}});await flush();assert.equal(run('current'),'ceres');run('closeInfo()');
  for(const m of html.matchAll(/(?:src|href)="([^"#]+)"/g))if(!m[1].startsWith('http')&&!m[1].includes('{')&&!m[1].endsWith('/'))assert(fs.existsSync((m[1].startsWith('/')?'.':'pictures/space/')+m[1].split('?')[0]));
