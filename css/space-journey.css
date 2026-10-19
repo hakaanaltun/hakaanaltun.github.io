@@ -86,14 +86,15 @@ body[data-scene="saturnian"] #caption{max-width:470px}
 
 /* Reading contrast follows the caption, leaving the rest of each world exposed. */
 #sceneShade{position:absolute;inset:0;z-index:1;pointer-events:none;background-image:linear-gradient(to bottom,rgba(0,0,0,.48),transparent),linear-gradient(to top,rgba(0,0,0,.72),transparent);background-size:100% 110px,100% 100px;background-position:top,bottom;background-repeat:no-repeat}
-body[data-scene] #caption:before{content:'';display:block!important;position:absolute;z-index:-1;inset:-24px -48px -24px -24px;pointer-events:none;background:linear-gradient(to right,rgba(0,0,0,.78),rgba(0,0,0,.72) 72%,transparent);mask-image:linear-gradient(to bottom,transparent,#000 24px,#000 calc(100% - 24px),transparent);-webkit-mask-image:linear-gradient(to bottom,transparent,#000 24px,#000 calc(100% - 24px),transparent)}
+/* The caption's shade is a soft cloud with no edge of its own, dark at its middle and gone at its rim, so a bright world behind the words is darkened gently rather than crossed by the edge of a box. */
+body[data-scene] #caption:before{content:'';display:block!important;position:absolute;z-index:-1;inset:-80px -150px -80px -100px;pointer-events:none;background:radial-gradient(closest-side,rgba(0,0,0,.78),rgba(0,0,0,.7) 55%,rgba(0,0,0,.34) 80%,transparent)}
 #caption{text-shadow:0 1px 4px #000,0 2px 16px #0008}.description{color:#d3d8da}
 body[data-scene] #information{top:135px;bottom:175px;max-height:none;width:min(550px,88vw);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;background:rgba(8,13,17,.97);padding:30px}
 #information .close{position:sticky;top:0;float:right;margin:-17px -12px 0 12px;width:38px;height:38px;background:#080d11;border-radius:50%;z-index:1}
 #infoSources{display:grid;gap:13px;margin:24px 0}#information #infoSources a{font-size:12px;line-height:1.5;width:fit-content;overflow-wrap:anywhere}
 #information a[hidden]{display:none}#moreNotes{border-top:1px solid #ffffff25;padding-top:20px}#moreNotes label{display:block;margin:16px 0 8px;font:12px Arial,sans-serif;color:#aab7bf}
 #notePicker{width:100%;max-width:100%;padding:12px 8px;background:#141d24;color:#e5e9eb;border:1px solid #53616a;border-radius:3px;font:14px Arial,sans-serif}
-@media(max-width:700px){body[data-scene] #information{top:115px;bottom:145px;width:auto;padding:25px}#sceneShade{background-size:100% 95px,100% 90px}body[data-scene] #caption:before{inset:-20px -24px}}
+@media(max-width:700px){body[data-scene] #information{top:115px;bottom:145px;width:auto;padding:25px}#sceneShade{background-size:100% 95px,100% 90px}body[data-scene] #caption:before{inset:-56px -40px}}
 @media(max-height:600px) and (min-width:701px){body[data-scene] #information{top:80px;bottom:85px;max-height:none;width:52vw}}
 
 /* The source holds a natural-color and false-color pair; show the unchanged left panel. */
