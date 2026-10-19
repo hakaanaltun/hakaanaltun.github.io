@@ -108,7 +108,8 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   down the page. Every homepage section is named in one of the voices in
   `css/style.css` ("Section identity"), the one its section's page speaks
   in: Latest and Further back in the writing's rose, the book in its blue,
-  The House in Moris's olive, Notes in mustard, Words with Stories in plum,
+  The Notice in its deep indigo, The House in Moris's dark forest green,
+  Notes in mustard, Words with Stories in plum,
   Pictures with Stories and Tonight in slate, Trivia in its own rose,
   "First time here?" and Instruments in the furniture's teal. Notes, Words
   and Pictures had no color before that day and fell to the rose, and The
@@ -119,7 +120,10 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   its own color, ask the author before choosing another.
   `scripts/test-pictures.cjs` fails on a section with no voice or next to
   its own color. Each section builds its accent from its voice in every
-  theme; Midnight keeps its single gold.
+  theme; Midnight keeps its single gold. A voice may sit a step darker by
+  day with `--sec-dl`, as the fiction's indigo and the green of Moris and
+  The House do; the author asked for them to change color on 19 October
+  2026, when the amber and the olive looked muddy on paper.
 - **A quote takes the color of the page it comes from.** The quotes at the
   top are from the book and from the pieces. The script marks `#quotes`
   with `data-voice="writing"`, or `"story"` for The Notice, and a quote
