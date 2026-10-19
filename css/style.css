@@ -418,7 +418,7 @@ html[data-theme="sky"] body {
   --sec-l: 0.513;   /* Ash & Gold — the palest paper in the wardrobe */
 }
 body {
-  --sec-accent:      oklch(var(--sec-l)          var(--sec-c,  0.050) var(--sec-h, 178));
+  --sec-accent:      oklch(calc(var(--sec-l) - var(--sec-dl, 0)) var(--sec-c,  0.050) var(--sec-h, 178));
   --sec-accent-dark: oklch(var(--sec-ld, 0.800)  var(--sec-cd, 0.048) var(--sec-h, 178));
   /* The homepage can borrow the writing voice without changing the colour of
      the section it sits in. This is the same accent used by essay titles. */
@@ -444,6 +444,18 @@ body {
    lightness sits lower than the blue's. Light 5.38:1 at worst, unchanged;
    dark 6.22:1 at worst, unchanged.
 
+   Later that day the author found the fiction's amber and the House's olive
+   muddy on paper, and asked for colours with more contrast. The fiction took
+   a deep indigo and The House a garden green; Moris left The House's colour
+   for a dark forest green of his own. The indigo and Moris's green sit a step
+   darker than the other voices by day (--sec-dl, taken off each palette's
+   own lightness), so they read more firmly on paper: 7.6:1 and 8.5:1 at worst
+   across the twelve light palettes. The garden green keeps the common
+   lightness, 5.2:1 at worst; by night 9.4:1, the indigo 7.9:1 and Moris
+   7.7:1. The indigo is 17.5 dE from the plum and 17.6 from the book's blue by
+   day, the garden green 17.4 from the teal; Moris's green, which never stands
+   beside The House on the homepage, is 15.3 from it.
+
                             hue    day chroma    night L + chroma */
 /* The writing — essays, standalone pieces, and every series */
 body.series-default,
@@ -459,15 +471,16 @@ body.is-home :is(#latest, #further-back, #quotes[data-voice="writing"])
 body.series-book,
 body.is-home :is(#quotes, #home-book)
                         { --sec-h: 262; --sec-c: 0.075; --sec-ld: 0.820; --sec-cd: 0.058; }
-/* Moris, and The House he lives in */
-body.series-moris,
+/* The House — a garden green */
 body.series-house,
 body.is-home #home-house
-                        { --sec-h: 118; --sec-c: 0.058; --sec-ld: 0.840; --sec-cd: 0.055; }
+                        { --sec-h: 140; --sec-c: 0.070; --sec-ld: 0.800; --sec-cd: 0.070; }
+/* Moris — a dark forest green of his own, a step darker by day */
+body.series-moris       { --sec-h: 155; --sec-c: 0.060; --sec-ld: 0.740; --sec-cd: 0.060; --sec-dl: 0.113; }
 /* The fiction */
 body.series-story,
 body.is-home :is(#story-doorway, #quotes[data-voice="story"])
-                        { --sec-h:  54; --sec-c: 0.054; --sec-ld: 0.770; --sec-cd: 0.060; }
+                        { --sec-h: 290; --sec-c: 0.090; --sec-ld: 0.760; --sec-cd: 0.080; --sec-dl: 0.073; }
 /* The site's own furniture — the front door, the person, the instruments.
    Made things you use rather than read. "First time here?" is the front
    door's own: its three doors lead to three different places. */
@@ -515,7 +528,7 @@ body.is-home :is(#pictures-with-stories, #tonight)
    gold everywhere.
    -------------------------------------------------------------------------- */
 body.is-home #main > section {
-  --sec-accent:      oklch(var(--sec-l)          var(--sec-c,  0.050) var(--sec-h, 178));
+  --sec-accent:      oklch(calc(var(--sec-l) - var(--sec-dl, 0)) var(--sec-c,  0.050) var(--sec-h, 178));
   --sec-accent-dark: oklch(var(--sec-ld, 0.800)  var(--sec-cd, 0.048) var(--sec-h, 178));
   --petrol: var(--sec-accent);
   --petrol-deep: color-mix(in srgb, var(--sec-accent) 74%, black);
