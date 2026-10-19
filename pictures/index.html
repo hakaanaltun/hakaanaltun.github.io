@@ -6,7 +6,7 @@ title: "Pictures with Stories"
 description: "Pictures to explore, with the science and stories behind their details."
 ---
 <link rel="stylesheet" href="/css/pictures.css?v=20261010-2">
-<link rel="stylesheet" href="/css/pictures-index.css?v=20261019-1">
+<link rel="stylesheet" href="/css/pictures-index.css?v=20261019-2">
 <div class="section-page picture-index">
   <div class="section-page-head">
     <h1 class="section-page-title">Pictures with Stories</h1>
@@ -16,13 +16,16 @@ description: "Pictures to explore, with the science and stories behind their det
   {% for group in groups %}
   <section class="picture-category-section" aria-labelledby="picture-category-{{ group.name | default: 'Other pictures' | slugify }}">
     <h2 class="picture-category-title" id="picture-category-{{ group.name | default: 'Other pictures' | slugify }}">{{ group.name | default: 'Other pictures' | escape }}</h2>
-    <div class="picture-catalogue">
+    {%- comment -%} A group's journey opens it as a wide window, with its title and teaser read from the journey's own page, as the homepage reads them. The watercolors of what the journey does not reach follow beneath it as smaller sheets. {%- endcomment %}
     {% if group.name == 'Space' %}
-    <a class="picture-journey picture-list-entry" href="/pictures/space/">
-      <img src="/pictures/space/assets/journey-cover-v2.webp" srcset="/pictures/space/assets/480/journey-cover-v2.webp 480w, /pictures/space/assets/960/journey-cover-v2.webp 960w, /pictures/space/assets/journey-cover-v2.webp 1536w" sizes="(max-width: 650px) 100px, 160px" width="1536" height="1024" alt="" decoding="async">
-      <div><h3>Through the Solar System</h3><p>Choose a world and move closer. Discover its details and the stories behind them.</p></div>
+    {% assign journey = site.pages | where: "url", "/pictures/space/" | first %}
+    <a class="picture-journey" href="{{ journey.url }}">
+      <img src="{{ journey.image }}" srcset="{{ journey.image | replace: '/assets/', '/assets/480/' }} 480w, {{ journey.image | replace: '/assets/', '/assets/960/' }} 960w, {{ journey.image }} {{ journey.image_width }}w" sizes="(min-width: 800px) 720px, calc(100vw - 80px)" width="{{ journey.image_width }}" height="{{ journey.image_height }}" alt="" decoding="async">
+      <h3>{{ journey.title }}</h3>
+      <p>{{ journey.teaser }}</p>
     </a>
     {% endif %}
+    <div class="picture-catalogue">
       {% assign pictures = group.items | sort_natural: "title" %}
       {% for picture in pictures %}
       <a class="picture-card picture-list-entry" href="{{ picture.url }}">

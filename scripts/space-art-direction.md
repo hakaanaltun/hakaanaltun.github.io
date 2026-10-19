@@ -1,5 +1,7 @@
 # Space journey art direction
 
+The watercolor paintings named below, and the Sun's watercolor, moved to `pictures/space/retired/` on 19 October 2026, outside the published site.
+
 ## Return to Earth, phone labels and requested repaints, 11 October 2026
 
 The route no longer closes at Voyager 1. Its way on beneath the picture and a small Earth portrait at 85%, 14% lead back to Earth's closer scene, where the inner branch to Venus begins. The portrait reuses the crop of `near-earth-v2-watercolor.webp` that Venus's scene already uses (3.2% wide, 28.75% 49.25%, 260%). It is a navigation link, disclosed in the illustration note, and no painting changed.
