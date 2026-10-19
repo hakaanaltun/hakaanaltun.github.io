@@ -27,17 +27,11 @@
     where the results come live as you type. {%- endcomment -%}
     {% include search-form.html id="drawer-search" modifier="drawer" %}
 
-    {%- comment -%} The House opens like the sections below it: the way to its
-    door, and the reader's drawer over this page (js/site-nav.js). Since
-    17 October 2026 this is the only place the drawer is named on every
-    page; the footer's drawer is an icon. {%- endcomment %}
-    <details class="drawer-section drawer-house" data-voice="house">
-      <summary class="drawer-label">The House</summary>
-      <div class="drawer-house-links">
-        <a href="/house/" class="drawer-more">To the door <span aria-hidden="true">&rarr;</span></a>
-        <a href="/house/#drawer" class="drawer-more" data-open-drawer>Your drawer</a>
-      </div>
-    </details>
+    {%- comment -%} The House leads directly to the door, as in the header.
+    The reader's drawer remains accessible from the House and footer. {%- endcomment %}
+    <div class="drawer-section-links" data-voice="house">
+      <a href="/house/">The House</a>
+    </div>
 
     <details class="drawer-section" data-voice="writing">
       <summary class="drawer-label">Writing</summary>
