@@ -55,11 +55,10 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   13 October 2026 a pointer over The House, a click on its name or the
   chevron beside it opened a small menu with "To the door" and "Your
   drawer". On 17 October 2026 the author took the menu out of the header,
-  since it made the way into The House two clicks. The site's menu keeps
-  both under The House, which opens like its other sections; it is the
-  one place the drawer is named on every page, and the footer's icon
-  opens it too. Do not put the drawer back in the header unless the
-  author asks.
+  since it made the way into The House two clicks. On 19 October 2026
+  the site's left menu was simplified to a direct /house/ link too.
+  The reader's drawer remains accessible at the House door and through
+  the footer icon. Do not restore a House submenu unless the author asks.
 - **Series and Book are inside Writing.** The author took them out of the
   header's strip on 15 October 2026, when the header felt crowded, and the
   strip has nine links now. Writing's page has a section for each, after
