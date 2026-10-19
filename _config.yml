@@ -42,8 +42,10 @@ exclude:
   - farm-house/retired
   # Earlier renders for the journey through the Solar System, likewise.
   - pictures/space/retired
-  # A copy of the translation worker, which runs on Cloudflare, not here.
+  # The Cloudflare scripts and settings: the translation worker, and the
+  # few lines and the settings that serve the site there.
   - workers
+  - wrangler.jsonc
   - Gemfile
   - Gemfile.lock
   - README.md

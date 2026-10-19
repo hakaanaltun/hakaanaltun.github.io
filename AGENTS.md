@@ -65,6 +65,27 @@ the Pictures cards' downscales. Gems go into the git-ignored
   `.github/workflows/links.yml`. Because it depends on other sites being up,
   it is kept out of pull-request checks. Only a page that is gone fails it.
 
+### Publishing
+
+- **The site is moving from GitHub Pages to Cloudflare.** The author asked
+  for it on 19 October 2026, after an evening when GitHub took up to half an
+  hour to start each build. GitHub keeps the files and runs the checks on
+  every pull request; Cloudflare builds each push itself, in a queue only
+  this site uses, and publishes `main`. A branch gets a preview address of
+  its own to look at before it is merged.
+- Cloudflare runs `scripts/cloudflare-build.sh`, which does what
+  `.github/workflows/pages.yml` does, in the same order, and runs the checks
+  for `main` only. `wrangler.jsonc` serves `_site/` as it is.
+- **Addresses stay as they were.** Cloudflare would redirect `/pieces/x.html`
+  to `/pieces/x`; `wrangler.jsonc` turns that off (`html_handling: "none"`),
+  and `workers/site.mjs` does the two things GitHub Pages did on its own: a
+  folder's address is its `index.html`, and `/about` leads on to `/about/`.
+  Every other missing address gets `404.html`. The script runs only for
+  addresses that are not a file, so pages and images are served directly.
+  `scripts/test-site-worker.mjs` checks it against the built site.
+- Until the domain is moved to Cloudflare, GitHub Pages still publishes
+  `main` as before.
+
 ### Non-obvious notes
 
 - URLs use the "pretty" format. Source files such as `about.html` and
