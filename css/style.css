@@ -518,11 +518,15 @@ body.series-trivia,
 body.is-home #trivia,
 .drawer-body [data-voice="trivia"]
                         { --sec-h: 140; --sec-c: 0.070; --sec-ld: 0.800; --sec-cd: 0.070; }
-/* Notes — a mustard, near the paper of the notes on their wall */
+/* Notes — graphite, the pencil a note is caught with. The author asked
+   for it on 19 October 2026, in place of the mustard it had worn since that
+   morning: the site keeps no yellows, terracottas or coppers. It is kept a
+   clear grey, a step off the black of About, with a breath of blue, as
+   graphite has. */
 body.series-notes,
 body.is-home #notes,
 .drawer-body [data-voice="notes"]
-                        { --sec-h:  86; --sec-c: 0.075; --sec-ld: 0.800; --sec-cd: 0.085; }
+                        { --sec-h: 250; --sec-c: 0.012; --sec-ld: 0.780; --sec-cd: 0.010; }
 /* Words with Stories — a plum, in the widest gap the voices had left */
 body.series-words,
 body.is-home #words-with-stories,

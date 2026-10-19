@@ -121,7 +121,9 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   `css/style.css` ("Section identity"), the one its section's page speaks
   in: Latest and Further back in the writing's rose, the book in its blue,
   The Notice in its deep indigo, The House in Moris's near-black green,
-  Notes in mustard, Words with Stories in plum,
+  Notes in graphite (mustard until the evening of 19 October 2026, when
+  the author asked for no yellows, terracottas or coppers on the site),
+  Words with Stories in plum,
   Pictures with Stories and Tonight in slate, Trivia in garden green,
   "First time here?" and Instruments in the furniture's teal. Notes, Words
   and Pictures had no color before that day and fell to the rose, and The
