@@ -169,7 +169,7 @@ function loadDetail(){
  detailRequest=new Promise(resolve=>{
   image.onload=async()=>{try{if(image.decode)await image.decode();detailReady=true;resolve(true)}catch{detailRequest=null;resolve(false)}};
   image.onerror=()=>{detailRequest=null;resolve(false)};
-  image.src='https://pictures-space-pilot-hakan.exacttulip1.chatgpt.site/assets/earth-atmosphere-detail.png';
+  image.src='/pictures/space/images/earth-atmosphere-detail.webp';
  });
  return detailRequest;
 }
@@ -193,7 +193,7 @@ function loadMars(){
  marsRequest=new Promise(resolve=>{
   image.onload=async()=>{try{if(image.decode)await image.decode();marsReady=true;resolve(true)}catch{marsRequest=null;resolve(false)}};
   image.onerror=()=>{marsRequest=null;resolve(false)};
-  image.src='https://pictures-space-pilot-hakan.exacttulip1.chatgpt.site/assets/mars-master.png';
+  image.src='/pictures/space/images/mars-master.webp';
  });
  return marsRequest;
 }
@@ -205,7 +205,7 @@ function loadCeres(){
  ceresRequest=new Promise(resolve=>{
   image.onload=async()=>{try{await image.decode();ceresReady=true;resolve(true)}catch{ceresRequest=null;resolve(false)}};
   image.onerror=()=>{ceresRequest=null;resolve(false)};
-  image.src='https://pictures-space-pilot-hakan.exacttulip1.chatgpt.site/assets/ceres-detail.webp';
+  image.src='/pictures/space/images/ceres-detail.webp';
  });
  return ceresRequest;
 }
@@ -217,7 +217,7 @@ function loadJupiter(){
  jupiterRequest=new Promise(resolve=>{
   image.onload=async()=>{try{await image.decode();jupiterReady=true;resolve(true)}catch{jupiterRequest=null;resolve(false)}};
   image.onerror=()=>{jupiterRequest=null;resolve(false)};
-  image.src='https://pictures-space-pilot-hakan.exacttulip1.chatgpt.site/assets/jupiter-detail-v12.webp';
+  image.src='/pictures/space/images/jupiter-detail-v12.webp';
  });
  return jupiterRequest;
 }
@@ -282,7 +282,7 @@ function loadBodyDetail(name){
  const image=$(name+'High');
  state.request=new Promise(resolve=>{
   image.onload=async()=>{try{await image.decode();state.ready=true;resolve(true)}catch{state.request=null;resolve(false)}};
-  image.onerror=()=>{state.request=null;resolve(false)};image.src=(name.startsWith('voyager')?'assets/':'https://pictures-space-pilot-hakan.exacttulip1.chatgpt.site/assets/')+(name.startsWith('voyager')?'voyager':name)+(name.startsWith('voyager')?'-detail-v20.webp':['europa','neptune','triton'].includes(name)?'-detail-v12.webp':'-detail.webp');
+  image.onerror=()=>{state.request=null;resolve(false)};image.src=(name.startsWith('voyager')?'assets/':'/pictures/space/images/')+(name.startsWith('voyager')?'voyager':name)+(name.startsWith('voyager')?'-detail-v20.webp':['europa','neptune','triton'].includes(name)?'-detail-v12.webp':'-detail.webp');
  });return state.request;
 }
 let localPose=null,localFrame=null,localResolve=null,localFinish=null;
@@ -587,7 +587,7 @@ async function go(id,options={}){
  pendingDestination=null;setTravelState(false);updateLocalControls();return true;
 }
 const fieldNoteFor={voyager2wide:"heliopause",voyager1wide:"voyager-distance",voyager2:"voyager-2",voyager2antenna:"voyager-antenna",voyager2record:"golden-record",voyager2power:"voyager-power",voyager1:"voyager-1",voyager1antenna:"voyager-antenna",voyager1record:"golden-record",voyager1power:"voyager-power",kuiper:'kuiper-belt',arrokothneck:'arrokoth-neck',arrokothcolor:'arrokoth-color',plutonian:'pluto',sputnik:'sputnik-planitia',charonpole:'charon-pole',neptunian:'neptune',neptunecolor:'neptune-color',darkspot:'dark-spot',tritonice:'triton-streaks',system:'earth',martian:'mars',belt:'asteroid-belt',jovian:'jupiter',saturnian:'saturn',uranian:'uranus',near:'earth',bands:'cloud-bands',redspot:'red-spot',rings:'saturn-rings',titanhaze:'titan',enceladusice:'enceladus',iosurface:'io',europaice:'europa',uranusatmosphere:'uranus',mirandaterrain:'miranda'};
-const solarObservations={"sun-prominence": {"src": "https://pictures-space-pilot-hakan.exacttulip1.chatgpt.site/assets/sun-prominence.webp", "alt": "SDO extreme-ultraviolet observation showing a prominence erupting from the solar limb.", "caption": "A separate observation: 23 September 2012 \u00b7 SDO/AIA 304 \u00c5 \u00b7 Display color added. NASA/Goddard SVS, SDO Science Team and Virtual Solar Observatory."}, "sun-corona": {"src": "https://pictures-space-pilot-hakan.exacttulip1.chatgpt.site/assets/sun-corona.webp", "alt": "SDO extreme-ultraviolet image of the corona, with bright active regions and loops around the solar disk.", "caption": "A separate SDO/AIA observation at 171 \u00c5 \u00b7 Display color added. This wavelength reveals coronal plasma. NASA/SDO."}};
+const solarObservations={"sun-prominence": {"src": "/pictures/space/images/sun-prominence.webp", "alt": "SDO extreme-ultraviolet observation showing a prominence erupting from the solar limb.", "caption": "A separate observation: 23 September 2012 \u00b7 SDO/AIA 304 \u00c5 \u00b7 Display color added. NASA/Goddard SVS, SDO Science Team and Virtual Solar Observatory."}, "sun-corona": {"src": "/pictures/space/images/sun-corona.webp", "alt": "SDO extreme-ultraviolet image of the corona, with bright active regions and loops around the solar disk.", "caption": "A separate SDO/AIA observation at 171 \u00c5 \u00b7 Display color added. This wavelength reveals coronal plasma. NASA/SDO."}};
 function openInfo(key){
  if(info.hidden)lastFocus=document.activeElement;
  const original=fieldNotes[fieldNoteFor[key]||key],n=original||notes[key];
