@@ -1,0 +1,14 @@
+// The site on Cloudflare (see "Publishing" in AGENTS.md). Cloudflare builds
+// it with scripts/cloudflare-build.sh and serves _site/ as static files;
+// workers/site.mjs answers only the addresses no file answers directly.
+{
+  "name": "hakanaltun-io",
+  "main": "workers/site.mjs",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./_site",
+    "binding": "ASSETS",
+    "html_handling": "none",
+    "not_found_handling": "none"
+  }
+}
