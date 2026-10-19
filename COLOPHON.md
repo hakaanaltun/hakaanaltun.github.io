@@ -219,6 +219,15 @@ accuracy and plain prose to this section as well.
   Every group follows the same drawing, storytelling and sourcing
   standards.
 
+- **A subject appears once, and a group opens with its journey.** The Sun
+  had a watercolor of its own until October 2026; it now lives only in the
+  journey, where it means more as one stop on the way. What a journey does
+  not reach is painted in watercolor. On the catalogue the journey comes
+  first, as a wide view, and the watercolors follow beneath it as smaller
+  pictures. They are two kinds of picture, a place to move through and a
+  single painting, and the layout says so rather than setting them side by
+  side as equals.
+
 - For watercolor pictures, follow The Farm House’s watercolor language: broad brush strokes,
   transparent washes, a limited value range, visible pencil, occasional
   unfinished edges and exposed paper. Paint from scientific or historical

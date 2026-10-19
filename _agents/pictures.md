@@ -9,11 +9,18 @@ rule written there.
   picture carries its group in its `category` field. Keep existing picture
   addresses stable when grouping them.
 
-- **The catalogue uses equal thumbnail rows.** On October 19 the author
-  asked for smaller covers to balance the realistic journey with the watercolor
-  pictures. `pictures-index.css` places each complete 3:2 cover beside its
-  title and teaser, including on phones. Keep the three entries at equal weight;
-  the homepage and individual experiences retain their own layouts.
+- **A group's journey opens it as a wide window** (rule in `COLOPHON.md`).
+  On 19 October 2026 equal thumbnail rows were tried first: shrunk to 160
+  pixels, the realistic cover and the painted sheets still clashed, because
+  at that size the eye reads the frame before the brushwork, a dark edge
+  against an ivory paper one. The author chose to let size and order show
+  the two kinds instead, so the same layout carries over to the next journey.
+  `pictures-index.css` shows the journey's cover as a 2:1 band, high enough
+  to keep the Moon, or at its own 3:2 on a phone, with its title and teaser
+  beneath. The title and teaser come from the journey page's front matter,
+  as on the homepage, so the teaser is written once. The watercolors follow
+  as equal rows, each complete 3:2 sheet beside its words, keeping its paper
+  edge. The homepage and the individual pictures keep their own layouts.
 
 - **Through the Solar System uses one continuous camera scene.** The author
   approved the immersive pilot in October 2026, with illustrations and sourced
@@ -37,6 +44,10 @@ rule written there.
   live in the reader. `/pictures/sun/` redirects directly to `/pictures/space/#sun`
   and carries query parameters, including the return to the balcony. `/sun/`
   remains the separate instrument. Black hole and quasar remain watercolor pages.
+  The Sun's own watercolor page was retired on purpose (rule in
+  `COLOPHON.md`); the painting is kept in `pictures/space/retired/` with the
+  watercolor journey's paintings and its earlier covers, outside the
+  published site.
 - **Keep old entry points.** `scene-*` fragments resolve to current views,
   including the asteroid belt, Kuiper Belt and both Voyagers. `space-entry.js`
   preserves the return to The House. The shared `olae-places` preference and

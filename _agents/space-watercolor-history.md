@@ -2,6 +2,12 @@
 
 Historical implementation notes, superseded by `_agents/pictures.md`.
 
+On 19 October 2026 every painting of the watercolor journey, its two
+earlier covers and the Sun's watercolor moved from the published asset
+folders to `pictures/space/retired/`, which the build leaves out. Paths
+below that name `pictures/space/assets/` or `pictures/assets/sun-watercolor.webp`
+now find these files there.
+
 - **The journey is to be made anew.** On 14 October 2026 the author said
   that the journey's paintings and the journey itself will change
   completely. Until the new one is finished it stays out of search; then
