@@ -35,6 +35,16 @@ rule written there.
   separate observations, models and illustrations. Do not invent surface detail.
   Captions use local shade, leaving the worlds visible: since 19 October 2026 a soft cloud that fades to nothing at its rim, because the earlier box showed its edges as a gray rectangle over the Sun, Venus and the Moon. Removing the shade was tried the same day; the Moon's close views and the Sun's label on a phone were then unreadable. The site’s local fonts
   retain Cormorant Garamond Italic for the ampersand.
+- **The top of the window and the controls are read on a phone.** On
+  19 October 2026 a walk through the journey on a phone found the site's
+  name, The journey, Show places and full screen unreadable in eight close
+  views where a world fills the window (the oceans, the atmosphere, Uranus's
+  atmosphere, the Voyagers' instruments). `#sceneShade`'s top fade now
+  reaches 190px (165px on a phone) and is darker where those words stand,
+  and the words carry a soft shadow; it fades to nothing, so no edge shows.
+  The same day the controls' smallest type was raised on phones, from 8–10px
+  to 10–12px, and Back and full screen were given 44px to touch without
+  moving anything around them.
 - **The entry invites discovery.** The journey dialog gives short controls,
   without an itinerary or descriptions of discoveries. The footer supplies
   practical navigation. The October 19 follow-up lengthens normal camera paths

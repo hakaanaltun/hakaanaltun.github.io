@@ -224,12 +224,11 @@
     file.setAttribute('aria-label', 'Choose a drawer backup');
     file.addEventListener('change', function () { restoreDrawer(file.files && file.files[0]); });
     tools.appendChild(file);
-    box.appendChild(tools);
     if (!kept.length) {
+      box.appendChild(tools);
       box.appendChild(element('p', 'house-drawer-note', 'If you downloaded your drawer in another browser, you can restore it here.'));
       return;
     }
-    box.appendChild(element('p', 'house-drawer-note', 'Download a backup to keep or move to another browser.' + (KEEP.works() ? ' Restoring adds its contents to your drawer.' : '')));
     // Highlights are shown on their pages for the reader who made them;
     // they can be hidden here or from the box by a highlight.
     if (kept.some(function (item) { return item.mark; }) || !KEEP.marksShown()) {
@@ -301,6 +300,12 @@
       article.appendChild(row);
       box.appendChild(article);
     });
+    /* What is kept comes first, and the ways to take the whole drawer away
+       or bring one back follow it. The author asked for this on 19 October
+       2026: on a phone the four buttons filled the first screen, and the
+       line just kept sat under them. */
+    box.appendChild(tools);
+    box.appendChild(element('p', 'house-drawer-note', 'Download a backup to keep or move to another browser.' + (KEEP.works() ? ' Restoring adds its contents to your drawer.' : '')));
   }
 
   /* --- Taking things out of the drawer ---------------------------------- */

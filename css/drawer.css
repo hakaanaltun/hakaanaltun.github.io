@@ -48,6 +48,8 @@ html:has(.house-dialog[open]) { overflow: hidden; }
 .house-drawing img { display: block; max-width: 100%; max-height: 320px; height: auto; border: 1px solid var(--rule-strong); background: #fff; }
 .house-drawing .house-drawer-note { margin: 0; }
 .house-drawer-tools { display: flex; flex-wrap: wrap; gap: 10px 14px; margin: 4px 0 22px; }
+/* After the things kept, the tools stand on a rule of their own. */
+.house-item + .house-drawer-tools { margin-top: 0; padding-top: 24px; border-top: 1px solid var(--rule-strong); }
 .house-drawer-tools button { padding: 9px 14px; min-height: 44px; border: 1px solid var(--rule-strong); border-radius: 2px; background: none; font-size: 15px; color: var(--ink-soft); }
 .house-drawer-note, .house-dialog-status { color: var(--vizon); font-size: 15px !important; }
 .house-dialog-status:empty { display: none; }

@@ -114,8 +114,9 @@ rule written there.
 
 ## The drawer over any page
 
-- **It opens where the reader is.** The site's menu's "Your drawer" and
-  the footer's icon open the drawer in a box over the page, and closing
+- **It opens where the reader is.** The footer's icon and the "Open your
+  drawer" that follows a kept passage open the drawer in a box over the
+  page, and closing
   it leaves the reader where they were. In The House it is the
   room's own box, opened over the door or the room that is showing.
   `js/drawer.js` lays the drawer out and holds what its buttons do, for
@@ -124,6 +125,13 @@ rule written there.
   foot to the study, where the drawer is kept. `css/drawer.css` styles both.
   An address that ends in `#drawer` opens the drawer over its page; it is
   the way back to the drawer from The Page or an instrument.
+- **What is kept comes first.** The things kept are listed straight under
+  the line that says where the drawer lives, and the buttons that take the
+  whole drawer away or bring one back (download, restore, text, print)
+  follow them, on a rule of their own. The author asked for this on
+  19 October 2026: on a phone the four buttons filled the first screen,
+  and the line just kept sat under them. An empty drawer still shows its
+  way to restore one under the note that says what can go in it.
 - **What a page lacks is fetched once.** `_data/drawer_assets.yml` lists
   the drawer's scripts and styles and their `?v=` once; `head.html` and
   The House use it, and `js/site-nav.js` fetches whatever a page lacks the
