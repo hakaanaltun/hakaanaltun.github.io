@@ -2269,9 +2269,17 @@ html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
 .book-part:not(:has(.book-part-opening)) { --book-band: 115px; }
 .book-part-header { padding: 18px 0 26px; gap: 2px; }
 .book-part-header h1 { font-size: clamp(1.75rem, 3vw, 2.4rem); margin-bottom: 0; }
+/* The band takes the masthead's dark chrome on the light side too, so there
+   its title takes the book's blue as the dark theme draws it. The day's blue
+   is made for paper, and on the chrome it read at 1.6:1. Dark, Midnight and
+   Follow the sky already draw it in their own colours. */
+html[data-theme="light"] .book-part-header h1 { color: var(--sec-accent-dark); }
+@media (prefers-color-scheme: light) {
+  html:not([data-theme]) .book-part-header h1 { color: var(--sec-accent-dark); }
+}
 .book-part-kicker {
   margin: 0; font-family: 'EB Garamond', Georgia, serif;
-  font-style: italic; font-size: .98rem; color: var(--footer-text); opacity: .6;
+  font-style: italic; font-size: .98rem; color: var(--footer-text); opacity: .85;
   text-align: center;
 }
 .book-part-kicker a { color: inherit; text-decoration: none; }
