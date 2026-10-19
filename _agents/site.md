@@ -108,9 +108,9 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   down the page. Every homepage section is named in one of the voices in
   `css/style.css` ("Section identity"), the one its section's page speaks
   in: Latest and Further back in the writing's rose, the book in its blue,
-  The Notice in its deep indigo, The House in Moris's dark forest green,
+  The Notice in its deep indigo, The House in Moris's near-black green,
   Notes in mustard, Words with Stories in plum,
-  Pictures with Stories and Tonight in slate, Trivia in its own rose,
+  Pictures with Stories and Tonight in slate, Trivia in garden green,
   "First time here?" and Instruments in the furniture's teal. Notes, Words
   and Pictures had no color before that day and fell to the rose, and The
   House with them; each page now names its voice with `series:` in its

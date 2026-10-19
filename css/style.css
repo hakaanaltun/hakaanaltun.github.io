@@ -446,13 +446,16 @@ body {
 
    Later that day the author found the fiction's amber and the House's olive
    muddy on paper, and asked for colours with more contrast. The fiction took
-   a deep indigo, and Moris and The House a dark forest green. Both sit a step
-   darker than the other voices by day (--sec-dl, taken off each palette's
-   own lightness), so they read more firmly on paper: 7.6:1 and 8.5:1 at worst
-   across the twelve light palettes; by night the indigo 7.9:1 and the green
+   a deep indigo, and Moris and The House a dark forest green, which an hour
+   later the author took darker still, to a green between green and black.
+   Both sit darker than the other voices by day (--sec-dl, taken off each
+   palette's own lightness), so they read more firmly on paper: the indigo
+   7.6:1 at worst across the twelve light palettes, the near-black green
+   12:1. By night the indigo is 7.9:1 and the green keeps the forest green,
    7.2:1. The indigo is 17.5 dE from the plum and 17.6 from the book's blue by
-   day; the green, beside the teal on the homepage, is 16.2 from it by day
-   and 15.5 by night.
+   day; the green, beside the teal on the homepage, is 23.6 from it by day
+   and 15.5 by night. Trivia took the garden green the same day, 5.4:1 by day
+   and 9.4:1 by night, 17.4 dE from the teal beside it.
 
                             hue    day chroma    night L + chroma */
 /* The writing — essays, standalone pieces, and every series */
@@ -469,11 +472,13 @@ body.is-home :is(#latest, #further-back, #quotes[data-voice="writing"])
 body.series-book,
 body.is-home :is(#quotes, #home-book)
                         { --sec-h: 262; --sec-c: 0.075; --sec-ld: 0.820; --sec-cd: 0.058; }
-/* Moris, and The House he lives in — a dark forest green, a step darker by day */
+/* Moris, and The House he lives in — by day a green so dark it is nearly
+   black; by night the forest green, since a near-black would not read on
+   the dark ground */
 body.series-moris,
 body.series-house,
 body.is-home #home-house
-                        { --sec-h: 155; --sec-c: 0.060; --sec-ld: 0.720; --sec-cd: 0.070; --sec-dl: 0.113; }
+                        { --sec-h: 155; --sec-c: 0.045; --sec-ld: 0.720; --sec-cd: 0.070; --sec-dl: 0.193; }
 /* The fiction */
 body.series-story,
 body.is-home :is(#story-doorway, #quotes[data-voice="story"])
@@ -487,15 +492,14 @@ body.series-about,
 body.series-tools,
 body.is-home :is(#start-here, #instruments)
                         { --sec-h: 178; --sec-c: 0.050; --sec-ld: 0.800; --sec-cd: 0.048; }
-/* The quizzes, which have left the furniture for the writing's rose. A quiz
-   is read as much as it is used — fifty questions and fifty notes — and it
-   is worth more to the section to have a colour of its own than to share the
-   teal with About and the instruments. These are deliberately the writing's
-   own numbers rather than a voice standing near it: a second, slightly
-   different red would blunt both. On the homepage Trivia never stands next
-   to Latest or Further back. */
+/* The quizzes — a garden green. A quiz is read as much as it is used —
+   fifty questions and fifty notes — and it is worth more to the section to
+   have a colour of its own than to share the teal with About and the
+   instruments. It spoke in the writing's rose until 19 October 2026, when
+   the author gave it the garden green The House had worn for an afternoon.
+   A right answer is drawn in the section's colour, so it is now green. */
 body.series-trivia,
-body.is-home #trivia    { --sec-h:  12; --sec-c: 0.068; --sec-ld: 0.700; --sec-cd: 0.078; }
+body.is-home #trivia    { --sec-h: 140; --sec-c: 0.070; --sec-ld: 0.800; --sec-cd: 0.070; }
 /* Notes — a mustard, near the paper of the notes on their wall */
 body.series-notes,
 body.is-home #notes     { --sec-h:  86; --sec-c: 0.075; --sec-ld: 0.800; --sec-cd: 0.085; }
