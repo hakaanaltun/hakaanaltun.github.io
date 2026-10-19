@@ -1789,6 +1789,20 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.equal(t.q('canvas.cursor-trail'), null, 'and none for a reader who asked for less motion');
   t.dom.window.close();
 
-  console.log('House: catalog and addresses, daily room, keeping from the room and from words, quizzes, the book and essays, the passage prompt on word stories and quiz notes, the kept passage\'s panel, its note and the way on to The Page, Highlight and its clearing, the small box by a highlight, hidden highlights, a note written before keeping, notes in the drawer, legacy and hostile records, blocked storage, arrivals, #drawer, export and backup offered only where they work, the moon, the planets after dark, weather at the window, the footer\'s snow and rain under both rooms, what the balcony\'s sound is told, the balcony, its glass, its door, its sky and its lamp, its notebook, a kept page left open in it, and the way on to The Page, Moris on the chair and by the glass, quiet places and a remembered Show places to look, the ways back to the study, the balcony, the drawer as it was and the page a note was written on, the pointer\'s trail, in the rooms only, and the drawer over any page from the site\'s menu and the footer, and The House in the header as a plain link passed.');
+  // A catalogue that cannot be fetched leaves each object with its way to
+  // the full list instead of "One moment…" for good. The page's own address
+  // once took the catalogue callback's name, and a failed fetch then found
+  // no function to call.
+  {
+    const off = house({ before: (w) => { w.fetch = () => Promise.reject(new Error('offline')); } });
+    await tick(); await tick();
+    off.click('#house-enter');
+    off.click('[data-open="books"]');
+    await tick();
+    assert.match(off.q('#house-dialog-content').textContent, /All the writing/, 'the bookshelf offers all the writing');
+    off.dom.window.close();
+  }
+
+  console.log('House: catalog and addresses, an unreachable catalogue, daily room, keeping from the room and from words, quizzes, the book and essays, the passage prompt on word stories and quiz notes, the kept passage\'s panel, its note and the way on to The Page, Highlight and its clearing, the small box by a highlight, hidden highlights, a note written before keeping, notes in the drawer, legacy and hostile records, blocked storage, arrivals, #drawer, export and backup offered only where they work, the moon, the planets after dark, weather at the window, the footer\'s snow and rain under both rooms, what the balcony\'s sound is told, the balcony, its glass, its door, its sky and its lamp, its notebook, a kept page left open in it, and the way on to The Page, Moris on the chair and by the glass, quiet places and a remembered Show places to look, the ways back to the study, the balcony, the drawer as it was and the page a note was written on, the pointer\'s trail, in the rooms only, and the drawer over any page from the site\'s menu and the footer, and The House in the header as a plain link passed.');
 })().catch((error) => { console.error(error); process.exit(1); });
 
