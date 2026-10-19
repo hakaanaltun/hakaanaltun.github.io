@@ -9,6 +9,12 @@ rule written there.
   picture carries its group in its `category` field. Keep existing picture
   addresses stable when grouping them.
 
+- **The catalogue uses equal thumbnail rows.** On October 19 the author
+  asked for smaller covers to balance the realistic journey with the watercolor
+  pictures. `pictures-index.css` places each complete 3:2 cover beside its
+  title and teaser, including on phones. Keep the three entries at equal weight;
+  the homepage and individual experiences retain their own layouts.
+
 - **Through the Solar System uses one continuous camera scene.** The author
   approved the immersive pilot in October 2026, with illustrations and sourced
   spacecraft imagery. `pictures/space/index.html`, `css/space-journey.css`,
