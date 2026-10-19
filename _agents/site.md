@@ -103,12 +103,29 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
 
 ## The homepage
 
-- **Slate and green take turns down the page.** Every homepage section is
-  named in one of the two accent lists in `css/style.css` ("Homepage accent
-  rhythm"). A new section takes the color its place calls for, and every
-  section after it moves to the other list. `scripts/test-pictures.cjs`
-  fails when a section is missing from the lists or two neighbors share a
-  color.
+- **Each section is shown in its own page's color.** The author asked for
+  this on 19 October 2026, in place of the slate and green that took turns
+  down the page. Every homepage section is named in one of the voices in
+  `css/style.css` ("Section identity"), the one its section's page speaks
+  in: Latest and Further back in the writing's rose, the book in its blue,
+  The House in Moris's olive, Notes in mustard, Words with Stories in plum,
+  Pictures with Stories and Tonight in slate, Trivia in its own rose,
+  "First time here?" and Instruments in the furniture's teal. Notes, Words
+  and Pictures had no color before that day and fell to the rose, and The
+  House with them; each page now names its voice with `series:` in its
+  front matter (Words through `_config.yml` for the word pages and
+  collections). A new section takes the voice of the page it leads to. Two
+  neighbors may not share a color; if a new section would stand next to
+  its own color, ask the author before choosing another.
+  `scripts/test-pictures.cjs` fails on a section with no voice or next to
+  its own color. Each section builds its accent from its voice in every
+  theme; Midnight keeps its single gold.
+- **A quote takes the color of the page it comes from.** The quotes at the
+  top are from the book and from the pieces. The script marks `#quotes`
+  with `data-voice="writing"`, or `"story"` for The Notice, and a quote
+  from the book leaves it unmarked, in the book's blue. The source line
+  changes color while it fades. In the dark themes the source line is set
+  in soft ink, as it was before.
 - **The House keeps its own line.** After "First time here?" and its three
   doors, the homepage says "Another way in." and leads to The House.
   Folding it into the three doors was considered on 14 October 2026, and
