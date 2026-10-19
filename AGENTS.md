@@ -79,8 +79,11 @@ the Pictures cards' downscales. Gems go into the git-ignored
 - The Worker is `hakanaltun-io` in the author's Cloudflare account; its
   builds, logs and domains are under Workers & Pages. hakanaltun.io is its
   custom domain, and a redirect rule on the zone sends `www.` to the bare
-  domain. The four A records that pointed at GitHub Pages are still in the
-  zone's DNS, unused while the custom domain stands; they can go.
+  domain. The same evening the author deleted the four A records that had
+  pointed at GitHub Pages and unpublished GitHub Pages for the repository,
+  so `hakaanaltun.github.io` no longer answers, and turned off the
+  Real User Measurements Cloudflare had been adding to every page: the site
+  keeps to the one counter COLOPHON.md lists.
 - Cloudflare runs `scripts/cloudflare-build.sh`, which does what
   `.github/workflows/pages.yml` does, in the same order, and runs the checks
   for `main` only. `wrangler.jsonc` serves `_site/` as it is.
