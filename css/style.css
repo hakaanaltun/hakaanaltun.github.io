@@ -487,11 +487,17 @@ body.series-house,
 body.is-home #home-house,
 .drawer-body [data-voice="house"]
                         { --sec-h: 155; --sec-c: 0.045; --sec-ld: 0.720; --sec-cd: 0.070; --sec-dl: 0.193; }
-/* The fiction */
+/* The fiction told in choices — an ivy green. It wore a deep indigo until
+   the evening of 19 October 2026, when the author moved it under Latest,
+   just above the book, and the indigo beside the book's blue read as one
+   colour. Of the greens the site has, the ivy is the deepest after Moris's
+   near-black and the most saturated, and it stands clear of both its
+   neighbours on the homepage, the writing's rose above and the book's blue
+   below. */
 body.series-story,
 body.is-home :is(#story-doorway, #quotes[data-voice="story"]),
 .drawer-body [data-voice="story"]
-                        { --sec-h: 290; --sec-c: 0.090; --sec-ld: 0.760; --sec-cd: 0.080; --sec-dl: 0.073; }
+                        { --sec-h: 165; --sec-c: 0.080; --sec-ld: 0.780; --sec-cd: 0.075; --sec-dl: 0.080; }
 /* The site's own furniture — the front door and the instruments. Made
    things you use rather than read. "First time here?" is the front door's
    own: its three doors lead to three different places. */
@@ -1864,14 +1870,16 @@ html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
   .hero-quote-card:hover .quote-nav { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
 }
 
-/* Story doorway — a quiet threshold under the hero. Not a card, not a section
-   head; one line that lets a first-time reader step straight into the story.
+/* Story doorway — a threshold into the story told in choices. Not a card,
+   not a section head; one line that lets a reader step straight into it.
    Kept off /latest/ and /pieces/ on purpose — this is the only cold invitation.
    The default animated divider (5. Sections & Animated Dividers) marks it off
-   from the hero above, now that both share the page's own background.
+   from the section above.
+   Since the evening of 19 October 2026 it stands between Latest and the
+   book: the book was not enough to mark the time between the latest pieces
+   and those further back, and The Notice, from July, falls between them.
    The bottom padding closes the block against the divider that opens the
-   section below it — #start-here since 19 October 2026, when "First time
-   here?" came back above the work. Every section but the first draws that rule, so the
+   section below it. Every section but the first draws that rule, so the
    measurement holds whoever follows: 20px here plus the tag's own 8px margin
    makes 28px, the same clearance the divider above gets, so the doorway sits
    between two rules instead of hanging off the lower one. */
