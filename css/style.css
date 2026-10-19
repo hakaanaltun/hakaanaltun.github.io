@@ -492,16 +492,22 @@ body.series-story,
 body.is-home :is(#story-doorway, #quotes[data-voice="story"]),
 .drawer-body [data-voice="story"]
                         { --sec-h: 290; --sec-c: 0.090; --sec-ld: 0.760; --sec-cd: 0.080; --sec-dl: 0.073; }
-/* The site's own furniture — the front door, the person, the instruments.
-   Made things you use rather than read. "First time here?" is the front
-   door's own: its three doors lead to three different places. */
+/* The site's own furniture — the front door and the instruments. Made
+   things you use rather than read. "First time here?" is the front door's
+   own: its three doors lead to three different places. */
 body.is-home,
 body.series-home,
-body.series-about,
 body.series-tools,
 body.is-home :is(#start-here, #instruments),
 .drawer-body [data-voice="furniture"]
                         { --sec-h: 178; --sec-c: 0.050; --sec-ld: 0.800; --sec-cd: 0.048; }
+/* About — black. The author asked for it on 19 October 2026; until then
+   About shared the furniture's teal. It has no colour at all: by day its
+   darker step is the whole of the paper's lightness, so it reaches black on
+   every paper, and by night it is a plain light, with no hue. */
+body.series-about,
+.drawer-body [data-voice="about"]
+                        { --sec-h:   0; --sec-c: 0;     --sec-ld: 0.930; --sec-cd: 0;     --sec-dl: var(--sec-l); }
 /* The quizzes — a garden green. A quiz is read as much as it is used —
    fifty questions and fifty notes — and it is worth more to the section to
    have a colour of its own than to share the teal with About and the
@@ -512,11 +518,15 @@ body.series-trivia,
 body.is-home #trivia,
 .drawer-body [data-voice="trivia"]
                         { --sec-h: 140; --sec-c: 0.070; --sec-ld: 0.800; --sec-cd: 0.070; }
-/* Notes — a mustard, near the paper of the notes on their wall */
+/* Notes — graphite, the pencil a note is caught with. The author asked
+   for it on 19 October 2026, in place of the mustard it had worn since that
+   morning: the site keeps no yellows, terracottas or coppers. It is kept a
+   clear grey, a step off the black of About, with a breath of blue, as
+   graphite has. */
 body.series-notes,
 body.is-home #notes,
 .drawer-body [data-voice="notes"]
-                        { --sec-h:  86; --sec-c: 0.075; --sec-ld: 0.800; --sec-cd: 0.085; }
+                        { --sec-h: 250; --sec-c: 0.012; --sec-ld: 0.780; --sec-cd: 0.010; }
 /* Words with Stories — a plum, in the widest gap the voices had left */
 body.series-words,
 body.is-home #words-with-stories,
