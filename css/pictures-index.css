@@ -5,8 +5,9 @@
    compared as equals. */
 .picture-index .picture-category-section { max-width:720px; }
 .picture-index .picture-journey { display:block; margin:22px 0 44px; color:var(--ink); text-decoration:none; text-align:left; }
-/* The cover is 3:2; the window shows a 2:1 band of it, high enough to keep the Moon. */
-.picture-index .picture-journey img { display:block; width:100%; height:auto; aspect-ratio:2/1; object-fit:cover; object-position:50% 30%; border-radius:3px; }
+/* The window shows the whole 3:2 cover, as the homepage does, so the Earth
+   is never cut at the top or the bottom. */
+.picture-index .picture-journey img { display:block; width:100%; height:auto; aspect-ratio:3/2; object-fit:cover; border-radius:3px; }
 .picture-index .picture-journey h3 { margin:18px 0 6px; font:500 30px/1.15 'Cormorant Garamond',Georgia,serif; color:var(--petrol); }
 .picture-index .picture-journey p { margin:0; font-size:18px; line-height:1.4; color:var(--vizon); }
 .picture-index .picture-catalogue { display:grid; grid-template-columns:minmax(0,1fr); gap:30px; }
@@ -26,10 +27,6 @@
   .picture-index .picture-list-entry { grid-template-columns:100px minmax(0,1fr); align-items:start; gap:16px; }
   .picture-index .picture-list-entry h3 { font-size:25px; }
   .picture-index .picture-list-entry p { font-size:17px; }
-}
-/* On a phone the band would be too thin to read as a window; keep the cover's own shape. */
-@media(max-width:520px) {
-  .picture-index .picture-journey img { aspect-ratio:3/2; object-position:50% 50%; }
 }
 @media(prefers-reduced-motion:reduce) {
   .picture-index :is(.picture-journey,.picture-list-entry) :is(h3,p) { transition:none; }

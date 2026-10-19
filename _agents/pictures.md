@@ -15,10 +15,11 @@ rule written there.
   at that size the eye reads the frame before the brushwork, a dark edge
   against an ivory paper one. The author chose to let size and order show
   the two kinds instead, so the same layout carries over to the next journey.
-  `pictures-index.css` shows the journey's cover as a 2:1 band, high enough
-  to keep the Moon, or at its own 3:2 on a phone, with its title and teaser
-  beneath. The title and teaser come from the journey page's front matter,
-  as on the homepage, so the teaser is written once. The watercolors follow
+  `pictures-index.css` shows the journey's whole cover at its own 3:2, with
+  its title and teaser beneath. A 2:1 band was tried first; the author asked
+  the same day for the Earth to be whole, as on the homepage. The title
+  and teaser come from the journey page's front matter, as on the
+  homepage, so the teaser is written once. The watercolors follow
   as equal rows, each complete 3:2 sheet beside its words, keeping its paper
   edge. The homepage and the individual pictures keep their own layouts.
 
