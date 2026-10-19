@@ -87,8 +87,10 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   colors. `_includes/drawer.html` names each group's voice with
   `data-voice`: The House and Moris in their green, Writing and Series in
   the rose with The Notice's card in its indigo, Book in blue, Notes,
-  Words, Pictures and Trivia in their own colors, Instruments and About in
-  the furniture's teal. The voices are the homepage's (see The homepage),
+  Words, Pictures and Trivia in their own colors, Instruments in the
+  furniture's teal, and About in black, by day and in the menu, as the
+  author asked on 19 October 2026 (a plain light in the dark themes). The
+  voices are the homepage's (see The homepage),
   and each group builds its accent the same way in every theme, so the
   menu looks the same whichever page it opens over; Midnight keeps its
   single gold. The search field keeps the page's own color. A new group
