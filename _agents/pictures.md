@@ -23,8 +23,10 @@ rule written there.
   retain Cormorant Garamond Italic for the ampersand.
 - **The entry invites discovery.** The journey dialog gives short controls,
   without an itinerary or descriptions of discoveries. The footer supplies
-  practical navigation. The October 19 release slows normal camera paths by
-  40 percent while preserving their different rhythms; reduced motion is immediate.
+  practical navigation. The October 19 follow-up lengthens normal camera paths
+  by about 57 percent from the first release (1.1–5.6 seconds). History returns
+  scale with distance too (1–3.2 seconds), replacing the abrupt half-second
+  return. Different route rhythms remain; reduced motion is immediate.
 - **The Sun is part of the journey.** Its complete story and four sourced notes
   live in the reader. `/pictures/sun/` redirects directly to `/pictures/space/#sun`
   and carries query parameters, including the return to the balcony. `/sun/`
@@ -117,3 +119,12 @@ Pictures Space Site at `pictures-space-pilot-hakan.exacttulip1.chatgpt.site`.
 Keep that Site and its asset paths published while this release references it.
 `space-assets.json` records the source URLs and SHA-256 hashes for a future
 mirror. New Voyager assets and the catalogue cover are stored in this repo.
+
+The journey card uses `journey-cover-v2.webp` in the catalogue, homepage and
+sharing metadata. Its realistic Earth and Moon represent the immersive
+interior. Indigo shadows, restrained warm light and subtle texture connect
+it to the black-hole and quasar covers without watercolor marks or paper
+edges. The author explicitly requested this balance on October 19. The
+Imagegen brief was a realistic scientific Earth–Moon composition in 3:2,
+with coherent geography, natural volume, deep blue space and gentle warm
+sunlight; no text, itinerary, extra planets, brushwork or decorative border.

@@ -367,7 +367,8 @@ function flightProfile(from,to,short=false,fromId=null,toId=null){
  const scaleChange=Math.abs(Math.log(to.scale/from.scale));
  const depth=Math.max(0,Math.log(Math.max(1,screenDistance*(1+Math.abs(route.bend))/(stage.clientWidth*.72))));
  const bend=short?0:route.bend;
- return {depth:short?0:depth,duration:short?500:Math.min(3900,Math.max(700,1.4*(480+240*scaleChange+270*Math.log1p(screenDistance/stage.clientWidth))*route.pace)),
+ const duration=Math.min(short?3200:5600,Math.max(short?1000:1100,2.2*(480+240*scaleChange+270*Math.log1p(screenDistance/stage.clientWidth))*route.pace));
+ return {depth:short?0:depth,duration,
   c1:{x:from.x+dx*.26-dy*bend,y:from.y+dy*.26+dx*bend},
   c2:{x:from.x+dx*.74-dy*bend,y:from.y+dy*.74+dx*bend}};
 }

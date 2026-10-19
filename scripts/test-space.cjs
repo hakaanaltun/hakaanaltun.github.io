@@ -26,8 +26,8 @@ run(fs.readFileSync('js/space-journey.js','utf8'));
  assert(!/Voyager|Mercury|Titan|route-stops/.test(intro),'The introduction reveals the itinerary');
  for(const [hash,expected] of Object.entries({'#scene-vicinity':'system','#scene-moon':'moon','#scene-asteroid-belt':'belt','#scene-kuiper-belt':'kuiper','#scene-voyager-2':'voyager2','#scene-voyager-1':'voyager1','#sun':'sun'})){location.hash=hash;assert.equal(run('sceneFromHash()'),expected)}
  location.hash='#system';
- const slowed=run("flightProfile(localTarget('earth'),localTarget('moon'),false,'earth','moon')");assert(slowed.duration>=700&&slowed.duration<=3900);
- assert.equal(run("flightProfile(localTarget('earth'),localTarget('moon'),true).duration"),500);
+ const slowed=run("flightProfile(localTarget('earth'),localTarget('moon'),false,'earth','moon')");assert(slowed.duration>=1100&&slowed.duration<=5600);
+ const returnDuration=run("flightProfile(localTarget('earth'),localTarget('moon'),true).duration");assert(returnDuration>=1000&&returnDuration<=3200);
 
  // Every scene is backed by the common camera and a complete, valid navigation graph.
  for(const id of run('Object.keys(scenes)')){
