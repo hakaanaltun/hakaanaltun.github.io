@@ -557,9 +557,12 @@
      does. back= keeps the instrument's own way back. */
   var INSTRUMENTS = { write: 'The Page', draw: 'The Draw', desk: 'The Desk', read: 'The Reader', prompt: 'The Prompter', lots: 'The Lots', list: 'The List', clean: 'The Clean', diff: 'The Diff' };
   var PAGES = { piece: 'the piece', word: 'the word', quiz: 'the quiz', book: 'the book' };
-  var arrived = new URLSearchParams(location.search);
-  var cameFromSlug = arrived.get('from') || '';
-  var cameBack = KEEP.backAddress(arrived.get('back'));
+  /* Not "arrived": that name is the catalogue's callback above, and
+     reusing it replaced the function before a failed fetch could call it,
+     so the rooms never showed their way to the full lists. */
+  var openedWith = new URLSearchParams(location.search);
+  var cameFromSlug = openedWith.get('from') || '';
+  var cameBack = KEEP.backAddress(openedWith.get('back'));
   var own = Object.prototype.hasOwnProperty;
   var cameFrom = own.call(INSTRUMENTS, cameFromSlug) ? [cameBack || '/' + cameFromSlug + '/', '← Back to ' + INSTRUMENTS[cameFromSlug], cameFromSlug]
     : own.call(PAGES, cameFromSlug) && cameBack ? [cameBack, '← Back to ' + PAGES[cameFromSlug], cameFromSlug] : null;
