@@ -5,6 +5,10 @@
   "name": "hakanaltun-io",
   "main": "workers/site.mjs",
   "compatibility_date": "2026-10-01",
+  // The workers.dev address stays on, so that every branch's build gets a
+  // preview address of its own to look at before it is merged.
+  "workers_dev": true,
+  "preview_urls": true,
   "assets": {
     "directory": "./_site",
     "binding": "ASSETS",
