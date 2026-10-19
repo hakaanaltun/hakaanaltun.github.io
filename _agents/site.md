@@ -148,10 +148,8 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   `search-index.json` gathers the writing, the word stories, the
   standalone pictures, the instruments, each quiz by its rounds, the notes
   and the pages in the site's frame. Besides the quizzes:
-  - Through the Solar System waits until its new paintings and journey
-    are finished. Then look at it again: a result for each scene, at
-    `/pictures/space/#scene-<id>`, which opens that scene, would take a
-    search for Jupiter or Voyager straight there.
+  - Through the Solar System is searchable by its sourced notes, with results
+    opening the relevant world and note in the journey.
   - The Farm House stays out. It is entered only from the study, and its
     story is found in the rooms.
 

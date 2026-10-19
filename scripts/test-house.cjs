@@ -892,15 +892,17 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.equal(n.q('.house-hotspot--sun').getAttribute('href'), '/pictures/sun/?from=balcony');
   n.dom.window.close();
 
-  // A picture opened from the balcony leads back there.
-  for (const [file, address] of [['pictures/sun/index.html', 'https://hakanaltun.io/pictures/sun/?from=balcony'], ['pictures/space/index.html', 'https://hakanaltun.io/pictures/space/?from=balcony#scene-moon'], ['pictures/sun/index.html', 'https://hakanaltun.io/pictures/sun/?from=house'], ['pictures/space/index.html', 'https://hakanaltun.io/pictures/space/?from=house#scene-moon'], ['pictures/sun/index.html', 'https://hakanaltun.io/pictures/sun/']]) {
-    const pic = page(file, address);
-    pic.w.eval(read(root, 'js', 'pictures.js'));
-    const way = pic.q('.picture-footer a');
-    const balconyWay = address.includes('from=balcony');
-    assert.equal(way.getAttribute('href'), balconyWay ? '/house/#balcony' : address.includes('from=house') ? '/house/#study' : '/pictures/');
-    assert.equal(way.textContent, balconyWay ? '← the balcony' : address.includes('from=house') ? '← the study' : '← Pictures with Stories');
-    pic.dom.window.close();
+  // The journey keeps the room where it was entered; standalone pictures do too.
+  for (const from of ['balcony','house','']) {
+    for(const journey of [true,false]) {
+      const file=journey?'pictures/space/index.html':'pictures/black-hole/index.html';
+      const pic=page(file,'https://hakanaltun.io/'+file.replace('index.html','')+(from?'?from='+from:''));
+      pic.w.eval(read(root,'js',journey?'space-entry.js':'pictures.js'));
+      const way=pic.q(journey?'#journeyReturn':'.picture-footer a');
+      assert.equal(way.getAttribute('href'),from==='balcony'?'/house/#balcony':from==='house'?'/house/#study':'/pictures/');
+      if(from)assert.equal(way.textContent,'← the '+(from==='balcony'?'balcony':'study'));
+      pic.dom.window.close();
+    }
   }
   // The Farm House, entered from the study's shelf, leads back to the study.
   assert.match(read(site, 'farm-house', 'index.html'), /<a href="\/house\/#study">← the study<\/a>/);
