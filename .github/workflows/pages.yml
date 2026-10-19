@@ -1,10 +1,13 @@
-name: Deploy Jekyll site to Pages
+name: Check the site
+
+# Cloudflare builds and publishes the site since 19 October 2026 (see
+# "Publishing" in AGENTS.md); its build runs the same checks for main. This
+# workflow checks pull requests only, so a change is known to build and pass
+# before it is merged. It no longer publishes anything, and a slow queue here
+# can no longer hold the site back.
 
 on:
-  push:
-    branches:
-      - main
-  # A pull request gets the same build the deploy would get, so a change is
+  # A pull request gets the same build Cloudflare gives main, so a change is
   # known to render before it is merged. The list used to cover only the code
   # and the templates, which meant a pull request that touched nothing but
   # content — a word story, a post, a quiz — ran no build at all and was
@@ -35,27 +38,23 @@ on:
       - 'package.json'
       - 'package-lock.json'
       - '.github/workflows/pages.yml'
+      - 'workers/**'
+      - 'wrangler.jsonc'
   workflow_dispatch:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
-# Deploys wait their turn in one queue and are never cancelled midway. A
-# pull request's check runs in a queue of its own: when it shared the
-# deploys' queue, a check pushed while a merge was waiting could push that
-# merge out of the queue, and the merge never reached the site. A newer push
-# to the same pull request replaces its older check.
+# A newer push to the same pull request replaces its older check.
 concurrency:
-  group: ${{ github.event_name == 'pull_request' && format('check-{0}', github.ref) || 'pages' }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+  group: check-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
     # A build takes about two minutes. A check that hangs would otherwise
-    # hold the deploy queue for six hours, as one did on 12 October 2026.
+    # run for six hours, as one did on 12 October 2026.
     timeout-minutes: 20
     steps:
       # Two commits, so that a pull request, checked out as its merge, has
@@ -98,20 +97,16 @@ jobs:
       - name: Install check dependencies
         run: npm ci
 
-      - name: Setup Pages
-        id: pages
-        uses: actions/configure-pages@v5
-
       - name: Build with Jekyll
-        run: bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
+        run: bundle exec jekyll build
         env:
           JEKYLL_ENV: production
 
       # The PDF parser against the bundled PDF.js, then the DOM-level checks
       # for The Reader, the footer weather and puzzle mode, and the offline
       # shell against the sw.js the build just rendered — hence after it, and
-      # still before the upload. A failure here stops the deploy: the deploy
-      # job needs this one.
+      # still before the comments are taken out. A failure here fails the
+      # check, as the same failure stops Cloudflare's build of main.
       - name: Run browser-tool checks
         run: npm test
         timeout-minutes: 10
@@ -119,27 +114,12 @@ jobs:
       # The stylesheets' comments are for whoever edits them next, not for a
       # reader's browser. They stay in the repository and are taken out of
       # the published copy only, after the checks, which read them. The step
-      # fails, and nothing is published, if any rule would change.
+      # fails if any rule would change, as Cloudflare's build does.
       - name: Take the comments out of the published stylesheets
         run: node scripts/strip-css-comments.cjs _site/css
 
       # The scripts' comments go the same way, from the site's own scripts
-      # only: js/vendor/ keeps its licences. The step fails, and nothing is
-      # published, if any program would read differently.
+      # only: js/vendor/ keeps its licences. The step fails if any program
+      # would read differently, as Cloudflare's build does.
       - name: Take the comments out of the published scripts
         run: node scripts/strip-js-comments.cjs _site/js
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-
-  deploy:
-    if: github.event_name != 'pull_request'
-    runs-on: ubuntu-latest
-    needs: build
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4

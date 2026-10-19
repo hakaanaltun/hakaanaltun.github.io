@@ -36,7 +36,7 @@ there, and read them all before a change that crosses the site.
 ## Working on the site
 
 This repository is a **Jekyll 4 static site** called "On Life & Everything",
-a personal blog deployed to GitHub Pages through `.github/workflows/pages.yml`.
+a personal blog built and published by Cloudflare (see Publishing, below).
 Ruby, RubyGems and Bundler 4.0.13 are preinstalled in the Cloud VM. At the
 start of a cloud session, `.claude/hooks/session-start.sh` installs the gems
 and the npm packages for the checks, restores the bundled PDF.js and makes
@@ -67,12 +67,20 @@ the Pictures cards' downscales. Gems go into the git-ignored
 
 ### Publishing
 
-- **The site is moving from GitHub Pages to Cloudflare.** The author asked
-  for it on 19 October 2026, after an evening when GitHub took up to half an
-  hour to start each build. GitHub keeps the files and runs the checks on
-  every pull request; Cloudflare builds each push itself, in a queue only
-  this site uses, and publishes `main`. A branch gets a preview address of
-  its own to look at before it is merged.
+- **Cloudflare builds and publishes the site; GitHub keeps the files.** The
+  author asked for the move on 19 October 2026, after an evening when GitHub
+  took up to half an hour to start each build and longer still to mark it
+  finished, while the next merge waited behind it. Cloudflare builds each
+  push itself, in a queue only this site uses, publishes `main` at
+  hakanaltun.io, and gives every other branch a preview address of its own
+  (`<version>-hakanaltun-io.hakanaltunn.workers.dev`, shown on the build) to
+  look at before it is merged. `.github/workflows/pages.yml` now only checks
+  pull requests and publishes nothing.
+- The Worker is `hakanaltun-io` in the author's Cloudflare account; its
+  builds, logs and domains are under Workers & Pages. hakanaltun.io is its
+  custom domain, and a redirect rule on the zone sends `www.` to the bare
+  domain. The four A records that pointed at GitHub Pages are still in the
+  zone's DNS, unused while the custom domain stands; they can go.
 - Cloudflare runs `scripts/cloudflare-build.sh`, which does what
   `.github/workflows/pages.yml` does, in the same order, and runs the checks
   for `main` only. `wrangler.jsonc` serves `_site/` as it is.
@@ -83,8 +91,6 @@ the Pictures cards' downscales. Gems go into the git-ignored
   Every other missing address gets `404.html`. The script runs only for
   addresses that are not a file, so pages and images are served directly.
   `scripts/test-site-worker.mjs` checks it against the built site.
-- Until the domain is moved to Cloudflare, GitHub Pages still publishes
-  `main` as before.
 
 ### Non-obvious notes
 
@@ -102,7 +108,9 @@ the Pictures cards' downscales. Gems go into the git-ignored
   `scripts/test-content.cjs` fails on an address that moves on twice.
 - `_config.yml` sets `future: true`, so posts dated in the future render
   as intended.
-- The production Pages workflow uses Ruby 3.3. The VM's apt-provided Ruby
+- Cloudflare's build uses its own Ruby (3.4 in October 2026) and the
+  pull-request check uses Ruby 3.3; the Gemfile carries the gems Ruby 3.4
+  no longer bundles, so both build the same site. The VM's apt-provided Ruby
   3.2 also builds the site.
 - `style.css` and `palettes.css` are linked once in `_includes/head.html`
   for every page that uses the default layout. Bump the `?v=` there when
@@ -154,9 +162,9 @@ learned the hard way is written down here instead.
 - **Every test closes the windows it opens.** A jsdom window left open
   keeps its timers running, and the checks then never finish. On
   12 October 2026 one such check held the deploy queue for over an hour,
-  and two merges waited behind it. The build now stops after twenty
-  minutes, and pull-request checks have a queue of their own, so they can
-  no longer push a waiting deploy out.
+  and two merges waited behind it. The checks now stop after twenty
+  minutes, and since 19 October 2026 they no longer stand between a merge
+  and the site: GitHub only checks pull requests.
 - **This site is read as pages.** Its author reviews a change by
   looking at it, which for a long time meant merging first and looking after.
   Build the site and hand over the rendered pages that changed and
@@ -193,8 +201,9 @@ it does not go wrong again.
   confirmed costs trust twice, once when it is said and again when it is taken
   back. That day a header "covering" the room turned out to be a scrolled
   page, and "broken" photographs were only missing from a local build.
-- **`/images/480/` and `/images/960/` are made at deploy** by
-  `scripts/generate_image_variants.py` in `.github/workflows/pages.yml`. A
+- **`/images/480/` and `/images/960/` are made at every build** by
+  `scripts/generate_image_variants.py`, in `scripts/cloudflare-build.sh` and
+  in the pull-request check. A
   local build has only the variants that are committed, so an image missing
   locally may be fine on the site. Check the live address before calling it
   broken. The same script makes `/pictures/assets/480/` and `/960/` for the
