@@ -62,9 +62,16 @@ assert.ok(files > 30, 'every published script');
   fs.rmSync(dir, { recursive: true });
 }
 
+// Cloudflare's build publishes the site and GitHub checks pull requests;
+// both take the comments out after the checks, which read the full files,
+// and Cloudflare publishes only once its build script has finished, so the
+// stripping is the script's last step.
+const build = fs.readFileSync(path.join(root, 'scripts/cloudflare-build.sh'), 'utf8');
 const flow = fs.readFileSync(path.join(root, '.github/workflows/pages.yml'), 'utf8');
-const at = (text) => flow.indexOf(text);
-assert.ok(at('node scripts/strip-js-comments.cjs _site/js') > at('run: npm test'), 'the comments go after the checks');
-assert.ok(at('node scripts/strip-js-comments.cjs _site/js') < at('upload-pages-artifact'), 'and before the upload');
+for (const [name, text] of [['cloudflare-build.sh', build], ['pages.yml', flow]]) {
+  const at = (t) => text.indexOf(t);
+  assert.ok(at('node scripts/strip-js-comments.cjs _site/js') > at('npm test') && at('npm test') > -1, name + ': the comments go after the checks');
+}
+assert.ok(build.trimEnd().split('\n').slice(-2).some((line) => line.trim() === 'node scripts/strip-js-comments.cjs _site/js'), 'and they are the last thing done before Cloudflare publishes');
 
-console.log(`JS comments: taken out of the published copy only, strings, templates and regular expressions untouched, every one of ${files} published scripts unchanged as a program, js/vendor/ left alone, after the checks and before the upload.`);
+console.log(`JS comments: taken out of the published copy only, strings, templates and regular expressions untouched, every one of ${files} published scripts unchanged as a program, js/vendor/ left alone, after the checks and before the site is published.`);
