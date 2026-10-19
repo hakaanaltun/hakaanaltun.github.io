@@ -1721,25 +1721,24 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
     name.dispatchEvent(new o.w.MouseEvent('click', { bubbles: true, cancelable: true, detail: 1 }));
     o.w.document.removeEventListener('click', seen);
     assert.equal(toDoor, true, 'a click on The House goes to the door');
-    // The site's menu keeps the way to the door and the drawer under The House.
-    const side = o.q('#site-drawer .drawer-house');
-    assert.equal(side.tagName, 'DETAILS');
-    assert.deepEqual([...side.querySelectorAll('a')].map((a) => a.getAttribute('href')), ['/house/', '/house/#drawer']);
-    assert.equal(side.querySelector('[data-open-drawer]').textContent, 'Your drawer');
-    side.querySelector('[data-open-drawer]').click();
-    await wait(20);
-    assert.ok(overlay.open, 'the site\'s menu opens it over the page');
-    assert.equal(o.w.document.querySelectorAll('#drawer-dialog').length, 1, 'in the same box');
-    overlay.querySelector('.house-close').click();
-    assert.equal(o.w.document.activeElement, o.q('.hamburger-btn'), 'and gives focus back to the menu\'s button');
+    // The site's menu takes the reader straight to the door too.
+    const side = o.q('#site-drawer .drawer-section-links a[href="/house/"]');
+    assert.ok(side, 'The House has a direct link in the site menu');
+    assert.equal(side.textContent.trim(), 'The House');
+    assert.equal(o.q('#site-drawer a[data-open-drawer]'), null, 'no drawer shortcut under The House');
+    let sideToDoor = null;
+    const seeSide = (e) => { sideToDoor = !e.defaultPrevented; e.preventDefault(); };
+    o.w.document.addEventListener('click', seeSide);
+    side.dispatchEvent(new o.w.MouseEvent('click', { bubbles: true, cancelable: true, detail: 1 }));
+    o.w.document.removeEventListener('click', seeSide);
+    assert.equal(sideToDoor, true, 'the site menu follows The House link');
     o.dom.window.close();
 
-    // In The House the site's menu opens the room's own drawer over the
-    // door, and the door is still there when it closes.
+    // The House still has its own drawer button at the door.
     const h = house();
     await tick();
     h.w.eval(scripts.nav);
-    h.q('#site-drawer [data-open-drawer]').click();
+    h.q('.house-drawer-toggle').click();
     assert.equal(h.q('#house-dialog').open, true);
     assert.equal(h.q('#house-dialog-title').textContent, 'Your drawer');
     assert.equal(h.q('#drawer-dialog'), null, 'The House uses its own box');
