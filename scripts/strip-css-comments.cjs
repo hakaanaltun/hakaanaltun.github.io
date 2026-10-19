@@ -1,8 +1,9 @@
 /* The stylesheets explain themselves at length, for whoever edits them next,
  * and in style.css the explanations are about two thirds of what a reader's
- * browser would download. The deploy keeps them in the repository and takes
- * them out of the copy it publishes: .github/workflows/pages.yml runs this on
- * _site/css after the checks and before the upload.
+ * browser would download. The build keeps them in the repository and takes
+ * them out of the copy it publishes: scripts/cloudflare-build.sh runs this on
+ * _site/css after the checks, as its last step before Cloudflare publishes,
+ * and the pull-request check in .github/workflows/pages.yml does the same.
  *
  * Only comments go. Strings are left alone, so a "/*" inside quotes stays,
  * and nothing else is minified. Every file is parsed before and after, and

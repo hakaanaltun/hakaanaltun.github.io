@@ -1,9 +1,10 @@
 /* The scripts explain themselves at length, for whoever edits them next,
  * and about a fifth of what a reader's browser would download is those
  * explanations. As with the stylesheets (scripts/strip-css-comments.cjs),
- * the deploy keeps them in the repository and takes them out of the copy
- * it publishes: .github/workflows/pages.yml runs this on _site/js after
- * the checks and before the upload.
+ * the build keeps them in the repository and takes them out of the copy
+ * it publishes: scripts/cloudflare-build.sh runs this on _site/js after the
+ * checks, as its last step before Cloudflare publishes, and the
+ * pull-request check in .github/workflows/pages.yml does the same.
  *
  * Only comments go, and only from the site's own scripts: js/vendor/ is
  * left as it is, with its licences. A parser (acorn) finds the comments,

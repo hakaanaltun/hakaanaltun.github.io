@@ -1,7 +1,7 @@
 /* The deploy takes the comments out of the published stylesheets
  * (scripts/strip-css-comments.cjs). Check that it takes out comments and
  * nothing else, on small cases and on every stylesheet in css/, and that the
- * workflow runs it after the checks and before the upload. */
+ * workflow runs it after the checks and before the site is published. */
 'use strict';
 const fs = require('node:fs');
 const path = require('node:path');
@@ -27,9 +27,16 @@ for (const name of fs.readdirSync(path.join(root, 'css')).filter((n) => n.endsWi
   assert.ok(strip(css).length < css.length * 0.7, 'style.css loses its comments');
 }
 
+// Cloudflare's build publishes the site and GitHub checks pull requests;
+// both take the comments out after the checks, which read the full files,
+// and Cloudflare publishes only once its build script has finished, so the
+// stripping is the script's last step.
+const build = fs.readFileSync(path.join(root, 'scripts/cloudflare-build.sh'), 'utf8');
 const flow = fs.readFileSync(path.join(root, '.github/workflows/pages.yml'), 'utf8');
-const at = (text) => flow.indexOf(text);
-assert.ok(at('node scripts/strip-css-comments.cjs _site/css') > at('run: npm test'), 'the comments go after the checks, which read the full stylesheets');
-assert.ok(at('node scripts/strip-css-comments.cjs _site/css') < at('upload-pages-artifact'), 'and before the upload');
+for (const [name, text] of [['cloudflare-build.sh', build], ['pages.yml', flow]]) {
+  const at = (t) => text.indexOf(t);
+  assert.ok(at('node scripts/strip-css-comments.cjs _site/css') > at('npm test') && at('npm test') > -1, name + ': the comments go after the checks');
+}
+assert.ok(build.trimEnd().split('\n').slice(-2).some((line) => line.trim() === 'node scripts/strip-css-comments.cjs _site/css'), 'and they are the last thing done before Cloudflare publishes');
 
-console.log('CSS comments: taken out of the published copy only, strings and selectors untouched, every stylesheet\'s rules unchanged, after the checks and before the upload.');
+console.log('CSS comments: taken out of the published copy only, strings and selectors untouched, every stylesheet\'s rules unchanged, after the checks and before the site is published.');
