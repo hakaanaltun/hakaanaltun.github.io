@@ -32,7 +32,7 @@ rule written there.
   browser Back/Forward, keyboard navigation, reduced motion and Arrive now.
   Travel time and distance are illustrative. Credits distinguish false color,
   separate observations, models and illustrations. Do not invent surface detail.
-  Captions use local shade, leaving the worlds visible. The site’s local fonts
+  Captions use local shade, leaving the worlds visible: since 19 October 2026 a soft cloud that fades to nothing at its rim, because the earlier box showed its edges as a gray rectangle over the Sun, Venus and the Moon. Removing the shade was tried the same day; the Moon's close views and the Sun's label on a phone were then unreadable. The site’s local fonts
   retain Cormorant Garamond Italic for the ampersand.
 - **The entry invites discovery.** The journey dialog gives short controls,
   without an itinerary or descriptions of discoveries. The footer supplies
