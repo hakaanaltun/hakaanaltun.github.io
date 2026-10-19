@@ -3,14 +3,16 @@
       'use strict';
 
       /* The lines live in _data/lines.yml, which The House's bookshelf also
-         reads. s is the chapter or piece, u its address, b marks the book. */
+         reads. s is the chapter or piece, u its address, b marks the book,
+         and v the colour of a piece's page: "story" for The Notice, which is
+         told in choices, "writing" for the rest. */
       var heroQuotes = [
         {%- for line in site.data.lines -%}
         {%- if line.chapter -%}
         {"s":{{ line.chapter | jsonify }},"t":{{ line.text | jsonify }},"u":{{ line.url | jsonify }},"b":true}
         {%- else -%}
         {%- assign line_post = site.posts | where: "slug", line.piece | first -%}
-        {"s":{{ line_post.title | replace: "'", "’" | jsonify }},"t":{{ line.text | jsonify }},"u":{{ line_post.story_url | default: line_post.url | relative_url | jsonify }}}
+        {"s":{{ line_post.title | replace: "'", "’" | jsonify }},"t":{{ line.text | jsonify }},"u":{{ line_post.story_url | default: line_post.url | relative_url | jsonify }},"v":{% if line_post.story_card %}"story"{% else %}"writing"{% endif %}}
         {%- endif -%}{%- unless forloop.last -%},{%- endunless %}
         {%- endfor %}
       ];
@@ -21,6 +23,7 @@
       var prevBtn = document.getElementById('quote-prev');
       var nextBtn = document.getElementById('quote-next');
       var qCard = document.querySelector('.hero-quote-card');
+      var qSection = document.getElementById('quotes');
       var qNav = document.querySelector('.quote-nav');
       var currentIdx = -1;
       var history = [];
@@ -50,6 +53,11 @@
       }
 
       function setSource(pick){
+        /* The quote takes the colour of the page it comes from (the voices
+           in css/style.css): the book's when the attribute is absent. */
+        if(qSection){
+          if(pick.v) qSection.setAttribute('data-voice', pick.v); else qSection.removeAttribute('data-voice');
+        }
         qs.textContent = '— ';
         var title = document.createElement('i');
         var label = pick.b ? pick.s + ' · The Fragments' : pick.s;

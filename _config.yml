@@ -66,6 +66,13 @@ defaults:
     values:
       layout: "word"
       og_type: "article"
+      series: "words"
+  # Words with Stories' own colour (css/style.css) on its collections and its
+  # alphabetical list; the index at /word/ names it in its own front matter.
+  - scope:
+      path: "word"
+    values:
+      series: "words"
   # The Google verification stub is a bare static file (no front matter), so
   # jekyll-sitemap can only be told to skip it from here.
   - scope:

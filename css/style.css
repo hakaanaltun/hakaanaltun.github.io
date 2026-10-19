@@ -366,7 +366,7 @@ html[data-theme="sky"] body {
 
 
 /* ==========================================================================
-   Section identity — five voices, one lightness per palette
+   Section identity — the voices, one lightness per palette
    --------------------------------------------------------------------------
    The chrome is a single ash across the whole site, so a section's character
    is carried entirely by its accent. Two decisions sit behind these numbers.
@@ -408,6 +408,11 @@ html[data-theme="sky"] body {
 
    Midnight reads none of this. It pins --petrol to its own single gold
    further up, so its navy-and-gold stays exactly as it is.
+
+   On 19 October 2026 the five became eight, below: Notes, Words with Stories
+   and Pictures with Stories each took a colour of their own, inside the same
+   family, so that the homepage could show every section in its page's
+   colour. The note above the voices gives the measurements.
    ========================================================================== */
 :root {
   --sec-l: 0.513;   /* Ash & Gold — the palest paper in the wardrobe */
@@ -420,80 +425,120 @@ body {
   --writing-accent: oklch(var(--sec-l) 0.068 12);
 }
 
-/*                          hue    day chroma    night L + chroma */
+/* Each voice is named once, with every page that speaks in it and every
+   homepage section that leads to those pages. The homepage shows each of its
+   sections in the colour of the section's own page, so the colour of a
+   heading says where its links go. The author asked for this on
+   19 October 2026; until then the homepage alternated a slate and the teal,
+   and the slate belonged to no page.
+
+   Three of the voices below are new that day. Notes, Words with Stories and
+   Pictures with Stories had never been given a colour and fell to the
+   writing's rose by default, so the homepage would have shown five roses in
+   a row. The House had the same default and now shares Moris's olive: he
+   lives there. Measured in Chromium against --paper and the dark ground: the
+   new mustard sits 16.6 dE from the fiction's amber and the olive, the same
+   distance as the closest pair the five voices had (16.7); the plum is
+   19.5 dE or more from everything; the slate is the weak pair, 12.1 dE from
+   the book's blue by day and 14.1 by night, which is why the slate's night
+   lightness sits lower than the blue's. Light 5.38:1 at worst, unchanged;
+   dark 6.22:1 at worst, unchanged.
+
+                            hue    day chroma    night L + chroma */
 /* The writing — essays, standalone pieces, and every series */
 body.series-default,
 body.series-series,
 body.series-on-series,
-body.series-cafe-series { --sec-h:  12; --sec-c: 0.068; --sec-ld: 0.700; --sec-cd: 0.078; }
-/* The book */
-body.series-book        { --sec-h: 262; --sec-c: 0.075; --sec-ld: 0.820; --sec-cd: 0.058; }
-/* The quotes */
-body.series-moris       { --sec-h: 118; --sec-c: 0.058; --sec-ld: 0.840; --sec-cd: 0.055; }
+body.series-cafe-series,
+body.is-home :is(#latest, #further-back, #quotes[data-voice="writing"])
+                        { --sec-h:  12; --sec-c: 0.068; --sec-ld: 0.700; --sec-cd: 0.078; }
+/* The book, and the quotes at the top of the homepage. A quote takes the
+   colour of the page it comes from: the script marks the section
+   data-voice="writing" or "story" for a quote from a piece, and a quote from
+   the book, like the section before the script runs, stays in the book's. */
+body.series-book,
+body.is-home :is(#quotes, #home-book)
+                        { --sec-h: 262; --sec-c: 0.075; --sec-ld: 0.820; --sec-cd: 0.058; }
+/* Moris, and The House he lives in */
+body.series-moris,
+body.series-house,
+body.is-home #home-house
+                        { --sec-h: 118; --sec-c: 0.058; --sec-ld: 0.840; --sec-cd: 0.055; }
 /* The fiction */
-body.series-story       { --sec-h:  54; --sec-c: 0.054; --sec-ld: 0.770; --sec-cd: 0.060; }
+body.series-story,
+body.is-home :is(#story-doorway, #quotes[data-voice="story"])
+                        { --sec-h:  54; --sec-c: 0.054; --sec-ld: 0.770; --sec-cd: 0.060; }
 /* The site's own furniture — the front door, the person, the instruments.
-   Made things you use rather than read; the homepage bands for Trivia and
-   Instruments answer in this teal, and these section pages follow them. */
+   Made things you use rather than read. "First time here?" is the front
+   door's own: its three doors lead to three different places. */
 body.is-home,
 body.series-home,
 body.series-about,
-body.series-tools       { --sec-h: 178; --sec-c: 0.050; --sec-ld: 0.800; --sec-cd: 0.048; }
+body.series-tools,
+body.is-home :is(#start-here, #instruments)
+                        { --sec-h: 178; --sec-c: 0.050; --sec-ld: 0.800; --sec-cd: 0.048; }
 /* The quizzes, which have left the furniture for the writing's rose. A quiz
    is read as much as it is used — fifty questions and fifty notes — and it
    is worth more to the section to have a colour of its own than to share the
    teal with About and the instruments. These are deliberately the writing's
-   own numbers rather than a sixth voice standing near it: a second, slightly
-   different red would blunt both, and no page has to hold the two at once.
-   The homepage keeps its rhythm untouched below, as it does for Words with
-   Stories, whose rose is borrowed per element rather than per band. */
-body.series-trivia      { --sec-h:  12; --sec-c: 0.068; --sec-ld: 0.700; --sec-cd: 0.078; }
+   own numbers rather than a voice standing near it: a second, slightly
+   different red would blunt both. On the homepage Trivia never stands next
+   to Latest or Further back. */
+body.series-trivia,
+body.is-home #trivia    { --sec-h:  12; --sec-c: 0.068; --sec-ld: 0.700; --sec-cd: 0.078; }
+/* Notes — a mustard, near the paper of the notes on their wall */
+body.series-notes,
+body.is-home #notes     { --sec-h:  86; --sec-c: 0.075; --sec-ld: 0.800; --sec-cd: 0.085; }
+/* Words with Stories — a plum, in the widest gap the voices had left */
+body.series-words,
+body.is-home #words-with-stories
+                        { --sec-h: 322; --sec-c: 0.065; --sec-ld: 0.760; --sec-cd: 0.075; }
+/* Pictures with Stories, and Tonight on the homepage. The slate is the one
+   the homepage used to alternate with the teal; it is the sky's colour here,
+   and Tonight's own pages are instruments, whose teal stands right above it. */
+body.series-pictures,
+body.is-home :is(#pictures-with-stories, #tonight)
+                        { --sec-h: 239; --sec-c: 0.062; --sec-ld: 0.720; --sec-cd: 0.062; }
 
 /* --------------------------------------------------------------------------
-   Homepage accent rhythm — the light path only
+   The homepage's sections, each in its own voice
 
-   Slate at the hero source, then petrol and slate alternating down the page.
-   Every homepage section is named in one of the two lists below, in page
-   order: quotes, story-doorway, latest, start-here, home-house, home-book,
-   further-back, notes, words-with-stories, pictures-with-stories, trivia,
-   instruments, tonight. A new section takes the colour its place calls for,
-   and every section after it moves to the other list. Backgrounds are
-   untouched — only the accent tokens change, so each section's headings,
-   links, labels, focus rings, selection and divider glows all answer in the
-   same colour.
+   The voices above set four numbers on each homepage section. The accents
+   built from them are declared on body, where a custom property resolves its
+   var()s, so every section builds its own again from the numbers it carries.
+   Backgrounds are untouched; each section's headings, links, labels, focus
+   rings, selection and divider glows answer in its colour. Neighbours never
+   share a colour; scripts/test-pictures.cjs fails on a section that has no
+   voice above or stands next to its own colour.
 
-   Both tokens are scoped per section: inheriting the body's already-computed
-   --petrol-deep would leave the darker accents teal.
-
-   Keep the existing slate hue (239), chroma (0.062) and palette lightness.
-   --sec-l is the lightness used by the body's light accent, so this preserves
-   the heading colours without a relative colour referencing its own token.
-   Dark, Midnight and Follow the sky retain their existing single accent.
-
-   The whole rhythm lives here, not in a section's own include: it describes
-   the page, and an include that can be moved or removed is the wrong place
-   to keep the colours of its neighbours.
+   Each theme builds the accent as it does on body. Midnight keeps its single
+   gold everywhere.
    -------------------------------------------------------------------------- */
-@media (prefers-color-scheme: light) {
-  html:not([data-theme]) body.is-home :is(#quotes, #latest, #home-house, #further-back, #words-with-stories, #trivia, #tonight) {
-    --petrol: oklch(var(--sec-l) var(--sec-c-invitation, 0.062) var(--sec-h-invitation, 239));
-    --petrol-deep: color-mix(in srgb, var(--petrol) 74%, black);
-  }
-
-  html:not([data-theme]) body.is-home :is(#story-doorway, #start-here, #home-book, #notes, #pictures-with-stories, #instruments) {
-    --petrol: var(--sec-accent, #4A554F);
-    --petrol-deep: color-mix(in srgb, var(--petrol) 74%, black);
+body.is-home #main > section {
+  --sec-accent:      oklch(var(--sec-l)          var(--sec-c,  0.050) var(--sec-h, 178));
+  --sec-accent-dark: oklch(var(--sec-ld, 0.800)  var(--sec-cd, 0.048) var(--sec-h, 178));
+  --petrol: var(--sec-accent);
+  --petrol-deep: color-mix(in srgb, var(--sec-accent) 74%, black);
+}
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme="light"]) body.is-home #main > section {
+    --petrol: var(--sec-accent-dark);
+    --petrol-deep: color-mix(in srgb, var(--sec-accent-dark) 72%, #FFFFFF);
   }
 }
-
-html[data-theme="light"] body.is-home :is(#quotes, #latest, #home-house, #further-back, #words-with-stories, #trivia, #tonight) {
-  --petrol: oklch(var(--sec-l) var(--sec-c-invitation, 0.062) var(--sec-h-invitation, 239));
-  --petrol-deep: color-mix(in srgb, var(--petrol) 74%, black);
+html[data-theme="dark"] body.is-home #main > section {
+  --petrol: var(--sec-accent-dark);
+  --petrol-deep: color-mix(in srgb, var(--sec-accent-dark) 72%, #FFFFFF);
 }
-
-html[data-theme="light"] body.is-home :is(#story-doorway, #start-here, #home-book, #notes, #pictures-with-stories, #instruments) {
-  --petrol: var(--sec-accent, #4A554F);
-  --petrol-deep: color-mix(in srgb, var(--petrol) 74%, black);
+html[data-theme="sky"] body.is-home #main > section {
+  --sec-accent-dark: oklch(max(var(--sec-ld, 0.800), var(--sky-ld-floor, 0.62))
+                           var(--sec-cd, 0.048) var(--sec-h, 178));
+  --petrol: var(--sec-accent-dark);
+  --petrol-deep: color-mix(in srgb, var(--sec-accent-dark) 72%, #FFFFFF);
+}
+html[data-theme="midnight"] body.is-home #main > section {
+  --petrol: #C6B98F;
+  --petrol-deep: #DCD1AC;
 }
 
 /* ========================================================================== 
@@ -1702,9 +1747,11 @@ body.moris-lightbox-open { overflow: hidden; }
 .hero-quote-text { width: 100%; max-width: min(720px, 100%); margin: 0 auto; font-family: 'EB Garamond', Georgia, serif; font-style: italic; font-size: 1.2rem; line-height: 1.55; color: var(--vizon); min-height: 1.2em; text-align: center; }
 .hero-quote-word { opacity: 0; transform: translateY(8px); display: inline-block; transition: opacity 0.55s ease, transform 0.55s ease; }
 .hero-quote-word.word-visible { opacity: 1; transform: translateY(0); }
-.hero-quote-source { opacity: 0; max-width: min(720px, 100%); width: auto; align-self: flex-end; margin: 0 max(0px, calc((100% - 720px) / 2)) 0 auto; font-size: 0.98rem; line-height: 1.3; color: var(--petrol); text-align: left; transition: opacity 0.55s ease; }
+.hero-quote-source { opacity: 0; max-width: min(720px, 100%); width: auto; align-self: flex-end; margin: 0 max(0px, calc((100% - 720px) / 2)) 0 auto; font-size: 0.98rem; line-height: 1.3; color: var(--petrol); text-align: left; transition: opacity 0.55s ease, color 0.55s ease; }
 .hero-quote-source.visible { opacity: 1; }
-.hero-quote-source i { color: var(--petrol); font-style: italic; }
+/* The source takes the colour of the page it leads to (the voices, above),
+   and changes colour as it fades out and in, never in plain sight. */
+.hero-quote-source i { color: var(--petrol); font-style: italic; transition: color 0.55s ease; }
 /* The attribution is not dressed as a link on hover either — same reason as
    the word on the homepage: the piece is there to be found, not advertised.
    The focus ring below stays: that one is not decoration, it is the only way

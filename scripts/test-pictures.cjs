@@ -109,9 +109,9 @@ function page(modals, setup) {
   dom.window.close();
 }
 // The homepage carries the section under Words with Stories, and every
-// homepage section sits in the accent rhythm in style.css, slate and green
-// taking turns down the page. A section added without its colour, or one that
-// leaves two neighbours the same, fails here.
+// homepage section is named in exactly one of the voices in style.css, the
+// colour of its section's own page. A section added without its colour, or
+// one that stands next to its own colour, fails here.
 {
   const home = new JSDOM(fs.readFileSync(path.join(root, '_site/index.html'), 'utf8')).window.document;
   const order = [...home.querySelectorAll('main section[id]')].filter(s => !s.parentElement.closest('section')).map(s => s.id);
@@ -119,14 +119,37 @@ function page(modals, setup) {
   assert.ok(home.querySelector('#pictures-with-stories a.home-picture-card[href="/pictures/black-hole/"] img'));
   // The journey takes its turn too, with the downscales its card needs.
   assert.ok(home.querySelector('#pictures-with-stories a.home-picture-card[href="/pictures/space/"] img[srcset*="/pictures/space/assets/480/"]'));
-  const css = fs.readFileSync(path.join(root, 'css/style.css'), 'utf8');
-  const list = colour => (css.match(new RegExp('html\\[data-theme="light"\\] body\\.is-home :is\\(([^)]*)\\) \\{\\s*--petrol: ' + colour)) || [])[1];
-  const slate = list('oklch').split(',').map(s => s.trim().slice(1));
-  const green = list('var\\(--sec-accent').split(',').map(s => s.trim().slice(1));
+  const css = fs.readFileSync(path.join(root, 'css/style.css'), 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
+  // Each voice is a rule whose selectors end in { --sec-h: N; ... }. The ids a
+  // voice names on the homepage are the bare ones; an id with an attribute
+  // after it (the quotes' data-voice) is a colour the script switches to.
+  const voiceOf = {};
+  for (const m of css.matchAll(/([^{}]+)\{\s*--sec-h:\s*(\d+);\s*--sec-c:\s*([\d.]+);/g)) {
+    const voice = m[2] + '/' + m[3];
+    for (const sel of m[1].split(/,(?![^(]*\))/)) {
+      if (!/body\.is-home\s/.test(sel)) continue;
+      for (const id of sel.matchAll(/#([a-z][\w-]*)(?![\w[-])/g)) {
+        assert.ok(!(id[1] in voiceOf) || voiceOf[id[1]] === voice, id[1] + ' is named in one voice only');
+        voiceOf[id[1]] = voice;
+      }
+    }
+  }
   order.forEach((id, i) => {
-    assert.ok(slate.includes(id) !== green.includes(id), id + ' is in exactly one colour list');
-    assert.equal(slate.includes(id), i % 2 === 0, id + ' takes its turn in the rhythm');
+    assert.ok(id in voiceOf, id + ' has a voice in style.css');
+    if (i) assert.notEqual(voiceOf[id], voiceOf[order[i - 1]], id + ' does not share a colour with ' + order[i - 1]);
   });
+  // Every section builds its accent from its own voice, in every theme.
+  assert.ok(/body\.is-home #main > section \{\s*--sec-accent:/.test(css), 'homepage sections build their own accent');
+  for (const theme of ['dark', 'sky', 'midnight']) {
+    assert.ok(css.includes('html[data-theme="' + theme + '"] body.is-home #main > section {'), 'homepage sections follow the ' + theme + ' theme');
+  }
+  assert.ok(order.every(id => home.getElementById(id).parentElement.id === 'main'), 'every homepage section stands directly in main');
+  // A quote takes the colour of the page it comes from.
+  const scripts = fs.readFileSync(path.join(root, '_includes/home-scripts.html'), 'utf8');
+  assert.ok(/qSection\.setAttribute\('data-voice', pick\.v\)/.test(scripts), 'the quote marks its section with its voice');
+  for (const v of ['writing', 'story']) {
+    assert.ok(css.includes('#quotes[data-voice="' + v + '"]'), 'a ' + v + ' quote has its colour');
+  }
 }
 // The Sun is a standalone picture with sourced reading and a route back to Mercury.
 {
