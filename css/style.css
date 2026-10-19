@@ -487,17 +487,17 @@ body.series-house,
 body.is-home #home-house,
 .drawer-body [data-voice="house"]
                         { --sec-h: 155; --sec-c: 0.045; --sec-ld: 0.720; --sec-cd: 0.070; --sec-dl: 0.193; }
-/* The fiction told in choices — an ivy green. It wore a deep indigo until
-   the evening of 19 October 2026, when the author moved it under Latest,
-   just above the book, and the indigo beside the book's blue read as one
-   colour. Of the greens the site has, the ivy is the deepest after Moris's
-   near-black and the most saturated, and it stands clear of both its
-   neighbours on the homepage, the writing's rose above and the book's blue
-   below. */
+/* The fiction told in choices — a wine red, a deeper kin of the writing's
+   rose. It wore a deep indigo until the evening of 19 October 2026, when the
+   author moved it just above the book and the indigo beside the book's blue
+   read as one colour; an ivy green that evening, and an hour later wine,
+   when "Another way in." and Moris's near-black green came to stand above
+   it. The wine stands clear of that green and of the book's blue, and the
+   writing's rose is two sections away. It sits a step darker by day. */
 body.series-story,
 body.is-home :is(#story-doorway, #quotes[data-voice="story"]),
 .drawer-body [data-voice="story"]
-                        { --sec-h: 165; --sec-c: 0.080; --sec-ld: 0.780; --sec-cd: 0.075; --sec-dl: 0.080; }
+                        { --sec-h:  14; --sec-c: 0.110; --sec-ld: 0.740; --sec-cd: 0.095; --sec-dl: 0.120; }
 /* The site's own furniture — the front door and the instruments. Made
    things you use rather than read. "First time here?" is the front door's
    own: its three doors lead to three different places. */
@@ -1284,7 +1284,7 @@ section.line-drawn::before,
   #latest .piece-card.is-featured .piece-title { font-size: 1.4rem; }
   #latest .piece-card.is-featured .piece-subtitle { font-size: 1rem; -webkit-line-clamp: 2; }
   #latest .piece-card.is-featured .piece-excerpt { font-size: 0.97rem; -webkit-line-clamp: 3; }
-  #latest .piece-card:nth-child(n+7) { display: none; }
+  #latest .piece-card:nth-child(n+4) { display: none; }
 }
 
 @media (max-width: 600px) {
@@ -1298,7 +1298,11 @@ section.line-drawn::before,
   #latest .piece-card.is-featured .type-cover-title { font-size: clamp(1.65rem, 9vw, 2rem); }
   #latest .piece-card.is-featured .type-cover-subtitle { font-size: 0.88rem; }
   #latest .piece-card.is-featured .type-cover-date { font-size: 0.7rem; }
-  #latest .piece-grid .piece-card:nth-child(n+7) { display: none; }
+  /* Three on a phone, held either way, where the six cards took three
+     screens and left "First time here?", which follows them, out of sight
+     (19 October 2026). Further back shows three too. The rest are on
+     Writing. */
+  #latest .piece-grid .piece-card:nth-child(n+4) { display: none; }
   .piece-title { font-size: 1.3rem; }
 }
 
@@ -1306,8 +1310,21 @@ section.line-drawn::before,
    7. Further Back — compact cards shared with Keep reading
    ========================================================================== */
 .fb-card { position: relative; min-width: 0; max-width: 100%; }
-/* Mobile (portrait + landscape) shows 6 cards; tablet and desktop keep all 9. */
-@media (max-width: 600px), (max-height: 500px) and (orientation: landscape) { #further-back .fb-card:nth-child(n+7) { display: none; } }
+/* A phone (portrait + landscape) shows 3 cards, as Latest does since
+   19 October 2026; tablet and desktop keep all 9. Latest takes the same
+   test here, so a phone held sideways wider than 900px shows three of each,
+   and the first of Latest takes one column there, so the three share a row. */
+@media (max-width: 600px), (max-height: 500px) and (orientation: landscape) {
+  #further-back .fb-card:nth-child(n+4),
+  #latest .piece-grid .piece-card:nth-child(n+4) { display: none; }
+}
+@media (max-height: 500px) and (orientation: landscape) {
+  #latest .piece-card.is-featured { grid-column: auto; }
+  #latest .piece-card.is-featured .piece-thumb-wrap { aspect-ratio: 3 / 2; }
+  #latest .piece-card.is-featured .piece-title { font-size: 1.4rem; }
+  #latest .piece-card.is-featured .piece-subtitle { font-size: 1rem; -webkit-line-clamp: 2; }
+  #latest .piece-card.is-featured .piece-excerpt { font-size: 0.97rem; -webkit-line-clamp: 3; }
+}
 
 /* Further Back sits on the page surface (not the quiet grey band), full
    bleed on every viewport. The ::before divider still spans edge to edge. */
@@ -1875,9 +1892,11 @@ html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
    Kept off /latest/ and /pieces/ on purpose — this is the only cold invitation.
    The default animated divider (5. Sections & Animated Dividers) marks it off
    from the section above.
-   Since the evening of 19 October 2026 it stands between Latest and the
-   book: the book was not enough to mark the time between the latest pieces
-   and those further back, and The Notice, from July, falls between them.
+   Since the evening of 19 October 2026 it stands just above the book: the
+   book was not enough to mark the time between the latest pieces and those
+   further back, and The Notice, from July, falls between them. The
+   homepage then runs Latest, "First time here?", "Another way in.", The
+   Notice, the book.
    The bottom padding closes the block against the divider that opens the
    section below it. Every section but the first draws that rule, so the
    measurement holds whoever follows: 20px here plus the tag's own 8px margin
