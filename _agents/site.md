@@ -140,15 +140,25 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   from the book leaves it unmarked, in the book's blue. The source line
   changes color while it fades. In the dark themes the source line is set
   in soft ink, as it was before.
+- **"First time here?" comes right after The Notice.** The author asked
+  for this on 19 October 2026, after a walk through the homepage on a
+  phone found it three and a half screens down, under the six large cards
+  of Latest, where a first-time reader has most likely stopped scrolling.
+  It had once stood above Latest and been moved under it, where it no
+  longer competed with the newest pieces; now the doors come first and
+  the work follows them. "Another way in." moves with it, since it answers
+  "Three doors in.", so the order is The Notice, "First time here?",
+  "Another way in.", Latest, the book, Further back.
 - **The House keeps its own line.** After "First time here?" and its three
   doors, the homepage says "Another way in." and leads to The House.
   Folding it into the three doors was considered on 14 October 2026, and
   the author kept it as it is: the header and the site's menu already lead
   there.
-- **The book stands between "Another way in." and Further back.** The
-  author asked for it on 18 October 2026. The book is newer than everything
-  under Further back, so it comes after the latest pieces and before the
-  older ones. It shows the cover, the book's description in full, the two
+- **The book stands between Latest and Further back.** The author asked
+  for it on 18 October 2026, between "Another way in." and Further back,
+  which then followed Latest. The book is newer than everything under
+  Further back, so it comes after the latest pieces and before the older
+  ones. It shows the cover, the book's description in full, the two
   parts that can be read here and one line on to `/book/`
   (`_includes/book-home.html`). The description is kept once, in
   `_includes/book-description.html`, which the book's page uses too, so the

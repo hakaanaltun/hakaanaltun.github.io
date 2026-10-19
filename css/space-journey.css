@@ -119,3 +119,35 @@ body:not(.wide-view) .system-target span{display:none}.system-target:disabled{op
 /* Select the unchanged left Venus panel; exclude its comparison and white divider. */
 #venus>img{width:106.5146%;object-fit:fill;clip-path:inset(0 51.1804% 0 0)}
 #sunTopics{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 20px}#sunTopics[hidden],#solarFigure[hidden]{display:none}#sunTopics button{border:1px solid #ffffff35;border-radius:3px;padding:9px 10px;font:12px/1.3 Arial,sans-serif;color:#cad9e3;min-height:38px}#sunTopics button:hover{background:#ffffff12}#solarFigure{margin:0 0 22px}#solarObservation{display:block;width:100%;height:auto}#solarFigure figcaption{font:12px/1.55 Arial,sans-serif;color:#aab8c1;margin-top:10px}
+
+/* The top of the window (19 October 2026). When a world fills the window, as
+   at the oceans, the atmosphere or the Voyagers' instruments, the site's
+   name, The journey, Show places and full screen fell on bright cloud and
+   metal and could not be read. The shade at the top now reaches past them
+   and is darker where they stand, and the words carry a soft shadow of
+   their own. It fades to nothing, so no edge shows over a world. */
+#sceneShade{background-image:linear-gradient(to bottom,rgba(0,0,0,.72),rgba(0,0,0,.5) 55%,transparent),linear-gradient(to top,rgba(0,0,0,.72),transparent);background-size:100% 190px,100% 90px}
+#siteHeader,.top-tools{text-shadow:0 1px 10px #000,0 0 3px #000}
+@media(max-width:700px){#sceneShade{background-size:100% 165px,100% 90px}}
+
+/* Read and touched at arm's length (19 October 2026). On a phone the
+   smallest words of the journey's controls were 8 to 10 pixels, and Back
+   and full screen offered a place to touch far smaller than a finger. The
+   type is raised to 10 to 12 pixels, and those controls reach 44 pixels
+   each way without moving anything around them. */
+.top-tools button{min-height:44px}
+#fullscreenButton{min-width:44px;padding:0 14px;margin:0 -14px}
+@media(max-width:700px){
+  .top-tools{font-size:12px}
+  .eyebrow{font-size:10px}
+  footer nav button{font-size:12px}
+  #viewPrevious,#viewNext{font-size:12px}
+  #pullBack{font-size:12px}
+  #backButton{font-size:12px;padding:15px 10px;margin:-15px -10px}
+  #travelStatus{font-size:12px}
+  .image-credit{font-size:10px}
+  .disclosure{font-size:10px}
+}
+/* On the narrowest phones the names beside the arrows take one step less,
+   so a name such as Voyager 2 keeps to one line where it can. */
+@media(max-width:380px){#viewPrevious,#viewNext{font-size:11px}}
