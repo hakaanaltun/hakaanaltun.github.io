@@ -9,6 +9,10 @@
   // preview address of its own to look at before it is merged.
   "workers_dev": true,
   "preview_urls": true,
+  // A branch's build runs `wrangler preview`, which needs this block, even
+  // empty: without it every branch's build failed (19 October 2026). The
+  // preview takes the files and settings above as they are.
+  "previews": {},
   "assets": {
     "directory": "./_site",
     "binding": "ASSETS",
