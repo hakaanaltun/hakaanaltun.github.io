@@ -9,20 +9,34 @@ Every change has to answer to these rules.
   hold them longer than they meant to stay. What a reader keeps stays with
   them. The drawer lives in their own browser. The one thing the site asks
   for, an email address for new pieces, waits at the end of an essay and
-  is theirs to give. The one exception is a visit counter. GoatCounter
-  counts visits to the pages that carry the site’s header; the Farm House,
-  the pictures and the instruments are not counted. It sets no cookies and
-  keeps only totals. These include visits per page, the pages and sites
-  visitors came from, and their country, language, browser, system and
-  screen width. The author looks at it once a week. It is not loaded on
-  the search page, so what a reader searches for stays with them. Add no
-  other counter or analytics.
+  is theirs to give. Everything the site uses is listed below, under
+  What the site uses. Add no other counter or analytics.
 - **If something cannot be made well, it waits.** This holds for a
   half-made page, a drawing that does not work and a description that is
   not true.
 - **The test is the reader’s first look.** Someone who opens a page should be
   drawn into it. A page that leaves them wondering what this nonsense is
   has failed that test.
+
+## What the site uses
+
+- **A visit counter.** GoatCounter counts visits to the pages that carry
+  the site’s header. It sets no cookies and keeps only totals: visits per
+  page, the pages and sites visitors came from, and their country,
+  language, browser, system and screen width. It is not loaded on the Farm
+  House, the pictures, the instruments or the search page.
+- **The time zone.** The sky pages read the device’s time zone and take the
+  nearest city on their list. Nothing asks for a location, and the time
+  zone stays in the browser.
+- **İstanbul’s weather.** The House asks Open-Meteo for the weather in
+  İstanbul. Nothing about the reader goes with the request.
+- **A passage to translate.** When a reader asks for a Turkish translation,
+  the passage and the sentences around it go to the site’s own translation
+  service on Cloudflare. The service keeps no copy.
+- **An email address,** only if a reader gives one at the end of an essay.
+  It goes to Buttondown, which sends the new pieces.
+- **What a reader keeps,** the drawer, notes, highlights and reading
+  choices, stays in their own browser.
 
 ## Prose and punctuation
 
