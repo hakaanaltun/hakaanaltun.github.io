@@ -458,30 +458,39 @@ body {
    and 9.4:1 by night, 17.4 dE from the teal beside it.
 
                             hue    day chroma    night L + chroma */
+/* The menu on the left names each of its groups' voices with data-voice, so
+   a group shows the colour of the pages it leads to, whichever page the menu
+   is opened on. A group starts from no darker step, rather than the step of
+   the page it is opened over. */
+.drawer-body [data-voice] { --sec-dl: 0; }
 /* The writing — essays, standalone pieces, and every series */
 body.series-default,
 body.series-series,
 body.series-on-series,
 body.series-cafe-series,
-body.is-home :is(#latest, #further-back, #quotes[data-voice="writing"])
+body.is-home :is(#latest, #further-back, #quotes[data-voice="writing"]),
+.drawer-body [data-voice="writing"]
                         { --sec-h:  12; --sec-c: 0.068; --sec-ld: 0.700; --sec-cd: 0.078; }
 /* The book, and the quotes at the top of the homepage. A quote takes the
    colour of the page it comes from: the script marks the section
    data-voice="writing" or "story" for a quote from a piece, and a quote from
    the book, like the section before the script runs, stays in the book's. */
 body.series-book,
-body.is-home :is(#quotes, #home-book)
+body.is-home :is(#quotes, #home-book),
+.drawer-body [data-voice="book"]
                         { --sec-h: 262; --sec-c: 0.075; --sec-ld: 0.820; --sec-cd: 0.058; }
 /* Moris, and The House he lives in — by day a green so dark it is nearly
    black; by night the forest green, since a near-black would not read on
    the dark ground */
 body.series-moris,
 body.series-house,
-body.is-home #home-house
+body.is-home #home-house,
+.drawer-body [data-voice="house"]
                         { --sec-h: 155; --sec-c: 0.045; --sec-ld: 0.720; --sec-cd: 0.070; --sec-dl: 0.193; }
 /* The fiction */
 body.series-story,
-body.is-home :is(#story-doorway, #quotes[data-voice="story"])
+body.is-home :is(#story-doorway, #quotes[data-voice="story"]),
+.drawer-body [data-voice="story"]
                         { --sec-h: 290; --sec-c: 0.090; --sec-ld: 0.760; --sec-cd: 0.080; --sec-dl: 0.073; }
 /* The site's own furniture — the front door, the person, the instruments.
    Made things you use rather than read. "First time here?" is the front
@@ -490,7 +499,8 @@ body.is-home,
 body.series-home,
 body.series-about,
 body.series-tools,
-body.is-home :is(#start-here, #instruments)
+body.is-home :is(#start-here, #instruments),
+.drawer-body [data-voice="furniture"]
                         { --sec-h: 178; --sec-c: 0.050; --sec-ld: 0.800; --sec-cd: 0.048; }
 /* The quizzes — a garden green. A quiz is read as much as it is used —
    fifty questions and fifty notes — and it is worth more to the section to
@@ -499,19 +509,25 @@ body.is-home :is(#start-here, #instruments)
    the author gave it the garden green The House had worn for an afternoon.
    A right answer is drawn in the section's colour, so it is now green. */
 body.series-trivia,
-body.is-home #trivia    { --sec-h: 140; --sec-c: 0.070; --sec-ld: 0.800; --sec-cd: 0.070; }
+body.is-home #trivia,
+.drawer-body [data-voice="trivia"]
+                        { --sec-h: 140; --sec-c: 0.070; --sec-ld: 0.800; --sec-cd: 0.070; }
 /* Notes — a mustard, near the paper of the notes on their wall */
 body.series-notes,
-body.is-home #notes     { --sec-h:  86; --sec-c: 0.075; --sec-ld: 0.800; --sec-cd: 0.085; }
+body.is-home #notes,
+.drawer-body [data-voice="notes"]
+                        { --sec-h:  86; --sec-c: 0.075; --sec-ld: 0.800; --sec-cd: 0.085; }
 /* Words with Stories — a plum, in the widest gap the voices had left */
 body.series-words,
-body.is-home #words-with-stories
+body.is-home #words-with-stories,
+.drawer-body [data-voice="words"]
                         { --sec-h: 322; --sec-c: 0.065; --sec-ld: 0.760; --sec-cd: 0.075; }
 /* Pictures with Stories, and Tonight on the homepage. The slate is the one
    the homepage used to alternate with the teal; it is the sky's colour here,
    and Tonight's own pages are instruments, whose teal stands right above it. */
 body.series-pictures,
-body.is-home :is(#pictures-with-stories, #tonight)
+body.is-home :is(#pictures-with-stories, #tonight),
+.drawer-body [data-voice="pictures"]
                         { --sec-h: 239; --sec-c: 0.062; --sec-ld: 0.720; --sec-cd: 0.062; }
 
 /* --------------------------------------------------------------------------
@@ -526,31 +542,37 @@ body.is-home :is(#pictures-with-stories, #tonight)
    voice above or stands next to its own colour.
 
    Each theme builds the accent as it does on body. Midnight keeps its single
-   gold everywhere.
+   gold everywhere. The groups of the menu on the left build theirs the same
+   way.
    -------------------------------------------------------------------------- */
-body.is-home #main > section {
+body.is-home #main > section,
+.drawer-body [data-voice] {
   --sec-accent:      oklch(calc(var(--sec-l) - var(--sec-dl, 0)) var(--sec-c,  0.050) var(--sec-h, 178));
   --sec-accent-dark: oklch(var(--sec-ld, 0.800)  var(--sec-cd, 0.048) var(--sec-h, 178));
   --petrol: var(--sec-accent);
   --petrol-deep: color-mix(in srgb, var(--sec-accent) 74%, black);
 }
 @media (prefers-color-scheme: dark) {
-  html:not([data-theme="light"]) body.is-home #main > section {
+  html:not([data-theme="light"]) body.is-home #main > section,
+  html:not([data-theme="light"]) .drawer-body [data-voice] {
     --petrol: var(--sec-accent-dark);
     --petrol-deep: color-mix(in srgb, var(--sec-accent-dark) 72%, #FFFFFF);
   }
 }
-html[data-theme="dark"] body.is-home #main > section {
+html[data-theme="dark"] body.is-home #main > section,
+html[data-theme="dark"] .drawer-body [data-voice] {
   --petrol: var(--sec-accent-dark);
   --petrol-deep: color-mix(in srgb, var(--sec-accent-dark) 72%, #FFFFFF);
 }
-html[data-theme="sky"] body.is-home #main > section {
+html[data-theme="sky"] body.is-home #main > section,
+html[data-theme="sky"] .drawer-body [data-voice] {
   --sec-accent-dark: oklch(max(var(--sec-ld, 0.800), var(--sky-ld-floor, 0.62))
                            var(--sec-cd, 0.048) var(--sec-h, 178));
   --petrol: var(--sec-accent-dark);
   --petrol-deep: color-mix(in srgb, var(--sec-accent-dark) 72%, #FFFFFF);
 }
-html[data-theme="midnight"] body.is-home #main > section {
+html[data-theme="midnight"] body.is-home #main > section,
+html[data-theme="midnight"] .drawer-body [data-voice] {
   --petrol: #C6B98F;
   --petrol-deep: #DCD1AC;
 }
