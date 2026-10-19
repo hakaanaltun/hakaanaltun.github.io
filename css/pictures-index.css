@@ -1,0 +1,19 @@
+/* Equal, compact previews let each illustration keep its own medium. */
+.picture-index .picture-category-section { max-width:720px; }
+.picture-index .picture-catalogue { display:grid; grid-template-columns:minmax(0,1fr); gap:30px; }
+.picture-index .picture-list-entry { display:grid; grid-template-columns:160px minmax(0,1fr); align-items:center; gap:28px; width:100%; margin:0; color:var(--ink); text-decoration:none; text-align:left; }
+.picture-index .picture-list-entry img { display:block; width:100%; height:auto; aspect-ratio:3/2; object-fit:contain; border-radius:3px; }
+.picture-index .picture-list-entry h3 { margin:0 0 6px; font:500 30px/1.15 'Cormorant Garamond',Georgia,serif; color:var(--petrol); }
+.picture-index .picture-list-entry p { margin:0; font-size:18px; line-height:1.4; color:var(--vizon); }
+.picture-index .picture-list-entry :is(h3,p) { transition:var(--select-ease); }
+.picture-index .picture-list-entry:hover :is(h3,p),.picture-index .picture-list-entry:active :is(h3,p) { opacity:var(--select-dim); }
+.picture-index .picture-list-entry:focus-visible { outline:2px solid var(--petrol); outline-offset:6px; border-radius:3px; }
+@media(max-width:650px) {
+  .picture-index .picture-catalogue { gap:28px; }
+  .picture-index .picture-list-entry { grid-template-columns:100px minmax(0,1fr); align-items:start; gap:16px; }
+  .picture-index .picture-list-entry h3 { font-size:25px; }
+  .picture-index .picture-list-entry p { font-size:17px; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .picture-index .picture-list-entry :is(h3,p) { transition:none; }
+}
