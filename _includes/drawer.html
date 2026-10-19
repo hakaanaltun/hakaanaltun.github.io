@@ -31,7 +31,7 @@
     door, and the reader's drawer over this page (js/site-nav.js). Since
     17 October 2026 this is the only place the drawer is named on every
     page; the footer's drawer is an icon. {%- endcomment %}
-    <details class="drawer-section drawer-house">
+    <details class="drawer-section drawer-house" data-voice="house">
       <summary class="drawer-label">The House</summary>
       <div class="drawer-house-links">
         <a href="/house/" class="drawer-more">To the door <span aria-hidden="true">&rarr;</span></a>
@@ -39,14 +39,15 @@
       </div>
     </details>
 
-    <details class="drawer-section">
+    <details class="drawer-section" data-voice="writing">
       <summary class="drawer-label">Writing</summary>
       <div class="drawer-essay-cards">
         {% for post in drawer_fiction limit: 3 %}
         {% assign display_title = post.title | replace: "'", "’" %}
         {% comment %} Story cards (The Notice) link to the story itself, not the redirect stub. {% endcomment %}
         {% if post.story_card %}{% assign _card_url = post.story_url | default: "/story/1/" %}{% else %}{% assign _card_url = post.url %}{% endif %}
-        {% if _card_url == page.url %}<span class="drawer-essay-card drawer-essay-card--current">{% else %}<a href="{{ _card_url }}" class="drawer-essay-card-link"><span class="drawer-essay-card">{% endif %}
+        {% if post.story_card %}{% assign _card_voice = ' data-voice="story"' %}{% else %}{% assign _card_voice = '' %}{% endif %}
+        {% if _card_url == page.url %}<span class="drawer-essay-card drawer-essay-card--current"{{ _card_voice }}>{% else %}<a href="{{ _card_url }}" class="drawer-essay-card-link"{{ _card_voice }}><span class="drawer-essay-card">{% endif %}
           <span class="drawer-essay-card-text">
             <span class="drawer-essay-card-title">{{ display_title }}</span>
             <span class="drawer-essay-card-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
@@ -70,7 +71,7 @@
       <a href="/all-work/#essays" class="drawer-more drawer-subsection-link">All in Essays <span aria-hidden="true">&rarr;</span></a>
     </details>
 
-    <details class="drawer-section">
+    <details class="drawer-section" data-voice="writing">
       <summary class="drawer-label">Series</summary>
       {% assign corner_posts = site.posts | where: "series", "cafe-series" | sort: "series_order" %}
       {% assign on_posts = site.posts | where: "series", "on-series" | sort: "series_order" %}
@@ -101,38 +102,38 @@
       <a href="/series/#the-on-series" class="drawer-more drawer-subsection-link">All in The On Series <span aria-hidden="true">&rarr;</span></a>
     </details>
 
-    <details class="drawer-section">
+    <details class="drawer-section" data-voice="book">
       <summary class="drawer-label">Book</summary>
       <a href="/book/" class="drawer-more drawer-subsection-link drawer-subsection-link--first">The Fragments <span aria-hidden="true">&rarr;</span></a>
       <a href="/book/part-one/" class="drawer-more drawer-subsection-link">Part I · The Question <span aria-hidden="true">&rarr;</span></a>
       <a href="/book/part-two/" class="drawer-more drawer-subsection-link">Part II · The Fragile Archive <span aria-hidden="true">&rarr;</span></a>
     </details>
 
-    <div class="drawer-section-links">
+    <div class="drawer-section-links" data-voice="notes">
       <a href="/notes/">Notes</a>
     </div>
 
-    <div class="drawer-section-links">
+    <div class="drawer-section-links" data-voice="words">
       <a href="/word/">Words</a>
     </div>
 
-    <div class="drawer-section-links">
+    <div class="drawer-section-links" data-voice="pictures">
       <a href="/pictures/">Pictures</a>
     </div>
 
-    <div class="drawer-section-links">
+    <div class="drawer-section-links" data-voice="trivia">
       <a href="/trivia/">Trivia</a>
     </div>
 
-    <div class="drawer-section-links">
+    <div class="drawer-section-links" data-voice="furniture">
       <a href="/tools/">Instruments</a>
     </div>
 
-    <div class="drawer-section-links">
+    <div class="drawer-section-links" data-voice="house">
       <a href="/moris/">Moris</a>
     </div>
 
-    <div class="drawer-section-links">
+    <div class="drawer-section-links" data-voice="furniture">
       <a href="/about/">About</a>
     </div>
   </div>
