@@ -51,19 +51,28 @@ rule written there.
   by about 57 percent from the first release (1.1–5.6 seconds). History returns
   scale with distance too (1–3.2 seconds), replacing the abrupt half-second
   return. Different route rhythms remain; reduced motion is immediate.
-- **Perspective travel is being tried across the journey.** On 20 October
-  2026 the author liked the Earth–Moon pilot and asked to extend it wherever
-  possible. The `flight=inside` query parameter enables it between different
-  bodies, including selections from the wide views and the footer. Every
+- **Perspective travel is the default across the journey.** On 20 October
+  2026 the author approved the extended Earth–Moon pilot for publication.
+  It runs between different bodies, including selections from the wide
+  views and the footer. The `flight=outside` query parameter retains the
+  earlier camera for comparison; existing `flight=inside` links still work. Every
   region uses its global origin in the same projection, so planets, moons
-  and both Voyagers turn into view and approach at their own depths. Short
-  transfers retain the pilot’s rhythm; longer transfers take up to 6.8 seconds.
+  and both Voyagers turn into view and approach at their own depths. Earth–Moon
+  retains its accepted rhythm. Other moon systems turn more gradually,
+  Saturn’s neighborhood takes a broader look, and outward Voyager transfers
+  orient earlier and take 6.8 seconds. Small sideways viewing offsets settle
+  back into the registered destination.
   Inspection within one body keeps its existing movement. The Moon’s far
   side and Vesta’s alternate observation retain their existing transitions.
+  During perspective transfers, photographic black mats are composited with
+  lighten blending at both the region and body level so an image rectangle
+  cannot blank out another world. This also combines overlapping illuminated
+  areas; settled inspection views restore ordinary opaque composition.
   No surface imagery is invented. Arrive now, reduced motion, resize and
-  interrupted travel keep the common navigation contract. Ordinary links
-  remain unchanged until the trial is accepted. Start at
-  `/pictures/space/?flight=inside#earth`.
+  interrupted travel keep the common navigation contract. Moon-to-Mars
+  transfers finish the lens change during the initial turn, so Mars grows
+  steadily toward its final size during the approach instead of overshooting
+  and receding. Start at `/pictures/space/#earth`.
 - **The Sun is part of the journey.** Its complete story and four sourced notes
   live in the reader. `/pictures/sun/` redirects directly to `/pictures/space/#sun`
   and carries query parameters, including the return to the balcony. `/sun/`

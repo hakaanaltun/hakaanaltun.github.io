@@ -10,7 +10,7 @@ function element(id,tagName='BUTTON'){
 for(const m of html.matchAll(/<([\w-]+)\b[^>]*\bid="([^"]+)"[^>]*>/g)){const e=element(m[2],m[1].toUpperCase());e.hidden=/\bhidden\b/.test(m[0]);}
 const nav=[...html.matchAll(/data-stop="([^"]+)"/g)].map(m=>{const e=element('nav-'+m[1]);e.dataset.stop=m[1];return e});
 const routes=[...html.matchAll(/data-route="([^"]+)"/g)].map(m=>{const e=element('route-'+m[1]);e.dataset.route=m[1];return e});
-const location={hash:''},browserEntries=[{state:null,hash:''}];let browserCursor=0;
+const location={hash:'',search:'?flight=outside'},browserEntries=[{state:null,hash:''}];let browserCursor=0;
 function browserPop(delta){const index=browserCursor+delta;if(index<0||index>=browserEntries.length)return;browserCursor=index;location.hash=browserEntries[index].hash;events.popstate?.({state:browserEntries[index].state})}
 const browserHistory={replaceState(state,unused,hash){browserEntries[browserCursor]={state,hash};location.hash=hash},pushState(state,unused,hash){browserEntries.splice(browserCursor+1);browserEntries.push({state,hash});browserCursor++;location.hash=hash},back(){browserPop(-1)},forward(){browserPop(1)}};
 const context=vm.createContext({document:{getElementById:id=>{assert(elements.has(id),'Missing DOM node '+id);return elements.get(id)},createElement:tag=>element('created-'+Math.random(),tag.toUpperCase()),querySelectorAll:q=>q==='[data-stop]'?nav:q==='[data-route]'?routes:[],body:{dataset:{},classList:{add:x=>classes.add(x),remove:x=>classes.delete(x),toggle:(x,on)=>on?classes.add(x):classes.delete(x)}},addEventListener:(name,fn)=>events[name]=fn},window:{history:browserHistory,addEventListener:(name,fn)=>events[name]=fn},location,matchMedia:()=>({matches:reduced}),setTimeout:()=>0,clearTimeout(){},requestAnimationFrame:fn=>{frames.set(++frameId,fn);return frameId},cancelAnimationFrame:id=>frames.delete(id),performance:{now:()=>clock},URLSearchParams,Promise});
@@ -205,8 +205,10 @@ run(fs.readFileSync('js/space-journey.js','utf8'));
  // Keyboard arrows use the same route and respect open information panels.
  await run("go('mars')");events.keydown({key:'ArrowRight',target:{tagName:'BODY'},preventDefault(){}});await finish();assert.equal(run('current'),'ceres');run("openInfo('ceres')");events.keydown({key:'ArrowRight',target:{tagName:'BODY'},preventDefault(){}});await flush();assert.equal(run('current'),'ceres');run('closeInfo()');
  for(const m of html.matchAll(/(?:src|href)="([^"#]+)"/g))if(!m[1].startsWith('http')&&!m[1].includes('{')&&!m[1].endsWith('/'))assert(fs.existsSync((m[1].startsWith('/')?'.':'pictures/space/')+m[1].split('?')[0]));
- // The opt-in flight covers inter-body travel and leaves surface inspection alone.
- {location.search='?flight=inside';
+ // Perspective travel is the default; the earlier camera remains explicit.
+ {assert.equal(run('insideFlightEnabled()'),false);
+ location.search='?flight=inside';assert.equal(run('insideFlightEnabled()'),true);
+ location.search='';assert.equal(run('insideFlightEnabled()'),true);
  for(const [from,to,expected] of [['earth','moon',true],['moon','earth',true],['near','moon',true],['system','moon',true],['earth','near',false],['moon','mars',true],['farside','earth',false]]){
   assert.equal(run(`flightProfile(localTarget('${from}'),localTarget('${to}'),false,'${from}','${to}').inside`),expected);
  }
@@ -235,12 +237,39 @@ run(fs.readFileSync('js/space-journey.js','utf8'));
    assert(profile.inside);assert(profile.duration>=5200&&profile.duration<=6800);
    const trip=run(`go('${to}')`);await flush();await tick(profile.duration/2);
    const projected=run(`(()=>{const target=localTarget('${to}'),origin=regionOrigin('${to}');return flightProjection(localPose,{...localBodies['${to}'],cx:target.x-origin[0],cy:target.y-origin[1]},origin)})()`);
-   const anchor=run('localAnchor()');near(projected.x,anchor.x);near(projected.y,anchor.y);
+   const anchor=run('localAnchor()');
+   assert(Math.abs(projected.x-anchor.x)<width*.35&&Math.abs(projected.y-anchor.y)<height*.35,'Destination stays in sight during the curved approach');
    assert(projected.visible);assert(Number.isFinite(projected.scale)&&projected.scale>0);
    await finish(trip);assert(!classes.has('inside-flight'));
    for(const body of bodies)assert.equal(element(body).style.visibility,'');
   }
  }
+ // Moon-to-Mars settles its lens during the turn, then grows steadily to
+ // the registered arrival size on desktop, portrait and landscape screens.
+ for(const [width,height] of [[1280,900],[390,844],[844,390]]){
+  element('stage').clientWidth=width;element('stage').clientHeight=height;
+  for(const short of [false,true]){
+   const result=run(`(()=>{
+    const from=localTarget('moon'),to=localTarget('mars');
+    const profile=flightProfile(from,to,${short},'moon','mars');
+    let previous=0;
+    for(let i=0;i<=100;i++){
+     const t=profile.turn+(1-profile.turn)*i/100;
+     const projected=flightProjection(flightPose(from,to,profile,t),localBodies.mars,regionOrigin('mars'));
+     if(!Number.isFinite(projected.scale)||projected.scale<previous-1e-9||projected.scale>to.scale+1e-9)return false;
+     previous=projected.scale;
+    }
+    return Math.abs(previous-to.scale)<1e-9;
+   })()`);
+   assert(result,'Mars approaches steadily without growing past its arrival size');
+  }
+ }
+ // Distinct systems have different travel rhythms; Earth–Moon stays unchanged.
+ const rhythmFor=(a,b)=>run(`flightProfile(localTarget('${a}'),localTarget('${b}'),false,'${a}','${b}')`);
+ const lunar=rhythmFor('earth','moon'),saturnian=rhythmFor('saturn','titan'),outward=rhythmFor('arrokoth','voyager2');
+ assert.equal(lunar.turn,.3);assert.equal(lunar.drift,0);assert.equal(lunar.duration,5200);
+ assert(saturnian.turn>lunar.turn&&saturnian.duration>lunar.duration);
+ assert(outward.turn<lunar.turn&&outward.duration>saturnian.duration);
  // Direct long jumps and cross-region overview links use the same pilot.
  for(const [from,to] of [['earth','voyager1'],['voyager1','solar'],['jovian','saturnian'],['system','moon']]){
   reduced=true;await run(`go('${from}')`);reduced=false;
