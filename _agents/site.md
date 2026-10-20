@@ -86,7 +86,7 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   asked for this on 19 October 2026, after the homepage took its sections'
   colors. `_includes/drawer.html` names each group's voice with
   `data-voice`: The House and Moris in their green, Writing and Series in
-  the rose with The Notice's card in its wine red, Book in blue, Notes,
+  the rose with The Notice's card in its indigo, Book in blue, Notes,
   Words, Pictures and Trivia in their own colors, Instruments in the
   furniture's teal, and About in black, by day and in the menu, as the
   author asked on 19 October 2026 (a plain light in the dark themes). The
@@ -120,10 +120,10 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   down the page. Every homepage section is named in one of the voices in
   `css/style.css` ("Section identity"), the one its section's page speaks
   in: Latest and Further back in the writing's rose, the book in its blue,
-  The Notice in wine red (a deep indigo until the evening of
-  19 October 2026, when it moved beside the book's blue, then for an hour
-  an ivy green, until Moris's green came to stand above it), The House in
-  Moris's near-black green,
+  The Notice in a deep indigo (an ivy green and then a wine red from the
+  evening of 19 October 2026, while it stood beside the book's blue, until
+  the author moved it under Latest on 20 October 2026 and asked for the
+  indigo again), The House in Moris's near-black green,
   Notes in graphite (mustard until the evening of 19 October 2026, when
   the author asked for no yellows, terracottas or coppers on the site),
   Words with Stories in plum,
@@ -138,7 +138,7 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   `scripts/test-pictures.cjs` fails on a section with no voice or next to
   its own color. Each section builds its accent from its voice in every
   theme; Midnight keeps its single gold. A voice may sit a step darker by
-  day with `--sec-dl`, as the fiction's wine and the green of Moris and
+  day with `--sec-dl`, as the fiction's indigo and the green of Moris and
   The House do; the author asked for them to change color on 19 October
   2026, when the amber and the olive looked muddy on paper.
 - **A quote takes the color of the page it comes from.** The quotes at the
@@ -147,18 +147,18 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   from the book leaves it unmarked, in the book's blue. The source line
   changes color while it fades. In the dark themes the source line is set
   in soft ink, as it was before.
-- **Latest opens the homepage, and "First time here?" follows it.** The
-  order is the quotes, Latest, "First time here?", "Another way in.", The
-  Notice, the book, Further back, as the author set it on the evening of
-  19 October 2026. That morning a walk through the homepage on a phone had
-  found "First time here?" three and a half screens down, under the six
-  large cards of Latest, and it was moved to the top; that evening the
-  author put the work first again, and Latest and Further back show three
-  cards each on a phone, held either way (`nth-child(n+4)` in
-  `css/style.css`), so the doors stand about two screens down. "Another way in." stays with "First time
-  here?", since it answers "Three doors in." The Notice stands just above
-  the book: the book alone did not mark the time between the latest pieces
-  and those further back, and The Notice, from July, falls between them.
+- **Latest opens the homepage, and The Notice follows it.** The order is
+  the quotes, Latest, The Notice, "First time here?", "Another way in.",
+  the book, Further back, as the author set it on 20 October 2026. On the
+  morning of 19 October a walk through the homepage on a phone had found
+  "First time here?" three and a half screens down, under the six large
+  cards of Latest, and it was moved to the top; that evening the author put
+  the work first again, with The Notice just above the book, and Latest and
+  Further back came down to three cards each on a phone. On 20 October the
+  author asked for four of each, held either way (`nth-child(n+5)` in
+  `css/style.css`; a phone held sideways shows them two by two), and for
+  The Notice just under Latest, in its indigo. "Another way in." stays
+  with "First time here?", since it answers "Three doors in."
 - **The House keeps its own line.** After "First time here?" and its three
   doors, the homepage says "Another way in." and leads to The House.
   Folding it into the three doors was considered on 14 October 2026, and
@@ -166,8 +166,8 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   there.
 - **The book stands just before Further back.** The author asked for it
   on 18 October 2026, between "Another way in." and Further back, which
-  then followed Latest; since 19 October The Notice stands just above the
-  book. The book is newer than everything under
+  then followed Latest; on 19 October The Notice stood just above it for a
+  day. The book is newer than everything under
   Further back, so it comes after the latest pieces and before the older
   ones. It shows the cover, the book's description in full, the two
   parts that can be read here and one line on to `/book/`
