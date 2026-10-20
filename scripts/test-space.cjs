@@ -205,6 +205,39 @@ run(fs.readFileSync('js/space-journey.js','utf8'));
  // Keyboard arrows use the same route and respect open information panels.
  await run("go('mars')");events.keydown({key:'ArrowRight',target:{tagName:'BODY'},preventDefault(){}});await finish();assert.equal(run('current'),'ceres');run("openInfo('ceres')");events.keydown({key:'ArrowRight',target:{tagName:'BODY'},preventDefault(){}});await flush();assert.equal(run('current'),'ceres');run('closeInfo()');
  for(const m of html.matchAll(/(?:src|href)="([^"#]+)"/g))if(!m[1].startsWith('http')&&!m[1].includes('{')&&!m[1].endsWith('/'))assert(fs.existsSync((m[1].startsWith('/')?'.':'pictures/space/')+m[1].split('?')[0]));
+ // The opt-in flight changes only transfers between the two inspection worlds.
+ {location.search='?flight=inside';
+ for(const [from,to,expected] of [['earth','moon',true],['moon','earth',true],['near','moon',true],['system','moon',false],['earth','near',false],['moon','mars',false],['farside','earth',false]]){
+  assert.equal(run(`flightProfile(localTarget('${from}'),localTarget('${to}'),false,'${from}','${to}').inside`),expected);
+ }
+ for(const [width,height] of [[1280,900],[390,844],[844,390]]){
+  element('stage').clientWidth=width;element('stage').clientHeight=height;
+  for(const [from,to] of [['earth','moon'],['moon','earth']]){
+   reduced=true;await run(`go('${from}')`);reduced=false;
+   const trip=run(`go('${to}')`);await flush();await tick(2600);
+   assert(classes.has('inside-flight'));
+   const destination=run(`flightProjection(localPose,localBodies['${to}'])`),anchor=run('localAnchor()');
+   near(destination.x,anchor.x);near(destination.y,anchor.y);
+   const source=run(`flightProjection(localPose,localBodies['${from}'])`);
+   assert(!source.visible||Math.abs(source.x-anchor.x)>width*.4,'Source must pass beside the observer');
+   await finish(trip);assert(!classes.has('inside-flight'));
+   for(const body of ['earth','moon'])assert.equal(element(body).style.visibility,'');
+  }
+ }
+ // An interruption starts from the projected view, then cleans up normally.
+ reduced=true;await run("go('earth')");reduced=false;
+ const interrupted=run("go('moon')");await flush();await tick(1800);
+ const projectedBefore=element('moon').style.transform;
+ const retarget=run("go('mars')");await flush();
+ assert.equal(element('moon').style.transform,projectedBefore);
+ assert.equal(await interrupted,false);await finish(retarget);assert(!classes.has('inside-flight'));
+ reduced=true;await run("go('earth')");reduced=false;
+ const skipped=run("go('moon')");await flush();await tick(1000);run('finishTravel()');await finish(skipped);
+ assert(!classes.has('inside-flight'));near(run('localPose.scale'),run("localTarget('moon').scale"));
+ reduced=true;await run("go('earth')");assert(!classes.has('inside-flight'));
+ reduced=false;const resized=run("go('moon')");await flush();await tick(1000);events.resize();await finish(resized);assert(!classes.has('inside-flight'));
+ reduced=true;browserPop(-1);await finish();assert(!classes.has('inside-flight'));
+ location.search='';}
  assert.equal(run('Object.keys(scenes).length'),74);
  console.log('Passed: 74 scenes, all fourteen wide views at eight sizes, measured caption clearance, 65 sourced field notes, reversible route and endpoint boundaries, fixed global geometry, direct globe/zoom controls, continuous region travel, distinct reversible curved routes, rapid retarget/reverse, skip, browser Back/Forward, decode failure/stale load, native detail arrival/retry, resize, alternate observations, keyboard routing and asset paths.');
 })().catch(e=>{console.error(e);process.exitCode=1});

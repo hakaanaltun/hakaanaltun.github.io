@@ -151,3 +151,12 @@ body:not(.wide-view) .system-target span{display:none}.system-target:disabled{op
 /* On the narrowest phones the names beside the arrows take one step less,
    so a name such as Voyager 2 keeps to one line where it can. */
 @media(max-width:380px){#viewPrevious,#viewNext{font-size:11px}}
+
+/* The optional Earth–Moon flight clears the window while Arrive now stays
+   available. Keyboard arrows still retarget through the normal navigation. */
+#siteHeader,#topTools,#zoomControls,#viewNavigation,footer,#disclosure{transition:opacity 350ms ease}
+.inside-flight #siteHeader,.inside-flight #topTools,.inside-flight #zoomControls,
+.inside-flight #viewNavigation,.inside-flight footer,.inside-flight #disclosure,
+.inside-flight .system-target{opacity:0;visibility:hidden;pointer-events:none}
+.inside-flight #travelStatus{bottom:30px}
+@media(prefers-reduced-motion:reduce){#siteHeader,#topTools,#zoomControls,#viewNavigation,footer,#disclosure{transition:none}}
