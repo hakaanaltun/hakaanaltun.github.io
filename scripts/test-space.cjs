@@ -235,12 +235,19 @@ run(fs.readFileSync('js/space-journey.js','utf8'));
    assert(profile.inside);assert(profile.duration>=5200&&profile.duration<=6800);
    const trip=run(`go('${to}')`);await flush();await tick(profile.duration/2);
    const projected=run(`(()=>{const target=localTarget('${to}'),origin=regionOrigin('${to}');return flightProjection(localPose,{...localBodies['${to}'],cx:target.x-origin[0],cy:target.y-origin[1]},origin)})()`);
-   const anchor=run('localAnchor()');near(projected.x,anchor.x);near(projected.y,anchor.y);
+   const anchor=run('localAnchor()');
+   assert(Math.abs(projected.x-anchor.x)<width*.35&&Math.abs(projected.y-anchor.y)<height*.35,'Destination stays in sight during the curved approach');
    assert(projected.visible);assert(Number.isFinite(projected.scale)&&projected.scale>0);
    await finish(trip);assert(!classes.has('inside-flight'));
    for(const body of bodies)assert.equal(element(body).style.visibility,'');
   }
  }
+ // Distinct systems have different travel rhythms; Earth–Moon stays unchanged.
+ const rhythmFor=(a,b)=>run(`flightProfile(localTarget('${a}'),localTarget('${b}'),false,'${a}','${b}')`);
+ const lunar=rhythmFor('earth','moon'),saturnian=rhythmFor('saturn','titan'),outward=rhythmFor('arrokoth','voyager2');
+ assert.equal(lunar.turn,.3);assert.equal(lunar.drift,0);assert.equal(lunar.duration,5200);
+ assert(saturnian.turn>lunar.turn&&saturnian.duration>lunar.duration);
+ assert(outward.turn<lunar.turn&&outward.duration>saturnian.duration);
  // Direct long jumps and cross-region overview links use the same pilot.
  for(const [from,to] of [['earth','voyager1'],['voyager1','solar'],['jovian','saturnian'],['system','moon']]){
   reduced=true;await run(`go('${from}')`);reduced=false;
