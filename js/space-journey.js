@@ -315,8 +315,35 @@ function localImageCamera(id){
  const b=localBodies[localBodyFor(id)],a=localAnchor(),p=localPose||localTarget(id),[ox,oy]=regionOrigin(id);
  return {iw:b.w,ih:b.h,scale:p.scale,tx:a.x+(ox+b.x-p.x)*p.scale,ty:a.y+(oy+b.y-p.y)*p.scale};
 }
+// Opt-in journey flight: turn toward the destination and project every
+// region in the same camera, preserving the registered resting views.
+function insideFlightEnabled(){return new URLSearchParams(location.search).get('flight')==='inside'}
+function flightProjection(p,b,origin=[0,0]){
+ const a=localAnchor(),angle=Math.hypot(p.look?.x||0,p.look?.y||0);
+ const dx=origin[0]+b.cx-p.x,dy=origin[1]+b.cy-p.y;
+ if(angle<1e-8)return {x:a.x+dx*p.scale,y:a.y+dy*p.scale,scale:p.scale,visible:true};
+ const ux=p.look.x/angle,uy=p.look.y/angle;
+ const focal=Math.max(stage.clientWidth,stage.clientHeight)*.85,z=focal/p.scale;
+ const along=dx*ux+dy*uy,across=-dx*uy+dy*ux;
+ const depth=z*Math.cos(angle)+along*Math.sin(angle);
+ if(depth<=focal*.04)return {x:0,y:0,scale:0,visible:false};
+ const scale=focal/depth,forward=along*Math.cos(angle)-z*Math.sin(angle);
+ const x=a.x+(forward*ux-across*uy)*scale,y=a.y+(forward*uy+across*ux)*scale;
+ const rx=(b.rx||b.radius)*scale,ry=(b.ry||b.radius)*scale;
+ return {x,y,scale,visible:x+rx>0&&x-rx<stage.clientWidth&&y+ry>0&&y-ry<stage.clientHeight};
+}
+function paintFlightWorld(name,p,projection,origin=[0,0]){
+ const b=localBodies[name],a=localAnchor();
+ const x=(projection.x-a.x)/p.scale-(origin[0]+b.cx-p.x),y=(projection.y-a.y)/p.scale-(origin[1]+b.cy-p.y);
+ for(const id of [name,...Object.keys(variants).filter(id=>variants[id]===name)]){
+  const el=$(id);el.style.visibility=projection.visible?'':'hidden';
+  el.style.transformOrigin='50% 50%';
+  el.style.transform=projection.visible?`translate(${x}px,${y}px) scale(${projection.scale/p.scale})`:'none';
+ }
+}
 function paintLocalCamera(p){
  localPose=p;const a=localAnchor(),w=stage.clientWidth,h=stage.clientHeight,key=localSystemFor();
+ document.body.classList.toggle('inside-flight',!!p.inside);
  for(const [name,sys] of Object.entries(systems)){
   const [ox,oy]=regionOrigin(name);
   $(sys.space).style.transform=`translate(${a.x+(ox-p.x)*p.scale}px,${a.y+(oy-p.y)*p.scale}px) scale(${p.scale})`;
@@ -325,6 +352,7 @@ function paintLocalCamera(p){
   $(sys.targets).hidden=name!==key;
   for(const body of sys.bodies){
    const b=localBodies[body],button=$(body+'Target');
+   paintFlightWorld(body,p,flightProjection(p,b,[ox,oy]),[ox,oy]);
    const bw=Math.max(44,(b.rx||b.radius)*2*p.scale),bh=Math.max(44,(b.ry||b.radius)*2*p.scale);
    const x=a.x+(ox+b.cx-p.x)*p.scale,y=a.y+(oy+b.cy-p.y)*p.scale;
    button.style.width=bw+'px';button.style.height=bh+'px';button.style.left=x+'px';button.style.top=y+'px';
@@ -368,16 +396,32 @@ function flightProfile(from,to,short=false,fromId=null,toId=null){
  const depth=Math.max(0,Math.log(Math.max(1,screenDistance*(1+Math.abs(route.bend))/(stage.clientWidth*.72))));
  const bend=short?0:route.bend;
  const duration=Math.min(short?3200:5600,Math.max(short?1000:1100,2.2*(480+240*scaleChange+270*Math.log1p(screenDistance/stage.clientWidth))*route.pace));
- return {depth:short?0:depth,duration,
+ const source=localBodyFor(fromId),destination=localBodyFor(toId);
+ const alternate=id=>['farside','southpole'].includes(id);
+ const inside=!!(insideFlightEnabled()&&localBodies[source]&&localBodies[destination]&&source!==destination&&
+  !alternate(fromId)&&!alternate(toId));
+ return {depth:inside||short?0:depth,duration:inside?(short?3200:Math.min(6800,Math.max(5200,duration*1.35))):duration,inside,
   c1:{x:from.x+dx*.26-dy*bend,y:from.y+dy*.26+dx*bend},
   c2:{x:from.x+dx*.74-dy*bend,y:from.y+dy*.74+dx*bend}};
 }
 function flightPose(from,to,profile,t){
  const q=t*t*t*(t*(t*6-15)+10),u=1-q,envelope=Math.sin(Math.PI*q)**2;
  const c1=profile.c1||from,c2=profile.c2||to;
- return {x:u*u*u*from.x+3*u*u*q*c1.x+3*u*q*q*c2.x+q*q*q*to.x,
+ const pose={x:u*u*u*from.x+3*u*u*q*c1.x+3*u*q*q*c2.x+q*q*q*to.x,
   y:u*u*u*from.y+3*u*u*q*c1.y+3*u*q*q*c2.y+q*q*q*to.y,
   scale:Math.exp(Math.log(from.scale)+(Math.log(to.scale)-Math.log(from.scale))*q-profile.depth*envelope)};
+ const turn=Math.min(1,t/.3),blend=turn*turn*(3-2*turn);
+ let look={x:0,y:0};
+ if(profile.inside&&t<1){
+  const dx=to.x-pose.x,dy=to.y-pose.y,distance=Math.hypot(dx,dy);
+  const focal=Math.max(stage.clientWidth,stage.clientHeight)*.85;
+  const angle=Math.atan2(distance,focal/pose.scale)*blend;
+  if(distance>0)look={x:angle*dx/distance,y:angle*dy/distance};
+ }
+ // An interrupted flight carries its actual view direction into the next.
+ look.x+=(from.look?.x||0)*(1-blend);look.y+=(from.look?.y||0)*(1-blend);
+ if(profile.inside||from.look){pose.look=look;pose.inside=t<1&&(profile.inside||blend<1)}
+ return pose;
 }
 function flyLocal(poses,duration,profile){
  cancelLocalFlight();const target=poses.at(-1);
@@ -405,7 +449,7 @@ function position(previousId,animate=true,short=false){
   const b=localBodies[body],el=$(name),active=current===(name==='farside'?'farside':'southpole');
   el.style.left=b.x+'px';el.style.top=b.y+'px';el.style.width=b.w+'px';el.style.height=b.h+'px';el.style.transform='none';el.style.opacity=active?'1':'0';$(body).style.opacity=active?'0':'1';
  }
- if(!localPose)paintLocalCamera(overviewPose());
+ paintLocalCamera(localPose||overviewPose());
  const target=localTarget(current),profile=flightProfile(localPose,target,short,previousId,current);
  // Inspection within one body never adds an artificial retreat.
  if(sameGroup&&localBodyFor(previousId)===localBodyFor(current))profile.depth=0;
