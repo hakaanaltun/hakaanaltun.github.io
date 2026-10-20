@@ -82,19 +82,9 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   on the panel's centre with the section names and the cards. Counted in
   the line, it pulled each one 11px to the left, and the author saw it
   under The House, where "Your drawer" has no arrow.
-- **Each group in the menu is shown in its section's color.** The author
-  asked for this on 19 October 2026, after the homepage took its sections'
-  colors. `_includes/drawer.html` names each group's voice with
-  `data-voice`: The House and Moris in their green, Writing and Series in
-  the rose with The Notice's card in its indigo, Book in blue, Notes,
-  Words, Pictures and Trivia in their own colors, Instruments in the
-  furniture's teal, and About in black, by day and in the menu, as the
-  author asked on 19 October 2026 (a plain light in the dark themes). The
-  voices are the homepage's (see The homepage),
-  and each group builds its accent the same way in every theme, so the
-  menu looks the same whichever page it opens over; Midnight keeps its
-  single gold. The search field keeps the page's own color. A new group
-  takes the voice of the page it leads to.
+- **The menu inherits the color of the page it opens on.** The author
+  restored this on 20 October 2026. Homepage sections keep their own colors;
+  menu headings and links use the page’s `--petrol` in every theme.
 - **The footer carries the drawer.** Its icon, the same chest the
   instruments' own drawer button shows, as tall as the instruments' four
   squares, stands beside the instruments' and

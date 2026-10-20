@@ -138,22 +138,12 @@ function page(modals, setup) {
     assert.ok(id in voiceOf, id + ' has a voice in style.css');
     if (i) assert.notEqual(voiceOf[id], voiceOf[order[i - 1]], id + ' does not share a colour with ' + order[i - 1]);
   });
-  // Every section builds its accent from its own voice, in every theme.
-  // The groups of the menu on the left share the rule, so they follow it too.
-  assert.ok(/body\.is-home #main > section,\s*\.drawer-body \[data-voice\] \{\s*--sec-accent:/.test(css), 'homepage sections and menu groups build their own accent');
+  // Homepage sections retain their voices; the menu inherits its page accent.
+  assert.ok(/body\.is-home #main > section \{\s*--sec-accent:/.test(css));
+  assert.ok(!css.includes('.drawer-body [data-voice'), 'menu inherits the page accent');
   for (const theme of ['dark', 'sky', 'midnight']) {
-    const t = 'html[data-theme="' + theme + '"] ';
-    assert.ok(css.includes(t + 'body.is-home #main > section,\n' + t + '.drawer-body [data-voice] {'), 'homepage sections and menu groups follow the ' + theme + ' theme');
+    assert.ok(css.includes('html[data-theme="' + theme + '"] body.is-home #main > section {'));
   }
-  // Each group of the menu is shown in the voice of the pages it leads to.
-  const drawer = fs.readFileSync(path.join(root, '_includes/drawer.html'), 'utf8');
-  const groups = [...drawer.matchAll(/<(?:details|div) class="drawer-section[^"]*"( data-voice="([a-z]+)")?/g)];
-  assert.ok(groups.length >= 10, 'the menu has its groups');
-  for (const g of groups) {
-    assert.ok(g[2], 'every menu group names its voice: ' + g[0]);
-    assert.ok(css.includes('.drawer-body [data-voice="' + g[2] + '"]'), 'the ' + g[2] + ' voice reaches the menu');
-  }
-  assert.ok(css.includes('.drawer-body [data-voice="story"]') && /_card_voice = ' data-voice="story"'/.test(drawer), 'The Notice keeps its indigo in the menu');
   assert.ok(order.every(id => home.getElementById(id).parentElement.id === 'main'), 'every homepage section stands directly in main');
   // A quote takes the colour of the page it comes from.
   const scripts = fs.readFileSync(path.join(root, '_includes/home-scripts.html'), 'utf8');
