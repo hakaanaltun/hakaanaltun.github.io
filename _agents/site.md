@@ -117,8 +117,8 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   Notes in graphite (mustard until the evening of 19 October 2026, when
   the author asked for no yellows, terracottas or coppers on the site),
   Words with Stories in plum,
-  Pictures with Stories and Tonight in slate, Trivia in garden green,
-  "First time here?" and Instruments in the furniture's teal. Notes, Words
+  Pictures with Stories and Tonight in slate, Trivia in leaf green,
+  "First time here?" in the shared teal and Instruments in a bluer petrol. Notes, Words
   and Pictures had no color before that day and fell to the rose, and The
   House with them; each page now names its voice with `series:` in its
   front matter (Words through `_config.yml` for the word pages and
@@ -131,6 +131,11 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   day with `--sec-dl`, as the fiction's indigo and the green of Moris and
   The House do; the author asked for them to change color on 19 October
   2026, when the amber and the olive looked muddy on paper.
+- **The green family has three distinct roles.** On 20 October 2026 the
+  author approved a shaded forest green for The House and Moris, a brighter
+  leaf green for Trivia, and a bluer petrol for Instruments. Their homepage
+  headings and links use the same accents as their section pages. Long
+  descriptions retain the shared text color. Midnight keeps its single gold.
 - **A quote takes the color of the page it comes from.** The quotes at the
   top are from the book and from the pieces. The script marks `#quotes`
   with `data-voice="writing"`, or `"story"` for The Notice, and a quote

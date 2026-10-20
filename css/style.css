@@ -472,13 +472,12 @@ body.is-home :is(#latest, #further-back, #quotes[data-voice="writing"])
 body.series-book,
 body.is-home :is(#quotes, #home-book)
                         { --sec-h: 262; --sec-c: 0.075; --sec-ld: 0.820; --sec-cd: 0.058; }
-/* Moris, and The House he lives in — by day a green so dark it is nearly
-   black; by night the forest green, since a near-black would not read on
-   the dark ground */
+/* Moris and The House share a shaded forest green. A little more pigment
+   keeps it visibly green on paper; its depth stays close to black. */
 body.series-moris,
 body.series-house,
 body.is-home #home-house
-                        { --sec-h: 155; --sec-c: 0.045; --sec-ld: 0.720; --sec-cd: 0.070; --sec-dl: 0.193; }
+                        { --sec-h: 150; --sec-c: 0.050; --sec-ld: 0.720; --sec-cd: 0.065; --sec-dl: 0.193; }
 /* The fiction told in choices — a deep indigo. It wore the indigo until the
    evening of 19 October 2026, when the author moved it just above the book
    and the indigo beside the book's blue read as one colour; an ivy green
@@ -490,14 +489,15 @@ body.is-home #home-house
 body.series-story,
 body.is-home :is(#story-doorway, #quotes[data-voice="story"])
                         { --sec-h: 290; --sec-c: 0.090; --sec-ld: 0.760; --sec-cd: 0.080; --sec-dl: 0.073; }
-/* The site's own furniture — the front door and the instruments. Made
-   things you use rather than read. "First time here?" is the front door's
-   own: its three doors lead to three different places. */
+/* The homepage and its first-time doors retain the shared teal. */
 body.is-home,
 body.series-home,
-body.series-tools,
-body.is-home :is(#start-here, #instruments)
+body.is-home #start-here
                         { --sec-h: 178; --sec-c: 0.050; --sec-ld: 0.800; --sec-cd: 0.048; }
+/* Instruments — a bluer petrol, distinct from the two greens. */
+body.series-tools,
+body.is-home #instruments
+                        { --sec-h: 210; --sec-c: 0.060; --sec-ld: 0.800; --sec-cd: 0.058; }
 /* About — black. The author asked for it on 19 October 2026; until then
    About shared the furniture's teal. It has no colour at all: by day its
    darker step is the whole of the paper's lightness, so it reaches black on
@@ -509,10 +509,11 @@ body.series-about
    have a colour of its own than to share the teal with About and the
    instruments. It spoke in the writing's rose until 19 October 2026, when
    the author gave it the garden green The House had worn for an afternoon.
-   A right answer is drawn in the section's colour, so it is now green. */
+   A right answer uses the section's colour. On 20 October its leaf green
+   became a little brighter and fuller, distinct from the shaded House. */
 body.series-trivia,
 body.is-home #trivia
-                        { --sec-h: 140; --sec-c: 0.070; --sec-ld: 0.800; --sec-cd: 0.070; }
+                        { --sec-h: 140; --sec-c: 0.090; --sec-ld: 0.800; --sec-cd: 0.085; --sec-dl: -0.012; }
 /* Notes — graphite, the pencil a note is caught with. The author asked
    for it on 19 October 2026, in place of the mustard it had worn since that
    morning: the site keeps no yellows, terracottas or coppers. It is kept a
