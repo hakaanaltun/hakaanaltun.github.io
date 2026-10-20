@@ -2,16 +2,12 @@
   The book on the homepage, between "Another way in." and Further back. The
   book is newer than everything under Further back, so it stands after the
   latest pieces and before the older ones. The author asked for it on
-  18 October 2026: the cover, the book's own description in full, the two
+  18 October 2026: the cover, the opening paragraph of the book's description, the two
   parts that can be read here, and one line on to the book's page. Where to
   buy the book stays on that page; the homepage offers it to be read.
 
-  The description is the book page's own (book-description.html). Here each
-  paragraph is a panel and the reader moves through them, so the full text
-  takes the height of one paragraph. The next panel shows at the right edge
-  under a fade, which says there is more; ‹ › page through them for a mouse
-  that cannot scroll sideways. Without the script the row still scrolls and
-  the buttons stay hidden.
+  The description comes from the book page's own (book-description.html).
+  Only its opening paragraph is shown here; the book's page keeps it in full.
 {%- endcomment -%}
 <section id="home-book" class="home-book" aria-label="Book">
   {% include section-header.html title="Book" subtitle="" %}
@@ -20,10 +16,11 @@
       <img src="/images/cover.webp" srcset="/images/480/cover.webp 480w, /images/960/cover.webp 960w" sizes="(max-width: 800px) 150px, 200px" alt="The Fragments cover" class="home-book-cover" width="1000" height="1500" loading="lazy" decoding="async">
     </div>
     <div class="home-book-text">
-      <h3 class="home-book-title">The Fragments</h3>
+      <h3 class="home-book-title"><a href="/book/">The Fragments</a></h3>
       <div class="home-book-window">
         <div class="home-book-strip" id="home-book-strip" role="region" aria-label="About the book" tabindex="0">
-          {% include book-description.html %}
+          {% capture book_description %}{% include book-description.html %}{% endcapture %}
+          {{ book_description | split: '</p>' | first }}</p>
         </div>
       </div>
       <div class="home-book-nav" id="home-book-nav" hidden>
@@ -92,3 +89,4 @@
   })();
   </script>
 </section>
+
