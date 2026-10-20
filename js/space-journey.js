@@ -317,7 +317,7 @@ function localImageCamera(id){
 }
 // Opt-in journey flight: turn toward the destination and project every
 // region in the same camera, preserving the registered resting views.
-function insideFlightEnabled(){return new URLSearchParams(location.search).get('flight')==='inside'}
+function insideFlightEnabled(){return new URLSearchParams(location.search).get('flight')!=='outside'}
 function flightProjection(p,b,origin=[0,0]){
  const a=localAnchor(),angle=Math.hypot(p.look?.x||0,p.look?.y||0);
  const dx=origin[0]+b.cx-p.x,dy=origin[1]+b.cy-p.y;
@@ -389,6 +389,19 @@ function travelRoute(fromId,toId){
  const establishing=systems[fromId]||systems[toId];
  return {bend:route.bend*(forward?1:-1)*(establishing?.35:1),pace:route.pace};
 }
+// Keep the accepted Earth–Moon rhythm. Other neighborhoods turn more
+// gradually; long outward transfers settle on their destination sooner.
+function flightRhythm(fromId,toId,route,duration){
+ const a=localBodyFor(fromId),b=localBodyFor(toId),group=localSystemFor(fromId);
+ if([a,b].some(name=>name?.startsWith('voyager')))return {turn:.22,drift:route.bend*.12,duration:6800};
+ if(group===localSystemFor(toId)){
+  if(group==='system')return {turn:.3,drift:0,duration:5200};
+  if(group==='saturnian')return {turn:.44,drift:route.bend*.32,duration:5900};
+  if(group==='jovian')return {turn:.38,drift:route.bend*.28,duration:5600};
+  return {turn:.35,drift:route.bend*.26,duration:5400};
+ }
+ return {turn:.26,drift:route.bend*.14,duration:Math.min(6500,Math.max(5600,duration*1.35))};
+}
 function flightProfile(from,to,short=false,fromId=null,toId=null){
  const route=travelRoute(fromId,toId),dx=to.x-from.x,dy=to.y-from.y;
  const distance=Math.hypot(dx,dy),screenDistance=distance*Math.sqrt(from.scale*to.scale);
@@ -400,23 +413,34 @@ function flightProfile(from,to,short=false,fromId=null,toId=null){
  const alternate=id=>['farside','southpole'].includes(id);
  const inside=!!(insideFlightEnabled()&&localBodies[source]&&localBodies[destination]&&source!==destination&&
   !alternate(fromId)&&!alternate(toId));
- return {depth:inside||short?0:depth,duration:inside?(short?3200:Math.min(6800,Math.max(5200,duration*1.35))):duration,inside,
+ const rhythm=flightRhythm(fromId,toId,route,duration);
+ return {depth:inside||short?0:depth,duration:inside?(short?3200:rhythm.duration):duration,inside,turn:rhythm.turn,drift:rhythm.drift,
+  scaleArrival:inside&&source==='moon'&&destination==='mars'?rhythm.turn:1,
   c1:{x:from.x+dx*.26-dy*bend,y:from.y+dy*.26+dx*bend},
   c2:{x:from.x+dx*.74-dy*bend,y:from.y+dy*.74+dx*bend}};
 }
 function flightPose(from,to,profile,t){
  const q=t*t*t*(t*(t*6-15)+10),u=1-q,envelope=Math.sin(Math.PI*q)**2;
+ // Settle the Moon-to-Mars lens during the turn so the approach cannot
+ // grow past the arrival size and then pull back.
+ const s=Math.min(1,t/(profile.scaleArrival||1)),scaleQ=s*s*s*(s*(s*6-15)+10);
  const c1=profile.c1||from,c2=profile.c2||to;
  const pose={x:u*u*u*from.x+3*u*u*q*c1.x+3*u*q*q*c2.x+q*q*q*to.x,
   y:u*u*u*from.y+3*u*u*q*c1.y+3*u*q*q*c2.y+q*q*q*to.y,
-  scale:Math.exp(Math.log(from.scale)+(Math.log(to.scale)-Math.log(from.scale))*q-profile.depth*envelope)};
- const turn=Math.min(1,t/.3),blend=turn*turn*(3-2*turn);
+  scale:Math.exp(Math.log(from.scale)+(Math.log(to.scale)-Math.log(from.scale))*scaleQ-profile.depth*envelope)};
+ const turn=Math.min(1,t/(profile.turn||.3)),blend=turn*turn*(3-2*turn);
  let look={x:0,y:0};
  if(profile.inside&&t<1){
-  const dx=to.x-pose.x,dy=to.y-pose.y,distance=Math.hypot(dx,dy);
-  const focal=Math.max(stage.clientWidth,stage.clientHeight)*.85;
-  const angle=Math.atan2(distance,focal/pose.scale)*blend;
-  if(distance>0)look={x:angle*dx/distance,y:angle*dy/distance};
+  let dx=to.x-pose.x,dy=to.y-pose.y;
+  const distance=Math.hypot(dx,dy),focal=Math.max(stage.clientWidth,stage.clientHeight)*.85;
+  if(distance>0){
+   // A small sideways look lets the target enter along an arc and settle
+   // at arrival. The offset vanishes at both ends, including short returns.
+   const offset=(profile.drift||0)*envelope*focal/pose.scale;
+   const ux=dx/distance,uy=dy/distance;dx-=uy*offset;dy+=ux*offset;
+   const aimDistance=Math.hypot(dx,dy),angle=Math.atan2(aimDistance,focal/pose.scale)*blend;
+   look={x:angle*dx/aimDistance,y:angle*dy/aimDistance};
+  }
  }
  // An interrupted flight carries its actual view direction into the next.
  look.x+=(from.look?.x||0)*(1-blend);look.y+=(from.look?.y||0)*(1-blend);
