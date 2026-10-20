@@ -315,12 +315,12 @@ function localImageCamera(id){
  const b=localBodies[localBodyFor(id)],a=localAnchor(),p=localPose||localTarget(id),[ox,oy]=regionOrigin(id);
  return {iw:b.w,ih:b.h,scale:p.scale,tx:a.x+(ox+b.x-p.x)*p.scale,ty:a.y+(oy+b.y-p.y)*p.scale};
 }
-// Opt-in Earth–Moon pilot: turn toward the destination and project each
-// world at its own camera depth, preserving the registered resting views.
+// Opt-in journey flight: turn toward the destination and project every
+// region in the same camera, preserving the registered resting views.
 function insideFlightEnabled(){return new URLSearchParams(location.search).get('flight')==='inside'}
-function flightProjection(p,b){
+function flightProjection(p,b,origin=[0,0]){
  const a=localAnchor(),angle=Math.hypot(p.look?.x||0,p.look?.y||0);
- const dx=b.cx-p.x,dy=b.cy-p.y;
+ const dx=origin[0]+b.cx-p.x,dy=origin[1]+b.cy-p.y;
  if(angle<1e-8)return {x:a.x+dx*p.scale,y:a.y+dy*p.scale,scale:p.scale,visible:true};
  const ux=p.look.x/angle,uy=p.look.y/angle;
  const focal=Math.max(stage.clientWidth,stage.clientHeight)*.85,z=focal/p.scale;
@@ -329,13 +329,13 @@ function flightProjection(p,b){
  if(depth<=focal*.04)return {x:0,y:0,scale:0,visible:false};
  const scale=focal/depth,forward=along*Math.cos(angle)-z*Math.sin(angle);
  const x=a.x+(forward*ux-across*uy)*scale,y=a.y+(forward*uy+across*ux)*scale;
- const r=b.radius*scale;
- return {x,y,scale,visible:x+r>0&&x-r<stage.clientWidth&&y+r>0&&y-r<stage.clientHeight};
+ const rx=(b.rx||b.radius)*scale,ry=(b.ry||b.radius)*scale;
+ return {x,y,scale,visible:x+rx>0&&x-rx<stage.clientWidth&&y+ry>0&&y-ry<stage.clientHeight};
 }
-function paintFlightWorld(name,p,projection){
+function paintFlightWorld(name,p,projection,origin=[0,0]){
  const b=localBodies[name],a=localAnchor();
- const x=(projection.x-a.x)/p.scale-(b.cx-p.x),y=(projection.y-a.y)/p.scale-(b.cy-p.y);
- for(const id of name==='moon'?['moon','farside']:[name]){
+ const x=(projection.x-a.x)/p.scale-(origin[0]+b.cx-p.x),y=(projection.y-a.y)/p.scale-(origin[1]+b.cy-p.y);
+ for(const id of [name,...Object.keys(variants).filter(id=>variants[id]===name)]){
   const el=$(id);el.style.visibility=projection.visible?'':'hidden';
   el.style.transformOrigin='50% 50%';
   el.style.transform=projection.visible?`translate(${x}px,${y}px) scale(${projection.scale/p.scale})`:'none';
@@ -352,7 +352,7 @@ function paintLocalCamera(p){
   $(sys.targets).hidden=name!==key;
   for(const body of sys.bodies){
    const b=localBodies[body],button=$(body+'Target');
-   if(name==='system')paintFlightWorld(body,p,flightProjection(p,b));
+   paintFlightWorld(body,p,flightProjection(p,b,[ox,oy]),[ox,oy]);
    const bw=Math.max(44,(b.rx||b.radius)*2*p.scale),bh=Math.max(44,(b.ry||b.radius)*2*p.scale);
    const x=a.x+(ox+b.cx-p.x)*p.scale,y=a.y+(oy+b.cy-p.y)*p.scale;
    button.style.width=bw+'px';button.style.height=bh+'px';button.style.left=x+'px';button.style.top=y+'px';
@@ -396,10 +396,11 @@ function flightProfile(from,to,short=false,fromId=null,toId=null){
  const depth=Math.max(0,Math.log(Math.max(1,screenDistance*(1+Math.abs(route.bend))/(stage.clientWidth*.72))));
  const bend=short?0:route.bend;
  const duration=Math.min(short?3200:5600,Math.max(short?1000:1100,2.2*(480+240*scaleChange+270*Math.log1p(screenDistance/stage.clientWidth))*route.pace));
- const inside=insideFlightEnabled()&&!systems[fromId]&&!systems[toId]&&fromId!=='farside'&&toId!=='farside'&&
-  new Set([localBodyFor(fromId),localBodyFor(toId)]).size===2&&
-  [fromId,toId].every(id=>['earth','moon'].includes(localBodyFor(id)));
- return {depth:inside||short?0:depth,duration:inside?(short?3200:5200):duration,inside,
+ const source=localBodyFor(fromId),destination=localBodyFor(toId);
+ const alternate=id=>['farside','southpole'].includes(id);
+ const inside=!!(insideFlightEnabled()&&localBodies[source]&&localBodies[destination]&&source!==destination&&
+  !alternate(fromId)&&!alternate(toId));
+ return {depth:inside||short?0:depth,duration:inside?(short?3200:Math.min(6800,Math.max(5200,duration*1.35))):duration,inside,
   c1:{x:from.x+dx*.26-dy*bend,y:from.y+dy*.26+dx*bend},
   c2:{x:from.x+dx*.74-dy*bend,y:from.y+dy*.74+dx*bend}};
 }

@@ -205,16 +205,16 @@ run(fs.readFileSync('js/space-journey.js','utf8'));
  // Keyboard arrows use the same route and respect open information panels.
  await run("go('mars')");events.keydown({key:'ArrowRight',target:{tagName:'BODY'},preventDefault(){}});await finish();assert.equal(run('current'),'ceres');run("openInfo('ceres')");events.keydown({key:'ArrowRight',target:{tagName:'BODY'},preventDefault(){}});await flush();assert.equal(run('current'),'ceres');run('closeInfo()');
  for(const m of html.matchAll(/(?:src|href)="([^"#]+)"/g))if(!m[1].startsWith('http')&&!m[1].includes('{')&&!m[1].endsWith('/'))assert(fs.existsSync((m[1].startsWith('/')?'.':'pictures/space/')+m[1].split('?')[0]));
- // The opt-in flight changes only transfers between the two inspection worlds.
+ // The opt-in flight covers inter-body travel and leaves surface inspection alone.
  {location.search='?flight=inside';
- for(const [from,to,expected] of [['earth','moon',true],['moon','earth',true],['near','moon',true],['system','moon',false],['earth','near',false],['moon','mars',false],['farside','earth',false]]){
+ for(const [from,to,expected] of [['earth','moon',true],['moon','earth',true],['near','moon',true],['system','moon',true],['earth','near',false],['moon','mars',true],['farside','earth',false]]){
   assert.equal(run(`flightProfile(localTarget('${from}'),localTarget('${to}'),false,'${from}','${to}').inside`),expected);
  }
  for(const [width,height] of [[1280,900],[390,844],[844,390]]){
   element('stage').clientWidth=width;element('stage').clientHeight=height;
   for(const [from,to] of [['earth','moon'],['moon','earth']]){
    reduced=true;await run(`go('${from}')`);reduced=false;
-   const trip=run(`go('${to}')`);await flush();await tick(2600);
+   const trip=run(`go('${to}')`);await flush();await tick(run(`flightProfile(localTarget('${from}'),localTarget('${to}'),false,'${from}','${to}').duration`)/2);
    assert(classes.has('inside-flight'));
    const destination=run(`flightProjection(localPose,localBodies['${to}'])`),anchor=run('localAnchor()');
    near(destination.x,anchor.x);near(destination.y,anchor.y);
@@ -223,6 +223,29 @@ run(fs.readFileSync('js/space-journey.js','utf8'));
    await finish(trip);assert(!classes.has('inside-flight'));
    for(const body of ['earth','moon'])assert.equal(element(body).style.visibility,'');
   }
+ }
+ // Every adjacent pair and its return use global coordinates, including rings
+ // and spacecraft. Projection reaches the normal endpoint without residue.
+ for(const [width,height] of [[1280,900],[390,844],[844,390]]){
+  element('stage').clientWidth=width;element('stage').clientHeight=height;
+  const bodies=run('journey');
+  for(let i=1;i<bodies.length;i++)for(const [from,to] of [[bodies[i-1],bodies[i]],[bodies[i],bodies[i-1]]]){
+   reduced=true;await run(`go('${from}')`);reduced=false;
+   const profile=run(`flightProfile(localPose,localTarget('${to}'),false,'${from}','${to}')`);
+   assert(profile.inside);assert(profile.duration>=5200&&profile.duration<=6800);
+   const trip=run(`go('${to}')`);await flush();await tick(profile.duration/2);
+   const projected=run(`(()=>{const target=localTarget('${to}'),origin=regionOrigin('${to}');return flightProjection(localPose,{...localBodies['${to}'],cx:target.x-origin[0],cy:target.y-origin[1]},origin)})()`);
+   const anchor=run('localAnchor()');near(projected.x,anchor.x);near(projected.y,anchor.y);
+   assert(projected.visible);assert(Number.isFinite(projected.scale)&&projected.scale>0);
+   await finish(trip);assert(!classes.has('inside-flight'));
+   for(const body of bodies)assert.equal(element(body).style.visibility,'');
+  }
+ }
+ // Direct long jumps and cross-region overview links use the same pilot.
+ for(const [from,to] of [['earth','voyager1'],['voyager1','solar'],['jovian','saturnian'],['system','moon']]){
+  reduced=true;await run(`go('${from}')`);reduced=false;
+  const trip=run(`go('${to}')`);await flush();await tick(1800);
+  assert(classes.has('inside-flight'));await finish(trip);assert(!classes.has('inside-flight'));
  }
  // An interruption starts from the projected view, then cleans up normally.
  reduced=true;await run("go('earth')");reduced=false;

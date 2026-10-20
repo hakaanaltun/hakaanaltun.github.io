@@ -152,7 +152,7 @@ body:not(.wide-view) .system-target span{display:none}.system-target:disabled{op
    so a name such as Voyager 2 keeps to one line where it can. */
 @media(max-width:380px){#viewPrevious,#viewNext{font-size:11px}}
 
-/* The optional Earth–Moon flight clears the window while Arrive now stays
+/* The optional journey flight clears the window while Arrive now stays
    available. Keyboard arrows still retarget through the normal navigation. */
 #siteHeader,#topTools,#zoomControls,#viewNavigation,footer,#disclosure{transition:opacity 350ms ease}
 .inside-flight #siteHeader,.inside-flight #topTools,.inside-flight #zoomControls,
