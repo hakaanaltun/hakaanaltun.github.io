@@ -63,6 +63,21 @@ run(fs.readFileSync('js/space-journey.js','utf8'));
   }
  }
  element('stage').clientWidth=1280;element('stage').clientHeight=900;
+ // A neighboring world visible at the edge of a wide view is also a
+ // destination, even though it belongs to another region.
+ element('stage').clientWidth=1363;element('stage').clientHeight=900;
+ await run("go('system')");
+ assert.equal(element('marsTargets').hidden,false);
+ assert.equal(element('marsTarget').hidden,false);
+ await element('marsTarget').onclick();assert.equal(run('current'),'mars');
+ // Portrait tablets center the inspection lower without moving the phone
+ // or landscape anchor. Wide views still reserve the measured caption area.
+ for(const [w,h] of [[600,960],[768,1024],[800,1280],[960,1480]]){
+  element('stage').clientWidth=w;element('stage').clientHeight=h;
+  const anchor=run('localAnchor()');near(anchor.x,w*.5);near(anchor.y,h*.4);
+ }
+ element('stage').clientWidth=390;element('stage').clientHeight=844;near(run('localAnchor().y'),844*.31);
+ element('stage').clientWidth=1280;element('stage').clientHeight=900;
  // Every globe can be approached and tapped again to zoom, including all moons.
  for(const body of run('journey')){
   const key=run(`localSystemFor('${body}')`);reduced=true;await run(`go('${key}')`);const wideScale=run('localPose.scale');
@@ -209,6 +224,19 @@ run(fs.readFileSync('js/space-journey.js','utf8'));
  {assert.equal(run('insideFlightEnabled()'),false);
  location.search='?flight=inside';assert.equal(run('insideFlightEnabled()'),true);
  location.search='';assert.equal(run('insideFlightEnabled()'),true);
+ // One animation frame reads each viewport dimension only once and does
+ // not resize/reposition inactive hit areas between those reads.
+ reduced=true;await run("go('earth')");reduced=false;
+ const measuredTrip=run("go('moon')");await flush();
+ const targetBefore={...element('moonTarget').style};
+ let layoutReads=0;const measuredStage=element('stage'),cw=measuredStage.clientWidth,ch=measuredStage.clientHeight;
+ Object.defineProperty(measuredStage,'clientWidth',{configurable:true,get(){layoutReads++;return cw}});
+ Object.defineProperty(measuredStage,'clientHeight',{configurable:true,get(){layoutReads++;return ch}});
+ await tick(1000);assert.equal(layoutReads,2,'Frame should measure the viewport only once');
+ assert.deepEqual(element('moonTarget').style,targetBefore);
+ Object.defineProperty(measuredStage,'clientWidth',{configurable:true,writable:true,value:cw});
+ Object.defineProperty(measuredStage,'clientHeight',{configurable:true,writable:true,value:ch});
+ await finish(measuredTrip);
  for(const [from,to,expected] of [['earth','moon',true],['moon','earth',true],['near','moon',true],['system','moon',true],['earth','near',false],['moon','mars',true],['farside','earth',false]]){
   assert.equal(run(`flightProfile(localTarget('${from}'),localTarget('${to}'),false,'${from}','${to}').inside`),expected);
  }
