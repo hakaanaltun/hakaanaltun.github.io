@@ -31,21 +31,23 @@
   window.OLAE_PAGE_SKY = {
     pickCity: S.pickCity, sunAltitude: S.sunAltitude, paint: paint, clear: clear
   };
+  var t, s;
   try{
-    var t = localStorage.getItem('olae-page-theme');
+    t = localStorage.getItem('olae-page-theme');
     if(t !== 'dark' && t !== 'light' && t !== 'sky'){
-      var s = localStorage.getItem('theme');
+      s = localStorage.getItem('theme');
       /* The site's own theme is the fallback for a page never set by hand.
          'sky' carries across as itself; the site's two darks both land on
          this page's one dark. */
-      t = s === 'sky' ? 'sky' : (s === 'midnight' ? 'dark' : s);
-    }
-    if(t === 'dark' || t === 'light'){
-      document.documentElement.setAttribute('data-theme', t);
-    } else if(t === 'sky'){
-      document.documentElement.setAttribute('data-theme', 'sky');
-      paint(S.altitudeNow());
+      t = s === 'midnight' ? 'dark' : (s === 'dusk' ? 'sky' : s);
     }
   }catch(e){}
+  if(t !== 'dark' && t !== 'light' && t !== 'sky' && t !== 'system') t = 'sky';
+  if(t === 'dark' || t === 'light'){
+    document.documentElement.setAttribute('data-theme', t);
+  } else if(t === 'sky'){
+    document.documentElement.setAttribute('data-theme', 'sky');
+    paint(S.altitudeNow());
+  }
 })();
 </script>

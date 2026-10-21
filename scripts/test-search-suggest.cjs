@@ -20,7 +20,7 @@ const essayButtons=(source('_layouts/post.html').match(/<button[^>]*id="essay-(?
 assert.equal((essayButtons.match(/<button/g)||[]).length,2,'The essay still offers read-with-rain and puzzle mode');
 
 const opened=[];
-function page({essay=false,width=300,random=0,pathname,search=false}={}){
+function page({essay=false,width=300,random=0,pathname,search=false,theme}={}){
   let html='<main id="main">'+(essay?essayButtons:'')+'</main>'+liquid(footer);
   if(search)html=html.replace('site-search-form--footer','').replace(/footer-search/g,'site-search');
   const dom=new JSDOM(html,{url:'https://example.test'+(pathname||(essay?'/pieces/x.html':'/about/')),runScripts:'outside-only',pretendToBeVisual:true,virtualConsole:new VirtualConsole()});
@@ -38,6 +38,10 @@ function page({essay=false,width=300,random=0,pathname,search=false}={}){
     setTransform(){},clearRect(){},drawImage(){},beginPath(){},moveTo(){},lineTo(){},closePath(){},fill(){},stroke(){},
     save(){},restore(){},fillRect(){},arc(){},ellipse(){},createLinearGradient(){return {addColorStop(){}};}});
   w.eval(source('js/let-it-snow.js'));
+  if(theme){
+    w.document.documentElement.setAttribute('data-theme',theme);
+    w.document.getElementById('theme-toggle').hidden=false;
+  }
   const clicks={};
   if(essay)for(const id of ['essay-rain','essay-puzzle']){
     const b=w.document.getElementById(id);b.hidden=false;clicks[id]=0;
@@ -66,6 +70,23 @@ for(let r=0;r<1;r+=0.05){
   assert.doesNotMatch(p.input.placeholder,/puzzle mode|read with rain|guess the word|translate a line|keep a line/);
   assert.doesNotMatch(p.input.placeholder,/share/,'sharing is left to whoever wants to share');
   assert.doesNotMatch(p.input.placeholder,/farm house/,'the photograph in The House is the suggested way to the farm');
+}
+
+// With the sky already on, search offers the way to the other themes.
+{
+  const p=page({theme:'sky'});
+  p.type('change the');
+  assert.equal(p.suggestion().hidden,false);
+  assert.equal(p.suggestion().textContent,'Change the theme');
+  assert.equal(p.submit('change the theme'),false,'Enter still searches for the phrase');
+  p.type('follow the sky');
+  assert.equal(p.suggestion().hidden,true,'the active default is not offered again');
+  const light=page({theme:'light'});
+  light.type('follow the');
+  assert.equal(light.suggestion().textContent,'Follow the sky');
+  const wardrobe=page({theme:'sky',pathname:'/themes/'});
+  wardrobe.type('change the');
+  assert.equal(wardrobe.suggestion().hidden,true,'the themes page does not suggest opening itself');
 }
 
 // Search and actions remain separate in the main field too.

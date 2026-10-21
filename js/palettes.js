@@ -159,7 +159,7 @@
      those voices change in style.css they change here too, the same rule
      the hexes above are under. */
   var SKY_VOICES = [          /* [--sec-ld, --sec-cd, --sec-h], in ACCENT_LABELS order */
-    [0.700, 0.078, 12], [0.820, 0.058, 262], [0.840, 0.055, 118],
+    [0.660, 0.065, 18], [0.820, 0.058, 262], [0.840, 0.055, 118],
     [0.770, 0.060, 54], [0.800, 0.048, 178]
   ];
   /* Null if site-sky.html is not on the page: a preview of the sky that
@@ -174,8 +174,9 @@
       paper: t['--paper'], inkSoft: t['--ink-soft'], vizon: t['--vizon'],
       chrome: t['--footer-strip-bg'], ftext: t['--footer-text'],
       fmuted: t['--footer-muted'],
-      acc: SKY_VOICES.map(function (v) {
-        return 'oklch(' + Math.max(v[0], floor).toFixed(3) + ' ' + v[1] + ' ' + v[2] + ')';
+      acc: SKY_VOICES.map(function (v, i) {
+        var lightness = i === 0 ? parseFloat(t['--sky-writing-floor']) : Math.max(v[0], floor);
+        return 'oklch(' + lightness.toFixed(3) + ' ' + v[1] + ' ' + v[2] + ')';
       })
     };
   }
@@ -186,7 +187,7 @@
   /* theme.js owns this key; read it here so the tick can sit on Dark,
      Midnight or Follow the sky when one of them is the stored choice. */
   function storedTheme() {
-    try { return localStorage.getItem('theme'); } catch (e) { return null; }
+    return document.documentElement.getAttribute('data-theme') || 'system';
   }
   /* Keep <meta name="theme-color"> on the active palette's chrome — but
      only on the light path. theme.js calls this at the end of every
@@ -407,7 +408,9 @@
     });
 
     var face = '<b class="site-face">' + name.replace(/&/g, '&amp;') + '</b>';
-    if (themeChosen) {
+    if (t === 'sky' && !localSkyChoice()) {
+      status.innerHTML = 'The site follows the sky by default. Pick any theme to keep it on this device.';
+    } else if (themeChosen) {
       var pick = '<b class="site-face">' + THEME_NAMES[t] + '</b>';
       status.innerHTML = chosen === 1
         ? pick + ' is yours on this device, until you pick another.'
@@ -423,6 +426,10 @@
       status.innerHTML = face + ' is stored, but the site is on a dark theme right now'
         + '&mdash;pick it again to turn the day on.';
     }
+  }
+
+  function localSkyChoice() {
+    try { return localStorage.getItem('theme') === 'sky'; } catch (e) { return false; }
   }
 
   /* Is the light path the one CSS is painting? An explicit theme decides it;
