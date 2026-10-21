@@ -1,8 +1,8 @@
 /* theme.js — footer theme menu (system / light / dark / midnight / sky).
-   The effective theme is the stored choice if any, else the system
-   preference ("System", the state for first-time visitors: no stored
-   key, no data-theme attribute, CSS follows prefers-color-scheme and
-   tracks it live). head.html applies the stored choice to
+   The effective theme is the stored choice if any, else Follow the sky.
+   "System" is an explicit stored choice with no data-theme attribute:
+   CSS follows prefers-color-scheme and tracks it live.
+   head.html applies the choice to
    <html data-theme> (and points the theme-color metas at it) before
    CSS paints, so this file only has to wire the menu and keep the
    metas in step.
@@ -25,22 +25,14 @@
   var btn = document.getElementById('theme-toggle');
   var menu = document.getElementById('theme-menu');
   if (!btn || !menu) return;
-  var THEMES = ['light', 'dark', 'midnight', 'sky'];
   /* head.html loads site-sky.html above this file, so the painter is here.
      The no-op stands in only if it is ever not: the menu still works and
      Sky simply lands on the attribute without colours, rather than the
      whole footer menu dying on a missing global. */
   var sky = window.OLAE_SITE_SKY || { paint: function () {}, paintNow: function () {}, clear: function () {} };
   var mq = window.matchMedia('(prefers-color-scheme: dark)');
-  function stored() {
-    try { return localStorage.getItem('theme'); } catch (e) { return null; }
-  }
-
-
   function effective() {
-    var t = stored();
-    if (THEMES.indexOf(t) !== -1) return t;
-    return 'system';
+    return document.documentElement.getAttribute('data-theme') || 'system';
   }
   function apply(t) {
     /* System = no attribute at all: CSS falls back to prefers-color-scheme
@@ -51,14 +43,14 @@
   }
   /* Keep <meta name="theme-color"> on the active palette. A manual choice
      pins both metas to the chosen colour (data-light/data-dark/data-midnight,
-     written by head.html); without one they fall back to their per-media
+     written by head.html); System falls back to the per-media
      defaults so the system preference keeps working on its own. Sky has no
      fixed colour to pin — site-sky.html points the metas at the ground it
      just painted, so this leaves them where that put them. */
   function syncThemeColor() {
-    var t = stored();
+    var t = effective();
     if (t === 'sky') return;
-    var manual = THEMES.indexOf(t) !== -1;
+    var manual = t !== 'system';
     document.querySelectorAll('meta[name="theme-color"]').forEach(function (m) {
       var next = manual ? m.getAttribute('data-' + t) : m.getAttribute('data-default');
       if (next) m.setAttribute('content', next);
@@ -107,8 +99,7 @@
     var t = item.getAttribute('data-set-theme');
     apply(t);
     try {
-      if (t === 'system') localStorage.removeItem('theme');
-      else localStorage.setItem('theme', t);
+      localStorage.setItem('theme', t);
     } catch (e2) { /* private mode */ }
     syncThemeColor();
     syncMenu();
@@ -141,7 +132,7 @@
   /* The sky keeps moving while the page stays open: re-paint once a
      minute, and on return to a tab that sat in the background. */
   function refreshSky() {
-    if (stored() !== 'sky') return;
+    if (effective() !== 'sky') return;
     sky.paintNow();
   }
   setInterval(refreshSky, 60000);

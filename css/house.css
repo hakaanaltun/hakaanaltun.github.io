@@ -1,5 +1,6 @@
-/* The House is scoped to its own room. It shares the site's paper, ink,
-   and type; the illustration has a separate palette for its objects. */
+/* The entrance and controls share the site's paper, ink and type. The
+   study and balcony illustrations keep their own palette in every theme;
+   their light comes from Istanbul's hour, weather and the reader's lamps. */
 .house { max-width: 1080px; margin: 0 auto; padding: 62px 30px 38px; color: var(--ink); }
 .house [hidden] { display: none !important; }
 .house-study { padding: 0; }
@@ -370,20 +371,6 @@
 /* What the notebook has just done, under its buttons where the eye is. */
 .house-dialog .house-notebook-said { margin: 12px 0 -4px; color: var(--ink); font-size: 17px; }
 .house-notebook-said:empty { display: none; }
-html[data-theme="dark"] .house-scene, html[data-theme="midnight"] .house-scene { --room-wall: #363b3b; --room-floor: #3f403a; --room-line: #a89e89; --room-wood: #666452; --room-back: #444942; --room-paper: #b5ae96; --room-cream: #9c9174; --room-blue: #617e84; --room-olive: #687b64; --room-rust: #9e7564; --room-burgundy: #7a4650; --room-gold: #a48c55; --room-carpet: #4a4a41; --room-sunlight: .2; }
-html[data-theme="sky"] .house-scene { --room-wall: color-mix(in srgb, var(--paper) 88%, #a8997f); --room-floor: color-mix(in srgb, var(--paper) 76%, #9b8d6f); --room-line: var(--vizon); --room-wood: color-mix(in srgb, var(--paper) 50%, #a8997f); --room-back: color-mix(in srgb, var(--paper) 75%, #a8997f); --room-carpet: color-mix(in srgb, var(--paper) 64%, #9b8d6f); }
-/* A pale dial needs its own ink when sky text turns light after sunset. */
-html[data-theme="sky"] .house-wall-clock { stroke: #514839; color: #514839; }
-html[data-theme="sky"] .house-wall-clock .house-faint { opacity: .8; }
-html[data-theme="dark"] .house-scene[data-hour="evening"] .house-dusk, html[data-theme="midnight"] .house-scene[data-hour="evening"] .house-dusk { opacity: .1; }
-html[data-theme="dark"] .house-scene[data-hour="night"] .house-dusk, html[data-theme="midnight"] .house-scene[data-hour="night"] .house-dusk { opacity: .3; }
-@media (prefers-color-scheme: dark) { html:not([data-theme]) .house-scene[data-hour="evening"] .house-dusk { opacity: .1; } html:not([data-theme]) .house-scene[data-hour="night"] .house-dusk { opacity: .3; } }
-/* On the dark rooms the balcony's lamp lightens what shows through the
-   door's glass instead of tinting it. */
-html[data-theme="dark"] .house-door-lamplight, html[data-theme="midnight"] .house-door-lamplight { fill: #806c45; mix-blend-mode: screen; }
-html[data-theme="dark"] #house-scene[data-hour="night"] .house-door-lamplight, html[data-theme="midnight"] #house-scene[data-hour="night"] .house-door-lamplight { fill: #534022; }
-@media (prefers-color-scheme: dark) { html:not([data-theme]) .house-door-lamplight { fill: #806c45; mix-blend-mode: screen; } html:not([data-theme]) #house-scene[data-hour="night"] .house-door-lamplight { fill: #534022; } }
-@media (prefers-color-scheme: dark) { html:not([data-theme]) .house-scene { --room-wall: #363b3b; --room-floor: #3f403a; --room-line: #a89e89; --room-wood: #666452; --room-back: #444942; --room-paper: #b5ae96; --room-cream: #9c9174; --room-blue: #617e84; --room-olive: #687b64; --room-rust: #9e7564; --room-burgundy: #7a4650; --room-gold: #a48c55; --room-carpet: #4a4a41; --room-sunlight: .2; } }
 /* The trail the pointer leaves (js/cursor-trail.js), and the pointer itself,
    a speck a little larger than the trail's own at its head, both a light
    golden yellow. On dark ground they are lit, and the trail's specks brighten

@@ -355,13 +355,13 @@ html[data-theme="sky"] body {
   /* The five voices keep their own hue, chroma and night lightness. The sun
      only ever raises the lightness, never lowers it: at night max() leaves
      each voice exactly where style.css tuned it, and as the ground lifts the
-     floor lifts under all five together. Measured worst case across every
-     voice and the whole ramp: 5.00:1. */
+     floor lifts under them together. The writing's quieter red uses its
+     own floor below; the other voices retain this one. */
   --sec-accent-dark: oklch(max(var(--sec-ld, 0.800), var(--sky-ld-floor, 0.62))
                            var(--sec-cd, 0.048) var(--sec-h, 178));
   --petrol: var(--sec-accent-dark);
   --petrol-deep: color-mix(in srgb, var(--sec-accent-dark) 72%, #FFFFFF);
-  --writing-accent: oklch(max(0.700, var(--sky-ld-floor, 0.62)) 0.078 12);
+  --writing-accent: oklch(var(--sky-writing-floor, 0.66) 0.065 18);
 }
 
 
@@ -568,6 +568,14 @@ html[data-theme="sky"] body.is-home #main > section {
                            var(--sec-cd, 0.048) var(--sec-h, 178));
   --petrol: var(--sec-accent-dark);
   --petrol-deep: color-mix(in srgb, var(--sec-accent-dark) 72%, #FFFFFF);
+}
+/* A muted red for the writing, on its pages and in the homepage sections.
+   Other themes and section voices keep their existing colour. */
+html[data-theme="sky"] body:is(.series-default, .series-series,
+  .series-on-series, .series-cafe-series),
+html[data-theme="sky"] body.is-home #main > :is(#latest, #further-back,
+  #quotes[data-voice="writing"]) {
+  --sec-accent-dark: var(--writing-accent);
 }
 html[data-theme="midnight"] body.is-home #main > section {
   --petrol: #C6B98F;
