@@ -356,7 +356,7 @@ function paintLocalCamera(p,controls=true,view=cameraViewport()){
   $(sys.space).style.transform=`translate(${a.x+(ox-p.x)*p.scale}px,${a.y+(oy-p.y)*p.scale}px) scale(${p.scale})`;
   // Controls stay still and hidden during travel, then follow the arrival.
   if(controls){
-   $(sys.space).style.opacity='1';$(sys.space).setAttribute('aria-hidden',String(!wide&&name!==key));
+   $(sys.space).style.opacity='1';$(sys.space).setAttribute('aria-hidden',String(name!==key));
    $(sys.targets).hidden=!wide&&name!==key;
   }
   for(const body of sys.bodies){
