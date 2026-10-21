@@ -103,7 +103,7 @@ body[data-scene] #information{top:135px;bottom:175px;max-height:none;width:min(5
 /* One persistent camera owns transforms; region images no longer crossfade as slides. */
 .space-plane{transition:none!important}.space-plane>.world{transition:none!important}
 body:not(.wide-view) .system-target span{display:none}.system-target:disabled{opacity:1;pointer-events:none}
-.camera-moving .system-target{pointer-events:none}
+.camera-moving .system-target{visibility:hidden;pointer-events:none}
 #zoomControls{position:absolute;z-index:3;right:3.2%;top:155px;display:flex;flex-direction:column;gap:8px}
 #zoomControls button{display:flex;align-items:center;gap:9px;min-height:44px;min-width:44px;padding:0 12px;font:24px Arial,sans-serif;background:#060a0de0;border:1px solid #ffffff24;border-radius:5px}
 #zoomControls span{font:11px Arial,sans-serif}#zoomControls button:disabled{opacity:.3}

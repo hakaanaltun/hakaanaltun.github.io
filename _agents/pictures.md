@@ -73,6 +73,16 @@ rule written there.
   transfers finish the lens change during the initial turn, so Mars grows
   steadily toward its final size during the approach instead of overshooting
   and receding. Start at `/pictures/space/#earth`.
+- **Travel measures its viewport once per frame.** On 21 October 2026 the
+  author reported pauses during transfers. Frame painting now shares one
+  viewport measurement across every projected world and updates the hidden
+  hit areas only at arrival. Keep geometry reads before style writes; reading
+  the stage between each world's hit-area changes forces repeated layout.
+  Wide views enable the existing globe buttons for every visible region,
+  including a neighboring planet at the edge. Inspection retains its local
+  zoom controls. Portrait tablets (at least 600 CSS pixels wide and taller
+  than 1.2 times their width) center inspection at 40 percent of the height
+  and reserve more space above the wide view, leaving room for the caption.
 - **The Sun is part of the journey.** Its complete story and four sourced notes
   live in the reader. `/pictures/sun/` redirects directly to `/pictures/space/#sun`
   and carries query parameters, including the return to the balcony. `/sun/`

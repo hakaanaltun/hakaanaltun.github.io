@@ -289,11 +289,16 @@ let localPose=null,localFrame=null,localResolve=null,localFinish=null;
 let navigationRequest=0,pendingDestination=null,skipRequest=-1;
 let historyCursor=0;
 const historySession=String(Date.now()),historyTrail=[];
-function localAnchor(){return {x:stage.clientWidth*(stage.clientWidth<701?.5:.57),y:stage.clientHeight*(stage.clientWidth<701?.31:.36)}}
+function portraitTablet(w,h){return w>=600&&h>w*1.2}
+function localAnchor(w=stage.clientWidth,h=stage.clientHeight){
+ const portrait=portraitTablet(w,h);
+ return {x:w*(portrait||w<701?.5:.57),y:h*(portrait?.4:w<701?.31:.36)};
+}
+function cameraViewport(){const width=stage.clientWidth,height=stage.clientHeight;return {width,height,anchor:localAnchor(width,height)}}
 function sceneViewport(){
  const w=stage.clientWidth,h=stage.clientHeight,origin=stage.getBoundingClientRect?.().top||0;
  const caption=$('caption').getBoundingClientRect?.(),tools=$('topTools').getBoundingClientRect?.();
- const top=Math.max(110,(tools?.bottom||115)-origin+20);
+ const top=Math.max(110,(tools?.bottom||115)-origin+20,portraitTablet(w,h)?h*.18:0);
  const side=w>=701&&h<600;
  const left=side?Math.max(w*.46,(caption?.right||w*.42)+28):w*.07;
  const right=Math.min(w*.93,w-w*(w<701?.06:.032)-70);
@@ -315,25 +320,25 @@ function localImageCamera(id){
  const b=localBodies[localBodyFor(id)],a=localAnchor(),p=localPose||localTarget(id),[ox,oy]=regionOrigin(id);
  return {iw:b.w,ih:b.h,scale:p.scale,tx:a.x+(ox+b.x-p.x)*p.scale,ty:a.y+(oy+b.y-p.y)*p.scale};
 }
-// Opt-in journey flight: turn toward the destination and project every
+// Turn toward the destination and project every
 // region in the same camera, preserving the registered resting views.
 function insideFlightEnabled(){return new URLSearchParams(location.search).get('flight')!=='outside'}
-function flightProjection(p,b,origin=[0,0]){
- const a=localAnchor(),angle=Math.hypot(p.look?.x||0,p.look?.y||0);
+function flightProjection(p,b,origin=[0,0],view=cameraViewport()){
+ const a=view.anchor,angle=Math.hypot(p.look?.x||0,p.look?.y||0);
  const dx=origin[0]+b.cx-p.x,dy=origin[1]+b.cy-p.y;
  if(angle<1e-8)return {x:a.x+dx*p.scale,y:a.y+dy*p.scale,scale:p.scale,visible:true};
  const ux=p.look.x/angle,uy=p.look.y/angle;
- const focal=Math.max(stage.clientWidth,stage.clientHeight)*.85,z=focal/p.scale;
+ const focal=Math.max(view.width,view.height)*.85,z=focal/p.scale;
  const along=dx*ux+dy*uy,across=-dx*uy+dy*ux;
  const depth=z*Math.cos(angle)+along*Math.sin(angle);
  if(depth<=focal*.04)return {x:0,y:0,scale:0,visible:false};
  const scale=focal/depth,forward=along*Math.cos(angle)-z*Math.sin(angle);
  const x=a.x+(forward*ux-across*uy)*scale,y=a.y+(forward*uy+across*ux)*scale;
  const rx=(b.rx||b.radius)*scale,ry=(b.ry||b.radius)*scale;
- return {x,y,scale,visible:x+rx>0&&x-rx<stage.clientWidth&&y+ry>0&&y-ry<stage.clientHeight};
+ return {x,y,scale,visible:x+rx>0&&x-rx<view.width&&y+ry>0&&y-ry<view.height};
 }
-function paintFlightWorld(name,p,projection,origin=[0,0]){
- const b=localBodies[name],a=localAnchor();
+function paintFlightWorld(name,p,projection,origin,a){
+ const b=localBodies[name];
  const x=(projection.x-a.x)/p.scale-(origin[0]+b.cx-p.x),y=(projection.y-a.y)/p.scale-(origin[1]+b.cy-p.y);
  for(const id of [name,...Object.keys(variants).filter(id=>variants[id]===name)]){
   const el=$(id);el.style.visibility=projection.visible?'':'hidden';
@@ -341,22 +346,27 @@ function paintFlightWorld(name,p,projection,origin=[0,0]){
   el.style.transform=projection.visible?`translate(${x}px,${y}px) scale(${projection.scale/p.scale})`:'none';
  }
 }
-function paintLocalCamera(p){
- localPose=p;const a=localAnchor(),w=stage.clientWidth,h=stage.clientHeight,key=localSystemFor();
+function paintLocalCamera(p,controls=true,view=cameraViewport()){
+ // Read the viewport once before any styles change. Re-reading it between
+ // worlds forces layout after each target's width/height/position writes.
+ localPose=p;const a=view.anchor,w=view.width,h=view.height,key=localSystemFor(),wide=!!systems[current];
  document.body.classList.toggle('inside-flight',!!p.inside);
  for(const [name,sys] of Object.entries(systems)){
   const [ox,oy]=regionOrigin(name);
   $(sys.space).style.transform=`translate(${a.x+(ox-p.x)*p.scale}px,${a.y+(oy-p.y)*p.scale}px) scale(${p.scale})`;
-  // All regions retain their position and image. Only their controls belong to the current region.
-  $(sys.space).style.opacity='1';$(sys.space).setAttribute('aria-hidden',String(name!==key));
-  $(sys.targets).hidden=name!==key;
+  // Controls stay still and hidden during travel, then follow the arrival.
+  if(controls){
+   $(sys.space).style.opacity='1';$(sys.space).setAttribute('aria-hidden',String(name!==key));
+   $(sys.targets).hidden=!wide&&name!==key;
+  }
   for(const body of sys.bodies){
    const b=localBodies[body],button=$(body+'Target');
-   paintFlightWorld(body,p,flightProjection(p,b,[ox,oy]),[ox,oy]);
+   paintFlightWorld(body,p,flightProjection(p,b,[ox,oy],view),[ox,oy],a);
+   if(!controls)continue;
    const bw=Math.max(44,(b.rx||b.radius)*2*p.scale),bh=Math.max(44,(b.ry||b.radius)*2*p.scale);
    const x=a.x+(ox+b.cx-p.x)*p.scale,y=a.y+(oy+b.cy-p.y)*p.scale;
    button.style.width=bw+'px';button.style.height=bh+'px';button.style.left=x+'px';button.style.top=y+'px';
-   button.hidden=name!==key||x+bw/2<0||x-bw/2>w||y+bh/2<0||y-bh/2>h;
+   button.hidden=(!wide&&name!==key)||x+bw/2<0||x-bw/2>w||y+bh/2<0||y-bh/2>h;
    button.disabled=current!==key&&body===localBodyFor(current)&&!zoomDestinations(current).in;
    button.setAttribute('aria-label',current!==key&&body===localBodyFor(current)?'Look closer at '+bodyNames[body]:'Approach '+bodyNames[body]);
   }
@@ -419,7 +429,7 @@ function flightProfile(from,to,short=false,fromId=null,toId=null){
   c1:{x:from.x+dx*.26-dy*bend,y:from.y+dy*.26+dx*bend},
   c2:{x:from.x+dx*.74-dy*bend,y:from.y+dy*.74+dx*bend}};
 }
-function flightPose(from,to,profile,t){
+function flightPose(from,to,profile,t,view=cameraViewport()){
  const q=t*t*t*(t*(t*6-15)+10),u=1-q,envelope=Math.sin(Math.PI*q)**2;
  // Settle the Moon-to-Mars lens during the turn so the approach cannot
  // grow past the arrival size and then pull back.
@@ -432,7 +442,7 @@ function flightPose(from,to,profile,t){
  let look={x:0,y:0};
  if(profile.inside&&t<1){
   let dx=to.x-pose.x,dy=to.y-pose.y;
-  const distance=Math.hypot(dx,dy),focal=Math.max(stage.clientWidth,stage.clientHeight)*.85;
+  const distance=Math.hypot(dx,dy),focal=Math.max(view.width,view.height)*.85;
   if(distance>0){
    // A small sideways look lets the target enter along an arc and settle
    // at arrival. The offset vanishes at both ends, including short returns.
@@ -456,7 +466,8 @@ function flyLocal(poses,duration,profile){
   localFinish=()=>{if(localFrame!==null)cancelAnimationFrame(localFrame);localFrame=null;localResolve=null;localFinish=null;paintLocalCamera(target);resolve(true)};
   function frame(now){
    const progress=Math.min(1,(now-started)/duration);
-   paintLocalCamera(flightPose(from,target,curve,progress));
+   const view=cameraViewport();
+   paintLocalCamera(flightPose(from,target,curve,progress,view),false,view);
    if(progress<1)localFrame=requestAnimationFrame(frame);else localFinish();
   }
   localFrame=requestAnimationFrame(frame);
