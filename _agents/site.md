@@ -134,11 +134,14 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
 - **Follow the sky uses one accent standard.** On 22 October 2026 the
   author extended the writing’s shared tone to every section. Each section
   uses the shared sky contrast floor with its own hue, chroma and minimum
-  lightness, then mixes the base with 28% white once. Both accent tokens use
+  lightness, then mixes the base with 12% white once. Both accent tokens use
   that result, so section headings, card titles, links and page titles agree
-  on the homepage and section pages. The writing keeps its quieter red; its
-  separate sky floor is retired. The theme preview applies the same floor,
-  mix and current section hues. This rule is exclusive to Follow the sky.
+  on the homepage and section pages. The writing uses the cherry red chosen
+  from the comparison preview (hue 355, chroma 0.100, minimum lightness
+  0.560). The shared floor is fitted to the final mixed colors, retaining
+  contrast above 5:1 across the sky ramp without excessive whitening. The
+  theme preview applies the same floor, mix and current section hues. This
+  rule is exclusive to Follow the sky.
 - **The green family has three distinct roles.** On 20 October 2026 the
   author approved a shaded forest green for The House and Moris, a brighter
   leaf green for Trivia, and a bluer petrol for Instruments. Their homepage
