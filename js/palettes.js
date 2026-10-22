@@ -176,7 +176,8 @@
       fmuted: t['--footer-muted'],
       acc: SKY_VOICES.map(function (v, i) {
         var lightness = i === 0 ? parseFloat(t['--sky-writing-floor']) : Math.max(v[0], floor);
-        return 'oklch(' + lightness.toFixed(3) + ' ' + v[1] + ' ' + v[2] + ')';
+        var accent = 'oklch(' + lightness.toFixed(3) + ' ' + v[1] + ' ' + v[2] + ')';
+        return i === 0 ? 'color-mix(in srgb, ' + accent + ' 72%, #FFFFFF)' : accent;
       })
     };
   }

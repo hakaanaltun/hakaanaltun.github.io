@@ -569,13 +569,15 @@ html[data-theme="sky"] body.is-home #main > section {
   --petrol: var(--sec-accent-dark);
   --petrol-deep: color-mix(in srgb, var(--sec-accent-dark) 72%, #FFFFFF);
 }
-/* A muted red for the writing, on its pages and in the homepage sections.
-   Other themes and section voices keep their existing colour. */
+/* In Follow the sky the writing uses one tone for section headings,
+   piece cards and essay titles: the existing card colour, 28% white. */
 html[data-theme="sky"] body:is(.series-default, .series-series,
   .series-on-series, .series-cafe-series),
 html[data-theme="sky"] body.is-home #main > :is(#latest, #further-back,
   #quotes[data-voice="writing"]) {
-  --sec-accent-dark: var(--writing-accent);
+  --sec-accent-dark: color-mix(in srgb, var(--writing-accent) 72%, #FFFFFF);
+  --petrol: var(--sec-accent-dark);
+  --petrol-deep: var(--sec-accent-dark);
 }
 html[data-theme="midnight"] body.is-home #main > section {
   --petrol: #C6B98F;
