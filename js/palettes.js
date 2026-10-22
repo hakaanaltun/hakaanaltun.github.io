@@ -111,7 +111,14 @@
       chrome: '#2E3F45', ftext: '#E3EAEB', fmuted: '#B4C2C6',
       acc: ['#78474D', '#405781', '#545C36', '#6F4F3A', '#366157'] }
   ];
-  var ACCENT_LABELS = ['writing', 'book', 'quotes', 'fiction', 'the site'];
+  /* Writing uses the same teal as the site; Notes has its own garnet. */
+  var LIGHT_LEVELS = [0.513, 0.499, 0.499, 0.488, 0.492, 0.492,
+    0.492, 0.485, 0.496, 0.487, 0.425, 0.457];
+  PALETTES.forEach(function (p, i) {
+    p.acc[0] = p.acc[4];
+    p.acc.push('oklch(' + LIGHT_LEVELS[i] + ' 0.150 25)');
+  });
+  var ACCENT_LABELS = ['writing', 'book', 'quotes', 'fiction', 'the site', 'notes'];
 
   /* The three themes that are a stored choice of their own rather than a
      palette — what the status line calls them, and what the tick reads. */
@@ -122,18 +129,17 @@
      [data-theme] blocks in css/style.css; Dark's five accents are the
      --sec-ld/--sec-cd/--sec-h night voices from the same file, resolved to
      sRGB — the night twin of the precomputation above, and the same rule
-     applies: if those blocks change, recompute these. Midnight reads none
-     of it. It pins --petrol to a single gold for every section, so it gets
-     one swatch rather than five, which is the honest picture of it. */
+     applies: if those blocks change, recompute these. Midnight uses gold
+     for the site and writing, with garnet red for Notes. */
   var DARKS = [
     { key: 'dark',     name: 'Dark',     tag: 'the warm night',
       paper: '#1C1B18', inkSoft: '#D7CEB8', vizon: '#A29A8A',
       chrome: '#171613', ftext: '#EFE7D4', fmuted: '#C3BAA4',
-      acc: ['#CA8A91', '#B0C5EB', '#C7D0A8', '#D3AB91', '#9DC8BE'] },
-    { key: 'midnight', name: 'Midnight', tag: 'parliament blue, one gold',
+      acc: ['#9DC8BE', '#B0C5EB', '#C7D0A8', '#D3AB91', '#9DC8BE', 'oklch(0.700 0.150 25)'] },
+    { key: 'midnight', name: 'Midnight', tag: 'parliament blue, gold and garnet',
       paper: '#10161F', inkSoft: '#C6B98F', vizon: '#C6B98F',
       chrome: '#0D1219', ftext: '#DCD1AC', fmuted: '#C6B98F',
-      acc: ['#C6B98F'], accLabels: ['every section'] }
+      acc: ['#C6B98F', 'oklch(0.700 0.150 25)'], accLabels: ['site and writing', 'notes'] }
   ];
 
   /* The sky's own painter, from _includes/site-sky.html. It writes its
@@ -159,8 +165,8 @@
      those voices change in style.css they change here too, the same rule
      the hexes above are under. */
   var SKY_VOICES = [          /* [--sec-ld, --sec-cd, --sec-h], in ACCENT_LABELS order */
-    [0.560, 0.150, 25], [0.820, 0.058, 262], [0.720, 0.065, 150],
-    [0.760, 0.080, 290], [0.800, 0.048, 178]
+    [0.800, 0.048, 178], [0.820, 0.058, 262], [0.720, 0.065, 150],
+    [0.760, 0.080, 290], [0.800, 0.048, 178], [0.560, 0.150, 25]
   ];
   /* Null if site-sky.html is not on the page: a preview of the sky that
      cannot ask where the sun is has nothing to show, and the card is then
