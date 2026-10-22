@@ -159,7 +159,7 @@
      those voices change in style.css they change here too, the same rule
      the hexes above are under. */
   var SKY_VOICES = [          /* [--sec-ld, --sec-cd, --sec-h], in ACCENT_LABELS order */
-    [0.660, 0.065, 18], [0.820, 0.058, 262], [0.720, 0.065, 150],
+    [0.560, 0.100, 355], [0.820, 0.058, 262], [0.720, 0.065, 150],
     [0.760, 0.080, 290], [0.800, 0.048, 178]
   ];
   /* Null if site-sky.html is not on the page: a preview of the sky that
@@ -177,7 +177,7 @@
       acc: SKY_VOICES.map(function (v, i) {
         var lightness = Math.max(v[0], floor);
         var accent = 'oklch(' + lightness.toFixed(3) + ' ' + v[1] + ' ' + v[2] + ')';
-        return 'color-mix(in srgb, ' + accent + ' 72%, #FFFFFF)';
+        return 'color-mix(in srgb, ' + accent + ' 88%, #FFFFFF)';
       })
     };
   }

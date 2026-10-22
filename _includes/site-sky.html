@@ -13,18 +13,12 @@
   solved against the deepened ramp before it was written: ink 7.4:1 at its
   worst, --vizon 6.2:1, which is where Dark's own dimmest text sits.
 
-  The accent is the interesting one. The five section voices carry their own
-  hue, chroma and night lightness in style.css, and on Dark's near-black
-  ground those lightnesses are comfortable — the writing's red reads 6.20:1.
-  On a lit sky ground the same value collapses to 2.73:1. So the sun sets a
-  floor, --sky-ld-floor, and style.css takes max() of the voice's own value
-  and the floor: at night every voice keeps exactly the lightness it was
-  tuned to, and as the ground lifts the floor lifts under all five. The
-  curve is 0.539 + 1.12·√L, clamped, fitted to sit just above the measured
-  minimum at every altitude — on a dark ground a lighter accent is only ever
-  more contrast, so the safe side of that curve is the high side. Worst case
-  across the section voices and the whole ramp: 5.00:1 before the shared
-  28% white mix in style.css. Every section uses this same floor.
+  Every section keeps its own hue, chroma and minimum lightness. The
+  shared floor follows the ground, and style.css mixes the resulting base
+  with 12% white once. The curve below was fitted against the final mixed
+  accents across the whole sky ramp, including the writing’s cherry red.
+  It keeps the accents above 5:1 while allowing deeper night tones.
+  Every section and the theme preview read this same floor.
 
   The block is computed and returned before it is applied, because it has a
   second reader: the Follow the sky card on /themes/ is painted from the
@@ -79,8 +73,11 @@
     /* the drawer slides over the page and wants the ground almost opaque */
     t["--drawer-bg"] = "rgba(" + g.join(",") + ",0.985)";
 
-    t["--sky-ld-floor"] = Math.max(0.62, Math.min(0.93,
-      0.539 + 1.12 * Math.sqrt(S.luminance(g)))).toFixed(4);
+    /* Fit to the final 12%-white accents, not the unmixed base. */
+    var groundLuminance = S.luminance(g);
+    t["--sky-ld-floor"] = Math.max(0.56, Math.min(0.93,
+      0.51949 + 0.59895 * Math.sqrt(groundLuminance)
+        + 1.98526 * groundLuminance)).toFixed(4);
 
     return t;
   }

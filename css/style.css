@@ -555,24 +555,24 @@ html[data-theme="dark"] body.is-home #main > section {
   --petrol-deep: color-mix(in srgb, var(--sec-accent-dark) 72%, #FFFFFF);
 }
 /* Follow the sky has one accent per section. Its hue and contrast floor
-   produce a base, then the same 28% white mix serves headings, cards,
+   produce a base, then the same 12% white mix serves headings, cards,
    links and page titles. Rebuild it locally on each homepage section. */
 html[data-theme="sky"] body,
 html[data-theme="sky"] body.is-home #main > section {
   --sky-accent-base: oklch(max(var(--sec-ld, 0.800), var(--sky-ld-floor, 0.62))
                           var(--sec-cd, 0.048) var(--sec-h, 178));
-  --sec-accent-dark: color-mix(in srgb, var(--sky-accent-base) 72%, #FFFFFF);
+  --sec-accent-dark: color-mix(in srgb, var(--sky-accent-base) 88%, #FFFFFF);
   --petrol: var(--sec-accent-dark);
   --petrol-deep: var(--sec-accent-dark);
 }
-/* The writing keeps its quieter sky red within the shared accent rule. */
+/* The writing uses cherry red within the shared sky accent rule. */
 html[data-theme="sky"] body:is(.series-default, .series-series,
   .series-on-series, .series-cafe-series),
 html[data-theme="sky"] body.is-home #main > :is(#latest, #further-back,
   #quotes[data-voice="writing"]) {
-  --sec-ld: 0.660;
-  --sec-cd: 0.065;
-  --sec-h: 18;
+  --sec-ld: 0.560;
+  --sec-cd: 0.100;
+  --sec-h: 355;
 }
 html[data-theme="midnight"] body.is-home #main > section {
   --petrol: #C6B98F;
