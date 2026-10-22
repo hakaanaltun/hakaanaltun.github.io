@@ -225,7 +225,7 @@ body {
     --band-hero: #201F1B;
     --petrol: var(--sec-accent-dark, #D8C48C);
     --petrol-deep: color-mix(in srgb, var(--sec-accent-dark, #D8C48C) 72%, #FFFFFF);
-    --writing-accent: oklch(0.700 0.078 12);
+    --writing-accent: oklch(0.800 0.048 178);
   }
 }
 html[data-theme="dark"] {
@@ -264,7 +264,7 @@ html[data-theme="dark"] body {
   --band-hero: #201F1B;
   --petrol: var(--sec-accent-dark, #D8C48C);
   --petrol-deep: color-mix(in srgb, var(--sec-accent-dark, #D8C48C) 72%, #FFFFFF);
-  --writing-accent: oklch(0.700 0.078 12);
+  --writing-accent: oklch(0.800 0.048 178);
 }
 
 /* ==========================================================================
@@ -413,7 +413,7 @@ body {
   --sec-accent-dark: oklch(var(--sec-ld, 0.800)  var(--sec-cd, 0.048) var(--sec-h, 178));
   /* The homepage can borrow the writing voice without changing the colour of
      the section it sits in. This is the same accent used by essay titles. */
-  --writing-accent: oklch(var(--sec-l) 0.068 12);
+  --writing-accent: oklch(var(--sec-l) 0.050 178);
 }
 
 /* Each voice is named once, with every page that speaks in it and every
@@ -449,13 +449,13 @@ body {
    and 9.4:1 by night, 17.4 dE from the teal beside it.
 
                             hue    day chroma    night L + chroma */
-/* The writing — essays, standalone pieces, and every series */
+/* The writing shares the first-time doors’ teal in every theme. */
 body.series-default,
 body.series-series,
 body.series-on-series,
 body.series-cafe-series,
 body.is-home :is(#latest, #further-back, #quotes[data-voice="writing"])
-                        { --sec-h:  12; --sec-c: 0.068; --sec-ld: 0.700; --sec-cd: 0.078; }
+                        { --sec-h: 178; --sec-c: 0.050; --sec-ld: 0.800; --sec-cd: 0.048; }
 /* The book, and the quotes at the top of the homepage. A quote takes the
    colour of the page it comes from: the script marks the section
    data-voice="writing" or "story" for a quote from a piece, and a quote from
@@ -505,14 +505,10 @@ body.series-about
 body.series-trivia,
 body.is-home #trivia
                         { --sec-h: 140; --sec-c: 0.090; --sec-ld: 0.800; --sec-cd: 0.085; --sec-dl: -0.012; }
-/* Notes — graphite, the pencil a note is caught with. The author asked
-   for it on 19 October 2026, in place of the mustard it had worn since that
-   morning: the site keeps no yellows, terracottas or coppers. It is kept a
-   clear grey, a step off the black of About, with a breath of blue, as
-   graphite has. */
+/* Notes carries garnet red, with a deeper shade on light paper. */
 body.series-notes,
 body.is-home #notes
-                        { --sec-h: 250; --sec-c: 0.012; --sec-ld: 0.780; --sec-cd: 0.010; }
+                        { --sec-h:  25; --sec-c: 0.150; --sec-ld: 0.700; --sec-cd: 0.150; }
 /* Words with Stories — a plum, in the widest gap the voices had left */
 body.series-words,
 body.is-home #words-with-stories
@@ -565,11 +561,9 @@ html[data-theme="sky"] body.is-home #main > section {
   --petrol: var(--sec-accent-dark);
   --petrol-deep: var(--sec-accent-dark);
 }
-/* The writing uses garnet red within the shared sky accent rule. */
-html[data-theme="sky"] body:is(.series-default, .series-series,
-  .series-on-series, .series-cafe-series),
-html[data-theme="sky"] body.is-home #main > :is(#latest, #further-back,
-  #quotes[data-voice="writing"]) {
+/* Notes keeps the garnet profile formerly used by the writing. */
+html[data-theme="sky"] body.series-notes,
+html[data-theme="sky"] body.is-home #main > #notes {
   --sec-ld: 0.560;
   --sec-cd: 0.150;
   --sec-h: 25;
@@ -577,6 +571,12 @@ html[data-theme="sky"] body.is-home #main > :is(#latest, #further-back,
 html[data-theme="midnight"] body.is-home #main > section {
   --petrol: #C6B98F;
   --petrol-deep: #DCD1AC;
+}
+/* Notes is red in every theme, including Midnight’s otherwise gold palette. */
+html[data-theme="midnight"] body.series-notes,
+html[data-theme="midnight"] body.is-home #main > #notes {
+  --petrol: oklch(0.700 0.150 25);
+  --petrol-deep: color-mix(in srgb, var(--petrol) 72%, #FFFFFF);
 }
 
 /* ========================================================================== 
@@ -1832,20 +1832,11 @@ body.moris-lightbox-open { overflow: hidden; }
    the light palette would be the wrong hue. */
 @media (prefers-color-scheme: dark) {
   html:not([data-theme="light"]) .hero-quote-text { color: var(--ink); }
-  html:not([data-theme="light"]) .hero-quote-source,
-  html:not([data-theme="light"]) .hero-quote-source i { color: var(--ink-soft); }
 }
 html[data-theme="dark"] .hero-quote-text,
 html[data-theme="midnight"] .hero-quote-text,
 html[data-theme="sky"] .hero-quote-text { color: var(--ink); }
-html[data-theme="dark"] .hero-quote-source,
-html[data-theme="dark"] .hero-quote-source i,
-html[data-theme="midnight"] .hero-quote-source,
-html[data-theme="midnight"] .hero-quote-source i { color: var(--ink-soft); }
-/* Follow the sky sources use their quote section's book, writing or story
-   accent, including when the device prefers dark. */
-html[data-theme="sky"] .hero-quote-source,
-html[data-theme="sky"] .hero-quote-source i { color: var(--petrol); }
+/* Quote sources inherit their section accent in every theme. */
 .quote-nav { position: absolute; left: 50%; bottom: 26px; display: flex; gap: 14px; opacity: 0; transform: translate(-50%, 6px); transition: opacity 0.2s ease, transform 0.2s ease; pointer-events: none; }
 .quote-nav.quote-nav-visible { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
 /* --petrol (chrome-hued) nearly disappeared on --band-hero, which is that
