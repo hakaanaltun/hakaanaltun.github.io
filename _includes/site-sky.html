@@ -10,14 +10,13 @@
 
   The tiers are alpha over the ground rather than free colours, so the
   hierarchy holds at every altitude instead of at one. Their contrast was
-  solved against the deepened ramp before it was written: ink 7.4:1 at its
-  worst, --vizon 6.2:1, which is where Dark's own dimmest text sits.
+  checked against the ramp: ink at least 6.5:1 and --vizon 5.5:1.
 
   Every section keeps its own hue, chroma and minimum lightness. The
   shared floor follows the ground, and style.css mixes the resulting base
   with 12% white once. The curve below was fitted against the final mixed
-  accents across the whole sky ramp, including the writing’s cherry red.
-  It keeps the accents above 5:1 while allowing deeper night tones.
+  accents across the whole sky ramp, including the writing’s fuller red.
+  It keeps accents above 4.5:1 even on the slightly lighter hero band.
   Every section and the theme preview read this same floor.
 
   The block is computed and returned before it is applied, because it has a
@@ -75,9 +74,9 @@
 
     /* Fit to the final 12%-white accents, not the unmixed base. */
     var groundLuminance = S.luminance(g);
-    t["--sky-ld-floor"] = Math.max(0.56, Math.min(0.93,
+    t["--sky-ld-floor"] = Math.max(0.56, Math.min(0.99,
       0.51949 + 0.59895 * Math.sqrt(groundLuminance)
-        + 1.98526 * groundLuminance)).toFixed(4);
+        + 2.45 * groundLuminance)).toFixed(4);
 
     return t;
   }

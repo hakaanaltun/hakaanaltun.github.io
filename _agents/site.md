@@ -137,11 +137,15 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   lightness, then mixes the base with 12% white once. Both accent tokens use
   that result, so section headings, card titles, links and page titles agree
   on the homepage and section pages. The writing uses the garnet red chosen
-  from the comparison preview (hue 15, chroma 0.100, minimum lightness
-  0.560). The shared floor is fitted to the final mixed colors, retaining
-  contrast above 5:1 across the sky ramp without excessive whitening. The
+  and strengthened after it still looked pink (hue 25, chroma 0.150,
+  minimum lightness 0.560). The shared floor follows the final mixed colors,
+  retaining contrast above 4.5:1 across the sky ramp, including the hero. The
   theme preview applies the same floor, mix and current section hues. This
   rule is exclusive to Follow the sky.
+- **The sky opens towards daylight.** The shared ramp keeps its night stops
+  through -6 degrees, extends grey-violet to 5 degrees, and reaches a lighter,
+  less saturated daytime slate. Body ink stays above 6.5:1 and muted ink
+  above 5.5:1. The House's illustrated lighting is independent of this ramp.
 - **The green family has three distinct roles.** On 20 October 2026 the
   author approved a shaded forest green for The House and Moris, a brighter
   leaf green for Trivia, and a bluer petrol for Instruments. Their homepage

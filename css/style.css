@@ -571,8 +571,8 @@ html[data-theme="sky"] body:is(.series-default, .series-series,
 html[data-theme="sky"] body.is-home #main > :is(#latest, #further-back,
   #quotes[data-voice="writing"]) {
   --sec-ld: 0.560;
-  --sec-cd: 0.100;
-  --sec-h: 15;
+  --sec-cd: 0.150;
+  --sec-h: 25;
 }
 html[data-theme="midnight"] body.is-home #main > section {
   --petrol: #C6B98F;
