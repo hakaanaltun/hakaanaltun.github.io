@@ -136,8 +136,8 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   uses the shared sky contrast floor with its own hue, chroma and minimum
   lightness, then mixes the base with 12% white once. Both accent tokens use
   that result, so section headings, card titles, links and page titles agree
-  on the homepage and section pages. The writing uses the cherry red chosen
-  from the comparison preview (hue 355, chroma 0.100, minimum lightness
+  on the homepage and section pages. The writing uses the garnet red chosen
+  from the comparison preview (hue 15, chroma 0.100, minimum lightness
   0.560). The shared floor is fitted to the final mixed colors, retaining
   contrast above 5:1 across the sky ramp without excessive whitening. The
   theme preview applies the same floor, mix and current section hues. This

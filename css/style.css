@@ -565,14 +565,14 @@ html[data-theme="sky"] body.is-home #main > section {
   --petrol: var(--sec-accent-dark);
   --petrol-deep: var(--sec-accent-dark);
 }
-/* The writing uses cherry red within the shared sky accent rule. */
+/* The writing uses garnet red within the shared sky accent rule. */
 html[data-theme="sky"] body:is(.series-default, .series-series,
   .series-on-series, .series-cafe-series),
 html[data-theme="sky"] body.is-home #main > :is(#latest, #further-back,
   #quotes[data-voice="writing"]) {
   --sec-ld: 0.560;
   --sec-cd: 0.100;
-  --sec-h: 355;
+  --sec-h: 15;
 }
 html[data-theme="midnight"] body.is-home #main > section {
   --petrol: #C6B98F;
