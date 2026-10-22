@@ -23,8 +23,8 @@
   curve is 0.539 + 1.12·√L, clamped, fitted to sit just above the measured
   minimum at every altitude — on a dark ground a lighter accent is only ever
   more contrast, so the safe side of that curve is the high side. Worst case
-  across the section voices and the whole ramp: 5.00:1. The writing uses a
-  quieter red with its own lower floor, keeping at least 4.5:1.
+  across the section voices and the whole ramp: 5.00:1 before the shared
+  28% white mix in style.css. Every section uses this same floor.
 
   The block is computed and returned before it is applied, because it has a
   second reader: the Follow the sky card on /themes/ is painted from the
@@ -41,7 +41,7 @@
   var TOKENS = ["--bg","--paper","--surface-soft","--band","--sky-band-hero","--note-base",
     "--footer-strip-bg","--ink","--ink-soft","--vizon","--footer-strip-ink","--footer-text",
     "--footer-muted","--hero-source-muted","--rule","--rule-strong","--rule-cream",
-    "--header-border","--drawer-bg","--sky-ld-floor","--sky-writing-floor"];
+    "--header-border","--drawer-bg","--sky-ld-floor"];
 
   /* Every token this theme moves, for one altitude of the sun. It only
      computes: the two callers below decide what to do with the answer —
@@ -81,10 +81,6 @@
 
     t["--sky-ld-floor"] = Math.max(0.62, Math.min(0.93,
       0.539 + 1.12 * Math.sqrt(S.luminance(g)))).toFixed(4);
-    /* The writing keeps a quieter red than the other section accents.
-       This lower floor still holds normal text above 4.5:1 on the ramp. */
-    t["--sky-writing-floor"] = Math.max(0.66, Math.min(0.93,
-      0.530 + 1.06 * Math.sqrt(S.luminance(g)))).toFixed(4);
 
     return t;
   }

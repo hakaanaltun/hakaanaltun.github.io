@@ -159,8 +159,8 @@
      those voices change in style.css they change here too, the same rule
      the hexes above are under. */
   var SKY_VOICES = [          /* [--sec-ld, --sec-cd, --sec-h], in ACCENT_LABELS order */
-    [0.660, 0.065, 18], [0.820, 0.058, 262], [0.840, 0.055, 118],
-    [0.770, 0.060, 54], [0.800, 0.048, 178]
+    [0.660, 0.065, 18], [0.820, 0.058, 262], [0.720, 0.065, 150],
+    [0.760, 0.080, 290], [0.800, 0.048, 178]
   ];
   /* Null if site-sky.html is not on the page: a preview of the sky that
      cannot ask where the sun is has nothing to show, and the card is then
@@ -175,9 +175,9 @@
       chrome: t['--footer-strip-bg'], ftext: t['--footer-text'],
       fmuted: t['--footer-muted'],
       acc: SKY_VOICES.map(function (v, i) {
-        var lightness = i === 0 ? parseFloat(t['--sky-writing-floor']) : Math.max(v[0], floor);
+        var lightness = Math.max(v[0], floor);
         var accent = 'oklch(' + lightness.toFixed(3) + ' ' + v[1] + ' ' + v[2] + ')';
-        return i === 0 ? 'color-mix(in srgb, ' + accent + ' 72%, #FFFFFF)' : accent;
+        return 'color-mix(in srgb, ' + accent + ' 72%, #FFFFFF)';
       })
     };
   }
