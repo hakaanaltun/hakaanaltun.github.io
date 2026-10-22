@@ -131,6 +131,10 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   day with `--sec-dl`, as the fiction's indigo and the green of Moris and
   The House do; the author asked for them to change color on 19 October
   2026, when the amber and the olive looked muddy on paper.
+- **Writing’s deeper red is exclusive to Follow the sky.** The author
+  confirmed this on 22 October 2026. The writing accent on its pages and
+  in Latest and Further back uses the sky’s contrast floor. Keep every
+  other theme’s existing colors.
 - **The green family has three distinct roles.** On 20 October 2026 the
   author approved a shaded forest green for The House and Moris, a brighter
   leaf green for Trivia, and a bluer petrol for Instruments. Their homepage

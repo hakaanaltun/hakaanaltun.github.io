@@ -361,7 +361,7 @@ html[data-theme="sky"] body {
                            var(--sec-cd, 0.048) var(--sec-h, 178));
   --petrol: var(--sec-accent-dark);
   --petrol-deep: color-mix(in srgb, var(--sec-accent-dark) 72%, #FFFFFF);
-  --writing-accent: oklch(var(--sky-writing-floor, 0.66) 0.065 18);
+  --writing-accent: oklch(var(--sky-writing-floor, 0.66) 0.105 18);
 }
 
 
