@@ -1841,9 +1841,11 @@ html[data-theme="sky"] .hero-quote-text { color: var(--ink); }
 html[data-theme="dark"] .hero-quote-source,
 html[data-theme="dark"] .hero-quote-source i,
 html[data-theme="midnight"] .hero-quote-source,
-html[data-theme="midnight"] .hero-quote-source i,
+html[data-theme="midnight"] .hero-quote-source i { color: var(--ink-soft); }
+/* Follow the sky sources use their quote section's book, writing or story
+   accent, including when the device prefers dark. */
 html[data-theme="sky"] .hero-quote-source,
-html[data-theme="sky"] .hero-quote-source i { color: var(--ink-soft); }
+html[data-theme="sky"] .hero-quote-source i { color: var(--petrol); }
 .quote-nav { position: absolute; left: 50%; bottom: 26px; display: flex; gap: 14px; opacity: 0; transform: translate(-50%, 6px); transition: opacity 0.2s ease, transform 0.2s ease; pointer-events: none; }
 .quote-nav.quote-nav-visible { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
 /* --petrol (chrome-hued) nearly disappeared on --band-hero, which is that

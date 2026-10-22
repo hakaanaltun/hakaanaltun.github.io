@@ -151,8 +151,9 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   top are from the book and from the pieces. The script marks `#quotes`
   with `data-voice="writing"`, or `"story"` for The Notice, and a quote
   from the book leaves it unmarked, in the book's blue. The source line
-  changes color while it fades. In the dark themes the source line is set
-  in soft ink, as it was before.
+  changes color while it fades. Follow the sky uses that section accent
+  for the source and its italic title, including on devices set to dark.
+  Dark and Midnight retain their soft-ink source line.
 - **Latest opens the homepage, and The Notice follows it.** The order is
   the quotes, Latest, The Notice, "First time here?", "Another way in.",
   the book, Further back, as the author set it on 20 October 2026. On the
