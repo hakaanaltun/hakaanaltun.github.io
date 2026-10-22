@@ -131,11 +131,14 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   day with `--sec-dl`, as the fiction's indigo and the green of Moris and
   The House do; the author asked for them to change color on 19 October
   2026, when the amber and the olive looked muddy on paper.
-- **Follow the sky uses one writing tone.** On 22 October 2026 the author
-  chose the existing piece-card tone, the writing accent mixed with 28%
-  white, for the writing pages and homepage writing sections. Section
-  headings, card titles and essay titles share it. The accent still follows
-  the sky’s contrast floor. This applies only to Follow the sky.
+- **Follow the sky uses one accent standard.** On 22 October 2026 the
+  author extended the writing’s shared tone to every section. Each section
+  uses the shared sky contrast floor with its own hue, chroma and minimum
+  lightness, then mixes the base with 28% white once. Both accent tokens use
+  that result, so section headings, card titles, links and page titles agree
+  on the homepage and section pages. The writing keeps its quieter red; its
+  separate sky floor is retired. The theme preview applies the same floor,
+  mix and current section hues. This rule is exclusive to Follow the sky.
 - **The green family has three distinct roles.** On 20 October 2026 the
   author approved a shaded forest green for The House and Moris, a brighter
   leaf green for Trivia, and a bluer petrol for Instruments. Their homepage

@@ -352,16 +352,7 @@ html[data-theme="sky"] body {
   --surface-chrome: var(--band);
   --surface-footer: var(--band);
   --band-hero: var(--sky-band-hero);
-  /* The five voices keep their own hue, chroma and night lightness. The sun
-     only ever raises the lightness, never lowers it: at night max() leaves
-     each voice exactly where style.css tuned it, and as the ground lifts the
-     floor lifts under them together. The writing's quieter red uses its
-     own floor below; the other voices retain this one. */
-  --sec-accent-dark: oklch(max(var(--sec-ld, 0.800), var(--sky-ld-floor, 0.62))
-                           var(--sec-cd, 0.048) var(--sec-h, 178));
-  --petrol: var(--sec-accent-dark);
-  --petrol-deep: color-mix(in srgb, var(--sec-accent-dark) 72%, #FFFFFF);
-  --writing-accent: oklch(var(--sky-writing-floor, 0.66) 0.065 18);
+  /* The shared accent rule below also covers every homepage section. */
 }
 
 
@@ -563,21 +554,25 @@ html[data-theme="dark"] body.is-home #main > section {
   --petrol: var(--sec-accent-dark);
   --petrol-deep: color-mix(in srgb, var(--sec-accent-dark) 72%, #FFFFFF);
 }
+/* Follow the sky has one accent per section. Its hue and contrast floor
+   produce a base, then the same 28% white mix serves headings, cards,
+   links and page titles. Rebuild it locally on each homepage section. */
+html[data-theme="sky"] body,
 html[data-theme="sky"] body.is-home #main > section {
-  --sec-accent-dark: oklch(max(var(--sec-ld, 0.800), var(--sky-ld-floor, 0.62))
-                           var(--sec-cd, 0.048) var(--sec-h, 178));
+  --sky-accent-base: oklch(max(var(--sec-ld, 0.800), var(--sky-ld-floor, 0.62))
+                          var(--sec-cd, 0.048) var(--sec-h, 178));
+  --sec-accent-dark: color-mix(in srgb, var(--sky-accent-base) 72%, #FFFFFF);
   --petrol: var(--sec-accent-dark);
-  --petrol-deep: color-mix(in srgb, var(--sec-accent-dark) 72%, #FFFFFF);
+  --petrol-deep: var(--sec-accent-dark);
 }
-/* In Follow the sky the writing uses one tone for section headings,
-   piece cards and essay titles: the existing card colour, 28% white. */
+/* The writing keeps its quieter sky red within the shared accent rule. */
 html[data-theme="sky"] body:is(.series-default, .series-series,
   .series-on-series, .series-cafe-series),
 html[data-theme="sky"] body.is-home #main > :is(#latest, #further-back,
   #quotes[data-voice="writing"]) {
-  --sec-accent-dark: color-mix(in srgb, var(--writing-accent) 72%, #FFFFFF);
-  --petrol: var(--sec-accent-dark);
-  --petrol-deep: var(--sec-accent-dark);
+  --sec-ld: 0.660;
+  --sec-cd: 0.065;
+  --sec-h: 18;
 }
 html[data-theme="midnight"] body.is-home #main > section {
   --petrol: #C6B98F;
