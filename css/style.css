@@ -360,50 +360,40 @@ html[data-theme="sky"] body {
    Section identity — the voices, one lightness per palette
    --------------------------------------------------------------------------
    The chrome is a single ash across the whole site, so a section's character
-   is carried entirely by its accent. Two decisions sit behind these numbers.
+   is carried by its accent. Each section speaks in a voice, written once
+   below: a hue, a chroma for paper, and a lightness and a chroma for the
+   night. The day lightness is the palette's own (--sec-l in
+   css/palettes.css), so a voice keeps its place on every paper.
 
-   First: what the accent says. Eight sections once carried eight unrelated
-   colours — a plum next to a green next to a blue — which read as a wheel
-   rather than a palette, and told the reader only which URL they were on.
-   They now carry five, grouped by what a page *is* rather than where it
-   lives: the writing, the book, the quotes, the fiction, and the site's own
-   furniture. Home, About and Tools share one voice on purpose; that is the
-   cost of the grouping, paid deliberately. The five sit inside one family —
-   chroma held low throughout and varied so the quiet ones stay quiet (the
-   shared teal is the least saturated of the five, the book's blue the most).
-   The two warm voices, the writing and the fiction, are the pair most at risk
-   of collapsing into each other — they are held 42° apart with the fiction's
-   chroma pulled well down, which is what keeps them 16.7 dE apart rather than
-   the 11.4 that made the old home/series pair indistinguishable at heading
-   size.
+   The hue is what a voice *is*, and it is the one thing that survives the
+   change of ground. What it takes to look like the same colour is not the
+   same printed dark on paper and light on the night, which is why each voice
+   carries two chromas and a night lightness of its own rather than one
+   flipped value: a hue near red at L 0.82 stops reading as a dusty rose and
+   turns candy pink, while the greens and the blue are happiest light.
 
-   Second: how light or dark it prints. The hue is what a voice *is*, and it
-   is the one thing that survives the change of ground — the writing is the
-   same rose whether it is printed dark on paper or light on the night. What
-   it takes to look like that rose is not the same on both, which is why each
-   voice carries two lightnesses and two chromas rather than one.
+   A voice may sit a step darker by day with --sec-dl, taken off the
+   palette's lightness: The House and Moris, the fiction, and About, which
+   has no hue at all and reaches black on every paper. Trivia's is a hair
+   below zero, which lifts its leaf green a little.
 
-   The temptation was to flip a single lightness and keep the chroma: elegant
-   on paper, wrong in the eye. A hue near red at L 0.82 stops reading as a
-   dusty rose and turns candy pink, and dropping the chroma only bleaches it
-   — the voices lost half their separation and the pink stayed pink. So the
-   writing sits deeper than the rest at night (L 0.70), which is what lets it
-   stay a rose. The greens, the gold and the blue are happiest light and stay
-   there.
+   The voices were once five, grouped by what a page is: the writing, the
+   book, the quotes, the fiction and the site's own furniture. On
+   19 October 2026 every section the homepage leads to took a voice of its
+   own, so that the colour of a heading says where its links go. On
+   22 October 2026 the writing took the furniture's teal in every theme, and
+   on 23 October Notes took graphite on paper and silver on the dark
+   themes.
+   _agents/site.md keeps the dates and the author's reasons.
 
-   The dark wardrobe used to carry eight hand-picked tints, and they had
-   drifted: three of the eight sat within 4° of each other in hue, the
-   closest pair only 7.7 dE apart — mushier than anything the five voices
-   produce. Measured in Chromium: light 4.78:1 at worst with the closest
-   voices 16.7 dE apart; dark 5.66:1 at worst, 19.8 dE apart.
+   Measured in Chromium on 23 October 2026, as text on each homepage
+   section's own ground: 4.94:1 at worst across the twelve light palettes
+   (Trivia on Vellum), 7.05:1 on Dark (Pictures and Tonight), 8.85:1 on
+   Midnight, and 5.1:1 at worst on Follow the sky, at every height of the
+   sun and on its hero band.
 
-   Midnight reads none of this. It pins --petrol to its own single gold
-   further up, so its navy-and-gold stays exactly as it is.
-
-   On 19 October 2026 the five became eight, below: Notes, Words with Stories
-   and Pictures with Stories each took a colour of their own, inside the same
-   family, so that the homepage could show every section in its page's
-   colour. The note above the voices gives the measurements.
+   Midnight pins --petrol to its own single gold further up, so its navy and
+   gold stay as they are; only Notes keeps its silver there.
    ========================================================================== */
 :root {
   --sec-l: 0.513;   /* Ash & Gold — the palest paper in the wardrobe */
@@ -418,35 +408,9 @@ body {
 
 /* Each voice is named once, with every page that speaks in it and every
    homepage section that leads to those pages. The homepage shows each of its
-   sections in the colour of the section's own page, so the colour of a
-   heading says where its links go. The author asked for this on
-   19 October 2026; until then the homepage alternated a slate and the teal,
-   and the slate belonged to no page.
-
-   Three of the voices below are new that day. Notes, Words with Stories and
-   Pictures with Stories had never been given a colour and fell to the
-   writing's rose by default, so the homepage would have shown five roses in
-   a row. The House had the same default and now shares Moris's olive: he
-   lives there. Measured in Chromium against --paper and the dark ground: the
-   new mustard sits 16.6 dE from the fiction's amber and the olive, the same
-   distance as the closest pair the five voices had (16.7); the plum is
-   19.5 dE or more from everything; the slate is the weak pair, 12.1 dE from
-   the book's blue by day and 14.1 by night, which is why the slate's night
-   lightness sits lower than the blue's. Light 5.38:1 at worst, unchanged;
-   dark 6.22:1 at worst, unchanged.
-
-   Later that day the author found the fiction's amber and the House's olive
-   muddy on paper, and asked for colours with more contrast. The fiction took
-   a deep indigo, and Moris and The House a dark forest green, which an hour
-   later the author took darker still, to a green between green and black.
-   Both sit darker than the other voices by day (--sec-dl, taken off each
-   palette's own lightness), so they read more firmly on paper: the indigo
-   7.6:1 at worst across the twelve light palettes, the near-black green
-   12:1. By night the indigo is 7.9:1 and the green keeps the forest green,
-   7.2:1. The indigo is 17.5 dE from the plum and 17.6 from the book's blue by
-   day; the green, beside the teal on the homepage, is 23.6 from it by day
-   and 15.5 by night. Trivia took the garden green the same day, 5.4:1 by day
-   and 9.4:1 by night, 17.4 dE from the teal beside it.
+   sections in the colour of the section's own page; until 19 October 2026
+   it alternated a slate and the teal, and the slate belonged to no page.
+   Two neighbours never share a colour (scripts/test-pictures.cjs).
 
                             hue    day chroma    night L + chroma */
 /* The writing shares the first-time doors’ teal in every theme. */
@@ -475,8 +439,8 @@ body.is-home #home-house
    that evening, and an hour later a wine red, when "Another way in." and
    Moris's near-black green came to stand above it. On 20 October 2026 the
    author moved it just under Latest and asked for the indigo again: there
-   it stands between the writing's rose and the teal of "First time here?",
-   well away from the book. It sits a step darker by day. */
+   it stands between Latest and "First time here?", both in the teal, well
+   away from the book. It sits a step darker by day. */
 body.series-story,
 body.is-home :is(#story-doorway, #quotes[data-voice="story"])
                         { --sec-h: 290; --sec-c: 0.090; --sec-ld: 0.760; --sec-cd: 0.080; --sec-dl: 0.073; }
@@ -941,9 +905,6 @@ summary.drawer-label::after { content: ""; position: absolute; right: 0; top: 50
    itself is the same dim as everything else. */
 summary.drawer-label { transition: var(--select-ease); }
 summary.drawer-label:hover { opacity: var(--select-dim); }
-a.drawer-label--link { display: flex; justify-content: center; align-items: center; font-size: 13px; padding: var(--drawer-row-pad) 0; text-decoration: none; transition: var(--select-ease); }
-a.drawer-label--link:hover, a.drawer-label--link:active { opacity: var(--select-dim); }
-a.drawer-label--link:focus-visible { outline: 2px solid var(--petrol); outline-offset: 3px; border-radius: 4px; }
 .drawer-section[open] > .drawer-essay-cards, .drawer-section[open] > .drawer-more, .drawer-section[open] > .drawer-section-links { animation: drawerReveal 0.25s ease; }
 @keyframes drawerReveal { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -952,10 +913,6 @@ a.drawer-label--link:focus-visible { outline: 2px solid var(--petrol); outline-o
 .drawer-section-links a:hover, .drawer-section-links a:active { opacity: var(--select-dim); }
 .drawer-section-links a:focus-visible { outline: 2px solid var(--petrol); outline-offset: 3px; border-radius: 4px; }
 
-/* Under The House in the menu: its door, and the reader's drawer. */
-.drawer-house-links { display: flex; flex-direction: column; align-items: center; gap: 4px; margin: 10px 0 2px; }
-.drawer-house-links .drawer-more { margin: 0 auto; padding: 4px 2px; }
-.drawer-section[open] > .drawer-house-links { animation: drawerReveal 0.25s ease; }
 .drawer-essay-cards { display: grid; grid-template-columns: 1fr; gap: 16px; margin: 12px 0 10px; }
 .drawer-essay-card-link { display: block; border: 0; box-shadow: none; background: transparent; transition: var(--select-ease); }
 .drawer-essay-card-link:hover, .drawer-essay-card-link:active { opacity: var(--select-dim); }
@@ -963,7 +920,6 @@ a.drawer-label--link:focus-visible { outline: 2px solid var(--petrol); outline-o
 .drawer-essay-card img { display: none; }
 .drawer-essay-card-text { grid-column: 1; grid-row: 1; display: flex; flex-direction: column; gap: 3px; min-width: 0; }
 .drawer-essay-card-title { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.12rem; font-style: italic; font-weight: 500; line-height: 1.08; color: var(--petrol); display: block; width: 100%; text-align: center; }
-.drawer-essay-card-subtitle { font-size: 0.82rem; font-style: italic; line-height: 1.25; color: var(--vizon); display: block; width: 100%; text-align: center; }
 .drawer-essay-card-meta { font-size: 0.76rem; line-height: 1.2; color: var(--vizon); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; width: 100%; text-align: center; }
 .drawer-essay-card--current { opacity: 0.58; cursor: default; }
 
@@ -988,7 +944,6 @@ a.drawer-label--link:focus-visible { outline: 2px solid var(--petrol); outline-o
 @media (max-width: 600px) {
   .site-drawer { width: 280px; max-width: 76vw; }
   .drawer-essay-card-title { font-size: 1rem; }
-  .drawer-essay-card-subtitle { font-size: 0.76rem; }
 }
 
 /* The narrow phones. The panel is 76vw here, so its head narrows with the
@@ -1204,11 +1159,6 @@ section.line-drawn::before,
   margin: clamp(10px, 2.5%, 16px) auto;
   background: color-mix(in srgb, var(--rule-strong) 84%, transparent);
 }
-.type-cover-subtitle {
-  max-width: 76%; color: var(--vizon);
-  font-family: 'EB Garamond', Georgia, serif; font-style: italic;
-  font-size: 0.95rem; line-height: 1.2;
-}
 .type-cover-label {
   position: absolute; left: 0; right: 0; bottom: clamp(14px, 5%, 28px);
   color: var(--vizon); font-family: 'EB Garamond', Georgia, serif;
@@ -1216,18 +1166,15 @@ section.line-drawn::before,
 }
 .piece-thumb-wrap--typographic .type-cover-title::after { display: none; }
 .type-cover--with-meta .type-cover-inner { padding: clamp(18px, 5%, 34px); }
-.type-cover--with-meta .type-cover-subtitle { font-size: 0.86rem; line-height: 1.15; }
 .type-cover-date {
   margin-top: 8px; color: var(--vizon); font-size: 0.72rem;
   line-height: 1.1; letter-spacing: 0.02em; font-variant-numeric: tabular-nums;
 }
 #latest .piece-card.is-featured .type-cover-title { font-size: clamp(2rem, 4.4vw, 3.35rem); }
-#latest .piece-card.is-featured .type-cover-subtitle { font-size: 1.08rem; }
 #latest .piece-card.is-featured .type-cover-date { margin-top: 10px; font-size: 0.8rem; }
 
 .piece-body { margin-top: 14px; display: flex; flex-direction: column; gap: 4px; }
 .piece-title { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: 1.4rem; line-height: 1.15; color: var(--petrol-deep); display: block; width: 100%; text-align: center; transition: color 0.2s ease; }
-.piece-subtitle { font-family: 'EB Garamond', Georgia, serif; font-size: 1rem; color: var(--vizon); line-height: 1.35; display: block; width: 100%; text-align: center; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
 .piece-meta { font-size: 0.85rem; letter-spacing: 0.02em; color: var(--vizon); margin-top: 2px; display: block; width: 100%; text-align: center; }
 .piece-excerpt { font-family: 'EB Garamond', Georgia, serif; font-size: 0.97rem; color: var(--vizon); line-height: 1.5; margin-top: 6px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 
@@ -1235,7 +1182,6 @@ section.line-drawn::before,
 #latest .piece-card.is-featured { grid-column: span 2; }
 #latest .piece-card.is-featured .piece-thumb-wrap { aspect-ratio: 16 / 9; }
 #latest .piece-card.is-featured .piece-title { font-size: clamp(1.6rem, 2.4vw, 2rem); }
-#latest .piece-card.is-featured .piece-subtitle { font-size: 1.05rem; -webkit-line-clamp: 3; }
 #latest .piece-card.is-featured .piece-excerpt { font-size: 0.97rem; -webkit-line-clamp: 4; }
 
 @media (min-width: 641px) and (max-width: 1024px) and (orientation: portrait) {
@@ -1261,7 +1207,6 @@ section.line-drawn::before,
   #latest .piece-card.is-featured { grid-column: auto; }
   #latest .piece-card.is-featured .piece-thumb-wrap { aspect-ratio: 3 / 2; }
   #latest .piece-card.is-featured .piece-title { font-size: 1.4rem; }
-  #latest .piece-card.is-featured .piece-subtitle { font-size: 1rem; -webkit-line-clamp: 2; }
   #latest .piece-card.is-featured .piece-excerpt { font-size: 0.97rem; -webkit-line-clamp: 3; }
   #latest .piece-card:nth-child(n+5) { display: none; }
 }
@@ -1272,10 +1217,8 @@ section.line-drawn::before,
   #latest .piece-card.is-featured { grid-column: span 1; }
   #latest .piece-card.is-featured .piece-thumb-wrap { aspect-ratio: 3 / 2; }
   #latest .piece-card.is-featured .piece-title { font-size: 1.3rem; }
-  #latest .piece-card.is-featured .piece-subtitle { font-size: 1rem; -webkit-line-clamp: 2; }
   #latest .piece-card.is-featured .piece-excerpt { font-size: 0.97rem; -webkit-line-clamp: 3; }
   #latest .piece-card.is-featured .type-cover-title { font-size: clamp(1.65rem, 9vw, 2rem); }
-  #latest .piece-card.is-featured .type-cover-subtitle { font-size: 0.88rem; }
   #latest .piece-card.is-featured .type-cover-date { font-size: 0.7rem; }
   /* Four on a phone, held either way. The six cards took three screens and
      left what follows them out of sight, so on 19 October 2026 they came
@@ -1305,7 +1248,6 @@ section.line-drawn::before,
   #latest .piece-card.is-featured { grid-column: auto; }
   #latest .piece-card.is-featured .piece-thumb-wrap { aspect-ratio: 3 / 2; }
   #latest .piece-card.is-featured .piece-title { font-size: 1.4rem; }
-  #latest .piece-card.is-featured .piece-subtitle { font-size: 1rem; -webkit-line-clamp: 2; }
   #latest .piece-card.is-featured .piece-excerpt { font-size: 0.97rem; -webkit-line-clamp: 3; }
 }
 
@@ -1588,11 +1530,6 @@ body.moris-lightbox-open { overflow: hidden; }
 
 .essay-cover { width: 100%; border-radius: 8px; margin: 32px 0 40px; overflow: hidden; }
 .essay-cover img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; display: block; border-radius: 8px; overflow: hidden; }
-.essay-cover--typographic { aspect-ratio: 16 / 9; }
-.essay-cover--typographic .type-cover-inner { padding: clamp(36px, 7%, 68px); }
-.essay-cover--typographic .type-cover-title { font-size: clamp(2.35rem, 5.5vw, 4.2rem); }
-.essay-cover--typographic .type-cover-subtitle { font-size: clamp(1rem, 2vw, 1.25rem); }
-.essay-cover--typographic .type-cover-label { font-size: 0.74rem; }
 
 .essay-body { padding-bottom: 48px; }
 /* --reading-scale is the text size a reader picks in reading options
@@ -1745,7 +1682,6 @@ body.moris-lightbox-open { overflow: hidden; }
 .more-essays-grid-hp .piece-thumb { width: 100%; height: 100%; object-fit: cover; border: 0; border-radius: 8px; }
 .more-essays-grid-hp .piece-body { grid-column: 2; grid-row: 1; padding: 8px 0 8px 12px; gap: 4px; justify-content: center; min-width: 0; margin-top: 0; }
 .more-essays-grid-hp .piece-title { font-size: 1.04rem; line-height: 1.08; text-align: center; }
-.more-essays-grid-hp .piece-subtitle { font-size: 0.8rem; line-height: 1.18; text-align: center; }
 .more-essays-grid-hp .piece-meta { font-size: 0.76rem; line-height: 1.15; text-align: center; }
 .more-essays-grid-hp .piece-thumb-wrap--typographic {
   height: auto; aspect-ratio: 3 / 2; align-self: center; border-radius: 8px;
@@ -1753,7 +1689,6 @@ body.moris-lightbox-open { overflow: hidden; }
 .more-essays-grid-hp .piece-thumb-wrap--typographic .type-cover::before { inset: 6px; border-radius: 5px; }
 .more-essays-grid-hp .piece-thumb-wrap--typographic .type-cover-inner { padding: 9px; }
 .more-essays-grid-hp .piece-thumb-wrap--typographic .type-cover-mark,
-.more-essays-grid-hp .piece-thumb-wrap--typographic .type-cover-subtitle,
 .more-essays-grid-hp .piece-thumb-wrap--typographic .type-cover-label { display: none; }
 .more-essays-grid-hp .piece-thumb-wrap--typographic .type-cover-title {
   max-width: 88%; font-size: 0.78rem; line-height: 0.98;
@@ -1906,15 +1841,6 @@ html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
   font-style: italic; font-size: var(--type-section);
   line-height: 1.06; color: var(--petrol);
   text-align: center;
-}
-/* Held close to half the cue (21.6px against 40px) so it remains a supporting
-   line rather than reading as a second title. The shallower ramp preserves
-   that hierarchy as the doorway narrows. */
-.story-doorway-subtitle {
-  font-family: 'EB Garamond', Georgia, serif;
-  font-size: clamp(1.05rem, 1.6vw, 1.35rem); line-height: 1.3;
-  color: var(--vizon); letter-spacing: 0.02em;
-  text-align: center; margin-top: 6px;
 }
 .story-doorway-date {
   font-size: 1.0625rem; color: var(--vizon); letter-spacing: 0.03em;
@@ -2145,8 +2071,7 @@ html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
 .series-band:not(:first-of-type)::before {
   content: none;
 }
-.series-band .work-tag,
-.book-arc .work-tag { display: none; }
+.series-band .work-tag { display: none; }
 
 /* ==========================================================================
    All page — the archive as an index
@@ -2166,8 +2091,7 @@ html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
   font-weight: 500; font-size: var(--type-group); color: var(--petrol-deep);
 }
 /* A band may name the work its pieces belong to, between the heading and the
-   count. Set like .book-arc-lead, a size down: this is a band head, not a
-   page head. */
+   count. Set a size down: this is a band head, not a page head. */
 .all-work-group-sub {
   margin-top: 8px; font-family: 'EB Garamond', Georgia, serif; font-style: italic;
   font-size: 1rem; line-height: 1.4; color: var(--vizon);
@@ -2217,7 +2141,6 @@ html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
 .work-thumb--typographic .type-cover::before { inset: 6px; border-radius: 5px; }
 .work-thumb--typographic .type-cover-inner { padding: 9px; }
 .work-thumb--typographic .type-cover-mark,
-.work-thumb--typographic .type-cover-subtitle,
 .work-thumb--typographic .type-cover-label { display: none; }
 .work-thumb--typographic .type-cover-title {
   max-width: 88%; font-size: 0.78rem; line-height: 0.98;
@@ -2235,7 +2158,6 @@ html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
 
 .work-main { grid-area: main; display: flex; flex-direction: column; gap: 3px; min-width: 0; text-align: left; }
 .work-title { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: 1.34rem; line-height: 1.15; color: var(--ink); transition: color 0.2s ease; }
-.work-subtitle { font-style: italic; font-size: 0.95rem; line-height: 1.35; color: var(--vizon); }
 .work-excerpt {
   margin-top: 5px; font-size: 0.95rem; line-height: 1.55; color: var(--ink-soft);
   display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
@@ -2494,7 +2416,6 @@ html[data-theme="light"] .book-part-header h1 { color: var(--sec-accent-dark); }
 }
 .notfound-offer-link:hover, .notfound-offer-link:active { opacity: var(--select-dim); }
 .notfound-offer-link:focus-visible { outline: 2px solid var(--petrol); outline-offset: 4px; border-radius: 2px; }
-.notfound-offer-subtitle { display: block; font-family: 'EB Garamond', Georgia, serif; font-style: italic; font-size: 0.95rem; line-height: 1.4; color: var(--vizon); margin-top: 6px; border: 0; }
 .notfound-title { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: clamp(2.6rem, 5vw, 3.6rem); line-height: 1.02; letter-spacing: -0.01em; color: var(--petrol); }
 .notfound-text { font-family: 'EB Garamond', Georgia, serif; font-size: clamp(1.1rem, 1.6vw, 1.3rem); line-height: 1.5; color: var(--vizon); margin-top: 18px; }
 .notfound-links { margin-top: 28px; font-size: 1.05rem; }
