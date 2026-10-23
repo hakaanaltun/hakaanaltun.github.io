@@ -3,6 +3,22 @@
    Google Fonts CSS2 API; unicode-range kept so browsers fetch only what a
    page uses. font-display: swap keeps text visible while fonts load.
 
+   The latin-ext files are cut down from Google's. The footer's "İstanbul"
+   puts a latin-ext letter on nearly every page, so nearly every first visit
+   fetched the whole of EB Garamond's latin-ext, 114 KB, for three letters.
+   On 23 October 2026 the four files were cut to the European letters
+   (Latin Extended-A, with Romanian ș and ț), the dotted letters used to
+   transliterate Arabic, Persian and Sanskrit (Latin Extended Additional, as
+   in ḥ and ṣ), the currency signs, † and ℓ: 114 KB became 34 KB, and the
+   four 271 KB became 118 KB. The site's text then used fourteen of these
+   letters. The letters left out (Latin Extended-B, phonetic letters) fall
+   back to Georgia. The unicode-range of each latin-ext face below names
+   exactly what its file holds; a range wider than the file would fetch it
+   for letters it then cannot draw. Cut from a fresh Google file with
+     pyftsubset <file> --unicodes="<the range below>" --layout-features='*'
+       --flavor=woff2
+   and render the letters in both before replacing one.
+
    The files are variable fonts (wght axis), so one file per family, style
    and subset covers every weight the site uses: each face is declared once
    with font-weight: 400 700 instead of separate 400/500/600 copies. */
@@ -16,7 +32,7 @@
   font-weight: 400 700;
   font-display: swap;
   src: url(/fonts/cormorant-garamond-italic-latin-ext.woff2) format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+  unicode-range: U+0100-017F, U+0218-021B, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113;
 }
 
 /* italic, latin */
@@ -36,7 +52,7 @@
   font-weight: 400 700;
   font-display: swap;
   src: url(/fonts/cormorant-garamond-latin-ext.woff2) format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+  unicode-range: U+0100-017F, U+0218-021B, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113;
 }
 
 /* normal, latin */
@@ -58,7 +74,7 @@
   font-weight: 400 700;
   font-display: swap;
   src: url(/fonts/eb-garamond-italic-latin-ext.woff2) format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+  unicode-range: U+0100-017F, U+0218-021B, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113;
 }
 
 /* italic, latin */
@@ -78,7 +94,7 @@
   font-weight: 400 700;
   font-display: swap;
   src: url(/fonts/eb-garamond-latin-ext.woff2) format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+  unicode-range: U+0100-017F, U+0218-021B, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113;
 }
 
 /* normal, latin */
