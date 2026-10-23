@@ -1972,10 +1972,8 @@ layout: null
   var lightBtns = Array.prototype.slice.call(document.querySelectorAll("#shelf .shelf-pill[data-light]"));
   function skyPaint(){
     var skyCity = SKY.pickCity(), when = SKY.now();
-    var alt = window.OLAE_ASTRO
-      ? window.OLAE_ASTRO.sunAltitude(when, skyCity.lat, skyCity.lng)
-      : SKY.sunAltitude(when, skyCity.lat, skyCity.lng);
-    SKY.paint(alt, SKY.evening(when));
+    SKY.paint(SKY.sunAt(when, window.OLAE_ASTRO
+      ? window.OLAE_ASTRO.sunAltitude(when, skyCity.lat, skyCity.lng) : undefined));
   }
   function startSky(){
     if(!window.OLAE_ASTRO && !startSky.asked){

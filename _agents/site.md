@@ -129,8 +129,12 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   as that slate, so the theme now turns at sunrise and at sunset
   (`SUNRISE` in `_includes/sky-ramp.html`, the sun at 0°). The day's
   papers are kept there too (`DAY`), for the site and the instruments:
-  a warm stone at the horizon, Fog at 12° and Blueprint from 35°, with
-  their inks, rules and chrome. By day the site's painter
+  a warm stone at the horizon, Fog a third of the way to noon and
+  Blueprint at noon, with their inks, rules and chrome. The way is
+  measured against the day's own noon (`noonAltitude()`), so the paper
+  moves through the whole day in every season; until the author asked
+  that evening for every hour to move, Blueprint began at 35° and the
+  summer sun sat under it for eight hours. By day the site's painter
   (`_includes/site-sky.html`) sets `data-theme="light"` and
   `data-sky="day"`, so every light-path rule applies.
   `css/palettes.css` leaves a stored palette alone while `data-sky` is on
@@ -141,12 +145,15 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   by night since 23 October 2026. The same day the author asked for the
   instruments to follow the same two halves (`_agents/instruments.md`),
   and then for an evening: the night came down too soon after sunset, so
-  from sunset until 21:00 on the reader's own clock the night is the slate
-  the day used to be, easing into the ramp over the half hour before nine
-  (`EVENING_ENDS`, `evening()` and `nightAt()` in
-  `_includes/sky-ramp.html`). The author first asked for 22:00 and then
-  for 21:00. The slate holds the ramp's floors on the sheet, and the
-  accents keep 5.1:1.
+  at sunset the night is the slate the day used to be, and it darkens with
+  the sinking sun until it is the night at 21:00 on the reader's own
+  clock (`EVENING_ENDS`, `evening()` and `nightAt()` in
+  `_includes/sky-ramp.html`). The author first asked for 22:00, then for
+  21:00, and then, finding a slate that held still until half past eight,
+  for it to darken all evening. The slate holds the ramp's floors on the
+  sheet, and the accents keep 5.1:1. Only the darkest of the night stays
+  still. The ink cannot move gradually: it turns at sunrise and sunset,
+  and those two moments stay sudden.
   `?hour=13` on any page that follows the sky, the instruments included,
   stands the sun where it will be at that hour today, so each half can be
   looked at. `scripts/test-window-sky.cjs` checks the turn and both

@@ -9,31 +9,30 @@
   four tokens, --paper, --ink, --muted and --line, which is the whole
   palette these pages have. By day they are the site's day, with the
   muted tier and the rule of its paper; by night, the ramp's ground and
-  light ink, with the evening's slate until nine. data-theme stays "sky" in both halves, so the buttons know
+  light ink, with the evening's slate darkening into it until nine. data-theme stays "sky" in both halves, so the buttons know
   the choice; data-sky says which half it is, and the page's scrollbars
   and controls take its colour scheme.
 
   ?hour=13 shows the hour, as on the site (sky-ramp.html).
 
-  Exposes window.OLAE_PAGE_SKY = { pickCity, sunAltitude, now, evening,
-  paint, clear }; paint(alt, eve) takes the sun's altitude and the share
-  of the evening.
+  Exposes window.OLAE_PAGE_SKY = { pickCity, sunAltitude, now, sunAt,
+  paint, clear }; paint() takes the sun as sunAt() gives it.
 {% endcomment %}
 {% include sky-ramp.html %}
 <script>
 (function(){
   "use strict";
   var S = window.OLAE_SKY;
-  function paint(alt, eve){
-    var root = document.documentElement, st = root.style, day = alt >= S.SUNRISE;
+  function paint(sun){
+    var root = document.documentElement, st = root.style, day = sun.alt >= S.SUNRISE;
     if(day){
-      var d = S.dayAt(alt);
+      var d = S.dayAt(sun.share);
       st.setProperty("--paper", S.rgb(d.paper));
       st.setProperty("--ink", S.rgb(d.ink));
       st.setProperty("--muted", S.rgb(d.vizon));
       st.setProperty("--line", S.rgb(d.rule));
     } else {
-      var sky = S.nightAt(alt, eve), ground = sky[1], m = sky[2];
+      var sky = S.nightAt(sun.alt, sun.eve), ground = sky[1], m = sky[2];
       var ink = S.mix(S.CREAM, S.DAYINK, m);
       st.setProperty("--paper", S.rgb(ground));
       st.setProperty("--ink", S.rgb(ink));
@@ -50,7 +49,7 @@
     root.removeAttribute("data-sky");
   }
   window.OLAE_PAGE_SKY = {
-    pickCity: S.pickCity, sunAltitude: S.sunAltitude, now: S.now, evening: S.evening,
+    pickCity: S.pickCity, sunAltitude: S.sunAltitude, now: S.now, sunAt: S.sunAt,
     paint: paint, clear: clear
   };
   var t, s;
@@ -69,7 +68,7 @@
     document.documentElement.setAttribute('data-theme', t);
   } else if(t === 'sky'){
     document.documentElement.setAttribute('data-theme', 'sky');
-    paint(S.altitudeNow(), S.evening(S.now()));
+    paint(S.sunNow());
   }
 })();
 </script>
