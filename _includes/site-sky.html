@@ -5,7 +5,7 @@
   sunrise to sunset the theme is its day, a light paper with dark ink, set
   by the same rules as the twelve light palettes. From sunset to sunrise it
   is the night ramp, the deep navy and the violet of twilight, with light
-  ink.
+  ink, and until nine in the evening the slate that eases into it.
 
   By day the painter sets <html data-theme="light">, so every rule written
   for the light path applies, and data-sky="day"; css/palettes.css leaves a
@@ -69,9 +69,10 @@
     return t;
   }
 
-  /* Every token the night moves, for one altitude of the sun. */
-  function nightTokens(alt){
-    var sky = S.skyAt(alt), g = sky[1], m = sky[2];
+  /* Every token the night moves, for one altitude of the sun and the
+     share of the evening (sky-ramp.html). */
+  function nightTokens(alt, eve){
+    var sky = S.nightAt(alt, eve), g = sky[1], m = sky[2];
     var ink = S.mix(S.CREAM, S.DAYINK, m);
     var t = {};
 
@@ -115,8 +116,8 @@
      paint() writes it to <html>, js/palettes.js reads it to paint one card
      on /themes/ without a second copy of the arithmetic. `day` and
      `chrome` travel with the tokens for that card; they are not painted. */
-  function tokens(alt){
-    var day = alt >= S.SUNRISE, t = day ? dayTokens(alt) : nightTokens(alt);
+  function tokens(alt, eve){
+    var day = alt >= S.SUNRISE, t = day ? dayTokens(alt) : nightTokens(alt, eve);
     t.day = day;
     /* the header and footer: the day's chrome, or by night the band, which
        is what the night's header and footer are painted with */
@@ -126,8 +127,8 @@
   /* TOKENS is the list applied as well as the list cleared, so the two can
      no longer drift apart: a token one half sets and the other does not is
      taken off as the sky turns, rather than left behind. */
-  function paint(alt){
-    var t = tokens(alt), root = document.documentElement, st = root.style;
+  function paint(alt, eve){
+    var t = tokens(alt, eve), root = document.documentElement, st = root.style;
     TOKENS.forEach(function(k){
       if(k in t) st.setProperty(k, t[k]); else st.removeProperty(k);
     });
@@ -149,8 +150,8 @@
   }
   window.OLAE_SITE_SKY = {
     paint: paint, clear: clear,
-    paintNow: function(){ paint(S.altitudeNow()); },
-    tokensNow: function(){ return tokens(S.altitudeNow()); },
+    paintNow: function(){ paint(S.altitudeNow(), S.evening(S.now())); },
+    tokensNow: function(){ return tokens(S.altitudeNow(), S.evening(S.now())); },
     isOn: function(){ return document.documentElement.hasAttribute("data-sky"); }
   };
 })();

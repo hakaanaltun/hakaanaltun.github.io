@@ -139,7 +139,14 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   draws differently on Dark and Midnight, a shadow above all, it draws
   the same way there: the notes on `/notes/` cast the dark themes' shadow
   by night since 23 October 2026. The same day the author asked for the
-  instruments to follow the same two halves (`_agents/instruments.md`).
+  instruments to follow the same two halves (`_agents/instruments.md`),
+  and then for an evening: the night came down too soon after sunset, so
+  from sunset until 21:00 on the reader's own clock the night is the slate
+  the day used to be, easing into the ramp over the half hour before nine
+  (`EVENING_ENDS`, `evening()` and `nightAt()` in
+  `_includes/sky-ramp.html`). The author first asked for 22:00 and then
+  for 21:00. The slate holds the ramp's floors on the sheet, and the
+  accents keep 5.1:1.
   `?hour=13` on any page that follows the sky, the instruments included,
   stands the sun where it will be at that hour today, so each half can be
   looked at. `scripts/test-window-sky.cjs` checks the turn and both
@@ -195,10 +202,10 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   writing shares the first-time doors’ gold, with silver for Notes.
 - **The night opens towards the horizon.** The shared ramp keeps its
   night stops through -6 degrees and turns grey-violet as the sun nears
-  the horizon, where the day takes over. Body ink stays above 6.5:1 and
-  muted ink above 5.5:1. Until 23 October 2026 it ran on to 40 degrees
-  into a daytime slate. The House's illustrated lighting is independent
-  of this ramp.
+  the horizon, where the day takes over; in the evening the slate stands
+  in for it until nine. Body ink stays above 6.5:1 and muted ink above
+  5.5:1. Until 23 October 2026 the ramp ran on to 40 degrees into that
+  slate. The House's illustrated lighting is independent of this ramp.
 - **The green family has three distinct roles.** On 20 October 2026 the
   author approved a shaded forest green for The House and Moris, a brighter
   leaf green for Trivia, and a bluer petrol for Instruments. Their homepage
