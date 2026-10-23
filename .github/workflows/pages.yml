@@ -8,38 +8,15 @@ name: Check the site
 
 on:
   # A pull request gets the same build Cloudflare gives main, so a change is
-  # known to render before it is merged. The list used to cover only the code
-  # and the templates, which meant a pull request that touched nothing but
-  # content — a word story, a post, a quiz — ran no build at all and was
-  # merged on trust. Content is where most changes here actually happen, so
-  # it is on the list too.
+  # known to render before it is merged. Every pull request is checked,
+  # whatever it touches. Until 23 October 2026 the check ran only for a list
+  # of paths, and the list had fallen behind the site: The House, the
+  # quizzes' and the words' pages, every instrument but three, sw.js and
+  # Gemfile.lock were not on it. Cloudflare checks only main, so a pull
+  # request touching nothing else was merged unchecked, and a failure then
+  # stopped main from publishing with nothing on GitHub to say so. The check
+  # takes two or three minutes, which is less than a list costs to keep.
   pull_request:
-    paths:
-      - 'read/**'
-      - 'farm-house/**'
-      - 'pictures/**'
-      - 'sun/**'
-      - 'stars/**'
-      - 'js/**'
-      - 'css/**'
-      - '_layouts/**'
-      - '_includes/**'
-      - '_plugins/**'
-      - 'scripts/**'
-      - '_words/**'
-      - '_pictures/**'
-      - '_posts/**'
-      - '_data/**'
-      - '*.html'
-      - 'AGENTS.md'
-      - 'COLOPHON.md'
-      - '_agents/**'
-      - '_config.yml'
-      - 'package.json'
-      - 'package-lock.json'
-      - '.github/workflows/pages.yml'
-      - 'workers/**'
-      - 'wrangler.jsonc'
   workflow_dispatch:
 
 permissions:
