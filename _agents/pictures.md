@@ -98,8 +98,9 @@ rule written there.
   native fullscreen is offered when the browser supports it.
 - **Keep the sourced reading available.** The 65 full notes are also in
   `_data/space_notes.json` for the no-JavaScript reading version and search.
-  Update both from the same note data when editing prose. Camera and integration
-  regressions belong in `scripts/test-space.cjs`.
+  Update both from the same note data when editing prose; since
+  23 October 2026 `scripts/test-space.cjs` fails when the two copies differ.
+  Camera and integration regressions belong there too.
   Prior implementation decisions remain in `space-watercolor-history.md` as
   historical notes, not current visual requirements.
 

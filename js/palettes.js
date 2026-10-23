@@ -49,76 +49,76 @@
     10: '#5E4046', 11: '#45412E', 12: '#2E3F45'
   };
 
-  /* Display data for the /themes/ mocks: paper, soft ink, muted, chrome,
-     footer type and the five section voices — the writing, the book, the
-     quotes, the fiction and the site's own furniture, in the ACCENT_LABELS
-     order below. Eight sections share these five; the grouping and the
-     reasoning behind it live in css/style.css.
-
-     The accents are the one thing here that is not authored: the browser
-     derives them from the voices in css/style.css and the palette's own
-     --sec-l in css/palettes.css. These hexes are that derivation
-     precomputed, purely so the swatches can be painted as inline styles —
-     if either of those two files changes, recompute them, or the mocks will
-     quietly disagree with the site they are previewing. */
-  var PALETTES = [
-    { name: 'Ash & Gold',    tag: 'the site’s own face',
-      paper: '#FDFCF8', inkSoft: '#3A342C', vizon: '#6D665B',
-      chrome: '#444A4E', ftext: '#DCD1AC', fmuted: '#C6B98F',
-      acc: ['#89565C', '#4F6792', '#646C45', '#805F49', '#467167'] },
-    { name: 'Vellum',        tag: 'warm cream, quiet as old paper',
-      paper: '#F7F2E7', inkSoft: '#443B30', vizon: '#716654',
-      chrome: '#3E4A44', ftext: '#EFE9D4', fmuted: '#CFC7AE',
-      acc: ['#855259', '#4B638E', '#606841', '#7C5B46', '#426D63'] },
-    { name: 'Fog',           tag: 'a cool grey morning',
-      paper: '#F2F3F1', inkSoft: '#373C42', vizon: '#62686E',
-      chrome: '#3A4148', ftext: '#E8EBEE', fmuted: '#C3C9CF',
-      acc: ['#855259', '#4B638E', '#606841', '#7C5B46', '#426D63'] },
-    { name: 'Clay',          tag: 'terracotta dust',
-      paper: '#F6EDE3', inkSoft: '#4A382D', vizon: '#775F51',
-      chrome: '#5E4234', ftext: '#F4E7D6', fmuted: '#D9C3AE',
-      acc: ['#824F55', '#48608B', '#5D653E', '#785843', '#3F6960'] },
-    { name: 'Sage',          tag: 'a garden in pale green',
-      paper: '#EEF1E6', inkSoft: '#3A463D', vizon: '#5D695B',
-      chrome: '#3E4F42', ftext: '#E9F0DF', fmuted: '#C4CFB2',
-      acc: ['#835157', '#49618C', '#5E663F', '#7A5944', '#406B61'] },
-    { name: 'Blueprint',     tag: 'the draughtsman’s blue',
-      paper: '#EDF1F5', inkSoft: '#33414F', vizon: '#586679',
-      chrome: '#22364F', ftext: '#E4EBF3', fmuted: '#B9C6D4',
-      acc: ['#835157', '#49618C', '#5E663F', '#7A5944', '#406B61'] },
-    { name: 'Ochre',         tag: 'sunlit straw',
-      paper: '#F6F0D8', inkSoft: '#4A4328', vizon: '#6F653C',
-      chrome: '#59513A', ftext: '#F3EDD2', fmuted: '#D8CCA4',
-      acc: ['#835157', '#49618C', '#5E663F', '#7A5944', '#406B61'] },
-    { name: 'Lavender Mist', tag: 'dusk-tinted violet',
-      paper: '#F0EEF4', inkSoft: '#3E3A4A', vizon: '#666176',
-      chrome: '#47415A', ftext: '#EDE9F4', fmuted: '#CBC4DA',
-      acc: ['#814F55', '#475F8A', '#5C643D', '#775742', '#3E695F'] },
-    { name: 'Sea Salt',      tag: 'a breath of the Aegean',
-      paper: '#EDF4F1', inkSoft: '#33443F', vizon: '#586A64',
-      chrome: '#234640', ftext: '#E7F2EB', fmuted: '#BCD2C8',
-      acc: ['#845258', '#4A628D', '#5F6740', '#7B5A45', '#416C62'] },
-    { name: 'Pudra',         tag: 'powder pink, softly worn',
-      paper: '#F7EDE8', inkSoft: '#4C3A3C', vizon: '#755E60',
-      chrome: '#5E4046', ftext: '#F6E9E4', fmuted: '#DCC5C2',
-      acc: ['#814F55', '#485F8A', '#5C643E', '#785742', '#3F695F'] },
-    { name: 'Field',         tag: 'harvest gold, full sun',
-      paper: '#DDD6BC', inkSoft: '#453F28', vizon: '#5B522F',
-      chrome: '#45412E', ftext: '#E9E3C8', fmuted: '#C5BB92',
-      acc: ['#6E3E44', '#374E78', '#4B532D', '#664632', '#2D584E'] },
-    { name: 'Slate Paper',   tag: 'wet slate after rain',
-      paper: '#DDE3E4', inkSoft: '#324147', vizon: '#4E5E64',
-      chrome: '#2E3F45', ftext: '#E3EAEB', fmuted: '#B4C2C6',
-      acc: ['#78474D', '#405781', '#545C36', '#6F4F3A', '#366157'] }
+  /* The section voices, as css/style.css writes them: the hue, the chroma
+     on paper, the lightness and chroma at night, and how much darker the
+     voice prints by day (--sec-dl). They are listed in the order the
+     homepage shows them, and the writing's teal stands for the site's own
+     furniture too. Every swatch on this page is built from this table and a
+     palette's own lightness, and the browser does the arithmetic, as it
+     does for the site. Until 23 October 2026 the swatches were hexes worked
+     out by hand once, and they had drifted: the fiction showed the amber it
+     wore before 19 October and The House the olive. `page` names the
+     body.series- class the voice is written under, and
+     scripts/test-pictures.cjs fails when this table and style.css
+     disagree. */
+  var VOICES = [
+    { label: 'Writing',     page: 'default',  h: 178, c: 0.050, ld: 0.800, cd: 0.048, dl: 0 },
+    { label: 'The Notice',  page: 'story',    h: 290, c: 0.090, ld: 0.760, cd: 0.080, dl: 0.073 },
+    { label: 'The House',   page: 'house',    h: 150, c: 0.050, ld: 0.720, cd: 0.065, dl: 0.193 },
+    { label: 'Book',        page: 'book',     h: 262, c: 0.075, ld: 0.820, cd: 0.058, dl: 0 },
+    { label: 'Notes',       page: 'notes',    h: 250, c: 0.012, ld: 0.780, cd: 0.010, dl: 0 },
+    { label: 'Words',       page: 'words',    h: 322, c: 0.065, ld: 0.760, cd: 0.075, dl: 0 },
+    { label: 'Pictures',    page: 'pictures', h: 239, c: 0.062, ld: 0.720, cd: 0.062, dl: 0 },
+    { label: 'Trivia',      page: 'trivia',   h: 140, c: 0.090, ld: 0.800, cd: 0.085, dl: -0.012 },
+    { label: 'Instruments', page: 'tools',    h: 210, c: 0.060, ld: 0.800, cd: 0.058, dl: 0 }
   ];
-  /* Writing uses the same teal as the site; Notes uses graphite and silver. */
-  var LIGHT_LEVELS = [0.513, 0.499, 0.499, 0.488, 0.492, 0.492,
-    0.492, 0.485, 0.496, 0.487, 0.425, 0.457];
-  PALETTES.forEach(function (p, i) {
-    p.acc[0] = p.acc[4];
-    p.acc.push('oklch(' + LIGHT_LEVELS[i] + ' 0.012 250)');
+  var ACCENT_LABELS = VOICES.map(function (v) { return v.label; });
+  function oklch(l, c, h) { return 'oklch(' + l.toFixed(3) + ' ' + c + ' ' + h + ')'; }
+
+  /* Display data for the /themes/ mocks: paper, soft ink, muted, chrome and
+     footer type, read off each palette's block in css/palettes.css, and `l`,
+     the palette's --sec-l, which says how dark the voices print on it. */
+  var PALETTES = [
+    { name: 'Ash & Gold',    tag: 'the site’s own face', l: 0.513,
+      paper: '#FDFCF8', inkSoft: '#3A342C', vizon: '#6D665B',
+      chrome: '#444A4E', ftext: '#DCD1AC', fmuted: '#C6B98F' },
+    { name: 'Vellum',        tag: 'warm cream, quiet as old paper', l: 0.499,
+      paper: '#F7F2E7', inkSoft: '#443B30', vizon: '#716654',
+      chrome: '#3E4A44', ftext: '#EFE9D4', fmuted: '#CFC7AE' },
+    { name: 'Fog',           tag: 'a cool grey morning', l: 0.499,
+      paper: '#F2F3F1', inkSoft: '#373C42', vizon: '#62686E',
+      chrome: '#3A4148', ftext: '#E8EBEE', fmuted: '#C3C9CF' },
+    { name: 'Clay',          tag: 'terracotta dust', l: 0.488,
+      paper: '#F6EDE3', inkSoft: '#4A382D', vizon: '#775F51',
+      chrome: '#5E4234', ftext: '#F4E7D6', fmuted: '#D9C3AE' },
+    { name: 'Sage',          tag: 'a garden in pale green', l: 0.492,
+      paper: '#EEF1E6', inkSoft: '#3A463D', vizon: '#5D695B',
+      chrome: '#3E4F42', ftext: '#E9F0DF', fmuted: '#C4CFB2' },
+    { name: 'Blueprint',     tag: 'the draughtsman’s blue', l: 0.492,
+      paper: '#EDF1F5', inkSoft: '#33414F', vizon: '#586679',
+      chrome: '#22364F', ftext: '#E4EBF3', fmuted: '#B9C6D4' },
+    { name: 'Ochre',         tag: 'sunlit straw', l: 0.492,
+      paper: '#F6F0D8', inkSoft: '#4A4328', vizon: '#6F653C',
+      chrome: '#59513A', ftext: '#F3EDD2', fmuted: '#D8CCA4' },
+    { name: 'Lavender Mist', tag: 'dusk-tinted violet', l: 0.485,
+      paper: '#F0EEF4', inkSoft: '#3E3A4A', vizon: '#666176',
+      chrome: '#47415A', ftext: '#EDE9F4', fmuted: '#CBC4DA' },
+    { name: 'Sea Salt',      tag: 'a breath of the Aegean', l: 0.496,
+      paper: '#EDF4F1', inkSoft: '#33443F', vizon: '#586A64',
+      chrome: '#234640', ftext: '#E7F2EB', fmuted: '#BCD2C8' },
+    { name: 'Pudra',         tag: 'powder pink, softly worn', l: 0.487,
+      paper: '#F7EDE8', inkSoft: '#4C3A3C', vizon: '#755E60',
+      chrome: '#5E4046', ftext: '#F6E9E4', fmuted: '#DCC5C2' },
+    { name: 'Field',         tag: 'harvest gold, full sun', l: 0.425,
+      paper: '#DDD6BC', inkSoft: '#453F28', vizon: '#5B522F',
+      chrome: '#45412E', ftext: '#E9E3C8', fmuted: '#C5BB92' },
+    { name: 'Slate Paper',   tag: 'wet slate after rain', l: 0.457,
+      paper: '#DDE3E4', inkSoft: '#324147', vizon: '#4E5E64',
+      chrome: '#2E3F45', ftext: '#E3EAEB', fmuted: '#B4C2C6' }
+  ];
+  PALETTES.forEach(function (p) {
+    p.acc = VOICES.map(function (v) { return oklch(p.l - v.dl, v.c, v.h); });
   });
-  var ACCENT_LABELS = ['writing', 'book', 'quotes', 'fiction', 'the site', 'notes'];
 
   /* The three themes that are a stored choice of their own rather than a
      palette — what the status line calls them, and what the tick reads. */
@@ -126,20 +126,20 @@
 
   /* The two darks, in the same display shape as a palette so one builder
      covers every part of the page. Their grounds and type are read off the
-     [data-theme] blocks in css/style.css; Dark's five accents are the
-     --sec-ld/--sec-cd/--sec-h night voices from the same file, resolved to
-     sRGB — the night twin of the precomputation above, and the same rule
-     applies: if those blocks change, recompute these. Midnight uses gold
-     for the site and writing, with silver for Notes. */
+     [data-theme] blocks in css/style.css. Dark prints each voice at its
+     night lightness and chroma; Midnight pins every section to its gold,
+     and only Notes keeps its silver there. */
+  var NOTES = VOICES.filter(function (v) { return v.page === 'notes'; })[0];
   var DARKS = [
     { key: 'dark',     name: 'Dark',     tag: 'the warm night',
       paper: '#1C1B18', inkSoft: '#D7CEB8', vizon: '#A29A8A',
       chrome: '#171613', ftext: '#EFE7D4', fmuted: '#C3BAA4',
-      acc: ['#9DC8BE', '#B0C5EB', '#C7D0A8', '#D3AB91', '#9DC8BE', 'oklch(0.780 0.010 250)'] },
+      acc: VOICES.map(function (v) { return oklch(v.ld, v.cd, v.h); }) },
     { key: 'midnight', name: 'Midnight', tag: 'parliament blue, gold and silver',
       paper: '#10161F', inkSoft: '#C6B98F', vizon: '#C6B98F',
       chrome: '#0D1219', ftext: '#DCD1AC', fmuted: '#C6B98F',
-      acc: ['#C6B98F', 'oklch(0.780 0.010 250)'], accLabels: ['site and writing', 'notes'] }
+      acc: ['#C6B98F', oklch(NOTES.ld, NOTES.cd, NOTES.h)],
+      accLabels: ['Every section', 'Notes'] }
   ];
 
   /* The sky's own painter, from _includes/site-sky.html. It writes its
@@ -158,17 +158,12 @@
      the card carries the very values the page itself would take, and there
      is no second copy of the arithmetic to keep in sync.
 
-     The five voices are the one thing this has to know for itself. Their
-     hue, chroma and night lightness live in css/style.css, and on the sky
-     the browser lifts each one to the sun's floor with max() — that max()
-     is repeated here rather than precomputed, because the floor moves. If
-     those voices change in style.css they change here too, the same rule
-     the hexes above are under. */
-  var SKY_VOICES = [          /* [--sec-ld, --sec-cd, --sec-h], in ACCENT_LABELS order */
-    [0.800, 0.048, 178], [0.820, 0.058, 262], [0.720, 0.065, 150],
-    [0.760, 0.080, 290], [0.800, 0.048, 178], [0.780, 0.010, 250]
-  ];
-  /* Null if site-sky.html is not on the page: a preview of the sky that
+     The voices are the one thing this has to know for itself: the table
+     at the top. On the sky the browser lifts each one to the sun's floor
+     with max() and mixes in 12% white; both are repeated here rather than
+     precomputed, because the floor moves.
+
+     Null if site-sky.html is not on the page: a preview of the sky that
      cannot ask where the sun is has nothing to show, and the card is then
      simply not built. */
   function skyFace() {
@@ -180,10 +175,8 @@
       paper: t['--paper'], inkSoft: t['--ink-soft'], vizon: t['--vizon'],
       chrome: t['--footer-strip-bg'], ftext: t['--footer-text'],
       fmuted: t['--footer-muted'],
-      acc: SKY_VOICES.map(function (v, i) {
-        var lightness = Math.max(v[0], floor);
-        var accent = 'oklch(' + lightness.toFixed(3) + ' ' + v[1] + ' ' + v[2] + ')';
-        return 'color-mix(in srgb, ' + accent + ' 88%, #FFFFFF)';
+      acc: VOICES.map(function (v) {
+        return 'color-mix(in srgb, ' + oklch(Math.max(v.ld, floor), v.cd, v.h) + ' 88%, #FFFFFF)';
       })
     };
   }
@@ -262,7 +255,7 @@
     var brand = el('span', 'pm-brand');
     brand.innerHTML = 'On Life &amp; Everything';
     pmh.appendChild(brand);
-    pmh.appendChild(el('span', 'pm-nav', 'Essays · Series · Book · About'));
+    pmh.appendChild(el('span', 'pm-nav', 'The House · Writing · Words · About'));
 
     var pmb = el('div', 'pm-body');
     pmb.appendChild(el('h4', 'pm-title', 'The Corner'));   /* inside the preview's own h3 */

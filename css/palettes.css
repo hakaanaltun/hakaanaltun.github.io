@@ -30,7 +30,7 @@
 /* ------------------------------------------------------------------------
    Section-accent lightness, one number per palette.
 
-   The five section voices live in css/style.css and are the same on every
+   The section voices live in css/style.css and are the same on every
    paper; only how dark they print changes here. Each value is the highest
    lightness that still clears WCAG AA on that palette's --band, the
    darkest ground an accent sits on — so Ash & Gold's near-white carries
@@ -590,8 +590,10 @@ html[data-theme="light"][data-palette="12"] body { --chrome-rgb: 46, 63, 69 !imp
 .pm-foot { padding: 10px 18px; display: flex; justify-content: space-between; gap: 12px; font-size: 0.76rem; font-style: italic; }
 .pm-foot-brand { font-family: 'Cormorant Garamond', Georgia, serif; }
 
-.palette-accents { display: flex; gap: 6px; margin-top: 14px; flex-wrap: wrap; }
-.palette-accent { flex: 1 1 64px; min-width: 58px; }
+/* One swatch for each voice, the nine in a row on a desk and three by three
+   on a phone; a row of fewer, as Midnight's two, takes the full width. A
+   wrapping flex row left the ninth alone across the whole width. */
+.palette-accents { display: grid; grid-template-columns: repeat(auto-fit, minmax(58px, 1fr)); gap: 6px; margin-top: 14px; }
 .palette-accent .pa-sw { height: 24px; border-radius: 4px; border: 1px solid color-mix(in srgb, var(--ink) 12%, transparent); }
 .palette-accent .pa-lb { font-size: 0.62rem; color: var(--vizon); margin-top: 4px; text-align: center; letter-spacing: 0.04em; }
 
@@ -600,6 +602,7 @@ html[data-theme="light"][data-palette="12"] body { --chrome-rgb: 46, 63, 69 !imp
 @media (max-width: 600px) {
   .themes-page { padding-top: 52px; }
   .pm-nav { display: none; }
+  .palette-accents { grid-template-columns: repeat(auto-fit, minmax(76px, 1fr)); row-gap: 8px; }
 }
 
 /* The footer theme menu's doorway to /themes/ — a plain divider below
