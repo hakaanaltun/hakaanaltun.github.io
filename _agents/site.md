@@ -122,11 +122,25 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   the door to Part III (`story/9r2m.html`) learned it on 23 October 2026,
   two days late, after a reader on the default had come to it from a
   night-blue page and found it white.
-- **The sky's ground is dark even by day.** Its daylight is a slate, so
+- **Follow the sky has a day and a night.** On 23 October 2026 the author
+  found the sky's daytime slate too dark, and asked for a light day in a
+  new series: Fog and Blueprint, and in place of Pudra a colour near them.
+  Light ink holds the site's dimmest tier only on a ground about as dark
+  as that slate, so the theme now turns at sunrise and at sunset
+  (`SUNRISE` in `_includes/site-sky.html`, the sun at 0°). By day the
+  painter sets `data-theme="light"` and `data-sky="day"`, so every
+  light-path rule applies; the paper runs from a warm stone at the horizon
+  through Fog at 12° to Blueprint from 35°, with their inks, rules and
+  chrome. `css/palettes.css` leaves a stored palette alone while
+  `data-sky` is on and hands the day's chrome to `<body>`. The night is
+  the ramp as it was, `data-theme="sky"` and `data-sky="night"`, and
   whatever a page draws differently on Dark and Midnight, a shadow above
-  all, it draws the same way on the sky. The notes on `/notes/` cast the
-  dark themes' shadow there since 23 October 2026; before, they barely
-  lifted off the ground.
+  all, it draws the same way there: the notes on `/notes/` cast the dark
+  themes' shadow by night since 23 October 2026. `?hour=13` on any page
+  stands the sun where it will be at that hour today, so each half can be
+  looked at. The instruments keep their own sky, dark by day, until the
+  author decides. `scripts/test-window-sky.cjs` checks the turn and both
+  halves' contrast.
 
 ## The homepage
 
@@ -163,9 +177,12 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   on the homepage and section pages. Notes uses soft silver (hue 250,
   chroma 0.010, minimum lightness 0.780). Writing uses the same teal
   profile as First time here (hue 178, chroma 0.048, lightness 0.800). The shared floor follows the final mixed colors,
-  retaining contrast above 4.5:1 across the sky ramp, including the hero. The
+  retaining contrast above 4.5:1 across the night ramp, including the hero. The
   theme preview applies the same floor, mix and current section hues. This
-  rule is exclusive to Follow the sky.
+  rule is exclusive to Follow the sky's night. By day the accents print
+  as on the light palettes, from a `--sec-l` the day's stops carry (0.480,
+  0.495 and 0.490), each a little under the palette's own, so the colours
+  between the stops still clear 4.5:1 on the band.
 - **Writing and Notes keep the same identities across themes.** On 22 October
   2026 the author extended the change to every theme: writing shares First
   time here’s teal profile. On 23 October the author changed Notes to
@@ -176,7 +193,9 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
 - **The sky opens towards daylight.** The shared ramp keeps its night stops
   through -6 degrees, extends grey-violet to 5 degrees, and reaches a lighter,
   less saturated daytime slate. Body ink stays above 6.5:1 and muted ink
-  above 5.5:1. The House's illustrated lighting is independent of this ramp.
+  above 5.5:1. The site's theme uses the ramp only below the horizon since
+  23 October 2026; the instruments use all of it. The House's illustrated
+  lighting is independent of this ramp.
 - **The green family has three distinct roles.** On 20 October 2026 the
   author approved a shaded forest green for The House and Moris, a brighter
   leaf green for Trivia, and a bluer petrol for Instruments. Their homepage

@@ -9,17 +9,19 @@
 
    "Follow the sky" is not a fourth palette but a rule, and the one
    theme whose colours are computed rather than written: the paper is
-   the sky at the reader's own hour, from midnight navy to a daytime
-   slate, moving with the sun instead of snapping between palettes. It
-   replaced "Dusk", which resolved the same sun into whichever of
-   light/dark/midnight it stood nearest — three snaps a day, the worst
-   of them at sunset.
+   the sky at the reader's own hour, a light paper by day that cools as
+   the sun climbs, and from sunset the night's navy and twilight violet.
+   It turns once at sunrise and once at sunset. It replaced "Dusk",
+   which resolved the same sun into whichever of light/dark/midnight it
+   stood nearest — three snaps a day, the worst of them at sunset.
 
    The sun is _includes/sky-ramp.html, shared with the instrument pages;
    the token block is _includes/site-sky.html, which head.html has
    already run once before first paint. This file only re-paints it,
-   every minute and on return to a backgrounded tab. Unlike the other
-   four, "sky" lands on <html data-theme> as itself. */
+   every minute and on return to a backgrounded tab. The sky marks
+   <html data-sky> by day and by night; by night data-theme is "sky", and
+   by day it is "light", so that the day takes every rule the light path
+   has. */
 (function () {
   'use strict';
   var btn = document.getElementById('theme-toggle');
@@ -32,6 +34,7 @@
   var sky = window.OLAE_SITE_SKY || { paint: function () {}, paintNow: function () {}, clear: function () {} };
   var mq = window.matchMedia('(prefers-color-scheme: dark)');
   function effective() {
+    if (document.documentElement.hasAttribute('data-sky')) return 'sky';
     return document.documentElement.getAttribute('data-theme') || 'system';
   }
   function apply(t) {
