@@ -77,6 +77,30 @@ rule written there.
   transfers finish the lens change during the initial turn, so Mars grows
   steadily toward its final size during the approach instead of overshooting
   and receding. Start at `/pictures/space/#earth`.
+- **Use the Solar System as the reference for future journeys** (rule in
+  `COLOPHON.md`: choosing a destination brings the reader close to it).
+  The author settled this on 23 October 2026. Carry the interaction decisions
+  above with the camera, not only its animation. Keep one shared scene with
+  fixed subject positions, named destinations, optional labels, local zoom,
+  sourced reading, decoded detail overlays, responsive framing, keyboard
+  access and optional full screen. Content, imagery, coordinates and route
+  rhythms belong to the new subject; keep the common navigation behavior.
+  In `js/space-journey.js`, `stopViews` now names inspection views, matching
+  globe buttons and the previous/next arrows. Explicit wide-view controls
+  and old wide-view addresses keep their meaning.
+  `travelPlan` uses the ordered `regionOrigins`. Transfers crossing three
+  or more region intervals pass every intervening region, alternating a
+  smaller inspection view with a wide view, then approach the exact target.
+  Neighboring transfers retain their accepted curves and timing. Camera
+  waypoints do not change captions, selection, reading content or history.
+  One animation owns the whole trip, so Arrive now reaches its final target;
+  retargeting starts at the actual camera position, including during a wide
+  passage. Back/Forward restores the selected view without replaying the
+  intermediate stops. Reduced motion and resize settle at the same target.
+  Keep the regression cases in `scripts/test-space.cjs` when adapting this
+  model: all entry controls agree, long routes work in both directions,
+  wide passages never replace the requested arrival, interruptions leave
+  no stale animation, and intermediate views add no history entries.
 - **Travel measures its viewport once per frame.** On 21 October 2026 the
   author reported pauses during transfers. Frame painting now shares one
   viewport measurement across every projected world and updates the hidden
@@ -202,3 +226,4 @@ edges. The author explicitly requested this balance on October 19. The
 Imagegen brief was a realistic scientific Earth–Moon composition in 3:2,
 with coherent geography, natural volume, deep blue space and gentle warm
 sunlight; no text, itinerary, extra planets, brushwork or decorative border.
+
