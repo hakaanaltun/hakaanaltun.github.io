@@ -811,24 +811,24 @@ function cruisePose(from, to, profile, t, view) {
     (u ** 3 - 2 * u ** 2 + u) * span * m0 +
     (-2 * u ** 3 + 3 * u ** 2) * b.y +
     (u ** 3 - u ** 2) * span * m1;
-  // A single broad opening, held through the middle of the route. Its scale
-  // never alternates with the size of each passing planet.
-  const departure = smoothTravel(Math.min(1, t / 0.28)),
-    arrival = smoothTravel(Math.max(0, (t - 0.72) / 0.28)),
-    cruiseScale = profile.cruise.scale,
-    scale = Math.exp(Math.log(from.scale) * (1 - departure) +
-      Math.log(cruiseScale) * departure * (1 - arrival) + Math.log(to.scale) * arrival);
+  // Match each passing world's inspection framing without retreating to an
+  // overview. The camera keeps moving as the lens adapts between close views.
+  const scale = Math.exp(Math.log(a.scale) +
+    (Math.log(b.scale) - Math.log(a.scale)) * smoothTravel(u)),
+    slope = ((6 * u ** 2 - 6 * u) * a.y +
+      (3 * u ** 2 - 4 * u + 1) * span * m0 +
+      (-6 * u ** 2 + 6 * u) * b.y + (3 * u ** 2 - 2 * u) * span * m1) / span;
   const pose = { x, y, scale },
     turn = smoothTravel(Math.min(1, t / 0.2)),
-    opening = 1 - 0.9 * Math.sin(Math.PI * t) ** 4,
-    dx = to.x - x, dy = to.y - y,
-    distance = Math.hypot(dx, dy),
-    focal = Math.max(view.width, view.height) * 0.85,
-    angle = Math.atan2(distance, focal / scale) * turn * opening;
+    arrival = smoothTravel(Math.max(0, (t - 0.8) / 0.2)),
+    // A shallow forward look follows the continuous tangent. Aiming far down
+    // the route hides nearby worlds; this keeps the passing planet in view.
+    angle = 0.18 * turn * (1 - arrival),
+    dx = direction / Math.hypot(1, slope), dy = dx * slope;
   if (profile.inside || from.look) {
     pose.look = {
-      x: (profile.inside && distance ? angle * dx / distance : 0) + (from.look?.x || 0) * (1 - turn),
-      y: (profile.inside && distance ? angle * dy / distance : 0) + (from.look?.y || 0) * (1 - turn),
+      x: (profile.inside ? angle * dx : 0) + (from.look?.x || 0) * (1 - turn),
+      y: (profile.inside ? angle * dy : 0) + (from.look?.y || 0) * (1 - turn),
     };
     pose.inside = t < 1 && (profile.inside || turn < 1);
   }
@@ -849,21 +849,19 @@ function travelPlan(fromId, toId, from, short = false) {
     start = regions.indexOf(source),
     end = regions.indexOf(localSystemFor(toId));
   const points = [from];
-  if (!short && fromId && !systems[toId] && start >= 0 && Math.abs(end - start) >= 3) {
+  if (!short && fromId && !systems[toId] && start >= 0 && Math.abs(end - start) >= 2) {
     const direction = Math.sign(end - start);
     for (let i = start + direction; i !== end; i += direction) {
-      const [x, y] = regionOrigins[regions[i]];
-      if (direction * (x - from.x) > 1 && direction * (target.x - x) > 1)
-        points.push({ x, y });
+      const body = systems[regions[i]].bodies[0],
+        point = { ...localTarget(body), body };
+      if (direction * (point.x - from.x) > 1 && direction * (target.x - point.x) > 1)
+        points.push(point);
     }
   }
   if (points.length > 1) {
     points.push(target);
-    direct.cruise = {
-      points,
-      scale: Math.min(from.scale, target.scale, overviewPose(toId).scale, overviewPose(fromId).scale),
-    };
-    direct.duration = Math.min(72000, 8000 + 5000 * (Math.abs(end - start) - 1));
+    direct.cruise = { points };
+    direct.duration = Math.min(50000, 6000 + 3500 * (Math.abs(end - start) - 1));
   }
   return { from, to: target, profile: direct, duration: direct.duration };
 }

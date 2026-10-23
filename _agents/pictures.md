@@ -88,23 +88,25 @@ rule written there.
   In `js/space-journey.js`, `stopViews` now names inspection views, matching
   globe buttons and the previous/next arrows. Explicit wide-view controls
   and old wide-view addresses keep their meaning.
-  `travelPlan` uses the ordered `regionOrigins`. Transfers crossing three
-  or more region intervals pass the intervening regions on one continuous
-  curve. A single slow opening provides context, its scale stays steady
-  through the middle, and only the final approach returns to inspection.
-  Do not restart easing, zoom or orientation at each world. The first
-  implementation did so in 1.6-second legs; the author rejected its fast,
-  mechanical oscillation on 23 October 2026. Longer trips now take 8 seconds
-  plus 5 seconds per additional region interval, capped at 72 seconds.
+  `travelPlan` uses the ordered `regionOrigins`. Transfers crossing two
+  or more region intervals pass each intervening region’s primary world
+  on one continuous curve, using that world’s inspection framing. The
+  camera keeps a shallow forward look along the route tangent so nearby
+  worlds stay visible. It never inserts a wide view or aims past them at
+  the distant final destination. Lens adjustments between close framings
+  are smooth; motion never stops or restarts at a passing planet.
+  On 24 October 2026 the author requested this close-only trial and a more
+  balanced pace. Transfers take 6 seconds plus 3.5 seconds per additional
+  region interval, capped at 50 seconds: Earth–Neptune takes 23.5 seconds.
   Neighboring transfers retain their accepted curves and timing. Geometry
   waypoints do not change captions, selection, reading content or history.
   One animation owns the whole trip, so Arrive now reaches its final target;
-  retargeting starts at the actual camera position, including during a wide
+  retargeting starts at the actual camera position, including during a close
   passage. Back/Forward restores the selected view without replaying the
   intermediate stops. Reduced motion and resize settle at the same target.
   Keep the regression cases in `scripts/test-space.cjs` when adapting this
   model: all entry controls agree, long routes work in both directions,
-  a broad opening never replaces the requested arrival, interruptions leave
+  every passing world is visible at inspection scale, interruptions leave
   no stale animation, and intermediate views add no history entries.
 - **Travel measures its viewport once per frame.** On 21 October 2026 the
   author reported pauses during transfers. Frame painting now shares one
