@@ -190,19 +190,32 @@
     }
   }
 
-  fetch(source, { credentials: 'same-origin' })
-    .then(function (response) {
-      if (!response.ok) throw new Error('Question data unavailable');
-      return response.json();
-    })
-    .then(function (questions) {
-      if (!Array.isArray(questions) || !questions.length) return;
-      var groups = grouped(questions);
-      var now = new Date();
-      var question = pick(groups, now);
-      if (question) render(question, now);
-    })
-    .catch(function () {
-      /* The fallback copy remains in place. */
-    });
+  function load() {
+    fetch(source, { credentials: 'same-origin' })
+      .then(function (response) {
+        if (!response.ok) throw new Error('Question data unavailable');
+        return response.json();
+      })
+      .then(function (questions) {
+        if (!Array.isArray(questions) || !questions.length) return;
+        var groups = grouped(questions);
+        var now = new Date();
+        var question = pick(groups, now);
+        if (question) render(question, now);
+      })
+      .catch(function () {
+        /* The fallback copy remains in place. */
+      });
+  }
+
+  /* The bank holds every question of every quiz, 166 KB, and it is the
+     largest thing the homepage asks for, for a section near its foot. It is
+     fetched as the section comes near, as Tonight's sky is; until
+     23 October 2026 every visit fetched it at once. */
+  if ('IntersectionObserver' in window) {
+    var watch = new IntersectionObserver(function (entries) {
+      if (entries.some(function (e) { return e.isIntersecting; })) { watch.disconnect(); load(); }
+    }, { rootMargin: '600px 0px' });
+    watch.observe(root);
+  } else load();
 })();
