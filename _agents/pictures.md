@@ -93,9 +93,12 @@ rule written there.
   worlds ahead, rather than watching them slide across a shallow view.
   Keep the original `flightProfile` and `flightPose` curve and perspective.
   Do not add per-world inspection waypoints or an automatic wide opening.
-  `travelPlan` only adjusts the duration for two or more region intervals:
-  6 seconds plus 3.5 seconds per additional interval, capped at 50 seconds;
-  Earth–Neptune takes 23.5 seconds. Neighboring transfers retain their timing.
+  `travelPlan` sets the base duration for two or more region intervals:
+  6 seconds plus 3.5 seconds per additional interval, capped at 50 seconds.
+  The author then asked for a very small speed increase: normal perspective
+  transfers, including neighboring worlds, take 92 percent of their base
+  duration. Earth–Neptune takes 21.62 seconds; Earth–Moon takes 4.784 seconds.
+  Short inspection moves retain their timing; camera geometry is unchanged.
   The final pose is the selected inspection view. One animation owns the
   whole trip, so Arrive now reaches its final target; retargeting starts at
   the actual camera position and orientation. Back/Forward, reduced motion

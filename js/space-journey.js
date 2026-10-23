@@ -807,6 +807,7 @@ function travelPlan(fromId, toId, from, short = false) {
     intervals = Math.abs(end - start);
   if (!short && fromId && !systems[toId] && start >= 0 && end >= 0 && intervals >= 2)
     direct.duration = Math.min(50000, 6000 + 3500 * (intervals - 1));
+  if (!short && direct.inside) direct.duration = Math.round(direct.duration * 0.92);
   return { from, to: target, profile: direct, duration: direct.duration };
 }
 function flyLocal(poses, duration, profile) {
