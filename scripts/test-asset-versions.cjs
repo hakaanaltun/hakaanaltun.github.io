@@ -12,6 +12,13 @@
  * comments changed, needs none, since the published copy carries no
  * comments. scripts/ is left out: its checks pin old stamps on purpose.
  *
+ * Since 23 October 2026 the stamp also decides how long a browser keeps
+ * the file: _headers lets every file directly in css/ and js/ be kept for
+ * a year, so one loaded without a ?v= would stay as it was for a year after
+ * it changed. The built site is first checked for any such load. The tools'
+ * service worker is the one exception: it precaches the bare addresses as
+ * its offline copy, and fetches them past the browser's cache to do it.
+ *
  *   node scripts/test-asset-versions.cjs */
 'use strict';
 const { execFileSync } = require('node:child_process');
@@ -37,9 +44,30 @@ function base() {
   try { return git('merge-base', 'HEAD', 'origin/main').trim(); } catch (error) { return null; }
 }
 
+const bare = [];
+(function unstamped(dir) {
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) { if (entry.name !== 'vendor') unstamped(full); continue; }
+    if (!/\.(html|js|json|xml|css)$/.test(entry.name)) continue;
+    const where = path.relative(path.join(root, '_site'), full);
+    if (where === 'sw.js') continue;
+    const text = fs.readFileSync(full, 'utf8');
+    // A load is a quoted address: src="…", href="…" or a string a script
+    // hands to one. A path named in a comment is not.
+    for (const m of text.matchAll(/(["'])(\/(?:css|js)\/[\w.-]+\.(?:css|js))\1/g)) {
+      bare.push(`_site/${where} loads ${m[2]} without a ?v=; it would be kept for a year after it changed.`);
+    }
+  }
+})(path.join(root, '_site'));
+if (bare.length) {
+  console.error(bare.join('\n'));
+  process.exit(1);
+}
+
 const from = base();
 if (!from) {
-  console.log('Asset versions: no base branch to compare with, so nothing was checked.');
+  console.log('Asset versions: every stylesheet and script is loaded with a ?v=; no base branch to compare changes with.');
   process.exit(0);
 }
 
@@ -69,4 +97,4 @@ if (problems.length) {
   console.error(problems.join('\n'));
   process.exit(1);
 }
-console.log(`Asset versions: every changed stylesheet and script is loaded under a new ?v= (${checked} checked).`);
+console.log(`Asset versions: every stylesheet and script is loaded with a ?v=, and every changed one under a new ?v= (${checked} checked).`);

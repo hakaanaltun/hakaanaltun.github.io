@@ -42,6 +42,16 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   sources under a word’s story do the same. A new face on the site gets
   the same treatment in `css/fonts.css`.
 
+## The fonts
+
+- **The latin-ext files are cut down.** Since 23 October 2026 each holds
+  the European letters, the dotted letters of transliteration, the
+  currency signs, † and ℓ, and its `unicode-range` in `css/fonts.css`
+  names exactly that. The note at the top of that file says why and how to
+  cut a new one. A letter the site starts to use outside that range falls
+  back to Georgia: widen the range and the file together, never the range
+  alone.
+
 ## The site's header and footer
 
 - **Every page that is read or browsed carries them** (rule in

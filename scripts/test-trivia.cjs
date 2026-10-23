@@ -542,7 +542,53 @@ function main() {
     kit.w.close();
   }
 
-  console.log('test-trivia: ok');
+}
+
+/* The homepage's question of the day comes from a bank of every question,
+   the largest thing the homepage asks for, so it waits until its section
+   comes near, as Tonight's sky does. Nothing is fetched before then; once it
+   is near, the bank is fetched once and the question takes the fallback
+   line's place. A browser without IntersectionObserver fetches it at once. */
+async function homeQuestion() {
+  const home = new JSDOM(fs.readFileSync(path.join(root, '_site', 'index.html'), 'utf8'));
+  const markup = home.window.document.getElementById('home-daily-trivia').outerHTML;
+  home.window.close();
+  const script = fs.readFileSync(path.join(root, 'js', 'home-daily-trivia.js'), 'utf8');
+  const bank = JSON.parse(fs.readFileSync(path.join(root, '_site', 'trivia', 'questions.json'), 'utf8'));
+  for (const observes of [true, false]) {
+    const dom = new JSDOM('<!doctype html><body>' + markup + '</body>', { runScripts: 'outside-only' });
+    const w = dom.window;
+    const asked = [];
+    w.fetch = (url) => { asked.push(url); return Promise.resolve({ ok: true, json: () => Promise.resolve(bank) }); };
+    w.requestAnimationFrame = () => 0;
+    w.cancelAnimationFrame = () => {};
+    let watcher = null;
+    if (observes) {
+      w.IntersectionObserver = class {
+        constructor(callback, options) { watcher = { callback, options, watched: [], off: false }; }
+        observe(el) { watcher.watched.push(el); }
+        disconnect() { watcher.off = true; }
+      };
+    }
+    w.eval(script);
+    if (observes) {
+      assert.deepEqual(asked, [], 'nothing is fetched before the section comes near');
+      assert.equal(watcher.watched[0].id, 'home-daily-trivia');
+      assert.equal(watcher.options.rootMargin, '600px 0px');
+      watcher.callback([{ isIntersecting: false }]);
+      assert.deepEqual(asked, [], 'a section still out of reach fetches nothing');
+      watcher.callback([{ isIntersecting: true }]);
+      assert.ok(watcher.off, 'the watch ends once the bank is asked for');
+    }
+    assert.deepEqual(asked, ['/trivia/questions.json'], 'the bank is fetched once');
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    const d = w.document;
+    assert.equal(d.getElementById('home-daily-trivia-game').hidden, false, 'the question is shown');
+    assert.equal(d.getElementById('home-daily-trivia-fallback').hidden, true, 'the fallback line steps aside');
+    assert.equal(d.querySelectorAll('#home-daily-trivia-choices button').length, 4);
+    w.close();
+  }
 }
 
 main();
+homeQuestion().then(() => console.log('test-trivia: ok')).catch((e) => { console.error(e); process.exitCode = 1; });

@@ -94,6 +94,14 @@ the Pictures cards' downscales. Gems go into the git-ignored
   Every other missing address gets `404.html`. The script runs only for
   addresses that are not a file, so pages and images are served directly.
   `scripts/test-site-worker.mjs` checks it against the built site.
+- **A browser keeps the stylesheets and scripts for a year.** `_headers`,
+  which `_config.yml` includes in the build, tells Cloudflare so for every
+  file directly in `css/` and `js/`, and a week for the fonts; everything
+  else is asked for again on each visit, as before. It rests on the `?v=`:
+  a changed file is loaded under a new address. Since 23 October 2026
+  `scripts/test-asset-versions.cjs` fails on any page that loads one of
+  them without a `?v=`, and the tools' service worker fetches its offline
+  copies past the browser's cache.
 
 ### Non-obvious notes
 
