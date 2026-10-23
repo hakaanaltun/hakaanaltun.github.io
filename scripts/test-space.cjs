@@ -329,23 +329,23 @@ run(fs.readFileSync('js/space-journey.js','utf8'));
   assert(!classes.has('wide-view'));
   near(run('localPose.scale'),run(`localTarget('${button.dataset.stop}').scale`));
  }
- // Long journeys use one smooth clock, one opening and one final approach.
+ // Long journeys keep inspection scale and visibly pass each intermediate world.
  for(const [width,height] of [[1366,768],[390,844],[844,390]]){
   element('stage').clientWidth=width;element('stage').clientHeight=height;
-  for(const [from,to] of [['earth','neptune'],['neptune','earth'],['sun','voyager1']]){
+  for(const [from,to] of [['earth','neptune'],['neptune','earth'],['sun','voyager1'],['earth','ceres'],['moon','neptune']]){
    reduced=true;await run(`go('${from}')`);reduced=false;
    const plan=run(`travelPlan('${from}','${to}',localPose)`),historyLength=browserEntries.length;
-   assert(plan.duration>=33000);assert(plan.profile.cruise.points.length>=4);
+   assert(plan.duration>=9500&&plan.duration<=50000);assert(plan.profile.cruise.points.length>=3);
+   if(from==='earth'&&to==='neptune')assert.equal(plan.duration,23500);
    context.pacingPlan=plan;
-   let previous=plan.from,phase='opening';
+   let previous=plan.from;
+   const closeFloor=Math.min(...plan.profile.cruise.points.map(point=>point.scale));
    for(let i=1;i<=1000;i++){
     context.pacingTime=i/1000;
     const pose=run('flightPose(pacingPlan.from,pacingPlan.to,pacingPlan.profile,pacingTime)');
     assert(Number.isFinite(pose.x)&&Number.isFinite(pose.y)&&Number.isFinite(pose.scale));
     assert(Math.sign(plan.to.x-plan.from.x)*(pose.x-previous.x)>0,'Travel must not stop or reverse at intermediate worlds');
-    if(pose.scale>previous.scale+1e-9)phase='arrival';
-    if(phase==='arrival')assert(pose.scale>=previous.scale-1e-9,'Camera must not pull back again after starting its approach');
-    if(i>=280&&i<=720)near(pose.scale,plan.profile.cruise.scale);
+    assert(pose.scale>=closeFloor-1e-9,'Travel must never retreat below its close-view framing');
     previous=pose;
    }
    // Continuous speed across every geometry waypoint: the old per-leg easing
@@ -354,6 +354,13 @@ run(fs.readFileSync('js/space-journey.js','utf8'));
     const q=(point.x-plan.from.x)/(plan.to.x-plan.from.x);
     let low=0,high=1;for(let i=0;i<45;i++){const mid=(low+high)/2;context.sampleTime=mid;if(run('smoothTravel(sampleTime)')<q)low=mid;else high=mid;}
     const t=(low+high)/2,poses=[];
+    context.pacingTime=t;context.passingBody=point.body;
+    const closePose=run('flightPose(pacingPlan.from,pacingPlan.to,pacingPlan.profile,pacingTime)');
+    near(closePose.scale,point.scale);
+    const projected=run('flightProjection(flightPose(pacingPlan.from,pacingPlan.to,pacingPlan.profile,pacingTime),localBodies[passingBody],regionOrigin(passingBody))');
+    assert(projected.visible,'Every intermediate world must actually enter the viewport');
+    assert(projected.scale>=point.scale*.9,'Passing world must retain its inspection size');
+    assert(!run('!!systems[passingBody]'),'Passing points must be bodies, never wide views');
     for(const offset of [-.00001,0,.00001]){context.pacingTime=t+offset;poses.push(run('flightPose(pacingPlan.from,pacingPlan.to,pacingPlan.profile,pacingTime)'));}
     const left=Math.hypot(poses[1].x-poses[0].x,poses[1].y-poses[0].y),right=Math.hypot(poses[2].x-poses[1].x,poses[2].y-poses[1].y);
     assert(left>.001&&Math.abs(right/left-1)<.001,'Speed must remain continuous at a passing world');
@@ -369,19 +376,19 @@ run(fs.readFileSync('js/space-journey.js','utf8'));
    browserHistory.back();await finish();assert.equal(run('current'),from);
   }
  }
- // Interrupt a wide passage. Plan from the actual region, not the abandoned
+ // Interrupt a close passage. Plan from the actual region, not the abandoned
  // final destination; skip and resize must also finish the complete new trip.
  reduced=true;await run("go('earth')");reduced=false;
  const longTrip=run("go('voyager1')");await flush();await tick(3200);
- const widePose=run('({...localPose})');
- const redirected=run("go('venus')");await flush();near(run('localPose.x'),widePose.x);
+ const passingPose=run('({...localPose})');
+ const redirected=run("go('venus')");await flush();near(run('localPose.x'),passingPose.x);
  assert.equal(await longTrip,false);run('finishTravel()');await finish(redirected);
  assert.equal(run('current'),'venus');near(run('localPose.scale'),run("localTarget('venus').scale"));assert.equal(frames.size,0);
  const longResize=run("go('voyager1')");await flush();await tick(3200);events.resize();await finish(longResize);
  assert.equal(run('current'),'voyager1');near(run('localPose.scale'),run("localTarget('voyager1').scale"));assert.equal(frames.size,0);
  reduced=true;await run("go('sun')");assert.equal(frames.size,0);near(run('localPose.scale'),run("localTarget('sun').scale"));
  assert.equal(run('Object.keys(scenes).length'),74);
- console.log('Passed: every footer destination arrives close; long routes in both directions at desktop, portrait and landscape sizes; continuous speed and a single broad opening; one history entry per journey; retarget, skip, resize and reduced motion on long routes.');
+ console.log('Passed: every footer destination arrives close; long routes in both directions at desktop, portrait and landscape sizes; continuous speed and visible close passes without a wide retreat; one history entry per journey; retarget, skip, resize and reduced motion on long routes.');
  console.log('Passed: 74 scenes, all fourteen wide views at eight sizes, measured caption clearance, 65 sourced field notes the same in the reading version, reversible route and endpoint boundaries, fixed global geometry, direct globe/zoom controls, continuous region travel, distinct reversible curved routes, rapid retarget/reverse, skip, browser Back/Forward, decode failure/stale load, native detail arrival/retry, resize, alternate observations, keyboard routing and asset paths.');
 })().catch(e=>{console.error(e);process.exitCode=1});
 
