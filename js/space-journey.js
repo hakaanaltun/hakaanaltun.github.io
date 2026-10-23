@@ -18,7 +18,8 @@
    - The camera. localTarget gives a view's resting pose; flightProfile,
      flightPose and flyLocal carry the camera there along the curve
      travelRoutes gives each neighbouring pair, turning and approaching in
-     perspective (?flight=outside keeps the earlier flat camera).
+     perspective (?flight=outside keeps the earlier flat camera). travelPlan
+     adds passing views for long trips; only the destination enters history.
    - go() is the one way to change view, from a button, a place to look,
      the keyboard, the address or Back and Forward. It waits for the
      images, writes the history, sets the caption (renderScene) and
@@ -788,7 +789,51 @@ function flightPose(from, to, profile, t, view = cameraViewport()) {
   }
   return pose;
 }
-function flyLocal(poses, duration, profile) {
+// A named destination always arrives at its inspection view. Long transfers
+// pass the intervening regions, alternating a world with its surroundings.
+// These are camera waypoints, not extra selections or browser-history entries.
+function travelPlan(fromId, toId, from, short = false) {
+  const target = localTarget(toId),
+    direct = flightProfile(from, target, short, fromId, toId),
+    departure = fromId ? localTarget(fromId) : from,
+    interrupted = Math.hypot(from.x - departure.x, from.y - departure.y) > 1;
+  const regions = Object.keys(regionOrigins),
+    source = interrupted
+      ? regions.reduce((best, key) =>
+          Math.abs(regionOrigins[key][0] - from.x) < Math.abs(regionOrigins[best][0] - from.x)
+            ? key : best)
+      : localSystemFor(fromId),
+    start = regions.indexOf(source),
+    end = regions.indexOf(localSystemFor(toId));
+  const stops = [];
+  if (!short && fromId && !systems[toId] && start >= 0 && Math.abs(end - start) >= 3) {
+    const direction = Math.sign(end - start);
+    for (let i = start + direction; i !== end; i += direction) {
+      const key = regions[i],
+        wide = Math.abs(i - start) % 2 === 0,
+        id = wide ? key : systems[key].bodies[0],
+        pose = localTarget(id);
+      if (!wide) pose.scale *= 0.62;
+      stops.push({ id, pose, wide });
+    }
+  }
+  if (!stops.length) return [{ from, to: target, profile: direct, duration: direct.duration }];
+  stops.push({ id: toId, pose: target, wide: false });
+  let previous = from, previousId = fromId;
+  return stops.map((stop, index) => {
+    const profile = flightProfile(previous, stop.pose, false, previousId, stop.id);
+    // Let the surroundings open into view on the wide passages.
+    if (stop.wide) profile.inside = false;
+    const leg = {
+      from: previous, to: stop.pose, profile,
+      duration: index === stops.length - 1 ? 4500 : index === 0 ? 2200 : 1600,
+    };
+    previous = stop.pose;
+    previousId = stop.id;
+    return leg;
+  });
+}
+function flyLocal(poses, duration, profile, legs = null) {
   cancelLocalFlight();
   const target = poses.at(-1);
   if (
@@ -817,9 +862,20 @@ function flyLocal(poses, duration, profile) {
       resolve(true);
     };
     function frame(now) {
-      const progress = Math.min(1, (now - started) / duration);
+      const elapsed = Math.min(duration, now - started),
+        progress = elapsed / duration;
       const view = cameraViewport();
-      paintLocalCamera(flightPose(from, target, curve, progress, view), false, view);
+      let pose;
+      if (legs) {
+        let time = elapsed, leg = legs[0];
+        for (const candidate of legs) {
+          leg = candidate;
+          if (time <= leg.duration) break;
+          time -= leg.duration;
+        }
+        pose = flightPose(leg.from, leg.to, leg.profile, Math.min(1, time / leg.duration), view);
+      } else pose = flightPose(from, target, curve, progress, view);
+      paintLocalCamera(pose, false, view);
       if (progress < 1) localFrame = requestAnimationFrame(frame);
       else localFinish();
     }
@@ -859,10 +915,12 @@ function position(previousId, animate = true, short = false) {
   }
   paintLocalCamera(localPose || overviewPose());
   const target = localTarget(current),
-    profile = flightProfile(localPose, target, short, previousId, current);
+    legs = travelPlan(previousId, current, localPose, short),
+    profile = legs[0].profile;
   // Inspection within one body never adds an artificial retreat.
   if (sameGroup && localBodyFor(previousId) === localBodyFor(current)) profile.depth = 0;
-  const settled = flyLocal([target], animate ? profile.duration : 0, profile);
+  const duration = legs.reduce((total, leg) => total + leg.duration, 0);
+  const settled = flyLocal([target], animate ? duration : 0, profile, legs.length > 1 ? legs : null);
   positionDetail({ iw: 1672, ih: 941, tx: -836, ty: -470.5, scale: 1 }, settled);
   const loaders = {
     mars: loadMars,
@@ -1375,7 +1433,7 @@ $('zoomIn').onclick = () => zoomStep(1);
 $('zoomOut').onclick = () => zoomStep(-1);
 
 // The journey's stops (#journeyStops), and the view each one opens.
-const stopViews={sun:'solar',mercury:'mercurywide',venus:'venuswide',earth:'system',moon:'moon',mars:'martian',ceres:'belt',jupiter:'jovian',saturn:'saturnian',uranus:'uranian',neptune:'neptunian',pluto:'plutonian',arrokoth:'kuiper',voyager2:'voyager2wide',voyager1:'voyager1wide'};
+const stopViews={sun:'sun',mercury:'mercury',venus:'venus',earth:'earth',moon:'moon',mars:'mars',ceres:'ceres',jupiter:'jupiter',saturn:'saturn',uranus:'uranus',neptune:'neptune',pluto:'pluto',arrokoth:'arrokoth',voyager2:'voyager2',voyager1:'voyager1'};
 document
   .querySelectorAll('[data-stop]')
   .forEach((b) => (b.onclick = () => go(stopViews[b.dataset.stop])));
@@ -1487,3 +1545,4 @@ initialNavigation.then(() => {
   const key = new URLSearchParams(location.search).get('note');
   if (key && fieldNotes[key]) openInfo(key);
 });
+

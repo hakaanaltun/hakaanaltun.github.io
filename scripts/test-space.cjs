@@ -144,7 +144,7 @@ run(fs.readFileSync('js/space-journey.js','utf8'));
  const enceladus=run("go('enceladus')");await flush();await element('enceladusHigh').onload();await flush();assert.notEqual(element('enceladusHigh').style.opacity,'1');await finish(enceladus);assert.equal(element('enceladusHigh').style.opacity,'1');
  // Uranus extends the route and Miranda reveals its registered native mosaic after arrival.
  reduced=true;await run("go('enceladus')");assert.equal(element('nextLabel').textContent,'Uranus');
- await nav.find(b=>b.dataset.stop==='uranus').onclick();assert.equal(run('current'),'uranian');assert.equal(element('count').textContent,'10 / 15');
+ await nav.find(b=>b.dataset.stop==='uranus').onclick();assert.equal(run('current'),'uranus');assert.equal(element('count').textContent,'10 / 15');
  await run("go('uranus')");reduced=false;const mirandaTrip=run("go('miranda')");await flush();await element('mirandaHigh').onload();await flush();assert.notEqual(element('mirandaHigh').style.opacity,'1');await finish(mirandaTrip);assert.equal(element('mirandaHigh').style.opacity,'1');
  assert.equal(element('nextLabel').textContent,'Neptune');assert.equal(element('previousLabel').textContent,'Uranus');
  await finish(run("go('mirandaterrain')"));assert.equal(element('mirandaHigh').style.opacity,'1');await finish(element('pullBack').onclick());assert.equal(run('current'),'uranian');
@@ -154,7 +154,7 @@ run(fs.readFileSync('js/space-journey.js','utf8'));
  await run("go('farside')");assert.equal(element('earthDetail').style.opacity,'0');assert.equal(element('moon').style.opacity,'0');assert.equal(element('farside').style.opacity,'1');assert.equal(element('earth').style.opacity,'1');
  await run("go('southpole')");assert.equal(element('vesta').style.opacity,'0');assert.equal(element('vestasouth').style.opacity,'1');assert.equal(element('ceres').style.opacity,'1');
  await run("go('belt')");assert.equal(element('vesta').style.opacity,'1');assert.equal(element('vestasouth').style.opacity,'0');
- await nav.find(b=>b.dataset.stop==='mars').onclick();assert.equal(run('current'),'martian');await nav.find(b=>b.dataset.stop==='ceres').onclick();assert.equal(run('current'),'belt');
+ await nav.find(b=>b.dataset.stop==='mars').onclick();assert.equal(run('current'),'mars');await nav.find(b=>b.dataset.stop==='ceres').onclick();assert.equal(run('current'),'ceres');
  // Original long notes keep every paragraph and source, including future-route subjects.
  assert.equal(run('Object.keys(fieldNotes).length'),65);
  // The reading version without JavaScript and the site's search read the same notes from _data/space_notes.json, so the two copies must agree note for note.
@@ -175,21 +175,21 @@ run(fs.readFileSync('js/space-journey.js','utf8'));
   }
  }
  delete element('caption').getBoundingClientRect;delete element('topTools').getBoundingClientRect;delete element('stage').getBoundingClientRect;
- await nav.find(b=>b.dataset.stop==='neptune').onclick();assert.equal(run('current'),'neptunian');await run("go('tritonice')");assert.equal(element('nextLabel').textContent,'Pluto');assert.equal(element('count').textContent,'11 / 15');
+ await nav.find(b=>b.dataset.stop==='neptune').onclick();assert.equal(run('current'),'neptune');await run("go('tritonice')");assert.equal(element('nextLabel').textContent,'Pluto');assert.equal(element('count').textContent,'11 / 15');
  // Pluto's entry and Charon's high-resolution arrival share the established navigation contract.
- await nav.find(b=>b.dataset.stop==='pluto').onclick();assert.equal(run('current'),'plutonian');assert.equal(element('count').textContent,'12 / 15');
+ await nav.find(b=>b.dataset.stop==='pluto').onclick();assert.equal(run('current'),'pluto');assert.equal(element('count').textContent,'12 / 15');
  await run("go('pluto')");run("openInfo('sputnik')");assert.equal(element('infoTitle').textContent,'Ice that slowly renews its surface.');run('closeInfo()');
  reduced=false;const charonTrip=run("go('charon')");await flush();await element('charonHigh').onload();await flush();assert.notEqual(element('charonHigh').style.opacity,'1');await finish(charonTrip);assert.equal(element('charonHigh').style.opacity,'1');assert.equal(element('nextLabel').textContent,'Arrokoth');
  await finish(run("go('charonpole')"));run("openInfo('charonpole')");assert.equal(element('infoText').children.length,3);run('closeInfo()');await finish(element('pullBack').onclick());assert.equal(run('current'),'plutonian');reduced=true;
  // Arrokoth preserves the source frame across approach, neck, color and wide return.
- await nav.find(b=>b.dataset.stop==='arrokoth').onclick();assert.equal(run('current'),'kuiper');assert.equal(element('count').textContent,'13 / 15');
+ await nav.find(b=>b.dataset.stop==='arrokoth').onclick();assert.equal(run('current'),'arrokoth');assert.equal(element('count').textContent,'13 / 15');await element('pullBack').onclick();
  reduced=false;const arrokothTrip=element('arrokothTarget').onclick();await flush();await element('arrokothHigh').onload();await flush();assert.notEqual(element('arrokothHigh').style.opacity,'1');await finish(arrokothTrip);assert.equal(element('arrokothHigh').style.opacity,'1');assert.equal(element('nextLabel').textContent,'Voyager 2');
  await finish(element('zoomIn').onclick());assert.equal(run('current'),'arrokothneck');assert.equal(element('arrokothHigh').style.opacity,'1');
  for(const id of ['kuiper','arrokoth','arrokothneck','arrokothcolor']){run(`openInfo('${id}')`);assert.equal(element('infoText').children.length,3);assert(element('infoSources').children.length>=2);run('closeInfo()')}
  await finish(element('excursion').onclick());assert.equal(run('current'),'arrokothcolor');await finish(element('zoomOut').onclick());assert.equal(run('current'),'arrokoth');await finish(element('pullBack').onclick());assert.equal(run('current'),'kuiper');reduced=true;
  // Voyagers occupy separate regions, retain native detail and share the standard zoom route.
  for(const [body,count,next] of [['voyager2','14 / 15','Voyager 1'],['voyager1','15 / 15','End of route']]){
-  await nav.find(b=>b.dataset.stop===body).onclick();assert.equal(run('current'),body+'wide');assert.equal(element('count').textContent,count);
+  await nav.find(b=>b.dataset.stop===body).onclick();assert.equal(run('current'),body);assert.equal(element('count').textContent,count);await element('pullBack').onclick();
   reduced=false;const arrival=element(body+'Target').onclick();await flush();await element(body+'High').onload();await flush();assert.notEqual(element(body+'High').style.opacity,'1');await finish(arrival);assert.equal(element(body+'High').style.opacity,'1');assert.equal(element('nextLabel').textContent,next);
   assert.equal(element(body+'High').src,'assets/voyager-detail-v20.webp');
   await finish(element('zoomIn').onclick());assert.equal(run('current'),body+'antenna');await finish(element('zoomIn').onclick());assert.equal(run('current'),body+'record');
@@ -206,7 +206,7 @@ run(fs.readFileSync('js/space-journey.js','utf8'));
  await run("go('earth')");for(const body of ['venus','mercury','sun']){await element('viewPrevious').onclick();assert.equal(run('current'),body)}assert.equal(element('viewPrevious').disabled,true);
  for(const body of ['mercury','venus','earth']){await element('viewNext').onclick();assert.equal(run('current'),body)}
  for(const [body,wide,count] of [['venus','venuswide','03 / 15'],['mercury','mercurywide','02 / 15'],['sun','solar','01 / 15']]){
-  await nav.find(b=>b.dataset.stop===body).onclick();assert.equal(run('current'),wide);assert.equal(element('count').textContent,count);reduced=false;
+  await nav.find(b=>b.dataset.stop===body).onclick();assert.equal(run('current'),body);assert.equal(element('count').textContent,count);await element('pullBack').onclick();assert.equal(run('current'),wide);reduced=false;
   const arrival=element(body+'Target').onclick();await flush();await element(body+'High').onload();await flush();assert.notEqual(element(body+'High').style.opacity,'1');await finish(arrival);assert.equal(element(body+'High').style.opacity,'1');
   await finish(element('zoomIn').onclick());assert(run('scenes[current].zoom>scenes[localBodyFor(current)].zoom'));reduced=true;
  }
@@ -321,6 +321,53 @@ run(fs.readFileSync('js/space-journey.js','utf8'));
  reduced=false;const resized=run("go('moon')");await flush();await tick(1000);events.resize();await finish(resized);assert(!classes.has('inside-flight'));
  reduced=true;browserPop(-1);await finish();assert(!classes.has('inside-flight'));
  location.search='';}
+ // Every named footer destination arrives close, just like its globe target.
+ reduced=true;
+ for(const button of nav){
+  await button.onclick();
+  assert.equal(run('current'),button.dataset.stop);
+  assert(!classes.has('wide-view'));
+  near(run('localPose.scale'),run(`localTarget('${button.dataset.stop}').scale`));
+ }
+ // Long journeys cross every intervening region, periodically open out, and
+ // finish at the requested inspection without putting passing views in history.
+ for(const [width,height] of [[1366,768],[390,844],[844,390]]){
+  element('stage').clientWidth=width;element('stage').clientHeight=height;
+  for(const [from,to] of [['earth','neptune'],['neptune','earth'],['sun','voyager1']]){
+   reduced=true;await run(`go('${from}')`);reduced=false;
+   const legs=run(`travelPlan('${from}','${to}',localPose)`),historyLength=browserEntries.length;
+   assert(legs.length>=3);
+   const trip=run(`go('${to}')`);await flush();
+   let widePassages=0;
+   for(const [index,leg] of legs.entries()){
+    await tick(leg.duration);
+    near(run('localPose.x'),leg.to.x);near(run('localPose.y'),leg.to.y);near(run('localPose.scale'),leg.to.scale);
+    assert.equal(location.hash,'#'+to);assert.equal(run('current'),to);
+    assert.equal(browserEntries.length,historyLength+1);
+    if(index<legs.length-1){
+     assert(classes.has('camera-moving'));assert.equal(element('travelStatus').hidden,false);
+     if(!leg.profile.inside)widePassages++;
+    }
+   }
+   assert(widePassages>0);assert.equal(await trip,true);
+   near(run('localPose.scale'),run(`localTarget('${to}').scale`));
+   assert(!classes.has('wide-view'));assert(!classes.has('camera-moving'));assert.equal(frames.size,0);
+   browserHistory.back();await finish();assert.equal(run('current'),from);
+  }
+ }
+ // Interrupt a wide passage. Plan from the actual region, not the abandoned
+ // final destination; skip and resize must also finish the complete new trip.
+ reduced=true;await run("go('earth')");reduced=false;
+ const longTrip=run("go('voyager1')");await flush();await tick(3200);
+ const widePose=run('({...localPose})');
+ const redirected=run("go('venus')");await flush();near(run('localPose.x'),widePose.x);
+ assert.equal(await longTrip,false);run('finishTravel()');await finish(redirected);
+ assert.equal(run('current'),'venus');near(run('localPose.scale'),run("localTarget('venus').scale"));assert.equal(frames.size,0);
+ const longResize=run("go('voyager1')");await flush();await tick(3200);events.resize();await finish(longResize);
+ assert.equal(run('current'),'voyager1');near(run('localPose.scale'),run("localTarget('voyager1').scale"));assert.equal(frames.size,0);
+ reduced=true;await run("go('sun')");assert.equal(frames.size,0);near(run('localPose.scale'),run("localTarget('sun').scale"));
  assert.equal(run('Object.keys(scenes).length'),74);
+ console.log('Passed: every footer destination arrives close; long routes in both directions at desktop, portrait and landscape sizes; intermediate wide passages; one history entry per journey; retarget, skip, resize and reduced motion on long routes.');
  console.log('Passed: 74 scenes, all fourteen wide views at eight sizes, measured caption clearance, 65 sourced field notes the same in the reading version, reversible route and endpoint boundaries, fixed global geometry, direct globe/zoom controls, continuous region travel, distinct reversible curved routes, rapid retarget/reverse, skip, browser Back/Forward, decode failure/stale load, native detail arrival/retry, resize, alternate observations, keyboard routing and asset paths.');
 })().catch(e=>{console.error(e);process.exitCode=1});
+

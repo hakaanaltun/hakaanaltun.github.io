@@ -242,6 +242,15 @@ accuracy and plain prose to this section as well.
   single painting, and the layout says so rather than setting them side by
   side as equals.
 
+- **Choosing a destination brings the reader close to it.** The Solar
+  System journey sets the pattern for future journeys: move through the
+  places between departure and arrival, open out occasionally on longer
+  journeys to show where they belong, and finish close to the chosen
+  subject. Every way of choosing that subject leads to the same arrival.
+  A wide view remains available whenever the reader wants their bearings.
+  The reader can change course, arrive immediately or retrace their steps;
+  reduced motion keeps the same destinations without the moving journey.
+
 - For watercolor pictures, follow The Farm House’s watercolor language: broad brush strokes,
   transparent washes, a limited value range, visible pencil, occasional
   unfinished edges and exposed paper. Paint from scientific or historical
@@ -361,3 +370,4 @@ Trivia contains quizzes. These rules govern what belongs inside them.
   question is reworded or moved; a new question gets a new id.
 - Keep the prose plain, as everywhere else here, and let the content do the
   work.
+
