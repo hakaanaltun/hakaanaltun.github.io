@@ -89,9 +89,14 @@ rule written there.
   globe buttons and the previous/next arrows. Explicit wide-view controls
   and old wide-view addresses keep their meaning.
   `travelPlan` uses the ordered `regionOrigins`. Transfers crossing three
-  or more region intervals pass every intervening region, alternating a
-  smaller inspection view with a wide view, then approach the exact target.
-  Neighboring transfers retain their accepted curves and timing. Camera
+  or more region intervals pass the intervening regions on one continuous
+  curve. A single slow opening provides context, its scale stays steady
+  through the middle, and only the final approach returns to inspection.
+  Do not restart easing, zoom or orientation at each world. The first
+  implementation did so in 1.6-second legs; the author rejected its fast,
+  mechanical oscillation on 23 October 2026. Longer trips now take 8 seconds
+  plus 5 seconds per additional region interval, capped at 72 seconds.
+  Neighboring transfers retain their accepted curves and timing. Geometry
   waypoints do not change captions, selection, reading content or history.
   One animation owns the whole trip, so Arrive now reaches its final target;
   retargeting starts at the actual camera position, including during a wide
@@ -99,7 +104,7 @@ rule written there.
   intermediate stops. Reduced motion and resize settle at the same target.
   Keep the regression cases in `scripts/test-space.cjs` when adapting this
   model: all entry controls agree, long routes work in both directions,
-  wide passages never replace the requested arrival, interruptions leave
+  a broad opening never replaces the requested arrival, interruptions leave
   no stale animation, and intermediate views add no history entries.
 - **Travel measures its viewport once per frame.** On 21 October 2026 the
   author reported pauses during transfers. Frame painting now shares one
