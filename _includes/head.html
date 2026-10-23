@@ -39,7 +39,7 @@ if(!(n>=1&&n<=12))return;
 if(n===1){document.documentElement.removeAttribute('data-palette');return;}
 document.documentElement.setAttribute('data-palette',String(n));
 var t=document.documentElement.getAttribute('data-theme');
-if(t==='dark'||t==='midnight'||t==='sky')return;
+if(t==='dark'||t==='midnight'||t==='sky'||document.documentElement.hasAttribute('data-sky'))return;
 if(!t&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches)return;
 var C={2:'#3E4A44',3:'#3A4148',4:'#5E4234',5:'#3E4F42',6:'#22364F',7:'#59513A',8:'#47415A',9:'#234640',10:'#5E4046',11:'#45412E',12:'#2E3F45'};
 var m=document.querySelector('meta[name="theme-color"][data-light]');if(m&&C[n])m.setAttribute('content',C[n]);}catch(e){}})();</script>
@@ -313,7 +313,7 @@ that are say so without moving out of this branch. {% endcomment %}
 {% comment %} One stylesheet pair for every page, whichever branch above
 wrote its head, so each ?v= is changed in one place. {% endcomment %}
 <link rel="stylesheet" href="/css/style.css?v=20261023-2">
-<link rel="stylesheet" href="/css/palettes.css?v=20261023-1">
+<link rel="stylesheet" href="/css/palettes.css?v=20261023-2">
 
 {% comment %} A word story, described for machines.
 

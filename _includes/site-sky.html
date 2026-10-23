@@ -1,28 +1,33 @@
 {% comment %}
   site-sky.html — "Follow the sky" as a theme for the whole site.
 
-  Where an instrument has four tokens, the site has a full block: grounds,
-  four tiers of text, rules, the note wall, the section accent. This paints
-  all of them from the two things the ramp gives — a ground and an ink mix —
-  because a theme whose paper moves has to keep every relation to that paper
-  moving with it. Anything fixed (icons, shadows, colour-scheme) is a plain
-  block in css/style.css instead; only what depends on the sun is here.
+  The sky has two halves, both in sky-ramp.html, which says why. From
+  sunrise to sunset the theme is its day, a light paper with dark ink, set
+  by the same rules as the twelve light palettes. From sunset to sunrise it
+  is the night ramp, the deep navy and the violet of twilight, with light
+  ink.
 
-  The tiers are alpha over the ground rather than free colours, so the
-  hierarchy holds at every altitude instead of at one. Their contrast was
-  checked against the ramp: ink at least 6.5:1 and --vizon 5.5:1.
+  By day the painter sets <html data-theme="light">, so every rule written
+  for the light path applies, and data-sky="day"; css/palettes.css leaves a
+  stored palette alone while data-sky is on. By night it sets
+  data-theme="sky" and data-sky="night". js/theme.js, js/palettes.js and
+  the search read data-sky to know the sky is the choice either way.
 
-  Every section keeps its own hue, chroma and minimum lightness. The
-  shared floor follows the ground, and style.css mixes the resulting base
-  with 12% white once. The curve below was fitted against the final mixed
-  accents across the whole sky ramp.
-  It keeps accents above 4.5:1 even on the slightly lighter hero band.
-  Every section and the theme preview read this same floor.
+  The night: where an instrument has four tokens, the site has a full block:
+  grounds, four tiers of text, rules, the note wall, the section accent. It
+  paints all of them from the two things the ramp gives, a ground and an ink
+  mix. The tiers are alpha over the ground, so the hierarchy holds at every
+  altitude; ink is at least 6.5:1 and --vizon 5.5:1. Every section keeps its
+  own hue, chroma and minimum lightness; the shared floor follows the
+  ground, and style.css mixes the base with 12% white once.
 
   The block is computed and returned before it is applied, because it has a
   second reader: the Follow the sky card on /themes/ is painted from the
   same tokens, so the card is not a drawing of the theme but the theme, at
   the minute it is looked at.
+
+  ?hour=13 stands the sun where it will be at that hour today, in the
+  reader's own city (sky-ramp.html), so any hour can be looked at.
 
   Runs before first paint. js/theme.js drives it afterwards and re-paints
   every minute.
@@ -34,13 +39,38 @@
   var TOKENS = ["--bg","--paper","--surface-soft","--band","--sky-band-hero","--note-base",
     "--footer-strip-bg","--ink","--ink-soft","--vizon","--footer-strip-ink","--footer-text",
     "--footer-muted","--hero-source-muted","--rule","--rule-strong","--rule-cream",
-    "--header-border","--drawer-bg","--sky-ld-floor"];
+    "--header-border","--drawer-bg","--sky-ld-floor","--sky-chrome-rgb","--sec-l"];
 
-  /* Every token this theme moves, for one altitude of the sun. It only
-     computes: the two callers below decide what to do with the answer —
-     paint() writes it to <html>, js/palettes.js reads it to paint one card
-     on /themes/ without a second copy of the arithmetic. */
-  function tokens(alt){
+  /* Every token the day moves, for one altitude. The colours are
+     sky-ramp.html's DAY; this is only where each one goes. */
+  function dayTokens(alt){
+    var d = S.dayAt(alt), t = {};
+    t["--bg"] = S.rgb(d.paper);
+    t["--paper"] = S.rgb(d.paper);
+    t["--surface-soft"] = S.rgb(d.surface);
+    t["--band"] = S.rgb(d.band);
+    t["--footer-strip-bg"] = S.rgb(d.paper);
+    t["--ink"] = S.rgb(d.ink);
+    t["--ink-soft"] = S.rgb(d.inkSoft);
+    t["--vizon"] = S.rgb(d.vizon);
+    t["--footer-strip-ink"] = S.rgb(d.stripInk);
+    t["--hero-source-muted"] = S.rgb(d.stripInk);
+    t["--rule"] = S.rgb(d.rule);
+    t["--rule-strong"] = S.rgb(d.ruleStrong);
+    t["--rule-cream"] = S.rgb(d.ruleCream);
+    t["--footer-text"] = S.rgb(d.footText);
+    t["--footer-muted"] = S.rgb(d.footMuted);
+    t["--header-border"] = "rgba(" + d.footText.join(",") + ",0.20)";
+    t["--drawer-bg"] = "rgba(" + d.paper.join(",") + ",0.985)";
+    /* the header and footer; css/palettes.css hands it to <body>, whose
+       own --chrome-rgb would otherwise win */
+    t["--sky-chrome-rgb"] = d.chrome.join(", ");
+    t["--sec-l"] = d.secL.toFixed(3);
+    return t;
+  }
+
+  /* Every token the night moves, for one altitude of the sun. */
+  function nightTokens(alt){
     var sky = S.skyAt(alt), g = sky[1], m = sky[2];
     var ink = S.mix(S.CREAM, S.DAYINK, m);
     var t = {};
@@ -80,26 +110,48 @@
 
     return t;
   }
-  /* TOKENS is the list applied as well as the list cleared, so the two can
-     no longer drift apart: anything tokens() adds without a name here is
-     simply never painted, rather than painted and left behind on the next
-     theme. */
-  function paint(alt){
-    var t = tokens(alt), st = document.documentElement.style;
-    TOKENS.forEach(function(k){ st.setProperty(k, t[k]); });
-
-    /* the browser chrome follows the sheet, as it does for every theme */
-    var metas = document.querySelectorAll('meta[name="theme-color"]');
-    for(var i = 0; i < metas.length; i++) metas[i].setAttribute("content", t["--paper"]);
+  /* Every token this theme moves, for one altitude of the sun. It only
+     computes: the two callers below decide what to do with the answer —
+     paint() writes it to <html>, js/palettes.js reads it to paint one card
+     on /themes/ without a second copy of the arithmetic. `day` and
+     `chrome` travel with the tokens for that card; they are not painted. */
+  function tokens(alt){
+    var day = alt >= S.SUNRISE, t = day ? dayTokens(alt) : nightTokens(alt);
+    t.day = day;
+    /* the header and footer: the day's chrome, or by night the band, which
+       is what the night's header and footer are painted with */
+    t.chrome = day ? "rgb(" + t["--sky-chrome-rgb"] + ")" : t["--band"];
+    return t;
   }
+  /* TOKENS is the list applied as well as the list cleared, so the two can
+     no longer drift apart: a token one half sets and the other does not is
+     taken off as the sky turns, rather than left behind. */
+  function paint(alt){
+    var t = tokens(alt), root = document.documentElement, st = root.style;
+    TOKENS.forEach(function(k){
+      if(k in t) st.setProperty(k, t[k]); else st.removeProperty(k);
+    });
+    root.setAttribute("data-sky", t.day ? "day" : "night");
+    root.setAttribute("data-theme", t.day ? "light" : "sky");
+
+    /* the browser chrome follows the sheet by night and the header by day,
+       as it does for the dark themes and the palettes */
+    var metas = document.querySelectorAll('meta[name="theme-color"]');
+    for(var i = 0; i < metas.length; i++){
+      metas[i].setAttribute("content", t.day ? t.chrome : t["--paper"]);
+    }
+  }
+  /* Leaving the sky: the caller sets the theme it is leaving for. */
   function clear(){
-    var st = document.documentElement.style;
+    var root = document.documentElement, st = root.style;
     TOKENS.forEach(function(t){ st.removeProperty(t); });
+    root.removeAttribute("data-sky");
   }
   window.OLAE_SITE_SKY = {
     paint: paint, clear: clear,
     paintNow: function(){ paint(S.altitudeNow()); },
-    tokensNow: function(){ return tokens(S.altitudeNow()); }
+    tokensNow: function(){ return tokens(S.altitudeNow()); },
+    isOn: function(){ return document.documentElement.hasAttribute("data-sky"); }
   };
 })();
 </script>

@@ -30,6 +30,7 @@
     return el && !el.hidden ? el : null;
   }
   function theme() {
+    if (document.documentElement.hasAttribute('data-sky')) return 'sky';
     return document.documentElement.getAttribute('data-theme') || 'system';
   }
   function weather(kind) {

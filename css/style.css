@@ -333,9 +333,11 @@ html[data-theme="midnight"] body {
    once before first paint and once a minute after. What is left here is
    only what the sun does not move.
 
-   The ramp runs from midnight navy to a daytime slate, light ink throughout,
-   so this is a dark theme at every hour and the scrollbars and form controls
-   should say so.
+   Since 23 October 2026 the sky has two halves. By day the painter sets
+   data-theme="light", so the light path's rules apply and nothing here
+   does. These rules are the night's: from sunset to sunrise the ramp runs
+   from midnight navy through twilight with light ink, a dark theme, and
+   the scrollbars and form controls should say so.
    ========================================================================== */
 html[data-theme="sky"] {
   color-scheme: dark;
@@ -389,8 +391,9 @@ html[data-theme="sky"] body {
    Measured in Chromium on 23 October 2026, as text on each homepage
    section's own ground: 4.94:1 at worst across the twelve light palettes
    (Trivia on Vellum), 7.05:1 on Dark (Pictures and Tonight), 8.85:1 on
-   Midnight, and 5.1:1 at worst on Follow the sky, at every height of the
-   sun and on its hero band.
+   Midnight, and 5.1:1 at worst on Follow the sky's night, at every height
+   of the sun and on its hero band. By day the sky prints them as the
+   palettes do: 5.0:1 at worst (Trivia), and above 4.5:1 on its band.
 
    Midnight pins --petrol to its own single gold further up, so its navy and
    gold stay as they are; only Notes keeps its silver there.

@@ -159,8 +159,9 @@
      is no second copy of the arithmetic to keep in sync.
 
      The voices are the one thing this has to know for itself: the table
-     at the top. On the sky the browser lifts each one to the sun's floor
-     with max() and mixes in 12% white; both are repeated here rather than
+     at the top. By day the sky prints them as a palette does, at its own
+     --sec-l. By night the browser lifts each one to the sun's floor with
+     max() and mixes in 12% white; both are repeated here rather than
      precomputed, because the floor moves.
 
      Null if site-sky.html is not on the page: a preview of the sky that
@@ -173,9 +174,10 @@
     return {
       key: 'sky', name: 'Follow the sky', tag: 'the hour you are reading in',
       paper: t['--paper'], inkSoft: t['--ink-soft'], vizon: t['--vizon'],
-      chrome: t['--footer-strip-bg'], ftext: t['--footer-text'],
+      chrome: t.chrome, ftext: t['--footer-text'],
       fmuted: t['--footer-muted'],
       acc: VOICES.map(function (v) {
+        if (t.day) return oklch(parseFloat(t['--sec-l']) - v.dl, v.c, v.h);
         return 'color-mix(in srgb, ' + oklch(Math.max(v.ld, floor), v.cd, v.h) + ' 88%, #FFFFFF)';
       })
     };
@@ -187,6 +189,7 @@
   /* theme.js owns this key; read it here so the tick can sit on Dark,
      Midnight or Follow the sky when one of them is the stored choice. */
   function storedTheme() {
+    if (document.documentElement.hasAttribute('data-sky')) return 'sky';
     return document.documentElement.getAttribute('data-theme') || 'system';
   }
   /* Keep <meta name="theme-color"> on the active palette's chrome — but
@@ -196,6 +199,7 @@
     var n = parseInt(stored(), 10);
     var t = document.documentElement.getAttribute('data-theme');
     if (t === 'dark' || t === 'midnight' || t === 'sky') return;  /* the dark side sets its own */
+    if (document.documentElement.hasAttribute('data-sky')) return;  /* and the sky by day */
     if (!t && window.matchMedia('(prefers-color-scheme: dark)').matches) return;
     document.querySelectorAll('meta[name="theme-color"][data-light]').forEach(function (m) {
       var v = n >= 2 && n <= COUNT && CHROME[n] ? CHROME[n] : m.getAttribute('data-light');
@@ -435,6 +439,7 @@
   /* Is the light path the one CSS is painting? An explicit theme decides it;
      with none, the system does. */
   function dayIsOn() {
+    if (document.documentElement.hasAttribute('data-sky')) return false;
     var t = document.documentElement.getAttribute('data-theme');
     if (t) return t === 'light';
     return !window.matchMedia('(prefers-color-scheme: dark)').matches;

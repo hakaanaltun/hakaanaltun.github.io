@@ -142,6 +142,87 @@ for(const month of [0,3,6,9])for(const hour of [0,6,12,18]){
   if(Math.abs(pos.altitude)<85)assert(Math.abs((pos.azimuth-h.azimuth+540)%360-180)<.3);
   assert.equal(A.sunAltitude(now,lat,lng),pos.altitude);
 }
+// Follow the sky as the site's theme: a light day from sunrise to sunset,
+// the night ramp from sunset to sunrise, each with its own contrast floors.
+{
+  const sky=(hour,instant='2026-10-23T10:00:00Z')=>{
+    const dom=new JSDOM(fs.readFileSync(path.join(built,'index.html'),'utf8'),{url:'https://hakanaltun.io/'+(hour===undefined?'':'?hour='+hour),runScripts:'outside-only'});
+    const w=dom.window,NativeDate=w.Date,NativeIntl=w.Intl;
+    w.Date=class extends NativeDate{constructor(...args){super(...(args.length?args:[instant]));}static now(){return new NativeDate(instant).getTime();}};
+    w.Intl={DateTimeFormat:function(...args){const fmt=new NativeIntl.DateTimeFormat(...args);if(!args.length)fmt.resolvedOptions=()=>({timeZone:'Europe/Istanbul'});return fmt;}};
+    const inline=[...w.document.querySelectorAll('script:not([src])')].map(s=>s.textContent);
+    w.eval(inline.find(s=>s.includes('OLAE_SKY =')));
+    w.eval(inline.find(s=>s.includes('OLAE_SITE_SKY =')));
+    return {dom,w,root:w.document.documentElement,SITE:w.OLAE_SITE_SKY};
+  };
+  const parse=c=>c.match(/[\d.]+/g).slice(0,3).map(Number);
+  const lum=c=>{const [r,g,b]=parse(c).map(v=>{v/=255;return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4);});return 0.2126*r+0.7152*g+0.0722*b;};
+  const ratio=(a,b)=>{const A=lum(a),B=lum(b);return (Math.max(A,B)+0.05)/(Math.min(A,B)+0.05);};
+  const s=sky();
+  const css=k=>s.root.style.getPropertyValue(k);
+  for(let alt=-30;alt<=80;alt+=0.5){
+    s.SITE.paint(alt);
+    const day=alt>=0,at=' at '+alt+'°';
+    assert.equal(s.root.getAttribute('data-sky'),day?'day':'night','the half'+at);
+    assert.equal(s.root.getAttribute('data-theme'),day?'light':'sky','the path'+at);
+    const grounds=['--paper','--surface-soft','--band'];
+    assert(ratio(css('--ink'),css('--paper'))>=(day?11:6.5),'ink'+at);
+    for(const g of grounds){
+      assert(ratio(css('--ink-soft'),css(g))>=(day?8:6),'ink-soft on '+g+at);
+      assert(ratio(css('--vizon'),css(g))>=(day?4.5:5.4),'vizon on '+g+at);
+    }
+    assert(ratio(css('--vizon'),css('--paper'))>=(day?5:5.5),'vizon on the sheet'+at);
+    if(day){
+      const chrome='rgb('+css('--sky-chrome-rgb')+')';
+      assert(ratio(css('--footer-text'),chrome)>=7,'footer text on the chrome'+at);
+      assert(ratio(css('--footer-muted'),chrome)>=4.5,'footer muted on the chrome'+at);
+      assert.equal(css('--note-base'),'','the night\'s tokens are taken off by day'+at);
+      assert(+css('--sec-l')>0.4&&+css('--sec-l')<0.52,'the accents\' lightness'+at);
+    }else{
+      assert.equal(css('--sky-chrome-rgb'),'','the day\'s tokens are taken off by night'+at);
+      assert.notEqual(css('--note-base'),'','the note wall'+at);
+    }
+  }
+  s.SITE.clear();
+  assert.equal(s.root.hasAttribute('data-sky'),false);
+  assert.equal(css('--paper'),'');
+  s.dom.window.close();
+  // The instruments follow the same two halves with their four tokens,
+  // keeping data-theme="sky" so their buttons know the choice.
+  {
+    const dom=new JSDOM(fs.readFileSync(path.join(built,'list','index.html'),'utf8'),{url:'https://hakanaltun.io/list/',runScripts:'outside-only'});
+    const w=dom.window,root=w.document.documentElement;
+    w.localStorage.setItem('olae-page-theme','sky');
+    const inline=[...w.document.querySelectorAll('head script:not([src])')].map(s=>s.textContent);
+    w.eval(inline.find(s=>s.includes('OLAE_SKY =')));
+    w.eval(inline.find(s=>s.includes('OLAE_PAGE_SKY =')));
+    const css=k=>root.style.getPropertyValue(k);
+    const solid=k=>{const c=css(k).match(/[\d.]+/g).map(Number),g=parse(css('--paper'));return c.length<4?css(k):'rgb('+[0,1,2].map(i=>Math.round(c[i]*c[3]+g[i]*(1-c[3]))).join(',')+')';};
+    for(let alt=-30;alt<=80;alt+=0.5){
+      w.OLAE_PAGE_SKY.paint(alt);
+      const day=alt>=0,at=' on The List at '+alt+'°';
+      assert.equal(root.getAttribute('data-theme'),'sky','the choice'+at);
+      assert.equal(root.getAttribute('data-sky'),day?'day':'night','the half'+at);
+      assert(day?lum(css('--paper'))>0.8:lum(css('--paper'))<0.1,'the paper'+at);
+      assert(ratio(css('--ink'),css('--paper'))>=(day?11:6.5),'ink'+at);
+      assert(ratio(solid('--muted'),css('--paper'))>=(day?5:4.5),'muted'+at);
+    }
+    w.OLAE_PAGE_SKY.clear();
+    assert.equal(root.hasAttribute('data-sky'),false);
+    assert.equal(css('--paper'),'');
+    dom.window.close();
+  }
+  // ?hour= stands the sun where it will be at that hour today, in İstanbul,
+  // on the reader's own clock.
+  const tz=process.env.TZ;process.env.TZ='Europe/Istanbul';
+  for(const [hour,half] of [[2,'night'],[6.5,'night'],[7.5,'day'],[13,'day'],[18,'day'],[19,'night'],['25',null],['x',null]]){
+    const h=sky(hour);h.SITE.paintNow();
+    if(half)assert.equal(h.root.getAttribute('data-sky'),half,'?hour='+hour);
+    else assert.equal(h.root.getAttribute('data-sky'),'day','?hour='+hour+' is ignored: 13:00 in İstanbul');
+    h.dom.window.close();
+  }
+  if(tz===undefined)delete process.env.TZ;else process.env.TZ=tz;
+}
 // The homepage's Tonight: the sun and the moon at once, then the map and
 // the planets from The Stars' own scripts, asked for only for a known city.
 async function home(zone,instant){
@@ -187,5 +268,5 @@ async function home(zone,instant){
     assert.deepEqual(h.requested,[],'no map without a place');
     h.dom.window.close();
   }
-  console.log('Window sky checks passed: star data and names, visitor clock, city/fallback, minus signs and dashed runs, a slider through the night, the moon toward the sun, every planet labelled, Tonight on the homepage, daylight, polar events and solar bearings.');
+  console.log('Window sky checks passed: star data and names, Follow the sky by day and by night on the site and the instruments, with their contrast floors and ?hour=, visitor clock, city/fallback, minus signs and dashed runs, a slider through the night, the moon toward the sun, every planet labelled, Tonight on the homepage, daylight, polar events and solar bearings.');
 })().catch(e=>{console.error(e);process.exit(1);});

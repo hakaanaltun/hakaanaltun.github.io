@@ -3,12 +3,19 @@
   applied before first paint so there is no flash.
 
   'light' and 'dark' are the corner button's two states; 'sky' is the third,
-  where the paper follows the sun over the reader's nearest city. The sun
-  and the ramp are sky-ramp.html, shared with the site theme; this file is
-  only what an instrument does with them — its four tokens, --paper, --ink,
-  --muted and --line, which is the whole palette these pages have.
+  where the paper follows the sun over the reader's nearest city. The sun,
+  the day's papers and the night's ramp are sky-ramp.html, shared with the
+  site theme; this file is only what an instrument does with them — its
+  four tokens, --paper, --ink, --muted and --line, which is the whole
+  palette these pages have. By day they are the site's day, with the
+  muted tier and the rule of its paper; by night, the ramp's ground and
+  light ink. data-theme stays "sky" in both halves, so the buttons know
+  the choice; data-sky says which half it is, and the page's scrollbars
+  and controls take its colour scheme.
 
-  Exposes window.OLAE_PAGE_SKY = { pickCity, sunAltitude, paint, clear }.
+  ?hour=13 shows the hour, as on the site (sky-ramp.html).
+
+  Exposes window.OLAE_PAGE_SKY = { pickCity, sunAltitude, now, paint, clear }.
 {% endcomment %}
 {% include sky-ramp.html %}
 <script>
@@ -16,20 +23,32 @@
   "use strict";
   var S = window.OLAE_SKY;
   function paint(alt){
-    var sky = S.skyAt(alt), st = document.documentElement.style;
-    var ground = sky[1], m = sky[2];
-    var ink = S.mix(S.CREAM, S.DAYINK, m);
-    st.setProperty("--paper", S.rgb(ground));
-    st.setProperty("--ink", S.rgb(ink));
-    st.setProperty("--muted", "rgba(" + ink.join(",") + "," + S.lerp(0.80, 0.95, m).toFixed(3) + ")");
-    st.setProperty("--line", "rgba(" + ink.join(",") + "," + S.lerp(0.28, 0.42, m).toFixed(3) + ")");
+    var root = document.documentElement, st = root.style, day = alt >= S.SUNRISE;
+    if(day){
+      var d = S.dayAt(alt);
+      st.setProperty("--paper", S.rgb(d.paper));
+      st.setProperty("--ink", S.rgb(d.ink));
+      st.setProperty("--muted", S.rgb(d.vizon));
+      st.setProperty("--line", S.rgb(d.rule));
+    } else {
+      var sky = S.skyAt(alt), ground = sky[1], m = sky[2];
+      var ink = S.mix(S.CREAM, S.DAYINK, m);
+      st.setProperty("--paper", S.rgb(ground));
+      st.setProperty("--ink", S.rgb(ink));
+      st.setProperty("--muted", "rgba(" + ink.join(",") + "," + S.lerp(0.80, 0.95, m).toFixed(3) + ")");
+      st.setProperty("--line", "rgba(" + ink.join(",") + "," + S.lerp(0.28, 0.42, m).toFixed(3) + ")");
+    }
+    root.setAttribute("data-sky", day ? "day" : "night");
+    st.setProperty("color-scheme", day ? "light" : "dark");
   }
   function clear(){
-    var st = document.documentElement.style;
+    var root = document.documentElement, st = root.style;
     ["--paper","--ink","--muted","--line"].forEach(function(p){ st.removeProperty(p); });
+    st.removeProperty("color-scheme");
+    root.removeAttribute("data-sky");
   }
   window.OLAE_PAGE_SKY = {
-    pickCity: S.pickCity, sunAltitude: S.sunAltitude, paint: paint, clear: clear
+    pickCity: S.pickCity, sunAltitude: S.sunAltitude, now: S.now, paint: paint, clear: clear
   };
   var t, s;
   try{
