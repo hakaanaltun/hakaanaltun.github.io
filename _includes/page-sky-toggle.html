@@ -27,10 +27,8 @@
   :root{ --icon-sky:none; }
   html[data-theme="sky"]{
     --icon-sun:none; --icon-moon:none; --icon-sky:block;
-    /* the ramp runs from midnight navy to a daytime slate, light ink
-       throughout, so the scrollbars and controls want the dark scheme at
-       every hour of it */
-    color-scheme: dark;
+    /* the colour scheme, light by day and dark by night, is set with the
+       paint in page-sky.html */
   }
   .theme-btn .icon-sky{ display:var(--icon-sky); }
 
@@ -69,8 +67,8 @@
   function repaint(){
     var city = SKY.pickCity();
     SKY.paint(window.OLAE_ASTRO
-      ? window.OLAE_ASTRO.sunAltitude(new Date(), city.lat, city.lng)
-      : SKY.sunAltitude(new Date(), city.lat, city.lng));
+      ? window.OLAE_ASTRO.sunAltitude(SKY.now(), city.lat, city.lng)
+      : SKY.sunAltitude(SKY.now(), city.lat, city.lng));
   }
   function startSky(){
     if(!window.OLAE_ASTRO && !startSky.asked){

@@ -24,6 +24,22 @@ rule written there.
   and after arriving with `at=end`, so the last line can still come to the
   middle of the screen; a blank page does not scroll.
 
+## Following the sky
+
+- **By day an instrument is light, by night it is the ramp.** The author
+  asked on 23 October 2026 for the instruments to turn with the site, so
+  that a reader on Follow the sky does not step from a light page into a
+  dark one at noon (`_agents/site.md`, Themes). `_includes/page-sky.html`
+  paints the four tokens from the day's papers in
+  `_includes/sky-ramp.html`: `--muted` is the paper's muted tier and
+  `--line` its rule. By night they are the ramp's, as before. Its
+  `data-theme` stays `"sky"` in both halves, so the corner button and the
+  shelves of The Reader and The Page know the choice; `data-sky` names
+  the half, and the colour scheme, light or dark, is set with the paint.
+  On The Desk, `js/desk.js` hands the scheme to each pane with the
+  tokens. The clock, The Noise, The Breath and the sky instruments keep
+  their own light. Light and Dark on the corner button are as they were.
+
 ## The Desk
 
 - **Every instrument can stand on it, beside any other or itself.** The

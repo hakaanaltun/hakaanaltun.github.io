@@ -32,7 +32,7 @@
       if(root.hasAttribute('data-own-theme')) return;
       root.setAttribute('data-theme', theme);
       Object.keys(tokens).forEach(function(key){ root.style.setProperty(key, tokens[key]); });
-      root.style.colorScheme = theme === 'light' ? 'light' : 'dark';
+      if(!/^(light|dark)$/.test(tokens['color-scheme'] || '')) root.style.colorScheme = theme === 'light' ? 'light' : 'dark';
     }
   };
   document.addEventListener('keydown', function(e){

@@ -127,20 +127,23 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   new series: Fog and Blueprint, and in place of Pudra a colour near them.
   Light ink holds the site's dimmest tier only on a ground about as dark
   as that slate, so the theme now turns at sunrise and at sunset
-  (`SUNRISE` in `_includes/site-sky.html`, the sun at 0°). By day the
-  painter sets `data-theme="light"` and `data-sky="day"`, so every
-  light-path rule applies; the paper runs from a warm stone at the horizon
-  through Fog at 12° to Blueprint from 35°, with their inks, rules and
-  chrome. `css/palettes.css` leaves a stored palette alone while
-  `data-sky` is on and hands the day's chrome to `<body>`. The night is
-  the ramp as it was, `data-theme="sky"` and `data-sky="night"`, and
-  whatever a page draws differently on Dark and Midnight, a shadow above
-  all, it draws the same way there: the notes on `/notes/` cast the dark
-  themes' shadow by night since 23 October 2026. `?hour=13` on any page
+  (`SUNRISE` in `_includes/sky-ramp.html`, the sun at 0°). The day's
+  papers are kept there too (`DAY`), for the site and the instruments:
+  a warm stone at the horizon, Fog at 12° and Blueprint from 35°, with
+  their inks, rules and chrome. By day the site's painter
+  (`_includes/site-sky.html`) sets `data-theme="light"` and
+  `data-sky="day"`, so every light-path rule applies.
+  `css/palettes.css` leaves a stored palette alone while `data-sky` is on
+  and hands the day's chrome to `<body>`. The night is the ramp as it
+  was, `data-theme="sky"` and `data-sky="night"`, and whatever a page
+  draws differently on Dark and Midnight, a shadow above all, it draws
+  the same way there: the notes on `/notes/` cast the dark themes' shadow
+  by night since 23 October 2026. The same day the author asked for the
+  instruments to follow the same two halves (`_agents/instruments.md`).
+  `?hour=13` on any page that follows the sky, the instruments included,
   stands the sun where it will be at that hour today, so each half can be
-  looked at. The instruments keep their own sky, dark by day, until the
-  author decides. `scripts/test-window-sky.cjs` checks the turn and both
-  halves' contrast.
+  looked at. `scripts/test-window-sky.cjs` checks the turn and both
+  halves' contrast, on the site and on The List.
 
 ## The homepage
 
@@ -190,12 +193,12 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   the sky. Light palettes use their own lightness with chroma 0.012 and
   hue 250; dark themes use lightness 0.780 and chroma 0.010. Midnight’s
   writing shares the first-time doors’ gold, with silver for Notes.
-- **The sky opens towards daylight.** The shared ramp keeps its night stops
-  through -6 degrees, extends grey-violet to 5 degrees, and reaches a lighter,
-  less saturated daytime slate. Body ink stays above 6.5:1 and muted ink
-  above 5.5:1. The site's theme uses the ramp only below the horizon since
-  23 October 2026; the instruments use all of it. The House's illustrated
-  lighting is independent of this ramp.
+- **The night opens towards the horizon.** The shared ramp keeps its
+  night stops through -6 degrees and turns grey-violet as the sun nears
+  the horizon, where the day takes over. Body ink stays above 6.5:1 and
+  muted ink above 5.5:1. Until 23 October 2026 it ran on to 40 degrees
+  into a daytime slate. The House's illustrated lighting is independent
+  of this ramp.
 - **The green family has three distinct roles.** On 20 October 2026 the
   author approved a shaded forest green for The House and Moris, a brighter
   leaf green for Trivia, and a bluer petrol for Instruments. Their homepage

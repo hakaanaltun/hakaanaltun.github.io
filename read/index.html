@@ -81,7 +81,7 @@ layout: null
     html:not([data-theme="light"]){ --icon-sun:block; --icon-moon:none; }
   }
   html[data-theme="dark"]{ --icon-sun:block; --icon-moon:none; }
-  html[data-theme="sky"]{ --icon-sun:none; --icon-moon:none; --icon-sky:block; color-scheme:dark; }
+  html[data-theme="sky"]{ --icon-sun:none; --icon-moon:none; --icon-sky:block; }
 
   *{ box-sizing:border-box; margin:0; padding:0; }
   html.smooth-scroll{ scroll-behavior:smooth; }
@@ -1973,8 +1973,8 @@ layout: null
   function skyPaint(){
     var skyCity = SKY.pickCity();
     var alt = window.OLAE_ASTRO
-      ? window.OLAE_ASTRO.sunAltitude(new Date(), skyCity.lat, skyCity.lng)
-      : SKY.sunAltitude(new Date(), skyCity.lat, skyCity.lng);
+      ? window.OLAE_ASTRO.sunAltitude(SKY.now(), skyCity.lat, skyCity.lng)
+      : SKY.sunAltitude(SKY.now(), skyCity.lat, skyCity.lng);
     SKY.paint(alt);
   }
   function startSky(){

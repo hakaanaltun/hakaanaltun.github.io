@@ -61,9 +61,11 @@
   function embed(panel){
     try{ return panel.frame.contentWindow.OLAE_DESK_EMBED; }catch(e){ return null; }
   }
+  /* The colour scheme travels with the tokens: following the sky is light
+     by day and dark by night, which its name alone does not say. */
   function theme(){
     var root = document.documentElement, cs = getComputedStyle(root), tokens = {};
-    ['--paper','--ink','--muted','--line'].forEach(function(key){ tokens[key] = cs.getPropertyValue(key); });
+    ['--paper','--ink','--muted','--line','color-scheme'].forEach(function(key){ tokens[key] = cs.getPropertyValue(key); });
     return { name:root.getAttribute('data-theme') || (dark.matches ? 'dark' : 'light'), tokens:tokens };
   }
   function paint(panel){

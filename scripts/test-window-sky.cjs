@@ -187,6 +187,31 @@ for(const month of [0,3,6,9])for(const hour of [0,6,12,18]){
   assert.equal(s.root.hasAttribute('data-sky'),false);
   assert.equal(css('--paper'),'');
   s.dom.window.close();
+  // The instruments follow the same two halves with their four tokens,
+  // keeping data-theme="sky" so their buttons know the choice.
+  {
+    const dom=new JSDOM(fs.readFileSync(path.join(built,'list','index.html'),'utf8'),{url:'https://hakanaltun.io/list/',runScripts:'outside-only'});
+    const w=dom.window,root=w.document.documentElement;
+    w.localStorage.setItem('olae-page-theme','sky');
+    const inline=[...w.document.querySelectorAll('head script:not([src])')].map(s=>s.textContent);
+    w.eval(inline.find(s=>s.includes('OLAE_SKY =')));
+    w.eval(inline.find(s=>s.includes('OLAE_PAGE_SKY =')));
+    const css=k=>root.style.getPropertyValue(k);
+    const solid=k=>{const c=css(k).match(/[\d.]+/g).map(Number),g=parse(css('--paper'));return c.length<4?css(k):'rgb('+[0,1,2].map(i=>Math.round(c[i]*c[3]+g[i]*(1-c[3]))).join(',')+')';};
+    for(let alt=-30;alt<=80;alt+=0.5){
+      w.OLAE_PAGE_SKY.paint(alt);
+      const day=alt>=0,at=' on The List at '+alt+'°';
+      assert.equal(root.getAttribute('data-theme'),'sky','the choice'+at);
+      assert.equal(root.getAttribute('data-sky'),day?'day':'night','the half'+at);
+      assert(day?lum(css('--paper'))>0.8:lum(css('--paper'))<0.1,'the paper'+at);
+      assert(ratio(css('--ink'),css('--paper'))>=(day?11:6.5),'ink'+at);
+      assert(ratio(solid('--muted'),css('--paper'))>=(day?5:4.5),'muted'+at);
+    }
+    w.OLAE_PAGE_SKY.clear();
+    assert.equal(root.hasAttribute('data-sky'),false);
+    assert.equal(css('--paper'),'');
+    dom.window.close();
+  }
   // ?hour= stands the sun where it will be at that hour today, in İstanbul,
   // on the reader's own clock.
   const tz=process.env.TZ;process.env.TZ='Europe/Istanbul';
@@ -243,5 +268,5 @@ async function home(zone,instant){
     assert.deepEqual(h.requested,[],'no map without a place');
     h.dom.window.close();
   }
-  console.log('Window sky checks passed: star data and names, Follow the sky by day and by night with their contrast floors and ?hour=, visitor clock, city/fallback, minus signs and dashed runs, a slider through the night, the moon toward the sun, every planet labelled, Tonight on the homepage, daylight, polar events and solar bearings.');
+  console.log('Window sky checks passed: star data and names, Follow the sky by day and by night on the site and the instruments, with their contrast floors and ?hour=, visitor clock, city/fallback, minus signs and dashed runs, a slider through the night, the moon toward the sun, every planet labelled, Tonight on the homepage, daylight, polar events and solar bearings.');
 })().catch(e=>{console.error(e);process.exit(1);});
