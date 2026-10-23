@@ -157,6 +157,9 @@ run(fs.readFileSync('js/space-journey.js','utf8'));
  await nav.find(b=>b.dataset.stop==='mars').onclick();assert.equal(run('current'),'martian');await nav.find(b=>b.dataset.stop==='ceres').onclick();assert.equal(run('current'),'belt');
  // Original long notes keep every paragraph and source, including future-route subjects.
  assert.equal(run('Object.keys(fieldNotes).length'),65);
+ // The reading version without JavaScript and the site's search read the same notes from _data/space_notes.json, so the two copies must agree note for note.
+ const notesData=JSON.parse(fs.readFileSync('_data/space_notes.json','utf8')),notesScript=JSON.parse(JSON.stringify(run('fieldNotes')));
+ for(const key of new Set([...Object.keys(notesData),...Object.keys(notesScript)]))assert.deepEqual(notesScript[key],notesData[key],`The field note ${key} differs between js/space-field-notes.js and _data/space_notes.json`);
  for(const key of ['earth','olympus','occator','golden-record']){
   run(`openInfo('${key}')`);assert(element('infoText').children.length>=3);assert(element('infoSources').children.length>=1);
   assert(element('infoSources').children.every(a=>a.href.startsWith('https://')));run('closeInfo()');
@@ -319,5 +322,5 @@ run(fs.readFileSync('js/space-journey.js','utf8'));
  reduced=true;browserPop(-1);await finish();assert(!classes.has('inside-flight'));
  location.search='';}
  assert.equal(run('Object.keys(scenes).length'),74);
- console.log('Passed: 74 scenes, all fourteen wide views at eight sizes, measured caption clearance, 65 sourced field notes, reversible route and endpoint boundaries, fixed global geometry, direct globe/zoom controls, continuous region travel, distinct reversible curved routes, rapid retarget/reverse, skip, browser Back/Forward, decode failure/stale load, native detail arrival/retry, resize, alternate observations, keyboard routing and asset paths.');
+ console.log('Passed: 74 scenes, all fourteen wide views at eight sizes, measured caption clearance, 65 sourced field notes the same in the reading version, reversible route and endpoint boundaries, fixed global geometry, direct globe/zoom controls, continuous region travel, distinct reversible curved routes, rapid retarget/reverse, skip, browser Back/Forward, decode failure/stale load, native detail arrival/retry, resize, alternate observations, keyboard routing and asset paths.');
 })().catch(e=>{console.error(e);process.exitCode=1});
