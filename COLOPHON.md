@@ -244,8 +244,9 @@ accuracy and plain prose to this section as well.
 
 - **Choosing a destination brings the reader close to it.** The Solar
   System journey sets the pattern for future journeys: move through the
-  places between departure and arrival at a measured pace, passing each
-  subject closely and finishing close to the chosen destination. Every way of choosing that subject leads to the same arrival.
+  places between departure and arrival at a measured pace, looking ahead
+  through the worlds and finishing close to the chosen destination. Every
+  way of choosing that subject leads to the same arrival.
   A wide view remains available whenever the reader wants their bearings.
   The reader can change course, arrive immediately or retrace their steps;
   reduced motion keeps the same destinations without the moving journey.

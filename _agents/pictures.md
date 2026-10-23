@@ -88,26 +88,21 @@ rule written there.
   In `js/space-journey.js`, `stopViews` now names inspection views, matching
   globe buttons and the previous/next arrows. Explicit wide-view controls
   and old wide-view addresses keep their meaning.
-  `travelPlan` uses the ordered `regionOrigins`. Transfers crossing two
-  or more region intervals pass each intervening region’s primary world
-  on one continuous curve, using that world’s inspection framing. The
-  camera keeps a shallow forward look along the route tangent so nearby
-  worlds stay visible. It never inserts a wide view or aims past them at
-  the distant final destination. Lens adjustments between close framings
-  are smooth; motion never stops or restarts at a passing planet.
-  On 24 October 2026 the author requested this close-only trial and a more
-  balanced pace. Transfers take 6 seconds plus 3.5 seconds per additional
-  region interval, capped at 50 seconds: Earth–Neptune takes 23.5 seconds.
-  Neighboring transfers retain their accepted curves and timing. Geometry
-  waypoints do not change captions, selection, reading content or history.
-  One animation owns the whole trip, so Arrive now reaches its final target;
-  retargeting starts at the actual camera position, including during a close
-  passage. Back/Forward restores the selected view without replaying the
-  intermediate stops. Reduced motion and resize settle at the same target.
-  Keep the regression cases in `scripts/test-space.cjs` when adapting this
-  model: all entry controls agree, long routes work in both directions,
-  every passing world is visible at inspection scale, interruptions leave
-  no stale animation, and intermediate views add no history entries.
+  On 24 October 2026 the author clarified that the original forward-looking
+  flight was the desired movement: the camera travels into the scene with
+  worlds ahead, rather than watching them slide across a shallow view.
+  Keep the original `flightProfile` and `flightPose` curve and perspective.
+  Do not add per-world inspection waypoints or an automatic wide opening.
+  `travelPlan` only adjusts the duration for two or more region intervals:
+  6 seconds plus 3.5 seconds per additional interval, capped at 50 seconds;
+  Earth–Neptune takes 23.5 seconds. Neighboring transfers retain their timing.
+  The final pose is the selected inspection view. One animation owns the
+  whole trip, so Arrive now reaches its final target; retargeting starts at
+  the actual camera position and orientation. Back/Forward, reduced motion
+  and resize settle at the same target. Intermediate worlds add no history.
+  Keep regression cases for consistent entry controls, forward perspective
+  in both directions and at responsive sizes, close arrival, retargeting,
+  skip, resize, reduced motion and history when adapting this model.
 - **Travel measures its viewport once per frame.** On 21 October 2026 the
   author reported pauses during transfers. Frame painting now shares one
   viewport measurement across every projected world and updates the hidden
