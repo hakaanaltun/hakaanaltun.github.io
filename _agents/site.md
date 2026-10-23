@@ -114,7 +114,7 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   evening of 19 October 2026, while it stood beside the book's blue, until
   the author moved it under Latest on 20 October 2026 and asked for the
   indigo again), The House in Moris's near-black green,
-  Notes in garnet red,
+  Notes in graphite by day and soft silver on dark grounds,
   Words with Stories in plum,
   Pictures with Stories and Tonight in slate, Trivia in leaf green,
   "First time here?" in the shared teal and Instruments in a bluer petrol. Notes, Words
@@ -126,7 +126,7 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   its own color, ask the author before choosing another.
   `scripts/test-pictures.cjs` fails on a section with no voice or next to
   its own color. Each section builds its accent from its voice in every
-  theme; Midnight uses gold except for Notes’ garnet red. A voice may sit a step darker by
+  theme; Midnight uses gold except for Notes’ silver. A voice may sit a step darker by
   day with `--sec-dl`, as the fiction's indigo and the green of Moris and
   The House do; the author asked for them to change color on 19 October
   2026, when the amber and the olive looked muddy on paper.
@@ -135,17 +135,19 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   uses the shared sky contrast floor with its own hue, chroma and minimum
   lightness, then mixes the base with 12% white once. Both accent tokens use
   that result, so section headings, card titles, links and page titles agree
-  on the homepage and section pages. Notes uses garnet red (hue 25,
-  chroma 0.150, minimum lightness 0.560). Writing uses the same teal
+  on the homepage and section pages. Notes uses soft silver (hue 250,
+  chroma 0.010, minimum lightness 0.780). Writing uses the same teal
   profile as First time here (hue 178, chroma 0.048, lightness 0.800). The shared floor follows the final mixed colors,
   retaining contrast above 4.5:1 across the sky ramp, including the hero. The
   theme preview applies the same floor, mix and current section hues. This
   rule is exclusive to Follow the sky.
 - **Writing and Notes keep the same identities across themes.** On 22 October
   2026 the author extended the change to every theme: writing shares First
-  time here’s teal profile, while Notes uses garnet red. Midnight’s writing
-  shares the first-time doors’ gold, with garnet for Notes. Light palettes
-  use their own lightness for the red; Dark and Midnight use 0.700.
+  time here’s teal profile. On 23 October the author changed Notes to
+  graphite on light palettes and soft silver on Dark, Midnight and Follow
+  the sky. Light palettes use their own lightness with chroma 0.012 and
+  hue 250; dark themes use lightness 0.780 and chroma 0.010. Midnight’s
+  writing shares the first-time doors’ gold, with silver for Notes.
 - **The sky opens towards daylight.** The shared ramp keeps its night stops
   through -6 degrees, extends grey-violet to 5 degrees, and reaches a lighter,
   less saturated daytime slate. Body ink stays above 6.5:1 and muted ink

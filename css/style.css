@@ -505,10 +505,10 @@ body.series-about
 body.series-trivia,
 body.is-home #trivia
                         { --sec-h: 140; --sec-c: 0.090; --sec-ld: 0.800; --sec-cd: 0.085; --sec-dl: -0.012; }
-/* Notes carries garnet red, with a deeper shade on light paper. */
+/* Notes uses graphite on light paper and soft silver on dark grounds. */
 body.series-notes,
 body.is-home #notes
-                        { --sec-h:  25; --sec-c: 0.150; --sec-ld: 0.700; --sec-cd: 0.150; }
+                        { --sec-h: 250; --sec-c: 0.012; --sec-ld: 0.780; --sec-cd: 0.010; }
 /* Words with Stories — a plum, in the widest gap the voices had left */
 body.series-words,
 body.is-home #words-with-stories
@@ -532,7 +532,7 @@ body.is-home :is(#pictures-with-stories, #tonight)
    voice above or stands next to its own colour.
 
    Each theme builds the accent as it does on body. Midnight keeps its single
-   gold everywhere. The menu inherits the accent of the page it opens on.
+   gold, with silver for Notes. The menu inherits the accent of the page it opens on.
    -------------------------------------------------------------------------- */
 body.is-home #main > section {
   --sec-accent:      oklch(calc(var(--sec-l) - var(--sec-dl, 0)) var(--sec-c,  0.050) var(--sec-h, 178));
@@ -561,21 +561,14 @@ html[data-theme="sky"] body.is-home #main > section {
   --petrol: var(--sec-accent-dark);
   --petrol-deep: var(--sec-accent-dark);
 }
-/* Notes keeps the garnet profile formerly used by the writing. */
-html[data-theme="sky"] body.series-notes,
-html[data-theme="sky"] body.is-home #main > #notes {
-  --sec-ld: 0.560;
-  --sec-cd: 0.150;
-  --sec-h: 25;
-}
 html[data-theme="midnight"] body.is-home #main > section {
   --petrol: #C6B98F;
   --petrol-deep: #DCD1AC;
 }
-/* Notes is red in every theme, including Midnight’s otherwise gold palette. */
+/* Notes keeps its silver in Midnight’s otherwise gold palette. */
 html[data-theme="midnight"] body.series-notes,
 html[data-theme="midnight"] body.is-home #main > #notes {
-  --petrol: oklch(0.700 0.150 25);
+  --petrol: var(--sec-accent-dark);
   --petrol-deep: color-mix(in srgb, var(--petrol) 72%, #FFFFFF);
 }
 
