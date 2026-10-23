@@ -33,7 +33,7 @@
    on a reader's machine — that copy self-heals on its second load. */
 "use strict";
 
-var CACHE = "olae-tools-v39";
+var CACHE = "olae-tools-v40";
 
 /* Briefly in October 2026 this worker also kept offline copies of
    pieces a reader saved, under these two names, and stood in front of every
@@ -101,10 +101,17 @@ var PRECACHE = TOOL_PAGES.concat(TOOL_ASSETS);
    same shelf once fetched. */
 var PDFJS_ROOT = "/js/vendor/pdfjs/";
 
+/* The install fetches past the browser's own cache. Since 23 October 2026
+   _headers lets a browser keep anything directly in /css/ and /js/ for a
+   year, on the strength of the ?v= every page loads it with; the addresses
+   below are bare, so a copy the browser held could be a year old, and it
+   would become the offline copy. */
 self.addEventListener("install", function(e){
   e.waitUntil(
     caches.open(CACHE)
-      .then(function(c){ return c.addAll(PRECACHE); })
+      .then(function(c){
+        return c.addAll(PRECACHE.map(function(u){ return new Request(u, { cache: "reload" }); }));
+      })
       .then(function(){ return self.skipWaiting(); })
   );
 });

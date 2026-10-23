@@ -30,9 +30,9 @@ function harness({offline=false,seed=new Map()}={}){
     // Faithful to the real thing: all-or-nothing, and it fetches every entry.
     const fetched=await Promise.all(list.map(async u=>[u,await scope.fetch(u)]));
     if(fetched.some(([,res])=>!res.ok))throw Error('addAll: a request failed');
-    fetched.forEach(([u,res])=>cache.store.set(String(u),res));
+    fetched.forEach(([u,res])=>cache.store.set(typeof u==='string'?u:u.url,res));
   };
-  const network=[];
+  const network=[],modes=[];
   const scope={
     caches:{
       open:async()=>cache,
@@ -41,11 +41,12 @@ function harness({offline=false,seed=new Map()}={}){
     },
     fetch:async req=>{
       const url=typeof req==='string'?req:req.url;
-      network.push(url);
+      network.push(url);modes.push(typeof req==='string'?'default':req.cache||'default');
       if(offline)throw Error('offline');
       return {ok:true,body:url,clone(){return this;}};
     },
     URL,
+    Request:class{constructor(url,init={}){this.url=url;this.cache=init.cache||'default';}},
     listeners:{},
     addEventListener(type,fn){(scope.listeners[type]=scope.listeners[type]||[]).push(fn);},
     skipWaiting:async()=>{},
@@ -57,7 +58,7 @@ function harness({offline=false,seed=new Map()}={}){
   vm.createContext(scope);
   vm.runInContext(fs.readFileSync(built,'utf8'),scope);
   const fire=(type,event)=>scope.listeners[type].forEach(fn=>fn(event));
-  return {scope,cache,network,deleted,fire};
+  return {scope,cache,network,modes,deleted,fire};
 }
 async function request(h,url,mode){
   let responded=null;
@@ -73,6 +74,9 @@ async function main(){
     let waited;h.fire('install',{waitUntil(p){waited=p;}});await waited;
     const keys=[...h.cache.store.keys()];
     assert.ok(keys.includes('/read/'),'The Reader is precached');
+    // Past the browser's own cache, which may keep a bare /css/ or /js/
+    // address for a year (_headers): the offline copy is fetched fresh.
+    assert.ok(h.modes.length&&h.modes.every(m=>m==='reload'),'install fetches past the browser cache');
     assert.ok(keys.includes('/js/reader-pdf.js'),'and so is its PDF controller');
     assert.ok(keys.includes('/css/reader-pdf.css'));
     assert.ok(keys.includes('/js/let-it-snow.js'),'the footer weather is part of the shell');
@@ -137,6 +141,6 @@ async function main(){
     assert.equal(answer.body,'installed','an unseen stamp falls back to the installed copy');
   }
 
-  console.log('Service worker checks passed: precache contents, PDF.js cached on use not on install, offline reuse, retired offline copies cleared, pass-through and ?v= keying.');
+  console.log('Service worker checks passed: precache contents fetched fresh, PDF.js cached on use not on install, offline reuse, retired offline copies cleared, pass-through and ?v= keying.');
 }
 main().catch(error=>{console.error(error);process.exit(1);});

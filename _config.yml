@@ -32,6 +32,11 @@ collections:
     output: true
     permalink: /pictures/:name/
 
+# Cloudflare's rules for how long a browser keeps the site's files. Jekyll
+# leaves out a file whose name starts with an underscore unless told.
+include:
+  - _headers
+
 exclude:
   # Keep the working guide, the colophon's text and the retired Colophon
   # out of the published site. _agents/ is left out by its underscore.

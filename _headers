@@ -1,0 +1,21 @@
+# How long a reader's browser keeps the site's files (see "Publishing" in
+# AGENTS.md). Cloudflare reads this file from _site/ and does not serve it.
+# Without it every file is sent with "max-age=0, must-revalidate", so every
+# page asked again for each stylesheet, script and font before it could be
+# drawn.
+#
+# The site's own stylesheets and scripts are loaded under a ?v= that changes
+# whenever the file does (scripts/test-asset-versions.cjs holds every page
+# to it), so the address of a changed file is a new address, and the old
+# one can be kept for a year. :file is one path segment: the files in
+# /js/vendor/ are not covered, since the bundled PDF.js keeps the same
+# addresses from one version to the next.
+/css/:file
+  Cache-Control: public, max-age=31536000, immutable
+/js/:file
+  Cache-Control: public, max-age=31536000, immutable
+
+# The fonts carry no ?v=, so a changed font reaches a returning reader
+# within a week. A change that must be seen at once takes a new file name.
+/fonts/:file
+  Cache-Control: public, max-age=604800
