@@ -151,6 +151,38 @@ function page(modals, setup) {
   for (const v of ['writing', 'story']) {
     assert.ok(css.includes('#quotes[data-voice="' + v + '"]'), 'a ' + v + ' quote has its colour');
   }
+  // The swatches on /themes/ are built from js/palettes.js's own table of the
+  // voices and each palette's lightness. Until 23 October 2026 they were
+  // hexes worked out once, and the fiction and The House had drifted to
+  // colours they no longer wore. The table has to say what style.css says,
+  // voice for voice, and show every voice the homepage speaks in.
+  const palettesJs = fs.readFileSync(path.join(root, 'js/palettes.js'), 'utf8');
+  const table = [...palettesJs.matchAll(/\{ label: '([^']+)',\s*page: '([\w-]+)',\s*h: (\d+), c: ([\d.]+), ld: ([\d.]+), cd: ([\d.]+), dl: (-?[\d.]+) \}/g)];
+  assert.ok(table.length, 'js/palettes.js lists the voices');
+  const ruleFor = (page) => {
+    for (const m of css.matchAll(/([^{}]+)\{\s*--sec-h:\s*(\d+);\s*--sec-c:\s*([\d.]+);\s*--sec-ld:\s*([\d.]+);\s*--sec-cd:\s*([\d.]+);(?:\s*--sec-dl:\s*([^;]+);)?\s*\}/g)) {
+      if (m[1].split(',').some(sel => sel.trim() === 'body.series-' + page)) return m;
+    }
+    return null;
+  };
+  for (const [, label, page, h, c, ld, cd, dl] of table) {
+    const rule = ruleFor(page);
+    assert.ok(rule, label + ': style.css has a voice for body.series-' + page);
+    assert.deepEqual([+h, +c, +ld, +cd, +dl], [+rule[2], +rule[3], +rule[4], +rule[5], rule[6] ? +rule[6] : 0],
+      label + '’s swatch on /themes/ matches its voice in style.css');
+  }
+  const swatched = new Set(table.map(m => m[3] + '/' + m[4]));
+  for (const id of order) {
+    assert.ok(swatched.has(voiceOf[id]), 'the voice of #' + id + ' has a swatch on /themes/');
+  }
+  // Each palette prints the voices at its own --sec-l.
+  const levels = [...palettesJs.matchAll(/\{ name: '[^']+',\s*tag: '[^']+', l: ([\d.]+),/g)].map(m => +m[1]);
+  const palettesCss = fs.readFileSync(path.join(root, 'css/palettes.css'), 'utf8');
+  const expected = [+css.match(/:root\s*\{\s*--sec-l:\s*([\d.]+)/)[1]];
+  for (let n = 2; n <= 12; n++) {
+    expected.push(+palettesCss.match(new RegExp('html\\[data-palette="' + n + '"\\]\\s*\\{\\s*--sec-l:\\s*([\\d.]+)'))[1]);
+  }
+  assert.deepEqual(levels, expected, 'each palette on /themes/ uses its own --sec-l');
 }
 // The Sun now opens directly in the journey; the other pictures retain their pages.
 {
@@ -309,5 +341,5 @@ async function fullscreenChecks() {
   }
 }
 fullscreenChecks().then(arrivalChecks).then(() => {
-  console.log('Picture checks passed: sourced fallback reading, optional hints and full screen, native and window exits, rejected fullscreen requests, whole-sheet fit, retained hint choice, remembered places to look, page position and return focus, every sourced detail and named crop opened at the top, story history, exploration help, full screen and places carried between pictures, Sun redirect and the two watercolor cards, and homepage accent rhythm.');
+  console.log('Picture checks passed: sourced fallback reading, optional hints and full screen, native and window exits, rejected fullscreen requests, whole-sheet fit, retained hint choice, remembered places to look, page position and return focus, every sourced detail and named crop opened at the top, story history, exploration help, full screen and places carried between pictures, Sun redirect and the two watercolor cards, homepage accent rhythm, and the voices of the theme previews.');
 }).catch(error => { console.error(error); process.exitCode = 1; });
