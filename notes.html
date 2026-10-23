@@ -76,8 +76,11 @@ description: "Short things, out loud. Half-thoughts, dated."
     );
   }
 
+  /* Follow the sky's ground is a dark slate even by day, so its notes cast
+     the dark themes' shadow. */
   html[data-theme="dark"] #notes,
-  html[data-theme="midnight"] #notes {
+  html[data-theme="midnight"] #notes,
+  html[data-theme="sky"] #notes {
     --notes-shadow-rgb: 0, 0, 0;
     --notes-shadow-alpha: 0.34;
   }

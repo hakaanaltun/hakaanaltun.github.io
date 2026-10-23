@@ -10,7 +10,19 @@ permalink: /story/9r2m/
 <meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>&nbsp;</title>
-<script>(function(){try{var t=localStorage.getItem('theme');if(t==='dark'||t==='light'||t==='midnight'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();</script>
+{% comment %} The site's own theme, read as head.html reads it: Follow the sky
+unless the reader chose another, and the system's light or dark when they
+chose that. The sky paints --paper and its ink tiers before first paint.
+Until 23 October 2026 this page knew only Light, Dark and Midnight, so a
+reader on the default sky came in from a night-blue page to a white one.
+{% endcomment %}
+{% include sky-ramp.html %}
+{% include site-sky.html %}
+<script>(function(){var t;try{t=localStorage.getItem('theme');}catch(e){}
+if(t==='system')return;
+if(t==='dusk'||(t!=='dark'&&t!=='light'&&t!=='midnight'))t='sky';
+document.documentElement.setAttribute('data-theme',t);
+if(t==='sky')window.OLAE_SITE_SKY.paintNow();})();</script>
 <style>
   body { max-width: 34em; margin: 18vh auto 0; padding: 0 1.5em; font-family: Georgia, serif; line-height: 1.7; color: #222; background: #fff; }
   /* Standalone page — mirror the site's dark themes (system preference, or
@@ -20,6 +32,7 @@ permalink: /story/9r2m/
   }
   html[data-theme="dark"] body { color: #CFC7BA; background: #191712; }
   html[data-theme="midnight"] body { color: #D8CEB7; background: #101720; }
+  html[data-theme="sky"] body { color: var(--ink-soft); background: var(--paper); }
   /* Part III of The Fragments waits behind the same door. One quiet line,
      well below the scene, so the scene still ends on its own last line. */
   .onward { margin: 7em 0 4em; font-size: 0.92em; }

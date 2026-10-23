@@ -103,6 +103,21 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   Their buttons keep their full 44px, and `.footer-bottom .footer-weather`
   in `css/style.css` brings them close to the name.
 
+## Themes
+
+- **Follow the sky is the default.** Since 21 October 2026 a reader who
+  has chosen nothing gets Follow the sky, and "system" follows the
+  device's light or dark (`_includes/head.html`, `js/theme.js`). A page
+  outside the default layout that reads the theme itself does the same:
+  the door to Part III (`story/9r2m.html`) learned it on 23 October 2026,
+  two days late, after a reader on the default had come to it from a
+  night-blue page and found it white.
+- **The sky's ground is dark even by day.** Its daylight is a slate, so
+  whatever a page draws differently on Dark and Midnight, a shadow above
+  all, it draws the same way on the sky. The notes on `/notes/` cast the
+  dark themes' shadow there since 23 October 2026; before, they barely
+  lifted off the ground.
+
 ## The homepage
 
 - **Each section is shown in its own page's color.** The author asked for
