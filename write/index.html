@@ -1235,11 +1235,11 @@ layout: null
   var skyT = null;
   var lightBtns = Array.prototype.slice.call(document.querySelectorAll("#shelf .shelf-pill[data-light]"));
   function skyPaint(){
-    var skyCity = SKY.pickCity();
+    var skyCity = SKY.pickCity(), when = SKY.now();
     var alt = window.OLAE_ASTRO
-      ? window.OLAE_ASTRO.sunAltitude(SKY.now(), skyCity.lat, skyCity.lng)
-      : SKY.sunAltitude(SKY.now(), skyCity.lat, skyCity.lng);
-    SKY.paint(alt);
+      ? window.OLAE_ASTRO.sunAltitude(when, skyCity.lat, skyCity.lng)
+      : SKY.sunAltitude(when, skyCity.lat, skyCity.lng);
+    SKY.paint(alt, SKY.evening(when));
   }
   function startSky(){
     if(!window.OLAE_ASTRO && !startSky.asked){

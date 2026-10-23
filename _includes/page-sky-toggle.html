@@ -65,10 +65,10 @@
      copy of the altitude. /js/astronomy.js is the full version and is
      fetched only when someone actually turns the sky on. */
   function repaint(){
-    var city = SKY.pickCity();
+    var city = SKY.pickCity(), when = SKY.now();
     SKY.paint(window.OLAE_ASTRO
-      ? window.OLAE_ASTRO.sunAltitude(SKY.now(), city.lat, city.lng)
-      : SKY.sunAltitude(SKY.now(), city.lat, city.lng));
+      ? window.OLAE_ASTRO.sunAltitude(when, city.lat, city.lng)
+      : SKY.sunAltitude(when, city.lat, city.lng), SKY.evening(when));
   }
   function startSky(){
     if(!window.OLAE_ASTRO && !startSky.asked){

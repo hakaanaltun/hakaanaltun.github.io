@@ -160,16 +160,20 @@ for(const month of [0,3,6,9])for(const hour of [0,6,12,18]){
   const ratio=(a,b)=>{const A=lum(a),B=lum(b);return (Math.max(A,B)+0.05)/(Math.min(A,B)+0.05);};
   const s=sky();
   const css=k=>s.root.style.getPropertyValue(k);
-  for(let alt=-30;alt<=80;alt+=0.5){
-    s.SITE.paint(alt);
-    const day=alt>=0,at=' at '+alt+'°';
+  // The night is checked bare, halfway into the evening and in it.
+  for(let alt=-30;alt<=80;alt+=0.5)for(const eve of alt<0?[0,0.5,1]:[0]){
+    s.SITE.paint(alt,eve);
+    const day=alt>=0,at=' at '+alt+'°'+(eve?', evening '+eve:'');
     assert.equal(s.root.getAttribute('data-sky'),day?'day':'night','the half'+at);
     assert.equal(s.root.getAttribute('data-theme'),day?'light':'sky','the path'+at);
     const grounds=['--paper','--surface-soft','--band'];
     assert(ratio(css('--ink'),css('--paper'))>=(day?11:6.5),'ink'+at);
+    // every tier clears AA on every ground; on the sheet the night's
+    // floors are the ramp's own, which its lightest ground, the evening's
+    // slate, just holds
     for(const g of grounds){
-      assert(ratio(css('--ink-soft'),css(g))>=(day?8:6),'ink-soft on '+g+at);
-      assert(ratio(css('--vizon'),css(g))>=(day?4.5:5.4),'vizon on '+g+at);
+      assert(ratio(css('--ink-soft'),css(g))>=(day?8:5),'ink-soft on '+g+at);
+      assert(ratio(css('--vizon'),css(g))>=4.5,'vizon on '+g+at);
     }
     assert(ratio(css('--vizon'),css('--paper'))>=(day?5:5.5),'vizon on the sheet'+at);
     if(day){
@@ -181,6 +185,7 @@ for(const month of [0,3,6,9])for(const hour of [0,6,12,18]){
     }else{
       assert.equal(css('--sky-chrome-rgb'),'','the day\'s tokens are taken off by night'+at);
       assert.notEqual(css('--note-base'),'','the note wall'+at);
+      if(eve===1)assert.equal(css('--paper'),'rgb(78,94,106)','the evening\'s slate'+at);
     }
   }
   s.SITE.clear();
@@ -198,12 +203,12 @@ for(const month of [0,3,6,9])for(const hour of [0,6,12,18]){
     w.eval(inline.find(s=>s.includes('OLAE_PAGE_SKY =')));
     const css=k=>root.style.getPropertyValue(k);
     const solid=k=>{const c=css(k).match(/[\d.]+/g).map(Number),g=parse(css('--paper'));return c.length<4?css(k):'rgb('+[0,1,2].map(i=>Math.round(c[i]*c[3]+g[i]*(1-c[3]))).join(',')+')';};
-    for(let alt=-30;alt<=80;alt+=0.5){
-      w.OLAE_PAGE_SKY.paint(alt);
-      const day=alt>=0,at=' on The List at '+alt+'°';
+    for(let alt=-30;alt<=80;alt+=0.5)for(const eve of alt<0?[0,0.5,1]:[0]){
+      w.OLAE_PAGE_SKY.paint(alt,eve);
+      const day=alt>=0,at=' on The List at '+alt+'°'+(eve?', evening '+eve:'');
       assert.equal(root.getAttribute('data-theme'),'sky','the choice'+at);
       assert.equal(root.getAttribute('data-sky'),day?'day':'night','the half'+at);
-      assert(day?lum(css('--paper'))>0.8:lum(css('--paper'))<0.1,'the paper'+at);
+      assert(day?lum(css('--paper'))>0.8:lum(css('--paper'))<0.15,'the paper'+at);
       assert(ratio(css('--ink'),css('--paper'))>=(day?11:6.5),'ink'+at);
       assert(ratio(solid('--muted'),css('--paper'))>=(day?5:4.5),'muted'+at);
     }
@@ -215,10 +220,22 @@ for(const month of [0,3,6,9])for(const hour of [0,6,12,18]){
   // ?hour= stands the sun where it will be at that hour today, in İstanbul,
   // on the reader's own clock.
   const tz=process.env.TZ;process.env.TZ='Europe/Istanbul';
-  for(const [hour,half] of [[2,'night'],[6.5,'night'],[7.5,'day'],[13,'day'],[18,'day'],[19,'night'],['25',null],['x',null]]){
+  // The evening holds the slate from sunset (18:06 that day) until 20:30,
+  // eases into the ramp and is gone at nine.
+  const SLATE='rgb(78,94,106)';
+  for(const [hour,half,paper] of [[2,'night'],[6.5,'night'],[7.5,'day'],[13,'day'],[17.9,'day'],[18.5,'night',SLATE],[20.4,'night',SLATE],[20.75,'night','between'],[21,'night','ramp'],[22,'night','ramp'],['25',null],['x',null]]){
     const h=sky(hour);h.SITE.paintNow();
+    const p=h.root.style.getPropertyValue('--paper');
     if(half)assert.equal(h.root.getAttribute('data-sky'),half,'?hour='+hour);
     else assert.equal(h.root.getAttribute('data-sky'),'day','?hour='+hour+' is ignored: 13:00 in İstanbul');
+    if(paper==='ramp')assert(lum(p)<0.01,'?hour='+hour+' is the night: '+p);
+    else if(paper==='between')assert(lum(p)>0.01&&lum(p)<lum(SLATE),'?hour='+hour+' eases into the night: '+p);
+    else if(paper)assert.equal(p,paper,'?hour='+hour+' is the evening');
+    h.dom.window.close();
+  }
+  {
+    const h=sky(),E=(hh,mm)=>{const d=new h.w.Date();d.setHours(hh,mm,0,0);return h.w.OLAE_SKY.evening(d);};
+    assert.deepEqual([E(6,0),E(11,59),E(12,0),E(20,30),E(20,45),E(21,0),E(23,30)],[0,0,1,1,0.5,0,0],'the evening by the clock');
     h.dom.window.close();
   }
   if(tz===undefined)delete process.env.TZ;else process.env.TZ=tz;
@@ -268,5 +285,5 @@ async function home(zone,instant){
     assert.deepEqual(h.requested,[],'no map without a place');
     h.dom.window.close();
   }
-  console.log('Window sky checks passed: star data and names, Follow the sky by day and by night on the site and the instruments, with their contrast floors and ?hour=, visitor clock, city/fallback, minus signs and dashed runs, a slider through the night, the moon toward the sun, every planet labelled, Tonight on the homepage, daylight, polar events and solar bearings.');
+  console.log('Window sky checks passed: star data and names, Follow the sky by day, in the evening and by night on the site and the instruments, with their contrast floors and ?hour=, visitor clock, city/fallback, minus signs and dashed runs, a slider through the night, the moon toward the sun, every planet labelled, Tonight on the homepage, daylight, polar events and solar bearings.');
 })().catch(e=>{console.error(e);process.exit(1);});

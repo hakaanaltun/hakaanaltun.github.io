@@ -32,7 +32,8 @@ rule written there.
   dark one at noon (`_agents/site.md`, Themes). `_includes/page-sky.html`
   paints the four tokens from the day's papers in
   `_includes/sky-ramp.html`: `--muted` is the paper's muted tier and
-  `--line` its rule. By night they are the ramp's, as before. Its
+  `--line` its rule. By night they are the evening's slate until nine and
+  then the ramp's, as on the site. Its
   `data-theme` stays `"sky"` in both halves, so the corner button and the
   shelves of The Reader and The Page know the choice; `data-sky` names
   the half, and the colour scheme, light or dark, is set with the paint.

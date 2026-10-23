@@ -33,6 +33,14 @@
   as that slate, and a ground passing from dark to light runs through a
   grey on which neither ink reads. So the sky turns once at sunrise and
   once at sunset, as a phone's own dark mode does.
+
+  The slate stayed for THE EVENING. The same day the author found that the
+  night came down too soon after sunset, and asked for the slate to hold
+  from sunset until EVENING_ENDS, 21:00 on the reader's own clock. It
+  eases into the ramp over the half hour before, so the night is whole at
+  nine. The evening is the clock's, not the sun's: nine is late in winter
+  and early in summer by the sun, and the same hour of the evening either
+  way.
 {% endcomment %}
 <script>
 (function(){
@@ -118,6 +126,23 @@
     });
     return d;
   }
+  /* The evening's ground: the slate the day had at noon until 23 October
+     2026, with the ramp's full light ink. */
+  var SLATE = [78, 94, 106], EVENING_ENDS = 21;
+  /* How much of the evening there is at `date`, 0 to 1: all of it from
+     noon until half an hour before EVENING_ENDS, then less, and none after
+     it or in the morning. The sun decides whether it is night at all. */
+  function evening(date){
+    var h = date.getHours() + date.getMinutes() / 60;
+    if(h < 12) return 0;
+    return Math.max(0, Math.min(1, (EVENING_ENDS - h) / 0.5));
+  }
+  /* The night at one altitude, `eve` of the way to the evening, in
+     skyAt's shape: [altitude, ground, ink mix]. */
+  function nightAt(alt, eve){
+    var sky = skyAt(alt), e = eve || 0;
+    return [alt, mixChannels(sky[1], SLATE, e), lerp(sky[2], 1, e)];
+  }
   function mixChannels(a, b, f){
     return [
       Math.round(lerp(a[0], b[0], f)),
@@ -176,7 +201,7 @@
   window.OLAE_SKY = {
     CREAM: CREAM, DAYINK: DAYINK,
     pickCity: pickCity, sunAltitude: sunAltitude, now: now, altitudeNow: altitudeNow,
-    SUNRISE: SUNRISE, dayAt: dayAt,
+    SUNRISE: SUNRISE, dayAt: dayAt, evening: evening, nightAt: nightAt,
     skyAt: skyAt, mix: mixChannels, luminance: luminance, over: over, rgb: rgb,
     lerp: lerp
   };
