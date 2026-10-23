@@ -5,7 +5,7 @@
   sunrise to sunset the theme is its day, a light paper with dark ink, set
   by the same rules as the twelve light palettes. From sunset to sunrise it
   is the night ramp, the deep navy and the violet of twilight, with light
-  ink, and until nine in the evening the slate that eases into it.
+  ink, and until nine in the evening the slate darkening into it.
 
   By day the painter sets <html data-theme="light">, so every rule written
   for the light path applies, and data-sky="day"; css/palettes.css leaves a
@@ -41,10 +41,10 @@
     "--footer-muted","--hero-source-muted","--rule","--rule-strong","--rule-cream",
     "--header-border","--drawer-bg","--sky-ld-floor","--sky-chrome-rgb","--sec-l"];
 
-  /* Every token the day moves, for one altitude. The colours are
-     sky-ramp.html's DAY; this is only where each one goes. */
-  function dayTokens(alt){
-    var d = S.dayAt(alt), t = {};
+  /* Every token the day moves, for one share of the way to noon. The
+     colours are sky-ramp.html's DAY; this is only where each one goes. */
+  function dayTokens(share){
+    var d = S.dayAt(share), t = {};
     t["--bg"] = S.rgb(d.paper);
     t["--paper"] = S.rgb(d.paper);
     t["--surface-soft"] = S.rgb(d.surface);
@@ -111,13 +111,14 @@
 
     return t;
   }
-  /* Every token this theme moves, for one altitude of the sun. It only
+  /* Every token this theme moves, for one `sun` from sky-ramp.html's
+     sunAt(): { alt, share, eve }. It only
      computes: the two callers below decide what to do with the answer —
      paint() writes it to <html>, js/palettes.js reads it to paint one card
      on /themes/ without a second copy of the arithmetic. `day` and
      `chrome` travel with the tokens for that card; they are not painted. */
-  function tokens(alt, eve){
-    var day = alt >= S.SUNRISE, t = day ? dayTokens(alt) : nightTokens(alt, eve);
+  function tokens(sun){
+    var day = sun.alt >= S.SUNRISE, t = day ? dayTokens(sun.share) : nightTokens(sun.alt, sun.eve);
     t.day = day;
     /* the header and footer: the day's chrome, or by night the band, which
        is what the night's header and footer are painted with */
@@ -127,8 +128,8 @@
   /* TOKENS is the list applied as well as the list cleared, so the two can
      no longer drift apart: a token one half sets and the other does not is
      taken off as the sky turns, rather than left behind. */
-  function paint(alt, eve){
-    var t = tokens(alt, eve), root = document.documentElement, st = root.style;
+  function paint(sun){
+    var t = tokens(sun), root = document.documentElement, st = root.style;
     TOKENS.forEach(function(k){
       if(k in t) st.setProperty(k, t[k]); else st.removeProperty(k);
     });
@@ -150,8 +151,8 @@
   }
   window.OLAE_SITE_SKY = {
     paint: paint, clear: clear,
-    paintNow: function(){ paint(S.altitudeNow(), S.evening(S.now())); },
-    tokensNow: function(){ return tokens(S.altitudeNow(), S.evening(S.now())); },
+    paintNow: function(){ paint(S.sunNow()); },
+    tokensNow: function(){ return tokens(S.sunNow()); },
     isOn: function(){ return document.documentElement.hasAttribute("data-sky"); }
   };
 })();

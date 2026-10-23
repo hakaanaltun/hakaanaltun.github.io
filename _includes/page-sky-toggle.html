@@ -66,9 +66,8 @@
      fetched only when someone actually turns the sky on. */
   function repaint(){
     var city = SKY.pickCity(), when = SKY.now();
-    SKY.paint(window.OLAE_ASTRO
-      ? window.OLAE_ASTRO.sunAltitude(when, city.lat, city.lng)
-      : SKY.sunAltitude(when, city.lat, city.lng), SKY.evening(when));
+    SKY.paint(SKY.sunAt(when, window.OLAE_ASTRO
+      ? window.OLAE_ASTRO.sunAltitude(when, city.lat, city.lng) : undefined));
   }
   function startSky(){
     if(!window.OLAE_ASTRO && !startSky.asked){

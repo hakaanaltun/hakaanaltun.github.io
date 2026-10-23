@@ -160,9 +160,11 @@ for(const month of [0,3,6,9])for(const hour of [0,6,12,18]){
   const ratio=(a,b)=>{const A=lum(a),B=lum(b);return (Math.max(A,B)+0.05)/(Math.min(A,B)+0.05);};
   const s=sky();
   const css=k=>s.root.style.getPropertyValue(k);
-  // The night is checked bare, halfway into the evening and in it.
-  for(let alt=-30;alt<=80;alt+=0.5)for(const eve of alt<0?[0,0.5,1]:[0]){
-    s.SITE.paint(alt,eve);
+  // The day is checked at every share of the way to noon, the night bare,
+  // halfway into the evening and at sunset, when the evening is whole.
+  for(let alt=-30;alt<=60;alt+=0.5)for(const eve of alt<0?[0,0.5,1]:[0]){
+    const share=Math.max(0,Math.min(1,alt/60));
+    s.SITE.paint({alt,share,eve});
     const day=alt>=0,at=' at '+alt+'°'+(eve?', evening '+eve:'');
     assert.equal(s.root.getAttribute('data-sky'),day?'day':'night','the half'+at);
     assert.equal(s.root.getAttribute('data-theme'),day?'light':'sky','the path'+at);
@@ -203,8 +205,8 @@ for(const month of [0,3,6,9])for(const hour of [0,6,12,18]){
     w.eval(inline.find(s=>s.includes('OLAE_PAGE_SKY =')));
     const css=k=>root.style.getPropertyValue(k);
     const solid=k=>{const c=css(k).match(/[\d.]+/g).map(Number),g=parse(css('--paper'));return c.length<4?css(k):'rgb('+[0,1,2].map(i=>Math.round(c[i]*c[3]+g[i]*(1-c[3]))).join(',')+')';};
-    for(let alt=-30;alt<=80;alt+=0.5)for(const eve of alt<0?[0,0.5,1]:[0]){
-      w.OLAE_PAGE_SKY.paint(alt,eve);
+    for(let alt=-30;alt<=60;alt+=0.5)for(const eve of alt<0?[0,0.5,1]:[0]){
+      w.OLAE_PAGE_SKY.paint({alt,share:Math.max(0,Math.min(1,alt/60)),eve});
       const day=alt>=0,at=' on The List at '+alt+'°'+(eve?', evening '+eve:'');
       assert.equal(root.getAttribute('data-theme'),'sky','the choice'+at);
       assert.equal(root.getAttribute('data-sky'),day?'day':'night','the half'+at);
@@ -220,23 +222,31 @@ for(const month of [0,3,6,9])for(const hour of [0,6,12,18]){
   // ?hour= stands the sun where it will be at that hour today, in İstanbul,
   // on the reader's own clock.
   const tz=process.env.TZ;process.env.TZ='Europe/Istanbul';
-  // The evening holds the slate from sunset (18:06 that day) until 20:30,
-  // eases into the ramp and is gone at nine.
-  const SLATE='rgb(78,94,106)';
-  for(const [hour,half,paper] of [[2,'night'],[6.5,'night'],[7.5,'day'],[13,'day'],[17.9,'day'],[18.5,'night',SLATE],[20.4,'night',SLATE],[20.75,'night','between'],[21,'night','ramp'],[22,'night','ramp'],['25',null],['x',null]]){
+  for(const [hour,half] of [[2,'night'],[6.5,'night'],[7.5,'day'],[13,'day'],[17.9,'day'],[18.5,'night'],[21,'night'],['25',null],['x',null]]){
     const h=sky(hour);h.SITE.paintNow();
-    const p=h.root.style.getPropertyValue('--paper');
     if(half)assert.equal(h.root.getAttribute('data-sky'),half,'?hour='+hour);
     else assert.equal(h.root.getAttribute('data-sky'),'day','?hour='+hour+' is ignored: 13:00 in İstanbul');
-    if(paper==='ramp')assert(lum(p)<0.01,'?hour='+hour+' is the night: '+p);
-    else if(paper==='between')assert(lum(p)>0.01&&lum(p)<lum(SLATE),'?hour='+hour+' eases into the night: '+p);
-    else if(paper)assert.equal(p,paper,'?hour='+hour+' is the evening');
     h.dom.window.close();
   }
+  // Every half hour of that day: the paper moves at every step but the
+  // darkest of the night and the hour round noon, when the sun itself
+  // hardly moves; the day reaches Blueprint at noon, and from
+  // sunset (18:06) the evening's slate darkens at every step into the
+  // night, which is whole at nine.
   {
-    const h=sky(),E=(hh,mm)=>{const d=new h.w.Date();d.setHours(hh,mm,0,0);return h.w.OLAE_SKY.evening(d);};
-    assert.deepEqual([E(6,0),E(11,59),E(12,0),E(20,30),E(20,45),E(21,0),E(23,30)],[0,0,1,1,0.5,0,0],'the evening by the clock');
-    h.dom.window.close();
+    const papers=[];
+    for(let m=0;m<24*60;m+=30){
+      const h=sky(m/60);h.SITE.paintNow();
+      papers.push([m/60,h.root.getAttribute('data-sky'),h.root.style.getPropertyValue('--paper')]);
+      h.dom.window.close();
+    }
+    const at=t=>papers.find(p=>p[0]===t);
+    assert.equal(at(13)[2],'rgb(237,241,245)','Blueprint at noon');
+    assert(lum(at(18.5)[2])<lum('rgb(78,94,106)')&&lum(at(18.5)[2])>lum(at(19)[2]),'the slate begins to darken at sunset');
+    for(let t=18.5;t<21;t+=0.5)assert(lum(at(t)[2])>lum(at(t+0.5)[2]),'darker at '+(t+0.5)+' than at '+t);
+    assert.equal(at(21)[2],'rgb(12,16,24)','the night at nine');
+    for(let t=8;t<12;t+=0.5)assert.notEqual(at(t)[2],at(t+0.5)[2],'the morning moves at '+t);
+    for(let t=13.5;t<18;t+=0.5)assert.notEqual(at(t)[2],at(t+0.5)[2],'the afternoon moves at '+t);
   }
   if(tz===undefined)delete process.env.TZ;else process.env.TZ=tz;
 }

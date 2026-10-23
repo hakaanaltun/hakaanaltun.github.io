@@ -12,6 +12,8 @@
     page-sky.html   paints an instrument's four tokens
     site-sky.html   paints the site's full set
   and both are loaded before first paint, so the sky resolves with no flash.
+  What they paint from is sunAt(): the sun's altitude, how far it has
+  climbed towards today's noon, and how much of the evening is left.
 
   The ephemeris is /twilight/'s, good to about ±0.3°, from the clock and the
   IANA time zone alone — a coordinate guess, not an almanac, and no location
@@ -21,11 +23,14 @@
 
   The sky has two halves, and SUNRISE is where they meet. From sunrise to
   sunset it is a DAY: a light paper with dark ink, moving from a pale warm
-  stone while the sun is low, through Fog's grey, to Blueprint's pale blue
-  when it stands high. From sunset to sunrise it is THE RAMP, with light
-  ink: the deep night stops, then a grey-violet twilight that reaches the
-  horizon. Its brightest ground retains at least 6.5:1 for body ink and
-  5.5:1 for the site's muted tier.
+  stone while the sun is low, through Fog's grey a third of the way up,
+  to Blueprint's pale blue at noon. The way is measured against today's
+  own noon, so the paper moves every minute of every day: Blueprint is
+  noon in winter as in summer, not a ceiling the summer sun sits under
+  for hours. From sunset to sunrise it is THE RAMP, with light ink: the
+  deep night stops, then a grey-violet twilight that reaches the horizon.
+  Its brightest ground retains at least 6.5:1 for body ink and 5.5:1 for
+  the site's muted tier.
 
   Until 23 October 2026 the ramp ran on into a daytime slate with the same
   light ink, and the author found the day too dark. It could not be made
@@ -35,12 +40,13 @@
   once at sunset, as a phone's own dark mode does.
 
   The slate stayed for THE EVENING. The same day the author found that the
-  night came down too soon after sunset, and asked for the slate to hold
-  from sunset until EVENING_ENDS, 21:00 on the reader's own clock. It
-  eases into the ramp over the half hour before, so the night is whole at
-  nine. The evening is the clock's, not the sun's: nine is late in winter
-  and early in summer by the sun, and the same hour of the evening either
-  way.
+  night came down too soon after sunset, and asked for the slate from
+  sunset until EVENING_ENDS, 21:00 on the reader's own clock. It held
+  until half past eight at first, and then, at the author's asking, it
+  darkened with the sun instead: the slate at sunset, the night at nine,
+  and every minute between a little darker than the one before. Nine is
+  the clock's, not the sun's: late in winter and early in summer by the
+  sun, and the same hour of the evening either way.
 {% endcomment %}
 <script>
 (function(){
@@ -91,9 +97,10 @@
   }
   /* The sun's altitude at which the day begins and ends. */
   var SUNRISE = 0;
-  /* The day's papers, by the sun's altitude. The first is the sky's own, a
-     stone a shade warmer than Fog for the low sun; the other two are Fog
-     and Blueprint from css/palettes.css, with their inks, rules and chrome.
+  /* The day's papers, by how far the sun has climbed towards today's noon,
+     0 at the horizon and 1 at noon. The first is the sky's own, a stone a
+     shade warmer than Fog for the low sun; the other two are Fog and
+     Blueprint from css/palettes.css, with their inks, rules and chrome.
      secL is how dark the sections' accents print on each, a little under
      the palette's own so the colours between the stops still clear AA on
      the band. */
@@ -101,26 +108,26 @@
     [ 0, { paper:"#F3F1EC", surface:"#EBE8E1", band:"#E8E5DD", ink:"#25241F", inkSoft:"#3B3832",
            vizon:"#66625A", stripInk:"#57534B", rule:"#DEDAD1", ruleStrong:"#C9C4B8",
            ruleCream:"#CFC8B6", chrome:"#46424A", footText:"#ECE9EF", footMuted:"#C7C2CB", secL:0.480 }],
-    [12, { paper:"#F2F3F1", surface:"#EAEDEA", band:"#E7E9E5", ink:"#23262A", inkSoft:"#373C42",
+    [1/3, { paper:"#F2F3F1", surface:"#EAEDEA", band:"#E7E9E5", ink:"#23262A", inkSoft:"#373C42",
            vizon:"#62686E", stripInk:"#555B62", rule:"#DCE0DC", ruleStrong:"#C6CCC6",
            ruleCream:"#C9CFC2", chrome:"#3A4148", footText:"#E8EBEE", footMuted:"#C3C9CF", secL:0.495 }],
-    [35, { paper:"#EDF1F5", surface:"#E4EAF0", band:"#DFE6EC", ink:"#1F2A38", inkSoft:"#33414F",
+    [ 1, { paper:"#EDF1F5", surface:"#E4EAF0", band:"#DFE6EC", ink:"#1F2A38", inkSoft:"#33414F",
            vizon:"#586679", stripInk:"#4E5C6E", rule:"#D3DCE3", ruleStrong:"#B8C5D0",
            ruleCream:"#BEC9D4", chrome:"#22364F", footText:"#E4EBF3", footMuted:"#B9C6D4", secL:0.490 }]
   ];
   function hex(h){
     return [parseInt(h.slice(1, 3), 16), parseInt(h.slice(3, 5), 16), parseInt(h.slice(5, 7), 16)];
   }
-  /* Every colour of the day at one altitude, as [r,g,b], with secL; between
-     two stops each is interpolated. */
-  function dayAt(alt){
+  /* Every colour of the day at one `share` of the way to noon, as [r,g,b],
+     with secL; between two stops each is interpolated. */
+  function dayAt(share){
     var lo = DAY[0], hi = DAY[0];
     for(var i = 0; i < DAY.length; i++){
-      if(alt >= DAY[i][0]) lo = DAY[i];
-      if(alt <= DAY[i][0]){ hi = DAY[i]; break; }
+      if(share >= DAY[i][0]) lo = DAY[i];
+      if(share <= DAY[i][0]){ hi = DAY[i]; break; }
       hi = DAY[i];
     }
-    var f = hi[0] === lo[0] ? 0 : (alt - lo[0]) / (hi[0] - lo[0]), d = {};
+    var f = hi[0] === lo[0] ? 0 : (share - lo[0]) / (hi[0] - lo[0]), d = {};
     Object.keys(lo[1]).forEach(function(k){
       d[k] = k === "secL" ? lerp(lo[1][k], hi[1][k], f) : mixChannels(hex(lo[1][k]), hex(hi[1][k]), f);
     });
@@ -129,13 +136,18 @@
   /* The evening's ground: the slate the day had at noon until 23 October
      2026, with the ramp's full light ink. */
   var SLATE = [78, 94, 106], EVENING_ENDS = 21;
-  /* How much of the evening there is at `date`, 0 to 1: all of it from
-     noon until half an hour before EVENING_ENDS, then less, and none after
-     it or in the morning. The sun decides whether it is night at all. */
-  function evening(date){
+  /* How much of the evening is left at `date`, 0 to 1, for a sun at `alt`
+     over city `c`: all of it at sunset, none at EVENING_ENDS, and between
+     them as far as the sun still has to sink before nine. None in the
+     morning, and none on a summer night whose sun is still up at nine. The
+     sun decides whether it is night at all. */
+  function evening(date, alt, c){
     var h = date.getHours() + date.getMinutes() / 60;
-    if(h < 12) return 0;
-    return Math.max(0, Math.min(1, (EVENING_ENDS - h) / 0.5));
+    if(h < 12 || h >= EVENING_ENDS) return 0;
+    var end = new Date(date.getTime());
+    end.setHours(EVENING_ENDS, 0, 0, 0);
+    var last = sunAltitude(end, c.lat, c.lng);
+    return last >= 0 ? 0 : Math.max(0, Math.min(1, 1 - alt / last));
   }
   /* The night at one altitude, `eve` of the way to the evening, in
      skyAt's shape: [altitude, ground, ink mix]. */
@@ -150,21 +162,30 @@
       Math.round(lerp(a[2], b[2], f))
     ];
   }
-  function sunAltitude(now, lat, lng){
-    var RAD = Math.PI / 180;
+  var RAD = Math.PI / 180;
+  /* Where the sun stands among the stars at `now`: its declination and
+     right ascension, with the day count the sidereal clock needs. */
+  function sunPlace(now){
     var d = (now.getTime() / 86400000) - 10957.5;        /* days since J2000 */
     var g = (357.529 + 0.98560028 * d) * RAD;
     var q = 280.459 + 0.98564736 * d;
     var L = (q + 1.915 * Math.sin(g) + 0.020 * Math.sin(2 * g)) * RAD;
     var e = (23.439 - 0.00000036 * d) * RAD;
     var sinDec = Math.sin(e) * Math.sin(L);
-    var dec = Math.asin(sinDec);
-    var RAh = (Math.atan2(Math.cos(e) * Math.sin(L), Math.cos(L)) / RAD) / 15;
-    var GMST = ((18.697374558 + 24.06570982441908 * d) % 24 + 24) % 24;
+    return { d: d, sinDec: sinDec, dec: Math.asin(sinDec),
+      RAh: (Math.atan2(Math.cos(e) * Math.sin(L), Math.cos(L)) / RAD) / 15 };
+  }
+  function sunAltitude(now, lat, lng){
+    var p = sunPlace(now);
+    var GMST = ((18.697374558 + 24.06570982441908 * p.d) % 24 + 24) % 24;
     var lst = ((GMST + lng / 15) % 24 + 24) % 24;
-    var H = ((lst - RAh) * 15 + 540) % 360 - 180;
+    var H = ((lst - p.RAh) * 15 + 540) % 360 - 180;
     var latR = lat * RAD;
-    return Math.asin(Math.sin(latR) * sinDec + Math.cos(latR) * Math.cos(dec) * Math.cos(H * RAD)) / RAD;
+    return Math.asin(Math.sin(latR) * p.sinDec + Math.cos(latR) * Math.cos(p.dec) * Math.cos(H * RAD)) / RAD;
+  }
+  /* How high the sun stands at noon on `now`'s day, at latitude `lat`. */
+  function noonAltitude(now, lat){
+    return 90 - Math.abs(lat - sunPlace(now).dec / RAD);
   }
   /* The moment the sky is painted for: now, or ?hour= (any value from 0 to
      23.99) on the reader's own clock today, so any hour can be looked at. */
@@ -174,11 +195,20 @@
     if(h >= 0 && h < 24) d.setHours(Math.floor(h), Math.round((h % 1) * 60), 0, 0);
     return d;
   }
-  /* Where the sun is then, without the caller having to hold a city. */
-  function altitudeNow(){
-    var c = pickCity();
-    return sunAltitude(now(), c.lat, c.lng);
+  /* What the painters paint from, at `date` in the reader's city: the
+     sun's altitude (or `alt`, when the caller has a finer one), its share
+     of the way to today's noon, and how much of the evening is left. */
+  function sunAt(date, alt){
+    var c = pickCity(), noon = noonAltitude(date, c.lat);
+    if(alt === undefined) alt = sunAltitude(date, c.lat, c.lng);
+    return {
+      alt: alt,
+      share: noon > 0 ? Math.max(0, Math.min(1, alt / noon)) : 0,
+      eve: evening(date, alt, c)
+    };
   }
+  /* The same, for now or ?hour=. */
+  function sunNow(){ return sunAt(now()); }
   /* Relative luminance of a ground, the input every derived tone needs. */
   function luminance(rgb){
     var v = [rgb[0], rgb[1], rgb[2]].map(function(c){
@@ -200,8 +230,9 @@
 
   window.OLAE_SKY = {
     CREAM: CREAM, DAYINK: DAYINK,
-    pickCity: pickCity, sunAltitude: sunAltitude, now: now, altitudeNow: altitudeNow,
-    SUNRISE: SUNRISE, dayAt: dayAt, evening: evening, nightAt: nightAt,
+    pickCity: pickCity, sunAltitude: sunAltitude, noonAltitude: noonAltitude,
+    now: now, sunAt: sunAt, sunNow: sunNow,
+    SUNRISE: SUNRISE, dayAt: dayAt, nightAt: nightAt,
     skyAt: skyAt, mix: mixChannels, luminance: luminance, over: over, rgb: rgb,
     lerp: lerp
   };
