@@ -19,7 +19,7 @@
      flightPose and flyLocal carry the camera there along the curve
      travelRoutes gives each neighbouring pair, turning and approaching in
      perspective (?flight=outside keeps the earlier flat camera). travelPlan
-     shapes long routes without intermediate stops; only the destination enters history.
+     paces long routes without intermediate stops; only the destination enters history.
    - go() is the one way to change view, from a button, a place to look,
      the keyboard, the address or Back and Forward. It waits for the
      images, writes the history, sets the caption (renderScene) and
@@ -741,7 +741,6 @@ function flightProfile(from, to, short = false, fromId = null, toId = null) {
   };
 }
 function flightPose(from, to, profile, t, view = cameraViewport()) {
-  if (profile.cruise) return cruisePose(from, to, profile, t, view);
   const q = t * t * t * (t * (t * 6 - 15) + 10),
     u = 1 - q,
     envelope = Math.sin(Math.PI * q) ** 2;
@@ -790,79 +789,24 @@ function flightPose(from, to, profile, t, view = cameraViewport()) {
   }
   return pose;
 }
-const smoothTravel = (t) => t * t * t * (t * (t * 6 - 15) + 10);
-// One clock and one continuous curve: passing worlds never restart easing,
-// zoom or orientation. Only departure and the final approach come to rest.
-function cruisePose(from, to, profile, t, view) {
-  const q = smoothTravel(t),
-    points = profile.cruise.points,
-    x = from.x + (to.x - from.x) * q,
-    direction = Math.sign(to.x - from.x);
-  let index = 0;
-  while (index < points.length - 2 && direction * (x - points[index + 1].x) > 0) index++;
-  const a = points[index], b = points[index + 1],
-    before = points[Math.max(0, index - 1)],
-    after = points[Math.min(points.length - 1, index + 2)],
-    span = b.x - a.x,
-    u = (x - a.x) / span,
-    m0 = (b.y - before.y) / (b.x - before.x),
-    m1 = (after.y - a.y) / (after.x - a.x);
-  const y = (2 * u ** 3 - 3 * u ** 2 + 1) * a.y +
-    (u ** 3 - 2 * u ** 2 + u) * span * m0 +
-    (-2 * u ** 3 + 3 * u ** 2) * b.y +
-    (u ** 3 - u ** 2) * span * m1;
-  // Match each passing world's inspection framing without retreating to an
-  // overview. The camera keeps moving as the lens adapts between close views.
-  const scale = Math.exp(Math.log(a.scale) +
-    (Math.log(b.scale) - Math.log(a.scale)) * smoothTravel(u)),
-    slope = ((6 * u ** 2 - 6 * u) * a.y +
-      (3 * u ** 2 - 4 * u + 1) * span * m0 +
-      (-6 * u ** 2 + 6 * u) * b.y + (3 * u ** 2 - 2 * u) * span * m1) / span;
-  const pose = { x, y, scale },
-    turn = smoothTravel(Math.min(1, t / 0.2)),
-    arrival = smoothTravel(Math.max(0, (t - 0.8) / 0.2)),
-    // A shallow forward look follows the continuous tangent. Aiming far down
-    // the route hides nearby worlds; this keeps the passing planet in view.
-    angle = 0.18 * turn * (1 - arrival),
-    dx = direction / Math.hypot(1, slope), dy = dx * slope;
-  if (profile.inside || from.look) {
-    pose.look = {
-      x: (profile.inside ? angle * dx : 0) + (from.look?.x || 0) * (1 - turn),
-      y: (profile.inside ? angle * dy : 0) + (from.look?.y || 0) * (1 - turn),
-    };
-    pose.inside = t < 1 && (profile.inside || turn < 1);
-  }
-  return pose;
-}
-// Camera waypoints describe the route geometry, not successive close/wide views.
+
+// Preserve the original forward-looking curve; only pacing and arrival are shared.
 function travelPlan(fromId, toId, from, short = false) {
   const target = localTarget(toId),
     direct = flightProfile(from, target, short, fromId, toId),
     departure = fromId ? localTarget(fromId) : from,
-    interrupted = Math.hypot(from.x - departure.x, from.y - departure.y) > 1;
-  const regions = Object.keys(regionOrigins),
+    interrupted = Math.hypot(from.x - departure.x, from.y - departure.y) > 1,
+    regions = Object.keys(regionOrigins),
     source = interrupted
       ? regions.reduce((best, key) =>
           Math.abs(regionOrigins[key][0] - from.x) < Math.abs(regionOrigins[best][0] - from.x)
             ? key : best)
       : localSystemFor(fromId),
     start = regions.indexOf(source),
-    end = regions.indexOf(localSystemFor(toId));
-  const points = [from];
-  if (!short && fromId && !systems[toId] && start >= 0 && Math.abs(end - start) >= 2) {
-    const direction = Math.sign(end - start);
-    for (let i = start + direction; i !== end; i += direction) {
-      const body = systems[regions[i]].bodies[0],
-        point = { ...localTarget(body), body };
-      if (direction * (point.x - from.x) > 1 && direction * (target.x - point.x) > 1)
-        points.push(point);
-    }
-  }
-  if (points.length > 1) {
-    points.push(target);
-    direct.cruise = { points };
-    direct.duration = Math.min(50000, 6000 + 3500 * (Math.abs(end - start) - 1));
-  }
+    end = regions.indexOf(localSystemFor(toId)),
+    intervals = Math.abs(end - start);
+  if (!short && fromId && !systems[toId] && start >= 0 && end >= 0 && intervals >= 2)
+    direct.duration = Math.min(50000, 6000 + 3500 * (intervals - 1));
   return { from, to: target, profile: direct, duration: direct.duration };
 }
 function flyLocal(poses, duration, profile) {
