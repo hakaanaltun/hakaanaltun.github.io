@@ -27,7 +27,11 @@ rule written there.
   approved the immersive pilot in October 2026, with illustrations and sourced
   spacecraft imagery. `pictures/space/index.html`, `css/space-journey.css`,
   `js/space-journey.js` and `js/space-field-notes.js` carry the experience.
-  Its 74 views cover 23 bodies and fourteen wide views. Worlds keep their
+  Its 74 views cover 23 bodies and fourteen wide views. `js/space-journey.js`
+  opens with a note on how it is laid out; it was written in dense single
+  lines until 23 October 2026, when it was set out to be read without
+  changing the program. Keep new code in that form and the tables one entry
+  to a line. Worlds keep their
   positions; the camera follows distinct, reversible curves. Keep gradual
   approach, decoded detail overlays, resize behavior, rapid retargeting,
   browser Back/Forward, keyboard navigation, reduced motion and Arrive now.

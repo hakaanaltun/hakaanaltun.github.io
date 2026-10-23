@@ -48,10 +48,10 @@ function checkDashes(where, text) {
 
 // --- Trivia ----------------------------------------------------------------
 
-/* The British bank was written before notes had to carry sources, and most of
-   its questions still have none. It may not gain any more; lower this as they
-   are sourced, and remove it once it reaches zero. */
-const UNSOURCED_ALLOWED = { britain: 36 };
+/* Every question carries its sources. The British bank was written before
+   notes had to, and until 23 October 2026 thirty-six of its questions had
+   none; they were sourced that day, and the allowance this check kept for
+   them was taken out. */
 
 const escapeRegExp = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
@@ -107,11 +107,8 @@ for (const file of list('_data/quizzes', '.json')) {
     }
   });
 
-  const allowed = UNSOURCED_ALLOWED[slug] || 0;
-  if (unsourced > allowed) {
-    problem(file, `${unsourced} question${unsourced === 1 ? ' has' : 's have'} no sources (allowed: ${allowed}); every claim must be sourced`);
-  } else if (unsourced < allowed) {
-    problem(file, `only ${unsourced} questions are unsourced now; lower UNSOURCED_ALLOWED.${slug} in scripts/test-content.cjs to ${unsourced}`);
+  if (unsourced) {
+    problem(file, `${unsourced} question${unsourced === 1 ? ' has' : 's have'} no sources; every claim must be sourced`);
   }
 
   /* The bank is stored grouped, in round order, and the quiz reads its rounds

@@ -1,4 +1,40 @@
-const $=id=>document.getElementById(id);
+/* space-journey.js — the journey through the Solar System, /pictures/space/
+   (see _agents/pictures.md).
+
+   One stage holds every world at a fixed place in a shared plan, and one
+   camera moves over it. The file runs in this order:
+
+   - scenes: the 74 views. Each names the world it looks at (object), the
+     point of its image the camera centres (focus), how close it comes
+     (zoom), the caption's kicker, title and line, and the view its main
+     button leads to (next).
+   - notes: the short note the information panel shows for a view that has
+     no full field note; the full ones are in js/space-field-notes.js.
+   - The large detail images are fetched only when a view needs them, and
+     shown once the camera has arrived.
+   - localBodies, systems and regionOrigins: where each world's image lies,
+     which worlds share a neighbourhood and its wide view, and where each
+     neighbourhood stands in the plan. Distances are illustrative.
+   - The camera. localTarget gives a view's resting pose; flightProfile,
+     flightPose and flyLocal carry the camera there along the curve
+     travelRoutes gives each neighbouring pair, turning and approaching in
+     perspective (?flight=outside keeps the earlier flat camera).
+   - go() is the one way to change view, from a button, a place to look,
+     the keyboard, the address or Back and Forward. It waits for the
+     images, writes the history, sets the caption (renderScene) and
+     travels (position); a newer request cancels an older one.
+   - hotspots: the places to look on each view. openInfo opens a note.
+   - The controls, the keyboard, full screen, resizing and the address come
+     last. The journey starts from the address (sceneFromHash), and the old
+     scene-* addresses still lead to their views (legacyScenes).
+
+   The tables stand one entry to a line, as data. The code between them was
+   set out to be read on 23 October 2026; until then it was written in
+   dense single lines. It is the same program as before, and
+   scripts/test-space.cjs checks the journey. */
+const $ = (id) => document.getElementById(id);
+
+// The views, by id.
 const scenes={
  venuswide:{"title": "Toward the inner planets.", "kicker": "VENUS \u00b7 THE WIDE VIEW", "description": "Approach a world wrapped in clouds.", "primary": "Approach Venus", "next": "venus", "focus": [0.5, 0.5], "zoom": 0.3, "object": "venus", "info": "venus"},
  venus:{"title": "A world beneath a veil.", "kicker": "VENUS \u00b7 MARINER 10", "description": "The bright cloud cover hides the rocky ground below.", "primary": "Explore the clouds", "next": "venusclouds", "focus": [0.5, 0.5], "zoom": 0.84, "object": "venus", "info": "venus"},
@@ -78,6 +114,8 @@ const scenes={
  olympus:{title:'The long slopes of a volcano.',kicker:'MARS · OLYMPUS MONS',description:'Follow the broad shield toward its summit.',primary:'Explore the great canyon',next:'valles',focus:[.34,.29],zoom:1.7,object:'mars',info:'olympus'},
  valles:{title:'A world pulled apart.',kicker:'MARS · VALLES MARINERIS',description:'Trace the canyon system across the surface.',primary:'Return to the whole Mars',next:'mars',focus:[.56,.62],zoom:1.7,object:'mars',info:'valles'}
 };
+
+// The short notes, by view id.
 const notes={
  venuswide:{"kicker": "VENUS \u00b7 THE WIDE VIEW", "title": "Toward the inner planets.", "text": "Approach a world wrapped in clouds.", "source": "https://science.nasa.gov/venus/facts/"},
  venus:{"kicker": "VENUS \u00b7 MARINER 10", "title": "A world beneath a veil.", "text": "The bright cloud cover hides the rocky ground below.", "source": "https://science.nasa.gov/venus/facts/"},
@@ -156,70 +194,151 @@ const notes={
  olympus:{kicker:'MARS · OLYMPUS MONS',title:'Built by repeated flows.',text:'Olympus Mons is a shield volcano. Repeated lava flows built its broad, gently sloping form. Collapses at the summit left overlapping calderas. The visible relief here is an illustrated interpretation.',source:'https://www.esa.int/Science_Exploration/Space_Science/Mars_Express/Lava_flows_on_Olympus_Mons'},
  valles:{kicker:'MARS · VALLES MARINERIS',title:'A fracture on a planetary scale.',text:'Stretching and fracturing of the crust helped form this vast canyon system near the Tharsis region. Landslides later reshaped its walls and floors.',source:'https://www.esa.int/Science_Exploration/Space_Science/Mars_Express/The_geology_of_Valles_Marineris'}
 };
-let current='system',places=false,lastFocus=null,detailTimer,hasView=false;
-const stage=$('stage'),info=$('information');
+
+// Where the journey is, and the detail images fetched on the way.
+let current = 'system',
+  places = false,
+  lastFocus = null,
+  detailTimer,
+  hasView = false;
+const stage = $('stage'),
+  info = $('information');
 // Registered bounds of the dedicated detail tile in the 1672 x 941 master.
 // This covers about 719 master pixels with a 1672-pixel detail image.
-const detailBounds={x:194.75315487512978/1672,y:186.5878325292282/941,w:.42979445658405274,h:.42746676782724674};
-let detailReady=false,detailRequest=null,detailView=0;
-function loadDetail(){
- if(detailReady)return Promise.resolve(true);
- if(detailRequest)return detailRequest;
- const image=$('earthDetail');
- detailRequest=new Promise(resolve=>{
-  image.onload=async()=>{try{if(image.decode)await image.decode();detailReady=true;resolve(true)}catch{detailRequest=null;resolve(false)}};
-  image.onerror=()=>{detailRequest=null;resolve(false)};
-  image.src='/pictures/space/images/earth-atmosphere-detail.webp';
- });
- return detailRequest;
+const detailBounds = {
+  x: 194.75315487512978 / 1672,
+  y: 186.5878325292282 / 941,
+  w: 0.42979445658405274,
+  h: 0.42746676782724674,
+};
+let detailReady = false,
+  detailRequest = null,
+  detailView = 0;
+function loadDetail() {
+  if (detailReady) return Promise.resolve(true);
+  if (detailRequest) return detailRequest;
+  const image = $('earthDetail');
+  detailRequest = new Promise((resolve) => {
+    image.onload = async () => {
+      try {
+        if (image.decode) await image.decode();
+        detailReady = true;
+        resolve(true);
+      } catch {
+        detailRequest = null;
+        resolve(false);
+      }
+    };
+    image.onerror = () => {
+      detailRequest = null;
+      resolve(false);
+    };
+    image.src = '/pictures/space/images/earth-atmosphere-detail.webp';
+  });
+  return detailRequest;
 }
-function positionDetail(c,settled=Promise.resolve(true)){
- const image=$('earthDetail'),r=detailBounds;
- image.style.width=c.iw*r.w+'px';image.style.height=c.ih*r.h+'px';
- image.style.transform=`translate(${c.tx+c.iw*r.x*c.scale}px,${c.ty+c.ih*r.y*c.scale}px) scale(${c.scale})`;
- const token=++detailView;clearTimeout(detailTimer);image.style.opacity='0';
- if(current==='near')loadDetail();
- if(current!=='atmosphere')return;
- Promise.all([loadDetail(),settled]).then(([loaded,arrived])=>{
-  if(loaded&&arrived&&token===detailView&&current==='atmosphere')image.style.opacity='1';
- });
+function positionDetail(c, settled = Promise.resolve(true)) {
+  const image = $('earthDetail'),
+    r = detailBounds;
+  image.style.width = c.iw * r.w + 'px';
+  image.style.height = c.ih * r.h + 'px';
+  image.style.transform = `translate(${c.tx + c.iw * r.x * c.scale}px,${c.ty + c.ih * r.y * c.scale}px) scale(${c.scale})`;
+  const token = ++detailView;
+  clearTimeout(detailTimer);
+  image.style.opacity = '0';
+  if (current === 'near') loadDetail();
+  if (current !== 'atmosphere') return;
+  Promise.all([loadDetail(), settled]).then(([loaded, arrived]) => {
+    if (loaded && arrived && token === detailView && current === 'atmosphere')
+      image.style.opacity = '1';
+  });
 }
-function camera(scene){const w=stage.clientWidth,h=stage.clientHeight,mobile=w<701;const iw=Math.min(w*1.25,h*1.75),ih=iw*9/16;const scale=scene.zoom*(mobile?1.4:1);const tx=w*(mobile?.5:.57)-iw*scene.focus[0]*scale;const ty=h*(mobile?.36:.43)-ih*scene.focus[1]*scale;return{iw,ih,scale,tx,ty}}
-let marsReady=false,marsRequest=null,viewRevision=0;
-function loadMars(){
- if(marsReady)return Promise.resolve(true);
- if(marsRequest)return marsRequest;
- const image=$('marsHigh');
- marsRequest=new Promise(resolve=>{
-  image.onload=async()=>{try{if(image.decode)await image.decode();marsReady=true;resolve(true)}catch{marsRequest=null;resolve(false)}};
-  image.onerror=()=>{marsRequest=null;resolve(false)};
-  image.src='/pictures/space/images/mars-master.webp';
- });
- return marsRequest;
+function camera(scene) {
+  const w = stage.clientWidth,
+    h = stage.clientHeight,
+    mobile = w < 701;
+  const iw = Math.min(w * 1.25, h * 1.75),
+    ih = (iw * 9) / 16;
+  const scale = scene.zoom * (mobile ? 1.4 : 1);
+  const tx = w * (mobile ? 0.5 : 0.57) - iw * scene.focus[0] * scale;
+  const ty = h * (mobile ? 0.36 : 0.43) - ih * scene.focus[1] * scale;
+  return { iw, ih, scale, tx, ty };
 }
-let ceresReady=false,ceresRequest=null;
-function loadCeres(){
- if(ceresReady)return Promise.resolve(true);
- if(ceresRequest)return ceresRequest;
- const image=$('ceresHigh');
- ceresRequest=new Promise(resolve=>{
-  image.onload=async()=>{try{await image.decode();ceresReady=true;resolve(true)}catch{ceresRequest=null;resolve(false)}};
-  image.onerror=()=>{ceresRequest=null;resolve(false)};
-  image.src='/pictures/space/images/ceres-detail.webp';
- });
- return ceresRequest;
+let marsReady = false,
+  marsRequest = null,
+  viewRevision = 0;
+function loadMars() {
+  if (marsReady) return Promise.resolve(true);
+  if (marsRequest) return marsRequest;
+  const image = $('marsHigh');
+  marsRequest = new Promise((resolve) => {
+    image.onload = async () => {
+      try {
+        if (image.decode) await image.decode();
+        marsReady = true;
+        resolve(true);
+      } catch {
+        marsRequest = null;
+        resolve(false);
+      }
+    };
+    image.onerror = () => {
+      marsRequest = null;
+      resolve(false);
+    };
+    image.src = '/pictures/space/images/mars-master.webp';
+  });
+  return marsRequest;
 }
-let jupiterReady=false,jupiterRequest=null;
-function loadJupiter(){
- if(jupiterReady)return Promise.resolve(true);
- if(jupiterRequest)return jupiterRequest;
- const image=$('jupiterHigh');
- jupiterRequest=new Promise(resolve=>{
-  image.onload=async()=>{try{await image.decode();jupiterReady=true;resolve(true)}catch{jupiterRequest=null;resolve(false)}};
-  image.onerror=()=>{jupiterRequest=null;resolve(false)};
-  image.src='/pictures/space/images/jupiter-detail-v12.webp';
- });
- return jupiterRequest;
+let ceresReady = false,
+  ceresRequest = null;
+function loadCeres() {
+  if (ceresReady) return Promise.resolve(true);
+  if (ceresRequest) return ceresRequest;
+  const image = $('ceresHigh');
+  ceresRequest = new Promise((resolve) => {
+    image.onload = async () => {
+      try {
+        await image.decode();
+        ceresReady = true;
+        resolve(true);
+      } catch {
+        ceresRequest = null;
+        resolve(false);
+      }
+    };
+    image.onerror = () => {
+      ceresRequest = null;
+      resolve(false);
+    };
+    image.src = '/pictures/space/images/ceres-detail.webp';
+  });
+  return ceresRequest;
+}
+let jupiterReady = false,
+  jupiterRequest = null;
+function loadJupiter() {
+  if (jupiterReady) return Promise.resolve(true);
+  if (jupiterRequest) return jupiterRequest;
+  const image = $('jupiterHigh');
+  jupiterRequest = new Promise((resolve) => {
+    image.onload = async () => {
+      try {
+        await image.decode();
+        jupiterReady = true;
+        resolve(true);
+      } catch {
+        jupiterRequest = null;
+        resolve(false);
+      }
+    };
+    image.onerror = () => {
+      jupiterRequest = null;
+      resolve(false);
+    };
+    image.src = '/pictures/space/images/jupiter-detail-v12.webp';
+  });
+  return jupiterRequest;
 }
 // One camera and one navigation contract for every destination.
 const localBodies={
@@ -269,113 +388,261 @@ const systems={
 };
 // Stable route coordinates shared by every region; this is an illustrative travel layout.
 const regionOrigins={solar:[-12000,-400],mercurywide:[-7600,600],venuswide:[-3800,-200],system:[0,0],martian:[3600,250],belt:[7000,-350],jovian:[11100,400],saturnian:[15500,-250],uranian:[20300,250],neptunian:[24500,-450],plutonian:[28900,250],kuiper:[33500,-350],voyager2wide:[39500,3400],voyager1wide:[47500,-5200]};
-function regionOrigin(id=current){return regionOrigins[systems[id]?id:localSystemFor(id)]||[0,0]}
+function regionOrigin(id = current) {
+  return regionOrigins[systems[id] ? id : localSystemFor(id)] || [0, 0];
+}
 const journey=['sun','mercury','venus','earth','moon','mars','ceres','vesta','jupiter','io','europa','saturn','titan','enceladus','uranus','miranda','neptune','triton','pluto','charon','arrokoth','voyager2','voyager1'];
 const bodyNames={sun:'The Sun',mercury:'Mercury',venus:'Venus',voyager2:'Voyager 2',voyager1:'Voyager 1',arrokoth:'Arrokoth',pluto:'Pluto',charon:'Charon',neptune:'Neptune',triton:'Triton',uranus:'Uranus',miranda:'Miranda',earth:'Earth',moon:'The Moon',mars:'Mars',ceres:'Ceres',vesta:'Vesta',jupiter:'Jupiter',io:'Io',europa:'Europa',saturn:'Saturn',titan:'Titan',enceladus:'Enceladus'};
-const variants={farside:'moon',vestasouth:'vesta'};
-function localBodyFor(id){const name=scenes[id]?.object;return variants[name]||name}
-function localSystemFor(id=current){return Object.keys(systems).find(key=>systems[key].bodies.includes(localBodyFor(id)))||null}
-const localSceneIds=new Set(Object.keys(scenes));
-const bodyDetails=Object.fromEntries(['io','europa','saturn','titan','enceladus','uranus','miranda','neptune','triton','pluto','charon','arrokoth','voyager2','voyager1','sun','mercury','venus'].map(name=>[name,{ready:false,request:null}]));
-function loadBodyDetail(name){
- const state=bodyDetails[name];if(state.ready)return Promise.resolve(true);if(state.request)return state.request;
- const image=$(name+'High');
- state.request=new Promise(resolve=>{
-  image.onload=async()=>{try{await image.decode();state.ready=true;resolve(true)}catch{state.request=null;resolve(false)}};
-  image.onerror=()=>{state.request=null;resolve(false)};image.src=(name.startsWith('voyager')?'assets/':'/pictures/space/images/')+(name.startsWith('voyager')?'voyager':name)+(name.startsWith('voyager')?'-detail-v20.webp':['europa','neptune','triton'].includes(name)?'-detail-v12.webp':'-detail.webp');
- });return state.request;
+const variants = { farside: 'moon', vestasouth: 'vesta' };
+function localBodyFor(id) {
+  const name = scenes[id]?.object;
+  return variants[name] || name;
 }
-let localPose=null,localFrame=null,localResolve=null,localFinish=null;
-let navigationRequest=0,pendingDestination=null,skipRequest=-1;
-let historyCursor=0;
-const historySession=String(Date.now()),historyTrail=[];
-function portraitTablet(w,h){return w>=600&&h>w*1.2}
-function localAnchor(w=stage.clientWidth,h=stage.clientHeight){
- const portrait=portraitTablet(w,h);
- return {x:w*(portrait||w<701?.5:.57),y:h*(portrait?.4:w<701?.31:.36)};
+function localSystemFor(id = current) {
+  return Object.keys(systems).find((key) => systems[key].bodies.includes(localBodyFor(id))) || null;
 }
-function cameraViewport(){const width=stage.clientWidth,height=stage.clientHeight;return {width,height,anchor:localAnchor(width,height)}}
-function sceneViewport(){
- const w=stage.clientWidth,h=stage.clientHeight,origin=stage.getBoundingClientRect?.().top||0;
- const caption=$('caption').getBoundingClientRect?.(),tools=$('topTools').getBoundingClientRect?.();
- const top=Math.max(110,(tools?.bottom||115)-origin+20,portraitTablet(w,h)?h*.18:0);
- const side=w>=701&&h<600;
- const left=side?Math.max(w*.46,(caption?.right||w*.42)+28):w*.07;
- const right=Math.min(w*.93,w-w*(w<701?.06:.032)-70);
- const bottom=side?h-180:Math.min(h*.65,(caption?.top||h-390)-origin-50);
- return {left,right,top,bottom:Math.max(top+60,bottom)};
+const localSceneIds = new Set(Object.keys(scenes));
+const bodyDetails = Object.fromEntries(
+  [
+    'io',
+    'europa',
+    'saturn',
+    'titan',
+    'enceladus',
+    'uranus',
+    'miranda',
+    'neptune',
+    'triton',
+    'pluto',
+    'charon',
+    'arrokoth',
+    'voyager2',
+    'voyager1',
+    'sun',
+    'mercury',
+    'venus',
+  ].map((name) => [name, { ready: false, request: null }]),
+);
+function loadBodyDetail(name) {
+  const state = bodyDetails[name];
+  if (state.ready) return Promise.resolve(true);
+  if (state.request) return state.request;
+  const image = $(name + 'High');
+  state.request = new Promise((resolve) => {
+    image.onload = async () => {
+      try {
+        await image.decode();
+        state.ready = true;
+        resolve(true);
+      } catch {
+        state.request = null;
+        resolve(false);
+      }
+    };
+    image.onerror = () => {
+      state.request = null;
+      resolve(false);
+    };
+    image.src =
+      (name.startsWith('voyager') ? 'assets/' : '/pictures/space/images/') +
+      (name.startsWith('voyager') ? 'voyager' : name) +
+      (name.startsWith('voyager')
+        ? '-detail-v20.webp'
+        : ['europa', 'neptune', 'triton'].includes(name)
+          ? '-detail-v12.webp'
+          : '-detail.webp');
+  });
+  return state.request;
 }
-function overviewPose(id=current){
- const [left,right,top,bottom]=systems[localSystemFor(id)].bounds,area=sceneViewport();
- const scale=Math.min((area.right-area.left)/(right-left),(area.bottom-area.top)/(bottom-top));
- const anchor=localAnchor(),[ox,oy]=regionOrigin(id);
- return {x:ox+(left+right)/2+(anchor.x-(area.left+area.right)/2)/scale,y:oy+(top+bottom)/2+(anchor.y-(area.top+area.bottom)/2)/scale,scale};
+
+// The camera: its pose now, the pending request and the history it writes.
+let localPose = null,
+  localFrame = null,
+  localResolve = null,
+  localFinish = null;
+let navigationRequest = 0,
+  pendingDestination = null,
+  skipRequest = -1;
+let historyCursor = 0;
+const historySession = String(Date.now()),
+  historyTrail = [];
+function portraitTablet(w, h) {
+  return w >= 600 && h > w * 1.2;
 }
-function localTarget(id){
- if(systems[id])return overviewPose(id);
- const s=scenes[id],b=localBodies[localBodyFor(id)],old=camera(s),[ox,oy]=regionOrigin(id);
- return {x:ox+b.x+b.w*s.focus[0],y:oy+b.y+b.h*s.focus[1],scale:old.iw*old.scale/b.w};
+function localAnchor(w = stage.clientWidth, h = stage.clientHeight) {
+  const portrait = portraitTablet(w, h);
+  return {
+    x: w * (portrait || w < 701 ? 0.5 : 0.57),
+    y: h * (portrait ? 0.4 : w < 701 ? 0.31 : 0.36),
+  };
 }
-function localImageCamera(id){
- const b=localBodies[localBodyFor(id)],a=localAnchor(),p=localPose||localTarget(id),[ox,oy]=regionOrigin(id);
- return {iw:b.w,ih:b.h,scale:p.scale,tx:a.x+(ox+b.x-p.x)*p.scale,ty:a.y+(oy+b.y-p.y)*p.scale};
+function cameraViewport() {
+  const width = stage.clientWidth,
+    height = stage.clientHeight;
+  return { width, height, anchor: localAnchor(width, height) };
+}
+function sceneViewport() {
+  const w = stage.clientWidth,
+    h = stage.clientHeight,
+    origin = stage.getBoundingClientRect?.().top || 0;
+  const caption = $('caption').getBoundingClientRect?.(),
+    tools = $('topTools').getBoundingClientRect?.();
+  const top = Math.max(
+    110,
+    (tools?.bottom || 115) - origin + 20,
+    portraitTablet(w, h) ? h * 0.18 : 0,
+  );
+  const side = w >= 701 && h < 600;
+  const left = side ? Math.max(w * 0.46, (caption?.right || w * 0.42) + 28) : w * 0.07;
+  const right = Math.min(w * 0.93, w - w * (w < 701 ? 0.06 : 0.032) - 70);
+  const bottom = side ? h - 180 : Math.min(h * 0.65, (caption?.top || h - 390) - origin - 50);
+  return { left, right, top, bottom: Math.max(top + 60, bottom) };
+}
+function overviewPose(id = current) {
+  const [left, right, top, bottom] = systems[localSystemFor(id)].bounds,
+    area = sceneViewport();
+  const scale = Math.min(
+    (area.right - area.left) / (right - left),
+    (area.bottom - area.top) / (bottom - top),
+  );
+  const anchor = localAnchor(),
+    [ox, oy] = regionOrigin(id);
+  return {
+    x: ox + (left + right) / 2 + (anchor.x - (area.left + area.right) / 2) / scale,
+    y: oy + (top + bottom) / 2 + (anchor.y - (area.top + area.bottom) / 2) / scale,
+    scale,
+  };
+}
+function localTarget(id) {
+  if (systems[id]) return overviewPose(id);
+  const s = scenes[id],
+    b = localBodies[localBodyFor(id)],
+    old = camera(s),
+    [ox, oy] = regionOrigin(id);
+  return {
+    x: ox + b.x + b.w * s.focus[0],
+    y: oy + b.y + b.h * s.focus[1],
+    scale: (old.iw * old.scale) / b.w,
+  };
+}
+function localImageCamera(id) {
+  const b = localBodies[localBodyFor(id)],
+    a = localAnchor(),
+    p = localPose || localTarget(id),
+    [ox, oy] = regionOrigin(id);
+  return {
+    iw: b.w,
+    ih: b.h,
+    scale: p.scale,
+    tx: a.x + (ox + b.x - p.x) * p.scale,
+    ty: a.y + (oy + b.y - p.y) * p.scale,
+  };
 }
 // Turn toward the destination and project every
 // region in the same camera, preserving the registered resting views.
-function insideFlightEnabled(){return new URLSearchParams(location.search).get('flight')!=='outside'}
-function flightProjection(p,b,origin=[0,0],view=cameraViewport()){
- const a=view.anchor,angle=Math.hypot(p.look?.x||0,p.look?.y||0);
- const dx=origin[0]+b.cx-p.x,dy=origin[1]+b.cy-p.y;
- if(angle<1e-8)return {x:a.x+dx*p.scale,y:a.y+dy*p.scale,scale:p.scale,visible:true};
- const ux=p.look.x/angle,uy=p.look.y/angle;
- const focal=Math.max(view.width,view.height)*.85,z=focal/p.scale;
- const along=dx*ux+dy*uy,across=-dx*uy+dy*ux;
- const depth=z*Math.cos(angle)+along*Math.sin(angle);
- if(depth<=focal*.04)return {x:0,y:0,scale:0,visible:false};
- const scale=focal/depth,forward=along*Math.cos(angle)-z*Math.sin(angle);
- const x=a.x+(forward*ux-across*uy)*scale,y=a.y+(forward*uy+across*ux)*scale;
- const rx=(b.rx||b.radius)*scale,ry=(b.ry||b.radius)*scale;
- return {x,y,scale,visible:x+rx>0&&x-rx<view.width&&y+ry>0&&y-ry<view.height};
+function insideFlightEnabled() {
+  return new URLSearchParams(location.search).get('flight') !== 'outside';
 }
-function paintFlightWorld(name,p,projection,origin,a){
- const b=localBodies[name];
- const x=(projection.x-a.x)/p.scale-(origin[0]+b.cx-p.x),y=(projection.y-a.y)/p.scale-(origin[1]+b.cy-p.y);
- for(const id of [name,...Object.keys(variants).filter(id=>variants[id]===name)]){
-  const el=$(id);el.style.visibility=projection.visible?'':'hidden';
-  el.style.transformOrigin='50% 50%';
-  el.style.transform=projection.visible?`translate(${x}px,${y}px) scale(${projection.scale/p.scale})`:'none';
- }
+function flightProjection(p, b, origin = [0, 0], view = cameraViewport()) {
+  const a = view.anchor,
+    angle = Math.hypot(p.look?.x || 0, p.look?.y || 0);
+  const dx = origin[0] + b.cx - p.x,
+    dy = origin[1] + b.cy - p.y;
+  if (angle < 1e-8)
+    return { x: a.x + dx * p.scale, y: a.y + dy * p.scale, scale: p.scale, visible: true };
+  const ux = p.look.x / angle,
+    uy = p.look.y / angle;
+  const focal = Math.max(view.width, view.height) * 0.85,
+    z = focal / p.scale;
+  const along = dx * ux + dy * uy,
+    across = -dx * uy + dy * ux;
+  const depth = z * Math.cos(angle) + along * Math.sin(angle);
+  if (depth <= focal * 0.04) return { x: 0, y: 0, scale: 0, visible: false };
+  const scale = focal / depth,
+    forward = along * Math.cos(angle) - z * Math.sin(angle);
+  const x = a.x + (forward * ux - across * uy) * scale,
+    y = a.y + (forward * uy + across * ux) * scale;
+  const rx = (b.rx || b.radius) * scale,
+    ry = (b.ry || b.radius) * scale;
+  return {
+    x,
+    y,
+    scale,
+    visible: x + rx > 0 && x - rx < view.width && y + ry > 0 && y - ry < view.height,
+  };
 }
-function paintLocalCamera(p,controls=true,view=cameraViewport()){
- // Read the viewport once before any styles change. Re-reading it between
- // worlds forces layout after each target's width/height/position writes.
- localPose=p;const a=view.anchor,w=view.width,h=view.height,key=localSystemFor(),wide=!!systems[current];
- document.body.classList.toggle('inside-flight',!!p.inside);
- for(const [name,sys] of Object.entries(systems)){
-  const [ox,oy]=regionOrigin(name);
-  $(sys.space).style.transform=`translate(${a.x+(ox-p.x)*p.scale}px,${a.y+(oy-p.y)*p.scale}px) scale(${p.scale})`;
-  // Controls stay still and hidden during travel, then follow the arrival.
-  if(controls){
-   $(sys.space).style.opacity='1';$(sys.space).setAttribute('aria-hidden',String(name!==key));
-   $(sys.targets).hidden=!wide&&name!==key;
+function paintFlightWorld(name, p, projection, origin, a) {
+  const b = localBodies[name];
+  const x = (projection.x - a.x) / p.scale - (origin[0] + b.cx - p.x),
+    y = (projection.y - a.y) / p.scale - (origin[1] + b.cy - p.y);
+  for (const id of [name, ...Object.keys(variants).filter((id) => variants[id] === name)]) {
+    const el = $(id);
+    el.style.visibility = projection.visible ? '' : 'hidden';
+    el.style.transformOrigin = '50% 50%';
+    el.style.transform = projection.visible
+      ? `translate(${x}px,${y}px) scale(${projection.scale / p.scale})`
+      : 'none';
   }
-  for(const body of sys.bodies){
-   const b=localBodies[body],button=$(body+'Target');
-   paintFlightWorld(body,p,flightProjection(p,b,[ox,oy],view),[ox,oy],a);
-   if(!controls)continue;
-   const bw=Math.max(44,(b.rx||b.radius)*2*p.scale),bh=Math.max(44,(b.ry||b.radius)*2*p.scale);
-   const x=a.x+(ox+b.cx-p.x)*p.scale,y=a.y+(oy+b.cy-p.y)*p.scale;
-   button.style.width=bw+'px';button.style.height=bh+'px';button.style.left=x+'px';button.style.top=y+'px';
-   button.hidden=(!wide&&name!==key)||x+bw/2<0||x-bw/2>w||y+bh/2<0||y-bh/2>h;
-   button.disabled=current!==key&&body===localBodyFor(current)&&!zoomDestinations(current).in;
-   button.setAttribute('aria-label',current!==key&&body===localBodyFor(current)?'Look closer at '+bodyNames[body]:'Approach '+bodyNames[body]);
-  }
- }
 }
-function cancelLocalFlight(){
- if(localFrame!==null)cancelAnimationFrame(localFrame);
- localFrame=null;localFinish=null;
- if(localResolve){const resolve=localResolve;localResolve=null;resolve(false)}
+function paintLocalCamera(p, controls = true, view = cameraViewport()) {
+  // Read the viewport once before any styles change. Re-reading it between
+  // worlds forces layout after each target's width/height/position writes.
+  localPose = p;
+  const a = view.anchor,
+    w = view.width,
+    h = view.height,
+    key = localSystemFor(),
+    wide = !!systems[current];
+  document.body.classList.toggle('inside-flight', !!p.inside);
+  for (const [name, sys] of Object.entries(systems)) {
+    const [ox, oy] = regionOrigin(name);
+    $(sys.space).style.transform =
+      `translate(${a.x + (ox - p.x) * p.scale}px,${a.y + (oy - p.y) * p.scale}px) scale(${p.scale})`;
+    // Controls stay still and hidden during travel, then follow the arrival.
+    if (controls) {
+      $(sys.space).style.opacity = '1';
+      $(sys.space).setAttribute('aria-hidden', String(name !== key));
+      $(sys.targets).hidden = !wide && name !== key;
+    }
+    for (const body of sys.bodies) {
+      const b = localBodies[body],
+        button = $(body + 'Target');
+      paintFlightWorld(body, p, flightProjection(p, b, [ox, oy], view), [ox, oy], a);
+      if (!controls) continue;
+      const bw = Math.max(44, (b.rx || b.radius) * 2 * p.scale),
+        bh = Math.max(44, (b.ry || b.radius) * 2 * p.scale);
+      const x = a.x + (ox + b.cx - p.x) * p.scale,
+        y = a.y + (oy + b.cy - p.y) * p.scale;
+      button.style.width = bw + 'px';
+      button.style.height = bh + 'px';
+      button.style.left = x + 'px';
+      button.style.top = y + 'px';
+      button.hidden =
+        (!wide && name !== key) ||
+        x + bw / 2 < 0 ||
+        x - bw / 2 > w ||
+        y + bh / 2 < 0 ||
+        y - bh / 2 > h;
+      button.disabled =
+        current !== key && body === localBodyFor(current) && !zoomDestinations(current).in;
+      button.setAttribute(
+        'aria-label',
+        current !== key && body === localBodyFor(current)
+          ? 'Look closer at ' + bodyNames[body]
+          : 'Approach ' + bodyNames[body],
+      );
+    }
+  }
+}
+function cancelLocalFlight() {
+  if (localFrame !== null) cancelAnimationFrame(localFrame);
+  localFrame = null;
+  localFinish = null;
+  if (localResolve) {
+    const resolve = localResolve;
+    localResolve = null;
+    resolve(false);
+  }
 }
 // Each neighboring pair has a stable route, followed in reverse on the return trip.
 // Signed curvature bends the camera above/below the chord; pace varies with the journey.
@@ -390,153 +657,350 @@ const travelRoutes={
  'miranda:neptune':{bend:.23,pace:1.09},'neptune:triton':{bend:-.19,pace:.94},
  'triton:pluto':{bend:-.24,pace:1.08},'pluto:charon':{bend:.14,pace:.88},'charon:arrokoth':{bend:.27,pace:1.13},'arrokoth:voyager2':{bend:.31,pace:1.16},'voyager2:voyager1':{bend:-.33,pace:1.2}
 };
-function travelRoute(fromId,toId){
- const a=localBodyFor(fromId),b=localBodyFor(toId),i=journey.indexOf(a),j=journey.indexOf(b);
- if(i<0||j<0||a===b)return {bend:0,pace:1};
- const forward=i<j,key=forward?a+':'+b:b+':'+a;
- // Direct selections use a consistent arc derived from the two known endpoints.
- const route=travelRoutes[key]||{bend:((Math.min(i,j)+Math.max(i,j))%2?1:-1)*.12,pace:1};
- const establishing=systems[fromId]||systems[toId];
- return {bend:route.bend*(forward?1:-1)*(establishing?.35:1),pace:route.pace};
+function travelRoute(fromId, toId) {
+  const a = localBodyFor(fromId),
+    b = localBodyFor(toId),
+    i = journey.indexOf(a),
+    j = journey.indexOf(b);
+  if (i < 0 || j < 0 || a === b) return { bend: 0, pace: 1 };
+  const forward = i < j,
+    key = forward ? a + ':' + b : b + ':' + a;
+  // Direct selections use a consistent arc derived from the two known endpoints.
+  const route = travelRoutes[key] || {
+    bend: ((Math.min(i, j) + Math.max(i, j)) % 2 ? 1 : -1) * 0.12,
+    pace: 1,
+  };
+  const establishing = systems[fromId] || systems[toId];
+  return { bend: route.bend * (forward ? 1 : -1) * (establishing ? 0.35 : 1), pace: route.pace };
 }
 // Keep the accepted Earth–Moon rhythm. Other neighborhoods turn more
 // gradually; long outward transfers settle on their destination sooner.
-function flightRhythm(fromId,toId,route,duration){
- const a=localBodyFor(fromId),b=localBodyFor(toId),group=localSystemFor(fromId);
- if([a,b].some(name=>name?.startsWith('voyager')))return {turn:.22,drift:route.bend*.12,duration:6800};
- if(group===localSystemFor(toId)){
-  if(group==='system')return {turn:.3,drift:0,duration:5200};
-  if(group==='saturnian')return {turn:.44,drift:route.bend*.32,duration:5900};
-  if(group==='jovian')return {turn:.38,drift:route.bend*.28,duration:5600};
-  return {turn:.35,drift:route.bend*.26,duration:5400};
- }
- return {turn:.26,drift:route.bend*.14,duration:Math.min(6500,Math.max(5600,duration*1.35))};
-}
-function flightProfile(from,to,short=false,fromId=null,toId=null){
- const route=travelRoute(fromId,toId),dx=to.x-from.x,dy=to.y-from.y;
- const distance=Math.hypot(dx,dy),screenDistance=distance*Math.sqrt(from.scale*to.scale);
- const scaleChange=Math.abs(Math.log(to.scale/from.scale));
- const depth=Math.max(0,Math.log(Math.max(1,screenDistance*(1+Math.abs(route.bend))/(stage.clientWidth*.72))));
- const bend=short?0:route.bend;
- const duration=Math.min(short?3200:5600,Math.max(short?1000:1100,2.2*(480+240*scaleChange+270*Math.log1p(screenDistance/stage.clientWidth))*route.pace));
- const source=localBodyFor(fromId),destination=localBodyFor(toId);
- const alternate=id=>['farside','southpole'].includes(id);
- const inside=!!(insideFlightEnabled()&&localBodies[source]&&localBodies[destination]&&source!==destination&&
-  !alternate(fromId)&&!alternate(toId));
- const rhythm=flightRhythm(fromId,toId,route,duration);
- return {depth:inside||short?0:depth,duration:inside?(short?3200:rhythm.duration):duration,inside,turn:rhythm.turn,drift:rhythm.drift,
-  scaleArrival:inside&&source==='moon'&&destination==='mars'?rhythm.turn:1,
-  c1:{x:from.x+dx*.26-dy*bend,y:from.y+dy*.26+dx*bend},
-  c2:{x:from.x+dx*.74-dy*bend,y:from.y+dy*.74+dx*bend}};
-}
-function flightPose(from,to,profile,t,view=cameraViewport()){
- const q=t*t*t*(t*(t*6-15)+10),u=1-q,envelope=Math.sin(Math.PI*q)**2;
- // Settle the Moon-to-Mars lens during the turn so the approach cannot
- // grow past the arrival size and then pull back.
- const s=Math.min(1,t/(profile.scaleArrival||1)),scaleQ=s*s*s*(s*(s*6-15)+10);
- const c1=profile.c1||from,c2=profile.c2||to;
- const pose={x:u*u*u*from.x+3*u*u*q*c1.x+3*u*q*q*c2.x+q*q*q*to.x,
-  y:u*u*u*from.y+3*u*u*q*c1.y+3*u*q*q*c2.y+q*q*q*to.y,
-  scale:Math.exp(Math.log(from.scale)+(Math.log(to.scale)-Math.log(from.scale))*scaleQ-profile.depth*envelope)};
- const turn=Math.min(1,t/(profile.turn||.3)),blend=turn*turn*(3-2*turn);
- let look={x:0,y:0};
- if(profile.inside&&t<1){
-  let dx=to.x-pose.x,dy=to.y-pose.y;
-  const distance=Math.hypot(dx,dy),focal=Math.max(view.width,view.height)*.85;
-  if(distance>0){
-   // A small sideways look lets the target enter along an arc and settle
-   // at arrival. The offset vanishes at both ends, including short returns.
-   const offset=(profile.drift||0)*envelope*focal/pose.scale;
-   const ux=dx/distance,uy=dy/distance;dx-=uy*offset;dy+=ux*offset;
-   const aimDistance=Math.hypot(dx,dy),angle=Math.atan2(aimDistance,focal/pose.scale)*blend;
-   look={x:angle*dx/aimDistance,y:angle*dy/aimDistance};
+function flightRhythm(fromId, toId, route, duration) {
+  const a = localBodyFor(fromId),
+    b = localBodyFor(toId),
+    group = localSystemFor(fromId);
+  if ([a, b].some((name) => name?.startsWith('voyager')))
+    return { turn: 0.22, drift: route.bend * 0.12, duration: 6800 };
+  if (group === localSystemFor(toId)) {
+    if (group === 'system') return { turn: 0.3, drift: 0, duration: 5200 };
+    if (group === 'saturnian') return { turn: 0.44, drift: route.bend * 0.32, duration: 5900 };
+    if (group === 'jovian') return { turn: 0.38, drift: route.bend * 0.28, duration: 5600 };
+    return { turn: 0.35, drift: route.bend * 0.26, duration: 5400 };
   }
- }
- // An interrupted flight carries its actual view direction into the next.
- look.x+=(from.look?.x||0)*(1-blend);look.y+=(from.look?.y||0)*(1-blend);
- if(profile.inside||from.look){pose.look=look;pose.inside=t<1&&(profile.inside||blend<1)}
- return pose;
+  return {
+    turn: 0.26,
+    drift: route.bend * 0.14,
+    duration: Math.min(6500, Math.max(5600, duration * 1.35)),
+  };
 }
-function flyLocal(poses,duration,profile){
- cancelLocalFlight();const target=poses.at(-1);
- if(!duration||skipRequest===navigationRequest||matchMedia('(prefers-reduced-motion: reduce)').matches||!localPose||(Math.abs(target.x-localPose.x)<.01&&Math.abs(target.y-localPose.y)<.01&&Math.abs(target.scale-localPose.scale)<.00001)){paintLocalCamera(target);return Promise.resolve(true)}
- const from={...localPose},started=performance.now(),curve=profile||flightProfile(from,target);
- return new Promise(resolve=>{
-  localResolve=resolve;
-  localFinish=()=>{if(localFrame!==null)cancelAnimationFrame(localFrame);localFrame=null;localResolve=null;localFinish=null;paintLocalCamera(target);resolve(true)};
-  function frame(now){
-   const progress=Math.min(1,(now-started)/duration);
-   const view=cameraViewport();
-   paintLocalCamera(flightPose(from,target,curve,progress,view),false,view);
-   if(progress<1)localFrame=requestAnimationFrame(frame);else localFinish();
+function flightProfile(from, to, short = false, fromId = null, toId = null) {
+  const route = travelRoute(fromId, toId),
+    dx = to.x - from.x,
+    dy = to.y - from.y;
+  const distance = Math.hypot(dx, dy),
+    screenDistance = distance * Math.sqrt(from.scale * to.scale);
+  const scaleChange = Math.abs(Math.log(to.scale / from.scale));
+  const depth = Math.max(
+    0,
+    Math.log(
+      Math.max(1, (screenDistance * (1 + Math.abs(route.bend))) / (stage.clientWidth * 0.72)),
+    ),
+  );
+  const bend = short ? 0 : route.bend;
+  const duration = Math.min(
+    short ? 3200 : 5600,
+    Math.max(
+      short ? 1000 : 1100,
+      2.2 *
+        (480 + 240 * scaleChange + 270 * Math.log1p(screenDistance / stage.clientWidth)) *
+        route.pace,
+    ),
+  );
+  const source = localBodyFor(fromId),
+    destination = localBodyFor(toId);
+  const alternate = (id) => ['farside', 'southpole'].includes(id);
+  const inside = !!(
+    insideFlightEnabled() &&
+    localBodies[source] &&
+    localBodies[destination] &&
+    source !== destination &&
+    !alternate(fromId) &&
+    !alternate(toId)
+  );
+  const rhythm = flightRhythm(fromId, toId, route, duration);
+  return {
+    depth: inside || short ? 0 : depth,
+    duration: inside ? (short ? 3200 : rhythm.duration) : duration,
+    inside,
+    turn: rhythm.turn,
+    drift: rhythm.drift,
+    scaleArrival: inside && source === 'moon' && destination === 'mars' ? rhythm.turn : 1,
+    c1: { x: from.x + dx * 0.26 - dy * bend, y: from.y + dy * 0.26 + dx * bend },
+    c2: { x: from.x + dx * 0.74 - dy * bend, y: from.y + dy * 0.74 + dx * bend },
+  };
+}
+function flightPose(from, to, profile, t, view = cameraViewport()) {
+  const q = t * t * t * (t * (t * 6 - 15) + 10),
+    u = 1 - q,
+    envelope = Math.sin(Math.PI * q) ** 2;
+  // Settle the Moon-to-Mars lens during the turn so the approach cannot
+  // grow past the arrival size and then pull back.
+  const s = Math.min(1, t / (profile.scaleArrival || 1)),
+    scaleQ = s * s * s * (s * (s * 6 - 15) + 10);
+  const c1 = profile.c1 || from,
+    c2 = profile.c2 || to;
+  const pose = {
+    x: u * u * u * from.x + 3 * u * u * q * c1.x + 3 * u * q * q * c2.x + q * q * q * to.x,
+    y: u * u * u * from.y + 3 * u * u * q * c1.y + 3 * u * q * q * c2.y + q * q * q * to.y,
+    scale: Math.exp(
+      Math.log(from.scale) +
+        (Math.log(to.scale) - Math.log(from.scale)) * scaleQ -
+        profile.depth * envelope,
+    ),
+  };
+  const turn = Math.min(1, t / (profile.turn || 0.3)),
+    blend = turn * turn * (3 - 2 * turn);
+  let look = { x: 0, y: 0 };
+  if (profile.inside && t < 1) {
+    let dx = to.x - pose.x,
+      dy = to.y - pose.y;
+    const distance = Math.hypot(dx, dy),
+      focal = Math.max(view.width, view.height) * 0.85;
+    if (distance > 0) {
+      // A small sideways look lets the target enter along an arc and settle
+      // at arrival. The offset vanishes at both ends, including short returns.
+      const offset = ((profile.drift || 0) * envelope * focal) / pose.scale;
+      const ux = dx / distance,
+        uy = dy / distance;
+      dx -= uy * offset;
+      dy += ux * offset;
+      const aimDistance = Math.hypot(dx, dy),
+        angle = Math.atan2(aimDistance, focal / pose.scale) * blend;
+      look = { x: (angle * dx) / aimDistance, y: (angle * dy) / aimDistance };
+    }
   }
-  localFrame=requestAnimationFrame(frame);
- });
+  // An interrupted flight carries its actual view direction into the next.
+  look.x += (from.look?.x || 0) * (1 - blend);
+  look.y += (from.look?.y || 0) * (1 - blend);
+  if (profile.inside || from.look) {
+    pose.look = look;
+    pose.inside = t < 1 && (profile.inside || blend < 1);
+  }
+  return pose;
 }
-function finishTravel(){skipRequest=navigationRequest;if(localFinish)localFinish()}
-function position(previousId,animate=true,short=false){
- const key=localSystemFor(),group=systems[key],sameGroup=localSystemFor(previousId)===key,revision=++viewRevision;
- $('hotspots').replaceChildren();
- for(const [name,b] of Object.entries(localBodies)){
-  const el=$(name);el.style.left=b.x+'px';el.style.top=b.y+'px';el.style.width=b.w+'px';el.style.height=b.h+'px';el.style.transform='none';el.style.opacity='1';
- }
- for(const [name,body] of Object.entries(variants)){
-  const b=localBodies[body],el=$(name),active=current===(name==='farside'?'farside':'southpole');
-  el.style.left=b.x+'px';el.style.top=b.y+'px';el.style.width=b.w+'px';el.style.height=b.h+'px';el.style.transform='none';el.style.opacity=active?'1':'0';$(body).style.opacity=active?'0':'1';
- }
- paintLocalCamera(localPose||overviewPose());
- const target=localTarget(current),profile=flightProfile(localPose,target,short,previousId,current);
- // Inspection within one body never adds an artificial retreat.
- if(sameGroup&&localBodyFor(previousId)===localBodyFor(current))profile.depth=0;
- const settled=flyLocal([target],animate?profile.duration:0,profile);
- positionDetail({iw:1672,ih:941,tx:-836,ty:-470.5,scale:1},settled);
- const loaders={mars:loadMars,ceres:loadCeres,jupiter:loadJupiter,...Object.fromEntries(Object.keys(bodyDetails).map(name=>[name,()=>loadBodyDetail(name)]))};
- for(const name of group.bodies){
-  if(!loaders[name])continue;
-  Promise.all([loaders[name](),settled]).then(([loaded,arrived])=>{
-   if(loaded&&arrived&&revision===viewRevision&&localBodyFor(current)===name)$(name+'High').style.opacity='1';
+function flyLocal(poses, duration, profile) {
+  cancelLocalFlight();
+  const target = poses.at(-1);
+  if (
+    !duration ||
+    skipRequest === navigationRequest ||
+    matchMedia('(prefers-reduced-motion: reduce)').matches ||
+    !localPose ||
+    (Math.abs(target.x - localPose.x) < 0.01 &&
+      Math.abs(target.y - localPose.y) < 0.01 &&
+      Math.abs(target.scale - localPose.scale) < 0.00001)
+  ) {
+    paintLocalCamera(target);
+    return Promise.resolve(true);
+  }
+  const from = { ...localPose },
+    started = performance.now(),
+    curve = profile || flightProfile(from, target);
+  return new Promise((resolve) => {
+    localResolve = resolve;
+    localFinish = () => {
+      if (localFrame !== null) cancelAnimationFrame(localFrame);
+      localFrame = null;
+      localResolve = null;
+      localFinish = null;
+      paintLocalCamera(target);
+      resolve(true);
+    };
+    function frame(now) {
+      const progress = Math.min(1, (now - started) / duration);
+      const view = cameraViewport();
+      paintLocalCamera(flightPose(from, target, curve, progress, view), false, view);
+      if (progress < 1) localFrame = requestAnimationFrame(frame);
+      else localFinish();
+    }
+    localFrame = requestAnimationFrame(frame);
   });
- }
- settled.then(arrived=>{if(arrived&&revision===viewRevision)drawHotspots()});
- return settled;
 }
-function routeNeighbors(id){
- const body=localBodyFor(id),index=journey.indexOf(body);
- return {previous:journey[index-1]||null,next:systems[id]?body:journey[index+1]||null};
+function finishTravel() {
+  skipRequest = navigationRequest;
+  if (localFinish) localFinish();
 }
-function updateLocalControls(){
- const id=pendingDestination||current,key=localSystemFor(id),{previous,next}=routeNeighbors(id);
- $('viewNavigation').hidden=false;document.body.classList.add('local-space');
- $('viewNavigation').setAttribute('aria-label','Travel between worlds');
- $('viewPrevious').disabled=!previous;$('viewNext').disabled=!next;
- $('previousLabel').textContent=previous?bodyNames[previous]:'Start';$('nextLabel').textContent=next?bodyNames[next]:'End of route';
- $('viewPrevious').setAttribute('aria-label',previous?'Travel to '+bodyNames[previous]:'Start of route');
- $('viewNext').setAttribute('aria-label',next?'Travel to '+bodyNames[next]:'End of route');
- $('pullBack').disabled=id===key;$('pullBack').textContent='↙ Wide view';$('pullBack').setAttribute('aria-label','Show '+systems[key].label+' from a distance');
- $('viewContext').textContent=systems[id]?systems[key].label+' · Wide view':bodyNames[localBodyFor(id)]+(id===localBodyFor(id)?' · Exploring':' · Close view');
- $('disclosure').textContent=key==='solar'?'SDO/HMI visible-light observation, Feb 2011. Display color added by NASA.':key==='venuswide'?'Mariner 10 orange/ultraviolet composite, Feb 1974. False color; surface hidden.':key==='mercurywide'?'MESSENGER, 14 Jan 2008. False-color mosaic; distances illustrative.':key.startsWith('voyager')?'Adapted NASA model. Separate directions; distances and positions illustrative.':key==='kuiper'?'New Horizons composite. Color enhanced; route and distances illustrative.':key==='plutonian'?'New Horizons images. Colors enhanced; distance compressed; positions illustrative.':['jovian','saturnian','uranian','neptunian'].includes(key)?'Separate observations. Moons enlarged; distances and positions illustrative.':key==='belt'?'Separate spacecraft observations. Distances compressed; positions illustrative.':key==='martian'?'Illustrated view based on a NASA surface reference.':'Illustrated views. Distance compressed; positions are illustrative.';
- $('backButton').disabled=historyCursor<1;
- const zoom=zoomDestinations(id);$('zoomIn').disabled=!zoom.in;$('zoomOut').disabled=!zoom.out;
- $('zoomIn').setAttribute('aria-label',zoom.in?'Look closer: '+scenes[zoom.in].title:'Closest view');$('zoomOut').setAttribute('aria-label',zoom.out?'Pull back: '+scenes[zoom.out].title:'Widest view');
+function position(previousId, animate = true, short = false) {
+  const key = localSystemFor(),
+    group = systems[key],
+    sameGroup = localSystemFor(previousId) === key,
+    revision = ++viewRevision;
+  $('hotspots').replaceChildren();
+  for (const [name, b] of Object.entries(localBodies)) {
+    const el = $(name);
+    el.style.left = b.x + 'px';
+    el.style.top = b.y + 'px';
+    el.style.width = b.w + 'px';
+    el.style.height = b.h + 'px';
+    el.style.transform = 'none';
+    el.style.opacity = '1';
+  }
+  for (const [name, body] of Object.entries(variants)) {
+    const b = localBodies[body],
+      el = $(name),
+      active = current === (name === 'farside' ? 'farside' : 'southpole');
+    el.style.left = b.x + 'px';
+    el.style.top = b.y + 'px';
+    el.style.width = b.w + 'px';
+    el.style.height = b.h + 'px';
+    el.style.transform = 'none';
+    el.style.opacity = active ? '1' : '0';
+    $(body).style.opacity = active ? '0' : '1';
+  }
+  paintLocalCamera(localPose || overviewPose());
+  const target = localTarget(current),
+    profile = flightProfile(localPose, target, short, previousId, current);
+  // Inspection within one body never adds an artificial retreat.
+  if (sameGroup && localBodyFor(previousId) === localBodyFor(current)) profile.depth = 0;
+  const settled = flyLocal([target], animate ? profile.duration : 0, profile);
+  positionDetail({ iw: 1672, ih: 941, tx: -836, ty: -470.5, scale: 1 }, settled);
+  const loaders = {
+    mars: loadMars,
+    ceres: loadCeres,
+    jupiter: loadJupiter,
+    ...Object.fromEntries(
+      Object.keys(bodyDetails).map((name) => [name, () => loadBodyDetail(name)]),
+    ),
+  };
+  for (const name of group.bodies) {
+    if (!loaders[name]) continue;
+    Promise.all([loaders[name](), settled]).then(([loaded, arrived]) => {
+      if (loaded && arrived && revision === viewRevision && localBodyFor(current) === name)
+        $(name + 'High').style.opacity = '1';
+    });
+  }
+  settled.then((arrived) => {
+    if (arrived && revision === viewRevision) drawHotspots();
+  });
+  return settled;
 }
-function zoomDestinations(id=current){
- const body=localBodyFor(id),wide=localSystemFor(id),next=scenes[id].next;
- return {in:systems[id]?body:(localBodyFor(next)===body&&scenes[next].zoom>scenes[id].zoom?next:null),out:systems[id]?null:id===body?wide:body};
+
+// The controls: the way on and back along the journey, and closer and further.
+function routeNeighbors(id) {
+  const body = localBodyFor(id),
+    index = journey.indexOf(body);
+  return {
+    previous: journey[index - 1] || null,
+    next: systems[id] ? body : journey[index + 1] || null,
+  };
 }
-function zoomStep(direction){const id=pendingDestination||current,target=zoomDestinations(id)[direction>0?'in':'out'];return target?go(target):Promise.resolve(false)}
-function travelStep(direction){const target=routeNeighbors(pendingDestination||current)[direction<0?'previous':'next'];return target?go(target):Promise.resolve(false)}
-function setTravelState(busy,loading=false){
- document.body.classList.toggle('camera-moving',busy);
- $('primary').disabled=busy;$('travelStatus').hidden=!busy;
- if(busy)$('travelMessage').textContent=(loading?'Loading ':'Travelling to ')+(systems[pendingDestination]?.label||bodyNames[localBodyFor(pendingDestination)])+'…';
- $('skipTravel').hidden=loading;
+function updateLocalControls() {
+  const id = pendingDestination || current,
+    key = localSystemFor(id),
+    { previous, next } = routeNeighbors(id);
+  $('viewNavigation').hidden = false;
+  document.body.classList.add('local-space');
+  $('viewNavigation').setAttribute('aria-label', 'Travel between worlds');
+  $('viewPrevious').disabled = !previous;
+  $('viewNext').disabled = !next;
+  $('previousLabel').textContent = previous ? bodyNames[previous] : 'Start';
+  $('nextLabel').textContent = next ? bodyNames[next] : 'End of route';
+  $('viewPrevious').setAttribute(
+    'aria-label',
+    previous ? 'Travel to ' + bodyNames[previous] : 'Start of route',
+  );
+  $('viewNext').setAttribute('aria-label', next ? 'Travel to ' + bodyNames[next] : 'End of route');
+  $('pullBack').disabled = id === key;
+  $('pullBack').textContent = '↙ Wide view';
+  $('pullBack').setAttribute('aria-label', 'Show ' + systems[key].label + ' from a distance');
+  $('viewContext').textContent = systems[id]
+    ? systems[key].label + ' · Wide view'
+    : bodyNames[localBodyFor(id)] + (id === localBodyFor(id) ? ' · Exploring' : ' · Close view');
+  $('disclosure').textContent =
+    key === 'solar'
+      ? 'SDO/HMI visible-light observation, Feb 2011. Display color added by NASA.'
+      : key === 'venuswide'
+        ? 'Mariner 10 orange/ultraviolet composite, Feb 1974. False color; surface hidden.'
+        : key === 'mercurywide'
+          ? 'MESSENGER, 14 Jan 2008. False-color mosaic; distances illustrative.'
+          : key.startsWith('voyager')
+            ? 'Adapted NASA model. Separate directions; distances and positions illustrative.'
+            : key === 'kuiper'
+              ? 'New Horizons composite. Color enhanced; route and distances illustrative.'
+              : key === 'plutonian'
+                ? 'New Horizons images. Colors enhanced; distance compressed; positions illustrative.'
+                : ['jovian', 'saturnian', 'uranian', 'neptunian'].includes(key)
+                  ? 'Separate observations. Moons enlarged; distances and positions illustrative.'
+                  : key === 'belt'
+                    ? 'Separate spacecraft observations. Distances compressed; positions illustrative.'
+                    : key === 'martian'
+                      ? 'Illustrated view based on a NASA surface reference.'
+                      : 'Illustrated views. Distance compressed; positions are illustrative.';
+  $('backButton').disabled = historyCursor < 1;
+  const zoom = zoomDestinations(id);
+  $('zoomIn').disabled = !zoom.in;
+  $('zoomOut').disabled = !zoom.out;
+  $('zoomIn').setAttribute(
+    'aria-label',
+    zoom.in ? 'Look closer: ' + scenes[zoom.in].title : 'Closest view',
+  );
+  $('zoomOut').setAttribute(
+    'aria-label',
+    zoom.out ? 'Pull back: ' + scenes[zoom.out].title : 'Widest view',
+  );
 }
-function writeHistory(id,options){
- if(options.mode==='pop'){historyCursor=options.index;return}
- const state=()=>({spaceJourney:historySession,index:historyCursor,scene:id});
- if(options.mode==='replace'||!historyTrail.length){historyTrail[historyCursor]=id;window.history.replaceState(state(),'','#'+id)}
- else if(historyTrail[historyCursor]!==id){historyTrail.splice(historyCursor+1);historyTrail.push(id);historyCursor++;window.history.pushState(state(),'','#'+id)}
+function zoomDestinations(id = current) {
+  const body = localBodyFor(id),
+    wide = localSystemFor(id),
+    next = scenes[id].next;
+  return {
+    in: systems[id]
+      ? body
+      : localBodyFor(next) === body && scenes[next].zoom > scenes[id].zoom
+        ? next
+        : null,
+    out: systems[id] ? null : id === body ? wide : body,
+  };
 }
+function zoomStep(direction) {
+  const id = pendingDestination || current,
+    target = zoomDestinations(id)[direction > 0 ? 'in' : 'out'];
+  return target ? go(target) : Promise.resolve(false);
+}
+function travelStep(direction) {
+  const target = routeNeighbors(pendingDestination || current)[direction < 0 ? 'previous' : 'next'];
+  return target ? go(target) : Promise.resolve(false);
+}
+function setTravelState(busy, loading = false) {
+  document.body.classList.toggle('camera-moving', busy);
+  $('primary').disabled = busy;
+  $('travelStatus').hidden = !busy;
+  if (busy)
+    $('travelMessage').textContent =
+      (loading ? 'Loading ' : 'Travelling to ') +
+      (systems[pendingDestination]?.label || bodyNames[localBodyFor(pendingDestination)]) +
+      '…';
+  $('skipTravel').hidden = loading;
+}
+function writeHistory(id, options) {
+  if (options.mode === 'pop') {
+    historyCursor = options.index;
+    return;
+  }
+  const state = () => ({ spaceJourney: historySession, index: historyCursor, scene: id });
+  if (options.mode === 'replace' || !historyTrail.length) {
+    historyTrail[historyCursor] = id;
+    window.history.replaceState(state(), '', '#' + id);
+  } else if (historyTrail[historyCursor] !== id) {
+    historyTrail.splice(historyCursor + 1);
+    historyTrail.push(id);
+    historyCursor++;
+    window.history.pushState(state(), '', '#' + id);
+  }
+}
+
+// The places to look on each view, placed as shares of its image. Each
+// leads to another view (go) or opens a note (note).
 const hotspots={
  solar:[],
  mercurywide:[],
@@ -615,108 +1079,411 @@ const hotspots={
  olympus:[{p:[.34,.29],label:'Olympus Mons',note:'olympus'}],
  valles:[{p:[.56,.62],label:'Valles Marineris',note:'valles'}]
 };
-function drawHotspots(){
- $('hotspots').replaceChildren();
- const c=localImageCamera(current);
- for(const spot of hotspots[current]){
-  const b=document.createElement('button');b.className='hotspot';b.setAttribute('aria-label',spot.label);
-  b.innerHTML='<b aria-hidden="true"></b><span>'+spot.label+'</span>';
-  b.style.left=(c.tx+c.iw*spot.p[0]*c.scale)+'px';b.style.top=(c.ty+c.ih*spot.p[1]*c.scale)+'px';
-  b.onclick=()=>spot.go?go(spot.go):openInfo(spot.note);$('hotspots').append(b);
- }
+function drawHotspots() {
+  $('hotspots').replaceChildren();
+  const c = localImageCamera(current);
+  for (const spot of hotspots[current]) {
+    const b = document.createElement('button');
+    b.className = 'hotspot';
+    b.setAttribute('aria-label', spot.label);
+    b.innerHTML = '<b aria-hidden="true"></b><span>' + spot.label + '</span>';
+    b.style.left = c.tx + c.iw * spot.p[0] * c.scale + 'px';
+    b.style.top = c.ty + c.ih * spot.p[1] * c.scale + 'px';
+    b.onclick = () => (spot.go ? go(spot.go) : openInfo(spot.note));
+    $('hotspots').append(b);
+  }
 }
-function closeInfo(){info.hidden=true;document.body.classList.remove('panel-open');if(lastFocus?.isConnected)lastFocus.focus({preventScroll:true})}
-function renderScene(){
- const id=current,s=scenes[id],stop=s.stop||s.object;
- document.body.dataset.scene=id;document.body.classList.toggle('wide-view',!!systems[id]);
- $('title').textContent=s.title;$('kicker').textContent=s.kicker;$('description').textContent=s.description;
- $('primary').innerHTML=s.primary+' <span aria-hidden="true">↗</span>';
- const credit=({sun:'https://svs.gsfc.nasa.gov/3897/',venus:'https://science.nasa.gov/resource/newly-processed-views-of-venus-from-mariner-10/',mercury:'https://science.nasa.gov/resource/mercurys-subtle-colors/',voyager1:'https://www.jpl.nasa.gov/images/pia14111-model-of-voyager-artist-concept/',voyager2:'https://www.jpl.nasa.gov/images/pia14111-model-of-voyager-artist-concept/',arrokoth:'https://science.nasa.gov/resource/enhanced-color-composite-image-of-kuiper-belt-object-arrokoth-2014-mu69/',pluto:'https://science.nasa.gov/photojournal/the-rich-color-variations-of-pluto/',charon:'https://science.nasa.gov/photojournal/charon-in-enhanced-color/',neptune:'https://science.nasa.gov/photojournal/neptune-full-disk-view/',triton:'https://science.nasa.gov/photojournal/global-color-mosaic-of-triton/',uranus:'https://science.nasa.gov/photojournal/uranus-as-seen-by-nasas-voyager-2/',miranda:'https://science.nasa.gov/photojournal/south-polar-view-of-miranda/',saturn:'https://science.nasa.gov/resource/saturn-approaching-northern-summer/',titan:'https://science.nasa.gov/photojournal/cassinis-view-of-titan-natural-color-composite/',enceladus:'https://science.nasa.gov/photojournal/approaching-enceladus-2/',io:'https://science.nasa.gov/photojournal/global-image-of-io-true-color/',europa:'https://science.nasa.gov/photojournal/pj-natural-and-false-color-views-of-europa/',jupiter:'https://science.nasa.gov/asset/hubble/jupiter-2019/',ceres:'https://science.nasa.gov/resource/high-resolution-ceres-view/',vesta:'https://science.nasa.gov/photojournal/full-view-of-vesta/',vestasouth:'https://science.nasa.gov/resource/viewing-the-south-pole-of-vesta/',farside:'https://science.nasa.gov/resource/lunar-far-side/'})[s.object];$('imageCredit').hidden=!credit;if(credit){$('imageCredit').href=credit;$('imageCredit').textContent=s.object==='sun'?'SDO/HMI · Feb 2011 · NASA/Goddard SVS · Colorized ↗':s.object==='venus'?'Mariner 10 · Feb 1974 · NASA/JPL-Caltech · False color ↗':s.object==='mercury'?'MESSENGER · 14 Jan 2008 · NASA/JHUAPL/Carnegie · False color ↗':s.object.startsWith('voyager')?'Illustration adapted from NASA / JPL-Caltech’s model ↗':s.object==='arrokoth'?'New Horizons · 1 Jan 2019 · NASA / JHUAPL / SwRI / R. Tkachenko ↗':['pluto','charon'].includes(s.object)?'New Horizons · 14 Jul 2015 · Enhanced color · NASA / JHUAPL / SwRI ↗':s.object==='neptune'?'Voyager 2 · 1989 · Enhanced color · NASA / JPL ↗':s.object==='triton'?'Voyager 2 · 1989 · NASA / JPL / USGS ↗':s.object==='uranus'?'Voyager 2 · 1986 · NASA / JPL-Caltech ↗':s.object==='miranda'?'Voyager 2 · 24 Jan 1986 · NASA / JPL / USGS ↗':id==='saturnian'?'Cassini · Separate observations · NASA / JPL / SSI ↗':s.object==='saturn'?'Cassini · 25 Apr 2016 · NASA / JPL-Caltech / SSI ↗':s.object==='titan'?'Cassini · 16 Apr 2005 · NASA / JPL / SSI ↗':s.object==='enceladus'?'Cassini · 28 Oct 2015 · NASA / JPL-Caltech / SSI ↗':s.object==='io'?'Galileo · 3 Jul 1999 · NASA / JPL / University of Arizona ↗':s.object==='europa'?'Galileo · 7 Sep 1996 · NASA / JPL / DLR ↗':id==='jovian'?'Hubble + Galileo · Separate observations ↗':s.object==='jupiter'?'Hubble · 27 Jun 2019 · NASA / ESA / Simon / Wong ↗':s.object==='farside'?'LRO · NASA / Goddard / ASU ↗':'Dawn · NASA / JPL-Caltech / UCLA / MPS / DLR / IDA ↗';}
- const sideTrip=s.object==='sun'?['Explore the solar atmosphere','sun-corona',true]:s.object==='mercury'?['A long day','mercury-day',true]:s.object==='venus'?['The slow backward spin','venus-spin',true]:s.object==='voyager1'?['Look back at Earth','pale-blue-dot',true]:s.object==='voyager2'?['Beyond the solar wind','heliopause',true]:(id==='arrokoth'||id==='arrokothneck')?['Explore the surface color','arrokothcolor']:(id==='earth'||id==='near')?['Oceans','oceans']:(id==='moon'||id==='maria')?['Explore the far side','farside']:null;
- $('excursion').hidden=!sideTrip;if(sideTrip){$('excursion').textContent=sideTrip[0]+' ↗';$('excursion').onclick=()=>sideTrip[2]?openInfo(sideTrip[1]):go(sideTrip[1])}
- document.querySelectorAll('[data-stop]').forEach(b=>{
-  if(b.dataset.stop===stop){b.setAttribute('aria-current','step');const nav=$('journeyStops');nav.scrollTo({left:Math.max(0,b.offsetLeft-(nav.clientWidth-b.offsetWidth)/2),behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'})}
-  else b.removeAttribute('aria-current');
- });
- $('count').textContent=String(Object.keys(stopViews).indexOf(stop)+1).padStart(2,'0')+' / '+Object.keys(stopViews).length;updateLocalControls();
+function closeInfo() {
+  info.hidden = true;
+  document.body.classList.remove('panel-open');
+  if (lastFocus?.isConnected) lastFocus.focus({ preventScroll: true });
 }
-async function go(id,options={}){
- if(!scenes[id])return false;
- if(typeof options==='boolean')options={mode:options?'push':'replace'};
- if(hasView&&id===current&&!pendingDestination&&!options.force)return true;
- const request=++navigationRequest;
- cancelLocalFlight();viewRevision++;detailView++;$('hotspots').replaceChildren();
- pendingDestination=id;closeInfo();updateLocalControls();setTravelState(true,true);
- if(options.instant)skipRequest=request;
- try{
-  const images=systems[localSystemFor(id)].bodies.map(name=>localBodies[name].image);
-  if(id==='farside')images.push('farSideImage');if(id==='southpole')images.push('vestaSouthImage');
-  await Promise.all(images.map(name=>$(name).decode()));
- }catch{
-  if(request===navigationRequest){pendingDestination=null;setTravelState(false);updateLocalControls();if(hasView)position(current,false);$('description').textContent='This view could not load. Please try again.';
-   if(options.mode==='pop')window.history.replaceState({spaceJourney:historySession,index:historyCursor,scene:current},'','#'+current);
-  }return false;
- }
- if(request!==navigationRequest)return false;
- setTravelState(true);
- const previousId=hasView?current:null;
- current=id;hasView=true;writeHistory(id,options);renderScene();
- const arrived=await position(previousId,!options.instant,options.mode==='pop');
- if(!arrived||request!==navigationRequest)return false;
- pendingDestination=null;setTravelState(false);updateLocalControls();return true;
+function renderScene() {
+  const id = current,
+    s = scenes[id],
+    stop = s.stop || s.object;
+  document.body.dataset.scene = id;
+  document.body.classList.toggle('wide-view', !!systems[id]);
+  $('title').textContent = s.title;
+  $('kicker').textContent = s.kicker;
+  $('description').textContent = s.description;
+  $('primary').innerHTML = s.primary + ' <span aria-hidden="true">↗</span>';
+  const credit = {
+    sun: 'https://svs.gsfc.nasa.gov/3897/',
+    venus: 'https://science.nasa.gov/resource/newly-processed-views-of-venus-from-mariner-10/',
+    mercury: 'https://science.nasa.gov/resource/mercurys-subtle-colors/',
+    voyager1: 'https://www.jpl.nasa.gov/images/pia14111-model-of-voyager-artist-concept/',
+    voyager2: 'https://www.jpl.nasa.gov/images/pia14111-model-of-voyager-artist-concept/',
+    arrokoth:
+      'https://science.nasa.gov/resource/enhanced-color-composite-image-of-kuiper-belt-object-arrokoth-2014-mu69/',
+    pluto: 'https://science.nasa.gov/photojournal/the-rich-color-variations-of-pluto/',
+    charon: 'https://science.nasa.gov/photojournal/charon-in-enhanced-color/',
+    neptune: 'https://science.nasa.gov/photojournal/neptune-full-disk-view/',
+    triton: 'https://science.nasa.gov/photojournal/global-color-mosaic-of-triton/',
+    uranus: 'https://science.nasa.gov/photojournal/uranus-as-seen-by-nasas-voyager-2/',
+    miranda: 'https://science.nasa.gov/photojournal/south-polar-view-of-miranda/',
+    saturn: 'https://science.nasa.gov/resource/saturn-approaching-northern-summer/',
+    titan: 'https://science.nasa.gov/photojournal/cassinis-view-of-titan-natural-color-composite/',
+    enceladus: 'https://science.nasa.gov/photojournal/approaching-enceladus-2/',
+    io: 'https://science.nasa.gov/photojournal/global-image-of-io-true-color/',
+    europa: 'https://science.nasa.gov/photojournal/pj-natural-and-false-color-views-of-europa/',
+    jupiter: 'https://science.nasa.gov/asset/hubble/jupiter-2019/',
+    ceres: 'https://science.nasa.gov/resource/high-resolution-ceres-view/',
+    vesta: 'https://science.nasa.gov/photojournal/full-view-of-vesta/',
+    vestasouth: 'https://science.nasa.gov/resource/viewing-the-south-pole-of-vesta/',
+    farside: 'https://science.nasa.gov/resource/lunar-far-side/',
+  }[s.object];
+  $('imageCredit').hidden = !credit;
+  if (credit) {
+    $('imageCredit').href = credit;
+    $('imageCredit').textContent =
+      s.object === 'sun'
+        ? 'SDO/HMI · Feb 2011 · NASA/Goddard SVS · Colorized ↗'
+        : s.object === 'venus'
+          ? 'Mariner 10 · Feb 1974 · NASA/JPL-Caltech · False color ↗'
+          : s.object === 'mercury'
+            ? 'MESSENGER · 14 Jan 2008 · NASA/JHUAPL/Carnegie · False color ↗'
+            : s.object.startsWith('voyager')
+              ? 'Illustration adapted from NASA / JPL-Caltech’s model ↗'
+              : s.object === 'arrokoth'
+                ? 'New Horizons · 1 Jan 2019 · NASA / JHUAPL / SwRI / R. Tkachenko ↗'
+                : ['pluto', 'charon'].includes(s.object)
+                  ? 'New Horizons · 14 Jul 2015 · Enhanced color · NASA / JHUAPL / SwRI ↗'
+                  : s.object === 'neptune'
+                    ? 'Voyager 2 · 1989 · Enhanced color · NASA / JPL ↗'
+                    : s.object === 'triton'
+                      ? 'Voyager 2 · 1989 · NASA / JPL / USGS ↗'
+                      : s.object === 'uranus'
+                        ? 'Voyager 2 · 1986 · NASA / JPL-Caltech ↗'
+                        : s.object === 'miranda'
+                          ? 'Voyager 2 · 24 Jan 1986 · NASA / JPL / USGS ↗'
+                          : id === 'saturnian'
+                            ? 'Cassini · Separate observations · NASA / JPL / SSI ↗'
+                            : s.object === 'saturn'
+                              ? 'Cassini · 25 Apr 2016 · NASA / JPL-Caltech / SSI ↗'
+                              : s.object === 'titan'
+                                ? 'Cassini · 16 Apr 2005 · NASA / JPL / SSI ↗'
+                                : s.object === 'enceladus'
+                                  ? 'Cassini · 28 Oct 2015 · NASA / JPL-Caltech / SSI ↗'
+                                  : s.object === 'io'
+                                    ? 'Galileo · 3 Jul 1999 · NASA / JPL / University of Arizona ↗'
+                                    : s.object === 'europa'
+                                      ? 'Galileo · 7 Sep 1996 · NASA / JPL / DLR ↗'
+                                      : id === 'jovian'
+                                        ? 'Hubble + Galileo · Separate observations ↗'
+                                        : s.object === 'jupiter'
+                                          ? 'Hubble · 27 Jun 2019 · NASA / ESA / Simon / Wong ↗'
+                                          : s.object === 'farside'
+                                            ? 'LRO · NASA / Goddard / ASU ↗'
+                                            : 'Dawn · NASA / JPL-Caltech / UCLA / MPS / DLR / IDA ↗';
+  }
+  const sideTrip =
+    s.object === 'sun'
+      ? ['Explore the solar atmosphere', 'sun-corona', true]
+      : s.object === 'mercury'
+        ? ['A long day', 'mercury-day', true]
+        : s.object === 'venus'
+          ? ['The slow backward spin', 'venus-spin', true]
+          : s.object === 'voyager1'
+            ? ['Look back at Earth', 'pale-blue-dot', true]
+            : s.object === 'voyager2'
+              ? ['Beyond the solar wind', 'heliopause', true]
+              : id === 'arrokoth' || id === 'arrokothneck'
+                ? ['Explore the surface color', 'arrokothcolor']
+                : id === 'earth' || id === 'near'
+                  ? ['Oceans', 'oceans']
+                  : id === 'moon' || id === 'maria'
+                    ? ['Explore the far side', 'farside']
+                    : null;
+  $('excursion').hidden = !sideTrip;
+  if (sideTrip) {
+    $('excursion').textContent = sideTrip[0] + ' ↗';
+    $('excursion').onclick = () => (sideTrip[2] ? openInfo(sideTrip[1]) : go(sideTrip[1]));
+  }
+  document.querySelectorAll('[data-stop]').forEach((b) => {
+    if (b.dataset.stop === stop) {
+      b.setAttribute('aria-current', 'step');
+      const nav = $('journeyStops');
+      nav.scrollTo({
+        left: Math.max(0, b.offsetLeft - (nav.clientWidth - b.offsetWidth) / 2),
+        behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+      });
+    } else b.removeAttribute('aria-current');
+  });
+  $('count').textContent =
+    String(Object.keys(stopViews).indexOf(stop) + 1).padStart(2, '0') +
+    ' / ' +
+    Object.keys(stopViews).length;
+  updateLocalControls();
 }
+
+// Every change of view comes through here.
+async function go(id, options = {}) {
+  if (!scenes[id]) return false;
+  if (typeof options === 'boolean') options = { mode: options ? 'push' : 'replace' };
+  if (hasView && id === current && !pendingDestination && !options.force) return true;
+  const request = ++navigationRequest;
+  cancelLocalFlight();
+  viewRevision++;
+  detailView++;
+  $('hotspots').replaceChildren();
+  pendingDestination = id;
+  closeInfo();
+  updateLocalControls();
+  setTravelState(true, true);
+  if (options.instant) skipRequest = request;
+  try {
+    const images = systems[localSystemFor(id)].bodies.map((name) => localBodies[name].image);
+    if (id === 'farside') images.push('farSideImage');
+    if (id === 'southpole') images.push('vestaSouthImage');
+    await Promise.all(images.map((name) => $(name).decode()));
+  } catch {
+    if (request === navigationRequest) {
+      pendingDestination = null;
+      setTravelState(false);
+      updateLocalControls();
+      if (hasView) position(current, false);
+      $('description').textContent = 'This view could not load. Please try again.';
+      if (options.mode === 'pop')
+        window.history.replaceState(
+          { spaceJourney: historySession, index: historyCursor, scene: current },
+          '',
+          '#' + current,
+        );
+    }
+    return false;
+  }
+  if (request !== navigationRequest) return false;
+  setTravelState(true);
+  const previousId = hasView ? current : null;
+  current = id;
+  hasView = true;
+  writeHistory(id, options);
+  renderScene();
+  const arrived = await position(previousId, !options.instant, options.mode === 'pop');
+  if (!arrived || request !== navigationRequest) return false;
+  pendingDestination = null;
+  setTravelState(false);
+  updateLocalControls();
+  return true;
+}
+
+// The information panel: which full field note each view opens, and the Sun's
+// observations shown beside its notes.
 const fieldNoteFor={voyager2wide:"heliopause",voyager1wide:"voyager-distance",voyager2:"voyager-2",voyager2antenna:"voyager-antenna",voyager2record:"golden-record",voyager2power:"voyager-power",voyager1:"voyager-1",voyager1antenna:"voyager-antenna",voyager1record:"golden-record",voyager1power:"voyager-power",kuiper:'kuiper-belt',arrokothneck:'arrokoth-neck',arrokothcolor:'arrokoth-color',plutonian:'pluto',sputnik:'sputnik-planitia',charonpole:'charon-pole',neptunian:'neptune',neptunecolor:'neptune-color',darkspot:'dark-spot',tritonice:'triton-streaks',system:'earth',martian:'mars',belt:'asteroid-belt',jovian:'jupiter',saturnian:'saturn',uranian:'uranus',near:'earth',bands:'cloud-bands',redspot:'red-spot',rings:'saturn-rings',titanhaze:'titan',enceladusice:'enceladus',iosurface:'io',europaice:'europa',uranusatmosphere:'uranus',mirandaterrain:'miranda'};
 const solarObservations={"sun-prominence": {"src": "/pictures/space/images/sun-prominence.webp", "alt": "SDO extreme-ultraviolet observation showing a prominence erupting from the solar limb.", "caption": "A separate observation: 23 September 2012 \u00b7 SDO/AIA 304 \u00c5 \u00b7 Display color added. NASA/Goddard SVS, SDO Science Team and Virtual Solar Observatory."}, "sun-corona": {"src": "/pictures/space/images/sun-corona.webp", "alt": "SDO extreme-ultraviolet image of the corona, with bright active regions and loops around the solar disk.", "caption": "A separate SDO/AIA observation at 171 \u00c5 \u00b7 Display color added. This wavelength reveals coronal plasma. NASA/SDO."}};
-function openInfo(key){
- if(info.hidden)lastFocus=document.activeElement;
- const original=fieldNotes[fieldNoteFor[key]||key],n=original||notes[key];
- $('paleBlueFigure').hidden=key!=='pale-blue-dot';setPaleBlueZoom(false);
- const noteKey=fieldNoteFor[key]||key;const solarNote=noteKey==='sun'||noteKey.startsWith('sun-');$('sunTopics').hidden=!solarNote;
- const observation=solarObservations[noteKey];$('solarFigure').hidden=!observation;if(observation){$('solarObservation').src=observation.src;$('solarObservation').alt=observation.alt;$('solarObservationCaption').textContent=observation.caption}
- $('infoKicker').textContent=n.kicker;$('infoTitle').textContent=n.title;$('infoText').replaceChildren();$('infoSources').replaceChildren();
- for(const paragraph of n.body||[n.text]){const p=document.createElement('p');p.textContent=paragraph.replace(/([^\s\u2060])—/g,'$1\u2060—');$('infoText').append(p)}
- const links=original?n.sources:[{url:n.source,label:'Read the source'},...(n.relatedSource?[{url:n.relatedSource,label:n.relatedLabel||'About this view'}]:[])];
- for(const link of links){const a=document.createElement('a');a.href=link.url;a.textContent=link.label+' ↗';a.target='_blank';a.rel='noopener';$('infoSources').append(a)}
- $('source').hidden=true;$('relatedSource').hidden=true;$('notePicker').value=original?(fieldNoteFor[key]||key):'';
- info.hidden=false;info.scrollTop=0;document.body.classList.add('panel-open');$('closeInfo').focus({preventScroll:true});
+function openInfo(key) {
+  if (info.hidden) lastFocus = document.activeElement;
+  const original = fieldNotes[fieldNoteFor[key] || key],
+    n = original || notes[key];
+  $('paleBlueFigure').hidden = key !== 'pale-blue-dot';
+  setPaleBlueZoom(false);
+  const noteKey = fieldNoteFor[key] || key;
+  const solarNote = noteKey === 'sun' || noteKey.startsWith('sun-');
+  $('sunTopics').hidden = !solarNote;
+  const observation = solarObservations[noteKey];
+  $('solarFigure').hidden = !observation;
+  if (observation) {
+    $('solarObservation').src = observation.src;
+    $('solarObservation').alt = observation.alt;
+    $('solarObservationCaption').textContent = observation.caption;
+  }
+  $('infoKicker').textContent = n.kicker;
+  $('infoTitle').textContent = n.title;
+  $('infoText').replaceChildren();
+  $('infoSources').replaceChildren();
+  for (const paragraph of n.body || [n.text]) {
+    const p = document.createElement('p');
+    p.textContent = paragraph.replace(/([^\s\u2060])—/g, '$1\u2060—');
+    $('infoText').append(p);
+  }
+  const links = original
+    ? n.sources
+    : [
+        { url: n.source, label: 'Read the source' },
+        ...(n.relatedSource
+          ? [{ url: n.relatedSource, label: n.relatedLabel || 'About this view' }]
+          : []),
+      ];
+  for (const link of links) {
+    const a = document.createElement('a');
+    a.href = link.url;
+    a.textContent = link.label + ' ↗';
+    a.target = '_blank';
+    a.rel = 'noopener';
+    $('infoSources').append(a);
+  }
+  $('source').hidden = true;
+  $('relatedSource').hidden = true;
+  $('notePicker').value = original ? fieldNoteFor[key] || key : '';
+  info.hidden = false;
+  info.scrollTop = 0;
+  document.body.classList.add('panel-open');
+  $('closeInfo').focus({ preventScroll: true });
 }
-for(const [id,key] of Object.entries({sunStory:'sun-story',sunSurface:'sun-photosphere',sunSpotNote:'sun-sunspots',sunProminence:'sun-prominence',sunCorona:'sun-corona'}))$(id).onclick=()=>openInfo(key);
-function setPaleBlueZoom(enlarged){$('paleBlueZoom').setAttribute('aria-pressed',String(enlarged));$('paleBlueImage').style.transform=enlarged?'scale(2.5)':'scale(1)';$('paleBlueZoom').setAttribute('aria-label',enlarged?'Show the whole Pale Blue Dot photograph':'Enlarge the area around Earth');$('paleBlueHint').textContent=enlarged?'Tap to see the whole photograph.':'Tap the photograph to look closer at Earth.'}
-$('paleBlueZoom').onclick=()=>setPaleBlueZoom($('paleBlueImage').style.transform!=='scale(2.5)');
-const emptyNote=document.createElement('option');emptyNote.value='';emptyNote.textContent='Explore another subject';$('notePicker').append(emptyNote);
-for(const [key,n] of Object.entries(fieldNotes)){const option=document.createElement('option');option.value=key;option.textContent=n.label+' · '+n.kicker;$('notePicker').append(option)}
-$('notePicker').onchange=()=>{if($('notePicker').value)openInfo($('notePicker').value)};
-$('primary').onclick=()=>go(scenes[current].next);$('readButton').onclick=()=>openInfo(scenes[current].info);$('closeInfo').onclick=closeInfo;
-$('backButton').onclick=()=>{if(historyCursor>0){++navigationRequest;pendingDestination=null;cancelLocalFlight();setTravelState(false);window.history.back()}};
-$('viewPrevious').onclick=()=>travelStep(-1);$('viewNext').onclick=()=>travelStep(1);
-$('pullBack').onclick=()=>go(localSystemFor(pendingDestination||current));$('skipTravel').onclick=finishTravel;
-$('zoomIn').onclick=()=>zoomStep(1);$('zoomOut').onclick=()=>zoomStep(-1);
-const stopViews={sun:'solar',mercury:'mercurywide',venus:'venuswide',earth:'system',moon:'moon',mars:'martian',ceres:'belt',jupiter:'jovian',saturn:'saturnian',uranus:'uranian',neptune:'neptunian',pluto:'plutonian',arrokoth:'kuiper',voyager2:'voyager2wide',voyager1:'voyager1wide'};
-document.querySelectorAll('[data-stop]').forEach(b=>b.onclick=()=>go(stopViews[b.dataset.stop]));
-function showPlaces(show){places=show;document.body.classList.toggle('show-places',places);$('placesButton').setAttribute('aria-pressed',String(places));$('placesButton').textContent=places?'Hide places':'Show places';try{if(show)localStorage.setItem('olae-places','shown');else localStorage.removeItem('olae-places')}catch{}}
-$('placesButton').onclick=()=>showPlaces(!places);
-try{showPlaces(new URLSearchParams(location.search).get('places')==='shown'||localStorage.getItem('olae-places')==='shown')}catch{}
-const route=$('routeDialog');$('routeButton').onclick=()=>{route.showModal();$('routeButton').setAttribute('aria-expanded','true')};$('closeRoute').onclick=()=>route.close();route.addEventListener('close',()=>{$('routeButton').setAttribute('aria-expanded','false');$('routeButton').focus()});document.querySelectorAll('[data-route]').forEach(b=>b.onclick=()=>{route.close();go(b.dataset.route)});
-function reframe(){finishTravel();if(hasView)position(current,false)}
-$('fullscreenButton').hidden=!document.fullscreenEnabled;$('fullscreenButton').onclick=async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else await $('experience').requestFullscreen()}catch{}};
-document.addEventListener('fullscreenchange',()=>{$('fullscreenButton').setAttribute('aria-label',document.fullscreenElement?'Exit full screen':'Enter full screen');reframe()});
-document.addEventListener('keydown',e=>{
- if(e.key==='Escape'&&!info.hidden){closeInfo();return}
- if(!info.hidden||route.open||e.altKey||e.ctrlKey||e.metaKey||/INPUT|TEXTAREA|SELECT/.test(e.target?.tagName)||e.target?.isContentEditable)return;
- if(e.key==='+'||e.key==='='||e.key==='-'){e.preventDefault();zoomStep(e.key==='-'?-1:1);return}
- if(e.key==='ArrowLeft'||e.key==='ArrowRight'){e.preventDefault();travelStep(e.key==='ArrowLeft'?-1:1)}
-});
-window.addEventListener('resize',reframe);
-if(typeof ResizeObserver!=='undefined')new ResizeObserver(()=>{if(hasView&&systems[current]&&!pendingDestination)position(current,false)}).observe($('caption'));
-document.fonts?.ready.then(()=>{if(hasView&&!pendingDestination)reframe()});
-window.addEventListener('popstate',event=>{
- const state=event.state,id=sceneFromHash();
- const index=state?.spaceJourney===historySession?state.index:0;
- go(id,{mode:'pop',index,force:true});
-});
-for(const name of Object.keys(localBodies))$(name+'Target').onclick=()=>!systems[current]&&localBodyFor(current)===name?zoomStep(1):go(name);
-const legacyScenes={'vicinity':'system','asteroid-belt':'belt','kuiper-belt':'kuiper','voyager-2':'voyager2','deep-space':'voyager1wide','voyager-1':'voyager1'};
-function sceneFromHash(){const raw=location.hash.slice(1),id=raw.replace(/^scene-/,'');return scenes[raw]?raw:legacyScenes[id]|| (scenes[id]?id:'system')}
-const initialNavigation=go(sceneFromHash(),{mode:'replace'});
+for (const [id, key] of Object.entries({
+  sunStory: 'sun-story',
+  sunSurface: 'sun-photosphere',
+  sunSpotNote: 'sun-sunspots',
+  sunProminence: 'sun-prominence',
+  sunCorona: 'sun-corona',
+}))
+  $(id).onclick = () => openInfo(key);
+function setPaleBlueZoom(enlarged) {
+  $('paleBlueZoom').setAttribute('aria-pressed', String(enlarged));
+  $('paleBlueImage').style.transform = enlarged ? 'scale(2.5)' : 'scale(1)';
+  $('paleBlueZoom').setAttribute(
+    'aria-label',
+    enlarged ? 'Show the whole Pale Blue Dot photograph' : 'Enlarge the area around Earth',
+  );
+  $('paleBlueHint').textContent = enlarged
+    ? 'Tap to see the whole photograph.'
+    : 'Tap the photograph to look closer at Earth.';
+}
+$('paleBlueZoom').onclick = () =>
+  setPaleBlueZoom($('paleBlueImage').style.transform !== 'scale(2.5)');
+const emptyNote = document.createElement('option');
+emptyNote.value = '';
+emptyNote.textContent = 'Explore another subject';
+$('notePicker').append(emptyNote);
+for (const [key, n] of Object.entries(fieldNotes)) {
+  const option = document.createElement('option');
+  option.value = key;
+  option.textContent = n.label + ' · ' + n.kicker;
+  $('notePicker').append(option);
+}
+$('notePicker').onchange = () => {
+  if ($('notePicker').value) openInfo($('notePicker').value);
+};
+$('primary').onclick = () => go(scenes[current].next);
+$('readButton').onclick = () => openInfo(scenes[current].info);
+$('closeInfo').onclick = closeInfo;
+$('backButton').onclick = () => {
+  if (historyCursor > 0) {
+    ++navigationRequest;
+    pendingDestination = null;
+    cancelLocalFlight();
+    setTravelState(false);
+    window.history.back();
+  }
+};
+$('viewPrevious').onclick = () => travelStep(-1);
+$('viewNext').onclick = () => travelStep(1);
+$('pullBack').onclick = () => go(localSystemFor(pendingDestination || current));
+$('skipTravel').onclick = finishTravel;
+$('zoomIn').onclick = () => zoomStep(1);
+$('zoomOut').onclick = () => zoomStep(-1);
 
-initialNavigation.then(()=>{const key=new URLSearchParams(location.search).get('note');if(key&&fieldNotes[key])openInfo(key)});
+// The journey's stops (#journeyStops), and the view each one opens.
+const stopViews={sun:'solar',mercury:'mercurywide',venus:'venuswide',earth:'system',moon:'moon',mars:'martian',ceres:'belt',jupiter:'jovian',saturn:'saturnian',uranus:'uranian',neptune:'neptunian',pluto:'plutonian',arrokoth:'kuiper',voyager2:'voyager2wide',voyager1:'voyager1wide'};
+document
+  .querySelectorAll('[data-stop]')
+  .forEach((b) => (b.onclick = () => go(stopViews[b.dataset.stop])));
+function showPlaces(show) {
+  places = show;
+  document.body.classList.toggle('show-places', places);
+  $('placesButton').setAttribute('aria-pressed', String(places));
+  $('placesButton').textContent = places ? 'Hide places' : 'Show places';
+  try {
+    if (show) localStorage.setItem('olae-places', 'shown');
+    else localStorage.removeItem('olae-places');
+  } catch {}
+}
+$('placesButton').onclick = () => showPlaces(!places);
+try {
+  showPlaces(
+    new URLSearchParams(location.search).get('places') === 'shown' ||
+      localStorage.getItem('olae-places') === 'shown',
+  );
+} catch {}
+const route = $('routeDialog');
+$('routeButton').onclick = () => {
+  route.showModal();
+  $('routeButton').setAttribute('aria-expanded', 'true');
+};
+$('closeRoute').onclick = () => route.close();
+route.addEventListener('close', () => {
+  $('routeButton').setAttribute('aria-expanded', 'false');
+  $('routeButton').focus();
+});
+document.querySelectorAll('[data-route]').forEach(
+  (b) =>
+    (b.onclick = () => {
+      route.close();
+      go(b.dataset.route);
+    }),
+);
+
+// Full screen, the keyboard, resizing, Back and Forward, and the start.
+function reframe() {
+  finishTravel();
+  if (hasView) position(current, false);
+}
+$('fullscreenButton').hidden = !document.fullscreenEnabled;
+$('fullscreenButton').onclick = async () => {
+  try {
+    if (document.fullscreenElement) await document.exitFullscreen();
+    else await $('experience').requestFullscreen();
+  } catch {}
+};
+document.addEventListener('fullscreenchange', () => {
+  $('fullscreenButton').setAttribute(
+    'aria-label',
+    document.fullscreenElement ? 'Exit full screen' : 'Enter full screen',
+  );
+  reframe();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && !info.hidden) {
+    closeInfo();
+    return;
+  }
+  if (
+    !info.hidden ||
+    route.open ||
+    e.altKey ||
+    e.ctrlKey ||
+    e.metaKey ||
+    /INPUT|TEXTAREA|SELECT/.test(e.target?.tagName) ||
+    e.target?.isContentEditable
+  )
+    return;
+  if (e.key === '+' || e.key === '=' || e.key === '-') {
+    e.preventDefault();
+    zoomStep(e.key === '-' ? -1 : 1);
+    return;
+  }
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+    e.preventDefault();
+    travelStep(e.key === 'ArrowLeft' ? -1 : 1);
+  }
+});
+window.addEventListener('resize', reframe);
+if (typeof ResizeObserver !== 'undefined')
+  new ResizeObserver(() => {
+    if (hasView && systems[current] && !pendingDestination) position(current, false);
+  }).observe($('caption'));
+document.fonts?.ready.then(() => {
+  if (hasView && !pendingDestination) reframe();
+});
+window.addEventListener('popstate', (event) => {
+  const state = event.state,
+    id = sceneFromHash();
+  const index = state?.spaceJourney === historySession ? state.index : 0;
+  go(id, { mode: 'pop', index, force: true });
+});
+for (const name of Object.keys(localBodies))
+  $(name + 'Target').onclick = () =>
+    !systems[current] && localBodyFor(current) === name ? zoomStep(1) : go(name);
+const legacyScenes={'vicinity':'system','asteroid-belt':'belt','kuiper-belt':'kuiper','voyager-2':'voyager2','deep-space':'voyager1wide','voyager-1':'voyager1'};
+function sceneFromHash() {
+  const raw = location.hash.slice(1),
+    id = raw.replace(/^scene-/, '');
+  return scenes[raw] ? raw : legacyScenes[id] || (scenes[id] ? id : 'system');
+}
+const initialNavigation = go(sceneFromHash(), { mode: 'replace' });
+
+initialNavigation.then(() => {
+  const key = new URLSearchParams(location.search).get('note');
+  if (key && fieldNotes[key]) openInfo(key);
+});
