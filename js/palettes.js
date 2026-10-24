@@ -52,18 +52,17 @@
   /* The section voices, as css/style.css writes them: the hue, the chroma
      on paper, the lightness and chroma at night, and how much darker the
      voice prints by day (--sec-dl). They are listed in the order the
-     homepage shows them. The homepage's own teal is its furniture, Latest
-     and Further back with the first-time doors. Every swatch on this page is built from this table and a
-     palette's own lightness, and the browser does the arithmetic, as it
-     does for the site. Until 23 October 2026 the swatches were hexes worked
-     out by hand once, and they had drifted: the fiction showed the amber it
-     wore before 19 October and The House the olive. `page` names the
-     body.series- class the voice is written under, and
-     scripts/test-pictures.cjs fails when this table and style.css
-     disagree. */
+     homepage shows them. The writing's graphite is the homepage's own too,
+     for Latest, Further back and the first-time doors. Every swatch on this
+     page is built from this table and a palette's own lightness, and the
+     browser does the arithmetic, as it does for the site. Until 23 October
+     2026 the swatches were hexes worked out by hand once, and they had
+     drifted: the fiction showed the amber it wore before 19 October and
+     The House the olive. `page` names the body.series- class the voice is
+     written under, and scripts/test-pictures.cjs fails when this table and
+     style.css disagree. */
   var VOICES = [
     { label: 'Writing',     page: 'default',  h: 250, c: 0.012, ld: 0.780, cd: 0.010, dl: 0 },
-    { label: 'Homepage',    page: 'home',     h: 178, c: 0.050, ld: 0.800, cd: 0.048, dl: 0 },
     { label: 'The Notice',  page: 'story',    h: 290, c: 0.090, ld: 0.760, cd: 0.080, dl: 0.073 },
     { label: 'The House',   page: 'house',    h: 150, c: 0.050, ld: 0.720, cd: 0.065, dl: 0.193 },
     { label: 'Book',        page: 'book',     h: 262, c: 0.075, ld: 0.820, cd: 0.058, dl: 0 },
@@ -129,7 +128,7 @@
      covers every part of the page. Their grounds and type are read off the
      [data-theme] blocks in css/style.css. Dark prints each voice at its
      night lightness and chroma; Midnight pins every section to its gold,
-     and only the writing keeps its silver there. */
+     and only the writing and the homepage keep their silver there. */
   var WRITING = VOICES.filter(function (v) { return v.page === 'default'; })[0];
   var DARKS = [
     { key: 'dark',     name: 'Dark',     tag: 'the warm night',

@@ -226,7 +226,6 @@ body {
     --petrol: var(--sec-accent-dark, #D8C48C);
     --petrol-deep: color-mix(in srgb, var(--sec-accent-dark, #D8C48C) 72%, #FFFFFF);
     --writing-accent: oklch(0.780 0.010 250);
-    --writing-accent-deep: color-mix(in srgb, var(--writing-accent) 72%, #FFFFFF);
   }
 }
 html[data-theme="dark"] {
@@ -266,7 +265,6 @@ html[data-theme="dark"] body {
   --petrol: var(--sec-accent-dark, #D8C48C);
   --petrol-deep: color-mix(in srgb, var(--sec-accent-dark, #D8C48C) 72%, #FFFFFF);
   --writing-accent: oklch(0.780 0.010 250);
-  --writing-accent-deep: color-mix(in srgb, var(--writing-accent) 72%, #FFFFFF);
 }
 
 /* ==========================================================================
@@ -325,7 +323,6 @@ html[data-theme="midnight"] body {
   --petrol: #C6B98F;
   --petrol-deep: #DCD1AC;
   --writing-accent: oklch(0.780 0.010 250);
-  --writing-accent-deep: color-mix(in srgb, var(--writing-accent) 72%, #FFFFFF);
 }
 
 /* ==========================================================================
@@ -357,10 +354,7 @@ html[data-theme="sky"] body {
   --surface-chrome: var(--band);
   --surface-footer: var(--band);
   --band-hero: var(--sky-band-hero);
-  /* The shared accent rule below also covers every homepage section. The
-     writing's silver is lifted to the sun's floor and mixed the same way. */
-  --writing-accent: color-mix(in srgb, oklch(max(0.780, var(--sky-ld-floor, 0.62)) 0.010 250) 88%, #FFFFFF);
-  --writing-accent-deep: var(--writing-accent);
+  /* The shared accent rule below also covers every homepage section. */
 }
 
 
@@ -391,8 +385,8 @@ html[data-theme="sky"] body {
    own, so that the colour of a heading says where its links go. On
    22 October 2026 the writing took the furniture's teal in every theme, and
    on 23 October Notes took graphite on paper and silver on the dark
-   themes. On 24 October the writing took that graphite and silver, and
-   Notes a soft clay; Latest and Further back kept the homepage's teal.
+   themes. On 24 October the writing took that graphite and silver, Notes
+   a soft clay, and the homepage the writing's graphite.
    _agents/site.md keeps the dates and the author's reasons.
 
    Measured in Chromium on 23 October 2026, as text on each homepage
@@ -403,7 +397,8 @@ html[data-theme="sky"] body {
    palettes do: 5.0:1 at worst (Trivia), and above 4.5:1 on its band.
 
    Midnight pins --petrol to its own single gold further up, so its navy and
-   gold stay as they are; only the writing keeps its silver there.
+   gold stay as they are; only the writing and the homepage keep their
+   silver there.
    ========================================================================== */
 :root {
   --sec-l: 0.513;   /* Ash & Gold — the palest paper in the wardrobe */
@@ -412,10 +407,8 @@ body {
   --sec-accent:      oklch(calc(var(--sec-l) - var(--sec-dl, 0)) var(--sec-c,  0.050) var(--sec-h, 178));
   --sec-accent-dark: oklch(var(--sec-ld, 0.800)  var(--sec-cd, 0.048) var(--sec-h, 178));
   /* The homepage can borrow the writing voice without changing the colour of
-     the section it sits in: the titles of the pieces in Latest and Further
-     back, which wear the homepage's teal. */
+     the section it sits in. This is the same accent used by essay titles. */
   --writing-accent: oklch(var(--sec-l) 0.012 250);
-  --writing-accent-deep: color-mix(in srgb, var(--writing-accent) 74%, black);
 }
 
 /* Each voice is named once, with every page that speaks in it and every
@@ -425,14 +418,18 @@ body {
    Two neighbours never share a colour (scripts/test-pictures.cjs).
 
                             hue    day chroma    night L + chroma */
-/* The writing — graphite on light paper and soft silver on dark grounds.
-   It wore the first-time doors’ teal until 24 October 2026, when the author
-   asked for the colour Notes wore then. */
+/* The writing and the homepage — graphite on light paper and soft silver on
+   dark grounds. The writing wore the homepage's teal until 24 October 2026,
+   when the author asked for the colour Notes wore then, and later that day
+   for the homepage to take it too: every page without a voice of its own
+   already spoke in the writing's, and the homepage was the last in teal. */
 body.series-default,
 body.series-series,
 body.series-on-series,
 body.series-cafe-series,
-body.is-home #quotes[data-voice="writing"]
+body.is-home,
+body.series-home,
+body.is-home :is(#latest, #start-here, #further-back, #quotes[data-voice="writing"])
                         { --sec-h: 250; --sec-c: 0.012; --sec-ld: 0.780; --sec-cd: 0.010; }
 /* The book, and the quotes at the top of the homepage. A quote takes the
    colour of the page it comes from: the script marks the section
@@ -455,18 +452,11 @@ body.is-home #home-house
    that evening, and an hour later a wine red, when "Another way in." and
    Moris's near-black green came to stand above it. On 20 October 2026 the
    author moved it just under Latest and asked for the indigo again: there
-   it stands between Latest and "First time here?", both in the teal, well
-   away from the book. It sits a step darker by day. */
+   it stands between Latest and "First time here?", both in the homepage's
+   colour, well away from the book. It sits a step darker by day. */
 body.series-story,
 body.is-home :is(#story-doorway, #quotes[data-voice="story"])
                         { --sec-h: 290; --sec-c: 0.090; --sec-ld: 0.760; --sec-cd: 0.080; --sec-dl: 0.073; }
-/* The homepage's own teal. Latest and Further back belong to the homepage
-   rather than to a section page, so they wear it with the first-time doors,
-   as the author asked on 24 October 2026. */
-body.is-home,
-body.series-home,
-body.is-home :is(#latest, #start-here, #further-back)
-                        { --sec-h: 178; --sec-c: 0.050; --sec-ld: 0.800; --sec-cd: 0.048; }
 /* Instruments — a bluer petrol, distinct from the two greens. */
 body.series-tools,
 body.is-home #instruments
@@ -516,8 +506,9 @@ body.is-home :is(#pictures-with-stories, #tonight)
    voice above or stands next to its own colour.
 
    Each theme builds the accent as it does on body. Midnight keeps its single
-   gold, with silver for the writing. The menu inherits the accent of
-   the page it opens on. The book's band on Writing builds its own the same way.
+   gold, with silver for the writing and the homepage. The menu inherits the
+   accent of the page it opens on. The book's band on Writing builds its own
+   the same way.
    -------------------------------------------------------------------------- */
 .all-work-band#book,
 body.is-home #main > section {
@@ -555,19 +546,15 @@ html[data-theme="midnight"] body.is-home #main > section {
   --petrol: #C6B98F;
   --petrol-deep: #DCD1AC;
 }
-/* The writing keeps its silver in Midnight’s otherwise gold palette. Notes
-   wore it until 24 October 2026, when the writing took its colour. */
+/* The writing and the homepage keep their silver in Midnight’s otherwise
+   gold palette. Notes wore it until 24 October 2026, when the writing took
+   its colour. */
 html[data-theme="midnight"] :is(body.series-default, body.series-series,
-  body.series-on-series, body.series-cafe-series),
-html[data-theme="midnight"] body.is-home #main > #quotes[data-voice="writing"] {
+  body.series-on-series, body.series-cafe-series, body.is-home),
+html[data-theme="midnight"] body.is-home #main > :is(#latest, #start-here,
+  #further-back, #quotes[data-voice="writing"]) {
   --petrol: var(--sec-accent-dark);
   --petrol-deep: color-mix(in srgb, var(--petrol) 72%, #FFFFFF);
-}
-/* Latest and Further back wear the homepage's teal, and the pieces in them
-   keep the writing's graphite, as the author asked on 24 October 2026. */
-body.is-home :is(#latest, #further-back) .piece-card {
-  --petrol: var(--writing-accent);
-  --petrol-deep: var(--writing-accent-deep);
 }
 
 /* ========================================================================== 
