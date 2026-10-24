@@ -129,11 +129,11 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   title case, and they stood in upright EB Garamond at 1.1rem for an
   afternoon. The author found them too small and asked for the capitals
   back the same day.
-- **The row of sections on Writing and Series is in title case.** The
-  author asked on 24 October 2026 for `.work-jump` ("Short Fiction ·
+- **The row of sections on Writing and Series is in spaced capitals.**
+  The author asked on 24 October 2026 for `.work-jump` ("Short Fiction ·
   Essays · Series · Book" and "The Corner · The On Series") to leave its
-  spaced capitals for title case, at .98rem and upright. It holds one
-  line down to a 320px screen.
+  spaced capitals for title case, at .98rem and upright, and later the
+  same day asked for the capitals back.
 - **Rain and snow stand above the site's name.** The footer's snowflake
   and drop stand centred just above "On Life & Everything", as the author
   asked on 15 October 2026; until then they stood under the credit line.
@@ -172,8 +172,10 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   and that yellow brings the light the site needs. The tagline, the
   menu's links and the footer's credit wear it too. Later that day the
   author asked for the header's strip and the footer's credit to stand a
-  step back from the name, at 85% of that yellow (see The site's
-  header and footer). The ink still turns at
+  step back from the name, at 85% of that yellow (see The site's header
+  and footer), and then found the yellow itself too full and asked for a
+  little white in it: `#F8EBC2` with 25% white, `#FAF0D1`, 7.6:1 on the
+  chrome. The ink still turns at
   sunset, from the darkest light slate to the evening's slate. The way is
   measured along the sun's arc, from where it rises to the day's own
   noon (`arcShare()`), so the paper moves through the whole day in every
