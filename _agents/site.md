@@ -128,13 +128,25 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   Light ink holds the site's dimmest tier only on a ground about as dark
   as that slate, so the theme now turns at sunrise and at sunset
   (`SUNRISE` in `_includes/sky-ramp.html`, the sun at 0°). The day's
-  papers are kept there too (`DAY`), for the site and the instruments:
-  a warm stone at the horizon, Fog a third of the way to noon and
-  Blueprint at noon, with their inks, rules and chrome. The way is
-  measured against the day's own noon (`noonAltitude()`), so the paper
-  moves through the whole day in every season; until the author asked
-  that evening for every hour to move, Blueprint began at 35° and the
-  summer sun sat under it for eight hours. By day the site's painter
+  papers are kept there too (`DAY`), for the site and the instruments,
+  with their inks, rules and chrome. On 24 October 2026 the author asked
+  for the day to be one light slate in the evening's hue: its darkest
+  light shade at sunrise, nearly white at noon, and darker again until
+  sunset, where the evening's slate takes over. It had been a warm stone,
+  Fog and Blueprint since the day before. Where the paper is darkest the
+  ink is darkest too, near-black, as the author asked, so every tier
+  keeps the day's floors; the header and footer are the evening's header
+  all day, so they carry across sunset unchanged. The ink still turns at
+  sunset, from the darkest light slate to the evening's slate. The way is
+  measured along the sun's arc, from where it rises to the day's own
+  noon (`arcShare()`), so the paper moves through the whole day in every
+  season. Until the author asked on 23 October for every hour to move,
+  the noon paper began at 35° and the summer sun sat under it for eight
+  hours; it was then measured by the sun's height, which hardly changes
+  for the hour round noon, and the paper stood still there for over an
+  hour. The author asked on 24 October for it to change with
+  the sun every minute: along the arc it holds still for a few minutes at
+  most, which is as fine as a screen's shades allow. By day the site's painter
   (`_includes/site-sky.html`) sets `data-theme="light"` and
   `data-sky="day"`, so every light-path rule applies.
   `css/palettes.css` leaves a stored palette alone while `data-sky` is on

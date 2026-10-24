@@ -189,6 +189,8 @@ for(const month of [0,3,6,9])for(const hour of [0,6,12,18]){
       assert.notEqual(css('--note-base'),'','the note wall'+at);
       if(eve===1)assert.equal(css('--paper'),'rgb(78,94,106)','the evening\'s slate'+at);
     }
+    if(alt===0)assert.equal(css('--paper'),'rgb(193,204,213)','the darkest light slate at sunrise and sunset');
+    if(alt===60)assert.equal(css('--paper'),'rgb(244,247,250)','the palest slate at noon');
   }
   s.SITE.clear();
   assert.equal(s.root.hasAttribute('data-sky'),false);
@@ -210,7 +212,7 @@ for(const month of [0,3,6,9])for(const hour of [0,6,12,18]){
       const day=alt>=0,at=' on The List at '+alt+'°'+(eve?', evening '+eve:'');
       assert.equal(root.getAttribute('data-theme'),'sky','the choice'+at);
       assert.equal(root.getAttribute('data-sky'),day?'day':'night','the half'+at);
-      assert(day?lum(css('--paper'))>0.8:lum(css('--paper'))<0.15,'the paper'+at);
+      assert(day?lum(css('--paper'))>0.55:lum(css('--paper'))<0.15,'the paper'+at);
       assert(ratio(css('--ink'),css('--paper'))>=(day?11:6.5),'ink'+at);
       assert(ratio(solid('--muted'),css('--paper'))>=(day?5:4.5),'muted'+at);
     }
@@ -229,10 +231,9 @@ for(const month of [0,3,6,9])for(const hour of [0,6,12,18]){
     h.dom.window.close();
   }
   // Every half hour of that day: the paper moves at every step but the
-  // darkest of the night and the hour round noon, when the sun itself
-  // hardly moves; the day reaches Blueprint at noon, and from
-  // sunset (18:06) the evening's slate darkens at every step into the
-  // night, which is whole at nine.
+  // darkest of the night; the day is palest at the half hour nearest noon
+  // (12:48), and from sunset (18:06) the evening's slate darkens at every
+  // step into the night, which is whole at nine.
   {
     const papers=[];
     for(let m=0;m<24*60;m+=30){
@@ -241,12 +242,27 @@ for(const month of [0,3,6,9])for(const hour of [0,6,12,18]){
       h.dom.window.close();
     }
     const at=t=>papers.find(p=>p[0]===t);
-    assert.equal(at(13)[2],'rgb(237,241,245)','Blueprint at noon');
+    assert(lum(at(13)[2])>lum(at(12.5)[2])&&lum(at(13)[2])>lum(at(13.5)[2]),'palest at the half hour nearest noon');
     assert(lum(at(18.5)[2])<lum('rgb(78,94,106)')&&lum(at(18.5)[2])>lum(at(19)[2]),'the slate begins to darken at sunset');
     for(let t=18.5;t<21;t+=0.5)assert(lum(at(t)[2])>lum(at(t+0.5)[2]),'darker at '+(t+0.5)+' than at '+t);
     assert.equal(at(21)[2],'rgb(12,16,24)','the night at nine');
-    for(let t=8;t<12;t+=0.5)assert.notEqual(at(t)[2],at(t+0.5)[2],'the morning moves at '+t);
-    for(let t=13.5;t<18;t+=0.5)assert.notEqual(at(t)[2],at(t+0.5)[2],'the afternoon moves at '+t);
+    for(let t=8;t<18;t+=0.5)assert.notEqual(at(t)[2],at(t+0.5)[2],'the day moves at '+t);
+  }
+  // And every minute of it: measured along the sun's arc, the day's paper,
+  // ink, muted tier and rule never stand still for more than a few
+  // minutes, noon included, as finely as a screen's shades allow.
+  {
+    const h=sky(),S=h.w.OLAE_SKY,midnight=Date.parse('2026-10-22T21:00:00Z');
+    let prev=null,run=0,longest=0,minutes=0;
+    for(let m=0;m<24*60;m++){
+      const sun=S.sunAt(new h.w.Date(midnight+m*60000));
+      if(sun.alt<0){prev=null;continue;}
+      const d=S.dayAt(sun.share),k=[d.paper,d.ink,d.vizon,d.rule].join('|');
+      run=k===prev?run+1:1;longest=Math.max(longest,run);prev=k;minutes++;
+    }
+    assert(minutes>600,'a whole day');
+    assert(longest<=10,'the day never holds still for long: '+longest+' minutes');
+    h.dom.window.close();
   }
   if(tz===undefined)delete process.env.TZ;else process.env.TZ=tz;
 }
