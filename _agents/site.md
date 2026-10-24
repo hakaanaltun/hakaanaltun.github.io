@@ -136,7 +136,10 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   Fog and Blueprint since the day before. Where the paper is darkest the
   ink is darkest too, near-black, as the author asked, so every tier
   keeps the day's floors; the header and footer are the evening's header
-  all day, so they carry across sunset unchanged. The ink still turns at
+  all day, so they carry across sunset unchanged. Their words were a cool
+  grey at first, and the author found them dull and asked the same day
+  for a little more yellow: they are now a warm gold near the site's own
+  header, still 7:1 and 4.5:1 on the chrome. The ink still turns at
   sunset, from the darkest light slate to the evening's slate. The way is
   measured along the sun's arc, from where it rises to the day's own
   noon (`arcShare()`), so the paper moves through the whole day in every
