@@ -2133,9 +2133,10 @@ html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
    masthead (see header > nav).
    It carries several names on /all-work/, so the labels are nowrap and the
    row may wrap between them instead of breaking a label across lines.
-   The names stood in spaced capitals until 24 October 2026, when the author
-   asked for them in title case, in upright EB Garamond. */
-.work-jump { display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: baseline; gap: 6px 14px; margin: -8px 0 44px; padding: 0; font-size: .98rem; }
+   The names stand in spaced capitals. On 24 October 2026 they were set in
+   title case for an afternoon, and the author asked for them as they
+   were. */
+.work-jump { display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: baseline; gap: 6px 14px; margin: -8px 0 44px; padding: 0; font-size: 0.82rem; letter-spacing: 0.14em; text-transform: uppercase; }
 .work-jump a { color: var(--petrol-deep); padding-bottom: 2px; white-space: nowrap; transition: var(--select-ease); }
 .work-jump a:hover, .work-jump a:active { opacity: var(--select-dim); }
 .work-jump a:focus-visible { outline: 2px solid var(--petrol); outline-offset: 3px; border-radius: 2px; }
@@ -2207,9 +2208,10 @@ html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
   .work-title { font-size: 1.18rem; }
   .all-work-band:not(:first-of-type) { margin-top: 40px; padding-top: 40px; }
   .series-band:not(:first-of-type) { margin-top: 40px; padding-top: 52px; }
-  /* Closer together on a phone, so the four names hold one line; below
-     that the wrap above catches them. */
-  .work-jump { margin-bottom: 34px; gap: 6px 7px; }
+  /* Four uppercase names at 0.82rem and 0.14em do not fit a phone. Tightened
+     they hold one line down to a 350px screen; below that the wrap above
+     catches them. */
+  .work-jump { margin-bottom: 34px; gap: 6px 9px; font-size: 0.7rem; letter-spacing: 0.06em; }
 }
 
 /* Reading links on the Book page */
