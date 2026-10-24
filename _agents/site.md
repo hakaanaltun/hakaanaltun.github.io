@@ -183,8 +183,7 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   its own color, ask the author before choosing another.
   `scripts/test-pictures.cjs` fails on a section with no voice or next to
   its own color. Each section builds its accent from its voice in every
-  theme; Midnight uses gold except for the silver of the writing and the
-  homepage. A voice may sit a step darker by
+  theme; Midnight uses gold except for the writing’s silver. A voice may sit a step darker by
   day with `--sec-dl`, as the fiction's indigo and the green of Moris and
   The House do; the author asked for them to change color on 19 October
   2026, when the amber and the olive looked muddy on paper.
@@ -221,7 +220,8 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   and Further back belong to the homepage rather than to a section page,
   and then asked for the homepage itself to take the writing's graphite,
   so that the two are one: Latest, Further back, the titles of their
-  pieces and "First time here?" all wear it, in silver on Midnight. Every
+  pieces and "First time here?" all wear it. On Midnight the author asked
+  for the homepage to keep the gold, and the writing alone is silver. Every
   page without a voice of its own already spoke in the writing's, and the
   homepage was the last one left in the teal, which no section wears
   now.

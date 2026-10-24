@@ -128,7 +128,7 @@
      covers every part of the page. Their grounds and type are read off the
      [data-theme] blocks in css/style.css. Dark prints each voice at its
      night lightness and chroma; Midnight pins every section to its gold,
-     and only the writing and the homepage keep their silver there. */
+     and only the writing keeps its silver there. */
   var WRITING = VOICES.filter(function (v) { return v.page === 'default'; })[0];
   var DARKS = [
     { key: 'dark',     name: 'Dark',     tag: 'the warm night',
