@@ -107,6 +107,17 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   be seen from a distance, so the instruments kept their four squares.
   The controls run in this order, as the author asked the same day: the
   theme, the instruments, the drawer, and sharing.
+- **The strip's names are set like the line over a part of the book.**
+  On 24 October 2026, with every word in the header the same yellow, the
+  author found the strip under the name reading as part of it, and asked
+  for The House, Writing and the rest to look like "The Fragments ·
+  Part I" (`.book-part-kicker`): EB Garamond italic at .98rem, in
+  `--footer-text` at 85%. The footer's credit line, the one line under
+  the name there, was asked to follow the same way. The step is
+  written into the colour with `color-mix()` rather than as opacity, so
+  a pointer dims from it like any control that rests faint and the focus
+  ring keeps full ink. It holds 4.5:1 on the chrome in every theme; the
+  first light palette is the closest, at 4.77:1.
 - **Rain and snow stand above the site's name.** The footer's snowflake
   and drop stand centred just above "On Life & Everything", as the author
   asked on 15 October 2026; until then they stood under the credit line.
@@ -143,7 +154,10 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   for every word there to be the yellow of "On Life & Everything", with
   no second tone: the header and footer need no distinction of colour,
   and that yellow brings the light the site needs. The tagline, the
-  menu's links and the footer's credit wear it too. The ink still turns at
+  menu's links and the footer's credit wear it too. Later that day the
+  author asked for the header's strip and the footer's credit to stand a
+  step back from the name, at 85% of that yellow (see The site's header
+  and footer). The ink still turns at
   sunset, from the darkest light slate to the evening's slate. The way is
   measured along the sun's arc, from where it rises to the day's own
   noon (`arcShare()`), so the paper moves through the whole day in every
