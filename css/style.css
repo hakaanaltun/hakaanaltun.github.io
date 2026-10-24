@@ -729,9 +729,13 @@ header .hamburger-btn:focus-visible { outline-color: var(--footer-text); }
    the gap stayed as the author last saw it. The links had a pale line
    under them until 15 October 2026, when the author took it out: the
    header was busy enough, and the names read as a menu without it.
-   On 24 October 2026 the names were set a size down, at .98rem and then
-   1.04rem, in 85% of the name's yellow; the author found them too small
-   and asked the same day for them as they were. */
+   On 24 October 2026 the author asked for the names to stand a step back
+   from the name above them, which had read as one block with the strip
+   once both wore the same yellow. They were set a size down at first, and
+   the author found them too small, so they keep the size they had and the
+   step is in the tone alone, 85% of the name's yellow. It is in the colour,
+   not in opacity, so a pointer dims from it and the focus ring keeps full
+   ink. The footer's credit line takes the same step. */
 .header-nav-bar {
   width: 100%; max-width: 100%; display: flex; flex-wrap: wrap; justify-content: center;
   gap: 33px; margin-top: 0; padding-right: 0;
@@ -741,7 +745,8 @@ header .hamburger-btn:focus-visible { outline-color: var(--footer-text); }
 .header-nav-bar a {
   display: inline-flex; align-items: center; justify-content: center; padding: 6px 2px;
   border: none; border-radius: 0; background: transparent;
-  font-size: 1.10rem; line-height: 1; color: var(--footer-muted); box-shadow: none;
+  font-size: 1.10rem; line-height: 1;
+  color: color-mix(in srgb, var(--footer-text) 85%, transparent); box-shadow: none;
   transition: var(--select-ease);
   flex: 0 0 auto; white-space: nowrap;
 }
@@ -2519,12 +2524,12 @@ footer {
   color: var(--footer-muted);
 }
 
-/* A step back from the name above it, in the tone of the line over a part
-   of the book, "The Fragments · Part I". */
+/* A step back from the name above it, in the header strip's tone (see
+   .header-nav-bar), at the size it always had. */
 .footer-credit {
   margin: 0;
   color: color-mix(in srgb, var(--footer-text) 85%, transparent);
-  font-size: 0.98rem;
+  font-size: 0.95rem;
 }
 
 /* The snowflake and the drop stand just above the site's name, as the

@@ -107,18 +107,19 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   be seen from a distance, so the instruments kept their four squares.
   The controls run in this order, as the author asked the same day: the
   theme, the instruments, the drawer, and sharing.
-- **The strip's names stand at 1.10rem in `--footer-muted`.** On
-  24 October 2026, with every word in the header the same yellow, the
-  author found the strip under the name reading as part of it, and asked
-  for The House, Writing and the rest to look like "The Fragments ·
-  Part I" (`.book-part-kicker`): .98rem, in `--footer-text` at 85%, in
-  that line's italic. The italic put the site off balance and was taken
-  out, and upright the names came up to 1.04rem. Later the same day the
-  author found the strip too small and asked for it as it was, size and
-  colour. The footer's credit line, the one line under the name there,
-  keeps the step: .98rem, upright, in `--footer-text` at 85%. The step is
-  written into the colour with `color-mix()` rather than as opacity, so a
-  pointer dims from it like any control that rests faint and the focus
+- **The strip's names stand a step back from the site's name, in tone
+  alone.** On 24 October 2026, with every word in the header the same
+  yellow, the author found the strip under the name reading as part of
+  it, and asked for The House, Writing and the rest to look like "The
+  Fragments · Part I" (`.book-part-kicker`): .98rem, in `--footer-text` at
+  85%, in that line's italic. The italic put the site off balance and was
+  taken out, and upright the names came up to 1.04rem. Later the same day
+  the author found the strip too small and asked for its 1.10rem back,
+  keeping only the tone: 85% of `--footer-text`. The footer's credit line
+  ("Hakan Altun · İstanbul … All rights reserved"), the one line under the
+  name there, takes the same step at the 0.95rem it always had. The step
+  is written into the colour with `color-mix()` rather than as opacity, so
+  a pointer dims from it like any control that rests faint and the focus
   ring keeps full ink. It holds 4.5:1 on the chrome in every theme; the
   first light palette is the closest, at 4.77:1. Do not set the strip,
   the menu or the credit in italic unless the author asks.
@@ -170,9 +171,9 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   no second tone: the header and footer need no distinction of colour,
   and that yellow brings the light the site needs. The tagline, the
   menu's links and the footer's credit wear it too. Later that day the
-  author asked for the footer's credit to stand a step back from the name,
-  at 85% of that yellow (see The site's header and footer); the header's
-  strip took the same step for an afternoon. The ink still turns at
+  author asked for the header's strip and the footer's credit to stand a
+  step back from the name, at 85% of that yellow (see The site's
+  header and footer). The ink still turns at
   sunset, from the darkest light slate to the evening's slate. The way is
   measured along the sun's arc, from where it rises to the day's own
   noon (`arcShare()`), so the paper moves through the whole day in every
