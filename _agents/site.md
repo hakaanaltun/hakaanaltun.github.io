@@ -213,9 +213,14 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   for a soft colour for Notes that sits well with the others: a clay,
   hue 40, on the warm side that no other voice uses. A rose and a mauve
   were tried and read as the plum of Words below it. On Writing the Book
-  band speaks in the book's blue (`.all-work-band#book`, which builds its
-  own accent as a homepage section does), as the author asked the same
-  day. After that change was merged, the author pointed out that Latest
+  band speaks in the book's blue (`.book-voice`, which builds its own
+  accent as a homepage section does), as the author asked the same day.
+  Later that day the author asked for the book to wear its own colour
+  wherever it appears: the titles of Part I and Part II in that band, and
+  the book's door under "First time here?" on the homepage, now carry it
+  too. A new place for the book outside its own section takes
+  `.book-voice`. The site's menu still takes the colour of the page it
+  opens on (see The site's header and footer). After that change was merged, the author pointed out that Latest
   and Further back belong to the homepage rather than to a section page,
   and then asked for the homepage itself to take the writing's graphite,
   so that the two are one: Latest, Further back, the titles of their

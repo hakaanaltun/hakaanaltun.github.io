@@ -436,10 +436,12 @@ body.is-home :is(#latest, #start-here, #further-back, #quotes[data-voice="writin
    colour of the page it comes from: the script marks the section
    data-voice="writing" or "story" for a quote from a piece, and a quote from
    the book, like the section before the script runs, stays in the book's.
-   On Writing the book's band speaks in it too. */
+   Wherever else the book stands, it is marked .book-voice and speaks in it
+   too: its band on Writing and its door under "First time here?", as the
+   author asked on 24 October 2026. */
 body.series-book,
 body.is-home :is(#quotes, #home-book),
-.all-work-band#book
+.book-voice
                         { --sec-h: 262; --sec-c: 0.075; --sec-ld: 0.820; --sec-cd: 0.058; }
 /* Moris and The House share a shaded forest green. A little more pigment
    keeps it visibly green on paper; its depth stays close to black. */
@@ -507,10 +509,10 @@ body.is-home :is(#pictures-with-stories, #tonight)
    voice above or stands next to its own colour.
 
    Each theme builds the accent as it does on body. Midnight keeps its single
-   gold. The menu inherits the accent of the page it opens on. The book's band on Writing builds its own
-   the same way.
+   gold. The menu inherits the accent of the page it opens on. The book's
+   places outside its own section (.book-voice) build theirs the same way.
    -------------------------------------------------------------------------- */
-.all-work-band#book,
+.book-voice,
 body.is-home #main > section {
   --sec-accent:      oklch(calc(var(--sec-l) - var(--sec-dl, 0)) var(--sec-c,  0.050) var(--sec-h, 178));
   --sec-accent-dark: oklch(var(--sec-ld, 0.800)  var(--sec-cd, 0.048) var(--sec-h, 178));
@@ -518,13 +520,13 @@ body.is-home #main > section {
   --petrol-deep: color-mix(in srgb, var(--sec-accent) 74%, black);
 }
 @media (prefers-color-scheme: dark) {
-  html:not([data-theme="light"]) .all-work-band#book,
+  html:not([data-theme="light"]) .book-voice,
   html:not([data-theme="light"]) body.is-home #main > section {
     --petrol: var(--sec-accent-dark);
     --petrol-deep: color-mix(in srgb, var(--sec-accent-dark) 72%, #FFFFFF);
   }
 }
-html[data-theme="dark"] .all-work-band#book,
+html[data-theme="dark"] .book-voice,
 html[data-theme="dark"] body.is-home #main > section {
   --petrol: var(--sec-accent-dark);
   --petrol-deep: color-mix(in srgb, var(--sec-accent-dark) 72%, #FFFFFF);
@@ -533,7 +535,7 @@ html[data-theme="dark"] body.is-home #main > section {
    produce a base, then the same 12% white mix serves headings, cards,
    links and page titles. Rebuild it locally on each homepage section. */
 html[data-theme="sky"] body,
-html[data-theme="sky"] .all-work-band#book,
+html[data-theme="sky"] .book-voice,
 html[data-theme="sky"] body.is-home #main > section {
   --sky-accent-base: oklch(max(var(--sec-ld, 0.800), var(--sky-ld-floor, 0.62))
                           var(--sec-cd, 0.048) var(--sec-h, 178));
@@ -541,7 +543,7 @@ html[data-theme="sky"] body.is-home #main > section {
   --petrol: var(--sec-accent-dark);
   --petrol-deep: var(--sec-accent-dark);
 }
-html[data-theme="midnight"] .all-work-band#book,
+html[data-theme="midnight"] .book-voice,
 html[data-theme="midnight"] body.is-home #main > section {
   --petrol: #C6B98F;
   --petrol-deep: #DCD1AC;
@@ -2179,6 +2181,8 @@ html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
 .work-side { grid-area: side; display: flex; flex-direction: column; align-items: flex-end; gap: 4px; text-align: right; white-space: nowrap; }
 .work-date { font-size: 0.85rem; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
 .work-tag { font-size: 0.68rem; letter-spacing: 0.13em; text-transform: uppercase; color: var(--petrol); }
+/* The book's parts carry its blue, as the book does wherever it stands. */
+.book-voice .work-title { color: var(--petrol); }
 .work-read { font-style: italic; font-size: 0.8rem; color: var(--vizon); }
 
 @media (max-width: 680px) {
