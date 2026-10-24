@@ -173,7 +173,8 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   Notes in a soft clay,
   Words with Stories in plum,
   Pictures with Stories and Tonight in slate, Trivia in leaf green,
-  "First time here?" in the teal and Instruments in a bluer petrol. Notes, Words
+  "First time here?" in the writing's graphite, which is the homepage's own,
+  and Instruments in a bluer petrol. Notes, Words
   and Pictures had no color before that day and fell to the rose, and The
   House with them; each page now names its voice with `series:` in its
   front matter (Words through `_config.yml` for the word pages and
@@ -182,7 +183,7 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   its own color, ask the author before choosing another.
   `scripts/test-pictures.cjs` fails on a section with no voice or next to
   its own color. Each section builds its accent from its voice in every
-  theme; Midnight uses gold except for the writing’s silver. A voice may sit a step darker by
+  theme; Midnight uses gold for every section. A voice may sit a step darker by
   day with `--sec-dl`, as the fiction's indigo and the green of Moris and
   The House do; the author asked for them to change color on 19 October
   2026, when the amber and the olive looked muddy on paper.
@@ -207,15 +208,24 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   the sky. On 24 October the author asked for the writing to take that
   colour instead, its headings on Writing with it, as a trial. Light
   palettes use their own lightness with chroma 0.012 and hue 250; dark
-  themes use lightness 0.780 and chroma 0.010. Midnight keeps the silver
-  for the writing and gold for every other section, Notes included. Notes
+  themes use lightness 0.780 and chroma 0.010. Notes
   then stood under Further back in the same colour, and the author asked
   for a soft colour for Notes that sits well with the others: a clay,
   hue 40, on the warm side that no other voice uses. A rose and a mauve
   were tried and read as the plum of Words below it. On Writing the Book
   band speaks in the book's blue (`.all-work-band#book`, which builds its
   own accent as a homepage section does), as the author asked the same
-  day.
+  day. After that change was merged, the author pointed out that Latest
+  and Further back belong to the homepage rather than to a section page,
+  and then asked for the homepage itself to take the writing's graphite,
+  so that the two are one: Latest, Further back, the titles of their
+  pieces and "First time here?" all wear it. On Midnight the author then
+  asked for every section to be gold, the writing too, so that Midnight
+  differs from the other themes; the silver Notes and then the writing wore
+  there is gone. Every
+  page without a voice of its own already spoke in the writing's, and the
+  homepage was the last one left in the teal, which no section wears
+  now.
 - **The night opens towards the horizon.** The shared ramp keeps its
   night stops through -6 degrees and turns grey-violet as the sun nears
   the horizon, where the day takes over; in the evening the slate stands
