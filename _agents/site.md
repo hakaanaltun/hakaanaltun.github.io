@@ -118,6 +118,13 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   a pointer dims from it like any control that rests faint and the focus
   ring keeps full ink. It holds 4.5:1 on the chrome in every theme; the
   first light palette is the closest, at 4.77:1.
+- **The site's menu names its sections the same way.** Later on
+  24 October 2026 the author asked, as a trial, for the menu's section
+  names (`.drawer-label` and `.drawer-section-links a`) to follow the
+  header: EB Garamond italic at .98rem, in title case. Until then they
+  stood in 13px capitals with wide letter-spacing. They keep the page's
+  voice, as the menu always has, and a line-height of 1 keeps each row
+  the height the capitals gave it, so the list is no longer than before.
 - **Rain and snow stand above the site's name.** The footer's snowflake
   and drop stand centred just above "On Life & Everything", as the author
   asked on 15 October 2026; until then they stood under the credit line.
