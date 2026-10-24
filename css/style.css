@@ -910,7 +910,14 @@ header .hamburger-btn:focus-visible { outline-color: var(--footer-text); }
    .drawer-section-links a below, so Home, a section name and a plain link
    are the same height and their text sits the same distance inside the
    box — which is what makes one gap between them read as one gap. */
-.drawer-label { display: block; padding: var(--drawer-row-pad) 0; font-size: 13px; line-height: 1.2; color: var(--petrol); text-transform: uppercase; letter-spacing: 0.09em; text-align: center; }
+/* The names are set as the header's strip sets them, in EB Garamond italic
+   and in title case. Until 24 October 2026 they stood in 13px capitals with
+   wide letter-spacing; the author asked for them to follow the header, in
+   the voice of the page as before. At the header's size a section's name
+   read as one of the italic links inside it ("All in Essays", 15px), so
+   the names stand a size up, at 1.1rem. A line-height of 1 keeps each row
+   within 2px of the height the capitals gave it. */
+.drawer-label { display: block; padding: var(--drawer-row-pad) 0; font-family: 'EB Garamond', Georgia, serif; font-style: italic; font-size: 1.1rem; line-height: 1; color: var(--petrol); text-align: center; }
 
 .site-drawer a { color: var(--petrol); padding: 4px 0; font-size: 16px; }
 .site-drawer a:hover, .site-drawer a:active { opacity: var(--select-dim); }
@@ -929,7 +936,7 @@ summary.drawer-label:hover { opacity: var(--select-dim); }
 @keyframes drawerReveal { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
 
 .drawer-section-links { display: grid; grid-template-columns: 1fr; gap: 10px; margin: 0; }
-.drawer-section-links a { display: block; padding: var(--drawer-row-pad) 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; font-size: 13px; line-height: 1.2; color: var(--petrol); text-transform: uppercase; letter-spacing: 0.09em; text-align: center; transition: var(--select-ease); }
+.drawer-section-links a { display: block; padding: var(--drawer-row-pad) 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; font-family: 'EB Garamond', Georgia, serif; font-style: italic; font-size: 1.1rem; line-height: 1; color: var(--petrol); text-align: center; transition: var(--select-ease); }
 .drawer-section-links a:hover, .drawer-section-links a:active { opacity: var(--select-dim); }
 .drawer-section-links a:focus-visible { outline: 2px solid var(--petrol); outline-offset: 3px; border-radius: 4px; }
 
@@ -2128,8 +2135,11 @@ html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
    override a bare `nav { flex-direction: column }`, since scoped to the
    masthead (see header > nav).
    It carries several names on /all-work/, so the labels are nowrap and the
-   row may wrap between them instead of breaking a label across lines. */
-.work-jump { display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: baseline; gap: 6px 14px; margin: -8px 0 44px; padding: 0; font-size: 0.82rem; letter-spacing: 0.14em; text-transform: uppercase; }
+   row may wrap between them instead of breaking a label across lines.
+   The names stood in spaced capitals until 24 October 2026, when the author
+   asked for them to be set as the header's strip and the site's menu set
+   theirs: EB Garamond italic, in title case. */
+.work-jump { display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: baseline; gap: 6px 14px; margin: -8px 0 44px; padding: 0; font-style: italic; font-size: .98rem; }
 .work-jump a { color: var(--petrol-deep); padding-bottom: 2px; white-space: nowrap; transition: var(--select-ease); }
 .work-jump a:hover, .work-jump a:active { opacity: var(--select-dim); }
 .work-jump a:focus-visible { outline: 2px solid var(--petrol); outline-offset: 3px; border-radius: 2px; }
@@ -2201,10 +2211,9 @@ html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
   .work-title { font-size: 1.18rem; }
   .all-work-band:not(:first-of-type) { margin-top: 40px; padding-top: 40px; }
   .series-band:not(:first-of-type) { margin-top: 40px; padding-top: 52px; }
-  /* Three uppercase names at 0.82rem and 0.14em do not fit a phone. Tightened
-     they hold one line down to the narrowest screens; below that the wrap
-     above catches them. */
-  .work-jump { margin-bottom: 34px; gap: 6px 9px; font-size: 0.7rem; letter-spacing: 0.06em; }
+  /* Closer together on a phone, so the four names hold one line; below
+     that the wrap above catches them. */
+  .work-jump { margin-bottom: 34px; gap: 6px 9px; }
 }
 
 /* Reading links on the Book page */
