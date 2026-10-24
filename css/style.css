@@ -1750,11 +1750,12 @@ body.moris-lightbox-open { overflow: hidden; }
 /* The source takes the colour of the page it leads to (the voices, above),
    and changes colour as it fades out and in, never in plain sight. */
 .hero-quote-source i { color: var(--petrol); font-style: italic; transition: color 0.55s ease; }
-/* The attribution is not dressed as a link on hover either — same reason as
-   the word on the homepage: the piece is there to be found, not advertised.
-   The focus ring below stays: that one is not decoration, it is the only way
-   a reader moving by keyboard can see where they are. */
+/* The attribution carries no line, and under a pointer it dims like every
+   other link on the site, as the author asked on 24 October 2026. The focus
+   ring below is the only way a reader moving by keyboard can see where they
+   are. */
 .hero-quote-source a { color: inherit; text-decoration: none; }
+.hero-quote-source a:hover, .hero-quote-source a:active { opacity: var(--select-dim); }
 .hero-quote-source a:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; border-radius: 2px; }
 /* Full motion fades the words in one by one, so the card itself swaps
    instantly underneath them. Reduced motion has no words to stagger: the
@@ -1996,6 +1997,7 @@ html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
   font-weight: 500; font-size: var(--type-group); line-height: 1.05;
   letter-spacing: -0.01em; color: var(--petrol-deep); margin-bottom: 16px;
 }
+.home-book-title a:hover, .home-book-title a:active { opacity: var(--select-dim); }
 /* One paragraph to a panel. Each panel is 48px narrower than the row and
    the gap takes 24px of that, so the next paragraph's first letters show at
    the right edge, faded: the sign that the row goes on. The 24px after the
@@ -2239,6 +2241,7 @@ html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
   font-size: 1.1rem; line-height: 1.62; color: var(--vizon);
 }
 .book-reading-note a { color: var(--petrol); text-underline-offset: 3px; }
+.book-reading-note a:hover, .book-reading-note a:active { opacity: var(--select-dim); }
 
 /* Full book parts use the essay column without pretending to be dated posts. */
 .book-part { padding-bottom: 64px; }
@@ -3607,6 +3610,9 @@ html[data-theme="sky"] .footer-strip { border-top: 0; }
   opacity: 0.78;
   font-size: 0.72rem;
 }
+/* The rule above outweighs .note-date:hover, so the wall says it again. */
+.notes-list .note-date:hover,
+.notes-list .note-date:focus-visible { opacity: 1; }
 
 /* The tack. It is pressed through the top edge of the card, half on the paper
    and half on the wall, which is the whole reason a pinned note needs no date

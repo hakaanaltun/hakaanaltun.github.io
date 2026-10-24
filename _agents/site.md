@@ -308,6 +308,14 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   Part II. The book page's never had one; the author asked on
   18 October 2026 for Part II's to match it. They keep the accent and dim
   under a pointer.
+- **Every link answers a pointer.** On 24 October 2026 the author found
+  two that did nothing, the quote's source at the top of the homepage and
+  the book's title beside its cover, and asked for them to dim like the
+  rest. A pointer moved over every kind of link on the built site that day
+  found nine more in the site's frame and the pictures' sources, and they
+  answer now too. A quiet control that rests faint, such as a note's date,
+  the quote's arrows or the footer's snow and rain, comes up to full
+  instead: the same gesture the other way.
 - **A window is a native dialog.** The House's boxes, the drawer, the
   farm's details, the pictures' close views and Moris's gallery open with
   `showModal()`, so the page behind them is inert and Escape closes them.

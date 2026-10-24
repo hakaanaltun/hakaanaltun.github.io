@@ -95,6 +95,7 @@
 .picture-detail-body p { font-size:18px; line-height:1.6; margin:0 0 16px; }
 .picture-detail-sources { margin:10px 0 16px; }
 .picture-detail-sources a { display:inline-block; font:11px/1.6 Arial,Helvetica,sans-serif; color:var(--picture-quiet); text-underline-offset:4px; }
+.picture-story-sources a:hover, .picture-story-sources a:active, .picture-detail-sources a:hover, .picture-detail-sources a:active, .picture-about li a:hover, .picture-about li a:active { opacity:var(--select-dim); }
 .picture-return { align-self:flex-start; }
 .picture-how { max-width:520px; padding:50px 40px 30px; }
 .picture-how p { font-size:18px; line-height:1.6; }
