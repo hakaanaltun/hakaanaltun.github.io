@@ -225,7 +225,7 @@ body {
     --band-hero: #201F1B;
     --petrol: var(--sec-accent-dark, #D8C48C);
     --petrol-deep: color-mix(in srgb, var(--sec-accent-dark, #D8C48C) 72%, #FFFFFF);
-    --writing-accent: oklch(0.800 0.048 178);
+    --writing-accent: oklch(0.780 0.010 250);
   }
 }
 html[data-theme="dark"] {
@@ -264,7 +264,7 @@ html[data-theme="dark"] body {
   --band-hero: #201F1B;
   --petrol: var(--sec-accent-dark, #D8C48C);
   --petrol-deep: color-mix(in srgb, var(--sec-accent-dark, #D8C48C) 72%, #FFFFFF);
-  --writing-accent: oklch(0.800 0.048 178);
+  --writing-accent: oklch(0.780 0.010 250);
 }
 
 /* ==========================================================================
@@ -322,7 +322,7 @@ html[data-theme="midnight"] body {
   /* Restore Midnight's original single gold voice across every section. */
   --petrol: #C6B98F;
   --petrol-deep: #DCD1AC;
-  --writing-accent: #C6B98F;
+  --writing-accent: oklch(0.780 0.010 250);
 }
 
 /* ==========================================================================
@@ -385,7 +385,8 @@ html[data-theme="sky"] body {
    own, so that the colour of a heading says where its links go. On
    22 October 2026 the writing took the furniture's teal in every theme, and
    on 23 October Notes took graphite on paper and silver on the dark
-   themes.
+   themes. On 24 October the writing took that graphite and silver, and
+   Notes a soft clay.
    _agents/site.md keeps the dates and the author's reasons.
 
    Measured in Chromium on 23 October 2026, as text on each homepage
@@ -396,7 +397,7 @@ html[data-theme="sky"] body {
    palettes do: 5.0:1 at worst (Trivia), and above 4.5:1 on its band.
 
    Midnight pins --petrol to its own single gold further up, so its navy and
-   gold stay as they are; only Notes keeps its silver there.
+   gold stay as they are; only the writing keeps its silver there.
    ========================================================================== */
 :root {
   --sec-l: 0.513;   /* Ash & Gold — the palest paper in the wardrobe */
@@ -406,7 +407,7 @@ body {
   --sec-accent-dark: oklch(var(--sec-ld, 0.800)  var(--sec-cd, 0.048) var(--sec-h, 178));
   /* The homepage can borrow the writing voice without changing the colour of
      the section it sits in. This is the same accent used by essay titles. */
-  --writing-accent: oklch(var(--sec-l) 0.050 178);
+  --writing-accent: oklch(var(--sec-l) 0.012 250);
 }
 
 /* Each voice is named once, with every page that speaks in it and every
@@ -416,19 +417,23 @@ body {
    Two neighbours never share a colour (scripts/test-pictures.cjs).
 
                             hue    day chroma    night L + chroma */
-/* The writing shares the first-time doors’ teal in every theme. */
+/* The writing — graphite on light paper and soft silver on dark grounds.
+   It wore the first-time doors’ teal until 24 October 2026, when the author
+   asked for the colour Notes wore then. */
 body.series-default,
 body.series-series,
 body.series-on-series,
 body.series-cafe-series,
 body.is-home :is(#latest, #further-back, #quotes[data-voice="writing"])
-                        { --sec-h: 178; --sec-c: 0.050; --sec-ld: 0.800; --sec-cd: 0.048; }
+                        { --sec-h: 250; --sec-c: 0.012; --sec-ld: 0.780; --sec-cd: 0.010; }
 /* The book, and the quotes at the top of the homepage. A quote takes the
    colour of the page it comes from: the script marks the section
    data-voice="writing" or "story" for a quote from a piece, and a quote from
-   the book, like the section before the script runs, stays in the book's. */
+   the book, like the section before the script runs, stays in the book's.
+   On Writing the book's band speaks in it too. */
 body.series-book,
-body.is-home :is(#quotes, #home-book)
+body.is-home :is(#quotes, #home-book),
+.all-work-band#book
                         { --sec-h: 262; --sec-c: 0.075; --sec-ld: 0.820; --sec-cd: 0.058; }
 /* Moris and The House share a shaded forest green. A little more pigment
    keeps it visibly green on paper; its depth stays close to black. */
@@ -472,10 +477,12 @@ body.series-about
 body.series-trivia,
 body.is-home #trivia
                         { --sec-h: 140; --sec-c: 0.090; --sec-ld: 0.800; --sec-cd: 0.085; --sec-dl: -0.012; }
-/* Notes uses graphite on light paper and soft silver on dark grounds. */
+/* Notes — a soft clay, the warm side of the wheel that no other voice uses.
+   It stands between the writing's graphite and the plum of Words, and a rose
+   or a mauve read as the plum beside it. */
 body.series-notes,
 body.is-home #notes
-                        { --sec-h: 250; --sec-c: 0.012; --sec-ld: 0.780; --sec-cd: 0.010; }
+                        { --sec-h:  40; --sec-c: 0.062; --sec-ld: 0.780; --sec-cd: 0.050; }
 /* Words with Stories — a plum, in the widest gap the voices had left */
 body.series-words,
 body.is-home #words-with-stories
@@ -499,8 +506,10 @@ body.is-home :is(#pictures-with-stories, #tonight)
    voice above or stands next to its own colour.
 
    Each theme builds the accent as it does on body. Midnight keeps its single
-   gold, with silver for Notes. The menu inherits the accent of the page it opens on.
+   gold, with silver for the writing. The menu inherits the accent of
+   the page it opens on. The book's band on Writing builds its own the same way.
    -------------------------------------------------------------------------- */
+.all-work-band#book,
 body.is-home #main > section {
   --sec-accent:      oklch(calc(var(--sec-l) - var(--sec-dl, 0)) var(--sec-c,  0.050) var(--sec-h, 178));
   --sec-accent-dark: oklch(var(--sec-ld, 0.800)  var(--sec-cd, 0.048) var(--sec-h, 178));
@@ -508,11 +517,13 @@ body.is-home #main > section {
   --petrol-deep: color-mix(in srgb, var(--sec-accent) 74%, black);
 }
 @media (prefers-color-scheme: dark) {
+  html:not([data-theme="light"]) .all-work-band#book,
   html:not([data-theme="light"]) body.is-home #main > section {
     --petrol: var(--sec-accent-dark);
     --petrol-deep: color-mix(in srgb, var(--sec-accent-dark) 72%, #FFFFFF);
   }
 }
+html[data-theme="dark"] .all-work-band#book,
 html[data-theme="dark"] body.is-home #main > section {
   --petrol: var(--sec-accent-dark);
   --petrol-deep: color-mix(in srgb, var(--sec-accent-dark) 72%, #FFFFFF);
@@ -521,6 +532,7 @@ html[data-theme="dark"] body.is-home #main > section {
    produce a base, then the same 12% white mix serves headings, cards,
    links and page titles. Rebuild it locally on each homepage section. */
 html[data-theme="sky"] body,
+html[data-theme="sky"] .all-work-band#book,
 html[data-theme="sky"] body.is-home #main > section {
   --sky-accent-base: oklch(max(var(--sec-ld, 0.800), var(--sky-ld-floor, 0.62))
                           var(--sec-cd, 0.048) var(--sec-h, 178));
@@ -528,13 +540,17 @@ html[data-theme="sky"] body.is-home #main > section {
   --petrol: var(--sec-accent-dark);
   --petrol-deep: var(--sec-accent-dark);
 }
+html[data-theme="midnight"] .all-work-band#book,
 html[data-theme="midnight"] body.is-home #main > section {
   --petrol: #C6B98F;
   --petrol-deep: #DCD1AC;
 }
-/* Notes keeps its silver in Midnight’s otherwise gold palette. */
-html[data-theme="midnight"] body.series-notes,
-html[data-theme="midnight"] body.is-home #main > #notes {
+/* The writing keeps its silver in Midnight’s otherwise gold palette. Notes
+   wore it until 24 October 2026, when the writing took its colour. */
+html[data-theme="midnight"] :is(body.series-default, body.series-series,
+  body.series-on-series, body.series-cafe-series),
+html[data-theme="midnight"] body.is-home #main > :is(#latest, #further-back,
+  #quotes[data-voice="writing"]) {
   --petrol: var(--sec-accent-dark);
   --petrol-deep: color-mix(in srgb, var(--petrol) 72%, #FFFFFF);
 }

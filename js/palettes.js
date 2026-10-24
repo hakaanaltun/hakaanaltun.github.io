@@ -52,8 +52,8 @@
   /* The section voices, as css/style.css writes them: the hue, the chroma
      on paper, the lightness and chroma at night, and how much darker the
      voice prints by day (--sec-dl). They are listed in the order the
-     homepage shows them, and the writing's teal stands for the site's own
-     furniture too. Every swatch on this page is built from this table and a
+     homepage shows them, and the first-time doors' teal is the site's own
+     furniture. Every swatch on this page is built from this table and a
      palette's own lightness, and the browser does the arithmetic, as it
      does for the site. Until 23 October 2026 the swatches were hexes worked
      out by hand once, and they had drifted: the fiction showed the amber it
@@ -62,11 +62,12 @@
      scripts/test-pictures.cjs fails when this table and style.css
      disagree. */
   var VOICES = [
-    { label: 'Writing',     page: 'default',  h: 178, c: 0.050, ld: 0.800, cd: 0.048, dl: 0 },
+    { label: 'Writing',     page: 'default',  h: 250, c: 0.012, ld: 0.780, cd: 0.010, dl: 0 },
     { label: 'The Notice',  page: 'story',    h: 290, c: 0.090, ld: 0.760, cd: 0.080, dl: 0.073 },
+    { label: 'First time here?', page: 'home', h: 178, c: 0.050, ld: 0.800, cd: 0.048, dl: 0 },
     { label: 'The House',   page: 'house',    h: 150, c: 0.050, ld: 0.720, cd: 0.065, dl: 0.193 },
     { label: 'Book',        page: 'book',     h: 262, c: 0.075, ld: 0.820, cd: 0.058, dl: 0 },
-    { label: 'Notes',       page: 'notes',    h: 250, c: 0.012, ld: 0.780, cd: 0.010, dl: 0 },
+    { label: 'Notes',       page: 'notes',    h: 40, c: 0.062, ld: 0.780, cd: 0.050, dl: 0 },
     { label: 'Words',       page: 'words',    h: 322, c: 0.065, ld: 0.760, cd: 0.075, dl: 0 },
     { label: 'Pictures',    page: 'pictures', h: 239, c: 0.062, ld: 0.720, cd: 0.062, dl: 0 },
     { label: 'Trivia',      page: 'trivia',   h: 140, c: 0.090, ld: 0.800, cd: 0.085, dl: -0.012 },
@@ -128,8 +129,8 @@
      covers every part of the page. Their grounds and type are read off the
      [data-theme] blocks in css/style.css. Dark prints each voice at its
      night lightness and chroma; Midnight pins every section to its gold,
-     and only Notes keeps its silver there. */
-  var NOTES = VOICES.filter(function (v) { return v.page === 'notes'; })[0];
+     and only the writing keeps its silver there. */
+  var WRITING = VOICES.filter(function (v) { return v.page === 'default'; })[0];
   var DARKS = [
     { key: 'dark',     name: 'Dark',     tag: 'the warm night',
       paper: '#1C1B18', inkSoft: '#D7CEB8', vizon: '#A29A8A',
@@ -138,8 +139,8 @@
     { key: 'midnight', name: 'Midnight', tag: 'parliament blue, gold and silver',
       paper: '#10161F', inkSoft: '#C6B98F', vizon: '#C6B98F',
       chrome: '#0D1219', ftext: '#DCD1AC', fmuted: '#C6B98F',
-      acc: ['#C6B98F', oklch(NOTES.ld, NOTES.cd, NOTES.h)],
-      accLabels: ['Every section', 'Notes'] }
+      acc: [oklch(WRITING.ld, WRITING.cd, WRITING.h), '#C6B98F'],
+      accLabels: ['Writing', 'Every other section'] }
   ];
 
   /* The sky's own painter, from _includes/site-sky.html. It writes its
