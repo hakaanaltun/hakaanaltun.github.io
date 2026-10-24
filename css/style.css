@@ -729,15 +729,9 @@ header .hamburger-btn:focus-visible { outline-color: var(--footer-text); }
    the gap stayed as the author last saw it. The links had a pale line
    under them until 15 October 2026, when the author took it out: the
    header was busy enough, and the names read as a menu without it.
-   On 24 October 2026 the author asked for the names to stand a step back
-   from the name above them, which had read as one block with the strip
-   once both wore the same yellow: a size down and in the tone of the line
-   over a part of the book, "The Fragments · Part I". They were set in that
-   line's italic too, and the same day the author found the italic put the
-   site off balance, so the names are upright, and upright they came up a
-   touch, to 1.04rem, still under the 1.10rem they had. The footer's credit line
-   takes the same voice. The step is in the colour, not in opacity, so a
-   pointer dims from it and the focus ring keeps full ink. */
+   On 24 October 2026 the names were set a size down, at .98rem and then
+   1.04rem, in 85% of the name's yellow; the author found them too small
+   and asked the same day for them as they were. */
 .header-nav-bar {
   width: 100%; max-width: 100%; display: flex; flex-wrap: wrap; justify-content: center;
   gap: 33px; margin-top: 0; padding-right: 0;
@@ -747,8 +741,7 @@ header .hamburger-btn:focus-visible { outline-color: var(--footer-text); }
 .header-nav-bar a {
   display: inline-flex; align-items: center; justify-content: center; padding: 6px 2px;
   border: none; border-radius: 0; background: transparent;
-  font-size: 1.04rem; line-height: 1;
-  color: color-mix(in srgb, var(--footer-text) 85%, transparent); box-shadow: none;
+  font-size: 1.10rem; line-height: 1; color: var(--footer-muted); box-shadow: none;
   transition: var(--select-ease);
   flex: 0 0 auto; white-space: nowrap;
 }
@@ -913,15 +906,10 @@ header .hamburger-btn:focus-visible { outline-color: var(--footer-text); }
    .drawer-section-links a below, so Home, a section name and a plain link
    are the same height and their text sits the same distance inside the
    box — which is what makes one gap between them read as one gap. */
-/* The names are set as the header's strip sets them, in upright EB
-   Garamond and in title case. Until 24 October 2026 they stood in 13px
-   capitals with wide letter-spacing; the author asked for them to follow
-   the header, in the voice of the page as before. They were italic for an
-   afternoon, which put the site off balance. At 1.1rem they stand a size
-   above the italic links inside a section ("All in Essays", 15px). A
-   line-height of 1 keeps each row within 2px of the height the capitals
-   gave it. */
-.drawer-label { display: block; padding: var(--drawer-row-pad) 0; font-family: 'EB Garamond', Georgia, serif; font-size: 1.1rem; line-height: 1; color: var(--petrol); text-align: center; }
+/* The names stand in spaced capitals. On 24 October 2026 they were
+   set in title case at 1.1rem for an afternoon, and the author found them
+   too small and asked for them as they were. */
+.drawer-label { display: block; padding: var(--drawer-row-pad) 0; font-size: 13px; line-height: 1.2; color: var(--petrol); text-transform: uppercase; letter-spacing: 0.09em; text-align: center; }
 
 .site-drawer a { color: var(--petrol); padding: 4px 0; font-size: 16px; }
 .site-drawer a:hover, .site-drawer a:active { opacity: var(--select-dim); }
@@ -940,7 +928,7 @@ summary.drawer-label:hover { opacity: var(--select-dim); }
 @keyframes drawerReveal { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
 
 .drawer-section-links { display: grid; grid-template-columns: 1fr; gap: 10px; margin: 0; }
-.drawer-section-links a { display: block; padding: var(--drawer-row-pad) 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; font-family: 'EB Garamond', Georgia, serif; font-size: 1.1rem; line-height: 1; color: var(--petrol); text-align: center; transition: var(--select-ease); }
+.drawer-section-links a { display: block; padding: var(--drawer-row-pad) 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; font-size: 13px; line-height: 1.2; color: var(--petrol); text-transform: uppercase; letter-spacing: 0.09em; text-align: center; transition: var(--select-ease); }
 .drawer-section-links a:hover, .drawer-section-links a:active { opacity: var(--select-dim); }
 .drawer-section-links a:focus-visible { outline: 2px solid var(--petrol); outline-offset: 3px; border-radius: 4px; }
 
@@ -2141,8 +2129,7 @@ html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
    It carries several names on /all-work/, so the labels are nowrap and the
    row may wrap between them instead of breaking a label across lines.
    The names stood in spaced capitals until 24 October 2026, when the author
-   asked for them to be set as the header's strip and the site's menu set
-   theirs: upright EB Garamond, in title case. */
+   asked for them in title case, in upright EB Garamond. */
 .work-jump { display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: baseline; gap: 6px 14px; margin: -8px 0 44px; padding: 0; font-size: .98rem; }
 .work-jump a { color: var(--petrol-deep); padding-bottom: 2px; white-space: nowrap; transition: var(--select-ease); }
 .work-jump a:hover, .work-jump a:active { opacity: var(--select-dim); }
@@ -2532,7 +2519,8 @@ footer {
   color: var(--footer-muted);
 }
 
-/* Set like the header's names under the logo (see .header-nav-bar). */
+/* A step back from the name above it, in the tone of the line over a part
+   of the book, "The Fragments · Part I". */
 .footer-credit {
   margin: 0;
   color: color-mix(in srgb, var(--footer-text) 85%, transparent);
