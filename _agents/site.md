@@ -295,32 +295,63 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   pointer over a link that carries a picture and words dims the words by
   `--select-dim`. A picture that is a link on its own, with no words,
   answers in its own way: Moris's gallery cover grows a little, the Farm
-  House's photograph straightens, and Tonight's sky on the homepage draws
-  a faint ring around itself. The sky dimmed like a link until the author
-  asked on 17 October 2026 for it to be treated as a picture.
+  House's photograph straightens, Tonight's sky on the homepage draws
+  a faint ring around itself, and the moon under a piece comes up to full.
+  The colour swatches on The Clock and The Draw grow a little, and the
+  Pale Blue Dot in the journey, a photograph that is its own button, keeps
+  its weight. The sky dimmed like a link until the author asked on
+  17 October 2026 for it to be treated as a picture.
   `scripts/test-hover.cjs` fails on any rule that dims a picture, a drawn
   one included.
 - **A picture inside a card is named by the card's words** (rule in
   `COLOPHON.md`). `scripts/test-content.cjs` holds the built pages and the
   scripts that build cards (`js/more-essays.js`, `js/series-nav.js`,
   `js/cafe-nav.js`) to it.
-- **A pointer draws no line** (rule in `COLOPHON.md`). The frames and
-  instruments that load their own stylesheet carry the same dim
-  themselves, with 0.95 for readers who ask for more contrast.
+- **A pointer draws no line** (rule in `COLOPHON.md`).
   `scripts/test-hover.cjs` fails on a rule that draws a line under a
-  pointer outside running text. The note about Part III has no line
+  pointer. The note about Part III has no line
   under its links at rest either, on the book's page and at the end of
   Part II. The book page's never had one; the author asked on
   18 October 2026 for Part II's to match it. They keep the accent and dim
   under a pointer.
-- **Every link answers a pointer.** On 24 October 2026 the author found
-  two that did nothing, the quote's source at the top of the homepage and
-  the book's title beside its cover, and asked for them to dim like the
-  rest. A pointer moved over every kind of link on the built site that day
-  found nine more in the site's frame and the pictures' sources, and they
-  answer now too. A quiet control that rests faint, such as a note's date,
-  the quote's arrows or the footer's snow and rain, comes up to full
-  instead: the same gesture the other way.
+- **A pointer dims what it is over, everywhere** (rule in `COLOPHON.md`).
+  On 24 October 2026 the author found two links that did nothing, the
+  quote's source at the top of the homepage and the book's title beside
+  its cover. A pointer moved over every kind of link and button on the
+  built site that day found nine more in the site's frame that did
+  nothing, and the frames and instruments answering in their own ways:
+  the instruments brightened to full ink and darkened their borders, the
+  journey and the farm left most of their controls silent, and the
+  reading options, "read with rain", the theme menu and the subscribe
+  button took on a colour. The author asked for one answer everywhere.
+  - On the site's pages each rule says it with `--select-dim`. A control
+    that rests faint dims from there, as the quote's arrows do with
+    `calc(0.55 * var(--select-dim))`: so do a note's date, the footer's
+    snow and rain and The House's, a word's ‹ ›, the search's clear
+    button and the PDF's side arrows. Keyboard focus still brings
+    them up to full; the dim is for a pointer only. A state stays a state:
+    "read with rain" while it rains and open reading options keep the
+    accent, and dim under a pointer like the rest.
+  - The House's boxes, the drawer and the rooms, dim everything that can
+    be chosen in them with one rule in `css/drawer.css`.
+  - Each instrument ends its own `<style>` with the same block: it sets
+    `--select-dim` (0.95 when more contrast is asked for), gives links,
+    buttons, `summary`, `select` and date fields a 0.2s fade through
+    `:where()`, and dims them under a pointer, leaving disabled buttons
+    and colour swatches alone. The Page's style buttons rest faint and dim
+    from there. The Sun and The Stars carry it in `css/window-sky.css`,
+    The Desk in `css/desk.css`, the journey at the end of
+    `css/space-journey.css` and the Farm House in its own styles. A new
+    instrument takes the block with the rest of the instruments' bar.
+  - What comes into view when a pointer comes near is not an answer and
+    stays: the names of the places in a picture, the quote's arrows when
+    the quote is pointed at, the words under the footer's signs, puzzle
+    mode's folded panel and the book page's dot.
+  - `scripts/test-hover.cjs` fails on a rule under `:hover` or `:active`
+    that sets anything but a dim, and names the pictures and the things
+    that come into view that answer in their own way. Text a script
+    writes into a `<style>` is out of its reach: `js/reader-translate.js`
+    dims its own buttons.
 - **A window is a native dialog.** The House's boxes, the drawer, the
   farm's details, the pictures' close views and Moris's gallery open with
   `showModal()`, so the page behind them is inert and Escape closes them.

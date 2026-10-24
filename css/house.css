@@ -237,12 +237,14 @@
 .house-weather-note a:hover, .house-weather-note a:active { opacity: var(--select-dim); }
 /* The footer's snow and rain a little under the rooms where they fall, with
    the footer's signs and the footer's answer to a pointer (css/let-it-snow.css):
-   faint at rest, full when pointed at or falling. The 44px squares stand a
+   faint at rest, full while falling, and dimmed from there under a pointer. The 44px squares stand a
    little into the margin so that the signs line up with the words above. */
 .house-weather-choice { display: flex; flex-wrap: wrap; align-items: center; gap: 0 2px; margin: 4px 0 0 -14px; }
 .house-weather-choice .house-weather-icon { display: inline-grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 0; background: transparent; color: var(--vizon); font: 400 1.1rem/1 Georgia, serif; opacity: .75; transition: opacity .2s ease, color .2s ease; touch-action: manipulation; }
 .house-weather-icon svg { width: 16px; height: 16px; }
-.house-weather-choice .house-weather-icon:hover, .house-weather-choice .house-weather-icon[aria-pressed="true"] { opacity: 1; color: var(--ink); }
+.house-weather-choice .house-weather-icon[aria-pressed="true"] { opacity: 1; color: var(--ink); }
+.house-weather-choice .house-weather-icon:hover { opacity: calc(.75 * var(--select-dim)); }
+.house-weather-choice .house-weather-icon[aria-pressed="true"]:hover { opacity: var(--select-dim); }
 .house-weather-choice .house-weather-icon:focus-visible { opacity: 1; outline: 1px solid currentColor; outline-offset: 2px; border-radius: 50%; }
 #house-weather-follow { min-height: 44px; margin-left: 12px; padding: 0; border: 0; background: none; color: var(--vizon); font-size: 15px; transition: var(--select-ease); }
 #house-weather-follow:hover, #house-weather-follow:active { opacity: var(--select-dim); }
@@ -435,6 +437,7 @@ html:not(.house-inside) { --trail: none; }
   .house:not(.show-places) .house-objects { display: none; }
   .house-objects { display: grid; grid-template-columns: 1fr 1fr; gap: 0 14px; list-style: none; margin: 14px 0 0; padding: 0; }
   .house-objects button, .house-objects a { display: flex; color: inherit; text-decoration: none; align-items: center; gap: 9px; width: 100%; min-height: 44px; padding: 6px 0; border: 0; border-bottom: 1px solid var(--rule); background: none; text-align: left; font-size: 16px; }
+  .house-objects button:hover, .house-objects a:hover { opacity: var(--select-dim); }
   .house-objects .house-pin { flex: none; width: 22px; height: 22px; font-size: 11px; }
   .house-objects :is([data-lamp], [data-balcony-lamp])[aria-pressed="true"]::after { content: "on"; margin-left: auto; color: var(--vizon); font-size: 14px; }
 }

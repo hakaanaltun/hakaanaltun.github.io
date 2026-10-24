@@ -9,8 +9,12 @@
    fades an element that holds one.
 
    A pointer draws no line. A link dims; a line under it stays only when it
-   is there at rest, and dims with the link. Links in running text keep the
-   underline they have and may darken it, so those are named below. */
+   is there at rest, and dims with the link.
+
+   A pointer dims what it is over, everywhere. Under a pointer a link or a
+   button fades, and nothing else about it changes: no colour, no border, no
+   size. The pictures that answer in their own way, and what only comes into
+   view when a pointer comes near, are named below. */
 'use strict';
 const fs = require('node:fs');
 const path = require('node:path');
@@ -107,10 +111,19 @@ for (const file of pages(site)) {
   check(doc, sheet('/css/style.css'), 'series and café thumbnails', problems);
 }
 
-// Links in running text: the essays' closing line, the notes under each
-// instrument and the text a reader opens in Read.
-const RUNNING_TEXT = ['.essay-afterward a', '.notes a', '.notes .places-list a', '#reading a[href]'];
 const LINE = /^(border-bottom|border-bottom-color|text-decoration|text-decoration-line|text-decoration-color)$/;
+// What a rule under a pointer may set besides the dim, and the values that
+// only take back what another state gave.
+const QUIET = /^(opacity|transition|transition-duration|cursor|outline|outline-offset|outline-color|z-index|pointer-events|animation-play-state)$|^--/;
+const UNDONE = /^(none|transparent|0|0px)$/;
+// Pictures that are links or buttons of their own and answer in their own
+// way, a colour swatch among them, and the names and controls that come into
+// view when a pointer comes near.
+const OWN_ANSWER = [
+  '.moris-gallery-cover', '.tonight-map-link', '.photograph', '.piece-moon', '.swatch', '#reading a[href]:has(img)',
+  '.hotspot', '.house-hotspot', '.picture-hotspot', '.hero-quote-card', '.footer-icon-btn[data-label]',
+  '.puzzle-panel.puzzle-collapsed', '.puzzle-sentence-group', '.book-compress'
+];
 function lineRules(css, where) {
   csstree.walk(csstree.parse(css), {
     visit: 'Rule',
@@ -119,15 +132,19 @@ function lineRules(css, where) {
       const selectors = [];
       rule.prelude.children.forEach((selector) => {
         const text = csstree.generate(selector);
-        if (/:(hover|active)\b/.test(text) && !RUNNING_TEXT.includes(subject(text))) selectors.push(text);
+        if (/:(hover|active)\b/.test(text)) selectors.push(text);
       });
       if (!selectors.length) return;
       csstree.walk(rule.block, {
         visit: 'Declaration',
         enter(decl) {
           const value = csstree.generate(decl.value).trim();
-          if (LINE.test(decl.property) && !/^(none|transparent|0)$/.test(value)) {
+          if (LINE.test(decl.property) && !UNDONE.test(value)) {
             for (const selector of selectors) problems.push(`${where}: "${selector}" draws a line under a pointer`);
+          } else if ((!QUIET.test(decl.property) && !UNDONE.test(value)) || (decl.property === 'opacity' && value === '1')) {
+            for (const selector of selectors) {
+              if (!OWN_ANSWER.some((name) => selector.includes(name))) problems.push(`${where}: "${selector}" sets ${decl.property}: ${value} under a pointer instead of dimming`);
+            }
           }
         }
       });
@@ -149,4 +166,4 @@ for (const file of pages(site)) {
 
 assert.ok(checked > 0, 'no built page with a picture was found; run bundle exec jekyll build first');
 assert.deepEqual(problems, [], '\n' + problems.join('\n'));
-console.log(`hover: ${checked} pages with pictures, no picture dims when chosen; ${styles} stylesheets, no line drawn under a pointer`);
+console.log(`hover: ${checked} pages with pictures, no picture dims when chosen; ${styles} stylesheets, no line drawn under a pointer and nothing but a dim`);

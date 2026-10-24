@@ -109,7 +109,6 @@ layout: null
     color:var(--muted); text-decoration:none;
     transition:color .2s, opacity .4s ease;
   }
-  .notes-cue:hover{ color:var(--ink); }
   body.immersive .notes-cue{ opacity:0; pointer-events:none; }
 
   .chrome{
@@ -134,18 +133,16 @@ layout: null
     grid-column:1; justify-self:start;
     font-family:var(--body); font-style:italic; font-size:.95rem; letter-spacing:.03em;
     color:var(--muted); text-decoration:none; white-space:nowrap;
-    transition:color .2s;
+    transition:color .2s, opacity .2s;
   }
-  .tools-link:hover{ color:var(--ink); }
   .tools-link:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
 
   .actions{ grid-column:3; justify-self:end; display:flex; gap:8px; }
   .icon-btn{
     background:none; border:1px solid var(--line); color:var(--muted);
     width:38px; height:38px; border-radius:8px; cursor:pointer; font-size:16px;
-    display:grid; place-items:center; transition:color .2s, border-color .2s;
+    display:grid; place-items:center; transition:color .2s, border-color .2s, opacity .2s;
   }
-  .icon-btn:hover{ color:var(--ink); border-color:var(--muted); }
   .icon-btn:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
   .icon-btn svg{ width:16px; height:16px; }
   .theme-btn .icon-sun{ display:var(--icon-sun); }
@@ -220,8 +217,6 @@ layout: null
     display:grid; place-items:center; opacity:.72;
     transition:opacity .15s, background .15s;
   }
-  /* a grey wash reads as a highlight on the ink of either theme */
-  .bub-btn:hover{ opacity:1; background:rgba(128,128,128,.28); }
   .bub-btn:focus-visible{ opacity:1; outline:2px solid var(--paper); outline-offset:-2px; }
   .bub-btn svg{ width:15px; height:15px; }
   .bub-btn.is-b{ font-weight:700; }
@@ -286,9 +281,8 @@ layout: null
   .shelf-pill{
     background:none; border:1px solid var(--line); color:var(--ink); font-family:var(--body);
     font-size:.92rem; padding:6px 14px; border-radius:999px; cursor:pointer; letter-spacing:.02em;
-    transition:color .2s, border-color .2s, background .2s;
+    transition:color .2s, border-color .2s, background .2s, opacity .2s;
   }
-  .shelf-pill:hover{ border-color:var(--muted); }
   .shelf-pill[aria-pressed="true"]{ background:var(--ink); color:var(--paper); border-color:var(--ink); }
   .shelf-pill.arm{ background:var(--ink); color:var(--paper); border-color:var(--ink); }
   .shelf-pill:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
@@ -317,9 +311,8 @@ layout: null
   .shelf-mark{
     background:none; border:1px solid var(--line); border-radius:8px; color:var(--ink);
     font-family:var(--display); font-size:1.15rem; line-height:1; padding:8px 0;
-    cursor:pointer; transition:border-color .2s;
+    cursor:pointer; transition:border-color .2s, opacity .2s;
   }
-  .shelf-mark:hover{ border-color:var(--muted); }
   .shelf-mark:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
   .shelf-count{ display:grid; grid-template-columns:1fr 1fr; gap:14px 10px; }
   .shelf-count b{
@@ -348,7 +341,6 @@ layout: null
   .notes h3{ font-family:var(--body); font-style:italic; font-weight:400; font-size:1.15rem; margin:1.5rem 0 .35rem; color:var(--ink); }
   .notes p{ color:var(--muted); font-size:1.05rem; line-height:1.65; margin:0 0 .9rem; }
   .notes a{ color:var(--ink); text-decoration:underline; text-underline-offset:3px; text-decoration-color:var(--line); }
-  .notes a:hover{ text-decoration-color:var(--ink); }
   .notes .notes-links{ margin-top:2.4rem; padding-top:1.3rem; border-top:1px solid var(--line); font-style:italic; }
 
   @media (max-width:600px){
@@ -387,10 +379,21 @@ layout: null
   @media (prefers-reduced-motion:reduce){
     *{ transition:none !important; }
   }
+
+  /* A pointer dims what it is over, as everywhere on the site: a link or a
+     button fades a little and nothing else about it changes. The colour
+     swatches are the colours themselves, so they keep their weight. */
+  :root{ --select-dim:.78; }
+  @media (prefers-contrast:more){ :root{ --select-dim:.95; } }
+  :where(a[href], button, summary, select, input[type="date"]){ transition:opacity .2s; }
+  a[href]:hover, button:not(:disabled):not(.swatch):hover, summary:hover, select:hover, input[type="date"]:hover{ opacity:var(--select-dim); }
+  /* The style buttons rest faint, so they dim from there. */
+  .bubble .bub-btn:not(:disabled):hover{ opacity:calc(.72 * var(--select-dim)); }
+  .stylebar .bub-btn:not(:disabled):hover{ opacity:calc(.88 * var(--select-dim)); }
 </style>
 {% include page-sky.html %}
 {% include desk-embed.html %}
-<link rel="stylesheet" href="/css/tool-drawer.css?v=20261013-1">
+<link rel="stylesheet" href="/css/tool-drawer.css?v=20261024-1">
 <script src="/js/keep.js?v=20261014-1" defer></script>
 <script src="/js/tool-drawer.js?v=20261014-1" defer></script>
 </head>

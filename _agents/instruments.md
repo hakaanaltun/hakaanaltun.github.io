@@ -163,3 +163,12 @@ rule written there.
   also carry `v` to load updated pages through the service worker's cache.
   A picture returns to Pictures with Stories, or to the balcony when its sky
   opened it with `from=balcony` (`js/pictures.js`).
+
+## A pointer over an instrument
+
+- **A pointer dims what it is over** (rule in `COLOPHON.md`). Every
+  instrument ends its own `<style>` with the same short block, and the
+  shared stylesheets of The Sun, The Stars and The Desk carry it too; a
+  new instrument takes it. Controls no longer brighten to full ink or
+  darken their borders under a pointer. `_agents/site.md` (Interface
+  details) has the whole of it.

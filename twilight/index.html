@@ -86,7 +86,6 @@ layout: null
     color:var(--muted); text-decoration:none;
     transition:color .2s, opacity .4s ease;
   }
-  .notes-cue:hover{ color:var(--fg); }
   body.immersive .notes-cue{ opacity:0; pointer-events:none; }
 
   .chrome{
@@ -110,18 +109,16 @@ layout: null
   .tools-link{
     font-family:var(--body); font-style:italic; font-size:.95rem; letter-spacing:.03em;
     color:var(--muted); text-decoration:none; white-space:nowrap;
-    transition:color .2s;
+    transition:color .2s, opacity .2s;
   }
-  .tools-link:hover{ color:var(--fg); }
   .tools-link:focus-visible{ outline:2px solid var(--fg); outline-offset:2px; }
 
   .icon-btn{
     background:none; border:1px solid var(--line); color:var(--muted);
     width:40px; height:40px; border-radius:8px; cursor:pointer; font-size:17px;
-    display:grid; place-items:center; transition:color .2s, border-color .2s;
+    display:grid; place-items:center; transition:color .2s, border-color .2s, opacity .2s;
     margin-left:auto;
   }
-  .icon-btn:hover{ color:var(--fg); border-color:var(--muted); }
   .icon-btn:focus-visible{ outline:2px solid var(--fg); outline-offset:2px; }
 
   .stage{
@@ -155,8 +152,7 @@ layout: null
     gap:5px 14px; font-family:var(--body); font-style:italic;
     font-size:0.85rem; letter-spacing:.03em; opacity:.85; max-width:520px;
   }
-  .cities a{ color:var(--muted); text-decoration:none; transition:color .2s; }
-  .cities a:hover{ color:var(--fg); }
+  .cities a{ color:var(--muted); text-decoration:none; transition:color .2s, opacity .2s; }
   .cities a.now{ color:var(--fg); border-bottom:1px solid var(--line); }
 
   /* notes — reading matter under the sky */
@@ -168,17 +164,14 @@ layout: null
   .notes p{ color:var(--muted); font-size:1.05rem; line-height:1.65; margin:0 0 .9rem; }
   .notes code{ font-family:inherit; font-style:italic; color:var(--fg); }
   .notes a{ color:var(--fg); text-decoration:underline; text-underline-offset:3px; text-decoration-color:var(--line); }
-  .notes a:hover{ text-decoration-color:var(--fg); }
   .notes details{ margin:-.2rem 0 1.4rem; }
   .notes summary{
     color:var(--muted); font-size:1.05rem; cursor:pointer;
-    transition:color .2s;
+    transition:color .2s, opacity .2s;
   }
-  .notes summary:hover{ color:var(--fg); }
   .notes .places-list{ margin:.8rem 0 .2rem; line-height:2; }
   .notes .places-list span{ white-space:nowrap; }   /* a name, and the dot after it, stay together */
   .notes .places-list a{ text-decoration-color:transparent; }
-  .notes .places-list a:hover{ text-decoration-color:var(--fg); }
 
   .notes .notes-links{ margin-top:2.4rem; padding-top:1.3rem; border-top:1px solid var(--line); font-style:italic; }
 
@@ -200,6 +193,14 @@ layout: null
   @media (prefers-reduced-motion:reduce){
     *{ transition:none !important; }
   }
+
+  /* A pointer dims what it is over, as everywhere on the site: a link or a
+     button fades a little and nothing else about it changes. The colour
+     swatches are the colours themselves, so they keep their weight. */
+  :root{ --select-dim:.78; }
+  @media (prefers-contrast:more){ :root{ --select-dim:.95; } }
+  :where(a[href], button, summary, select, input[type="date"]){ transition:opacity .2s; }
+  a[href]:hover, button:not(:disabled):not(.swatch):hover, summary:hover, select:hover, input[type="date"]:hover{ opacity:var(--select-dim); }
 </style>
 {% include desk-embed.html %}
 </head>

@@ -17,12 +17,15 @@
 .essay-body .puzzle-instructions{font-size:.95rem;line-height:1.5;color:var(--ink-soft);margin:8px 0 0;}
 .puzzle-action{font:italic 1rem/1.4 'EB Garamond',Georgia,serif;min-height:40px;padding:5px 10px;border:1px solid var(--rule);border-radius:6px;background:transparent;color:var(--ink);cursor:pointer;}
 .puzzle-action:disabled{opacity:.45;cursor:default;}
+/* A pointer dims what it is over, as everywhere on the site. */
+.puzzle-action,.puzzle-unit,.puzzle-expand,.puzzle-scatter-cue,.puzzle-piece,.puzzle-slot,.puzzle-grip{transition:opacity .2s ease;}
+.puzzle-action:not(:disabled):hover,.puzzle-piece:hover,.puzzle-has-selection .puzzle-slot:hover{opacity:var(--select-dim);}
 .puzzle-action[hidden],.puzzle-comparison[hidden],.puzzle-piece[hidden]{display:none;}
 /* The choice of unit, quieter than the actions beneath it. */
 .puzzle-unit-choice{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin-bottom:10px;}
 .puzzle-unit-label{font:italic .9rem/1.4 'EB Garamond',Georgia,serif;color:var(--vizon);margin-right:2px;}
 .puzzle-unit{font:italic .95rem/1.3 'EB Garamond',Georgia,serif;min-height:36px;padding:4px 10px;border:1px solid transparent;border-radius:999px;background:transparent;color:var(--ink-soft);cursor:pointer;}
-.puzzle-unit:hover{color:var(--petrol);}
+.puzzle-unit:hover{opacity:var(--select-dim);}
 .puzzle-unit[aria-pressed="true"]{border-color:var(--petrol);color:var(--petrol);}
 .puzzle-unit:focus-visible{outline:2px solid var(--petrol);outline-offset:2px;}
 /* Hidden instructions leave the panel behind, shrunk to the choice of unit
@@ -62,7 +65,7 @@
 .puzzle-collapsed .puzzle-grip{display:block;width:100%;min-height:22px;padding:4px 0;margin:0 0 2px;
   border:0;background:transparent;color:var(--rule);cursor:grab;touch-action:none;}
 .puzzle-lifted .puzzle-grip,.puzzle-collapsed .puzzle-grip:active{cursor:grabbing;}
-.puzzle-collapsed .puzzle-grip:hover{color:var(--vizon);}
+.puzzle-collapsed .puzzle-grip:hover{opacity:var(--select-dim);}
 .puzzle-grip:focus-visible{outline:2px solid var(--petrol);outline-offset:2px;border-radius:4px;color:var(--petrol);}
 .puzzle-grip-bar{display:block;width:24px;height:3px;margin:0 auto;border-radius:2px;background:currentColor;}
 .puzzle-panel.puzzle-collapsed:hover,.puzzle-panel.puzzle-collapsed:focus-within{opacity:1;}
@@ -71,7 +74,7 @@
 /* The way back to the instructions, offered only once they are hidden. */
 .puzzle-expand{display:none;font:italic .85rem/1.2 'EB Garamond',Georgia,serif;min-height:32px;padding:2px 6px;margin-left:2px;border:0;border-radius:4px;background:transparent;color:var(--vizon);cursor:pointer;}
 .puzzle-collapsed .puzzle-expand{display:inline-block;}
-.puzzle-expand:hover{color:var(--petrol);}
+.puzzle-expand:hover{opacity:var(--select-dim);}
 .puzzle-expand:focus-visible{outline:2px solid var(--petrol);outline-offset:2px;color:var(--petrol);}
 @media(prefers-reduced-motion:reduce){.puzzle-panel.puzzle-collapsed{transition:none;}}
 .puzzle-action:focus-visible,.puzzle-piece:focus-visible,.puzzle-slot:focus-visible{outline:2px solid var(--petrol);outline-offset:3px;}
@@ -85,17 +88,21 @@
 .essay-body .puzzle-sentence-preview{display:inline;margin:0;font:inherit;line-height:inherit;}
 .puzzle-sentence-group{cursor:default;margin-bottom:24px;line-height:1.85;}
 .puzzle-sentence-ready{cursor:pointer;}
-.puzzle-sentence-ready:hover .puzzle-piece-preview{border-color:var(--petrol);}
+.puzzle-sentence-ready:hover{opacity:var(--select-dim);}
 .puzzle-sentence-group .puzzle-board{margin:12px 0 20px;}
 .puzzle-by-words .puzzle-piece-preview{display:inline-block;margin:2px 0;}
-/* A paragraph waiting to be chosen. The halo is drawn with a spread shadow
-   rather than padding so nothing on the page shifts on hover. */
-.puzzle-preview{cursor:pointer;border-radius:6px;transition:background-color .2s ease,box-shadow .2s ease;}
-.puzzle-preview:hover,.puzzle-preview:has(.puzzle-scatter-cue:focus-visible){background:color-mix(in srgb,var(--petrol) 8%,transparent);box-shadow:0 0 0 7px color-mix(in srgb,var(--petrol) 8%,transparent);}
-.puzzle-sentence-group:hover,.puzzle-sentence-group:has(.puzzle-scatter-cue:focus-visible){background:transparent;box-shadow:none;}
+/* A paragraph waiting to be chosen dims under a pointer. Its cue's keyboard
+   focus draws a halo round it, with a spread shadow rather than padding so
+   nothing on the page shifts. A paragraph of sentences is chosen a sentence
+   at a time, so it does not dim as a whole. */
+.puzzle-preview{cursor:pointer;border-radius:6px;transition:background-color .2s ease,box-shadow .2s ease,opacity .2s ease;}
+.puzzle-preview:hover{opacity:var(--select-dim);}
+.puzzle-preview:has(.puzzle-scatter-cue:focus-visible){background:color-mix(in srgb,var(--petrol) 8%,transparent);box-shadow:0 0 0 7px color-mix(in srgb,var(--petrol) 8%,transparent);}
+.puzzle-sentence-group:hover{opacity:1;}
+.puzzle-sentence-group:has(.puzzle-scatter-cue:focus-visible){background:transparent;box-shadow:none;}
 /* The paragraph's one control, in the same quiet voice as "read with rain". */
 .puzzle-scatter-cue{font:italic .85rem/1.2 'EB Garamond',Georgia,serif;letter-spacing:.03em;vertical-align:baseline;padding:2px 6px;border:0;border-radius:4px;background:transparent;color:var(--vizon);cursor:pointer;white-space:nowrap;}
-.puzzle-scatter-cue:hover{color:var(--petrol);}
+.puzzle-sentence-group .puzzle-scatter-cue:hover{opacity:var(--select-dim);}
 .puzzle-scatter-cue:focus-visible{outline:2px solid var(--petrol);outline-offset:2px;color:var(--petrol);}
 .puzzle-board{margin:0 0 32px;padding:20px 0;border-bottom:1px solid var(--rule);font-size:1.05rem;line-height:1.6;scroll-margin-top:160px;}
 .puzzle-paragraph-label{font-size:.875rem;letter-spacing:.03em;color:var(--vizon);margin-bottom:12px;}
@@ -124,7 +131,7 @@
 .puzzle-by-words .puzzle-piece{transform:rotate(var(--puzzle-tilt,0deg));}
 .puzzle-by-words .puzzle-slot{min-width:min(var(--puzzle-space,3em),100%);}
 .puzzle-by-words .puzzle-piece[aria-pressed="true"]{transform:translateY(-3px);}
-.puzzle-has-selection .puzzle-slot:hover,.puzzle-piece[aria-pressed="true"]{border-color:var(--petrol);box-shadow:0 0 0 1px var(--petrol);}
+.puzzle-piece[aria-pressed="true"]{border-color:var(--petrol);box-shadow:0 0 0 1px var(--petrol);}
 .puzzle-slot.puzzle-different{border-style:dotted;border-color:var(--vizon);}
 .puzzle-status{font-size:.875rem;color:var(--ink-soft);}
 .puzzle-comparison{margin-top:18px;padding:16px;border-left:2px solid var(--rule);}

@@ -148,10 +148,23 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   of the window to the picture or the tool. The author settled this in
   October 2026: do not add the site’s header and footer to these places.
   Each frame keeps its own design; do not merge them into one. Fixing a
-  fault in a frame is fine.
+  fault in a frame is fine. Every frame answers a pointer as the rest of
+  the site does (see Interface details).
 
 ## Interface details
 
+- **A pointer dims what it is over, everywhere.** A link or a button
+  answers a pointer in one way across the whole site: it fades a little,
+  and its colour, its border and its size stay as they are. This holds in
+  the frames and the instruments as on the pages. A control that rests
+  faint fades a little further from where it stands. Only pictures answer
+  differently, as the next rule says, and a colour offered as a choice is
+  a picture of that colour. A name or a control that comes into view when
+  a pointer comes near, as the places in a picture do, is not an answer
+  and stays as it is. The author asked for one answer everywhere on
+  24 October 2026, after finding two links that did nothing. Until then
+  the instruments brightened their controls, several buttons took on a
+  colour, and some links and buttons did not answer at all.
 - **A picture never dims when it is chosen.** When a link carries a
   picture and words, a pointer over it dims only the words. The picture
   keeps its full weight and is still part of the link. A faded picture

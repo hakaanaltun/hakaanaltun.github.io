@@ -182,6 +182,11 @@ rule written there.
 - The homepage shows one picture, chosen at random, under Words with
   Stories (`_includes/pictures-with-stories-home.html`). The journey
   through the Solar System takes its turn with its opening scene.
+- **A pointer dims what it is over** (rule in `COLOPHON.md`). The
+  journey's links and buttons dim with one rule at the end of
+  `css/space-journey.css`; its places show their names, and the Pale Blue
+  Dot keeps its weight. The pictures' sources and close buttons dim in
+  `css/pictures.css`.
 - **Full screen is optional.** Each picture offers it through its own
   control and keeps the whole sheet visible, with its proportions and
   clickable places intact. Explanations remain available in full screen.

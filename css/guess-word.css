@@ -21,10 +21,10 @@
   letter-spacing: 0.03em;
   color: var(--vizon);
   cursor: pointer;
-  transition: color 0.2s ease;
+  transition: color 0.2s ease, opacity 0.2s ease;
 }
 .essay-guess:hover,
-.guess-action:hover { color: var(--petrol); }
+.guess-action:not([disabled]):hover { opacity: var(--select-dim); }
 .essay-guess:focus-visible,
 .guess-action:focus-visible { outline: 2px solid var(--petrol); outline-offset: 2px; }
 
@@ -64,7 +64,6 @@
 .guess-next { font-style: normal; font-size: 1.05rem; line-height: 1; }
 @media (max-width: 480px) { .guess-bar .guess-next { font-size: 1rem; } }
 .guess-action[disabled] { color: var(--rule-strong); cursor: default; }
-.guess-action[disabled]:hover { color: var(--rule-strong); }
 
 
 /* The blank sits on the baseline of the line it interrupts, so the paragraph

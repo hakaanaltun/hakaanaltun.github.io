@@ -86,7 +86,6 @@ layout: null
     color:var(--muted); text-decoration:none;
     transition:color .2s, opacity .4s ease;
   }
-  .notes-cue:hover{ color:var(--fg); }
   body.immersive .notes-cue{ opacity:0; pointer-events:none; }
 
   .chrome{
@@ -110,18 +109,16 @@ layout: null
   .tools-link{
     font-family:var(--body); font-style:italic; font-size:.95rem; letter-spacing:.03em;
     color:var(--muted); text-decoration:none; white-space:nowrap;
-    transition:color .2s;
+    transition:color .2s, opacity .2s;
   }
-  .tools-link:hover{ color:var(--fg); }
   .tools-link:focus-visible{ outline:2px solid var(--fg); outline-offset:2px; }
 
   .icon-btn{
     background:none; border:1px solid var(--line); color:var(--muted);
     width:40px; height:40px; border-radius:8px; cursor:pointer; font-size:17px;
-    display:grid; place-items:center; transition:color .2s, border-color .2s;
+    display:grid; place-items:center; transition:color .2s, border-color .2s, opacity .2s;
     margin-left:auto;
   }
-  .icon-btn:hover{ color:var(--fg); border-color:var(--muted); }
   .icon-btn:focus-visible{ outline:2px solid var(--fg); outline-offset:2px; }
 
   .stage{
@@ -134,9 +131,8 @@ layout: null
   .choices button{
     background:none; border:1px solid var(--line); color:var(--muted); font-family:var(--body);
     font-size:14px; padding:8px 18px; border-radius:999px; cursor:pointer; letter-spacing:.02em;
-    transition:color .2s, border-color .2s, background .2s;
+    transition:color .2s, border-color .2s, background .2s, opacity .2s;
   }
-  .choices button:hover{ color:var(--fg); border-color:var(--muted); }
   .choices button[aria-pressed="true"]{ background:var(--fg); color:var(--bg); border-color:var(--fg); }
   .choices button:focus-visible{ outline:2px solid var(--fg); outline-offset:2px; }
   .seg{ display:flex; border:1px solid var(--line); border-radius:999px; overflow:hidden; }
@@ -150,9 +146,8 @@ layout: null
   .play{
     width:clamp(120px, 22vmin, 170px); aspect-ratio:1; border-radius:50%;
     background:none; border:1px solid var(--line); color:var(--fg); cursor:pointer;
-    display:grid; place-items:center; transition:border-color .2s, background .2s;
+    display:grid; place-items:center; transition:border-color .2s, background .2s, opacity .2s;
   }
-  .play:hover{ border-color:var(--fg); }
   .play:focus-visible{ outline:2px solid var(--fg); outline-offset:4px; }
   .play svg{ width:34%; height:34%; fill:var(--fg); }
   .play .icon-pause{ display:none; }
@@ -198,7 +193,6 @@ layout: null
   .notes h3{ font-family:var(--body); font-style:italic; font-weight:400; font-size:1.15rem; margin:1.5rem 0 .35rem; color:var(--fg); }
   .notes p{ color:var(--muted); font-size:1.05rem; line-height:1.65; margin:0 0 .9rem; }
   .notes a{ color:var(--fg); text-decoration:underline; text-underline-offset:3px; text-decoration-color:var(--line); }
-  .notes a:hover{ text-decoration-color:var(--fg); }
   .notes .notes-links{ margin-top:2.4rem; padding-top:1.3rem; border-top:1px solid var(--line); font-style:italic; }
 
   @media (max-width:600px){
@@ -222,6 +216,14 @@ layout: null
   @media (prefers-reduced-motion:reduce){
     *{ transition:none !important; }
   }
+
+  /* A pointer dims what it is over, as everywhere on the site: a link or a
+     button fades a little and nothing else about it changes. The colour
+     swatches are the colours themselves, so they keep their weight. */
+  :root{ --select-dim:.78; }
+  @media (prefers-contrast:more){ :root{ --select-dim:.95; } }
+  :where(a[href], button, summary, select, input[type="date"]){ transition:opacity .2s; }
+  a[href]:hover, button:not(:disabled):not(.swatch):hover, summary:hover, select:hover, input[type="date"]:hover{ opacity:var(--select-dim); }
 </style>
 {% include desk-embed.html %}
 </head>

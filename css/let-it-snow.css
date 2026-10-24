@@ -7,7 +7,10 @@
 .snow-toggle{display:inline-grid;place-items:center;width:44px;height:44px;padding:0;border:0;background:transparent;color:var(--footer-muted);font:400 1.1rem/1 Georgia,serif;cursor:pointer;opacity:.75;transition:opacity .2s ease,color .2s ease;touch-action:manipulation;}
 .snow-toggle[hidden]{display:none;}
 .snow-toggle svg{width:16px;height:16px;}
-.snow-toggle:hover,.snow-toggle[aria-pressed="true"]{opacity:1;color:var(--footer-text);}
+.snow-toggle[aria-pressed="true"]{opacity:1;color:var(--footer-text);}
+/* Under a pointer they dim from wherever they stand, as every control does. */
+.snow-toggle:hover{opacity:calc(.75 * var(--select-dim,.78));}
+.snow-toggle[aria-pressed="true"]:hover{opacity:var(--select-dim,.78);}
 .snow-toggle:focus-visible{opacity:1;outline:1px solid currentColor;outline-offset:2px;border-radius:50%;}
 /* Above the page it falls on, below anything a reader opens over it: the
    footer's own actions menu sits at 40, so 45 put snow on top of it. */

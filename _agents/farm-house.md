@@ -134,3 +134,7 @@ audio until it returns.
   returns to the study (`/house/#study`). Do not give its frame the site's
   name as a link to the homepage; the visitor leaves the farm by the room
   they came from.
+- **A pointer dims what it is over** (rule in `COLOPHON.md`). The farm's
+  buttons and links dim with one rule in its own styles; the photograph
+  straightens and the places in the scenes show their names, as they
+  always have. `_agents/site.md` (Interface details) has the whole of it.

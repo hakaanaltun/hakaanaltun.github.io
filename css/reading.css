@@ -20,7 +20,8 @@
   transform: translateY(-4.5px) rotate(45deg); transition: transform 0.25s ease;
 }
 .reading-options[open] > summary::after { transform: translateY(-1.5px) rotate(-135deg); }
-.reading-options > summary:hover, .reading-options[open] > summary { color: var(--petrol); }
+.reading-options[open] > summary { color: var(--petrol); }
+.reading-options > summary:hover { opacity: var(--select-dim); }
 .reading-options > summary:focus-visible { outline: 2px solid var(--petrol); outline-offset: 2px; }
 .reading-panel {
   width: fit-content; max-width: 100%; margin: 10px auto 0; padding: 12px 16px;
@@ -35,7 +36,7 @@
   background: transparent; color: var(--ink-soft); cursor: pointer;
   font: italic 0.95rem/1.3 'EB Garamond', Georgia, serif;
 }
-.reading-choice button:hover { color: var(--petrol); }
+.reading-choice button:hover { opacity: var(--select-dim); }
 .reading-choice button[aria-pressed="true"] { border-color: var(--petrol); color: var(--petrol); }
 /* The prose's own size, inherited from the same parent as the essay body. */
 .reading-sample {
@@ -47,7 +48,7 @@
   border: 1px solid var(--rule); border-radius: 6px; background: transparent; color: var(--ink); cursor: pointer;
   font: italic 1rem/1.4 'EB Garamond', Georgia, serif;
 }
-.reading-print:hover { border-color: var(--petrol); color: var(--petrol); }
+.reading-print:hover { opacity: var(--select-dim); }
 .reading-panel button:focus-visible { outline: 2px solid var(--petrol); outline-offset: 2px; }
 .reading-note { margin: 10px 0 0; font-size: 0.85rem; line-height: 1.5; color: var(--vizon); }
 @media (max-width: 480px) {
