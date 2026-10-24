@@ -728,7 +728,13 @@ header .hamburger-btn:focus-visible { outline-color: var(--footer-text); }
    15 October 2026, leaving nine, and the chevron went on 17 October 2026;
    the gap stayed as the author last saw it. The links had a pale line
    under them until 15 October 2026, when the author took it out: the
-   header was busy enough, and the names read as a menu without it. */
+   header was busy enough, and the names read as a menu without it.
+   On 24 October 2026 the author asked for the names to be set like the
+   line over a part of the book, "The Fragments · Part I": italic, a size
+   down and a step back from the name above them, which had read as one
+   block with the strip once both wore the same yellow. The footer's
+   credit line takes the same voice. The step is in the colour, not in
+   opacity, so a pointer dims from it and the focus ring keeps full ink. */
 .header-nav-bar {
   width: 100%; max-width: 100%; display: flex; flex-wrap: wrap; justify-content: center;
   gap: 33px; margin-top: 0; padding-right: 0;
@@ -738,7 +744,8 @@ header .hamburger-btn:focus-visible { outline-color: var(--footer-text); }
 .header-nav-bar a {
   display: inline-flex; align-items: center; justify-content: center; padding: 6px 2px;
   border: none; border-radius: 0; background: transparent;
-  font-size: 1.10rem; line-height: 1; color: var(--footer-muted); box-shadow: none;
+  font-style: italic; font-size: .98rem; line-height: 1;
+  color: color-mix(in srgb, var(--footer-text) 85%, transparent); box-shadow: none;
   transition: var(--select-ease);
   flex: 0 0 auto; white-space: nowrap;
 }
@@ -2512,10 +2519,12 @@ footer {
   color: var(--footer-muted);
 }
 
+/* Set like the header's names under the logo (see .header-nav-bar). */
 .footer-credit {
   margin: 0;
-  color: var(--footer-muted);
-  font-size: 0.95rem;
+  color: color-mix(in srgb, var(--footer-text) 85%, transparent);
+  font-style: italic;
+  font-size: 0.98rem;
 }
 
 /* The snowflake and the drop stand just above the site's name, as the
