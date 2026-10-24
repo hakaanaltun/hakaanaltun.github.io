@@ -20,7 +20,6 @@ button:focus-visible,a:focus-visible,select:focus-visible,.divider:focus-visible
 .home-tagline{font:italic .8rem/1.2 var(--body);color:var(--muted)}
 .actions{display:flex;gap:8px;justify-self:end}
 .icon-btn{display:grid;place-items:center;width:38px;height:38px;padding:0;border:1px solid var(--line);border-radius:8px;background:none;color:var(--muted);font-size:18px}
-.icon-btn:hover{color:var(--ink);border-color:var(--muted)}
 .icon-btn svg{width:17px;height:17px}
 .icon-moon{display:var(--icon-moon)}.icon-sun{display:var(--icon-sun)}
 .desk-heading{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 28px}
@@ -29,7 +28,10 @@ h1{margin:0;font:italic 1.9rem/1.1 var(--display);font-weight:400}
 .desk-title p{margin:0;color:var(--muted);font-style:italic}
 .desk-controls{display:flex;gap:18px}
 .desk-controls button{padding:6px 0;background:none;border:0;color:var(--muted);font-style:italic;font-size:.95rem;text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:4px}
-.desk-controls button{transition:opacity .2s ease}.desk-controls button:hover,.desk-controls button:active{opacity:.78}@media (prefers-contrast:more){.desk-controls button:hover,.desk-controls button:active{opacity:.95}}
+/* A pointer dims what it is over, as everywhere on the site. */
+:root{--select-dim:.78}@media (prefers-contrast:more){:root{--select-dim:.95}}
+:where(a[href],button,select){transition:opacity .2s ease}
+a[href]:hover,button:not(:disabled):hover,select:hover,a[href]:active,button:not(:disabled):active{opacity:var(--select-dim)}
 .workspace{--first:calc((100% - 14px)*.5);display:grid;grid-template-columns:minmax(0,var(--first)) 14px minmax(0,1fr);grid-template-rows:minmax(0,1fr);height:calc(100dvh - 185px);min-height:440px;margin:0 22px;border:1px solid var(--line);border-radius:10px;overflow:hidden}
 .panel{grid-row:1;min-width:0;min-height:0;display:flex;flex-direction:column;overflow:hidden}
 .panel[data-slot="0"]{grid-column:1}.panel[data-slot="1"]{grid-column:3}
@@ -43,7 +45,8 @@ h1{margin:0;font:italic 1.9rem/1.1 var(--display);font-weight:400}
 .frame-status button{background:none;border:1px solid var(--line);border-radius:6px;padding:6px 14px}
 .divider{grid-column:2;grid-row:1;display:flex;justify-content:center;align-items:center;cursor:col-resize;touch-action:none;background:var(--paper);border-left:1px solid var(--line);border-right:1px solid var(--line);z-index:3}
 .divider span{width:2px;height:36px;border-radius:2px;background:var(--muted);opacity:.55}
-.divider:hover span,.divider:focus-visible span{opacity:1}
+.divider:hover span{opacity:calc(.55 * var(--select-dim))}
+.divider:focus-visible span{opacity:1}
 .divider:focus-visible{outline-offset:-3px}
 .workspace.resizing{user-select:none;cursor:col-resize}.workspace.resizing iframe{pointer-events:none}
 .workspace[data-focus]{grid-template-columns:minmax(0,1fr)}

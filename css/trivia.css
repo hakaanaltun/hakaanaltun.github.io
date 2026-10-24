@@ -143,7 +143,6 @@
 .trivia-button:hover,
 .trivia-button:active {
   opacity: var(--select-dim);
-  border-color: var(--petrol);
 }
 
 .trivia-button:focus-visible {
@@ -232,7 +231,7 @@
 
 .trivia-choice:hover:not([aria-disabled="true"]),
 .trivia-choice:active:not([aria-disabled="true"]) {
-  border-color: var(--petrol);
+  opacity: var(--select-dim);
 }
 
 .trivia-choice:focus-visible {

@@ -23,8 +23,11 @@ permalink: /farm-house/
     .mast-right{display:flex;align-items:center;gap:28px}
     .location{font:10px var(--sans);text-transform:uppercase;letter-spacing:.19em;color:var(--quiet)}
     .text-button{border:0;background:none;padding:7px 0;font:12px var(--sans);color:var(--quiet);transition:opacity .2s ease}
-    .text-button:hover,.text-button:active{opacity:.78}
-    @media (prefers-contrast:more){.text-button:hover,.text-button:active{opacity:.95}}
+    /* A pointer dims what it is over, as everywhere on the site. The
+       photograph and the places in the pictures keep their own answer. */
+    :where(a[href],button){transition:opacity .2s ease}
+    :is(a[href],button:not(:disabled)):not(.photograph,.hotspot):is(:hover,:active){opacity:.78}
+    @media (prefers-contrast:more){:is(a[href],button:not(:disabled)):not(.photograph,.hotspot):is(:hover,:active){opacity:.95}}
     main{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:0}
     .intro{width:100%;display:flex;flex-direction:column;align-items:center;text-align:center;padding:22px 0 38px}
     .eyebrow{font:10px var(--sans);text-transform:uppercase;letter-spacing:.24em;color:var(--quiet);margin:0 0 22px}
@@ -35,7 +38,6 @@ permalink: /farm-house/
     .photo-inscription{position:absolute;bottom:12px;left:15px;right:15px;font-size:13px;font-style:italic;color:#686d5e}
     .intro-copy{font-size:17px;line-height:1.65;margin:35px 0 16px;max-width:330px}
     .begin{font:11px var(--sans);letter-spacing:.1em;text-transform:uppercase;border:0;border-bottom:1px solid #a6ac99;background:none;padding:10px 0}
-    .begin:hover{border-color:var(--ink)}
     .visit{width:100%;max-width:1440px;padding:0 0 12px}
     .frame{width:min(100%,max(300px,calc((100svh - var(--frame-room,250px))*1.5)));margin:auto;position:relative;background:#454737;isolation:isolate;aspect-ratio:3/2;box-shadow:0 5px 28px #3d423212;overflow:hidden}
     .scene-img{display:block;width:100%;height:100%;object-fit:contain;position:absolute;inset:0;user-select:none}
@@ -68,8 +70,8 @@ permalink: /farm-house/
     }
     .footer{max-width:1440px;width:100%;margin:0 auto;display:flex;justify-content:space-between;gap:20px;padding:18px 0 22px;font:10px var(--sans);letter-spacing:.1em;color:var(--quiet)}
     .footer button,.footer a{font:inherit;color:inherit;background:none;border:0;padding:0;letter-spacing:inherit;text-decoration:underline;text-underline-offset:4px}
-    .footer .sound-toggle{font:italic 13px/1 var(--serif);letter-spacing:.02em;text-decoration:none;padding:3px 6px;margin:-3px 0;transition:color .2s}
-    .footer .sound-toggle:hover,.footer .sound-toggle[aria-pressed="true"]{color:var(--olive)}
+    .footer .sound-toggle{font:italic 13px/1 var(--serif);letter-spacing:.02em;text-decoration:none;padding:3px 6px;margin:-3px 0;transition:color .2s,opacity .2s}
+    .footer .sound-toggle[aria-pressed="true"]{color:var(--olive)}
     .object-dialog{margin:auto;border:0;padding:0;width:min(800px,calc(100vw - 40px));max-height:calc(100svh - 50px);background:var(--paper);color:var(--ink);box-shadow:0 20px 100px #14190f60;overflow:auto}
     .object-dialog::backdrop{background:#151d1bd6;backdrop-filter:blur(4px)}
     .detail-layout{display:grid;grid-template-columns:43% 57%;min-height:350px}

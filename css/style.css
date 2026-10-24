@@ -436,10 +436,12 @@ body.is-home :is(#latest, #start-here, #further-back, #quotes[data-voice="writin
    colour of the page it comes from: the script marks the section
    data-voice="writing" or "story" for a quote from a piece, and a quote from
    the book, like the section before the script runs, stays in the book's.
-   On Writing the book's band speaks in it too. */
+   Wherever else the book stands, it is marked .book-voice and speaks in it
+   too: its band on Writing and its door under "First time here?", as the
+   author asked on 24 October 2026. */
 body.series-book,
 body.is-home :is(#quotes, #home-book),
-.all-work-band#book
+.book-voice
                         { --sec-h: 262; --sec-c: 0.075; --sec-ld: 0.820; --sec-cd: 0.058; }
 /* Moris and The House share a shaded forest green. A little more pigment
    keeps it visibly green on paper; its depth stays close to black. */
@@ -507,10 +509,10 @@ body.is-home :is(#pictures-with-stories, #tonight)
    voice above or stands next to its own colour.
 
    Each theme builds the accent as it does on body. Midnight keeps its single
-   gold. The menu inherits the accent of the page it opens on. The book's band on Writing builds its own
-   the same way.
+   gold. The menu inherits the accent of the page it opens on. The book's
+   places outside its own section (.book-voice) build theirs the same way.
    -------------------------------------------------------------------------- */
-.all-work-band#book,
+.book-voice,
 body.is-home #main > section {
   --sec-accent:      oklch(calc(var(--sec-l) - var(--sec-dl, 0)) var(--sec-c,  0.050) var(--sec-h, 178));
   --sec-accent-dark: oklch(var(--sec-ld, 0.800)  var(--sec-cd, 0.048) var(--sec-h, 178));
@@ -518,13 +520,13 @@ body.is-home #main > section {
   --petrol-deep: color-mix(in srgb, var(--sec-accent) 74%, black);
 }
 @media (prefers-color-scheme: dark) {
-  html:not([data-theme="light"]) .all-work-band#book,
+  html:not([data-theme="light"]) .book-voice,
   html:not([data-theme="light"]) body.is-home #main > section {
     --petrol: var(--sec-accent-dark);
     --petrol-deep: color-mix(in srgb, var(--sec-accent-dark) 72%, #FFFFFF);
   }
 }
-html[data-theme="dark"] .all-work-band#book,
+html[data-theme="dark"] .book-voice,
 html[data-theme="dark"] body.is-home #main > section {
   --petrol: var(--sec-accent-dark);
   --petrol-deep: color-mix(in srgb, var(--sec-accent-dark) 72%, #FFFFFF);
@@ -533,7 +535,7 @@ html[data-theme="dark"] body.is-home #main > section {
    produce a base, then the same 12% white mix serves headings, cards,
    links and page titles. Rebuild it locally on each homepage section. */
 html[data-theme="sky"] body,
-html[data-theme="sky"] .all-work-band#book,
+html[data-theme="sky"] .book-voice,
 html[data-theme="sky"] body.is-home #main > section {
   --sky-accent-base: oklch(max(var(--sec-ld, 0.800), var(--sky-ld-floor, 0.62))
                           var(--sec-cd, 0.048) var(--sec-h, 178));
@@ -541,7 +543,7 @@ html[data-theme="sky"] body.is-home #main > section {
   --petrol: var(--sec-accent-dark);
   --petrol-deep: var(--sec-accent-dark);
 }
-html[data-theme="midnight"] .all-work-band#book,
+html[data-theme="midnight"] .book-voice,
 html[data-theme="midnight"] body.is-home #main > section {
   --petrol: #C6B98F;
   --petrol-deep: #DCD1AC;
@@ -1437,8 +1439,9 @@ section.line-drawn::before,
 .moris-lightbox::backdrop { background: transparent; }
 .moris-lightbox figure { margin: 0; display: flex; align-items: center; justify-content: center; }
 .moris-lightbox img { max-width: min(92vw, 1000px); max-height: 82vh; object-fit: contain; border-radius: 6px; box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5); }
-.moris-lb-btn { position: absolute; display: flex; align-items: center; justify-content: center; width: 46px; height: 46px; padding: 0; border: none; border-radius: 50%; background: transparent; color: rgba(255, 255, 255, 0.75); cursor: pointer; transition: color 0.2s ease, background 0.2s ease; }
-.moris-lb-btn:hover, .moris-lb-btn:active, .moris-lb-btn:focus-visible { color: #FFFFFF; outline: none; }
+.moris-lb-btn { position: absolute; display: flex; align-items: center; justify-content: center; width: 46px; height: 46px; padding: 0; border: none; border-radius: 50%; background: transparent; color: rgba(255, 255, 255, 0.75); cursor: pointer; transition: color 0.2s ease, opacity 0.2s ease; }
+.moris-lb-btn:hover, .moris-lb-btn:active { opacity: var(--select-dim); }
+.moris-lb-btn:focus-visible { color: #FFFFFF; }
 .moris-lb-btn:focus-visible { outline: 2px solid rgba(255, 255, 255, 0.85); outline-offset: -3px; }
 .moris-lb-btn svg { width: 26px; height: 26px; stroke: currentColor; stroke-width: 1.6; fill: none; stroke-linecap: round; stroke-linejoin: round; }
 .moris-lb-close { top: 16px; right: 16px; }
@@ -1512,8 +1515,9 @@ body.moris-lightbox-open { overflow: hidden; }
 
 /* "read with rain" — a quiet toggle under the date line; js/rain-read.js
    unhides it where Web Audio exists and swaps its label while it rains. */
-.essay-rain { background: none; border: none; cursor: pointer; font-family: 'EB Garamond', Georgia, serif; font-style: italic; font-size: 0.92rem; letter-spacing: 0.03em; color: var(--vizon); padding: 2px 6px; margin-top: 2px; transition: color 0.2s ease; }
-.essay-rain:hover, .essay-rain[aria-pressed="true"] { color: var(--petrol); }
+.essay-rain { background: none; border: none; cursor: pointer; font-family: 'EB Garamond', Georgia, serif; font-style: italic; font-size: 0.92rem; letter-spacing: 0.03em; color: var(--vizon); padding: 2px 6px; margin-top: 2px; transition: color 0.2s ease, opacity 0.2s ease; }
+.essay-rain[aria-pressed="true"] { color: var(--petrol); }
+.essay-rain:hover { opacity: var(--select-dim); }
 .essay-rain:focus-visible { outline: 2px solid var(--petrol); outline-offset: 2px; }
 
 /* The moon that was over a piece, under its last line. Small on purpose: it
@@ -1609,8 +1613,8 @@ body.moris-lightbox-open { overflow: hidden; }
    box. Its bottom margin matches the subscribe box's so .more-essays'
    negative top margin still collapses cleanly against it. */
 .essay-afterward { text-align: center; font-style: italic; color: var(--vizon); font-size: 1.02rem; letter-spacing: 0.01em; margin: 0 0 48px; }
-.essay-afterward a { color: var(--petrol); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--rule-strong); transition: text-decoration-color 0.2s ease; }
-.essay-afterward a:hover { text-decoration-color: var(--petrol); }
+.essay-afterward a { color: var(--petrol); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--rule-strong); transition: var(--select-ease); }
+.essay-afterward a:hover { opacity: var(--select-dim); }
 
 /* Sits on the page's own background; its bottom margin matches the
    divider's so .more-essays' negative top margin still collapses
@@ -1651,9 +1655,9 @@ body.moris-lightbox-open { overflow: hidden; }
   font-style: italic;
   font-size: 1.1rem;
   cursor: pointer;
-  transition: background 0.2s ease, color 0.2s ease;
+  transition: background 0.2s ease, color 0.2s ease, opacity 0.2s ease;
 }
-.post-subscribe-form button:hover,
+.post-subscribe-form button:hover { opacity: var(--select-dim); }
 .post-subscribe-form button:focus-visible {
   background: var(--petrol);
   color: var(--paper);
@@ -1750,11 +1754,12 @@ body.moris-lightbox-open { overflow: hidden; }
 /* The source takes the colour of the page it leads to (the voices, above),
    and changes colour as it fades out and in, never in plain sight. */
 .hero-quote-source i { color: var(--petrol); font-style: italic; transition: color 0.55s ease; }
-/* The attribution is not dressed as a link on hover either — same reason as
-   the word on the homepage: the piece is there to be found, not advertised.
-   The focus ring below stays: that one is not decoration, it is the only way
-   a reader moving by keyboard can see where they are. */
+/* The attribution carries no line, and under a pointer it dims like every
+   other link on the site, as the author asked on 24 October 2026. The focus
+   ring below is the only way a reader moving by keyboard can see where they
+   are. */
 .hero-quote-source a { color: inherit; text-decoration: none; }
+.hero-quote-source a:hover, .hero-quote-source a:active { opacity: var(--select-dim); }
 .hero-quote-source a:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; border-radius: 2px; }
 /* Full motion fades the words in one by one, so the card itself swaps
    instantly underneath them. Reduced motion has no words to stagger: the
@@ -1782,27 +1787,20 @@ html[data-theme="sky"] .hero-quote-text { color: var(--ink); }
    same chrome mixed toward white — swapped for the hero band's own text
    tokens so the arrows stay visible. */
 .quote-nav-btn { width: 30px; height: 30px; border-radius: 999px; border: 1px solid transparent; background: transparent; color: var(--hero-source-muted); font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.55rem; line-height: 1; display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: 0.55; box-shadow: none; transition: color 0.2s ease, opacity 0.2s ease; }
-/* Sits at 0.55 unselected, so the same gesture runs the other way: these
-   brighten to full instead of dimming, the way .note-date does. Still one
-   move, still nothing shifting position. */
-.quote-nav-btn:hover, .quote-nav-btn:active, .quote-nav-btn:focus-visible { color: var(--ink); opacity: 1; outline: none; }
+/* Sits at 0.55 and dims from there under a pointer, as every control on the
+   site does since 24 October 2026; until then these brightened to full.
+   Keyboard focus still brings them up to full ink. */
+.quote-nav-btn:hover, .quote-nav-btn:active { opacity: calc(0.55 * var(--select-dim)); }
+.quote-nav-btn:focus-visible { color: var(--ink); opacity: 1; outline: none; }
 @media (prefers-color-scheme: dark) {
   html:not([data-theme="light"]) .quote-nav-btn { color: var(--ink-soft); }
-  html:not([data-theme="light"]) .quote-nav-btn:hover,
-  html:not([data-theme="light"]) .quote-nav-btn:active,
   html:not([data-theme="light"]) .quote-nav-btn:focus-visible { color: var(--ink); }
 }
 html[data-theme="dark"] .quote-nav-btn,
 html[data-theme="midnight"] .quote-nav-btn,
 html[data-theme="sky"] .quote-nav-btn { color: var(--ink-soft); }
-html[data-theme="dark"] .quote-nav-btn:hover,
-html[data-theme="dark"] .quote-nav-btn:active,
 html[data-theme="dark"] .quote-nav-btn:focus-visible,
-html[data-theme="midnight"] .quote-nav-btn:hover,
-html[data-theme="midnight"] .quote-nav-btn:active,
 html[data-theme="midnight"] .quote-nav-btn:focus-visible,
-html[data-theme="sky"] .quote-nav-btn:hover,
-html[data-theme="sky"] .quote-nav-btn:active,
 html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
 
 @media (hover: hover) {
@@ -1996,6 +1994,7 @@ html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
   font-weight: 500; font-size: var(--type-group); line-height: 1.05;
   letter-spacing: -0.01em; color: var(--petrol-deep); margin-bottom: 16px;
 }
+.home-book-title a:hover, .home-book-title a:active { opacity: var(--select-dim); }
 /* One paragraph to a panel. Each panel is 48px narrower than the row and
    the gap takes 24px of that, so the next paragraph's first letters show at
    the right edge, faded: the sign that the row goes on. The 24px after the
@@ -2020,8 +2019,8 @@ html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
 }
 .home-book-strip em { font-style: italic; color: var(--petrol); }
 .home-book-strip.fade-r { -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 32px), transparent 100%); mask-image: linear-gradient(to right, #000 calc(100% - 32px), transparent 100%); }
-/* ‹ › for a mouse that cannot scroll sideways. They take the section's
-   accent under a pointer, and the end the row has reached goes faint. The
+/* ‹ › for a mouse that cannot scroll sideways. They dim under a pointer,
+   and the end the row has reached goes fainter still. The
    buttons hang into the margin so the first glyph lines up with the text
    above. */
 .home-book-nav { display: flex; gap: 2px; margin: 8px 0 0 -11px; }
@@ -2034,7 +2033,7 @@ html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
   transition: opacity 0.2s ease, color 0.2s ease;
 }
 .home-book-btn:hover:not(:disabled),
-.home-book-btn:active:not(:disabled) { color: var(--petrol); }
+.home-book-btn:active:not(:disabled) { opacity: var(--select-dim); }
 .home-book-btn:focus-visible { outline: 2px solid var(--petrol); outline-offset: -4px; opacity: 1; }
 .home-book-btn:disabled { opacity: 0.3; cursor: default; }
 .home-book-intro {
@@ -2177,6 +2176,8 @@ html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
 .work-side { grid-area: side; display: flex; flex-direction: column; align-items: flex-end; gap: 4px; text-align: right; white-space: nowrap; }
 .work-date { font-size: 0.85rem; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
 .work-tag { font-size: 0.68rem; letter-spacing: 0.13em; text-transform: uppercase; color: var(--petrol); }
+/* The book's parts carry its blue, as the book does wherever it stands. */
+.book-voice .work-title { color: var(--petrol); }
 .work-read { font-style: italic; font-size: 0.8rem; color: var(--vizon); }
 
 @media (max-width: 680px) {
@@ -2239,6 +2240,7 @@ html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
   font-size: 1.1rem; line-height: 1.62; color: var(--vizon);
 }
 .book-reading-note a { color: var(--petrol); text-underline-offset: 3px; }
+.book-reading-note a:hover, .book-reading-note a:active { opacity: var(--select-dim); }
 
 /* Full book parts use the essay column without pretending to be dated posts. */
 .book-part { padding-bottom: 64px; }
@@ -2328,7 +2330,7 @@ html[data-theme="light"] .book-part-header h1 { color: var(--sec-accent-dark); }
   color: var(--vizon); text-decoration: none; font-size: 1rem;
   font-style: italic; line-height: 1.35; transition: var(--select-ease);
 }
-.book-part-contents a:hover, .book-part-contents a:active { color: var(--petrol); }
+.book-part-contents a:hover, .book-part-contents a:active { opacity: var(--select-dim); }
 .book-part-contents a:focus-visible {
   outline: 2px solid var(--petrol); outline-offset: 3px; border-radius: 2px;
 }
@@ -2799,10 +2801,11 @@ html[data-theme="sky"] .footer-strip { border-top: 0; }
   color: var(--vizon);
   text-align: left;
   cursor: pointer;
-  transition: color 0.2s ease, background 0.2s ease;
+  transition: color 0.2s ease, background 0.2s ease, opacity 0.2s ease;
 }
 
-.theme-menu-item:hover,
+.theme-menu-item:hover { opacity: var(--select-dim); }
+
 .theme-menu-item:focus-visible {
   color: var(--ink);
   background: color-mix(in srgb, var(--ink) 8%, transparent);
@@ -3405,7 +3408,7 @@ html[data-theme="sky"] .footer-strip { border-top: 0; }
 }
 .home-daily-trivia-choice:hover:not([aria-disabled="true"]),
 .home-daily-trivia-choice:active:not([aria-disabled="true"]) {
-  border-color: var(--petrol);
+  opacity: var(--select-dim);
 }
 .home-daily-trivia-choice:focus-visible {
   outline: 2px solid var(--petrol);
@@ -3593,7 +3596,7 @@ html[data-theme="sky"] .footer-strip { border-top: 0; }
   transition: opacity 0.2s ease;
 }
 
-.note-date:hover,
+.note-date:hover { opacity: calc(0.72 * var(--select-dim)); }
 .note-date:focus-visible { opacity: 1; }
 
 /* .note-date is the one part of a note the home strip shares, and the strip
@@ -3607,6 +3610,9 @@ html[data-theme="sky"] .footer-strip { border-top: 0; }
   opacity: 0.78;
   font-size: 0.72rem;
 }
+/* The rule above outweighs .note-date:hover, so the wall says it again. */
+.notes-list .note-date:hover { opacity: calc(0.78 * var(--select-dim)); }
+.notes-list .note-date:focus-visible { opacity: 1; }
 
 /* The tack. It is pressed through the top edge of the card, half on the paper
    and half on the wall, which is the whole reason a pinned note needs no date

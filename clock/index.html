@@ -87,7 +87,6 @@ layout: null
     color:var(--muted); text-decoration:none;
     transition:color .2s, opacity .4s ease;
   }
-  .notes-cue:hover{ color:var(--fg); }
   body.immersive .notes-cue{ opacity:0; pointer-events:none; }
 
   .chrome{
@@ -102,9 +101,8 @@ layout: null
     background:none; border:1px solid transparent; color:var(--muted);
     font-family:var(--body); font-size:16px; letter-spacing:.02em;
     padding:8px 18px; border-radius:999px; cursor:pointer;
-    transition:color .2s, background .2s;
+    transition:color .2s, background .2s, opacity .2s;
   }
-  .tab:hover{ color:var(--fg); }
   .tab[aria-selected="true"]{ color:var(--bg); background:var(--accent); }
   .tab:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
 
@@ -115,7 +113,6 @@ layout: null
     color:var(--muted); text-decoration:none; white-space:nowrap;
     transition:color .2s, opacity .4s ease;
   }
-  .tools-link:hover{ color:var(--fg); }
   .tools-link:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
   .toggle{
     display:flex; align-items:center; gap:8px; color:var(--muted);
@@ -125,9 +122,8 @@ layout: null
   .icon-btn{
     background:none; border:1px solid var(--line); color:var(--muted);
     width:40px; height:40px; border-radius:8px; cursor:pointer; font-size:17px;
-    display:grid; place-items:center; transition:color .2s, border-color .2s;
+    display:grid; place-items:center; transition:color .2s, border-color .2s, opacity .2s;
   }
-  .icon-btn:hover{ color:var(--fg); border-color:var(--muted); }
   .icon-btn:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
 
   .stage{ flex:1; display:grid; place-items:center; position:relative; text-align:center; padding:24px; }
@@ -167,7 +163,7 @@ layout: null
   .analog-face .tick.fine{ stroke:var(--muted); stroke-width:1; opacity:.5; }
   .analog-face .num{ fill:var(--muted); font-family:var(--display); font-size:13px; text-anchor:middle; dominant-baseline:central; }
   .pom-rounds{ display:flex; gap:12px; justify-content:center; margin-top:1.7rem; }
-  .pom-dot{ width:10px; height:10px; border-radius:999px; border:1px solid var(--muted); transition:background .2s, border-color .2s; }
+  .pom-dot{ width:10px; height:10px; border-radius:999px; border:1px solid var(--muted); transition:background .2s, border-color .2s, opacity .2s; }
   .pom-dot.done{ background:var(--accent); border-color:var(--accent); }
   .pom-dot.now{ border-color:var(--fg); }
   .analog-face .ring-fg{ fill:none; stroke:var(--alert); stroke-width:4; stroke-linecap:round; transform:rotate(-90deg); transform-origin:100px 100px; display:none; }
@@ -183,11 +179,9 @@ layout: null
     font-family:var(--display); font-style:italic; font-size:1.25rem;
     padding:9px 28px; border-radius:0; cursor:pointer;
     border:1px solid var(--line); background:none; color:var(--fg);
-    transition:background .2s, color .2s, border-color .2s;
+    transition:background .2s, color .2s, border-color .2s, opacity .2s;
   }
-  .btn:hover{ border-color:var(--fg); }
   .btn.primary{ background:var(--accent); color:var(--bg); border-color:var(--accent); }
-  .btn.primary:hover{ filter:brightness(1.06); }
   .btn:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
 
   .mode-row{ display:flex; gap:10px; justify-content:center; align-items:center; margin-bottom:1.8rem; flex-wrap:wrap; }
@@ -257,7 +251,6 @@ layout: null
   .notes p{ color:var(--muted); font-size:1.05rem; line-height:1.65; margin:0 0 .9rem; }
   .notes code{ font-family:inherit; font-style:italic; color:var(--fg); }
   .notes a{ color:var(--fg); text-decoration:underline; text-underline-offset:3px; text-decoration-color:var(--line); }
-  .notes a:hover{ text-decoration-color:var(--fg); }
   .notes .notes-links{ margin-top:2.4rem; padding-top:1.3rem; border-top:1px solid var(--line); font-style:italic; }
 
   /* tablets & phones: logo top-center, fullscreen top-right, tabs full-width below
@@ -313,6 +306,14 @@ layout: null
     body.alarm{ animation:none; }
     *{ transition:none !important; }
   }
+
+  /* A pointer dims what it is over, as everywhere on the site: a link or a
+     button fades a little and nothing else about it changes. The colour
+     swatches are the colours themselves, so they keep their weight. */
+  :root{ --select-dim:.78; }
+  @media (prefers-contrast:more){ :root{ --select-dim:.95; } }
+  :where(a[href], button, summary, select, input[type="date"]){ transition:opacity .2s; }
+  a[href]:hover, button:not(:disabled):not(.swatch):hover, summary:hover, select:hover, input[type="date"]:hover{ opacity:var(--select-dim); }
 </style>
 {% include desk-embed.html %}
 </head>

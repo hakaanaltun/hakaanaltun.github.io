@@ -22,7 +22,8 @@ body.reading-pdf #typeRow{display:none;}
 .pdf-side-next{right:var(--pdf-nav-right,4px);}
 .pdf-nav-visible .pdf-side-arrow,.pdf-touch-nav .pdf-side-arrow,.pdf-side-arrow:focus-visible{opacity:.85;pointer-events:auto;}
 .pdf-nav-visible .pdf-side-arrow:disabled,.pdf-touch-nav .pdf-side-arrow:disabled{opacity:.25;cursor:default;}
-.pdf-side-arrow:hover,.pdf-side-arrow:focus-visible{color:var(--ink);opacity:1;}
+.pdf-nav-visible .pdf-side-arrow:not(:disabled):hover,.pdf-touch-nav .pdf-side-arrow:not(:disabled):hover{opacity:calc(.85 * var(--select-dim,.78));}
+.pdf-side-arrow:focus-visible{color:var(--ink);opacity:1;}
 .pdf-side-arrow:focus-visible{outline:2px solid var(--ink);outline-offset:3px;}
 .pdf-touch-nav{padding-inline:44px;}
 @media(prefers-reduced-motion:reduce){.pdf-side-arrow{transition:none;}}

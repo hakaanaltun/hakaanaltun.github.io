@@ -572,9 +572,11 @@ html[data-theme="light"][data-palette="12"]:not([data-sky]) body { --chrome-rgb:
    inherits everything and only takes back the focus ring. */
 .palette-preview-btn {
   font: inherit; color: var(--ink); background: none; border: 0; padding: 0;
-  cursor: pointer; text-align: left; transition: color 0.2s ease;
+  cursor: pointer; text-align: left; transition: var(--select-ease);
 }
-.palette-preview:hover .palette-preview-btn { color: var(--petrol); }
+/* The whole preview takes a click; only its name dims, and the colours keep
+   their weight. */
+.palette-preview:hover .palette-preview-btn { opacity: var(--select-dim); }
 .palette-preview-btn:focus-visible { outline: 2px solid var(--petrol); outline-offset: 3px; border-radius: 3px; }
 .palette-current-mark { color: var(--petrol); }
 .palette-preview-tag { font-size: 0.82rem; font-style: italic; color: var(--vizon); white-space: nowrap; }
