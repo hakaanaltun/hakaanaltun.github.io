@@ -322,7 +322,7 @@ html[data-theme="midnight"] body {
   /* Restore Midnight's original single gold voice across every section. */
   --petrol: #C6B98F;
   --petrol-deep: #DCD1AC;
-  --writing-accent: oklch(0.780 0.010 250);
+  --writing-accent: #C6B98F;
 }
 
 /* ==========================================================================
@@ -397,8 +397,9 @@ html[data-theme="sky"] body {
    palettes do: 5.0:1 at worst (Trivia), and above 4.5:1 on its band.
 
    Midnight pins --petrol to its own single gold further up, so its navy and
-   gold stay as they are; only the writing keeps its silver there, and the
-   homepage keeps the gold.
+   gold stay as they are on every section. Notes and then the writing wore
+   a silver there until 24 October 2026, when the author asked for every
+   section to be gold, so that Midnight differs from the other themes.
    ========================================================================== */
 :root {
   --sec-l: 0.513;   /* Ash & Gold — the palest paper in the wardrobe */
@@ -506,8 +507,7 @@ body.is-home :is(#pictures-with-stories, #tonight)
    voice above or stands next to its own colour.
 
    Each theme builds the accent as it does on body. Midnight keeps its single
-   gold, with silver for the writing. The menu inherits the accent of the
-   page it opens on. The book's band on Writing builds its own
+   gold. The menu inherits the accent of the page it opens on. The book's band on Writing builds its own
    the same way.
    -------------------------------------------------------------------------- */
 .all-work-band#book,
@@ -545,15 +545,6 @@ html[data-theme="midnight"] .all-work-band#book,
 html[data-theme="midnight"] body.is-home #main > section {
   --petrol: #C6B98F;
   --petrol-deep: #DCD1AC;
-}
-/* The writing keeps its silver in Midnight’s otherwise gold palette, and
-   the homepage keeps the gold, as the author asked on 24 October 2026.
-   Notes wore the silver until that day, when the writing took its colour. */
-html[data-theme="midnight"] :is(body.series-default, body.series-series,
-  body.series-on-series, body.series-cafe-series),
-html[data-theme="midnight"] body.is-home #main > #quotes[data-voice="writing"] {
-  --petrol: var(--sec-accent-dark);
-  --petrol-deep: color-mix(in srgb, var(--petrol) 72%, #FFFFFF);
 }
 
 /* ========================================================================== 

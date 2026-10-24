@@ -127,19 +127,17 @@
   /* The two darks, in the same display shape as a palette so one builder
      covers every part of the page. Their grounds and type are read off the
      [data-theme] blocks in css/style.css. Dark prints each voice at its
-     night lightness and chroma; Midnight pins every section to its gold,
-     and only the writing keeps its silver there. */
-  var WRITING = VOICES.filter(function (v) { return v.page === 'default'; })[0];
+     night lightness and chroma; Midnight pins every section to its gold. */
   var DARKS = [
     { key: 'dark',     name: 'Dark',     tag: 'the warm night',
       paper: '#1C1B18', inkSoft: '#D7CEB8', vizon: '#A29A8A',
       chrome: '#171613', ftext: '#EFE7D4', fmuted: '#C3BAA4',
       acc: VOICES.map(function (v) { return oklch(v.ld, v.cd, v.h); }) },
-    { key: 'midnight', name: 'Midnight', tag: 'parliament blue, gold and silver',
+    { key: 'midnight', name: 'Midnight', tag: 'parliament blue and gold',
       paper: '#10161F', inkSoft: '#C6B98F', vizon: '#C6B98F',
       chrome: '#0D1219', ftext: '#DCD1AC', fmuted: '#C6B98F',
-      acc: [oklch(WRITING.ld, WRITING.cd, WRITING.h), '#C6B98F'],
-      accLabels: ['Writing', 'Every other section'] }
+      acc: ['#C6B98F'],
+      accLabels: ['Every section'] }
   ];
 
   /* The sky's own painter, from _includes/site-sky.html. It writes its
