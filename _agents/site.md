@@ -165,7 +165,7 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   this on 19 October 2026, in place of the slate and green that took turns
   down the page. Every homepage section is named in one of the voices in
   `css/style.css` ("Section identity"), the one its section's page speaks
-  in: Latest and Further back in the writing's graphite, the book in its blue,
+  in: Latest and Further back in the homepage's own teal, the book in its blue,
   The Notice in a deep indigo (an ivy green and then a wine red from the
   evening of 19 October 2026, while it stood beside the book's blue, until
   the author moved it under Latest on 20 October 2026 and asked for the
@@ -215,7 +215,13 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   were tried and read as the plum of Words below it. On Writing the Book
   band speaks in the book's blue (`.all-work-band#book`, which builds its
   own accent as a homepage section does), as the author asked the same
-  day.
+  day. After that change was merged, the author pointed out that Latest
+  and Further back belong to the homepage rather than to a section page,
+  so they keep the homepage's own teal with "First time here?". The titles
+  of the pieces in them keep the writing's graphite, which is cooler and
+  lighter than the ink (`--writing-accent` and `--writing-accent-deep`,
+  set in every theme). The quotes from the pieces, the pieces themselves,
+  Series and Writing wear the graphite too.
 - **The night opens towards the horizon.** The shared ramp keeps its
   night stops through -6 degrees and turns grey-violet as the sun nears
   the horizon, where the day takes over; in the evening the slate stands
