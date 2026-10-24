@@ -107,32 +107,36 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   be seen from a distance, so the instruments kept their four squares.
   The controls run in this order, as the author asked the same day: the
   theme, the instruments, the drawer, and sharing.
-- **The strip's names are set like the line over a part of the book.**
+- **The strip's names stand a step back from the site's name, upright.**
   On 24 October 2026, with every word in the header the same yellow, the
   author found the strip under the name reading as part of it, and asked
   for The House, Writing and the rest to look like "The Fragments ·
-  Part I" (`.book-part-kicker`): EB Garamond italic at .98rem, in
-  `--footer-text` at 85%. The footer's credit line, the one line under
-  the name there, was asked to follow the same way. The step is
-  written into the colour with `color-mix()` rather than as opacity, so
-  a pointer dims from it like any control that rests faint and the focus
-  ring keeps full ink. It holds 4.5:1 on the chrome in every theme; the
-  first light palette is the closest, at 4.77:1.
+  Part I" (`.book-part-kicker`): .98rem, in `--footer-text` at 85%. The
+  footer's credit line, the one line under the name there, was asked to
+  follow the same way. Both were set in that line's italic too, and once
+  it was merged the author found that the italic put the site off
+  balance: the strip, the menu and the credit stay upright EB Garamond,
+  in title case. Do not set them in italic again unless the author asks.
+  Upright, the strip's names came up a touch at the author's request,
+  from .98rem to 1.04rem, still under the 1.10rem they had before.
+  The step is written into the colour with `color-mix()` rather than as
+  opacity, so a pointer dims from it like any control that rests faint
+  and the focus ring keeps full ink. It holds 4.5:1 on the chrome in
+  every theme; the first light palette is the closest, at 4.77:1.
 - **The site's menu names its sections the same way.** Later on
-  24 October 2026 the author asked, as a trial, for the menu's section
-  names (`.drawer-label` and `.drawer-section-links a`) to follow the
-  header: EB Garamond italic, in title case. Until then they stood in
-  13px capitals with wide letter-spacing. At the header's .98rem a
-  section's name read as one of the italic links inside it ("All in
-  Essays", 15px), so the author asked the same day for the names a size
-  up, at 1.1rem. They keep the page's voice, as the menu always has, and
-  a line-height of 1 keeps each row within 2px of the height the
-  capitals gave it.
+  24 October 2026 the author asked for the menu's section names
+  (`.drawer-label` and `.drawer-section-links a`) to follow the header in
+  title case. Until then they stood in 13px capitals with wide
+  letter-spacing. At .98rem a section's name read as one of
+  the italic links inside it ("All in Essays", 15px), so the names stand
+  a size up, at 1.1rem. They keep the page's voice, as the menu always
+  has, and a line-height of 1 keeps each row within 2px of the height
+  the capitals gave it.
 - **The row of sections on Writing and Series is set the same way.** The
   author asked on 24 October 2026 for `.work-jump` ("Short Fiction ·
   Essays · Series · Book" and "The Corner · The On Series") to leave its
-  spaced capitals for EB Garamond italic at .98rem, in title case. It
-  holds one line down to a 320px screen.
+  spaced capitals for the menu's title case, at .98rem and upright with
+  it. It holds one line down to a 320px screen.
 - **Rain and snow stand above the site's name.** The footer's snowflake
   and drop stand centred just above "On Life & Everything", as the author
   asked on 15 October 2026; until then they stood under the credit line.
