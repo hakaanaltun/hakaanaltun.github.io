@@ -82,6 +82,10 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   the browser-reported IANA time zone. No location permission is
   requested. If the zone is unknown, keep the existing nominal-equatorial
   fallback rather than pretending to know the visitor’s latitude.
+- **Light is the site’s default.** Follow the sky was the default from
+  21 October 2026. On 25 October 2026 the author found it not yet right
+  and asked for Light to come back as the default, with Follow the sky
+  kept among the themes, to be taken up again another day.
 - **The House is in İstanbul.** Its calendar day, light, sunrise and sunset,
   moon visibility, room period, Moris’s movement, wall clock, and the
   balcony with its sky all use İstanbul time and coordinates
