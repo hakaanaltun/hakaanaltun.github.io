@@ -156,8 +156,18 @@
     TOKENS.forEach(function(t){ st.removeProperty(t); });
     root.removeAttribute("data-sky");
   }
+  /* Light keeps the sun's two halves too: from sunrise to sunset its paper
+     is white and the header's and footer's words take 70% white
+     (css/palettes.css), and from sunset to sunrise it is Light as it was.
+     Only the site's own Ash & Gold turns; a chosen palette stays as it is. */
+  function markLight(){
+    var root = document.documentElement;
+    if(root.getAttribute("data-theme") === "light" && !root.hasAttribute("data-sky")
+       && S.sunNow().alt >= S.SUNRISE) root.setAttribute("data-light-day", "");
+    else root.removeAttribute("data-light-day");
+  }
   window.OLAE_SITE_SKY = {
-    paint: paint, clear: clear,
+    paint: paint, clear: clear, markLight: markLight,
     paintNow: function(){ paint(S.sunNow()); },
     tokensNow: function(){ return tokens(S.sunNow()); },
     isOn: function(){ return document.documentElement.hasAttribute("data-sky"); }

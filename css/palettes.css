@@ -612,6 +612,20 @@ html[data-theme="light"][data-palette="12"]:not([data-sky]) body { --chrome-rgb:
    --chrome-rgb, so it is handed down here, as the palettes' are above. */
 html[data-sky="day"] body { --chrome-rgb: var(--sky-chrome-rgb) !important; }
 
+/* Light by day: from sunrise to sunset the site's own Ash & Gold is on
+   white paper, and the header's and footer's words take 70% white.
+   _includes/site-sky.html marks the day with data-light-day; from sunset
+   to sunrise Light is as it was. A chosen palette keeps its own paper. */
+html[data-theme="light"][data-light-day]:not([data-palette]):not([data-sky]) {
+  --bg: #FFFFFF;
+  --paper: #FFFFFF;
+  --footer-strip-bg: #FFFFFF;
+  --drawer-bg: rgba(255, 255, 255, 0.985);
+  --footer-text: color-mix(in srgb, #DCD1AC 30%, #FFFFFF);
+  --footer-muted: color-mix(in srgb, #C6B98F 30%, #FFFFFF);
+  --header-border: rgba(245, 241, 230, 0.20);
+}
+
 /* The footer theme menu's doorway to /themes/ — a plain divider below
    Follow the sky, then the link on its own; quieter than a sixth radio
    item. */

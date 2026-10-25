@@ -150,7 +150,7 @@
      menu leaves it. The no-op stands in if the file is ever not on the page:
      the wardrobe still works, minus its last card. */
   var sky = window.OLAE_SITE_SKY
-    || { paint: function () {}, paintNow: function () {}, clear: function () {} };
+    || { paint: function () {}, paintNow: function () {}, clear: function () {}, markLight: function () {} };
 
   /* Follow the sky in the same display shape as the rest — except that none
      of it is written down here. site-sky.html computes the theme's whole
@@ -362,6 +362,7 @@
       localStorage.setItem('theme', 'light');
     } catch (e) { /* private mode */ }
     document.documentElement.setAttribute('data-theme', 'light');
+    sky.markLight();
     themeMetaSync();
     sync();
   }
@@ -377,6 +378,7 @@
   function chooseTheme(t) {
     document.documentElement.setAttribute('data-theme', t);
     if (t === 'sky') sky.paintNow(); else sky.clear();
+    sky.markLight();
     try { localStorage.setItem('theme', t); } catch (e) { /* private mode */ }
     themeMetaSync();
     sync();
@@ -412,16 +414,17 @@
     });
 
     var face = '<b class="site-face">' + name.replace(/&/g, '&amp;') + '</b>';
-    if (t === 'sky' && !localSkyChoice()) {
-      status.innerHTML = 'The site follows the sky by default. Pick any theme to keep it on this device.';
-    } else if (themeChosen) {
+    if (themeChosen) {
       var pick = '<b class="site-face">' + THEME_NAMES[t] + '</b>';
       status.innerHTML = chosen === 1
         ? pick + ' is yours on this device, until you pick another.'
         : pick + ' is yours on this device&mdash;' + face + ' is still stored, and comes back the next time the day is on.';
-    } else if (chosen === 1) {
+    } else if (chosen === 1 && t === 'system') {
       status.innerHTML = 'No palette chosen&mdash;the site keeps its own <b class="site-face">Ash &amp; Gold</b> '
         + 'by day, and turns to <b class="site-face">Dark</b> when the day is off.';
+    } else if (chosen === 1) {
+      status.innerHTML = 'No palette chosen&mdash;the site keeps its own <b class="site-face">Ash &amp; Gold</b>, '
+        + 'on white from sunrise to sunset.';
     } else if (dayIsOn()) {
       status.innerHTML = face + ' is yours on this device, until you pick another.';
     } else {
@@ -430,10 +433,6 @@
       status.innerHTML = face + ' is stored, but the site is on a dark theme right now'
         + '&mdash;pick it again to turn the day on.';
     }
-  }
-
-  function localSkyChoice() {
-    try { return localStorage.getItem('theme') === 'sky'; } catch (e) { return false; }
   }
 
   /* Is the light path the one CSS is painting? An explicit theme decides it;

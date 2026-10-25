@@ -142,13 +142,18 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
 
 ## Themes
 
-- **Follow the sky is the default.** Since 21 October 2026 a reader who
-  has chosen nothing gets Follow the sky, and "system" follows the
-  device's light or dark (`_includes/head.html`, `js/theme.js`). A page
+- **Light is the default, white by day** (rule in `COLOPHON.md`). A
+  reader who has chosen nothing gets Light (`_includes/head.html`,
+  `js/theme.js`), and "system" follows the device's light or dark.
+  `markLight()` in `_includes/site-sky.html` sets `data-light-day` on
+  `<html>` while the sun is up (`SUNRISE`, the same turn as Follow the
+  sky's, so `?hour=` works) and only on Light without a palette;
+  `css/palettes.css` paints that day. `js/theme.js` re-marks it every
+  minute, and `js/palettes.js` whenever /themes/ sets a theme. A page
   outside the default layout that reads the theme itself does the same:
-  the door to Part III (`story/9r2m.html`) learned it on 23 October 2026,
-  two days late, after a reader on the default had come to it from a
-  night-blue page and found it white.
+  the door to Part III (`story/9r2m.html`), and the instruments
+  (`_includes/page-sky.html`), whose Light is unchanged. From
+  21 to 25 October 2026 Follow the sky was the default here.
 - **Follow the sky has a day and a night.** On 23 October 2026 the author
   found the sky's daytime slate too dark, and asked for a light day in a
   new series: Fog and Blueprint, and in place of Pudra a colour near them.

@@ -1,5 +1,6 @@
 /* theme.js — footer theme menu (system / light / dark / midnight / sky).
-   The effective theme is the stored choice if any, else Follow the sky.
+   The effective theme is the stored choice if any, else Light, which is
+   white from sunrise to sunset (markLight in _includes/site-sky.html).
    "System" is an explicit stored choice with no data-theme attribute:
    CSS follows prefers-color-scheme and tracks it live.
    head.html applies the choice to
@@ -31,7 +32,7 @@
      The no-op stands in only if it is ever not: the menu still works and
      Sky simply lands on the attribute without colours, rather than the
      whole footer menu dying on a missing global. */
-  var sky = window.OLAE_SITE_SKY || { paint: function () {}, paintNow: function () {}, clear: function () {} };
+  var sky = window.OLAE_SITE_SKY || { paint: function () {}, paintNow: function () {}, clear: function () {}, markLight: function () {} };
   var mq = window.matchMedia('(prefers-color-scheme: dark)');
   function effective() {
     if (document.documentElement.hasAttribute('data-sky')) return 'sky';
@@ -40,9 +41,10 @@
   function apply(t) {
     /* System = no attribute at all: CSS falls back to prefers-color-scheme
        and keeps following it live when the OS preference changes. */
-    if (t === 'system') { sky.clear(); document.documentElement.removeAttribute('data-theme'); return; }
+    if (t === 'system') { sky.clear(); document.documentElement.removeAttribute('data-theme'); sky.markLight(); return; }
     document.documentElement.setAttribute('data-theme', t);
     if (t === 'sky') sky.paintNow(); else sky.clear();
+    sky.markLight();
   }
   /* Keep <meta name="theme-color"> on the active palette. A manual choice
      pins both metas to the chosen colour (data-light/data-dark/data-midnight,
@@ -133,9 +135,10 @@
   if (mq.addEventListener) mq.addEventListener('change', function () { syncThemeColor(); syncMenu(); });
 
   /* The sky keeps moving while the page stays open: re-paint once a
-     minute, and on return to a tab that sat in the background. */
+     minute, and on return to a tab that sat in the background. Light
+     turns with it at sunrise and sunset. */
   function refreshSky() {
-    if (effective() !== 'sky') return;
+    if (effective() !== 'sky') { sky.markLight(); return; }
     sky.paintNow();
   }
   setInterval(refreshSky, 60000);
