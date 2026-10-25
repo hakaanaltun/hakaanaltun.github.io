@@ -142,13 +142,13 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
 
 ## Themes
 
-- **Follow the sky is the default.** Since 21 October 2026 a reader who
-  has chosen nothing gets Follow the sky, and "system" follows the
-  device's light or dark (`_includes/head.html`, `js/theme.js`). A page
-  outside the default layout that reads the theme itself does the same:
-  the door to Part III (`story/9r2m.html`) learned it on 23 October 2026,
-  two days late, after a reader on the default had come to it from a
-  night-blue page and found it white.
+- **Light is the default** (rule in `COLOPHON.md`). A reader who has
+  chosen nothing gets Light (`_includes/head.html`, `js/theme.js`), and
+  "system" follows the device's light or dark. A page outside the
+  default layout that reads the theme itself does the same: the door to
+  Part III (`story/9r2m.html`) and the instruments
+  (`_includes/page-sky.html`). From 21 to 25 October 2026 Follow the sky
+  was the default; a reader who chose it keeps it.
 - **Follow the sky has a day and a night.** On 23 October 2026 the author
   found the sky's daytime slate too dark, and asked for a light day in a
   new series: Fog and Blueprint, and in place of Pudra a colour near them.

@@ -9,8 +9,8 @@ data-default restores the system-preference behaviour. {% endcomment %}
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#171613" data-light="rgb({{ _tc }})" data-dark="#171613" data-midnight="#0D1219" data-default="#171613">
 {% comment %} Apply a stored theme choice before first paint — no flash — and
 point the theme-color metas at the chosen palette in the same breath.
-Without a stored choice, the site follows the sky. An explicit System
-choice keeps following prefers-color-scheme.
+Without a stored choice, the site is Light. An explicit System choice
+keeps following prefers-color-scheme.
 
 "sky" is not a palette but a rule, and the one theme whose colours are
 computed rather than written: sky-ramp.html says where the sun is,
@@ -25,7 +25,7 @@ choice, kept. {% endcomment %}
 <script>(function(){var t;try{t=localStorage.getItem('theme');
 if(t==='dusk'){t='sky';try{localStorage.setItem('theme','sky')}catch(e){}}}catch(e){}
 if(t==='system')return;
-if(t!=='dark'&&t!=='light'&&t!=='midnight'&&t!=='sky')t='sky';
+if(t!=='dark'&&t!=='light'&&t!=='midnight'&&t!=='sky')t='light';
 document.documentElement.setAttribute('data-theme',t);
 if(t==='sky'){window.OLAE_SITE_SKY.paintNow();return;}
 var m=document.querySelectorAll('meta[name="theme-color"]');for(var i=0;i<m.length;i++){var v=m[i].getAttribute('data-'+t);if(v)m[i].setAttribute('content',v);}})();</script>
