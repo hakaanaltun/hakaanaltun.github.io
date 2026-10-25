@@ -149,7 +149,8 @@ The site has two deliberate ideas of place. Do not collapse them into one.
 - **Inside, The House wears its own colours.** At the door the page keeps
   the theme the reader chose. In the study and on the balcony the page,
   its header and its footer take the rooms’ colours instead: their cream
-  in the morning, by day and in the evening, and a warm dark at night. Like the rooms’ light, they follow İstanbul’s hour. The
+  in the morning, by day and in the evening, and a warm dark at night.
+  Like the rooms’ light, they follow İstanbul’s hour. The
   author asked for this on 25 October 2026, when the light slate of Follow
   the sky by day did not suit the rooms. The same day the author asked for
   the header and footer to move with İstanbul’s sun as Follow the sky’s
@@ -160,7 +161,9 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   chose the lighter; the words still read at the accessible minimum or
   better at every hour. The page first turned dark with the evening, and
   the author found it too dark the same day: the rooms show their own
-  evening, so the page keeps its cream until night.
+  evening, so the page keeps its cream until night. The author also
+  asked for the night’s dark to be a little lighter than the near-black
+  it first was.
 - **A place that fills the window has its own quiet frame.** This applies to the
   Farm House, each picture in Pictures with Stories and each instrument. The
   frame gives a way back and the place’s own controls, and leaves the rest
