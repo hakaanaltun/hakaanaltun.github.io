@@ -430,19 +430,27 @@ body.series-on-series,
 body.series-cafe-series,
 body.is-home,
 body.series-home,
-body.is-home :is(#latest, #start-here, #further-back, #quotes[data-voice="writing"])
+body.is-home :is(#latest, #further-back, #quotes[data-voice="writing"])
                         { --sec-h: 250; --sec-c: 0.012; --sec-ld: 0.780; --sec-cd: 0.010; }
 /* The book, and the quotes at the top of the homepage. A quote takes the
    colour of the page it comes from: the script marks the section
    data-voice="writing" or "story" for a quote from a piece, and a quote from
    the book, like the section before the script runs, stays in the book's.
    Wherever else the book stands, it is marked .book-voice and speaks in it
-   too: its band on Writing and its door under "First time here?", as the
-   author asked on 24 October 2026. */
+   too: its band on Writing, as the author asked on 24 October 2026. Its
+   door under "First time here?" wore it too until 25 October, when the
+   author gave that section back its teal, The Fragments with it. */
 body.series-book,
 body.is-home :is(#quotes, #home-book),
 .book-voice
                         { --sec-h: 262; --sec-c: 0.075; --sec-ld: 0.820; --sec-cd: 0.058; }
+/* "First time here?" — the teal. It was the homepage's, and the site's
+   furniture's before that, until 24 October 2026, when the homepage took
+   the writing's graphite. On 25 October the author asked for it back
+   here, the book's door included, so that the colour belongs to this
+   section alone. */
+body.is-home #start-here
+                        { --sec-h: 178; --sec-c: 0.050; --sec-ld: 0.800; --sec-cd: 0.048; }
 /* Moris and The House share a shaded forest green. A little more pigment
    keeps it visibly green on paper; its depth stays close to black. */
 body.series-moris,

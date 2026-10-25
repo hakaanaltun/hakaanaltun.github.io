@@ -161,13 +161,13 @@ function page(modals, setup) {
   assert.ok(table.length, 'js/palettes.js lists the voices');
   const ruleFor = (page) => {
     for (const m of css.matchAll(/([^{}]+)\{\s*--sec-h:\s*(\d+);\s*--sec-c:\s*([\d.]+);\s*--sec-ld:\s*([\d.]+);\s*--sec-cd:\s*([\d.]+);(?:\s*--sec-dl:\s*([^;]+);)?\s*\}/g)) {
-      if (m[1].split(',').some(sel => sel.trim() === 'body.series-' + page)) return m;
+      if (m[1].split(',').some(sel => [ 'body.series-' + page, 'body.is-home #' + page ].includes(sel.trim()))) return m;
     }
     return null;
   };
   for (const [, label, page, h, c, ld, cd, dl] of table) {
     const rule = ruleFor(page);
-    assert.ok(rule, label + ': style.css has a voice for body.series-' + page);
+    assert.ok(rule, label + ': style.css has a voice for body.series-' + page + ' or #' + page);
     assert.deepEqual([+h, +c, +ld, +cd, +dl], [+rule[2], +rule[3], +rule[4], +rule[5], rule[6] ? +rule[6] : 0],
       label + '’s swatch on /themes/ matches its voice in style.css');
   }
