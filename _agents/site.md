@@ -142,13 +142,15 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
 
 ## Themes
 
-- **Light is the default** (rule in `COLOPHON.md`). A reader who has
-  chosen nothing gets Light (`_includes/head.html`, `js/theme.js`), and
-  "system" follows the device's light or dark. A page outside the
-  default layout that reads the theme itself does the same: the door to
-  Part III (`story/9r2m.html`) and the instruments
-  (`_includes/page-sky.html`). From 21 to 25 October 2026 Follow the sky
-  was the default; a reader who chose it keeps it.
+- **Follow the sky is the default** (rule in `COLOPHON.md`). A reader
+  who has chosen nothing gets Follow the sky, and "system" follows the
+  device's light or dark (`_includes/head.html`, `js/theme.js`). A page
+  outside the default layout that reads the theme itself does the same:
+  the door to Part III (`story/9r2m.html`) and the instruments
+  (`_includes/page-sky.html`). The door learned it on 23 October 2026,
+  two days late, after a reader on the default had come to it from a
+  night-blue page and found it white. Light was the default for a few
+  hours on 25 October 2026; a reader who chose it then keeps it.
 - **Follow the sky has a day and a night.** On 23 October 2026 the author
   found the sky's daytime slate too dark, and asked for a light day in a
   new series: Fog and Blueprint, and in place of Pudra a colour near them.
@@ -223,12 +225,14 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   above, which are kept as the record of what was tried. By day `DAY` in
   `_includes/sky-ramp.html` is one white paper, and only the chrome
   moves, `chromeAt(prog)`, from `CHROME_DAWN` to `CHROME_DUSK` along
-  `dayProgress()` (0 at sunrise, 1 at sunset); the header's words are
-  white. By night `nightAt()` is the ramp at no higher than `NIGHT_TOP`
+  `dayProgress()` (0 at sunrise, 1 at sunset); the header's and
+  footer's words are white, by night as well since later that day
+  (`_includes/site-sky.html`): the author asked for no yellow there at
+  all. By night `nightAt()` is the ramp at no higher than `NIGHT_TOP`
   (-6°), so the page is navy from sunset; `evening()`, `EVENING_ENDS`
   and `SLATE` are gone. The accents have no white (`--sky-accent-white`
   is gone), and `--sky-ld-floor` was raised to keep 4.6:1 on the cards
-  without it. `wordsAt()` stays for the night's words and for The House.
+  without it. `wordsAt()` stays for The House alone.
 
 - **The House's rooms wear their own colours** (rule in `COLOPHON.md`).
   While the study or the balcony is open, `data-house-theme` on `<html>`
@@ -305,8 +309,9 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   Later that day the author asked for the book to wear its own colour
   wherever it appears: the titles of Part I and Part II in that band, and
   the book's door under "First time here?" on the homepage, now carry it
-  too (the door gave it up on 25 October; see below). A new place for the book outside its own section takes
-  `.book-voice`. The site's menu still takes the colour of the page it
+  too (the door gave it up on 25 October; see below). On 25 October 2026
+  the author asked for Writing to keep its own colour throughout, the
+  book's band included, and `.book-voice` was taken out. The site's menu still takes the colour of the page it
   opens on (see The site's header and footer). After that change was merged, the author pointed out that Latest
   and Further back belong to the homepage rather than to a section page,
   and then asked for the homepage itself to take the writing's graphite,

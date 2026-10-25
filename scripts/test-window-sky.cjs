@@ -183,10 +183,10 @@ for(const month of [0,3,6,9])for(const hour of [0,6,12,18]){
     assert(ratio(css('--footer-text'),chrome)>=6,'footer text on the chrome'+at);
     assert(ratio(over(css('--footer-text'),chrome,0.85),chrome)>=4.5,'the menu on the chrome'+at);
     assert.equal(css('--footer-muted'),css('--footer-text'),'one tone in the header and footer'+at);
+    assert.equal(css('--footer-text'),'rgb(255,255,255)','white words, by day and by night'+at);
     assert.equal(css('--sky-accent-white'),'','no white in the accents'+at);
     if(day){
       assert.equal(css('--paper'),'rgb(255,255,255)','white all day'+at);
-      assert.equal(css('--footer-text'),'rgb(255,255,255)','white words by day'+at);
       if(prog===0)assert.equal(css('--sky-chrome-rgb'),'86, 99, 111','the lightest slate at sunrise');
       if(prog===1)assert.equal(css('--sky-chrome-rgb'),'40, 52, 68','the darkest slate at sunset');
       assert.equal(css('--note-base'),'','the night\'s tokens are taken off by day'+at);
@@ -195,7 +195,6 @@ for(const month of [0,3,6,9])for(const hour of [0,6,12,18]){
       assert.equal(css('--sky-chrome-rgb'),'','the day\'s tokens are taken off by night'+at);
       assert.notEqual(css('--note-base'),'','the note wall'+at);
       if(alt>=-6)assert.equal(css('--paper'),'rgb(44,58,82)','navy from sunset'+at);
-      if(alt===-30)assert.equal(css('--footer-text'),'rgb(248,235,194)','the full yellow in the deepest night');
     }
   }
   s.SITE.clear();

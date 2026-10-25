@@ -10,7 +10,7 @@ permalink: /story/9r2m/
 <meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>&nbsp;</title>
-{% comment %} The site's own theme, read as head.html reads it: Light
+{% comment %} The site's own theme, read as head.html reads it: Follow the sky
 unless the reader chose another, and the system's light or dark when they
 chose that. The sky paints --paper and its ink tiers before first paint.
 Until 23 October 2026 this page knew only Light, Dark and Midnight, so a
@@ -20,8 +20,7 @@ reader on the default sky came in from a night-blue page to a white one.
 {% include site-sky.html %}
 <script>(function(){var t;try{t=localStorage.getItem('theme');}catch(e){}
 if(t==='system')return;
-if(t==='dusk')t='sky';
-else if(t!=='dark'&&t!=='light'&&t!=='midnight'&&t!=='sky')t='light';
+if(t==='dusk'||(t!=='dark'&&t!=='light'&&t!=='midnight'))t='sky';
 document.documentElement.setAttribute('data-theme',t);
 if(t==='sky')window.OLAE_SITE_SKY.paintNow();})();</script>
 <style>
