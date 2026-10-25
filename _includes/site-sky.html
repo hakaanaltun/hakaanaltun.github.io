@@ -118,10 +118,12 @@
   function tokens(sun){
     var day = sun.alt >= S.SUNRISE, t = day ? dayTokens(sun.prog) : nightTokens(sun.alt);
     t.day = day;
-    /* the header's and footer's words, one tone: white by day on the
-       slate, and by night the site's yellow opening with the sky
-       (sky-ramp.html's wordsAt) */
-    var words = day ? [255, 255, 255] : S.wordsAt(sun);
+    /* the header's and footer's words, one tone: white, by day on the
+       slate and by night on the band. Until 25 October 2026 the night's
+       were the site's yellow opening with the sky (sky-ramp.html's
+       wordsAt, which The House still uses); the author asked for no
+       yellow there at all. */
+    var words = [255, 255, 255];
     t["--footer-text"] = S.rgb(words);
     t["--footer-muted"] = S.rgb(words);
     if(day) t["--header-border"] = "rgba(" + words.join(",") + ",0.20)";

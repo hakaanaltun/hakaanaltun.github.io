@@ -1,5 +1,5 @@
 /* theme.js — footer theme menu (system / light / dark / midnight / sky).
-   The effective theme is the stored choice if any, else Light.
+   The effective theme is the stored choice if any, else Follow the sky.
    "System" is an explicit stored choice with no data-theme attribute:
    CSS follows prefers-color-scheme and tracks it live.
    head.html applies the choice to
