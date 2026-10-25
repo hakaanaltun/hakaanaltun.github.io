@@ -409,7 +409,7 @@ body {
   --sec-accent-dark: oklch(var(--sec-ld, 0.800)  var(--sec-cd, 0.048) var(--sec-h, 178));
   /* The homepage can borrow the writing voice without changing the colour of
      the section it sits in. This is the same accent used by essay titles. */
-  --writing-accent: oklch(var(--sec-l) 0.012 250);
+  --writing-accent: oklch(var(--sec-l) 0.024 250);
 }
 
 /* Each voice is named once, with every page that speaks in it and every
@@ -423,7 +423,10 @@ body {
    dark grounds. The writing wore the homepage's teal until 24 October 2026,
    when the author asked for the colour Notes wore then, and later that day
    for the homepage to take it too: every page without a voice of its own
-   already spoke in the writing's, and the homepage was the last in teal. */
+   already spoke in the writing's, and the homepage was the last in teal.
+   On 25 October 2026 the author asked for a little navy in the grey by
+   day: the day's chroma went from 0.012 to 0.024. The night's silver is
+   as it was. */
 body.series-default,
 body.series-series,
 body.series-on-series,
@@ -431,7 +434,7 @@ body.series-cafe-series,
 body.is-home,
 body.series-home,
 body.is-home :is(#latest, #further-back, #quotes[data-voice="writing"])
-                        { --sec-h: 250; --sec-c: 0.012; --sec-ld: 0.780; --sec-cd: 0.010; }
+                        { --sec-h: 250; --sec-c: 0.024; --sec-ld: 0.780; --sec-cd: 0.010; }
 /* The book, and the quotes at the top of the homepage. A quote takes the
    colour of the page it comes from: the script marks the section
    data-voice="writing" or "story" for a quote from a piece, and a quote from

@@ -278,7 +278,12 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   the sky. On 24 October the author asked for the writing to take that
   colour instead, its headings on Writing with it, as a trial. Light
   palettes use their own lightness with chroma 0.012 and hue 250; dark
-  themes use lightness 0.780 and chroma 0.010. Notes
+  themes use lightness 0.780 and chroma 0.010. On 25 October 2026 the
+  author asked for a little navy in that grey by day and none by night:
+  the day's chroma went to 0.024 at the same hue, so Latest, Further
+  back, the menu and the pieces' titles lean blue on paper, and the
+  silver of the dark themes and of the sky's night is as it was. A
+  stronger navy (hue 258, 0.032, by night as well) was tried first. Notes
   then stood under Further back in the same colour, and the author asked
   for a soft colour for Notes that sits well with the others: a clay,
   hue 40, on the warm side that no other voice uses. A rose and a mauve

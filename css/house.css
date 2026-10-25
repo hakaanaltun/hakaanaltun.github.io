@@ -428,7 +428,7 @@ html.house-inside[data-house-theme="day"] body {
   --sec-accent: oklch(calc(var(--sec-l) - var(--sec-dl, 0)) var(--sec-c, 0.050) var(--sec-h, 178));
   --petrol: var(--sec-accent);
   --petrol-deep: color-mix(in srgb, var(--sec-accent) 74%, black);
-  --writing-accent: oklch(var(--sec-l) 0.012 250);
+  --writing-accent: oklch(var(--sec-l) 0.024 250);
 }
 html.house-inside[data-house-theme="night"] body {
   color-scheme: dark;
