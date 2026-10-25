@@ -1312,10 +1312,45 @@
   /* The House's own colours (css/house.css). At the door the page wears
      the site's theme; in a room it wears the House's, which follows
      İstanbul's light as the rooms do: their cream in the morning and by
-     day, and a warm dark from the evening, when the lamps come on. The
-     browser's own bar follows the header, and at the door the site's
-     theme points it back where it was. */
+     day, and a warm dark from the evening, when the lamps come on.
+
+     The header and footer move with İstanbul's sun every minute, as Follow
+     the sky's do with the reader's: before sunrise they lighten out of the
+     night's dark as the sky opens, and by day they are a beige at its
+     lightest at noon and darker toward the horizon. From the evening, when
+     the page turns dark with the lamps, they are the night's dark, a shade
+     under the page, as Follow the sky's header is by night; the author
+     found a beige still darkening over the dark page too light, on
+     25 October 2026. Their words are Follow the sky's
+     (wordsAt in _includes/sky-ramp.html), the site's yellow with white
+     mixed in as the sky opens, for İstanbul's sun. The author chose this
+     lighter beige over one that keeps the site's 7:1 for the header's
+     words, on 25 October 2026: they hold 5.6:1 and the quieter tier 4.6:1
+     at every minute. The browser's own bar follows the header, and at the
+     door the site's theme points it back where it was. Without the sky's
+     script the header keeps the colours css/house.css gives it. */
+  var HEADER = { noon: [110, 98, 80], horizon: [90, 80, 64], night: [23, 20, 15] };
+  var HEADER_TOKENS = ['--surface-chrome', '--surface-footer', '--footer-text', '--footer-muted', '--header-border'];
   var HOUSE_CHROME = { day: '#4E4638', night: '#17140F' };
+  function istanbulEvening(now, alt, S) {
+    var p = parts(now, { hour: '2-digit', minute: '2-digit', hourCycle: 'h23' });
+    var h = +p.hour + +p.minute / 60;
+    if (h < 12 || h >= 21) return 0;
+    var last = S.sunAltitude(new Date(now.getTime() + (21 - h) * 3600000), LAT, LNG);
+    return last >= 0 ? 0 : Math.max(0, Math.min(1, 1 - alt / last));
+  }
+  function headerNow(theme) {
+    var S = window.OLAE_SKY;
+    if (!S || !S.wordsAt) return null;
+    var now = new Date();
+    var alt = S.sunAltitude(now, LAT, LNG);
+    var sun = { alt: alt, share: S.arcShare(now, LAT, LNG), eve: istanbulEvening(now, alt, S) };
+    var open = S.lerp(Math.max(0, Math.min(1, (alt + 18) / 18)), 1, sun.eve);
+    var chrome = theme === 'night' ? HEADER.night
+      : alt >= S.SUNRISE ? S.mix(HEADER.horizon, HEADER.noon, sun.share) : S.mix(HEADER.night, HEADER.horizon, open);
+    var words = S.wordsAt(sun);
+    return { chrome: S.rgb(chrome), words: S.rgb(words), border: 'rgba(' + words.join(',') + ',0.20)' };
+  }
   function wearTheme() {
     var page = document.documentElement;
     var hour = scene.dataset.hour;
@@ -1323,9 +1358,19 @@
     var was = page.getAttribute('data-house-theme') || '';
     if (theme) page.setAttribute('data-house-theme', theme);
     else page.removeAttribute('data-house-theme');
+    var header = theme && headerNow(theme);
+    var body = document.body.style;
+    HEADER_TOKENS.forEach(function (token) { body.removeProperty(token); });
+    if (header) {
+      body.setProperty('--surface-chrome', header.chrome);
+      body.setProperty('--surface-footer', header.chrome);
+      body.setProperty('--footer-text', header.words);
+      body.setProperty('--footer-muted', header.words);
+      body.setProperty('--header-border', header.border);
+    }
     var metas = document.querySelectorAll('meta[name="theme-color"]');
     if (theme) {
-      Array.prototype.forEach.call(metas, function (meta) { meta.setAttribute('content', HOUSE_CHROME[theme]); });
+      Array.prototype.forEach.call(metas, function (meta) { meta.setAttribute('content', header ? header.chrome : HOUSE_CHROME[theme]); });
     } else if (was) {
       if (window.OLAE_SITE_SKY && window.OLAE_SITE_SKY.isOn()) window.OLAE_SITE_SKY.paintNow();
       else if (window.__themeColorSync) window.__themeColorSync();
