@@ -153,10 +153,24 @@
      evening holds it up as the evening holds up the slate; by day it goes
      along the arc. */
   var WORDS = [248, 235, 194], WHITE = [255, 255, 255], HORIZON_WHITE = 0.40, NOON_WHITE = 0.70;
+  /* How far the night has opened, 0 at its darkest and 1 at the horizon. */
+  function nightOpen(sun){
+    return lerp(Math.max(0, Math.min(1, (sun.alt + 18) / 18)), 1, sun.eve || 0);
+  }
   function wordsAt(sun){
     var white = sun.alt >= SUNRISE ? lerp(HORIZON_WHITE, NOON_WHITE, sun.share)
-      : HORIZON_WHITE * lerp(Math.max(0, Math.min(1, (sun.alt + 18) / 18)), 1, sun.eve || 0);
+      : HORIZON_WHITE * nightOpen(sun);
     return mixChannels(WORDS, WHITE, white);
+  }
+  /* The white in the sections' accents by night, in the same rhythm as the
+     header's words: 12% at the darkest of the night, as every accent had
+     before, rising to the words' 40% at the horizon. The author asked for
+     it on 25 October 2026, so that the headings open with the header. By
+     day the accents print dark on light paper, and white would take them
+     under AA (2.4:1 at 40%), so they are left as they are. */
+  var ACCENT_WHITE = 0.12;
+  function accentWhiteAt(sun){
+    return lerp(ACCENT_WHITE, HORIZON_WHITE, nightOpen(sun));
   }
   /* The evening's ground: the slate the day had at noon until 23 October
      2026, with the ramp's full light ink. */
@@ -268,7 +282,7 @@
     CREAM: CREAM, DAYINK: DAYINK,
     pickCity: pickCity, sunAltitude: sunAltitude, arcShare: arcShare,
     now: now, sunAt: sunAt, sunNow: sunNow,
-    SUNRISE: SUNRISE, dayAt: dayAt, nightAt: nightAt, wordsAt: wordsAt,
+    SUNRISE: SUNRISE, dayAt: dayAt, nightAt: nightAt, wordsAt: wordsAt, accentWhiteAt: accentWhiteAt,
     skyAt: skyAt, mix: mixChannels, luminance: luminance, over: over, rgb: rgb,
     lerp: lerp
   };

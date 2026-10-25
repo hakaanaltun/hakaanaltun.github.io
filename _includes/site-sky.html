@@ -19,7 +19,8 @@
   mix. The tiers are alpha over the ground, so the hierarchy holds at every
   altitude; ink is at least 6.5:1 and --vizon 5.5:1. Every section keeps its
   own hue, chroma and minimum lightness; the shared floor follows the
-  ground, and style.css mixes the base with 12% white once.
+  ground, and style.css mixes the base with white once: 12% at the
+  darkest of the night, rising with the header's words to 40% at the horizon.
 
   The block is computed and returned before it is applied, because it has a
   second reader: the Follow the sky card on /themes/ is painted from the
@@ -39,7 +40,7 @@
   var TOKENS = ["--bg","--paper","--surface-soft","--band","--sky-band-hero","--note-base",
     "--footer-strip-bg","--ink","--ink-soft","--vizon","--footer-strip-ink","--footer-text",
     "--footer-muted","--hero-source-muted","--rule","--rule-strong","--rule-cream",
-    "--header-border","--drawer-bg","--sky-ld-floor","--sky-chrome-rgb","--sec-l"];
+    "--header-border","--drawer-bg","--sky-ld-floor","--sky-accent-white","--sky-chrome-rgb","--sec-l"];
 
   /* Every token the day moves, for one share of the way to noon. The
      colours are sky-ramp.html's DAY; this is only where each one goes. */
@@ -98,7 +99,8 @@
     /* the drawer slides over the page and wants the ground almost opaque */
     t["--drawer-bg"] = "rgba(" + g.join(",") + ",0.985)";
 
-    /* Fit to the final 12%-white accents, not the unmixed base. */
+    /* Fit to the accents at their least white, 12%, not the unmixed base;
+       more white only lifts them further off the night. */
     var groundLuminance = S.luminance(g);
     t["--sky-ld-floor"] = Math.max(0.56, Math.min(0.99,
       0.51949 + 0.59895 * Math.sqrt(groundLuminance)
@@ -121,6 +123,8 @@
     t["--footer-text"] = S.rgb(words);
     t["--footer-muted"] = S.rgb(words);
     if(day) t["--header-border"] = "rgba(" + words.join(",") + ",0.20)";
+    /* by night the accents' white opens with them (accentWhiteAt) */
+    else t["--sky-accent-white"] = (S.accentWhiteAt(sun) * 100).toFixed(1) + "%";
     /* the header and footer: the day's chrome, or by night the band, which
        is what the night's header and footer are painted with */
     t.chrome = day ? "rgb(" + t["--sky-chrome-rgb"] + ")" : t["--band"];

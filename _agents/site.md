@@ -252,7 +252,12 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   chroma 0.050, lightness 0.780). The shared floor follows the final mixed colors,
   retaining contrast above 4.5:1 across the night ramp, including the hero. The
   theme preview applies the same floor, mix and current section hues. This
-  rule is exclusive to Follow the sky's night. By day the accents print
+  rule is exclusive to Follow the sky's night. On 25 October 2026 the
+  author asked for the white to open with the night as the header's words
+  do: 12% at the darkest of the night, rising to 40% at sunset and sunrise
+  (`accentWhiteAt()` in `_includes/sky-ramp.html`, painted as
+  `--sky-accent-white`). Day was left out: the accents print dark on light
+  paper, and 40% white would bring them to 2.4:1. By day the accents print
   as on the light palettes, from a `--sec-l` the day's stops carry (0.480,
   0.495 and 0.490), each a little under the palette's own, so the colours
   between the stops still clear 4.5:1 on the band.
