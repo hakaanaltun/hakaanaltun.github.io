@@ -178,9 +178,9 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   chrome. On 25 October 2026 the author asked for those words to follow
   the sky, by night as well as by day (`wordsAt()` in
   `_includes/sky-ramp.html`): the full `#F8EBC2` while the night is at
-  its darkest, white mixed in as the sky opens, half white at noon, and
-  back as slowly. At sunrise and sunset they are the `#FAF0D1` of the
-  day before. By night they had been the night's light ink. The ink still turns at
+  its darkest, white mixed in as the sky opens and back as slowly. Later
+  that day the author set the amounts: 40% white at sunrise and sunset,
+  70% at noon, none at the darkest of the night. By night they had been the night's light ink. The ink still turns at
   sunset, from the darkest light slate to the evening's slate. The way is
   measured along the sun's arc, from where it rises to the day's own
   noon (`arcShare()`), so the paper moves through the whole day in every

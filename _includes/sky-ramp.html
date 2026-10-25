@@ -146,17 +146,17 @@
      gold read as dull on the slate. On 25 October 2026 the author asked
      for it to follow the sky: the full yellow (#F8EBC2) while the night is
      at its darkest, white mixed into it as the sky opens, and the most at
-     noon, then back to the yellow as slowly. `open` is the sky's way from
-     the deepest night to noon: the night's half rises with the sun from
+     noon, then back to the yellow as slowly. Later that day the author
+     set the amounts: none at the darkest of the night, 40% at sunrise and
+     sunset, and 70% at noon. By night the white rises with the sun from
      -18°, where the ramp is at its darkest, to the horizon, and the
-     evening holds it up as the evening holds up the slate; the day's half
-     goes along the arc. At sunrise and sunset it is halfway, 25% white,
-     the #FAF0D1 the author had chosen the day before for the whole day. */
-  var WORDS = [248, 235, 194], WHITE = [255, 255, 255], WORDS_WHITE = 0.5;
+     evening holds it up as the evening holds up the slate; by day it goes
+     along the arc. */
+  var WORDS = [248, 235, 194], WHITE = [255, 255, 255], HORIZON_WHITE = 0.40, NOON_WHITE = 0.70;
   function wordsAt(sun){
-    var open = sun.alt >= SUNRISE ? 0.5 + 0.5 * sun.share
-      : 0.5 * lerp(Math.max(0, Math.min(1, (sun.alt + 18) / 18)), 1, sun.eve || 0);
-    return mixChannels(WORDS, WHITE, WORDS_WHITE * open);
+    var white = sun.alt >= SUNRISE ? lerp(HORIZON_WHITE, NOON_WHITE, sun.share)
+      : HORIZON_WHITE * lerp(Math.max(0, Math.min(1, (sun.alt + 18) / 18)), 1, sun.eve || 0);
+    return mixChannels(WORDS, WHITE, white);
   }
   /* The evening's ground: the slate the day had at noon until 23 October
      2026, with the ramp's full light ink. */
