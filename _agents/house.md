@@ -313,6 +313,14 @@ and sky.
   measured height as well as its width, because a size container has no
   height of its own. Look at all three on a desk and a phone, both ways
   up, before changing one.
+- **The status line keeps its room in full screen.** On 25 October 2026
+  the author found the picture jumping when the lamp was lit: the empty
+  line kept 1.4em, and its first words stood at the page's taller line
+  height, so the picture shrank by a few pixels. Its line height now
+  matches the room kept for it, and upright it keeps two lines, since a
+  phone can break the longest message ("The lamp flickers. …"). On a
+  short screen lying on its side it stands apart from the picture and
+  moves nothing.
 - **The House's own colours** (rule in `COLOPHON.md`). `wearTheme()` in
   `js/house.js` sets `data-house-theme` on `<html>` while a room is open:
   `day` in İstanbul's morning and day, `night` from its evening, read

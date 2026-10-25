@@ -198,7 +198,7 @@ for(const month of [0,3,6,9])for(const hour of [0,6,12,18]){
       if(eve===1)assert.equal(css('--sky-accent-white'),'40.0%','the accents\' white at the horizon'+at);
     }
     if(alt===0)assert.equal(css('--paper'),'rgb(193,204,213)','the darkest light slate at sunrise and sunset');
-    if(alt===60)assert.equal(css('--paper'),'rgb(244,247,250)','the palest slate at noon');
+    if(alt===60)assert.equal(css('--paper'),'rgb(255,255,255)','white at noon');
   }
   s.SITE.clear();
   assert.equal(s.root.hasAttribute('data-sky'),false);

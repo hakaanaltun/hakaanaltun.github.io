@@ -63,7 +63,7 @@
      written under, or the homepage section it is written for, and scripts/test-pictures.cjs fails when this table and
      style.css disagree. */
   var VOICES = [
-    { label: 'Writing',     page: 'default',  h: 250, c: 0.012, ld: 0.780, cd: 0.010, dl: 0 },
+    { label: 'Writing',     page: 'default',  h: 250, c: 0.024, ld: 0.780, cd: 0.010, dl: 0 },
     { label: 'The Notice',  page: 'story',    h: 290, c: 0.090, ld: 0.760, cd: 0.080, dl: 0.073 },
     { label: 'First time here?', page: 'start-here', h: 178, c: 0.050, ld: 0.800, cd: 0.048, dl: 0 },
     { label: 'The House',   page: 'house',    h: 150, c: 0.050, ld: 0.720, cd: 0.065, dl: 0.193 },

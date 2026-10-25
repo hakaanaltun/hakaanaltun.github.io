@@ -160,8 +160,11 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   for the day to be one light slate in the evening's hue: its darkest
   light shade at sunrise, nearly white at noon, and darker again until
   sunset, where the evening's slate takes over. It had been a warm stone,
-  Fog and Blueprint since the day before. Where the paper is darkest the
-  ink is darkest too, near-black, as the author asked, so every tier
+  Fog and Blueprint since the day before. On 25 October 2026 the author
+  asked for noon to be white itself (`#FFFFFF`, the last `DAY` stop), with
+  the band, the card and the rules a step off it in the slate's hue.
+  Where the paper is darkest the ink is darkest too, near-black, as the
+  author asked, so every tier
   keeps the day's floors; the header and footer are the evening's header
   all day, so they carry across sunset unchanged. Their words were a cool
   grey at first, and the author found them dull and asked the same day
@@ -275,7 +278,12 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   the sky. On 24 October the author asked for the writing to take that
   colour instead, its headings on Writing with it, as a trial. Light
   palettes use their own lightness with chroma 0.012 and hue 250; dark
-  themes use lightness 0.780 and chroma 0.010. Notes
+  themes use lightness 0.780 and chroma 0.010. On 25 October 2026 the
+  author asked for a little navy in that grey by day and none by night:
+  the day's chroma went to 0.024 at the same hue, so Latest, Further
+  back, the menu and the pieces' titles lean blue on paper, and the
+  silver of the dark themes and of the sky's night is as it was. A
+  stronger navy (hue 258, 0.032, by night as well) was tried first. Notes
   then stood under Further back in the same colour, and the author asked
   for a soft colour for Notes that sits well with the others: a clay,
   hue 40, on the warm side that no other voice uses. A rose and a mauve
