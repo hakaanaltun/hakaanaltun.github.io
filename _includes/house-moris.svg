@@ -18,7 +18,7 @@
   <path d="M805 462V464M805 464Q802 466 800 464M805 464Q808 466 810 464" fill="none" stroke="#242624" stroke-width=".7"/>
   <path class="house-cat-eyes house-cat-eyes--shut" d="M792 454Q796 457 800 454M809 454Q813 457 817 453" fill="none" stroke-width="1.1"/>
   <g class="house-cat-eyes--open" stroke="none">
-    <path d="M792 454Q796 450.5 800.5 454Q796.5 457.5 792 454ZM808.5 454Q813 450 817.5 452.5Q814 457 808.5 454Z"/>
+    <circle cx="796.5" cy="454" r="3.3"/><circle cx="813" cy="453.5" r="3.3"/>
     <ellipse class="house-cat-pupil" cx="796.5" cy="454" rx=".8" ry="2"/><ellipse class="house-cat-pupil" cx="813" cy="453.5" rx=".8" ry="2"/>
   </g>
   <path d="M799 463L785 460M799 465L784 465M811 463L825 459M812 465L826 464" fill="none" stroke="#96978a" stroke-width=".55" opacity=".65"/>
