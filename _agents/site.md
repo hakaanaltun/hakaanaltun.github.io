@@ -215,6 +215,13 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   looked at. `scripts/test-window-sky.cjs` checks the turn and both
   halves' contrast, on the site and on The List.
 
+- **The House's rooms wear their own colours** (rule in `COLOPHON.md`).
+  While the study or the balcony is open, `data-house-theme` on `<html>`
+  hands the page to the tokens in `css/house.css`, whatever theme the
+  reader chose, and `_includes/site-sky.html` leaves the `theme-color`
+  metas to The House (`_agents/house.md`). A new theme token needs a value
+  there too, or it will show the site's theme inside the rooms.
+
 ## The homepage
 
 - **Each section is shown in its own page's color.** The author asked for

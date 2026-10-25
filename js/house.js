@@ -856,6 +856,7 @@
     var name = { morning: 'Morning', day: sky.hour < 12 ? 'Morning' : 'Afternoon', evening: 'Evening', night: 'Night' }[sky.period];
     scene.dataset.hour = sky.period;
     balconyScene.dataset.hour = sky.period;
+    wearTheme();
     heardSky = { period: sky.period, hour: sky.hour, month: +parts(now, { month: 'numeric' }).month };
     document.getElementById('house-hour').textContent = name + ' in İstanbul';
     document.getElementById('house-clock').textContent = clock(now);
@@ -1216,7 +1217,7 @@
      fade. */
   var shownView = null;
   var leaving = null;
-  var LIFTED = ['position', 'top', 'left', 'width', 'margin', 'padding', 'box-sizing', 'z-index', 'visibility', 'pointer-events'];
+  var LIFTED = ['position', 'top', 'left', 'width', 'height', 'margin', 'padding', 'box-sizing', 'z-index', 'visibility', 'pointer-events'];
   function pictureOf(view) { return view.querySelector('.house-scene'); }
   function settleLeaving() {
     if (!leaving) return;
@@ -1231,7 +1232,8 @@
   // Measured while the place is still in the page, at its own size.
   function measure(view) {
     var picture = pictureOf(view);
-    return picture && { view: view, picture: picture, width: view.getBoundingClientRect().width, padding: getComputedStyle(view).padding, at: picture.getBoundingClientRect() };
+    var box = view.getBoundingClientRect();
+    return picture && { view: view, picture: picture, width: box.width, height: box.height, padding: getComputedStyle(view).padding, at: picture.getBoundingClientRect() };
   }
   function fadeAway(was) {
     var view = was.view;
@@ -1245,6 +1247,8 @@
     view.style.margin = '0';
     view.style.boxSizing = 'border-box';
     view.style.width = was.width + 'px';
+    // In full screen the picture is sized by the room's own height.
+    view.style.height = was.height + 'px';
     view.style.padding = was.padding;
     view.style.zIndex = '2';
     view.style.pointerEvents = 'none';
@@ -1268,15 +1272,20 @@
     var inside = hash === '#study' || over === 'study';
     var outside = hash === '#balcony' || over === 'balcony';
     var showing = outside ? balcony : inside ? study : entrance;
-    var moving = shownView && showing !== shownView && !still;
+    // Full screen is for the rooms; the door ends it, without a fade
+    // between the two sizes of the picture.
+    var ending = screenMode && showing === entrance;
+    var moving = shownView && showing !== shownView && !still && !ending;
     var was = moving ? measure(shownView) : null;
     entrance.hidden = inside || outside;
     study.hidden = !inside;
     balcony.hidden = !outside;
     shownView = showing;
+    if (ending) leaveScreen();
     // The gold speck and its trail are for the rooms; at the door the
     // pointer is the reader's own (css/house.css).
     document.documentElement.classList.toggle('house-inside', inside || outside);
+    wearTheme();
     weatherFollows(outside ? VIEWS.balcony : VIEWS.study);
     showChoices();
     hear();
@@ -1292,11 +1301,35 @@
     } else if (focus) {
       var target = document.getElementById(outside ? 'house-balcony-title' : inside ? 'house-room-title' : 'house-enter');
       target.focus({ preventScroll: true });
-      if (inside || outside) centerPicture();
+      if (screenMode) { /* the room already fills the screen */ }
+      else if (inside || outside) centerPicture();
       else root.scrollIntoView({ block: 'start', behavior: 'instant' });
     }
     if (was) fadeAway(was);
     else if (moving && showing.animate) showing.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 450, easing: 'ease-out' });
+  }
+
+  /* The House's own colours (css/house.css). At the door the page wears
+     the site's theme; in a room it wears the House's, which follows
+     İstanbul's light as the rooms do: their cream in the morning and by
+     day, and a warm dark from the evening, when the lamps come on. The
+     browser's own bar follows the header, and at the door the site's
+     theme points it back where it was. */
+  var HOUSE_CHROME = { day: '#4E4638', night: '#17140F' };
+  function wearTheme() {
+    var page = document.documentElement;
+    var hour = scene.dataset.hour;
+    var theme = !page.classList.contains('house-inside') ? '' : hour === 'evening' || hour === 'night' ? 'night' : 'day';
+    var was = page.getAttribute('data-house-theme') || '';
+    if (theme) page.setAttribute('data-house-theme', theme);
+    else page.removeAttribute('data-house-theme');
+    var metas = document.querySelectorAll('meta[name="theme-color"]');
+    if (theme) {
+      Array.prototype.forEach.call(metas, function (meta) { meta.setAttribute('content', HOUSE_CHROME[theme]); });
+    } else if (was) {
+      if (window.OLAE_SITE_SKY && window.OLAE_SITE_SKY.isOn()) window.OLAE_SITE_SKY.paintNow();
+      else if (window.__themeColorSync) window.__themeColorSync();
+    }
   }
 
   function syncCount() {
@@ -1351,8 +1384,95 @@
     if (localStorage.getItem(PLACES_KEY) === 'shown') showPlaces(true);
   } catch (e) { /* storage blocked: the names start hidden */ }
 
+  /* Full screen, in the study and on the balcony, as in the pictures. The
+     room fills the screen with its bar, its places, the way out and, on the
+     balcony, its sound; the site's header and footer, the heading and the
+     weather line wait until the reader leaves it (css/house.css). The page
+     asks the browser for its own full screen, so the pointer's trail and
+     the boxes come along; a browser that cannot give one, such as a
+     phone's, has the room fill its window instead. Going from one room to
+     the other keeps it, and the door, a page that opens or Escape ends it.
+     Nothing is kept. */
+  var screenMode = null;
+  var screenFrom = null;
+  var screenOutside = [];
+  var screenOverflow = '';
+  function nativeScreen() { return document.fullscreenElement || document.webkitFullscreenElement || null; }
+  function paintScreen() {
+    root.querySelectorAll('[data-fullscreen]').forEach(function (button) {
+      button.setAttribute('aria-pressed', String(!!screenMode));
+      button.textContent = screenMode ? 'Exit full screen' : 'Full screen';
+    });
+  }
+  function startScreen(mode) {
+    if (screenMode) return;
+    screenMode = mode;
+    screenOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    // Everything on the way out to the body that is not The House waits.
+    for (var node = root; node !== document.body; node = node.parentElement) {
+      Array.prototype.forEach.call(node.parentElement.children, function (sibling) {
+        if (sibling === node || sibling.hasAttribute('inert')) return;
+        screenOutside.push(sibling);
+        sibling.setAttribute('inert', '');
+      });
+    }
+    root.classList.add('is-fullscreen');
+    paintScreen();
+    var button = shownView.querySelector('[data-fullscreen]');
+    if (button && !dialog.open) button.focus({ preventScroll: true });
+  }
+  function endScreen() {
+    if (!screenMode) return;
+    screenMode = null;
+    root.classList.remove('is-fullscreen');
+    screenOutside.forEach(function (node) { node.removeAttribute('inert'); });
+    screenOutside = [];
+    document.body.style.overflow = screenOverflow;
+    paintScreen();
+    // Back where the reader was, or at the room they went on to.
+    if (shownView === entrance) root.scrollIntoView({ block: 'start', behavior: 'instant' });
+    else if (screenFrom && shownView === screenFrom.view) window.scrollTo(screenFrom.x, screenFrom.y);
+    else centerPicture();
+    var button = shownView.querySelector('[data-fullscreen]');
+    if (button && !dialog.open) button.focus({ preventScroll: true });
+  }
+  function enterScreen() {
+    screenFrom = { view: shownView, x: window.scrollX, y: window.scrollY };
+    var page = document.documentElement;
+    var ask = page.requestFullscreen || page.webkitRequestFullscreen;
+    if (!ask || !(document.fullscreenEnabled || document.webkitFullscreenEnabled)) { startScreen('window'); return; }
+    try {
+      var asked = ask.call(page);
+      // Safari's older call answers with its change event alone.
+      if (asked && asked.then) asked.then(function () { if (nativeScreen()) startScreen('native'); }, function () { startScreen('window'); });
+    } catch (e) { startScreen('window'); }
+  }
+  function leaveScreen() {
+    if (screenMode !== 'native' || !nativeScreen()) { endScreen(); return; }
+    var exit = document.exitFullscreen || document.webkitExitFullscreen;
+    try {
+      var left = exit.call(document);
+      if (left && left.then) left.then(endScreen, function () { if (!nativeScreen()) endScreen(); });
+    } catch (e) { endScreen(); }
+  }
+  function screenChanged() {
+    if (nativeScreen()) startScreen('native');
+    else if (screenMode === 'native') endScreen();
+  }
+  document.addEventListener('fullscreenchange', screenChanged);
+  document.addEventListener('webkitfullscreenchange', screenChanged);
+  // The browser's own full screen ends with Escape; the window's does too,
+  // once a box open over the room has closed.
+  document.addEventListener('keydown', function (event) {
+    if (screenMode !== 'window' || dialog.open || event.key !== 'Escape') return;
+    event.preventDefault();
+    leaveScreen();
+  });
+
   root.addEventListener('click', function (event) {
     if (event.target.closest('[data-places]')) { showPlaces(!root.classList.contains('show-places')); return; }
+    if (event.target.closest('[data-fullscreen]')) { if (screenMode) leaveScreen(); else enterScreen(); return; }
     var choice = event.target.closest('button[data-weather-choice]');
     if (choice) {
       var twin = footerButton(choice);

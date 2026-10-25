@@ -17,7 +17,7 @@ description: "Come in, look around, and keep something you find. A room at On Li
   "Today" is İstanbul's day and the light is İstanbul's light: the house is
   there, and every reader sees the same room on the same day.
 {%- endcomment -%}
-<link rel="stylesheet" href="/css/house.css?v=20261024-3">
+<link rel="stylesheet" href="/css/house.css?v=20261025-1">
 <link rel="stylesheet" href="{{ site.data.drawer_assets.drawer_css }}">
 
 <div class="house" id="house" data-catalog="/house/catalog.json?v={{ site.time | date: '%Y%m%d%H%M' }}">
@@ -62,7 +62,8 @@ description: "Come in, look around, and keep something you find. A room at On Li
       <div><p class="house-eyebrow">Room 01</p><h2 id="house-room-title" tabindex="-1">The study</h2></div>
       <p class="house-time"><span class="house-time-dot" aria-hidden="true"></span><span><span id="house-hour">İstanbul</span> <span class="house-time-now"><span class="house-time-sep">·</span> <span id="house-clock"></span> <span data-house-temperature hidden></span></span></span></p>
     </div>
-    <div class="house-instruction-row"><p class="house-instruction">Choose something in the room.</p><button class="house-places house-js" type="button" aria-pressed="false" data-places hidden>Show places to look</button></div>
+    <div class="house-instruction-row"><p class="house-instruction">Choose something in the room.</p><span class="house-tools"><button class="house-places house-js" type="button" aria-pressed="false" data-places hidden>Show places to look</button><button class="house-places house-js" type="button" aria-pressed="false" data-fullscreen hidden>Full screen</button></span></div>
+    <div class="house-stage">
     <div class="house-scene" id="house-scene" data-hour="day" data-moris="cushion">
       {% include house-study.svg %}
       <button class="house-hotspot house-hotspot--books" data-open="books" type="button"><span class="house-label"><span class="house-pin" aria-hidden="true">1</span><span class="house-hotspot-name">Bookshelf</span></span></button>
@@ -77,6 +78,7 @@ description: "Come in, look around, and keep something you find. A room at On Li
       <a class="house-hotspot house-hotspot--desk" href="/desk/?from=house&amp;v=20261014-1"><span class="house-label"><span class="house-pin" aria-hidden="true">10</span><span class="house-hotspot-name">The Desk <span aria-hidden="true">&rarr;</span></span></span></a>
       <a class="house-hotspot house-hotspot--farm-house" href="/farm-house/"><span class="house-label"><span class="house-pin" aria-hidden="true">11</span><span class="house-hotspot-name">The Farm House <span aria-hidden="true">&rarr;</span></span></span></a>
       <a class="house-hotspot house-hotspot--balcony" href="#balcony" data-go="balcony"><span class="house-label"><span class="house-pin" aria-hidden="true">12</span><span class="house-hotspot-name">The balcony <span aria-hidden="true">&rarr;</span></span></span></a>
+    </div>
     </div>
     {%- comment -%} The places in the picture are quiet: a name shows under a pointer or
     the keyboard, and "Show places to look" shows them all. On a phone or a
@@ -117,7 +119,8 @@ description: "Come in, look around, and keep something you find. A room at On Li
       <div><p class="house-eyebrow">Outside</p><h2 id="house-balcony-title" tabindex="-1">The balcony</h2></div>
       <p class="house-time"><span class="house-time-dot" aria-hidden="true"></span><span><span data-house-hour>İstanbul</span> <span class="house-time-now"><span class="house-time-sep">·</span> <span data-house-clock></span> <span data-house-temperature hidden></span></span></span></p>
     </div>
-    <div class="house-instruction-row"><p class="house-instruction">Choose something on the balcony or in the sky.</p><button class="house-places house-js" type="button" aria-pressed="false" data-places hidden>Show places to look</button></div>
+    <div class="house-instruction-row"><p class="house-instruction">Choose something on the balcony or in the sky.</p><span class="house-tools"><button class="house-places house-js" type="button" aria-pressed="false" data-places hidden>Show places to look</button><button class="house-places house-js" type="button" aria-pressed="false" data-fullscreen hidden>Full screen</button></span></div>
+    <div class="house-stage">
     <div class="house-scene house-scene--balcony" id="house-balcony-scene" data-hour="day">
       {% include house-balcony.svg %}
       <a class="house-hotspot house-hotspot--sun" href="/pictures/sun/?from=balcony" hidden><span class="house-label"><span class="house-pin" aria-hidden="true">1</span><span class="house-hotspot-name">The sun <span aria-hidden="true">&rarr;</span></span></span></a>
@@ -129,6 +132,7 @@ description: "Come in, look around, and keep something you find. A room at On Li
       <button class="house-hotspot house-hotspot--balcony-switch" data-balcony-lamp type="button" aria-pressed="false"><span class="house-label"><span class="house-pin" aria-hidden="true">7</span><span class="house-hotspot-name">The light switch</span></span></button>
       <button class="house-hotspot house-hotspot--balcony-moris" data-open="moris" type="button"><span class="house-label"><span class="house-pin" aria-hidden="true">8</span><span class="house-hotspot-name">Moris</span></span></button>
       <button class="house-hotspot house-hotspot--balcony-lamp" data-balcony-globe type="button"><span class="house-label"><span class="house-pin" aria-hidden="true">9</span><span class="house-hotspot-name">The lamp</span></span></button>
+    </div>
     </div>
     <ol class="house-objects" aria-hidden="true">
       <li data-sky-item="sun" hidden><a href="/pictures/sun/?from=balcony" tabindex="-1"><span class="house-pin">1</span>The sun</a></li>
@@ -212,6 +216,6 @@ description: "Come in, look around, and keep something you find. A room at On Li
 <script src="/js/balcony-sound-engine.js?v=20261012-2" defer></script>
 <script src="/js/house-sound.js?v=20261012-1" defer></script>
 <script src="{{ site.data.drawer_assets.drawer_js }}" defer></script>
-<script src="/js/house.js?v=20261019-1" defer></script>
+<script src="/js/house.js?v=20261025-1" defer></script>
 <script src="/js/cursor-trail.js?v=20261013-1" defer></script>
 
