@@ -165,7 +165,11 @@ The site has two deliberate ideas of place. Do not collapse them into one.
 - **Their words are white, except on Midnight.** The author liked the
   white words of Follow the sky’s header and footer, and on 25 October 2026
   asked for them on every theme, the light papers and Dark included, with
-  only Midnight keeping its yellow. The
+  only Midnight keeping its yellow. Ash & Gold, the site’s own face for
+  months, was renamed Ash & White, since its words are no longer gold.
+  The author asked the same day for the old face to stay as a choice, so
+  Ash & Gold, the same paper with its gold header and footer, is now the
+  last of the light palettes. The
   site’s mark, the ampersand on the tab, the home screen and a shared
   link’s card, was redrawn the same day to match: white on a dark slate,
   the slate of Follow the sky’s header at sunset, in place of gold on grey.
