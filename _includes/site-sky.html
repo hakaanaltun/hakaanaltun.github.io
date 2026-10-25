@@ -2,10 +2,10 @@
   site-sky.html — "Follow the sky" as a theme for the whole site.
 
   The sky has two halves, both in sky-ramp.html, which says why. From
-  sunrise to sunset the theme is its day, a light paper with dark ink, set
-  by the same rules as the twelve light palettes. From sunset to sunrise it
-  is the night ramp, the deep navy and the violet of twilight, with light
-  ink, and until nine in the evening the slate darkening into it.
+  sunrise to sunset the theme is its day, a white paper with dark ink, set
+  by the same rules as the twelve light palettes, under a slate header and
+  footer with white words that darkens towards sunset. From sunset to
+  sunrise it is the night ramp, navy deepening, with light ink.
 
   By day the painter sets <html data-theme="light">, so every rule written
   for the light path applies, and data-sky="day"; css/palettes.css leaves a
@@ -19,8 +19,7 @@
   mix. The tiers are alpha over the ground, so the hierarchy holds at every
   altitude; ink is at least 6.5:1 and --vizon 5.5:1. Every section keeps its
   own hue, chroma and minimum lightness; the shared floor follows the
-  ground, and style.css mixes the base with white once: 12% at the
-  darkest of the night, rising with the header's words to 40% at the horizon.
+  ground.
 
   The block is computed and returned before it is applied, because it has a
   second reader: the Follow the sky card on /themes/ is painted from the
@@ -40,12 +39,13 @@
   var TOKENS = ["--bg","--paper","--surface-soft","--band","--sky-band-hero","--note-base",
     "--footer-strip-bg","--ink","--ink-soft","--vizon","--footer-strip-ink","--footer-text",
     "--footer-muted","--hero-source-muted","--rule","--rule-strong","--rule-cream",
-    "--header-border","--drawer-bg","--sky-ld-floor","--sky-accent-white","--sky-chrome-rgb","--sec-l"];
+    "--header-border","--drawer-bg","--sky-ld-floor","--sky-chrome-rgb","--sec-l"];
 
-  /* Every token the day moves, for one share of the way to noon. The
-     colours are sky-ramp.html's DAY; this is only where each one goes. */
-  function dayTokens(share){
-    var d = S.dayAt(share), t = {};
+  /* Every token the day sets, for one `prog` of the way from sunrise to
+     sunset. The colours are sky-ramp.html's DAY and chromeAt(); this is
+     only where each one goes. */
+  function dayTokens(prog){
+    var d = S.dayAt(), t = {};
     t["--bg"] = S.rgb(d.paper);
     t["--paper"] = S.rgb(d.paper);
     t["--surface-soft"] = S.rgb(d.surface);
@@ -62,15 +62,15 @@
     t["--drawer-bg"] = "rgba(" + d.paper.join(",") + ",0.985)";
     /* the header and footer; css/palettes.css hands it to <body>, whose
        own --chrome-rgb would otherwise win */
-    t["--sky-chrome-rgb"] = d.chrome.join(", ");
+    t["--sky-chrome-rgb"] = S.chromeAt(prog).join(", ");
     t["--sec-l"] = d.secL.toFixed(3);
     return t;
   }
 
-  /* Every token the night moves, for one altitude of the sun and the
-     share of the evening (sky-ramp.html). */
-  function nightTokens(alt, eve){
-    var sky = S.nightAt(alt, eve), g = sky[1], m = sky[2];
+  /* Every token the night moves, for one altitude of the sun
+     (sky-ramp.html). */
+  function nightTokens(alt){
+    var sky = S.nightAt(alt), g = sky[1], m = sky[2];
     var ink = S.mix(S.CREAM, S.DAYINK, m);
     var t = {};
 
@@ -99,32 +99,32 @@
     /* the drawer slides over the page and wants the ground almost opaque */
     t["--drawer-bg"] = "rgba(" + g.join(",") + ",0.985)";
 
-    /* Fit to the accents at their least white, 12%, not the unmixed base;
-       more white only lifts them further off the night. */
+    /* The accents' lightness floor on this ground: 4.6:1 on the card
+       (--surface-soft), the lightest ground they sit on, with no white
+       mixed in since 25 October 2026. */
     var groundLuminance = S.luminance(g);
     t["--sky-ld-floor"] = Math.max(0.56, Math.min(0.99,
-      0.51949 + 0.59895 * Math.sqrt(groundLuminance)
+      0.57 + 0.59895 * Math.sqrt(groundLuminance)
         + 2.45 * groundLuminance)).toFixed(4);
 
     return t;
   }
   /* Every token this theme moves, for one `sun` from sky-ramp.html's
-     sunAt(): { alt, share, eve }. It only
+     sunAt(): { alt, share, prog }. It only
      computes: the two callers below decide what to do with the answer —
      paint() writes it to <html>, js/palettes.js reads it to paint one card
      on /themes/ without a second copy of the arithmetic. `day` and
      `chrome` travel with the tokens for that card; they are not painted. */
   function tokens(sun){
-    var day = sun.alt >= S.SUNRISE, t = day ? dayTokens(sun.share) : nightTokens(sun.alt, sun.eve);
+    var day = sun.alt >= S.SUNRISE, t = day ? dayTokens(sun.prog) : nightTokens(sun.alt);
     t.day = day;
-    /* the header's and footer's words, one tone that follows the sky
+    /* the header's and footer's words, one tone: white by day on the
+       slate, and by night the site's yellow opening with the sky
        (sky-ramp.html's wordsAt) */
-    var words = S.wordsAt(sun);
+    var words = day ? [255, 255, 255] : S.wordsAt(sun);
     t["--footer-text"] = S.rgb(words);
     t["--footer-muted"] = S.rgb(words);
     if(day) t["--header-border"] = "rgba(" + words.join(",") + ",0.20)";
-    /* by night the accents' white opens with them (accentWhiteAt) */
-    else t["--sky-accent-white"] = (S.accentWhiteAt(sun) * 100).toFixed(1) + "%";
     /* the header and footer: the day's chrome, or by night the band, which
        is what the night's header and footer are painted with */
     t.chrome = day ? "rgb(" + t["--sky-chrome-rgb"] + ")" : t["--band"];

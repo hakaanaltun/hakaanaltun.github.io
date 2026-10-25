@@ -86,6 +86,15 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   21 October 2026. On 25 October 2026 the author found it not yet right
   and asked for Light to come back as the default, with Follow the sky
   kept among the themes, to be taken up again another day.
+- **Follow the sky keeps the page still by day.** From sunrise to sunset
+  the page is white and only the header and footer move: a slate with
+  white words, darker as the day goes on, until at sunset it is close to
+  the night’s own header. From sunset to sunrise the page is navy, and
+  deepens with the night. The author asked for this on 25 October 2026,
+  after a day whose paper, ink and header all moved with the sun had not
+  felt right. The sections’ colours by night had white mixed into them,
+  and the author found them too bright, so they have none now; they keep
+  the accessible minimum on every ground.
 - **The House is in İstanbul.** Its calendar day, light, sunrise and sunset,
   moon visibility, room period, Moris’s movement, wall clock, and the
   balcony with its sky all use İstanbul time and coordinates
@@ -154,7 +163,7 @@ The site has two deliberate ideas of place. Do not collapse them into one.
 - **Inside, The House wears its own colours.** At the door the page keeps
   the theme the reader chose. In the study and on the balcony the page,
   its header and its footer take the rooms’ colours instead: their cream
-  in the morning, by day and in the evening, and a warm dark at night.
+  in the morning, by day and in the evening, and a navy at night.
   Like the rooms’ light, they follow İstanbul’s hour. The
   author asked for this on 25 October 2026, when the light slate of Follow
   the sky by day did not suit the rooms. The same day the author asked for
@@ -168,7 +177,8 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   the author found it too dark the same day: the rooms show their own
   evening, so the page keeps its cream until night. The author also
   asked for the night’s dark to be a little lighter than the near-black
-  it first was.
+  it first was, and later for it to be navy rather than a warm dark, at
+  the same lightness, with the header and footer navy with it.
 - **A place that fills the window has its own quiet frame.** This applies to the
   Farm House, each picture in Pictures with Stories and each instrument. The
   frame gives a way back and the place’s own controls, and leaves the rest

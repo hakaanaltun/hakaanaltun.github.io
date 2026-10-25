@@ -1318,10 +1318,11 @@
   /* The House's own colours (css/house.css). At the door the page wears
      the site's theme; in a room it wears the House's, which follows
      İstanbul's light as the rooms do: their cream in the morning, by day
-     and in the evening, and a warm dark at night, after the last light.
+     and in the evening, and a navy at night, after the last light.
      The page was dark from the evening until the author found it too dark
      on 25 October 2026: the rooms show the evening themselves. The same
-     day the night's dark was lifted a little from near-black.
+     day the night's dark was lifted a little from near-black, and then
+     turned from a warm dark to navy, as Follow the sky's night is.
 
      The header and footer move with İstanbul's sun every minute, as Follow
      the sky's do with the reader's: before sunrise they lighten out of the
@@ -1337,9 +1338,9 @@
      at every minute. The browser's own bar follows the header, and at the
      door the site's theme points it back where it was. Without the sky's
      script the header keeps the colours css/house.css gives it. */
-  var HEADER = { noon: [110, 98, 80], horizon: [90, 80, 64], night: [36, 31, 25] };
+  var HEADER = { noon: [110, 98, 80], horizon: [90, 80, 64], night: [24, 33, 51] };
   var HEADER_TOKENS = ['--surface-chrome', '--surface-footer', '--footer-text', '--footer-muted', '--header-border'];
-  var HOUSE_CHROME = { day: '#4E4638', night: '#241F19' };
+  var HOUSE_CHROME = { day: '#4E4638', night: '#182133' };
   function istanbulEvening(now, alt, S) {
     var p = parts(now, { hour: '2-digit', minute: '2-digit', hourCycle: 'h23' });
     var h = +p.hour + +p.minute / 60;
