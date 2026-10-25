@@ -9,7 +9,7 @@
   four tokens, --paper, --ink, --muted and --line, which is the whole
   palette these pages have. By day they are the site's day, with the
   muted tier and the rule of its paper; by night, the ramp's ground and
-  light ink, with the evening's slate darkening into it until nine. data-theme stays "sky" in both halves, so the buttons know
+  light ink. data-theme stays "sky" in both halves, so the buttons know
   the choice; data-sky says which half it is, and the page's scrollbars
   and controls take its colour scheme.
 
@@ -26,13 +26,13 @@
   function paint(sun){
     var root = document.documentElement, st = root.style, day = sun.alt >= S.SUNRISE;
     if(day){
-      var d = S.dayAt(sun.share);
+      var d = S.dayAt();
       st.setProperty("--paper", S.rgb(d.paper));
       st.setProperty("--ink", S.rgb(d.ink));
       st.setProperty("--muted", S.rgb(d.vizon));
       st.setProperty("--line", S.rgb(d.rule));
     } else {
-      var sky = S.nightAt(sun.alt, sun.eve), ground = sky[1], m = sky[2];
+      var sky = S.nightAt(sun.alt), ground = sky[1], m = sky[2];
       var ink = S.mix(S.CREAM, S.DAYINK, m);
       st.setProperty("--paper", S.rgb(ground));
       st.setProperty("--ink", S.rgb(ink));

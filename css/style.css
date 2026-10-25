@@ -543,16 +543,16 @@ html[data-theme="dark"] body.is-home #main > section {
   --petrol-deep: color-mix(in srgb, var(--sec-accent-dark) 72%, #FFFFFF);
 }
 /* Follow the sky has one accent per section. Its hue and contrast floor
-   produce a base, then one white mix serves headings, cards, links and
-   page titles. The white opens with the night, as the header's words do:
-   12% at its darkest and 40% at the horizon (--sky-accent-white, from
-   _includes/sky-ramp.html). Rebuild it locally on each homepage section. */
+   produce one colour for headings, cards, links and page titles. It had
+   white mixed in, 12% to 40%, until 25 October 2026, when the author found
+   the night's accents too bright. Rebuild it locally on each homepage
+   section. */
 html[data-theme="sky"] body,
 html[data-theme="sky"] .book-voice,
 html[data-theme="sky"] body.is-home #main > section {
   --sky-accent-base: oklch(max(var(--sec-ld, 0.800), var(--sky-ld-floor, 0.62))
                           var(--sec-cd, 0.048) var(--sec-h, 178));
-  --sec-accent-dark: color-mix(in srgb, var(--sky-accent-base), #FFFFFF var(--sky-accent-white, 12%));
+  --sec-accent-dark: var(--sky-accent-base);
   --petrol: var(--sec-accent-dark);
   --petrol-deep: var(--sec-accent-dark);
 }

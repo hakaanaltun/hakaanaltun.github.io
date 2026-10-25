@@ -218,6 +218,18 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   looked at. `scripts/test-window-sky.cjs` checks the turn and both
   halves' contrast, on the site and on The List.
 
+- **Follow the sky since 25 October 2026** (rule in `COLOPHON.md`). This
+  supersedes the moving day, the evening and the accents' white described
+  above, which are kept as the record of what was tried. By day `DAY` in
+  `_includes/sky-ramp.html` is one white paper, and only the chrome
+  moves, `chromeAt(prog)`, from `CHROME_DAWN` to `CHROME_DUSK` along
+  `dayProgress()` (0 at sunrise, 1 at sunset); the header's words are
+  white. By night `nightAt()` is the ramp at no higher than `NIGHT_TOP`
+  (-6°), so the page is navy from sunset; `evening()`, `EVENING_ENDS`
+  and `SLATE` are gone. The accents have no white (`--sky-accent-white`
+  is gone), and `--sky-ld-floor` was raised to keep 4.6:1 on the cards
+  without it. `wordsAt()` stays for the night's words and for The House.
+
 - **The House's rooms wear their own colours** (rule in `COLOPHON.md`).
   While the study or the balcony is open, `data-house-theme` on `<html>`
   hands the page to the tokens in `css/house.css`, whatever theme the

@@ -161,8 +161,8 @@
      The voices are the one thing this has to know for itself: the table
      at the top. By day the sky prints them as a palette does, at its own
      --sec-l. By night the browser lifts each one to the sun's floor with
-     max() and mixes in the night's white (--sky-accent-white); both are repeated here rather than
-     precomputed, because the floor moves.
+     max(); that is repeated here rather than precomputed, because the floor
+     moves.
 
      Null if site-sky.html is not on the page: a preview of the sky that
      cannot ask where the sun is has nothing to show, and the card is then
@@ -178,7 +178,7 @@
       fmuted: t['--footer-muted'],
       acc: VOICES.map(function (v) {
         if (t.day) return oklch(parseFloat(t['--sec-l']) - v.dl, v.c, v.h);
-        return 'color-mix(in srgb, ' + oklch(Math.max(v.ld, floor), v.cd, v.h) + ', #FFFFFF ' + t['--sky-accent-white'] + ')';
+        return oklch(Math.max(v.ld, floor), v.cd, v.h);
       })
     };
   }

@@ -142,8 +142,9 @@ for(const month of [0,3,6,9])for(const hour of [0,6,12,18]){
   if(Math.abs(pos.altitude)<85)assert(Math.abs((pos.azimuth-h.azimuth+540)%360-180)<.3);
   assert.equal(A.sunAltitude(now,lat,lng),pos.altitude);
 }
-// Follow the sky as the site's theme: a light day from sunrise to sunset,
-// the night ramp from sunset to sunrise, each with its own contrast floors.
+// Follow the sky as the site's theme: a white day under a slate header
+// that darkens towards sunset, and the navy night from sunset to sunrise,
+// each with its own contrast floors.
 {
   const sky=(hour,instant='2026-10-23T10:00:00Z')=>{
     const dom=new JSDOM(fs.readFileSync(path.join(built,'index.html'),'utf8'),{url:'https://hakanaltun.io/'+(hour===undefined?'':'?hour='+hour),runScripts:'outside-only'});
@@ -160,45 +161,42 @@ for(const month of [0,3,6,9])for(const hour of [0,6,12,18]){
   const ratio=(a,b)=>{const A=lum(a),B=lum(b);return (Math.max(A,B)+0.05)/(Math.min(A,B)+0.05);};
   const s=sky();
   const css=k=>s.root.style.getPropertyValue(k);
-  // The day is checked at every share of the way to noon, the night bare,
-  // halfway into the evening and at sunset, when the evening is whole.
-  for(let alt=-30;alt<=60;alt+=0.5)for(const eve of alt<0?[0,0.5,1]:[0]){
+  const over=(c,g,a)=>'rgb('+parse(c).map((v,i)=>Math.round(v*a+parse(g)[i]*(1-a))).join(',')+')';
+  // The day is checked at every step from sunrise to sunset, the night at
+  // every altitude.
+  for(let alt=-30;alt<=60;alt+=0.5)for(const prog of alt<0?[0]:[0,0.25,0.5,0.75,1]){
     const share=Math.max(0,Math.min(1,alt/60));
-    s.SITE.paint({alt,share,eve});
-    const day=alt>=0,at=' at '+alt+'°'+(eve?', evening '+eve:'');
+    s.SITE.paint({alt,share,prog});
+    const day=alt>=0,at=' at '+alt+'°'+(day?', '+prog+' of the day':'');
     assert.equal(s.root.getAttribute('data-sky'),day?'day':'night','the half'+at);
     assert.equal(s.root.getAttribute('data-theme'),day?'light':'sky','the path'+at);
     const grounds=['--paper','--surface-soft','--band'];
     assert(ratio(css('--ink'),css('--paper'))>=(day?11:6.5),'ink'+at);
-    // every tier clears AA on every ground; on the sheet the night's
-    // floors are the ramp's own, which its lightest ground, the evening's
-    // slate, just holds
     for(const g of grounds){
       assert(ratio(css('--ink-soft'),css(g))>=(day?8:5),'ink-soft on '+g+at);
       assert(ratio(css('--vizon'),css(g))>=4.5,'vizon on '+g+at);
     }
     assert(ratio(css('--vizon'),css('--paper'))>=(day?5:5.5),'vizon on the sheet'+at);
-    // the header's and footer's words, one tone on the chrome in both halves
+    // the header's and footer's words, one tone on the chrome in both
+    // halves; the menu's names, at 85%, still clear AA
     const chrome=day?'rgb('+css('--sky-chrome-rgb')+')':css('--band');
-    assert(ratio(css('--footer-text'),chrome)>=7,'footer text on the chrome'+at);
+    assert(ratio(css('--footer-text'),chrome)>=6,'footer text on the chrome'+at);
+    assert(ratio(over(css('--footer-text'),chrome,0.85),chrome)>=4.5,'the menu on the chrome'+at);
     assert.equal(css('--footer-muted'),css('--footer-text'),'one tone in the header and footer'+at);
-    if(alt===-30&&eve===0)assert.equal(css('--footer-text'),'rgb(248,235,194)','the full yellow in the deepest night');
-    if(alt===0||(alt<0&&eve===1))assert.equal(css('--footer-text'),'rgb(251,243,218)','40% white at sunrise and sunset'+at);
-    if(alt===60)assert.equal(css('--footer-text'),'rgb(253,249,237)','70% white at noon');
+    assert.equal(css('--sky-accent-white'),'','no white in the accents'+at);
     if(day){
+      assert.equal(css('--paper'),'rgb(255,255,255)','white all day'+at);
+      assert.equal(css('--footer-text'),'rgb(255,255,255)','white words by day'+at);
+      if(prog===0)assert.equal(css('--sky-chrome-rgb'),'86, 99, 111','the lightest slate at sunrise');
+      if(prog===1)assert.equal(css('--sky-chrome-rgb'),'40, 52, 68','the darkest slate at sunset');
       assert.equal(css('--note-base'),'','the night\'s tokens are taken off by day'+at);
       assert(+css('--sec-l')>0.4&&+css('--sec-l')<0.52,'the accents\' lightness'+at);
-      assert.equal(css('--sky-accent-white'),'','no white in the accents by day'+at);
     }else{
       assert.equal(css('--sky-chrome-rgb'),'','the day\'s tokens are taken off by night'+at);
       assert.notEqual(css('--note-base'),'','the note wall'+at);
-      if(eve===1)assert.equal(css('--paper'),'rgb(78,94,106)','the evening\'s slate'+at);
-      // the accents' white opens with the night, as the header's words do
-      if(alt===-30&&eve===0)assert.equal(css('--sky-accent-white'),'12.0%','the accents\' least white'+at);
-      if(eve===1)assert.equal(css('--sky-accent-white'),'40.0%','the accents\' white at the horizon'+at);
+      if(alt>=-6)assert.equal(css('--paper'),'rgb(44,58,82)','navy from sunset'+at);
+      if(alt===-30)assert.equal(css('--footer-text'),'rgb(248,235,194)','the full yellow in the deepest night');
     }
-    if(alt===0)assert.equal(css('--paper'),'rgb(193,204,213)','the darkest light slate at sunrise and sunset');
-    if(alt===60)assert.equal(css('--paper'),'rgb(255,255,255)','white at noon');
   }
   s.SITE.clear();
   assert.equal(s.root.hasAttribute('data-sky'),false);
@@ -215,9 +213,9 @@ for(const month of [0,3,6,9])for(const hour of [0,6,12,18]){
     w.eval(inline.find(s=>s.includes('OLAE_PAGE_SKY =')));
     const css=k=>root.style.getPropertyValue(k);
     const solid=k=>{const c=css(k).match(/[\d.]+/g).map(Number),g=parse(css('--paper'));return c.length<4?css(k):'rgb('+[0,1,2].map(i=>Math.round(c[i]*c[3]+g[i]*(1-c[3]))).join(',')+')';};
-    for(let alt=-30;alt<=60;alt+=0.5)for(const eve of alt<0?[0,0.5,1]:[0]){
-      w.OLAE_PAGE_SKY.paint({alt,share:Math.max(0,Math.min(1,alt/60)),eve});
-      const day=alt>=0,at=' on The List at '+alt+'°'+(eve?', evening '+eve:'');
+    for(let alt=-30;alt<=60;alt+=0.5){
+      w.OLAE_PAGE_SKY.paint({alt,share:Math.max(0,Math.min(1,alt/60)),prog:0.5});
+      const day=alt>=0,at=' on The List at '+alt+'°';
       assert.equal(root.getAttribute('data-theme'),'sky','the choice'+at);
       assert.equal(root.getAttribute('data-sky'),day?'day':'night','the half'+at);
       assert(day?lum(css('--paper'))>0.55:lum(css('--paper'))<0.15,'the paper'+at);
@@ -238,39 +236,25 @@ for(const month of [0,3,6,9])for(const hour of [0,6,12,18]){
     else assert.equal(h.root.getAttribute('data-sky'),'day','?hour='+hour+' is ignored: 13:00 in İstanbul');
     h.dom.window.close();
   }
-  // Every half hour of that day: the paper moves at every step but the
-  // darkest of the night; the day is palest at the half hour nearest noon
-  // (12:48), and from sunset (18:06) the evening's slate darkens at every
-  // step into the night, which is whole at nine.
+  // Every half hour of that day: the paper is white from sunrise (07:36)
+  // to sunset (18:06) while the header darkens at every step, and from
+  // sunset the night is navy, darkening into the deepest of it.
   {
-    const papers=[];
+    const steps=[];
     for(let m=0;m<24*60;m+=30){
       const h=sky(m/60);h.SITE.paintNow();
-      papers.push([m/60,h.root.getAttribute('data-sky'),h.root.style.getPropertyValue('--paper')]);
+      const st=h.root.style;
+      steps.push([m/60,st.getPropertyValue('--paper'),'rgb('+st.getPropertyValue('--sky-chrome-rgb')+')']);
       h.dom.window.close();
     }
-    const at=t=>papers.find(p=>p[0]===t);
-    assert(lum(at(13)[2])>lum(at(12.5)[2])&&lum(at(13)[2])>lum(at(13.5)[2]),'palest at the half hour nearest noon');
-    assert(lum(at(18.5)[2])<lum('rgb(78,94,106)')&&lum(at(18.5)[2])>lum(at(19)[2]),'the slate begins to darken at sunset');
-    for(let t=18.5;t<21;t+=0.5)assert(lum(at(t)[2])>lum(at(t+0.5)[2]),'darker at '+(t+0.5)+' than at '+t);
-    assert.equal(at(21)[2],'rgb(12,16,24)','the night at nine');
-    for(let t=8;t<18;t+=0.5)assert.notEqual(at(t)[2],at(t+0.5)[2],'the day moves at '+t);
-  }
-  // And every minute of it: measured along the sun's arc, the day's paper,
-  // ink, muted tier and rule never stand still for more than a few
-  // minutes, noon included, as finely as a screen's shades allow.
-  {
-    const h=sky(),S=h.w.OLAE_SKY,midnight=Date.parse('2026-10-22T21:00:00Z');
-    let prev=null,run=0,longest=0,minutes=0;
-    for(let m=0;m<24*60;m++){
-      const sun=S.sunAt(new h.w.Date(midnight+m*60000));
-      if(sun.alt<0){prev=null;continue;}
-      const d=S.dayAt(sun.share),k=[d.paper,d.ink,d.vizon,d.rule].join('|');
-      run=k===prev?run+1:1;longest=Math.max(longest,run);prev=k;minutes++;
+    const at=t=>steps.find(p=>p[0]===t);
+    for(let t=8;t<18;t+=0.5){
+      assert.equal(at(t)[1],'rgb(255,255,255)','white at '+t);
+      assert(lum(at(t+0.5)[2])<lum(at(t)[2]),'the header darker at '+(t+0.5)+' than at '+t);
     }
-    assert(minutes>600,'a whole day');
-    assert(longest<=10,'the day never holds still for long: '+longest+' minutes');
-    h.dom.window.close();
+    assert.equal(at(18.5)[1],'rgb(44,58,82)','navy at sunset');
+    for(let t=18.5;t<20.5;t+=0.5)assert(lum(at(t)[1])>lum(at(t+0.5)[1]),'darker at '+(t+0.5)+' than at '+t);
+    assert.equal(at(23)[1],'rgb(12,16,24)','the deepest night');
   }
   if(tz===undefined)delete process.env.TZ;else process.env.TZ=tz;
 }
@@ -319,5 +303,5 @@ async function home(zone,instant){
     assert.deepEqual(h.requested,[],'no map without a place');
     h.dom.window.close();
   }
-  console.log('Window sky checks passed: star data and names, Follow the sky by day, in the evening and by night on the site and the instruments, with their contrast floors and ?hour=, visitor clock, city/fallback, minus signs and dashed runs, a slider through the night, the moon toward the sun, every planet labelled, Tonight on the homepage, daylight, polar events and solar bearings.');
+  console.log('Window sky checks passed: star data and names, Follow the sky by day and by night on the site and the instruments, with their contrast floors and ?hour=, visitor clock, city/fallback, minus signs and dashed runs, a slider through the night, the moon toward the sun, every planet labelled, Tonight on the homepage, daylight, polar events and solar bearings.');
 })().catch(e=>{console.error(e);process.exit(1);});

@@ -1897,7 +1897,7 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
     html = c.w.document.documentElement;
     assert.equal(c.q('#house-balcony-scene').dataset.hour, 'night');
     assert.equal(html.getAttribute('data-house-theme'), 'night', 'a warm dark at night');
-    assert.deepEqual(bar(c), ['#241F19', '#241F19']);
+    assert.deepEqual(bar(c), ['#182133', '#182133']);
     c.dom.window.close();
     // The header and footer follow İstanbul's sun with Follow the sky's
     // rhythm (_includes/sky-ramp.html, which the page carries inline): a
@@ -1925,10 +1925,10 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
       assert.equal(at('2026-10-25T12:50:00+03:00'), 'rgb(110,98,80)', 'the lightest beige at noon');
       assert.deepEqual(bar(h), ['rgb(110,98,80)', 'rgb(110,98,80)'], 'and the browser\'s bar with it');
       const dusk = at('2026-10-25T18:25:00+03:00');
-      assert.notEqual(dusk, 'rgb(36,31,25)', 'after sunset the beige darkens over the evening\'s cream');
+      assert.notEqual(dusk, 'rgb(24,33,51)', 'after sunset the beige darkens over the evening\'s cream');
       assert.notEqual(dusk, 'rgb(90,80,64)');
-      assert.equal(at('2026-10-25T19:30:00+03:00'), 'rgb(36,31,25)', 'the night\'s dark at night, with the page');
-      assert.equal(at('2026-10-25T23:00:00+03:00'), 'rgb(36,31,25)', 'and by night');
+      assert.equal(at('2026-10-25T19:30:00+03:00'), 'rgb(24,33,51)', 'the night\'s dark at night, with the page');
+      assert.equal(at('2026-10-25T23:00:00+03:00'), 'rgb(24,33,51)', 'and by night');
       assert.equal(style.getPropertyValue('--footer-text'), 'rgb(248,235,194)', 'the yellow alone at the darkest of the night');
       const channels = (value) => value.match(/\d+/g).slice(0, 3).map(Number);
       const luminance = (c) => c.map((v) => { v /= 255; return v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; }).reduce((sum, v, i) => sum + v * [0.2126, 0.7152, 0.0722][i], 0);
