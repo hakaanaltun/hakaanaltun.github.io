@@ -1,25 +1,33 @@
-<!-- Moris keeps the same outline and eye states in both rooms. -->
-<g stroke-width=".85">
-  <!-- The back rises gently over the haunch; the chest rests on tucked paws. -->
-  <path class="house-cat" d="M807 463C807 451 816 440 830 438C847 435 864 441 872 451C878 458 881 469 878 477C869 483 851 484 830 482L800 482C792 481 790 476 793 472Z"/>
-  <path fill="#424442" stroke="none" d="M820 446C835 436 859 442 867 452C854 447 838 445 824 451C819 453 815 458 814 462C813 455 816 450 820 446Z"/>
-  <path fill="#292b2a" stroke="none" d="M850 457C864 452 875 463 874 474C869 479 856 480 841 478C852 477 859 471 858 465C857 461 854 459 850 457Z"/>
-  <!-- A thick tail follows the flank and curls back against the forepaws. -->
-  <path d="M871 464C887 467 891 477 882 481C871 486 846 484 832 481" fill="none" stroke="#292b2a" stroke-width="7"/>
-  <path d="M875 467C884 471 886 476 879 479C867 483 848 482 837 480" fill="none" stroke="#4a4c48" stroke-width="1"/>
-  <path class="house-cat" d="M800 466C794 468 790 474 789 478C789 481 793 483 799 483L816 483C822 483 825 480 823 477C821 474 815 475 810 475L814 465Z"/>
-  <path d="M797 478L796 481M802 478L801 482M812 479L813 482" fill="none" stroke="#51534e" stroke-width=".65"/>
-  <!-- Broad cheeks, a small muzzle and ears growing from the skull. -->
-  <path class="house-cat" d="M790 449C787 443 786 435 788 431C793 433 798 438 800 441C804 440 808 440 812 441C815 437 819 432 823 432C825 439 822 446 820 450C823 456 821 464 817 468C813 472 807 474 801 472C793 470 788 465 787 459C787 455 788 452 790 449Z"/>
-  <path fill="#55514f" stroke="none" d="M790 435L798 443L792 445ZM821 436L814 444L819 445Z"/>
-  <path fill="#424442" stroke="none" d="M792 448C797 443 808 443 814 447C805 445 798 449 792 453Z"/>
-  <path fill="#454641" stroke="none" d="M797 460Q801 456 805 460Q809 457 813 460Q813 465 805 467Q797 465 797 460Z"/>
-  <path fill="#232524" stroke="none" d="M801 459Q805 458 808 459L805 462Z"/>
-  <path d="M805 462V464M805 464Q802 466 800 464M805 464Q808 466 810 464" fill="none" stroke="#242624" stroke-width=".7"/>
-  <path class="house-cat-eyes house-cat-eyes--shut" d="M792 454Q796 457 800 454M809 454Q813 457 817 453" fill="none" stroke-width="1.1"/>
+<!-- Moris, shared by both rooms: a long resting body and a slightly turned face. -->
+<g stroke-width=".65">
+  <!-- The shoulders sit above a low back, with the hind legs resting along it. -->
+  <path class="house-cat" style="fill:#2e302c;stroke:#2e302c" d="M805 465C809 456 817 451 828 451C841 450 853 454 865 459C876 462 881 470 879 478C872 482 860 483 845 482L804 482C798 479 799 471 805 465Z"/>
+  <path d="M817 457C831 451 846 455 858 459C849 457 833 455 822 460" fill="none" stroke="#41433e" stroke-width="1.1" opacity=".7"/>
+  <path d="M858 462C870 462 877 468 875 475C871 478 860 479 851 478" fill="none" stroke="#353833" stroke-width="1.5"/>
+  <path class="house-cat" style="fill:#20221f;stroke:#20221f" d="M853 476C861 473 871 473 879 476C881 479 877 481 871 481L846 482L831 481C829 479 832 477 836 477Z"/>
+  <!-- The tail lies along the body rather than making a large loop. -->
+  <path d="M877 472C886 474 889 478 884 481C875 484 856 484 840 483" fill="none" stroke="#242622" stroke-width="4.5"/>
+  <path d="M883 478C878 481 859 482 846 481.8" fill="none" stroke="#45463e" stroke-width=".65"/>
+  <!-- Forelegs extend from the chest; the nearer paw rests over the other. -->
+  <path class="house-cat" style="fill:#292b27;stroke:#292b27" d="M804 463C801 467 798 471 793 475C789 476 787 479 790 481C793 483 799 482 803 481L817 477L821 464Z"/>
+  <path d="M812 470C810 475 803 478 799 480M792 479L793 481M796 478.5L797 481" fill="none" stroke="#4a4b42" stroke-width=".6"/>
+  <!-- Tall ears and a narrower jaw frame the slightly asymmetric face. -->
+  <path class="house-cat" style="fill:#2e302c;stroke:#2e302c" d="M793 447C792 441 793 433 795 430C798 431 802 438 804 441C808 440 813 441 817 443C820 440 824 437 828 437C827 443 824 448 822 451C823 457 819 464 814 467C811 469 806 470 802 468C796 465 792 460 792 455C791 452 792 449 793 447Z"/>
+  <path d="M796 434L801 442L795 445ZM824 440L818 446L822 446Z" fill="#514b43" stroke="none" opacity=".65"/>
+  <path d="M797 447C801 443 808 443 813 446C808 445 802 447 799 450Z" fill="#41443c" stroke="none" opacity=".7"/>
+  <!-- A lit bridge and a small nose, without a smiling muzzle outline. -->
+  <path d="M807 452C807.5 454 808.2 457 809.5 459L807 460.5L806 458Q807 455 807 452Z" fill="#494c42" stroke="none" opacity=".4"/>
+  <path d="M802 461Q805 459 808 461Q810 459 813 460Q814 464 809 466Q804 466 802 463Z" fill="#363931" stroke="none"/>
+  <path d="M805.5 460.5Q808 459.7 810.2 460.4L808.1 462.5Z" fill="#141712" stroke="none"/>
+  <path d="M808.1 462.5L808 464.2M805.5 465Q808 466 810.3 464.8" fill="none" stroke="#171a15" stroke-width=".55"/>
+  <path class="house-cat-eyes house-cat-eyes--shut" d="M795.7 453.3Q798.5 455.2 801.4 453.8M812 453.8Q814.6 455.8 817.2 453.5" fill="none" stroke-width=".8"/>
   <g class="house-cat-eyes--open" stroke="none">
-    <circle cx="796.5" cy="454" r="3.3"/><circle cx="813" cy="453.5" r="3.3"/>
-    <ellipse class="house-cat-pupil" cx="796.5" cy="454" rx=".8" ry="2"/><ellipse class="house-cat-pupil" cx="813" cy="453.5" rx=".8" ry="2"/>
+    <!-- Rounded irises under relaxed upper lids; the far eye is a little smaller. -->
+    <circle cx="798.6" cy="452.8" r="2.85"/><circle cx="814.4" cy="453.5" r="2.6"/>
+    <g fill="#aa9f62" opacity=".48"><circle cx="798.6" cy="452.8" r="2.85"/><circle cx="814.4" cy="453.5" r="2.6"/></g>
+    <ellipse class="house-cat-pupil" cx="799" cy="452.9" rx="1.05" ry="2.2"/><ellipse class="house-cat-pupil" cx="814.6" cy="453.6" rx=".95" ry="2.05"/>
+    <path d="M794.9 449.3L802 449.7L802 451Q798.8 450.2 795.1 451ZM811.2 450L817.5 450.5L817.5 451.8Q814.4 451.2 811.3 451.8Z" fill="#2e302c"/>
+    <circle cx="797.4" cy="452" r=".35" fill="#e0d9b6" opacity=".8"/><circle cx="813.4" cy="452.8" r=".3" fill="#e0d9b6" opacity=".7"/>
   </g>
-  <path d="M799 463L785 460M799 465L784 465M811 463L825 459M812 465L826 464" fill="none" stroke="#96978a" stroke-width=".55" opacity=".65"/>
+  <path d="M802 462L789 460.5M802 464L788.5 464.3M812 462L824 459.5M812 464L825 463" fill="none" stroke="#94988a" stroke-width=".4" opacity=".5"/>
 </g>
