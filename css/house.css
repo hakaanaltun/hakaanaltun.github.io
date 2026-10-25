@@ -578,7 +578,11 @@ html.house-inside[data-house-theme="night"] body { --trail: #ffc73a; --trail-glo
 .is-fullscreen .house-room-footer { align-items: center; }
 .is-fullscreen .house-room-footer a { display: inline-block; padding: 10px 0; }
 .is-fullscreen .house-room-footer .house-listen { min-height: 44px; }
-.house.is-fullscreen .house-status { flex: none; min-height: 1.4em; margin: 0; font-size: 14px; }
+/* The status line keeps its room whether or not it has words, so the
+   picture does not move when one comes: its line is as tall as the room
+   kept for it. It was 1.4em kept for a line of the page's own height,
+   and lighting the lamp shrank the picture by a few pixels. */
+.house.is-fullscreen .house-status { flex: none; min-height: 1.4em; margin: 0; font-size: 14px; line-height: 1.4; }
 /* Upright, the picture is as wide as the screen and the rest follows it
    down, the list of places under it on a phone. */
 @media (max-aspect-ratio: 4/5) {
@@ -588,6 +592,8 @@ html.house-inside[data-house-theme="night"] body { --trail: #ffc73a; --trail-glo
   .is-fullscreen .house-instruction-row { margin-top: 6px; }
   .is-fullscreen .house-stage { container-type: normal; display: block; place-items: normal; margin: 4px 0 0; }
   .house.is-fullscreen .house-scene { width: auto; }
+  /* two lines kept, since a phone's width can break a longer one */
+  .house.is-fullscreen .house-status { min-height: 2.8em; }
 }
 /* On a short screen lying on its side, such as a phone's, everything but
    the picture stands in a column beside it, to leave it the whole height. */
