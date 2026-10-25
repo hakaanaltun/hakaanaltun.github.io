@@ -160,8 +160,11 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   for the day to be one light slate in the evening's hue: its darkest
   light shade at sunrise, nearly white at noon, and darker again until
   sunset, where the evening's slate takes over. It had been a warm stone,
-  Fog and Blueprint since the day before. Where the paper is darkest the
-  ink is darkest too, near-black, as the author asked, so every tier
+  Fog and Blueprint since the day before. On 25 October 2026 the author
+  asked for noon to be white itself (`#FFFFFF`, the last `DAY` stop), with
+  the band, the card and the rules a step off it in the slate's hue.
+  Where the paper is darkest the ink is darkest too, near-black, as the
+  author asked, so every tier
   keeps the day's floors; the header and footer are the evening's header
   all day, so they carry across sunset unchanged. Their words were a cool
   grey at first, and the author found them dull and asked the same day
