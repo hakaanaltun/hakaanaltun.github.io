@@ -58,9 +58,6 @@
     t["--rule"] = S.rgb(d.rule);
     t["--rule-strong"] = S.rgb(d.ruleStrong);
     t["--rule-cream"] = S.rgb(d.ruleCream);
-    t["--footer-text"] = S.rgb(d.footText);
-    t["--footer-muted"] = S.rgb(d.footMuted);
-    t["--header-border"] = "rgba(" + d.footText.join(",") + ",0.20)";
     t["--drawer-bg"] = "rgba(" + d.paper.join(",") + ",0.985)";
     /* the header and footer; css/palettes.css hands it to <body>, whose
        own --chrome-rgb would otherwise win */
@@ -90,8 +87,6 @@
     t["--ink-soft"] = S.rgb(S.over(ink, g, 0.94));
     t["--vizon"] = S.rgb(S.over(ink, g, 0.88));
     t["--footer-strip-ink"] = S.rgb(S.over(ink, g, 0.88));
-    t["--footer-text"] = S.rgb(ink);
-    t["--footer-muted"] = S.rgb(S.over(ink, g, 0.88));
     t["--hero-source-muted"] = S.rgb(S.over(ink, g, 0.88));
 
     /* rules are not text and carry no contrast minimum; they are the ink
@@ -120,6 +115,12 @@
   function tokens(sun){
     var day = sun.alt >= S.SUNRISE, t = day ? dayTokens(sun.share) : nightTokens(sun.alt, sun.eve);
     t.day = day;
+    /* the header's and footer's words, one tone that follows the sky
+       (sky-ramp.html's wordsAt) */
+    var words = S.wordsAt(sun);
+    t["--footer-text"] = S.rgb(words);
+    t["--footer-muted"] = S.rgb(words);
+    if(day) t["--header-border"] = "rgba(" + words.join(",") + ",0.20)";
     /* the header and footer: the day's chrome, or by night the band, which
        is what the night's header and footer are painted with */
     t.chrome = day ? "rgb(" + t["--sky-chrome-rgb"] + ")" : t["--band"];

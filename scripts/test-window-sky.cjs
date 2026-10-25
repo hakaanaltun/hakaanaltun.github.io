@@ -178,10 +178,14 @@ for(const month of [0,3,6,9])for(const hour of [0,6,12,18]){
       assert(ratio(css('--vizon'),css(g))>=4.5,'vizon on '+g+at);
     }
     assert(ratio(css('--vizon'),css('--paper'))>=(day?5:5.5),'vizon on the sheet'+at);
+    // the header's and footer's words, one tone on the chrome in both halves
+    const chrome=day?'rgb('+css('--sky-chrome-rgb')+')':css('--band');
+    assert(ratio(css('--footer-text'),chrome)>=7,'footer text on the chrome'+at);
+    assert.equal(css('--footer-muted'),css('--footer-text'),'one tone in the header and footer'+at);
+    if(alt===-30&&eve===0)assert.equal(css('--footer-text'),'rgb(248,235,194)','the full yellow in the deepest night');
+    if(alt===0||(alt<0&&eve===1))assert.equal(css('--footer-text'),'rgb(251,243,218)','40% white at sunrise and sunset'+at);
+    if(alt===60)assert.equal(css('--footer-text'),'rgb(253,249,237)','70% white at noon');
     if(day){
-      const chrome='rgb('+css('--sky-chrome-rgb')+')';
-      assert(ratio(css('--footer-text'),chrome)>=7,'footer text on the chrome'+at);
-      assert(ratio(css('--footer-muted'),chrome)>=4.5,'footer muted on the chrome'+at);
       assert.equal(css('--note-base'),'','the night\'s tokens are taken off by day'+at);
       assert(+css('--sec-l')>0.4&&+css('--sec-l')<0.52,'the accents\' lightness'+at);
     }else{

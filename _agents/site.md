@@ -175,7 +175,12 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   step back from the name, at 85% of that yellow (see The site's header
   and footer), and then found the yellow itself too full and asked for a
   little white in it: `#F8EBC2` with 25% white, `#FAF0D1`, 7.6:1 on the
-  chrome. The ink still turns at
+  chrome. On 25 October 2026 the author asked for those words to follow
+  the sky, by night as well as by day (`wordsAt()` in
+  `_includes/sky-ramp.html`): the full `#F8EBC2` while the night is at
+  its darkest, white mixed in as the sky opens and back as slowly. Later
+  that day the author set the amounts: 40% white at sunrise and sunset,
+  70% at noon, none at the darkest of the night. By night they had been the night's light ink. The ink still turns at
   sunset, from the darkest light slate to the evening's slate. The way is
   measured along the sun's arc, from where it rises to the day's own
   noon (`arcShare()`), so the paper moves through the whole day in every
@@ -224,8 +229,7 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   Notes in a soft clay,
   Words with Stories in plum,
   Pictures with Stories and Tonight in slate, Trivia in leaf green,
-  "First time here?" in the writing's graphite, which is the homepage's own,
-  and Instruments in a bluer petrol. Notes, Words
+  "First time here?" in the teal, and Instruments in a bluer petrol. Notes, Words
   and Pictures had no color before that day and fell to the rose, and The
   House with them; each page now names its voice with `series:` in its
   front matter (Words through `_config.yml` for the word pages and
@@ -269,7 +273,7 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   Later that day the author asked for the book to wear its own colour
   wherever it appears: the titles of Part I and Part II in that band, and
   the book's door under "First time here?" on the homepage, now carry it
-  too. A new place for the book outside its own section takes
+  too (the door gave it up on 25 October; see below). A new place for the book outside its own section takes
   `.book-voice`. The site's menu still takes the colour of the page it
   opens on (see The site's header and footer). After that change was merged, the author pointed out that Latest
   and Further back belong to the homepage rather than to a section page,
@@ -280,8 +284,12 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   differs from the other themes; the silver Notes and then the writing wore
   there is gone. Every
   page without a voice of its own already spoke in the writing's, and the
-  homepage was the last one left in the teal, which no section wears
-  now.
+  homepage was the last one left in the teal. On 25 October 2026 the
+  author asked for the teal back on "First time here?", The Fragments
+  under it included, so that the colour belongs to that section alone:
+  `body.is-home #start-here` is the one voice written for a homepage
+  section rather than a page, and its swatch on `/themes/` is listed by
+  that id.
 - **The night opens towards the horizon.** The shared ramp keeps its
   night stops through -6 degrees and turns grey-violet as the sun nears
   the horizon, where the day takes over; in the evening the slate stands
