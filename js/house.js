@@ -1317,17 +1317,19 @@
 
   /* The House's own colours (css/house.css). At the door the page wears
      the site's theme; in a room it wears the House's, which follows
-     İstanbul's light as the rooms do: their cream in the morning and by
-     day, and a warm dark from the evening, when the lamps come on.
+     İstanbul's light as the rooms do: their cream in the morning, by day
+     and in the evening, and a warm dark at night, after the last light.
+     The page was dark from the evening until the author found it too dark
+     on 25 October 2026: the rooms show the evening themselves. The same
+     day the night's dark was lifted a little from near-black.
 
      The header and footer move with İstanbul's sun every minute, as Follow
      the sky's do with the reader's: before sunrise they lighten out of the
      night's dark as the sky opens, and by day they are a beige at its
-     lightest at noon and darker toward the horizon. From the evening, when
-     the page turns dark with the lamps, they are the night's dark, a shade
-     under the page, as Follow the sky's header is by night; the author
-     found a beige still darkening over the dark page too light, on
-     25 October 2026. Their words are Follow the sky's
+     lightest at noon and darker toward the horizon, and after sunset they
+     darken toward the night's dark as the sky closes. At night, when the
+     page turns dark, they are the night's dark, a shade under the page, as
+     Follow the sky's header is by night. Their words are Follow the sky's
      (wordsAt in _includes/sky-ramp.html), the site's yellow with white
      mixed in as the sky opens, for İstanbul's sun. The author chose this
      lighter beige over one that keeps the site's 7:1 for the header's
@@ -1335,9 +1337,9 @@
      at every minute. The browser's own bar follows the header, and at the
      door the site's theme points it back where it was. Without the sky's
      script the header keeps the colours css/house.css gives it. */
-  var HEADER = { noon: [110, 98, 80], horizon: [90, 80, 64], night: [23, 20, 15] };
+  var HEADER = { noon: [110, 98, 80], horizon: [90, 80, 64], night: [36, 31, 25] };
   var HEADER_TOKENS = ['--surface-chrome', '--surface-footer', '--footer-text', '--footer-muted', '--header-border'];
-  var HOUSE_CHROME = { day: '#4E4638', night: '#17140F' };
+  var HOUSE_CHROME = { day: '#4E4638', night: '#241F19' };
   function istanbulEvening(now, alt, S) {
     var p = parts(now, { hour: '2-digit', minute: '2-digit', hourCycle: 'h23' });
     var h = +p.hour + +p.minute / 60;
@@ -1360,7 +1362,7 @@
   function wearTheme() {
     var page = document.documentElement;
     var hour = scene.dataset.hour;
-    var theme = !page.classList.contains('house-inside') ? '' : hour === 'evening' || hour === 'night' ? 'night' : 'day';
+    var theme = !page.classList.contains('house-inside') ? '' : hour === 'night' ? 'night' : 'day';
     var was = page.getAttribute('data-house-theme') || '';
     if (theme) page.setAttribute('data-house-theme', theme);
     else page.removeAttribute('data-house-theme');
