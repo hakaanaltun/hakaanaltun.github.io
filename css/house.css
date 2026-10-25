@@ -383,10 +383,8 @@
    House's, the header and footer with it, as the author asked on
    25 October 2026, when the light slate of Follow the sky by day did not
    suit the rooms. It follows İstanbul's light as the rooms do: their cream
-   in the morning, by day and in the evening, and a navy at night. The
-   night was a warm dark, lifted a little from the near-black it first
-   was, until later on 25 October 2026 the author asked for it to be
-   navy, as Follow the sky's night is, at the same lightness.
+   in the morning, by day and in the evening, and a warm dark at night,
+   lifted a little from the near-black it first was, on the same day.
    js/house.js sets data-house-theme on <html> while a room
    is open. The tokens are set on <body>, below the themes' own (Follow the
    sky paints its tokens on <html> itself), and the chrome is set as the
@@ -394,7 +392,7 @@
    chrome reaches them. js/house.js then moves the header, the footer and
    their words with İstanbul's sun, a beige by day into the night's dark;
    the chrome here is what stands without its script. Every tier holds
-   4.5:1: the cream's faintest ink is 4.65:1 on its band, the navy's 4.87:1
+   4.5:1: the cream's faintest ink is 4.65:1 on its band, the dark's 5.07:1
    on its cards, and the header's words here 5.59:1 and 9.52:1. */
 html.house-inside[data-house-theme="day"] { color-scheme: light; }
 html.house-inside[data-house-theme="night"] { color-scheme: dark; }
@@ -435,27 +433,27 @@ html.house-inside[data-house-theme="day"] body {
 }
 html.house-inside[data-house-theme="night"] body {
   color-scheme: dark;
-  --bg: #212C40;
-  --paper: #212C40;
-  --surface-soft: #2A364B;
-  --band: #182133;
-  --band-hero: #253145;
+  --bg: #2E2821;
+  --paper: #2E2821;
+  --surface-soft: #38322A;
+  --band: #241F19;
+  --band-hero: #332D25;
   --footer-strip-bg: var(--band);
   --ink: #EFE7D4;
   --ink-soft: #D7CEB8;
   --vizon: #ADA38F;
   --footer-strip-ink: var(--vizon);
   --hero-source-muted: #ADA38F;
-  --rule: #323E52;
-  --rule-strong: #4C586C;
-  --rule-cream: #4F586A;
+  --rule: #3F382E;
+  --rule-strong: #5A5042;
+  --rule-cream: #5C5140;
   --note-base: var(--surface-soft);
   --note-tint-l: 0.32;
   --note-tint-c: 0.025;
   --note-wash: 65%;
   --footer-text: #EFE7D4;
   --footer-muted: #C3BAA4;
-  --drawer-bg: rgba(33, 44, 64, 0.985);
+  --drawer-bg: rgba(46, 40, 33, 0.985);
   --header-border: rgba(239, 231, 212, 0.12);
   --surface-chrome: var(--band);
   --surface-footer: var(--band);
