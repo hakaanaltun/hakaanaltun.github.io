@@ -142,7 +142,9 @@
     root.setAttribute("data-theme", t.day ? "light" : "sky");
 
     /* the browser chrome follows the sheet by night and the header by day,
-       as it does for the dark themes and the palettes */
+       as it does for the dark themes and the palettes; in The House's
+       rooms it follows the House's own header (js/house.js) */
+    if(root.hasAttribute("data-house-theme")) return;
     var metas = document.querySelectorAll('meta[name="theme-color"]');
     for(var i = 0; i < metas.length; i++){
       metas[i].setAttribute("content", t.day ? t.chrome : t["--paper"]);

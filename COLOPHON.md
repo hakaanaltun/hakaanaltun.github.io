@@ -141,7 +141,18 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   (Words, Pictures, Trivia, Instruments), Moris and About. The House is
   entered like a room, but it keeps them: it does not fill the window,
   what it holds (the shelf, the desk, the drawer) is read, and it is first
-  in the site’s menu.
+  in the site’s menu. A reader can still ask for full screen in the study
+  or on the balcony, as on a picture. The room then fills the screen with
+  its own controls and the way out, going from one room to the other keeps
+  it, and the header and footer come back when the reader leaves it or
+  goes to the door. The author asked for this on 25 October 2026.
+- **Inside, The House wears its own colours.** At the door the page keeps
+  the theme the reader chose. In the study and on the balcony the page,
+  its header and its footer take the rooms’ colours instead: their cream
+  in the morning and by day, and a warm dark from the evening, when the
+  lamps come on. Like the rooms’ light, they follow İstanbul’s hour. The
+  author asked for this on 25 October 2026, when the light slate of Follow
+  the sky by day did not suit the rooms.
 - **A place that fills the window has its own quiet frame.** This applies to the
   Farm House, each picture in Pictures with Stories and each instrument. The
   frame gives a way back and the place’s own controls, and leaves the rest

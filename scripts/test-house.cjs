@@ -1788,6 +1788,125 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.equal(t.q('canvas.cursor-trail'), null, 'and none for a reader who asked for less motion');
   t.dom.window.close();
 
+  // Full screen, in the study and on the balcony. jsdom has no full screen
+  // of its own, so the room fills the window; the site's header and footer
+  // wait, going from one room to the other keeps it, and Escape, the button
+  // and the door end it. A box open over the room closes before Escape
+  // leaves the room's full screen.
+  {
+    const f = house({ url: 'https://hakanaltun.io/house/#study', before: (w) => { w.scrollTo = () => {}; } });
+    await tick();
+    const doc = f.w.document;
+    const buttons = [...doc.querySelectorAll('[data-fullscreen]')];
+    assert.deepEqual(buttons.map((b) => b.closest('section').id), ['study', 'balcony'], 'Full screen in each room');
+    assert.ok(buttons.every((b) => !b.hidden && b.textContent === 'Full screen' && b.getAttribute('aria-pressed') === 'false'));
+    const full = () => f.q('#house').classList.contains('is-fullscreen');
+    const header = doc.getElementById('site-header');
+    const escape = () => doc.dispatchEvent(new f.w.KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    f.click('#study [data-fullscreen]');
+    assert.ok(full(), 'the room fills the window');
+    assert.ok(header.hasAttribute('inert') && doc.querySelector('footer').hasAttribute('inert'), 'the header and footer wait');
+    assert.equal(f.q('#house').closest('[inert]'), null, 'and The House is not one of them');
+    assert.equal(doc.body.style.overflow, 'hidden');
+    assert.ok(buttons.every((b) => b.textContent === 'Exit full screen' && b.getAttribute('aria-pressed') === 'true'));
+    assert.equal(doc.activeElement, f.q('#study [data-fullscreen]'));
+    f.click('.house-hotspot--balcony');
+    assert.equal(f.q('#balcony').hidden, false);
+    assert.ok(full(), 'out to the balcony in full screen');
+    f.click('[data-open="notebook"]');
+    escape();
+    assert.ok(full(), 'Escape is for the box first');
+    f.click('#house-close');
+    escape();
+    assert.equal(full(), false, 'then for full screen');
+    assert.ok(!header.hasAttribute('inert') && doc.body.style.overflow === '', 'the page is whole again');
+    assert.equal(doc.activeElement, f.q('#balcony [data-fullscreen]'), 'with the focus on the button');
+    assert.ok(buttons.every((b) => b.textContent === 'Full screen'));
+    f.click('#balcony [data-fullscreen]');
+    f.click('#balcony [data-fullscreen]');
+    assert.equal(full(), false, 'the button leaves it too');
+    f.click('#balcony .house-hotspot--study-door');
+    f.click('#study [data-fullscreen]');
+    f.click('#house-leave');
+    assert.equal(f.q('#house-entrance').hidden, false);
+    assert.equal(full(), false, 'the door ends it');
+    assert.equal(header.hasAttribute('inert'), false);
+    f.dom.window.close();
+
+    // Where the browser can give the page its own full screen, the room asks
+    // for it, and leaves it with the browser.
+    let asked = 0;
+    let left = 0;
+    const g = house({
+      url: 'https://hakanaltun.io/house/#balcony',
+      before: (w) => {
+        w.scrollTo = () => {};
+        let element = null;
+        Object.defineProperty(w.document, 'fullscreenEnabled', { value: true });
+        Object.defineProperty(w.document, 'fullscreenElement', { get: () => element });
+        w.document.documentElement.requestFullscreen = () => { asked++; element = w.document.documentElement; w.document.dispatchEvent(new w.Event('fullscreenchange')); return Promise.resolve(); };
+        w.document.exitFullscreen = () => { left++; element = null; w.document.dispatchEvent(new w.Event('fullscreenchange')); return Promise.resolve(); };
+      }
+    });
+    await tick();
+    g.click('#balcony [data-fullscreen]');
+    await tick();
+    assert.equal(asked, 1);
+    assert.ok(g.q('#house').classList.contains('is-fullscreen'), 'the page in the browser\'s full screen');
+    g.click('#balcony [data-fullscreen]');
+    await tick();
+    assert.equal(left, 1, 'and out of it');
+    assert.equal(g.q('#house').classList.contains('is-fullscreen'), false);
+    g.click('#balcony [data-fullscreen]');
+    await tick();
+    g.w.document.exitFullscreen();
+    assert.equal(g.q('#house').classList.contains('is-fullscreen'), false, 'the browser\'s own way out ends it');
+    g.dom.window.close();
+  }
+
+  // The House's own colours: the site's theme at the door, and in a room the
+  // rooms' colours by İstanbul's light, cream by day and a warm dark from
+  // the evening, when the lamps come on. The browser's bar takes the
+  // House's header.
+  {
+    let c = houseAt('2026-10-11T11:00:00+03:00', 'https://hakanaltun.io/house/');
+    await tick();
+    let page = c.w.document.documentElement;
+    const bar = (n) => [...n.w.document.querySelectorAll('meta[name="theme-color"]')].map((m) => m.getAttribute('content'));
+    assert.equal(page.hasAttribute('data-house-theme'), false, 'the door wears the site\'s theme');
+    c.click('#house-enter');
+    assert.equal(page.getAttribute('data-house-theme'), 'day', 'the study the rooms\' cream');
+    assert.deepEqual(bar(c), ['#4E4638', '#4E4638']);
+    c.click('.house-hotspot--balcony');
+    assert.equal(page.getAttribute('data-house-theme'), 'day', 'and the balcony');
+    c.click('#balcony .house-hotspot--study-door');
+    c.click('#house-leave');
+    assert.equal(page.hasAttribute('data-house-theme'), false, 'the door the site\'s again');
+    c.dom.window.close();
+    c = houseAt('2026-10-11T18:00:00+03:00', 'https://hakanaltun.io/house/#balcony');
+    await tick();
+    page = c.w.document.documentElement;
+    assert.equal(c.q('#house-balcony-scene').dataset.hour, 'evening');
+    assert.equal(page.getAttribute('data-house-theme'), 'night', 'a warm dark from the evening');
+    assert.deepEqual(bar(c), ['#17140F', '#17140F']);
+    c.dom.window.close();
+    // Every token a theme sets has a value in both of the House's, so that
+    // no theme shows through inside the rooms. The theme menu's icons stay
+    // the reader's: they say which theme the reader chose.
+    const css = read(root, 'css', 'house.css');
+    const style = read(root, 'css', 'style.css');
+    const tokens = (text) => new Set([...text.matchAll(/(--[\w-]+):/g)].map((m) => m[1]));
+    const block = (text, head) => { const at = text.indexOf(head); assert.ok(at >= 0, head); return text.slice(at, text.indexOf('}', at)); };
+    const themed = new Set([...tokens(block(style, 'html[data-theme="dark"] {')), ...tokens(block(style, 'html[data-theme="dark"] body {')), ...tokens(block(style, 'html[data-theme="sky"] body {'))]);
+    for (const name of ['day', 'night']) {
+      const own = tokens(block(css, 'html.house-inside[data-house-theme="' + name + '"] body {'));
+      for (const token of themed) {
+        if (token === '--theme-icon-sun' || token === '--theme-icon-moon') continue;
+        assert.ok(own.has(token), 'the House\'s ' + name + ' sets ' + token);
+      }
+    }
+  }
+
   // A catalogue that cannot be fetched leaves each object with its way to
   // the full list instead of "One moment…" for good. The page's own address
   // once took the catalogue callback's name, and a failed fetch then found
@@ -1802,6 +1921,6 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
     off.dom.window.close();
   }
 
-  console.log('House: catalog and addresses, an unreachable catalogue, daily room, keeping from the room and from words, quizzes, the book and essays, the passage prompt on word stories and quiz notes, the kept passage\'s panel, its note and the way on to The Page, Highlight and its clearing, the small box by a highlight, hidden highlights, a note written before keeping, notes in the drawer, legacy and hostile records, blocked storage, arrivals, #drawer, export and backup offered only where they work, the moon, the planets after dark, weather at the window, the footer\'s snow and rain under both rooms, what the balcony\'s sound is told, the balcony, its glass, its door, its sky and its lamp, its notebook, a kept page left open in it, and the way on to The Page, Moris on the chair and by the glass, quiet places and a remembered Show places to look, the ways back to the study, the balcony, the drawer as it was and the page a note was written on, the pointer\'s trail, in the rooms only, and the drawer over any page from the site\'s menu and the footer, and The House in the header as a plain link passed.');
+  console.log('House: catalog and addresses, an unreachable catalogue, daily room, keeping from the room and from words, quizzes, the book and essays, the passage prompt on word stories and quiz notes, the kept passage\'s panel, its note and the way on to The Page, Highlight and its clearing, the small box by a highlight, hidden highlights, a note written before keeping, notes in the drawer, legacy and hostile records, blocked storage, arrivals, #drawer, export and backup offered only where they work, the moon, the planets after dark, weather at the window, the footer\'s snow and rain under both rooms, what the balcony\'s sound is told, the balcony, its glass, its door, its sky and its lamp, its notebook, a kept page left open in it, and the way on to The Page, Moris on the chair and by the glass, quiet places and a remembered Show places to look, full screen in both rooms, the House\'s own colours inside and the site\'s at the door, the ways back to the study, the balcony, the drawer as it was and the page a note was written on, the pointer\'s trail, in the rooms only, and the drawer over any page from the site\'s menu and the footer, and The House in the header as a plain link passed.');
 })().catch((error) => { console.error(error); process.exit(1); });
 

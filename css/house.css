@@ -1,6 +1,7 @@
-/* The entrance and controls share the site's paper, ink and type. The
-   study and balcony illustrations keep their own palette in every theme;
-   their light comes from Istanbul's hour, weather and the reader's lamps. */
+/* The entrance shares the site's paper, ink and type; in the study and on
+   the balcony the page wears the House's own colours (below). The
+   illustrations keep their own palette in every theme; their light comes
+   from Istanbul's hour, weather and the reader's lamps. */
 .house { max-width: 1080px; margin: 0 auto; padding: 62px 30px 38px; color: var(--ink); }
 .house [hidden] { display: none !important; }
 .house-study { padding: 0; }
@@ -49,7 +50,9 @@
 .house-instruction-row { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 0 18px; margin: 10px 0 12px; }
 .house-instruction-row .house-instruction { margin: 0; }
 /* "Show places to look", as under the pictures: the names of every place
-   in both rooms, for as long as the reader keeps them. */
+   in both rooms, for as long as the reader keeps them. "Full screen"
+   stands beside it, in the same quiet type. */
+.house-tools { display: flex; flex-wrap: wrap; gap: 0 22px; }
 .house-places { min-height: 44px; padding: 0; border: 0; background: none; color: var(--vizon); font-size: 15px !important; transition: var(--select-ease); }
 .house-places:hover, .house-places:active { opacity: var(--select-dim); }
 .house-scene { position: relative; overflow: hidden; border: 1px solid var(--rule-strong); isolation: isolate; --room-wall: #eee9db; --room-floor: #e0d6c0; --room-line: #6c6555; --room-wood: #c7b799; --room-paper: #fbf6e8; --room-back: #ded4bf; --room-cream: #ded2af; --room-blue: #6e8386; --room-olive: #8b967a; --room-rust: #b27d66; --room-burgundy: #8e4552; --room-gold: #cda955; --room-carpet: #d3c7a8; --room-sunlight: .7; --sky-top: #a2bcca; --sky-bottom: #dbe2d3; }
@@ -375,6 +378,90 @@
 /* What the notebook has just done, under its buttons where the eye is. */
 .house-dialog .house-notebook-said { margin: 12px 0 -4px; color: var(--ink); font-size: 17px; }
 .house-notebook-said:empty { display: none; }
+/* The House's own colours. At the door the page wears the site's theme,
+   whichever the reader chose; in the study and on the balcony it wears the
+   House's, the header and footer with it, as the author asked on
+   25 October 2026, when the light slate of Follow the sky by day did not
+   suit the rooms. It follows İstanbul's light as the rooms do: their cream
+   in the morning and by day, and a warm dark from the evening, when the
+   lamps come on. js/house.js sets data-house-theme on <html> while a room
+   is open. The tokens are set on <body>, below the themes' own (Follow the
+   sky paints its tokens on <html> itself), and the chrome is set as the
+   surfaces the header and footer are painted with, so that no palette's
+   chrome reaches them. Every tier holds 4.5:1: the cream's faintest ink
+   is 4.65:1 on its band, the dark's 5.73:1 on its cards, and the header's
+   words 5.59:1 and 9.52:1. */
+html.house-inside[data-house-theme="day"] { color-scheme: light; }
+html.house-inside[data-house-theme="night"] { color-scheme: dark; }
+html.house-inside[data-house-theme="day"] body {
+  color-scheme: light;
+  --bg: #F4EFE3;
+  --paper: #F4EFE3;
+  --surface-soft: #ECE5D5;
+  --band: #E8E0CD;
+  --band-hero: var(--paper);
+  --footer-strip-bg: #F4EFE3;
+  --ink: #2B2620;
+  --ink-soft: #443B30;
+  --vizon: #6A6150;
+  --footer-strip-ink: #655946;
+  --hero-source-muted: #655946;
+  --rule: #E3DAC6;
+  --rule-strong: #CFC2A4;
+  --rule-cream: #DACCA4;
+  --note-base: var(--paper);
+  --note-tint-l: 0.80;
+  --note-tint-c: 0.095;
+  --note-wash: 15%;
+  --footer-text: #F1E9D2;
+  --footer-muted: #D3C8AC;
+  --drawer-bg: rgba(244, 239, 227, 0.985);
+  --header-border: rgba(241, 233, 210, 0.20);
+  --surface-chrome: #4E4638;
+  --surface-footer: #4E4638;
+  --shadow-card: 0 4px 16px rgba(43, 38, 32, 0.05);
+  --shadow-card-hover: 0 16px 40px rgba(78, 70, 56, 0.08);
+  --shadow-cover: 0 14px 24px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.06);
+  --sec-l: 0.490;
+  --sec-accent: oklch(calc(var(--sec-l) - var(--sec-dl, 0)) var(--sec-c, 0.050) var(--sec-h, 178));
+  --petrol: var(--sec-accent);
+  --petrol-deep: color-mix(in srgb, var(--sec-accent) 74%, black);
+  --writing-accent: oklch(var(--sec-l) 0.012 250);
+}
+html.house-inside[data-house-theme="night"] body {
+  color-scheme: dark;
+  --bg: #1F1B16;
+  --paper: #1F1B16;
+  --surface-soft: #28231D;
+  --band: #17140F;
+  --band-hero: #231F19;
+  --footer-strip-bg: var(--band);
+  --ink: #EFE7D4;
+  --ink-soft: #D7CEB8;
+  --vizon: #A69C88;
+  --footer-strip-ink: var(--vizon);
+  --hero-source-muted: #A69C88;
+  --rule: #312B23;
+  --rule-strong: #4B4337;
+  --rule-cream: #4D4433;
+  --note-base: var(--surface-soft);
+  --note-tint-l: 0.26;
+  --note-tint-c: 0.025;
+  --note-wash: 65%;
+  --footer-text: #EFE7D4;
+  --footer-muted: #C3BAA4;
+  --drawer-bg: rgba(31, 27, 22, 0.985);
+  --header-border: rgba(239, 231, 212, 0.12);
+  --surface-chrome: var(--band);
+  --surface-footer: var(--band);
+  --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.3);
+  --shadow-card-hover: 0 16px 40px rgba(0, 0, 0, 0.45);
+  --shadow-cover: 0 14px 24px rgba(0, 0, 0, 0.5), 0 4px 8px rgba(0, 0, 0, 0.35);
+  --sec-accent-dark: oklch(var(--sec-ld, 0.800) var(--sec-cd, 0.048) var(--sec-h, 178));
+  --petrol: var(--sec-accent-dark);
+  --petrol-deep: color-mix(in srgb, var(--sec-accent-dark) 72%, #FFFFFF);
+  --writing-accent: oklch(0.780 0.010 250);
+}
 /* The trail the pointer leaves (js/cursor-trail.js), and the pointer itself,
    a speck a little larger than the trail's own at its head, both a light
    golden yellow. On dark ground they are lit, and the trail's specks brighten
@@ -386,6 +473,9 @@
 html[data-theme="dark"], html[data-theme="midnight"], html[data-theme="sky"], .house-scene[data-hour="night"] { --trail: #ffc73a; --trail-glow: 1; --house-speck: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Ccircle cx='5' cy='5' r='3.5' fill='%23ffd04f'/%3E%3C/svg%3E") 5 5, auto; }
 @media (prefers-color-scheme: dark) { html:not([data-theme]) { --trail: #ffc73a; --trail-glow: 1; --house-speck: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Ccircle cx='5' cy='5' r='3.5' fill='%23ffd04f'/%3E%3C/svg%3E") 5 5, auto; } }
 html:not(.house-inside) { --trail: none; }
+/* Inside, the House's own colours decide how the trail is lit. */
+html.house-inside[data-house-theme="day"] body { --trail: #ffcd38; --trail-glow: 0; --house-speck: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Ccircle cx='5' cy='5' r='3.5' fill='%23ffcd38'/%3E%3C/svg%3E") 5 5, auto; }
+html.house-inside[data-house-theme="night"] body { --trail: #ffc73a; --trail-glow: 1; --house-speck: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Ccircle cx='5' cy='5' r='3.5' fill='%23ffd04f'/%3E%3C/svg%3E") 5 5, auto; }
 /* Over anything that can be chosen the speck opens into a ring, drawn in both
    golds so it holds on the cream labels and on dark ground alike. In the
    dialog and in a search field the ordinary pointer comes back: that is where
@@ -461,5 +551,59 @@ html:not(.house-inside) { --trail: none; }
   /* The picture runs edge to edge. */
   .house-scene { margin-inline: -18px; border-inline: 0; }
   .house-room-footer { font-size: 14px; }
+}
+/* Full screen, in the study and on the balcony (js/house.js). The room
+   fills the screen with its bar, its places and the way out; the site's
+   header and footer, the heading and the weather line wait until the
+   reader leaves it. The picture keeps its proportions and is as large as
+   the screen allows, so every place stays on its thing: it takes the
+   width of its stage or, where the stage is wider than the picture, its
+   height. The 2px are its border. On a wide
+   screen the bar and the controls stand above the picture and the way back
+   below it. */
+.house.is-fullscreen { position: fixed; inset: 0; z-index: 120; max-width: none; margin: 0; display: flex; flex-direction: column; padding: max(14px, env(safe-area-inset-top)) max(24px, env(safe-area-inset-right)) max(8px, env(safe-area-inset-bottom)) max(24px, env(safe-area-inset-left)); background: var(--paper); overflow: hidden; }
+.house.is-fullscreen > :not(section, .house-status, dialog) { display: none; }
+.house.is-fullscreen > section:not([hidden]) { flex: 1; min-height: 0; display: grid; grid-template: "bar tools" auto "stage stage" minmax(0, 1fr) "objects objects" auto "foot foot" auto / minmax(0, 1fr) auto; column-gap: 28px; }
+.is-fullscreen .house-room-bar { grid-area: bar; padding: 0; justify-content: start; align-items: baseline; gap: 22px; }
+.is-fullscreen .house-room-bar .house-eyebrow { display: none; }
+.is-fullscreen .house-room-bar h2 { font-size: 30px; }
+.is-fullscreen .house-instruction-row { grid-area: tools; margin: 0; align-self: center; }
+.is-fullscreen .house-instruction { display: none; }
+.is-fullscreen .house-stage { grid-area: stage; min-width: 0; min-height: 0; container-type: size; display: grid; place-items: center; margin: 10px 0 4px; }
+.house.is-fullscreen .house-scene { width: min(100cqw, (100cqh - 2px) * 1000 / 650 + 2px); margin: 0; border: 1px solid var(--rule-strong); }
+.is-fullscreen .house-objects { grid-area: objects; }
+.is-fullscreen .house-room-footer { grid-area: foot; padding: 0; border-bottom: 0; }
+.is-fullscreen .house-room-footer { align-items: center; }
+.is-fullscreen .house-room-footer a { display: inline-block; padding: 10px 0; }
+.is-fullscreen .house-room-footer .house-listen { min-height: 44px; }
+.house.is-fullscreen .house-status { flex: none; min-height: 1.4em; margin: 0; font-size: 14px; }
+/* Upright, the picture is as wide as the screen and the rest follows it
+   down, the list of places under it on a phone. */
+@media (max-aspect-ratio: 4/5) {
+  .house.is-fullscreen { justify-content: center; padding-inline: max(16px, env(safe-area-inset-left)) max(16px, env(safe-area-inset-right)); }
+  .house.is-fullscreen > section:not([hidden]) { flex: none; max-height: 100%; overflow: auto; grid-template: "bar" auto "tools" auto "stage" auto "objects" auto "foot" auto / minmax(0, 1fr); }
+  .is-fullscreen .house-room-bar { justify-content: space-between; align-items: center; }
+  .is-fullscreen .house-instruction-row { margin-top: 6px; }
+  .is-fullscreen .house-stage { container-type: normal; display: block; place-items: normal; margin: 4px 0 0; }
+  .house.is-fullscreen .house-scene { width: auto; }
+}
+/* On a short screen lying on its side, such as a phone's, everything but
+   the picture stands in a column beside it, to leave it the whole height. */
+@media (min-aspect-ratio: 4/5) and (max-width: 860px) {
+  .house.is-fullscreen { --side: clamp(150px, 27vw, 240px); padding: max(8px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) max(8px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left)); }
+  .house.is-fullscreen > section:not([hidden]) { grid-template: "stage bar" auto "stage tools" auto "stage objects" minmax(0, 1fr) "stage foot" auto / minmax(0, 1fr) var(--side); column-gap: 14px; }
+  .is-fullscreen .house-stage { margin: 0; }
+  .is-fullscreen .house-room-bar { display: block; }
+  .is-fullscreen .house-room-bar h2 { font-size: 26px; }
+  .is-fullscreen .house-time { max-width: none; margin-top: 2px; text-align: left; font-size: 13px; }
+  .is-fullscreen .house-time-now { display: inline; }
+  .is-fullscreen .house-time-sep { display: inline; }
+  .is-fullscreen .house-instruction-row { align-self: start; margin-top: 4px; }
+  .is-fullscreen .house-tools { flex-direction: column; }
+  .is-fullscreen .house-tools .house-places { text-align: left; font-size: 14px !important; }
+  .is-fullscreen .house-objects { grid-template-columns: minmax(0, 1fr); align-self: stretch; overflow: auto; margin: 4px 0 0; }
+  .is-fullscreen .house-objects :is(button, a) { min-height: 40px; padding: 4px 0; font-size: 14px; }
+  .is-fullscreen .house-room-footer { flex-direction: column; align-items: start; gap: 0; margin-bottom: 1.5em; font-size: 14px; }
+  .house.is-fullscreen .house-status { position: absolute; right: max(12px, env(safe-area-inset-right)); bottom: max(8px, env(safe-area-inset-bottom)); width: var(--side); font-size: 13px; line-height: 1.3; }
 }
 @media (prefers-reduced-motion: reduce) { .house *, .house *::before, .house *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }

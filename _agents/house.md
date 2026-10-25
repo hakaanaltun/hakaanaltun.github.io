@@ -283,3 +283,49 @@ and sky.
   pointer and leaves none, as the author asked on 13 October 2026.
   `js/house.js` marks the page `house-inside` while a room is open, and
   `--trail: none` stops the trail over any part of a page.
+
+## Full screen and the House's colours
+
+- **Full screen in both rooms** (rule in `COLOPHON.md`). "Full screen"
+  stands beside "Show places to look" in each room (`[data-fullscreen]`),
+  as it does under a picture. `js/house.js` asks the browser to put the
+  whole page (`<html>`) in full screen, so the pointer's trail and the
+  boxes over the room come along, and marks `#house` `is-fullscreen`; a
+  browser that cannot, such as a phone's Safari, has the room fill its
+  window instead (`position: fixed`). Everything outside `#house` on the
+  way to `<body>` is made `inert` meanwhile. Going from one room to the
+  other keeps it; the door, the button and Escape end it, and a box open
+  over the room closes before Escape leaves the window's full screen.
+  Leaving puts the page back where it was, or on the room the reader went
+  on to.
+- **The picture keeps its proportions in full screen.** Each scene stands
+  in a `.house-stage`, which full screen makes a size container: the scene
+  takes the stage's width or, where the stage is wider than the picture,
+  its height, so the places (`cqw` in `css/house.css`) stay on their
+  things. Three layouts: on a wide screen the room's name, time and
+  controls stand above the picture and the way back below it; upright
+  (`max-aspect-ratio: 4/5`) the picture is as wide as the screen and the
+  list of places follows it; on a short screen lying on its side (a phone)
+  everything but the picture stands in a column beside it, and the list
+  scrolls there. Chrome now aligns blocks with `justify-items`, so the
+  upright stage sets `place-items: normal`; without it the picture
+  shrank to nothing. The fade between rooms lifts the leaving room at its
+  measured height as well as its width, because a size container has no
+  height of its own. Look at all three on a desk and a phone, both ways
+  up, before changing one.
+- **The House's own colours** (rule in `COLOPHON.md`). `wearTheme()` in
+  `js/house.js` sets `data-house-theme` on `<html>` while a room is open:
+  `day` in İstanbul's morning and day, `night` from its evening, read
+  from the scenes' `data-hour`, so it turns with the lamps. At the door it
+  is taken off. `css/house.css` sets the tokens on `<body>`, which every
+  theme's own blocks reach only from `<html>` (Follow the sky paints
+  inline on `<html>`), and sets `--surface-chrome` and `--surface-footer`
+  directly, so no palette's `--chrome-rgb` reaches the header and footer.
+  It sets the accent again too, the House's green from `--sec-l` by day
+  and `--sec-accent-dark` by night, since Follow the sky and Midnight
+  replace `--petrol` on `<body>`. The browser's own bar takes the House's
+  header colour; `_includes/site-sky.html` leaves the `theme-color` metas
+  alone while `data-house-theme` is set, and at the door the site's theme
+  points them back. The pointer's trail is lit by the House's colours, not
+  the site's theme. Every tier holds 4.5:1; check a change against the
+  bands as well as the paper.
