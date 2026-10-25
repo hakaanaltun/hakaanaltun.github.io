@@ -383,8 +383,8 @@
    House's, the header and footer with it, as the author asked on
    25 October 2026, when the light slate of Follow the sky by day did not
    suit the rooms. It follows İstanbul's light as the rooms do: their cream
-   in the morning and by day, and a warm dark from the evening, when the
-   lamps come on. js/house.js sets data-house-theme on <html> while a room
+   in the morning, by day and in the evening, and a warm dark at night.
+   js/house.js sets data-house-theme on <html> while a room
    is open. The tokens are set on <body>, below the themes' own (Follow the
    sky paints its tokens on <html> itself), and the chrome is set as the
    surfaces the header and footer are painted with, so that no palette's

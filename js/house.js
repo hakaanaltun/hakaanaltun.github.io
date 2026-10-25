@@ -1317,17 +1317,18 @@
 
   /* The House's own colours (css/house.css). At the door the page wears
      the site's theme; in a room it wears the House's, which follows
-     İstanbul's light as the rooms do: their cream in the morning and by
-     day, and a warm dark from the evening, when the lamps come on.
+     İstanbul's light as the rooms do: their cream in the morning, by day
+     and in the evening, and a warm dark at night, after the last light.
+     The page was dark from the evening until the author found it too dark
+     on 25 October 2026: the rooms show the evening themselves.
 
      The header and footer move with İstanbul's sun every minute, as Follow
      the sky's do with the reader's: before sunrise they lighten out of the
      night's dark as the sky opens, and by day they are a beige at its
-     lightest at noon and darker toward the horizon. From the evening, when
-     the page turns dark with the lamps, they are the night's dark, a shade
-     under the page, as Follow the sky's header is by night; the author
-     found a beige still darkening over the dark page too light, on
-     25 October 2026. Their words are Follow the sky's
+     lightest at noon and darker toward the horizon, and after sunset they
+     darken toward the night's dark as the sky closes. At night, when the
+     page turns dark, they are the night's dark, a shade under the page, as
+     Follow the sky's header is by night. Their words are Follow the sky's
      (wordsAt in _includes/sky-ramp.html), the site's yellow with white
      mixed in as the sky opens, for İstanbul's sun. The author chose this
      lighter beige over one that keeps the site's 7:1 for the header's
@@ -1360,7 +1361,7 @@
   function wearTheme() {
     var page = document.documentElement;
     var hour = scene.dataset.hour;
-    var theme = !page.classList.contains('house-inside') ? '' : hour === 'evening' || hour === 'night' ? 'night' : 'day';
+    var theme = !page.classList.contains('house-inside') ? '' : hour === 'night' ? 'night' : 'day';
     var was = page.getAttribute('data-house-theme') || '';
     if (theme) page.setAttribute('data-house-theme', theme);
     else page.removeAttribute('data-house-theme');

@@ -327,8 +327,9 @@ and sky.
   moves nothing.
 - **The House's own colours** (rule in `COLOPHON.md`). `wearTheme()` in
   `js/house.js` sets `data-house-theme` on `<html>` while a room is open:
-  `day` in İstanbul's morning and day, `night` from its evening, read
-  from the scenes' `data-hour`, so it turns with the lamps. At the door it
+  `day` in İstanbul's morning, day and evening, `night` at its night, read
+  from the scenes' `data-hour`. It turned with the lamps, at the evening,
+  until the author found the evening too dark on 25 October 2026. At the door it
   is taken off. `css/house.css` sets the tokens on `<body>`, which every
   theme's own blocks reach only from `<html>` (Follow the sky paints
   inline on `<html>`), and sets `--surface-chrome` and `--surface-footer`
@@ -344,11 +345,10 @@ and sky.
   on `<body>`'s own style, from `window.OLAE_SKY` (`_includes/sky-ramp.html`)
   with the House's coordinates: before sunrise `HEADER.night` up to
   `HEADER.horizon` as the night opens, by day `HEADER.horizon` to
-  `HEADER.noon` along the sun's arc, and from the evening, while the page
+  `HEADER.noon` along the sun's arc, after sunset `HEADER.horizon` down to
+  `HEADER.night` as the evening closes, and at night, while the page
   wears its dark (`data-house-theme="night"`), `HEADER.night`, a shade
-  under the page as Follow the sky's header is by night. It first darkened
-  from sunset until nine, and the author found it too light over the dark
-  page the same day. The words are
+  under the page as Follow the sky's header is by night. The words are
   `wordsAt()` for İstanbul's sun, the same white as Follow the sky's. The
   author asked for both on 25 October 2026, saw a beige that keeps the
   site's 7:1 for the header's words (#5E5443 at noon) beside a lighter

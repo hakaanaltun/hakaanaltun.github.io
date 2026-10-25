@@ -1890,13 +1890,19 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
     await tick();
     html = c.w.document.documentElement;
     assert.equal(c.q('#house-balcony-scene').dataset.hour, 'evening');
-    assert.equal(html.getAttribute('data-house-theme'), 'night', 'a warm dark from the evening');
+    assert.equal(html.getAttribute('data-house-theme'), 'day', 'the cream in the evening, which the rooms show themselves');
+    c.dom.window.close();
+    c = houseAt('2026-10-11T22:00:00+03:00', 'https://hakanaltun.io/house/#balcony');
+    await tick();
+    html = c.w.document.documentElement;
+    assert.equal(c.q('#house-balcony-scene').dataset.hour, 'night');
+    assert.equal(html.getAttribute('data-house-theme'), 'night', 'a warm dark at night');
     assert.deepEqual(bar(c), ['#17140F', '#17140F']);
     c.dom.window.close();
     // The header and footer follow İstanbul's sun with Follow the sky's
     // rhythm (_includes/sky-ramp.html, which the page carries inline): a
-    // beige by day, lightest at noon, the night's dark from the evening,
-    // when the page turns dark, and words that take white as the sky opens. The author chose a beige lighter
+    // beige by day, lightest at noon, darkening after sunset, the night's
+    // dark at night, when the page turns dark, and words that take white as the sky opens. The author chose a beige lighter
     // than the site's 7:1 allows, so the words hold 5.6:1 and the quieter
     // tier, at 85%, 4.5:1, every quarter of an hour of a summer day, a
     // winter day and this one. At the door they are the site's again.
@@ -1918,8 +1924,10 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
       const at = (when) => { clock.t = Date.parse(when); h.w.document.dispatchEvent(new h.w.Event('visibilitychange')); return style.getPropertyValue('--surface-chrome'); };
       assert.equal(at('2026-10-25T12:50:00+03:00'), 'rgb(110,98,80)', 'the lightest beige at noon');
       assert.deepEqual(bar(h), ['rgb(110,98,80)', 'rgb(110,98,80)'], 'and the browser\'s bar with it');
-      assert.equal(at('2026-10-25T17:45:00+03:00'), 'rgb(23,20,15)', 'the night\'s dark from the evening, with the page');
-      assert.notEqual(style.getPropertyValue('--footer-text'), 'rgb(248,235,194)', 'while the words still hold white from the sunset');
+      const dusk = at('2026-10-25T18:25:00+03:00');
+      assert.notEqual(dusk, 'rgb(23,20,15)', 'after sunset the beige darkens over the evening\'s cream');
+      assert.notEqual(dusk, 'rgb(90,80,64)');
+      assert.equal(at('2026-10-25T19:30:00+03:00'), 'rgb(23,20,15)', 'the night\'s dark at night, with the page');
       assert.equal(at('2026-10-25T23:00:00+03:00'), 'rgb(23,20,15)', 'and by night');
       assert.equal(style.getPropertyValue('--footer-text'), 'rgb(248,235,194)', 'the yellow alone at the darkest of the night');
       const channels = (value) => value.match(/\d+/g).slice(0, 3).map(Number);
