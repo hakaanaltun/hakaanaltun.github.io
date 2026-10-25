@@ -120,14 +120,15 @@
   --shadow-card-hover: 0 16px 40px rgba(var(--chrome-rgb, 68, 74, 78), 0.08);
   --shadow-cover: 0 14px 24px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.06);
 
-  --footer-text: #DCD1AC;
-  /* Muted gold on the fixed #444A4E chrome: 4.60:1, above WCAG AA. */
-  --footer-muted: #C6B98F;
+  --footer-text: #FFFFFF;
+  /* The header's and footer's words are white on every theme but
+     Midnight, as Follow the sky's are: 9.0:1 on the #444A4E chrome. */
+  --footer-muted: #FFFFFF;
   --hero-source-muted: #574F42;
 
   --drawer-bg: rgba(253, 252, 248, 0.985);
 
-  --header-border: rgba(220, 209, 172, 0.20);
+  --header-border: rgba(255, 255, 255, 0.20);
 
   /* Header theme-toggle icons: show the moon in light, the sun in dark. */
   --theme-icon-sun: none;
@@ -207,11 +208,11 @@ body {
     --rule: #2C2A25;
     --rule-strong: #47443C;
     --rule-cream: #4A4232;
-    --footer-text: #EFE7D4;
-    --footer-muted: #C3BAA4;
+    --footer-text: #FFFFFF;
+    --footer-muted: #FFFFFF;
     --hero-source-muted: #A29A8A;
     --drawer-bg: rgba(28, 27, 24, 0.985);
-    --header-border: rgba(239, 231, 212, 0.12);
+    --header-border: rgba(255, 255, 255, 0.12);
     --theme-icon-sun: block;
     --theme-icon-moon: none;
     --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.3);
@@ -246,11 +247,11 @@ html[data-theme="dark"] {
   --rule: #2C2A25;
   --rule-strong: #47443C;
   --rule-cream: #4A4232;
-  --footer-text: #EFE7D4;
-  --footer-muted: #C3BAA4;
+  --footer-text: #FFFFFF;
+  --footer-muted: #FFFFFF;
   --hero-source-muted: #A29A8A;
   --drawer-bg: rgba(28, 27, 24, 0.985);
-  --header-border: rgba(239, 231, 212, 0.12);
+  --header-border: rgba(255, 255, 255, 0.12);
   --theme-icon-sun: block;
   --theme-icon-moon: none;
   --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.3);

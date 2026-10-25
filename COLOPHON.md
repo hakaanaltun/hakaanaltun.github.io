@@ -162,6 +162,13 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   it, and the header and footer come back when the reader leaves it or
   goes to the door. The author asked for this on 25 October 2026, and the
   same day for the snow and the rain to stay within reach there.
+- **Their words are white, except on Midnight.** The author liked the
+  white words of Follow the sky’s header and footer, and on 25 October 2026
+  asked for them on every theme, the light papers and Dark included, with
+  only Midnight keeping its yellow. The
+  site’s mark, the ampersand on the tab, the home screen and a shared
+  link’s card, was redrawn the same day to match: white on a dark slate,
+  the slate of Follow the sky’s header at sunset, in place of gold on grey.
 - **Inside, The House wears its own colours.** At the door the page keeps
   the theme the reader chose. In the study and on the balcony the page,
   its header and its footer take the rooms’ colours instead: their cream
