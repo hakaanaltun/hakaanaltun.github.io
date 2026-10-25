@@ -179,7 +179,7 @@ function page(modals, setup) {
   const levels = [...palettesJs.matchAll(/\{ name: '[^']+',\s*tag: '[^']+', l: ([\d.]+),/g)].map(m => +m[1]);
   const palettesCss = fs.readFileSync(path.join(root, 'css/palettes.css'), 'utf8');
   const expected = [+css.match(/:root\s*\{\s*--sec-l:\s*([\d.]+)/)[1]];
-  for (let n = 2; n <= 12; n++) {
+  for (let n = 2; n <= 13; n++) {
     expected.push(+palettesCss.match(new RegExp('html\\[data-palette="' + n + '"\\]\\s*\\{\\s*--sec-l:\\s*([\\d.]+)'))[1]);
   }
   assert.deepEqual(levels, expected, 'each palette on /themes/ uses its own --sec-l');

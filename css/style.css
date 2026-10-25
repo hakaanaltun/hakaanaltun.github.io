@@ -403,7 +403,7 @@ html[data-theme="sky"] body {
    section to be gold, so that Midnight differs from the other themes.
    ========================================================================== */
 :root {
-  --sec-l: 0.513;   /* Ash & Gold — the palest paper in the wardrobe */
+  --sec-l: 0.513;   /* Ash & White — the palest paper in the wardrobe */
 }
 body {
   --sec-accent:      oklch(calc(var(--sec-l) - var(--sec-dl, 0)) var(--sec-c,  0.050) var(--sec-h, 178));

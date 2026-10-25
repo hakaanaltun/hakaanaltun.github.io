@@ -13,7 +13,7 @@
       device — no separate "keep" step, no rotation. The page shows the
       whole wardrobe, in three parts:
 
-      * Twelve light palettes. A palette only ever repaints the light path —
+      * Thirteen light palettes. A palette only ever repaints the light path —
         Dark, Midnight and Follow the sky are out of reach by
         construction (see css/palettes.css), so choosing one simply forces
         data-theme="light" for the look; a stored palette is untouched by a
@@ -35,18 +35,20 @@
       System stays footer-only: it is not a look but whatever the device
       says, so it has nothing to preview.
 
-   Palette 1 is Ash & Gold, the site's own face — it needs no rules, it is
-   the :root default in style.css, so "no attribute" means 1. */
+   Palette 1 is Ash & White, the site's own face — it needs no rules, it is
+   the :root default in style.css, so "no attribute" means 1. Palette 13,
+   Ash & Gold, is the same face with the gold words it wore until
+   25 October 2026. */
 (function () {
   'use strict';
   if (window.__paletteWardrobe) return;
   window.__paletteWardrobe = true;
 
-  var COUNT = 12;
+  var COUNT = 13;
   var CHROME = {
     2: '#3E4A44', 3: '#3A4148', 4: '#5E4234', 5: '#3E4F42',
     6: '#22364F', 7: '#59513A', 8: '#47415A', 9: '#234640',
-    10: '#5E4046', 11: '#45412E', 12: '#2E3F45'
+    10: '#5E4046', 11: '#45412E', 12: '#2E3F45', 13: '#444A4E'
   };
 
   /* The section voices, as css/style.css writes them: the hue, the chroma
@@ -81,7 +83,7 @@
      footer type, read off each palette's block in css/palettes.css, and `l`,
      the palette's --sec-l, which says how dark the voices print on it. */
   var PALETTES = [
-    { name: 'Ash & Gold',    tag: 'the site’s own face', l: 0.513,
+    { name: 'Ash & White',   tag: 'the site’s own face', l: 0.513,
       paper: '#FDFCF8', inkSoft: '#3A342C', vizon: '#6D665B',
       chrome: '#444A4E', ftext: '#FFFFFF', fmuted: '#FFFFFF' },
     { name: 'Vellum',        tag: 'warm cream, quiet as old paper', l: 0.499,
@@ -116,7 +118,10 @@
       chrome: '#45412E', ftext: '#FFFFFF', fmuted: '#FFFFFF' },
     { name: 'Slate Paper',   tag: 'wet slate after rain', l: 0.457,
       paper: '#DDE3E4', inkSoft: '#324147', vizon: '#4E5E64',
-      chrome: '#2E3F45', ftext: '#FFFFFF', fmuted: '#FFFFFF' }
+      chrome: '#2E3F45', ftext: '#FFFFFF', fmuted: '#FFFFFF' },
+    { name: 'Ash & Gold',    tag: 'the site’s face until October 2026', l: 0.513,
+      paper: '#FDFCF8', inkSoft: '#3A342C', vizon: '#6D665B',
+      chrome: '#444A4E', ftext: '#DCD1AC', fmuted: '#C6B98F' }
   ];
   PALETTES.forEach(function (p) {
     p.acc = VOICES.map(function (v) { return oklch(p.l - v.dl, v.c, v.h); });
@@ -203,7 +208,7 @@
     if (!t && window.matchMedia('(prefers-color-scheme: dark)').matches) return;
     document.querySelectorAll('meta[name="theme-color"][data-light]').forEach(function (m) {
       var v = n >= 2 && n <= COUNT && CHROME[n] ? CHROME[n] : m.getAttribute('data-light');
-      if (v) m.setAttribute('content', v);            /* palette chrome, else Ash & Gold */
+      if (v) m.setAttribute('content', v);            /* palette chrome, else Ash & White */
     });
   }
   window.__paletteMetaSync = paletteMetaSync;
@@ -231,7 +236,7 @@
 
   /* The whole card is clickable, but it is not the keyboard target: a
      role="button" makes its descendants presentational, which threw away all
-     twelve headings and with them any way to move through the page by
+     thirteen headings and with them any way to move through the page by
      heading. The heading stays a heading; a real <button> inside it carries
      the name, the focus ring and the keyboard activation. Mouse users still
      get the whole card — the click listener on the list has not changed.
@@ -310,7 +315,7 @@
     for (var i = 0; i < sw.length; i++) sw[i].style.background = p.acc[i];
   }
 
-  group('Twelve for the day');
+  group('Thirteen for the day');
   PALETTES.forEach(function (p, i) {
     var box = buildPreview(p, (i + 1) + ' · ' + p.name);
     box.setAttribute('data-n', String(i + 1));
@@ -341,7 +346,7 @@
 
   /* Click = keep: the choice is stored at once and stays on this device
      until another palette is picked. Palette 1 means "no choice" — the
-     site's own Ash & Gold — so it clears the key instead of storing.
+     site's own Ash & White — so it clears the key instead of storing.
 
      Choosing a palette also stores Light. A palette exists only on the day
      path — every rule in css/palettes.css is behind either
@@ -420,7 +425,7 @@
         ? pick + ' is yours on this device, until you pick another.'
         : pick + ' is yours on this device&mdash;' + face + ' is still stored, and comes back the next time the day is on.';
     } else if (chosen === 1) {
-      status.innerHTML = 'No palette chosen&mdash;the site keeps its own <b class="site-face">Ash &amp; Gold</b> '
+      status.innerHTML = 'No palette chosen&mdash;the site keeps its own <b class="site-face">Ash &amp; White</b> '
         + 'by day, and turns to <b class="site-face">Dark</b> when the day is off.';
     } else if (dayIsOn()) {
       status.innerHTML = face + ' is yours on this device, until you pick another.';
@@ -455,7 +460,7 @@
     else choose(parseInt(pv.getAttribute('data-n'), 10));
   });
 
-  /* Fourteen of the cards are painted once and are done. The fifteenth is a
+  /* Fifteen of the cards are painted once and are done. The sixteenth is a
      claim about the present, so it is re-made on theme.js's own beat: every
      minute, and on return to a tab that sat in the background — where a page
      left open overnight would otherwise still be showing yesterday's
