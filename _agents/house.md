@@ -326,6 +326,25 @@ and sky.
   replace `--petrol` on `<body>`. The browser's own bar takes the House's
   header colour; `_includes/site-sky.html` leaves the `theme-color` metas
   alone while `data-house-theme` is set, and at the door the site's theme
-  points them back. The pointer's trail is lit by the House's colours, not
+  points them back.
+- **The header and footer follow İstanbul's sun** (rule in
+  `COLOPHON.md`). `headerNow()` in `js/house.js` paints them every minute
+  on `<body>`'s own style, from `window.OLAE_SKY` (`_includes/sky-ramp.html`)
+  with the House's coordinates: before sunrise `HEADER.night` up to
+  `HEADER.horizon` as the night opens, by day `HEADER.horizon` to
+  `HEADER.noon` along the sun's arc, and from the evening, while the page
+  wears its dark (`data-house-theme="night"`), `HEADER.night`, a shade
+  under the page as Follow the sky's header is by night. It first darkened
+  from sunset until nine, and the author found it too light over the dark
+  page the same day. The words are
+  `wordsAt()` for İstanbul's sun, the same white as Follow the sky's. The
+  author asked for both on 25 October 2026, saw a beige that keeps the
+  site's 7:1 for the header's words (#5E5443 at noon) beside a lighter
+  one, and chose the lighter: the words hold 5.6:1 and the quieter tier
+  4.6:1, the floor. A lighter beige still would take the quieter tier
+  under 4.5:1; one much lighter needs dark words by day.
+  `scripts/test-house.cjs` checks both through a day. The words keep
+  their white through the evening, losing it as the night closes, so the
+  evening still moves in the header after the page has turned. The pointer's trail is lit by the House's colours, not
   the site's theme. Every tier holds 4.5:1; check a change against the
   bands as well as the paper.

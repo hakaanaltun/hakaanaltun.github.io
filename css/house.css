@@ -388,9 +388,11 @@
    is open. The tokens are set on <body>, below the themes' own (Follow the
    sky paints its tokens on <html> itself), and the chrome is set as the
    surfaces the header and footer are painted with, so that no palette's
-   chrome reaches them. Every tier holds 4.5:1: the cream's faintest ink
-   is 4.65:1 on its band, the dark's 5.73:1 on its cards, and the header's
-   words 5.59:1 and 9.52:1. */
+   chrome reaches them. js/house.js then moves the header, the footer and
+   their words with İstanbul's sun, a beige by day into the night's dark;
+   the chrome here is what stands without its script. Every tier holds
+   4.5:1: the cream's faintest ink is 4.65:1 on its band, the dark's 5.73:1
+   on its cards, and the header's words here 5.59:1 and 9.52:1. */
 html.house-inside[data-house-theme="day"] { color-scheme: light; }
 html.house-inside[data-house-theme="night"] { color-scheme: dark; }
 html.house-inside[data-house-theme="day"] body {

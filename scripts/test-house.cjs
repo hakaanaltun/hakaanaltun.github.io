@@ -1871,25 +1871,72 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   {
     let c = houseAt('2026-10-11T11:00:00+03:00', 'https://hakanaltun.io/house/');
     await tick();
-    let page = c.w.document.documentElement;
+    let html = c.w.document.documentElement;
     const bar = (n) => [...n.w.document.querySelectorAll('meta[name="theme-color"]')].map((m) => m.getAttribute('content'));
-    assert.equal(page.hasAttribute('data-house-theme'), false, 'the door wears the site\'s theme');
+    assert.equal(html.hasAttribute('data-house-theme'), false, 'the door wears the site\'s theme');
     c.click('#house-enter');
-    assert.equal(page.getAttribute('data-house-theme'), 'day', 'the study the rooms\' cream');
+    assert.equal(html.getAttribute('data-house-theme'), 'day', 'the study the rooms\' cream');
     assert.deepEqual(bar(c), ['#4E4638', '#4E4638']);
     c.click('.house-hotspot--balcony');
-    assert.equal(page.getAttribute('data-house-theme'), 'day', 'and the balcony');
+    assert.equal(html.getAttribute('data-house-theme'), 'day', 'and the balcony');
     c.click('#balcony .house-hotspot--study-door');
     c.click('#house-leave');
-    assert.equal(page.hasAttribute('data-house-theme'), false, 'the door the site\'s again');
+    assert.equal(html.hasAttribute('data-house-theme'), false, 'the door the site\'s again');
     c.dom.window.close();
     c = houseAt('2026-10-11T18:00:00+03:00', 'https://hakanaltun.io/house/#balcony');
     await tick();
-    page = c.w.document.documentElement;
+    html = c.w.document.documentElement;
     assert.equal(c.q('#house-balcony-scene').dataset.hour, 'evening');
-    assert.equal(page.getAttribute('data-house-theme'), 'night', 'a warm dark from the evening');
+    assert.equal(html.getAttribute('data-house-theme'), 'night', 'a warm dark from the evening');
     assert.deepEqual(bar(c), ['#17140F', '#17140F']);
     c.dom.window.close();
+    // The header and footer follow İstanbul's sun with Follow the sky's
+    // rhythm (_includes/sky-ramp.html, which the page carries inline): a
+    // beige by day, lightest at noon, the night's dark from the evening,
+    // when the page turns dark, and words that take white as the sky opens. The author chose a beige lighter
+    // than the site's 7:1 allows, so the words hold 5.6:1 and the quieter
+    // tier, at 85%, 4.5:1, every quarter of an hour of a summer day, a
+    // winter day and this one. At the door they are the site's again.
+    {
+      const ramp = [...read(site, 'house', 'index.html').matchAll(/<script>([\s\S]*?)<\/script>/g)].map((m) => m[1]).find((code) => code.includes('window.OLAE_SKY ='));
+      assert.ok(ramp, 'the sky ramp is on the page');
+      const clock = { t: Date.parse('2026-10-25T12:50:00+03:00') };
+      const h = page('house/index.html', 'https://hakanaltun.io/house/#study', {
+        before: (w) => {
+          const NativeDate = w.Date;
+          w.Date = class extends NativeDate { constructor(...args) { super(...(args.length ? args : [clock.t])); } static now() { return clock.t; } };
+          w.scrollTo = () => {};
+          w.eval(ramp);
+        }
+      });
+      for (const name of ['keep', 'astronomy', 'house']) h.w.eval(scripts[name]);
+      await tick();
+      const style = h.w.document.body.style;
+      const at = (when) => { clock.t = Date.parse(when); h.w.document.dispatchEvent(new h.w.Event('visibilitychange')); return style.getPropertyValue('--surface-chrome'); };
+      assert.equal(at('2026-10-25T12:50:00+03:00'), 'rgb(110,98,80)', 'the lightest beige at noon');
+      assert.deepEqual(bar(h), ['rgb(110,98,80)', 'rgb(110,98,80)'], 'and the browser\'s bar with it');
+      assert.equal(at('2026-10-25T17:45:00+03:00'), 'rgb(23,20,15)', 'the night\'s dark from the evening, with the page');
+      assert.notEqual(style.getPropertyValue('--footer-text'), 'rgb(248,235,194)', 'while the words still hold white from the sunset');
+      assert.equal(at('2026-10-25T23:00:00+03:00'), 'rgb(23,20,15)', 'and by night');
+      assert.equal(style.getPropertyValue('--footer-text'), 'rgb(248,235,194)', 'the yellow alone at the darkest of the night');
+      const channels = (value) => value.match(/\d+/g).slice(0, 3).map(Number);
+      const luminance = (c) => c.map((v) => { v /= 255; return v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; }).reduce((sum, v, i) => sum + v * [0.2126, 0.7152, 0.0722][i], 0);
+      const contrast = (a, b) => { const [x, y] = [luminance(a), luminance(b)].sort((p, q) => q - p); return (x + 0.05) / (y + 0.05); };
+      for (const day of ['2026-06-21', '2026-12-21', '2026-10-25']) {
+        for (let minute = 0; minute < 24 * 60; minute += 15) {
+          const when = new Date(Date.parse(day + 'T00:00:00+03:00') + minute * 60000).toISOString();
+          const chrome = channels(at(when));
+          const words = channels(style.getPropertyValue('--footer-text'));
+          const quieter = words.map((c, i) => Math.round(c * 0.85 + chrome[i] * 0.15));
+          assert.ok(contrast(words, chrome) >= 5.6, 'the header\'s words at ' + when);
+          assert.ok(contrast(quieter, chrome) >= 4.5, 'its quieter tier at ' + when);
+        }
+      }
+      h.click('#house-leave');
+      assert.equal(style.getPropertyValue('--surface-chrome'), '', 'the door\'s header is the site\'s');
+      assert.equal(style.getPropertyValue('--footer-text'), '');
+      h.dom.window.close();
+    }
     // Every token a theme sets has a value in both of the House's, so that
     // no theme shows through inside the rooms. The theme menu's icons stay
     // the reader's: they say which theme the reader chose.
@@ -1921,6 +1968,6 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
     off.dom.window.close();
   }
 
-  console.log('House: catalog and addresses, an unreachable catalogue, daily room, keeping from the room and from words, quizzes, the book and essays, the passage prompt on word stories and quiz notes, the kept passage\'s panel, its note and the way on to The Page, Highlight and its clearing, the small box by a highlight, hidden highlights, a note written before keeping, notes in the drawer, legacy and hostile records, blocked storage, arrivals, #drawer, export and backup offered only where they work, the moon, the planets after dark, weather at the window, the footer\'s snow and rain under both rooms, what the balcony\'s sound is told, the balcony, its glass, its door, its sky and its lamp, its notebook, a kept page left open in it, and the way on to The Page, Moris on the chair and by the glass, quiet places and a remembered Show places to look, full screen in both rooms, the House\'s own colours inside and the site\'s at the door, the ways back to the study, the balcony, the drawer as it was and the page a note was written on, the pointer\'s trail, in the rooms only, and the drawer over any page from the site\'s menu and the footer, and The House in the header as a plain link passed.');
+  console.log('House: catalog and addresses, an unreachable catalogue, daily room, keeping from the room and from words, quizzes, the book and essays, the passage prompt on word stories and quiz notes, the kept passage\'s panel, its note and the way on to The Page, Highlight and its clearing, the small box by a highlight, hidden highlights, a note written before keeping, notes in the drawer, legacy and hostile records, blocked storage, arrivals, #drawer, export and backup offered only where they work, the moon, the planets after dark, weather at the window, the footer\'s snow and rain under both rooms, what the balcony\'s sound is told, the balcony, its glass, its door, its sky and its lamp, its notebook, a kept page left open in it, and the way on to The Page, Moris on the chair and by the glass, quiet places and a remembered Show places to look, full screen in both rooms, the House\'s own colours inside, its header following İstanbul\'s sun, and the site\'s at the door, the ways back to the study, the balcony, the drawer as it was and the page a note was written on, the pointer\'s trail, in the rooms only, and the drawer over any page from the site\'s menu and the footer, and The House in the header as a plain link passed.');
 })().catch((error) => { console.error(error); process.exit(1); });
 

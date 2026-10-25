@@ -152,7 +152,14 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   in the morning and by day, and a warm dark from the evening, when the
   lamps come on. Like the rooms’ light, they follow İstanbul’s hour. The
   author asked for this on 25 October 2026, when the light slate of Follow
-  the sky by day did not suit the rooms.
+  the sky by day did not suit the rooms. The same day the author asked for
+  the header and footer to move with İstanbul’s sun as Follow the sky’s
+  move with the reader’s: a beige by day, lightest at noon, and dark with
+  the page from the evening, with their words taking white as the sky
+  opens and losing it as the night closes. Shown a beige that keeps the
+  site’s usual contrast for those words beside a lighter one, the author
+  chose the lighter; the words still read at the accessible minimum or
+  better at every hour.
 - **A place that fills the window has its own quiet frame.** This applies to the
   Farm House, each picture in Pictures with Stories and each instrument. The
   frame gives a way back and the place’s own controls, and leaves the rest
