@@ -302,6 +302,14 @@ and sky.
   over the room closes before Escape leaves the window's full screen.
   Leaving puts the page back where it was, or on the room the reader went
   on to.
+- **The snow and the rain stay in full screen.** `#house-weather-choice`
+  is the one child of `#house` besides the rooms, the status line and the
+  box that full screen keeps, as the author asked on 25 October 2026. Its
+  buttons press the footer's own, which still works while the footer is
+  `inert`. On a wide screen it stands at the right of the status line,
+  which grows to 44px and keeps 300px clear for it; upright it follows the
+  room; on a short screen on its side it stands at the foot of the side
+  column, above the status line, and the room's footer keeps room for it.
 - **The picture keeps its proportions in full screen.** Each scene stands
   in a `.house-stage`, which full screen makes a size container: the scene
   takes the stage's width or, where the stage is wider than the picture,

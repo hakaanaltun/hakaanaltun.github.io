@@ -145,7 +145,8 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   or on the balcony, as on a picture. The room then fills the screen with
   its own controls and the way out, going from one room to the other keeps
   it, and the header and footer come back when the reader leaves it or
-  goes to the door. The author asked for this on 25 October 2026.
+  goes to the door. The author asked for this on 25 October 2026, and the
+  same day for the snow and the rain to stay within reach there.
 - **Inside, The House wears its own colours.** At the door the page keeps
   the theme the reader chose. In the study and on the balcony the page,
   its header and its footer take the rooms’ colours instead: their cream
