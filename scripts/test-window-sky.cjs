@@ -188,10 +188,14 @@ for(const month of [0,3,6,9])for(const hour of [0,6,12,18]){
     if(day){
       assert.equal(css('--note-base'),'','the night\'s tokens are taken off by day'+at);
       assert(+css('--sec-l')>0.4&&+css('--sec-l')<0.52,'the accents\' lightness'+at);
+      assert.equal(css('--sky-accent-white'),'','no white in the accents by day'+at);
     }else{
       assert.equal(css('--sky-chrome-rgb'),'','the day\'s tokens are taken off by night'+at);
       assert.notEqual(css('--note-base'),'','the note wall'+at);
       if(eve===1)assert.equal(css('--paper'),'rgb(78,94,106)','the evening\'s slate'+at);
+      // the accents' white opens with the night, as the header's words do
+      if(alt===-30&&eve===0)assert.equal(css('--sky-accent-white'),'12.0%','the accents\' least white'+at);
+      if(eve===1)assert.equal(css('--sky-accent-white'),'40.0%','the accents\' white at the horizon'+at);
     }
     if(alt===0)assert.equal(css('--paper'),'rgb(193,204,213)','the darkest light slate at sunrise and sunset');
     if(alt===60)assert.equal(css('--paper'),'rgb(244,247,250)','the palest slate at noon');
