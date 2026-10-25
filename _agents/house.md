@@ -113,17 +113,21 @@ and sky.
   keeps precipitation still and does not cycle the passing clouds.
 - **The balcony is glazed.** Folding glass panels stand on the parapet up to
   the ceiling, along the front and the right-hand side. Moris goes out to
-  the balcony twice a day, as the author asked: from noon to two, and again
-  from two hours before sunset until half an hour before it. At midday he
-  sleeps on the empty chair, and in the late afternoon he lies on the coping
+  the balcony three times by day: from ten to eleven, from noon to two, and
+  from two hours before sunset until half an hour before it. Two night visits
+  run from 21:00 to 22:00 and from 02:00 to 03:00, on İstanbul's clock.
+  The morning and night visits were added on 25 October 2026 at the author's
+  request. At midday he sleeps on the empty chair; on his other visits he lies on the coping
   by the glass, looking out; the author asked for both on 12 October 2026.
-  In between he is on his cushion, and as the sun goes down he is asleep at
+  Between daytime visits he is on his cushion, and as the sun goes down he is asleep at
   the window. While he is out there the glass is closed and the door to the
   study stands open; while he is indoors the door is shut and the glass is
   folded away into the right-hand corner. The author settled the glass on
   11 October 2026 and the door on 12 October 2026: a cat is never shown on a
   balcony that is not safe for him. Do not draw Moris on the balcony with
   the glass open.
+  `_includes/house-moris.svg` keeps his drawing shared by both rooms,
+  including the open and sleeping eyes; their positions stay in `js/house.js`.
 - **The door opens into the study.** It is hinged on the side nearest the
   study's entrance and folds back almost to the study's wall, clear of
   the plant that stands beside it. It stands a little off the wall, turned
@@ -356,3 +360,4 @@ and sky.
   evening still moves in the header after the page has turned. The pointer's trail is lit by the House's colours, not
   the site's theme. Every tier holds 4.5:1; check a change against the
   bands as well as the paper.
+
