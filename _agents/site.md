@@ -121,7 +121,9 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   is written into the colour with `color-mix()` rather than as opacity, so
   a pointer dims from it like any control that rests faint and the focus
   ring keeps full ink. It holds 4.5:1 on the chrome in every theme; the
-  first light palette is the closest, at 4.77:1. Do not set the strip,
+  first light palette was the closest, at 4.77:1, while the words were
+  yellow. Since they are white the closest is Follow the sky's dawn, at
+  5.0:1, and among the palettes Ochre, at 6.3:1. Do not set the strip,
   the menu or the credit in italic unless the author asks.
 - **The site's menu names its sections in 13px spaced capitals.** On
   24 October 2026 the author asked for the menu's section names
@@ -233,6 +235,21 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   and `SLATE` are gone. The accents have no white (`--sky-accent-white`
   is gone), and `--sky-ld-floor` was raised to keep 4.6:1 on the cards
   without it. `wordsAt()` stays for The House alone.
+
+- **The header's and footer's words are white, except on Midnight**
+  (rule in `COLOPHON.md`). `--footer-text` and `--footer-muted` are
+  `#FFFFFF` in `:root` (Ash & Gold), in both dark blocks of
+  `css/style.css`, in every palette's two blocks in `css/palettes.css` and
+  in the `/themes/` mocks in `js/palettes.js`, and `--header-border` is
+  white at the alpha each theme had. Midnight's block keeps `#DCD1AC`.
+  The House's rooms still paint their own words (`js/house.js`).
+- **The site's mark is white on `#283444`** (rule in `COLOPHON.md`), the
+  sky's `CHROME_DUSK`: `on-icon.svg`, the favicons, the home-screen
+  icons, `og-image-on-card.png` and the manifest's `theme_color`. The
+  PNGs and the ICO were recoloured from the gold-on-`#444A4E` set pixel
+  by pixel, so the glyph and its edges are unchanged. A new stamp on
+  their `?v=` makes browsers and link previews take the new ones. The
+  instruments' own cards in `images/og/` keep each instrument's face.
 
 - **The House's rooms wear their own colours** (rule in `COLOPHON.md`).
   While the study or the balcony is open, `data-house-theme` on `<html>`
