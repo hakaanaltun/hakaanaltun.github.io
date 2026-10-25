@@ -651,7 +651,7 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   // the window's sight to the left. The
   // moon, a day from new, is lost in its light. Moris is on his cushion, the
   // door to the balcony is shut and its glass is folded away.
-  let n = houseAt('2026-10-11T10:00:00+03:00');
+  let n = houseAt('2026-10-11T09:00:00+03:00');
   await tick();
   assert.equal(n.q('#house-scene').dataset.sun, 'in');
   assert.ok(spot(n, '#house-scene .house-sun').x < 560, 'beyond the window on the left while the sun is in the southeast');
@@ -675,8 +675,8 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   assert.ok(n.w.document.documentElement.classList.contains('house-inside'), 'and on the balcony');
   assert.equal(n.w.document.activeElement, n.q('#house-balcony-title'));
   assert.equal(n.q('#balcony [data-house-hour]').textContent, 'Morning in İstanbul');
-  assert.equal(n.q('#balcony [data-house-clock]').textContent, '10:00');
-  assert.equal(n.q('#balcony .house-time').textContent.replace(/\s+/g, ' ').trim(), 'Morning in İstanbul · 10:00', 'no temperature before a report');
+  assert.equal(n.q('#balcony [data-house-clock]').textContent, '09:00');
+  assert.equal(n.q('#balcony .house-time').textContent.replace(/\s+/g, ' ').trim(), 'Morning in İstanbul · 09:00', 'no temperature before a report');
   n.click('#balcony [data-places]');
   assert.equal(n.q('#house').classList.contains('show-places'), false, 'and quiet again');
   assert.equal(n.w.localStorage.getItem('olae-places'), null, 'until it is asked for again');
@@ -763,12 +763,13 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
     f.dom.window.close();
   }
 
-  // Moris goes out to the balcony twice a day, and its glass is shut and its
-  // door open while he is there: from noon to two, asleep on the empty
+  // Moris goes out three times by day and twice at night; its glass is shut and its
+  // door open while he is there: from ten to eleven by the glass, from
+  // noon to two, asleep on the empty
   // chair, and from two hours before sunset (18:31 that day) until half an
   // hour before it, lying by the glass. Between them he is on his cushion,
   // the door is shut, and as the sun goes down he is asleep at the window.
-  for (const [hour, place, spot, line] of [['13:00', 'balcony', 'chair', /^He is asleep on a chair out on the balcony for the middle of the day\.$/], ['14:30', 'cushion', undefined, null], ['17:00', 'balcony', 'glass', /^He is out on the balcony again until the sun is low, lying by the glass and looking out\.$/], ['18:10', 'sill', undefined, null]]) {
+  for (const [hour, place, spot, line] of [['10:00', 'balcony', 'glass', /^He is lying by the balcony glass, looking out\.$/], ['11:00', 'cushion', undefined, null], ['13:00', 'balcony', 'chair', /^He is asleep on a chair out on the balcony for the middle of the day\.$/], ['14:30', 'cushion', undefined, null], ['17:00', 'balcony', 'glass', /^He is lying by the balcony glass, looking out\.$/], ['18:10', 'sill', undefined, null], ['21:00', 'balcony', 'glass', /^He is lying by the balcony glass, looking out\.$/], ['22:00', 'shelf', undefined, null], ['02:00', 'balcony', 'glass', /^He is lying by the balcony glass, looking out\.$/], ['03:00', 'rug', undefined, null]]) {
     n = houseAt('2026-10-11T' + hour + ':00+03:00', 'https://hakanaltun.io/house/#balcony');
     await tick();
     assert.equal(n.q('#house-scene').dataset.moris, place, 'Moris at ' + hour);
@@ -827,7 +828,9 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
     assert.equal(link.tagName, 'A');
     link.addEventListener('click', event => event.preventDefault(), { once: true });
     n.click(link);
-    assert.equal(n.q('#house-dialog').open, false);
+    assert.equal(n.q('#house-dialog').open, true, 'the moon waits behind the glass during the night visit');
+    assert.match(words(n), /The glass is closed while Moris is out here/);
+    n.click('#house-close');
   }
   n.click('.house-hotspot--stars');
   await tick();
@@ -1970,4 +1973,5 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
 
   console.log('House: catalog and addresses, an unreachable catalogue, daily room, keeping from the room and from words, quizzes, the book and essays, the passage prompt on word stories and quiz notes, the kept passage\'s panel, its note and the way on to The Page, Highlight and its clearing, the small box by a highlight, hidden highlights, a note written before keeping, notes in the drawer, legacy and hostile records, blocked storage, arrivals, #drawer, export and backup offered only where they work, the moon, the planets after dark, weather at the window, the footer\'s snow and rain under both rooms, what the balcony\'s sound is told, the balcony, its glass, its door, its sky and its lamp, its notebook, a kept page left open in it, and the way on to The Page, Moris on the chair and by the glass, quiet places and a remembered Show places to look, full screen in both rooms, the House\'s own colours inside, its header following İstanbul\'s sun, and the site\'s at the door, the ways back to the study, the balcony, the drawer as it was and the page a note was written on, the pointer\'s trail, in the rooms only, and the drawer over any page from the site\'s menu and the footer, and The House in the header as a plain link passed.');
 })().catch((error) => { console.error(error); process.exit(1); });
+
 
