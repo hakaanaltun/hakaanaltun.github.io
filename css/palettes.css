@@ -17,9 +17,7 @@
    fixed sitewide in css/style.css and each palette only says how dark they
    print.
 
-   Palette 1 is Ash & White, the site's own face — it needs no rules, it is
-   the :root default in style.css. Palette 13 is Ash & Gold, the same face
-   with the gold header and footer it wore until 25 October 2026. The pre-paint script in
+   Palette 1 is White & Slate, whose scoped rules close this file. The pre-paint script in
    _includes/head.html lands the stored choice on <html data-palette>
    before first paint;
    js/palettes.js drives the /themes/ page and keeps the theme-color meta
@@ -53,7 +51,6 @@ html[data-palette="9"] { --sec-l: 0.496; }  /* Sea Salt */
 html[data-palette="10"] { --sec-l: 0.487; }  /* Pudra */
 html[data-palette="11"] { --sec-l: 0.425; }  /* Field */
 html[data-palette="12"] { --sec-l: 0.457; }  /* Slate Paper */
-html[data-palette="13"] { --sec-l: 0.513; }  /* Ash & Gold */
 
 /* 2 — Vellum */
 @media (prefers-color-scheme: light) {
@@ -539,23 +536,6 @@ html[data-theme="light"][data-palette="12"]:not([data-sky]) {
 }
 html[data-theme="light"][data-palette="12"]:not([data-sky]) body { --chrome-rgb: 46, 63, 69 !important; }
 
-/* 13 — Ash & Gold. The site's own paper and chrome, with the gold words
-   its header and footer wore until 25 October 2026, when every theme but
-   Midnight took Follow the sky's white. The author asked the same day for
-   the old face to stay as a palette. Only the words differ from :root. */
-@media (prefers-color-scheme: light) {
-html[data-palette="13"]:not([data-theme]) {
-  --footer-text: #DCD1AC;
-  --footer-muted: #C6B98F;
-  --header-border: rgba(220, 209, 172, 0.20);
-}
-}
-html[data-theme="light"][data-palette="13"]:not([data-sky]) {
-  --footer-text: #DCD1AC;
-  --footer-muted: #C6B98F;
-  --header-border: rgba(220, 209, 172, 0.20);
-}
-
 /* ==========================================================================
    Themes page (/themes/) — the wardrobe itself
    ========================================================================== */
@@ -564,7 +544,7 @@ html[data-theme="light"][data-palette="13"]:not([data-sky]) {
 .themes-status b { color: var(--petrol); font-weight: 500; }
 .site-face { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.06em; }
 
-/* The wardrobe comes in three parts — thirteen palettes for the day, the two
+/* The wardrobe comes in three parts — twelve palettes for the day, the two
    darks for the night, and the sky — and each is announced by a quiet
    heading. No rule of its own: the first preview under it already draws one.
 
@@ -685,3 +665,10 @@ html:is(:not([data-palette]), [data-palette="1"])[data-theme="light"]:not([data-
   --sec-l: 0.492;
 }
 html:is(:not([data-palette]), [data-palette="1"])[data-theme="light"]:not([data-sky]) body { --chrome-rgb: 255, 255, 255 !important; }
+
+/* Colored light palettes warm their frame words after local sunset.
+   White & Slate, Dark, Midnight, the sky and the rooms keep their own ink. */
+html[data-theme="light"][data-palette]:not([data-palette="1"]):not([data-sky]):not([data-house-theme])[data-frame-night] :is(header, footer) {
+  --footer-text: var(--night-frame-words, #EDE4CF);
+  --footer-muted: var(--night-frame-words, #EDE4CF);
+}

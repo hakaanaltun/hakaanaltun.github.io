@@ -144,25 +144,22 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
 
 ## Themes
 
-- **White daytime frame, 26 October 2026** (rule in `COLOPHON.md`).
-  This supersedes the older colour notes below. `chromeAt()` now returns
-  white throughout the day; `site-sky.html` uses slate `#283444` words by
-  day and keeps white at night. Light (palette 1, White & Slate) uses the
-  same daytime colours in `css/palettes.css`, scoped away from other
-  palettes and from the sky. Ash & Gold keeps its original tokens.
-  The preview in `js/palettes.js`, browser colour in `head.html`, and
-  manifest follow the new face. Identity assets retain their glyph and
-  use slate on white. The House continues to use its own colours.
+- **White Light frame, 26 October 2026** (rule in `COLOPHON.md`).
+  Light (palette 1, White & Slate) uses a white header and footer with
+  slate words in `css/palettes.css`, scoped away from the other palettes
+  and the sky. After trying white on the sky’s day too, the author kept
+  it for Light alone. `chromeAt()` again runs from `[86,99,111]` at sunrise
+  to `[40,52,68]` at sunset, with white words in `site-sky.html`.
+  Identity assets retain their glyph in slate on white. The House keeps
+  its own colours.
 
-- **Follow the sky is the default** (rule in `COLOPHON.md`). A reader
-  who has chosen nothing gets Follow the sky, and "system" follows the
-  device's light or dark (`_includes/head.html`, `js/theme.js`). A page
-  outside the default layout that reads the theme itself does the same:
-  the door to Part III (`story/9r2m.html`) and the instruments
-  (`_includes/page-sky.html`). The door learned it on 23 October 2026,
-  two days late, after a reader on the default had come to it from a
-  night-blue page and found it white. Light was the default for a few
-  hours on 25 October 2026; a reader who chose it then keeps it.
+- **System is the default** (rule in `COLOPHON.md`). Since 26 October
+  2026, no stored theme leaves `data-theme` unset in `_includes/head.html`,
+  `_includes/page-sky.html` and `story/9r2m.html`. CSS follows the device.
+  Explicit choices are preserved, including the legacy dusk-to-sky migration.
+  System omits `data-palette` so its light half is White & Slate. A manual
+  Light choice can restore its remembered palette. The theme menu and
+  wardrobe follow device changes while System is active.
 - **Follow the sky has a day and a night.** On 23 October 2026 the author
   found the sky's daytime slate too dark, and asked for a light day in a
   new series: Fog and Blueprint, and in place of Pudra a colour near them.
@@ -290,6 +287,14 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   tokens to the header and footer in explicit Dark and system dark.
   `data-house-theme` excludes the rooms. Other consumers of those tokens
   keep their colours. The Dark card in `js/palettes.js` matches.
+
+- **Cream frame words after sunset** (rule in `COLOPHON.md`).
+  `site-sky.html` gives the sky’s night frame its `--ink`. Its separate
+  `paintFrame()` sets `data-frame-night` and `--night-frame-words` for the
+  colored light palettes, refreshed by `theme.js` each minute and on return.
+  `palettes.css` scopes this to palette 2–12 on the light path outside the
+  rooms. The wardrobe previews follow the same clock. Palette 13, Ash & Gold,
+  was retired on 26 October 2026; a stored 13 falls back to White & Slate.
 
 ## The homepage
 
