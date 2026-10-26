@@ -1868,9 +1868,9 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   }
 
   // The House's own colours: the site's theme at the door, and in a room the
-  // rooms' colours by İstanbul's light, cream by day and a warm dark from
-  // the evening, when the lamps come on. The browser's bar takes the
-  // House's header.
+  // rooms' colours by İstanbul's light: their cream by day, and in the
+  // evening and at night the cream under the rooms' own dusk, so the page
+  // around a room is its wall. The browser's bar takes the House's header.
   {
     let c = houseAt('2026-10-11T11:00:00+03:00', 'https://hakanaltun.io/house/');
     await tick();
@@ -1879,7 +1879,7 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
     assert.equal(html.hasAttribute('data-house-theme'), false, 'the door wears the site\'s theme');
     c.click('#house-enter');
     assert.equal(html.getAttribute('data-house-theme'), 'day', 'the study the rooms\' cream');
-    assert.deepEqual(bar(c), ['#4E4638', '#4E4638']);
+    assert.deepEqual(bar(c), ['#F4EFE3', '#F4EFE3'], 'the browser\'s bar the page\'s cream');
     c.click('.house-hotspot--balcony');
     assert.equal(html.getAttribute('data-house-theme'), 'day', 'and the balcony');
     c.click('#balcony .house-hotspot--study-door');
@@ -1890,62 +1890,44 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
     await tick();
     html = c.w.document.documentElement;
     assert.equal(c.q('#house-balcony-scene').dataset.hour, 'evening');
-    assert.equal(html.getAttribute('data-house-theme'), 'day', 'the cream in the evening, which the rooms show themselves');
+    assert.equal(html.getAttribute('data-house-theme'), 'evening', 'the rooms\' evening around them');
     c.dom.window.close();
     c = houseAt('2026-10-11T22:00:00+03:00', 'https://hakanaltun.io/house/#balcony');
     await tick();
     html = c.w.document.documentElement;
     assert.equal(c.q('#house-balcony-scene').dataset.hour, 'night');
-    assert.equal(html.getAttribute('data-house-theme'), 'night', 'a warm dark at night');
-    assert.deepEqual(bar(c), ['#241F19', '#241F19']);
+    assert.equal(html.getAttribute('data-house-theme'), 'night', 'and their night');
+    assert.deepEqual(bar(c), ['#878988', '#878988'], 'and its night');
     c.dom.window.close();
-    // The header and footer follow İstanbul's sun with Follow the sky's
-    // rhythm (_includes/sky-ramp.html, which the page carries inline): a
-    // beige by day, lightest at noon, darkening after sunset, the night's
-    // dark at night, when the page turns dark, and words that take white as the sky opens. The author chose a beige lighter
-    // than the site's 7:1 allows, so the words hold 5.6:1 and the quieter
-    // tier, at 85%, 4.5:1, every quarter of an hour of a summer day, a
-    // winter day and this one. At the door they are the site's again.
+    // The header and footer are the page's own colour, with the page's ink
+    // for their words, as on White & Slate (the author, 26 October 2026).
+    // Their words hold 4.5:1 at every hour, and the header's links, which
+    // keep their full ink in the House, still do when a pointer dims them
+    // to --select-dim. Nothing paints them from the page's script.
     {
-      const ramp = [...read(site, 'house', 'index.html').matchAll(/<script>([\s\S]*?)<\/script>/g)].map((m) => m[1]).find((code) => code.includes('window.OLAE_SKY ='));
-      assert.ok(ramp, 'the sky ramp is on the page');
-      const clock = { t: Date.parse('2026-10-25T12:50:00+03:00') };
-      const h = page('house/index.html', 'https://hakanaltun.io/house/#study', {
-        before: (w) => {
-          const NativeDate = w.Date;
-          w.Date = class extends NativeDate { constructor(...args) { super(...(args.length ? args : [clock.t])); } static now() { return clock.t; } };
-          w.scrollTo = () => {};
-          w.eval(ramp);
-        }
-      });
-      for (const name of ['keep', 'astronomy', 'house']) h.w.eval(scripts[name]);
-      await tick();
-      const style = h.w.document.body.style;
-      const at = (when) => { clock.t = Date.parse(when); h.w.document.dispatchEvent(new h.w.Event('visibilitychange')); return style.getPropertyValue('--surface-chrome'); };
-      assert.equal(at('2026-10-25T12:50:00+03:00'), 'rgb(110,98,80)', 'the lightest beige at noon');
-      assert.deepEqual(bar(h), ['rgb(110,98,80)', 'rgb(110,98,80)'], 'and the browser\'s bar with it');
-      const dusk = at('2026-10-25T18:25:00+03:00');
-      assert.notEqual(dusk, 'rgb(36,31,25)', 'after sunset the beige darkens over the evening\'s cream');
-      assert.notEqual(dusk, 'rgb(90,80,64)');
-      assert.equal(at('2026-10-25T19:30:00+03:00'), 'rgb(36,31,25)', 'the night\'s dark at night, with the page');
-      assert.equal(at('2026-10-25T23:00:00+03:00'), 'rgb(36,31,25)', 'and by night');
-      assert.equal(style.getPropertyValue('--footer-text'), 'rgb(248,235,194)', 'the yellow alone at the darkest of the night');
-      const channels = (value) => value.match(/\d+/g).slice(0, 3).map(Number);
+      const sheet = read(root, 'css', 'house.css');
+      const siteCss = read(root, 'css', 'style.css');
+      const dim = Number(siteCss.match(/--select-dim: ([\d.]+);/)[1]);
+      const hex = (v) => v.match(/[0-9A-F]{2}/gi).map((x) => parseInt(x, 16));
       const luminance = (c) => c.map((v) => { v /= 255; return v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; }).reduce((sum, v, i) => sum + v * [0.2126, 0.7152, 0.0722][i], 0);
       const contrast = (a, b) => { const [x, y] = [luminance(a), luminance(b)].sort((p, q) => q - p); return (x + 0.05) / (y + 0.05); };
-      for (const day of ['2026-06-21', '2026-12-21', '2026-10-25']) {
-        for (let minute = 0; minute < 24 * 60; minute += 15) {
-          const when = new Date(Date.parse(day + 'T00:00:00+03:00') + minute * 60000).toISOString();
-          const chrome = channels(at(when));
-          const words = channels(style.getPropertyValue('--footer-text'));
-          const quieter = words.map((c, i) => Math.round(c * 0.85 + chrome[i] * 0.15));
-          assert.ok(contrast(words, chrome) >= 5.6, 'the header\'s words at ' + when);
-          assert.ok(contrast(quieter, chrome) >= 4.5, 'its quieter tier at ' + when);
-        }
+      assert.match(sheet, /html\.house-inside\[data-house-theme\] \.header-nav-bar a \{ color: var\(--footer-text\); \}/, 'the header\'s links at their full ink');
+      for (const name of ['day', 'evening', 'night']) {
+        const at = sheet.indexOf('html.house-inside[data-house-theme="' + name + '"] body {');
+        const text = sheet.slice(at, sheet.indexOf('}', at));
+        const token = (t) => text.match(new RegExp('\\n  ' + t + ': ([^;]+);'))[1];
+        assert.equal(token('--surface-chrome'), token('--paper'), name + ': the header is the page');
+        assert.equal(token('--surface-footer'), token('--paper'), name + ': and the footer');
+        const ground = hex(token('--paper'));
+        const words = hex(token('--footer-text'));
+        const dimmed = words.map((c, i) => c * dim + ground[i] * (1 - dim));
+        assert.ok(contrast(words, ground) >= 4.5, name + ': the header\'s words');
+        assert.ok(contrast(dimmed, ground) >= 4.5, name + ': and under a pointer');
       }
-      h.click('#house-leave');
-      assert.equal(style.getPropertyValue('--surface-chrome'), '', 'the door\'s header is the site\'s');
-      assert.equal(style.getPropertyValue('--footer-text'), '');
+      const h = house({});
+      await tick();
+      h.click('#house-enter');
+      assert.equal(h.w.document.body.style.getPropertyValue('--surface-chrome'), '', 'no script paints the header');
       h.dom.window.close();
     }
     // Every token a theme sets has a value in both of the House's, so that
@@ -1956,7 +1938,7 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
     const tokens = (text) => new Set([...text.matchAll(/(--[\w-]+):/g)].map((m) => m[1]));
     const block = (text, head) => { const at = text.indexOf(head); assert.ok(at >= 0, head); return text.slice(at, text.indexOf('}', at)); };
     const themed = new Set([...tokens(block(style, 'html[data-theme="dark"] {')), ...tokens(block(style, 'html[data-theme="dark"] body {')), ...tokens(block(style, 'html[data-theme="sky"] body {'))]);
-    for (const name of ['day', 'night']) {
+    for (const name of ['day', 'evening', 'night']) {
       const own = tokens(block(css, 'html.house-inside[data-house-theme="' + name + '"] body {'));
       for (const token of themed) {
         if (token === '--theme-icon-sun' || token === '--theme-icon-moon') continue;

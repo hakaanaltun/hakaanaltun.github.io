@@ -1317,68 +1317,29 @@
 
   /* The House's own colours (css/house.css). At the door the page wears
      the site's theme; in a room it wears the House's, which follows
-     İstanbul's light as the rooms do: their cream in the morning, by day
-     and in the evening, and a warm dark at night, after the last light.
-     The page was dark from the evening until the author found it too dark
-     on 25 October 2026: the rooms show the evening themselves. The same
-     day the night's dark was lifted a little from near-black.
+     İstanbul's light as the rooms do: their cream in the morning and by
+     day, and in the evening and at night, after the last light, the cream
+     under the rooms' own dusk, so that the page around a room is the room's
+     wall. The author asked for this on 26 October 2026, when the warm dark
+     the page wore at night was far darker than the rooms. The box over a
+     room keeps the cream until night and the warm dark at night.
 
-     The header and footer move with İstanbul's sun every minute, as Follow
-     the sky's do with the reader's: before sunrise they lighten out of the
-     night's dark as the sky opens, and by day they are a beige at its
-     lightest at noon and darker toward the horizon, and after sunset they
-     darken toward the night's dark as the sky closes. At night, when the
-     page turns dark, they are the night's dark, a shade under the page, as
-     Follow the sky's header is by night. Their words are Follow the sky's
-     (wordsAt in _includes/sky-ramp.html), the site's yellow with white
-     mixed in as the sky opens, for İstanbul's sun. The author chose this
-     lighter beige over one that keeps the site's 7:1 for the header's
-     words, on 25 October 2026: they hold 5.6:1 and the quieter tier 4.6:1
-     at every minute. The browser's own bar follows the header, and at the
-     door the site's theme points it back where it was. Without the sky's
-     script the header keeps the colours css/house.css gives it. */
-  var HEADER = { noon: [110, 98, 80], horizon: [90, 80, 64], night: [36, 31, 25] };
-  var HEADER_TOKENS = ['--surface-chrome', '--surface-footer', '--footer-text', '--footer-muted', '--header-border'];
-  var HOUSE_CHROME = { day: '#4E4638', night: '#241F19' };
-  function istanbulEvening(now, alt, S) {
-    var p = parts(now, { hour: '2-digit', minute: '2-digit', hourCycle: 'h23' });
-    var h = +p.hour + +p.minute / 60;
-    if (h < 12 || h >= 21) return 0;
-    var last = S.sunAltitude(new Date(now.getTime() + (21 - h) * 3600000), LAT, LNG);
-    return last >= 0 ? 0 : Math.max(0, Math.min(1, 1 - alt / last));
-  }
-  function headerNow(theme) {
-    var S = window.OLAE_SKY;
-    if (!S || !S.wordsAt) return null;
-    var now = new Date();
-    var alt = S.sunAltitude(now, LAT, LNG);
-    var sun = { alt: alt, share: S.arcShare(now, LAT, LNG), eve: istanbulEvening(now, alt, S) };
-    var open = S.lerp(Math.max(0, Math.min(1, (alt + 18) / 18)), 1, sun.eve);
-    var chrome = theme === 'night' ? HEADER.night
-      : alt >= S.SUNRISE ? S.mix(HEADER.horizon, HEADER.noon, sun.share) : S.mix(HEADER.night, HEADER.horizon, open);
-    var words = S.wordsAt(sun);
-    return { chrome: S.rgb(chrome), words: S.rgb(words), border: 'rgba(' + words.join(',') + ',0.20)' };
-  }
+     The header and footer are the page's own colour, with the page's ink
+     for their words, as on White & Slate: the author asked for this on
+     26 October 2026, in place of the beige and dark that had moved with
+     İstanbul's sun since the day before. The browser's own bar takes the
+     same colour, and at the door the site's theme points it back. */
+  var HOUSE_CHROME = { day: '#F4EFE3', evening: '#C9C6BF', night: '#878988' };
   function wearTheme() {
     var page = document.documentElement;
     var hour = scene.dataset.hour;
-    var theme = !page.classList.contains('house-inside') ? '' : hour === 'night' ? 'night' : 'day';
+    var theme = !page.classList.contains('house-inside') ? '' : hour === 'night' || hour === 'evening' ? hour : 'day';
     var was = page.getAttribute('data-house-theme') || '';
     if (theme) page.setAttribute('data-house-theme', theme);
     else page.removeAttribute('data-house-theme');
-    var header = theme && headerNow(theme);
-    var body = document.body.style;
-    HEADER_TOKENS.forEach(function (token) { body.removeProperty(token); });
-    if (header) {
-      body.setProperty('--surface-chrome', header.chrome);
-      body.setProperty('--surface-footer', header.chrome);
-      body.setProperty('--footer-text', header.words);
-      body.setProperty('--footer-muted', header.words);
-      body.setProperty('--header-border', header.border);
-    }
     var metas = document.querySelectorAll('meta[name="theme-color"]');
     if (theme) {
-      Array.prototype.forEach.call(metas, function (meta) { meta.setAttribute('content', header ? header.chrome : HOUSE_CHROME[theme]); });
+      Array.prototype.forEach.call(metas, function (meta) { meta.setAttribute('content', HOUSE_CHROME[theme]); });
     } else if (was) {
       if (window.OLAE_SITE_SKY && window.OLAE_SITE_SKY.isOn()) window.OLAE_SITE_SKY.paintNow();
       else if (window.__themeColorSync) window.__themeColorSync();

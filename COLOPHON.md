@@ -197,14 +197,13 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   when a pointer dims it.
 - **Inside, The House wears its own colours.** At the door the page keeps
   the theme the reader chose. In the study and on the balcony the page,
-  its header and its footer take the rooms’ colours instead: their cream
-  in the morning, by day and in the evening, and a warm dark at night.
-  Like the rooms’ light, they follow İstanbul’s hour. The
+  its header and its footer take the rooms’ colours instead. Like the
+  rooms’ light, they follow İstanbul’s hour. The
   author asked for this on 25 October 2026, when the light slate of Follow
   the sky by day did not suit the rooms. The same day the author asked for
   the header and footer to move with İstanbul’s sun as Follow the sky’s
   move with the reader’s: a beige by day, lightest at noon, darkening
-  after sunset, and dark with the page at night, with their words taking white as the sky
+  after sunset, and dark at night, with their words taking white as the sky
   opens and losing it as the night closes. Shown a beige that keeps the
   site’s usual contrast for those words beside a lighter one, the author
   chose the lighter; the words still read at the accessible minimum or
@@ -215,6 +214,27 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   it first was. Later that day a navy night was tried in its place, and
   the author found it did not suit the rooms and asked for the warm dark
   back.
+- **Around the rooms the page is part of the house.** On 26 October 2026
+  the author found the page around the rooms far darker than the rooms
+  themselves in the evening, and asked for it to look as the inside of the
+  house looks at that hour, by day as well. The page is now the rooms’
+  wall in their own light: their cream in the morning and by day, and in
+  the evening and at night the same cream under the same dusk the rooms
+  take, so a room runs on into the page around it. At night that is a
+  middle grey, so the words on it are close to black and their tiers lie
+  close together; they still read at the accessible minimum or better.
+  The box that opens over a room is held, not part of the wall: it keeps
+  the cream until night and the warm dark at night.
+- **The House’s header and footer are its page.** The same day the author
+  asked for the header and footer to take the page’s colour at every hour,
+  as Light’s white header and footer take its white, with words dark
+  enough to read on it. They no longer move with İstanbul’s sun: they are
+  the cream by day and the rooms’ dusk in the evening and at night, and
+  their words are the page’s ink, black at night. Their links keep their
+  full ink there, so that they still read when a pointer dims them. On a
+  phone, where the page scrolls under the header, a thin line in the
+  page’s ink marks the header’s edge, as the author asked the same day;
+  without it a heading passing under the header looked cut off.
 - **A place that fills the window has its own quiet frame.** This applies to the
   Farm House, each picture in Pictures with Stories and each instrument. The
   frame gives a way back and the place’s own controls, and leaves the rest

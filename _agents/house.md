@@ -335,10 +335,17 @@ and sky.
   moves nothing.
 - **The House's own colours** (rule in `COLOPHON.md`). `wearTheme()` in
   `js/house.js` sets `data-house-theme` on `<html>` while a room is open:
-  `day` in İstanbul's morning, day and evening, `night` at its night, read
-  from the scenes' `data-hour`. It turned with the lamps, at the evening,
-  until the author found the evening too dark on 25 October 2026. At the door it
-  is taken off. `css/house.css` sets the tokens on `<body>`, which every
+  `day` in İstanbul's morning and day, `evening` and `night` at those
+  hours, read from the scenes' `data-hour`. At the door it is taken off.
+  The page around the rooms (rule in `COLOPHON.md`) is the cream under
+  `.house-dusk`: `#1c2633` multiplied at the rooms' own .2 and .5 gives
+  `#C9C6BF` for the evening and `#878988` for the night. Change those with
+  the dusk's opacities, or the room stops running on into the page. The
+  night's grey leaves the ink little room: `--ink` 5.31:1, `--vizon`
+  4.87:1 and the accent, at `--sec-l` 0.240, 4.6:1. The dialog keeps the
+  cream in the evening (it shares the day block) and the warm dark at
+  night (`[data-house-theme="night"] .house-dialog`); the site's menu
+  takes the page's colour. `css/house.css` sets the tokens on `<body>`, which every
   theme's own blocks reach only from `<html>` (Follow the sky paints
   inline on `<html>`), and sets `--surface-chrome` and `--surface-footer`
   directly, so no palette's `--chrome-rgb` reaches the header and footer.
@@ -348,24 +355,20 @@ and sky.
   header colour; `_includes/site-sky.html` leaves the `theme-color` metas
   alone while `data-house-theme` is set, and at the door the site's theme
   points them back.
-- **The header and footer follow İstanbul's sun** (rule in
-  `COLOPHON.md`). `headerNow()` in `js/house.js` paints them every minute
-  on `<body>`'s own style, from `window.OLAE_SKY` (`_includes/sky-ramp.html`)
-  with the House's coordinates: before sunrise `HEADER.night` up to
-  `HEADER.horizon` as the night opens, by day `HEADER.horizon` to
-  `HEADER.noon` along the sun's arc, after sunset `HEADER.horizon` down to
-  `HEADER.night` as the evening closes, and at night, while the page
-  wears its dark (`data-house-theme="night"`), `HEADER.night`, a shade
-  under the page as Follow the sky's header is by night. The words are
-  `wordsAt()` for İstanbul's sun, the same white as Follow the sky's. The
-  author asked for both on 25 October 2026, saw a beige that keeps the
-  site's 7:1 for the header's words (#5E5443 at noon) beside a lighter
-  one, and chose the lighter: the words hold 5.6:1 and the quieter tier
-  4.6:1, the floor. A lighter beige still would take the quieter tier
-  under 4.5:1; one much lighter needs dark words by day.
-  `scripts/test-house.cjs` checks both through a day. The words keep
-  their white through the evening, losing it as the night closes, so the
-  evening still moves in the header after the page has turned. The pointer's trail is lit by the House's colours, not
+- **The header and footer are the page** (rule in `COLOPHON.md`). Each
+  of the three blocks in `css/house.css` sets `--surface-chrome` and
+  `--surface-footer` to its `--paper`, `--footer-text` and `--footer-muted`
+  to its ink (`#000000` at night, where the grey leaves nothing else
+  room), and `--header-border` to that ink at .20, as Light does with its
+  white. `html.house-inside[data-house-theme] .header-nav-bar a` gives the
+  links their full ink in place of the site's 85%, so that under
+  `--select-dim` they hold 4.75:1 at night. On a phone, by the header's
+  own query (`max-width: 767px`, or a short screen on its side), the
+  header takes a `--header-border` line along its foot. `HOUSE_CHROME` in
+  `js/house.js` gives the browser's bar the same colours. `headerNow()`,
+  which painted them from İstanbul's sun from 25 October 2026, was taken
+  out on 26 October 2026. `scripts/test-house.cjs` checks the header is
+  the page and its words hold 4.5:1, dimmed or not. The pointer's trail is lit by the House's colours, not
   the site's theme. Every tier holds 4.5:1; check a change against the
   bands as well as the paper.
 
