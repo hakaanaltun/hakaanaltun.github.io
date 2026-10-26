@@ -185,10 +185,12 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   and the zero everything in a machine is made of. Read another way, it
   holds the site’s name: the bowl is the o of On, the line an l for Life,
   the ampersand itself the &, and its upper loop the e of Everything, the
-  e of the Latin et the ampersand grew from. The line is as wide as
-  the bowl and about half as heavy as its thickest stroke, and the mark
-  was made a little smaller so that the two fit where the ampersand stood
-  alone.
+  e of the Latin et the ampersand grew from. It was first a line as wide
+  as the bowl. Later the same day the author asked for it to run from
+  edge to edge, a road the ampersand walks on, as life can be thought of
+  as one, and then for a heavier line with a thin one under it, like a
+  road and its edge. The mark was made a little smaller so that the
+  ampersand and its lines fit where it once stood alone.
 - **Dark’s header and footer use a softer grey.** On 26 October 2026
   the author asked for their white words to move a little towards black
   while staying easy to read. The navigation keeps readable contrast
