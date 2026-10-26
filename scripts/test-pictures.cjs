@@ -180,7 +180,7 @@ function page(modals, setup) {
   const palettesCss = fs.readFileSync(path.join(root, 'css/palettes.css'), 'utf8');
   const lightRules = palettesCss.slice(palettesCss.indexOf('/* Light:'));
   const expected = [+lightRules.match(/--sec-l:\s*([\d.]+)/)[1]];
-  for (let n = 2; n <= 13; n++) {
+  for (let n = 2; n <= 12; n++) {
     expected.push(+palettesCss.match(new RegExp('html\\[data-palette="' + n + '"\\]\\s*\\{\\s*--sec-l:\\s*([\\d.]+)'))[1]);
   }
   assert.deepEqual(levels, expected, 'each palette on /themes/ uses its own --sec-l');

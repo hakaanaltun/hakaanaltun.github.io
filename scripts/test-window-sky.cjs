@@ -183,12 +183,12 @@ for(const month of [0,3,6,9])for(const hour of [0,6,12,18]){
     assert(ratio(css('--footer-text'),chrome)>=6,'footer text on the chrome'+at);
     assert(ratio(over(css('--footer-text'),chrome,0.85),chrome)>=4.5,'the menu on the chrome'+at);
     assert.equal(css('--footer-muted'),css('--footer-text'),'one tone in the header and footer'+at);
-    assert.equal(css('--footer-text'),day?'rgb(40,52,68)':'rgb(255,255,255)','slate by day, white by night'+at);
+    assert.equal(css('--footer-text'),day?'rgb(255,255,255)':css('--ink'),'white by day, cream ink by night'+at);
     assert.equal(css('--sky-accent-white'),'','no white in the accents'+at);
     if(day){
       assert.equal(css('--paper'),'rgb(255,255,255)','white all day'+at);
-      if(prog===0)assert.equal(css('--sky-chrome-rgb'),'255, 255, 255','white chrome at sunrise');
-      if(prog===1)assert.equal(css('--sky-chrome-rgb'),'255, 255, 255','white chrome until sunset');
+      if(prog===0)assert.equal(css('--sky-chrome-rgb'),'86, 99, 111','the lightest slate at sunrise');
+      if(prog===1)assert.equal(css('--sky-chrome-rgb'),'40, 52, 68','the darkest slate at sunset');
       assert.equal(css('--note-base'),'','the night\'s tokens are taken off by day'+at);
       assert(+css('--sec-l')>0.4&&+css('--sec-l')<0.52,'the accents\' lightness'+at);
     }else{
@@ -249,7 +249,7 @@ for(const month of [0,3,6,9])for(const hour of [0,6,12,18]){
     const at=t=>steps.find(p=>p[0]===t);
     for(let t=8;t<18;t+=0.5){
       assert.equal(at(t)[1],'rgb(255,255,255)','white at '+t);
-      assert.equal(at(t)[2],'rgb(255, 255, 255)','white header at '+t);
+      assert(lum(at(t+0.5)[2])<lum(at(t)[2]),'the header darker at '+(t+0.5)+' than at '+t);
     }
     assert.equal(at(18.5)[1],'rgb(44,58,82)','navy at sunset');
     for(let t=18.5;t<20.5;t+=0.5)assert(lum(at(t)[1])>lum(at(t+0.5)[1]),'darker at '+(t+0.5)+' than at '+t);

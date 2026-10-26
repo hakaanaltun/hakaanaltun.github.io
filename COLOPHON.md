@@ -82,16 +82,15 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   the browser-reported IANA time zone. No location permission is
   requested. If the zone is unknown, keep the existing nominal-equatorial
   fallback rather than pretending to know the visitor’s latitude.
-- **Follow the sky is the site’s default.** It was first the default
-  from 21 October 2026. On 25 October 2026 the author found it not yet
-  right and asked for Light to come back for a while; later that day,
-  with the theme settled, the author asked for Follow the sky to be the
-  default again.
-- **Light and the sky’s daytime frame are white.** On 26 October 2026
-  the author chose white for the whole daytime page, including its header
-  and footer, with slate words in both. Light keeps this same face at every
-  hour. The other palettes and the sky’s existing night keep their colours.
-  The site’s mark is slate on white, fixed through the day and night.
+- **System is the site’s default.** On 26 October 2026 the author chose
+  the device’s preference as the starting point, with White & Slate in
+  light mode and Dark in dark mode. Any theme a reader chooses stays on
+  that device. Follow the sky remains a choice in the theme menu.
+- **Light keeps a white frame.** On 26 October 2026 the author chose
+  white for the Light page, including its header and footer, with slate
+  words in both. Light keeps this same face at every hour. Follow the sky
+  keeps its moving slate header and footer by day, with white words, and
+  its existing night. The site’s mark is slate on white at every hour.
 - **Follow the sky kept the page still by day from 25 October.** From sunrise to sunset
   the page is white and only the header and footer move: a slate with
   white words, darker as the day goes on, until at sunset it is close to
@@ -195,6 +194,11 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   the author asked for their white words to move a little towards black
   while staying easy to read. The navigation keeps readable contrast
   when a pointer dims it.
+- **The sky’s night softens the frame’s words.** From sunset to sunrise
+  Follow the sky’s header and footer use the cream of its reading text.
+  The light palettes with dark header and footer bands take that same
+  cream at night. White & Slate keeps slate words on white, and Dark keeps
+  its grey. The author chose this on 26 October 2026 and retired Ash & Gold.
 - **Inside, The House wears its own colours.** At the door the page keeps
   the theme the reader chose. In the study and on the balcony the page,
   its header and its footer take the rooms’ colours instead: their cream

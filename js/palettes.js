@@ -36,18 +36,17 @@
       says, so it has nothing to preview.
 
    Palette 1 is White & Slate, the Light theme, scoped in palettes.css
-   to the light path with no palette attribute (or palette 1). Palette 13
-   keeps the original warm paper and gold words of Ash & Gold. */
+   to the light path with no palette attribute (or palette 1). */
 (function () {
   'use strict';
   if (window.__paletteWardrobe) return;
   window.__paletteWardrobe = true;
 
-  var COUNT = 13;
+  var COUNT = 12;
   var CHROME = {
     2: '#3E4A44', 3: '#3A4148', 4: '#5E4234', 5: '#3E4F42',
     6: '#22364F', 7: '#59513A', 8: '#47415A', 9: '#234640',
-    10: '#5E4046', 11: '#45412E', 12: '#2E3F45', 13: '#444A4E'
+    10: '#5E4046', 11: '#45412E', 12: '#2E3F45'
   };
 
   /* The section voices, as css/style.css writes them: the hue, the chroma
@@ -117,12 +116,11 @@
       chrome: '#45412E', ftext: '#FFFFFF', fmuted: '#FFFFFF' },
     { name: 'Slate Paper',   tag: 'wet slate after rain', l: 0.457,
       paper: '#DDE3E4', inkSoft: '#324147', vizon: '#4E5E64',
-      chrome: '#2E3F45', ftext: '#FFFFFF', fmuted: '#FFFFFF' },
-    { name: 'Ash & Gold',    tag: 'the site’s face until October 2026', l: 0.513,
-      paper: '#FDFCF8', inkSoft: '#3A342C', vizon: '#6D665B',
-      chrome: '#444A4E', ftext: '#DCD1AC', fmuted: '#C6B98F' }
+      chrome: '#2E3F45', ftext: '#FFFFFF', fmuted: '#FFFFFF' }
+
   ];
-  PALETTES.forEach(function (p) {
+  PALETTES.forEach(function (p, i) {
+    p.warmFrame = i > 0;
     p.acc = VOICES.map(function (v) { return oklch(p.l - v.dl, v.c, v.h); });
   });
 
@@ -200,7 +198,7 @@
      only on the light path. theme.js calls this at the end of every
      syncThemeColor(); head.html's pre-paint script covers first paint. */
   function paletteMetaSync() {
-    var n = parseInt(stored(), 10);
+    var n = parseInt(document.documentElement.getAttribute('data-palette'), 10);
     var t = document.documentElement.getAttribute('data-theme');
     if (t === 'dark' || t === 'midnight' || t === 'sky') return;  /* the dark side sets its own */
     if (document.documentElement.hasAttribute('data-sky')) return;  /* and the sky by day */
@@ -300,21 +298,24 @@
      which no stylesheet of a single active theme can do. */
   function paintPreview(box, p) {
     function put(sel, prop, v) { box.querySelector(sel).style[prop] = v; }
+    var frame = p.warmFrame && sky.tokensNow ? sky.tokensNow() : null;
+    var ftext = frame && !frame.day ? frame['--ink'] : p.ftext;
+    var fmuted = frame && !frame.day ? frame['--ink'] : p.fmuted;
     put('.pm-head', 'background', p.chrome);
-    put('.pm-brand', 'color', p.ftext);
-    put('.pm-nav', 'color', p.fmuted);
+    put('.pm-brand', 'color', ftext);
+    put('.pm-nav', 'color', fmuted);
     put('.pm-body', 'background', p.paper);
     put('.pm-title', 'color', p.acc[0]);   /* a series, so the writing voice */
     put('.pm-text', 'color', p.inkSoft);
     put('.pm-meta', 'color', p.vizon);
     put('.pm-foot', 'background', p.chrome);
-    put('.pm-foot-brand', 'color', p.ftext);
-    put('.pm-foot-mail', 'color', p.fmuted);
+    put('.pm-foot-brand', 'color', ftext);
+    put('.pm-foot-mail', 'color', fmuted);
     var sw = box.querySelectorAll('.pa-sw');
     for (var i = 0; i < sw.length; i++) sw[i].style.background = p.acc[i];
   }
 
-  group('Thirteen for the day');
+  group('Twelve for the day');
   PALETTES.forEach(function (p, i) {
     var box = buildPreview(p, (i + 1) + ' · ' + p.name);
     box.setAttribute('data-n', String(i + 1));
@@ -397,7 +398,8 @@
   function sync() {
     var t = storedTheme();
     var themeChosen = !!THEME_NAMES[t];
-    var s = parseInt(stored(), 10);
+    var s = t === 'system' ? 1 : parseInt(stored(), 10);
+    var visibleTheme = t === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : t;
     var chosen = s >= 1 && s <= COUNT ? s : 1;
     var name = PALETTES[chosen - 1].name;
 
@@ -405,8 +407,8 @@
       var theme = pv.getAttribute('data-set-theme');
       /* One tick on the page: a stored theme of its own carries it, and the
          palette underneath waits its turn rather than claiming it too. */
-      var on = theme ? theme === t
-                     : !themeChosen && parseInt(pv.getAttribute('data-n'), 10) === chosen;
+      var on = theme ? theme === visibleTheme
+                     : !THEME_NAMES[visibleTheme] && parseInt(pv.getAttribute('data-n'), 10) === chosen;
       var mark = pv.querySelector('.palette-current-mark');
       if (mark) mark.hidden = !on;
       /* The tick is the sighted cue; aria-pressed is the same news for
@@ -416,8 +418,8 @@
     });
 
     var face = '<b class="site-face">' + name.replace(/&/g, '&amp;') + '</b>';
-    if (t === 'sky' && !localSkyChoice()) {
-      status.innerHTML = 'The site follows the sky by default. Pick any theme to keep it on this device.';
+    if (t === 'system') {
+      status.innerHTML = 'System follows your device: <b class="site-face">White &amp; Slate</b> in light mode and <b class="site-face">Dark</b> in dark mode. Pick any theme to keep it on this device.';
     } else if (themeChosen) {
       var pick = '<b class="site-face">' + THEME_NAMES[t] + '</b>';
       status.innerHTML = chosen === 1
@@ -434,10 +436,6 @@
       status.innerHTML = face + ' is stored, but the site is on a dark theme right now'
         + '&mdash;pick it again to turn the day on.';
     }
-  }
-
-  function localSkyChoice() {
-    try { return localStorage.getItem('theme') === 'sky'; } catch (e) { return false; }
   }
 
   /* Is the light path the one CSS is painting? An explicit theme decides it;
@@ -459,7 +457,7 @@
     else choose(parseInt(pv.getAttribute('data-n'), 10));
   });
 
-  /* Fifteen of the cards are painted once and are done. The sixteenth is a
+  /* The sky and the light palettes’ frame words follow the hour. The sky is a
      claim about the present, so it is re-made on theme.js's own beat: every
      minute, and on return to a tab that sat in the background — where a page
      left open overnight would otherwise still be showing yesterday's
@@ -470,6 +468,9 @@
       if (document.hidden) return;
       var now = skyFace();
       if (now) paintPreview(skyBox, now);
+      list.querySelectorAll('[data-n]').forEach(function (box) {
+        paintPreview(box, PALETTES[parseInt(box.getAttribute('data-n'), 10) - 1]);
+      });
     };
     setInterval(refreshSky, 60000);
     document.addEventListener('visibilitychange', refreshSky);

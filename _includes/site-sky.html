@@ -3,8 +3,8 @@
 
   The sky has two halves, both in sky-ramp.html, which says why. From
   sunrise to sunset the theme is its day, a white paper with dark ink, set
-  by the same rules as the thirteen light palettes, under a white header and
-  footer with slate words. From sunset to
+  by the same rules as the thirteen light palettes, under a slate header and
+  footer with white words that darkens towards sunset. From sunset to
   sunrise it is the night ramp, navy deepening, with light ink.
 
   By day the painter sets <html data-theme="light">, so every rule written
@@ -118,15 +118,12 @@
   function tokens(sun){
     var day = sun.alt >= S.SUNRISE, t = day ? dayTokens(sun.prog) : nightTokens(sun.alt);
     t.day = day;
-    /* the header's and footer's words, one tone: slate on white by day,
-       white on the band by night. Until 25 October 2026 the night's
-       were the site's yellow opening with the sky (sky-ramp.html's
-       wordsAt, which The House still uses); the author asked for no
-       yellow there at all. */
-    var words = day ? [40, 52, 68] : [255, 255, 255];
-    t["--footer-text"] = S.rgb(words);
-    t["--footer-muted"] = S.rgb(words);
-    if(day) t["--header-border"] = "rgba(" + words.join(",") + ",0.20)";
+    /* White on the daytime slate; after sunset the frame takes the
+       page’s own cream ink, warming with the night. */
+    var words = day ? "rgb(255,255,255)" : t["--ink"];
+    t["--footer-text"] = words;
+    t["--footer-muted"] = words;
+    if(day) t["--header-border"] = "rgba(255,255,255,0.20)";
     /* the header and footer: the day's chrome, or by night the band, which
        is what the night's header and footer are painted with */
     t.chrome = day ? "rgb(" + t["--sky-chrome-rgb"] + ")" : t["--band"];
@@ -158,11 +155,21 @@
     TOKENS.forEach(function(t){ st.removeProperty(t); });
     root.removeAttribute("data-sky");
   }
+  /* Other light palettes keep their paper, but their dark frame also
+     takes cream words between local sunset and sunrise. White & Slate
+     and the rooms are excluded by the scoped CSS. */
+  function paintFrame(sun){
+    var t = tokens(sun), root = document.documentElement;
+    root.toggleAttribute("data-frame-night", !t.day);
+    root.style.setProperty("--night-frame-words", t.day ? "#FFFFFF" : t["--ink"]);
+  }
   window.OLAE_SITE_SKY = {
-    paint: paint, clear: clear,
+    paint: paint, clear: clear, paintFrame: paintFrame,
+    paintFrameNow: function(){ paintFrame(S.sunNow()); },
     paintNow: function(){ paint(S.sunNow()); },
     tokensNow: function(){ return tokens(S.sunNow()); },
     isOn: function(){ return document.documentElement.hasAttribute("data-sky"); }
   };
+  paintFrame(S.sunNow());
 })();
 </script>

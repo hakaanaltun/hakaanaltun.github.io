@@ -9,8 +9,8 @@ data-default restores the system-preference behaviour. {% endcomment %}
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#171613" data-light="rgb({{ _tc }})" data-dark="#171613" data-midnight="#0D1219" data-default="#171613">
 {% comment %} Apply a stored theme choice before first paint — no flash — and
 point the theme-color metas at the chosen palette in the same breath.
-Without a stored choice, the site follows the sky. An explicit System
-choice keeps following prefers-color-scheme.
+Without a stored choice, System follows prefers-color-scheme.
+A stored manual choice, including Follow the sky, stays in force.
 
 "sky" is not a palette but a rule, and the one theme whose colours are
 computed rather than written: sky-ramp.html says where the sun is,
@@ -25,7 +25,7 @@ choice, kept. {% endcomment %}
 <script>(function(){var t;try{t=localStorage.getItem('theme');
 if(t==='dusk'){t='sky';try{localStorage.setItem('theme','sky')}catch(e){}}}catch(e){}
 if(t==='system')return;
-if(t!=='dark'&&t!=='light'&&t!=='midnight'&&t!=='sky')t='sky';
+if(t!=='dark'&&t!=='light'&&t!=='midnight'&&t!=='sky')return;
 document.documentElement.setAttribute('data-theme',t);
 if(t==='sky'){window.OLAE_SITE_SKY.paintNow();return;}
 var m=document.querySelectorAll('meta[name="theme-color"]');for(var i=0;i<m.length;i++){var v=m[i].getAttribute('data-'+t);if(v)m[i].setAttribute('content',v);}})();</script>
@@ -34,14 +34,15 @@ palette before first paint and points the light theme-color meta at its
 chrome. Palette 1 is the site's own Ash & White: no attribute at all. The
 chrome hexes live in three places — css/palettes.css, this table, and the
 CHROME map in js/palettes.js — keep the three in sync. {% endcomment %}
-<script>(function(){try{var s=localStorage.getItem('palette');if(!s)return;var n=parseInt(s,10);
-if(!(n>=1&&n<=13))return;
+<script>(function(){if(!document.documentElement.hasAttribute('data-theme'))return;try{var s=localStorage.getItem('palette');if(!s)return;var n=parseInt(s,10);
+if(n===13){localStorage.removeItem('palette');return;}
+if(!(n>=1&&n<=12))return;
 if(n===1){document.documentElement.removeAttribute('data-palette');return;}
 document.documentElement.setAttribute('data-palette',String(n));
 var t=document.documentElement.getAttribute('data-theme');
 if(t==='dark'||t==='midnight'||t==='sky'||document.documentElement.hasAttribute('data-sky'))return;
 if(!t&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches)return;
-var C={2:'#3E4A44',3:'#3A4148',4:'#5E4234',5:'#3E4F42',6:'#22364F',7:'#59513A',8:'#47415A',9:'#234640',10:'#5E4046',11:'#45412E',12:'#2E3F45',13:'#444A4E'};
+var C={2:'#3E4A44',3:'#3A4148',4:'#5E4234',5:'#3E4F42',6:'#22364F',7:'#59513A',8:'#47415A',9:'#234640',10:'#5E4046',11:'#45412E',12:'#2E3F45'};
 var m=document.querySelector('meta[name="theme-color"][data-light]');if(m&&C[n])m.setAttribute('content',C[n]);}catch(e){}})();</script>
 {% if page.noindex %}<meta name="robots" content="noindex">{% endif %}
 
@@ -313,7 +314,7 @@ that are say so without moving out of this branch. {% endcomment %}
 {% comment %} One stylesheet pair for every page, whichever branch above
 wrote its head, so each ?v= is changed in one place. {% endcomment %}
 <link rel="stylesheet" href="/css/style.css?v=20261026-1">
-<link rel="stylesheet" href="/css/palettes.css?v=20261026-1">
+<link rel="stylesheet" href="/css/palettes.css?v=20261026-2">
 
 {% comment %} A word story, described for machines.
 

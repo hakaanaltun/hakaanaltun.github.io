@@ -63,7 +63,7 @@
       t = s === 'midnight' ? 'dark' : (s === 'dusk' ? 'sky' : s);
     }
   }catch(e){}
-  if(t !== 'dark' && t !== 'light' && t !== 'sky' && t !== 'system') t = 'sky';
+  if(t !== 'dark' && t !== 'light' && t !== 'sky' && t !== 'system') t = 'system';
   if(t === 'dark' || t === 'light'){
     document.documentElement.setAttribute('data-theme', t);
   } else if(t === 'sky'){

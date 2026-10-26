@@ -1,6 +1,6 @@
 /* theme.js — footer theme menu (system / light / dark / midnight / sky).
-   The effective theme is the stored choice if any, else Follow the sky.
-   "System" is an explicit stored choice with no data-theme attribute:
+   The effective theme is the stored choice if any, else System.
+   "System" has no data-theme attribute:
    CSS follows prefers-color-scheme and tracks it live.
    head.html applies the choice to
    <html data-theme> (and points the theme-color metas at it) before
@@ -40,7 +40,21 @@
   function apply(t) {
     /* System = no attribute at all: CSS falls back to prefers-color-scheme
        and keeps following it live when the OS preference changes. */
-    if (t === 'system') { sky.clear(); document.documentElement.removeAttribute('data-theme'); return; }
+    if (t === 'system') {
+      sky.clear();
+      document.documentElement.removeAttribute('data-theme');
+      document.documentElement.removeAttribute('data-palette');
+      return;
+    }
+    /* A manual Light choice restores its remembered palette. System always
+       uses White & Slate for light and Dark for dark. */
+    if (t === 'light') {
+      try {
+        var n = parseInt(localStorage.getItem('palette'), 10);
+        if (n >= 2 && n <= 12) document.documentElement.setAttribute('data-palette', String(n));
+        else document.documentElement.removeAttribute('data-palette');
+      } catch (e) {}
+    }
     document.documentElement.setAttribute('data-theme', t);
     if (t === 'sky') sky.paintNow(); else sky.clear();
   }
@@ -130,11 +144,15 @@
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') closeMenu(true);
   });
-  if (mq.addEventListener) mq.addEventListener('change', function () { syncThemeColor(); syncMenu(); });
+  if (mq.addEventListener) mq.addEventListener('change', function () {
+    syncThemeColor(); syncMenu();
+    if (window.__paletteWardrobeSync) window.__paletteWardrobeSync();
+  });
 
   /* The sky keeps moving while the page stays open: re-paint once a
      minute, and on return to a tab that sat in the background. */
   function refreshSky() {
+    if (sky.paintFrameNow) sky.paintFrameNow();
     if (effective() !== 'sky') return;
     sky.paintNow();
   }
