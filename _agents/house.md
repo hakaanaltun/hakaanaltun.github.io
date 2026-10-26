@@ -362,7 +362,9 @@ and sky.
   room), and `--header-border` to that ink at .20, as Light does with its
   white. `html.house-inside[data-house-theme] .header-nav-bar a` gives the
   links their full ink in place of the site's 85%, so that under
-  `--select-dim` they hold 4.75:1 at night. `HOUSE_CHROME` in
+  `--select-dim` they hold 4.75:1 at night. On a phone, by the header's
+  own query (`max-width: 767px`, or a short screen on its side), the
+  header takes a `--header-border` line along its foot. `HOUSE_CHROME` in
   `js/house.js` gives the browser's bar the same colours. `headerNow()`,
   which painted them from İstanbul's sun from 25 October 2026, was taken
   out on 26 October 2026. `scripts/test-house.cjs` checks the header is

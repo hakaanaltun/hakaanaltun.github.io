@@ -407,6 +407,13 @@
    they still hold 4.75:1 at night and 4.9:1 in the evening. */
 html.house-inside[data-house-theme] { color-scheme: light; }
 html.house-inside[data-house-theme] .header-nav-bar a { color: var(--footer-text); }
+/* On a phone the page scrolls under the header, and a header the page's own
+   colour showed no edge: a heading passing under it looked cut off. A thin
+   line in the page's ink marks it there, as the author asked on
+   26 October 2026; on a wide screen the header and page stay one. */
+@media (max-width: 767px), (max-height: 500px) and (orientation: landscape) {
+  html.house-inside[data-house-theme] header { border-bottom: 1px solid var(--header-border); }
+}
 html.house-inside[data-house-theme="evening"] .house-dialog,
 html.house-inside[data-house-theme="day"] body {
   color-scheme: light;

@@ -231,7 +231,10 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   enough to read on it. They no longer move with İstanbul’s sun: they are
   the cream by day and the rooms’ dusk in the evening and at night, and
   their words are the page’s ink, black at night. Their links keep their
-  full ink there, so that they still read when a pointer dims them.
+  full ink there, so that they still read when a pointer dims them. On a
+  phone, where the page scrolls under the header, a thin line in the
+  page’s ink marks the header’s edge, as the author asked the same day;
+  without it a heading passing under the header looked cut off.
 - **A place that fills the window has its own quiet frame.** This applies to the
   Farm House, each picture in Pictures with Stories and each instrument. The
   frame gives a way back and the place’s own controls, and leaves the rest
