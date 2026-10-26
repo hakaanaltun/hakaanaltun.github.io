@@ -87,7 +87,12 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   right and asked for Light to come back for a while; later that day,
   with the theme settled, the author asked for Follow the sky to be the
   default again.
-- **Follow the sky keeps the page still by day.** From sunrise to sunset
+- **Light and the sky’s daytime frame are white.** On 26 October 2026
+  the author chose white for the whole daytime page, including its header
+  and footer, with slate words in both. Light keeps this same face at every
+  hour. The other palettes and the sky’s existing night keep their colours.
+  The site’s mark is slate on white, fixed through the day and night.
+- **Follow the sky kept the page still by day from 25 October.** From sunrise to sunset
   the page is white and only the header and footer move: a slate with
   white words, darker as the day goes on, until at sunset it is close to
   the night’s own header. From sunset to sunrise the page is navy, and
