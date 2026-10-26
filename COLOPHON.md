@@ -182,7 +182,10 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   a straight line under the ampersand wherever the mark appears: on the
   tab, the home screen and a shared link’s card. The ampersand’s bowl
   reads as an o and the line as an i, so the mark also says I/O, the one
-  and the zero everything in a machine is made of. The line is as wide as
+  and the zero everything in a machine is made of. Read another way, it
+  holds the site’s name: the bowl is the o of On, the line an l for Life,
+  the ampersand itself the &, and its upper loop the e of Everything, the
+  e of the Latin et the ampersand grew from. The line is as wide as
   the bowl and about half as heavy as its thickest stroke, and the mark
   was made a little smaller so that the two fit where the ampersand stood
   alone.
