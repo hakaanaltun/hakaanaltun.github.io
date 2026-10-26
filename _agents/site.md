@@ -266,6 +266,16 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   by pixel, so the glyph and its edges are unchanged. A new stamp on
   their `?v=` makes browsers and link previews take the new ones. The
   instruments' own cards in `images/og/` keep each instrument's face.
+- **The mark stands on a line** (rule in `COLOPHON.md`). Since
+  26 October 2026 `on-icon.svg` is the source: the glyph's path and a
+  `rect` under it, in one `g` scaled so the pair fills the height the
+  glyph alone had (65% of the icon, 81% of the card). In the path's own
+  1254 canvas the bar runs x 306–904 under the bowl, 62 below the glyph
+  and 42 thick. The PNGs were rendered from it in Chromium, with the bar
+  snapped to whole pixels at 48, 32 and 16 so it stays one crisp row; the
+  ICO holds those three. The maskable icon sets the pair at 56% so the
+  bar stays inside a round mask. The card centres the glyph; the icons
+  keep its offset to the right. Their `?v=` is `20261026-2`.
 
 - **The House's rooms wear their own colours** (rule in `COLOPHON.md`).
   While the study or the balcony is open, `data-house-theme` on `<html>`
