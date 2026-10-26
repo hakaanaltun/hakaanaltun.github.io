@@ -144,6 +144,16 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
 
 ## Themes
 
+- **White daytime frame, 26 October 2026** (rule in `COLOPHON.md`).
+  This supersedes the older colour notes below. `chromeAt()` now returns
+  white throughout the day; `site-sky.html` uses slate `#283444` words by
+  day and keeps white at night. Light (palette 1, White & Slate) uses the
+  same daytime colours in `css/palettes.css`, scoped away from other
+  palettes and from the sky. Ash & Gold keeps its original tokens.
+  The preview in `js/palettes.js`, browser colour in `head.html`, and
+  manifest follow the new face. Identity assets retain their glyph and
+  use slate on white. The House continues to use its own colours.
+
 - **Follow the sky is the default** (rule in `COLOPHON.md`). A reader
   who has chosen nothing gets Follow the sky, and "system" follows the
   device's light or dark (`_includes/head.html`, `js/theme.js`). A page

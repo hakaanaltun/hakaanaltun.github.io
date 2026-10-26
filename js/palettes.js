@@ -35,10 +35,9 @@
       System stays footer-only: it is not a look but whatever the device
       says, so it has nothing to preview.
 
-   Palette 1 is Ash & White, the site's own face — it needs no rules, it is
-   the :root default in style.css, so "no attribute" means 1. Palette 13,
-   Ash & Gold, is the same face with the gold words it wore until
-   25 October 2026. */
+   Palette 1 is White & Slate, the Light theme, scoped in palettes.css
+   to the light path with no palette attribute (or palette 1). Palette 13
+   keeps the original warm paper and gold words of Ash & Gold. */
 (function () {
   'use strict';
   if (window.__paletteWardrobe) return;
@@ -83,9 +82,9 @@
      footer type, read off each palette's block in css/palettes.css, and `l`,
      the palette's --sec-l, which says how dark the voices print on it. */
   var PALETTES = [
-    { name: 'Ash & White',   tag: 'the site’s own face', l: 0.513,
-      paper: '#FDFCF8', inkSoft: '#3A342C', vizon: '#6D665B',
-      chrome: '#444A4E', ftext: '#FFFFFF', fmuted: '#FFFFFF' },
+    { name: 'White & Slate',   tag: 'the site’s light theme', l: 0.492,
+      paper: '#FFFFFF', inkSoft: '#35444E', vizon: '#576976',
+      chrome: '#FFFFFF', ftext: '#283444', fmuted: '#283444' },
     { name: 'Vellum',        tag: 'warm cream, quiet as old paper', l: 0.499,
       paper: '#F7F2E7', inkSoft: '#443B30', vizon: '#716654',
       chrome: '#3E4A44', ftext: '#FFFFFF', fmuted: '#FFFFFF' },
@@ -208,7 +207,7 @@
     if (!t && window.matchMedia('(prefers-color-scheme: dark)').matches) return;
     document.querySelectorAll('meta[name="theme-color"][data-light]').forEach(function (m) {
       var v = n >= 2 && n <= COUNT && CHROME[n] ? CHROME[n] : m.getAttribute('data-light');
-      if (v) m.setAttribute('content', v);            /* palette chrome, else Ash & White */
+      if (v) m.setAttribute('content', v);            /* palette chrome, else White & Slate */
     });
   }
   window.__paletteMetaSync = paletteMetaSync;
@@ -346,7 +345,7 @@
 
   /* Click = keep: the choice is stored at once and stays on this device
      until another palette is picked. Palette 1 means "no choice" — the
-     site's own Ash & White — so it clears the key instead of storing.
+     site's own White & Slate — so it clears the key instead of storing.
 
      Choosing a palette also stores Light. A palette exists only on the day
      path — every rule in css/palettes.css is behind either
@@ -425,8 +424,8 @@
         ? pick + ' is yours on this device, until you pick another.'
         : pick + ' is yours on this device&mdash;' + face + ' is still stored, and comes back the next time the day is on.';
     } else if (chosen === 1) {
-      status.innerHTML = 'No palette chosen&mdash;the site keeps its own <b class="site-face">Ash &amp; White</b> '
-        + 'by day, and turns to <b class="site-face">Dark</b> when the day is off.';
+      status.innerHTML = 'No palette chosen&mdash;the site keeps its own <b class="site-face">White &amp; Slate</b> '
+        + (t === 'system' ? 'in light mode, and uses <b class="site-face">Dark</b> in dark mode.' : 'until you pick another theme.');
     } else if (dayIsOn()) {
       status.innerHTML = face + ' is yours on this device, until you pick another.';
     } else {

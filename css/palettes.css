@@ -639,3 +639,49 @@ html[data-sky="day"] body { --chrome-rgb: var(--sky-chrome-rgb) !important; }
   margin: 3px 6px;
   background: color-mix(in srgb, var(--ink) 14%, transparent);
 }
+
+/* Light: white paper and chrome, slate words. Other palettes keep their own faces. */
+@media (prefers-color-scheme: light) {
+html:is(:not([data-palette]), [data-palette="1"]):not([data-theme]) {
+  --bg: #FFFFFF;
+  --paper: #FFFFFF;
+  --surface-soft: #F6F8F9;
+  --band: #F3F5F6;
+  --footer-strip-bg: #FFFFFF;
+  --ink: #242F38;
+  --ink-soft: #35444E;
+  --vizon: #576976;
+  --footer-strip-ink: #4C5E6B;
+  --hero-source-muted: #4C5E6B;
+  --rule: #E9ECED;
+  --rule-strong: #D0D5D9;
+  --rule-cream: #D5DCDF;
+  --footer-text: #283444;
+  --footer-muted: #283444;
+  --header-border: rgba(40, 52, 68, 0.20);
+  --drawer-bg: rgba(255, 255, 255, 0.985);
+  --sec-l: 0.492;
+}
+html:is(:not([data-palette]), [data-palette="1"]):not([data-theme]) body { --chrome-rgb: 255, 255, 255 !important; }
+}
+html:is(:not([data-palette]), [data-palette="1"])[data-theme="light"]:not([data-sky]) {
+  --bg: #FFFFFF;
+  --paper: #FFFFFF;
+  --surface-soft: #F6F8F9;
+  --band: #F3F5F6;
+  --footer-strip-bg: #FFFFFF;
+  --ink: #242F38;
+  --ink-soft: #35444E;
+  --vizon: #576976;
+  --footer-strip-ink: #4C5E6B;
+  --hero-source-muted: #4C5E6B;
+  --rule: #E9ECED;
+  --rule-strong: #D0D5D9;
+  --rule-cream: #D5DCDF;
+  --footer-text: #283444;
+  --footer-muted: #283444;
+  --header-border: rgba(40, 52, 68, 0.20);
+  --drawer-bg: rgba(255, 255, 255, 0.985);
+  --sec-l: 0.492;
+}
+html:is(:not([data-palette]), [data-palette="1"])[data-theme="light"]:not([data-sky]) body { --chrome-rgb: 255, 255, 255 !important; }

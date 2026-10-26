@@ -178,7 +178,8 @@ function page(modals, setup) {
   // Each palette prints the voices at its own --sec-l.
   const levels = [...palettesJs.matchAll(/\{ name: '[^']+',\s*tag: '[^']+', l: ([\d.]+),/g)].map(m => +m[1]);
   const palettesCss = fs.readFileSync(path.join(root, 'css/palettes.css'), 'utf8');
-  const expected = [+css.match(/:root\s*\{\s*--sec-l:\s*([\d.]+)/)[1]];
+  const lightRules = palettesCss.slice(palettesCss.indexOf('/* Light:'));
+  const expected = [+lightRules.match(/--sec-l:\s*([\d.]+)/)[1]];
   for (let n = 2; n <= 13; n++) {
     expected.push(+palettesCss.match(new RegExp('html\\[data-palette="' + n + '"\\]\\s*\\{\\s*--sec-l:\\s*([\\d.]+)'))[1]);
   }
