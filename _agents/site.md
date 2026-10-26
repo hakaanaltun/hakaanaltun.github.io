@@ -266,20 +266,17 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   by pixel, so the glyph and its edges are unchanged. A new stamp on
   their `?v=` makes browsers and link previews take the new ones. The
   instruments' own cards in `images/og/` keep each instrument's face.
-- **The mark stands on a line** (rule in `COLOPHON.md`). Since
-  26 October 2026 `on-icon.svg` is the source: the glyph's path and
-  two `rect`s under it. The glyph is scaled so that it and the lines fill
-  the height the glyph alone had (65% of the icon, 81% of the card). In
-  the path's own 1254 canvas the heavy line lies 62 below the glyph and
-  is 72 thick, and the thin one lies 24 below that and is 16 thick. Both
-  run the full width of every image, the card included. (The first pull
-  request of 26 October 2026 drew one line 42 thick at x 306–904, under
-  the bowl.) The PNGs were rendered from it in Chromium. At 48, 32 and 16
-  the lines are snapped to whole pixel rows (2, a gap of 1, then 1) and
-  the stack is centred again by whole rows; the ICO holds those three.
-  The maskable icon sets the glyph and lines at 56%, so a round mask
-  crops the lines' ends and not the glyph. The card centres the glyph; the
-  icons keep its offset to the right. Their `?v=` is `20261026-4`.
+- **The card's mark stands on a road** (rule in `COLOPHON.md`). Only
+  `og-image-on-card.png` carries the lines. `on-icon.svg`, the favicons,
+  the ICO and the home-screen icons are the plain ampersand again, the
+  files as they were before 26 October 2026's first line, under the
+  stamp `20261026-5`; the card keeps `20261026-4`. The card was rendered
+  in Chromium from `on-icon.svg`'s path and two `rect`s running its full
+  width: the glyph is scaled so that it and the lines fill 81% of the
+  card's height, centred, and in the path's own 1254 canvas the heavy
+  line lies 62 below the glyph and is 72 thick, the thin one 24 below
+  that and 16 thick. To redraw it, put the path in a `g` with those two
+  `rect`s and render it at 1200×630.
 
 - **The House's rooms wear their own colours** (rule in `COLOPHON.md`).
   While the study or the balcony is open, `data-house-theme` on `<html>`
