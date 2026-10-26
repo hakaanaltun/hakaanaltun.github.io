@@ -385,9 +385,11 @@
    suit the rooms. Around the rooms the page is the rooms' own wall in their
    own light, as the author asked on 26 October 2026, when the warm dark
    around them at night was far darker than the rooms themselves: their
-   cream in the morning and by day, and in the evening and at night the
+   cream in the morning and by day; in the evening the colour of the
+   study's door in the evening's dusk, a dark beige, which the author chose
+   the same day over the wall's own, which read too grey; and at night the
    cream under the same dusk the rooms take (.house-dusk, #1c2633
-   multiplied at .2 and .5), so the room runs on into the page. The box
+   multiplied at .5), so the room runs on into the page. The box
    that opens over a room keeps its own: the cream until night, and the
    warm dark at night, lifted a little from the near-black it first was.
    js/house.js sets data-house-theme on <html> while a room
@@ -399,12 +401,12 @@
    asked on 26 October 2026; they had moved with İstanbul's sun, a beige by
    day into the night's dark, since the day before. Every tier holds
    4.5:1: the cream's faintest ink is 4.65:1 on its band, the evening's
-   5.73:1 on its page, the night's 4.87:1 on its page and its accent 4.6:1,
+   5.09:1 on its band, the night's 4.87:1 on its page and its accent 4.6:1,
    and the dark box's 5.07:1 on its cards. At night the page is a middle
    grey, so its ink is close to black and its tiers lie close together,
    and the header's words are black. The header's links keep their full
    ink here rather than the site's 85%, so that dimmed under a pointer
-   they still hold 4.75:1 at night and 4.9:1 in the evening. */
+   they still hold 4.75:1 at night and 4.96:1 in the evening. */
 html.house-inside[data-house-theme] { color-scheme: light; }
 html.house-inside[data-house-theme] .header-nav-bar a { color: var(--footer-text); }
 /* On a phone the page scrolls under the header, and a header the page's own
@@ -452,34 +454,34 @@ html.house-inside[data-house-theme="day"] body {
 }
 html.house-inside[data-house-theme="evening"] body {
   color-scheme: light;
-  --bg: #C9C6BF;
-  --paper: #C9C6BF;
-  --surface-soft: #C0BDB5;
-  --band: #BCB8AF;
+  --bg: #ADA797;
+  --paper: #ADA797;
+  --surface-soft: #A6A090;
+  --band: #A39D8D;
   --band-hero: var(--paper);
-  --footer-strip-bg: #C9C6BF;
-  --ink: #2B2620;
-  --ink-soft: #3A332A;
-  --vizon: #4A4337;
-  --footer-strip-ink: #4A4337;
-  --hero-source-muted: #4A4337;
-  --rule: #BAB6AC;
-  --rule-strong: #A39E91;
-  --rule-cream: #ADA690;
+  --footer-strip-bg: #ADA797;
+  --ink: #1A1713;
+  --ink-soft: #2B2620;
+  --vizon: #332C24;
+  --footer-strip-ink: #332C24;
+  --hero-source-muted: #332C24;
+  --rule: #A19B8B;
+  --rule-strong: #8A8474;
+  --rule-cream: #958E78;
   --note-base: var(--paper);
-  --note-tint-l: 0.74;
+  --note-tint-l: 0.66;
   --note-tint-c: 0.080;
   --note-wash: 15%;
-  --footer-text: #2B2620;
-  --footer-muted: #2B2620;
-  --drawer-bg: rgba(201, 198, 191, 0.985);
-  --header-border: rgba(43, 38, 32, 0.20);
-  --surface-chrome: #C9C6BF;
-  --surface-footer: #C9C6BF;
+  --footer-text: #1A1713;
+  --footer-muted: #1A1713;
+  --drawer-bg: rgba(173, 167, 151, 0.985);
+  --header-border: rgba(26, 23, 19, 0.20);
+  --surface-chrome: #ADA797;
+  --surface-footer: #ADA797;
   --shadow-card: 0 4px 16px rgba(43, 38, 32, 0.07);
   --shadow-card-hover: 0 16px 40px rgba(43, 38, 32, 0.12);
   --shadow-cover: 0 14px 24px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.08);
-  --sec-l: 0.420;
+  --sec-l: 0.340;
   --sec-accent: oklch(calc(var(--sec-l) - var(--sec-dl, 0)) var(--sec-c, 0.050) var(--sec-h, 178));
   --petrol: var(--sec-accent);
   --petrol-deep: color-mix(in srgb, var(--sec-accent) 74%, black);

@@ -337,10 +337,14 @@ and sky.
   `js/house.js` sets `data-house-theme` on `<html>` while a room is open:
   `day` in İstanbul's morning and day, `evening` and `night` at those
   hours, read from the scenes' `data-hour`. At the door it is taken off.
-  The page around the rooms (rule in `COLOPHON.md`) is the cream under
-  `.house-dusk`: `#1c2633` multiplied at the rooms' own .2 and .5 gives
-  `#C9C6BF` for the evening and `#878988` for the night. Change those with
-  the dusk's opacities, or the room stops running on into the page. The
+  The page around the rooms (rule in `COLOPHON.md`) is, at night, the
+  cream under `.house-dusk`: `#1c2633` multiplied at the rooms' own .5
+  gives `#878988`. Change it with the dusk's opacity, or the room stops
+  running on into the page. The evening is the study's left-hand door as
+  it is drawn at that hour, `#ADA797`, measured from the rendered room;
+  the wall's own, `#C9C6BF`, read too grey to the author. On it `--ink`
+  holds 7.44:1, `--vizon` 5.09:1 on the band and the accent, at `--sec-l`
+  0.340, 4.78:1. The
   night's grey leaves the ink little room: `--ink` 5.31:1, `--vizon`
   4.87:1 and the accent, at `--sec-l` 0.240, 4.6:1. The dialog keeps the
   cream in the evening (it shares the day block) and the warm dark at
