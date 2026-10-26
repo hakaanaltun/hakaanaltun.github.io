@@ -178,6 +178,10 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   site’s mark, the ampersand on the tab, the home screen and a shared
   link’s card, was redrawn the same day to match: white on a dark slate,
   the slate of Follow the sky’s header at sunset, in place of gold on grey.
+- **Dark’s header and footer use a softer grey.** On 26 October 2026
+  the author asked for their white words to move a little towards black
+  while staying easy to read. The navigation keeps readable contrast
+  when a pointer dims it.
 - **Inside, The House wears its own colours.** At the door the page keeps
   the theme the reader chose. In the study and on the balcony the page,
   its header and its footer take the rooms’ colours instead: their cream

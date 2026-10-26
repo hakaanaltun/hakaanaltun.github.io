@@ -274,6 +274,12 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   metas to The House (`_agents/house.md`). A new theme token needs a value
   there too, or it will show the site's theme inside the rooms.
 
+- **Dark’s frame uses neutral grey** (rule in `COLOPHON.md`). Since
+  26 October 2026, `css/style.css` scopes `#B8B8B8` footer text and muted
+  tokens to the header and footer in explicit Dark and system dark.
+  `data-house-theme` excludes the rooms. Other consumers of those tokens
+  keep their colours. The Dark card in `js/palettes.js` matches.
+
 ## The homepage
 
 - **Each section is shown in its own page's color.** The author asked for

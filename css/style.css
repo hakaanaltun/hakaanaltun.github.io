@@ -268,6 +268,21 @@ html[data-theme="dark"] body {
   --writing-accent: oklch(0.780 0.010 250);
 }
 
+/* Dark's frame uses a quieter neutral grey. Keep this on the frame so
+   book labels, the drawer and The House's room colours keep their tokens.
+   The 85% navigation text still clears 4.5:1 while dimmed on hover. */
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme]):not([data-house-theme]) :is(header, footer) {
+    --footer-text: #B8B8B8;
+    --footer-muted: #B8B8B8;
+  }
+}
+html[data-theme="dark"]:not([data-house-theme]) :is(header, footer) {
+  --footer-text: #B8B8B8;
+  --footer-muted: #B8B8B8;
+}
+
+
 /* ==========================================================================
    Midnight theme
    The second dark: the /moon/ page's palette carried across the whole site —

@@ -137,7 +137,7 @@
   var DARKS = [
     { key: 'dark',     name: 'Dark',     tag: 'the warm night',
       paper: '#1C1B18', inkSoft: '#D7CEB8', vizon: '#A29A8A',
-      chrome: '#171613', ftext: '#FFFFFF', fmuted: '#FFFFFF',
+      chrome: '#171613', ftext: '#B8B8B8', fmuted: '#B8B8B8',
       acc: VOICES.map(function (v) { return oklch(v.ld, v.cd, v.h); }) },
     { key: 'midnight', name: 'Midnight', tag: 'parliament blue and gold',
       paper: '#10161F', inkSoft: '#C6B98F', vizon: '#C6B98F',
