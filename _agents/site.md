@@ -243,26 +243,27 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   is gone), and `--sky-ld-floor` was raised to keep 4.6:1 on the cards
   without it. `wordsAt()` stays for The House alone.
 
-- **The header's and footer's words are white, except on Midnight**
-  (rule in `COLOPHON.md`). `--footer-text` and `--footer-muted` are
-  `#FFFFFF` in `:root` (Ash & White, palette 1), in both dark blocks of
-  `css/style.css`, in every palette's two blocks in `css/palettes.css` and
-  in the `/themes/` mocks in `js/palettes.js`, and `--header-border` is
-  white at the alpha each theme had. Midnight's block keeps `#DCD1AC`.
-  Palette 13, Ash & Gold, is `:root` with the gold words it wore until
-  then (`#DCD1AC`, `#C6B98F` and a gold border); it needs only those three
-  tokens, `--sec-l` and its chrome in the three places the palettes keep
-  it (`css/palettes.css`, the table in `_includes/head.html` and `CHROME`
-  in `js/palettes.js`). Earlier notes and comments that name Ash & Gold
-  as the site's own face mean what is now Ash & White.
-  The House's rooms still paint their own words (`js/house.js`).
-- **The site's mark is white on `#283444`** (rule in `COLOPHON.md`), the
-  sky's `CHROME_DUSK`: `on-icon.svg`, the favicons, the home-screen
-  icons, `og-image-on-card.png` and the manifest's `theme_color`. The
-  PNGs and the ICO were recoloured from the gold-on-`#444A4E` set pixel
-  by pixel, so the glyph and its edges are unchanged. A new stamp on
-  their `?v=` makes browsers and link previews take the new ones. The
-  instruments' own cards in `images/og/` keep each instrument's face.
+- **The header's and footer's words follow their frame** (rule in
+  `COLOPHON.md`). `--footer-text` and `--footer-muted` are `#FFFFFF` in
+  `:root`, in the dark blocks of `css/style.css`, in palettes 2–12's two
+  blocks in `css/palettes.css` and in the `/themes/` mocks in
+  `js/palettes.js`. White & Slate (palette 1) overrides them with
+  `#283444` at the end of `css/palettes.css`; Dark's frame takes
+  `#B8B8B8` and Midnight's block keeps `#DCD1AC`. After sunset palettes
+  2–12 and the sky take cream (see "Cream frame words after sunset"
+  below). Notes and comments that name Ash & White or Ash & Gold as the
+  site's own face mean what is now White & Slate; palette 13, Ash & Gold,
+  was retired on 26 October 2026. The House's rooms still paint their own
+  words (`js/house.js`).
+- **The site's mark is `#283444` on white** (rule in `COLOPHON.md`):
+  `on-icon.svg`, the favicons, the home-screen icons and
+  `og-image-on-card.png`, with white in the manifest's `theme_color`.
+  From 25 to 26 October 2026 it was white on `#283444`, the sky's
+  `CHROME_DUSK`, recoloured pixel by pixel from the
+  earlier gold-on-`#444A4E` set, so the glyph and its edges are unchanged.
+  A new stamp on their `?v=` makes browsers and link previews take a new
+  set. The instruments' own cards in `images/og/` keep each instrument's
+  face.
 - **The card's mark stands on a road** (rule in `COLOPHON.md`). Only
   `og-image-on-card.png` carries the lines. `on-icon.svg`, the favicons,
   the ICO and the home-screen icons are the plain ampersand again, the
