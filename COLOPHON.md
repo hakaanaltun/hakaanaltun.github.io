@@ -97,8 +97,9 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   the night’s own header. From sunset to sunrise the page is navy, and
   deepens with the night. The author asked for this on 25 October 2026,
   after a day whose paper, ink and header all moved with the sun had not
-  felt right. The header’s and footer’s words are white by night as well:
-  the author asked the same day for no yellow there. The sections’ colours by night had white mixed into them,
+  felt right. The header’s and footer’s words lost their yellow by night
+  the same day, at the author’s request, and since 26 October 2026 they
+  take the cream of the reading text there. The sections’ colours by night had white mixed into them,
   and the author found them too bright, so they have none now; they keep
   the accessible minimum on every ground.
 - **The House is in İstanbul.** Its calendar day, light, sunrise and sunset,
@@ -166,17 +167,18 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   it, and the header and footer come back when the reader leaves it or
   goes to the door. The author asked for this on 25 October 2026, and the
   same day for the snow and the rain to stay within reach there.
-- **Their words are white, except on Midnight.** The author liked the
-  white words of Follow the sky’s header and footer, and on 25 October 2026
-  asked for them on every theme, the light papers and Dark included, with
-  only Midnight keeping its yellow. Ash & Gold, the site’s own face for
-  months, was renamed Ash & White, since its words are no longer gold.
-  The author asked the same day for the old face to stay as a choice, so
-  Ash & Gold, the same paper with its gold header and footer, is now the
-  last of the light palettes. The
-  site’s mark, the ampersand on the tab, the home screen and a shared
-  link’s card, was redrawn the same day to match: white on a dark slate,
-  the slate of Follow the sky’s header at sunset, in place of gold on grey.
+- **Their words follow the frame they stand on.** Light’s header and
+  footer are white, with slate words. The other light palettes and Follow
+  the sky keep white words on their bands by day, and from sunset to
+  sunrise take the cream of the sky’s reading text. Dark’s are a softer
+  grey, and Midnight keeps its yellow. For months the site’s header and
+  footer wore gold words; on 25 October 2026 the author liked the white
+  words of Follow the sky’s header and asked for them on every theme but
+  Midnight. The gold stayed for a day as a palette of its own, Ash & Gold,
+  and was retired on 26 October 2026. The site’s mark, the ampersand on
+  the tab, the home screen and a shared link’s card, changed with them:
+  gold on grey until 25 October, white on a dark slate for a day, and
+  since 26 October slate on white at every hour.
 - **On a shared link’s card the mark stands on a road.** On 26 October
   2026 the author asked for a straight line under the ampersand. The
   ampersand’s bowl reads as an o and the line as an i, so the mark also
