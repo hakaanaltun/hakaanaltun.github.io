@@ -1890,7 +1890,7 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
     html = c.w.document.documentElement;
     assert.equal(c.q('#house-balcony-scene').dataset.hour, 'evening');
     assert.equal(html.getAttribute('data-house-theme'), 'evening', 'the cream a little darker in the evening');
-    assert.deepEqual(bar(c), ['#DFDACC', '#DFDACC'], 'and the browser\'s bar with it');
+    assert.deepEqual(bar(c), ['#D5D0C2', '#D5D0C2'], 'and the browser\'s bar with it');
     c.click('.house-hotspot--balcony-switch');
     assert.equal(html.getAttribute('data-house-theme'), 'evening', 'the lamp lights the room, not the page');
     c.dom.window.close();
