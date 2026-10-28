@@ -63,6 +63,17 @@ layout: null
     --display: 'Cormorant Garamond', Georgia, serif;
     --body:    'EB Garamond', Georgia, serif;
   }
+  /* Light is the site's own light theme, White & Slate: white paper, slate
+     ink. The alert darkens to an amber that still reads on white. */
+  html[data-clock="light"]{
+    --bg:     #FFFFFF;
+    --fg:     #242F38;
+    --muted:  #576976;
+    --accent: #242F38;
+    --alert:  #A85A12;
+    --line:   rgba(36,47,56,0.24);
+    color-scheme: light;
+  }
 
   *{ box-sizing:border-box; margin:0; padding:0; }
 
@@ -224,7 +235,7 @@ layout: null
   /* seconds toggle — bottom-left */
   .seconds-corner{ position:absolute; left:26px; bottom:20px; transition:opacity .4s ease; }
   .theme-corner{ position:absolute; right:26px; bottom:20px; display:flex; gap:9px; align-items:center; transition:opacity .4s ease; }
-  .swatch{ width:20px; height:20px; border-radius:999px; border:1px solid rgba(237,228,207,0.35); padding:0; cursor:pointer; transition:transform .15s ease; }
+  .swatch{ width:20px; height:20px; border-radius:999px; border:1px solid var(--line); padding:0; cursor:pointer; transition:transform .15s ease; }
   .swatch:hover{ transform:scale(1.12); }
   .swatch[aria-pressed="true"]{ box-shadow:0 0 0 2px var(--fg); }
   .swatch:focus-visible{ outline:2px solid var(--fg); outline-offset:2px; }
@@ -412,7 +423,7 @@ layout: null
 
     <div class="theme-corner" role="group" aria-label="Theme">
       <button class="swatch" data-bg="#0E0E0E" style="background:#0E0E0E" title="Dark" aria-label="Dark"></button>
-      <button class="swatch" data-bg="#101720" style="background:#101720" title="Midnight" aria-label="Midnight"></button>
+      <button class="swatch" data-bg="#FFFFFF" data-clock="light" style="background:#FFFFFF" title="Light" aria-label="Light"></button>
     </div>
   </div>
 
@@ -426,7 +437,7 @@ layout: null
       <p class="notes-lede">A fullscreen clock, countdown, stopwatch and pomodoro.</p>
 
       <h2>About this clock</h2>
-      <p>A fullscreen clock for classrooms, exams, presentations and focused work, with a countdown timer, a stopwatch and a pomodoro timer on the same page. The numerals are cut large enough to read from the back row; click them and an analog face takes their place. The palette in the corner changes the background, the fullscreen button clears everything else away, and the page remembers your settings between visits.</p>
+      <p>A fullscreen clock for classrooms, exams, presentations and focused work, with a countdown timer, a stopwatch and a pomodoro timer on the same page. The numerals are cut large enough to read from the back row; click them and an analog face takes their place. The two circles in the corner turn the page dark or light, the fullscreen button clears everything else away, and the page remembers your settings between visits.</p>
 
       <h2>Questions</h2>
       <h3>How do I make the clock fullscreen?</h3>
@@ -648,8 +659,13 @@ layout: null
     const requested=(state.bg||clockThemes[0]).toLowerCase();
     const cur=clockThemes.includes(requested) ? requested : clockThemes[0];
     state.bg=cur;
+    const chosen=swatches.find(sw=>sw.dataset.bg.toLowerCase()===cur);
+    if(chosen.dataset.clock) document.documentElement.dataset.clock=chosen.dataset.clock;
+    else delete document.documentElement.dataset.clock;
     document.documentElement.style.setProperty("--bg", cur);
-    swatches.forEach(sw=>sw.setAttribute("aria-pressed", sw.dataset.bg.toLowerCase()===cur));
+    const themeColor=document.querySelector('meta[name="theme-color"]');
+    if(themeColor) themeColor.content=chosen.dataset.bg;
+    swatches.forEach(sw=>sw.setAttribute("aria-pressed", sw===chosen));
   }
   swatches.forEach(sw=>sw.addEventListener("click", ()=>{ state.bg=sw.dataset.bg; applyTheme(); save(); }));
 

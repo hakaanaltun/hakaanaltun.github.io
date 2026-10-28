@@ -41,6 +41,17 @@ rule written there.
   tokens. The clock, The Noise, The Breath and the sky instruments keep
   their own light. Light and Dark on the corner button are as they were.
 
+## The Clock's two themes
+
+- **Dark, and the site's Light.** The author asked on 28 October 2026 for
+  a light theme on the clock, the site's own White & Slate, in place of
+  Midnight: two are enough. Dark (`#0E0E0E`) still opens the page. The
+  light swatch carries `data-clock="light"`, which `applyTheme()` puts on
+  `<html>`; that block in the page's `<style>` repaints every token, and
+  the alert turns to an amber (`#A85A12`) that reads on white. The
+  `theme-color` follows the choice. A reader who had kept Midnight comes
+  back to Dark.
+
 ## The Desk
 
 - **Every instrument can stand on it, beside any other or itself.** The
