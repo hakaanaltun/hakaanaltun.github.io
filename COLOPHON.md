@@ -258,7 +258,11 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   would be out of place. On the page’s own colour a line from the shelf
   read dimly and its buttons were lost, so the box is that colour a few
   shades lighter, like a page held under the lamp. The night was also
-  warmed a little the same day, when it turned toward khaki on a phone. The lamps light the
+  warmed a little the same day, when it turned toward khaki on a phone.
+  That evening the author found the carpet’s colour did not suit the
+  rooms either, and settled on the day’s cream, which did: the page is
+  now that cream at every hour, a little darker in the evening and a
+  little more at night, and the box over a room is the day’s cream. The lamps light the
   rooms, not the page. The sunset sky in the window was reddened that
   day, a violet blue over a rose red, after a photograph of a sunset
   over the water the author shared: at that hour the sky is the red one,
@@ -267,8 +271,8 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   asked for the header and footer to take the page’s colour at every hour,
   as Light’s white header and footer take its white, with words dark
   enough to read on it. They no longer move with İstanbul’s sun: they are
-  the cream by day, the carpet’s colour in the evening and a little
-  darker at night, and their words are the page’s ink. Their links keep their
+  the cream, a little darker in the evening and a little more at
+  night, and their words are the page’s ink. Their links keep their
   full ink there, so that they still read when a pointer dims them. On a
   phone, where the page scrolls under the header, a thin line in the
   page’s ink marks the header’s edge, as the author asked the same day;
