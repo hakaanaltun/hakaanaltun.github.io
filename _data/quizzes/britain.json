@@ -2,823 +2,820 @@
   {
     "id": "great-bell",
     "category": "Places & landmarks",
-    "question": "What does “Big Ben” technically refer to?",
+    "question": "You point at London’s famous clock tower and say “Big Ben”. Strictly speaking, which part have you named?",
     "choices": [
-      "The Great Bell",
-      "The clock tower",
-      "The four clock faces",
-      "The Palace of Westminster"
+      "The large bell inside",
+      "The tower itself",
+      "The clock’s four faces",
+      "The clockwork mechanism"
     ],
     "answer": 0,
-    "note": "Big Ben is the nickname of the Great Bell, which weighs about 13.7 tonnes and first rang in 1859. It cracked within a few months of going into service, and that crack is what gives the chime its particular tone. The tower was known simply as the Clock Tower until 2012, when it was renamed Elizabeth Tower for the Queen’s Diamond Jubilee.",
+    "note": "Big Ben is the great bell that strikes the hours. It cracked soon after it began ringing in 1859, but instead of replacing it, engineers turned it so the hammer struck a different spot and fitted a lighter hammer. The cracked bell still does the job.",
     "sources": [
-      "https://en.wikipedia.org/wiki/Big_Ben",
-      "https://www.cambridgenetwork.co.uk/news/inside-big-ben-why-worlds-most-famous-clock-will-soon-lose-its-bong"
+      "https://www.parliament.uk/about/living-heritage/building/palace/big-ben/building-clock-tower/constructing-the-most-accurate-clock-in-the-world/"
     ]
   },
   {
-    "id": "tube-tunnel-shape",
+    "id": "underground-steam-trains",
     "category": "Places & landmarks",
-    "question": "Why is London’s Underground nicknamed the Tube?",
+    "question": "London opened an underground railway before electric trains were ready for it. What pulled its first passenger trains?",
     "choices": [
-      "The shape of its deep tunnels",
-      "The shape of its earliest tickets",
-      "The pipes carrying air to its brakes",
-      "The tubes once used to send fares"
+      "Steam locomotives",
+      "Horses walking along the tracks",
+      "Cables pulled from stations",
+      "Engines powered by compressed air"
     ],
     "answer": 0,
-    "note": "The nickname refers to circular tunnels bored for the deeper lines. It became familiar around the opening of the Central London Railway, known as the Twopenny Tube.",
+    "note": "The first passengers travelled beneath London behind steam engines in 1863. Openings let some of the smoke escape, but the tunnels remained grimy and sulphurous. The clean electric Tube came later; the original experience was closer to putting a steam railway under a street.",
     "sources": [
-      "https://en.wikipedia.org/wiki/London_Underground",
-      "https://en.wikipedia.org/wiki/Central_London_Railway"
+      "https://foi.tfl.gov.uk/FOI-0773-2324/TUBE160%20Heritage%20Leaflet.pdf",
+      "https://www.nationaltransporttrust.org.uk/news/metropolitan-railway-150"
     ]
   },
   {
-    "id": "bath",
+    "id": "london-bridge-arizona",
     "category": "Places & landmarks",
-    "question": "A British city has naturally hot springs still flowing through a Roman-era complex. Which city?",
+    "question": "When an old London Bridge was replaced in the 1960s, what happened to its outer stonework?",
     "choices": [
-      "York",
-      "Bath",
-      "Canterbury",
-      "Brighton"
+      "It was rebuilt into a bridge in Arizona",
+      "It became part of London’s flood defences",
+      "It was used to extend Buckingham Palace",
+      "It became a memorial beside the Thames"
     ],
-    "answer": 1,
-    "note": "The Romans called it Aquae Sulis, joining a local goddess, Sulis, with their own Minerva. The springs that drew visitors in antiquity still bring hot water to the surface.",
+    "answer": 0,
+    "note": "The granite blocks were numbered, shipped across the Atlantic and taken to Lake Havasu City in Arizona. There they were fitted around a new supporting structure, and the bridge opened in 1971. You really can cross London Bridge in the American desert.",
     "sources": [
-      "https://earthwise.bgs.ac.uk/index.php/Geology_of_the_Bath_area:_Applied_geology:_hydrogeology",
-      "https://whc.unesco.org/en/list/428/"
+      "https://www.golakehavasu.com/london-bridge/"
     ]
   },
   {
-    "id": "causeway-cooling-lava",
+    "id": "phone-box-tomb-roof",
     "category": "Places & landmarks",
-    "question": "The Giant’s Causeway looks almost paved, with thousands of closely fitted stone columns. What made those shapes?",
+    "question": "Britain’s red telephone boxes have a little domed roof. What is the most commonly credited inspiration for that shape?",
     "choices": [
-      "Lava cooling and cracking",
-      "Waves stacking loose stones",
-      "Glaciers pressing pebbles together",
-      "People cutting blocks for a harbour"
+      "An architect’s family tomb",
+      "The entrance to a railway station",
+      "A royal carriage roof",
+      "A lighthouse lantern"
     ],
     "answer": 0,
-    "note": "Cooling basalt fractured into columns, many of them six-sided. The giant Fionn mac Cumhaill offers a different explanation in Irish legend: stepping stones towards Scotland.",
+    "note": "The usual candidate is architect John Soane’s family tomb in London, built after his wife’s death. The phone box’s designer knew Soane’s work, although he never named one specific building as his source. A design associated with mourning became a place for everyday conversations.",
     "sources": [
-      "https://www.nationaltrust.org.uk/visit/northern-ireland/giants-causeway/history-of-giants-causeway",
-      "https://en.wikipedia.org/wiki/Giant%27s_Causeway"
+      "https://www.soane.org/features/sir-john-soane-and-red-telephone-box-0"
     ]
   },
   {
     "id": "stonehenge-solstice",
     "category": "Places & landmarks",
-    "question": "Stonehenge’s main alignment marks which recurring event?",
+    "question": "Why do crowds gather at Stonehenge at dawn on the longest day of the year?",
     "choices": [
-      "The Sun’s position at the solstices",
-      "The return of a particular comet",
-      "The start of every lunar eclipse",
-      "The daily position of the North Star"
+      "The sunrise lines up with the monument",
+      "The stones cast no shadows that morning",
+      "The full Moon always sets inside the circle",
+      "A gap in the stones marks the North Star"
     ],
     "answer": 0,
-    "note": "The stones frame midsummer sunrise in one direction and midwinter sunset in the other. The alignment lets a familiar monument reveal something about the sky above it.",
+    "note": "At the summer solstice, the Sun rises behind the Heel Stone and its first rays reach into the circle. The same main axis points towards the winter-solstice sunset in the opposite direction. The stones connect the longest summer day with the shortest winter one.",
     "sources": [
       "https://www.english-heritage.org.uk/visit/places/stonehenge/things-to-do/solstice/"
     ]
   },
   {
-    "id": "scotland",
+    "id": "nessie-photo-model",
     "category": "Places & landmarks",
-    "question": "Loch Ness is in which part of the UK?",
+    "question": "A famous 1934 photo seemed to show the Loch Ness Monster’s long neck. According to a later confession, what was actually in the water?",
     "choices": [
-      "Scotland",
-      "Wales",
-      "Northern Ireland",
-      "England"
+      "A model mounted on a toy submarine",
+      "A swimming elephant’s trunk",
+      "A bird carrying a long branch",
+      "A diver wearing a rubber costume"
     ],
     "answer": 0,
-    "note": "Loch Ness lies along the Great Glen in the Highlands and stretches about 37 kilometres. It holds more fresh water than every lake in England and Wales combined, and the peat washed into it keeps the water so dark that divers can see very little below the surface.",
+    "note": "The image became known as the “surgeon’s photograph”, which gave it an air of medical respectability. Decades later, a participant described attaching a small artificial head and neck to a toy submarine. Cropping away the shoreline helped a tiny object look like a monster in open water.",
     "sources": [
-      "https://en.wikipedia.org/wiki/Loch_Ness"
+      "https://www.pbs.org/wgbh/nova/transcripts/2601lochness.html",
+      "https://www.pbs.org/wgbh/nova/lochness/legend3.html"
     ]
   },
   {
-    "id": "uk-prime-minister",
+    "id": "railways-standard-time",
     "category": "Places & landmarks",
-    "question": "10 Downing Street is most closely associated with which office?",
+    "question": "British towns once set their clocks by their own local Sun. What made those slightly different times a practical problem?",
     "choices": [
-      "The monarch",
-      "The Speaker of the House of Commons",
-      "The UK prime minister",
-      "The Mayor of London"
+      "Trains needed coordinated timetables",
+      "Factories needed longer lunch breaks",
+      "Churches wanted identical bell towers",
+      "Newspapers needed earlier printing deadlines"
     ],
-    "answer": 2,
-    "note": "Robert Walpole moved into Number 10 in September 1735, after the house had been joined to a larger property behind it. He had declined George II’s offer of a personal gift and asked for it to belong to the office of First Lord of the Treasury. Some later prime ministers preferred their own homes, so residence there was far from continuous.",
+    "answer": 0,
+    "note": "Before standard time, a watch set in London could disagree with a clock in another town by several minutes. Fast railway journeys made that confusing, so railway companies adopted Greenwich time for their schedules. The clock at your destination began agreeing with the one you had left behind.",
     "sources": [
-      "https://www.gov.uk/government/history/10-downing-street"
+      "https://www.rmg.co.uk/stories/space-astronomy/history-royal-observatory?page=1"
     ]
   },
   {
-    "id": "sherwood-forest",
+    "id": "taxi-knowledge-brain",
     "category": "Places & landmarks",
-    "question": "Robin Hood’s outlaw stories are most closely associated with which English forest?",
+    "question": "Learning London’s streets is so demanding that researchers have studied taxi drivers’ brains. What did they find in trainees who qualified?",
     "choices": [
-      "Epping Forest",
-      "New Forest",
-      "Sherwood Forest",
-      "Ashdown Forest"
+      "Growth in part of a memory-related brain region",
+      "Growth mainly in the brain’s hearing centres",
+      "A general increase in the size of the whole brain",
+      "No detectable structural change from the training"
     ],
-    "answer": 2,
-    "note": "Sherwood became the best-known setting, but several early ballads take place around Barnsdale in Yorkshire. The familiar map of a legend can be narrower than the stories themselves.",
+    "answer": 0,
+    "note": "Passing “the Knowledge” means building a mental map of thousands of London streets and landmarks. Researchers found an increase in the back part of the hippocampus, a region involved in memory and navigation, as successful trainees learned the city. A street map had left a measurable trace in the brain.",
     "sources": [
-      "https://www.medievalists.net/2019/08/robin-hood-sherwood-forest-barnsdale/"
+      "https://discovery.ucl.ac.uk/id/eprint/1310481/",
+      "https://discovery.ucl.ac.uk/id/eprint/10141233/"
     ]
   },
   {
     "id": "globe-theatre-fire",
     "category": "Places & landmarks",
-    "question": "What theatrical effect accidentally burned down Shakespeare’s Globe in 1613?",
+    "question": "Shakespeare’s Globe burned down during a performance. Which attempt to make the play more spectacular caused the fire?",
     "choices": [
-      "A cannon fired during a performance",
-      "A lightning effect made with mirrors",
-      "A torch carried through the audience",
-      "A rain effect poured onto hot lamps"
+      "Firing a small stage cannon",
+      "Lighting a ring of candles around the audience",
+      "Setting a prop ship on fire",
+      "Using burning torches for a sword fight"
     ],
     "answer": 0,
-    "note": "Burning material from a stage cannon caught the thatched roof during Henry VIII. The replacement theatre had a tiled roof.",
+    "note": "During Henry VIII in 1613, a cannon fired without a cannonball, but burning wadding landed on the thatched roof. The theatre burned down in about an hour. Its replacement had a tiled roof—a rather expensive lesson in special effects.",
     "sources": [
       "https://www.shakespearesglobe.com/discover/shakespeares-world/the-globe/"
     ]
   },
   {
-    "id": "paddington-place-name",
+    "id": "paddington-evacuee-label",
     "category": "Places & landmarks",
-    "question": "Why did the Brown family call their adopted bear Paddington?",
+    "question": "Paddington arrives with a suitcase and a label asking someone to look after him. Which real sight helped inspire that image?",
     "choices": [
-      "It was the station where they met him",
-      "It was the name on his travel papers",
-      "It was the street where they lived",
-      "It was the name of the ship he arrived on"
+      "Children evacuated during the Second World War",
+      "Lost-property parcels at railway stations",
+      "Circus animals arriving from overseas",
+      "Passengers travelling on luxury ocean liners"
     ],
     "answer": 0,
-    "note": "The Browns find him at a London railway station with a label asking that he be looked after. The name ties a newcomer from Peru to the place where his London life begins.",
+    "note": "Michael Bond remembered wartime children arriving at Reading station with small suitcases and identifying labels around their necks. He carried that image into Paddington’s arrival in London. Beneath the comic mishaps is a familiar human situation: a newcomer depending on strangers to be kind.",
     "sources": [
-      "https://en.wikipedia.org/wiki/Paddington_Bear"
+      "https://www.visit-reading.com/dbimgs/Paddington%20in%20Reading%20Trail%20mobile%20V2.pdf"
     ]
   },
   {
     "id": "beatles-hamburg",
     "category": "Places & landmarks",
-    "question": "Before global fame, the Beatles sharpened their live act through long club residencies abroad. In which country?",
+    "question": "Before Beatlemania, the Beatles spent long nights playing clubs abroad. Which country gave the Liverpool band that early apprenticeship?",
     "choices": [
       "Germany",
+      "The United States",
       "France",
-      "Sweden",
-      "The United States"
+      "Australia"
     ],
     "answer": 0,
-    "note": "Their early 1960s stays in Hamburg involved demanding stretches of live performance. Liverpool remained home, but the band’s early working life crossed the North Sea.",
+    "note": "They played clubs in Hamburg, often performing for hours in a night. Those long sets made them expand their repertoire and learn how to hold an audience. One of Britain’s best-known musical exports was partly shaped by working nights in Germany.",
     "sources": [
-      "https://en.wikipedia.org/wiki/Cavern_Club",
-      "https://en.wikipedia.org/wiki/The_Beatles_in_Hamburg"
+      "https://www.rutherford.org/publications_resources/oldspeak/the_beatles_in_hamburg_an_interview_with_ian_inglis"
     ]
   },
   {
-    "id": "hastings-place-name",
+    "id": "windsor-wartime-name",
     "category": "History",
-    "question": "England has a town called Battle. Which event gave it that unusually direct name?",
+    "question": "The British royal family adopted the name Windsor during the First World War. Why change the family name in the middle of a war?",
     "choices": [
-      "The Battle of Hastings",
-      "The Battle of Waterloo",
-      "The Battle of Agincourt",
-      "The Battle of Bosworth"
+      "To distance itself from its German connections",
+      "To mark a move out of Buckingham Palace",
+      "To honour a general’s decisive victory",
+      "To follow a new law requiring shorter surnames"
     ],
     "answer": 0,
-    "note": "The 1066 battle took place inland from Hastings, where Battle now stands. The name on the map preserves the event rather than the nearest better-known town.",
+    "note": "The previous name was Saxe-Coburg-Gotha, which sounded awkwardly German while Britain was fighting Germany. In 1917 George V chose Windsor, with its associations with the royal castle. Even a centuries-old monarchy could decide it needed a new public name.",
     "sources": [
-      "https://en.wikipedia.org/wiki/Battle_of_Hastings",
-      "https://www.medievalists.net/2024/10/hastings-unusual-battle/"
+      "https://www.royalmint.com/globalassets/__rebrand/_structure/shop/editions/_historic-coins/flipbooks/Windosr-sov-set.pdf"
     ]
   },
   {
-    "id": "domesday-survey",
+    "id": "rosetta-stone-parallel-text",
     "category": "History",
-    "question": "William the Conqueror’s Domesday Book sounds like a prophecy. What was it actually recording?",
+    "question": "Why did the Rosetta Stone, displayed at the British Museum, help scholars read Egyptian hieroglyphs?",
     "choices": [
-      "Landholdings, resources and their value",
-      "Predictions of the end of the world",
-      "The stories of royal saints and miracles",
-      "Instructions for building new castles"
+      "It repeated a text in writing they could already read",
+      "It showed an alphabet beside pictures of objects",
+      "It contained a dictionary of Egyptian and Latin words",
+      "It gave instructions for pronouncing every symbol"
     ],
     "answer": 0,
-    "note": "The survey recorded who held what across much of England. Its detailed account of land and resources made it a lasting tool of royal administration.",
+    "note": "The same decree appears in three scripts, including ancient Greek, which scholars could read. Comparing the versions helped unlock the Egyptian writing. The celebrated stone was not made as a language lesson: its practical message praised a king and recorded honours granted to him.",
     "sources": [
-      "https://en.wikipedia.org/wiki/William_the_Conqueror",
-      "https://en.wikipedia.org/wiki/Domesday_Book"
+      "https://artsandculture.google.com/story/the-rosetta-stone/OQVRt6m8dEG4rw",
+      "https://www.britishmuseum.org/sites/default/files/2022-10/Hieroglyphs_unlocking_ancient_Egypt_12_exhibition_highlights_in_plain_English_10_10.pdf"
     ]
   },
   {
-    "id": "magna-carta-law",
+    "id": "keep-calm-reserve-poster",
     "category": "History",
-    "question": "Which idea helps explain why Magna Carta is remembered far beyond medieval England?",
+    "question": "“Keep Calm and Carry On” is printed on mugs everywhere. What was it originally designed for?",
     "choices": [
-      "A ruler’s power can be limited by law",
-      "A monarch must always be elected",
-      "Every adult must vote on every law",
-      "A country must have no royal family"
+      "Reassuring the public before the Second World War",
+      "Encouraging passengers during railway strikes",
+      "Advertising a Victorian holiday resort",
+      "Promoting recovery after the Great Fire of London"
     ],
     "answer": 0,
-    "note": "The 1215 charter grew out of a conflict between King John and his barons. It was not a modern declaration of equal rights, but became a powerful reference point for limits on royal authority.",
+    "note": "The government prepared the poster in 1939 as war approached, but it was never officially approved for public display. Its worldwide fame came much later through rediscovery and reproduction. What looks like a familiar memory of wartime streets was largely absent from them.",
     "sources": [
-      "https://www.parliament.uk/about/living-heritage/evolutionofparliament/originsofparliament/birthofparliament/overview/magnacarta/"
+      "https://www.iwm.org.uk/sites/default/files/press-release/press_release_-_keep_calm_and_carry_on_the_truth_behind_the_poster.pdf"
     ]
   },
   {
-    "id": "gunpowder-warning-letter",
+    "id": "fawkes-mask-plot",
     "category": "History",
-    "question": "What helped expose the Gunpowder Plot before the explosives were set off?",
+    "question": "The smiling mask in V for Vendetta also appears at protests. Its historical face belongs to a man involved in which plan?",
     "choices": [
-      "An anonymous warning to stay away",
-      "A confession printed in a newspaper",
-      "A map left inside a royal portrait",
-      "A message sent by the Spanish king"
+      "Blowing up Parliament",
+      "Stealing the Crown Jewels",
+      "Kidnapping the royal family at sea",
+      "Burning down the Bank of England"
     ],
     "answer": 0,
-    "note": "A letter warned one peer away from Parliament’s opening. The resulting searches uncovered the explosives beneath the House of Lords in November 1605.",
+    "note": "The mask depicts Guy Fawkes, one of the men involved in the failed Gunpowder Plot of 1605. V for Vendetta turned his image into the face of a fictional rebel, and real protesters later adopted it. A figure once burned in effigy became a symbol people chose to wear.",
     "sources": [
-      "https://en.wikipedia.org/wiki/Gunpowder_Plot"
+      "https://www.londonmuseum.org.uk/collections/london-stories/symbolism-of-guy-fawkes/"
     ]
   },
   {
-    "id": "barrels-of-gunpowder",
+    "id": "penicillin-contaminated-dish",
     "category": "History",
-    "question": "Guy Fawkes was caught beneath Parliament guarding the means for an explosion. What had the plotters stored there?",
+    "question": "A mouldy laboratory dish helped lead to penicillin. What did Alexander Fleming notice around the mould?",
     "choices": [
-      "A cache of swords",
-      "Barrels of gunpowder",
-      "A printing press",
-      "A tunnel to the Thames"
-    ],
-    "answer": 1,
-    "note": "Fawkes was found in a cellar beneath the House of Lords with 36 barrels of gunpowder, enough to have destroyed the building. He had spent years soldiering in the Spanish Netherlands, which is why the group put him in charge of the explosives.",
-    "sources": [
-      "https://en.wikipedia.org/wiki/Gunpowder_Plot",
-      "https://en.wikipedia.org/wiki/Guy_Fawkes"
-    ]
-  },
-  {
-    "id": "tudor-rose-union",
-    "category": "History",
-    "question": "Why does the Tudor rose combine red and white petals?",
-    "choices": [
-      "It joins symbols of rival royal houses",
-      "It marks two seasons of royal weddings",
-      "It combines the colours of two navies",
-      "It remembers two great fires in London"
+      "A clear area where bacteria had been destroyed",
+      "Bacteria multiplying faster than elsewhere",
+      "The glass changing colour beneath it",
+      "The liquid becoming hot enough to boil"
     ],
     "answer": 0,
-    "note": "Red and white were associated with Lancaster and York. Henry VII used the combined rose to present his dynasty as a union after their struggle for the throne.",
+    "note": "In 1928, Fleming noticed that bacteria near an invading patch of mould had disappeared. The contamination was a clue rather than simply a ruined experiment. It then took years of work, including an Oxford team’s research, to turn that observation into a usable medicine.",
     "sources": [
-      "https://www.english-heritage.org.uk/visit/inspire-me/roses-through-time-a-history-of-rose-gardens-and-roses-as-a-symbol-in-english-culture/"
+      "https://oxfordhealth.web.ox.ac.uk/sites/default/files/oxfordhealth/documents/media/health_histories_workbook_penicillin_11032025.pdf",
+      "https://collection.sciencemuseumgroup.org.uk/objects/co61230"
     ]
   },
   {
-    "id": "henry-wives-rhyme",
+    "id": "horsepower-selling-engines",
     "category": "History",
-    "question": "The rhyme “divorced, beheaded, died; divorced, beheaded, survived” remembers what about Henry VIII?",
+    "question": "Why did Scottish engineer James Watt describe engines in “horsepower”?",
     "choices": [
-      "The fates of his six wives",
-      "The endings of his six wars",
-      "The lives of his six children",
-      "The careers of his six advisers"
+      "To compare them with animals customers already used",
+      "To state how fast they could outrun a racehorse",
+      "To measure the weight a horse could pull uphill",
+      "To count how many horses transported each engine"
     ],
     "answer": 0,
-    "note": "The rhyme compresses six marriages into a memorable sequence. Henry’s search for a surviving male heir helped shape the marriages and the religious politics around them.",
+    "note": "Watt needed buyers to understand what a steam engine could do for them. Comparing its work with that of horses made an unfamiliar machine easier to sell. The unit survived into car adverts, even though a real horse’s output varies and can briefly exceed one horsepower.",
     "sources": [
-      "https://en.wikipedia.org/wiki/Wives_of_Henry_VIII",
-      "https://en.wikipedia.org/wiki/Edward_VI"
+      "https://spark.iop.org/sites/default/files/media/documents/stories_from_physics_energy_and_thermal_physics.pdf",
+      "https://www.thehenryford.org/collections/explore/articles/detail/articles/2022/10/04/horse-power"
     ]
   },
   {
-    "id": "elizabeth-succession",
+    "id": "penny-black-prepayment",
     "category": "History",
-    "question": "Elizabeth I is one of England’s best-known monarchs. Which description fits her path to the throne?",
+    "question": "Britain’s Penny Black helped make postage stamps normal. What did a stamp show had already happened?",
     "choices": [
-      "Two half-siblings ruled before her",
-      "She succeeded her father immediately",
-      "She inherited from a childless uncle",
-      "She replaced a monarch from another dynasty"
+      "The sender had paid for delivery",
+      "The recipient had agreed to accept the letter",
+      "A clerk had checked what the letter said",
+      "The letter had reached its destination"
     ],
     "answer": 0,
-    "note": "Edward VI and Mary I both reigned before Elizabeth. Declared illegitimate as a child, she reached the throne only in 1558 after their deaths.",
+    "note": "Before the reforms, receiving a letter could mean being asked to pay for it. A stamp showed that postage had been paid in advance by the sender. That small piece of paper helped turn the postman’s knock from a possible bill into a prepaid delivery.",
     "sources": [
-      "https://en.wikipedia.org/wiki/Elizabeth_I"
+      "https://postalmuseum.si.edu/exhibition/international-philately-europe-northern-europe/great-britain",
+      "https://postalmuseum.si.edu/guest-post-forever-young-queen-victoria-and-the-face-of-the-penny-black"
     ]
   },
   {
-    "id": "james-two-numbers",
+    "id": "union-flag-wales",
     "category": "History",
-    "question": "Why can the same monarch be called James VI and James I?",
+    "question": "Wales has a red dragon on its flag. Why is that dragon missing from the Union Jack?",
     "choices": [
-      "He had different numbers in two kingdoms",
-      "He changed his name after a civil war",
-      "He ruled once as a child and once as an adult",
-      "He counted only part of his family line"
+      "Wales was already incorporated into England when the design began",
+      "The dragon was considered too difficult to print",
+      "Wales joined the union after the flag was finalised",
+      "The dragon was reserved exclusively for military flags"
     ],
     "answer": 0,
-    "note": "He was already James VI of Scotland when he became James I of England in 1603. The kingdoms shared a monarch while retaining separate parliaments.",
+    "note": "The first Union Flag combined English and Scottish crosses in 1606, when Wales was already legally united with England. The Irish cross was added in 1801, producing the familiar design. The flag’s omissions reflect how the state was assembled, rather than a shortage of space for a dragon.",
     "sources": [
-      "https://www.parliament.uk/about/living-heritage/evolutionofparliament/legislativescrutiny/act-of-union-1707/overview/union-of-the-crowns/"
+      "https://www.royal.uk/union-jack?page=7"
     ]
   },
   {
-    "id": "great-fire-bakery",
+    "id": "trench-coat-officers",
     "category": "History",
-    "question": "The Great Fire of London began in an ordinary workplace. Which kind?",
+    "question": "The trench coat became a fashion classic, but who helped give it its name during the First World War?",
     "choices": [
-      "A bakery",
-      "A printing shop",
-      "A brewery",
-      "A candle workshop"
+      "Army officers needing practical rainwear",
+      "Factory inspectors checking ammunition works",
+      "Railway porters handling military luggage",
+      "Journalists reporting from naval ships"
     ],
     "answer": 0,
-    "note": "It started in Thomas Farriner’s bakery on Pudding Lane in September 1666. Over four days it spread through homes, churches and public buildings, including the old St Paul’s Cathedral.",
+    "note": "The coat took its name from its use by officers during trench warfare. Practical features included shoulder straps that could display rank, and the military association helped make it a status symbol for civilians. Film stars later carried it from the battlefield into the wardrobe.",
     "sources": [
-      "https://www.londonmuseum.org.uk/collections/london-stories/great-fire-of-london/"
+      "https://bodminkeep.org.uk/museum-history/exhibitions/frontiers-of-fashion/trench-coat"
     ]
   },
   {
-    "id": "victoria-mourning",
+    "id": "great-fire-buried-cheese",
     "category": "History",
-    "question": "Queen Victoria is often pictured in black later in life. What explains that lasting public image?",
+    "question": "As the Great Fire of London approached, diarist Samuel Pepys buried valuables in his garden. Which food did he go to the trouble of saving?",
     "choices": [
-      "Her mourning for Prince Albert",
-      "A rule requiring monarchs to wear black",
-      "Her refusal to use imported dyes",
-      "A uniform worn only at coronations"
+      "Parmesan cheese",
+      "A bowl of fresh oysters",
+      "A basket of apples",
+      "A loaf of bread"
     ],
     "answer": 0,
-    "note": "After Albert died in 1861, Victoria withdrew from public life for years. Her long mourning became part of the image associated with both the queen and her era.",
+    "note": "Pepys buried wine and an expensive Parmesan cheese as the fire spread in 1666. His house escaped the flames, but his diary preserved the panic of deciding what to rescue. A disaster that destroyed much of the city also left us the image of a man burying his cheese.",
     "sources": [
-      "https://www.royal.uk/queen-victoria"
+      "https://www.londonmuseum.org.uk/collections/london-stories/samuel-pepys/"
     ]
   },
   {
-    "id": "beefeaters-tower-homes",
+    "id": "victoria-white-lace",
+    "category": "History",
+    "question": "Queen Victoria’s white wedding dress helped set a lasting fashion. What practical aim also influenced her choice of white?",
+    "choices": [
+      "Showing off handmade British lace",
+      "Matching the colour of Albert’s uniform",
+      "Following the prescribed colour for royal brides",
+      "Making the dress stand out against a dark church"
+    ],
+    "answer": 0,
+    "note": "Victoria wanted to support Britain’s struggling handmade lace industry, and white showed the lace well. Reports and fashion images of her 1840 wedding helped spread the bridal look. The famous white dress was also a very public advertisement for local craftsmanship.",
+    "sources": [
+      "https://www.vam.ac.uk/articles/the-victoria-connection"
+    ]
+  },
+  {
+    "id": "monarch-no-passport",
     "category": "Legend & custom",
-    "question": "After visitors leave the Tower of London, where do its ceremonial guardians, the Beefeaters, have their homes?",
+    "question": "Why can the British monarch travel abroad without a British passport?",
     "choices": [
-      "Inside the Tower with their families",
-      "In a separate village outside London",
-      "In cabins aboard a ship on the Thames",
-      "In rooms beneath Westminster Abbey"
+      "British passports are issued in the monarch’s name",
+      "A crown on royal luggage replaces a passport",
+      "All members of the royal family are exempt",
+      "The monarch uses a special UN travel document"
     ],
     "answer": 0,
-    "note": "The Yeoman Warders live within the Tower’s walls. Behind the historic visitor attraction is also a residential community.",
+    "note": "A British passport asks, in the monarch’s name, for its holder to be allowed to travel freely. The monarch therefore does not need that same document. Other members of the royal family still need passports: the exception belongs to the office, not the whole family.",
     "sources": [
-      "https://en.wikipedia.org/wiki/Yeomen_Warders",
-      "https://www.hrp.org.uk/tower-of-london/whats-on/yeoman-warder-tours/"
+      "https://www.royal.uk/encyclopedia/passports"
     ]
   },
   {
-    "id": "king-arthurs",
+    "id": "arthur-round-table-equality",
     "category": "Legend & custom",
-    "question": "In the medieval romances, whose sword is Excalibur?",
+    "question": "In the King Arthur stories, why is the knights’ table round?",
     "choices": [
-      "Merlin’s",
-      "Lancelot’s",
-      "King Arthur’s",
-      "Gawain’s"
-    ],
-    "answer": 2,
-    "note": "Excalibur is King Arthur’s sword in the medieval romances, although the stories disagree about where it came from. In some accounts it is the sword he pulls from the stone, and in others the Lady of the Lake hands it to him after that first sword breaks.",
-    "sources": [
-      "https://www.britannica.com/topic/Excalibur",
-      "https://d.lib.rochester.edu/camelot/theme/Excalibur-and-sword-in-the-stone.html"
-    ]
-  },
-  {
-    "id": "famous-story-king",
-    "category": "Legend & custom",
-    "question": "In the famous story of King Cnut and the tide, what is the king trying to demonstrate?",
-    "choices": [
-      "That he can command nature",
-      "That royal power has limits",
-      "That the sea belongs to the crown",
-      "That England needs a navy"
-    ],
-    "answer": 1,
-    "note": "The story comes from Henry of Huntingdon, writing about a century after Cnut died. Cnut had his throne carried to the shore and ordered the tide to halt, and when the water came in anyway he told his courtiers that the power of kings is empty beside God’s. The tale is often retold backwards, as though he had believed the sea would obey him.",
-    "sources": [
-      "https://en.wikipedia.org/wiki/King_Canute_and_the_tide"
-    ]
-  },
-  {
-    "id": "bonfire-night-event",
-    "category": "Legend & custom",
-    "question": "Britain’s Bonfire Night combines fireworks with the memory of which event?",
-    "choices": [
-      "A failed plan to blow up Parliament",
-      "A victory over the Spanish Armada",
-      "The end of the Great Fire of London",
-      "The signing of Magna Carta"
+      "Nobody gets a more important seat at its head",
+      "It represents the circular walls of Camelot",
+      "Its shape is meant to resemble a knight’s shield",
+      "It lets the king sit apart from everyone else"
     ],
     "answer": 0,
-    "note": "The celebrations recall the failure of the Gunpowder Plot on 5 November 1605. Parliament made an annual day of thanksgiving compulsory the following year.",
+    "note": "A round table gives the knights equal standing, with no prestigious head of the table to fight over. The famous “Arthurian” table in Winchester is real, but it dates from the thirteenth century, far later than the legendary king’s supposed lifetime. It is evidence of enthusiasm for the legend, not proof that Arthur sat there.",
     "sources": [
-      "https://en.wikipedia.org/wiki/Observance_of_5th_November_Act_1605"
+      "https://www.english-heritage.org.uk/siteassets/home/visit/places-to-visit/tintagel-castle/school-visits/accordion/tintagel-teachers-kit-2023.pdf",
+      "https://history.hias.hants.gov.uk/pluginfile.php/2210/mod_resource/content/0/Historic%20Hampshire%2C%20by%20Claire%20McKay%2C%20Henry%20Cort%20Community%20School.pdf"
+    ]
+  },
+  {
+    "id": "christmas-tree-royal-picture",
+    "category": "Legend & custom",
+    "question": "What helped turn the Christmas tree into a British household fashion in the Victorian era?",
+    "choices": [
+      "A published picture of the royal family around one",
+      "A Christmas advertisement by a department store",
+      "A new stage adaptation of A Christmas Carol",
+      "A fashion for importing decorated trees from America"
+    ],
+    "answer": 0,
+    "note": "An 1848 illustration showed Queen Victoria, Prince Albert and their children around a decorated tree. It helped popularise a German custom that had already reached Britain before Albert. A picture of the royal family’s home life could influence what other families wanted in their own homes.",
+    "sources": [
+      "https://www.rct.uk/collection/stories/a-royal-christmas"
+    ]
+  },
+  {
+    "id": "police-blue-civilian-uniform",
+    "category": "Legend & custom",
+    "question": "London’s first Metropolitan Police officers wore blue coats and top hats. What was that appearance meant to communicate?",
+    "choices": [
+      "They were civilian police, not soldiers",
+      "They belonged to the Royal Navy",
+      "They worked only after dark",
+      "They were palace servants on patrol"
+    ],
+    "answer": 0,
+    "note": "When the force began in 1829, its clothes were chosen to distinguish it from the military. Britain’s soldiers were associated with red coats, so the police’s blue helped tell a different story. Even so, critics worried that the new force could act like an army at home.",
+    "sources": [
+      "https://www.londonmuseum.org.uk/collections/london-stories/metropolitan-police-londons-streets/",
+      "https://www.nationalarchives.gov.uk/education/teaching-resources/foundation-of-the-metropolitan-police/"
     ]
   },
   {
     "id": "boxing-day-boxes",
     "category": "Legend & custom",
-    "question": "The name Boxing Day is usually linked to which kind of “box”?",
+    "question": "Boxing Day falls just after Christmas. The usual explanation of its name points to which kind of “box”?",
     "choices": [
-      "Gifts or money for workers",
-      "Boxes collecting offerings at Christmas markets",
-      "Containers holding leftover Christmas food",
-      "Seats reserved for festive sporting events"
+      "A Christmas gift of money for workers",
+      "A container for returning unwanted presents",
+      "A parcel of decorations stored for next year",
+      "A marked space for a boxing match"
     ],
     "answer": 0,
-    "note": "The precise origin is uncertain, but Christmas boxes for servants and tradespeople are the usual explanation. The day falls on 26 December; its name does not come from the combat sport.",
+    "note": "“Christmas boxes” were gifts or tips given to servants and other workers. They are the usual explanation for the name, although accounts of its precise origin differ and church charity boxes also feature in the story. The name’s association with giving is older than its association with shopping.",
     "sources": [
-      "https://en.wikipedia.org/wiki/Boxing_Day"
+      "https://www.wordorigins.org/big-list-entries/boxing-day",
+      "https://www.itv.com/news/2015-12-26/what-are-the-origins-of-boxing-day"
     ]
   },
   {
-    "id": "pancakes-before-lent",
+    "id": "scotland-unicorn-symbol",
     "category": "Legend & custom",
-    "question": "Why did pancakes become associated with the day before Lent?",
+    "question": "England has a lion as a national symbol. Scotland chose an animal you cannot meet in a zoo—which one?",
     "choices": [
-      "They used up eggs and fats before fasting",
-      "They represented coins given to the poor",
-      "They marked the first grain harvest",
-      "They stayed fresh through the whole fast"
+      "A unicorn",
+      "A phoenix",
+      "A griffin",
+      "A winged horse"
     ],
     "answer": 0,
-    "note": "Eggs, butter and fat could be used up in pancakes before dietary restrictions began. Shrove Tuesday’s familiar food carries a practical part of the religious calendar.",
+    "note": "The unicorn is Scotland’s national animal and appears beside the English lion in the royal arms. It is often shown wearing a chain: in the traditional explanation, this fierce mythical creature has been brought under royal control. The heraldic unicorn is more wild power than cuddly fantasy pet.",
     "sources": [
-      "https://www.english-heritage.org.uk/pancakes-shrove-tuesday/"
+      "https://www.rct.uk/resources/unicorns"
     ]
   },
   {
-    "id": "austen-anonymous-title",
+    "id": "frankenstein-ghost-story-challenge",
     "category": "Books, stage & screen",
-    "question": "Jane Austen’s first published novel appeared without her name. How did its title page identify the author?",
+    "question": "Frankenstein began during a rainy holiday, before it became a horror classic. What challenge did Mary Shelley and her companions set themselves?",
     "choices": [
-      "By a Lady",
-      "By a Country Clergyman",
-      "By a London Bookseller",
-      "By a Retired Officer"
+      "Each would write a ghost story",
+      "Each would solve an unsolved murder",
+      "Each would translate an ancient legend",
+      "Each would invent a new scientific experiment"
     ],
     "answer": 0,
-    "note": "Sense and Sensibility appeared in 1811 with that simple attribution. Austen’s now-famous name was absent from the title page.",
+    "note": "Bad weather kept the group indoors near Lake Geneva in 1816, and Lord Byron suggested writing frightening tales. Mary Shelley’s idea grew into Frankenstein. The same gathering also led to John Polidori’s The Vampyre, so one miserable holiday helped produce two enduring strands of horror.",
     "sources": [
-      "https://janeaustens.house/jane-austen/novels/sense-and-sensibility/"
+      "https://www.britishlibrary.cn/en/works/frankenstein/",
+      "https://www.nlm.nih.gov/exhibition/frankenstein/exhibition1.html"
     ]
   },
   {
-    "id": "scrooge-common-word",
+    "id": "big-brother-surveillance",
     "category": "Books, stage & screen",
-    "question": "Dickens’s character Scrooge gave English a word for what kind of person?",
+    "question": "Long before “Big Brother” was a reality-TV title, what did the name stand for in George Orwell’s Nineteen Eighty-Four?",
     "choices": [
-      "Someone unwilling to spend or give money",
-      "Someone who cannot stop telling stories",
-      "Someone who is always falling asleep",
-      "Someone who travels without settling"
+      "The face of a state that watches its citizens",
+      "A kindly relative who shelters the hero",
+      "A pirate broadcaster resisting the government",
+      "A popular entertainer who exposes corruption"
     ],
     "answer": 0,
-    "note": "A Christmas Carol follows a miser’s change of heart. The character became so recognisable that his surname entered ordinary speech.",
+    "note": "Posters announce that Big Brother is watching, while screens in people’s homes enable state surveillance. The name sounds reassuringly familial, but the system allows almost no private life. That tension helps explain why the phrase travelled so easily from a novel into discussions of cameras and monitoring.",
     "sources": [
-      "https://en.wikipedia.org/wiki/A_Christmas_Carol"
+      "https://www.open.edu/openlearn/mod/oucontent/view.php?id=126526&section=3"
     ]
   },
   {
-    "id": "holmes-return",
+    "id": "holmes-famous-line",
     "category": "Books, stage & screen",
-    "question": "Conan Doyle apparently killed Sherlock Holmes in a story. How did the detective’s career continue?",
+    "question": "“Elementary, my dear Watson” sounds like the ultimate Sherlock Holmes line. What is surprising about it?",
     "choices": [
-      "The author later explained that he survived",
-      "A son took over under the same name",
-      "Every later adventure was narrated by a ghost",
-      "The publisher replaced him with a different detective"
+      "That exact phrase never appears in Conan Doyle’s original stories",
+      "Watson first says it while correcting Holmes",
+      "It appears only in the final Sherlock Holmes story",
+      "It was a police motto quoted by Conan Doyle"
     ],
     "answer": 0,
-    "note": "The Hound of the Baskervilles first brought readers a story set before Holmes’s supposed death. The Adventure of the Empty House then explained his survival.",
+    "note": "Holmes does say “Elementary” and does address “my dear Watson”, but not in that familiar combination in the original stories. The catchphrase belongs to the wider life the character acquired through retellings and popular culture. Sometimes the line everyone remembers is not in the book at all.",
     "sources": [
-      "https://en.wikipedia.org/wiki/The_Adventure_of_the_Empty_House",
-      "https://en.wikipedia.org/wiki/The_Hound_of_the_Baskervilles"
+      "https://digital.library.unt.edu/ark%3A/67531/metadc1157536/m2/1/high_res_d/CAMP-THESIS-2018.pdf",
+      "https://wordhistories.net/2024/09/06/elementary-my-dear-watson/"
     ]
   },
   {
-    "id": "poirot-belgian-refugee",
+    "id": "poirot-refugee-inspiration",
     "category": "Books, stage & screen",
-    "question": "Hercule Poirot is a star of British detective fiction, but Agatha Christie made him a refugee from which country?",
+    "question": "Agatha Christie’s Poirot is a Belgian living in Britain. What helped give her that idea for her famous detective?",
     "choices": [
-      "Belgium",
-      "France",
-      "Switzerland",
-      "The Netherlands"
+      "Wartime refugees living in her hometown",
+      "A Belgian royal visit she organised",
+      "Her years working for the Belgian police",
+      "A detective she met while filming in Brussels"
     ],
     "answer": 0,
-    "note": "Christie had seen Belgian refugees arrive during the First World War. That experience helped shape the background of the detective introduced in her first novel.",
+    "note": "During the First World War, Belgian refugees arrived in Torquay, where Christie lived. When she needed a detective for her first novel, she imagined a retired Belgian police officer among them. A character now recognised around the world began with people displaced by a real war.",
     "sources": [
-      "https://www.agathachristie.com/en/characters/hercule-poirot",
-      "https://en.wikipedia.org/wiki/Hercule_Poirot",
-      "https://en.wikipedia.org/wiki/Curtain:_Poirot%27s_Last_Case"
+      "https://www.agathachristie.com/en/characters/hercule-poirot"
     ]
   },
   {
-    "id": "victorian-serial-fiction",
+    "id": "dickens-serial-instalments",
     "category": "Books, stage & screen",
-    "question": "Before Victorian readers could buy The Woman in White as a complete book, how did many first encounter it?",
+    "question": "Many of Dickens’s first readers could not simply turn to the end to find out what happened. Why?",
     "choices": [
-      "In instalments in a magazine",
-      "As a play performed in a theatre",
-      "As illustrated cards sold at bookstalls",
-      "As readings before the manuscript was printed"
+      "The novels were released in instalments",
+      "The final chapters were sold only to libraries",
+      "Readers had to post back each finished chapter",
+      "The endings were performed on stage instead"
     ],
     "answer": 0,
-    "note": "The novel ran in Charles Dickens’s magazine All the Year Round. Serial publication let the story reach readers piece by piece before it became a complete volume.",
+    "note": "Many Dickens novels first appeared a few chapters at a time, often monthly. Readers had to wait, rather like an audience waiting for the next television episode. Dickens could even respond to readers’ reactions while the rest of a novel was still being written.",
     "sources": [
-      "https://www.wilkie-collins.info/books_woman_white.htm",
-      "https://en.wikipedia.org/wiki/The_Woman_in_White_(novel)"
+      "https://exhibits.library.duke.edu/exhibits/show/dickens200/serials"
     ]
   },
   {
-    "id": "george-orwell",
+    "id": "tolkien-dictionary-work",
     "category": "Books, stage & screen",
-    "question": "Who wrote Nineteen Eighty-Four?",
+    "question": "Before The Hobbit, Tolkien worked on a very different kind of book. What was it?",
     "choices": [
-      "Aldous Huxley",
-      "George Orwell",
-      "Evelyn Waugh",
-      "Graham Greene"
+      "The Oxford English Dictionary",
+      "An atlas for the British armed forces",
+      "A catalogue of plants at Kew Gardens",
+      "A handbook for railway travellers"
     ],
-    "answer": 1,
-    "note": "Orwell wrote Nineteen Eighty-Four on the Scottish island of Jura while seriously ill with tuberculosis, and it was published in 1949, seven months before he died. The title is often said to invert 1948, the year he finished the manuscript, but his drafts show that he tried 1980 and 1982 first.",
+    "answer": 0,
+    "note": "Tolkien worked on the dictionary after the First World War, researching the histories of words. Surviving slips include his work on “walrus”, whose complicated origins required several attempts. Before readers followed him into Middle-earth, he was following ordinary words across languages and centuries.",
     "sources": [
-      "https://en.wikipedia.org/wiki/Nineteen_Eighty-Four",
-      "https://en.wikipedia.org/wiki/George_Orwell"
+      "https://tolkienbooks.net/oed-news-2002-06.pdf"
     ]
   },
   {
     "id": "bond-birdwatcher",
     "category": "Books, stage & screen",
-    "question": "Ian Fleming borrowed the name James Bond from the author of a book on his shelf. What was that book about?",
+    "question": "Ian Fleming borrowed the name James Bond from a real person. What did that person write about?",
     "choices": [
       "Birds",
       "Espionage",
       "Motor racing",
-      "Casino games"
+      "Luxury hotels"
     ],
     "answer": 0,
-    "note": "The real James Bond was an American ornithologist who wrote Birds of the West Indies. Fleming kept the guide at his Jamaican home, where he wrote the spy novels.",
+    "note": "The real James Bond wrote Birds of the West Indies, a guide Fleming owned in Jamaica. Fleming thought its author’s brief, ordinary-sounding name suited his fictional spy. One of cinema’s most glamorous identities came off the cover of a bird book.",
     "sources": [
       "https://www.trin.cam.ac.uk/news/the-real-james-bond-was-a-trinity-student/"
     ]
   },
   {
-    "id": "bean-physical-comedy",
+    "id": "pooh-real-zoo-bear",
     "category": "Books, stage & screen",
-    "question": "What helps explain why Mr Bean’s comedy can travel easily between languages?",
+    "question": "Winnie-the-Pooh’s name has a connection to London Zoo. What was it?",
     "choices": [
-      "Much of the humour works through actions",
-      "The stories adapt familiar local folk tales",
-      "A narrator explains unfamiliar British customs",
-      "The dialogue uses a shared international slang"
+      "Christopher Robin visited a real bear called Winnie",
+      "His father won a toy in the zoo’s raffle",
+      "The zoo ran a competition to name the character",
+      "A zookeeper wrote the first Pooh story"
     ],
     "answer": 0,
-    "note": "Rowan Atkinson’s character speaks very little. Expressions, movement and everyday mishaps carry much of the comedy without needing dialogue.",
+    "note": "Winnie was a real black bear brought from Canada and named after Winnipeg. Christopher Robin visited her at London Zoo and gave her name to his toy bear. His father, A. A. Milne, then turned the toy and its companions into the characters of the stories.",
     "sources": [
-      "https://en.wikipedia.org/wiki/Mr._Bean"
+      "https://zsl.maxarchiveservices.co.uk/sub_animals/971/",
+      "https://www.winnipeg.ca/people-culture/our-city-our-stories/celebrate-100-years-winnie-pooh-us-teddy-bears-picnic"
     ]
   },
   {
-    "id": "tardis-broken-disguise",
+    "id": "rowling-publishing-initials",
     "category": "Books, stage & screen",
-    "question": "In Doctor Who, why does a time machine keep looking like an old blue police box?",
+    "question": "Why did the first Harry Potter book use “J. K.” rather than Joanne Rowling’s full first name?",
     "choices": [
-      "Its disguise mechanism got stuck",
-      "The Doctor chose it to blend into every city",
-      "Its first owner had worked for the police",
-      "Earth’s atmosphere forced it into that shape"
+      "The publisher worried boys might avoid a book by a woman",
+      "Another bestselling author already used Joanne Rowling",
+      "Rowling wanted readers to think two people had written it",
+      "Her teaching contract required a completely anonymous author"
     ],
     "answer": 0,
-    "note": "A TARDIS can normally change its exterior to blend into its surroundings. The Doctor’s faulty chameleon circuit made one disguise the programme’s lasting visual signature.",
+    "note": "The initials were a publishing decision intended to avoid signalling a female author to young boys. The K came from her grandmother’s name, Kathleen. The name now recognised worldwide began with a publisher’s assumption about what children would choose to read.",
     "sources": [
-      "https://www.doctorwho.tv/characters/the-tardis"
+      "https://www.jkrowling.com/about/"
     ]
   },
   {
-    "id": "python-parrot-argument",
+    "id": "python-comedy-name",
     "category": "Books, stage & screen",
-    "question": "In Monty Python’s Dead Parrot sketch, what does the shopkeeper keep refusing to admit?",
+    "question": "The programming language Python sounds as though it was named after a snake. What actually inspired its name?",
     "choices": [
-      "The bird he sold is dead",
-      "The customer has paid twice",
-      "The bird can speak several languages",
-      "The shop has run out of cages"
+      "The comedy series Monty Python’s Flying Circus",
+      "A British submarine with the same name",
+      "A code-breaking device used during the war",
+      "A magician’s famous escape routine"
     ],
     "answer": 0,
-    "note": "The comedy stretches a plainly hopeless argument through increasingly elaborate evasions. The sketch became one of Monty Python’s best-known performances.",
+    "note": "Its creator, Guido van Rossum, was reading scripts from Monty Python’s Flying Circus while developing the language. He wanted a short, distinctive name and chose Python. British comedy left a trace in a tool used by programmers around the world.",
     "sources": [
-      "https://www.bfi.org.uk/lists/monty-python-10-funniest-sketches"
+      "https://docs.python.org/3/faq/general.html#why-is-it-called-python"
     ]
   },
   {
-    "id": "pinter-pause",
+    "id": "peter-pan-hospital-gift",
     "category": "Books, stage & screen",
-    "question": "In a Harold Pinter play, a written “pause” asks an actor to do what?",
+    "question": "Peter Pan’s creator gave away the rights to his story. Who received the gift?",
     "choices": [
-      "Let a silence become part of the scene",
-      "Take a shorter breath without breaking the flow",
-      "Leave room for the audience to laugh",
-      "Wait for a change in the stage lighting"
+      "A children’s hospital",
+      "A school for young actors",
+      "A society for protecting birds",
+      "A fund for retired writers"
     ],
     "answer": 0,
-    "note": "Pinter’s scripts distinguish pauses from longer silences. What a character avoids saying can matter as much as the spoken lines.",
+    "note": "J. M. Barrie gave the rights to Great Ormond Street Hospital in 1929. Royalties from the story helped support its work with sick children. He also asked that the total raised should never be revealed, a wish the hospital has honoured.",
     "sources": [
-      "https://www.nobelprize.org/prizes/literature/2005/pinter/bibliography/",
-      "https://www.nobelprize.org/prizes/literature/2005/pinter/facts/"
+      "https://www.gosh.nhs.uk/about-us/our-history/peter-pan-at-great-ormond-street-hospital/"
     ]
   },
   {
-    "id": "doctor-regeneration-casting",
+    "id": "doctor-changing-face",
     "category": "Books, stage & screen",
-    "question": "Doctor Who’s regeneration idea solved which practical problem for the programme?",
+    "question": "Doctor Who needed a new lead actor without losing its central character. What solution did the writers build into the story?",
     "choices": [
-      "Changing the lead actor while keeping the character",
-      "Reusing scenes filmed with earlier casts",
-      "Moving the story between television and radio",
-      "Replacing missing episodes with new adventures"
+      "The alien hero could transform into a new body",
+      "Each adventure turned out to be a different person’s dream",
+      "The hero’s identical relatives took turns travelling",
+      "Every new actor played an earlier ancestor"
     ],
     "answer": 0,
-    "note": "When William Hartnell’s time as the Doctor ended, the character could change form. What began as renewal became a central part of the series’ storytelling.",
+    "note": "When the first actor’s time ended, the programme gave its alien traveller the ability to renew himself. The idea became known as regeneration, letting a change of performer become an event within the story. A practical casting problem became one of the series’ defining ideas.",
     "sources": [
       "https://www.doctorwho.tv/news-and-features/what-is-regeneration"
     ]
   },
   {
-    "id": "sausages",
+    "id": "fish-chips-migrant-roots",
     "category": "Food & sport",
-    "question": "In “bangers and mash,” what are the bangers?",
+    "question": "Fish and chips looks thoroughly British. The fried-fish tradition behind it is closely linked to which newcomers?",
     "choices": [
-      "Sausages",
-      "Fried onions",
-      "Peas",
-      "Potato cakes"
+      "Jewish refugees from Spain and Portugal",
+      "French monks fleeing the Revolution",
+      "Italian railway workers in Victorian London",
+      "American sailors after the First World War"
     ],
     "answer": 0,
-    "note": "Bangers and mash is sausages with mashed potato, usually under onion gravy. The word “banger” is said to come from the First World War, when sausages made under meat rationing held so much water that they burst loudly in the pan.",
+    "note": "Sephardic Jewish refugees are thought to have brought their tradition of fried fish to London. It became popular beyond the community and eventually met fried potatoes in the fish-and-chip shop. The familiar national takeaway has a migration story behind it.",
     "sources": [
-      "https://en.wikipedia.org/wiki/Bangers_and_mash"
+      "https://www.londonmuseum.org.uk/collections/london-stories/how-london-got-hooked-on-fish-chips/"
     ]
   },
   {
-    "id": "lamb-or-mutton",
+    "id": "sandwich-earls-title",
     "category": "Food & sport",
-    "question": "Traditional shepherd’s pie is made with which meat?",
+    "question": "The sandwich is eaten worldwide, but its English name comes from what?",
     "choices": [
-      "Beef",
-      "Lamb or mutton",
-      "Pork",
-      "Chicken"
-    ],
-    "answer": 1,
-    "note": "Shepherd’s pie is made with lamb or mutton, and the same dish made with beef is usually called cottage pie. Cottage pie is the older name, recorded in 1791, and the two names were used for any meat until the split between lamb and beef settled in the twentieth century.",
-    "sources": [
-      "https://en.wikipedia.org/wiki/Shepherd%27s_pie"
-    ]
-  },
-  {
-    "id": "burns-haggis-poem",
-    "category": "Food & sport",
-    "question": "At a traditional Burns Supper, what happens to the haggis before it is served?",
-    "choices": [
-      "A poem is recited to it",
-      "It is carried around the room in silence",
-      "Its ingredients are guessed by the guests",
-      "It is exchanged for a loaf of bread"
+      "An aristocrat’s title",
+      "A baker’s surname",
+      "A type of bread oven",
+      "A sailors’ expression for packed lunch"
     ],
     "answer": 0,
-    "note": "Robert Burns’s Address to a Haggis is part of the ceremony. Food and poetry meet in an evening commemorating the Scottish writer.",
+    "note": "John Montagu was the Earl of Sandwich. The popular story says he wanted meat between bread so he could keep playing cards, but historians treat that neat tale cautiously. The connection explains the name, not the invention of putting food inside bread.",
     "sources": [
-      "https://en.wikipedia.org/wiki/Haggis",
-      "https://en.wikipedia.org/wiki/Burns_supper"
+      "https://scholarworks.iu.edu/journals/index.php/digest/article/view/27862"
     ]
   },
   {
-    "id": "boiled-egg",
+    "id": "tea-locked-caddies",
     "category": "Food & sport",
-    "question": "What is inside the sausage-meat coating of a Scotch egg?",
+    "question": "In eighteenth-century Britain, some households locked their tea away. Why treat a cup of tea like treasure?",
     "choices": [
-      "A boiled egg",
-      "Mashed potato",
-      "Cheddar",
-      "Black pudding"
+      "The leaves were an expensive luxury",
+      "They were sold in government-sealed containers",
+      "The locks kept damp air away from the leaves",
+      "Serving tea required a pharmacist’s permission"
     ],
     "answer": 0,
-    "note": "A boiled egg sits inside sausage meat and breadcrumbs. Fortnum & Mason claims the invention, but the origin is disputed and similar preparations existed elsewhere.",
+    "note": "Tea was costly enough to be stored in locked caddies, and heavy taxation added to its price. In fashionable homes, serving it could be a carefully managed social occasion. Britain’s everyday comfort drink once came with a key.",
     "sources": [
-      "https://en.wikipedia.org/wiki/Scotch_egg"
+      "https://www.vam.ac.uk/articles/teapots-through-time",
+      "https://www.vam.ac.uk/__data/assets/pdf_file/0007/178837/vanda_paul_de_lamerie_silver_trail.pdf"
     ]
   },
   {
-    "id": "cream-tea-order",
+    "id": "tonic-bitter-medicine",
     "category": "Food & sport",
-    "question": "What is the familiar Devon–Cornwall disagreement over a cream tea?",
+    "question": "A gin and tonic’s bitter ingredient, quinine, has a history far beyond cocktails. What disease was it used to treat?",
     "choices": [
-      "Whether cream or jam goes on first",
-      "Whether scones should contain chocolate",
-      "Whether tea should be served cold",
-      "Whether the meal should include soup"
+      "Malaria",
+      "Scurvy",
+      "Smallpox",
+      "Cholera"
     ],
     "answer": 0,
-    "note": "The usual shorthand is cream first in Devon, jam first in Cornwall. Actual tea rooms and personal habits are less uniform than the rivalry suggests.",
+    "note": "Quinine comes from the bark of South American cinchona trees and became important in malaria treatment. Its history connects tonic water with medicine and empire, but the familiar story that gin and tonic was invented as a malaria remedy is hard to substantiate. Modern tonic water does not contain enough quinine to protect against malaria.",
     "sources": [
-      "https://en.wikipedia.org/wiki/Cream_tea"
+      "https://www.kew.org/read-and-watch/just-the-tonic-history",
+      "https://www.kew.org/plants/cinchona-tree"
     ]
   },
   {
-    "id": "english-breakfast-beans",
+    "id": "soccer-british-word",
     "category": "Food & sport",
-    "question": "Which pantry food would a visitor commonly find beside eggs and bacon in a full English breakfast?",
+    "question": "“Soccer” is often treated as an American name for football. Where did the word originate?",
     "choices": [
-      "Baked beans",
-      "Pickled cabbage",
-      "Stewed lentils",
-      "Creamed sweetcorn"
+      "Britain",
+      "The United States",
+      "Australia",
+      "Canada"
     ],
     "answer": 0,
-    "note": "The breakfast brings several cooked foods onto one plate, often including beans, tomatoes, mushrooms and toast. Its contents vary by region and household.",
+    "note": "It began as British slang formed from “association” in association football, with an added “-er” ending. Rugby had “rugger”; association football acquired “soccer”. The supposedly un-British word has British roots.",
     "sources": [
-      "https://en.wikipedia.org/wiki/Full_breakfast",
-      "https://en.wikipedia.org/wiki/Breakfast_by_country#Continental_breakfast"
+      "https://www.wordorigins.org/big-list-entries/soccer",
+      "https://www.etymonline.com/word/soccer"
     ]
   },
   {
-    "id": "strawberries-and-cream",
+    "id": "football-cards-traffic-lights",
     "category": "Food & sport",
-    "question": "Which food is famously associated with spectators at Wimbledon?",
+    "question": "What everyday sight inspired English referee Ken Aston’s red and yellow football cards?",
     "choices": [
-      "Pork pies",
-      "Strawberries and cream",
-      "Eccles cakes",
-      "Fish and chips"
-    ],
-    "answer": 1,
-    "note": "Strawberries and cream have become part of the Wimbledon experience as firmly as the tennis. The tournament’s fruit has been supplied by Hugh Lowe Farms in Kent, where berries are picked by hand early in the morning and checked before dispatch. Each batch can be traced back to where and when it was picked, and even to the picker.",
-    "sources": [
-      "https://en.wikipedia.org/wiki/The_Championships,_Wimbledon",
-      "https://www.hughlowefarms.com/",
-      "https://www.hughlowefarms.com/how-we-harvest"
-    ]
-  },
-  {
-    "id": "cricket-over-extra-ball",
-    "category": "Food & sport",
-    "question": "A cricket over normally has six legal deliveries. What happens if the bowler sends a wide?",
-    "choices": [
-      "It does not count towards those six",
-      "It counts but gives the batter another run",
-      "It counts as two of the six",
-      "It ends the over if it is the sixth ball"
+      "Traffic lights",
+      "Railway ticket colours",
+      "Playing cards",
+      "The coloured rings of an archery target"
     ],
     "answer": 0,
-    "note": "A wide or no-ball does not use up one of the six legal deliveries. That is why an over can contain more than six actual balls bowled.",
+    "note": "Confusion over cautions and a sending-off at the 1966 World Cup highlighted the language problem between officials and players. Traffic lights suggested a simple visual answer: yellow for a warning and red for stopping. The cards first appeared at the World Cup in 1970.",
     "sources": [
-      "https://lawsofcricket.lords.org/laws-of-cricket/the-over-scoring-runs-dead-ball-and-extras/the-over",
-      "https://en.wikipedia.org/wiki/Over_(cricket)"
+      "https://www.efl.com/news/2026/october/05/red-and-yellow-cards--50-years-of-english-football-s-most-famous-colours/",
+      "https://www.kenaston.org/the-person/tributes-39.htm"
     ]
   },
   {
-    "id": "boat-race-tide",
+    "id": "tennis-yellow-television",
     "category": "Food & sport",
-    "question": "The Oxford–Cambridge Boat Race runs upstream on the Thames. How can the current still help the crews?",
+    "question": "Wimbledon once used white tennis balls. What helped drive tennis towards the bright yellow balls we recognise today?",
     "choices": [
-      "The incoming tide carries water upstream",
-      "Locks release water ahead of the crews",
-      "The course follows a reverse-flowing side channel",
-      "The boats ride the wake of a launch"
+      "They were easier to see on television",
+      "The new dye made the felt last longer",
+      "They made line calls easier on every court surface",
+      "The tournament wanted to match a sponsor’s colours"
     ],
     "answer": 0,
-    "note": "The race is timed to use the incoming tide on the tidal Thames. A course described as upstream need not mean rowing against the water’s movement.",
+    "note": "Research showed that yellow balls were more visible to television viewers, and tennis rules admitted them in 1972. Wimbledon kept its white balls longer, changing in 1986. A colour that now seems inseparable from tennis was partly chosen for people watching at home.",
     "sources": [
-      "https://www.theboatrace.org/the-course"
+      "https://www.itftennis.com/media/2280/balls-history-of-tennis-balls.pdf"
     ]
   },
   {
-    "id": "ashes-mock-obituary",
+    "id": "world-cup-pickles-dog",
     "category": "Food & sport",
-    "question": "Why does the cricket rivalry called the Ashes have such a mournful name?",
+    "question": "Before England hosted the 1966 World Cup, the trophy was stolen. Who unexpectedly helped find it?",
     "choices": [
-      "A newspaper jokingly declared English cricket dead",
-      "The first match was played beside a crematorium",
-      "A stadium fire destroyed the original trophy",
-      "The teams began with a memorial for a captain"
+      "A pet dog out for a walk",
+      "A child searching for a lost football",
+      "A gardener planting a rose bush",
+      "A swimmer training in the Thames"
     ],
     "answer": 0,
-    "note": "After Australia won at the Oval in 1882, a mock obituary announced the death of English cricket. The joke gave a sporting rivalry both its name and its tiny urn.",
+    "note": "A dog called Pickles sniffed out a parcel wrapped in newspaper while walking with his owner in London. Inside was the missing trophy. Pickles became a celebrity, complete with medals and television appearances, before the football tournament had even begun.",
     "sources": [
-      "https://www.lords.org/lords/our-history/father-time-wall/1928-the-ashes-urn-is-presented-to-mcc"
+      "https://nationalfootballmuseum.com/stories/object-of-the-week-dog-collar-belonging-to-pickles/",
+      "https://nationalfootballmuseum.com/items/pickles-the-dogs-medals-1966/"
+    ]
+  },
+  {
+    "id": "marathon-london-distance",
+    "category": "Food & sport",
+    "question": "Why is a marathon the oddly precise distance of 42.195 kilometres rather than a round 40?",
+    "choices": [
+      "The distance of the 1908 London Olympic course became the standard",
+      "It matches the exact ancient road from Marathon to Athens",
+      "It was converted from a standard race of 25 miles",
+      "It was chosen to fit the timing of the first Olympic broadcast"
+    ],
+    "answer": 0,
+    "note": "Early Olympic marathons did not all cover the same distance. London’s 1908 route ran from Windsor Castle to the White City stadium, and its length was adopted as the standard in 1921. Runners around the world still follow the measurement of that particular British course.",
+    "sources": [
+      "https://www.olympedia.org/results/56369?id=57135",
+      "https://worldathletics.org/disciplines/relays/marathon"
+    ]
+  },
+  {
+    "id": "paralympics-hospital-origins",
+    "category": "Food & sport",
+    "question": "The Paralympic movement grew from a small competition in Britain. Where did that event begin?",
+    "choices": [
+      "At a hospital treating spinal injuries",
+      "At a university testing new sporting equipment",
+      "At an army base training Olympic hopefuls",
+      "At a holiday camp running accessible activities"
+    ],
+    "answer": 0,
+    "note": "In 1948, sixteen injured servicemen and women competed in archery at Stoke Mandeville, on the day London’s Olympics opened. Sport was part of their rehabilitation and grew into international competition. The first Paralympic Games followed in Rome in 1960.",
+    "sources": [
+      "https://www.paralympic.org/ipc/history"
     ]
   }
 ]
