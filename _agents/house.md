@@ -339,15 +339,18 @@ and sky.
   hours, read from the scenes' `data-hour`. At the door it is taken off.
   The page around the rooms (rule in `COLOPHON.md`) is the day's cream,
   `#F4EFE3`, made darker in OKLCH lightness with its hue kept and its
-  chroma a little raised so it stays warm: by .03 in the evening
-  (`#EBE5D7`) and by .065 at night (`#DFDACC`); every surface token
-  moves by the same step. Until 28 October 2026 the evening was the
+  chroma a little raised so it stays warm: by .065 in the evening
+  (`#DFDACC`) and by .13 at night (`#CAC5B7`); every surface token
+  moves by the same step. The first version of the same day had .03 and
+  .065; the author asked for each to go a step darker so the night does
+  not glare. Until 28 October 2026 the evening was the
   lamplit carpet, `#BCAB8A`, and the night `#A88F76`. The ink is the
-  day's; only `--vizon` and `--footer-strip-ink` are darker by night so
-  they keep 4.5:1 on `--band` (4.7:1 and 4.69:1), and the accent's
-  `--sec-l` is 0.460 in the evening and 0.430 at night (4.82:1, 4.88:1).
-  The dialog is the day's cream at every hour (`.house-dialog` block
-  after the page's); the site's menu keeps the page's own.
+  day's; only `--vizon` and `--footer-strip-ink` are darker after sunset
+  so they keep 4.5:1 on `--band` (4.69:1 and 4.75:1), and the accent's
+  `--sec-l` is 0.430 in the evening and 0.380 at night (4.88:1, 4.84:1).
+  The dialog is one step lighter than the page: the day's cream in the
+  evening, the evening's cream at night (`.house-dialog` blocks after the
+  page's); the site's menu keeps the page's own.
   The lamps light the rooms only: a lit lamp (`data-lamp` in the study,
   `data-balcony-lamp` on the balcony) takes `.house-dusk` to .3 in the
   lamp's warm brown (`#9c7a4e`, the lamplight gradients in the two SVGs)

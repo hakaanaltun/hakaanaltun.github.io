@@ -400,7 +400,11 @@
    28 October 2026, after the rooms' grey dusk, a door's beige, the sunset
    sky, the roofs at night, an umber and the lamplit carpet had each been
    tried around them that week: the day's cream was the one that suited
-   them. The box that opens over a room is the day's cream at every hour.
+   them. Later that day the author asked for the evening to take the
+   night's shade and the night to go a step darker, so that inside and
+   out stay together with the lamp on or off and the screen does not
+   glare at night. The box over a room is a few shades lighter than the
+   page.
    js/house.js sets data-house-theme on <html> while a room
    is open. The tokens are set on <body>, below the themes' own (Follow the
    sky paints its tokens on <html> itself), and the chrome is set as the
@@ -409,11 +413,11 @@
    with the page's ink for their words, as on White & Slate, as the author
    asked on 26 October 2026; they had moved with İstanbul's sun, a beige by
    day into the night's dark, since the day before. Every tier holds
-   4.5:1: the faintest ink is 4.65:1 on its band by day, 4.7:1 in the
-   evening and 4.69:1 at night, where it is a little darker, and the
-   accent 4.63:1, 4.82:1 and 4.88:1. The header's links keep their full
+   4.5:1: the faintest ink is 4.65:1 on its band by day, 4.69:1 in the
+   evening and 4.75:1 at night, where it is darker, and the accent
+   4.63:1, 4.88:1 and 4.84:1. The header's links keep their full
    ink here rather than the site's 85%, so that dimmed under a pointer
-   they still hold 4.5:1: 6.36:1 in the evening and 5.91:1 at night. */
+   they still hold 4.5:1: 5.91:1 in the evening and 5.18:1 at night. */
 html.house-inside[data-house-theme] { color-scheme: light; }
 html.house-inside[data-house-theme] .header-nav-bar a { color: var(--footer-text); }
 /* On a phone the page scrolls under the header, and a header the page's own
@@ -460,41 +464,6 @@ html.house-inside[data-house-theme="day"] body {
 }
 html.house-inside[data-house-theme="evening"] body {
   color-scheme: light;
-  --bg: #EBE5D7;
-  --paper: #EBE5D7;
-  --surface-soft: #E3DBC9;
-  --band: #DFD6C0;
-  --band-hero: var(--paper);
-  --footer-strip-bg: #EBE5D7;
-  --ink: #2B2620;
-  --ink-soft: #443B30;
-  --vizon: #635A49;
-  --footer-strip-ink: #655946;
-  --hero-source-muted: #655946;
-  --rule: #DAD0B9;
-  --rule-strong: #C7B896;
-  --rule-cream: #D2C294;
-  --note-base: var(--paper);
-  --note-tint-l: 0.80;
-  --note-tint-c: 0.095;
-  --note-wash: 15%;
-  --footer-text: #2B2620;
-  --footer-muted: #2B2620;
-  --drawer-bg: rgba(235, 229, 215, 0.985);
-  --header-border: rgba(43, 38, 32, 0.20);
-  --surface-chrome: #EBE5D7;
-  --surface-footer: #EBE5D7;
-  --shadow-card: 0 4px 16px rgba(43, 38, 32, 0.05);
-  --shadow-card-hover: 0 16px 40px rgba(78, 70, 56, 0.08);
-  --shadow-cover: 0 14px 24px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.06);
-  --sec-l: 0.460;
-  --sec-accent: oklch(calc(var(--sec-l) - var(--sec-dl, 0)) var(--sec-c, 0.050) var(--sec-h, 178));
-  --petrol: var(--sec-accent);
-  --petrol-deep: color-mix(in srgb, var(--sec-accent) 74%, black);
-  --writing-accent: oklch(var(--sec-l) 0.024 250);
-}
-html.house-inside[data-house-theme="night"] body {
-  color-scheme: light;
   --bg: #DFDACC;
   --paper: #DFDACC;
   --surface-soft: #D8D0BE;
@@ -528,11 +497,45 @@ html.house-inside[data-house-theme="night"] body {
   --petrol-deep: color-mix(in srgb, var(--sec-accent) 74%, black);
   --writing-accent: oklch(var(--sec-l) 0.024 250);
 }
-/* The box that opens over a room is the day's cream at every hour, like a
-   page held under the lamp: a few shades lighter than the page in the
-   evening and at night. */
-html.house-inside[data-house-theme="evening"] .house-dialog,
-html.house-inside[data-house-theme="night"] .house-dialog {
+html.house-inside[data-house-theme="night"] body {
+  color-scheme: light;
+  --bg: #CAC5B7;
+  --paper: #CAC5B7;
+  --surface-soft: #C3BBA8;
+  --band: #BFB6A0;
+  --band-hero: var(--paper);
+  --footer-strip-bg: #CAC5B7;
+  --ink: #2B2620;
+  --ink-soft: #443B30;
+  --vizon: #4D4434;
+  --footer-strip-ink: #504532;
+  --hero-source-muted: #504532;
+  --rule: #BBB099;
+  --rule-strong: #A89976;
+  --rule-cream: #B3A373;
+  --note-base: var(--paper);
+  --note-tint-l: 0.80;
+  --note-tint-c: 0.095;
+  --note-wash: 15%;
+  --footer-text: #2B2620;
+  --footer-muted: #2B2620;
+  --drawer-bg: rgba(202, 197, 183, 0.985);
+  --header-border: rgba(43, 38, 32, 0.20);
+  --surface-chrome: #CAC5B7;
+  --surface-footer: #CAC5B7;
+  --shadow-card: 0 4px 16px rgba(43, 38, 32, 0.05);
+  --shadow-card-hover: 0 16px 40px rgba(78, 70, 56, 0.08);
+  --shadow-cover: 0 14px 24px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.06);
+  --sec-l: 0.380;
+  --sec-accent: oklch(calc(var(--sec-l) - var(--sec-dl, 0)) var(--sec-c, 0.050) var(--sec-h, 178));
+  --petrol: var(--sec-accent);
+  --petrol-deep: color-mix(in srgb, var(--sec-accent) 74%, black);
+  --writing-accent: oklch(var(--sec-l) 0.024 250);
+}
+/* The box that opens over a room is a few shades lighter than the page,
+   like a page held under the lamp: the day's cream in the evening, and at
+   night the evening's, so that it does not shine out of the dark. */
+html.house-inside[data-house-theme="evening"] .house-dialog {
   --bg: #F4EFE3;
   --paper: #F4EFE3;
   --surface-soft: #ECE5D5;
@@ -544,6 +547,19 @@ html.house-inside[data-house-theme="night"] .house-dialog {
   --rule-strong: #CFC2A4;
   --rule-cream: #DACCA4;
   --sec-l: 0.490;
+}
+html.house-inside[data-house-theme="night"] .house-dialog {
+  --bg: #DFDACC;
+  --paper: #DFDACC;
+  --surface-soft: #D8D0BE;
+  --band: #D4CBB5;
+  --note-base: #DFDACC;
+  --vizon: #5C5342;
+  --footer-strip-ink: #5E523F;
+  --rule: #CFC5AE;
+  --rule-strong: #BCAD8B;
+  --rule-cream: #C7B789;
+  --sec-l: 0.430;
 }
 /* The trail the pointer leaves (js/cursor-trail.js), and the pointer itself,
    a speck a little larger than the trail's own at its head, both a light
