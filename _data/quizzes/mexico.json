@@ -1,16 +1,16 @@
 [
   {
-    "id": "tortilla-maize",
+    "id": "tortilla-lime-purpose",
     "category": "Food & drink",
-    "question": "Which grain is traditionally treated with lime to make the dough for tortillas?",
+    "question": "Before maize becomes tortilla dough, it is cooked with lime. What does that treatment help do?",
     "choices": [
-      "Maize",
-      "Wheat",
-      "Rice",
-      "Barley"
+      "Make nutrients more available",
+      "Preserve its natural sweetness",
+      "Increase its oil content",
+      "Remove all of its starch"
     ],
     "answer": 0,
-    "note": "Before grinding, the grain is treated with lime in a process called nixtamalisation. This helps remove the hull and improves its nutritional value. The technique is part of the traditional food culture recognised by UNESCO.",
+    "note": "Nixtamalisation uses mineral lime, not the citrus fruit. It helps remove the hull and improves the grain’s nutritional value: an everyday tortilla carries a much older food technology.",
     "sources": [
       "https://www.unesco.org/archives/multimedia/document-1674"
     ]
@@ -32,17 +32,17 @@
     ]
   },
   {
-    "id": "tamales-wrapping",
+    "id": "tamal-wrapper-role",
     "category": "Food & drink",
-    "question": "What traditionally surrounds a tamal while it cooks?",
+    "question": "A tamal arrives in a corn husk or banana leaf. What role does that outer layer play?",
     "choices": [
-      "A corn husk or banana leaf",
-      "A thin layer of pastry",
-      "A sheet of dried seaweed",
-      "A coating of breadcrumbs"
+      "A wrapper used during cooking",
+      "A crisp shell eaten with the filling",
+      "A garnish added after cooking",
+      "A packet of seasoning to stir in"
     ],
     "answer": 0,
-    "note": "The wrapping varies with the region. Corn husks are widely used, while banana leaves are particularly associated with coastal and tropical areas. The filling can be sweet as well as savoury.",
+    "note": "The husk or leaf encloses the filling during cooking and is opened before eating. Corn husks and banana leaves are used in different regions; the filling itself can be sweet or savoury.",
     "sources": [
       "https://sic.cultura.gob.mx/ficha.php?table=gastronomia&table_id=91",
       "https://www.gob.mx/agricultura/articulos/tamales-envueltos-de-tradicion-y-sabor"
@@ -51,7 +51,7 @@
   {
     "id": "vanilla-orchid",
     "category": "Food & drink",
-    "question": "Natural vanilla, long cultivated in Mexico, comes from which kind of plant?",
+    "question": "The vanilla flavour familiar from ice cream began with a Mexican crop. What kind of plant produces it?",
     "choices": [
       "An orchid",
       "A cactus",
@@ -65,30 +65,30 @@
     ]
   },
   {
-    "id": "mole-chocolate",
+    "id": "chocolate-savoury-mole",
     "category": "Food & drink",
-    "question": "Which ingredient associated with desserts also appears in mole poblano, a savoury Mexican sauce?",
+    "question": "Chocolate is familiar in desserts. In Mexico, where else might you find it?",
     "choices": [
-      "Chocolate",
-      "Marzipan",
-      "Whipped cream",
-      "Candied orange peel"
+      "In a savoury chilli sauce",
+      "In a citrus marinade for raw fish",
+      "In a pickled-onion topping",
+      "In a traditional avocado dip"
     ],
     "answer": 0,
-    "note": "Mole names a whole family of sauces. Recipes vary by region, and chocolate is only one possible ingredient alongside chillies and seeds. Green and yellow moles have their own combinations.",
+    "note": "Mole poblano combines chocolate with ingredients such as chillies and seeds. Mole is a family of sauces, however, and many versions contain no chocolate.",
     "sources": [
       "https://www.gob.mx/agricultura/articulos/el-mole-un-platillo-para-chuparse-los-dedos?idiom=es"
     ]
   },
   {
-    "id": "pozole-soup",
+    "id": "pozole-foaming-corn",
     "category": "Food & drink",
-    "question": "What kind of dish is pozole?",
+    "question": "The name of the Mexican soup pozole is linked to “foam”. What creates that impression?",
     "choices": [
-      "A soup with large maize kernels",
-      "A pastry filled with sweet cheese",
-      "A salad of raw fish and citrus",
-      "A flatbread topped with beans"
+      "Maize kernels opening as they cook",
+      "Cream whipped over the finished bowl",
+      "Egg whites beaten into the stock",
+      "A fizzy drink added before serving"
     ],
     "answer": 0,
     "note": "Its name is linked to a Nahuatl word for foam. As the prepared maize kernels cook, they open out, giving the surface that appearance. Toppings can include sliced radishes and shredded lettuce.",
@@ -116,7 +116,7 @@
   {
     "id": "molcajete-stone",
     "category": "Food & drink",
-    "question": "A traditional molcajete, used for grinding salsa ingredients, is commonly made from what?",
+    "question": "A traditional Mexican salsa mortar has a rough, dark surface. What is it commonly made from?",
     "choices": [
       "Volcanic stone",
       "Cast iron",
@@ -147,34 +147,33 @@
     ]
   },
   {
-    "id": "pastor-spit",
+    "id": "pastor-migration",
     "category": "Food & drink",
-    "question": "How is the meat for tacos al pastor traditionally cooked?",
+    "question": "Tacos al pastor are sliced from a vertical spit, rather like shawarma. Which migration helped shape them?",
     "choices": [
-      "On a rotating vertical spit",
-      "In a sealed clay pot",
-      "On skewers laid over coals",
-      "Inside a leaf-lined earth oven"
+      "Lebanese migration to Mexico",
+      "Japanese migration to Mexico",
+      "German migration to Mexico",
+      "Irish migration to Mexico"
     ],
     "answer": 0,
-    "note": "Thin slices are cut from the rotating stack, known as a trompo. The preparation belongs to the story of Middle Eastern cooking adapted in Mexico, with corn tortillas and locally seasoned pork.",
+    "note": "Lebanese migrants brought a cooking tradition that was adapted into one of Mexico City’s signature street foods. The rotating meat stack remained, while locally seasoned pork and corn tortillas made the dish distinct.",
     "sources": [
-      "https://embamex.sre.gob.mx/costarica/index.php/mas-comunicados/287-gastronomia2025",
-      "https://consulmex.sre.gob.mx/frankfurt/images/Boletn_Conectando_con_Mxico_Septiembre_de_2021.pdf"
+      "https://mexicocity.cdmx.gob.mx/e/food-basics/street-food/"
     ]
   },
   {
-    "id": "capital-tenochtitlan",
+    "id": "mexico-city-underneath",
     "category": "Places & nature",
-    "question": "Which modern city was built over the ruins of the Aztec capital Tenochtitlan?",
+    "question": "Beneath Mexico City’s colonial centre lie the remains of what?",
     "choices": [
-      "Mexico City",
-      "Guadalajara",
-      "Monterrey",
-      "Puebla"
+      "An earlier Indigenous capital",
+      "An ancient coastal trading port",
+      "A Spanish settlement abandoned after an eruption",
+      "A former silver-mining complex"
     ],
     "answer": 0,
-    "note": "The historic centre holds remains of the earlier city alongside buildings from the Spanish colonial period. Nearby Xochimilco preserves canals and artificial islands that recall the valley’s older relationship with water.",
+    "note": "The Spanish built their city over Tenochtitlan, the Aztec capital. At nearby Xochimilco, canals and artificial islands preserve another part of the valley’s older landscape.",
     "sources": [
       "https://whc.unesco.org/en/list/412/"
     ]
@@ -182,12 +181,12 @@
   {
     "id": "chichen-maya",
     "category": "Places & nature",
-    "question": "Chichén Itzá was a major centre of which civilisation?",
+    "question": "The pyramid at Chichén Itzá is one of Mexico’s most familiar images. Which civilisation built this city?",
     "choices": [
       "Maya",
+      "Aztec",
       "Inca",
-      "Moche",
-      "Nazca"
+      "Olmec"
     ],
     "answer": 0,
     "note": "Its buildings also show influences from central Mexico. Alongside the famous El Castillo, the site preserves a circular building known as El Caracol, associated with astronomical observation.",
@@ -198,7 +197,7 @@
   {
     "id": "teotihuacan-pyramids",
     "category": "Places & nature",
-    "question": "Two of Teotihuacán’s best-known pyramids are named after which pair?",
+    "question": "At Teotihuacán, two immense pyramids carry names taken from the sky. Which pair?",
     "choices": [
       "The Sun and the Moon",
       "Venus and Mars",
@@ -212,17 +211,17 @@
     ]
   },
   {
-    "id": "cenote-water",
+    "id": "cenote-limestone-formation",
     "category": "Places & nature",
-    "question": "What would you find in a cenote in the Yucatán Peninsula?",
+    "question": "A traveller in Yucatán swims in a cenote beneath an opening in the rock. What created this kind of pool?",
     "choices": [
-      "A natural sinkhole containing water",
-      "A volcanic crater containing lava",
-      "A dry basin covered in salt",
-      "A hill built from layers of sand"
+      "Water dissolving limestone underground",
+      "An extinct volcanic crater filling with rain",
+      "A river cutting off one of its bends",
+      "Sea waves enclosing a coastal lagoon"
     ],
     "answer": 0,
-    "note": "Rainwater gradually dissolves the limestone underground, creating cavities. When a cave roof collapses, the water below can become exposed. These openings were important water sources for Maya communities.",
+    "note": "Rainwater dissolves limestone and opens underground cavities. Where a cave roof collapses, the water is exposed; cenotes were important water sources for Maya communities.",
     "sources": [
       "https://www.yucatan.gob.mx/?p=cenotes"
     ]
@@ -261,34 +260,34 @@
     ]
   },
   {
-    "id": "whale-lagoons",
+    "id": "whale-lagoon-nursery",
     "category": "Places & nature",
-    "question": "Which whales use the lagoons of El Vizcaíno as important winter breeding grounds?",
+    "question": "Why do grey whales travel to the sheltered lagoons of Baja California in winter?",
     "choices": [
-      "Grey whales",
-      "Sperm whales",
-      "Fin whales",
-      "Minke whales"
+      "To breed and give birth",
+      "To shed their outer layer of skin",
+      "To sleep through the cold season",
+      "To learn to hunt in fresh water"
     ],
     "answer": 0,
-    "note": "The sheltered lagoons of Ojo de Liebre and San Ignacio provide places to reproduce and spend the winter. The surrounding reserve also supports other marine mammals and large numbers of migratory birds.",
+    "note": "The lagoons of Ojo de Liebre and San Ignacio are important breeding grounds within El Vizcaíno. Mexico’s desert coast is also a nursery for these ocean travellers.",
     "sources": [
       "https://whc.unesco.org/en/list/554/",
       "https://science.nasa.gov/earth/earth-observatory/el-vizcaino-biosphere-reserve-mexico-77499/"
     ]
   },
   {
-    "id": "baja-peninsula",
+    "id": "baja-northern-connection",
     "category": "Places & nature",
-    "question": "What kind of landform is Baja California?",
+    "question": "Despite its name, Baja California belongs to Mexico. How is it connected to the mainland?",
     "choices": [
-      "A peninsula",
-      "An island",
-      "An archipelago",
-      "A river delta"
+      "By land at its northern end",
+      "By land at its southern end",
+      "By a narrow strip halfway down",
+      "It has no continuous land connection"
     ],
     "answer": 0,
-    "note": "Its shores include the lagoons of El Vizcaíno, where whales spend the winter. Across the wider Gulf of California region, desert landscapes meet waters rich in marine life.",
+    "note": "Baja California is a long peninsula with the Pacific on one side and the Gulf of California on the other. Its desert shores include lagoons where grey whales spend the winter.",
     "sources": [
       "https://science.nasa.gov/earth/earth-observatory/el-vizcaino-biosphere-reserve-mexico-77499/",
       "https://whc.unesco.org/en/list/1182/"
@@ -297,7 +296,7 @@
   {
     "id": "chepe-railway",
     "category": "Places & nature",
-    "question": "El Chepe takes passengers through the Copper Canyon region by which form of transport?",
+    "question": "Mexico’s Copper Canyon has a celebrated route called El Chepe, with bridges and tunnels through the mountains. How do you travel it?",
     "choices": [
       "Train",
       "Cable car",
@@ -313,7 +312,7 @@
   {
     "id": "chinampas-farming",
     "category": "Places & nature",
-    "question": "The chinampas of Xochimilco were created mainly for which purpose?",
+    "question": "Xochimilco’s canals surround artificial islands called chinampas. What were these plots made for?",
     "choices": [
       "Growing crops",
       "Storing drinking water",
@@ -330,7 +329,7 @@
   {
     "id": "dead-remembrance",
     "category": "Traditions & everyday life",
-    "question": "What is at the centre of Día de los Muertos celebrations?",
+    "question": "The skeletons and bright colours of Día de los Muertos can look unfamiliar to a visitor. What is the celebration centred on?",
     "choices": [
       "Remembering relatives and loved ones who have died",
       "Marking the beginning of the new year",
@@ -345,17 +344,17 @@
     ]
   },
   {
-    "id": "marigold-path",
+    "id": "marigolds-guide-home",
     "category": "Traditions & everyday life",
-    "question": "Which flowers are especially associated with Día de los Muertos?",
+    "question": "Why do families traditionally lay trails of marigolds for Día de los Muertos?",
     "choices": [
-      "Marigolds",
-      "Daffodils",
-      "Tulips",
-      "Bluebells"
+      "To guide loved ones’ spirits home",
+      "To mark where a wedding will begin",
+      "To show which houses have sweets",
+      "To welcome the season’s first rain"
     ],
     "answer": 0,
-    "note": "Their colour and scent are traditionally understood to help guide the returning dead. The flowers can become part of a path leading towards a family’s ofrenda.",
+    "note": "In the tradition, the flowers’ colour and scent help the dead find their way to the ofrenda. Photographs and favourite foods make that welcome personal.",
     "sources": [
       "https://www.si.edu/object/dia-de-los-muertos-virtual-festival%3Ayt_sSFGtBgDPoQ",
       "https://www.si.edu/object/posts_5e5c0cbb8415b99874119efd0588155a"
@@ -378,33 +377,33 @@
     ]
   },
   {
-    "id": "pinata-treats",
+    "id": "pinata-seven-points",
     "category": "Traditions & everyday life",
-    "question": "What traditionally falls from a festive piñata when it is broken?",
+    "question": "A traditional Christmas piñata has seven points and is struck until it breaks. In its religious interpretation, what do the points represent?",
     "choices": [
-      "Sweets and fruit",
-      "Flowers and ribbons",
-      "Rice and beans",
-      "Coins and written wishes"
+      "The seven deadly sins",
+      "The seven days of creation",
+      "The seven sacraments",
+      "The seven gifts of the Holy Spirit"
     ],
     "answer": 0,
-    "note": "A familiar form is a star with seven points. In the religious interpretation associated with Christmas posadas, those points represent the seven deadly sins, while the treats represent blessings.",
+    "note": "Breaking the star symbolises overcoming evil; the fruit and sweets that fall out represent rewards or blessings. The familiar party game also has this religious interpretation.",
     "sources": [
-      "https://www.gob.mx/agricultura/articulos/una-posada-no-es-posada-si-falta-la-pinata"
+      "https://www.inah.gob.mx/foto-del-dia/acolman-cuatro-siglos-de-posadas-y-tradicionales-pinatas"
     ]
   },
   {
-    "id": "posadas-christmas",
+    "id": "posadas-lodging",
     "category": "Traditions & everyday life",
-    "question": "Las Posadas take place in the days leading up to which holiday?",
+    "question": "During Las Posadas, groups reenact a journey from door to door before Christmas. What are they looking for in the story?",
     "choices": [
-      "Christmas",
-      "Easter",
-      "New Year’s Day",
-      "All Saints’ Day"
+      "Lodging for Mary and Joseph",
+      "Gifts brought by the visiting Magi",
+      "The shepherds who saw the star",
+      "A place for the Christmas feast"
     ],
     "answer": 0,
-    "note": "The celebrations recall Mary and Joseph’s search for lodging. In Mexico they run from 16 to 24 December and can include a procession followed by food and the breaking of a piñata.",
+    "note": "The celebrations recall Mary and Joseph’s search for lodging. In Mexico they run from 16 to 24 December, often joining a procession with food and a piñata.",
     "sources": [
       "https://www.cultura.gob.mx/noticias/patrimonio-culturalarquitectura-y-turismo/17854-del-panquetzaliztli-a-las-posadas.html",
       "https://visitmexico.sectur.gob.mx/blog/post/feria-internacional-piniatas-acolman"
@@ -413,7 +412,7 @@
   {
     "id": "independence-september",
     "category": "Traditions & everyday life",
-    "question": "In which month does Mexico celebrate its Independence Day?",
+    "question": "Cinco de Mayo is often mistaken abroad for Mexico’s Independence Day. In which month is Independence Day actually celebrated?",
     "choices": [
       "September",
       "May",
@@ -429,7 +428,7 @@
   {
     "id": "puebla-france",
     "category": "Traditions & everyday life",
-    "question": "Cinco de Mayo commemorates a Mexican victory at Puebla over an army from which country?",
+    "question": "Cinco de Mayo recalls the Battle of Puebla, rather than independence from Spain. Which army did Mexico defeat there?",
     "choices": [
       "France",
       "Spain",
@@ -443,17 +442,17 @@
     ]
   },
   {
-    "id": "flag-eagle",
+    "id": "flag-founding-legend",
     "category": "Traditions & everyday life",
-    "question": "Which bird appears at the centre of Mexico’s flag?",
+    "question": "The eagle, cactus and snake on Mexico’s flag refer to what kind of story?",
     "choices": [
-      "An eagle",
-      "A falcon",
-      "A condor",
-      "A quetzal"
+      "The founding of a city",
+      "The discovery of a silver mine",
+      "The first voyage across the Atlantic",
+      "The signing of an independence treaty"
     ],
     "answer": 0,
-    "note": "The bird stands on a cactus and holds a snake. The emblem draws on the founding legend of Tenochtitlan, although the familiar modern image developed through different historical versions.",
+    "note": "The emblem draws on the founding legend of Tenochtitlan. Its familiar modern form developed through different historical versions; it is more than a collection of national wildlife.",
     "sources": [
       "https://www.inah.gob.mx/foto-del-dia/bandera-simbolo-de-identidad-y-unidad",
       "https://www.inah.gob.mx/boletines/rastrean-en-fuentes-historicas-el-origen-del-simbolo-fundacional-de-tenochtitlan"
@@ -462,15 +461,15 @@
   {
     "id": "loteria-pictures",
     "category": "Traditions & everyday life",
-    "question": "What do players match on their boards in the traditional Mexican game lotería?",
+    "question": "Lotería looks a little like bingo. What replaces the numbered squares on its boards?",
     "choices": [
-      "Pictures called out from cards",
-      "Words made from letter tiles",
-      "Patterns made by coloured dice",
-      "Pairs of numbered dominoes"
+      "Illustrated characters and objects",
+      "Letters used to build words",
+      "Musical notes to be sung",
+      "Coloured shapes made with dice"
     ],
     "answer": 0,
-    "note": "A caller announces each card, and players cover the matching image on their own board. Dried beans can serve as markers, making an everyday kitchen ingredient part of the game.",
+    "note": "A caller announces a card and players cover its matching picture. Dried beans can serve as markers, bringing a kitchen staple onto the game board.",
     "sources": [
       "https://www.imss.gob.mx/sites/all/statics/pdf/guarderias/loteria.pdf"
     ]
@@ -492,33 +491,33 @@
     ]
   },
   {
-    "id": "frida-blue-house",
+    "id": "frida-bed-mirror",
     "category": "Art, books & ideas",
-    "question": "The Casa Azul in Mexico City was the home of which painter?",
+    "question": "Frida Kahlo painted while confined to bed after an accident. What was fitted above the bed to help her see her subject?",
     "choices": [
-      "Frida Kahlo",
-      "Leonora Carrington",
-      "Remedios Varo",
-      "María Izquierdo"
+      "A mirror",
+      "A camera",
+      "A projector",
+      "A skylight"
     ],
     "answer": 0,
-    "note": "The house preserves personal objects as well as paintings. A mirror fitted above Kahlo’s bed helped her paint herself while recovering from her accident.",
+    "note": "Her mother had a mirror installed on the four-poster bed. It made her own face available as a subject; the bed and mirror can be seen at the Casa Azul museum.",
     "sources": [
       "https://www.museofridakahlo.org.mx/museo/?lang=en"
     ]
   },
   {
-    "id": "rivera-walls",
+    "id": "rivera-portable-murals",
     "category": "Art, books & ideas",
-    "question": "Diego Rivera became especially famous for paintings made on which surfaces?",
+    "question": "Diego Rivera was famous for murals fixed to buildings. How did he make new frescoes that could travel to a museum exhibition?",
     "choices": [
-      "Walls",
-      "Porcelain plates",
-      "Silk screens",
-      "Wooden masks"
+      "Painted them on reinforced panels",
+      "Painted them onto rolled silk",
+      "Projected them from glass slides",
+      "Printed them onto wallpaper"
     ],
     "answer": 0,
-    "note": "For his 1931 exhibition at the Museum of Modern Art, he faced the problem of moving work normally fixed to a building. He made portable fresco panels with sturdy supports so the paintings could travel.",
+    "note": "For his 1931 MoMA exhibition, Rivera made portable murals with cement and metal supports. A painting technique tied to architecture became something a museum could move.",
     "sources": [
       "https://www.moma.org/explore/inside_out/2012/02/01/diego-rivera-how-to-make-a-portable-mural/"
     ]
@@ -541,33 +540,33 @@
     ]
   },
   {
-    "id": "talavera-ceramics",
+    "id": "talavera-shared-tradition",
     "category": "Art, books & ideas",
-    "question": "Talavera from Puebla and Tlaxcala belongs to which craft?",
+    "question": "Mexico’s Talavera ceramics share a UNESCO inscription with workshops across the Atlantic. Which country is the other home of this tradition?",
     "choices": [
-      "Ceramics",
-      "Silversmithing",
-      "Lacemaking",
-      "Glassblowing"
+      "Spain",
+      "Portugal",
+      "Italy",
+      "The Netherlands"
     ],
     "answer": 0,
-    "note": "Its makers produce objects for homes and buildings using traditional methods of shaping, decorating and glazing. UNESCO’s inscription joins these Mexican communities with related ceramic traditions in two Spanish towns.",
+    "note": "The inscription links Puebla and Tlaxcala with Talavera de la Reina and El Puente del Arzobispo. The shared craft survives through shaping, painting and glazing by hand.",
     "sources": [
-      "https://lugares.inah.gob.mx/en/node/6405"
+      "https://ich.unesco.org/en/RL/artisanal-talavera-of-puebla-and-tlaxcala-mexico-and-ceramics-of-talavera-de-la-reina-and-el-puente-del-arzobispo-spain-making-process-01462"
     ]
   },
   {
-    "id": "huipil-garment",
+    "id": "backstrap-loom-body",
     "category": "Art, books & ideas",
-    "question": "A huipil is a traditional type of what?",
+    "question": "Some traditional Mexican textiles are made on a backstrap loom. What anchors one end of it?",
     "choices": [
-      "Blouse or tunic",
-      "Wide-brimmed hat",
-      "Woven sandal",
-      "Decorative belt"
+      "The weaver’s own waist",
+      "A weight hanging from the ceiling",
+      "A pedal beneath the workbench",
+      "A second weaver holding a handle"
     ],
     "answer": 0,
-    "note": "Some examples are made from several woven panels joined together. A backstrap loom is attached to the weaver’s waist at one end, bringing the maker’s body into the working structure of the loom.",
+    "note": "The loom is attached to the weaver’s waist at one end. The maker’s body helps form the working structure, and woven panels can be joined into a huipil.",
     "sources": [
       "https://www.si.edu/object/huipil%3Achndm_1955-44-8",
       "https://mncp.cultura.gob.mx/obras-2/huipil-triqui/",
@@ -625,17 +624,17 @@
     ]
   },
   {
-    "id": "barragan-architecture",
+    "id": "barragan-house-world-heritage",
     "category": "Art, books & ideas",
-    "question": "Luis Barragán, whose house and studio are a World Heritage site, worked in which field?",
+    "question": "Luis Barragán’s Mexico City home is a World Heritage site. What kind of work made the house itself important?",
     "choices": [
-      "Architecture",
-      "Fashion design",
-      "Film editing",
-      "Printmaking"
+      "Its architecture and garden design",
+      "Its collection of modern paintings",
+      "Its role as a political meeting place",
+      "Its archive of early Mexican cinema"
     ],
     "answer": 0,
-    "note": "His Mexico City home combines modern design with traditional elements. UNESCO points to the influence of his work on gardens and landscapes, including his use of water and fountains.",
+    "note": "Barragán combined modern design with traditional elements in his house and studio. His work also influenced garden and landscape design, including the use of water and fountains.",
     "sources": [
       "https://whc.unesco.org/en/list/1136/"
     ]
@@ -677,7 +676,7 @@
   {
     "id": "guitarron-bass",
     "category": "Music, film & sport",
-    "question": "The large, deep-bodied guitarrón in a mariachi group mainly provides which part of the music?",
+    "question": "A mariachi ensemble’s guitarrón looks like an oversized, deep-bodied guitar. Which musical role does its size suggest?",
     "choices": [
       "The bass line",
       "The highest melody",
@@ -692,17 +691,17 @@
     ]
   },
   {
-    "id": "coco-guitar",
+    "id": "coco-family-memory",
     "category": "Music, film & sport",
-    "question": "In Pixar’s Coco, which instrument does Miguel secretly teach himself to play?",
+    "question": "In Pixar’s Coco, Miguel’s musical ambitions clash with a family ban. Which family business is he expected to join?",
     "choices": [
-      "Guitar",
-      "Violin",
-      "Trumpet",
-      "Accordion"
+      "Shoemaking",
+      "Guitar making",
+      "Restaurant cooking",
+      "Flower growing"
     ],
     "answer": 0,
-    "note": "He builds an instrument modelled on the one played by his idol, Ernesto de la Cruz. His musical ambitions clash with the Rivera family’s longstanding ban on music and its shoemaking business.",
+    "note": "The Riveras make shoes and have kept music out of family life for generations. Miguel’s wish to become a musician turns the film’s journey into a conflict about memory, family and belonging.",
     "sources": [
       "https://www.pixar.com/coco"
     ]
@@ -726,12 +725,12 @@
   {
     "id": "lucha-mask",
     "category": "Music, film & sport",
-    "question": "Which item is central to the public identity of many lucha libre wrestlers?",
+    "question": "A lucha libre wrestler can become a film or comic-book hero while keeping which recognisable part of the ring identity?",
     "choices": [
-      "A mask",
-      "A crown",
-      "A feathered headdress",
-      "A painted shield"
+      "A distinctive mask",
+      "A ceremonial crown",
+      "A team’s numbered shirt",
+      "A wooden shield"
     ],
     "answer": 0,
     "note": "The design helps turn the wrestler into a recognisable character. El Santo carried his masked identity beyond the ring into films and comics, becoming a figure in wider popular culture.",
@@ -741,17 +740,17 @@
     ]
   },
   {
-    "id": "charreria-horses",
+    "id": "charreria-ranch-skills",
     "category": "Music, film & sport",
-    "question": "Which animals are central to the Mexican tradition of charrería?",
+    "question": "Charrería turns riding and rope work into a sporting tradition. Where did those skills develop?",
     "choices": [
-      "Horses",
-      "Bulls",
-      "Dogs",
-      "Mules"
+      "Working cattle on ranches",
+      "Carrying messages between temples",
+      "Training horses for chariot races",
+      "Moving cargo through city streets"
     ],
     "answer": 0,
-    "note": "Its skills grew out of cattle-herding work on ranches. Riding and rope work developed into a tradition passed between generations and practised in organised competitions.",
+    "note": "Skills used in cattle-herding became organised competitions and a tradition passed between generations. The clothing, horses and rope work belong to that working history.",
     "sources": [
       "https://lugares.inah.gob.mx/en/node/6403",
       "https://ich.unesco.org/en/RL/charreria-equestrian-tradition-in-mexico-01108?RL=01108"
@@ -809,17 +808,17 @@
     ]
   },
   {
-    "id": "fosbury-high-jump",
+    "id": "fosbury-backwards",
     "category": "Music, film & sport",
-    "question": "At the 1968 Mexico City Olympics, Dick Fosbury won gold with a striking new technique in which event?",
+    "question": "At the 1968 Mexico City Olympics, what looked so unusual about Dick Fosbury’s gold-medal high jump?",
     "choices": [
-      "High jump",
-      "Long jump",
-      "Pole vault",
-      "Triple jump"
+      "He went over the bar backwards",
+      "He took off from both feet together",
+      "He carried a short pole for balance",
+      "He landed standing on his feet"
     ],
     "answer": 0,
-    "note": "He cleared the bar with his back facing it and landed on the mat behind him. His winning jump reached 2.24 metres, and the technique went on to change the event.",
+    "note": "Fosbury cleared the bar with his back facing it and landed on the mat. His 2.24-metre winning jump helped turn an unconventional technique into the familiar style of the event.",
     "sources": [
       "https://www.gob.mx/conade/prensa/mexico-68-la-culminacion-de-un-sueno"
     ]

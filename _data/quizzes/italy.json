@@ -1,16 +1,16 @@
 [
   {
-    "id": "risotto-saffron",
+    "id": "risotto-rice-landscape",
     "category": "Food & drink",
-    "question": "What gives risotto alla milanese its golden colour?",
+    "question": "Italy is famous for pasta, but the area around Milan also became a landscape of which crop used in risotto?",
     "choices": [
-      "Saffron",
-      "Turmeric",
-      "Egg yolk",
-      "Pumpkin"
+      "Rice",
+      "Barley",
+      "Wheat",
+      "Maize"
     ],
     "answer": 0,
-    "note": "Milan’s rice dish belongs to a landscape as well as a kitchen: marshy land around the city was turned into rice fields during the Renaissance. The stock is added gradually, and saffron brings both colour and flavour.",
+    "note": "Marshy land around Milan was converted to rice fields during the Renaissance. The city’s saffron risotto belongs to that local agricultural history as well as to restaurant menus.",
     "sources": [
       "https://www.yesmilano.it/system/files/allegati/paragrafi/22441/FoodCulture_Risotto.pdf"
     ]
@@ -18,7 +18,7 @@
   {
     "id": "pesto-basil",
     "category": "Food & drink",
-    "question": "Which herb is the main green ingredient in traditional pesto genovese?",
+    "question": "The green sauce pesto gets much of its colour and aroma from which herb?",
     "choices": [
       "Basil",
       "Parsley",
@@ -65,36 +65,35 @@
     ]
   },
   {
-    "id": "balsamic-grapes",
+    "id": "pizza-american-migration",
     "category": "Food & drink",
-    "question": "Traditional Balsamic Vinegar of Modena PDO begins with the cooked juice of which fruit?",
+    "question": "Pizza was being sold in the United States before World War II. Who had carried the tradition across the Atlantic?",
     "choices": [
-      "Grapes",
-      "Apples",
-      "Figs",
-      "Cherries"
+      "Migrants from Italy",
+      "Soldiers returning from World War II",
+      "American tourists after World War II",
+      "Restaurant chains expanding after World War II"
     ],
     "answer": 0,
-    "note": "It matures in a succession of wooden casks for at least twelve years. The extra vecchio version requires at least twenty-five: these rules apply to the protected traditional product, rather than every bottle labelled balsamic vinegar.",
+    "note": "Neapolitan migrants made pizza in American cities before its wider rise in popularity. A documented New York pizzeria was licensed in 1905, so the story cannot begin with soldiers returning in 1945.",
     "sources": [
-      "https://www.visitmodena.it/en/discover-modena/land-of-flavors/typical-products",
-      "https://www.visitmodena.it/en/discover-modena/itineraries-and-routes/balsamic-vinegar"
+      "https://www.history.com/articles/a-slice-of-history-pizza-through-the-ages"
     ]
   },
   {
-    "id": "cannoli-sicily",
+    "id": "margherita-royal-legend",
     "category": "Food & drink",
-    "question": "Cannoli, the crisp pastry tubes with a sweet ricotta filling, are especially associated with which Italian island?",
+    "question": "In the famous story about pizza Margherita, whom does the name honour?",
     "choices": [
-      "Sicily",
-      "Sardinia",
-      "Capri",
-      "Elba"
+      "An Italian queen",
+      "A Neapolitan opera singer",
+      "A Roman goddess",
+      "A Sicilian pastry cook"
     ],
     "answer": 0,
-    "note": "Ricotta also appears in cassata, another Sicilian dessert. The island’s pastry tradition includes frutta martorana, marzipan shaped and coloured to resemble fruit and vegetables.",
+    "note": "The story links the pizza to Queen Margherita’s visit to Naples in 1889. Historian Zachary Nowak has challenged the evidence for the episode, so it is best understood as a celebrated origin story rather than a settled account.",
     "sources": [
-      "https://www.italia.it/en/sicily/things-to-do/typical-sicilian-products-dishes"
+      "https://www.researchgate.net/publication/263340437_Folklore_Fakelore_History_Invented_Tradition_and_the_Origins_of_the_Pizza_Margherita"
     ]
   },
   {
@@ -118,7 +117,7 @@
   {
     "id": "pizza-naples",
     "category": "Food & drink",
-    "question": "UNESCO recognises the traditional art of the pizzaiuolo from which city?",
+    "question": "Which city’s pizza-making craft is recognised by UNESCO as a living tradition?",
     "choices": [
       "Naples",
       "Rome",
@@ -132,17 +131,17 @@
     ]
   },
   {
-    "id": "macchiato-milk",
+    "id": "macchiato-stained",
     "category": "Food & drink",
-    "question": "What is added to an espresso to make a caffè macchiato?",
+    "question": "Macchiato means “stained” or “marked”. What makes the mark in a caffè macchiato?",
     "choices": [
-      "A little milk",
-      "A little hot water",
-      "A little chocolate",
-      "A little grappa"
+      "A little milk in the espresso",
+      "A dusting of cinnamon on the cup",
+      "A drop of liqueur on the saucer",
+      "A spoonful of cocoa under the coffee"
     ],
     "answer": 0,
-    "note": "Macchiato means “stained” or “marked”: the coffee is marked with milk. It can be ordered caldo, with hot milk, or freddo, with cold milk; the latter may arrive separately so you can add it yourself.",
+    "note": "The name describes a small addition to the coffee. Hot or cold milk can be used, and cold milk may be served separately.",
     "sources": [
       "https://blog.illy.com/es-es/cafeterias/cafe-macchiato-equilibrio-perfecto-espresso-leche"
     ]
@@ -165,17 +164,17 @@
     ]
   },
   {
-    "id": "florence-capital",
+    "id": "italy-changing-capitals",
     "category": "Places & history",
-    "question": "Which city was Italy’s capital immediately before Rome?",
+    "question": "Rome feels like Italy’s inevitable capital. Which statement is true of the newly unified country?",
     "choices": [
-      "Florence",
-      "Turin",
-      "Milan",
-      "Naples"
+      "Its national parliament first met in other cities",
+      "Rome became the capital at unification",
+      "Rome and Florence shared the capital permanently",
+      "The capital moved between cities every year"
     ],
     "answer": 0,
-    "note": "For six years, from 1865 to 1871, the national parliament met in Florence’s Palazzo Vecchio. A building associated with the city’s medieval government briefly became a centre of the newly united country.",
+    "note": "Florence served as the national capital from 1865 to 1871. The parliament met in Palazzo Vecchio before moving to Rome.",
     "sources": [
       "https://www.italia.it/it/toscana/firenze"
     ]
@@ -197,17 +196,17 @@
     ]
   },
   {
-    "id": "pompeii-vesuvius",
+    "id": "pompeii-after-eruption",
     "category": "Places & history",
-    "question": "Which volcano buried Pompeii in AD 79?",
+    "question": "After Vesuvius buried Pompeii, what did some survivors do?",
     "choices": [
-      "Vesuvius",
-      "Etna",
-      "Stromboli",
-      "Vulcano"
+      "Returned to recover belongings",
+      "Moved into the intact forum permanently",
+      "Rebuilt the entire city within a year",
+      "Turned the buried streets into a museum"
     ],
     "answer": 0,
-    "note": "Pompeii was not simply forgotten the moment the eruption ended. Emperor Titus appointed officials to organise relief, and survivors returned to recover belongings from the buried city.",
+    "note": "The eruption did not erase the city from memory overnight. Emperor Titus organised relief, and people returned to retrieve possessions from the disaster zone.",
     "sources": [
       "https://pompeiisites.org/en/pompeii-map/analysis/pompeii-after-the-eruption/"
     ]
@@ -245,17 +244,17 @@
     ]
   },
   {
-    "id": "cinque-terre-five",
+    "id": "cinque-terre-terraces",
     "category": "Places & history",
-    "question": "How many villages make up the Cinque Terre?",
+    "question": "The colourful villages of the Cinque Terre sit among stepped hillsides. What were those terraces made for?",
     "choices": [
-      "Five",
-      "Three",
-      "Seven",
-      "Nine"
+      "Growing vines and olive trees",
+      "Drying fishing nets above the harbours",
+      "Creating defensive walls against raiders",
+      "Collecting rainwater for public baths"
     ],
     "answer": 0,
-    "note": "The coastline is also a landscape of work: generations built dry-stone terraces for vines and olive trees. Before the railway arrived in the nineteenth century, these steep settlements were difficult to reach except by sea.",
+    "note": "Generations built dry-stone terraces into the steep slopes. The famous coastal view is also a landscape shaped by agricultural work.",
     "sources": [
       "https://whc.unesco.org/en/list/826/"
     ]
@@ -278,33 +277,33 @@
     ]
   },
   {
-    "id": "murano-glass",
+    "id": "murano-fire-risk",
     "category": "Places & history",
-    "question": "Which craft is the Venetian island of Murano especially famous for?",
+    "question": "Why did Venice order glassmakers to move their furnaces to Murano in 1291?",
     "choices": [
-      "Glassmaking",
-      "Lacemaking",
-      "Leather tanning",
-      "Paper marbling"
+      "To reduce the danger of fires",
+      "To keep the glass cool with sea breezes",
+      "To use sand found only on that island",
+      "To put workshops beside a new railway"
     ],
     "answer": 0,
-    "note": "In 1291, Venice’s government ordered glass production to move to the island to reduce the danger of furnace fires. Later Murano makers became celebrated for exceptionally clear glass and elaborate decorative techniques.",
+    "note": "Glassmaking required intense heat. Moving production to the island helped protect Venice while concentrating the craft in a place that became famous for it.",
     "sources": [
       "https://museovetro.visitmuve.it/wp-content/uploads/2020/09/SCHEDE-DI-SALA-Museo-del-Vetro-ENG-OK.pdf"
     ]
   },
   {
-    "id": "stromboli-lighthouse",
+    "id": "stromboli-natural-lighthouse",
     "category": "Places & history",
-    "question": "Which volcano is known as the “lighthouse of the Mediterranean”?",
+    "question": "Why is Stromboli called the “lighthouse of the Mediterranean”?",
     "choices": [
-      "Stromboli",
-      "Etna",
-      "Vesuvius",
-      "Mount Vulture"
+      "Its erupting material can glow over the sea",
+      "Its summit holds an enormous electric lamp",
+      "Its white cliffs reflect the Moon all night",
+      "Its harbour was the first to use a lighthouse"
     ],
     "answer": 0,
-    "note": "The nickname comes from its frequent activity and the glow of erupting material, visible from the surrounding sea. It describes the volcano’s natural light rather than a lighthouse built on its summit.",
+    "note": "The nickname refers to the volcano’s frequent activity. Sailors could see the glow of erupting material from the surrounding sea.",
     "sources": [
       "https://science.nasa.gov/earth/earth-observatory/stromboli-volcano-7479/",
       "https://blogs.egu.eu/divisions/nh/2019/09/18/stromboli-the-lighthouse-of-the-mediterranean/"
@@ -327,33 +326,33 @@
     ]
   },
   {
-    "id": "david-michelangelo",
+    "id": "david-intended-cathedral",
     "category": "Art, books & ideas",
-    "question": "Who carved the marble David now in Florence’s Accademia Gallery?",
+    "question": "Michelangelo’s David became a civic landmark, but where was it originally intended to stand?",
     "choices": [
-      "Michelangelo",
-      "Donatello",
-      "Bernini",
-      "Canova"
+      "On Florence’s cathedral",
+      "In a Medici courtyard",
+      "Inside a guild’s meeting hall",
+      "Beside a palace entrance"
     ],
     "answer": 0,
-    "note": "The statue was commissioned for Florence’s cathedral, but a committee chose a prominent place beside Palazzo Vecchio instead. Some details were originally gilded, including the hair garland and sling.",
+    "note": "The cathedral commission changed direction once the statue was completed. A committee chose a prominent position beside Palazzo Vecchio, giving it a different relationship with the city.",
     "sources": [
       "https://www.galleriaaccademiafirenze.it/en/artworks/david-michelangelo/"
     ]
   },
   {
-    "id": "last-supper-milan",
+    "id": "last-supper-dining-room",
     "category": "Art, books & ideas",
-    "question": "In which city is Leonardo da Vinci’s The Last Supper?",
+    "question": "Leonardo’s The Last Supper was painted for which kind of room?",
     "choices": [
-      "Milan",
-      "Florence",
-      "Rome",
-      "Venice"
+      "A monastery dining hall",
+      "A royal throne room",
+      "A cathedral bell tower",
+      "A merchant’s counting house"
     ],
     "answer": 0,
-    "note": "Leonardo painted it on the wall of the dining hall at Santa Maria delle Grazie. Although often casually called a fresco, the work was painted on dry plaster rather than into fresh, wet plaster.",
+    "note": "It occupies a wall at Santa Maria delle Grazie in Milan. A scene of a shared meal stood in a room where the community itself ate.",
     "sources": [
       "https://cenacolovinciano.org/museo/le-opere/ultima-cena-leonardo-da-vinci-1452-1519/"
     ]
@@ -391,33 +390,33 @@
     ]
   },
   {
-    "id": "galileo-jupiter",
+    "id": "galileo-other-centre",
     "category": "Art, books & ideas",
-    "question": "Galileo’s discovery of four moons orbiting which planet challenged the idea that everything circled Earth?",
+    "question": "Why did Galileo’s observations of Jupiter’s moons challenge an Earth-centred picture of the heavens?",
     "choices": [
-      "Jupiter",
-      "Saturn",
-      "Mars",
-      "Venus"
+      "They showed bodies orbiting another planet",
+      "They showed planets shining with their own light",
+      "They showed Jupiter was smaller than the Moon",
+      "They showed all orbits were perfect circles"
     ],
     "answer": 0,
-    "note": "He observed them in 1610 and named them the Medicean Stars in honour of his patrons. Their motion offered a visible example of heavenly bodies orbiting something other than Earth.",
+    "note": "In 1610 he observed four moons moving around Jupiter. The discovery did not settle every astronomical question, but it provided a visible counterexample to everything circling Earth.",
     "sources": [
       "https://catalogue.museogalileo.it/indepth/JupitersMoonsSatellites.html"
     ]
   },
   {
-    "id": "torricelli-barometer",
+    "id": "barometer-air-weight",
     "category": "Art, books & ideas",
-    "question": "Evangelista Torricelli’s experiment with an inverted tube of mercury led to which instrument?",
+    "question": "Torricelli’s mercury experiment led to the barometer. What does that instrument measure?",
     "choices": [
-      "The barometer",
-      "The thermometer",
-      "The hygrometer",
-      "The seismometer"
+      "Atmospheric pressure",
+      "Magnetic direction",
+      "The speed of sound",
+      "The salt content of water"
     ],
     "answer": 0,
-    "note": "Air pressure on the mercury in the bowl supports the column in the tube. The space left above the column was also important: the experiment provided a way to create and study a vacuum.",
+    "note": "Air pressing on mercury in a bowl supports a column in an inverted tube. The space above the column also gave scientists a way to study a vacuum.",
     "sources": [
       "https://catalogue.museogalileo.it/multimedia/TorricellisBarometricExperimentBis.html"
     ]
@@ -425,7 +424,7 @@
   {
     "id": "volta-battery",
     "category": "Art, books & ideas",
-    "question": "Which invention did Alessandro Volta announce in 1800?",
+    "question": "Alessandro Volta stacked different metal discs with damp material between them. What had he made?",
     "choices": [
       "An electric battery",
       "An electric motor",
@@ -439,33 +438,33 @@
     ]
   },
   {
-    "id": "pinocchio-collodi",
+    "id": "pinocchio-serial-story",
     "category": "Art, books & ideas",
-    "question": "Who wrote the original story of Pinocchio?",
+    "question": "How did Pinocchio’s first readers encounter his adventures?",
     "choices": [
-      "Carlo Collodi",
-      "Gianni Rodari",
-      "Italo Calvino",
-      "Edmondo De Amicis"
+      "In instalments in a children’s newspaper",
+      "As subtitles in a silent film",
+      "On cards sold with wooden toys",
+      "In a daily radio programme"
     ],
     "answer": 0,
-    "note": "The story first reached readers in instalments in Giornale per i bambini, a children’s newspaper, between 1881 and 1883. Its first readers followed the puppet’s adventures a piece at a time.",
+    "note": "Carlo Collodi’s story appeared in Giornale per i bambini between 1881 and 1883. Readers originally followed the puppet’s life in separate episodes.",
     "sources": [
       "https://www.fondazionecollodi.it/en/pinocchio-celebrato-a-vittorio-veneto"
     ]
   },
   {
-    "id": "italian-tuscany",
+    "id": "italian-literary-model",
     "category": "Art, books & ideas",
-    "question": "The language of Florence helped form standard Italian. In which region is Florence?",
+    "question": "What helped the language of Florence become a model for standard Italian?",
     "choices": [
-      "Tuscany",
-      "Lombardy",
-      "Sicily",
-      "Veneto"
+      "The prestige of its writers",
+      "Its adoption as the language of the Roman Church",
+      "Its use by the largest Italian merchant fleet",
+      "Its selection by the first national army"
     ],
     "answer": 0,
-    "note": "The writings of Dante, Petrarch and Boccaccio gave fourteenth-century Florentine lasting prestige. Writers and scholars later helped make this Tuscan literary language a model beyond its home region.",
+    "note": "Dante, Petrarch and Boccaccio gave fourteenth-century Florentine lasting literary authority. Later writers and scholars helped carry that Tuscan model beyond its home region.",
     "sources": [
       "https://id.accademiadellacrusca.org/articoli/litaliano-tra-passato-presente-e-futuro/40590"
     ]
@@ -473,7 +472,7 @@
   {
     "id": "cremona-instruments",
     "category": "Art, books & ideas",
-    "question": "The workshops of Cremona are celebrated for making which musical instruments?",
+    "question": "Cremona’s instrument makers assemble more than seventy wooden parts into which instrument?",
     "choices": [
       "Violins",
       "Pianos",
@@ -487,17 +486,17 @@
     ]
   },
   {
-    "id": "vespa-wasp",
+    "id": "vespa-aircraft-engineer",
     "category": "Traditions & everyday life",
-    "question": "What does the scooter name Vespa mean in Italian?",
+    "question": "The designer of the Vespa scooter brought experience from which field?",
     "choices": [
-      "Wasp",
-      "Swallow",
-      "Dragonfly",
-      "Cricket"
+      "Aircraft engineering",
+      "Shipbuilding",
+      "Clockmaking",
+      "Railway signalling"
     ],
     "answer": 0,
-    "note": "Its designer, Corradino D’Ascanio, came from aeronautical engineering. The front-wheel support drew on aircraft landing gear, and the design made changing a wheel easier while protecting the rider’s clothes.",
+    "note": "Corradino D’Ascanio drew on aircraft design, including landing-gear ideas for the front-wheel support. The scooter also made wheel changes easier and helped protect the rider’s clothes.",
     "sources": [
       "https://www.museopiaggio.it/en/models/1-vespa/2-vespa-sperimentale-mp6"
     ]
@@ -505,12 +504,12 @@
   {
     "id": "palio-riderless",
     "category": "Traditions & everyday life",
-    "question": "At Siena’s Palio, can a horse win after losing its rider?",
+    "question": "A horse loses its rider during Siena’s Palio. Can it still win for its neighbourhood?",
     "choices": [
-      "Yes, it can still win",
-      "No, the rider must remount",
-      "Only if every other horse stops",
-      "Only after a judges’ vote"
+      "Yes, the horse can finish without the rider",
+      "No, it must return to collect the rider",
+      "Only if another rider takes the saddle",
+      "Only if every other horse is disqualified"
     ],
     "answer": 0,
     "note": "The victory belongs to the horse’s contrada, or city district. The race lasts only three laps of the square, but the loyalties behind it are rooted in neighbourhood life.",
@@ -552,17 +551,17 @@
     ]
   },
   {
-    "id": "moka-bialetti",
+    "id": "moka-port-name",
     "category": "Traditions & everyday life",
-    "question": "Which name is associated with the original Moka Express coffee pot of 1933?",
+    "question": "The Moka coffee pot is an Italian design icon, but its name points to which place in the coffee trade?",
     "choices": [
-      "Bialetti",
-      "Gaggia",
-      "Alessi",
-      "De’Longhi"
+      "A port in Yemen",
+      "A mountain in Colombia",
+      "A plantation in Brazil",
+      "A market in Ethiopia"
     ],
     "answer": 0,
-    "note": "Alfonso Bialetti created the pot, and his son Renato later helped make it widely known. Its name points beyond Italy to Mocha, the Yemeni port associated with the coffee trade.",
+    "note": "Mocha was a Yemeni port associated with coffee. The pot’s name links an everyday Italian object to a trade route beyond Italy.",
     "sources": [
       "https://www.bialetti.com.uy/nuestra-historia/",
       "https://www.moma.org/collection/works/118645?artist_id=35105&page=1&sov_referrer=artist"
@@ -585,49 +584,49 @@
     ]
   },
   {
-    "id": "ferragosto-season",
+    "id": "ferragosto-roman-name",
     "category": "Traditions & everyday life",
-    "question": "During which season do Italians celebrate Ferragosto?",
+    "question": "The holiday name Ferragosto preserves a trace of which earlier world?",
     "choices": [
-      "Summer",
-      "Spring",
-      "Autumn",
-      "Winter"
+      "Ancient Roman holidays",
+      "Medieval Venetian shipbuilding",
+      "Renaissance printing workshops",
+      "Nineteenth-century railway timetables"
     ],
     "answer": 0,
-    "note": "It falls on 15 August. The name comes from the Latin feriae Augusti, the holidays of August; the celebration became linked to the Catholic feast of the Assumption.",
+    "note": "The word comes from feriae Augusti, the holidays of August. The celebration on 15 August also became associated with the Catholic feast of the Assumption.",
     "sources": [
       "https://www.treccani.it/vocabolario/ferragosto/"
     ]
   },
   {
-    "id": "naples-nativity",
+    "id": "naples-modern-nativity",
     "category": "Traditions & everyday life",
-    "question": "Naples is famous for its presepe workshops. Which scene do these miniature figures traditionally recreate?",
+    "question": "What unexpected figures might appear beside traditional nativity characters in Naples’s craft shops?",
     "choices": [
-      "The birth of Jesus",
-      "The wedding at Cana",
-      "The Last Supper",
-      "Noah boarding the ark"
+      "Contemporary actors and politicians",
+      "Heroes from classical Greek myths",
+      "Rulers from ancient Egyptian dynasties",
+      "Explorers from medieval travel stories"
     ],
     "answer": 0,
-    "note": "Via San Gregorio Armeno is particularly known for this craft. Makers also add contemporary actors and politicians, allowing the traditional scene to absorb people from the world outside the workshop.",
+    "note": "San Gregorio Armeno’s makers add recognisable people from public life to the traditional scene. The craft can absorb the world outside the workshop.",
     "sources": [
       "https://www.italia.it/en/campania/naples/san-gregorio-armeno"
     ]
   },
   {
-    "id": "burano-lace",
+    "id": "burano-lace-school",
     "category": "Traditions & everyday life",
-    "question": "Which craft is traditionally associated with the Venetian island of Burano?",
+    "question": "Burano’s Lace Museum occupies a building once used for what?",
     "choices": [
-      "Lacemaking",
-      "Glassblowing",
-      "Bookbinding",
-      "Silversmithing"
+      "A school teaching the same craft",
+      "A factory making fishing engines",
+      "A royal residence for visiting monarchs",
+      "A hospital for glassworkers"
     ],
     "answer": 0,
-    "note": "A lace school opened there in 1872 to help revive the craft. Its former building now houses the Lace Museum, connecting the island’s teaching tradition with the pieces it preserves.",
+    "note": "A lace school opened in 1872 to help revive the craft. The museum preserves the work in a place where making it was also taught.",
     "sources": [
       "https://museomerletto.visitmuve.it/en/il-museo/building-and-history/"
     ]
@@ -649,83 +648,83 @@
     ]
   },
   {
-    "id": "bicycle-thieves-neorealism",
+    "id": "bicycle-thieves-real-streets",
     "category": "Music, film & sport",
-    "question": "Bicycle Thieves is a landmark of which film movement?",
+    "question": "What helped Bicycle Thieves make ordinary life feel immediate on screen?",
     "choices": [
-      "Italian neorealism",
-      "German expressionism",
-      "The French New Wave",
-      "Soviet montage"
+      "Real streets and non-professional performers",
+      "Studio sets and established stage stars",
+      "Newsreel footage with a spoken commentary",
+      "Hidden cameras filming unaware passers-by"
     ],
     "answer": 0,
-    "note": "Vittorio De Sica’s film follows a worker and his son through the search for a stolen bicycle. Filming in real streets and using non-professional performers helped place ordinary life at the centre of the drama.",
+    "note": "Vittorio De Sica’s film follows a worker and his son looking for a stolen bicycle. Its approach became a landmark of Italian neorealism.",
     "sources": [
       "https://www.bfi.org.uk/film/594f7408-2fdd-55a0-a347-79370e42e0ed/bicycle-thieves"
     ]
   },
   {
-    "id": "vivaldi-seasons",
+    "id": "vivaldi-barking-dog",
     "category": "Music, film & sport",
-    "question": "Who composed The Four Seasons?",
+    "question": "In Vivaldi’s Spring, a viola imitates a sound beside a sleeping goatherd. Which sound?",
     "choices": [
-      "Antonio Vivaldi",
-      "Gioachino Rossini",
-      "Giacomo Puccini",
-      "Giuseppe Verdi"
+      "A barking dog",
+      "A ringing church bell",
+      "A creaking cartwheel",
+      "A rushing waterfall"
     ],
     "answer": 0,
-    "note": "The concertos are accompanied by descriptive sonnets. In Spring, the musical scene even includes a sleeping goatherd and a barking dog, whose part is given to the viola.",
+    "note": "The Four Seasons comes with descriptive sonnets. Listening for the dog turns a familiar piece into a little scene with characters and sounds.",
     "sources": [
       "https://www.laphil.com/works/spring-and-summer-from-the-four-seasons-op-8-nos-1-and-2"
     ]
   },
   {
-    "id": "scala-milan",
+    "id": "scala-church-name",
     "category": "Music, film & sport",
-    "question": "In which city would you find the opera house La Scala?",
+    "question": "La Scala’s name survives from something that occupied the site before the opera house. What was it?",
     "choices": [
-      "Milan",
-      "Naples",
-      "Venice",
-      "Turin"
+      "A church",
+      "A royal stable",
+      "A Roman amphitheatre",
+      "A railway station"
     ],
     "answer": 0,
-    "note": "Its name comes from the church of Santa Maria alla Scala, which previously occupied the site. The theatre opened in 1778 with an opera by Antonio Salieri.",
+    "note": "Santa Maria alla Scala stood on the site before the theatre. The opera house opened in 1778, carrying part of the earlier building’s name.",
     "sources": [
       "https://www.teatroallascala.org/it/il-teatro/storia.html"
     ]
   },
   {
-    "id": "giro-pink",
+    "id": "giro-newspaper-pink",
     "category": "Music, film & sport",
-    "question": "What colour jersey identifies the overall leader of the Giro d’Italia?",
+    "question": "Why is the Giro d’Italia leader’s jersey pink?",
     "choices": [
-      "Pink",
-      "Yellow",
-      "Red",
-      "Green"
+      "The organising newspaper was printed on pink paper",
+      "Pink was the national flag’s original colour",
+      "The first winner owned a pink bicycle",
+      "The colour represented the race’s highest mountain"
     ],
     "answer": 0,
-    "note": "The colour comes from the paper used by La Gazzetta dello Sport, the newspaper behind the race. The jersey was introduced in 1931, and Learco Guerra was the first rider to wear it.",
+    "note": "La Gazzetta dello Sport gave the jersey its colour. Introduced in 1931, it carried a newspaper’s visual identity onto the road.",
     "sources": [
       "https://archivio.giroditalia.it/it/edizioni-speciali/1931/"
     ]
   },
   {
-    "id": "azzurri-blue",
+    "id": "azzurri-savoy-blue",
     "category": "Music, film & sport",
-    "question": "What is the traditional colour of Italy’s national football shirt?",
+    "question": "Italy’s flag is green, white and red. Why did its national football team adopt blue?",
     "choices": [
-      "Blue",
-      "Green",
-      "Red",
-      "White"
+      "It was associated with the ruling House of Savoy",
+      "It copied the colour of the first footballs",
+      "It was chosen to match the Mediterranean",
+      "It was required by the first World Cup rules"
     ],
     "answer": 0,
-    "note": "The team played its early internationals in white before adopting blue in 1911. Blue was associated with the House of Savoy and survived the monarchy, leaving a historical trace in the nickname Azzurri.",
+    "note": "The team first wore blue in 1911, when Italy was a monarchy. The colour remained after the monarchy ended.",
     "sources": [
-      "https://www.figc.it/en/national-teams/news/happy-birthday-azzurri-shirt-112-years-old-today-with-the-new-adidas-kit-set-to-be-unveiled-in-the-following-mdt1qbu6"
+      "https://www.figc.it/en/national-teams/news/the-azzurri-shirt-turns-110-gravina-it-represents-thrills-and-unity-q1eoe2gl"
     ]
   },
   {
@@ -745,33 +744,33 @@
     ]
   },
   {
-    "id": "morricone-western",
+    "id": "morricone-coyote-call",
     "category": "Music, film & sport",
-    "question": "Who composed the score for The Good, the Bad and the Ugly?",
+    "question": "The famous theme of The Good, the Bad and the Ugly evokes which animal sound?",
     "choices": [
-      "Ennio Morricone",
-      "Nino Rota",
-      "Nicola Piovani",
-      "Giorgio Moroder"
+      "A coyote’s call",
+      "A horse’s whinny",
+      "An eagle’s cry",
+      "A rattlesnake’s rattle"
     ],
     "answer": 0,
-    "note": "The famous theme plays with a cry resembling a coyote call. Different sounds help distinguish the three central characters, including flute, ocarina and voices.",
+    "note": "Ennio Morricone used a call-like motif and different timbres for the central characters. Flute, ocarina and voices helped build the western’s sound world.",
     "sources": [
       "https://www.bfi.org.uk/lists/ennio-morricone-10-scores"
     ]
   },
   {
-    "id": "bocce-pallino",
+    "id": "bocce-target-aim",
     "category": "Music, film & sport",
-    "question": "In which game do players aim larger balls towards a small target ball called the pallino?",
+    "question": "In bocce, players throw larger balls towards a small target ball. What are they trying to achieve?",
     "choices": [
-      "Bocce",
-      "Croquet",
-      "Billiards",
-      "Curling"
+      "Finish closer than the opponent’s nearest ball",
+      "Strike the target out of the playing area",
+      "Make every ball touch the boundary",
+      "Keep their own balls farthest from the target"
     ],
     "answer": 0,
-    "note": "Points depend on getting closer to the target than the opponent’s nearest ball. The game can be played individually or in teams, so the same basic contest works at several scales.",
+    "note": "The little target is called the pallino. A simple contest over distance can be played individually or in teams.",
     "sources": [
       "https://usbf.us/wp-content/uploads/2024/10/USBF-Press-Release.pdf",
       "https://usbf.us/wp-content/uploads/2023/05/USBF-Open-Rules_03-23-23.pdf"
@@ -794,17 +793,17 @@
     ]
   },
   {
-    "id": "monza-speed",
+    "id": "monza-banked-oval",
     "category": "Music, film & sport",
-    "question": "Which Italian racing circuit is nicknamed the “Temple of Speed”?",
+    "question": "Early Monza combined a road circuit with which other kind of track?",
     "choices": [
-      "Monza",
-      "Imola",
-      "Mugello",
-      "Misano"
+      "A high-speed oval",
+      "A dirt rally course",
+      "A karting circuit",
+      "A hill-climb road"
     ],
     "answer": 0,
-    "note": "The circuit opened in 1922 after a remarkably short construction period of 110 days. Its original design combined a road circuit with a high-speed oval, with the routes crossing at different levels.",
+    "note": "The circuit opened in 1922 with routes crossing at different levels. Its original design helps explain its lasting association with speed.",
     "sources": [
       "https://www.monzanet.it/en/history/"
     ]

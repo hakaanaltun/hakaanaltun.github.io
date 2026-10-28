@@ -1,33 +1,33 @@
 [
   {
-    "id": "rice-vinegar",
+    "id": "sushi-rice-common",
     "category": "Food & drink",
-    "question": "Which ingredient gives sushi rice its characteristic tang?",
+    "question": "Sushi can contain vegetables or cooked seafood. Which part links these different versions?",
     "choices": [
-      "Rice vinegar",
-      "Soy sauce",
-      "Sesame oil",
-      "Sake"
+      "Vinegar-seasoned rice",
+      "A piece of raw tuna",
+      "A sheet of dried seaweed",
+      "A spoonful of fish roe"
     ],
     "answer": 0,
-    "note": "Cooked rice is mixed with a vinegar dressing, often with sugar and salt, then cooled while being gently folded. The rice is what links very different kinds of sushi, including versions with vegetables or cooked toppings. Chirashi sushi puts the toppings over a bowl of rice instead of rolling them up.",
+    "note": "Sushi rice is dressed with vinegar, often with sugar and salt. Raw fish is one possible accompaniment, rather than the ingredient that every version must contain.",
     "sources": [
       "https://web-japan.org/kidsweb/cook/sushi/sushi02.html",
       "https://web-japan.org/kidsweb/cook/sushi/sushi01.html"
     ]
   },
   {
-    "id": "buckwheat-flour",
+    "id": "soba-hot-cold",
     "category": "Food & drink",
-    "question": "Which ingredient gives soba noodles their distinctive character?",
+    "question": "A bowl of Japanese soba arrives chilled beside a dipping sauce. What should the diner make of that?",
     "choices": [
-      "Buckwheat flour",
-      "Rice flour",
-      "Potato starch",
-      "Cornmeal"
+      "It is a normal way to serve the noodles",
+      "The sauce should be heated at the table",
+      "The noodles need a final dip in boiling water",
+      "The dish is meant as a sweet final course"
     ],
     "answer": 0,
-    "note": "Soba is made with buckwheat flour, often mixed with wheat flour to help the noodles hold together. How much of the buckwheat seed is milled affects the colour, from pale noodles to darker, more rustic ones. Soba can be served hot in broth or chilled with a dipping sauce.",
+    "note": "Soba can be served cold with a dipping sauce or hot in broth. The buckwheat noodles belong to more than one kind of meal.",
     "sources": [
       "https://web-japan.org/kidsweb/cook/soba/soba01.html"
     ]
@@ -35,7 +35,7 @@
   {
     "id": "portugal",
     "category": "Food & drink",
-    "question": "Tempura developed in Japan under the influence of visitors from which country?",
+    "question": "Tempura feels thoroughly Japanese, but its development was influenced by visitors from which European country?",
     "choices": [
       "Portugal",
       "France",
@@ -65,17 +65,17 @@
     ]
   },
   {
-    "id": "savoury-pancake",
+    "id": "okonomiyaki-as-you-like",
     "category": "Food & drink",
-    "question": "What kind of dish is okonomiyaki?",
+    "question": "Okonomiyaki contains words meaning “as you like”. What does that suggest about this Japanese griddle dish?",
     "choices": [
-      "A savoury pancake",
-      "A chilled noodle soup",
-      "A steamed rice dumpling",
-      "A pickled vegetable salad"
+      "Its ingredients can be varied",
+      "Its price is chosen by the diner",
+      "Its name changes with the season",
+      "Its cooking time is chosen after serving"
     ],
     "answer": 0,
-    "note": "Okonomiyaki is cooked on a hot griddle, with ingredients such as cabbage mixed into or assembled with the batter. Okonomi means “as you like,” which helps explain the many combinations. Some restaurants put a griddle right in the table so diners can cook their own.",
+    "note": "The savoury pancake can combine cabbage and other ingredients in different ways. In some restaurants the table has its own griddle, so diners help make the meal.",
     "sources": [
       "https://web-japan.org/kidsweb/cook/okonomiyaki/okonomiyaki01.html"
     ]
@@ -83,15 +83,15 @@
   {
     "id": "sweet-red-bean",
     "category": "Food & drink",
-    "question": "What is the usual filling between the two pancakes of a dorayaki?",
+    "question": "A Japanese sweet may use a filling that many visitors associate with savoury cooking. What commonly fills dorayaki pancakes?",
     "choices": [
       "Sweet red bean paste",
-      "Chestnut cream",
-      "Black sesame paste",
-      "Sweet potato mash"
+      "Sweet chestnut paste",
+      "Sweet sesame paste",
+      "Sweet potato paste"
     ],
     "answer": 0,
-    "note": "Dorayaki sandwiches sweet azuki bean paste between two small pancakes. Earlier versions used thin dough folded into a square, while the familiar round version developed with a softer, egg-rich batter. The name is often linked to dora, a gong, because of the sweet’s rounded shape.",
+    "note": "Azuki beans are cooked into a sweet paste and sandwiched between two small pancakes. Beans can play a dessert role as comfortably as a savoury one.",
     "sources": [
       "https://web-japan.org/kidsweb/cook/dorayaki/"
     ]
@@ -99,7 +99,7 @@
   {
     "id": "britain",
     "category": "Food & drink",
-    "question": "Through which country did curry reach Japan in the nineteenth century?",
+    "question": "Japanese curry has Indian roots, but through which country did it reach Japan in the nineteenth century?",
     "choices": [
       "Britain",
       "Portugal",
@@ -113,49 +113,49 @@
     ]
   },
   {
-    "id": "soybeans",
+    "id": "miso-tofu-soy",
     "category": "Food & drink",
-    "question": "Miso is traditionally made by fermenting which ingredient?",
+    "question": "Miso soup and tofu look very different. Which crop is used to make both?",
     "choices": [
       "Soybeans",
-      "Sesame seeds",
-      "Seaweed",
-      "Sweet potatoes"
+      "Buckwheat",
+      "Sesame",
+      "Maize"
     ],
     "answer": 0,
-    "note": "Miso is a fermented soybean paste, with rice or barley used in many varieties. The ingredients and fermentation process help produce flavours and colours ranging from pale and mild to dark and strong. In miso soup, the paste shares the bowl with ingredients such as tofu, another food made from soybeans.",
+    "note": "Fermentation turns soybeans into miso, while a different process produces tofu. A single bowl of soup can bring together two forms of the same crop.",
     "sources": [
       "https://web-japan.org/kidsweb/cook/misoshiru/"
     ]
   },
   {
-    "id": "powdered-green-tea",
+    "id": "matcha-whole-powder",
     "category": "Food & drink",
-    "question": "What is matcha?",
+    "question": "What makes drinking matcha different from steeping ordinary tea leaves and removing them?",
     "choices": [
-      "Powdered green tea",
-      "Roasted barley tea",
-      "Fermented black tea",
-      "Roasted rice tea"
+      "The powdered leaves are mixed into the drink",
+      "The leaves are steeped and strained several times",
+      "The tea is fermented after it is brewed",
+      "The leaf stems replace the leaf blades"
     ],
     "answer": 0,
-    "note": "Matcha is finely powdered green tea mixed directly into hot water. A bamboo whisk called a chasen helps blend it into a smooth drink. At a tea gathering, the accompanying sweets can reflect the season, taking shapes inspired by flowers or birds.",
+    "note": "Matcha is finely powdered green tea whisked into water. A bamboo whisk helps blend the powder instead of removing it as spent leaves.",
     "sources": [
       "https://web-japan.org/kidsweb/cook/matcha/"
     ]
   },
   {
-    "id": "would-you-buy",
+    "id": "ekiben-regional-journey",
     "category": "Food & drink",
-    "question": "Where would you traditionally buy an ekiben?",
+    "question": "A Japanese railway traveller buys an ekiben, a boxed meal. What can it offer beyond food for the journey?",
     "choices": [
-      "At a railway station",
-      "At a theatre",
-      "At a shrine",
-      "At a school"
+      "A taste of the region where it is sold",
+      "A menu fixed by the railway nationwide",
+      "A meal made only from preserved foods",
+      "A dish selected to match the train’s name"
     ],
     "answer": 0,
-    "note": "Ekiben are boxed meals sold for railway journeys, often showing off the food of the region where they are bought. Vendors once walked along platforms and sold them through the windows of waiting carriages.",
+    "note": "Ekiben often show off regional food. Vendors once sold them through carriage windows, making the station part of the meal’s identity.",
     "sources": [
       "https://web-japan.org/kidsweb/virtual/bento/bento03.html"
     ]
@@ -163,7 +163,7 @@
   {
     "id": "tokyo-before-renamed",
     "category": "Places & history",
-    "question": "What was Tokyo called before it was renamed in 1868?",
+    "question": "Tokyo’s earlier name survives in the term for a major period of Japanese history. What was it?",
     "choices": [
       "Edo",
       "Heian-kyo",
@@ -179,7 +179,7 @@
   {
     "id": "kyoto",
     "category": "Places & history",
-    "question": "The Gion district, known for its traditional entertainment culture, is in which city?",
+    "question": "A visitor looking for Gion’s traditional streets and wooden townhouses would go to which former imperial capital?",
     "choices": [
       "Kyoto",
       "Osaka",
@@ -193,17 +193,17 @@
     ]
   },
   {
-    "id": "nara",
+    "id": "nara-sacred-deer",
     "category": "Places & history",
-    "question": "Which former Japanese capital is especially famous for deer roaming its park?",
+    "question": "Why do deer have such a special place around Nara’s Kasuga Taisha shrine?",
     "choices": [
-      "Nara",
-      "Kamakura",
-      "Kyoto",
-      "Asuka"
+      "They are regarded as divine messengers",
+      "They were trained to guard the palace",
+      "They were imported as royal hunting animals",
+      "They were bred to pull temple carts"
     ],
     "answer": 0,
-    "note": "The deer are treated as messengers of the gods of Kasuga Taisha, and they have been protected as a natural monument since 1957. Visitors buy shika senbei, deer crackers, to feed them, and many deer have learned to bow for one. Nara was the capital from 710, before the court moved to what became Kyoto.",
+    "note": "The deer’s religious association helps explain their protected place in the city. Visitors now know them for roaming the park and approaching people with deer crackers.",
     "sources": [
       "https://narashikanko.or.jp/en/feature/deer",
       "https://www.visitnara.jp/venues/S01487/",
@@ -211,99 +211,99 @@
     ]
   },
   {
-    "id": "himeji-castle",
+    "id": "himeji-white-heron",
     "category": "Places & history",
-    "question": "Which castle is nicknamed the White Heron Castle?",
+    "question": "Why is Himeji nicknamed the White Heron Castle?",
     "choices": [
-      "Himeji Castle",
-      "Matsumoto Castle",
-      "Kumamoto Castle",
-      "Matsue Castle"
+      "Its pale walls and roofs suggest a bird",
+      "Its moat was used to breed white herons",
+      "Its founder was named after that bird",
+      "Its towers were designed as nesting boxes"
     ],
     "answer": 0,
-    "note": "Himeji’s white walls and spreading rooflines suggest a heron with its wings open. Much of the historic castle complex survives, making it unusually useful for seeing how a Japanese castle worked. The graceful appearance covers a defensive structure of gates, walls and winding approaches.",
+    "note": "The white surfaces and spreading rooflines suggest wings. Behind that graceful appearance are gates, walls and winding defensive approaches.",
     "sources": [
       "https://www.japan.travel/en/destinations/kansai/hyogo/himeji-and-around/"
     ]
   },
   {
-    "id": "mount-fuji",
+    "id": "fuji-cultural-heritage",
     "category": "Places & history",
-    "question": "Which mountain stands 3,776 metres high and became a UNESCO World Heritage site in 2013?",
+    "question": "Mount Fuji’s World Heritage listing recognises more than a dramatic landscape. What is central to it?",
     "choices": [
-      "Mount Fuji",
-      "Mount Aso",
-      "Mount Haku",
-      "Mount Tate"
+      "Its role in pilgrimage and art",
+      "Its unique collection of alpine wildlife",
+      "Its history as a centre of mineral extraction",
+      "Its importance to modern winter sports"
     ],
     "answer": 0,
-    "note": "Fuji’s World Heritage inscription recognises its religious and artistic importance. Pilgrims developed routes up the volcano and a practice of walking around the summit crater, described as “going around the bowl.” The protected landscape includes shrines and lodging houses as well as the mountain itself.",
+    "note": "The inscription includes shrines, routes and other places associated with devotion to the mountain. Fuji is a cultural landscape as well as a volcano.",
     "sources": [
       "https://whc.unesco.org/en/list/1418/"
     ]
   },
   {
-    "id": "tokyo-and-osaka",
+    "id": "shinkansen-olympic-opening",
     "category": "Places & history",
-    "question": "The first Shinkansen service, opened in 1964, connected which two cities?",
+    "question": "Japan opened its first Shinkansen line just before hosting which 1964 event?",
     "choices": [
-      "Tokyo and Osaka",
-      "Tokyo and Sapporo",
-      "Osaka and Hiroshima",
-      "Kyoto and Fukuoka"
+      "The Tokyo Olympics",
+      "The Osaka World Expo",
+      "The first Asian Winter Games",
+      "The first Japanese Formula One Grand Prix"
     ],
     "answer": 0,
-    "note": "The first Tokaido Shinkansen trains began running on 1 October 1964, just before the Tokyo Olympics. The journey between Tokyo and Shin-Osaka initially took about four hours. A year later, the fastest services had cut that to three hours and ten minutes.",
+    "note": "The Tokyo–Shin-Osaka service began on 1 October 1964. The new railway and the Olympics brought two lasting images of modern Japan into view together.",
     "sources": [
       "https://en.wikipedia.org/wiki/Shinkansen"
     ]
   },
   {
-    "id": "hokkaido",
+    "id": "sapporo-school-sculptures",
     "category": "Places & history",
-    "question": "Sapporo’s famous snow festival takes place on which Japanese island?",
+    "question": "Sapporo’s huge snow festival began with sculptures made by whom?",
     "choices": [
-      "Hokkaido",
-      "Honshu",
-      "Shikoku",
-      "Kyushu"
+      "Local school students",
+      "Professional sculptors from overseas",
+      "Engineers testing building materials",
+      "Athletes preparing for the Olympics"
     ],
     "answer": 0,
-    "note": "The Sapporo Snow Festival began in 1950 with six snow sculptures made by local school students in Odori Park. What started as a small winter event grew into an international attraction. Sapporo later hosted the 1972 Winter Olympics, further connecting the city with winter sport.",
+    "note": "Students made six snow sculptures in Odori Park in 1950. A modest local event grew into the festival associated with the city today.",
     "sources": [
       "https://www.snowfes.com/en/about/history/",
       "https://www.japan.travel/en/destinations/hokkaido/hokkaido/sapporo-and-around/"
     ]
   },
   {
-    "id": "okinawa",
+    "id": "karate-okinawa-origins",
     "category": "Places & history",
-    "question": "Which island region was the centre of the independent Ryukyu Kingdom?",
+    "question": "Karate is recognised worldwide as Japanese. Which island region shaped it through local traditions and Chinese influences?",
     "choices": [
       "Okinawa",
       "Hokkaido",
-      "Sado",
-      "Tsushima"
+      "Honshu",
+      "Shikoku"
     ],
     "answer": 0,
-    "note": "Okinawa’s history includes centuries as the Ryukyu Kingdom, with its own court and overseas connections. Its culture developed distinctive crafts, including textiles that were once collected as tribute. The region is also the birthplace of karate, which grew from local fighting traditions and Chinese influences.",
+    "note": "Okinawa was once the centre of the Ryukyu Kingdom, with its own overseas connections. Karate’s roots reflect that distinct history within present-day Japan.",
     "sources": [
       "https://www.japan.travel/en/destinations/okinawa/okinawa/",
       "https://web-japan.org/kidsweb/explore/sports/index.html"
     ]
   },
   {
-    "id": "foxes",
+    "id": "inari-gate-donors",
     "category": "Places & history",
-    "question": "Which animals appear as messengers of Inari at Kyoto’s Fushimi Inari shrine?",
+    "question": "On the back of Fushimi Inari’s famous red gates, what do many inscriptions record?",
     "choices": [
-      "Foxes",
-      "Deer",
-      "Cranes",
-      "Monkeys"
+      "Who donated the gate and when",
+      "Which emperor passed through it last",
+      "The weight of timber used to build it",
+      "The distance remaining to Tokyo"
     ],
     "answer": 0,
-    "note": "Fox statues stand throughout Fushimi Inari because foxes are regarded as Inari’s messengers. The shrine is also known for its dense paths of vermilion torii gates, donated by individuals and businesses. Names and donation dates are written on the backs of the gates.",
+    "note": "Individuals and businesses donate torii gates to the shrine. The famous paths are also a visible record of those contributions.",
     "sources": [
       "https://www.japan-guide.com/e/e3915.html"
     ]
@@ -329,7 +329,7 @@
   {
     "id": "viewing-blossoms",
     "category": "Traditions & everyday life",
-    "question": "What does the custom of hanami involve?",
+    "question": "Japan’s cherry-blossom gatherings are called hanami. What are people gathering to do?",
     "choices": [
       "Viewing blossoms",
       "Watching the moon",
@@ -343,65 +343,65 @@
     ]
   },
   {
-    "id": "bamboo-branches",
+    "id": "tanabata-star-lovers",
     "category": "Traditions & everyday life",
-    "question": "During Tanabata, wishes are traditionally written on strips of paper and hung on what?",
+    "question": "Tanabata’s lovers are represented by Vega and Altair. What separates them in the traditional story?",
     "choices": [
-      "Bamboo branches",
-      "Pine branches",
-      "Plum branches",
-      "Maple branches"
+      "The Milky Way",
+      "The shadow of the Moon",
+      "The rings of Saturn",
+      "The tail of a comet"
     ],
     "answer": 0,
-    "note": "Tanabata’s story centres on two lovers represented by the stars Vega and Altair, separated by the Milky Way and allowed to meet once a year. Wishes written on coloured paper decorate bamboo branches. The festival is commonly observed on 7 July, though some places celebrate in August.",
+    "note": "The lovers are allowed to meet once a year. Wishes written on coloured paper and hung from bamboo bring the celestial story into everyday celebrations.",
     "sources": [
       "https://web-japan.org/kidsweb/explore/calendar/july/tanabata.html"
     ]
   },
   {
-    "id": "carp",
+    "id": "carp-streamer-perseverance",
     "category": "Traditions & everyday life",
-    "question": "The koinobori streamers flown for Children’s Day are shaped like which fish?",
+    "question": "Why are carp-shaped streamers flown for Children’s Day?",
     "choices": [
-      "Carp",
-      "Tuna",
-      "Sea bream",
-      "Salmon"
+      "They express hopes for strength and perseverance",
+      "They ask for a plentiful fishing season",
+      "They commemorate the start of spring planting",
+      "They honour the household’s ancestors"
     ],
     "answer": 0,
-    "note": "Carp-shaped streamers fly for Children’s Day on 5 May, with the wind making them look as though they are swimming. A Chinese legend tells of a carp that swims up a waterfall and becomes a dragon. The fish therefore expresses a wish for children to grow strong and overcome difficulties.",
+    "note": "A legend tells of a carp overcoming a waterfall and becoming a dragon. The streamers turn that image of effort into a wish for children.",
     "sources": [
       "https://web-japan.org/kidsweb/explore/calendar/may/children.html"
     ]
   },
   {
-    "id": "roasted-soybeans",
+    "id": "setsubun-bean-purpose",
     "category": "Traditions & everyday life",
-    "question": "What is traditionally thrown during the mamemaki ritual at Setsubun?",
+    "question": "At Setsubun, people throw beans while calling for demons to leave. What are they welcoming in?",
     "choices": [
-      "Roasted soybeans",
-      "Dried chestnuts",
-      "Rice crackers",
-      "Sesame seeds"
+      "Good fortune",
+      "The autumn harvest",
+      "A newly married couple",
+      "The year’s first snowfall"
     ],
     "answer": 0,
-    "note": "Bean throwing marks the seasonal turning point before spring in the traditional calendar. People call for demons to leave and good fortune to come in, sometimes aiming at a family member wearing an oni mask. Afterwards people eat one bean for each year of their age, sometimes with one extra for the year to come.",
+    "note": "The ritual marks the seasonal turn before spring in the traditional calendar. A family member may wear a demon mask, making the symbolic eviction a household event.",
     "sources": [
       "https://web-japan.org/kidsweb/explore/calendar/february/setsubun.html"
     ]
   },
   {
-    "id": "entrance-for-removing",
+    "id": "genkan-shoe-boundary",
     "category": "Traditions & everyday life",
-    "question": "What is a genkan in a Japanese home?",
+    "question": "At the lowered entrance area of a Japanese home, what does a visitor normally do before stepping inside?",
     "choices": [
-      "An entrance for removing shoes",
-      "An alcove for displaying art",
-      "A cupboard for storing bedding",
-      "A veranda beside the garden"
+      "Remove outdoor shoes",
+      "Bow towards each corner",
+      "Open every interior door",
+      "Leave all bags in the street"
     ],
     "answer": 0,
-    "note": "The genkan is the entrance area where outdoor shoes come off before someone steps into the house. Keeping outside dirt away matters in homes where people may sit directly on the floor. Indoor slippers are common, while tatami rooms are generally entered without them.",
+    "note": "The genkan separates outdoor footwear from indoor floors. The custom is especially practical where people sit or sleep close to the floor.",
     "sources": [
       "https://web-japan.org/kidsweb/explore/housing/index.html",
       "https://web-japan.org/kidsweb/explore/housing/q1.html"
@@ -424,17 +424,17 @@
     ]
   },
   {
-    "id": "yukata",
+    "id": "yukata-summer-use",
     "category": "Traditions & everyday life",
-    "question": "Which garment is a light, informal kimono commonly worn at summer festivals?",
+    "question": "Why is a yukata a familiar sight at Japanese summer festivals?",
     "choices": [
-      "Yukata",
-      "Hakama",
-      "Haori",
-      "Uchikake"
+      "It is a lighter, informal garment",
+      "It is a uniform worn by festival workers",
+      "It is formal dress reserved for religious rites",
+      "It identifies the wearer’s home prefecture"
     ],
     "answer": 0,
-    "note": "A yukata is a lighter, more casual garment than the kimono worn for formal occasions. It is a familiar sight at summer festivals and fireworks displays. Like other kimono, it is held in place with an obi, the sash that can become a prominent part of the outfit.",
+    "note": "The yukata is a casual relative of formal kimono dress. It is held with an obi and suits summer occasions such as fireworks festivals.",
     "sources": [
       "https://web-japan.org/kidsweb/explore/housing/index.html"
     ]
@@ -442,7 +442,7 @@
   {
     "id": "macaque-monkeys",
     "category": "Traditions & everyday life",
-    "question": "At Jigokudani in Nagano, which wild animals bathe in a hot spring in winter?",
+    "question": "The snow monkeys photographed soaking in Japanese hot springs are which animals?",
     "choices": [
       "Macaque monkeys",
       "Sika deer",
@@ -450,7 +450,7 @@
       "Red foxes"
     ],
     "answer": 0,
-    "note": "Young monkeys began getting into the hot-spring bath of a nearby inn, and the park that opened in 1964 later gave them a pool of their own. It is the only place where wild monkeys are known to bathe in hot springs. Japanese macaques live farther north than any other monkey, so snow is part of their year.",
+    "note": "At Jigokudani, macaques have a hot-spring pool of their own. Young monkeys had earlier begun entering a bath at a nearby inn; the familiar image has a local history.",
     "sources": [
       "https://en.jigokudani-yaenkoen.co.jp/",
       "https://www.japan.travel/en/spot/1344/",
@@ -508,49 +508,49 @@
     ]
   },
   {
-    "id": "katsushika-hokusai",
+    "id": "great-wave-hidden-fuji",
     "category": "Art, books & stage",
-    "question": "Who created the woodblock print commonly called The Great Wave?",
+    "question": "Hokusai’s Great Wave belongs to a series of views of which landmark, shown small in the distance?",
     "choices": [
-      "Katsushika Hokusai",
-      "Utagawa Hiroshige",
-      "Kitagawa Utamaro",
-      "Toshusai Sharaku"
+      "Mount Fuji",
+      "Himeji Castle",
+      "Tokyo’s Imperial Palace",
+      "Itsukushima’s sea gate"
     ],
     "answer": 0,
-    "note": "The Great Wave belongs to Hokusai’s series Thirty-six Views of Mount Fuji. The mountain sits small in the distance beneath the enormous curve of the wave, so a print remembered for the sea is also a view of Fuji. Its strong blue colouring includes the imported pigment Prussian blue.",
+    "note": "The wave dominates the image, but Fuji is part of its composition. The print belongs to Thirty-six Views of Mount Fuji and uses the imported pigment Prussian blue.",
     "sources": [
       "https://www.metmuseum.org/art/collection/search/45434"
     ]
   },
   {
-    "id": "traditional-japanese-theatre",
+    "id": "noh-mask-expression",
     "category": "Art, books & stage",
-    "question": "Which traditional Japanese theatre form is especially associated with masks and measured movement?",
+    "question": "Noh theatre often uses a fixed mask. What helps the performer give a character expression?",
     "choices": [
-      "Noh",
-      "Kabuki",
-      "Bunraku",
-      "Rakugo"
+      "Controlled movement and the angle of the mask",
+      "Interchangeable mouth pieces fitted between lines",
+      "A second performer speaking through the mask",
+      "A painted screen that changes behind the face"
     ],
     "answer": 0,
-    "note": "Noh combines music and dance with highly controlled movement, and many of its principal roles use masks. It developed into its classical form in the medieval period. Kyogen, a related tradition of comic theatre, provides a very different mood and has traditionally been performed between Noh plays.",
+    "note": "Small changes in a mask’s angle can change how its expression is perceived. Noh brings mask, movement, voice and music together.",
     "sources": [
-      "https://web-japan.org/kidsweb/explore/culture/index.html"
+      "https://www.nohgaku.or.jp/en/guide/n%C5%8D-masks"
     ]
   },
   {
-    "id": "bunraku-puppet-theatre",
+    "id": "bunraku-visible-puppeteers",
     "category": "Art, books & stage",
-    "question": "In Bunraku puppet theatre, how many puppeteers work each main puppet?",
+    "question": "In Bunraku theatre, where are the puppeteers during the performance?",
     "choices": [
-      "Three",
-      "One",
-      "Two",
-      "Four"
+      "In view beside the puppets",
+      "Hidden entirely beneath the stage",
+      "Suspended above the audience",
+      "Behind a screen showing only shadows"
     ],
     "answer": 0,
-    "note": "The lead puppeteer works the head and the right hand, a second the left hand, and a third the feet. All three stay in full view; the two assistants wear black hoods, and the lead often does not. Apprentices start on the feet and can spend decades working their way up to the head.",
+    "note": "Three performers operate a main puppet, sharing its head, hands and feet. The audience can see the human work that creates the character.",
     "sources": [
       "https://ich.unesco.org/en/RL/ningyo-johruri-bunraku-puppet-theatre-00064",
       "https://www2.ntj.jac.go.jp/unesco/bunraku/en/performer/performer3.html",
@@ -558,17 +558,17 @@
     ]
   },
   {
-    "id": "actors-specialising-in",
+    "id": "kabuki-woman-founder",
     "category": "Art, books & stage",
-    "question": "What are onnagata in Kabuki theatre?",
+    "question": "Kabuki is associated with male performers, including men in female roles. Who helped begin the form?",
     "choices": [
-      "Actors specialising in female roles",
-      "Musicians playing percussion",
-      "Stagehands changing scenery",
-      "Writers composing the scripts"
+      "A woman leading dance performances",
+      "A ruler staging military exercises",
+      "A European opera company",
+      "A guild of travelling puppeteers"
     ],
     "answer": 0,
-    "note": "Kabuki began in Kyoto in the early 1600s with a woman, Izumo no Okuni, performing dances on the dry bed of the Kamo River. In 1629 the shogunate banned women from the public stage, and from then on men played every role. Kabuki on its main stages is still performed only by men.",
+    "note": "Izumo no Okuni performed in Kyoto in the early seventeenth century. Women were later banned from the public stage, changing who could perform the tradition.",
     "sources": [
       "https://www.nippon.com/en/japan-glances/jg00141/",
       "https://www.kokugakuin.ac.jp/en/article/10568"
@@ -592,65 +592,65 @@
     ]
   },
   {
-    "id": "ikebana",
+    "id": "ikebana-space",
     "category": "Art, books & stage",
-    "question": "What is the Japanese art of arranging flowers called?",
+    "question": "In ikebana, what matters besides the flowers themselves?",
     "choices": [
-      "Ikebana",
-      "Shodo",
-      "Bonsai",
-      "Kintsugi"
+      "The stems, container and surrounding space",
+      "Matching every stem to exactly the same height",
+      "Packing the container so no gaps remain",
+      "Arranging flowers strictly by their market value"
     ],
     "answer": 0,
-    "note": "Ikebana considers the whole arrangement, including stems, leaves and the space around them. The container and the setting matter as well as the flowers. Arrangements have traditionally been displayed in the tokonoma, an alcove that may also hold a hanging scroll.",
+    "note": "The arrangement considers lines and spaces as well as blossoms. Its setting may be a tokonoma alcove, sometimes alongside a hanging scroll.",
     "sources": [
       "https://web-japan.org/kidsweb/explore/culture/q4.html"
     ]
   },
   {
-    "id": "tree-sap",
+    "id": "kintsugi-visible-repair",
     "category": "Art, books & stage",
-    "question": "Kintsugi mends broken pottery with a lacquer made from what?",
+    "question": "What makes a kintsugi repair distinctive?",
     "choices": [
-      "Tree sap",
-      "Insect resin",
-      "Beeswax",
-      "Animal glue"
+      "The joins are made visible with precious metal",
+      "The broken piece is ground into fresh clay",
+      "The entire pot is covered in opaque paint",
+      "The cracks are concealed beneath a fabric sleeve"
     ],
     "answer": 0,
-    "note": "Kin means gold and tsugi joining. The lacquer is urushi, made from tree sap, and the seam is dusted with gold, so the repair shows instead of being hidden; silver is sometimes used. A story ties the craft to a Chinese tea bowl that the shogun Ashikaga Yoshimasa sent to China for repair in the fifteenth century, which came back held together with metal staples.",
+    "note": "Lacquer holds the fragments together and gold highlights the seams. Related repair techniques use silver or lacquer alone; in each case, repair can become part of the object’s appearance.",
     "sources": [
       "https://www.japanhouselondon.uk/read-and-watch/kintsugi/"
     ]
   },
   {
-    "id": "many-strings-shamisen",
+    "id": "shamisen-travelling-instrument",
     "category": "Art, books & stage",
-    "question": "How many strings does a shamisen have?",
+    "question": "The shamisen reached Japan through the Ryukyu Islands. What kind of instrument is it?",
     "choices": [
-      "Three",
-      "Four",
-      "Six",
-      "Thirteen"
+      "A plucked string instrument",
+      "A bamboo wind instrument",
+      "A set of tuned bells",
+      "A double-headed drum"
     ],
     "answer": 0,
-    "note": "The shamisen has three strings and is usually played with a large plectrum called a bachi. It developed from an instrument brought through the Ryukyu Islands in the sixteenth century. Its sound became part of several performance traditions, including Kabuki and puppet theatre.",
+    "note": "It has three strings and is usually played with a large plectrum. Its sound became part of Kabuki and puppet theatre after the instrument’s arrival through the islands.",
     "sources": [
       "https://web-japan.org/kidsweb/explore/culture/q3.html"
     ]
   },
   {
-    "id": "brush-calligraphy",
+    "id": "new-year-calligraphy",
     "category": "Art, books & stage",
-    "question": "What is practised in shodo?",
+    "question": "In the Japanese New Year custom kakizome, what might someone put on paper?",
     "choices": [
-      "Brush calligraphy",
-      "Incense appreciation",
-      "Flower arranging",
-      "Tea preparation"
+      "Words expressing a hope for the year",
+      "Names of all the guests expected at home",
+      "An inventory of gifts received in December",
+      "A list of the year’s national holidays"
     ],
     "answer": 0,
-    "note": "Shodo is calligraphy made with brush and ink, where the movement of the brush shapes the character of each mark. A New Year custom called kakizome is the first calligraphy of the year. People may choose words that express a hope or resolution for the months ahead.",
+    "note": "Kakizome is the first calligraphy of the year. Brush and ink turn a wish or resolution into something made by hand.",
     "sources": [
       "https://web-japan.org/kidsweb/virtual/shodo/shodo01.html"
     ]
@@ -674,17 +674,17 @@
     ]
   },
   {
-    "id": "godzilla",
+    "id": "godzilla-nuclear-shadow",
     "category": "Screen, games & sport",
-    "question": "Which Japanese monster debuted in a 1954 film directed by Ishiro Honda?",
+    "question": "The original Godzilla reached cinemas in 1954. Which anxiety helped shape its destructive monster?",
     "choices": [
-      "Godzilla",
-      "Gamera",
-      "Mothra",
-      "Rodan"
+      "Nuclear weapons and radiation",
+      "The possibility of invasion from space",
+      "Industrial pollution in growing cities",
+      "The destructive power of earthquakes"
     ],
     "answer": 0,
-    "note": "The original Godzilla was a black-and-white film made in the shadow of nuclear war and hydrogen-bomb testing in the Pacific. Its destructive creature carried those anxieties into a monster story. An altered American version followed in 1956 as Godzilla, King of the Monsters, helping introduce the character overseas.",
+    "note": "The black-and-white film was made after nuclear war and amid hydrogen-bomb testing in the Pacific. Its monster story carried fears that were very close to contemporary life.",
     "sources": [
       "https://www.criterion.com/films/27755-godzilla"
     ]
@@ -706,17 +706,17 @@
     ]
   },
   {
-    "id": "red-and-green",
+    "id": "pokemon-different-first-pair",
     "category": "Screen, games & sport",
-    "question": "Which pair of Pokémon games was first released in Japan in 1996?",
+    "question": "Why might a player in Japan remember Red and Green as the first Pokémon games, while an American remembers Red and Blue?",
     "choices": [
-      "Red and Green",
-      "Red and Blue",
-      "Gold and Silver",
-      "Ruby and Sapphire"
+      "The first releases differed between markets",
+      "The names changed between cartridge printings",
+      "Players chose a colour after finishing the story",
+      "The television series used different titles"
     ],
     "answer": 0,
-    "note": "Pokémon began in Japan with Red and Green for the Game Boy in February 1996. The animated television series followed in 1997. Players in North America were introduced to Red and Blue in 1998, which is why memories of the original pair differ between countries.",
+    "note": "Red and Green appeared in Japan in 1996. North America received Red and Blue in 1998, so two memories of the beginning can both be right.",
     "sources": [
       "https://corporate.pokemon.co.jp/en/aboutus/history/"
     ]
@@ -738,17 +738,17 @@
     ]
   },
   {
-    "id": "doraemon-robot-future",
+    "id": "doraemon-missing-ears",
     "category": "Screen, games & sport",
-    "question": "Doraemon, the robot from the future, is modelled on which animal?",
+    "question": "Doraemon is a robot cat, yet he has no ears. What happened to them in his backstory?",
     "choices": [
-      "A cat",
-      "A rabbit",
-      "A dog",
-      "A bear"
+      "A robot mouse chewed them off",
+      "He traded them for his pocket of gadgets",
+      "They folded into antennae inside his head",
+      "He removed them to travel through time"
     ],
     "answer": 0,
-    "note": "He comes back in time to help a schoolboy named Nobita. The series later explained why he has no ears: in the twenty-second century a robot mouse chewed them off, and he has been afraid of mice ever since. He was yellow before that, and cried until the colour came off.",
+    "note": "The story gives a reason for both his round silhouette and his fear of mice. A cat frightened of a mouse becomes part of the character’s joke.",
     "sources": [
       "https://web-japan.org/kidsweb/cool/12-07/",
       "https://en.wikipedia.org/wiki/2112:_The_Birth_of_Doraemon"
@@ -771,33 +771,33 @@
     ]
   },
   {
-    "id": "jigoro-kano",
+    "id": "judo-small-school",
     "category": "Screen, games & sport",
-    "question": "Who founded modern judo in 1882?",
+    "question": "Modern judo began with Jigoro Kano’s small school. Where did its first students practise?",
     "choices": [
-      "Jigoro Kano",
-      "Morihei Ueshiba",
-      "Gichin Funakoshi",
-      "Masutatsu Oyama"
+      "In a temple",
+      "On an ocean liner",
+      "Inside a railway station",
+      "In a department store"
     ],
     "answer": 0,
-    "note": "Kano brought together techniques from jujutsu with a programme of physical and mental education. His first school was in a temple, and he began with only nine students. Men’s judo entered the Olympics in Tokyo in 1964, while women’s judo became a medal event in Barcelona in 1992.",
+    "note": "Kano began in 1882 with nine students. He linked physical training to education long before judo became an Olympic sport.",
     "sources": [
       "https://web-japan.org/kidsweb/virtual/judo/judo01.html"
     ]
   },
   {
-    "id": "kendo",
+    "id": "kendo-practice-swords",
     "category": "Screen, games & sport",
-    "question": "Which martial art uses bamboo swords called shinai and protective armour?",
+    "question": "Why are bamboo swords and protective armour central to kendo practice?",
     "choices": [
-      "Kendo",
-      "Judo",
-      "Kyudo",
-      "Aikido"
+      "They allow contact while reducing injury risk",
+      "They make every strike easier for judges to hear",
+      "They recreate the weight of battlefield equipment",
+      "They limit movement to the upper body"
     ],
     "answer": 0,
-    "note": "Kendo developed from Japanese swordsmanship, with bamboo practice swords and protective armour allowing full-contact training. Equipment resembling the modern form appeared in the eighteenth century. The name kendo means “way of the sword,” and the discipline treats training as a means of developing character as well as skill.",
+    "note": "Kendo developed from swordsmanship. Its practice equipment lets participants train through contact without using sharpened steel blades.",
     "sources": [
       "https://www.kendo.or.jp/en/knowledge/kendo-origin/"
     ]
