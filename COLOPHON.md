@@ -264,7 +264,11 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   now that cream, darker in the evening and a step darker at night, so
   that inside and out go together with the lamp on or off and the screen
   does not glare after dark. The box over a room is a few shades
-  lighter than the page. The lamps light the
+  lighter than the page. Later that evening the author asked for the
+  lamp to light the room as a lamp does: bright around it and fading
+  toward the walls, so that the edges and corners stay a little dark, a
+  little more at night than in the evening. With the edges darker, the
+  evening’s page went a little darker too. The lamps light the
   rooms, not the page. The sunset sky in the window was reddened that
   day, a violet blue over a rose red, after a photograph of a sunset
   over the water the author shared: at that hour the sky is the red one,

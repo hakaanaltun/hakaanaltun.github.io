@@ -339,22 +339,29 @@ and sky.
   hours, read from the scenes' `data-hour`. At the door it is taken off.
   The page around the rooms (rule in `COLOPHON.md`) is the day's cream,
   `#F4EFE3`, made darker in OKLCH lightness with its hue kept and its
-  chroma a little raised so it stays warm: by .065 in the evening
-  (`#DFDACC`) and by .13 at night (`#CAC5B7`); every surface token
+  chroma a little raised so it stays warm: by .095 in the evening
+  (`#D5D0C2`) and by .13 at night (`#CAC5B7`); every surface token
   moves by the same step. The first version of the same day had .03 and
   .065; the author asked for each to go a step darker so the night does
-  not glare. Until 28 October 2026 the evening was the
+  not glare, and then for the evening to go a little darker again, once
+  the lamp left the rooms' edges dim (.065 to .095; its tokens lie
+  between the old evening and the night in OKLCH). Until 28 October 2026 the evening was the
   lamplit carpet, `#BCAB8A`, and the night `#A88F76`. The ink is the
   day's; only `--vizon` and `--footer-strip-ink` are darker after sunset
   so they keep 4.5:1 on `--band` (4.69:1 and 4.75:1), and the accent's
-  `--sec-l` is 0.430 in the evening and 0.380 at night (4.88:1, 4.84:1).
+  `--sec-l` is 0.405 in the evening and 0.380 at night (4.9:1, 4.84:1).
   The dialog is one step lighter than the page: the day's cream in the
   evening, the evening's cream at night (`.house-dialog` blocks after the
   page's); the site's menu keeps the page's own.
-  The lamps light the rooms only: a lit lamp (`data-lamp` in the study,
-  `data-balcony-lamp` on the balcony) takes `.house-dusk` to .3 in the
-  lamp's warm brown (`#9c7a4e`, the lamplight gradients in the two SVGs)
-  after sunset. The sunset sky is `--sky-top: #9a7cab` over
+  The lamps light the rooms only, and as a lamp does: a lit lamp
+  (`data-lamp` in the study, `data-balcony-lamp` on the balcony) fills
+  `.house-dusk` after sunset with a radial gradient from the lamp in a
+  deep warm brown (`#4a3a2c`, `house-lamplight` and
+  `house-balcony-lamplight` in the two SVGs), clear around the lamp and
+  falling off smoothly to the walls, at .45 in the evening and .65 at
+  night. The author asked for this on 28 October 2026: a lamp does not
+  light a whole room, and its edges stay a little dark. Until then it was
+  `#9c7a4e` at .3, with the room lit almost to its corners. The sunset sky is `--sky-top: #9a7cab` over
   `--sky-bottom: #f5684e`. `css/house.css` sets the tokens on `<body>`, which every
   theme's own blocks reach only from `<html>` (Follow the sky paints
   inline on `<html>`), and sets `--surface-chrome` and `--surface-footer`

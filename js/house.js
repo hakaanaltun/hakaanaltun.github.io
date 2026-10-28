@@ -1327,7 +1327,7 @@
      26 October 2026, in place of the beige and dark that had moved with
      İstanbul's sun since the day before. The browser's own bar takes the
      same colour, and at the door the site's theme points it back. */
-  var HOUSE_CHROME = { day: '#F4EFE3', evening: '#DFDACC', night: '#CAC5B7' };
+  var HOUSE_CHROME = { day: '#F4EFE3', evening: '#D5D0C2', night: '#CAC5B7' };
   function wearTheme() {
     var page = document.documentElement;
     var hour = scene.dataset.hour;
