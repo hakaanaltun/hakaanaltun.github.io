@@ -232,15 +232,35 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   Looking at the evening after the change, the author found the wall’s
   colour too grey and asked for a dark beige, the colour of the study’s
   door at that hour, so the evening’s page is now the door’s.
-  The box that opens over a room is held, not part of the wall: it keeps
-  the cream until night and the warm dark at night.
+  On 28 October 2026 the author found the rooms themselves odd after
+  sunset: the dusk laid a cool grey over them and the lamp opened only a
+  small circle in it. A lit lamp now lights its room, warm and light, a
+  little darker toward the corners; put out, it leaves the room to the
+  dusk, as before. The same day the author found the grey around the
+  rooms like frozen cement, a colour of no hour. The sunset sky and the
+  roofs at night were tried around the rooms instead, the sky’s red
+  turning to a loud pink there, and the author settled it: a reader comes
+  in at evening and stays into the night, and nothing in the rooms
+  changes between the two but the sky, so the page should hardly change
+  either. In the evening the page is the colour of the carpet in the
+  lamplit study, and at night the same a little darker; an umber was
+  tried first, and the author found a night’s dark brown no colour of
+  night. The box that opens over a room wears the page’s colour too:
+  with the house that colour outside, a box of another colour inside
+  would be out of place. On the page’s own colour a line from the shelf
+  read dimly and its buttons were lost, so the box is that colour a few
+  shades lighter, like a page held under the lamp. The night was also
+  warmed a little the same day, when it turned toward khaki on a phone. The lamps light the
+  rooms, not the page. The sunset sky in the window was reddened that
+  day, a violet blue over a rose red, after a photograph of a sunset
+  over the water the author shared: at that hour the sky is the red one,
+  and the sea, little of which is seen, only gives it back.
 - **The House’s header and footer are its page.** The same day the author
   asked for the header and footer to take the page’s colour at every hour,
   as Light’s white header and footer take its white, with words dark
   enough to read on it. They no longer move with İstanbul’s sun: they are
-  the cream by day, the door’s beige in the evening and the rooms’ dusk
-  at night, and
-  their words are the page’s ink, black at night. Their links keep their
+  the cream by day, the carpet’s colour in the evening and a little
+  darker at night, and their words are the page’s ink. Their links keep their
   full ink there, so that they still read when a pointer dims them. On a
   phone, where the page scrolls under the header, a thin line in the
   page’s ink marks the header’s edge, as the author asked the same day;

@@ -1868,9 +1868,9 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   }
 
   // The House's own colours: the site's theme at the door, and in a room the
-  // rooms' colours by İstanbul's light: their cream by day, and in the
-  // evening and at night the cream under the rooms' own dusk, so the page
-  // around a room is its wall. The browser's bar takes the House's header.
+  // House's colours by İstanbul's light: the rooms' cream by day, the
+  // carpet's colour in the evening and the same a little darker at night,
+  // whether or not a lamp is lit. The browser's bar takes the House's header.
   {
     let c = houseAt('2026-10-11T11:00:00+03:00', 'https://hakanaltun.io/house/');
     await tick();
@@ -1890,14 +1890,17 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
     await tick();
     html = c.w.document.documentElement;
     assert.equal(c.q('#house-balcony-scene').dataset.hour, 'evening');
-    assert.equal(html.getAttribute('data-house-theme'), 'evening', 'the rooms\' evening around them');
+    assert.equal(html.getAttribute('data-house-theme'), 'evening', 'the carpet\'s colour in the evening');
+    assert.deepEqual(bar(c), ['#BCAB8A', '#BCAB8A'], 'and the browser\'s bar with it');
+    c.click('.house-hotspot--balcony-switch');
+    assert.equal(html.getAttribute('data-house-theme'), 'evening', 'the lamp lights the room, not the page');
     c.dom.window.close();
     c = houseAt('2026-10-11T22:00:00+03:00', 'https://hakanaltun.io/house/#balcony');
     await tick();
     html = c.w.document.documentElement;
     assert.equal(c.q('#house-balcony-scene').dataset.hour, 'night');
-    assert.equal(html.getAttribute('data-house-theme'), 'night', 'and their night');
-    assert.deepEqual(bar(c), ['#878988', '#878988'], 'and its night');
+    assert.equal(html.getAttribute('data-house-theme'), 'night', 'and a little darker at night');
+    assert.deepEqual(bar(c), ['#A88F76', '#A88F76'], 'and its bar');
     c.dom.window.close();
     // The header and footer are the page's own colour, with the page's ink
     // for their words, as on White & Slate (the author, 26 October 2026).
@@ -1920,7 +1923,9 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
         assert.equal(token('--surface-footer'), token('--paper'), name + ': and the footer');
         const ground = hex(token('--paper'));
         const words = hex(token('--footer-text'));
-        const dimmed = words.map((c, i) => c * dim + ground[i] * (1 - dim));
+        const own = text.match(/\n  --select-dim: ([\d.]+);/);
+        const fade = own ? Number(own[1]) : dim;
+        const dimmed = words.map((c, i) => c * fade + ground[i] * (1 - fade));
         assert.ok(contrast(words, ground) >= 4.5, name + ': the header\'s words');
         assert.ok(contrast(dimmed, ground) >= 4.5, name + ': and under a pointer');
       }
