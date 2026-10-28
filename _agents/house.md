@@ -339,11 +339,14 @@ and sky.
   hours, read from the scenes' `data-hour`. At the door it is taken off.
   The page around the rooms (rule in `COLOPHON.md`) is, in the evening,
   the carpet as the lamplit study draws it, `#BCAB8A` (measured from the
-  rendered room), and at night `#A39274`, the same a little darker. The
-  dialog wears the page's tokens at every hour, as does the site's menu.
-  On the night's carpet the ink has little room: `--vizon` holds 4.97:1
-  on `--surface-soft`, the accent, at `--sec-l` 0.280, 4.71:1, and the
-  header's words 4.92:1 dimmed.
+  rendered room), and at night `#A88F76`, the same about .08 darker in
+  OKLCH lightness and turned 15° warmer (it was `#A39274`, which read as
+  khaki on a phone). The dialog takes the page's colour lighter by .09
+  and a little less chroma: `#D6C8AD` in the evening, `#C0AC97` at night
+  (`.house-dialog` blocks after the page's); the site's menu keeps the
+  page's own. On the night's page the ink has little room: `--vizon`
+  holds 4.92:1 on `--surface-soft`, the accent, at `--sec-l` 0.280,
+  4.67:1, and the header's words 4.89:1 dimmed.
   The lamps light the rooms only: a lit lamp (`data-lamp` in the study,
   `data-balcony-lamp` on the balcony) takes `.house-dusk` to .3 in the
   lamp's warm brown (`#9c7a4e`, the lamplight gradients in the two SVGs)

@@ -1900,7 +1900,7 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
     html = c.w.document.documentElement;
     assert.equal(c.q('#house-balcony-scene').dataset.hour, 'night');
     assert.equal(html.getAttribute('data-house-theme'), 'night', 'and a little darker at night');
-    assert.deepEqual(bar(c), ['#A39274', '#A39274'], 'and its bar');
+    assert.deepEqual(bar(c), ['#A88F76', '#A88F76'], 'and its bar');
     c.dom.window.close();
     // The header and footer are the page's own colour, with the page's ink
     // for their words, as on White & Slate (the author, 26 October 2026).

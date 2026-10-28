@@ -247,7 +247,10 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   tried first, and the author found a night’s dark brown no colour of
   night. The box that opens over a room wears the page’s colour too:
   with the house that colour outside, a box of another colour inside
-  would be out of place. The lamps light the
+  would be out of place. On the page’s own colour a line from the shelf
+  read dimly and its buttons were lost, so the box is that colour a few
+  shades lighter, like a page held under the lamp. The night was also
+  warmed a little the same day, when it turned toward khaki on a phone. The lamps light the
   rooms, not the page. The sunset sky in the window was reddened that
   day, a violet blue over a rose red, after a photograph of a sunset
   over the water the author shared: at that hour the sky is the red one,

@@ -1319,15 +1319,15 @@
      the site's theme; in a room it wears the House's, which follows
      İstanbul's light: their cream in the morning and by day, in the
      evening the carpet in the lamplit study, and at night the same a
-     little darker (the author, 28 October 2026). The box over a room wears
-     the page's colour. The lamps light the rooms, not the page.
+     little darker and warmer (the author, 28 October 2026). The box over a
+     room wears the page's colour a few shades lighter. The lamps light the rooms, not the page.
 
      The header and footer are the page's own colour, with the page's ink
      for their words, as on White & Slate: the author asked for this on
      26 October 2026, in place of the beige and dark that had moved with
      İstanbul's sun since the day before. The browser's own bar takes the
      same colour, and at the door the site's theme points it back. */
-  var HOUSE_CHROME = { day: '#F4EFE3', evening: '#BCAB8A', night: '#A39274' };
+  var HOUSE_CHROME = { day: '#F4EFE3', evening: '#BCAB8A', night: '#A88F76' };
   function wearTheme() {
     var page = document.documentElement;
     var hour = scene.dataset.hour;
