@@ -394,17 +394,13 @@
    whichever the reader chose; in the study and on the balcony it wears the
    House's, the header and footer with it, as the author asked on
    25 October 2026, when the light slate of Follow the sky by day did not
-   suit the rooms. Around the rooms the page keeps the rooms' cream in
-   the morning and by day; in the evening the colour of the carpet in the
-   lamplit study, and at night the same a little darker and a little
-   warmer, so that it does not turn toward khaki. Nothing in the
-   rooms changes from the evening to the night but the sky, so the page
-   only deepens a little. The author asked for this on 28 October 2026,
-   after the rooms' grey dusk, a door's beige, the sunset sky, the roofs
-   at night and an umber had each been tried around them that week: a
-   night's dark brown, the author said, is no colour of night. The box
-   that opens over a room wears the page's colour, so nothing inside the
-   house is a colour of its own; it is only a few shades lighter.
+   suit the rooms. Around the rooms the page is the rooms' cream at every
+   hour, a little darker in the evening and a little more at night, so
+   that it only deepens as the day goes. The author asked for this on
+   28 October 2026, after the rooms' grey dusk, a door's beige, the sunset
+   sky, the roofs at night, an umber and the lamplit carpet had each been
+   tried around them that week: the day's cream was the one that suited
+   them. The box that opens over a room is the day's cream at every hour.
    js/house.js sets data-house-theme on <html> while a room
    is open. The tokens are set on <body>, below the themes' own (Follow the
    sky paints its tokens on <html> itself), and the chrome is set as the
@@ -413,12 +409,11 @@
    with the page's ink for their words, as on White & Slate, as the author
    asked on 26 October 2026; they had moved with İstanbul's sun, a beige by
    day into the night's dark, since the day before. Every tier holds
-   4.5:1: the cream's faintest ink is 4.65:1 on its band, the evening's
-   5.57:1 on its cards and its accent 5.1:1, the night's 4.92:1 on its
-   cards and its accent 4.67:1, and the boxes' 6.51:1 and 5.63:1 on
-   their buttons. The header's links keep their full
+   4.5:1: the faintest ink is 4.65:1 on its band by day, 4.7:1 in the
+   evening and 4.69:1 at night, where it is a little darker, and the
+   accent 4.63:1, 4.82:1 and 4.88:1. The header's links keep their full
    ink here rather than the site's 85%, so that dimmed under a pointer
-   they still hold 4.5:1: 5.57:1 in the evening and 4.89:1 at night. */
+   they still hold 4.5:1: 6.36:1 in the evening and 5.91:1 at night. */
 html.house-inside[data-house-theme] { color-scheme: light; }
 html.house-inside[data-house-theme] .header-nav-bar a { color: var(--footer-text); }
 /* On a phone the page scrolls under the header, and a header the page's own
@@ -465,34 +460,34 @@ html.house-inside[data-house-theme="day"] body {
 }
 html.house-inside[data-house-theme="evening"] body {
   color-scheme: light;
-  --bg: #BCAB8A;
-  --paper: #BCAB8A;
-  --surface-soft: #B4A382;
-  --band: #B4A382;
+  --bg: #EBE5D7;
+  --paper: #EBE5D7;
+  --surface-soft: #E3DBC9;
+  --band: #DFD6C0;
   --band-hero: var(--paper);
-  --footer-strip-bg: #BCAB8A;
-  --ink: #14110D;
-  --ink-soft: #1E1A15;
-  --vizon: #332C24;
-  --footer-strip-ink: #332C24;
-  --hero-source-muted: #332C24;
-  --rule: #B2A180;
-  --rule-strong: #9A8968;
-  --rule-cream: #A6956F;
+  --footer-strip-bg: #EBE5D7;
+  --ink: #2B2620;
+  --ink-soft: #443B30;
+  --vizon: #635A49;
+  --footer-strip-ink: #655946;
+  --hero-source-muted: #655946;
+  --rule: #DAD0B9;
+  --rule-strong: #C7B896;
+  --rule-cream: #D2C294;
   --note-base: var(--paper);
-  --note-tint-l: 0.66;
-  --note-tint-c: 0.080;
+  --note-tint-l: 0.80;
+  --note-tint-c: 0.095;
   --note-wash: 15%;
-  --footer-text: #14110D;
-  --footer-muted: #14110D;
-  --drawer-bg: rgba(188, 171, 138, 0.985);
-  --header-border: rgba(20, 17, 13, 0.20);
-  --surface-chrome: #BCAB8A;
-  --surface-footer: #BCAB8A;
-  --shadow-card: 0 4px 16px rgba(43, 38, 32, 0.08);
-  --shadow-card-hover: 0 16px 40px rgba(43, 38, 32, 0.14);
-  --shadow-cover: 0 14px 24px rgba(0, 0, 0, 0.16), 0 4px 8px rgba(0, 0, 0, 0.09);
-  --sec-l: 0.340;
+  --footer-text: #2B2620;
+  --footer-muted: #2B2620;
+  --drawer-bg: rgba(235, 229, 215, 0.985);
+  --header-border: rgba(43, 38, 32, 0.20);
+  --surface-chrome: #EBE5D7;
+  --surface-footer: #EBE5D7;
+  --shadow-card: 0 4px 16px rgba(43, 38, 32, 0.05);
+  --shadow-card-hover: 0 16px 40px rgba(78, 70, 56, 0.08);
+  --shadow-cover: 0 14px 24px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.06);
+  --sec-l: 0.460;
   --sec-accent: oklch(calc(var(--sec-l) - var(--sec-dl, 0)) var(--sec-c, 0.050) var(--sec-h, 178));
   --petrol: var(--sec-accent);
   --petrol-deep: color-mix(in srgb, var(--sec-accent) 74%, black);
@@ -500,61 +495,55 @@ html.house-inside[data-house-theme="evening"] body {
 }
 html.house-inside[data-house-theme="night"] body {
   color-scheme: light;
-  --bg: #A88F76;
-  --paper: #A88F76;
-  --surface-soft: #A0876E;
-  --band: #A0876E;
+  --bg: #DFDACC;
+  --paper: #DFDACC;
+  --surface-soft: #D8D0BE;
+  --band: #D4CBB5;
   --band-hero: var(--paper);
-  --footer-strip-bg: #A88F76;
-  --ink: #0A0806;
-  --ink-soft: #14110D;
-  --vizon: #221D18;
-  --footer-strip-ink: #221D18;
-  --hero-source-muted: #221D18;
-  --rule: #9E856D;
-  --rule-strong: #88705A;
-  --rule-cream: #937A62;
+  --footer-strip-bg: #DFDACC;
+  --ink: #2B2620;
+  --ink-soft: #443B30;
+  --vizon: #5C5342;
+  --footer-strip-ink: #5E523F;
+  --hero-source-muted: #5E523F;
+  --rule: #CFC5AE;
+  --rule-strong: #BCAD8B;
+  --rule-cream: #C7B789;
   --note-base: var(--paper);
-  --note-tint-l: 0.66;
-  --note-tint-c: 0.080;
+  --note-tint-l: 0.80;
+  --note-tint-c: 0.095;
   --note-wash: 15%;
-  --footer-text: #0A0806;
-  --footer-muted: #0A0806;
-  --drawer-bg: rgba(168, 143, 118, 0.985);
-  --header-border: rgba(20, 17, 13, 0.20);
-  --surface-chrome: #A88F76;
-  --surface-footer: #A88F76;
-  --shadow-card: 0 4px 16px rgba(43, 38, 32, 0.08);
-  --shadow-card-hover: 0 16px 40px rgba(43, 38, 32, 0.14);
-  --shadow-cover: 0 14px 24px rgba(0, 0, 0, 0.16), 0 4px 8px rgba(0, 0, 0, 0.09);
-  --sec-l: 0.280;
+  --footer-text: #2B2620;
+  --footer-muted: #2B2620;
+  --drawer-bg: rgba(223, 218, 204, 0.985);
+  --header-border: rgba(43, 38, 32, 0.20);
+  --surface-chrome: #DFDACC;
+  --surface-footer: #DFDACC;
+  --shadow-card: 0 4px 16px rgba(43, 38, 32, 0.05);
+  --shadow-card-hover: 0 16px 40px rgba(78, 70, 56, 0.08);
+  --shadow-cover: 0 14px 24px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.06);
+  --sec-l: 0.430;
   --sec-accent: oklch(calc(var(--sec-l) - var(--sec-dl, 0)) var(--sec-c, 0.050) var(--sec-h, 178));
   --petrol: var(--sec-accent);
   --petrol-deep: color-mix(in srgb, var(--sec-accent) 74%, black);
   --writing-accent: oklch(var(--sec-l) 0.024 250);
 }
-/* The box that opens over a room is the page's colour a few shades
-   lighter, like a page held under the lamp: the same family, with room
-   for its words and its buttons to read. The author asked for this on
-   28 October 2026, when on the page's own colour a line from the shelf
-   read dimly and its buttons were lost. */
-html.house-inside[data-house-theme="evening"] .house-dialog {
-  --bg: #D6C8AD;
-  --paper: #D6C8AD;
-  --surface-soft: #C9BA9C;
-  --note-base: #D6C8AD;
-  --vizon: #3A332A;
-  --rule: #C4B597;
-  --rule-strong: #A39474;
-}
+/* The box that opens over a room is the day's cream at every hour, like a
+   page held under the lamp: a few shades lighter than the page in the
+   evening and at night. */
+html.house-inside[data-house-theme="evening"] .house-dialog,
 html.house-inside[data-house-theme="night"] .house-dialog {
-  --bg: #C0AC97;
-  --paper: #C0AC97;
-  --surface-soft: #B19C86;
-  --note-base: #C0AC97;
-  --vizon: #2E2620;
-  --rule: #AD9882;
-  --rule-strong: #8E7964;
+  --bg: #F4EFE3;
+  --paper: #F4EFE3;
+  --surface-soft: #ECE5D5;
+  --band: #E8E0CD;
+  --note-base: #F4EFE3;
+  --vizon: #6A6150;
+  --footer-strip-ink: #655946;
+  --rule: #E3DAC6;
+  --rule-strong: #CFC2A4;
+  --rule-cream: #DACCA4;
+  --sec-l: 0.490;
 }
 /* The trail the pointer leaves (js/cursor-trail.js), and the pointer itself,
    a speck a little larger than the trail's own at its head, both a light
