@@ -1867,10 +1867,11 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
     g.dom.window.close();
   }
 
-  // The House's own colours: the site's theme at the door, and in a room the
-  // rooms' colours by İstanbul's light: their cream by day, and in the
-  // evening and at night the cream under the rooms' own dusk, so the page
-  // around a room is its wall. The browser's bar takes the House's header.
+  // The House's own colours: the site's theme at the door, and in a room
+  // by İstanbul's light: the door's grey beige by day, the cream in the
+  // evening (the author swapped the two on 28 October 2026), and at night
+  // the cream under the rooms' own dusk. The browser's bar takes the
+  // House's header.
   {
     let c = houseAt('2026-10-11T11:00:00+03:00', 'https://hakanaltun.io/house/');
     await tick();
@@ -1879,7 +1880,7 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
     assert.equal(html.hasAttribute('data-house-theme'), false, 'the door wears the site\'s theme');
     c.click('#house-enter');
     assert.equal(html.getAttribute('data-house-theme'), 'day', 'the study the rooms\' cream');
-    assert.deepEqual(bar(c), ['#F4EFE3', '#F4EFE3'], 'the browser\'s bar the page\'s cream');
+    assert.deepEqual(bar(c), ['#ADA797', '#ADA797'], 'the browser\'s bar the page\'s grey beige');
     c.click('.house-hotspot--balcony');
     assert.equal(html.getAttribute('data-house-theme'), 'day', 'and the balcony');
     c.click('#balcony .house-hotspot--study-door');
@@ -1891,6 +1892,7 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
     html = c.w.document.documentElement;
     assert.equal(c.q('#house-balcony-scene').dataset.hour, 'evening');
     assert.equal(html.getAttribute('data-house-theme'), 'evening', 'the rooms\' evening around them');
+    assert.deepEqual(bar(c), ['#F4EFE3', '#F4EFE3'], 'the evening\'s cream');
     c.dom.window.close();
     c = houseAt('2026-10-11T22:00:00+03:00', 'https://hakanaltun.io/house/#balcony');
     await tick();

@@ -232,14 +232,17 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   Looking at the evening after the change, the author found the wall’s
   colour too grey and asked for a dark beige, the colour of the study’s
   door at that hour, so the evening’s page is now the door’s.
+  On 28 October 2026 the author asked for the day and the evening to
+  change places: by day the page is now the door’s cool grey beige, and
+  in the evening the rooms’ warm cream. The night is as it was.
   The box that opens over a room is held, not part of the wall: it keeps
   the cream until night and the warm dark at night.
 - **The House’s header and footer are its page.** The same day the author
   asked for the header and footer to take the page’s colour at every hour,
   as Light’s white header and footer take its white, with words dark
   enough to read on it. They no longer move with İstanbul’s sun: they are
-  the cream by day, the door’s beige in the evening and the rooms’ dusk
-  at night, and
+  the door’s grey beige by day, the cream in the evening and the rooms’
+  dusk at night, and
   their words are the page’s ink, black at night. Their links keep their
   full ink there, so that they still read when a pointer dims them. On a
   phone, where the page scrolls under the header, a thin line in the

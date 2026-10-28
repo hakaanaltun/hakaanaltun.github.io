@@ -384,12 +384,12 @@
    25 October 2026, when the light slate of Follow the sky by day did not
    suit the rooms. Around the rooms the page is the rooms' own wall in their
    own light, as the author asked on 26 October 2026, when the warm dark
-   around them at night was far darker than the rooms themselves: their
-   cream in the morning and by day; in the evening the colour of the
-   study's door in the evening's dusk, a dark beige, which the author chose
-   the same day over the wall's own, which read too grey; and at night the
-   cream under the same dusk the rooms take (.house-dusk, #1c2633
-   multiplied at .5), so the room runs on into the page. The box
+   around them at night was far darker than the rooms themselves; at night
+   it is the cream under the same dusk the rooms take (.house-dusk, #1c2633
+   multiplied at .5), so the room runs on into the page. By day and in the
+   evening the author swapped the two on 28 October 2026: in the morning
+   and by day the page is the study's door in the evening's dusk, a cool
+   grey beige, and in the evening it is the rooms' warm cream. The box
    that opens over a room keeps its own: the cream until night, and the
    warm dark at night, lifted a little from the near-black it first was.
    js/house.js sets data-house-theme on <html> while a room
@@ -400,13 +400,13 @@
    with the page's ink for their words, as on White & Slate, as the author
    asked on 26 October 2026; they had moved with İstanbul's sun, a beige by
    day into the night's dark, since the day before. Every tier holds
-   4.5:1: the cream's faintest ink is 4.65:1 on its band, the evening's
-   5.09:1 on its band, the night's 4.87:1 on its page and its accent 4.6:1,
+   4.5:1: the cream's faintest ink is 4.65:1 on its band, the grey
+   beige's 5.09:1 on its band, the night's 4.87:1 on its page and its accent 4.6:1,
    and the dark box's 5.07:1 on its cards. At night the page is a middle
    grey, so its ink is close to black and its tiers lie close together,
    and the header's words are black. The header's links keep their full
    ink here rather than the site's 85%, so that dimmed under a pointer
-   they still hold 4.75:1 at night and 4.96:1 in the evening. */
+   they still hold 4.75:1 at night and 4.96:1 by day. */
 html.house-inside[data-house-theme] { color-scheme: light; }
 html.house-inside[data-house-theme] .header-nav-bar a { color: var(--footer-text); }
 /* On a phone the page scrolls under the header, and a header the page's own
@@ -416,8 +416,8 @@ html.house-inside[data-house-theme] .header-nav-bar a { color: var(--footer-text
 @media (max-width: 767px), (max-height: 500px) and (orientation: landscape) {
   html.house-inside[data-house-theme] header { border-bottom: 1px solid var(--header-border); }
 }
-html.house-inside[data-house-theme="evening"] .house-dialog,
-html.house-inside[data-house-theme="day"] body {
+html.house-inside[data-house-theme="day"] .house-dialog,
+html.house-inside[data-house-theme="evening"] body {
   color-scheme: light;
   --bg: #F4EFE3;
   --paper: #F4EFE3;
@@ -452,7 +452,7 @@ html.house-inside[data-house-theme="day"] body {
   --petrol-deep: color-mix(in srgb, var(--sec-accent) 74%, black);
   --writing-accent: oklch(var(--sec-l) 0.024 250);
 }
-html.house-inside[data-house-theme="evening"] body {
+html.house-inside[data-house-theme="day"] body {
   color-scheme: light;
   --bg: #ADA797;
   --paper: #ADA797;

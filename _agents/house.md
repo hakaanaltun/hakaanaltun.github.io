@@ -340,14 +340,19 @@ and sky.
   The page around the rooms (rule in `COLOPHON.md`) is, at night, the
   cream under `.house-dusk`: `#1c2633` multiplied at the rooms' own .5
   gives `#878988`. Change it with the dusk's opacity, or the room stops
-  running on into the page. The evening is the study's left-hand door as
-  it is drawn at that hour, `#ADA797`, measured from the rendered room;
-  the wall's own, `#C9C6BF`, read too grey to the author. On it `--ink`
+  running on into the page. The day (morning included) is the study's
+  left-hand door as it is drawn in the evening, `#ADA797`, measured from
+  the rendered room; the wall's own, `#C9C6BF`, read too grey to the
+  author. The evening is the cream. The two were the other way round
+  until the author swapped them on 28 October 2026, so the cream block
+  now carries `[data-house-theme="evening"] body` and the day's
+  `.house-dialog`, and the grey-beige block `[data-house-theme="day"]
+  body`. On the grey beige `--ink`
   holds 7.44:1, `--vizon` 5.09:1 on the band and the accent, at `--sec-l`
   0.340, 4.78:1. The
   night's grey leaves the ink little room: `--ink` 5.31:1, `--vizon`
   4.87:1 and the accent, at `--sec-l` 0.240, 4.6:1. The dialog keeps the
-  cream in the evening (it shares the day block) and the warm dark at
+  cream by day (it shares the evening block) and the warm dark at
   night (`[data-house-theme="night"] .house-dialog`); the site's menu
   takes the page's colour. `css/house.css` sets the tokens on `<body>`, which every
   theme's own blocks reach only from `<html>` (Follow the sky paints

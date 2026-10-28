@@ -1317,11 +1317,13 @@
 
   /* The House's own colours (css/house.css). At the door the page wears
      the site's theme; in a room it wears the House's, which follows
-     İstanbul's light as the rooms do: their cream in the morning and by
-     day, in the evening the study's door in the evening's dusk, a dark
-     beige, and at night, after the last light, the cream under the rooms'
-     own dusk, so that the page around a room is part of the room. The author asked for this on 26 October 2026, when the warm dark
-     the page wore at night was far darker than the rooms. The box over a
+     İstanbul's light: in the morning and by day the study's door in the
+     evening's dusk, a cool grey beige, in the evening the rooms' warm
+     cream (the author swapped these two on 28 October 2026), and at
+     night, after the last light, the cream under the rooms' own dusk, so
+     that the page around a room is part of the room. The author asked
+     for this on 26 October 2026, when the warm dark the page wore at
+     night was far darker than the rooms. The box over a
      room keeps the cream until night and the warm dark at night.
 
      The header and footer are the page's own colour, with the page's ink
@@ -1329,7 +1331,7 @@
      26 October 2026, in place of the beige and dark that had moved with
      İstanbul's sun since the day before. The browser's own bar takes the
      same colour, and at the door the site's theme points it back. */
-  var HOUSE_CHROME = { day: '#F4EFE3', evening: '#ADA797', night: '#878988' };
+  var HOUSE_CHROME = { day: '#ADA797', evening: '#F4EFE3', night: '#878988' };
   function wearTheme() {
     var page = document.documentElement;
     var hour = scene.dataset.hour;
