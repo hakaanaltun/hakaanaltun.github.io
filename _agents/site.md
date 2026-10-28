@@ -267,8 +267,18 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
 - **The card's mark stands on a road** (rule in `COLOPHON.md`). Only
   `og-image-on-card.png` carries the lines. `on-icon.svg`, the favicons,
   the ICO and the home-screen icons are the plain ampersand again, the
-  files as they were before 26 October 2026's first line, under the
-  stamp `20261026-5`; the card keeps `20261026-4`. The card was rendered
+  files as they were before 26 October 2026's first line. On
+  28 October 2026 the glyph was enlarged and centred (rule in
+  `COLOPHON.md`): its own box in the path's coordinates is 357–949.9 by
+  283–949, centre (653.44, 616), and `on-icon.svg`'s transform is
+  `translate(627 627) scale(s) translate(-653.44 -616)` with `s` the
+  share of the 1254 canvas's height it fills times 1254/666. The SVG,
+  `favicon-16x16.png`, `favicon-32x32.png` and the 16, 32 and 48 in
+  `favicon.ico` fill 88%; `apple-touch-icon-on.png`, `on-icon-192x192.png`
+  and `on-icon-512x512.png` fill 78%; `on-icon-512x512-maskable.png`
+  keeps its 65% for the maskable safe circle. Each PNG was rendered in
+  Chromium from the SVG at its own size, not scaled down. The icons'
+  stamp is `20261028-1`; the card keeps `20261026-4`. The card was rendered
   in Chromium from `on-icon.svg`'s path and two `rect`s running its full
   width: the glyph is scaled so that it and the lines fill 81% of the
   card's height, centred, and in the path's own 1254 canvas the heavy

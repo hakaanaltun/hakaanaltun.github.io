@@ -192,6 +192,14 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   under it, like a road and its edge. On the tab and the home screen the
   lines crowded the ampersand, so the author asked for them to stay on
   the card alone; there the ampersand stands alone, as before.
+- **On the tab the ampersand fills its square.** On 28 October 2026 the
+  author saw another site’s ampersand filling its square in the
+  browser’s side bar while the site’s own stood small in the middle of
+  white, which on a light bar does not show as a square at all. On the
+  tab, the bookmarks and the side bar the ampersand now fills nearly
+  the whole height of its square, centred. On the home screen it is a
+  little smaller, since phones round or crop the icon there, and the
+  icon a phone may cut to any shape keeps the room it needs.
 - **Dark’s header and footer use a softer grey.** On 26 October 2026
   the author asked for their white words to move a little towards black
   while staying easy to read. The navigation keeps readable contrast
