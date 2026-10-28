@@ -296,11 +296,16 @@
    Later that evening the author asked for the lamp to light the room as
    a lamp does, not the whole of it: the light falls off from the lamp
    (the gradients in the two SVGs, a deep warm brown) and leaves the walls
-   and corners a little dark, darker at night than in the evening. */
+   and corners a little dark, darker at night than in the evening. A lamp
+   only adds light, so nowhere in a lit room is darker than the same room
+   with the lamp out: the gradient's full strength, at the walls, matches
+   the unlit dusk's brightness (.2 and .5 of #1c2633), a hair lighter,
+   in its own warm brown. At .45 and .65 the corners had been darker lit
+   than unlit, as the author found later that night. */
 #house-scene[data-lamp="on"]:is([data-hour="evening"], [data-hour="night"]) .house-dusk,
-.house-scene--balcony[data-balcony-lamp="on"]:is([data-hour="evening"], [data-hour="night"]) .house-dusk { opacity: .45; }
+.house-scene--balcony[data-balcony-lamp="on"]:is([data-hour="evening"], [data-hour="night"]) .house-dusk { opacity: .22; }
 #house-scene[data-lamp="on"][data-hour="night"] .house-dusk,
-.house-scene--balcony[data-balcony-lamp="on"][data-hour="night"] .house-dusk { opacity: .65; }
+.house-scene--balcony[data-balcony-lamp="on"][data-hour="night"] .house-dusk { opacity: .55; }
 /* Quiet places, as in the pictures: nothing marks a thing until a pointer
    or the keyboard comes to it, and then its name shows beside it. "Show
    places to look" shows every name. Each place covers its thing: --ax and

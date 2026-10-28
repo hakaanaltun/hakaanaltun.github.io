@@ -277,8 +277,15 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   `favicon.ico` fill 88%; `apple-touch-icon-on.png`, `on-icon-192x192.png`
   and `on-icon-512x512.png` fill 78%; `on-icon-512x512-maskable.png`
   keeps its 65% for the maskable safe circle. Each PNG was rendered in
-  Chromium from the SVG at its own size, not scaled down. The icons'
-  stamp is `20261028-1`; the card keeps `20261026-4`. The card was rendered
+  Chromium from the SVG at its own size, not scaled down. Later on
+  28 October 2026 the four home-screen icons (the apple-touch, 192, 512
+  and maskable) were centred on the bowl alone (rule in `COLOPHON.md`):
+  the bowl runs 357.1–846.6 in the path's coordinates, so their
+  transform is `translate(627 627) scale(s) translate(-601.84 -616)`,
+  and the curl reaches toward the right edge. The maskable's farthest
+  ink is 0.347 of its size from the centre, inside the 0.4 safe circle.
+  Their stamp, and the manifest's, is `20261028-2`; the favicons keep
+  `20261028-1` and the card `20261026-4`. The card was rendered
   in Chromium from `on-icon.svg`'s path and two `rect`s running its full
   width: the glyph is scaled so that it and the lines fill 81% of the
   card's height, centred, and in the path's own 1254 canvas the heavy

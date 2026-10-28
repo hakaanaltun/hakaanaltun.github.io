@@ -358,10 +358,16 @@ and sky.
   `.house-dusk` after sunset with a radial gradient from the lamp in a
   deep warm brown (`#4a3a2c`, `house-lamplight` and
   `house-balcony-lamplight` in the two SVGs), clear around the lamp and
-  falling off smoothly to the walls, at .45 in the evening and .65 at
+  falling off smoothly to the walls, at .22 in the evening and .55 at
   night. The author asked for this on 28 October 2026: a lamp does not
   light a whole room, and its edges stay a little dark. Until then it was
-  `#9c7a4e` at .3, with the room lit almost to its corners. The sunset sky is `--sky-top: #9a7cab` over
+  `#9c7a4e` at .3, with the room lit almost to its corners. A lamp only
+  adds light (rule in `COLOPHON.md`): those two strengths put the walls
+  at the brightness the unlit dusk gives them (`#1c2633` at .2 and .5),
+  a hair lighter, so nothing is darker lit than unlit. The first values,
+  .45 and .65, made the corners darker lit, as the author found later
+  that night. Check a change by comparing pixels at the corners
+  with the lamp on and off, at both hours, in both rooms. The sunset sky is `--sky-top: #9a7cab` over
   `--sky-bottom: #f5684e`. `css/house.css` sets the tokens on `<body>`, which every
   theme's own blocks reach only from `<html>` (Follow the sky paints
   inline on `<html>`), and sets `--surface-chrome` and `--surface-footer`
