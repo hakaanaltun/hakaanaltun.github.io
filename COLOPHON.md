@@ -199,7 +199,11 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   tab, the bookmarks and the side bar the ampersand now fills nearly
   the whole height of its square, centred. On the home screen it is a
   little smaller, since phones round or crop the icon there, and the
-  icon a phone may cut to any shape keeps the room it needs.
+  icon a phone may cut to any shape keeps the room it needs. That night
+  the author found the ampersand standing a little to the left on the
+  home screen: it was centred with its curl, which
+  reaches out to the right. There it is now centred on its round alone,
+  the bowl the eye takes as its body.
 - **Dark’s header and footer use a softer grey.** On 26 October 2026
   the author asked for their white words to move a little towards black
   while staying easy to read. The navigation keeps readable contrast
@@ -268,7 +272,11 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   lamp to light the room as a lamp does: bright around it and fading
   toward the walls, so that the edges and corners stay a little dark, a
   little more at night than in the evening. With the edges darker, the
-  evening’s page went a little darker too. The lamps light the
+  evening’s page went a little darker too. Later that night the author
+  found the corners darker with the lamp lit than with it out. A lamp
+  only adds light, so nowhere in a lit room is darker than it is with
+  the lamp out: the corners now keep the unlit room’s dusk, and
+  everything nearer the lamp is lighter. The lamps light the
   rooms, not the page. The sunset sky in the window was reddened that
   day, a violet blue over a rose red, after a photograph of a sunset
   over the water the author shared: at that hour the sky is the red one,
