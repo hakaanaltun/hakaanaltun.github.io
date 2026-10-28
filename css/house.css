@@ -394,15 +394,16 @@
    whichever the reader chose; in the study and on the balcony it wears the
    House's, the header and footer with it, as the author asked on
    25 October 2026, when the light slate of Follow the sky by day did not
-   suit the rooms. Around the rooms the page takes İstanbul's hour from
-   what the window shows: the rooms' cream in the morning and by day, the
-   sunset sky in the evening, where its red meets its blue just above the
-   horizon (as drawn on the balcony),
-   and at night the roofs seen through the glass (.house-rooftops over the
-   night sky, as drawn). The author asked for these on 28 October 2026;
-   since 26 October the page had been the rooms' own walls under their
-   dusk, which read as a grey that said no hour. The box that opens over a
-   room keeps its own: the cream until night, and at night the warm dark.
+   suit the rooms. Around the rooms the page keeps the rooms' cream in
+   the morning and by day; in the evening the colour of the carpet in the
+   lamplit study, and at night the same a little darker. Nothing in the
+   rooms changes from the evening to the night but the sky, so the page
+   only deepens a little. The author asked for this on 28 October 2026,
+   after the rooms' grey dusk, a door's beige, the sunset sky, the roofs
+   at night and an umber had each been tried around them that week: a
+   night's dark brown, the author said, is no colour of night. The box
+   that opens over a room wears the page's colour, so nothing inside the
+   house is a colour of its own.
    js/house.js sets data-house-theme on <html> while a room
    is open. The tokens are set on <body>, below the themes' own (Follow the
    sky paints its tokens on <html> itself), and the chrome is set as the
@@ -412,15 +413,11 @@
    asked on 26 October 2026; they had moved with İstanbul's sun, a beige by
    day into the night's dark, since the day before. Every tier holds
    4.5:1: the cream's faintest ink is 4.65:1 on its band, the evening's
-   5.04:1 on its band and its accent 4.76:1, the night's 4.82:1 on its
-   page and its accent 4.99:1, and the dark box's 5.07:1 on its cards. At
-   night the words are white on the roofs' slate, and the night dims a
-   pointer's link to .86 rather than the site's .78, so the header's white
-   still holds 4.7:1 under it. The header's links keep their full ink
-   here rather than the site's 85%, so that dimmed under a pointer they
-   still hold 4.5:1: 4.67:1 in the evening. */
+   5.57:1 on its cards and its accent 5.1:1, and the night's 4.97:1 on
+   its cards and its accent 4.71:1. The header's links keep their full
+   ink here rather than the site's 85%, so that dimmed under a pointer
+   they still hold 4.5:1: 5.57:1 in the evening and 4.92:1 at night. */
 html.house-inside[data-house-theme] { color-scheme: light; }
-html.house-inside[data-house-theme="night"] { color-scheme: dark; }
 html.house-inside[data-house-theme] .header-nav-bar a { color: var(--footer-text); }
 /* On a phone the page scrolls under the header, and a header the page's own
    colour showed no edge: a heading passing under it looked cut off. A thin
@@ -429,7 +426,6 @@ html.house-inside[data-house-theme] .header-nav-bar a { color: var(--footer-text
 @media (max-width: 767px), (max-height: 500px) and (orientation: landscape) {
   html.house-inside[data-house-theme] header { border-bottom: 1px solid var(--header-border); }
 }
-html.house-inside[data-house-theme="evening"] .house-dialog,
 html.house-inside[data-house-theme="day"] body {
   color-scheme: light;
   --bg: #F4EFE3;
@@ -467,107 +463,73 @@ html.house-inside[data-house-theme="day"] body {
 }
 html.house-inside[data-house-theme="evening"] body {
   color-scheme: light;
-  --bg: #AA789A;
-  --paper: #AA789A;
-  --surface-soft: #A47394;
-  --band: #A67596;
+  --bg: #BCAB8A;
+  --paper: #BCAB8A;
+  --surface-soft: #B4A382;
+  --band: #B4A382;
   --band-hero: var(--paper);
-  --footer-strip-bg: #AA789A;
-  --ink: #000000;
-  --ink-soft: #0D090C;
-  --vizon: #160F14;
-  --footer-strip-ink: #160F14;
-  --hero-source-muted: #160F14;
-  --rule: #A07090;
-  --rule-strong: #87597A;
-  --rule-cream: #946584;
+  --footer-strip-bg: #BCAB8A;
+  --ink: #14110D;
+  --ink-soft: #1E1A15;
+  --vizon: #332C24;
+  --footer-strip-ink: #332C24;
+  --hero-source-muted: #332C24;
+  --rule: #B2A180;
+  --rule-strong: #9A8968;
+  --rule-cream: #A6956F;
   --note-base: var(--paper);
-  --note-tint-l: 0.58;
+  --note-tint-l: 0.66;
   --note-tint-c: 0.080;
   --note-wash: 15%;
-  --footer-text: #000000;
-  --footer-muted: #000000;
-  --drawer-bg: rgba(170, 120, 154, 0.985);
-  --header-border: rgba(0, 0, 0, 0.20);
-  --surface-chrome: #AA789A;
-  --surface-footer: #AA789A;
-  --shadow-card: 0 4px 16px rgba(43, 38, 32, 0.07);
-  --shadow-card-hover: 0 16px 40px rgba(43, 38, 32, 0.12);
-  --shadow-cover: 0 14px 24px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.08);
-  --sec-l: 0.220;
+  --footer-text: #14110D;
+  --footer-muted: #14110D;
+  --drawer-bg: rgba(188, 171, 138, 0.985);
+  --header-border: rgba(20, 17, 13, 0.20);
+  --surface-chrome: #BCAB8A;
+  --surface-footer: #BCAB8A;
+  --shadow-card: 0 4px 16px rgba(43, 38, 32, 0.08);
+  --shadow-card-hover: 0 16px 40px rgba(43, 38, 32, 0.14);
+  --shadow-cover: 0 14px 24px rgba(0, 0, 0, 0.16), 0 4px 8px rgba(0, 0, 0, 0.09);
+  --sec-l: 0.340;
   --sec-accent: oklch(calc(var(--sec-l) - var(--sec-dl, 0)) var(--sec-c, 0.050) var(--sec-h, 178));
   --petrol: var(--sec-accent);
   --petrol-deep: color-mix(in srgb, var(--sec-accent) 74%, black);
   --writing-accent: oklch(var(--sec-l) 0.024 250);
 }
 html.house-inside[data-house-theme="night"] body {
-  color-scheme: dark;
-  --bg: #566A72;
-  --paper: #566A72;
-  --surface-soft: #5D7179;
-  --band: #4E626A;
+  color-scheme: light;
+  --bg: #A39274;
+  --paper: #A39274;
+  --surface-soft: #9B8A6C;
+  --band: #9B8A6C;
   --band-hero: var(--paper);
-  --footer-strip-bg: #566A72;
-  --ink: #FFFFFF;
-  --ink-soft: #FBF6EA;
-  --vizon: #F3ECDD;
-  --footer-strip-ink: #F3ECDD;
-  --hero-source-muted: #F3ECDD;
-  --rule: #627680;
-  --rule-strong: #7A8E97;
-  --rule-cream: #70848D;
-  --note-base: var(--surface-soft);
-  --note-tint-l: 0.40;
-  --note-tint-c: 0.025;
-  --note-wash: 65%;
-  --footer-text: #FFFFFF;
-  --footer-muted: #FFFFFF;
-  --drawer-bg: rgba(86, 106, 114, 0.985);
-  --header-border: rgba(255, 255, 255, 0.20);
-  --surface-chrome: #566A72;
-  --surface-footer: #566A72;
-  --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.25);
-  --shadow-card-hover: 0 16px 40px rgba(0, 0, 0, 0.35);
-  --shadow-cover: 0 14px 24px rgba(0, 0, 0, 0.4), 0 4px 8px rgba(0, 0, 0, 0.25);
-  --select-dim: 0.86;
-  --sec-accent-dark: oklch(0.950 0.048 var(--sec-h, 178));
-  --petrol: var(--sec-accent-dark);
-  --petrol-deep: color-mix(in srgb, var(--sec-accent-dark) 72%, #FFFFFF);
-  --writing-accent: oklch(0.950 0.010 250);
-}
-html.house-inside[data-house-theme="night"] .house-dialog {
-  color-scheme: dark;
-  --bg: #2E2821;
-  --paper: #2E2821;
-  --surface-soft: #38322A;
-  --band: #241F19;
-  --band-hero: #332D25;
-  --footer-strip-bg: var(--band);
-  --ink: #EFE7D4;
-  --ink-soft: #D7CEB8;
-  --vizon: #ADA38F;
-  --footer-strip-ink: var(--vizon);
-  --hero-source-muted: #ADA38F;
-  --rule: #3F382E;
-  --rule-strong: #5A5042;
-  --rule-cream: #5C5140;
-  --note-base: var(--surface-soft);
-  --note-tint-l: 0.32;
-  --note-tint-c: 0.025;
-  --note-wash: 65%;
-  --footer-text: #EFE7D4;
-  --footer-muted: #C3BAA4;
-  --drawer-bg: rgba(46, 40, 33, 0.985);
-  --header-border: rgba(239, 231, 212, 0.12);
-  --surface-chrome: var(--band);
-  --surface-footer: var(--band);
-  --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.3);
-  --shadow-card-hover: 0 16px 40px rgba(0, 0, 0, 0.45);
-  --shadow-cover: 0 14px 24px rgba(0, 0, 0, 0.5), 0 4px 8px rgba(0, 0, 0, 0.35);
-  --sec-accent-dark: oklch(var(--sec-ld, 0.800) var(--sec-cd, 0.048) var(--sec-h, 178));
-  --petrol: var(--sec-accent-dark);
-  --petrol-deep: color-mix(in srgb, var(--sec-accent-dark) 72%, #FFFFFF);
-  --writing-accent: oklch(0.780 0.010 250);
+  --footer-strip-bg: #A39274;
+  --ink: #0A0806;
+  --ink-soft: #14110D;
+  --vizon: #221D18;
+  --footer-strip-ink: #221D18;
+  --hero-source-muted: #221D18;
+  --rule: #998869;
+  --rule-strong: #837253;
+  --rule-cream: #8E7D5E;
+  --note-base: var(--paper);
+  --note-tint-l: 0.66;
+  --note-tint-c: 0.080;
+  --note-wash: 15%;
+  --footer-text: #0A0806;
+  --footer-muted: #0A0806;
+  --drawer-bg: rgba(163, 146, 116, 0.985);
+  --header-border: rgba(20, 17, 13, 0.20);
+  --surface-chrome: #A39274;
+  --surface-footer: #A39274;
+  --shadow-card: 0 4px 16px rgba(43, 38, 32, 0.08);
+  --shadow-card-hover: 0 16px 40px rgba(43, 38, 32, 0.14);
+  --shadow-cover: 0 14px 24px rgba(0, 0, 0, 0.16), 0 4px 8px rgba(0, 0, 0, 0.09);
+  --sec-l: 0.280;
+  --sec-accent: oklch(calc(var(--sec-l) - var(--sec-dl, 0)) var(--sec-c, 0.050) var(--sec-h, 178));
+  --petrol: var(--sec-accent);
+  --petrol-deep: color-mix(in srgb, var(--sec-accent) 74%, black);
+  --writing-accent: oklch(var(--sec-l) 0.024 250);
 }
 /* The trail the pointer leaves (js/cursor-trail.js), and the pointer itself,
    a speck a little larger than the trail's own at its head, both a light
@@ -581,8 +543,7 @@ html[data-theme="dark"], html[data-theme="midnight"], html[data-theme="sky"], .h
 @media (prefers-color-scheme: dark) { html:not([data-theme]) { --trail: #ffc73a; --trail-glow: 1; --house-speck: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Ccircle cx='5' cy='5' r='3.5' fill='%23ffd04f'/%3E%3C/svg%3E") 5 5, auto; } }
 html:not(.house-inside) { --trail: none; }
 /* Inside, the House's own colours decide how the trail is lit. */
-html.house-inside:is([data-house-theme="day"], [data-house-theme="evening"]) body { --trail: #ffcd38; --trail-glow: 0; --house-speck: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Ccircle cx='5' cy='5' r='3.5' fill='%23ffcd38'/%3E%3C/svg%3E") 5 5, auto; }
-html.house-inside[data-house-theme="night"] body { --trail: #ffc73a; --trail-glow: 1; --house-speck: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Ccircle cx='5' cy='5' r='3.5' fill='%23ffd04f'/%3E%3C/svg%3E") 5 5, auto; }
+html.house-inside[data-house-theme] body { --trail: #ffcd38; --trail-glow: 0; --house-speck: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Ccircle cx='5' cy='5' r='3.5' fill='%23ffcd38'/%3E%3C/svg%3E") 5 5, auto; }
 /* Over anything that can be chosen the speck opens into a ring, drawn in both
    golds so it holds on the cream labels and on dark ground alike. In the
    dialog and in a search field the ordinary pointer comes back: that is where

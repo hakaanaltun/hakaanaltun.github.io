@@ -1869,7 +1869,7 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
 
   // The House's own colours: the site's theme at the door, and in a room the
   // House's colours by İstanbul's light: the rooms' cream by day, the
-  // sunset sky in the evening and the roofs through the glass at night,
+  // carpet's colour in the evening and the same a little darker at night,
   // whether or not a lamp is lit. The browser's bar takes the House's header.
   {
     let c = houseAt('2026-10-11T11:00:00+03:00', 'https://hakanaltun.io/house/');
@@ -1890,8 +1890,8 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
     await tick();
     html = c.w.document.documentElement;
     assert.equal(c.q('#house-balcony-scene').dataset.hour, 'evening');
-    assert.equal(html.getAttribute('data-house-theme'), 'evening', 'the sunset sky around them');
-    assert.deepEqual(bar(c), ['#AA789A', '#AA789A'], 'and the browser\'s bar with it');
+    assert.equal(html.getAttribute('data-house-theme'), 'evening', 'the carpet\'s colour in the evening');
+    assert.deepEqual(bar(c), ['#BCAB8A', '#BCAB8A'], 'and the browser\'s bar with it');
     c.click('.house-hotspot--balcony-switch');
     assert.equal(html.getAttribute('data-house-theme'), 'evening', 'the lamp lights the room, not the page');
     c.dom.window.close();
@@ -1899,8 +1899,8 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
     await tick();
     html = c.w.document.documentElement;
     assert.equal(c.q('#house-balcony-scene').dataset.hour, 'night');
-    assert.equal(html.getAttribute('data-house-theme'), 'night', 'and the roofs at night');
-    assert.deepEqual(bar(c), ['#566A72', '#566A72'], 'and its night');
+    assert.equal(html.getAttribute('data-house-theme'), 'night', 'and a little darker at night');
+    assert.deepEqual(bar(c), ['#A39274', '#A39274'], 'and its bar');
     c.dom.window.close();
     // The header and footer are the page's own colour, with the page's ink
     // for their words, as on White & Slate (the author, 26 October 2026).

@@ -237,24 +237,27 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   small circle in it. A lit lamp now lights its room, warm and light, a
   little darker toward the corners; put out, it leaves the room to the
   dusk, as before. The same day the author found the grey around the
-  rooms like frozen cement, a colour of no hour, and asked for the page
-  to take its colours from what the window shows instead: in the evening
-  the sunset sky, where its red runs into its blue, and at night the
-  roofs seen through the glass, a dark slate blue with white words on
-  it. The sunset sky itself was reddened then, from a pale mauve over a
-  peach to a violet blue over a rose red, after a photograph of a sunset
+  rooms like frozen cement, a colour of no hour. The sunset sky and the
+  roofs at night were tried around the rooms instead, the sky’s red
+  turning to a loud pink there, and the author settled it: a reader comes
+  in at evening and stays into the night, and nothing in the rooms
+  changes between the two but the sky, so the page should hardly change
+  either. In the evening the page is the colour of the carpet in the
+  lamplit study, and at night the same a little darker; an umber was
+  tried first, and the author found a night’s dark brown no colour of
+  night. The box that opens over a room wears the page’s colour too:
+  with the house that colour outside, a box of another colour inside
+  would be out of place. The lamps light the
+  rooms, not the page. The sunset sky in the window was reddened that
+  day, a violet blue over a rose red, after a photograph of a sunset
   over the water the author shared: at that hour the sky is the red one,
-  and the sea, little of which is seen, only gives it back. A sea in
-  copper was tried first and set aside for that reason. The lamps light
-  the rooms, not the page.
-  The box that opens over a room is held, not part of the wall: it keeps
-  the cream until night and the warm dark at night.
+  and the sea, little of which is seen, only gives it back.
 - **The House’s header and footer are its page.** The same day the author
   asked for the header and footer to take the page’s colour at every hour,
   as Light’s white header and footer take its white, with words dark
   enough to read on it. They no longer move with İstanbul’s sun: they are
-  the cream by day, the sunset sky in the evening and the roofs at
-  night, and their words are the page’s ink, white at night. Their links keep their
+  the cream by day, the carpet’s colour in the evening and a little
+  darker at night, and their words are the page’s ink. Their links keep their
   full ink there, so that they still read when a pointer dims them. On a
   phone, where the page scrolls under the header, a thin line in the
   page’s ink marks the header’s edge, as the author asked the same day;

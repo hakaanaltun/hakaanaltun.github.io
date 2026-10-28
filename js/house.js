@@ -1317,20 +1317,17 @@
 
   /* The House's own colours (css/house.css). At the door the page wears
      the site's theme; in a room it wears the House's, which follows
-     İstanbul's light: their cream in the morning and by day, the sunset
-     sky where its red meets its blue in the evening, and at night the
-     roofs seen through
-     the glass, a dark slate blue. The author asked for these on
-     28 October 2026, after the walls' own dusk around the rooms read as a
-     grey that said no hour. The lamps light the rooms, not the page. The
-     box over a room keeps the cream until night and the warm dark at night.
+     İstanbul's light: their cream in the morning and by day, in the
+     evening the carpet in the lamplit study, and at night the same a
+     little darker (the author, 28 October 2026). The box over a room wears
+     the page's colour. The lamps light the rooms, not the page.
 
      The header and footer are the page's own colour, with the page's ink
      for their words, as on White & Slate: the author asked for this on
      26 October 2026, in place of the beige and dark that had moved with
      İstanbul's sun since the day before. The browser's own bar takes the
      same colour, and at the door the site's theme points it back. */
-  var HOUSE_CHROME = { day: '#F4EFE3', evening: '#AA789A', night: '#566A72' };
+  var HOUSE_CHROME = { day: '#F4EFE3', evening: '#BCAB8A', night: '#A39274' };
   function wearTheme() {
     var page = document.documentElement;
     var hour = scene.dataset.hour;

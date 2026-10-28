@@ -337,22 +337,18 @@ and sky.
   `js/house.js` sets `data-house-theme` on `<html>` while a room is open:
   `day` in İstanbul's morning and day, `evening` and `night` at those
   hours, read from the scenes' `data-hour`. At the door it is taken off.
-  The page around the rooms (rule in `COLOPHON.md`) is measured from
-  the rendered window: in the evening the balcony's sky just above the
-  horizon, `#AA789A`, under `--sky-top: #9a7cab` and `--sky-bottom:
-  #f5684e`; at night the roofs through the glass, `#566A72`. Change the
-  sky's stops and measure the page again. The evening's mauve leaves the
-  ink little room: black holds 5.86:1, `--vizon` 5.04:1 on the band and
-  the accent, at `--sec-l` 0.220, 4.76:1. At night the words are white
-  (5.68:1, `--vizon` 4.82:1) and the night sets `--select-dim` to .86,
-  so a dimmed white link holds 4.7:1. The lamps light the rooms only: a
-  lit lamp (`data-lamp` in the study, `data-balcony-lamp` on the
-  balcony) takes `.house-dusk` to .3 in the lamp's warm brown
-  (`#9c7a4e`, the lamplight gradients in the two SVGs) after sunset.
-  The dialog keeps the
-  cream in the evening (it shares the day block) and the warm dark at
-  night (`[data-house-theme="night"] .house-dialog`); the site's menu
-  takes the page's colour. `css/house.css` sets the tokens on `<body>`, which every
+  The page around the rooms (rule in `COLOPHON.md`) is, in the evening,
+  the carpet as the lamplit study draws it, `#BCAB8A` (measured from the
+  rendered room), and at night `#A39274`, the same a little darker. The
+  dialog wears the page's tokens at every hour, as does the site's menu.
+  On the night's carpet the ink has little room: `--vizon` holds 4.97:1
+  on `--surface-soft`, the accent, at `--sec-l` 0.280, 4.71:1, and the
+  header's words 4.92:1 dimmed.
+  The lamps light the rooms only: a lit lamp (`data-lamp` in the study,
+  `data-balcony-lamp` on the balcony) takes `.house-dusk` to .3 in the
+  lamp's warm brown (`#9c7a4e`, the lamplight gradients in the two SVGs)
+  after sunset. The sunset sky is `--sky-top: #9a7cab` over
+  `--sky-bottom: #f5684e`. `css/house.css` sets the tokens on `<body>`, which every
   theme's own blocks reach only from `<html>` (Follow the sky paints
   inline on `<html>`), and sets `--surface-chrome` and `--surface-footer`
   directly, so no palette's `--chrome-rgb` reaches the header and footer.
@@ -365,7 +361,7 @@ and sky.
 - **The header and footer are the page** (rule in `COLOPHON.md`). Each
   of the three blocks in `css/house.css` sets `--surface-chrome` and
   `--surface-footer` to its `--paper`, `--footer-text` and `--footer-muted`
-  to its ink (black in the evening, white at night), and `--header-border` to that ink at .20, as Light does with its
+  to its ink, and `--header-border` to that ink at .20, as Light does with its
   white. `html.house-inside[data-house-theme] .header-nav-bar a` gives the
   links their full ink in place of the site's 85%, so that under
   `--select-dim` they hold 4.5:1 or better. On a phone, by the header's
