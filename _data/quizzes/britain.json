@@ -17,17 +17,17 @@
     ]
   },
   {
-    "id": "tube",
+    "id": "tube-tunnel-shape",
     "category": "Places & landmarks",
-    "question": "What is the usual nickname for the London Underground?",
+    "question": "Why is London’s Underground nicknamed the Tube?",
     "choices": [
-      "The Loop",
-      "The Tube",
-      "The Metro",
-      "The Line"
+      "The shape of its deep tunnels",
+      "The shape of its earliest tickets",
+      "The pipes carrying air to its brakes",
+      "The tubes once used to send fares"
     ],
-    "answer": 1,
-    "note": "The London Underground opened in 1863 and was the first underground railway in the world. The nickname comes from the deep circular tunnels bored for the later electric lines, and it took hold after newspapers dubbed the Central London Railway the “Twopenny Tube” when it opened in 1900 with a flat fare of two pence.",
+    "answer": 0,
+    "note": "The nickname refers to circular tunnels bored for the deeper lines. It became familiar around the opening of the Central London Railway, known as the Twopenny Tube.",
     "sources": [
       "https://en.wikipedia.org/wiki/London_Underground",
       "https://en.wikipedia.org/wiki/Central_London_Railway"
@@ -36,7 +36,7 @@
   {
     "id": "bath",
     "category": "Places & landmarks",
-    "question": "Which English city stands over the only hot springs in Britain?",
+    "question": "A British city has naturally hot springs still flowing through a Roman-era complex. Which city?",
     "choices": [
       "York",
       "Bath",
@@ -44,44 +44,43 @@
       "Brighton"
     ],
     "answer": 1,
-    "note": "The Romans called the town Aquae Sulis, after Sulis, a local goddess whom they treated as a version of their own Minerva. The hot springs under it still rise at around 46°C and deliver more than a million litres a day.",
+    "note": "The Romans called it Aquae Sulis, joining a local goddess, Sulis, with their own Minerva. The springs that drew visitors in antiquity still bring hot water to the surface.",
     "sources": [
       "https://earthwise.bgs.ac.uk/index.php/Geology_of_the_Bath_area:_Applied_geology:_hydrogeology",
       "https://whc.unesco.org/en/list/428/"
     ]
   },
   {
-    "id": "northern-ireland",
+    "id": "causeway-cooling-lava",
     "category": "Places & landmarks",
-    "question": "Where is the Giant’s Causeway?",
+    "question": "The Giant’s Causeway looks almost paved, with thousands of closely fitted stone columns. What made those shapes?",
     "choices": [
-      "Wales",
-      "Northern Ireland",
-      "England",
-      "Isle of Man"
+      "Lava cooling and cracking",
+      "Waves stacking loose stones",
+      "Glaciers pressing pebbles together",
+      "People cutting blocks for a harbour"
     ],
-    "answer": 1,
-    "note": "The causeway is made of around 40,000 basalt columns, most of them six-sided, left behind when a thick flow of lava cooled and cracked about 60 million years ago. Irish legend explains them another way, telling of the giant Fionn mac Cumhaill laying the stones so he could walk across to Scotland.",
+    "answer": 0,
+    "note": "Cooling basalt fractured into columns, many of them six-sided. The giant Fionn mac Cumhaill offers a different explanation in Irish legend: stepping stones towards Scotland.",
     "sources": [
       "https://www.nationaltrust.org.uk/visit/northern-ireland/giants-causeway/history-of-giants-causeway",
       "https://en.wikipedia.org/wiki/Giant%27s_Causeway"
     ]
   },
   {
-    "id": "wiltshire",
+    "id": "stonehenge-solstice",
     "category": "Places & landmarks",
-    "question": "In which English county is Stonehenge?",
+    "question": "Stonehenge’s main alignment marks which recurring event?",
     "choices": [
-      "Kent",
-      "Cornwall",
-      "Wiltshire",
-      "Norfolk"
+      "The Sun’s position at the solstices",
+      "The return of a particular comet",
+      "The start of every lunar eclipse",
+      "The daily position of the North Star"
     ],
-    "answer": 2,
-    "note": "Stonehenge stands on Salisbury Plain and was built in stages beginning around 3000 BC. Many of its smaller bluestones came from the Preseli Hills in west Wales. The central Altar Stone has a different story, with research published in 2024 tracing its geological origin to north-east Scotland.",
+    "answer": 0,
+    "note": "The stones frame midsummer sunrise in one direction and midwinter sunset in the other. The alignment lets a familiar monument reveal something about the sky above it.",
     "sources": [
-      "https://www.english-heritage.org.uk/visit/places/stonehenge/history-and-stories/history/",
-      "https://www.theguardian.com/uk-news/article/2024/aug/14/stonehenge-megalith-came-from-scotland-not-wales-jaw-dropping-study-finds"
+      "https://www.english-heritage.org.uk/visit/places/stonehenge/things-to-do/solstice/"
     ]
   },
   {
@@ -119,7 +118,7 @@
   {
     "id": "sherwood-forest",
     "category": "Places & landmarks",
-    "question": "Robin Hood is traditionally associated with which forest?",
+    "question": "Robin Hood’s outlaw stories are most closely associated with which English forest?",
     "choices": [
       "Epping Forest",
       "New Forest",
@@ -127,125 +126,122 @@
       "Ashdown Forest"
     ],
     "answer": 2,
-    "note": "Sherwood was a royal hunting forest in Nottinghamshire, but of the four earliest Robin Hood ballads only Robin Hood and the Monk names it; the other three are set around Barnsdale in Yorkshire. The Major Oak, long said to have sheltered the outlaws and thought to be 800 to 1,200 years old, failed to come into leaf in 2026, and the RSPB, which manages the forest, announced that it had died.",
+    "note": "Sherwood became the best-known setting, but several early ballads take place around Barnsdale in Yorkshire. The familiar map of a legend can be narrower than the stories themselves.",
     "sources": [
-      "https://www.medievalists.net/2019/08/robin-hood-sherwood-forest-barnsdale/",
-      "https://www.theguardian.com/environment/2026/jun/18/most-famous-tree-world-sherwood-forest-ancient-major-oak-dies",
-      "https://en.wikipedia.org/wiki/Sherwood_Forest"
+      "https://www.medievalists.net/2019/08/robin-hood-sherwood-forest-barnsdale/"
     ]
   },
   {
-    "id": "globe",
+    "id": "globe-theatre-fire",
     "category": "Places & landmarks",
-    "question": "Which theatre is most closely associated with Shakespeare’s company in London?",
+    "question": "What theatrical effect accidentally burned down Shakespeare’s Globe in 1613?",
     "choices": [
-      "The Old Vic",
-      "The Globe",
-      "The Palladium",
-      "The Royal Court"
+      "A cannon fired during a performance",
+      "A lightning effect made with mirrors",
+      "A torch carried through the audience",
+      "A rain effect poured onto hot lamps"
     ],
-    "answer": 1,
-    "note": "The Globe opened on the south bank of the Thames in 1599, built from the timbers of an earlier playhouse that the company had dismantled and carried across the river. It burned down in 1613 when a cannon fired during a performance of Henry VIII set the thatched roof alight.",
+    "answer": 0,
+    "note": "Burning material from a stage cannon caught the thatched roof during Henry VIII. The replacement theatre had a tiled roof.",
     "sources": [
-      "https://www.shakespearesglobe.com/discover/about-us/globe-theatre/",
-      "https://en.wikipedia.org/wiki/Globe_Theatre"
+      "https://www.shakespearesglobe.com/discover/shakespeares-world/the-globe/"
     ]
   },
   {
-    "id": "paddington",
+    "id": "paddington-place-name",
     "category": "Places & landmarks",
-    "question": "The Brown family meet a bear at a London railway station and name him after it. Which station?",
+    "question": "Why did the Brown family call their adopted bear Paddington?",
     "choices": [
-      "Victoria",
-      "Waterloo",
-      "Paddington",
-      "King’s Cross"
+      "It was the station where they met him",
+      "It was the name on his travel papers",
+      "It was the street where they lived",
+      "It was the name of the ship he arrived on"
     ],
-    "answer": 2,
-    "note": "Michael Bond’s bear is found at Paddington station with a label asking that he be looked after, and the Browns name him for the place where they meet him. Bond gave the bear a home in Peru after he was reminded that there are no bears in Africa, where he had first placed him.",
+    "answer": 0,
+    "note": "The Browns find him at a London railway station with a label asking that he be looked after. The name ties a newcomer from Peru to the place where his London life begins.",
     "sources": [
       "https://en.wikipedia.org/wiki/Paddington_Bear"
     ]
   },
   {
-    "id": "liverpool",
+    "id": "beatles-hamburg",
     "category": "Places & landmarks",
-    "question": "Which city is most closely associated with the Beatles’ beginnings?",
+    "question": "Before global fame, the Beatles sharpened their live act through long club residencies abroad. In which country?",
     "choices": [
-      "Manchester",
-      "Liverpool",
-      "Birmingham",
-      "Leeds"
+      "Germany",
+      "France",
+      "Sweden",
+      "The United States"
     ],
-    "answer": 1,
-    "note": "The Beatles came together in Liverpool at the end of the 1950s and played close to 300 shows at the Cavern Club on Mathew Street. Their long residencies in Hamburg in the early 1960s are usually credited with turning them into a hardened live band before they became famous at home.",
+    "answer": 0,
+    "note": "Their early 1960s stays in Hamburg involved demanding stretches of live performance. Liverpool remained home, but the band’s early working life crossed the North Sea.",
     "sources": [
       "https://en.wikipedia.org/wiki/Cavern_Club",
       "https://en.wikipedia.org/wiki/The_Beatles_in_Hamburg"
     ]
   },
   {
-    "id": "year-battle-hastings",
+    "id": "hastings-place-name",
     "category": "History",
-    "question": "In what year was the Battle of Hastings?",
+    "question": "England has a town called Battle. Which event gave it that unusually direct name?",
     "choices": [
-      "1066",
-      "1215",
-      "1415",
-      "1485"
+      "The Battle of Hastings",
+      "The Battle of Waterloo",
+      "The Battle of Agincourt",
+      "The Battle of Bosworth"
     ],
     "answer": 0,
-    "note": "The battle was fought on 14 October 1066, a few miles inland from Hastings at the place now called Battle. It ran for most of the day, which was unusually long for medieval fighting, and it ended Anglo-Saxon rule in England.",
+    "note": "The 1066 battle took place inland from Hastings, where Battle now stands. The name on the map preserves the event rather than the nearest better-known town.",
     "sources": [
       "https://en.wikipedia.org/wiki/Battle_of_Hastings",
       "https://www.medievalists.net/2024/10/hastings-unusual-battle/"
     ]
   },
   {
-    "id": "william-duke-of",
+    "id": "domesday-survey",
     "category": "History",
-    "question": "Who defeated Harold II at the Battle of Hastings?",
+    "question": "William the Conqueror’s Domesday Book sounds like a prophecy. What was it actually recording?",
     "choices": [
-      "Alfred the Great",
-      "William, Duke of Normandy",
-      "Henry Tudor",
-      "Cnut"
+      "Landholdings, resources and their value",
+      "Predictions of the end of the world",
+      "The stories of royal saints and miracles",
+      "Instructions for building new castles"
     ],
-    "answer": 1,
-    "note": "William, Duke of Normandy, won at Hastings and was crowned in Westminster Abbey on Christmas Day 1066. At Christmas 1085 he ordered the survey recorded in Domesday Book, which set down who held what across most of England in such detail that courts were still citing it in the twenty-first century.",
+    "answer": 0,
+    "note": "The survey recorded who held what across much of England. Its detailed account of land and resources made it a lasting tool of royal administration.",
     "sources": [
       "https://en.wikipedia.org/wiki/William_the_Conqueror",
       "https://en.wikipedia.org/wiki/Domesday_Book"
     ]
   },
   {
-    "id": "year-magna-carta",
+    "id": "magna-carta-law",
     "category": "History",
-    "question": "In which year was Magna Carta first sealed?",
+    "question": "Which idea helps explain why Magna Carta is remembered far beyond medieval England?",
     "choices": [
-      "1066",
-      "1215",
-      "1534",
-      "1689"
+      "A ruler’s power can be limited by law",
+      "A monarch must always be elected",
+      "Every adult must vote on every law",
+      "A country must have no royal family"
     ],
-    "answer": 1,
-    "note": "King John put his seal to Magna Carta at Runnymede in June 1215 under pressure from rebel barons. He had it annulled by the Pope within ten weeks, and the version that became law was reissued after his death. Four copies of the 1215 document survive.",
+    "answer": 0,
+    "note": "The 1215 charter grew out of a conflict between King John and his barons. It was not a modern declaration of equal rights, but became a powerful reference point for limits on royal authority.",
     "sources": [
-      "https://en.wikipedia.org/wiki/Magna_Carta"
+      "https://www.parliament.uk/about/living-heritage/evolutionofparliament/originsofparliament/birthofparliament/overview/magnacarta/"
     ]
   },
   {
-    "id": "gunpowder-plot-took",
+    "id": "gunpowder-warning-letter",
     "category": "History",
-    "question": "The Gunpowder Plot took place in which year?",
+    "question": "What helped expose the Gunpowder Plot before the explosives were set off?",
     "choices": [
-      "1485",
-      "1558",
-      "1605",
-      "1666"
+      "An anonymous warning to stay away",
+      "A confession printed in a newspaper",
+      "A map left inside a royal portrait",
+      "A message sent by the Spanish king"
     ],
-    "answer": 2,
-    "note": "The plotters meant to blow up the House of Lords at the state opening of Parliament on 5 November 1605 and put a Catholic monarch on the throne. An anonymous letter warning one peer to stay away from the opening led to the search that uncovered the cellar.",
+    "answer": 0,
+    "note": "A letter warned one peer away from Parliament’s opening. The resulting searches uncovered the explosives beneath the House of Lords in November 1605.",
     "sources": [
       "https://en.wikipedia.org/wiki/Gunpowder_Plot"
     ]
@@ -253,7 +249,7 @@
   {
     "id": "barrels-of-gunpowder",
     "category": "History",
-    "question": "What was Guy Fawkes found guarding beneath the House of Lords?",
+    "question": "Guy Fawkes was caught beneath Parliament guarding the means for an explosion. What had the plotters stored there?",
     "choices": [
       "A cache of swords",
       "Barrels of gunpowder",
@@ -268,114 +264,114 @@
     ]
   },
   {
-    "id": "lancaster-and-york",
+    "id": "tudor-rose-union",
     "category": "History",
-    "question": "Which two houses fought the Wars of the Roses?",
+    "question": "Why does the Tudor rose combine red and white petals?",
     "choices": [
-      "Lancaster and York",
-      "Stuart and Tudor",
-      "Wessex and Mercia",
-      "Windsor and Hanover"
+      "It joins symbols of rival royal houses",
+      "It marks two seasons of royal weddings",
+      "It combines the colours of two navies",
+      "It remembers two great fires in London"
     ],
     "answer": 0,
-    "note": "The houses of Lancaster and York fought for the English throne from 1455 to 1487. The name came into use long afterwards and refers to their red and white rose badges, which Henry VII combined into the Tudor rose once he had taken the crown.",
+    "note": "Red and white were associated with Lancaster and York. Henry VII used the combined rose to present his dynasty as a union after their struggle for the throne.",
     "sources": [
-      "https://en.wikipedia.org/wiki/Wars_of_the_Roses"
+      "https://www.english-heritage.org.uk/visit/inspire-me/roses-through-time-a-history-of-rose-gardens-and-roses-as-a-symbol-in-english-culture/"
     ]
   },
   {
-    "id": "many-wives-henry",
+    "id": "henry-wives-rhyme",
     "category": "History",
-    "question": "How many wives did Henry VIII have?",
+    "question": "The rhyme “divorced, beheaded, died; divorced, beheaded, survived” remembers what about Henry VIII?",
     "choices": [
-      "Four",
-      "Five",
-      "Six",
-      "Seven"
+      "The fates of his six wives",
+      "The endings of his six wars",
+      "The lives of his six children",
+      "The careers of his six advisers"
     ],
-    "answer": 2,
-    "note": "Henry VIII married six times in his search for a male heir who would outlive him. His wives’ fates are remembered by a rhyme: divorced, beheaded, died; divorced, beheaded, survived. The son he finally had, Edward VI, died at fifteen.",
+    "answer": 0,
+    "note": "The rhyme compresses six marriages into a memorable sequence. Henry’s search for a surviving male heir helped shape the marriages and the religious politics around them.",
     "sources": [
       "https://en.wikipedia.org/wiki/Wives_of_Henry_VIII",
       "https://en.wikipedia.org/wiki/Edward_VI"
     ]
   },
   {
-    "id": "anne-boleyn",
+    "id": "elizabeth-succession",
     "category": "History",
-    "question": "Who was the mother of Elizabeth I?",
+    "question": "Elizabeth I is one of England’s best-known monarchs. Which description fits her path to the throne?",
     "choices": [
-      "Catherine of Aragon",
-      "Anne Boleyn",
-      "Jane Seymour",
-      "Catherine Parr"
+      "Two half-siblings ruled before her",
+      "She succeeded her father immediately",
+      "She inherited from a childless uncle",
+      "She replaced a monarch from another dynasty"
     ],
-    "answer": 1,
-    "note": "Elizabeth I was the daughter of Henry VIII and Anne Boleyn, who was executed when Elizabeth was two years old. Elizabeth was declared illegitimate soon afterwards and reached the throne only in 1558, once both her half-siblings had reigned and died.",
+    "answer": 0,
+    "note": "Edward VI and Mary I both reigned before Elizabeth. Declared illegitimate as a child, she reached the throne only in 1558 after their deaths.",
     "sources": [
       "https://en.wikipedia.org/wiki/Elizabeth_I"
     ]
   },
   {
-    "id": "james-vi",
+    "id": "james-two-numbers",
     "category": "History",
-    "question": "Which Scottish king became James I of England after Elizabeth I died?",
+    "question": "Why can the same monarch be called James VI and James I?",
     "choices": [
-      "James IV",
-      "James V",
-      "James VI",
-      "James VII"
+      "He had different numbers in two kingdoms",
+      "He changed his name after a civil war",
+      "He ruled once as a child and once as an adult",
+      "He counted only part of his family line"
     ],
-    "answer": 2,
-    "note": "James VI of Scotland became James I of England in 1603, bringing the two crowns together under one king while the countries kept their separate parliaments. He was the son of Mary, Queen of Scots, whom Elizabeth I had ordered executed sixteen years earlier.",
+    "answer": 0,
+    "note": "He was already James VI of Scotland when he became James I of England in 1603. The kingdoms shared a monarch while retaining separate parliaments.",
     "sources": [
-      "https://en.wikipedia.org/wiki/James_VI_and_I"
+      "https://www.parliament.uk/about/living-heritage/evolutionofparliament/legislativescrutiny/act-of-union-1707/overview/union-of-the-crowns/"
     ]
   },
   {
-    "id": "year-great-fire",
+    "id": "great-fire-bakery",
     "category": "History",
-    "question": "In what year did the Great Fire of London begin?",
+    "question": "The Great Fire of London began in an ordinary workplace. Which kind?",
     "choices": [
-      "1605",
-      "1649",
-      "1666",
-      "1688"
+      "A bakery",
+      "A printing shop",
+      "A brewery",
+      "A candle workshop"
     ],
-    "answer": 2,
-    "note": "The fire started in a bakery on Pudding Lane in the early hours of 2 September 1666 and burned for four days. It destroyed some 13,200 houses and the old St Paul’s Cathedral, although the recorded death toll was remarkably small.",
+    "answer": 0,
+    "note": "It started in Thomas Farriner’s bakery on Pudding Lane in September 1666. Over four days it spread through homes, churches and public buildings, including the old St Paul’s Cathedral.",
     "sources": [
-      "https://en.wikipedia.org/wiki/Great_Fire_of_London"
+      "https://www.londonmuseum.org.uk/collections/london-stories/great-fire-of-london/"
     ]
   },
   {
-    "id": "queen-victoria",
+    "id": "victoria-mourning",
     "category": "History",
-    "question": "Which British monarch became Empress of India in 1877?",
+    "question": "Queen Victoria is often pictured in black later in life. What explains that lasting public image?",
     "choices": [
-      "Queen Anne",
-      "Queen Victoria",
-      "Elizabeth I",
-      "Mary II"
+      "Her mourning for Prince Albert",
+      "A rule requiring monarchs to wear black",
+      "Her refusal to use imported dyes",
+      "A uniform worn only at coronations"
     ],
-    "answer": 1,
-    "note": "Victoria came to the throne in 1837 at eighteen and reigned until 1901, longer than any British monarch before her. She withdrew from public life for years after Prince Albert died in 1861, and her long mourning shaped much of how the era is now remembered.",
+    "answer": 0,
+    "note": "After Albert died in 1861, Victoria withdrew from public life for years. Her long mourning became part of the image associated with both the queen and her era.",
     "sources": [
       "https://www.royal.uk/queen-victoria"
     ]
   },
   {
-    "id": "yeoman-warders",
+    "id": "beefeaters-tower-homes",
     "category": "Legend & custom",
-    "question": "The people often called “Beefeaters” at the Tower of London are officially known as what?",
+    "question": "After visitors leave the Tower of London, where do its ceremonial guardians, the Beefeaters, have their homes?",
     "choices": [
-      "King’s Guards",
-      "Yeoman Warders",
-      "Chelsea Pensioners",
-      "Royal Archers"
+      "Inside the Tower with their families",
+      "In a separate village outside London",
+      "In cabins aboard a ship on the Thames",
+      "In rooms beneath Westminster Abbey"
     ],
-    "answer": 1,
-    "note": "The Yeoman Warders are the ceremonial guardians of the Tower and live within its walls with their families. Their history is linked to the monarch’s Yeomen of the Guard, but the Tower’s warders became a separate body under Henry VIII. The nickname “Beefeater” is commonly connected with their beef rations, although its origin is uncertain.",
+    "answer": 0,
+    "note": "The Yeoman Warders live within the Tower’s walls. Behind the historic visitor attraction is also a residential community.",
     "sources": [
       "https://en.wikipedia.org/wiki/Yeomen_Warders",
       "https://www.hrp.org.uk/tower-of-london/whats-on/yeoman-warder-tours/"
@@ -415,115 +411,114 @@
     ]
   },
   {
-    "id": "5-november",
+    "id": "bonfire-night-event",
     "category": "Legend & custom",
-    "question": "Bonfire Night is observed on which date?",
+    "question": "Britain’s Bonfire Night combines fireworks with the memory of which event?",
     "choices": [
-      "31 October",
-      "5 November",
-      "11 November",
-      "26 December"
+      "A failed plan to blow up Parliament",
+      "A victory over the Spanish Armada",
+      "The end of the Great Fire of London",
+      "The signing of Magna Carta"
     ],
-    "answer": 1,
-    "note": "Bonfire Night marks the failure of the Gunpowder Plot on 5 November 1605. In 1606 Parliament made the day an annual public thanksgiving by law, and that act stayed on the statute book until 1859.",
+    "answer": 0,
+    "note": "The celebrations recall the failure of the Gunpowder Plot on 5 November 1605. Parliament made an annual day of thanksgiving compulsory the following year.",
     "sources": [
       "https://en.wikipedia.org/wiki/Observance_of_5th_November_Act_1605"
     ]
   },
   {
-    "id": "26-december",
+    "id": "boxing-day-boxes",
     "category": "Legend & custom",
-    "question": "Boxing Day falls on which date?",
+    "question": "The name Boxing Day is usually linked to which kind of “box”?",
     "choices": [
-      "24 December",
-      "25 December",
-      "26 December",
-      "31 December"
+      "Gifts or money for workers",
+      "Boxes collecting offerings at Christmas markets",
+      "Containers holding leftover Christmas food",
+      "Seats reserved for festive sporting events"
     ],
-    "answer": 2,
-    "note": "Boxing Day falls on 26 December, which is also St Stephen’s Day. The name is generally connected with Christmas boxes of money or gifts given to servants and tradespeople, although its precise origin is uncertain. The date also became a major occasion for sporting fixtures in Britain.",
+    "answer": 0,
+    "note": "The precise origin is uncertain, but Christmas boxes for servants and tradespeople are the usual explanation. The day falls on 26 December; its name does not come from the combat sport.",
     "sources": [
       "https://en.wikipedia.org/wiki/Boxing_Day"
     ]
   },
   {
-    "id": "shrove-tuesday",
+    "id": "pancakes-before-lent",
     "category": "Legend & custom",
-    "question": "Pancake Day in Britain is another name for what?",
+    "question": "Why did pancakes become associated with the day before Lent?",
     "choices": [
-      "Ash Wednesday",
-      "Shrove Tuesday",
-      "Maundy Thursday",
-      "Michaelmas"
+      "They used up eggs and fats before fasting",
+      "They represented coins given to the poor",
+      "They marked the first grain harvest",
+      "They stayed fresh through the whole fast"
     ],
-    "answer": 1,
-    "note": "Shrove Tuesday is the last day before Lent, and the pancakes exist to use up eggs, butter and other rich food before the fast began. “Shrove” comes from shriving, the old word for confessing and being absolved, which was done on the same day.",
+    "answer": 0,
+    "note": "Eggs, butter and fat could be used up in pancakes before dietary restrictions began. Shrove Tuesday’s familiar food carries a practical part of the religious calendar.",
     "sources": [
-      "https://en.wikipedia.org/wiki/Shrove_Tuesday"
+      "https://www.english-heritage.org.uk/pancakes-shrove-tuesday/"
     ]
   },
   {
-    "id": "jane-austen",
+    "id": "austen-anonymous-title",
     "category": "Books, stage & screen",
-    "question": "Who wrote Pride and Prejudice?",
+    "question": "Jane Austen’s first published novel appeared without her name. How did its title page identify the author?",
     "choices": [
-      "George Eliot",
-      "Jane Austen",
-      "Charlotte Brontë",
-      "Virginia Woolf"
+      "By a Lady",
+      "By a Country Clergyman",
+      "By a London Bookseller",
+      "By a Retired Officer"
     ],
-    "answer": 1,
-    "note": "Pride and Prejudice appeared in 1813, although Austen had written a first version called First Impressions in the 1790s and seen it turned down by a publisher who never read it. All her novels were published anonymously in her lifetime, and her name appeared on them only after her death.",
+    "answer": 0,
+    "note": "Sense and Sensibility appeared in 1811 with that simple attribution. Austen’s now-famous name was absent from the title page.",
     "sources": [
-      "https://en.wikipedia.org/wiki/Pride_and_Prejudice",
-      "https://en.wikipedia.org/wiki/Jane_Austen"
+      "https://janeaustens.house/jane-austen/novels/sense-and-sensibility/"
     ]
   },
   {
-    "id": "christmas-carol",
+    "id": "scrooge-common-word",
     "category": "Books, stage & screen",
-    "question": "Ebenezer Scrooge appears in which Dickens work?",
+    "question": "Dickens’s character Scrooge gave English a word for what kind of person?",
     "choices": [
-      "Oliver Twist",
-      "Bleak House",
-      "A Christmas Carol",
-      "Great Expectations"
+      "Someone unwilling to spend or give money",
+      "Someone who cannot stop telling stories",
+      "Someone who is always falling asleep",
+      "Someone who travels without settling"
     ],
-    "answer": 2,
-    "note": "Dickens wrote A Christmas Carol in about six weeks in 1843 and paid for the printing himself after falling out with his publishers over money. The first run sold out before Christmas, and “Scrooge” entered English as a word for a miser.",
+    "answer": 0,
+    "note": "A Christmas Carol follows a miser’s change of heart. The character became so recognisable that his surname entered ordinary speech.",
     "sources": [
       "https://en.wikipedia.org/wiki/A_Christmas_Carol"
     ]
   },
   {
-    "id": "arthur-conan-doyle",
+    "id": "holmes-return",
     "category": "Books, stage & screen",
-    "question": "Who created Sherlock Holmes?",
+    "question": "Conan Doyle apparently killed Sherlock Holmes in a story. How did the detective’s career continue?",
     "choices": [
-      "Wilkie Collins",
-      "Arthur Conan Doyle",
-      "G. K. Chesterton",
-      "H. G. Wells"
+      "The author later explained that he survived",
+      "A son took over under the same name",
+      "Every later adventure was narrated by a ghost",
+      "The publisher replaced him with a different detective"
     ],
-    "answer": 1,
-    "note": "Conan Doyle apparently killed Holmes in “The Final Problem,” published in 1893. The detective appeared again in The Hound of the Baskervilles, serialised in 1901–02, but that story was set before his supposed death. His survival was finally explained in “The Adventure of the Empty House” in 1903.",
+    "answer": 0,
+    "note": "The Hound of the Baskervilles first brought readers a story set before Holmes’s supposed death. The Adventure of the Empty House then explained his survival.",
     "sources": [
       "https://en.wikipedia.org/wiki/The_Adventure_of_the_Empty_House",
       "https://en.wikipedia.org/wiki/The_Hound_of_the_Baskervilles"
     ]
   },
   {
-    "id": "agatha-christie",
+    "id": "poirot-belgian-refugee",
     "category": "Books, stage & screen",
-    "question": "Hercule Poirot was created by whom?",
+    "question": "Hercule Poirot is a star of British detective fiction, but Agatha Christie made him a refugee from which country?",
     "choices": [
-      "Dorothy L. Sayers",
-      "Agatha Christie",
-      "P. D. James",
-      "Ngaio Marsh"
+      "Belgium",
+      "France",
+      "Switzerland",
+      "The Netherlands"
     ],
-    "answer": 1,
-    "note": "Christie introduced Poirot in her first novel in 1920, making him a Belgian refugee of the kind she had seen arriving in her home town during the First World War. She grew tired of him decades before she stopped writing him, and finally killed him off in a book she had kept locked away since the 1940s.",
+    "answer": 0,
+    "note": "Christie had seen Belgian refugees arrive during the First World War. That experience helped shape the background of the detective introduced in her first novel.",
     "sources": [
       "https://www.agathachristie.com/en/characters/hercule-poirot",
       "https://en.wikipedia.org/wiki/Hercule_Poirot",
@@ -531,17 +526,17 @@
     ]
   },
   {
-    "id": "wilkie-collins",
+    "id": "victorian-serial-fiction",
     "category": "Books, stage & screen",
-    "question": "Who wrote The Woman in White?",
+    "question": "Before Victorian readers could buy The Woman in White as a complete book, how did many first encounter it?",
     "choices": [
-      "Thomas Hardy",
-      "Wilkie Collins",
-      "George Gissing",
-      "Anthony Trollope"
+      "In instalments in a magazine",
+      "As a play performed in a theatre",
+      "As illustrated cards sold at bookstalls",
+      "As readings before the manuscript was printed"
     ],
-    "answer": 1,
-    "note": "The Woman in White ran as a serial in Dickens’s magazine All the Year Round from 1859 and made Collins’s name with the reading public. It helped establish the sensation novel, and shops sold Woman in White bonnets and perfumes on the strength of it.",
+    "answer": 0,
+    "note": "The novel ran in Charles Dickens’s magazine All the Year Round. Serial publication let the story reach readers piece by piece before it became a complete volume.",
     "sources": [
       "https://www.wilkie-collins.info/books_woman_white.htm",
       "https://en.wikipedia.org/wiki/The_Woman_in_White_(novel)"
@@ -565,101 +560,100 @@
     ]
   },
   {
-    "id": "ian-fleming",
+    "id": "bond-birdwatcher",
     "category": "Books, stage & screen",
-    "question": "Who created James Bond?",
+    "question": "Ian Fleming borrowed the name James Bond from the author of a book on his shelf. What was that book about?",
     "choices": [
-      "John le Carré",
-      "Ian Fleming",
-      "Len Deighton",
-      "Alistair MacLean"
+      "Birds",
+      "Espionage",
+      "Motor racing",
+      "Casino games"
     ],
-    "answer": 1,
-    "note": "Fleming wrote Casino Royale at his house in Jamaica in 1952 and took the name from an American ornithologist whose field guide to Caribbean birds sat on his shelf. He had worked in naval intelligence during the war, which supplied much of the material.",
+    "answer": 0,
+    "note": "The real James Bond was an American ornithologist who wrote Birds of the West Indies. Fleming kept the guide at his Jamaican home, where he wrote the spy novels.",
     "sources": [
-      "https://en.wikipedia.org/wiki/Casino_Royale_(novel)",
-      "https://en.wikipedia.org/wiki/James_Bond_(ornithologist)"
+      "https://www.trin.cam.ac.uk/news/the-real-james-bond-was-a-trinity-student/"
     ]
   },
   {
-    "id": "rowan-atkinson",
+    "id": "bean-physical-comedy",
     "category": "Books, stage & screen",
-    "question": "Who plays Mr Bean?",
+    "question": "What helps explain why Mr Bean’s comedy can travel easily between languages?",
     "choices": [
-      "Hugh Laurie",
-      "Rowan Atkinson",
-      "Stephen Fry",
-      "Rik Mayall"
+      "Much of the humour works through actions",
+      "The stories adapt familiar local folk tales",
+      "A narrator explains unfamiliar British customs",
+      "The dialogue uses a shared international slang"
     ],
-    "answer": 1,
-    "note": "Rowan Atkinson created Mr Bean with Richard Curtis, and the character barely speaks, which let the show travel almost anywhere without translation. Only fourteen half-hour episodes were made between 1990 and 1995.",
+    "answer": 0,
+    "note": "Rowan Atkinson’s character speaks very little. Expressions, movement and everyday mishaps carry much of the comedy without needing dialogue.",
     "sources": [
       "https://en.wikipedia.org/wiki/Mr._Bean"
     ]
   },
   {
-    "id": "doctor-tardis-stand",
+    "id": "tardis-broken-disguise",
     "category": "Books, stage & screen",
-    "question": "In Doctor Who, what does TARDIS stand for?",
+    "question": "In Doctor Who, why does a time machine keep looking like an old blue police box?",
     "choices": [
-      "Time And Relative Dimension In Space",
-      "Travel Across Real Dimensions In Space",
-      "Time And Reality Device In Space",
-      "Temporal And Relative Distance In Space"
+      "Its disguise mechanism got stuck",
+      "The Doctor chose it to blend into every city",
+      "Its first owner had worked for the police",
+      "Earth’s atmosphere forced it into that shape"
     ],
     "answer": 0,
-    "note": "TARDIS stands for Time And Relative Dimension In Space, a name the Doctor’s granddaughter Susan claims to have made up herself in the very first serial in 1963. The ship is meant to disguise itself wherever it lands, but its camouflage circuit had already failed when the series began, leaving it a 1960s London police box.",
+    "note": "A TARDIS can normally change its exterior to blend into its surroundings. The Doctor’s faulty chameleon circuit made one disguise the programme’s lasting visual signature.",
     "sources": [
-      "https://en.wikipedia.org/wiki/TARDIS"
+      "https://www.doctorwho.tv/characters/the-tardis"
     ]
   },
   {
-    "id": "monty-pythons-flying",
+    "id": "python-parrot-argument",
     "category": "Books, stage & screen",
-    "question": "In which comedy series did the Dead Parrot sketch first appear?",
+    "question": "In Monty Python’s Dead Parrot sketch, what does the shopkeeper keep refusing to admit?",
     "choices": [
-      "The Goon Show",
-      "Monty Python’s Flying Circus",
-      "Not the Nine O’Clock News",
-      "The Frost Report"
+      "The bird he sold is dead",
+      "The customer has paid twice",
+      "The bird can speak several languages",
+      "The shop has run out of cages"
     ],
-    "answer": 1,
-    "note": "Monty Python’s Flying Circus began on the BBC in October 1969, late at night and with almost no promotion. The team often let a sketch drift to a close without a punchline, which broke sharply with the sketch shows around them.",
+    "answer": 0,
+    "note": "The comedy stretches a plainly hopeless argument through increasingly elaborate evasions. The sketch became one of Monty Python’s best-known performances.",
     "sources": [
       "https://www.bfi.org.uk/lists/monty-python-10-funniest-sketches"
     ]
   },
   {
-    "id": "harold-pinter",
+    "id": "pinter-pause",
     "category": "Books, stage & screen",
-    "question": "Which playwright wrote The Birthday Party and The Caretaker?",
+    "question": "In a Harold Pinter play, a written “pause” asks an actor to do what?",
     "choices": [
-      "Tom Stoppard",
-      "Harold Pinter",
-      "Alan Bennett",
-      "John Osborne"
+      "Let a silence become part of the scene",
+      "Take a shorter breath without breaking the flow",
+      "Leave room for the audience to laugh",
+      "Wait for a change in the stage lighting"
     ],
-    "answer": 1,
-    "note": "A Pinter pause is a silence written into the script, where what the characters avoid saying carries the weight of the scene. He marked them so precisely that actors treat his “pause” and his longer “silence” as separate instructions. Pinter won the Nobel Prize in Literature in 2005.",
+    "answer": 0,
+    "note": "Pinter’s scripts distinguish pauses from longer silences. What a character avoids saying can matter as much as the spoken lines.",
     "sources": [
       "https://www.nobelprize.org/prizes/literature/2005/pinter/bibliography/",
       "https://www.nobelprize.org/prizes/literature/2005/pinter/facts/"
     ]
   },
   {
-    "id": "doctor-broadcast-bbc",
+    "id": "doctor-regeneration-casting",
     "category": "Books, stage & screen",
-    "question": "Doctor Who was first broadcast on the BBC in which decade?",
+    "question": "Doctor Who’s regeneration idea solved which practical problem for the programme?",
     "choices": [
-      "1950s",
-      "1960s",
-      "1970s",
-      "1980s"
+      "Changing the lead actor while keeping the character",
+      "Reusing scenes filmed with earlier casts",
+      "Moving the story between television and radio",
+      "Replacing missing episodes with new adventures"
     ],
-    "answer": 1,
-    "note": "The first episode went out on 23 November 1963, the day after President Kennedy was assassinated. The BBC repeated it the following week before showing the second episode. About 4.4 million people watched the original broadcast, while the repeat reached six million, giving the series a larger second audience for its opening.",
+    "answer": 0,
+    "note": "When William Hartnell’s time as the Doctor ended, the character could change form. What began as renewal became a central part of the series’ storytelling.",
     "sources": [
-      "https://en.wikipedia.org/wiki/An_Unearthly_Child"
+      "https://www.doctorwho.tv/news-and-features/what-is-regeneration"
     ]
   },
   {
@@ -695,17 +689,17 @@
     ]
   },
   {
-    "id": "haggis-especially-associated",
+    "id": "burns-haggis-poem",
     "category": "Food & sport",
-    "question": "Haggis is especially associated with which country?",
+    "question": "At a traditional Burns Supper, what happens to the haggis before it is served?",
     "choices": [
-      "Wales",
-      "Scotland",
-      "England",
-      "Northern Ireland"
+      "A poem is recited to it",
+      "It is carried around the room in silence",
+      "Its ingredients are guessed by the guests",
+      "It is exchanged for a loaf of bread"
     ],
-    "answer": 1,
-    "note": "Haggis is sheep offal minced with oatmeal and suet and traditionally cooked inside the animal’s stomach. At a Burns Supper it is carried in behind a piper, and Burns’s “Address to a Haggis” is recited over it before it is cut open.",
+    "answer": 0,
+    "note": "Robert Burns’s Address to a Haggis is part of the ceremony. Food and poetry meet in an evening commemorating the Scottish writer.",
     "sources": [
       "https://en.wikipedia.org/wiki/Haggis",
       "https://en.wikipedia.org/wiki/Burns_supper"
@@ -722,39 +716,39 @@
       "Black pudding"
     ],
     "answer": 0,
-    "note": "A Scotch egg is a boiled egg wrapped in sausage meat and breadcrumbs. Fortnum & Mason claims to have invented it in 1738, although the claim is hard to prove and similar dishes existed elsewhere.",
+    "note": "A boiled egg sits inside sausage meat and breadcrumbs. Fortnum & Mason claims the invention, but the origin is disputed and similar preparations existed elsewhere.",
     "sources": [
       "https://en.wikipedia.org/wiki/Scotch_egg"
     ]
   },
   {
-    "id": "clotted-cream-and",
+    "id": "cream-tea-order",
     "category": "Food & sport",
-    "question": "A traditional cream tea usually includes scones with what?",
+    "question": "What is the familiar Devon–Cornwall disagreement over a cream tea?",
     "choices": [
-      "Custard and treacle",
-      "Clotted cream and jam",
-      "Butter and marmalade",
-      "Honey and lemon curd"
+      "Whether cream or jam goes on first",
+      "Whether scones should contain chocolate",
+      "Whether tea should be served cold",
+      "Whether the meal should include soup"
     ],
-    "answer": 1,
-    "note": "A cream tea is scones with clotted cream and jam, served with a pot of tea. Devon and Cornwall are said to disagree over the order, the Devon method putting the cream on first and the Cornish the jam, although tea rooms in both counties serve it either way.",
+    "answer": 0,
+    "note": "The usual shorthand is cream first in Devon, jam first in Cornwall. Actual tea rooms and personal habits are less uniform than the rivalry suggests.",
     "sources": [
       "https://en.wikipedia.org/wiki/Cream_tea"
     ]
   },
   {
-    "id": "croissant",
+    "id": "english-breakfast-beans",
     "category": "Food & sport",
-    "question": "Which of these would be least typical on a full English breakfast?",
+    "question": "Which pantry food would a visitor commonly find beside eggs and bacon in a full English breakfast?",
     "choices": [
-      "Bacon",
       "Baked beans",
-      "Grilled tomato",
-      "Croissant"
+      "Pickled cabbage",
+      "Stewed lentils",
+      "Creamed sweetcorn"
     ],
-    "answer": 3,
-    "note": "A full English is built around fried or grilled items such as bacon, sausage, eggs, beans, tomato, mushrooms and toast, with black pudding appearing in many regional versions. A croissant belongs to the continental breakfast, which is why it stands out here.",
+    "answer": 0,
+    "note": "The breakfast brings several cooked foods onto one plate, often including beans, tomatoes, mushrooms and toast. Its contents vary by region and household.",
     "sources": [
       "https://en.wikipedia.org/wiki/Full_breakfast",
       "https://en.wikipedia.org/wiki/Breakfast_by_country#Continental_breakfast"
@@ -779,52 +773,52 @@
     ]
   },
   {
-    "id": "under-modern-laws",
+    "id": "cricket-over-extra-ball",
     "category": "Food & sport",
-    "question": "Under the modern Laws of Cricket, how many legal deliveries are in an over?",
+    "question": "A cricket over normally has six legal deliveries. What happens if the bowler sends a wide?",
     "choices": [
-      "Four",
-      "Five",
-      "Six",
-      "Eight"
+      "It does not count towards those six",
+      "It counts but gives the batter another run",
+      "It counts as two of the six",
+      "It ends the over if it is the sixth ball"
     ],
-    "answer": 2,
-    "note": "An over is six legal deliveries, and a ball bowled as a no-ball or a wide does not count towards it. The number has moved about over the years, with four-ball and eight-ball overs both in use at different times before six became standard everywhere at the end of the 1970s.",
+    "answer": 0,
+    "note": "A wide or no-ball does not use up one of the six legal deliveries. That is why an over can contain more than six actual balls bowled.",
     "sources": [
       "https://lawsofcricket.lords.org/laws-of-cricket/the-over-scoring-runs-dead-ball-and-extras/the-over",
       "https://en.wikipedia.org/wiki/Over_(cricket)"
     ]
   },
   {
-    "id": "oxford-and-cambridge",
+    "id": "boat-race-tide",
     "category": "Food & sport",
-    "question": "The annual Boat Race is traditionally contested by which two universities?",
+    "question": "The Oxford–Cambridge Boat Race runs upstream on the Thames. How can the current still help the crews?",
     "choices": [
-      "Durham and York",
-      "Oxford and Cambridge",
-      "St Andrews and Edinburgh",
-      "Bristol and Bath"
+      "The incoming tide carries water upstream",
+      "Locks release water ahead of the crews",
+      "The course follows a reverse-flowing side channel",
+      "The boats ride the wake of a launch"
     ],
-    "answer": 1,
-    "note": "The familiar course between Putney and Mortlake was first used for the men’s Boat Race in 1845, although there have been exceptions, including the 2021 race at Ely. It runs about 6.8 kilometres. The crews row upstream with the incoming tide, timing the race to benefit from the current.",
+    "answer": 0,
+    "note": "The race is timed to use the incoming tide on the tidal Thames. A course described as upstream need not mean rowing against the water’s movement.",
     "sources": [
       "https://www.theboatrace.org/the-course"
     ]
   },
   {
-    "id": "australia",
+    "id": "ashes-mock-obituary",
     "category": "Food & sport",
-    "question": "The Ashes is a cricket series between England and which country?",
+    "question": "Why does the cricket rivalry called the Ashes have such a mournful name?",
     "choices": [
-      "India",
-      "South Africa",
-      "New Zealand",
-      "Australia"
+      "A newspaper jokingly declared English cricket dead",
+      "The first match was played beside a crematorium",
+      "A stadium fire destroyed the original trophy",
+      "The teams began with a memorial for a captain"
     ],
-    "answer": 3,
-    "note": "The Ashes name grew from a mock obituary published after Australia beat England at the Oval in 1882, declaring English cricket dead. The small terracotta urn was originally a personal gift to England captain Ivo Bligh. It belongs to the MCC collection at Lord’s and has occasionally travelled on exhibition; the winning team receives a separate trophy.",
+    "answer": 0,
+    "note": "After Australia won at the Oval in 1882, a mock obituary announced the death of English cricket. The joke gave a sporting rivalry both its name and its tiny urn.",
     "sources": [
-      "https://en.wikipedia.org/wiki/The_Ashes"
+      "https://www.lords.org/lords/our-history/father-time-wall/1928-the-ashes-urn-is-presented-to-mcc"
     ]
   }
 ]
