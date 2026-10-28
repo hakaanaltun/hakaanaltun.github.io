@@ -232,6 +232,12 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   Looking at the evening after the change, the author found the wall’s
   colour too grey and asked for a dark beige, the colour of the study’s
   door at that hour, so the evening’s page is now the door’s.
+  On 28 October 2026 the author found the rooms themselves odd after
+  sunset: the dusk laid a cool grey over them and the lamp opened only a
+  small circle in it. A lit lamp now lights its room, warm and light,
+  a little darker toward the corners, and the page around it is that
+  lamplit wall; the window’s sky shows the hour. Put out, the lamp leaves
+  the room and the page to the dusk, as before.
   The box that opens over a room is held, not part of the wall: it keeps
   the cream until night and the warm dark at night.
 - **The House’s header and footer are its page.** The same day the author

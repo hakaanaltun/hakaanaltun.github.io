@@ -337,6 +337,12 @@ and sky.
   `js/house.js` sets `data-house-theme` on `<html>` while a room is open:
   `day` in İstanbul's morning and day, `evening` and `night` at those
   hours, read from the scenes' `data-hour`. At the door it is taken off.
+  After sunset, while the shown room's lamp is lit (`data-lamp` in the
+  study, `data-balcony-lamp` on the balcony), the theme is `lamp`: the
+  lamplight gradients in the two SVGs are the lamp's warm brown
+  (`#9c7a4e`) at .3, and the page is `#C6B9A2`, the wall measured at the
+  room's edge. `paint()` calls `wearTheme()` after it sets the lamps.
+  With the lamp out the theme is `evening` or `night` as below.
   The page around the rooms (rule in `COLOPHON.md`) is, at night, the
   cream under `.house-dusk`: `#1c2633` multiplied at the rooms' own .5
   gives `#878988`. Change it with the dusk's opacity, or the room stops

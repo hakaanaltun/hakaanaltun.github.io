@@ -862,7 +862,6 @@
     var name = { morning: 'Morning', day: sky.hour < 12 ? 'Morning' : 'Afternoon', evening: 'Evening', night: 'Night' }[sky.period];
     scene.dataset.hour = sky.period;
     balconyScene.dataset.hour = sky.period;
-    wearTheme();
     heardSky = { period: sky.period, hour: sky.hour, month: +parts(now, { month: 'numeric' }).month };
     document.getElementById('house-hour').textContent = name + ' in İstanbul';
     document.getElementById('house-clock').textContent = clock(now);
@@ -902,6 +901,7 @@
     balconyScene.dataset.balconyLamp = porch ? 'on' : 'off';
     scene.dataset.balconyLamp = balconyScene.dataset.balconyLamp;
     root.querySelectorAll('button[data-balcony-lamp]').forEach(function (button) { button.setAttribute('aria-pressed', String(porch)); });
+    wearTheme();
     hear();
   }
 
@@ -1318,22 +1318,26 @@
   /* The House's own colours (css/house.css). At the door the page wears
      the site's theme; in a room it wears the House's, which follows
      İstanbul's light as the rooms do: their cream in the morning and by
-     day, in the evening the study's door in the evening's dusk, a dark
-     beige, and at night, after the last light, the cream under the rooms'
-     own dusk, so that the page around a room is part of the room. The author asked for this on 26 October 2026, when the warm dark
-     the page wore at night was far darker than the rooms. The box over a
-     room keeps the cream until night and the warm dark at night.
+     day; after sunset, while the room's lamp is lit, the lamplit wall, a
+     warm light beige (the author, 28 October 2026); and with the lamp out,
+     the study's door in the evening's dusk, a dark beige, in the evening,
+     and the cream under the rooms' own dusk at night, so that the page
+     around a room is part of the room. The box over a room keeps the cream
+     until night and the warm dark at night.
 
      The header and footer are the page's own colour, with the page's ink
      for their words, as on White & Slate: the author asked for this on
      26 October 2026, in place of the beige and dark that had moved with
      İstanbul's sun since the day before. The browser's own bar takes the
      same colour, and at the door the site's theme points it back. */
-  var HOUSE_CHROME = { day: '#F4EFE3', evening: '#ADA797', night: '#878988' };
+  var HOUSE_CHROME = { day: '#F4EFE3', lamp: '#C6B9A2', evening: '#ADA797', night: '#878988' };
   function wearTheme() {
     var page = document.documentElement;
     var hour = scene.dataset.hour;
-    var theme = !page.classList.contains('house-inside') ? '' : hour === 'night' || hour === 'evening' ? hour : 'day';
+    // After sunset the room's own lamp decides: lit, the page is the
+    // lamplit wall; put out, the room's dusk.
+    var lit = (balcony.hidden ? scene.dataset.lamp : balconyScene.dataset.balconyLamp) === 'on';
+    var theme = !page.classList.contains('house-inside') ? '' : hour === 'night' || hour === 'evening' ? (lit ? 'lamp' : hour) : 'day';
     var was = page.getAttribute('data-house-theme') || '';
     if (theme) page.setAttribute('data-house-theme', theme);
     else page.removeAttribute('data-house-theme');

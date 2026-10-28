@@ -1868,9 +1868,9 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   }
 
   // The House's own colours: the site's theme at the door, and in a room the
-  // rooms' colours by İstanbul's light: their cream by day, and in the
-  // evening and at night the cream under the rooms' own dusk, so the page
-  // around a room is its wall. The browser's bar takes the House's header.
+  // rooms' colours by İstanbul's light: their cream by day, and after
+  // sunset the lamplit wall while the room's lamp is lit, or the room's
+  // dusk once it is put out, so the page around a room is part of it. The browser's bar takes the House's header.
   {
     let c = houseAt('2026-10-11T11:00:00+03:00', 'https://hakanaltun.io/house/');
     await tick();
@@ -1890,13 +1890,22 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
     await tick();
     html = c.w.document.documentElement;
     assert.equal(c.q('#house-balcony-scene').dataset.hour, 'evening');
-    assert.equal(html.getAttribute('data-house-theme'), 'evening', 'the rooms\' evening around them');
+    assert.equal(html.getAttribute('data-house-theme'), 'lamp', 'the lamplit wall around a lit room');
+    assert.deepEqual(bar(c), ['#C6B9A2', '#C6B9A2'], 'and the browser\'s bar with it');
+    c.click('.house-hotspot--balcony-switch');
+    assert.equal(html.getAttribute('data-house-theme'), 'evening', 'its lamp put out, the evening\'s dusk');
+    c.click('#balcony .house-hotspot--study-door');
+    assert.equal(html.getAttribute('data-house-theme'), 'lamp', 'and the study\'s own lamp decides there');
+    c.click('.house-hotspot--lamp');
+    assert.equal(html.getAttribute('data-house-theme'), 'evening');
     c.dom.window.close();
     c = houseAt('2026-10-11T22:00:00+03:00', 'https://hakanaltun.io/house/#balcony');
     await tick();
     html = c.w.document.documentElement;
     assert.equal(c.q('#house-balcony-scene').dataset.hour, 'night');
-    assert.equal(html.getAttribute('data-house-theme'), 'night', 'and their night');
+    assert.equal(html.getAttribute('data-house-theme'), 'lamp', 'lit at night as in the evening');
+    c.click('.house-hotspot--balcony-switch');
+    assert.equal(html.getAttribute('data-house-theme'), 'night', 'and put out, the night\'s dusk');
     assert.deepEqual(bar(c), ['#878988', '#878988'], 'and its night');
     c.dom.window.close();
     // The header and footer are the page's own colour, with the page's ink
@@ -1912,7 +1921,7 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
       const luminance = (c) => c.map((v) => { v /= 255; return v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; }).reduce((sum, v, i) => sum + v * [0.2126, 0.7152, 0.0722][i], 0);
       const contrast = (a, b) => { const [x, y] = [luminance(a), luminance(b)].sort((p, q) => q - p); return (x + 0.05) / (y + 0.05); };
       assert.match(sheet, /html\.house-inside\[data-house-theme\] \.header-nav-bar a \{ color: var\(--footer-text\); \}/, 'the header\'s links at their full ink');
-      for (const name of ['day', 'evening', 'night']) {
+      for (const name of ['day', 'lamp', 'evening', 'night']) {
         const at = sheet.indexOf('html.house-inside[data-house-theme="' + name + '"] body {');
         const text = sheet.slice(at, sheet.indexOf('}', at));
         const token = (t) => text.match(new RegExp('\\n  ' + t + ': ([^;]+);'))[1];
@@ -1938,7 +1947,7 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
     const tokens = (text) => new Set([...text.matchAll(/(--[\w-]+):/g)].map((m) => m[1]));
     const block = (text, head) => { const at = text.indexOf(head); assert.ok(at >= 0, head); return text.slice(at, text.indexOf('}', at)); };
     const themed = new Set([...tokens(block(style, 'html[data-theme="dark"] {')), ...tokens(block(style, 'html[data-theme="dark"] body {')), ...tokens(block(style, 'html[data-theme="sky"] body {'))]);
-    for (const name of ['day', 'evening', 'night']) {
+    for (const name of ['day', 'lamp', 'evening', 'night']) {
       const own = tokens(block(css, 'html.house-inside[data-house-theme="' + name + '"] body {'));
       for (const token of themed) {
         if (token === '--theme-icon-sun' || token === '--theme-icon-moon') continue;
