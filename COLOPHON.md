@@ -234,19 +234,27 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   door at that hour, so the evening’s page is now the door’s.
   On 28 October 2026 the author found the rooms themselves odd after
   sunset: the dusk laid a cool grey over them and the lamp opened only a
-  small circle in it. A lit lamp now lights its room, warm and light,
-  a little darker toward the corners, and the page around it is that
-  lamplit wall; the window’s sky shows the hour. Put out, the lamp leaves
-  the room and the page to the dusk, as before.
+  small circle in it. A lit lamp now lights its room, warm and light, a
+  little darker toward the corners; put out, it leaves the room to the
+  dusk, as before. The same day the author found the grey around the
+  rooms like frozen cement, a colour of no hour, and asked for the page
+  to take its colours from what the window shows instead: in the evening
+  the sunset sky, where its red runs into its blue, and at night the
+  roofs seen through the glass, a dark slate blue with white words on
+  it. The sunset sky itself was reddened then, from a pale mauve over a
+  peach to a violet blue over a rose red, after a photograph of a sunset
+  over the water the author shared: at that hour the sky is the red one,
+  and the sea, little of which is seen, only gives it back. A sea in
+  copper was tried first and set aside for that reason. The lamps light
+  the rooms, not the page.
   The box that opens over a room is held, not part of the wall: it keeps
   the cream until night and the warm dark at night.
 - **The House’s header and footer are its page.** The same day the author
   asked for the header and footer to take the page’s colour at every hour,
   as Light’s white header and footer take its white, with words dark
   enough to read on it. They no longer move with İstanbul’s sun: they are
-  the cream by day, the door’s beige in the evening and the rooms’ dusk
-  at night, and
-  their words are the page’s ink, black at night. Their links keep their
+  the cream by day, the sunset sky in the evening and the roofs at
+  night, and their words are the page’s ink, white at night. Their links keep their
   full ink there, so that they still read when a pointer dims them. On a
   phone, where the page scrolls under the header, a thin line in the
   page’s ink marks the header’s edge, as the author asked the same day;

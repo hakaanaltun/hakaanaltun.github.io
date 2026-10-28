@@ -1317,27 +1317,24 @@
 
   /* The House's own colours (css/house.css). At the door the page wears
      the site's theme; in a room it wears the House's, which follows
-     İstanbul's light as the rooms do: their cream in the morning and by
-     day; after sunset, while the room's lamp is lit, the lamplit wall, a
-     warm light beige (the author, 28 October 2026); and with the lamp out,
-     the study's door in the evening's dusk, a dark beige, in the evening,
-     and the cream under the rooms' own dusk at night, so that the page
-     around a room is part of the room. The box over a room keeps the cream
-     until night and the warm dark at night.
+     İstanbul's light: their cream in the morning and by day, the sunset
+     sky where its red meets its blue in the evening, and at night the
+     roofs seen through
+     the glass, a dark slate blue. The author asked for these on
+     28 October 2026, after the walls' own dusk around the rooms read as a
+     grey that said no hour. The lamps light the rooms, not the page. The
+     box over a room keeps the cream until night and the warm dark at night.
 
      The header and footer are the page's own colour, with the page's ink
      for their words, as on White & Slate: the author asked for this on
      26 October 2026, in place of the beige and dark that had moved with
      İstanbul's sun since the day before. The browser's own bar takes the
      same colour, and at the door the site's theme points it back. */
-  var HOUSE_CHROME = { day: '#F4EFE3', lamp: '#C6B9A2', evening: '#ADA797', night: '#878988' };
+  var HOUSE_CHROME = { day: '#F4EFE3', evening: '#AA789A', night: '#566A72' };
   function wearTheme() {
     var page = document.documentElement;
     var hour = scene.dataset.hour;
-    // After sunset the room's own lamp decides: lit, the page is the
-    // lamplit wall; put out, the room's dusk.
-    var lit = (balcony.hidden ? scene.dataset.lamp : balconyScene.dataset.balconyLamp) === 'on';
-    var theme = !page.classList.contains('house-inside') ? '' : hour === 'night' || hour === 'evening' ? (lit ? 'lamp' : hour) : 'day';
+    var theme = !page.classList.contains('house-inside') ? '' : hour === 'night' || hour === 'evening' ? hour : 'day';
     var was = page.getAttribute('data-house-theme') || '';
     if (theme) page.setAttribute('data-house-theme', theme);
     else page.removeAttribute('data-house-theme');
