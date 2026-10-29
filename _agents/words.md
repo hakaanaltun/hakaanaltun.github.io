@@ -41,3 +41,13 @@ connections live in `_data/word_bridges.yml`.
   *freelance* joined Work and Worth between *cobalt* and *sabotage*; its
   story distinguishes nineteenth-century usage from the medieval soldiers
   it described. *climate* and *decimate* still wait.
+- On 29 October 2026 connections began to lead out of Words (rule in
+  `COLOPHON.md`). In `_data/word_bridges.yml` a link names another word
+  (`to:`), a piece by its slug (`piece:`) or a stop on the journey through
+  the Solar System (`picture: space`, `scene:` and the place's name in
+  `label:`). `_includes/word-story.html` renders all three; a journey link
+  carries `from=word` and `back=` with the word's address, which
+  `js/space-entry.js` reads. *nostalgia* leads to On Longing, and
+  *lunatic*, *mercurial*, *jovial* and *saturnine* to the Moon, Mercury,
+  Jupiter and Saturn. `scripts/test-content.cjs` fails on a connection
+  that names a missing word, piece or scene.

@@ -47,6 +47,7 @@
   var questionText = document.getElementById('trivia-question-text');
   var choices = document.getElementById('trivia-choices');
   var feedback = document.getElementById('trivia-feedback');
+  var wordLine = document.getElementById('trivia-word');
   var nextButton = document.getElementById('trivia-next');
   var keepButton = document.getElementById('trivia-keep');
   var quizSlug = app.getAttribute('data-quiz') || '';
@@ -357,6 +358,28 @@
       feedback.appendChild(document.createTextNode('. ' + joinDashes(q.note)));
     }
 
+    /* A note that touches a word with its own story leads to it. Leaving
+       marks the address with #question, so coming back opens the question
+       as it was left rather than the intro (see the foot of this file). */
+    if (wordLine && typeof q.word === 'string' && /^[a-z0-9-]+$/.test(q.word)) {
+      var wordLink = document.createElement('a');
+      var wordName = document.createElement('em');
+      wordName.textContent = q.word;
+      wordLink.href = '/word/' + q.word + '/';
+      wordLink.appendChild(wordName);
+      wordLink.addEventListener('click', function () {
+        try {
+          history.replaceState(history.state, '', location.pathname + location.search + '#question');
+        } catch (error) {
+          /* The quiz still offers to continue from the intro. */
+        }
+      });
+      wordLine.textContent = 'The word ';
+      wordLine.appendChild(wordLink);
+      wordLine.appendChild(document.createTextNode(' has a story of its own.'));
+      wordLine.hidden = false;
+    }
+
     /* The note is what a reader keeps, so it can go into the drawer in The
        House. js/keep.js does the keeping; the id is the question's own. */
     if (keepButton && window.OLAE_KEEP && q.id && quizSlug) {
@@ -431,6 +454,10 @@
     questionPanel.setAttribute('data-keep-title', q.question);
     choices.innerHTML = '';
     feedback.textContent = '';
+    if (wordLine) {
+      wordLine.hidden = true;
+      wordLine.textContent = '';
+    }
     nextButton.hidden = true;
     if (keepButton) keepButton.hidden = true;
 
@@ -725,4 +752,17 @@
   });
 
   updateIntro();
+
+  /* Back from a word the note led to: the address carries #question, and
+     the game opens where it was left, the answered question with its note,
+     instead of waiting behind the intro. */
+  if (location.hash === '#question') {
+    try {
+      history.replaceState(history.state, '', location.pathname + location.search);
+    } catch (error) {
+      /* Nothing else to do. */
+    }
+    var returning = readState();
+    if (returning && !returning.complete) openFromIntro();
+  }
 })();

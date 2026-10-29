@@ -100,6 +100,11 @@ for (const file of list('_data/quizzes', '.json')) {
       }
     }
     if (!q.note || !q.note.trim()) problem(label, 'no note; the note is what a reader keeps');
+    /* A question may name the word whose story its note touches; the quiz
+       links to it once answered, so the word has to be there. */
+    if (q.word !== undefined && (typeof q.word !== 'string' || !fs.existsSync(path.join(root, '_words', `${q.word}.md`)))) {
+      problem(label, `“word” names ${JSON.stringify(q.word)}, which has no story in _words/`);
+    }
     const sources = q.sources || [];
     if (!sources.length) unsourced += 1;
     for (const url of sources) {
@@ -165,6 +170,30 @@ for (const file of list('_words', '.md')) {
   }
   cites.forEach((group) => {
     if (group.some((n, i) => i && n < group[i - 1])) problem(file, `footnote group ${group.join(',')} is out of order`);
+  });
+}
+
+/* A connection on a word page leads to another word, a piece or a stop on
+   the journey through the Solar System (_includes/word-story.html). One
+   that names something missing would quietly not appear, so it is named
+   here instead. */
+{
+  const posts = new Set(list('_posts', '.html').map((file) => (read(file).match(/^slug:\s*(\S+)/m) || [])[1]));
+  const journey = read('js/space-journey.js');
+  let word = '';
+  read('_data/word_bridges.yml').split('\n').forEach((line, i) => {
+    const where = `_data/word_bridges.yml:${i + 1}`;
+    let m;
+    if ((m = line.match(/^- word:\s*(\S+)/))) {
+      word = m[1];
+      if (!fs.existsSync(path.join(root, '_words', `${word}.md`))) problem(where, `no story for “${word}”`);
+    } else if ((m = line.match(/^\s+- to:\s*(\S+)/))) {
+      if (!fs.existsSync(path.join(root, '_words', `${m[1]}.md`))) problem(where, `“${word}” connects to “${m[1]}”, which has no story`);
+    } else if ((m = line.match(/^\s+- piece:\s*(\S+)/))) {
+      if (!posts.has(m[1])) problem(where, `“${word}” connects to a piece “${m[1]}” that is not in _posts/`);
+    } else if ((m = line.match(/^\s+scene:\s*(\S+)/))) {
+      if (!new RegExp(`\\b${m[1]}:\\s*\\{`).test(journey)) problem(where, `“${word}” connects to a journey scene “${m[1]}” that js/space-journey.js does not have`);
+    }
   });
 }
 

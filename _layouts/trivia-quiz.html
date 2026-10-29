@@ -60,6 +60,11 @@ layout: default
       <h2 class="trivia-question-text" id="trivia-question-text" tabindex="-1"></h2>
       <div class="trivia-choices" id="trivia-choices" role="group" aria-labelledby="trivia-question-text"></div>
       <p class="trivia-feedback" id="trivia-feedback" aria-live="polite"></p>
+      {%- comment -%} A question whose note touches a word with its own story
+      names it here once answered ("word" in the bank). Leaving for the word
+      puts #question in the address, so the way back finds the question as
+      it was left (js/trivia.js). {%- endcomment %}
+      <p class="trivia-word" id="trivia-word" hidden></p>
       <div class="trivia-actions trivia-actions--question">
         {%- comment -%} Into the reader's drawer in The House (js/keep.js),
         by the question's id in its bank. {%- endcomment %}
@@ -101,7 +106,7 @@ layout: default
 </div>
 
 <script id="trivia-data" type="application/json">{{ quiz | jsonify }}</script>
-<script src="/js/trivia.js?v=20261015-1" defer></script>
+<script src="/js/trivia.js?v=20261029-1" defer></script>
 
 <script type="application/ld+json">
 {

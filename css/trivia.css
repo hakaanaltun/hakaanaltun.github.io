@@ -313,6 +313,33 @@
   color: var(--vizon);
 }
 
+/* The way to a word whose story the note touches. */
+.trivia-word {
+  margin: 10px 0 0;
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--vizon);
+}
+
+.trivia-word[hidden] {
+  display: none;
+}
+
+/* As the line after an essay leads on (.essay-afterward in style.css). */
+.trivia-word a {
+  color: var(--petrol);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--rule-strong);
+  transition: var(--select-ease);
+}
+
+.trivia-word a:hover,
+.trivia-word a:active {
+  opacity: var(--select-dim);
+}
+
 .trivia-actions--question {
   justify-content: flex-end;
   min-height: 42px;

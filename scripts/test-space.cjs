@@ -4,16 +4,16 @@ let clock=0,frameId=0,reduced=true;
 function element(id,tagName='BUTTON'){
  if(elements.has(id))return elements.get(id);
  const e={id,tagName,style:{},dataset:{},hidden:false,disabled:false,clientWidth:1280,clientHeight:900,offsetWidth:60,offsetLeft:100,isConnected:true,children:[],
- setAttribute(k,v){this[k]=v},removeAttribute(k){delete this[k]},replaceChildren(){this.children=[]},append(v){this.children.push(v)},focus(){},scrollTo(){},addEventListener(){},decode:()=>Promise.resolve(),showModal(){this.open=true},close(){this.open=false}};
+ setAttribute(k,v){this[k]=v},removeAttribute(k){delete this[k]},replaceChildren(){this.children=[]},append(...values){this.children.push(...values)},focus(){},scrollTo(){},addEventListener(){},decode:()=>Promise.resolve(),showModal(){this.open=true},close(){this.open=false}};
  elements.set(id,e);return e;
 }
 for(const m of html.matchAll(/<([\w-]+)\b[^>]*\bid="([^"]+)"[^>]*>/g)){const e=element(m[2],m[1].toUpperCase());e.hidden=/\bhidden\b/.test(m[0]);}
 const nav=[...html.matchAll(/data-stop="([^"]+)"/g)].map(m=>{const e=element('nav-'+m[1]);e.dataset.stop=m[1];return e});
 const routes=[...html.matchAll(/data-route="([^"]+)"/g)].map(m=>{const e=element('route-'+m[1]);e.dataset.route=m[1];return e});
-const location={hash:'',search:'?flight=outside'},browserEntries=[{state:null,hash:''}];let browserCursor=0;
-function browserPop(delta){const index=browserCursor+delta;if(index<0||index>=browserEntries.length)return;browserCursor=index;location.hash=browserEntries[index].hash;events.popstate?.({state:browserEntries[index].state})}
-const browserHistory={replaceState(state,unused,hash){browserEntries[browserCursor]={state,hash};location.hash=hash},pushState(state,unused,hash){browserEntries.splice(browserCursor+1);browserEntries.push({state,hash});browserCursor++;location.hash=hash},back(){browserPop(-1)},forward(){browserPop(1)}};
-const context=vm.createContext({document:{getElementById:id=>{assert(elements.has(id),'Missing DOM node '+id);return elements.get(id)},createElement:tag=>element('created-'+Math.random(),tag.toUpperCase()),querySelectorAll:q=>q==='[data-stop]'?nav:q==='[data-route]'?routes:[],body:{dataset:{},classList:{add:x=>classes.add(x),remove:x=>classes.delete(x),toggle:(x,on)=>on?classes.add(x):classes.delete(x)}},addEventListener:(name,fn)=>events[name]=fn},window:{history:browserHistory,addEventListener:(name,fn)=>events[name]=fn},location,matchMedia:()=>({matches:reduced}),setTimeout:()=>0,clearTimeout(){},requestAnimationFrame:fn=>{frames.set(++frameId,fn);return frameId},cancelAnimationFrame:id=>frames.delete(id),performance:{now:()=>clock},URLSearchParams,Promise});
+const location=new URL('https://hakanaltun.io/pictures/space/?flight=outside&from=word&back=%2Fword%2Fsaturnine%2F&note=saturn#saturn'),browserEntries=[{state:null,url:location.href}];let browserCursor=0;
+function browserPop(delta){const index=browserCursor+delta;if(index<0||index>=browserEntries.length)return;browserCursor=index;location.href=browserEntries[index].url;events.popstate?.({state:browserEntries[index].state})}
+const browserHistory={get state(){return browserEntries[browserCursor].state},replaceState(state,unused,url){location.href=new URL(url,location.href).href;browserEntries[browserCursor]={state,url:location.href}},pushState(state,unused,url){location.href=new URL(url,location.href).href;browserEntries.splice(browserCursor+1);browserEntries.push({state,url:location.href});browserCursor++},back(){browserPop(-1)},forward(){browserPop(1)}};
+const context=vm.createContext({document:{getElementById:id=>{assert(elements.has(id),'Missing DOM node '+id);return elements.get(id)},createElement:tag=>element('created-'+Math.random(),tag.toUpperCase()),querySelectorAll:q=>q==='[data-stop]'?nav:q==='[data-route]'?routes:[],body:{dataset:{},classList:{add:x=>classes.add(x),remove:x=>classes.delete(x),toggle:(x,on)=>on?classes.add(x):classes.delete(x)}},addEventListener:(name,fn)=>events[name]=fn},window:{history:browserHistory,addEventListener:(name,fn)=>events[name]=fn},location,matchMedia:()=>({matches:reduced}),setTimeout:()=>0,clearTimeout(){},requestAnimationFrame:fn=>{frames.set(++frameId,fn);return frameId},cancelAnimationFrame:id=>frames.delete(id),performance:{now:()=>clock},URL,URLSearchParams,Promise});
 const run=code=>vm.runInContext(code,context),near=(a,b)=>assert(Math.abs(a-b)<1e-7,`${a} != ${b}`);
 const flush=async()=>{for(let i=0;i<24;i++)await Promise.resolve()};
 const tick=async ms=>{clock+=ms;const queue=[...frames.values()];frames.clear();queue.forEach(fn=>fn(clock));await flush()};
@@ -22,6 +22,37 @@ run(fs.readFileSync('js/space-field-notes.js','utf8'));
 run(fs.readFileSync('js/space-journey.js','utf8'));
 (async()=>{
  await run('initialNavigation');
+ // A page opened on a return address restores its note after arrival.
+ assert.equal(run('current'),'saturn');
+ assert.equal(element('information').hidden,false);
+ assert.equal(element('infoTitle').textContent,run('fieldNotes.saturn.title'));
+ const returnParams=()=>{
+  assert.equal(location.searchParams.get('from'),'word');
+  assert.equal(location.searchParams.get('back'),'/word/saturnine/');
+  assert.equal(location.searchParams.get('flight'),'outside');
+ };
+ const entriesBeforeClose=browserEntries.length,stateBeforeClose=browserHistory.state;
+ element('closeInfo').onclick();
+ assert.equal(element('information').hidden,true);
+ assert.equal(location.searchParams.has('note'),false,'closing a returned note removes it from reload URLs');
+ assert.equal(browserEntries.length,entriesBeforeClose);
+ assert.equal(browserHistory.state,stateBeforeClose);
+ returnParams();
+ // Leaving for a word records the note; travelling onward clears it even
+ // without explicitly closing the panel first.
+ run("openInfo('saturn')");
+ const wordLink=element('infoWord').children.find(child=>child.tagName==='A');
+ assert.equal(wordLink.href,'/word/saturnine/');
+ wordLink.onclick();
+ assert.equal(location.searchParams.get('note'),'saturn');
+ assert.equal(browserEntries.length,entriesBeforeClose);
+ await run("go('moon')");
+ assert.equal(location.hash,'#moon');
+ assert.equal(element('information').hidden,true);
+ assert.equal(location.searchParams.has('note'),false,'the Moon reload URL cannot reopen Saturn’s note');
+ assert.equal(browserEntries.length,entriesBeforeClose+1);
+ returnParams();
+ console.log('Passed: word return opens the note; closing or travelling clears it without losing return parameters or history.');
  const intro=html.match(/<dialog id="routeDialog">([\s\S]*?)<\/dialog>/)[1];
  assert(!/Voyager|Mercury|Titan|route-stops/.test(intro),'The introduction reveals the itinerary');
  for(const [hash,expected] of Object.entries({'#scene-vicinity':'system','#scene-moon':'moon','#scene-asteroid-belt':'belt','#scene-kuiper-belt':'kuiper','#scene-voyager-2':'voyager2','#scene-voyager-1':'voyager1','#sun':'sun'})){location.hash=hash;assert.equal(run('sceneFromHash()'),expected)}

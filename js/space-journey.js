@@ -1118,9 +1118,16 @@ function drawHotspots() {
     $('hotspots').append(b);
   }
 }
-function closeInfo() {
+function closeInfo(clearNote = true) {
   info.hidden = true;
   document.body.classList.remove('panel-open');
+  // A return address belongs to the note just left, not to later views.
+  // Keep an incoming note until the first navigation has opened it.
+  if (clearNote && new URLSearchParams(location.search).has('note')) {
+    const here = new URL(location.href);
+    here.searchParams.delete('note');
+    window.history.replaceState(window.history.state, '', here.pathname + here.search + here.hash);
+  }
   if (lastFocus?.isConnected) lastFocus.focus({ preventScroll: true });
 }
 function renderScene() {
@@ -1253,7 +1260,7 @@ async function go(id, options = {}) {
   detailView++;
   $('hotspots').replaceChildren();
   pendingDestination = id;
-  closeInfo();
+  closeInfo(hasView);
   updateLocalControls();
   setTravelState(true, true);
   if (options.instant) skipRequest = request;
@@ -1321,6 +1328,25 @@ function openInfo(key) {
     const p = document.createElement('p');
     p.textContent = paragraph.replace(/([^\s\u2060])—/g, '$1\u2060—');
     $('infoText').append(p);
+  }
+  // A world whose name a word still carries leads to that word's story
+  // (_data/word_bridges.yml leads back). Leaving puts the note in the
+  // address, so the way back opens it again as it was left.
+  const word = original && original.word;
+  $('infoWord').replaceChildren();
+  $('infoWord').hidden = !word;
+  if (word) {
+    const a = document.createElement('a');
+    const name = document.createElement('em');
+    name.textContent = word;
+    a.href = '/word/' + word + '/';
+    a.append(name);
+    a.onclick = () => {
+      const here = new URL(location.href);
+      here.searchParams.set('note', noteKey);
+      window.history.replaceState(window.history.state, '', here.pathname + here.search + here.hash);
+    };
+    $('infoWord').append('The word ', a, ' still carries ' + n.label.replace(/^The /, 'the ') + '\u2019s name.');
   }
   const links = original
     ? n.sources

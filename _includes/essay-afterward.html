@@ -10,15 +10,21 @@
   through to the subscribe box with the single divider it already had.
   Story pages never include this (post.html guards on is_story).
 {% endcomment %}
+{%- comment -%}
+  Each link carries its way back (rule in COLOPHON.md): from=piece names the
+  place and back= its address, so the instrument's way back says "the piece"
+  and returns here (_includes/tool-back.html).
+{%- endcomment -%}
 {% assign _aw = page.afterward %}
+{%- capture _aw_back -%}?from=piece&amp;back={{ page.url | url_encode }}{%- endcapture -%}
 {% if _aw == "breathe" or _aw == "write" or _aw == "twilight" %}
 {% case _aw %}
 {% when "breathe" %}
-<p class="essay-afterward">No need to rush off&mdash;<a href="/breathe/">three minutes of The Breath</a>, and then the day.</p>
+<p class="essay-afterward">No need to rush off&mdash;<a href="/breathe/{{ _aw_back }}">three minutes of The Breath</a>, and then the day.</p>
 {% when "write" %}
-<p class="essay-afterward">If the essay left you with a thought, <a href="/write/">a blank page</a> is waiting.</p>
+<p class="essay-afterward">If the essay left you with a thought, <a href="/write/{{ _aw_back }}">a blank page</a> is waiting.</p>
 {% when "twilight" %}
-<p class="essay-afterward">When you look up from the page, <a href="/twilight/">the sky is kept in real time</a>.</p>
+<p class="essay-afterward">When you look up from the page, <a href="/twilight/{{ _aw_back }}">the sky is kept in real time</a>.</p>
 {% endcase %}
 <div class="essay-section-divider"></div>
 {% endif %}
