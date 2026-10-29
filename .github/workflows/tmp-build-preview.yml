@@ -1,0 +1,39 @@
+name: Temporary build for a local look
+on:
+  push:
+    branches: [claude/tmp-build-preview]
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+          bundler-cache: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: |
+          pip install --quiet Pillow
+          python scripts/generate_image_variants.py
+          python scripts/vendor_pdfjs.py
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+      - run: npm ci
+      - run: bundle exec jekyll build
+        env:
+          JEKYLL_ENV: production
+      - name: Run the checks
+        run: npm test
+        continue-on-error: true
+      - uses: actions/upload-artifact@v4
+        with:
+          name: site
+          path: _site
+          retention-days: 1
