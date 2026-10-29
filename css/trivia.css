@@ -313,6 +313,19 @@
   color: var(--vizon);
 }
 
+/* The way to a word whose story the note touches. */
+.trivia-word {
+  margin: 10px 0 0;
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--vizon);
+}
+
+.trivia-word[hidden] {
+  display: none;
+}
+
 .trivia-actions--question {
   justify-content: flex-end;
   min-height: 42px;

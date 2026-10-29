@@ -237,3 +237,10 @@ Imagegen brief was a realistic scientific Earth–Moon composition in 3:2,
 with coherent geography, natural volume, deep blue space and gentle warm
 sunlight; no text, itinerary, extra planets, brushwork or decorative border.
 
+- **A field note can name a word** (rule in `COLOPHON.md`). `"word"` in a
+  note, in both `js/space-field-notes.js` and `_data/space_notes.json`,
+  adds a line after its text (`#infoWord`, `js/space-journey.js`) and in
+  the reading version without JavaScript. Following it puts the note in
+  the address as `?note=`, so the way back opens it again. A word page
+  opens the journey with `from=word` and `back=`; `js/space-entry.js` then
+  makes the way back say "the word" and return there.

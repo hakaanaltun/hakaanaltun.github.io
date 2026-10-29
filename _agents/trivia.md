@@ -15,3 +15,10 @@ there.
   give away the answer. Choose images only where they explain the subject;
   every question does not need one. Verify image identity, source and reuse
   permission. This is a future task, not part of the current Space expansion.
+
+- **A question can name a word** (rule in `COLOPHON.md`). `"word": "<slug>"`
+  in the bank adds the line under the answered note (`#trivia-word`,
+  `js/trivia.js`). Following it puts `#question` in the quiz's address, and
+  a quiz opened with `#question` and a game in progress goes straight back
+  to that question with its note. `scripts/test-content.cjs` fails on a
+  word with no story in `_words/`.

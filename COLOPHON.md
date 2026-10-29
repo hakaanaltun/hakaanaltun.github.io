@@ -374,6 +374,13 @@ Words with Stories is a deliberately small, curated collection. A term should be
   for grounded links, and state whether a link is an etymological
   relationship, a historical parallel or a shared theme. Do not imply
   shared word origins when there are none; unconnected entries are fine.
+- **A connection can lead out of Words.** Besides another word, it can lead
+  to a piece that shares the word’s theme, or to a place in Pictures with
+  Stories whose name the word still carries. The same test holds: the
+  reason fits in one sentence, and the note says it. On 28 October 2026 the
+  author found that the site’s parts spoke to its centre but hardly to one
+  another, and the next day asked for the connections that could be made
+  to be made.
 - Group stories must remain sourced and accurate. Shared themes do not establish shared etymology. Review both the individual story and its relationship to the group’s introduction before assigning a word.
 - Preserve the restrained typography and accessible ordinary links. Do not create empty or token groups merely to publish another word.
 
@@ -486,6 +493,10 @@ accuracy and plain prose to this section as well.
   When an explanation shows what a word still carries, link to its page,
   such as the Moon to *lunatic*. The link between *desire* and the stars
   is uncertain, and its page says so.
+  Since 29 October 2026 the journey through the Solar System and four words
+  lead to each other: the Moon and *lunatic*, Mercury and *mercurial*,
+  Jupiter and *jovial*, Saturn and *saturnine*. The way back from the
+  journey returns to the word it was opened from.
 
 ## Trivia editorial standard
 
@@ -532,4 +543,11 @@ Trivia contains quizzes. These rules govern what belongs inside them.
   question is reworded or moved; a new question gets a new id.
 - Keep the prose plain, as everywhere else here, and let the content do the
   work.
+- **A note that touches a word with its own story leads to it.** Once a
+  question is answered, a line under its note names the word and links to
+  its page in Words with Stories; coming back, the reader finds the
+  question as they left it. Only a note that really turns on the word gets
+  the line: the kiosk’s pavilion, the Earl of Sandwich, Guy Fawkes burned
+  in effigy, emoji’s picture characters, malaria. The author asked for the
+  connections on 29 October 2026.
 

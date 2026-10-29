@@ -1322,6 +1322,25 @@ function openInfo(key) {
     p.textContent = paragraph.replace(/([^\s\u2060])—/g, '$1\u2060—');
     $('infoText').append(p);
   }
+  // A world whose name a word still carries leads to that word's story
+  // (_data/word_bridges.yml leads back). Leaving puts the note in the
+  // address, so the way back opens it again as it was left.
+  const word = original && original.word;
+  $('infoWord').replaceChildren();
+  $('infoWord').hidden = !word;
+  if (word) {
+    const a = document.createElement('a');
+    const name = document.createElement('em');
+    name.textContent = word;
+    a.href = '/word/' + word + '/';
+    a.append(name);
+    a.onclick = () => {
+      const here = new URL(location.href);
+      here.searchParams.set('note', noteKey);
+      window.history.replaceState(window.history.state, '', here.pathname + here.search + here.hash);
+    };
+    $('infoWord').append('The word ', a, ' still carries ' + n.label.replace(/^The /, 'the ') + '\u2019s name.');
+  }
   const links = original
     ? n.sources
     : [

@@ -1,4 +1,7 @@
 # Optional, evidence-grounded paths between word stories. A shared theme never implies a shared etymological root.
+# A link names another word (to:), a piece by its slug (piece:), or a stop on
+# the journey through the Solar System (picture: space, with scene: and the
+# place's name in label:). _includes/word-story.html renders all three.
 - word: algebra
   links:
     - to: zero
@@ -95,6 +98,10 @@
   links:
     - to: saturnine
       note: "Astrology set the two against each other: Jupiter’s children cheerful, Saturn’s gloomy. In Roman myth Saturn was Jupiter’s father."
+    - picture: space
+      scene: jovian
+      label: "Jupiter"
+      note: "The journey through the Solar System stops at Jupiter, the planet whose children astrology held to be cheerful."
 - word: kiosk
   links:
     - to: bosh
@@ -107,6 +114,10 @@
   links:
     - to: melancholy
       note: "These words preserve different abandoned explanations for states of mind: the Moon and bodily humours."
+    - picture: space
+      scene: moon
+      label: "The Moon"
+      note: "The journey through the Solar System stops at the Moon, whose phases madness was once thought to follow."
 - word: magazine
   links:
     - to: divan
@@ -123,6 +134,12 @@
       note: "Both were once used as medical diagnoses, though their histories begin in very different periods."
     - to: saturnine
       note: "Renaissance writers joined the planet to the humour and held melancholics to be children of Saturn. One word blames a planet and the other black bile; they are not related in origin."
+- word: mercurial
+  links:
+    - picture: space
+      scene: mercury
+      label: "Mercury"
+      note: "The journey through the Solar System stops at Mercury, the planet the word first belonged to."
 - word: mentor
   links:
     - to: quixotic
@@ -141,6 +158,8 @@
       note: "Both were once used as medical diagnoses, though their histories begin in very different periods."
     - to: desire
       note: "Both describe longing for something absent; nostalgia was also coined as a medical diagnosis."
+    - piece: on-longing
+      note: "A piece on this site, in which an old song brings back the years, much as a tune from home set off the homesickness Hofer described."
 - word: ostracism
   links:
     - to: boycott
@@ -173,6 +192,10 @@
       note: "Renaissance writers joined the planet to the humour and held melancholics to be children of Saturn. One word blames a planet and the other black bile; they are not related in origin."
     - to: jovial
       note: "Astrology set the two against each other: Jupiter’s children cheerful, Saturn’s gloomy. In Roman myth Saturn was Jupiter’s father."
+    - picture: space
+      scene: saturnian
+      label: "Saturn"
+      note: "The journey through the Solar System stops at Saturn, the planet whose coldness and slowness astrology gave to those born under it."
 - word: school
   links:
     - to: lecture

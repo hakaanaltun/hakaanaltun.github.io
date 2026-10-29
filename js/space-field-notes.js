@@ -299,6 +299,7 @@ const fieldNotes={
     ]
   },
   "moon": {
+    "word": "lunatic",
     "label": "The Moon",
     "kicker": "The Moon",
     "title": "Why one face keeps returning.",
@@ -463,6 +464,7 @@ const fieldNotes={
     ]
   },
   "jupiter": {
+    "word": "jovial",
     "label": "Jupiter",
     "kicker": "Jupiter",
     "title": "A world with nowhere to land.",
@@ -563,6 +565,7 @@ const fieldNotes={
     ]
   },
   "saturn": {
+    "word": "saturnine",
     "label": "Saturn",
     "kicker": "Saturn",
     "title": "A short day, a long year.",
@@ -1071,6 +1074,7 @@ const fieldNotes={
     ]
   },
   "mercury": {
+    "word": "mercurial",
     "label": "Mercury",
     "kicker": "The innermost planet",
     "title": "A small world with a marked surface.",
