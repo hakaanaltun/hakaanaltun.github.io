@@ -201,9 +201,11 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   little smaller, since phones round or crop the icon there, and the
   icon a phone may cut to any shape keeps the room it needs. That night
   the author found the ampersand standing a little to the left on the
-  home screen: it was centred with its curl, which
-  reaches out to the right. There it is now centred on its round alone,
-  the bowl the eye takes as its body.
+  home screen: it was centred with its curl, which reaches out to the
+  right. Centred on its round alone, it read a little to the right the
+  next morning, since the loop above and the curl give the right side
+  weight. On the home screen the ampersand is now centred on its
+  weight, between the two.
 - **Dark’s header and footer use a softer grey.** On 26 October 2026
   the author asked for their white words to move a little towards black
   while staying easy to read. The navigation keeps readable contrast
