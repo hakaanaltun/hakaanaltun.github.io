@@ -3,7 +3,7 @@ on:
   push:
     branches: [claude/tmp-build-preview]
 permissions:
-  contents: read
+  contents: write
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -30,10 +30,14 @@ jobs:
         env:
           JEKYLL_ENV: production
       - name: Run the checks
-        run: npm test
-        continue-on-error: true
-      - uses: actions/upload-artifact@v4
-        with:
-          name: site
-          path: _site
-          retention-days: 1
+        run: npm test > test-output.txt 2>&1 || echo "npm test failed with $?" >> test-output.txt
+      - name: Keep the built pages on this branch
+        run: |
+          mkdir -p zz-built
+          (cd _site && find . -type f \( -name '*.html' -o -name '*.json' -o -name '*.xml' -o -name '*.txt' \) -exec cp --parents {} ../zz-built/ \;)
+          cp test-output.txt zz-built/
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add zz-built
+          git commit -q -m "Built pages for a local look [skip ci]"
+          git push origin HEAD:claude/tmp-build-preview
