@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en" data-own-theme>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Stars — Your Sky Now · On Life &amp; Everything</title>
+<meta name="description" content="Bright stars, constellations, the moon and the planets above your horizon, calculated for your current time. A sky map that follows your device’s time zone.">
+<link rel="canonical" href="https://hakanaltun.io/stars/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="The Stars — Your Sky Now">
+<meta property="og:description" content="Tonight’s stars, constellations, moon and planets above your horizon—drawn in your browser.">
+<meta property="og:url" content="https://hakanaltun.io/stars/">
+<meta property="og:image" content="https://hakanaltun.io/images/og/stars.png?v=20261007-1">
+<meta property="og:image:alt" content="The Stars — tonight’s stars and planets, drawn in your browser">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Stars — Your Sky Now">
+<meta name="twitter:description" content="Tonight’s stars, constellations, moon and planets above your horizon—drawn in your browser.">
+<meta name="twitter:image" content="https://hakanaltun.io/images/og/stars.png?v=20261007-1">
+<meta name="theme-color" content="#101720">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "@id": "https://hakanaltun.io/stars/#app",
+  "name": "The Stars — Your Sky Now",
+  "url": "https://hakanaltun.io/stars/",
+  "description": "A map of the stars, constellation figures, the moon and the five bright planets above your horizon, drawn in your browser for your time zone or a chosen city.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "browserRequirements": "Requires JavaScript",
+  "isAccessibleForFree": true,
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Hakan Altun",
+    "url": "https://hakanaltun.io/"
+  },
+  "inLanguage": "en"
+}
+</script>
+<link rel="stylesheet" href="/css/fonts.css?v=20261023-1">
+<link rel="stylesheet" href="/css/window-sky.css?v=20261024-1">
+
+<script>
+(function(){
+  'use strict';
+  if(window.parent === window || new URLSearchParams(location.search).get('desk') !== '1') return;
+  try{ if(window.parent.location.origin !== location.origin || !window.parent.OLAE_DESK) return; }
+  catch(e){ return; }
+  document.documentElement.classList.add('in-desk');
+  var hooks = {}, active = true;
+  /* Both places on the desk can hold the same instrument. The second
+     instance (pane=2) keeps its own place, notes or drawing under its own
+     keys, so turning a page in one never moves the other. */
+  var pane = new URLSearchParams(location.search).get('pane') === '2' ? 2 : 1;
+  window.OLAE_DESK_EMBED = {
+    pane: pane,
+    key: function(base){ return pane > 1 ? base + '-' + pane : base; },
+    register: function(next){ Object.keys(next).forEach(function(key){ hooks[key] = next[key]; }); },
+    save: function(){ if(hooks.save) hooks.save(); },
+    unsaved: function(){ return hooks.unsaved ? hooks.unsaved() : false; },
+    setActive: function(next){
+      if(active && !next){
+        if(hooks.save) hooks.save();
+        if(hooks.pause) hooks.pause();
+      }
+      active = next;
+      if(next && hooks.resize) requestAnimationFrame(hooks.resize);
+    },
+    /* An instrument with a light of its own, as the clock and the sky
+       instruments have, keeps it on the desk (data-own-theme). */
+    setTheme: function(theme, tokens){
+      var root = document.documentElement;
+      if(root.hasAttribute('data-own-theme')) return;
+      root.setAttribute('data-theme', theme);
+      Object.keys(tokens).forEach(function(key){ root.style.setProperty(key, tokens[key]); });
+      if(!/^(light|dark)$/.test(tokens['color-scheme'] || '')) root.style.colorScheme = theme === 'light' ? 'light' : 'dark';
+    }
+  };
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape') window.parent.OLAE_DESK.restore();
+  });
+  /* On the desk an instrument's name, its way back, its theme and its full
+     screen are the desk's. A top bar left with nothing else to show gives
+     its room to the instrument's work (desk-bare). */
+  function fold(){
+    var bar = document.querySelector('.chrome');
+    if(!bar) return;
+    var shown = Array.prototype.some.call(bar.querySelectorAll('a[href], button, select, input'), function(el){ return el.getClientRects().length > 0; });
+    document.documentElement.classList.toggle('desk-bare', !shown);
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function(){ requestAnimationFrame(fold); });
+  else requestAnimationFrame(fold);
+})();
+</script>
+<style>
+  html.in-desk .masthead, html.in-desk .tools-link,
+  html.in-desk .notes, html.in-desk .notes-cue,
+  html.in-desk #fsBtn, html.in-desk #themeBtn,
+  html.in-desk .shelf-row:has([data-light]){ display:none; }
+  html.in-desk .chrome{ display:flex; justify-content:flex-end; padding:8px 16px; min-height:54px; }
+  html.in-desk.desk-bare .chrome{ display:none; }
+  html.in-desk .actions{ gap:6px; }
+  html.in-desk .sheet{ padding:30px 28px 80px; }
+  html.in-desk .app{ padding-bottom:0; }
+  html.in-desk .shelf{ top:54px; }
+  html.in-desk .empty{ min-height:180px; }
+  html.in-desk #page{ min-height:calc(100dvh - 165px); }
+  html.in-desk .tools{ left:12px; right:12px; gap:10px; justify-content:center; }
+  @media(max-width:600px){ html.in-desk .shelf{ top:auto; } }
+</style>
+
+
+</head>
+<body data-sky-tool="stars">
+<div class="chrome" id="chrome">
+  <a class="tools-link" href="/tools/" aria-label="All the instruments">&larr;&#8202;instruments</a>
+<script data-tool-return>
+(function(){
+  'use strict';
+  /* Wherever the reader came from, the way back goes there. The House
+     opens an instrument with from=house, or from=balcony from its balcony.
+     The drawer, and a note written on a page, open one with from= naming
+     the place and back= with its address (js/keep.js, wayBack), so the way
+     back returns to the drawer as it was, over the room or the page it was
+     open over, or to the piece, the word, the quiz, the book, The Reader or
+     The Desk the note was written on. A place that has no address of its
+     own needs back=; without it the way back is to the instruments. */
+  var PLACES = {
+    house: ['/house/#study', 'the study', 'Back to The House study'],
+    balcony: ['/house/#balcony', 'the balcony', 'Back to The House balcony'],
+    drawer: ['/house/#drawer', 'your drawer', 'Back to your drawer'],
+    piece: ['', 'the piece', 'Back to the piece'],
+    word: ['', 'the word', 'Back to the word'],
+    quiz: ['', 'the quiz', 'Back to the quiz'],
+    book: ['', 'the book', 'Back to the book'],
+    read: ['', 'The Reader', 'Back to The Reader'],
+    desk: ['', 'The Desk', 'Back to The Desk']
+  };
+  var params = new URLSearchParams(window.location.search);
+  var from = params.get('from');
+  if(!from || !Object.prototype.hasOwnProperty.call(PLACES, from)) return;
+  var place = PLACES[from], href = place[0], back = params.get('back');
+  if(back && back.charAt(0) === '/' && from !== 'house' && from !== 'balcony'){
+    try{
+      var url = new URL(back, window.location.origin);
+      if(url.origin === window.location.origin) href = url.pathname + url.search + url.hash;
+    }catch(e){}
+  }
+  if(!href) return;
+  var link = document.querySelector('.tools-link');
+  link.href = href;
+  link.textContent = '← ' + place[1];
+  link.setAttribute('aria-label', place[2]);
+})();
+</script>
+
+  <a class="masthead" href="/" aria-label="On Life &amp; Everything — home">
+    <span class="home-brand">On Life &amp; Everything</span>
+    <span class="home-tagline">Essays, short fiction, and other writing.</span>
+  </a>
+  <button class="icon-btn" id="fsBtn" type="button" title="Fullscreen" aria-label="Fullscreen">&#10530;</button>
+</div>
+<main class="app">
+  <div class="heading">
+    <div><h1>The Stars</h1><p class="place" id="place">Reading your sky…</p></div>
+    <label class="city-control">Sky over <select id="city" aria-label="Choose a city"><option value="">Your time zone</option><option value="istanbul">İstanbul</option><option value="ankara">Ankara</option><option value="izmir">İzmir</option><option value="london">London</option><option value="dublin">Dublin</option><option value="lisbon">Lisbon</option><option value="madrid">Madrid</option><option value="paris">Paris</option><option value="brussels">Brussels</option><option value="amsterdam">Amsterdam</option><option value="berlin">Berlin</option><option value="zurich">Zürich</option><option value="rome">Rome</option><option value="vienna">Vienna</option><option value="prague">Prague</option><option value="budapest">Budapest</option><option value="warsaw">Warsaw</option><option value="belgrade">Belgrade</option><option value="sofia">Sofia</option><option value="bucharest">Bucharest</option><option value="athens">Athens</option><option value="copenhagen">Copenhagen</option><option value="oslo">Oslo</option><option value="stockholm">Stockholm</option><option value="helsinki">Helsinki</option><option value="kyiv">Kyiv</option><option value="moscow">Moscow</option><option value="jerusalem">Jerusalem</option><option value="beirut">Beirut</option><option value="baghdad">Baghdad</option><option value="tehran">Tehran</option><option value="baku">Baku</option><option value="tbilisi">Tbilisi</option><option value="dubai">Dubai</option><option value="riyadh">Riyadh</option><option value="doha">Doha</option><option value="cairo">Cairo</option><option value="casablanca">Casablanca</option><option value="lagos">Lagos</option><option value="nairobi">Nairobi</option><option value="johannesburg">Johannesburg</option><option value="karachi">Karachi</option><option value="delhi">Delhi</option><option value="dhaka">Dhaka</option><option value="bangkok">Bangkok</option><option value="hochiminh">Ho Chi Minh City</option><option value="jakarta">Jakarta</option><option value="singapore">Singapore</option><option value="kualalumpur">Kuala Lumpur</option><option value="manila">Manila</option><option value="hongkong">Hong Kong</option><option value="shanghai">Shanghai</option><option value="taipei">Taipei</option><option value="seoul">Seoul</option><option value="tokyo">Tokyo</option><option value="perth">Perth</option><option value="brisbane">Brisbane</option><option value="adelaide">Adelaide</option><option value="melbourne">Melbourne</option><option value="sydney">Sydney</option><option value="auckland">Auckland</option><option value="honolulu">Honolulu</option><option value="anchorage">Anchorage</option><option value="vancouver">Vancouver</option><option value="losangeles">Los Angeles</option><option value="phoenix">Phoenix</option><option value="denver">Denver</option><option value="mexicocity">Mexico City</option><option value="chicago">Chicago</option><option value="newyork">New York</option><option value="toronto">Toronto</option><option value="halifax">Halifax</option><option value="bogota">Bogotá</option><option value="lima">Lima</option><option value="santiago">Santiago</option><option value="buenosaires">Buenos Aires</option><option value="saopaulo">São Paulo</option></select></label>
+  </div>
+  <p class="moment" id="moment"></p>
+  <div class="sky-controls"><button id="live" type="button" aria-pressed="true">Now</button><label for="hour">Look ahead <input id="hour" type="range" min="0" max="1440" step="10" value="0" aria-label="Minutes from now"><output id="chosen-time" for="hour"></output></label></div>
+  <p class="sky-notice" id="sky-notice"></p>
+  <div class="sky-layout">
+    <div><svg id="sky-map" class="sky-map" viewBox="0 0 600 600" role="img" aria-label="Stars and planets above the horizon"><title>Your sky now</title></svg><p class="caption">Look up. North is at the top, east on the left. The edge is the horizon; the center is directly overhead.</p></div>
+    <div class="sky-list"><section><h2>Moon and planets</h2><div id="planets"></div></section><section><h2>Constellations</h2><div id="constellations"></div></section></div>
+  </div>
+</main>
+<noscript><p class="noscript">Turn on JavaScript to calculate your sky.</p></noscript>
+<footer class="notes"><h2>What is above you</h2><p>The map opens at your current time and follows your clock. To see the sky later, move the slider; it reaches a day ahead, through the night. Press Now to return to the live sky.</p><p>The map shows the stars down to magnitude 4.5, the figures of the constellations, the moon in its phase and the five planets visible to the unaided eye. Only what is above the horizon is drawn. The list names the constellations whose brightest star is high enough to find, with that star to look for.</p><p>Two variable stars are left off the map because their brightness changes by many magnitudes over a year: Mira in Cetus and Chi Cygni. So is T Coronae Borealis: the catalogue gives it the brightness of its outburst in 1866, and it is usually far too faint to see.</p><p>Daylight, clouds, moonlight and city lights affect what you can see. Near the horizon, buildings and hills may hide an object. A planet close to the sun can be lost in its glare even after sunset.</p><p>Your device’s time zone chooses a nearby city. You can change it above. Star positions come from the <a href="https://cdsarc.cds.unistra.fr/viz-bin/cat/V/50">Yale Bright Star Catalogue</a>, adjusted for the date, and star names from the <a href="https://iauarchive.eso.org/public/themes/naming_stars/">International Astronomical Union</a>. The constellation figures are those of <a href="https://github.com/ofrohn/d3-celestial">d3-celestial</a>, drawn after the IAU and Sky &amp; Telescope charts. The moon, the planets and the coordinate transformations use <a href="https://github.com/cosinekitty/astronomy">Astronomy Engine</a>. Everything runs in your browser.</p>
+<style>
+  .notes[hidden]:not([hidden="until-found"]){ display:none; }
+  /* until-found, where the browser knows it, keeps the box and skips its
+     contents; with no padding or rule it takes no room */
+  .notes[hidden="until-found"]{ padding:0 !important; border:0 !important; margin:0 !important; }
+  .notes-open-row{ display:flex; justify-content:center; padding:4px 16px 18px; }
+  .notes-open{
+    background:none; border:0; padding:6px 4px; cursor:pointer;
+    font-family:var(--body, 'EB Garamond', Georgia, serif); font-style:italic; font-size:.85rem;
+    letter-spacing:.03em; color:var(--muted); transition:color .2s, opacity .2s;
+  }
+  .notes-open:hover{ opacity:var(--select-dim,.78); }
+  .notes-open:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
+  .notes-open .amp, .notes-cue .amp{ font-family:var(--display, 'Cormorant Garamond', Georgia, serif); font-style:italic; }
+  html.tool-full .notes, html.tool-full .notes-toggle, html.tool-full .notes-open-row,
+  body.immersive .notes, body.immersive .notes-toggle, body.immersive .notes-open-row,
+  html.in-desk .notes-open-row{ display:none !important; }
+  @media (prefers-reduced-motion:reduce){ .notes-open{ transition:none; } }
+</style>
+<script data-tool-notes>
+(function(){
+  'use strict';
+  var script = document.currentScript;
+  var notes = script && script.closest('.notes');
+  if(!notes) return;
+  var root = document.documentElement;
+  if(!notes.id) notes.id = 'notes';
+  notes.setAttribute('tabindex', '-1');
+
+  /* The cue the instrument has, or one made for it where its notes begin. */
+  var cues = Array.prototype.slice.call(document.querySelectorAll('.notes-cue, a[href="#notes"]')).filter(function(cue){
+    return !notes.contains(cue);
+  });
+  if(!cues.length){
+    var row = document.createElement('p');
+    row.className = 'notes-open-row';
+    var made = document.createElement('button');
+    made.type = 'button';
+    made.className = 'notes-open';
+    row.appendChild(made);
+    notes.parentNode.insertBefore(row, notes);
+    cues = [made];
+  }
+  var LABEL = 'notes <span class="amp">&amp;</span> questions';
+  function label(open){
+    cues.forEach(function(cue){
+      cue.classList.add('notes-toggle');
+      cue.setAttribute('aria-controls', notes.id);
+      cue.setAttribute('aria-expanded', String(open));
+      cue.innerHTML = LABEL + (open ? ' &uarr;' : ' &darr;');
+    });
+  }
+
+  function isOpen(){ return !notes.hasAttribute('hidden'); }
+  var findable = 'onbeforematch' in notes;
+  function fold(){
+    if(findable) notes.setAttribute('hidden', 'until-found');
+    else notes.hidden = true;
+    label(false);
+  }
+  function open(scroll){
+    notes.removeAttribute('hidden');
+    label(true);
+    if(scroll){
+      notes.scrollIntoView({ block:'start' });
+      try{ notes.focus({ preventScroll:true }); }catch(e){}
+    }
+  }
+
+  /* A link straight to the notes, or to something in them, opens them. */
+  function wanted(){
+    var id = decodeURIComponent(location.hash.slice(1));
+    if(!id) return false;
+    var target = document.getElementById(id);
+    return !!target && (target === notes || notes.contains(target));
+  }
+  if(wanted()) open(false); else fold();
+  window.addEventListener('hashchange', function(){ if(wanted() && !isOpen()) open(true); });
+  // Find in page opens them by itself; the cue follows.
+  notes.addEventListener('beforematch', function(){ label(true); });
+
+  cues.forEach(function(cue){
+    cue.addEventListener('click', function(event){
+      event.preventDefault();
+      if(isOpen()) fold(); else open(true);
+    });
+  });
+
+  /* Full screen, native or an instrument's own, puts the notes away. */
+  function full(){
+    var on = !!(document.fullscreenElement || document.webkitFullscreenElement) ||
+      !!(document.body && document.body.classList.contains('immersive'));
+    root.classList.toggle('tool-full', on);
+  }
+  document.addEventListener('fullscreenchange', full);
+  document.addEventListener('webkitfullscreenchange', full);
+  if(window.MutationObserver){
+    new MutationObserver(full).observe(document.body || root, { attributes:true, attributeFilter:['class'] });
+  }
+  full();
+})();
+</script>
+<p class="notes-links">More instruments: <a href="/sun/">the sun’s height and direction</a>, <a href="/moon/">the phase of the moon</a> and <a href="/twilight/">today&rsquo;s twilight</a>⁠&mdash;or see <a href="/tools/">all of them</a>. Or <a href="/search/">search the site</a>.</p>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var cities = {
+    "istanbul": {name:"İstanbul",lat:41.015,lng:28.979,tz:"Europe/Istanbul"},
+    "ankara": {name:"Ankara",lat:39.933,lng:32.86,tz:"Europe/Istanbul"},
+    "izmir": {name:"İzmir",lat:38.423,lng:27.143,tz:"Europe/Istanbul"},
+    "london": {name:"London",lat:51.507,lng:-0.128,tz:"Europe/London"},
+    "dublin": {name:"Dublin",lat:53.35,lng:-6.26,tz:"Europe/Dublin"},
+    "lisbon": {name:"Lisbon",lat:38.722,lng:-9.139,tz:"Europe/Lisbon"},
+    "madrid": {name:"Madrid",lat:40.417,lng:-3.703,tz:"Europe/Madrid"},
+    "paris": {name:"Paris",lat:48.857,lng:2.352,tz:"Europe/Paris"},
+    "brussels": {name:"Brussels",lat:50.851,lng:4.352,tz:"Europe/Brussels"},
+    "amsterdam": {name:"Amsterdam",lat:52.374,lng:4.89,tz:"Europe/Amsterdam"},
+    "berlin": {name:"Berlin",lat:52.52,lng:13.405,tz:"Europe/Berlin"},
+    "zurich": {name:"Zürich",lat:47.377,lng:8.542,tz:"Europe/Zurich"},
+    "rome": {name:"Rome",lat:41.903,lng:12.496,tz:"Europe/Rome"},
+    "vienna": {name:"Vienna",lat:48.209,lng:16.373,tz:"Europe/Vienna"},
+    "prague": {name:"Prague",lat:50.076,lng:14.438,tz:"Europe/Prague"},
+    "budapest": {name:"Budapest",lat:47.498,lng:19.04,tz:"Europe/Budapest"},
+    "warsaw": {name:"Warsaw",lat:52.23,lng:21.012,tz:"Europe/Warsaw"},
+    "belgrade": {name:"Belgrade",lat:44.787,lng:20.449,tz:"Europe/Belgrade"},
+    "sofia": {name:"Sofia",lat:42.698,lng:23.322,tz:"Europe/Sofia"},
+    "bucharest": {name:"Bucharest",lat:44.439,lng:26.096,tz:"Europe/Bucharest"},
+    "athens": {name:"Athens",lat:37.984,lng:23.728,tz:"Europe/Athens"},
+    "copenhagen": {name:"Copenhagen",lat:55.677,lng:12.569,tz:"Europe/Copenhagen"},
+    "oslo": {name:"Oslo",lat:59.914,lng:10.752,tz:"Europe/Oslo"},
+    "stockholm": {name:"Stockholm",lat:59.329,lng:18.069,tz:"Europe/Stockholm"},
+    "helsinki": {name:"Helsinki",lat:60.17,lng:24.938,tz:"Europe/Helsinki"},
+    "kyiv": {name:"Kyiv",lat:50.45,lng:30.523,tz:"Europe/Kyiv"},
+    "moscow": {name:"Moscow",lat:55.756,lng:37.617,tz:"Europe/Moscow"},
+    "jerusalem": {name:"Jerusalem",lat:31.769,lng:35.214,tz:"Asia/Jerusalem"},
+    "beirut": {name:"Beirut",lat:33.888,lng:35.495,tz:"Asia/Beirut"},
+    "baghdad": {name:"Baghdad",lat:33.315,lng:44.366,tz:"Asia/Baghdad"},
+    "tehran": {name:"Tehran",lat:35.689,lng:51.389,tz:"Asia/Tehran"},
+    "baku": {name:"Baku",lat:40.409,lng:49.867,tz:"Asia/Baku"},
+    "tbilisi": {name:"Tbilisi",lat:41.716,lng:44.783,tz:"Asia/Tbilisi"},
+    "dubai": {name:"Dubai",lat:25.205,lng:55.271,tz:"Asia/Dubai"},
+    "riyadh": {name:"Riyadh",lat:24.713,lng:46.675,tz:"Asia/Riyadh"},
+    "doha": {name:"Doha",lat:25.286,lng:51.531,tz:"Asia/Qatar"},
+    "cairo": {name:"Cairo",lat:30.044,lng:31.236,tz:"Africa/Cairo"},
+    "casablanca": {name:"Casablanca",lat:33.573,lng:-7.59,tz:"Africa/Casablanca"},
+    "lagos": {name:"Lagos",lat:6.524,lng:3.379,tz:"Africa/Lagos"},
+    "nairobi": {name:"Nairobi",lat:-1.286,lng:36.817,tz:"Africa/Nairobi"},
+    "johannesburg": {name:"Johannesburg",lat:-26.204,lng:28.047,tz:"Africa/Johannesburg"},
+    "karachi": {name:"Karachi",lat:24.861,lng:67.01,tz:"Asia/Karachi"},
+    "delhi": {name:"Delhi",lat:28.614,lng:77.209,tz:"Asia/Kolkata"},
+    "dhaka": {name:"Dhaka",lat:23.811,lng:90.413,tz:"Asia/Dhaka"},
+    "bangkok": {name:"Bangkok",lat:13.756,lng:100.502,tz:"Asia/Bangkok"},
+    "hochiminh": {name:"Ho Chi Minh City",lat:10.823,lng:106.63,tz:"Asia/Ho_Chi_Minh"},
+    "jakarta": {name:"Jakarta",lat:-6.208,lng:106.846,tz:"Asia/Jakarta"},
+    "singapore": {name:"Singapore",lat:1.352,lng:103.82,tz:"Asia/Singapore"},
+    "kualalumpur": {name:"Kuala Lumpur",lat:3.139,lng:101.687,tz:"Asia/Kuala_Lumpur"},
+    "manila": {name:"Manila",lat:14.599,lng:120.984,tz:"Asia/Manila"},
+    "hongkong": {name:"Hong Kong",lat:22.32,lng:114.174,tz:"Asia/Hong_Kong"},
+    "shanghai": {name:"Shanghai",lat:31.23,lng:121.474,tz:"Asia/Shanghai"},
+    "taipei": {name:"Taipei",lat:25.033,lng:121.565,tz:"Asia/Taipei"},
+    "seoul": {name:"Seoul",lat:37.567,lng:126.978,tz:"Asia/Seoul"},
+    "tokyo": {name:"Tokyo",lat:35.677,lng:139.65,tz:"Asia/Tokyo"},
+    "perth": {name:"Perth",lat:-31.953,lng:115.857,tz:"Australia/Perth"},
+    "brisbane": {name:"Brisbane",lat:-27.469,lng:153.023,tz:"Australia/Brisbane"},
+    "adelaide": {name:"Adelaide",lat:-34.929,lng:138.601,tz:"Australia/Adelaide"},
+    "melbourne": {name:"Melbourne",lat:-37.814,lng:144.963,tz:"Australia/Melbourne"},
+    "sydney": {name:"Sydney",lat:-33.868,lng:151.209,tz:"Australia/Sydney"},
+    "auckland": {name:"Auckland",lat:-36.848,lng:174.763,tz:"Pacific/Auckland"},
+    "honolulu": {name:"Honolulu",lat:21.307,lng:-157.858,tz:"Pacific/Honolulu"},
+    "anchorage": {name:"Anchorage",lat:61.218,lng:-149.9,tz:"America/Anchorage"},
+    "vancouver": {name:"Vancouver",lat:49.283,lng:-123.121,tz:"America/Vancouver"},
+    "losangeles": {name:"Los Angeles",lat:34.052,lng:-118.244,tz:"America/Los_Angeles"},
+    "phoenix": {name:"Phoenix",lat:33.448,lng:-112.074,tz:"America/Phoenix"},
+    "denver": {name:"Denver",lat:39.739,lng:-104.99,tz:"America/Denver"},
+    "mexicocity": {name:"Mexico City",lat:19.433,lng:-99.133,tz:"America/Mexico_City"},
+    "chicago": {name:"Chicago",lat:41.878,lng:-87.63,tz:"America/Chicago"},
+    "newyork": {name:"New York",lat:40.713,lng:-74.006,tz:"America/New_York"},
+    "toronto": {name:"Toronto",lat:43.653,lng:-79.383,tz:"America/Toronto"},
+    "halifax": {name:"Halifax",lat:44.649,lng:-63.576,tz:"America/Halifax"},
+    "bogota": {name:"Bogotá",lat:4.711,lng:-74.072,tz:"America/Bogota"},
+    "lima": {name:"Lima",lat:-12.046,lng:-77.043,tz:"America/Lima"},
+    "santiago": {name:"Santiago",lat:-33.449,lng:-70.669,tz:"America/Santiago"},
+    "buenosaires": {name:"Buenos Aires",lat:-34.604,lng:-58.382,tz:"America/Argentina/Buenos_Aires"},
+    "saopaulo": {name:"São Paulo",lat:-23.551,lng:-46.633,tz:"America/Sao_Paulo"},
+  };
+  var zones = {
+    "Europe/Istanbul": "istanbul",
+    "Asia/Istanbul": "istanbul",
+    "Turkey": "istanbul",
+    "Europe/London": "london",
+    "GB": "london",
+    "Europe/Belfast": "london",
+    "Europe/Dublin": "dublin",
+    "Europe/Lisbon": "lisbon",
+    "Europe/Madrid": "madrid",
+    "Europe/Paris": "paris",
+    "Europe/Brussels": "brussels",
+    "Europe/Amsterdam": "amsterdam",
+    "Europe/Berlin": "berlin",
+    "Europe/Zurich": "zurich",
+    "Europe/Rome": "rome",
+    "Europe/Vienna": "vienna",
+    "Europe/Prague": "prague",
+    "Europe/Budapest": "budapest",
+    "Europe/Warsaw": "warsaw",
+    "Europe/Belgrade": "belgrade",
+    "Europe/Sofia": "sofia",
+    "Europe/Bucharest": "bucharest",
+    "Europe/Athens": "athens",
+    "Europe/Copenhagen": "copenhagen",
+    "Europe/Oslo": "oslo",
+    "Europe/Stockholm": "stockholm",
+    "Europe/Helsinki": "helsinki",
+    "Europe/Kyiv": "kyiv",
+    "Europe/Kiev": "kyiv",
+    "Europe/Moscow": "moscow",
+    "Asia/Jerusalem": "jerusalem",
+    "Asia/Tel_Aviv": "jerusalem",
+    "Israel": "jerusalem",
+    "Asia/Beirut": "beirut",
+    "Asia/Baghdad": "baghdad",
+    "Asia/Tehran": "tehran",
+    "Iran": "tehran",
+    "Asia/Baku": "baku",
+    "Asia/Tbilisi": "tbilisi",
+    "Asia/Dubai": "dubai",
+    "Asia/Riyadh": "riyadh",
+    "Asia/Qatar": "doha",
+    "Africa/Cairo": "cairo",
+    "Egypt": "cairo",
+    "Africa/Casablanca": "casablanca",
+    "Africa/Lagos": "lagos",
+    "Africa/Nairobi": "nairobi",
+    "Africa/Johannesburg": "johannesburg",
+    "Asia/Karachi": "karachi",
+    "Asia/Kolkata": "delhi",
+    "Asia/Calcutta": "delhi",
+    "Asia/Dhaka": "dhaka",
+    "Asia/Dacca": "dhaka",
+    "Asia/Bangkok": "bangkok",
+    "Asia/Ho_Chi_Minh": "hochiminh",
+    "Asia/Saigon": "hochiminh",
+    "Asia/Jakarta": "jakarta",
+    "Asia/Singapore": "singapore",
+    "Asia/Kuala_Lumpur": "kualalumpur",
+    "Asia/Manila": "manila",
+    "Asia/Hong_Kong": "hongkong",
+    "Asia/Shanghai": "shanghai",
+    "Asia/Chongqing": "shanghai",
+    "PRC": "shanghai",
+    "Asia/Taipei": "taipei",
+    "Asia/Seoul": "seoul",
+    "ROK": "seoul",
+    "Asia/Tokyo": "tokyo",
+    "Japan": "tokyo",
+    "Australia/Perth": "perth",
+    "Australia/Brisbane": "brisbane",
+    "Australia/Adelaide": "adelaide",
+    "Australia/Melbourne": "melbourne",
+    "Australia/Sydney": "sydney",
+    "Pacific/Auckland": "auckland",
+    "Pacific/Honolulu": "honolulu",
+    "America/Anchorage": "anchorage",
+    "America/Vancouver": "vancouver",
+    "America/Los_Angeles": "losangeles",
+    "America/Phoenix": "phoenix",
+    "America/Denver": "denver",
+    "America/Mexico_City": "mexicocity",
+    "America/Chicago": "chicago",
+    "America/New_York": "newyork",
+    "America/Toronto": "toronto",
+    "America/Halifax": "halifax",
+    "America/Bogota": "bogota",
+    "America/Lima": "lima",
+    "America/Santiago": "santiago",
+    "America/Argentina/Buenos_Aires": "buenosaires",
+    "America/Buenos_Aires": "buenosaires",
+    "America/Sao_Paulo": "saopaulo",
+    "Brazil/East": "saopaulo",
+  };
+  var tz = "";
+  try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ""; } catch(e){}
+  var key = Object.prototype.hasOwnProperty.call(zones,tz) ? zones[tz] : "";
+  var requested = new URLSearchParams(location.search).get("city");
+  if(Object.prototype.hasOwnProperty.call(cities,requested)) key = requested;
+  window.OLAE_OBSERVER = { key:key, nominal:!key, cities:cities,
+    city:key ? cities[key] : {name:"Your time zone",lat:0,lng:-new Date().getTimezoneOffset()/4,tz:tz || undefined} };
+})();
+</script>
+
+<script src="/js/astronomy.js?v=20261007-1"></script>
+<script src="/js/vendor/astronomy-engine-2.1.19.min.js"></script>
+<script src="/js/bright-stars.js?v=20261007-2"></script>
+<script src="/js/sky-map.js?v=20261007-2"></script>
+<script src="/js/sky-instruments.js?v=20261017-1"></script>
+<script>if("serviceWorker" in navigator){navigator.serviceWorker.register("/sw.js").catch(function(){});}</script>
+<script data-dash-copy>document.addEventListener("copy",function(){var a=document.activeElement;if(a&&(/^(INPUT|TEXTAREA)$/.test(a.tagName)||a.isContentEditable))return;var s=window.getSelection(),taken=[];if(!s.rangeCount||String(s).indexOf("\u2060")<0)return;for(var i=0;i<s.rangeCount;i++){var r=s.getRangeAt(i),c=r.commonAncestorContainer,w=document.createTreeWalker(c.nodeType===3?c.parentNode:c,4),n;while((n=w.nextNode()))if(r.intersectsNode(n))for(var k=n.data.lastIndexOf("\u2060");k>=0;k=k?n.data.lastIndexOf("\u2060",k-1):-1){n.deleteData(k,1);taken.push([n,k]);}}setTimeout(function(){for(var j=taken.length-1;j>=0;j--)taken[j][0].insertData(taken[j][1],"\u2060");},0);});</script></body>
+</html>

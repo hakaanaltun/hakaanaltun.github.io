@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="rgb(255, 255, 255)" data-light="rgb(255, 255, 255)" data-dark="#171613" data-midnight="#0D1219" data-default="rgb(255, 255, 255)">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#171613" data-light="rgb(255, 255, 255)" data-dark="#171613" data-midnight="#0D1219" data-default="#171613">
+
+
+<script>
+(function(){
+  "use strict";
+  /* zone → [latitude, longitude], rendered from _data/cities.yml, which
+     /twilight/ reads too. A tenth of a degree is finer than this needs:
+     the answer only has to land the sun in the right part of its arc. */
+  var ZONES = {
+    "": null,   /* a browser that reports no zone has found none; standing
+                   first, it also lets every generated line end in a comma */
+    "Europe/Istanbul":[41.0,29.0],"Asia/Istanbul":[41.0,29.0],"Turkey":[41.0,29.0],
+    "Europe/London":[51.5,-0.1],"GB":[51.5,-0.1],"Europe/Belfast":[51.5,-0.1],
+    "Europe/Dublin":[53.4,-6.3],
+    "Europe/Lisbon":[38.7,-9.1],
+    "Europe/Madrid":[40.4,-3.7],
+    "Europe/Paris":[48.9,2.4],
+    "Europe/Brussels":[50.9,4.4],
+    "Europe/Amsterdam":[52.4,4.9],
+    "Europe/Berlin":[52.5,13.4],
+    "Europe/Zurich":[47.4,8.5],
+    "Europe/Rome":[41.9,12.5],
+    "Europe/Vienna":[48.2,16.4],
+    "Europe/Prague":[50.1,14.4],
+    "Europe/Budapest":[47.5,19.0],
+    "Europe/Warsaw":[52.2,21.0],
+    "Europe/Belgrade":[44.8,20.4],
+    "Europe/Sofia":[42.7,23.3],
+    "Europe/Bucharest":[44.4,26.1],
+    "Europe/Athens":[38.0,23.7],
+    "Europe/Copenhagen":[55.7,12.6],
+    "Europe/Oslo":[59.9,10.8],
+    "Europe/Stockholm":[59.3,18.1],
+    "Europe/Helsinki":[60.2,24.9],
+    "Europe/Kyiv":[50.5,30.5],"Europe/Kiev":[50.5,30.5],
+    "Europe/Moscow":[55.8,37.6],
+    "Asia/Jerusalem":[31.8,35.2],"Asia/Tel_Aviv":[31.8,35.2],"Israel":[31.8,35.2],
+    "Asia/Beirut":[33.9,35.5],
+    "Asia/Baghdad":[33.3,44.4],
+    "Asia/Tehran":[35.7,51.4],"Iran":[35.7,51.4],
+    "Asia/Baku":[40.4,49.9],
+    "Asia/Tbilisi":[41.7,44.8],
+    "Asia/Dubai":[25.2,55.3],
+    "Asia/Riyadh":[24.7,46.7],
+    "Asia/Qatar":[25.3,51.5],
+    "Africa/Cairo":[30.0,31.2],"Egypt":[30.0,31.2],
+    "Africa/Casablanca":[33.6,-7.6],
+    "Africa/Lagos":[6.5,3.4],
+    "Africa/Nairobi":[-1.3,36.8],
+    "Africa/Johannesburg":[-26.2,28.0],
+    "Asia/Karachi":[24.9,67.0],
+    "Asia/Kolkata":[28.6,77.2],"Asia/Calcutta":[28.6,77.2],
+    "Asia/Dhaka":[23.8,90.4],"Asia/Dacca":[23.8,90.4],
+    "Asia/Bangkok":[13.8,100.5],
+    "Asia/Ho_Chi_Minh":[10.8,106.6],"Asia/Saigon":[10.8,106.6],
+    "Asia/Jakarta":[-6.2,106.8],
+    "Asia/Singapore":[1.4,103.8],
+    "Asia/Kuala_Lumpur":[3.1,101.7],
+    "Asia/Manila":[14.6,121.0],
+    "Asia/Hong_Kong":[22.3,114.2],
+    "Asia/Shanghai":[31.2,121.5],"Asia/Chongqing":[31.2,121.5],"PRC":[31.2,121.5],
+    "Asia/Taipei":[25.0,121.6],
+    "Asia/Seoul":[37.6,127.0],"ROK":[37.6,127.0],
+    "Asia/Tokyo":[35.7,139.7],"Japan":[35.7,139.7],
+    "Australia/Perth":[-32.0,115.9],
+    "Australia/Brisbane":[-27.5,153.0],
+    "Australia/Adelaide":[-34.9,138.6],
+    "Australia/Melbourne":[-37.8,145.0],
+    "Australia/Sydney":[-33.9,151.2],
+    "Pacific/Auckland":[-36.8,174.8],
+    "Pacific/Honolulu":[21.3,-157.9],
+    "America/Anchorage":[61.2,-149.9],
+    "America/Vancouver":[49.3,-123.1],
+    "America/Los_Angeles":[34.1,-118.2],
+    "America/Phoenix":[33.4,-112.1],
+    "America/Denver":[39.7,-105.0],
+    "America/Mexico_City":[19.4,-99.1],
+    "America/Chicago":[41.9,-87.6],
+    "America/New_York":[40.7,-74.0],
+    "America/Toronto":[43.7,-79.4],
+    "America/Halifax":[44.6,-63.6],
+    "America/Bogota":[4.7,-74.1],
+    "America/Lima":[-12.0,-77.0],
+    "America/Santiago":[-33.4,-70.7],
+    "America/Argentina/Buenos_Aires":[-34.6,-58.4],"America/Buenos_Aires":[-34.6,-58.4],
+    "America/Sao_Paulo":[-23.6,-46.6],"Brazil/East":[-23.6,-46.6],
+  };
+  function pickCity(){
+    var tz = "";
+    try{ tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ""; }catch(e){}
+    var z = ZONES[tz];
+    if(z) return { lat: z[0], lng: z[1], tz: tz };
+    /* Unknown zone: use a nominal equatorial day aligned with the device's
+       current UTC offset. This gives roughly 06:00 dawn and 18:00 sunset
+       locally, without claiming to know the visitor's latitude. Fractional
+       offsets and daylight saving are included in getTimezoneOffset(). */
+    return { lat: 0, lng: -new Date().getTimezoneOffset() / 4, tz: tz };
+  }
+  var CREAM = [237,228,207], DAYINK = [255,252,245];
+  var STOPS = [   /* [altitude°, [r,g,b], inkMix 0..1] */
+    [-30, [ 12, 16, 24], 0],
+    [-18, [ 14, 19, 29], 0],
+    [-12, [ 23, 32, 48], 0],
+    [ -6, [ 44, 58, 82], 0],
+    [ -2, [ 78, 73, 92], 0.6],
+    [  0, [ 86, 78, 98], 1]
+  ];
+  function lerp(a, b, f){ return a + (b - a) * f; }
+  function skyAt(alt){
+    if(alt <= STOPS[0][0]) return STOPS[0];
+    for(var i = 1; i < STOPS.length; i++){
+      if(alt <= STOPS[i][0]){
+        var lo = STOPS[i-1], hi = STOPS[i];
+        var f = (alt - lo[0]) / (hi[0] - lo[0]);
+        return [alt,
+          [ Math.round(lerp(lo[1][0], hi[1][0], f)),
+            Math.round(lerp(lo[1][1], hi[1][1], f)),
+            Math.round(lerp(lo[1][2], hi[1][2], f)) ],
+          lerp(lo[2], hi[2], f)];
+      }
+    }
+    return STOPS[STOPS.length - 1];
+  }
+  /* The sun's altitude at which the day begins and ends. */
+  var SUNRISE = 0;
+  /* The night is the ramp from here down: at sunset the page is already
+     the navy the ramp reaches at -6°, not the violet above it. */
+  var NIGHT_TOP = -6;
+  /* The day's paper: white, with its ink, rules and band, the same from
+     sunrise to sunset. secL is how dark the sections' accents print on
+     it. The chrome is the one thing that moves: CHROME_DAWN at sunrise,
+     light enough to be a slate and dark enough for white words in the
+     menu (5:1), to CHROME_DUSK at sunset, a step off the night's header. */
+  var DAY = { paper:"#FFFFFF", surface:"#F6F8F9", band:"#F3F5F6", ink:"#242F38", inkSoft:"#35444E",
+              vizon:"#576976", stripInk:"#4C5E6B", rule:"#E9ECED", ruleStrong:"#D0D5D9",
+              ruleCream:"#D5DCDF", secL:0.492 };
+  var CHROME_DAWN = [86, 99, 111], CHROME_DUSK = [40, 52, 68];
+  function hex(h){
+    return [parseInt(h.slice(1, 3), 16), parseInt(h.slice(3, 5), 16), parseInt(h.slice(5, 7), 16)];
+  }
+  /* Every colour of the day, as [r,g,b], with secL. */
+  function dayAt(){
+    var d = {};
+    Object.keys(DAY).forEach(function(k){ d[k] = k === "secL" ? DAY[k] : hex(DAY[k]); });
+    return d;
+  }
+  /* The header's and footer's ground by day, `prog` of the way from
+     sunrise to sunset. */
+  function chromeAt(prog){
+    return mixChannels(CHROME_DAWN, CHROME_DUSK, Math.max(0, Math.min(1, prog || 0)));
+  }
+  /* The words of the header and footer, by day and by night: the yellow of
+     the site's name, all one tone, since a cool grey and then a duller
+     gold read as dull on the slate. On 25 October 2026 the author asked
+     for it to follow the sky: the full yellow (#F8EBC2) while the night is
+     at its darkest, white mixed into it as the sky opens, and the most at
+     noon, then back to the yellow as slowly. Later that day the author
+     set the amounts: none at the darkest of the night, 40% at sunrise and
+     sunset, and 70% at noon. By night the white rises with the sun from
+     -18°, where the ramp is at its darkest, to the horizon, and the
+     evening holds it up as the evening holds up the slate; by day it goes
+     along the arc. */
+  var WORDS = [248, 235, 194], WHITE = [255, 255, 255], HORIZON_WHITE = 0.40, NOON_WHITE = 0.70;
+  /* How far the night has opened, 0 at its darkest and 1 at the horizon. */
+  function nightOpen(sun){
+    return lerp(Math.max(0, Math.min(1, (sun.alt + 18) / 18)), 1, sun.eve || 0);
+  }
+  function wordsAt(sun){
+    var white = sun.alt >= SUNRISE ? lerp(HORIZON_WHITE, NOON_WHITE, sun.share)
+      : HORIZON_WHITE * nightOpen(sun);
+    return mixChannels(WORDS, WHITE, white);
+  }
+  /* The night at one altitude, in skyAt's shape: [altitude, ground, ink
+     mix]. Above NIGHT_TOP it is the ramp at NIGHT_TOP. */
+  function nightAt(alt){
+    return skyAt(Math.min(alt, NIGHT_TOP));
+  }
+  function mixChannels(a, b, f){
+    return [
+      Math.round(lerp(a[0], b[0], f)),
+      Math.round(lerp(a[1], b[1], f)),
+      Math.round(lerp(a[2], b[2], f))
+    ];
+  }
+  var RAD = Math.PI / 180;
+  /* Where the sun stands among the stars at `now`: its declination and
+     right ascension, with the day count the sidereal clock needs. */
+  function sunPlace(now){
+    var d = (now.getTime() / 86400000) - 10957.5;        /* days since J2000 */
+    var g = (357.529 + 0.98560028 * d) * RAD;
+    var q = 280.459 + 0.98564736 * d;
+    var L = (q + 1.915 * Math.sin(g) + 0.020 * Math.sin(2 * g)) * RAD;
+    var e = (23.439 - 0.00000036 * d) * RAD;
+    var sinDec = Math.sin(e) * Math.sin(L);
+    return { d: d, sinDec: sinDec, dec: Math.asin(sinDec),
+      RAh: (Math.atan2(Math.cos(e) * Math.sin(L), Math.cos(L)) / RAD) / 15 };
+  }
+  /* How far the sun has turned past the meridian of longitude `lng`, in
+     degrees: negative before noon, positive after, 15 to the hour. */
+  function hourAngle(p, lng){
+    var GMST = ((18.697374558 + 24.06570982441908 * p.d) % 24 + 24) % 24;
+    var lst = ((GMST + lng / 15) % 24 + 24) % 24;
+    return ((lst - p.RAh) * 15 + 540) % 360 - 180;
+  }
+  function sunAltitude(now, lat, lng){
+    var p = sunPlace(now), H = hourAngle(p, lng);
+    var latR = lat * RAD;
+    return Math.asin(Math.sin(latR) * p.sinDec + Math.cos(latR) * Math.cos(p.dec) * Math.cos(H * RAD)) / RAD;
+  }
+  /* How far along today's arc the sun stands at `now`: 0 where it rises
+     and where it sets, 1 at noon, and between them in proportion to the
+     way it has come. The sun keeps an even pace along its arc, while its
+     height hardly changes for the hour round noon, so the arc moves the
+     paper every few minutes all day. A sun that does not set that day
+     rises, for this purpose, at midnight. */
+  function halfArc(p, lat){
+    var x = -Math.tan(lat * RAD) * Math.tan(p.dec);
+    return x <= -1 ? 180 : x >= 1 ? 0 : Math.acos(x) / RAD;
+  }
+  function arcShare(now, lat, lng){
+    var p = sunPlace(now), half = halfArc(p, lat);
+    return half > 0 ? Math.max(0, Math.min(1, 1 - Math.abs(hourAngle(p, lng)) / half)) : 0;
+  }
+  /* How far through the day the sun is at `now`: 0 where it rises, 1
+     where it sets, along the same arc. */
+  function dayProgress(now, lat, lng){
+    var p = sunPlace(now), half = halfArc(p, lat);
+    return half > 0 ? Math.max(0, Math.min(1, (hourAngle(p, lng) + half) / (2 * half))) : 0;
+  }
+  /* The moment the sky is painted for: now, or ?hour= (any value from 0 to
+     23.99) on the reader's own clock today, so any hour can be looked at. */
+  function now(){
+    var q = /[?&]hour=(\d+(?:\.\d+)?)/.exec(location.search);
+    var h = q ? parseFloat(q[1]) : NaN, d = new Date();
+    if(h >= 0 && h < 24) d.setHours(Math.floor(h), Math.round((h % 1) * 60), 0, 0);
+    return d;
+  }
+  /* What the painters paint from, at `date` in the reader's city: the
+     sun's altitude (or `alt`, when the caller has a finer one), how far
+     along today's arc it stands, and how far through the day. */
+  function sunAt(date, alt){
+    var c = pickCity();
+    if(alt === undefined) alt = sunAltitude(date, c.lat, c.lng);
+    return {
+      alt: alt,
+      share: arcShare(date, c.lat, c.lng),
+      prog: dayProgress(date, c.lat, c.lng)
+    };
+  }
+  /* The same, for now or ?hour=. */
+  function sunNow(){ return sunAt(now()); }
+  /* Relative luminance of a ground, the input every derived tone needs. */
+  function luminance(rgb){
+    var v = [rgb[0], rgb[1], rgb[2]].map(function(c){
+      c = c / 255;
+      return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+    });
+    return 0.2126 * v[0] + 0.7152 * v[1] + 0.0722 * v[2];
+  }
+  /* A text tone: ink laid over the ground at `alpha`, returned solid so it
+     can go anywhere a colour goes, including into a gradient or a border. */
+  function over(ink, ground, alpha){
+    return [
+      Math.round(ink[0] * alpha + ground[0] * (1 - alpha)),
+      Math.round(ink[1] * alpha + ground[1] * (1 - alpha)),
+      Math.round(ink[2] * alpha + ground[2] * (1 - alpha))
+    ];
+  }
+  function rgb(c){ return "rgb(" + c[0] + "," + c[1] + "," + c[2] + ")"; }
+
+  window.OLAE_SKY = {
+    CREAM: CREAM, DAYINK: DAYINK,
+    pickCity: pickCity, sunAltitude: sunAltitude, arcShare: arcShare,
+    now: now, sunAt: sunAt, sunNow: sunNow,
+    SUNRISE: SUNRISE, dayAt: dayAt, chromeAt: chromeAt, nightAt: nightAt, wordsAt: wordsAt,
+    skyAt: skyAt, mix: mixChannels, luminance: luminance, over: over, rgb: rgb,
+    lerp: lerp
+  };
+})();
+</script>
+
+
+<script>
+(function(){
+  "use strict";
+  var S = window.OLAE_SKY;
+  var TOKENS = ["--bg","--paper","--surface-soft","--band","--sky-band-hero","--note-base",
+    "--footer-strip-bg","--ink","--ink-soft","--vizon","--footer-strip-ink","--footer-text",
+    "--footer-muted","--hero-source-muted","--rule","--rule-strong","--rule-cream",
+    "--header-border","--drawer-bg","--sky-ld-floor","--sky-chrome-rgb","--sec-l"];
+
+  /* Every token the day sets, for one `prog` of the way from sunrise to
+     sunset. The colours are sky-ramp.html's DAY and chromeAt(); this is
+     only where each one goes. */
+  function dayTokens(prog){
+    var d = S.dayAt(), t = {};
+    t["--bg"] = S.rgb(d.paper);
+    t["--paper"] = S.rgb(d.paper);
+    t["--surface-soft"] = S.rgb(d.surface);
+    t["--band"] = S.rgb(d.band);
+    t["--footer-strip-bg"] = S.rgb(d.paper);
+    t["--ink"] = S.rgb(d.ink);
+    t["--ink-soft"] = S.rgb(d.inkSoft);
+    t["--vizon"] = S.rgb(d.vizon);
+    t["--footer-strip-ink"] = S.rgb(d.stripInk);
+    t["--hero-source-muted"] = S.rgb(d.stripInk);
+    t["--rule"] = S.rgb(d.rule);
+    t["--rule-strong"] = S.rgb(d.ruleStrong);
+    t["--rule-cream"] = S.rgb(d.ruleCream);
+    t["--drawer-bg"] = "rgba(" + d.paper.join(",") + ",0.985)";
+    /* the header and footer; css/palettes.css hands it to <body>, whose
+       own --chrome-rgb would otherwise win */
+    t["--sky-chrome-rgb"] = S.chromeAt(prog).join(", ");
+    t["--sec-l"] = d.secL.toFixed(3);
+    return t;
+  }
+
+  /* Every token the night moves, for one altitude of the sun
+     (sky-ramp.html). */
+  function nightTokens(alt){
+    var sky = S.nightAt(alt), g = sky[1], m = sky[2];
+    var ink = S.mix(S.CREAM, S.DAYINK, m);
+    var t = {};
+
+    /* grounds: the sheet, the card lifted off it, the band sunk into it */
+    t["--bg"] = S.rgb(g);
+    t["--paper"] = S.rgb(g);
+    t["--surface-soft"] = S.rgb(S.over(ink, g, 0.06));
+    t["--band"] = S.rgb(S.over([0,0,0], g, 0.18));
+    t["--sky-band-hero"] = S.rgb(S.over(ink, g, 0.03));
+    t["--note-base"] = S.rgb(S.over(ink, g, 0.06));
+    t["--footer-strip-bg"] = S.rgb(S.over([0,0,0], g, 0.18));
+
+    /* text, four tiers, each solved against this ground */
+    t["--ink"] = S.rgb(ink);
+    t["--ink-soft"] = S.rgb(S.over(ink, g, 0.94));
+    t["--vizon"] = S.rgb(S.over(ink, g, 0.88));
+    t["--footer-strip-ink"] = S.rgb(S.over(ink, g, 0.88));
+    t["--hero-source-muted"] = S.rgb(S.over(ink, g, 0.88));
+
+    /* rules are not text and carry no contrast minimum; they are the ink
+       barely present, which is what a rule is on every other theme here */
+    t["--rule"] = S.rgb(S.over(ink, g, 0.16));
+    t["--rule-strong"] = S.rgb(S.over(ink, g, 0.30));
+    t["--rule-cream"] = S.rgb(S.over(ink, g, 0.30));
+    t["--header-border"] = "rgba(" + ink.join(",") + ",0.14)";
+    /* the drawer slides over the page and wants the ground almost opaque */
+    t["--drawer-bg"] = "rgba(" + g.join(",") + ",0.985)";
+
+    /* The accents' lightness floor on this ground: 4.6:1 on the card
+       (--surface-soft), the lightest ground they sit on, with no white
+       mixed in since 25 October 2026. */
+    var groundLuminance = S.luminance(g);
+    t["--sky-ld-floor"] = Math.max(0.56, Math.min(0.99,
+      0.57 + 0.59895 * Math.sqrt(groundLuminance)
+        + 2.45 * groundLuminance)).toFixed(4);
+
+    return t;
+  }
+  /* Every token this theme moves, for one `sun` from sky-ramp.html's
+     sunAt(): { alt, share, prog }. It only
+     computes: the two callers below decide what to do with the answer —
+     paint() writes it to <html>, js/palettes.js reads it to paint one card
+     on /themes/ without a second copy of the arithmetic. `day` and
+     `chrome` travel with the tokens for that card; they are not painted. */
+  function tokens(sun){
+    var day = sun.alt >= S.SUNRISE, t = day ? dayTokens(sun.prog) : nightTokens(sun.alt);
+    t.day = day;
+    /* White on the daytime slate; after sunset the frame takes the
+       page’s own cream ink, warming with the night. */
+    var words = day ? "rgb(255,255,255)" : t["--ink"];
+    t["--footer-text"] = words;
+    t["--footer-muted"] = words;
+    if(day) t["--header-border"] = "rgba(255,255,255,0.20)";
+    /* the header and footer: the day's chrome, or by night the band, which
+       is what the night's header and footer are painted with */
+    t.chrome = day ? "rgb(" + t["--sky-chrome-rgb"] + ")" : t["--band"];
+    return t;
+  }
+  /* TOKENS is the list applied as well as the list cleared, so the two can
+     no longer drift apart: a token one half sets and the other does not is
+     taken off as the sky turns, rather than left behind. */
+  function paint(sun){
+    var t = tokens(sun), root = document.documentElement, st = root.style;
+    TOKENS.forEach(function(k){
+      if(k in t) st.setProperty(k, t[k]); else st.removeProperty(k);
+    });
+    root.setAttribute("data-sky", t.day ? "day" : "night");
+    root.setAttribute("data-theme", t.day ? "light" : "sky");
+
+    /* the browser chrome follows the sheet by night and the header by day,
+       as it does for the dark themes and the palettes; in The House's
+       rooms it follows the House's own header (js/house.js) */
+    if(root.hasAttribute("data-house-theme")) return;
+    var metas = document.querySelectorAll('meta[name="theme-color"]');
+    for(var i = 0; i < metas.length; i++){
+      metas[i].setAttribute("content", t.day ? t.chrome : t["--paper"]);
+    }
+  }
+  /* Leaving the sky: the caller sets the theme it is leaving for. */
+  function clear(){
+    var root = document.documentElement, st = root.style;
+    TOKENS.forEach(function(t){ st.removeProperty(t); });
+    root.removeAttribute("data-sky");
+  }
+  /* Other light palettes keep their paper, but their dark frame also
+     takes cream words between local sunset and sunrise. White & Slate
+     and the rooms are excluded by the scoped CSS. */
+  function paintFrame(sun){
+    var t = tokens(sun), root = document.documentElement;
+    root.toggleAttribute("data-frame-night", !t.day);
+    root.style.setProperty("--night-frame-words", t.day ? "#FFFFFF" : t["--ink"]);
+  }
+  window.OLAE_SITE_SKY = {
+    paint: paint, clear: clear, paintFrame: paintFrame,
+    paintFrameNow: function(){ paintFrame(S.sunNow()); },
+    paintNow: function(){ paint(S.sunNow()); },
+    tokensNow: function(){ return tokens(S.sunNow()); },
+    isOn: function(){ return document.documentElement.hasAttribute("data-sky"); }
+  };
+  paintFrame(S.sunNow());
+})();
+</script>
+
+<script>(function(){var t;try{t=localStorage.getItem('theme');
+if(t==='dusk'){t='sky';try{localStorage.setItem('theme','sky')}catch(e){}}}catch(e){}
+if(t==='system')return;
+if(t!=='dark'&&t!=='light'&&t!=='midnight'&&t!=='sky')return;
+document.documentElement.setAttribute('data-theme',t);
+if(t==='sky'){window.OLAE_SITE_SKY.paintNow();return;}
+var m=document.querySelectorAll('meta[name="theme-color"]');for(var i=0;i<m.length;i++){var v=m[i].getAttribute('data-'+t);if(v)m[i].setAttribute('content',v);}})();</script>
+
+<script>(function(){if(!document.documentElement.hasAttribute('data-theme'))return;try{var s=localStorage.getItem('palette');if(!s)return;var n=parseInt(s,10);
+if(n===13){localStorage.removeItem('palette');return;}
+if(!(n>=1&&n<=12))return;
+if(n===1){document.documentElement.removeAttribute('data-palette');return;}
+document.documentElement.setAttribute('data-palette',String(n));
+var t=document.documentElement.getAttribute('data-theme');
+if(t==='dark'||t==='midnight'||t==='sky'||document.documentElement.hasAttribute('data-sky'))return;
+if(!t&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches)return;
+var C={2:'#3E4A44',3:'#3A4148',4:'#5E4234',5:'#3E4F42',6:'#22364F',7:'#59513A',8:'#47415A',9:'#234640',10:'#5E4046',11:'#45412E',12:'#2E3F45'};
+var m=document.querySelector('meta[name="theme-color"][data-light]');if(m&&C[n])m.setAttribute('content',C[n]);}catch(e){}})();</script>
+
+
+
+
+
+<title>How We Judge — Words with Stories · On Life &amp; Everything</title>
+<meta name="description" content="How words of praise, blame and respect changed their meaning.">
+<meta name="author" content="Hakan Altun">
+<link rel="icon" type="image/svg+xml" href="/on-icon.svg?v=20261028-1">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=20261028-1">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=20261028-1">
+<link rel="shortcut icon" href="/favicon.ico?v=20261028-1">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-on.png?v=20261028-2">
+<link rel="manifest" href="/manifest.json?v=20261028-2">
+<link rel="canonical" href="https://hakanaltun.io/word/judging/">
+
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="How We Judge — Words with Stories · On Life &amp; Everything">
+<meta property="og:description" content="How words of praise, blame and respect changed their meaning.">
+<meta property="og:image" content="https://hakanaltun.io/og-image-on-card.png?v=20261026-4">
+<meta property="og:image:alt" content="Words with Stories — On Life &amp; Everything">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://hakanaltun.io/word/judging/">
+
+<meta property="og:type" content="website">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="How We Judge — Words with Stories · On Life &amp; Everything">
+<meta name="twitter:description" content="How words of praise, blame and respect changed their meaning.">
+<meta name="twitter:image" content="https://hakanaltun.io/og-image-on-card.png?v=20261026-4">
+<meta name="twitter:image:alt" content="Words with Stories — On Life &amp; Everything">
+
+
+
+
+<link rel="stylesheet" href="/css/style.css?v=20261026-1">
+<link rel="stylesheet" href="/css/palettes.css?v=20261026-2">
+
+
+
+
+
+
+
+
+<link rel="alternate" type="application/rss+xml" title="On Life &amp; Everything" href="/feed.xml">
+<link rel="alternate" type="application/rss+xml" title="Words with Stories &mdash; On Life &amp; Everything" href="/word/feed.xml">
+<link rel="alternate" type="application/rss+xml" title="Notes &mdash; On Life &amp; Everything" href="/notes/feed.xml">
+
+
+<link rel="preload" href="/fonts/eb-garamond-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+<link rel="preload" href="/fonts/cormorant-garamond-italic-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/fonts.css?v=20261023-1">
+
+<link rel="stylesheet" href="/css/let-it-snow.css?v=20261024-1">
+<link rel="stylesheet" href="/css/search.css?v=20261024-1">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+<body class="series-words" style="--chrome-rgb: 68, 74, 78;">
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="container">
+<header id="site-header">
+  <nav>
+    <div class="nav-top-row">
+      <div class="nav-left">
+        <button class="hamburger-btn" aria-label="Toggle Menu" aria-controls="site-drawer" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+      </div>
+      <a href="/" class="nav-home" aria-label="On Life &amp; Everything home">
+        <span class="brand-main">On Life &amp; Everything</span>
+        <span class="brand-sub">Essays, short fiction, and other writing.</span>
+      </a>
+    </div>
+    <div class="header-nav-bar">
+      <a href="/house/">The House</a>
+      <a href="/all-work/">Writing</a>
+      <a href="/notes/">Notes</a>
+      <a href="/word/">Words</a>
+      <a href="/pictures/">Pictures</a>
+      <a href="/trivia/">Trivia</a>
+      <a href="/tools/">Instruments</a>
+      <a href="/moris/">Moris</a>
+      <a href="/about/">About</a>
+    </div>
+  </nav>
+</header>
+
+
+
+
+<div id="site-drawer-backdrop" class="drawer-backdrop" aria-hidden="true"></div><div id="site-drawer" class="site-drawer" aria-hidden="true">
+  <div class="drawer-head">
+    <button id="site-drawer-close" class="drawer-close" aria-label="Close menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div class="drawer-logo-wrap">
+      <a href="/" class="drawer-logo-link">
+        <span class="brand-main">On Life &amp; Everything</span>
+        <span class="brand-sub">Essays, short fiction, and other writing.</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="drawer-body"><form class="site-search-form site-search-form--drawer" role="search" action="/search/" method="get">
+  <label class="visually-hidden" for="drawer-search">Search the site</label>
+  <input id="drawer-search" name="q" type="search" placeholder="Search the site" maxlength="200" autocomplete="off" enterkeyhint="search">
+  <button type="submit" aria-label="Search">
+    <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg>
+  </button>
+</form>
+
+    <div class="drawer-section-links" data-voice="house">
+      <a href="/house/">The House</a>
+    </div>
+
+    <details class="drawer-section" data-voice="writing">
+      <summary class="drawer-label">Writing</summary>
+      <div class="drawer-essay-cards">
+        
+        
+        
+        
+        
+        <a href="/pieces/measured.html" class="drawer-essay-card-link"><span class="drawer-essay-card">
+          <span class="drawer-essay-card-text">
+            <span class="drawer-essay-card-title">Measured</span>
+            <span class="drawer-essay-card-meta">Aug 29, 2026</span>
+          </span>
+        </span></a>
+        
+        
+        
+        
+        
+        <a href="/pieces/it-was-not-a-question.html" class="drawer-essay-card-link"><span class="drawer-essay-card">
+          <span class="drawer-essay-card-text">
+            <span class="drawer-essay-card-title">It Was Not a Question</span>
+            <span class="drawer-essay-card-meta">Jul 25, 2026</span>
+          </span>
+        </span></a>
+        
+        
+        
+        
+        
+        <a href="/story/1/" class="drawer-essay-card-link" data-voice="story"><span class="drawer-essay-card">
+          <span class="drawer-essay-card-text">
+            <span class="drawer-essay-card-title">The Notice</span>
+            <span class="drawer-essay-card-meta">Jul 5, 2026</span>
+          </span>
+        </span></a>
+        
+      </div>
+      <a href="/all-work/#short-fiction" class="drawer-more drawer-subsection-link">All in Short Fiction <span aria-hidden="true">&rarr;</span></a>
+
+      <div class="drawer-essay-cards">
+        
+        
+        <a href="/pieces/on-keeping.html" class="drawer-essay-card-link"><span class="drawer-essay-card">
+          <span class="drawer-essay-card-text">
+            <span class="drawer-essay-card-title">On Keeping</span>
+            <span class="drawer-essay-card-meta">Apr 2, 2026</span>
+          </span>
+        </span></a>
+        
+        
+        <a href="/pieces/on-longing.html" class="drawer-essay-card-link"><span class="drawer-essay-card">
+          <span class="drawer-essay-card-text">
+            <span class="drawer-essay-card-title">On Longing</span>
+            <span class="drawer-essay-card-meta">Apr 2, 2026</span>
+          </span>
+        </span></a>
+        
+        
+        <a href="/pieces/on-silence.html" class="drawer-essay-card-link"><span class="drawer-essay-card">
+          <span class="drawer-essay-card-text">
+            <span class="drawer-essay-card-title">On Silence</span>
+            <span class="drawer-essay-card-meta">Apr 2, 2026</span>
+          </span>
+        </span></a>
+        
+      </div>
+      <a href="/all-work/#essays" class="drawer-more drawer-subsection-link">All in Essays <span aria-hidden="true">&rarr;</span></a>
+    </details>
+
+    <details class="drawer-section" data-voice="writing">
+      <summary class="drawer-label">Series</summary>
+      
+      
+      <div class="drawer-essay-cards">
+        
+        
+        <a href="/pieces/written-in-ink.html" class="drawer-essay-card-link"><span class="drawer-essay-card">
+          <span class="drawer-essay-card-text">
+            <span class="drawer-essay-card-title">Written in Ink</span>
+            <span class="drawer-essay-card-meta">Jun 4, 2026</span>
+          </span>
+        </span></a>
+        
+        
+        <a href="/pieces/thinking-is-for-after.html" class="drawer-essay-card-link"><span class="drawer-essay-card">
+          <span class="drawer-essay-card-text">
+            <span class="drawer-essay-card-title">Thinking Is for After</span>
+            <span class="drawer-essay-card-meta">Jun 11, 2026</span>
+          </span>
+        </span></a>
+        
+        
+        <a href="/pieces/it-will-be.html" class="drawer-essay-card-link"><span class="drawer-essay-card">
+          <span class="drawer-essay-card-text">
+            <span class="drawer-essay-card-title">It Will Be</span>
+            <span class="drawer-essay-card-meta">Jun 12, 2026</span>
+          </span>
+        </span></a>
+        
+      </div>
+      <a href="/series/#the-corner" class="drawer-more drawer-subsection-link">All in The Corner <span aria-hidden="true">&rarr;</span></a>
+
+      <div class="drawer-essay-cards">
+        
+        
+        <a href="/pieces/on-lying.html" class="drawer-essay-card-link"><span class="drawer-essay-card">
+          <span class="drawer-essay-card-text">
+            <span class="drawer-essay-card-title">On Lying</span>
+            <span class="drawer-essay-card-meta">Mar 12, 2026</span>
+          </span>
+        </span></a>
+        
+        
+        <a href="/pieces/on-perceiving.html" class="drawer-essay-card-link"><span class="drawer-essay-card">
+          <span class="drawer-essay-card-text">
+            <span class="drawer-essay-card-title">On Perceiving</span>
+            <span class="drawer-essay-card-meta">Mar 14, 2026</span>
+          </span>
+        </span></a>
+        
+        
+        <a href="/pieces/on-looking.html" class="drawer-essay-card-link"><span class="drawer-essay-card">
+          <span class="drawer-essay-card-text">
+            <span class="drawer-essay-card-title">On Looking</span>
+            <span class="drawer-essay-card-meta">Mar 22, 2026</span>
+          </span>
+        </span></a>
+        
+      </div>
+      <a href="/series/#the-on-series" class="drawer-more drawer-subsection-link">All in The On Series <span aria-hidden="true">&rarr;</span></a>
+    </details>
+
+    <details class="drawer-section" data-voice="book">
+      <summary class="drawer-label">Book</summary>
+      <a href="/book/" class="drawer-more drawer-subsection-link drawer-subsection-link--first">The Fragments <span aria-hidden="true">&rarr;</span></a>
+      <a href="/book/part-one/" class="drawer-more drawer-subsection-link">Part I · The Question <span aria-hidden="true">&rarr;</span></a>
+      <a href="/book/part-two/" class="drawer-more drawer-subsection-link">Part II · The Fragile Archive <span aria-hidden="true">&rarr;</span></a>
+    </details>
+
+    <div class="drawer-section-links" data-voice="notes">
+      <a href="/notes/">Notes</a>
+    </div>
+
+    <div class="drawer-section-links" data-voice="words">
+      <a href="/word/">Words</a>
+    </div>
+
+    <div class="drawer-section-links" data-voice="pictures">
+      <a href="/pictures/">Pictures</a>
+    </div>
+
+    <div class="drawer-section-links" data-voice="trivia">
+      <a href="/trivia/">Trivia</a>
+    </div>
+
+    <div class="drawer-section-links" data-voice="furniture">
+      <a href="/tools/">Instruments</a>
+    </div>
+
+    <div class="drawer-section-links" data-voice="house">
+      <a href="/moris/">Moris</a>
+    </div>
+
+    <div class="drawer-section-links" data-voice="about">
+      <a href="/about/">About</a>
+    </div>
+  </div>
+</div>
+
+<main id="main" tabindex="-1">
+
+
+<div class="section-page word-index-page">
+  <div class="section-page-head">
+    <p><a href="/word/" class="word-collection-back">← Words with Stories</a></p>
+    <h1 class="section-page-title">How We Judge</h1>
+    <p class="section-page-subtitle">How words of praise, blame and respect changed their meaning.</p>
+  </div>
+  <p class="word-collection-introduction">A word for someone fortunate became an insult, and a word for a fool became a compliment. Social rank and scholarly reputation also left their marks on the language of judgement. These words show how descriptions acquire contempt, how praise develops and how strong feelings become everyday expressions.</p>
+  <p class="word-collection-period-note">In approximate historical order, from the origins and events behind the words.</p>
+  <ol class="word-collection-entries">
+  
+    
+    
+    
+    <li><a href="/word/silly/"><span class="word-collection-word">silly <small>(adj.)</small></span><span class="word-collection-teaser">when innocence became foolishness</span></a></li>
+    
+  
+    
+    
+    
+    <li><a href="/word/villain/"><span class="word-collection-word">villain <small>(n.)</small></span><span class="word-collection-teaser">the villager who became the bad character</span></a></li>
+    
+  
+    
+    
+    
+    <li><a href="/word/nice/"><span class="word-collection-word">nice <small>(adj.)</small></span><span class="word-collection-teaser">a compliment that began as an insult</span></a></li>
+    
+  
+    
+    
+    
+    <li><a href="/word/awful/"><span class="word-collection-word">awful <small>(adj.)</small></span><span class="word-collection-teaser">when awe became an everyday complaint</span></a></li>
+    
+  
+    
+    
+    
+    <li><a href="/word/dunce/"><span class="word-collection-word">dunce <small>(n.)</small></span><span class="word-collection-teaser">a scholar’s name became an insult</span></a></li>
+    
+  
+    
+    
+    
+    <li><a href="/word/prestige/"><span class="word-collection-word">prestige <small>(n.)</small></span><span class="word-collection-teaser">the trick that became a reputation</span></a></li>
+    
+  
+  </ol>
+  <p class="word-collection-back-bottom"><a href="/word/">All collections →</a></p>
+</div>
+<style>
+.word-index-page { max-width: 46rem; }
+.word-collection-back { color:var(--petrol); text-decoration:none; font:italic 1rem 'EB Garamond',Georgia,serif; }
+.word-collection-back:hover,.word-collection-back:active,.word-collection-back-bottom a:hover,.word-collection-back-bottom a:active { opacity:var(--select-dim); }
+.word-collection-introduction { max-width: 36rem; margin:0 auto 40px; font:1.19rem/1.7 'EB Garamond',Georgia,serif; }
+.word-collection-period-note { max-width: 36rem; margin: -20px auto 25px; color: var(--vizon); font: italic .95rem/1.4 'EB Garamond',Georgia,serif; }
+.word-collection-entries { max-width:36rem; padding:0; margin:auto; list-style:none; border-top:1px solid var(--rule); }
+.word-collection-entries li { border-bottom:1px solid var(--rule); }
+.word-collection-entries li a { padding:20px 2px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:6px 22px; text-decoration:none; align-items:baseline; }
+.word-collection-entries li a:hover,.word-collection-entries li a:focus-visible { opacity:var(--select-dim); }
+.word-collection-word { color:var(--petrol-deep); font:italic 500 clamp(1.6rem,3vw,2rem)/1.15 'Cormorant Garamond',Georgia,serif; }
+.word-collection-word small { font-size:.53em;color:var(--vizon); }
+.word-collection-teaser { color:var(--vizon);font:italic 1rem 'EB Garamond',Georgia,serif; }
+.word-collection-back-bottom { max-width:36rem;margin:36px auto 0; }
+.word-collection-back-bottom a { color:var(--petrol);text-decoration:none;font-style:italic; }
+</style>
+
+
+
+
+</main>
+<footer>
+  
+  <div class="footer-strip">
+    <div class="footer-strip-inner">
+      <form class="site-search-form site-search-form--footer" role="search" action="/search/" method="get">
+  <label class="visually-hidden" for="footer-search">Search the site</label>
+  <input id="footer-search" name="q" type="search" placeholder="Search the site" maxlength="200" autocomplete="off" enterkeyhint="search">
+  <button type="submit" aria-label="Search">
+    <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg>
+  </button>
+</form>
+
+      
+
+      <nav class="footer-contact-links" aria-label="Find me">
+        <a href="/feeds/">RSS</a>
+        <span class="footer-dot" aria-hidden="true">·</span>
+        <a href="https://www.goodreads.com/author/show/69006405.Hakan_Altun"
+           target="_blank"
+           rel="noopener">Goodreads</a>
+        <span class="footer-dot" aria-hidden="true">·</span>
+        <a href="mailto:letters@hakanaltun.io">letters@hakanaltun.io</a>
+      </nav>
+
+      <div class="footer-actions-wrap">
+        <button
+          class="footer-icon-btn footer-actions-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="footer-actions-menu"
+          aria-label="More controls"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </button>
+
+        <div class="footer-actions" id="footer-actions-menu">
+          <div class="theme-menu-wrap">
+          <button
+            class="footer-icon-btn footer-theme-toggle"
+            id="theme-toggle"
+            type="button"
+            aria-label="Themes"
+            data-label="Themes"
+            aria-haspopup="true"
+            aria-expanded="false"
+            aria-controls="theme-menu"
+            hidden
+          >
+            <svg
+              class="theme-icon-moon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+
+            <svg
+              class="theme-icon-sun"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="12" r="5"/>
+              <line x1="12" y1="1" x2="12" y2="3"/>
+              <line x1="12" y1="21" x2="12" y2="23"/>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+              <line x1="1" y1="12" x2="3" y2="12"/>
+              <line x1="21" y1="12" x2="23" y2="12"/>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </svg>
+          </button>
+
+          <div class="theme-menu" id="theme-menu" role="menu" aria-label="Theme" hidden>
+            <button type="button" class="theme-menu-item" role="menuitemradio" aria-checked="false" data-set-theme="system"
+              title="Follows your device’s light or dark preference">
+              System
+              <span class="theme-menu-mark" aria-hidden="true">&#10003;</span>
+            </button>
+            <button type="button" class="theme-menu-item" role="menuitemradio" aria-checked="false" data-set-theme="light">
+              Light
+              <span class="theme-menu-mark" aria-hidden="true">&#10003;</span>
+            </button>
+            <button type="button" class="theme-menu-item" role="menuitemradio" aria-checked="false" data-set-theme="dark">
+              Dark
+              <span class="theme-menu-mark" aria-hidden="true">&#10003;</span>
+            </button>
+            <button type="button" class="theme-menu-item" role="menuitemradio" aria-checked="false" data-set-theme="midnight">
+              Midnight
+              <span class="theme-menu-mark" aria-hidden="true">&#10003;</span>
+            </button>
+            <button type="button" class="theme-menu-item" role="menuitemradio" aria-checked="false" data-set-theme="sky"
+              title="The page changes colour as the sun moves through the day.">
+              Follow the sky
+              <span class="theme-menu-mark" aria-hidden="true">&#10003;</span>
+            </button>
+            <div class="theme-menu-divider" role="separator" aria-hidden="true"></div>
+            <a class="theme-menu-item theme-menu-item--link" role="menuitem" href="/themes/"
+              title="The whole wardrobe, previewed—twelve light palettes, Dark, Midnight and Follow the sky">
+              Themes
+            </a>
+          </div>
+          </div>
+          <a href="/tools/" class="footer-icon-btn" aria-label="Instruments" data-label="Instruments">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <rect x="3" y="3" width="7" height="7"/>
+              <rect x="14" y="3" width="7" height="7"/>
+              <rect x="3" y="14" width="7" height="7"/>
+              <rect x="14" y="14" width="7" height="7"/>
+            </svg>
+          </a>
+          <a href="/house/#drawer" class="footer-icon-btn" data-open-drawer aria-label="Your drawer" data-label="Your drawer">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <rect x="3" y="3" width="18" height="18" rx="2"/>
+              <line x1="3" y1="12" x2="21" y2="12"/>
+              <line x1="10" y1="7.5" x2="14" y2="7.5"/>
+              <line x1="10" y1="16.5" x2="14" y2="16.5"/>
+            </svg>
+          </a>
+
+          <button
+            class="footer-icon-btn footer-share-btn"
+            type="button"
+            aria-label="Share this page"
+          data-label="Share"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <circle cx="18" cy="5" r="3"/>
+              <circle cx="6" cy="12" r="3"/>
+              <circle cx="18" cy="19" r="3"/>
+              <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+              <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  <div class="footer-inner">
+    <div class="footer-bottom">
+      <div class="footer-weather">
+        <button class="snow-toggle" id="let-it-snow" type="button" aria-label="Let it snow" aria-pressed="false" title="Let it snow" hidden><span aria-hidden="true">&#10052;&#65038;</span></button>
+        <button class="snow-toggle" id="let-it-rain" type="button" aria-label="Let it rain" aria-pressed="false" title="Let it rain" hidden>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c-2.5 4-7 7.5-7 12a7 7 0 0 0 14 0c0-4.5-4.5-8-7-12z"/></svg>
+        </button>
+      </div>
+
+      <a href="#" class="footer-home-link" aria-label="Back to top">
+        <span class="footer-brand">On Life &amp; Everything</span>
+        <span class="footer-tagline">
+          Essays, short fiction, and other writing.
+        </span>
+      </a><p class="footer-credit">
+        Hakan Altun · İstanbul, 2026 · &copy; All rights reserved.
+      </p>
+    </div>
+  </div>
+</footer>
+
+</div>
+<script>window.OLAE_DRAWER_ASSETS = {"keep_js":"/js/keep.js?v=20261014-1","keep_css":"/css/keep.css?v=20261012-1","drawer_js":"/js/drawer.js?v=20261019-1","drawer_css":"/css/drawer.css?v=20261024-1"};</script>
+<script src="/js/site-nav.js?v=20261017-1" defer></script>
+<script src="/js/let-it-snow.js?v=20261001-2" defer></script>
+<script src="/js/palettes.js?v=20261026-3" defer></script>
+<script src="/js/theme.js?v=20261026-1" defer></script>
+<script src="/js/divider-lines.js?v=20260710-1" defer></script>
+<script src="/js/header-autohide.js?v=20260925-1" defer></script>
+
+
+
+
+
+
+
+<script src="/js/search-suggest.js?v=20261023-1" defer></script>
+<script>
+/* Enable CSS smooth scrolling only after the browser has completed its
+   initial scroll restoration. Applying scroll-behavior: smooth to the root
+   at load time made reloads (and pressing Enter in the address bar) animate
+   the restoration, sliding the page up by about one screen. */
+(function () {
+  var enable = function () {
+    document.documentElement.classList.add('smooth-scroll');
+  };
+  if (document.readyState === 'complete') {
+    requestAnimationFrame(enable);
+  } else {
+    window.addEventListener('load', function () { requestAnimationFrame(enable); });
+  }
+})();
+</script>
+<script data-goatcounter="https://hakanaltun.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<script data-dash-copy>document.addEventListener("copy",function(){var a=document.activeElement;if(a&&(/^(INPUT|TEXTAREA)$/.test(a.tagName)||a.isContentEditable))return;var s=window.getSelection(),taken=[];if(!s.rangeCount||String(s).indexOf("\u2060")<0)return;for(var i=0;i<s.rangeCount;i++){var r=s.getRangeAt(i),c=r.commonAncestorContainer,w=document.createTreeWalker(c.nodeType===3?c.parentNode:c,4),n;while((n=w.nextNode()))if(r.intersectsNode(n))for(var k=n.data.lastIndexOf("\u2060");k>=0;k=k?n.data.lastIndexOf("\u2060",k-1):-1){n.deleteData(k,1);taken.push([n,k]);}}setTimeout(function(){for(var j=taken.length-1;j>=0;j--)taken[j][0].insertData(taken[j][1],"\u2060");},0);});</script></body></html>

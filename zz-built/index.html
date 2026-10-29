@@ -1,0 +1,3940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="rgb(255, 255, 255)" data-light="rgb(255, 255, 255)" data-dark="#171613" data-midnight="#0D1219" data-default="rgb(255, 255, 255)">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#171613" data-light="rgb(255, 255, 255)" data-dark="#171613" data-midnight="#0D1219" data-default="#171613">
+
+
+<script>
+(function(){
+  "use strict";
+  /* zone → [latitude, longitude], rendered from _data/cities.yml, which
+     /twilight/ reads too. A tenth of a degree is finer than this needs:
+     the answer only has to land the sun in the right part of its arc. */
+  var ZONES = {
+    "": null,   /* a browser that reports no zone has found none; standing
+                   first, it also lets every generated line end in a comma */
+    "Europe/Istanbul":[41.0,29.0],"Asia/Istanbul":[41.0,29.0],"Turkey":[41.0,29.0],
+    "Europe/London":[51.5,-0.1],"GB":[51.5,-0.1],"Europe/Belfast":[51.5,-0.1],
+    "Europe/Dublin":[53.4,-6.3],
+    "Europe/Lisbon":[38.7,-9.1],
+    "Europe/Madrid":[40.4,-3.7],
+    "Europe/Paris":[48.9,2.4],
+    "Europe/Brussels":[50.9,4.4],
+    "Europe/Amsterdam":[52.4,4.9],
+    "Europe/Berlin":[52.5,13.4],
+    "Europe/Zurich":[47.4,8.5],
+    "Europe/Rome":[41.9,12.5],
+    "Europe/Vienna":[48.2,16.4],
+    "Europe/Prague":[50.1,14.4],
+    "Europe/Budapest":[47.5,19.0],
+    "Europe/Warsaw":[52.2,21.0],
+    "Europe/Belgrade":[44.8,20.4],
+    "Europe/Sofia":[42.7,23.3],
+    "Europe/Bucharest":[44.4,26.1],
+    "Europe/Athens":[38.0,23.7],
+    "Europe/Copenhagen":[55.7,12.6],
+    "Europe/Oslo":[59.9,10.8],
+    "Europe/Stockholm":[59.3,18.1],
+    "Europe/Helsinki":[60.2,24.9],
+    "Europe/Kyiv":[50.5,30.5],"Europe/Kiev":[50.5,30.5],
+    "Europe/Moscow":[55.8,37.6],
+    "Asia/Jerusalem":[31.8,35.2],"Asia/Tel_Aviv":[31.8,35.2],"Israel":[31.8,35.2],
+    "Asia/Beirut":[33.9,35.5],
+    "Asia/Baghdad":[33.3,44.4],
+    "Asia/Tehran":[35.7,51.4],"Iran":[35.7,51.4],
+    "Asia/Baku":[40.4,49.9],
+    "Asia/Tbilisi":[41.7,44.8],
+    "Asia/Dubai":[25.2,55.3],
+    "Asia/Riyadh":[24.7,46.7],
+    "Asia/Qatar":[25.3,51.5],
+    "Africa/Cairo":[30.0,31.2],"Egypt":[30.0,31.2],
+    "Africa/Casablanca":[33.6,-7.6],
+    "Africa/Lagos":[6.5,3.4],
+    "Africa/Nairobi":[-1.3,36.8],
+    "Africa/Johannesburg":[-26.2,28.0],
+    "Asia/Karachi":[24.9,67.0],
+    "Asia/Kolkata":[28.6,77.2],"Asia/Calcutta":[28.6,77.2],
+    "Asia/Dhaka":[23.8,90.4],"Asia/Dacca":[23.8,90.4],
+    "Asia/Bangkok":[13.8,100.5],
+    "Asia/Ho_Chi_Minh":[10.8,106.6],"Asia/Saigon":[10.8,106.6],
+    "Asia/Jakarta":[-6.2,106.8],
+    "Asia/Singapore":[1.4,103.8],
+    "Asia/Kuala_Lumpur":[3.1,101.7],
+    "Asia/Manila":[14.6,121.0],
+    "Asia/Hong_Kong":[22.3,114.2],
+    "Asia/Shanghai":[31.2,121.5],"Asia/Chongqing":[31.2,121.5],"PRC":[31.2,121.5],
+    "Asia/Taipei":[25.0,121.6],
+    "Asia/Seoul":[37.6,127.0],"ROK":[37.6,127.0],
+    "Asia/Tokyo":[35.7,139.7],"Japan":[35.7,139.7],
+    "Australia/Perth":[-32.0,115.9],
+    "Australia/Brisbane":[-27.5,153.0],
+    "Australia/Adelaide":[-34.9,138.6],
+    "Australia/Melbourne":[-37.8,145.0],
+    "Australia/Sydney":[-33.9,151.2],
+    "Pacific/Auckland":[-36.8,174.8],
+    "Pacific/Honolulu":[21.3,-157.9],
+    "America/Anchorage":[61.2,-149.9],
+    "America/Vancouver":[49.3,-123.1],
+    "America/Los_Angeles":[34.1,-118.2],
+    "America/Phoenix":[33.4,-112.1],
+    "America/Denver":[39.7,-105.0],
+    "America/Mexico_City":[19.4,-99.1],
+    "America/Chicago":[41.9,-87.6],
+    "America/New_York":[40.7,-74.0],
+    "America/Toronto":[43.7,-79.4],
+    "America/Halifax":[44.6,-63.6],
+    "America/Bogota":[4.7,-74.1],
+    "America/Lima":[-12.0,-77.0],
+    "America/Santiago":[-33.4,-70.7],
+    "America/Argentina/Buenos_Aires":[-34.6,-58.4],"America/Buenos_Aires":[-34.6,-58.4],
+    "America/Sao_Paulo":[-23.6,-46.6],"Brazil/East":[-23.6,-46.6],
+  };
+  function pickCity(){
+    var tz = "";
+    try{ tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ""; }catch(e){}
+    var z = ZONES[tz];
+    if(z) return { lat: z[0], lng: z[1], tz: tz };
+    /* Unknown zone: use a nominal equatorial day aligned with the device's
+       current UTC offset. This gives roughly 06:00 dawn and 18:00 sunset
+       locally, without claiming to know the visitor's latitude. Fractional
+       offsets and daylight saving are included in getTimezoneOffset(). */
+    return { lat: 0, lng: -new Date().getTimezoneOffset() / 4, tz: tz };
+  }
+  var CREAM = [237,228,207], DAYINK = [255,252,245];
+  var STOPS = [   /* [altitude°, [r,g,b], inkMix 0..1] */
+    [-30, [ 12, 16, 24], 0],
+    [-18, [ 14, 19, 29], 0],
+    [-12, [ 23, 32, 48], 0],
+    [ -6, [ 44, 58, 82], 0],
+    [ -2, [ 78, 73, 92], 0.6],
+    [  0, [ 86, 78, 98], 1]
+  ];
+  function lerp(a, b, f){ return a + (b - a) * f; }
+  function skyAt(alt){
+    if(alt <= STOPS[0][0]) return STOPS[0];
+    for(var i = 1; i < STOPS.length; i++){
+      if(alt <= STOPS[i][0]){
+        var lo = STOPS[i-1], hi = STOPS[i];
+        var f = (alt - lo[0]) / (hi[0] - lo[0]);
+        return [alt,
+          [ Math.round(lerp(lo[1][0], hi[1][0], f)),
+            Math.round(lerp(lo[1][1], hi[1][1], f)),
+            Math.round(lerp(lo[1][2], hi[1][2], f)) ],
+          lerp(lo[2], hi[2], f)];
+      }
+    }
+    return STOPS[STOPS.length - 1];
+  }
+  /* The sun's altitude at which the day begins and ends. */
+  var SUNRISE = 0;
+  /* The night is the ramp from here down: at sunset the page is already
+     the navy the ramp reaches at -6°, not the violet above it. */
+  var NIGHT_TOP = -6;
+  /* The day's paper: white, with its ink, rules and band, the same from
+     sunrise to sunset. secL is how dark the sections' accents print on
+     it. The chrome is the one thing that moves: CHROME_DAWN at sunrise,
+     light enough to be a slate and dark enough for white words in the
+     menu (5:1), to CHROME_DUSK at sunset, a step off the night's header. */
+  var DAY = { paper:"#FFFFFF", surface:"#F6F8F9", band:"#F3F5F6", ink:"#242F38", inkSoft:"#35444E",
+              vizon:"#576976", stripInk:"#4C5E6B", rule:"#E9ECED", ruleStrong:"#D0D5D9",
+              ruleCream:"#D5DCDF", secL:0.492 };
+  var CHROME_DAWN = [86, 99, 111], CHROME_DUSK = [40, 52, 68];
+  function hex(h){
+    return [parseInt(h.slice(1, 3), 16), parseInt(h.slice(3, 5), 16), parseInt(h.slice(5, 7), 16)];
+  }
+  /* Every colour of the day, as [r,g,b], with secL. */
+  function dayAt(){
+    var d = {};
+    Object.keys(DAY).forEach(function(k){ d[k] = k === "secL" ? DAY[k] : hex(DAY[k]); });
+    return d;
+  }
+  /* The header's and footer's ground by day, `prog` of the way from
+     sunrise to sunset. */
+  function chromeAt(prog){
+    return mixChannels(CHROME_DAWN, CHROME_DUSK, Math.max(0, Math.min(1, prog || 0)));
+  }
+  /* The words of the header and footer, by day and by night: the yellow of
+     the site's name, all one tone, since a cool grey and then a duller
+     gold read as dull on the slate. On 25 October 2026 the author asked
+     for it to follow the sky: the full yellow (#F8EBC2) while the night is
+     at its darkest, white mixed into it as the sky opens, and the most at
+     noon, then back to the yellow as slowly. Later that day the author
+     set the amounts: none at the darkest of the night, 40% at sunrise and
+     sunset, and 70% at noon. By night the white rises with the sun from
+     -18°, where the ramp is at its darkest, to the horizon, and the
+     evening holds it up as the evening holds up the slate; by day it goes
+     along the arc. */
+  var WORDS = [248, 235, 194], WHITE = [255, 255, 255], HORIZON_WHITE = 0.40, NOON_WHITE = 0.70;
+  /* How far the night has opened, 0 at its darkest and 1 at the horizon. */
+  function nightOpen(sun){
+    return lerp(Math.max(0, Math.min(1, (sun.alt + 18) / 18)), 1, sun.eve || 0);
+  }
+  function wordsAt(sun){
+    var white = sun.alt >= SUNRISE ? lerp(HORIZON_WHITE, NOON_WHITE, sun.share)
+      : HORIZON_WHITE * nightOpen(sun);
+    return mixChannels(WORDS, WHITE, white);
+  }
+  /* The night at one altitude, in skyAt's shape: [altitude, ground, ink
+     mix]. Above NIGHT_TOP it is the ramp at NIGHT_TOP. */
+  function nightAt(alt){
+    return skyAt(Math.min(alt, NIGHT_TOP));
+  }
+  function mixChannels(a, b, f){
+    return [
+      Math.round(lerp(a[0], b[0], f)),
+      Math.round(lerp(a[1], b[1], f)),
+      Math.round(lerp(a[2], b[2], f))
+    ];
+  }
+  var RAD = Math.PI / 180;
+  /* Where the sun stands among the stars at `now`: its declination and
+     right ascension, with the day count the sidereal clock needs. */
+  function sunPlace(now){
+    var d = (now.getTime() / 86400000) - 10957.5;        /* days since J2000 */
+    var g = (357.529 + 0.98560028 * d) * RAD;
+    var q = 280.459 + 0.98564736 * d;
+    var L = (q + 1.915 * Math.sin(g) + 0.020 * Math.sin(2 * g)) * RAD;
+    var e = (23.439 - 0.00000036 * d) * RAD;
+    var sinDec = Math.sin(e) * Math.sin(L);
+    return { d: d, sinDec: sinDec, dec: Math.asin(sinDec),
+      RAh: (Math.atan2(Math.cos(e) * Math.sin(L), Math.cos(L)) / RAD) / 15 };
+  }
+  /* How far the sun has turned past the meridian of longitude `lng`, in
+     degrees: negative before noon, positive after, 15 to the hour. */
+  function hourAngle(p, lng){
+    var GMST = ((18.697374558 + 24.06570982441908 * p.d) % 24 + 24) % 24;
+    var lst = ((GMST + lng / 15) % 24 + 24) % 24;
+    return ((lst - p.RAh) * 15 + 540) % 360 - 180;
+  }
+  function sunAltitude(now, lat, lng){
+    var p = sunPlace(now), H = hourAngle(p, lng);
+    var latR = lat * RAD;
+    return Math.asin(Math.sin(latR) * p.sinDec + Math.cos(latR) * Math.cos(p.dec) * Math.cos(H * RAD)) / RAD;
+  }
+  /* How far along today's arc the sun stands at `now`: 0 where it rises
+     and where it sets, 1 at noon, and between them in proportion to the
+     way it has come. The sun keeps an even pace along its arc, while its
+     height hardly changes for the hour round noon, so the arc moves the
+     paper every few minutes all day. A sun that does not set that day
+     rises, for this purpose, at midnight. */
+  function halfArc(p, lat){
+    var x = -Math.tan(lat * RAD) * Math.tan(p.dec);
+    return x <= -1 ? 180 : x >= 1 ? 0 : Math.acos(x) / RAD;
+  }
+  function arcShare(now, lat, lng){
+    var p = sunPlace(now), half = halfArc(p, lat);
+    return half > 0 ? Math.max(0, Math.min(1, 1 - Math.abs(hourAngle(p, lng)) / half)) : 0;
+  }
+  /* How far through the day the sun is at `now`: 0 where it rises, 1
+     where it sets, along the same arc. */
+  function dayProgress(now, lat, lng){
+    var p = sunPlace(now), half = halfArc(p, lat);
+    return half > 0 ? Math.max(0, Math.min(1, (hourAngle(p, lng) + half) / (2 * half))) : 0;
+  }
+  /* The moment the sky is painted for: now, or ?hour= (any value from 0 to
+     23.99) on the reader's own clock today, so any hour can be looked at. */
+  function now(){
+    var q = /[?&]hour=(\d+(?:\.\d+)?)/.exec(location.search);
+    var h = q ? parseFloat(q[1]) : NaN, d = new Date();
+    if(h >= 0 && h < 24) d.setHours(Math.floor(h), Math.round((h % 1) * 60), 0, 0);
+    return d;
+  }
+  /* What the painters paint from, at `date` in the reader's city: the
+     sun's altitude (or `alt`, when the caller has a finer one), how far
+     along today's arc it stands, and how far through the day. */
+  function sunAt(date, alt){
+    var c = pickCity();
+    if(alt === undefined) alt = sunAltitude(date, c.lat, c.lng);
+    return {
+      alt: alt,
+      share: arcShare(date, c.lat, c.lng),
+      prog: dayProgress(date, c.lat, c.lng)
+    };
+  }
+  /* The same, for now or ?hour=. */
+  function sunNow(){ return sunAt(now()); }
+  /* Relative luminance of a ground, the input every derived tone needs. */
+  function luminance(rgb){
+    var v = [rgb[0], rgb[1], rgb[2]].map(function(c){
+      c = c / 255;
+      return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+    });
+    return 0.2126 * v[0] + 0.7152 * v[1] + 0.0722 * v[2];
+  }
+  /* A text tone: ink laid over the ground at `alpha`, returned solid so it
+     can go anywhere a colour goes, including into a gradient or a border. */
+  function over(ink, ground, alpha){
+    return [
+      Math.round(ink[0] * alpha + ground[0] * (1 - alpha)),
+      Math.round(ink[1] * alpha + ground[1] * (1 - alpha)),
+      Math.round(ink[2] * alpha + ground[2] * (1 - alpha))
+    ];
+  }
+  function rgb(c){ return "rgb(" + c[0] + "," + c[1] + "," + c[2] + ")"; }
+
+  window.OLAE_SKY = {
+    CREAM: CREAM, DAYINK: DAYINK,
+    pickCity: pickCity, sunAltitude: sunAltitude, arcShare: arcShare,
+    now: now, sunAt: sunAt, sunNow: sunNow,
+    SUNRISE: SUNRISE, dayAt: dayAt, chromeAt: chromeAt, nightAt: nightAt, wordsAt: wordsAt,
+    skyAt: skyAt, mix: mixChannels, luminance: luminance, over: over, rgb: rgb,
+    lerp: lerp
+  };
+})();
+</script>
+
+
+<script>
+(function(){
+  "use strict";
+  var S = window.OLAE_SKY;
+  var TOKENS = ["--bg","--paper","--surface-soft","--band","--sky-band-hero","--note-base",
+    "--footer-strip-bg","--ink","--ink-soft","--vizon","--footer-strip-ink","--footer-text",
+    "--footer-muted","--hero-source-muted","--rule","--rule-strong","--rule-cream",
+    "--header-border","--drawer-bg","--sky-ld-floor","--sky-chrome-rgb","--sec-l"];
+
+  /* Every token the day sets, for one `prog` of the way from sunrise to
+     sunset. The colours are sky-ramp.html's DAY and chromeAt(); this is
+     only where each one goes. */
+  function dayTokens(prog){
+    var d = S.dayAt(), t = {};
+    t["--bg"] = S.rgb(d.paper);
+    t["--paper"] = S.rgb(d.paper);
+    t["--surface-soft"] = S.rgb(d.surface);
+    t["--band"] = S.rgb(d.band);
+    t["--footer-strip-bg"] = S.rgb(d.paper);
+    t["--ink"] = S.rgb(d.ink);
+    t["--ink-soft"] = S.rgb(d.inkSoft);
+    t["--vizon"] = S.rgb(d.vizon);
+    t["--footer-strip-ink"] = S.rgb(d.stripInk);
+    t["--hero-source-muted"] = S.rgb(d.stripInk);
+    t["--rule"] = S.rgb(d.rule);
+    t["--rule-strong"] = S.rgb(d.ruleStrong);
+    t["--rule-cream"] = S.rgb(d.ruleCream);
+    t["--drawer-bg"] = "rgba(" + d.paper.join(",") + ",0.985)";
+    /* the header and footer; css/palettes.css hands it to <body>, whose
+       own --chrome-rgb would otherwise win */
+    t["--sky-chrome-rgb"] = S.chromeAt(prog).join(", ");
+    t["--sec-l"] = d.secL.toFixed(3);
+    return t;
+  }
+
+  /* Every token the night moves, for one altitude of the sun
+     (sky-ramp.html). */
+  function nightTokens(alt){
+    var sky = S.nightAt(alt), g = sky[1], m = sky[2];
+    var ink = S.mix(S.CREAM, S.DAYINK, m);
+    var t = {};
+
+    /* grounds: the sheet, the card lifted off it, the band sunk into it */
+    t["--bg"] = S.rgb(g);
+    t["--paper"] = S.rgb(g);
+    t["--surface-soft"] = S.rgb(S.over(ink, g, 0.06));
+    t["--band"] = S.rgb(S.over([0,0,0], g, 0.18));
+    t["--sky-band-hero"] = S.rgb(S.over(ink, g, 0.03));
+    t["--note-base"] = S.rgb(S.over(ink, g, 0.06));
+    t["--footer-strip-bg"] = S.rgb(S.over([0,0,0], g, 0.18));
+
+    /* text, four tiers, each solved against this ground */
+    t["--ink"] = S.rgb(ink);
+    t["--ink-soft"] = S.rgb(S.over(ink, g, 0.94));
+    t["--vizon"] = S.rgb(S.over(ink, g, 0.88));
+    t["--footer-strip-ink"] = S.rgb(S.over(ink, g, 0.88));
+    t["--hero-source-muted"] = S.rgb(S.over(ink, g, 0.88));
+
+    /* rules are not text and carry no contrast minimum; they are the ink
+       barely present, which is what a rule is on every other theme here */
+    t["--rule"] = S.rgb(S.over(ink, g, 0.16));
+    t["--rule-strong"] = S.rgb(S.over(ink, g, 0.30));
+    t["--rule-cream"] = S.rgb(S.over(ink, g, 0.30));
+    t["--header-border"] = "rgba(" + ink.join(",") + ",0.14)";
+    /* the drawer slides over the page and wants the ground almost opaque */
+    t["--drawer-bg"] = "rgba(" + g.join(",") + ",0.985)";
+
+    /* The accents' lightness floor on this ground: 4.6:1 on the card
+       (--surface-soft), the lightest ground they sit on, with no white
+       mixed in since 25 October 2026. */
+    var groundLuminance = S.luminance(g);
+    t["--sky-ld-floor"] = Math.max(0.56, Math.min(0.99,
+      0.57 + 0.59895 * Math.sqrt(groundLuminance)
+        + 2.45 * groundLuminance)).toFixed(4);
+
+    return t;
+  }
+  /* Every token this theme moves, for one `sun` from sky-ramp.html's
+     sunAt(): { alt, share, prog }. It only
+     computes: the two callers below decide what to do with the answer —
+     paint() writes it to <html>, js/palettes.js reads it to paint one card
+     on /themes/ without a second copy of the arithmetic. `day` and
+     `chrome` travel with the tokens for that card; they are not painted. */
+  function tokens(sun){
+    var day = sun.alt >= S.SUNRISE, t = day ? dayTokens(sun.prog) : nightTokens(sun.alt);
+    t.day = day;
+    /* White on the daytime slate; after sunset the frame takes the
+       page’s own cream ink, warming with the night. */
+    var words = day ? "rgb(255,255,255)" : t["--ink"];
+    t["--footer-text"] = words;
+    t["--footer-muted"] = words;
+    if(day) t["--header-border"] = "rgba(255,255,255,0.20)";
+    /* the header and footer: the day's chrome, or by night the band, which
+       is what the night's header and footer are painted with */
+    t.chrome = day ? "rgb(" + t["--sky-chrome-rgb"] + ")" : t["--band"];
+    return t;
+  }
+  /* TOKENS is the list applied as well as the list cleared, so the two can
+     no longer drift apart: a token one half sets and the other does not is
+     taken off as the sky turns, rather than left behind. */
+  function paint(sun){
+    var t = tokens(sun), root = document.documentElement, st = root.style;
+    TOKENS.forEach(function(k){
+      if(k in t) st.setProperty(k, t[k]); else st.removeProperty(k);
+    });
+    root.setAttribute("data-sky", t.day ? "day" : "night");
+    root.setAttribute("data-theme", t.day ? "light" : "sky");
+
+    /* the browser chrome follows the sheet by night and the header by day,
+       as it does for the dark themes and the palettes; in The House's
+       rooms it follows the House's own header (js/house.js) */
+    if(root.hasAttribute("data-house-theme")) return;
+    var metas = document.querySelectorAll('meta[name="theme-color"]');
+    for(var i = 0; i < metas.length; i++){
+      metas[i].setAttribute("content", t.day ? t.chrome : t["--paper"]);
+    }
+  }
+  /* Leaving the sky: the caller sets the theme it is leaving for. */
+  function clear(){
+    var root = document.documentElement, st = root.style;
+    TOKENS.forEach(function(t){ st.removeProperty(t); });
+    root.removeAttribute("data-sky");
+  }
+  /* Other light palettes keep their paper, but their dark frame also
+     takes cream words between local sunset and sunrise. White & Slate
+     and the rooms are excluded by the scoped CSS. */
+  function paintFrame(sun){
+    var t = tokens(sun), root = document.documentElement;
+    root.toggleAttribute("data-frame-night", !t.day);
+    root.style.setProperty("--night-frame-words", t.day ? "#FFFFFF" : t["--ink"]);
+  }
+  window.OLAE_SITE_SKY = {
+    paint: paint, clear: clear, paintFrame: paintFrame,
+    paintFrameNow: function(){ paintFrame(S.sunNow()); },
+    paintNow: function(){ paint(S.sunNow()); },
+    tokensNow: function(){ return tokens(S.sunNow()); },
+    isOn: function(){ return document.documentElement.hasAttribute("data-sky"); }
+  };
+  paintFrame(S.sunNow());
+})();
+</script>
+
+<script>(function(){var t;try{t=localStorage.getItem('theme');
+if(t==='dusk'){t='sky';try{localStorage.setItem('theme','sky')}catch(e){}}}catch(e){}
+if(t==='system')return;
+if(t!=='dark'&&t!=='light'&&t!=='midnight'&&t!=='sky')return;
+document.documentElement.setAttribute('data-theme',t);
+if(t==='sky'){window.OLAE_SITE_SKY.paintNow();return;}
+var m=document.querySelectorAll('meta[name="theme-color"]');for(var i=0;i<m.length;i++){var v=m[i].getAttribute('data-'+t);if(v)m[i].setAttribute('content',v);}})();</script>
+
+<script>(function(){if(!document.documentElement.hasAttribute('data-theme'))return;try{var s=localStorage.getItem('palette');if(!s)return;var n=parseInt(s,10);
+if(n===13){localStorage.removeItem('palette');return;}
+if(!(n>=1&&n<=12))return;
+if(n===1){document.documentElement.removeAttribute('data-palette');return;}
+document.documentElement.setAttribute('data-palette',String(n));
+var t=document.documentElement.getAttribute('data-theme');
+if(t==='dark'||t==='midnight'||t==='sky'||document.documentElement.hasAttribute('data-sky'))return;
+if(!t&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches)return;
+var C={2:'#3E4A44',3:'#3A4148',4:'#5E4234',5:'#3E4F42',6:'#22364F',7:'#59513A',8:'#47415A',9:'#234640',10:'#5E4046',11:'#45412E',12:'#2E3F45'};
+var m=document.querySelector('meta[name="theme-color"][data-light]');if(m&&C[n])m.setAttribute('content',C[n]);}catch(e){}})();</script>
+
+
+
+
+<title>On Life &amp; Everything</title>
+<meta name="description" content="Hakan Altun is a lecturer based in İstanbul. Author of The Fragments. Essays and short fiction about what stays and what doesn’t.">
+<meta name="author" content="Hakan Altun">
+<meta name="keywords" content="Hakan Altun, The Fragments, The On Series, philosophical essays, İstanbul lecturer, Yeditepe University, intellectual minimalism, time, memory">
+
+<link rel="icon" type="image/svg+xml" href="/on-icon.svg?v=20261028-1">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=20261028-1">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=20261028-1">
+<link rel="shortcut icon" href="/favicon.ico?v=20261028-1">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-on.png?v=20261028-2">
+<link rel="manifest" href="/manifest.json?v=20261028-2">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="On Life & Everything">
+
+<link rel="canonical" href="https://hakanaltun.io/">
+
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="On Life &amp; Everything">
+<meta property="og:description" content="Hakan Altun is a lecturer based in İstanbul. Author of The Fragments. Essays and short fiction about what stays and what doesn’t.">
+<meta property="og:image" content="https://hakanaltun.io/og-image-on-card.png?v=20261026-4">
+<meta property="og:image:alt" content="On Life &amp; Everything">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://hakanaltun.io/">
+<meta property="og:type" content="website">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="On Life &amp; Everything">
+<meta name="twitter:description" content="Hakan Altun is a lecturer based in İstanbul. Author of The Fragments. Essays and short fiction about what stays and what doesn’t.">
+<meta name="twitter:image" content="https://hakanaltun.io/og-image-on-card.png?v=20261026-4">
+<meta name="twitter:image:alt" content="On Life &amp; Everything">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://hakanaltun.io/#website",
+      "url": "https://hakanaltun.io/",
+      "name": "On Life & Everything",
+      "description": "Hakan Altun is a lecturer based in İstanbul. Author of The Fragments. Essays and short fiction about what stays and what doesn’t.",
+      "inLanguage": "en",
+      "author": { "@id": "https://hakanaltun.io/#hakan" },
+      "copyrightHolder": { "@id": "https://hakanaltun.io/#hakan" }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://hakanaltun.io/#hakan",
+      "name": "Hakan Altun",
+      "url": "https://hakanaltun.io/",
+      "image": "https://hakanaltun.io/profile.jpg",
+      "jobTitle": "Lecturer",
+      "worksFor": {
+        "@type": "CollegeOrUniversity",
+        "name": "Yeditepe University",
+        "url": "https://www.yeditepe.edu.tr/"
+      },
+      "description": "Hakan Altun is a lecturer based in İstanbul. Author of The Fragments. Essays and short fiction about what stays and what doesn’t.",
+      "knowsLanguage": ["tr", "en"]
+    },
+    {
+      "@type": "Book",
+      "@id": "https://hakanaltun.io/#the-fragments",
+      "name": "The Fragments",
+      "author": { "@id": "https://hakanaltun.io/#hakan" },
+      "publisher": { "@id": "https://hakanaltun.io/#hakan" },
+      "url": "https://hakanaltun.io/book/",
+      "image": "https://hakanaltun.io/images/cover.webp",
+      "datePublished": "2026",
+      "inLanguage": "en",
+      "numberOfPages": 116,
+      "genre": [
+        "Speculative fiction",
+        "Philosophical fiction",
+        "Literary fiction"
+      ],
+      "description": "First, there was Symmetry. A novel of forgetting and remembering, of betrayal and longing, of a silver watch that survives time, and of becoming whole again in a garden at the end of the universe.",
+      "sameAs": [
+        "https://www.goodreads.com/book/show/252076100-the-fragments"
+      ],
+      "workExample": [
+        {
+          "@type": "Book",
+          "@id": "https://hakanaltun.io/#the-fragments-hardcover",
+          "bookFormat": "https://schema.org/Hardcover",
+          "isbn": "9798197583536",
+          "url": "https://www.amazon.com/dp/B0H2CKMMBQ",
+          "inLanguage": "en",
+          "author": { "@id": "https://hakanaltun.io/#hakan" }
+        },
+        {
+          "@type": "Book",
+          "@id": "https://hakanaltun.io/#the-fragments-kindle",
+          "bookFormat": "https://schema.org/EBook",
+          "url": "https://www.amazon.com/dp/B0H18K5XN9",
+          "inLanguage": "en",
+          "author": { "@id": "https://hakanaltun.io/#hakan" }
+        },
+        {
+          "@type": "Book",
+          "@id": "https://hakanaltun.io/#the-fragments-kobo",
+          "bookFormat": "https://schema.org/EBook",
+          "url": "https://www.kobo.com/tr/tr/ebook/the-fragments-4",
+          "inLanguage": "en",
+          "author": { "@id": "https://hakanaltun.io/#hakan" }
+        },
+        {
+          "@type": "Book",
+          "@id": "https://hakanaltun.io/#the-fragments-google-play",
+          "bookFormat": "https://schema.org/EBook",
+          "url": "https://play.google.com/store/books/details?id=U8vXEQAAQBAJ",
+          "inLanguage": "en",
+          "author": { "@id": "https://hakanaltun.io/#hakan" }
+        },
+        {
+          "@type": "Book",
+          "@id": "https://hakanaltun.io/#the-fragments-apple-books",
+          "bookFormat": "https://schema.org/EBook",
+          "url": "https://books.apple.com/us/book/the-fragments/id6773904007",
+          "inLanguage": "en",
+          "author": { "@id": "https://hakanaltun.io/#hakan" }
+        },
+        {
+          "@type": "Book",
+          "@id": "https://hakanaltun.io/#the-fragments-barnes-noble",
+          "bookFormat": "https://schema.org/EBook",
+          "url": "https://www.barnesandnoble.com/w/the-fragments-hakan-altun/1150270923",
+          "inLanguage": "en",
+          "author": { "@id": "https://hakanaltun.io/#hakan" }
+        }
+      ]
+    }
+  ]
+}
+</script>
+
+
+
+
+<link rel="stylesheet" href="/css/style.css?v=20261026-1">
+<link rel="stylesheet" href="/css/palettes.css?v=20261026-2">
+
+
+
+
+
+
+
+
+<link rel="alternate" type="application/rss+xml" title="On Life &amp; Everything" href="/feed.xml">
+<link rel="alternate" type="application/rss+xml" title="Words with Stories &mdash; On Life &amp; Everything" href="/word/feed.xml">
+<link rel="alternate" type="application/rss+xml" title="Notes &mdash; On Life &amp; Everything" href="/notes/feed.xml">
+
+
+<link rel="preload" href="/fonts/eb-garamond-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+<link rel="preload" href="/fonts/cormorant-garamond-italic-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/fonts.css?v=20261023-1">
+
+<link rel="stylesheet" href="/css/let-it-snow.css?v=20261024-1">
+<link rel="stylesheet" href="/css/search.css?v=20261024-1">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+<body class="series-home is-home" style="--chrome-rgb: 68, 74, 78;">
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="container">
+<header id="site-header">
+  <nav>
+    <div class="nav-top-row">
+      <div class="nav-left">
+        <button class="hamburger-btn" aria-label="Toggle Menu" aria-controls="site-drawer" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+      </div>
+      <a href="/" class="nav-home" aria-label="On Life &amp; Everything home">
+        <span class="brand-main">On Life &amp; Everything</span>
+        <span class="brand-sub">Essays, short fiction, and other writing.</span>
+      </a>
+    </div>
+    <div class="header-nav-bar">
+      <a href="/house/">The House</a>
+      <a href="/all-work/">Writing</a>
+      <a href="/notes/">Notes</a>
+      <a href="/word/">Words</a>
+      <a href="/pictures/">Pictures</a>
+      <a href="/trivia/">Trivia</a>
+      <a href="/tools/">Instruments</a>
+      <a href="/moris/">Moris</a>
+      <a href="/about/">About</a>
+    </div>
+  </nav>
+</header>
+
+
+
+
+<div id="site-drawer-backdrop" class="drawer-backdrop" aria-hidden="true"></div><div id="site-drawer" class="site-drawer" aria-hidden="true">
+  <div class="drawer-head">
+    <button id="site-drawer-close" class="drawer-close" aria-label="Close menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div class="drawer-logo-wrap">
+      <a href="#" class="drawer-logo-link">
+        <span class="brand-main">On Life &amp; Everything</span>
+        <span class="brand-sub">Essays, short fiction, and other writing.</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="drawer-body"><form class="site-search-form site-search-form--drawer" role="search" action="/search/" method="get">
+  <label class="visually-hidden" for="drawer-search">Search the site</label>
+  <input id="drawer-search" name="q" type="search" placeholder="Search the site" maxlength="200" autocomplete="off" enterkeyhint="search">
+  <button type="submit" aria-label="Search">
+    <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg>
+  </button>
+</form>
+
+    <div class="drawer-section-links" data-voice="house">
+      <a href="/house/">The House</a>
+    </div>
+
+    <details class="drawer-section" data-voice="writing">
+      <summary class="drawer-label">Writing</summary>
+      <div class="drawer-essay-cards">
+        
+        
+        
+        
+        
+        <a href="/pieces/measured.html" class="drawer-essay-card-link"><span class="drawer-essay-card">
+          <span class="drawer-essay-card-text">
+            <span class="drawer-essay-card-title">Measured</span>
+            <span class="drawer-essay-card-meta">Aug 29, 2026</span>
+          </span>
+        </span></a>
+        
+        
+        
+        
+        
+        <a href="/pieces/it-was-not-a-question.html" class="drawer-essay-card-link"><span class="drawer-essay-card">
+          <span class="drawer-essay-card-text">
+            <span class="drawer-essay-card-title">It Was Not a Question</span>
+            <span class="drawer-essay-card-meta">Jul 25, 2026</span>
+          </span>
+        </span></a>
+        
+        
+        
+        
+        
+        <a href="/story/1/" class="drawer-essay-card-link" data-voice="story"><span class="drawer-essay-card">
+          <span class="drawer-essay-card-text">
+            <span class="drawer-essay-card-title">The Notice</span>
+            <span class="drawer-essay-card-meta">Jul 5, 2026</span>
+          </span>
+        </span></a>
+        
+      </div>
+      <a href="/all-work/#short-fiction" class="drawer-more drawer-subsection-link">All in Short Fiction <span aria-hidden="true">&rarr;</span></a>
+
+      <div class="drawer-essay-cards">
+        
+        
+        <a href="/pieces/on-keeping.html" class="drawer-essay-card-link"><span class="drawer-essay-card">
+          <span class="drawer-essay-card-text">
+            <span class="drawer-essay-card-title">On Keeping</span>
+            <span class="drawer-essay-card-meta">Apr 2, 2026</span>
+          </span>
+        </span></a>
+        
+        
+        <a href="/pieces/on-longing.html" class="drawer-essay-card-link"><span class="drawer-essay-card">
+          <span class="drawer-essay-card-text">
+            <span class="drawer-essay-card-title">On Longing</span>
+            <span class="drawer-essay-card-meta">Apr 2, 2026</span>
+          </span>
+        </span></a>
+        
+        
+        <a href="/pieces/on-silence.html" class="drawer-essay-card-link"><span class="drawer-essay-card">
+          <span class="drawer-essay-card-text">
+            <span class="drawer-essay-card-title">On Silence</span>
+            <span class="drawer-essay-card-meta">Apr 2, 2026</span>
+          </span>
+        </span></a>
+        
+      </div>
+      <a href="/all-work/#essays" class="drawer-more drawer-subsection-link">All in Essays <span aria-hidden="true">&rarr;</span></a>
+    </details>
+
+    <details class="drawer-section" data-voice="writing">
+      <summary class="drawer-label">Series</summary>
+      
+      
+      <div class="drawer-essay-cards">
+        
+        
+        <a href="/pieces/written-in-ink.html" class="drawer-essay-card-link"><span class="drawer-essay-card">
+          <span class="drawer-essay-card-text">
+            <span class="drawer-essay-card-title">Written in Ink</span>
+            <span class="drawer-essay-card-meta">Jun 4, 2026</span>
+          </span>
+        </span></a>
+        
+        
+        <a href="/pieces/thinking-is-for-after.html" class="drawer-essay-card-link"><span class="drawer-essay-card">
+          <span class="drawer-essay-card-text">
+            <span class="drawer-essay-card-title">Thinking Is for After</span>
+            <span class="drawer-essay-card-meta">Jun 11, 2026</span>
+          </span>
+        </span></a>
+        
+        
+        <a href="/pieces/it-will-be.html" class="drawer-essay-card-link"><span class="drawer-essay-card">
+          <span class="drawer-essay-card-text">
+            <span class="drawer-essay-card-title">It Will Be</span>
+            <span class="drawer-essay-card-meta">Jun 12, 2026</span>
+          </span>
+        </span></a>
+        
+      </div>
+      <a href="/series/#the-corner" class="drawer-more drawer-subsection-link">All in The Corner <span aria-hidden="true">&rarr;</span></a>
+
+      <div class="drawer-essay-cards">
+        
+        
+        <a href="/pieces/on-lying.html" class="drawer-essay-card-link"><span class="drawer-essay-card">
+          <span class="drawer-essay-card-text">
+            <span class="drawer-essay-card-title">On Lying</span>
+            <span class="drawer-essay-card-meta">Mar 12, 2026</span>
+          </span>
+        </span></a>
+        
+        
+        <a href="/pieces/on-perceiving.html" class="drawer-essay-card-link"><span class="drawer-essay-card">
+          <span class="drawer-essay-card-text">
+            <span class="drawer-essay-card-title">On Perceiving</span>
+            <span class="drawer-essay-card-meta">Mar 14, 2026</span>
+          </span>
+        </span></a>
+        
+        
+        <a href="/pieces/on-looking.html" class="drawer-essay-card-link"><span class="drawer-essay-card">
+          <span class="drawer-essay-card-text">
+            <span class="drawer-essay-card-title">On Looking</span>
+            <span class="drawer-essay-card-meta">Mar 22, 2026</span>
+          </span>
+        </span></a>
+        
+      </div>
+      <a href="/series/#the-on-series" class="drawer-more drawer-subsection-link">All in The On Series <span aria-hidden="true">&rarr;</span></a>
+    </details>
+
+    <details class="drawer-section" data-voice="book">
+      <summary class="drawer-label">Book</summary>
+      <a href="/book/" class="drawer-more drawer-subsection-link drawer-subsection-link--first">The Fragments <span aria-hidden="true">&rarr;</span></a>
+      <a href="/book/part-one/" class="drawer-more drawer-subsection-link">Part I · The Question <span aria-hidden="true">&rarr;</span></a>
+      <a href="/book/part-two/" class="drawer-more drawer-subsection-link">Part II · The Fragile Archive <span aria-hidden="true">&rarr;</span></a>
+    </details>
+
+    <div class="drawer-section-links" data-voice="notes">
+      <a href="/notes/">Notes</a>
+    </div>
+
+    <div class="drawer-section-links" data-voice="words">
+      <a href="/word/">Words</a>
+    </div>
+
+    <div class="drawer-section-links" data-voice="pictures">
+      <a href="/pictures/">Pictures</a>
+    </div>
+
+    <div class="drawer-section-links" data-voice="trivia">
+      <a href="/trivia/">Trivia</a>
+    </div>
+
+    <div class="drawer-section-links" data-voice="furniture">
+      <a href="/tools/">Instruments</a>
+    </div>
+
+    <div class="drawer-section-links" data-voice="house">
+      <a href="/moris/">Moris</a>
+    </div>
+
+    <div class="drawer-section-links" data-voice="about">
+      <a href="/about/">About</a>
+    </div>
+  </div>
+</div>
+
+<main id="main" tabindex="-1">
+<h1 class="visually-hidden">On Life &amp; Everything &mdash; Hakan Altun</h1>
+
+<section id="quotes" class="hero-quotes-section">
+  <div class="hero-quote-card">
+    <p id="hero-quote" class="hero-quote-text"></p>
+    <p id="hero-quote-source" class="hero-quote-source"></p>
+    <span id="hero-quote-status" class="visually-hidden" aria-live="polite" aria-atomic="true"></span>
+    <div class="quote-nav" aria-label="Quote navigation">
+      <button id="quote-prev" class="quote-nav-btn" type="button" aria-label="Previous quote">‹</button>
+      <button id="quote-next" class="quote-nav-btn" type="button" aria-label="Random quote">›</button>
+    </div>
+  </div>
+</section>
+
+<section id="latest">
+  <div class="section-head">
+  <h2 class="section-title">Latest</h2>
+  
+</div>
+
+  
+  
+  <ul class="piece-grid">
+    
+      
+
+
+
+
+<li class="piece-card is-featured">
+  
+  
+  <a href="/pieces/measured.html" class="piece-card-link">
+    
+      
+      
+      
+      
+      
+      <span class="piece-thumb-wrap">
+        <img src="/images/480/measured.webp" srcset="/images/480/measured.webp 480w, /images/960/measured.webp 960w"
+             sizes="(max-width: 600px) calc(100vw - 80px), (max-width: 900px) 92vw, 590px"
+             alt="" class="piece-thumb" loading="lazy">
+      </span>
+      
+      <span class="piece-body">
+        <span class="piece-title">Measured</span>
+        <span class="piece-meta">Aug 29, 2026</span>
+        
+        <span class="piece-excerpt">The fourth-floor elevator button had been sticking since spring. People usually pressed it more than once. He did the same and went up with two men from statistics who were talking about football.</span>
+        
+      </span>
+    
+  </a>
+</li>
+
+    
+      
+
+
+
+
+<li class="piece-card">
+  
+  
+  <a href="/pieces/it-was-not-a-question.html" class="piece-card-link">
+    
+      
+      
+      
+      
+      
+      <span class="piece-thumb-wrap">
+        <img src="/images/480/it-was-not-a-question.webp" srcset="/images/480/it-was-not-a-question.webp 480w, /images/960/it-was-not-a-question.webp 960w"
+             sizes="(max-width: 600px) calc(100vw - 80px), (max-width: 900px) 45vw, 280px"
+             alt="" class="piece-thumb" loading="lazy">
+      </span>
+      
+      <span class="piece-body">
+        <span class="piece-title">It Was Not a Question</span>
+        <span class="piece-meta">Jul 25, 2026</span>
+        
+        <span class="piece-excerpt">“Do what you want,” she said. “Go wherever you like.” He said nothing. “İyi yıllar.” She hung up. The invitations had arrived in December, and they had arrived for two people. A rooftop in Kadıköy. A thing in Cihangir that was never fully explained.</span>
+        
+      </span>
+    
+  </a>
+</li>
+
+    
+      
+
+
+
+
+<li class="piece-card">
+  
+  
+  <a href="/pieces/the-lines-between-us.html" class="piece-card-link">
+    
+      
+      
+      
+      
+      
+      <span class="piece-thumb-wrap">
+        <img src="/images/480/the-lines-between-us.webp" srcset="/images/480/the-lines-between-us.webp 480w, /images/960/the-lines-between-us.webp 960w"
+             sizes="(max-width: 600px) calc(100vw - 80px), (max-width: 900px) 45vw, 280px"
+             alt="" class="piece-thumb" loading="lazy">
+      </span>
+      
+      <span class="piece-body">
+        <span class="piece-title">The Lines Between Us</span>
+        <span class="piece-meta">Jun 27, 2026</span>
+        
+        <span class="piece-excerpt">Emre came to Kaş because of Cem. They had been friends for ten years. Cem had spent the first of those years in an office in İstanbul and the rest of them...</span>
+        
+      </span>
+    
+  </a>
+</li>
+
+    
+      
+
+
+
+
+<li class="piece-card">
+  
+  
+  <a href="/pieces/michi.html" class="piece-card-link">
+    
+      
+      
+      
+      
+      
+      <span class="piece-thumb-wrap">
+        <img src="/images/480/michi.webp" srcset="/images/480/michi.webp 480w, /images/960/michi.webp 960w"
+             sizes="(max-width: 600px) calc(100vw - 80px), (max-width: 900px) 45vw, 280px"
+             alt="" class="piece-thumb" loading="lazy">
+      </span>
+      
+      <span class="piece-body">
+        <span class="piece-title">Michi</span>
+        <span class="piece-meta">Jun 26, 2026</span>
+        
+        <span class="piece-excerpt">Sora counted seventeen umbrellas at the foot of the first gate. It had rained in the morning, the quicksilver rain that came and went before the vendors had finished arranging their charms....</span>
+        
+      </span>
+    
+  </a>
+</li>
+
+    
+      
+
+
+
+
+<li class="piece-card">
+  
+  
+  <a href="/pieces/it-will-be.html" class="piece-card-link">
+    
+      
+      
+      
+      
+      
+      <span class="piece-thumb-wrap">
+        <img src="/images/480/it-will-be.webp" srcset="/images/480/it-will-be.webp 480w, /images/960/it-will-be.webp 960w"
+             sizes="(max-width: 600px) calc(100vw - 80px), (max-width: 900px) 45vw, 280px"
+             alt="" class="piece-thumb" loading="lazy">
+      </span>
+      
+      <span class="piece-body">
+        <span class="piece-title">It Will Be</span>
+        <span class="piece-meta">Jun 12, 2026</span>
+        
+        <span class="piece-excerpt">Rain runs down the café window. The three men sit at the table by the window. A newspaper lies open between them. The street door opens. Two women come in under one...</span>
+        
+      </span>
+    
+  </a>
+</li>
+
+    
+      
+
+
+
+
+<li class="piece-card">
+  
+  
+  <a href="/pieces/thinking-is-for-after.html" class="piece-card-link">
+    
+      
+      
+      
+      
+      
+      <span class="piece-thumb-wrap">
+        <img src="/images/480/thinking-is-for-after.webp" srcset="/images/480/thinking-is-for-after.webp 480w, /images/960/thinking-is-for-after.webp 960w"
+             sizes="(max-width: 600px) calc(100vw - 80px), (max-width: 900px) 45vw, 280px"
+             alt="" class="piece-thumb" loading="lazy">
+      </span>
+      
+      <span class="piece-body">
+        <span class="piece-title">Thinking Is for After</span>
+        <span class="piece-meta">Jun 11, 2026</span>
+        
+        <span class="piece-excerpt">Shadows stretch across the walls. Her mother’s plates form stacks on the table. Newspapers rest beside them. Crates cover the floorboards. Mara spreads a newspaper flat. She lifts a plate from the...</span>
+        
+      </span>
+    
+  </a>
+</li>
+
+    
+      
+
+
+
+
+<li class="piece-card">
+  
+  
+  <a href="/pieces/written-in-ink.html" class="piece-card-link">
+    
+      
+      
+      
+      
+      
+      <span class="piece-thumb-wrap">
+        <img src="/images/480/written-in-ink.webp" srcset="/images/480/written-in-ink.webp 480w, /images/960/written-in-ink.webp 960w"
+             sizes="(max-width: 600px) calc(100vw - 80px), (max-width: 900px) 45vw, 280px"
+             alt="" class="piece-thumb" loading="lazy">
+      </span>
+      
+      <span class="piece-body">
+        <span class="piece-title">Written in Ink</span>
+        <span class="piece-meta">Jun 4, 2026</span>
+        
+        <span class="piece-excerpt">In Bologna her mother handed her the tablet across the kitchen table, in a white box with the lid still creased. The tomato sauce moved in folds on the stove and the...</span>
+        
+      </span>
+    
+  </a>
+</li>
+
+    
+      
+
+
+
+
+<li class="piece-card">
+  
+  
+  <a href="/pieces/lets-have-some-cheese.html" class="piece-card-link">
+    
+      
+      
+      
+      
+      
+      <span class="piece-thumb-wrap">
+        <img src="/images/480/let's-have-some-cheese.webp" srcset="/images/480/let's-have-some-cheese.webp 480w, /images/960/let's-have-some-cheese.webp 960w"
+             sizes="(max-width: 600px) calc(100vw - 80px), (max-width: 900px) 45vw, 280px"
+             alt="" class="piece-thumb" loading="lazy">
+      </span>
+      
+      <span class="piece-body">
+        <span class="piece-title">Let’s Have Some Cheese</span>
+        <span class="piece-meta">Jun 1, 2026</span>
+        
+        <span class="piece-excerpt">I have never been good with weddings. Still, I went. I went because Esra, the bride, was a dear friend. We had not seen each other in years, and there are friendships...</span>
+        
+      </span>
+    
+  </a>
+</li>
+
+    
+  </ul>
+</section>
+
+<section id="story-doorway" class="story-doorway" aria-label="The Notice">
+  <a href="/story/1/" class="story-doorway-link">
+    <span class="story-doorway-cue">The Notice</span>
+    <span class="story-doorway-date">July 5, 2026</span>
+    <span class="accent-label story-doorway-tag">told in choices</span>
+  </a>
+</section>
+
+<section id="start-here" class="start-here" aria-label="First time here?">
+  <div class="section-head">
+  <h2 class="section-title">First time here?</h2>
+  
+  <p class="section-subtitle">Three doors in.</p>
+  
+</div>
+
+
+  <ul class="start-here-list">
+    <li class="start-here-item">
+      <span class="start-here-label">For essays</span>
+      <a href="/pieces/on-lying.html" class="start-here-link">On Lying</a>
+    </li>
+    <li class="start-here-item">
+      <span class="start-here-label">For fiction</span>
+      <a href="/pieces/the-lines-between-us.html" class="start-here-link">The Lines Between Us</a>
+    </li>
+    <li class="start-here-item">
+      <span class="start-here-label">For the book</span>
+      <a href="/book/" class="start-here-link">The Fragments</a>
+    </li>
+  </ul>
+</section>
+
+<style>
+  .home-house { text-align: center; margin: 4px auto 52px; padding: 22px 24px; }
+  .home-house p { margin: 0 0 8px; color: var(--vizon); font-size: .95rem; }
+  .home-house a { color: var(--petrol); font: italic 500 1.8rem/1.2 'Cormorant Garamond', Georgia, serif; text-decoration: none; }
+  .home-house a:hover { opacity: .78; }
+  .home-house a:focus-visible { outline: 2px solid var(--petrol); outline-offset: 6px; }
+</style>
+<section id="home-house" class="home-house" aria-label="The House">
+  <p>Another way in.</p>
+  <a href="/house/">Enter the house <span aria-hidden="true">&rarr;</span></a>
+</section>
+
+
+<section id="home-book" class="home-book" aria-label="Book">
+  <div class="section-head">
+  <h2 class="section-title">Book</h2>
+  
+</div>
+
+  <div class="home-book-grid">
+    <div class="home-book-cover-wrap">
+      <img src="/images/cover.webp" srcset="/images/480/cover.webp 480w, /images/960/cover.webp 960w" sizes="(max-width: 800px) 150px, 200px" alt="The Fragments cover" class="home-book-cover" width="1000" height="1500" loading="lazy" decoding="async">
+    </div>
+    <div class="home-book-text">
+      <h3 class="home-book-title"><a href="/book/">The Fragments</a></h3>
+      <div class="home-book-window">
+        <div class="home-book-strip" id="home-book-strip" role="region" aria-label="About the book" tabindex="0">
+          
+          <p>First there was Symmetry. Then matter hesitated. It disobeyed. From that hesitation, everything known and unknown was born. Stars learned to hold against the void, and the first cell tasted fear.</p>
+        </div>
+      </div>
+      <div class="home-book-nav" id="home-book-nav" hidden>
+        <button class="home-book-btn" id="home-book-prev" type="button" aria-controls="home-book-strip" aria-label="Previous paragraph" disabled>&lsaquo;</button>
+        <button class="home-book-btn" id="home-book-next" type="button" aria-controls="home-book-strip" aria-label="Next paragraph">&rsaquo;</button>
+      </div>
+      <p class="home-book-intro">Part I and Part II are available here in full.</p>
+      <div class="book-reading-links home-book-parts">
+        <a href="/book/part-one/" class="book-reading-link">
+          <span class="book-reading-part">Part I</span>
+          <span class="book-reading-name">The Question</span>
+        </a>
+        <a href="/book/part-two/" class="book-reading-link">
+          <span class="book-reading-part">Part II</span>
+          <span class="book-reading-name">The Fragile Archive</span>
+        </a>
+      </div>
+    </div>
+  </div>
+  <a class="home-book-all" href="/book/">Part III, hardcover and ebook <span aria-hidden="true">&rarr;</span></a>
+  <script>
+  (function () {
+    var strip = document.getElementById('home-book-strip');
+    var nav = document.getElementById('home-book-nav');
+    var prev = document.getElementById('home-book-prev');
+    var next = document.getElementById('home-book-next');
+    if (!strip || !nav || !prev || !next) return;
+    var panels = Array.prototype.slice.call(strip.querySelectorAll(':scope > p'));
+    if (panels.length < 2) return;
+    var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function maxLeft() { return strip.scrollWidth - strip.clientWidth; }
+    /* Where each panel comes to rest: at the row's left edge. */
+    function stops() {
+      var max = maxLeft(), first = panels[0].offsetLeft;
+      return panels.map(function (p) { return Math.min(p.offsetLeft - first, max); });
+    }
+    function current() {
+      var x = strip.scrollLeft, s = stops(), best = 0;
+      for (var i = 1; i < s.length; i++) {
+        if (Math.abs(s[i] - x) < Math.abs(s[best] - x)) best = i;
+      }
+      return best;
+    }
+    function go(step) {
+      var s = stops();
+      var i = Math.max(0, Math.min(s.length - 1, current() + step));
+      strip.scrollTo({ left: s[i], behavior: still ? 'auto' : 'smooth' });
+    }
+    function update() {
+      var max = maxLeft(), x = strip.scrollLeft;
+      var atStart = x <= 1, atEnd = x >= max - 1;
+      prev.disabled = atStart;
+      next.disabled = atEnd;
+      /* The next paragraph shows at the right edge under a fade. The last
+         has nothing after it, so the fade goes with it. */
+      strip.classList.toggle('fade-r', max > 1 && !atEnd);
+    }
+
+    prev.addEventListener('click', function () { go(-1); });
+    next.addEventListener('click', function () { go(1); });
+    strip.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    nav.hidden = false;
+    update();
+  })();
+  </script>
+</section>
+
+
+
+<section id="further-back">
+  <div class="section-head">
+  <h2 class="section-title">Further back</h2>
+  
+</div>
+
+  
+  
+  
+  
+    
+    
+      
+      
+    
+    
+      
+      
+    
+    
+    
+      
+      
+    
+    
+      
+      
+    
+    
+      
+      
+    
+    
+      
+      
+    
+    
+      
+      
+    
+    
+      
+      
+    
+    
+    
+    
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+    
+  
+    
+    
+    
+    
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+    
+  
+    
+    
+    
+    
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+    
+  
+    
+    
+    
+    
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+    
+  
+    
+    
+    
+    
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+    
+  
+    
+    
+    
+    
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+    
+  
+    
+    
+    
+    
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+    
+  
+    
+    
+    
+    
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+    
+  
+    
+    
+    
+    
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+    
+  
+    
+    
+    
+    
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+    
+  
+    
+    
+    
+    
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+    
+  
+    
+    
+    
+    
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+    
+  
+    
+    
+    
+    
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        
+        
+    
+    
+    
+    
+    
+    
+      
+    
+      
+    
+      
+    
+      
+        
+        
+    
+    
+    
+    
+    
+    
+      
+    
+      
+    
+      
+        
+        
+    
+    
+    
+    
+    
+    
+      
+    
+      
+        
+        
+    
+    
+    
+    
+    
+    
+      
+        
+        
+    <ul id="further-back-grid" class="further-back-grid more-essays-grid-hp" role="list">
+    
+    <li class="fb-card piece-card">
+      <a href="/pieces/the-cost.html" class="piece-card-link">
+        <span class="piece-body">
+          <span class="piece-title">The Cost</span>
+          <span class="piece-meta">May 29, 2026</span>
+        </span>
+        
+          
+          
+          <span class="piece-thumb-wrap">
+            <img src="/images/480/the-cost.webp"
+                 alt=""
+                 class="piece-thumb" width="96" height="96" loading="lazy" decoding="async">
+          </span>
+          
+        
+      </a>
+    </li>
+    
+    <li class="fb-card piece-card">
+      <a href="/pieces/collateral.html" class="piece-card-link">
+        <span class="piece-body">
+          <span class="piece-title">Collateral</span>
+          <span class="piece-meta">Apr 28, 2026</span>
+        </span>
+        
+          
+          
+          <span class="piece-thumb-wrap">
+            <img src="/images/480/collateral.webp"
+                 alt=""
+                 class="piece-thumb" width="96" height="96" loading="lazy" decoding="async">
+          </span>
+          
+        
+      </a>
+    </li>
+    
+    <li class="fb-card piece-card">
+      <a href="/pieces/on-keeping.html" class="piece-card-link">
+        <span class="piece-body">
+          <span class="piece-title">On Keeping</span>
+          <span class="piece-meta">Apr 2, 2026</span>
+        </span>
+        
+          
+          
+          <span class="piece-thumb-wrap">
+            <img src="/images/480/on-keeping.webp"
+                 alt=""
+                 class="piece-thumb" width="96" height="96" loading="lazy" decoding="async">
+          </span>
+          
+        
+      </a>
+    </li>
+    
+    <li class="fb-card piece-card">
+      <a href="/pieces/on-longing.html" class="piece-card-link">
+        <span class="piece-body">
+          <span class="piece-title">On Longing</span>
+          <span class="piece-meta">Apr 2, 2026</span>
+        </span>
+        
+          
+          
+          <span class="piece-thumb-wrap">
+            <img src="/images/480/on-longing.webp"
+                 alt=""
+                 class="piece-thumb" width="96" height="96" loading="lazy" decoding="async">
+          </span>
+          
+        
+      </a>
+    </li>
+    
+    <li class="fb-card piece-card">
+      <a href="/pieces/on-silence.html" class="piece-card-link">
+        <span class="piece-body">
+          <span class="piece-title">On Silence</span>
+          <span class="piece-meta">Apr 2, 2026</span>
+        </span>
+        
+          
+          
+          <span class="piece-thumb-wrap">
+            <img src="/images/480/on-silence.webp"
+                 alt=""
+                 class="piece-thumb" width="96" height="96" loading="lazy" decoding="async">
+          </span>
+          
+        
+      </a>
+    </li>
+    
+    <li class="fb-card piece-card">
+      <a href="/pieces/on-forgiveness.html" class="piece-card-link">
+        <span class="piece-body">
+          <span class="piece-title">On Forgiveness</span>
+          <span class="piece-meta">Mar 29, 2026</span>
+        </span>
+        
+          
+          
+          <span class="piece-thumb-wrap">
+            <img src="/images/480/on-forgiveness.webp"
+                 alt=""
+                 class="piece-thumb" width="96" height="96" loading="lazy" decoding="async">
+          </span>
+          
+        
+      </a>
+    </li>
+    
+    <li class="fb-card piece-card">
+      <a href="/pieces/on-looking.html" class="piece-card-link">
+        <span class="piece-body">
+          <span class="piece-title">On Looking</span>
+          <span class="piece-meta">Mar 22, 2026</span>
+        </span>
+        
+          
+          
+          <span class="piece-thumb-wrap">
+            <img src="/images/480/on-looking.webp"
+                 alt=""
+                 class="piece-thumb" width="96" height="96" loading="lazy" decoding="async">
+          </span>
+          
+        
+      </a>
+    </li>
+    
+    <li class="fb-card piece-card">
+      <a href="/pieces/on-perceiving.html" class="piece-card-link">
+        <span class="piece-body">
+          <span class="piece-title">On Perceiving</span>
+          <span class="piece-meta">Mar 14, 2026</span>
+        </span>
+        
+          
+          
+          <span class="piece-thumb-wrap">
+            <img src="/images/480/on-perceiving.webp"
+                 alt=""
+                 class="piece-thumb" width="96" height="96" loading="lazy" decoding="async">
+          </span>
+          
+        
+      </a>
+    </li>
+    
+    <li class="fb-card piece-card">
+      <a href="/pieces/on-lying.html" class="piece-card-link">
+        <span class="piece-body">
+          <span class="piece-title">On Lying</span>
+          <span class="piece-meta">Mar 12, 2026</span>
+        </span>
+        
+          
+          
+          <span class="piece-thumb-wrap">
+            <img src="/images/480/on-lying.webp"
+                 alt=""
+                 class="piece-thumb" width="96" height="96" loading="lazy" decoding="async">
+          </span>
+          
+        
+      </a>
+    </li>
+    
+    <li class="fb-card piece-card">
+      <a href="/pieces/best-ideas.html" class="piece-card-link">
+        <span class="piece-body">
+          <span class="piece-title">The Best Ideas Come When You Let Go</span>
+          <span class="piece-meta">Mar 8, 2026</span>
+        </span>
+        
+          
+          
+          <span class="piece-thumb-wrap">
+            <img src="/images/480/the-best-ideas-come-when-you-let-go.webp"
+                 alt=""
+                 class="piece-thumb" width="96" height="96" loading="lazy" decoding="async">
+          </span>
+          
+        
+      </a>
+    </li>
+    
+    <li class="fb-card piece-card">
+      <a href="/pieces/empathy-paradox.html" class="piece-card-link">
+        <span class="piece-body">
+          <span class="piece-title">The Empathy Paradox</span>
+          <span class="piece-meta">Mar 4, 2026</span>
+        </span>
+        
+          
+          
+          <span class="piece-thumb-wrap">
+            <img src="/images/480/the-empathy-paradox.webp"
+                 alt=""
+                 class="piece-thumb" width="96" height="96" loading="lazy" decoding="async">
+          </span>
+          
+        
+      </a>
+    </li>
+    
+    <li class="fb-card piece-card">
+      <a href="/pieces/love-or-fear.html" class="piece-card-link">
+        <span class="piece-body">
+          <span class="piece-title">It Is Either from Love or Fear</span>
+          <span class="piece-meta">Mar 1, 2026</span>
+        </span>
+        
+          
+          
+          <span class="piece-thumb-wrap">
+            <img src="/images/480/it-is-either-from-love-or-fear.webp"
+                 alt=""
+                 class="piece-thumb" width="96" height="96" loading="lazy" decoding="async">
+          </span>
+          
+        
+      </a>
+    </li>
+    
+  </ul>
+  <script>
+  (function() {
+    var grid = document.getElementById('further-back-grid');
+    if (!grid) return;
+    var cards = Array.prototype.slice.call(grid.children);
+    if (cards.length <= 9) return;
+    for (var i = cards.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = cards[i]; cards[i] = cards[j]; cards[j] = tmp;
+    }
+    cards.slice(9).forEach(function(card) { card.remove(); });
+    cards.slice(0, 9).forEach(function(card) { grid.appendChild(card); });
+  })();
+  </script>
+</section>
+
+<section id="notes" class="home-notes" aria-label="Notes">
+  <div class="section-head">
+  <h2 class="section-title">Notes</h2>
+  
+</div>
+
+  
+  
+  
+  
+  <div class="home-note">
+    <a class="note-date" href="/notes/#queen-loana-opening-lines">
+      <time datetime="2026-09-11">September 11, 2026</time>
+    </a>
+    <div class="note-body"><p>“And what’s your name?” “Wait, it’s on the tip of my tongue.” That is how it all began.</p>
+
+<p>— Umberto Eco, <em>The Mysterious Flame of Queen Loana</em>, trans. Geoffrey Brock</p>
+
+<p>I just love these opening lines.</p>
+</div>
+  </div>
+  
+  <a class="home-notes-all" href="/notes/">More <span aria-hidden="true">&rarr;</span></a>
+</section>
+
+<section id="words-with-stories" class="home-words" aria-label="Words with Stories">
+  <div class="section-head">
+  <h2 class="section-title">Words with Stories</h2>
+  
+</div>
+
+
+  <div class="home-word-stage">
+    
+    
+    
+    
+    
+    <a class="home-word-card is-active"
+       href="/word/bosh/"
+       data-word-index="0"
+       aria-label="bosh (n.), from Turkish">
+      <span class="home-word-line">bosh (n.)</span>
+      <span class="home-word-teaser">from Turkish</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/influence/"
+       data-word-index="1"
+       aria-label="influence (n.), once taken literally">
+      <span class="home-word-line">influence (n.)</span>
+      <span class="home-word-teaser">once taken literally</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/quarantine/"
+       data-word-index="2"
+       aria-label="quarantine (n.), forty days">
+      <span class="home-word-line">quarantine (n.)</span>
+      <span class="home-word-teaser">forty days</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/nightmare/"
+       data-word-index="3"
+       aria-label="nightmare (n.), once a creature">
+      <span class="home-word-line">nightmare (n.)</span>
+      <span class="home-word-teaser">once a creature</span>
+    </a>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/broadcast/"
+       data-word-index="4"
+       aria-label="broadcast (v.), first scattered by hand">
+      <span class="home-word-line">broadcast (v.)</span>
+      <span class="home-word-teaser">first scattered by hand</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/boycott/"
+       data-word-index="5"
+       aria-label="boycott (v.), a man’s name became an action">
+      <span class="home-word-line">boycott (v.)</span>
+      <span class="home-word-teaser">a man’s name became an action</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/maverick/"
+       data-word-index="6"
+       aria-label="maverick (n.), first an unbranded animal">
+      <span class="home-word-line">maverick (n.)</span>
+      <span class="home-word-teaser">first an unbranded animal</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/guy/"
+       data-word-index="7"
+       aria-label="guy (n.), from a man’s name to almost anyone">
+      <span class="home-word-line">guy (n.)</span>
+      <span class="home-word-teaser">from a man’s name to almost anyone</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/deadline/"
+       data-word-index="8"
+       aria-label="deadline (n.), once a line not to cross">
+      <span class="home-word-line">deadline (n.)</span>
+      <span class="home-word-teaser">once a line not to cross</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/algorithm/"
+       data-word-index="9"
+       aria-label="algorithm (n.), from a mathematician’s name">
+      <span class="home-word-line">algorithm (n.)</span>
+      <span class="home-word-teaser">from a mathematician’s name</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/robot/"
+       data-word-index="10"
+       aria-label="robot (n.), from forced labour">
+      <span class="home-word-line">robot (n.)</span>
+      <span class="home-word-teaser">from forced labour</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/candidate/"
+       data-word-index="11"
+       aria-label="candidate (n.), first white-robed">
+      <span class="home-word-line">candidate (n.)</span>
+      <span class="home-word-teaser">first white-robed</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/disaster/"
+       data-word-index="12"
+       aria-label="disaster (n.), once an unlucky star">
+      <span class="home-word-line">disaster (n.)</span>
+      <span class="home-word-teaser">once an unlucky star</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/companion/"
+       data-word-index="13"
+       aria-label="companion (n.), someone who shared bread">
+      <span class="home-word-line">companion (n.)</span>
+      <span class="home-word-teaser">someone who shared bread</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/desire/"
+       data-word-index="14"
+       aria-label="desire (n.), longing, absence, and perhaps the stars">
+      <span class="home-word-line">desire (n.)</span>
+      <span class="home-word-teaser">longing, absence, and perhaps the stars</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/consider/"
+       data-word-index="15"
+       aria-label="consider (v.), perhaps first to watch the stars">
+      <span class="home-word-line">consider (v.)</span>
+      <span class="home-word-teaser">perhaps first to watch the stars</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/kiosk/"
+       data-word-index="16"
+       aria-label="kiosk (n.), once a garden pavilion">
+      <span class="home-word-line">kiosk (n.)</span>
+      <span class="home-word-teaser">once a garden pavilion</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/noon/"
+       data-word-index="17"
+       aria-label="noon (n.), once the ninth hour">
+      <span class="home-word-line">noon (n.)</span>
+      <span class="home-word-teaser">once the ninth hour</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/curfew/"
+       data-word-index="18"
+       aria-label="curfew (n.), cover the fire">
+      <span class="home-word-line">curfew (n.)</span>
+      <span class="home-word-teaser">cover the fire</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/ostracism/"
+       data-word-index="19"
+       aria-label="ostracism (n.), a vote on a broken pot">
+      <span class="home-word-line">ostracism (n.)</span>
+      <span class="home-word-teaser">a vote on a broken pot</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/vaccine/"
+       data-word-index="20"
+       aria-label="vaccine (n.), from the cow">
+      <span class="home-word-line">vaccine (n.)</span>
+      <span class="home-word-teaser">from the cow</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/malaria/"
+       data-word-index="21"
+       aria-label="malaria (n.), bad air">
+      <span class="home-word-line">malaria (n.)</span>
+      <span class="home-word-teaser">bad air</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/school/"
+       data-word-index="22"
+       aria-label="school (n.), once spare time">
+      <span class="home-word-line">school (n.)</span>
+      <span class="home-word-teaser">once spare time</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/magazine/"
+       data-word-index="23"
+       aria-label="magazine (n.), a storehouse">
+      <span class="home-word-line">magazine (n.)</span>
+      <span class="home-word-teaser">a storehouse</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/horde/"
+       data-word-index="24"
+       aria-label="horde (n.), once an army’s camp">
+      <span class="home-word-line">horde (n.)</span>
+      <span class="home-word-teaser">once an army’s camp</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/turquoise/"
+       data-word-index="25"
+       aria-label="turquoise (n.), the Turkish stone">
+      <span class="home-word-line">turquoise (n.)</span>
+      <span class="home-word-teaser">the Turkish stone</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/algebra/"
+       data-word-index="26"
+       aria-label="algebra (n.), once setting broken bones">
+      <span class="home-word-line">algebra (n.)</span>
+      <span class="home-word-teaser">once setting broken bones</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/lunatic/"
+       data-word-index="27"
+       aria-label="lunatic (n.), moon-struck">
+      <span class="home-word-line">lunatic (n.)</span>
+      <span class="home-word-teaser">moon-struck</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/pupil/"
+       data-word-index="28"
+       aria-label="pupil (n.), a little doll">
+      <span class="home-word-line">pupil (n.)</span>
+      <span class="home-word-teaser">a little doll</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/salary/"
+       data-word-index="29"
+       aria-label="salary (n.), salt, and a missing source">
+      <span class="home-word-line">salary (n.)</span>
+      <span class="home-word-teaser">salt, and a missing source</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/assassin/"
+       data-word-index="30"
+       aria-label="assassin (n.), a name given by enemies">
+      <span class="home-word-line">assassin (n.)</span>
+      <span class="home-word-teaser">a name given by enemies</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/sabotage/"
+       data-word-index="31"
+       aria-label="sabotage (n.), a wooden shoe, but not thrown">
+      <span class="home-word-line">sabotage (n.)</span>
+      <span class="home-word-teaser">a wooden shoe, but not thrown</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/bank/"
+       data-word-index="32"
+       aria-label="bank (n.), a money-changer’s bench">
+      <span class="home-word-line">bank (n.)</span>
+      <span class="home-word-teaser">a money-changer’s bench</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/eavesdrop/"
+       data-word-index="33"
+       aria-label="eavesdrop (v.), a place before it was an act">
+      <span class="home-word-line">eavesdrop (v.)</span>
+      <span class="home-word-teaser">a place before it was an act</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/farce/"
+       data-word-index="34"
+       aria-label="farce (n.), stuffing">
+      <span class="home-word-line">farce (n.)</span>
+      <span class="home-word-teaser">stuffing</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/idiot/"
+       data-word-index="35"
+       aria-label="idiot (n.), once a private citizen">
+      <span class="home-word-line">idiot (n.)</span>
+      <span class="home-word-teaser">once a private citizen</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/inaugurate/"
+       data-word-index="36"
+       aria-label="inaugurate (v.), once a matter for the birds">
+      <span class="home-word-line">inaugurate (v.)</span>
+      <span class="home-word-teaser">once a matter for the birds</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/juggernaut/"
+       data-word-index="37"
+       aria-label="juggernaut (n.), a chariot, and its reporter">
+      <span class="home-word-line">juggernaut (n.)</span>
+      <span class="home-word-teaser">a chariot, and its reporter</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/lecture/"
+       data-word-index="38"
+       aria-label="lecture (n.), a reading">
+      <span class="home-word-line">lecture (n.)</span>
+      <span class="home-word-teaser">a reading</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/melancholy/"
+       data-word-index="39"
+       aria-label="melancholy (n.), black bile">
+      <span class="home-word-line">melancholy (n.)</span>
+      <span class="home-word-teaser">black bile</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/nostalgia/"
+       data-word-index="40"
+       aria-label="nostalgia (n.), once a diagnosis">
+      <span class="home-word-line">nostalgia (n.)</span>
+      <span class="home-word-teaser">once a diagnosis</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/rival/"
+       data-word-index="41"
+       aria-label="rival (n.), sharing a stream">
+      <span class="home-word-line">rival (n.)</span>
+      <span class="home-word-teaser">sharing a stream</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/trivia/"
+       data-word-index="42"
+       aria-label="trivia (n.), where three roads meet">
+      <span class="home-word-line">trivia (n.)</span>
+      <span class="home-word-teaser">where three roads meet</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/utopia/"
+       data-word-index="43"
+       aria-label="utopia (n.), no place">
+      <span class="home-word-line">utopia (n.)</span>
+      <span class="home-word-teaser">no place</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/window/"
+       data-word-index="44"
+       aria-label="window (n.), the wind’s eye">
+      <span class="home-word-line">window (n.)</span>
+      <span class="home-word-teaser">the wind’s eye</span>
+    </a>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/yacht/"
+       data-word-index="45"
+       aria-label="yacht (n.), built for the chase">
+      <span class="home-word-line">yacht (n.)</span>
+      <span class="home-word-teaser">built for the chase</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/zero/"
+       data-word-index="46"
+       aria-label="zero (n.), empty">
+      <span class="home-word-line">zero (n.)</span>
+      <span class="home-word-teaser">empty</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/bankruptcy/"
+       data-word-index="47"
+       aria-label="bankruptcy (n.), a broken bench">
+      <span class="home-word-line">bankruptcy (n.)</span>
+      <span class="home-word-teaser">a broken bench</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/serendipity/"
+       data-word-index="48"
+       aria-label="serendipity (n.), chance and attention">
+      <span class="home-word-line">serendipity (n.)</span>
+      <span class="home-word-teaser">chance and attention</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/mentor/"
+       data-word-index="49"
+       aria-label="mentor (n.), a guide’s name">
+      <span class="home-word-line">mentor (n.)</span>
+      <span class="home-word-teaser">a guide’s name</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/quixotic/"
+       data-word-index="50"
+       aria-label="quixotic (adj.), a character became a quality">
+      <span class="home-word-line">quixotic (adj.)</span>
+      <span class="home-word-teaser">a character became a quality</span>
+    </a>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/emoji/"
+       data-word-index="51"
+       aria-label="emoji (n.), picture characters">
+      <span class="home-word-line">emoji (n.)</span>
+      <span class="home-word-teaser">picture characters</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/muscle/"
+       data-word-index="52"
+       aria-label="muscle (n.), a little mouse">
+      <span class="home-word-line">muscle (n.)</span>
+      <span class="home-word-teaser">a little mouse</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/lens/"
+       data-word-index="53"
+       aria-label="lens (n.), shaped like a lentil">
+      <span class="home-word-line">lens (n.)</span>
+      <span class="home-word-teaser">shaped like a lentil</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/camera/"
+       data-word-index="54"
+       aria-label="camera (n.), once a room">
+      <span class="home-word-line">camera (n.)</span>
+      <span class="home-word-teaser">once a room</span>
+    </a>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/museum/"
+       data-word-index="55"
+       aria-label="museum (n.), a place for the Muses">
+      <span class="home-word-line">museum (n.)</span>
+      <span class="home-word-teaser">a place for the Muses</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/gossip/"
+       data-word-index="56"
+       aria-label="gossip (n.), once a godparent">
+      <span class="home-word-line">gossip (n.)</span>
+      <span class="home-word-teaser">once a godparent</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/apron/"
+       data-word-index="57"
+       aria-label="apron (n.), an n changed sides">
+      <span class="home-word-line">apron (n.)</span>
+      <span class="home-word-teaser">an n changed sides</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/pamphlet/"
+       data-word-index="58"
+       aria-label="pamphlet (n.), a poem gave its name to a format">
+      <span class="home-word-line">pamphlet (n.)</span>
+      <span class="home-word-teaser">a poem gave its name to a format</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/dunce/"
+       data-word-index="59"
+       aria-label="dunce (n.), a scholar’s name became an insult">
+      <span class="home-word-line">dunce (n.)</span>
+      <span class="home-word-teaser">a scholar’s name became an insult</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/tulip/"
+       data-word-index="60"
+       aria-label="tulip (n.), a turban in its name">
+      <span class="home-word-line">tulip (n.)</span>
+      <span class="home-word-teaser">a turban in its name</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/biscuit/"
+       data-word-index="61"
+       aria-label="biscuit (n.), bread baked twice">
+      <span class="home-word-line">biscuit (n.)</span>
+      <span class="home-word-teaser">bread baked twice</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/silhouette/"
+       data-word-index="62"
+       aria-label="silhouette (n.), a minister’s name in an outline">
+      <span class="home-word-line">silhouette (n.)</span>
+      <span class="home-word-teaser">a minister’s name in an outline</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/petrichor/"
+       data-word-index="63"
+       aria-label="petrichor (n.), a name for the smell of rain">
+      <span class="home-word-line">petrichor (n.)</span>
+      <span class="home-word-teaser">a name for the smell of rain</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/culture/"
+       data-word-index="64"
+       aria-label="culture (n.), tending the soil, then the mind">
+      <span class="home-word-line">culture (n.)</span>
+      <span class="home-word-teaser">tending the soil, then the mind</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/text/"
+       data-word-index="65"
+       aria-label="text (n.), words woven together">
+      <span class="home-word-line">text (n.)</span>
+      <span class="home-word-teaser">words woven together</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/sandwich/"
+       data-word-index="66"
+       aria-label="sandwich (n.), an earl’s name at the lunch table">
+      <span class="home-word-line">sandwich (n.)</span>
+      <span class="home-word-teaser">an earl’s name at the lunch table</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/cobalt/"
+       data-word-index="67"
+       aria-label="cobalt (n.), a goblin in the mine">
+      <span class="home-word-line">cobalt (n.)</span>
+      <span class="home-word-teaser">a goblin in the mine</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/wow/"
+       data-word-index="68"
+       aria-label="wow (interj.), an old exclamation on a telescope printout">
+      <span class="home-word-line">wow (interj.)</span>
+      <span class="home-word-teaser">an old exclamation on a telescope printout</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/focus/"
+       data-word-index="69"
+       aria-label="focus (n.), once a hearth">
+      <span class="home-word-line">focus (n.)</span>
+      <span class="home-word-teaser">once a hearth</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/anatomy/"
+       data-word-index="70"
+       aria-label="anatomy (n.), a cutting up">
+      <span class="home-word-line">anatomy (n.)</span>
+      <span class="home-word-teaser">a cutting up</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/placebo/"
+       data-word-index="71"
+       aria-label="placebo (n.), I shall please">
+      <span class="home-word-line">placebo (n.)</span>
+      <span class="home-word-teaser">I shall please</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/parliament/"
+       data-word-index="72"
+       aria-label="parliament (n.), a place for speaking">
+      <span class="home-word-line">parliament (n.)</span>
+      <span class="home-word-teaser">a place for speaking</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/ballot/"
+       data-word-index="73"
+       aria-label="ballot (n.), first a little ball">
+      <span class="home-word-line">ballot (n.)</span>
+      <span class="home-word-teaser">first a little ball</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/meander/"
+       data-word-index="74"
+       aria-label="meander (v.), a winding river">
+      <span class="home-word-line">meander (v.)</span>
+      <span class="home-word-teaser">a winding river</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/clue/"
+       data-word-index="75"
+       aria-label="clue (n.), a ball of thread">
+      <span class="home-word-line">clue (n.)</span>
+      <span class="home-word-teaser">a ball of thread</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/calculate/"
+       data-word-index="76"
+       aria-label="calculate (v.), small stones">
+      <span class="home-word-line">calculate (v.)</span>
+      <span class="home-word-teaser">small stones</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/thrill/"
+       data-word-index="77"
+       aria-label="thrill (n.), a hole">
+      <span class="home-word-line">thrill (n.)</span>
+      <span class="home-word-teaser">a hole</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/divan/"
+       data-word-index="78"
+       aria-label="divan (n.), a book of accounts">
+      <span class="home-word-line">divan (n.)</span>
+      <span class="home-word-teaser">a book of accounts</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/saturnine/"
+       data-word-index="79"
+       aria-label="saturnine (adj.), born under Saturn">
+      <span class="home-word-line">saturnine (adj.)</span>
+      <span class="home-word-teaser">born under Saturn</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/jovial/"
+       data-word-index="80"
+       aria-label="jovial (adj.), born under Jupiter">
+      <span class="home-word-line">jovial (adj.)</span>
+      <span class="home-word-teaser">born under Jupiter</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/mercurial/"
+       data-word-index="81"
+       aria-label="mercurial (adj.), born under Mercury">
+      <span class="home-word-line">mercurial (adj.)</span>
+      <span class="home-word-teaser">born under Mercury</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/bergamot/"
+       data-word-index="82"
+       aria-label="bergamot (n.), a pear or a town">
+      <span class="home-word-line">bergamot (n.)</span>
+      <span class="home-word-teaser">a pear or a town</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/hazard/"
+       data-word-index="83"
+       aria-label="hazard (n.), a game of dice">
+      <span class="home-word-line">hazard (n.)</span>
+      <span class="home-word-teaser">a game of dice</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/tragedy/"
+       data-word-index="84"
+       aria-label="tragedy (n.), a goat song">
+      <span class="home-word-line">tragedy (n.)</span>
+      <span class="home-word-teaser">a goat song</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/chauvinism/"
+       data-word-index="85"
+       aria-label="chauvinism (n.), a soldier from a play">
+      <span class="home-word-line">chauvinism (n.)</span>
+      <span class="home-word-teaser">a soldier from a play</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/checkmate/"
+       data-word-index="86"
+       aria-label="checkmate (n.), the king is helpless">
+      <span class="home-word-line">checkmate (n.)</span>
+      <span class="home-word-teaser">the king is helpless</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/sherbet/"
+       data-word-index="87"
+       aria-label="sherbet (n.), a drink">
+      <span class="home-word-line">sherbet (n.)</span>
+      <span class="home-word-teaser">a drink</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/nice/"
+       data-word-index="88"
+       aria-label="nice (adj.), a compliment that began as an insult">
+      <span class="home-word-line">nice (adj.)</span>
+      <span class="home-word-teaser">a compliment that began as an insult</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/silly/"
+       data-word-index="89"
+       aria-label="silly (adj.), when innocence became foolishness">
+      <span class="home-word-line">silly (adj.)</span>
+      <span class="home-word-teaser">when innocence became foolishness</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/awful/"
+       data-word-index="90"
+       aria-label="awful (adj.), when awe became an everyday complaint">
+      <span class="home-word-line">awful (adj.)</span>
+      <span class="home-word-teaser">when awe became an everyday complaint</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/villain/"
+       data-word-index="91"
+       aria-label="villain (n.), the villager who became the bad character">
+      <span class="home-word-line">villain (n.)</span>
+      <span class="home-word-teaser">the villager who became the bad character</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/prestige/"
+       data-word-index="92"
+       aria-label="prestige (n.), the trick that became a reputation">
+      <span class="home-word-line">prestige (n.)</span>
+      <span class="home-word-teaser">the trick that became a reputation</span>
+    </a>
+    
+    
+    
+    
+    
+    <a class="home-word-card"
+       href="/word/freelance/"
+       data-word-index="93"
+       aria-label="freelance (adj.), the hired soldier behind the independent worker">
+      <span class="home-word-line">freelance (adj.)</span>
+      <span class="home-word-teaser">the hired soldier behind the independent worker</span>
+    </a>
+    
+    
+  </div><a class="home-words-all" href="/word/">Explore the collections <span aria-hidden="true">&rarr;</span></a>
+</section>
+
+<style>
+  .home-words {
+    text-align: center;
+    padding-top: 48px;
+    padding-bottom: 48px;
+  }
+
+  .home-word-stage {
+    min-height: 6.2rem;
+    display: grid;
+    place-items: center;
+  }
+
+  .home-word-card {
+    display: none;
+    max-width: 34rem;
+    margin: 0 auto;
+    padding: 4px 24px 8px;
+    color: inherit;
+    text-decoration: none;
+    text-align: center;
+    transition: var(--select-ease);
+  }
+
+  .home-word-card.is-active {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 7px;
+  }
+
+  .home-word-card:hover,
+  .home-word-card:active {
+    opacity: var(--select-dim);
+  }
+
+  .home-word-card:focus-visible {
+    outline: 2px solid var(--petrol);
+    outline-offset: 6px;
+    border-radius: 6px;
+  }
+
+  /* No rule under the word. A word standing on its own in the middle of the
+     page is invitation enough, and marking it as a link says out loud what a
+     reader is better off finding. "All the words" below is the plain door for
+     anyone who wants one; the card still dims on hover, and its focus ring is
+     untouched. */
+  .home-word-line {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-style: italic;
+    font-size: clamp(1.85rem, 3vw, 2.45rem);
+    line-height: 1.08;
+    color: var(--petrol);
+  }
+
+  .home-word-teaser {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--vizon);
+    letter-spacing: 0.02em;
+  }
+
+  @media (max-width: 600px) {
+    .home-words { padding-top: 40px; padding-bottom: 40px; }
+    .home-word-stage { min-height: 5.5rem; }
+  }
+</style>
+
+<script>
+(function() {
+  var stage = document.querySelector('#words-with-stories .home-word-stage');
+  if (!stage) return;
+
+  var cards = Array.prototype.slice.call(stage.querySelectorAll('.home-word-card'));
+  if (cards.length < 2) return;
+
+  var storageKey = 'home-word-story-index';
+  var last = -1;
+  try {
+    var stored = sessionStorage.getItem(storageKey);
+    if (stored !== null) last = Number(stored);
+  } catch (e) {}
+
+  var choices = cards.map(function(_, index) { return index; })
+    .filter(function(index) { return index !== last; });
+  var next = choices[Math.floor(Math.random() * choices.length)];
+
+  cards.forEach(function(card, index) {
+    card.classList.toggle('is-active', index === next);
+  });
+
+  try {
+    sessionStorage.setItem(storageKey, String(next));
+  } catch (e) {}
+})();
+</script>
+
+
+<section id="pictures-with-stories" class="home-pictures" aria-label="Pictures with Stories">
+  <div class="section-head">
+  <h2 class="section-title">Pictures with Stories</h2>
+  
+</div>
+
+
+  <div class="home-picture-stage">
+    
+    
+    
+    <a class="home-picture-card is-active" href="/pictures/black-hole/">
+      <img src="/pictures/assets/black-hole-watercolor.webp" srcset="/pictures/assets/480/black-hole-watercolor.webp 480w, /pictures/assets/960/black-hole-watercolor.webp 960w, /pictures/assets/black-hole-watercolor.webp 1536w" sizes="(min-width: 600px) 520px, calc(100vw - 80px)" width="1536" height="1024" alt="" loading="lazy" decoding="async">
+      <span class="home-picture-title">The black hole</span>
+      <span class="home-picture-teaser">A black hole and the light around it.</span>
+    </a>
+    
+    <a class="home-picture-card" href="/pictures/quasar/">
+      <img src="/pictures/assets/quasar-watercolor.webp" srcset="/pictures/assets/480/quasar-watercolor.webp 480w, /pictures/assets/960/quasar-watercolor.webp 960w, /pictures/assets/quasar-watercolor.webp 1536w" sizes="(min-width: 600px) 520px, calc(100vw - 80px)" width="1536" height="1024" alt="" loading="lazy" decoding="async">
+      <span class="home-picture-title">The quasar</span>
+      <span class="home-picture-teaser">A small bright disk and the jets it sends across a galaxy.</span>
+    </a>
+    
+    <a class="home-picture-card" href="/pictures/space/">
+      <img src="/pictures/space/assets/journey-cover-v2.webp" srcset="/pictures/space/assets/480/journey-cover-v2.webp 480w, /pictures/space/assets/960/journey-cover-v2.webp 960w, /pictures/space/assets/journey-cover-v2.webp 1536w" sizes="(min-width: 600px) 520px, calc(100vw - 80px)" width="1536" height="1024" alt="" loading="lazy" decoding="async">
+      <span class="home-picture-title">Through the Solar System</span>
+      <span class="home-picture-teaser">Choose a world. Move closer.</span>
+    </a>
+    
+  </div>
+
+  <a class="home-pictures-all" href="/pictures/">All the pictures <span aria-hidden="true">&rarr;</span></a>
+</section>
+
+<style>
+  .home-pictures {
+    text-align: center;
+    padding-top: 48px;
+    padding-bottom: 48px;
+  }
+
+  .home-picture-card {
+    display: none;
+    max-width: 520px;
+    margin: 0 auto;
+    color: inherit;
+    text-decoration: none;
+    text-align: center;
+  }
+
+  .home-picture-card.is-active {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 7px;
+  }
+
+  /* The painting holds still; only the words under it dim. */
+  .home-picture-title,
+  .home-picture-teaser {
+    transition: var(--select-ease);
+  }
+
+  .home-picture-card:hover :is(.home-picture-title, .home-picture-teaser),
+  .home-picture-card:active :is(.home-picture-title, .home-picture-teaser) {
+    opacity: var(--select-dim);
+  }
+
+  .home-picture-card:focus-visible {
+    outline: 2px solid var(--petrol);
+    outline-offset: 6px;
+    border-radius: 6px;
+  }
+
+  .home-picture-card img {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin-bottom: 14px;
+    border-radius: 3px;
+  }
+
+  /* Set like the word above it: the title in the display italic, the line
+     under it small and quiet. */
+  .home-picture-title {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-style: italic;
+    font-size: clamp(1.85rem, 3vw, 2.45rem);
+    line-height: 1.08;
+    color: var(--petrol);
+  }
+
+  .home-picture-teaser {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--vizon);
+    letter-spacing: 0.02em;
+  }
+
+  @media (max-width: 600px) {
+    .home-pictures { padding-top: 40px; padding-bottom: 40px; }
+  }
+</style>
+
+<script>
+(function() {
+  var cards = Array.prototype.slice.call(document.querySelectorAll('#pictures-with-stories .home-picture-card'));
+  if (cards.length < 2) return;
+
+  var storageKey = 'home-picture-story-index';
+  var last = -1;
+  try {
+    var stored = sessionStorage.getItem(storageKey);
+    if (stored !== null) last = Number(stored);
+  } catch (e) {}
+
+  var choices = cards.map(function(_, index) { return index; })
+    .filter(function(index) { return index !== last; });
+  var next = choices[Math.floor(Math.random() * choices.length)];
+
+  cards.forEach(function(card, index) {
+    card.classList.toggle('is-active', index === next);
+  });
+
+  try {
+    sessionStorage.setItem(storageKey, String(next));
+  } catch (e) {}
+})();
+</script>
+
+
+<section id="trivia" class="home-instruments" aria-label="Trivia">
+  <div class="section-head">
+  <h2 class="section-title">Trivia</h2>
+  
+</div>
+
+  <div id="home-daily-trivia" class="home-daily-trivia" data-source="/trivia/questions.json">
+  <p id="home-daily-trivia-fallback" class="home-instruments-line">Culture quizzes played in rounds, with a note behind every answer⁠&mdash;6 of them so far.</p>
+
+  <div id="home-daily-trivia-game" hidden>
+    <p class="home-daily-trivia-meta">Today&rsquo;s question &middot; <span id="home-daily-trivia-quiz"></span></p>
+    <p class="home-daily-trivia-question" id="home-daily-trivia-question" tabindex="-1"></p>
+    <div class="home-daily-trivia-choices" id="home-daily-trivia-choices" role="group" aria-labelledby="home-daily-trivia-question"></div>
+    <p class="home-daily-trivia-feedback" id="home-daily-trivia-feedback" aria-live="polite"></p>
+    <a class="home-daily-trivia-more" id="home-daily-trivia-more" href="/trivia/" hidden></a>
+  </div>
+</div>
+<script src="/js/home-daily-trivia.js?v=20261023-1" defer></script>
+
+  <a class="home-instruments-all" href="/trivia/">See the quizzes <span aria-hidden="true">&rarr;</span></a>
+</section>
+
+<section id="instruments" class="home-instruments" aria-label="Instruments">
+  <div class="section-head">
+  <h2 class="section-title">Instruments</h2>
+  
+</div>
+
+  <p class="home-instruments-line">A <a href="/clock/">fullscreen clock</a>, a <a href="/write/">blank page to write on</a>, a <a href="/prompt/">teleprompter</a>, <a href="/noise/">noise and rain</a>, <a href="/twilight/">today&rsquo;s twilight</a>⁠&mdash;20 instruments for work, calm, and focus.</p>
+  <a class="home-instruments-all" href="/tools/">See them all <span aria-hidden="true">&rarr;</span></a>
+</section>
+
+<section id="tonight" class="home-tonight" aria-label="Tonight" hidden>
+  <div class="section-head">
+  <h2 class="section-title">Tonight</h2>
+  
+</div>
+
+  <p class="tonight-meta" id="tonight-meta"></p>
+  <div class="tonight-body">
+    <a class="tonight-map-link" id="tonight-map-link" href="/stars/" hidden>
+      <svg class="tonight-map" id="tonight-map" viewBox="0 0 600 600" role="img" aria-label="Tonight&rsquo;s sky"><title>Tonight&rsquo;s sky</title></svg>
+    </a>
+    <ul class="tonight-facts">
+      <li id="tonight-sun-row"><a class="tonight-row" href="/sun/"><span class="tonight-key">The sun</span><span class="tonight-value" id="tonight-sun"></span></a></li>
+      <li><a class="tonight-row" href="/moon/"><span class="tonight-key">The moon</span><span class="tonight-value" id="tonight-moon"></span></a></li>
+      <li id="tonight-planets-row" hidden><a class="tonight-row" href="/stars/"><span class="tonight-key">Planets</span><span class="tonight-value" id="tonight-planets"></span></a></li>
+      <li id="tonight-look-row" hidden><a class="tonight-row" href="/stars/"><span class="tonight-key">Look for</span><span class="tonight-value" id="tonight-look"></span></a></li>
+    </ul>
+  </div>
+  <a class="home-instruments-all" href="/stars/">See the whole sky <span aria-hidden="true">&rarr;</span></a>
+</section>
+
+
+</main>
+<footer>
+  
+  <div class="footer-strip">
+    <div class="footer-strip-inner">
+      <form class="site-search-form site-search-form--footer" role="search" action="/search/" method="get">
+  <label class="visually-hidden" for="footer-search">Search the site</label>
+  <input id="footer-search" name="q" type="search" placeholder="Search the site" maxlength="200" autocomplete="off" enterkeyhint="search">
+  <button type="submit" aria-label="Search">
+    <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg>
+  </button>
+</form>
+
+      
+
+      <nav class="footer-contact-links" aria-label="Find me">
+        <a href="/feeds/">RSS</a>
+        <span class="footer-dot" aria-hidden="true">·</span>
+        <a href="https://www.goodreads.com/author/show/69006405.Hakan_Altun"
+           target="_blank"
+           rel="noopener">Goodreads</a>
+        <span class="footer-dot" aria-hidden="true">·</span>
+        <a href="mailto:letters@hakanaltun.io">letters@hakanaltun.io</a>
+      </nav>
+
+      <div class="footer-actions-wrap">
+        <button
+          class="footer-icon-btn footer-actions-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="footer-actions-menu"
+          aria-label="More controls"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </button>
+
+        <div class="footer-actions" id="footer-actions-menu">
+          <div class="theme-menu-wrap">
+          <button
+            class="footer-icon-btn footer-theme-toggle"
+            id="theme-toggle"
+            type="button"
+            aria-label="Themes"
+            data-label="Themes"
+            aria-haspopup="true"
+            aria-expanded="false"
+            aria-controls="theme-menu"
+            hidden
+          >
+            <svg
+              class="theme-icon-moon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+
+            <svg
+              class="theme-icon-sun"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="12" r="5"/>
+              <line x1="12" y1="1" x2="12" y2="3"/>
+              <line x1="12" y1="21" x2="12" y2="23"/>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+              <line x1="1" y1="12" x2="3" y2="12"/>
+              <line x1="21" y1="12" x2="23" y2="12"/>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </svg>
+          </button>
+
+          <div class="theme-menu" id="theme-menu" role="menu" aria-label="Theme" hidden>
+            <button type="button" class="theme-menu-item" role="menuitemradio" aria-checked="false" data-set-theme="system"
+              title="Follows your device’s light or dark preference">
+              System
+              <span class="theme-menu-mark" aria-hidden="true">&#10003;</span>
+            </button>
+            <button type="button" class="theme-menu-item" role="menuitemradio" aria-checked="false" data-set-theme="light">
+              Light
+              <span class="theme-menu-mark" aria-hidden="true">&#10003;</span>
+            </button>
+            <button type="button" class="theme-menu-item" role="menuitemradio" aria-checked="false" data-set-theme="dark">
+              Dark
+              <span class="theme-menu-mark" aria-hidden="true">&#10003;</span>
+            </button>
+            <button type="button" class="theme-menu-item" role="menuitemradio" aria-checked="false" data-set-theme="midnight">
+              Midnight
+              <span class="theme-menu-mark" aria-hidden="true">&#10003;</span>
+            </button>
+            <button type="button" class="theme-menu-item" role="menuitemradio" aria-checked="false" data-set-theme="sky"
+              title="The page changes colour as the sun moves through the day.">
+              Follow the sky
+              <span class="theme-menu-mark" aria-hidden="true">&#10003;</span>
+            </button>
+            <div class="theme-menu-divider" role="separator" aria-hidden="true"></div>
+            <a class="theme-menu-item theme-menu-item--link" role="menuitem" href="/themes/"
+              title="The whole wardrobe, previewed—twelve light palettes, Dark, Midnight and Follow the sky">
+              Themes
+            </a>
+          </div>
+          </div>
+          <a href="/tools/" class="footer-icon-btn" aria-label="Instruments" data-label="Instruments">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <rect x="3" y="3" width="7" height="7"/>
+              <rect x="14" y="3" width="7" height="7"/>
+              <rect x="3" y="14" width="7" height="7"/>
+              <rect x="14" y="14" width="7" height="7"/>
+            </svg>
+          </a>
+          <a href="/house/#drawer" class="footer-icon-btn" data-open-drawer aria-label="Your drawer" data-label="Your drawer">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <rect x="3" y="3" width="18" height="18" rx="2"/>
+              <line x1="3" y1="12" x2="21" y2="12"/>
+              <line x1="10" y1="7.5" x2="14" y2="7.5"/>
+              <line x1="10" y1="16.5" x2="14" y2="16.5"/>
+            </svg>
+          </a>
+
+          <button
+            class="footer-icon-btn footer-share-btn"
+            type="button"
+            aria-label="Share this page"
+          data-label="Share"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <circle cx="18" cy="5" r="3"/>
+              <circle cx="6" cy="12" r="3"/>
+              <circle cx="18" cy="19" r="3"/>
+              <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+              <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  <div class="footer-inner">
+    <div class="footer-bottom">
+      <div class="footer-weather">
+        <button class="snow-toggle" id="let-it-snow" type="button" aria-label="Let it snow" aria-pressed="false" title="Let it snow" hidden><span aria-hidden="true">&#10052;&#65038;</span></button>
+        <button class="snow-toggle" id="let-it-rain" type="button" aria-label="Let it rain" aria-pressed="false" title="Let it rain" hidden>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c-2.5 4-7 7.5-7 12a7 7 0 0 0 14 0c0-4.5-4.5-8-7-12z"/></svg>
+        </button>
+      </div>
+
+      <a href="#" class="footer-home-link" aria-label="Back to top">
+        <span class="footer-brand">On Life &amp; Everything</span>
+        <span class="footer-tagline">
+          Essays, short fiction, and other writing.
+        </span>
+      </a><p class="footer-credit">
+        Hakan Altun · İstanbul, 2026 · &copy; All rights reserved.
+      </p>
+    </div>
+  </div>
+</footer>
+
+</div>
+<script>window.OLAE_DRAWER_ASSETS = {"keep_js":"/js/keep.js?v=20261014-1","keep_css":"/css/keep.css?v=20261012-1","drawer_js":"/js/drawer.js?v=20261019-1","drawer_css":"/css/drawer.css?v=20261024-1"};</script>
+<script src="/js/site-nav.js?v=20261017-1" defer></script>
+<script src="/js/let-it-snow.js?v=20261001-2" defer></script>
+<script src="/js/palettes.js?v=20261026-3" defer></script>
+<script src="/js/theme.js?v=20261026-1" defer></script>
+<script src="/js/divider-lines.js?v=20260710-1" defer></script>
+<script src="/js/header-autohide.js?v=20260925-1" defer></script>
+
+
+
+
+
+
+<script>
+    (function(){
+      'use strict';
+
+      /* The lines live in _data/lines.yml, which The House's bookshelf also
+         reads. s is the chapter or piece, u its address, b marks the book,
+         and v the colour of a piece's page: "story" for The Notice, which is
+         told in choices, "writing" for the rest. */
+      var heroQuotes = [{"s":"Point Zero","t":"I had no memory because memory needs an after, and there was no after.","u":"/book/part-one/#point-zero","b":true},{"s":"The First Disobedience","t":"The light should have taken me too. It did not.","u":"/book/part-one/#the-first-disobedience","b":true},{"s":"A Nostalgia Named Gravity","t":"The dark filled with small fires, each one a holding.","u":"/book/part-one/#a-nostalgia-named-gravity","b":true},{"s":"The Traitor Within","t":"The light came from inside us. Each photon we gave to the dark was a piece of us.","u":"/book/part-one/#the-traitor-within","b":true},{"s":"The First Mortal","t":"Then, one afternoon, two molecules met in the water and did not let go.","u":"/book/part-one/#the-first-mortal","b":true},{"s":"Mud and Blood","t":"The dust of dead stars shredding the dust of dead stars.","u":"/book/part-one/#mud-and-blood","b":true},{"s":"The Kept Fire","t":"I had seen them every night of my life. I had never seen them.","u":"/book/part-one/#the-kept-fire","b":true},{"s":"Before the Word","t":"A hand found my shoulder. It rested there, already at home. I touched the hand. The hand did not move away.","u":"/book/part-one/#before-the-word","b":true},{"s":"The Shape of Absence","t":"The face was still the face. And yet it was somewhere else.","u":"/book/part-one/#the-shape-of-absence","b":true},{"s":"Moris","t":"Then I took a breath. The void blinked, made a small sound, and sat down on my blanket.","u":"/book/part-two/#moris","b":true},{"s":"Moris","t":"The sparrow has personally insulted him.","u":"/book/part-two/#moris","b":true},{"s":"A Small Apocalypse","t":"His heart was going so fast I could not count it, a continuous trembling like a small engine.","u":"/book/part-two/#a-small-apocalypse","b":true},{"s":"The Kitchen","t":"My tea has gone cold. I register it as a minor betrayal.","u":"/book/part-two/#the-kitchen","b":true},{"s":"The Curse","t":"The students change, and so does the spirit of the time. The subjects don’t have to.","u":"/book/part-two/#the-curse","b":true},{"s":"You Can Finish It","t":"I had seen that movement from behind a desk. For a second, a classroom returned around him, with his coat hanging from the back of a chair and dripping onto the floor.","u":"/book/part-two/#you-can-finish-it","b":true},{"s":"None of Us Are","t":"For a while, I called it growth.","u":"/book/part-two/#none-of-us-are","b":true},{"s":"Şafak","t":"Şafak walked out of the building into the afternoon sun, lighter than he’d been in months.","u":"/book/part-two/#safak","b":true},{"s":"The Joy","t":"He had a perfect report card and Superman in the bag.","u":"/book/part-two/#the-joy","b":true},{"s":"The Turn","t":"In the hallway at home her hand went up to unwind it anyway.","u":"/book/part-two/#the-turn","b":true},{"s":"The Road","t":"The car didn’t need me to watch anything. But my hands still hovered near the wheel.","u":"/book/part-two/#the-road","b":true},{"s":"The Anxiety","t":"“I’m done,” he said, testing the sentence to see how it sounded in the air.","u":"/book/part-two/#the-anxiety","b":true},{"s":"The Cove","t":"I sat there until the stars came out. The car, parked behind me in the dark, waited for a command I no longer knew how to give.","u":"/book/part-two/#the-cove","b":true},{"s":"The Ease","t":"It was ten minutes. She took twenty.","u":"/book/part-two/#the-ease","b":true},{"s":"Handled","t":"He stood at the sink, looking at the clean glass, then reached out and tightened the faucet handle, though no water was dripping.","u":"/book/part-two/#handled","b":true},{"s":"The Best Ideas Come When You Let Go","t":"New ideas need empty spaces to pass through.","u":"/pieces/best-ideas.html","v":"writing"},{"s":"The Best Ideas Come When You Let Go","t":"We think it’s working the least when actually it’s working the hardest.","u":"/pieces/best-ideas.html","v":"writing"},{"s":"The Empathy Paradox","t":"My friend’s life is a map. My own life is a forest.","u":"/pieces/empathy-paradox.html","v":"writing"},{"s":"The Empathy Paradox","t":"I just need a silence that doesn’t ask questions.","u":"/pieces/empathy-paradox.html","v":"writing"},{"s":"It Is Either from Love or Fear","t":"Fear is not stupid. Fear is the most intelligent thing inside us.","u":"/pieces/love-or-fear.html","v":"writing"},{"s":"It Is Either from Love or Fear","t":"Love is the only thing I have ever done that felt like it was actually mine.","u":"/pieces/love-or-fear.html","v":"writing"},{"s":"Why Do Unfinished Things Haunt Us?","t":"Some unfinished things are noise. Others are a compass.","u":"/pieces/unfinished-things.html","v":"writing"},{"s":"Jung’s Golden Shadow","t":"We spend the first twenty years of our lives deciding what to lock away in that baggage.","u":"/pieces/jung-shadow.html","v":"writing"},{"s":"Our Defense Mechanisms","t":"The system I’d built to keep pain out was keeping everything else out too.","u":"/pieces/defense-mechanisms.html","v":"writing"},{"s":"Will AI Be Enough for Us?","t":"No, stop. I want to feel this myself.","u":"/pieces/ai-enough.html","v":"writing"},{"s":"Why Do We Say Hello?","t":"Even being scolded can feel better than indifferent silence.","u":"/pieces/say-hello.html","v":"writing"},{"s":"On Lying","t":"A lie carries no physical weight and still expands like a black hole.","u":"/pieces/on-lying.html","v":"writing"},{"s":"On Lying","t":"Honesty was always available. Most of us knew that.","u":"/pieces/on-lying.html","v":"writing"},{"s":"On Perceiving","t":"The moment perception becomes uncomfortable is the moment it might be getting accurate.","u":"/pieces/on-perceiving.html","v":"writing"},{"s":"On Perceiving","t":"The buildings we never question are the ones we should.","u":"/pieces/on-perceiving.html","v":"writing"},{"s":"On Looking","t":"Everyone moved toward the stage.\nThe seats emptied behind them.","u":"/pieces/on-looking.html","v":"writing"},{"s":"On Looking","t":"It’s hard to obsess over who’s watching when you’ve just been watching someone else.","u":"/pieces/on-looking.html","v":"writing"},{"s":"On Forgiveness","t":"The debt sits untouched in the archive. You just stop trying to collect it.","u":"/pieces/on-forgiveness.html","v":"writing"},{"s":"On Forgiveness","t":"To truly forgive, you need the towering arrogance of a god.","u":"/pieces/on-forgiveness.html","v":"writing"},{"s":"On Keeping","t":"The danger of surrender lay in who you became inside the disarray.","u":"/pieces/on-keeping.html","v":"writing"},{"s":"On Longing","t":"Back then nothing had to be enough.","u":"/pieces/on-longing.html","v":"writing"},{"s":"On Longing","t":"You see with what you have learned. What you have learned is your prison.","u":"/pieces/on-longing.html","v":"writing"},{"s":"Collateral","t":"The best of what’s possible, he tells himself, taking the keys.","u":"/pieces/collateral.html","v":"writing"},{"s":"Collateral","t":"The word sits between them. Collateral. Neither of them touches it.","u":"/pieces/collateral.html","v":"writing"},{"s":"The Cost","t":"I made coffee. Very quietly. Like a thief in my own life.","u":"/pieces/the-cost.html","v":"writing"},{"s":"The Cost","t":"She said this almost irritably, as if love had once again failed to choose a side.","u":"/pieces/the-cost.html","v":"writing"},{"s":"Let’s Have Some Cheese","t":"When good cheese comes to your feet, be suspicious.","u":"/pieces/lets-have-some-cheese.html","v":"writing"},{"s":"Let’s Have Some Cheese","t":"Give a man a nickname and you no longer have to meet him.","u":"/pieces/lets-have-some-cheese.html","v":"writing"},{"s":"Written in Ink","t":"She was a foreigner, and so she was allowed to stare.","u":"/pieces/written-in-ink.html","v":"writing"},{"s":"Thinking Is for After","t":"The handle of the chef’s knife wears down to the shape of Mara’s grip.","u":"/pieces/thinking-is-for-after.html","v":"writing"},{"s":"Thinking Is for After","t":"We will ask about the bottles tomorrow.","u":"/pieces/thinking-is-for-after.html","v":"writing"},{"s":"Michi","t":"She left it unsealed.","u":"/pieces/michi.html","v":"writing"},{"s":"Michi","t":"The paper disappeared under the stone except for one pale edge.","u":"/pieces/michi.html","v":"writing"},{"s":"The Lines Between Us","t":"I knew he was lying. I wanted him to lie better.","u":"/pieces/the-lines-between-us.html","v":"writing"},{"s":"The Lines Between Us","t":"I did not cry. I have always been good at that.","u":"/pieces/the-lines-between-us.html","v":"writing"},{"s":"The Notice","t":"There was dust on the new leaves.","u":"/story/1/","v":"story"},{"s":"It Was Not a Question","t":"The invitations had arrived in December, and they had arrived for two people.","u":"/pieces/it-was-not-a-question.html","v":"writing"},{"s":"It Was Not a Question","t":"She had come with a word and did not use it.","u":"/pieces/it-was-not-a-question.html","v":"writing"}
+      ];
+
+      var hq = document.getElementById('hero-quote');
+      var qs = document.getElementById('hero-quote-source');
+      var quoteStatus = document.getElementById('hero-quote-status');
+      var prevBtn = document.getElementById('quote-prev');
+      var nextBtn = document.getElementById('quote-next');
+      var qCard = document.querySelector('.hero-quote-card');
+      var qSection = document.getElementById('quotes');
+      var qNav = document.querySelector('.quote-nav');
+      var currentIdx = -1;
+      var history = [];
+      var rotateTimer = null;
+      var renderTimer = null;
+      var sourceTimer = null;
+      var wordTimers = [];
+      var navHideTimer = null;
+      var ROTATE_DELAY = 15000;
+      /* Matches the crossfade duration CSS gives .hero-quote-text under
+         reduced motion, so the new quote lands as the old one finishes. */
+      var FADE_DELAY = 320;
+      var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+      function randomIndex(except){
+        if(heroQuotes.length < 2) return 0;
+        var idx;
+        do { idx = Math.floor(Math.random() * heroQuotes.length); } while(idx === except);
+        return idx;
+      }
+
+      function clearRenderTimers(){
+        clearTimeout(renderTimer);
+        clearTimeout(sourceTimer);
+        wordTimers.forEach(function(t){ clearTimeout(t); });
+        wordTimers = [];
+      }
+
+      function setSource(pick){
+        /* The quote takes the colour of the page it comes from (the voices
+           in css/style.css): the book's when the attribute is absent. */
+        if(qSection){
+          if(pick.v) qSection.setAttribute('data-voice', pick.v); else qSection.removeAttribute('data-voice');
+        }
+        qs.textContent = '— ';
+        var title = document.createElement('i');
+        var label = pick.b ? pick.s + ' · The Fragments' : pick.s;
+        title.textContent = label;
+        var url = pick.u;
+        if(url){
+          var link = document.createElement('a');
+          link.href = url;
+          link.appendChild(title);
+          qs.appendChild(link);
+        } else {
+          qs.appendChild(title);
+        }
+      }
+
+      function paintQuote(pick, animate, announce){
+        hq.innerHTML = '';
+        /* A quote carrying l: is not in the page's language. Marking the
+           paragraph lets a screen reader switch voices for it instead of
+           reading Turkish with English phonetics; the same tag is put on the
+           live-region copy below, which is what actually gets announced. */
+        if(pick.l) hq.setAttribute('lang', pick.l); else hq.removeAttribute('lang');
+        pick.t.split('\n').forEach(function(line,lineIndex){
+          if(lineIndex) hq.appendChild(document.createElement('br'));
+          if(!animate){
+            hq.appendChild(document.createTextNode(line));
+            return;
+          }
+          line.split(/(\s+)/).forEach(function(part,partIndex){
+            if(part.trim()==='') { hq.appendChild(document.createTextNode(part)); return; }
+            var span = document.createElement('span');
+            span.className = 'hero-quote-word';
+            span.textContent = part;
+            hq.appendChild(span);
+            wordTimers.push(setTimeout(function(){
+              span.classList.add('word-visible');
+            }, 80 + partIndex * 35 + lineIndex * 220));
+          });
+        });
+        setSource(pick);
+        if(animate){
+          sourceTimer = setTimeout(function(){ qs.classList.add('visible'); }, 650);
+        } else {
+          qs.classList.add('visible');
+        }
+        hq.style.opacity = '1';
+        /* Manual navigation gets one atomic announcement. The visible card
+           itself stays quiet, so word-by-word DOM updates are never read as
+           a stream of separate live-region changes. */
+        if(announce && quoteStatus){
+          if(pick.l) quoteStatus.setAttribute('lang', pick.l); else quoteStatus.removeAttribute('lang');
+          quoteStatus.textContent = pick.t.replace(/\n/g, ' ') + ' — ' + (pick.b ? pick.s + ' · The Fragments' : pick.s);
+        }
+        schedule();
+      }
+
+      function render(idx, pushHistory, announce){
+        if(!hq || !qs || !heroQuotes[idx]) return;
+        if(pushHistory && currentIdx > -1) history.push(currentIdx);
+        currentIdx = idx;
+        clearRenderTimers();
+        qs.classList.remove('visible');
+        var pick = heroQuotes[idx];
+        /* Reduced motion drops the per-word travel — that is the part which
+           actually moves — but the quote still changes. The card crossfades
+           on opacity alone, which carries no direction to follow. */
+        var animate = !reduceMotion.matches;
+        hq.style.opacity = '0';
+        renderTimer = setTimeout(function(){
+          paintQuote(pick, animate, announce);
+        }, animate ? 260 : FADE_DELAY);
+      }
+
+      function schedule(){
+        clearTimeout(rotateTimer);
+        if(qs && qs.contains(document.activeElement)) return;
+        /* Automatic swaps stay silent; only explicit Previous/Next actions
+           update the live status. */
+        rotateTimer = setTimeout(function(){
+          render(randomIndex(currentIdx), true, false);
+        }, ROTATE_DELAY);
+      }
+
+      /* Keep the destination stable while its link has keyboard focus. */
+      if(qs){
+        qs.addEventListener('focusin', function(){ clearTimeout(rotateTimer); });
+        qs.addEventListener('focusout', function(){ setTimeout(schedule, 0); });
+      }
+
+      function showNav(){
+        if(!qNav) return;
+        qNav.classList.add('quote-nav-visible');
+        clearTimeout(navHideTimer);
+        navHideTimer = setTimeout(function(){ qNav.classList.remove('quote-nav-visible'); }, 2200);
+      }
+
+      if(prevBtn) prevBtn.addEventListener('click', function(e){
+        e.preventDefault(); e.stopPropagation(); showNav();
+        var previous = history.length ? history.pop() : randomIndex(currentIdx);
+        render(previous, false, true);
+      });
+
+      if(nextBtn) nextBtn.addEventListener('click', function(e){
+        e.preventDefault(); e.stopPropagation(); showNav();
+        render(randomIndex(currentIdx), true, true);
+      });
+
+      if(qCard) qCard.addEventListener('click', function(e){
+        if(e.target.closest('.quote-nav-btn, a')) return;
+        showNav();
+      });
+
+      // Hide quote nav when tapping outside the card (mobile)
+      document.addEventListener('touchstart', function(e){
+        if(!qNav || !qCard) return;
+        if(!qCard.contains(e.target)){
+          qNav.classList.remove('quote-nav-visible');
+          clearTimeout(navHideTimer);
+        }
+      });
+
+      if(hq) render(randomIndex(-1), false, false);
+    })();
+    </script>
+
+<script src="/js/astronomy.js?v=20260925-1"></script>
+<script>
+/* Tonight — the sky where the visitor's browser clock says they are. The
+   same city time-zone table resolves the site's sky theme, /twilight/ and
+   the window instruments. The sun and the moon come from js/astronomy.js
+   at once; the map, the planets and a star to look for need The Stars'
+   scripts, fetched only when the section comes near. An unknown zone keeps
+   its own clock and the theme's nominal equatorial fallback, and then only
+   the sun's times and the moon's phase are told: a map or a direction
+   would claim a place the page does not know. */
+(function(){
+  'use strict';
+  var section = document.getElementById('tonight');
+  if(!section || !window.OLAE_ASTRO) return;
+  var A = window.OLAE_ASTRO;
+  var $ = function(id){ return document.getElementById(id); };
+  var now = new Date();
+
+  var place = window.OLAE_SKY && window.OLAE_SKY.pickCity ? window.OLAE_SKY.pickCity() : null;
+  var LAT = place ? place.lat : 41.015;
+  var LNG = place ? place.lng : 28.979;
+  var TZ = place && place.tz ? place.tz : 'Europe/Istanbul';
+  var ZONE_NAMES = {
+    "": "",
+    "Europe/Istanbul":"İstanbul","Asia/Istanbul":"İstanbul","Turkey":"İstanbul",
+    "Europe/London":"London","GB":"London","Europe/Belfast":"London",
+    "Europe/Dublin":"Dublin",
+    "Europe/Lisbon":"Lisbon",
+    "Europe/Madrid":"Madrid",
+    "Europe/Paris":"Paris",
+    "Europe/Brussels":"Brussels",
+    "Europe/Amsterdam":"Amsterdam",
+    "Europe/Berlin":"Berlin",
+    "Europe/Zurich":"Zürich",
+    "Europe/Rome":"Rome",
+    "Europe/Vienna":"Vienna",
+    "Europe/Prague":"Prague",
+    "Europe/Budapest":"Budapest",
+    "Europe/Warsaw":"Warsaw",
+    "Europe/Belgrade":"Belgrade",
+    "Europe/Sofia":"Sofia",
+    "Europe/Bucharest":"Bucharest",
+    "Europe/Athens":"Athens",
+    "Europe/Copenhagen":"Copenhagen",
+    "Europe/Oslo":"Oslo",
+    "Europe/Stockholm":"Stockholm",
+    "Europe/Helsinki":"Helsinki",
+    "Europe/Kyiv":"Kyiv","Europe/Kiev":"Kyiv",
+    "Europe/Moscow":"Moscow",
+    "Asia/Jerusalem":"Jerusalem","Asia/Tel_Aviv":"Jerusalem","Israel":"Jerusalem",
+    "Asia/Beirut":"Beirut",
+    "Asia/Baghdad":"Baghdad",
+    "Asia/Tehran":"Tehran","Iran":"Tehran",
+    "Asia/Baku":"Baku",
+    "Asia/Tbilisi":"Tbilisi",
+    "Asia/Dubai":"Dubai",
+    "Asia/Riyadh":"Riyadh",
+    "Asia/Qatar":"Doha",
+    "Africa/Cairo":"Cairo","Egypt":"Cairo",
+    "Africa/Casablanca":"Casablanca",
+    "Africa/Lagos":"Lagos",
+    "Africa/Nairobi":"Nairobi",
+    "Africa/Johannesburg":"Johannesburg",
+    "Asia/Karachi":"Karachi",
+    "Asia/Kolkata":"Delhi","Asia/Calcutta":"Delhi",
+    "Asia/Dhaka":"Dhaka","Asia/Dacca":"Dhaka",
+    "Asia/Bangkok":"Bangkok",
+    "Asia/Ho_Chi_Minh":"Ho Chi Minh City","Asia/Saigon":"Ho Chi Minh City",
+    "Asia/Jakarta":"Jakarta",
+    "Asia/Singapore":"Singapore",
+    "Asia/Kuala_Lumpur":"Kuala Lumpur",
+    "Asia/Manila":"Manila",
+    "Asia/Hong_Kong":"Hong Kong",
+    "Asia/Shanghai":"Shanghai","Asia/Chongqing":"Shanghai","PRC":"Shanghai",
+    "Asia/Taipei":"Taipei",
+    "Asia/Seoul":"Seoul","ROK":"Seoul",
+    "Asia/Tokyo":"Tokyo","Japan":"Tokyo",
+    "Australia/Perth":"Perth",
+    "Australia/Brisbane":"Brisbane",
+    "Australia/Adelaide":"Adelaide",
+    "Australia/Melbourne":"Melbourne",
+    "Australia/Sydney":"Sydney",
+    "Pacific/Auckland":"Auckland",
+    "Pacific/Honolulu":"Honolulu",
+    "America/Anchorage":"Anchorage",
+    "America/Vancouver":"Vancouver",
+    "America/Los_Angeles":"Los Angeles",
+    "America/Phoenix":"Phoenix",
+    "America/Denver":"Denver",
+    "America/Mexico_City":"Mexico City",
+    "America/Chicago":"Chicago",
+    "America/New_York":"New York",
+    "America/Toronto":"Toronto",
+    "America/Halifax":"Halifax",
+    "America/Bogota":"Bogotá",
+    "America/Lima":"Lima",
+    "America/Santiago":"Santiago",
+    "America/Argentina/Buenos_Aires":"Buenos Aires","America/Buenos_Aires":"Buenos Aires",
+    "America/Sao_Paulo":"São Paulo","Brazil/East":"São Paulo",
+  };
+  var placeName = Object.prototype.hasOwnProperty.call(ZONE_NAMES, TZ) ? ZONE_NAMES[TZ] : "";
+  var fmtTime = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: TZ });
+
+  /* The sun's next event: this morning's rise, this evening's set, or
+     tomorrow's rise once it has set. */
+  function sunEvent(dayShift, rising){
+    var s = new Date(now.getTime() + A.tzOffsetMs(TZ, now) + dayShift * 86400000);
+    var y = s.getUTCFullYear(), mo = s.getUTCMonth(), d = s.getUTCDate();
+    var n = Math.floor((Date.UTC(y, mo, d) - Date.UTC(y, 0, 0)) / 86400000);
+    return A.sunEvent({ n: n, y: y, mo: mo, d: d }, rising, 90.833, LAT, LNG, TZ);
+  }
+  var rise = sunEvent(0, true), set = sunEvent(0, false), next = null;
+  if(rise && now < rise) next = 'rises at ' + fmtTime.format(rise);
+  else if(set && now < set) next = 'sets at ' + fmtTime.format(set);
+  else { var tomorrow = sunEvent(1, true); if(tomorrow) next = 'rises at ' + fmtTime.format(tomorrow); }
+  if(next) $('tonight-sun').textContent = next; else $('tonight-sun-row').remove();
+
+  var lun = A.lunation(now);
+  var age = (lun - Math.floor(lun)) * A.SYNODIC;
+  var illum = Math.round((1 - Math.cos(2 * Math.PI * age / A.SYNODIC)) / 2 * 100);
+  var names = ['new moon', 'waxing crescent', 'first quarter', 'waxing gibbous', 'full moon', 'waning gibbous', 'last quarter', 'waning crescent'];
+  var moon = names[A.moonPhaseIndex(age)] + ', ' + illum + '% lit';
+  if(placeName){
+    var up = A.moonAltitude(now, LAT, LNG) > A.MOON_HORIZON;
+    var crossing = A.moonCrossing(now, LAT, LNG);
+    if(crossing) moon += '; ' + (up ? 'sets' : 'rises') + ' at ' + fmtTime.format(crossing);
+  }
+  $('tonight-moon').textContent = moon;
+  $('tonight-meta').textContent = placeName ? 'The sky over ' + placeName : 'Times for your time zone';
+  section.hidden = false;
+  if(!placeName) return;
+
+  /* The moment the map shows: now, if it is already dark; otherwise the
+     next time the sun is 12° down, when the bright stars are out; and in a
+     summer that never gets that dark, the darkest moment of the night. */
+  function moment(){
+    var alt = function(d){ return A.sunAltitude(d, LAT, LNG); };
+    if(alt(now) <= -12) return { at: now, words: 'now' };
+    var lowest = null;
+    for(var m = 10; m <= 1440; m += 10){
+      var d = new Date(now.getTime() + m * 60000), a = alt(d);
+      if(a <= -12) return { at: new Date(Math.round(d.getTime() / 300000) * 300000), words: 'after dark, ' };
+      if(!lowest || a < lowest.a) lowest = { d: d, a: a };
+    }
+    return { at: new Date(Math.round(lowest.d.getTime() / 300000) * 300000), words: 'at ' };
+  }
+  function draw(){
+    var M = window.OLAE_SKYMAP, when = moment();
+    var label = when.words === 'now' ? 'now' : when.words + fmtTime.format(when.at);
+    var s = M.sky(when.at, LAT, LNG);
+    var map = $('tonight-map');
+    M.draw(map, s, { fs: 30, k: 2, starLabels: 3, names: [], inside: true, title: 'The sky over ' + placeName + ', ' + label });
+    map.setAttribute('aria-label', 'The sky over ' + placeName + ', ' + label + ': ' + s.visible.length + ' stars' + (s.moon.alt > 0 ? ', the moon' : '') + ' and ' + s.planets.length + ' planets above the horizon');
+    $('tonight-meta').textContent = 'The sky over ' + placeName + ' · ' + label;
+    var planets = s.planets.filter(function(p){ return p.alt > 5; }).slice(0, 2);
+    if(planets.length){
+      $('tonight-planets').textContent = planets.map(function(p){ return p.body + ' ' + M.where(p.alt, p.az); }).join(', ');
+      $('tonight-planets-row').hidden = false;
+    }
+    var look = M.constellations(s, 6).filter(function(c){ return c.named; })[0];
+    if(look){
+      $('tonight-look').textContent = look.star + ', in ' + look.name + ', ' + M.where(look.alt, look.az);
+      $('tonight-look-row').hidden = false;
+    }
+    $('tonight-map-link').hidden = false;
+  }
+  var SCRIPTS = {"engine":"/js/vendor/astronomy-engine-2.1.19.min.js","stars":"/js/bright-stars.js?v=20261007-2","map":"/js/sky-map.js?v=20261007-2"}, started = false;
+  function start(){
+    if(started) return;
+    started = true;
+    [SCRIPTS.engine, SCRIPTS.stars, SCRIPTS.map].reduce(function(chain, src){
+      return chain.then(function(){
+        return new Promise(function(resolve, reject){
+          var script = document.createElement('script');
+          script.src = src; script.onload = resolve; script.onerror = reject;
+          document.head.appendChild(script);
+        });
+      });
+    }, Promise.resolve()).then(draw).catch(function(){});
+  }
+  if('IntersectionObserver' in window){
+    var watch = new IntersectionObserver(function(entries){
+      if(entries.some(function(e){ return e.isIntersecting; })){ watch.disconnect(); start(); }
+    }, { rootMargin: '600px 0px' });
+    watch.observe(section);
+  } else start();
+})();
+</script>
+
+
+
+<script src="/js/search-suggest.js?v=20261023-1" defer></script>
+<script>
+/* Enable CSS smooth scrolling only after the browser has completed its
+   initial scroll restoration. Applying scroll-behavior: smooth to the root
+   at load time made reloads (and pressing Enter in the address bar) animate
+   the restoration, sliding the page up by about one screen. */
+(function () {
+  var enable = function () {
+    document.documentElement.classList.add('smooth-scroll');
+  };
+  if (document.readyState === 'complete') {
+    requestAnimationFrame(enable);
+  } else {
+    window.addEventListener('load', function () { requestAnimationFrame(enable); });
+  }
+})();
+</script>
+<script data-goatcounter="https://hakanaltun.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<script data-dash-copy>document.addEventListener("copy",function(){var a=document.activeElement;if(a&&(/^(INPUT|TEXTAREA)$/.test(a.tagName)||a.isContentEditable))return;var s=window.getSelection(),taken=[];if(!s.rangeCount||String(s).indexOf("\u2060")<0)return;for(var i=0;i<s.rangeCount;i++){var r=s.getRangeAt(i),c=r.commonAncestorContainer,w=document.createTreeWalker(c.nodeType===3?c.parentNode:c,4),n;while((n=w.nextNode()))if(r.intersectsNode(n))for(var k=n.data.lastIndexOf("\u2060");k>=0;k=k?n.data.lastIndexOf("\u2060",k-1):-1){n.deleteData(k,1);taken.push([n,k]);}}setTimeout(function(){for(var j=taken.length-1;j>=0;j--)taken[j][0].insertData(taken[j][1],"\u2060");},0);});</script></body></html>

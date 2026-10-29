@@ -1,0 +1,35 @@
+
+> olae-site-checks@1.0.0 test
+> node scripts/test-pdfjs.mjs && node scripts/test-reader-pdf.cjs && node scripts/test-reader-markdown.cjs && node scripts/test-let-it-snow.cjs && node scripts/test-rain-read.cjs && node scripts/test-puzzle-mode.cjs && node scripts/test-guess-word.cjs && node scripts/test-book-compress.cjs && node scripts/test-desk-embed.cjs && node scripts/test-desk.cjs && node scripts/test-tool-notes.cjs && node scripts/test-instrument-safety.cjs && node scripts/test-service-worker.cjs && node scripts/test-reading.cjs && node scripts/test-pictures.cjs && node scripts/test-space.cjs && node scripts/test-hover.cjs && node scripts/test-site-search.cjs && node scripts/test-search-suggest.cjs && node scripts/test-trivia.cjs && node scripts/test-content.cjs && node scripts/test-house-weather.cjs && node scripts/test-house.cjs && node scripts/test-instrument-drawer.cjs && node scripts/test-house-sound.cjs && node scripts/test-book-resume.cjs && node scripts/test-farm-sound.cjs && node scripts/test-window-sky.cjs && node scripts/test-strip-css.cjs && node scripts/test-strip-js.cjs && node scripts/test-asset-versions.cjs && node scripts/test-site-worker.mjs
+
+Warning: Cannot load "@napi-rs/canvas" package: "Error: Cannot find module '@napi-rs/canvas'
+Require stack:
+- /home/runner/work/hakaanaltun.github.io/hakaanaltun.github.io/js/vendor/pdfjs/build/pdf.mjs".
+Warning: UnknownErrorException: Ensure that the `standardFontDataUrl` API parameter is provided.
+Warning: Indexing all PDF objects
+Pinned PDF.js: real PDF text and malformed-file checks passed
+PDF controls, touch arrows, reading footer, reveal/hide timer, keyboard, rendering, bookmarks, zoomed sideways scrolling and PDF → TXT race: passed
+Markdown checks passed: formatting, heading links, safe DOM, file routing, preserved reading, TXT and Desk bookmarks.
+Weather checks passed: three-stage cycles, one shared sky for the footer and the essays, preserved snow, drift that covers the page and is wiped to the depth of the hand along a whole stroke by mouse or by finger, several fingers at once, a page that still scrolls under heavy snow, snow banked into berms rather than deleted, cut walls that stand and fill in, rain/splash limits, a wipe that fogs and clears, exclusive switching, mobile bounds, reduced motion, unbroken heavy rain, free scrolling and cleanup.
+Read with rain passed: one button for the sound and the sky, two weights that agree, a silent footer droplet that the sound follows, rain joined at the weight already falling, and sound without a picture where there is none.
+Puzzle mode checks passed: three scopes, isolated sentence boards, placement visibility with actual CSS, mode switching, comparison, tap/drag/swap/return, Escape, rail controls, opening from the foot at the head of the prose, and exact restoration.
+guess-word: ok
+book-compress: ok
+Desk embed checks passed: separate hooks, retained save guard, pane lifecycle, theme, an instrument's own light, a bare top bar folded and embedding boundaries.
+Desk checks passed: every instrument on its shelf and beside itself, the same instrument on both sides, second instances with their own keys, returning to an instance put away, swapping, and layouts kept before.
+Tool notes checks passed: on every instrument the notes wait folded, open and fold from "notes & questions", open from a link, and leave in full screen; a Reader in a pane scrolls only itself.
+Instrument safety checks passed: storage failure/recovery, bounded ZIP decoding, clipboard failure, calendar edge cases.
+Service worker checks passed: precache contents fetched fresh, PDF.js cached on use not on install, offline reuse, retired offline copies cleared, pass-through and ?v= keying.
+Reading checks passed: the original untouched until a choice, choices kept and cleared, blocked and malformed storage, Escape, other tabs, rain under the title, the size sample, the printed head and colophon, and drawer backup recovery with notes.
+Picture checks passed: sourced fallback reading, optional hints and full screen, native and window exits, rejected fullscreen requests, whole-sheet fit, retained hint choice, remembered places to look, page position and return focus, every sourced detail and named crop opened at the top, story history, exploration help, full screen and places carried between pictures, Sun redirect and the two watercolor cards, homepage accent rhythm, and the voices of the theme previews.
+Passed: every footer destination arrives close; long routes in both directions at desktop, portrait and landscape sizes; original forward perspective without a wide retreat; one history entry per journey; retarget, skip, resize and reduced motion on long routes.
+Passed: 74 scenes, all fourteen wide views at eight sizes, measured caption clearance, 65 sourced field notes the same in the reading version, reversible route and endpoint boundaries, fixed global geometry, direct globe/zoom controls, continuous region travel, distinct reversible curved routes, rapid retarget/reverse, skip, browser Back/Forward, decode failure/stale load, native detail arrival/retry, resize, alternate observations, keyboard routing and asset paths.
+hover: 41 pages with pictures, no picture dims when chosen; 217 stylesheets, no line drawn under a pointer and nothing but a dim
+Site search: generated index, ranking, text matches, Turkish letters, pasted dash joiners, safe output, retry and no visit counter on the search page passed.
+Search suggestions passed: Enter always searches, actions require the separate button, all fields offer suggestions, narrow offers wrap, and the farm is offered only in The House.
+test-trivia: ok
+Content checks found 2 problems:
+
+  _site/word/jovial/index.html: link to /pictures/space/?from=word&back=%2Fword%2Fjovial%2F#scene-jovian, but that page has no #scene-jovian
+  _site/word/saturnine/index.html: link to /pictures/space/?from=word&back=%2Fword%2Fsaturnine%2F#scene-saturnian, but that page has no #scene-saturnian
+npm test failed with 1

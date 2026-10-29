@@ -1,0 +1,688 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>The Farm House</title>
+  <link rel="stylesheet" href="/css/fonts.css?v=20261023-1">
+  <style>
+    :root{--paper:#eeeae0;--ink:#373b32;--quiet:#676b5e;--line:#c9cabc;--olive:#58634c;--serif:'EB Garamond',Georgia,serif;--display:'Cormorant Garamond',Georgia,serif;--sans:Arial,Helvetica,sans-serif}
+    *{box-sizing:border-box} [hidden]{display:none!important}
+    html{min-height:100%;background:var(--paper)}
+    body{margin:0;color:var(--ink);font-family:var(--serif);-webkit-font-smoothing:antialiased}
+    button{font:inherit;color:inherit;cursor:pointer}button:disabled{cursor:default}
+    button:focus-visible{outline:2px solid var(--olive);outline-offset:6px}
+    .shell{min-height:100svh;display:flex;flex-direction:column;padding:0 36px}
+    .masthead{height:88px;display:flex;align-items:center;justify-content:space-between;gap:20px;max-width:1440px;width:100%;margin:auto}
+    .brand{background:none;border:0;padding:8px 0;font-size:21px;letter-spacing:.02em;text-align:left}
+    .mast-right{display:flex;align-items:center;gap:28px}
+    .location{font:10px var(--sans);text-transform:uppercase;letter-spacing:.19em;color:var(--quiet)}
+    .text-button{border:0;background:none;padding:7px 0;font:12px var(--sans);color:var(--quiet);transition:opacity .2s ease}
+    /* A pointer dims what it is over, as everywhere on the site. The
+       photograph and the places in the pictures keep their own answer. */
+    :where(a[href],button){transition:opacity .2s ease}
+    :is(a[href],button:not(:disabled)):not(.photograph,.hotspot):is(:hover,:active){opacity:.78}
+    @media (prefers-contrast:more){:is(a[href],button:not(:disabled)):not(.photograph,.hotspot):is(:hover,:active){opacity:.95}}
+    main{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:0}
+    .intro{width:100%;display:flex;flex-direction:column;align-items:center;text-align:center;padding:22px 0 38px}
+    .eyebrow{font:10px var(--sans);text-transform:uppercase;letter-spacing:.24em;color:var(--quiet);margin:0 0 22px}
+    h1{font-family:var(--display);font-weight:400;font-size:clamp(40px,5.5vw,62px);line-height:1.1;margin:0 0 29px}
+    .photograph{display:block;width:min(470px,80vw);border:0;padding:11px 11px 39px;background:#f9f7ef;box-shadow:0 10px 25px #373b321c,0 1px 3px #373b3229;transform:rotate(-2deg);transition:transform .5s,box-shadow .5s;position:relative}
+    .photograph:hover,.photograph:focus-visible{transform:rotate(0);box-shadow:0 16px 28px #373b3229}
+    .photograph img{display:block;width:100%;height:auto}
+    .photo-inscription{position:absolute;bottom:12px;left:15px;right:15px;font-size:13px;font-style:italic;color:#686d5e}
+    .intro-copy{font-size:17px;line-height:1.65;margin:35px 0 16px;max-width:330px}
+    .begin{font:11px var(--sans);letter-spacing:.1em;text-transform:uppercase;border:0;border-bottom:1px solid #a6ac99;background:none;padding:10px 0}
+    .visit{width:100%;max-width:1440px;padding:0 0 12px}
+    .frame{width:min(100%,max(300px,calc((100svh - var(--frame-room,250px))*1.5)));margin:auto;position:relative;background:#454737;isolation:isolate;aspect-ratio:3/2;box-shadow:0 5px 28px #3d423212;overflow:hidden}
+    .scene-img{display:block;width:100%;height:100%;object-fit:contain;position:absolute;inset:0;user-select:none}
+    /* The previous watercolor waits above the next until the new image
+       loads, then fades away without exposing the dark frame between them. */
+    .scene-img.scene-outgoing{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;opacity:1;transition:opacity .58s cubic-bezier(.4,0,.2,1)}
+    .scene-img.scene-outgoing.is-fading{opacity:0}
+    .hotspots{position:absolute;inset:0;z-index:2}
+    .hotspot{position:absolute;border:0;background:transparent;padding:0;min-width:44px;min-height:44px;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent}
+    .hotspot-label{position:absolute;left:var(--label-x,50%);top:var(--label-y,50%);white-space:nowrap;opacity:0;transform:translate(-50%,-50%);transition:opacity .2s;padding:6px 9px;background:rgb(244 240 231 / 95%);color:#353c2e;font:11px var(--sans);border-radius:2px;pointer-events:none}
+    .hotspot:focus-visible .hotspot-label,.show-places .hotspot-label{opacity:1;pointer-events:auto}
+    @media(hover:hover){.hotspot:hover .hotspot-label{opacity:1;pointer-events:auto}}
+    .hotspot-number,.place-number{display:none}
+    .hotspot:focus-visible{outline-color:#faf8ed;outline-offset:-4px}
+    .scene-under{max-width:960px;min-height:92px;margin:auto;padding:22px 0 6px;text-align:center}
+    .scene-caption{font-size:18px;line-height:1.5;margin:0;min-height:27px}
+    .scene-controls{display:flex;justify-content:space-between;align-items:center;gap:24px;margin-top:15px}
+    .scene-controls .text-button{font-size:11px}
+    .scene-number{font:10px var(--sans);letter-spacing:.16em;color:var(--quiet)}
+    .horse-list{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 22px;margin:14px 0 0;padding:0;list-style:none}
+    .horse-list button{min-height:44px}
+    .horse-list:not(.has-horses),.horse-list li:not([data-horse]){display:none}
+    .visit:has(.horse-list.has-horses){--frame-room:308px}
+    @media(max-width:860px){
+      .hotspot-label{width:max-content;max-width:76px;white-space:normal;text-align:center;line-height:1.2;padding:5px 6px;box-sizing:border-box}
+      .hotspot[data-horse] .hotspot-label{max-width:64px}
+      .hotspot[data-object="stable-door"] .hotspot-label{margin-top:-8px}
+      .visit.show-places .horse-list{display:flex;gap:2px 20px}
+      .visit.show-places .horse-list li{display:block}
+    }
+    .footer{max-width:1440px;width:100%;margin:0 auto;display:flex;justify-content:space-between;gap:20px;padding:18px 0 22px;font:10px var(--sans);letter-spacing:.1em;color:var(--quiet)}
+    .footer button,.footer a{font:inherit;color:inherit;background:none;border:0;padding:0;letter-spacing:inherit;text-decoration:underline;text-underline-offset:4px}
+    .footer .sound-toggle{font:italic 13px/1 var(--serif);letter-spacing:.02em;text-decoration:none;padding:3px 6px;margin:-3px 0;transition:color .2s,opacity .2s}
+    .footer .sound-toggle[aria-pressed="true"]{color:var(--olive)}
+    .object-dialog{margin:auto;border:0;padding:0;width:min(800px,calc(100vw - 40px));max-height:calc(100svh - 50px);background:var(--paper);color:var(--ink);box-shadow:0 20px 100px #14190f60;overflow:auto}
+    .object-dialog::backdrop{background:#151d1bd6;backdrop-filter:blur(4px)}
+    .detail-layout{display:grid;grid-template-columns:43% 57%;min-height:350px}
+    .detail-image{background-position:var(--detail-position,center);background-size:var(--detail-zoom,cover);background-repeat:no-repeat;min-height:270px}
+    .detail-text{padding:50px 36px 38px;position:relative;display:flex;flex-direction:column;justify-content:center}
+    .close{position:absolute;top:14px;right:15px;width:36px;height:36px;border:0;background:none;font:24px var(--sans);color:var(--quiet)}
+    .detail-text .eyebrow{margin-bottom:17px;font-size:9px}
+    h2{font-family:var(--display);font-size:30px;line-height:1.15;font-weight:400;margin:0 0 23px}
+    .detail-body p{font-size:18px;line-height:1.6;margin:0 0 16px}
+    .detail-actions{display:flex;flex-wrap:wrap;gap:12px 25px;align-items:center;margin-top:8px}
+    .detail-actions button,.detail-actions a{font:11px var(--sans);letter-spacing:.03em;background:none;border:0;border-bottom:1px solid #929c84;padding:9px 0;text-align:left}
+    .detail-actions a{color:var(--quiet);text-decoration:none}
+    .detail-actions a:focus-visible{outline:2px solid var(--olive);outline-offset:6px}
+    .detail-actions button.secondary{border-bottom-color:transparent;color:var(--quiet)}
+    .letter-view .detail-layout{grid-template-columns:1fr}.letter-view .detail-image{display:none}
+    .letter-view .detail-text{padding:60px 70px 48px}.letter-view{max-width:620px}
+    .letter-view .detail-body{max-width:420px}
+    .ending{width:100%;max-width:820px;text-align:center;padding:32px 0 50px}
+    .ending-photo{width:min(680px,86vw);padding:9px 9px 31px;background:#f9f7ef;box-shadow:0 4px 18px #373b3220;transform:rotate(1deg);margin:0 auto 40px}
+    .ending-photo img{display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:cover}
+    .ending h1{font-size:39px;margin-bottom:25px}.ending p{font-size:19px;line-height:1.7;margin:0 auto 28px;max-width:430px}
+    .ending .text-button{margin-left:28px}
+    .about{padding:55px 45px 38px;max-width:520px}.about p{font:15px/1.7 var(--sans)}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    @media(max-width:650px){.shell{padding:0 17px}.masthead{height:72px}.brand{font-size:17px}.mast-right{gap:16px}.location{font-size:9px;letter-spacing:.12em}.intro{padding:25px 0 32px}.intro h1{margin-bottom:34px}.intro-copy{font-size:17px;margin-top:35px}.frame{width:100%;overflow:visible}.scene-img{position:relative}.scene-caption{font-size:17px;padding:0 9px}.scene-under{padding-top:26px;min-height:145px}.visit{padding:20px 0}.scene-controls{gap:14px;margin-top:20px}.detail-layout{grid-template-columns:1fr}.detail-image{min-height:200px;max-height:230px;background-position:var(--detail-mobile-position,var(--detail-position,center));background-size:var(--detail-mobile-zoom,var(--detail-zoom,cover))}.detail-text{padding:34px 27px 30px}.detail-text .eyebrow{margin-bottom:12px}.close{background:var(--paper);border-radius:50%;z-index:2}.letter-view .detail-text{padding:55px 29px 32px}.footer{font-size:9px;line-height:1.5}.ending h1{font-size:34px}.ending p{font-size:18px}.about{padding:50px 27px 30px}}
+    @media(min-width:651px) and (max-height:819px){.intro{padding:6px 0 16px}.intro .eyebrow{margin-bottom:14px}.intro h1{font-size:clamp(36px,5vw,46px);margin-bottom:20px}.intro-copy{line-height:1.5;margin:22px 0 10px}.photograph{width:min(470px,80vw,max(260px,calc((100svh - 428px)*1.5 + 22px)))}}
+    @media(min-width:651px) and (max-height:999px){.ending{padding:14px 0 24px}.ending-photo{width:min(680px,86vw,max(260px,calc((100svh - 462px)*1.5 + 18px)));margin-bottom:24px}.ending .eyebrow{margin-bottom:14px}.ending h1{font-size:34px;margin-bottom:16px}.ending p{margin-bottom:20px}}
+    @media(prefers-reduced-motion:reduce){*,*::before{animation:none!important;transition:none!important}}
+    @media(max-width:450px){.brand{white-space:nowrap}.mast-right .location{display:none}.mast-right .text-button{white-space:nowrap}.masthead{gap:12px}}
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="masthead">
+      <button class="brand" id="home" aria-label="Return to the picture">The Farm House</button>
+      <div class="mast-right"><span class="location" id="location">A first visit</span><button class="text-button" id="leave" hidden>Leave the Farm House</button></div>
+    </header>
+    <main>
+      <section class="intro" id="intro" aria-labelledby="intro-title">
+        <p class="eyebrow">From The House</p>
+        <h1 id="intro-title" tabindex="-1">The Farm House</h1>
+        <button class="photograph" id="photo" aria-label="Enter the picture of the farm house">
+          <img src="assets/exterior-watercolor.webp?v=20261001-loose" width="1536" height="1024" alt="A watercolor view of a cared-for two-story farmhouse, with flowers on the veranda and a path through a green garden.">
+          <span class="photo-inscription">The house in summer.</span>
+        </button>
+        <p class="intro-copy">The family still comes here in summer.<br>Today, no one is home.</p>
+        <button class="begin" id="begin">Step inside the picture &nbsp;→</button>
+      </section>
+      <section class="visit" id="visit" aria-label="Explore the house" hidden>
+        <div class="frame" id="frame">
+          <img class="scene-img" id="scene-image" src="assets/exterior-watercolor.webp?v=20261001-loose" width="1536" height="1024" alt="">
+          <div class="hotspots" id="hotspots"></div>
+        </div>
+        <div class="scene-under">
+          <p class="scene-caption" id="caption" tabindex="-1" aria-live="polite"></p>
+          <ul class="horse-list" id="horse-list" aria-label="Places to explore"></ul>
+          <div class="scene-controls">
+            <button class="text-button" id="back">← The picture</button>
+            <span class="scene-number" id="scene-name"></span>
+            <button class="text-button" id="places" aria-pressed="false">Show places to look</button>
+          </div>
+        </div>
+      </section>
+      <section class="ending" id="ending" hidden aria-labelledby="ending-title">
+        <div class="ending-photo"><img src="assets/upstairs-watercolor.webp?v=20261001-loose" width="1536" height="1024" loading="lazy" alt="A watercolor of the upstairs room, with her bed beside the window."></div>
+        <p class="eyebrow">After the visit</p>
+        <h1 id="ending-title" tabindex="-1">The upstairs room.</h1>
+        <p>Everyone who came to the house<br>went upstairs before they left.</p>
+        <button class="begin" id="return-room">Stay a little longer &nbsp;→</button>
+        <button class="text-button" id="return-photo">The picture</button>
+      </section>
+    </main>
+    <footer class="footer"><a href="/house/#study">← the study</a><button type="button" class="sound-toggle" id="farm-sound" aria-pressed="false" hidden>listen to the farm</button><button id="about-button">How to explore</button></footer>
+  </div>
+  <dialog class="object-dialog" id="detail" aria-labelledby="detail-title">
+    <div class="detail-layout">
+      <div class="detail-image" id="detail-image" role="img" aria-label=""></div>
+      <article class="detail-text">
+        <button class="close" id="close-detail" aria-label="Close and return to the room">×</button>
+        <p class="eyebrow" id="detail-kicker"></p>
+        <h2 id="detail-title" tabindex="-1"></h2>
+        <div class="detail-body" id="detail-body"></div>
+        <div class="detail-actions" id="detail-actions"></div>
+      </article>
+    </div>
+  </dialog>
+  <dialog class="object-dialog about" id="about" aria-labelledby="about-title">
+    <button class="close" id="close-about" aria-label="Close">×</button>
+    <p class="eyebrow">The Farm House</p>
+    <h2 id="about-title">Explore the house.</h2>
+    <p>Click an object to look more closely. Move over an object to see its label. Use “Show places to look” to keep all the labels visible. On a phone, you can also use the names below the picture. Use Tab and Enter for keyboard access; Escape closes a detail.</p>
+  </dialog>
+  <noscript><p>This visit needs JavaScript to move between rooms.</p></noscript>
+  
+<script>
+(function(){
+  "use strict";
+  /* zone → [latitude, longitude], rendered from _data/cities.yml, which
+     /twilight/ reads too. A tenth of a degree is finer than this needs:
+     the answer only has to land the sun in the right part of its arc. */
+  var ZONES = {
+    "": null,   /* a browser that reports no zone has found none; standing
+                   first, it also lets every generated line end in a comma */
+    "Europe/Istanbul":[41.0,29.0],"Asia/Istanbul":[41.0,29.0],"Turkey":[41.0,29.0],
+    "Europe/London":[51.5,-0.1],"GB":[51.5,-0.1],"Europe/Belfast":[51.5,-0.1],
+    "Europe/Dublin":[53.4,-6.3],
+    "Europe/Lisbon":[38.7,-9.1],
+    "Europe/Madrid":[40.4,-3.7],
+    "Europe/Paris":[48.9,2.4],
+    "Europe/Brussels":[50.9,4.4],
+    "Europe/Amsterdam":[52.4,4.9],
+    "Europe/Berlin":[52.5,13.4],
+    "Europe/Zurich":[47.4,8.5],
+    "Europe/Rome":[41.9,12.5],
+    "Europe/Vienna":[48.2,16.4],
+    "Europe/Prague":[50.1,14.4],
+    "Europe/Budapest":[47.5,19.0],
+    "Europe/Warsaw":[52.2,21.0],
+    "Europe/Belgrade":[44.8,20.4],
+    "Europe/Sofia":[42.7,23.3],
+    "Europe/Bucharest":[44.4,26.1],
+    "Europe/Athens":[38.0,23.7],
+    "Europe/Copenhagen":[55.7,12.6],
+    "Europe/Oslo":[59.9,10.8],
+    "Europe/Stockholm":[59.3,18.1],
+    "Europe/Helsinki":[60.2,24.9],
+    "Europe/Kyiv":[50.5,30.5],"Europe/Kiev":[50.5,30.5],
+    "Europe/Moscow":[55.8,37.6],
+    "Asia/Jerusalem":[31.8,35.2],"Asia/Tel_Aviv":[31.8,35.2],"Israel":[31.8,35.2],
+    "Asia/Beirut":[33.9,35.5],
+    "Asia/Baghdad":[33.3,44.4],
+    "Asia/Tehran":[35.7,51.4],"Iran":[35.7,51.4],
+    "Asia/Baku":[40.4,49.9],
+    "Asia/Tbilisi":[41.7,44.8],
+    "Asia/Dubai":[25.2,55.3],
+    "Asia/Riyadh":[24.7,46.7],
+    "Asia/Qatar":[25.3,51.5],
+    "Africa/Cairo":[30.0,31.2],"Egypt":[30.0,31.2],
+    "Africa/Casablanca":[33.6,-7.6],
+    "Africa/Lagos":[6.5,3.4],
+    "Africa/Nairobi":[-1.3,36.8],
+    "Africa/Johannesburg":[-26.2,28.0],
+    "Asia/Karachi":[24.9,67.0],
+    "Asia/Kolkata":[28.6,77.2],"Asia/Calcutta":[28.6,77.2],
+    "Asia/Dhaka":[23.8,90.4],"Asia/Dacca":[23.8,90.4],
+    "Asia/Bangkok":[13.8,100.5],
+    "Asia/Ho_Chi_Minh":[10.8,106.6],"Asia/Saigon":[10.8,106.6],
+    "Asia/Jakarta":[-6.2,106.8],
+    "Asia/Singapore":[1.4,103.8],
+    "Asia/Kuala_Lumpur":[3.1,101.7],
+    "Asia/Manila":[14.6,121.0],
+    "Asia/Hong_Kong":[22.3,114.2],
+    "Asia/Shanghai":[31.2,121.5],"Asia/Chongqing":[31.2,121.5],"PRC":[31.2,121.5],
+    "Asia/Taipei":[25.0,121.6],
+    "Asia/Seoul":[37.6,127.0],"ROK":[37.6,127.0],
+    "Asia/Tokyo":[35.7,139.7],"Japan":[35.7,139.7],
+    "Australia/Perth":[-32.0,115.9],
+    "Australia/Brisbane":[-27.5,153.0],
+    "Australia/Adelaide":[-34.9,138.6],
+    "Australia/Melbourne":[-37.8,145.0],
+    "Australia/Sydney":[-33.9,151.2],
+    "Pacific/Auckland":[-36.8,174.8],
+    "Pacific/Honolulu":[21.3,-157.9],
+    "America/Anchorage":[61.2,-149.9],
+    "America/Vancouver":[49.3,-123.1],
+    "America/Los_Angeles":[34.1,-118.2],
+    "America/Phoenix":[33.4,-112.1],
+    "America/Denver":[39.7,-105.0],
+    "America/Mexico_City":[19.4,-99.1],
+    "America/Chicago":[41.9,-87.6],
+    "America/New_York":[40.7,-74.0],
+    "America/Toronto":[43.7,-79.4],
+    "America/Halifax":[44.6,-63.6],
+    "America/Bogota":[4.7,-74.1],
+    "America/Lima":[-12.0,-77.0],
+    "America/Santiago":[-33.4,-70.7],
+    "America/Argentina/Buenos_Aires":[-34.6,-58.4],"America/Buenos_Aires":[-34.6,-58.4],
+    "America/Sao_Paulo":[-23.6,-46.6],"Brazil/East":[-23.6,-46.6],
+  };
+  function pickCity(){
+    var tz = "";
+    try{ tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ""; }catch(e){}
+    var z = ZONES[tz];
+    if(z) return { lat: z[0], lng: z[1], tz: tz };
+    /* Unknown zone: use a nominal equatorial day aligned with the device's
+       current UTC offset. This gives roughly 06:00 dawn and 18:00 sunset
+       locally, without claiming to know the visitor's latitude. Fractional
+       offsets and daylight saving are included in getTimezoneOffset(). */
+    return { lat: 0, lng: -new Date().getTimezoneOffset() / 4, tz: tz };
+  }
+  var CREAM = [237,228,207], DAYINK = [255,252,245];
+  var STOPS = [   /* [altitude°, [r,g,b], inkMix 0..1] */
+    [-30, [ 12, 16, 24], 0],
+    [-18, [ 14, 19, 29], 0],
+    [-12, [ 23, 32, 48], 0],
+    [ -6, [ 44, 58, 82], 0],
+    [ -2, [ 78, 73, 92], 0.6],
+    [  0, [ 86, 78, 98], 1]
+  ];
+  function lerp(a, b, f){ return a + (b - a) * f; }
+  function skyAt(alt){
+    if(alt <= STOPS[0][0]) return STOPS[0];
+    for(var i = 1; i < STOPS.length; i++){
+      if(alt <= STOPS[i][0]){
+        var lo = STOPS[i-1], hi = STOPS[i];
+        var f = (alt - lo[0]) / (hi[0] - lo[0]);
+        return [alt,
+          [ Math.round(lerp(lo[1][0], hi[1][0], f)),
+            Math.round(lerp(lo[1][1], hi[1][1], f)),
+            Math.round(lerp(lo[1][2], hi[1][2], f)) ],
+          lerp(lo[2], hi[2], f)];
+      }
+    }
+    return STOPS[STOPS.length - 1];
+  }
+  /* The sun's altitude at which the day begins and ends. */
+  var SUNRISE = 0;
+  /* The night is the ramp from here down: at sunset the page is already
+     the navy the ramp reaches at -6°, not the violet above it. */
+  var NIGHT_TOP = -6;
+  /* The day's paper: white, with its ink, rules and band, the same from
+     sunrise to sunset. secL is how dark the sections' accents print on
+     it. The chrome is the one thing that moves: CHROME_DAWN at sunrise,
+     light enough to be a slate and dark enough for white words in the
+     menu (5:1), to CHROME_DUSK at sunset, a step off the night's header. */
+  var DAY = { paper:"#FFFFFF", surface:"#F6F8F9", band:"#F3F5F6", ink:"#242F38", inkSoft:"#35444E",
+              vizon:"#576976", stripInk:"#4C5E6B", rule:"#E9ECED", ruleStrong:"#D0D5D9",
+              ruleCream:"#D5DCDF", secL:0.492 };
+  var CHROME_DAWN = [86, 99, 111], CHROME_DUSK = [40, 52, 68];
+  function hex(h){
+    return [parseInt(h.slice(1, 3), 16), parseInt(h.slice(3, 5), 16), parseInt(h.slice(5, 7), 16)];
+  }
+  /* Every colour of the day, as [r,g,b], with secL. */
+  function dayAt(){
+    var d = {};
+    Object.keys(DAY).forEach(function(k){ d[k] = k === "secL" ? DAY[k] : hex(DAY[k]); });
+    return d;
+  }
+  /* The header's and footer's ground by day, `prog` of the way from
+     sunrise to sunset. */
+  function chromeAt(prog){
+    return mixChannels(CHROME_DAWN, CHROME_DUSK, Math.max(0, Math.min(1, prog || 0)));
+  }
+  /* The words of the header and footer, by day and by night: the yellow of
+     the site's name, all one tone, since a cool grey and then a duller
+     gold read as dull on the slate. On 25 October 2026 the author asked
+     for it to follow the sky: the full yellow (#F8EBC2) while the night is
+     at its darkest, white mixed into it as the sky opens, and the most at
+     noon, then back to the yellow as slowly. Later that day the author
+     set the amounts: none at the darkest of the night, 40% at sunrise and
+     sunset, and 70% at noon. By night the white rises with the sun from
+     -18°, where the ramp is at its darkest, to the horizon, and the
+     evening holds it up as the evening holds up the slate; by day it goes
+     along the arc. */
+  var WORDS = [248, 235, 194], WHITE = [255, 255, 255], HORIZON_WHITE = 0.40, NOON_WHITE = 0.70;
+  /* How far the night has opened, 0 at its darkest and 1 at the horizon. */
+  function nightOpen(sun){
+    return lerp(Math.max(0, Math.min(1, (sun.alt + 18) / 18)), 1, sun.eve || 0);
+  }
+  function wordsAt(sun){
+    var white = sun.alt >= SUNRISE ? lerp(HORIZON_WHITE, NOON_WHITE, sun.share)
+      : HORIZON_WHITE * nightOpen(sun);
+    return mixChannels(WORDS, WHITE, white);
+  }
+  /* The night at one altitude, in skyAt's shape: [altitude, ground, ink
+     mix]. Above NIGHT_TOP it is the ramp at NIGHT_TOP. */
+  function nightAt(alt){
+    return skyAt(Math.min(alt, NIGHT_TOP));
+  }
+  function mixChannels(a, b, f){
+    return [
+      Math.round(lerp(a[0], b[0], f)),
+      Math.round(lerp(a[1], b[1], f)),
+      Math.round(lerp(a[2], b[2], f))
+    ];
+  }
+  var RAD = Math.PI / 180;
+  /* Where the sun stands among the stars at `now`: its declination and
+     right ascension, with the day count the sidereal clock needs. */
+  function sunPlace(now){
+    var d = (now.getTime() / 86400000) - 10957.5;        /* days since J2000 */
+    var g = (357.529 + 0.98560028 * d) * RAD;
+    var q = 280.459 + 0.98564736 * d;
+    var L = (q + 1.915 * Math.sin(g) + 0.020 * Math.sin(2 * g)) * RAD;
+    var e = (23.439 - 0.00000036 * d) * RAD;
+    var sinDec = Math.sin(e) * Math.sin(L);
+    return { d: d, sinDec: sinDec, dec: Math.asin(sinDec),
+      RAh: (Math.atan2(Math.cos(e) * Math.sin(L), Math.cos(L)) / RAD) / 15 };
+  }
+  /* How far the sun has turned past the meridian of longitude `lng`, in
+     degrees: negative before noon, positive after, 15 to the hour. */
+  function hourAngle(p, lng){
+    var GMST = ((18.697374558 + 24.06570982441908 * p.d) % 24 + 24) % 24;
+    var lst = ((GMST + lng / 15) % 24 + 24) % 24;
+    return ((lst - p.RAh) * 15 + 540) % 360 - 180;
+  }
+  function sunAltitude(now, lat, lng){
+    var p = sunPlace(now), H = hourAngle(p, lng);
+    var latR = lat * RAD;
+    return Math.asin(Math.sin(latR) * p.sinDec + Math.cos(latR) * Math.cos(p.dec) * Math.cos(H * RAD)) / RAD;
+  }
+  /* How far along today's arc the sun stands at `now`: 0 where it rises
+     and where it sets, 1 at noon, and between them in proportion to the
+     way it has come. The sun keeps an even pace along its arc, while its
+     height hardly changes for the hour round noon, so the arc moves the
+     paper every few minutes all day. A sun that does not set that day
+     rises, for this purpose, at midnight. */
+  function halfArc(p, lat){
+    var x = -Math.tan(lat * RAD) * Math.tan(p.dec);
+    return x <= -1 ? 180 : x >= 1 ? 0 : Math.acos(x) / RAD;
+  }
+  function arcShare(now, lat, lng){
+    var p = sunPlace(now), half = halfArc(p, lat);
+    return half > 0 ? Math.max(0, Math.min(1, 1 - Math.abs(hourAngle(p, lng)) / half)) : 0;
+  }
+  /* How far through the day the sun is at `now`: 0 where it rises, 1
+     where it sets, along the same arc. */
+  function dayProgress(now, lat, lng){
+    var p = sunPlace(now), half = halfArc(p, lat);
+    return half > 0 ? Math.max(0, Math.min(1, (hourAngle(p, lng) + half) / (2 * half))) : 0;
+  }
+  /* The moment the sky is painted for: now, or ?hour= (any value from 0 to
+     23.99) on the reader's own clock today, so any hour can be looked at. */
+  function now(){
+    var q = /[?&]hour=(\d+(?:\.\d+)?)/.exec(location.search);
+    var h = q ? parseFloat(q[1]) : NaN, d = new Date();
+    if(h >= 0 && h < 24) d.setHours(Math.floor(h), Math.round((h % 1) * 60), 0, 0);
+    return d;
+  }
+  /* What the painters paint from, at `date` in the reader's city: the
+     sun's altitude (or `alt`, when the caller has a finer one), how far
+     along today's arc it stands, and how far through the day. */
+  function sunAt(date, alt){
+    var c = pickCity();
+    if(alt === undefined) alt = sunAltitude(date, c.lat, c.lng);
+    return {
+      alt: alt,
+      share: arcShare(date, c.lat, c.lng),
+      prog: dayProgress(date, c.lat, c.lng)
+    };
+  }
+  /* The same, for now or ?hour=. */
+  function sunNow(){ return sunAt(now()); }
+  /* Relative luminance of a ground, the input every derived tone needs. */
+  function luminance(rgb){
+    var v = [rgb[0], rgb[1], rgb[2]].map(function(c){
+      c = c / 255;
+      return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+    });
+    return 0.2126 * v[0] + 0.7152 * v[1] + 0.0722 * v[2];
+  }
+  /* A text tone: ink laid over the ground at `alpha`, returned solid so it
+     can go anywhere a colour goes, including into a gradient or a border. */
+  function over(ink, ground, alpha){
+    return [
+      Math.round(ink[0] * alpha + ground[0] * (1 - alpha)),
+      Math.round(ink[1] * alpha + ground[1] * (1 - alpha)),
+      Math.round(ink[2] * alpha + ground[2] * (1 - alpha))
+    ];
+  }
+  function rgb(c){ return "rgb(" + c[0] + "," + c[1] + "," + c[2] + ")"; }
+
+  window.OLAE_SKY = {
+    CREAM: CREAM, DAYINK: DAYINK,
+    pickCity: pickCity, sunAltitude: sunAltitude, arcShare: arcShare,
+    now: now, sunAt: sunAt, sunNow: sunNow,
+    SUNRISE: SUNRISE, dayAt: dayAt, chromeAt: chromeAt, nightAt: nightAt, wordsAt: wordsAt,
+    skyAt: skyAt, mix: mixChannels, luminance: luminance, over: over, rgb: rgb,
+    lerp: lerp
+  };
+})();
+</script>
+
+  <script src="/js/rain-engine.js?v=20260911-1"></script>
+  <script src="/js/farm-sound-engine.js?v=20261005-2"></script>
+  <script src="/js/farm-sound.js?v=20261005-2"></script>
+  <script>
+  (() => {
+    'use strict';
+    const $ = id => document.getElementById(id);
+    // The loose watercolor set uses the original upstairs painting as its style anchor.
+    const sceneAssets = { exterior:'assets/exterior-watercolor.webp?v=20261001-loose', hall:'assets/hall-watercolor.webp?v=20261001-loose', upstairs:'assets/upstairs-watercolor.webp?v=20261001-loose', kitchen:'assets/kitchen-watercolor.webp?v=20261001-loose', garden:'assets/garden-watercolor.webp?v=20261001-loose', stableYard:'assets/stable-yard-watercolor.webp?v=20261001-loose', stable:'assets/stable-watercolor.webp?v=20261001-loose' };
+    // In these rooms the farm's sound is heard through the walls.
+    const indoors = new Set(['hall','kitchen','upstairs','stable']);
+    const state = { scene: 'intro', visitedUpstairs: false, bed: false, walnuts: false, letter: false, hints: false, detail: null };
+    const scenes = {
+      exterior: {
+        image:'exterior', name:'The veranda', back:'intro', backLabel:'← The picture',
+        alt:'A watercolor of a two-story family farmhouse with a wooden front door, flowering veranda, and green garden.',
+        caption:()=>'Flowers grow along the veranda.',
+        spots:[
+          {id:'door',label:'Enter the house',box:[46,40,11,25],labelAt:[51,68],go:'hall'},
+          {id:'veranda',label:'The veranda',box:[62,48,18,17],labelAt:[76,70],detail:'veranda'},
+          {id:'garden',label:'Walk into the garden',box:[32,70,36,27],labelAt:[50,91],go:'garden'}
+        ]
+      },
+      hall: {
+        image:'hall',name:'The entrance',back:'exterior',backLabel:'← The veranda',
+        alt:'A watercolor view from the entrance: the timber staircase is immediately on the left; the kitchen opens on the right.',
+        caption:()=>state.visitedUpstairs?'The stairs are behind you now.':'Everyone who came here went upstairs before they left.',
+        spots:[
+          {id:'stairs',label:'Go upstairs',box:[12,10,29,80],labelAt:[12,34],go:'upstairs'},
+          {id:'kitchen',label:'Enter the kitchen',box:[79,17,19,59],labelAt:[88,84],go:'kitchen'}
+        ]
+      },
+      kitchen: {
+        image:'kitchen',name:'The kitchen',back:'hall',backLabel:'← The entrance',
+        alt:'A watercolor view inside the kitchen seen from the hall. The metal kettle stands to the left of the same window. A folded list lies on the wooden table beside a bowl of pears.',
+        caption:()=>'A folded list lies on the table.',
+        spots:[
+          {id:'kettle',label:'The kettle',box:[35,33,7,13],labelAt:[46,33],detail:'kettle'},
+          {id:'shopping-list',label:'The shopping list',box:[76,68,13,7],labelAt:[71,80],detail:'shoppingList'}
+        ]
+      },
+      garden: {
+        image:'garden',name:'The garden',back:'exterior',backLabel:'← The veranda',
+        alt:'A watercolor view of the same farmhouse beyond the stone path. A European robin is perched on a low wall to the left. Pink hydrangeas grow in the foreground on the right.',
+        caption:()=>'The stone path leads back to the veranda.',
+        spots:[
+          {id:'house',label:'Back to the veranda',box:[45,31,14,22],labelAt:[52,57],go:'exterior'},
+          {id:'stable-path',label:'The stable',box:[1,39,20,19],labelAt:[11,55],go:'stableYard'},
+          {id:'robin',label:'The robin',box:[7,61,14,15],labelAt:[28,72],detail:'robin'},
+          {id:'hydrangea',label:'The hydrangea',box:[73,56,25,31],labelAt:[72,91],detail:'hydrangea'}
+        ]
+      },
+      stableYard: {
+        image:'stableYard',name:'Outside the stable',back:'garden',backLabel:'← The garden',
+        alt:'Three horses stand in a watercolor of the stable yard, in front of the same stable, all visible from head to hoof. Pamuk, the white Lipizzan, stands on the left; Bal, the smaller golden chestnut Haflinger, is beside him; Gece, the black Friesian, stands on the right. The path between them leads to the open doors.',
+        caption:()=>'Pamuk, Bal and Gece are outside. The stable doors are open.',
+        spots:[
+          {id:'pamuk',label:'Pamuk · Lipizzan',box:[3,32,27,49],labelAt:[18,87],detail:'pamuk',horse:true},
+          {id:'bal',label:'Bal · Haflinger',box:[28,40,18,39],labelAt:[38,84],detail:'bal',horse:true},
+          {id:'gece',label:'Gece · Friesian',box:[70,30,28,51],labelAt:[83,87],detail:'gece',horse:true},
+          {id:'stable-door',label:'Enter the stable',box:[48,35,20,29],labelAt:[57,70],go:'stable'}
+        ]
+      },
+      stable: {
+        image:'stable',name:'The stable',back:'stableYard',backLabel:'← Outside the stable',
+        alt:'In a watercolor of the stable interior, Doru, the bay Arabian, and Tarçın, the chestnut Quarter Horse, look over stall doors on the left. The near-left stall and the stalls on the right are empty. The central aisle opens onto olive trees.',
+        caption:()=>'Doru and Tarçın are in their stalls on the left.',
+        spots:[
+          {id:'doru',label:'Doru · Arabian',box:[13,26,20,26],labelAt:[19,57],detail:'doru',horse:true},
+          {id:'tarcin',label:'Tarçın · Quarter Horse',box:[34,38,9,15],labelAt:[46,72],detail:'tarcin',horse:true}
+        ]
+      },
+      upstairs: {
+        image:'upstairs',name:'The upstairs room',back:'hall',backLabel:'← Downstairs',
+        alt:'A watercolor of the shared sitting room. Her bed stands on the left by a window overlooking the stable and a field. Walnuts sit on the bedside table. A closed wooden chest stands opposite, on the right.',
+        caption:()=>state.letter?'The chest is only a few steps from her bed.':state.bed?'From here, she could see the stable and the field.':'The stairs open straight into the sitting room.',
+        spots:[
+          {id:'window',label:'The farm',box:[1,1,18,39],labelAt:[29,23],detail:'window'},
+          {id:'bed',label:'The bed',box:[1,29,41,44],labelAt:[40,60],detail:'bed'},
+          {id:'walnuts',label:'The walnuts',box:[43,36,6,7],labelAt:[54,34],detail:'walnuts'},
+          {id:'chest',label:'The chest',box:[79,53,21,40],labelAt:[70,78],detail:'chest'}
+        ]
+      }
+    };
+    const details = {
+      pamuk:{kicker:'Lipizzan',title:'Pamuk.',image:'stableYard',position:'0% 60%',mobilePosition:'7% 60%',mobileZoom:'160%',zoom:'300%',alt:'Pamuk, the white Lipizzan, with a gray muzzle and curved neck.',body:['Pamuk stands on the left of the stable yard. His pale coat catches the afternoon light.','Lipizzans are closely associated with the Spanish Riding School in Vienna, where their training develops the movements of classical dressage. Their compact bodies and strong hindquarters help them perform demanding exercises.','The breed once came in a much wider range of colors. The school still keeps a brown Lipizzan, following a tradition that considers one lucky.'],actions:[['Back to the horses','close']],source:{label:'Spanish Riding School',url:'https://www.srs.at/en/lipizzaner/lipizzaners'}},
+      gece:{kicker:'Friesian',title:'Gece.',image:'stableYard',position:'100% 60%',mobilePosition:'100% 58%',mobileZoom:'160%',zoom:'300%',alt:'Gece, the black Friesian, with a long wavy mane.',body:['Gece stands to the right of the open stable doors. His black mane falls in waves along his neck.','The Friesian comes from Friesland in the Netherlands. The breed is recognizable by its black coat, abundant mane and upright, arched neck. Its lifted steps are particularly striking in harness or in a dressage arena.','Friesians have taken on different kinds of work over their history. Riding and driving both remain part of the breed’s life.'],actions:[['Back to the horses','close']],source:{label:'Royal Friesian Studbook',url:'https://www.kfps-presenteert.nl/en/friesian-horses/'}},
+      doru:{kicker:'Arabian',title:'Doru.',image:'stable',position:'17% 38%',mobilePosition:'17% 37%',mobileZoom:'440%',zoom:'540%',alt:'Doru, the brown Arabian with a black mane and a refined face.',body:['Doru looks out from the middle stall on the left. His brown coat and black mane are a combination called bay.','Arabian horses were bred by Bedouin communities on the Arabian Peninsula. Long journeys helped shape a breed known for endurance, which remains one of its strengths in equestrian sport.','Look at the shape of his head. A fine muzzle and a gently concave profile are characteristic of the breed. Arabians also tend to carry their tails high when moving.'],actions:[['Back to the horses','close']],source:{label:'Arabian Horse Association',url:'https://www.arabianhorses.org/discover/arabian-horses/'}},
+      tarcin:{kicker:'American Quarter Horse',title:'Tarçın.',image:'stable',position:'37% 46%',mobilePosition:'37% 44%',mobileZoom:'650%',zoom:'760%',alt:'Tarçın, the red-brown chestnut Quarter Horse, at the far end of the left-hand stalls.',body:['Tarçın has the far stall on the left. His coat is a warm reddish brown, with a mane of a similar color.','The Quarter Horse takes its name from short races over a quarter of a mile. Speed over that distance helped establish the breed’s reputation.','Its muscular build and agility also proved useful on cattle ranches. Quarter Horses became valued for working with cattle as well as racing, and today they are ridden in many different disciplines.'],actions:[['Back to the horses','close']],source:{label:'Ohio Quarter Horse Association',url:'https://www.oqha.com/what-is-a-quarter-horse'}},
+      bal:{kicker:'Haflinger',title:'Bal.',image:'stableYard',position:'35% 70%',mobilePosition:'32% 65%',mobileZoom:'210%',zoom:'420%',alt:'Bal, a golden chestnut Haflinger with a pale flaxen mane.',body:['Bal stands beside Pamuk in the yard. His golden chestnut coat and pale mane make him easy to recognize.','The Haflinger developed in the Tyrolean mountains. These horses carried supplies to remote farms and helped with work on steep fields. Their smaller, sturdy build suited those surroundings.','The breed’s recorded ancestry goes back to a stallion named Folie, born in 1874. Haflingers are now used widely for leisure riding and driving.'],actions:[['Back to the horses','close']],source:{label:'Tyrolean Haflinger Breeding Association',url:'https://www.haflinger-tirol.com/en/haflinger-breeding-association/history-of-the-haflinger-breed.html'}},
+      veranda:{kicker:'Outside',title:'The veranda.',image:'exterior',position:'73% 60%',zoom:'280%',alt:'The veranda table and chairs beside flowering plants.',body:['The family uses the house in summer.','Their belongings are still here.'],actions:[['Look around','close']]},
+      kettle:{kicker:'By the window',title:'The kettle.',image:'kitchen',position:'37% 40%',zoom:'440%',alt:'The metal kettle with its black handle, beside the window.',body:['The kettle stands beside a row of glasses.'],actions:[['Back to the kitchen','close']]},
+      shoppingList:{kicker:'On the table',title:'The shopping list.',image:'kitchen',position:'92% 84%',mobilePosition:'92% 79%',zoom:'440%',alt:'A small folded shopping list on the wooden kitchen table.',body:['Beside “walnuts”, someone has written “for upstairs”.'],actions:[['Back to the kitchen','close']]},
+      robin:{kicker:'Erithacus rubecula',title:'A European robin.',image:'garden',position:'7% 76%',zoom:'500%',alt:'A European robin perched on the low stone wall, with an orange breast and brown back.',body:['Both males and females have an orange-red breast.','Robins often follow gardeners, picking up worms and grubs from newly turned soil.'],actions:[['Back to the garden','close']],source:{label:'RSPB bird guide',url:'https://www.rspb.org.uk/birds-and-wildlife/robin'}},
+      hydrangea:{kicker:'Hydrangea macrophylla',title:'A mophead hydrangea.',image:'garden',position:'100% 73%',zoom:'260%',alt:'Rounded pink hydrangea flower heads above broad green leaves.',body:['Mophead hydrangeas have rounded flower heads that last through much of the summer.','The large heads are clusters of small flowers.'],actions:[['Back to the garden','close']],source:{label:'RHS plant guide',url:'https://www.rhs.org.uk/plants/hydrangea/shrubby/growing-guide'}},
+      window:{kicker:'Upstairs',title:'The farm.',image:'upstairs',position:'0% 10%',zoom:'280%',alt:'Part of the stable roof and a cultivated field beyond olive trees, seen through the upstairs window.',body:['She could see the stable and the field from her bed.','She kept up with the work on the farm.'],actions:[['Back to the room','close']]},
+      bed:{kicker:'By the window',title:'Her bed.',image:'upstairs',position:'11% 56%',zoom:'220%',alt:'The grandmother’s neatly made bed by the window.',body:['This was the upstairs sitting room. Her bed stood here, beside the window.','She had been bedridden for as long as Doğu could remember. Everyone who visited came up to see her.'],actions:[['Back to the room','close']]},
+      walnuts:{kicker:'On the bedside table',title:'A small handful.',image:'upstairs',position:'44% 37%',zoom:'550%',alt:'A small dish of walnuts on the wooden bedside table.',body:['She ate a handful of walnuts every evening.','She always told everyone else to eat them too.'],actions:[['Back to the room','close']]},
+      chest:{kicker:'Across the room',title:'The chest.',image:'upstairs',position:'100% 67%',zoom:'220%',alt:'The old wooden chest opposite her bed.',body:['After she died, Doğu went through her belongings.','At the bottom of this chest, he found a letter.'],actions:[['What he found','letter'],['Back to the room','close']]},
+      letter:{kicker:'What he found',title:'The letter.',plain:true,body:['It had arrived about forty years earlier, from the branch of the family that had stayed behind when the others left for Türkiye.','Doğu could not read the language. He made a copy and asked online whether someone could translate it.'],actions:[['Read about the translation','translation'],['Back to the room','close']]},
+      translation:{kicker:'The search',title:'The translation.',plain:true,body:['Someone translated it. The letter gave him enough to begin looking for the family who had written it.','No one ever learned why his grandmother had kept the letter, or why she never spoke about it.'],actions:[['Look at the room again','return-after-letter']]}
+    };
+    // A scene's neighbours load while the visitor looks at it, so the next
+    // place is ready without the whole farm arriving with the first picture.
+    const preloaded = new Set(['exterior']);
+    function preloadAround(name){
+      for(const key of [scenes[name].back,...scenes[name].spots.map(spot=>spot.go)]){
+        const image=scenes[key]?.image;
+        if(!image||preloaded.has(image))continue;
+        preloaded.add(image);const img=new Image();img.src=sceneAssets[image];
+      }
+    }
+    let outgoingPhoto=null, photoTransition=0;
+    const reduceMotion=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function changePhoto(src,alt){
+      const img=$('scene-image');
+      const visible=outgoingPhoto||img;
+      const id=++photoTransition;
+      if(outgoingPhoto){outgoingPhoto.remove();outgoingPhoto=null;}
+      if(img.getAttribute('src')===src){img.alt=alt;return;}
+      // Hold the previous, already painted bitmap while the new one loads.
+      if(!reduceMotion&&visible.complete&&visible.naturalWidth){
+        const old=visible.cloneNode(false);
+        old.removeAttribute('id');old.className='scene-img scene-outgoing';
+        old.alt='';old.setAttribute('aria-hidden','true');
+        img.after(old);outgoingPhoto=old;
+        const finish=()=>{if(id===photoTransition&&outgoingPhoto===old){old.remove();outgoingPhoto=null;}};
+        const fade=()=>{
+          if(id!==photoTransition)return;
+          void old.offsetWidth;
+          old.classList.add('is-fading');
+          old.addEventListener('transitionend',finish,{once:true});
+          window.setTimeout(finish,750);
+        };
+        let readyOnce=false;
+        const ready=()=>{
+          if(id!==photoTransition||readyOnce)return;
+          readyOnce=true;
+          if(img.decode&&img.naturalWidth)img.decode().then(fade,fade);
+          else fade();
+        };
+        img.addEventListener('load',ready,{once:true});
+        img.addEventListener('error',ready,{once:true});
+        img.src=src;img.alt=alt;
+        if(img.complete)ready();
+      }else{img.src=src;img.alt=alt;}
+    }
+    function closeDetail(){if($('detail').open)$('detail').close();state.detail=null;refreshCaption();}
+    function refreshCaption(){if(scenes[state.scene])$('caption').textContent=scenes[state.scene].caption();}
+    function showScene(name,focus=true){
+      closeDetail();
+      if(!['intro','ending',...Object.keys(scenes)].includes(name))name='intro';
+      state.scene=name;
+      window.OLAE_FARM_SOUND?.setIndoors(indoors.has(name));
+      window.OLAE_FARM_SOUND?.setPlace(name);
+      if(name==='upstairs')state.visitedUpstairs=true;
+      $('intro').hidden=name!=='intro';$('visit').hidden=!scenes[name];$('ending').hidden=name!=='ending';
+      $('leave').hidden=!scenes[name];
+      $('horse-list').replaceChildren();
+      $('horse-list').classList.toggle('has-horses',!!scenes[name]?.spots.some(spot=>spot.horse));
+      if(scenes[name])for(const [index,spot] of scenes[name].spots.entries()){
+        const li=document.createElement('li');const button=document.createElement('button');
+        if(spot.horse)li.dataset.horse='';
+        button.type='button';button.className='text-button';button.dataset.place=spot.id;
+        const number=document.createElement('span');number.className='place-number';number.textContent=index+1;number.setAttribute('aria-hidden','true');
+        button.append(number,document.createTextNode(spot.label));
+        button.addEventListener('click',()=>spot.go?showScene(spot.go):openDetail(spot.detail));li.append(button);$('horse-list').append(li);
+      }
+      $('location').textContent=scenes[name]?.name||(name==='ending'?'After the visit':'A first visit');
+      if(scenes[name]){
+        const scene=scenes[name];
+        changePhoto(sceneAssets[scene.image],scene.alt);
+        preloadAround(name);
+        $('hotspots').replaceChildren();
+        for(const [index,spot] of scene.spots.entries()){
+          const button=document.createElement('button');button.type='button';button.className='hotspot';button.dataset.object=spot.id;button.setAttribute('aria-label',spot.label);
+          const [x,y,w,h]=spot.box;Object.assign(button.style,{left:x+'%',top:y+'%',width:w+'%',height:h+'%'});
+          if(spot.labelAt){button.dataset.labelDx=spot.labelAt[0]-x;button.dataset.labelDy=spot.labelAt[1]-y;}
+          if(spot.horse)button.dataset.horse='';
+          const label=document.createElement('span');label.className='hotspot-label';label.textContent=spot.label;button.append(label);
+          const number=document.createElement('span');number.className='hotspot-number';number.textContent=index+1;number.setAttribute('aria-hidden','true');button.append(number);
+          button.addEventListener('click',()=>spot.go?showScene(spot.go):openDetail(spot.detail));$('hotspots').append(button);
+        }
+        $('frame').classList.toggle('show-places',state.hints);$('visit').classList.toggle('show-places',state.hints);$('back').textContent=scene.backLabel;$('scene-name').textContent=scene.name.toUpperCase();refreshCaption();
+        positionLabels();
+        if(focus){
+          $('caption').focus({preventScroll:true});
+          // Every room opens on the painting, even after a visitor has
+          // scrolled through the explanation beneath the previous scene.
+          if($('frame').scrollIntoView)$('frame').scrollIntoView({block:'center',behavior:'instant'});
+        }
+      }else if(focus){
+        $(name==='intro'?'intro-title':'ending-title').focus({preventScroll:true});
+        // Returning to the photograph or the ending keeps the image in view.
+        const picture=name==='intro'?$('photo'):document.querySelector('.ending-photo');
+        if(picture.scrollIntoView)picture.scrollIntoView({block:'center',behavior:'instant'});
+      }
+    }
+    // Label locations follow the image, including when touch targets grow to 44px.
+    function positionLabels(){
+      const frame=$('frame').getBoundingClientRect();
+      for(const button of $('hotspots').querySelectorAll('[data-label-dx]')){
+        button.style.setProperty('--label-x',(Number(button.dataset.labelDx)*frame.width/100)+'px');
+        button.style.setProperty('--label-y',(Number(button.dataset.labelDy)*frame.height/100)+'px');
+      }
+    }
+    if(typeof ResizeObserver==='function')new ResizeObserver(positionLabels).observe($('frame'));
+    else window.addEventListener('resize',positionLabels);
+    function openDetail(key){
+      const item=details[key];if(!item)return;
+      state.detail=key;
+      if(key==='bed')state.bed=true;if(key==='walnuts')state.walnuts=true;if(key==='translation')state.letter=true;
+      $('detail').classList.toggle('letter-view',!!item.plain);
+      $('detail-kicker').textContent=item.kicker;$('detail-title').textContent=item.title;
+      $('close-detail').setAttribute('aria-label','Close and return to '+(scenes[state.scene]?.name.toLowerCase()||'the house'));
+      $('detail-body').replaceChildren(...item.body.map(text=>{const p=document.createElement('p');p.textContent=text;return p;}));
+      const illustration=$('detail-image');illustration.style.backgroundImage=item.image?'url("'+sceneAssets[item.image]+'")':'none';illustration.style.setProperty('--detail-position',item.position||'center');illustration.style.setProperty('--detail-mobile-position',item.mobilePosition||item.position||'center');illustration.style.setProperty('--detail-zoom',item.zoom||'cover');illustration.style.setProperty('--detail-mobile-zoom',item.mobileZoom||item.zoom||'cover');illustration.setAttribute('aria-label',item.alt||'');
+      $('detail-actions').replaceChildren(...item.actions.map(([label,action],index)=>{
+        const b=document.createElement('button');b.type='button';b.textContent=label;if(index)b.className='secondary';
+        b.addEventListener('click',()=>{if(action==='close'||action==='return-after-letter'){closeDetail();}else{openDetail(action);}});return b;
+      }));
+      if(item.source){
+        const source=document.createElement('a');source.href=item.source.url;source.textContent=item.source.label;source.target='_blank';source.rel='noopener noreferrer';source.setAttribute('aria-label',item.source.label+' (opens in a new tab)');$('detail-actions').append(source);
+      }
+      if(!$('detail').open)$('detail').showModal();
+      $('detail-title').focus({preventScroll:true});
+    }
+    function leave(){showScene(state.visitedUpstairs?'ending':'intro');}
+    $('photo').onclick=$('begin').onclick=()=>showScene('exterior');
+    $('home').onclick=()=>showScene('intro');$('leave').onclick=leave;
+    $('back').onclick=()=>showScene(scenes[state.scene]?.back||'intro');
+    // "Show places to look" stays on until the visitor hides the names; their browser remembers it, as The House and the pictures do.
+    function showPlaces(show){state.hints=show;$('frame').classList.toggle('show-places',show);$('visit').classList.toggle('show-places',show);$('places').setAttribute('aria-pressed',String(show));$('places').textContent=show?'Hide places to look':'Show places to look';try{if(show)localStorage.setItem('olae-places','shown');else localStorage.removeItem('olae-places');}catch(e){}}
+    $('places').onclick=()=>showPlaces(!state.hints);
+    try{if(localStorage.getItem('olae-places')==='shown')showPlaces(true);}catch(e){}
+    $('close-detail').onclick=closeDetail;
+    $('detail').addEventListener('close',()=>{state.detail=null;refreshCaption();});
+    $('detail').addEventListener('click',event=>{if(event.target===$('detail')){const r=$('detail').getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)closeDetail();}});
+    $('return-room').onclick=()=>showScene('upstairs');$('return-photo').onclick=()=>showScene('intro');
+    $('about-button').onclick=()=>$('about').showModal();$('close-about').onclick=()=>$('about').close();
+    showScene('intro',false);
+  })();
+  </script>
+<script data-dash-copy>document.addEventListener("copy",function(){var a=document.activeElement;if(a&&(/^(INPUT|TEXTAREA)$/.test(a.tagName)||a.isContentEditable))return;var s=window.getSelection(),taken=[];if(!s.rangeCount||String(s).indexOf("\u2060")<0)return;for(var i=0;i<s.rangeCount;i++){var r=s.getRangeAt(i),c=r.commonAncestorContainer,w=document.createTreeWalker(c.nodeType===3?c.parentNode:c,4),n;while((n=w.nextNode()))if(r.intersectsNode(n))for(var k=n.data.lastIndexOf("\u2060");k>=0;k=k?n.data.lastIndexOf("\u2060",k-1):-1){n.deleteData(k,1);taken.push([n,k]);}}setTimeout(function(){for(var j=taken.length-1;j>=0;j--)taken[j][0].insertData(taken[j][1],"\u2060");},0);});</script></body>
+</html>

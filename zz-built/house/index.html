@@ -1,0 +1,1699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="rgb(255, 255, 255)" data-light="rgb(255, 255, 255)" data-dark="#171613" data-midnight="#0D1219" data-default="rgb(255, 255, 255)">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#171613" data-light="rgb(255, 255, 255)" data-dark="#171613" data-midnight="#0D1219" data-default="#171613">
+
+
+<script>
+(function(){
+  "use strict";
+  /* zone → [latitude, longitude], rendered from _data/cities.yml, which
+     /twilight/ reads too. A tenth of a degree is finer than this needs:
+     the answer only has to land the sun in the right part of its arc. */
+  var ZONES = {
+    "": null,   /* a browser that reports no zone has found none; standing
+                   first, it also lets every generated line end in a comma */
+    "Europe/Istanbul":[41.0,29.0],"Asia/Istanbul":[41.0,29.0],"Turkey":[41.0,29.0],
+    "Europe/London":[51.5,-0.1],"GB":[51.5,-0.1],"Europe/Belfast":[51.5,-0.1],
+    "Europe/Dublin":[53.4,-6.3],
+    "Europe/Lisbon":[38.7,-9.1],
+    "Europe/Madrid":[40.4,-3.7],
+    "Europe/Paris":[48.9,2.4],
+    "Europe/Brussels":[50.9,4.4],
+    "Europe/Amsterdam":[52.4,4.9],
+    "Europe/Berlin":[52.5,13.4],
+    "Europe/Zurich":[47.4,8.5],
+    "Europe/Rome":[41.9,12.5],
+    "Europe/Vienna":[48.2,16.4],
+    "Europe/Prague":[50.1,14.4],
+    "Europe/Budapest":[47.5,19.0],
+    "Europe/Warsaw":[52.2,21.0],
+    "Europe/Belgrade":[44.8,20.4],
+    "Europe/Sofia":[42.7,23.3],
+    "Europe/Bucharest":[44.4,26.1],
+    "Europe/Athens":[38.0,23.7],
+    "Europe/Copenhagen":[55.7,12.6],
+    "Europe/Oslo":[59.9,10.8],
+    "Europe/Stockholm":[59.3,18.1],
+    "Europe/Helsinki":[60.2,24.9],
+    "Europe/Kyiv":[50.5,30.5],"Europe/Kiev":[50.5,30.5],
+    "Europe/Moscow":[55.8,37.6],
+    "Asia/Jerusalem":[31.8,35.2],"Asia/Tel_Aviv":[31.8,35.2],"Israel":[31.8,35.2],
+    "Asia/Beirut":[33.9,35.5],
+    "Asia/Baghdad":[33.3,44.4],
+    "Asia/Tehran":[35.7,51.4],"Iran":[35.7,51.4],
+    "Asia/Baku":[40.4,49.9],
+    "Asia/Tbilisi":[41.7,44.8],
+    "Asia/Dubai":[25.2,55.3],
+    "Asia/Riyadh":[24.7,46.7],
+    "Asia/Qatar":[25.3,51.5],
+    "Africa/Cairo":[30.0,31.2],"Egypt":[30.0,31.2],
+    "Africa/Casablanca":[33.6,-7.6],
+    "Africa/Lagos":[6.5,3.4],
+    "Africa/Nairobi":[-1.3,36.8],
+    "Africa/Johannesburg":[-26.2,28.0],
+    "Asia/Karachi":[24.9,67.0],
+    "Asia/Kolkata":[28.6,77.2],"Asia/Calcutta":[28.6,77.2],
+    "Asia/Dhaka":[23.8,90.4],"Asia/Dacca":[23.8,90.4],
+    "Asia/Bangkok":[13.8,100.5],
+    "Asia/Ho_Chi_Minh":[10.8,106.6],"Asia/Saigon":[10.8,106.6],
+    "Asia/Jakarta":[-6.2,106.8],
+    "Asia/Singapore":[1.4,103.8],
+    "Asia/Kuala_Lumpur":[3.1,101.7],
+    "Asia/Manila":[14.6,121.0],
+    "Asia/Hong_Kong":[22.3,114.2],
+    "Asia/Shanghai":[31.2,121.5],"Asia/Chongqing":[31.2,121.5],"PRC":[31.2,121.5],
+    "Asia/Taipei":[25.0,121.6],
+    "Asia/Seoul":[37.6,127.0],"ROK":[37.6,127.0],
+    "Asia/Tokyo":[35.7,139.7],"Japan":[35.7,139.7],
+    "Australia/Perth":[-32.0,115.9],
+    "Australia/Brisbane":[-27.5,153.0],
+    "Australia/Adelaide":[-34.9,138.6],
+    "Australia/Melbourne":[-37.8,145.0],
+    "Australia/Sydney":[-33.9,151.2],
+    "Pacific/Auckland":[-36.8,174.8],
+    "Pacific/Honolulu":[21.3,-157.9],
+    "America/Anchorage":[61.2,-149.9],
+    "America/Vancouver":[49.3,-123.1],
+    "America/Los_Angeles":[34.1,-118.2],
+    "America/Phoenix":[33.4,-112.1],
+    "America/Denver":[39.7,-105.0],
+    "America/Mexico_City":[19.4,-99.1],
+    "America/Chicago":[41.9,-87.6],
+    "America/New_York":[40.7,-74.0],
+    "America/Toronto":[43.7,-79.4],
+    "America/Halifax":[44.6,-63.6],
+    "America/Bogota":[4.7,-74.1],
+    "America/Lima":[-12.0,-77.0],
+    "America/Santiago":[-33.4,-70.7],
+    "America/Argentina/Buenos_Aires":[-34.6,-58.4],"America/Buenos_Aires":[-34.6,-58.4],
+    "America/Sao_Paulo":[-23.6,-46.6],"Brazil/East":[-23.6,-46.6],
+  };
+  function pickCity(){
+    var tz = "";
+    try{ tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ""; }catch(e){}
+    var z = ZONES[tz];
+    if(z) return { lat: z[0], lng: z[1], tz: tz };
+    /* Unknown zone: use a nominal equatorial day aligned with the device's
+       current UTC offset. This gives roughly 06:00 dawn and 18:00 sunset
+       locally, without claiming to know the visitor's latitude. Fractional
+       offsets and daylight saving are included in getTimezoneOffset(). */
+    return { lat: 0, lng: -new Date().getTimezoneOffset() / 4, tz: tz };
+  }
+  var CREAM = [237,228,207], DAYINK = [255,252,245];
+  var STOPS = [   /* [altitude°, [r,g,b], inkMix 0..1] */
+    [-30, [ 12, 16, 24], 0],
+    [-18, [ 14, 19, 29], 0],
+    [-12, [ 23, 32, 48], 0],
+    [ -6, [ 44, 58, 82], 0],
+    [ -2, [ 78, 73, 92], 0.6],
+    [  0, [ 86, 78, 98], 1]
+  ];
+  function lerp(a, b, f){ return a + (b - a) * f; }
+  function skyAt(alt){
+    if(alt <= STOPS[0][0]) return STOPS[0];
+    for(var i = 1; i < STOPS.length; i++){
+      if(alt <= STOPS[i][0]){
+        var lo = STOPS[i-1], hi = STOPS[i];
+        var f = (alt - lo[0]) / (hi[0] - lo[0]);
+        return [alt,
+          [ Math.round(lerp(lo[1][0], hi[1][0], f)),
+            Math.round(lerp(lo[1][1], hi[1][1], f)),
+            Math.round(lerp(lo[1][2], hi[1][2], f)) ],
+          lerp(lo[2], hi[2], f)];
+      }
+    }
+    return STOPS[STOPS.length - 1];
+  }
+  /* The sun's altitude at which the day begins and ends. */
+  var SUNRISE = 0;
+  /* The night is the ramp from here down: at sunset the page is already
+     the navy the ramp reaches at -6°, not the violet above it. */
+  var NIGHT_TOP = -6;
+  /* The day's paper: white, with its ink, rules and band, the same from
+     sunrise to sunset. secL is how dark the sections' accents print on
+     it. The chrome is the one thing that moves: CHROME_DAWN at sunrise,
+     light enough to be a slate and dark enough for white words in the
+     menu (5:1), to CHROME_DUSK at sunset, a step off the night's header. */
+  var DAY = { paper:"#FFFFFF", surface:"#F6F8F9", band:"#F3F5F6", ink:"#242F38", inkSoft:"#35444E",
+              vizon:"#576976", stripInk:"#4C5E6B", rule:"#E9ECED", ruleStrong:"#D0D5D9",
+              ruleCream:"#D5DCDF", secL:0.492 };
+  var CHROME_DAWN = [86, 99, 111], CHROME_DUSK = [40, 52, 68];
+  function hex(h){
+    return [parseInt(h.slice(1, 3), 16), parseInt(h.slice(3, 5), 16), parseInt(h.slice(5, 7), 16)];
+  }
+  /* Every colour of the day, as [r,g,b], with secL. */
+  function dayAt(){
+    var d = {};
+    Object.keys(DAY).forEach(function(k){ d[k] = k === "secL" ? DAY[k] : hex(DAY[k]); });
+    return d;
+  }
+  /* The header's and footer's ground by day, `prog` of the way from
+     sunrise to sunset. */
+  function chromeAt(prog){
+    return mixChannels(CHROME_DAWN, CHROME_DUSK, Math.max(0, Math.min(1, prog || 0)));
+  }
+  /* The words of the header and footer, by day and by night: the yellow of
+     the site's name, all one tone, since a cool grey and then a duller
+     gold read as dull on the slate. On 25 October 2026 the author asked
+     for it to follow the sky: the full yellow (#F8EBC2) while the night is
+     at its darkest, white mixed into it as the sky opens, and the most at
+     noon, then back to the yellow as slowly. Later that day the author
+     set the amounts: none at the darkest of the night, 40% at sunrise and
+     sunset, and 70% at noon. By night the white rises with the sun from
+     -18°, where the ramp is at its darkest, to the horizon, and the
+     evening holds it up as the evening holds up the slate; by day it goes
+     along the arc. */
+  var WORDS = [248, 235, 194], WHITE = [255, 255, 255], HORIZON_WHITE = 0.40, NOON_WHITE = 0.70;
+  /* How far the night has opened, 0 at its darkest and 1 at the horizon. */
+  function nightOpen(sun){
+    return lerp(Math.max(0, Math.min(1, (sun.alt + 18) / 18)), 1, sun.eve || 0);
+  }
+  function wordsAt(sun){
+    var white = sun.alt >= SUNRISE ? lerp(HORIZON_WHITE, NOON_WHITE, sun.share)
+      : HORIZON_WHITE * nightOpen(sun);
+    return mixChannels(WORDS, WHITE, white);
+  }
+  /* The night at one altitude, in skyAt's shape: [altitude, ground, ink
+     mix]. Above NIGHT_TOP it is the ramp at NIGHT_TOP. */
+  function nightAt(alt){
+    return skyAt(Math.min(alt, NIGHT_TOP));
+  }
+  function mixChannels(a, b, f){
+    return [
+      Math.round(lerp(a[0], b[0], f)),
+      Math.round(lerp(a[1], b[1], f)),
+      Math.round(lerp(a[2], b[2], f))
+    ];
+  }
+  var RAD = Math.PI / 180;
+  /* Where the sun stands among the stars at `now`: its declination and
+     right ascension, with the day count the sidereal clock needs. */
+  function sunPlace(now){
+    var d = (now.getTime() / 86400000) - 10957.5;        /* days since J2000 */
+    var g = (357.529 + 0.98560028 * d) * RAD;
+    var q = 280.459 + 0.98564736 * d;
+    var L = (q + 1.915 * Math.sin(g) + 0.020 * Math.sin(2 * g)) * RAD;
+    var e = (23.439 - 0.00000036 * d) * RAD;
+    var sinDec = Math.sin(e) * Math.sin(L);
+    return { d: d, sinDec: sinDec, dec: Math.asin(sinDec),
+      RAh: (Math.atan2(Math.cos(e) * Math.sin(L), Math.cos(L)) / RAD) / 15 };
+  }
+  /* How far the sun has turned past the meridian of longitude `lng`, in
+     degrees: negative before noon, positive after, 15 to the hour. */
+  function hourAngle(p, lng){
+    var GMST = ((18.697374558 + 24.06570982441908 * p.d) % 24 + 24) % 24;
+    var lst = ((GMST + lng / 15) % 24 + 24) % 24;
+    return ((lst - p.RAh) * 15 + 540) % 360 - 180;
+  }
+  function sunAltitude(now, lat, lng){
+    var p = sunPlace(now), H = hourAngle(p, lng);
+    var latR = lat * RAD;
+    return Math.asin(Math.sin(latR) * p.sinDec + Math.cos(latR) * Math.cos(p.dec) * Math.cos(H * RAD)) / RAD;
+  }
+  /* How far along today's arc the sun stands at `now`: 0 where it rises
+     and where it sets, 1 at noon, and between them in proportion to the
+     way it has come. The sun keeps an even pace along its arc, while its
+     height hardly changes for the hour round noon, so the arc moves the
+     paper every few minutes all day. A sun that does not set that day
+     rises, for this purpose, at midnight. */
+  function halfArc(p, lat){
+    var x = -Math.tan(lat * RAD) * Math.tan(p.dec);
+    return x <= -1 ? 180 : x >= 1 ? 0 : Math.acos(x) / RAD;
+  }
+  function arcShare(now, lat, lng){
+    var p = sunPlace(now), half = halfArc(p, lat);
+    return half > 0 ? Math.max(0, Math.min(1, 1 - Math.abs(hourAngle(p, lng)) / half)) : 0;
+  }
+  /* How far through the day the sun is at `now`: 0 where it rises, 1
+     where it sets, along the same arc. */
+  function dayProgress(now, lat, lng){
+    var p = sunPlace(now), half = halfArc(p, lat);
+    return half > 0 ? Math.max(0, Math.min(1, (hourAngle(p, lng) + half) / (2 * half))) : 0;
+  }
+  /* The moment the sky is painted for: now, or ?hour= (any value from 0 to
+     23.99) on the reader's own clock today, so any hour can be looked at. */
+  function now(){
+    var q = /[?&]hour=(\d+(?:\.\d+)?)/.exec(location.search);
+    var h = q ? parseFloat(q[1]) : NaN, d = new Date();
+    if(h >= 0 && h < 24) d.setHours(Math.floor(h), Math.round((h % 1) * 60), 0, 0);
+    return d;
+  }
+  /* What the painters paint from, at `date` in the reader's city: the
+     sun's altitude (or `alt`, when the caller has a finer one), how far
+     along today's arc it stands, and how far through the day. */
+  function sunAt(date, alt){
+    var c = pickCity();
+    if(alt === undefined) alt = sunAltitude(date, c.lat, c.lng);
+    return {
+      alt: alt,
+      share: arcShare(date, c.lat, c.lng),
+      prog: dayProgress(date, c.lat, c.lng)
+    };
+  }
+  /* The same, for now or ?hour=. */
+  function sunNow(){ return sunAt(now()); }
+  /* Relative luminance of a ground, the input every derived tone needs. */
+  function luminance(rgb){
+    var v = [rgb[0], rgb[1], rgb[2]].map(function(c){
+      c = c / 255;
+      return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+    });
+    return 0.2126 * v[0] + 0.7152 * v[1] + 0.0722 * v[2];
+  }
+  /* A text tone: ink laid over the ground at `alpha`, returned solid so it
+     can go anywhere a colour goes, including into a gradient or a border. */
+  function over(ink, ground, alpha){
+    return [
+      Math.round(ink[0] * alpha + ground[0] * (1 - alpha)),
+      Math.round(ink[1] * alpha + ground[1] * (1 - alpha)),
+      Math.round(ink[2] * alpha + ground[2] * (1 - alpha))
+    ];
+  }
+  function rgb(c){ return "rgb(" + c[0] + "," + c[1] + "," + c[2] + ")"; }
+
+  window.OLAE_SKY = {
+    CREAM: CREAM, DAYINK: DAYINK,
+    pickCity: pickCity, sunAltitude: sunAltitude, arcShare: arcShare,
+    now: now, sunAt: sunAt, sunNow: sunNow,
+    SUNRISE: SUNRISE, dayAt: dayAt, chromeAt: chromeAt, nightAt: nightAt, wordsAt: wordsAt,
+    skyAt: skyAt, mix: mixChannels, luminance: luminance, over: over, rgb: rgb,
+    lerp: lerp
+  };
+})();
+</script>
+
+
+<script>
+(function(){
+  "use strict";
+  var S = window.OLAE_SKY;
+  var TOKENS = ["--bg","--paper","--surface-soft","--band","--sky-band-hero","--note-base",
+    "--footer-strip-bg","--ink","--ink-soft","--vizon","--footer-strip-ink","--footer-text",
+    "--footer-muted","--hero-source-muted","--rule","--rule-strong","--rule-cream",
+    "--header-border","--drawer-bg","--sky-ld-floor","--sky-chrome-rgb","--sec-l"];
+
+  /* Every token the day sets, for one `prog` of the way from sunrise to
+     sunset. The colours are sky-ramp.html's DAY and chromeAt(); this is
+     only where each one goes. */
+  function dayTokens(prog){
+    var d = S.dayAt(), t = {};
+    t["--bg"] = S.rgb(d.paper);
+    t["--paper"] = S.rgb(d.paper);
+    t["--surface-soft"] = S.rgb(d.surface);
+    t["--band"] = S.rgb(d.band);
+    t["--footer-strip-bg"] = S.rgb(d.paper);
+    t["--ink"] = S.rgb(d.ink);
+    t["--ink-soft"] = S.rgb(d.inkSoft);
+    t["--vizon"] = S.rgb(d.vizon);
+    t["--footer-strip-ink"] = S.rgb(d.stripInk);
+    t["--hero-source-muted"] = S.rgb(d.stripInk);
+    t["--rule"] = S.rgb(d.rule);
+    t["--rule-strong"] = S.rgb(d.ruleStrong);
+    t["--rule-cream"] = S.rgb(d.ruleCream);
+    t["--drawer-bg"] = "rgba(" + d.paper.join(",") + ",0.985)";
+    /* the header and footer; css/palettes.css hands it to <body>, whose
+       own --chrome-rgb would otherwise win */
+    t["--sky-chrome-rgb"] = S.chromeAt(prog).join(", ");
+    t["--sec-l"] = d.secL.toFixed(3);
+    return t;
+  }
+
+  /* Every token the night moves, for one altitude of the sun
+     (sky-ramp.html). */
+  function nightTokens(alt){
+    var sky = S.nightAt(alt), g = sky[1], m = sky[2];
+    var ink = S.mix(S.CREAM, S.DAYINK, m);
+    var t = {};
+
+    /* grounds: the sheet, the card lifted off it, the band sunk into it */
+    t["--bg"] = S.rgb(g);
+    t["--paper"] = S.rgb(g);
+    t["--surface-soft"] = S.rgb(S.over(ink, g, 0.06));
+    t["--band"] = S.rgb(S.over([0,0,0], g, 0.18));
+    t["--sky-band-hero"] = S.rgb(S.over(ink, g, 0.03));
+    t["--note-base"] = S.rgb(S.over(ink, g, 0.06));
+    t["--footer-strip-bg"] = S.rgb(S.over([0,0,0], g, 0.18));
+
+    /* text, four tiers, each solved against this ground */
+    t["--ink"] = S.rgb(ink);
+    t["--ink-soft"] = S.rgb(S.over(ink, g, 0.94));
+    t["--vizon"] = S.rgb(S.over(ink, g, 0.88));
+    t["--footer-strip-ink"] = S.rgb(S.over(ink, g, 0.88));
+    t["--hero-source-muted"] = S.rgb(S.over(ink, g, 0.88));
+
+    /* rules are not text and carry no contrast minimum; they are the ink
+       barely present, which is what a rule is on every other theme here */
+    t["--rule"] = S.rgb(S.over(ink, g, 0.16));
+    t["--rule-strong"] = S.rgb(S.over(ink, g, 0.30));
+    t["--rule-cream"] = S.rgb(S.over(ink, g, 0.30));
+    t["--header-border"] = "rgba(" + ink.join(",") + ",0.14)";
+    /* the drawer slides over the page and wants the ground almost opaque */
+    t["--drawer-bg"] = "rgba(" + g.join(",") + ",0.985)";
+
+    /* The accents' lightness floor on this ground: 4.6:1 on the card
+       (--surface-soft), the lightest ground they sit on, with no white
+       mixed in since 25 October 2026. */
+    var groundLuminance = S.luminance(g);
+    t["--sky-ld-floor"] = Math.max(0.56, Math.min(0.99,
+      0.57 + 0.59895 * Math.sqrt(groundLuminance)
+        + 2.45 * groundLuminance)).toFixed(4);
+
+    return t;
+  }
+  /* Every token this theme moves, for one `sun` from sky-ramp.html's
+     sunAt(): { alt, share, prog }. It only
+     computes: the two callers below decide what to do with the answer —
+     paint() writes it to <html>, js/palettes.js reads it to paint one card
+     on /themes/ without a second copy of the arithmetic. `day` and
+     `chrome` travel with the tokens for that card; they are not painted. */
+  function tokens(sun){
+    var day = sun.alt >= S.SUNRISE, t = day ? dayTokens(sun.prog) : nightTokens(sun.alt);
+    t.day = day;
+    /* White on the daytime slate; after sunset the frame takes the
+       page’s own cream ink, warming with the night. */
+    var words = day ? "rgb(255,255,255)" : t["--ink"];
+    t["--footer-text"] = words;
+    t["--footer-muted"] = words;
+    if(day) t["--header-border"] = "rgba(255,255,255,0.20)";
+    /* the header and footer: the day's chrome, or by night the band, which
+       is what the night's header and footer are painted with */
+    t.chrome = day ? "rgb(" + t["--sky-chrome-rgb"] + ")" : t["--band"];
+    return t;
+  }
+  /* TOKENS is the list applied as well as the list cleared, so the two can
+     no longer drift apart: a token one half sets and the other does not is
+     taken off as the sky turns, rather than left behind. */
+  function paint(sun){
+    var t = tokens(sun), root = document.documentElement, st = root.style;
+    TOKENS.forEach(function(k){
+      if(k in t) st.setProperty(k, t[k]); else st.removeProperty(k);
+    });
+    root.setAttribute("data-sky", t.day ? "day" : "night");
+    root.setAttribute("data-theme", t.day ? "light" : "sky");
+
+    /* the browser chrome follows the sheet by night and the header by day,
+       as it does for the dark themes and the palettes; in The House's
+       rooms it follows the House's own header (js/house.js) */
+    if(root.hasAttribute("data-house-theme")) return;
+    var metas = document.querySelectorAll('meta[name="theme-color"]');
+    for(var i = 0; i < metas.length; i++){
+      metas[i].setAttribute("content", t.day ? t.chrome : t["--paper"]);
+    }
+  }
+  /* Leaving the sky: the caller sets the theme it is leaving for. */
+  function clear(){
+    var root = document.documentElement, st = root.style;
+    TOKENS.forEach(function(t){ st.removeProperty(t); });
+    root.removeAttribute("data-sky");
+  }
+  /* Other light palettes keep their paper, but their dark frame also
+     takes cream words between local sunset and sunrise. White & Slate
+     and the rooms are excluded by the scoped CSS. */
+  function paintFrame(sun){
+    var t = tokens(sun), root = document.documentElement;
+    root.toggleAttribute("data-frame-night", !t.day);
+    root.style.setProperty("--night-frame-words", t.day ? "#FFFFFF" : t["--ink"]);
+  }
+  window.OLAE_SITE_SKY = {
+    paint: paint, clear: clear, paintFrame: paintFrame,
+    paintFrameNow: function(){ paintFrame(S.sunNow()); },
+    paintNow: function(){ paint(S.sunNow()); },
+    tokensNow: function(){ return tokens(S.sunNow()); },
+    isOn: function(){ return document.documentElement.hasAttribute("data-sky"); }
+  };
+  paintFrame(S.sunNow());
+})();
+</script>
+
+<script>(function(){var t;try{t=localStorage.getItem('theme');
+if(t==='dusk'){t='sky';try{localStorage.setItem('theme','sky')}catch(e){}}}catch(e){}
+if(t==='system')return;
+if(t!=='dark'&&t!=='light'&&t!=='midnight'&&t!=='sky')return;
+document.documentElement.setAttribute('data-theme',t);
+if(t==='sky'){window.OLAE_SITE_SKY.paintNow();return;}
+var m=document.querySelectorAll('meta[name="theme-color"]');for(var i=0;i<m.length;i++){var v=m[i].getAttribute('data-'+t);if(v)m[i].setAttribute('content',v);}})();</script>
+
+<script>(function(){if(!document.documentElement.hasAttribute('data-theme'))return;try{var s=localStorage.getItem('palette');if(!s)return;var n=parseInt(s,10);
+if(n===13){localStorage.removeItem('palette');return;}
+if(!(n>=1&&n<=12))return;
+if(n===1){document.documentElement.removeAttribute('data-palette');return;}
+document.documentElement.setAttribute('data-palette',String(n));
+var t=document.documentElement.getAttribute('data-theme');
+if(t==='dark'||t==='midnight'||t==='sky'||document.documentElement.hasAttribute('data-sky'))return;
+if(!t&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches)return;
+var C={2:'#3E4A44',3:'#3A4148',4:'#5E4234',5:'#3E4F42',6:'#22364F',7:'#59513A',8:'#47415A',9:'#234640',10:'#5E4046',11:'#45412E',12:'#2E3F45'};
+var m=document.querySelector('meta[name="theme-color"][data-light]');if(m&&C[n])m.setAttribute('content',C[n]);}catch(e){}})();</script>
+
+
+
+
+
+<title>The House &mdash; On Life &amp; Everything</title>
+<meta name="description" content="Come in, look around, and keep something you find. A room at On Life & Everything that changes every day.">
+<meta name="author" content="Hakan Altun">
+<link rel="icon" type="image/svg+xml" href="/on-icon.svg?v=20261028-1">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=20261028-1">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=20261028-1">
+<link rel="shortcut icon" href="/favicon.ico?v=20261028-1">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-on.png?v=20261028-2">
+<link rel="manifest" href="/manifest.json?v=20261028-2">
+<link rel="canonical" href="https://hakanaltun.io/house/">
+
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="The House &mdash; On Life &amp; Everything">
+<meta property="og:description" content="Come in, look around, and keep something you find. A room at On Life & Everything that changes every day.">
+<meta property="og:image" content="https://hakanaltun.io/og-image-on-card.png?v=20261026-4">
+<meta property="og:image:alt" content="The House — On Life &amp; Everything">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://hakanaltun.io/house/">
+
+<meta property="og:type" content="website">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The House &mdash; On Life &amp; Everything">
+<meta name="twitter:description" content="Come in, look around, and keep something you find. A room at On Life & Everything that changes every day.">
+<meta name="twitter:image" content="https://hakanaltun.io/og-image-on-card.png?v=20261026-4">
+<meta name="twitter:image:alt" content="The House — On Life &amp; Everything">
+
+
+
+
+<link rel="stylesheet" href="/css/style.css?v=20261026-1">
+<link rel="stylesheet" href="/css/palettes.css?v=20261026-2">
+
+
+
+
+
+
+
+
+<link rel="alternate" type="application/rss+xml" title="On Life &amp; Everything" href="/feed.xml">
+<link rel="alternate" type="application/rss+xml" title="Words with Stories &mdash; On Life &amp; Everything" href="/word/feed.xml">
+<link rel="alternate" type="application/rss+xml" title="Notes &mdash; On Life &amp; Everything" href="/notes/feed.xml">
+
+
+<link rel="preload" href="/fonts/eb-garamond-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+<link rel="preload" href="/fonts/cormorant-garamond-italic-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/fonts.css?v=20261023-1">
+
+<link rel="stylesheet" href="/css/let-it-snow.css?v=20261024-1">
+<link rel="stylesheet" href="/css/search.css?v=20261024-1">
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/keep.css?v=20261012-1">
+<script src="/js/keep.js?v=20261014-1" defer></script>
+
+
+
+
+</head>
+
+
+
+<body class="series-house" style="--chrome-rgb: 68, 74, 78;">
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="container">
+<header id="site-header">
+  <nav>
+    <div class="nav-top-row">
+      <div class="nav-left">
+        <button class="hamburger-btn" aria-label="Toggle Menu" aria-controls="site-drawer" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+      </div>
+      <a href="/" class="nav-home" aria-label="On Life &amp; Everything home">
+        <span class="brand-main">On Life &amp; Everything</span>
+        <span class="brand-sub">Essays, short fiction, and other writing.</span>
+      </a>
+    </div>
+    <div class="header-nav-bar">
+      <a href="/house/" aria-current="page">The House</a>
+      <a href="/all-work/">Writing</a>
+      <a href="/notes/">Notes</a>
+      <a href="/word/">Words</a>
+      <a href="/pictures/">Pictures</a>
+      <a href="/trivia/">Trivia</a>
+      <a href="/tools/">Instruments</a>
+      <a href="/moris/">Moris</a>
+      <a href="/about/">About</a>
+    </div>
+  </nav>
+</header>
+
+
+
+
+<div id="site-drawer-backdrop" class="drawer-backdrop" aria-hidden="true"></div><div id="site-drawer" class="site-drawer" aria-hidden="true">
+  <div class="drawer-head">
+    <button id="site-drawer-close" class="drawer-close" aria-label="Close menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div class="drawer-logo-wrap">
+      <a href="/" class="drawer-logo-link">
+        <span class="brand-main">On Life &amp; Everything</span>
+        <span class="brand-sub">Essays, short fiction, and other writing.</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="drawer-body"><form class="site-search-form site-search-form--drawer" role="search" action="/search/" method="get">
+  <label class="visually-hidden" for="drawer-search">Search the site</label>
+  <input id="drawer-search" name="q" type="search" placeholder="Search the site" maxlength="200" autocomplete="off" enterkeyhint="search">
+  <button type="submit" aria-label="Search">
+    <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg>
+  </button>
+</form>
+
+    <div class="drawer-section-links" data-voice="house">
+      <a href="/house/">The House</a>
+    </div>
+
+    <details class="drawer-section" data-voice="writing">
+      <summary class="drawer-label">Writing</summary>
+      <div class="drawer-essay-cards">
+        
+        
+        
+        
+        
+        <a href="/pieces/measured.html" class="drawer-essay-card-link"><span class="drawer-essay-card">
+          <span class="drawer-essay-card-text">
+            <span class="drawer-essay-card-title">Measured</span>
+            <span class="drawer-essay-card-meta">Aug 29, 2026</span>
+          </span>
+        </span></a>
+        
+        
+        
+        
+        
+        <a href="/pieces/it-was-not-a-question.html" class="drawer-essay-card-link"><span class="drawer-essay-card">
+          <span class="drawer-essay-card-text">
+            <span class="drawer-essay-card-title">It Was Not a Question</span>
+            <span class="drawer-essay-card-meta">Jul 25, 2026</span>
+          </span>
+        </span></a>
+        
+        
+        
+        
+        
+        <a href="/story/1/" class="drawer-essay-card-link" data-voice="story"><span class="drawer-essay-card">
+          <span class="drawer-essay-card-text">
+            <span class="drawer-essay-card-title">The Notice</span>
+            <span class="drawer-essay-card-meta">Jul 5, 2026</span>
+          </span>
+        </span></a>
+        
+      </div>
+      <a href="/all-work/#short-fiction" class="drawer-more drawer-subsection-link">All in Short Fiction <span aria-hidden="true">&rarr;</span></a>
+
+      <div class="drawer-essay-cards">
+        
+        
+        <a href="/pieces/on-keeping.html" class="drawer-essay-card-link"><span class="drawer-essay-card">
+          <span class="drawer-essay-card-text">
+            <span class="drawer-essay-card-title">On Keeping</span>
+            <span class="drawer-essay-card-meta">Apr 2, 2026</span>
+          </span>
+        </span></a>
+        
+        
+        <a href="/pieces/on-longing.html" class="drawer-essay-card-link"><span class="drawer-essay-card">
+          <span class="drawer-essay-card-text">
+            <span class="drawer-essay-card-title">On Longing</span>
+            <span class="drawer-essay-card-meta">Apr 2, 2026</span>
+          </span>
+        </span></a>
+        
+        
+        <a href="/pieces/on-silence.html" class="drawer-essay-card-link"><span class="drawer-essay-card">
+          <span class="drawer-essay-card-text">
+            <span class="drawer-essay-card-title">On Silence</span>
+            <span class="drawer-essay-card-meta">Apr 2, 2026</span>
+          </span>
+        </span></a>
+        
+      </div>
+      <a href="/all-work/#essays" class="drawer-more drawer-subsection-link">All in Essays <span aria-hidden="true">&rarr;</span></a>
+    </details>
+
+    <details class="drawer-section" data-voice="writing">
+      <summary class="drawer-label">Series</summary>
+      
+      
+      <div class="drawer-essay-cards">
+        
+        
+        <a href="/pieces/written-in-ink.html" class="drawer-essay-card-link"><span class="drawer-essay-card">
+          <span class="drawer-essay-card-text">
+            <span class="drawer-essay-card-title">Written in Ink</span>
+            <span class="drawer-essay-card-meta">Jun 4, 2026</span>
+          </span>
+        </span></a>
+        
+        
+        <a href="/pieces/thinking-is-for-after.html" class="drawer-essay-card-link"><span class="drawer-essay-card">
+          <span class="drawer-essay-card-text">
+            <span class="drawer-essay-card-title">Thinking Is for After</span>
+            <span class="drawer-essay-card-meta">Jun 11, 2026</span>
+          </span>
+        </span></a>
+        
+        
+        <a href="/pieces/it-will-be.html" class="drawer-essay-card-link"><span class="drawer-essay-card">
+          <span class="drawer-essay-card-text">
+            <span class="drawer-essay-card-title">It Will Be</span>
+            <span class="drawer-essay-card-meta">Jun 12, 2026</span>
+          </span>
+        </span></a>
+        
+      </div>
+      <a href="/series/#the-corner" class="drawer-more drawer-subsection-link">All in The Corner <span aria-hidden="true">&rarr;</span></a>
+
+      <div class="drawer-essay-cards">
+        
+        
+        <a href="/pieces/on-lying.html" class="drawer-essay-card-link"><span class="drawer-essay-card">
+          <span class="drawer-essay-card-text">
+            <span class="drawer-essay-card-title">On Lying</span>
+            <span class="drawer-essay-card-meta">Mar 12, 2026</span>
+          </span>
+        </span></a>
+        
+        
+        <a href="/pieces/on-perceiving.html" class="drawer-essay-card-link"><span class="drawer-essay-card">
+          <span class="drawer-essay-card-text">
+            <span class="drawer-essay-card-title">On Perceiving</span>
+            <span class="drawer-essay-card-meta">Mar 14, 2026</span>
+          </span>
+        </span></a>
+        
+        
+        <a href="/pieces/on-looking.html" class="drawer-essay-card-link"><span class="drawer-essay-card">
+          <span class="drawer-essay-card-text">
+            <span class="drawer-essay-card-title">On Looking</span>
+            <span class="drawer-essay-card-meta">Mar 22, 2026</span>
+          </span>
+        </span></a>
+        
+      </div>
+      <a href="/series/#the-on-series" class="drawer-more drawer-subsection-link">All in The On Series <span aria-hidden="true">&rarr;</span></a>
+    </details>
+
+    <details class="drawer-section" data-voice="book">
+      <summary class="drawer-label">Book</summary>
+      <a href="/book/" class="drawer-more drawer-subsection-link drawer-subsection-link--first">The Fragments <span aria-hidden="true">&rarr;</span></a>
+      <a href="/book/part-one/" class="drawer-more drawer-subsection-link">Part I · The Question <span aria-hidden="true">&rarr;</span></a>
+      <a href="/book/part-two/" class="drawer-more drawer-subsection-link">Part II · The Fragile Archive <span aria-hidden="true">&rarr;</span></a>
+    </details>
+
+    <div class="drawer-section-links" data-voice="notes">
+      <a href="/notes/">Notes</a>
+    </div>
+
+    <div class="drawer-section-links" data-voice="words">
+      <a href="/word/">Words</a>
+    </div>
+
+    <div class="drawer-section-links" data-voice="pictures">
+      <a href="/pictures/">Pictures</a>
+    </div>
+
+    <div class="drawer-section-links" data-voice="trivia">
+      <a href="/trivia/">Trivia</a>
+    </div>
+
+    <div class="drawer-section-links" data-voice="furniture">
+      <a href="/tools/">Instruments</a>
+    </div>
+
+    <div class="drawer-section-links" data-voice="house">
+      <a href="/moris/">Moris</a>
+    </div>
+
+    <div class="drawer-section-links" data-voice="about">
+      <a href="/about/">About</a>
+    </div>
+  </div>
+</div>
+
+<main id="main" tabindex="-1">
+<link rel="stylesheet" href="/css/house.css?v=20261028-9">
+<link rel="stylesheet" href="/css/drawer.css?v=20261024-1">
+
+<div class="house" id="house" data-catalog="/house/catalog.json?v=202610290200">
+  <div class="house-heading">
+    <div><p class="house-eyebrow">On Life <span class="amp">&amp;</span> Everything</p><h1>The House</h1></div>
+    <button class="house-drawer-toggle house-js" type="button" data-open="drawer" hidden>
+      <svg viewBox="0 0 28 22" aria-hidden="true"><path d="M2 3h24v16H2zM2 7h24M11 12h6"/></svg>
+      Your drawer <span data-kept-count>0</span>
+    </button>
+  </div>
+
+  <section class="house-entrance" id="house-entrance" aria-labelledby="house-welcome">
+    <div class="house-door-picture" aria-hidden="true">
+      <svg viewBox="0 0 400 450" fill="none">
+        <text class="door-name" x="195" y="27" text-anchor="middle">ON LIFE <tspan class="door-amp">&amp;</tspan> EVERYTHING</text>
+        <path class="door-wall" d="M28 413H372M71 413V41H319V413M86 413V56H304V413"/>
+        <path class="door-slab" d="M100 413V70H290V413Z"/>
+        <path class="door-panels" d="M118 91H272V211H118ZM118 235H272V389H118Z"/>
+        <path class="door-light" d="M100 413V70L170 96V413Z"/>
+        <path class="door-wall" d="M140 246v24M140 248l10 3M87 421H313"/>
+        <path class="door-mat" d="M114 429H281L305 445H92Z"/>
+        <circle cx="347" cy="212" r="7" class="door-bell"/>
+        <path class="door-wall" d="M342 205V190H352V205"/>
+      </svg>
+    </div>
+    <div class="house-welcome">
+      <p class="house-eyebrow">The door is open</p>
+      <h2 id="house-welcome">Come in.</h2>
+      <p>There are books on the shelf, a few things on the desk, and a cat who has already made himself at home.</p>
+      <p>The shelf and the desk change every day. If something stays with you, put it in your drawer.</p>
+      <div class="house-since" id="house-since" hidden>
+        <p class="house-eyebrow">Since you were last here</p>
+        <ul id="house-since-list"></ul>
+      </div>
+      <a class="house-enter" href="#study" id="house-enter">Enter the study <span aria-hidden="true">&rarr;</span></a>
+      <p class="house-entry-note">A room and a balcony so far.</p>
+    </div>
+  </section>
+
+  <section class="house-study" id="study" aria-labelledby="house-room-title" hidden>
+    <div class="house-room-bar">
+      <div><p class="house-eyebrow">Room 01</p><h2 id="house-room-title" tabindex="-1">The study</h2></div>
+      <p class="house-time"><span class="house-time-dot" aria-hidden="true"></span><span><span id="house-hour">İstanbul</span> <span class="house-time-now"><span class="house-time-sep">·</span> <span id="house-clock"></span> <span data-house-temperature hidden></span></span></span></p>
+    </div>
+    <div class="house-instruction-row"><p class="house-instruction">Choose something in the room.</p><span class="house-tools"><button class="house-places house-js" type="button" aria-pressed="false" data-places hidden>Show places to look</button><button class="house-places house-js" type="button" aria-pressed="false" data-fullscreen hidden>Full screen</button></span></div>
+    <div class="house-stage">
+    <div class="house-scene" id="house-scene" data-hour="day" data-moris="cushion">
+      <svg class="house-room-art" viewBox="0 0 1000 650" fill="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="house-sky" x2="0" y2="1"><stop class="house-sky-top"/><stop offset="1" class="house-sky-bottom"/></linearGradient>
+    <linearGradient id="house-shade-lit" gradientUnits="userSpaceOnUse" x2="0" y1="259" y2="310"><stop stop-color="#d6b97c"/><stop offset=".6" stop-color="#e5ca8e"/><stop offset="1" stop-color="#f5e0a4"/></linearGradient>
+    <radialGradient id="house-glow"><stop stop-color="#edc878" stop-opacity=".4"/><stop offset="1" stop-color="#edc878" stop-opacity="0"/></radialGradient>
+    <pattern id="house-weave" width="7" height="5" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.3" fill="none" stroke="currentColor" stroke-width=".5" opacity=".14"/><circle cx="5.5" cy="4.5" r="1.3" fill="none" stroke="currentColor" stroke-width=".5" opacity=".1"/></pattern>
+    <pattern id="house-grain" width="9" height="9" patternUnits="userSpaceOnUse"><circle cx="1" cy="2" r=".5" fill="currentColor" opacity=".08"/><circle cx="6" cy="7" r=".4" fill="currentColor" opacity=".05"/></pattern>
+    <!-- The dark of the evening and the night. It falls on the room, not on
+         the window, and when the lamp is on it leaves the desk in its light. -->
+    <radialGradient id="house-lamplight" cx="575" cy="360" r="560" gradientUnits="userSpaceOnUse"><stop stop-color="#4a3a2c" stop-opacity="0"/><stop offset=".18" stop-color="#4a3a2c" stop-opacity="0"/><stop offset=".4" stop-color="#4a3a2c" stop-opacity=".16"/><stop offset=".6" stop-color="#4a3a2c" stop-opacity=".42"/><stop offset=".8" stop-color="#4a3a2c" stop-opacity=".74"/><stop offset="1" stop-color="#4a3a2c"/></radialGradient>
+    <mask id="house-dusk-mask"><path fill="#fff" d="M0 0H1000V650H0Z"/><path fill="#000" d="M566 114H690V158H566ZM696 114H820V158H696ZM571 169H685V321H571ZM701 169H815V321H701Z"/><g class="house-door-shut"><path fill="#000" d="M944.8 172.8L971 169.9V272H944.8Z"/><path class="house-door-lamp" fill="#000" d="M927 174.8L944.8 172.8V272H971V411.4L927 393.7Z"/><path stroke="#fff" stroke-width="2.6" d="M924 322.7l9.5 3.2"/></g><path class="house-door-open" fill="#000" d="M944.8 164.1L977 159.9V272H944.8Z"/><path fill="#fff" d="M569 259H609L626 306Q588.5 314 551 306ZM617 306h6v26h-6ZM560 108H826V131H560ZM816.5 131h3v114h-3Z"/></mask>
+    <linearGradient id="house-sky-under" gradientUnits="userSpaceOnUse" x2="0" y1="108" y2="332"><stop class="house-sky-top"/><stop offset="1" class="house-sky-bottom"/></linearGradient>
+    <!-- The same sky, for the view drawn at three-fifths its size: the window's
+         top and bottom, 108 and 332, are 32 and 405 in the view's own lines. -->
+    <linearGradient id="house-sky-view" gradientUnits="userSpaceOnUse" x2="0" y1="32" y2="405.3"><stop class="house-sky-top"/><stop offset="1" class="house-sky-bottom"/></linearGradient>
+    <clipPath id="house-door-clip"><path d="M944.8 164.1L977 159.9V272H944.8Z"/></clipPath>
+    <clipPath id="house-window-clip"><path d="M560 108H826V332H560Z"/></clipPath>
+  </defs>
+  <!-- The room is drawn in one-point perspective from someone standing in
+       the doorway: every line that runs into the room meets at 500 222. -->
+  <path class="house-wall" d="M0 0H1000V650H0Z"/>
+  <path class="house-shade" d="M0 0H1000V4L860 65H140L0 4ZM0 4L140 65V452.4L0 541.5ZM1000 4L860 65V452.4L1000 541.5Z"/>
+  <path class="house-floor" d="M0 541.5L140 452.4H860L1000 541.5V650H0Z"/>
+  <path fill="url(#house-grain)" d="M0 0H1000V650H0Z"/>
+  <g class="house-line">
+    <path d="M140 65V452.4M860 65V452.4M0 4L140 65H860L1000 4M0 541.5L140 452.4H860L1000 541.5"/>
+    <path class="house-faint" d="M0 20L140 76.6H860L1000 20M0 522L140 438H860L1000 522"/>
+    <!-- Floorboards, and the ends of a few of them. -->
+    <path class="house-faint" d="M200 452.4L0 606M260 452.4L54.2 650M320 452.4L165.6 650M380 452.4L277.1 650M440 452.4L388.5 650M500 452.4V650M560 452.4L611.5 650M620 452.4L722.9 650M680 452.4L834.4 650M740 452.4L945.8 650M800 452.4L1000 606M81.4 489.9H151.2M83.3 542H166.7M0 619.2H86.2M184.2 525.2H263.2M227.3 483.8H295.5M750 542H833.3M900 606H1000M905.4 533.4H986.5"/>
+  </g>
+  <!-- The tall bookshelf. Its books and shelves are drawn in the page, so
+       the scene remains crisp at every screen size and in every palette. -->
+  <g class="house-line" transform="translate(90 57) scale(.85)">
+    <path class="house-wood" d="M81 133H316V476H81Z"/><path class="house-shelf-back" d="M96 148H301V460H96Z"/>
+    <path d="M96 239H301M96 247H301M96 342H301M96 350H301M86 476V490M310 476V490"/>
+    <path class="house-book-olive" d="M111 166h22v72h-22zM234 269h17v72h-17zM110 379h24v80h-24z"/>
+    <path class="house-book-blue" d="M137 177h17v61h-17zM105 266h30v75h-30zM246 385h22v74h-22z"/>
+    <path class="house-book-rust" d="M163 161h26v77h-26zM263 176l20-4 15 62-20 4zM165 278h20v63h-20zM199 370h25v89h-25z"/>
+    <path class="house-book-cream" d="M194 175h17v63h-17zM215 163h21v75h-21zM140 271h18v70h-18zM192 300l17-5 13 42-17 5zM143 393h37v13h-37zM140 410h44v15h-44zM140 430h48v28h-48z"/>
+    <path class="house-faint" d="M117 181h10M117 187h10M170 176h12M170 218h12M221 179h9M112 278h16M112 284h16M204 391h15M204 398h15M252 441h10"/>
+    <path class="house-paper" d="M243 305h39v35h-39z"/><path d="M251 316h23M253 322h19"/>
+    <path class="house-wood" d="M69 126H326V137H69Z"/>
+    <!-- A small Polaroid rests on the third shelf. -->
+    <a href="/farm-house/" tabindex="-1" aria-hidden="true">
+      <g transform="rotate(-5 270 458)" stroke-width=".8">
+        <path class="house-paper" d="M248 403H291V458H248Z"/>
+        <image href="/farm-house/assets/exterior-watercolor.webp?v=20261001-loose" x="252" y="407" width="35" height="35" preserveAspectRatio="xMidYMid slice"/>
+      </g>
+    </a>
+  </g>
+  <g class="house-line"><path class="house-wood" d="M358.6 170L370.4 174.3V441.5L358.6 461.6ZM367.1 164.1L378.3 169V177.1L367.1 173.5Z"/></g>
+  <!-- A clock on the wall. It keeps İstanbul's time, like the window;
+       js/house.js turns the hands. -->
+  <g class="house-line house-wall-clock" transform="translate(99 30.3) scale(.82)">
+    <circle class="house-wood" cx="450" cy="146" r="42"/><circle class="house-paper" cx="450" cy="146" r="35"/>
+    <path d="M450 116v6M480 146h-6M450 176v-6M420 146h6" stroke-width="2"/>
+    <path class="house-faint" d="M465 120l-2 3.5M476 131l-3.5 2M476 161l-3.5-2M465 172l-2-3.5M435 172l2-3.5M424 161l3.5-2M424 131l3.5 2M435 120l2 3.5"/>
+    <line class="house-clock-hour" x1="450" y1="149" x2="450" y2="129" stroke-width="3"/>
+    <line class="house-clock-minute" x1="450" y1="150" x2="450" y2="121" stroke-width="2"/>
+    <circle cx="450" cy="146" r="2.5" fill="currentColor"/>
+  </g>
+  <!-- A question card on the wall. -->
+  <g class="house-line" transform="translate(92.9 17.65) scale(.85)"><path class="house-paper" d="M356 260l48-4 5 66-48 4Z"/><circle cx="381" cy="265" r="2"/><text x="382" y="304" text-anchor="middle" class="house-question-mark">?</text></g>
+  <!-- The window, and the roofs, the sea and the Islands beyond it. The
+       sky, the sun and the moon follow İstanbul's own: js/house.js puts the
+       sun and the moon in the casement on their side of the sky, east on the
+       left, west on the right, while they are above the horizon and in front
+       of the house. Two casements open under a fixed top light. -->
+  <g class="house-line">
+    <path class="house-window-trim" d="M548 96H838V338H548Z"/>
+    <path class="house-glass" fill="url(#house-sky)" d="M560 108H826V332H560Z"/>
+    <g clip-path="url(#house-window-clip)" stroke="none">
+      <circle class="house-sun" cx="770" cy="205" r="15"/>
+      <g class="house-stars" fill="#f6e5b9"><circle cx="590" cy="135" r="1.8"/><circle cx="650" cy="128" r="1.5"/><circle cx="760" cy="140" r="1.5"/><circle cx="800" cy="186" r="1.3"/><circle cx="722" cy="204" r="1.5"/><circle cx="600" cy="192" r="1.4"/></g>
+      <g class="house-moon"><circle class="house-moon-disc" cx="770" cy="205" r="13"/><path class="house-moon-lit" d=""/></g>
+      <!-- The view at the size the balcony shows it, so the roofs come up to
+           the sea in both rooms and the sun stands over the same place. -->
+      <g transform="matrix(.6 0 0 .6 200 88.8)"><!-- What the house looks out on, from the study window and the balcony
+     alike: the roofs of the neighbourhood, a strip of sea, and the Islands
+     on the horizon, part of them behind the taller blocks to the left. It
+     is drawn with the horizon at 222, and both rooms show it at
+     three-fifths of this size, so the roofs come up to the sea alike in
+     each: the window with its horizon at 222, the balcony at 285. The
+     window sees the part from about 600 to 1040; through the glass on the
+     balcony's right-hand side the roofs and the sea go on to the west.
+
+     Land and sea are laid first in the sky's own colour, so the sun, the
+     moon and the stars go behind them and the roofs keep their haze. -->
+<g fill="url(#house-sky-view)">
+  <path d="M120 222C126 220.5 131 219 135 219C140 219 145 220.5 150 222ZM170 222C186 219.5 206 212 228 212C244 212 252 215.5 262 215.5C274 215.5 284 209.5 300 209.5C320 209.5 342 219 360 222ZM395 222C405 219.5 418 214 430 214C443 214 448 217.5 455 217.5C463 217.5 470 215.5 482 215.5C496 215.5 508 220.5 520 222ZM548 222C560 220.5 572 213 584 213C595 213 608 220 620 222ZM662 222C674 220 690 215 705 215C722 215 738 220 752 222ZM792 222C797 220.5 801 219.5 804 219.5C807 219.5 810 220.5 812 222ZM835 222C838 221 841 220.2 843 220.2C845 220.2 847 221 848 222Z"/>
+  <path d="M40 222H1345V540H40Z"/>
+  <path d="M40 540V268H96L113 258L130 268V206H150V199H166V206H189V188H191V206H205V214H236V203H262V196H266V203H300V216H342V247H372L391 238L410 247V256H426V246H432V256H470V262H486L503 252L520 262V278H558V292H576V276L598 262L621 276V290H635V264H652V251H657V264H671V295H689V281H701V269L725 257L752 269V293H768V273L786 263L804 273V281H850L865 267L880 281V276H915V262H930V255H940V262H945V284H980H1004V270H1020V262H1026V270H1046V288H1070L1088 276L1106 288V266H1138V252H1142V266H1150V294H1176V280L1196 268L1216 280V290H1250V276H1272V260H1292V276H1300V298H1318L1332 288L1345 298V540Z"/>
+</g>
+<path class="house-islands" d="M120 222C126 220.5 131 219 135 219C140 219 145 220.5 150 222ZM170 222C186 219.5 206 212 228 212C244 212 252 215.5 262 215.5C274 215.5 284 209.5 300 209.5C320 209.5 342 219 360 222ZM395 222C405 219.5 418 214 430 214C443 214 448 217.5 455 217.5C463 217.5 470 215.5 482 215.5C496 215.5 508 220.5 520 222ZM548 222C560 220.5 572 213 584 213C595 213 608 220 620 222ZM662 222C674 220 690 215 705 215C722 215 738 220 752 222ZM792 222C797 220.5 801 219.5 804 219.5C807 219.5 810 220.5 812 222ZM835 222C838 221 841 220.2 843 220.2C845 220.2 847 221 848 222Z"/>
+<path class="house-sea" d="M40 222H1345V298L1332 288L1318 298H1300V276H1292V260H1272V276H1250V290H1216V280L1196 268L1176 280V294H1150V266H1142V252H1138V266H1106V288L1088 276L1070 288H1046V270H1026V262H1020V270H1004V284H980H945V262H940V255H930V262H915V276H880V281L865 267L850 281H804V273L786 263L768 273V293H752V269L725 257L701 269V281H689V295H671V264H657V251H652V264H635V290H621V276L598 262L576 276V292H558V278H520V262L503 252L486 262H470V256H432V246H426V256H410V247L391 238L372 247H342V222H130V268L113 258L96 268H40Z"/>
+<path class="house-sea-light" d="M54 229h20M352 231h18M372 226h14M446 233h24M478 228h16M532 236h18M600 227h14M612 233h26M640 226h16M716 236h14M760 229h22M770 240h14M812 243h18M840 228h14M880 233h26M950 228h16M1012 230h18M1064 236h20M1118 229h14M1168 234h22M1236 230h16M1296 236h18"/>
+<path class="house-rooftops" d="M40 540V268H96L113 258L130 268V206H150V199H166V206H189V188H191V206H205V214H236V203H262V196H266V203H300V216H342V247H372L391 238L410 247V256H426V246H432V256H470V262H486L503 252L520 262V278H558V292H576V276L598 262L621 276V290H635V264H652V251H657V264H671V295H689V281H701V269L725 257L752 269V293H768V273L786 263L804 273V281H850L865 267L880 281V276H915V262H930V255H940V262H945V284H980H1004V270H1020V262H1026V270H1046V288H1070L1088 276L1106 288V266H1138V252H1142V266H1150V294H1176V280L1196 268L1216 280V290H1250V276H1272V260H1292V276H1300V298H1318L1332 288L1345 298V540Z"/>
+</g>
+      <!-- The footer's rain and snow fall here, behind the glass. -->
+      <g class="house-weather"></g>
+      <path class="house-window-snow" d=""/>
+    </g>
+    <path class="house-window-trim" fill-rule="evenodd" d="M560 108H826V332H560ZM566 114V158H690V114ZM696 114V158H820V114ZM566 164V326H690V164ZM696 164V326H820V164Z"/>
+    <path class="house-window-trim" fill-rule="evenodd" d="M566 164H690V326H566ZM571 169V321H685V169ZM696 164H820V326H696ZM701 169V321H815V169Z"/>
+    <path class="house-paper" d="M685.6 235h3.8v11h-3.8Z"/><path d="M687.5 241v16" stroke-width="2.4"/>
+    <!-- A venetian blind, drawn all the way up. -->
+    <path class="house-paper" d="M560 108H826V127H560Z"/><path class="house-faint" d="M562 114H824M562 118H824M562 122H824"/><path class="house-window-trim" d="M561 127H825V131H561Z"/>
+    <path d="M818 131V236" stroke-width="1"/><path class="house-paper" d="M816 236h4l1 8h-6Z" stroke-width="1"/>
+    <path class="house-window-trim" d="M540 332H842L856.3 336.6H541.7ZM541.7 336.6H856.3V343.3H541.7Z"/>
+  </g>
+  <!-- The carpet, wide enough for the desk, the chair and a cat. -->
+  <path class="house-carpet" d="M290.7 489.9H709.3L821.4 633.4H178.6Z"/>
+  <path fill="url(#house-weave)" d="M290.7 489.9H709.3L821.4 633.4H178.6Z"/>
+  <path class="house-line house-faint" d="M302.9 496.3H697.1L785.5 619.2H214.5Z"/>
+  <!-- The sun through the window, laid on the floor pane by pane. It
+       leans with the sun in the morning and the evening. -->
+  <g class="house-light-beam">
+    <path d="M546.7 483.4H676L662 531.5H508.8ZM694.1 483.4H823.5L836.6 531.5H683.5Z"/>
+    <path d="M498.8 535.7H667.6L662.8 553.6H484.3ZM675.8 535.7H844.6L849.9 553.6H671.4Z"/>
+  </g>
+  <!-- The glass door out to the balcony, in the right-hand wall. It opens
+       into the room, hinged on the side nearest us, and folds back almost
+       to the wall, standing a little way off it, turned twelve degrees
+       toward us. It is shut while Moris is indoors; while he is out
+       on the balcony it stands open. Its lower part is wood and the rest
+       is clear glass, so the balcony shows through it either way. -->
+  <g class="house-line">
+    <path class="house-window-trim" d="M915 153.8L985 142.3V532L915 487.4Z"/>
+    <!-- Beyond the doorway: the sky and the strip of sea to the west over
+         the balcony's parapet, and the balcony's floor. The parapet and the
+         floor lie on planes that run into the room like the study's own
+         wall, so their edges meet at 500 222 too. -->
+    <path fill="url(#house-sky-under)" stroke="none" d="M944.8 164.1L977 159.9V272H944.8Z"/>
+    <g clip-path="url(#house-door-clip)" stroke="none"><g transform="matrix(.6 0 0 .6 204 88.8)"><!-- What the house looks out on, from the study window and the balcony
+     alike: the roofs of the neighbourhood, a strip of sea, and the Islands
+     on the horizon, part of them behind the taller blocks to the left. It
+     is drawn with the horizon at 222, and both rooms show it at
+     three-fifths of this size, so the roofs come up to the sea alike in
+     each: the window with its horizon at 222, the balcony at 285. The
+     window sees the part from about 600 to 1040; through the glass on the
+     balcony's right-hand side the roofs and the sea go on to the west.
+
+     Land and sea are laid first in the sky's own colour, so the sun, the
+     moon and the stars go behind them and the roofs keep their haze. -->
+<g fill="url(#house-sky-view)">
+  <path d="M120 222C126 220.5 131 219 135 219C140 219 145 220.5 150 222ZM170 222C186 219.5 206 212 228 212C244 212 252 215.5 262 215.5C274 215.5 284 209.5 300 209.5C320 209.5 342 219 360 222ZM395 222C405 219.5 418 214 430 214C443 214 448 217.5 455 217.5C463 217.5 470 215.5 482 215.5C496 215.5 508 220.5 520 222ZM548 222C560 220.5 572 213 584 213C595 213 608 220 620 222ZM662 222C674 220 690 215 705 215C722 215 738 220 752 222ZM792 222C797 220.5 801 219.5 804 219.5C807 219.5 810 220.5 812 222ZM835 222C838 221 841 220.2 843 220.2C845 220.2 847 221 848 222Z"/>
+  <path d="M40 222H1345V540H40Z"/>
+  <path d="M40 540V268H96L113 258L130 268V206H150V199H166V206H189V188H191V206H205V214H236V203H262V196H266V203H300V216H342V247H372L391 238L410 247V256H426V246H432V256H470V262H486L503 252L520 262V278H558V292H576V276L598 262L621 276V290H635V264H652V251H657V264H671V295H689V281H701V269L725 257L752 269V293H768V273L786 263L804 273V281H850L865 267L880 281V276H915V262H930V255H940V262H945V284H980H1004V270H1020V262H1026V270H1046V288H1070L1088 276L1106 288V266H1138V252H1142V266H1150V294H1176V280L1196 268L1216 280V290H1250V276H1272V260H1292V276H1300V298H1318L1332 288L1345 298V540Z"/>
+</g>
+<path class="house-islands" d="M120 222C126 220.5 131 219 135 219C140 219 145 220.5 150 222ZM170 222C186 219.5 206 212 228 212C244 212 252 215.5 262 215.5C274 215.5 284 209.5 300 209.5C320 209.5 342 219 360 222ZM395 222C405 219.5 418 214 430 214C443 214 448 217.5 455 217.5C463 217.5 470 215.5 482 215.5C496 215.5 508 220.5 520 222ZM548 222C560 220.5 572 213 584 213C595 213 608 220 620 222ZM662 222C674 220 690 215 705 215C722 215 738 220 752 222ZM792 222C797 220.5 801 219.5 804 219.5C807 219.5 810 220.5 812 222ZM835 222C838 221 841 220.2 843 220.2C845 220.2 847 221 848 222Z"/>
+<path class="house-sea" d="M40 222H1345V298L1332 288L1318 298H1300V276H1292V260H1272V276H1250V290H1216V280L1196 268L1176 280V294H1150V266H1142V252H1138V266H1106V288L1088 276L1070 288H1046V270H1026V262H1020V270H1004V284H980H945V262H940V255H930V262H915V276H880V281L865 267L850 281H804V273L786 263L768 273V293H752V269L725 257L701 269V281H689V295H671V264H657V251H652V264H635V290H621V276L598 262L576 276V292H558V278H520V262L503 252L486 262H470V256H432V246H426V256H410V247L391 238L372 247H342V222H130V268L113 258L96 268H40Z"/>
+<path class="house-sea-light" d="M54 229h20M352 231h18M372 226h14M446 233h24M478 228h16M532 236h18M600 227h14M612 233h26M640 226h16M716 236h14M760 229h22M770 240h14M812 243h18M840 228h14M880 233h26M950 228h16M1012 230h18M1064 236h20M1118 229h14M1168 234h22M1236 230h16M1296 236h18"/>
+<path class="house-rooftops" d="M40 540V268H96L113 258L130 268V206H150V199H166V206H189V188H191V206H205V214H236V203H262V196H266V203H300V216H342V247H372L391 238L410 247V256H426V246H432V256H470V262H486L503 252L520 262V278H558V292H576V276L598 262L621 276V290H635V264H652V251H657V264H671V295H689V281H701V269L725 257L752 269V293H768V273L786 263L804 273V281H850L865 267L880 281V276H915V262H930V255H940V262H945V284H980H1004V270H1020V262H1026V270H1046V288H1070L1088 276L1106 288V266H1138V252H1142V266H1150V294H1176V280L1196 268L1216 280V290H1250V276H1272V260H1292V276H1300V298H1318L1332 288L1345 298V540Z"/>
+</g></g>
+    <path class="house-door-floor-plane" stroke="none" d="M944.8 345.7L977 354.6V498.6L944.8 480Z"/>
+    <path class="house-faint" d="M944.8 418H977"/>
+    <path class="house-door-parapet" stroke="none" d="M944.8 271.8L977 275.4V354.6L944.8 345.7Z"/><path class="house-shade" stroke="none" d="M944.8 271.8L977 275.4V354.6L944.8 345.7Z"/>
+    <path class="house-faint" d="M944.8 345.7L977 354.6"/>
+    <path class="house-door-coping" d="M944.8 268.3L977 271.6V275.4L944.8 271.8Z" stroke-width="1"/>
+    <path class="house-wall" d="M921 164.1H944.8V480H921Z"/><path class="house-shade" stroke="none" d="M921 164.1H944.8V480H921Z"/>
+    <g class="house-door-open">
+      <!-- While Moris is out there the balcony's glass is closed. -->
+      <path class="house-faint" d="M961 162V270"/>
+      <path class="house-door-glint" d="M951 236L967 204"/>
+      <path class="house-wall" d="M921 164.1L977 156.4V159.9L944.8 164.1Z"/><path class="house-door-head" stroke="none" d="M921 164.1L977 156.4V159.9L944.8 164.1Z"/>
+      <path class="house-window-trim" d="M921 480L977 514.1V498.6L944.8 480Z"/>
+      <path class="house-door-panel" d="M987 155L1019.6 144.7V566.4L987 520.6Z"/>
+      <path class="house-door-leaf-glass" d="M988.3 167.8L1018 160.3V446.2L988.3 418.9Z"/>
+      <path class="house-door-glint" d="M991 256L997 230"/>
+      <!-- Its two hinges, on the jamb nearest us: the leaf has swung on
+           them through the doorway and stands back near the wall. -->
+      <path class="house-door-hinge" stroke-width="1" d="M984.6 195.5h3.6v17h-3.6ZM984.6 452h3.6v17h-3.6Z"/>
+    </g>
+    <!-- After sunset the balcony's lamp lights what shows through the
+         glass. -->
+    <g class="house-door-shut">
+      <path class="house-door-panel" fill-rule="evenodd" d="M921 164.1L977 156.4V514.1L921 480ZM927 174.8L971 169.9V411.4L927 393.7Z"/>
+      <path class="house-door-lamp house-door-lamplight" stroke="none" d="M927 174.8L944.8 172.8V272H971V411.4L927 393.7Z"/>
+      <path class="house-door-pane" d="M927 174.8L971 169.9V411.4L927 393.7Z"/>
+      <path class="house-door-glint" d="M951 236L967 204M956 248L964 232"/>
+      <path class="house-faint" d="M927 405.2L971 422.9V500.6L927 473.7Z"/>
+      <path d="M924 322.7l9.5 3.2" stroke-width="2.6"/><circle class="house-window-trim" cx="924" cy="322.7" r="2.2"/>
+    </g>
+  </g>
+  <!-- Plant in the corner beside the window. -->
+  <g class="house-line" transform="translate(-61.5 .9)"><path class="house-pot" d="M924 456h45l-6 33h-33Z"/><path d="M945 456V381M945 425l-18-22M945 405l15-25"/><path class="house-leaf" d="M944 405q-32-2-25-34 25 7 25 34ZM946 424q32-9 30-34-26 5-30 34ZM945 389q-20-12-9-38 22 16 9 38Z"/></g>
+  <!-- His burgundy cushion, on the floor close under the window, between
+       the desk and the plant. -->
+  <g transform="translate(97.83 65.1) scale(.7902)"><g class="house-line"><path class="house-cushion" d="M780 473H904Q914 473 916 481L920 496Q922 504 912 504H772Q762 504 764 496L768 481Q770 473 780 473Z"/><path class="house-cushion-trim" d="M783 477H901Q908 477 910 483L913 494Q914 500 907 500H777Q770 500 771 494L774 483Q776 477 783 477Z"/></g></g>
+  <!-- Chair behind the desk. -->
+  <g class="house-line"><path class="house-chair" d="M448 420V333q0-17 17-17h53q17 0 17 17v87Z"/><path d="M463 334V410M477 331V410M491 330V410M505 331V410M519 334V410"/><path d="M448 456V500M535 456V500M442 456V533M539 456V533"/></g>
+  <!-- Desk, papers, cup, and lamp. -->
+  <g class="house-line">
+    <path class="house-wood" d="M365.4 456H374.7V521.2H365.4ZM625.3 456H634.6V521.2H625.3Z"/>
+    <path class="house-wood" d="M331.2 411H668.8L640.3 379.1H359.7ZM331.2 411H668.8V420H331.2Z"/>
+    <path class="house-desk-front" d="M349.3 420H650.8V456H349.3Z"/><path d="M500 420V456"/><path d="M410 438h30M560 438h30" stroke-width="3"/>
+    <path class="house-wood" d="M338 420H349.3V582H338ZM650.8 420H662V582H650.8Z"/>
+    <path class="house-paper" d="M486.9 405.8L552.8 407L553 393.3L491.9 392.4Z"/><path class="house-faint" d="M495.7 402.5L543.2 403.3M497.9 399.4L544.5 400.1M500 396.3L531.2 396.8"/>
+    <g class="house-coffee-service">
+    <path class="house-cup" d="M375 372h26v25q-13 9-26 0Z"/><path d="M401 377q19-4 14 10-3 7-14 3"/>
+    <path class="house-steam house-faint" d="M384 364q-8-8 0-14t0-13M394 362q-6-7 0-13"/>
+    </g>
+    <path d="M620 389V311L593 287M602 389h36" stroke-width="3"/>
+    <!-- An e-reader lying on the desk under the lamp. -->
+    <path class="house-ereader" d="M558 404H604V406.5H558Z"/>
+    <path class="house-ereader" d="M555.5 390H596L604 404H558Z"/>
+    <path class="house-ereader-screen" d="M559 392.3H593.4L598.6 401H561.2Z" stroke-width=".8"/>
+    <path class="house-faint" d="M562 394.8H593.5M562.8 397.2H595.3M563.6 399.4H590"/>
+    <!-- The day's word cards, propped up where they can be read. -->
+    <path class="house-word-paper" d="M437.3 403.6H480.5L480.9 372.8H438.4Z"/>
+    <path class="house-word-paper" d="M430.2 405.3H473.8L474.3 374.1H431.4Z"/><path d="M438 386h28"/><path class="house-faint" d="M441 393h22"/>
+    <!-- The lamp stands below eye level, so its shade is seen from a little
+         above: the rim along its foot curves down toward us, and the bulb
+         and the opening it shines through are out of sight inside. Lit, the
+         shade glows most toward its foot, nearest the bulb. -->
+    <path class="house-lampshade" d="M569 259H609L626 306Q588.5 314 551 306Z"/>
+  </g>
+  <ellipse class="house-lamp-glow" fill="url(#house-glow)" cx="560" cy="356" rx="160" ry="110"/>
+  <!-- His burgundy cushion stays where it is, close under the window;
+       Moris does not. By İstanbul's hour he is on it, asleep at the window,
+       on top of the bookshelf, or out on the carpet. js/house.js moves him;
+       his eyes close at the window. -->
+  <g transform="translate(8.9 43.7) scale(.898)">
+    <g class="house-line house-moris" transform="translate(109.7 23.83) scale(.88)">
+      <!-- Moris, shared by both rooms: a long resting body and a slightly turned face. -->
+<g stroke-width=".65">
+  <!-- The shoulders sit above a low back, with the hind legs resting along it. -->
+  <path class="house-cat" style="fill:#2e302c;stroke:#2e302c" d="M805 465C809 456 817 451 828 451C841 450 853 454 865 459C876 462 881 470 879 478C872 482 860 483 845 482L804 482C798 479 799 471 805 465Z"/>
+  <path d="M817 457C831 451 846 455 858 459C849 457 833 455 822 460" fill="none" stroke="#41433e" stroke-width="1.1" opacity=".7"/>
+  <path d="M858 462C870 462 877 468 875 475C871 478 860 479 851 478" fill="none" stroke="#353833" stroke-width="1.5"/>
+  <path class="house-cat" style="fill:#20221f;stroke:#20221f" d="M853 476C861 473 871 473 879 476C881 479 877 481 871 481L846 482L831 481C829 479 832 477 836 477Z"/>
+  <!-- The tail lies along the body rather than making a large loop. -->
+  <path d="M877 472C886 474 889 478 884 481C875 484 856 484 840 483" fill="none" stroke="#242622" stroke-width="4.5"/>
+  <path d="M883 478C878 481 859 482 846 481.8" fill="none" stroke="#45463e" stroke-width=".65"/>
+  <!-- Forelegs extend from the chest; the nearer paw rests over the other. -->
+  <path class="house-cat" style="fill:#292b27;stroke:#292b27" d="M804 463C801 467 798 471 793 475C789 476 787 479 790 481C793 483 799 482 803 481L817 477L821 464Z"/>
+  <path d="M812 470C810 475 803 478 799 480M792 479L793 481M796 478.5L797 481" fill="none" stroke="#4a4b42" stroke-width=".6"/>
+  <!-- Tall ears and a narrower jaw frame the slightly asymmetric face. -->
+  <path class="house-cat" style="fill:#2e302c;stroke:#2e302c" d="M793 447C792 441 793 433 795 430C798 431 802 438 804 441C808 440 813 441 817 443C820 440 824 437 828 437C827 443 824 448 822 451C823 457 819 464 814 467C811 469 806 470 802 468C796 465 792 460 792 455C791 452 792 449 793 447Z"/>
+  <path d="M796 434L801 442L795 445ZM824 440L818 446L822 446Z" fill="#514b43" stroke="none" opacity=".65"/>
+  <path d="M797 447C801 443 808 443 813 446C808 445 802 447 799 450Z" fill="#41443c" stroke="none" opacity=".7"/>
+  <!-- A lit bridge and a small nose, without a smiling muzzle outline. -->
+  <path d="M807 452C807.5 454 808.2 457 809.5 459L807 460.5L806 458Q807 455 807 452Z" fill="#494c42" stroke="none" opacity=".4"/>
+  <path d="M802 461Q805 459 808 461Q810 459 813 460Q814 464 809 466Q804 466 802 463Z" fill="#363931" stroke="none"/>
+  <path d="M805.5 460.5Q808 459.7 810.2 460.4L808.1 462.5Z" fill="#141712" stroke="none"/>
+  <path d="M808.1 462.5L808 464.2M805.5 465Q808 466 810.3 464.8" fill="none" stroke="#171a15" stroke-width=".55"/>
+  <path class="house-cat-eyes house-cat-eyes--shut" d="M795.7 453.3Q798.5 455.2 801.4 453.8M812 453.8Q814.6 455.8 817.2 453.5" fill="none" stroke-width=".8"/>
+  <g class="house-cat-eyes--open" stroke="none">
+    <!-- Rounded irises under relaxed upper lids; the far eye is a little smaller. -->
+    <circle cx="798.6" cy="452.8" r="2.85"/><circle cx="814.4" cy="453.5" r="2.6"/>
+    <g fill="#aa9f62" opacity=".48"><circle cx="798.6" cy="452.8" r="2.85"/><circle cx="814.4" cy="453.5" r="2.6"/></g>
+    <ellipse class="house-cat-pupil" cx="799" cy="452.9" rx="1.05" ry="2.2"/><ellipse class="house-cat-pupil" cx="814.6" cy="453.6" rx=".95" ry="2.05"/>
+    <path d="M794.9 449.3L802 449.7L802 451Q798.8 450.2 795.1 451ZM811.2 450L817.5 450.5L817.5 451.8Q814.4 451.2 811.3 451.8Z" fill="#2e302c"/>
+    <circle cx="797.4" cy="452" r=".35" fill="#e0d9b6" opacity=".8"/><circle cx="813.4" cy="452.8" r=".3" fill="#e0d9b6" opacity=".7"/>
+  </g>
+  <path d="M802 462L789 460.5M802 464L788.5 464.3M812 462L824 459.5M812 464L825 463" fill="none" stroke="#94988a" stroke-width=".4" opacity=".5"/>
+</g>
+
+    </g>
+  </g>
+  <!-- The door we came in by, open beside us. -->
+  <g class="house-line">
+    <path class="house-shelf-back" d="M0 0H76.2L88.3 11.7V650H0Z"/><path class="house-shade" stroke="none" d="M0 0H76.2L88.3 11.7V650H0Z"/>
+    <path class="house-faint" d="M0 37.5L61.9 74.6V575.7L10.3 650"/>
+    <ellipse class="house-shelf-back" cx="77" cy="582" rx="3.5" ry="8"/><circle class="house-wood" cx="74" cy="582" r="5.5"/>
+  </g>
+  <path class="house-dusk" mask="url(#house-dusk-mask)" d="M0 0H1000V650H0Z"/>
+</svg>
+
+
+
+      <button class="house-hotspot house-hotspot--books" data-open="books" type="button"><span class="house-label"><span class="house-pin" aria-hidden="true">1</span><span class="house-hotspot-name">Bookshelf</span></span></button>
+      <button class="house-hotspot house-hotspot--words" data-open="words" type="button"><span class="house-label"><span class="house-pin" aria-hidden="true">2</span><span class="house-hotspot-name">Word cards</span></span></button>
+      <button class="house-hotspot house-hotspot--question" data-open="question" type="button"><span class="house-label"><span class="house-pin" aria-hidden="true">3</span><span class="house-hotspot-name">A question</span></span></button>
+      <button class="house-hotspot house-hotspot--window" data-open="window" type="button"><span class="house-label"><span class="house-pin" aria-hidden="true">4</span><span class="house-hotspot-name">The window</span></span></button>
+      <button class="house-hotspot house-hotspot--moris" data-open="moris" type="button"><span class="house-label"><span class="house-pin" aria-hidden="true">5</span><span class="house-hotspot-name">Moris</span></span></button>
+      <button class="house-hotspot house-hotspot--lamp" data-lamp type="button" aria-pressed="false"><span class="house-label"><span class="house-pin" aria-hidden="true">6</span><span class="house-hotspot-name">The lamp</span></span></button>
+      <button class="house-hotspot house-hotspot--drawer" id="drawer" data-open="drawer" type="button"><span class="house-label"><span class="house-pin" aria-hidden="true">7</span><span class="house-hotspot-name">Your drawer</span></span></button>
+      <a class="house-hotspot house-hotspot--clock" href="/clock/?from=house&amp;v=20261008-1"><span class="house-label"><span class="house-pin" aria-hidden="true">8</span><span class="house-hotspot-name">The Clock <span aria-hidden="true">&rarr;</span></span></span></a>
+      <a class="house-hotspot house-hotspot--reader" href="/read/?from=house&amp;v=20261014-1"><span class="house-label"><span class="house-pin" aria-hidden="true">9</span><span class="house-hotspot-name">The Reader <span aria-hidden="true">&rarr;</span></span></span></a>
+      <a class="house-hotspot house-hotspot--desk" href="/desk/?from=house&amp;v=20261014-1"><span class="house-label"><span class="house-pin" aria-hidden="true">10</span><span class="house-hotspot-name">The Desk <span aria-hidden="true">&rarr;</span></span></span></a>
+      <a class="house-hotspot house-hotspot--farm-house" href="/farm-house/"><span class="house-label"><span class="house-pin" aria-hidden="true">11</span><span class="house-hotspot-name">The Farm House <span aria-hidden="true">&rarr;</span></span></span></a>
+      <a class="house-hotspot house-hotspot--balcony" href="#balcony" data-go="balcony"><span class="house-label"><span class="house-pin" aria-hidden="true">12</span><span class="house-hotspot-name">The balcony <span aria-hidden="true">&rarr;</span></span></span></a>
+    </div>
+    </div>
+    <ol class="house-objects" aria-hidden="true">
+      <li><button type="button" tabindex="-1" data-open="books"><span class="house-pin">1</span>Bookshelf</button></li>
+      <li><button type="button" tabindex="-1" data-open="words"><span class="house-pin">2</span>Word cards</button></li>
+      <li><button type="button" tabindex="-1" data-open="question"><span class="house-pin">3</span>A question</button></li>
+      <li><button type="button" tabindex="-1" data-open="window"><span class="house-pin">4</span>The window</button></li>
+      <li><button type="button" tabindex="-1" data-open="moris"><span class="house-pin">5</span>Moris</button></li>
+      <li><button type="button" tabindex="-1" data-lamp><span class="house-pin">6</span>The lamp</button></li>
+      <li><button type="button" tabindex="-1" data-open="drawer"><span class="house-pin">7</span>Your drawer</button></li>
+      <li><a href="/clock/?from=house&amp;v=20261008-1" tabindex="-1"><span class="house-pin">8</span>The Clock</a></li>
+      <li><a href="/read/?from=house&amp;v=20261014-1" tabindex="-1"><span class="house-pin">9</span>The Reader</a></li>
+      <li><a href="/desk/?from=house&amp;v=20261014-1" tabindex="-1"><span class="house-pin">10</span>The Desk</a></li>
+      <li><a href="/farm-house/" tabindex="-1"><span class="house-pin">11</span>The Farm House</a></li>
+      <li><a href="#balcony" tabindex="-1" data-go="balcony"><span class="house-pin">12</span>The balcony</a></li>
+    </ol>
+    <div class="house-room-footer"><a href="#house-entrance" id="house-leave">&larr; Back to the door</a><a href="/write/?from=house&amp;v=20261014-1">Sit down and write <span aria-hidden="true">&rarr;</span></a></div>
+  </section>
+  <section class="house-study house-balcony" id="balcony" aria-labelledby="house-balcony-title" hidden>
+    <div class="house-room-bar">
+      <div><p class="house-eyebrow">Outside</p><h2 id="house-balcony-title" tabindex="-1">The balcony</h2></div>
+      <p class="house-time"><span class="house-time-dot" aria-hidden="true"></span><span><span data-house-hour>İstanbul</span> <span class="house-time-now"><span class="house-time-sep">·</span> <span data-house-clock></span> <span data-house-temperature hidden></span></span></span></p>
+    </div>
+    <div class="house-instruction-row"><p class="house-instruction">Choose something on the balcony or in the sky.</p><span class="house-tools"><button class="house-places house-js" type="button" aria-pressed="false" data-places hidden>Show places to look</button><button class="house-places house-js" type="button" aria-pressed="false" data-fullscreen hidden>Full screen</button></span></div>
+    <div class="house-stage">
+    <div class="house-scene house-scene--balcony" id="house-balcony-scene" data-hour="day">
+      <svg class="house-room-art" viewBox="0 0 1000 650" fill="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- The same sky as the study window's, at the same height above the
+         horizon: the view below is drawn in the window's own coordinates. -->
+    <linearGradient id="house-balcony-sky" gradientUnits="userSpaceOnUse" x2="0" y1="108" y2="332"><stop class="house-sky-top"/><stop offset="1" class="house-sky-bottom"/></linearGradient>
+    <pattern id="house-balcony-grain" width="9" height="9" patternUnits="userSpaceOnUse"><circle cx="1" cy="2" r=".5" fill="currentColor" opacity=".08"/><circle cx="6" cy="7" r=".4" fill="currentColor" opacity=".05"/></pattern>
+    <clipPath id="house-balcony-open"><path d="M232.5 99.6H767.5L911.2 0H1000V474L767.5 386V392H232.5Z"/></clipPath>
+    <!-- The dark of the evening falls on the balcony, not on the sky, and
+         not on the glass of the door, which shows the study's own light. -->
+    <!-- The balcony's lamp: a small halo round the globe, the dark of the
+         evening lifted over the chair and the table beneath it, and a little
+         of its light on the near side of the pine. -->
+    <radialGradient id="house-balcony-glow"><stop stop-color="#f2cf7e" stop-opacity=".5"/><stop offset=".35" stop-color="#f2cf7e" stop-opacity=".18"/><stop offset="1" stop-color="#f2cf7e" stop-opacity="0"/></radialGradient>
+    <radialGradient id="house-balcony-lamplight" cx="257" cy="330" r="640" gradientUnits="userSpaceOnUse"><stop stop-color="#4a3a2c" stop-opacity="0"/><stop offset=".18" stop-color="#4a3a2c" stop-opacity="0"/><stop offset=".4" stop-color="#4a3a2c" stop-opacity=".16"/><stop offset=".6" stop-color="#4a3a2c" stop-opacity=".42"/><stop offset=".8" stop-color="#4a3a2c" stop-opacity=".74"/><stop offset="1" stop-color="#4a3a2c"/></radialGradient>
+    <radialGradient id="house-balcony-pinelight" cx="216.7" cy="211.3" r="330" gradientUnits="userSpaceOnUse"><stop offset=".1" stop-color="#e3c852" stop-opacity=".3"/><stop offset=".5" stop-color="#e3c852" stop-opacity=".12"/><stop offset="1" stop-color="#e3c852" stop-opacity="0"/></radialGradient>
+    <clipPath id="house-balcony-pine-clip"><use href="#house-pine-trunk"/><use href="#house-pine-0"/><use href="#house-pine-1"/><use href="#house-pine-2"/><use href="#house-pine-3"/><use href="#house-pine-4"/><use href="#house-pine-5"/><use href="#house-pine-6"/><use href="#house-pine-7"/><use href="#house-pine-8"/><use href="#house-pine-9"/><use href="#house-pine-10"/><use href="#house-pine-11"/><use href="#house-pine-12"/><use href="#house-pine-13"/><use href="#house-pine-14"/><use href="#house-pine-15"/><use href="#house-pine-16"/><use href="#house-pine-17"/><use href="#house-pine-18"/><use href="#house-pine-19"/><use href="#house-pine-20"/><use href="#house-pine-21"/><use href="#house-pine-22"/><use href="#house-pine-23"/><use href="#house-pine-24"/><use href="#house-pine-25"/><use href="#house-pine-26"/><use href="#house-pine-27"/><use href="#house-pine-28"/><use href="#house-pine-29"/><use href="#house-pine-30"/><use href="#house-pine-31"/><use href="#house-pine-32"/><use href="#house-pine-33"/><use href="#house-pine-34"/><use href="#house-pine-35"/><use href="#house-pine-36"/><use href="#house-pine-37"/><use href="#house-pine-38"/><use href="#house-pine-39"/><use href="#house-pine-40"/></clipPath>
+    <mask id="house-balcony-dusk-mask"><path fill="#fff" d="M0 0H1000V650H0Z"/><path fill="#000" d="M232.5 99.6H767.5V379.4H232.5ZM767.5 99.6L911.2 0H1000V461.4L767.5 379.4Z"/><use href="#house-olive-trunk" color="#fff"/><use href="#house-olive-branches" color="#fff"/><use href="#house-olive-leaves" color="#fff"/><use href="#house-olive-leaves-light" color="#fff"/><path class="house-glass-closed" stroke="#fff" stroke-width="2.4" d="M333.8 375.4L333.8 102.6M335.8 375.4L335.8 102.6M443.9 375.4L443.9 102.6M445.9 375.4L445.9 102.6M554.1 375.4L554.1 102.6M556.1 375.4L556.1 102.6M664.2 375.4L664.2 102.6M666.2 375.4L666.2 102.6M868.7 409.6L868.7 33.6M871.2 410.4L871.2 31.9"/><path class="house-glass-open" fill="#fff" d="M739.8 375.4L770.3 375.4L770.3 102.6L739.8 102.6ZM767.5 375.4L778.2 379L778.2 95.3L767.5 102.6Z"/><path fill="#fff" d="M224.7 102.6L767.5 102.6L767.5 94.1L224.7 94.1ZM224.7 383L767.5 383L767.5 375.4L224.7 375.4ZM767.5 94.1L1061.8 -115.9L1061.8 -98L767.5 102.6ZM767.5 375.4L1061.8 474.8L1061.8 490.8L767.5 383Z"/><path class="house-door-shut" fill="#000" d="M0 156.2L81 177.1V529.2L0 576.4Z"/><path class="house-door-open" fill="#000" d="M0 155.9L81 176.9V637.6L0 705.7Z"/><g transform="translate(-1232.3 -41.3) scale(1.37)" fill="#fff" stroke="#fff"><path d="M924 456h45l-6 33h-33Z"/><path d="M945 456V381M945 425l-18-22M945 405l15-25" stroke-width="2"/><path d="M944 405q-32-2-25-34 25 7 25 34ZM946 424q32-9 30-34-26 5-30 34ZM945 389q-20-12-9-38 22 16 9 38Z"/></g></mask>
+  </defs>
+  <!-- The balcony is set into the corner of the house beside the study,
+       and looks the same way as the study window. Its front and its
+       right-hand side are glazed above the parapet. It is drawn in
+       one-point perspective from someone standing at its back: every line
+       that runs out toward the view meets at 500 285, the horizon. -->
+  <path class="house-wall" d="M0 0H1000V650H0Z"/>
+  <g clip-path="url(#house-balcony-open)" stroke="none">
+    <g transform="matrix(.6 0 0 .6 200 151.8)"><path fill="url(#house-balcony-sky)" d="M50 -260H1345V540H50Z"/></g>
+    <!-- js/house.js draws the stars, the sun and the moon where they stand
+         over İstanbul now: east on the left, west on the right, the horizon
+         at the sea. -->
+    <g class="house-sky-stars"></g>
+    <circle class="house-sun" cx="500" cy="210" r="15"/>
+    <g class="house-moon"><circle class="house-moon-disc" cx="560" cy="210" r="13"/><path class="house-moon-lit" d=""/></g>
+    <g transform="matrix(.6 0 0 .6 200 151.8)"><!-- What the house looks out on, from the study window and the balcony
+     alike: the roofs of the neighbourhood, a strip of sea, and the Islands
+     on the horizon, part of them behind the taller blocks to the left. It
+     is drawn with the horizon at 222, and both rooms show it at
+     three-fifths of this size, so the roofs come up to the sea alike in
+     each: the window with its horizon at 222, the balcony at 285. The
+     window sees the part from about 600 to 1040; through the glass on the
+     balcony's right-hand side the roofs and the sea go on to the west.
+
+     Land and sea are laid first in the sky's own colour, so the sun, the
+     moon and the stars go behind them and the roofs keep their haze. -->
+<g fill="url(#house-balcony-sky)">
+  <path d="M120 222C126 220.5 131 219 135 219C140 219 145 220.5 150 222ZM170 222C186 219.5 206 212 228 212C244 212 252 215.5 262 215.5C274 215.5 284 209.5 300 209.5C320 209.5 342 219 360 222ZM395 222C405 219.5 418 214 430 214C443 214 448 217.5 455 217.5C463 217.5 470 215.5 482 215.5C496 215.5 508 220.5 520 222ZM548 222C560 220.5 572 213 584 213C595 213 608 220 620 222ZM662 222C674 220 690 215 705 215C722 215 738 220 752 222ZM792 222C797 220.5 801 219.5 804 219.5C807 219.5 810 220.5 812 222ZM835 222C838 221 841 220.2 843 220.2C845 220.2 847 221 848 222Z"/>
+  <path d="M40 222H1345V540H40Z"/>
+  <path d="M40 540V268H96L113 258L130 268V206H150V199H166V206H189V188H191V206H205V214H236V203H262V196H266V203H300V216H342V247H372L391 238L410 247V256H426V246H432V256H470V262H486L503 252L520 262V278H558V292H576V276L598 262L621 276V290H635V264H652V251H657V264H671V295H689V281H701V269L725 257L752 269V293H768V273L786 263L804 273V281H850L865 267L880 281V276H915V262H930V255H940V262H945V284H980H1004V270H1020V262H1026V270H1046V288H1070L1088 276L1106 288V266H1138V252H1142V266H1150V294H1176V280L1196 268L1216 280V290H1250V276H1272V260H1292V276H1300V298H1318L1332 288L1345 298V540Z"/>
+</g>
+<path class="house-islands" d="M120 222C126 220.5 131 219 135 219C140 219 145 220.5 150 222ZM170 222C186 219.5 206 212 228 212C244 212 252 215.5 262 215.5C274 215.5 284 209.5 300 209.5C320 209.5 342 219 360 222ZM395 222C405 219.5 418 214 430 214C443 214 448 217.5 455 217.5C463 217.5 470 215.5 482 215.5C496 215.5 508 220.5 520 222ZM548 222C560 220.5 572 213 584 213C595 213 608 220 620 222ZM662 222C674 220 690 215 705 215C722 215 738 220 752 222ZM792 222C797 220.5 801 219.5 804 219.5C807 219.5 810 220.5 812 222ZM835 222C838 221 841 220.2 843 220.2C845 220.2 847 221 848 222Z"/>
+<path class="house-sea" d="M40 222H1345V298L1332 288L1318 298H1300V276H1292V260H1272V276H1250V290H1216V280L1196 268L1176 280V294H1150V266H1142V252H1138V266H1106V288L1088 276L1070 288H1046V270H1026V262H1020V270H1004V284H980H945V262H940V255H930V262H915V276H880V281L865 267L850 281H804V273L786 263L768 273V293H752V269L725 257L701 269V281H689V295H671V264H657V251H652V264H635V290H621V276L598 262L576 276V292H558V278H520V262L503 252L486 262H470V256H432V246H426V256H410V247L391 238L372 247H342V222H130V268L113 258L96 268H40Z"/>
+<path class="house-sea-light" d="M54 229h20M352 231h18M372 226h14M446 233h24M478 228h16M532 236h18M600 227h14M612 233h26M640 226h16M716 236h14M760 229h22M770 240h14M812 243h18M840 228h14M880 233h26M950 228h16M1012 230h18M1064 236h20M1118 229h14M1168 234h22M1236 230h16M1296 236h18"/>
+<path class="house-rooftops" d="M40 540V268H96L113 258L130 268V206H150V199H166V206H189V188H191V206H205V214H236V203H262V196H266V203H300V216H342V247H372L391 238L410 247V256H426V246H432V256H470V262H486L503 252L520 262V278H558V292H576V276L598 262L621 276V290H635V264H652V251H657V264H671V295H689V281H701V269L725 257L752 269V293H768V273L786 263L804 273V281H850L865 267L880 281V276H915V262H930V255H940V262H945V284H980H1004V270H1020V262H1026V270H1046V288H1070L1088 276L1106 288V266H1138V252H1142V266H1150V294H1176V280L1196 268L1216 280V290H1250V276H1272V260H1292V276H1300V298H1318L1332 288L1345 298V540Z"/>
+</g>
+    <!-- A pine stands just outside, to the left, behind the place on the
+         coping where Moris lies in the late afternoon, its crown up to a
+         little under the top of the glass. It is beyond the study window's
+         sight. Its needles grow in rounded pads at the ends of the
+         branches, tier above tier, each pad drawn with its lit top and its
+         snow after the pads behind it, so the pads in front hide the
+         branches here and there. Snow settles on the pads while it falls;
+         js/house.js lets it gather and melt. -->
+    <g class="house-pine">
+      <path id="house-pine-trunk" class="house-pine-trunk" d="M387.6 398L388.3 386.8L389.1 375.5L389.7 364.2L390.3 353L390.7 341.8L391 330.5L391.2 319.2L391.2 308L391 296.8L390.7 285.5L390.2 274.2L389.6 263L388.8 251.8L387.9 240.5L387 229.2L385.9 218L384.8 206.8L383.7 195.5L382.7 184.2L381.7 173L380.8 161.8L380 150.5L379.3 139.2L378.7 128L383.7 128L384.6 139.2L385.6 150.5L386.7 161.8L388 173L389.3 184.2L390.7 195.5L392.1 206.8L393.5 218L394.9 229.2L396.2 240.5L397.4 251.8L398.5 263L399.5 274.2L400.3 285.5L400.9 296.8L401.4 308L401.7 319.2L401.9 330.5L401.9 341.8L401.8 353L401.5 364.2L401.2 375.5L400.8 386.8L400.4 398Z"/>
+      <path class="house-pine-branch" d="M387.7 200Q363.3 202 338.9 185.4M357.3 195.6Q343.3 191.6 333.3 179.6M388.6 208Q411.6 210 434.5 193.2M417.6 203.6Q431.6 199.6 441.6 187.6M393 250Q345.6 252 298.2 231.8M339.6 244.5Q325.6 240.5 315.6 228.5M393.5 256Q432.3 258 471.2 239.6M438.3 251.1Q452.3 247.1 462.3 235.1M396.2 302Q338.3 304 280.4 284M332.3 296.6Q318.3 292.6 308.3 280.6M396.3 308Q445.4 310 494.4 293.8M451.4 303.7Q465.4 299.7 475.4 287.7M396 352Q332.9 354 269.8 338M326.9 347.8Q312.9 343.8 302.9 331.8M395.8 358Q440.7 360 485.6 343.8M446.7 353.7Q460.7 349.7 470.7 337.7M394.3 392Q331 394 267.6 379.4M325 388.2Q311 384.2 301 372.2M394.3 392Q420.8 394 447.2 377.2M426.8 387.6Q440.8 383.6 450.8 371.6M394.2 394Q461.3 396 528.4 383M467.3 390.7Q481.3 386.7 491.3 374.7" stroke-width="2.6" stroke-linecap="round"/>
+      <path id="house-pine-0" class="house-pine-tuft" d="M376.6 141.9L376.6 138.9Q384.6 116.7 392.6 121.7Q400.6 116.7 408.6 137.9L408.6 141.9Q404.6 144.3 400.6 141.9Q396.6 144.2 392.6 141.9Q388.6 143.8 384.6 141.9Q380.6 144.1 376.6 141.9Z"/><path class="house-pine-light" d="M378.2 139.3Q385.4 118.9 392.6 122.9Q399.8 118.9 407 139.5L407 142.9Q399.8 127.3 392.6 126.3Q385.4 127.3 378.2 143.9Z"/><path class="house-pine-snow" d="M377.6 139.7Q385.1 114.7 392.6 121.3Q400.1 114.7 407.6 138.3Q400.1 134.2 392.6 128.2Q385.1 134.2 377.6 139.7Z" opacity="0"/>
+      <path id="house-pine-1" class="house-pine-tuft" d="M352.6 153.5L352.6 150.5Q359 131.1 365.4 136.1Q371.8 129.1 378.2 134.1Q384.6 128.6 391 133.6Q397.4 128.6 403.8 135.4Q410.2 130.4 416.6 149.5L416.6 153.5Q413 156.1 409.5 153.5Q405.9 155.2 402.4 153.5Q398.8 155.5 395.3 153.5Q391.7 155.8 388.2 153.5Q384.6 155.2 381 153.5Q377.5 155.6 373.9 153.5Q370.4 155.1 366.8 153.5Q363.3 155.7 359.7 153.5Q356.2 155.8 352.6 153.5Z"/><path class="house-pine-light" d="M354.2 150.9Q359.8 133.3 365.4 137.3Q371.8 131.3 378.2 135.3Q384.6 130.8 391 134.8Q397.4 130.8 403.8 136.6Q409.4 132.6 415 151.1L415 154.5Q409.4 141 403.8 140Q397.4 139.2 391 138.2Q384.6 139.2 378.2 138.7Q371.8 139.7 365.4 140.7Q359.8 141.7 354.2 155.5Z"/><path class="house-pine-snow" d="M353.6 151.3Q359.5 129.1 365.4 135.7Q371.8 127.1 378.2 133.7Q384.6 126.6 391 133.2Q397.4 126.6 403.8 135Q409.7 128.4 415.6 149.9Q409.7 147.9 403.8 141.9Q397.4 146.1 391 140.1Q384.6 146.1 378.2 140.6Q371.8 146.6 365.4 142.6Q359.5 148.6 353.6 151.3Z" opacity="0"/>
+      <path id="house-pine-2" class="house-pine-tuft" d="M354.3 163L354.3 160Q360.9 143.6 367.5 148.6Q374.1 143.6 380.7 149.5Q387.3 144.5 393.9 159L393.9 163Q390 164.9 386 163Q382 165.3 378.1 163Q374.1 165.2 370.1 163Q366.2 165.2 362.2 163Q358.2 165.1 354.3 163Z"/><path class="house-pine-light" d="M355.9 160.4Q361.7 145.8 367.5 149.8Q374.1 145.8 380.7 150.7Q386.5 146.7 392.3 160.6L392.3 164Q386.5 155.1 380.7 154.1Q374.1 154.2 367.5 153.2Q361.7 154.2 355.9 165Z"/><path class="house-pine-snow" d="M355.3 160.8Q361.4 141.6 367.5 148.2Q374.1 141.6 380.7 149.1Q386.8 142.5 392.9 159.4Q386.8 162 380.7 156Q374.1 161.1 367.5 155.1Q361.4 161.1 355.3 160.8Z" opacity="0"/>
+      <path id="house-pine-3" class="house-pine-tuft" d="M320.1 177.9L320.1 174.9Q326.2 155.4 332.4 160.4Q338.6 155.4 344.7 160.7Q350.9 155.7 357.1 173.9L357.1 177.9Q353.4 180 349.7 177.9Q346 180.2 342.3 177.9Q338.6 179.6 334.9 177.9Q331.2 180.2 327.5 177.9Q323.8 180.2 320.1 177.9Z"/><path class="house-pine-light" d="M321.7 175.3Q327 157.6 332.4 161.6Q338.6 157.6 344.7 161.9Q350.1 157.9 355.5 175.5L355.5 178.9Q350.1 166.3 344.7 165.3Q338.6 166 332.4 165Q327 166 321.7 179.9Z"/><path class="house-pine-snow" d="M321.1 175.7Q326.7 153.4 332.4 160Q338.6 153.4 344.7 160.3Q350.4 153.7 356.1 174.3Q350.4 173.2 344.7 167.2Q338.6 172.9 332.4 166.9Q326.7 172.9 321.1 175.7Z" opacity="0"/>
+      <path id="house-pine-4" class="house-pine-tuft" d="M313.1 189.5L313.1 186.5Q319.3 169.3 325.5 174.3Q331.6 165.6 337.8 170.6Q344 162.9 350.1 167.9Q356.3 162.9 362.5 169.3Q368.6 164.3 374.8 173.3Q381 168.3 387.1 185.5L387.1 189.5Q383.4 191.1 379.7 189.5Q376 191.5 372.3 189.5Q368.6 191.2 364.9 189.5Q361.2 191.2 357.5 189.5Q353.8 191.1 350.1 189.5Q346.4 191.8 342.7 189.5Q339 191.2 335.3 189.5Q331.6 191.3 327.9 189.5Q324.2 191.5 320.5 189.5Q316.8 192 313.1 189.5Z"/><path class="house-pine-light" d="M314.7 186.9Q320.1 171.5 325.5 175.5Q331.6 167.8 337.8 171.8Q344 165.1 350.1 169.1Q356.3 165.1 362.5 170.5Q368.6 166.5 374.8 174.5Q380.2 170.5 385.5 187.1L385.5 190.5Q380.2 178.9 374.8 177.9Q368.6 174.9 362.5 173.9Q356.3 173.5 350.1 172.5Q344 173.5 337.8 175.2Q331.6 176.2 325.5 178.9Q320.1 179.9 314.7 191.5Z"/><path class="house-pine-snow" d="M314.1 187.3Q319.8 167.3 325.5 173.9Q331.6 163.6 337.8 170.2Q344 160.9 350.1 167.5Q356.3 160.9 362.5 168.9Q368.6 162.3 374.8 172.9Q380.5 166.3 386.1 185.9Q380.5 185.8 374.8 179.8Q368.6 181.8 362.5 175.8Q356.3 180.4 350.1 174.4Q344 180.4 337.8 177.1Q331.6 183.1 325.5 180.8Q319.8 186.8 314.1 187.3Z" opacity="0"/>
+      <path id="house-pine-5" class="house-pine-tuft" d="M341.1 199L341.1 196Q346.8 179.1 352.5 184.1Q358.3 178.3 364 183.3Q369.7 178.3 375.5 185.5Q381.2 180.5 386.9 195L386.9 199Q383.1 201.5 379.3 199Q375.5 201.4 371.6 199Q367.8 201.5 364 199Q360.2 200.9 356.3 199Q352.5 201 348.7 199Q344.9 201 341.1 199Z"/><path class="house-pine-light" d="M342.7 196.4Q347.6 181.3 352.5 185.3Q358.3 180.5 364 184.5Q369.7 180.5 375.5 186.7Q380.4 182.7 385.3 196.6L385.3 200Q380.4 191.1 375.5 190.1Q369.7 188.9 364 187.9Q358.3 188.9 352.5 188.7Q347.6 189.7 342.7 201Z"/><path class="house-pine-snow" d="M342.1 196.8Q347.3 177.1 352.5 183.7Q358.3 176.3 364 182.9Q369.7 176.3 375.5 185.1Q380.7 178.5 385.9 195.4Q380.7 198 375.5 192Q369.7 195.8 364 189.8Q358.3 195.8 352.5 190.6Q347.3 196.6 342.1 196.8Z" opacity="0"/>
+      <path id="house-pine-6" class="house-pine-tuft" d="M412.2 186.2L412.2 183.2Q418.1 165 423.9 170Q429.7 165 435.6 170.2Q441.4 165.2 447.2 182.2L447.2 186.2Q443.7 187.9 440.2 186.2Q436.7 187.9 433.2 186.2Q429.7 188 426.2 186.2Q422.7 188 419.2 186.2Q415.7 188.2 412.2 186.2Z"/><path class="house-pine-light" d="M413.8 183.6Q418.9 167.2 423.9 171.2Q429.7 167.2 435.6 171.4Q440.6 167.4 445.6 183.8L445.6 187.2Q440.6 175.8 435.6 174.8Q429.7 175.6 423.9 174.6Q418.9 175.6 413.8 188.2Z"/><path class="house-pine-snow" d="M413.2 184Q418.6 163 423.9 169.6Q429.7 163 435.6 169.8Q440.9 163.2 446.2 182.6Q440.9 182.7 435.6 176.7Q429.7 182.5 423.9 176.5Q418.6 182.5 413.2 184Z" opacity="0"/>
+      <path id="house-pine-7" class="house-pine-tuft" d="M389 197L389 194Q396 176 403 181Q410 172.1 417 177.1Q424 171.3 431 176.3Q438 171.3 445 180.5Q452 175.5 459 193L459 197Q455.5 199 452 197Q448.5 199.2 445 197Q441.5 199.6 438 197Q434.5 199.3 431 197Q427.5 199.2 424 197Q420.5 199.3 417 197Q413.5 199.3 410 197Q406.5 198.7 403 197Q399.5 199.5 396 197Q392.5 199.4 389 197Z"/><path class="house-pine-light" d="M390.6 194.4Q396.8 178.2 403 182.2Q410 174.3 417 178.3Q424 173.5 431 177.5Q438 173.5 445 181.7Q451.2 177.7 457.4 194.6L457.4 198Q451.2 186.1 445 185.1Q438 181.9 431 180.9Q424 181.9 417 181.7Q410 182.7 403 185.6Q396.8 186.6 390.6 199Z"/><path class="house-pine-snow" d="M390 194.8Q396.5 174 403 180.6Q410 170.1 417 176.7Q424 169.3 431 175.9Q438 169.3 445 180.1Q451.5 173.5 458 193.4Q451.5 193 445 187Q438 188.8 431 182.8Q424 188.8 417 183.6Q410 189.6 403 187.5Q396.5 193.5 390 194.8Z" opacity="0"/>
+      <path id="house-pine-8" class="house-pine-tuft" d="M385.5 206L385.5 203Q392.8 188.4 400 193.4Q407.2 188.2 414.5 193.2Q421.7 188.2 428.9 202L428.9 206Q425.3 208 421.7 206Q418.1 208 414.5 206Q410.8 207.7 407.2 206Q403.6 208.2 400 206Q396.4 207.7 392.8 206Q389.1 207.7 385.5 206Z"/><path class="house-pine-light" d="M387.1 203.4Q393.6 190.6 400 194.6Q407.2 190.4 414.5 194.4Q420.9 190.4 427.3 203.6L427.3 207Q420.9 198.8 414.5 197.8Q407.2 198.8 400 198Q393.6 199 387.1 208Z"/><path class="house-pine-snow" d="M386.5 203.8Q393.3 186.4 400 193Q407.2 186.2 414.5 192.8Q421.2 186.2 427.9 202.4Q421.2 205.7 414.5 199.7Q407.2 205.7 400 199.9Q393.3 205.9 386.5 203.8Z" opacity="0"/>
+      <path id="house-pine-9" class="house-pine-tuft" d="M277.6 223.4L277.6 220.4Q283.3 198.1 289.1 203.1Q294.8 195.4 300.6 200.4Q306.3 195.4 312.1 203.5Q317.8 198.5 323.6 219.4L323.6 223.4Q319.7 225.1 315.9 223.4Q312.1 225 308.2 223.4Q304.4 225.2 300.6 223.4Q296.7 225.1 292.9 223.4Q289.1 225.4 285.2 223.4Q281.4 225.1 277.6 223.4Z"/><path class="house-pine-light" d="M279.2 220.8Q284.1 200.3 289.1 204.3Q294.8 197.6 300.6 201.6Q306.3 197.6 312.1 204.7Q317 200.7 322 221L322 224.4Q317 209.1 312.1 208.1Q306.3 206 300.6 205Q294.8 206 289.1 207.7Q284.1 208.7 279.2 225.4Z"/><path class="house-pine-snow" d="M278.6 221.2Q283.8 196.1 289.1 202.7Q294.8 193.4 300.6 200Q306.3 193.4 312.1 203.1Q317.3 196.5 322.6 219.8Q317.3 216 312.1 210Q306.3 212.9 300.6 206.9Q294.8 212.9 289.1 209.6Q283.8 215.6 278.6 221.2Z" opacity="0"/>
+      <path id="house-pine-10" class="house-pine-tuft" d="M264.3 236.4L264.3 233.4Q270.9 214.3 277.4 219.3Q284 210.2 290.6 215.2Q297.1 207 303.7 212Q310.3 207 316.9 212.3Q323.4 207.3 330 214.4Q336.6 209.4 343.1 217.8Q349.7 212.8 356.3 232.4L356.3 236.4Q352.7 238.1 349.2 236.4Q345.7 238.8 342.1 236.4Q338.6 239 335 236.4Q331.5 238.4 328 236.4Q324.4 238.4 320.9 236.4Q317.4 238 313.8 236.4Q310.3 238.1 306.7 236.4Q303.2 238.3 299.7 236.4Q296.1 238.2 292.6 236.4Q289 238.8 285.5 236.4Q282 238.1 278.4 236.4Q274.9 238 271.4 236.4Q267.8 238.9 264.3 236.4Z"/><path class="house-pine-light" d="M265.9 233.8Q271.7 216.5 277.4 220.5Q284 212.4 290.6 216.4Q297.1 209.2 303.7 213.2Q310.3 209.2 316.9 213.5Q323.4 209.5 330 215.6Q336.6 211.6 343.1 219Q348.9 215 354.7 234L354.7 237.4Q348.9 223.4 343.1 222.4Q336.6 220 330 219Q323.4 217.9 316.9 216.9Q310.3 217.6 303.7 216.6Q297.1 217.6 290.6 219.8Q284 220.8 277.4 223.9Q271.7 224.9 265.9 238.4Z"/><path class="house-pine-snow" d="M265.3 234.2Q271.4 212.3 277.4 218.9Q284 208.2 290.6 214.8Q297.1 205 303.7 211.6Q310.3 205 316.9 211.9Q323.4 205.3 330 214Q336.6 207.4 343.1 217.4Q349.2 210.8 355.3 232.8Q349.2 230.3 343.1 224.3Q336.6 226.9 330 220.9Q323.4 224.8 316.9 218.8Q310.3 224.5 303.7 218.5Q297.1 224.5 290.6 221.7Q284 227.7 277.4 225.8Q271.4 231.8 265.3 234.2Z" opacity="0"/>
+      <path id="house-pine-11" class="house-pine-tuft" d="M299.4 247L299.4 244Q306.6 226.7 313.7 231.7Q320.8 223.4 327.9 228.4Q335.1 223.4 342.2 231.7Q349.3 226.7 356.5 243L356.5 247Q352.9 248.6 349.3 247Q345.8 249.1 342.2 247Q338.6 249.6 335.1 247Q331.5 249.5 327.9 247Q324.4 249.3 320.8 247Q317.2 248.9 313.7 247Q310.1 249 306.6 247Q303 248.8 299.4 247Z"/><path class="house-pine-light" d="M301 244.4Q307.4 228.9 313.7 232.9Q320.8 225.6 327.9 229.6Q335.1 225.6 342.2 232.9Q348.5 228.9 354.9 244.6L354.9 248Q348.5 237.3 342.2 236.3Q335.1 234 327.9 233Q320.8 234 313.7 236.3Q307.4 237.3 301 249Z"/><path class="house-pine-snow" d="M300.4 244.8Q307.1 224.7 313.7 231.3Q320.8 221.4 327.9 228Q335.1 221.4 342.2 231.3Q348.8 224.7 355.5 243.4Q348.8 244.2 342.2 238.2Q335.1 240.9 327.9 234.9Q320.8 240.9 313.7 238.2Q307.1 244.2 300.4 244.8Z" opacity="0"/>
+      <path id="house-pine-12" class="house-pine-tuft" d="M446.1 231.7L446.1 228.7Q453.4 207.8 460.8 212.8Q468.1 207.1 475.4 212.1Q482.8 207.1 490.1 227.7L490.1 231.7Q486.4 234.1 482.8 231.7Q479.1 233.6 475.4 231.7Q471.8 233.5 468.1 231.7Q464.4 234.1 460.8 231.7Q457.1 234.3 453.4 231.7Q449.8 234.1 446.1 231.7Z"/><path class="house-pine-light" d="M447.7 229.1Q454.2 210 460.8 214Q468.1 209.3 475.4 213.3Q482 209.3 488.5 229.3L488.5 232.7Q482 217.7 475.4 216.7Q468.1 217.7 460.8 217.4Q454.2 218.4 447.7 233.7Z"/><path class="house-pine-snow" d="M447.1 229.5Q453.9 205.8 460.8 212.4Q468.1 205.1 475.4 211.7Q482.3 205.1 489.1 228.1Q482.3 224.6 475.4 218.6Q468.1 224.6 460.8 219.3Q453.9 225.3 447.1 229.5Z" opacity="0"/>
+      <path id="house-pine-13" class="house-pine-tuft" d="M415.3 243.9L415.3 240.9Q421.6 222.7 427.9 227.7Q434.2 219.6 440.5 224.6Q446.7 217.6 453 222.6Q459.3 216.1 465.6 221.1Q471.9 216.1 478.2 223.7Q484.5 218.7 490.7 226.3Q497 221.3 503.3 239.9L503.3 243.9Q499.6 245.5 496 243.9Q492.3 245.5 488.6 243.9Q485 245.8 481.3 243.9Q477.6 245.8 474 243.9Q470.3 246.2 466.6 243.9Q463 246.5 459.3 243.9Q455.6 246 452 243.9Q448.3 246.5 444.6 243.9Q441 246.5 437.3 243.9Q433.6 246.5 430 243.9Q426.3 245.9 422.6 243.9Q419 245.7 415.3 243.9Z"/><path class="house-pine-light" d="M416.9 241.3Q422.4 224.9 427.9 228.9Q434.2 221.8 440.5 225.8Q446.7 219.8 453 223.8Q459.3 218.3 465.6 222.3Q471.9 218.3 478.2 224.9Q484.5 220.9 490.7 227.5Q496.2 223.5 501.7 241.5L501.7 244.9Q496.2 231.9 490.7 230.9Q484.5 229.3 478.2 228.3Q471.9 226.7 465.6 225.7Q459.3 226.7 453 227.2Q446.7 228.2 440.5 229.2Q434.2 230.2 427.9 232.3Q422.4 233.3 416.9 245.9Z"/><path class="house-pine-snow" d="M416.3 241.7Q422.1 220.7 427.9 227.3Q434.2 217.6 440.5 224.2Q446.7 215.6 453 222.2Q459.3 214.1 465.6 220.7Q471.9 214.1 478.2 223.3Q484.5 216.7 490.7 225.9Q496.5 219.3 502.3 240.3Q496.5 238.8 490.7 232.8Q484.5 236.2 478.2 230.2Q471.9 233.6 465.6 227.6Q459.3 233.6 453 229.1Q446.7 235.1 440.5 231.1Q434.2 237.1 427.9 234.2Q422.1 240.2 416.3 241.7Z" opacity="0"/>
+      <path id="house-pine-14" class="house-pine-tuft" d="M410.9 254L410.9 251Q417.7 233.7 424.5 238.7Q431.3 231.6 438.1 236.6Q445 231.6 451.8 238.6Q458.6 233.6 465.4 250L465.4 254Q461.5 256.2 457.6 254Q453.7 256.5 449.8 254Q445.9 256.4 442 254Q438.1 256.1 434.2 254Q430.3 256.3 426.5 254Q422.6 256.4 418.7 254Q414.8 255.7 410.9 254Z"/><path class="house-pine-light" d="M412.5 251.4Q418.5 235.9 424.5 239.9Q431.3 233.8 438.1 237.8Q445 233.8 451.8 239.8Q457.8 235.8 463.8 251.6L463.8 255Q457.8 244.2 451.8 243.2Q445 242.2 438.1 241.2Q431.3 242.2 424.5 243.3Q418.5 244.3 412.5 256Z"/><path class="house-pine-snow" d="M411.9 251.8Q418.2 231.7 424.5 238.3Q431.3 229.6 438.1 236.2Q445 229.6 451.8 238.2Q458.1 231.6 464.4 250.4Q458.1 251.1 451.8 245.1Q445 249.1 438.1 243.1Q431.3 249.1 424.5 245.2Q418.2 251.2 411.9 251.8Z" opacity="0"/>
+      <path id="house-pine-15" class="house-pine-tuft" d="M384.4 226.9L384.4 223.9Q390.1 207.7 395.9 212.7Q401.6 207.7 407.4 222.9L407.4 226.9Q403.5 229.4 399.7 226.9Q395.9 229.3 392 226.9Q388.2 229.2 384.4 226.9Z"/><path class="house-pine-light" d="M386 224.3Q390.9 209.9 395.9 213.9Q400.8 209.9 405.8 224.5L405.8 227.9Q400.8 218.3 395.9 217.3Q390.9 218.3 386 228.9Z"/><path class="house-pine-snow" d="M385.4 224.7Q390.6 205.7 395.9 212.3Q401.1 205.7 406.4 223.3Q401.1 225.2 395.9 219.2Q390.6 225.2 385.4 224.7Z" opacity="0"/>
+      <path id="house-pine-16" class="house-pine-tuft" d="M369.5 235.7L369.5 232.7Q375.3 216.9 381 221.9Q386.8 214.1 392.5 219.1Q398.3 214.1 404 222.8Q409.8 217.8 415.5 231.7L415.5 235.7Q411.7 237.7 407.8 235.7Q404 238.1 400.2 235.7Q396.3 238.3 392.5 235.7Q388.7 237.7 384.8 235.7Q381 237.7 377.2 235.7Q373.3 238.3 369.5 235.7Z"/><path class="house-pine-light" d="M371.1 233.1Q376.1 219.1 381 223.1Q386.8 216.3 392.5 220.3Q398.3 216.3 404 224Q409 220 413.9 233.3L413.9 236.7Q409 228.4 404 227.4Q398.3 224.7 392.5 223.7Q386.8 224.7 381 226.5Q376.1 227.5 371.1 237.7Z"/><path class="house-pine-snow" d="M370.5 233.5Q375.8 214.9 381 221.5Q386.8 212.1 392.5 218.7Q398.3 212.1 404 222.4Q409.3 215.8 414.5 232.1Q409.3 235.3 404 229.3Q398.3 231.6 392.5 225.6Q386.8 231.6 381 228.4Q375.8 234.4 370.5 233.5Z" opacity="0"/>
+      <path id="house-pine-17" class="house-pine-tuft" d="M260.2 275.2L260.2 272.2Q266.7 250.3 273.2 255.3Q279.7 245.9 286.2 250.9Q292.7 245.9 299.2 253.5Q305.7 248.5 312.2 271.2L312.2 275.2Q308.5 277 304.8 275.2Q301.1 277.7 297.3 275.2Q293.6 277.6 289.9 275.2Q286.2 276.9 282.5 275.2Q278.8 277.6 275.1 275.2Q271.3 277.8 267.6 275.2Q263.9 277.5 260.2 275.2Z"/><path class="house-pine-light" d="M261.8 272.6Q267.5 252.5 273.2 256.5Q279.7 248.1 286.2 252.1Q292.7 248.1 299.2 254.7Q304.9 250.7 310.6 272.8L310.6 276.2Q304.9 259.1 299.2 258.1Q292.7 256.5 286.2 255.5Q279.7 256.5 273.2 259.9Q267.5 260.9 261.8 277.2Z"/><path class="house-pine-snow" d="M261.2 273Q267.2 248.3 273.2 254.9Q279.7 243.9 286.2 250.5Q292.7 243.9 299.2 253.1Q305.2 246.5 311.2 271.6Q305.2 266 299.2 260Q292.7 263.4 286.2 257.4Q279.7 263.4 273.2 261.8Q267.2 267.8 261.2 273Z" opacity="0"/>
+      <path id="house-pine-18" class="house-pine-tuft" d="M244.3 288.8L244.3 285.8Q250.8 264.6 257.3 269.6Q263.8 262 270.3 267Q276.8 258.6 283.3 263.6Q289.8 257.4 296.3 262.4Q302.8 257.4 309.3 266.1Q315.8 261.1 322.3 267.3Q328.8 262.3 335.3 270.2Q341.8 265.2 348.3 284.8L348.3 288.8Q344.6 291.3 340.9 288.8Q337.2 290.8 333.5 288.8Q329.7 291.3 326 288.8Q322.3 291.2 318.6 288.8Q314.9 290.6 311.2 288.8Q307.5 290.7 303.7 288.8Q300 290.7 296.3 288.8Q292.6 290.6 288.9 288.8Q285.2 291 281.5 288.8Q277.7 290.7 274 288.8Q270.3 290.8 266.6 288.8Q262.9 290.5 259.2 288.8Q255.5 291.3 251.7 288.8Q248 290.8 244.3 288.8Z"/><path class="house-pine-light" d="M245.9 286.2Q251.6 266.8 257.3 270.8Q263.8 264.2 270.3 268.2Q276.8 260.8 283.3 264.8Q289.8 259.6 296.3 263.6Q302.8 259.6 309.3 267.3Q315.8 263.3 322.3 268.5Q328.8 264.5 335.3 271.4Q341 267.4 346.7 286.4L346.7 289.8Q341 275.8 335.3 274.8Q328.8 272.9 322.3 271.9Q315.8 271.7 309.3 270.7Q302.8 268 296.3 267Q289.8 268 283.3 268.2Q276.8 269.2 270.3 271.6Q263.8 272.6 257.3 274.2Q251.6 275.2 245.9 290.8Z"/><path class="house-pine-snow" d="M245.3 286.6Q251.3 262.6 257.3 269.2Q263.8 260 270.3 266.6Q276.8 256.6 283.3 263.2Q289.8 255.4 296.3 262Q302.8 255.4 309.3 265.7Q315.8 259.1 322.3 266.9Q328.8 260.3 335.3 269.8Q341.3 263.2 347.3 285.2Q341.3 282.7 335.3 276.7Q328.8 279.8 322.3 273.8Q315.8 278.6 309.3 272.6Q302.8 274.9 296.3 268.9Q289.8 274.9 283.3 270.1Q276.8 276.1 270.3 273.5Q263.8 279.5 257.3 276.1Q251.3 282.1 245.3 286.6Z" opacity="0"/>
+      <path id="house-pine-19" class="house-pine-tuft" d="M283.9 300L283.9 297Q290.4 279.5 296.8 284.5Q303.3 277.1 309.7 282.1Q316.2 277.1 322.6 283.1Q329.1 278.1 335.5 284.4Q342 279.4 348.4 296L348.4 300Q344.8 302.5 341.3 300Q337.7 302.1 334.1 300Q330.5 302.1 326.9 300Q323.3 302.1 319.8 300Q316.2 301.6 312.6 300Q309 302 305.4 300Q301.9 301.8 298.3 300Q294.7 301.6 291.1 300Q287.5 302.4 283.9 300Z"/><path class="house-pine-light" d="M285.5 297.4Q291.2 281.7 296.8 285.7Q303.3 279.3 309.7 283.3Q316.2 279.3 322.6 284.3Q329.1 280.3 335.5 285.6Q341.2 281.6 346.8 297.6L346.8 301Q341.2 290 335.5 289Q329.1 288.7 322.6 287.7Q316.2 287.7 309.7 286.7Q303.3 287.7 296.8 289.1Q291.2 290.1 285.5 302Z"/><path class="house-pine-snow" d="M284.9 297.8Q290.9 277.5 296.8 284.1Q303.3 275.1 309.7 281.7Q316.2 275.1 322.6 282.7Q329.1 276.1 335.5 284Q341.5 277.4 347.4 296.4Q341.5 296.9 335.5 290.9Q329.1 295.6 322.6 289.6Q316.2 294.6 309.7 288.6Q303.3 294.6 296.8 291Q290.9 297 284.9 297.8Z" opacity="0"/>
+      <path id="house-pine-20" class="house-pine-tuft" d="M470.4 285.4L470.4 282.4Q476.4 260 482.4 265Q488.4 258.3 494.4 263.3Q500.4 258.3 506.4 266.7Q512.4 261.7 518.4 281.4L518.4 285.4Q514.9 287.6 511.5 285.4Q508.1 287.4 504.7 285.4Q501.2 287.6 497.8 285.4Q494.4 287.6 490.9 285.4Q487.5 287.8 484.1 285.4Q480.7 287.1 477.2 285.4Q473.8 287.6 470.4 285.4Z"/><path class="house-pine-light" d="M472 282.8Q477.2 262.2 482.4 266.2Q488.4 260.5 494.4 264.5Q500.4 260.5 506.4 267.9Q511.6 263.9 516.8 283L516.8 286.4Q511.6 272.3 506.4 271.3Q500.4 268.9 494.4 267.9Q488.4 268.9 482.4 269.6Q477.2 270.6 472 287.4Z"/><path class="house-pine-snow" d="M471.4 283.2Q476.9 258 482.4 264.6Q488.4 256.3 494.4 262.9Q500.4 256.3 506.4 266.3Q511.9 259.7 517.4 281.8Q511.9 279.2 506.4 273.2Q500.4 275.8 494.4 269.8Q488.4 275.8 482.4 271.5Q476.9 277.5 471.4 283.2Z" opacity="0"/>
+      <path id="house-pine-21" class="house-pine-tuft" d="M430.2 298.4L430.2 295.4Q437 274.4 443.9 279.4Q450.8 271.2 457.6 276.2Q464.5 270.8 471.3 275.8Q478.2 270 485 275Q491.9 270 498.8 277Q505.6 272 512.5 281Q519.3 276 526.2 294.4L526.2 298.4Q522.5 300.9 518.8 298.4Q515.1 300.4 511.4 298.4Q507.7 300.6 504 298.4Q500.3 300.5 496.6 298.4Q493 300.5 489.3 298.4Q485.6 300.7 481.9 298.4Q478.2 300.4 474.5 298.4Q470.8 300.5 467.1 298.4Q463.4 300.4 459.7 298.4Q456 300.9 452.3 298.4Q448.6 300.7 445 298.4Q441.3 300.8 437.6 298.4Q433.9 300.9 430.2 298.4Z"/><path class="house-pine-light" d="M431.8 295.8Q437.8 276.6 443.9 280.6Q450.8 273.4 457.6 277.4Q464.5 273 471.3 277Q478.2 272.2 485 276.2Q491.9 272.2 498.8 278.2Q505.6 274.2 512.5 282.2Q518.5 278.2 524.6 296L524.6 299.4Q518.5 286.6 512.5 285.6Q505.6 282.6 498.8 281.6Q491.9 280.6 485 279.6Q478.2 280.6 471.3 280.4Q464.5 281.4 457.6 280.8Q450.8 281.8 443.9 284Q437.8 285 431.8 300.4Z"/><path class="house-pine-snow" d="M431.2 296.2Q437.5 272.4 443.9 279Q450.8 269.2 457.6 275.8Q464.5 268.8 471.3 275.4Q478.2 268 485 274.6Q491.9 268 498.8 276.6Q505.6 270 512.5 280.6Q518.8 274 525.2 294.8Q518.8 293.5 512.5 287.5Q505.6 289.5 498.8 283.5Q491.9 287.5 485 281.5Q478.2 287.5 471.3 282.3Q464.5 288.3 457.6 282.7Q450.8 288.7 443.9 285.9Q437.5 291.9 431.2 296.2Z" opacity="0"/>
+      <path id="house-pine-22" class="house-pine-tuft" d="M433.2 309L433.2 306Q439.1 288.8 445.1 293.8Q451 287 457 292Q463 287 468.9 293.2Q474.9 288.2 480.8 295.5Q486.8 290.5 492.7 305L492.7 309Q489 310.7 485.3 309Q481.6 310.7 477.8 309Q474.1 311 470.4 309Q466.7 310.7 463 309Q459.2 310.8 455.5 309Q451.8 310.7 448.1 309Q444.4 311.3 440.6 309Q436.9 311.4 433.2 309Z"/><path class="house-pine-light" d="M434.8 306.4Q439.9 291 445.1 295Q451 289.2 457 293.2Q463 289.2 468.9 294.4Q474.9 290.4 480.8 296.7Q486 292.7 491.1 306.6L491.1 310Q486 301.1 480.8 300.1Q474.9 298.8 468.9 297.8Q463 297.6 457 296.6Q451 297.6 445.1 298.4Q439.9 299.4 434.8 311Z"/><path class="house-pine-snow" d="M434.2 306.8Q439.6 286.8 445.1 293.4Q451 285 457 291.6Q463 285 468.9 292.8Q474.9 286.2 480.8 295.1Q486.3 288.5 491.7 305.4Q486.3 308 480.8 302Q474.9 305.7 468.9 299.7Q463 304.5 457 298.5Q451 304.5 445.1 300.3Q439.6 306.3 434.2 306.8Z" opacity="0"/>
+      <path id="house-pine-23" class="house-pine-tuft" d="M359.5 282.9L359.5 279.9Q366 264.5 372.5 269.5Q379 264.5 385.5 278.9L385.5 282.9Q382.2 284.6 379 282.9Q375.7 285.2 372.5 282.9Q369.2 285.1 366 282.9Q362.7 284.6 359.5 282.9Z"/><path class="house-pine-light" d="M361.1 280.3Q366.8 266.7 372.5 270.7Q378.2 266.7 383.9 280.5L383.9 283.9Q378.2 275.1 372.5 274.1Q366.8 275.1 361.1 284.9Z"/><path class="house-pine-snow" d="M360.5 280.7Q366.5 262.5 372.5 269.1Q378.5 262.5 384.5 279.3Q378.5 282 372.5 276Q366.5 282 360.5 280.7Z" opacity="0"/>
+      <path id="house-pine-24" class="house-pine-tuft" d="M352.6 291.7L352.6 288.7Q359.1 274.1 365.6 279.1Q372.1 272.5 378.6 277.5Q385.1 272.1 391.6 277.1Q398.1 272.1 404.6 287.7L404.6 291.7Q400.9 294.3 397.1 291.7Q393.4 293.7 389.7 291.7Q386 293.8 382.3 291.7Q378.6 294.3 374.9 291.7Q371.1 294.2 367.4 291.7Q363.7 293.5 360 291.7Q356.3 293.8 352.6 291.7Z"/><path class="house-pine-light" d="M354.2 289.1Q359.9 276.3 365.6 280.3Q372.1 274.7 378.6 278.7Q385.1 274.3 391.6 278.3Q397.3 274.3 403 289.3L403 292.7Q397.3 282.7 391.6 281.7Q385.1 282.7 378.6 282.1Q372.1 283.1 365.6 283.7Q359.9 284.7 354.2 293.7Z"/><path class="house-pine-snow" d="M353.6 289.5Q359.6 272.1 365.6 278.7Q372.1 270.5 378.6 277.1Q385.1 270.1 391.6 276.7Q397.6 270.1 403.6 288.1Q397.6 289.6 391.6 283.6Q385.1 289.6 378.6 284Q372.1 290 365.6 285.6Q359.6 291.6 353.6 289.5Z" opacity="0"/>
+      <path id="house-pine-25" class="house-pine-tuft" d="M243.7 329.2L243.7 326.2Q250.5 303.7 257.2 308.7Q264 300.4 270.7 305.4Q277.5 300.4 284.2 307.7Q291 302.7 297.7 325.2L297.7 329.2Q293.9 331.1 290 329.2Q286.2 331.5 282.3 329.2Q278.5 330.8 274.6 329.2Q270.7 331.4 266.9 329.2Q263 331.2 259.2 329.2Q255.3 330.8 251.5 329.2Q247.6 331.1 243.7 329.2Z"/><path class="house-pine-light" d="M245.3 326.6Q251.3 305.9 257.2 309.9Q264 302.6 270.7 306.6Q277.5 302.6 284.2 308.9Q290.2 304.9 296.1 326.8L296.1 330.2Q290.2 313.3 284.2 312.3Q277.5 311 270.7 310Q264 311 257.2 313.3Q251.3 314.3 245.3 331.2Z"/><path class="house-pine-snow" d="M244.7 327Q251 301.7 257.2 308.3Q264 298.4 270.7 305Q277.5 298.4 284.2 307.3Q290.5 300.7 296.7 325.6Q290.5 320.2 284.2 314.2Q277.5 317.9 270.7 311.9Q264 317.9 257.2 315.2Q251 321.2 244.7 327Z" opacity="0"/>
+      <path id="house-pine-26" class="house-pine-tuft" d="M231.2 342.8L231.2 339.8Q238 319.5 244.7 324.5Q251.5 315.9 258.2 320.9Q265 312.4 271.7 317.4Q278.5 312.4 285.2 319.4Q292 314.4 298.7 319.5Q305.5 314.5 312.2 322.3Q319 317.3 325.7 322.9Q332.5 317.9 339.2 338.8L339.2 342.8Q335.6 344.7 332 342.8Q328.4 344.4 324.8 342.8Q321.2 345.2 317.6 342.8Q314 344.7 310.4 342.8Q306.8 344.5 303.2 342.8Q299.6 344.8 296 342.8Q292.4 345.3 288.8 342.8Q285.2 345.2 281.6 342.8Q278 344.7 274.4 342.8Q270.8 344.5 267.2 342.8Q263.6 345.3 260 342.8Q256.4 345 252.8 342.8Q249.2 345.1 245.6 342.8Q242 344.5 238.4 342.8Q234.8 344.5 231.2 342.8Z"/><path class="house-pine-light" d="M232.8 340.2Q238.8 321.7 244.7 325.7Q251.5 318.1 258.2 322.1Q265 314.6 271.7 318.6Q278.5 314.6 285.2 320.6Q292 316.6 298.7 320.7Q305.5 316.7 312.2 323.5Q319 319.5 325.7 324.1Q331.7 320.1 337.6 340.4L337.6 343.8Q331.7 328.5 325.7 327.5Q319 327.9 312.2 326.9Q305.5 325.1 298.7 324.1Q292 325 285.2 324Q278.5 323 271.7 322Q265 323 258.2 325.5Q251.5 326.5 244.7 329.1Q238.8 330.1 232.8 344.8Z"/><path class="house-pine-snow" d="M232.2 340.6Q238.5 317.5 244.7 324.1Q251.5 313.9 258.2 320.5Q265 310.4 271.7 317Q278.5 310.4 285.2 319Q292 312.4 298.7 319.1Q305.5 312.5 312.2 321.9Q319 315.3 325.7 322.5Q332 315.9 338.2 339.2Q332 335.4 325.7 329.4Q319 334.8 312.2 328.8Q305.5 332 298.7 326Q292 331.9 285.2 325.9Q278.5 329.9 271.7 323.9Q265 329.9 258.2 327.4Q251.5 333.4 244.7 331Q238.5 337 232.2 340.6Z" opacity="0"/>
+      <path id="house-pine-27" class="house-pine-tuft" d="M276 354L276 351Q282.7 334.2 289.4 339.2Q296.1 330.6 302.8 335.6Q309.5 329.6 316.2 334.6Q322.9 329.6 329.6 339.9Q336.3 334.9 343 350L343 354Q339.3 356.2 335.5 354Q331.8 356.4 328.1 354Q324.4 355.7 320.7 354Q316.9 356.5 313.2 354Q309.5 355.7 305.8 354Q302.1 356.5 298.3 354Q294.6 356.1 290.9 354Q287.2 355.9 283.5 354Q279.7 356.2 276 354Z"/><path class="house-pine-light" d="M277.6 351.4Q283.5 336.4 289.4 340.4Q296.1 332.8 302.8 336.8Q309.5 331.8 316.2 335.8Q322.9 331.8 329.6 341.1Q335.5 337.1 341.4 351.6L341.4 355Q335.5 345.5 329.6 344.5Q322.9 340.2 316.2 339.2Q309.5 340.2 302.8 340.2Q296.1 341.2 289.4 343.8Q283.5 344.8 277.6 356Z"/><path class="house-pine-snow" d="M277 351.8Q283.2 332.2 289.4 338.8Q296.1 328.6 302.8 335.2Q309.5 327.6 316.2 334.2Q322.9 327.6 329.6 339.5Q335.8 332.9 342 350.4Q335.8 352.4 329.6 346.4Q322.9 347.1 316.2 341.1Q309.5 347.1 302.8 342.1Q296.1 348.1 289.4 345.7Q283.2 351.7 277 351.8Z" opacity="0"/>
+      <path id="house-pine-28" class="house-pine-tuft" d="M454.6 335.4L454.6 332.4Q461.1 312.3 467.6 317.3Q474.1 307.7 480.6 312.7Q487.1 307.7 493.6 314.9Q500.1 309.9 506.6 331.4L506.6 335.4Q502.9 337.6 499.1 335.4Q495.4 337.3 491.7 335.4Q488 337.1 484.3 335.4Q480.6 337.2 476.9 335.4Q473.1 337.1 469.4 335.4Q465.7 337.2 462 335.4Q458.3 337.4 454.6 335.4Z"/><path class="house-pine-light" d="M456.2 332.8Q461.9 314.5 467.6 318.5Q474.1 309.9 480.6 313.9Q487.1 309.9 493.6 316.1Q499.3 312.1 505 333L505 336.4Q499.3 320.5 493.6 319.5Q487.1 318.3 480.6 317.3Q474.1 318.3 467.6 321.9Q461.9 322.9 456.2 337.4Z"/><path class="house-pine-snow" d="M455.6 333.2Q461.6 310.3 467.6 316.9Q474.1 305.7 480.6 312.3Q487.1 305.7 493.6 314.5Q499.6 307.9 505.6 331.8Q499.6 327.4 493.6 321.4Q487.1 325.2 480.6 319.2Q474.1 325.2 467.6 323.8Q461.6 329.8 455.6 333.2Z" opacity="0"/>
+      <path id="house-pine-29" class="house-pine-tuft" d="M418.3 348.4L418.3 345.4Q424.8 325.1 431.3 330.1Q437.8 323.3 444.3 328.3Q450.8 319.9 457.3 324.9Q463.8 319.8 470.3 324.8Q476.8 319.5 483.3 324.5Q489.8 319.5 496.3 327.1Q502.8 322.1 509.3 329.2Q515.8 324.2 522.3 344.4L522.3 348.4Q518.6 350.2 514.9 348.4Q511.2 350 507.5 348.4Q503.8 350.7 500 348.4Q496.3 350.5 492.6 348.4Q488.9 350.1 485.2 348.4Q481.5 350.4 477.8 348.4Q474 350.9 470.3 348.4Q466.6 350.1 462.9 348.4Q459.2 350.8 455.5 348.4Q451.8 350.4 448 348.4Q444.3 350.5 440.6 348.4Q436.9 350.8 433.2 348.4Q429.5 350.4 425.8 348.4Q422 350.5 418.3 348.4Z"/><path class="house-pine-light" d="M419.9 345.8Q425.6 327.3 431.3 331.3Q437.8 325.5 444.3 329.5Q450.8 322.1 457.3 326.1Q463.8 322 470.3 326Q476.8 321.7 483.3 325.7Q489.8 321.7 496.3 328.3Q502.8 324.3 509.3 330.4Q515 326.4 520.7 346L520.7 349.4Q515 334.8 509.3 333.8Q502.8 332.7 496.3 331.7Q489.8 330.1 483.3 329.1Q476.8 330.1 470.3 329.4Q463.8 330.4 457.3 329.5Q450.8 330.5 444.3 332.9Q437.8 333.9 431.3 334.7Q425.6 335.7 419.9 350.4Z"/><path class="house-pine-snow" d="M419.3 346.2Q425.3 323.1 431.3 329.7Q437.8 321.3 444.3 327.9Q450.8 317.9 457.3 324.5Q463.8 317.8 470.3 324.4Q476.8 317.5 483.3 324.1Q489.8 317.5 496.3 326.7Q502.8 320.1 509.3 328.8Q515.3 322.2 521.3 344.8Q515.3 341.7 509.3 335.7Q502.8 339.6 496.3 333.6Q489.8 337 483.3 331Q476.8 337 470.3 331.3Q463.8 337.3 457.3 331.4Q450.8 337.4 444.3 334.8Q437.8 340.8 431.3 336.6Q425.3 342.6 419.3 346.2Z" opacity="0"/>
+      <path id="house-pine-30" class="house-pine-tuft" d="M417.8 359L417.8 356Q424.2 340 430.7 345Q437.1 338.3 443.6 343.3Q450 336.4 456.5 341.4Q462.9 336.4 469.4 345.5Q475.8 340.5 482.3 355L482.3 359Q478.7 361.3 475.1 359Q471.5 361.2 467.9 359Q464.4 361 460.8 359Q457.2 360.9 453.6 359Q450 360.7 446.5 359Q442.9 360.7 439.3 359Q435.7 360.7 432.1 359Q428.5 361.3 425 359Q421.4 360.9 417.8 359Z"/><path class="house-pine-light" d="M419.4 356.4Q425 342.2 430.7 346.2Q437.1 340.5 443.6 344.5Q450 338.6 456.5 342.6Q462.9 338.6 469.4 346.7Q475 342.7 480.7 356.6L480.7 360Q475 351.1 469.4 350.1Q462.9 347 456.5 346Q450 347 443.6 347.9Q437.1 348.9 430.7 349.6Q425 350.6 419.4 361Z"/><path class="house-pine-snow" d="M418.8 356.8Q424.7 338 430.7 344.6Q437.1 336.3 443.6 342.9Q450 334.4 456.5 341Q462.9 334.4 469.4 345.1Q475.3 338.5 481.3 355.4Q475.3 358 469.4 352Q462.9 353.9 456.5 347.9Q450 353.9 443.6 349.8Q437.1 355.8 430.7 351.5Q424.7 357.5 418.8 356.8Z" opacity="0"/>
+      <path id="house-pine-31" class="house-pine-tuft" d="M349.8 340.6L349.8 337.6Q357 318.8 364.3 323.8Q371.5 318.8 378.8 336.6L378.8 340.6Q375.1 342.3 371.5 340.6Q367.9 343.1 364.3 340.6Q360.6 343.1 357 340.6Q353.4 342.9 349.8 340.6Z"/><path class="house-pine-light" d="M351.4 338Q357.8 321 364.3 325Q370.7 321 377.2 338.2L377.2 341.6Q370.7 329.4 364.3 328.4Q357.8 329.4 351.4 342.6Z"/><path class="house-pine-snow" d="M350.8 338.4Q357.5 316.8 364.3 323.4Q371 316.8 377.8 337Q371 336.3 364.3 330.3Q357.5 336.3 350.8 338.4Z" opacity="0"/>
+      <path id="house-pine-32" class="house-pine-tuft" d="M343.2 350.2L343.2 347.2Q350.4 329.6 357.7 334.6Q364.9 327.4 372.2 332.4Q379.4 327.4 386.7 334.6Q393.9 329.6 401.2 346.2L401.2 350.2Q397.6 352.2 393.9 350.2Q390.3 351.9 386.7 350.2Q383.1 352.2 379.4 350.2Q375.8 352 372.2 350.2Q368.6 352.7 364.9 350.2Q361.3 352.7 357.7 350.2Q354.1 352.3 350.4 350.2Q346.8 352 343.2 350.2Z"/><path class="house-pine-light" d="M344.8 347.6Q351.2 331.8 357.7 335.8Q364.9 329.6 372.2 333.6Q379.4 329.6 386.7 335.8Q393.1 331.8 399.6 347.8L399.6 351.2Q393.1 340.2 386.7 339.2Q379.4 338 372.2 337Q364.9 338 357.7 339.2Q351.2 340.2 344.8 352.2Z"/><path class="house-pine-snow" d="M344.2 348Q350.9 327.6 357.7 334.2Q364.9 325.4 372.2 332Q379.4 325.4 386.7 334.2Q393.4 327.6 400.2 346.6Q393.4 347.1 386.7 341.1Q379.4 344.9 372.2 338.9Q364.9 344.9 357.7 341.1Q350.9 347.1 344.2 348Z" opacity="0"/>
+      <path id="house-pine-33" class="house-pine-tuft" d="M243.9 371.9L243.9 368.9Q249.9 351.1 255.9 356.1Q261.9 346.8 267.9 351.8Q273.9 346.8 279.9 354.3Q285.9 349.3 291.9 367.9L291.9 371.9Q288.4 373.5 285 371.9Q281.6 373.9 278.1 371.9Q274.7 374 271.3 371.9Q267.9 374 264.4 371.9Q261 373.7 257.6 371.9Q254.1 374 250.7 371.9Q247.3 373.5 243.9 371.9Z"/><path class="house-pine-light" d="M245.5 369.3Q250.7 353.3 255.9 357.3Q261.9 349 267.9 353Q273.9 349 279.9 355.5Q285.1 351.5 290.3 369.5L290.3 372.9Q285.1 359.9 279.9 358.9Q273.9 357.4 267.9 356.4Q261.9 357.4 255.9 360.7Q250.7 361.7 245.5 373.9Z"/><path class="house-pine-snow" d="M244.9 369.7Q250.4 349.1 255.9 355.7Q261.9 344.8 267.9 351.4Q273.9 344.8 279.9 353.9Q285.4 347.3 290.9 368.3Q285.4 366.8 279.9 360.8Q273.9 364.3 267.9 358.3Q261.9 364.3 255.9 362.6Q250.4 368.6 244.9 369.7Z" opacity="0"/>
+      <path id="house-pine-34" class="house-pine-tuft" d="M232.2 383.5L232.2 380.5Q239.1 361.7 246 366.7Q252.8 358.2 259.7 363.2Q266.5 357.5 273.4 362.5Q280.2 356.4 287.1 361.4Q294 356.4 300.8 363Q307.7 358 314.5 366.8Q321.4 361.8 328.2 379.5L328.2 383.5Q324.5 385.3 320.9 383.5Q317.2 385.7 313.5 383.5Q309.8 385.6 306.1 383.5Q302.4 385.8 298.7 383.5Q295 385.7 291.3 383.5Q287.6 385.8 283.9 383.5Q280.2 386 276.5 383.5Q272.9 385.5 269.2 383.5Q265.5 385.4 261.8 383.5Q258.1 386.1 254.4 383.5Q250.7 385.2 247 383.5Q243.3 385.8 239.6 383.5Q235.9 385.7 232.2 383.5Z"/><path class="house-pine-light" d="M233.8 380.9Q239.9 363.9 246 367.9Q252.8 360.4 259.7 364.4Q266.5 359.7 273.4 363.7Q280.2 358.6 287.1 362.6Q294 358.6 300.8 364.2Q307.7 360.2 314.5 368Q320.6 364 326.6 381.1L326.6 384.5Q320.6 372.4 314.5 371.4Q307.7 368.6 300.8 367.6Q294 367 287.1 366Q280.2 367 273.4 367.1Q266.5 368.1 259.7 367.8Q252.8 368.8 246 371.3Q239.9 372.3 233.8 385.5Z"/><path class="house-pine-snow" d="M233.2 381.3Q239.6 359.7 246 366.3Q252.8 356.2 259.7 362.8Q266.5 355.5 273.4 362.1Q280.2 354.4 287.1 361Q294 354.4 300.8 362.6Q307.7 356 314.5 366.4Q320.9 359.8 327.2 379.9Q320.9 379.3 314.5 373.3Q307.7 375.5 300.8 369.5Q294 373.9 287.1 367.9Q280.2 373.9 273.4 369Q266.5 375 259.7 369.7Q252.8 375.7 246 373.2Q239.6 379.2 233.2 381.3Z" opacity="0"/>
+      <path id="house-pine-35" class="house-pine-tuft" d="M269.7 393L269.7 390Q275.6 373.8 281.6 378.8Q287.5 373.8 293.5 378.8Q299.4 373.8 305.4 379Q311.3 374 317.3 380.5Q323.2 375.5 329.2 389L329.2 393Q325.5 395.3 321.8 393Q318 395.4 314.3 393Q310.6 394.7 306.9 393Q303.2 395.1 299.4 393Q295.7 395.1 292 393Q288.3 395.4 284.6 393Q280.8 395.4 277.1 393Q273.4 395.4 269.7 393Z"/><path class="house-pine-light" d="M271.3 390.4Q276.4 376 281.6 380Q287.5 376 293.5 380Q299.4 376 305.4 380.2Q311.3 376.2 317.3 381.7Q322.4 377.7 327.6 390.6L327.6 394Q322.4 386.1 317.3 385.1Q311.3 384.6 305.4 383.6Q299.4 384.4 293.5 383.4Q287.5 384.4 281.6 383.4Q276.4 384.4 271.3 395Z"/><path class="house-pine-snow" d="M270.7 390.8Q276.1 371.8 281.6 378.4Q287.5 371.8 293.5 378.4Q299.4 371.8 305.4 378.6Q311.3 372 317.3 380.1Q322.7 373.5 328.2 389.4Q322.7 393 317.3 387Q311.3 391.5 305.4 385.5Q299.4 391.3 293.5 385.3Q287.5 391.3 281.6 385.3Q276.1 391.3 270.7 390.8Z" opacity="0"/>
+      <path id="house-pine-36" class="house-pine-tuft" d="M423.6 370.2L423.6 367.2Q431 348.1 438.3 353.1Q445.6 348.1 453 354Q460.3 349 467.6 366.2L467.6 370.2Q464 372.4 460.3 370.2Q456.6 372.5 453 370.2Q449.3 372 445.6 370.2Q442 371.8 438.3 370.2Q434.6 371.9 431 370.2Q427.3 372.1 423.6 370.2Z"/><path class="house-pine-light" d="M425.2 367.6Q431.8 350.3 438.3 354.3Q445.6 350.3 453 355.2Q459.5 351.2 466 367.8L466 371.2Q459.5 359.6 453 358.6Q445.6 358.7 438.3 357.7Q431.8 358.7 425.2 372.2Z"/><path class="house-pine-snow" d="M424.6 368Q431.5 346.1 438.3 352.7Q445.6 346.1 453 353.6Q459.8 347 466.6 366.6Q459.8 366.5 453 360.5Q445.6 365.6 438.3 359.6Q431.5 365.6 424.6 368Z" opacity="0"/>
+      <path id="house-pine-37" class="house-pine-tuft" d="M389.7 381L389.7 378Q396 359.8 402.3 364.8Q408.6 359.2 414.9 364.2Q421.1 356.8 427.4 361.8Q433.7 356.8 440 362Q446.3 357 452.6 363.5Q458.9 358.5 465.1 366.5Q471.4 361.5 477.7 377L477.7 381Q474 383.1 470.4 381Q466.7 382.6 463 381Q459.4 383.4 455.7 381Q452 383.4 448.4 381Q444.7 383.1 441 381Q437.4 383.2 433.7 381Q430 383.3 426.4 381Q422.7 382.7 419 381Q415.4 383.4 411.7 381Q408 382.9 404.4 381Q400.7 382.7 397 381Q393.4 382.9 389.7 381Z"/><path class="house-pine-light" d="M391.3 378.4Q396.8 362 402.3 366Q408.6 361.4 414.9 365.4Q421.1 359 427.4 363Q433.7 359 440 363.2Q446.3 359.2 452.6 364.7Q458.9 360.7 465.1 367.7Q470.6 363.7 476.1 378.6L476.1 382Q470.6 372.1 465.1 371.1Q458.9 369.1 452.6 368.1Q446.3 367.6 440 366.6Q433.7 367.4 427.4 366.4Q421.1 367.4 414.9 368.8Q408.6 369.8 402.3 369.4Q396.8 370.4 391.3 383Z"/><path class="house-pine-snow" d="M390.7 378.8Q396.5 357.8 402.3 364.4Q408.6 357.2 414.9 363.8Q421.1 354.8 427.4 361.4Q433.7 354.8 440 361.6Q446.3 355 452.6 363.1Q458.9 356.5 465.1 366.1Q470.9 359.5 476.7 377.4Q470.9 379 465.1 373Q458.9 376 452.6 370Q446.3 374.5 440 368.5Q433.7 374.3 427.4 368.3Q421.1 374.3 414.9 370.7Q408.6 376.7 402.3 371.3Q396.5 377.3 390.7 378.8Z" opacity="0"/>
+      <path id="house-pine-38" class="house-pine-tuft" d="M388 390L388 387Q394.8 373 401.6 378Q408.5 369.6 415.3 374.6Q422.1 369.6 428.9 378Q435.7 373 442.6 386L442.6 390Q438.7 392.6 434.8 390Q430.9 392.1 427 390Q423.1 392 419.2 390Q415.3 392.1 411.4 390Q407.5 392.3 403.6 390Q399.7 392.4 395.8 390Q391.9 392.2 388 390Z"/><path class="house-pine-light" d="M389.6 387.4Q395.6 375.2 401.6 379.2Q408.5 371.8 415.3 375.8Q422.1 371.8 428.9 379.2Q434.9 375.2 441 387.6L441 391Q434.9 383.6 428.9 382.6Q422.1 380.2 415.3 379.2Q408.5 380.2 401.6 382.6Q395.6 383.6 389.6 392Z"/><path class="house-pine-snow" d="M389 387.8Q395.3 371 401.6 377.6Q408.5 367.6 415.3 374.2Q422.1 367.6 428.9 377.6Q435.2 371 441.6 386.4Q435.2 390.5 428.9 384.5Q422.1 387.1 415.3 381.1Q408.5 387.1 401.6 384.5Q395.3 390.5 389 387.8Z" opacity="0"/>
+      <path id="house-pine-39" class="house-pine-tuft" d="M513.2 376.4L513.2 373.4Q520.2 354.7 527.2 359.7Q534.2 354.7 541.2 372.4L541.2 376.4Q537.7 378.1 534.2 376.4Q530.7 378.1 527.2 376.4Q523.7 378.3 520.2 376.4Q516.7 378.7 513.2 376.4Z"/><path class="house-pine-light" d="M514.8 373.8Q521 356.9 527.2 360.9Q533.4 356.9 539.6 374L539.6 377.4Q533.4 365.3 527.2 364.3Q521 365.3 514.8 378.4Z"/><path class="house-pine-snow" d="M514.2 374.2Q520.7 352.7 527.2 359.3Q533.7 352.7 540.2 372.8Q533.7 372.2 527.2 366.2Q520.7 372.2 514.2 374.2Z" opacity="0"/>
+      <path id="house-pine-40" class="house-pine-tuft" d="M491.8 386.6L491.8 383.6Q498.8 364.9 505.8 369.9Q512.8 363.5 519.8 368.5Q526.8 363.5 533.8 369Q540.8 364 547.8 382.6L547.8 386.6Q544.3 388.3 540.8 386.6Q537.3 388.5 533.8 386.6Q530.3 388.9 526.8 386.6Q523.3 388.9 519.8 386.6Q516.3 388.9 512.8 386.6Q509.3 388.5 505.8 386.6Q502.3 388.7 498.8 386.6Q495.3 388.7 491.8 386.6Z"/><path class="house-pine-light" d="M493.4 384Q499.6 367.1 505.8 371.1Q512.8 365.7 519.8 369.7Q526.8 365.7 533.8 370.2Q540 366.2 546.2 384.2L546.2 387.6Q540 374.6 533.8 373.6Q526.8 374.1 519.8 373.1Q512.8 374.1 505.8 374.5Q499.6 375.5 493.4 388.6Z"/><path class="house-pine-snow" d="M492.8 384.4Q499.3 362.9 505.8 369.5Q512.8 361.5 519.8 368.1Q526.8 361.5 533.8 368.6Q540.3 362 546.8 383Q540.3 381.5 533.8 375.5Q526.8 381 519.8 375Q512.8 381 505.8 376.4Q499.3 382.4 492.8 384.4Z" opacity="0"/>
+      <path class="house-balcony-pine-glow" clip-path="url(#house-balcony-pine-clip)" fill="url(#house-balcony-pinelight)" d="M232.5 99.6H600V392H232.5Z"/>
+    </g>
+    <!-- The footer's rain and snow fall here, beyond the parapet and past
+         the side glass, and the snow gathers along the foot of the glass. -->
+    <g class="house-weather"></g>
+    <path class="house-balcony-snow" d=""/>
+  </g>
+  <!-- The ceiling, the wall on the left, the parapet on the right and the
+       floor. -->
+  <path class="house-shade" d="M0 0H911.2L767.5 99.6H232.5ZM0 0L232.5 99.6V542.6L121.1 650H0ZM767.5 379.4L1000 461.4V650H878.9L767.5 542.6Z"/>
+  <path class="house-floor" d="M208.8 565.5H791.2L878.9 650H121.1Z"/>
+  <path fill="url(#house-balcony-grain)" d="M0 0H911.2L767.5 99.6H232.5ZM0 0L232.5 99.6V379.4H208.8V565.5L121.1 650H0ZM767.5 379.4L1000 461.4V650H878.9L791.2 565.5V379.4ZM208.8 379.4H791.2V650H208.8Z"/>
+  <g class="house-line">
+    <path d="M88.9 0L232.5 99.6H767.5L911.1 0M232.5 99.6V379.4M767.5 99.6V379.4M208.8 565.5L121.1 650M791.2 565.5L878.9 650"/>
+    <path class="house-faint" d="M98 705.8L232 565.5M178.4 705.8L285.6 565.5M258.8 705.8L339.2 565.5M339.2 705.8L392.8 565.5M419.6 705.8L446.4 565.5M500 705.8L500 565.5M580.4 705.8L553.6 565.5M660.8 705.8L607.2 565.5M741.2 705.8L660.8 565.5M821.6 705.8L714.4 565.5M902 705.8L768 565.5M136 635.6L864 635.6M188 585.5L812 585.5"/>
+  </g>
+  <!-- The parapet, a solid wall to the waist, with a stone coping along
+       its top. It turns the corner and runs on along the right-hand side. -->
+  <g class="house-line">
+    <path class="house-wall" d="M208.8 395.8L791.2 395.8L791.2 565.5L208.8 565.5Z"/><path class="house-parapet-shade" stroke="none" d="M208.8 395.8L791.2 395.8L791.2 565.5L208.8 565.5Z"/>
+    <path class="house-coping" d="M234.7 379.4L767.5 379.4L776.6 390.5L203.5 390.5Z"/>
+    <path class="house-coping" d="M203.5 390.5L776.6 390.5L776.6 397.8L203.5 397.8Z"/>
+    <path class="house-coping" d="M767.5 379.4L1061.8 483.2L1019.8 483.2L776.6 390.5Z"/>
+    <path class="house-coping" d="M776.6 390.5L1019.8 483.2L1019.8 496.9L776.6 397.8Z"/>
+    <!-- The balcony is glazed with folding panels on the coping, up to the
+         ceiling, along the front and the right-hand side. While Moris is
+         indoors they are folded away into the right-hand corner, and the
+         balcony is open; while he is out here they are closed. -->
+    <g class="house-glass-closed"><path class="house-glass-tint" stroke="none" d="M224.7 375.4L767.5 375.4L767.5 102.6L224.7 102.6ZM767.5 375.4L1061.8 474.8L1061.8 -98L767.5 102.6Z"/><path class="house-glass-light" d="M246.6 158.3L293.9 107.6M260.2 180.3L317.6 119.5M631.7 293.4L679 234.3M645.3 315.4L699.3 247.8M902.6 236.5L944.9 132.4M921.8 258.2L971.3 135.8" stroke-width="2"/><path class="house-glass-joint" d="M333.8 375.4L333.8 102.6M335.8 375.4L335.8 102.6M443.9 375.4L443.9 102.6M445.9 375.4L445.9 102.6M554.1 375.4L554.1 102.6M556.1 375.4L556.1 102.6M664.2 375.4L664.2 102.6M666.2 375.4L666.2 102.6M868.7 409.6L868.7 33.6M871.2 410.4L871.2 31.9" stroke-width="1.1"/></g>
+    <g class="house-glass-open"><path class="house-glass-pane" d="M739.8 375.4L770.3 375.4L770.3 102.6L739.8 102.6ZM767.5 375.4L778.2 379L778.2 95.3L767.5 102.6Z" stroke-width="1.1"/><path class="house-glass-joint" d="M747.4 375.4L747.4 102.6M755.1 375.4L755.1 102.6M762.7 375.4L762.7 102.6M772.9 377.2L772.9 99" stroke-width="1"/></g>
+    <path class="house-glass-profile" d="M224.7 102.6L767.5 102.6L767.5 94.1L224.7 94.1Z" stroke-width="1.1"/>
+    <path class="house-glass-profile" d="M224.7 383L767.5 383L767.5 375.4L224.7 375.4Z" stroke-width="1.1"/>
+    <path class="house-glass-profile" d="M767.5 94.1L1061.8 -115.9L1061.8 -98L767.5 102.6Z" stroke-width="1.1"/>
+    <path class="house-glass-profile" d="M767.5 375.4L1061.8 474.8L1061.8 490.8L767.5 383Z" stroke-width="1.1"/>
+    <path d="M208.8 565.5H791.2"/>
+  </g>
+  <!-- The glass door back into the study. It opens into the study, hinged
+       on the side nearest us, and folds back against the study's wall. It
+       is shut while Moris is indoors; while he is out here it stands open.
+       Its lower part is wood and the rest is clear glass, so the study
+       shows through it either way: its wall and floor in its own light,
+       and the plant that stands beside the door. -->
+  <g class="house-line">
+    <path class="house-window-trim" d="M0 122.4L131.9 165.3V639.6L0 766.6Z"/>
+    <path class="house-door-glass" stroke="none" d="M0 155.9L81 176.9V637.6L0 705.7Z"/>
+    <path class="house-door-glass" stroke="none" d="M0 560.1H81V637.6L0 705.7Z"/><path class="house-door-floor" stroke="none" d="M0 560.1H81V637.6L0 705.7Z"/>
+    <path class="house-faint" d="M0 560.1H81M0 541.4H81M40 560.1L0 584"/>
+    <g transform="translate(-1232.3 -41.3) scale(1.37)"><path class="house-pot" d="M924 456h45l-6 33h-33Z" stroke-width="1.25"/><path d="M945 456V381M945 425l-18-22M945 405l15-25" stroke-width="1.25"/><path class="house-leaf" d="M944 405q-32-2-25-34 25 7 25 34ZM946 424q32-9 30-34-26 5-30 34ZM945 389q-20-12-9-38 22 16 9 38Z" stroke-width="1.25"/></g>
+    <path class="house-wall" d="M81 176.9H116.8V637.6H81Z"/><path class="house-shade" stroke="none" d="M81 176.9H116.8V637.6H81Z"/>
+    <g class="house-door-open">
+      <path class="house-wall" d="M0 143.9L116.8 176.9H81L0 155.9Z"/><path class="house-door-head" stroke="none" d="M0 143.9L116.8 176.9H81L0 155.9Z"/>
+      <path class="house-window-trim" d="M116.8 637.6L0 745.1V705.7L81 637.6Z"/>
+    </g>
+    <g class="house-door-shut">
+      <path class="house-door-panel" fill-rule="evenodd" d="M0 143.9L116.8 176.9V637.6L0 745.1ZM0 156.2L105.3 183.3V515.1L0 576.4Z"/>
+      <path class="house-door-pane" d="M0 156.2L105.3 183.3V515.1L0 576.4Z"/>
+      <path class="house-door-glint" d="M18 300L52 232M30 318L58 262"/>
+      <path class="house-faint" d="M0 591.8L105.3 527.2V636.1"/>
+      <path d="M111 404.3l-12.5-3.4" stroke-width="3"/><circle class="house-window-trim" cx="111" cy="404.3" r="2.6"/>
+    </g>
+  </g>
+  <!-- The switch for the lamp, on the wall beside the door, a little higher
+       than its handle. -->
+  <g class="house-line">
+    <path class="house-paper" d="M140 367.9L147.2 366.3V385.7L140 387.7Z" stroke-width="1"/>
+    <path class="house-switch-rocker" d="M142.4 371.7L144.8 371.2V382.1L142.4 382.7Z" stroke-width=".7"/>
+  </g>
+  <!-- A glass globe lamp on the left-hand wall, near the front glass,
+       with a yellow light on the chair with the book when it is on. -->
+  <g class="house-line">
+    <path class="house-window-trim" d="M180.4 183L195.2 187.8L195.2 217.7L180.4 214.4Z" stroke-width="1.2"/>
+    <path d="M188 195L216.7 195" stroke-width="2.4"/>
+    <path class="house-window-trim" d="M212.9 194.1L220.5 194.1L220.5 198.9L212.9 198.9Z" stroke-width="1"/>
+    <circle class="house-balcony-lamp-globe" cx="216.7" cy="211.3" r="14.4" stroke-width="1.2"/>
+  </g>
+  <!-- Two chairs facing each other, a book left on one, and a small round
+       table between them with a notebook, a pencil lying on it, and a glass
+       of tea. -->
+  <g class="house-line">
+    <path d="M325.9 523.3L321.8 610.3M404.7 523.3L408.8 610.3M419.6 486L423.1 559.4M353.2 486L349.7 559.4" stroke-width="2.6"/>
+    <path class="house-chair" d="M319.9 519.5L407.9 519.5L407.9 525.8L319.9 525.8Z"/>
+    <path class="house-chair" d="M319.9 519.5L407.9 519.5L423.8 479.1L351 479.1Z"/>
+    <path d="M321.8 517.1L313.5 428M349.7 480.8L342.7 405.6" stroke-width="3"/>
+    <path class="house-chair" d="M313.9 432.1L343 409.1L344 419.6L315 444.6ZM315.8 452.8L344.6 426.6L345.6 437.1L317 465.3ZM317.7 473.6L346.3 444.1L347.2 454.5L318.9 486Z" stroke-width="1.2"/>
+    <path class="house-paper" d="M354.9 501.4L381.8 506.4L381.6 512.2L355.7 507.2Z" stroke-width="1"/>
+    <path class="house-book-rust" d="M354.9 501.4L381.8 506.4L405.7 484.7L380.9 480.6Z" stroke-width="1"/>
+  </g>
+  <g class="house-line">
+    <path d="M674.1 523.3L678.2 610.3M595.3 523.3L591.2 610.3M580.4 486L576.9 559.4M646.8 486L650.3 559.4" stroke-width="2.6"/>
+    <path class="house-chair" d="M592.1 519.5L680.1 519.5L680.1 525.8L592.1 525.8Z"/>
+    <path class="house-chair" d="M680.1 519.5L592.1 519.5L576.2 479.1L649 479.1Z"/>
+    <path d="M678.2 517.1L686.5 428M650.3 480.8L657.3 405.6" stroke-width="3"/>
+    <path class="house-chair" d="M686.1 432.1L657 409.1L656 419.6L685 444.6ZM684.2 452.8L655.4 426.6L654.4 437.1L683 465.3ZM682.3 473.6L653.7 444.1L652.8 454.5L681.1 486Z" stroke-width="1.2"/>
+  </g>
+  <g class="house-line">
+    <path d="M500 460.1L500 589.5" stroke-width="4"/><path d="M500 585.5L484.5 569M500 585.5L471.1 627.2M500 585.5L544 601.7" stroke-width="2.4"/>
+    <path class="house-wood" d="M439.6 458.2L440.5 462.3L443 466.4L447.1 470.3L452.8 474L460.1 477.3L468.8 480L478.5 482L489.1 483.2L500 483.7L510.9 483.2L521.5 482L531.2 480L539.9 477.3L547.2 474L552.9 470.3L557 466.4L559.5 462.3L560.4 458.2L560.4 464.3L559.5 468.6L557 472.8L552.9 476.9L547.2 480.7L539.9 484L531.2 486.8L521.5 488.9L510.9 490.2L500 490.7L489.1 490.2L478.5 488.9L468.8 486.8L460.1 484L452.8 480.7L447.1 476.9L443 472.8L440.5 468.6L439.6 464.3Z"/>
+    <path class="house-wood" d="M559.7 454.2L557.6 450.3L554.3 446.7L549.8 443.5L544.4 440.6L538.2 438.1L531.3 436L523.9 434.4L516.2 433.2L508.1 432.5L500 432.3L491.9 432.5L483.8 433.2L476.1 434.4L468.7 436L461.8 438.1L455.6 440.6L450.2 443.5L445.7 446.7L442.4 450.3L440.3 454.2L439.6 458.2L440.5 462.3L443 466.4L447.1 470.3L452.8 474L460.1 477.3L468.8 480L478.5 482L489.1 483.2L500 483.7L510.9 483.2L521.5 482L531.2 480L539.9 477.3L547.2 474L552.9 470.3L557 466.4L559.5 462.3L560.4 458.2Z"/>
+    <path class="house-paper" d="M471.4 470.5L505.3 466.6L494.3 448L463.7 451.2Z" stroke-width="1"/>
+    <path class="house-book-blue" d="M472.3 468.1L504 464.5L493.6 446.9L464.9 449.9Z" stroke-width="1"/>
+    <g class="house-pencil" stroke-width=".7"><path class="house-pencil-lead" d="M465.2 465.4L466.6 464.1L467.1 465.2Z"/><path class="house-pencil-wood" d="M466.6 464.1L470.6 461.2L471.9 464.3L467.1 465.2Z"/><path class="house-pencil-body" d="M470.6 461.2L498.5 449.1L499.8 452.2L471.9 464.3Z"/><path class="house-pencil-ferrule" d="M498.4 449L501 447.9L502.4 451.2L499.9 452.3Z"/><path class="house-pencil-eraser" d="M501 448L502.5 447.4Q503.6 446.9 504.3 448.4Q505 450 503.9 450.5L502.4 451.1Z"/></g>
+    <g class="house-tea-service">
+    <path class="house-paper" d="M539.2 446.6L538.7 445.5L537.5 444.4L535.8 443.5L533.7 442.7L531.3 442.2L528.7 441.8L526 441.7L523.3 441.8L520.8 442.2L518.6 442.7L516.7 443.5L515.4 444.4L514.6 445.5L514.4 446.6L514.8 447.7L515.8 448.8L517.4 449.7L519.5 450.6L522 451.2L524.8 451.6L527.7 451.7L530.5 451.6L533.1 451.2L535.4 450.6L537.2 449.7L538.5 448.8L539.2 447.7Z" stroke-width="1"/>
+    <path class="house-tea" stroke="none" d="M523 444.7Q521.6 439.1 523.7 434.3L529.9 434.3Q532 439.1 530.6 444.7Z"/>
+    <path class="house-tea-glass" d="M522.6 445.4Q521.1 439.1 523.7 433.4Q524.5 429.5 521.8 426.7L531.8 426.7Q529.1 429.5 529.9 433.4Q532.5 439.1 531 445.4Z" stroke-width="1"/>
+    </g>
+  </g>
+  <!-- Moris comes out here through the day and twice at night, with the glass closed.
+       Through the middle of the day he sleeps on the empty chair; on his other
+       visits he lies on the coping by the glass, looking out. He is the
+       study's Moris; js/house.js shows him only while he is out here and
+       moves him between the two. -->
+  <g class="house-line house-moris" transform="translate(-15.2 129.9) scale(.76)">
+    <!-- Moris, shared by both rooms: a long resting body and a slightly turned face. -->
+<g stroke-width=".65">
+  <!-- The shoulders sit above a low back, with the hind legs resting along it. -->
+  <path class="house-cat" style="fill:#2e302c;stroke:#2e302c" d="M805 465C809 456 817 451 828 451C841 450 853 454 865 459C876 462 881 470 879 478C872 482 860 483 845 482L804 482C798 479 799 471 805 465Z"/>
+  <path d="M817 457C831 451 846 455 858 459C849 457 833 455 822 460" fill="none" stroke="#41433e" stroke-width="1.1" opacity=".7"/>
+  <path d="M858 462C870 462 877 468 875 475C871 478 860 479 851 478" fill="none" stroke="#353833" stroke-width="1.5"/>
+  <path class="house-cat" style="fill:#20221f;stroke:#20221f" d="M853 476C861 473 871 473 879 476C881 479 877 481 871 481L846 482L831 481C829 479 832 477 836 477Z"/>
+  <!-- The tail lies along the body rather than making a large loop. -->
+  <path d="M877 472C886 474 889 478 884 481C875 484 856 484 840 483" fill="none" stroke="#242622" stroke-width="4.5"/>
+  <path d="M883 478C878 481 859 482 846 481.8" fill="none" stroke="#45463e" stroke-width=".65"/>
+  <!-- Forelegs extend from the chest; the nearer paw rests over the other. -->
+  <path class="house-cat" style="fill:#292b27;stroke:#292b27" d="M804 463C801 467 798 471 793 475C789 476 787 479 790 481C793 483 799 482 803 481L817 477L821 464Z"/>
+  <path d="M812 470C810 475 803 478 799 480M792 479L793 481M796 478.5L797 481" fill="none" stroke="#4a4b42" stroke-width=".6"/>
+  <!-- Tall ears and a narrower jaw frame the slightly asymmetric face. -->
+  <path class="house-cat" style="fill:#2e302c;stroke:#2e302c" d="M793 447C792 441 793 433 795 430C798 431 802 438 804 441C808 440 813 441 817 443C820 440 824 437 828 437C827 443 824 448 822 451C823 457 819 464 814 467C811 469 806 470 802 468C796 465 792 460 792 455C791 452 792 449 793 447Z"/>
+  <path d="M796 434L801 442L795 445ZM824 440L818 446L822 446Z" fill="#514b43" stroke="none" opacity=".65"/>
+  <path d="M797 447C801 443 808 443 813 446C808 445 802 447 799 450Z" fill="#41443c" stroke="none" opacity=".7"/>
+  <!-- A lit bridge and a small nose, without a smiling muzzle outline. -->
+  <path d="M807 452C807.5 454 808.2 457 809.5 459L807 460.5L806 458Q807 455 807 452Z" fill="#494c42" stroke="none" opacity=".4"/>
+  <path d="M802 461Q805 459 808 461Q810 459 813 460Q814 464 809 466Q804 466 802 463Z" fill="#363931" stroke="none"/>
+  <path d="M805.5 460.5Q808 459.7 810.2 460.4L808.1 462.5Z" fill="#141712" stroke="none"/>
+  <path d="M808.1 462.5L808 464.2M805.5 465Q808 466 810.3 464.8" fill="none" stroke="#171a15" stroke-width=".55"/>
+  <path class="house-cat-eyes house-cat-eyes--shut" d="M795.7 453.3Q798.5 455.2 801.4 453.8M812 453.8Q814.6 455.8 817.2 453.5" fill="none" stroke-width=".8"/>
+  <g class="house-cat-eyes--open" stroke="none">
+    <!-- Rounded irises under relaxed upper lids; the far eye is a little smaller. -->
+    <circle cx="798.6" cy="452.8" r="2.85"/><circle cx="814.4" cy="453.5" r="2.6"/>
+    <g fill="#aa9f62" opacity=".48"><circle cx="798.6" cy="452.8" r="2.85"/><circle cx="814.4" cy="453.5" r="2.6"/></g>
+    <ellipse class="house-cat-pupil" cx="799" cy="452.9" rx="1.05" ry="2.2"/><ellipse class="house-cat-pupil" cx="814.6" cy="453.6" rx=".95" ry="2.05"/>
+    <path d="M794.9 449.3L802 449.7L802 451Q798.8 450.2 795.1 451ZM811.2 450L817.5 450.5L817.5 451.8Q814.4 451.2 811.3 451.8Z" fill="#2e302c"/>
+    <circle cx="797.4" cy="452" r=".35" fill="#e0d9b6" opacity=".8"/><circle cx="813.4" cy="452.8" r=".3" fill="#e0d9b6" opacity=".7"/>
+  </g>
+  <path d="M802 462L789 460.5M802 464L788.5 464.3M812 462L824 459.5M812 464L825 463" fill="none" stroke="#94988a" stroke-width=".4" opacity=".5"/>
+</g>
+
+  </g>
+  <!-- A little olive in a pot, tucked into the corner. -->
+  <g class="house-line">
+    <path class="house-pot" d="M751.1 582L751.7 584.9L753.3 588.1L755.6 591.4L758.9 594.8L762.8 598.1L767.5 601.4L772.6 604.3L778.1 606.9L783.8 609.1L789.5 610.7L794.9 611.7L799.9 612L804.3 611.7L807.9 610.7L810.7 609.1L812.4 606.9L813.1 604.3L823.6 534.4L822.7 537.1L820.5 539.3L816.9 541L812.1 542L806.3 542.4L799.6 542L792.3 541L784.8 539.3L777.2 537.1L769.9 534.4L763.1 531.3L757.1 528L751.9 524.6L747.8 521.1L744.8 517.8L743 514.6L742.3 511.8Z"/>
+    <path class="house-pot" d="M814.2 521.1L809.2 517.8L803.6 514.6L797.5 511.8L791 509.2L784.4 507.1L777.7 505.4L771.3 504.1L765.2 503.4L759.6 503.1L754.6 503.4L750.3 504.1L746.8 505.4L744.2 507.1L742.7 509.2L742.3 511.8L743 514.6L744.8 517.8L747.8 521.1L751.9 524.6L757.1 528L763.1 531.3L769.9 534.4L777.2 537.1L784.8 539.3L792.3 541L799.6 542L806.3 542.4L812.1 542L816.9 541L820.5 539.3L822.7 537.1L823.6 534.4L823.1 531.3L821.3 528L818.2 524.6Z"/>
+    <path class="house-soil" d="M810.3 521.1L806 518.2L801 515.4L795.6 512.8L789.9 510.6L784 508.7L778.1 507.1L772.4 506L766.9 505.3L761.9 505.1L757.5 505.3L753.6 506L750.6 507.1L748.3 508.7L747 510.6L746.7 512.8L747.3 515.4L749 518.2L751.7 521.1L755.4 524.2L760 527.2L765.3 530L771.3 532.7L777.7 535.1L784.3 537L790.9 538.5L797.2 539.4L803.1 539.7L808.2 539.4L812.4 538.5L815.5 537L817.5 535.1L818.3 532.7L817.9 530L816.4 527.2L813.8 524.2Z" stroke-width="1"/>
+    <path class="house-faint" d="M741.6 519.1L742.3 522.1L744.2 525.4L747.2 528.9L751.4 532.5L756.7 536.1L762.8 539.6L769.7 542.9L777.1 545.7L784.8 548.1L792.5 549.8L800 550.9L806.8 551.3L812.7 550.9L817.6 549.8L821.3 548.1L823.5 545.7L824.4 542.9"/>
+    <g class="house-olive-wood"><path id="house-olive-trunk" stroke="currentColor" d="M781 521.1L776.1 499.7L785.3 479.1L775.2 458.7" stroke-width="4"/><path id="house-olive-branches" stroke="currentColor" d="M775.2 458.7Q754.5 437.2 728.8 420M775.2 458.7Q762.6 422.2 742.8 390.2M775.2 458.7Q773.2 415.7 769.2 380.6M775.2 458.7Q781.4 425.4 793.3 399.9M775.2 458.7Q787.1 442.6 794.8 428.5M775.2 458.7Q756.9 452.2 742.9 450.2M775.2 458.7Q782 452.2 790.7 450.3" stroke-width="1.6"/></g>
+    <g class="house-olive-leaf" stroke="none"><path id="house-olive-leaves" fill="currentColor" d="M729 420Q733 414 733 406Q729 412 729 420ZM734 421Q737 426 743 428Q740 423 734 421ZM721 420Q715 419 710 423Q716 424 721 420ZM729 416Q731 409 729 403Q726 410 729 416ZM729 418Q733 413 732 407Q729 412 729 418ZM729 417Q729 411 725 407Q725 413 729 417ZM729 426Q727 431 730 437Q732 431 729 426ZM720 416Q715 414 710 416Q715 419 720 416ZM745 430Q740 434 738 440Q743 436 745 430ZM751 424Q754 419 754 413Q750 418 751 424ZM749 434Q751 439 756 440Q754 435 749 434ZM738 434Q731 437 727 443Q734 440 738 434ZM746 428Q744 433 747 437Q748 432 746 428ZM753 429Q757 433 763 434Q759 429 753 429ZM751 430Q752 437 758 441Q756 434 751 430ZM748 419Q753 416 754 410Q749 413 748 419ZM739 425Q737 420 732 419Q734 424 739 425ZM745 424Q747 418 744 411Q742 418 745 424ZM740 396Q739 402 742 406Q743 401 740 396ZM733 393Q727 392 722 395Q728 396 733 393ZM747 394Q746 401 750 407Q750 400 747 394ZM742 392Q741 398 744 403Q745 397 742 392ZM739 387Q739 381 735 377Q735 383 739 387ZM743 390Q750 391 756 388Q749 387 743 390ZM744 388Q746 383 743 379Q741 384 744 388ZM742 393Q739 399 740 406Q743 400 742 393ZM735 395Q731 401 731 408Q736 402 735 395ZM747 393Q746 400 749 405Q750 399 747 393ZM741 382Q744 377 743 370Q740 376 741 382ZM764 410Q769 414 775 413Q770 410 764 410ZM755 409Q759 406 760 401Q756 403 755 409ZM747 418Q745 422 747 427Q749 423 747 418ZM753 416Q750 421 752 427Q755 422 753 416ZM756 407Q760 403 760 397Q756 401 756 407ZM746 410Q740 410 735 415Q742 415 746 410ZM747 410Q744 404 738 400Q741 406 747 410ZM753 413Q755 420 760 424Q758 417 753 413ZM771 386Q771 393 774 398Q775 392 771 386ZM770 388Q771 393 776 396Q775 390 770 388ZM765 373Q760 367 753 365Q758 370 765 373ZM776 373Q777 366 776 359Q774 366 776 373ZM760 382Q755 382 750 385Q756 386 760 382ZM769 381Q768 374 764 369Q765 376 769 381ZM777 376Q783 377 789 374Q783 373 777 376ZM764 378Q763 371 757 366Q759 373 764 378ZM769 373Q770 366 767 360Q765 367 769 373ZM768 412Q764 415 765 420Q769 417 768 412ZM773 417Q772 423 777 429Q777 422 773 417ZM767 407Q761 402 754 402Q759 406 767 407ZM772 408Q777 411 783 410Q778 407 772 408ZM773 408Q779 409 784 406Q778 405 773 408ZM765 406Q760 401 753 401Q758 406 765 406ZM772 407Q777 404 780 398Q774 402 772 407ZM771 408Q768 412 768 418Q772 414 771 408ZM771 407Q777 403 779 396Q774 401 771 407ZM766 410Q760 413 756 420Q763 416 766 410ZM764 410Q758 412 755 417Q761 415 764 410ZM800 403Q803 409 809 411Q806 406 800 403ZM795 397Q801 395 806 391Q799 392 795 397ZM793 391Q794 385 791 380Q790 386 793 391ZM792 393Q790 388 786 385Q787 390 792 393ZM792 401Q786 403 783 409Q789 407 792 401ZM785 421Q779 422 776 426Q782 426 785 421ZM795 419Q800 423 806 422Q801 418 795 419ZM788 410Q790 406 789 401Q786 405 788 410ZM787 417Q787 411 784 407Q783 413 787 417ZM785 421Q778 422 773 426Q780 426 785 421ZM787 412Q787 405 783 399Q783 406 787 412ZM794 413Q801 412 807 408Q800 408 794 413ZM788 409Q787 404 782 400Q783 406 788 409ZM785 428Q784 432 785 437Q787 432 785 428ZM789 417Q791 413 790 408Q787 412 789 417ZM790 419Q795 420 800 417Q794 416 790 419ZM786 418Q782 414 777 415Q781 418 786 418ZM786 424Q782 429 781 436Q786 430 786 424ZM806 431Q812 434 818 433Q812 430 806 431ZM793 438Q792 444 796 450Q796 444 793 438ZM793 431Q788 436 787 443Q792 438 793 431ZM794 434Q790 437 790 442Q793 439 794 434ZM798 430Q801 435 806 438Q803 432 798 430ZM798 431Q798 437 801 442Q802 436 798 431ZM799 429Q806 429 811 425Q805 425 799 429ZM790 432Q786 435 785 441Q789 438 790 432ZM795 430Q793 437 797 443Q798 436 795 430ZM784 425Q783 420 778 417Q779 423 784 425ZM792 429Q798 430 803 426Q797 426 792 429ZM784 434Q781 439 782 444Q785 439 784 434ZM783 437Q779 440 779 445Q783 442 783 437ZM791 426Q796 425 798 420Q793 421 791 426ZM784 435Q778 436 776 441Q781 440 784 435ZM790 433Q793 438 798 441Q795 435 790 433ZM784 435Q779 434 774 437Q779 438 784 435ZM781 430Q775 428 769 431Q775 433 781 430ZM790 426Q795 425 798 420Q793 422 790 426ZM742 449Q742 442 737 436Q738 443 742 449ZM737 446Q736 439 732 434Q732 441 737 446ZM748 443Q753 439 753 433Q749 437 748 443ZM743 451Q737 455 736 462Q741 458 743 451ZM734 454Q729 452 724 455Q730 457 734 454ZM743 453Q744 459 749 462Q748 456 743 453ZM739 452Q736 457 736 464Q739 459 739 452ZM754 445Q749 440 742 438Q747 443 754 445ZM765 439Q769 435 770 428Q765 433 765 439ZM757 446Q755 453 758 459Q760 452 757 446ZM761 440Q766 438 767 432Q762 435 761 440ZM755 450Q750 452 748 457Q753 455 755 450ZM756 444Q749 443 744 445Q750 447 756 444ZM759 446Q765 449 772 448Q766 445 759 446ZM760 452Q765 457 772 459Q767 454 760 452ZM748 450Q744 455 743 461Q748 456 748 450ZM751 449Q745 453 743 459Q748 455 751 449ZM754 443Q753 437 748 433Q749 439 754 443ZM797 451Q802 453 808 451Q802 449 797 451ZM793 453Q795 457 800 458Q798 454 793 453ZM795 456Q794 463 797 469Q798 462 795 456ZM789 452Q786 459 788 466Q791 459 789 452ZM786 456Q780 459 777 466Q784 462 786 456ZM793 455Q796 460 801 462Q798 457 793 455ZM786 445Q781 450 779 457Q785 453 786 445ZM787 444Q793 442 795 437Q790 439 787 444ZM789 445Q795 444 800 440Q794 440 789 445ZM786 444Q779 442 773 445Q780 447 786 444ZM782 437Q783 431 780 427Q779 432 782 437ZM784 448Q780 450 778 455Q783 453 784 448ZM787 444Q786 438 782 434Q783 440 787 444Z"/></g>
+    <g class="house-olive-leaf--light" stroke="none"><path id="house-olive-leaves-light" fill="currentColor" d="M729 420Q734 424 740 424Q735 420 729 420ZM733 414Q736 409 735 404Q732 409 733 414ZM731 420Q738 422 745 419Q738 417 731 420ZM736 423Q742 425 748 424Q742 422 736 423ZM738 418Q743 417 746 413Q741 414 738 418ZM734 424Q736 429 741 431Q739 426 734 424ZM738 419Q743 422 748 422Q744 419 738 419ZM734 415Q739 416 743 413Q738 412 734 415ZM746 435Q742 438 742 444Q746 440 746 435ZM743 426Q737 422 730 422Q736 426 743 426ZM745 428Q739 429 736 433Q741 432 745 428ZM737 432Q730 432 725 437Q732 436 737 432ZM753 431Q755 436 760 437Q758 433 753 431ZM743 423Q747 418 747 412Q743 417 743 423ZM747 382Q750 376 749 369Q746 375 747 382ZM739 397Q738 402 741 406Q742 401 739 397ZM737 386Q739 379 736 373Q734 379 737 386ZM741 390Q736 389 732 392Q737 394 741 390ZM750 385Q756 381 759 375Q753 378 750 385ZM752 411Q745 414 742 420Q748 417 752 411ZM757 406Q762 401 764 394Q758 398 757 406ZM755 419Q754 426 758 433Q759 425 755 419ZM744 416Q738 417 735 423Q741 421 744 416ZM756 414Q755 421 759 427Q759 420 756 414ZM755 417Q759 423 765 425Q762 419 755 417ZM759 415Q762 420 767 421Q764 417 759 415ZM747 410Q742 408 736 410Q741 412 747 410ZM771 379Q778 378 782 373Q776 374 771 379ZM765 389Q759 389 756 393Q761 393 765 389ZM770 379Q774 375 775 370Q771 374 770 379ZM761 380Q756 382 753 386Q758 385 761 380ZM763 379Q757 378 752 381Q758 382 763 379ZM769 377Q768 371 764 368Q764 374 769 377ZM766 374Q765 367 760 362Q761 369 766 374ZM774 412Q775 417 780 420Q779 415 774 412ZM776 407Q782 407 787 404Q781 403 776 407ZM767 403Q768 398 764 393Q764 399 767 403ZM770 403Q774 397 774 390Q770 396 770 403ZM767 405Q763 402 757 403Q762 406 767 405ZM794 395Q801 392 805 385Q798 388 794 395ZM801 406Q804 412 810 416Q807 409 801 406ZM791 395Q792 389 788 383Q787 390 791 395ZM793 409Q788 414 787 421Q792 416 793 409ZM793 404Q793 410 798 415Q797 409 793 404ZM794 403Q791 409 791 416Q795 410 794 403ZM796 394Q798 388 796 382Q794 388 796 394ZM794 400Q798 405 805 406Q800 401 794 400ZM793 399Q797 395 797 390Q794 394 793 399ZM798 398Q804 394 807 388Q801 392 798 398ZM803 397Q809 395 812 391Q806 392 803 397ZM792 414Q797 413 800 408Q794 409 792 414ZM789 418Q794 415 797 410Q791 413 789 418ZM780 418Q774 415 767 417Q773 420 780 418ZM798 427Q804 430 810 428Q804 425 798 427ZM788 434Q782 436 778 442Q784 439 788 434ZM800 422Q804 418 803 413Q799 417 800 422ZM789 429Q782 427 775 429Q782 431 789 429ZM796 425Q796 417 792 412Q792 419 796 425ZM789 427Q786 422 781 421Q784 425 789 427ZM807 429Q814 429 819 425Q812 425 807 429ZM787 428Q784 422 778 419Q781 425 787 428ZM790 433Q794 435 799 433Q795 431 790 433ZM797 431Q803 433 809 431Q803 429 797 431ZM785 424Q789 420 789 414Q785 418 785 424ZM788 437Q789 444 794 448Q793 442 788 437ZM789 432Q793 438 799 442Q796 435 789 432ZM739 444Q739 438 735 434Q734 440 739 444ZM745 454Q745 460 749 463Q749 458 745 454ZM740 450Q734 448 728 451Q734 453 740 450ZM737 449Q734 444 728 442Q731 447 737 449ZM741 442Q743 435 741 429Q739 435 741 442ZM742 450Q739 446 734 445Q737 449 742 450ZM751 452Q757 454 762 452Q756 450 751 452ZM751 455Q753 460 758 461Q756 456 751 455ZM741 455Q734 456 729 462Q736 460 741 455ZM753 453Q752 460 755 466Q756 459 753 453ZM760 452Q762 457 767 458Q765 453 760 452ZM755 445Q750 446 747 450Q752 449 755 445ZM754 440Q750 433 743 431Q747 437 754 440ZM757 449Q754 454 756 459Q759 454 757 449ZM784 446Q783 440 779 436Q779 442 784 446ZM800 454Q804 459 811 460Q807 455 800 454ZM790 456Q786 459 785 464Q789 461 790 456ZM792 450Q797 453 803 453Q798 450 792 450ZM792 449Q797 446 798 440Q793 444 792 449ZM802 452Q807 457 813 459Q809 454 802 452ZM788 450Q786 444 781 440Q783 446 788 450ZM798 450Q803 451 807 447Q802 446 798 450ZM783 455Q777 455 772 458Q778 459 783 455ZM789 454Q783 459 781 466Q787 461 789 454ZM787 445Q781 449 779 455Q784 451 787 445ZM789 447Q785 452 787 457Q790 452 789 447ZM783 451Q782 457 785 462Q786 456 783 451ZM789 446Q788 451 792 456Q792 450 789 446ZM789 443Q793 439 794 434Q790 437 789 443ZM795 445Q798 451 805 452Q801 446 795 445ZM789 443Q792 437 791 431Q788 436 789 443ZM791 446Q796 449 801 450Q797 446 791 446ZM783 447Q777 447 773 451Q779 451 783 447Z"/></g>
+  </g>
+  <ellipse class="house-balcony-lamp-glow" fill="url(#house-balcony-glow)" cx="216.7" cy="211.3" rx="90" ry="80"/>
+  <path class="house-dusk" mask="url(#house-balcony-dusk-mask)" d="M0 0H1000V650H0Z"/>
+</svg>
+
+
+
+      <a class="house-hotspot house-hotspot--sun" href="/pictures/sun/?from=balcony" hidden><span class="house-label"><span class="house-pin" aria-hidden="true">1</span><span class="house-hotspot-name">The sun <span aria-hidden="true">&rarr;</span></span></span></a>
+      <a class="house-hotspot house-hotspot--moon" href="/pictures/space/?from=balcony#scene-moon" hidden><span class="house-label"><span class="house-pin" aria-hidden="true">2</span><span class="house-hotspot-name">The moon <span aria-hidden="true">&rarr;</span></span></span></a>
+      <button class="house-hotspot house-hotspot--stars" data-open="stars" type="button" hidden><span class="house-label"><span class="house-pin" aria-hidden="true">3</span><span class="house-hotspot-name">The stars</span></span></button>
+      <a class="house-hotspot house-hotspot--breath" href="/breathe/?from=balcony&amp;v=20261011-1"><span class="house-label"><span class="house-pin" aria-hidden="true">4</span><span class="house-hotspot-name">The Breath <span aria-hidden="true">&rarr;</span></span></span></a>
+      <button class="house-hotspot house-hotspot--notebook" data-open="notebook" type="button"><span class="house-label"><span class="house-pin" aria-hidden="true">5</span><span class="house-hotspot-name">The notebook</span></span></button>
+      <a class="house-hotspot house-hotspot--study-door" href="#study" data-go="study"><span class="house-label"><span class="house-pin" aria-hidden="true">6</span><span class="house-hotspot-name">The study</span></span></a>
+      <button class="house-hotspot house-hotspot--balcony-switch" data-balcony-lamp type="button" aria-pressed="false"><span class="house-label"><span class="house-pin" aria-hidden="true">7</span><span class="house-hotspot-name">The light switch</span></span></button>
+      <button class="house-hotspot house-hotspot--balcony-moris" data-open="moris" type="button"><span class="house-label"><span class="house-pin" aria-hidden="true">8</span><span class="house-hotspot-name">Moris</span></span></button>
+      <button class="house-hotspot house-hotspot--balcony-lamp" data-balcony-globe type="button"><span class="house-label"><span class="house-pin" aria-hidden="true">9</span><span class="house-hotspot-name">The lamp</span></span></button>
+    </div>
+    </div>
+    <ol class="house-objects" aria-hidden="true">
+      <li data-sky-item="sun" hidden><a href="/pictures/sun/?from=balcony" tabindex="-1"><span class="house-pin">1</span>The sun</a></li>
+      <li data-sky-item="moon" hidden><a href="/pictures/space/?from=balcony#scene-moon" tabindex="-1"><span class="house-pin">2</span>The moon</a></li>
+      <li data-sky-item="stars" hidden><button type="button" tabindex="-1" data-open="stars"><span class="house-pin">3</span>The stars</button></li>
+      <li><a href="/breathe/?from=balcony&amp;v=20261011-1" tabindex="-1"><span class="house-pin">4</span>The Breath</a></li>
+      <li><button type="button" tabindex="-1" data-open="notebook"><span class="house-pin">5</span>The notebook</button></li>
+      <li><a href="#study" tabindex="-1" data-go="study"><span class="house-pin">6</span>The study</a></li>
+      <li><button type="button" tabindex="-1" data-balcony-lamp><span class="house-pin">7</span>The light switch</button></li>
+      <li data-moris-item hidden><button type="button" tabindex="-1" data-open="moris"><span class="house-pin">8</span>Moris</button></li>
+      <li><button type="button" tabindex="-1" data-balcony-globe><span class="house-pin">9</span>The lamp</button></li>
+    </ol>
+    <div class="house-room-footer"><a href="#study" data-go="study">&larr; Back to the study</a><button class="house-listen" type="button" id="house-listen" aria-pressed="false" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path class="house-listen-speaker" d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path class="house-listen-waves" d="M15.5 9a4.5 4.5 0 0 1 0 6M18 6.5a8 8 0 0 1 0 11"/></svg><span data-listen-label>Listen outside</span></button></div>
+  </section>
+
+  <noscript><p>The room needs JavaScript to open its objects. You can still visit the <a href="/all-work/">bookshelf</a>, <a href="/word/">words</a>, <a href="/trivia/">quizzes</a>, and <a href="/moris/">Moris</a>.</p></noscript>
+  <p class="house-weather-note"><span id="house-weather-summary">Checking İstanbul’s weather…</span> <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Open-Meteo</a>. <span title="Weather model data; the passing clouds are illustrated.">Weather shown as an illustration.</span></p>
+  <p class="house-weather-choice" id="house-weather-choice" hidden><button class="house-weather-icon" type="button" data-weather-choice="snow" aria-label="Let it snow" aria-pressed="false" title="Let it snow"><span aria-hidden="true">&#10052;&#65038;</span></button><button class="house-weather-icon" type="button" data-weather-choice="rain" aria-label="Let it rain" aria-pressed="false" title="Let it rain"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c-2.5 4-7 7.5-7 12a7 7 0 0 0 14 0c0-4.5-4.5-8-7-12z"/></svg></button><button type="button" id="house-weather-follow" hidden>Follow İstanbul weather</button></p>
+  <p class="house-status" id="house-status" role="status" aria-live="polite"></p>
+
+  <dialog class="house-dialog" id="house-dialog" aria-labelledby="house-dialog-title">
+    <div class="house-dialog-head"><p class="house-eyebrow" id="house-dialog-place"></p><button class="house-close" type="button" id="house-close" aria-label="Close and return to the room">&times;</button></div>
+    <h2 id="house-dialog-title"></h2>
+    <div id="house-dialog-content"></div>
+    <p class="house-dialog-status" id="house-dialog-status" role="status" aria-live="polite" data-keep-status></p>
+  </dialog>
+
+  <template id="house-window">
+    <p class="house-object-intro" data-sky-line></p>
+    <dl class="house-sky-facts" data-sky-facts></dl>
+    <div class="house-window-links"><a href="/stars/?city=istanbul&amp;from=house&amp;v=20261008-1"><span>The Stars</span><p>The stars and bright planets above İstanbul now.</p></a><a href="/twilight/?city=istanbul&amp;from=house&amp;v=20261008-1"><span>İstanbul’s Twilight</span><p>Sunrise, sunset and the light in between.</p></a><a href="/noise/?from=house&amp;v=20261008-1"><span>The Noise</span><p>Put on some rain while you stay.</p></a></div>
+  </template>
+
+  <template id="house-stars">
+    <p class="house-object-intro">It is dark over İstanbul. The city’s light leaves only the brightest stars and the planets.</p>
+    <dl class="house-sky-facts" data-sky-facts></dl>
+    <div class="house-window-links"><a href="/stars/?city=istanbul&amp;from=balcony&amp;v=20261011-1"><span>The Stars</span><p>The stars and bright planets above İstanbul now.</p></a><a href="/moon/?from=balcony&amp;v=20261011-1"><span>The Moon</span><p>The moon’s phase tonight, drawn as it hangs in the sky.</p></a></div>
+  </template>
+  <template id="house-notebook">
+    <p class="house-object-intro">A notebook and a pencil, left on the table for whoever sits out here.</p>
+    <label class="keep-note-label" for="house-notebook-text" data-notebook-label>Write a note</label>
+    <textarea class="keep-note-text" id="house-notebook-text" rows="6" maxlength="2000" spellcheck="true" data-notebook-text></textarea>
+    <p class="house-notebook-said" role="status" data-notebook-said></p>
+    <div class="house-item-actions">
+      <button class="house-keep" type="button" data-notebook-keep>Keep in your drawer</button>
+      <button type="button" data-notebook-drawer>Open your drawer</button>
+      <button type="button" data-notebook-fresh hidden>A new page</button>
+      <button type="button" data-notebook-out hidden>Take out</button>
+      <a href="/write/?from=balcony&amp;v=20261014-1" data-notebook-page>Write at length on The&nbsp;Page&nbsp;<span aria-hidden="true">&rarr;</span></a>
+    </div>
+    <p class="house-drawer-note house-notebook-hint" data-notebook-hint></p>
+  </template>
+
+  <template id="house-moris">
+    <p data-moris-line>He got here before you.</p>
+    <a class="house-more" href="/moris/">Spend a little time with Moris &rarr;</a>
+  </template>
+</div>
+<script>window.OLAE_SKY_SCRIPTS = {"engine":"/js/vendor/astronomy-engine-2.1.19.min.js","stars":"/js/bright-stars.js?v=20261007-2","map":"/js/sky-map.js?v=20261007-2"};</script>
+<script src="/js/astronomy.js?v=20261011-1" defer></script>
+<script src="/js/house-weather.js?v=20261012-3" defer></script>
+<script src="/js/rain-engine.js?v=20260911-1" defer></script>
+<script src="/js/balcony-sound-engine.js?v=20261012-2" defer></script>
+<script src="/js/house-sound.js?v=20261012-1" defer></script>
+<script src="/js/drawer.js?v=20261019-1" defer></script>
+<script src="/js/house.js?v=20261028-8" defer></script>
+<script src="/js/cursor-trail.js?v=20261013-1" defer></script>
+
+
+
+</main>
+<footer>
+  
+  <div class="footer-strip">
+    <div class="footer-strip-inner">
+      <form class="site-search-form site-search-form--footer" role="search" action="/search/" method="get">
+  <label class="visually-hidden" for="footer-search">Search the site</label>
+  <input id="footer-search" name="q" type="search" placeholder="Search the site" maxlength="200" autocomplete="off" enterkeyhint="search">
+  <button type="submit" aria-label="Search">
+    <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg>
+  </button>
+</form>
+
+      
+
+      <nav class="footer-contact-links" aria-label="Find me">
+        <a href="/feeds/">RSS</a>
+        <span class="footer-dot" aria-hidden="true">·</span>
+        <a href="https://www.goodreads.com/author/show/69006405.Hakan_Altun"
+           target="_blank"
+           rel="noopener">Goodreads</a>
+        <span class="footer-dot" aria-hidden="true">·</span>
+        <a href="mailto:letters@hakanaltun.io">letters@hakanaltun.io</a>
+      </nav>
+
+      <div class="footer-actions-wrap">
+        <button
+          class="footer-icon-btn footer-actions-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="footer-actions-menu"
+          aria-label="More controls"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </button>
+
+        <div class="footer-actions" id="footer-actions-menu">
+          <div class="theme-menu-wrap">
+          <button
+            class="footer-icon-btn footer-theme-toggle"
+            id="theme-toggle"
+            type="button"
+            aria-label="Themes"
+            data-label="Themes"
+            aria-haspopup="true"
+            aria-expanded="false"
+            aria-controls="theme-menu"
+            hidden
+          >
+            <svg
+              class="theme-icon-moon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+
+            <svg
+              class="theme-icon-sun"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="12" r="5"/>
+              <line x1="12" y1="1" x2="12" y2="3"/>
+              <line x1="12" y1="21" x2="12" y2="23"/>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+              <line x1="1" y1="12" x2="3" y2="12"/>
+              <line x1="21" y1="12" x2="23" y2="12"/>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </svg>
+          </button>
+
+          <div class="theme-menu" id="theme-menu" role="menu" aria-label="Theme" hidden>
+            <button type="button" class="theme-menu-item" role="menuitemradio" aria-checked="false" data-set-theme="system"
+              title="Follows your device’s light or dark preference">
+              System
+              <span class="theme-menu-mark" aria-hidden="true">&#10003;</span>
+            </button>
+            <button type="button" class="theme-menu-item" role="menuitemradio" aria-checked="false" data-set-theme="light">
+              Light
+              <span class="theme-menu-mark" aria-hidden="true">&#10003;</span>
+            </button>
+            <button type="button" class="theme-menu-item" role="menuitemradio" aria-checked="false" data-set-theme="dark">
+              Dark
+              <span class="theme-menu-mark" aria-hidden="true">&#10003;</span>
+            </button>
+            <button type="button" class="theme-menu-item" role="menuitemradio" aria-checked="false" data-set-theme="midnight">
+              Midnight
+              <span class="theme-menu-mark" aria-hidden="true">&#10003;</span>
+            </button>
+            <button type="button" class="theme-menu-item" role="menuitemradio" aria-checked="false" data-set-theme="sky"
+              title="The page changes colour as the sun moves through the day.">
+              Follow the sky
+              <span class="theme-menu-mark" aria-hidden="true">&#10003;</span>
+            </button>
+            <div class="theme-menu-divider" role="separator" aria-hidden="true"></div>
+            <a class="theme-menu-item theme-menu-item--link" role="menuitem" href="/themes/"
+              title="The whole wardrobe, previewed—twelve light palettes, Dark, Midnight and Follow the sky">
+              Themes
+            </a>
+          </div>
+          </div>
+          <a href="/tools/" class="footer-icon-btn" aria-label="Instruments" data-label="Instruments">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <rect x="3" y="3" width="7" height="7"/>
+              <rect x="14" y="3" width="7" height="7"/>
+              <rect x="3" y="14" width="7" height="7"/>
+              <rect x="14" y="14" width="7" height="7"/>
+            </svg>
+          </a>
+          <a href="/house/#drawer" class="footer-icon-btn" data-open-drawer aria-label="Your drawer" data-label="Your drawer">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <rect x="3" y="3" width="18" height="18" rx="2"/>
+              <line x1="3" y1="12" x2="21" y2="12"/>
+              <line x1="10" y1="7.5" x2="14" y2="7.5"/>
+              <line x1="10" y1="16.5" x2="14" y2="16.5"/>
+            </svg>
+          </a>
+
+          <button
+            class="footer-icon-btn footer-share-btn"
+            type="button"
+            aria-label="Share this page"
+          data-label="Share"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <circle cx="18" cy="5" r="3"/>
+              <circle cx="6" cy="12" r="3"/>
+              <circle cx="18" cy="19" r="3"/>
+              <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+              <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  <div class="footer-inner">
+    <div class="footer-bottom">
+      <div class="footer-weather">
+        <button class="snow-toggle" id="let-it-snow" type="button" aria-label="Let it snow" aria-pressed="false" title="Let it snow" hidden><span aria-hidden="true">&#10052;&#65038;</span></button>
+        <button class="snow-toggle" id="let-it-rain" type="button" aria-label="Let it rain" aria-pressed="false" title="Let it rain" hidden>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c-2.5 4-7 7.5-7 12a7 7 0 0 0 14 0c0-4.5-4.5-8-7-12z"/></svg>
+        </button>
+      </div>
+
+      <a href="#" class="footer-home-link" aria-label="Back to top">
+        <span class="footer-brand">On Life &amp; Everything</span>
+        <span class="footer-tagline">
+          Essays, short fiction, and other writing.
+        </span>
+      </a><p class="footer-credit">
+        Hakan Altun · İstanbul, 2026 · &copy; All rights reserved.
+      </p>
+    </div>
+  </div>
+</footer>
+
+</div>
+<script>window.OLAE_DRAWER_ASSETS = {"keep_js":"/js/keep.js?v=20261014-1","keep_css":"/css/keep.css?v=20261012-1","drawer_js":"/js/drawer.js?v=20261019-1","drawer_css":"/css/drawer.css?v=20261024-1"};</script>
+<script src="/js/site-nav.js?v=20261017-1" defer></script>
+<script src="/js/let-it-snow.js?v=20261001-2" defer></script>
+<script src="/js/palettes.js?v=20261026-3" defer></script>
+<script src="/js/theme.js?v=20261026-1" defer></script>
+<script src="/js/divider-lines.js?v=20260710-1" defer></script>
+<script src="/js/header-autohide.js?v=20260925-1" defer></script>
+
+
+
+
+
+
+
+<script src="/js/search-suggest.js?v=20261023-1" defer></script>
+<script>
+/* Enable CSS smooth scrolling only after the browser has completed its
+   initial scroll restoration. Applying scroll-behavior: smooth to the root
+   at load time made reloads (and pressing Enter in the address bar) animate
+   the restoration, sliding the page up by about one screen. */
+(function () {
+  var enable = function () {
+    document.documentElement.classList.add('smooth-scroll');
+  };
+  if (document.readyState === 'complete') {
+    requestAnimationFrame(enable);
+  } else {
+    window.addEventListener('load', function () { requestAnimationFrame(enable); });
+  }
+})();
+</script>
+<script data-goatcounter="https://hakanaltun.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<script data-dash-copy>document.addEventListener("copy",function(){var a=document.activeElement;if(a&&(/^(INPUT|TEXTAREA)$/.test(a.tagName)||a.isContentEditable))return;var s=window.getSelection(),taken=[];if(!s.rangeCount||String(s).indexOf("\u2060")<0)return;for(var i=0;i<s.rangeCount;i++){var r=s.getRangeAt(i),c=r.commonAncestorContainer,w=document.createTreeWalker(c.nodeType===3?c.parentNode:c,4),n;while((n=w.nextNode()))if(r.intersectsNode(n))for(var k=n.data.lastIndexOf("\u2060");k>=0;k=k?n.data.lastIndexOf("\u2060",k-1):-1){n.deleteData(k,1);taken.push([n,k]);}}setTimeout(function(){for(var j=taken.length-1;j>=0;j--)taken[j][0].insertData(taken[j][1],"\u2060");},0);});</script></body></html>

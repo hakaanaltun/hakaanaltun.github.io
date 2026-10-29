@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fix Quotes, Dashes &amp; Spaces in Pasted Text &mdash; Turkish-Aware Case Converter &middot; On Life &amp; Everything</title>
+<meta name="description" content="Paste a draft and get it back with proper typography: straight quotes curled, -- and --- turned into dashes, three dots into an ellipsis, doubled spaces and invisible characters removed—plus lowercase, UPPERCASE, sentence case and title case that handle Turkish i/İ and ı/I correctly.">
+<link rel="canonical" href="https://hakanaltun.io/clean/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="The Clean — Fix Quotes, Dashes &amp; Spaces in Pasted Text">
+<meta property="og:description" content="Straight quotes curled, dashes and ellipses set right, stray spaces and invisible characters removed—plus Turkish-aware case conversion.">
+<meta property="og:url" content="https://hakanaltun.io/clean/">
+<meta property="og:image" content="https://hakanaltun.io/images/og/clean.png?v=20260718-1">
+<meta property="og:image:alt" content="The Clean — fix quotes, dashes & spaces in pasted text">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Clean — Fix Quotes, Dashes &amp; Spaces in Pasted Text">
+<meta name="twitter:description" content="Straight quotes curled, dashes and ellipses set right, stray spaces and invisible characters removed—plus Turkish-aware case conversion.">
+<meta name="twitter:image" content="https://hakanaltun.io/images/og/clean.png?v=20260718-1">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#FFFFFF">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#191712">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "@id": "https://hakanaltun.io/clean/#app",
+  "name": "The Clean — Fix Quotes, Dashes & Spaces in Pasted Text, with Turkish-Aware Case Conversion",
+  "url": "https://hakanaltun.io/clean/",
+  "description": "Paste a draft and get it back with proper typography: straight quotes curled, -- and --- turned into dashes, three dots into an ellipsis, doubled spaces and invisible characters removed—plus lowercase, UPPERCASE, sentence case and title case that handle Turkish i/İ and ı/I correctly.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "browserRequirements": "Requires JavaScript",
+  "isAccessibleForFree": true,
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Hakan Altun",
+    "url": "https://hakanaltun.io/"
+  },
+  "inLanguage": "en"
+}
+</script>
+
+<link rel="stylesheet" href="/css/fonts.css?v=20261023-1">
+
+<style>
+  :root{
+    --paper: #FFFFFF;
+    --ink:   #2F2B27;
+    --muted: #746F69;
+    --line:  #EEEAE4;
+
+    --display: 'Cormorant Garamond', Georgia, serif;
+    --body:    'EB Garamond', Georgia, serif;
+
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark){
+    html:not([data-theme="light"]){
+      --paper:#191712; --ink:#E7E1D6; --muted:#9C948A; --line:#2B2721;
+      color-scheme: dark;
+    }
+  }
+  html[data-theme="dark"]{
+    --paper:#191712; --ink:#E7E1D6; --muted:#9C948A; --line:#2B2721;
+    color-scheme: dark;
+  }
+  /* theme toggle icons: moon in light, sun in dark */
+  :root{ --icon-sun:none; --icon-moon:block; }
+  @media (prefers-color-scheme: dark){
+    html:not([data-theme="light"]){ --icon-sun:block; --icon-moon:none; }
+  }
+  html[data-theme="dark"]{ --icon-sun:block; --icon-moon:none; }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html.smooth-scroll{ scroll-behavior:smooth; }
+
+  /* the ampersand the site uses — the display italic, as in the header logo */
+  .amp{ font-family:var(--display); font-style:italic; }
+
+  body{
+    position:relative;
+    background:var(--paper); color:var(--ink); font-family:var(--body);
+    min-height:100vh; min-height:100dvh;
+    -webkit-font-smoothing:antialiased;
+    transition:background .4s ease, color .4s ease;
+  }
+
+  .chrome{
+    position:sticky; top:0; z-index:2; background:var(--paper);
+    display:grid; grid-template-columns:1fr auto 1fr; align-items:center; column-gap:10px;
+    padding:14px 22px; border-bottom:1px solid var(--line);
+    transition:border-color .4s ease, background .4s ease;
+  }
+  .masthead{
+    grid-column:2; text-decoration:none; display:flex; flex-direction:column;
+    align-items:center; gap:1px; text-align:center; opacity:1; transition:opacity .2s;
+    /* The masthead used to sit at .85. Multiplied into var(--muted) that
+       dropped the tagline under the 4.5:1 contrast minimum (3.66:1 on the
+       light ground, 3.76:1 on the darkest). The token on its own clears it
+       everywhere, so the extra dimming is gone. */
+  }
+  .home-brand{ font-family:var(--display); font-style:italic; font-weight:400; font-size:1.1rem; line-height:1.05; color:var(--ink); }
+  .home-tagline{ font-family:var(--body); font-style:italic; font-weight:400; font-size:0.8rem; line-height:1.2; color:var(--muted); }
+
+  /* a quiet way back to the toolshed */
+  .tools-link{
+    grid-column:1; justify-self:start;
+    font-family:var(--body); font-style:italic; font-size:.95rem; letter-spacing:.03em;
+    color:var(--muted); text-decoration:none; white-space:nowrap;
+    transition:color .2s, opacity .2s;
+  }
+  .tools-link:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
+
+  .actions{ grid-column:3; justify-self:end; display:flex; gap:8px; }
+  .icon-btn{
+    background:none; border:1px solid var(--line); color:var(--muted);
+    width:38px; height:38px; border-radius:8px; cursor:pointer; font-size:16px;
+    display:grid; place-items:center; transition:color .2s, border-color .2s, opacity .2s;
+  }
+  .icon-btn:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
+  .icon-btn svg{ width:16px; height:16px; }
+  .theme-btn .icon-sun{ display:var(--icon-sun); }
+  .theme-btn .icon-moon{ display:var(--icon-moon); }
+
+  .tool-head{ max-width:680px; margin:0 auto; padding:6vh 26px 0; text-align:center; }
+  .tool-head h1{
+    font-family:var(--display); font-style:italic; font-weight:400;
+    font-size:clamp(1.9rem, 5vw, 2.6rem); line-height:1.1;
+  }
+  .tool-head .lede{ margin-top:.5rem; font-style:italic; color:var(--muted); font-size:1rem; }
+
+  .sheet{ width:100%; max-width:680px; margin:0 auto; padding:4vh 26px 10vh; }
+
+  /* the paper — as on /write/ */
+  textarea{
+    display:block; width:100%; min-height:38vh;
+    border:0; background:transparent; color:var(--ink);
+    font-family:var(--body); font-size:1.35rem; line-height:1.66;
+    resize:none; outline:none; overflow:hidden;
+    caret-color:var(--ink);
+  }
+  textarea::placeholder{ color:var(--muted); font-style:italic; opacity:.65; }
+
+  .rules{ margin-top:2.2rem; border-top:1px solid var(--line); padding-top:1.6rem; }
+  .rules-name{
+    font-family:var(--body); font-style:italic; font-weight:400;
+    font-size:1.05rem; color:var(--muted); letter-spacing:.03em; margin-bottom:.9rem;
+  }
+  .rule-grid{ display:grid; grid-template-columns:1fr 1fr; gap:10px 24px; }
+  .rule{
+    display:flex; align-items:baseline; gap:9px; color:var(--ink);
+    font-size:1.02rem; line-height:1.45; cursor:pointer; user-select:none;
+  }
+  .rule input{ accent-color:var(--ink); width:15px; height:15px; cursor:pointer; flex:none; position:relative; top:2px; }
+  .rule .hint{ color:var(--muted); }
+
+  .act-row{ margin-top:1.8rem; display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+  .btn{
+    font-family:var(--display); font-style:italic; font-size:1.25rem;
+    padding:9px 28px; border-radius:0; cursor:pointer;
+    border:1px solid var(--line); background:none; color:var(--ink);
+    transition:background .2s, color .2s, border-color .2s, opacity .2s;
+  }
+  .btn:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
+  .btn.primary{ background:var(--ink); color:var(--paper); border-color:var(--ink); }
+  .btn[disabled]{ opacity:.45; cursor:default; }
+
+  .report{
+    margin-top:1rem; font-style:italic; color:var(--muted);
+    font-size:.98rem; letter-spacing:.02em; min-height:1.4em;
+  }
+
+  .case-row{ margin-top:2.2rem; border-top:1px solid var(--line); padding-top:1.6rem; }
+  .case-btns{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+  .case-btn{
+    background:none; border:1px solid var(--line); color:var(--ink);
+    font-family:var(--body); font-size:1rem; padding:8px 16px; border-radius:8px;
+    cursor:pointer; letter-spacing:.02em; transition:border-color .2s, opacity .2s;
+  }
+  .case-btn:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
+  .toggle{
+    display:flex; align-items:center; gap:8px; color:var(--muted);
+    font-size:.98rem; font-style:italic; letter-spacing:.02em; cursor:pointer; user-select:none;
+  }
+  .toggle input{ accent-color:var(--ink); width:15px; height:15px; cursor:pointer; }
+
+  /* notes — reading matter under the instrument */
+  /* land clear of the sticky chrome when arriving via the notes cue */
+  .notes{ border-top:1px solid var(--line); padding:60px 26px 84px; scroll-margin-top:64px; }
+  .notes-inner{ max-width:640px; margin:0 auto; }
+  .notes h2{ font-family:var(--display); font-style:italic; font-weight:400; font-size:1.6rem; margin:2.4rem 0 1rem; color:var(--ink); }
+  .notes h2:first-child{ margin-top:0; }
+  .notes h3{ font-family:var(--body); font-style:italic; font-weight:400; font-size:1.15rem; margin:1.5rem 0 .35rem; color:var(--ink); }
+  .notes p{ color:var(--muted); font-size:1.05rem; line-height:1.65; margin:0 0 .9rem; }
+  .notes code{ font-family:inherit; font-style:italic; color:var(--ink); }
+  .notes a{ color:var(--ink); text-decoration:underline; text-underline-offset:3px; text-decoration-color:var(--line); }
+  .notes .notes-links{ margin-top:2.4rem; padding-top:1.3rem; border-top:1px solid var(--line); font-style:italic; }
+
+  .sr-only{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); }
+
+  /* tablets: tighten the tall first screen so the rules and actions stay within reach */
+  @media (min-width:601px) and (max-width:1150px){
+    .tool-head{ padding-top:3.5vh; }
+    .sheet{ padding-top:2.5vh; }
+    textarea{ min-height:30vh; }
+  }
+
+  @media (max-width:600px){
+    .chrome{ padding:12px 14px; }
+    .home-brand{ font-size:1rem; }
+    .home-tagline{ font-size:0.74rem; }
+    .sheet{ padding:3vh 20px 8vh; }
+    textarea{ font-size:1.22rem; }
+    .rule-grid{ grid-template-columns:1fr; }
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    *{ transition:none !important; }
+  }
+
+  /* A pointer dims what it is over, as everywhere on the site: a link or a
+     button fades a little and nothing else about it changes. The colour
+     swatches are the colours themselves, so they keep their weight. */
+  :root{ --select-dim:.78; }
+  @media (prefers-contrast:more){ :root{ --select-dim:.95; } }
+  :where(a[href], button, summary, select, input[type="date"]){ transition:opacity .2s; }
+  a[href]:hover, button:not(:disabled):not(.swatch):hover, summary:hover, select:hover, input[type="date"]:hover{ opacity:var(--select-dim); }
+</style>
+
+
+<script>
+(function(){
+  "use strict";
+  /* zone → [latitude, longitude], rendered from _data/cities.yml, which
+     /twilight/ reads too. A tenth of a degree is finer than this needs:
+     the answer only has to land the sun in the right part of its arc. */
+  var ZONES = {
+    "": null,   /* a browser that reports no zone has found none; standing
+                   first, it also lets every generated line end in a comma */
+    "Europe/Istanbul":[41.0,29.0],"Asia/Istanbul":[41.0,29.0],"Turkey":[41.0,29.0],
+    "Europe/London":[51.5,-0.1],"GB":[51.5,-0.1],"Europe/Belfast":[51.5,-0.1],
+    "Europe/Dublin":[53.4,-6.3],
+    "Europe/Lisbon":[38.7,-9.1],
+    "Europe/Madrid":[40.4,-3.7],
+    "Europe/Paris":[48.9,2.4],
+    "Europe/Brussels":[50.9,4.4],
+    "Europe/Amsterdam":[52.4,4.9],
+    "Europe/Berlin":[52.5,13.4],
+    "Europe/Zurich":[47.4,8.5],
+    "Europe/Rome":[41.9,12.5],
+    "Europe/Vienna":[48.2,16.4],
+    "Europe/Prague":[50.1,14.4],
+    "Europe/Budapest":[47.5,19.0],
+    "Europe/Warsaw":[52.2,21.0],
+    "Europe/Belgrade":[44.8,20.4],
+    "Europe/Sofia":[42.7,23.3],
+    "Europe/Bucharest":[44.4,26.1],
+    "Europe/Athens":[38.0,23.7],
+    "Europe/Copenhagen":[55.7,12.6],
+    "Europe/Oslo":[59.9,10.8],
+    "Europe/Stockholm":[59.3,18.1],
+    "Europe/Helsinki":[60.2,24.9],
+    "Europe/Kyiv":[50.5,30.5],"Europe/Kiev":[50.5,30.5],
+    "Europe/Moscow":[55.8,37.6],
+    "Asia/Jerusalem":[31.8,35.2],"Asia/Tel_Aviv":[31.8,35.2],"Israel":[31.8,35.2],
+    "Asia/Beirut":[33.9,35.5],
+    "Asia/Baghdad":[33.3,44.4],
+    "Asia/Tehran":[35.7,51.4],"Iran":[35.7,51.4],
+    "Asia/Baku":[40.4,49.9],
+    "Asia/Tbilisi":[41.7,44.8],
+    "Asia/Dubai":[25.2,55.3],
+    "Asia/Riyadh":[24.7,46.7],
+    "Asia/Qatar":[25.3,51.5],
+    "Africa/Cairo":[30.0,31.2],"Egypt":[30.0,31.2],
+    "Africa/Casablanca":[33.6,-7.6],
+    "Africa/Lagos":[6.5,3.4],
+    "Africa/Nairobi":[-1.3,36.8],
+    "Africa/Johannesburg":[-26.2,28.0],
+    "Asia/Karachi":[24.9,67.0],
+    "Asia/Kolkata":[28.6,77.2],"Asia/Calcutta":[28.6,77.2],
+    "Asia/Dhaka":[23.8,90.4],"Asia/Dacca":[23.8,90.4],
+    "Asia/Bangkok":[13.8,100.5],
+    "Asia/Ho_Chi_Minh":[10.8,106.6],"Asia/Saigon":[10.8,106.6],
+    "Asia/Jakarta":[-6.2,106.8],
+    "Asia/Singapore":[1.4,103.8],
+    "Asia/Kuala_Lumpur":[3.1,101.7],
+    "Asia/Manila":[14.6,121.0],
+    "Asia/Hong_Kong":[22.3,114.2],
+    "Asia/Shanghai":[31.2,121.5],"Asia/Chongqing":[31.2,121.5],"PRC":[31.2,121.5],
+    "Asia/Taipei":[25.0,121.6],
+    "Asia/Seoul":[37.6,127.0],"ROK":[37.6,127.0],
+    "Asia/Tokyo":[35.7,139.7],"Japan":[35.7,139.7],
+    "Australia/Perth":[-32.0,115.9],
+    "Australia/Brisbane":[-27.5,153.0],
+    "Australia/Adelaide":[-34.9,138.6],
+    "Australia/Melbourne":[-37.8,145.0],
+    "Australia/Sydney":[-33.9,151.2],
+    "Pacific/Auckland":[-36.8,174.8],
+    "Pacific/Honolulu":[21.3,-157.9],
+    "America/Anchorage":[61.2,-149.9],
+    "America/Vancouver":[49.3,-123.1],
+    "America/Los_Angeles":[34.1,-118.2],
+    "America/Phoenix":[33.4,-112.1],
+    "America/Denver":[39.7,-105.0],
+    "America/Mexico_City":[19.4,-99.1],
+    "America/Chicago":[41.9,-87.6],
+    "America/New_York":[40.7,-74.0],
+    "America/Toronto":[43.7,-79.4],
+    "America/Halifax":[44.6,-63.6],
+    "America/Bogota":[4.7,-74.1],
+    "America/Lima":[-12.0,-77.0],
+    "America/Santiago":[-33.4,-70.7],
+    "America/Argentina/Buenos_Aires":[-34.6,-58.4],"America/Buenos_Aires":[-34.6,-58.4],
+    "America/Sao_Paulo":[-23.6,-46.6],"Brazil/East":[-23.6,-46.6],
+  };
+  function pickCity(){
+    var tz = "";
+    try{ tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ""; }catch(e){}
+    var z = ZONES[tz];
+    if(z) return { lat: z[0], lng: z[1], tz: tz };
+    /* Unknown zone: use a nominal equatorial day aligned with the device's
+       current UTC offset. This gives roughly 06:00 dawn and 18:00 sunset
+       locally, without claiming to know the visitor's latitude. Fractional
+       offsets and daylight saving are included in getTimezoneOffset(). */
+    return { lat: 0, lng: -new Date().getTimezoneOffset() / 4, tz: tz };
+  }
+  var CREAM = [237,228,207], DAYINK = [255,252,245];
+  var STOPS = [   /* [altitude°, [r,g,b], inkMix 0..1] */
+    [-30, [ 12, 16, 24], 0],
+    [-18, [ 14, 19, 29], 0],
+    [-12, [ 23, 32, 48], 0],
+    [ -6, [ 44, 58, 82], 0],
+    [ -2, [ 78, 73, 92], 0.6],
+    [  0, [ 86, 78, 98], 1]
+  ];
+  function lerp(a, b, f){ return a + (b - a) * f; }
+  function skyAt(alt){
+    if(alt <= STOPS[0][0]) return STOPS[0];
+    for(var i = 1; i < STOPS.length; i++){
+      if(alt <= STOPS[i][0]){
+        var lo = STOPS[i-1], hi = STOPS[i];
+        var f = (alt - lo[0]) / (hi[0] - lo[0]);
+        return [alt,
+          [ Math.round(lerp(lo[1][0], hi[1][0], f)),
+            Math.round(lerp(lo[1][1], hi[1][1], f)),
+            Math.round(lerp(lo[1][2], hi[1][2], f)) ],
+          lerp(lo[2], hi[2], f)];
+      }
+    }
+    return STOPS[STOPS.length - 1];
+  }
+  /* The sun's altitude at which the day begins and ends. */
+  var SUNRISE = 0;
+  /* The night is the ramp from here down: at sunset the page is already
+     the navy the ramp reaches at -6°, not the violet above it. */
+  var NIGHT_TOP = -6;
+  /* The day's paper: white, with its ink, rules and band, the same from
+     sunrise to sunset. secL is how dark the sections' accents print on
+     it. The chrome is the one thing that moves: CHROME_DAWN at sunrise,
+     light enough to be a slate and dark enough for white words in the
+     menu (5:1), to CHROME_DUSK at sunset, a step off the night's header. */
+  var DAY = { paper:"#FFFFFF", surface:"#F6F8F9", band:"#F3F5F6", ink:"#242F38", inkSoft:"#35444E",
+              vizon:"#576976", stripInk:"#4C5E6B", rule:"#E9ECED", ruleStrong:"#D0D5D9",
+              ruleCream:"#D5DCDF", secL:0.492 };
+  var CHROME_DAWN = [86, 99, 111], CHROME_DUSK = [40, 52, 68];
+  function hex(h){
+    return [parseInt(h.slice(1, 3), 16), parseInt(h.slice(3, 5), 16), parseInt(h.slice(5, 7), 16)];
+  }
+  /* Every colour of the day, as [r,g,b], with secL. */
+  function dayAt(){
+    var d = {};
+    Object.keys(DAY).forEach(function(k){ d[k] = k === "secL" ? DAY[k] : hex(DAY[k]); });
+    return d;
+  }
+  /* The header's and footer's ground by day, `prog` of the way from
+     sunrise to sunset. */
+  function chromeAt(prog){
+    return mixChannels(CHROME_DAWN, CHROME_DUSK, Math.max(0, Math.min(1, prog || 0)));
+  }
+  /* The words of the header and footer, by day and by night: the yellow of
+     the site's name, all one tone, since a cool grey and then a duller
+     gold read as dull on the slate. On 25 October 2026 the author asked
+     for it to follow the sky: the full yellow (#F8EBC2) while the night is
+     at its darkest, white mixed into it as the sky opens, and the most at
+     noon, then back to the yellow as slowly. Later that day the author
+     set the amounts: none at the darkest of the night, 40% at sunrise and
+     sunset, and 70% at noon. By night the white rises with the sun from
+     -18°, where the ramp is at its darkest, to the horizon, and the
+     evening holds it up as the evening holds up the slate; by day it goes
+     along the arc. */
+  var WORDS = [248, 235, 194], WHITE = [255, 255, 255], HORIZON_WHITE = 0.40, NOON_WHITE = 0.70;
+  /* How far the night has opened, 0 at its darkest and 1 at the horizon. */
+  function nightOpen(sun){
+    return lerp(Math.max(0, Math.min(1, (sun.alt + 18) / 18)), 1, sun.eve || 0);
+  }
+  function wordsAt(sun){
+    var white = sun.alt >= SUNRISE ? lerp(HORIZON_WHITE, NOON_WHITE, sun.share)
+      : HORIZON_WHITE * nightOpen(sun);
+    return mixChannels(WORDS, WHITE, white);
+  }
+  /* The night at one altitude, in skyAt's shape: [altitude, ground, ink
+     mix]. Above NIGHT_TOP it is the ramp at NIGHT_TOP. */
+  function nightAt(alt){
+    return skyAt(Math.min(alt, NIGHT_TOP));
+  }
+  function mixChannels(a, b, f){
+    return [
+      Math.round(lerp(a[0], b[0], f)),
+      Math.round(lerp(a[1], b[1], f)),
+      Math.round(lerp(a[2], b[2], f))
+    ];
+  }
+  var RAD = Math.PI / 180;
+  /* Where the sun stands among the stars at `now`: its declination and
+     right ascension, with the day count the sidereal clock needs. */
+  function sunPlace(now){
+    var d = (now.getTime() / 86400000) - 10957.5;        /* days since J2000 */
+    var g = (357.529 + 0.98560028 * d) * RAD;
+    var q = 280.459 + 0.98564736 * d;
+    var L = (q + 1.915 * Math.sin(g) + 0.020 * Math.sin(2 * g)) * RAD;
+    var e = (23.439 - 0.00000036 * d) * RAD;
+    var sinDec = Math.sin(e) * Math.sin(L);
+    return { d: d, sinDec: sinDec, dec: Math.asin(sinDec),
+      RAh: (Math.atan2(Math.cos(e) * Math.sin(L), Math.cos(L)) / RAD) / 15 };
+  }
+  /* How far the sun has turned past the meridian of longitude `lng`, in
+     degrees: negative before noon, positive after, 15 to the hour. */
+  function hourAngle(p, lng){
+    var GMST = ((18.697374558 + 24.06570982441908 * p.d) % 24 + 24) % 24;
+    var lst = ((GMST + lng / 15) % 24 + 24) % 24;
+    return ((lst - p.RAh) * 15 + 540) % 360 - 180;
+  }
+  function sunAltitude(now, lat, lng){
+    var p = sunPlace(now), H = hourAngle(p, lng);
+    var latR = lat * RAD;
+    return Math.asin(Math.sin(latR) * p.sinDec + Math.cos(latR) * Math.cos(p.dec) * Math.cos(H * RAD)) / RAD;
+  }
+  /* How far along today's arc the sun stands at `now`: 0 where it rises
+     and where it sets, 1 at noon, and between them in proportion to the
+     way it has come. The sun keeps an even pace along its arc, while its
+     height hardly changes for the hour round noon, so the arc moves the
+     paper every few minutes all day. A sun that does not set that day
+     rises, for this purpose, at midnight. */
+  function halfArc(p, lat){
+    var x = -Math.tan(lat * RAD) * Math.tan(p.dec);
+    return x <= -1 ? 180 : x >= 1 ? 0 : Math.acos(x) / RAD;
+  }
+  function arcShare(now, lat, lng){
+    var p = sunPlace(now), half = halfArc(p, lat);
+    return half > 0 ? Math.max(0, Math.min(1, 1 - Math.abs(hourAngle(p, lng)) / half)) : 0;
+  }
+  /* How far through the day the sun is at `now`: 0 where it rises, 1
+     where it sets, along the same arc. */
+  function dayProgress(now, lat, lng){
+    var p = sunPlace(now), half = halfArc(p, lat);
+    return half > 0 ? Math.max(0, Math.min(1, (hourAngle(p, lng) + half) / (2 * half))) : 0;
+  }
+  /* The moment the sky is painted for: now, or ?hour= (any value from 0 to
+     23.99) on the reader's own clock today, so any hour can be looked at. */
+  function now(){
+    var q = /[?&]hour=(\d+(?:\.\d+)?)/.exec(location.search);
+    var h = q ? parseFloat(q[1]) : NaN, d = new Date();
+    if(h >= 0 && h < 24) d.setHours(Math.floor(h), Math.round((h % 1) * 60), 0, 0);
+    return d;
+  }
+  /* What the painters paint from, at `date` in the reader's city: the
+     sun's altitude (or `alt`, when the caller has a finer one), how far
+     along today's arc it stands, and how far through the day. */
+  function sunAt(date, alt){
+    var c = pickCity();
+    if(alt === undefined) alt = sunAltitude(date, c.lat, c.lng);
+    return {
+      alt: alt,
+      share: arcShare(date, c.lat, c.lng),
+      prog: dayProgress(date, c.lat, c.lng)
+    };
+  }
+  /* The same, for now or ?hour=. */
+  function sunNow(){ return sunAt(now()); }
+  /* Relative luminance of a ground, the input every derived tone needs. */
+  function luminance(rgb){
+    var v = [rgb[0], rgb[1], rgb[2]].map(function(c){
+      c = c / 255;
+      return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+    });
+    return 0.2126 * v[0] + 0.7152 * v[1] + 0.0722 * v[2];
+  }
+  /* A text tone: ink laid over the ground at `alpha`, returned solid so it
+     can go anywhere a colour goes, including into a gradient or a border. */
+  function over(ink, ground, alpha){
+    return [
+      Math.round(ink[0] * alpha + ground[0] * (1 - alpha)),
+      Math.round(ink[1] * alpha + ground[1] * (1 - alpha)),
+      Math.round(ink[2] * alpha + ground[2] * (1 - alpha))
+    ];
+  }
+  function rgb(c){ return "rgb(" + c[0] + "," + c[1] + "," + c[2] + ")"; }
+
+  window.OLAE_SKY = {
+    CREAM: CREAM, DAYINK: DAYINK,
+    pickCity: pickCity, sunAltitude: sunAltitude, arcShare: arcShare,
+    now: now, sunAt: sunAt, sunNow: sunNow,
+    SUNRISE: SUNRISE, dayAt: dayAt, chromeAt: chromeAt, nightAt: nightAt, wordsAt: wordsAt,
+    skyAt: skyAt, mix: mixChannels, luminance: luminance, over: over, rgb: rgb,
+    lerp: lerp
+  };
+})();
+</script>
+
+<script>
+(function(){
+  "use strict";
+  var S = window.OLAE_SKY;
+  function paint(sun){
+    var root = document.documentElement, st = root.style, day = sun.alt >= S.SUNRISE;
+    if(day){
+      var d = S.dayAt();
+      st.setProperty("--paper", S.rgb(d.paper));
+      st.setProperty("--ink", S.rgb(d.ink));
+      st.setProperty("--muted", S.rgb(d.vizon));
+      st.setProperty("--line", S.rgb(d.rule));
+    } else {
+      var sky = S.nightAt(sun.alt), ground = sky[1], m = sky[2];
+      var ink = S.mix(S.CREAM, S.DAYINK, m);
+      st.setProperty("--paper", S.rgb(ground));
+      st.setProperty("--ink", S.rgb(ink));
+      st.setProperty("--muted", "rgba(" + ink.join(",") + "," + S.lerp(0.80, 0.95, m).toFixed(3) + ")");
+      st.setProperty("--line", "rgba(" + ink.join(",") + "," + S.lerp(0.28, 0.42, m).toFixed(3) + ")");
+    }
+    root.setAttribute("data-sky", day ? "day" : "night");
+    st.setProperty("color-scheme", day ? "light" : "dark");
+  }
+  function clear(){
+    var root = document.documentElement, st = root.style;
+    ["--paper","--ink","--muted","--line"].forEach(function(p){ st.removeProperty(p); });
+    st.removeProperty("color-scheme");
+    root.removeAttribute("data-sky");
+  }
+  window.OLAE_PAGE_SKY = {
+    pickCity: S.pickCity, sunAltitude: S.sunAltitude, now: S.now, sunAt: S.sunAt,
+    paint: paint, clear: clear
+  };
+  var t, s;
+  try{
+    t = localStorage.getItem('olae-page-theme');
+    if(t !== 'dark' && t !== 'light' && t !== 'sky'){
+      s = localStorage.getItem('theme');
+      /* The site's own theme is the fallback for a page never set by hand.
+         'sky' carries across as itself; the site's two darks both land on
+         this page's one dark. */
+      t = s === 'midnight' ? 'dark' : (s === 'dusk' ? 'sky' : s);
+    }
+  }catch(e){}
+  if(t !== 'dark' && t !== 'light' && t !== 'sky' && t !== 'system') t = 'system';
+  if(t === 'dark' || t === 'light'){
+    document.documentElement.setAttribute('data-theme', t);
+  } else if(t === 'sky'){
+    document.documentElement.setAttribute('data-theme', 'sky');
+    paint(S.sunNow());
+  }
+})();
+</script>
+
+<link rel="stylesheet" href="/css/tool-drawer.css?v=20261024-1">
+<script src="/js/keep.js?v=20261014-1" defer></script>
+<script src="/js/tool-drawer.js?v=20261014-1" defer></script>
+
+<script>
+(function(){
+  'use strict';
+  if(window.parent === window || new URLSearchParams(location.search).get('desk') !== '1') return;
+  try{ if(window.parent.location.origin !== location.origin || !window.parent.OLAE_DESK) return; }
+  catch(e){ return; }
+  document.documentElement.classList.add('in-desk');
+  var hooks = {}, active = true;
+  /* Both places on the desk can hold the same instrument. The second
+     instance (pane=2) keeps its own place, notes or drawing under its own
+     keys, so turning a page in one never moves the other. */
+  var pane = new URLSearchParams(location.search).get('pane') === '2' ? 2 : 1;
+  window.OLAE_DESK_EMBED = {
+    pane: pane,
+    key: function(base){ return pane > 1 ? base + '-' + pane : base; },
+    register: function(next){ Object.keys(next).forEach(function(key){ hooks[key] = next[key]; }); },
+    save: function(){ if(hooks.save) hooks.save(); },
+    unsaved: function(){ return hooks.unsaved ? hooks.unsaved() : false; },
+    setActive: function(next){
+      if(active && !next){
+        if(hooks.save) hooks.save();
+        if(hooks.pause) hooks.pause();
+      }
+      active = next;
+      if(next && hooks.resize) requestAnimationFrame(hooks.resize);
+    },
+    /* An instrument with a light of its own, as the clock and the sky
+       instruments have, keeps it on the desk (data-own-theme). */
+    setTheme: function(theme, tokens){
+      var root = document.documentElement;
+      if(root.hasAttribute('data-own-theme')) return;
+      root.setAttribute('data-theme', theme);
+      Object.keys(tokens).forEach(function(key){ root.style.setProperty(key, tokens[key]); });
+      if(!/^(light|dark)$/.test(tokens['color-scheme'] || '')) root.style.colorScheme = theme === 'light' ? 'light' : 'dark';
+    }
+  };
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape') window.parent.OLAE_DESK.restore();
+  });
+  /* On the desk an instrument's name, its way back, its theme and its full
+     screen are the desk's. A top bar left with nothing else to show gives
+     its room to the instrument's work (desk-bare). */
+  function fold(){
+    var bar = document.querySelector('.chrome');
+    if(!bar) return;
+    var shown = Array.prototype.some.call(bar.querySelectorAll('a[href], button, select, input'), function(el){ return el.getClientRects().length > 0; });
+    document.documentElement.classList.toggle('desk-bare', !shown);
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function(){ requestAnimationFrame(fold); });
+  else requestAnimationFrame(fold);
+})();
+</script>
+<style>
+  html.in-desk .masthead, html.in-desk .tools-link,
+  html.in-desk .notes, html.in-desk .notes-cue,
+  html.in-desk #fsBtn, html.in-desk #themeBtn,
+  html.in-desk .shelf-row:has([data-light]){ display:none; }
+  html.in-desk .chrome{ display:flex; justify-content:flex-end; padding:8px 16px; min-height:54px; }
+  html.in-desk.desk-bare .chrome{ display:none; }
+  html.in-desk .actions{ gap:6px; }
+  html.in-desk .sheet{ padding:30px 28px 80px; }
+  html.in-desk .app{ padding-bottom:0; }
+  html.in-desk .shelf{ top:54px; }
+  html.in-desk .empty{ min-height:180px; }
+  html.in-desk #page{ min-height:calc(100dvh - 165px); }
+  html.in-desk .tools{ left:12px; right:12px; gap:10px; justify-content:center; }
+  @media(max-width:600px){ html.in-desk .shelf{ top:auto; } }
+</style>
+
+
+</head>
+<body>
+
+  <div class="chrome" id="chrome">
+    <a class="tools-link" href="/tools/" aria-label="All the instruments">&larr;&#8202;instruments</a>
+<script data-tool-return>
+(function(){
+  'use strict';
+  /* Wherever the reader came from, the way back goes there. The House
+     opens an instrument with from=house, or from=balcony from its balcony.
+     The drawer, and a note written on a page, open one with from= naming
+     the place and back= with its address (js/keep.js, wayBack), so the way
+     back returns to the drawer as it was, over the room or the page it was
+     open over, or to the piece, the word, the quiz, the book, The Reader or
+     The Desk the note was written on. A place that has no address of its
+     own needs back=; without it the way back is to the instruments. */
+  var PLACES = {
+    house: ['/house/#study', 'the study', 'Back to The House study'],
+    balcony: ['/house/#balcony', 'the balcony', 'Back to The House balcony'],
+    drawer: ['/house/#drawer', 'your drawer', 'Back to your drawer'],
+    piece: ['', 'the piece', 'Back to the piece'],
+    word: ['', 'the word', 'Back to the word'],
+    quiz: ['', 'the quiz', 'Back to the quiz'],
+    book: ['', 'the book', 'Back to the book'],
+    read: ['', 'The Reader', 'Back to The Reader'],
+    desk: ['', 'The Desk', 'Back to The Desk']
+  };
+  var params = new URLSearchParams(window.location.search);
+  var from = params.get('from');
+  if(!from || !Object.prototype.hasOwnProperty.call(PLACES, from)) return;
+  var place = PLACES[from], href = place[0], back = params.get('back');
+  if(back && back.charAt(0) === '/' && from !== 'house' && from !== 'balcony'){
+    try{
+      var url = new URL(back, window.location.origin);
+      if(url.origin === window.location.origin) href = url.pathname + url.search + url.hash;
+    }catch(e){}
+  }
+  if(!href) return;
+  var link = document.querySelector('.tools-link');
+  link.href = href;
+  link.textContent = '← ' + place[1];
+  link.setAttribute('aria-label', place[2]);
+})();
+</script>
+
+    <a class="masthead" href="/" aria-label="On Life &amp; Everything — home">
+      <span class="home-brand">On Life &amp; Everything</span>
+      <span class="home-tagline">Essays, short fiction, and other writing.</span>
+    </a>
+    <div class="actions">
+      <button class="icon-btn theme-btn" id="themeBtn" type="button" title="Light / dark / follow the sky" aria-label="Switch theme: light, dark, or follow the sky">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+        <svg class="icon-sky" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M17 18a5 5 0 0 0-10 0"/>
+          <line x1="12" y1="3" x2="12" y2="5"/>
+          <line x1="4.9" y1="6.9" x2="6.3" y2="8.3"/>
+          <line x1="19.1" y1="6.9" x2="17.7" y2="8.3"/>
+          <line x1="2" y1="18" x2="5" y2="18"/>
+          <line x1="19" y1="18" x2="22" y2="18"/>
+          <line x1="2" y1="22" x2="22" y2="22"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <header class="tool-head">
+    <h1>The Clean</h1>
+    <p class="lede">Pasted text set right⁠&mdash;curly quotes, real dashes, single spaces, Turkish-aware case.</p>
+  </header>
+
+  <main class="sheet">
+
+    <label for="text" class="sr-only">Text to clean</label>
+    <textarea id="text" placeholder="Paste a draft that has been through Word, email or the web." autocomplete="off" spellcheck="false"></textarea>
+
+    <div class="rules">
+      <h2 class="rules-name">The rules</h2>
+      <div class="rule-grid">
+        <label class="rule"><input type="checkbox" id="ruleQuotes" checked> <span>Curl quotes <span class="hint">&mdash;" " and ' ' to &ldquo; &rdquo; and &lsquo; &rsquo;, apostrophes and elisions to &rsquo;, wrong-facing quotes turned</span></span></label>
+        <label class="rule"><input type="checkbox" id="ruleDashes" checked> <span>Set dashes <span class="hint">&mdash;-- to &ndash;, --- to &mdash;, 1914-1918 to 1914&ndash;1918</span></span></label>
+        <label class="rule"><input type="checkbox" id="ruleEllipsis" checked> <span>Set ellipses <span class="hint">&mdash;three dots to &hellip;</span></span></label>
+        <label class="rule"><input type="checkbox" id="ruleSpaces" checked> <span>Tidy spaces <span class="hint">&mdash;doubles to one, none before punctuation, line ends trimmed</span></span></label>
+        <label class="rule"><input type="checkbox" id="ruleInvisible" checked> <span>Remove invisible characters <span class="hint">&mdash;zero-width and directional marks; non-breaking spaces to spaces</span></span></label>
+        <label class="rule"><input type="checkbox" id="ruleBlank" checked> <span>Collapse blank lines <span class="hint">&mdash;runs of empty lines to one</span></span></label>
+      </div>
+    </div>
+
+    <div class="act-row">
+      <button class="btn primary" id="cleanBtn" type="button">Clean</button>
+      <button class="btn" id="undoBtn" type="button" disabled>Undo</button>
+      <button class="btn" id="copyBtn" type="button">Copy</button>
+    </div>
+    <div class="report" id="report" aria-live="polite"></div>
+
+    <div class="case-row">
+      <h2 class="rules-name">Case</h2>
+      <div class="case-btns">
+        <button class="case-btn" id="caseLower" type="button">lowercase</button>
+        <button class="case-btn" id="caseUpper" type="button">UPPERCASE</button>
+        <button class="case-btn" id="caseSentence" type="button">Sentence case</button>
+        <button class="case-btn" id="caseTitle" type="button">Title Case</button>
+        <label class="toggle"><input type="checkbox" id="trToggle"> Turkish</label>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="notes" id="notes">
+    <div class="notes-inner">
+      <h2>About this page</h2>
+      <p>Text that has passed through Word, email or a web page arrives bent: straight quotes where curly ones belong, double hyphens standing in for dashes, three dots for an ellipsis, doubled spaces, and invisible characters the eye never catches. Paste it here, press clean, and it comes back set right, with a line reporting exactly what changed and an undo if you disagree. Beneath, four case buttons⁠&mdash;lowercase, uppercase, sentence case and title case⁠&mdash;convert the whole text, and with the Turkish box ticked they treat &#304;stanbul&rsquo;s letters correctly. The box ticks itself when the text contains &#305;, &#304;, &#351;, &#287; or &#231;.</p>
+
+      <h2>Questions</h2>
+      <h3>How do I convert straight quotes to curly quotes?</h3>
+      <p>Paste the text and press Clean. Every straight double and single quote is turned the right way⁠&mdash;&ldquo; &rdquo; and &lsquo; &rsquo;⁠&mdash;apostrophes become &rsquo;, an elision curls toward what it stands in for rather than away from it⁠&mdash;&rsquo;90s, &rsquo;99, &rsquo;tis, rock &rsquo;n&rsquo; roll⁠&mdash;and measurements such as 5'10" are left alone. The line under the button reports how many were curled.</p>
+
+      <h3>What does it do with <code>--</code> and <code>...</code>?</h3>
+      <p>A double hyphen becomes an en dash (&ndash;), a triple hyphen an em dash (⁠&mdash;), and a hyphen between numbers⁠&mdash;1914-1918⁠&mdash;becomes the en dash a range wants. Three dots become a single ellipsis character (&hellip;).</p>
+
+      <h3>My quotes are curly already, but some face the wrong way.</h3>
+      <p>Paste it and press Clean. A curly quote whose direction contradicts the text around it⁠&mdash;a closing mark where a quotation opens, an opening mark where one ends⁠&mdash;is turned, and the report counts them separately from the straight ones curled. Apostrophes are safe, elisions like &rsquo;90s, &rsquo;99 and &rsquo;tis keep their direction, and a text set with the low quotes of German or Polish (&bdquo;so&ldquo;) is left alone, since there the marks this rule would turn are the correct ones.</p>
+
+      <h3>Can I paste HTML?</h3>
+      <p>Yes. Tags are left as they are⁠&mdash;attribute quotes stay straight, so <code>class="lede"</code> comes back unharmed⁠&mdash;and the rules run on the words between them. A quote that opens a paragraph is read against the prose before it rather than the <code>&gt;</code> of its tag, so it curls as &ldquo; and not &rdquo;.</p>
+
+      <h3>Why do ordinary case converters break Turkish?</h3>
+      <p>Turkish has two i&rsquo;s⁠&mdash;dotted i/&#304; and dotless &#305;/I⁠&mdash;so &#304;stanbul must lowercase to istanbul and &#305;rmak must uppercase to IRMAK. Converters that only know English map both to the English i/I pair and get every one of those words wrong. With the Turkish box ticked, all four case buttons use the Turkish mapping.</p>
+
+      <h3>Where does my text go?</h3>
+      <p>It is cleaned in this browser and sent nowhere; the page keeps the text in local storage so it is still there if the tab closes. Clearing the browser&rsquo;s site data clears it too.</p>
+
+      <h3>Can I keep the cleaned text?</h3>
+      <p>Yes. The drawer button at the top keeps a copy of the text in your drawer in <a href="/house/">The House</a>, in this browser, to read, download or bring back here with Open in The Clean. The text that was here then goes into the drawer, so nothing is lost.</p>
+
+      
+<style>
+  .notes[hidden]:not([hidden="until-found"]){ display:none; }
+  /* until-found, where the browser knows it, keeps the box and skips its
+     contents; with no padding or rule it takes no room */
+  .notes[hidden="until-found"]{ padding:0 !important; border:0 !important; margin:0 !important; }
+  .notes-open-row{ display:flex; justify-content:center; padding:4px 16px 18px; }
+  .notes-open{
+    background:none; border:0; padding:6px 4px; cursor:pointer;
+    font-family:var(--body, 'EB Garamond', Georgia, serif); font-style:italic; font-size:.85rem;
+    letter-spacing:.03em; color:var(--muted); transition:color .2s, opacity .2s;
+  }
+  .notes-open:hover{ opacity:var(--select-dim,.78); }
+  .notes-open:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
+  .notes-open .amp, .notes-cue .amp{ font-family:var(--display, 'Cormorant Garamond', Georgia, serif); font-style:italic; }
+  html.tool-full .notes, html.tool-full .notes-toggle, html.tool-full .notes-open-row,
+  body.immersive .notes, body.immersive .notes-toggle, body.immersive .notes-open-row,
+  html.in-desk .notes-open-row{ display:none !important; }
+  @media (prefers-reduced-motion:reduce){ .notes-open{ transition:none; } }
+</style>
+<script data-tool-notes>
+(function(){
+  'use strict';
+  var script = document.currentScript;
+  var notes = script && script.closest('.notes');
+  if(!notes) return;
+  var root = document.documentElement;
+  if(!notes.id) notes.id = 'notes';
+  notes.setAttribute('tabindex', '-1');
+
+  /* The cue the instrument has, or one made for it where its notes begin. */
+  var cues = Array.prototype.slice.call(document.querySelectorAll('.notes-cue, a[href="#notes"]')).filter(function(cue){
+    return !notes.contains(cue);
+  });
+  if(!cues.length){
+    var row = document.createElement('p');
+    row.className = 'notes-open-row';
+    var made = document.createElement('button');
+    made.type = 'button';
+    made.className = 'notes-open';
+    row.appendChild(made);
+    notes.parentNode.insertBefore(row, notes);
+    cues = [made];
+  }
+  var LABEL = 'notes <span class="amp">&amp;</span> questions';
+  function label(open){
+    cues.forEach(function(cue){
+      cue.classList.add('notes-toggle');
+      cue.setAttribute('aria-controls', notes.id);
+      cue.setAttribute('aria-expanded', String(open));
+      cue.innerHTML = LABEL + (open ? ' &uarr;' : ' &darr;');
+    });
+  }
+
+  function isOpen(){ return !notes.hasAttribute('hidden'); }
+  var findable = 'onbeforematch' in notes;
+  function fold(){
+    if(findable) notes.setAttribute('hidden', 'until-found');
+    else notes.hidden = true;
+    label(false);
+  }
+  function open(scroll){
+    notes.removeAttribute('hidden');
+    label(true);
+    if(scroll){
+      notes.scrollIntoView({ block:'start' });
+      try{ notes.focus({ preventScroll:true }); }catch(e){}
+    }
+  }
+
+  /* A link straight to the notes, or to something in them, opens them. */
+  function wanted(){
+    var id = decodeURIComponent(location.hash.slice(1));
+    if(!id) return false;
+    var target = document.getElementById(id);
+    return !!target && (target === notes || notes.contains(target));
+  }
+  if(wanted()) open(false); else fold();
+  window.addEventListener('hashchange', function(){ if(wanted() && !isOpen()) open(true); });
+  // Find in page opens them by itself; the cue follows.
+  notes.addEventListener('beforematch', function(){ label(true); });
+
+  cues.forEach(function(cue){
+    cue.addEventListener('click', function(event){
+      event.preventDefault();
+      if(isOpen()) fold(); else open(true);
+    });
+  });
+
+  /* Full screen, native or an instrument's own, puts the notes away. */
+  function full(){
+    var on = !!(document.fullscreenElement || document.webkitFullscreenElement) ||
+      !!(document.body && document.body.classList.contains('immersive'));
+    root.classList.toggle('tool-full', on);
+  }
+  document.addEventListener('fullscreenchange', full);
+  document.addEventListener('webkitfullscreenchange', full);
+  if(window.MutationObserver){
+    new MutationObserver(full).observe(document.body || root, { attributes:true, attributeFilter:['class'] });
+  }
+  full();
+})();
+</script>
+
+      <p class="notes-links">More instruments: <a href="/words/">a word counter</a>, <a href="/list/">a tidier for lists</a> and <a href="/marks/">typographic marks to copy</a>⁠&mdash;or see <a href="/tools/">all of them</a>. Or <a href="/search/">search the site</a>.</p>
+
+    </div>
+  </footer>
+
+
+<style>
+.instrument-save-warning{position:fixed;left:50%;bottom:72px;transform:translateX(-50%);z-index:10000;box-sizing:border-box;width:calc(100% - 32px);max-width:620px;margin:0;padding:12px 16px;border:1px solid var(--ink,#333);border-radius:8px;background:var(--paper,#fff);color:var(--ink,#222);font:16px/1.45 var(--body,Georgia,serif);box-shadow:0 3px 18px #0002}
+.instrument-save-warning[hidden]{display:none}
+</style>
+<script>
+(function(){
+  "use strict";
+  var failed = false, notice = null;
+  function showFailure(){
+    if(notice && !notice.hidden) return;
+    if(!notice){
+      notice = document.createElement("p");
+      notice.className = "instrument-save-warning";
+      notice.setAttribute("role", "alert");
+      document.body.appendChild(notice);
+    }
+    notice.hidden = false;
+    notice.textContent = "Autosave is unavailable. Copy or download your work before closing this tab.";
+  }
+  function save(key, value){
+    try{
+      localStorage.setItem(key, value);
+      failed = false;
+      if(notice) notice.hidden = true;
+      return true;
+    }catch(e){
+      failed = true;
+      showFailure();
+      return false;
+    }
+  }
+  function guard(saveNow){
+    window.addEventListener("beforeunload", function(e){
+      saveNow();
+      if(failed){ e.preventDefault(); e.returnValue = ""; }
+    });
+    /* Mobile browsers often suspend the tab without a beforeunload event. */
+    document.addEventListener("visibilitychange", function(){
+      if(document.visibilityState === "hidden") saveNow();
+    });
+    /* On The Desk the work is saved as its pane is put away, and the desk
+       asks before closing on work that could not be saved. */
+    if(window.OLAE_DESK_EMBED) window.OLAE_DESK_EMBED.register({ save: saveNow, unsaved: function(){ return failed; } });
+  }
+  window.OLAE_STORAGE = { save: save, guard: guard, isUnsaved: function(){ return failed; } };
+})();
+</script>
+
+
+
+
+<script>
+(function(){
+  "use strict";
+  var $ = function(s){ return document.querySelector(s); };
+  var LS = window.OLAE_DESK_EMBED ? window.OLAE_DESK_EMBED.key("olae-desk-clean-v1") : "olae-clean-v1";
+
+  var ta = $("#text"), report = $("#report");
+  var cleanBtn = $("#cleanBtn"), undoBtn = $("#undoBtn"), copyBtn = $("#copyBtn");
+  var trToggle = $("#trToggle");
+  var undoText = null;        /* the text as it was before the last transform */
+  var trTouched = false;      /* the user has set the Turkish box by hand */
+
+  /* ---- restore + autosave (same pattern as /write/) ---- */
+  try{
+    var saved = JSON.parse(localStorage.getItem(LS));
+    if(saved && typeof saved.text === "string") ta.value = saved.text;
+  }catch(e){}
+  function saveNow(){
+    try{ window.OLAE_STORAGE.save(LS, JSON.stringify({ text: ta.value, at: Date.now() })); }catch(e){}
+  }
+  var saveT;
+  function grow(){
+    var y = window.pageYOffset || document.documentElement.scrollTop || 0;
+    ta.style.height = "auto";
+    ta.style.height = ta.scrollHeight + "px";
+    /* Shrinking the textarea (e.g. deleting a line) briefly collapses the
+       page and clamps the scroll position; scroll-behavior: smooth would
+       animate that as a full-page jump. Restore the offset instantly. */
+    try{ window.scrollTo({ top: y, left: 0, behavior: "instant" }); }
+    catch(e){ window.scrollTo(0, y); }
+  }
+  function syncTr(){
+    if(!trTouched) trToggle.checked = /[ıİşŞğĞçÇ]/.test(ta.value);
+  }
+  ta.addEventListener("input", function(){
+    grow(); syncTr();
+    clearTimeout(saveT);
+    saveT = setTimeout(saveNow, 500);
+  });
+  window.OLAE_STORAGE.guard(saveNow);
+  trToggle.addEventListener("change", function(){ trTouched = true; });
+
+  /* ================= the rules ================= */
+
+  /* HTML tags are left alone. The text is split into markup and prose, the
+     rules run on the prose only, and each run is told the last character of
+     the prose before it, so a quote opening a paragraph is read as following
+     that text and not the > of its tag. */
+  var TAG = /(<\/?[a-zA-Z][^<>]*>|<!--[\s\S]*?-->|<!\[CDATA\[[\s\S]*?\]\]>)/;
+  function outsideTags(s, fn){
+    var parts = s.split(TAG), prev = "";
+    for(var i = 0; i < parts.length; i += 2){
+      if(!parts[i]) continue;
+      parts[i] = fn(parts[i], prev);
+      prev = parts[i].charAt(parts[i].length - 1);
+    }
+    return parts.join("");
+  }
+
+  /* What an apostrophe stands in front of when it is standing in for a
+     dropped character rather than opening a quotation: the decades ('90s),
+     a bare elided year ('99 — but not '42' in quotes, hence the guard),
+     and the handful of words English elides, "n" among them for rock 'n'
+     roll. Both passes read this list: the one that curls straight quotes,
+     so ’em is produced, and the one that turns wrong-facing curly ones,
+     so an ’em already in the text is not flipped back. */
+  var ELISION = /^(?:\d0s|\d\d(?!['’\d])|tis|twas|em|round|til|cause|n)\b/i;
+
+  /* Straight quotes → curly. The rules, in order: elisions (the apostrophe
+     of '90s, '99, 'tis, 'em), apostrophes inside words, opening quotes
+     after whitespace or an opening bracket or dash, primes after digits
+     left alone (5'10"), everything else closing. An elision is only read
+     as one where a quotation could also have opened — after a space or a
+     bracket — so the 10" of 5'10" is not mistaken for an elided year. */
+  function curlQuotes(s, n, prev){
+    var OPEN_BEFORE = /(^|[\s([{‘“–—-])$/;
+    var pad = prev || "";
+    s = pad + s;
+    s = s.replace(/'(?=\S)/g, function(m, off, str){
+      if(!OPEN_BEFORE.test(str.slice(Math.max(0, off - 1), off))) return m;
+      if(!ELISION.test(str.slice(off + 1))) return m;
+      n.quotes++; return "’";
+    });
+    s = s.replace(/([\p{L}\p{N}])'(?=\p{L})/gu, function(m, a){ n.quotes++; return a + "’"; });
+    s = s.replace(/'(?=\S)/g, function(m, off, str){
+      if(!OPEN_BEFORE.test(str.slice(Math.max(0, off - 1), off))) return m;
+      n.quotes++; return "‘";
+    });
+    s = s.replace(/'/g, function(m, off, str){
+      if(/\d/.test(str.charAt(off - 1))) return m;   /* a prime: 5'10" */
+      n.quotes++; return "’";
+    });
+    s = s.replace(/"(?=\S)/g, function(m, off, str){
+      if(!OPEN_BEFORE.test(str.slice(Math.max(0, off - 1), off))) return m;
+      n.quotes++; return "“";
+    });
+    s = s.replace(/"/g, function(m, off, str){
+      if(/\d/.test(str.charAt(off - 1)) && !/\p{L}/u.test(str.charAt(off + 1) || "")) return m;
+      n.quotes++; return "”";
+    });
+    s = turnQuotes(s, n, OPEN_BEFORE);
+    return s.slice(pad.length);
+  }
+
+  /* Curly quotes that face the wrong way — what text picks up when it has
+     been through a smart-quote pass that could not see its own context, so
+     that ”like this” comes back with both marks closing. A quote is turned
+     only where its direction contradicts the text around it; apostrophes
+     and elisions (’90s, ’tis) stay as they are, and a text using the low
+     quotes of German or Polish setting („so“, ‚so‘) is left alone, its
+     closing marks being the ones this rule would otherwise turn. */
+  var lowQuotes = false;
+  function turnQuotes(s, n, OPEN_BEFORE){
+    if(lowQuotes) return s;
+    function opensHere(str, off){
+      return OPEN_BEFORE.test(str.slice(Math.max(0, off - 1), off)) &&
+             /\S/.test(str.charAt(off + 1) || "");
+    }
+    s = s.replace(/[“”]/g, function(m, off, str){
+      var open = opensHere(str, off);
+      if(open && m === "”"){ n.turned++; return "“"; }
+      if(!open && m === "“"){ n.turned++; return "”"; }
+      return m;
+    });
+    s = s.replace(/[‘’]/g, function(m, off, str){
+      var after = str.charAt(off + 1) || "";
+      if(/[\p{L}\p{N}]/u.test(str.charAt(off - 1)) && /\p{L}/u.test(after)){
+        if(m === "‘"){ n.turned++; return "’"; }   /* an apostrophe: it‘s */
+        return m;
+      }
+      var open = opensHere(str, off);
+      if(open && m === "’"){
+        if(!/\p{L}/u.test(after) || ELISION.test(str.slice(off + 1))) return m;
+        n.turned++; return "‘";
+      }
+      if(!open && m === "‘"){ n.turned++; return "’"; }
+      return m;
+    });
+    return s;
+  }
+  function setDashes(s, n){
+    s = s.replace(/---/g, function(){ n.dashes++; return "—"; });
+    s = s.replace(/--/g, function(){ n.dashes++; return "–"; });
+    s = s.replace(/(\d)-(?=\d)/g, function(m, a){ n.dashes++; return a + "–"; });
+    return s;
+  }
+  function setEllipses(s, n){
+    return s.replace(/\.{3}/g, function(){ n.ellipses++; return "…"; });
+  }
+  function tidySpaces(s, n){
+    s = s.replace(/ {2,}/g, function(){ n.spaces++; return " "; });
+    s = s.replace(/ +(?=[,.;:!?…])/g, function(){ n.spaces++; return ""; });
+    s = s.replace(/[ \t]+(?=\n)/g, function(){ n.spaces++; return ""; });
+    return s;
+  }
+  function removeInvisible(s, n){
+    /* zero-width spaces and joiners, soft hyphens, directional marks, BOM */
+    s = s.replace(/[\u200B\u200C\u200D\u00AD\u200E\u200F\u202A-\u202E\u2060-\u2064\u2066-\u2069\uFEFF]/g,
+      function(){ n.invisibles++; return ""; });
+    /* non-breaking spaces → ordinary spaces */
+    s = s.replace(/[\u00A0\u202F]/g, function(){ n.invisibles++; return " "; });
+    return s;
+  }
+  function collapseBlank(s, n){
+    return s.replace(/\n{3,}/g, function(){ n.blanks++; return "\n\n"; });
+  }
+
+  function snapshot(){ undoText = ta.value; undoBtn.disabled = false; }
+  function afterTransform(){ grow(); syncTr(); saveNow(); }
+
+  cleanBtn.addEventListener("click", function(){
+    var s = ta.value;
+    if(!s){ report.textContent = ""; return; }
+    var n = { quotes:0, turned:0, dashes:0, ellipses:0, spaces:0, invisibles:0, blanks:0 };
+    snapshot();
+    lowQuotes = /[„‚]/.test(s);
+    if($("#ruleInvisible").checked) s = removeInvisible(s, n);
+    if($("#ruleQuotes").checked)    s = outsideTags(s, function(t, prev){ return curlQuotes(t, n, prev); });
+    if($("#ruleDashes").checked)    s = outsideTags(s, function(t){ return setDashes(t, n); });
+    if($("#ruleEllipsis").checked)  s = outsideTags(s, function(t){ return setEllipses(t, n); });
+    if($("#ruleSpaces").checked){
+      s = outsideTags(s, function(t){ return tidySpaces(t, n); });
+      s = s.replace(/[ \t]+$/, function(){ n.spaces++; return ""; });
+    }
+    if($("#ruleBlank").checked)     s = collapseBlank(s, n);
+    ta.value = s;
+    afterTransform();
+    var parts = [];
+    if(n.quotes)     parts.push(n.quotes === 1 ? "1 quote curled" : n.quotes + " quotes curled");
+    if(n.turned)     parts.push(n.turned === 1 ? "1 quote turned the right way" : n.turned + " quotes turned the right way");
+    if(n.dashes)     parts.push(n.dashes === 1 ? "1 dash" : n.dashes + " dashes");
+    if(n.ellipses)   parts.push(n.ellipses === 1 ? "1 ellipsis" : n.ellipses + " ellipses");
+    if(n.spaces)     parts.push(n.spaces === 1 ? "1 space" : n.spaces + " spaces");
+    if(n.invisibles) parts.push(n.invisibles === 1 ? "1 invisible character" : n.invisibles + " invisible characters");
+    if(n.blanks)     parts.push(n.blanks === 1 ? "1 blank-line run" : n.blanks + " blank-line runs");
+    report.textContent = parts.length ? parts.join(" · ") : "Nothing to change\u2060—the text is already clean.";
+  });
+
+  undoBtn.addEventListener("click", function(){
+    if(undoText === null) return;
+    ta.value = undoText;
+    undoText = null;
+    undoBtn.disabled = true;
+    report.textContent = "Restored the text as it was.";
+    afterTransform();
+  });
+
+  /* ---- copy (clipboard API with fallback, as on /marks/) ---- */
+  function execCopy(text){
+    var t = document.createElement("textarea");
+    t.value = text;
+    t.style.position = "fixed"; t.style.opacity = "0";
+    document.body.appendChild(t);
+    t.select();
+    var copied = false;
+    try{ copied = document.execCommand("copy"); }catch(e){}
+    t.remove();
+    return copied;
+  }
+  var copyT;
+  copyBtn.addEventListener("click", function(){
+    var text = ta.value;
+    if(!text) return;
+    function done(copied){
+      copyBtn.textContent = copied ? "Copied" : "Copy failed";
+      clearTimeout(copyT);
+      copyT = setTimeout(function(){ copyBtn.textContent = "Copy"; }, 1400);
+    }
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(function(){ done(true); }, function(){ done(execCopy(text)); });
+    } else { done(execCopy(text)); }
+  });
+
+  /* ================= case ================= */
+  function lower(s){ return trToggle.checked ? s.toLocaleLowerCase("tr") : s.toLowerCase(); }
+  function upper(s){ return trToggle.checked ? s.toLocaleUpperCase("tr") : s.toUpperCase(); }
+
+  function sentenceCase(s){
+    s = lower(s);
+    return s.replace(/(^|[.!?…]["'’”)\]]*\s+|\n\s*)(\p{L})/gu,
+      function(m, pre, ch){ return pre + upper(ch); });
+  }
+  var MINOR = { a:1, an:1, the:1, of:1, "in":1, on:1, and:1, or:1, to:1 };
+  function titleCase(s){
+    s = lower(s);
+    return s.replace(/[\p{L}\p{N}][\p{L}\p{N}’'-]*/gu, function(w, off, str){
+      var tail = str.slice(Math.max(0, off - 12), off);
+      var atStart = off === 0 || /\n\s*$/.test(tail) ||
+                    /[.!?…:—]["'’”)\]]*\s*$/.test(tail) ||
+                    (off <= 12 && /^\s*$/.test(tail));
+      if(!atStart && MINOR[w]) return w;
+      return upper(w.charAt(0)) + w.slice(1);
+    });
+  }
+  function applyCase(fn){
+    if(!ta.value) return;
+    snapshot();
+    ta.value = fn(ta.value);
+    report.textContent = "";
+    afterTransform();
+  }
+  $("#caseLower").addEventListener("click", function(){ applyCase(lower); });
+  $("#caseUpper").addEventListener("click", function(){ applyCase(upper); });
+  $("#caseSentence").addEventListener("click", function(){ applyCase(sentenceCase); });
+  $("#caseTitle").addEventListener("click", function(){ applyCase(titleCase); });
+
+  /* ---- theme ---- */
+  /* light, dark and the sky: _includes/page-sky-toggle.html, at the foot of
+     the page, so the three states are written once for all the instruments
+     that carry this button. */
+
+  /* ---- init ---- */
+  grow(); syncTr();
+  window.addEventListener("resize", grow);
+
+  /* ---- the drawer: the text kept in The House (js/tool-drawer.js) ---- */
+  window.OLAE_TOOL_WORK = {
+    slug: "clean", prefix: "clean", kind: "The Clean", noun: "text",
+    title: function(date){ return "Text kept on " + date; },
+    note: "Your drawer is in The House. It keeps a copy of this text in this browser, to read, download or bring back here whenever you like.",
+    empty: "There is no text to keep yet.",
+    work: function(){ return ta.value.trim() ? { text: ta.value } : null; },
+    open: function(record){
+      ta.value = record.text || "";
+      ta.dispatchEvent(new Event("input", { bubbles: true }));
+      saveNow();
+    }
+  };
+})();
+</script>
+
+<style>
+  /* The sun and moon are the page's own; the horizon is this file's, and
+     the page's --icon-* switches gain a third position. html[data-theme]
+     outranks the page's :root defaults, so order here does not matter. */
+  :root{ --icon-sky:none; }
+  html[data-theme="sky"]{
+    --icon-sun:none; --icon-moon:none; --icon-sky:block;
+    /* the colour scheme, light by day and dark by night, is set with the
+       paint in page-sky.html */
+  }
+  .theme-btn .icon-sky{ display:var(--icon-sky); }
+
+  .actions{ position:relative; }
+  .sky-note{
+    position:absolute; right:100%; top:50%; transform:translateY(-50%);
+    margin-right:12px;
+    font-family:var(--body); font-style:italic; font-size:.78rem; line-height:1;
+    color:var(--muted); white-space:nowrap; pointer-events:none;
+    opacity:0; transition:opacity .25s;
+  }
+  .sky-note.on{ opacity:1; }
+  @media (prefers-reduced-motion: reduce){ .sky-note{ transition:none; } }
+  /* no room between the masthead and the buttons; the button's own
+     title and aria-label still identify the mode */
+  @media (max-width: 820px){ .sky-note{ display:none; } }
+</style>
+<script>
+(function(){
+  "use strict";
+  var btn = document.getElementById("themeBtn");
+  if(!btn || !window.OLAE_PAGE_SKY) return;
+
+  var SKY = window.OLAE_PAGE_SKY;
+  var root = document.documentElement;
+  var timer = null;
+
+  var note = document.createElement("p");
+  note.className = "sky-note";
+  note.id = "skyNote";
+  btn.parentNode.appendChild(note);
+
+  /* The head script has already painted the sky once from its own compact
+     copy of the altitude. /js/astronomy.js is the full version and is
+     fetched only when someone actually turns the sky on. */
+  function repaint(){
+    var city = SKY.pickCity(), when = SKY.now();
+    SKY.paint(SKY.sunAt(when, window.OLAE_ASTRO
+      ? window.OLAE_ASTRO.sunAltitude(when, city.lat, city.lng) : undefined));
+  }
+  function startSky(){
+    if(!window.OLAE_ASTRO && !startSky.asked){
+      startSky.asked = true;
+      var s = document.createElement("script");
+      s.src = "/js/astronomy.js?v=20260925-1";
+      s.onload = function(){ if(timer) repaint(); };
+      document.head.appendChild(s);
+    }
+    repaint();
+    if(!timer) timer = setInterval(repaint, 60000);
+  }
+  function stopSky(){
+    if(timer){ clearInterval(timer); timer = null; }
+    SKY.clear();
+  }
+
+  function sync(){
+    var cur = root.getAttribute("data-theme");
+    var on = cur === "sky";
+    note.textContent = on ? "Following the sky" : "";
+    note.classList.toggle("on", on);
+    /* The button says all three states, so the one that is not obvious from
+       the icon is still reachable by name — for a screen reader, and for
+       anyone who hovers wondering what the horizon means. */
+    btn.setAttribute("aria-label", on
+      ? "Switch theme: Following the sky"
+      : "Switch theme: light, dark, or follow the sky");
+    btn.setAttribute("title", on
+      ? "Following the sky"
+      : "Light / dark / follow the sky");
+  }
+
+  /* light → dark → sky → light. With nothing stored the page is following
+     the device, so the first press goes to whichever of light or dark the
+     device is not — the behaviour the two-state button always had. */
+  function next(cur){
+    if(cur === "dark") return "sky";
+    if(cur === "sky") return "light";
+    if(cur === "light") return "dark";
+    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "light" : "dark";
+  }
+
+  btn.addEventListener("click", function(){
+    var v = next(root.getAttribute("data-theme"));
+    if(v === "sky"){ root.setAttribute("data-theme", "sky"); startSky(); }
+    else { stopSky(); root.setAttribute("data-theme", v); }
+    try{ localStorage.setItem("olae-page-theme", v); }catch(e){}
+    sync();
+  });
+
+  /* A tab left open across sunset comes back to the light it should be in. */
+  document.addEventListener("visibilitychange", function(){
+    if(!document.hidden && timer) repaint();
+  });
+
+  if(root.getAttribute("data-theme") === "sky") startSky();
+  sync();
+})();
+</script>
+
+<script>if("serviceWorker" in navigator){navigator.serviceWorker.register("/sw.js").catch(function(){});}</script>
+<script>/* Enable smooth scrolling only after the initial load, so a reload no longer animates the browser's scroll restoration (the page sliding up by one screen). */(function(){var e=function(){document.documentElement.classList.add("smooth-scroll");};if(document.readyState==="complete"){requestAnimationFrame(e);}else{window.addEventListener("load",function(){requestAnimationFrame(e);});}})();</script>
+<script data-dash-copy>document.addEventListener("copy",function(){var a=document.activeElement;if(a&&(/^(INPUT|TEXTAREA)$/.test(a.tagName)||a.isContentEditable))return;var s=window.getSelection(),taken=[];if(!s.rangeCount||String(s).indexOf("\u2060")<0)return;for(var i=0;i<s.rangeCount;i++){var r=s.getRangeAt(i),c=r.commonAncestorContainer,w=document.createTreeWalker(c.nodeType===3?c.parentNode:c,4),n;while((n=w.nextNode()))if(r.intersectsNode(n))for(var k=n.data.lastIndexOf("\u2060");k>=0;k=k?n.data.lastIndexOf("\u2060",k-1):-1){n.deleteData(k,1);taken.push([n,k]);}}setTimeout(function(){for(var j=taken.length-1;j>=0;j--)taken[j][0].insertData(taken[j][1],"\u2060");},0);});</script></body>
+</html>

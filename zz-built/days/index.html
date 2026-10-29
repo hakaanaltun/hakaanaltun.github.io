@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Days Between Dates, Weekday of Any Date &amp; Day of the Year &middot; On Life &amp; Everything</title>
+<meta name="description" content="Count the days between two dates—the same span as weeks, as months and as years—find the weekday of any date, and see where today stands in the year: day of the year, ISO week and days remaining. Ad-free.">
+<link rel="canonical" href="https://hakanaltun.io/days/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="The Days — Days Between Dates, Weekday of Any Date &amp; Day of the Year">
+<meta property="og:description" content="Date arithmetic: days between two dates—in weeks, months and years—the weekday of any date, and where today stands in the year.">
+<meta property="og:url" content="https://hakanaltun.io/days/">
+<meta property="og:image" content="https://hakanaltun.io/images/og/days.png?v=20260718-1">
+<meta property="og:image:alt" content="The Days — days between dates, weekday of any date & day of the year">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Days — Days Between Dates, Weekday of Any Date &amp; Day of the Year">
+<meta name="twitter:description" content="Date arithmetic: days between two dates—in weeks, months and years—the weekday of any date, and where today stands in the year.">
+<meta name="twitter:image" content="https://hakanaltun.io/images/og/days.png?v=20260718-1">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#FFFFFF">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#191712">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "@id": "https://hakanaltun.io/days/#app",
+  "name": "The Days — Days Between Dates, Weekday of Any Date & Day of the Year",
+  "url": "https://hakanaltun.io/days/",
+  "description": "Count the days between two dates—the same span as weeks, as months and as years—find the weekday of any date, and see where today stands in the year: day of the year, ISO week and days remaining. Ad-free.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "browserRequirements": "Requires JavaScript",
+  "isAccessibleForFree": true,
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Hakan Altun",
+    "url": "https://hakanaltun.io/"
+  },
+  "inLanguage": "en"
+}
+</script>
+
+<link rel="stylesheet" href="/css/fonts.css?v=20261023-1">
+
+<style>
+  :root{
+    --paper: #FFFFFF;
+    --ink:   #2F2B27;
+    --muted: #746F69;
+    --line:  #EEEAE4;
+
+    --display: 'Cormorant Garamond', Georgia, serif;
+    --body:    'EB Garamond', Georgia, serif;
+
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark){
+    html:not([data-theme="light"]){
+      --paper:#191712; --ink:#E7E1D6; --muted:#9C948A; --line:#2B2721;
+      color-scheme: dark;
+    }
+  }
+  html[data-theme="dark"]{
+    --paper:#191712; --ink:#E7E1D6; --muted:#9C948A; --line:#2B2721;
+    color-scheme: dark;
+  }
+  /* theme toggle icons: moon in light, sun in dark */
+  :root{ --icon-sun:none; --icon-moon:block; }
+  @media (prefers-color-scheme: dark){
+    html:not([data-theme="light"]){ --icon-sun:block; --icon-moon:none; }
+  }
+  html[data-theme="dark"]{ --icon-sun:block; --icon-moon:none; }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html.smooth-scroll{ scroll-behavior:smooth; }
+
+  /* the ampersand the site uses — the display italic, as in the header logo */
+  .amp{ font-family:var(--display); font-style:italic; }
+
+  body{
+    position:relative;
+    background:var(--paper); color:var(--ink); font-family:var(--body);
+    min-height:100vh; min-height:100dvh;
+    -webkit-font-smoothing:antialiased;
+    transition:background .4s ease, color .4s ease;
+  }
+
+  .chrome{
+    position:sticky; top:0; z-index:2; background:var(--paper);
+    display:grid; grid-template-columns:1fr auto 1fr; align-items:center; column-gap:10px;
+    padding:14px 22px; border-bottom:1px solid var(--line);
+    transition:border-color .4s ease, background .4s ease;
+  }
+  .masthead{
+    grid-column:2; text-decoration:none; display:flex; flex-direction:column;
+    align-items:center; gap:1px; text-align:center; opacity:1; transition:opacity .2s;
+    /* The masthead used to sit at .85. Multiplied into var(--muted) that
+       dropped the tagline under the 4.5:1 contrast minimum (3.66:1 on the
+       light ground, 3.76:1 on the darkest). The token on its own clears it
+       everywhere, so the extra dimming is gone. */
+  }
+  .home-brand{ font-family:var(--display); font-style:italic; font-weight:400; font-size:1.1rem; line-height:1.05; color:var(--ink); }
+  .home-tagline{ font-family:var(--body); font-style:italic; font-weight:400; font-size:0.8rem; line-height:1.2; color:var(--muted); }
+
+  /* a quiet way back to the toolshed */
+  .tools-link{
+    grid-column:1; justify-self:start;
+    font-family:var(--body); font-style:italic; font-size:.95rem; letter-spacing:.03em;
+    color:var(--muted); text-decoration:none; white-space:nowrap;
+    transition:color .2s, opacity .2s;
+  }
+  .tools-link:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
+
+  .actions{ grid-column:3; justify-self:end; display:flex; gap:8px; }
+  .icon-btn{
+    background:none; border:1px solid var(--line); color:var(--muted);
+    width:38px; height:38px; border-radius:8px; cursor:pointer; font-size:16px;
+    display:grid; place-items:center; transition:color .2s, border-color .2s, opacity .2s;
+  }
+  .icon-btn:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
+  .icon-btn svg{ width:16px; height:16px; }
+  .theme-btn .icon-sun{ display:var(--icon-sun); }
+  .theme-btn .icon-moon{ display:var(--icon-moon); }
+
+  .days-head{ max-width:680px; margin:0 auto; padding:6vh 26px 0; text-align:center; }
+  .days-head h1{
+    font-family:var(--display); font-style:italic; font-weight:400;
+    font-size:clamp(1.9rem, 5vw, 2.6rem); line-height:1.1;
+  }
+  .days-head .lede{ margin-top:.5rem; font-style:italic; color:var(--muted); font-size:1rem; }
+
+  .sheet{ width:100%; max-width:680px; margin:0 auto; padding:2vh 26px 10vh; }
+
+  .panel{ padding:5vh 0; border-bottom:1px solid var(--line); text-align:center; }
+  .panel:last-child{ border-bottom:none; }
+  .panel-name{
+    font-family:var(--body); font-style:italic; font-weight:400;
+    font-size:1.05rem; color:var(--muted); letter-spacing:.03em; margin-bottom:1.4rem;
+  }
+
+  .date-row{ display:flex; gap:12px; justify-content:center; align-items:center; flex-wrap:wrap; }
+  input[type="date"]{
+    background:transparent; border:1px solid var(--line); color:var(--ink);
+    font-family:var(--display); font-size:1.25rem; padding:7px 12px; border-radius:8px;
+    letter-spacing:.03em; outline:none;
+    transition:border-color .2s, opacity .2s;
+  }
+  input[type="date"]:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
+  .date-row .to{ font-style:italic; color:var(--muted); }
+  .textbtn{
+    background:none; border:none; cursor:pointer; padding:4px 2px;
+    font-family:var(--body); font-style:italic; font-size:.9rem; color:var(--muted);
+    text-decoration:underline; text-underline-offset:3px; text-decoration-color:var(--line);
+    transition:opacity .2s ease;
+  }
+  .textbtn:hover, .textbtn:active{ opacity:.78; }
+  @media (prefers-contrast:more){ .textbtn:hover, .textbtn:active{ opacity:.95; } }
+
+  .big{
+    margin-top:2.2rem; font-family:var(--display); font-weight:400;
+    font-variant-numeric:lining-nums; font-feature-settings:"lnum" 1;
+    font-size:clamp(2.6rem, 9vw, 5rem); line-height:1.05;
+  }
+  .big i{ font-style:italic; }
+  .big .unit{ font-style:italic; font-size:.45em; color:var(--muted); margin-left:.2em; }
+  .under{
+    margin-top:.9rem; font-family:var(--body); font-style:italic;
+    color:var(--muted); font-size:clamp(1rem, 2.6vw, 1.2rem); letter-spacing:.02em;
+  }
+
+  .today-date{
+    font-family:var(--display); font-style:italic; font-weight:400;
+    font-size:clamp(1.7rem, 5.5vw, 2.7rem); line-height:1.15;
+  }
+  .today-facts{
+    margin-top:1.6rem; display:flex; flex-wrap:wrap; justify-content:center;
+    gap:10px 26px; font-size:clamp(0.95rem, 2.4vw, 1.15rem); letter-spacing:.02em;
+  }
+  .today-facts .t{ color:var(--muted); }
+  .today-facts .t b{
+    font-weight:400; color:var(--ink);
+    font-variant-numeric:lining-nums tabular-nums; font-feature-settings:"tnum" 1,"lnum" 1;
+    margin-left:.35em;
+  }
+
+  /* notes — reading matter under the instrument */
+  /* land clear of the sticky chrome when arriving via the notes cue */
+  .notes{ border-top:1px solid var(--line); padding:60px 26px 84px; scroll-margin-top:64px; }
+  .notes-inner{ max-width:640px; margin:0 auto; }
+  .notes h2{ font-family:var(--display); font-style:italic; font-weight:400; font-size:1.6rem; margin:2.4rem 0 1rem; color:var(--ink); }
+  .notes h2:first-child{ margin-top:0; }
+  .notes h3{ font-family:var(--body); font-style:italic; font-weight:400; font-size:1.15rem; margin:1.5rem 0 .35rem; color:var(--ink); }
+  .notes p{ color:var(--muted); font-size:1.05rem; line-height:1.65; margin:0 0 .9rem; }
+  .notes a{ color:var(--ink); text-decoration:underline; text-underline-offset:3px; text-decoration-color:var(--line); }
+  .notes .notes-links{ margin-top:2.4rem; padding-top:1.3rem; border-top:1px solid var(--line); font-style:italic; }
+
+  /* tablets: tighten the tall panels so results stay within reach of the fold */
+  @media (min-width:601px) and (max-width:1150px){
+    .days-head{ padding-top:3.5vh; }
+    .sheet{ padding-top:1vh; }
+    .panel{ padding:4vh 0; }
+    .big{ margin-top:1.6rem; }
+  }
+
+  @media (max-width:600px){
+    .chrome{ padding:12px 14px; }
+    .home-brand{ font-size:1rem; }
+    .home-tagline{ font-size:0.74rem; }
+    .sheet{ padding:1vh 20px 8vh; }
+    .today-facts{ flex-direction:column; gap:8px; }
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    *{ transition:none !important; }
+  }
+
+  /* A pointer dims what it is over, as everywhere on the site: a link or a
+     button fades a little and nothing else about it changes. The colour
+     swatches are the colours themselves, so they keep their weight. */
+  :root{ --select-dim:.78; }
+  @media (prefers-contrast:more){ :root{ --select-dim:.95; } }
+  :where(a[href], button, summary, select, input[type="date"]){ transition:opacity .2s; }
+  a[href]:hover, button:not(:disabled):not(.swatch):hover, summary:hover, select:hover, input[type="date"]:hover{ opacity:var(--select-dim); }
+</style>
+
+
+<script>
+(function(){
+  "use strict";
+  /* zone → [latitude, longitude], rendered from _data/cities.yml, which
+     /twilight/ reads too. A tenth of a degree is finer than this needs:
+     the answer only has to land the sun in the right part of its arc. */
+  var ZONES = {
+    "": null,   /* a browser that reports no zone has found none; standing
+                   first, it also lets every generated line end in a comma */
+    "Europe/Istanbul":[41.0,29.0],"Asia/Istanbul":[41.0,29.0],"Turkey":[41.0,29.0],
+    "Europe/London":[51.5,-0.1],"GB":[51.5,-0.1],"Europe/Belfast":[51.5,-0.1],
+    "Europe/Dublin":[53.4,-6.3],
+    "Europe/Lisbon":[38.7,-9.1],
+    "Europe/Madrid":[40.4,-3.7],
+    "Europe/Paris":[48.9,2.4],
+    "Europe/Brussels":[50.9,4.4],
+    "Europe/Amsterdam":[52.4,4.9],
+    "Europe/Berlin":[52.5,13.4],
+    "Europe/Zurich":[47.4,8.5],
+    "Europe/Rome":[41.9,12.5],
+    "Europe/Vienna":[48.2,16.4],
+    "Europe/Prague":[50.1,14.4],
+    "Europe/Budapest":[47.5,19.0],
+    "Europe/Warsaw":[52.2,21.0],
+    "Europe/Belgrade":[44.8,20.4],
+    "Europe/Sofia":[42.7,23.3],
+    "Europe/Bucharest":[44.4,26.1],
+    "Europe/Athens":[38.0,23.7],
+    "Europe/Copenhagen":[55.7,12.6],
+    "Europe/Oslo":[59.9,10.8],
+    "Europe/Stockholm":[59.3,18.1],
+    "Europe/Helsinki":[60.2,24.9],
+    "Europe/Kyiv":[50.5,30.5],"Europe/Kiev":[50.5,30.5],
+    "Europe/Moscow":[55.8,37.6],
+    "Asia/Jerusalem":[31.8,35.2],"Asia/Tel_Aviv":[31.8,35.2],"Israel":[31.8,35.2],
+    "Asia/Beirut":[33.9,35.5],
+    "Asia/Baghdad":[33.3,44.4],
+    "Asia/Tehran":[35.7,51.4],"Iran":[35.7,51.4],
+    "Asia/Baku":[40.4,49.9],
+    "Asia/Tbilisi":[41.7,44.8],
+    "Asia/Dubai":[25.2,55.3],
+    "Asia/Riyadh":[24.7,46.7],
+    "Asia/Qatar":[25.3,51.5],
+    "Africa/Cairo":[30.0,31.2],"Egypt":[30.0,31.2],
+    "Africa/Casablanca":[33.6,-7.6],
+    "Africa/Lagos":[6.5,3.4],
+    "Africa/Nairobi":[-1.3,36.8],
+    "Africa/Johannesburg":[-26.2,28.0],
+    "Asia/Karachi":[24.9,67.0],
+    "Asia/Kolkata":[28.6,77.2],"Asia/Calcutta":[28.6,77.2],
+    "Asia/Dhaka":[23.8,90.4],"Asia/Dacca":[23.8,90.4],
+    "Asia/Bangkok":[13.8,100.5],
+    "Asia/Ho_Chi_Minh":[10.8,106.6],"Asia/Saigon":[10.8,106.6],
+    "Asia/Jakarta":[-6.2,106.8],
+    "Asia/Singapore":[1.4,103.8],
+    "Asia/Kuala_Lumpur":[3.1,101.7],
+    "Asia/Manila":[14.6,121.0],
+    "Asia/Hong_Kong":[22.3,114.2],
+    "Asia/Shanghai":[31.2,121.5],"Asia/Chongqing":[31.2,121.5],"PRC":[31.2,121.5],
+    "Asia/Taipei":[25.0,121.6],
+    "Asia/Seoul":[37.6,127.0],"ROK":[37.6,127.0],
+    "Asia/Tokyo":[35.7,139.7],"Japan":[35.7,139.7],
+    "Australia/Perth":[-32.0,115.9],
+    "Australia/Brisbane":[-27.5,153.0],
+    "Australia/Adelaide":[-34.9,138.6],
+    "Australia/Melbourne":[-37.8,145.0],
+    "Australia/Sydney":[-33.9,151.2],
+    "Pacific/Auckland":[-36.8,174.8],
+    "Pacific/Honolulu":[21.3,-157.9],
+    "America/Anchorage":[61.2,-149.9],
+    "America/Vancouver":[49.3,-123.1],
+    "America/Los_Angeles":[34.1,-118.2],
+    "America/Phoenix":[33.4,-112.1],
+    "America/Denver":[39.7,-105.0],
+    "America/Mexico_City":[19.4,-99.1],
+    "America/Chicago":[41.9,-87.6],
+    "America/New_York":[40.7,-74.0],
+    "America/Toronto":[43.7,-79.4],
+    "America/Halifax":[44.6,-63.6],
+    "America/Bogota":[4.7,-74.1],
+    "America/Lima":[-12.0,-77.0],
+    "America/Santiago":[-33.4,-70.7],
+    "America/Argentina/Buenos_Aires":[-34.6,-58.4],"America/Buenos_Aires":[-34.6,-58.4],
+    "America/Sao_Paulo":[-23.6,-46.6],"Brazil/East":[-23.6,-46.6],
+  };
+  function pickCity(){
+    var tz = "";
+    try{ tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ""; }catch(e){}
+    var z = ZONES[tz];
+    if(z) return { lat: z[0], lng: z[1], tz: tz };
+    /* Unknown zone: use a nominal equatorial day aligned with the device's
+       current UTC offset. This gives roughly 06:00 dawn and 18:00 sunset
+       locally, without claiming to know the visitor's latitude. Fractional
+       offsets and daylight saving are included in getTimezoneOffset(). */
+    return { lat: 0, lng: -new Date().getTimezoneOffset() / 4, tz: tz };
+  }
+  var CREAM = [237,228,207], DAYINK = [255,252,245];
+  var STOPS = [   /* [altitude°, [r,g,b], inkMix 0..1] */
+    [-30, [ 12, 16, 24], 0],
+    [-18, [ 14, 19, 29], 0],
+    [-12, [ 23, 32, 48], 0],
+    [ -6, [ 44, 58, 82], 0],
+    [ -2, [ 78, 73, 92], 0.6],
+    [  0, [ 86, 78, 98], 1]
+  ];
+  function lerp(a, b, f){ return a + (b - a) * f; }
+  function skyAt(alt){
+    if(alt <= STOPS[0][0]) return STOPS[0];
+    for(var i = 1; i < STOPS.length; i++){
+      if(alt <= STOPS[i][0]){
+        var lo = STOPS[i-1], hi = STOPS[i];
+        var f = (alt - lo[0]) / (hi[0] - lo[0]);
+        return [alt,
+          [ Math.round(lerp(lo[1][0], hi[1][0], f)),
+            Math.round(lerp(lo[1][1], hi[1][1], f)),
+            Math.round(lerp(lo[1][2], hi[1][2], f)) ],
+          lerp(lo[2], hi[2], f)];
+      }
+    }
+    return STOPS[STOPS.length - 1];
+  }
+  /* The sun's altitude at which the day begins and ends. */
+  var SUNRISE = 0;
+  /* The night is the ramp from here down: at sunset the page is already
+     the navy the ramp reaches at -6°, not the violet above it. */
+  var NIGHT_TOP = -6;
+  /* The day's paper: white, with its ink, rules and band, the same from
+     sunrise to sunset. secL is how dark the sections' accents print on
+     it. The chrome is the one thing that moves: CHROME_DAWN at sunrise,
+     light enough to be a slate and dark enough for white words in the
+     menu (5:1), to CHROME_DUSK at sunset, a step off the night's header. */
+  var DAY = { paper:"#FFFFFF", surface:"#F6F8F9", band:"#F3F5F6", ink:"#242F38", inkSoft:"#35444E",
+              vizon:"#576976", stripInk:"#4C5E6B", rule:"#E9ECED", ruleStrong:"#D0D5D9",
+              ruleCream:"#D5DCDF", secL:0.492 };
+  var CHROME_DAWN = [86, 99, 111], CHROME_DUSK = [40, 52, 68];
+  function hex(h){
+    return [parseInt(h.slice(1, 3), 16), parseInt(h.slice(3, 5), 16), parseInt(h.slice(5, 7), 16)];
+  }
+  /* Every colour of the day, as [r,g,b], with secL. */
+  function dayAt(){
+    var d = {};
+    Object.keys(DAY).forEach(function(k){ d[k] = k === "secL" ? DAY[k] : hex(DAY[k]); });
+    return d;
+  }
+  /* The header's and footer's ground by day, `prog` of the way from
+     sunrise to sunset. */
+  function chromeAt(prog){
+    return mixChannels(CHROME_DAWN, CHROME_DUSK, Math.max(0, Math.min(1, prog || 0)));
+  }
+  /* The words of the header and footer, by day and by night: the yellow of
+     the site's name, all one tone, since a cool grey and then a duller
+     gold read as dull on the slate. On 25 October 2026 the author asked
+     for it to follow the sky: the full yellow (#F8EBC2) while the night is
+     at its darkest, white mixed into it as the sky opens, and the most at
+     noon, then back to the yellow as slowly. Later that day the author
+     set the amounts: none at the darkest of the night, 40% at sunrise and
+     sunset, and 70% at noon. By night the white rises with the sun from
+     -18°, where the ramp is at its darkest, to the horizon, and the
+     evening holds it up as the evening holds up the slate; by day it goes
+     along the arc. */
+  var WORDS = [248, 235, 194], WHITE = [255, 255, 255], HORIZON_WHITE = 0.40, NOON_WHITE = 0.70;
+  /* How far the night has opened, 0 at its darkest and 1 at the horizon. */
+  function nightOpen(sun){
+    return lerp(Math.max(0, Math.min(1, (sun.alt + 18) / 18)), 1, sun.eve || 0);
+  }
+  function wordsAt(sun){
+    var white = sun.alt >= SUNRISE ? lerp(HORIZON_WHITE, NOON_WHITE, sun.share)
+      : HORIZON_WHITE * nightOpen(sun);
+    return mixChannels(WORDS, WHITE, white);
+  }
+  /* The night at one altitude, in skyAt's shape: [altitude, ground, ink
+     mix]. Above NIGHT_TOP it is the ramp at NIGHT_TOP. */
+  function nightAt(alt){
+    return skyAt(Math.min(alt, NIGHT_TOP));
+  }
+  function mixChannels(a, b, f){
+    return [
+      Math.round(lerp(a[0], b[0], f)),
+      Math.round(lerp(a[1], b[1], f)),
+      Math.round(lerp(a[2], b[2], f))
+    ];
+  }
+  var RAD = Math.PI / 180;
+  /* Where the sun stands among the stars at `now`: its declination and
+     right ascension, with the day count the sidereal clock needs. */
+  function sunPlace(now){
+    var d = (now.getTime() / 86400000) - 10957.5;        /* days since J2000 */
+    var g = (357.529 + 0.98560028 * d) * RAD;
+    var q = 280.459 + 0.98564736 * d;
+    var L = (q + 1.915 * Math.sin(g) + 0.020 * Math.sin(2 * g)) * RAD;
+    var e = (23.439 - 0.00000036 * d) * RAD;
+    var sinDec = Math.sin(e) * Math.sin(L);
+    return { d: d, sinDec: sinDec, dec: Math.asin(sinDec),
+      RAh: (Math.atan2(Math.cos(e) * Math.sin(L), Math.cos(L)) / RAD) / 15 };
+  }
+  /* How far the sun has turned past the meridian of longitude `lng`, in
+     degrees: negative before noon, positive after, 15 to the hour. */
+  function hourAngle(p, lng){
+    var GMST = ((18.697374558 + 24.06570982441908 * p.d) % 24 + 24) % 24;
+    var lst = ((GMST + lng / 15) % 24 + 24) % 24;
+    return ((lst - p.RAh) * 15 + 540) % 360 - 180;
+  }
+  function sunAltitude(now, lat, lng){
+    var p = sunPlace(now), H = hourAngle(p, lng);
+    var latR = lat * RAD;
+    return Math.asin(Math.sin(latR) * p.sinDec + Math.cos(latR) * Math.cos(p.dec) * Math.cos(H * RAD)) / RAD;
+  }
+  /* How far along today's arc the sun stands at `now`: 0 where it rises
+     and where it sets, 1 at noon, and between them in proportion to the
+     way it has come. The sun keeps an even pace along its arc, while its
+     height hardly changes for the hour round noon, so the arc moves the
+     paper every few minutes all day. A sun that does not set that day
+     rises, for this purpose, at midnight. */
+  function halfArc(p, lat){
+    var x = -Math.tan(lat * RAD) * Math.tan(p.dec);
+    return x <= -1 ? 180 : x >= 1 ? 0 : Math.acos(x) / RAD;
+  }
+  function arcShare(now, lat, lng){
+    var p = sunPlace(now), half = halfArc(p, lat);
+    return half > 0 ? Math.max(0, Math.min(1, 1 - Math.abs(hourAngle(p, lng)) / half)) : 0;
+  }
+  /* How far through the day the sun is at `now`: 0 where it rises, 1
+     where it sets, along the same arc. */
+  function dayProgress(now, lat, lng){
+    var p = sunPlace(now), half = halfArc(p, lat);
+    return half > 0 ? Math.max(0, Math.min(1, (hourAngle(p, lng) + half) / (2 * half))) : 0;
+  }
+  /* The moment the sky is painted for: now, or ?hour= (any value from 0 to
+     23.99) on the reader's own clock today, so any hour can be looked at. */
+  function now(){
+    var q = /[?&]hour=(\d+(?:\.\d+)?)/.exec(location.search);
+    var h = q ? parseFloat(q[1]) : NaN, d = new Date();
+    if(h >= 0 && h < 24) d.setHours(Math.floor(h), Math.round((h % 1) * 60), 0, 0);
+    return d;
+  }
+  /* What the painters paint from, at `date` in the reader's city: the
+     sun's altitude (or `alt`, when the caller has a finer one), how far
+     along today's arc it stands, and how far through the day. */
+  function sunAt(date, alt){
+    var c = pickCity();
+    if(alt === undefined) alt = sunAltitude(date, c.lat, c.lng);
+    return {
+      alt: alt,
+      share: arcShare(date, c.lat, c.lng),
+      prog: dayProgress(date, c.lat, c.lng)
+    };
+  }
+  /* The same, for now or ?hour=. */
+  function sunNow(){ return sunAt(now()); }
+  /* Relative luminance of a ground, the input every derived tone needs. */
+  function luminance(rgb){
+    var v = [rgb[0], rgb[1], rgb[2]].map(function(c){
+      c = c / 255;
+      return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+    });
+    return 0.2126 * v[0] + 0.7152 * v[1] + 0.0722 * v[2];
+  }
+  /* A text tone: ink laid over the ground at `alpha`, returned solid so it
+     can go anywhere a colour goes, including into a gradient or a border. */
+  function over(ink, ground, alpha){
+    return [
+      Math.round(ink[0] * alpha + ground[0] * (1 - alpha)),
+      Math.round(ink[1] * alpha + ground[1] * (1 - alpha)),
+      Math.round(ink[2] * alpha + ground[2] * (1 - alpha))
+    ];
+  }
+  function rgb(c){ return "rgb(" + c[0] + "," + c[1] + "," + c[2] + ")"; }
+
+  window.OLAE_SKY = {
+    CREAM: CREAM, DAYINK: DAYINK,
+    pickCity: pickCity, sunAltitude: sunAltitude, arcShare: arcShare,
+    now: now, sunAt: sunAt, sunNow: sunNow,
+    SUNRISE: SUNRISE, dayAt: dayAt, chromeAt: chromeAt, nightAt: nightAt, wordsAt: wordsAt,
+    skyAt: skyAt, mix: mixChannels, luminance: luminance, over: over, rgb: rgb,
+    lerp: lerp
+  };
+})();
+</script>
+
+<script>
+(function(){
+  "use strict";
+  var S = window.OLAE_SKY;
+  function paint(sun){
+    var root = document.documentElement, st = root.style, day = sun.alt >= S.SUNRISE;
+    if(day){
+      var d = S.dayAt();
+      st.setProperty("--paper", S.rgb(d.paper));
+      st.setProperty("--ink", S.rgb(d.ink));
+      st.setProperty("--muted", S.rgb(d.vizon));
+      st.setProperty("--line", S.rgb(d.rule));
+    } else {
+      var sky = S.nightAt(sun.alt), ground = sky[1], m = sky[2];
+      var ink = S.mix(S.CREAM, S.DAYINK, m);
+      st.setProperty("--paper", S.rgb(ground));
+      st.setProperty("--ink", S.rgb(ink));
+      st.setProperty("--muted", "rgba(" + ink.join(",") + "," + S.lerp(0.80, 0.95, m).toFixed(3) + ")");
+      st.setProperty("--line", "rgba(" + ink.join(",") + "," + S.lerp(0.28, 0.42, m).toFixed(3) + ")");
+    }
+    root.setAttribute("data-sky", day ? "day" : "night");
+    st.setProperty("color-scheme", day ? "light" : "dark");
+  }
+  function clear(){
+    var root = document.documentElement, st = root.style;
+    ["--paper","--ink","--muted","--line"].forEach(function(p){ st.removeProperty(p); });
+    st.removeProperty("color-scheme");
+    root.removeAttribute("data-sky");
+  }
+  window.OLAE_PAGE_SKY = {
+    pickCity: S.pickCity, sunAltitude: S.sunAltitude, now: S.now, sunAt: S.sunAt,
+    paint: paint, clear: clear
+  };
+  var t, s;
+  try{
+    t = localStorage.getItem('olae-page-theme');
+    if(t !== 'dark' && t !== 'light' && t !== 'sky'){
+      s = localStorage.getItem('theme');
+      /* The site's own theme is the fallback for a page never set by hand.
+         'sky' carries across as itself; the site's two darks both land on
+         this page's one dark. */
+      t = s === 'midnight' ? 'dark' : (s === 'dusk' ? 'sky' : s);
+    }
+  }catch(e){}
+  if(t !== 'dark' && t !== 'light' && t !== 'sky' && t !== 'system') t = 'system';
+  if(t === 'dark' || t === 'light'){
+    document.documentElement.setAttribute('data-theme', t);
+  } else if(t === 'sky'){
+    document.documentElement.setAttribute('data-theme', 'sky');
+    paint(S.sunNow());
+  }
+})();
+</script>
+
+
+<script>
+(function(){
+  'use strict';
+  if(window.parent === window || new URLSearchParams(location.search).get('desk') !== '1') return;
+  try{ if(window.parent.location.origin !== location.origin || !window.parent.OLAE_DESK) return; }
+  catch(e){ return; }
+  document.documentElement.classList.add('in-desk');
+  var hooks = {}, active = true;
+  /* Both places on the desk can hold the same instrument. The second
+     instance (pane=2) keeps its own place, notes or drawing under its own
+     keys, so turning a page in one never moves the other. */
+  var pane = new URLSearchParams(location.search).get('pane') === '2' ? 2 : 1;
+  window.OLAE_DESK_EMBED = {
+    pane: pane,
+    key: function(base){ return pane > 1 ? base + '-' + pane : base; },
+    register: function(next){ Object.keys(next).forEach(function(key){ hooks[key] = next[key]; }); },
+    save: function(){ if(hooks.save) hooks.save(); },
+    unsaved: function(){ return hooks.unsaved ? hooks.unsaved() : false; },
+    setActive: function(next){
+      if(active && !next){
+        if(hooks.save) hooks.save();
+        if(hooks.pause) hooks.pause();
+      }
+      active = next;
+      if(next && hooks.resize) requestAnimationFrame(hooks.resize);
+    },
+    /* An instrument with a light of its own, as the clock and the sky
+       instruments have, keeps it on the desk (data-own-theme). */
+    setTheme: function(theme, tokens){
+      var root = document.documentElement;
+      if(root.hasAttribute('data-own-theme')) return;
+      root.setAttribute('data-theme', theme);
+      Object.keys(tokens).forEach(function(key){ root.style.setProperty(key, tokens[key]); });
+      if(!/^(light|dark)$/.test(tokens['color-scheme'] || '')) root.style.colorScheme = theme === 'light' ? 'light' : 'dark';
+    }
+  };
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape') window.parent.OLAE_DESK.restore();
+  });
+  /* On the desk an instrument's name, its way back, its theme and its full
+     screen are the desk's. A top bar left with nothing else to show gives
+     its room to the instrument's work (desk-bare). */
+  function fold(){
+    var bar = document.querySelector('.chrome');
+    if(!bar) return;
+    var shown = Array.prototype.some.call(bar.querySelectorAll('a[href], button, select, input'), function(el){ return el.getClientRects().length > 0; });
+    document.documentElement.classList.toggle('desk-bare', !shown);
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function(){ requestAnimationFrame(fold); });
+  else requestAnimationFrame(fold);
+})();
+</script>
+<style>
+  html.in-desk .masthead, html.in-desk .tools-link,
+  html.in-desk .notes, html.in-desk .notes-cue,
+  html.in-desk #fsBtn, html.in-desk #themeBtn,
+  html.in-desk .shelf-row:has([data-light]){ display:none; }
+  html.in-desk .chrome{ display:flex; justify-content:flex-end; padding:8px 16px; min-height:54px; }
+  html.in-desk.desk-bare .chrome{ display:none; }
+  html.in-desk .actions{ gap:6px; }
+  html.in-desk .sheet{ padding:30px 28px 80px; }
+  html.in-desk .app{ padding-bottom:0; }
+  html.in-desk .shelf{ top:54px; }
+  html.in-desk .empty{ min-height:180px; }
+  html.in-desk #page{ min-height:calc(100dvh - 165px); }
+  html.in-desk .tools{ left:12px; right:12px; gap:10px; justify-content:center; }
+  @media(max-width:600px){ html.in-desk .shelf{ top:auto; } }
+</style>
+
+
+</head>
+<body>
+
+  <div class="chrome" id="chrome">
+    <a class="tools-link" href="/tools/" aria-label="All the instruments">&larr;&#8202;instruments</a>
+<script data-tool-return>
+(function(){
+  'use strict';
+  /* Wherever the reader came from, the way back goes there. The House
+     opens an instrument with from=house, or from=balcony from its balcony.
+     The drawer, and a note written on a page, open one with from= naming
+     the place and back= with its address (js/keep.js, wayBack), so the way
+     back returns to the drawer as it was, over the room or the page it was
+     open over, or to the piece, the word, the quiz, the book, The Reader or
+     The Desk the note was written on. A place that has no address of its
+     own needs back=; without it the way back is to the instruments. */
+  var PLACES = {
+    house: ['/house/#study', 'the study', 'Back to The House study'],
+    balcony: ['/house/#balcony', 'the balcony', 'Back to The House balcony'],
+    drawer: ['/house/#drawer', 'your drawer', 'Back to your drawer'],
+    piece: ['', 'the piece', 'Back to the piece'],
+    word: ['', 'the word', 'Back to the word'],
+    quiz: ['', 'the quiz', 'Back to the quiz'],
+    book: ['', 'the book', 'Back to the book'],
+    read: ['', 'The Reader', 'Back to The Reader'],
+    desk: ['', 'The Desk', 'Back to The Desk']
+  };
+  var params = new URLSearchParams(window.location.search);
+  var from = params.get('from');
+  if(!from || !Object.prototype.hasOwnProperty.call(PLACES, from)) return;
+  var place = PLACES[from], href = place[0], back = params.get('back');
+  if(back && back.charAt(0) === '/' && from !== 'house' && from !== 'balcony'){
+    try{
+      var url = new URL(back, window.location.origin);
+      if(url.origin === window.location.origin) href = url.pathname + url.search + url.hash;
+    }catch(e){}
+  }
+  if(!href) return;
+  var link = document.querySelector('.tools-link');
+  link.href = href;
+  link.textContent = '← ' + place[1];
+  link.setAttribute('aria-label', place[2]);
+})();
+</script>
+
+    <a class="masthead" href="/" aria-label="On Life &amp; Everything — home">
+      <span class="home-brand">On Life &amp; Everything</span>
+      <span class="home-tagline">Essays, short fiction, and other writing.</span>
+    </a>
+    <div class="actions">
+      <button class="icon-btn theme-btn" id="themeBtn" type="button" title="Light / dark / follow the sky" aria-label="Switch theme: light, dark, or follow the sky">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+        <svg class="icon-sky" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M17 18a5 5 0 0 0-10 0"/>
+          <line x1="12" y1="3" x2="12" y2="5"/>
+          <line x1="4.9" y1="6.9" x2="6.3" y2="8.3"/>
+          <line x1="19.1" y1="6.9" x2="17.7" y2="8.3"/>
+          <line x1="2" y1="18" x2="5" y2="18"/>
+          <line x1="19" y1="18" x2="22" y2="18"/>
+          <line x1="2" y1="22" x2="22" y2="22"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <header class="days-head">
+    <h1>The Days</h1>
+    <p class="lede">Date arithmetic⁠&mdash;days between dates, weekdays, and where the year stands.</p>
+  </header>
+
+  <main class="sheet">
+
+    <section class="panel">
+      <h2 class="panel-name">Between</h2>
+      <div class="date-row">
+        <label class="sr-only" for="fromDate" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);">First date</label>
+        <input type="date" id="fromDate">
+        <span class="to">to</span>
+        <label class="sr-only" for="toDate" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);">Second date</label>
+        <input type="date" id="toDate">
+      </div>
+      <div class="date-row" style="margin-top:.6rem">
+        <button class="textbtn" id="fromTodayBtn" type="button">from today</button>
+      </div>
+      <div aria-live="polite">
+        <div class="big" id="betweenBig">&mdash;</div>
+        <div class="under" id="betweenUnder">&nbsp;</div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2 class="panel-name">What day</h2>
+      <div class="date-row">
+        <label class="sr-only" for="whichDate" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);">A date</label>
+        <input type="date" id="whichDate">
+      </div>
+      <div aria-live="polite">
+        <div class="big" id="weekdayBig"><i>&mdash;</i></div>
+        <div class="under" id="weekdayUnder">&nbsp;</div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2 class="panel-name">Today</h2>
+      <div class="today-date" id="todayDate">&nbsp;</div>
+      <div class="today-facts" id="todayFacts"></div>
+    </section>
+
+  </main>
+
+  <footer class="notes" id="notes">
+    <div class="notes-inner">
+      <h2>About this page</h2>
+      <p>Three sums the calendar keeps asking for: the days between two dates⁠&mdash;also spelled out as weeks, as calendar months, and, for the long spans, as years; the weekday any date falls on, with its ISO week number; and where today stands in the year. Everything is worked out in your browser from the calendar itself, with leap years counted properly and no off-by-one surprises from daylight saving.</p>
+
+      <h2>Questions</h2>
+      <h3>How many days are there between two dates?</h3>
+      <p>Pick both dates and the page counts the days between them instantly, in either order, and restates the same span as weeks and days, as calendar months and days, and⁠&mdash;once it runs past a year⁠&mdash;as years, months and days. Everything is computed from the calendar itself.</p>
+
+      <h3>How many years is that?</h3>
+      <p>Any span of a year or more is also given in whole years, then the leftover months and days: 16,000 days from 1981 comes out as 43 years and change, not a division by 365. The years are counted on the calendar, so leap days are already inside them⁠&mdash;a birthday on 1 March is a year older on 1 March, whether or not February had 29 days.</p>
+
+      <h3>Are both endpoint days included in the count?</h3>
+      <p>The result is the difference between the two dates: Monday to Friday of the same week is 4 days. Some counts⁠&mdash;days of an event, nights of a stay⁠&mdash;want both endpoints included; if that is what you mean, add 1 to the number shown.</p>
+
+      <h3>What is an ISO week number?</h3>
+      <p>The week&rsquo;s position in the year under ISO 8601, the convention planners and payrolls use: weeks run Monday to Sunday, and week 1 is the week containing the year&rsquo;s first Thursday. A year has 52 or 53 such weeks.</p>
+
+      <h3>Does it handle leap years?</h3>
+      <p>Yes. The counting works on the real calendar, so 29 February is a day like any other when it exists, the day-of-year runs to 366 in leap years, and spans across leap days come out exact.</p>
+
+      
+<style>
+  .notes[hidden]:not([hidden="until-found"]){ display:none; }
+  /* until-found, where the browser knows it, keeps the box and skips its
+     contents; with no padding or rule it takes no room */
+  .notes[hidden="until-found"]{ padding:0 !important; border:0 !important; margin:0 !important; }
+  .notes-open-row{ display:flex; justify-content:center; padding:4px 16px 18px; }
+  .notes-open{
+    background:none; border:0; padding:6px 4px; cursor:pointer;
+    font-family:var(--body, 'EB Garamond', Georgia, serif); font-style:italic; font-size:.85rem;
+    letter-spacing:.03em; color:var(--muted); transition:color .2s, opacity .2s;
+  }
+  .notes-open:hover{ opacity:var(--select-dim,.78); }
+  .notes-open:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
+  .notes-open .amp, .notes-cue .amp{ font-family:var(--display, 'Cormorant Garamond', Georgia, serif); font-style:italic; }
+  html.tool-full .notes, html.tool-full .notes-toggle, html.tool-full .notes-open-row,
+  body.immersive .notes, body.immersive .notes-toggle, body.immersive .notes-open-row,
+  html.in-desk .notes-open-row{ display:none !important; }
+  @media (prefers-reduced-motion:reduce){ .notes-open{ transition:none; } }
+</style>
+<script data-tool-notes>
+(function(){
+  'use strict';
+  var script = document.currentScript;
+  var notes = script && script.closest('.notes');
+  if(!notes) return;
+  var root = document.documentElement;
+  if(!notes.id) notes.id = 'notes';
+  notes.setAttribute('tabindex', '-1');
+
+  /* The cue the instrument has, or one made for it where its notes begin. */
+  var cues = Array.prototype.slice.call(document.querySelectorAll('.notes-cue, a[href="#notes"]')).filter(function(cue){
+    return !notes.contains(cue);
+  });
+  if(!cues.length){
+    var row = document.createElement('p');
+    row.className = 'notes-open-row';
+    var made = document.createElement('button');
+    made.type = 'button';
+    made.className = 'notes-open';
+    row.appendChild(made);
+    notes.parentNode.insertBefore(row, notes);
+    cues = [made];
+  }
+  var LABEL = 'notes <span class="amp">&amp;</span> questions';
+  function label(open){
+    cues.forEach(function(cue){
+      cue.classList.add('notes-toggle');
+      cue.setAttribute('aria-controls', notes.id);
+      cue.setAttribute('aria-expanded', String(open));
+      cue.innerHTML = LABEL + (open ? ' &uarr;' : ' &darr;');
+    });
+  }
+
+  function isOpen(){ return !notes.hasAttribute('hidden'); }
+  var findable = 'onbeforematch' in notes;
+  function fold(){
+    if(findable) notes.setAttribute('hidden', 'until-found');
+    else notes.hidden = true;
+    label(false);
+  }
+  function open(scroll){
+    notes.removeAttribute('hidden');
+    label(true);
+    if(scroll){
+      notes.scrollIntoView({ block:'start' });
+      try{ notes.focus({ preventScroll:true }); }catch(e){}
+    }
+  }
+
+  /* A link straight to the notes, or to something in them, opens them. */
+  function wanted(){
+    var id = decodeURIComponent(location.hash.slice(1));
+    if(!id) return false;
+    var target = document.getElementById(id);
+    return !!target && (target === notes || notes.contains(target));
+  }
+  if(wanted()) open(false); else fold();
+  window.addEventListener('hashchange', function(){ if(wanted() && !isOpen()) open(true); });
+  // Find in page opens them by itself; the cue follows.
+  notes.addEventListener('beforematch', function(){ label(true); });
+
+  cues.forEach(function(cue){
+    cue.addEventListener('click', function(event){
+      event.preventDefault();
+      if(isOpen()) fold(); else open(true);
+    });
+  });
+
+  /* Full screen, native or an instrument's own, puts the notes away. */
+  function full(){
+    var on = !!(document.fullscreenElement || document.webkitFullscreenElement) ||
+      !!(document.body && document.body.classList.contains('immersive'));
+    root.classList.toggle('tool-full', on);
+  }
+  document.addEventListener('fullscreenchange', full);
+  document.addEventListener('webkitfullscreenchange', full);
+  if(window.MutationObserver){
+    new MutationObserver(full).observe(document.body || root, { attributes:true, attributeFilter:['class'] });
+  }
+  full();
+})();
+</script>
+
+      <p class="notes-links">More instruments: <a href="/season/">the turn of the seasons</a>, <a href="/moon/">the phase of the moon</a> and <a href="/clock/">a fullscreen clock with pomodoro</a>⁠&mdash;or see <a href="/tools/">all of them</a>. Or <a href="/search/">search the site</a>.</p>
+
+    </div>
+  </footer>
+
+<script>
+(function(){
+  "use strict";
+  var $ = function(s){ return document.querySelector(s); };
+  var DAY = 86400000;
+  var WEEKDAYS = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+  var nf = new Intl.NumberFormat("en-US");
+
+  /* All arithmetic is date-only, anchored at UTC noon, so daylight-saving
+     shifts can never produce an off-by-one. */
+  function parseDate(v){
+    var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(v || "");
+    if(!m) return null;
+    return { y: +m[1], m: +m[2], d: +m[3] };
+  }
+  /* Date.UTC treats years 0–99 as 1900–1999; set the full year explicitly. */
+  function utcDate(y, m, d){
+    var date = new Date(0);
+    date.setUTCHours(12, 0, 0, 0);
+    date.setUTCFullYear(y, m, d);
+    return date;
+  }
+  function noon(d){ return utcDate(d.y, d.m - 1, d.d).getTime(); }
+  function daysInMonth(y, m){ return utcDate(y, m, 0).getUTCDate(); }
+  function isLeap(y){ return (y % 4 === 0 && y % 100 !== 0) || y % 400 === 0; }
+  function daysBetween(a, b){ return Math.round((noon(b) - noon(a)) / DAY); }
+
+  /* the span as whole calendar months plus leftover days (a <= b) */
+  function monthsDays(a, b){
+    var months = (b.y - a.y) * 12 + (b.m - a.m);
+    if(b.d < a.d) months--;
+    if(months < 0) months = 0;
+    var total = a.m - 1 + months;
+    var anchor = {
+      y: a.y + Math.floor(total / 12),
+      m: (total % 12) + 1,
+      d: a.d
+    };
+    anchor.d = Math.min(anchor.d, daysInMonth(anchor.y, anchor.m));
+    return { months: months, days: daysBetween(anchor, b) };
+  }
+
+  /* the same span again, the whole months gathered into years — read off
+     the month count so the two readings can never disagree */
+  function yearsMonthsDays(md){
+    return { years: Math.floor(md.months / 12), months: md.months % 12, days: md.days };
+  }
+
+  function isoWeek(d){
+    var date = utcDate(d.y, d.m - 1, d.d);
+    var dayNum = (date.getUTCDay() + 6) % 7;                 /* Monday = 0 */
+    date.setUTCDate(date.getUTCDate() - dayNum + 3);          /* this week's Thursday */
+    var firstThursday = utcDate(date.getUTCFullYear(), 0, 4);
+    var fdn = (firstThursday.getUTCDay() + 6) % 7;
+    firstThursday.setUTCDate(firstThursday.getUTCDate() - fdn + 3);
+    return 1 + Math.round((date.getTime() - firstThursday.getTime()) / (7 * DAY));
+  }
+
+  function todayParts(){
+    var n = new Date();
+    return { y: n.getFullYear(), m: n.getMonth() + 1, d: n.getDate() };
+  }
+  function toValue(d){
+    var mm = String(d.m); if(mm.length < 2) mm = "0" + mm;
+    var dd = String(d.d); if(dd.length < 2) dd = "0" + dd;
+    return d.y + "-" + mm + "-" + dd;
+  }
+  function plural(n, word){ return nf.format(n) + " " + (n === 1 ? word : word + "s"); }
+
+  /* ---- panel 1: between ---- */
+  var fromIn = $("#fromDate"), toIn = $("#toDate");
+  var betweenBig = $("#betweenBig"), betweenUnder = $("#betweenUnder");
+  function renderBetween(){
+    var a = parseDate(fromIn.value), b = parseDate(toIn.value);
+    if(!a || !b){
+      betweenBig.innerHTML = "&mdash;";
+      betweenUnder.innerHTML = "&nbsp;";
+      return;
+    }
+    if(noon(a) > noon(b)){ var t = a; a = b; b = t; }      /* order never matters */
+    var n = daysBetween(a, b);
+    betweenBig.innerHTML = nf.format(n) + '<span class="unit">' + (n === 1 ? "day" : "days") + "</span>";
+    var w = Math.floor(n / 7), wd = n % 7;
+    var md = monthsDays(a, b);
+    var ymd = yearsMonthsDays(md);
+    var parts = [];
+    parts.push(plural(w, "week") + (wd ? ", " + plural(wd, "day") : ""));
+    parts.push(plural(md.months, "month") + (md.days ? ", " + plural(md.days, "day") : ""));
+    /* under a year the years line would only repeat the months line */
+    if(ymd.years){
+      parts.push(plural(ymd.years, "year")
+        + (ymd.months ? ", " + plural(ymd.months, "month") : "")
+        + (ymd.days ? ", " + plural(ymd.days, "day") : ""));
+    }
+    betweenUnder.textContent = "that is " + parts.join(" · or ");
+  }
+  fromIn.addEventListener("input", renderBetween);
+  toIn.addEventListener("input", renderBetween);
+  $("#fromTodayBtn").addEventListener("click", function(){
+    fromIn.value = toValue(todayParts());
+    renderBetween();
+    toIn.focus();
+  });
+
+  /* ---- panel 2: what day ---- */
+  var whichIn = $("#whichDate");
+  var weekdayBig = $("#weekdayBig"), weekdayUnder = $("#weekdayUnder");
+  function renderWeekday(){
+    var d = parseDate(whichIn.value);
+    if(!d){
+      weekdayBig.innerHTML = "<i>&mdash;</i>";
+      weekdayUnder.innerHTML = "&nbsp;";
+      return;
+    }
+    var name = WEEKDAYS[new Date(noon(d)).getUTCDay()];
+    weekdayBig.innerHTML = "<i>a " + name + "</i>";
+    weekdayUnder.textContent = "ISO week " + isoWeek(d);
+  }
+  whichIn.addEventListener("input", renderWeekday);
+
+  /* ---- panel 3: today, kept live ---- */
+  var dateFmt = new Intl.DateTimeFormat("en-GB", { weekday:"long", day:"numeric", month:"long", year:"numeric" });
+  var lastKey = null;
+  function renderToday(){
+    var t = todayParts();
+    var key = t.y + "-" + t.m + "-" + t.d;
+    if(key === lastKey) return;
+    lastKey = key;
+    $("#todayDate").textContent = dateFmt.format(new Date());
+    var total = isLeap(t.y) ? 366 : 365;
+    var doy = daysBetween({ y: t.y, m: 1, d: 1 }, t) + 1;
+    $("#todayFacts").innerHTML =
+      '<span class="t">Day of the year<b>' + doy + " of " + total + "</b></span>" +
+      '<span class="t">ISO week<b>' + isoWeek(t) + "</b></span>" +
+      '<span class="t">Days remaining<b>' + (total - doy) + "</b></span>";
+  }
+  renderToday();
+  setInterval(renderToday, 60000);
+  document.addEventListener("visibilitychange", function(){ if(!document.hidden) renderToday(); });
+
+  /* ---- start with today in the first fields ---- */
+  fromIn.value = toValue(todayParts());
+  whichIn.value = toValue(todayParts());
+  renderBetween();
+  renderWeekday();
+
+  /* ---- theme ---- */
+  /* light, dark and the sky: _includes/page-sky-toggle.html, at the foot of
+     the page, so the three states are written once for all the instruments
+     that carry this button. */
+})();
+</script>
+
+<style>
+  /* The sun and moon are the page's own; the horizon is this file's, and
+     the page's --icon-* switches gain a third position. html[data-theme]
+     outranks the page's :root defaults, so order here does not matter. */
+  :root{ --icon-sky:none; }
+  html[data-theme="sky"]{
+    --icon-sun:none; --icon-moon:none; --icon-sky:block;
+    /* the colour scheme, light by day and dark by night, is set with the
+       paint in page-sky.html */
+  }
+  .theme-btn .icon-sky{ display:var(--icon-sky); }
+
+  .actions{ position:relative; }
+  .sky-note{
+    position:absolute; right:100%; top:50%; transform:translateY(-50%);
+    margin-right:12px;
+    font-family:var(--body); font-style:italic; font-size:.78rem; line-height:1;
+    color:var(--muted); white-space:nowrap; pointer-events:none;
+    opacity:0; transition:opacity .25s;
+  }
+  .sky-note.on{ opacity:1; }
+  @media (prefers-reduced-motion: reduce){ .sky-note{ transition:none; } }
+  /* no room between the masthead and the buttons; the button's own
+     title and aria-label still identify the mode */
+  @media (max-width: 820px){ .sky-note{ display:none; } }
+</style>
+<script>
+(function(){
+  "use strict";
+  var btn = document.getElementById("themeBtn");
+  if(!btn || !window.OLAE_PAGE_SKY) return;
+
+  var SKY = window.OLAE_PAGE_SKY;
+  var root = document.documentElement;
+  var timer = null;
+
+  var note = document.createElement("p");
+  note.className = "sky-note";
+  note.id = "skyNote";
+  btn.parentNode.appendChild(note);
+
+  /* The head script has already painted the sky once from its own compact
+     copy of the altitude. /js/astronomy.js is the full version and is
+     fetched only when someone actually turns the sky on. */
+  function repaint(){
+    var city = SKY.pickCity(), when = SKY.now();
+    SKY.paint(SKY.sunAt(when, window.OLAE_ASTRO
+      ? window.OLAE_ASTRO.sunAltitude(when, city.lat, city.lng) : undefined));
+  }
+  function startSky(){
+    if(!window.OLAE_ASTRO && !startSky.asked){
+      startSky.asked = true;
+      var s = document.createElement("script");
+      s.src = "/js/astronomy.js?v=20260925-1";
+      s.onload = function(){ if(timer) repaint(); };
+      document.head.appendChild(s);
+    }
+    repaint();
+    if(!timer) timer = setInterval(repaint, 60000);
+  }
+  function stopSky(){
+    if(timer){ clearInterval(timer); timer = null; }
+    SKY.clear();
+  }
+
+  function sync(){
+    var cur = root.getAttribute("data-theme");
+    var on = cur === "sky";
+    note.textContent = on ? "Following the sky" : "";
+    note.classList.toggle("on", on);
+    /* The button says all three states, so the one that is not obvious from
+       the icon is still reachable by name — for a screen reader, and for
+       anyone who hovers wondering what the horizon means. */
+    btn.setAttribute("aria-label", on
+      ? "Switch theme: Following the sky"
+      : "Switch theme: light, dark, or follow the sky");
+    btn.setAttribute("title", on
+      ? "Following the sky"
+      : "Light / dark / follow the sky");
+  }
+
+  /* light → dark → sky → light. With nothing stored the page is following
+     the device, so the first press goes to whichever of light or dark the
+     device is not — the behaviour the two-state button always had. */
+  function next(cur){
+    if(cur === "dark") return "sky";
+    if(cur === "sky") return "light";
+    if(cur === "light") return "dark";
+    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "light" : "dark";
+  }
+
+  btn.addEventListener("click", function(){
+    var v = next(root.getAttribute("data-theme"));
+    if(v === "sky"){ root.setAttribute("data-theme", "sky"); startSky(); }
+    else { stopSky(); root.setAttribute("data-theme", v); }
+    try{ localStorage.setItem("olae-page-theme", v); }catch(e){}
+    sync();
+  });
+
+  /* A tab left open across sunset comes back to the light it should be in. */
+  document.addEventListener("visibilitychange", function(){
+    if(!document.hidden && timer) repaint();
+  });
+
+  if(root.getAttribute("data-theme") === "sky") startSky();
+  sync();
+})();
+</script>
+
+<script>if("serviceWorker" in navigator){navigator.serviceWorker.register("/sw.js").catch(function(){});}</script>
+<script>/* Enable smooth scrolling only after the initial load, so a reload no longer animates the browser's scroll restoration (the page sliding up by one screen). */(function(){var e=function(){document.documentElement.classList.add("smooth-scroll");};if(document.readyState==="complete"){requestAnimationFrame(e);}else{window.addEventListener("load",function(){requestAnimationFrame(e);});}})();</script>
+<script data-dash-copy>document.addEventListener("copy",function(){var a=document.activeElement;if(a&&(/^(INPUT|TEXTAREA)$/.test(a.tagName)||a.isContentEditable))return;var s=window.getSelection(),taken=[];if(!s.rangeCount||String(s).indexOf("\u2060")<0)return;for(var i=0;i<s.rangeCount;i++){var r=s.getRangeAt(i),c=r.commonAncestorContainer,w=document.createTreeWalker(c.nodeType===3?c.parentNode:c,4),n;while((n=w.nextNode()))if(r.intersectsNode(n))for(var k=n.data.lastIndexOf("\u2060");k>=0;k=k?n.data.lastIndexOf("\u2060",k-1):-1){n.deleteData(k,1);taken.push([n,k]);}}setTimeout(function(){for(var j=taken.length-1;j>=0;j--)taken[j][0].insertData(taken[j][1],"\u2060");},0);});</script></body>
+</html>
