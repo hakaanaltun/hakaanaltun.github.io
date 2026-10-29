@@ -326,6 +326,20 @@
   display: none;
 }
 
+/* As the line after an essay leads on (.essay-afterward in style.css). */
+.trivia-word a {
+  color: var(--petrol);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--rule-strong);
+  transition: var(--select-ease);
+}
+
+.trivia-word a:hover,
+.trivia-word a:active {
+  opacity: var(--select-dim);
+}
+
 .trivia-actions--question {
   justify-content: flex-end;
   min-height: 42px;
