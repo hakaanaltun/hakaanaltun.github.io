@@ -548,7 +548,9 @@ const house = (options = {}) => page('house/index.html', options.url || 'https:/
   a.click('[data-open="drawer"]');
   let text = a.q('#house-dialog-content').textContent;
   assert.match(text, /First there was Symmetry/);
-  assert.match(text, /cracked within a few months/, 'the Big Ben note is read fresh from the bank');
+  const bigBen = JSON.parse(read(root, '_data', 'quizzes', 'britain.json')).find((q) => q.id === 'great-bell');
+  assert.ok(bigBen && bigBen.note, 'the bank contains the Big Ben note');
+  assert.ok(text.replace(/\u2060/g, '').includes(bigBen.note), 'the Big Ben note is read fresh from the bank');
   assert.match(text, /Horace Walpole/, 'the word is read fresh from its story');
   const hrefs = Array.from(a.w.document.querySelectorAll('#house-dialog-content .house-item-actions a'), (l) => l.getAttribute('href'));
   assert.deepEqual(hrefs.sort(), ['/book/part-one/#point-zero', '/trivia/britain/', '/word/serendipity/']);

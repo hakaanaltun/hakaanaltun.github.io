@@ -1118,9 +1118,16 @@ function drawHotspots() {
     $('hotspots').append(b);
   }
 }
-function closeInfo() {
+function closeInfo(clearNote = true) {
   info.hidden = true;
   document.body.classList.remove('panel-open');
+  // A return address belongs to the note just left, not to later views.
+  // Keep an incoming note until the first navigation has opened it.
+  if (clearNote && new URLSearchParams(location.search).has('note')) {
+    const here = new URL(location.href);
+    here.searchParams.delete('note');
+    window.history.replaceState(window.history.state, '', here.pathname + here.search + here.hash);
+  }
   if (lastFocus?.isConnected) lastFocus.focus({ preventScroll: true });
 }
 function renderScene() {
@@ -1253,7 +1260,7 @@ async function go(id, options = {}) {
   detailView++;
   $('hotspots').replaceChildren();
   pendingDestination = id;
-  closeInfo();
+  closeInfo(hasView);
   updateLocalControls();
   setTravelState(true, true);
   if (options.instant) skipRequest = request;

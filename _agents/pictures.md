@@ -241,6 +241,9 @@ sunlight; no text, itinerary, extra planets, brushwork or decorative border.
   note, in both `js/space-field-notes.js` and `_data/space_notes.json`,
   adds a line after its text (`#infoWord`, `js/space-journey.js`) and in
   the reading version without JavaScript. Following it puts the note in
-  the address as `?note=`, so the way back opens it again. A word page
+  the address as `?note=`, so the way back opens it again. Closing the note
+  or travelling onward clears that parameter; the first arrival preserves
+  it until the requested note opens. `scripts/test-space.cjs` checks both
+  paths and preserves the journey's other parameters and history. A word page
   opens the journey with `from=word` and `back=`; `js/space-entry.js` then
   makes the way back say "the word" and return there.
