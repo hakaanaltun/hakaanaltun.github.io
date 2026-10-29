@@ -488,6 +488,15 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   Part II. The book page's never had one; the author asked on
   18 October 2026 for Part II's to match it. They keep the accent and dim
   under a pointer.
+- **A link in running text is marked by its colour** (rule in
+  `COLOPHON.md`). Since 29 October 2026 three places carry it, each with
+  `--petrol` and no `text-decoration`: `.note-body a` in `css/style.css`
+  (the wall and the home strip), `.essay-afterward a` beside it, and
+  `.house-dialog a` in `css/drawer.css`. A note's link also has its own
+  focus outline, since the line that used to show where the keyboard is
+  has gone. Lines that remain on controls rather than in sentences, such
+  as the House's Back, the Pictures footer, the search results' titles,
+  Trivia and the instruments' drawer buttons, are outside this rule.
 - **A pointer dims what it is over, everywhere** (rule in `COLOPHON.md`).
   On 24 October 2026 the author found two links that did nothing, the
   quote's source at the top of the homepage and the book's title beside

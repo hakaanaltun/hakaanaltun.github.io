@@ -330,11 +330,18 @@ The site has two deliberate ideas of place. Do not collapse them into one.
   this across the site on 13 October 2026.
 - **A pointer draws no line.** A link answers a pointer by dimming. A line
   under a link stays only when it is there at rest, as in the story’s
-  choices and the 404 page, and it dims with the link. Links in running
-  text keep their underline. The header’s strip has no line at all: the
-  author took it out on 15 October 2026, when the header felt crowded with
-  it. Where a line used to show keyboard focus, the link has an outline
-  instead.
+  choices and the 404 page, and it dims with the link. The header’s strip
+  has no line at all: the author took it out on 15 October 2026, when the
+  header felt crowded with it. Where a line used to show keyboard focus,
+  the link has an outline instead.
+- **A link in running text is marked by its colour.** A link inside a
+  sentence, in a note, in the line that follows a piece or in a box of
+  The House, takes the site’s link colour and has no line under it. Colour
+  is the quieter of the two: a line under a few words is louder than the
+  sentence around them. Until 29 October 2026 these links kept an
+  underline. That day a note linked to the book for the first time, and
+  underlined it was the one line on a homepage where no other link had
+  one. The author asked for colour instead.
 
 ## Search
 

@@ -1646,7 +1646,7 @@ body.moris-lightbox-open { overflow: hidden; }
    box. Its bottom margin matches the subscribe box's so .more-essays'
    negative top margin still collapses cleanly against it. */
 .essay-afterward { text-align: center; font-style: italic; color: var(--vizon); font-size: 1.02rem; letter-spacing: 0.01em; margin: 0 0 48px; }
-.essay-afterward a { color: var(--petrol); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--rule-strong); transition: var(--select-ease); }
+.essay-afterward a { color: var(--petrol); transition: var(--select-ease); }
 .essay-afterward a:hover { opacity: var(--select-dim); }
 
 /* Sits on the page's own background; its bottom margin matches the
@@ -3674,11 +3674,12 @@ html[data-theme="sky"] .footer-strip { border-top: 0; }
 .note-body > p:last-child { margin-bottom: 0; }
 
 /* A link in a note is a link in running text, on the wall and in the home
-   strip alike: it keeps the note's ink, carries its underline at rest and
-   dims under a pointer like every other link (rules in COLOPHON.md). The
-   first note to link anywhere, on 29 October 2026, did nothing under a
-   pointer. */
-.note-body a { color: inherit; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--rule-strong); transition: var(--select-ease); }
+   strip alike: its colour marks it, with no line under it, and it dims
+   under a pointer like every other link (rules in COLOPHON.md). It is the
+   petrol the quote's source wears at the top of the homepage, the other
+   book title there that leads to the book. The first note to link
+   anywhere, on 29 October 2026, did nothing under a pointer. */
+.note-body a { color: var(--petrol); transition: var(--select-ease); }
 .note-body a:hover, .note-body a:active { opacity: var(--select-dim); }
 .note-body a:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; border-radius: 2px; }
 
