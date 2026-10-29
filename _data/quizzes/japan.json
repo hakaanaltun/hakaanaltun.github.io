@@ -2,7 +2,7 @@
   {
     "id": "sushi-rice-common",
     "category": "Food & drink",
-    "question": "Sushi can contain vegetables or cooked seafood. Which part links these different versions?",
+    "question": "You order sushi with vegetables or cooked seafood instead of raw fish. What still makes it sushi?",
     "choices": [
       "Vinegar-seasoned rice",
       "A piece of raw tuna",
@@ -17,25 +17,25 @@
     ]
   },
   {
-    "id": "soba-hot-cold",
+    "id": "ramen-chinese-roots",
     "category": "Food & drink",
-    "question": "A bowl of Japanese soba arrives chilled beside a dipping sauce. What should the diner make of that?",
+    "question": "Ramen is now a worldwide symbol of Japanese food. Where do its noodle roots lead?",
     "choices": [
-      "It is a normal way to serve the noodles",
-      "The sauce should be heated at the table",
-      "The noodles need a final dip in boiling water",
-      "The dish is meant as a sweet final course"
+      "China",
+      "Italy",
+      "India",
+      "Portugal"
     ],
     "answer": 0,
-    "note": "Soba can be served cold with a dipping sauce or hot in broth. The buckwheat noodles belong to more than one kind of meal.",
+    "note": "Ramen developed in Japan from Chinese-style wheat noodles. A food can become closely identified with one country while carrying a history of travel and adaptation.",
     "sources": [
-      "https://web-japan.org/kidsweb/cook/soba/soba01.html"
+      "https://web-japan.org/nipponia/nipponia17/en/appetit/index.html"
     ]
   },
   {
     "id": "portugal",
     "category": "Food & drink",
-    "question": "Tempura feels thoroughly Japanese, but its development was influenced by visitors from which European country?",
+    "question": "Crisp tempura feels thoroughly Japanese, but visitors from which European country influenced its development?",
     "choices": [
       "Portugal",
       "France",
@@ -54,41 +54,41 @@
     "question": "The name oyakodon means “parent-and-child bowl.” Which ingredients explain it?",
     "choices": [
       "Chicken and egg",
-      "Pork and rice",
-      "Beef and onion",
-      "Tofu and mushroom"
+      "Beef and milk",
+      "Pork and beans",
+      "Fish and seaweed"
     ],
     "answer": 0,
-    "note": "The parent is the chicken and the child is the egg, cooked together and served over rice. The same naming joke can apply to a seafood bowl with salmon and salmon roe. A bowl pairing egg with an unrelated meat, such as beef, may be called tanindon, a “stranger bowl.”",
+    "note": "The parent is the chicken and the child is the egg, served together over rice. The name turns an ordinary combination into a small family joke.",
     "sources": [
       "https://web-japan.org/kidsweb/cook/oyakodon/"
     ]
   },
   {
-    "id": "okonomiyaki-as-you-like",
+    "id": "christmas-fried-chicken",
     "category": "Food & drink",
-    "question": "Okonomiyaki contains words meaning “as you like”. What does that suggest about this Japanese griddle dish?",
+    "question": "A successful 1970s campaign helped turn which takeaway into a Christmas tradition for many people in Japan?",
     "choices": [
-      "Its ingredients can be varied",
-      "Its price is chosen by the diner",
-      "Its name changes with the season",
-      "Its cooking time is chosen after serving"
+      "Fried chicken",
+      "Pizza",
+      "Hamburgers",
+      "Fish and chips"
     ],
     "answer": 0,
-    "note": "The savoury pancake can combine cabbage and other ingredients in different ways. In some restaurants the table has its own griddle, so diners help make the meal.",
+    "note": "KFC launched its “Kentucky for Christmas” campaign in Japan in 1974. The promotion grew into a seasonal custom—a reminder that traditions can begin in an advertising department.",
     "sources": [
-      "https://web-japan.org/kidsweb/cook/okonomiyaki/okonomiyaki01.html"
+      "https://global.kfc.com/stories/how-kentucky-for-christmas-began-in-japan"
     ]
   },
   {
     "id": "sweet-red-bean",
     "category": "Food & drink",
-    "question": "A Japanese sweet may use a filling that many visitors associate with savoury cooking. What commonly fills dorayaki pancakes?",
+    "question": "Beans do not have to be savoury. What is the classic filling in Japan’s dorayaki, a pair of small pancakes?",
     "choices": [
       "Sweet red bean paste",
-      "Sweet chestnut paste",
-      "Sweet sesame paste",
-      "Sweet potato paste"
+      "Chocolate cream",
+      "Apricot jam",
+      "Sweetened cream cheese"
     ],
     "answer": 0,
     "note": "Azuki beans are cooked into a sweet paste and sandwiched between two small pancakes. Beans can play a dessert role as comfortably as a savoury one.",
@@ -107,36 +107,36 @@
       "Italy"
     ],
     "answer": 0,
-    "note": "Curry came to Japan through Britain, where an adapted version of the Indian dish had already become popular. Japanese curry developed into a thick sauce, commonly served with rice and made at home with blocks of curry roux. It also found its way inside bread, giving Japan the filled snack called kare-pan.",
+    "note": "Curry reached Japan through Britain, which had already adapted dishes from India. Its journey did not simply go straight from one neighbouring Asian cuisine to another.",
     "sources": [
       "https://web-japan.org/kidsweb/cook/curry/"
     ]
   },
   {
-    "id": "miso-tofu-soy",
+    "id": "cup-noodles-american-inspiration",
     "category": "Food & drink",
-    "question": "Miso soup and tofu look very different. Which crop is used to make both?",
+    "question": "What did instant-noodle inventor Momofuku Ando see American buyers do that helped inspire Cup Noodles?",
     "choices": [
-      "Soybeans",
-      "Buckwheat",
-      "Sesame",
-      "Maize"
+      "Prepare and eat the noodles in cups",
+      "Toast the dry noodles like breakfast cereal",
+      "Wrap the noodles in bread to make sandwiches",
+      "Blend the noodles into a drink"
     ],
     "answer": 0,
-    "note": "Fermentation turns soybeans into miso, while a different process produces tofu. A single bowl of soup can bring together two forms of the same crop.",
+    "note": "The buyers broke noodles into cups, added hot water and ate them with forks. Ando saw that changing the container could help his Japanese invention fit a different way of eating.",
     "sources": [
-      "https://web-japan.org/kidsweb/cook/misoshiru/"
+      "https://www.cupnoodles-museum.jp/uploads/2026/01/osaka_ikeda-brochure_en-202601.pdf"
     ]
   },
   {
     "id": "matcha-whole-powder",
     "category": "Food & drink",
-    "question": "What makes drinking matcha different from steeping ordinary tea leaves and removing them?",
+    "question": "When you drink matcha, what happens to the green tea leaves?",
     "choices": [
-      "The powdered leaves are mixed into the drink",
-      "The leaves are steeped and strained several times",
-      "The tea is fermented after it is brewed",
-      "The leaf stems replace the leaf blades"
+      "You drink them as a fine powder mixed into the water",
+      "They are strained out after a very long steep",
+      "Only their stems are brewed",
+      "They are squeezed for juice and then discarded"
     ],
     "answer": 0,
     "note": "Matcha is finely powdered green tea whisked into water. A bamboo whisk helps blend the powder instead of removing it as spent leaves.",
@@ -145,62 +145,63 @@
     ]
   },
   {
-    "id": "ekiben-regional-journey",
+    "id": "restaurant-food-replicas",
     "category": "Food & drink",
-    "question": "A Japanese railway traveller buys an ekiben, a boxed meal. What can it offer beyond food for the journey?",
+    "question": "A perfect bowl of noodles sits in a Japanese restaurant window all day without changing. What is it likely to be?",
     "choices": [
-      "A taste of the region where it is sold",
-      "A menu fixed by the railway nationwide",
-      "A meal made only from preserved foods",
-      "A dish selected to match the train’s name"
+      "A carefully crafted food replica",
+      "A real meal kept frozen behind the glass",
+      "A dish coated in edible preserving jelly",
+      "A real meal replaced every few minutes"
     ],
     "answer": 0,
-    "note": "Ekiben often show off regional food. Vendors once sold them through carriage windows, making the station part of the meal’s identity.",
+    "note": "Many restaurants display remarkably lifelike models of their dishes. The models turn a menu into something you can see before ordering, without needing to know the name of every dish.",
     "sources": [
-      "https://web-japan.org/kidsweb/virtual/bento/bento03.html"
+      "https://www.japanhouselondon.uk/whats-on/legacy-of-food-replicas-talk-by-iwasaki-tsuyoshi/"
     ]
   },
   {
-    "id": "tokyo-before-renamed",
+    "id": "edo-tokyo-same-city",
     "category": "Places & history",
-    "question": "Tokyo’s earlier name survives in the term for a major period of Japanese history. What was it?",
+    "question": "A museum calls its subject “Edo-Tokyo”. What is the relationship between those two names?",
     "choices": [
-      "Edo",
-      "Heian-kyo",
-      "Naniwa",
-      "Heijo-kyo"
+      "They name the same city at different times",
+      "They are two cities joined into one capital",
+      "One names the city and the other its river",
+      "One is the city’s name and the other its ruling family"
     ],
     "answer": 0,
-    "note": "Edo became the seat of Tokugawa rule in 1603, long before it received the name Tokyo. In 1868, the Meiji Restoration ended the shogunate and the city took its new name. The old name survives in “Edo period,” used for the centuries of Tokugawa government.",
+    "note": "Edo was renamed Tokyo in 1868 as Japan entered a new political era. The museum’s name lets you travel through the history of one city, from the shoguns’ seat to the modern capital.",
     "sources": [
-      "https://web-japan.org/kidsweb/explore/history/index.html"
+      "https://www.gotokyo.org/en/spot/1745/index.html",
+      "https://www.gotokyo.org/en/see-and-do/history/index.html"
     ]
   },
   {
-    "id": "kyoto",
+    "id": "geisha-arts-profession",
     "category": "Places & history",
-    "question": "A visitor looking for Gion’s traditional streets and wooden townhouses would go to which former imperial capital?",
+    "question": "The word “geisha” literally points to an “arts person”. What is central to the profession?",
     "choices": [
-      "Kyoto",
-      "Osaka",
-      "Kanazawa",
-      "Kobe"
+      "Music, dance and entertaining guests",
+      "Designing and making silk garments",
+      "Caring for a shrine and conducting its rites",
+      "Preparing elaborate banquet meals"
     ],
     "answer": 0,
-    "note": "Gion is one of Kyoto’s best-known historic districts, associated with geiko and their apprentices, maiko. Kyoto also preserves machiya, the narrow wooden townhouses that shaped its streets. These buildings help give the former imperial capital a very different feel from the high-rise districts of modern Tokyo.",
+    "note": "Geisha train in traditional performing arts and the skills of hosting guests. Their striking appearance is only the visible part of a profession built on years of artistic practice.",
     "sources": [
-      "https://www.japan.travel/en/destinations/kansai/kyoto/"
+      "https://www.japan.travel/en/blog/understanding-geisha/"
     ]
   },
   {
     "id": "nara-sacred-deer",
     "category": "Places & history",
-    "question": "Why do deer have such a special place around Nara’s Kasuga Taisha shrine?",
+    "question": "Deer roam freely around Nara’s famous shrine and park. What belief helped give them this special status?",
     "choices": [
       "They are regarded as divine messengers",
-      "They were trained to guard the palace",
-      "They were imported as royal hunting animals",
-      "They were bred to pull temple carts"
+      "They are believed to be the emperor’s ancestors",
+      "They are thought to predict the rice harvest",
+      "They traditionally guide pilgrims to mountain summits"
     ],
     "answer": 0,
     "note": "The deer’s religious association helps explain their protected place in the city. Visitors now know them for roaming the park and approaching people with deer crackers.",
@@ -211,46 +212,46 @@
     ]
   },
   {
-    "id": "himeji-white-heron",
+    "id": "bullet-train-kingfisher",
     "category": "Places & history",
-    "question": "Why is Himeji nicknamed the White Heron Castle?",
+    "question": "Engineers looked to a diving kingfisher when redesigning a Japanese bullet train’s nose. What were they trying to reduce?",
     "choices": [
-      "Its pale walls and roofs suggest a bird",
-      "Its moat was used to breed white herons",
-      "Its founder was named after that bird",
-      "Its towers were designed as nesting boxes"
+      "The boom produced when trains pass through tunnels",
+      "The glare of headlights reflected from the rails",
+      "The vibration caused by passengers walking",
+      "The heat produced when the brakes engage"
     ],
     "answer": 0,
-    "note": "The white surfaces and spreading rooflines suggest wings. Behind that graceful appearance are gates, walls and winding defensive approaches.",
+    "note": "A kingfisher moves from air into water with little splash. Engineer Eiji Nakatsu used that observation to help shape a train nose that handled pressure changes more quietly.",
     "sources": [
-      "https://www.japan.travel/en/destinations/kansai/hyogo/himeji-and-around/"
+      "https://asknature.org/strategy/beak-provides-streamlining/"
     ]
   },
   {
-    "id": "fuji-cultural-heritage",
+    "id": "fuji-active-volcano",
     "category": "Places & history",
-    "question": "Mount Fuji’s World Heritage listing recognises more than a dramatic landscape. What is central to it?",
+    "question": "Mount Fuji looks peaceful in postcards. Which description is geologically correct?",
     "choices": [
-      "Its role in pilgrimage and art",
-      "Its unique collection of alpine wildlife",
-      "Its history as a centre of mineral extraction",
-      "Its importance to modern winter sports"
+      "It is still classified as an active volcano",
+      "It is an extinct volcano with no volcanic activity possible",
+      "It is a mountain formed entirely by folded rock",
+      "It is a giant pile of rock left by a glacier"
     ],
     "answer": 0,
-    "note": "The inscription includes shrines, routes and other places associated with devotion to the mountain. Fuji is a cultural landscape as well as a volcano.",
+    "note": "Fuji last erupted in 1707, but it is still classed as active. The long quiet interval and the familiar snow-covered silhouette can hide that volcanic identity.",
     "sources": [
-      "https://whc.unesco.org/en/list/1418/"
+      "https://www.japan.travel/national-parks/plan-your-visit/guides-and-stories/volcanoes-what-are-they/"
     ]
   },
   {
     "id": "shinkansen-olympic-opening",
     "category": "Places & history",
-    "question": "Japan opened its first Shinkansen line just before hosting which 1964 event?",
+    "question": "Japan’s first bullet-train line opened just before a major event brought the world’s attention to Tokyo. Which event?",
     "choices": [
-      "The Tokyo Olympics",
-      "The Osaka World Expo",
-      "The first Asian Winter Games",
-      "The first Japanese Formula One Grand Prix"
+      "The 1964 Olympic Games",
+      "The 1970 World Expo",
+      "The 2002 football World Cup",
+      "The 1998 Winter Olympics"
     ],
     "answer": 0,
     "note": "The Tokyo–Shin-Osaka service began on 1 October 1964. The new railway and the Olympics brought two lasting images of modern Japan into view together.",
@@ -261,7 +262,7 @@
   {
     "id": "sapporo-school-sculptures",
     "category": "Places & history",
-    "question": "Sapporo’s huge snow festival began with sculptures made by whom?",
+    "question": "Sapporo’s enormous snow festival started with six sculptures. Who made those first creations?",
     "choices": [
       "Local school students",
       "Professional sculptors from overseas",
@@ -276,18 +277,19 @@
     ]
   },
   {
-    "id": "karate-okinawa-origins",
+    "id": "karate-empty-hand",
     "category": "Places & history",
-    "question": "Karate is recognised worldwide as Japanese. Which island region shaped it through local traditions and Chinese influences?",
+    "question": "Karate’s name means “empty hand”. What does that tell you about the martial art?",
     "choices": [
-      "Okinawa",
-      "Hokkaido",
-      "Honshu",
-      "Shikoku"
+      "The body is used without a handheld weapon",
+      "Only open palms may be used",
+      "Practitioners train without a partner",
+      "A match begins with both hands on the floor"
     ],
     "answer": 0,
-    "note": "Okinawa was once the centre of the Ryukyu Kingdom, with its own overseas connections. Karate’s roots reflect that distinct history within present-day Japan.",
+    "note": "Karate developed in Okinawa through local traditions and Chinese influences before spreading across Japan. Its familiar name points to weaponless practice, rather than to a particular punch.",
     "sources": [
+      "https://web-japan.org/factsheet/en/pdf/e16_martial_art.pdf",
       "https://www.japan.travel/en/destinations/okinawa/okinawa/",
       "https://web-japan.org/kidsweb/explore/sports/index.html"
     ]
@@ -295,12 +297,12 @@
   {
     "id": "inari-gate-donors",
     "category": "Places & history",
-    "question": "On the back of Fushimi Inari’s famous red gates, what do many inscriptions record?",
+    "question": "The red gates lining Kyoto’s Fushimi Inari shrine paths carry inscriptions. What do many of them record?",
     "choices": [
-      "Who donated the gate and when",
-      "Which emperor passed through it last",
-      "The weight of timber used to build it",
-      "The distance remaining to Tokyo"
+      "The names of donors and donation dates",
+      "The names of rulers buried beneath them",
+      "The names of visiting foreign dignitaries",
+      "The names of the forest’s oldest trees"
     ],
     "answer": 0,
     "note": "Individuals and businesses donate torii gates to the shrine. The famous paths are also a visible record of those contributions.",
@@ -311,7 +313,7 @@
   {
     "id": "holds-great-torii",
     "category": "Places & history",
-    "question": "What holds the great torii of Itsukushima Shrine upright where it stands in the sea?",
+    "question": "Miyajima’s huge shrine gate appears to stand in the sea. What mainly keeps it upright?",
     "choices": [
       "Its own weight",
       "Pillars sunk into the seabed",
@@ -319,7 +321,7 @@
       "Steel cables tied to the shore"
     ],
     "answer": 0,
-    "note": "Nothing sinks the gate into the seabed or ties it down. It weighs about sixty tonnes, seven of them stones packed into the box of its top beam, and stands under that weight alone; the two main pillars were cut from camphor trees more than five hundred years old. The present gate dates from 1875, and at low tide people can walk out to it.",
+    "note": "The great torii stands under its own enormous weight rather than on pillars driven into the seabed. Stones packed into its upper beam add weight; at low tide, the water retreats from around its feet.",
     "sources": [
       "https://www.mlit.go.jp/tagengo-db/en/R1-00518.html",
       "https://www.miyajima.or.jp/english/spot/spot01.html",
@@ -327,41 +329,41 @@
     ]
   },
   {
-    "id": "viewing-blossoms",
+    "id": "washington-cherry-tree-gift",
     "category": "Traditions & everyday life",
-    "question": "Japan’s cherry-blossom gatherings are called hanami. What are people gathering to do?",
+    "question": "Washington, D.C.’s famous cherry blossoms have a Japanese connection. What brought thousands of the trees there in 1912?",
     "choices": [
-      "Viewing blossoms",
-      "Watching the moon",
-      "Visiting ancestors’ graves",
-      "Welcoming the first sunrise"
+      "A gift of friendship from Tokyo",
+      "An order from an American fruit-growing company",
+      "A shipment intended for a Japanese temple",
+      "A prize awarded at an international gardening contest"
     ],
     "answer": 0,
-    "note": "Hanami means flower viewing and is especially associated with cherry blossoms. People gather beneath the trees to enjoy their short season, often with a picnic. Because the blossoms open at different times across Japan, the season moves through the country rather than arriving everywhere on a single day.",
+    "note": "Tokyo’s gift helped create one of Washington’s best-known spring landscapes. A familiar Japanese seasonal pleasure became a lasting part of another country’s capital.",
     "sources": [
-      "https://web-japan.org/kidsweb/explore/calendar/april/hanami.html"
+      "https://www.nps.gov/articles/000/cherry-trees-on-the-national-mall.htm"
     ]
   },
   {
-    "id": "tanabata-star-lovers",
+    "id": "emoji-picture-character",
     "category": "Traditions & everyday life",
-    "question": "Tanabata’s lovers are represented by Vega and Altair. What separates them in the traditional story?",
+    "question": "“Emoji” sounds as though it comes from “emotion”. What do its Japanese parts actually mean?",
     "choices": [
-      "The Milky Way",
-      "The shadow of the Moon",
-      "The rings of Saturn",
-      "The tail of a comet"
+      "Picture and character",
+      "Feeling and face",
+      "Message and colour",
+      "Smile and symbol"
     ],
     "answer": 0,
-    "note": "The lovers are allowed to meet once a year. Wishes written on coloured paper and hung from bamboo bring the celestial story into everyday celebrations.",
+    "note": "The word combines e, meaning picture, with moji, meaning a written character. The resemblance to the English word “emotion” is a coincidence, even though emoji often communicate feelings.",
     "sources": [
-      "https://web-japan.org/kidsweb/explore/calendar/july/tanabata.html"
+      "https://www.merriam-webster.com/dictionary/emoji"
     ]
   },
   {
     "id": "carp-streamer-perseverance",
     "category": "Traditions & everyday life",
-    "question": "Why are carp-shaped streamers flown for Children’s Day?",
+    "question": "On Children’s Day, Japanese families fly streamers shaped like carp. What hope does the fish express?",
     "choices": [
       "They express hopes for strength and perseverance",
       "They ask for a plentiful fishing season",
@@ -377,12 +379,12 @@
   {
     "id": "setsubun-bean-purpose",
     "category": "Traditions & everyday life",
-    "question": "At Setsubun, people throw beans while calling for demons to leave. What are they welcoming in?",
+    "question": "In a Japanese seasonal ritual, families throw beans to drive out demons. What are they symbolically making room for?",
     "choices": [
       "Good fortune",
-      "The autumn harvest",
-      "A newly married couple",
-      "The year’s first snowfall"
+      "The spirits of famous warriors",
+      "An ancestral guardian animal",
+      "A new household deity chosen each year"
     ],
     "answer": 0,
     "note": "The ritual marks the seasonal turn before spring in the traditional calendar. A family member may wear a demon mask, making the symbolic eviction a household event.",
@@ -396,9 +398,9 @@
     "question": "At the lowered entrance area of a Japanese home, what does a visitor normally do before stepping inside?",
     "choices": [
       "Remove outdoor shoes",
-      "Bow towards each corner",
-      "Open every interior door",
-      "Leave all bags in the street"
+      "Put on a coat over their clothes",
+      "Wash their hands in the entrance basin",
+      "Wait for the host to ring a bell"
     ],
     "answer": 0,
     "note": "The genkan separates outdoor footwear from indoor floors. The custom is especially practical where people sit or sleep close to the floor.",
@@ -418,49 +420,47 @@
       "Window panels"
     ],
     "answer": 0,
-    "note": "Tatami mats serve as both flooring and a familiar way of describing room size, though their dimensions vary by region. A traditional room can change purpose through the day. Bedding is laid out at night and put away afterwards, leaving the same floor available for sitting or other activities.",
+    "note": "Tatami mats are both flooring and a familiar measure of room size, though mat dimensions vary. A room described as “six mats” turns a floor covering into a unit of space.",
     "sources": [
       "https://web-japan.org/kidsweb/explore/housing/q7.html"
     ]
   },
   {
-    "id": "yukata-summer-use",
+    "id": "school-cleaning-duties",
     "category": "Traditions & everyday life",
-    "question": "Why is a yukata a familiar sight at Japanese summer festivals?",
+    "question": "In many Japanese schools, who regularly takes a turn cleaning the classrooms?",
     "choices": [
-      "It is a lighter, informal garment",
-      "It is a uniform worn by festival workers",
-      "It is formal dress reserved for religious rites",
-      "It identifies the wearer’s home prefecture"
+      "The students themselves",
+      "Only the students’ parents",
+      "Only the school’s youngest pupils",
+      "Volunteers from nearby businesses"
     ],
     "answer": 0,
-    "note": "The yukata is a casual relative of formal kimono dress. It is held with an obi and suits summer occasions such as fireworks festivals.",
+    "note": "Classes divide cleaning duties among pupils, who sweep, wipe and tidy together. Looking after the shared room becomes part of the school day, rather than just something that happens after everyone leaves.",
     "sources": [
-      "https://web-japan.org/kidsweb/explore/housing/index.html"
+      "https://web-japan.org/kidsweb/cool/21/202101_on-duty-activity_en.html"
     ]
   },
   {
-    "id": "macaque-monkeys",
+    "id": "capsule-hotel-last-train",
     "category": "Traditions & everyday life",
-    "question": "The snow monkeys photographed soaking in Japanese hot springs are which animals?",
+    "question": "Japan’s compact capsule hotels originally offered a practical answer to which everyday problem?",
     "choices": [
-      "Macaque monkeys",
-      "Sika deer",
-      "Raccoon dogs",
-      "Red foxes"
+      "Missing the last train home",
+      "Needing to quarantine after overseas travel",
+      "Finding a room large enough for a whole family",
+      "Storing luggage during a short station stop"
     ],
     "answer": 0,
-    "note": "At Jigokudani, macaques have a hot-spring pool of their own. Young monkeys had earlier begun entering a bath at a nearby inn; the familiar image has a local history.",
+    "note": "Early capsule hotels catered to workers needing an affordable overnight stay. A bed-sized private compartment and shared facilities turned a missed train into a manageable night away from home.",
     "sources": [
-      "https://en.jigokudani-yaenkoen.co.jp/",
-      "https://www.japan.travel/en/spot/1344/",
-      "https://www.britannica.com/animal/Japanese-macaque"
+      "https://www.japan.travel/en/guide/capsule-hotels/"
     ]
   },
   {
     "id": "common-custom-paint",
     "category": "Traditions & everyday life",
-    "question": "A common custom is to paint one eye on a daruma doll when setting a goal. When is the other painted?",
+    "question": "A Japanese daruma goal-setting doll often starts with only one painted eye. When is the second eye filled in?",
     "choices": [
       "When the goal is achieved",
       "At the next full moon",
@@ -468,7 +468,7 @@
       "At the winter solstice"
     ],
     "answer": 0,
-    "note": "A daruma can act as a visible reminder of an unfinished ambition, with the second eye waiting until the goal is met. The doll represents Bodhidharma, associated with the founding of Zen Buddhism. Its weighted base lets it spring upright after being tipped, reinforcing its association with perseverance.",
+    "note": "The unpainted eye keeps an unfinished ambition visible. When the goal is achieved, completing the face turns private progress into a little ceremony.",
     "sources": [
       "https://en.wikipedia.org/wiki/Daruma_doll"
     ]
@@ -476,7 +476,7 @@
   {
     "id": "beckoning-someone-closer",
     "category": "Traditions & everyday life",
-    "question": "What is the raised paw of a maneki-neko meant to be doing?",
+    "question": "The little cat with a raised paw often seen in Japanese shops can look as though it is waving goodbye. What is it actually doing?",
     "choices": [
       "Beckoning someone closer",
       "Waving goodbye",
@@ -484,7 +484,7 @@
       "Washing its face"
     ],
     "answer": 0,
-    "note": "The familiar shop cat is making a beckoning gesture intended to welcome good fortune or customers. With the paw facing outward, the gesture can look like a wave to visitors used to beckoning with the palm upward. Several stories explain the cat’s origin, so no single legend should be treated as settled history.",
+    "note": "The maneki-neko is beckoning, welcoming customers or good fortune. The same hand movement can look different to someone used to beckoning with the palm facing upwards.",
     "sources": [
       "https://en.wikipedia.org/wiki/Maneki-neko"
     ]
@@ -492,15 +492,15 @@
   {
     "id": "lady-in-waiting",
     "category": "Art, books & stage",
-    "question": "Who wrote The Tale of Genji, about a thousand years ago?",
+    "question": "The Tale of Genji was written about a thousand years ago. Who created this landmark of Japanese literature?",
     "choices": [
-      "A lady-in-waiting at court",
-      "A Buddhist monk",
-      "A retired emperor",
-      "A samurai general"
+      "A woman serving at the imperial court",
+      "A Buddhist monk writing in a monastery",
+      "A warrior recording life in a castle",
+      "An emperor dictating his memoirs"
     ],
     "answer": 0,
-    "note": "She served the empress Shōshi and is known as Murasaki Shikibu, but that is a nickname: Murasaki is the heroine of her own book, and Shikibu comes from her father’s post at court. Her real name is not known. She also kept a diary at court, in which she is sharp about the other famous woman writer of the day, Sei Shōnagon.",
+    "note": "The writer is known as Murasaki Shikibu, a woman at the imperial court. A major work of Japanese literature came from her observation of courtly life, centuries before the modern novel.",
     "sources": [
       "https://www.metmuseum.org/exhibitions/listings/2019/tale-of-genji",
       "https://libraryguides.bennington.edu/courtly/shikibu",
@@ -510,7 +510,7 @@
   {
     "id": "great-wave-hidden-fuji",
     "category": "Art, books & stage",
-    "question": "Hokusai’s Great Wave belongs to a series of views of which landmark, shown small in the distance?",
+    "question": "Look past the enormous wave in Hokusai’s famous print: which Japanese landmark appears small in the distance?",
     "choices": [
       "Mount Fuji",
       "Himeji Castle",
@@ -526,12 +526,12 @@
   {
     "id": "noh-mask-expression",
     "category": "Art, books & stage",
-    "question": "Noh theatre often uses a fixed mask. What helps the performer give a character expression?",
+    "question": "How can an actor in Japanese Noh theatre make a rigid mask seem to change expression?",
     "choices": [
-      "Controlled movement and the angle of the mask",
-      "Interchangeable mouth pieces fitted between lines",
-      "A second performer speaking through the mask",
-      "A painted screen that changes behind the face"
+      "By changing its angle and the way they move",
+      "By inflating small air pockets behind its cheeks",
+      "By pulling strings attached to its eyebrows",
+      "By changing its colour with body heat"
     ],
     "answer": 0,
     "note": "Small changes in a mask’s angle can change how its expression is perceived. Noh brings mask, movement, voice and music together.",
@@ -540,21 +540,19 @@
     ]
   },
   {
-    "id": "bunraku-visible-puppeteers",
+    "id": "manga-reading-direction",
     "category": "Art, books & stage",
-    "question": "In Bunraku theatre, where are the puppeteers during the performance?",
+    "question": "An English edition of a Japanese manga seems to open at the “back”. Why might the publisher have kept it that way?",
     "choices": [
-      "In view beside the puppets",
-      "Hidden entirely beneath the stage",
-      "Suspended above the audience",
-      "Behind a screen showing only shadows"
+      "To preserve the original right-to-left reading order",
+      "To separate the pictures from the dialogue",
+      "To place the ending before a long flashback",
+      "To make the book easier to hold with one hand"
     ],
     "answer": 0,
-    "note": "Three performers operate a main puppet, sharing its head, hands and feet. The audience can see the human work that creates the character.",
+    "note": "Many translated manga preserve the Japanese arrangement of pages and panels. What looks backwards to an English-language reader is the original reading direction.",
     "sources": [
-      "https://ich.unesco.org/en/RL/ningyo-johruri-bunraku-puppet-theatre-00064",
-      "https://www2.ntj.jac.go.jp/unesco/bunraku/en/performer/performer3.html",
-      "https://www.nippon.com/en/column/g00219/"
+      "https://cbldf.org/wp-content/uploads/2016/07/MangaBookClubHandbook_digital.pdf"
     ]
   },
   {
@@ -563,9 +561,9 @@
     "question": "Kabuki is associated with male performers, including men in female roles. Who helped begin the form?",
     "choices": [
       "A woman leading dance performances",
-      "A ruler staging military exercises",
-      "A European opera company",
-      "A guild of travelling puppeteers"
+      "A group of samurai performing for their ruler",
+      "A religious order presenting sacred dramas",
+      "A company adapting Chinese puppet plays"
     ],
     "answer": 0,
     "note": "Izumo no Okuni performed in Kyoto in the early seventeenth century. Women were later banned from the public stage, changing who could perform the tradition.",
@@ -577,7 +575,7 @@
   {
     "id": "crane",
     "category": "Art, books & stage",
-    "question": "Which bird is especially associated with origami and the custom of folding a thousand for a wish?",
+    "question": "Which origami bird became a powerful symbol of hope and peace, especially through the story of Hiroshima child Sadako Sasaki?",
     "choices": [
       "Crane",
       "Heron",
@@ -585,37 +583,37 @@
       "Sparrow"
     ],
     "answer": 0,
-    "note": "Folding a thousand cranes, senbazuru, goes with a wish for recovery or long life. Sadako Sasaki, who was two when the bomb fell on Hiroshima, folded cranes in hospital before she died of leukaemia in 1955. A popular version says she died short of a thousand, but her brother and the Hiroshima Peace Memorial Museum say she passed it, and cranes are still left for her at the Children’s Peace Monument.",
+    "note": "Sadako folded paper cranes while ill with leukaemia after surviving the atomic bombing as a young child. Cranes are still offered at the Children’s Peace Monument; she folded more than a thousand, despite a popular version saying she never reached that number.",
     "sources": [
       "https://hpmmuseum.jp/modules/exhibition/index.php?action=DocumentView&document_id=502&lang=eng",
       "https://www.city.hiroshima.lg.jp/english/peace/1033408/1009685.html"
     ]
   },
   {
-    "id": "ikebana-space",
+    "id": "bonsai-ordinary-trees",
     "category": "Art, books & stage",
-    "question": "In ikebana, what matters besides the flowers themselves?",
+    "question": "What keeps a bonsai tree small?",
     "choices": [
-      "The stems, container and surrounding space",
-      "Matching every stem to exactly the same height",
-      "Packing the container so no gaps remain",
-      "Arranging flowers strictly by their market value"
+      "Careful pruning and training of an ordinary tree",
+      "Seeds from a naturally miniature tree species",
+      "A permanently dormant stage before adulthood",
+      "A special soil that stops all new growth"
     ],
     "answer": 0,
-    "note": "The arrangement considers lines and spaces as well as blossoms. Its setting may be a tokonoma alcove, sometimes alongside a hanging scroll.",
+    "note": "Bonsai are generally ordinary trees shaped through long-term care, including pruning roots and branches. The miniature landscape is a cultivated result, not a separate species of tiny tree.",
     "sources": [
-      "https://web-japan.org/kidsweb/explore/culture/q4.html"
+      "https://www.niwa.org/bonsai-collection"
     ]
   },
   {
     "id": "kintsugi-visible-repair",
     "category": "Art, books & stage",
-    "question": "What makes a kintsugi repair distinctive?",
+    "question": "A broken Japanese bowl is repaired using kintsugi. What happens to its cracks?",
     "choices": [
-      "The joins are made visible with precious metal",
-      "The broken piece is ground into fresh clay",
-      "The entire pot is covered in opaque paint",
-      "The cracks are concealed beneath a fabric sleeve"
+      "They become visible lines highlighted with gold",
+      "They are hidden under a new glaze over the whole bowl",
+      "They are covered by carving a pattern into the surface",
+      "They disappear when the clay is fired again"
     ],
     "answer": 0,
     "note": "Lacquer holds the fragments together and gold highlights the seams. Related repair techniques use silver or lacquer alone; in each case, repair can become part of the object’s appearance.",
@@ -624,53 +622,52 @@
     ]
   },
   {
-    "id": "shamisen-travelling-instrument",
+    "id": "ninja-ordinary-disguises",
     "category": "Art, books & stage",
-    "question": "The shamisen reached Japan through the Ryukyu Islands. What kind of instrument is it?",
+    "question": "A historical ninja needed to gather information without attracting attention. Which outfit would fit that job?",
     "choices": [
-      "A plucked string instrument",
-      "A bamboo wind instrument",
-      "A set of tuned bells",
-      "A double-headed drum"
+      "The clothes of an ordinary travelling merchant",
+      "A distinctive black uniform worn in every situation",
+      "A warrior’s armour displaying their employer’s crest",
+      "Ceremonial robes identifying them as a royal messenger"
     ],
     "answer": 0,
-    "note": "It has three strings and is usually played with a large plectrum. Its sound became part of Kabuki and puppet theatre after the instrument’s arrival through the islands.",
+    "note": "Ninja manuals describe disguises such as merchants, priests and performers. Looking like someone with an ordinary reason to travel could be more useful than looking like the ninja of a film.",
     "sources": [
-      "https://web-japan.org/kidsweb/explore/culture/q3.html"
+      "https://www.ninja-museum.com/en/?page_id=269"
     ]
   },
   {
-    "id": "new-year-calligraphy",
+    "id": "van-gogh-japan-through-prints",
     "category": "Art, books & stage",
-    "question": "In the Japanese New Year custom kakizome, what might someone put on paper?",
+    "question": "Japanese art helped reshape Van Gogh’s painting. How did he get to know its visual world?",
     "choices": [
-      "Words expressing a hope for the year",
-      "Names of all the guests expected at home",
-      "An inventory of gifts received in December",
-      "A list of the year’s national holidays"
+      "Through Japanese prints imported into Europe",
+      "During a long painting trip through Japan",
+      "Through training at a Japanese art school",
+      "By sharing a studio with Japanese printmakers in Arles"
     ],
     "answer": 0,
-    "note": "Kakizome is the first calligraphy of the year. Brush and ink turn a wish or resolution into something made by hand.",
+    "note": "Japanese woodblock prints helped change his use of colour and composition. His idea of Japan was partly an imagined one, formed through pictures rather than a visit.",
     "sources": [
-      "https://web-japan.org/kidsweb/virtual/shodo/shodo01.html"
+      "https://www.vangoghmuseum.nl/en/about/news-and-press/press-releases/japanese-prints-the-collection-of-vincent-van-gogh",
+      "https://vangoghmuseum-assetserver.appspot.com/serve?filename=Van-Gogh-Museum-Gallery-texts-exhibition-Van-Gogh-%26-Japan_2018&id=5641478634209280"
     ]
   },
   {
-    "id": "spirited-away",
+    "id": "pac-man-pizza-shape",
     "category": "Screen, games & sport",
-    "question": "Which Studio Ghibli film won the animated feature Oscar at the 2003 Academy Awards?",
+    "question": "According to Pac-Man’s creator, what meal helped inspire the character’s round shape and open mouth?",
     "choices": [
-      "Spirited Away",
-      "Princess Mononoke",
-      "My Neighbour Totoro",
-      "Kiki’s Delivery Service"
+      "A pizza with a slice missing",
+      "A doughnut with a hole in the middle",
+      "A bowl of rice with chopsticks across it",
+      "A sandwich cut into two triangles"
     ],
     "answer": 0,
-    "note": "Hayao Miyazaki wrote and directed it, and it opened in Japan in July 2001. A year before the Oscar it shared the Golden Bear at the Berlin festival with Bloody Sunday, the first time an animated film had won Berlin’s top prize. The films it beat for the Oscar included Ice Age and Lilo & Stitch.",
+    "note": "Toru Iwatani described seeing the shape in a partly eaten pizza. A game about eating acquired a hero whose silhouette could itself be found on a dinner plate.",
     "sources": [
-      "https://www.ghibli.jp/works/chihiro/",
-      "https://www.oscars.org/oscars/ceremonies/2003",
-      "https://www.japantimes.co.jp/news/2002/02/20/national/miyazaki-delighted-to-win-berlin-golden-bear/"
+      "https://media.gdcvault.com/GD_Mag_Archives/GDM_December_2005.pdf"
     ]
   },
   {
@@ -700,31 +697,31 @@
       "Board-game dice"
     ],
     "answer": 0,
-    "note": "Fusajiro Yamauchi began Nintendo in Kyoto by making hanafuda playing cards. The company’s history in games therefore began long before electronics. In 1959 it marketed cards featuring Walt Disney characters, decades before Mario became its best-known face.",
+    "note": "Nintendo began in Kyoto making hanafuda playing cards in 1889. Its business was already games, but its first players did not need a screen.",
     "sources": [
       "https://www.nintendo.co.jp/corporate/en/history/index.html"
     ]
   },
   {
-    "id": "pokemon-different-first-pair",
+    "id": "pokemon-insect-collecting",
     "category": "Screen, games & sport",
-    "question": "Why might a player in Japan remember Red and Green as the first Pokémon games, while an American remembers Red and Blue?",
+    "question": "Which childhood pastime helped inspire Pokémon’s creator to make a game about finding and collecting creatures?",
     "choices": [
-      "The first releases differed between markets",
-      "The names changed between cartridge printings",
-      "Players chose a colour after finishing the story",
-      "The television series used different titles"
+      "Collecting insects",
+      "Keeping a stamp album",
+      "Building model trains",
+      "Watching horse races"
     ],
     "answer": 0,
-    "note": "Red and Green appeared in Japan in 1996. North America received Red and Blue in 1998, so two memories of the beginning can both be right.",
+    "note": "Satoshi Tajiri grew up exploring ponds and fields around his home. As those places disappeared under development, Pokémon offered children another world in which to discover and collect creatures.",
     "sources": [
-      "https://corporate.pokemon.co.jp/en/aboutus/history/"
+      "https://content.time.com/time/subscriber/article/0%2C33009%2C992625-4%2C00.html"
     ]
   },
   {
     "id": "london",
     "category": "Screen, games & sport",
-    "question": "According to Sanrio’s character profile, Hello Kitty was born in the suburbs of which city?",
+    "question": "Hello Kitty is a Japanese creation. In Sanrio’s fictional biography, where was she born?",
     "choices": [
       "London",
       "Tokyo",
@@ -732,74 +729,73 @@
       "New York"
     ],
     "answer": 0,
-    "note": "Hello Kitty’s official profile places her birth in suburban London and gives her the name Kitty White. It measures her height as five apples and her weight as three apples. Her family also includes a twin sister, Mimmy, giving the character a small fictional biography beyond the familiar face.",
+    "note": "Sanrio places Kitty White’s birth in suburban London. The global icon’s invented biography is British, even though the company that created her is Japanese.",
     "sources": [
       "https://www.sanrio.co.jp/characters/hellokitty/"
     ]
   },
   {
-    "id": "doraemon-missing-ears",
+    "id": "mario-pixel-design",
     "category": "Screen, games & sport",
-    "question": "Doraemon is a robot cat, yet he has no ears. What happened to them in his backstory?",
+    "question": "Why did the original Mario get such a prominent moustache and a hat?",
     "choices": [
-      "A robot mouse chewed them off",
-      "He traded them for his pocket of gadgets",
-      "They folded into antennae inside his head",
-      "He removed them to travel through time"
+      "They made his face readable with very few pixels",
+      "They copied the appearance of the designer’s father",
+      "They matched the uniform of a company sponsoring the game",
+      "They identified him as a villain in the original story"
     ],
     "answer": 0,
-    "note": "The story gives a reason for both his round silhouette and his fear of mice. A cat frightened of a mouse becomes part of the character’s joke.",
+    "note": "Designer Shigeru Miyamoto explained that the moustache saved the need to draw a mouth, while the hat simplified the hair. Technical limits helped create one of the most recognisable faces in games.",
     "sources": [
-      "https://web-japan.org/kidsweb/cool/12-07/",
-      "https://en.wikipedia.org/wiki/2112:_The_Birth_of_Doraemon"
+      "https://iwataasks.nintendo.com/interviews/wii/nsmb/0/1/"
     ]
   },
   {
-    "id": "soles-of-feet",
+    "id": "sumo-salt-purification",
     "category": "Screen, games & sport",
-    "question": "In sumo, which part of a wrestler’s body may touch the ground without losing the bout?",
+    "question": "Before a sumo bout, a wrestler may throw salt into the ring. What is the ritual meant to do?",
     "choices": [
-      "The soles of the feet",
-      "The knees",
-      "The palms",
-      "The elbows"
+      "Purify the space",
+      "Mark the boundary more clearly",
+      "Make the floor slippery",
+      "Signal a challenge to the referee"
     ],
     "answer": 0,
-    "note": "A wrestler loses by touching the ground with anything other than the soles of the feet, or by stepping outside the ring. The contest takes place in a dohyo about 4.5 metres across. Sumo’s ceremonies preserve traces of its earlier role in rituals giving thanks for the harvest.",
+    "note": "The salt belongs to sumo’s ritual preparation and expresses a wish for safety in a purified ring. Some of the ceremony around a bout lasts longer than the wrestling itself.",
     "sources": [
-      "https://web-japan.org/kidsweb/explore/sports/index.html"
+      "https://www.sumo.or.jp/pdf/en/sumo_introduction2014.pdf"
     ]
   },
   {
-    "id": "judo-small-school",
+    "id": "baseball-school-introduction",
     "category": "Screen, games & sport",
-    "question": "Modern judo began with Jigoro Kano’s small school. Where did its first students practise?",
+    "question": "Baseball’s Japanese history began well before the post-war American occupation. Who introduced it to students in 1872?",
     "choices": [
-      "In a temple",
-      "On an ocean liner",
-      "Inside a railway station",
-      "In a department store"
+      "An American teacher working in Japan",
+      "A Japanese emperor returning from a tour",
+      "A touring team of Hollywood actors",
+      "A British naval officer stationed in Tokyo"
     ],
     "answer": 0,
-    "note": "Kano began in 1882 with nine students. He linked physical training to education long before judo became an Olympic sport.",
+    "note": "Teacher Horace Wilson introduced the game to his students in the nineteenth century. Japan’s deep baseball culture therefore has roots far older than the television era or post-war occupation.",
     "sources": [
-      "https://web-japan.org/kidsweb/virtual/judo/judo01.html"
+      "https://baseball-museum.or.jp/exhibitions/history/"
     ]
   },
   {
-    "id": "kendo-practice-swords",
+    "id": "judo-gentle-way",
     "category": "Screen, games & sport",
-    "question": "Why are bamboo swords and protective armour central to kendo practice?",
+    "question": "Judo is often translated as “the gentle way”. How can that idea make sense in a sport full of throws?",
     "choices": [
-      "They allow contact while reducing injury risk",
-      "They make every strike easier for judges to hear",
-      "They recreate the weight of battlefield equipment",
-      "They limit movement to the upper body"
+      "Using an opponent’s force and lost balance",
+      "Avoiding all physical contact during a contest",
+      "Moving as slowly as possible before each throw",
+      "Awarding victory to whoever uses the least time"
     ],
     "answer": 0,
-    "note": "Kendo developed from swordsmanship. Its practice equipment lets participants train through contact without using sharpened steel blades.",
+    "note": "The principle includes yielding and redirecting an opponent’s effort instead of simply opposing it. “Gentle” points to an approach to force, rather than a promise that nobody will hit the mat.",
     "sources": [
-      "https://www.kendo.or.jp/en/knowledge/kendo-origin/"
+      "https://www.ijf.org/history/judo-corner"
     ]
   },
   {
