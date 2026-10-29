@@ -3673,6 +3673,15 @@ html[data-theme="sky"] .footer-strip { border-top: 0; }
 .note-body > p { margin: 0 0 1.05em; }
 .note-body > p:last-child { margin-bottom: 0; }
 
+/* A link in a note is a link in running text, on the wall and in the home
+   strip alike: it keeps the note's ink, carries its underline at rest and
+   dims under a pointer like every other link (rules in COLOPHON.md). The
+   first note to link anywhere, on 29 October 2026, did nothing under a
+   pointer. */
+.note-body a { color: inherit; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--rule-strong); transition: var(--select-ease); }
+.note-body a:hover, .note-body a:active { opacity: var(--select-dim); }
+.note-body a:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; border-radius: 2px; }
+
 /* The home strip centres like #instruments — heading, body, and the "More"
    link all on the page's axis — but the note itself keeps its prose ranged
    left inside that centred measure.
