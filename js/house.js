@@ -862,6 +862,9 @@
     var name = { morning: 'Morning', day: sky.hour < 12 ? 'Morning' : 'Afternoon', evening: 'Evening', night: 'Night' }[sky.period];
     scene.dataset.hour = sky.period;
     balconyScene.dataset.hour = sky.period;
+    balcony.querySelectorAll('[data-tea-item]').forEach(function (item) {
+      item.hidden = sky.period !== 'morning' && sky.period !== 'evening';
+    });
     heardSky = { period: sky.period, hour: sky.hour, month: +parts(now, { month: 'numeric' }).month };
     document.getElementById('house-hour').textContent = name + ' in İstanbul';
     document.getElementById('house-clock').textContent = clock(now);

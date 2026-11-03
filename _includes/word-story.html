@@ -290,6 +290,7 @@
 {% endif %}
 
 <article class="word-story-page">
+  {% include context-back.html kind="word" %}
   <a class="word-story-series" href="{% if story_group %}/word/{{ story_group.id }}/{% else %}/word/{% endif %}">{% if story_group %}{{ story_group.title | escape | replace: "&amp;", '<span class="amp">&amp;</span>' }}{% else %}Words with Stories{% endif %}</a>
   {% if story_group %}<p class="word-story-context">{{ story_group.teaser }}</p>{% endif %}
   <h1 class="word-story-title">{{ page.word }} <span class="word-story-pos">({{ page.pos }})</span></h1>
@@ -376,7 +377,7 @@
         {% elsif link.piece %}
           {% assign related_piece = site.posts | where: "slug", link.piece | first %}
           {% if related_piece %}
-          <li><a href="{{ related_piece.url }}">{{ related_piece.title | replace: "'", "’" }}</a><p>{{ link.note }}</p></li>
+          <li><a data-context-link href="{{ related_piece.url }}?from=word&amp;back={{ page.url | url_encode }}">{{ related_piece.title | replace: "'", "’" }}</a><p>{{ link.note }}</p></li>
           {% endif %}
         {% elsif link.picture == "space" and link.scene and link.label %}
           <li><a class="word-story-related-place" href="/pictures/space/?from=word&amp;back={{ page.url | url_encode }}#scene-{{ link.scene }}">{{ link.label }}</a><p>{{ link.note }}</p></li>

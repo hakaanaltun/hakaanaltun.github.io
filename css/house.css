@@ -355,6 +355,7 @@
 /* The balcony. */
 .house-hotspot--study-door { --ax: 6.6; --ay: 59.4; --aw: 13.2; --ah: 81.2; --lx: 8.5; --ly: 10.8; }
 .house-hotspot--notebook { --ax: 50; --ay: 70.5; --aw: 12.4; --ah: 8.5; --lx: 50; --ly: 63.4; }
+.house-hotspot--tea { --ax: 52.7; --ay: 67.5; --aw: 3; --ah: 5; --lx: 58; --ly: 62.5; --z: 4; }
 .house-hotspot--balcony-moris { --ax: 62.4; --ay: 73.4; --aw: 9; --ah: 7.5; --lx: 62.4; --ly: 66.5; }
 .house-scene[data-moris-spot="glass"] .house-hotspot--balcony-moris { --ax: 39.75; --ay: 56.2; --aw: 8.5; --ah: 7; --lx: 39.75; --ly: 49.5; }
 .house-hotspot--balcony-lamp { --ax: 20.55; --ay: 31.5; --aw: 5.1; --ah: 6.6; --lx: 20.6; --ly: 26.6; }

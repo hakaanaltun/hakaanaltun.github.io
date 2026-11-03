@@ -1,0 +1,52 @@
+{% comment %}
+  Reading links between word stories, pieces and the balcony carry their
+  origin in the address (rule in COLOPHON.md). Ordinary visits show no extra
+  navigation. Only known local page families can become a return address.
+{% endcomment %}
+<p class="context-back" hidden><a href="/word/" data-context-back>Back</a></p>
+<style>
+  .context-back { margin: 0 0 24px; font-size: 16px; line-height: 1.5; }
+  .context-back a { color: var(--petrol); text-decoration: none; transition: var(--select-ease); }
+  .context-back a:hover, .context-back a:active { opacity: var(--select-dim); }
+  .context-back a:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+</style>
+<script>
+(function () {
+  var row = document.querySelector('.context-back');
+  var params = new URLSearchParams(location.search);
+  var from = params.get('from');
+  var kinds = {
+    word: [/^\/word\/[a-z0-9-]+\/$/, 'the word'],
+    piece: [/^\/pieces\/[a-z0-9-]+\.html$/, 'the story'],
+    balcony: [/^\/house\/$/, 'the balcony']
+  };
+  if (Object.prototype.hasOwnProperty.call(kinds, from)) {
+    var back = params.get('back') || (from === 'balcony' ? '/house/#balcony' : '');
+    try {
+      var target = new URL(back, location.origin);
+      if (back.charAt(0) === '/' && target.origin === location.origin &&
+          kinds[from][0].test(target.pathname) &&
+          (from !== 'balcony' || target.hash === '#balcony')) {
+        var link = row.querySelector('a');
+        link.href = target.pathname + target.search + target.hash;
+        link.textContent = '← Back to ' + kinds[from][1];
+        row.hidden = false;
+      }
+    } catch (_) {}
+  }
+  // Capture the current anchor and origin at the moment the reader leaves.
+  document.addEventListener('click', function (event) {
+    var link = event.target.closest('a[data-context-link]');
+    if (!link) return;
+    var target = new URL(link.href, location.origin);
+    if (target.origin !== location.origin) return;
+    var paragraph = link.closest('p[id]');
+    var hash = paragraph ? '#' + paragraph.id : location.hash;
+    var back = location.pathname + location.search + hash;
+    if (back.length > 1500) back = location.pathname + hash;
+    target.searchParams.set('from', {{ include.kind | jsonify }});
+    target.searchParams.set('back', back);
+    link.href = target.pathname + target.search + target.hash;
+  });
+})();
+</script>

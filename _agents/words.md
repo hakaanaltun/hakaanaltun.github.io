@@ -1,5 +1,14 @@
 # Words with Stories
 
+- On 3 November 2026 *tea* joined Words That Travelled. Its story follows
+  the two Chinese name families, British tea drinking, the Boston Tea
+  Party, chadō and Turkish tea. The closing link opens the balcony, and
+  its connections lead to The Lines Between Us and It Was Not a Question.
+  `_includes/context-back.html` keeps the way back between words, pieces
+  and the balcony (rule in `COLOPHON.md`), including a linked paragraph’s
+  anchor and a previous return address. Mark these links with
+  `data-context-link` and supply an ordinary, working `href` too.
+
 Notes on how to build and change Words with Stories, for the sessions that
 work on it. The rules a reader could read, with their reasons, are in
 `COLOPHON.md`; a note here marked "(rule in `COLOPHON.md`)" carries out a
