@@ -280,7 +280,7 @@ run(fs.readFileSync('js/space-journey.js','utf8'));
   element('stage').clientWidth=width;element('stage').clientHeight=height;
   for(const [from,to] of [['earth','moon'],['moon','earth']]){
    reduced=true;await run(`go('${from}')`);reduced=false;
-   const trip=run(`go('${to}')`);await flush();await tick(run(`flightProfile(localTarget('${from}'),localTarget('${to}'),false,'${from}','${to}').duration`)/2);
+   const trip=run(`go('${to}')`);await flush();await tick(run(`travelPlan('${from}','${to}',localTarget('${from}')).duration`)/2);
    assert(classes.has('inside-flight'));
    const destination=run(`flightProjection(localPose,localBodies['${to}'])`),anchor=run('localAnchor()');
    near(destination.x,anchor.x);near(destination.y,anchor.y);
@@ -297,8 +297,8 @@ run(fs.readFileSync('js/space-journey.js','utf8'));
   const bodies=run('journey');
   for(let i=1;i<bodies.length;i++)for(const [from,to] of [[bodies[i-1],bodies[i]],[bodies[i],bodies[i-1]]]){
    reduced=true;await run(`go('${from}')`);reduced=false;
-   const profile=run(`flightProfile(localPose,localTarget('${to}'),false,'${from}','${to}')`);
-   assert(profile.inside);assert(profile.duration>=5200&&profile.duration<=6800);
+   const profile=run(`travelPlan('${from}','${to}',localPose).profile`);
+   assert(profile.inside);assert(profile.duration>0);assert(profile.steady.speed<=run('travelSpeed'));
    const trip=run(`go('${to}')`);await flush();await tick(profile.duration/2);
    const projected=run(`(()=>{const target=localTarget('${to}'),origin=regionOrigin('${to}');return flightProjection(localPose,{...localBodies['${to}'],cx:target.x-origin[0],cy:target.y-origin[1]},origin)})()`);
    const anchor=run('localAnchor()');
@@ -315,7 +315,7 @@ run(fs.readFileSync('js/space-journey.js','utf8'));
   for(const short of [false,true]){
    const result=run(`(()=>{
     const from=localTarget('moon'),to=localTarget('mars');
-    const profile=flightProfile(from,to,${short},'moon','mars');
+    const profile=travelPlan('moon','mars',from,${short}).profile;
     let previous=0;
     for(let i=0;i<=100;i++){
      const t=profile.turn+(1-profile.turn)*i/100;
@@ -391,6 +391,41 @@ run(fs.readFileSync('js/space-journey.js','utf8'));
  stripEvent('pointerdown',{pointerId:2,isPrimary:false});stripEvent('pointermove',{clientX:20});
  assert.equal(strip.scrollLeft,260);assert(!strip.hasPointerCapture(1),'a second finger releases the drag for pinch zoom');
  console.log('Passed: touch, pen and mouse strip dragging; reverse, tap, click suppression, cancel, capture loss, vertical pan, pinch and keyboard activation.');
+ // Close and distant routes share the same cruise speed, including history.
+ // Sample actual positions rather than checking only the duration formula.
+ for(const [width,height] of [[1366,768],[390,844],[768,1024]]){
+  element('stage').clientWidth=width;element('stage').clientHeight=height;
+  for(const [from,to] of [['earth','moon'],['earth','venus'],['earth','neptune'],['neptune','earth'],['sun','voyager1'],['saturn','titan']]){
+   for(const short of [false,true]){
+    const plan=run(`travelPlan('${from}','${to}',localTarget('${from}'),${short})`);
+    context.speedPlan=plan;
+    for(const fraction of [.35,.5,.65]){
+     const seconds=plan.profile.steady.ramp+(plan.duration/1000-2*plan.profile.steady.ramp)*fraction,delta=.005;
+     context.speedT1=(seconds-delta)/(plan.duration/1000);
+     context.speedT2=(seconds+delta)/(plan.duration/1000);
+     const a=run('flightPose(speedPlan.from,speedPlan.to,speedPlan.profile,speedT1)'),
+      b=run('flightPose(speedPlan.from,speedPlan.to,speedPlan.profile,speedT2)'),
+      speed=Math.hypot(b.x-a.x,b.y-a.y)/(2*delta);
+     assert(Math.abs(speed-run('travelSpeed'))<run('travelSpeed')*.003,`${from}/${to}: inconsistent cruise speed ${speed}`);
+    }
+    for(const fraction of [.001,.999]){
+     context.speedT1=fraction;context.speedT2=fraction+.0001;
+     const a=run('flightPose(speedPlan.from,speedPlan.to,speedPlan.profile,speedT1)'),
+      b=run('flightPose(speedPlan.from,speedPlan.to,speedPlan.profile,speedT2)');
+     assert(Math.hypot(b.x-a.x,b.y-a.y)/(.0001*plan.duration/1000)<run('travelSpeed')*.2,'departure and arrival ease');
+    }
+   }
+  }
+ }
+ const tiny=run('steadyFlight({x:0,y:0},{x:60,y:0},{})');
+ assert(tiny.steady.speed<run('travelSpeed'),'short trips never accelerate beyond the shared limit');
+ context.tinyFlight=tiny;
+ near(run('flightPose({x:0,y:0,scale:1},{x:60,y:0,scale:1},tinyFlight,1).x'),60);
+ const stationary=run('steadyFlight({x:0,y:0},{x:0,y:0},{})');assert.equal(stationary.duration,0);
+ const nearTime=run("travelPlan('earth','moon',localTarget('earth')).duration"),
+  farTime=run("travelPlan('earth','neptune',localTarget('earth')).duration");
+ assert(farTime>nearTime,'farther destinations take longer at the same speed');
+ console.log('Passed: one measured cruise speed across near/far routes, reverse, history and responsive sizes, with eased departure/arrival.');
  // Every named footer destination arrives close, just like its globe target.
  reduced=true;
  for(const button of nav){
@@ -405,8 +440,7 @@ run(fs.readFileSync('js/space-journey.js','utf8'));
   for(const [from,to] of [['earth','neptune'],['neptune','earth'],['sun','voyager1'],['earth','ceres'],['moon','neptune']]){
    reduced=true;await run(`go('${from}')`);reduced=false;
    const plan=run(`travelPlan('${from}','${to}',localPose)`),historyLength=browserEntries.length;
-   assert(plan.duration>=6650&&plan.duration<=35000);assert(!plan.profile.cruise);
-   if(from==='earth'&&to==='neptune')assert.equal(plan.duration,16450);
+   assert(plan.duration>0);assert(!plan.profile.cruise);assert(plan.profile.steady);
    context.pacingPlan=plan;
    let previous=plan.from;
    const closeFloor=Math.min(plan.from.scale,plan.to.scale);
