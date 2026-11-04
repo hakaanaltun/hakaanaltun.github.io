@@ -177,3 +177,8 @@ a[href]:hover,button:not(:disabled):not(.hotspot):not([id="paleBlueZoom"]):hover
 /* Stars sit above the images' black mats, below labels and scene shading. */
 #starField{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden}
 .background-star{position:absolute;display:block;border-radius:50%;background:#d9e1e8;pointer-events:none}
+
+/* A swipe moves the stop strip; vertical movement and pinch zoom stay native. */
+#journeyStops{touch-action:pan-y pinch-zoom;overscroll-behavior-x:contain;user-select:none;-webkit-user-select:none;cursor:grab}
+#journeyStops[data-dragging],#journeyStops[data-dragging] button{cursor:grabbing}
+#journeyStops button{min-height:44px}

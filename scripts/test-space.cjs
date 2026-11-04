@@ -3,8 +3,9 @@ const html=fs.readFileSync('pictures/space/index.html','utf8'),elements=new Map(
 let clock=0,frameId=0,reduced=true;
 function element(id,tagName='BUTTON'){
  if(elements.has(id))return elements.get(id);
- const e={id,tagName,style:{},dataset:{},hidden:false,disabled:false,clientWidth:1280,clientHeight:900,offsetWidth:60,offsetLeft:100,isConnected:true,children:[],
- setAttribute(k,v){this[k]=v},removeAttribute(k){delete this[k]},replaceChildren(){this.children=[]},append(...values){this.children.push(...values)},focus(){},scrollTo(){},addEventListener(){},decode:()=>Promise.resolve(),showModal(){this.open=true},close(){this.open=false}};
+ const e={id,tagName,style:{},dataset:{},hidden:false,disabled:false,clientWidth:1280,clientHeight:900,offsetWidth:60,offsetLeft:100,isConnected:true,children:[],scrollLeft:0,listeners:{},captures:new Set(),
+ setPointerCapture(id){this.captures.add(id)},hasPointerCapture(id){return this.captures.has(id)},releasePointerCapture(id){this.captures.delete(id)},
+ setAttribute(k,v){this[k]=v},removeAttribute(k){delete this[k]},replaceChildren(){this.children=[]},append(...values){this.children.push(...values)},focus(){},scrollTo(){},addEventListener(name,fn){(this.listeners[name] ||= []).push(fn)},decode:()=>Promise.resolve(),showModal(){this.open=true},close(){this.open=false}};
  elements.set(id,e);return e;
 }
 for(const m of html.matchAll(/<([\w-]+)\b[^>]*\bid="([^"]+)"[^>]*>/g)){const e=element(m[2],m[1].toUpperCase());e.hidden=/\bhidden\b/.test(m[0]);}
@@ -353,6 +354,43 @@ run(fs.readFileSync('js/space-journey.js','utf8'));
  reduced=false;const resized=run("go('moon')");await flush();await tick(1000);events.resize();await finish(resized);assert(!classes.has('inside-flight'));
  reduced=true;browserPop(-1);await finish();assert(!classes.has('inside-flight'));
  location.search='';}
+ // Touch and pen dragging must scroll both ways without choosing a stop.
+ const strip=element('journeyStops');
+ const stripEvent=(type,changes={})=>{
+  const event={pointerId:1,isPrimary:true,button:0,pointerType:'touch',clientX:240,clientY:700,detail:1,prevented:false,stopped:false,
+   preventDefault(){this.prevented=true},stopPropagation(){this.stopped=true},...changes};
+  for(const fn of strip.listeners[type]||[])fn(event);
+  return event;
+ };
+ for(const pointerType of ['touch','pen','mouse']){
+  strip.scrollLeft=200;
+  stripEvent('pointerdown',{pointerType});
+  stripEvent('pointermove',{pointerType,clientX:236});
+  assert.equal(strip.scrollLeft,200,'finger jitter must not drag');
+  stripEvent('pointermove',{pointerType,clientX:120});
+  assert.equal(strip.scrollLeft,320);assert(strip.hasPointerCapture(1));
+  stripEvent('pointermove',{pointerType,clientX:280});
+  assert.equal(strip.scrollLeft,160,'drag must reverse with the pointer');
+  stripEvent('pointerup',{pointerType});
+  assert(!strip.hasPointerCapture(1));assert.equal(strip.dataset.dragging,undefined);
+  const dragClick=stripEvent('click');assert(dragClick.prevented&&dragClick.stopped);
+  stripEvent('pointerdown',{pointerType});stripEvent('pointerup',{pointerType});
+  assert(!stripEvent('click').stopped,'a fresh tap must still choose a world');
+ }
+ for(const end of ['pointercancel','lostpointercapture']){
+  strip.scrollLeft=200;stripEvent('pointerdown');stripEvent('pointermove',{clientX:180});
+  stripEvent(end);stripEvent('pointermove',{clientX:20});
+  assert.equal(strip.scrollLeft,260);assert.equal(strip.dataset.dragging,undefined);
+  assert(!stripEvent('click',{detail:0}).stopped,'keyboard activation stays available');
+ }
+ strip.scrollLeft=200;stripEvent('pointerdown');
+ const vertical=stripEvent('pointermove',{clientX:238,clientY:740});
+ stripEvent('pointermove',{clientX:100});
+ assert(!vertical.prevented);assert.equal(strip.scrollLeft,200,'vertical gestures stay with the browser');
+ stripEvent('pointerdown');stripEvent('pointermove',{clientX:180});
+ stripEvent('pointerdown',{pointerId:2,isPrimary:false});stripEvent('pointermove',{clientX:20});
+ assert.equal(strip.scrollLeft,260);assert(!strip.hasPointerCapture(1),'a second finger releases the drag for pinch zoom');
+ console.log('Passed: touch, pen and mouse strip dragging; reverse, tap, click suppression, cancel, capture loss, vertical pan, pinch and keyboard activation.');
  // Every named footer destination arrives close, just like its globe target.
  reduced=true;
  for(const button of nav){
@@ -367,8 +405,8 @@ run(fs.readFileSync('js/space-journey.js','utf8'));
   for(const [from,to] of [['earth','neptune'],['neptune','earth'],['sun','voyager1'],['earth','ceres'],['moon','neptune']]){
    reduced=true;await run(`go('${from}')`);reduced=false;
    const plan=run(`travelPlan('${from}','${to}',localPose)`),historyLength=browserEntries.length;
-   assert(plan.duration>=7600&&plan.duration<=40000);assert(!plan.profile.cruise);
-   if(from==='earth'&&to==='neptune')assert.equal(plan.duration,18800);
+   assert(plan.duration>=6650&&plan.duration<=35000);assert(!plan.profile.cruise);
+   if(from==='earth'&&to==='neptune')assert.equal(plan.duration,16450);
    context.pacingPlan=plan;
    let previous=plan.from;
    const closeFloor=Math.min(plan.from.scale,plan.to.scale);

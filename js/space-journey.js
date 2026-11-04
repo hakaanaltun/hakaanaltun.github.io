@@ -389,20 +389,20 @@ const systems={
 };
 // Stable route coordinates shared by every region; this is an illustrative travel layout.
 const regionOrigins = {
-  solar: [-12000, -900],
-  mercurywide: [-7600, 1100],
-  venuswide: [-3800, -1700],
+  solar: [-14640, -1260],
+  mercurywide: [-9272, 1540],
+  venuswide: [-4636, -2380],
   system: [0, 0],
-  martian: [4000, 1200],
-  belt: [7000, -1300],
-  jovian: [11100, 2100],
-  saturnian: [15500, -1900],
-  uranian: [20300, 650],
-  neptunian: [24500, -2600],
-  plutonian: [28900, 1600],
-  kuiper: [33500, -650],
-  voyager2wide: [39500, 4700],
-  voyager1wide: [47500, -6200],
+  martian: [4880, 1680],
+  belt: [8540, -1820],
+  jovian: [13542, 2940],
+  saturnian: [18910, -2660],
+  uranian: [24766, 910],
+  neptunian: [29890, -3640],
+  plutonian: [35258, 2240],
+  kuiper: [40870, -910],
+  voyager2wide: [48190, 6580],
+  voyager1wide: [57950, -8680],
 };
 function regionOrigin(id = current) {
   return regionOrigins[systems[id] ? id : localSystemFor(id)] || [0, 0];
@@ -589,7 +589,7 @@ function flightProjection(p, b, origin = [0, 0], view = cameraViewport()) {
 }
 // Decorative distant stars, kept sparse and still. Paint above photographic
 // black mats, but hide behind each projected world's full silhouette.
-const backgroundStars = Array.from({ length: 42 }, (_, i) => {
+const backgroundStars = Array.from({ length: 64 }, (_, i) => {
   const el = document.createElement('i');
   el.className = 'background-star';
   const size = i % 9 === 0 ? 1.6 : 1;
@@ -603,7 +603,7 @@ const backgroundStars = Array.from({ length: 42 }, (_, i) => {
   };
 });
 function paintStars(silhouettes, view) {
-  const count = view.width < 701 ? 20 : backgroundStars.length;
+  const count = view.width < 701 ? 30 : backgroundStars.length;
   backgroundStars.forEach((star, i) => {
     const x = star.x * view.width,
       y = star.y * view.height;
@@ -860,7 +860,7 @@ function travelPlan(fromId, toId, from, short = false) {
     intervals = Math.abs(end - start);
   if (!short && fromId && !systems[toId] && start >= 0 && end >= 0 && intervals >= 2)
     direct.duration = Math.min(50000, 6000 + 3500 * (intervals - 1));
-  if (!short && direct.inside) direct.duration = Math.round(direct.duration * 0.8);
+  if (!short && direct.inside) direct.duration = Math.round(direct.duration * 0.7);
   return { from, to: target, profile: direct, duration: direct.duration };
 }
 function flyLocal(poses, duration, profile) {
@@ -1483,6 +1483,59 @@ const stopViews={sun:'sun',mercury:'mercury',venus:'venus',earth:'earth',moon:'m
 document
   .querySelectorAll('[data-stop]')
   .forEach((b) => (b.onclick = () => go(stopViews[b.dataset.stop])));
+// Separate a horizontal drag from choosing a stop. Let the browser retain
+// vertical page movement and pinch zoom; capture only after a deliberate drag.
+const journeyStops = $('journeyStops');
+let stopDrag = null,
+  suppressStopClick = false;
+function endStopDrag(event) {
+  if (!stopDrag || event.pointerId !== stopDrag.id) return;
+  const id = stopDrag.id;
+  stopDrag = null;
+  delete journeyStops.dataset.dragging;
+  if (journeyStops.hasPointerCapture(id)) journeyStops.releasePointerCapture(id);
+}
+journeyStops.addEventListener('pointerdown', (event) => {
+  if (!event.isPrimary) {
+    if (stopDrag) endStopDrag({ pointerId: stopDrag.id });
+    return;
+  }
+  if (event.button !== 0) return;
+  suppressStopClick = false;
+  stopDrag = {
+    id: event.pointerId,
+    x: event.clientX,
+    y: event.clientY,
+    left: journeyStops.scrollLeft,
+    dragging: false,
+  };
+});
+journeyStops.addEventListener('pointermove', (event) => {
+  if (!stopDrag || event.pointerId !== stopDrag.id) return;
+  const dx = event.clientX - stopDrag.x,
+    dy = event.clientY - stopDrag.y;
+  if (!stopDrag.dragging) {
+    if (Math.abs(dy) > 8 && Math.abs(dy) > Math.abs(dx)) {
+      endStopDrag(event);
+      return;
+    }
+    if (Math.abs(dx) < 8 || Math.abs(dx) <= Math.abs(dy)) return;
+    stopDrag.dragging = true;
+    suppressStopClick = true;
+    journeyStops.dataset.dragging = 'true';
+    journeyStops.setPointerCapture(event.pointerId);
+  }
+  event.preventDefault();
+  journeyStops.scrollLeft = stopDrag.left - dx;
+});
+for (const name of ['pointerup', 'pointercancel', 'lostpointercapture'])
+  journeyStops.addEventListener(name, endStopDrag);
+journeyStops.addEventListener('click', (event) => {
+  if (!suppressStopClick || event.detail === 0) return;
+  suppressStopClick = false;
+  event.preventDefault();
+  event.stopPropagation();
+}, true);
 function showPlaces(show) {
   places = show;
   document.body.classList.toggle('show-places', places);

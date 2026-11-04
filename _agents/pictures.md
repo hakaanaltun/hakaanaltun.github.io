@@ -98,11 +98,14 @@ rule written there.
   The author then asked for a very small speed increase: normal perspective
   transfers, including neighboring worlds, initially took 92 percent of their base
   duration. On 4 November 2026 the author asked for a further modest speed
-  increase and more separation between the worlds. Transfers now take
-  80 percent of their base duration: Earth–Neptune takes 18.8 seconds and
-  Earth–Moon takes 4.16 seconds. Region origins have larger, irregular
+  increase and more separation between the worlds. Transfers initially took
+  80 percent of their base duration. After reviewing it, the author asked
+  for more room, more stars and another modest speed increase the same day.
+  Region spacing is now 22 percent greater horizontally and 40 percent
+  greater vertically. Transfers take 70 percent of their base duration:
+  Earth–Neptune takes 16.45 seconds and Earth–Moon takes 3.64 seconds. Region origins have larger, irregular
   vertical offsets; the local planet–moon layouts stay registered.
-  A sparse decorative star layer shows at most 42 stars (20 on phones).
+  A sparse decorative star layer shows at most 64 stars (30 on phones).
   It sits above photographic black mats, with projected body silhouettes
   hiding stars over the worlds, and adds no independent animation loop.
   Short inspection moves retain their timing; camera geometry is unchanged.
@@ -254,3 +257,12 @@ sunlight; no text, itinerary, extra planets, brushwork or decorative border.
   paths and preserves the journey's other parameters and history. A word page
   opens the journey with `from=word` and `back=`; `js/space-entry.js` then
   makes the way back say "the word" and return there.
+
+- **The footer stop strip can be dragged by touch, pen or mouse.** On
+  4 November 2026 the author reported that swiping the strip on phones
+  and tablets did not move it. The strip handles horizontal pointer drags
+  after an 8px threshold, captures the active pointer and suppresses the
+  click after a drag. Taps and keyboard activation still choose a world.
+  Its touch action leaves vertical panning and pinch zoom to the browser;
+  cancellation, capture loss and a second finger end the drag. Buttons
+  offer at least 44px of height. Keep these cases in the space checks.
