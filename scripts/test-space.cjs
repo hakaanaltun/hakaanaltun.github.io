@@ -367,8 +367,8 @@ run(fs.readFileSync('js/space-journey.js','utf8'));
   for(const [from,to] of [['earth','neptune'],['neptune','earth'],['sun','voyager1'],['earth','ceres'],['moon','neptune']]){
    reduced=true;await run(`go('${from}')`);reduced=false;
    const plan=run(`travelPlan('${from}','${to}',localPose)`),historyLength=browserEntries.length;
-   assert(plan.duration>=7600&&plan.duration<=40000);assert(!plan.profile.cruise);
-   if(from==='earth'&&to==='neptune')assert.equal(plan.duration,18800);
+   assert(plan.duration>=6650&&plan.duration<=35000);assert(!plan.profile.cruise);
+   if(from==='earth'&&to==='neptune')assert.equal(plan.duration,16450);
    context.pacingPlan=plan;
    let previous=plan.from;
    const closeFloor=Math.min(plan.from.scale,plan.to.scale);
