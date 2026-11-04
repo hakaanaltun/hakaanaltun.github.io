@@ -1483,6 +1483,59 @@ const stopViews={sun:'sun',mercury:'mercury',venus:'venus',earth:'earth',moon:'m
 document
   .querySelectorAll('[data-stop]')
   .forEach((b) => (b.onclick = () => go(stopViews[b.dataset.stop])));
+// Separate a horizontal drag from choosing a stop. Let the browser retain
+// vertical page movement and pinch zoom; capture only after a deliberate drag.
+const journeyStops = $('journeyStops');
+let stopDrag = null,
+  suppressStopClick = false;
+function endStopDrag(event) {
+  if (!stopDrag || event.pointerId !== stopDrag.id) return;
+  const id = stopDrag.id;
+  stopDrag = null;
+  delete journeyStops.dataset.dragging;
+  if (journeyStops.hasPointerCapture(id)) journeyStops.releasePointerCapture(id);
+}
+journeyStops.addEventListener('pointerdown', (event) => {
+  if (!event.isPrimary) {
+    if (stopDrag) endStopDrag({ pointerId: stopDrag.id });
+    return;
+  }
+  if (event.button !== 0) return;
+  suppressStopClick = false;
+  stopDrag = {
+    id: event.pointerId,
+    x: event.clientX,
+    y: event.clientY,
+    left: journeyStops.scrollLeft,
+    dragging: false,
+  };
+});
+journeyStops.addEventListener('pointermove', (event) => {
+  if (!stopDrag || event.pointerId !== stopDrag.id) return;
+  const dx = event.clientX - stopDrag.x,
+    dy = event.clientY - stopDrag.y;
+  if (!stopDrag.dragging) {
+    if (Math.abs(dy) > 8 && Math.abs(dy) > Math.abs(dx)) {
+      endStopDrag(event);
+      return;
+    }
+    if (Math.abs(dx) < 8 || Math.abs(dx) <= Math.abs(dy)) return;
+    stopDrag.dragging = true;
+    suppressStopClick = true;
+    journeyStops.dataset.dragging = 'true';
+    journeyStops.setPointerCapture(event.pointerId);
+  }
+  event.preventDefault();
+  journeyStops.scrollLeft = stopDrag.left - dx;
+});
+for (const name of ['pointerup', 'pointercancel', 'lostpointercapture'])
+  journeyStops.addEventListener(name, endStopDrag);
+journeyStops.addEventListener('click', (event) => {
+  if (!suppressStopClick || event.detail === 0) return;
+  suppressStopClick = false;
+  event.preventDefault();
+  event.stopPropagation();
+}, true);
 function showPlaces(show) {
   places = show;
   document.body.classList.toggle('show-places', places);
