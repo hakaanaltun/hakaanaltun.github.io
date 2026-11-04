@@ -323,6 +323,7 @@
 .house-hotspot { position: absolute; z-index: var(--z, 1); left: calc(var(--ax) * 1%); top: calc(var(--ay) * 1%); width: calc(var(--aw) * 1%); height: calc(var(--ah) * 1%); min-width: 44px; min-height: 44px; transform: translate(-50%, -50%); padding: 0; border: 0; border-radius: 3px; background: none; color: #443f34 !important; text-decoration: none; }
 .house-hotspot--words, .house-hotspot--question, .house-hotspot--moris, .house-hotspot--lamp, .house-hotspot--drawer, .house-hotspot--clock, .house-hotspot--reader, .house-hotspot--farm-house,
 .house-hotspot--notebook, .house-hotspot--balcony-moris, .house-hotspot--sun, .house-hotspot--moon, .house-hotspot--balcony-lamp, .house-hotspot--balcony-switch { --z: 3; }
+.house-hotspot--tea { --z: 5; }
 .house-label { position: absolute; left: calc(50% + (var(--lx) - var(--ax)) * 1cqw); top: calc(50% + (var(--ly) - var(--ay)) * .65cqw); transform: translate(-50%, -50%); display: flex; align-items: center; gap: 5px; min-height: 24px; padding: 2px 8px; border: 1px solid #b7ab94; border-radius: 3px; background: #fcf7e9; font-size: 11.5px; line-height: 1.2; white-space: nowrap; box-shadow: 0 2px 6px #30291a12; opacity: 0; pointer-events: none; transition: opacity .18s; }
 .house-label .house-pin { display: none; }
 .house-hotspot:focus-visible { z-index: calc(var(--z, 1) + 1); outline: 2px solid #443f34; outline-offset: 2px; }
@@ -355,7 +356,7 @@
 /* The balcony. */
 .house-hotspot--study-door { --ax: 6.6; --ay: 59.4; --aw: 13.2; --ah: 81.2; --lx: 8.5; --ly: 10.8; }
 .house-hotspot--notebook { --ax: 50; --ay: 70.5; --aw: 12.4; --ah: 8.5; --lx: 50; --ly: 63.4; }
-.house-hotspot--tea { --ax: 52.7; --ay: 67.5; --aw: 3; --ah: 5; --lx: 58; --ly: 62.5; --z: 4; }
+.house-hotspot--tea { --ax: 52.7; --ay: 67.5; --aw: 3; --ah: 5; --lx: 58; --ly: 62.5; }
 .house-hotspot--balcony-moris { --ax: 62.4; --ay: 73.4; --aw: 9; --ah: 7.5; --lx: 62.4; --ly: 66.5; }
 .house-scene[data-moris-spot="glass"] .house-hotspot--balcony-moris { --ax: 39.75; --ay: 56.2; --aw: 8.5; --ah: 7; --lx: 39.75; --ly: 49.5; }
 .house-hotspot--balcony-lamp { --ax: 20.55; --ay: 31.5; --aw: 5.1; --ah: 6.6; --lx: 20.6; --ly: 26.6; }
