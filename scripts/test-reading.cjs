@@ -19,6 +19,46 @@ const pressed = (q, choice) => [...q('#reading-options').querySelectorAll('[data
   .filter(b => b.getAttribute('aria-pressed') === 'true').map(b => b.value);
 
 async function main() {
+  // A story -> word -> balcony round trip keeps the exact reading place.
+  // Crafted return parameters cannot send the reader away from the site.
+  {
+    const open = (file, address) => {
+      const html = read('_site/' + file);
+      const dom = new JSDOM(html, { url: 'https://hakanaltun.io' + address, runScripts: 'outside-only' });
+      const script = [...dom.window.document.scripts].find(s => s.textContent.includes("document.querySelector('.context-back')"));
+      assert.ok(script, 'the return script is rendered');
+      dom.window.eval(script.textContent);
+      dom.window.document.addEventListener('click', e => e.preventDefault());
+      return dom;
+    };
+    const storyPath = '/pieces/the-lines-between-us.html';
+    const story = open(storyPath.slice(1), storyPath);
+    const teaLink = story.window.document.querySelector('#tea-on-the-terrace a');
+    teaLink.click();
+    const teaAddress = new URL(teaLink.href);
+    assert.equal(teaAddress.searchParams.get('back'), storyPath + '#tea-on-the-terrace');
+    const tea = open('word/tea/index.html', teaAddress.pathname + teaAddress.search);
+    assert.equal(tea.window.document.querySelector('.context-back').hidden, false);
+    assert.equal(new URL(tea.window.document.querySelector('[data-context-back]').href).hash, '#tea-on-the-terrace');
+    const balconyLink = tea.window.document.querySelector('.word-story-body [data-context-link]');
+    balconyLink.click();
+    const balconyAddress = new URL(balconyLink.href);
+    const balcony = open('house/index.html', balconyAddress.pathname + balconyAddress.search + balconyAddress.hash);
+    assert.equal(balcony.window.document.querySelector('[data-context-back]').href, teaAddress.href);
+    const glass = balcony.window.document.querySelector('.house-hotspot--tea');
+    glass.click();
+    const fromGlass = new URL(glass.href);
+    assert.equal(fromGlass.searchParams.get('from'), 'balcony');
+    assert.equal(new URL(fromGlass.searchParams.get('back'), balconyAddress).hash, '#balcony');
+    for (const back of ['https://example.com/word/tea/', '//example.com/word/tea/', '/admin/', '/word/tea/\\@example.com']) {
+      const bad = open('word/tea/index.html', '/word/tea/?from=word&back=' + encodeURIComponent(back));
+      assert.equal(bad.window.document.querySelector('.context-back').hidden, true);
+      bad.window.close();
+    }
+    const ordinary = open('word/tea/index.html', '/word/tea/');
+    assert.equal(ordinary.window.document.querySelector('.context-back').hidden, true);
+    [story, tea, balcony, ordinary].forEach(dom => dom.window.close());
+  }
   // A reader who has chosen nothing gets the piece exactly as published:
   // no attribute, no variable, nothing stored.
   {

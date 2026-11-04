@@ -17,10 +17,11 @@ description: "Come in, look around, and keep something you find. A room at On Li
   "Today" is İstanbul's day and the light is İstanbul's light: the house is
   there, and every reader sees the same room on the same day.
 {%- endcomment -%}
-<link rel="stylesheet" href="/css/house.css?v=20261028-9">
+<link rel="stylesheet" href="/css/house.css?v=20261103-1">
 <link rel="stylesheet" href="{{ site.data.drawer_assets.drawer_css }}">
 
 <div class="house" id="house" data-catalog="/house/catalog.json?v={{ site.time | date: '%Y%m%d%H%M' }}">
+  {% include context-back.html kind="balcony" %}
   <div class="house-heading">
     <div><p class="house-eyebrow">On Life <span class="amp">&amp;</span> Everything</p><h1>The House</h1></div>
     <button class="house-drawer-toggle house-js" type="button" data-open="drawer" hidden>
@@ -132,6 +133,7 @@ description: "Come in, look around, and keep something you find. A room at On Li
       <button class="house-hotspot house-hotspot--balcony-switch" data-balcony-lamp type="button" aria-pressed="false"><span class="house-label"><span class="house-pin" aria-hidden="true">7</span><span class="house-hotspot-name">The light switch</span></span></button>
       <button class="house-hotspot house-hotspot--balcony-moris" data-open="moris" type="button"><span class="house-label"><span class="house-pin" aria-hidden="true">8</span><span class="house-hotspot-name">Moris</span></span></button>
       <button class="house-hotspot house-hotspot--balcony-lamp" data-balcony-globe type="button"><span class="house-label"><span class="house-pin" aria-hidden="true">9</span><span class="house-hotspot-name">The lamp</span></span></button>
+      <a class="house-hotspot house-hotspot--tea" data-tea-item data-context-link href="/word/tea/?from=balcony&amp;back=%2Fhouse%2F%23balcony" hidden><span class="house-label"><span class="house-pin" aria-hidden="true">10</span><span class="house-hotspot-name">The tea <span aria-hidden="true">&rarr;</span></span></span></a>
     </div>
     </div>
     <ol class="house-objects" aria-hidden="true">
@@ -144,6 +146,7 @@ description: "Come in, look around, and keep something you find. A room at On Li
       <li><button type="button" tabindex="-1" data-balcony-lamp><span class="house-pin">7</span>The light switch</button></li>
       <li data-moris-item hidden><button type="button" tabindex="-1" data-open="moris"><span class="house-pin">8</span>Moris</button></li>
       <li><button type="button" tabindex="-1" data-balcony-globe><span class="house-pin">9</span>The lamp</button></li>
+      <li data-tea-item hidden><a data-context-link href="/word/tea/?from=balcony&amp;back=%2Fhouse%2F%23balcony" tabindex="-1"><span class="house-pin">10</span>The tea</a></li>
     </ol>
     {%- comment -%} What is heard out here, once the reader asks for it
     (js/house-sound.js): İstanbul's gulls, birds, insects and ferries in
@@ -216,7 +219,7 @@ description: "Come in, look around, and keep something you find. A room at On Li
 <script src="/js/balcony-sound-engine.js?v=20261012-2" defer></script>
 <script src="/js/house-sound.js?v=20261012-1" defer></script>
 <script src="{{ site.data.drawer_assets.drawer_js }}" defer></script>
-<script src="/js/house.js?v=20261028-8" defer></script>
+<script src="/js/house.js?v=20261103-1" defer></script>
 <script src="/js/cursor-trail.js?v=20261013-1" defer></script>
 
 

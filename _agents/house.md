@@ -187,6 +187,11 @@ and sky.
   During those periods the study's coffee cup, handle and steam are absent.
   During the day and night periods the coffee is present and the tea is
   absent. Both rooms use the same `data-hour` value, including while open.
+  Since 3 November 2026 the glass opens `/word/tea/`. Its hotspot and
+  numbered list item follow the same morning/evening visibility, using
+  `data-tea-item` in `js/house.js`. The tea’s target sits above the notebook
+  with its label to the right. The story and the balcony keep a named
+  return link through `_includes/context-back.html` (rule in `COLOPHON.md`).
 - **A lamp hangs on the left-hand wall.** The author asked for it on
   11 October 2026: a glass globe with a yellow light. It hung first on the
   right-hand wall beside the pine; when that wall became glass on
