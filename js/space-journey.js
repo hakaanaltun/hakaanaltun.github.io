@@ -793,19 +793,68 @@ function flightProfile(from, to, short = false, fromId = null, toId = null) {
     c2: { x: from.x + dx * 0.74 - dy * bend, y: from.y + dy * 0.74 + dx * bend },
   };
 }
+// Shared scene units per second. The route shape stays fixed; a distance
+// table removes the Bezier parameter's speed changes. Only departure and
+// arrival ease, with the same 600ms ramp on every normal or history trip.
+const travelSpeed = 1200,
+  travelRamp = 0.6;
+function curvePoint(from, to, profile, q) {
+  const u = 1 - q,
+    c1 = profile.c1 || from,
+    c2 = profile.c2 || to;
+  return {
+    x: u * u * u * from.x + 3 * u * u * q * c1.x + 3 * u * q * q * c2.x + q * q * q * to.x,
+    y: u * u * u * from.y + 3 * u * u * q * c1.y + 3 * u * q * q * c2.y + q * q * q * to.y,
+  };
+}
+function steadyFlight(from, to, profile) {
+  const lengths = [0], steps = 256;
+  let previous = from;
+  for (let i = 1; i <= steps; i++) {
+    const point = curvePoint(from, to, profile, i / steps);
+    lengths.push(lengths[i - 1] + Math.hypot(point.x - previous.x, point.y - previous.y));
+    previous = point;
+  }
+  const distance = lengths.at(-1);
+  // Very short trips use a triangular speed envelope and never exceed
+  // the shared speed or acceleration just to satisfy a minimum duration.
+  const ramp = Math.min(travelRamp, Math.sqrt(distance * travelRamp / travelSpeed)),
+    speed = travelSpeed * ramp / travelRamp;
+  profile.steady = { lengths, distance, ramp, speed };
+  profile.duration = distance ? (distance / speed + ramp) * 1000 : 0;
+  return profile;
+}
+function steadyProgress(profile, t) {
+  if (t <= 0) return 0;
+  if (t >= 1) return 1;
+  const { lengths, distance, ramp, speed } = profile.steady;
+  if (!distance) return t;
+  const duration = profile.duration / 1000,
+    elapsed = t * duration,
+    remaining = duration - elapsed;
+  const travelled = elapsed < ramp
+    ? speed * elapsed * elapsed / (2 * ramp)
+    : remaining < ramp
+      ? distance - speed * remaining * remaining / (2 * ramp)
+      : speed * (elapsed - ramp / 2);
+  let low = 0, high = lengths.length - 1;
+  while (high - low > 1) {
+    const middle = (low + high) >> 1;
+    if (lengths[middle] < travelled) low = middle;
+    else high = middle;
+  }
+  const span = lengths[high] - lengths[low];
+  return (low + (span ? (travelled - lengths[low]) / span : 0)) / (lengths.length - 1);
+}
 function flightPose(from, to, profile, t, view = cameraViewport()) {
-  const q = t * t * t * (t * (t * 6 - 15) + 10),
-    u = 1 - q,
+  const q = profile.steady ? steadyProgress(profile, t) : t * t * t * (t * (t * 6 - 15) + 10),
     envelope = Math.sin(Math.PI * q) ** 2;
   // Settle the Moon-to-Mars lens during the turn so the approach cannot
   // grow past the arrival size and then pull back.
   const s = Math.min(1, t / (profile.scaleArrival || 1)),
     scaleQ = s * s * s * (s * (s * 6 - 15) + 10);
-  const c1 = profile.c1 || from,
-    c2 = profile.c2 || to;
   const pose = {
-    x: u * u * u * from.x + 3 * u * u * q * c1.x + 3 * u * q * q * c2.x + q * q * q * to.x,
-    y: u * u * u * from.y + 3 * u * u * q * c1.y + 3 * u * q * q * c2.y + q * q * q * to.y,
+    ...curvePoint(from, to, profile, q),
     scale: Math.exp(
       Math.log(from.scale) +
         (Math.log(to.scale) - Math.log(from.scale)) * scaleQ -
@@ -843,7 +892,8 @@ function flightPose(from, to, profile, t, view = cameraViewport()) {
   return pose;
 }
 
-// Preserve the original forward-looking curve; only pacing and arrival are shared.
+// Preserve the forward-looking curve. Perspective journeys share one speed;
+// the optional outside camera retains its earlier distance-band timing.
 function travelPlan(fromId, toId, from, short = false) {
   const target = localTarget(toId),
     direct = flightProfile(from, target, short, fromId, toId),
@@ -860,7 +910,7 @@ function travelPlan(fromId, toId, from, short = false) {
     intervals = Math.abs(end - start);
   if (!short && fromId && !systems[toId] && start >= 0 && end >= 0 && intervals >= 2)
     direct.duration = Math.min(50000, 6000 + 3500 * (intervals - 1));
-  if (!short && direct.inside) direct.duration = Math.round(direct.duration * 0.7);
+  if (direct.inside) steadyFlight(from, target, direct);
   return { from, to: target, profile: direct, duration: direct.duration };
 }
 function flyLocal(poses, duration, profile) {

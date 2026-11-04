@@ -93,22 +93,22 @@ rule written there.
   worlds ahead, rather than watching them slide across a shallow view.
   Keep the original `flightProfile` and `flightPose` curve and perspective.
   Do not add per-world inspection waypoints or an automatic wide opening.
-  `travelPlan` sets the base duration for two or more region intervals:
-  6 seconds plus 3.5 seconds per additional interval, capped at 50 seconds.
-  The author then asked for a very small speed increase: normal perspective
-  transfers, including neighboring worlds, initially took 92 percent of their base
-  duration. On 4 November 2026 the author asked for a further modest speed
-  increase and more separation between the worlds. Transfers initially took
-  80 percent of their base duration. After reviewing it, the author asked
-  for more room, more stars and another modest speed increase the same day.
-  Region spacing is now 22 percent greater horizontally and 40 percent
-  greater vertically. Transfers take 70 percent of their base duration:
-  Earth–Neptune takes 16.45 seconds and Earth–Moon takes 3.64 seconds. Region origins have larger, irregular
-  vertical offsets; the local planet–moon layouts stay registered.
-  A sparse decorative star layer shows at most 64 stars (30 on phones).
-  It sits above photographic black mats, with projected body silhouettes
-  hiding stars over the worlds, and adds no independent animation loop.
-  Short inspection moves retain their timing; camera geometry is unchanged.
+  On 4 November 2026 the author asked for more separation and stars, then
+  chose a common movement speed for every journey. Region spacing is
+  22 percent greater horizontally and 40 percent greater vertically than
+  the first November layout. Origins keep their irregular offsets and
+  local planet–moon layouts stay registered.
+  `travelPlan` now gives every perspective transfer, including history
+  returns and retargeting, the same 1,200 scene units per second. A 256-step
+  arc-length table follows the existing Bezier curve at a constant cruise
+  speed, with 600ms acceleration and braking at its ends. Very short trips
+  reach a lower peak at the same acceleration. Longer routes take longer;
+  neither region counts nor a duration cap change their speed. The earlier
+  region-based timing remains only for `flight=outside`. Local inspection
+  and alternate observations retain their existing timing.
+  The decorative star layer shows at most 64 stars (30 on phones), above
+  photographic black mats. Projected body silhouettes hide stars over the
+  worlds, and there is no independent animation loop.
   The final pose is the selected inspection view. One animation owns the
   whole trip, so Arrive now reaches its final target; retargeting starts at
   the actual camera position and orientation. Back/Forward, reduced motion
@@ -266,3 +266,11 @@ sunlight; no text, itinerary, extra planets, brushwork or decorative border.
   Its touch action leaves vertical panning and pinch zoom to the browser;
   cancellation, capture loss and a second finger end the drag. Buttons
   offer at least 44px of height. Keep these cases in the space checks.
+
+- **Venus keeps a black gutter before the comparison divider.** Both source
+  observations contain two panels with a white strip between them. The
+  old 51.1804-percent right clip landed on its resampled edge. On
+  4 November 2026 the author noticed a line beside the planet; the right
+  clip is now 52 percent, leaving black pixels at the retained edge in
+  both the overview and detail image. Image placement and surface pixels
+  are unchanged.
