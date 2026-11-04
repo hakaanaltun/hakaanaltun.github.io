@@ -388,7 +388,22 @@ const systems={
  saturnian:{space:'saturnSpace',targets:'saturnTargets',bodies:['saturn','titan','enceladus'],bounds:[-720,1910,-650,500],label:'Saturn'}
 };
 // Stable route coordinates shared by every region; this is an illustrative travel layout.
-const regionOrigins={solar:[-12000,-400],mercurywide:[-7600,600],venuswide:[-3800,-200],system:[0,0],martian:[3600,250],belt:[7000,-350],jovian:[11100,400],saturnian:[15500,-250],uranian:[20300,250],neptunian:[24500,-450],plutonian:[28900,250],kuiper:[33500,-350],voyager2wide:[39500,3400],voyager1wide:[47500,-5200]};
+const regionOrigins = {
+  solar: [-12000, -900],
+  mercurywide: [-7600, 1100],
+  venuswide: [-3800, -1700],
+  system: [0, 0],
+  martian: [4000, 1200],
+  belt: [7000, -1300],
+  jovian: [11100, 2100],
+  saturnian: [15500, -1900],
+  uranian: [20300, 650],
+  neptunian: [24500, -2600],
+  plutonian: [28900, 1600],
+  kuiper: [33500, -650],
+  voyager2wide: [39500, 4700],
+  voyager1wide: [47500, -6200],
+};
 function regionOrigin(id = current) {
   return regionOrigins[systems[id] ? id : localSystemFor(id)] || [0, 0];
 }
@@ -572,6 +587,34 @@ function flightProjection(p, b, origin = [0, 0], view = cameraViewport()) {
     visible: x + rx > 0 && x - rx < view.width && y + ry > 0 && y - ry < view.height,
   };
 }
+// Decorative distant stars, kept sparse and still. Paint above photographic
+// black mats, but hide behind each projected world's full silhouette.
+const backgroundStars = Array.from({ length: 42 }, (_, i) => {
+  const el = document.createElement('i');
+  el.className = 'background-star';
+  const size = i % 9 === 0 ? 1.6 : 1;
+  el.style.width = el.style.height = size + 'px';
+  $('starField').append(el);
+  return {
+    el,
+    x: ((i * 0.61803398875 + 0.13) % 1),
+    y: ((i * 0.75487766625 + 0.07) % 1),
+    opacity: i % 9 === 0 ? 0.55 : 0.22 + (i % 4) * 0.06,
+  };
+});
+function paintStars(silhouettes, view) {
+  const count = view.width < 701 ? 20 : backgroundStars.length;
+  backgroundStars.forEach((star, i) => {
+    const x = star.x * view.width,
+      y = star.y * view.height;
+    const covered = silhouettes.some(({ x: cx, y: cy, rx, ry }) =>
+      ((x - cx) / rx) ** 2 + ((y - cy) / ry) ** 2 < 1,
+    );
+    star.el.style.left = x + 'px';
+    star.el.style.top = y + 'px';
+    star.el.style.opacity = i < count && !covered ? star.opacity : 0;
+  });
+}
 function paintFlightWorld(name, p, projection, origin, a) {
   const b = localBodies[name];
   const x = (projection.x - a.x) / p.scale - (origin[0] + b.cx - p.x),
@@ -594,6 +637,7 @@ function paintLocalCamera(p, controls = true, view = cameraViewport()) {
     h = view.height,
     key = localSystemFor(),
     wide = !!systems[current];
+  const silhouettes = [];
   document.body.classList.toggle('inside-flight', !!p.inside);
   for (const [name, sys] of Object.entries(systems)) {
     const [ox, oy] = regionOrigin(name);
@@ -608,7 +652,14 @@ function paintLocalCamera(p, controls = true, view = cameraViewport()) {
     for (const body of sys.bodies) {
       const b = localBodies[body],
         button = $(body + 'Target');
-      paintFlightWorld(body, p, flightProjection(p, b, [ox, oy], view), [ox, oy], a);
+      const projection = flightProjection(p, b, [ox, oy], view);
+      paintFlightWorld(body, p, projection, [ox, oy], a);
+      if (projection.visible) silhouettes.push({
+        x: projection.x,
+        y: projection.y,
+        rx: (b.rx || b.radius) * projection.scale * 1.08 + 3,
+        ry: (b.ry || b.radius) * projection.scale * 1.08 + 3,
+      });
       if (!controls) continue;
       const bw = Math.max(44, (b.rx || b.radius) * 2 * p.scale),
         bh = Math.max(44, (b.ry || b.radius) * 2 * p.scale);
@@ -634,7 +685,9 @@ function paintLocalCamera(p, controls = true, view = cameraViewport()) {
       );
     }
   }
+  paintStars(silhouettes, view);
 }
+
 function cancelLocalFlight() {
   if (localFrame !== null) cancelAnimationFrame(localFrame);
   localFrame = null;
@@ -807,7 +860,7 @@ function travelPlan(fromId, toId, from, short = false) {
     intervals = Math.abs(end - start);
   if (!short && fromId && !systems[toId] && start >= 0 && end >= 0 && intervals >= 2)
     direct.duration = Math.min(50000, 6000 + 3500 * (intervals - 1));
-  if (!short && direct.inside) direct.duration = Math.round(direct.duration * 0.92);
+  if (!short && direct.inside) direct.duration = Math.round(direct.duration * 0.8);
   return { from, to: target, profile: direct, duration: direct.duration };
 }
 function flyLocal(poses, duration, profile) {

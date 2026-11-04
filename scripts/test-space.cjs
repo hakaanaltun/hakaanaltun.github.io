@@ -98,6 +98,7 @@ run(fs.readFileSync('js/space-journey.js','utf8'));
  // destination, even though it belongs to another region.
  element('stage').clientWidth=1363;element('stage').clientHeight=900;
  await run("go('system')");
+ run("paintLocalCamera({...localPose,x:regionOrigins.martian[0]-500,y:regionOrigins.martian[1]})");
  assert.equal(element('marsTargets').hidden,false);
  assert.equal(element('marsTarget').hidden,false);
  await element('marsTarget').onclick();assert.equal(run('current'),'mars');
@@ -366,8 +367,8 @@ run(fs.readFileSync('js/space-journey.js','utf8'));
   for(const [from,to] of [['earth','neptune'],['neptune','earth'],['sun','voyager1'],['earth','ceres'],['moon','neptune']]){
    reduced=true;await run(`go('${from}')`);reduced=false;
    const plan=run(`travelPlan('${from}','${to}',localPose)`),historyLength=browserEntries.length;
-   assert(plan.duration>=8740&&plan.duration<=46000);assert(!plan.profile.cruise);
-   if(from==='earth'&&to==='neptune')assert.equal(plan.duration,21620);
+   assert(plan.duration>=7600&&plan.duration<=40000);assert(!plan.profile.cruise);
+   if(from==='earth'&&to==='neptune')assert.equal(plan.duration,18800);
    context.pacingPlan=plan;
    let previous=plan.from;
    const closeFloor=Math.min(plan.from.scale,plan.to.scale);

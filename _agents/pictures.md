@@ -96,8 +96,15 @@ rule written there.
   `travelPlan` sets the base duration for two or more region intervals:
   6 seconds plus 3.5 seconds per additional interval, capped at 50 seconds.
   The author then asked for a very small speed increase: normal perspective
-  transfers, including neighboring worlds, take 92 percent of their base
-  duration. Earth–Neptune takes 21.62 seconds; Earth–Moon takes 4.784 seconds.
+  transfers, including neighboring worlds, initially took 92 percent of their base
+  duration. On 4 November 2026 the author asked for a further modest speed
+  increase and more separation between the worlds. Transfers now take
+  80 percent of their base duration: Earth–Neptune takes 18.8 seconds and
+  Earth–Moon takes 4.16 seconds. Region origins have larger, irregular
+  vertical offsets; the local planet–moon layouts stay registered.
+  A sparse decorative star layer shows at most 42 stars (20 on phones).
+  It sits above photographic black mats, with projected body silhouettes
+  hiding stars over the worlds, and adds no independent animation loop.
   Short inspection moves retain their timing; camera geometry is unchanged.
   The final pose is the selected inspection view. One animation owns the
   whole trip, so Arrive now reaches its final target; retargeting starts at
