@@ -1,0 +1,125 @@
+---
+layout: default
+permalink: /trivia/live/
+series: trivia
+trivia: true
+title: "Play together"
+seo_title: "Play a quiz together — Trivia · On Life &amp; Everything"
+description: "Play one of the culture quizzes with a class or a room of friends: the questions on one big screen, and everyone answers from their own phone."
+---
+{%- comment -%}
+  The big screen of a game played together (5 November 2026). A teacher
+  chooses a quiz and opens a room; the screen shows a six-digit code and a
+  QR code, and the phones join at /join/. js/live-host.js runs the screen;
+  the room itself is a Worker of its own, live/ in the repository. Anyone
+  can open a room. Nothing is kept once it closes. See "Playing together"
+  in _agents/trivia.md.
+{%- endcomment -%}
+<link rel="stylesheet" href="/css/live.css?v=20261105-1">
+
+<div class="section-page live-page" id="live-host" data-join="/join/">
+  <div class="section-page-head live-head">
+    <h1 class="section-page-title">Play together</h1>
+    <p class="section-page-subtitle">The questions on this screen, the answers on everyone&rsquo;s phone.</p>
+  </div>
+
+  <noscript><p class="live-note">Playing together needs JavaScript, on this screen and on the phones.</p></noscript>
+
+  <section class="live-panel" id="live-setup" aria-labelledby="live-setup-title">
+    <h2 class="live-panel-title" id="live-setup-title">Choose a quiz</h2>
+    <form id="live-setup-form" class="live-form">
+      <fieldset class="live-quizzes">
+        <legend class="live-label">Quiz</legend>
+        {%- for entry in site.data.trivia %}
+        <label class="live-quiz"><input type="radio" name="quiz" value="{{ entry.slug }}"{% if forloop.first %} checked{% endif %}> <span>{{ entry.name }}</span></label>
+        {%- endfor %}
+      </fieldset>
+      <div class="live-settings">
+        <label class="live-label" for="live-count">Questions
+          <select id="live-count" name="count">
+            <option value="5">5</option>
+            <option value="10" selected>10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+            <option value="30">30</option>
+            <option value="50">50</option>
+          </select>
+        </label>
+        <label class="live-label" for="live-timer">Time for each
+          <select id="live-timer" name="timer">
+            <option value="20">20 seconds</option>
+            <option value="30" selected>30 seconds</option>
+            <option value="45">45 seconds</option>
+            <option value="60">60 seconds</option>
+          </select>
+        </label>
+      </div>
+      <p class="live-fine">A right answer earns from 1,000 points down to 500, more the sooner it comes. Nothing about the game is kept once it ends.</p>
+      <div class="trivia-actions">
+        <button class="trivia-button trivia-button--primary" id="live-open" type="submit">Open a room</button>
+      </div>
+      <p class="live-error" id="live-setup-error" role="alert" hidden></p>
+    </form>
+  </section>
+
+  <div class="live-stage" id="live-stage" hidden>
+    <div class="live-bar">
+      <span class="live-bar-quiz" id="live-bar-quiz"></span>
+      <span class="live-bar-join" id="live-bar-join" hidden></span>
+      <button class="live-small" id="live-full" type="button">Full screen</button>
+    </div>
+
+    <section class="live-panel" id="live-lobby" hidden aria-labelledby="live-lobby-title">
+      <h2 class="live-visually-hidden" id="live-lobby-title">Join the game</h2>
+      <div class="live-lobby">
+        <div class="live-code">
+          <p class="live-code-line">Go to <strong id="live-join-address"></strong> and enter</p>
+          <p class="live-pin" id="live-pin" aria-label="Game code"></p>
+          <p class="live-code-line">or scan the code with a phone&rsquo;s camera.</p>
+        </div>
+        <div class="live-qr" id="live-qr" role="img" aria-label="QR code that opens the game on a phone"></div>
+      </div>
+      <p class="live-count" id="live-count-line" aria-live="polite">Waiting for the first player&hellip;</p>
+      <ul class="live-names" id="live-names"></ul>
+      <div class="trivia-actions live-actions">
+        <button class="trivia-button trivia-button--primary live-go" id="live-start" type="button" disabled>Start</button>
+      </div>
+    </section>
+
+    <section class="live-panel" id="live-question" hidden aria-labelledby="live-question-text">
+      <div class="live-status">
+        <span id="live-number"></span>
+        <span class="live-clock" id="live-clock" aria-live="off"></span>
+        <span id="live-answered" aria-live="polite"></span>
+      </div>
+      <div class="live-time" aria-hidden="true"><span id="live-time-bar"></span></div>
+      <div class="live-picture" id="live-picture" hidden></div>
+      <h2 class="live-question-text" id="live-question-text"></h2>
+      <div class="live-tiles" id="live-tiles"></div>
+      <p class="live-note-text" id="live-note" hidden></p>
+      <ol class="live-standings" id="live-standings" hidden></ol>
+      <div class="trivia-actions live-actions">
+        <button class="trivia-button trivia-button--primary live-go" id="live-advance" type="button"></button>
+      </div>
+    </section>
+
+    <section class="live-panel" id="live-final" hidden aria-labelledby="live-final-title">
+      <h2 class="live-panel-title" id="live-final-title">The results</h2>
+      <ol class="live-podium" id="live-podium"></ol>
+      <div class="trivia-actions live-actions">
+        <button class="trivia-button trivia-button--primary" id="live-again" type="button">Play again</button>
+        <a class="trivia-button trivia-button--quiet" href="/trivia/">Back to Trivia</a>
+      </div>
+    </section>
+
+    <p class="live-error" id="live-error" role="alert" hidden></p>
+    <div class="trivia-actions live-actions live-end-row" id="live-end-row" hidden>
+      <button class="live-small" id="live-end" type="button">End the game</button>
+    </div>
+  </div>
+</div>
+
+<script src="/js/vendor/qrcode-generator-1.4.4.js"></script>
+<script src="/js/trivia-picture.js?v=20261105-1" defer></script>
+<script src="/js/live-common.js?v=20261105-1" defer></script>
+<script src="/js/live-host.js?v=20261105-1" defer></script>

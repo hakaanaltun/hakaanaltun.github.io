@@ -51,6 +51,8 @@ exclude:
   # few lines and the settings that serve the site there.
   - workers
   - wrangler.jsonc
+  # The rooms for playing a quiz together, a Worker of their own.
+  - live
   - Gemfile
   - Gemfile.lock
   - README.md

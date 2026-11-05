@@ -1,0 +1,18 @@
+// live.hakanaltun.io — rooms for playing a quiz together (see live/worker.mjs
+// and "Playing together" in _agents/trivia.md). Its own Worker, built from
+// this folder, beside the site's hakanaltun-io: Cloudflare gives no preview
+// addresses to a Worker that holds a Durable Object, and the site's branches
+// keep theirs.
+{
+  "name": "hakanaltun-live",
+  "main": "worker.mjs",
+  "compatibility_date": "2026-10-01",
+  "workers_dev": true,
+  "routes": [{ "pattern": "live.hakanaltun.io", "custom_domain": true }],
+  "durable_objects": {
+    "bindings": [{ "name": "ROOMS", "class_name": "LiveRoom" }]
+  },
+  // SQLite-backed rooms are the kind the free plan offers.
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["LiveRoom"] }],
+  "vars": { "SITE": "https://hakanaltun.io" }
+}

@@ -1,0 +1,75 @@
+---
+layout: default
+permalink: /join/
+series: trivia
+title: "Join a game"
+seo_title: "Join a game · On Life &amp; Everything"
+description: "Join a quiz being played together: enter the code on the big screen and answer from your phone."
+sitemap: false
+---
+{%- comment -%}
+  A phone's way into a quiz played together (5 November 2026). The code is
+  the one on the big screen (/trivia/live/), or arrives in the address from
+  its QR code. js/live-join.js runs the phone. A phone keeps a random token
+  for the game it joined, so a locked screen or a lost signal returns it to
+  its own place; nothing else is kept. See "Playing together" in
+  _agents/trivia.md.
+{%- endcomment -%}
+<link rel="stylesheet" href="/css/live.css?v=20261105-1">
+
+<div class="section-page live-page live-phone" id="live-join">
+  <noscript><p class="live-note">Joining a game needs JavaScript.</p></noscript>
+
+  <section class="live-panel" id="join-enter" aria-labelledby="join-title">
+    <h1 class="section-page-title live-join-title" id="join-title">Join a game</h1>
+    <form id="join-form" class="live-form live-join-form" autocomplete="off">
+      <label class="live-label" for="join-pin">Game code</label>
+      <input class="live-input live-input--pin" id="join-pin" name="pin" inputmode="numeric" pattern="[0-9 ]*" maxlength="7" placeholder="123 456" required>
+      <label class="live-label" for="join-name">Your name</label>
+      <input class="live-input" id="join-name" name="name" maxlength="16" autocapitalize="words" enterkeyhint="go" required>
+      <button class="trivia-button trivia-button--primary live-go" id="join-go" type="submit">Join</button>
+      <p class="live-error" id="join-error" role="alert" hidden></p>
+    </form>
+  </section>
+
+  <section class="live-panel" id="join-game" hidden aria-live="polite">
+    <div class="live-phone-bar">
+      <span id="join-me"></span>
+      <span id="join-score"></span>
+    </div>
+
+    <div id="join-wait" class="live-phone-message" hidden>
+      <p class="live-phone-big" id="join-wait-big"></p>
+      <p class="live-phone-small" id="join-wait-small"></p>
+    </div>
+
+    <div id="join-question" hidden>
+      <div class="live-phone-head">
+        <span id="join-number"></span>
+        <span class="live-clock" id="join-clock"></span>
+      </div>
+      <p class="live-phone-question" id="join-question-text"></p>
+      <div class="live-buttons" id="join-buttons" role="group" aria-label="Choices"></div>
+    </div>
+
+    <div id="join-result" class="live-phone-message" hidden>
+      <p class="live-phone-big" id="join-result-big"></p>
+      <p class="live-phone-small" id="join-result-small"></p>
+      <p class="live-phone-small" id="join-result-place"></p>
+    </div>
+
+    {%- comment -%} Each player chooses what their buttons show: the
+    choices' words, or only their colours and shapes, with the words on the
+    big screen. The choice stays on the phone. {%- endcomment %}
+    <div class="live-view-choice" role="group" aria-labelledby="join-view-label">
+      <span class="live-label" id="join-view-label">Buttons show</span>
+      <button type="button" class="live-small" id="join-words" aria-pressed="true">Words</button>
+      <button type="button" class="live-small" id="join-colours" aria-pressed="false">Colours</button>
+    </div>
+
+    <p class="live-error" id="join-lost" role="status" hidden>The connection dropped. Trying again&hellip;</p>
+  </section>
+</div>
+
+<script src="/js/live-common.js?v=20261105-1" defer></script>
+<script src="/js/live-join.js?v=20261105-1" defer></script>

@@ -1,0 +1,290 @@
+/* Playing a quiz together (5 November 2026): the big screen at /trivia/live/
+   and the phones at /join/. The site's type and paper, with one exception:
+   the four choices wear four colours and four shapes, because a room full of
+   phones has to tell A from D at a glance and from the back row. The colours
+   are fixed in every theme, dark enough to carry white words, and the shape
+   says the same thing for anyone who cannot tell the colours apart. */
+
+.live-page { max-width: 64rem; }
+.live-phone { max-width: 30rem; }
+
+.live-visually-hidden {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap;
+}
+
+.live-panel { padding: 0; }
+.live-panel::before { content: none; }
+.live-panel[hidden], .live-stage[hidden] { display: none; }
+/* While a game runs the page gives the room the screen. */
+.live-page.is-playing { padding-top: 20px; padding-bottom: 20px; }
+
+.live-panel-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  color: var(--petrol-deep);
+  margin: 0 0 18px;
+  text-align: center;
+}
+
+.live-form { max-width: 34rem; margin: 0 auto; }
+.live-label {
+  display: block;
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--vizon);
+}
+.live-quizzes { border: 0; margin: 0 0 22px; padding: 0; display: grid; gap: 2px; grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr)); }
+.live-quizzes legend { margin-bottom: 8px; }
+.live-quiz {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 6px;
+  border-bottom: 1px solid var(--rule);
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 1.15rem;
+  color: var(--ink);
+  cursor: pointer;
+}
+.live-quiz input { accent-color: var(--petrol); width: 18px; height: 18px; }
+.live-settings { display: flex; flex-wrap: wrap; gap: 18px 28px; margin: 0 0 18px; }
+.live-settings select {
+  display: block; margin-top: 6px;
+  font: inherit; font-family: 'EB Garamond', Georgia, serif; font-size: 1.1rem;
+  letter-spacing: 0; text-transform: none;
+  color: var(--ink); background: var(--paper);
+  border: 1px solid var(--rule-strong); border-radius: 6px; padding: 6px 10px;
+}
+.live-fine, .live-note {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 0.98rem; line-height: 1.5; color: var(--vizon);
+  margin: 0 0 14px;
+}
+.live-error {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 1.02rem; color: var(--ink-soft);
+  border-left: 3px solid var(--rule-strong);
+  padding: 4px 12px; margin: 14px auto 0; max-width: 34rem;
+}
+.live-error[hidden] { display: none; }
+.live-small {
+  appearance: none; background: transparent;
+  border: 1px solid var(--rule); border-radius: 6px;
+  padding: 5px 10px;
+  font: inherit; font-family: 'EB Garamond', Georgia, serif; font-size: 0.92rem;
+  color: var(--vizon); cursor: pointer;
+}
+.live-small[aria-pressed="true"] { border-color: var(--petrol); color: var(--petrol-deep); }
+.live-small:focus-visible, .live-remove:focus-visible, .live-button:focus-visible { outline: 2px solid var(--petrol); outline-offset: 3px; }
+
+/* --- The big screen ------------------------------------------------------ */
+
+.live-stage { background: var(--bg); }
+.live-stage:fullscreen { padding: 3vh 4vw; overflow: auto; }
+.live-bar {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  font-family: 'EB Garamond', Georgia, serif; color: var(--vizon);
+  margin-bottom: 18px;
+}
+.live-bar-quiz { font-style: italic; font-size: 1.05rem; }
+.live-bar-join { font-size: 1.05rem; letter-spacing: 0.04em; }
+
+.live-lobby {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+  gap: 4vw; margin: 2vh 0 3vh;
+}
+.live-code { text-align: center; }
+.live-code-line { font-family: 'EB Garamond', Georgia, serif; font-size: clamp(1.1rem, 2vw, 1.6rem); color: var(--ink-soft); margin: 0; }
+.live-code-line strong { color: var(--petrol-deep); font-weight: 500; }
+.live-pin {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 600;
+  font-size: clamp(4rem, 11vw, 9rem);
+  line-height: 1;
+  letter-spacing: 0.06em;
+  font-variant-numeric: lining-nums tabular-nums;
+  color: var(--ink);
+  margin: 1.5vh 0;
+}
+.live-qr { width: clamp(180px, 24vw, 320px); }
+.live-qr svg { display: block; width: 100%; height: auto; border-radius: 8px; }
+.live-count { text-align: center; font-family: 'EB Garamond', Georgia, serif; font-size: 1.25rem; color: var(--vizon); margin: 0 0 12px; }
+.live-names {
+  list-style: none; margin: 0 auto 10px; padding: 0;
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 10px;
+  max-width: 56rem;
+}
+.live-name {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 4px 4px 4px 14px;
+  border: 1px solid var(--rule-strong); border-radius: 999px;
+  font-family: 'EB Garamond', Georgia, serif; font-size: 1.2rem; color: var(--ink);
+}
+.live-name.is-away { opacity: 0.45; }
+.live-remove {
+  appearance: none; border: 0; background: transparent; cursor: pointer;
+  width: 28px; height: 28px; border-radius: 50%;
+  font-size: 1.1rem; line-height: 1; color: var(--vizon);
+}
+.live-remove:hover { background: var(--surface-soft); }
+.live-actions { justify-content: center; margin-top: 18px; }
+.live-go { min-width: 11rem; font-size: 1.2rem; min-height: 48px; }
+.live-end-row { margin-top: 36px; }
+.live-end-row[hidden] { display: none; }
+
+.live-status {
+  display: flex; justify-content: space-between; align-items: baseline;
+  font-family: 'EB Garamond', Georgia, serif; font-size: 1.1rem; color: var(--vizon);
+}
+.live-clock {
+  font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600;
+  font-size: 2.4rem; line-height: 1; color: var(--ink);
+  font-variant-numeric: lining-nums tabular-nums;
+}
+.live-time { height: 3px; background: var(--rule); margin: 8px 0 18px; overflow: hidden; border-radius: 2px; }
+.live-time span { display: block; height: 100%; background: var(--petrol); transform-origin: left center; }
+.is-reveal .live-time, .is-reveal .live-clock { visibility: hidden; }
+.live-picture { line-height: 0; margin: 0 0 8px; }
+.live-picture[hidden] { display: none; }
+.live-question-text {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 500;
+  font-size: clamp(1.8rem, 3.4vw, 3rem);
+  line-height: 1.2;
+  color: var(--ink);
+  margin: 0 0 3vh;
+}
+
+/* The four colours. */
+.live-tile--triangle { --tile: #A9443A; }
+.live-tile--diamond { --tile: #2D5F80; }
+.live-tile--circle { --tile: #8C6412; }
+.live-tile--square { --tile: #3E6B39; }
+
+.live-tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.live-tile {
+  position: relative;
+  display: flex; align-items: center; gap: 14px;
+  min-height: 5.5rem;
+  padding: 14px 18px;
+  border-radius: 10px;
+  background: var(--tile);
+  color: #fff;
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: clamp(1.2rem, 2.2vw, 1.9rem);
+  line-height: 1.25;
+  transition: opacity 0.3s ease;
+}
+.live-tile-shape { font-size: 1.4em; line-height: 1; flex: none; width: 1em; text-align: center; }
+/* The circle is drawn smaller than the other three in most fonts. */
+.live-tile--circle .live-tile-shape { font-size: 1.75em; }
+.live-tile-letter { flex: none; opacity: 0.85; }
+.live-tile-text { flex: 1; }
+.live-tile-count {
+  flex: none; min-width: 2.2em; text-align: right;
+  font-variant-numeric: lining-nums tabular-nums; font-weight: 600;
+}
+.live-tile-mark {
+  position: absolute; top: -10px; right: 12px;
+  padding: 1px 10px; border-radius: 999px;
+  background: var(--paper); color: var(--ink);
+  font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase;
+  border: 1px solid var(--tile);
+}
+.live-tiles.is-revealed .is-other { opacity: 0.32; }
+/* Revealed, the question gives room to its note and the scores, so the
+   whole screen still fits a projector without scrolling. */
+.is-reveal .live-question-text { font-size: clamp(1.4rem, 2.4vw, 2.1rem); margin-bottom: 2vh; }
+.is-reveal .live-tile { min-height: 3.4rem; padding: 10px 16px; font-size: clamp(1.05rem, 1.6vw, 1.4rem); }
+.is-reveal .live-time { margin-bottom: 10px; }
+.is-reveal .live-note-text { margin-top: 2.2vh; font-size: clamp(1.05rem, 1.5vw, 1.3rem); }
+.is-reveal .live-standings { margin-top: 2vh; }
+.is-reveal .live-standing { padding: 4px; font-size: clamp(1.05rem, 1.5vw, 1.3rem); }
+.is-reveal .live-actions { margin-top: 12px; }
+.live-tiles.is-revealed .is-right { box-shadow: 0 0 0 4px var(--paper), 0 0 0 7px var(--tile); }
+
+.live-note-text {
+  max-width: 54rem; margin: 3vh 0 0;
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: clamp(1.15rem, 1.8vw, 1.5rem); line-height: 1.5; color: var(--ink-soft);
+}
+.live-note-text[hidden], .live-standings[hidden] { display: none; }
+.live-standings, .live-podium { list-style: none; padding: 0; margin: 3vh auto 0; max-width: 36rem; }
+.live-standing, .live-place {
+  display: grid; grid-template-columns: 4rem 1fr auto; align-items: baseline; gap: 12px;
+  padding: 8px 4px; border-bottom: 1px solid var(--rule);
+  font-family: 'EB Garamond', Georgia, serif; font-size: clamp(1.15rem, 1.8vw, 1.5rem); color: var(--ink);
+}
+.live-standing-rank, .live-place-rank { color: var(--vizon); }
+.live-standing-score, .live-place-score { font-variant-numeric: lining-nums tabular-nums; color: var(--ink-soft); }
+.live-place--1 { font-size: clamp(1.6rem, 3vw, 2.4rem); }
+.live-place--1 .live-place-name { color: var(--petrol-deep); font-style: italic; }
+.live-place--2, .live-place--3 { font-size: clamp(1.35rem, 2.4vw, 1.9rem); }
+
+/* --- The phone ----------------------------------------------------------- */
+
+.live-join-title { text-align: center; margin-bottom: 18px; }
+.live-join-form { display: grid; gap: 8px; }
+.live-input {
+  width: 100%; box-sizing: border-box;
+  font: inherit; font-family: 'EB Garamond', Georgia, serif; font-size: 1.3rem;
+  padding: 10px 12px; margin-bottom: 10px;
+  color: var(--ink); background: var(--paper);
+  border: 1px solid var(--rule-strong); border-radius: 8px;
+}
+.live-input--pin { font-size: 2rem; letter-spacing: 0.12em; text-align: center; font-variant-numeric: lining-nums tabular-nums; }
+.live-input:focus-visible { outline: 2px solid var(--petrol); outline-offset: 2px; }
+.live-join-form .live-go { width: 100%; }
+
+.live-phone-bar, .live-phone-head {
+  display: flex; justify-content: space-between; align-items: baseline;
+  font-family: 'EB Garamond', Georgia, serif; font-size: 1.05rem; color: var(--vizon);
+  margin-bottom: 12px;
+}
+.live-phone-head .live-clock { font-size: 1.9rem; }
+.live-phone-question {
+  font-family: 'EB Garamond', Georgia, serif; font-size: 1.15rem; line-height: 1.45;
+  color: var(--ink); margin: 0 0 14px;
+}
+.live-phone-question[hidden] { display: none; }
+.live-buttons { display: grid; gap: 10px; }
+.live-buttons--colours { grid-template-columns: 1fr 1fr; }
+.live-button {
+  appearance: none; border: 0; cursor: pointer;
+  display: flex; align-items: center; gap: 12px;
+  min-height: 3.6rem; padding: 12px 16px;
+  border-radius: 10px;
+  background: var(--tile); color: #fff;
+  font: inherit; font-family: 'EB Garamond', Georgia, serif; font-size: 1.15rem; line-height: 1.3;
+  text-align: left;
+  touch-action: manipulation;
+}
+.live-buttons--colours .live-button {
+  min-height: 27vh; justify-content: center; flex-direction: column; gap: 6px;
+  font-size: 1.6rem;
+}
+.live-buttons--colours .live-tile-shape { font-size: 3rem; }
+.live-button:disabled { opacity: 0.35; cursor: default; }
+.live-button.is-chosen { opacity: 1; box-shadow: 0 0 0 3px var(--paper), 0 0 0 6px var(--tile); }
+.live-view-choice[hidden] { display: none; }
+.live-view-choice { display: flex; justify-content: center; align-items: center; gap: 8px; margin-top: 22px; }
+.live-view-choice .live-label { margin-right: 4px; }
+
+.live-phone-message { text-align: center; padding: 8vh 0 4vh; }
+.live-phone-message[hidden], #join-question[hidden] { display: none; }
+.live-phone-big {
+  font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500;
+  font-size: 2.6rem; line-height: 1.1; color: var(--petrol-deep); margin: 0 0 12px;
+}
+.live-phone-big.is-wrong { color: var(--ink-soft); }
+.live-phone-small { font-family: 'EB Garamond', Georgia, serif; font-size: 1.2rem; line-height: 1.45; color: var(--ink-soft); margin: 0 0 8px; }
+
+@media (max-width: 640px) {
+  .live-tiles { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .live-tile { transition: none; }
+}
