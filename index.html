@@ -27,9 +27,12 @@ layout: home
   </ul>
 </section>
 
+{% assign notice = site.posts | where: "slug", "the-notice" | first %}
 <section id="story-doorway" class="story-doorway" aria-label="The Notice">
   <a href="/story/1/" class="story-doorway-link">
+    <img class="story-doorway-image" src="/images/480/the-notice.webp" width="480" height="270" alt="" loading="lazy" decoding="async">
     <span class="story-doorway-cue">The Notice</span>
+    {% if notice.doorway_line %}<span class="story-doorway-line">{{ notice.doorway_line }}</span>{% endif %}
     <span class="story-doorway-date">July 5, 2026</span>
     <span class="accent-label story-doorway-tag">told in choices</span>
   </a>

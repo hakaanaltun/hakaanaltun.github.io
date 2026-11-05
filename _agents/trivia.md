@@ -20,5 +20,8 @@ there.
   in the bank adds the line under the answered note (`#trivia-word`,
   `js/trivia.js`). Following it puts `#question` in the quiz's address, and
   a quiz opened with `#question` and a game in progress goes straight back
-  to that question with its note. `scripts/test-content.cjs` fails on a
+  to that question with its note. The homepage's question of the day shows the
+  same line since 5 November 2026 (`#home-daily-trivia-word`,
+  `js/home-daily-trivia.js`); `/trivia/questions.json` carries the `word`.
+  The author found it missing under the sandwich question. `scripts/test-content.cjs` fails on a
   word with no story in `_words/`.

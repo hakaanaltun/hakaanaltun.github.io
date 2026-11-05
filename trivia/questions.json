@@ -9,7 +9,7 @@ sitemap: false
 {%- assign bank = site.data.quizzes[quiz.slug] -%}
 {%- for q in bank -%}
 {%- unless first %},{% endunless -%}{%- assign first = false -%}
-{"id":{{ q.id | jsonify }},"slug":{{ quiz.slug | jsonify }},"quiz":{{ quiz.name | jsonify }},"category":{{ q.category | jsonify }},"url":{{ "/trivia/" | append: quiz.slug | append: "/" | jsonify }},"question":{{ q.question | jsonify }},"choices":{{ q.choices | jsonify }},"answer":{{ q.answer }},"note":{{ q.note | jsonify }}}
+{"id":{{ q.id | jsonify }},"slug":{{ quiz.slug | jsonify }},"quiz":{{ quiz.name | jsonify }},"category":{{ q.category | jsonify }},"url":{{ "/trivia/" | append: quiz.slug | append: "/" | jsonify }},"question":{{ q.question | jsonify }},"choices":{{ q.choices | jsonify }},"answer":{{ q.answer }},"note":{{ q.note | jsonify }}{% if q.word %},"word":{{ q.word | jsonify }}{% endif %}}
 {%- endfor -%}
 {%- endfor -%}
 ]
