@@ -489,3 +489,16 @@
     display: none;
   }
 }
+
+/* The way to playing a quiz together (/trivia/live/, css/live.css). */
+.trivia-together {
+  max-width: 38rem;
+  margin: 26px auto 0;
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--vizon);
+  text-align: center;
+}
+.trivia-together a { color: var(--petrol-deep); }
+#trivia-intro .trivia-together { text-align: left; margin: 18px 0 0; }

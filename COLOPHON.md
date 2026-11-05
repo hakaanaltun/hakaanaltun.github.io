@@ -33,6 +33,12 @@ Every change has to answer to these rules.
 - **A passage to translate.** When a reader asks for a Turkish translation,
   the passage and the sentences around it go to the site’s own translation
   service on Cloudflare. The service keeps no copy.
+- **A quiz played together.** When a quiz is played on one big screen with
+  phones, the names the players choose and their answers go to the site’s
+  own game rooms on Cloudflare, which pass them between the screens. A room
+  keeps nothing once it closes, four hours after it opened at the latest.
+  Each phone keeps a random token for the game, so that a locked screen
+  finds its place again, and the last name it used.
 - **An email address,** only if a reader gives one at the end of an essay.
   It goes to Buttondown, which sends the new pieces.
 - **What a reader keeps,** the drawer, notes, highlights and reading
@@ -567,4 +573,13 @@ Trivia contains quizzes. These rules govern what belongs inside them.
   drawing comes with the question to the homepage’s question of the day.
   Students asked for pictures; the first six, for British Culture, came on
   5 November 2026.
+- **A quiz can be played together.** One screen shows the questions to a
+  room, and everyone answers from their own phone, joining with a six-digit
+  code or a QR code (`/trivia/live/`, `/join/`). Anyone can open a room. It
+  is a race, as the author chose: a right answer earns 1,000 points down to
+  500, more the sooner it comes, and the scores are shown after every
+  question. The note still comes after every answer, on the big screen.
+  Each player chooses whether their buttons show the choices’ words or only
+  their colours; the colours come with shapes, for anyone who cannot tell
+  them apart. The author asked for it on 5 November 2026.
 
