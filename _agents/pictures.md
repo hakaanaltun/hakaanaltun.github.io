@@ -98,14 +98,18 @@ rule written there.
   22 percent greater horizontally and 40 percent greater vertically than
   the first November layout. Origins keep their irregular offsets and
   local planet–moon layouts stay registered.
-  `travelPlan` now gives every perspective transfer, including history
-  returns and retargeting, the same 1,200 scene units per second. A 256-step
-  arc-length table follows the existing Bezier curve at a constant cruise
-  speed, with 600ms acceleration and braking at its ends. Very short trips
-  reach a lower peak at the same acceleration. Longer routes take longer;
-  neither region counts nor a duration cap change their speed. The earlier
-  region-based timing remains only for `flight=outside`. Local inspection
-  and alternate observations retain their existing timing.
+  On 5 November the author found that a constant speed in scene coordinates
+  still made nearby worlds fly past while distant worlds barely moved.
+  Perspective travel now measures projected limb movement, camera turning
+  and zoom, and the destination disk's proportional growth during approach.
+  The clock is sampled once per journey at the current viewport size. The
+  opening turn takes a comparable time on each route; distant transfers can
+  cross empty space more quickly. A full hop has room for departure and
+  arrival. A nearly completed retarget is timed from the actual pose.
+  Compare apparent disk growth on short and long routes when tuning the
+  pace, including in portrait. The earlier region-based timing still serves
+  `flight=outside`. Local inspection and alternate observations have their
+  own timings.
   The decorative star layer shows at most 64 stars (30 on phones), above
   photographic black mats. Projected body silhouettes hide stars over the
   worlds, and there is no independent animation loop.
