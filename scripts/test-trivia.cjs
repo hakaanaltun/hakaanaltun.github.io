@@ -16,6 +16,7 @@ const { JSDOM } = require('jsdom');
 
 const root = path.join(__dirname, '..');
 const source = fs.readFileSync(path.join(root, 'js', 'trivia.js'), 'utf8');
+const pictureSource = fs.readFileSync(path.join(root, 'js', 'trivia-picture.js'), 'utf8');
 const pagePath = path.join(root, '_site', 'trivia', 'britain', 'index.html');
 
 if (!fs.existsSync(pagePath)) {
@@ -76,6 +77,7 @@ function build({ seed = 1, questions = null, storage = null, lines = null } = {}
   }
 
   w.Math.random = seeded(seed);
+  w.eval(pictureSource);
   w.eval(source);
 
   const id = (name) => d.getElementById(name);
@@ -590,5 +592,89 @@ async function homeQuestion() {
   }
 }
 
+/* A question's small drawing (js/trivia-picture.js) comes from its own entry
+   in the bank. Every picture names a sheet that is there, a cell inside the
+   sheet's grid, square cells, and words for a reader who cannot see it; the
+   quiz shows it with its question and hides it for a question without one;
+   the homepage's question of the day shows the same drawing. */
+function webpSize(file) {
+  const b = fs.readFileSync(file);
+  assert.equal(b.toString('ascii', 0, 4), 'RIFF', file + ' is a WebP');
+  const chunk = b.toString('ascii', 12, 16);
+  if (chunk === 'VP8X') return [1 + b.readUIntLE(24, 3), 1 + b.readUIntLE(27, 3)];
+  if (chunk === 'VP8L') { const v = b.readUInt32LE(21); return [1 + (v & 0x3fff), 1 + ((v >> 14) & 0x3fff)]; }
+  return [b.readUInt16LE(26) & 0x3fff, b.readUInt16LE(28) & 0x3fff];
+}
+
+async function pictures() {
+  const dir = path.join(root, '_data', 'quizzes');
+  const sandbox = new JSDOM('<!doctype html><body></body>', { runScripts: 'outside-only' });
+  sandbox.window.eval(pictureSource);
+  const usable = sandbox.window.triviaPicture.usable;
+  let count = 0;
+  for (const file of fs.readdirSync(dir).filter((f) => f.endsWith('.json'))) {
+    for (const q of JSON.parse(fs.readFileSync(path.join(dir, file), 'utf8'))) {
+      if (!q.picture) continue;
+      count += 1;
+      const p = q.picture;
+      assert.ok(usable(p), q.id + ': the picture names a sheet in /trivia/assets/, a grid and a cell inside it');
+      assert.ok(typeof p.alt === 'string' && p.alt.trim().length > 8, q.id + ': the picture has words for a reader who cannot see it');
+      const sheet = path.join(root, p.sheet);
+      assert.ok(fs.existsSync(sheet), q.id + ': ' + p.sheet + ' is in the repository');
+      if (sheet.endsWith('.webp')) {
+        const [width, height] = webpSize(sheet);
+        assert.ok(Math.abs(width / p.grid[0] - height / p.grid[1]) <= 1, q.id + ': the cells of ' + p.sheet + ' are square for a ' + p.grid.join('×') + ' grid');
+      }
+    }
+  }
+  sandbox.window.close();
+  assert.ok(count >= 6, 'the British questions keep their drawings');
+
+  // The quiz: every question on the way through shows its own drawing or none.
+  const kit = build({ seed: 3 });
+  kit.start();
+  const holder = kit.id('trivia-question-illustration');
+  let shown = 0;
+  for (let i = 0; i < kit.bank.length; i += 1) {
+    const q = kit.bank[kit.stored().order[kit.stored().position]];
+    if (q.picture) {
+      shown += 1;
+      assert.equal(holder.hidden, false, q.id + ' shows its drawing');
+      const svg = holder.querySelector('svg');
+      assert.equal(svg.getAttribute('viewBox'), q.picture.cell[0] + ' ' + q.picture.cell[1] + ' 1 1');
+      assert.equal(svg.getAttribute('aria-label'), q.picture.alt);
+      assert.equal(svg.querySelector('image').getAttribute('href'), q.picture.sheet);
+    } else {
+      assert.equal(holder.hidden, true, q.id + ' has no drawing');
+      assert.equal(holder.childNodes.length, 0);
+    }
+    answer(kit, 'right');
+    if (!kit.id('trivia-next').hidden) kit.next();
+    if (kit.visible() === 'trivia-round') kit.keepGoing();
+    if (kit.visible() !== 'trivia-question') break;
+  }
+  assert.ok(shown >= 6, 'the drawings came up on the way through the quiz');
+  kit.w.close();
+
+  // The homepage: the question of the day carries the same drawing.
+  const home = new JSDOM(fs.readFileSync(path.join(root, '_site', 'index.html'), 'utf8'));
+  const markup = home.window.document.getElementById('home-daily-trivia').outerHTML;
+  home.window.close();
+  const bank = JSON.parse(fs.readFileSync(path.join(root, '_site', 'trivia', 'questions.json'), 'utf8'));
+  const drawn = bank.find((q) => q.picture);
+  assert.ok(drawn, '/trivia/questions.json carries the pictures');
+  const dom = new JSDOM('<!doctype html><body>' + markup + '</body>', { runScripts: 'outside-only' });
+  const w = dom.window;
+  w.fetch = () => Promise.resolve({ ok: true, json: () => Promise.resolve([drawn]) });
+  w.requestAnimationFrame = () => 0;
+  w.eval(pictureSource);
+  w.eval(fs.readFileSync(path.join(root, 'js', 'home-daily-trivia.js'), 'utf8'));
+  await new Promise((resolve) => setTimeout(resolve, 0));
+  const homeHolder = w.document.getElementById('home-daily-trivia-illustration');
+  assert.equal(homeHolder.hidden, false, 'the question of the day shows its drawing');
+  assert.equal(homeHolder.querySelector('svg').getAttribute('aria-label'), drawn.picture.alt);
+  w.close();
+}
+
 main();
-homeQuestion().then(() => console.log('test-trivia: ok')).catch((e) => { console.error(e); process.exitCode = 1; });
+pictures().then(homeQuestion).then(() => console.log('test-trivia: ok')).catch((e) => { console.error(e); process.exitCode = 1; });

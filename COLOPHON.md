@@ -559,4 +559,12 @@ Trivia contains quizzes. These rules govern what belongs inside them.
   the line: the kiosk’s pavilion, the Earl of Sandwich, Guy Fawkes burned
   in effigy, emoji’s picture characters, malaria. The author asked for the
   connections on 29 October 2026.
+- **A small drawing may stand above a question.** It shows the question’s
+  subject and never its answer, since it is there before the reader chooses:
+  a cup of tea for the locked tea caddies, not the caddy; a storybook castle
+  for the Round Table, not the table. Not every question needs one. The
+  drawings are original illustrations made for the site, and the same
+  drawing comes with the question to the homepage’s question of the day.
+  Students asked for pictures; the first six, for British Culture, came on
+  5 November 2026.
 

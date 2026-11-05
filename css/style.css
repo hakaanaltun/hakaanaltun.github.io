@@ -3406,6 +3406,15 @@ html[data-theme="sky"] .footer-strip { border-top: 0; }
   text-align: left;
   color: var(--vizon);
 }
+/* The question's small drawing (js/trivia-picture.js), on the question's
+   own left edge. */
+.home-daily-trivia-illustration {
+  max-width: 620px;
+  margin: 0 auto 10px;
+  line-height: 0;
+  text-align: left;
+}
+.home-daily-trivia-illustration[hidden] { display: none; }
 .home-daily-trivia-question {
   max-width: 620px;
   margin: 0 auto 20px;
