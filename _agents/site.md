@@ -442,6 +442,12 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   picture as well: the door stands small above the title (220px, 180px on
   a phone, the 480px variant), rounded like the cards and with no frame, so
   the doorway is still a few words and one image.
+  On 5 November 2026 the author moved Trivia up to stand just under The
+  Notice, before "First time here?": students, who are most of the site's
+  readers with their teachers, ask for it most, and it had been seven
+  screens down on a phone. Words with Stories and Pictures with Stories
+  may come up later, carefully; the pictures change on every visit and
+  that stays.
 - **The House keeps its own line.** After "First time here?" and its three
   doors, the homepage says "Another way in." and leads to The House.
   Folding it into the three doors was considered on 14 October 2026, and

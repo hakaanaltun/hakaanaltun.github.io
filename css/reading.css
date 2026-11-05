@@ -67,6 +67,14 @@ html[data-reading-spacing] .essay-body[data-reading-body] :is(p, li, blockquote)
 
 .print-head, .print-colophon { display: none; }
 .essay-puzzle-wrap { text-align: center; margin: 38px 0 0; }
+/* The invitation to play shows only when a game is offered beneath it. */
+.essay-play-invite { display: none; margin: 0 0 6px; font-family: 'EB Garamond', Georgia, serif; font-style: italic; font-size: 1.0625rem; color: var(--vizon); }
+.essay-puzzle-wrap:has(#essay-puzzle:not([hidden])) .essay-play-invite { display: block; }
+
+/* The reading line along the top of the window (js/reading-line.js). */
+.reading-line { position: fixed; top: 0; left: 0; right: 0; height: 2px; z-index: 101; background: var(--petrol); opacity: 0.55; transform: scaleX(0); transform-origin: left center; pointer-events: none; }
+.reading-line[hidden] { display: none; }
+@media print { .reading-line { display: none; } }
 .essay-puzzle-wrap + .essay-guess-wrap { margin-top: 10px; }
 @media print {
   @page { margin: 18mm; }

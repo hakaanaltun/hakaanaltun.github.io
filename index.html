@@ -38,6 +38,12 @@ layout: home
   </a>
 </section>
 
+<section id="trivia" class="home-instruments" aria-label="Trivia">
+  {% include section-header.html title="Trivia" subtitle="" %}
+  {% include daily-trivia-home.html %}
+  <a class="home-instruments-all" href="/trivia/">See the quizzes <span aria-hidden="true">&rarr;</span></a>
+</section>
+
 <section id="start-here" class="start-here" aria-label="First time here?">
   {% include section-header.html title="First time here?" subtitle="Three doors in." %}
 
@@ -167,12 +173,6 @@ layout: home
 {% include words-with-stories-home.html %}
 
 {% include pictures-with-stories-home.html %}
-
-<section id="trivia" class="home-instruments" aria-label="Trivia">
-  {% include section-header.html title="Trivia" subtitle="" %}
-  {% include daily-trivia-home.html %}
-  <a class="home-instruments-all" href="/trivia/">See the quizzes <span aria-hidden="true">&rarr;</span></a>
-</section>
 
 <section id="instruments" class="home-instruments" aria-label="Instruments">
   {% include section-header.html title="Instruments" subtitle="" %}
