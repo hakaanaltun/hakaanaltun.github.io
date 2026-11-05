@@ -129,7 +129,8 @@
   width: 28px; height: 28px; border-radius: 50%;
   font-size: 1.1rem; line-height: 1; color: var(--vizon);
 }
-.live-remove:hover { background: var(--surface-soft); }
+/* Under a pointer the choices dim, as everywhere on the site. */
+.live-remove:hover, .live-small:hover, .live-button:not(:disabled):hover { opacity: var(--select-dim); }
 .live-actions { justify-content: center; margin-top: 18px; }
 .live-go { min-width: 11rem; font-size: 1.2rem; min-height: 48px; }
 .live-end-row { margin-top: 36px; }
