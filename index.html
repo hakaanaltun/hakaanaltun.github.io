@@ -27,6 +27,12 @@ layout: home
   </ul>
 </section>
 
+<section id="trivia" class="home-instruments" aria-label="Trivia">
+  {% include section-header.html title="Trivia" subtitle="" %}
+  {% include daily-trivia-home.html %}
+  <a class="home-instruments-all" href="/trivia/">See the quizzes <span aria-hidden="true">&rarr;</span></a>
+</section>
+
 {% assign notice = site.posts | where: "slug", "the-notice" | first %}
 <section id="story-doorway" class="story-doorway" aria-label="The Notice">
   <a href="/story/1/" class="story-doorway-link">
@@ -36,12 +42,6 @@ layout: home
     <span class="story-doorway-date">July 5, 2026</span>
     <span class="accent-label story-doorway-tag">told in choices</span>
   </a>
-</section>
-
-<section id="trivia" class="home-instruments" aria-label="Trivia">
-  {% include section-header.html title="Trivia" subtitle="" %}
-  {% include daily-trivia-home.html %}
-  <a class="home-instruments-all" href="/trivia/">See the quizzes <span aria-hidden="true">&rarr;</span></a>
 </section>
 
 <section id="start-here" class="start-here" aria-label="First time here?">
