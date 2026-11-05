@@ -808,76 +808,22 @@ function curvePoint(from, to, profile, q) {
     y: u * u * u * from.y + 3 * u * u * q * c1.y + 3 * u * q * q * c2.y + q * q * q * to.y,
   };
 }
-// Build the flight clock from what crosses the screen. The cached samples
-// include turning and zooming as well as translation. No DOM reads or
-// projections for the clock are needed during animation.
-const pacingWorlds = Object.entries(systems).flatMap(([key, system]) =>
-  system.bodies.map(name => ({ body: localBodies[name], origin: regionOrigins[key] })),
-);
-const screenLengthsPerSecond = 0.36;
-const clipFraction = value => Math.max(0, Math.min(1, value));
-function screenEdges(pose, world, view) {
-  const { body, origin } = world;
-  const p = flightProjection(pose, body, origin, view);
-  if (!p.visible) return null;
-  const rx = (body.rx || body.radius) * p.scale, ry = (body.ry || body.radius) * p.scale;
-  if (p.x + rx <= 0 || p.x - rx >= view.width || p.y + ry <= 0 || p.y - ry >= view.height)
-    return null;
-  return {
-    edges: [
-      clipFraction((p.x - rx) / view.width), clipFraction((p.x + rx) / view.width),
-      clipFraction((p.y - ry) / view.height), clipFraction((p.y + ry) / view.height),
-    ],
-    weight: Math.min(1, Math.min(rx, ry) / (Math.min(view.width, view.height) * 0.07)),
-  };
-}
-function timePerspectiveFlight(from, to, profile, view, targetWorld) {
-  const steps = 192, times = [0];
+// Sample distance along the camera path once. Passing worlds never change
+// the clock; the middle of each flight advances at a constant scene speed.
+function timePerspectiveFlight(from, to, profile, view) {
+  const steps = 512, lengths = [0];
   let previous = pathPose(from, to, profile, 0, view);
-  const lastEdges = pacingWorlds.map(world => screenEdges(previous, world, view));
-  const routeLength = Math.hypot(to.x - from.x, to.y - from.y);
-  const screenDistance = routeLength * Math.sqrt(from.scale * to.scale) / Math.min(view.width, view.height);
-  // Give neighboring worlds time to pass. An almost-complete retarget only
-  // pays for the small motion still visible.
-  const minimum = 4.8 * Math.min(1, screenDistance + Math.abs(Math.log(to.scale / from.scale)) +
-    Math.hypot(from.look?.x || 0, from.look?.y || 0));
-  let lastSize = 0;
-  const turnStep = Math.round(steps * profile.turn);
   for (let i = 1; i <= steps; i++) {
     const pose = pathPose(from, to, profile, i / steps, view);
-    let movement = 0;
-    for (let n = 0; n < pacingWorlds.length; n++) {
-      const current = screenEdges(pose, pacingWorlds[n], view), prior = lastEdges[n];
-      if (current && prior) {
-        const weight = Math.min(current.weight, prior.weight);
-        for (let side = 0; side < 4; side++) {
-          const change = Math.abs(current.edges[side] - prior.edges[side]);
-          movement = Math.max(movement, change * weight);
-        }
-      }
-      lastEdges[n] = current;
-    }
-    // From a discernible disk to arrival, give equal proportional growth
-    // the same time, regardless of the planet's size or starting distance.
-    const targetProjection = flightProjection(pose, targetWorld.body, targetWorld.origin, view);
-    const size = Math.log(Math.max(0.12, targetProjection.scale / to.scale));
-    const growth = i > turnStep ? Math.abs(size - lastSize) : 0;
-    lastSize = size;
-    const turn = Math.hypot(pose.look.x - previous.look.x, pose.look.y - previous.look.y);
-    const zoom = Math.abs(Math.log(pose.scale / previous.scale));
-    const translation = Math.hypot(pose.x - previous.x, pose.y - previous.y);
-    times.push(times[i - 1] + Math.max(minimum / steps, movement / screenLengthsPerSecond,
-      turn / 0.85, zoom / 0.8, growth / 0.42, translation / 7500));
+    lengths.push(lengths[i - 1] + Math.hypot(pose.x - previous.x, pose.y - previous.y));
     previous = pose;
   }
-  // Looking toward a distant stop should take about as long as looking
-  // toward its neighbor. Preserve the distribution of motion within the turn.
-  const measuredTurn = times[turnStep];
-  if (measuredTurn > 2) {
-    for (let i = 1; i < turnStep; i++) times[i] *= 2 / measuredTurn;
-    for (let i = turnStep; i < times.length; i++) times[i] -= measuredTurn - 2;
-  }
-  const cost = times.at(-1), ramp = Math.min(0.6, cost);
+  const length = lengths.at(-1);
+  const remaining = Math.min(1, length * Math.sqrt(from.scale * to.scale) /
+    Math.min(view.width, view.height));
+  const cost = (7 + 2.5 * Math.log1p(length / 2500)) * remaining;
+  const ramp = Math.min(1.2, cost / 3);
+  const times = lengths.map(distance => length ? distance / length * cost : 0);
   profile.screenClock = { times, cost, ramp };
   profile.duration = (cost + ramp) * 1000;
 }
@@ -947,7 +893,7 @@ function pathPose(from, to, profile, t, view) {
   return pose;
 }
 
-// Preserve the forward-looking curve. Perspective journeys share one speed;
+// Preserve the forward-looking curve with a steady cruise on each journey;
 // the optional outside camera retains its earlier distance-band timing.
 function travelPlan(fromId, toId, from, short = false) {
   const target = localTarget(toId),
@@ -966,8 +912,7 @@ function travelPlan(fromId, toId, from, short = false) {
   if (!short && fromId && !systems[toId] && start >= 0 && end >= 0 && intervals >= 2)
     direct.duration = Math.min(50000, 6000 + 3500 * (intervals - 1));
   if (direct.inside) {
-    const targetWorld = { body: localBodies[localBodyFor(toId)], origin: regionOrigin(toId) };
-    timePerspectiveFlight(from, target, direct, cameraViewport(), targetWorld);
+    timePerspectiveFlight(from, target, direct, cameraViewport());
   }
   return { from, to: target, profile: direct, duration: direct.duration };
 }
@@ -1591,8 +1536,8 @@ const stopViews={sun:'sun',mercury:'mercury',venus:'venus',earth:'earth',moon:'m
 document
   .querySelectorAll('[data-stop]')
   .forEach((b) => (b.onclick = () => go(stopViews[b.dataset.stop])));
-// Separate a horizontal drag from choosing a stop. Let the browser retain
-// vertical page movement and pinch zoom; capture only after a deliberate drag.
+// Touch and pen use native scrolling, including momentum and tap cancellation.
+// Mouse dragging captures only after a deliberate horizontal movement.
 const journeyStops = $('journeyStops');
 let stopDrag = null,
   suppressStopClick = false;
@@ -1604,6 +1549,11 @@ function endStopDrag(event) {
   if (journeyStops.hasPointerCapture(id)) journeyStops.releasePointerCapture(id);
 }
 journeyStops.addEventListener('pointerdown', (event) => {
+  if (event.pointerType !== 'mouse') {
+    if (stopDrag) endStopDrag({ pointerId: stopDrag.id });
+    suppressStopClick = false;
+    return;
+  }
   if (!event.isPrimary) {
     if (stopDrag) endStopDrag({ pointerId: stopDrag.id });
     return;
