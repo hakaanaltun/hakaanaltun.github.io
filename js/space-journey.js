@@ -793,11 +793,6 @@ function flightProfile(from, to, short = false, fromId = null, toId = null) {
     c2: { x: from.x + dx * 0.74 - dy * bend, y: from.y + dy * 0.74 + dx * bend },
   };
 }
-// Shared scene units per second. The route shape stays fixed; a distance
-// table removes the Bezier parameter's speed changes. Only departure and
-// arrival ease, with the same 600ms ramp on every normal or history trip.
-const travelSpeed = 1200,
-  travelRamp = 0.6;
 function curvePoint(from, to, profile, q) {
   const u = 1 - q,
     c1 = profile.c1 || from,
@@ -807,47 +802,101 @@ function curvePoint(from, to, profile, q) {
     y: u * u * u * from.y + 3 * u * u * q * c1.y + 3 * u * q * q * c2.y + q * q * q * to.y,
   };
 }
-function steadyFlight(from, to, profile) {
-  const lengths = [0], steps = 256;
-  let previous = from;
-  for (let i = 1; i <= steps; i++) {
-    const point = curvePoint(from, to, profile, i / steps);
-    lengths.push(lengths[i - 1] + Math.hypot(point.x - previous.x, point.y - previous.y));
-    previous = point;
-  }
-  const distance = lengths.at(-1);
-  // Very short trips use a triangular speed envelope and never exceed
-  // the shared speed or acceleration just to satisfy a minimum duration.
-  const ramp = Math.min(travelRamp, Math.sqrt(distance * travelRamp / travelSpeed)),
-    speed = travelSpeed * ramp / travelRamp;
-  profile.steady = { lengths, distance, ramp, speed };
-  profile.duration = distance ? (distance / speed + ramp) * 1000 : 0;
-  return profile;
+// Build the flight clock from what crosses the screen. The cached samples
+// include turning and zooming as well as translation. No DOM reads or
+// projections for the clock are needed during animation.
+const pacingWorlds = Object.entries(systems).flatMap(([key, system]) =>
+  system.bodies.map(name => ({ body: localBodies[name], origin: regionOrigins[key] })),
+);
+const screenLengthsPerSecond = 0.36;
+const clipFraction = value => Math.max(0, Math.min(1, value));
+function screenEdges(pose, world, view) {
+  const { body, origin } = world;
+  const p = flightProjection(pose, body, origin, view);
+  if (!p.visible) return null;
+  const rx = (body.rx || body.radius) * p.scale, ry = (body.ry || body.radius) * p.scale;
+  if (p.x + rx <= 0 || p.x - rx >= view.width || p.y + ry <= 0 || p.y - ry >= view.height)
+    return null;
+  return {
+    edges: [
+      clipFraction((p.x - rx) / view.width), clipFraction((p.x + rx) / view.width),
+      clipFraction((p.y - ry) / view.height), clipFraction((p.y + ry) / view.height),
+    ],
+    weight: Math.min(1, Math.min(rx, ry) / (Math.min(view.width, view.height) * 0.07)),
+  };
 }
-function steadyProgress(profile, t) {
-  if (t <= 0) return 0;
-  if (t >= 1) return 1;
-  const { lengths, distance, ramp, speed } = profile.steady;
-  if (!distance) return t;
-  const duration = profile.duration / 1000,
-    elapsed = t * duration,
-    remaining = duration - elapsed;
-  const travelled = elapsed < ramp
-    ? speed * elapsed * elapsed / (2 * ramp)
-    : remaining < ramp
-      ? distance - speed * remaining * remaining / (2 * ramp)
-      : speed * (elapsed - ramp / 2);
-  let low = 0, high = lengths.length - 1;
+function timePerspectiveFlight(from, to, profile, view, targetWorld) {
+  const steps = 192, times = [0];
+  let previous = pathPose(from, to, profile, 0, view);
+  const lastEdges = pacingWorlds.map(world => screenEdges(previous, world, view));
+  const routeLength = Math.hypot(to.x - from.x, to.y - from.y);
+  const screenDistance = routeLength * Math.sqrt(from.scale * to.scale) / Math.min(view.width, view.height);
+  // Give neighboring worlds time to pass. An almost-complete retarget only
+  // pays for the small motion still visible.
+  const minimum = 4.8 * Math.min(1, screenDistance + Math.abs(Math.log(to.scale / from.scale)) +
+    Math.hypot(from.look?.x || 0, from.look?.y || 0));
+  let lastSize = 0;
+  const turnStep = Math.round(steps * profile.turn);
+  for (let i = 1; i <= steps; i++) {
+    const pose = pathPose(from, to, profile, i / steps, view);
+    let movement = 0;
+    for (let n = 0; n < pacingWorlds.length; n++) {
+      const current = screenEdges(pose, pacingWorlds[n], view), prior = lastEdges[n];
+      if (current && prior) {
+        const weight = Math.min(current.weight, prior.weight);
+        for (let side = 0; side < 4; side++) {
+          const change = Math.abs(current.edges[side] - prior.edges[side]);
+          movement = Math.max(movement, change * weight);
+        }
+      }
+      lastEdges[n] = current;
+    }
+    // From a discernible disk to arrival, give equal proportional growth
+    // the same time, regardless of the planet's size or starting distance.
+    const targetProjection = flightProjection(pose, targetWorld.body, targetWorld.origin, view);
+    const size = Math.log(Math.max(0.12, targetProjection.scale / to.scale));
+    const growth = i > turnStep ? Math.abs(size - lastSize) : 0;
+    lastSize = size;
+    const turn = Math.hypot(pose.look.x - previous.look.x, pose.look.y - previous.look.y);
+    const zoom = Math.abs(Math.log(pose.scale / previous.scale));
+    const translation = Math.hypot(pose.x - previous.x, pose.y - previous.y);
+    times.push(times[i - 1] + Math.max(minimum / steps, movement / screenLengthsPerSecond,
+      turn / 0.85, zoom / 0.8, growth / 0.42, translation / 7500));
+    previous = pose;
+  }
+  // Looking toward a distant stop should take about as long as looking
+  // toward its neighbor. Preserve the distribution of motion within the turn.
+  const measuredTurn = times[turnStep];
+  if (measuredTurn > 2) {
+    for (let i = 1; i < turnStep; i++) times[i] *= 2 / measuredTurn;
+    for (let i = turnStep; i < times.length; i++) times[i] -= measuredTurn - 2;
+  }
+  const cost = times.at(-1), ramp = Math.min(0.6, cost);
+  profile.screenClock = { times, cost, ramp };
+  profile.duration = (cost + ramp) * 1000;
+}
+function screenProgress(profile, t) {
+  if (t <= 0 || t >= 1) return t;
+  const { times, cost, ramp } = profile.screenClock;
+  if (!cost) return t;
+  const duration = cost + ramp, elapsed = t * duration, remaining = duration - elapsed;
+  let time = elapsed - ramp / 2;
+  if (elapsed < ramp) time = elapsed * elapsed / (2 * ramp);
+  else if (remaining < ramp) time = cost - remaining * remaining / (2 * ramp);
+  let low = 0, high = times.length - 1;
   while (high - low > 1) {
     const middle = (low + high) >> 1;
-    if (lengths[middle] < travelled) low = middle;
+    if (times[middle] < time) low = middle;
     else high = middle;
   }
-  const span = lengths[high] - lengths[low];
-  return (low + (span ? (travelled - lengths[low]) / span : 0)) / (lengths.length - 1);
+  const span = times[high] - times[low];
+  return (low + (span ? (time - times[low]) / span : 0)) / (times.length - 1);
 }
 function flightPose(from, to, profile, t, view = cameraViewport()) {
-  const q = profile.steady ? steadyProgress(profile, t) : t * t * t * (t * (t * 6 - 15) + 10),
+  return pathPose(from, to, profile, profile.screenClock ? screenProgress(profile, t) : t, view);
+}
+function pathPose(from, to, profile, t, view) {
+  const q = t * t * t * (t * (t * 6 - 15) + 10),
     envelope = Math.sin(Math.PI * q) ** 2;
   // Settle the Moon-to-Mars lens during the turn so the approach cannot
   // grow past the arrival size and then pull back.
@@ -910,7 +959,10 @@ function travelPlan(fromId, toId, from, short = false) {
     intervals = Math.abs(end - start);
   if (!short && fromId && !systems[toId] && start >= 0 && end >= 0 && intervals >= 2)
     direct.duration = Math.min(50000, 6000 + 3500 * (intervals - 1));
-  if (direct.inside) steadyFlight(from, target, direct);
+  if (direct.inside) {
+    const targetWorld = { body: localBodies[localBodyFor(toId)], origin: regionOrigin(toId) };
+    timePerspectiveFlight(from, target, direct, cameraViewport(), targetWorld);
+  }
   return { from, to: target, profile: direct, duration: direct.duration };
 }
 function flyLocal(poses, duration, profile) {
