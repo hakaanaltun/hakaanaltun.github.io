@@ -1884,6 +1884,17 @@ html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
   line-height: 1.06; color: var(--petrol);
   text-align: center;
 }
+/* The story's door, small, above its title: the picture is the story's
+   premise. It rounds its corners as the cards in Latest do and adds no
+   frame, so the doorway stays a few words and one image. */
+.story-doorway-image {
+  display: block; width: 220px; max-width: 60vw; height: auto;
+  aspect-ratio: 16 / 9; object-fit: cover;
+  margin: 0 auto 14px; border-radius: 12px;
+}
+@media (max-width: 600px) {
+  .story-doorway-image { width: 180px; margin-bottom: 12px; }
+}
 /* One line under the title says what the story is about, as the excerpt
    does under each card in Latest; the date and "told in choices" follow. */
 .story-doorway-line {

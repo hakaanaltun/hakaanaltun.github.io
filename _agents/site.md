@@ -438,7 +438,10 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   as a title, a date and "told in choices" with nothing to say what it was,
   so its doorway now carries one line from the story's own description, "A
   door, and the time it held." (`doorway_line` in its post), as the excerpt
-  does under each card in Latest.
+  does under each card in Latest. The same evening the author offered its
+  picture as well: the door stands small above the title (220px, 180px on
+  a phone, the 480px variant), rounded like the cards and with no frame, so
+  the doorway is still a few words and one image.
 - **The House keeps its own line.** After "First time here?" and its three
   doors, the homepage says "Another way in." and leads to The House.
   Folding it into the three doors was considered on 14 October 2026, and
