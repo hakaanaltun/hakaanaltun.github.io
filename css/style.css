@@ -475,17 +475,19 @@ body.series-moris,
 body.series-house,
 body.is-home #home-house
                         { --sec-h: 150; --sec-c: 0.050; --sec-ld: 0.720; --sec-cd: 0.065; --sec-dl: 0.193; }
-/* The fiction told in choices — a deep indigo. It wore the indigo until the
+/* The fiction told in choices — a wine red. It wore a deep indigo until the
    evening of 19 October 2026, when the author moved it just above the book
    and the indigo beside the book's blue read as one colour; an ivy green
    that evening, and an hour later a wine red, when "Another way in." and
    Moris's near-black green came to stand above it. On 20 October 2026 the
-   author moved it just under Latest and asked for the indigo again: there
-   it stands between Latest and "First time here?", both in the homepage's
-   colour, well away from the book. It sits a step darker by day. */
+   author moved it just under Latest and asked for the indigo again. On
+   5 November 2026 the author moved it back beside the book, whose third
+   part's password it holds, with Trivia's green above it, and asked for
+   the two colours to be told apart: the wine red again. It sits a step
+   darker by day. */
 body.series-story,
 body.is-home :is(#story-doorway, #quotes[data-voice="story"])
-                        { --sec-h: 290; --sec-c: 0.090; --sec-ld: 0.760; --sec-cd: 0.080; --sec-dl: 0.073; }
+                        { --sec-h:  18; --sec-c: 0.105; --sec-ld: 0.760; --sec-cd: 0.080; --sec-dl: 0.073; }
 /* Instruments — a bluer petrol, distinct from the two greens. */
 body.series-tools,
 body.is-home #instruments

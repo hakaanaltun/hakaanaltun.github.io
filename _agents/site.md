@@ -326,10 +326,10 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   down the page. Every homepage section is named in one of the voices in
   `css/style.css` ("Section identity"), the one its section's page speaks
   in: Latest and Further back in the writing's graphite, the book in its blue,
-  The Notice in a deep indigo (an ivy green and then a wine red from the
-  evening of 19 October 2026, while it stood beside the book's blue, until
-  the author moved it under Latest on 20 October 2026 and asked for the
-  indigo again), The House in Moris's near-black green,
+  The Notice in a wine red (a deep indigo until 19 October 2026, then an
+  ivy green and a wine red while it stood beside the book's blue, the
+  indigo again under Latest from 20 October, and the wine red again from
+  5 November 2026, back beside the book), The House in Moris's near-black green,
   Notes in a soft clay,
   Words with Stories in plum,
   Pictures with Stories and Tonight in slate, Trivia in leaf green,
@@ -343,7 +343,7 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   `scripts/test-pictures.cjs` fails on a section with no voice or next to
   its own color. Each section builds its accent from its voice in every
   theme; Midnight uses gold for every section. A voice may sit a step darker by
-  day with `--sec-dl`, as the fiction's indigo and the green of Moris and
+  day with `--sec-dl`, as the fiction's wine red and the green of Moris and
   The House do; the author asked for them to change color on 19 October
   2026, when the amber and the olive looked muddy on paper.
 - **Follow the sky uses one accent standard.** On 22 October 2026 the
