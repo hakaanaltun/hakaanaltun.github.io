@@ -52,6 +52,9 @@ layout: default
       </div>
       <div class="trivia-progress" aria-hidden="true"><span id="trivia-progress-bar"></span></div>
       <p class="trivia-round-kicker trivia-question-category" id="trivia-question-category" hidden></p>
+      {%- comment -%} The question's small drawing, where its bank gives one
+      ("picture"; js/trivia-picture.js). {%- endcomment %}
+      <div class="trivia-question-illustration" id="trivia-question-illustration" hidden></div>
       {%- comment -%}
         tabindex="-1" so the next question can take focus when it is drawn.
         Without it the heading changes silently: the reader hears the answer
@@ -106,8 +109,8 @@ layout: default
 </div>
 
 <script id="trivia-data" type="application/json">{{ quiz | jsonify }}</script>
-<script src="/js/trivia.js?v=20261029-1" defer></script>
-{% include trivia-question-illustrations.html %}
+<script src="/js/trivia-picture.js?v=20261105-1" defer></script>
+<script src="/js/trivia.js?v=20261105-1" defer></script>
 
 <script type="application/ld+json">
 {

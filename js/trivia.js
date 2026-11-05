@@ -45,6 +45,7 @@
   var progressBar = document.getElementById('trivia-progress-bar');
   var questionCategory = document.getElementById('trivia-question-category');
   var questionText = document.getElementById('trivia-question-text');
+  var questionPicture = document.getElementById('trivia-question-illustration');
   var choices = document.getElementById('trivia-choices');
   var feedback = document.getElementById('trivia-feedback');
   var wordLine = document.getElementById('trivia-word');
@@ -449,6 +450,9 @@
     questionCategory.hidden = !round.name;
 
     questionText.textContent = joinDashes(q.question);
+    // The question's small drawing, where the bank gives one
+    // (js/trivia-picture.js).
+    if (window.triviaPicture) window.triviaPicture.show(questionPicture, q.picture);
     // A passage kept from the question or its note is named by the question
     // (js/keep.js).
     questionPanel.setAttribute('data-keep-title', q.question);

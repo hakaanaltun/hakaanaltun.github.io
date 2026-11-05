@@ -12,6 +12,7 @@
   var feedback = document.getElementById('home-daily-trivia-feedback');
   var more = document.getElementById('home-daily-trivia-more');
   var wordLine = document.getElementById('home-daily-trivia-word');
+  var picture = document.getElementById('home-daily-trivia-illustration');
   var source = root.getAttribute('data-source');
 
   /* The build keeps a closed-up dash from opening a line on the published
@@ -124,6 +125,8 @@
 
     quizLabel.textContent = q.quiz;
     questionText.textContent = joinDashes(q.question);
+    // The same small drawing as on the quiz page (js/trivia-picture.js).
+    if (window.triviaPicture) window.triviaPicture.show(picture, q.picture);
     choices.innerHTML = '';
     feedback.textContent = '';
     more.hidden = true;
@@ -228,9 +231,10 @@
   }
 
   /* The bank holds every question of every quiz, 166 KB, and it is the
-     largest thing the homepage asks for, for a section near its foot. It is
-     fetched as the section comes near, as Tonight's sky is; until
-     23 October 2026 every visit fetched it at once. */
+     largest thing the homepage asks for. It is fetched as the section comes
+     near, as Tonight's sky is; until 23 October 2026 every visit fetched it
+     at once. Since 5 November 2026 the section stands under The Notice, so
+     most visits now reach it. */
   if ('IntersectionObserver' in window) {
     var watch = new IntersectionObserver(function (entries) {
       if (entries.some(function (e) { return e.isIntersecting; })) { watch.disconnect(); load(); }
