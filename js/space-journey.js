@@ -258,9 +258,11 @@ function camera(scene) {
   const w = stage.clientWidth,
     h = stage.clientHeight,
     mobile = w < 701;
-  const iw = Math.min(w * 1.25, h * 1.75),
+  const compactPortrait = mobile && h >= w && h <= 740;
+  const iw = Math.min(w * 1.25, h * (shortLandscape(w, h) ? 1.2 : 1.75),
+      compactPortrait ? Math.max(180, (h - 350) * 1.4) : Infinity),
     ih = (iw * 9) / 16;
-  const scale = scene.zoom * (mobile ? 1.4 : 1);
+  const scale = scene.zoom * (mobile && !shortLandscape(w, h) ? 1.4 : 1);
   const tx = w * (mobile ? 0.5 : 0.57) - iw * scene.focus[0] * scale;
   const ty = h * (mobile ? 0.36 : 0.43) - ih * scene.focus[1] * scale;
   return { iw, ih, scale, tx, ty };
@@ -485,11 +487,15 @@ const historySession = String(Date.now()),
 function portraitTablet(w, h) {
   return w >= 600 && h > w * 1.2;
 }
+function shortLandscape(w, h) {
+  return w > h && h <= 600;
+}
 function localAnchor(w = stage.clientWidth, h = stage.clientHeight) {
+  if (shortLandscape(w, h)) return { x: w * 0.69, y: h * 0.48 };
   const portrait = portraitTablet(w, h);
   return {
     x: w * (portrait || w < 701 ? 0.5 : 0.57),
-    y: h * (portrait ? 0.4 : w < 701 ? 0.31 : 0.36),
+    y: h * (portrait ? 0.4 : w < 701 ? 0.42 : 0.36),
   };
 }
 function cameraViewport() {
@@ -508,10 +514,10 @@ function sceneViewport() {
     (tools?.bottom || 115) - origin + 20,
     portraitTablet(w, h) ? h * 0.18 : 0,
   );
-  const side = w >= 701 && h < 600;
+  const side = shortLandscape(w, h);
   const left = side ? Math.max(w * 0.46, (caption?.right || w * 0.42) + 28) : w * 0.07;
   const right = Math.min(w * 0.93, w - w * (w < 701 ? 0.06 : 0.032) - 70);
-  const bottom = side ? h - 180 : Math.min(h * 0.65, (caption?.top || h - 390) - origin - 50);
+  const bottom = side ? h - 125 : Math.min(h * 0.65, (caption?.top || h - 390) - origin - 50);
   return { left, right, top, bottom: Math.max(top + 60, bottom) };
 }
 function overviewPose(id = current) {

@@ -84,12 +84,12 @@ run(fs.readFileSync('js/space-journey.js','utf8'));
  // All fourteen establishing views keep bodies and rings within phone/tablet/desktop bounds.
  for(const key of run('Object.keys(systems)')){
   await run(`go('${key}')`);
-  for(const [w,h] of [[320,667],[375,667],[768,1024],[800,620],[800,800],[820,900],[1280,900],[844,480]]){
+  for(const [w,h] of [[320,568],[320,667],[375,667],[768,1024],[800,620],[800,800],[820,900],[1280,900],[844,480],[568,320],[667,375]]){
    element('stage').clientWidth=w;element('stage').clientHeight=h;await run('position(current,false)');
    const pose=run('overviewPose()'),anchor=run('localAnchor()'),[ox,oy]=run('regionOrigin()');
    for(const name of run('systems[localSystemFor()].bodies')){
     const b=run(`localBodies.${name}`),x=anchor.x+(ox+b.cx-pose.x)*pose.scale,y=anchor.y+(oy+b.cy-pose.y)*pose.scale,rx=(b.rx||b.radius)*pose.scale,ry=(b.ry||b.radius)*pose.scale;
-    assert(x-rx>0&&x+rx<w&&y-ry>50&&y+ry<h*.65,`${key}/${name} clipped at ${w}`);
+    assert(x-rx>0&&x+rx<w&&y-ry>50&&y+ry<(w>h&&h<=600?h-90:h*.65),`${key}/${name} clipped at ${w}`);
     assert(parseFloat(element(name+'Target').style.width)>=44);assert(parseFloat(element(name+'Target').style.height)>=44);
    }
   }
@@ -103,13 +103,20 @@ run(fs.readFileSync('js/space-journey.js','utf8'));
  assert.equal(element('marsTargets').hidden,false);
  assert.equal(element('marsTarget').hidden,false);
  await element('marsTarget').onclick();assert.equal(run('current'),'mars');
- // Portrait tablets center the inspection lower without moving the phone
- // or landscape anchor. Wide views still reserve the measured caption area.
+ // Portrait tablets keep their inspection anchor. Wide views still reserve the measured caption area.
  for(const [w,h] of [[600,960],[768,1024],[800,1280],[960,1480]]){
   element('stage').clientWidth=w;element('stage').clientHeight=h;
   const anchor=run('localAnchor()');near(anchor.x,w*.5);near(anchor.y,h*.4);
  }
- element('stage').clientWidth=390;element('stage').clientHeight=844;near(run('localAnchor().y'),844*.31);
+ element('stage').clientWidth=390;element('stage').clientHeight=844;near(run('localAnchor().y'),844*.42);
+ for(const [w,h] of [[568,320],[667,375],[844,390]]){
+  element('stage').clientWidth=w;element('stage').clientHeight=h;
+  await run("go('earth')");
+  const globe=run('flightProjection(localPose,localBodies.earth)');
+  near(globe.x,w*.69);near(globe.y,h*.48);
+  assert(globe.y-run('localBodies.earth.radius')*globe.scale>60,'Landscape globe clears the header');
+  assert(globe.y+run('localBodies.earth.radius')*globe.scale<h-65,'Landscape globe clears the footer');
+ }
  element('stage').clientWidth=1280;element('stage').clientHeight=900;
  // Every globe can be approached and tapped again to zoom, including all moons.
  for(const body of run('journey')){
@@ -479,6 +486,6 @@ run(fs.readFileSync('js/space-journey.js','utf8'));
  reduced=true;await run("go('sun')");assert.equal(frames.size,0);near(run('localPose.scale'),run("localTarget('sun').scale"));
  assert.equal(run('Object.keys(scenes).length'),74);
  console.log('Passed: every footer destination arrives close; long routes in both directions at desktop, portrait and landscape sizes; original forward perspective without a wide retreat; one history entry per journey; retarget, skip, resize and reduced motion on long routes.');
- console.log('Passed: 74 scenes, all fourteen wide views at eight sizes, measured caption clearance, 65 sourced field notes the same in the reading version, reversible route and endpoint boundaries, fixed global geometry, direct globe/zoom controls, continuous region travel, distinct reversible curved routes, rapid retarget/reverse, skip, browser Back/Forward, decode failure/stale load, native detail arrival/retry, resize, alternate observations, keyboard routing and asset paths.');
+ console.log('Passed: 74 scenes, all fourteen wide views at small phone, tablet and desktop sizes, measured caption clearance, 65 sourced field notes the same in the reading version, reversible route and endpoint boundaries, fixed global geometry, direct globe/zoom controls, continuous region travel, distinct reversible curved routes, rapid retarget/reverse, skip, browser Back/Forward, decode failure/stale load, native detail arrival/retry, resize, alternate observations, keyboard routing and asset paths.');
 })().catch(e=>{console.error(e);process.exitCode=1});
 
