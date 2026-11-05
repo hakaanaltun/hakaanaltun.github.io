@@ -67,8 +67,13 @@ only where front matter sets one; see _includes/piece-moon.html. {% endcomment %
 {% comment %} Puzzle mode waits at the foot of the piece, after the first read.
 Its controls still open at the start of the prose when the reader chooses it. {% endcomment %}
 <div class="essay-puzzle-wrap">
+  {% comment %} One line asks, once the piece has been read, whether the reader
+  would like to stay with it a little longer; it shows only when a game is
+  offered (reading.css). {% endcomment %}
+  <p class="essay-play-invite">If you&rsquo;d like to stay with it a little longer:</p>
   <button type="button" class="essay-rain essay-puzzle-toggle" id="essay-puzzle" aria-pressed="false" hidden>puzzle mode</button>
 </div>
+<script src="/js/reading-line.js?v=20261105-1" defer></script>
 {% endunless %}
 {% comment %} "Guess the word" — a few of the essay's own words lifted out for a
 reader to put back. The list is _data/guesses.yml, approved by hand, keyed by

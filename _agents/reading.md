@@ -87,6 +87,17 @@ rule written there.
   of their own: The House's cards are how a word is printed or shared.
 - **Puzzle mode waits at the foot of a piece** and opens at its head. Its
   panel is sticky, so the scroll aims at the article beneath it.
+- **One line invites the reader to play, after the piece.** Above puzzle
+  mode and guess the word stands "If you'd like to stay with it a little
+  longer:", in italic, shown only when a game is offered beneath it. The
+  games stay at the foot: the author wants a piece read first (5 November
+  2026).
+- **A long piece has a reading line, not a reading time.** A 2px line along
+  the top of the window grows as the prose is read (`js/reading-line.js`),
+  only on pieces longer than three screens, with no number and nothing
+  stored. The author declined a reading time on the piece itself: it can
+  mislead a reader about their own pace, and the Writing page already
+  gives them (5 November 2026). Not printed.
 
 ## The way back
 
