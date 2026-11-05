@@ -130,6 +130,10 @@ rule written there.
   zoom controls. Portrait tablets (at least 600 CSS pixels wide and taller
   than 1.2 times their width) center inspection at 40 percent of the height
   and reserve more space above the wide view, leaving room for the caption.
+  Phones center inspection at 42 percent of the stage height. Short landscape
+  windows use a right-hand viewing area alongside a scrollable caption, even
+  below 701 pixels wide. Compact windows use their actual dynamic height;
+  camera framing and image scale follow the same orientation breakpoints.
 - **The Sun is part of the journey.** Its complete story and four sourced notes
   live in the reader. `/pictures/sun/` redirects directly to `/pictures/space/#sun`
   and carries query parameters, including the return to the balcony. `/sun/`
