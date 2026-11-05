@@ -325,6 +325,12 @@ sunlight; no text, itinerary, extra planets, brushwork or decorative border.
   arrows. The trip lengths stayed. To keep the longer crossing from standing
   still, arrival now begins once the destination reaches a tenth of its
   final size.
+  He then asked for the worlds to be scattered up and down as well. The
+  vertical offsets were widened 1.4 times: on a long jump the outer planets
+  no longer bunch into one column ahead, and passed worlds are still seen
+  and named. 2.2 times was tried first; the view became emptier still, but
+  long diagonal jumps swept a world across the window at more than four and
+  a half screens a second, which the space checks reject.
   The author also found the first departures stuttering. Large detail
   images were being decoded while the camera moved, and a world's picture
   was decoded the first time it came into view mid-journey. Detail images

@@ -392,21 +392,23 @@ const systems={
 // Stable route coordinates shared by every region; this is an illustrative travel layout.
 // Spread by a further 25 percent on 5 November 2026, with the longer trips, and
 // the same evening by 1.8 times, so a wide view no longer shows its neighbors.
+// Their up-and-down offsets were then widened 1.4 times; 2.2 times made long
+// diagonal jumps sweep worlds across the view too fast.
 const regionOrigins = {
-  solar: [-32940, -2835],
-  mercurywide: [-20862, 3465],
-  venuswide: [-10431, -5355],
+  solar: [-32940, -3969],
+  mercurywide: [-20862, 4851],
+  venuswide: [-10431, -7497],
   system: [0, 0],
-  martian: [10980, 3780],
-  belt: [19215, -4095],
-  jovian: [30470, 6615],
-  saturnian: [42548, -5985],
-  uranian: [55724, 2048],
-  neptunian: [67252, -8190],
-  plutonian: [79330, 5040],
-  kuiper: [91958, -2048],
-  voyager2wide: [108428, 14805],
-  voyager1wide: [130388, -19530],
+  martian: [10980, 5292],
+  belt: [19215, -5733],
+  jovian: [30470, 9261],
+  saturnian: [42548, -8379],
+  uranian: [55724, 2867],
+  neptunian: [67252, -11466],
+  plutonian: [79330, 7056],
+  kuiper: [91958, -2867],
+  voyager2wide: [108428, 20727],
+  voyager1wide: [130388, -27342],
 };
 function regionOrigin(id = current) {
   return regionOrigins[systems[id] ? id : localSystemFor(id)] || [0, 0];
