@@ -1862,10 +1862,12 @@ html[data-theme="sky"] .quote-nav-btn:focus-visible { color: var(--ink); }
 .story-doorway-link {
   display: inline-flex; flex-direction: column; text-align: center;
   max-width: 100%; text-decoration: none;
-  transition: var(--select-ease);
 }
-.story-doorway-link:hover,
-.story-doorway-link:active { opacity: var(--select-dim); }
+/* A pointer dims the words and leaves the door at its full weight (rule in
+   COLOPHON.md; scripts/test-hover.cjs). */
+.story-doorway-link > span { transition: var(--select-ease); }
+.story-doorway-link:hover > span,
+.story-doorway-link:active > span { opacity: var(--select-dim); }
 .story-doorway-link:focus-visible { outline: 2px solid var(--petrol); outline-offset: 4px; border-radius: 8px; }
 /* The featured piece still leads the page, but at 2.75rem (44px) rather than
    the 50px it used to shout: this is a piece title sitting among section
