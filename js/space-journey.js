@@ -289,7 +289,7 @@ function loadMars() {
       marsRequest = null;
       resolve(false);
     };
-    image.src = '/pictures/space/images/mars-master.webp';
+    image.src = detailSource('mars');
   });
   return marsRequest;
 }
@@ -314,7 +314,7 @@ function loadCeres() {
       ceresRequest = null;
       resolve(false);
     };
-    image.src = '/pictures/space/images/ceres-detail.webp';
+    image.src = detailSource('ceres');
   });
   return ceresRequest;
 }
@@ -339,7 +339,7 @@ function loadJupiter() {
       jupiterRequest = null;
       resolve(false);
     };
-    image.src = '/pictures/space/images/jupiter-detail-v12.webp';
+    image.src = detailSource('jupiter');
   });
   return jupiterRequest;
 }
@@ -390,21 +390,22 @@ const systems={
  saturnian:{space:'saturnSpace',targets:'saturnTargets',bodies:['saturn','titan','enceladus'],bounds:[-720,1910,-650,500],label:'Saturn'}
 };
 // Stable route coordinates shared by every region; this is an illustrative travel layout.
+// Spread by a further 25 percent on 5 November 2026, with the longer trips.
 const regionOrigins = {
-  solar: [-14640, -1260],
-  mercurywide: [-9272, 1540],
-  venuswide: [-4636, -2380],
+  solar: [-18300, -1575],
+  mercurywide: [-11590, 1925],
+  venuswide: [-5795, -2975],
   system: [0, 0],
-  martian: [4880, 1680],
-  belt: [8540, -1820],
-  jovian: [13542, 2940],
-  saturnian: [18910, -2660],
-  uranian: [24766, 910],
-  neptunian: [29890, -3640],
-  plutonian: [35258, 2240],
-  kuiper: [40870, -910],
-  voyager2wide: [48190, 6580],
-  voyager1wide: [57950, -8680],
+  martian: [6100, 2100],
+  belt: [10675, -2275],
+  jovian: [16928, 3675],
+  saturnian: [23638, -3325],
+  uranian: [30958, 1138],
+  neptunian: [37362, -4550],
+  plutonian: [44072, 2800],
+  kuiper: [51088, -1138],
+  voyager2wide: [60238, 8225],
+  voyager1wide: [72438, -10850],
 };
 function regionOrigin(id = current) {
   return regionOrigins[systems[id] ? id : localSystemFor(id)] || [0, 0];
@@ -492,16 +493,35 @@ function loadBodyDetail(name) {
       state.request = null;
       resolve(false);
     };
-    image.src =
-      (name.startsWith('voyager') ? 'assets/' : '/pictures/space/images/') +
-      (name.startsWith('voyager') ? 'voyager' : name) +
-      (name.startsWith('voyager')
-        ? '-detail-v20.webp'
-        : ['europa', 'neptune', 'triton'].includes(name)
-          ? '-detail-v12.webp'
-          : '-detail.webp');
+    image.src = detailSource(name);
   });
   return state.request;
+}
+function detailSource(name) {
+  if (name === 'mars') return '/pictures/space/images/mars-master.webp';
+  if (name === 'ceres') return '/pictures/space/images/ceres-detail.webp';
+  if (name === 'jupiter') return '/pictures/space/images/jupiter-detail-v12.webp';
+  if (!bodyDetails[name]) return null;
+  return (
+    (name.startsWith('voyager') ? 'assets/' : '/pictures/space/images/') +
+    (name.startsWith('voyager') ? 'voyager' : name) +
+    (name.startsWith('voyager')
+      ? '-detail-v20.webp'
+      : ['europa', 'neptune', 'triton'].includes(name)
+        ? '-detail-v12.webp'
+        : '-detail.webp')
+  );
+}
+// A large image decoded during a journey made the first trips stutter, so
+// its file is fetched while travelling and only decoded and shown on arrival.
+const warmedDetails = new Set();
+function warmDetail(name) {
+  const source = detailSource(name);
+  if (!source || warmedDetails.has(source) || typeof Image !== 'function') return;
+  warmedDetails.add(source);
+  const image = new Image();
+  image.decoding = 'async';
+  image.src = source;
 }
 
 // The camera: its pose now, the pending request and the history it writes.
@@ -916,18 +936,18 @@ function curvePoint(from, to, profile, q) {
 // Sample distance along the camera path once. Passing worlds never change
 // the clock; the middle of each flight advances at a constant scene speed.
 // One clock for every journey between worlds (5 November 2026). The trip
-// length comes from how far apart the two places are on the route: 2 seconds
-// to a wide view of the same neighborhood, 3 between a planet and its moon,
-// 4.5 to the next neighborhood and at most 7 for the longest jump; a return
-// takes half as long, at most 3. A quarter of the trip leaves, a little over
+// length comes from how far apart the two places are on the route: 2.5 seconds
+// to a wide view of the same neighborhood, 4 between a planet and its moon,
+// 6 to the next neighborhood and at most 9 for the longest jump; a return
+// takes half as long, at most 4. A quarter of the trip leaves, a little over
 // a third crosses and the rest arrives. Inside each part, time follows what
 // the reader sees: how far the departing and arriving worlds move and grow on
 // screen, and how far the view turns. So nothing waits still and nothing is
 // flung away. Passing worlds never enter the clock.
 const travelShares = [0.25, 0.35, 0.4];
 function travelSeconds(intervals, wide, short = false, remaining = 1) {
-  let seconds = !intervals ? (wide ? 2 : 3) : intervals === 1 ? 4.5 : Math.min(7, 4 + 0.5 * intervals);
-  if (short) seconds = Math.min(3, Math.max(1.2, seconds / 2));
+  let seconds = !intervals ? (wide ? 2.5 : 4) : intervals === 1 ? 6 : Math.min(9, 5 + 0.5 * intervals);
+  if (short) seconds = Math.min(4, Math.max(1.5, seconds / 2));
   return Math.max(1, seconds * Math.max(0.35, Math.min(1, remaining)));
 }
 function visibleChange(before, after, focal) {
@@ -972,7 +992,7 @@ function paceFlight(from, to, profile, view, sourceId, destinationId, seconds) {
   }
   // A later step never returns to an earlier part of the trip.
   for (let i = 1; i < steps; i++) phases[i] = Math.max(phases[i], phases[i - 1]);
-  const ramp = Math.min(0.9, seconds * 0.22),
+  const ramp = Math.min(0.6, seconds * 0.15),
     cost = seconds - ramp,
     totals = [0, 0, 0],
     counts = [0, 0, 0];
@@ -1189,10 +1209,13 @@ function position(previousId, animate = true, short = false) {
   };
   for (const name of group.bodies) {
     if (!loaders[name]) continue;
-    Promise.all([loaders[name](), settled]).then(([loaded, arrived]) => {
-      if (loaded && arrived && revision === viewRevision && localBodyFor(current) === name)
-        $(name + 'High').style.opacity = '1';
-    });
+    warmDetail(name);
+    settled
+      .then((arrived) => (arrived && revision === viewRevision ? loaders[name]() : false))
+      .then((loaded) => {
+        if (loaded && revision === viewRevision && localBodyFor(current) === name)
+          $(name + 'High').style.opacity = '1';
+      });
   }
   settled.then((arrived) => {
     if (arrived && revision === viewRevision) drawHotspots();
@@ -1889,5 +1912,19 @@ const initialNavigation = go(sceneFromHash(), { mode: 'replace' });
 initialNavigation.then(() => {
   const key = new URLSearchParams(location.search).get('note');
   if (key && fieldNotes[key]) openInfo(key);
+});
+// Decode every world's picture ahead of time, one at a time while the browser
+// is idle, so a world first seen in the middle of a journey does not stall it.
+initialNavigation.then(() => {
+  const queue = [...new Set(Object.values(localBodies).map((b) => b.image)), 'farSideImage', 'vestaSouthImage'],
+    idle = typeof requestIdleCallback === 'function' ? requestIdleCallback : (fn) => setTimeout(fn, 250);
+  const next = () => {
+    const image = queue.length ? $(queue.shift()) : null;
+    if (!image) return;
+    Promise.resolve(image.decode?.())
+      .catch(() => {})
+      .then(() => idle(next));
+  };
+  idle(next);
 });
 
