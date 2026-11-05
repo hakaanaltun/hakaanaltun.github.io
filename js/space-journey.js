@@ -390,22 +390,23 @@ const systems={
  saturnian:{space:'saturnSpace',targets:'saturnTargets',bodies:['saturn','titan','enceladus'],bounds:[-720,1910,-650,500],label:'Saturn'}
 };
 // Stable route coordinates shared by every region; this is an illustrative travel layout.
-// Spread by a further 25 percent on 5 November 2026, with the longer trips.
+// Spread by a further 25 percent on 5 November 2026, with the longer trips, and
+// the same evening by 1.8 times, so a wide view no longer shows its neighbors.
 const regionOrigins = {
-  solar: [-18300, -1575],
-  mercurywide: [-11590, 1925],
-  venuswide: [-5795, -2975],
+  solar: [-32940, -2835],
+  mercurywide: [-20862, 3465],
+  venuswide: [-10431, -5355],
   system: [0, 0],
-  martian: [6100, 2100],
-  belt: [10675, -2275],
-  jovian: [16928, 3675],
-  saturnian: [23638, -3325],
-  uranian: [30958, 1138],
-  neptunian: [37362, -4550],
-  plutonian: [44072, 2800],
-  kuiper: [51088, -1138],
-  voyager2wide: [60238, 8225],
-  voyager1wide: [72438, -10850],
+  martian: [10980, 3780],
+  belt: [19215, -4095],
+  jovian: [30470, 6615],
+  saturnian: [42548, -5985],
+  uranian: [55724, 2048],
+  neptunian: [67252, -8190],
+  plutonian: [79330, 5040],
+  kuiper: [91958, -2048],
+  voyager2wide: [108428, 14805],
+  voyager1wide: [130388, -19530],
 };
 function regionOrigin(id = current) {
   return regionOrigins[systems[id] ? id : localSystemFor(id)] || [0, 0];
@@ -939,12 +940,13 @@ function curvePoint(from, to, profile, q) {
 // length comes from how far apart the two places are on the route: 2.5 seconds
 // to a wide view of the same neighborhood, 4 between a planet and its moon,
 // 6 to the next neighborhood and at most 9 for the longest jump; a return
-// takes half as long, at most 4. A quarter of the trip leaves, a little over
-// a third crosses and the rest arrives. Inside each part, time follows what
+// takes half as long, at most 4. A quarter of the trip leaves, a quarter
+// crosses and half arrives, from the moment the destination reaches a tenth
+// of its final size. Inside each part, time follows what
 // the reader sees: how far the departing and arriving worlds move and grow on
 // screen, and how far the view turns. So nothing waits still and nothing is
 // flung away. Passing worlds never enter the clock.
-const travelShares = [0.25, 0.35, 0.4];
+const travelShares = [0.25, 0.25, 0.5];
 function travelSeconds(intervals, wide, short = false, remaining = 1) {
   let seconds = !intervals ? (wide ? 2.5 : 4) : intervals === 1 ? 6 : Math.min(9, 5 + 0.5 * intervals);
   if (short) seconds = Math.min(4, Math.max(1.5, seconds / 2));
@@ -987,7 +989,7 @@ function paceFlight(from, to, profile, view, sourceId, destinationId, seconds) {
       next = sample(t),
       arriving = next.worlds.at(-1);
     changes.push(visibleChange(previous, next, focal));
-    phases.push(t <= profile.turn ? 0 : arriving && arriving.r >= finalRadius * 0.25 ? 2 : 1);
+    phases.push(t <= profile.turn ? 0 : arriving && arriving.r >= finalRadius * 0.1 ? 2 : 1);
     previous = next;
   }
   // A later step never returns to an earlier part of the trip.

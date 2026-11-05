@@ -306,7 +306,7 @@ sunlight; no text, itinerary, extra planets, brushwork or decorative border.
   used 2, 3, 4.5, 7 and 3; the author found it a little fast and asked for
   more room, so the lengths grew by about a third and the neighborhoods
   were spread 25 percent further apart.) A quarter of the trip leaves,
-  35 percent crosses and 40 percent arrives. Inside each part, time follows
+  a quarter crosses and half arrives (35 and 40 percent at first). Inside each part, time follows
   the visible change of the two end worlds (how far they move and grow on
   screen) and how far the view turns, with a small even floor so no step is
   skipped. Passing worlds still never enter the clock. An interrupted trip
@@ -316,6 +316,15 @@ sunlight; no text, itinerary, extra planets, brushwork or decorative border.
   no end world moves faster than 4.5 screens a second and that the view is
   never still for a second, at desktop and phone sizes. The gentle start
   and finish last at most 0.6 seconds.
+  The same evening the author agreed that the worlds sat too close: every
+  wide view showed four to ten other worlds as sizable disks (Mars at the
+  edge of Earth and Moon, Earth behind the site's name from Mars), so a trip
+  to a world already in sight felt like a hop. The neighborhoods were spread
+  by a further 1.8 times; at desk and phone sizes no wide view now shows a
+  neighbor, and the next world is reached by the footer and the named
+  arrows. The trip lengths stayed. To keep the longer crossing from standing
+  still, arrival now begins once the destination reaches a tenth of its
+  final size.
   The author also found the first departures stuttering. Large detail
   images were being decoded while the camera moved, and a world's picture
   was decoded the first time it came into view mid-journey. Detail images
