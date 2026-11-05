@@ -429,6 +429,37 @@ run(fs.readFileSync('js/space-journey.js','utf8'));
   }
  }
  console.log('Passed: steady cruise on near, far and reverse routes across viewport sizes.');
+ // The opt-in pilot gives destination growth time and supports interruption.
+ location.search='?motion=staged';
+ for(const [w,h] of [[1280,900],[390,844],[568,320]]){
+  element('stage').clientWidth=w;element('stage').clientHeight=h;
+  for(const id of ['moon','neptune']){
+   context.pilotId=id;
+   const sample=run(`(()=>{
+    const p=travelPlan('earth',pilotId,localTarget('earth'));
+    let half=0,threeQuarters=0;
+    for(let i=0;i<=500;i++){
+     const pose=flightPose(p.from,p.to,p.profile,i/500);
+     const ratio=flightProjection(pose,localBodies[pilotId],regionOrigin(pilotId)).scale/p.to.scale;
+     if(ratio<.5)half=i/500;
+     if(ratio<.75)threeQuarters=i/500;
+     if(!Number.isFinite(pose.x+pose.y+pose.scale))throw Error('Invalid pilot pose');
+    }
+    return {duration:p.duration,growth:(threeQuarters-half)*p.duration};
+   })()`);
+   assert(sample.duration>10000&&sample.duration<16000);
+   assert(sample.growth>1000,'Final growth needs at least one second');
+   reduced=true;await run("go('earth')");reduced=false;
+   const pilot=run(`go('${id}')`);await flush();await tick(2000);
+   element('skipTravel').onclick();await finish(pilot);
+   near(run('localPose.scale'),run(`localTarget('${id}').scale`));
+  }
+ }
+ reduced=true;await run("go('earth')");reduced=false;
+ const interruptedPilot=run("go('neptune')");await flush();await tick(2000);
+ await finish(run("go('moon')"));assert.equal(await interruptedPilot,false);
+ location.search='';
+ console.log('Passed: staged pilot growth, finite poses, skip and interruption.');
  // Every named footer destination arrives close, just like its globe target.
  reduced=true;
  for(const button of nav){

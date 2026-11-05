@@ -287,3 +287,10 @@ sunlight; no text, itinerary, extra planets, brushwork or decorative border.
   horizontal panning, momentum and tap cancellation to the browser. Only
   mouse input uses the custom pointer drag. Keep `touch-action: auto` on
   the strip so horizontal scrolling and pinch zoom remain available.
+
+- **The staged flight is a preview for two routes.** `motion=staged` enables
+  it only from a settled Earth view to the Moon or Neptune. Departure gets
+  three seconds, cruise two to five, and destination growth five, with
+  smooth overlapping contributions and endpoint ramps. Other worlds do
+  not control its clock. Interrupted journeys use the regular retargeting
+  path. Compare these two routes visually before extending the experiment.
