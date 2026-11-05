@@ -294,3 +294,6 @@ sunlight; no text, itinerary, extra planets, brushwork or decorative border.
   smooth overlapping contributions and endpoint ramps. Other worlds do
   not control its clock. Interrupted journeys use the regular retargeting
   path. Compare these two routes visually before extending the experiment.
+  Browser inspection also reproduced a 415px internal stage scroll that
+  displaced arrival framing. The stage uses `overflow: clip` to crop the
+  camera scene without making it a scroll container.
