@@ -417,7 +417,7 @@ run(fs.readFileSync('js/space-journey.js','utf8'));
    for(const source of journey)for(const destination of journey){
     if(source===destination)continue;
     const p=travelPlan(source,destination,localTarget(source));
-    if(!Number.isFinite(p.duration)||p.duration<5000||p.duration>15000)
+    if(!Number.isFinite(p.duration)||p.duration<1900||p.duration>7001)
      throw Error(source+' to '+destination+' invalid duration '+p.duration);
     let last=-1;
     for(let i=0;i<=100;i++){
@@ -436,6 +436,49 @@ run(fs.readFileSync('js/space-journey.js','utf8'));
  near(run("travelPlan('earth','neptune',localTarget('earth')).duration"),unchanged);
  run('localBodies.jupiter.cx-=10000');
  console.log('Passed: all world pairs have finite advancing clocks and bounded durations.');
+ // One clock: trip lengths follow the route, and what the reader sees moves
+ // evenly, never flung away and never held still (5 November 2026).
+ element('stage').clientWidth=1280;element('stage').clientHeight=900;
+ location.search='';
+ const seconds=run(`(()=>{const d=(a,b,s)=>travelPlan(a,b,localTarget(a),s).duration/1000;
+  return {moon:d('earth','moon'),io:d('jupiter','io'),mars:d('moon','mars'),far:d('sun','voyager1'),
+   back:d('mars','moon',true),wide:d('moon','system'),saturnBack:d('earth','saturn',true)}})()`);
+ assert(Math.abs(seconds.moon-3)<.05&&Math.abs(seconds.io-3)<.05,'a planet and its moon are three seconds apart');
+ assert(Math.abs(seconds.mars-4.5)<.05,'the next neighborhood is four and a half seconds away');
+ assert(Math.abs(seconds.far-7)<.05,'the longest jump takes seven seconds');
+ assert(seconds.back<=3.001&&seconds.saturnBack<=3.001,'a return takes at most three seconds');
+ assert(Math.abs(seconds.wide-2)<.05,'a wide view of the same neighborhood is two seconds away');
+ for(const [width,height] of [[1280,900],[390,844]]){
+  element('stage').clientWidth=width;element('stage').clientHeight=height;
+  const worst=run(`(()=>{let fastest=0,stillest=0;
+   for(const [a,b] of [['earth','moon'],['moon','mars'],['jupiter','io'],['earth','neptune'],['sun','voyager1'],['voyager1','sun'],['titan','enceladus']]){
+    const p=travelPlan(a,b,localTarget(a)),view=cameraViewport(),steps=700,ends=[a,b];
+    const at=t=>{const pose=flightPose(p.from,p.to,p.profile,t,view);
+     return ends.map(id=>{const body=localBodies[localBodyFor(id)],q=flightProjection(pose,body,regionOrigin(id),view);
+      return q.visible?[q.x,q.y,(body.rx||body.radius)*q.scale]:null}).concat([pose.look||{x:0,y:0}])};
+    let last=at(0),still=0;
+    for(let i=1;i<=steps;i++){
+     const now=at(i/steps),dt=p.duration/1000/steps;let move=0;
+     for(let k=0;k<2;k++)if(now[k]&&last[k])
+      move=Math.max(move,Math.hypot(now[k][0]-last[k][0],now[k][1]-last[k][1])/view.width/dt,Math.abs(now[k][2]-last[k][2])/view.width/dt);
+     fastest=Math.max(fastest,move);
+     const turning=Math.hypot(now[2].x-last[2].x,now[2].y-last[2].y)/dt>.01;
+     still=move<.01&&!turning?still+dt:0;stillest=Math.max(stillest,still);last=now;
+    }
+   }
+   return {fastest,stillest}})()`);
+  assert(worst.fastest<4.5,'a world moved '+worst.fastest.toFixed(2)+' screens a second');
+  assert(worst.stillest<1,'the view held still for '+worst.stillest.toFixed(2)+' seconds');
+ }
+ // Every world has its light line; only the neighborhoods between the ends are named in passing.
+ assert(run('journey.every(id=>typeof lightLines[id]==="string"&&lightLines[id].endsWith("."))'));
+ reduced=true;await run("go('earth')");reduced=false;
+ const outward=run("go('neptune')");await flush();
+ assert.equal(run('JSON.stringify([...travelEnds.between])'),JSON.stringify(['martian','belt','jovian','saturnian','uranian']));
+ assert.equal(element('travelLight').textContent,run('lightLines.neptune'));
+ element('skipTravel').onclick();await finish(outward);
+ assert.equal(element('travelLight').textContent,'');
+ console.log('Passed: one travel clock with route-based lengths, half-length returns, even visible motion and no still stretches; light lines for every world.');
  // Approved near and far approaches keep their pacing without a query flag.
  location.search='';
  for(const [w,h] of [[1280,900],[390,844],[568,320]]){
@@ -444,18 +487,17 @@ run(fs.readFileSync('js/space-journey.js','utf8'));
    context.pilotId=id;
    const sample=run(`(()=>{
     const p=travelPlan('earth',pilotId,localTarget('earth'));
-    let half=0,threeQuarters=0;
+    let quarter=0;
     for(let i=0;i<=500;i++){
      const pose=flightPose(p.from,p.to,p.profile,i/500);
      const ratio=flightProjection(pose,localBodies[pilotId],regionOrigin(pilotId)).scale/p.to.scale;
-     if(ratio<.5)half=i/500;
-     if(ratio<.75)threeQuarters=i/500;
+     if(ratio<.25)quarter=i/500;
      if(!Number.isFinite(pose.x+pose.y+pose.scale))throw Error('Invalid pilot pose');
     }
-    return {duration:p.duration,growth:(threeQuarters-half)*p.duration};
+    return {duration:p.duration,growth:(1-quarter)*p.duration};
    })()`);
-   assert(sample.duration>10000&&sample.duration<16000);
-   assert(sample.growth>1000,'Final growth needs at least one second');
+   assert(sample.duration>2900&&sample.duration<7100);
+   assert(sample.growth>sample.duration*.3,'The arrival keeps at least a third of the trip');
    reduced=true;await run("go('earth')");reduced=false;
    const pilot=run(`go('${id}')`);await flush();await tick(2000);
    element('skipTravel').onclick();await finish(pilot);
@@ -496,10 +538,11 @@ run(fs.readFileSync('js/space-journey.js','utf8'));
    // During the forward leg the destination remains in sight, rather than
    // sliding sideways across a shallow, nearly overhead camera.
    context.destinationBody=to;
+   // The route itself is checked here, along its length; the clock that paces it is checked above.
    for(const t of [.35,.5,.65,.8]){
     context.pacingTime=t;
-    const pose=run('flightPose(pacingPlan.from,pacingPlan.to,pacingPlan.profile,pacingTime)');
-    const projected=run('flightProjection(flightPose(pacingPlan.from,pacingPlan.to,pacingPlan.profile,pacingTime),localBodies[destinationBody],regionOrigin(destinationBody))');
+    const pose=run('pathPose(pacingPlan.from,pacingPlan.to,pacingPlan.profile,pacingTime,cameraViewport())');
+    const projected=run('flightProjection(pathPose(pacingPlan.from,pacingPlan.to,pacingPlan.profile,pacingTime,cameraViewport()),localBodies[destinationBody],regionOrigin(destinationBody))');
     const anchor=run('localAnchor()');
     assert(projected.visible,'Forward destination must remain visible');
     assert(Math.hypot(projected.x-anchor.x,projected.y-anchor.y)<Math.max(width,height)*.1,'Camera must look ahead at the destination');
