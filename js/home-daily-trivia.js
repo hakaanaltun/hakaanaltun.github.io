@@ -11,6 +11,7 @@
   var choices = document.getElementById('home-daily-trivia-choices');
   var feedback = document.getElementById('home-daily-trivia-feedback');
   var more = document.getElementById('home-daily-trivia-more');
+  var wordLine = document.getElementById('home-daily-trivia-word');
   var source = root.getAttribute('data-source');
 
   /* The build keeps a closed-up dash from opening a line on the published
@@ -126,6 +127,10 @@
     choices.innerHTML = '';
     feedback.textContent = '';
     more.hidden = true;
+    if (wordLine) {
+      wordLine.hidden = true;
+      wordLine.textContent = '';
+    }
 
     arrangement.forEach(function (original, slot) {
       var button = document.createElement('button');
@@ -171,6 +176,20 @@
           name.textContent = q.choices[q.answer];
           feedback.appendChild(name);
           feedback.appendChild(document.createTextNode('. ' + joinDashes(q.note)));
+        }
+
+        // A note that touches a word with its own story leads to it, as it
+        // does on the quiz pages (js/trivia.js).
+        if (wordLine && typeof q.word === 'string' && /^[a-z0-9-]+$/.test(q.word)) {
+          var wordLink = document.createElement('a');
+          var wordName = document.createElement('em');
+          wordName.textContent = q.word;
+          wordLink.href = '/word/' + q.word + '/';
+          wordLink.appendChild(wordName);
+          wordLine.textContent = 'The word ';
+          wordLine.appendChild(wordLink);
+          wordLine.appendChild(document.createTextNode(' has a story of its own.'));
+          wordLine.hidden = false;
         }
 
         more.href = q.url || '/trivia/';

@@ -434,6 +434,11 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   `css/style.css`; a phone held sideways shows them two by two), and for
   The Notice just under Latest, in its indigo. "Another way in." stays
   with "First time here?", since it answers "Three doors in."
+  On 5 November 2026 a walk through the homepage found The Notice standing
+  as a title, a date and "told in choices" with nothing to say what it was,
+  so its doorway now carries one line from the story's own description, "A
+  door, and the time it held." (`doorway_line` in its post), as the excerpt
+  does under each card in Latest.
 - **The House keeps its own line.** After "First time here?" and its three
   doors, the homepage says "Another way in." and leads to The House.
   Folding it into the three doors was considered on 14 October 2026, and
