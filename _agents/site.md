@@ -422,9 +422,9 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   from the book leaves it unmarked, in the book's blue. The source line
   changes color while it fades. Every theme uses the section accent for
   the source and its italic title, including on devices set to dark.
-- **Latest opens the homepage.** Since 5 November 2026 the order begins
-  the quotes, Latest, Trivia, The Notice, "First time here?" (below). It
-  was the quotes, Latest, The Notice, "First time here?", "Another way in.",
+- **Latest opens the homepage.** Since 5 November 2026 the order is the
+  quotes, Latest, "First time here?", "Another way in.", Trivia, The
+  Notice, the book, Further back (below). It was the quotes, Latest, The Notice, "First time here?", "Another way in.",
   the book, Further back, as the author set it on 20 October 2026. On the
   morning of 19 October a walk through the homepage on a phone had found
   "First time here?" three and a half screens down, under the six large
@@ -448,8 +448,10 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   readers with their teachers, ask for it most, and it had been seven
   screens down on a phone. Seen live that evening, The Notice straight
   under Latest read as one more card of Latest, with its picture, title
-  and date, so the author asked for something between them: Trivia now
-  stands between Latest and The Notice. Words with Stories and Pictures with Stories
+  and date, so the author asked for something between them, and then
+  for this order: "First time here?" and "Another way in." under Latest,
+  then Trivia, then The Notice just before the book, since the story and
+  the book belong together (the third part's password is in The Notice). Words with Stories and Pictures with Stories
   may come up later, carefully; the pictures change on every visit and
   that stays.
 - **The House keeps its own line.** After "First time here?" and its three
