@@ -54,7 +54,7 @@ rule written there.
   practical navigation. The October 19 follow-up lengthens normal camera paths
   by about 57 percent from the first release (1.1–5.6 seconds). History returns
   scale with distance too (1–3.2 seconds), replacing the abrupt half-second
-  return. Different route rhythms remain; reduced motion is immediate.
+  return; see the single clock below for the current lengths. Different route rhythms remain; reduced motion is immediate.
 - **Perspective travel is the default across the journey.** On 20 October
   2026 the author approved the extended Earth–Moon pilot for publication.
   It runs between different bodies, including selections from the wide
@@ -106,7 +106,8 @@ rule written there.
   and uses a 1.2-second acceleration and braking ramp. Trip duration grows
   logarithmically with route length. Almost-complete retargets scale down
   with the remaining motion. Test cruise speed on near, far and reverse
-  routes; passing worlds must never alter the clock.
+  routes; passing worlds must never alter the clock. Later that day this
+  timing gave way to the single clock described below.
  The earlier region-based timing still serves
   `flight=outside`. Local inspection and alternate observations have their
   own timings.
@@ -288,13 +289,46 @@ sunlight; no text, itinerary, extra planets, brushwork or decorative border.
   mouse input uses the custom pointer drag. Keep `touch-action: auto` on
   the strip so horizontal scrolling and pinch zoom remain available.
 
-- **Full journeys use the approved staged pacing.** On 5 November the
-  author approved the Earth–Moon and Earth–Neptune preview for other routes,
-  asking for gentle departures and purposeful progress without a drawn-out
-  approach. Departure gets three seconds, cruise two to five, and destination
-  growth five, with overlapping contributions and endpoint ramps. Other
-  worlds do not control its clock. Interrupted journeys use the regular
-  retargeting path. No query parameter is required.
+- **One clock paces every journey between worlds.** On 5 November 2026,
+  after the staged pacing above had gone out, the author walked the route
+  and found that a departure was flung away while the crossing dragged.
+  Measured in a browser, every trip took 11.5 to 13.5 seconds whatever its
+  length, Back took 6.5 to 13.5, and a world sat almost still for about
+  2.5 seconds before being swept out of view in half a second, then grew
+  slowly for 8. The three clocks that had built up (`timePerspectiveFlight`,
+  `timeStagedFlight` and the region-based duration) are now one,
+  `paceFlight`, which follows the practice of map fly-to cameras: keep the
+  motion the reader sees steady rather than the distance travelled. Trip
+  length comes from the route (`travelSeconds`): 2 seconds to a wide view of
+  the same neighborhood, 3 between a planet and its moon, 4.5 to the next
+  neighborhood and at most 7 for the longest jump; a return, a Back or a
+  browser Back, takes half as long, at most 3. A quarter of the trip leaves,
+  35 percent crosses and 40 percent arrives. Inside each part, time follows
+  the visible change of the two end worlds (how far they move and grow on
+  screen) and how far the view turns, with a small even floor so no step is
+  skipped. Passing worlds still never enter the clock. An interrupted trip
+  takes the share of its time that the remaining distance needs. The path
+  itself, its curve, turn and forward perspective, is unchanged.
+  `scripts/test-space.cjs` checks the lengths, the half-length returns, that
+  no end world moves faster than 4.5 screens a second and that the view is
+  never still for a second, at desktop and phone sizes.
+  The same day the author asked for three things to try with it. The
+  distant stars now turn with the view, as stars too far away to move with
+  the camera would. A few faint motes, nearer than the stars, stream outward
+  from where the camera is heading while it travels, and fade at both ends
+  (`paintMotes`; 28 on a desk, 16 on a phone; painted in the same frame, no
+  loop of their own). On a long jump the main world of each neighborhood
+  strictly between the two ends shows its name faintly as it goes by
+  (`paintPassing`); worlds ahead of the destination stay unnamed. Under
+  "Travelling to …" a line says how long light takes on the way
+  (`lightLines`): sunlight's time at the average distance for planets and
+  small worlds, the light time from a planet to its moon at the moon's
+  average distance, four to seven hours for Pluto because its orbit is too
+  eccentric for one figure, and each Voyager's signal time to Earth in
+  November 2026 (Voyager 1 crosses one light-day on 18 November 2026, so
+  "about a day" holds on either side). A wide view of the same neighborhood
+  has no line. The figures come from NASA's planetary and satellite fact
+  sheets and its Voyager pages.
   Browser inspection also reproduced a 415px internal stage scroll that
   displaced arrival framing. The stage uses `overflow: clip` to crop the
   camera scene without making it a scroll container.

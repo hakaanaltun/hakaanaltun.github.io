@@ -411,6 +411,37 @@ function regionOrigin(id = current) {
 }
 const journey=['sun','mercury','venus','earth','moon','mars','ceres','vesta','jupiter','io','europa','saturn','titan','enceladus','uranus','miranda','neptune','triton','pluto','charon','arrokoth','voyager2','voyager1'];
 const bodyNames={sun:'The Sun',mercury:'Mercury',venus:'Venus',voyager2:'Voyager 2',voyager1:'Voyager 1',arrokoth:'Arrokoth',pluto:'Pluto',charon:'Charon',neptune:'Neptune',triton:'Triton',uranus:'Uranus',miranda:'Miranda',earth:'Earth',moon:'The Moon',mars:'Mars',ceres:'Ceres',vesta:'Vesta',jupiter:'Jupiter',io:'Io',europa:'Europa',saturn:'Saturn',titan:'Titan',enceladus:'Enceladus'};
+// A line shown while travelling: how long light takes on the way to each world.
+// Planets and small worlds give sunlight's time at their average distance from
+// the Sun (Pluto's orbit is too eccentric for one figure); moons give the time
+// light needs across their average distance from their planet; the Voyagers
+// give their signal time to Earth in November 2026. Sources: NASA's planetary
+// and satellite fact sheets, and NASA's Voyager mission pages.
+const lightLines={
+ sun:'Its light takes about 8 minutes to reach Earth.',
+ mercury:'Sunlight takes about 3 minutes to reach Mercury.',
+ venus:'Sunlight takes about 6 minutes to reach Venus.',
+ earth:'Sunlight takes about 8 minutes to reach Earth.',
+ moon:'Light takes about 1.3 seconds to cross from Earth to the Moon.',
+ mars:'Sunlight takes about 13 minutes to reach Mars.',
+ ceres:'Sunlight takes about 23 minutes to reach Ceres.',
+ vesta:'Sunlight takes about 20 minutes to reach Vesta.',
+ jupiter:'Sunlight takes about 43 minutes to reach Jupiter.',
+ io:'Light takes about 1.4 seconds to cross from Jupiter to Io.',
+ europa:'Light takes about 2.2 seconds to cross from Jupiter to Europa.',
+ saturn:'Sunlight takes about 80 minutes to reach Saturn.',
+ titan:'Light takes about 4 seconds to cross from Saturn to Titan.',
+ enceladus:'Light takes under a second to cross from Saturn to Enceladus.',
+ uranus:'Sunlight takes about 2 hours 40 minutes to reach Uranus.',
+ miranda:'Light takes under half a second to cross from Uranus to Miranda.',
+ neptune:'Sunlight takes a little over 4 hours to reach Neptune.',
+ triton:'Light takes about 1.2 seconds to cross from Neptune to Triton.',
+ pluto:'Sunlight takes four to seven hours to reach Pluto, depending on where it is in its orbit.',
+ charon:'Light takes less than a tenth of a second to cross from Pluto to Charon.',
+ arrokoth:'Sunlight takes about 6 hours to reach Arrokoth.',
+ voyager2:'Its signals take about 19 hours to reach Earth.',
+ voyager1:'Its signals take about a day to reach Earth.'
+};
 const variants = { farside: 'moon', vestasouth: 'vesta' };
 function localBodyFor(id) {
   const name = scenes[id]?.object;
@@ -608,11 +639,18 @@ const backgroundStars = Array.from({ length: 64 }, (_, i) => {
     opacity: i % 9 === 0 ? 0.55 : 0.22 + (i % 4) * 0.06,
   };
 });
-function paintStars(silhouettes, view) {
-  const count = view.width < 701 ? 30 : backgroundStars.length;
+// The distant stars turn with the view: they lie too far away to move as the
+// camera travels, but they swing across the window when it turns.
+function paintStars(silhouettes, view, p) {
+  const count = view.width < 701 ? 30 : backgroundStars.length,
+    angle = Math.hypot(p.look?.x || 0, p.look?.y || 0),
+    turn = angle > 1e-6 ? Math.max(view.width, view.height) * 0.85 * Math.tan(Math.min(angle, 1.2)) / angle : 0,
+    shiftX = -(p.look?.x || 0) * turn,
+    shiftY = -(p.look?.y || 0) * turn,
+    wrap = (value, size) => ((value % size) + size) % size;
   backgroundStars.forEach((star, i) => {
-    const x = star.x * view.width,
-      y = star.y * view.height;
+    const x = wrap(star.x * view.width + shiftX, view.width),
+      y = wrap(star.y * view.height + shiftY, view.height);
     const covered = silhouettes.some(({ x: cx, y: cy, rx, ry }) =>
       ((x - cx) / rx) ** 2 + ((y - cy) / ry) ** 2 < 1,
     );
@@ -620,6 +658,69 @@ function paintStars(silhouettes, view) {
     star.el.style.top = y + 'px';
     star.el.style.opacity = i < count && !covered ? star.opacity : 0;
   });
+}
+// A few faint motes, nearer than the stars, stream outward from where the
+// camera is heading while it crosses open space, so the crossing reads as
+// movement. They appear only during a journey and fade at both ends of it.
+const travelMotes = Array.from({ length: 28 }, (_, i) => {
+  const el = document.createElement('i');
+  el.className = i % 3 ? 'travel-mote' : 'travel-mote near';
+  $('starField').append(el);
+  return { el, angle: i * 2.39996323, phase: (i * 0.38196601 + 0.11) % 1 };
+});
+let travelEnds = null,
+  travelProgress = 0;
+function paintMotes(silhouettes, view, focus, active) {
+  const count = view.width < 701 ? 16 : travelMotes.length,
+    reach = Math.hypot(view.width, view.height) * 0.62,
+    glow = active ? Math.sin(Math.PI * travelProgress) ** 2 : 0,
+    cycles = travelEnds?.cycles || 2;
+  travelMotes.forEach((mote, i) => {
+    if (!glow || i >= count) {
+      mote.el.style.opacity = '0';
+      return;
+    }
+    // Depth runs from far (1) to beside the camera (0); nearer motes spread outward.
+    const depth = 1 - ((mote.phase + travelProgress * cycles) % 1),
+      r = (reach * 0.06) / (depth + 0.06),
+      x = focus.x + Math.cos(mote.angle) * r,
+      y = focus.y + Math.sin(mote.angle) * r;
+    const covered = silhouettes.some(({ x: cx, y: cy, rx, ry }) =>
+      ((x - cx) / rx) ** 2 + ((y - cy) / ry) ** 2 < 1,
+    );
+    mote.el.style.left = x + 'px';
+    mote.el.style.top = y + 'px';
+    mote.el.style.opacity = covered
+      ? '0'
+      : String(glow * 0.42 * Math.min(1, (1 - depth) * 3) * Math.min(1, depth / 0.08));
+  });
+}
+// Worlds passed on a long journey show their names faintly as they go by.
+// They add nothing to the history and nothing to the clock.
+const passingLabels = Object.fromEntries(
+  Object.entries(systems).map(([key, sys]) => {
+    const el = document.createElement('span'),
+      body = sys.bodies[0];
+    el.className = 'passing-name';
+    el.setAttribute('aria-hidden', 'true');
+    el.textContent = { ceres: 'The belt', arrokoth: 'Kuiper Belt' }[body] || bodyNames[body];
+    $('stage').append(el);
+    return [key, el];
+  }),
+);
+function paintPassing(key, projection, radius, view, active) {
+  const el = passingLabels[key],
+    size = Math.min(view.width, view.height),
+    passing = active && travelEnds?.between.has(key);
+  const r = radius * projection.scale,
+    shown = passing && projection.visible
+      ? Math.min(1, Math.max(0, (r - 4) / 10)) * Math.min(1, Math.max(0, (size * 0.32 - r) / (size * 0.14)))
+      : 0;
+  el.style.opacity = String(shown * 0.62);
+  if (shown) {
+    el.style.left = projection.x + 'px';
+    el.style.top = projection.y + r + 10 + 'px';
+  }
 }
 function paintFlightWorld(name, p, projection, origin, a) {
   const b = localBodies[name];
@@ -644,6 +745,7 @@ function paintLocalCamera(p, controls = true, view = cameraViewport()) {
     key = localSystemFor(),
     wide = !!systems[current];
   const silhouettes = [];
+  let heading = a;
   document.body.classList.toggle('inside-flight', !!p.inside);
   for (const [name, sys] of Object.entries(systems)) {
     const [ox, oy] = regionOrigin(name);
@@ -660,6 +762,8 @@ function paintLocalCamera(p, controls = true, view = cameraViewport()) {
         button = $(body + 'Target');
       const projection = flightProjection(p, b, [ox, oy], view);
       paintFlightWorld(body, p, projection, [ox, oy], a);
+      if (body === sys.bodies[0]) paintPassing(name, projection, b.rx || b.radius, view, !!p.inside);
+      if (p.inside && body === travelEnds?.body && projection.visible) heading = projection;
       if (projection.visible) silhouettes.push({
         x: projection.x,
         y: projection.y,
@@ -691,7 +795,8 @@ function paintLocalCamera(p, controls = true, view = cameraViewport()) {
       );
     }
   }
-  paintStars(silhouettes, view);
+  paintStars(silhouettes, view, p);
+  paintMotes(silhouettes, view, heading, !!p.inside);
 }
 
 function cancelLocalFlight() {
@@ -810,53 +915,81 @@ function curvePoint(from, to, profile, q) {
 }
 // Sample distance along the camera path once. Passing worlds never change
 // the clock; the middle of each flight advances at a constant scene speed.
-function timePerspectiveFlight(from, to, profile, view) {
-  const steps = 512, lengths = [0];
-  let previous = pathPose(from, to, profile, 0, view);
-  for (let i = 1; i <= steps; i++) {
-    const pose = pathPose(from, to, profile, i / steps, view);
-    lengths.push(lengths[i - 1] + Math.hypot(pose.x - previous.x, pose.y - previous.y));
-    previous = pose;
-  }
-  const length = lengths.at(-1);
-  const remaining = Math.min(1, length * Math.sqrt(from.scale * to.scale) /
-    Math.min(view.width, view.height));
-  const cost = (7 + 2.5 * Math.log1p(length / 2500)) * remaining;
-  const ramp = Math.min(1.2, cost / 3);
-  const times = lengths.map(distance => length ? distance / length * cost : 0);
-  profile.screenClock = { times, cost, ramp };
-  profile.duration = (cost + ramp) * 1000;
+// One clock for every journey between worlds (5 November 2026). The trip
+// length comes from how far apart the two places are on the route: 2 seconds
+// to a wide view of the same neighborhood, 3 between a planet and its moon,
+// 4.5 to the next neighborhood and at most 7 for the longest jump; a return
+// takes half as long, at most 3. A quarter of the trip leaves, a little over
+// a third crosses and the rest arrives. Inside each part, time follows what
+// the reader sees: how far the departing and arriving worlds move and grow on
+// screen, and how far the view turns. So nothing waits still and nothing is
+// flung away. Passing worlds never enter the clock.
+const travelShares = [0.25, 0.35, 0.4];
+function travelSeconds(intervals, wide, short = false, remaining = 1) {
+  let seconds = !intervals ? (wide ? 2 : 3) : intervals === 1 ? 4.5 : Math.min(7, 4 + 0.5 * intervals);
+  if (short) seconds = Math.min(3, Math.max(1.2, seconds / 2));
+  return Math.max(1, seconds * Math.max(0.35, Math.min(1, remaining)));
 }
-// Separate departure, empty-space travel and approach for each full journey.
-// Only the destination determines approach pacing; passing worlds add no cost.
-function timeStagedFlight(from, to, profile, view, destination) {
+function visibleChange(before, after, focal) {
+  let change = 0.5 * focal * Math.hypot(
+    (after.pose.look?.x || 0) - (before.pose.look?.x || 0),
+    (after.pose.look?.y || 0) - (before.pose.look?.y || 0),
+  );
+  after.worlds.forEach((world, i) => {
+    const earlier = before.worlds[i];
+    if (world && earlier)
+      change += Math.hypot(world.x - earlier.x, world.y - earlier.y) + Math.abs(world.r - earlier.r);
+  });
+  return change;
+}
+function paceFlight(from, to, profile, view, sourceId, destinationId, seconds) {
   profile.turn = Math.min(profile.turn, 0.3);
-  const steps = 512, departure = [], cruise = [], approach = [];
-  const body = localBodies[destination], origin = regionOrigin(destination);
-  let previous = pathPose(from, to, profile, 0, view), lastGrowth = 0;
+  const steps = 512,
+    focal = Math.max(view.width, view.height) * 0.85,
+    ends = [localBodyFor(sourceId), localBodyFor(destinationId)].filter((name) => localBodies[name]),
+    destination = localBodies[localBodyFor(destinationId)];
+  const sample = (t) => {
+    const pose = pathPose(from, to, profile, t, view);
+    return {
+      pose,
+      worlds: ends.map((name) => {
+        const b = localBodies[name],
+          p = flightProjection(pose, b, regionOrigin(name === localBodyFor(destinationId) ? destinationId : sourceId), view);
+        return p.visible ? { x: p.x, y: p.y, r: (b.rx || b.radius) * p.scale } : null;
+      }),
+    };
+  };
+  const finalRadius = destination ? (destination.rx || destination.radius) * to.scale : 0;
+  const changes = [], phases = [];
+  let previous = sample(0);
   for (let i = 1; i <= steps; i++) {
-    const t = i / steps, pose = pathPose(from, to, profile, t, view);
-    const turn = Math.min(1, t / profile.turn);
-    departure.push((1 + Math.cos(Math.PI * turn)) / 2);
-    cruise.push(Math.hypot(pose.x - previous.x, pose.y - previous.y));
-    const disk = flightProjection(pose, body, origin, view).scale / to.scale;
-    // This smooth threshold gives the growing disk progressively more time.
-    const growth = Math.log1p((disk / 0.2) ** 2);
-    approach.push(t > profile.turn ? Math.max(0, growth - lastGrowth) : 0);
-    lastGrowth = growth;
-    previous = pose;
+    const t = i / steps,
+      next = sample(t),
+      arriving = next.worlds.at(-1);
+    changes.push(visibleChange(previous, next, focal));
+    phases.push(t <= profile.turn ? 0 : arriving && arriving.r >= finalRadius * 0.25 ? 2 : 1);
+    previous = next;
   }
-  const total = values => values.reduce((sum, value) => sum + value, 0);
-  const departureTotal = total(departure), distance = total(cruise), growthTotal = total(approach);
-  const cruiseSeconds = 2 + Math.min(3, Math.log1p(distance / 2500));
+  // A later step never returns to an earlier part of the trip.
+  for (let i = 1; i < steps; i++) phases[i] = Math.max(phases[i], phases[i - 1]);
+  const ramp = Math.min(0.9, seconds * 0.22),
+    cost = seconds - ramp,
+    totals = [0, 0, 0],
+    counts = [0, 0, 0];
+  changes.forEach((change, i) => {
+    totals[phases[i]] += change;
+    counts[phases[i]]++;
+  });
+  const used = travelShares.reduce((sum, share, p) => sum + (counts[p] ? share : 0), 0);
   const times = [0];
-  for (let i = 0; i < steps; i++) {
-    times.push(times[i] + 3 * departure[i] / departureTotal +
-      cruiseSeconds * cruise[i] / (distance || 1) + 5 * approach[i] / (growthTotal || 1));
-  }
-  const cost = times.at(-1), ramp = 1.2;
-  profile.screenClock = { times, cost, ramp };
-  profile.duration = (cost + ramp) * 1000;
+  changes.forEach((change, i) => {
+    const p = phases[i],
+      // A small even floor keeps every step moving, even where nothing is seen to change.
+      weight = totals[p] ? (change + (totals[p] * 0.08) / counts[p]) / (totals[p] * 1.08) : 1 / counts[p];
+    times.push(times[i] + (cost * travelShares[p] / used) * weight);
+  });
+  profile.screenClock = { times, cost: times.at(-1), ramp };
+  profile.duration = (times.at(-1) + ramp) * 1000;
 }
 function screenProgress(profile, t) {
   if (t <= 0 || t >= 1) return t;
@@ -943,9 +1076,16 @@ function travelPlan(fromId, toId, from, short = false) {
   if (!short && fromId && !systems[toId] && start >= 0 && end >= 0 && intervals >= 2)
     direct.duration = Math.min(50000, 6000 + 3500 * (intervals - 1));
   if (direct.inside) {
-    if (!interrupted && !short)
-      timeStagedFlight(from, target, direct, cameraViewport(), localBodyFor(toId));
-    else timePerspectiveFlight(from, target, direct, cameraViewport());
+    // An interrupted trip takes the share of the time that its remaining distance needs.
+    const whole = Math.hypot(target.x - departure.x, target.y - departure.y),
+      remaining = interrupted && whole ? Math.hypot(target.x - from.x, target.y - from.y) / whole : 1;
+    const seconds = travelSeconds(
+      start < 0 || end < 0 ? 1 : intervals,
+      !!(systems[fromId] || systems[toId]),
+      short,
+      remaining,
+    );
+    paceFlight(from, target, direct, cameraViewport(), fromId, toId, seconds);
   }
   return { from, to: target, profile: direct, duration: direct.duration };
 }
@@ -981,6 +1121,7 @@ function flyLocal(poses, duration, profile) {
       const elapsed = Math.min(duration, now - started),
         progress = elapsed / duration;
       const view = cameraViewport();
+      travelProgress = curve.screenClock ? screenProgress(curve, progress) : progress;
       const pose = flightPose(from, target, curve, progress, view);
       paintLocalCamera(pose, false, view);
       if (progress < 1) localFrame = requestAnimationFrame(frame);
@@ -1020,6 +1161,16 @@ function position(previousId, animate = true, short = false) {
     el.style.opacity = active ? '1' : '0';
     $(body).style.opacity = active ? '0' : '1';
   }
+  const regions = Object.keys(regionOrigins),
+    from = regions.indexOf(localSystemFor(previousId)),
+    to = regions.indexOf(key);
+  travelEnds = {
+    // Only the neighborhoods strictly between the two ends are passed.
+    between: new Set(from < 0 ? [] : regions.slice(Math.min(from, to) + 1, Math.max(from, to))),
+    body: localBodyFor(current),
+    cycles: 2 + Math.min(4, from < 0 ? 0 : Math.abs(to - from)),
+  };
+  travelProgress = 0;
   paintLocalCamera(localPose || overviewPose());
   const target = localTarget(current),
     plan = travelPlan(previousId, current, localPose, short),
@@ -1144,6 +1295,10 @@ function setTravelState(busy, loading = false) {
       (loading ? 'Loading ' : 'Travelling to ') +
       (systems[pendingDestination]?.label || bodyNames[localBodyFor(pendingDestination)]) +
       '…';
+  // A wide view of the same neighborhood is a step back, not a journey.
+  const nearby = systems[pendingDestination] && localSystemFor(pendingDestination) === localSystemFor(current);
+  $('travelLight').textContent =
+    busy && !loading && !nearby ? lightLines[localBodyFor(pendingDestination)] || '' : '';
   $('skipTravel').hidden = loading;
 }
 function writeHistory(id, options) {
