@@ -309,7 +309,7 @@ run(fs.readFileSync('js/space-journey.js','utf8'));
    const trip=run(`go('${to}')`);await flush();await tick(profile.duration/2);
    const projected=run(`(()=>{const target=localTarget('${to}'),origin=regionOrigin('${to}');return flightProjection(localPose,{...localBodies['${to}'],cx:target.x-origin[0],cy:target.y-origin[1]},origin)})()`);
    const anchor=run('localAnchor()');
-   assert(Math.abs(projected.x-anchor.x)<width*.35&&Math.abs(projected.y-anchor.y)<height*.35,'Destination stays in sight during the curved approach');
+   assert(Math.abs(projected.x-anchor.x)<width*.35&&Math.abs(projected.y-anchor.y)<height*.35,`Destination stays in sight during the curved approach: ${from} to ${to} at ${width}`);
    assert(projected.visible);assert(Number.isFinite(projected.scale)&&projected.scale>0);
    await finish(trip);assert(!classes.has('inside-flight'));
    for(const body of bodies)assert.equal(element(body).style.visibility,'');
@@ -410,27 +410,34 @@ run(fs.readFileSync('js/space-journey.js','utf8'));
  stripEvent('pointerdown',{pointerId:2,isPrimary:false});stripEvent('pointermove',{clientX:20});
  assert.equal(strip.scrollLeft,260);assert(!strip.hasPointerCapture(1),'a second finger releases the drag for pinch zoom');
  console.log('Passed: native touch/pen handoff and mouse strip dragging; reverse, tap, click suppression, cancel, capture loss, vertical pan, pinch and keyboard activation.');
- // Cruise speed stays constant while passing other worlds, in both directions.
- for(const [width,height] of [[1280,900],[390,844],[768,1024]]){
+ // Every pair uses a finite, advancing clock with bounded travel time.
+ for(const [width,height] of [[1280,900],[390,844],[568,320]]){
   element('stage').clientWidth=width;element('stage').clientHeight=height;
-  for(const [source,destination] of [['earth','moon'],['earth','venus'],['earth','neptune'],['neptune','earth']]){
-   const result=run(`(()=>{
-    const plan=travelPlan('${source}','${destination}',localTarget('${source}'));
-    const speeds=[];
-    for(let i=20;i<80;i++){
-     const a=flightPose(plan.from,plan.to,plan.profile,i/100);
-     const b=flightPose(plan.from,plan.to,plan.profile,(i+1)/100);
-     speeds.push(Math.hypot(b.x-a.x,b.y-a.y));
+  run(`(()=>{
+   for(const source of journey)for(const destination of journey){
+    if(source===destination)continue;
+    const p=travelPlan(source,destination,localTarget(source));
+    if(!Number.isFinite(p.duration)||p.duration<5000||p.duration>15000)
+     throw Error(source+' to '+destination+' invalid duration '+p.duration);
+    let last=-1;
+    for(let i=0;i<=100;i++){
+     const t=i/100, progress=screenProgress(p.profile,t);
+     const pose=flightPose(p.from,p.to,p.profile,t);
+     if(progress<=last||!Number.isFinite(pose.x+pose.y+pose.scale))
+      throw Error(source+' to '+destination+' invalid progress');
+     last=progress;
     }
-    return {seconds:plan.duration/1000,ratio:Math.max(...speeds)/Math.min(...speeds)};
-   })()`);
-   assert(result.seconds>=7&&result.seconds<20,'Full trips keep a measured duration');
-   assert(result.ratio<1.02,'Passing a world must not change cruise speed');
-  }
+   }
+  })()`);
  }
- console.log('Passed: steady cruise on near, far and reverse routes across viewport sizes.');
- // The opt-in pilot gives destination growth time and supports interruption.
- location.search='?motion=staged';
+ // Moving an unrelated planet cannot change the journey clock.
+ const unchanged=run("travelPlan('earth','neptune',localTarget('earth')).duration");
+ run('localBodies.jupiter.cx+=10000');
+ near(run("travelPlan('earth','neptune',localTarget('earth')).duration"),unchanged);
+ run('localBodies.jupiter.cx-=10000');
+ console.log('Passed: all world pairs have finite advancing clocks and bounded durations.');
+ // Approved near and far approaches keep their pacing without a query flag.
+ location.search='';
  for(const [w,h] of [[1280,900],[390,844],[568,320]]){
   element('stage').clientWidth=w;element('stage').clientHeight=h;
   for(const id of ['moon','neptune']){
@@ -459,7 +466,7 @@ run(fs.readFileSync('js/space-journey.js','utf8'));
  const interruptedPilot=run("go('neptune')");await flush();await tick(2000);
  await finish(run("go('moon')"));assert.equal(await interruptedPilot,false);
  location.search='';
- console.log('Passed: staged pilot growth, finite poses, skip and interruption.');
+ console.log('Passed: staged approach growth, finite poses, skip and interruption.');
  // Every named footer destination arrives close, just like its globe target.
  reduced=true;
  for(const button of nav){

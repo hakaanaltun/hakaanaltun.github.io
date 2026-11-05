@@ -827,9 +827,10 @@ function timePerspectiveFlight(from, to, profile, view) {
   profile.screenClock = { times, cost, ramp };
   profile.duration = (cost + ramp) * 1000;
 }
-// A two-route preview separates departure, empty-space travel and approach.
+// Separate departure, empty-space travel and approach for each full journey.
 // Only the destination determines approach pacing; passing worlds add no cost.
 function timeStagedFlight(from, to, profile, view, destination) {
+  profile.turn = Math.min(profile.turn, 0.3);
   const steps = 512, departure = [], cruise = [], approach = [];
   const body = localBodies[destination], origin = regionOrigin(destination);
   let previous = pathPose(from, to, profile, 0, view), lastGrowth = 0;
@@ -851,7 +852,7 @@ function timeStagedFlight(from, to, profile, view, destination) {
   const times = [0];
   for (let i = 0; i < steps; i++) {
     times.push(times[i] + 3 * departure[i] / departureTotal +
-      cruiseSeconds * cruise[i] / distance + 5 * approach[i] / growthTotal);
+      cruiseSeconds * cruise[i] / (distance || 1) + 5 * approach[i] / (growthTotal || 1));
   }
   const cost = times.at(-1), ramp = 1.2;
   profile.screenClock = { times, cost, ramp };
@@ -942,9 +943,8 @@ function travelPlan(fromId, toId, from, short = false) {
   if (!short && fromId && !systems[toId] && start >= 0 && end >= 0 && intervals >= 2)
     direct.duration = Math.min(50000, 6000 + 3500 * (intervals - 1));
   if (direct.inside) {
-    const staged = new URLSearchParams(location.search).get('motion') === 'staged' &&
-      fromId === 'earth' && ['moon', 'neptune'].includes(toId) && !interrupted && !short;
-    if (staged) timeStagedFlight(from, target, direct, cameraViewport(), toId);
+    if (!interrupted && !short)
+      timeStagedFlight(from, target, direct, cameraViewport(), localBodyFor(toId));
     else timePerspectiveFlight(from, target, direct, cameraViewport());
   }
   return { from, to: target, profile: direct, duration: direct.duration };
