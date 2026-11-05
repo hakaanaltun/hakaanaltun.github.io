@@ -100,14 +100,14 @@ rule written there.
   local planet–moon layouts stay registered.
   On 5 November the author found that a constant speed in scene coordinates
   still made nearby worlds fly past while distant worlds barely moved.
-  Perspective travel now measures projected limb movement, camera turning
-  and zoom, and the destination disk's proportional growth during approach.
-  The clock is sampled once per journey at the current viewport size. The
-  opening turn takes a comparable time on each route; distant transfers can
-  cross empty space more quickly. A full hop has room for departure and
-  arrival. A nearly completed retarget is timed from the actual pose.
-  Compare apparent disk growth on short and long routes when tuning the
-  pace, including in portrait. The earlier region-based timing still serves
+  The first screen-based clock reacted to passing worlds and caused repeated
+  speed changes. Perspective travel now samples arc length along the camera
+  path once, runs at constant scene speed through the middle of each route,
+  and uses a 1.2-second acceleration and braking ramp. Trip duration grows
+  logarithmically with route length. Almost-complete retargets scale down
+  with the remaining motion. Test cruise speed on near, far and reverse
+  routes; passing worlds must never alter the clock.
+ The earlier region-based timing still serves
   `flight=outside`. Local inspection and alternate observations have their
   own timings.
   The decorative star layer shows at most 64 stars (30 on phones), above
@@ -282,3 +282,8 @@ sunlight; no text, itinerary, extra planets, brushwork or decorative border.
   clip is now 52 percent, leaving black pixels at the retained edge in
   both the overview and detail image. Image placement and surface pixels
   are unchanged.
+
+- **The stop strip scrolls natively on touch screens.** Touch and pen leave
+  horizontal panning, momentum and tap cancellation to the browser. Only
+  mouse input uses the custom pointer drag. Keep `touch-action: auto` on
+  the strip so horizontal scrolling and pinch zoom remain available.

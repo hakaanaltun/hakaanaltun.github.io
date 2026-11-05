@@ -362,15 +362,15 @@ run(fs.readFileSync('js/space-journey.js','utf8'));
  reduced=false;const resized=run("go('moon')");await flush();await tick(1000);events.resize();await finish(resized);assert(!classes.has('inside-flight'));
  reduced=true;browserPop(-1);await finish();assert(!classes.has('inside-flight'));
  location.search='';}
- // Touch and pen dragging must scroll both ways without choosing a stop.
+ // Touch and pen remain native; mouse dragging scrolls without choosing a stop.
  const strip=element('journeyStops');
  const stripEvent=(type,changes={})=>{
-  const event={pointerId:1,isPrimary:true,button:0,pointerType:'touch',clientX:240,clientY:700,detail:1,prevented:false,stopped:false,
+  const event={pointerId:1,isPrimary:true,button:0,pointerType:'mouse',clientX:240,clientY:700,detail:1,prevented:false,stopped:false,
    preventDefault(){this.prevented=true},stopPropagation(){this.stopped=true},...changes};
   for(const fn of strip.listeners[type]||[])fn(event);
   return event;
  };
- for(const pointerType of ['touch','pen','mouse']){
+ for(const pointerType of ['mouse']){
   strip.scrollLeft=200;
   stripEvent('pointerdown',{pointerType});
   stripEvent('pointermove',{pointerType,clientX:236});
@@ -385,6 +385,17 @@ run(fs.readFileSync('js/space-journey.js','utf8'));
   stripEvent('pointerdown',{pointerType});stripEvent('pointerup',{pointerType});
   assert(!stripEvent('click').stopped,'a fresh tap must still choose a world');
  }
+ for(const pointerType of ['touch','pen']){
+  strip.scrollLeft=200;
+  assert(!stripEvent('pointerdown',{pointerType}).prevented);
+  assert(!stripEvent('pointermove',{pointerType,clientX:120}).prevented);
+  assert.equal(strip.scrollLeft,200,'JavaScript must leave native scrolling alone');
+  assert(!strip.hasPointerCapture(1),'Native panning must not be captured');
+  stripEvent('pointercancel',{pointerType});
+  stripEvent('pointerdown',{pointerType});stripEvent('pointerup',{pointerType});
+  assert(!stripEvent('click').stopped,'A native tap can choose a stop');
+ }
+ assert(fs.readFileSync('css/space-journey.css','utf8').includes('#journeyStops{touch-action:auto;'), 'Native horizontal touch panning must be enabled');
  for(const end of ['pointercancel','lostpointercapture']){
   strip.scrollLeft=200;stripEvent('pointerdown');stripEvent('pointermove',{clientX:180});
   stripEvent(end);stripEvent('pointermove',{clientX:20});
@@ -398,32 +409,26 @@ run(fs.readFileSync('js/space-journey.js','utf8'));
  stripEvent('pointerdown');stripEvent('pointermove',{clientX:180});
  stripEvent('pointerdown',{pointerId:2,isPrimary:false});stripEvent('pointermove',{clientX:20});
  assert.equal(strip.scrollLeft,260);assert(!strip.hasPointerCapture(1),'a second finger releases the drag for pinch zoom');
- console.log('Passed: touch, pen and mouse strip dragging; reverse, tap, click suppression, cancel, capture loss, vertical pan, pinch and keyboard activation.');
- // Time what the reader sees: count seconds between the last crossing of
- // 50% and 75% of the destination's final apparent diameter on approach.
+ console.log('Passed: native touch/pen handoff and mouse strip dragging; reverse, tap, click suppression, cancel, capture loss, vertical pan, pinch and keyboard activation.');
+ // Cruise speed stays constant while passing other worlds, in both directions.
  for(const [width,height] of [[1280,900],[390,844],[768,1024]]){
   element('stage').clientWidth=width;element('stage').clientHeight=height;
-  const samples=run(`['moon','venus','neptune'].map(id=>{
-   const plan=travelPlan('earth',id,localTarget('earth')), view=cameraViewport();
-   const body=localBodies[id], origin=regionOrigin(id);
-   let half, threeQuarters;
-   for(let i=0;i<=600;i++){
-    const t=i/600, pose=flightPose(plan.from,plan.to,plan.profile,t,view);
-    const projected=flightProjection(pose,body,origin,view);
-    if(!projected.visible)continue;
-    if(projected.scale<plan.to.scale*.50)half=t;
-    if(projected.scale<plan.to.scale*.75)threeQuarters=t;
-   }
-   return {seconds:plan.duration/1000,approach:(threeQuarters-half)*plan.duration/1000};
-  })`);
-  const [moon,venus,neptune]=samples;
-  assert(moon.seconds>=4.8&&venus.seconds>=4.8,'nearby worlds need time for departure and approach');
-  assert(neptune.seconds>venus.seconds&&neptune.seconds<20,'distant flight keeps its distance without a long crawl');
-  const approach=samples.map(sample=>sample.approach);
-  assert(Math.min(...approach)>.8&&Math.max(...approach)<1.6,'the visible approach must neither rush nor crawl');
-  assert(Math.max(...approach)/Math.min(...approach)<1.25,'near and far worlds should grow at a comparable pace');
+  for(const [source,destination] of [['earth','moon'],['earth','venus'],['earth','neptune'],['neptune','earth']]){
+   const result=run(`(()=>{
+    const plan=travelPlan('${source}','${destination}',localTarget('${source}'));
+    const speeds=[];
+    for(let i=20;i<80;i++){
+     const a=flightPose(plan.from,plan.to,plan.profile,i/100);
+     const b=flightPose(plan.from,plan.to,plan.profile,(i+1)/100);
+     speeds.push(Math.hypot(b.x-a.x,b.y-a.y));
+    }
+    return {seconds:plan.duration/1000,ratio:Math.max(...speeds)/Math.min(...speeds)};
+   })()`);
+   assert(result.seconds>=7&&result.seconds<20,'Full trips keep a measured duration');
+   assert(result.ratio<1.02,'Passing a world must not change cruise speed');
+  }
  }
- console.log('Passed: measured on-screen approach pacing across near and distant worlds on desktop, tablet and phone.');
+ console.log('Passed: steady cruise on near, far and reverse routes across viewport sizes.');
  // Every named footer destination arrives close, just like its globe target.
  reduced=true;
  for(const button of nav){
