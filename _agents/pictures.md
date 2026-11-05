@@ -287,3 +287,14 @@ sunlight; no text, itinerary, extra planets, brushwork or decorative border.
   horizontal panning, momentum and tap cancellation to the browser. Only
   mouse input uses the custom pointer drag. Keep `touch-action: auto` on
   the strip so horizontal scrolling and pinch zoom remain available.
+
+- **Full journeys use the approved staged pacing.** On 5 November the
+  author approved the Earth–Moon and Earth–Neptune preview for other routes,
+  asking for gentle departures and purposeful progress without a drawn-out
+  approach. Departure gets three seconds, cruise two to five, and destination
+  growth five, with overlapping contributions and endpoint ramps. Other
+  worlds do not control its clock. Interrupted journeys use the regular
+  retargeting path. No query parameter is required.
+  Browser inspection also reproduced a 415px internal stage scroll that
+  displaced arrival framing. The stage uses `overflow: clip` to crop the
+  camera scene without making it a scroll container.

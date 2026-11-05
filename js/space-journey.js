@@ -827,6 +827,37 @@ function timePerspectiveFlight(from, to, profile, view) {
   profile.screenClock = { times, cost, ramp };
   profile.duration = (cost + ramp) * 1000;
 }
+// Separate departure, empty-space travel and approach for each full journey.
+// Only the destination determines approach pacing; passing worlds add no cost.
+function timeStagedFlight(from, to, profile, view, destination) {
+  profile.turn = Math.min(profile.turn, 0.3);
+  const steps = 512, departure = [], cruise = [], approach = [];
+  const body = localBodies[destination], origin = regionOrigin(destination);
+  let previous = pathPose(from, to, profile, 0, view), lastGrowth = 0;
+  for (let i = 1; i <= steps; i++) {
+    const t = i / steps, pose = pathPose(from, to, profile, t, view);
+    const turn = Math.min(1, t / profile.turn);
+    departure.push((1 + Math.cos(Math.PI * turn)) / 2);
+    cruise.push(Math.hypot(pose.x - previous.x, pose.y - previous.y));
+    const disk = flightProjection(pose, body, origin, view).scale / to.scale;
+    // This smooth threshold gives the growing disk progressively more time.
+    const growth = Math.log1p((disk / 0.2) ** 2);
+    approach.push(t > profile.turn ? Math.max(0, growth - lastGrowth) : 0);
+    lastGrowth = growth;
+    previous = pose;
+  }
+  const total = values => values.reduce((sum, value) => sum + value, 0);
+  const departureTotal = total(departure), distance = total(cruise), growthTotal = total(approach);
+  const cruiseSeconds = 2 + Math.min(3, Math.log1p(distance / 2500));
+  const times = [0];
+  for (let i = 0; i < steps; i++) {
+    times.push(times[i] + 3 * departure[i] / departureTotal +
+      cruiseSeconds * cruise[i] / (distance || 1) + 5 * approach[i] / (growthTotal || 1));
+  }
+  const cost = times.at(-1), ramp = 1.2;
+  profile.screenClock = { times, cost, ramp };
+  profile.duration = (cost + ramp) * 1000;
+}
 function screenProgress(profile, t) {
   if (t <= 0 || t >= 1) return t;
   const { times, cost, ramp } = profile.screenClock;
@@ -912,7 +943,9 @@ function travelPlan(fromId, toId, from, short = false) {
   if (!short && fromId && !systems[toId] && start >= 0 && end >= 0 && intervals >= 2)
     direct.duration = Math.min(50000, 6000 + 3500 * (intervals - 1));
   if (direct.inside) {
-    timePerspectiveFlight(from, target, direct, cameraViewport());
+    if (!interrupted && !short)
+      timeStagedFlight(from, target, direct, cameraViewport(), localBodyFor(toId));
+    else timePerspectiveFlight(from, target, direct, cameraViewport());
   }
   return { from, to: target, profile: direct, duration: direct.duration };
 }
