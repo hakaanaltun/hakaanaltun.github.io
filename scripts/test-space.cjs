@@ -417,7 +417,7 @@ run(fs.readFileSync('js/space-journey.js','utf8'));
    for(const source of journey)for(const destination of journey){
     if(source===destination)continue;
     const p=travelPlan(source,destination,localTarget(source));
-    if(!Number.isFinite(p.duration)||p.duration<1900||p.duration>7001)
+    if(!Number.isFinite(p.duration)||p.duration<2400||p.duration>9001)
      throw Error(source+' to '+destination+' invalid duration '+p.duration);
     let last=-1;
     for(let i=0;i<=100;i++){
@@ -443,11 +443,11 @@ run(fs.readFileSync('js/space-journey.js','utf8'));
  const seconds=run(`(()=>{const d=(a,b,s)=>travelPlan(a,b,localTarget(a),s).duration/1000;
   return {moon:d('earth','moon'),io:d('jupiter','io'),mars:d('moon','mars'),far:d('sun','voyager1'),
    back:d('mars','moon',true),wide:d('moon','system'),saturnBack:d('earth','saturn',true)}})()`);
- assert(Math.abs(seconds.moon-3)<.05&&Math.abs(seconds.io-3)<.05,'a planet and its moon are three seconds apart');
- assert(Math.abs(seconds.mars-4.5)<.05,'the next neighborhood is four and a half seconds away');
- assert(Math.abs(seconds.far-7)<.05,'the longest jump takes seven seconds');
- assert(seconds.back<=3.001&&seconds.saturnBack<=3.001,'a return takes at most three seconds');
- assert(Math.abs(seconds.wide-2)<.05,'a wide view of the same neighborhood is two seconds away');
+ assert(Math.abs(seconds.moon-4)<.05&&Math.abs(seconds.io-4)<.05,'a planet and its moon are four seconds apart');
+ assert(Math.abs(seconds.mars-6)<.05,'the next neighborhood is six seconds away');
+ assert(Math.abs(seconds.far-9)<.05,'the longest jump takes nine seconds');
+ assert(seconds.back<=4.001&&seconds.saturnBack<=4.001&&Math.abs(seconds.back-3)<.05,'a return takes half as long, at most four seconds');
+ assert(Math.abs(seconds.wide-2.5)<.05,'a wide view of the same neighborhood is two and a half seconds away');
  for(const [width,height] of [[1280,900],[390,844]]){
   element('stage').clientWidth=width;element('stage').clientHeight=height;
   const worst=run(`(()=>{let fastest=0,stillest=0;
@@ -496,7 +496,7 @@ run(fs.readFileSync('js/space-journey.js','utf8'));
     }
     return {duration:p.duration,growth:(1-quarter)*p.duration};
    })()`);
-   assert(sample.duration>2900&&sample.duration<7100);
+   assert(sample.duration>3900&&sample.duration<9100);
    assert(sample.growth>sample.duration*.3,'The arrival keeps at least a third of the trip');
    reduced=true;await run("go('earth')");reduced=false;
    const pilot=run(`go('${id}')`);await flush();await tick(2000);

@@ -299,10 +299,13 @@ sunlight; no text, itinerary, extra planets, brushwork or decorative border.
   `timeStagedFlight` and the region-based duration) are now one,
   `paceFlight`, which follows the practice of map fly-to cameras: keep the
   motion the reader sees steady rather than the distance travelled. Trip
-  length comes from the route (`travelSeconds`): 2 seconds to a wide view of
-  the same neighborhood, 3 between a planet and its moon, 4.5 to the next
-  neighborhood and at most 7 for the longest jump; a return, a Back or a
-  browser Back, takes half as long, at most 3. A quarter of the trip leaves,
+  length comes from the route (`travelSeconds`): 2.5 seconds to a wide view
+  of the same neighborhood, 4 between a planet and its moon, 6 to the next
+  neighborhood and at most 9 for the longest jump; a return, a Back or a
+  browser Back, takes half as long, at most 4. (The first version that day
+  used 2, 3, 4.5, 7 and 3; the author found it a little fast and asked for
+  more room, so the lengths grew by about a third and the neighborhoods
+  were spread 25 percent further apart.) A quarter of the trip leaves,
   35 percent crosses and 40 percent arrives. Inside each part, time follows
   the visible change of the two end worlds (how far they move and grow on
   screen) and how far the view turns, with a small even floor so no step is
@@ -311,7 +314,14 @@ sunlight; no text, itinerary, extra planets, brushwork or decorative border.
   itself, its curve, turn and forward perspective, is unchanged.
   `scripts/test-space.cjs` checks the lengths, the half-length returns, that
   no end world moves faster than 4.5 screens a second and that the view is
-  never still for a second, at desktop and phone sizes.
+  never still for a second, at desktop and phone sizes. The gentle start
+  and finish last at most 0.6 seconds.
+  The author also found the first departures stuttering. Large detail
+  images were being decoded while the camera moved, and a world's picture
+  was decoded the first time it came into view mid-journey. Detail images
+  are now fetched while travelling but decoded and shown only on arrival
+  (`warmDetail`), and after the page opens every world's picture is
+  decoded one at a time while the browser is idle.
   The same day the author asked for three things to try with it. The
   distant stars now turn with the view, as stars too far away to move with
   the camera would. A few faint motes, nearer than the stars, stream outward
