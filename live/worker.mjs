@@ -42,9 +42,10 @@ function random() {
   return crypto.getRandomValues(new Uint32Array(1))[0] / 4294967296;
 }
 
-async function bank(env) {
+async function bank(env, slug) {
   const site = env.SITE || 'https://hakanaltun.io';
-  const response = await fetch(site + '/trivia/questions.json', { cf: { cacheTtl: 300, cacheEverything: true } });
+  const path = slug.startsWith('speaking-') ? '/speaking/questions.json' : '/trivia/questions.json';
+  const response = await fetch(site + path, { cf: { cacheTtl: 300, cacheEverything: true } });
   if (!response.ok) throw new Error('bank ' + response.status);
   return response.json();
 }
@@ -58,7 +59,7 @@ async function openRoom(request, env, headers) {
   if (!/^[a-z0-9-]{1,40}$/.test(slug)) return Response.json({ error: 'quiz' }, { status: 400, headers });
 
   let all;
-  try { all = await bank(env); } catch (error) {
+  try { all = await bank(env, slug); } catch (error) {
     return Response.json({ error: 'bank' }, { status: 502, headers });
   }
   const questions = pickQuestions(all, slug, count, random);

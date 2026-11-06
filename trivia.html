@@ -33,6 +33,19 @@ trivia: true
     {% endfor %}
   </div>
 
+  <h2 class="trivia-panel-title">Speaking games</h2>
+  <div class="trivia-index-list">
+    {% assign speaking_sets = site.pages | where: "speaking", true | sort: "url" %}
+    {% for set in speaking_sets %}
+    <a class="trivia-index-card" href="{{ set.url }}">
+      <span class="trivia-index-meta">{{ site.data.speaking[set.quiz] | size }} questions</span>
+      <span class="trivia-index-title">{{ set.title }}</span>
+      <span class="trivia-index-copy">{{ set.description }}</span>
+      <span class="trivia-index-go">Play <span aria-hidden="true">&rarr;</span></span>
+    </a>
+    {% endfor %}
+  </div>
+
   {%- comment -%} Playing together (/trivia/live/): one big screen, a phone
   each. {%- endcomment %}
   <p class="trivia-together"><a href="/trivia/live/">Play together with a class</a>: the questions on one big screen, and everyone answers from their own phone.</p>

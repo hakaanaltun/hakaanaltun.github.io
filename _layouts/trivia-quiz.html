@@ -12,7 +12,11 @@ layout: default
   the same fact read twice, never two numbers to keep in step. A bank with no
   categories still works; it falls back to rounds of ten.
 {%- endcomment -%}
-{%- assign quiz = site.data.quizzes[page.quiz] -%}
+{%- if page.speaking -%}
+  {%- assign quiz = site.data.speaking[page.quiz] -%}
+{%- else -%}
+  {%- assign quiz = site.data.quizzes[page.quiz] -%}
+{%- endif -%}
 {%- assign rounds = quiz | map: "category" | compact | uniq -%}
 {%- for entry in site.data.trivia -%}
   {%- if entry.slug == page.quiz -%}{%- assign meta = entry -%}{%- endif -%}
@@ -33,7 +37,7 @@ layout: default
   >
     <section class="trivia-panel" id="trivia-intro" aria-labelledby="trivia-intro-title">
       <h2 class="trivia-panel-title" id="trivia-intro-title">Ready?</h2>
-      <p class="trivia-intro-copy">{% if rounds.size > 0 %}{{ rounds.size }} rounds, one subject each.{% else %}Ten questions at a time.{% endif %} The questions and the answers are shuffled for each new game, and your progress is kept on this device.</p>
+      <p class="trivia-intro-copy">{% if page.speaking %}Start with five everyday expressions. Then read ten situations and choose what you would say.{% elsif rounds.size > 0 %}{{ rounds.size }} rounds, one subject each.{% else %}Ten questions at a time.{% endif %} The questions and the answers are shuffled for each new game, and your progress is kept on this device.</p>
       <p class="trivia-resume-copy" id="trivia-resume-copy" hidden></p>
       <div class="trivia-actions">
         <button class="trivia-button trivia-button--primary" id="trivia-start" type="button">Start</button>
