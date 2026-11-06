@@ -38,6 +38,20 @@
     if (radio) radio.checked = true;
   }());
 
+  var countSelect = $('live-count');
+  var cultureCount = countSelect.value;
+  function updateCount() {
+    var quiz = form.querySelector('input[name="quiz"]:checked');
+    var fullSet = quiz && quiz.getAttribute('data-count');
+    if (!countSelect.disabled) cultureCount = countSelect.value;
+    countSelect.value = fullSet || cultureCount;
+    countSelect.disabled = Boolean(fullSet);
+  }
+  form.addEventListener('change', function (event) {
+    if (event.target.name === 'quiz') updateCount();
+  });
+  updateCount();
+
   function joinAddress() {
     return window.location.origin + root.getAttribute('data-join');
   }

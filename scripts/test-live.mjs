@@ -120,6 +120,23 @@ function game(timer = 20) {
   assert.equal(rules.join(g, { name: 'Late', token: 'late', pid: 'z' }).error, 'over');
 }
 
+// A speaking set keeps its vocabulary warm-up before the situations, even
+// when opened with the default culture-quiz count.
+{
+  const slug = 'speaking-b1-making-plans';
+  const set = JSON.parse(fs.readFileSync(path.join(root, '_data', 'speaking', slug + '.json'), 'utf8'));
+  const picked = rules.pickQuestions(set.map((q) => ({ ...q, slug })), slug, 10, seeded(5));
+  assert.equal(picked.length, 15);
+  assert.equal(new Set(picked.map((q) => q.id)).size, 15);
+  picked.forEach((q, i) => {
+    const original = set.find((item) => item.id === q.id);
+    assert.equal(original.category, i < 5 ? 'Words in conversation' : 'What would you say?');
+    assert.equal(q.choices.length, 4);
+    assert.equal(q.choices[q.answer], original.choices[original.answer]);
+    assert.ok(q.note && q.picture.alt && fs.existsSync(path.join(root, q.picture.src)));
+  });
+}
+
 // Only the set timers, and a timer outside them falls back to 30 seconds.
 assert.equal(game(45).timer, 45);
 assert.equal(game(7).timer, 30);

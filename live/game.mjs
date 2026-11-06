@@ -49,7 +49,16 @@ export function pickQuestions(bank, slug, count, rand) {
   const own = bank.filter((q) => q && q.slug === slug && Array.isArray(q.choices) &&
     q.choices.length >= 2 && q.choices.length <= 4 &&
     Number.isInteger(q.answer) && q.answer >= 0 && q.answer < q.choices.length);
-  return shuffle(own, rand).slice(0, Math.min(count, LIMITS.questions)).map((q) => {
+  let selected;
+  if (slug.startsWith('speaking-')) {
+    const rounds = new Set(own.map((q) => q.category));
+    selected = Array.from(rounds).flatMap((round) =>
+      shuffle(own.filter((q) => q.category === round), rand)
+    ).slice(0, LIMITS.questions);
+  } else {
+    selected = shuffle(own, rand).slice(0, Math.min(count, LIMITS.questions));
+  }
+  return selected.map((q) => {
     const order = shuffle(q.choices.map((_, i) => i), rand);
     const out = {
       id: q.id,

@@ -34,6 +34,13 @@ description: "Play one of the culture quizzes with a class or a room of friends:
         <label class="live-quiz"><input type="radio" name="quiz" value="{{ entry.slug }}"{% if forloop.first %} checked{% endif %}> <span>{{ entry.name }}</span></label>
         {%- endfor %}
       </fieldset>
+      <fieldset class="live-quizzes">
+        <legend class="live-label">Speaking games</legend>
+        {%- assign speaking_sets = site.pages | where: "speaking", true | sort: "url" %}
+        {%- for set in speaking_sets %}
+        <label class="live-quiz"><input type="radio" name="quiz" value="{{ set.quiz }}" data-count="{{ site.data.speaking[set.quiz] | size }}"> <span>{{ set.title }}</span></label>
+        {%- endfor %}
+      </fieldset>
       <div class="live-settings">
         <label class="live-label" for="live-count">Questions
           <select id="live-count" name="count">
@@ -133,4 +140,4 @@ description: "Play one of the culture quizzes with a class or a room of friends:
 <script src="/js/vendor/qrcode-generator-1.4.4.js"></script>
 <script src="/js/trivia-picture.js?v=20261106-1" defer></script>
 <script src="/js/live-common.js?v=20261105-1" defer></script>
-<script src="/js/live-host.js?v=20261106-1" defer></script>
+<script src="/js/live-host.js?v=20261106-2" defer></script>
