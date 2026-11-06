@@ -15,7 +15,7 @@ sitemap: false
   its own place; nothing else is kept. See "Playing together" in
   _agents/trivia.md.
 {%- endcomment -%}
-<link rel="stylesheet" href="/css/live.css?v=20261106-1">
+<link rel="stylesheet" href="/css/live.css?v=20261106-2">
 
 <div class="section-page live-page live-phone" id="live-join">
   <noscript><p class="live-note">Joining a game needs JavaScript.</p></noscript>
@@ -48,6 +48,7 @@ sitemap: false
         <span id="join-number"></span>
         <span class="live-clock" id="join-clock"></span>
       </div>
+      <div class="live-phone-picture" id="join-picture" hidden></div>
       <p class="live-phone-question" id="join-question-text"></p>
       <div class="live-buttons" id="join-buttons" role="group" aria-label="Choices"></div>
     </div>
@@ -72,5 +73,6 @@ sitemap: false
   </section>
 </div>
 
+<script src="/js/trivia-picture.js?v=20261106-1" defer></script>
 <script src="/js/live-common.js?v=20261105-1" defer></script>
-<script src="/js/live-join.js?v=20261106-1" defer></script>
+<script src="/js/live-join.js?v=20261106-2" defer></script>

@@ -3,7 +3,8 @@
    a QR code for the phones, and then each question, how the room answered,
    the note behind the answer, and the scores. The room keeps the game; this
    screen only draws what the room sends and passes on the teacher's three
-   buttons: start or go on, remove a name, end the game. A reload finds the
+   buttons: start or go on, remove a name, end the game. The QR code opens
+   across the whole screen for the back of the room (6 November 2026). A reload finds the
    same room again (the room's code and key are kept for this tab only). */
 (function () {
   'use strict';
@@ -46,8 +47,7 @@
     line.hidden = !text;
   }
 
-  function qr(text) {
-    var box = $('live-qr');
+  function qr(text, box) {
     box.textContent = '';
     if (typeof window.qrcode !== 'function') return;
     var code = window.qrcode(0, 'M');
@@ -120,6 +120,20 @@
     var n = v.players.length;
     $('live-count-line').textContent = n ? (n === 1 ? 'One player is in.' : n + ' players are in.') : 'Waiting for the first player…';
     $('live-start').disabled = !n;
+    $('live-qr-big-count').textContent = $('live-count-line').textContent;
+  }
+
+  /* The QR code across the whole screen, so the back of the room can scan
+     it too. It belongs to the lobby, and closes when the game starts. */
+  var big = $('live-qr-big');
+  function openBig() {
+    big.hidden = false;
+    $('live-qr-big-close').focus({ preventScroll: true });
+  }
+  function closeBig() {
+    if (big.hidden) return;
+    big.hidden = true;
+    $('live-qr').focus({ preventScroll: true });
   }
 
   function drawClock() {
@@ -197,6 +211,7 @@
     join.textContent = window.location.host + '/join · ' + v.pin;
     endRow.hidden = v.phase === 'final';
     showPanel(v.phase);
+    if (v.phase !== 'lobby') closeBig();
     if (v.phase === 'lobby') drawLobby(v);
     if (v.phase === 'question' || v.phase === 'reveal') drawQuestion(v);
     else drawClock();
@@ -218,7 +233,11 @@
     root.classList.add('is-playing');
     stage.hidden = false;
     $('live-join-address').textContent = window.location.host + '/join';
-    qr(joinAddress() + '?pin=' + room.pin);
+    var link = joinAddress() + '?pin=' + room.pin;
+    qr(link, $('live-qr'));
+    qr(link, $('live-qr-big-code'));
+    $('live-qr-big-address').textContent = window.location.host + '/join';
+    $('live-qr-big-pin').textContent = room.pin.slice(0, 3) + ' ' + room.pin.slice(3);
     socket = L.connect(L.socketUrl(room.pin, 'role=host&key=' + encodeURIComponent(room.hostKey)), {
       view: draw,
       error: function (error) {
@@ -235,6 +254,7 @@
     if (socket) socket.close();
     socket = null;
     window.clearInterval(tick);
+    big.hidden = true;
     stage.hidden = true;
     setup.hidden = false;
     head.hidden = false;
@@ -277,6 +297,8 @@
     });
   });
 
+  $('live-qr').addEventListener('click', openBig);
+  big.addEventListener('click', closeBig);
   $('live-start').addEventListener('click', function () { socket.send({ t: 'advance' }); });
   $('live-advance').addEventListener('click', function () { socket.send({ t: 'advance' }); });
   $('live-end').addEventListener('click', function () { socket.send({ t: 'end' }); });
@@ -287,6 +309,13 @@
 
   /* The space bar or the right arrow moves the game on, as a clicker would. */
   document.addEventListener('keydown', function (event) {
+    if (!big.hidden) {
+      // Any key closes the big code first; Tab stays on its button.
+      if (event.key === 'Tab') { event.preventDefault(); return; }
+      event.preventDefault();
+      closeBig();
+      return;
+    }
     if (!view || stage.hidden || event.target.closest('input, select, textarea, button')) return;
     if (event.key !== ' ' && event.key !== 'ArrowRight' && event.key !== 'PageDown') return;
     if (view.phase === 'lobby' && $('live-start').disabled) return;

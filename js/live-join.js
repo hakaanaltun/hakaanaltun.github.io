@@ -5,7 +5,8 @@
    and score; it keeps the last name it used, to offer it again; and it keeps
    whether its buttons show the choices' words or only their colours, which
    the player chooses. Once a question closes, the phone shows the answer's
-   note too, as the big screen does (6 November 2026). Nothing else is stored, and nothing leaves the phone
+   note too, as the big screen does, and with the question's words its
+   drawing (6 November 2026). Nothing else is stored, and nothing leaves the phone
    but the name and the answers. */
 (function () {
   'use strict';
@@ -107,6 +108,9 @@
     var text = $('join-question-text');
     text.textContent = q.text;
     text.hidden = mode !== 'words';
+    // The drawing comes with the words; with colours only, the phone keeps
+    // to its buttons.
+    if (window.triviaPicture) window.triviaPicture.show($('join-picture'), mode === 'words' ? q.picture : null);
     var box = $('join-buttons');
     box.textContent = '';
     box.className = 'live-buttons live-buttons--' + mode;
