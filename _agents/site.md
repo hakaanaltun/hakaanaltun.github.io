@@ -76,11 +76,12 @@ reasons, are in `COLOPHON.md`; a note here marked "(rule in
   they were. The site's menu keeps Series and Book as sections of their
   own, since it carries the whole list. On their pages the strip marks
   Writing as the section the reader is in.
-- **Trivia comes right after Writing.** On 6 November 2026 the author
-  asked for Trivia to move up, in the header's strip and in the site's
-  menu, where it follows Book, the last of Writing's sections. On a phone
-  the strip showed only its first four links, and Trivia was out of
-  sight.
+- **Notes and Trivia come right after Writing, in that order.** On
+  6 November 2026 the author asked for Trivia to move up, in the header's
+  strip and in the site's menu, where Writing's last section is Book. On
+  a phone the strip showed only its first four links, and Trivia was out
+  of sight. Later that morning he asked for Notes to come before Trivia
+  everywhere, since it had been left too far down.
 - **Writing's sections also stand at the right edge.** The author asked on
   15 October 2026 for the book's Contents panel on Writing, so that Short
   Fiction can be reached from the foot of the page. The row of section
