@@ -538,6 +538,14 @@ Trivia contains quizzes. These rules govern what belongs inside them.
   obviously wrong ones turn the question into an inventory check.
   Distractors should be the same kind of thing as the answer—four monarchs,
   four counties, four novelists—and of roughly the same length.
+- **In a speaking game, a wrong choice is wrong in tone.** The situations ask
+  what you would say, so every choice fits the situation and is good
+  English. The wrong ones are too blunt, too pushy, hurt, or decide for
+  someone else. A choice that is wrong only because it contradicts the
+  situation tests reading, not speaking. The question describes the
+  situation and does not name what the answer does, and the note says when
+  one of the wrong choices would be the right thing to say. The author
+  asked for this on 6 November 2026, when the first set was revised.
 - Write the right answer wherever it belongs in the list and think no further
   about it. The quiz shuffles both the questions and the choices for every
   game, so a pattern in the file is not a pattern a reader can see, and
