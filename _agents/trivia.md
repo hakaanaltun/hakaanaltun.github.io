@@ -83,4 +83,8 @@ there.
   Worker from the repository, named `hakanaltun-live`, with `live` as its
   root directory and `npx wrangler deploy` as its deploy command (no build
   command). Its `wrangler.jsonc` creates the room class and the
-  `live.hakanaltun.io` domain on the first deploy.
+  `live.hakanaltun.io` domain on the first deploy. The author set it up
+  this way on 6 November 2026, with preview builds turned off, since a
+  Worker that holds a Durable Object gets no preview addresses. It
+  deploys again from each change to `main`, and the first room opened
+  that morning.
