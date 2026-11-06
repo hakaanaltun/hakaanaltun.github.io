@@ -15,7 +15,7 @@ description: "Play one of the culture quizzes with a class or a room of friends:
   can open a room. Nothing is kept once it closes. See "Playing together"
   in _agents/trivia.md.
 {%- endcomment -%}
-<link rel="stylesheet" href="/css/live.css?v=20261106-1">
+<link rel="stylesheet" href="/css/live.css?v=20261106-2">
 
 <div class="section-page live-page" id="live-host" data-join="/join/">
   <div class="section-page-head live-head">
@@ -77,7 +77,7 @@ description: "Play one of the culture quizzes with a class or a room of friends:
           <p class="live-pin" id="live-pin" aria-label="Game code"></p>
           <p class="live-code-line">or scan the code with a phone&rsquo;s camera.</p>
         </div>
-        <div class="live-qr" id="live-qr" role="img" aria-label="QR code that opens the game on a phone"></div>
+        <button class="live-qr" id="live-qr" type="button" aria-label="Show the QR code across the whole screen"></button>
       </div>
       <p class="live-count" id="live-count-line" aria-live="polite">Waiting for the first player&hellip;</p>
       <ul class="live-names" id="live-names"></ul>
@@ -112,6 +112,17 @@ description: "Play one of the culture quizzes with a class or a room of friends:
       </div>
     </section>
 
+    {%- comment -%} The QR code across the whole screen, for the back of
+    the room (6 November 2026): the code above opens it, and a click or any
+    key closes it. {%- endcomment %}
+    <div class="live-qr-big" id="live-qr-big" role="dialog" aria-modal="true" aria-labelledby="live-qr-big-title" hidden>
+      <h2 class="live-visually-hidden" id="live-qr-big-title">Join the game</h2>
+      <div class="live-qr-big-code" id="live-qr-big-code" role="img" aria-label="QR code that opens the game on a phone"></div>
+      <p class="live-qr-big-line"><span id="live-qr-big-address"></span> <span class="live-qr-big-pin" id="live-qr-big-pin"></span></p>
+      <p class="live-qr-big-count" id="live-qr-big-count" aria-live="polite"></p>
+      <button class="live-small live-qr-big-close" id="live-qr-big-close" type="button">Close</button>
+    </div>
+
     <p class="live-error" id="live-error" role="alert" hidden></p>
     <div class="trivia-actions live-actions live-end-row" id="live-end-row" hidden>
       <button class="live-small" id="live-end" type="button">End the game</button>
@@ -122,4 +133,4 @@ description: "Play one of the culture quizzes with a class or a room of friends:
 <script src="/js/vendor/qrcode-generator-1.4.4.js"></script>
 <script src="/js/trivia-picture.js?v=20261106-1" defer></script>
 <script src="/js/live-common.js?v=20261105-1" defer></script>
-<script src="/js/live-host.js?v=20261105-1" defer></script>
+<script src="/js/live-host.js?v=20261106-1" defer></script>

@@ -63,7 +63,14 @@ there.
   drawings. The choices are shuffled once per room, since A must mean the
   same thing on every screen. A phone never receives the answer or the note
   before the question closes; once it closes, the phone shows the note
-  under its result (`#join-result-note`).
+  under its result (`#join-result-note`). A phone that shows the choices'
+  words shows the question's drawing above them too (`#join-picture`); one
+  that shows only colours keeps to its buttons.
+- **The QR code opens across the whole screen** (`#live-qr-big`), for the
+  back of the room: a click on the lobby's code opens it, and a click or any
+  key closes it, as does the game starting. It sits inside the stage, so it
+  covers the browser's full screen as well. The author asked for both on
+  6 November 2026, after playing a game alone.
 - **What the room keeps, and for how long.** The game is in the room's
   storage, written at each join and each change of question, and each
   phone's answer rides on its own socket until the question closes, so an

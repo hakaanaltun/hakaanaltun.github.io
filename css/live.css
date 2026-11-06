@@ -109,8 +109,35 @@
   color: var(--ink);
   margin: 1.5vh 0;
 }
-.live-qr { width: clamp(180px, 24vw, 320px); }
+.live-qr {
+  appearance: none; border: 0; padding: 0; background: none;
+  width: clamp(180px, 24vw, 320px); cursor: zoom-in; border-radius: 8px;
+}
 .live-qr svg { display: block; width: 100%; height: auto; border-radius: 8px; }
+.live-qr:focus-visible { outline: 2px solid var(--petrol); outline-offset: 4px; }
+
+/* The QR code across the whole screen, above everything, in or out of the
+   browser's full screen. */
+.live-qr-big {
+  position: fixed; inset: 0; z-index: 1000;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 2vh; padding: 3vh 4vw;
+  background: var(--bg); cursor: zoom-out;
+}
+.live-qr-big[hidden] { display: none; }
+.live-qr-big-code { width: min(72vh, 88vw); }
+.live-qr-big-code svg { display: block; width: 100%; height: auto; border-radius: 12px; }
+.live-qr-big-line {
+  margin: 0; text-align: center;
+  font-family: 'EB Garamond', Georgia, serif; font-size: clamp(1.3rem, 2.6vw, 2.2rem); color: var(--ink-soft);
+}
+.live-qr-big-pin {
+  font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600;
+  font-size: 1.6em; letter-spacing: 0.06em; font-variant-numeric: lining-nums tabular-nums;
+  color: var(--ink); margin-left: 0.4em;
+}
+.live-qr-big-count { margin: 0; font-family: 'EB Garamond', Georgia, serif; font-size: 1.2rem; color: var(--vizon); }
+.live-qr-big-close { position: absolute; top: 3vh; right: 4vw; }
 .live-count { text-align: center; font-family: 'EB Garamond', Georgia, serif; font-size: 1.25rem; color: var(--vizon); margin: 0 0 12px; }
 .live-names {
   list-style: none; margin: 0 auto 10px; padding: 0;
@@ -251,6 +278,9 @@
   color: var(--ink); margin: 0 0 14px;
 }
 .live-phone-question[hidden] { display: none; }
+/* The question's drawing, as on the big screen, with the question's words. */
+.live-phone-picture { line-height: 0; margin: 0 0 10px; }
+.live-phone-picture[hidden] { display: none; }
 .live-buttons { display: grid; gap: 10px; }
 .live-buttons--colours { grid-template-columns: 1fr 1fr; }
 .live-button {
