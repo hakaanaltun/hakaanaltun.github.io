@@ -593,10 +593,11 @@ async function homeQuestion() {
 }
 
 /* A question's small drawing (js/trivia-picture.js) comes from its own entry
-   in the bank. Every picture names a sheet that is there, a cell inside the
-   sheet's grid, square cells, and words for a reader who cannot see it; the
-   quiz shows it with its question and hides it for a question without one;
-   the homepage's question of the day shows the same drawing. */
+   in the bank. Every picture names a drawing of its own in
+   /trivia/assets/drawings/ that is there, square, small enough to fetch for
+   one question, and words for a reader who cannot see it; the quiz shows it
+   with its question and hides it for a question without one; the homepage's
+   question of the day shows the same drawing. */
 function webpSize(file) {
   const b = fs.readFileSync(file);
   assert.equal(b.toString('ascii', 0, 4), 'RIFF', file + ' is a WebP');
@@ -617,14 +618,14 @@ async function pictures() {
       if (!q.picture) continue;
       count += 1;
       const p = q.picture;
-      assert.ok(usable(p), q.id + ': the picture names a sheet in /trivia/assets/, a grid and a cell inside it');
+      assert.ok(usable(p), q.id + ': the picture names a drawing in /trivia/assets/drawings/');
       assert.ok(typeof p.alt === 'string' && p.alt.trim().length > 8, q.id + ': the picture has words for a reader who cannot see it');
-      const sheet = path.join(root, p.sheet);
-      assert.ok(fs.existsSync(sheet), q.id + ': ' + p.sheet + ' is in the repository');
-      if (sheet.endsWith('.webp')) {
-        const [width, height] = webpSize(sheet);
-        assert.ok(Math.abs(width / p.grid[0] - height / p.grid[1]) <= 1, q.id + ': the cells of ' + p.sheet + ' are square for a ' + p.grid.join('×') + ' grid');
-      }
+      const file = path.join(root, p.src);
+      assert.ok(fs.existsSync(file), q.id + ': ' + p.src + ' is in the repository');
+      const [width, height] = webpSize(file);
+      assert.equal(width, height, q.id + ': ' + p.src + ' is square');
+      assert.ok(width >= 96 && width <= 288, q.id + ': ' + p.src + ' is drawn for a 96px space, ' + width + 'px wide');
+      assert.ok(fs.statSync(file).size <= 40 * 1024, q.id + ': ' + p.src + ' stays small enough to fetch for one question');
     }
   }
   sandbox.window.close();
@@ -640,10 +641,10 @@ async function pictures() {
     if (q.picture) {
       shown += 1;
       assert.equal(holder.hidden, false, q.id + ' shows its drawing');
-      const svg = holder.querySelector('svg');
-      assert.equal(svg.getAttribute('viewBox'), q.picture.cell[0] + ' ' + q.picture.cell[1] + ' 1 1');
-      assert.equal(svg.getAttribute('aria-label'), q.picture.alt);
-      assert.equal(svg.querySelector('image').getAttribute('href'), q.picture.sheet);
+      const img = holder.querySelector('img');
+      assert.equal(img.getAttribute('src'), q.picture.src);
+      assert.equal(img.getAttribute('alt'), q.picture.alt);
+      assert.equal(img.getAttribute('width'), '96');
     } else {
       assert.equal(holder.hidden, true, q.id + ' has no drawing');
       assert.equal(holder.childNodes.length, 0);
@@ -672,7 +673,7 @@ async function pictures() {
   await new Promise((resolve) => setTimeout(resolve, 0));
   const homeHolder = w.document.getElementById('home-daily-trivia-illustration');
   assert.equal(homeHolder.hidden, false, 'the question of the day shows its drawing');
-  assert.equal(homeHolder.querySelector('svg').getAttribute('aria-label'), drawn.picture.alt);
+  assert.equal(homeHolder.querySelector('img').getAttribute('alt'), drawn.picture.alt);
   w.close();
 }
 
