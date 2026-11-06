@@ -107,6 +107,7 @@ function game(timer = 20) {
   assert.equal(phone.me.rank, 2);
   assert.equal(phone.players, 4);
   assert.equal(phone.standings, undefined, 'a phone sees its own place, not the others');
+  assert.equal(phone.question.note, q.note, 'and the note, once the question closes');
 
   rules.advance(g, 13000);
   rules.advance(g, 14000);

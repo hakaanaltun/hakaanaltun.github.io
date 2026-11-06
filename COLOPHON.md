@@ -578,7 +578,9 @@ Trivia contains quizzes. These rules govern what belongs inside them.
   code or a QR code (`/trivia/live/`, `/join/`). Anyone can open a room. It
   is a race, as the author chose: a right answer earns 1,000 points down to
   500, more the sooner it comes, and the scores are shown after every
-  question. The note still comes after every answer, on the big screen.
+  question. The note still comes after every answer, on the big screen and
+  on each phone, for anyone too far back to read the screen or who reads
+  more slowly; the author asked for it on each phone on 6 November 2026.
   Each player chooses whether their buttons show the choices’ words or only
   their colours; the colours come with shapes, for anyone who cannot tell
   them apart. The author asked for it on 5 November 2026.

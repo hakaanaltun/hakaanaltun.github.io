@@ -282,6 +282,15 @@
 }
 .live-phone-big.is-wrong { color: var(--ink-soft); }
 .live-phone-small { font-family: 'EB Garamond', Georgia, serif; font-size: 1.2rem; line-height: 1.45; color: var(--ink-soft); margin: 0 0 8px; }
+/* The note behind the answer, once the question closes: read as a
+   paragraph, so it sits on the left, under a rule. */
+.live-phone-note {
+  max-width: 34rem; margin: 22px auto 0; padding-top: 18px;
+  border-top: 1px solid var(--rule);
+  font-family: 'EB Garamond', Georgia, serif; font-size: 1.12rem; line-height: 1.55;
+  color: var(--ink); text-align: left;
+}
+.live-phone-note[hidden] { display: none; }
 
 @media (max-width: 640px) {
   .live-tiles { grid-template-columns: 1fr; }

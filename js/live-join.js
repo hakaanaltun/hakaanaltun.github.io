@@ -4,7 +4,8 @@
    so a locked screen, a lost signal or a reload returns it to its own place
    and score; it keeps the last name it used, to offer it again; and it keeps
    whether its buttons show the choices' words or only their colours, which
-   the player chooses. Nothing else is stored, and nothing leaves the phone
+   the player chooses. Once a question closes, the phone shows the answer's
+   note too, as the big screen does (6 November 2026). Nothing else is stored, and nothing leaves the phone
    but the name and the answers. */
 (function () {
   'use strict';
@@ -150,6 +151,11 @@
       $('join-result-small').textContent = 'The answer: ' + answer;
     }
     $('join-result-place').textContent = place(v);
+    // The note behind the answer, as on the big screen, for whoever sits
+    // too far to read it there or wants to read it at their own pace.
+    var note = $('join-result-note');
+    note.textContent = q.note || '';
+    note.hidden = !q.note;
   }
 
   function draw(v) {
