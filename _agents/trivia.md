@@ -62,7 +62,8 @@ there.
   so a room can only show the site's own quizzes, with their notes and
   drawings. The choices are shuffled once per room, since A must mean the
   same thing on every screen. A phone never receives the answer or the note
-  before the question closes.
+  before the question closes; once it closes, the phone shows the note
+  under its result (`#join-result-note`).
 - **What the room keeps, and for how long.** The game is in the room's
   storage, written at each join and each change of question, and each
   phone's answer rides on its own socket until the question closes, so an
