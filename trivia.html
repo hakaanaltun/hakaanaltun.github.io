@@ -18,6 +18,7 @@ trivia: true
   <div class="section-page-head">
     <h1 class="section-page-title">Trivia</h1>
     <p class="section-page-subtitle">Culture, one country at a time, and a note behind every answer.</p>
+    <p class="trivia-together"><a href="/speaking/">Speaking games for A, B1 and B2</a></p>
   </div>
 
   <div class="trivia-index-list">
@@ -28,19 +29,6 @@ trivia: true
       <span class="trivia-index-meta">{{ bank | size }} questions{% if rounds.size > 0 %} &middot; {{ rounds.size }} rounds{% endif %}</span>
       <span class="trivia-index-title">{{ quiz.name }}</span>
       <span class="trivia-index-copy">{{ quiz.card }}</span>
-      <span class="trivia-index-go">Play <span aria-hidden="true">&rarr;</span></span>
-    </a>
-    {% endfor %}
-  </div>
-
-  <h2 class="trivia-panel-title">Speaking games</h2>
-  <div class="trivia-index-list">
-    {% assign speaking_sets = site.pages | where: "speaking", true | sort: "url" %}
-    {% for set in speaking_sets %}
-    <a class="trivia-index-card" href="{{ set.url }}">
-      <span class="trivia-index-meta">{{ site.data.speaking[set.quiz] | size }} questions</span>
-      <span class="trivia-index-title">{{ set.title }}</span>
-      <span class="trivia-index-copy">{{ set.description }}</span>
       <span class="trivia-index-go">Play <span aria-hidden="true">&rarr;</span></span>
     </a>
     {% endfor %}

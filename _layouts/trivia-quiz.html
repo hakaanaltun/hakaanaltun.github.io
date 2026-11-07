@@ -100,7 +100,11 @@ layout: default
       <div class="trivia-actions">
         <button class="trivia-button trivia-button--primary" id="trivia-play-again" type="button">Play again</button>
         <button class="trivia-button trivia-button--quiet" id="trivia-retry-missed" type="button" hidden>Try the ones you missed</button>
+        {% if page.speaking %}
+        <a class="trivia-button trivia-button--quiet" href="/speaking/#{{ page.level | downcase }}">More {{ page.level }} games</a>
+        {% else %}
         <a class="trivia-button trivia-button--quiet" href="/trivia/">All quizzes</a>
+        {% endif %}
       </div>
 
       <div class="trivia-review" id="trivia-review" hidden data-keep-passage data-keep-from="quiz" data-keep-kind="{{ meta.name | default: page.title | escape }}" data-keep-title="{{ meta.name | default: page.title | escape }}">
@@ -115,7 +119,7 @@ layout: default
 
 <script id="trivia-data" type="application/json">{{ quiz | jsonify }}</script>
 <script src="/js/trivia-picture.js?v=20261106-1" defer></script>
-<script src="/js/trivia.js?v=20261105-1" defer></script>
+<script src="/js/trivia.js?v=20261107-1" defer></script>
 
 <script type="application/ld+json">
 {
@@ -132,4 +136,3 @@ layout: default
   "publisher": { "@type": "Person", "name": "Hakan Altun", "url": "{{ site.url }}/" }
 }
 </script>
-
