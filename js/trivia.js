@@ -32,6 +32,9 @@
      same word joiner goes in as it is shown. What is kept stays plain. */
   function joinDashes(text) { return String(text).replace(/([^\s\u2060])\u2014/g, '$1\u2060\u2014'); }
 
+  // Spoken replies already have their own sentence-ending punctuation.
+  function answerSeparator(text) { return /[.!?…][”’)]*\s*$/.test(text) ? ' ' : '. '; }
+
   var intro = document.getElementById('trivia-intro');
   var questionPanel = document.getElementById('trivia-question');
   var roundPanel = document.getElementById('trivia-round');
@@ -356,7 +359,7 @@
       var name = document.createElement('em');
       name.textContent = q.choices[q.answer];
       feedback.appendChild(name);
-      feedback.appendChild(document.createTextNode('. ' + joinDashes(q.note)));
+      feedback.appendChild(document.createTextNode(answerSeparator(q.choices[q.answer]) + joinDashes(q.note)));
     }
 
     /* A note that touches a word with its own story leads to it. Leaving
@@ -590,7 +593,7 @@
 
       var answer = document.createElement('span');
       answer.className = 'trivia-review-answer';
-      answer.textContent = joinDashes('Answer: ' + q.choices[q.answer] + '. ' + q.note);
+      answer.textContent = joinDashes('Answer: ' + q.choices[q.answer] + answerSeparator(q.choices[q.answer]) + q.note);
 
       item.appendChild(prompt);
       // A space between the two, so a passage selected across them keeps it.
@@ -770,3 +773,4 @@
     if (returning && !returning.complete) openFromIntro();
   }
 })();
+

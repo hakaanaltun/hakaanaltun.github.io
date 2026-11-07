@@ -143,6 +143,28 @@ function play(kit, how) {
 }
 
 function main() {
+  // Whole spoken replies keep their punctuation in feedback and review.
+  for (const [reply, expected] of [
+    ['Tomorrow', 'Tomorrow. A note.'],
+    ['See you tomorrow.', 'See you tomorrow. A note.'],
+    ['Shall we go?', 'Shall we go? A note.'],
+    ['Good luck!', 'Good luck! A note.'],
+    ['“All aboard!”', '“All aboard!” A note.']
+  ]) {
+    const kit = build({ questions: [{ id: 'spoken-reply', question: 'What do you say?',
+      choices: [reply, 'Another reply', 'A third reply', 'A fourth reply'], answer: 0, note: 'A note.' }] });
+    try {
+      kit.start();
+      answer(kit, 'wrong');
+      assert.equal(kit.text('trivia-feedback'), 'Answer: ' + expected);
+      kit.next();
+      if (kit.visible() === 'trivia-round') kit.keepGoing();
+      assert.equal(kit.d.querySelector('.trivia-review-answer').textContent, 'Answer: ' + expected);
+    } finally {
+      kit.w.close();
+    }
+  }
+
   // --- The choices are shuffled, and the shuffle is per game ---------------
   //
   // Across the whole bank, no slot may carry a runaway share of the right
@@ -679,3 +701,4 @@ async function pictures() {
 
 main();
 pictures().then(homeQuestion).then(() => console.log('test-trivia: ok')).catch((e) => { console.error(e); process.exitCode = 1; });
+
