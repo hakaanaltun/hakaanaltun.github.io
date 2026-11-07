@@ -549,7 +549,10 @@ Trivia contains quizzes. These rules govern what belongs inside them.
   describes the situation and does not name what the answer does. Where it
   helps, the note says when a wrong choice would be the right thing to
   say; not every note needs it. The author asked for this on 6 November
-  2026, when the first set was revised twice.
+  2026, when the first set was revised twice. At level A the wrong choices
+  are mostly wrong by a detail rather than by tone, since finding the line
+  that does the job is the skill at that level; fine differences of tone
+  belong to B1 and B2.
 - Write the right answer wherever it belongs in the list and think no further
   about it. The quiz shuffles both the questions and the choices for every
   game, so a pattern in the file is not a pattern a reader can see, and
