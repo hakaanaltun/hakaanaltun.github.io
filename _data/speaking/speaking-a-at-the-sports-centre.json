@@ -1,0 +1,257 @@
+[
+  {
+    "id": "beginners",
+    "category": "Words in conversation",
+    "question": "The tennis class is “for beginners”. Who is it for?",
+    "choices": [
+      "People who teach the sport.",
+      "People who are learning to play.",
+      "People who win a lot of games.",
+      "People who only want to watch."
+    ],
+    "answer": 1,
+    "note": "A beginner is new to a sport. A coach teaches it.",
+    "picture": {
+      "src": "/trivia/assets/drawings/tennis-racket-yellow.webp",
+      "alt": "A tennis racket and yellow ball."
+    }
+  },
+  {
+    "id": "changing-room",
+    "category": "Words in conversation",
+    "question": "At the sports centre, someone asks, “Where’s the changing room?” What do they want to do?",
+    "choices": [
+      "Put on their sports clothes.",
+      "Pay for another class.",
+      "Get a different class time.",
+      "Give back their tennis racket."
+    ],
+    "answer": 0,
+    "note": "People use a changing room to put on different clothes. To change a class time, ask at the desk.",
+    "picture": {
+      "src": "/trivia/assets/drawings/pair-running-shoes.webp",
+      "alt": "A pair of running shoes."
+    }
+  },
+  {
+    "id": "book-a-court",
+    "category": "Words in conversation",
+    "question": "Eda says, “I’ll book a court for Friday.” What is she going to do?",
+    "choices": [
+      "Buy their tickets to watch a match.",
+      "Find a book about playing tennis.",
+      "Ask a coach to teach them on Friday.",
+      "Keep a place for them to play."
+    ],
+    "answer": 3,
+    "note": "Booking a court means choosing a time and keeping the court for your game.",
+    "picture": {
+      "src": "/trivia/assets/drawings/tennis-racket-yellow.webp",
+      "alt": "A tennis racket and yellow ball."
+    }
+  },
+  {
+    "id": "fully-booked",
+    "category": "Words in conversation",
+    "question": "At the desk you hear, “The six o’clock class is fully booked.” What does that mean?",
+    "choices": [
+      "The class has already finished.",
+      "You can pay when you get there.",
+      "Every place in the class is taken.",
+      "Everyone in the class has a book."
+    ],
+    "answer": 2,
+    "note": "“Fully booked” means all the places are taken. A class can be fully booked days before it starts.",
+    "picture": {
+      "src": "/trivia/assets/drawings/open-notebook-pencil.webp",
+      "alt": "An open notebook and pencil."
+    }
+  },
+  {
+    "id": "drop-in",
+    "category": "Words in conversation",
+    "question": "The coach says, “No need to book. Just drop in on Tuesday.” What can you do?",
+    "choices": [
+      "Ask the coach to come to your home.",
+      "Go to the class without booking first.",
+      "Book your place before Tuesday.",
+      "Only watch the class this week."
+    ],
+    "answer": 1,
+    "note": "“Drop in” means come along. The coach is saying you can turn up without making a booking.",
+    "picture": {
+      "src": "/trivia/assets/drawings/clock-calendar.webp",
+      "alt": "A clock beside a blank calendar."
+    }
+  },
+  {
+    "id": "end-time",
+    "category": "What would you say?",
+    "question": "The swimming lesson starts at four. Your bus leaves at five. What do you ask before you book?",
+    "choices": [
+      "What time does the lesson finish?",
+      "Can I leave the lesson early if I need to?",
+      "Could you tell me what time it starts?",
+      "Is there a later lesson I could join?"
+    ],
+    "answer": 0,
+    "note": "You know when it starts. The finish time tells you if you can stay for the whole lesson and catch your bus.",
+    "picture": {
+      "src": "/trivia/assets/drawings/clock-calendar.webp",
+      "alt": "A clock beside a blank calendar."
+    }
+  },
+  {
+    "id": "price-for-two",
+    "category": "What would you say?",
+    "question": "A sign says “Tennis: £12”. You and a friend want to play. The sign doesn’t say if both of you must pay £12. What do you ask?",
+    "choices": [
+      "Can I pay my £12 by card?",
+      "How much is tennis, please?",
+      "Is it cheaper to play in the morning?",
+      "Is that £12 each or £12 for the court?"
+    ],
+    "answer": 3,
+    "note": "The sign already gives a price. Asking “each or for the court?” tells the worker exactly which part is unclear.",
+    "picture": {
+      "src": "/trivia/assets/drawings/empty-sports-stadium.webp",
+      "alt": "An empty sports stadium."
+    }
+  },
+  {
+    "id": "borrow-racket",
+    "category": "What would you say?",
+    "question": "At your first tennis lesson everyone has a racket. Yours is at home. You’d like to use one just for the lesson. What do you ask?",
+    "choices": [
+      "Do you sell tennis rackets here?",
+      "Could I watch the others today?",
+      "Could I borrow a racket for today?",
+      "Could I come back with my racket tomorrow?"
+    ],
+    "answer": 2,
+    "note": "Buying a racket makes sense if you want to keep it. You only need to borrow one until the lesson ends.",
+    "picture": {
+      "src": "/trivia/assets/drawings/tennis-racket-yellow.webp",
+      "alt": "A tennis racket and yellow ball."
+    }
+  },
+  {
+    "id": "find-the-court",
+    "category": "What would you say?",
+    "question": "You arrive for football practice. Two groups are playing. You know your coach’s name, but you can’t see him. What do you ask at the desk?",
+    "choices": [
+      "Could you call my coach for me?",
+      "Where does Coach Ali’s group play?",
+      "Can I wait here until a coach comes over?",
+      "Where do people play football here?"
+    ],
+    "answer": 1,
+    "note": "Both groups play football. The coach’s name helps the staff send you to the right group.",
+    "picture": {
+      "src": "/trivia/assets/drawings/black-and-white-football.webp",
+      "alt": "A black-and-white football."
+    }
+  },
+  {
+    "id": "trial-before-paying",
+    "category": "What would you say?",
+    "question": "A judo course lasts two months. You’ve never tried judo and want to try one lesson before you pay for the course. What do you ask?",
+    "choices": [
+      "Can I try one class first?",
+      "Can I pay for the course in two parts?",
+      "Can I watch one class first?",
+      "Can I speak to someone who takes the class?"
+    ],
+    "answer": 0,
+    "note": "Watching can help you decide, too. “Can I try one class?” asks to get on the mat and do judo yourself.",
+    "picture": {
+      "src": "/trivia/assets/drawings/folded-martial-arts-jacket.webp",
+      "alt": "A folded martial-arts jacket and belt."
+    }
+  },
+  {
+    "id": "swimming-ability",
+    "category": "What would you say?",
+    "question": "At the pool a teacher asks, “Can you swim?” You can swim a little, but you still need lessons. What do you say?",
+    "choices": [
+      "Could I watch a lesson before I join?",
+      "I’d like some swimming lessons, please.",
+      "I’d prefer to start with the easiest class.",
+      "A little. Which class is good for me?"
+    ],
+    "answer": 3,
+    "note": "“I’d like some swimming lessons” explains why you’re there. “A little” also tells the teacher what you can do, so they can suggest a class.",
+    "picture": {
+      "src": "/trivia/assets/drawings/pool-beneath-rocky.webp",
+      "alt": "A pool beneath a rocky opening."
+    }
+  },
+  {
+    "id": "age-for-class",
+    "category": "What would you say?",
+    "question": "Your sister is twelve. She wants to come to a cycling class with you. The advert doesn’t give an age. What do you ask?",
+    "choices": [
+      "Can I bring my sister to watch?",
+      "Do you have any classes for children?",
+      "Can a twelve-year-old join this class?",
+      "Could I book two places for this class?"
+    ],
+    "answer": 2,
+    "note": "Watching and joining are different. Giving her age lets the staff say whether she can ride with the class.",
+    "picture": {
+      "src": "/trivia/assets/drawings/bicycle-pink-cycling.webp",
+      "alt": "A bicycle and a pink cycling jersey."
+    }
+  },
+  {
+    "id": "what-to-wear",
+    "category": "What would you say?",
+    "question": "You’re going to your first indoor sports class. You have football boots and running shoes. What do you ask the coach?",
+    "choices": [
+      "Can I leave my outdoor shoes at the desk?",
+      "Which shoes should I wear indoors?",
+      "Can I buy sports shoes at the centre?",
+      "Should I bring both pairs with me?"
+    ],
+    "answer": 1,
+    "note": "Taking both might help on the day. “Which shoes should I wear?” asks the coach to choose the right pair now.",
+    "picture": {
+      "src": "/trivia/assets/drawings/pair-running-shoes.webp",
+      "alt": "A pair of running shoes."
+    }
+  },
+  {
+    "id": "locker",
+    "category": "What would you say?",
+    "question": "You have your keys and money with you at the gym. You want to leave them somewhere safe while you play. What do you ask?",
+    "choices": [
+      "Is there a locker I can use?",
+      "Could you watch my things during the game?",
+      "Is there a table where I can leave my things?",
+      "Can I keep my bag beside the court?"
+    ],
+    "answer": 0,
+    "note": "You can leave things on a table, but anyone can pick them up. A locker keeps them safe while you play.",
+    "picture": {
+      "src": "/trivia/assets/drawings/closed-drawstring-pouch.webp",
+      "alt": "A closed drawstring pouch."
+    }
+  },
+  {
+    "id": "let-next-player-in",
+    "category": "What would you say?",
+    "question": "You’re the coach. One player asks, “Can I join now?” The game has started, but there’s a space in the next game. What do you say?",
+    "choices": [
+      "Would you like to watch from here?",
+      "Sorry, this game has already started.",
+      "Could you come back at the same time tomorrow?",
+      "This one’s started. You can play in the next one."
+    ],
+    "answer": 3,
+    "note": "“This game has already started” explains the wait. Adding “You can play in the next one” offers the place that is available.",
+    "picture": {
+      "src": "/trivia/assets/drawings/black-and-white-football.webp",
+      "alt": "A black-and-white football."
+    }
+  }
+]

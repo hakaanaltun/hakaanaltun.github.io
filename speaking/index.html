@@ -1,0 +1,43 @@
+---
+layout: default
+permalink: /speaking/
+trivia: true
+series: trivia
+title: "Speaking games"
+seo_title: "What Would You Say? · Speaking games · On Life &amp; Everything"
+description: "English speaking games for A, B1 and B2. Choose a reply on your own or play together with a class."
+---
+<div class="section-page trivia-index-page speaking-index">
+  <div class="section-page-head">
+    <h1 class="section-page-title">What Would You Say?</h1>
+    <p class="section-page-subtitle">Five expressions, then ten situations. Play on your own or with a class.</p>
+    <nav class="trivia-actions" aria-label="Choose a level">
+      {% assign levels = "A,B1,B2" | split: "," %}
+      {% for level in levels %}
+      <a class="trivia-button" href="#{{ level | downcase }}">{{ level }}</a>
+      {% endfor %}
+    </nav>
+  </div>
+  {% assign games = site.pages | where: "speaking", true | sort: "lesson_order" %}
+  {% for level in levels %}
+  <section class="speaking-level" aria-labelledby="{{ level | downcase }}">
+    <h2 class="trivia-panel-title" id="{{ level | downcase }}">Level {{ level }}</h2>
+    <div class="trivia-index-list">
+      {% assign level_games = games | where: "level", level %}
+      {% for game in level_games %}
+      <a class="trivia-index-card" href="{{ game.url }}">
+        <span class="trivia-index-title">{{ game.topic }}</span>
+        <span class="trivia-index-copy">{{ game.description }}</span>
+      </a>
+      {% endfor %}
+    </div>
+  </section>
+  {% endfor %}
+</div>
+
+<style>
+.speaking-index nav { justify-content: center; }
+.speaking-level { max-width: 38rem; margin: 0 auto 3rem; }
+.speaking-level h2 { margin-bottom: 1rem; scroll-margin-top: 6rem; }
+.speaking-level .trivia-index-card { padding: 1.15rem .25rem; }
+</style>

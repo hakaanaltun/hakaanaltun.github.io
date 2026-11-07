@@ -122,16 +122,33 @@ function game(timer = 20) {
 
 // A speaking set keeps its vocabulary warm-up before the situations, even
 // when opened with the default culture-quiz count.
-{
-  const slug = 'speaking-b1-making-plans';
-  const set = JSON.parse(fs.readFileSync(path.join(root, '_data', 'speaking', slug + '.json'), 'utf8'));
+const speakingDir = path.join(root, '_data', 'speaking');
+for (const file of fs.readdirSync(speakingDir).filter((entry) => entry.endsWith('.json'))) {
+  const slug = path.basename(file, '.json');
+  const set = JSON.parse(fs.readFileSync(path.join(speakingDir, file), 'utf8'));
+  assert.equal(set.length, 15, slug);
+  const seenIds = new Set();
+  set.forEach((q, index) => {
+    assert.match(q.id, /^[a-z0-9]+(?:-[a-z0-9]+)*$/, slug);
+    assert.ok(!seenIds.has(q.id), slug + ': duplicate id');
+    seenIds.add(q.id);
+    assert.equal(q.category, index < 5 ? 'Words in conversation' : 'What would you say?');
+    assert.equal(new Set(q.choices).size, 4, slug + ': duplicate choices');
+    assert.ok(Number.isInteger(q.answer) && q.answer >= 0 && q.answer < 4);
+    assert.ok(q.question.trim() && q.note.trim());
+    assert.ok(!/\b(?:option|choice) [A-D]\b|[“”]?[A-D][“”]? (?:is|would be) (?:correct|wrong)/.test(q.note),
+      slug + ': explanations quote words, not shuffled letters');
+  });
+  const [, level, ...parts] = slug.split('-');
+  const page = fs.readFileSync(path.join(root, 'speaking', level, parts.join('-'), 'index.html'), 'utf8');
+  assert.ok(page.includes(slug), slug + ': playable page names its bank');
   const picked = rules.pickQuestions(set.map((q) => ({ ...q, slug })), slug, 10, seeded(5));
   assert.equal(picked.length, 15);
   assert.equal(new Set(picked.map((q) => q.id)).size, 15);
   picked.forEach((q, i) => {
     const original = set.find((item) => item.id === q.id);
     assert.equal(original.category, i < 5 ? 'Words in conversation' : 'What would you say?');
-    assert.equal(q.choices.length, 4);
+    assert.equal(new Set(q.choices).size, 4);
     assert.equal(q.choices[q.answer], original.choices[original.answer]);
     assert.ok(q.note && q.picture.alt && fs.existsSync(path.join(root, q.picture.src)));
   });

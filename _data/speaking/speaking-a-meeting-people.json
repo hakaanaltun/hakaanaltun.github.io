@@ -1,0 +1,257 @@
+[
+  {
+    "id": "call-me",
+    "category": "Words in conversation",
+    "question": "“My name’s Elizabeth, but call me Liz.” Which name does she want you to use?",
+    "choices": [
+      "Elizabeth’s family name.",
+      "Liz.",
+      "Your own first name.",
+      "Both names together."
+    ],
+    "answer": 1,
+    "note": "“Call me Liz” gives you the name she likes to hear.",
+    "picture": {
+      "src": "/trivia/assets/drawings/open-notebook-pencil.webp",
+      "alt": "An open notebook and pencil."
+    }
+  },
+  {
+    "id": "next-door",
+    "category": "Words in conversation",
+    "question": "“This is Deniz. He lives next door.” Who is Deniz?",
+    "choices": [
+      "Someone who lives beside you.",
+      "Someone who shares your room.",
+      "Someone who teaches your class.",
+      "Someone who goes to work with you."
+    ],
+    "answer": 0,
+    "note": "“Next door” means in the home beside yours. A flatmate shares your flat.",
+    "picture": {
+      "src": "/trivia/assets/drawings/townhouses-tree.webp",
+      "alt": "Townhouses beside a small tree."
+    }
+  },
+  {
+    "id": "first-time-here",
+    "category": "Words in conversation",
+    "question": "At the photo club, Ada asks, “Is this your first time here?” What does she want to know?",
+    "choices": [
+      "What time did you get here?",
+      "Did you arrive before everyone else?",
+      "Are you the first person on the list?",
+      "Have you been to this club before?"
+    ],
+    "answer": 3,
+    "note": "“My first time here” means I haven’t visited before. “What time?” asks about the clock.",
+    "picture": {
+      "src": "/trivia/assets/drawings/empty-blackboard-chalk.webp",
+      "alt": "An empty blackboard and chalk."
+    }
+  },
+  {
+    "id": "same-class",
+    "category": "Words in conversation",
+    "question": "“Mert and I are in the same class.” What do they share?",
+    "choices": [
+      "One home address.",
+      "One seat on the bus.",
+      "One group of students.",
+      "One first name."
+    ],
+    "answer": 2,
+    "note": "Students in the same class have lessons together. They can live in different places.",
+    "picture": {
+      "src": "/trivia/assets/drawings/open-storybook-little.webp",
+      "alt": "An open storybook with a little castle rising from its pages."
+    }
+  },
+  {
+    "id": "how-about-you",
+    "category": "Words in conversation",
+    "question": "“I live near the university. How about you?” What does the speaker want to hear?",
+    "choices": [
+      "How you feel today.",
+      "Where you live.",
+      "How big the university is.",
+      "Where you want to travel."
+    ],
+    "answer": 1,
+    "note": "“How about you?” turns the same question back to you. Here the subject is home.",
+    "picture": {
+      "src": "/trivia/assets/drawings/cup-cappuccino.webp",
+      "alt": "A cup of cappuccino."
+    }
+  },
+  {
+    "id": "new-at-table",
+    "category": "What would you say?",
+    "question": "At a games club, three students are sitting around a table. There’s an empty chair. You’d like to play with them.",
+    "choices": [
+      "Hi, I’m Can. Can I join you?",
+      "Hi, I’m Can. What game are you playing?",
+      "Are you waiting for another player?",
+      "Hi, I’m Can. Is this club open every week?"
+    ],
+    "answer": 0,
+    "note": "“Are you waiting for another player?” asks about the group. “Can I join you?” makes it clear you want to play.",
+    "picture": {
+      "src": "/trivia/assets/drawings/wooden-game-piece.webp",
+      "alt": "A wooden game piece beside a die."
+    }
+  },
+  {
+    "id": "introduce-two",
+    "category": "What would you say?",
+    "question": "You’re having tea with Ada. Your cousin arrives. Ada looks at you because they’ve never met.",
+    "choices": [
+      "Emre, would you like some tea?",
+      "Ada, have you two met before?",
+      "Ada, my cousin likes this café too.",
+      "Ada, this is my cousin Emre."
+    ],
+    "answer": 3,
+    "note": "You know they haven’t met, so you can introduce Emre. “Have you two met before?” is useful when you’re unsure.",
+    "picture": {
+      "src": "/trivia/assets/drawings/cup-tea-saucer.webp",
+      "alt": "A cup of tea on a saucer with loose tea leaves nearby."
+    }
+  },
+  {
+    "id": "first-name-please",
+    "category": "What would you say?",
+    "question": "You’re writing a name on a welcome card. The new student tells you her family name, Kaya. You also need her first name.",
+    "choices": [
+      "May I write Ms Kaya on the card?",
+      "Thanks. Is Kaya your family name?",
+      "Thanks. And what’s your first name?",
+      "Thanks. Would you like to write it yourself?"
+    ],
+    "answer": 2,
+    "note": "“Ms Kaya” is polite, but the card still needs her first name. If you only needed a surname, it would work.",
+    "picture": {
+      "src": "/trivia/assets/drawings/sealed-envelope-postage.webp",
+      "alt": "A sealed envelope with a postage stamp."
+    }
+  },
+  {
+    "id": "saw-you-before",
+    "category": "What would you say?",
+    "question": "A student says, “We met at the photo club yesterday.” Now you remember him. What do you say?",
+    "choices": [
+      "Hello! What’s your name again?",
+      "Oh yes! Good to see you again.",
+      "Hello! Do you take a lot of photos?",
+      "Hello! Lovely to meet you."
+    ],
+    "answer": 1,
+    "note": "“Good to see you again” shows you remember him. “Lovely to meet you” usually starts a first meeting.",
+    "picture": {
+      "src": "/trivia/assets/drawings/camera-photograph.webp",
+      "alt": "A camera beside a blank photograph."
+    }
+  },
+  {
+    "id": "from-or-live",
+    "category": "What would you say?",
+    "question": "You’re from İzmir and you now live in İstanbul. A new classmate asks, “Where are you from?”",
+    "choices": [
+      "I’m from İzmir. I live here now.",
+      "I live near the station in İstanbul.",
+      "I’m going to İzmir this weekend.",
+      "I’m new here. Do you know the city well?"
+    ],
+    "answer": 0,
+    "note": "“From” asks about your home place. “I live near the station” answers a question about your home now.",
+    "picture": {
+      "src": "/trivia/assets/drawings/ferry-istanbul-skyline.webp",
+      "alt": "A ferry beside an İstanbul skyline."
+    }
+  },
+  {
+    "id": "shared-interest",
+    "category": "What would you say?",
+    "question": "You play tennis every weekend. A new classmate says, “Tennis is my favourite sport.” You’d like to play together. What do you say?",
+    "choices": [
+      "Mine too! Do you watch it on TV?",
+      "Mine too! Enjoy your game on Saturday.",
+      "Mine too! Where do you buy shoes?",
+      "Mine too! Shall we play on Saturday?"
+    ],
+    "answer": 3,
+    "note": "“Shall we play…?” invites her. “Enjoy your game” sounds as if she’s going to play without you.",
+    "picture": {
+      "src": "/trivia/assets/drawings/tennis-racket-yellow.webp",
+      "alt": "A tennis racket and yellow ball."
+    }
+  },
+  {
+    "id": "wrong-first-name",
+    "category": "What would you say?",
+    "question": "At the start of your first class, the teacher smiles and says, “Hello, Deniz.” Your name is Demir. What do you say?",
+    "choices": [
+      "Hello! Nice to meet you, too.",
+      "Hello! Shall I write my name on the board?",
+      "Hello! It’s Demir, with an m.",
+      "Hello! May I sit near the front?"
+    ],
+    "answer": 2,
+    "note": "“Nice to meet you” is friendly, but the teacher might keep calling you Deniz. Giving the correct name helps next time.",
+    "picture": {
+      "src": "/trivia/assets/drawings/open-notebook-pencil.webp",
+      "alt": "An open notebook and pencil."
+    }
+  },
+  {
+    "id": "who-is-she",
+    "category": "What would you say?",
+    "question": "At the art club a visitor points to Eda and asks, “Is she the teacher?” Eda is a student. You know who the teacher is.",
+    "choices": [
+      "Eda comes every Monday. Shall I introduce you?",
+      "She’s a student. That’s our teacher over there.",
+      "The teacher should be here. Shall we wait?",
+      "You can ask Eda. She knows the teacher."
+    ],
+    "answer": 1,
+    "note": "You know who the teacher is and you can point her out. Sending the visitor to Eda would help if you were unsure.",
+    "picture": {
+      "src": "/trivia/assets/drawings/artists-palette-brushes.webp",
+      "alt": "An artist’s palette and brushes."
+    }
+  },
+  {
+    "id": "new-member",
+    "category": "What would you say?",
+    "question": "A new student comes to choir practice alone. You know her name is Lea. She’s looking around for a place to sit.",
+    "choices": [
+      "Hi, Lea. There’s a seat next to me.",
+      "Hi, Lea. Have you sung in a choir before?",
+      "Hi, Lea. I hope you enjoy singing here.",
+      "Hi, Lea. Would you like to look around first?"
+    ],
+    "answer": 0,
+    "note": "“I hope you enjoy singing here” welcomes Lea. Offering the seat also helps her settle in now.",
+    "picture": {
+      "src": "/trivia/assets/drawings/sheet-music.webp",
+      "alt": "A sheet of music."
+    }
+  },
+  {
+    "id": "leaving-class",
+    "category": "What would you say?",
+    "question": "After class you must leave to catch your bus. You’ve just met Sam and you’d like to talk again tomorrow.",
+    "choices": [
+      "Would you like to get a coffee now, Sam?",
+      "It was nice talking to you. Bye!",
+      "What did you think of today’s class, Sam?",
+      "Nice talking to you. See you tomorrow!"
+    ],
+    "answer": 3,
+    "note": "“See you tomorrow” tells Sam you’d like to meet again. “Bye!” is a friendly way to finish without making plans.",
+    "picture": {
+      "src": "/trivia/assets/drawings/clock-calendar.webp",
+      "alt": "A clock beside a blank calendar."
+    }
+  }
+]

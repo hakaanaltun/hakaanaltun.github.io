@@ -1,0 +1,257 @@
+[
+  {
+    "id": "say-it-again",
+    "category": "Words in conversation",
+    "question": "On the phone, Ela says, “Could you say that again?” What does she want you to do?",
+    "choices": [
+      "Give her a minute to speak.",
+      "Repeat the words you just said.",
+      "Write your name in a message.",
+      "Call her again tomorrow."
+    ],
+    "answer": 1,
+    "note": "“Again” asks you to repeat something. “Could you call me back?” asks for another phone call.",
+    "picture": {
+      "src": "/trivia/assets/drawings/empty-blackboard-chalk.webp",
+      "alt": "An empty blackboard and chalk."
+    }
+  },
+  {
+    "id": "speak-up",
+    "category": "Words in conversation",
+    "question": "“Could you speak up a little?” What would help the listener?",
+    "choices": [
+      "A louder voice.",
+      "A shorter answer.",
+      "An easier example.",
+      "A new question."
+    ],
+    "answer": 0,
+    "note": "“Speak up” means use a louder voice. “Slow down” is about speed.",
+    "picture": {
+      "src": "/trivia/assets/drawings/vintage-microphone-stand.webp",
+      "alt": "A vintage microphone on a stand."
+    }
+  },
+  {
+    "id": "write-it-down",
+    "category": "Words in conversation",
+    "question": "“That’s a long address. Could you write it down?” What is the speaker asking for?",
+    "choices": [
+      "The address one more time aloud.",
+      "The name of a shorter street.",
+      "The way to the nearest bus stop.",
+      "The address in writing."
+    ],
+    "answer": 3,
+    "note": "When you write something down, the other person can read it later.",
+    "picture": {
+      "src": "/trivia/assets/drawings/open-notebook-pencil.webp",
+      "alt": "An open notebook and pencil."
+    }
+  },
+  {
+    "id": "how-do-you-spell",
+    "category": "Words in conversation",
+    "question": "At the desk you say, “My surname is White.” The receptionist asks, “How do you spell that?” What do you give her?",
+    "choices": [
+      "Your full home address.",
+      "The meaning of your surname.",
+      "The letters in your surname.",
+      "Your first name and age."
+    ],
+    "answer": 2,
+    "note": "To spell a word, say or write its letters. The answer here is “W-H-I-T-E.”",
+    "picture": {
+      "src": "/trivia/assets/drawings/sealed-envelope-postage.webp",
+      "alt": "A sealed envelope with a postage stamp."
+    }
+  },
+  {
+    "id": "go-ahead",
+    "category": "Words in conversation",
+    "question": "Two people start speaking together on a video call. One says, “Go ahead.” What does she mean?",
+    "choices": [
+      "Please move your chair.",
+      "You can speak first.",
+      "You can finish the call.",
+      "Please say it more loudly."
+    ],
+    "answer": 1,
+    "note": "Here “Go ahead” gives the other person a turn to speak.",
+    "picture": {
+      "src": "/trivia/assets/drawings/laptop-screen.webp",
+      "alt": "A laptop with a blank screen."
+    }
+  },
+  {
+    "id": "fifteen-fifty",
+    "category": "What would you say?",
+    "question": "You hear a price over the phone. It sounds like fifteen or fifty lira. You need the exact price.",
+    "choices": [
+      "Was that fifteen or fifty?",
+      "Could you send me the whole price list?",
+      "Could you say the price again, please?",
+      "Is that the price for one person?"
+    ],
+    "answer": 0,
+    "note": "A repeat might help. Saying “fifteen or fifty?” tells the speaker which two numbers sound the same to you.",
+    "picture": {
+      "src": "/trivia/assets/drawings/clock-calendar.webp",
+      "alt": "A clock beside a blank calendar."
+    }
+  },
+  {
+    "id": "very-fast",
+    "category": "What would you say?",
+    "question": "You can hear your new teacher clearly, but she says the homework instructions very fast. What would help?",
+    "choices": [
+      "Could you speak a little louder, please?",
+      "Could you say it one more time, please?",
+      "Could I move closer to the board?",
+      "Could you say that a little more slowly?"
+    ],
+    "answer": 3,
+    "note": "A repeat might help. Asking for it “more slowly” also tells the teacher what made it hard to follow.",
+    "picture": {
+      "src": "/trivia/assets/drawings/empty-blackboard-chalk.webp",
+      "alt": "An empty blackboard and chalk."
+    }
+  },
+  {
+    "id": "meaning-not-letters",
+    "category": "What would you say?",
+    "question": "You can read the word “queue” on a sign. You don’t know what it means. What do you ask?",
+    "choices": [
+      "Could you read the word to me, please?",
+      "Could you use that word in a sentence?",
+      "What does “queue” mean?",
+      "Could you show me how to say it?"
+    ],
+    "answer": 2,
+    "note": "Reading the word aloud helps with its sound. “What does it mean?” asks what the sign is telling you.",
+    "picture": {
+      "src": "/trivia/assets/drawings/open-storybook-little.webp",
+      "alt": "An open storybook with a little castle rising from its pages."
+    }
+  },
+  {
+    "id": "help-with-word",
+    "category": "What would you say?",
+    "question": "In a café you point to the small plate under a cup. You want to learn its English name. What do you ask?",
+    "choices": [
+      "Can I have another plate?",
+      "What’s this called in English?",
+      "Could you tell me what this is for?",
+      "Excuse me, may I use this plate?"
+    ],
+    "answer": 1,
+    "note": "“May I use this?” asks for permission. “What’s this called?” helps you learn a word you can use next time.",
+    "picture": {
+      "src": "/trivia/assets/drawings/cup-cappuccino.webp",
+      "alt": "A cup of cappuccino."
+    }
+  },
+  {
+    "id": "quiet-sound",
+    "category": "What would you say?",
+    "question": "You can see your classmate on the video call. His lips are moving, but you hear nothing. What do you tell him?",
+    "choices": [
+      "I can see you, but I can’t hear you.",
+      "Would you like to call me again later?",
+      "Sorry, could you speak louder?",
+      "Shall we use text messages instead?"
+    ],
+    "answer": 0,
+    "note": "A louder voice might help if you hear a little sound. Here you hear nothing, so tell him and he can check his microphone.",
+    "picture": {
+      "src": "/trivia/assets/drawings/laptop-screen.webp",
+      "alt": "A laptop with a blank screen."
+    }
+  },
+  {
+    "id": "missed-last-part",
+    "category": "What would you say?",
+    "question": "At the station you hear, “The train to Ankara leaves from platform…” Then a phone rings. Which part do you ask for?",
+    "choices": [
+      "Sorry, can I see the timetable?",
+      "Could you say all of that again?",
+      "Sorry, is this the right train for Ankara?",
+      "Sorry, which platform was that?"
+    ],
+    "answer": 3,
+    "note": "Repeating everything would take longer. You heard “Ankara”, so “Which platform?” asks for just the missing part.",
+    "picture": {
+      "src": "/trivia/assets/drawings/travel-suitcase-tag.webp",
+      "alt": "A travel suitcase with a blank tag."
+    }
+  },
+  {
+    "id": "two-pages",
+    "category": "What would you say?",
+    "question": "Your teacher says, “Read pages sixteen and seventeen.” You want to check you heard both numbers correctly.",
+    "choices": [
+      "Could you give me the page numbers again?",
+      "Could you write the homework on the board?",
+      "Pages sixteen and seventeen, right?",
+      "Do we read both pages for tomorrow?"
+    ],
+    "answer": 2,
+    "note": "Repeating the numbers you heard lets the teacher say yes or correct one. Asking for both again is useful if you missed them.",
+    "picture": {
+      "src": "/trivia/assets/drawings/open-notebook-pencil.webp",
+      "alt": "An open notebook and pencil."
+    }
+  },
+  {
+    "id": "unclear-name",
+    "category": "What would you say?",
+    "question": "A caller asks for Mel. You work with two people called Mel, one in the café and one in the shop. What do you ask?",
+    "choices": [
+      "Could you leave a message for Mel?",
+      "Do you mean Mel in the café or Mel in the shop?",
+      "Could you call back in a few minutes?",
+      "Could you say her name again, please?"
+    ],
+    "answer": 1,
+    "note": "You heard “Mel” clearly. Asking about the café or the shop helps because both people have the same name.",
+    "picture": {
+      "src": "/trivia/assets/drawings/red-telephone-box.webp",
+      "alt": "A red telephone box."
+    }
+  },
+  {
+    "id": "noise-in-room",
+    "category": "What would you say?",
+    "question": "Your friend calls while you’re next to a loud band. You have time to talk and can step outside. What do you say?",
+    "choices": [
+      "Just a moment. I’ll go somewhere quiet.",
+      "Could you speak a little louder?",
+      "Could we speak another day?",
+      "Could you text me instead?"
+    ],
+    "answer": 0,
+    "note": "Stepping outside removes the noise and lets you talk now. “Could you text me?” would help if you couldn’t leave the noisy room.",
+    "picture": {
+      "src": "/trivia/assets/drawings/vintage-microphone-stand.webp",
+      "alt": "A vintage microphone on a stand."
+    }
+  },
+  {
+    "id": "after-explanation",
+    "category": "What would you say?",
+    "question": "You ask what “entrance” means. Your teacher points to the door where people come in. Now you understand. What do you say?",
+    "choices": [
+      "Could you write the word down for me?",
+      "Thanks. Could you give me one more example?",
+      "Is there another word I could use?",
+      "Oh, I see. Thanks!"
+    ],
+    "answer": 3,
+    "note": "An extra example helps if you’re still unsure. “Oh, I see” lets your teacher know the example worked.",
+    "picture": {
+      "src": "/trivia/assets/drawings/magnifying-glass-notebook.webp",
+      "alt": "A magnifying glass and notebook."
+    }
+  }
+]

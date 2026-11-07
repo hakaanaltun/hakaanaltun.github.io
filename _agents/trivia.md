@@ -41,6 +41,18 @@ there.
 
 ## Playing together
 
+- **Speaking games have their own catalogue.** `/speaking/` groups pages
+  marked `speaking: true` by `level` (A, B1 or B2), then `lesson_order`.
+  Each page names its bank in `_data/speaking/` with `quiz`, and its card
+  with `topic` and `description`. Keep the existing Making Plans address.
+  Each bank has five expressions followed by ten situations. The shared
+  quiz layout and the live game keep those rounds in order and shuffle
+  within them. `/speaking/questions.json` supplies the rooms separately
+  from the culture feed, so these questions stay out of daily trivia.
+  The host menu groups the same pages by level and uses `data-count` to
+  keep every speaking game at fifteen questions. `scripts/test-live.mjs`
+  checks each bank, its page, drawings and shuffled answers.
+
 - **One big screen, a phone each** (rule in `COLOPHON.md`). The author asked
   for a Kahoot-like way to play on 5 November 2026 and chose: a race, with
   points for speed; each player decides whether their buttons show the

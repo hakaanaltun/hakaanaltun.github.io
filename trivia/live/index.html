@@ -5,7 +5,7 @@ series: trivia
 trivia: true
 title: "Play together"
 seo_title: "Play a quiz together — Trivia · On Life &amp; Everything"
-description: "Play one of the culture quizzes with a class or a room of friends: the questions on one big screen, and everyone answers from their own phone."
+description: "Play a culture quiz or a speaking game with a class. The questions appear on one big screen, and everyone answers from their own phone."
 ---
 {%- comment -%}
   The big screen of a game played together (5 November 2026). A teacher
@@ -34,13 +34,17 @@ description: "Play one of the culture quizzes with a class or a room of friends:
         <label class="live-quiz"><input type="radio" name="quiz" value="{{ entry.slug }}"{% if forloop.first %} checked{% endif %}> <span>{{ entry.name }}</span></label>
         {%- endfor %}
       </fieldset>
+      {%- assign speaking_sets = site.pages | where: "speaking", true | sort: "lesson_order" %}
+      {%- assign levels = "A,B1,B2" | split: "," %}
+      {%- for level in levels %}
       <fieldset class="live-quizzes">
-        <legend class="live-label">Speaking games</legend>
-        {%- assign speaking_sets = site.pages | where: "speaking", true | sort: "url" %}
-        {%- for set in speaking_sets %}
-        <label class="live-quiz"><input type="radio" name="quiz" value="{{ set.quiz }}" data-count="{{ site.data.speaking[set.quiz] | size }}"> <span>{{ set.title }}</span></label>
+        <legend class="live-label">{{ level }} speaking</legend>
+        {%- assign level_sets = speaking_sets | where: "level", level %}
+        {%- for set in level_sets %}
+        <label class="live-quiz"><input type="radio" name="quiz" value="{{ set.quiz }}" data-count="{{ site.data.speaking[set.quiz] | size }}"> <span>{{ set.topic }}</span></label>
         {%- endfor %}
       </fieldset>
+      {%- endfor %}
       <div class="live-settings">
         <label class="live-label" for="live-count">Questions
           <select id="live-count" name="count">

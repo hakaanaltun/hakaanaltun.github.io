@@ -1,0 +1,257 @@
+[
+  {
+    "id": "eat-in",
+    "category": "Words in conversation",
+    "question": "The café worker asks, “Are you eating in?” What does she want to know?",
+    "choices": [
+      "Do you want a bigger meal?",
+      "Will you eat your food here?",
+      "Would you like to see the menu?",
+      "Have you had lunch already?"
+    ],
+    "answer": 1,
+    "note": "“Eat in” means stay in the café for your meal. If you’re leaving with your food, ask for it “to take away”.",
+    "picture": {
+      "src": "/trivia/assets/drawings/cup-cappuccino.webp",
+      "alt": "A cup of cappuccino."
+    }
+  },
+  {
+    "id": "on-the-side",
+    "category": "Words in conversation",
+    "question": "You ask for your salad dressing “on the side”. Where do you want it?",
+    "choices": [
+      "In a separate little dish.",
+      "Under the salad leaves.",
+      "On top of all the salad.",
+      "On a different table."
+    ],
+    "answer": 0,
+    "note": "With the dressing on the side, you can put as much as you like on your salad.",
+    "picture": {
+      "src": "/trivia/assets/drawings/bowl-salad-croutons.webp",
+      "alt": "A bowl of salad with croutons."
+    }
+  },
+  {
+    "id": "anything-else",
+    "category": "Words in conversation",
+    "question": "You order a drink. The café worker asks, “Anything else?” What is she asking?",
+    "choices": [
+      "Would you like a different drink instead?",
+      "Did you order this yesterday?",
+      "Would you like the drink later?",
+      "Would you like to order more?"
+    ],
+    "answer": 3,
+    "note": "“Anything else?” asks if your order is complete. “That’s all, thanks” means you’ve finished ordering.",
+    "picture": {
+      "src": "/trivia/assets/drawings/chocolate-chip-cookies.webp",
+      "alt": "Two chocolate-chip cookies."
+    }
+  },
+  {
+    "id": "out-of",
+    "category": "Words in conversation",
+    "question": "You ask for a cheese sandwich. The café worker says, “Sorry, we’re out of cheese.” What does she mean?",
+    "choices": [
+      "The cheese costs extra.",
+      "The cheese is outside.",
+      "There’s no cheese left.",
+      "The cheese is in the sandwich."
+    ],
+    "answer": 2,
+    "note": "If a café is out of something, it can’t serve it now. It might have some again tomorrow.",
+    "picture": {
+      "src": "/trivia/assets/drawings/cheese-wheel-wedge.webp",
+      "alt": "A cheese wheel and wedge."
+    }
+  },
+  {
+    "id": "bill-please",
+    "category": "Words in conversation",
+    "question": "At the end of lunch someone says, “Could we have the bill, please?” What do they want?",
+    "choices": [
+      "To ask for some more food.",
+      "To see how much they must pay.",
+      "To see where they can sit.",
+      "To book a table for later."
+    ],
+    "answer": 1,
+    "note": "The bill shows the food and drinks you’re paying for. A receipt shows you have paid.",
+    "picture": {
+      "src": "/trivia/assets/drawings/blue-and-white-ceramic-plate.webp",
+      "alt": "A blue-and-white ceramic plate."
+    }
+  },
+  {
+    "id": "table-for-three",
+    "category": "What would you say?",
+    "question": "You arrive at a café with two friends. The waiter asks, “How many of you are there?” What do you say?",
+    "choices": [
+      "A table for three, please.",
+      "Three coffees, please.",
+      "There are two of my friends here.",
+      "Could we sit by the window, please?"
+    ],
+    "answer": 0,
+    "note": "“Two of my friends” counts your friends. The waiter needs three seats because you’re eating too.",
+    "picture": {
+      "src": "/trivia/assets/drawings/red-ceramic-mug.webp",
+      "alt": "A red ceramic mug."
+    }
+  },
+  {
+    "id": "keep-the-same",
+    "category": "What would you say?",
+    "question": "You like the cheese and tomato sandwich on the menu, but don’t like tomatoes. You still want the cheese. What do you ask?",
+    "choices": [
+      "Could I have something else instead?",
+      "Could I have the tomatoes on the side?",
+      "Could you recommend a different sandwich?",
+      "Could I have that without tomato?"
+    ],
+    "answer": 3,
+    "note": "“On the side” keeps tomatoes on your plate in a separate place. “Without tomato” asks the kitchen to leave them out.",
+    "picture": {
+      "src": "/trivia/assets/drawings/triangular-sandwich-cheese.webp",
+      "alt": "A triangular sandwich with cheese and cucumber between slices of bread."
+    }
+  },
+  {
+    "id": "hot-or-cold",
+    "category": "What would you say?",
+    "question": "You order coffee. “Hot or iced?” asks the worker. It’s cold outside and you want to warm your hands on the cup. What do you say?",
+    "choices": [
+      "A black coffee, please.",
+      "A small one, please.",
+      "Hot, please.",
+      "Which one do you recommend?"
+    ],
+    "answer": 2,
+    "note": "“Black” tells the worker you take it without milk. It could still be hot or iced, so “Hot, please” answers the question.",
+    "picture": {
+      "src": "/trivia/assets/drawings/cup-espresso.webp",
+      "alt": "A small cup of espresso."
+    }
+  },
+  {
+    "id": "still-waiting",
+    "category": "What would you say?",
+    "question": "Your tea arrives, but your sandwich doesn’t. Ten minutes pass. You want to check on the sandwich you ordered. What do you say?",
+    "choices": [
+      "Can I order another sandwich, please?",
+      "Excuse me, is my sandwich coming?",
+      "Could I have the bill, please?",
+      "Could I order a sandwich, please?"
+    ],
+    "answer": 1,
+    "note": "“Another sandwich” could bring a second one. “Is my sandwich coming?” checks the order you’ve already made.",
+    "picture": {
+      "src": "/trivia/assets/drawings/sesame-coated-simit.webp",
+      "alt": "A sesame-coated simit."
+    }
+  },
+  {
+    "id": "offer-last-piece",
+    "category": "What would you say?",
+    "question": "You and a friend shared some biscuits. One biscuit is left. You’d like your friend to have it. What do you say?",
+    "choices": [
+      "Would you like the last one?",
+      "Could I have the last one?",
+      "Shall we share the last one?",
+      "Was that the last one?"
+    ],
+    "answer": 0,
+    "note": "Sharing gives you half each. “Would you like the last one?” offers your friend the whole biscuit.",
+    "picture": {
+      "src": "/trivia/assets/drawings/chocolate-chip-cookies.webp",
+      "alt": "Two chocolate-chip cookies."
+    }
+  },
+  {
+    "id": "choose-soup",
+    "category": "What would you say?",
+    "question": "The menu says “Soup of the day.” You want to know which soup it is before you order. What do you ask?",
+    "choices": [
+      "Which soup would you recommend?",
+      "Could I see the menu again?",
+      "How much is the soup, please?",
+      "What’s today’s soup, please?"
+    ],
+    "answer": 3,
+    "note": "The menu only says “Soup of the day.” Asking what today’s soup is gets you the name before you order.",
+    "picture": {
+      "src": "/trivia/assets/drawings/cooking-pot-wooden.webp",
+      "alt": "A cooking pot and wooden spoon."
+    }
+  },
+  {
+    "id": "milk-on-table",
+    "category": "What would you say?",
+    "question": "You and a friend order tea. She likes hers black and you like a little milk. The waiter asks how to serve it. What do you say?",
+    "choices": [
+      "Could you put a little milk in our tea?",
+      "Could you bring us both black tea?",
+      "Could we have the milk on the side?",
+      "Could we have some sugar with our tea?"
+    ],
+    "answer": 2,
+    "note": "“Milk in our tea” asks for milk in both cups. “On the side” asks for a separate jug, so each person can choose.",
+    "picture": {
+      "src": "/trivia/assets/drawings/bowl-white-milk.webp",
+      "alt": "A bowl of white milk pudding."
+    }
+  },
+  {
+    "id": "change-order",
+    "category": "What would you say?",
+    "question": "You ordered coffee a moment ago. Now you’d like tea instead. The worker hasn’t made the coffee yet. What do you ask?",
+    "choices": [
+      "Could I have a tea as well?",
+      "Could I change my coffee to tea?",
+      "Could you make my coffee a little weaker?",
+      "Could I have a tea too, please?"
+    ],
+    "answer": 1,
+    "note": "“Tea too” adds a second drink. “Change my coffee to tea” tells the worker you want just one.",
+    "picture": {
+      "src": "/trivia/assets/drawings/cup-tea-saucer.webp",
+      "alt": "A cup of tea on a saucer with loose tea leaves nearby."
+    }
+  },
+  {
+    "id": "pay-separately",
+    "category": "What would you say?",
+    "question": "You and a friend finish lunch. You each want to pay for exactly what you ordered. What do you ask the waiter?",
+    "choices": [
+      "Could we pay separately, please?",
+      "Could I pay for both of us?",
+      "Can we pay half each, please?",
+      "Could we see the bill first, please?"
+    ],
+    "answer": 0,
+    "note": "Half each works if you want to share the total equally. Separate bills let you pay for your own orders.",
+    "picture": {
+      "src": "/trivia/assets/drawings/bottle-glass-fizzy.webp",
+      "alt": "A bottle and a glass of fizzy cola."
+    }
+  },
+  {
+    "id": "box-leftovers",
+    "category": "What would you say?",
+    "question": "There are two slices of your pizza left. You enjoyed it and want to eat the rest at home. What do you ask the waiter?",
+    "choices": [
+      "Could I order a whole pizza to take away?",
+      "Can I order another one to take home?",
+      "Could you leave my plate here a little longer?",
+      "Could I take the rest home, please?"
+    ],
+    "answer": 3,
+    "note": "“Another one” asks for a new pizza. “The rest” means the slices already on your plate.",
+    "picture": {
+      "src": "/trivia/assets/drawings/tomato-and-cheese-pizza.webp",
+      "alt": "A tomato-and-cheese pizza."
+    }
+  }
+]
