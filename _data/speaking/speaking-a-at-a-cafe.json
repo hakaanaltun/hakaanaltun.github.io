@@ -121,11 +121,11 @@
   {
     "id": "hot-or-cold",
     "category": "What would you say?",
-    "question": "You order coffee. “Hot or iced?” asks the worker. It’s cold outside and you want to warm your hands on the cup. What do you say?",
+    "question": "You order coffee. “Hot or iced?” asks the worker. It’s a cold, windy day. What do you say?",
     "choices": [
       "A black coffee, please.",
       "A small one, please.",
-      "Hot, please.",
+      "Hot, please. I’m freezing!",
       "Which one do you recommend?"
     ],
     "answer": 2,
@@ -138,7 +138,7 @@
   {
     "id": "still-waiting",
     "category": "What would you say?",
-    "question": "Your tea arrives, but your sandwich doesn’t. Ten minutes pass. You want to check on the sandwich you ordered. What do you say?",
+    "question": "Your tea arrives, but your sandwich doesn’t. Ten minutes pass. What do you say to the waiter?",
     "choices": [
       "Can I order another sandwich, please?",
       "Excuse me, is my sandwich coming?",
@@ -172,7 +172,7 @@
   {
     "id": "choose-soup",
     "category": "What would you say?",
-    "question": "The menu says “Soup of the day.” You want to know which soup it is before you order. What do you ask?",
+    "question": "The menu says “Soup of the day.” You don’t like every kind of soup. What do you ask?",
     "choices": [
       "Which soup would you recommend?",
       "Could I see the menu again?",

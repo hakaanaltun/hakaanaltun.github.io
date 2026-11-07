@@ -4,10 +4,10 @@
     "category": "Words in conversation",
     "question": "“My name’s Elizabeth, but call me Liz.” Which name does she want you to use?",
     "choices": [
-      "Elizabeth’s family name.",
+      "Elizabeth.",
       "Liz.",
-      "Your own first name.",
-      "Both names together."
+      "Beth.",
+      "Eliza."
     ],
     "answer": 1,
     "note": "“Call me Liz” gives you the name she likes to hear.",
@@ -73,7 +73,7 @@
     "question": "“I live near the university. How about you?” What does the speaker want to hear?",
     "choices": [
       "How you feel today.",
-      "Where you live.",
+      "Where you live now.",
       "How big the university is.",
       "Where you want to travel."
     ],
@@ -87,15 +87,15 @@
   {
     "id": "new-at-table",
     "category": "What would you say?",
-    "question": "At a games club, three students are sitting around a table. There’s an empty chair. You’d like to play with them.",
+    "question": "At a games club, three students are sitting around a table. There’s an empty chair. You’d like to play with them. What do you say?",
     "choices": [
-      "Hi, I’m Can. Can I join you?",
+      "Hi, I’m Can. Could I join your game?",
       "Hi, I’m Can. What game are you playing?",
       "Are you waiting for another player?",
       "Hi, I’m Can. Is this club open every week?"
     ],
     "answer": 0,
-    "note": "“Are you waiting for another player?” asks about the group. “Can I join you?” makes it clear you want to play.",
+    "note": "“Are you waiting for another player?” asks about the group. “Could I join your game?” makes it clear you want to play.",
     "picture": {
       "src": "/trivia/assets/drawings/wooden-game-piece.webp",
       "alt": "A wooden game piece beside a die."
@@ -104,7 +104,7 @@
   {
     "id": "introduce-two",
     "category": "What would you say?",
-    "question": "You’re having tea with Ada. Your cousin arrives. Ada looks at you because they’ve never met.",
+    "question": "You’re having tea with Ada. Your cousin arrives. Ada looks at you because they’ve never met. What do you say?",
     "choices": [
       "Emre, would you like some tea?",
       "Ada, have you two met before?",
@@ -121,7 +121,7 @@
   {
     "id": "first-name-please",
     "category": "What would you say?",
-    "question": "You’re writing a name on a welcome card. The new student tells you her family name, Kaya. You also need her first name.",
+    "question": "You’re writing a name on a welcome card. The new student tells you her family name, Kaya. You also need her first name. What do you say?",
     "choices": [
       "May I write Ms Kaya on the card?",
       "Thanks. Is Kaya your family name?",
@@ -155,9 +155,9 @@
   {
     "id": "from-or-live",
     "category": "What would you say?",
-    "question": "You’re from İzmir and you now live in İstanbul. A new classmate asks, “Where are you from?”",
+    "question": "You’re from İzmir and you now live in İstanbul. A new classmate asks, “Where are you from?” What do you say?",
     "choices": [
-      "I’m from İzmir. I live here now.",
+      "I’m from İzmir, but I live here now.",
       "I live near the station in İstanbul.",
       "I’m going to İzmir this weekend.",
       "I’m new here. Do you know the city well?"
@@ -193,7 +193,7 @@
     "choices": [
       "Hello! Nice to meet you, too.",
       "Hello! Shall I write my name on the board?",
-      "Hello! It’s Demir, with an m.",
+      "Hello! It’s Demir, not Deniz.",
       "Hello! May I sit near the front?"
     ],
     "answer": 2,
@@ -206,7 +206,7 @@
   {
     "id": "who-is-she",
     "category": "What would you say?",
-    "question": "At the art club a visitor points to Eda and asks, “Is she the teacher?” Eda is a student. You know who the teacher is.",
+    "question": "At the art club a visitor points to Eda and asks, “Is she the teacher?” Eda is a student. You know who the teacher is. What do you say?",
     "choices": [
       "Eda comes every Monday. Shall I introduce you?",
       "She’s a student. That’s our teacher over there.",
@@ -223,9 +223,9 @@
   {
     "id": "new-member",
     "category": "What would you say?",
-    "question": "A new student comes to choir practice alone. You know her name is Lea. She’s looking around for a place to sit.",
+    "question": "A new student comes to choir practice alone. You know her name is Lea. She’s looking around for a place to sit. What do you say?",
     "choices": [
-      "Hi, Lea. There’s a seat next to me.",
+      "Hi, Lea. There’s a free seat next to me.",
       "Hi, Lea. Have you sung in a choir before?",
       "Hi, Lea. I hope you enjoy singing here.",
       "Hi, Lea. Would you like to look around first?"
@@ -240,7 +240,7 @@
   {
     "id": "leaving-class",
     "category": "What would you say?",
-    "question": "After class you must leave to catch your bus. You’ve just met Sam and you’d like to talk again tomorrow.",
+    "question": "After class you must leave to catch your bus. You’ve just met Sam. You enjoyed talking, and he’s in your class again tomorrow. What do you say?",
     "choices": [
       "Would you like to get a coffee now, Sam?",
       "It was nice talking to you. Bye!",
